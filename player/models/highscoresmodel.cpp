@@ -103,43 +103,8 @@ void HighScoresModel::loadData()
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
     gluonDir.cd( ".gluon/" + QString( serviceURI ) );
-    QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
-    QFile dataFile( filename );
-    while( 1 )
-    {
-        if( !dataFile.open( QIODevice::ReadOnly ) )
-        {
-            if( !QFile::exists( filename ) )
-            {
-                qDebug() << "Cannot find the file " << filename << ", creating new";
-                dataFile.close();
-                saveData();         //Create a blank file if it doesn't exist
-                continue;       //Try to open again
-            }
-            else
-            {
-                qDebug() << "Cannot open the file " << filename;
-                return;     //return from loadData()
-            }
-        }
-        else
-        {
-            break;      //File opened successfully
-        }
-    }
-
-    QTextStream highScoresReader( &dataFile );
-    QString fileContents = highScoresReader.readAll();
-    dataFile.close();
-
-    if( fileContents.isEmpty() )
-    {
-        qDebug() << "Something is wrong with the high scores file";
-        return;
-    }
-
-    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( fileContents, 0, 0 );
+    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) );
     rootNode = highScores.at( 0 );
 }
 

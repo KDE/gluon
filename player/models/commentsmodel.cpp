@@ -143,9 +143,8 @@ void CommentsModel::loadData()
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
     gluonDir.cd( ".gluon/" + QString( serviceURI ) );
-    QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
-    rootNode = GluonCore::GDLHandler::instance()->parseGDL( filename ).at(0);
+    rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at(0);
 }
 
 void CommentsModel::saveData()
