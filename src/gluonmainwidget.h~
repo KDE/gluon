@@ -1,0 +1,9 @@
+#include <QMainWindow>
+
+class GluonMainWindow: public QMainWindow
+{
+public:
+GluonMainWindow(QWidget * parent=0);
+
+
+};

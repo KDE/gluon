@@ -1,0 +1,18 @@
+INSTALLATION : 
+
+
+You need :  
+-openAL
+-alut
+-libsndFile
+
+COMPILATION : 
+compile first the lib : 
+mkdir build;
+cd build;
+cmake ..
+make;
+make install;
+
+Exemple;
+You can, now compile exemple!

@@ -1,0 +1,12 @@
+#include "gluonmainwindow.h"
+
+GluonMainWindow::GluonMainWindow(QWidget * parent)
+  :QMainWindow(parent)
+{
+
+m_view = new KGLWidget();
+
+setCentralWidget(m_view);
+
+
+}

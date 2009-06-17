@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>kal.png</file>
+        <file>kcl.png</file>
+        <file>kgl.png</file>
+    </qresource>
+</RCC>

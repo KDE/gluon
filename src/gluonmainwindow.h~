@@ -1,0 +1,14 @@
+#include "kgl/kglwidget.h"
+#include "kal/kalengine.h"
+
+#include <QMainWindow>
+
+class GluonMainWindow: public QMainWindow
+{
+public:
+GluonMainWindow(QWidget * parent=0);
+
+private:
+KGLWidget * m_view;
+
+};
