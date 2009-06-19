@@ -40,55 +40,22 @@ class KGLTextItem: public KGLItem
 {
     Q_OBJECT
 public:
-    /**
-    * Constructs a KGLTextItem with the text @p text.
-    */
-    KGLTextItem(const QString& text = QString(), KGLWidget* parent=0);
 
-    /**
-    * @brief The text displayed by the item
-    *
-    * If the item has no text, the text() function will return an empty string.
-    * @see setText
-    */
+    KGLTextItem( const QRectF& rectangle, const QString& text  , KGLEngine* parent=0);
+    void createTexture();
+
     QString text() const {
         return m_text;
     }
 
-    /**
-    * Change the text displayed by the item to @p text.
-    * @see text
-    */
     void setText(const QString &text) {
         m_text = text;
     }
 
-    /**
-    * @brief the font to be used to display the text
-    *
-    * The default font is Times
-    * @see setFont
-    */
-    inline QFont& font() {
-        return m_font;
-    }
-
-    /**
-    * Change the font displayed by the item to @p font.
-    * @see font
-    */
-    inline void setFont(const QFont &font) {
-        m_font = font;
-    }
-
-    /**
-    * Draw the item, automatically called by the engine
-    */
-    virtual void draw();
 
 private:
     QString m_text;
-    QFont m_font;
+    QRectF m_rect;
 };
 
 #endif //KGLTEXTITEM_H

@@ -19,13 +19,13 @@
  */
 
 #include "kglboxitem.h"
-KGLBoxItem::KGLBoxItem(KGLWidget * parent)
+KGLBoxItem::KGLBoxItem(KGLEngine * parent)
     : KGLItem(parent)
 {
     setMode(GL_POLYGON);
     createBox(QSizeF());
 }
-KGLBoxItem::KGLBoxItem(const QSizeF &dim, KGLWidget * parent)
+KGLBoxItem::KGLBoxItem(const QSizeF &dim, KGLEngine * parent)
     : KGLItem(parent)
 {
     setMode(GL_POLYGON);
@@ -33,7 +33,7 @@ KGLBoxItem::KGLBoxItem(const QSizeF &dim, KGLWidget * parent)
     m_dim = dim;
 }
 
-KGLBoxItem::KGLBoxItem(const float &w, const float &h, KGLWidget * parent)
+KGLBoxItem::KGLBoxItem(const float &w, const float &h, KGLEngine * parent)
     : KGLItem(parent)
 {
     setMode(GL_POLYGON);

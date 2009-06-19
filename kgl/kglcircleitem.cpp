@@ -22,7 +22,7 @@
 
 #include <math.h>
 
-KGLCircleItem::KGLCircleItem(float radius, unsigned int nbPoints, QObject * parent)
+KGLCircleItem::KGLCircleItem(float radius, unsigned int nbPoints, KGLEngine * parent)
         : KGLItem(parent)
 {
     setMode(GL_POLYGON);

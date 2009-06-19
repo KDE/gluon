@@ -2,27 +2,28 @@ include_directories(Box2D/Include)
 include_directories(physics)
 
 set(kgl_LIB_SRCS 
-    kglwidget.cpp
+    kglview.cpp
+    kglengine.cpp
+    kglphysicsengine.cpp
     glpoint.cpp
-    #kgamekey.cpp
     #kglintro.cpp
-    kglitembase.cpp
+    kglbaseitem.cpp
     kglitem.cpp
     #kglcontaineritem.cpp
-    kglpixmapitem.cpp
+    #kglpixmapitem.cpp
     #kglanimitem.cpp
-    kgltextitem.cpp
+   kgltextitem.cpp
     #kglparticle.cpp
     #kglparticlesitem.cpp
     kglboxitem.cpp
-    #kglpolygonitem.cpp
-    #kglcircleitem.cpp
-    kglphysicswidget.cpp
+    kglpolygonitem.cpp
+    kglcircleitem.cpp
     kglphysicsitem.cpp
     kgltexture.cpp
     kglitemlist.cpp
     kglshader.cpp
     kglprogram.cpp
+
 
     #fx/kglshadowitem.cpp
    )
@@ -51,23 +52,22 @@ install(TARGETS kgl ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
     glpoint.h
-    kgamekey.h
-    kglwidget.h
-    kglintro.h
-    kglanimitem.h
+    kglengine.h
+    kglphysicsengine.h
+    kglview.h
+    #kglintro.h
+    #kglanimitem.h
     kglitemlist.h
     kglitem.h
-    kglitembase.h
-    kglcontaineritem.h
+    kglbaseitem.h
+    #kglcontaineritem.h
     kgltextitem.h
-    kglparticle.h
-    kglparticlesitem.h
-    kglpixmapitem.h
+    #kglparticle.h
+    #kglparticlesitem.h
+    #kglpixmapitem.h
     kglboxitem.h
     kglpolygonitem.h
     kglcircleitem.h
-    #kglcollisionrule.h
-    kglphysicswidget.h
     kglphysicsitem.h
     kgltexture.h
     kglshader.h

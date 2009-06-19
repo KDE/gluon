@@ -1,13 +1,8 @@
-set(gluon_LIB_SRCS 
-    gluonmainwindow.cpp
-    gluondialog.cpp
-    kglconfig.cpp
-    kalconfig.cpp
-    kclconfig.cpp
-   )
+include_directories(../)
 
-include_directories(../)
-include_directories(../)
+set(gluon_LIB_SRCS 
+   # gluonmainwindow.cpp
+   )
 
 SET(gluon_RCCS
     ../resources/resources.qrc
@@ -16,9 +11,6 @@ SET(gluon_RCCS
 QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
 kde4_add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
 
-
-
-kde4_add_library(gluon SHARED ${gluon_LIB_SRCS} )
 set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 target_link_libraries(gluon ${KDE4_KDEUI_LIBS} kgl kal)
 
@@ -28,9 +20,5 @@ install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
    gluonmainwindow.h
-   gluondialog.h
-   kglconfig.h
-   kalconfig.h
-   kclconfig.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 

@@ -31,7 +31,7 @@ class KGLPolygonItem : public KGLItem
 {
     Q_OBJECT
 public:
-    KGLPolygonItem(const QPolygonF &polygon, QObject * parent=0);
+    KGLPolygonItem(const QPolygonF &polygon, KGLEngine* parent=0);
 
 };
 

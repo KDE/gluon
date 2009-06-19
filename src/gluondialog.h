@@ -9,8 +9,7 @@
 #include "kal/kalengine.h"
 #include "kgl/kglwidget.h"
 #include "kglconfig.h"
-#include "kalconfig.h"
-#include "kclconfig.h"
+
 class GluonDialog : public QDialog
 {
     Q_OBJECT

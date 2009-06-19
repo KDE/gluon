@@ -32,8 +32,8 @@ class KGLPixmapItem: public KGLBoxItem
 public:
 
     //    explicit KGLPixmapItem(const GLint &texture = 0, const QRectF &dim = QRectF(0, 0, 0.5, 0.5));
-    explicit KGLPixmapItem(const QString &fileName, KGLWidget* parent=0);
-    explicit KGLPixmapItem(const QPixmap &p, KGLWidget* parent=0);
+    explicit KGLPixmapItem(const QString &fileName, KGLEngine* parent=0);
+    explicit KGLPixmapItem(const QPixmap &p, KGLEngine* parent=0);
     QPixmap &pixmap(){return m_pix;}
 
 private:

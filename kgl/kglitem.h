@@ -3,18 +3,18 @@
 #include <GL/glew.h>
 
 
-#include "kglitembase.h"
+#include "kglbaseitem.h"
 #include "kgltexture.h"
 #include "kglprogram.h"
-class KGLWidget;
-class KGLItem : public KGLItemBase
+class KGLEngine;
+class KGLItem : public KGLBaseItem
 {
 public:
     virtual void draw();
-    explicit KGLItem(KGLWidget * parent=0);
-    explicit KGLItem(const QPolygonF &poly, QObject * parent=0);
-    explicit KGLItem(const QSizeF &box, QObject * parent=0);
-    explicit KGLItem(const QLineF &line,QObject * parent=0);
+    explicit KGLItem(KGLEngine * parent=0);
+    explicit KGLItem(const QPolygonF &poly, KGLEngine * parent=0);
+    explicit KGLItem(const QSizeF &box, KGLEngine * parent=0);
+    explicit KGLItem(const QLineF &line,KGLEngine * parent=0);
     ~KGLItem();
 
 
@@ -57,6 +57,7 @@ private:
     GLenum m_mode;
     KGLTexture *m_texture;
     KGLProgram * m_program;
+    bool m_shaderEnable;
 
     //flags.....
     bool f_showBoundingBox;

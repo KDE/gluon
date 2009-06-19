@@ -19,14 +19,14 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include "kglitembase.h"
+#include "kglbaseitem.h"
 #include <algorithm>
 const Eigen::Vector3d AXIS_X(1, 0, 0);
 const Eigen::Vector3d AXIS_Y(0, 1, 0);
 const Eigen::Vector3d AXIS_Z(0, 0, 1);
 
 
-KGLItemBase::KGLItemBase(QObject *parent)
+KGLBaseItem::KGLBaseItem(QObject *parent)
              :QObject(parent)
 {
     m_angle = 0;
@@ -39,13 +39,13 @@ KGLItemBase::KGLItemBase(QObject *parent)
     m_zindex = 0;
 
 }
-KGLItemBase::~KGLItemBase()
+KGLBaseItem::~KGLBaseItem()
 {
 
 
 }
 
-void  KGLItemBase::updateTransform()
+void  KGLBaseItem::updateTransform()
 {
     m_matrix.setIdentity();
     m_matrix.scale(m_scale);
@@ -54,7 +54,7 @@ void  KGLItemBase::updateTransform()
 
 }
 
-void KGLItemBase::resetTransform()
+void KGLBaseItem::resetTransform()
 {
     m_matrix.setIdentity();
     m_angle  = 0;
@@ -64,7 +64,7 @@ void KGLItemBase::resetTransform()
 
 
 
-void KGLItemBase::computeGeometry()
+void KGLBaseItem::computeGeometry()
 {
     //Compute the center
     m_center = QPointF(0,0);
@@ -97,14 +97,14 @@ void KGLItemBase::computeGeometry()
 
 //=======================================================
 
-QPointF KGLItemBase::transform(QPointF p)
+QPointF KGLBaseItem::transform(QPointF p)
 {
     Eigen::Vector3d vect = m_matrix * Eigen::Vector3d(p.x(), p.y(), 0);
     return QPointF(vect.x(), vect.y());
 
 }
 //=========================================================
-QPolygonF KGLItemBase::transform(QPolygonF p)
+QPolygonF KGLBaseItem::transform(QPolygonF p)
 {
     QPolygonF poly;
     foreach(QPointF point, p) {
@@ -114,7 +114,7 @@ QPolygonF KGLItemBase::transform(QPolygonF p)
 
 }
 //=========================================================
-QRectF KGLItemBase::transform(QRectF r)
+QRectF KGLBaseItem::transform(QRectF r)
 {
     Eigen::Vector3d a = m_matrix * Eigen::Vector3d(r.x(), r.y(), 0);
     Eigen::Vector3d b = m_matrix * Eigen::Vector3d(r.width(), r.height(), 0);
@@ -123,7 +123,7 @@ QRectF KGLItemBase::transform(QRectF r)
 
 }
 //=========================================================
-void KGLItemBase::createBox(const QSizeF &dim)
+void KGLBaseItem::createBox(const QSizeF &dim)
 {
     clear();
     addVertex(new GLPoint(0, 0, Qt::white, QPointF(0 , 0 )));
@@ -132,7 +132,7 @@ void KGLItemBase::createBox(const QSizeF &dim)
     addVertex(new GLPoint(0, dim.height(), Qt::white, QPointF(0 , 1)));
 
 }
-void KGLItemBase::createPolygon(const QPolygonF &poly)
+void KGLBaseItem::createPolygon(const QPolygonF &poly)
 {
     clear();
     QPointF p;
@@ -141,7 +141,7 @@ void KGLItemBase::createPolygon(const QPolygonF &poly)
     }
 
 }
-void KGLItemBase::createLine(const QLineF &line)
+void KGLBaseItem::createLine(const QLineF &line)
 {
     clear();
     addVertex(new GLPoint(line.x1(), line.y1(), Qt::white));

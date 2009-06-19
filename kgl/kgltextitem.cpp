@@ -24,14 +24,26 @@
 #include "kglwidget.h"
 
 #include <QString>
-
-KGLTextItem::KGLTextItem(const QString& text, KGLWidget * parent) :
-        KGLItem(parent), m_text(text), m_font(QFont("Times"))
+#include <QPainter>
+KGLTextItem::KGLTextItem(const QRectF& rectangle,const QString& text, KGLEngine* parent) :
+        KGLItem(parent)
 {
+    m_text = text;
+    m_rect = rectangle;
+    createBox(rectangle.size());
+    setPosition(rectangle.x(), rectangle.y());
+    updateTransform();
+    createTexture();
 }
 
-void KGLTextItem::draw()
+void KGLTextItem::createTexture()
 {
-glColor4ub(color().red(), color().green(), color().blue(), color().alpha());
-qobject_cast<KGLWidget*>(parent())->renderText(position().x(), position().y(), 0, m_text, m_font);
+    QPixmap * pix = new QPixmap(m_rect.width(), m_rect.height());
+    pix->fill(Qt::transparent);
+    QPainter pen(pix);
+    pen.setPen(color());
+    pen.drawText(pix->rect(), Qt::AlignCenter, m_text);
+    setTexture(*pix);
+
+
 }

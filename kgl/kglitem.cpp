@@ -1,5 +1,5 @@
 /*
- * This file is part of the KGLWidget project.
+ * This file is part of the KGLEngine project.
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
@@ -39,23 +39,23 @@ void KGLItem::init()
     resetTransform();
 
 }
-KGLItem::KGLItem(KGLWidget* parent)
-            :KGLItemBase()
+KGLItem::KGLItem(KGLEngine* parent)
+            :KGLBaseItem()
 {
     init();
 }
 
 
-KGLItem::KGLItem(const QPolygonF &poly, QObject * parent)
-           :KGLItemBase()
+KGLItem::KGLItem(const QPolygonF &poly, KGLEngine * parent)
+           :KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
     createPolygon(poly);
 }
 
-KGLItem::KGLItem(const QSizeF &box , QObject * parent)
-         :KGLItemBase()
+KGLItem::KGLItem(const QSizeF &box , KGLEngine * parent)
+         :KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
@@ -65,8 +65,8 @@ KGLItem::KGLItem(const QSizeF &box , QObject * parent)
 }
 
 
-KGLItem::KGLItem(const QLineF &line, QObject * parent)
-         :KGLItemBase()
+KGLItem::KGLItem(const QLineF &line, KGLEngine * parent)
+         :KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
@@ -110,6 +110,7 @@ void KGLItem::draw()
     glDepthMask(GL_TRUE);
 
     glPopMatrix();
+
 }
 void  KGLItem::create()
 {

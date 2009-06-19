@@ -20,7 +20,7 @@
 
 #include "kglpolygonitem.h"
 
-KGLPolygonItem::KGLPolygonItem(const QPolygonF &polygon, QObject * parent)
+KGLPolygonItem::KGLPolygonItem(const QPolygonF &polygon, KGLEngine * parent)
         : KGLItem(parent)
 {
   createPolygon(polygon);

@@ -23,9 +23,11 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
-#include <gluon/gluonmainwindow.h>
-#include <gluon/gluondialog.h>
 
+#include <gluon/kgl/kglview.h>
+#include <gluon/kgl/kglengine.h>
+#include <gluon/kgl/kglphysicsengine.h>
+#include <gluon/kgl/kglphysicsitem.h>
 using namespace std;
 
 
@@ -41,11 +43,20 @@ int main(int argc, char *argv[])
 
     KApplication app;
  
-GluonDialog * dial = new GluonDialog;
+KGLPhysicsEngine * engine = new KGLPhysicsEngine;
+KGLView * view = new KGLView;
+view->start();
 
-dial->exec();
+view->setEngine(engine);
 
+KGLPhysicsItem * item = new KGLPhysicsItem;
+item->createBox(5,5);
+item->setColor(Qt::green);
 
+engine->addPhysicsItem(item);
+view->setInfoShow(true);
+view->setAxisShow(true);
+view->show();
 
  app.exec();
 

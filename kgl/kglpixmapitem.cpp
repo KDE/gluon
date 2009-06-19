@@ -21,12 +21,12 @@
  */
 
 #include "kglpixmapitem.h"
-#include "kglwidget.h"
+#include "kglengine.h"
 #include <QtCore/QFile>
 #include <KDebug>
 #include <Eigen/Core>
 
-KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLWidget * parent)
+KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLEngine * parent)
     :KGLBoxItem(parent)
 {
     m_pix = QPixmap(fileName);
@@ -40,7 +40,7 @@ KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLWidget * parent)
     createBox(texture->dim().width(), texture->dim().height());
 
 }
-KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLWidget * parent )
+KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLEngine * parent )
     :KGLBoxItem(parent)
 {
     m_pix = p;

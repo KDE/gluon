@@ -31,9 +31,9 @@ class KGLBoxItem : public KGLItem
 {
     Q_OBJECT
 public:
-    explicit KGLBoxItem(KGLWidget * parent=0);
-    explicit KGLBoxItem(const QSizeF &dim,KGLWidget* parent=0);
-    explicit KGLBoxItem(const float &w, const float &h, KGLWidget * parent=0);
+    explicit KGLBoxItem(KGLEngine * parent=0);
+    explicit KGLBoxItem(const QSizeF &dim,KGLEngine* parent=0);
+    explicit KGLBoxItem(const float &w, const float &h, KGLEngine * parent=0);
 
 
     void setBox(const QSizeF &dim){clear();createBox(dim);m_dim = dim;}

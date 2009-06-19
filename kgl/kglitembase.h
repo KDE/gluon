@@ -1,5 +1,5 @@
-#ifndef KGLITEMBASE2_H
-#define KGLITEMBASE2_H
+#ifndef KGLBASEITEM_H
+#define KGLBASEITEM_H
 #include <QObject>
 #include <Eigen/Geometry>
 #include <QRectF>
@@ -11,12 +11,12 @@
 
 
 
-class KGLItemBase: public QObject
+class KGLBaseItem: public QObject
 {
     Q_OBJECT
 public:
-    KGLItemBase(QObject *parent=0);
-    ~KGLItemBase();
+    KGLBaseItem(QObject *parent=0);
+    ~KGLBaseItem();
     virtual inline void addVertex(GLPoint* p) {
         m_vertexList.push_back(p);
         computeGeometry();
@@ -115,4 +115,4 @@ private:
 
 
 
-#endif // KGLITEMBASE2_H
+#endif // KGLBASEITEM_H

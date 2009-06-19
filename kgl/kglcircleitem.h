@@ -31,7 +31,7 @@ class KGLCircleItem : public KGLItem
 {
     Q_OBJECT
 public:
-    explicit KGLCircleItem(float radius, unsigned int nbPoints = 10, QObject * parent=0);
+    explicit KGLCircleItem(float radius, unsigned int nbPoints = 10, KGLEngine * parent=0);
     void setCircle(float radius, unsigned int nbPoints);
 };
 
