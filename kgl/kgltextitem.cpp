@@ -21,7 +21,7 @@
  */
 
 #include "kgltextitem.h"
-#include "kglwidget.h"
+
 
 #include <QString>
 #include <QPainter>
