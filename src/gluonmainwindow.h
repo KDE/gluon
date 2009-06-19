@@ -1,4 +1,4 @@
-#include "kgl/kglwidget.h"
+#include "kgl/kglview.h"
 #include "kal/kalengine.h"
 
 #include <QMainWindow>
@@ -10,6 +10,6 @@ GluonMainWindow(QWidget * parent=0);
 void configureSettings();
 
 private:
-KGLWidget * m_view;
+KGLView * m_view;
 
 };

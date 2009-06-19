@@ -43,20 +43,9 @@ int main(int argc, char *argv[])
 
     KApplication app;
  
-KGLPhysicsEngine * engine = new KGLPhysicsEngine;
-KGLView * view = new KGLView;
-view->start();
 
-view->setEngine(engine);
 
-KGLPhysicsItem * item = new KGLPhysicsItem;
-item->createBox(5,5);
-item->setColor(Qt::green);
 
-engine->addPhysicsItem(item);
-view->setInfoShow(true);
-view->setAxisShow(true);
-view->show();
 
  app.exec();
 

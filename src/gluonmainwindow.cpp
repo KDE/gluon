@@ -6,7 +6,7 @@ GluonMainWindow::GluonMainWindow(QWidget * parent)
   :KXmlGuiWindow(parent)
 {
 
-m_view = new KGLWidget();
+m_view = new KGLView();
 
 setCentralWidget(m_view);
 setupGUI();
