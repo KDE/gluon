@@ -48,6 +48,7 @@ public:
     */
     void cleanup();
 
+
     ALCcontext *context;
     ALCdevice *device;
     KALPhonon *phonon;

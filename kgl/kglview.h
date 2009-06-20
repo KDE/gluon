@@ -11,6 +11,7 @@ class KGLView : public QGLWidget
     Q_OBJECT
 public:
     explicit KGLView( QSize size, float frameRate ,QWidget* parent = 0);
+    explicit KGLView(KGLEngine * engine,QWidget * parent = 0);
     explicit KGLView(QWidget * parent=0);
     void setEngine(KGLEngine * engine){m_engine = engine;}
     KGLEngine * engine(){return m_engine;}

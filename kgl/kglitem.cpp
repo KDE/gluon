@@ -20,7 +20,7 @@
  * Boston, MA 02110-1301, USA.
  */
 #include "kglitem.h"
-
+#include <KDebug>
 
 void KGLItem::init()
 {
@@ -33,9 +33,9 @@ void KGLItem::init()
     m_color = Qt::white;
     m_alpha = 1;
     m_texture = new KGLTexture;
-    m_program = new KGLProgram;
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
+
     resetTransform();
 
 }
@@ -91,12 +91,13 @@ void KGLItem::draw()
 
     glPushMatrix();
     glLoadMatrixd(matrix().data());
-  if ( f_textureEnable)
-     m_texture->bind();
+    if ( f_textureEnable)
+        m_texture->bind();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_FALSE);
     glEnable(GL_POLYGON_SMOOTH);
+
 
     if ( program()->isValid())
         program()->bind();
@@ -104,12 +105,15 @@ void KGLItem::draw()
     glCallList(m_GLCallList);  //CALL THE LIST
 
     program()->unbind();
+
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
     m_texture->unBind();
     glDepthMask(GL_TRUE);
 
     glPopMatrix();
+
+    drawChild();
 
 }
 void  KGLItem::create()
@@ -131,6 +135,24 @@ void  KGLItem::create()
     m_isCreated = true;
 }
 
+void KGLItem::updateTransform()
+{
+    if ( m_childItems.size()>0)
+    {
+        KGLBaseItem::updateTransform();
+        foreach(KGLItem* item, m_childItems)
+            item->applyTransform(matrix());
+
+    }
+}
+void KGLItem::drawChild()
+{
+    if ( m_childItems.size()>0)
+    {
+        foreach(KGLItem* item, m_childItems)
+            item->draw();
+    }
+}
 void KGLItem::drawGLPoint(GLPoint *p)
 {
     glTexCoord2f(p->tex().x(), p->tex().y());

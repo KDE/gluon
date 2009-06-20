@@ -44,10 +44,26 @@ int main(int argc, char *argv[])
 
     KApplication app;
  
-GluonDialog * d = new GluonDialog;
+KGLView * view = new KGLView;
+KGLEngine * engine = new KGLEngine;
+view->setEngine(engine);
 
-d->show();
+view->setAxisShow(true);
+KGLItem * item = new KGLItem(QRectF(-2,-2,4,4));
+KGLItem * item2 = new KGLItem;
+item2->createBox(2,2);
+engine->addItem(item);
 
+item->addChildItem(item2);
+
+item->setColor(Qt::gray);
+item->translate(-item->center());
+item->rotate(M_PI/3);
+item->translate(item->center());
+item->updateTransform();
+
+
+view->show();
 
 
  app.exec();

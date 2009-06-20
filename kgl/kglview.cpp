@@ -7,14 +7,21 @@ KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
     resize(size);
     setFrameRate(frameRate);
 }
-//========================================
+
 KGLView::KGLView(QWidget * parent)
          :QGLWidget(parent)
 {
     init();
 
 }
-//========================================
+
+KGLView::KGLView(KGLEngine * engine,QWidget * parent )
+{
+   init();
+   setEngine(engine);
+
+
+}
 bool KGLView::initGlew()
 {
 

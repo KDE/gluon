@@ -7,14 +7,18 @@
 #include "kgltexture.h"
 #include "kglprogram.h"
 class KGLEngine;
+class KGLItem;
 class KGLItem : public KGLBaseItem
 {
 public:
     virtual void draw();
+    virtual void updateTransform();
     explicit KGLItem(KGLEngine * parent=0);
     explicit KGLItem(const QPolygonF &poly, KGLEngine * parent=0);
     explicit KGLItem(const QSizeF &box, KGLEngine * parent=0);
     explicit KGLItem(const QLineF &line,KGLEngine * parent=0);
+    void addChildItem(KGLItem* item){m_childItems.append(item);}
+    void remChildItem(KGLItem * item){m_childItems.removeOne(item);}
     ~KGLItem();
 
 
@@ -38,9 +42,11 @@ public:
     //get
     const QColor &color(){return m_color;}
     const float &alpha(){return m_alpha;}
+    QList<KGLItem*> childItems(){return m_childItems;}
 protected:
 
     virtual void create();
+    void drawChild();
     void init();
     virtual void drawGLPoint(GLPoint *p);
     virtual void drawBoundingBox();
@@ -57,6 +63,7 @@ private:
     GLenum m_mode;
     KGLTexture *m_texture;
     KGLProgram * m_program;
+    QList<KGLItem*> m_childItems;
     bool m_shaderEnable;
 
     //flags.....

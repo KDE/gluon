@@ -57,6 +57,8 @@ public:
     virtual inline const QRectF boundingBox(){return polygon().boundingRect();}
     virtual inline const QRectF itemBoundingBox(){return itemPolygon().boundingRect();}
 
+    inline  bool contains(QPointF &p) {return polygon().containsPoint(p,Qt::WindingFill);}
+
 
 
 
