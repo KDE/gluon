@@ -5,9 +5,9 @@ GluonDialog::GluonDialog()
 
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::IconMode);
-    contentsWidget->setIconSize(QSize(96, 84));
+    contentsWidget->setIconSize(QSize(64,64));
 //    contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMaximumWidth(128);
+    contentsWidget->setMaximumWidth(120);
     contentsWidget->setSpacing(12);
 
      pagesWidget = new QStackedWidget;

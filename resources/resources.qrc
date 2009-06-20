@@ -3,5 +3,8 @@
         <file>kal.png</file>
         <file>kcl.png</file>
         <file>kgl.png</file>
+        <file>vga.png</file>
+        <file>center.svg</file>
+        <file>speaker.svg</file>
     </qresource>
 </RCC>

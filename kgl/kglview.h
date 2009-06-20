@@ -41,6 +41,7 @@ public:
     inline void setInfoShow(bool b){m_infoShow = b;}
     inline bool isInfoShow(){return m_axisShow;}
     bool isExtensionSupported(QString name){return glewIsSupported(name.toUtf8());}
+    bool isShaderSupported(){return m_isShaderSupported;}
     float fps(){return m_fps;}
 
     //===DRAW fonction

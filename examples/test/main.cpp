@@ -28,6 +28,7 @@
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglphysicsengine.h>
 #include <gluon/kgl/kglphysicsitem.h>
+#include <gluon/gluondialog.h>
 using namespace std;
 
 
@@ -43,7 +44,9 @@ int main(int argc, char *argv[])
 
     KApplication app;
  
+GluonDialog * d = new GluonDialog;
 
+d->show();
 
 
 
