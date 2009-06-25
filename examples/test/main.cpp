@@ -29,6 +29,10 @@
 #include <gluon/kgl/kglphysicsengine.h>
 #include <gluon/kgl/kglphysicsitem.h>
 #include <gluon/gluondialog.h>
+#include <gluon/gluonmainwindow.h>
+#include <gluon/gluonintroitem.h>
+
+#include <KDebug>
 using namespace std;
 
 
@@ -43,27 +47,27 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KApplication app;
- 
-KGLView * view = new KGLView;
-KGLEngine * engine = new KGLEngine;
-view->setEngine(engine);
 
-view->setAxisShow(true);
-KGLItem * item = new KGLItem(QRectF(-2,-2,4,4));
-KGLItem * item2 = new KGLItem;
-item2->createBox(2,2);
-engine->addItem(item);
+GluonMainWindow * main = new GluonMainWindow;
 
-item->addChildItem(item2);
+//GluonIntroItem * item = new GluonIntroItem(5,5);
+ KGLBoxItem * item = new KGLBoxItem(5,5);
+// item->showBoundingBox(true);
 
-item->setColor(Qt::gray);
-item->translate(-item->center());
-item->rotate(M_PI/3);
-item->translate(item->center());
+ main->glEngine()->addItem(item);
+
+ item->rotate(M_PI/3);
+item->setPosition(-4,-4);
+ item->setScale(2);
+
 item->updateTransform();
 
+main->view()->setInfoShow(true);
+main->view()->setAxisShow(true);
+main->view()->start();
 
-view->show();
+
+main->show();
 
 
  app.exec();

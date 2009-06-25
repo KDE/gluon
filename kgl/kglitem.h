@@ -10,6 +10,7 @@ class KGLEngine;
 class KGLItem;
 class KGLItem : public KGLBaseItem
 {
+    Q_OBJECT
 public:
     virtual void draw();
     virtual void updateTransform();
@@ -43,6 +44,10 @@ public:
     const QColor &color(){return m_color;}
     const float &alpha(){return m_alpha;}
     QList<KGLItem*> childItems(){return m_childItems;}
+
+signals:
+    void painted();
+
 protected:
 
     virtual void create();
@@ -51,7 +56,6 @@ protected:
     virtual void drawGLPoint(GLPoint *p);
     virtual void drawBoundingBox();
     virtual void drawCenter();
-
 
 
 private:

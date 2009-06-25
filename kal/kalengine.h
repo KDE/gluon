@@ -24,7 +24,7 @@
 #define KALENGINE_H
 
 #include <alc.h>
-
+#include <alut.h>
 #include <QtCore/QStringList>
 #include <Phonon/Global>
 
@@ -46,9 +46,7 @@ public:
     * Default constructor
     */
     explicit KALEngine(const QString &deviceName, QObject *parent = 0);
-
     explicit KALEngine(Phonon::Category category, QObject *parent = 0);
-
     KALEngine(QObject *parent = 0);
 
     /**
@@ -61,13 +59,12 @@ public:
     */
     static QStringList deviceList();
 
-
     /**
     * Returns a pointer to the KALPhonon object used
     */
     KALPhonon *phonon();
-
-
+    ALCdevice * device();
+    ALCcontext *context();
 public Q_SLOTS:
     /**
     * Change the output device to the one currently used by Phonon for

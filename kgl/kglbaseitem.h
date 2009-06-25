@@ -9,7 +9,9 @@
 #include <QMatrix>
 #include "glpoint.h"
 
-
+const Eigen::Vector3d AXIS_X(1, 0, 0);
+const Eigen::Vector3d AXIS_Y(0, 1, 0);
+const Eigen::Vector3d AXIS_Z(0, 0, 1);
 
 class KGLBaseItem: public QObject
 {
@@ -62,32 +64,25 @@ public:
 
 
 
-    inline virtual const Eigen::Transform3d& matrix() const {
+    inline  Eigen::Transform3d& matrix() {
         return m_matrix;
     }
 
     inline void setMatrix(const Eigen::Transform3d& m){
         m_matrix = m;
     }
-
-    inline void matrixSetIdentity()
-    {
-        m_matrix.setIdentity();
-    }
-
-
     //set
     inline void setCenter(const QPointF &c){m_center = c;}
     inline void setAngle(const float &a){m_angle = a;}
     inline void setScale(const float &s){m_scale = s;}
     inline void setPosition(const QPointF &p){m_position = p;}
     inline void setPosition(qreal x, qreal y ){setPosition(QPointF(x,y));}
-    inline void setTranslate(const QPointF &p){setPosition(p);}
     inline void setZIndex(int i){m_zindex = i;}
 
+
     inline void translate(QPointF step){m_position+=step;}
-    inline void rotate(float angle){m_angle += angle;}
     inline void scale(float s){m_scale +=s;}
+    inline void rotate(float angle){  m_angle += angle;}
 
 protected:
     void computeGeometry();

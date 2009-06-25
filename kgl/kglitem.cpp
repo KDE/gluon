@@ -35,6 +35,7 @@ void KGLItem::init()
     m_texture = new KGLTexture;
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
+    m_program = NULL;
 
     resetTransform();
 
@@ -89,8 +90,11 @@ void KGLItem::draw()
 
     m_texture->updateTransform();
 
+
     glPushMatrix();
     glLoadMatrixd(matrix().data());
+
+
     if ( f_textureEnable)
         m_texture->bind();
     glEnable(GL_BLEND);
@@ -98,13 +102,15 @@ void KGLItem::draw()
     glDepthMask(GL_FALSE);
     glEnable(GL_POLYGON_SMOOTH);
 
-
-    if ( program()->isValid())
-        program()->bind();
-
+    if ( m_program != NULL ){
+        if ( program()->isValid())
+            program()->bind();
+    }
     glCallList(m_GLCallList);  //CALL THE LIST
 
-    program()->unbind();
+    if ( m_program != NULL ){
+        program()->unbind();
+    }
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
@@ -114,6 +120,7 @@ void KGLItem::draw()
     glPopMatrix();
 
     drawChild();
+    emit painted();
 
 }
 void  KGLItem::create()
@@ -137,9 +144,10 @@ void  KGLItem::create()
 
 void KGLItem::updateTransform()
 {
+
+    KGLBaseItem::updateTransform();
     if ( m_childItems.size()>0)
     {
-        KGLBaseItem::updateTransform();
         foreach(KGLItem* item, m_childItems)
             item->applyTransform(matrix());
 

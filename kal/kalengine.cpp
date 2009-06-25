@@ -24,7 +24,7 @@
 #include "kalsource.h"
 #include "kalphonon.h"
 
-#include <alut.h>
+
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
@@ -35,7 +35,7 @@ class KALEnginePrivate
 {
 public:
     KALEnginePrivate()
-            : context(0), device(0) {
+        : context(0), device(0) {
         alutInitWithoutContext(0, 0);
     }
 
@@ -55,7 +55,7 @@ public:
 };
 
 KALEngine::KALEngine(const QString &deviceName, QObject *parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     d = new KALEnginePrivate;
     d->phonon = new KALPhonon(this);
@@ -64,7 +64,7 @@ KALEngine::KALEngine(const QString &deviceName, QObject *parent)
 }
 
 KALEngine::KALEngine(Phonon::Category category, QObject *parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     d = new KALEnginePrivate;
     d->phonon = new KALPhonon(this);
@@ -73,7 +73,7 @@ KALEngine::KALEngine(Phonon::Category category, QObject *parent)
 }
 
 KALEngine::KALEngine(QObject *parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     d = new KALEnginePrivate;
     d->phonon = new KALPhonon(this);
@@ -175,3 +175,11 @@ QStringList KALEngine::deviceList()
     }
     return deviceStringList;
 }
+ALCdevice * KALEngine::device()
+{
+    return d->device;
+}
+ ALCcontext *KALEngine::context()
+ {
+return d->context;
+ }

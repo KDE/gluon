@@ -21,9 +21,7 @@
  */
 #include "kglbaseitem.h"
 #include <algorithm>
-const Eigen::Vector3d AXIS_X(1, 0, 0);
-const Eigen::Vector3d AXIS_Y(0, 1, 0);
-const Eigen::Vector3d AXIS_Z(0, 0, 1);
+
 
 
 KGLBaseItem::KGLBaseItem(QObject *parent)
@@ -45,12 +43,18 @@ KGLBaseItem::~KGLBaseItem()
 
 }
 
+
 void  KGLBaseItem::updateTransform()
 {
     m_matrix.setIdentity();
-    m_matrix.scale(m_scale);
-    m_matrix.translate(Eigen::Vector3d(m_position.x() / m_scale, m_position.y() / m_scale, 0));
+
+    m_matrix.translate(Eigen::Vector3d(m_position.x() , m_position.y(), 0));
+
+    m_matrix.translate(Eigen::Vector3d(itemCenter().x() , itemCenter().y(), 0));
     m_matrix.rotate(Eigen::AngleAxisd(m_angle, AXIS_Z));
+    m_matrix.translate(Eigen::Vector3d(-itemCenter().x() , -itemCenter().y(), 0));
+
+        m_matrix.scale(m_scale);
 
 }
 
