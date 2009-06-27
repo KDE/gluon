@@ -22,6 +22,8 @@
 #include "kglitem.h"
 #include <KDebug>
 
+
+
 void KGLItem::init()
 {
     setObjectName(metaObject()->className());
@@ -36,7 +38,6 @@ void KGLItem::init()
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
     m_program = NULL;
-
     resetTransform();
 
 }
@@ -137,6 +138,11 @@ void KGLItem::draw()
     glPopMatrix();
 
     drawChild();
+
+
+
+
+
     emit painted();
 
 }

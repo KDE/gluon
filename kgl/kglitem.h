@@ -6,6 +6,7 @@
 #include "kglbaseitem.h"
 #include "kgltexture.h"
 #include "kglprogram.h"
+
 class KGLEngine;
 class KGLItem;
 class KGLItem : public KGLBaseItem
@@ -75,7 +76,6 @@ private:
     bool f_showBoundingBox;
     bool f_showCenter;
     bool f_textureEnable;
-
 
 
 

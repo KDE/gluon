@@ -23,89 +23,90 @@
 #ifndef KGLPARTICLESITEM_H
 #define KGLPARTICLESITEM_H
 
+#include "kgltexture.h"
 #include "kglitem.h"
 
 class KGLParticle;
-
-typedef std::vector<KGLParticle*> VECTOR_PARTICULES;
-
-class KGLParticlesItem: public KGLItem
+class KGLParticlesItem;
+class KGLParticle
 {
-    Q_OBJECT
-public:
-    explicit KGLParticlesItem(const GLint &texture = 0, int nbParticules = 10);
-    virtual void draw();
+    public:
+    KGLParticle();
+    void init();
+    void move();
+    void reset(){m_alpha=m_initAlpha; m_pos=m_initPos;m_col=m_initCol;}
+    void setColor(const QColor &col){m_col = col; m_initCol=col;}
+    void setColorStep(const QColor &c){m_colStep = c;}
+    void setPosition(const QPointF &p){m_pos = p;m_initPos=p;}
+    void setDirection (const QPointF &d){m_direction = d;}
+    void setSpeed(const float &s){m_speed = s;}
+    void setSize(const float &s){m_size =s;}
+    void setAlpha(const float &a){m_alpha = a;}
+    void setAlphaStep(const float &s){m_alphaStep = s;}
+    void setTexture(const QString& name){m_tex = new KGLTexture(name);}
+    void setTexture(const QPixmap& name){m_tex = new KGLTexture(name);}
+    void setTexture(KGLTexture * t){m_tex = t;}
+    const QPointF& position(){return m_pos;}
+    const float& size(){return m_size;}
+    const float& alpha(){return m_alpha;}
+    const QColor& color(){return m_col;}
+    KGLTexture * tex(){return m_tex;}
 
-    inline void setNbParticles(uint nb) {
-        m_nbParticles = nb;
-        m_isCreated = false;
-    }
-    inline void setPointSize(float s) {
-        m_pointSize = s;
-        m_isCreated = false;
-    }
-    inline void setAngleSpan(int min) {
-        m_angleSpan = min;
-        m_isCreated = false;
-    }
-    inline void setParticleSpeed(float s) {
-        m_speed = s;
-        m_isCreated = false;
-    }
-    inline void setAlphaStep(float a) {
-        m_alphaStep = a;
-        m_isCreated = false;
-    }
-    inline void setRandom(bool r) {
-        m_modeRandom = r;
-        m_isCreated = false;
-    }
-    inline void setRepeat(bool r) {
-        m_repeat = r;
-        m_isCreated = false;
-    }
-    inline void setMaxCount(bool c) {
-        m_maxCount = c;
-    }
+    private:
+    QColor m_col;
+    QColor m_colStep;
+    QColor m_initCol;
+    float m_alpha;
+    float m_alphaStep;
+    float m_initAlpha;
+    float m_size;
+    QPointF m_pos;
+    QPointF m_initPos;
+    QPointF m_direction;
 
-    inline void stop() {
-        m_finish = true;
-    }
-    inline void start() {
-        m_finish = false;
-        m_count = 0;
-    }
-    inline void setTexture(const GLint &texture) {
-        m_texture = texture;
-    }
-
-    inline bool isFinished() {
-        return m_finish;
-        m_isCreated = false;
-    }
-
-protected:
-    virtual void create();
-
-private:
-    KGLParticle* createParticle(KGLParticle* p = 0);
-
-    void addParticlesEffect(const GLint&, int) {}
-
-    int m_angleSpan;
-    float m_speed, m_alphaStep;
-
-    unsigned int m_nbParticles;
-    VECTOR_PARTICULES m_particles;
-    float m_pointSize;
-    GLint m_texture;
-
-    bool m_modeRandom;
-    bool m_finish;
-    bool m_repeat;
-    uint m_count;
-    uint m_maxCount;
+    float m_speed;
+    KGLTexture * m_tex;
 
 };
+//========================================================
+class KGLParticlesItem: public KGLItem
+{
+  public :
+ KGLParticlesItem(KGLEngine * parent=0);
+ virtual void draw();
+void addParticles(KGLParticle * p){m_particles.append(p);}
+QList<KGLParticle*> particles(){return m_particles;}
+private:
+QList <KGLParticle*> m_particles;
+
+};
+
+//========================================================
+//
+//   DIFFERENTE PARTICLES ENGINES....
+//
+//========================================================
+
+
+
+class KGLParticlesExploseItem: public KGLParticlesItem
+{
+ public :
+KGLParticlesExploseItem(unsigned int number=100, unsigned int angle=360, KGLEngine * parent=0);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
 
 #endif //KGLPARTICLESITEM_H

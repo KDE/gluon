@@ -13,8 +13,7 @@ set(kgl_LIB_SRCS
     #kglpixmapitem.cpp
     #kglanimitem.cpp
    kgltextitem.cpp
-    #kglparticle.cpp
-    #kglparticlesitem.cpp
+    kglparticlesitem.cpp
     kglboxitem.cpp
     kglpolygonitem.cpp
     kglcircleitem.cpp
@@ -63,8 +62,7 @@ install(FILES
     kglbaseitem.h
     #kglcontaineritem.h
     kgltextitem.h
-    #kglparticle.h
-    #kglparticlesitem.h
+    kglparticlesitem.h
     #kglpixmapitem.h
     kglboxitem.h
     kglpolygonitem.h

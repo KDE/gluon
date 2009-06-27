@@ -29,6 +29,7 @@
 #include <gluon/kgl/kglphysicsengine.h>
 #include <gluon/kgl/kglphysicsitem.h>
 #include <gluon/kgl/kglgriditem.h>
+#include <gluon/kgl/kglparticlesitem.h>
 #include <gluon/gluondialog.h>
 #include <gluon/gluonmainwindow.h>
 #include <gluon/gluonintroitem.h>
@@ -51,18 +52,17 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
-GluonDialog * f = new GluonDialog;
+GluonMainWindow * main = new GluonMainWindow;
 
-f->show();
 
-// GluonMainWindow * main = new GluonMainWindow;
-// 
-// 
-// 
-// 
-// 
-// 
-// main->show();
+KGLParticlesExploseItem * item = new KGLParticlesExploseItem;
+
+
+
+main->glEngine()->addItem(item);
+main->view()->setInfoShow(true);
+main->view()->start();
+main->show();
 
 
  app.exec();
