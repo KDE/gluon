@@ -18,6 +18,7 @@ public:
     explicit KGLItem(const QPolygonF &poly, KGLEngine * parent=0);
     explicit KGLItem(const QSizeF &box, KGLEngine * parent=0);
     explicit KGLItem(const QLineF &line,KGLEngine * parent=0);
+    KGLItem *clone();
     void addChildItem(KGLItem* item){m_childItems.append(item);}
     void remChildItem(KGLItem * item){m_childItems.removeOne(item);}
     ~KGLItem();
@@ -53,7 +54,7 @@ protected:
     virtual void create();
     void drawChild();
     void init();
-    virtual void drawGLPoint(GLPoint *p);
+    virtual void drawGLPoint(KGLPoint *p);
     virtual void drawBoundingBox();
     virtual void drawCenter();
 

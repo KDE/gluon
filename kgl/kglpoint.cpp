@@ -20,14 +20,14 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "glpoint.h"
+#include "kglpoint.h"
 
-GLPoint::GLPoint(const QPointF &p, const QColor &c, const QPointF &t) :
+KGLPoint::KGLPoint(const QPointF &p, const QColor &c, const QPointF &t) :
         QPointF(p), m_color(c), m_tex(t)
 {
 }
 
-GLPoint::GLPoint(float x, float y, const QColor &c, const QPointF &t) :
+KGLPoint::KGLPoint(float x, float y, const QColor &c, const QPointF &t) :
         QPointF(x, y), m_color(c), m_tex(t)
 {
 }

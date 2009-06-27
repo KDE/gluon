@@ -28,11 +28,13 @@
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglphysicsengine.h>
 #include <gluon/kgl/kglphysicsitem.h>
+#include <gluon/kgl/kglgriditem.h>
 #include <gluon/gluondialog.h>
 #include <gluon/gluonmainwindow.h>
 #include <gluon/gluonintroitem.h>
 
 #include <KDebug>
+#include <iostream>
 using namespace std;
 
 
@@ -48,26 +50,19 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-GluonMainWindow * main = new GluonMainWindow;
 
-//GluonIntroItem * item = new GluonIntroItem(5,5);
- KGLBoxItem * item = new KGLBoxItem(5,5);
-// item->showBoundingBox(true);
+GluonDialog * f = new GluonDialog;
 
- main->glEngine()->addItem(item);
+f->show();
 
- item->rotate(M_PI/3);
-item->setPosition(-4,-4);
- item->setScale(2);
-
-item->updateTransform();
-
-main->view()->setInfoShow(true);
-main->view()->setAxisShow(true);
-main->view()->start();
-
-
-main->show();
+// GluonMainWindow * main = new GluonMainWindow;
+// 
+// 
+// 
+// 
+// 
+// 
+// main->show();
 
 
  app.exec();

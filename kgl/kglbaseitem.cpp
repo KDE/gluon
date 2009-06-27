@@ -30,12 +30,13 @@ KGLBaseItem::KGLBaseItem(QObject *parent)
     m_angle = 0;
     m_position=QPointF(0,0);
     m_scale = 1;
+    m_shear = QPointF(0,0);
     m_center=QPointF(0,0);
     m_polygon = QPolygonF();
     m_dim = QSizeF();
     m_radius = 1;
     m_zindex = 0;
-
+    initShearMatrix(m_shear);
 }
 KGLBaseItem::~KGLBaseItem()
 {
@@ -47,14 +48,16 @@ KGLBaseItem::~KGLBaseItem()
 void  KGLBaseItem::updateTransform()
 {
     m_matrix.setIdentity();
-
+    m_matrix.scale(m_scale);
     m_matrix.translate(Eigen::Vector3d(m_position.x() , m_position.y(), 0));
 
     m_matrix.translate(Eigen::Vector3d(itemCenter().x() , itemCenter().y(), 0));
     m_matrix.rotate(Eigen::AngleAxisd(m_angle, AXIS_Z));
     m_matrix.translate(Eigen::Vector3d(-itemCenter().x() , -itemCenter().y(), 0));
 
-        m_matrix.scale(m_scale);
+    m_shearMatrix(0,1) = m_shear.x();
+    m_shearMatrix(1,0) = m_shear.y();
+    m_matrix =   m_matrix* m_shearMatrix ;
 
 }
 
@@ -63,23 +66,22 @@ void KGLBaseItem::resetTransform()
     m_matrix.setIdentity();
     m_angle  = 0;
     m_scale  = 1;
+    m_shear  = QPointF(0,0);
     m_position = QPointF(0,0);
 }
-
-
 
 void KGLBaseItem::computeGeometry()
 {
     //Compute the center
     m_center = QPointF(0,0);
-    foreach(GLPoint* p, m_vertexList) {
+    foreach(KGLPoint* p, m_pointList) {
         m_center += QPointF(p->x(), p->y());
     }
-    m_center /= (float)vertexNumber();
+    m_center /= (float)pointCount();
 
     //Compute the Polygon
     m_polygon = QPolygonF();
-    foreach(GLPoint* p, m_vertexList) {
+    foreach(KGLPoint* p, m_pointList) {
         m_polygon<<QPointF(p->x(), p->y());
     }
 
@@ -89,9 +91,9 @@ void KGLBaseItem::computeGeometry()
 
     //Compute the radius of bounding Circle
     const double cx = m_center.x();
-    const double px = m_vertexList[0]->x();
+    const double px = m_pointList[0]->x();
     const double cy = m_center.y();
-    const double py = m_vertexList[0]->y();
+    const double py = m_pointList[0]->y();
 
     m_radius = sqrt((cx - px) * (cx - px) + (cy - py) * (cy - py));
 
@@ -130,10 +132,10 @@ QRectF KGLBaseItem::transform(QRectF r)
 void KGLBaseItem::createBox(const QSizeF &dim)
 {
     clear();
-    addVertex(new GLPoint(0, 0, Qt::white, QPointF(0 , 0 )));
-    addVertex(new GLPoint(dim.width(), 0, Qt::white, QPointF(1 , 0)));
-    addVertex(new GLPoint(dim.width(), dim.height(), Qt::white, QPointF(1 , 1)));
-    addVertex(new GLPoint(0, dim.height(), Qt::white, QPointF(0 , 1)));
+    addVertex(new KGLPoint(0, 0, Qt::white, QPointF(0 , 0 )));
+    addVertex(new KGLPoint(dim.width(), 0, Qt::white, QPointF(1 , 0)));
+    addVertex(new KGLPoint(dim.width(), dim.height(), Qt::white, QPointF(1 , 1)));
+    addVertex(new KGLPoint(0, dim.height(), Qt::white, QPointF(0 , 1)));
 
 }
 void KGLBaseItem::createPolygon(const QPolygonF &poly)
@@ -141,15 +143,37 @@ void KGLBaseItem::createPolygon(const QPolygonF &poly)
     clear();
     QPointF p;
     foreach(p, poly) {
-        addVertex(new GLPoint(p.x(), p.y() , Qt::white, QPointF(p.x(), p.y())));
+        addVertex(new KGLPoint(p.x(), p.y() , Qt::white, QPointF(p.x(), p.y())));
     }
 
 }
 void KGLBaseItem::createLine(const QLineF &line)
 {
     clear();
-    addVertex(new GLPoint(line.x1(), line.y1(), Qt::white));
-    addVertex(new GLPoint(line.x2(), line.y2(), Qt::white));
+    addVertex(new KGLPoint(line.x1(), line.y1(), Qt::white));
+    addVertex(new KGLPoint(line.x2(), line.y2(), Qt::white));
 
 
 }
+   void KGLBaseItem::initShearMatrix(QPointF s)
+   {
+    m_shearMatrix(0,0) = 1;
+    m_shearMatrix(0,1) = s.x();
+    m_shearMatrix(0,2) = 0;
+    m_shearMatrix(0,3) = 0;
+
+    m_shearMatrix(1,0) = s.y();
+    m_shearMatrix(1,1) = 1;
+    m_shearMatrix(1,2) = 0;
+    m_shearMatrix(1,3) = 0;
+
+    m_shearMatrix(2,0) = 0;
+    m_shearMatrix(2,1) = 0;
+    m_shearMatrix(2,2) = 1;
+    m_shearMatrix(2,3) = 0;
+
+    m_shearMatrix(3,0) = 0;
+    m_shearMatrix(3,1) = 0;
+    m_shearMatrix(3,2) = 0;
+    m_shearMatrix(3,3) = 1;
+   }

@@ -20,8 +20,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef GLPOINT_H
-#define GLPOINT_H
+#ifndef KGLPoint_H
+#define KGLPoint_H
 
 #include <vector>
 
@@ -29,11 +29,11 @@
 #include <QtCore/QPointF>
 #include <QList>
 
-class GLPoint;
-typedef QList <GLPoint*> GLPointList;
+class KGLPoint;
+typedef QList <KGLPoint*> KGLPointList;
 
 /**
- * @class GLPoint glpoint.h <GLPoint>
+ * @class KGLPoint KGLPoint.h <KGLPoint>
  * @brief This class represents a point, with its color and texture mappings.
  *
  * This class provides an easy-to-use point that represents different things :
@@ -41,28 +41,28 @@ typedef QList <GLPoint*> GLPointList;
  * - A point on the texture, (due to openGL texture mapping)
  * - A color for this point to be drawn with
  */
-class GLPoint: public QPointF
+class KGLPoint: public QPointF
 {
 public:
-    explicit GLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
-    GLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
+    explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
+    KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
 
     /**
-     * @return the point of the texture this GLPoint is mapped to.
+     * @return the point of the texture this KGLPoint is mapped to.
      */
     inline QPointF tex() {
         return m_tex;
     }
 
     /**
-     * the color of this GLPoint
+     * the color of this KGLPoint
      */
     inline QColor color() {
         return m_color;
     }
 
     /**
-     * Set the texture point this GLPoint will be mapped to.
+     * Set the texture point this KGLPoint will be mapped to.
      * @param t the coordinates of the texture this point should be mapped to.
      */
     inline void setTex(const QPointF &t) {
@@ -70,23 +70,23 @@ public:
     }
 
     /**
-     * Set the color of this GLPoint
-     * @param c the color this GLPoint will be drawn with
+     * Set the color of this KGLPoint
+     * @param c the color this KGLPoint will be drawn with
      */
     inline void setColor(const QColor &c) {
         m_color = c;
     }
 
     /**
-     * Set the alpha level of this GLPoint
-     * @param a the alpha level this GLPoint will be drawn with
+     * Set the alpha level of this KGLPoint
+     * @param a the alpha level this KGLPoint will be drawn with
      */
     inline void setAlpha(int a) {
         m_color.setAlpha(a);
     }
 
     /**
-     * Gets the QPointF inside this GLPoint.
+     * Gets the QPointF inside this KGLPoint.
      * @return the QPointF
      */
     inline QPointF toQPointF() {
@@ -98,4 +98,4 @@ private:
     QPointF m_tex;
 };
 
-#endif //GLPOINT_H
+#endif //KGLPoint_H

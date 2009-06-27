@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/" >
-        <file>gear.png</file>
-        <file>title.png</file>
-        <file>shaders/blur.frag</file>
-        <file>shaders/blur.vert</file>
-        <file>kgl.png</file>
-    </qresource>
-</RCC>

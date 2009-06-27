@@ -4,7 +4,7 @@
 #include <KDebug>
 #include <QTextEdit>
 #include "kglconfig.h"
-
+#include "gluonintroitem.h"
 
 
 KGLConfig::KGLConfig(QWidget * parent)
@@ -17,11 +17,12 @@ KGLConfig::KGLConfig(QWidget * parent)
     m_view = new KGLView;
     KGLEngine * engine = new KGLEngine;
     m_view->setEngine(engine);
-    KGLBoxItem * box = new KGLBoxItem(-5,-5);
-    box->setTexture(QPixmap(":kgl.png"));
-    engine->addItem(box);
+    GluonIntroItem * item = new GluonIntroItem(5,5);;
+    item->setPosition(-item->center());
+    item->updateTransform();
+   engine->addItem(item);
 
-
+m_view->start();
     setupInformation();
     setupTest();
 

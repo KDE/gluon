@@ -7,7 +7,7 @@
 #include <QTransform>
 #include <QSizeF>
 #include <QMatrix>
-#include "glpoint.h"
+#include "kglpoint.h"
 
 const Eigen::Vector3d AXIS_X(1, 0, 0);
 const Eigen::Vector3d AXIS_Y(0, 1, 0);
@@ -19,17 +19,17 @@ class KGLBaseItem: public QObject
 public:
     KGLBaseItem(QObject *parent=0);
     ~KGLBaseItem();
-    virtual inline void addVertex(GLPoint* p) {
-        m_vertexList.push_back(p);
+    virtual inline void addVertex(KGLPoint* p) {
+        m_pointList.push_back(p);
         computeGeometry();
     }
-    GLPointList vertexList(){return m_vertexList;}
-    virtual void removeVertex(GLPoint * p)
+    KGLPointList pointList(){return m_pointList;}
+    virtual void removeVertex(KGLPoint * p)
     {
-        m_vertexList.removeOne (p);
+        m_pointList.removeOne (p);
         computeGeometry();
     }
-    virtual void clear(){m_vertexList.clear();}
+    virtual void clear(){m_pointList.clear();}
     virtual void updateTransform();
     virtual void resetTransform();
     void applyTransform(const Eigen::Transform3d &m){m_matrix = m * m_matrix;}
@@ -43,7 +43,7 @@ public:
     void createLine(const QLineF &line);
 
     //Get
-    unsigned int vertexNumber(){return m_vertexList.size();}
+    unsigned int pointCount(){return m_pointList.size();}
     inline const QPointF &position(){return m_position;}
     inline const float &scaleValue(){return m_scale;}
     inline const float &angle(){return m_angle;}
@@ -77,31 +77,40 @@ public:
     inline void setScale(const float &s){m_scale = s;}
     inline void setPosition(const QPointF &p){m_position = p;}
     inline void setPosition(qreal x, qreal y ){setPosition(QPointF(x,y));}
+    inline void setShear(const QPointF &s){m_shear = s;}
+    inline void setShear(const float &sx, const float &sy){setShear(QPointF(sx,sy));}
     inline void setZIndex(int i){m_zindex = i;}
 
 
-    inline void translate(QPointF step){m_position+=step;}
-    inline void scale(float s){m_scale +=s;}
-    inline void rotate(float angle){  m_angle += angle;}
-
+    inline void translate(const QPointF &step){m_position+=step;}
+    inline void translate(const float &x,const float &y){translate(QPointF(x,y));}
+    inline void scale(const float &s){m_scale +=s;}
+    inline void rotate(const float &angle){  m_angle += angle;}
+    inline void shear(const QPointF &s){m_shear+=s;}
+    inline void shear(const float &sx,const float &sy){shear(QPointF(sx,sy));}
 protected:
     void computeGeometry();
-
+   void initShearMatrix(QPointF s);
 
     QPointF transform(QPointF p);
     QPolygonF transform(QPolygonF p);
     QRectF transform(QRectF r);
+
 private:
     Eigen::Transform3d m_matrix;
+    Eigen::Matrix4d m_shearMatrix;
+
+
     float m_angle;
     float m_scale;
     QPointF m_position;
+    QPointF m_shear;
     QPointF m_center;
     QPolygonF m_polygon;
     float m_radius;
     QSizeF m_dim;
     unsigned int m_zindex;
-    GLPointList m_vertexList;
+    KGLPointList m_pointList;
 
 
 

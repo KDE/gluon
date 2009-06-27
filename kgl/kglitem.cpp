@@ -82,6 +82,23 @@ KGLItem::~KGLItem()
     glDeleteLists(m_GLCallList,1);
 
 }
+
+KGLItem *KGLItem::clone()
+ {
+
+    KGLItem * newItem = new KGLItem;
+    for ( int i=0; i<pointList().size(); ++i)
+    {
+        KGLPoint * p = pointList().at(i);
+        newItem->addVertex(p);
+
+    }
+
+    newItem->setTexture(texture());
+
+return newItem;
+
+ }
 void KGLItem::draw()
 {
     if (!m_isCreated)
@@ -130,7 +147,7 @@ void  KGLItem::create()
     glNewList(m_GLCallList, GL_COMPILE);
     glBegin(m_mode);
 
-    foreach(GLPoint* p, vertexList())
+    foreach(KGLPoint* p, pointList())
     {
         drawGLPoint(p);
     }
@@ -161,7 +178,7 @@ void KGLItem::drawChild()
             item->draw();
     }
 }
-void KGLItem::drawGLPoint(GLPoint *p)
+void KGLItem::drawGLPoint(KGLPoint *p)
 {
     glTexCoord2f(p->tex().x(), p->tex().y());
     const float r = (float)p->color().red() / 255;
@@ -191,7 +208,7 @@ void KGLItem::drawBoundingBox()
 void KGLItem::setColor(const QColor &c)
 {
     m_color = c;
-    foreach(GLPoint* p, vertexList()) {
+    foreach(KGLPoint* p, pointList()) {
         p->setColor(c);
     }
     m_isCreated = false;
@@ -201,7 +218,7 @@ void KGLItem::setAlpha(const float &a)
 {
     m_alpha = a;
 
-    foreach(GLPoint* p, vertexList()) {
+    foreach(KGLPoint* p, pointList()) {
         p->setAlpha((int)(a*255));
     }
     m_isCreated = false;

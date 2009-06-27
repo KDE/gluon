@@ -42,6 +42,6 @@ void KGLCircleItem::setCircle(float radius, unsigned int nbPoints)
     for (float i = 0; i < M_PI*2; i += step) {
         float x = cos(i) ;
         float y = sin(i)  ;
-        addVertex(new GLPoint(x*radius, y*radius, Qt::white, QPointF(x, y)));
+        addVertex(new KGLPoint(x*radius, y*radius, Qt::white, QPointF(x, y)));
     }
 }

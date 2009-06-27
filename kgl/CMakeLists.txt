@@ -5,7 +5,7 @@ set(kgl_LIB_SRCS
     kglview.cpp
     kglengine.cpp
     kglphysicsengine.cpp
-    glpoint.cpp
+    kglpoint.cpp
     #kglintro.cpp
     kglbaseitem.cpp
     kglitem.cpp
@@ -23,14 +23,15 @@ set(kgl_LIB_SRCS
     kglitemlist.cpp
     kglshader.cpp
     kglprogram.cpp
+    kglgriditem.cpp
+   # kglshadowitem.cpp
+   #  kglblurprogram.cpp
 
-
-    #fx/kglshadowitem.cpp
    )
 
 SET(kgl_RCCS
-    resources/resources.qrc
-   )
+     shaders/shaders.qrc
+    )
 
 QT4_ADD_RESOURCES(kgl_RCC_SRCS ${kgl_RCCS})
 kde4_add_library(kgl SHARED ${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
@@ -51,7 +52,7 @@ target_link_libraries(kgl Box2D)
 install(TARGETS kgl ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
-    glpoint.h
+    kglpoint.h
     kglengine.h
     kglphysicsengine.h
     kglview.h
@@ -72,7 +73,9 @@ install(FILES
     kgltexture.h
     kglshader.h
     kglprogram.h
-   fx/kglshadowitem.h
+   # kglshadowitem.h
+    # kglblurprogram.h
+     kglgriditem.h
 
 
 

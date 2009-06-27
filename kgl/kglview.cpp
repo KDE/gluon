@@ -68,6 +68,7 @@ void  KGLView::init()
     m_infoShow = false;
     m_ratio = width() / height();
     setOrthoView(-10,10,-10,10);
+    m_mode = GL_FILL;
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
     setAutoBufferSwap(true);
@@ -81,7 +82,7 @@ void KGLView::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA ,GL_ONE);
-
+    glPolygonMode(GL_FRONT_AND_BACK, m_mode);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
@@ -102,11 +103,11 @@ void KGLView::resizeGL(int w, int h)
 
 void  KGLView::paintGL()
 {
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-
 
     if ( engine() != NULL)drawGLItems();
     glColor3ub(255, 255, 255);

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/shaders" >
+        <file>blur.frag</file>
+        <file>blur.vert</file>
+    </qresource>
+</RCC>

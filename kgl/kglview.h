@@ -37,10 +37,12 @@ public:
         resizeGL(width(),height());
     }
     //=== flags ====
+    inline void setMode(GLenum mode){m_mode=mode; initializeGL();}
     inline void setAxisShow(bool b){m_axisShow=b;}
     inline bool isAxisShow() {return m_axisShow; }
     inline void setInfoShow(bool b){m_infoShow = b;}
     inline bool isInfoShow(){return m_axisShow;}
+//    inline void setShadeModel(GLenum mode);
     bool isExtensionSupported(QString name){return glewIsSupported(name.toUtf8());}
     bool isShaderSupported(){return m_isShaderSupported;}
     float fps(){return m_fps;}
@@ -81,7 +83,7 @@ private:
     bool m_axisShow;
     bool m_infoShow;
     bool m_isShaderSupported;
-
+   GLenum m_mode;
 
 };
 
