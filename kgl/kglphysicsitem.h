@@ -2,12 +2,15 @@
 #define KGLPHYSICSITEM_H
 #include "kglitem.h"
 #include "Box2D/Box2D.h"
-class KGLPhysicsWidget;
+
+class KGLPhysicsEngine;
+class KGLItem;
+
 class KGLPhysicsItem : public KGLItem
 {
 public:
     enum SHAPE_TYPE{POLYGON_SHAPE=0, CIRCLE_SHAPE=1};
-    KGLPhysicsItem(KGLPhysicsWidget* parent=0);
+    KGLPhysicsItem(KGLEngine* parent=0);
     void setup(b2World *world);
     void setupParam();
     void updatePhysics();
@@ -25,7 +28,7 @@ public:
     void initCategoryBits(const uint16 &c){m_polygonDef.filter.categoryBits = c;}
     void initMaskBits(const uint16 &c){m_polygonDef.filter.maskBits = c;}
     void setMassFromShape(bool b){m_isMassFromShape=b;}
-    void initStatic(){setMassFromShape(0);setMass(0);}
+    void setStatic(){setMassFromShape(0);setMass(0);}
     void setShapeType(SHAPE_TYPE t = POLYGON_SHAPE){m_shapeType = t;}
 
     b2PolygonDef *polygonDef(){return &m_polygonDef;}

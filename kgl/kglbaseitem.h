@@ -19,14 +19,14 @@ class KGLBaseItem: public QObject
 public:
     KGLBaseItem(QObject *parent=0);
     ~KGLBaseItem();
-    virtual inline void addVertex(KGLPoint* p) {
-        m_pointList.push_back(p);
+    virtual inline void addVertex(const KGLPoint &p) {
+    m_pointList.append(p);
         computeGeometry();
     }
-    KGLPointList pointList(){return m_pointList;}
+    KGLPointList &pointList(){return m_pointList;}
     virtual void removeVertex(KGLPoint * p)
     {
-        m_pointList.removeOne (p);
+//        m_pointList.removeOne (p);
         computeGeometry();
     }
     virtual void clear(){m_pointList.clear();}
@@ -111,8 +111,6 @@ private:
     QSizeF m_dim;
     unsigned int m_zindex;
     KGLPointList m_pointList;
-
-
 
 
 };

@@ -89,17 +89,6 @@ QList <KGLParticle*> m_particles;
 
 
 
-class KGLParticlesExploseItem: public KGLParticlesItem
-{
- public :
-KGLParticlesExploseItem(unsigned int number=100, unsigned int angle=360, KGLEngine * parent=0);
-
-
-
-};
-
-
-
 
 
 

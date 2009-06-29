@@ -116,21 +116,21 @@ void KGLParticlesItem::draw()
 }
 
 //=================================================================================
-KGLParticlesExploseItem::KGLParticlesExploseItem(unsigned int number, unsigned int angle, KGLEngine * parent)
-           :KGLParticlesItem(parent)
-{
-
- for ( int i=0; i<number; ++i)
-    {
-     KGLParticle *  p = new KGLParticle;
-        float a = (qrand()%angle) * M_PI / 180;
-        p->setDirection(QPointF(cos(a),sin(a)));
-        addParticles(p);
-    }
-
-
-
-}
+//KGLParticlesExploseItem::KGLParticlesExploseItem(unsigned int number, unsigned int angle, KGLEngine * parent)
+//           :KGLParticlesItem(parent)
+//{
+//
+// for ( int i=0; i<number; ++i)
+//    {
+//     KGLParticle *  p = new KGLParticle;
+//        float a = (qrand()%angle) * M_PI / 180;
+//        p->setDirection(QPointF(cos(a),sin(a)));
+//        addParticles(p);
+//    }
+//
+//
+//
+//}
 
 
 

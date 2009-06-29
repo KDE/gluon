@@ -57,7 +57,7 @@ bool KGLView::initGlew()
 void  KGLView::init()
 {
     m_engine = NULL;
-    m_frameRate = 16.6;
+    m_frameRate = 10;
     m_timer = new QTimer(this);
     m_fpsTimer = new QTimer(this);
     m_countFrame = 0;

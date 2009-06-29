@@ -55,7 +55,7 @@ protected:
     virtual void create();
     void drawChild();
     void init();
-    virtual void drawGLPoint(KGLPoint *p);
+    virtual void drawGLPoint(KGLPoint &p);
     virtual void drawBoundingBox();
     virtual void drawCenter();
 

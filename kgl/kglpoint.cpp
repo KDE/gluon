@@ -21,13 +21,51 @@
  */
 
 #include "kglpoint.h"
-
-KGLPoint::KGLPoint(const QPointF &p, const QColor &c, const QPointF &t) :
-        QPointF(p), m_color(c), m_tex(t)
+#include <QDebug>
+KGLPoint::KGLPoint()
 {
+    m_x = 0;
+    m_y = 0;
+    m_r = 1;
+    m_g = 1;
+    m_b = 1;
+    m_a = 1;
+    m_tx= 0;
+    m_ty= 0;
+
+
+}
+KGLPoint::KGLPoint(const QPointF &p, const QColor &c, const QPointF &t)
+
+{
+    m_x = p.x();
+    m_y = p.y();
+    m_r = c.redF();
+    m_g = c.greenF();
+    m_b = c.blueF();
+    m_a = c.alphaF();
+    m_tx= t.x();
+    m_ty= t.y();
+
 }
 
-KGLPoint::KGLPoint(float x, float y, const QColor &c, const QPointF &t) :
-        QPointF(x, y), m_color(c), m_tex(t)
+KGLPoint::KGLPoint(float x, float y, const QColor &c, const QPointF &t)
 {
+    m_x = x;
+    m_y = y;
+    m_r = c.redF();
+    m_g = c.greenF();
+    m_b = c.blueF();
+    m_a = c.alphaF();
+    m_tx= t.x();
+    m_ty= t.y();
+
 }
+//=========================================
+
+KGLPointList::KGLPointList()
+    :QVector <KGLPoint>()
+{
+
+}
+

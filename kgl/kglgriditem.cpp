@@ -25,8 +25,8 @@ for ( float j=0; j<=m_size.height();j+=m_tile)
 
          for ( float i=0; i<=m_size.width(); i+=m_tile)
             {
-                addVertex(new KGLPoint(i,j,Qt::white,QPointF(i/m_size.width(),j/m_size.height())));
-                addVertex(new KGLPoint(i,j+m_tile,Qt::white,QPointF(i/m_size.width(),(j+m_tile)/m_size.height())));
+                addVertex(KGLPoint(i,j,Qt::white,QPointF(i/m_size.width(),j/m_size.height())));
+                addVertex(KGLPoint(i,j+m_tile,Qt::white,QPointF(i/m_size.width(),(j+m_tile)/m_size.height())));
             }
      }
 
@@ -39,11 +39,11 @@ for ( float j=0; j<=m_size.height();j+=m_tile)
 }
 
 
-   KGLPoint * KGLGridItem::pointAt(QPoint p)
+   const KGLPoint * KGLGridItem::pointAt(QPoint p)
    {
 
 
       int id =  m_size.width()*p.y() + p.x();
-      return pointList().at(id);
+      return &(pointList().at(id));
 
    }

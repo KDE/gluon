@@ -28,74 +28,88 @@
 #include <QtGui/QColor>
 #include <QtCore/QPointF>
 #include <QList>
+#include <QVector>
+
+#define KGLPOINT_PARAM_NUMBER 8
+
 
 class KGLPoint;
-typedef QList <KGLPoint*> KGLPointList;
-
-/**
- * @class KGLPoint KGLPoint.h <KGLPoint>
- * @brief This class represents a point, with its color and texture mappings.
- *
- * This class provides an easy-to-use point that represents different things :
- * - A point in the engine, with its coordinates
- * - A point on the texture, (due to openGL texture mapping)
- * - A color for this point to be drawn with
- */
-class KGLPoint: public QPointF
+class KGLPointList;
+class KGLPoint
 {
 public:
+    explicit KGLPoint();
     explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
-    KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
-
-    /**
-     * @return the point of the texture this KGLPoint is mapped to.
-     */
+    explicit KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
+    
     inline QPointF tex() {
-        return m_tex;
+        return QPointF(m_tx,m_ty);
     }
-
-    /**
-     * the color of this KGLPoint
-     */
+    
     inline QColor color() {
-        return m_color;
+        QColor c;
+        c.setRgbF(m_r,m_g,m_b,m_a);
+        return c;
     }
-
-    /**
-     * Set the texture point this KGLPoint will be mapped to.
-     * @param t the coordinates of the texture this point should be mapped to.
-     */
+    
     inline void setTex(const QPointF &t) {
-        m_tex = t;
+        m_tx = t.x();
+        m_ty = t.y();
     }
-
-    /**
-     * Set the color of this KGLPoint
-     * @param c the color this KGLPoint will be drawn with
-     */
+    
     inline void setColor(const QColor &c) {
-        m_color = c;
+        m_r = c.redF();
+        m_g = c.greenF();
+        m_b = c.blueF();
+        m_a = c.alphaF();
     }
-
-    /**
-     * Set the alpha level of this KGLPoint
-     * @param a the alpha level this KGLPoint will be drawn with
-     */
-    inline void setAlpha(int a) {
-        m_color.setAlpha(a);
+    
+    inline void setAlpha(float a) {
+        m_a = a;
     }
-
-    /**
-     * Gets the QPointF inside this KGLPoint.
-     * @return the QPointF
-     */
+    
+    
     inline QPointF toQPointF() {
-        return QPointF(x(), y());
+        return QPointF(m_x, m_y);
     }
-
+    
+    inline float x(){return m_x;}
+    inline  float y(){return m_y;}
+    inline  float red(){return m_r;}
+    inline  float green(){return m_g;}
+    inline  float blue(){return m_b;}
+    inline  float alpha(){return m_a;}
+    inline  float texCoordX(){return m_tx;}
+    inline  float texCoordY(){return m_ty;}
+    
+    
 private:
-    QColor m_color;
-    QPointF m_tex;
+    float m_x;
+    float m_y;
+    float m_r;
+    float m_g;
+    float m_b;
+    float m_a;
+    float m_tx;
+    float m_ty;
 };
+
+
+
+class KGLPointList : public  QVector <KGLPoint>
+{
+public:
+    KGLPointList();
+  float * array(){return (float*)data();}
+  float *vertexStart(){return array();}
+  float *colorStart(){return &(array())[2];}
+  float *texCoordStart(){return &(array())[6];}
+};
+
+
+
+
+
+
 
 #endif //KGLPoint_H

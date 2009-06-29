@@ -21,8 +21,8 @@
  */
 #include "kglphysicsitem.h"
 #include <KDebug>
-KGLPhysicsItem::KGLPhysicsItem(KGLPhysicsWidget * parent)
-    :KGLItem()
+KGLPhysicsItem::KGLPhysicsItem(KGLEngine * parent)
+    :KGLItem(parent)
 {
     setObjectName("PhysicsItem");
     m_body = NULL;
@@ -95,8 +95,8 @@ void KGLPhysicsItem::setup(b2World *world)
 void KGLPhysicsItem::updatePhysics()
 {
     setPosition(body()->GetPosition().x, body()->GetPosition().y);
-//    setAngle(body()->GetAngle());
-//    updateTransform();
+    setAngle(body()->GetAngle());
+   updateTransform();
 
 }
 b2Body* KGLPhysicsItem::body()

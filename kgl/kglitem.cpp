@@ -22,6 +22,8 @@
 #include "kglitem.h"
 #include <KDebug>
 
+#include <iostream>
+using namespace std;
 
 
 void KGLItem::init()
@@ -85,21 +87,15 @@ KGLItem::~KGLItem()
 }
 
 KGLItem *KGLItem::clone()
- {
+{
 
     KGLItem * newItem = new KGLItem;
-    for ( int i=0; i<pointList().size(); ++i)
-    {
-        KGLPoint * p = pointList().at(i);
-        newItem->addVertex(p);
-
-    }
 
     newItem->setTexture(texture());
 
-return newItem;
+    return newItem;
 
- }
+}
 void KGLItem::draw()
 {
     if (!m_isCreated)
@@ -107,12 +103,8 @@ void KGLItem::draw()
     if ( f_showBoundingBox) drawBoundingBox();
 
     m_texture->updateTransform();
-
-
     glPushMatrix();
     glLoadMatrixd(matrix().data());
-
-
     if ( f_textureEnable)
         m_texture->bind();
     glEnable(GL_BLEND);
@@ -124,6 +116,7 @@ void KGLItem::draw()
         if ( program()->isValid())
             program()->bind();
     }
+
     glCallList(m_GLCallList);  //CALL THE LIST
 
     if ( m_program != NULL ){
@@ -138,31 +131,36 @@ void KGLItem::draw()
     glPopMatrix();
 
     drawChild();
-
-
-
-
-
     emit painted();
 
 }
 void  KGLItem::create()
 {
-    if (m_GLCallList != 0)
-        glDeleteLists(m_GLCallList, 1);
-    glNewList(m_GLCallList, GL_COMPILE);
-    glBegin(m_mode);
+        if (m_GLCallList != 0)
+            glDeleteLists(m_GLCallList, 1);
+        glNewList(m_GLCallList, GL_COMPILE);
 
-    foreach(KGLPoint* p, pointList())
-    {
-        drawGLPoint(p);
-    }
-    glEnd();
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
 
-    if ( f_showCenter) drawCenter();
+    /* envoie des donnees */
+    glVertexPointer(2, GL_FLOAT,sizeof(KGLPoint),pointList().vertexStart());
+    glTexCoordPointer(2,GL_FLOAT,sizeof(KGLPoint),pointList().texCoordStart());
+    glColorPointer(4, GL_FLOAT,sizeof(KGLPoint),pointList().colorStart());
 
-    glEndList();
-    m_isCreated = true;
+//    /* rendu indice */
+    glDrawArrays(m_mode, 0, pointList().size());
+
+    /* desactivation des tableaux de sommet */
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+
+        if ( f_showCenter) drawCenter();
+        glEndList();
+        m_isCreated = true;
 }
 
 void KGLItem::updateTransform()
@@ -184,15 +182,13 @@ void KGLItem::drawChild()
             item->draw();
     }
 }
-void KGLItem::drawGLPoint(KGLPoint *p)
+void KGLItem::drawGLPoint(KGLPoint &p)
 {
-    glTexCoord2f(p->tex().x(), p->tex().y());
-    const float r = (float)p->color().red() / 255;
-    const float g = (float)p->color().green() / 255;
-    const float b = (float)p->color().blue() / 255;
-    const float a = (float)p->color().alpha() / 255;
-    glColor4f(r, g, b, a);
-    glVertex2d(p->x(), p->y());
+
+    glTexCoord2f(p.texCoordX(), p.texCoordY());
+
+    glColor4f(p.red(), p.green(), p.blue(), p.alpha());
+    glVertex2d(p.x(), p.y());
 
 
 }
@@ -210,13 +206,11 @@ void KGLItem::drawBoundingBox()
 }
 
 
-
 void KGLItem::setColor(const QColor &c)
 {
     m_color = c;
-    foreach(KGLPoint* p, pointList()) {
-        p->setColor(c);
-    }
+    for ( int i=0; i<pointList().size();++i)
+        pointList()[i].setColor(c);
     m_isCreated = false;
 }
 
@@ -224,8 +218,8 @@ void KGLItem::setAlpha(const float &a)
 {
     m_alpha = a;
 
-    foreach(KGLPoint* p, pointList()) {
-        p->setAlpha((int)(a*255));
+    foreach(KGLPoint p, pointList()) {
+        p.setAlpha(a);
     }
     m_isCreated = false;
 }

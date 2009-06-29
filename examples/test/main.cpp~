@@ -36,6 +36,7 @@
 
 #include <KDebug>
 #include <iostream>
+#include <QDebug>
 using namespace std;
 
 
@@ -55,11 +56,13 @@ int main(int argc, char *argv[])
 GluonMainWindow * main = new GluonMainWindow;
 
 
-KGLParticlesExploseItem * item = new KGLParticlesExploseItem;
+GluonIntroItem * item = new GluonIntroItem(10,10);
 
 
 
 main->glEngine()->addItem(item);
+
+
 main->view()->setInfoShow(true);
 main->view()->start();
 main->show();

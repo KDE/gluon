@@ -12,7 +12,7 @@ class KGLPhysicsEngine : public KGLEngine
 {
     Q_OBJECT
 public:
-    KGLPhysicsEngine();
+    KGLPhysicsEngine(QObject * parent=0);
     ~KGLPhysicsEngine();
     virtual void mainLoop(float fps);
     void createWorld();

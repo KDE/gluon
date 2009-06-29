@@ -1,6 +1,7 @@
 #include "kglphysicsengine.h"
 #include <KDebug>
-KGLPhysicsEngine::KGLPhysicsEngine()
+KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
+        :KGLEngine(parent)
 {
 
     m_gravity= b2Vec2(0.0f,-10.0f);
