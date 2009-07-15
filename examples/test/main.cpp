@@ -53,11 +53,7 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
-GluonMainWindow * main = new GluonMainWindow;
-
-
-GluonIntroItem * item = new GluonIntroItem(10,10);
-
+KGLParticlesItem * item = new KGLParticlesItem;
 
 
 main->glEngine()->addItem(item);

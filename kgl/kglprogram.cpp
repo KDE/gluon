@@ -207,4 +207,13 @@ bool KGLProgram::setUniform(const char* name, int value)
     return (location >= 0);
 }
 
+bool KGLProgram::isShaderSupported()
+{
+ if ( glewIsSupported("GL_ARB_shading_language_100" )
+        && glewIsSupported("GL_ARB_shader_objects")
+        && glewIsSupported("GL_ARB_vertex_shader")
+        && glewIsSupported("GL_ARB_fragment_shader"))
+    return true;
 
+ else return false;
+}

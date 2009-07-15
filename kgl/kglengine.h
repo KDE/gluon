@@ -28,6 +28,10 @@ public:
     KGLBoxItem * addBox(float w, float h){KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;}
     IndexGroupMap items(){return m_items;}
 
+
+
+
+
     private:
       IndexGroupMap m_items;
 };

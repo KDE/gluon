@@ -1,6 +1,8 @@
 include_directories(Box2D/Include)
 include_directories(physics)
 
+
+
 set(kgl_LIB_SRCS 
     kglview.cpp
     kglengine.cpp
@@ -22,6 +24,7 @@ set(kgl_LIB_SRCS
     kglitemlist.cpp
     kglshader.cpp
     kglprogram.cpp
+    kglfx.cpp
     kglgriditem.cpp
    # kglshadowitem.cpp
    #  kglblurprogram.cpp
@@ -40,6 +43,8 @@ target_link_libraries(kgl ${QT_QTOPENGL_LIBRARY})
 target_link_libraries(kgl ${KDE4_KDEUI_LIBS})
 target_link_libraries(kgl ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(kgl Box2D)
+
+
 
 # add_subdirectory(script)
 # add_subdirectory(screensavers)
@@ -70,8 +75,10 @@ install(FILES
     kglphysicsitem.h
     kgltexture.h
     kglshader.h
+
     kglprogram.h
-   # kglshadowitem.h
+    kglfx.h
+# kglshadowitem.h
     # kglblurprogram.h
      kglgriditem.h
 

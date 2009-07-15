@@ -5,7 +5,7 @@
 
 #include "kglbaseitem.h"
 #include "kgltexture.h"
-#include "kglprogram.h"
+#include "kglfx.h"
 
 class KGLEngine;
 class KGLItem;
@@ -37,15 +37,20 @@ public:
     void showBoundingBox(bool b){f_showBoundingBox = b; m_isCreated=false;}
     void showCenter(bool b){f_showCenter = b;m_isCreated=false;}
     void setTextureEnable(bool t){f_textureEnable = t;}
-    void setProgram(KGLProgram * p){m_program = p ;}
+
     KGLTexture * texture(){return m_texture;}
-    KGLProgram * program(){return m_program;}
+
+
 
 
     //get
     const QColor &color(){return m_color;}
     const float &alpha(){return m_alpha;}
     QList<KGLItem*> childItems(){return m_childItems;}
+
+    KGLBlurFx * blurFx(){return m_blurFx;}
+    KGLPixelateFx *pixelateFx(){return m_pixelateFx;}
+    KGLLightFx * m_lightFx;
 
 signals:
     void painted();
@@ -68,16 +73,17 @@ private:
     float m_alpha;
     GLenum m_mode;
     KGLTexture *m_texture;
-    KGLProgram * m_program;
     QList<KGLItem*> m_childItems;
-    bool m_shaderEnable;
+
 
     //flags.....
     bool f_showBoundingBox;
     bool f_showCenter;
     bool f_textureEnable;
 
-
+    //fx
+    KGLBlurFx * m_blurFx;
+    KGLPixelateFx * m_pixelateFx;
 
 };
 

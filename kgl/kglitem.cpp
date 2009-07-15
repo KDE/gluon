@@ -39,8 +39,12 @@ void KGLItem::init()
     m_texture = new KGLTexture;
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
-    m_program = NULL;
     resetTransform();
+
+
+    m_blurFx = new KGLBlurFx;
+   m_pixelateFx = new KGLPixelateFx;
+   m_lightFx = new KGLLightFx;
 
 }
 KGLItem::KGLItem(KGLEngine* parent)
@@ -81,7 +85,7 @@ KGLItem::KGLItem(const QLineF &line, KGLEngine * parent)
 KGLItem::~KGLItem()
 {
     delete m_texture;
-    delete m_program;
+
     glDeleteLists(m_GLCallList,1);
 
 }
@@ -112,16 +116,15 @@ void KGLItem::draw()
     glDepthMask(GL_FALSE);
     glEnable(GL_POLYGON_SMOOTH);
 
-    if ( m_program != NULL ){
-        if ( program()->isValid())
-            program()->bind();
-    }
+//m_blurFx->bind();
+
+m_lightFx->bind();
 
     glCallList(m_GLCallList);  //CALL THE LIST
 
-    if ( m_program != NULL ){
-        program()->unbind();
-    }
+m_lightFx->unbind();
+//m_blurFx->unbind();
+
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);

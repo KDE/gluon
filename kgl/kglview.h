@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <QGLWidget>
 #include <QTimer>
+#include <QMouseEvent>
 
 #include "kglengine.h"
 class KGLView : public QGLWidget
@@ -59,6 +60,29 @@ public slots:
         m_fps = m_countFrame;
         m_countFrame = 0;
     }
+
+    //========Mouse ==================================
+virtual void mouseDoubleClickEvent ( QMouseEvent * event )
+{
+//    if (m_engine!=NULL)
+//    m_engine->mouseDoubleClickEvent ( QMouseEvent * event );
+}
+//virtual void mouseMoveEvent ( QMouseEvent * event )
+//{
+//    if (m_engine!=NULL)
+//    m_engine->mouseMoveEvent ( QMouseEvent * event );
+//}
+//virtual void mousePressEvent ( QMouseEvent * event )
+//{
+//    if (m_engine!=NULL)
+//    m_engine->mousePressEvent ( QMouseEvent * event );
+//}
+//virtual void mouseReleaseEvent ( QMouseEvent * event )
+//{
+//    if (m_engine!=NULL)
+//    m_engine->mouseReleaseEvent( QMouseEvent * event );
+//}
+
 
 
 protected:
