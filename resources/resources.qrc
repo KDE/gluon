@@ -3,12 +3,6 @@
         <file>kal.png</file>
         <file>kcl.png</file>
         <file>kgl.png</file>
-        <file>vga.png</file>
-        <file>center.svg</file>
-        <file>speaker.svg</file>
-        <file>hi64-app-gluon.png</file>
-        <file>hi128-app-gluon.png</file>
-        <file>hi256-app-gluon.png</file>
         <file>logo.png</file>
     </qresource>
 </RCC>
