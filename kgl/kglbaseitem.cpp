@@ -136,6 +136,7 @@ void KGLBaseItem::createBox(const QSizeF &dim)
     addVertex( KGLPoint(dim.width(), 0, Qt::white, QPointF(1 , 0)));
     addVertex(KGLPoint(dim.width(), dim.height(), Qt::white, QPointF(1 , 1)));
     addVertex(KGLPoint(0, dim.height(), Qt::white, QPointF(0 , 1)));
+computeGeometry();
 
 }
 void KGLBaseItem::createPolygon(const QPolygonF &poly)
@@ -145,7 +146,7 @@ void KGLBaseItem::createPolygon(const QPolygonF &poly)
     foreach(p, poly) {
         addVertex(KGLPoint(p.x(), p.y() , Qt::white, QPointF(p.x(), p.y())));
     }
-
+computeGeometry();
 }
 void KGLBaseItem::createLine(const QLineF &line)
 {
@@ -153,7 +154,7 @@ void KGLBaseItem::createLine(const QLineF &line)
     addVertex(KGLPoint(line.x1(), line.y1(), Qt::white));
     addVertex(KGLPoint(line.x2(), line.y2(), Qt::white));
 
-
+computeGeometry();
 }
    void KGLBaseItem::initShearMatrix(QPointF s)
    {

@@ -38,6 +38,7 @@ class KGLParticle
     void setColor(const QColor &col){m_col = col; m_initCol=col;}
     void setColorStep(const QColor &c){m_colStep = c;}
     void setPosition(const QPointF &p){m_pos = p;m_initPos=p;}
+    void setInitPosition(const QPointF &p){m_initPos = p;}
     void setDirection (const QPointF &d){m_direction = d;}
     void setSpeed(const float &s){m_speed = s;}
     void setSize(const float &s){m_size =s;}
@@ -50,6 +51,8 @@ class KGLParticle
     const float& size(){return m_size;}
     const float& alpha(){return m_alpha;}
     const QColor& color(){return m_col;}
+    const QPointF &direction(){return m_direction;}
+    const float &speed(){return m_speed;}
     KGLTexture * tex(){return m_tex;}
 
     private:
@@ -76,6 +79,10 @@ class KGLParticlesItem: public KGLItem
  virtual void draw();
 void addParticles(KGLParticle * p){m_particles.append(p);}
 QList<KGLParticle*> particles(){return m_particles;}
+void createExplose(unsigned int number,KGLTexture t=KGLTexture(),const double angle=360, float speed=0.01, float alphaStep=0.01);
+void createSmoke(unsigned int number,KGLTexture t=KGLTexture(),const double angle=360, float speed=0.01, float alphaStep=0.01);
+
+
 private:
 QList <KGLParticle*> m_particles;
 

@@ -2,12 +2,13 @@
 #define KGLPHYSICSITEM_H
 #include "kglitem.h"
 #include "Box2D/Box2D.h"
-
+#include <KDebug>
 class KGLPhysicsEngine;
 class KGLItem;
 
 class KGLPhysicsItem : public KGLItem
 {
+Q_OBJECT
 public:
     enum SHAPE_TYPE{POLYGON_SHAPE=0, CIRCLE_SHAPE=1};
     KGLPhysicsItem(KGLEngine* parent=0);
@@ -43,6 +44,11 @@ public:
     inline const uint16 &categoryBits(){return m_polygonDef.filter.categoryBits;}
     inline const uint16 &maskBits(){return m_polygonDef.filter.maskBits;}
 
+    virtual void collidesWithItem(KGLPhysicsItem * other){ emit collided(other); emit collided();}
+
+    signals:
+    void collided(KGLPhysicsItem * other);
+    void collided();
 
 private:
     b2PolygonDef m_polygonDef;

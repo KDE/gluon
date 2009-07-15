@@ -1,12 +1,12 @@
 include_directories(../)
 
 set(gluon_LIB_SRCS 
-    gluonmainwindow.cpp
-     gluondialog.cpp
-     kglconfig.cpp
-     kalconfig.cpp
-     kclconfig.cpp
-     gluonintroitem.cpp
+#     gluonmainwindow.cpp
+#      gluondialog.cpp
+#      kglconfig.cpp
+#      kalconfig.cpp
+#      kclconfig.cpp
+#      gluonintroitem.cpp
 
    )
 
@@ -29,11 +29,11 @@ target_link_libraries(gluon
 install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
-   gluonmainwindow.h
-   gluondialog.h
-   kglconfig.h
-   kalconfig.h
-   kclconfig.h
-  gluonintroitem.h
+#    gluonmainwindow.h
+#    gluondialog.h
+#    kglconfig.h
+#    kalconfig.h
+#    kclconfig.h
+#   gluonintroitem.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 

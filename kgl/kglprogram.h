@@ -26,7 +26,7 @@ template<class K, class V> class QHash;
 #include <GL/glew.h>
 #include "kglshader.h"
 #include <Eigen/Core>
-#include <QString>
+
 
 /**
  * @short Program class
@@ -229,10 +229,6 @@ public:
      * @return OpenGL id (aka handle) of this program.
      **/
     GLuint glId() const  { return mGLId; }
-
-
-
-    static  bool isShaderSupported();
 
 protected:
     void init();

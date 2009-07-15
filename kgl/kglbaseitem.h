@@ -73,7 +73,7 @@ public:
     }
     //set
     inline void setCenter(const QPointF &c){m_center = c;}
-    inline void setAngle(const float &a){m_angle = a;}
+    inline void setAngle(const float &a, QPointF c = QPointF(0,0)){m_center = c;m_angle = a;}
     inline void setScale(const float &s){m_scale = s;}
     inline void setPosition(const QPointF &p){m_position = p;}
     inline void setPosition(qreal x, qreal y ){setPosition(QPointF(x,y));}

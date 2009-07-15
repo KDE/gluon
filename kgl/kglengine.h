@@ -9,8 +9,10 @@
 #include "kglboxitem.h"
 #include "kgltextitem.h"
 
-typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
 
+typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
+class KGLEngine;
+class KGLPhysicsEngine;
 class KGLEngine : public QObject
 {
     Q_OBJECT
@@ -21,19 +23,15 @@ public:
     void addItems(const KGLItemList* items);
     bool removeItem(KGLItem* item);
     bool removeItems(const KGLItemList *item);
-    bool eraseItem(KGLItem* item);
+    virtual bool eraseItem(KGLItem* item);
     bool eraseItems(const KGLItemList *item);
     KGLItem * itemAt(int id, unsigned int layer=0);
     int itemsCount() const;
     KGLBoxItem * addBox(float w, float h){KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;}
     IndexGroupMap items(){return m_items;}
 
-
-
-
-
-    private:
-      IndexGroupMap m_items;
+private:
+    IndexGroupMap m_items;
 };
 
 #endif // KGLENGINE_H

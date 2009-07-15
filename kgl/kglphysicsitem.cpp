@@ -24,7 +24,7 @@
 KGLPhysicsItem::KGLPhysicsItem(KGLEngine * parent)
     :KGLItem(parent)
 {
-    setObjectName("PhysicsItem");
+    setObjectName("KGLPhysicsItem");
     m_body = NULL;
     m_isMassFromShape=true;
     m_shapeType = POLYGON_SHAPE;
@@ -38,6 +38,7 @@ void KGLPhysicsItem::setupParam()
     m_bodyDef.position.Set(position().x(), position().y());
     m_bodyDef.angle = angle();
 
+kDebug()<<"GENOME : "<<polygon();
 
 
     if ( m_shapeType == POLYGON_SHAPE)
@@ -94,9 +95,12 @@ void KGLPhysicsItem::setup(b2World *world)
 }
 void KGLPhysicsItem::updatePhysics()
 {
+
+
     setPosition(body()->GetPosition().x, body()->GetPosition().y);
-    setAngle(body()->GetAngle());
+    setAngle(body()->GetAngle()	);
    updateTransform();
+
 
 }
 b2Body* KGLPhysicsItem::body()

@@ -8,6 +8,12 @@
 #include "kglphysicsitem.h"
 
 #include "Box2D/Box2D.h"
+
+
+class KGLPhysicsEngine;
+class KGLContactListener;
+
+
 class KGLPhysicsEngine : public KGLEngine
 {
     Q_OBJECT
@@ -17,8 +23,8 @@ public:
     virtual void mainLoop(float fps);
     void createWorld();
     void computeSimulation(int32 iterations = 10, float fps=60);
-    void addPhysicsItem(KGLPhysicsItem *  item);
-    void remPhysicsItem(KGLPhysicsItem * item);
+   void addItem(KGLPhysicsItem *  item);
+   bool removeItem(KGLPhysicsItem * item);
     KGLPhysicsItem * physicsItemAt(QPointF pos);
     QList<KGLPhysicsItem*> physicsItemList(){return m_list;}
    KGLPhysicsItem* itemAt(QPointF pos);
@@ -38,10 +44,49 @@ public slots:
     private:
     b2World *m_world;
     b2Vec2 m_gravity;
+    KGLContactListener * m_contactListener;
     GLuint tex;
     QList <KGLPhysicsItem*> m_list;
 
         b2MouseJoint* m_mouseJoint;
 };
+
+
+
+
+class KGLContactListener:public b2ContactListener
+{
+    public:
+        void Add(const b2ContactPoint* point);
+//        void Persist(const b2ContactPoint* point)
+//    {
+//        // handle persist point
+//    }
+//
+//        void Remove(const b2ContactPoint* point)
+//    {
+//        // handle remove point
+//    }
+//
+//    void Result(const b2ContactResult* point)
+//    {
+//        // handle results
+//    }
+
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
 
 #endif // KGLPHYSICSENGINE_H

@@ -1,7 +1,7 @@
 #include "kglphysicsengine.h"
 #include <KDebug>
 KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
-        :KGLEngine(parent)
+    :KGLEngine(parent)
 {
 
     m_gravity= b2Vec2(0.0f,-10.0f);
@@ -23,6 +23,10 @@ void KGLPhysicsEngine::createWorld()
     bool doSleep = true;
     m_world = new b2World(worldAABB, m_gravity, doSleep);
 
+
+   KGLContactListener * l = new KGLContactListener;
+    m_world->SetContactListener(l);
+
 }
 
 void KGLPhysicsEngine::mainLoop(float fps)
@@ -31,19 +35,25 @@ void KGLPhysicsEngine::mainLoop(float fps)
 
 }
 
-void KGLPhysicsEngine::addPhysicsItem(KGLPhysicsItem *  item)
+void KGLPhysicsEngine::addItem(KGLPhysicsItem *  item)
 {
-    m_list.append(item);
-    addItem(item);
-    item->setup(m_world);
+
+
+        kDebug()<<"added OK";
+        m_list.append(item);
+        KGLEngine::addItem(item);
+       item->setup(m_world);
+
 
 }
 
-void KGLPhysicsEngine::remPhysicsItem(KGLPhysicsItem * item)
+bool KGLPhysicsEngine::removeItem(KGLPhysicsItem * item)
 {
-    m_list.removeOne(item);
-    m_world->DestroyBody(item->body());
-    removeItem(item);
+
+        m_list.removeOne(item);
+        m_world->DestroyBody(item->body());
+        return KGLEngine::removeItem(item);
+
 }
 
 void KGLPhysicsEngine::clearPhysicsItem()
@@ -121,3 +131,19 @@ KGLPhysicsItem * KGLPhysicsEngine::itemAt(QPointF pos)
     return NULL;
 
 }
+
+
+//==========================KGLCOntactListener=======================================
+void KGLContactListener::Add(const b2ContactPoint* point) {
+
+   KGLPhysicsItem * item1 = (KGLPhysicsItem*)(point->shape1->GetBody()->GetUserData());
+   KGLPhysicsItem * item2 = (KGLPhysicsItem*)(point->shape2->GetBody()->GetUserData());
+
+    if (item1 && item2)
+    {
+        item1->collidesWithItem(item2);
+        item2->collidesWithItem(item1);
+
+    }
+}
+

@@ -57,7 +57,7 @@ bool KGLView::initGlew()
 void  KGLView::init()
 {
     m_engine = NULL;
-    m_frameRate = 10;
+    m_frameRate = 20;
     m_timer = new QTimer(this);
     m_fpsTimer = new QTimer(this);
     m_countFrame = 0;
@@ -104,7 +104,7 @@ void KGLView::resizeGL(int w, int h)
 void  KGLView::paintGL()
 {
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

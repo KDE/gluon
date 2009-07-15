@@ -49,9 +49,9 @@ void KGLParticle::init()
 
     m_direction = QPointF(1,1);
     m_speed = 0.01;
-    m_size = 10;
+    m_size = 20;
 
-    m_tex = new KGLTexture;
+    m_tex = new KGLTexture();
 }
 
 void KGLParticle::move()
@@ -135,7 +135,39 @@ void KGLParticlesItem::draw()
 
 
 
+void KGLParticlesItem::createExplose(unsigned int number,KGLTexture  t,const double angle, float speed, float alphaStep)
+{
+ for (unsigned int i=0; i<number; ++i)
+    {
+     KGLParticle *  p = new KGLParticle;
+        float a = (qrand()%(int)angle) * M_PI / 180;
+        p->setDirection(QPointF(cos(a),sin(a)));
+        p->setSpeed(speed);
+
+        p->setAlphaStep(alphaStep);
+        addParticles(p);
+    }
+}
+
+void KGLParticlesItem::createSmoke(unsigned int number,KGLTexture t,const double angle, float speed, float alphaStep)
+{
+
+ for ( unsigned int i=0; i<number; ++i)
+    {
+     KGLParticle *  p = new KGLParticle;
+        float a = (qrand()%(int)angle) * M_PI / 180;
+        p->setDirection(QPointF(cos(a),sin(a)));
+        p->setSpeed(speed);
+        p->setAlphaStep(alphaStep);
+
+        float nbStep = p->alpha() / alphaStep;
+        int i = qrand()%(int)nbStep;
+        p->setPosition(p->position() + (p->direction()*p->speed()*i));
+        p->setAlpha(1 - ( alphaStep*i));
+       p->setInitPosition(QPointF(0,0));
+        addParticles(p);
+    }
 
 
-
+}
 
