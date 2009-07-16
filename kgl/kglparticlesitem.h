@@ -79,8 +79,8 @@ class KGLParticlesItem: public KGLItem
  virtual void draw();
 void addParticles(KGLParticle * p){m_particles.append(p);}
 QList<KGLParticle*> particles(){return m_particles;}
-void createExplose(unsigned int number,KGLTexture t=KGLTexture(),const double angle=360, float speed=0.01, float alphaStep=0.01);
-void createSmoke(unsigned int number,KGLTexture t=KGLTexture(),const double angle=360, float speed=0.01, float alphaStep=0.01);
+void createExplose(unsigned int number,QPixmap texture,const double angle=360, float speed=0.01, float alphaStep=0.01,float size=10);
+void createSmoke(unsigned int number,QPixmap texture,const double angle=360, float speed=0.01, float alphaStep=0.01,float size=10);
 
 
 private:

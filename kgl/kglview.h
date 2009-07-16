@@ -36,6 +36,15 @@ public:
         m_orthoView.setTop(top);
         resizeGL(width(),height());
     }
+
+   inline QPointF mapToGL(const QPointF &p) {
+        return QPointF((m_orthoView.width() / 2 * p.x() * 2 / QGLWidget::width()) - m_orthoView.width() / 2, -(m_orthoView.height() / 2 - p.y() * m_orthoView.height() / QGLWidget::height()));
+    }
+    inline QPointF mapFromGL(const QPointF &p) {
+        return QPointF((p.x() + m_orthoView.width() / 2) * QGLWidget::width() / (m_orthoView.width()), -((m_orthoView.height() / 2 - p.y()) * (QGLWidget::height() / m_orthoView.height())));
+    }
+
+
     //=== flags ====
     inline void setMode(GLenum mode){m_mode=mode; initializeGL();}
     inline void setAxisShow(bool b){m_axisShow=b;}

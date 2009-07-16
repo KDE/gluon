@@ -38,7 +38,6 @@ void KGLPhysicsEngine::mainLoop(float fps)
 void KGLPhysicsEngine::addItem(KGLPhysicsItem *  item)
 {
 
-
         kDebug()<<"added OK";
         m_list.append(item);
         KGLEngine::addItem(item);

@@ -135,7 +135,7 @@ void KGLParticlesItem::draw()
 
 
 
-void KGLParticlesItem::createExplose(unsigned int number,KGLTexture  t,const double angle, float speed, float alphaStep)
+void KGLParticlesItem::createExplose(unsigned int number,QPixmap texture,const double angle, float speed, float alphaStep,float size)
 {
  for (unsigned int i=0; i<number; ++i)
     {
@@ -143,13 +143,14 @@ void KGLParticlesItem::createExplose(unsigned int number,KGLTexture  t,const dou
         float a = (qrand()%(int)angle) * M_PI / 180;
         p->setDirection(QPointF(cos(a),sin(a)));
         p->setSpeed(speed);
-
+p->setSize(size);
+  p->setTexture(texture);
         p->setAlphaStep(alphaStep);
         addParticles(p);
     }
 }
 
-void KGLParticlesItem::createSmoke(unsigned int number,KGLTexture t,const double angle, float speed, float alphaStep)
+void KGLParticlesItem::createSmoke(unsigned int number,QPixmap texture,const double angle, float speed, float alphaStep,float size)
 {
 
  for ( unsigned int i=0; i<number; ++i)
@@ -157,9 +158,10 @@ void KGLParticlesItem::createSmoke(unsigned int number,KGLTexture t,const double
      KGLParticle *  p = new KGLParticle;
         float a = (qrand()%(int)angle) * M_PI / 180;
         p->setDirection(QPointF(cos(a),sin(a)));
+        p->setTexture(texture);
         p->setSpeed(speed);
         p->setAlphaStep(alphaStep);
-
+p->setSize(size);
         float nbStep = p->alpha() / alphaStep;
         int i = qrand()%(int)nbStep;
         p->setPosition(p->position() + (p->direction()*p->speed()*i));

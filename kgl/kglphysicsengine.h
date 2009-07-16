@@ -24,7 +24,9 @@ public:
     void createWorld();
     void computeSimulation(int32 iterations = 10, float fps=60);
    void addItem(KGLPhysicsItem *  item);
+   void addItem(KGLItem* item){KGLEngine::addItem(item);}
    bool removeItem(KGLPhysicsItem * item);
+   bool removeItem(KGLItem * item){return KGLEngine::removeItem(item);}
     KGLPhysicsItem * physicsItemAt(QPointF pos);
     QList<KGLPhysicsItem*> physicsItemList(){return m_list;}
    KGLPhysicsItem* itemAt(QPointF pos);
