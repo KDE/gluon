@@ -18,7 +18,7 @@ QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
 kde4_add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
 
 set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
-target_link_libraries(gluon ${KDE4_KDEUI_LIBS} kgl kal )
+target_link_libraries(gluon ${KDE4_KDEUI_LIBS} kgl kal kcl)
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
                       ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS}

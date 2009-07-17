@@ -34,6 +34,10 @@
 #include <gluon/gluonmainwindow.h>
 #include <gluon/gluonintroitem.h>
 
+
+#include <gluon/kcl/kclengine.h>
+#include <gluon/kcl/kclevent.h>
+
 #include <KDebug>
 #include <iostream>
 #include <QDebug>
@@ -53,11 +57,7 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
-GluonMainWindow * main = new GluonMainWindow;
-
-
-GluonIntroItem * item = new GluonIntroItem(10,10);
-
+KGLParticlesItem * item = new KGLParticlesItem;
 
 
 main->glEngine()->addItem(item);

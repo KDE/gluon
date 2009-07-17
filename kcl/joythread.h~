@@ -1,0 +1,40 @@
+#ifndef JOYTHREAD_H
+#define JOYTHREAD_H
+
+#include <QThread>
+#include <linux/joystick.h>
+#include <linux/input.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+
+class JoyThread : public QThread
+{
+  public:
+    JoyThread(QObject * parent=0);
+            virtual void run();
+
+  private:
+    struct js_event m_jsev;
+    struct JS_DATA_TYPE m_js;
+
+    int m_fd;
+  
+  
+  
+  
+  
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif

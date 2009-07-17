@@ -42,6 +42,7 @@ add_subdirectory(Box2D)
 
 add_subdirectory(kgl)
 add_subdirectory(kal)
+add_subdirectory(kcl)
 add_subdirectory(src)
 add_subdirectory(cmake)
 

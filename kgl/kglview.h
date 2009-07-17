@@ -38,10 +38,20 @@ public:
     }
 
    inline QPointF mapToGL(const QPointF &p) {
-        return QPointF((m_orthoView.width() / 2 * p.x() * 2 / QGLWidget::width()) - m_orthoView.width() / 2, -(m_orthoView.height() / 2 - p.y() * m_orthoView.height() / QGLWidget::height()));
+
+       float ax = m_orthoView.width() / width();
+       float bx = m_orthoView.left();
+
+       float ay = m_orthoView.height() / height();
+       float by = -m_orthoView.bottom();
+
+       QPointF pos ( p.x()*ax + bx, p.y()*ay + by+1); //+1 for cursor inversion
+       return pos;
+
+//        return QPointF((m_orthoView.width() / 2 * p.x() * 2 / QGLWidget::width()) - m_orthoView.width() / 2, -(m_orthoView.height() / 2 - p.y() * m_orthoView.height() / QGLWidget::height()));
     }
     inline QPointF mapFromGL(const QPointF &p) {
-        return QPointF((p.x() + m_orthoView.width() / 2) * QGLWidget::width() / (m_orthoView.width()), -((m_orthoView.height() / 2 - p.y()) * (QGLWidget::height() / m_orthoView.height())));
+      return QPointF((p.x() + m_orthoView.width() / 2) * QGLWidget::width() / (m_orthoView.width()), -((m_orthoView.height() / 2 - p.y()) * (QGLWidget::height() / m_orthoView.height())));
     }
 
 

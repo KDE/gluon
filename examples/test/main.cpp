@@ -34,6 +34,10 @@
 #include <gluon/gluonmainwindow.h>
 #include <gluon/gluonintroitem.h>
 
+
+#include <gluon/kcl/kclengine.h>
+#include <gluon/kcl/kclevent.h>
+
 #include <KDebug>
 #include <iostream>
 #include <QDebug>
