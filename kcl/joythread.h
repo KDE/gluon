@@ -8,26 +8,18 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include "joystickevent.h"
+
 class JoyThread : public QThread
 {
     Q_OBJECT
 public:
-    JoyThread(QObject * parent=0);
+    JoyThread(QString device =QString("/dev/input/js0"), QObject * parent=0);
     virtual void run();
-    int button(){return m_jsev.value;}
-
-    signals:
+signals:
     void sendJoystickEvent(JoystickEvent * event);
-
 private:
     struct js_event m_jsev;
-
-
     int m_fd;
-QTimer * m_readTimer;
-
-
-
 
 };
 

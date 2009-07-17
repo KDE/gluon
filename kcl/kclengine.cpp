@@ -25,67 +25,82 @@
 KCLEngine::KCLEngine(QObject * parent)
     :QObject(parent)
 {
-//if (registerEventType (JoystickEvent::JoystickMoveEvent))
-//    kDebug()<<"cannot init JoystickMoveEvent";
-//
-//if (registerEventType (JoystickEvent::JoystickPressEvent))
-//      kDebug()<<"cannot init JoystickPressEvent";
-
-    m_joyThread = new JoyThread(this);
-    resetInput();
+    m_joyThread = new JoyThread("/dev/input/js0",this);
     m_joyThread->start();
     connect(m_joyThread,SIGNAL(sendJoystickEvent(JoystickEvent*)),this, SLOT(receiveJoyEvent(JoystickEvent*)));
-    
+    resetInput();
 }
- void KCLEngine::receiveJoyEvent(JoystickEvent * event)
- {
-     if ( event->value() == 0)
-         resetInput();
-     else
-m_button = "JOY"+QString::number(event->number());
+void KCLEngine::receiveJoyEvent(JoystickEvent * event)
+{
 
-QCoreApplication::sendEvent(this,event);
- }
+    if ( event->type() == JoystickEvent::JoystickButtonPress)
+    {
+        if ( event->value())
+        {
+            QString id = "JOY"+QString::number(event->number());
+            m_buttonList.append(id);
+            kDebug()<<id;
+        }
+        else
+        {
+            QString id = "JOY"+QString::number(event->number());
+            m_buttonList.removeOne(id);
+        }
+    }
+}
 
 void KCLEngine::resetInput()
 {
     
-    m_mouseButton = Qt::NoButton;
-    m_mousePos = QPoint(0,0);
-    m_button = QString();
+//    m_mouseButton = Qt::NoButton;
+//    m_mousePos = QPoint(0,0);
+//    m_button = QString();
 }
 
 bool KCLEngine::eventFilter(QObject *obj, QEvent *event)
 { 
     if ((event->type() == QEvent::MouseButtonPress))
     {
-        m_mouseButton = (static_cast<QMouseEvent*>(event))->button();
-        m_button = "MOUSE:"+QString::number((static_cast<QMouseEvent*>(event))->button());
+        QMouseEvent * e = static_cast<QMouseEvent*>(event);
+        QString id = "MOUSE"+QString::number(e->button());
+        m_buttonList.append(id);
+        kDebug()<<id;
     }
 
     if ((event->type() == QEvent::QEvent::MouseMove))
     {
-        m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
-        m_mouseButton = (static_cast<QMouseEvent*>(event))->button();
-        m_button = "MOUSE:"+QString::number((static_cast<QMouseEvent*>(event))->button());
-        resetInput();
- }
+        //        m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
+        //        m_mouseButton = (static_cast<QMouseEvent*>(event))->button();
+        //        m_button = "MOUSE:"+QString::number((static_cast<QMouseEvent*>(event))->button());
+        //        QMouseEvent * e = static_cast<QMouseEvent*>(event);
+        //        m_buttonList.append("MOUSE"+QString::number(e->buttons()));
+        //        kDebug()<< "MOUSE"+QString::number(e->buttons());
+        
+    }
 
     if ((event->type() == QEvent::MouseButtonRelease))
     {
-        m_mouseButton= Qt::NoButton;
-        resetInput();
+        QMouseEvent * e = static_cast<QMouseEvent*>(event);
+        QString id  = "MOUSE"+QString::number(e->button());
+        m_buttonList.removeOne(id);
     }
-  if ((event->type() == QEvent::KeyPress))
+    if ((event->type() == QEvent::KeyPress))
     {
-        m_keys.append(static_cast<QKeyEvent*>(event)->key());
-        m_button = "KEY:"+QString::number(static_cast<QKeyEvent*>(event)->key());
+        QKeyEvent * e = static_cast<QKeyEvent*>(event);
+        QString id = "KEY"+QString::number(e->key());
+        m_buttonList.append(id);
+
+        kDebug()<<id;
+
     }
 
     if ((event->type() == QEvent::KeyRelease))
     {
-        m_keys.removeOne(static_cast<QKeyEvent*>(event)->key());
-        resetInput();
+        QKeyEvent * e = static_cast<QKeyEvent*>(event);
+        QString id = "KEY"+QString::number(e->key());
+        m_buttonList.removeOne(id);
+
+
     }
 
     return QObject::eventFilter(obj, event);

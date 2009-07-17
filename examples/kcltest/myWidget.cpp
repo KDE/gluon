@@ -11,13 +11,16 @@ MyWidget::MyWidget(QWidget *parent)
     
     
     timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()), this, SLOT(mainLoop()));
-    timer->start(10);
+   
+    timer->setInterval (10);
       label = new QLabel(this);
-      
+      button = new QPushButton("press any button", this);
     QVBoxLayout * layout = new QVBoxLayout;
-    layout->addWidget(label);
-  
+    layout->addWidget(button);
+    
+     connect(timer,SIGNAL(timeout()), this, SLOT(mainLoop()));
+       connect(button,SIGNAL(clicked()), timer, SLOT(start()));
+     
     setLayout(layout);
     
   }
@@ -26,8 +29,14 @@ MyWidget::MyWidget(QWidget *parent)
 void MyWidget::mainLoop()
 {
   
+if (!kclEngine->button().isNull())
+{
+  button->setText(kclEngine->button());
+  button->setDown(false);
+ timer->stop();
+}
 
-  
-  label->setText(kclEngine->getButton());
+else button->setDown(true);
+
   
 }

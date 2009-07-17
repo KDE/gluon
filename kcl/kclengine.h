@@ -36,12 +36,19 @@ class KCLEngine : public QObject
 public:
     KCLEngine(QObject * parent = 0);
 
-    Qt::MouseButton getMouseButton(){return m_mouseButton;}
-    QPoint getMousePos(){return m_mousePos;}
-    QList<int> getKeys(){return m_keys;}
+//    Qt::MouseButton getMouseButton(){return m_mouseButton;}
+//    QPoint getMousePos(){return m_mousePos;}
+//    QList<int> getKeys(){return m_keys;}
 
-    //virtual input
-    QString getButton(){return m_button;}
+
+
+    bool button(const QString& id){return m_buttonList.contains(id);}
+    QString button()
+    {
+        if (!m_buttonList.isEmpty())
+            return m_buttonList.last();
+        else return QString();
+    }
 
     public slots:
     void receiveJoyEvent(JoystickEvent * event);
@@ -51,10 +58,15 @@ protected:
     void resetInput();
 
 private:
-    Qt::MouseButton m_mouseButton;
-    QPoint m_mousePos;
-    QList<int> m_keys;
-    QString m_button;
+
+    QList<QString> m_buttonList;
+
+
+
+
+
+
+
     JoyThread * m_joyThread;
 
 };
