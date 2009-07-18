@@ -36,10 +36,7 @@ class KCLEngine : public QObject
 public:
     KCLEngine(QObject * parent = 0);
 
-//    Qt::MouseButton getMouseButton(){return m_mouseButton;}
-//    QPoint getMousePos(){return m_mousePos;}
-//    QList<int> getKeys(){return m_keys;}
-
+    QPoint mousePos(){return m_mousePos;}
 
 
     bool button(const QString& id){return m_buttonList.contains(id);}
@@ -50,9 +47,11 @@ public:
         else return QString();
     }
 
-    public slots:
+public slots:
     void receiveJoyEvent(JoystickEvent * event);
 
+signals:
+    void emitJoyEvent(JoystickEvent * event);
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void resetInput();
@@ -60,11 +59,11 @@ protected:
 private:
 
     QList<QString> m_buttonList;
+    QPoint m_mousePos;
 
-
-
-
-
+    QPointF m_axeJoy;
+    QPointF m_axeMouse;
+    QPointF m_axeKey;
 
 
     JoyThread * m_joyThread;

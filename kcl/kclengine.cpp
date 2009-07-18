@@ -35,6 +35,8 @@ void KCLEngine::receiveJoyEvent(JoystickEvent * event)
 
     if ( event->type() == JoystickEvent::JoystickButtonPress)
     {
+        emitJoyEvent(event);
+
         if ( event->value())
         {
             QString id = "JOY"+QString::number(event->number());
@@ -69,13 +71,8 @@ bool KCLEngine::eventFilter(QObject *obj, QEvent *event)
 
     if ((event->type() == QEvent::QEvent::MouseMove))
     {
-        //        m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
-        //        m_mouseButton = (static_cast<QMouseEvent*>(event))->button();
-        //        m_button = "MOUSE:"+QString::number((static_cast<QMouseEvent*>(event))->button());
-        //        QMouseEvent * e = static_cast<QMouseEvent*>(event);
-        //        m_buttonList.append("MOUSE"+QString::number(e->buttons()));
-        //        kDebug()<< "MOUSE"+QString::number(e->buttons());
-        
+            m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
+
     }
 
     if ((event->type() == QEvent::MouseButtonRelease))
