@@ -25,120 +25,44 @@
 KCLEngine::KCLEngine(QObject * parent)
     :QObject(parent)
 {
-    m_joyThread = new JoyThread("/dev/input/js0",this);
-    m_joyThread->start();
-    connect(m_joyThread,SIGNAL(sendJoystickEvent(JoystickEvent*)),this, SLOT(receiveJoyEvent(JoystickEvent*)));
-    resetInput();
+
 }
-void KCLEngine::receiveJoyEvent(JoystickEvent * event)
+void KCLEngine::addInput(KCLInput * input)
+{
+    if ( input->error()) return;
+    m_inputList.append(input);
+    kDebug()<<""<<input->device()<<")=>"<<input->name()<<" added to KCLEngine";
+
+
+}
+void KCLEngine::addInput(const QString &deviceName)
+{
+    KCLInput * input = new KCLInput(deviceName);
+    if (input->error()) return;
+    addInput(input);
+
+
+}
+
+
+bool KCLEngine::button(const QString& codeName)
 {
 
-    kDebug()<<event->value();
-    kDebug()<<event->number();
-
-    emitJoyEvent(event);
-    if ( event->type() == JoystickEvent::JoystickButtonPress)
+    foreach ( KCLInput * input, m_inputList)
     {
-        if ( event->value())
-        {
-            QString id = "JOY_"+QString::number(event->number());
-            m_buttonList.append(id);
-            kDebug()<<id;
-        }
-        else
-        {
-            QString id = "JOY_"+QString::number(event->number());
-            m_buttonList.removeOne(id);
-        }
+        if ( input->button(codeName))
+            return true;
     }
-
-    if ( event->type() == JoystickEvent::JoystickMove)
-    {
-
-        QString id = "JOYAXIS"+QString::number(event->number());
-
-        m_axisList[id] = event->value();
-
-    }
-
-
-
+    return false;
 }
-
-void KCLEngine::resetInput()
-{
-    
-    //    m_mouseButton = Qt::NoButton;
-    //    m_mousePos = QPoint(0,0);
-    //    m_button = QString();
-}
-
-bool KCLEngine::eventFilter(QObject *obj, QEvent *event)
-{ 
-    if ((event->type() == QEvent::MouseButtonPress))
+   QString KCLEngine::lastButton()
+   {
+   foreach ( KCLInput * input, m_inputList)
     {
-        QMouseEvent * e = static_cast<QMouseEvent*>(event);
-        QString id = "MOUSE_"+QString::number(e->button());
-        m_buttonList.append(id);
-        kDebug()<<id;
+        if ( input->lastButton()!=QString("NULL"))
+            return input->lastButton();
     }
 
-    if ((event->type() == QEvent::QEvent::MouseMove))
-    {
-        m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
-    }
+   return QString("NULL");
 
-    if ((event->type() == QEvent::MouseButtonRelease))
-    {
-        QMouseEvent * e = static_cast<QMouseEvent*>(event);
-        QString id  = "MOUSE_"+QString::number(e->button());
-        m_buttonList.removeOne(id);
-    }
-    if ((event->type() == QEvent::KeyPress))
-    {
-        QKeyEvent * e = static_cast<QKeyEvent*>(event);
-        QString id = keyName(e->key());
-
-        m_buttonList.append(id);
-        kDebug()<<"id="<<id;
-
-    }
-
-    if ((event->type() == QEvent::KeyRelease))
-    {
-        QKeyEvent * e = static_cast<QKeyEvent*>(event);
-        QString id = keyName(e->key());
-        m_buttonList.removeOne(id);
-    }
-
-
-    return QObject::eventFilter(obj, event);
-
-
-}
-
-QString KCLEngine::keyName(int key)
-{
-
-    if ( key == Qt::Key_Control  )
-        return "KEY_CONTROL";
-
-    if ( key ==   Qt::Key_Alt )
-        return "KEY_ALT";
-
-    if ( key ==  Qt::Key_Shift )
-        return "KEY_SHIFT";
-
-    if ( key == Qt::Key_AltGr )
-        return "KEY_ALTGR";
-
-
-    if ( key == Qt::Key_Meta)
-        return "KEY_META";
-
-    QKeySequence seq(key);
-    return "KEY_"+seq.toString();
-
-
-
-}
+   }

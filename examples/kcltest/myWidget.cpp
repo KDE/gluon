@@ -5,20 +5,31 @@ MyWidget::MyWidget(QWidget *parent)
   :QWidget(parent)
   {
 timer = new QTimer;
-timer->setInterval(10);
+timer->setInterval(20);
 timer->start();
+
 connect(timer,SIGNAL(timeout()),this, SLOT(mainLoop()));
 
-input = new KCLInput("/dev/input/event5");
+input = new KCLInput("/dev/input/event3");
+mouse = new KCLMouse("/dev/input/event4",this);
 
-kDebug()<<input->name();
 
+kcl = new KCLEngine;
+
+kcl->addInput(mouse);
+kcl->addInput(input);
 
   }
 
 void MyWidget::mainLoop()
 {
-  
+
+ if ( kcl->lastButton() != "NULL")
+ kDebug()<<"HERE : "<<kcl->lastButton();
 
   
+  
 }
+
+
+ 

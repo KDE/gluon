@@ -24,53 +24,23 @@
 #define KCLENGINE_H
 
 #include <QObject>
-#include <QEvent>
-#include <QMouseEvent>
-#include <QKeyEvent>
 #include <QList>
-#include "joythread.h"
-#include "joystickevent.h"
+#include "kclinput.h"
+
 
 class KCLEngine : public QObject
 {
     Q_OBJECT
 public:
     KCLEngine(QObject * parent = 0);
+    void addInput(KCLInput * input);
+    void addInput(const QString &deviceName);
 
-    QPoint mousePos(){return m_mousePos;}
-
-
-    bool button(const QString& id){return m_buttonList.contains(id);}
-    QString button()
-    {
-        if (!m_buttonList.isEmpty())
-            return m_buttonList.last();
-        else return QString();
-    }
-
-public slots:
-    void receiveJoyEvent(JoystickEvent * event);
-
-signals:
-    void emitJoyEvent(JoystickEvent * event);
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-    void resetInput();
-
-QString keyName(int  key);
+    bool button(const QString& codeName);
+    QString lastButton();
 private:
 
-    QList<QString> m_buttonList;
-    QMap<QString,double> m_axisList;
-
-    QPoint m_mousePos;
-
-    QPointF m_axeJoy;
-    QPointF m_axeMouse;
-    QPointF m_axeKey;
-
-
-    JoyThread * m_joyThread;
+    QList<KCLInput*> m_inputList;
 
 };
 

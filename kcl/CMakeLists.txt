@@ -1,5 +1,8 @@
 set(kcl_LIB_SRCS
 kclinput.cpp
+kclmouse.cpp
+kclcode.cpp
+kclengine.cpp
    )
 
 kde4_add_library(kcl SHARED ${kcl_LIB_SRCS})
@@ -14,4 +17,7 @@ install(TARGETS kcl ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
     kclinput.h
+    kclmouse.h
+    kclcode.h
+    kclengine.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
