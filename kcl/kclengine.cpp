@@ -21,7 +21,7 @@
 */
 #include "kclengine.h"
 #include <KDebug>
-#include <QCoreApplication>
+#include <QApplication>
 KCLEngine::KCLEngine(QObject * parent)
     :QObject(parent)
 {
@@ -33,30 +33,44 @@ KCLEngine::KCLEngine(QObject * parent)
 void KCLEngine::receiveJoyEvent(JoystickEvent * event)
 {
 
+    kDebug()<<event->value();
+    kDebug()<<event->number();
+
+    emitJoyEvent(event);
     if ( event->type() == JoystickEvent::JoystickButtonPress)
     {
-        emitJoyEvent(event);
-
         if ( event->value())
         {
-            QString id = "JOY"+QString::number(event->number());
+            QString id = "JOY_"+QString::number(event->number());
             m_buttonList.append(id);
             kDebug()<<id;
         }
         else
         {
-            QString id = "JOY"+QString::number(event->number());
+            QString id = "JOY_"+QString::number(event->number());
             m_buttonList.removeOne(id);
         }
     }
+
+    if ( event->type() == JoystickEvent::JoystickMove)
+    {
+
+        QString id = "JOYAXIS"+QString::number(event->number());
+
+        m_axisList[id] = event->value();
+
+    }
+
+
+
 }
 
 void KCLEngine::resetInput()
 {
     
-//    m_mouseButton = Qt::NoButton;
-//    m_mousePos = QPoint(0,0);
-//    m_button = QString();
+    //    m_mouseButton = Qt::NoButton;
+    //    m_mousePos = QPoint(0,0);
+    //    m_button = QString();
 }
 
 bool KCLEngine::eventFilter(QObject *obj, QEvent *event)
@@ -64,43 +78,67 @@ bool KCLEngine::eventFilter(QObject *obj, QEvent *event)
     if ((event->type() == QEvent::MouseButtonPress))
     {
         QMouseEvent * e = static_cast<QMouseEvent*>(event);
-        QString id = "MOUSE"+QString::number(e->button());
+        QString id = "MOUSE_"+QString::number(e->button());
         m_buttonList.append(id);
         kDebug()<<id;
     }
 
     if ((event->type() == QEvent::QEvent::MouseMove))
     {
-            m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
-
+        m_mousePos= (static_cast<QMouseEvent*>(event))->pos();
     }
 
     if ((event->type() == QEvent::MouseButtonRelease))
     {
         QMouseEvent * e = static_cast<QMouseEvent*>(event);
-        QString id  = "MOUSE"+QString::number(e->button());
+        QString id  = "MOUSE_"+QString::number(e->button());
         m_buttonList.removeOne(id);
     }
     if ((event->type() == QEvent::KeyPress))
     {
         QKeyEvent * e = static_cast<QKeyEvent*>(event);
-        QString id = "KEY"+QString::number(e->key());
-        m_buttonList.append(id);
+        QString id = keyName(e->key());
 
-        kDebug()<<id;
+        m_buttonList.append(id);
+        kDebug()<<"id="<<id;
 
     }
 
     if ((event->type() == QEvent::KeyRelease))
     {
         QKeyEvent * e = static_cast<QKeyEvent*>(event);
-        QString id = "KEY"+QString::number(e->key());
+        QString id = keyName(e->key());
         m_buttonList.removeOne(id);
-
-
     }
 
+
     return QObject::eventFilter(obj, event);
+
+
+}
+
+QString KCLEngine::keyName(int key)
+{
+
+    if ( key == Qt::Key_Control  )
+        return "KEY_CONTROL";
+
+    if ( key ==   Qt::Key_Alt )
+        return "KEY_ALT";
+
+    if ( key ==  Qt::Key_Shift )
+        return "KEY_SHIFT";
+
+    if ( key == Qt::Key_AltGr )
+        return "KEY_ALTGR";
+
+
+    if ( key == Qt::Key_Meta)
+        return "KEY_META";
+
+    QKeySequence seq(key);
+    return "KEY_"+seq.toString();
+
 
 
 }

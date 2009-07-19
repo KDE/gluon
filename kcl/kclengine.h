@@ -30,6 +30,7 @@
 #include <QList>
 #include "joythread.h"
 #include "joystickevent.h"
+
 class KCLEngine : public QObject
 {
     Q_OBJECT
@@ -56,9 +57,12 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void resetInput();
 
+QString keyName(int  key);
 private:
 
     QList<QString> m_buttonList;
+    QMap<QString,double> m_axisList;
+
     QPoint m_mousePos;
 
     QPointF m_axeJoy;

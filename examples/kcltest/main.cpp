@@ -23,10 +23,10 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
-
-#include "myWidget.h"
-
 #include <KDebug>
+#include <QWidget>
+#include <gluon/kcl/kclinput.h>
+#include "myWidget.h"
 
 using namespace std;
 
@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
     KApplication app;
 
 MyWidget * w = new MyWidget;
-
-w->show();
+   
+  w->show();
  app.exec();
 
 }

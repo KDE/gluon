@@ -1,7 +1,5 @@
 set(kcl_LIB_SRCS
-   kclengine.cpp
-joythread.cpp
-joystickevent.cpp
+kclinput.cpp
    )
 
 kde4_add_library(kcl SHARED ${kcl_LIB_SRCS})
@@ -15,7 +13,5 @@ target_link_libraries(kcl
 install(TARGETS kcl ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
-    kclengine.h
-    joythread.h
-    joystickevent.h
+    kclinput.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)

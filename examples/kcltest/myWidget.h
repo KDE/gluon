@@ -1,8 +1,10 @@
 #include <QWidget>
-#include <gluon/kcl/kclengine.h>
+#include <gluon/kcl/kclinput.h>
+
 #include <QTimer>
 #include <QLabel>
 #include <QPushButton>
+#include <QTimer>
 class MyWidget : public QWidget
 {
   Q_OBJECT
@@ -10,11 +12,7 @@ class MyWidget : public QWidget
     MyWidget( QWidget * parent=0);
   public slots:
     void mainLoop();
-    
   private:
-  KCLEngine * kclEngine;
-  QPushButton * button;
-  QLabel * label;
-  QTimer * timer;
-  
+    KCLInput * input;
+    QTimer * timer;
 };
