@@ -25,22 +25,46 @@
 
 #include <QObject>
 #include <QList>
+#include <QPair>
+#include <QStringList>
 #include "kclinput.h"
-
+#include "kclmouse.h"
+#include "kcljoystick.h"
+#include "kclkeyboard.h"
 
 class KCLEngine : public QObject
 {
     Q_OBJECT
+
 public:
+        enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
     KCLEngine(QObject * parent = 0);
     void addInput(KCLInput * input);
     void addInput(const QString &deviceName);
+    void addInput(DEVICE device, int id=0);
+    void remInput(KCLInput * input){m_inputList.removeOne(input);}
+    void remInput(DEVICE device, int id=0);
+    KCLInput * input(int id=0){return m_inputList.at(id);}
 
+    void remAll();
+
+  void searchDevice();
     bool button(const QString& codeName);
     QString lastButton();
+    QPoint relPosition();
+    QPoint absPosition();
 private:
 
     QList<KCLInput*> m_inputList;
+
+    QStringList m_inputEventName;
+
+    QStringList m_mouseDevicePath;
+    QStringList m_kbdDevicePath;
+    QStringList m_joystickDevicePath;
+    QStringList m_unknownDevicePath;
+
+
 
 };
 

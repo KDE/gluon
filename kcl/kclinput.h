@@ -52,7 +52,9 @@ class KCLInput : public QObject
 {
     Q_OBJECT
 public:
+   enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
     KCLInput(const QString& device,QObject * parent=0);
+    ~KCLInput(){inputListener->exit();}
     unsigned int vendor(){return m_device_info.vendor;}
     unsigned int product(){return m_device_info.product;}
     unsigned int version(){return m_device_info.version;}
@@ -62,22 +64,26 @@ public:
 
     bool button(const QString& codeName){return m_buttons.contains(codeName);}
     QString lastButton(){if (m_buttons.size()>0) return m_buttons.at(0); else return QString("NULL");}
-    QPoint relPos(){return m_relPos;}
-    QPoint absPos(){return m_absPos;}
+    QPoint relPosition(){return m_relPosition;}
+    QPoint absPosition(){return m_absPosition;}
     bool error(){return m_error;}
+    virtual void inputEventFilter(KCLInputEvent * event);
 public slots:
-    virtual void inputEvent(KCLInputEvent * event);
+ void slotInputEvent(KCLInputEvent * event);
 
 protected :
         void readInformation();
+void setRelPosition(QPoint p){m_relPosition=p;}
+void setAbsPosition(QPoint p){m_absPosition = p;}
 private:
 KCLThread * inputListener;
 struct input_id m_device_info;
    struct input_event m_currentEvent;
 QString m_device;
 QString m_deviceName;
-QPoint m_relPos;
-QPoint m_absPos;
+QPoint m_relPosition;
+QPoint m_absPosition;
+int m_wheel;
 QList<QString> m_buttons;
 bool m_error;
 };

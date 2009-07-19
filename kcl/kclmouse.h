@@ -9,7 +9,7 @@ class KCLMouse : public KCLInput
     Q_OBJECT
 public:
     KCLMouse(QString device,QObject * parent=0);
-    QPoint position(){return relPos();  }
+    QPoint position(){return relPosition();  }
 
     private:
     QPoint m_position;

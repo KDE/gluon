@@ -13,6 +13,7 @@ class MyWidget : public QWidget
   Q_OBJECT
   public : 
     MyWidget( QWidget * parent=0);
+    void paintEvent(QPaintEvent * event);
   public slots:
     void mainLoop();
   private:
@@ -21,5 +22,8 @@ class MyWidget : public QWidget
     KCLEngine * kcl;
     QTimer * timer;
     
+    QPixmap * pix;
+    
+    QPoint pos;
 
 };

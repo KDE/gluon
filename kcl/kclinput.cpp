@@ -24,13 +24,11 @@ KCLThread::KCLThread(const QString &name, QObject * parent)
     :QThread(parent)
 {
     openDevice(name);
-
 }
 
 void KCLThread::run()
 {
-
-    while (1)
+   while (1)
     {
         struct input_event ev;
         int rd = read(m_fd, &ev, sizeof(struct input_event));
@@ -42,10 +40,7 @@ void KCLThread::run()
             emitInputEvent(event);
         }
     }
-
-
 }
-
 
 bool KCLThread::openDevice(const QString& device)
 {
@@ -55,32 +50,8 @@ bool KCLThread::openDevice(const QString& device)
         kDebug()<<"cannot read  device";
         return false;
     }
-
-    //    if(ioctl(m_fd, EVIOCGID, &m_device_info))
-    //        kDebug()<<"cannot retrieve information of device";
-    //
-    //    char name[256]= "Unknown";
-    //
-    //    if(ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
-    //        kDebug()<<"cannot retrieve name of device";
-    //
-    //    m_deviceName = QString(name);
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //===================================================================
 
 KCLInput::KCLInput(const QString& device,QObject * parent)
@@ -91,12 +62,12 @@ KCLInput::KCLInput(const QString& device,QObject * parent)
     inputListener = new KCLThread(device,parent);
     if (!error())
         inputListener->start();
-    connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT(inputEvent(KCLInputEvent*)));
-    m_relPos = QPoint(0,0);
-    m_absPos = QPoint(0,0);
+    connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
+    m_relPosition = QPoint(0,0);
+    m_absPosition = QPoint(0,0);
 
 }
-void KCLInput::inputEvent(KCLInputEvent * event)
+void KCLInput:: slotInputEvent(KCLInputEvent * event)
 {
     switch ( event->type())
     {
@@ -117,11 +88,19 @@ void KCLInput::inputEvent(KCLInputEvent * event)
 
     case EV_REL:
         if ( event->code()==0)  //X
-            m_relPos+=QPoint((int)event->value(),0);
+            m_relPosition=QPoint((int)event->value(),0);
         if ( event->code()==1)  //Y
-            m_relPos+=QPoint(0,(int)event->value());
+            m_relPosition=QPoint(0,(int)event->value());
         break;
+
+
+
+
    }
+
+
+   inputEventFilter(event);
+
 }
 void KCLInput::readInformation()
 {
@@ -154,4 +133,9 @@ void KCLInput::readInformation()
     }
     m_deviceName = QString(name);
     close(m_fd);
+}
+void KCLInput::inputEventFilter(KCLInputEvent * event)
+{
+
+
 }
