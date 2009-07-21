@@ -6,7 +6,6 @@ class KCLKeyBoard : public KCLInput
 public:
     KCLKeyBoard(const QString& device, QObject * parent=0);
 
-virtual void inputEventFilter(KCLInputEvent * event);
 
 };
 

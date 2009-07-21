@@ -2,6 +2,7 @@
 #define KCLINPUT_H
 
 #include <QThread>
+#include <QMap>
 #include <QPoint>
 #include <unistd.h>
 #include <fcntl.h>
@@ -9,6 +10,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <linux/input.h>
+#include <KDebug>
 #include "kclcode.h"
 
 class KCLInput;
@@ -52,7 +54,7 @@ class KCLInput : public QObject
 {
     Q_OBJECT
 public:
-   enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
+    enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
     KCLInput(const QString& device,QObject * parent=0);
     ~KCLInput(){inputListener->exit();}
     unsigned int vendor(){return m_device_info.vendor;}
@@ -62,29 +64,42 @@ public:
     QString device(){return m_device;}
     QString name(){return m_deviceName;}
 
-    bool button(const QString& codeName){return m_buttons.contains(codeName);}
-    QString lastButton(){if (m_buttons.size()>0) return m_buttons.at(0); else return QString("NULL");}
-    QPoint relPosition(){return m_relPosition;}
-    QPoint absPosition(){return m_absPosition;}
+    bool button(int code){return m_buttons.contains(code);}
+    bool anyButton(){if (m_buttons.size()>0) return true; else return false;}
+    bool anyMove(){if ( m_move) {m_move=false;return true;} return false; }
+    int axisPosition(int code){
+        if(m_axisPositions.contains(code))
+            return m_axisPositions[code] ;
+        else return 0;
+    }
+ int axisAbsolu(int code){
+        if(m_axisAbsolus.contains(code))
+            return m_axisAbsolus[code] ;
+        else return 0;
+
+    }
+
     bool error(){return m_error;}
     virtual void inputEventFilter(KCLInputEvent * event);
+
 public slots:
- void slotInputEvent(KCLInputEvent * event);
+    void slotInputEvent(KCLInputEvent * event);
 
 protected :
         void readInformation();
-void setRelPosition(QPoint p){m_relPosition=p;}
-void setAbsPosition(QPoint p){m_absPosition = p;}
+
 private:
 KCLThread * inputListener;
 struct input_id m_device_info;
-   struct input_event m_currentEvent;
+struct input_event m_currentEvent;
 QString m_device;
 QString m_deviceName;
-QPoint m_relPosition;
-QPoint m_absPosition;
-int m_wheel;
-QList<QString> m_buttons;
+
+
+QList<int> m_buttons;
+QMap<int,int> m_axisPositions;
+QMap<int,int> m_axisAbsolus;
+bool m_move;
 bool m_error;
 };
 

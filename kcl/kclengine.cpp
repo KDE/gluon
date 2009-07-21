@@ -100,24 +100,36 @@ void KCLEngine::remAll()
     m_inputList.clear();
 }
 
-bool KCLEngine::button(const QString& codeName)
+bool KCLEngine::button(int code)
 {
     foreach ( KCLInput * input, m_inputList)
     {
-        if ( input->button(codeName))
+        if ( input->button(code))
             return true;
     }
     return false;
 }
-QString KCLEngine::lastButton()
+bool KCLEngine::anyButton()
 {
     foreach ( KCLInput * input, m_inputList)
     {
-        if ( input->lastButton()!=QString("NULL"))
-            return input->lastButton();
+        if ( input->anyButton())
+            return true;
     }
-    return QString("NULL");
+    return false;
 }
+bool KCLEngine::anyMove()
+{
+    foreach ( KCLInput * input, m_inputList)
+    {
+        if ( input->anyMove())
+            return true;
+    }
+    return false;
+}
+
+
+
 void KCLEngine::searchDevice()
 {
     m_mouseDevicePath.clear();
@@ -158,25 +170,4 @@ void KCLEngine::searchDevice()
 }
 
 //======================================================
-    QPoint KCLEngine::relPosition()
-    {
-        QPoint p = QPoint(0,0);
-   foreach ( KCLInput * input, m_inputList)
-    {
 
-     p+= input->relPosition();
-   }
-
-   return p;
-    }
-
-
-
-    QPoint KCLEngine::absPosition()
-    {
-return QPoint();
-
-
-
-
-    }

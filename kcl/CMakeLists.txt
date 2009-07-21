@@ -5,13 +5,14 @@ kclkeyboard.cpp
 kcljoystick.cpp
 kclcode.cpp
 kclengine.cpp
+widget/kclinfowidget.cpp
    )
 
 kde4_add_library(kcl SHARED ${kcl_LIB_SRCS})
 set_target_properties(kcl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
 target_link_libraries(kcl 
-                      ${KDE4_KDEUI_LIBS} )
+                      ${KDE4_KDEUI_LIBS} ${KDE4_SOLID_LIBS} )
 
 
 
@@ -24,4 +25,8 @@ install(FILES
     kcljoystick.h
     kclcode.h
     kclengine.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
+
+
+

@@ -26,7 +26,8 @@
 #include <KDebug>
 #include <QWidget>
 #include <gluon/kcl/kclinput.h>
-#include "myWidget.h"
+
+ #include "myWidget.h"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-MyWidget * w = new MyWidget;
+MyWidget* w = new MyWidget;
    
   w->show();
  app.exec();

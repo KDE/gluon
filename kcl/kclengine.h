@@ -27,6 +27,12 @@
 #include <QList>
 #include <QPair>
 #include <QStringList>
+#include <solid/devicenotifier.h>
+#include <solid/device.h>
+#include <kcomponentdata.h>
+
+
+
 #include "kclinput.h"
 #include "kclmouse.h"
 #include "kcljoystick.h"
@@ -49,10 +55,10 @@ public:
     void remAll();
 
   void searchDevice();
-    bool button(const QString& codeName);
-    QString lastButton();
-    QPoint relPosition();
-    QPoint absPosition();
+    bool button(int code);
+    bool anyButton();
+    bool anyMove();
+
 private:
 
     QList<KCLInput*> m_inputList;

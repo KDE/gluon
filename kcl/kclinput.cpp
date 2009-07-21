@@ -58,13 +58,13 @@ KCLInput::KCLInput(const QString& device,QObject * parent)
     :QObject(parent),m_device(device)
 {
     m_error = false;
+    m_move  = false;
     readInformation();
     inputListener = new KCLThread(device,parent);
     if (!error())
         inputListener->start();
     connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
-    m_relPosition = QPoint(0,0);
-    m_absPosition = QPoint(0,0);
+
 
 }
 void KCLInput:: slotInputEvent(KCLInputEvent * event)
@@ -74,26 +74,31 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
     case EV_KEY :
         if ( event->value() == 1)  // if click
         {
-            m_buttons.append(KCLCode::keyName(event->code()));
+            m_buttons.append(event->code());
             kDebug()<<KCLCode::keyName(event->code())<<" pressed...";
 
         }
 
         if ( event->value() ==0) //if release
         {
-            m_buttons.removeOne(KCLCode::keyName(event->code()));
+            m_buttons.removeOne(event->code());
             kDebug()<<KCLCode::keyName(event->code())<<" release...";
         }
         break;
 
     case EV_REL:
-        if ( event->code()==0)  //X
-            m_relPosition=QPoint((int)event->value(),0);
-        if ( event->code()==1)  //Y
-            m_relPosition=QPoint(0,(int)event->value());
+        m_move = true;
+        if (!m_axisPositions.contains(event->code()))
+        m_axisPositions[event->code()] = event->value();
+        else
+     m_axisPositions[event->code()] += event->value();
         break;
 
-
+  case EV_ABS:
+          m_move = true;
+          kDebug()<<KCLCode::absoluName(event->code())<<"="<< event->value();
+        m_axisAbsolus[event->code()] = event->value();
+        break;
 
 
    }

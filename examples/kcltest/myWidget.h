@@ -17,9 +17,8 @@ class MyWidget : public QWidget
   public slots:
     void mainLoop();
   private:
-    KCLInput * input;
-    KCLMouse * mouse;
-    KCLEngine * kcl;
+    KCLJoystick * input;
+KCLEngine * kcl;
     QTimer * timer;
     
     QPixmap * pix;
