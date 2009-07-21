@@ -109,25 +109,25 @@ bool KCLEngine::button(int code)
     }
     return false;
 }
-bool KCLEngine::anyButton()
-{
-    foreach ( KCLInput * input, m_inputList)
-    {
-        if ( input->anyButton())
-            return true;
-    }
-    return false;
-}
-bool KCLEngine::anyMove()
-{
-    foreach ( KCLInput * input, m_inputList)
-    {
-        if ( input->anyMove())
-            return true;
-    }
-    return false;
-}
-
+//bool KCLEngine::anyButton()
+//{
+//    foreach ( KCLInput * input, m_inputList)
+//    {
+//        if ( input->anyButton())
+//            return true;
+//    }
+//    return false;
+//}
+//bool KCLEngine::anyMove()
+//{
+//    foreach ( KCLInput * input, m_inputList)
+//    {
+//        if ( input->anyMove())
+//            return true;
+//    }
+//    return false;
+//}
+//
 
 
 void KCLEngine::searchDevice()

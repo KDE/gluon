@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QMap>
+#include <QPair>
 #include <QPoint>
 #include <unistd.h>
 #include <fcntl.h>
@@ -16,6 +17,24 @@
 class KCLInput;
 class KCLThread;
 class KCLInputEvent;
+
+class AbsVal
+{
+public:
+    AbsVal(int v=0,int m=0, int M=0, int f=0, int F=0)
+    {
+        value = v;
+        min =m;
+        max = M;
+        flat = f;
+        fuzz = F;
+    }
+    int value;
+    int min;
+    int max;
+    int flat;
+    int fuzz;
+};
 
 class KCLInputEvent
 {
@@ -33,7 +52,6 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-
 class KCLThread : public QThread
 {
     Q_OBJECT
@@ -54,7 +72,7 @@ class KCLInput : public QObject
 {
     Q_OBJECT
 public:
-    enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
+    enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,TABLET,TOUCHPAD,UNKNOWN};
     KCLInput(const QString& device,QObject * parent=0);
     ~KCLInput(){inputListener->exit();}
     unsigned int vendor(){return m_device_info.vendor;}
@@ -65,19 +83,20 @@ public:
     QString name(){return m_deviceName;}
 
     bool button(int code){return m_buttons.contains(code);}
-    bool anyButton(){if (m_buttons.size()>0) return true; else return false;}
+    bool anyPress(){if (m_buttons.size()>0) return true; else return false;}
     bool anyMove(){if ( m_move) {m_move=false;return true;} return false; }
     int axisPosition(int code){
         if(m_axisPositions.contains(code))
             return m_axisPositions[code] ;
         else return 0;
     }
- int axisAbsolu(int code){
+    int axisAbsolu(int code){
         if(m_axisAbsolus.contains(code))
             return m_axisAbsolus[code] ;
         else return 0;
 
     }
+QList<int> buttonCapabilities(){return m_buttonCapabilities;}
 
     bool error(){return m_error;}
     virtual void inputEventFilter(KCLInputEvent * event);
@@ -94,11 +113,13 @@ struct input_id m_device_info;
 struct input_event m_currentEvent;
 QString m_device;
 QString m_deviceName;
-
+DEVICE m_deviceType;
 
 QList<int> m_buttons;
 QMap<int,int> m_axisPositions;
 QMap<int,int> m_axisAbsolus;
+QList<int> m_buttonCapabilities;
+QMap<int, AbsVal> m_axisCapabilities;
 bool m_move;
 bool m_error;
 };

@@ -30,21 +30,21 @@ void MyWidget::mainLoop()
 
 
  
-   pix->fill(Qt::white);
-QPainter paint(pix);
-paint.setPen(QPen(Qt::green));
-
- 
- if ( input->anyButton())
- {
-   
-   
-kDebug()<<input->axisAbsolu(ABS_GAS);
-   pos = QPoint(  input->axisAbsolu(ABS_X), input->axisAbsolu(ABS_Y) );
-paint.drawLine(QPoint(width()/2,height()/2),pos);
-   
- }
-  
+//    pix->fill(Qt::white);
+// QPainter paint(pix);
+// paint.setPen(QPen(Qt::green));
+// 
+//  
+//  if ( input->anyButton())
+//  {
+//    
+//    
+// kDebug()<<input->axisAbsolu(ABS_GAS);
+//    pos = QPoint(  input->axisAbsolu(ABS_X), input->axisAbsolu(ABS_Y) );
+// paint.drawLine(QPoint(width()/2,height()/2),pos);
+//    
+//  }
+//   
 
 
  

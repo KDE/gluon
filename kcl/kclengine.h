@@ -55,9 +55,9 @@ public:
     void remAll();
 
   void searchDevice();
-    bool button(int code);
-    bool anyButton();
-    bool anyMove();
+  bool button(int code);
+//    bool anyButton();
+//    bool anyMove();
 
 private:
 
