@@ -102,7 +102,6 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
 
     case EV_ABS:
         m_move = true;
-        kDebug()<<KCLCode::absoluName(event->code())<<"="<< event->value();
         m_axisAbsolus[event->code()] = event->value();
         break;
 
@@ -125,21 +124,21 @@ void KCLInput::readInformation()
     int m_fd = -1;
     if ((m_fd = open(m_device.toUtf8(), O_RDONLY)) < 0)
     {
-        kDebug()<<"cannot read  information device";
+        kDebug()<<"cannot read  information device "<<m_device;;
         m_error = true;
         return;
     }
 
     if(ioctl(m_fd, EVIOCGID, &m_device_info))
     {
-        kDebug()<<"cannot retrieve information of device";
+        kDebug()<<"cannot retrieve information of device "<<m_device;;
         m_error = true;
         return;
     }
     char name[256]= "Unknown";
     if(ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
     {
-        kDebug()<<"cannot retrieve name of device";
+        kDebug()<<"cannot retrieve name of device "<<m_device;
         m_error = true;
     }
     m_deviceName = QString(name);
@@ -151,14 +150,13 @@ void KCLInput::readInformation()
     int abs[5];
     memset(bit, 0, sizeof(bit));
     ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
-    printf("Supported events:\n");
 
     m_buttonCapabilities.clear();
     m_axisCapabilities.clear();
 
     for (int i = 0; i < EV_MAX; i++)
         if (test_bit(i, bit[0])) {
-        kDebug()<<"  Event type "<< i;
+
         if (!i) continue;
         ioctl(m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
         for (int j = 0; j < KEY_MAX; j++)
@@ -172,7 +170,6 @@ void KCLInput::readInformation()
                 for (int k = 0; k < 5; k++)
                     if ((k < 3) || abs[k])
                     {
-                    kDebug()<<"CODE="<<k<<"--"<<abs[k];
 
                     switch (k)
                     {
@@ -190,19 +187,22 @@ void KCLInput::readInformation()
     }
     close(m_fd);
 
+m_device = KCL_UNKNOWN;
 
 if ( m_buttonCapabilities.contains( BTN_STYLUS ))
-    m_deviceType  =TABLET;
+    m_deviceType  =KCL_TABLET;
 
 if ((m_buttonCapabilities.contains( BTN_STYLUS )) || (m_buttonCapabilities.contains(ABS_PRESSURE)))
-    m_deviceType  =TOUCHPAD;
+    m_deviceType  =KCL_TOUCHPAD;
 
-if ( m_buttonCapabilities.contains( BTN_STYLUS ))
-    m_deviceType  =TABLET;
+if ( m_buttonCapabilities.contains( BTN_TRIGGER ))
+    m_deviceType  =KCL_JOYSTICK;
 
-if ( m_buttonCapabilities.contains( BTN_STYLUS ))
-    m_deviceType  =TABLET;
+if ( m_buttonCapabilities.contains( BTN_MOUSE ))
+    m_deviceType  = KCL_MOUSE;
 
+if ( m_buttonCapabilities.contains( KEY_ESC))
+    m_deviceType  = KCL_KEYBOARD;
 
 }
 void KCLInput::inputEventFilter(KCLInputEvent * event)

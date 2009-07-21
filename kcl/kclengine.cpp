@@ -24,15 +24,27 @@
 #include <QApplication>
 #include <QFile>
 #include <QDir>
+
+
+
+VirtualButton::VirtualButton(QString id, int keyCode, KCLInput *device)
+{
+m_id = id;
+m_keyCode = keyCode;
+m_device = device;
+}
+
+
+
+
 KCLEngine::KCLEngine(QObject * parent)
     :QObject(parent)
 {
- searchDevice();
+    searchDevice();
 }
 void KCLEngine::addInput(KCLInput * input)
 {
-    if ( input->error()) return;
-
+    if ( input->error()) return; 
     if ( m_inputList.contains(input))
     {
         kDebug()<<"input is alreasy attached...";
@@ -50,124 +62,87 @@ void KCLEngine::addInput(const QString &deviceName)
 void KCLEngine::addInput(DEVICE device, int id)
 {
 
-    if ( device == MOUSE)
-    {
-        if ( id >= m_mouseDevicePath.size())
-            kDebug()<<"mouse id don't exist...";
-        else
-        {
-            KCLMouse * mouse = new KCLMouse(m_mouseDevicePath.at(id));
-            addInput(mouse);
-        }
-    }
-    if ( device == KEYBOARD)
-    {
-        if ( id >= m_kbdDevicePath.size())
-            kDebug()<<"keyboard id don't exist...";
-        else
-        {
-            KCLKeyBoard * keyboard = new KCLKeyBoard(m_kbdDevicePath.at(id));
-            addInput(keyboard);
-        }
-    }
-    if ( device == JOYSTICK)
-    {
-        if ( id >= m_joystickDevicePath.size())
-            kDebug()<<"joystick id don't exist...";
-        else
-        {
-            KCLJoystick * joystick= new KCLJoystick(m_joystickDevicePath.at(id));
-            addInput(joystick);
-        }
-    }
-    if ( device == UNKNOWN)
-    {
-        if ( id >= m_unknownDevicePath.size())
-            kDebug()<<"unknown device id don't exist...";
-        else
-        {
-            KCLInput * unknownInput= new KCLInput(m_unknownDevicePath.at(id));
-            addInput(unknownInput);
-        }
-    }
+    if ( m_devicesType.keys(device).size() < id )
+        addInput(m_devicesType.keys(device).at(id));
+
+    else
+        kDebug()<<"this device don't exist...";
 }
 
 void KCLEngine::remAll()
 {
     foreach ( KCLInput * input, m_inputList)
         delete input;
-
     m_inputList.clear();
 }
 
-bool KCLEngine::button(int code)
+bool KCLEngine::button(QString name)
+{
+int code = m_virtalButtonMap[name].code();
+    if ( m_virtalButtonMap[name].input()->button(code))
+        return true;
+
+    else return false;
+
+
+}
+bool KCLEngine::anyPress()
 {
     foreach ( KCLInput * input, m_inputList)
     {
-        if ( input->button(code))
+        if ( input->anyPress())
             return true;
     }
     return false;
 }
-//bool KCLEngine::anyButton()
-//{
-//    foreach ( KCLInput * input, m_inputList)
-//    {
-//        if ( input->anyButton())
-//            return true;
-//    }
-//    return false;
-//}
-//bool KCLEngine::anyMove()
-//{
-//    foreach ( KCLInput * input, m_inputList)
-//    {
-//        if ( input->anyMove())
-//            return true;
-//    }
-//    return false;
-//}
-//
+bool KCLEngine::anyMove()
+{
+    foreach ( KCLInput * input, m_inputList)
+    {
+        if ( input->anyMove())
+            return true;
+    }
+    return false;
+}
+
 
 
 void KCLEngine::searchDevice()
 {
-    m_mouseDevicePath.clear();
-    m_kbdDevicePath.clear();
-    m_joystickDevicePath.clear();
-    m_unknownDevicePath.clear();
-
     QString path("/dev/input/by-path/");
     QDir event(path);
-
+    
     foreach  ( QString name, event.entryList(QDir::Files))
     {
-        if ( name.contains("event-mouse"))
-            m_mouseDevicePath<<path+name;
 
-        if ( name.contains("event-joystick"))
-            m_joystickDevicePath<<path+name;
-
-        if ( name.contains("event-kbd"))
-            m_kbdDevicePath<<path+name;
-
-        if ( name.contains("event-*"))
-            m_unknownDevicePath<<path+name;
+        KCLInput * temp = new KCLInput(path+name);
+        m_devicesType[path+name] = temp->deviceType();
+        delete temp;
     }
+      
+    if (m_devicesType.keys(KCL_MOUSE).size()> 0)
+        kDebug()<<m_devicesType.keys(KCL_MOUSE).size()<<" mouse(s) found...";
 
+    if (m_devicesType.keys(KCL_KEYBOARD).size() > 0)
+        kDebug()<<m_devicesType.keys(KCL_MOUSE).size() <<" keyboard(s) found...";
 
-    if (m_mouseDevicePath.size()>0)
-        kDebug()<<m_mouseDevicePath.size()<< " mouse(s) detected...";
+    if (m_devicesType.keys(KCL_JOYSTICK).size() > 0)
+        kDebug()<<m_devicesType.keys(KCL_MOUSE).size() <<" joystick(s) found...";
 
-    if (m_joystickDevicePath.size()>0)
-        kDebug()<<m_joystickDevicePath.size()<< " joystick(s) detected...";
+    if (m_devicesType.keys(KCL_TABLET).size()> 0)
+        kDebug()<<m_devicesType.keys(KCL_TABLET).size() <<" tablet(s) found...";
 
-    if (m_kbdDevicePath.size()>0)
-        kDebug()<<m_kbdDevicePath.size()<< " keyboard(s) detected...";
+    if (m_devicesType.keys(KCL_TOUCHPAD).size() > 0)
+        kDebug()<<m_devicesType.keys(KCL_TOUCHPAD).size() <<" toucpad(s) found...";
 
-    if (m_unknownDevicePath.size()>0)
-        kDebug()<<m_unknownDevicePath.size()<< " unknow input device(s) detected...";
 }
 
 //======================================================
+   void KCLEngine::setButton(QString name,int code, KCLInput * input)
+   {
+
+       VirtualButton button(name,code,input);
+       m_virtalButtonMap[name] = button;
+
+   }
 

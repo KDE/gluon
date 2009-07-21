@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QMap>
 #include <QPair>
 #include <QStringList>
 #include <solid/devicenotifier.h>
@@ -38,12 +39,34 @@
 #include "kcljoystick.h"
 #include "kclkeyboard.h"
 
+
+class KGLEngine;
+class VirtualButton;
+
+class VirtualButton
+{
+    public:
+VirtualButton(QString id=0, int keyCode=0, KCLInput *device=NULL);
+QString id(){return m_id;}
+int code(){return m_keyCode;}
+KCLInput * input(){return m_device;}
+
+private:
+   QString m_id;
+   int m_keyCode;
+   KCLInput * m_device;
+
+
+};
+
+
+
 class KCLEngine : public QObject
 {
     Q_OBJECT
 
 public:
-        enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,UNKNOWN};
+
     KCLEngine(QObject * parent = 0);
     void addInput(KCLInput * input);
     void addInput(const QString &deviceName);
@@ -52,24 +75,23 @@ public:
     void remInput(DEVICE device, int id=0);
     KCLInput * input(int id=0){return m_inputList.at(id);}
 
+    void setButton(QString name,int code, KCLInput * input);
+
     void remAll();
 
   void searchDevice();
-  bool button(int code);
-//    bool anyButton();
-//    bool anyMove();
+  bool button(QString name);
+   bool anyPress();
+   bool anyMove();
 
 private:
 
     QList<KCLInput*> m_inputList;
 
-    QStringList m_inputEventName;
+QMap <QString, int> m_customButtonMap;
+QMap <QString,DEVICE> m_devicesType;
 
-    QStringList m_mouseDevicePath;
-    QStringList m_kbdDevicePath;
-    QStringList m_joystickDevicePath;
-    QStringList m_unknownDevicePath;
-
+QMap <QString, VirtualButton> m_virtalButtonMap;
 
 
 };

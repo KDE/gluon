@@ -14,6 +14,8 @@
 #include <KDebug>
 #include "kclcode.h"
 
+enum DEVICE {KCL_KEYBOARD,KCL_MOUSE,KCL_JOYSTICK,KCL_TABLET,KCL_TOUCHPAD,KCL_UNKNOWN};
+
 class KCLInput;
 class KCLThread;
 class KCLInputEvent;
@@ -72,7 +74,7 @@ class KCLInput : public QObject
 {
     Q_OBJECT
 public:
-    enum DEVICE {KEYBOARD, MOUSE,JOYSTICK,TABLET,TOUCHPAD,UNKNOWN};
+
     KCLInput(const QString& device,QObject * parent=0);
     ~KCLInput(){inputListener->exit();}
     unsigned int vendor(){return m_device_info.vendor;}
@@ -81,6 +83,7 @@ public:
     unsigned int bustype(){return m_device_info.bustype;}
     QString device(){return m_device;}
     QString name(){return m_deviceName;}
+    DEVICE deviceType(){return m_deviceType;}
 
     bool button(int code){return m_buttons.contains(code);}
     bool anyPress(){if (m_buttons.size()>0) return true; else return false;}
@@ -97,7 +100,7 @@ public:
 
     }
 QList<int> buttonCapabilities(){return m_buttonCapabilities;}
-
+AbsVal axisCapability(int axisCode){return m_axisCapabilities[axisCode];}
     bool error(){return m_error;}
     virtual void inputEventFilter(KCLInputEvent * event);
 
@@ -122,6 +125,7 @@ QList<int> m_buttonCapabilities;
 QMap<int, AbsVal> m_axisCapabilities;
 bool m_move;
 bool m_error;
+
 };
 
 //---------------------------------------------------------------------------------------------
