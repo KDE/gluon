@@ -36,6 +36,8 @@ optionWidget = new OptionWidget;
 void MainWindow::start()
 {
 
+    delete particles;
+     particles = new KGLParticlesItem;
     particles->clear();
 
     QString sprite = optionWidget->spriteRequester->text();
