@@ -7,6 +7,7 @@
 #include <KUrlRequester>
 #include <QDoubleSpinBox>
 #include <QSpinBox>
+#include <QCheckBox>
 
 class OptionWidget : public QWidget
 {
@@ -23,6 +24,8 @@ QDoubleSpinBox *speedSpin;
 QDoubleSpinBox  *alphaSpin;
 
 QPushButton * startButton ;
+
+QCheckBox * typeCheckBox;
 };
 
 

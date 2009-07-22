@@ -47,7 +47,13 @@ void MainWindow::start()
   int size = optionWidget->sizeSpin->value();
 
 
+  if ( optionWidget->typeCheckBox-> isTristate ())
     particles->createExplose(number,QPixmap(sprite),angle,speed,alpha,size);
+
+  else
+      particles->createSmoke(number,QPixmap(sprite),angle,speed,alpha,size);
+
+
     m_engine->addItem(particles);
     m_view->start();
 

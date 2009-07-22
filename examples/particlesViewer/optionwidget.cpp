@@ -12,7 +12,7 @@ OptionWidget::OptionWidget(QWidget * parent)
   angleSpin = new QSpinBox;
     speedSpin= new QDoubleSpinBox;
     alphaSpin= new QDoubleSpinBox;
-
+typeCheckBox = new QCheckBox("Explose type ? ");
 
     numberSpin->setRange(0,1000);
     sizeSpin->setRange(1,50);
@@ -33,10 +33,27 @@ OptionWidget::OptionWidget(QWidget * parent)
 startButton = new QPushButton("Start");
 
     layout->addWidget(spriteRequester);
+        layout->addWidget(typeCheckBox);
+
+
+        QLabel * n1= new QLabel("particles number...");
+        layout->addWidget(n1);
     layout->addWidget(numberSpin);
+
+       QLabel * n2= new QLabel("particules size...");
+        layout->addWidget(n2);
     layout->addWidget(sizeSpin);
+
+       QLabel * n3= new QLabel("angle ...");
+        layout->addWidget(n3);
     layout->addWidget(angleSpin);
+
+       QLabel * n4= new QLabel("particles speed...");
+        layout->addWidget(n4);
     layout->addWidget(speedSpin);
+
+       QLabel * n5= new QLabel("particles alpha step...");
+        layout->addWidget(n5);
     layout->addWidget(alphaSpin);
 
     layout->addWidget(startButton);
