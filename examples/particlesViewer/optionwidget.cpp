@@ -28,6 +28,10 @@ typeCheckBox = new QCheckBox("Explose type ? ");
 
 
 
+    speedSpin->setSingleStep(0.001);
+    alphaSpin->setSingleStep(0.001);
+
+
 
 
 startButton = new QPushButton("Start");
