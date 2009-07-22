@@ -26,8 +26,8 @@ bool KGLView::initGlew()
 {
 
     GLenum code;
-    kDebug()<<"Glew initialisation....";
-    /* initialisation de GLEW */
+    kDebug()<<"Glew initialization....";
+    /* initialization of GLEW */
     code = glewInit();
     if(code != GLEW_OK)
     {
@@ -147,7 +147,7 @@ void  KGLView::drawInfo()
     glColor3ub(255, 255, 255);
     renderText(50, 55, "fps : " + QString::number(m_fps));
     renderText(50, 70, "fff : " + QString::number(100 / m_fps));
-    renderText(50, 85, (m_isShaderSupported) ? "shader enable" : "shader unvaible" );
+    renderText(50, 85, (m_isShaderSupported) ? "Shaders supported" : "Shader unsupported" );
 }
 void KGLView::drawGLItems()
 {
