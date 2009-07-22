@@ -1,0 +1,25 @@
+#include <QWidget>
+#include <QTimer>
+#include <QLabel>
+#include <QPushButton>
+#include <QTimer>
+#include <QPainter>
+#include <QPixmap>
+#include <QMainWindow>
+
+#include <gluon/kgl/kglview.h>
+#include <gluon/kgl/kglengine.h>
+
+
+class MainWindow : public QMainWindow
+{
+  Q_OBJECT
+  public : 
+    MainWindow( QWidget * parent=0);
+  private:
+    
+    KGLView * m_view;
+    KGLEngine * m_engine;
+
+
+};
