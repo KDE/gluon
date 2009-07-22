@@ -2,8 +2,12 @@
 #define KGLVIEW_H
 
 #include <GL/glew.h>
+#include <QDebug>
 #include <QGLWidget>
 #include <QTimer>
+#ifdef Q_WS_X11
+	#include <QX11Info>
+#endif
 
 #include "kglengine.h"
 class KGLView : public QGLWidget
@@ -24,6 +28,22 @@ public:
         stop();
         start();
     }
+
+	void goFullscreen(int width = 0, int height = 0)
+	{
+		#ifdef Q_WS_X11
+			QX11Info *info = new QX11Info();
+			qDebug() << "X11" << info->screen();
+		#endif
+		#ifdef Q_WS_WIN
+			qDebug() << "Win";
+		#endif
+	}
+
+	void leaveFullscreen()
+	{
+	}
+
     inline void setOrthoView(QRectF &rect) {
         m_orthoView = rect;
         resizeGL(width(), height());
@@ -66,7 +86,7 @@ public:
     bool isShaderSupported(){return m_isShaderSupported;}
     float fps(){return m_fps;}
 
-    //===DRAW fonction
+    //===DRAW function
     void drawRepere(float scalex, float scaley);
     void drawInfo();
     void drawGLItems();

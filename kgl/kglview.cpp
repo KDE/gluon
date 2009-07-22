@@ -36,10 +36,8 @@ bool KGLView::initGlew()
     }
     kDebug()<<"Glew success...";
 
-    if ( isExtensionSupported("GL_ARB_shading_language_100" )
-        && isExtensionSupported("GL_ARB_shader_objects")
-        && isExtensionSupported("GL_ARB_vertex_shader")
-        && isExtensionSupported("GL_ARB_fragment_shader"))
+    if ( (isExtensionSupported("GL_ARB_vertex_shader") || isExtensionSupported("GL_vertex_shader"))
+        && (isExtensionSupported("GL_ARB_fragment_shader") || isExtensionSupported("GL_fragment_shader")))
         {
         kDebug()<<"Shaders supported...";
         m_isShaderSupported = true;
@@ -124,7 +122,7 @@ void KGLView::nextFrame()
     updateGL();
     m_countFrame++;
 }
-//===============DRAW FONCTION ============================
+//===============DRAW FUNCTION ============================
 void KGLView::drawRepere(float scalex, float scaley) // a modifier
 {
     glPushMatrix();
