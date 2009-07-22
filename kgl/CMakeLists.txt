@@ -2,31 +2,31 @@ include_directories(Box2D/Include)
 include_directories(physics)
 
 set(kgl_LIB_SRCS 
-    kglview.cpp
-    kglengine.cpp
-    kglphysicsengine.cpp
-    kglpoint.cpp
-    #kglintro.cpp
-    kglbaseitem.cpp
-    kglitem.cpp
-    #kglcontaineritem.cpp
-    #kglpixmapitem.cpp
     #kglanimitem.cpp
-   kgltextitem.cpp
-    kglparticlesitem.cpp
+    kglbaseitem.cpp
+    #kglblurprogram.cpp
     kglboxitem.cpp
-    kglpolygonitem.cpp
     kglcircleitem.cpp
-    kglphysicsitem.cpp
-    kgltexture.cpp
-    kglitemlist.cpp
-    kglshader.cpp
-    kglprogram.cpp
+    #kglcontaineritem.cpp
+	kglengine.cpp
+    kglfullscreen.cpp
     kglgriditem.cpp
-   # kglshadowitem.cpp
-   #  kglblurprogram.cpp
-
-   )
+    #kglintro.cpp
+    kglitem.cpp
+    kglitemlist.cpp
+    kglparticlesitem.cpp
+    kglphysicsengine.cpp
+    kglphysicsitem.cpp
+    #kglpixmapitem.cpp
+    kglpoint.cpp
+    kglpolygonitem.cpp
+    kglprogram.cpp
+    kglshader.cpp
+    #kglshadowitem.cpp
+    kgltextitem.cpp
+    kgltexture.cpp
+    kglview.cpp
+)
 
 SET(kgl_RCCS
      shaders/shaders.qrc
@@ -41,41 +41,39 @@ target_link_libraries(kgl ${KDE4_KDEUI_LIBS})
 target_link_libraries(kgl ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(kgl Box2D)
 
-# add_subdirectory(script)
-# add_subdirectory(screensavers)
-# add_subdirectory(tests)
 # add_subdirectory(examples)
 # add_subdirectory(includes)
+# add_subdirectory(screensavers)
+# add_subdirectory(script)
+# add_subdirectory(tests)
 ########### INSTALL FILES ###############
 
 install(TARGETS kgl ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
-    kglpoint.h
-    kglengine.h
-    kglphysicsengine.h
-    kglview.h
-    #kglintro.h
     #kglanimitem.h
-    kglitemlist.h
-    kglitem.h
     kglbaseitem.h
-    #kglcontaineritem.h
-    kgltextitem.h
-    kglparticlesitem.h
-    #kglpixmapitem.h
+    #kglblurprogram.h
     kglboxitem.h
-    kglpolygonitem.h
     kglcircleitem.h
+    #kglcontaineritem.h
+    kglengine.h
+    kglgriditem.h
+    #kglintro.h
+    kglitem.h
+    kglitemlist.h
+    kglparticlesitem.h
+    kglphysicsengine.h
     kglphysicsitem.h
-    kgltexture.h
-    kglshader.h
+    #kglpixmapitem.h
+    kglpoint.h
+    kglpolygonitem.h
     kglprogram.h
-   # kglshadowitem.h
-    # kglblurprogram.h
-     kglgriditem.h
-
-
+    kglshader.h
+    #kglshadowitem.h
+    kgltextitem.h
+    kgltexture.h
+    kglview.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
 add_subdirectory(Box2D) #add header installation
