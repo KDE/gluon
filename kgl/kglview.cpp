@@ -1,5 +1,29 @@
+/***************************************************************************
+ *   Copyright 2009 Casper van Donderen <casper.vandonderen@gmail.com>
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public
+ *   License as published by the Free Software Foundation; either
+ *   version 2 of the License, or (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ ***************************************************************************/
+
 #include "kglview.h"
 #include <KDebug>
+
+#ifdef Q_WS_X11
+	#include <X11/extensions/Xrender.h>
+	#include <X11/extensions/Xrandr.h>
+#endif
+
 KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
          :QGLWidget(parent)
 {
@@ -12,16 +36,14 @@ KGLView::KGLView(QWidget * parent)
          :QGLWidget(parent)
 {
     init();
-
 }
 
 KGLView::KGLView(KGLEngine * engine,QWidget * parent )
 {
    init();
    setEngine(engine);
-
-
 }
+
 bool KGLView::initGlew()
 {
 
@@ -49,10 +71,17 @@ bool KGLView::initGlew()
     }
 
     return true;
-
 }
 
-void  KGLView::init()
+void KGLView::goFullscreen(int w, int h)
+{
+}
+
+void KGLView::leaveFullscreen()
+{
+}
+
+void KGLView::init()
 {
     m_engine = NULL;
     m_frameRate = 20;

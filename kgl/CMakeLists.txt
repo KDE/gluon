@@ -9,7 +9,6 @@ set(kgl_LIB_SRCS
     kglcircleitem.cpp
     #kglcontaineritem.cpp
 	kglengine.cpp
-    kglfullscreen.cpp
     kglgriditem.cpp
     #kglintro.cpp
     kglitem.cpp

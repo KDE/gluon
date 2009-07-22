@@ -5,9 +5,6 @@
 #include <QDebug>
 #include <QGLWidget>
 #include <QTimer>
-#ifdef Q_WS_X11
-	#include <QX11Info>
-#endif
 
 #include "kglengine.h"
 class KGLView : public QGLWidget
@@ -29,20 +26,8 @@ public:
         start();
     }
 
-	void goFullscreen(int width = 0, int height = 0)
-	{
-		#ifdef Q_WS_X11
-			QX11Info *info = new QX11Info();
-			qDebug() << "X11" << info->screen();
-		#endif
-		#ifdef Q_WS_WIN
-			qDebug() << "Win";
-		#endif
-	}
-
-	void leaveFullscreen()
-	{
-	}
+	void goFullscreen(int width = 0, int height = 0);
+	void leaveFullscreen();
 
     inline void setOrthoView(QRectF &rect) {
         m_orthoView = rect;
