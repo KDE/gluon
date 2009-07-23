@@ -1,30 +1,30 @@
 /*
- * This file is part of the KGLEngine project.
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * This file is part of the Gluon library.
+ * Copyright 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright 2008 Charles Huet <packadal@gmail.com>
  *
- * This program is free software; you can redistribute it and/or
+ * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; see the file COPYING.  If not, write to
+ * along with this library; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #include "kglitem.h"
 #include <KDebug>
 
 #include <iostream>
 using namespace std;
-
 
 void KGLItem::init()
 {
@@ -41,17 +41,16 @@ void KGLItem::init()
     m_texRepeat = QPointF(1,1);
     m_program = NULL;
     resetTransform();
-
 }
+
 KGLItem::KGLItem(KGLEngine* parent)
-            :KGLBaseItem()
+    : KGLBaseItem()
 {
     init();
 }
 
-
 KGLItem::KGLItem(const QPolygonF &poly, KGLEngine * parent)
-           :KGLBaseItem()
+    : KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
@@ -59,18 +58,16 @@ KGLItem::KGLItem(const QPolygonF &poly, KGLEngine * parent)
 }
 
 KGLItem::KGLItem(const QSizeF &box , KGLEngine * parent)
-         :KGLBaseItem()
+    : KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
 
     createBox(box);
-
 }
 
-
 KGLItem::KGLItem(const QLineF &line, KGLEngine * parent)
-         :KGLBaseItem()
+    : KGLBaseItem()
 {
     init();
     setObjectName(metaObject()->className());
@@ -90,12 +87,10 @@ KGLItem *KGLItem::clone()
 {
 
     KGLItem * newItem = new KGLItem;
-
     newItem->setTexture(texture());
-
     return newItem;
-
 }
+
 void KGLItem::draw()
 {
     if (!m_isCreated)
@@ -106,7 +101,7 @@ void KGLItem::draw()
     glPushMatrix();
     glLoadMatrixd(matrix().data());
   
-        m_texture->bind();
+    m_texture->bind();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_FALSE);
@@ -132,13 +127,15 @@ void KGLItem::draw()
 
     drawChild();
     emit painted();
-
 }
+
 void  KGLItem::create()
 {
-        if (m_GLCallList != 0)
-            glDeleteLists(m_GLCallList, 1);
-        glNewList(m_GLCallList, GL_COMPILE);
+    if (m_GLCallList != 0)
+    {
+        glDeleteLists(m_GLCallList, 1);
+    }
+    glNewList(m_GLCallList, GL_COMPILE);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -157,23 +154,24 @@ void  KGLItem::create()
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 
-
-        if ( f_showCenter) drawCenter();
-        glEndList();
-        m_isCreated = true;
+    if (f_showCenter) 
+    {
+        drawCenter();
+    }
+    glEndList();
+    m_isCreated = true;
 }
 
 void KGLItem::updateTransform()
 {
-
     KGLBaseItem::updateTransform();
     if ( m_childItems.size()>0)
     {
         foreach(KGLItem* item, m_childItems)
             item->applyTransform(matrix());
-
     }
 }
+
 void KGLItem::drawChild()
 {
     if ( m_childItems.size()>0)
@@ -182,15 +180,13 @@ void KGLItem::drawChild()
             item->draw();
     }
 }
+
 void KGLItem::drawGLPoint(KGLPoint &p)
 {
-
     glTexCoord2f(p.texCoordX(), p.texCoordY());
 
     glColor4f(p.red(), p.green(), p.blue(), p.alpha());
     glVertex2d(p.x(), p.y());
-
-
 }
 
 void KGLItem::drawBoundingBox()
@@ -204,7 +200,6 @@ void KGLItem::drawBoundingBox()
     glVertex2d(rectAround.x(), rectAround.y() + rectAround.height());
     glEnd();
 }
-
 
 void KGLItem::setColor(const QColor &c)
 {
@@ -234,8 +229,4 @@ void KGLItem::drawCenter()
     glEnd();
     glColor3f(100, 100, 100);
     glPointSize(1);
-
 }
-
-//==================KGLPolygonItem ===================
-

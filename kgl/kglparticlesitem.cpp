@@ -1,21 +1,21 @@
 /*
- * This file is part of the KGLEngine2D project.
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * This file is part of the Gluon library.
+ * Copyright 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright 2008 Charles Huet <packadal@gmail.com>
  *
- * This program is free software; you can redistribute it and/or
+ * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; see the file COPYING.  If not, write to
+ * along with this library; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
@@ -30,9 +30,7 @@ using namespace std;
 KGLParticle::KGLParticle()
 {
     init();
-
 }
-
 
 void KGLParticle::init()
 {
@@ -56,7 +54,6 @@ void KGLParticle::init()
 
 void KGLParticle::move()
 {
-
     m_pos += m_direction*m_speed;
 
     m_alpha-=m_alphaStep;
@@ -66,25 +63,21 @@ void KGLParticle::move()
     m_col.setBlue(m_col.blue() + m_colStep.blue());
 
     if ( m_alpha <= 0)
+    {
         reset();
-
-
-
+    }
 }
-
 
 //===============================================================================================
 
 KGLParticlesItem::KGLParticlesItem(KGLEngine * parent)
-          :KGLItem(parent)
+    : KGLItem(parent)
 {
     qsrand(QDateTime::currentDateTime ().toTime_t ());
-
 }
 
 void KGLParticlesItem::draw()
 {
-
     foreach(KGLParticle * p, m_particles)
     {
         glPushMatrix();
@@ -116,6 +109,7 @@ void KGLParticlesItem::draw()
 }
 
 //=================================================================================
+
 //KGLParticlesExploseItem::KGLParticlesExploseItem(unsigned int number, unsigned int angle, KGLEngine * parent)
 //           :KGLParticlesItem(parent)
 //{
@@ -132,19 +126,16 @@ void KGLParticlesItem::draw()
 //
 //}
 
-
-
-
 void KGLParticlesItem::createExplose(unsigned int number,QPixmap texture,const double angle, float speed, float alphaStep,float size)
 {
- for (unsigned int i=0; i<number; ++i)
+    for (unsigned int i=0; i<number; ++i)
     {
-     KGLParticle *  p = new KGLParticle;
+        KGLParticle *  p = new KGLParticle;
         float a = (qrand()%(int)angle) * M_PI / 180;
         p->setDirection(QPointF(cos(a),sin(a)));
         p->setSpeed(speed);
-p->setSize(size);
-  p->setTexture(texture);
+        p->setSize(size);
+        p->setTexture(texture);
         p->setAlphaStep(alphaStep);
         addParticles(p);
     }
@@ -152,24 +143,20 @@ p->setSize(size);
 
 void KGLParticlesItem::createSmoke(unsigned int number,QPixmap texture,const double angle, float speed, float alphaStep,float size)
 {
-
- for ( unsigned int i=0; i<number; ++i)
+    for ( unsigned int i=0; i<number; ++i)
     {
-     KGLParticle *  p = new KGLParticle;
+        KGLParticle *  p = new KGLParticle;
         float a = (qrand()%(int)angle) * M_PI / 180;
         p->setDirection(QPointF(cos(a),sin(a)));
         p->setTexture(texture);
         p->setSpeed(speed);
         p->setAlphaStep(alphaStep);
-p->setSize(size);
+        p->setSize(size);
         float nbStep = p->alpha() / alphaStep;
         int i = qrand()%(int)nbStep;
         p->setPosition(p->position() + (p->direction()*p->speed()*i));
         p->setAlpha(1 - ( alphaStep*i));
-       p->setInitPosition(QPointF(0,0));
+        p->setInitPosition(QPointF(0,0));
         addParticles(p);
     }
-
-
 }
-

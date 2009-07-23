@@ -1,18 +1,21 @@
 /*
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
+ * This file is part of the Gluon library.
+ * Copyright 2008 Riva Laks <rivolaks@hot.ee>
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either 
- * version 2.1 of the License, or (at your option) any later version.
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public 
- * License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this library; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef KGLPROGRAM_H
@@ -26,7 +29,6 @@ template<class K, class V> class QHash;
 #include <GL/glew.h>
 #include "kglshader.h"
 #include <Eigen/Core>
-
 
 /**
  * @short Program class
@@ -115,132 +117,139 @@ template<class K, class V> class QHash;
  **/
 class KGLProgram
 {
-public:
-    /**
-     * Creates empty Program.
-     * You will need to add some shaders and link the program before you can
-     * use it.
-     **/
-    KGLProgram();
-    /**
-     * Creates Program, adds given list of shaders and links the program.
-     * If linking succeeded, the program is ready to be used.
-     **/
-    KGLProgram(const QList<KGLShader*>& shaders);
-    /**
-     * Loads vertex and fragment shaders from given files, adds them and links
-     * the program.
-     * If everything succeeded, then the program is ready to be used.
-     **/
-    KGLProgram(const QString& vertexshaderfile, const QString& fragmentshaderfile);
-    /**
-     * Deletes this program and frees all resources.
-     **/
-    virtual ~KGLProgram();
+    public:
+        /**
+         * Creates empty Program.
+         * You will need to add some shaders and link the program before you can
+         * use it.
+         **/
+         KGLProgram();
+        /**
+         * Creates Program, adds given list of shaders and links the program.
+         * If linking succeeded, the program is ready to be used.
+         **/
+         KGLProgram(const QList<KGLShader*>& shaders);
+        /**
+         * Loads vertex and fragment shaders from given files, adds them and links
+         * the program.
+         * If everything succeeded, then the program is ready to be used.
+         **/
+        KGLProgram(const QString& vertexshaderfile, const QString& fragmentshaderfile);
+       /**
+        * Deletes this library and frees all resources.
+        **/
+        virtual ~KGLProgram();
 
-    /**
-     * Adds given shader to this program.
-     **/
-    void addShader(KGLShader* shader);
-    /**
-     * Adds all shaders in the given list to this program.
-     **/
-    void addShaders(const QList<KGLShader*>& shaders);
+       /**
+        * Adds given shader to this library.
+        **/
+        void addShader(KGLShader* shader);
+       /**
+        * Adds all shaders in the given list to this library.
+        **/
+        void addShaders(const QList<KGLShader*>& shaders);
 
-    /**
-     * Tries to link the shader.
-     * If it succeeds, then the program is ready to be used.
-     * If there are errors, they should be visible in the @ref linkLog.
-     * @return whether linking succeeded.
-     **/
-    virtual bool link();
+       /**
+        * Tries to link the shader.
+        * If it succeeds, then the program is ready to be used.
+        * If there are errors, they should be visible in the @ref linkLog.
+        * @return whether linking succeeded.
+        **/
+        virtual bool link();
 
-    /**
-     * Returns true if this program can be used for rendering, false otherwise.
-     *
-     * Invalid programs can be result of syntax errors in the shader code.
-     *  Program which hasn't been linked yet is also invalid.
-     *
-     * @see link(), linkLog()
-     **/
-    bool isValid() const  { return mValid; }
-    /**
-     * @return Link log of the program or null if there was none or the program
-     *  hasn't been linked yet.
-     * Note that @ref Program keeps ownership of the returned string, so you
-     * mustn't delete it.
-     * TODO: maybe return QString?
-     **/
-    char* linkLog() const  { return mLinkLog; }
+       /**
+        * Returns true if this library can be used for rendering, false otherwise.
+        *
+        * Invalid programs can be result of syntax errors in the shader code.
+        *  Program which hasn't been linked yet is also invalid.
+        *
+        * @see link(), linkLog()
+        **/
+        bool isValid() const
+        {
+            return mValid;
+        }
+       /**
+        * @return Link log of the program or null if there was none or the program
+        *  hasn't been linked yet.
+        * Note that @ref Program keeps ownership of the returned string, so you
+        * mustn't delete it.
+        * TODO: maybe return QString?
+        **/
+        char* linkLog() const
+        {
+            return mLinkLog;
+        }
 
-    /**
-     * Binds the program so that it will be used for anything that is rendered
-     * after the bind() call.
-     *
-     * @see unbind()
-     **/
-    virtual void bind() const;
-    /**
-     * Unbind the program. Anything rendered after unbind() call will be
-     *  rendered using the fixed-function pipeline.
-     * Note that if you want to change the currently used program, you needn't
-     *  call unbind() before bind()ing the next program.
-     *
-     * @see bind()
-     **/
-    virtual void unbind() const;
+       /**
+        * Binds the program so that it will be used for anything that is rendered
+        * after the bind() call.
+        *
+        * @see unbind()
+        **/
+        virtual void bind() const;
+       /**
+        * Unbind the program. Anything rendered after unbind() call will be
+        *  rendered using the fixed-function pipeline.
+        * Note that if you want to change the currently used program, you needn't
+        *  call unbind() before bind()ing the next program.
+        *
+        * @see bind()
+        **/
+        virtual void unbind() const;
 
-    int uniformLocation(const QString& name);
-    int uniformLocation(const char* name);
+        int uniformLocation(const QString& name);
+        int uniformLocation(const char* name);
 
-    int attributeLocation(const QString& name);
-    int attributeLocation(const char* name);
+        int attributeLocation(const QString& name);
+        int attributeLocation(const char* name);
 
-    void invalidateLocations();
+        void invalidateLocations();
 
-    /**
-     * Sets the uniform with the given name to the given value and returns
-     *  true.
-     * If there is no uniform with such name then false is returned.
-     *
-     * Note that the program has to be bound before this method can be used.
-     *
-     * @see bind()
-     **/
-    bool setUniform(const char* name, float value);
-    /**
-     * @overload
-     **/
-    bool setUniform(const char* name, Eigen::Vector2f value);
-    /**
-     * @overload
-     **/
-    bool setUniform(const char* name, Eigen::Vector3f value);
-    /**
-     * @overload
-     **/
-    bool setUniform(const char* name, Eigen::Vector4f value);
-    /**
-     * @overload
-     **/
-    bool setUniform(const char* name, int value);
+       /**
+        * Sets the uniform with the given name to the given value and returns
+        *  true.
+        * If there is no uniform with such name then false is returned.
+        *
+        * Note that the program has to be bound before this method can be used.
+        *
+        * @see bind()
+        **/
+        bool setUniform(const char* name, float value);
+       /**
+        * @overload
+        **/
+        bool setUniform(const char* name, Eigen::Vector2f value);
+       /**
+        * @overload
+        **/
+        bool setUniform(const char* name, Eigen::Vector3f value);
+       /**
+        * @overload
+        **/
+        bool setUniform(const char* name, Eigen::Vector4f value);
+       /**
+        * @overload
+        **/
+        bool setUniform(const char* name, int value);
 
-    /**
-     * @return OpenGL id (aka handle) of this program.
-     **/
-    GLuint glId() const  { return mGLId; }
+       /**
+        * @return OpenGL id (aka handle) of this library.
+        **/
+        GLuint glId() const
+        {
+            return mGLId;
+        }
 
-protected:
-    void init();
+    protected:
+        void init();
 
-protected:
-    GLuint mGLId;
-    bool mValid;
-    char* mLinkLog;
-    QHash<QString, int>* mUniformLocations;
-    QHash<QString, int>* mAttributeLocations;
+    protected:
+        GLuint mGLId;
+        bool mValid;
+        char* mLinkLog;
+        QHash<QString, int>* mUniformLocations;
+        QHash<QString, int>* mAttributeLocations;
 };
 
-
-
-#endif
+#endif //KGLPROGRAM_H

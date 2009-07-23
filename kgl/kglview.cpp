@@ -1,20 +1,23 @@
-/***************************************************************************
- *   Copyright 2009 Casper van Donderen <casper.vandonderen@gmail.com>
+/*
+ * This file is part of the Gluon library.
+ * Copyright 2009 Gluon team
+ * Copyright 2009 Casper van Donderen <casper.vandonderen@gmail.com>
  *
- *   This program is free software; you can redistribute it and/or
- *   modify it under the terms of the GNU General Public
- *   License as published by the Free Software Foundation; either
- *   version 2 of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- ***************************************************************************/
+ * You should have received a copy of the GNU General Public License
+ * along with this library; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
 
 #include "kglview.h"
 #include <KDebug>
@@ -25,7 +28,7 @@
 #endif
 
 KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
-         :QGLWidget(parent)
+    : QGLWidget(parent)
 {
     init();
     resize(size);
@@ -33,7 +36,7 @@ KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
 }
 
 KGLView::KGLView(QWidget * parent)
-         :QGLWidget(parent)
+    : QGLWidget(parent)
 {
     init();
 }
@@ -46,7 +49,6 @@ KGLView::KGLView(KGLEngine * engine,QWidget * parent )
 
 bool KGLView::initGlew()
 {
-
     GLenum code;
     kDebug()<<"Glew initialization....";
     /* initialization of GLEW */
@@ -103,8 +105,8 @@ void KGLView::init()
     initGlew();
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
-
 }
+
 void KGLView::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
@@ -116,9 +118,8 @@ void KGLView::initializeGL()
     glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
     setAutoBufferSwap(true);
-
-
 }
+
 void KGLView::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
@@ -127,11 +128,9 @@ void KGLView::resizeGL(int w, int h)
     gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
 }
 
-
 void  KGLView::paintGL()
 {
-
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -151,7 +150,9 @@ void KGLView::nextFrame()
     updateGL();
     m_countFrame++;
 }
+
 //===============DRAW FUNCTION ============================
+
 void KGLView::drawRepere(float scalex, float scaley) // a modifier
 {
     glPushMatrix();
@@ -171,6 +172,7 @@ void KGLView::drawRepere(float scalex, float scaley) // a modifier
     glEnd();
     glPopMatrix();
 }
+
 void  KGLView::drawInfo()
 {
     glColor3ub(255, 255, 255);
@@ -178,6 +180,7 @@ void  KGLView::drawInfo()
     renderText(50, 70, "fff : " + QString::number(100 / m_fps));
     renderText(50, 85, (m_isShaderSupported) ? "Shaders supported" : "Shader unsupported" );
 }
+
 void KGLView::drawGLItems()
 {
     IndexGroupMap::const_iterator i = engine()->items().constBegin();

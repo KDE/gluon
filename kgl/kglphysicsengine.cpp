@@ -1,19 +1,38 @@
+/*
+ * This file is part of the Gluon library.
+ * Copyright 2009 Gluon team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #include "kglphysicsengine.h"
 #include <KDebug>
-KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
-    :KGLEngine(parent)
-{
 
+KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
+    : KGLEngine(parent)
+{
     m_gravity= b2Vec2(0.0f,-10.0f);
     createWorld();
-
-
-
 }
+
 KGLPhysicsEngine::~KGLPhysicsEngine()
 {
     delete m_world;
 }
+
 void KGLPhysicsEngine::createWorld()
 {
     b2AABB worldAABB;
@@ -23,36 +42,28 @@ void KGLPhysicsEngine::createWorld()
     bool doSleep = true;
     m_world = new b2World(worldAABB, m_gravity, doSleep);
 
-
-   KGLContactListener * l = new KGLContactListener;
+    KGLContactListener * l = new KGLContactListener;
     m_world->SetContactListener(l);
-
 }
 
 void KGLPhysicsEngine::mainLoop(float fps)
 {
     computeSimulation(10,fps);
-
 }
 
 void KGLPhysicsEngine::addItem(KGLPhysicsItem *  item)
 {
-
-        kDebug()<<"added OK";
-        m_list.append(item);
-        KGLEngine::addItem(item);
-       item->setup(m_world);
-
-
+    kDebug()<<"added OK";
+    m_list.append(item);
+    KGLEngine::addItem(item);
+    item->setup(m_world);
 }
 
 bool KGLPhysicsEngine::removeItem(KGLPhysicsItem * item)
 {
-
-        m_list.removeOne(item);
-        m_world->DestroyBody(item->body());
-        return KGLEngine::removeItem(item);
-
+    m_list.removeOne(item);
+    m_world->DestroyBody(item->body());
+    return KGLEngine::removeItem(item);
 }
 
 void KGLPhysicsEngine::clearPhysicsItem()
@@ -64,6 +75,7 @@ void KGLPhysicsEngine::clearPhysicsItem()
     }
     m_list.clear();
 }
+
 void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
 {
     float32 timeStep = 1.0f / fps;
@@ -87,9 +99,6 @@ void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
         //        myWorld->DestroyBody(b);
         //    }
     }
-
-
-
 }
 
 KGLPhysicsItem * KGLPhysicsEngine::itemAt(QPointF pos)
@@ -100,9 +109,6 @@ KGLPhysicsItem * KGLPhysicsEngine::itemAt(QPointF pos)
     d.Set(0.1, 0.1);
     aabb.lowerBound = p - d;
     aabb.upperBound = p + d;
-
-
-
 
     // Query the world for overlapping shapes.
     const int32 k_maxCount = 10;
@@ -131,12 +137,12 @@ KGLPhysicsItem * KGLPhysicsEngine::itemAt(QPointF pos)
 
 }
 
-
 //==========================KGLCOntactListener=======================================
-void KGLContactListener::Add(const b2ContactPoint* point) {
 
-   KGLPhysicsItem * item1 = (KGLPhysicsItem*)(point->shape1->GetBody()->GetUserData());
-   KGLPhysicsItem * item2 = (KGLPhysicsItem*)(point->shape2->GetBody()->GetUserData());
+void KGLContactListener::Add(const b2ContactPoint* point) 
+{
+    KGLPhysicsItem * item1 = (KGLPhysicsItem*)(point->shape1->GetBody()->GetUserData());
+    KGLPhysicsItem * item2 = (KGLPhysicsItem*)(point->shape2->GetBody()->GetUserData());
 
     if (item1 && item2)
     {
@@ -145,4 +151,3 @@ void KGLContactListener::Add(const b2ContactPoint* point) {
 
     }
 }
-
