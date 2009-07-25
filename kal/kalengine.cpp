@@ -5,11 +5,11 @@ KALEngine::KALEngine(QString deviceName,QObject * parent)
             :QObject(parent)
 
 {
-   alutInitWithoutContext(0, 0);
+    alutInitWithoutContext(0, 0);
     m_context = NULL;
     m_device =NULL;
 
-       if (setDevice(deviceName))
+    if (setDevice(deviceName))
     {
         if ( deviceName.isEmpty())
             kDebug()<<"set device to default";
@@ -22,38 +22,55 @@ KALEngine::KALEngine(QString deviceName,QObject * parent)
 
     kDebug()<<alGetError();
 }
+KALEngine::KALEngine(Phonon::Category category, QObject *parent)
+{
 
+    m_phonon = new KALPhonon(this);
+    m_phonon->setCategory(category);
+
+
+}
 KALEngine::~KALEngine()
 {
+
+    foreach ( KALSource * source, m_sourceList)
+        delete source;
+
+    foreach ( KALBuffer * buffer, m_bufferList)
+        delete buffer;
+
     alcMakeContextCurrent(NULL);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
 
 }
 
-KALEngine* KALEngine::getInstance()
+KALEngine* KALEngine::getInstance(QString deviceName)
 {
- if (NULL == instance)
-      {
-        kDebug()<< "creating singleton";
-        instance=  new KALEngine;
-      }
-    else
-      {
-        kDebug()<< "singleton already created!" ;
-      }
+    if (NULL == instance)
+    {
+        instance=  new KALEngine(deviceName);
+    }
     return instance;
-
-
 }
+KALEngine* KALEngine::getInstance(Phonon::Category category)
+{
+    if (NULL == instance)
+    {
+        instance=  new KALEngine(category);
+    }
+    return instance;
+}
+
+
 
 void KALEngine:: kill(){
     if (NULL != instance)
-      {
+    {
         delete instance;
         instance = NULL;
-      }
-  }
+    }
+}
 
 QStringList KALEngine::deviceList()
 {

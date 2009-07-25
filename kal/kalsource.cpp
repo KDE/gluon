@@ -27,77 +27,51 @@
 #include <KDE/KApplication>
 #include <KDE/KDebug>
 
-
+#include "kalengine.h"
 
 
 KALSource::KALSource(const QString &soundFile,QObject * parent)
         : QObject(parent)
 {
-
    if (!QFile::exists(soundFile)) {
         kDebug() << "Could not open" << soundFile;
         return;
     }
-
-m_buffer = KALBuffer(soundFile);
-setupSource();
-
-KALEngine * engineParent = KALEngine::getInstance();
-
-engineParent->addSource(this);
-
-//   if (!QFile::exists(soundFile)) {
-//        kDebug() << "Could not open" << soundFile;
-//    }
-//
-//    if (soundFile.isEmpty()) {
-//        m_buffer.setHelloWord();
-//    } else {
-//        m_buffer.setBuffer(soundFile);
-//    }
-//
-//    if (alGetError() != AL_NO_ERROR) {
-//        kDebug() << "Could not process sound while creating buffer:" << alGetError();
-//        return;
-//    }
-//
-//    if (m_buffer.isEmpty()) {
-//        kDebug() << "Could not process sound: buffer empty.";
-//        return;
-//    }
-//
-//    m_setupSource();
-
-
+m_buffer = new KALBuffer(soundFile);
+init();
 }
-
-
-KALSource::KALSource(KALBuffer buffer,QObject * parent)
+KALSource::KALSource(KALBuffer *buffer,QObject * parent)
 {
-
 m_buffer = buffer;
-setupSource();
-
+init();
 }
 
 KALSource::KALSource(ALuint buffer,QObject * parent)
 {
-m_buffer.setBuffer(buffer);
-setupSource();
-
-
-
+ m_buffer = new KALBuffer();
+m_buffer->setBuffer(buffer);
+init();
 }
 KALSource::~KALSource()
 {
-    alDeleteSources(1, &m_source);
+alDeleteSources(1, &m_source);
+KALEngine * engineParent = KALEngine::getInstance();
+engineParent->removeSource(this);
 
+
+}
+
+void KALSource::init()
+{
+KALEngine * engineParent = KALEngine::getInstance();
+engineParent->addSource(this);
+setupSource();
 }
 
 void KALSource::setupSource()
 {
     alGenSources(1, &m_source);  // Generate the source to play the buffer with
-    alSourcei(m_source, AL_BUFFER, m_buffer.buffer());  // Attach source to buffer
+    alSourcei(m_source, AL_BUFFER, m_buffer->buffer());  // Attach source to buffer
 
     if (alGetError() != AL_NO_ERROR) {
         kDebug() << "Could not process sound while generating source:" << alGetError();
@@ -108,10 +82,10 @@ void KALSource::setupSource()
         kDebug() << "Could not process sound: generated source empty.";
         return;
     }
-
-
-
 }
+
+
+
 
 void KALSource::updateSource()
 {

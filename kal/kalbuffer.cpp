@@ -30,6 +30,7 @@
 #include <KDebug>
 #include <QFileInfo>
 #include <vector>
+#include "kalengine.h"
 #define BUFFER_SIZE     32768       // 32 KB buffers
 
 
@@ -37,17 +38,33 @@ using namespace std;
 KALBuffer::KALBuffer()
         : m_buffer(0)
 {
+init();
 }
 
 KALBuffer::KALBuffer(const QString &fileName)
         : m_buffer(0)
 {
     setBuffer(fileName);
+    init();
 }
-
+    KALBuffer::KALBuffer(ALuint buffer)
+    {
+     m_buffer = buffer;
+init();
+    }
 KALBuffer::~KALBuffer()
 {
-    alDeleteBuffers(1, &m_buffer);
+   alDeleteBuffers(1, &m_buffer);
+    KALEngine * engine = KALEngine::getInstance();
+    engine->removeBuffer(this);
+
+}
+
+
+void KALBuffer::init()
+{
+KALEngine * engine = KALEngine::getInstance();
+engine->addBuffer(this);
 }
 
 void KALBuffer::setBuffer(const QString &fileName)
@@ -57,7 +74,7 @@ void KALBuffer::setBuffer(const QString &fileName)
    QFileInfo  file(fileName);
    if (!file.exists())
    {
-   kError()<<"Could not load file: the file dosn't exist";
+   kDebug()<<"Could not load file: the file dosn't exist";
    return ;
    }
 
@@ -75,7 +92,7 @@ ALuint KALBuffer::fromWav(const QString &fileName)
     SNDFILE* file = sf_open(fileName.toUtf8(), SFM_READ, &fileInfos);
 
     if (!file) {
-        kError() << "Could not load file:" << sf_strerror(file);
+        kDebug() << "Could not load file:" << sf_strerror(file);
         return 0;
     }
 
@@ -85,7 +102,7 @@ ALuint KALBuffer::fromWav(const QString &fileName)
     // Reading signed 16 bits samples (most commonly used format)
     std::vector<ALshort> samples(samplesNumber);
     if (sf_read_short(file, &samples[0], samplesNumber) < samplesNumber) {
-        kError() << "Could not read the sound data";
+        kDebug() << "Could not read the sound data";
         return 0;
     }
 
@@ -101,7 +118,7 @@ ALuint KALBuffer::fromWav(const QString &fileName)
         format = AL_FORMAT_STEREO16;
         break;
     default :
-        kError() << "Unsupported format: more than two canals";
+        kDebug() << "Unsupported format: more than two canals";
         return 0;
     }
 
@@ -112,7 +129,7 @@ ALuint KALBuffer::fromWav(const QString &fileName)
     alBufferData(buffer, format, &samples[0], samplesNumber * sizeof(ALushort), samplesRate);
 
     if (alGetError() != AL_NO_ERROR) {
-        kError() << "Could not read the samples: " << alGetError();
+        kDebug() << "Could not read the samples: " << alGetError();
         return 0;
     }
 
@@ -198,7 +215,7 @@ char array[BUFFER_SIZE];                // Local fixed size array
    alBufferData(albuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
 
     if (alGetError() != AL_NO_ERROR) {
-        kError() << "Could not read the samples: " << alGetError();
+        kDebug() << "Could not read the samples: " << alGetError();
         return 0;
     }
 

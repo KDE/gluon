@@ -25,15 +25,15 @@
 #include <alut.h>
 #include <sndfile.h>
 #include <QFile>
-#include "kalengine_export.h"
 
-class QString;
+#include "kalengine_export.h"
 
 class KALENGINE_EXPORT KALBuffer
 {
 public:
     KALBuffer();
     KALBuffer(const QString &fileName);
+    KALBuffer(ALuint buffer);
     ~KALBuffer();
     void setBuffer(const QString &fileName);
     void setBuffer(ALuint buffer){m_buffer = buffer;}
@@ -50,6 +50,10 @@ public:
     ALuint buffer() {
         return m_buffer;
     }
+
+    protected:
+    void init();
+
 private :
         ALuint m_buffer;
 };

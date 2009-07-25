@@ -27,12 +27,9 @@
 #include <QtCore/QFile>
 #include <QtGui/QProgressBar>
 #include <QtCore/QThread>
-#include "kalbuffer.h"
+
 #include "kalengine_export.h"
-
-#include "kalengine.h"
-
-class KALEngine;
+#include "kalbuffer.h"
 
 /**
 * @class KALSource kalsource.h <KALSource>
@@ -41,7 +38,7 @@ class KALEngine;
 class KALENGINE_EXPORT KALSource : public QObject
 {
     Q_OBJECT
-
+    
 public:
     /**
     * This is the default constructor
@@ -52,67 +49,76 @@ public:
     * This is the default constructor
     * @param KALBuffer the buffer
     */
-    KALSource(KALBuffer buffer,QObject * parent=0);
+    KALSource(KALBuffer *buffer,QObject * parent=0);
     /**
     * This is the default constructor
     * @param ALuint the buffer
     */
     KALSource(ALuint buffer,QObject * parent=0);
-
+    
+    
+    //
+    void setBuffer(const QString& soundFile) { m_buffer=new KALBuffer(soundFile);}
+    void setBuffer(KALBuffer * buffer){m_buffer = buffer;}
+    void setBuffer(ALuint buffer){m_buffer = new KALBuffer(buffer);}
+    
+    
     /**
     * Destructor
     */
     ~KALSource();
-
+    
     /**
     * @return the time since the sound started playing
     */
     ALfloat elapsedTime();
-
+    
     /**
     * @return the sound status
     */
     ALint status();
-
+    
     /**
     * @todo this function isn't defined!
     * @return the last error reported
     */
     QString lastError();
-
+    
     /**
     * @return the x position of the listener
     * @see setPosition, y, z
     */
     ALfloat x();
-
+    
     /**
     * @return the y position of the listener
     * @see setPosition, x, z
     */
     ALfloat y();
-
+    
     /**
     * @return the z position of the listener
     * @see setPosition, x, y
     */
     ALfloat z();
-
+    
     /**
     * @return the gain currently applied
     * @see setGain
     */
     ALfloat gain();
-
+    
     /**
     * @return the pitch currently applied
     * @see setPitch
     */
     ALfloat pitch();
-
-
-
-
+    
+    
+protected:
+    void init();
+    
+    
 public Q_SLOTS:
     /**
     * Plays the sound file from the beginning or from the moment
@@ -125,28 +131,28 @@ public Q_SLOTS:
     * @see play, stop, rewind
     */
     void pause();
-
+    
     /**
     * Stops the sound currently played
     * @see play, pause, rewind
     */
     void stop();
-
+    
     /**
     * If the sound was paused, this will rewind it so that next time
     * play() is called, it will play from the start
     */
     void rewind();
-
+    
     /**
     * Makes the sound play in a loop when play() is called
     * @p enabled play in a loop if set to true
     * @see play
     */
     void loop(bool enabled = true);
-
-
-
+    
+    
+    
     /**
     * Sets the position of the listener, this is used to create
     * 3D sounds using effects to artificially change sound origin
@@ -161,7 +167,7 @@ public Q_SLOTS:
     * Listener position is always in the world coordinate system.
     */
     void setPosition(ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0);
-
+    
     /**
     * Change the gain (volume amplification) applied
     * The openAL documentation defines the underlying variable as:
@@ -174,42 +180,42 @@ public Q_SLOTS:
     * @see gain
     */
     void setGain(ALfloat volume = 1.0f);
-
+    
     /**
     * Specify the pitch to be applied, either at source,
     * or on mixer results, at listener.
     * @param pitch a value between 0.5 and 2.0
     */
     void setPitch(ALfloat pitch = 1.0f);
-
-
+    
+    
     void setMinGain(ALfloat min = 0.0f);
     void setMaxGain(ALfloat max = 10.0f);
     void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
     void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
-
+    
     void setupSource();
     void updateSource();
 private:
-
-
- bool m_toPlay;
-
-
-
-    KALBuffer m_buffer;
+    
+    
+    bool m_toPlay;
+    
+    
+    
+    KALBuffer *m_buffer;
     ALuint m_source;
     ALfloat m_x;
     ALfloat m_y;
     ALfloat m_z;
     ALfloat m_gain;
     ALfloat m_pitch;
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
 };
 
 #endif // KALSOURCE_H

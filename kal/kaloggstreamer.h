@@ -7,6 +7,7 @@
 
 #include <QThread>
 #include <string>
+#include "kalsource.h"
 #define BUFFER_SIZE (4096 * 4)
 
 using namespace std;
@@ -22,11 +23,7 @@ Q_OBJECT
      public slots:
         void play(){run();}
         void playThread(){start();}
-
-
-
    protected:
-
         void open(string path);
         void release();
         void display();

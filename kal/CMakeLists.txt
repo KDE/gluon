@@ -1,10 +1,10 @@
 set(kal_LIB_SRCS
    # kalengine.cpp
-   #kalphonon.cpp
+   kalphonon.cpp
    # kalsoundloader.cpp
    # kalsource.cpp
   #  kalbuffer.cpp
-   # kaloggstreamer.cpp
+    kaloggstreamer.cpp
 
 kalengine.cpp
 kalbuffer.cpp
