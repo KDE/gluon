@@ -18,7 +18,7 @@ class MyWidget : public QWidget
     void mainLoop();
   private:
  
-KCLEngine * kcl;
+KCLInput * input ;
     QTimer * timer;
     
     QPixmap * pix;

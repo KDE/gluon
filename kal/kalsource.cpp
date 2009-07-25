@@ -21,234 +21,208 @@
 */
 
 #include "kalsource.h"
-#include "kalengine.h"
-#include "kalsoundloader.h"
 #include "kalbuffer.h"
 #include <sndfile.h>
 
 #include <KDE/KApplication>
 #include <KDE/KDebug>
 
-class KALSourcePrivate
-{
-public:
-    KALSourcePrivate()
-            : source(0) {}
 
-    /**
-    * @internal
-    */
-    void setupSource();
 
-    KALEngine *parentEngine;
-    bool toPlay;
-    KALBuffer buffer;
-    ALuint source;
-    ALfloat x;
-    ALfloat y;
-    ALfloat z;
-    ALfloat gain;
-    ALfloat pitch;
-};
 
-KALSource::KALSource(const QString &_soundFile, KALEngine *parent)
+KALSource::KALSource(const QString &soundFile,QObject * parent)
         : QObject(parent)
 {
-    d = new KALSourcePrivate();
-    d->parentEngine = parent;
 
-    QString soundFile;
-
-    if (KApplication::instance()) {
-        QString soundFile = KALSoundLoader::global()->soundPath(_soundFile);
-    }
-
-    if (soundFile.isEmpty()) {
-        soundFile = _soundFile;
-    }
-
-    if (!QFile::exists(soundFile)) {
-        kError() << "Could not open" << soundFile;
-    }
-
-    if (soundFile.isEmpty()) {
-        d->buffer.setHelloWord();
-    } else {
-        d->buffer.setBuffer(soundFile);
-    }
-
-    if (alGetError() != AL_NO_ERROR) {
-        kError() << "Could not process sound while creating buffer:" << alGetError();
+   if (!QFile::exists(soundFile)) {
+        kDebug() << "Could not open" << soundFile;
         return;
     }
 
-    if (d->buffer.isEmpty()) {
-        kError() << "Could not process sound: buffer empty.";
-        return;
-    }
+m_buffer = KALBuffer(soundFile);
+setupSource();
 
-    d->setupSource();
+KALEngine * engineParent = KALEngine::getInstance();
 
-    connect(parentEngine(), SIGNAL(deviceChanged(QString)), this, SLOT(updateSource()));
+engineParent->addSource(this);
+
+//   if (!QFile::exists(soundFile)) {
+//        kDebug() << "Could not open" << soundFile;
+//    }
+//
+//    if (soundFile.isEmpty()) {
+//        m_buffer.setHelloWord();
+//    } else {
+//        m_buffer.setBuffer(soundFile);
+//    }
+//
+//    if (alGetError() != AL_NO_ERROR) {
+//        kDebug() << "Could not process sound while creating buffer:" << alGetError();
+//        return;
+//    }
+//
+//    if (m_buffer.isEmpty()) {
+//        kDebug() << "Could not process sound: buffer empty.";
+//        return;
+//    }
+//
+//    m_setupSource();
+
+
 }
 
 
-KALSource::KALSource(KALBuffer buffer, KALEngine *parent)
+KALSource::KALSource(KALBuffer buffer,QObject * parent)
 {
-d = new KALSourcePrivate();
-d->parentEngine = parent;
-d->buffer = buffer;
-d->setupSource();
-connect(parentEngine(), SIGNAL(deviceChanged(QString)), this, SLOT(updateSource()));
+
+m_buffer = buffer;
+setupSource();
+
 }
 
-KALSource::KALSource(ALuint buffer, KALEngine *parent)
+KALSource::KALSource(ALuint buffer,QObject * parent)
 {
-d = new KALSourcePrivate();
-d->parentEngine = parent;
-d->buffer.setBuffer(buffer);
-d->setupSource();
-connect(parentEngine(), SIGNAL(deviceChanged(QString)), this, SLOT(updateSource()));
+m_buffer.setBuffer(buffer);
+setupSource();
+
 
 
 }
 KALSource::~KALSource()
 {
-    alDeleteSources(1, &d->source);
+    alDeleteSources(1, &m_source);
 
 }
 
-void KALSourcePrivate::setupSource()
+void KALSource::setupSource()
 {
-    alGenSources(1, &source);  // Generate the source to play the buffer with
-    alSourcei(source, AL_BUFFER, buffer.buffer());  // Attach source to buffer
+    alGenSources(1, &m_source);  // Generate the source to play the buffer with
+    alSourcei(m_source, AL_BUFFER, m_buffer.buffer());  // Attach source to buffer
 
     if (alGetError() != AL_NO_ERROR) {
-        kError() << "Could not process sound while generating source:" << alGetError();
+        kDebug() << "Could not process sound while generating source:" << alGetError();
         return;
     }
 
-    if (!source) {
-        kError() << "Could not process sound: generated source empty.";
+    if (!m_source) {
+        kDebug() << "Could not process sound: generated source empty.";
         return;
     }
+
+
+
 }
 
 void KALSource::updateSource()
 {
-    stop();
-
-    alDeleteSources(1, &d->source);
-    //alDeleteBuffers(1, &d->buffer);
-    d->setupSource();
+//    stop();
+//    alDeleteSources(1, &m_source);
+//    //alDeleteBuffers(1, &m_buffer);
+//    m_setupSource();
 }
 
 ALfloat KALSource::elapsedTime()
 {
     ALfloat seconds = 0.f;
-    alGetSourcef(d->source, AL_SEC_OFFSET, &seconds);
+    alGetSourcef(m_source, AL_SEC_OFFSET, &seconds);
     return seconds;
 }
 
 ALint KALSource::status()
 {
     ALint status;
-    alGetSourcei(d->source, AL_SOURCE_STATE, &status);
+    alGetSourcei(m_source, AL_SOURCE_STATE, &status);
     return status;
 }
 
 void KALSource::loop(bool enabled)
 {
-    alSourcei(d->source, AL_LOOPING, enabled);
+    alSourcei(m_source, AL_LOOPING, enabled);
 }
 
 ALfloat KALSource::x()
 {
-    return d->x;
+    return m_x;
 }
 
 ALfloat KALSource::y()
 {
-    return d->y;
+    return m_y;
 }
 
 ALfloat KALSource::z()
 {
-    return d->z;
+    return m_z;
 }
 
 ALfloat KALSource::gain()
 {
-    return d->gain;
+    return m_gain;
 }
 
 ALfloat KALSource::pitch()
 {
-    return d->pitch;
+    return m_pitch;
 }
 
-KALEngine* KALSource::parentEngine()
-{
-    return d->parentEngine;
-}
 
 void KALSource::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
-    d->x = x;
-    d->y = y;
-    d->z = z;
+    m_x = x;
+    m_y = y;
+    m_z = z;
 
     ALfloat listenerPosition[] = { x, y, z };
-    alSourcefv(d->source, AL_POSITION, listenerPosition);
+    alSourcefv(m_source, AL_POSITION, listenerPosition);
 }
 
 void KALSource::setGain(ALfloat volume)
 {
-    d->gain = volume;
-    alSourcef(d->source, AL_GAIN, volume);
+    m_gain = volume;
+    alSourcef(m_source, AL_GAIN, volume);
 }
 
 void KALSource::setPitch(ALfloat pitch)
 {
-    d->pitch = pitch;
-    alSourcef(d->source, AL_PITCH, pitch);
+    m_pitch = pitch;
+    alSourcef(m_source, AL_PITCH, pitch);
 }
 
 void KALSource::play()
 {
-    alSourcePlay(d->source);
+    alSourcePlay(m_source);
 }
 
 void KALSource::pause()
 {
-    alSourcePause(d->source);
+    alSourcePause(m_source);
 }
 
 void KALSource::stop()
 {
-    alSourceStop(d->source);
+    alSourceStop(m_source);
 }
 
 void KALSource::rewind()
 {
-    alSourceRewind(d->source);
+    alSourceRewind(m_source);
 }
 
 void KALSource::setMinGain(ALfloat min)
 {
-    alSourcef(d->source, AL_MIN_GAIN, min);
+    alSourcef(m_source, AL_MIN_GAIN, min);
 }
 void KALSource::setMaxGain(ALfloat max)
 {
-    alSourcef(d->source, AL_MAX_GAIN, max);
+    alSourcef(m_source, AL_MAX_GAIN, max);
 }
 void KALSource::setVelocity(ALfloat vx, ALfloat vy, ALfloat vz)
 {
     ALfloat velocity[] = { vx, vy, vz };
-    alSourcefv(d->source, AL_VELOCITY, velocity);
+    alSourcefv(m_source, AL_VELOCITY, velocity);
 }
 void KALSource::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
 {
     ALfloat direction[] = { dx, dy, dz };
-    alSourcefv(d->source, AL_POSITION, direction);
+    alSourcefv(m_source, AL_POSITION, direction);
 }

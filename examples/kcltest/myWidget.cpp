@@ -16,43 +16,18 @@ connect(timer,SIGNAL(timeout()),this, SLOT(mainLoop()));
 pix = new QPixmap(width(),height());
 pix->fill(Qt::white);
 
-KCLInput * joy = new KCLInput("/dev/input/event5");
-KCLInput * mouse = new KCLInput("/dev/input/event4");
-kcl = new KCLEngine;
+input = new KCLInput("/dev/input/event5");
 
-kcl->setButton("Left",BTN_TRIGGER,joy);
-kcl->setButton("Action",BTN_LEFT,mouse);
 
+KCLEngine * engine = new KCLEngine;
 
 pos = QPoint(0,0);
   }
 void MyWidget::mainLoop()
 {
-
-
- if (( kcl->button("Left")) &&(kcl->button("Action")))
-   kDebug()<<"Je t'aime perrine!!!!!!!!!!!!!!!!!";
-  
- 
-//    pix->fill(Qt::white);
-// QPainter paint(pix);
-// paint.setPen(QPen(Qt::green));
-// 
-//  
-//  if ( input->anyButton())
-//  {
-//    
-//    
-// kDebug()<<input->axisAbsolu(ABS_GAS);
-//    pos = QPoint(  input->axisAbsolu(ABS_X), input->axisAbsolu(ABS_Y) );
-// paint.drawLine(QPoint(width()/2,height()/2),pos);
-//    
-//  }
-//   
-
-
- 
- 
+if ( input->anyPress())
+   kDebug()<<"pressing..."; 
+   
  update();
 }
 
@@ -61,9 +36,6 @@ void MyWidget::mainLoop()
     {
       
       QPainter paint(this);
-      
-      paint.drawPixmap(0,0,*pix);
-      
-      
-      
+        paint.drawPixmap(0,0,*pix);
+   
     }

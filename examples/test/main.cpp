@@ -24,20 +24,12 @@
 #include <KAboutData>
 #include <KCmdLineArgs>
 
-#include <gluon/kgl/kglview.h>
-#include <gluon/kgl/kglengine.h>
-#include <gluon/kgl/kglphysicsengine.h>
-#include <gluon/kgl/kglphysicsitem.h>
-#include <gluon/kgl/kglgriditem.h>
-#include <gluon/kgl/kglparticlesitem.h>
-#include <gluon/gluondialog.h>
-#include <gluon/gluonmainwindow.h>
-#include <gluon/gluonintroitem.h>
 
 
-#include <gluon/kcl/kclengine.h>
-#include <gluon/kcl/kclevent.h>
 
+#include <gluon/kal/kalengine.h>
+#include <gluon/kal/kalsource.h>
+#include <gluon/kal/kalbuffer.h>
 #include <KDebug>
 #include <iostream>
 #include <QDebug>
@@ -56,17 +48,19 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-
-KGLParticlesItem * item = new KGLParticlesItem;
-
-
-main->glEngine()->addItem(item);
+KALEngine * kal = KALEngine::getInstance();
 
 
-main->view()->setInfoShow(true);
-main->view()->start();
-main->show();
 
+   KALSource * source  = new KALSource(KALBuffer::fromOgg("sober.ogg"));
+
+
+source->play();
+    
+    
+QWidget * widget = new QWidget;
+
+widget->show();
 
  app.exec();
 

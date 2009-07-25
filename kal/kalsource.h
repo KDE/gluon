@@ -24,15 +24,15 @@
 #define KALSOURCE_H
 
 #include <alut.h>
-
 #include <QtCore/QFile>
 #include <QtGui/QProgressBar>
 #include <QtCore/QThread>
 #include "kalbuffer.h"
 #include "kalengine_export.h"
 
+#include "kalengine.h"
+
 class KALEngine;
-class KALSourcePrivate;
 
 /**
 * @class KALSource kalsource.h <KALSource>
@@ -47,17 +47,17 @@ public:
     * This is the default constructor
     * @param soundFile the path of the file to play
     */
-    KALSource(const QString &_soundFile, KALEngine *parentEngine);
+    KALSource(const QString &soundFile,QObject * parent=0);
     /**
     * This is the default constructor
     * @param KALBuffer the buffer
     */
-    KALSource(KALBuffer buffer, KALEngine *parentEngine);
+    KALSource(KALBuffer buffer,QObject * parent=0);
     /**
     * This is the default constructor
     * @param ALuint the buffer
     */
-    KALSource(ALuint buffer, KALEngine *parentEngine);
+    KALSource(ALuint buffer,QObject * parent=0);
 
     /**
     * Destructor
@@ -112,16 +112,6 @@ public:
 
 
 
-
-
-
-
-
-
-    /**
-    * @return the parent KALEngine
-    */
-    KALEngine* parentEngine();
 
 public Q_SLOTS:
     /**
@@ -198,12 +188,28 @@ public Q_SLOTS:
     void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
     void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
 
-
-private:
-    KALSourcePrivate *d;
-
-private Q_SLOTS:
+    void setupSource();
     void updateSource();
+private:
+
+
+ bool m_toPlay;
+
+
+
+    KALBuffer m_buffer;
+    ALuint m_source;
+    ALfloat m_x;
+    ALfloat m_y;
+    ALfloat m_z;
+    ALfloat m_gain;
+    ALfloat m_pitch;
+
+
+
+
+
+
 };
 
 #endif // KALSOURCE_H
