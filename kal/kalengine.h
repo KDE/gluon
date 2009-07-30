@@ -39,17 +39,38 @@
 class KALSource;
 class KALBuffer;
 
+/**
+* @class KALEngine kalengine.h <KALEngine>
+* KALEngine is an audio engine which uses OpenAL for sound processing
+*/
 class KALEngine : public QObject
 {
+
 private:
     KALEngine(QString deviceName = QString(), QObject *parent = 0);
     KALEngine(Phonon::Category category, QObject *parent = 0);
     ~KALEngine();
 
 public:
+    /**
+    * Return a reference to the KALEngine singleton instance or create one if none exist
+    */
+    static KALEngine *getInstance(QString deviceName = QString());
+
+    /**
+    * Return a reference to the KALEngine singleton instance or create one if none exist
+    */
+    static KALEngine *getInstance(Phonon::Category category);
+
+    /**
+    * Change the output device to the specified OpenAL device name
+    * @param deviceName the OpenAL device name
+    * @return true if the new device was successfuly set, false otherwise
+    * @see deviceList, setCategory
+    */
     bool setDevice(QString deviceName);
 
-    ALCcontext * context() {
+    ALCcontext *context() {
         return m_context;
     }
 
@@ -57,10 +78,11 @@ public:
         return m_device;
     }
 
+    /**
+    * @return a QStringList of the available output devices
+    * @see setDevice
+    */
     static QStringList deviceList();
-
-    static KALEngine *getInstance(QString deviceName = QString());
-    static KALEngine *getInstance(Phonon::Category category);
 
     static void kill();
 
