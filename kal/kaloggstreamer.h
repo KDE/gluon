@@ -1,5 +1,5 @@
-#ifndef KAL_OGG_STREAMER
-#define KAL_OGG_STREAMER
+#ifndef KALOGGSTREAMER_H
+#define KALOGGSTREAMER_H
 
 #include <AL/al.h>
 #include <ogg/ogg.h>
@@ -14,46 +14,48 @@ using namespace std;
 
 class KALOggStreamer : public QThread
 {
-Q_OBJECT
-    public:
-        KALOggStreamer(QString fileName=QString());
-        void run();
-        bool playing();
+    Q_OBJECT
 
-     public slots:
-        void play(){run();}
-        void playThread(){start();}
-   protected:
-        void open(string path);
-        void release();
-        void display();
-        bool playback();
-        bool update();
+public:
+    KALOggStreamer(QString fileName = QString());
+    void run();
+    bool isPlaying();
 
-       void setFileName(QString f) { m_fileName = f;}
-    
-  
+public slots:
+    void play() {
+        run();
+    }
+    void playThread() {
+        start();
+    }
 
- 
+protected:
+    void open(string path);
+    void release();
+    void display();
+    bool playback();
+    bool update();
 
-        bool stream(ALuint buffer);
-        void empty();
-        void check();
-        string errorString(int code);
+    void setFileName(QString f) {
+        m_fileName = f;
+    }
 
-    private:
+    bool stream(ALuint buffer);
+    void empty();
+    void check();
+    string errorString(int code);
 
-        FILE*           oggFile;
-        OggVorbis_File  oggStream;
-        vorbis_info*    vorbisInfo;
-        vorbis_comment* vorbisComment;
+private:
+    FILE*           oggFile;
+    OggVorbis_File  oggStream;
+    vorbis_info*    vorbisInfo;
+    vorbis_comment* vorbisComment;
 
-        ALuint buffers[2];
-        ALuint source;
-        ALenum format;
+    ALuint buffers[2];
+    ALuint source;
+    ALenum format;
 
-         QString m_fileName;
+    QString m_fileName;
 };
 
-
-#endif 
+#endif // KALOGGSTREAMER_H

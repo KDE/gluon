@@ -1,72 +1,60 @@
 #include "kalengine.h"
 KALEngine *KALEngine::instance = NULL;
 
-KALEngine::KALEngine(QString deviceName,QObject * parent)
-            :QObject(parent)
-
+KALEngine::KALEngine(QString deviceName, QObject *parent)
+        : QObject(parent)
 {
     alutInitWithoutContext(0, 0);
     m_context = NULL;
-    m_device =NULL;
+    m_device = NULL;
 
-    if (setDevice(deviceName))
-    {
-        if ( deviceName.isEmpty())
-            kDebug()<<"set device to default";
-        else kDebug()<<"set device to "<<deviceName;
+    if (setDevice(deviceName)) {
+        if (deviceName.isEmpty()) {
+            kDebug() << "set device to default";
+        } else {
+            kDebug() << "set device to " << deviceName;
+        }
+    } else {
+        kDebug() << "cannot set openAL device...";
     }
-    else
-        kDebug()<<"cannot set openAL device...";
 
-
-
-    kDebug()<<alGetError();
+    kDebug() << alGetError();
 }
+
 KALEngine::KALEngine(Phonon::Category category, QObject *parent)
 {
-
     m_phonon = new KALPhonon(this);
     m_phonon->setCategory(category);
-
-
 }
+
 KALEngine::~KALEngine()
 {
-
-    foreach ( KALSource * source, m_sourceList)
-        delete source;
-
-    foreach ( KALBuffer * buffer, m_bufferList)
-        delete buffer;
+    qDeleteAll(m_sourceList);
+    qDeleteAll(m_bufferList);
 
     alcMakeContextCurrent(NULL);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
-
 }
 
-KALEngine* KALEngine::getInstance(QString deviceName)
+KALEngine *KALEngine::getInstance(QString deviceName)
 {
-    if (NULL == instance)
-    {
-        instance=  new KALEngine(deviceName);
+    if (NULL == instance) {
+        instance =  new KALEngine(deviceName);
     }
     return instance;
 }
-KALEngine* KALEngine::getInstance(Phonon::Category category)
+KALEngine *KALEngine::getInstance(Phonon::Category category)
 {
-    if (NULL == instance)
-    {
-        instance=  new KALEngine(category);
+    if (NULL == instance) {
+        instance =  new KALEngine(category);
     }
     return instance;
 }
 
-
-
-void KALEngine:: kill(){
-    if (NULL != instance)
-    {
+void KALEngine::kill()
+{
+    if (NULL != instance) {
         delete instance;
         instance = NULL;
     }
@@ -90,13 +78,12 @@ QStringList KALEngine::deviceList()
 
 bool KALEngine::setDevice(QString deviceName)
 {
-
-    if ( m_device)
-    {
+    if (m_device) {
         alcMakeContextCurrent(NULL);
         alcDestroyContext(m_context);
         alcCloseDevice(m_device);
     }
+
     if (!deviceName.isEmpty()) {
         m_device = alcOpenDevice(deviceName.toUtf8());
     } else {
@@ -116,5 +103,6 @@ bool KALEngine::setDevice(QString deviceName)
     if (!alcMakeContextCurrent(m_context)) {
         return false;
     }
+
     return true;
 }

@@ -21,11 +21,11 @@
 #ifndef KALPHONON_H
 #define KALPHONON_H
 
+#include "kalengine_export.h"
+
 #include <Phonon/AudioOutput>
 
 #include <QtCore/QRegExp>
-
-#include "kalengine_export.h"
 
 class KALPhononPrivate;
 

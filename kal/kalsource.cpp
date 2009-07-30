@@ -30,42 +30,43 @@
 #include "kalengine.h"
 
 
-KALSource::KALSource(const QString &soundFile,QObject * parent)
+KALSource::KALSource(const QString &soundFile, QObject *parent)
         : QObject(parent)
 {
-   if (!QFile::exists(soundFile)) {
+    if (!QFile::exists(soundFile)) {
         kDebug() << "Could not open" << soundFile;
         return;
     }
-m_buffer = new KALBuffer(soundFile);
-init();
-}
-KALSource::KALSource(KALBuffer *buffer,QObject * parent)
-{
-m_buffer = buffer;
-init();
+
+    m_buffer = new KALBuffer(soundFile);
+    init();
 }
 
-KALSource::KALSource(ALuint buffer,QObject * parent)
+KALSource::KALSource(KALBuffer *buffer, QObject *parent)
 {
- m_buffer = new KALBuffer();
-m_buffer->setBuffer(buffer);
-init();
+    m_buffer = buffer;
+    init();
 }
+
+KALSource::KALSource(ALuint buffer, QObject *parent)
+{
+    m_buffer = new KALBuffer();
+    m_buffer->setBuffer(buffer);
+    init();
+}
+
 KALSource::~KALSource()
 {
-alDeleteSources(1, &m_source);
-KALEngine * engineParent = KALEngine::getInstance();
-engineParent->removeSource(this);
-
-
+    alDeleteSources(1, &m_source);
+    KALEngine * engineParent = KALEngine::getInstance();
+    engineParent->removeSource(this);
 }
 
 void KALSource::init()
 {
-KALEngine * engineParent = KALEngine::getInstance();
-engineParent->addSource(this);
-setupSource();
+    KALEngine *engineParent = KALEngine::getInstance();
+    engineParent->addSource(this);
+    setupSource();
 }
 
 void KALSource::setupSource()
@@ -83,9 +84,6 @@ void KALSource::setupSource()
         return;
     }
 }
-
-
-
 
 void KALSource::updateSource()
 {
@@ -139,7 +137,6 @@ ALfloat KALSource::pitch()
     return m_pitch;
 }
 
-
 void KALSource::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
     m_x = x;
@@ -186,15 +183,18 @@ void KALSource::setMinGain(ALfloat min)
 {
     alSourcef(m_source, AL_MIN_GAIN, min);
 }
+
 void KALSource::setMaxGain(ALfloat max)
 {
     alSourcef(m_source, AL_MAX_GAIN, max);
 }
+
 void KALSource::setVelocity(ALfloat vx, ALfloat vy, ALfloat vz)
 {
     ALfloat velocity[] = { vx, vy, vz };
     alSourcefv(m_source, AL_VELOCITY, velocity);
 }
+
 void KALSource::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
 {
     ALfloat direction[] = { dx, dy, dz };

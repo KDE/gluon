@@ -35,8 +35,11 @@ public:
     KALBuffer(const QString &fileName);
     KALBuffer(ALuint buffer);
     ~KALBuffer();
+
     void setBuffer(const QString &fileName);
-    void setBuffer(ALuint buffer){m_buffer = buffer;}
+    void setBuffer(ALuint buffer) {
+        m_buffer = buffer;
+    }
 
     bool isEmpty() {
         return !m_buffer;
@@ -44,18 +47,20 @@ public:
 
     static ALuint fromWav(const QString &fileName);
     static ALuint fromOgg(const QString &fileName);
+
     void setHelloWord() {
         m_buffer = alutCreateBufferHelloWorld();
     }
+
     ALuint buffer() {
         return m_buffer;
     }
 
-    protected:
+protected:
     void init();
 
 private :
-        ALuint m_buffer;
+    ALuint m_buffer;
 };
 
 #endif // KALBUFFER_H
