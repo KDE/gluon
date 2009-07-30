@@ -1,5 +1,5 @@
 /*
-* This file is part of the KALEngine project.
+* This file is part of the Gluon project.
 * Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
 *
 * This program is free software; you can redistribute it and/or
