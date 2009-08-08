@@ -3,8 +3,8 @@ project(gluon)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-find_package(KDE4 REQUIRED)
 find_package(Qt4 REQUIRED)
+find_package(KDE4 REQUIRED)
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -13,8 +13,7 @@ find_package(Eigen2 REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(Alut REQUIRED)
 find_package(SndFile REQUIRED)
-find_package(Ogg REQUIRED)
-find_package(Vorbis REQUIRED)
+find_package(OggVorbis REQUIRED)
 
 include(KDE4Defaults)
 
