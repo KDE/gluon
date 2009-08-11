@@ -5,7 +5,7 @@ set(kal_LIB_SRCS
    # kalsource.cpp
   #  kalbuffer.cpp
     kaloggstreamer.cpp
-
+kalcapture.cpp
 kalengine.cpp
 kalbuffer.cpp
 kalsource.cpp
@@ -31,4 +31,5 @@ install(FILES
     kalsoundloader.h
     kalsource.h
     kaloggstreamer.h
+    kalcapture.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)
