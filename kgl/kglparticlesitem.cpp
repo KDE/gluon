@@ -78,11 +78,12 @@ KGLParticlesItem::KGLParticlesItem(KGLEngine * parent)
 
 void KGLParticlesItem::draw()
 {
+ glPushMatrix();
+glLoadMatrixd(matrix().data());
+
+
     foreach(KGLParticle * p, m_particles)
     {
-        glPushMatrix();
-        glLoadMatrixd(matrix().data());
-
         glEnable(GL_POINT_SPRITE);
         p->tex()->bind();
         glEnable(GL_BLEND);

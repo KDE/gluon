@@ -13,7 +13,8 @@ include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 include_directories(${X11_Xrandr_INCLUDE_PATH})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${EIGEN2_INCLUDE_DIR})
-
+include_directories(/usr/include/libtranslate/)
+include_directories(/usr/include/glib-2.0/)
 include_directories(${OPENAL_INCLUDE_DIR})
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
@@ -28,7 +29,7 @@ set(main_SRCS
 
 kde4_add_executable(main ${main_SRCS} )
 
-target_link_libraries(main gluon)
+target_link_libraries(main translate)
 
 ########### install files ###############
 

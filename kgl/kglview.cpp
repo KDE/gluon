@@ -122,10 +122,21 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
+   int side = qMin(w, h);
+  
+   
+     glViewport((w - side) / 2, (h- side) / 2, side, side);
+
+     glMatrixMode(GL_PROJECTION);
+     glLoadIdentity();
+     glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+     glMatrixMode(GL_MODELVIEW);
+  
+  
+//     glViewport(0, 0, w, h);
+//     glMatrixMode(GL_PROJECTION);
+//     glLoadIdentity();
+//     gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
 }
 
 void  KGLView::paintGL()

@@ -23,17 +23,12 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
-
-
-
-
-#include <gluon/kal/kalengine.h>
-#include <gluon/kal/kalsource.h>
-#include <gluon/kal/kalbuffer.h>
-#include <gluon/kal/kaloggstreamer.h>
 #include <KDebug>
 #include <iostream>
 #include <QDebug>
+#include <locale.h>
+#include <stdlib.h>
+#include <translate.h>
 using namespace std;
 
 
@@ -49,21 +44,11 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-KALEngine * kal = KALEngine::getInstance();
 
-
-KALOggStreamer * streamer = new KALOggStreamer("sober.ogg");
-
-
-streamer->playThread();
     
-QWidget * widget = new QWidget;
-
-widget->show();
-
 
  app.exec();
  
-kal->kill();
+
 
 }
