@@ -1,23 +1,50 @@
-# - Find the OGG includes and libraries.
-# The following variables are set if Ogg is found.  If Ogg is not
-# found, OGG_FOUND is set to false.
-#  OGG_FOUND        - True when the Ogg include directory is found.
-#  OGG_INCLUDE_DIRS - the path to where the Ogg include files are.
-#  OGG_LIBRARIES    - The Ogg library.
-MESSAGE(STATUS "Looking for Ogg")
+# - Try to find Gluon
+#
+# Once done this will define
+#  GLUON_FOUND - system has Gluon
+#  GLUON_INCLUDES - all include directories required for Gluon, use it with KDE4_INCLUDES
+#  GLUON_INCLUDE_DIR - the Gluon include directory
+#  GLUON_LIBRARY - the Gluon library
+#
+# Copyright (C) 2009 Guillaume Martres
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-FIND_PATH(OGG_INCLUDE_DIRS ogg/ogg.h /usr/include /usr/local/include)
-FIND_LIBRARY(OGG_LIBRARIES NAMES ogg PATHS /usr/lib /usr/local/lib)
+if (GLUON_LIBRARY AND GLUON_INCLUDE_DIR)
+  # Already in cache, be silent
+  set(GLUON_FOUND TRUE)
+endif (GLUON_LIBRARY AND GLUON_INCLUDE_DIR)
 
-IF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
-  SET(OGG_FOUND 1)
-  IF(NOT OGG_FIND_QUIETLY)
-    MESSAGE(STATUS "Looking for Ogg - found")
-  ENDIF(NOT OGG_FIND_QUIETLY)
-ELSE(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
-  IF(NOT OGG_FIND_QUIETLY)
-    MESSAGE(STATUS "Looking for Ogg - not found")
-  ENDIF(NOT OGG_FIND_QUIETLY)
-ENDIF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
+if (Gluon_FIND_REQUIRED)
+    set(_gluonReq "REQUIRED")
+endif (Gluon_FIND_REQUIRED)
 
-MARK_AS_ADVANCED(OGG_INCLUDE_DIRS OGG_LIBRARIES)
+find_package(KAL ${_gluonReq})
+find_package(KCL ${_gluonReq})
+find_package(KGL ${_gluonReq})
+
+find_path(GLUON_INCLUDE_DIR
+    NAMES
+    gluon/kgl/kglengine.h
+    gluon/kal/kalengine.h
+    gluon/kcl/kclengine.h
+    PATHS
+    ${INCLUDE_INSTALL_DIR}
+)
+
+set(GLUON_INCLUDES
+    ${GLUON_INCLUDE_DIR}
+    ${KAL_INCLUDES}
+    ${KCL_INCLUDES}
+    ${KGL_INCLUDES}
+    CACHE STRING "Includes needed to use gluon"
+)
+
+find_library(GLUON_LIBRARY NAMES gluon
+    PATHS
+    ${LIB_INSTALL_DIR}
+)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Gluon DEFAULT_MSG GLUON_LIBRARY GLUON_INCLUDE_DIR)

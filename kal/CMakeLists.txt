@@ -17,7 +17,7 @@ set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 target_link_libraries(kal 
                       ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} 
                       ${OPENAL_LIBRARY} ${ALUT_LIBRARY} 
-                      ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
+                      ${SNDFILE_LIBRARY} ${OGG_LIBRARY} ${VORBISFILE_LIBRARY})
 
 add_subdirectory(includes)
 
