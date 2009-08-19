@@ -21,6 +21,9 @@
 */
 
 #include "kalengine.h"
+
+#include <QtCore/QCoreApplication>
+
 KALEngine *KALEngine::instance = NULL;
 
 KALEngine::KALEngine(QString deviceName, QObject *parent)
@@ -59,27 +62,29 @@ KALEngine::~KALEngine()
     alcCloseDevice(m_device);
 }
 
+// TODO: factor the getInstance or remove one of them
 KALEngine *KALEngine::getInstance(QString deviceName)
 {
-    if (NULL == instance) {
-        instance =  new KALEngine(deviceName);
-    }
-    return instance;
-}
-KALEngine *KALEngine::getInstance(Phonon::Category category)
-{
-    if (NULL == instance) {
-        instance =  new KALEngine(category);
+    if (!instance) {
+        QObject *parent = QCoreApplication::instance();
+        if (!parent) {
+            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+        }
+        instance =  new KALEngine(deviceName, parent);
     }
     return instance;
 }
 
-void KALEngine::kill()
+KALEngine *KALEngine::getInstance(Phonon::Category category)
 {
-    if (NULL != instance) {
-        delete instance;
-        instance = NULL;
+    if (!instance) {
+        QObject *parent = QCoreApplication::instance();
+        if (!parent) {
+            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+        }
+        instance =  new KALEngine(category, parent);
     }
+    return instance;
 }
 
 QStringList KALEngine::deviceList()
