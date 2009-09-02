@@ -44,4 +44,5 @@ add_subdirectory(kal)
 add_subdirectory(kcl)
 add_subdirectory(src)
 add_subdirectory(cmake)
+add_subdirectory(icons)
 

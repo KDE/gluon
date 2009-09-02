@@ -5,7 +5,7 @@ kclkeyboard.cpp
 kcljoystick.cpp
 kclcode.cpp
 kclengine.cpp
-widget/kclinfowidget.cpp
+kclinfowidget.cpp
    )
 
 kde4_add_library(kcl SHARED ${kcl_LIB_SRCS})
@@ -25,6 +25,7 @@ install(FILES
     kcljoystick.h
     kclcode.h
     kclengine.h
+    kclinfowidget.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 

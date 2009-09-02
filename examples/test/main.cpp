@@ -27,8 +27,8 @@
 #include <iostream>
 #include <QDebug>
 
-#include <gluon/kal/kalengine.h>
-#include <gluon/kal/kalcapture.h>
+#include <gluon/kcl/kclinfowidget.h>
+
 using namespace std;
 
 
@@ -44,17 +44,12 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-    QString device = KALCapture::captureDeviceList().at(2);
-    kDebug()<<device;
 
-    
-    KALCapture * capture = new KALCapture(device);
+KCLInfoWidget * test = new KCLInfoWidget;
 
-    capture->record(5000);
-
-    capture->save("test.wav");
+test->show();
     
     
-
+return app.exec();
 
 }
