@@ -84,8 +84,6 @@ public:
     */
     static QStringList deviceList();
 
-    static void kill();
-
     int sourceCount() {
         return m_sourceList.size();
     }
