@@ -22,10 +22,10 @@
 #include "kglview.h"
 #include <KDebug>
 
-#ifdef Q_WS_X11
-	#include <X11/extensions/Xrender.h>
-	#include <X11/extensions/Xrandr.h>
-#endif
+//#ifdef Q_WS_X11
+//#include <X11/extensions/Xrender.h>
+//#include <X11/extensions/Xrandr.h>
+//#endif
 
 KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
     : QGLWidget(parent)
@@ -43,8 +43,8 @@ KGLView::KGLView(QWidget * parent)
 
 KGLView::KGLView(KGLEngine * engine,QWidget * parent )
 {
-   init();
-   setEngine(engine);
+    init();
+    setEngine(engine);
 }
 
 bool KGLView::initGlew()
@@ -71,20 +71,19 @@ bool KGLView::initGlew()
         kDebug()<<"Shaders unsupported...";
         m_isShaderSupported = false;
     }
-
     return true;
 }
-
-void KGLView::goFullscreen(int w, int h)
+KGLView::~KGLView()
 {
-}
+    stop();
+    delete m_screenConfig;
+    delete m_timer;
+    delete m_fpsTimer;
 
-void KGLView::leaveFullscreen()
-{
 }
-
 void KGLView::init()
 {
+    m_screenConfig = new KGLScreenConfig;
     m_engine = NULL;
     m_frameRate = 20;
     m_timer = new QTimer(this);
@@ -103,8 +102,22 @@ void KGLView::init()
     setAutoBufferSwap(true);
     glInit();
     initGlew();
+    connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
+
+}
+void KGLView::goFullScreen()
+{
+    int id = m_screenConfig->askResolution();
+    if ( id<0) return;
+    m_screenConfig->setResolution(id);
+    if ( parentWidget()!=NULL)
+    {
+       parentWidget()->showFullScreen();
+    }
+    else
+    showFullScreen();
 }
 
 void KGLView::initializeGL()
@@ -122,21 +135,21 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
-   int side = qMin(w, h);
-  
-   
-     glViewport((w - side) / 2, (h- side) / 2, side, side);
+    int side = qMin(w, h);
 
-     glMatrixMode(GL_PROJECTION);
-     glLoadIdentity();
-     glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
-     glMatrixMode(GL_MODELVIEW);
-  
-  
-//     glViewport(0, 0, w, h);
-//     glMatrixMode(GL_PROJECTION);
-//     glLoadIdentity();
-//     gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
+
+    glViewport((w - side) / 2, (h- side) / 2, side, side);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+    glMatrixMode(GL_MODELVIEW);
+
+
+    //     glViewport(0, 0, w, h);
+    //     glMatrixMode(GL_PROJECTION);
+    //     glLoadIdentity();
+    //     gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
 }
 
 void  KGLView::paintGL()

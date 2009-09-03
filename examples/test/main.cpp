@@ -28,7 +28,14 @@
 #include <QDebug>
 
 #include <gluon/kcl/kclinfowidget.h>
+#include <gluon/kgl/kglview.h>
+#include <gluon/kgl/kglengine.h>
 
+#include <QVBoxLayout>
+#include <QMainWindow>
+#include <QToolBar>
+#include <KAction>
+#include <KIcon>
 using namespace std;
 
 
@@ -44,12 +51,38 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
+QMainWindow * window = new QMainWindow;
 
-KCLInfoWidget * test = new KCLInfoWidget;
+  QToolBar * bar = window->addToolBar("bar");
 
-test->show();
+  KAction * fullscreen = new KAction(KIcon("view-fullscreen.png"),"fullscreen",bar);
+  KAction * normalscreen = new KAction(KIcon("view-restore.png"),"window screen",bar);
+  
+
+  
+  
+  bar->addAction(fullscreen);
+  bar->addAction(normalscreen);
+    KGLView * view = new KGLView;
+    
+    KGLEngine * engine = new KGLEngine;
+    view->setEngine(engine);
+    
+    view->setAxisShow(true);
+    view->setInfoShow(true);
+
+    
+  QObject::connect(fullscreen,SIGNAL(triggered()), view,SLOT(goFullScreen()));
+  QObject::connect(normalscreen,SIGNAL(triggered()), view,SLOT(leaveFullScreen()));
+
+
+window->setCentralWidget(view);
+    
+    view->start();
     
     
-return app.exec();
+    window->show();
+app.exec();
+delete view;
 
 }

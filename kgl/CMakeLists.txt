@@ -25,6 +25,7 @@ set(kgl_LIB_SRCS
     kgltextitem.cpp
     kgltexture.cpp
     kglview.cpp
+    kglscreenconfig.cpp
 )
 
 SET(kgl_RCCS
@@ -73,6 +74,7 @@ install(FILES
     kgltextitem.h
     kgltexture.h
     kglview.h
+    kglscreenconfig.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
 add_subdirectory(Box2D) #add header installation
