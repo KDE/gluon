@@ -1,0 +1,455 @@
+\hypertarget{class_k_g_l_base_item}{
+\section{KGLBaseItem Class Reference}
+\label{class_k_g_l_base_item}\index{KGLBaseItem@{KGLBaseItem}}
+}
+{\tt \#include $<$kglbaseitem.h$>$}
+
+Inheritance diagram for KGLBaseItem::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12cm]{class_k_g_l_base_item}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_g_l_base_item_9743d8f5ce7ec1de26267c6d34bf6303}{KGLBaseItem} (QObject $\ast$parent=0)
+\item 
+\hyperlink{class_k_g_l_base_item_8aaeca0452e979304a98056441a14cdd}{$\sim$KGLBaseItem} ()
+\item 
+virtual void \hyperlink{class_k_g_l_base_item_3eabedeecf9e7b82d82557c95c56741a}{addVertex} (const \hyperlink{class_k_g_l_point}{KGLPoint} \&p)
+\item 
+\hyperlink{class_k_g_l_point_list}{KGLPointList} \& \hyperlink{class_k_g_l_base_item_83092e2126b730daf7d774630113bb66}{pointList} ()
+\item 
+virtual void \hyperlink{class_k_g_l_base_item_58c4e6cb39b23d5f313f425cf9afc99c}{removeVertex} (\hyperlink{class_k_g_l_point}{KGLPoint} $\ast$p)
+\item 
+virtual void \hyperlink{class_k_g_l_base_item_b84b10f4cbeeb352cf91f327a564b377}{clear} ()
+\item 
+virtual void \hyperlink{class_k_g_l_base_item_6e020830d4452864cdb6c8fea4531e0d}{updateTransform} ()
+\item 
+virtual void \hyperlink{class_k_g_l_base_item_5aa1d880fffcc82847dc7eff4e7aecba}{resetTransform} ()
+\item 
+void \hyperlink{class_k_g_l_base_item_49c808d884735aa2df77d8673c250535}{applyTransform} (const Eigen::Transform3d \&m)
+\item 
+void \hyperlink{class_k_g_l_base_item_180099829489993a95ec445a46ac49d3}{createBox} (const QSizeF \&s)
+\item 
+void \hyperlink{class_k_g_l_base_item_092dd2a3401a1192fecbf63c8a486777}{createBox} (const float \&w, const float \&h)
+\item 
+void \hyperlink{class_k_g_l_base_item_849ec6bf857c964042b8c2f1305fd5b1}{createPolygon} (const QPolygonF \&poly)
+\item 
+void \hyperlink{class_k_g_l_base_item_810379a4aac12d9061b14b2aa3e55ea6}{createLine} (const QLineF \&line)
+\item 
+unsigned int \hyperlink{class_k_g_l_base_item_22a498a5b8fdd0eb6ffcca48678a58a1}{pointCount} ()
+\item 
+const QPointF \& \hyperlink{class_k_g_l_base_item_40e86b4a2929ae6b230fb0764af53c3c}{position} ()
+\item 
+const float \& \hyperlink{class_k_g_l_base_item_eeb20ccf94f92b5813a291cd2436dd63}{scaleValue} ()
+\item 
+const float \& \hyperlink{class_k_g_l_base_item_e81d2c64201c36247fa1d0fda08052c6}{angle} ()
+\item 
+const float \& \hyperlink{class_k_g_l_base_item_80a9678e8406bdd261cea2aaa8d687a7}{radius} ()
+\item 
+unsigned int \hyperlink{class_k_g_l_base_item_22da0f3dbc3522a836980df6f8e96def}{zindex} ()
+\item 
+const QPointF \hyperlink{class_k_g_l_base_item_756267078e458ee97974bc610ff332b1}{center} ()
+\item 
+const QPointF \& \hyperlink{class_k_g_l_base_item_36470fb553034ab369b5d9349f2590ca}{itemCenter} ()
+\item 
+const QPolygonF \hyperlink{class_k_g_l_base_item_87a09a44afa6e73baa9aa6d30e81a163}{polygon} ()
+\item 
+const QPolygonF \hyperlink{class_k_g_l_base_item_9f428b73219decd7b0682db7baab258c}{itemPolygon} ()
+\item 
+virtual const QRectF \hyperlink{class_k_g_l_base_item_b0b84c51ad212eae0873afa956ace7cf}{boundingBox} ()
+\item 
+virtual const QRectF \hyperlink{class_k_g_l_base_item_0b12fe848be4194ccd67464d63ab4d25}{itemBoundingBox} ()
+\item 
+bool \hyperlink{class_k_g_l_base_item_d69c3373e2bc0d47881dff95456c1bbc}{contains} (QPointF \&p)
+\item 
+Eigen::Transform3d \& \hyperlink{class_k_g_l_base_item_a42b375ad542d3e64eb7aee95d9e6385}{matrix} ()
+\item 
+void \hyperlink{class_k_g_l_base_item_1897bc88d905d28ff05ac177c0619060}{setMatrix} (const Eigen::Transform3d \&m)
+\item 
+void \hyperlink{class_k_g_l_base_item_85c4af1445672402e3b47735e2bbf415}{setCenter} (const QPointF \&c)
+\item 
+void \hyperlink{class_k_g_l_base_item_a281df5a9d5d601635956268809bc67e}{setAngle} (const float \&a, QPointF c=QPointF(0, 0))
+\item 
+void \hyperlink{class_k_g_l_base_item_d3b52ffc2c83b762a2bd0d678215295e}{setScale} (const float \&s)
+\item 
+void \hyperlink{class_k_g_l_base_item_05ad2bc6e34005638626afda94f53269}{setPosition} (const QPointF \&p)
+\item 
+void \hyperlink{class_k_g_l_base_item_f9b1881b93773e84b1a2bd1483183d2e}{setPosition} (qreal x, qreal y)
+\item 
+void \hyperlink{class_k_g_l_base_item_c66fae31fcfb2261694c8ec120cb314c}{setShear} (const QPointF \&s)
+\item 
+void \hyperlink{class_k_g_l_base_item_19095252a25d1c9fdcf1950625ed81e4}{setShear} (const float \&sx, const float \&sy)
+\item 
+void \hyperlink{class_k_g_l_base_item_e29dcbe6e797fd4c6aef59acadb5ba48}{setZIndex} (int i)
+\item 
+void \hyperlink{class_k_g_l_base_item_a953c569ebcb00d8e9f8a7a88a730930}{translate} (const QPointF \&step)
+\item 
+void \hyperlink{class_k_g_l_base_item_69f7ca20cd192bd7ccc5bfdaeac4e60e}{translate} (const float \&x, const float \&y)
+\item 
+void \hyperlink{class_k_g_l_base_item_03c0cf1d821aebbe56d0a15681c17f1f}{scale} (const float \&s)
+\item 
+void \hyperlink{class_k_g_l_base_item_e3f4ea29b0d2da2a296ddbb80ea88738}{rotate} (const float \&angle)
+\item 
+void \hyperlink{class_k_g_l_base_item_a7cb811a03472f52dd7f6090a305bc30}{shear} (const QPointF \&s)
+\item 
+void \hyperlink{class_k_g_l_base_item_a81489bbb8b7ebe54129eab7b56d8b1a}{shear} (const float \&sx, const float \&sy)
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_g_l_base_item_4fb2662f683c8d710039f229583c8c1c}{computeGeometry} ()
+\item 
+void \hyperlink{class_k_g_l_base_item_628f1737fb9ec96f4296798f86a2fcdb}{initShearMatrix} (QPointF s)
+\item 
+QPointF \hyperlink{class_k_g_l_base_item_3825639b143ff214e96749f375449675}{transform} (QPointF p)
+\item 
+QPolygonF \hyperlink{class_k_g_l_base_item_8df2be0816e3d24bf9adb5f0a01d186b}{transform} (QPolygonF p)
+\item 
+QRectF \hyperlink{class_k_g_l_base_item_fd255933afb0b5eb06de5ac1358f7e24}{transform} (QRectF r)
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_g_l_base_item_9743d8f5ce7ec1de26267c6d34bf6303}{
+\index{KGLBaseItem@{KGLBaseItem}!KGLBaseItem@{KGLBaseItem}}
+\index{KGLBaseItem@{KGLBaseItem}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{KGLBaseItem}]{\setlength{\rightskip}{0pt plus 5cm}KGLBaseItem::KGLBaseItem (QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_g_l_base_item_9743d8f5ce7ec1de26267c6d34bf6303}
+
+
+\hypertarget{class_k_g_l_base_item_8aaeca0452e979304a98056441a14cdd}{
+\index{KGLBaseItem@{KGLBaseItem}!$\sim$KGLBaseItem@{$\sim$KGLBaseItem}}
+\index{$\sim$KGLBaseItem@{$\sim$KGLBaseItem}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{$\sim$KGLBaseItem}]{\setlength{\rightskip}{0pt plus 5cm}KGLBaseItem::$\sim$KGLBaseItem ()}}
+\label{class_k_g_l_base_item_8aaeca0452e979304a98056441a14cdd}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_g_l_base_item_3eabedeecf9e7b82d82557c95c56741a}{
+\index{KGLBaseItem@{KGLBaseItem}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{addVertex}]{\setlength{\rightskip}{0pt plus 5cm}virtual void KGLBaseItem::addVertex (const {\bf KGLPoint} \& {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_3eabedeecf9e7b82d82557c95c56741a}
+
+
+\hypertarget{class_k_g_l_base_item_e81d2c64201c36247fa1d0fda08052c6}{
+\index{KGLBaseItem@{KGLBaseItem}!angle@{angle}}
+\index{angle@{angle}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{angle}]{\setlength{\rightskip}{0pt plus 5cm}const float\& KGLBaseItem::angle ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_e81d2c64201c36247fa1d0fda08052c6}
+
+
+\hypertarget{class_k_g_l_base_item_49c808d884735aa2df77d8673c250535}{
+\index{KGLBaseItem@{KGLBaseItem}!applyTransform@{applyTransform}}
+\index{applyTransform@{applyTransform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{applyTransform}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::applyTransform (const Eigen::Transform3d \& {\em m})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_49c808d884735aa2df77d8673c250535}
+
+
+\hypertarget{class_k_g_l_base_item_b0b84c51ad212eae0873afa956ace7cf}{
+\index{KGLBaseItem@{KGLBaseItem}!boundingBox@{boundingBox}}
+\index{boundingBox@{boundingBox}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{boundingBox}]{\setlength{\rightskip}{0pt plus 5cm}virtual const QRectF KGLBaseItem::boundingBox ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_b0b84c51ad212eae0873afa956ace7cf}
+
+
+\hypertarget{class_k_g_l_base_item_756267078e458ee97974bc610ff332b1}{
+\index{KGLBaseItem@{KGLBaseItem}!center@{center}}
+\index{center@{center}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{center}]{\setlength{\rightskip}{0pt plus 5cm}const QPointF KGLBaseItem::center ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_756267078e458ee97974bc610ff332b1}
+
+
+\hypertarget{class_k_g_l_base_item_b84b10f4cbeeb352cf91f327a564b377}{
+\index{KGLBaseItem@{KGLBaseItem}!clear@{clear}}
+\index{clear@{clear}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}virtual void KGLBaseItem::clear ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_b84b10f4cbeeb352cf91f327a564b377}
+
+
+\hypertarget{class_k_g_l_base_item_4fb2662f683c8d710039f229583c8c1c}{
+\index{KGLBaseItem@{KGLBaseItem}!computeGeometry@{computeGeometry}}
+\index{computeGeometry@{computeGeometry}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{computeGeometry}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::computeGeometry ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_base_item_4fb2662f683c8d710039f229583c8c1c}
+
+
+\hypertarget{class_k_g_l_base_item_d69c3373e2bc0d47881dff95456c1bbc}{
+\index{KGLBaseItem@{KGLBaseItem}!contains@{contains}}
+\index{contains@{contains}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLBaseItem::contains (QPointF \& {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_d69c3373e2bc0d47881dff95456c1bbc}
+
+
+\hypertarget{class_k_g_l_base_item_092dd2a3401a1192fecbf63c8a486777}{
+\index{KGLBaseItem@{KGLBaseItem}!createBox@{createBox}}
+\index{createBox@{createBox}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{createBox}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::createBox (const float \& {\em w}, \/  const float \& {\em h})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_092dd2a3401a1192fecbf63c8a486777}
+
+
+\hypertarget{class_k_g_l_base_item_180099829489993a95ec445a46ac49d3}{
+\index{KGLBaseItem@{KGLBaseItem}!createBox@{createBox}}
+\index{createBox@{createBox}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{createBox}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::createBox (const QSizeF \& {\em s})}}
+\label{class_k_g_l_base_item_180099829489993a95ec445a46ac49d3}
+
+
+\hypertarget{class_k_g_l_base_item_810379a4aac12d9061b14b2aa3e55ea6}{
+\index{KGLBaseItem@{KGLBaseItem}!createLine@{createLine}}
+\index{createLine@{createLine}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{createLine}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::createLine (const QLineF \& {\em line})}}
+\label{class_k_g_l_base_item_810379a4aac12d9061b14b2aa3e55ea6}
+
+
+\hypertarget{class_k_g_l_base_item_849ec6bf857c964042b8c2f1305fd5b1}{
+\index{KGLBaseItem@{KGLBaseItem}!createPolygon@{createPolygon}}
+\index{createPolygon@{createPolygon}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{createPolygon}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::createPolygon (const QPolygonF \& {\em poly})}}
+\label{class_k_g_l_base_item_849ec6bf857c964042b8c2f1305fd5b1}
+
+
+\hypertarget{class_k_g_l_base_item_628f1737fb9ec96f4296798f86a2fcdb}{
+\index{KGLBaseItem@{KGLBaseItem}!initShearMatrix@{initShearMatrix}}
+\index{initShearMatrix@{initShearMatrix}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{initShearMatrix}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::initShearMatrix (QPointF {\em s})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_base_item_628f1737fb9ec96f4296798f86a2fcdb}
+
+
+\hypertarget{class_k_g_l_base_item_0b12fe848be4194ccd67464d63ab4d25}{
+\index{KGLBaseItem@{KGLBaseItem}!itemBoundingBox@{itemBoundingBox}}
+\index{itemBoundingBox@{itemBoundingBox}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{itemBoundingBox}]{\setlength{\rightskip}{0pt plus 5cm}virtual const QRectF KGLBaseItem::itemBoundingBox ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_0b12fe848be4194ccd67464d63ab4d25}
+
+
+\hypertarget{class_k_g_l_base_item_36470fb553034ab369b5d9349f2590ca}{
+\index{KGLBaseItem@{KGLBaseItem}!itemCenter@{itemCenter}}
+\index{itemCenter@{itemCenter}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{itemCenter}]{\setlength{\rightskip}{0pt plus 5cm}const QPointF\& KGLBaseItem::itemCenter ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_36470fb553034ab369b5d9349f2590ca}
+
+
+\hypertarget{class_k_g_l_base_item_9f428b73219decd7b0682db7baab258c}{
+\index{KGLBaseItem@{KGLBaseItem}!itemPolygon@{itemPolygon}}
+\index{itemPolygon@{itemPolygon}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{itemPolygon}]{\setlength{\rightskip}{0pt plus 5cm}const QPolygonF KGLBaseItem::itemPolygon ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_9f428b73219decd7b0682db7baab258c}
+
+
+\hypertarget{class_k_g_l_base_item_a42b375ad542d3e64eb7aee95d9e6385}{
+\index{KGLBaseItem@{KGLBaseItem}!matrix@{matrix}}
+\index{matrix@{matrix}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{matrix}]{\setlength{\rightskip}{0pt plus 5cm}Eigen::Transform3d\& KGLBaseItem::matrix ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_a42b375ad542d3e64eb7aee95d9e6385}
+
+
+\hypertarget{class_k_g_l_base_item_22a498a5b8fdd0eb6ffcca48678a58a1}{
+\index{KGLBaseItem@{KGLBaseItem}!pointCount@{pointCount}}
+\index{pointCount@{pointCount}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{pointCount}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KGLBaseItem::pointCount ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_22a498a5b8fdd0eb6ffcca48678a58a1}
+
+
+\hypertarget{class_k_g_l_base_item_83092e2126b730daf7d774630113bb66}{
+\index{KGLBaseItem@{KGLBaseItem}!pointList@{pointList}}
+\index{pointList@{pointList}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{pointList}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KGLPointList}\& KGLBaseItem::pointList ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_83092e2126b730daf7d774630113bb66}
+
+
+\hypertarget{class_k_g_l_base_item_87a09a44afa6e73baa9aa6d30e81a163}{
+\index{KGLBaseItem@{KGLBaseItem}!polygon@{polygon}}
+\index{polygon@{polygon}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{polygon}]{\setlength{\rightskip}{0pt plus 5cm}const QPolygonF KGLBaseItem::polygon ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_87a09a44afa6e73baa9aa6d30e81a163}
+
+
+\hypertarget{class_k_g_l_base_item_40e86b4a2929ae6b230fb0764af53c3c}{
+\index{KGLBaseItem@{KGLBaseItem}!position@{position}}
+\index{position@{position}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}const QPointF\& KGLBaseItem::position ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_40e86b4a2929ae6b230fb0764af53c3c}
+
+
+\hypertarget{class_k_g_l_base_item_80a9678e8406bdd261cea2aaa8d687a7}{
+\index{KGLBaseItem@{KGLBaseItem}!radius@{radius}}
+\index{radius@{radius}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{radius}]{\setlength{\rightskip}{0pt plus 5cm}const float\& KGLBaseItem::radius ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_80a9678e8406bdd261cea2aaa8d687a7}
+
+
+\hypertarget{class_k_g_l_base_item_58c4e6cb39b23d5f313f425cf9afc99c}{
+\index{KGLBaseItem@{KGLBaseItem}!removeVertex@{removeVertex}}
+\index{removeVertex@{removeVertex}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{removeVertex}]{\setlength{\rightskip}{0pt plus 5cm}virtual void KGLBaseItem::removeVertex ({\bf KGLPoint} $\ast$ {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_58c4e6cb39b23d5f313f425cf9afc99c}
+
+
+\hypertarget{class_k_g_l_base_item_5aa1d880fffcc82847dc7eff4e7aecba}{
+\index{KGLBaseItem@{KGLBaseItem}!resetTransform@{resetTransform}}
+\index{resetTransform@{resetTransform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{resetTransform}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::resetTransform ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_5aa1d880fffcc82847dc7eff4e7aecba}
+
+
+\hypertarget{class_k_g_l_base_item_e3f4ea29b0d2da2a296ddbb80ea88738}{
+\index{KGLBaseItem@{KGLBaseItem}!rotate@{rotate}}
+\index{rotate@{rotate}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::rotate (const float \& {\em angle})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_e3f4ea29b0d2da2a296ddbb80ea88738}
+
+
+\hypertarget{class_k_g_l_base_item_03c0cf1d821aebbe56d0a15681c17f1f}{
+\index{KGLBaseItem@{KGLBaseItem}!scale@{scale}}
+\index{scale@{scale}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{scale}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::scale (const float \& {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_03c0cf1d821aebbe56d0a15681c17f1f}
+
+
+\hypertarget{class_k_g_l_base_item_eeb20ccf94f92b5813a291cd2436dd63}{
+\index{KGLBaseItem@{KGLBaseItem}!scaleValue@{scaleValue}}
+\index{scaleValue@{scaleValue}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{scaleValue}]{\setlength{\rightskip}{0pt plus 5cm}const float\& KGLBaseItem::scaleValue ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_eeb20ccf94f92b5813a291cd2436dd63}
+
+
+\hypertarget{class_k_g_l_base_item_a281df5a9d5d601635956268809bc67e}{
+\index{KGLBaseItem@{KGLBaseItem}!setAngle@{setAngle}}
+\index{setAngle@{setAngle}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setAngle}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setAngle (const float \& {\em a}, \/  QPointF {\em c} = {\tt QPointF(0,0)})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_a281df5a9d5d601635956268809bc67e}
+
+
+\hypertarget{class_k_g_l_base_item_85c4af1445672402e3b47735e2bbf415}{
+\index{KGLBaseItem@{KGLBaseItem}!setCenter@{setCenter}}
+\index{setCenter@{setCenter}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setCenter}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setCenter (const QPointF \& {\em c})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_85c4af1445672402e3b47735e2bbf415}
+
+
+\hypertarget{class_k_g_l_base_item_1897bc88d905d28ff05ac177c0619060}{
+\index{KGLBaseItem@{KGLBaseItem}!setMatrix@{setMatrix}}
+\index{setMatrix@{setMatrix}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setMatrix}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setMatrix (const Eigen::Transform3d \& {\em m})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_1897bc88d905d28ff05ac177c0619060}
+
+
+\hypertarget{class_k_g_l_base_item_f9b1881b93773e84b1a2bd1483183d2e}{
+\index{KGLBaseItem@{KGLBaseItem}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setPosition}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setPosition (qreal {\em x}, \/  qreal {\em y})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_f9b1881b93773e84b1a2bd1483183d2e}
+
+
+\hypertarget{class_k_g_l_base_item_05ad2bc6e34005638626afda94f53269}{
+\index{KGLBaseItem@{KGLBaseItem}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setPosition}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setPosition (const QPointF \& {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_05ad2bc6e34005638626afda94f53269}
+
+
+\hypertarget{class_k_g_l_base_item_d3b52ffc2c83b762a2bd0d678215295e}{
+\index{KGLBaseItem@{KGLBaseItem}!setScale@{setScale}}
+\index{setScale@{setScale}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setScale}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setScale (const float \& {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_d3b52ffc2c83b762a2bd0d678215295e}
+
+
+\hypertarget{class_k_g_l_base_item_19095252a25d1c9fdcf1950625ed81e4}{
+\index{KGLBaseItem@{KGLBaseItem}!setShear@{setShear}}
+\index{setShear@{setShear}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setShear}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setShear (const float \& {\em sx}, \/  const float \& {\em sy})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_19095252a25d1c9fdcf1950625ed81e4}
+
+
+\hypertarget{class_k_g_l_base_item_c66fae31fcfb2261694c8ec120cb314c}{
+\index{KGLBaseItem@{KGLBaseItem}!setShear@{setShear}}
+\index{setShear@{setShear}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setShear}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setShear (const QPointF \& {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_c66fae31fcfb2261694c8ec120cb314c}
+
+
+\hypertarget{class_k_g_l_base_item_e29dcbe6e797fd4c6aef59acadb5ba48}{
+\index{KGLBaseItem@{KGLBaseItem}!setZIndex@{setZIndex}}
+\index{setZIndex@{setZIndex}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{setZIndex}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::setZIndex (int {\em i})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_e29dcbe6e797fd4c6aef59acadb5ba48}
+
+
+\hypertarget{class_k_g_l_base_item_a81489bbb8b7ebe54129eab7b56d8b1a}{
+\index{KGLBaseItem@{KGLBaseItem}!shear@{shear}}
+\index{shear@{shear}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{shear}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::shear (const float \& {\em sx}, \/  const float \& {\em sy})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_a81489bbb8b7ebe54129eab7b56d8b1a}
+
+
+\hypertarget{class_k_g_l_base_item_a7cb811a03472f52dd7f6090a305bc30}{
+\index{KGLBaseItem@{KGLBaseItem}!shear@{shear}}
+\index{shear@{shear}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{shear}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::shear (const QPointF \& {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_a7cb811a03472f52dd7f6090a305bc30}
+
+
+\hypertarget{class_k_g_l_base_item_fd255933afb0b5eb06de5ac1358f7e24}{
+\index{KGLBaseItem@{KGLBaseItem}!transform@{transform}}
+\index{transform@{transform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}QRectF KGLBaseItem::transform (QRectF {\em r})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_base_item_fd255933afb0b5eb06de5ac1358f7e24}
+
+
+\hypertarget{class_k_g_l_base_item_8df2be0816e3d24bf9adb5f0a01d186b}{
+\index{KGLBaseItem@{KGLBaseItem}!transform@{transform}}
+\index{transform@{transform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}QPolygonF KGLBaseItem::transform (QPolygonF {\em p})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_base_item_8df2be0816e3d24bf9adb5f0a01d186b}
+
+
+\hypertarget{class_k_g_l_base_item_3825639b143ff214e96749f375449675}{
+\index{KGLBaseItem@{KGLBaseItem}!transform@{transform}}
+\index{transform@{transform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}QPointF KGLBaseItem::transform (QPointF {\em p})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_base_item_3825639b143ff214e96749f375449675}
+
+
+\hypertarget{class_k_g_l_base_item_69f7ca20cd192bd7ccc5bfdaeac4e60e}{
+\index{KGLBaseItem@{KGLBaseItem}!translate@{translate}}
+\index{translate@{translate}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::translate (const float \& {\em x}, \/  const float \& {\em y})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_69f7ca20cd192bd7ccc5bfdaeac4e60e}
+
+
+\hypertarget{class_k_g_l_base_item_a953c569ebcb00d8e9f8a7a88a730930}{
+\index{KGLBaseItem@{KGLBaseItem}!translate@{translate}}
+\index{translate@{translate}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::translate (const QPointF \& {\em step})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_a953c569ebcb00d8e9f8a7a88a730930}
+
+
+\hypertarget{class_k_g_l_base_item_6e020830d4452864cdb6c8fea4531e0d}{
+\index{KGLBaseItem@{KGLBaseItem}!updateTransform@{updateTransform}}
+\index{updateTransform@{updateTransform}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{updateTransform}]{\setlength{\rightskip}{0pt plus 5cm}void KGLBaseItem::updateTransform ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_k_g_l_base_item_6e020830d4452864cdb6c8fea4531e0d}
+
+
+
+
+Reimplemented in \hyperlink{class_k_g_l_item_3dbecc9db8e526a4c9623b35a004ed3c}{KGLItem}.\hypertarget{class_k_g_l_base_item_22da0f3dbc3522a836980df6f8e96def}{
+\index{KGLBaseItem@{KGLBaseItem}!zindex@{zindex}}
+\index{zindex@{zindex}!KGLBaseItem@{KGLBaseItem}}
+\subsubsection[{zindex}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KGLBaseItem::zindex ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_base_item_22da0f3dbc3522a836980df6f8e96def}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglbaseitem_8h}{kglbaseitem.h}\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglbaseitem_8cpp}{kglbaseitem.cpp}\end{CompactItemize}

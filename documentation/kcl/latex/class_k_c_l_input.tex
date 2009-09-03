@@ -1,0 +1,309 @@
+\hypertarget{class_k_c_l_input}{
+\section{KCLInput Class Reference}
+\label{class_k_c_l_input}\index{KCLInput@{KCLInput}}
+}
+provide an object that represent an input. This is the class mother of all device you want to use. It return you all information about the device, for example the name. And it return the status of the device, it means the type, code, and value.  
+
+
+{\tt \#include $<$Gluon/KCL/KCLInput$>$}
+
+Inheritance diagram for KCLInput::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_k_c_l_input}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}{slotInputEvent} (\hyperlink{class_k_c_l_input_event}{KCLInputEvent} $\ast$event)
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_c_l_input_8be2188910f86e335d36694068eab677}{KCLInput} (const QString \&device, QObject $\ast$parent=0)
+\item 
+\hyperlink{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}{$\sim$KCLInput} ()
+\item 
+unsigned int \hyperlink{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}{vendor} ()
+\item 
+unsigned int \hyperlink{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}{product} ()
+\item 
+unsigned int \hyperlink{class_k_c_l_input_53ebfb56b5039bdeb8b6bed4bbff1b0e}{version} ()
+\item 
+unsigned int \hyperlink{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}{bustype} ()
+\item 
+QString \hyperlink{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}{device} ()
+\item 
+QString \hyperlink{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}{name} ()
+\item 
+\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a}{DEVICE} \hyperlink{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}{deviceType} ()
+\item 
+bool \hyperlink{class_k_c_l_input_afe120b671d76b4b7d14b48e03d4faf6}{button} (int code)
+\item 
+bool \hyperlink{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}{anyPress} ()
+\item 
+bool \hyperlink{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}{anyMove} ()
+\item 
+int \hyperlink{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}{axisPosition} (int code)
+\item 
+int \hyperlink{class_k_c_l_input_5546e3862c917d07b22543190659871d}{axisAbsolu} (int code)
+\item 
+QList$<$ int $>$ \hyperlink{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}{buttonCapabilities} ()
+\item 
+\hyperlink{class_abs_val}{AbsVal} \hyperlink{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}{axisCapability} (int axisCode)
+\item 
+bool \hyperlink{class_k_c_l_input_0c3b7dd3cce5d5567c4894500074fee3}{error} ()
+\item 
+virtual void \hyperlink{class_k_c_l_input_ee93fa33ec6a14baf2acf3daf23607c0}{inputEventFilter} (\hyperlink{class_k_c_l_input_event}{KCLInputEvent} $\ast$event)
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_c_l_input_33e1fd26c084040a728cabf03e445893}{readInformation} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+provide an object that represent an input. This is the class mother of all device you want to use. It return you all information about the device, for example the name. And it return the status of the device, it means the type, code, and value. 
+
+\begin{Desc}
+\item[Author:]sacha schutz $<$\href{mailto:istdasklar@gmail.com}{\tt istdasklar@gmail.com}$>$\end{Desc}
+\hypertarget{class_k_c_l_input_creating}{}\subsection{Creating a KCLInput}\label{class_k_c_l_input_creating}
+The easiest way to create usable \hyperlink{class_k_c_l_input}{KCLInput} is to set it by the evdev file name. 
+
+\begin{Code}\begin{verbatim} KCLInput * myInput  = new KCLInput("/dev/input/event2");
+ kDebug()<<myInput->name();
+\end{verbatim}
+\end{Code}
+
+ 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_c_l_input_8be2188910f86e335d36694068eab677}{
+\index{KCLInput@{KCLInput}!KCLInput@{KCLInput}}
+\index{KCLInput@{KCLInput}!KCLInput@{KCLInput}}
+\subsubsection[{KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::KCLInput (const QString \& {\em device}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_c_l_input_8be2188910f86e335d36694068eab677}
+
+
+\hypertarget{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}{
+\index{KCLInput@{KCLInput}!$\sim$KCLInput@{$\sim$KCLInput}}
+\index{$\sim$KCLInput@{$\sim$KCLInput}!KCLInput@{KCLInput}}
+\subsubsection[{$\sim$KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::$\sim$KCLInput ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}{
+\index{KCLInput@{KCLInput}!anyMove@{anyMove}}
+\index{anyMove@{anyMove}!KCLInput@{KCLInput}}
+\subsubsection[{anyMove}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyMove ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}
+
+
+\begin{Desc}
+\item[Returns:]true if a motion is done by a motion input.( mouse , joystick ...) 
+
+\begin{Code}\begin{verbatim} KCLInput * myInput = new KCLInput("/dev/input/event3");
+ if ( myInput->anyMove()) kDebug()<<"you have move something...";
+\end{verbatim}
+\end{Code}
+
+ \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}{
+\index{KCLInput@{KCLInput}!anyPress@{anyPress}}
+\index{anyPress@{anyPress}!KCLInput@{KCLInput}}
+\subsubsection[{anyPress}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyPress ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}
+
+
+\begin{Desc}
+\item[Returns:]true if a button is pressed. 
+
+\begin{Code}\begin{verbatim} KCLInput * myInput = new KCLInput("/dev/input/event3");
+ if ( myInput->anyPress()) kDebug()<<"you have press on something...";
+\end{verbatim}
+\end{Code}
+
+ \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_5546e3862c917d07b22543190659871d}{
+\index{KCLInput@{KCLInput}!axisAbsolu@{axisAbsolu}}
+\index{axisAbsolu@{axisAbsolu}!KCLInput@{KCLInput}}
+\subsubsection[{axisAbsolu}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::axisAbsolu (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_5546e3862c917d07b22543190659871d}
+
+
+\begin{Desc}
+\item[Returns:]the axis Absolute value. This is an absolue value. For example the Joystick return an absolu position. \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}{
+\index{KCLInput@{KCLInput}!axisCapability@{axisCapability}}
+\index{axisCapability@{axisCapability}!KCLInput@{KCLInput}}
+\subsubsection[{axisCapability}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AbsVal} KCLInput::axisCapability (int {\em axisCode})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}
+
+
+\begin{Desc}
+\item[Returns:]the axis capability..This is usefull to know the capability of a joystick . \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}{
+\index{KCLInput@{KCLInput}!axisPosition@{axisPosition}}
+\index{axisPosition@{axisPosition}!KCLInput@{KCLInput}}
+\subsubsection[{axisPosition}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::axisPosition (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}
+
+
+\begin{Desc}
+\item[Returns:]the axis position. This is a relativ value. For example the mouse return a relativ position. \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}{
+\index{KCLInput@{KCLInput}!bustype@{bustype}}
+\index{bustype@{bustype}!KCLInput@{KCLInput}}
+\subsubsection[{bustype}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::bustype ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}
+
+
+\begin{Desc}
+\item[Returns:]the bus of the device \end{Desc}
+\hypertarget{class_k_c_l_input_afe120b671d76b4b7d14b48e03d4faf6}{
+\index{KCLInput@{KCLInput}!button@{button}}
+\index{button@{button}!KCLInput@{KCLInput}}
+\subsubsection[{button}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::button (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_afe120b671d76b4b7d14b48e03d4faf6}
+
+
+\begin{Desc}
+\item[Returns:]true if the button with code is pressed. Otherwise it return false 
+
+\begin{Code}\begin{verbatim} KCLInput * myInput = new KCLInput("/dev/input/event3");
+ if ( myInput->button(LeftBtn)) kDebug()<<"clicked";
+\end{verbatim}
+\end{Code}
+
+ \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}{
+\index{KCLInput@{KCLInput}!buttonCapabilities@{buttonCapabilities}}
+\index{buttonCapabilities@{buttonCapabilities}!KCLInput@{KCLInput}}
+\subsubsection[{buttonCapabilities}]{\setlength{\rightskip}{0pt plus 5cm}QList$<$int$>$ KCLInput::buttonCapabilities ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}
+
+
+\begin{Desc}
+\item[Returns:]a list of capability button input. For example the mouse will return a list with LeftBtn,RightBtn .... \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}{
+\index{KCLInput@{KCLInput}!device@{device}}
+\index{device@{device}!KCLInput@{KCLInput}}
+\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}QString KCLInput::device ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}
+
+
+\hypertarget{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}{
+\index{KCLInput@{KCLInput}!deviceType@{deviceType}}
+\index{deviceType@{deviceType}!KCLInput@{KCLInput}}
+\subsubsection[{deviceType}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DEVICE} KCLInput::deviceType ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}
+
+
+\begin{Desc}
+\item[Returns:]the device Type. KCL\_\-KEYBOARD,KCL\_\-MOUSE,KCL\_\-JOYSTICK,KCL\_\-TABLET,KCL\_\-TOUCHPAD,KCL\_\-UNKNOWN; \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a}{DEVICE} \end{Desc}
+\hypertarget{class_k_c_l_input_0c3b7dd3cce5d5567c4894500074fee3}{
+\index{KCLInput@{KCLInput}!error@{error}}
+\index{error@{error}!KCLInput@{KCLInput}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::error ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_0c3b7dd3cce5d5567c4894500074fee3}
+
+
+\hypertarget{class_k_c_l_input_ee93fa33ec6a14baf2acf3daf23607c0}{
+\index{KCLInput@{KCLInput}!inputEventFilter@{inputEventFilter}}
+\index{inputEventFilter@{inputEventFilter}!KCLInput@{KCLInput}}
+\subsubsection[{inputEventFilter}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::inputEventFilter ({\bf KCLInputEvent} $\ast$ {\em event})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_k_c_l_input_ee93fa33ec6a14baf2acf3daf23607c0}
+
+
+this function can be reimplemented to customize the event Loop. 
+
+\begin{Code}\begin{verbatim} void MyInput::inputEventFilter(KCLInputEvent * event)
+    *{
+ switch ( event->type())
+    *{
+    *case EV_KEY : //do something....
+    *}
+    *}
+ if ( myInput->anyMove()) kDebug()<<"you have move something...";
+\end{verbatim}
+\end{Code}
+
+ \begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}{
+\index{KCLInput@{KCLInput}!name@{name}}
+\index{name@{name}!KCLInput@{KCLInput}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}QString KCLInput::name ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}
+
+
+\begin{Desc}
+\item[Returns:]the name of the device \end{Desc}
+\hypertarget{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}{
+\index{KCLInput@{KCLInput}!product@{product}}
+\index{product@{product}!KCLInput@{KCLInput}}
+\subsubsection[{product}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::product ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}
+
+
+\begin{Desc}
+\item[Returns:]the id of product \end{Desc}
+\hypertarget{class_k_c_l_input_33e1fd26c084040a728cabf03e445893}{
+\index{KCLInput@{KCLInput}!readInformation@{readInformation}}
+\index{readInformation@{readInformation}!KCLInput@{KCLInput}}
+\subsubsection[{readInformation}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::readInformation ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_c_l_input_33e1fd26c084040a728cabf03e445893}
+
+
+\hypertarget{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}{
+\index{KCLInput@{KCLInput}!slotInputEvent@{slotInputEvent}}
+\index{slotInputEvent@{slotInputEvent}!KCLInput@{KCLInput}}
+\subsubsection[{slotInputEvent}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::slotInputEvent ({\bf KCLInputEvent} $\ast$ {\em event})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}
+
+
+\hypertarget{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}{
+\index{KCLInput@{KCLInput}!vendor@{vendor}}
+\index{vendor@{vendor}!KCLInput@{KCLInput}}
+\subsubsection[{vendor}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::vendor ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}
+
+
+\begin{Desc}
+\item[Returns:]the id of vendor \end{Desc}
+\hypertarget{class_k_c_l_input_53ebfb56b5039bdeb8b6bed4bbff1b0e}{
+\index{KCLInput@{KCLInput}!version@{version}}
+\index{version@{version}!KCLInput@{KCLInput}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::version ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_53ebfb56b5039bdeb8b6bed4bbff1b0e}
+
+
+\begin{Desc}
+\item[Returns:]the version driver of the device \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kcl/\hyperlink{kclinput_8h}{kclinput.h}\item 
+/home/sacha/programmation/gluon/kcl/\hyperlink{kclinput_8cpp}{kclinput.cpp}\end{CompactItemize}

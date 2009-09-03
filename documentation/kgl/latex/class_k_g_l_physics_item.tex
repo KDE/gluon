@@ -1,0 +1,357 @@
+\hypertarget{class_k_g_l_physics_item}{
+\section{KGLPhysicsItem Class Reference}
+\label{class_k_g_l_physics_item}\index{KGLPhysicsItem@{KGLPhysicsItem}}
+}
+{\tt \#include $<$kglphysicsitem.h$>$}
+
+Inheritance diagram for KGLPhysicsItem::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{class_k_g_l_physics_item}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+enum \hyperlink{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c}{SHAPE\_\-TYPE} \{ \hyperlink{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c7f3449bf6512cac0a5dbf9aadc27b766}{POLYGON\_\-SHAPE} = 0, 
+\hyperlink{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c6b578fc66c478353e0e41ca78583a1e8}{CIRCLE\_\-SHAPE} = 1
+ \}
+\subsection*{Signals}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_g_l_physics_item_839c757a057b738d58f315ea821a81a0}{collided} (\hyperlink{class_k_g_l_physics_item}{KGLPhysicsItem} $\ast$other)
+\item 
+void \hyperlink{class_k_g_l_physics_item_27a5f89aa48c78f0c3c18b20964eba24}{collided} ()
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_g_l_physics_item_7930e195a22bd7e3b5809bd996cff4a4}{KGLPhysicsItem} (\hyperlink{class_k_g_l_engine}{KGLEngine} $\ast$parent=0)
+\item 
+void \hyperlink{class_k_g_l_physics_item_d1ec46b418f44e680e7726f2cab4aaf3}{setup} (b2World $\ast$world)
+\item 
+void \hyperlink{class_k_g_l_physics_item_bb70a21be98cab74c7daf10d6befbc09}{setupParam} ()
+\item 
+void \hyperlink{class_k_g_l_physics_item_fed8b6cdfbd684e5ed71f8af03bf9ab7}{updatePhysics} ()
+\item 
+b2Body $\ast$ \hyperlink{class_k_g_l_physics_item_1d2f1900e5bd95ac3699f42e8b8b9710}{body} ()
+\item 
+void \hyperlink{class_k_g_l_physics_item_a492016cac88405f5988d891c838c2d6}{setPolygonDef} (b2PolygonDef p)
+\item 
+void \hyperlink{class_k_g_l_physics_item_5596df9172f5ca0ea725419f0dce8db6}{setBodyDef} (b2BodyDef b)
+\item 
+void \hyperlink{class_k_g_l_physics_item_2a19b0749cfc745ad7ac0b6366185f41}{initDensity} (const float32 \&d)
+\item 
+void \hyperlink{class_k_g_l_physics_item_7523dc0a9453bd982a4f60d1734af46f}{initFriction} (const float32 \&f)
+\item 
+void \hyperlink{class_k_g_l_physics_item_6d8c120c3abedc0e6ba56905264c1d5b}{initRestitution} (const float32 \&r)
+\item 
+void \hyperlink{class_k_g_l_physics_item_bae743b4a3ac9f8db1b643438933a50b}{initSensor} (bool b)
+\item 
+void \hyperlink{class_k_g_l_physics_item_bf88ca0759ddebe73c41cdf42103f04f}{setMass} (const float32 \&m)
+\item 
+void \hyperlink{class_k_g_l_physics_item_8596bfa11f1267e39031d3a8b14d55e0}{initLinearDamping} (const float32 \&l)
+\item 
+void \hyperlink{class_k_g_l_physics_item_7041239eb6f4eaba7a921009d0fcdcf6}{initAngularDamping} (const float32 \&a)
+\item 
+void \hyperlink{class_k_g_l_physics_item_3b9673bad884214365837e3f87c35358}{initCategoryBits} (const uint16 \&c)
+\item 
+void \hyperlink{class_k_g_l_physics_item_0837f29f919d93cfca1429415b072b22}{initMaskBits} (const uint16 \&c)
+\item 
+void \hyperlink{class_k_g_l_physics_item_8ccd7feacbfc2c4e6d035bc147138cde}{setMassFromShape} (bool b)
+\item 
+void \hyperlink{class_k_g_l_physics_item_10f8810cfd4018543a169df37a7a7cc1}{setStatic} ()
+\item 
+void \hyperlink{class_k_g_l_physics_item_8c86227c571bfa83e6aefbaa1ef573df}{setShapeType} (\hyperlink{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c}{SHAPE\_\-TYPE} t=POLYGON\_\-SHAPE)
+\item 
+b2PolygonDef $\ast$ \hyperlink{class_k_g_l_physics_item_ca68c4c36791432954708a3253ac1f73}{polygonDef} ()
+\item 
+b2BodyDef $\ast$ \hyperlink{class_k_g_l_physics_item_384af73ef980d7404c4e4cf4332bb332}{bodyDef} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_c908866d9a749e6bce529b6e4f3ed80b}{density} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_656cc790aa2b53f3c45e4488aad35887}{friction} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_a6fec0352a3214ab5ec031eccc2952ac}{restition} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_17c7c15ab2ec62db4f17da9cc31506da}{mass} ()
+\item 
+bool \hyperlink{class_k_g_l_physics_item_eddb441690ec42d679aba642bc12dee3}{isSensor} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_e83c6834e417cd7da10481d0878b9c40}{linearDamping} ()
+\item 
+const float32 \& \hyperlink{class_k_g_l_physics_item_faf0f2e3fd56195ce1e165b5f206855a}{angularDamping} ()
+\item 
+const uint16 \& \hyperlink{class_k_g_l_physics_item_870ea0d4451995acf418807dd535d82d}{categoryBits} ()
+\item 
+const uint16 \& \hyperlink{class_k_g_l_physics_item_4d60872591ae5b15ebd01f2f46c40ab6}{maskBits} ()
+\item 
+virtual void \hyperlink{class_k_g_l_physics_item_e531b03571d9d7bc17a76bbf9fbc2d8a}{collidesWithItem} (\hyperlink{class_k_g_l_physics_item}{KGLPhysicsItem} $\ast$other)
+\end{CompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!SHAPE\_\-TYPE@{SHAPE\_\-TYPE}}
+\index{SHAPE\_\-TYPE@{SHAPE\_\-TYPE}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{SHAPE\_\-TYPE}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf KGLPhysicsItem::SHAPE\_\-TYPE}}}
+\label{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c}
+
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{POLYGON\_\-SHAPE@{POLYGON\_\-SHAPE}!KGLPhysicsItem@{KGLPhysicsItem}}\index{KGLPhysicsItem@{KGLPhysicsItem}!POLYGON\_\-SHAPE@{POLYGON\_\-SHAPE}}\item[{\em 
+\hypertarget{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c7f3449bf6512cac0a5dbf9aadc27b766}{
+POLYGON\_\-SHAPE}
+\label{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c7f3449bf6512cac0a5dbf9aadc27b766}
+}]\index{CIRCLE\_\-SHAPE@{CIRCLE\_\-SHAPE}!KGLPhysicsItem@{KGLPhysicsItem}}\index{KGLPhysicsItem@{KGLPhysicsItem}!CIRCLE\_\-SHAPE@{CIRCLE\_\-SHAPE}}\item[{\em 
+\hypertarget{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c6b578fc66c478353e0e41ca78583a1e8}{
+CIRCLE\_\-SHAPE}
+\label{class_k_g_l_physics_item_b74dbd1e43d8bc18ec4fc6c16d3d4b7c6b578fc66c478353e0e41ca78583a1e8}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_g_l_physics_item_7930e195a22bd7e3b5809bd996cff4a4}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!KGLPhysicsItem@{KGLPhysicsItem}}
+\index{KGLPhysicsItem@{KGLPhysicsItem}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{KGLPhysicsItem}]{\setlength{\rightskip}{0pt plus 5cm}KGLPhysicsItem::KGLPhysicsItem ({\bf KGLEngine} $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_g_l_physics_item_7930e195a22bd7e3b5809bd996cff4a4}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_g_l_physics_item_faf0f2e3fd56195ce1e165b5f206855a}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!angularDamping@{angularDamping}}
+\index{angularDamping@{angularDamping}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{angularDamping}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::angularDamping ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_faf0f2e3fd56195ce1e165b5f206855a}
+
+
+\hypertarget{class_k_g_l_physics_item_1d2f1900e5bd95ac3699f42e8b8b9710}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!body@{body}}
+\index{body@{body}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{body}]{\setlength{\rightskip}{0pt plus 5cm}b2Body $\ast$ KGLPhysicsItem::body ()}}
+\label{class_k_g_l_physics_item_1d2f1900e5bd95ac3699f42e8b8b9710}
+
+
+\hypertarget{class_k_g_l_physics_item_384af73ef980d7404c4e4cf4332bb332}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!bodyDef@{bodyDef}}
+\index{bodyDef@{bodyDef}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{bodyDef}]{\setlength{\rightskip}{0pt plus 5cm}b2BodyDef$\ast$ KGLPhysicsItem::bodyDef ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_384af73ef980d7404c4e4cf4332bb332}
+
+
+\hypertarget{class_k_g_l_physics_item_870ea0d4451995acf418807dd535d82d}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!categoryBits@{categoryBits}}
+\index{categoryBits@{categoryBits}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{categoryBits}]{\setlength{\rightskip}{0pt plus 5cm}const uint16\& KGLPhysicsItem::categoryBits ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_870ea0d4451995acf418807dd535d82d}
+
+
+\hypertarget{class_k_g_l_physics_item_27a5f89aa48c78f0c3c18b20964eba24}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!collided@{collided}}
+\index{collided@{collided}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{collided}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::collided ()\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_g_l_physics_item_27a5f89aa48c78f0c3c18b20964eba24}
+
+
+\hypertarget{class_k_g_l_physics_item_839c757a057b738d58f315ea821a81a0}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!collided@{collided}}
+\index{collided@{collided}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{collided}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::collided ({\bf KGLPhysicsItem} $\ast$ {\em other})\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_g_l_physics_item_839c757a057b738d58f315ea821a81a0}
+
+
+\hypertarget{class_k_g_l_physics_item_e531b03571d9d7bc17a76bbf9fbc2d8a}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!collidesWithItem@{collidesWithItem}}
+\index{collidesWithItem@{collidesWithItem}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{collidesWithItem}]{\setlength{\rightskip}{0pt plus 5cm}virtual void KGLPhysicsItem::collidesWithItem ({\bf KGLPhysicsItem} $\ast$ {\em other})\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_k_g_l_physics_item_e531b03571d9d7bc17a76bbf9fbc2d8a}
+
+
+\hypertarget{class_k_g_l_physics_item_c908866d9a749e6bce529b6e4f3ed80b}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!density@{density}}
+\index{density@{density}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{density}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::density ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_c908866d9a749e6bce529b6e4f3ed80b}
+
+
+\hypertarget{class_k_g_l_physics_item_656cc790aa2b53f3c45e4488aad35887}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!friction@{friction}}
+\index{friction@{friction}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{friction}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::friction ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_656cc790aa2b53f3c45e4488aad35887}
+
+
+\hypertarget{class_k_g_l_physics_item_7041239eb6f4eaba7a921009d0fcdcf6}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initAngularDamping@{initAngularDamping}}
+\index{initAngularDamping@{initAngularDamping}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initAngularDamping}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initAngularDamping (const float32 \& {\em a})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_7041239eb6f4eaba7a921009d0fcdcf6}
+
+
+\hypertarget{class_k_g_l_physics_item_3b9673bad884214365837e3f87c35358}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initCategoryBits@{initCategoryBits}}
+\index{initCategoryBits@{initCategoryBits}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initCategoryBits}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initCategoryBits (const uint16 \& {\em c})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_3b9673bad884214365837e3f87c35358}
+
+
+\hypertarget{class_k_g_l_physics_item_2a19b0749cfc745ad7ac0b6366185f41}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initDensity@{initDensity}}
+\index{initDensity@{initDensity}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initDensity}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initDensity (const float32 \& {\em d})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_2a19b0749cfc745ad7ac0b6366185f41}
+
+
+\hypertarget{class_k_g_l_physics_item_7523dc0a9453bd982a4f60d1734af46f}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initFriction@{initFriction}}
+\index{initFriction@{initFriction}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initFriction}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initFriction (const float32 \& {\em f})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_7523dc0a9453bd982a4f60d1734af46f}
+
+
+\hypertarget{class_k_g_l_physics_item_8596bfa11f1267e39031d3a8b14d55e0}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initLinearDamping@{initLinearDamping}}
+\index{initLinearDamping@{initLinearDamping}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initLinearDamping}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initLinearDamping (const float32 \& {\em l})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_8596bfa11f1267e39031d3a8b14d55e0}
+
+
+\hypertarget{class_k_g_l_physics_item_0837f29f919d93cfca1429415b072b22}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initMaskBits@{initMaskBits}}
+\index{initMaskBits@{initMaskBits}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initMaskBits}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initMaskBits (const uint16 \& {\em c})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_0837f29f919d93cfca1429415b072b22}
+
+
+\hypertarget{class_k_g_l_physics_item_6d8c120c3abedc0e6ba56905264c1d5b}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initRestitution@{initRestitution}}
+\index{initRestitution@{initRestitution}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initRestitution}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initRestitution (const float32 \& {\em r})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_6d8c120c3abedc0e6ba56905264c1d5b}
+
+
+\hypertarget{class_k_g_l_physics_item_bae743b4a3ac9f8db1b643438933a50b}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!initSensor@{initSensor}}
+\index{initSensor@{initSensor}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{initSensor}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::initSensor (bool {\em b})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_bae743b4a3ac9f8db1b643438933a50b}
+
+
+\hypertarget{class_k_g_l_physics_item_eddb441690ec42d679aba642bc12dee3}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!isSensor@{isSensor}}
+\index{isSensor@{isSensor}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{isSensor}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLPhysicsItem::isSensor ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_eddb441690ec42d679aba642bc12dee3}
+
+
+\hypertarget{class_k_g_l_physics_item_e83c6834e417cd7da10481d0878b9c40}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!linearDamping@{linearDamping}}
+\index{linearDamping@{linearDamping}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{linearDamping}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::linearDamping ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_e83c6834e417cd7da10481d0878b9c40}
+
+
+\hypertarget{class_k_g_l_physics_item_4d60872591ae5b15ebd01f2f46c40ab6}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!maskBits@{maskBits}}
+\index{maskBits@{maskBits}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{maskBits}]{\setlength{\rightskip}{0pt plus 5cm}const uint16\& KGLPhysicsItem::maskBits ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_4d60872591ae5b15ebd01f2f46c40ab6}
+
+
+\hypertarget{class_k_g_l_physics_item_17c7c15ab2ec62db4f17da9cc31506da}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!mass@{mass}}
+\index{mass@{mass}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{mass}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::mass ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_17c7c15ab2ec62db4f17da9cc31506da}
+
+
+\hypertarget{class_k_g_l_physics_item_ca68c4c36791432954708a3253ac1f73}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!polygonDef@{polygonDef}}
+\index{polygonDef@{polygonDef}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{polygonDef}]{\setlength{\rightskip}{0pt plus 5cm}b2PolygonDef$\ast$ KGLPhysicsItem::polygonDef ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_ca68c4c36791432954708a3253ac1f73}
+
+
+\hypertarget{class_k_g_l_physics_item_a6fec0352a3214ab5ec031eccc2952ac}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!restition@{restition}}
+\index{restition@{restition}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{restition}]{\setlength{\rightskip}{0pt plus 5cm}const float32\& KGLPhysicsItem::restition ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_a6fec0352a3214ab5ec031eccc2952ac}
+
+
+\hypertarget{class_k_g_l_physics_item_5596df9172f5ca0ea725419f0dce8db6}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setBodyDef@{setBodyDef}}
+\index{setBodyDef@{setBodyDef}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setBodyDef}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setBodyDef (b2BodyDef {\em b})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_5596df9172f5ca0ea725419f0dce8db6}
+
+
+\hypertarget{class_k_g_l_physics_item_bf88ca0759ddebe73c41cdf42103f04f}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setMass@{setMass}}
+\index{setMass@{setMass}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setMass}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setMass (const float32 \& {\em m})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_bf88ca0759ddebe73c41cdf42103f04f}
+
+
+\hypertarget{class_k_g_l_physics_item_8ccd7feacbfc2c4e6d035bc147138cde}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setMassFromShape@{setMassFromShape}}
+\index{setMassFromShape@{setMassFromShape}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setMassFromShape}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setMassFromShape (bool {\em b})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_8ccd7feacbfc2c4e6d035bc147138cde}
+
+
+\hypertarget{class_k_g_l_physics_item_a492016cac88405f5988d891c838c2d6}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setPolygonDef@{setPolygonDef}}
+\index{setPolygonDef@{setPolygonDef}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setPolygonDef}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setPolygonDef (b2PolygonDef {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_a492016cac88405f5988d891c838c2d6}
+
+
+\hypertarget{class_k_g_l_physics_item_8c86227c571bfa83e6aefbaa1ef573df}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setShapeType@{setShapeType}}
+\index{setShapeType@{setShapeType}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setShapeType}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setShapeType ({\bf SHAPE\_\-TYPE} {\em t} = {\tt POLYGON\_\-SHAPE})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_8c86227c571bfa83e6aefbaa1ef573df}
+
+
+\hypertarget{class_k_g_l_physics_item_10f8810cfd4018543a169df37a7a7cc1}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setStatic@{setStatic}}
+\index{setStatic@{setStatic}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setStatic}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setStatic ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_physics_item_10f8810cfd4018543a169df37a7a7cc1}
+
+
+\hypertarget{class_k_g_l_physics_item_d1ec46b418f44e680e7726f2cab4aaf3}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setup@{setup}}
+\index{setup@{setup}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setup (b2World $\ast$ {\em world})}}
+\label{class_k_g_l_physics_item_d1ec46b418f44e680e7726f2cab4aaf3}
+
+
+\hypertarget{class_k_g_l_physics_item_bb70a21be98cab74c7daf10d6befbc09}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!setupParam@{setupParam}}
+\index{setupParam@{setupParam}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{setupParam}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::setupParam ()}}
+\label{class_k_g_l_physics_item_bb70a21be98cab74c7daf10d6befbc09}
+
+
+\hypertarget{class_k_g_l_physics_item_fed8b6cdfbd684e5ed71f8af03bf9ab7}{
+\index{KGLPhysicsItem@{KGLPhysicsItem}!updatePhysics@{updatePhysics}}
+\index{updatePhysics@{updatePhysics}!KGLPhysicsItem@{KGLPhysicsItem}}
+\subsubsection[{updatePhysics}]{\setlength{\rightskip}{0pt plus 5cm}void KGLPhysicsItem::updatePhysics ()}}
+\label{class_k_g_l_physics_item_fed8b6cdfbd684e5ed71f8af03bf9ab7}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglphysicsitem_8h}{kglphysicsitem.h}\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglphysicsitem_8cpp}{kglphysicsitem.cpp}\end{CompactItemize}

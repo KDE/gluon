@@ -1,0 +1,358 @@
+\hypertarget{class_k_a_l_source}{
+\section{KALSource Class Reference}
+\label{class_k_a_l_source}\index{KALSource@{KALSource}}
+}
+{\tt \#include $<$KALSource$>$}
+
+\subsection*{Public Slots}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play} ()
+\item 
+void \hyperlink{class_k_a_l_source_5073e178991fd50af8344a7e64491634}{pause} ()
+\item 
+void \hyperlink{class_k_a_l_source_1796d7faf1bb7614111b3d7477c7c42b}{stop} ()
+\item 
+void \hyperlink{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}{rewind} ()
+\item 
+void \hyperlink{class_k_a_l_source_12ee746221eb1e6ab36fe8c30f0d14d4}{loop} (bool enabled=true)
+\item 
+void \hyperlink{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}{setPosition} (ALfloat x=0.0, ALfloat y=0.0, ALfloat z=0.0)
+\item 
+void \hyperlink{class_k_a_l_source_831dcd53e81bf704bf70974790298322}{setGain} (ALfloat volume=1.0f)
+\item 
+void \hyperlink{class_k_a_l_source_052f5b82f78a130af322334e2a340d0a}{setPitch} (ALfloat pitch=1.0f)
+\item 
+void \hyperlink{class_k_a_l_source_39fad788e416543df01548f717f21f0c}{setMinGain} (ALfloat min=0.0f)
+\item 
+void \hyperlink{class_k_a_l_source_579afe70c88657e7e09ce5ac29d001d1}{setMaxGain} (ALfloat max=10.0f)
+\item 
+void \hyperlink{class_k_a_l_source_911cddda3c690c5b85892003fe73dacd}{setVelocity} (ALfloat vx, ALfloat vy, ALfloat vz)
+\item 
+void \hyperlink{class_k_a_l_source_ec1cb92c08a1c4cf767afde34bb466a7}{setDirection} (ALfloat dx, ALfloat dy, ALfloat dz)
+\item 
+void \hyperlink{class_k_a_l_source_6f0c36e12e94b6fd3922aead49176576}{setupSource} ()
+\item 
+void \hyperlink{class_k_a_l_source_fb27d2f3bc35c3f3b0ee84616091656c}{updateSource} ()
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_a_l_source_b3b40eec42acf80fd6e4448eb3632215}{KALSource} (const QString \&soundFile, QObject $\ast$parent=0)
+\item 
+\hyperlink{class_k_a_l_source_db8a19fc41825ed536eb8d5235fcfff0}{KALSource} (\hyperlink{class_k_a_l_buffer}{KALBuffer} $\ast$buffer, QObject $\ast$parent=0)
+\item 
+\hyperlink{class_k_a_l_source_5daddf666e7bf2ecda0a29baa8db8f7c}{KALSource} (ALuint buffer, QObject $\ast$parent=0)
+\item 
+void \hyperlink{class_k_a_l_source_efc4601d63ec911b40346c1faef622ff}{setBuffer} (const QString \&soundFile)
+\item 
+void \hyperlink{class_k_a_l_source_9e0fe5ad33a2f814f3be868908b09821}{setBuffer} (\hyperlink{class_k_a_l_buffer}{KALBuffer} $\ast$buffer)
+\item 
+void \hyperlink{class_k_a_l_source_895cc3f7b79087050a97bed287b97178}{setBuffer} (ALuint buffer)
+\item 
+\hyperlink{class_k_a_l_source_668303aa25ec096eb945381a341bf16c}{$\sim$KALSource} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_d408e9043f8ba7b87125b46ef9d99067}{elapsedTime} ()
+\item 
+ALint \hyperlink{class_k_a_l_source_299fc8e2cf4d544dd19ac92322f44e28}{status} ()
+\item 
+QString \hyperlink{class_k_a_l_source_e49f05979d560258949935990bb6540d}{lastError} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_b276d46c5c13cf496bdc27d3d68b67dd}{x} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_4caf310ccc6d374f14a1cbe08a15990b}{y} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_dc2a64105db92ed96d91ec42c49878a3}{z} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_f29819a83267c47424a4f3fab8281a41}{gain} ()
+\item 
+ALfloat \hyperlink{class_k_a_l_source_c3ed83870c78752ad17090840f54b6ab}{pitch} ()
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_a_l_source_418bc777241fd144ffc392eff3fec919}{init} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_k_a_l_source}{KALSource} lets you play an audio file in a separate thread 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_a_l_source_b3b40eec42acf80fd6e4448eb3632215}{
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\subsubsection[{KALSource}]{\setlength{\rightskip}{0pt plus 5cm}KALSource::KALSource (const QString \& {\em soundFile}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_a_l_source_b3b40eec42acf80fd6e4448eb3632215}
+
+
+This is the default constructor \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em soundFile}]the path of the file to play \end{description}
+\end{Desc}
+\hypertarget{class_k_a_l_source_db8a19fc41825ed536eb8d5235fcfff0}{
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\subsubsection[{KALSource}]{\setlength{\rightskip}{0pt plus 5cm}KALSource::KALSource ({\bf KALBuffer} $\ast$ {\em buffer}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_a_l_source_db8a19fc41825ed536eb8d5235fcfff0}
+
+
+This is the default constructor \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em \hyperlink{class_k_a_l_buffer}{KALBuffer}}]the buffer \end{description}
+\end{Desc}
+\hypertarget{class_k_a_l_source_5daddf666e7bf2ecda0a29baa8db8f7c}{
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\index{KALSource@{KALSource}!KALSource@{KALSource}}
+\subsubsection[{KALSource}]{\setlength{\rightskip}{0pt plus 5cm}KALSource::KALSource (ALuint {\em buffer}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_a_l_source_5daddf666e7bf2ecda0a29baa8db8f7c}
+
+
+This is the default constructor \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em ALuint}]the buffer \end{description}
+\end{Desc}
+\hypertarget{class_k_a_l_source_668303aa25ec096eb945381a341bf16c}{
+\index{KALSource@{KALSource}!$\sim$KALSource@{$\sim$KALSource}}
+\index{$\sim$KALSource@{$\sim$KALSource}!KALSource@{KALSource}}
+\subsubsection[{$\sim$KALSource}]{\setlength{\rightskip}{0pt plus 5cm}KALSource::$\sim$KALSource ()}}
+\label{class_k_a_l_source_668303aa25ec096eb945381a341bf16c}
+
+
+Destructor 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_a_l_source_d408e9043f8ba7b87125b46ef9d99067}{
+\index{KALSource@{KALSource}!elapsedTime@{elapsedTime}}
+\index{elapsedTime@{elapsedTime}!KALSource@{KALSource}}
+\subsubsection[{elapsedTime}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::elapsedTime ()}}
+\label{class_k_a_l_source_d408e9043f8ba7b87125b46ef9d99067}
+
+
+\begin{Desc}
+\item[Returns:]the time since the sound started playing \end{Desc}
+\hypertarget{class_k_a_l_source_f29819a83267c47424a4f3fab8281a41}{
+\index{KALSource@{KALSource}!gain@{gain}}
+\index{gain@{gain}!KALSource@{KALSource}}
+\subsubsection[{gain}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::gain ()}}
+\label{class_k_a_l_source_f29819a83267c47424a4f3fab8281a41}
+
+
+\begin{Desc}
+\item[Returns:]the gain currently applied \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_831dcd53e81bf704bf70974790298322}{setGain} \end{Desc}
+\hypertarget{class_k_a_l_source_418bc777241fd144ffc392eff3fec919}{
+\index{KALSource@{KALSource}!init@{init}}
+\index{init@{init}!KALSource@{KALSource}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::init ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_a_l_source_418bc777241fd144ffc392eff3fec919}
+
+
+\hypertarget{class_k_a_l_source_e49f05979d560258949935990bb6540d}{
+\index{KALSource@{KALSource}!lastError@{lastError}}
+\index{lastError@{lastError}!KALSource@{KALSource}}
+\subsubsection[{lastError}]{\setlength{\rightskip}{0pt plus 5cm}QString KALSource::lastError ()}}
+\label{class_k_a_l_source_e49f05979d560258949935990bb6540d}
+
+
+\begin{Desc}
+\item[\hyperlink{todo__todo000001}{Todo}]this function isn't defined! \end{Desc}
+\begin{Desc}
+\item[Returns:]the last error reported \end{Desc}
+\hypertarget{class_k_a_l_source_12ee746221eb1e6ab36fe8c30f0d14d4}{
+\index{KALSource@{KALSource}!loop@{loop}}
+\index{loop@{loop}!KALSource@{KALSource}}
+\subsubsection[{loop}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::loop (bool {\em enabled} = {\tt true})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_12ee746221eb1e6ab36fe8c30f0d14d4}
+
+
+Makes the sound play in a loop when \hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play()} is called {\tt enabled} play in a loop if set to true \begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play} \end{Desc}
+\hypertarget{class_k_a_l_source_5073e178991fd50af8344a7e64491634}{
+\index{KALSource@{KALSource}!pause@{pause}}
+\index{pause@{pause}!KALSource@{KALSource}}
+\subsubsection[{pause}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::pause ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_5073e178991fd50af8344a7e64491634}
+
+
+Pauses the sound currently played \begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play}, \hyperlink{class_k_a_l_source_1796d7faf1bb7614111b3d7477c7c42b}{stop}, \hyperlink{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}{rewind} \end{Desc}
+\hypertarget{class_k_a_l_source_c3ed83870c78752ad17090840f54b6ab}{
+\index{KALSource@{KALSource}!pitch@{pitch}}
+\index{pitch@{pitch}!KALSource@{KALSource}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::pitch ()}}
+\label{class_k_a_l_source_c3ed83870c78752ad17090840f54b6ab}
+
+
+\begin{Desc}
+\item[Returns:]the pitch currently applied \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_052f5b82f78a130af322334e2a340d0a}{setPitch} \end{Desc}
+\hypertarget{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{
+\index{KALSource@{KALSource}!play@{play}}
+\index{play@{play}!KALSource@{KALSource}}
+\subsubsection[{play}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::play ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}
+
+
+Plays the sound file from the beginning or from the moment \hyperlink{class_k_a_l_source_5073e178991fd50af8344a7e64491634}{pause()} was called \begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_5073e178991fd50af8344a7e64491634}{pause}, \hyperlink{class_k_a_l_source_1796d7faf1bb7614111b3d7477c7c42b}{stop}, \hyperlink{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}{rewind} \end{Desc}
+\hypertarget{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}{
+\index{KALSource@{KALSource}!rewind@{rewind}}
+\index{rewind@{rewind}!KALSource@{KALSource}}
+\subsubsection[{rewind}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::rewind ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}
+
+
+If the sound was paused, this will rewind it so that next time \hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play()} is called, it will play from the start \hypertarget{class_k_a_l_source_895cc3f7b79087050a97bed287b97178}{
+\index{KALSource@{KALSource}!setBuffer@{setBuffer}}
+\index{setBuffer@{setBuffer}!KALSource@{KALSource}}
+\subsubsection[{setBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setBuffer (ALuint {\em buffer})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_source_895cc3f7b79087050a97bed287b97178}
+
+
+\hypertarget{class_k_a_l_source_9e0fe5ad33a2f814f3be868908b09821}{
+\index{KALSource@{KALSource}!setBuffer@{setBuffer}}
+\index{setBuffer@{setBuffer}!KALSource@{KALSource}}
+\subsubsection[{setBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setBuffer ({\bf KALBuffer} $\ast$ {\em buffer})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_source_9e0fe5ad33a2f814f3be868908b09821}
+
+
+\hypertarget{class_k_a_l_source_efc4601d63ec911b40346c1faef622ff}{
+\index{KALSource@{KALSource}!setBuffer@{setBuffer}}
+\index{setBuffer@{setBuffer}!KALSource@{KALSource}}
+\subsubsection[{setBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setBuffer (const QString \& {\em soundFile})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_source_efc4601d63ec911b40346c1faef622ff}
+
+
+\hypertarget{class_k_a_l_source_ec1cb92c08a1c4cf767afde34bb466a7}{
+\index{KALSource@{KALSource}!setDirection@{setDirection}}
+\index{setDirection@{setDirection}!KALSource@{KALSource}}
+\subsubsection[{setDirection}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setDirection (ALfloat {\em dx}, \/  ALfloat {\em dy}, \/  ALfloat {\em dz})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_ec1cb92c08a1c4cf767afde34bb466a7}
+
+
+\hypertarget{class_k_a_l_source_831dcd53e81bf704bf70974790298322}{
+\index{KALSource@{KALSource}!setGain@{setGain}}
+\index{setGain@{setGain}!KALSource@{KALSource}}
+\subsubsection[{setGain}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setGain (ALfloat {\em volume} = {\tt 1.0f})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_831dcd53e81bf704bf70974790298322}
+
+
+Change the gain (volume amplification) applied The openAL documentation defines the underlying variable as: A value of 1.0 means un-attenuated/unchanged. Each division by 2 equals an attenuation of -6dB. Each multiplicaton with 2 equals an amplification of +6dB. A value of 0.0 is meaningless with respect to a logarithmic scale; it is interpreted as zero volume - the channel is effectively disabled. \begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_f29819a83267c47424a4f3fab8281a41}{gain} \end{Desc}
+\hypertarget{class_k_a_l_source_579afe70c88657e7e09ce5ac29d001d1}{
+\index{KALSource@{KALSource}!setMaxGain@{setMaxGain}}
+\index{setMaxGain@{setMaxGain}!KALSource@{KALSource}}
+\subsubsection[{setMaxGain}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setMaxGain (ALfloat {\em max} = {\tt 10.0f})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_579afe70c88657e7e09ce5ac29d001d1}
+
+
+\hypertarget{class_k_a_l_source_39fad788e416543df01548f717f21f0c}{
+\index{KALSource@{KALSource}!setMinGain@{setMinGain}}
+\index{setMinGain@{setMinGain}!KALSource@{KALSource}}
+\subsubsection[{setMinGain}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setMinGain (ALfloat {\em min} = {\tt 0.0f})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_39fad788e416543df01548f717f21f0c}
+
+
+\hypertarget{class_k_a_l_source_052f5b82f78a130af322334e2a340d0a}{
+\index{KALSource@{KALSource}!setPitch@{setPitch}}
+\index{setPitch@{setPitch}!KALSource@{KALSource}}
+\subsubsection[{setPitch}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setPitch (ALfloat {\em pitch} = {\tt 1.0f})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_052f5b82f78a130af322334e2a340d0a}
+
+
+Specify the pitch to be applied, either at source, or on mixer results, at listener. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em pitch}]a value between 0.5 and 2.0 \end{description}
+\end{Desc}
+\hypertarget{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}{
+\index{KALSource@{KALSource}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!KALSource@{KALSource}}
+\subsubsection[{setPosition}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setPosition (ALfloat {\em x} = {\tt 0.0}, \/  ALfloat {\em y} = {\tt 0.0}, \/  ALfloat {\em z} = {\tt 0.0})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}
+
+
+Sets the position of the listener, this is used to create 3D sounds using effects to artificially change sound origin The openAL documentation defines the underlying variable as: Specify the current location in three dimensional space. OpenAL, like OpenGL, uses a right handed coordinate system, where in a frontal default view {\tt x} (thumb) points right, {\tt y} points up (index finger), and {\tt z} points towards the viewer/camera (middle finger). To switch from a left handed coordinate system, flip the sign on the Z coordinate. Listener position is always in the world coordinate system. \hypertarget{class_k_a_l_source_6f0c36e12e94b6fd3922aead49176576}{
+\index{KALSource@{KALSource}!setupSource@{setupSource}}
+\index{setupSource@{setupSource}!KALSource@{KALSource}}
+\subsubsection[{setupSource}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setupSource ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_6f0c36e12e94b6fd3922aead49176576}
+
+
+\hypertarget{class_k_a_l_source_911cddda3c690c5b85892003fe73dacd}{
+\index{KALSource@{KALSource}!setVelocity@{setVelocity}}
+\index{setVelocity@{setVelocity}!KALSource@{KALSource}}
+\subsubsection[{setVelocity}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::setVelocity (ALfloat {\em vx}, \/  ALfloat {\em vy}, \/  ALfloat {\em vz})\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_911cddda3c690c5b85892003fe73dacd}
+
+
+\hypertarget{class_k_a_l_source_299fc8e2cf4d544dd19ac92322f44e28}{
+\index{KALSource@{KALSource}!status@{status}}
+\index{status@{status}!KALSource@{KALSource}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}ALint KALSource::status ()}}
+\label{class_k_a_l_source_299fc8e2cf4d544dd19ac92322f44e28}
+
+
+\begin{Desc}
+\item[Returns:]the sound status \end{Desc}
+\hypertarget{class_k_a_l_source_1796d7faf1bb7614111b3d7477c7c42b}{
+\index{KALSource@{KALSource}!stop@{stop}}
+\index{stop@{stop}!KALSource@{KALSource}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::stop ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_1796d7faf1bb7614111b3d7477c7c42b}
+
+
+Stops the sound currently played \begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_22573a4415c721d03693519b6ea0af96}{play}, \hyperlink{class_k_a_l_source_5073e178991fd50af8344a7e64491634}{pause}, \hyperlink{class_k_a_l_source_9c8b97bd784c3c362fd65276b9df03b4}{rewind} \end{Desc}
+\hypertarget{class_k_a_l_source_fb27d2f3bc35c3f3b0ee84616091656c}{
+\index{KALSource@{KALSource}!updateSource@{updateSource}}
+\index{updateSource@{updateSource}!KALSource@{KALSource}}
+\subsubsection[{updateSource}]{\setlength{\rightskip}{0pt plus 5cm}void KALSource::updateSource ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_a_l_source_fb27d2f3bc35c3f3b0ee84616091656c}
+
+
+\hypertarget{class_k_a_l_source_b276d46c5c13cf496bdc27d3d68b67dd}{
+\index{KALSource@{KALSource}!x@{x}}
+\index{x@{x}!KALSource@{KALSource}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::x ()}}
+\label{class_k_a_l_source_b276d46c5c13cf496bdc27d3d68b67dd}
+
+
+\begin{Desc}
+\item[Returns:]the x position of the listener \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}{setPosition}, \hyperlink{class_k_a_l_source_4caf310ccc6d374f14a1cbe08a15990b}{y}, \hyperlink{class_k_a_l_source_dc2a64105db92ed96d91ec42c49878a3}{z} \end{Desc}
+\hypertarget{class_k_a_l_source_4caf310ccc6d374f14a1cbe08a15990b}{
+\index{KALSource@{KALSource}!y@{y}}
+\index{y@{y}!KALSource@{KALSource}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::y ()}}
+\label{class_k_a_l_source_4caf310ccc6d374f14a1cbe08a15990b}
+
+
+\begin{Desc}
+\item[Returns:]the y position of the listener \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}{setPosition}, \hyperlink{class_k_a_l_source_b276d46c5c13cf496bdc27d3d68b67dd}{x}, \hyperlink{class_k_a_l_source_dc2a64105db92ed96d91ec42c49878a3}{z} \end{Desc}
+\hypertarget{class_k_a_l_source_dc2a64105db92ed96d91ec42c49878a3}{
+\index{KALSource@{KALSource}!z@{z}}
+\index{z@{z}!KALSource@{KALSource}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}ALfloat KALSource::z ()}}
+\label{class_k_a_l_source_dc2a64105db92ed96d91ec42c49878a3}
+
+
+\begin{Desc}
+\item[Returns:]the z position of the listener \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_source_17250a60d4a3328cb9120cb4d9749187}{setPosition}, \hyperlink{class_k_a_l_source_b276d46c5c13cf496bdc27d3d68b67dd}{x}, \hyperlink{class_k_a_l_source_4caf310ccc6d374f14a1cbe08a15990b}{y} \end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalsource_8h}{kalsource.h}\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalsource_8cpp}{kalsource.cpp}\end{CompactItemize}

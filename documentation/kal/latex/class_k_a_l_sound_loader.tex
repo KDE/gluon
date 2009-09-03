@@ -1,0 +1,61 @@
+\hypertarget{class_k_a_l_sound_loader}{
+\section{KALSoundLoader Class Reference}
+\label{class_k_a_l_sound_loader}\index{KALSoundLoader@{KALSoundLoader}}
+}
+{\tt \#include $<$KALSoundLoader$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_a_l_sound_loader_b66e13296945b152d9ec057763733ac9}{KALSoundLoader} (const KComponentData \&componentData, QObject $\ast$parent=0)
+\item 
+QString \hyperlink{class_k_a_l_sound_loader_7224c83e67c68b8dd4bc485ab5d697cd}{soundPath} (const QString \&name) const 
+\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+static \hyperlink{class_k_a_l_sound_loader}{KALSoundLoader} $\ast$ \hyperlink{class_k_a_l_sound_loader_369cbbc9830906fdf401a2ad333bae3a}{global} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_k_a_l_sound_loader}{KALSoundLoader} ... 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_a_l_sound_loader_b66e13296945b152d9ec057763733ac9}{
+\index{KALSoundLoader@{KALSoundLoader}!KALSoundLoader@{KALSoundLoader}}
+\index{KALSoundLoader@{KALSoundLoader}!KALSoundLoader@{KALSoundLoader}}
+\subsubsection[{KALSoundLoader}]{\setlength{\rightskip}{0pt plus 5cm}KALSoundLoader::KALSoundLoader (const KComponentData \& {\em componentData}, \/  QObject $\ast$ {\em parent} = {\tt 0})\hspace{0.3cm}{\tt  \mbox{[}explicit\mbox{]}}}}
+\label{class_k_a_l_sound_loader_b66e13296945b152d9ec057763733ac9}
+
+
+Constructs a soundloader. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em componentData}]the KComponentData to use to create this icon loader.\end{description}
+\end{Desc}
+Usually, you use the default soundloader, which can be accessed via KSoundLoader::global(), so you hardly ever have to create a soundloader object yourself. That one is the current KComponentData's (typically KApplication's) iconloader. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_a_l_sound_loader_369cbbc9830906fdf401a2ad333bae3a}{
+\index{KALSoundLoader@{KALSoundLoader}!global@{global}}
+\index{global@{global}!KALSoundLoader@{KALSoundLoader}}
+\subsubsection[{global}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf KALSoundLoader}$\ast$ KALSoundLoader::global ()\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{class_k_a_l_sound_loader_369cbbc9830906fdf401a2ad333bae3a}
+
+
+Returns the global icon loader initialized with the global KComponentData. Therefore you must have a KComponentData instantiated before calling this. \begin{Desc}
+\item[Returns:]global icon loader \end{Desc}
+\hypertarget{class_k_a_l_sound_loader_7224c83e67c68b8dd4bc485ab5d697cd}{
+\index{KALSoundLoader@{KALSoundLoader}!soundPath@{soundPath}}
+\index{soundPath@{soundPath}!KALSoundLoader@{KALSoundLoader}}
+\subsubsection[{soundPath}]{\setlength{\rightskip}{0pt plus 5cm}QString KALSoundLoader::soundPath (const QString \& {\em name}) const}}
+\label{class_k_a_l_sound_loader_7224c83e67c68b8dd4bc485ab5d697cd}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalsoundloader_8h}{kalsoundloader.h}\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalsoundloader_8cpp}{kalsoundloader.cpp}\end{CompactItemize}

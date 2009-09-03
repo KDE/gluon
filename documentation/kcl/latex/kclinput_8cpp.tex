@@ -1,0 +1,67 @@
+\hypertarget{kclinput_8cpp}{
+\section{/home/sacha/programmation/gluon/kcl/kclinput.cpp File Reference}
+\label{kclinput_8cpp}\index{/home/sacha/programmation/gluon/kcl/kclinput.cpp@{/home/sacha/programmation/gluon/kcl/kclinput.cpp}}
+}
+{\tt \#include \char`\"{}kclinput.h\char`\"{}}\par
+{\tt \#include $<$KDebug$>$}\par
+{\tt \#include $<$QFile$>$}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{kclinput_8cpp_2f660aa23a5dbc0f4b8df48b4302b8c3}{BITS\_\-PER\_\-LONG}~(sizeof(long) $\ast$ 8)
+\item 
+\#define \hyperlink{kclinput_8cpp_1f296f3f5ec473b603ee32e2f7577fcb}{NBITS}(x)~((((x)-1)/BITS\_\-PER\_\-LONG)+1)
+\item 
+\#define \hyperlink{kclinput_8cpp_4521467edec9387fad3ae8761f0f4b1d}{OFF}(x)~((x)\%BITS\_\-PER\_\-LONG)
+\item 
+\#define \hyperlink{kclinput_8cpp_d27cc17b25bb93134368d5eb21126eae}{BIT}(x)~(1UL$<$$<$OFF(x))
+\item 
+\#define \hyperlink{kclinput_8cpp_f647a68a4985fd16c40d533b0ab21bac}{LONG}(x)~((x)/BITS\_\-PER\_\-LONG)
+\item 
+\#define \hyperlink{kclinput_8cpp_9bfbfcfdf94e66aad3e5113c5acf4072}{test\_\-bit}(bit, array)~((array\mbox{[}LONG(bit)\mbox{]} $>$$>$ OFF(bit)) \& 1)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{kclinput_8cpp_d27cc17b25bb93134368d5eb21126eae}{
+\index{kclinput.cpp@{kclinput.cpp}!BIT@{BIT}}
+\index{BIT@{BIT}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{BIT}]{\setlength{\rightskip}{0pt plus 5cm}\#define BIT(x)~(1UL$<$$<$OFF(x))}}
+\label{kclinput_8cpp_d27cc17b25bb93134368d5eb21126eae}
+
+
+\hypertarget{kclinput_8cpp_2f660aa23a5dbc0f4b8df48b4302b8c3}{
+\index{kclinput.cpp@{kclinput.cpp}!BITS\_\-PER\_\-LONG@{BITS\_\-PER\_\-LONG}}
+\index{BITS\_\-PER\_\-LONG@{BITS\_\-PER\_\-LONG}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{BITS\_\-PER\_\-LONG}]{\setlength{\rightskip}{0pt plus 5cm}\#define BITS\_\-PER\_\-LONG~(sizeof(long) $\ast$ 8)}}
+\label{kclinput_8cpp_2f660aa23a5dbc0f4b8df48b4302b8c3}
+
+
+\hypertarget{kclinput_8cpp_f647a68a4985fd16c40d533b0ab21bac}{
+\index{kclinput.cpp@{kclinput.cpp}!LONG@{LONG}}
+\index{LONG@{LONG}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{LONG}]{\setlength{\rightskip}{0pt plus 5cm}\#define LONG(x)~((x)/BITS\_\-PER\_\-LONG)}}
+\label{kclinput_8cpp_f647a68a4985fd16c40d533b0ab21bac}
+
+
+\hypertarget{kclinput_8cpp_1f296f3f5ec473b603ee32e2f7577fcb}{
+\index{kclinput.cpp@{kclinput.cpp}!NBITS@{NBITS}}
+\index{NBITS@{NBITS}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{NBITS}]{\setlength{\rightskip}{0pt plus 5cm}\#define NBITS(x)~((((x)-1)/BITS\_\-PER\_\-LONG)+1)}}
+\label{kclinput_8cpp_1f296f3f5ec473b603ee32e2f7577fcb}
+
+
+\hypertarget{kclinput_8cpp_4521467edec9387fad3ae8761f0f4b1d}{
+\index{kclinput.cpp@{kclinput.cpp}!OFF@{OFF}}
+\index{OFF@{OFF}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{OFF}]{\setlength{\rightskip}{0pt plus 5cm}\#define OFF(x)~((x)\%BITS\_\-PER\_\-LONG)}}
+\label{kclinput_8cpp_4521467edec9387fad3ae8761f0f4b1d}
+
+
+\hypertarget{kclinput_8cpp_9bfbfcfdf94e66aad3e5113c5acf4072}{
+\index{kclinput.cpp@{kclinput.cpp}!test\_\-bit@{test\_\-bit}}
+\index{test\_\-bit@{test\_\-bit}!kclinput.cpp@{kclinput.cpp}}
+\subsubsection[{test\_\-bit}]{\setlength{\rightskip}{0pt plus 5cm}\#define test\_\-bit(bit, \/  array)~((array\mbox{[}LONG(bit)\mbox{]} $>$$>$ OFF(bit)) \& 1)}}
+\label{kclinput_8cpp_9bfbfcfdf94e66aad3e5113c5acf4072}
+
+

@@ -1,0 +1,342 @@
+\hypertarget{class_k_g_l_view}{
+\section{KGLView Class Reference}
+\label{class_k_g_l_view}\index{KGLView@{KGLView}}
+}
+{\tt \#include $<$kglview.h$>$}
+
+\subsection*{Public Slots}
+\begin{CompactItemize}
+\item 
+virtual void \hyperlink{class_k_g_l_view_793fefddaec50bf299834893ea4a1f91}{nextFrame} ()
+\item 
+void \hyperlink{class_k_g_l_view_ca124634504e74e91e9d0a00c485c388}{calculFps} ()
+\item 
+void \hyperlink{class_k_g_l_view_14ed2a52d8843f27bef96b16d4b44c82}{goFullScreen} ()
+\item 
+void \hyperlink{class_k_g_l_view_996e019a804dcf51749ea900cc02cb83}{leaveFullScreen} ()
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_k_g_l_view_8ea742580ef43e3fc2dae57c6c49702b}{KGLView} (QSize size, float frameRate, QWidget $\ast$parent=0)
+\item 
+\hyperlink{class_k_g_l_view_b9286be5ea42882a1bc74e0d09911e0d}{KGLView} (\hyperlink{class_k_g_l_engine}{KGLEngine} $\ast$engine, QWidget $\ast$parent=0)
+\item 
+\hyperlink{class_k_g_l_view_986c271786b4615af0e6f49e9de8c58d}{KGLView} (QWidget $\ast$parent=0)
+\item 
+\hyperlink{class_k_g_l_view_78519d715936803fdec2fad8f1d3c7a3}{$\sim$KGLView} ()
+\item 
+void \hyperlink{class_k_g_l_view_61cfd521e7544d61d7531b29702f9833}{setEngine} (\hyperlink{class_k_g_l_engine}{KGLEngine} $\ast$engine)
+\item 
+\hyperlink{class_k_g_l_engine}{KGLEngine} $\ast$ \hyperlink{class_k_g_l_view_e426a41ab8a5565bf7bfd861f05cfb46}{engine} ()
+\item 
+void \hyperlink{class_k_g_l_view_3efd71e05da0e8ee7410ced9f1061090}{start} ()
+\item 
+void \hyperlink{class_k_g_l_view_bfe4d0dd939222de9c9d4aa8c091b302}{stop} ()
+\item 
+void \hyperlink{class_k_g_l_view_65ccc66131b6682f5fce7166cb5a4f53}{setFrameRate} (int f)
+\item 
+void \hyperlink{class_k_g_l_view_841482c1c522ea0fd6d0cbb7f8515613}{setOrthoView} (QRectF \&rect)
+\item 
+void \hyperlink{class_k_g_l_view_ffc9ca060284bb6f24f2c415710f7b35}{setOrthoView} (const float \&left, const float \&right, const float \&bottom, const float \&top)
+\item 
+QPointF \hyperlink{class_k_g_l_view_b5d64f06b3602a0ca6ff41d71fc65aa3}{mapToGL} (const QPointF \&p)
+\item 
+QPointF \hyperlink{class_k_g_l_view_7afa395fcb499b10cd3303e9dede9cef}{mapFromGL} (const QPointF \&p)
+\item 
+\hyperlink{class_k_g_l_screen_config}{KGLScreenConfig} $\ast$ \hyperlink{class_k_g_l_view_ead550d304e10d08fdaa06416b53d7cf}{screenConfig} ()
+\item 
+void \hyperlink{class_k_g_l_view_ec41126c626102bf54b1188714fc4a4f}{setMode} (GLenum mode)
+\item 
+void \hyperlink{class_k_g_l_view_f8263dcf540805c60d724c50e539075f}{setAxisShow} (bool b)
+\item 
+bool \hyperlink{class_k_g_l_view_865bf8ed1692292d820f13b2321e799d}{isAxisShow} ()
+\item 
+void \hyperlink{class_k_g_l_view_f9d4eb0a56f1554b348e346cd2342af3}{setInfoShow} (bool b)
+\item 
+bool \hyperlink{class_k_g_l_view_369ac3eaa08535c8b333d6b8c3793ea1}{isInfoShow} ()
+\item 
+bool \hyperlink{class_k_g_l_view_c2cc43b86ba6526450d7e9fa3403a484}{isExtensionSupported} (QString name)
+\item 
+bool \hyperlink{class_k_g_l_view_c1f4d61a7d289074b048ff5791bb3eb5}{isShaderSupported} ()
+\item 
+float \hyperlink{class_k_g_l_view_ced2f61bddfddf00dba43091176b60ec}{fps} ()
+\item 
+void \hyperlink{class_k_g_l_view_90318195b5d7d7b03b8d0f21e1993495}{drawRepere} (float scalex, float scaley)
+\item 
+void \hyperlink{class_k_g_l_view_ed5b1c5deb70a6fe75698d6bf13de0d5}{drawInfo} ()
+\item 
+void \hyperlink{class_k_g_l_view_f51f913a1902dbc506e4a070cb3e3058}{drawGLItems} ()
+\end{CompactItemize}
+\subsection*{Protected Member Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_g_l_view_0f69b4842403e72541e2486ea8d289dd}{saveResolution} ()
+\item 
+bool \hyperlink{class_k_g_l_view_da553856497a8a6b062c1cdf73a3748e}{initGlew} ()
+\item 
+void \hyperlink{class_k_g_l_view_50930df9b82dba12bc784823a4b9f1f9}{init} ()
+\item 
+void \hyperlink{class_k_g_l_view_02a6477b2bd3345fea3a2e55e181475a}{initializeGL} ()
+\item 
+void \hyperlink{class_k_g_l_view_1599a4d77e626cc204f565031ae5bf81}{resizeGL} (int w, int h)
+\item 
+void \hyperlink{class_k_g_l_view_46018bb23711a3ae7ce5dc37b46302bb}{paintGL} ()
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_k_g_l_view_8ea742580ef43e3fc2dae57c6c49702b}{
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\subsubsection[{KGLView}]{\setlength{\rightskip}{0pt plus 5cm}KGLView::KGLView (QSize {\em size}, \/  float {\em frameRate}, \/  QWidget $\ast$ {\em parent} = {\tt 0})\hspace{0.3cm}{\tt  \mbox{[}explicit\mbox{]}}}}
+\label{class_k_g_l_view_8ea742580ef43e3fc2dae57c6c49702b}
+
+
+\hypertarget{class_k_g_l_view_b9286be5ea42882a1bc74e0d09911e0d}{
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\subsubsection[{KGLView}]{\setlength{\rightskip}{0pt plus 5cm}KGLView::KGLView ({\bf KGLEngine} $\ast$ {\em engine}, \/  QWidget $\ast$ {\em parent} = {\tt 0})\hspace{0.3cm}{\tt  \mbox{[}explicit\mbox{]}}}}
+\label{class_k_g_l_view_b9286be5ea42882a1bc74e0d09911e0d}
+
+
+\hypertarget{class_k_g_l_view_986c271786b4615af0e6f49e9de8c58d}{
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\index{KGLView@{KGLView}!KGLView@{KGLView}}
+\subsubsection[{KGLView}]{\setlength{\rightskip}{0pt plus 5cm}KGLView::KGLView (QWidget $\ast$ {\em parent} = {\tt 0})\hspace{0.3cm}{\tt  \mbox{[}explicit\mbox{]}}}}
+\label{class_k_g_l_view_986c271786b4615af0e6f49e9de8c58d}
+
+
+\hypertarget{class_k_g_l_view_78519d715936803fdec2fad8f1d3c7a3}{
+\index{KGLView@{KGLView}!$\sim$KGLView@{$\sim$KGLView}}
+\index{$\sim$KGLView@{$\sim$KGLView}!KGLView@{KGLView}}
+\subsubsection[{$\sim$KGLView}]{\setlength{\rightskip}{0pt plus 5cm}KGLView::$\sim$KGLView ()}}
+\label{class_k_g_l_view_78519d715936803fdec2fad8f1d3c7a3}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_g_l_view_ca124634504e74e91e9d0a00c485c388}{
+\index{KGLView@{KGLView}!calculFps@{calculFps}}
+\index{calculFps@{calculFps}!KGLView@{KGLView}}
+\subsubsection[{calculFps}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::calculFps ()\hspace{0.3cm}{\tt  \mbox{[}inline, slot\mbox{]}}}}
+\label{class_k_g_l_view_ca124634504e74e91e9d0a00c485c388}
+
+
+\hypertarget{class_k_g_l_view_f51f913a1902dbc506e4a070cb3e3058}{
+\index{KGLView@{KGLView}!drawGLItems@{drawGLItems}}
+\index{drawGLItems@{drawGLItems}!KGLView@{KGLView}}
+\subsubsection[{drawGLItems}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::drawGLItems ()}}
+\label{class_k_g_l_view_f51f913a1902dbc506e4a070cb3e3058}
+
+
+\hypertarget{class_k_g_l_view_ed5b1c5deb70a6fe75698d6bf13de0d5}{
+\index{KGLView@{KGLView}!drawInfo@{drawInfo}}
+\index{drawInfo@{drawInfo}!KGLView@{KGLView}}
+\subsubsection[{drawInfo}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::drawInfo ()}}
+\label{class_k_g_l_view_ed5b1c5deb70a6fe75698d6bf13de0d5}
+
+
+\hypertarget{class_k_g_l_view_90318195b5d7d7b03b8d0f21e1993495}{
+\index{KGLView@{KGLView}!drawRepere@{drawRepere}}
+\index{drawRepere@{drawRepere}!KGLView@{KGLView}}
+\subsubsection[{drawRepere}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::drawRepere (float {\em scalex}, \/  float {\em scaley})}}
+\label{class_k_g_l_view_90318195b5d7d7b03b8d0f21e1993495}
+
+
+\hypertarget{class_k_g_l_view_e426a41ab8a5565bf7bfd861f05cfb46}{
+\index{KGLView@{KGLView}!engine@{engine}}
+\index{engine@{engine}!KGLView@{KGLView}}
+\subsubsection[{engine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KGLEngine}$\ast$ KGLView::engine ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_e426a41ab8a5565bf7bfd861f05cfb46}
+
+
+\hypertarget{class_k_g_l_view_ced2f61bddfddf00dba43091176b60ec}{
+\index{KGLView@{KGLView}!fps@{fps}}
+\index{fps@{fps}!KGLView@{KGLView}}
+\subsubsection[{fps}]{\setlength{\rightskip}{0pt plus 5cm}float KGLView::fps ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_ced2f61bddfddf00dba43091176b60ec}
+
+
+\hypertarget{class_k_g_l_view_14ed2a52d8843f27bef96b16d4b44c82}{
+\index{KGLView@{KGLView}!goFullScreen@{goFullScreen}}
+\index{goFullScreen@{goFullScreen}!KGLView@{KGLView}}
+\subsubsection[{goFullScreen}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::goFullScreen ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_g_l_view_14ed2a52d8843f27bef96b16d4b44c82}
+
+
+\hypertarget{class_k_g_l_view_50930df9b82dba12bc784823a4b9f1f9}{
+\index{KGLView@{KGLView}!init@{init}}
+\index{init@{init}!KGLView@{KGLView}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::init ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_50930df9b82dba12bc784823a4b9f1f9}
+
+
+\hypertarget{class_k_g_l_view_da553856497a8a6b062c1cdf73a3748e}{
+\index{KGLView@{KGLView}!initGlew@{initGlew}}
+\index{initGlew@{initGlew}!KGLView@{KGLView}}
+\subsubsection[{initGlew}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLView::initGlew ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_da553856497a8a6b062c1cdf73a3748e}
+
+
+\hypertarget{class_k_g_l_view_02a6477b2bd3345fea3a2e55e181475a}{
+\index{KGLView@{KGLView}!initializeGL@{initializeGL}}
+\index{initializeGL@{initializeGL}!KGLView@{KGLView}}
+\subsubsection[{initializeGL}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::initializeGL ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_02a6477b2bd3345fea3a2e55e181475a}
+
+
+\hypertarget{class_k_g_l_view_865bf8ed1692292d820f13b2321e799d}{
+\index{KGLView@{KGLView}!isAxisShow@{isAxisShow}}
+\index{isAxisShow@{isAxisShow}!KGLView@{KGLView}}
+\subsubsection[{isAxisShow}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLView::isAxisShow ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_865bf8ed1692292d820f13b2321e799d}
+
+
+\hypertarget{class_k_g_l_view_c2cc43b86ba6526450d7e9fa3403a484}{
+\index{KGLView@{KGLView}!isExtensionSupported@{isExtensionSupported}}
+\index{isExtensionSupported@{isExtensionSupported}!KGLView@{KGLView}}
+\subsubsection[{isExtensionSupported}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLView::isExtensionSupported (QString {\em name})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_c2cc43b86ba6526450d7e9fa3403a484}
+
+
+\hypertarget{class_k_g_l_view_369ac3eaa08535c8b333d6b8c3793ea1}{
+\index{KGLView@{KGLView}!isInfoShow@{isInfoShow}}
+\index{isInfoShow@{isInfoShow}!KGLView@{KGLView}}
+\subsubsection[{isInfoShow}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLView::isInfoShow ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_369ac3eaa08535c8b333d6b8c3793ea1}
+
+
+\hypertarget{class_k_g_l_view_c1f4d61a7d289074b048ff5791bb3eb5}{
+\index{KGLView@{KGLView}!isShaderSupported@{isShaderSupported}}
+\index{isShaderSupported@{isShaderSupported}!KGLView@{KGLView}}
+\subsubsection[{isShaderSupported}]{\setlength{\rightskip}{0pt plus 5cm}bool KGLView::isShaderSupported ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_c1f4d61a7d289074b048ff5791bb3eb5}
+
+
+\hypertarget{class_k_g_l_view_996e019a804dcf51749ea900cc02cb83}{
+\index{KGLView@{KGLView}!leaveFullScreen@{leaveFullScreen}}
+\index{leaveFullScreen@{leaveFullScreen}!KGLView@{KGLView}}
+\subsubsection[{leaveFullScreen}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::leaveFullScreen ()\hspace{0.3cm}{\tt  \mbox{[}inline, slot\mbox{]}}}}
+\label{class_k_g_l_view_996e019a804dcf51749ea900cc02cb83}
+
+
+\hypertarget{class_k_g_l_view_7afa395fcb499b10cd3303e9dede9cef}{
+\index{KGLView@{KGLView}!mapFromGL@{mapFromGL}}
+\index{mapFromGL@{mapFromGL}!KGLView@{KGLView}}
+\subsubsection[{mapFromGL}]{\setlength{\rightskip}{0pt plus 5cm}QPointF KGLView::mapFromGL (const QPointF \& {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_7afa395fcb499b10cd3303e9dede9cef}
+
+
+\hypertarget{class_k_g_l_view_b5d64f06b3602a0ca6ff41d71fc65aa3}{
+\index{KGLView@{KGLView}!mapToGL@{mapToGL}}
+\index{mapToGL@{mapToGL}!KGLView@{KGLView}}
+\subsubsection[{mapToGL}]{\setlength{\rightskip}{0pt plus 5cm}QPointF KGLView::mapToGL (const QPointF \& {\em p})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_b5d64f06b3602a0ca6ff41d71fc65aa3}
+
+
+\hypertarget{class_k_g_l_view_793fefddaec50bf299834893ea4a1f91}{
+\index{KGLView@{KGLView}!nextFrame@{nextFrame}}
+\index{nextFrame@{nextFrame}!KGLView@{KGLView}}
+\subsubsection[{nextFrame}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::nextFrame ()\hspace{0.3cm}{\tt  \mbox{[}virtual, slot\mbox{]}}}}
+\label{class_k_g_l_view_793fefddaec50bf299834893ea4a1f91}
+
+
+\hypertarget{class_k_g_l_view_46018bb23711a3ae7ce5dc37b46302bb}{
+\index{KGLView@{KGLView}!paintGL@{paintGL}}
+\index{paintGL@{paintGL}!KGLView@{KGLView}}
+\subsubsection[{paintGL}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::paintGL ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_46018bb23711a3ae7ce5dc37b46302bb}
+
+
+\hypertarget{class_k_g_l_view_1599a4d77e626cc204f565031ae5bf81}{
+\index{KGLView@{KGLView}!resizeGL@{resizeGL}}
+\index{resizeGL@{resizeGL}!KGLView@{KGLView}}
+\subsubsection[{resizeGL}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::resizeGL (int {\em w}, \/  int {\em h})\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_1599a4d77e626cc204f565031ae5bf81}
+
+
+\hypertarget{class_k_g_l_view_0f69b4842403e72541e2486ea8d289dd}{
+\index{KGLView@{KGLView}!saveResolution@{saveResolution}}
+\index{saveResolution@{saveResolution}!KGLView@{KGLView}}
+\subsubsection[{saveResolution}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::saveResolution ()\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_k_g_l_view_0f69b4842403e72541e2486ea8d289dd}
+
+
+\hypertarget{class_k_g_l_view_ead550d304e10d08fdaa06416b53d7cf}{
+\index{KGLView@{KGLView}!screenConfig@{screenConfig}}
+\index{screenConfig@{screenConfig}!KGLView@{KGLView}}
+\subsubsection[{screenConfig}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KGLScreenConfig}$\ast$ KGLView::screenConfig ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_ead550d304e10d08fdaa06416b53d7cf}
+
+
+\hypertarget{class_k_g_l_view_f8263dcf540805c60d724c50e539075f}{
+\index{KGLView@{KGLView}!setAxisShow@{setAxisShow}}
+\index{setAxisShow@{setAxisShow}!KGLView@{KGLView}}
+\subsubsection[{setAxisShow}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setAxisShow (bool {\em b})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_f8263dcf540805c60d724c50e539075f}
+
+
+\hypertarget{class_k_g_l_view_61cfd521e7544d61d7531b29702f9833}{
+\index{KGLView@{KGLView}!setEngine@{setEngine}}
+\index{setEngine@{setEngine}!KGLView@{KGLView}}
+\subsubsection[{setEngine}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setEngine ({\bf KGLEngine} $\ast$ {\em engine})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_61cfd521e7544d61d7531b29702f9833}
+
+
+\hypertarget{class_k_g_l_view_65ccc66131b6682f5fce7166cb5a4f53}{
+\index{KGLView@{KGLView}!setFrameRate@{setFrameRate}}
+\index{setFrameRate@{setFrameRate}!KGLView@{KGLView}}
+\subsubsection[{setFrameRate}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setFrameRate (int {\em f})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_65ccc66131b6682f5fce7166cb5a4f53}
+
+
+\hypertarget{class_k_g_l_view_f9d4eb0a56f1554b348e346cd2342af3}{
+\index{KGLView@{KGLView}!setInfoShow@{setInfoShow}}
+\index{setInfoShow@{setInfoShow}!KGLView@{KGLView}}
+\subsubsection[{setInfoShow}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setInfoShow (bool {\em b})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_f9d4eb0a56f1554b348e346cd2342af3}
+
+
+\hypertarget{class_k_g_l_view_ec41126c626102bf54b1188714fc4a4f}{
+\index{KGLView@{KGLView}!setMode@{setMode}}
+\index{setMode@{setMode}!KGLView@{KGLView}}
+\subsubsection[{setMode}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setMode (GLenum {\em mode})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_ec41126c626102bf54b1188714fc4a4f}
+
+
+\hypertarget{class_k_g_l_view_ffc9ca060284bb6f24f2c415710f7b35}{
+\index{KGLView@{KGLView}!setOrthoView@{setOrthoView}}
+\index{setOrthoView@{setOrthoView}!KGLView@{KGLView}}
+\subsubsection[{setOrthoView}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setOrthoView (const float \& {\em left}, \/  const float \& {\em right}, \/  const float \& {\em bottom}, \/  const float \& {\em top})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_ffc9ca060284bb6f24f2c415710f7b35}
+
+
+\hypertarget{class_k_g_l_view_841482c1c522ea0fd6d0cbb7f8515613}{
+\index{KGLView@{KGLView}!setOrthoView@{setOrthoView}}
+\index{setOrthoView@{setOrthoView}!KGLView@{KGLView}}
+\subsubsection[{setOrthoView}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::setOrthoView (QRectF \& {\em rect})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_841482c1c522ea0fd6d0cbb7f8515613}
+
+
+\hypertarget{class_k_g_l_view_3efd71e05da0e8ee7410ced9f1061090}{
+\index{KGLView@{KGLView}!start@{start}}
+\index{start@{start}!KGLView@{KGLView}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::start ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_3efd71e05da0e8ee7410ced9f1061090}
+
+
+\hypertarget{class_k_g_l_view_bfe4d0dd939222de9c9d4aa8c091b302}{
+\index{KGLView@{KGLView}!stop@{stop}}
+\index{stop@{stop}!KGLView@{KGLView}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void KGLView::stop ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_g_l_view_bfe4d0dd939222de9c9d4aa8c091b302}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglview_8h}{kglview.h}\item 
+/home/sacha/programmation/gluon/kgl/\hyperlink{kglview_8cpp}{kglview.cpp}\end{CompactItemize}

@@ -1,0 +1,136 @@
+\hypertarget{class_k_a_l_engine}{
+\section{KALEngine Class Reference}
+\label{class_k_a_l_engine}\index{KALEngine@{KALEngine}}
+}
+{\tt \#include $<$KALEngine$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{class_k_a_l_engine_697ace280196c559fc54f9e4ad99945b}{setDevice} (QString deviceName)
+\item 
+ALCcontext $\ast$ \hyperlink{class_k_a_l_engine_cfe63944ffe4ee4437eae9c3e7f0d682}{context} ()
+\item 
+ALCdevice $\ast$ \hyperlink{class_k_a_l_engine_2b3a425e09e9a1a8dcc0756ff0226152}{device} ()
+\item 
+int \hyperlink{class_k_a_l_engine_0f2cee92e67b65ee5af5d6e3db0a1848}{sourceCount} ()
+\item 
+void \hyperlink{class_k_a_l_engine_133eb302b80d87fd3bcfff7e07017d1b}{addSource} (\hyperlink{class_k_a_l_source}{KALSource} $\ast$source)
+\item 
+void \hyperlink{class_k_a_l_engine_4399d5d8e66ee8dba068cb9080d244cc}{removeSource} (\hyperlink{class_k_a_l_source}{KALSource} $\ast$source)
+\item 
+void \hyperlink{class_k_a_l_engine_c702ef3fb20c3dae650415f58e095b0f}{addBuffer} (\hyperlink{class_k_a_l_buffer}{KALBuffer} $\ast$buffer)
+\item 
+void \hyperlink{class_k_a_l_engine_6a5cc953f187197973e2c9e6235b2c27}{removeBuffer} (\hyperlink{class_k_a_l_buffer}{KALBuffer} $\ast$buffer)
+\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+static \hyperlink{class_k_a_l_engine}{KALEngine} $\ast$ \hyperlink{class_k_a_l_engine_6734e54cc206f432d55d5cc9e42a8f50}{getInstance} (QString deviceName=QString())
+\item 
+static \hyperlink{class_k_a_l_engine}{KALEngine} $\ast$ \hyperlink{class_k_a_l_engine_a9802c767f0efe5685b0cc8af742343d}{getInstance} (Phonon::Category category)
+\item 
+static QStringList \hyperlink{class_k_a_l_engine_9141fde32ddd7c6e7e9e2a0dc5d5375b}{deviceList} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_k_a_l_engine}{KALEngine} is an audio engine which uses OpenAL for sound processing 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_a_l_engine_c702ef3fb20c3dae650415f58e095b0f}{
+\index{KALEngine@{KALEngine}!addBuffer@{addBuffer}}
+\index{addBuffer@{addBuffer}!KALEngine@{KALEngine}}
+\subsubsection[{addBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void KALEngine::addBuffer ({\bf KALBuffer} $\ast$ {\em buffer})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_c702ef3fb20c3dae650415f58e095b0f}
+
+
+\hypertarget{class_k_a_l_engine_133eb302b80d87fd3bcfff7e07017d1b}{
+\index{KALEngine@{KALEngine}!addSource@{addSource}}
+\index{addSource@{addSource}!KALEngine@{KALEngine}}
+\subsubsection[{addSource}]{\setlength{\rightskip}{0pt plus 5cm}void KALEngine::addSource ({\bf KALSource} $\ast$ {\em source})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_133eb302b80d87fd3bcfff7e07017d1b}
+
+
+\hypertarget{class_k_a_l_engine_cfe63944ffe4ee4437eae9c3e7f0d682}{
+\index{KALEngine@{KALEngine}!context@{context}}
+\index{context@{context}!KALEngine@{KALEngine}}
+\subsubsection[{context}]{\setlength{\rightskip}{0pt plus 5cm}ALCcontext$\ast$ KALEngine::context ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_cfe63944ffe4ee4437eae9c3e7f0d682}
+
+
+\hypertarget{class_k_a_l_engine_2b3a425e09e9a1a8dcc0756ff0226152}{
+\index{KALEngine@{KALEngine}!device@{device}}
+\index{device@{device}!KALEngine@{KALEngine}}
+\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}ALCdevice$\ast$ KALEngine::device ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_2b3a425e09e9a1a8dcc0756ff0226152}
+
+
+\hypertarget{class_k_a_l_engine_9141fde32ddd7c6e7e9e2a0dc5d5375b}{
+\index{KALEngine@{KALEngine}!deviceList@{deviceList}}
+\index{deviceList@{deviceList}!KALEngine@{KALEngine}}
+\subsubsection[{deviceList}]{\setlength{\rightskip}{0pt plus 5cm}QStringList KALEngine::deviceList ()\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{class_k_a_l_engine_9141fde32ddd7c6e7e9e2a0dc5d5375b}
+
+
+\begin{Desc}
+\item[Returns:]a QStringList of the available output devices \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_engine_697ace280196c559fc54f9e4ad99945b}{setDevice} \end{Desc}
+\hypertarget{class_k_a_l_engine_a9802c767f0efe5685b0cc8af742343d}{
+\index{KALEngine@{KALEngine}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!KALEngine@{KALEngine}}
+\subsubsection[{getInstance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KALEngine} $\ast$ KALEngine::getInstance (Phonon::Category {\em category})\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{class_k_a_l_engine_a9802c767f0efe5685b0cc8af742343d}
+
+
+Return a reference to the \hyperlink{class_k_a_l_engine}{KALEngine} singleton instance or create one if none exist \hypertarget{class_k_a_l_engine_6734e54cc206f432d55d5cc9e42a8f50}{
+\index{KALEngine@{KALEngine}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!KALEngine@{KALEngine}}
+\subsubsection[{getInstance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KALEngine} $\ast$ KALEngine::getInstance (QString {\em deviceName} = {\tt QString()})\hspace{0.3cm}{\tt  \mbox{[}static\mbox{]}}}}
+\label{class_k_a_l_engine_6734e54cc206f432d55d5cc9e42a8f50}
+
+
+Return a reference to the \hyperlink{class_k_a_l_engine}{KALEngine} singleton instance or create one if none exist \hypertarget{class_k_a_l_engine_6a5cc953f187197973e2c9e6235b2c27}{
+\index{KALEngine@{KALEngine}!removeBuffer@{removeBuffer}}
+\index{removeBuffer@{removeBuffer}!KALEngine@{KALEngine}}
+\subsubsection[{removeBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void KALEngine::removeBuffer ({\bf KALBuffer} $\ast$ {\em buffer})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_6a5cc953f187197973e2c9e6235b2c27}
+
+
+\hypertarget{class_k_a_l_engine_4399d5d8e66ee8dba068cb9080d244cc}{
+\index{KALEngine@{KALEngine}!removeSource@{removeSource}}
+\index{removeSource@{removeSource}!KALEngine@{KALEngine}}
+\subsubsection[{removeSource}]{\setlength{\rightskip}{0pt plus 5cm}void KALEngine::removeSource ({\bf KALSource} $\ast$ {\em source})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_4399d5d8e66ee8dba068cb9080d244cc}
+
+
+\hypertarget{class_k_a_l_engine_697ace280196c559fc54f9e4ad99945b}{
+\index{KALEngine@{KALEngine}!setDevice@{setDevice}}
+\index{setDevice@{setDevice}!KALEngine@{KALEngine}}
+\subsubsection[{setDevice}]{\setlength{\rightskip}{0pt plus 5cm}bool KALEngine::setDevice (QString {\em deviceName})}}
+\label{class_k_a_l_engine_697ace280196c559fc54f9e4ad99945b}
+
+
+Change the output device to the specified OpenAL device name \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em deviceName}]the OpenAL device name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]true if the new device was successfuly set, false otherwise \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_a_l_engine_9141fde32ddd7c6e7e9e2a0dc5d5375b}{deviceList}, setCategory \end{Desc}
+\hypertarget{class_k_a_l_engine_0f2cee92e67b65ee5af5d6e3db0a1848}{
+\index{KALEngine@{KALEngine}!sourceCount@{sourceCount}}
+\index{sourceCount@{sourceCount}!KALEngine@{KALEngine}}
+\subsubsection[{sourceCount}]{\setlength{\rightskip}{0pt plus 5cm}int KALEngine::sourceCount ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_a_l_engine_0f2cee92e67b65ee5af5d6e3db0a1848}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalengine_8h}{kalengine.h}\item 
+/home/sacha/programmation/gluon/kal/\hyperlink{kalengine_8cpp}{kalengine.cpp}\end{CompactItemize}
