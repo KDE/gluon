@@ -22,10 +22,7 @@
 #include "kglview.h"
 #include <KDebug>
 
-//#ifdef Q_WS_X11
-//#include <X11/extensions/Xrender.h>
-//#include <X11/extensions/Xrandr.h>
-//#endif
+
 
 KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
     : QGLWidget(parent)

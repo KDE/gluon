@@ -8,9 +8,16 @@
 #include <QDialogButtonBox>
 #include <KDialog>
 #include <KDebug>
+
+#include <QX11Info>
 #include<X11/Xlib.h>
 #include<X11/extensions/Xrandr.h>
-#include <QX11Info>
+
+
+
+
+
+
 
 
 class KGLScreenConfig : public QObject
@@ -28,6 +35,8 @@ public slots:
 protected:
     void saveCurrentResolution();
    private:
+    Display                 *dpy;
+
 Window                  root;
 int                     num_sizes;
 XRRScreenSize           *xrrs;
