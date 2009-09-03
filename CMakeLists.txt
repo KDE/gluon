@@ -9,6 +9,7 @@ find_package(KDE4 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Eigen2 REQUIRED)
+find_package(X11 REQUIRED)
 
 find_package(OpenAL REQUIRED)
 find_package(Alut REQUIRED)

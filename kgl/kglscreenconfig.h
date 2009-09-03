@@ -9,10 +9,16 @@
 #include <KDialog>
 #include <KDebug>
 
-#include <QX11Info>
-#include<X11/extensions/Xrandr.h>
-
-
+extern "C"
+{
+#include <X11/Xlib.h>
+#define INT8 _X11INT8
+#define INT32 _X11INT32
+#include <X11/Xproto.h>
+#undef INT8
+#undef INT32
+#include <X11/extensions/Xrandr.h>
+}
 
 
 

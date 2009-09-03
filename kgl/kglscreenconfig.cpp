@@ -1,15 +1,16 @@
 #include "kglscreenconfig.h"
-
+#include <QX11Info>
 KGLScreenConfig::KGLScreenConfig(QObject * parent)
     :QObject(parent)
 {
-dpy = QX11Info::display();
-   root   = RootWindow(dpy, 0);
-    saveCurrentResolution();
+    dpy    = QX11Info::display();
+
+    root   = RootWindow(dpy, 0);
+ saveCurrentResolution();
 }
 KGLScreenConfig::~KGLScreenConfig()
 {
-    restore();
+restore();
 }
 QStringList KGLScreenConfig::resolutionAvaible()
 {
@@ -19,11 +20,11 @@ QStringList KGLScreenConfig::resolutionAvaible()
         short   *rates;
         int     num_rates;
         resolutions<<QString::number(xrrs[i].width) + "x" + QString::number(xrrs[i].height);
-        rates = XRRRates(dpy, 0, i, &num_rates);
+         rates = XRRRates(dpy, 0, i, &num_rates);
 
         for(int j = 0; j < num_rates; j ++) {
-            possible_frequencies[i][j] = rates[j];
-        }
+                possible_frequencies[i][j] = rates[j];
+            }
     }
     return resolutions;
 }
@@ -50,17 +51,17 @@ void KGLScreenConfig::setResolution(int id)
 int KGLScreenConfig::askResolution()
 {
 
-    KDialog * dialog = new KDialog;
-    QComboBox * combo = new QComboBox;
-    combo->addItems(resolutionAvaible());
+KDialog * dialog = new KDialog;
+QComboBox * combo = new QComboBox;
+combo->addItems(resolutionAvaible());
 
-    dialog->setCaption( "choose a resolution" );
-    dialog->setButtons( KDialog::Apply | KDialog::Cancel );
-    dialog->setMainWidget(combo);
-    connect( dialog, SIGNAL( applyClicked() ), dialog, SLOT( accept()) );
-    if ( dialog->exec())
-        return combo->currentIndex();
-    else return -1;
+   dialog->setCaption( "choose a resolution" );
+   dialog->setButtons( KDialog::Apply | KDialog::Cancel );
+dialog->setMainWidget(combo);
+ connect( dialog, SIGNAL( applyClicked() ), dialog, SLOT( accept()) );
+if ( dialog->exec())
+return combo->currentIndex();
+else return -1;
 
 
 }
