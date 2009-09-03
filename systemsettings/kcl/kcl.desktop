@@ -1,3 +1,4 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Exec=kcmshell4 kcl
 Icon=kcl
@@ -10,7 +11,7 @@ X-KDE-ParentApp=kcontrol
 X-KDE-System-Settings-Parent-Category=gluon
 X-KDE-Weight=70
 
-Name=KCL
+Name=KCL mutliple device controller based on evdev
 
 
 Comment=KCL modules

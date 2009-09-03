@@ -10,7 +10,7 @@ X-KDE-ParentApp=kcontrol
 X-KDE-System-Settings-Parent-Category=gluon
 X-KDE-Weight=70
 
-Name=KAL
+Name=KAL sound library based on openAL
 
 
 Comment=KAL modules

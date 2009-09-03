@@ -3,9 +3,8 @@
 KGLScreenConfig::KGLScreenConfig(QObject * parent)
     :QObject(parent)
 {
-    dpy    = QX11Info::display();
-
-    root   = RootWindow(dpy, 0);
+ dpy    = QX11Info::display();
+ root   = QX11Info::appRootWindow();
  saveCurrentResolution();
 }
 KGLScreenConfig::~KGLScreenConfig()

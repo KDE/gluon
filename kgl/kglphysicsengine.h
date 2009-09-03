@@ -21,7 +21,6 @@
 #ifndef KGLPHYSICSENGINE_H
 #define KGLPHYSICSENGINE_H
 
-#include <QMouseEvent>
 #include <QList>
 #include "kglengine.h"
 #include "kgltextitem.h"

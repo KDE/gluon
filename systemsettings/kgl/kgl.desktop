@@ -10,11 +10,10 @@ X-KDE-ParentApp=kcontrol
 X-KDE-System-Settings-Parent-Category=gluon
 X-KDE-Weight=70
 
-Name=KGL
+Name=KGL 
 
 
-Comment=KGL modules
-
+Comment=KGL 2d physics engine based on openGL
 
 X-KDE-Keywords=games,openGL
 
