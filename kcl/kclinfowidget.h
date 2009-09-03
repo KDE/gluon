@@ -5,6 +5,7 @@
 #include <KTitleWidget>
 #include <QLabel>
 #include <KTabWidget>
+#include "kcldevicemodel.h"
 class KCLInfoWidget : public QWidget
 {
 public:
@@ -13,6 +14,7 @@ public:
 private:
     QWidget * m_information;
     QWidget * m_preview;
+
 
 };
 

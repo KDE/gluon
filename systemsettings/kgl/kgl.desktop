@@ -1,0 +1,21 @@
+[Desktop Entry]
+Exec=kcmshell4 kal
+Icon=kgl
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kcm_kgl
+X-KDE-ParentApp=kcontrol
+
+X-KDE-System-Settings-Parent-Category=gluon
+X-KDE-Weight=70
+
+Name=KGL
+
+
+Comment=KGL modules
+
+
+X-KDE-Keywords=games,openGL
+
+Categories=Qt;KDE;X-KDE-settings-looknfeel;

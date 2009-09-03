@@ -9,6 +9,7 @@ kalcapture.cpp
 kalengine.cpp
 kalbuffer.cpp
 kalsource.cpp
+kalinfowidget.cpp
    )
 
 kde4_add_library(kal SHARED ${kal_LIB_SRCS})
@@ -32,4 +33,5 @@ install(FILES
     kalsource.h
     kaloggstreamer.h
     kalcapture.h
+kalinfowidget.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)

@@ -43,18 +43,18 @@
 class KGLEngine;
 class VirtualButton;
 
-class VirtualButton
+class VirtualButton // create a virtal button : example VirtalButton("JUMP", KEY_UP, keyboard);
 {
-    public:
-VirtualButton(QString id=0, int keyCode=0, KCLInput *device=NULL);
-QString id(){return m_id;}
-int code(){return m_keyCode;}
-KCLInput * input(){return m_device;}
+public:
+    VirtualButton(QString id=0, int keyCode=0, KCLInput *device=NULL);
+    QString id(){return m_id;}
+    int code(){return m_keyCode;}
+    KCLInput * input(){return m_device;}
 
 private:
-   QString m_id;
-   int m_keyCode;
-   KCLInput * m_device;
+    QString m_id;
+    int m_keyCode;
+    KCLInput * m_device;
 
 
 };
@@ -79,19 +79,27 @@ public:
 
     void remAll();
 
-  void searchDevice();
-  bool button(QString name);
-   bool anyPress();
-   bool anyMove();
+    void searchDevice();
+    bool button(QString name);
+    bool anyPress();
+    bool anyMove();
+
+    QStringList deviceList(DEVICE device)
+    {
+        QStringList list;
+        QMapIterator<QString, DEVICE> i(m_devicesType);
+        while (i.hasNext()) {
+            i.next();
+            if ( i.value() == device)
+                list<<i.key();
+        }
+        return list;
+    }
 
 private:
-
-    QList<KCLInput*> m_inputList;
-
-QMap <QString, int> m_customButtonMap;
-QMap <QString,DEVICE> m_devicesType;
-
-QMap <QString, VirtualButton> m_virtalButtonMap;
+    QList<KCLInput*> m_inputList; //active device . Use add and rem to manage it
+    QMap <QString,DEVICE> m_devicesType;
+    QMap <QString, VirtualButton> m_virtalButtonMap; // set Virtual Button
 
 
 };
