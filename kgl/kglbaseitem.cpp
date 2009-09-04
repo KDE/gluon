@@ -28,7 +28,9 @@ KGLBaseItem::KGLBaseItem(QObject *parent)
 {
     m_angle = 0;
     m_position=QPointF(0,0);
+    m_translate=QPointF(0,0);
     m_scale = 1;
+    m_rotateCenter = QPointF(0,0);
     m_shear = QPointF(0,0);
     m_center=QPointF(0,0);
     m_polygon = QPolygonF();
@@ -45,16 +47,21 @@ KGLBaseItem::~KGLBaseItem()
 void  KGLBaseItem::updateTransform()
 {
     m_matrix.setIdentity();
-    m_matrix.scale(m_scale);
+
     m_matrix.translate(Eigen::Vector3d(m_position.x() , m_position.y(), 0));
 
-    m_matrix.translate(Eigen::Vector3d(itemCenter().x() , itemCenter().y(), 0));
-    m_matrix.rotate(Eigen::AngleAxisd(m_angle, AXIS_Z));
-    m_matrix.translate(Eigen::Vector3d(-itemCenter().x() , -itemCenter().y(), 0));
+    m_matrix.scale(m_scale);
+    m_matrix.translate(Eigen::Vector3d(m_translate.x() , m_translate.y(), 0));
 
-    m_shearMatrix(0,1) = m_shear.x();
-    m_shearMatrix(1,0) = m_shear.y();
-    m_matrix =   m_matrix* m_shearMatrix ;
+    m_matrix.translate(Eigen::Vector3d(m_rotateCenter.x(), m_rotateCenter.y(), 0));
+    m_matrix.rotate(Eigen::AngleAxisd(m_angle, AXIS_Z));
+    m_matrix.translate(Eigen::Vector3d(-m_rotateCenter.x() , -m_rotateCenter.y(), 0));
+
+
+
+    //    m_shearMatrix(0,1) = m_shear.x();
+    //    m_shearMatrix(1,0) = m_shear.y();
+    //    m_matrix =   m_matrix* m_shearMatrix ;
 }
 
 void KGLBaseItem::resetTransform()
@@ -152,7 +159,7 @@ void KGLBaseItem::createLine(const QLineF &line)
     addVertex(KGLPoint(line.x2(), line.y2(), Qt::white));
     computeGeometry();
 }
-   
+
 void KGLBaseItem::initShearMatrix(QPointF s)
 {
     m_shearMatrix(0,0) = 1;

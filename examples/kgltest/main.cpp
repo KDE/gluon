@@ -28,8 +28,10 @@
 #include <gluon/kgl/kglview.h>
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglphysicsengine.h>
-
-
+#include <gluon/kgl/kglpixmapitem.h>
+#include <gluon/kgl/kglshadowitem.h>
+#include <gluon/kgl/kglintroitem.h>
+#include <KIcon>
 using namespace std;
 
 
@@ -53,22 +55,31 @@ int main(int argc, char *argv[])
     view->setAxisShow(true);
     view->setInfoShow(true);
     
-    KGLPhysicsItem * item = new KGLPhysicsItem;
-    item->createBox(5,5);
- item->initRestitution(0.4);
+//     KGLPhysicsItem * item = new KGLPhysicsItem;
+//     item->createBox(5,5);
+//     
+//  item->initRestitution(0.4);
+//     
+//         KGLPhysicsItem * floor = new KGLPhysicsItem;
+//     floor->createBox(20,1);
+//     floor->translate(-10,-8);
+//     floor->updateTransform();
+//     floor->setStatic();
+//     
+//     
+//     engine->addItem(item);
+//     engine->addItem(floor);
     
-        KGLPhysicsItem * floor = new KGLPhysicsItem;
-    floor->createBox(20,1);
-    floor->translate(-10,-10);
-    floor->updateTransform();
-    floor->setStatic();
+KGLIntroItem * intro = new KGLIntroItem;
+
+intro->setColor(QColor(255,255,255,20));
+intro->setPosition(-5,-5);
+intro->updateTransform();
+
+
+
     
-    
-    engine->addItem(item);
-    engine->addItem(floor);
-    
-    
-    
+     engine->addItem(intro);
     view->start();
     view->show();
     

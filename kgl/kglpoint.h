@@ -37,116 +37,124 @@ class KGLPointList;
 
 class KGLPoint
 {
-    public:
-        explicit KGLPoint();
-        explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
-        explicit KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
+public:
+    explicit KGLPoint();
+    explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
+    explicit KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
     
-        inline QPointF tex() {
-            return QPointF(m_tx,m_ty);
-        }
+    inline QPointF tex() {
+        return QPointF(m_tx,m_ty);
+    }
     
-        inline QColor color() {
-            QColor c;
-            c.setRgbF(m_r,m_g,m_b,m_a);
-            return c;
-        }
+    inline QColor color() {
+        QColor c;
+        c.setRgbF(m_r,m_g,m_b,m_a);
+        return c;
+    }
     
-        inline void setTex(const QPointF &t) {
-            m_tx = t.x();
-            m_ty = t.y();
-        }
+    inline void setTex(const QPointF &t) {
+        m_tx = t.x();
+        m_ty = t.y();
+    }
     
-        inline void setColor(const QColor &c) {
-            m_r = c.redF();
-            m_g = c.greenF();
-            m_b = c.blueF();
-            m_a = c.alphaF();
-        }
+    inline void setColor(const QColor &c) {
+        m_r = c.redF();
+        m_g = c.greenF();
+        m_b = c.blueF();
+        m_a = c.alphaF();
+    }
     
-        inline void setAlpha(float a) {
-            m_a = a;
-        }
+    inline void setAlpha(float a) {
+        m_a = a;
+    }
     
-        inline QPointF toQPointF() {
-            return QPointF(m_x, m_y);
-        }
+    inline QPointF toQPointF() {
+        return QPointF(m_x, m_y);
+    }
     
-        inline float x()
-        {
-            return m_x;
-        }
+    inline void setX(float x)
+    {
+        m_x = x;
+    }
+    inline void setY(float y)
+    {
+        m_y = y;
+    }
+    inline float x()
+    {
+        return m_x;
+    }
 
-        inline float y()
-        {
-            return m_y;
-        }
+    inline float y()
+    {
+        return m_y;
+    }
 
-        inline float red()
-        {
-            return m_r;
-        }
+    inline float red()
+    {
+        return m_r;
+    }
 
-        inline float green()
-        {
-            return m_g;
-        }
+    inline float green()
+    {
+        return m_g;
+    }
 
-        inline float blue()
-        {
-            return m_b;
-        }
+    inline float blue()
+    {
+        return m_b;
+    }
 
-        inline float alpha()
-        {
-            return m_a;
-        }
+    inline float alpha()
+    {
+        return m_a;
+    }
 
-        inline float texCoordX()
-        {
-            return m_tx;
-        }
+    inline float texCoordX()
+    {
+        return m_tx;
+    }
 
-        inline float texCoordY()
-        {
-            return m_ty;
-        }
+    inline float texCoordY()
+    {
+        return m_ty;
+    }
     
-    private:
-        float m_x;
-        float m_y;
-        float m_r;
-        float m_g;
-        float m_b;
-        float m_a;
-        float m_tx;
-        float m_ty;
+private:
+    float m_x;
+    float m_y;
+    float m_r;
+    float m_g;
+    float m_b;
+    float m_a;
+    float m_tx;
+    float m_ty;
 };
 
 class KGLPointList : public QVector <KGLPoint>
 {
-    public:
-        KGLPointList();
+public:
+    KGLPointList();
 
-        float * array()
-        {
-            return (float*)data();
-        }
+    float * array()
+    {
+        return (float*)data();
+    }
 
-        float *vertexStart()
-        {
-            return array();
-        }
+    float *vertexStart()
+    {
+        return array();
+    }
 
-        float *colorStart()
-        {
-            return &(array())[2];
-        }
+    float *colorStart()
+    {
+        return &(array())[2];
+    }
 
-        float *texCoordStart()
-        {
-            return &(array())[6];
-        }
+    float *texCoordStart()
+    {
+        return &(array())[6];
+    }
 };
 
 #endif //KGLPoint_H

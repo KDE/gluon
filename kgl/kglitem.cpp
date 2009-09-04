@@ -88,6 +88,11 @@ KGLItem *KGLItem::clone()
 
     KGLItem * newItem = new KGLItem;
     newItem->setTexture(texture());
+    newItem->setMatrix(matrix());
+ newItem->setPosition(position());
+    foreach(KGLPoint p, pointList())
+    newItem->addVertex(p);
+
     return newItem;
 }
 
@@ -98,9 +103,10 @@ void KGLItem::draw()
     if ( f_showBoundingBox) drawBoundingBox();
 
     m_texture->updateTransform();
+
     glPushMatrix();
     glLoadMatrixd(matrix().data());
-  
+
     m_texture->bind();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -123,10 +129,11 @@ void KGLItem::draw()
     m_texture->unBind();
     glDepthMask(GL_TRUE);
 
-    glPopMatrix();
+if ( f_showCenter) drawCenter();
+glPopMatrix();
 
     drawChild();
-    emit painted();
+  emit painted();
 }
 
 void  KGLItem::create()
@@ -177,8 +184,10 @@ void KGLItem::drawChild()
     if ( m_childItems.size()>0)
     {
         foreach(KGLItem* item, m_childItems)
+        {
             item->draw();
-    }
+        }
+        }
 }
 
 void KGLItem::drawGLPoint(KGLPoint &p)

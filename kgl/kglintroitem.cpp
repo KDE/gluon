@@ -20,24 +20,36 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef KGLPIXMAP_ITEM_H
-#define KGLPIXMAP_ITEM_H
-
-#include <QPixmap>
-#include "kglitem.h"
-#include "kglboxitem.h"
-
-class KGLPixmapItem: public KGLBoxItem
+#include "kglintroitem.h"
+#include <KDebug>
+#include <KIcon>
+KGLIntroItem::KGLIntroItem(KGLEngine* parent)
+    : KGLItem(parent)
 {
-    Q_OBJECT
-    public:
-        explicit KGLPixmapItem(const QString &fileName, KGLEngine* parent=0);
-        explicit KGLPixmapItem(const QPixmap &p, KGLEngine* parent=0);
-        QPixmap &pixmap(){return m_pix;}
 
-    private:
-        QPixmap  m_pix;
-};
+    m_item = new KGLPixmapItem(KIcon("gluon.png").pixmap(256,256));
 
-#endif //KGLPIXMAP_ITEM_H
+    m_shadow = new KGLShadowItem(m_item);
+    m_shadow->enable(true);
+    m_shadow->setNbFrame(20);
+    addChildItem(m_shadow);
+
+    m_timeLine = new QTimeLine(2000, this);
+    m_timeLine->setFrameRange(0, 360);
+
+    m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
+    connect( m_timeLine, SIGNAL(frameChanged(int)), this, SLOT(anim(int)));
+    connect(m_timeLine,SIGNAL(finished()),m_timeLine,SLOT(toggleDirection()));
+    connect(m_timeLine,SIGNAL(finished()),m_timeLine,SLOT(resume()));
+    m_timeLine->start();
+        m_item->setColor(QColor(255,255,255,20));
+}
+
+void KGLIntroItem::anim(int id)
+{
+ m_item->setPosition(position());
+  m_item->setAngle(id*M_PI/360,m_item->itemCenter());
+  m_item->updateTransform();
+}
+
 

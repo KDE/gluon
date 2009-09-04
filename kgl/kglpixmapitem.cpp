@@ -37,7 +37,8 @@ KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLEngine * parent)
     }
     KGLTexture *texture = new KGLTexture(fileName);
     setTexture(texture);
-    createBox(texture->dim().width(), texture->dim().height());
+    float ratio = 10/texture->dim().width() ;
+    createBox(texture->dim().width()*ratio, texture->dim().height()*ratio);
 }
 
 KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLEngine * parent )
@@ -51,5 +52,6 @@ KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLEngine * parent )
     }
     KGLTexture * texture= new KGLTexture(m_pix);
     setTexture(texture);
-    createBox(texture->dim().width(), texture->dim().height());
+     float ratio = 10/texture->dim().width() ;
+    createBox(texture->dim().width()*ratio, texture->dim().height()*ratio);
 }

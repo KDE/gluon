@@ -40,26 +40,28 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "kcmkgl.h"
-// #include "kal/kalinfowidget.h"
+#include "kgl/kglinfowidget.h"
 
 K_PLUGIN_FACTORY(KGLConfigFactory,
-        registerPlugin<KGLConfig>();
-        )
+                 registerPlugin<KGLConfig>();
+)
 K_EXPORT_PLUGIN(KGLConfigFactory("kcmkgl"))
 
 KGLConfig::KGLConfig(QWidget *parent, const QVariantList &)
-	: KCModule(KGLConfigFactory::componentData(), parent)
+        : KCModule(KGLConfigFactory::componentData(), parent)
 {
 
- KAboutData *about = new KAboutData(
-     "kgl", 0, ki18n( "..." ),
-     "0.1", KLocalizedString(), KAboutData::License_GPL,
-     ki18n( "Copyright 2009" ) );
- 
-   setAboutData( about );
+    KAboutData *about = new KAboutData(
+            "kgl", 0, ki18n( "..." ),
+            "0.1", KLocalizedString(), KAboutData::License_GPL,
+            ki18n( "Copyright 2009" ) );
 
- 
-   
+    setAboutData( about );
+
+    QVBoxLayout * layout = new QVBoxLayout;
+    KGLInfoWidget * widget = new KGLInfoWidget;
+    layout->addWidget(widget);
+    setLayout(layout);
 
 }
 

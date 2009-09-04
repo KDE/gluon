@@ -42,24 +42,20 @@ public:
     {
         m_engine = engine;
     }
-
     KGLEngine * engine()
     {
         return m_engine;
     }
-
     void start()
     {
         m_timer->start(m_frameRate);
         m_fpsTimer->start(1000);
     }
-
     void stop()
     {
         m_timer->stop();
         m_fpsTimer->stop();
     }
-
     inline void setFrameRate(int f)
     {
         m_frameRate=f;
@@ -72,7 +68,6 @@ public:
         m_orthoView = rect;
         resizeGL(width(), height());
     }
-
     inline void setOrthoView(const float& left,const float& right,const float& bottom,const float& top)
     {
         m_orthoView.setLeft(left);
@@ -81,8 +76,6 @@ public:
         m_orthoView.setTop(top);
         resizeGL(width(),height());
     }
-
-
     inline QPointF mapToGL(const QPointF &p) {
         const int CURSOR_HACK = 0x18; // cursor inversion
         int side = qMin(width(), height());
@@ -91,7 +84,6 @@ public:
                 m_orthoView.height() * ( p.y() - height() / 2 - CURSOR_HACK ) / side
                 );
     }
-    
     inline QPointF mapFromGL(const QPointF &p) {
         const int CURSOR_HACK = 0x18; // cursor inversion
         int side = qMin(width(), height());
@@ -100,7 +92,6 @@ public:
                 side * p.y() / m_orthoView.height() + height() / 2 + CURSOR_HACK
                 );
     }
-
     KGLScreenConfig * screenConfig(){return m_screenConfig;}
     //=== Flags ====
     inline void setMode(GLenum mode)
@@ -108,29 +99,22 @@ public:
         m_mode=mode;
         initializeGL();
     }
-
     inline void setAxisShow(bool b)
     {
         m_axisShow=b;
     }
-
     inline bool isAxisShow()
     {
         return m_axisShow;
     }
-
     inline void setInfoShow(bool b)
     {
         m_infoShow = b;
     }
-
     inline bool isInfoShow()
     {
         return m_axisShow;
     }
-
-    //        inline void setShadeModel(GLenum mode);
-
     bool isExtensionSupported(QString name)
     {
         return glewIsSupported(name.toUtf8());
@@ -140,45 +124,37 @@ public:
     {
         return m_isShaderSupported;
     }
-
     float fps()
     {
         return m_fps;
     }
-
-    //===DRAW function
-    void drawRepere(float scalex, float scaley);
-    void drawInfo();
-    void drawGLItems();
-
 public slots:
+
+    void toogleActive()
+    {
+    if ( m_timer->isActive())
+        stop();
+       else start();
+    }
+
     virtual void nextFrame();
     inline void calculFps()
     {
         m_fps = m_countFrame;
         m_countFrame = 0;
     }
-
     void goFullScreen();
-
-    inline void leaveFullScreen()
-    {
-        m_screenConfig->restore();
-        if ( parentWidget() != NULL)
-        {
-            parentWidget()->showNormal();
-        }
-        else
-            showNormal();
-    }
-
+   void leaveFullScreen();
 protected:
+ void drawRepere(float scalex, float scaley);
+    void drawInfo();
+    void drawGLItems();
     void saveResolution();
     bool initGlew();
     void init();
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
+    virtual void initializeGL();
+    virtual void resizeGL(int w, int h);
+    virtual void paintGL();
 
 private:
     KGLEngine * m_engine;

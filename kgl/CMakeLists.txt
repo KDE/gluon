@@ -10,22 +10,23 @@ set(kgl_LIB_SRCS
     #kglcontaineritem.cpp
 	kglengine.cpp
     kglgriditem.cpp
-    #kglintro.cpp
+    kglintroitem.cpp
     kglitem.cpp
     kglitemlist.cpp
     kglparticlesitem.cpp
     kglphysicsengine.cpp
     kglphysicsitem.cpp
-    #kglpixmapitem.cpp
+    kglpixmapitem.cpp
     kglpoint.cpp
     kglpolygonitem.cpp
     kglprogram.cpp
     kglshader.cpp
-    #kglshadowitem.cpp
+    kglshadowitem.cpp
     kgltextitem.cpp
     kgltexture.cpp
     kglview.cpp
     kglscreenconfig.cpp
+    kglinfowidget.cpp
 )
 
 SET(kgl_RCCS
@@ -59,22 +60,23 @@ install(FILES
     #kglcontaineritem.h
     kglengine.h
     kglgriditem.h
-    #kglintro.h
+    kglintroitem.h
     kglitem.h
     kglitemlist.h
     kglparticlesitem.h
     kglphysicsengine.h
     kglphysicsitem.h
-    #kglpixmapitem.h
+    kglpixmapitem.h
     kglpoint.h
     kglpolygonitem.h
     kglprogram.h
     kglshader.h
-    #kglshadowitem.h
+    kglshadowitem.h
     kgltextitem.h
     kgltexture.h
     kglview.h
     kglscreenconfig.h
+    kglinfowidget.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
 add_subdirectory(Box2D) #add header installation

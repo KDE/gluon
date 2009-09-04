@@ -76,7 +76,6 @@ KGLView::~KGLView()
     delete m_screenConfig;
     delete m_timer;
     delete m_fpsTimer;
-
 }
 void KGLView::init()
 {
@@ -102,7 +101,6 @@ void KGLView::init()
     connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
-
 }
 void KGLView::goFullScreen()
 {
@@ -116,7 +114,16 @@ void KGLView::goFullScreen()
     else
     showFullScreen();
 }
-
+void KGLView::leaveFullScreen()
+    {
+        m_screenConfig->restore();
+        if ( parentWidget() != NULL)
+        {
+            parentWidget()->showNormal();
+        }
+        else
+            showNormal();
+    }
 void KGLView::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
@@ -133,10 +140,7 @@ void KGLView::initializeGL()
 void KGLView::resizeGL(int w, int h)
 {
     int side = qMin(w, h);
-
-
     glViewport((w - side) / 2, (h- side) / 2, side, side);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
@@ -180,7 +184,7 @@ void KGLView::drawRepere(float scalex, float scaley) // a modifier
 
     glScalef(scalex, scaley,0);
     renderText(1,0,0,"X");
-    renderText(-1,1,0,"Y");
+    renderText(0,1,0,"Y");
     glBegin(GL_LINES);
     glColor3ub(255, 0, 0);
     glVertex2d(0, 0);

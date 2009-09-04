@@ -36,212 +36,222 @@ const Eigen::Vector3d AXIS_Z(0, 0, 1);
 class KGLBaseItem: public QObject
 {
     Q_OBJECT
-    public:
-        KGLBaseItem(QObject *parent=0);
-        ~KGLBaseItem();
-        
-        virtual inline void addVertex(const KGLPoint &p) 
-        {
-            m_pointList.append(p);
-            computeGeometry();
-        }
+public:
+    KGLBaseItem(QObject *parent=0);
+    ~KGLBaseItem();
+
+    virtual inline void addVertex(const KGLPoint &p)
+    {
+        m_pointList.append(p);
+        computeGeometry();
+    }
     
-        KGLPointList &pointList(){return m_pointList;}
-      
-        virtual void removeVertex(KGLPoint * p)
-        {
-//            m_pointList.removeOne (p);
-            computeGeometry();
-        }
+    KGLPointList &pointList(){return m_pointList;}
+
+    virtual void removeVertex(KGLPoint * p)
+    {
+        //            m_pointList.removeOne (p);
+        computeGeometry();
+    }
     
-        virtual void clear()
-        {
-            m_pointList.clear();
-        }
+    virtual void clear()
+    {
+        m_pointList.clear();
+    }
 
-        virtual void updateTransform();
-        virtual void resetTransform();
-        
-        void applyTransform(const Eigen::Transform3d &m)
-        {
-            m_matrix = m * m_matrix;
-        }
+    virtual void updateTransform();
+    virtual void resetTransform();
 
-        void createBox(const QSizeF &s);
-        void createBox(const float &w, const float &h){createBox(QSizeF(w,h));}
+    void applyTransform(const Eigen::Transform3d &m)
+    {
+        m_matrix = m * m_matrix;
+    }
 
-        void createPolygon(const QPolygonF &poly);
-        void createLine(const QLineF &line);
+    void createBox(const QSizeF &s);
+    void createBox(const float &w, const float &h){createBox(QSizeF(w,h));}
 
-        //Get
-        unsigned int pointCount()
-        {
-            return m_pointList.size();
-        }
-        
-        inline const QPointF &position()
-        {
-            return m_position;
-        }
+    void createPolygon(const QPolygonF &poly);
+    void createLine(const QLineF &line);
 
-        inline const float &scaleValue()
-        {
-            return m_scale;
-        }
+    //Get
+    unsigned int pointCount()
+    {
+        return m_pointList.size();
+    }
 
-        inline const float &angle()
-        {
-            return m_angle;
-        }
+    inline const QPointF &position()
+    {
+        return m_position;
+    }
 
-        inline const float &radius()
-        {
-            return m_radius;
-        }
+    inline const float &scaleValue()
+    {
+        return m_scale;
+    }
+    inline const QPointF &translateValue()
+    {
+        return m_translate;
+    }
+    inline const float &angle()
+    {
+        return m_angle;
+    }
 
-        inline unsigned int zindex()
-        {
-            return m_zindex;
-        }
+    inline const float &radius()
+    {
+        return m_radius;
+    }
 
-        inline const QPointF center()
-        {
-            return transform(m_center);
-        }
+    inline unsigned int zindex()
+    {
+        return m_zindex;
+    }
+
+    inline const QPointF center()
+    {
+        return transform(m_center);
+    }
     
-        inline const QPointF &itemCenter()
-        {
-            return  m_center;
-        }
+    inline const QPointF &itemCenter()
+    {
+        return  m_center;
+    }
 
-        inline const QPolygonF polygon()
-        {
-            return transform(m_polygon);
-        }
+    inline const QPolygonF polygon()
+    {
+        return transform(m_polygon);
+    }
 
-        inline const QPolygonF itemPolygon()
-        {
-            return m_polygon;
-        }
+    inline const QPolygonF itemPolygon()
+    {
+        return m_polygon;
+    }
 
-        virtual inline const QRectF boundingBox()
-        {
-            return polygon().boundingRect();
-        }
+    virtual inline const QRectF boundingBox()
+    {
+        return polygon().boundingRect();
+    }
     
-        virtual inline const QRectF itemBoundingBox()
-        {
-            return itemPolygon().boundingRect();
-        }
+    virtual inline const QRectF itemBoundingBox()
+    {
+        return itemPolygon().boundingRect();
+    }
 
-        inline  bool contains(QPointF &p)
-        {
-            return polygon().containsPoint(p,Qt::WindingFill);
-        }
+    inline  bool contains(QPointF &p)
+    {
+        return polygon().containsPoint(p,Qt::WindingFill);
+    }
 
-        inline  Eigen::Transform3d& matrix()
-        {
-            return m_matrix;
-        }
+    inline  Eigen::Transform3d& matrix()
+    {
+        return m_matrix;
+    }
 
-        inline void setMatrix(const Eigen::Transform3d& m)
-        {
-            m_matrix = m;
-        }
+    inline void setMatrix(const Eigen::Transform3d& m)
+    {
+        m_matrix = m;
+    }
     
-        //Set
-        inline void setCenter(const QPointF &c)
-        {
-            m_center = c;
+    //Set
+    inline void setCenter(const QPointF &c)
+    {
+        m_center = c;
+    }
+
+    inline void setAngle(const float &a, QPointF c = QPointF(0,0))
+    {
+        m_rotateCenter = c;m_angle = a;
+    }
+
+    inline void setScale(const float &s)
+    {
+        m_scale = s;
+    }
+    inline void setTranslate(const QPointF &t)
+    {
+        m_translate = t;
+    }
+    inline void setPosition(const QPointF &p)
+    {
+        m_position = p;
+
+
         }
 
-        inline void setAngle(const float &a, QPointF c = QPointF(0,0))
-        {
-            m_center = c;m_angle = a;
-        }
+    inline void setPosition(qreal x, qreal y )
+    {
+        setPosition(QPointF(x,y));
+    }
 
-        inline void setScale(const float &s)
-        {
-            m_scale = s;
-        }
+    inline void setShear(const QPointF &s)
+    {
+        m_shear = s;
+    }
 
-        inline void setPosition(const QPointF &p)
-        {
-            m_position = p;
-        }
+    inline void setShear(const float &sx, const float &sy)
+    {
+        setShear(QPointF(sx,sy));
+    }
 
-        inline void setPosition(qreal x, qreal y )
-        {
-            setPosition(QPointF(x,y));
-        }
+    inline void setZIndex(int i)
+    {
+        m_zindex = i;
+    }
 
-        inline void setShear(const QPointF &s)
-        {
-            m_shear = s;
-        }
+    inline void translate(const QPointF &step)
+    {
+        m_translate+=step;
+    }
 
-        inline void setShear(const float &sx, const float &sy)
-        {
-            setShear(QPointF(sx,sy));
-        }
+    inline void translate(const float &x,const float &y)
+    {
+        translate(QPointF(x,y));
+    }
 
-        inline void setZIndex(int i)
-        {
-            m_zindex = i;
-        }
+    inline void scale(const float &s)
+    {
+        m_scale *=s;
+    }
 
-        inline void translate(const QPointF &step)
-        {
-            m_position+=step;
-        }
+    inline void rotate(const float &angle)
+    {
+        m_angle += angle;
+    }
 
-        inline void translate(const float &x,const float &y)
-        {
-            translate(QPointF(x,y));
-        }
+    inline void shear(const QPointF &s)
+    {
+        m_shear+=s;
+    }
 
-        inline void scale(const float &s)
-        {
-            m_scale +=s;
-        }
+    inline void shear(const float &sx,const float &sy)
+    {
+        shear(QPointF(sx,sy));
+    }
 
-        inline void rotate(const float &angle)
-        {
-            m_angle += angle;
-        }
+protected:
+    void computeGeometry();
+    void initShearMatrix(QPointF s);
 
-        inline void shear(const QPointF &s)
-        {
-            m_shear+=s;
-        }
+    QPointF transform(QPointF p);
+    QPolygonF transform(QPolygonF p);
+    QRectF transform(QRectF r);
 
-        inline void shear(const float &sx,const float &sy)
-        {
-            shear(QPointF(sx,sy));
-        }
+private:
+    Eigen::Transform3d m_matrix;
+    Eigen::Matrix4d m_shearMatrix;
 
-    protected:
-        void computeGeometry();
-        void initShearMatrix(QPointF s);
-
-        QPointF transform(QPointF p);
-        QPolygonF transform(QPolygonF p);
-        QRectF transform(QRectF r);
-
-    private:
-        Eigen::Transform3d m_matrix;
-        Eigen::Matrix4d m_shearMatrix;
-
-        float m_angle;
-        float m_scale;
-        QPointF m_position;
-        QPointF m_shear;
-        QPointF m_center;
-        QPolygonF m_polygon;
-        float m_radius;
-        QSizeF m_dim;
-        unsigned int m_zindex;
-        KGLPointList m_pointList;
+    float m_angle;
+    float m_scale;
+    QPointF m_position;
+    QPointF m_translate;
+    QPointF m_rotateCenter;
+    QPointF m_shear;
+    QPointF m_center;
+    QPolygonF m_polygon;
+    float m_radius;
+    QSizeF m_dim;
+    unsigned int m_zindex;
+    KGLPointList m_pointList;
 };
 
 #endif // KGLBASEITEM_H

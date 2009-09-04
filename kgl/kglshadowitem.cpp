@@ -21,14 +21,14 @@
  */
 
 #include "kglshadowitem.h"
-#include <QDebug>
+#include <KDebug>
 
 KGLShadowItem::KGLShadowItem(KGLItem * item)
     : KGLItem()
 {
     m_parentItem = item;
     m_snapDuration = 20;
-    m_nbFrame = 10;
+    m_nbFrame = 20;
     m_currentFrame = 0;
     m_timer = new QTimer;
     setNbFrame(m_nbFrame);
@@ -37,8 +37,11 @@ KGLShadowItem::KGLShadowItem(KGLItem * item)
 
 void KGLShadowItem::snapMatrix()
 {
+
+
+
     m_listMatrix.append(m_parentItem->matrix());
-    m_listAlpha.append(1);
+    m_listAlpha.append(255);
 
     m_currentFrame++;
     if (m_currentFrame > m_nbFrame) 
@@ -50,20 +53,21 @@ void KGLShadowItem::snapMatrix()
 
 void KGLShadowItem::draw()
 {
-    for (int i = 0; i < m_listAlpha.size(); ++i) 
+
+ 
+    for (int i = 0; i < m_listAlpha.size(); ++i)
     {
-        m_listAlpha[i] -= 2 / m_nbFrame;
+        m_listAlpha[i] -= 255 / (float)(m_nbFrame);
         if (m_listAlpha[i] < 0) m_listAlpha[i] = 0;
     }
-
     m_parentItem->setZIndex(0);
-
-    for (int i = 0; i < m_listMatrix.size(); ++i) 
+    for (int i = 0; i < m_listMatrix.size(); ++i)
     {
         m_listItem[i]->resetTransform();
         m_listItem[i]->applyTransform(m_listMatrix[i]);
+        m_listItem[i]->setColor(QColor(255,255,255,30));
 
-        m_listItem[i]->setAlpha(m_listAlpha[i]);
+
         m_listItem[i]->draw();
     }
 }
@@ -75,7 +79,7 @@ void KGLShadowItem::setNbFrame(float d)
     for (unsigned int i = 0; i < m_nbFrame; ++i) 
     {
         KGLItem * item= m_parentItem->clone();
-      
+
         m_listItem.append(item);
     }
 }

@@ -23,30 +23,24 @@
 #ifndef KGLINTRO_H
 #define KGLINTRO_H
 
-#include "kglcontaineritem.h"
+#include "kglpixmapitem.h"
+#include "kglshadowitem.h"
+ #include <QTimer>
+#include <QTimeLine>
 
-class QTimer;
-class KGLSpriteItem;
 
-class KGLIntroItem: public KGLContainerItem
+class KGLIntroItem: public KGLItem
 {
     Q_OBJECT
     public:
-        KGLIntroItem(QObject * parent=0);
-
+        KGLIntroItem(KGLEngine* parent=0);
     public Q_SLOTS:
+     void anim(int id);
 
-        /**
-         * This function animates the introduction item, meaning the gears will spin.
-         */
-        virtual void anim();
+        private:
+  KGLPixmapItem * m_item;
+  KGLShadowItem * m_shadow;
+        QTimeLine * m_timeLine;
 
-    private:
-        KGLBoxItem* m_gear;
-        KGLBoxItem* m_gear2;
-        KGLBoxItem* m_title;
-        QTimer* m_timer;
-        double m_alpha;
-        bool m_asens;
 };
 #endif //KGLINTRO_H
