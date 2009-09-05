@@ -44,9 +44,9 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-MyWidget* w = new MyWidget;
+// MyWidget w ;
    
-  w->show();
- app.exec();
+  w.show();
+return app.exec();
 
 }

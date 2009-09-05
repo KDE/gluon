@@ -46,16 +46,7 @@ public:
     {
         return m_engine;
     }
-    void start()
-    {
-        m_timer->start(m_frameRate);
-        m_fpsTimer->start(1000);
-    }
-    void stop()
-    {
-        m_timer->stop();
-        m_fpsTimer->stop();
-    }
+
     inline void setFrameRate(int f)
     {
         m_frameRate=f;
@@ -129,7 +120,16 @@ public:
         return m_fps;
     }
 public slots:
-
+    void start()
+    {
+        m_timer->start(m_frameRate);
+        m_fpsTimer->start(1000);
+    }
+    void stop()
+    {
+        m_timer->stop();
+        m_fpsTimer->stop();
+    }
     void toogleActive()
     {
     if ( m_timer->isActive())
@@ -145,6 +145,7 @@ public slots:
     }
     void goFullScreen();
    void leaveFullScreen();
+   void toggleFullScreen();
 protected:
  void drawRepere(float scalex, float scaley);
     void drawInfo();
@@ -170,6 +171,7 @@ private:
 
     bool m_axisShow;
     bool m_infoShow;
+    bool m_fullscreen;
     bool m_isShaderSupported;
     GLenum m_mode;
     int m_originalResolution;

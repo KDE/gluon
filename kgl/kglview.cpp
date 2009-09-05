@@ -90,6 +90,7 @@ void KGLView::init()
     m_sleep=true;
     m_axisShow = false;
     m_infoShow = false;
+    m_fullscreen = false;
     m_ratio = width() / height();
     setOrthoView(-10,10,-10,10);
     m_mode = GL_FILL;
@@ -113,6 +114,7 @@ void KGLView::goFullScreen()
     }
     else
     showFullScreen();
+    m_fullscreen = true;
 }
 void KGLView::leaveFullScreen()
     {
@@ -123,7 +125,15 @@ void KGLView::leaveFullScreen()
         }
         else
             showNormal();
+        m_fullscreen = false;
     }
+
+   void KGLView::toggleFullScreen()
+   {
+     if ( m_fullscreen)
+         leaveFullScreen();
+     else goFullScreen();
+   }
 void KGLView::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);

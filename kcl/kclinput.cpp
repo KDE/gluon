@@ -61,34 +61,40 @@ bool KCLThread::openDevice(const QString& device)
 //===================================================================
 
 KCLInput::KCLInput(const QString& device,QObject * parent)
-    :QObject(parent),m_device(device)
+    :QObject(parent)
 {
     m_error = false;
     m_move  = false;
+    m_msgError =QString();
+    m_device=device;
     readInformation();
-    inputListener = new KCLThread(device,parent);
-    if (!error())
-        inputListener->start();
-    connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
-
+    inputListener = new KCLThread(m_device,this);
 
 }
+KCLInput::~KCLInput()
+{
+    unlisten();
+    delete inputListener;
+    kDebug()<<"close device :"<<device();
+}
+
 void KCLInput:: slotInputEvent(KCLInputEvent * event)
 {
+
     switch ( event->type())
     {
     case EV_KEY :
         if ( event->value() == 1)  // if click
         {
             m_buttons.append(event->code());
-            kDebug()<<KCLCode::keyName(event->code())<<" pressed...";
+            //            kDebug()<<KCLCode::keyName(event->code())<<" pressed...";
 
         }
 
         if ( event->value() ==0) //if release
         {
             m_buttons.removeOne(event->code());
-            kDebug()<<KCLCode::keyName(event->code())<<" release...";
+            //            kDebug()<<KCLCode::keyName(event->code())<<" release...";
         }
         break;
 
@@ -118,20 +124,23 @@ void KCLInput::readInformation()
     {
         kDebug()<<"m_device don't exist....";
         m_error = true;
+        m_msgError+="device url don't exist\n";
         return;
     }
 
     int m_fd = -1;
     if ((m_fd = open(m_device.toUtf8(), O_RDONLY)) < 0)
     {
-        kDebug()<<"cannot read  information device "<<m_device;;
+        kDebug()<<"cannot open the device "<<m_device;;
         m_error = true;
+        m_msgError+="cannot open the device \n";
         return;
     }
 
     if(ioctl(m_fd, EVIOCGID, &m_device_info))
     {
         kDebug()<<"cannot retrieve information of device "<<m_device;;
+        m_msgError += "cannot retrieve information of device\n";
         m_error = true;
         return;
     }
@@ -139,7 +148,8 @@ void KCLInput::readInformation()
     if(ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
     {
         kDebug()<<"cannot retrieve name of device "<<m_device;
-        m_error = true;
+        //        m_msgError += "cannot retrieve name of device\n";
+        //        m_error = true;
     }
     m_deviceName = QString(name);
 
@@ -173,11 +183,11 @@ void KCLInput::readInformation()
 
                     switch (k)
                     {
-                        case 0:cabs.value = abs[k];break;
-                        case 1:cabs.min = abs[k];break;
-                        case 2:cabs.max = abs[k];break;
-                        case 3:cabs.fuzz = abs[k];break;
-                        case 4: cabs.flat = abs[k];break;
+                    case 0:cabs.value = abs[k];break;
+                    case 1:cabs.min = abs[k];break;
+                    case 2:cabs.max = abs[k];break;
+                    case 3:cabs.fuzz = abs[k];break;
+                    case 4: cabs.flat = abs[k];break;
                     }
                 }
                 m_axisCapabilities[j] = cabs;
@@ -187,26 +197,48 @@ void KCLInput::readInformation()
     }
     close(m_fd);
 
-m_device = KCL_UNKNOWN;
+    m_deviceType = KCL_UNKNOWN;
 
-if ( m_buttonCapabilities.contains( BTN_STYLUS ))
-    m_deviceType  =KCL_TABLET;
+    if ( m_buttonCapabilities.contains( BTN_STYLUS ))
+        m_deviceType  =KCL_TABLET;
 
-if ((m_buttonCapabilities.contains( BTN_STYLUS )) || (m_buttonCapabilities.contains(ABS_PRESSURE)))
-    m_deviceType  =KCL_TOUCHPAD;
+    if ((m_buttonCapabilities.contains( BTN_STYLUS )) || (m_buttonCapabilities.contains(ABS_PRESSURE)))
+        m_deviceType  =KCL_TOUCHPAD;
 
-if ( m_buttonCapabilities.contains( BTN_TRIGGER ))
-    m_deviceType  =KCL_JOYSTICK;
+    if ( m_buttonCapabilities.contains( BTN_TRIGGER ))
+        m_deviceType  =KCL_JOYSTICK;
 
-if ( m_buttonCapabilities.contains( BTN_MOUSE ))
-    m_deviceType  = KCL_MOUSE;
+    if ( m_buttonCapabilities.contains( BTN_MOUSE ))
+        m_deviceType  = KCL_MOUSE;
 
-if ( m_buttonCapabilities.contains( KEY_ESC))
-    m_deviceType  = KCL_KEYBOARD;
+    if ( m_buttonCapabilities.contains( KEY_ESC))
+        m_deviceType  = KCL_KEYBOARD;
+
+
 
 }
 void KCLInput::inputEventFilter(KCLInputEvent * event)
 {
 
+
+}
+
+void KCLInput::listen()
+{
+    if (( !error()))
+    {
+       inputListener = new KCLThread(m_device,this);
+        inputListener->start();
+        connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
+    }
+}
+void KCLInput::unlisten()
+{
+m_buttons.clear();
+m_axisPositions.clear();
+m_axisAbsolus.clear();
+
+    inputListener->terminate();
+    disconnect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
 
 }

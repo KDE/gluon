@@ -1,5 +1,6 @@
 #include "kglscreenconfig.h"
 #include <QX11Info>
+#include <QLabel>
 KGLScreenConfig::KGLScreenConfig(QObject * parent)
     :QObject(parent)
 {
@@ -51,12 +52,20 @@ int KGLScreenConfig::askResolution()
 {
 
 KDialog * dialog = new KDialog;
+
+dialog->setWindowIcon(KIcon("kgl.png"));
 QComboBox * combo = new QComboBox;
 combo->addItems(resolutionAvaible());
-
-   dialog->setCaption( "choose a resolution" );
+QLabel * icon = new QLabel;
+icon->setPixmap(KIcon("video-display.png").pixmap(64,64));
+dialog->setCaption( "choose a resolution" );
+QHBoxLayout * layout = new QHBoxLayout;
+layout->addWidget(icon);
+layout->addWidget(combo);
+QWidget * main = new QWidget;
+main->setLayout(layout);
    dialog->setButtons( KDialog::Apply | KDialog::Cancel );
-dialog->setMainWidget(combo);
+dialog->setMainWidget(main);
  connect( dialog, SIGNAL( applyClicked() ), dialog, SLOT( accept()) );
 if ( dialog->exec())
 return combo->currentIndex();

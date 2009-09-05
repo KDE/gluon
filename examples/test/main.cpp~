@@ -27,10 +27,11 @@
 #include <iostream>
 #include <QDebug>
 
-#include <gluon/kcl/kclinfowidget.h>
-#include <gluon/kgl/kglview.h>
-#include <gluon/kgl/kglengine.h>
 
+#include <gluon/kcl/kcldetect.h>
+#include <gluon/kcl/kclvirtualinput.h>
+#include <gluon/kcl/kclvirtualinputconfig.h>
+#include <gluon/gluonmainwindow.h>
 #include <QVBoxLayout>
 #include <QMainWindow>
 #include <QToolBar>
@@ -51,38 +52,23 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-QMainWindow * window = new QMainWindow;
+//     GluonMainWindow * gluon = new GluonMainWindow;
+//     
+//     gluon->show();
 
-  QToolBar * bar = window->addToolBar("bar");
+KCLVirtualInput * input = new KCLVirtualInput;
 
-  KAction * fullscreen = new KAction(KIcon("view-fullscreen.png"),"fullscreen",bar);
-  KAction * normalscreen = new KAction(KIcon("view-restore.png"),"window screen",bar);
+input->setButton("Jump");
+input->setButton("goLeft");
+input->setButton("goRight");
+input->setButton("fire");
+
+KCLVirtualInputConfig * config = new KCLVirtualInputConfig(input);
+
+config->show();
   
-
-  
-  
-  bar->addAction(fullscreen);
-  bar->addAction(normalscreen);
-    KGLView * view = new KGLView;
-    
-    KGLEngine * engine = new KGLEngine;
-    view->setEngine(engine);
-    
-    view->setAxisShow(true);
-    view->setInfoShow(true);
-
-    
-  QObject::connect(fullscreen,SIGNAL(triggered()), view,SLOT(goFullScreen()));
-  QObject::connect(normalscreen,SIGNAL(triggered()), view,SLOT(leaveFullScreen()));
-
-
-window->setCentralWidget(view);
-    
-    view->start();
-    
-    
-    window->show();
+ 
 app.exec();
-delete view;
+
 
 }

@@ -134,7 +134,7 @@ class KCLInput : public QObject
 public:
 
     KCLInput(const QString& device,QObject * parent=0);
-    ~KCLInput(){inputListener->exit();}
+    ~KCLInput();
     /**
     * @return the id of vendor
     */
@@ -179,7 +179,7 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    bool anyPress(){if (m_buttons.size()>0) return true; else return false;}
+    int anyPress(){if (m_buttons.size()>0) return m_buttons.last(); else return false;}
 
     /**
     * @return true if a motion is done by a motion input.( mouse , joystick ...)
@@ -220,6 +220,7 @@ public:
     */
     AbsVal axisCapability(int axisCode){return m_axisCapabilities[axisCode];}
     bool error(){return m_error;}
+    QString msgError(){return m_msgError;}
         /**
     * this function can be reimplemented to customize the event Loop.
      * @code
@@ -238,7 +239,8 @@ public:
 
 public slots:
     void slotInputEvent(KCLInputEvent * event);
-
+    void listen();
+    void unlisten();
 protected :
         void readInformation();
 
@@ -255,6 +257,7 @@ QMap<int,int> m_axisPositions;
 QMap<int,int> m_axisAbsolus;
 QList<int> m_buttonCapabilities;
 QMap<int, AbsVal> m_axisCapabilities;
+QString m_msgError;
 bool m_move;
 bool m_error;
 

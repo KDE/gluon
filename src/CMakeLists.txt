@@ -1,7 +1,7 @@
 include_directories(../)
 
 set(gluon_LIB_SRCS 
-#     gluonmainwindow.cpp
+     gluonmainwindow.cpp
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
@@ -21,7 +21,7 @@ set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 
 target_link_libraries(gluon ${KDE4_KDEUI_LIBS} kgl kal kcl)
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
-                      ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS}
+                      ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} ${KDE4_KIO_LIBS}
                       ${OPENAL_LIBRARY} ${ALUT_LIBRARY}
                       ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
 ########### INSTALL FILES ###############
@@ -29,7 +29,7 @@ target_link_libraries(gluon
 install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
-#    gluonmainwindow.h
+    gluonmainwindow.h
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h

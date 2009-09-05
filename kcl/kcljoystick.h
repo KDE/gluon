@@ -12,7 +12,7 @@ public:
 
     int axisX(){return axisAbsolu(ABS_X);}
     int axisY(){return axisAbsolu(ABS_Y);}
-
+    int axisZ(){return axisAbsolu(ABS_Z);}
 
 
 

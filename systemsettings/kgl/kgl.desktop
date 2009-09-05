@@ -1,5 +1,6 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
-Exec=kcmshell4 kal
+Exec=kcmshell4 kgl
 Icon=kgl
 Type=Service
 X-KDE-ServiceTypes=KCModule

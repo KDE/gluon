@@ -1,12 +1,17 @@
 #include "myWidget.h"
 #include <KDebug>
 #include <QVBoxLayout>
+
 MyWidget::MyWidget(QWidget *parent)
   :QWidget(parent)
   {
 timer = new QTimer;
 timer->setInterval(20);
 timer->start();
+
+KCLButtonWidget * widget = new KCLButtonWidget(0);
+
+widget->show();
 
 connect(timer,SIGNAL(timeout()),this, SLOT(mainLoop()));
 
@@ -16,26 +21,34 @@ connect(timer,SIGNAL(timeout()),this, SLOT(mainLoop()));
 pix = new QPixmap(width(),height());
 pix->fill(Qt::white);
 
-input = new KCLInput("/dev/input/event5");
+
+detect  = new KCLDetect(this);
+
+foreach ( KCLInput * input, detect->deviceList())
+{
+ kDebug()<<"DEVICE : "<<input->name()<<"error :"<<input->error()<<"-"<<input->msgError(); 
+}
 
 
-KCLEngine * engine = new KCLEngine;
+
 
 pos = QPoint(0,0);
+
   }
 void MyWidget::mainLoop()
 {
-if ( input->anyPress())
-   kDebug()<<"pressing..."; 
-   
+
+/*   
+kDebug()<<"detected...";*/
+
  update();
 }
 
 
-     void MyWidget::paintEvent(QPaintEvent * event)
-    {
-      
-      QPainter paint(this);
-        paint.drawPixmap(0,0,*pix);
-   
-    }
+//      void MyWidget::paintEvent(QPaintEvent * event)
+//     {
+//       
+//       QPainter paint(this);
+//         paint.drawPixmap(0,0,*pix);
+//    
+//     }

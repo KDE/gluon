@@ -3,7 +3,7 @@
 
 #include <QStandardItemModel>
 #include <KIcon>
-#include "kclengine.h"
+#include "kcldetect.h"
 
 class KCLDeviceModel : public QStandardItemModel
 {
@@ -13,7 +13,7 @@ public:
 void addLine(QString text, KIcon icon, DEVICE device);
 
     private:
-    KCLEngine * m_kcl;
+    KCLDetect * m_detect;
 };
 
 #endif // KCLDEVICEMODEL_H
