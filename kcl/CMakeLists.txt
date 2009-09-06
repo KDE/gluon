@@ -12,6 +12,7 @@ kclbuttonwidget.cpp
 kclaxiswidget.cpp
 kclvirtualinput.cpp
 kclvirtualinputconfig.cpp
+slidepushbutton.cpp
 
 )
 
@@ -39,6 +40,7 @@ kclvirtualinput.h
 kclvirtualinputconfig.h
 kclbuttonwidget.h
 kclaxiswidget.h
+slidepushbutton.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 
 

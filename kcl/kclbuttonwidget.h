@@ -25,7 +25,7 @@ private slots:
     void changed();
 private:
     KPushButton * m_button;
-KPushButton *m_changeButton;
+
     KCLDetect * m_detect;
     KCLInput * m_currentInput;
     KIcon  m_currentIcon;

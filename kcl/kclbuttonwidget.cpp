@@ -1,6 +1,7 @@
 #include "kclbuttonwidget.h"
 #include <QHBoxLayout>
 #include <KDebug>
+#include <QToolButton>
 
 KCLButtonWidget::KCLButtonWidget(QWidget * parent)
     :QWidget(parent)
@@ -11,12 +12,17 @@ KCLButtonWidget::KCLButtonWidget(QWidget * parent)
     m_detect = new KCLDetect(this);
     QHBoxLayout * layout = new QHBoxLayout;
     m_button = new KPushButton();
-    m_changeButton = new KPushButton(KIcon("edit-clear-locationbar-rtl.png"),"");
+    QToolButton *m_changeButton = new QToolButton;
+    m_changeButton->setIcon(KIcon("edit-clear-locationbar-rtl.png"));
+
+
     layout->addWidget(m_button);
     layout->addWidget(m_changeButton);
     setLayout(layout);
 
     clear();
+
+
 
     connect(m_timer,SIGNAL(timeout()),this,SLOT(waitButton()));
     connect(m_button,SIGNAL(clicked()),this,SLOT(startWaiting()));
@@ -66,12 +72,11 @@ void KCLButtonWidget::endWaiting()
     kDebug()<<"end wating...";
     foreach ( KCLInput * input, m_detect->deviceList())
         input->unlisten();
-
 }
 
 void KCLButtonWidget::clear()
 {
     m_currentIcon =KIcon("fork.png");
     m_button->setIcon(KIcon("fork.png"));
-    m_button->setText("press a key");
+    m_button->setText("press any button");
 }

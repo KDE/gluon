@@ -10,9 +10,9 @@ class KCLJoystick : public KCLInput
 public:
     KCLJoystick(const QString& device, QObject * parent=0);
 
-    int axisX(){return axisAbsolu(ABS_X);}
-    int axisY(){return axisAbsolu(ABS_Y);}
-    int axisZ(){return axisAbsolu(ABS_Z);}
+    int axisX(){return absAxis(ABS_X);}
+    int axisY(){return absAxis(ABS_Y);}
+    int axisZ(){return absAxis(ABS_Z);}
 
 
 

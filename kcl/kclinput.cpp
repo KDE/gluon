@@ -1,6 +1,7 @@
 #include "kclinput.h"
 #include <KDebug>
 #include <QFile>
+#include <QMessageBox>
 #define BITS_PER_LONG (sizeof(long) * 8)
 #define NBITS(x) ((((x)-1)/BITS_PER_LONG)+1)
 #define OFF(x)  ((x)%BITS_PER_LONG)
@@ -64,8 +65,10 @@ KCLInput::KCLInput(const QString& device,QObject * parent)
     :QObject(parent)
 {
     m_error = false;
-    m_move  = false;
-    m_lastAxis = 0;
+    m_absMove  = false;
+    m_relMove = false;
+    m_lastAbsAxis = 0;
+    m_lastRelAxis = 0;
     m_msgError =QString();
     m_device=device;
     readInformation();
@@ -81,42 +84,42 @@ KCLInput::~KCLInput()
 
 void KCLInput:: slotInputEvent(KCLInputEvent * event)
 {
+    
 
+    
     switch ( event->type())
     {
     case EV_KEY :
         if ( event->value() == 1)  // if click
         {
             m_buttons.append(event->code());
-            //            kDebug()<<KCLCode::keyName(event->code())<<" pressed...";
-            emit buttonChanged(event->code());
+            emit buttonPressed(event->code());
 
         }
 
         if ( event->value() ==0) //if release
         {
             m_buttons.removeOne(event->code());
-            //            kDebug()<<KCLCode::keyName(event->code())<<" release...";
+            emit buttonReleased(event->code());
         }
         break;
 
     case EV_REL:
-//        m_move = true;
-
-        if (!m_axisPositions.contains(event->code()))
-            m_axisPositions[event->code()] = event->value();
-        else
-            m_axisPositions[event->code()] += event->value();
-
-        emit relativAxisChanged(event->code(),event->value());
+        m_relMove = true;
+        m_lastRelAxis = event->code();
+        m_relAxis[event->code()] = event->value();
+        emit relAxisChanged(event->code(),event->value());
         break;
 
     case EV_ABS:
-        m_move = true;
-        m_lastAxis = event->code();
-        m_axisAbsolus[event->code()] = event->value();
-        emit absoluteAxisChanged(event->code(),event->value());
+        m_absMove = true;
+        m_lastAbsAxis = event->code();
+        m_absAxis[event->code()] = event->value();
+        emit absAxisChanged(event->code(),event->value());
         break;
+
+
+
 
 
     }
@@ -169,7 +172,7 @@ void KCLInput::readInformation()
     ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
     m_buttonCapabilities.clear();
-    m_axisCapabilities.clear();
+    m_absAxisInfos.clear();
 
     for (int i = 0; i < EV_MAX; i++)
         if (test_bit(i, bit[0])) {
@@ -181,13 +184,15 @@ void KCLInput::readInformation()
             if ( i == EV_KEY)
                 m_buttonCapabilities.append(j);
 
+            if ( i == EV_REL)
+                m_relAxisCapabilities.append(j);
+
             if (i == EV_ABS) {
                 ioctl(m_fd, EVIOCGABS(j), abs);
                 AbsVal cabs(0,0,0,0);
                 for (int k = 0; k < 5; k++)
                     if ((k < 3) || abs[k])
                     {
-
                     switch (k)
                     {
                     case 0:cabs.value = abs[k];break;
@@ -197,8 +202,8 @@ void KCLInput::readInformation()
                     case 4: cabs.flat = abs[k];break;
                     }
                 }
-                m_axisCapabilities[j] = cabs;
-
+                m_absAxisCapabilities.append(j);
+                m_absAxisInfos[j] = cabs;
             }
         }
     }
@@ -242,9 +247,10 @@ void KCLInput::listen()
 void KCLInput::unlisten()
 {
     m_buttons.clear();
-    m_axisPositions.clear();
-    m_axisAbsolus.clear();
-    m_move = false;
+    m_relAxis.clear();
+    m_absAxis.clear();
+    m_relMove = false;
+    m_absMove = false;
     inputListener->terminate();
     disconnect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
 

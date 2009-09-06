@@ -16,6 +16,7 @@
 
 
 enum DEVICE {KCL_KEYBOARD,KCL_MOUSE,KCL_JOYSTICK,KCL_TABLET,KCL_TOUCHPAD,KCL_UNKNOWN};
+enum AXIS_TYPE {KCL_RELATIF, KCL_ABSOLU};
 
 class KCLInput;
 class KCLThread;
@@ -172,7 +173,7 @@ public:
     */
     bool button(int code){return m_buttons.contains(code);}
     /**
-    * @return true if a button is pressed.
+    * @return button Code if a button is pressed. Otherwise it return 0
     * @code
     * KCLInput * myInput = new KCLInput("/dev/input/event3");
     * if ( myInput->anyPress()) kDebug()<<"you have press on something...";
@@ -189,27 +190,33 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    bool anyMove(){if ( m_move) {m_move=false;return true;} return false; }
+    bool anyMove(AXIS_TYPE a){if (a==KCL_ABSOLU) return anyAbsMove(); if (a==KCL_RELATIF) return anyRelMove();}
+    bool anyAbsMove(){if ( m_absMove) {m_absMove=false;return true;} return false; }
+    bool anyRelMove(){if ( m_relMove) {m_relMove=false;return true;} return false; }
+
+    int lastAbsAxis(){return m_lastAbsAxis;}
+    int lastRelAxis(){return m_lastRelAxis;}
+
+
     /**
     * @return the axis position. This is a relativ value. For example the mouse return a relativ position.
     * @see KCLInputEvent
     */
 
-int lastAxisMove(){return m_lastAxis;}
 
 
-    int axisPosition(int code){
-        if(m_axisPositions.contains(code))
-            return m_axisPositions[code] ;
+    int relAxis(int code){
+        if(m_relAxis.contains(code))
+            return m_relAxis[code] ;
         else return 0;
     }
     /**
     * @return the axis Absolute value. This is an absolue value. For example the Joystick return an absolu position.
     * @see KCLInputEvent
     */
-    int axisAbsolu(int code){
-        if(m_axisAbsolus.contains(code))
-            return m_axisAbsolus[code] ;
+    int absAxis(int code){
+        if(m_absAxis.contains(code))
+            return m_absAxis[code] ;
         else return 0;
     }
     /**
@@ -217,11 +224,14 @@ int lastAxisMove(){return m_lastAxis;}
     * @see KCLInputEvent
     */
     QList<int> buttonCapabilities(){return m_buttonCapabilities;}
+    QList<int> absAxisCapabilities(){return m_absAxisCapabilities;}
+    QList<int> relAxisCapabilities(){return m_relAxisCapabilities;}
+
       /**
     * @return the axis capability..This is usefull to know the capability of a joystick .
     * @see KCLInputEvent
     */
-    AbsVal axisCapability(int axisCode){return m_axisCapabilities[axisCode];}
+    AbsVal axisInfo(int axisCode){return m_absAxisInfos[axisCode];}
     bool error(){return m_error;}
     QString msgError(){return m_msgError;}
         /**
@@ -241,9 +251,10 @@ int lastAxisMove(){return m_lastAxis;}
     virtual void inputEventFilter(KCLInputEvent * event);
 
     signals:
-    void buttonChanged(int code);
-    void absoluteAxisChanged(int axe,int code);
-    void relativAxisChanged(int axe,int code);
+    void buttonPressed(int code);
+    void buttonReleased(int code);
+    void absAxisChanged(int axe,int code);
+    void relAxisChanged(int axe,int code);
 
 
 public slots:
@@ -262,15 +273,18 @@ QString m_deviceName;
 DEVICE m_deviceType;
 
 QList<int> m_buttons;
-QMap<int,int> m_axisPositions;
-QMap<int,int> m_axisAbsolus;
+QMap<int,int> m_relAxis;
+QMap<int,int> m_absAxis;
 QList<int> m_buttonCapabilities;
-QMap<int, AbsVal> m_axisCapabilities;
+QList<int> m_relAxisCapabilities;
+QList<int> m_absAxisCapabilities;
+QMap<int, AbsVal> m_absAxisInfos;
 QString m_msgError;
-bool m_move;
+bool m_absMove;
+bool m_relMove;
 bool m_error;
-int m_lastAxis;
-
+int m_lastAbsAxis;
+int m_lastRelAxis;
 };
 
 //---------------------------------------------------------------------------------------------

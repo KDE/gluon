@@ -28,13 +28,32 @@ KCLInfoWidget::KCLInfoWidget(QWidget * parent)
 void KCLInfoWidget::setupPreview()
 {
 QVBoxLayout * layout = new QVBoxLayout;
+
+QHBoxLayout * layoutButton = new QHBoxLayout;
+QHBoxLayout * layoutAbsolu = new QHBoxLayout;
+QHBoxLayout * layoutRelatif = new QHBoxLayout;
+
+
 KCLAxisWidget * axis = new KCLAxisWidget;
 KCLButtonWidget * button = new KCLButtonWidget;
-layout->addStretch();
-layout->addWidget(button);
-layout->addWidget(axis);
+
+layoutButton->addWidget(button);
+layoutAbsolu->addWidget(axis);
+
+
+layout->addLayout(layoutButton);
+layout->addLayout(layoutAbsolu);
+layout->addLayout(layoutRelatif);
 layout->addStretch();
 m_preview->setLayout(layout);
+
+
+
+
+
+
+
+
 }
 void KCLInfoWidget::setupInformation()
 {

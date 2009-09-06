@@ -6,6 +6,7 @@
 #include <QSlider>
 #include <QLabel>
 #include <QTimer>
+#include "slidepushbutton.h"
 #include "kcldetect.h"
 class KCLAxisWidget : public QWidget
 {
@@ -25,11 +26,9 @@ private:
     KCLDetect * m_detect;
     KCLInput * m_currentInput;
     int m_currentAxis;
-    KPushButton * m_button;
-    KPushButton * m_testButton;
-    QLabel * m_valueLabel;
-    QSlider * m_slider;
+    SlidePushButton * m_button;
     QTimer *m_timer;
+
 
 };
 
