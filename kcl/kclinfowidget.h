@@ -6,8 +6,10 @@
 #include <QLabel>
 #include <KTabWidget>
 #include <QTreeView>
+#include <QGraphicsView>
 #include "kcldevicemodel.h"
 #include "kclbuttonwidget.h"
+#include "kclaxiswidget.h"
 class KCLInfoWidget : public QWidget
 {
     Q_OBJECT

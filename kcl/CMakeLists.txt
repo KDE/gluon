@@ -9,8 +9,10 @@ kclinfowidget.cpp
 kcldevicemodel.cpp
 kcldetect.cpp
 kclbuttonwidget.cpp
+kclaxiswidget.cpp
 kclvirtualinput.cpp
 kclvirtualinputconfig.cpp
+
 )
 
 kde4_add_library(kcl SHARED ${kcl_LIB_SRCS})
@@ -36,6 +38,7 @@ kcldetect.h
 kclvirtualinput.h
 kclvirtualinputconfig.h
 kclbuttonwidget.h
+kclaxiswidget.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 
 

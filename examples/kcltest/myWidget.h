@@ -3,7 +3,7 @@
 #include <gluon/kcl/kclmouse.h>
 #include <gluon/kcl/kcldetect.h>
 #include <gluon/kcl/kclbuttonwidget.h>
-
+#include <gluon/kcl/kclaxiswidget.h>
 #include <QTimer>
 #include <QLabel>
 #include <QPushButton>

@@ -65,6 +65,7 @@ KCLInput::KCLInput(const QString& device,QObject * parent)
 {
     m_error = false;
     m_move  = false;
+    m_lastAxis = 0;
     m_msgError =QString();
     m_device=device;
     readInformation();
@@ -88,6 +89,7 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
         {
             m_buttons.append(event->code());
             //            kDebug()<<KCLCode::keyName(event->code())<<" pressed...";
+            emit buttonChanged(event->code());
 
         }
 
@@ -99,16 +101,21 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
         break;
 
     case EV_REL:
-        m_move = true;
+//        m_move = true;
+
         if (!m_axisPositions.contains(event->code()))
             m_axisPositions[event->code()] = event->value();
         else
             m_axisPositions[event->code()] += event->value();
+
+        emit relativAxisChanged(event->code(),event->value());
         break;
 
     case EV_ABS:
         m_move = true;
+        m_lastAxis = event->code();
         m_axisAbsolus[event->code()] = event->value();
+        emit absoluteAxisChanged(event->code(),event->value());
         break;
 
 
@@ -227,17 +234,17 @@ void KCLInput::listen()
 {
     if (( !error()))
     {
-       inputListener = new KCLThread(m_device,this);
+        inputListener = new KCLThread(m_device,this);
         inputListener->start();
         connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
     }
 }
 void KCLInput::unlisten()
 {
-m_buttons.clear();
-m_axisPositions.clear();
-m_axisAbsolus.clear();
-
+    m_buttons.clear();
+    m_axisPositions.clear();
+    m_axisAbsolus.clear();
+    m_move = false;
     inputListener->terminate();
     disconnect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
 

@@ -5,7 +5,6 @@
 KCLButtonWidget::KCLButtonWidget(QWidget * parent)
     :QWidget(parent)
 {
-    m_currentIcon = KIcon();
     m_currentCode = 0;
     m_timer= new QTimer;
     m_timer->setInterval(20);
@@ -72,6 +71,7 @@ void KCLButtonWidget::endWaiting()
 
 void KCLButtonWidget::clear()
 {
+    m_currentIcon =KIcon("fork.png");
     m_button->setIcon(KIcon("fork.png"));
     m_button->setText("press a key");
 }

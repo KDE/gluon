@@ -195,6 +195,9 @@ public:
     * @see KCLInputEvent
     */
 
+int lastAxisMove(){return m_lastAxis;}
+
+
     int axisPosition(int code){
         if(m_axisPositions.contains(code))
             return m_axisPositions[code] ;
@@ -237,6 +240,12 @@ public:
     */
     virtual void inputEventFilter(KCLInputEvent * event);
 
+    signals:
+    void buttonChanged(int code);
+    void absoluteAxisChanged(int axe,int code);
+    void relativAxisChanged(int axe,int code);
+
+
 public slots:
     void slotInputEvent(KCLInputEvent * event);
     void listen();
@@ -260,6 +269,7 @@ QMap<int, AbsVal> m_axisCapabilities;
 QString m_msgError;
 bool m_move;
 bool m_error;
+int m_lastAxis;
 
 };
 

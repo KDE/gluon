@@ -6,6 +6,7 @@
 #include <KLocale>
 #include <QProcess>
 #include <KMessageBox>
+#include <QGroupBox>
 KCLInfoWidget::KCLInfoWidget(QWidget * parent)
     :QWidget(parent)
 {
@@ -27,10 +28,11 @@ KCLInfoWidget::KCLInfoWidget(QWidget * parent)
 void KCLInfoWidget::setupPreview()
 {
 QVBoxLayout * layout = new QVBoxLayout;
-
+KCLAxisWidget * axis = new KCLAxisWidget;
 KCLButtonWidget * button = new KCLButtonWidget;
 layout->addStretch();
 layout->addWidget(button);
+layout->addWidget(axis);
 layout->addStretch();
 m_preview->setLayout(layout);
 }
