@@ -8,8 +8,8 @@
 #include <QTreeView>
 #include <QGraphicsView>
 #include "kcldevicemodel.h"
-#include "kclbuttonwidget.h"
-#include "kclaxiswidget.h"
+#include "kclbutton.h"
+
 class KCLInfoWidget : public QWidget
 {
     Q_OBJECT

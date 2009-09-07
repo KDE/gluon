@@ -14,8 +14,8 @@ public:
     KCLMouse(QString device,QObject * parent=0);
     QPoint position();
     void setOrigin(QPoint p){m_originalPosition = p;}
-    int wheelPosition(){return relAxis(REL_WHEEL);}
-    int hWheelPosition(){return relAxis(REL_HWHEEL);}
+    int wheelPosition(){return relAxisValue(REL_WHEEL);}
+    int hWheelPosition(){return relAxisValue(REL_HWHEEL);}
 
     private:
     QPoint m_position;

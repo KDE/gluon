@@ -4,10 +4,10 @@
 class KCLCode
 {
 public:
-    static QString keyName(int code);
+    static QString buttonName(int code);
     static QString eventName(int code);
-    static QString relativName(int code);
-    static QString absoluName(int code);
+    static QString relAxisName(int code);
+    static QString absAxisName(int code);
 };
 
 #endif // KCLCODE_H

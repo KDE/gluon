@@ -31,6 +31,7 @@
 #include <gluon/kcl/kcldetect.h>
 #include <gluon/kcl/kclvirtualinput.h>
 #include <gluon/kcl/kclvirtualinputconfig.h>
+#include <gluon/kcl/kclbutton.h>
 #include <gluon/gluonmainwindow.h>
 #include <QVBoxLayout>
 #include <QMainWindow>
@@ -52,20 +53,23 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
+    KCLButton * button = new KCLButton(KCL::Button);
+    
+    button->show();
 //     GluonMainWindow * gluon = new GluonMainWindow;
 //     
 //     gluon->show();
 
-KCLVirtualInput * input = new KCLVirtualInput;
-
-input->setButton("Jump");
-input->setButton("goLeft");
-input->setButton("goRight");
-input->setButton("fire");
-
-KCLVirtualInputConfig * config = new KCLVirtualInputConfig(input);
-
-config->show();
+// KCLVirtualInput * input = new KCLVirtualInput;
+// 
+// input->setButton("Jump");
+// input->setButton("goLeft");
+// input->setButton("goRight");
+// input->setButton("fire");
+// 
+// KCLVirtualInputConfig * config = new KCLVirtualInputConfig(input);
+// 
+// config->show();
   
  
 app.exec();

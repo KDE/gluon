@@ -7,6 +7,7 @@
 #include <QProcess>
 #include <KMessageBox>
 #include <QGroupBox>
+#include <KSeparator>
 KCLInfoWidget::KCLInfoWidget(QWidget * parent)
     :QWidget(parent)
 {
@@ -34,12 +35,13 @@ QHBoxLayout * layoutAbsolu = new QHBoxLayout;
 QHBoxLayout * layoutRelatif = new QHBoxLayout;
 
 
-KCLAxisWidget * axis = new KCLAxisWidget;
-KCLButtonWidget * button = new KCLButtonWidget;
+KCLButton * button = new KCLButton(KCL::Button);
+KCLButton * axis = new KCLButton(KCL::AbsoluAxis);
+KCLButton * rel = new KCLButton(KCL::AbsoluAxis);
 
 layoutButton->addWidget(button);
 layoutAbsolu->addWidget(axis);
-
+layoutRelatif->addWidget(rel);
 
 layout->addLayout(layoutButton);
 layout->addLayout(layoutAbsolu);

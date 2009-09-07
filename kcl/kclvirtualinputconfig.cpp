@@ -71,7 +71,7 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     KTitleWidget * title = new KTitleWidget(dialog);
     title->setPixmap(KIcon("configure.png"));
     title->setText("Press any button of any device");
-    KCLButtonWidget * button = new KCLButtonWidget;
+    KCLButton * button = new KCLButton(KCL::Button);
     layout->addWidget(title);
     layout->addWidget(button);
     main->setLayout(layout);
@@ -79,20 +79,14 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     setEnabled(false);
     connect(button,SIGNAL(changed()),dialog,SLOT(accept()));
     connect(dialog,SIGNAL(rejected()),button,SLOT(clear()));
-    button->startWaiting();
+
     if ( dialog->exec())
     {
         item->setIcon(column,button->icon());
-        item->setText(column,KCLCode::keyName(button->buttonCode()));
-        item->setToolTip(column,button->input()->name());
+        item->setText(column,KCLCode::buttonName(button->code()));
+        item->setToolTip(column,button->input()->deviceName());
     }
-
     setEnabled(true);
-
-
-
-
-
 }
 
 

@@ -12,7 +12,7 @@ KALInfoWidget::KALInfoWidget(QWidget * parent)
         :QWidget(parent)
 {
 
-    KALEngine::getInstance();
+    KALEngine::instance();
 QVBoxLayout * layout = new QVBoxLayout;
    m_information = new QWidget;
    m_preview = new QWidget;

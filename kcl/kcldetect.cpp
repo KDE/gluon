@@ -1,74 +1,110 @@
 #include "kcldetect.h"
 #include <QDir>
+#include <QtCore/QCoreApplication>
+#include <QMessageBox>
+
+KCLDetect *KCLDetect::m_instance = NULL;
+
+
 KCLDetect::KCLDetect(QObject * parent)
     :QObject(parent)
 {
-    searchDevice();
+
 }
 KCLDetect::~KCLDetect()
-  {
-kDebug()<<"clear device...";
-    foreach ( KCLInput * input, m_inputList)
-    {
-        delete input;
-    }
-m_inputList.clear();
+{
+    //    kDebug()<<"clear device...";
+    //    foreach ( KCLInput * input, m_inputList)
+    //    {
+    //        delete input;
+    //    }
 
-  }
+
+}
+
+KCLDetect * KCLDetect::instance()
+{
+    if (!m_instance) {
+        QObject *parent = QCoreApplication::instance();
+        if (!parent) {
+            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+        }
+        m_instance =  new KCLDetect(parent);
+        m_instance->searchDevice();
+
+    }
+    return m_instance;
+}
 void KCLDetect::searchDevice()
 {
+    KCLDetect * detect = instance();
+    detect->clear();
     QString path("/dev/input/by-path/");
     QDir event(path);
 
     foreach  ( QString name, event.entryList(QDir::Files))
     {
-
         KCLInput * temp = new KCLInput(path+name);
-
-
         if (!temp->error())
         {
-  m_inputList.append(temp);
+            detect->addInput(temp);
+            switch( temp->deviceType() )
+            {
+            case KCL::KeyBoard: kDebug()<<"keyboard found...";
+                detect->addKeyboard(dynamic_cast<KCLKeyBoard*>(temp));
+                break;
 
-        switch( temp->deviceType() )
-        {
-        case KCL_KEYBOARD: kDebug()<<"keyboard found...";
-            m_keyboardList.append(temp);
-            break;
+            case KCL::Mouse: kDebug()<<"mouse found...";
+                detect->addMouse(dynamic_cast<KCLMouse*>(temp));
+                break;
 
-        case KCL_MOUSE: kDebug()<<"mouse found...";
-            m_mouseList.append(temp);
-            break;
-
-        case KCL_TOUCHPAD: kDebug()<<"touchpad found...";
-            m_mouseList.append(temp);
-            break;
-
-
-        case KCL_JOYSTICK: kDebug()<<"joystick found...";
-            m_joystickList.append(temp);
-            break;
+            case KCL::Touchpad: kDebug()<<"touchpad found...";
+                detect->addMouse(dynamic_cast<KCLMouse*>(temp));
+                break;
 
 
-        case KCL_TABLET: kDebug()<<"tablet found...";
-            m_tabletList.append(temp);
-            break;
+            case KCL::Joystick: kDebug()<<"joystick found...";
+                detect->addJoystick(dynamic_cast<KCLJoystick*>(temp));
+                break;
 
 
-        case KCL_UNKNOWN: kDebug()<<"unknow device found...";
-            m_unknownList.append(temp);
-            break;
-      }
+            case KCL::Tablet: kDebug()<<"tablet found...";
+                detect->addTablet(dynamic_cast<KCLTablet*>(temp));
+                break;
+
+
+            case KCL::Unknown: kDebug()<<"unknow device found...";
+                detect->addUnkwnown(temp);
+                break;
+            }
+        }
     }
-
-    }
-
-
+   detect->setAllEnable();
 }
 
-
-
-
+void KCLDetect::setAllEnable()
+{
+    foreach ( KCLInput * input, instance()->allInputs())
+    {
+        input->setEnable();
+    }
+}
+void KCLDetect::setAllDisable()
+{
+    foreach ( KCLInput * input, instance()->allInputs())
+    {
+        input->setDisable();
+    }
+}
+void KCLDetect::clear()
+{
+    m_inputList.clear();
+    m_keyboardList.clear();
+    m_mouseList.clear();
+    m_joystickList.clear();
+    m_tabletList.clear();
+    m_unknownList.clear();
+}
 
 
 

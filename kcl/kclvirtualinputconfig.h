@@ -7,7 +7,7 @@
 #include <KLineEdit>
 #include "kcldetect.h"
 #include "kclvirtualinput.h"
-#include "kclbuttonwidget.h"
+#include "kclbutton.h"
 class KCLVirtualInputConfig : public KDialog
 {
     Q_OBJECT

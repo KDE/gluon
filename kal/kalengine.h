@@ -55,12 +55,12 @@ public:
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
     */
-    static KALEngine *getInstance(QString deviceName = QString());
+    static KALEngine *instance(QString deviceName = QString());
 
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
     */
-    static KALEngine *getInstance(Phonon::Category category);
+    static KALEngine *instance(Phonon::Category category);
 
     /**
     * Change the output device to the specified OpenAL device name
@@ -103,7 +103,7 @@ public:
     }
 
 private:
-    static KALEngine *instance;
+    static KALEngine *m_instance;
     ALCcontext *m_context;
     ALCdevice *m_device;
     KALPhonon *m_phonon;

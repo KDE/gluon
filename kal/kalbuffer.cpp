@@ -59,14 +59,14 @@ KALBuffer::KALBuffer(ALuint buffer)
 KALBuffer::~KALBuffer()
 {
     alDeleteBuffers(1, &m_buffer);
-    KALEngine *engine = KALEngine::getInstance();
+    KALEngine *engine = KALEngine::instance();
     engine->removeBuffer(this);
 }
 
 
 void KALBuffer::init()
 {
-    KALEngine *engine = KALEngine::getInstance();
+    KALEngine *engine = KALEngine::instance();
     engine->addBuffer(this);
 }
 

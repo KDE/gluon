@@ -10,7 +10,7 @@ m_position = m_originalPosition;
 QPoint KCLMouse::position()
 {
 
-m_position = m_originalPosition + QPoint(relAxis(REL_X),relAxis(REL_Y));
+m_position = m_originalPosition + QPoint(relAxisValue(REL_X),relAxisValue(REL_Y));
 return m_position;
 
 }

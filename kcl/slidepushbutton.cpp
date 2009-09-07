@@ -4,7 +4,6 @@
 SlidePushButton::SlidePushButton(QWidget * parent)
         :KPushButton(parent)
 {
-setText("test");
 m_min=0;
 m_max=10;
 m_value=0;
@@ -22,9 +21,9 @@ rect.setWidth(w);
 
   QPainter paint(this);
      QLinearGradient gradient(QPoint(event->rect().x(),event->rect().y()),QPoint(event->rect().width(),event->rect().y()));
-     gradient.setColorAt(0,QColor(0,255,0,50));
-          gradient.setColorAt(0.5,QColor(255,255,0,50));
-     gradient.setColorAt(1,QColor(255,0,0,50));
+     gradient.setColorAt(0,QColor(0,255,0,100));
+          gradient.setColorAt(0.5,QColor(255,255,0,100));
+     gradient.setColorAt(1,QColor(255,0,0,100));
 
      QBrush brush(gradient);
 paint.setPen(QPen(Qt::NoPen));

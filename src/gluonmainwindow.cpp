@@ -12,7 +12,7 @@
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)
 {
-    KALEngine::getInstance();
+    KALEngine::instance();
     m_view = new KGLView;
     setCentralWidget(m_view);
     setupAction();

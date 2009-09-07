@@ -13,10 +13,9 @@
 #include <linux/input.h>
 #include <KDebug>
 #include "kclcode.h"
+#include "kcl.h"
 
 
-enum DEVICE {KCL_KEYBOARD,KCL_MOUSE,KCL_JOYSTICK,KCL_TABLET,KCL_TOUCHPAD,KCL_UNKNOWN};
-enum AXIS_TYPE {KCL_RELATIF, KCL_ABSOLU};
 
 class KCLInput;
 class KCLThread;
@@ -97,7 +96,7 @@ class KCLThread : public QThread
 {
     Q_OBJECT
 public:
-    KCLThread(const QString& name, QObject *parent=0);
+    KCLThread(const QString& devicePath, QObject *parent=0);
     ~KCLThread(){close(m_fd);}
     virtual void run();
 signals:
@@ -106,7 +105,7 @@ signals:
     */
     void emitInputEvent(KCLInputEvent * event);
 protected:
-    bool openDevice(const QString &device);
+    bool openDevice(const QString &devicePath);
     void closeDevice(){close(m_fd);}
 private:
     int m_fd;
@@ -133,17 +132,16 @@ class KCLInput : public QObject
 {
     Q_OBJECT
 public:
-
-    KCLInput(const QString& device,QObject * parent=0);
+    KCLInput(const QString& devicePath,QObject * parent=0);
     ~KCLInput();
     /**
     * @return the id of vendor
     */
-    unsigned int vendor(){return m_device_info.vendor;}
+    unsigned int vendor()const{return m_device_info.vendor;}
     /**
     * @return the id of product
     */
-    unsigned int product(){return m_device_info.product;}
+    unsigned int product()const{return m_device_info.product;}
     /**
     * @return the version driver of the device
     */
@@ -151,18 +149,18 @@ public:
     /**
     * @return the bus of the device
     */
-    unsigned int bustype(){return m_device_info.bustype;}
+    unsigned int bustype()const{return m_device_info.bustype;}
 
-    QString device(){return m_device;}
+    const QString &devicePath(){return m_devicePath;}
     /**
     * @return the name of the device
     */
-    QString name(){return m_deviceName;}
+    const QString &deviceName(){return m_deviceName;}
     /**
     * @return the device Type. KCL_KEYBOARD,KCL_MOUSE,KCL_JOYSTICK,KCL_TABLET,KCL_TOUCHPAD,KCL_UNKNOWN;
     * @see DEVICE
     */
-    DEVICE deviceType(){return m_deviceType;}
+    const KCL::DeviceFlag &deviceType(){return m_deviceType;}
     /**
     * @return true if the button with code is pressed. Otherwise it return false
     * @code
@@ -190,7 +188,7 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    bool anyMove(AXIS_TYPE a){if (a==KCL_ABSOLU) return anyAbsMove(); if (a==KCL_RELATIF) return anyRelMove();}
+//    bool anyMove(AXIS_TYPE a){if (a==KCL_ABSOLU) return anyAbsMove(); if (a==KCL_RELATIF) return anyRelMove();}
     bool anyAbsMove(){if ( m_absMove) {m_absMove=false;return true;} return false; }
     bool anyRelMove(){if ( m_relMove) {m_relMove=false;return true;} return false; }
 
@@ -203,9 +201,7 @@ public:
     * @see KCLInputEvent
     */
 
-
-
-    int relAxis(int code){
+    int relAxisValue(int code){
         if(m_relAxis.contains(code))
             return m_relAxis[code] ;
         else return 0;
@@ -214,7 +210,7 @@ public:
     * @return the axis Absolute value. This is an absolue value. For example the Joystick return an absolu position.
     * @see KCLInputEvent
     */
-    int absAxis(int code){
+    int absAxisValue(int code){
         if(m_absAxis.contains(code))
             return m_absAxis[code] ;
         else return 0;
@@ -223,18 +219,18 @@ public:
     * @return a list of capability button input. For example the mouse will return a list with LeftBtn,RightBtn ....
     * @see KCLInputEvent
     */
-    QList<int> buttonCapabilities(){return m_buttonCapabilities;}
-    QList<int> absAxisCapabilities(){return m_absAxisCapabilities;}
-    QList<int> relAxisCapabilities(){return m_relAxisCapabilities;}
+    QList<int> buttonCapabilities()const{return m_buttonCapabilities;}
+    QList<int> absAxisCapabilities()const{return m_absAxisCapabilities;}
+    QList<int> relAxisCapabilities()const{return m_relAxisCapabilities;}
 
-      /**
+    /**
     * @return the axis capability..This is usefull to know the capability of a joystick .
     * @see KCLInputEvent
     */
     AbsVal axisInfo(int axisCode){return m_absAxisInfos[axisCode];}
     bool error(){return m_error;}
     QString msgError(){return m_msgError;}
-        /**
+    /**
     * this function can be reimplemented to customize the event Loop.
      * @code
     * void MyInput::inputEventFilter(KCLInputEvent * event)
@@ -249,8 +245,8 @@ public:
     * @see KCLInputEvent
     */
     virtual void inputEventFilter(KCLInputEvent * event);
-
-    signals:
+    bool isEnable(){return m_enable;}
+signals:
     void buttonPressed(int code);
     void buttonReleased(int code);
     void absAxisChanged(int axe,int code);
@@ -259,8 +255,8 @@ public:
 
 public slots:
     void slotInputEvent(KCLInputEvent * event);
-    void listen();
-    void unlisten();
+    void setEnable();
+    void setDisable();
 protected :
         void readInformation();
 
@@ -268,24 +264,26 @@ private:
 KCLThread * inputListener;
 struct input_id m_device_info;
 struct input_event m_currentEvent;
-QString m_device;
+QString m_devicePath;
 QString m_deviceName;
-DEVICE m_deviceType;
+KCL::DeviceFlag m_deviceType;
 
-QList<int> m_buttons;
-QMap<int,int> m_relAxis;
-QMap<int,int> m_absAxis;
-QList<int> m_buttonCapabilities;
-QList<int> m_relAxisCapabilities;
-QList<int> m_absAxisCapabilities;
-QMap<int, AbsVal> m_absAxisInfos;
+QList<int> m_buttons;  //list of button pressed
+QMap<int,int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;
+QMap<int,int> m_absAxis; // list of absolue axis value. m_absAxis[ABS_Rx] = 156
+QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
+QList<int> m_relAxisCapabilities; // list of rel Axis capability..
+QList<int> m_absAxisCapabilities; // list of abs Axis capabilty
+QMap<int, AbsVal> m_absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
 QString m_msgError;
 bool m_absMove;
 bool m_relMove;
 bool m_error;
 int m_lastAbsAxis;
 int m_lastRelAxis;
+bool m_enable;
 };
+
 
 //---------------------------------------------------------------------------------------------
 

@@ -57,13 +57,13 @@ KALSource::KALSource(ALuint buffer, QObject *parent)
 KALSource::~KALSource()
 {
     alDeleteSources(1, &m_source);
-    KALEngine * engineParent = KALEngine::getInstance();
+    KALEngine * engineParent = KALEngine::instance();
     engineParent->removeSource(this);
 }
 
 void KALSource::init()
 {
-    KALEngine *engineParent = KALEngine::getInstance();
+    KALEngine *engineParent = KALEngine::instance();
     engineParent->addSource(this);
     setupSource();
 }

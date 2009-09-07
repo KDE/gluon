@@ -139,16 +139,16 @@ const char *KCL_CODE_ABSOLU[ABS_MAX + 1] =
 
 
 
-QString KCLCode::keyName(int code)
+QString KCLCode::buttonName(int code)
   {
 return QString (KCL_CODE_BUTTON[code]);
   }
 
-QString KCLCode::relativName(int code)
+QString KCLCode::relAxisName(int code)
 {
     return QString(KCL_CODE_RELATIV[code]);
 }
-QString KCLCode::absoluName(int code)
+QString KCLCode::absAxisName(int code)
 {
     return QString(KCL_CODE_ABSOLU[code]);
 }

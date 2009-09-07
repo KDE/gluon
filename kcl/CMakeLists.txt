@@ -1,4 +1,5 @@
 set(kcl_LIB_SRCS
+kcl.cpp
 kclinput.cpp
 kclmouse.cpp
 kcltablet.cpp
@@ -8,8 +9,7 @@ kclcode.cpp
 kclinfowidget.cpp
 kcldevicemodel.cpp
 kcldetect.cpp
-kclbuttonwidget.cpp
-kclaxiswidget.cpp
+kclbutton.cpp
 kclvirtualinput.cpp
 kclvirtualinputconfig.cpp
 slidepushbutton.cpp
@@ -27,6 +27,7 @@ ${KDE4_KDEUI_LIBS} ${KDE4_SOLID_LIBS} )
 install(TARGETS kcl ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
+kcl.h
 kclinput.h
 kclmouse.h
 kcltablet.h
@@ -38,8 +39,7 @@ kcldevicemodel.h
 kcldetect.h
 kclvirtualinput.h
 kclvirtualinputconfig.h
-kclbuttonwidget.h
-kclaxiswidget.h
+kclbutton.h
 slidepushbutton.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 

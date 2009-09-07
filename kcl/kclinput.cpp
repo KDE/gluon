@@ -27,10 +27,10 @@ KCLInputEvent::KCLInputEvent(struct input_event ev)
 }
 
 //=================================================================
-KCLThread::KCLThread(const QString &name, QObject * parent)
+KCLThread::KCLThread(const QString &devicePath, QObject * parent)
     :QThread(parent)
 {
-    openDevice(name);
+    openDevice(devicePath);
 }
 
 void KCLThread::run()
@@ -49,10 +49,10 @@ void KCLThread::run()
     }
 }
 
-bool KCLThread::openDevice(const QString& device)
+bool KCLThread::openDevice(const QString& devicePath)
 {
     m_fd = -1;
-    if ((m_fd = open(device.toUtf8(), O_RDONLY)) < 0)
+    if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0)
     {
         kDebug()<<"cannot read  device";
         return false;
@@ -61,32 +61,30 @@ bool KCLThread::openDevice(const QString& device)
 }
 //===================================================================
 
-KCLInput::KCLInput(const QString& device,QObject * parent)
+KCLInput::KCLInput(const QString& devicePath,QObject * parent)
     :QObject(parent)
 {
     m_error = false;
+    m_enable = true;
     m_absMove  = false;
     m_relMove = false;
     m_lastAbsAxis = 0;
     m_lastRelAxis = 0;
     m_msgError =QString();
-    m_device=device;
+    m_devicePath=devicePath;
     readInformation();
-    inputListener = new KCLThread(m_device,this);
+    inputListener = new KCLThread(m_devicePath,this);
 
 }
 KCLInput::~KCLInput()
 {
-    unlisten();
+    setDisable();
     delete inputListener;
-    kDebug()<<"close device :"<<device();
+    kDebug()<<"close device :"<<deviceName();
 }
 
 void KCLInput:: slotInputEvent(KCLInputEvent * event)
 {
-    
-
-    
     switch ( event->type())
     {
     case EV_KEY :
@@ -117,31 +115,24 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
         m_absAxis[event->code()] = event->value();
         emit absAxisChanged(event->code(),event->value());
         break;
-
-
-
-
-
     }
-
-
     inputEventFilter(event);
 
 }
 void KCLInput::readInformation()
 {
-    if (!QFile::exists(m_device))
+    if (!QFile::exists(m_devicePath))
     {
-        kDebug()<<"m_device don't exist....";
+        kDebug()<<"m_devicePath don't exist....";
         m_error = true;
         m_msgError+="device url don't exist\n";
         return;
     }
 
     int m_fd = -1;
-    if ((m_fd = open(m_device.toUtf8(), O_RDONLY)) < 0)
+    if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0)
     {
-        kDebug()<<"cannot open the device "<<m_device;;
+        kDebug()<<"cannot open the device "<<m_devicePath;
         m_error = true;
         m_msgError+="cannot open the device \n";
         return;
@@ -149,7 +140,7 @@ void KCLInput::readInformation()
 
     if(ioctl(m_fd, EVIOCGID, &m_device_info))
     {
-        kDebug()<<"cannot retrieve information of device "<<m_device;;
+        kDebug()<<"cannot retrieve information of device "<<m_devicePath;
         m_msgError += "cannot retrieve information of device\n";
         m_error = true;
         return;
@@ -157,7 +148,7 @@ void KCLInput::readInformation()
     char name[256]= "Unknown";
     if(ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
     {
-        kDebug()<<"cannot retrieve name of device "<<m_device;
+        kDebug()<<"cannot retrieve name of device "<<m_devicePath;
         //        m_msgError += "cannot retrieve name of device\n";
         //        m_error = true;
     }
@@ -209,22 +200,22 @@ void KCLInput::readInformation()
     }
     close(m_fd);
 
-    m_deviceType = KCL_UNKNOWN;
+    m_deviceType = KCL::Unknown;
 
     if ( m_buttonCapabilities.contains( BTN_STYLUS ))
-        m_deviceType  =KCL_TABLET;
+        m_deviceType  =KCL::Tablet;
 
     if ((m_buttonCapabilities.contains( BTN_STYLUS )) || (m_buttonCapabilities.contains(ABS_PRESSURE)))
-        m_deviceType  =KCL_TOUCHPAD;
+        m_deviceType  =KCL::Mouse;
 
     if ( m_buttonCapabilities.contains( BTN_TRIGGER ))
-        m_deviceType  =KCL_JOYSTICK;
+        m_deviceType  =KCL::Joystick;
 
     if ( m_buttonCapabilities.contains( BTN_MOUSE ))
-        m_deviceType  = KCL_MOUSE;
+        m_deviceType  = KCL::Mouse;
 
     if ( m_buttonCapabilities.contains( KEY_ESC))
-        m_deviceType  = KCL_KEYBOARD;
+        m_deviceType  = KCL::KeyBoard;
 
 
 
@@ -235,17 +226,19 @@ void KCLInput::inputEventFilter(KCLInputEvent * event)
 
 }
 
-void KCLInput::listen()
+void KCLInput::setEnable()
 {
+    m_enable = true;
     if (( !error()))
     {
-        inputListener = new KCLThread(m_device,this);
+        inputListener = new KCLThread(m_devicePath,this);
         inputListener->start();
         connect(inputListener,SIGNAL(emitInputEvent(KCLInputEvent*)),this, SLOT( slotInputEvent(KCLInputEvent*)));
     }
 }
-void KCLInput::unlisten()
+void KCLInput::setDisable()
 {
+    m_enable=false;
     m_buttons.clear();
     m_relAxis.clear();
     m_absAxis.clear();

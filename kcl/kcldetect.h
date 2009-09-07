@@ -2,57 +2,88 @@
 #define KCLDETECT_H
 #include <QObject>
 #include <QList>
+#include <QCoreApplication>
 #include "kclinput.h"
 #include "kclkeyboard.h"
 #include "kcljoystick.h"
 #include "kclmouse.h"
 #include "kcltablet.h"
 #include "kclcode.h"
+
+typedef QList<KCLInput*> KCLInputList;
+
 class KCLDetect : public QObject
 {
     Q_OBJECT
-public:
+private:
     KCLDetect(QObject * parent);
     ~KCLDetect();
-    void searchDevice();
-    unsigned int deviceNumber(){return m_inputList.size();}
-    unsigned int keyboardNumber(){return m_keyboardList.size();}
-    unsigned int mouseNumber(){return m_mouseList.size();}
-    unsigned int joystickNumber(){return m_joystickList.size();}
-    unsigned int tabletNumber(){return m_tabletList.size();}
-    unsigned int unknownDeviceNumber(){return m_unknownList.size();}
+    
+public:
+    static KCLDetect * instance();
+    static void searchDevice();
+    static void setAllEnable();
+    static void setAllDisable();
 
-    KCLKeyBoard * keyboard(int id=0)
+    static unsigned int deviceCount(){return allInputs().size();}
+    static unsigned int keyboardCount(){return instance()->getKeyboardList().size();}
+    static unsigned int mouseCount(){return instance()->getMouseList().size();}
+    static unsigned int joystickCount(){return instance()->getJoystickList().size();}
+    static unsigned int tabletCount(){return instance()->getTabletList().size();}
+    static unsigned int unknownDeviceCount(){return instance()->getUnknownList().size();}
+    
+    
+    
+    static KCLKeyBoard * keyboards(int id=0)
     {
-        if (m_keyboardList.size()<=0) return NULL;
-        return dynamic_cast<KCLKeyBoard*>(m_keyboardList.at(id));
+        return instance()->getKeyboardList().at(id);
     }
-    KCLMouse * mouse(int id=0)
+    static KCLMouse * mouses(int id=0)
     {
-        if (m_mouseList.size()<=0) return NULL;
-        return dynamic_cast<KCLMouse*>(m_mouseList.at(id));
+        return instance()->getMouseList().at(id);
     }
-    KCLJoystick * joystick(int id=0)
+    static KCLJoystick * joysticks(int id=0)
     {
-        if (m_joystickList.size()<=0) return NULL;
-        return dynamic_cast<KCLJoystick*>(m_joystickList.at(id));
+        return instance()->getJoystickList().at(id);
     }
-    KCLTablet * tablet(int id=0)
+    static KCLTablet * tablets(int id=0)
     {
-        if (m_tabletList.size()<=0) return NULL;
-        return dynamic_cast<KCLTablet*>(m_tabletList.at(id));
+        return instance()->getTabletList().at(id);
     }
+    
+    static KCLInputList allInputs()
+    {
+        return instance()->getInputList();
+    }
+    
 
-    QList<KCLInput * > deviceList(){return m_inputList;}
+    //accesseur read only
+    QList<KCLInput * > getInputList(){return m_inputList;}
+    QList<KCLKeyBoard * > getKeyboardList(){return m_keyboardList;}
+    QList<KCLMouse * > getMouseList(){return m_mouseList;}
+    QList<KCLJoystick * > getJoystickList(){return m_joystickList;}
+    QList<KCLTablet * > getTabletList(){return m_tabletList;}
+    QList<KCLInput * > getUnknownList(){return m_unknownList;}
 
+    void addInput(KCLInput * i){m_inputList.append(i);}
+    void addKeyboard(KCLKeyBoard* i){m_keyboardList.append(i);}
+    void addMouse(KCLMouse *i){m_mouseList.append(i);}
+    void addJoystick(KCLJoystick *i){m_joystickList.append(i);}
+    void addTablet(KCLTablet *i){m_tabletList.append(i);}
+    void addUnkwnown(KCLInput * i){m_unknownList.append(i);}
+
+    void clear();
+    
 private:
+    static  KCLDetect * m_instance;
     QList<KCLInput * > m_inputList;
-    QList<KCLInput * > m_keyboardList;
-    QList<KCLInput * > m_mouseList;
-    QList<KCLInput * > m_joystickList;
-    QList<KCLInput * > m_tabletList;
+    QList<KCLKeyBoard * > m_keyboardList;
+    QList<KCLMouse * > m_mouseList;
+    QList<KCLJoystick * > m_joystickList;
+    QList<KCLTablet * > m_tabletList;
     QList<KCLInput * > m_unknownList;
-
+    
+    
 };
 
 #endif // KCLDETECT_H
