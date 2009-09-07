@@ -9,23 +9,23 @@
 #include "kalengine.h"
 class KALInfoWidget : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     KALInfoWidget(QWidget * parent=0);
-void setupComboBox();
-void setupPreview();
-void setupInformation();
+    void setupComboBox();
+    void setupPreview();
+    void setupInformation();
 
 public slots:
-void playSound();
 
-    private:
+    void setDevice(const QString& device);
+
+private:
     QWidget *m_information;
     QWidget *m_preview;
     QComboBox * m_soundComboBox;
-  QGraphicsPixmapItem * m_item;
-  QGraphicsScene * m_scene;
-  KALSource * m_source;
+
+    KALSound * m_source;
 
 };
 

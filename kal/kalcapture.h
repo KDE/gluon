@@ -20,6 +20,7 @@ public:
     void record(int duration = 1000);
     void save(const QString& filename);
 
+
 private:
     ALCdevice* Device;
     ALCdevice* CaptureDevice;

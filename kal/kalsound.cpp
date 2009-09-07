@@ -19,7 +19,7 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalsource.h"
+#include "kalsound.h"
 #include "kalbuffer.h"
 #include <sndfile.h>
 

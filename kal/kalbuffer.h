@@ -25,7 +25,7 @@
 #include <alut.h>
 #include <sndfile.h>
 #include <QFile>
-
+#include <QStringList>
 #include "kalengine_export.h"
 
 class KALENGINE_EXPORT KALBuffer
@@ -40,27 +40,22 @@ public:
     void setBuffer(ALuint buffer) {
         m_buffer = buffer;
     }
-
     bool isEmpty() {
         return !m_buffer;
     }
-
-    static ALuint fromWav(const QString &fileName);
-    static ALuint fromOgg(const QString &fileName);
-
-    void setHelloWord() {
+   void setHelloWord() {
         m_buffer = alutCreateBufferHelloWorld();
     }
-
-    ALuint buffer() {
+    ALuint buffer()
+    {
         return m_buffer;
     }
 
 protected:
     void init();
-
 private :
     ALuint m_buffer;
+
 };
 
 #endif // KALBUFFER_H

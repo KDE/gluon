@@ -27,7 +27,7 @@
 
 #include <QThread>
 #include <string>
-#include "kalsource.h"
+#include "kalsound.h"
 #define BUFFER_SIZE (4096 * 4)
 
 using namespace std;

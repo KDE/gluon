@@ -1,37 +1,37 @@
 set(kal_LIB_SRCS
-   # kalengine.cpp
-   kalphonon.cpp
-   # kalsoundloader.cpp
-   # kalsource.cpp
-  #  kalbuffer.cpp
-    kaloggstreamer.cpp
+kalphonon.cpp
+kalsoundreader.cpp
+kaloggstreamer.cpp
 kalcapture.cpp
 kalengine.cpp
 kalbuffer.cpp
 kalsource.cpp
 kalinfowidget.cpp
-   )
+kalplayerwidget.cpp
+)
 
 kde4_add_library(kal SHARED ${kal_LIB_SRCS})
 set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
 target_link_libraries(kal 
-                      ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} 
-                      ${OPENAL_LIBRARY} ${ALUT_LIBRARY} 
-                      ${SNDFILE_LIBRARY} ${OGG_LIBRARY} ${VORBISFILE_LIBRARY})
+${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_PHONON_LIBS}
+  ${OPENAL_LIBRARY} ${ALUT_LIBRARY}
+    ${SNDFILE_LIBRARY} ${OGG_LIBRARY} ${VORBISFILE_LIBRARY})
 
 add_subdirectory(includes)
 
 install(TARGETS kal ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
-    kalbuffer.h
-    kalengine.h
-    kalengine_export.h
-    kalphonon.h
-    kalsoundloader.h
-    kalsource.h
-    kaloggstreamer.h
-    kalcapture.h
+kalbuffer.h
+kalengine.h
+kalsoundreader.h
+kalengine_export.h
+kalphonon.h
+kalsoundloader.h
+kalsource.h
+kaloggstreamer.h
+kalcapture.h
 kalinfowidget.h
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)
+kalplayerwidget.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)

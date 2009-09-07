@@ -22,7 +22,7 @@
 #ifndef KALENGINE2_H
 #define KALENGINE2_H
 
-#include "kalsource.h"
+#include "kalsound.h"
 #include "kalbuffer.h"
 #include "kalphonon.h"
 
@@ -36,7 +36,7 @@
 #include <alc.h>
 #include <alut.h>
 
-class KALSource;
+class KALSound;
 class KALBuffer;
 
 /**
@@ -88,10 +88,10 @@ public:
         return m_sourceList.size();
     }
 
-    void addSource(KALSource * source) {
+    void addSource(KALSound * source) {
         m_sourceList.append(source);
     }
-    void removeSource(KALSource * source) {
+    void removeSource(KALSound * source) {
         m_sourceList.removeOne(source);
     }
 
@@ -107,7 +107,7 @@ private:
     ALCcontext *m_context;
     ALCdevice *m_device;
     KALPhonon *m_phonon;
-    QList<KALSource *> m_sourceList;
+    QList<KALSound *> m_sourceList;
     QList<KALBuffer *> m_bufferList;
 };
 
