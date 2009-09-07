@@ -34,19 +34,19 @@ public:
     
     
     
-    static KCLKeyBoard * keyboards(int id=0)
+    static KCLKeyBoard * keyboard(int id=0)
     {
         return instance()->getKeyboardList().at(id);
     }
-    static KCLMouse * mouses(int id=0)
+    static KCLMouse * mouse(int id=0)
     {
         return instance()->getMouseList().at(id);
     }
-    static KCLJoystick * joysticks(int id=0)
+    static KCLJoystick * joystick(int id=0)
     {
         return instance()->getJoystickList().at(id);
     }
-    static KCLTablet * tablets(int id=0)
+    static KCLTablet * tablet(int id=0)
     {
         return instance()->getTabletList().at(id);
     }

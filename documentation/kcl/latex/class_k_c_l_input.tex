@@ -17,45 +17,74 @@ Inheritance diagram for KCLInput::\begin{figure}[H]
 \begin{CompactItemize}
 \item 
 void \hyperlink{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}{slotInputEvent} (\hyperlink{class_k_c_l_input_event}{KCLInputEvent} $\ast$event)
+\item 
+void \hyperlink{class_k_c_l_input_7b6f5e42d88e677d371e615fa686e79e}{setEnable} ()
+\item 
+void \hyperlink{class_k_c_l_input_496552a75e1e157f134e4e0739d25895}{setDisable} ()
+\end{CompactItemize}
+\subsection*{Signals}
+\begin{CompactItemize}
+\item 
+void \hyperlink{class_k_c_l_input_b82e826fcc0f790ff153c5e4ac074344}{buttonPressed} (int code)
+\item 
+void \hyperlink{class_k_c_l_input_1192fa591312c7cda431b9cf9b442344}{buttonReleased} (int code)
+\item 
+void \hyperlink{class_k_c_l_input_4c1dcd58b3d59b6f2dc059d65b5012e4}{absAxisChanged} (int axe, int code)
+\item 
+void \hyperlink{class_k_c_l_input_ff1ef872aecc7cd81660f2410cd53246}{relAxisChanged} (int axe, int code)
 \end{CompactItemize}
 \subsection*{Public Member Functions}
 \begin{CompactItemize}
 \item 
-\hyperlink{class_k_c_l_input_8be2188910f86e335d36694068eab677}{KCLInput} (const QString \&device, QObject $\ast$parent=0)
+\hyperlink{class_k_c_l_input_27a074543e1f0f6d0ce92a40bceed684}{KCLInput} (const QString \&devicePath, QObject $\ast$parent=0)
 \item 
 \hyperlink{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}{$\sim$KCLInput} ()
 \item 
-unsigned int \hyperlink{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}{vendor} ()
+unsigned int \hyperlink{class_k_c_l_input_5919b85a4f70f9d573dfea5b797fbe85}{vendor} () const 
 \item 
-unsigned int \hyperlink{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}{product} ()
+unsigned int \hyperlink{class_k_c_l_input_024e32ca1e69548cf8c88f9cdf0c846a}{product} () const 
 \item 
 unsigned int \hyperlink{class_k_c_l_input_53ebfb56b5039bdeb8b6bed4bbff1b0e}{version} ()
 \item 
-unsigned int \hyperlink{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}{bustype} ()
+unsigned int \hyperlink{class_k_c_l_input_a10bb61e06d513fdf233a5b674c1d800}{bustype} () const 
 \item 
-QString \hyperlink{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}{device} ()
+const QString \& \hyperlink{class_k_c_l_input_7eed3b9f99f3ee3634693bcbe385329b}{devicePath} ()
 \item 
-QString \hyperlink{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}{name} ()
+const QString \& \hyperlink{class_k_c_l_input_cdb5cd70b2c5752586e99f6bc7508e2f}{deviceName} ()
 \item 
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a}{DEVICE} \hyperlink{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}{deviceType} ()
+const \hyperlink{class_k_c_l_a8029324d980fcc0db841345b9c005b7}{KCL::DeviceFlag} \& \hyperlink{class_k_c_l_input_cd334fdeddab9e5ae026e22942ebac65}{deviceType} ()
 \item 
 bool \hyperlink{class_k_c_l_input_afe120b671d76b4b7d14b48e03d4faf6}{button} (int code)
 \item 
-bool \hyperlink{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}{anyPress} ()
+int \hyperlink{class_k_c_l_input_9489641a8f669dc73ee86120a6e02adc}{anyPress} ()
 \item 
-bool \hyperlink{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}{anyMove} ()
+bool \hyperlink{class_k_c_l_input_addbe22e22824c19e38deedfb603ee6c}{anyAbsMove} ()
 \item 
-int \hyperlink{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}{axisPosition} (int code)
+bool \hyperlink{class_k_c_l_input_c7eb85203b40fc1fd3d6ac65788b79b4}{anyRelMove} ()
 \item 
-int \hyperlink{class_k_c_l_input_5546e3862c917d07b22543190659871d}{axisAbsolu} (int code)
+int \hyperlink{class_k_c_l_input_c5a8a2c8264e7ff8d4567057d2ae12c5}{lastAbsAxis} ()
 \item 
-QList$<$ int $>$ \hyperlink{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}{buttonCapabilities} ()
+int \hyperlink{class_k_c_l_input_8414ad0259d97aed6a00658b7dd94d45}{lastRelAxis} ()
 \item 
-\hyperlink{class_abs_val}{AbsVal} \hyperlink{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}{axisCapability} (int axisCode)
+int \hyperlink{class_k_c_l_input_9c10138f6d7b8f744f352cc4372ffa25}{relAxisValue} (int code)
+\item 
+int \hyperlink{class_k_c_l_input_10f2230a1908c09ffa752052e60a21d9}{absAxisValue} (int code)
+\item 
+QList$<$ int $>$ \hyperlink{class_k_c_l_input_34ef86b5dca6991de90743a5c20d8c38}{buttonCapabilities} () const 
+\item 
+QList$<$ int $>$ \hyperlink{class_k_c_l_input_98e8b6035165b8ba1d2eed1620cf1b1c}{absAxisCapabilities} () const 
+\item 
+QList$<$ int $>$ \hyperlink{class_k_c_l_input_01591a1897e2b8a62b305470ac673fd5}{relAxisCapabilities} () const 
+\item 
+\hyperlink{class_abs_val}{AbsVal} \hyperlink{class_k_c_l_input_fa50617f76c29a376c615f5420ea3152}{axisInfo} (int axisCode)
 \item 
 bool \hyperlink{class_k_c_l_input_0c3b7dd3cce5d5567c4894500074fee3}{error} ()
 \item 
+QString \hyperlink{class_k_c_l_input_90dc7de6adce9a4eeda72d57491137f3}{msgError} ()
+\item 
 virtual void \hyperlink{class_k_c_l_input_ee93fa33ec6a14baf2acf3daf23607c0}{inputEventFilter} (\hyperlink{class_k_c_l_input_event}{KCLInputEvent} $\ast$event)
+\item 
+bool \hyperlink{class_k_c_l_input_fcc85277197831a8dae75178b90bfebb}{isEnable} ()
 \end{CompactItemize}
 \subsection*{Protected Member Functions}
 \begin{CompactItemize}
@@ -80,28 +109,53 @@ The easiest way to create usable \hyperlink{class_k_c_l_input}{KCLInput} is to s
  
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{class_k_c_l_input_8be2188910f86e335d36694068eab677}{
+\hypertarget{class_k_c_l_input_27a074543e1f0f6d0ce92a40bceed684}{
 \index{KCLInput@{KCLInput}!KCLInput@{KCLInput}}
 \index{KCLInput@{KCLInput}!KCLInput@{KCLInput}}
-\subsubsection[{KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::KCLInput (const QString \& {\em device}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
-\label{class_k_c_l_input_8be2188910f86e335d36694068eab677}
+\subsubsection[{KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::KCLInput (const QString \& {\em devicePath}, \/  QObject $\ast$ {\em parent} = {\tt 0})}}
+\label{class_k_c_l_input_27a074543e1f0f6d0ce92a40bceed684}
 
 
 \hypertarget{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}{
 \index{KCLInput@{KCLInput}!$\sim$KCLInput@{$\sim$KCLInput}}
 \index{$\sim$KCLInput@{$\sim$KCLInput}!KCLInput@{KCLInput}}
-\subsubsection[{$\sim$KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::$\sim$KCLInput ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\subsubsection[{$\sim$KCLInput}]{\setlength{\rightskip}{0pt plus 5cm}KCLInput::$\sim$KCLInput ()}}
 \label{class_k_c_l_input_aea38929accc31d9f27c08b5d4119fe3}
 
 
 
 
 \subsection{Member Function Documentation}
-\hypertarget{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}{
-\index{KCLInput@{KCLInput}!anyMove@{anyMove}}
-\index{anyMove@{anyMove}!KCLInput@{KCLInput}}
-\subsubsection[{anyMove}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyMove ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_28b17185d4d20c96ef67a7bc287f5908}
+\hypertarget{class_k_c_l_input_98e8b6035165b8ba1d2eed1620cf1b1c}{
+\index{KCLInput@{KCLInput}!absAxisCapabilities@{absAxisCapabilities}}
+\index{absAxisCapabilities@{absAxisCapabilities}!KCLInput@{KCLInput}}
+\subsubsection[{absAxisCapabilities}]{\setlength{\rightskip}{0pt plus 5cm}QList$<$int$>$ KCLInput::absAxisCapabilities () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_98e8b6035165b8ba1d2eed1620cf1b1c}
+
+
+\hypertarget{class_k_c_l_input_4c1dcd58b3d59b6f2dc059d65b5012e4}{
+\index{KCLInput@{KCLInput}!absAxisChanged@{absAxisChanged}}
+\index{absAxisChanged@{absAxisChanged}!KCLInput@{KCLInput}}
+\subsubsection[{absAxisChanged}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::absAxisChanged (int {\em axe}, \/  int {\em code})\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_c_l_input_4c1dcd58b3d59b6f2dc059d65b5012e4}
+
+
+\hypertarget{class_k_c_l_input_10f2230a1908c09ffa752052e60a21d9}{
+\index{KCLInput@{KCLInput}!absAxisValue@{absAxisValue}}
+\index{absAxisValue@{absAxisValue}!KCLInput@{KCLInput}}
+\subsubsection[{absAxisValue}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::absAxisValue (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_10f2230a1908c09ffa752052e60a21d9}
+
+
+\begin{Desc}
+\item[Returns:]the axis Absolute value. This is an absolue value. For example the Joystick return an absolu position. \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_addbe22e22824c19e38deedfb603ee6c}{
+\index{KCLInput@{KCLInput}!anyAbsMove@{anyAbsMove}}
+\index{anyAbsMove@{anyAbsMove}!KCLInput@{KCLInput}}
+\subsubsection[{anyAbsMove}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyAbsMove ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_addbe22e22824c19e38deedfb603ee6c}
 
 
 \begin{Desc}
@@ -115,15 +169,15 @@ The easiest way to create usable \hyperlink{class_k_c_l_input}{KCLInput} is to s
  \end{Desc}
 \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}{
+\hypertarget{class_k_c_l_input_9489641a8f669dc73ee86120a6e02adc}{
 \index{KCLInput@{KCLInput}!anyPress@{anyPress}}
 \index{anyPress@{anyPress}!KCLInput@{KCLInput}}
-\subsubsection[{anyPress}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyPress ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_c3740f546a1992b7855549405c81dc7b}
+\subsubsection[{anyPress}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::anyPress ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_9489641a8f669dc73ee86120a6e02adc}
 
 
 \begin{Desc}
-\item[Returns:]true if a button is pressed. 
+\item[Returns:]button Code if a button is pressed. Otherwise it return 0 
 
 \begin{Code}\begin{verbatim} KCLInput * myInput = new KCLInput("/dev/input/event3");
  if ( myInput->anyPress()) kDebug()<<"you have press on something...";
@@ -133,44 +187,29 @@ The easiest way to create usable \hyperlink{class_k_c_l_input}{KCLInput} is to s
  \end{Desc}
 \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_5546e3862c917d07b22543190659871d}{
-\index{KCLInput@{KCLInput}!axisAbsolu@{axisAbsolu}}
-\index{axisAbsolu@{axisAbsolu}!KCLInput@{KCLInput}}
-\subsubsection[{axisAbsolu}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::axisAbsolu (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_5546e3862c917d07b22543190659871d}
+\hypertarget{class_k_c_l_input_c7eb85203b40fc1fd3d6ac65788b79b4}{
+\index{KCLInput@{KCLInput}!anyRelMove@{anyRelMove}}
+\index{anyRelMove@{anyRelMove}!KCLInput@{KCLInput}}
+\subsubsection[{anyRelMove}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::anyRelMove ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_c7eb85203b40fc1fd3d6ac65788b79b4}
 
 
-\begin{Desc}
-\item[Returns:]the axis Absolute value. This is an absolue value. For example the Joystick return an absolu position. \end{Desc}
-\begin{Desc}
-\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}{
-\index{KCLInput@{KCLInput}!axisCapability@{axisCapability}}
-\index{axisCapability@{axisCapability}!KCLInput@{KCLInput}}
-\subsubsection[{axisCapability}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AbsVal} KCLInput::axisCapability (int {\em axisCode})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_72c70fa38d90216025a913a1255ce935}
+\hypertarget{class_k_c_l_input_fa50617f76c29a376c615f5420ea3152}{
+\index{KCLInput@{KCLInput}!axisInfo@{axisInfo}}
+\index{axisInfo@{axisInfo}!KCLInput@{KCLInput}}
+\subsubsection[{axisInfo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf AbsVal} KCLInput::axisInfo (int {\em axisCode})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_fa50617f76c29a376c615f5420ea3152}
 
 
 \begin{Desc}
 \item[Returns:]the axis capability..This is usefull to know the capability of a joystick . \end{Desc}
 \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}{
-\index{KCLInput@{KCLInput}!axisPosition@{axisPosition}}
-\index{axisPosition@{axisPosition}!KCLInput@{KCLInput}}
-\subsubsection[{axisPosition}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::axisPosition (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_80bd12aea5ae92a327af1db942ef25b9}
-
-
-\begin{Desc}
-\item[Returns:]the axis position. This is a relativ value. For example the mouse return a relativ position. \end{Desc}
-\begin{Desc}
-\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}{
+\hypertarget{class_k_c_l_input_a10bb61e06d513fdf233a5b674c1d800}{
 \index{KCLInput@{KCLInput}!bustype@{bustype}}
 \index{bustype@{bustype}!KCLInput@{KCLInput}}
-\subsubsection[{bustype}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::bustype ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_5636bb74f7e17ad8b09dcbbc3be2a736}
+\subsubsection[{bustype}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::bustype () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_a10bb61e06d513fdf233a5b674c1d800}
 
 
 \begin{Desc}
@@ -193,35 +232,58 @@ The easiest way to create usable \hyperlink{class_k_c_l_input}{KCLInput} is to s
  \end{Desc}
 \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}{
+\hypertarget{class_k_c_l_input_34ef86b5dca6991de90743a5c20d8c38}{
 \index{KCLInput@{KCLInput}!buttonCapabilities@{buttonCapabilities}}
 \index{buttonCapabilities@{buttonCapabilities}!KCLInput@{KCLInput}}
-\subsubsection[{buttonCapabilities}]{\setlength{\rightskip}{0pt plus 5cm}QList$<$int$>$ KCLInput::buttonCapabilities ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_ae4174869c6bf29b6c59afa58c718275}
+\subsubsection[{buttonCapabilities}]{\setlength{\rightskip}{0pt plus 5cm}QList$<$int$>$ KCLInput::buttonCapabilities () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_34ef86b5dca6991de90743a5c20d8c38}
 
 
 \begin{Desc}
 \item[Returns:]a list of capability button input. For example the mouse will return a list with LeftBtn,RightBtn .... \end{Desc}
 \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}{
-\index{KCLInput@{KCLInput}!device@{device}}
-\index{device@{device}!KCLInput@{KCLInput}}
-\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}QString KCLInput::device ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_99047eea6d01d09f72a49dd219ce44e9}
+\hypertarget{class_k_c_l_input_b82e826fcc0f790ff153c5e4ac074344}{
+\index{KCLInput@{KCLInput}!buttonPressed@{buttonPressed}}
+\index{buttonPressed@{buttonPressed}!KCLInput@{KCLInput}}
+\subsubsection[{buttonPressed}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::buttonPressed (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_c_l_input_b82e826fcc0f790ff153c5e4ac074344}
 
 
-\hypertarget{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}{
+\hypertarget{class_k_c_l_input_1192fa591312c7cda431b9cf9b442344}{
+\index{KCLInput@{KCLInput}!buttonReleased@{buttonReleased}}
+\index{buttonReleased@{buttonReleased}!KCLInput@{KCLInput}}
+\subsubsection[{buttonReleased}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::buttonReleased (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_c_l_input_1192fa591312c7cda431b9cf9b442344}
+
+
+\hypertarget{class_k_c_l_input_cdb5cd70b2c5752586e99f6bc7508e2f}{
+\index{KCLInput@{KCLInput}!deviceName@{deviceName}}
+\index{deviceName@{deviceName}!KCLInput@{KCLInput}}
+\subsubsection[{deviceName}]{\setlength{\rightskip}{0pt plus 5cm}const QString\& KCLInput::deviceName ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_cdb5cd70b2c5752586e99f6bc7508e2f}
+
+
+\begin{Desc}
+\item[Returns:]the name of the device \end{Desc}
+\hypertarget{class_k_c_l_input_7eed3b9f99f3ee3634693bcbe385329b}{
+\index{KCLInput@{KCLInput}!devicePath@{devicePath}}
+\index{devicePath@{devicePath}!KCLInput@{KCLInput}}
+\subsubsection[{devicePath}]{\setlength{\rightskip}{0pt plus 5cm}const QString\& KCLInput::devicePath ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_7eed3b9f99f3ee3634693bcbe385329b}
+
+
+\hypertarget{class_k_c_l_input_cd334fdeddab9e5ae026e22942ebac65}{
 \index{KCLInput@{KCLInput}!deviceType@{deviceType}}
 \index{deviceType@{deviceType}!KCLInput@{KCLInput}}
-\subsubsection[{deviceType}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DEVICE} KCLInput::deviceType ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_cbbc1f4e0b0e7869d88173603f2f0c68}
+\subsubsection[{deviceType}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf KCL::DeviceFlag}\& KCLInput::deviceType ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_cd334fdeddab9e5ae026e22942ebac65}
 
 
 \begin{Desc}
 \item[Returns:]the device Type. KCL\_\-KEYBOARD,KCL\_\-MOUSE,KCL\_\-JOYSTICK,KCL\_\-TABLET,KCL\_\-TOUCHPAD,KCL\_\-UNKNOWN; \end{Desc}
 \begin{Desc}
-\item[See also:]\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a}{DEVICE} \end{Desc}
+\item[See also:]DEVICE \end{Desc}
 \hypertarget{class_k_c_l_input_0c3b7dd3cce5d5567c4894500074fee3}{
 \index{KCLInput@{KCLInput}!error@{error}}
 \index{error@{error}!KCLInput@{KCLInput}}
@@ -251,20 +313,39 @@ this function can be reimplemented to customize the event Loop.
 
  \begin{Desc}
 \item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
-\hypertarget{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}{
-\index{KCLInput@{KCLInput}!name@{name}}
-\index{name@{name}!KCLInput@{KCLInput}}
-\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}QString KCLInput::name ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_0214f0e500c4eccdb7afacaf78019b14}
+\hypertarget{class_k_c_l_input_fcc85277197831a8dae75178b90bfebb}{
+\index{KCLInput@{KCLInput}!isEnable@{isEnable}}
+\index{isEnable@{isEnable}!KCLInput@{KCLInput}}
+\subsubsection[{isEnable}]{\setlength{\rightskip}{0pt plus 5cm}bool KCLInput::isEnable ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_fcc85277197831a8dae75178b90bfebb}
 
 
-\begin{Desc}
-\item[Returns:]the name of the device \end{Desc}
-\hypertarget{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}{
+\hypertarget{class_k_c_l_input_c5a8a2c8264e7ff8d4567057d2ae12c5}{
+\index{KCLInput@{KCLInput}!lastAbsAxis@{lastAbsAxis}}
+\index{lastAbsAxis@{lastAbsAxis}!KCLInput@{KCLInput}}
+\subsubsection[{lastAbsAxis}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::lastAbsAxis ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_c5a8a2c8264e7ff8d4567057d2ae12c5}
+
+
+\hypertarget{class_k_c_l_input_8414ad0259d97aed6a00658b7dd94d45}{
+\index{KCLInput@{KCLInput}!lastRelAxis@{lastRelAxis}}
+\index{lastRelAxis@{lastRelAxis}!KCLInput@{KCLInput}}
+\subsubsection[{lastRelAxis}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::lastRelAxis ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_8414ad0259d97aed6a00658b7dd94d45}
+
+
+\hypertarget{class_k_c_l_input_90dc7de6adce9a4eeda72d57491137f3}{
+\index{KCLInput@{KCLInput}!msgError@{msgError}}
+\index{msgError@{msgError}!KCLInput@{KCLInput}}
+\subsubsection[{msgError}]{\setlength{\rightskip}{0pt plus 5cm}QString KCLInput::msgError ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_90dc7de6adce9a4eeda72d57491137f3}
+
+
+\hypertarget{class_k_c_l_input_024e32ca1e69548cf8c88f9cdf0c846a}{
 \index{KCLInput@{KCLInput}!product@{product}}
 \index{product@{product}!KCLInput@{KCLInput}}
-\subsubsection[{product}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::product ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_89c31b5c39e1f052d3408cb34861be51}
+\subsubsection[{product}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::product () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_024e32ca1e69548cf8c88f9cdf0c846a}
 
 
 \begin{Desc}
@@ -276,6 +357,45 @@ this function can be reimplemented to customize the event Loop.
 \label{class_k_c_l_input_33e1fd26c084040a728cabf03e445893}
 
 
+\hypertarget{class_k_c_l_input_01591a1897e2b8a62b305470ac673fd5}{
+\index{KCLInput@{KCLInput}!relAxisCapabilities@{relAxisCapabilities}}
+\index{relAxisCapabilities@{relAxisCapabilities}!KCLInput@{KCLInput}}
+\subsubsection[{relAxisCapabilities}]{\setlength{\rightskip}{0pt plus 5cm}QList$<$int$>$ KCLInput::relAxisCapabilities () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_01591a1897e2b8a62b305470ac673fd5}
+
+
+\hypertarget{class_k_c_l_input_ff1ef872aecc7cd81660f2410cd53246}{
+\index{KCLInput@{KCLInput}!relAxisChanged@{relAxisChanged}}
+\index{relAxisChanged@{relAxisChanged}!KCLInput@{KCLInput}}
+\subsubsection[{relAxisChanged}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::relAxisChanged (int {\em axe}, \/  int {\em code})\hspace{0.3cm}{\tt  \mbox{[}signal\mbox{]}}}}
+\label{class_k_c_l_input_ff1ef872aecc7cd81660f2410cd53246}
+
+
+\hypertarget{class_k_c_l_input_9c10138f6d7b8f744f352cc4372ffa25}{
+\index{KCLInput@{KCLInput}!relAxisValue@{relAxisValue}}
+\index{relAxisValue@{relAxisValue}!KCLInput@{KCLInput}}
+\subsubsection[{relAxisValue}]{\setlength{\rightskip}{0pt plus 5cm}int KCLInput::relAxisValue (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_9c10138f6d7b8f744f352cc4372ffa25}
+
+
+\begin{Desc}
+\item[Returns:]the axis position. This is a relativ value. For example the mouse return a relativ position. \end{Desc}
+\begin{Desc}
+\item[See also:]\hyperlink{class_k_c_l_input_event}{KCLInputEvent} \end{Desc}
+\hypertarget{class_k_c_l_input_496552a75e1e157f134e4e0739d25895}{
+\index{KCLInput@{KCLInput}!setDisable@{setDisable}}
+\index{setDisable@{setDisable}!KCLInput@{KCLInput}}
+\subsubsection[{setDisable}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::setDisable ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_c_l_input_496552a75e1e157f134e4e0739d25895}
+
+
+\hypertarget{class_k_c_l_input_7b6f5e42d88e677d371e615fa686e79e}{
+\index{KCLInput@{KCLInput}!setEnable@{setEnable}}
+\index{setEnable@{setEnable}!KCLInput@{KCLInput}}
+\subsubsection[{setEnable}]{\setlength{\rightskip}{0pt plus 5cm}void KCLInput::setEnable ()\hspace{0.3cm}{\tt  \mbox{[}slot\mbox{]}}}}
+\label{class_k_c_l_input_7b6f5e42d88e677d371e615fa686e79e}
+
+
 \hypertarget{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}{
 \index{KCLInput@{KCLInput}!slotInputEvent@{slotInputEvent}}
 \index{slotInputEvent@{slotInputEvent}!KCLInput@{KCLInput}}
@@ -283,11 +403,11 @@ this function can be reimplemented to customize the event Loop.
 \label{class_k_c_l_input_09e6f283721d38bb9aa2a703d6a735c6}
 
 
-\hypertarget{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}{
+\hypertarget{class_k_c_l_input_5919b85a4f70f9d573dfea5b797fbe85}{
 \index{KCLInput@{KCLInput}!vendor@{vendor}}
 \index{vendor@{vendor}!KCLInput@{KCLInput}}
-\subsubsection[{vendor}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::vendor ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_k_c_l_input_8b974c847387834722f09ac5725f3c68}
+\subsubsection[{vendor}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int KCLInput::vendor () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_k_c_l_input_5919b85a4f70f9d573dfea5b797fbe85}
 
 
 \begin{Desc}

@@ -30,7 +30,7 @@
 
 
 KALSound::KALSound(const QString &soundFile, QObject *parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     if (!QFile::exists(soundFile)) {
         kDebug() << "Could not open" << soundFile;
@@ -63,6 +63,7 @@ KALSound::~KALSound()
 
 void KALSound::init()
 {
+    m_source=0;
     KALEngine *engineParent = KALEngine::instance();
     engineParent->addSource(this);
     setupSource();
@@ -70,7 +71,8 @@ void KALSound::init()
 
 void KALSound::setupSource()
 {
-    alGenSources(1, &m_source);  // Generate the source to play the buffer with
+    if (!m_source)
+        alGenSources(1, &m_source);  // Generate the source to play the buffer with
     alSourcei(m_source, AL_BUFFER, m_buffer->buffer());  // Attach source to buffer
 
     if (alGetError() != AL_NO_ERROR) {
@@ -86,10 +88,10 @@ void KALSound::setupSource()
 
 void KALSound::updateSource()
 {
-//    stop();
-//    alDeleteSources(1, &m_source);
-//    //alDeleteBuffers(1, &m_buffer);
-//    m_setupSource();
+    stop();
+    m_source=0;
+    alDeleteSources(1, &m_source);
+    setupSource();
 }
 
 ALfloat KALSound::elapsedTime()

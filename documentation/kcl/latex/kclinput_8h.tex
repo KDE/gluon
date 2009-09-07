@@ -14,6 +14,7 @@
 {\tt \#include $<$linux/input.h$>$}\par
 {\tt \#include $<$KDebug$>$}\par
 {\tt \#include \char`\"{}kclcode.h\char`\"{}}\par
+{\tt \#include \char`\"{}kcl.h\char`\"{}}\par
 \subsection*{Classes}
 \begin{CompactItemize}
 \item 
@@ -25,56 +26,3 @@ class \hyperlink{class_k_c_l_thread}{KCLThread}
 \begin{CompactList}\small\item\em Provides a QThread witch listen the input status. \item\end{CompactList}\item 
 class \hyperlink{class_k_c_l_input}{KCLInput}
 \begin{CompactList}\small\item\em provide an object that represent an input. This is the class mother of all device you want to use. It return you all information about the device, for example the name. And it return the status of the device, it means the type, code, and value. \item\end{CompactList}\end{CompactItemize}
-\subsection*{Enumerations}
-\begin{CompactItemize}
-\item 
-enum \hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a}{DEVICE} \{ \par
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc}{KCL\_\-KEYBOARD}, 
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749}{KCL\_\-MOUSE}, 
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8}{KCL\_\-JOYSTICK}, 
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4}{KCL\_\-TABLET}, 
-\par
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd}{KCL\_\-TOUCHPAD}, 
-\hyperlink{kclinput_8h_833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3}{KCL\_\-UNKNOWN}
- \}
-\end{CompactItemize}
-
-
-\subsection{Enumeration Type Documentation}
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893a}{
-\index{kclinput.h@{kclinput.h}!DEVICE@{DEVICE}}
-\index{DEVICE@{DEVICE}!kclinput.h@{kclinput.h}}
-\subsubsection[{DEVICE}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DEVICE}}}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893a}
-
-
-\begin{Desc}
-\item[Enumerator: ]\par
-\begin{description}
-\index{KCL\_\-KEYBOARD@{KCL\_\-KEYBOARD}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-KEYBOARD@{KCL\_\-KEYBOARD}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc}{
-KCL\_\-KEYBOARD}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc}
-}]\index{KCL\_\-MOUSE@{KCL\_\-MOUSE}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-MOUSE@{KCL\_\-MOUSE}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749}{
-KCL\_\-MOUSE}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749}
-}]\index{KCL\_\-JOYSTICK@{KCL\_\-JOYSTICK}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-JOYSTICK@{KCL\_\-JOYSTICK}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8}{
-KCL\_\-JOYSTICK}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8}
-}]\index{KCL\_\-TABLET@{KCL\_\-TABLET}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-TABLET@{KCL\_\-TABLET}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4}{
-KCL\_\-TABLET}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4}
-}]\index{KCL\_\-TOUCHPAD@{KCL\_\-TOUCHPAD}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-TOUCHPAD@{KCL\_\-TOUCHPAD}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd}{
-KCL\_\-TOUCHPAD}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd}
-}]\index{KCL\_\-UNKNOWN@{KCL\_\-UNKNOWN}!kclinput.h@{kclinput.h}}\index{kclinput.h@{kclinput.h}!KCL\_\-UNKNOWN@{KCL\_\-UNKNOWN}}\item[{\em 
-\hypertarget{kclinput_8h_833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3}{
-KCL\_\-UNKNOWN}
-\label{kclinput_8h_833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3}
-}]\end{description}
-\end{Desc}
-

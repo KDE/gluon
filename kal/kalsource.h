@@ -58,13 +58,19 @@ public:
     KALSound(ALuint buffer, QObject * parent = 0);
 
     void setBuffer(const QString& soundFile) {
+        delete m_buffer;
         m_buffer = new KALBuffer(soundFile);
+        updateSource();
     }
     void setBuffer(KALBuffer * buffer) {
+        delete m_buffer;
         m_buffer = buffer;
+        updateSource();
     }
     void setBuffer(ALuint buffer) {
+        delete m_buffer;
         m_buffer = new KALBuffer(buffer);
+        updateSource();
     }
 
     /**

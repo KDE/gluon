@@ -5,7 +5,7 @@ kaloggstreamer.cpp
 kalcapture.cpp
 kalengine.cpp
 kalbuffer.cpp
-kalsource.cpp
+kalsound.cpp
 kalinfowidget.cpp
 kalplayerwidget.cpp
 )
@@ -29,7 +29,7 @@ kalsoundreader.h
 kalengine_export.h
 kalphonon.h
 kalsoundloader.h
-kalsource.h
+kalsound.h
 kaloggstreamer.h
 kalcapture.h
 kalinfowidget.h

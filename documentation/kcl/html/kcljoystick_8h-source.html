@@ -29,11 +29,11 @@
 <a name="l00008"></a><a class="code" href="class_k_c_l_joystick.html">00008</a> <span class="keyword">class </span><a class="code" href="class_k_c_l_joystick.html">KCLJoystick</a> : <span class="keyword">public</span> <a class="code" href="class_k_c_l_input.html" title="provide an object that represent an input. This is the class mother of all device...">KCLInput</a>
 <a name="l00009"></a>00009 {
 <a name="l00010"></a>00010 <span class="keyword">public</span>:
-<a name="l00011"></a>00011     <a class="code" href="class_k_c_l_joystick.html#9a424984a46254d07b3ab6b6f5946830">KCLJoystick</a>(<span class="keyword">const</span> QString&amp; <a class="code" href="class_k_c_l_input.html#99047eea6d01d09f72a49dd219ce44e9">device</a>, QObject * parent=0);
+<a name="l00011"></a>00011     <a class="code" href="class_k_c_l_joystick.html#9a424984a46254d07b3ab6b6f5946830">KCLJoystick</a>(<span class="keyword">const</span> QString&amp; device, QObject * parent=0);
 <a name="l00012"></a>00012 
-<a name="l00013"></a><a class="code" href="class_k_c_l_joystick.html#70988b3702bf410f86a66fb1277913fd">00013</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_joystick.html#70988b3702bf410f86a66fb1277913fd">axisX</a>(){<span class="keywordflow">return</span> <a class="code" href="class_k_c_l_input.html#5546e3862c917d07b22543190659871d">axisAbsolu</a>(ABS_X);}
-<a name="l00014"></a><a class="code" href="class_k_c_l_joystick.html#0055ef283714ae8545021761e2903376">00014</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_joystick.html#0055ef283714ae8545021761e2903376">axisY</a>(){<span class="keywordflow">return</span> <a class="code" href="class_k_c_l_input.html#5546e3862c917d07b22543190659871d">axisAbsolu</a>(ABS_Y);}
-<a name="l00015"></a>00015 
+<a name="l00013"></a><a class="code" href="class_k_c_l_joystick.html#70988b3702bf410f86a66fb1277913fd">00013</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_joystick.html#70988b3702bf410f86a66fb1277913fd">axisX</a>(){<span class="keywordflow">return</span> <a class="code" href="class_k_c_l_input.html#10f2230a1908c09ffa752052e60a21d9">absAxisValue</a>(ABS_X);}
+<a name="l00014"></a><a class="code" href="class_k_c_l_joystick.html#0055ef283714ae8545021761e2903376">00014</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_joystick.html#0055ef283714ae8545021761e2903376">axisY</a>(){<span class="keywordflow">return</span> <a class="code" href="class_k_c_l_input.html#10f2230a1908c09ffa752052e60a21d9">absAxisValue</a>(ABS_Y);}
+<a name="l00015"></a><a class="code" href="class_k_c_l_joystick.html#d70bc33c4d0d9d92ec2583f723f157d3">00015</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_joystick.html#d70bc33c4d0d9d92ec2583f723f157d3">axisZ</a>(){<span class="keywordflow">return</span> <a class="code" href="class_k_c_l_input.html#10f2230a1908c09ffa752052e60a21d9">absAxisValue</a>(ABS_Z);}
 <a name="l00016"></a>00016 
 <a name="l00017"></a>00017 
 <a name="l00018"></a>00018 
@@ -41,7 +41,7 @@
 <a name="l00020"></a>00020 
 <a name="l00021"></a>00021 <span class="preprocessor">#endif // KCLJOYSTICK_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Sep 3 23:24:01 2009 for kcl by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 7 22:36:48 2009 for kcl by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

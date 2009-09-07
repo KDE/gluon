@@ -2,27 +2,33 @@
 \section{VirtualButton Class Reference}
 \label{class_virtual_button}\index{VirtualButton@{VirtualButton}}
 }
-{\tt \#include $<$kclengine.h$>$}
+{\tt \#include $<$kclvirtualinput.h$>$}
 
 \subsection*{Public Member Functions}
 \begin{CompactItemize}
 \item 
-\hyperlink{class_virtual_button_1e8b82d8e0791b78de6455b51f79c224}{VirtualButton} (QString id=0, int keyCode=0, \hyperlink{class_k_c_l_input}{KCLInput} $\ast$device=NULL)
+\hyperlink{class_virtual_button_446757ea5603b9d9bd90391d31a7de98}{VirtualButton} (QString name=0, int buttonCode=0, \hyperlink{class_k_c_l_input}{KCLInput} $\ast$input=NULL)
 \item 
-QString \hyperlink{class_virtual_button_7ac53085bb39fa49b8f9f32ca882e4db}{id} ()
+QString \hyperlink{class_virtual_button_6a5bdaf694c545e88225f9aff3a89d78}{name} ()
 \item 
 int \hyperlink{class_virtual_button_807d21790a5cfa564b1e20d28f900051}{code} ()
 \item 
 \hyperlink{class_k_c_l_input}{KCLInput} $\ast$ \hyperlink{class_virtual_button_1c67f8dec41ff21d0aa5c07225771e07}{input} ()
+\item 
+void \hyperlink{class_virtual_button_f66cc874223da73e9e68f05f4470a2a1}{setName} (const QString \&name)
+\item 
+void \hyperlink{class_virtual_button_fb49f0be2e423669ed4ef30e2d4c11a4}{setButtonCode} (int code)
+\item 
+void \hyperlink{class_virtual_button_08f64dcc90e220b3ff9720f2cdf29072}{setInput} (\hyperlink{class_k_c_l_input}{KCLInput} $\ast$input)
 \end{CompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{class_virtual_button_1e8b82d8e0791b78de6455b51f79c224}{
+\hypertarget{class_virtual_button_446757ea5603b9d9bd90391d31a7de98}{
 \index{VirtualButton@{VirtualButton}!VirtualButton@{VirtualButton}}
 \index{VirtualButton@{VirtualButton}!VirtualButton@{VirtualButton}}
-\subsubsection[{VirtualButton}]{\setlength{\rightskip}{0pt plus 5cm}VirtualButton::VirtualButton (QString {\em id} = {\tt 0}, \/  int {\em keyCode} = {\tt 0}, \/  {\bf KCLInput} $\ast$ {\em device} = {\tt NULL})}}
-\label{class_virtual_button_1e8b82d8e0791b78de6455b51f79c224}
+\subsubsection[{VirtualButton}]{\setlength{\rightskip}{0pt plus 5cm}VirtualButton::VirtualButton (QString {\em name} = {\tt 0}, \/  int {\em buttonCode} = {\tt 0}, \/  {\bf KCLInput} $\ast$ {\em input} = {\tt NULL})}}
+\label{class_virtual_button_446757ea5603b9d9bd90391d31a7de98}
 
 
 
@@ -35,13 +41,6 @@ int \hyperlink{class_virtual_button_807d21790a5cfa564b1e20d28f900051}{code} ()
 \label{class_virtual_button_807d21790a5cfa564b1e20d28f900051}
 
 
-\hypertarget{class_virtual_button_7ac53085bb39fa49b8f9f32ca882e4db}{
-\index{VirtualButton@{VirtualButton}!id@{id}}
-\index{id@{id}!VirtualButton@{VirtualButton}}
-\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}QString VirtualButton::id ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
-\label{class_virtual_button_7ac53085bb39fa49b8f9f32ca882e4db}
-
-
 \hypertarget{class_virtual_button_1c67f8dec41ff21d0aa5c07225771e07}{
 \index{VirtualButton@{VirtualButton}!input@{input}}
 \index{input@{input}!VirtualButton@{VirtualButton}}
@@ -49,9 +48,37 @@ int \hyperlink{class_virtual_button_807d21790a5cfa564b1e20d28f900051}{code} ()
 \label{class_virtual_button_1c67f8dec41ff21d0aa5c07225771e07}
 
 
+\hypertarget{class_virtual_button_6a5bdaf694c545e88225f9aff3a89d78}{
+\index{VirtualButton@{VirtualButton}!name@{name}}
+\index{name@{name}!VirtualButton@{VirtualButton}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}QString VirtualButton::name ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_virtual_button_6a5bdaf694c545e88225f9aff3a89d78}
+
+
+\hypertarget{class_virtual_button_fb49f0be2e423669ed4ef30e2d4c11a4}{
+\index{VirtualButton@{VirtualButton}!setButtonCode@{setButtonCode}}
+\index{setButtonCode@{setButtonCode}!VirtualButton@{VirtualButton}}
+\subsubsection[{setButtonCode}]{\setlength{\rightskip}{0pt plus 5cm}void VirtualButton::setButtonCode (int {\em code})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_virtual_button_fb49f0be2e423669ed4ef30e2d4c11a4}
+
+
+\hypertarget{class_virtual_button_08f64dcc90e220b3ff9720f2cdf29072}{
+\index{VirtualButton@{VirtualButton}!setInput@{setInput}}
+\index{setInput@{setInput}!VirtualButton@{VirtualButton}}
+\subsubsection[{setInput}]{\setlength{\rightskip}{0pt plus 5cm}void VirtualButton::setInput ({\bf KCLInput} $\ast$ {\em input})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_virtual_button_08f64dcc90e220b3ff9720f2cdf29072}
+
+
+\hypertarget{class_virtual_button_f66cc874223da73e9e68f05f4470a2a1}{
+\index{VirtualButton@{VirtualButton}!setName@{setName}}
+\index{setName@{setName}!VirtualButton@{VirtualButton}}
+\subsubsection[{setName}]{\setlength{\rightskip}{0pt plus 5cm}void VirtualButton::setName (const QString \& {\em name})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_virtual_button_f66cc874223da73e9e68f05f4470a2a1}
+
+
 
 
 The documentation for this class was generated from the following files:\begin{CompactItemize}
 \item 
-/home/sacha/programmation/gluon/kcl/\hyperlink{kclengine_8h}{kclengine.h}\item 
-/home/sacha/programmation/gluon/kcl/\hyperlink{kclengine_8cpp}{kclengine.cpp}\end{CompactItemize}
+/home/sacha/programmation/gluon/kcl/\hyperlink{kclvirtualinput_8h}{kclvirtualinput.h}\item 
+/home/sacha/programmation/gluon/kcl/\hyperlink{kclvirtualinput_8cpp}{kclvirtualinput.cpp}\end{CompactItemize}

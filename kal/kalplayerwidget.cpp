@@ -20,7 +20,7 @@ KALPlayerWidget::KALPlayerWidget(QWidget * parent)
     layout->addWidget(bstop);
     sound = new KALSound("");
     connect(bplay,SIGNAL(clicked()),this,SLOT(play()));
-
+    connect(bstop,SIGNAL(clicked()),sound,SLOT(stop()));
 
     setWindowTitle("select a sound and play it");
 

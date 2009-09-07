@@ -56,20 +56,10 @@ int main(int argc, char *argv[])
     KCLButton * button = new KCLButton(KCL::Button);
     
     button->show();
-//     GluonMainWindow * gluon = new GluonMainWindow;
-//     
-//     gluon->show();
+    GluonMainWindow * gluon = new GluonMainWindow;
+    
+    gluon->show();
 
-// KCLVirtualInput * input = new KCLVirtualInput;
-// 
-// input->setButton("Jump");
-// input->setButton("goLeft");
-// input->setButton("goRight");
-// input->setButton("fire");
-// 
-// KCLVirtualInputConfig * config = new KCLVirtualInputConfig(input);
-// 
-// config->show();
   
  
 app.exec();

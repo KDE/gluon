@@ -82,7 +82,7 @@ public:
     * @return a QStringList of the available output devices
     * @see setDevice
     */
-    static QStringList deviceList();
+  static QStringList deviceList();
 
     int sourceCount() {
         return m_sourceList.size();

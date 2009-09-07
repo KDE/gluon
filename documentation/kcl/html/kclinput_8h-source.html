@@ -34,9 +34,9 @@
 <a name="l00013"></a>00013 <span class="preprocessor">#include &lt;linux/input.h&gt;</span>
 <a name="l00014"></a>00014 <span class="preprocessor">#include &lt;KDebug&gt;</span>
 <a name="l00015"></a>00015 <span class="preprocessor">#include "<a class="code" href="kclcode_8h.html">kclcode.h</a>"</span>
-<a name="l00016"></a>00016 
+<a name="l00016"></a>00016 <span class="preprocessor">#include "<a class="code" href="kcl_8h.html">kcl.h</a>"</span>
 <a name="l00017"></a>00017 
-<a name="l00018"></a><a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3">00018</a> <span class="keyword">enum</span> <a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a">DEVICE</a> {<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc">KCL_KEYBOARD</a>,<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749">KCL_MOUSE</a>,<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8">KCL_JOYSTICK</a>,<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4">KCL_TABLET</a>,<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd">KCL_TOUCHPAD</a>,<a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3">KCL_UNKNOWN</a>};
+<a name="l00018"></a>00018 
 <a name="l00019"></a>00019 
 <a name="l00020"></a>00020 <span class="keyword">class </span><a class="code" href="class_k_c_l_input.html" title="provide an object that represent an input. This is the class mother of all device...">KCLInput</a>;
 <a name="l00021"></a>00021 <span class="keyword">class </span><a class="code" href="class_k_c_l_thread.html" title="Provides a QThread witch listen the input status.">KCLThread</a>;
@@ -81,13 +81,13 @@
 <a name="l00096"></a>00096 {
 <a name="l00097"></a>00097     Q_OBJECT
 <a name="l00098"></a>00098 <span class="keyword">public</span>:
-<a name="l00099"></a>00099     <a class="code" href="class_k_c_l_thread.html#233c3ccb8211c3c247acc7afa3d13381">KCLThread</a>(<span class="keyword">const</span> QString&amp; name, QObject *parent=0);
+<a name="l00099"></a>00099     <a class="code" href="class_k_c_l_thread.html#155436758518dcf6eeebc4f1be3e5367">KCLThread</a>(<span class="keyword">const</span> QString&amp; devicePath, QObject *parent=0);
 <a name="l00100"></a><a class="code" href="class_k_c_l_thread.html#346cf94ab107d40c2b39d41ff5de6f89">00100</a>     <a class="code" href="class_k_c_l_thread.html#346cf94ab107d40c2b39d41ff5de6f89">~KCLThread</a>(){close(m_fd);}
 <a name="l00101"></a>00101     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_thread.html#12a55f25353d1ba81fc237a1c9dc22b5">run</a>();
 <a name="l00102"></a>00102 signals:
 <a name="l00106"></a>00106     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_thread.html#318807205f19ec5cfbeee2200dbbf995">emitInputEvent</a>(<a class="code" href="class_k_c_l_input_event.html" title="Provides a input events.">KCLInputEvent</a> * event);
 <a name="l00107"></a>00107 <span class="keyword">protected</span>:
-<a name="l00108"></a>00108     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_thread.html#2b5d9cafcdbbf26ceac9cc9cce9427dc">openDevice</a>(<span class="keyword">const</span> QString &amp;device);
+<a name="l00108"></a>00108     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_thread.html#e3c8ade6ac0c14a7a8961e238fb19794">openDevice</a>(<span class="keyword">const</span> QString &amp;devicePath);
 <a name="l00109"></a><a class="code" href="class_k_c_l_thread.html#dc58b5a20a35371ecf539c51098411c6">00109</a>     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_thread.html#dc58b5a20a35371ecf539c51098411c6">closeDevice</a>(){close(m_fd);}
 <a name="l00110"></a>00110 <span class="keyword">private</span>:
 <a name="l00111"></a>00111     <span class="keywordtype">int</span> m_fd;
@@ -98,70 +98,95 @@
 <a name="l00132"></a>00132 {
 <a name="l00133"></a>00133     Q_OBJECT
 <a name="l00134"></a>00134 <span class="keyword">public</span>:
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136     <a class="code" href="class_k_c_l_input.html#8be2188910f86e335d36694068eab677">KCLInput</a>(<span class="keyword">const</span> QString&amp; <a class="code" href="class_k_c_l_input.html#99047eea6d01d09f72a49dd219ce44e9">device</a>,QObject * parent=0);
-<a name="l00137"></a><a class="code" href="class_k_c_l_input.html#aea38929accc31d9f27c08b5d4119fe3">00137</a>     <a class="code" href="class_k_c_l_input.html#aea38929accc31d9f27c08b5d4119fe3">~KCLInput</a>(){inputListener-&gt;exit();}
-<a name="l00141"></a><a class="code" href="class_k_c_l_input.html#8b974c847387834722f09ac5725f3c68">00141</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#8b974c847387834722f09ac5725f3c68">vendor</a>(){<span class="keywordflow">return</span> m_device_info.vendor;}
-<a name="l00145"></a><a class="code" href="class_k_c_l_input.html#89c31b5c39e1f052d3408cb34861be51">00145</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#89c31b5c39e1f052d3408cb34861be51">product</a>(){<span class="keywordflow">return</span> m_device_info.product;}
-<a name="l00149"></a><a class="code" href="class_k_c_l_input.html#53ebfb56b5039bdeb8b6bed4bbff1b0e">00149</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#53ebfb56b5039bdeb8b6bed4bbff1b0e">version</a>(){<span class="keywordflow">return</span> m_device_info.version;}
-<a name="l00153"></a><a class="code" href="class_k_c_l_input.html#5636bb74f7e17ad8b09dcbbc3be2a736">00153</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#5636bb74f7e17ad8b09dcbbc3be2a736">bustype</a>(){<span class="keywordflow">return</span> m_device_info.bustype;}
-<a name="l00154"></a>00154 
-<a name="l00155"></a><a class="code" href="class_k_c_l_input.html#99047eea6d01d09f72a49dd219ce44e9">00155</a>     QString <a class="code" href="class_k_c_l_input.html#99047eea6d01d09f72a49dd219ce44e9">device</a>(){<span class="keywordflow">return</span> m_device;}
-<a name="l00159"></a><a class="code" href="class_k_c_l_input.html#0214f0e500c4eccdb7afacaf78019b14">00159</a>     QString <a class="code" href="class_k_c_l_input.html#0214f0e500c4eccdb7afacaf78019b14">name</a>(){<span class="keywordflow">return</span> m_deviceName;}
-<a name="l00164"></a><a class="code" href="class_k_c_l_input.html#cbbc1f4e0b0e7869d88173603f2f0c68">00164</a>     <a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a">DEVICE</a> <a class="code" href="class_k_c_l_input.html#cbbc1f4e0b0e7869d88173603f2f0c68">deviceType</a>(){<span class="keywordflow">return</span> m_deviceType;}
-<a name="l00173"></a><a class="code" href="class_k_c_l_input.html#afe120b671d76b4b7d14b48e03d4faf6">00173</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#afe120b671d76b4b7d14b48e03d4faf6">button</a>(<span class="keywordtype">int</span> code){<span class="keywordflow">return</span> m_buttons.contains(code);}
-<a name="l00182"></a><a class="code" href="class_k_c_l_input.html#c3740f546a1992b7855549405c81dc7b">00182</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#c3740f546a1992b7855549405c81dc7b">anyPress</a>(){<span class="keywordflow">if</span> (m_buttons.size()&gt;0) <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="keywordflow">else</span> <span class="keywordflow">return</span> <span class="keyword">false</span>;}
-<a name="l00183"></a>00183 
-<a name="l00192"></a><a class="code" href="class_k_c_l_input.html#28b17185d4d20c96ef67a7bc287f5908">00192</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#28b17185d4d20c96ef67a7bc287f5908">anyMove</a>(){<span class="keywordflow">if</span> ( m_move) {m_move=<span class="keyword">false</span>;<span class="keywordflow">return</span> <span class="keyword">true</span>;} <span class="keywordflow">return</span> <span class="keyword">false</span>; }
-<a name="l00198"></a><a class="code" href="class_k_c_l_input.html#80bd12aea5ae92a327af1db942ef25b9">00198</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#80bd12aea5ae92a327af1db942ef25b9">axisPosition</a>(<span class="keywordtype">int</span> code){
-<a name="l00199"></a>00199         <span class="keywordflow">if</span>(m_axisPositions.contains(code))
-<a name="l00200"></a>00200             <span class="keywordflow">return</span> m_axisPositions[code] ;
-<a name="l00201"></a>00201         <span class="keywordflow">else</span> <span class="keywordflow">return</span> 0;
-<a name="l00202"></a>00202     }
-<a name="l00207"></a><a class="code" href="class_k_c_l_input.html#5546e3862c917d07b22543190659871d">00207</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#5546e3862c917d07b22543190659871d">axisAbsolu</a>(<span class="keywordtype">int</span> code){
-<a name="l00208"></a>00208         <span class="keywordflow">if</span>(m_axisAbsolus.contains(code))
-<a name="l00209"></a>00209             <span class="keywordflow">return</span> m_axisAbsolus[code] ;
-<a name="l00210"></a>00210         <span class="keywordflow">else</span> <span class="keywordflow">return</span> 0;
-<a name="l00211"></a>00211     }
-<a name="l00216"></a><a class="code" href="class_k_c_l_input.html#ae4174869c6bf29b6c59afa58c718275">00216</a>     QList&lt;int&gt; <a class="code" href="class_k_c_l_input.html#ae4174869c6bf29b6c59afa58c718275">buttonCapabilities</a>(){<span class="keywordflow">return</span> m_buttonCapabilities;}
-<a name="l00221"></a><a class="code" href="class_k_c_l_input.html#72c70fa38d90216025a913a1255ce935">00221</a>     <a class="code" href="class_abs_val.html">AbsVal</a> <a class="code" href="class_k_c_l_input.html#72c70fa38d90216025a913a1255ce935">axisCapability</a>(<span class="keywordtype">int</span> axisCode){<span class="keywordflow">return</span> m_axisCapabilities[axisCode];}
-<a name="l00222"></a><a class="code" href="class_k_c_l_input.html#0c3b7dd3cce5d5567c4894500074fee3">00222</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#0c3b7dd3cce5d5567c4894500074fee3">error</a>(){<span class="keywordflow">return</span> m_error;}
-<a name="l00237"></a>00237     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#ee93fa33ec6a14baf2acf3daf23607c0">inputEventFilter</a>(<a class="code" href="class_k_c_l_input_event.html" title="Provides a input events.">KCLInputEvent</a> * event);
-<a name="l00238"></a>00238 
-<a name="l00239"></a>00239 <span class="keyword">public</span> slots:
-<a name="l00240"></a>00240     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#09e6f283721d38bb9aa2a703d6a735c6">slotInputEvent</a>(<a class="code" href="class_k_c_l_input_event.html" title="Provides a input events.">KCLInputEvent</a> * event);
-<a name="l00241"></a>00241 
-<a name="l00242"></a>00242 <span class="keyword">protected</span> :
-<a name="l00243"></a>00243         <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#33e1fd26c084040a728cabf03e445893">readInformation</a>();
-<a name="l00244"></a>00244 
-<a name="l00245"></a>00245 <span class="keyword">private</span>:
-<a name="l00246"></a>00246 <a class="code" href="class_k_c_l_thread.html" title="Provides a QThread witch listen the input status.">KCLThread</a> * inputListener;
-<a name="l00247"></a>00247 <span class="keyword">struct </span>input_id m_device_info;
-<a name="l00248"></a>00248 <span class="keyword">struct </span>input_event m_currentEvent;
-<a name="l00249"></a>00249 QString m_device;
-<a name="l00250"></a>00250 QString m_deviceName;
-<a name="l00251"></a>00251 <a class="code" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a">DEVICE</a> m_deviceType;
-<a name="l00252"></a>00252 
-<a name="l00253"></a>00253 QList&lt;int&gt; m_buttons;
-<a name="l00254"></a>00254 QMap&lt;int,int&gt; m_axisPositions;
-<a name="l00255"></a>00255 QMap&lt;int,int&gt; m_axisAbsolus;
-<a name="l00256"></a>00256 QList&lt;int&gt; m_buttonCapabilities;
-<a name="l00257"></a>00257 QMap&lt;int, AbsVal&gt; m_axisCapabilities;
-<a name="l00258"></a>00258 <span class="keywordtype">bool</span> m_move;
-<a name="l00259"></a>00259 <span class="keywordtype">bool</span> m_error;
-<a name="l00260"></a>00260 
-<a name="l00261"></a>00261 };
+<a name="l00135"></a>00135     <a class="code" href="class_k_c_l_input.html#27a074543e1f0f6d0ce92a40bceed684">KCLInput</a>(<span class="keyword">const</span> QString&amp; <a class="code" href="class_k_c_l_input.html#7eed3b9f99f3ee3634693bcbe385329b">devicePath</a>,QObject * parent=0);
+<a name="l00136"></a>00136     <a class="code" href="class_k_c_l_input.html#aea38929accc31d9f27c08b5d4119fe3">~KCLInput</a>();
+<a name="l00140"></a><a class="code" href="class_k_c_l_input.html#5919b85a4f70f9d573dfea5b797fbe85">00140</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#5919b85a4f70f9d573dfea5b797fbe85">vendor</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_device_info.vendor;}
+<a name="l00144"></a><a class="code" href="class_k_c_l_input.html#024e32ca1e69548cf8c88f9cdf0c846a">00144</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#024e32ca1e69548cf8c88f9cdf0c846a">product</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_device_info.product;}
+<a name="l00148"></a><a class="code" href="class_k_c_l_input.html#53ebfb56b5039bdeb8b6bed4bbff1b0e">00148</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#53ebfb56b5039bdeb8b6bed4bbff1b0e">version</a>(){<span class="keywordflow">return</span> m_device_info.version;}
+<a name="l00152"></a><a class="code" href="class_k_c_l_input.html#a10bb61e06d513fdf233a5b674c1d800">00152</a>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#a10bb61e06d513fdf233a5b674c1d800">bustype</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_device_info.bustype;}
+<a name="l00153"></a>00153 
+<a name="l00154"></a><a class="code" href="class_k_c_l_input.html#7eed3b9f99f3ee3634693bcbe385329b">00154</a>     <span class="keyword">const</span> QString &amp;<a class="code" href="class_k_c_l_input.html#7eed3b9f99f3ee3634693bcbe385329b">devicePath</a>(){<span class="keywordflow">return</span> m_devicePath;}
+<a name="l00158"></a><a class="code" href="class_k_c_l_input.html#cdb5cd70b2c5752586e99f6bc7508e2f">00158</a>     <span class="keyword">const</span> QString &amp;<a class="code" href="class_k_c_l_input.html#cdb5cd70b2c5752586e99f6bc7508e2f">deviceName</a>(){<span class="keywordflow">return</span> m_deviceName;}
+<a name="l00163"></a><a class="code" href="class_k_c_l_input.html#cd334fdeddab9e5ae026e22942ebac65">00163</a>     <span class="keyword">const</span> <a class="code" href="class_k_c_l.html#a8029324d980fcc0db841345b9c005b7">KCL::DeviceFlag</a> &amp;<a class="code" href="class_k_c_l_input.html#cd334fdeddab9e5ae026e22942ebac65">deviceType</a>(){<span class="keywordflow">return</span> m_deviceType;}
+<a name="l00172"></a><a class="code" href="class_k_c_l_input.html#afe120b671d76b4b7d14b48e03d4faf6">00172</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#afe120b671d76b4b7d14b48e03d4faf6">button</a>(<span class="keywordtype">int</span> code){<span class="keywordflow">return</span> m_buttons.contains(code);}
+<a name="l00181"></a><a class="code" href="class_k_c_l_input.html#9489641a8f669dc73ee86120a6e02adc">00181</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#9489641a8f669dc73ee86120a6e02adc">anyPress</a>(){<span class="keywordflow">if</span> (m_buttons.size()&gt;0) <span class="keywordflow">return</span> m_buttons.last(); <span class="keywordflow">else</span> <span class="keywordflow">return</span> <span class="keyword">false</span>;}
+<a name="l00182"></a>00182 
+<a name="l00191"></a>00191 <span class="comment">//    bool anyMove(AXIS_TYPE a){if (a==KCL_ABSOLU) return anyAbsMove(); if (a==KCL_RELATIF) return anyRelMove();}</span>
+<a name="l00192"></a><a class="code" href="class_k_c_l_input.html#addbe22e22824c19e38deedfb603ee6c">00192</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#addbe22e22824c19e38deedfb603ee6c">anyAbsMove</a>(){<span class="keywordflow">if</span> ( m_absMove) {m_absMove=<span class="keyword">false</span>;<span class="keywordflow">return</span> <span class="keyword">true</span>;} <span class="keywordflow">return</span> <span class="keyword">false</span>; }
+<a name="l00193"></a><a class="code" href="class_k_c_l_input.html#c7eb85203b40fc1fd3d6ac65788b79b4">00193</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#c7eb85203b40fc1fd3d6ac65788b79b4">anyRelMove</a>(){<span class="keywordflow">if</span> ( m_relMove) {m_relMove=<span class="keyword">false</span>;<span class="keywordflow">return</span> <span class="keyword">true</span>;} <span class="keywordflow">return</span> <span class="keyword">false</span>; }
+<a name="l00194"></a>00194 
+<a name="l00195"></a><a class="code" href="class_k_c_l_input.html#c5a8a2c8264e7ff8d4567057d2ae12c5">00195</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#c5a8a2c8264e7ff8d4567057d2ae12c5">lastAbsAxis</a>(){<span class="keywordflow">return</span> m_lastAbsAxis;}
+<a name="l00196"></a><a class="code" href="class_k_c_l_input.html#8414ad0259d97aed6a00658b7dd94d45">00196</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#8414ad0259d97aed6a00658b7dd94d45">lastRelAxis</a>(){<span class="keywordflow">return</span> m_lastRelAxis;}
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 
+<a name="l00204"></a><a class="code" href="class_k_c_l_input.html#9c10138f6d7b8f744f352cc4372ffa25">00204</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#9c10138f6d7b8f744f352cc4372ffa25">relAxisValue</a>(<span class="keywordtype">int</span> code){
+<a name="l00205"></a>00205         <span class="keywordflow">if</span>(m_relAxis.contains(code))
+<a name="l00206"></a>00206             <span class="keywordflow">return</span> m_relAxis[code] ;
+<a name="l00207"></a>00207         <span class="keywordflow">else</span> <span class="keywordflow">return</span> 0;
+<a name="l00208"></a>00208     }
+<a name="l00213"></a><a class="code" href="class_k_c_l_input.html#10f2230a1908c09ffa752052e60a21d9">00213</a>     <span class="keywordtype">int</span> <a class="code" href="class_k_c_l_input.html#10f2230a1908c09ffa752052e60a21d9">absAxisValue</a>(<span class="keywordtype">int</span> code){
+<a name="l00214"></a>00214         <span class="keywordflow">if</span>(m_absAxis.contains(code))
+<a name="l00215"></a>00215             <span class="keywordflow">return</span> m_absAxis[code] ;
+<a name="l00216"></a>00216         <span class="keywordflow">else</span> <span class="keywordflow">return</span> 0;
+<a name="l00217"></a>00217     }
+<a name="l00222"></a><a class="code" href="class_k_c_l_input.html#34ef86b5dca6991de90743a5c20d8c38">00222</a>     QList&lt;int&gt; <a class="code" href="class_k_c_l_input.html#34ef86b5dca6991de90743a5c20d8c38">buttonCapabilities</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_buttonCapabilities;}
+<a name="l00223"></a><a class="code" href="class_k_c_l_input.html#98e8b6035165b8ba1d2eed1620cf1b1c">00223</a>     QList&lt;int&gt; <a class="code" href="class_k_c_l_input.html#98e8b6035165b8ba1d2eed1620cf1b1c">absAxisCapabilities</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_absAxisCapabilities;}
+<a name="l00224"></a><a class="code" href="class_k_c_l_input.html#01591a1897e2b8a62b305470ac673fd5">00224</a>     QList&lt;int&gt; <a class="code" href="class_k_c_l_input.html#01591a1897e2b8a62b305470ac673fd5">relAxisCapabilities</a>()<span class="keyword">const</span>{<span class="keywordflow">return</span> m_relAxisCapabilities;}
+<a name="l00225"></a>00225 
+<a name="l00230"></a><a class="code" href="class_k_c_l_input.html#fa50617f76c29a376c615f5420ea3152">00230</a>     <a class="code" href="class_abs_val.html">AbsVal</a> <a class="code" href="class_k_c_l_input.html#fa50617f76c29a376c615f5420ea3152">axisInfo</a>(<span class="keywordtype">int</span> axisCode){<span class="keywordflow">return</span> m_absAxisInfos[axisCode];}
+<a name="l00231"></a><a class="code" href="class_k_c_l_input.html#0c3b7dd3cce5d5567c4894500074fee3">00231</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#0c3b7dd3cce5d5567c4894500074fee3">error</a>(){<span class="keywordflow">return</span> m_error;}
+<a name="l00232"></a><a class="code" href="class_k_c_l_input.html#90dc7de6adce9a4eeda72d57491137f3">00232</a>     QString <a class="code" href="class_k_c_l_input.html#90dc7de6adce9a4eeda72d57491137f3">msgError</a>(){<span class="keywordflow">return</span> m_msgError;}
+<a name="l00247"></a>00247     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#ee93fa33ec6a14baf2acf3daf23607c0">inputEventFilter</a>(<a class="code" href="class_k_c_l_input_event.html" title="Provides a input events.">KCLInputEvent</a> * event);
+<a name="l00248"></a><a class="code" href="class_k_c_l_input.html#fcc85277197831a8dae75178b90bfebb">00248</a>     <span class="keywordtype">bool</span> <a class="code" href="class_k_c_l_input.html#fcc85277197831a8dae75178b90bfebb">isEnable</a>(){<span class="keywordflow">return</span> m_enable;}
+<a name="l00249"></a>00249 signals:
+<a name="l00250"></a>00250     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#b82e826fcc0f790ff153c5e4ac074344">buttonPressed</a>(<span class="keywordtype">int</span> code);
+<a name="l00251"></a>00251     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#1192fa591312c7cda431b9cf9b442344">buttonReleased</a>(<span class="keywordtype">int</span> code);
+<a name="l00252"></a>00252     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#4c1dcd58b3d59b6f2dc059d65b5012e4">absAxisChanged</a>(<span class="keywordtype">int</span> axe,<span class="keywordtype">int</span> code);
+<a name="l00253"></a>00253     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#ff1ef872aecc7cd81660f2410cd53246">relAxisChanged</a>(<span class="keywordtype">int</span> axe,<span class="keywordtype">int</span> code);
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256 <span class="keyword">public</span> slots:
+<a name="l00257"></a>00257     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#09e6f283721d38bb9aa2a703d6a735c6">slotInputEvent</a>(<a class="code" href="class_k_c_l_input_event.html" title="Provides a input events.">KCLInputEvent</a> * event);
+<a name="l00258"></a>00258     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#7b6f5e42d88e677d371e615fa686e79e">setEnable</a>();
+<a name="l00259"></a>00259     <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#496552a75e1e157f134e4e0739d25895">setDisable</a>();
+<a name="l00260"></a>00260 <span class="keyword">protected</span> :
+<a name="l00261"></a>00261         <span class="keywordtype">void</span> <a class="code" href="class_k_c_l_input.html#33e1fd26c084040a728cabf03e445893">readInformation</a>();
 <a name="l00262"></a>00262 
-<a name="l00263"></a>00263 <span class="comment">//---------------------------------------------------------------------------------------------</span>
-<a name="l00264"></a>00264 
-<a name="l00265"></a>00265 
-<a name="l00266"></a>00266 
-<a name="l00267"></a>00267 
-<a name="l00268"></a>00268 
-<a name="l00269"></a>00269 
-<a name="l00270"></a>00270 <span class="preprocessor">#endif // KCLINPUT_H</span>
+<a name="l00263"></a>00263 <span class="keyword">private</span>:
+<a name="l00264"></a>00264 <a class="code" href="class_k_c_l_thread.html" title="Provides a QThread witch listen the input status.">KCLThread</a> * inputListener;
+<a name="l00265"></a>00265 <span class="keyword">struct </span>input_id m_device_info;
+<a name="l00266"></a>00266 <span class="keyword">struct </span>input_event m_currentEvent;
+<a name="l00267"></a>00267 QString m_devicePath;
+<a name="l00268"></a>00268 QString m_deviceName;
+<a name="l00269"></a>00269 <a class="code" href="class_k_c_l.html#a8029324d980fcc0db841345b9c005b7">KCL::DeviceFlag</a> m_deviceType;
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 QList&lt;int&gt; m_buttons;  <span class="comment">//list of button pressed</span>
+<a name="l00272"></a>00272 QMap&lt;int,int&gt; m_relAxis; <span class="comment">// list of relatif axis Value .  m_relAxis[REL_X] = -1;</span>
+<a name="l00273"></a>00273 QMap&lt;int,int&gt; m_absAxis; <span class="comment">// list of absolue axis value. m_absAxis[ABS_Rx] = 156</span>
+<a name="l00274"></a>00274 QList&lt;int&gt; m_buttonCapabilities; <span class="comment">// list of button capability. BTN_ESC, BTN_F1 etc....</span>
+<a name="l00275"></a>00275 QList&lt;int&gt; m_relAxisCapabilities; <span class="comment">// list of rel Axis capability..</span>
+<a name="l00276"></a>00276 QList&lt;int&gt; m_absAxisCapabilities; <span class="comment">// list of abs Axis capabilty</span>
+<a name="l00277"></a>00277 QMap&lt;int, AbsVal&gt; m_absAxisInfos; <span class="comment">// each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.</span>
+<a name="l00278"></a>00278 QString m_msgError;
+<a name="l00279"></a>00279 <span class="keywordtype">bool</span> m_absMove;
+<a name="l00280"></a>00280 <span class="keywordtype">bool</span> m_relMove;
+<a name="l00281"></a>00281 <span class="keywordtype">bool</span> m_error;
+<a name="l00282"></a>00282 <span class="keywordtype">int</span> m_lastAbsAxis;
+<a name="l00283"></a>00283 <span class="keywordtype">int</span> m_lastRelAxis;
+<a name="l00284"></a>00284 <span class="keywordtype">bool</span> m_enable;
+<a name="l00285"></a>00285 };
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288 <span class="comment">//---------------------------------------------------------------------------------------------</span>
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295 <span class="preprocessor">#endif // KCLINPUT_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Sep 3 23:24:01 2009 for kcl by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 7 22:36:48 2009 for kcl by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

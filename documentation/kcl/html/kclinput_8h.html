@@ -33,6 +33,7 @@
 <code>#include &lt;linux/input.h&gt;</code><br>
 <code>#include &lt;KDebug&gt;</code><br>
 <code>#include &quot;<a class="el" href="kclcode_8h-source.html">kclcode.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="kcl_8h-source.html">kcl.h</a>&quot;</code><br>
 
 <p>
 <a href="kclinput_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -49,53 +50,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_k_c_l_input.html">KCLInput</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">provide an object that represent an input. This is the class mother of all device you want to use. It return you all information about the device, for example the name. And it return the status of the device, it means the type, code, and value.  <a href="class_k_c_l_input.html#_details">More...</a><br></td></tr>
-<tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a">DEVICE</a> { <br>
-&nbsp;&nbsp;<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc">KCL_KEYBOARD</a>, 
-<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749">KCL_MOUSE</a>, 
-<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8">KCL_JOYSTICK</a>, 
-<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4">KCL_TABLET</a>, 
-<br>
-&nbsp;&nbsp;<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd">KCL_TOUCHPAD</a>, 
-<a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3">KCL_UNKNOWN</a>
-<br>
- }</td></tr>
-
 </table>
-<hr><h2>Enumeration Type Documentation</h2>
-<a class="anchor" name="833b28f90e109607cd5d9e826474893a"></a><!-- doxytag: member="kclinput.h::DEVICE" ref="833b28f90e109607cd5d9e826474893a" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="kclinput_8h.html#833b28f90e109607cd5d9e826474893a">DEVICE</a>          </td>
-        </tr>
-      </table>
 </div>
-<div class="memdoc">
-
-<p>
-<dl compact><dt><b>Enumerator: </b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc"></a><!-- doxytag: member="KCL_KEYBOARD" ref="833b28f90e109607cd5d9e826474893a879f44e8cae1623e122cc348ac17bddc" args="" -->KCL_KEYBOARD</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749"></a><!-- doxytag: member="KCL_MOUSE" ref="833b28f90e109607cd5d9e826474893a9a1a40436bbb70c298eccd986e17b749" args="" -->KCL_MOUSE</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8"></a><!-- doxytag: member="KCL_JOYSTICK" ref="833b28f90e109607cd5d9e826474893ad1da1a63ac5c903aa1d2095d54ef84a8" args="" -->KCL_JOYSTICK</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4"></a><!-- doxytag: member="KCL_TABLET" ref="833b28f90e109607cd5d9e826474893ac7785163df00b9c50ee794df26d04fa4" args="" -->KCL_TABLET</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd"></a><!-- doxytag: member="KCL_TOUCHPAD" ref="833b28f90e109607cd5d9e826474893a0e503f75d335878e9275d489052b16cd" args="" -->KCL_TOUCHPAD</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3"></a><!-- doxytag: member="KCL_UNKNOWN" ref="833b28f90e109607cd5d9e826474893a71283b2d7040ac989b5558eca54ae2c3" args="" -->KCL_UNKNOWN</em>&nbsp;</td><td>
-</td></tr>
-</table>
-</dl>
-
-</div>
-</div><p>
-</div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Sep 3 23:24:01 2009 for kcl by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 7 22:36:48 2009 for kcl by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
