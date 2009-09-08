@@ -22,9 +22,6 @@ KCLVirtualInputConfig::KCLVirtualInputConfig(KCLVirtualInput * input ,QWidget * 
     m_treeWidget->resizeColumnToContents(0);
     m_treeWidget->resizeColumnToContents(1);
     m_treeWidget->resizeColumnToContents(2);
-
-
-
     QHBoxLayout * barLayout = new QHBoxLayout;
 
 setButtons( KDialog::Ok | KDialog::Cancel | KDialog::Default);
@@ -37,9 +34,6 @@ setButtons( KDialog::Ok | KDialog::Cancel | KDialog::Default);
 
 void KCLVirtualInputConfig::setup()
 {
-
-
-
     foreach ( VirtualButton * button, m_virtualInput->primaryButtonList())
     {
 
@@ -88,6 +82,5 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     }
     setEnabled(true);
 }
-
 
 

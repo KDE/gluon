@@ -24,6 +24,9 @@ private:
 };
 
 
+
+
+
 class KCLVirtualInput : public QObject
 {
 public:
@@ -32,6 +35,8 @@ public:
     QList<VirtualButton*>primaryButtonList(){return m_primaryButtonList;}
     QList<VirtualButton*>secondaryButtonList(){return m_secondaryButtonList;}
 
+    QList <VirtualButton*> primary(){return m_primaryButtonList;}
+    QList <VirtualButton*> secondary(){return m_secondaryButtonList;}
 private:
     QList <VirtualButton*> m_primaryButtonList;
     QList <VirtualButton*> m_secondaryButtonList;

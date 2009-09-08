@@ -9,15 +9,17 @@
 #include <KUrl>
 #include <KRun>
 #include <KMenuBar>
+#include <KStatusBar>
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)
 {
     KALEngine::instance();
     m_view = new KGLView;
+    m_inputs=new KCLVirtualInput;
     setCentralWidget(m_view);
     setupAction();
-
-
+m_view->start();
+connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
 
 }
 
@@ -54,7 +56,7 @@ void GluonMainWindow::setupAction()
     kglAction->setIcon(KIcon("kgl.png"));
     actionCollection()->addAction("kgl", kglAction);
     connect(kglAction,SIGNAL(triggered()),this,SLOT(showKglService()));
-//
+    //
 
     KAction* kalAction = new KAction(this);
     kalAction->setText(i18n("kal config"));
@@ -69,12 +71,23 @@ void GluonMainWindow::setupAction()
     connect(kclAction,SIGNAL(triggered()),this,SLOT(showKclSercice()));
     KStandardAction::fullScreen(m_view,SLOT(toggleFullScreen()),this,actionCollection());
 
-        setupGUI();
+    KAction* controlAction = new KAction(this);
+    controlAction->setText(i18n("controls...."));
+    controlAction->setIcon(KIcon("games-config-options.png"));
+    actionCollection()->addAction("setup controls",controlAction);
+    connect(controlAction,SIGNAL(triggered()),this,SLOT(showControlWidget()));
 
-        QMenu * menu = menuBar()->addMenu("gluon");
-        menu->addAction(kglAction);
-        menu->addAction(kalAction);
-        menu->addAction(kclAction);
+
+
+    setupGUI();
+
+
+
+    QMenu * menu = menuBar()->addMenu("gluon");
+    menu->addAction(kglAction);
+    menu->addAction(kalAction);
+    menu->addAction(kclAction);
+     menu->addAction(controlAction);
 }
 
 void GluonMainWindow::launchService(QString name)
@@ -88,3 +101,17 @@ void GluonMainWindow::launchService(QString name)
 
 
 }
+  void GluonMainWindow::showControlWidget()
+  {
+    KCLVirtualInputConfig *  m_controlWidget = new KCLVirtualInputConfig(m_inputs);
+    m_controlWidget->exec();
+
+  }
+   void GluonMainWindow::showFps(int fps)
+   {
+
+       statusBar()->showMessage("fps:"+QString::number(fps));
+
+
+
+   }

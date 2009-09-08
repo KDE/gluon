@@ -99,6 +99,12 @@ void KGLView::init()
     setAutoBufferSwap(true);
     glInit();
     initGlew();
+    logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
+    logo->setColor(QColor(255,255,255,50));
+    logo->setScale(0.5);
+    logo->setPosition(-logo->itemCenter()/2);
+
+    logo->updateTransform();
     connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
@@ -110,30 +116,30 @@ void KGLView::goFullScreen()
     m_screenConfig->setResolution(id);
     if ( parentWidget()!=NULL)
     {
-       parentWidget()->showFullScreen();
+        parentWidget()->showFullScreen();
     }
     else
-    showFullScreen();
+        showFullScreen();
     m_fullscreen = true;
 }
 void KGLView::leaveFullScreen()
+{
+    m_screenConfig->restore();
+    if ( parentWidget() != NULL)
     {
-        m_screenConfig->restore();
-        if ( parentWidget() != NULL)
-        {
-            parentWidget()->showNormal();
-        }
-        else
-            showNormal();
-        m_fullscreen = false;
+        parentWidget()->showNormal();
     }
+    else
+        showNormal();
+    m_fullscreen = false;
+}
 
-   void KGLView::toggleFullScreen()
-   {
-     if ( m_fullscreen)
-         leaveFullScreen();
-     else goFullScreen();
-   }
+void KGLView::toggleFullScreen()
+{
+    if ( m_fullscreen)
+        leaveFullScreen();
+    else goFullScreen();
+}
 void KGLView::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
@@ -171,6 +177,12 @@ void  KGLView::paintGL()
     glLoadIdentity();
 
     if ( engine() != NULL)drawGLItems();
+    else
+    {
+
+        logo->draw();
+    }
+
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);
     if ( m_infoShow) drawInfo();

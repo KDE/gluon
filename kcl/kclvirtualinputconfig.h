@@ -13,12 +13,13 @@ class KCLVirtualInputConfig : public KDialog
     Q_OBJECT
 public:
     KCLVirtualInputConfig(KCLVirtualInput * input ,QWidget * parent=0);
+
+
+public slots:
     void setup();
-
-    public slots:
-void changeButton(QTreeWidgetItem * item, int column);
-
-    private:
+private slots:
+    void changeButton(QTreeWidgetItem * item, int column);
+private:
     QTreeWidget * m_treeWidget;
     KCLVirtualInput * m_virtualInput;
 

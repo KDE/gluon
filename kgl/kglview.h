@@ -29,6 +29,7 @@
 
 #include "kglengine.h"
 #include "kglscreenconfig.h"
+#include "kglpixmapitem.h"
 class KGLView : public QGLWidget
 {
     Q_OBJECT
@@ -132,22 +133,28 @@ public slots:
     }
     void toogleActive()
     {
-    if ( m_timer->isActive())
-        stop();
-       else start();
+        if ( m_timer->isActive())
+            stop();
+        else start();
     }
 
     virtual void nextFrame();
     inline void calculFps()
     {
+        if ( m_fps!=m_countFrame)
+            emit fpsChanged(m_countFrame);
         m_fps = m_countFrame;
         m_countFrame = 0;
     }
     void goFullScreen();
-   void leaveFullScreen();
-   void toggleFullScreen();
+    void leaveFullScreen();
+    void toggleFullScreen();
+
+signals:
+    void fpsChanged(int fps);
+
 protected:
- void drawRepere(float scalex, float scaley);
+    void drawRepere(float scalex, float scaley);
     void drawInfo();
     void drawGLItems();
     void saveResolution();
@@ -160,6 +167,7 @@ protected:
 private:
     KGLEngine * m_engine;
     KGLScreenConfig * m_screenConfig;
+       KGLPixmapItem * logo ;
     QRectF m_orthoView;
     float m_countFrame;
     float m_fps;

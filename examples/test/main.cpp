@@ -53,13 +53,13 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-    KCLButton * button = new KCLButton(KCL::Button);
-    
-    button->show();
     GluonMainWindow * gluon = new GluonMainWindow;
     
     gluon->show();
 
+  gluon->inputs()->setButton("Jump");
+  gluon->inputs()->setButton("Run");
+  gluon->inputs()->setButton("Go");
   
  
 app.exec();
