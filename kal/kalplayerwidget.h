@@ -6,9 +6,9 @@
 #include "kalsound.h"
 class KALPlayerWidget : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    KALPlayerWidget(QWidget * parent=0);
+    KALPlayerWidget(QWidget * parent = 0);
 
 public slots:
     void play();

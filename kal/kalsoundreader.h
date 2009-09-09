@@ -11,23 +11,20 @@ class KALSoundReader
 public:
     KALSoundReader(const QString& fileName);
 
-    QString format()
-    {
+    QString format() {
         QFileInfo file(m_fileName);
         return file.completeSuffix();
     }
     bool canRead();
 
-    static QStringList supportedSoundFormats()
-    {
-        return (QStringList() <<"wav"<<"ogg");
+    static QStringList supportedSoundFormats() {
+        return (QStringList() << "wav" << "ogg");
     }
-const QString& fileName()
-{
-    return m_fileName;
-}
+    const QString& fileName() {
+        return m_fileName;
+    }
 
-ALuint buffer();
+    ALuint buffer();
 
 protected:
     ALuint fromWav();

@@ -11,27 +11,27 @@
 #define BUFFER_SIZE     32768       // 32 KB buffers
 
 KALSoundReader::KALSoundReader(const QString& fileName)
-        :m_fileName(fileName)
+        : m_fileName(fileName)
 {
-if ( QFile::exists(fileName))
-    kDebug()<<"cannot  find the file : "<<fileName;
+    if (QFile::exists(fileName))
+        kDebug() << "cannot  find the file : " << fileName;
 
 }
 
-bool KALSoundReader::canRead ()
+bool KALSoundReader::canRead()
 {
-if ( supportedSoundFormats().contains(format()))
-    return true;
-else return false;
+    if (supportedSoundFormats().contains(format()))
+        return true;
+    else return false;
 }
 
 ALuint KALSoundReader::buffer()
 {
 
-    if ( format()=="ogg") return fromOgg();
-if ( format()=="wav") return fromWav();
+    if (format() == "ogg") return fromOgg();
+    if (format() == "wav") return fromWav();
 
- return NULL;
+    return NULL;
 }
 
 ALuint KALSoundReader::fromWav()

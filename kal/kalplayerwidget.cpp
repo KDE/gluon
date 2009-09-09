@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include "kalsound.h"
 KALPlayerWidget::KALPlayerWidget(QWidget * parent)
-    :QWidget(parent)
+        : QWidget(parent)
 {
     QHBoxLayout * layout = new QHBoxLayout;
 
@@ -19,8 +19,8 @@ KALPlayerWidget::KALPlayerWidget(QWidget * parent)
     layout->addWidget(bplay);
     layout->addWidget(bstop);
     sound = new KALSound("");
-    connect(bplay,SIGNAL(clicked()),this,SLOT(play()));
-    connect(bstop,SIGNAL(clicked()),sound,SLOT(stop()));
+    connect(bplay, SIGNAL(clicked()), this, SLOT(play()));
+    connect(bstop, SIGNAL(clicked()), sound, SLOT(stop()));
 
     setWindowTitle("select a sound and play it");
 
@@ -28,6 +28,6 @@ KALPlayerWidget::KALPlayerWidget(QWidget * parent)
 }
 void KALPlayerWidget::play()
 {
-    sound= new KALSound(requester->text());
+    sound = new KALSound(requester->text());
     sound->play();
 }

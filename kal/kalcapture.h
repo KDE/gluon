@@ -13,8 +13,8 @@ class KALCapture : public QObject
 {
     Q_OBJECT
 public:
-    KALCapture(QString deviceName = QString(), QObject * parent=0);
-  ~KALCapture();
+    KALCapture(QString deviceName = QString(), QObject * parent = 0);
+    ~KALCapture();
     bool isAvaible();
     static QStringList captureDeviceList();
     void record(int duration = 1000);
@@ -24,8 +24,8 @@ public:
 private:
     ALCdevice* Device;
     ALCdevice* CaptureDevice;
-QVector<ALshort> samples;
-ALuint buffer;
+    QVector<ALshort> samples;
+    ALuint buffer;
 };
 
 #endif // KALCAPTURE_H

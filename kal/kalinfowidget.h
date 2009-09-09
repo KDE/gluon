@@ -11,7 +11,7 @@ class KALInfoWidget : public QWidget
 {
     Q_OBJECT
 public:
-    KALInfoWidget(QWidget * parent=0);
+    KALInfoWidget(QWidget * parent = 0);
     void setupComboBox();
     void setupPreview();
     void setupInformation();

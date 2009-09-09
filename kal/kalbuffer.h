@@ -43,11 +43,10 @@ public:
     bool isEmpty() {
         return !m_buffer;
     }
-   void setHelloWord() {
+    void setHelloWord() {
         m_buffer = alutCreateBufferHelloWorld();
     }
-    ALuint buffer()
-    {
+    ALuint buffer() {
         return m_buffer;
     }
 
