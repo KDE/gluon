@@ -1,7 +1,7 @@
 #ifndef KALINFOWIDGET_H
 #define KALINFOWIDGET_H
 
-#include "kalengine.h"
+#include "../kalengine.h"
 
 #include <QComboBox>
 #include <QGraphicsPixmapItem>

@@ -1,7 +1,7 @@
 #ifndef KALPLAYERWIDGET_H
 #define KALPLAYERWIDGET_H
 
-#include "kalsound.h"
+#include "../kalsound.h"
 
 #include <QWidget>
 

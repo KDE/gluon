@@ -1,13 +1,14 @@
 set(kal_LIB_SRCS
-kalphonon.cpp
-kalsoundreader.cpp
-kaloggstreamer.cpp
-kalcapture.cpp
-kalengine.cpp
-kalbuffer.cpp
-kalsound.cpp
-kalinfowidget.cpp
-kalplayerwidget.cpp
+    kalengine.cpp
+    kalphonon.cpp
+    kalsoundreader.cpp
+    kaloggstreamer.cpp
+    kalcapture.cpp
+    kalbuffer.cpp
+    kalsound.cpp
+    
+    widgets/kalinfowidget.cpp
+    widgets/kalplayerwidget.cpp
 )
 
 kde4_add_library(kal SHARED ${kal_LIB_SRCS})

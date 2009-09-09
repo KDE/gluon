@@ -40,7 +40,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "kcmkal.h"
-#include "kal/kalinfowidget.h"
+#include "kal/widgets/kalinfowidget.h"
 
 K_PLUGIN_FACTORY(KALConfigFactory,
         registerPlugin<KALConfig>();
