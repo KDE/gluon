@@ -1,11 +1,12 @@
 #ifndef KALSOUNDREADER_H
 #define KALSOUNDREADER_H
 
-#include <QObject>
+#include "kalbuffer.h"
+
+#include <QFileInfo>
 #include <QString>
 #include <QStringList>
-#include <QFileInfo>
-#include "kalbuffer.h"
+
 class KALSoundReader
 {
 public:
@@ -15,12 +16,13 @@ public:
         QFileInfo file(m_fileName);
         return file.completeSuffix();
     }
+
     bool canRead();
 
     static QStringList supportedSoundFormats() {
         return (QStringList() << "wav" << "ogg");
     }
-    const QString& fileName() {
+    QString fileName() const {
         return m_fileName;
     }
 
@@ -30,11 +32,8 @@ protected:
     ALuint fromWav();
     ALuint fromOgg();
 
-
 private:
     QString m_fileName;
-
-
 };
 
 #endif // KALSOUNDREADER_H

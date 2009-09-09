@@ -21,23 +21,8 @@
 
 #include "kalbuffer.h"
 #include "kalengine.h"
-
-#include <KDebug>
-
-#include <QFileInfo>
-
-#include <al.h>
-#include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisenc.h>
-#include <vorbis/vorbisfile.h>
-#include <sys/stat.h>
-#include <QVector>
 #include "kalsoundreader.h"
 
-#define BUFFER_SIZE     32768       // 32 KB buffers
-
-using namespace std;
 KALBuffer::KALBuffer()
         : m_buffer(0)
 {
@@ -57,22 +42,23 @@ KALBuffer::KALBuffer(ALuint buffer)
     init();
 }
 
-KALBuffer::~KALBuffer()
-{
-    alDeleteBuffers(1, &m_buffer);
-    KALEngine *engine = KALEngine::instance();
-    engine->removeBuffer(this);
-}
 void KALBuffer::init()
 {
     KALEngine *engine = KALEngine::instance();
     engine->addBuffer(this);
 }
 
+KALBuffer::~KALBuffer()
+{
+    alDeleteBuffers(1, &m_buffer);
+    KALEngine *engine = KALEngine::instance();
+    engine->removeBuffer(this);
+}
+
 void KALBuffer::setBuffer(const QString &fileName)
 {
-
     KALSoundReader reader(fileName);
-    if (reader.canRead())
+    if (reader.canRead()) {
         m_buffer = reader.buffer();
+    }
 }

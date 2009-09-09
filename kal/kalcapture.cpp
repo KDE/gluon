@@ -2,94 +2,89 @@
 #include <KDebug>
 #include <QTime>
 #include <QFile>
-KALCapture::KALCapture(QString deviceName , QObject * parent)
+KALCapture::KALCapture(QString deviceName, QObject *parent)
         : QObject(parent)
 {
+    if (isAvailable()) {
+        captureDevice = alcCaptureOpenDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
+    } else {
+        kError() << "No capture device available";
+        return;
+    }
 
-    if (isAvaible()) {
-        CaptureDevice = alcCaptureOpenDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
-        if (!CaptureDevice)
-            kDebug() << "cannot set the capture device";
-    } else kDebug() << "cannot find avaible capture device";
-
+    if (!captureDevice) {
+        kError() << "Could not set the capture device";
+        return;
+    }
 }
 
 KALCapture::~KALCapture()
 {
-    alcCaptureCloseDevice(CaptureDevice);
+    alcCaptureCloseDevice(captureDevice);
 }
 
-bool KALCapture::isAvaible()
+bool KALCapture::isAvailable()
 {
-
-    if (alcIsExtensionPresent(Device, "ALC_EXT_CAPTURE") == AL_FALSE)
-        return false;
-    else return true;
+    return alcIsExtensionPresent(device, "ALC_EXT_CAPTURE");
 }
-QStringList KALCapture::captureDeviceList()
+
+// TODO: This is mostly copy-pasted from KALEngine::deviceList(), find a way to avoid code duplication
+QStringList KALCapture::deviceList()
 {
+    const ALCchar* devices = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
+
+    // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
+    // So we can't pass it directly to QStringList
     QStringList list;
-    // Récupération des devices de capture disponibles
-    const ALCchar* DeviceList = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
-
-    if (DeviceList) {
-        // Extraction des devices contenus dans la chaîne renvoyée
-        while (strlen(DeviceList) > 0) {
-            list.append(DeviceList);
-            DeviceList += strlen(DeviceList) + 1;
+    if (devices) {
+        while (strlen(devices) > 0) {
+            list.append(devices);
+            devices += strlen(devices) + 1;
         }
     }
     return list;
 }
 
+//FIXME: Why is there code duplication here?
 void KALCapture::record(int duration)
 {
+    QTime recordTime;
+    recordTime.start();
 
-    QTime now;
-    now.start();
-    while (now.elapsed() < duration) {
-
-        ALCint SamplesAvailable;
-        alcGetIntegerv(CaptureDevice, ALC_CAPTURE_SAMPLES, 1, &SamplesAvailable);
-        if (SamplesAvailable > 0) {
-            samples.append(SamplesAvailable);
-            alcCaptureSamples(CaptureDevice, &samples.last(), SamplesAvailable);
+    while (recordTime.elapsed() < duration) {
+        ALCint samplesAvailable;
+        alcGetIntegerv(captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
+        if (samplesAvailable > 0) {
+            samples.append(samplesAvailable);
+            alcCaptureSamples(captureDevice, &samples.last(), samplesAvailable);
         }
     }
-    alcCaptureStop(CaptureDevice);
 
+    alcCaptureStop(captureDevice);
 
-    ALCint SamplesAvailable;
-    alcGetIntegerv(CaptureDevice, ALC_CAPTURE_SAMPLES, 1, &SamplesAvailable);
-    if (SamplesAvailable > 0) {
-        samples.append(SamplesAvailable);
-        alcCaptureSamples(CaptureDevice, &samples.last(), SamplesAvailable);
+    ALCint samplesAvailable;
+    alcGetIntegerv(captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
+    if (samplesAvailable > 0) {
+        samples.append(samplesAvailable);
+        alcCaptureSamples(captureDevice, &samples.last(), samplesAvailable);
     }
 
 }
 
 
-void KALCapture::save(const QString& filename)
+void KALCapture::save(const QString& fileName)
 {
+    SF_INFO fileInfo;
+    fileInfo.channels = 1;
+    fileInfo.samplerate = 44100;
+    fileInfo.format = SF_FORMAT_PCM_16 | SF_FORMAT_WAV;
 
-    SF_INFO FileInfos;
-    FileInfos.channels   = 1;
-    FileInfos.samplerate = 44100;
-    FileInfos.format     = SF_FORMAT_PCM_16 | SF_FORMAT_WAV;
+    SNDFILE *file = sf_open(fileName.toUtf8(), SFM_WRITE, &fileInfo);
 
-    SNDFILE* File = sf_open(filename.toStdString().c_str(), SFM_WRITE, &FileInfos);
-    if (!File)
+    if (!file)
         return;
 
-    // Ecriture des échantillons audio
-    sf_write_short(File, &samples[0], samples.size());
+    sf_write_short(file, &samples[0], samples.size());
 
-    // Fermeture du fichier
-    sf_close(File);
-
-
-
-
-
-
+    sf_close(file);
 }

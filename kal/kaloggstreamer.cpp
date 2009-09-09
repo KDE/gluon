@@ -42,21 +42,21 @@ void KALOggStreamer::open(string path)
     vorbisInfo = ov_info(&oggStream, -1);
     vorbisComment = ov_comment(&oggStream, -1);
 
-    if (vorbisInfo->channels == 1)
+    if (vorbisInfo->channels == 1) {
         format = AL_FORMAT_MONO16;
-    else
+    } else {
         format = AL_FORMAT_STEREO16;
-
+    }
 
     alGenBuffers(2, buffers);
     check();
     alGenSources(1, &source);
     check();
 
-    alSource3f(source, AL_POSITION,        0.0, 0.0, 0.0);
-    alSource3f(source, AL_VELOCITY,        0.0, 0.0, 0.0);
-    alSource3f(source, AL_DIRECTION,       0.0, 0.0, 0.0);
-    alSourcef(source, AL_ROLLOFF_FACTOR,  0.0);
+    alSource3f(source, AL_POSITION, 0.0, 0.0, 0.0);
+    alSource3f(source, AL_VELOCITY, 0.0, 0.0, 0.0);
+    alSource3f(source, AL_DIRECTION, 0.0, 0.0, 0.0);
+    alSourcef(source, AL_ROLLOFF_FACTOR, 0.0);
     alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
 }
 
@@ -151,17 +151,20 @@ bool KALOggStreamer::stream(ALuint buffer)
     while (size < BUFFER_SIZE) {
         result = ov_read(&oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1, &section);
 
-        if (result > 0)
+        if (result > 0) {
             size += result;
-        else
-            if (result < 0)
+        } else {
+            if (result < 0) {
                 kDebug() << "errorString(result)";
-            else
+            } else {
                 break;
+            }
+        }
     }
 
-    if (size == 0)
+    if (size == 0) {
         return false;
+    }
 
     alBufferData(buffer, format, pcm, size, vorbisInfo->rate);
     check();
@@ -187,8 +190,9 @@ void KALOggStreamer::check()
 {
     int error = alGetError();
 
-    if (error != AL_NO_ERROR)
+    if (error != AL_NO_ERROR) {
         kDebug() << "OpenAL error was raised.";
+    }
 }
 
 string KALOggStreamer::errorString(int code)
@@ -213,15 +217,17 @@ void KALOggStreamer::run()
 {
     open(m_fileName.toUtf8().data());
     display();
-    if (!playback())
+    if (!playback()) {
         kDebug() << "Ogg refused to play.";
+    }
 
     while (update()) {
         if (!isPlaying()) {
-            if (!playback())
+            if (!playback()) {
                 kDebug() << "Ogg abruptly stopped.";
-            else
+            } else {
                 kDebug() << "Ogg stream was interrupted.\n";
+            }
         }
     }
     release();

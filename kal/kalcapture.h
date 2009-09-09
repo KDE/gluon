@@ -1,29 +1,34 @@
 #ifndef KALCAPTURE_H
 #define KALCAPTURE_H
 
+#include "kalbuffer.h"
+
 #include <QObject>
 #include <QStringList>
-#include <QVector>
 #include <QTimeLine>
 #include <QVector>
+
 #include <alc.h>
 #include <alut.h>
-#include "kalbuffer.h"
+
 class KALCapture : public QObject
 {
     Q_OBJECT
-public:
-    KALCapture(QString deviceName = QString(), QObject * parent = 0);
-    ~KALCapture();
-    bool isAvaible();
-    static QStringList captureDeviceList();
-    void record(int duration = 1000);
-    void save(const QString& filename);
 
+public:
+    KALCapture(QString deviceName = QString(), QObject *parent = 0);
+    ~KALCapture();
+
+    bool isAvailable();
+
+    static QStringList deviceList();
+
+    void record(int duration = 1000);
+    void save(const QString &fileName);
 
 private:
-    ALCdevice* Device;
-    ALCdevice* CaptureDevice;
+    ALCdevice *device;
+    ALCdevice *captureDevice;
     QVector<ALshort> samples;
     ALuint buffer;
 };

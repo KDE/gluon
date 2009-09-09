@@ -1,35 +1,42 @@
 #include "kalsoundreader.h"
+
 #include <KDebug>
+
+#include <QMessageBox>
+#include <QVector>
+
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisenc.h>
 #include <vorbis/vorbisfile.h>
 #include <sys/stat.h>
-#include <QVector>
 #include <vector>
-#include <QMessageBox>
-#define BUFFER_SIZE     32768       // 32 KB buffers
+
+#define BUFFER_SIZE 32768 // 32 KB buffers
 
 KALSoundReader::KALSoundReader(const QString& fileName)
         : m_fileName(fileName)
 {
-    if (QFile::exists(fileName))
-        kDebug() << "cannot  find the file : " << fileName;
-
+    if (!QFile::exists(fileName)) {
+        kDebug() << "Could not find file" << fileName;
+    }
 }
 
 bool KALSoundReader::canRead()
 {
-    if (supportedSoundFormats().contains(format()))
-        return true;
-    else return false;
+    return supportedSoundFormats().contains(format());
 }
 
 ALuint KALSoundReader::buffer()
 {
 
-    if (format() == "ogg") return fromOgg();
-    if (format() == "wav") return fromWav();
+    if (format() == "ogg") {
+        return fromOgg();
+    }
+
+    if (format() == "wav") {
+        return fromWav();
+    }
 
     return NULL;
 }
@@ -102,7 +109,6 @@ ALuint KALSoundReader::fromOgg()
         kDebug() << "Cannot open " << m_fileName << " for reading...";
         return 0;
     }
-    // end if
 
     vorbis_info *pInfo;
     OggVorbis_File oggFile;
@@ -112,17 +118,16 @@ ALuint KALSoundReader::fromOgg()
         kDebug() << "Error opening " << m_fileName << " for decoding...";
         return 0;
     }
-    // end if
 
     // Get some information about the OGG file
     pInfo = ov_info(&oggFile, -1);
 
     // Check the number of channels... always use 16-bit samples
-    if (pInfo->channels == 1)
+    if (pInfo->channels == 1) {
         format = AL_FORMAT_MONO16;
-    else
+    } else {
         format = AL_FORMAT_STEREO16;
-    // end if
+    }
 
     // The frequency of the sampling rate
     freq = pInfo->rate;
@@ -137,7 +142,6 @@ ALuint KALSoundReader::fromOgg()
             kDebug() << "Error decoding " << m_fileName << "..." ;
             return 0;
         }
-        // end if
 
         // Append to end of buffer
         buffer.insert(buffer.end(), array, array + bytes);

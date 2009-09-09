@@ -1,24 +1,31 @@
 #include "kalplayerwidget.h"
-#include <QHBoxLayout>
-#include <QToolButton>
-#include <QMessageBox>
 #include "kalsound.h"
-KALPlayerWidget::KALPlayerWidget(QWidget * parent)
+
+#include <QHBoxLayout>
+#include <QMessageBox>
+#include <QToolButton>
+
+KALPlayerWidget::KALPlayerWidget(QWidget *parent)
         : QWidget(parent)
 {
-    QHBoxLayout * layout = new QHBoxLayout;
+    QHBoxLayout *layout = new QHBoxLayout;
 
     requester = new KUrlRequester;
     requester->setFilter("*.ogg *.wav");
     requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
-    QToolButton * bplay = new QToolButton;
+
+    QToolButton *bplay = new QToolButton;
     bplay->setIcon(KIcon("media-playback-start.png"));
-    QToolButton * bstop = new QToolButton;
+
+    QToolButton *bstop = new QToolButton;
     bstop->setIcon(KIcon("media-playback-stop.png"));
+
     layout->addWidget(requester);
     layout->addWidget(bplay);
     layout->addWidget(bstop);
-    sound = new KALSound("");
+
+    sound = new KALSound(QString());
+
     connect(bplay, SIGNAL(clicked()), this, SLOT(play()));
     connect(bstop, SIGNAL(clicked()), sound, SLOT(stop()));
 
@@ -26,6 +33,7 @@ KALPlayerWidget::KALPlayerWidget(QWidget * parent)
 
     setLayout(layout);
 }
+
 void KALPlayerWidget::play()
 {
     sound = new KALSound(requester->text());
