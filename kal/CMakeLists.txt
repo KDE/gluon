@@ -29,10 +29,9 @@ kalengine.h
 kalsoundreader.h
 kalengine_export.h
 kalphonon.h
-kalsoundloader.h
 kalsound.h
 kaloggstreamer.h
 kalcapture.h
-kalinfowidget.h
-kalplayerwidget.h
+widgets/kalinfowidget.h
+widgets/kalplayerwidget.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)
