@@ -18,7 +18,7 @@ endif (KCL_LIBRARY AND KCL_INCLUDE_DIR)
 
 find_path(KCL_INCLUDE_DIR
     NAMES
-    gluon/kcl/kclengine.h
+    gluon/kcl/kcldetect.h
     PATHS
     ${INCLUDE_INSTALL_DIR}
 )
