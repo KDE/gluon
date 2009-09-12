@@ -8,7 +8,7 @@
 class KCLDeviceModel : public QStandardItemModel
 {
 public:
-    KCLDeviceModel(QObject * parent=0);
+    KCLDeviceModel(QObject * parent = 0);
     void setupList();
 
 

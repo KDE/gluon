@@ -11,13 +11,19 @@ class KCLMouse : public KCLInput
 {
     Q_OBJECT
 public:
-    KCLMouse(QString device,QObject * parent=0);
+    KCLMouse(QString device, QObject * parent = 0);
     QPoint position();
-    void setOrigin(QPoint p){m_originalPosition = p;}
-    int wheelPosition(){return relAxisValue(REL_WHEEL);}
-    int hWheelPosition(){return relAxisValue(REL_HWHEEL);}
+    void setOrigin(QPoint p) {
+        m_originalPosition = p;
+    }
+    int wheelPosition() {
+        return relAxisValue(REL_WHEEL);
+    }
+    int hWheelPosition() {
+        return relAxisValue(REL_HWHEEL);
+    }
 
-    private:
+private:
     QPoint m_position;
     QPoint m_originalPosition;
 

@@ -7,7 +7,7 @@ KCLDetect *KCLDetect::m_instance = NULL;
 
 
 KCLDetect::KCLDetect(QObject * parent)
-    :QObject(parent)
+        : QObject(parent)
 {
 
 }
@@ -42,14 +42,11 @@ void KCLDetect::searchDevice()
     QString path("/dev/input/by-path/");
     QDir event(path);
 
-    foreach  ( QString name, event.entryList(QDir::Files))
-    {
-        KCLInput * temp = new KCLInput(path+name);
-        if (!temp->error())
-        {
+    foreach(QString name, event.entryList(QDir::Files)) {
+        KCLInput * temp = new KCLInput(path + name);
+        if (!temp->error()) {
             detect->addInput(temp);
-            switch( temp->deviceType() )
-            {
+            switch (temp->deviceType()) {
             case KCL::KeyBoard: kDebug()<<"keyboard found...";
                 detect->addKeyboard(dynamic_cast<KCLKeyBoard*>(temp));
                 break;
@@ -79,20 +76,18 @@ void KCLDetect::searchDevice()
             }
         }
     }
-   detect->setAllEnable();
+    detect->setAllEnable();
 }
 
 void KCLDetect::setAllEnable()
 {
-    foreach ( KCLInput * input, instance()->allInputs())
-    {
+    foreach(KCLInput * input, instance()->allInputs()) {
         input->setEnable();
     }
 }
 void KCLDetect::setAllDisable()
 {
-    foreach ( KCLInput * input, instance()->allInputs())
-    {
+    foreach(KCLInput * input, instance()->allInputs()) {
         input->setDisable();
     }
 }

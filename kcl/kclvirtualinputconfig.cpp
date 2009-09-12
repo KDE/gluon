@@ -5,26 +5,26 @@
 #include <KIcon>
 #include <KDialog>
 #include <KTitleWidget>
-KCLVirtualInputConfig::KCLVirtualInputConfig(KCLVirtualInput * input ,QWidget * parent)
-    :KDialog(parent)
+KCLVirtualInputConfig::KCLVirtualInputConfig(KCLVirtualInput * input , QWidget * parent)
+        : KDialog(parent)
 {
 
     m_virtualInput = input;
-    m_treeWidget= new QTreeWidget;
+    m_treeWidget = new QTreeWidget;
     m_treeWidget->setColumnCount(3);
     m_treeWidget->setRootIsDecorated(false);
     m_treeWidget->setAlternatingRowColors(true);
     setMainWidget(m_treeWidget);
     setup();
     QStringList header;
-    header<<"action"<<"primary"<<"secondary";
+    header << "action" << "primary" << "secondary";
     m_treeWidget->setHeaderLabels(header);
     m_treeWidget->resizeColumnToContents(0);
     m_treeWidget->resizeColumnToContents(1);
     m_treeWidget->resizeColumnToContents(2);
     QHBoxLayout * barLayout = new QHBoxLayout;
 
-setButtons( KDialog::Ok | KDialog::Cancel | KDialog::Default);
+    setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Default);
 
 }
 
@@ -34,14 +34,13 @@ setButtons( KDialog::Ok | KDialog::Cancel | KDialog::Default);
 
 void KCLVirtualInputConfig::setup()
 {
-    foreach ( VirtualButton * button, m_virtualInput->primaryButtonList())
-    {
+    foreach(VirtualButton * button, m_virtualInput->primaryButtonList()) {
 
         QTreeWidgetItem * item = new QTreeWidgetItem(m_treeWidget);
-        item->setText(0,button->name());
+        item->setText(0, button->name());
 
-        item->setText(1,"-");
-        item->setText(2,"-");
+        item->setText(1, "-");
+        item->setText(2, "-");
 
 
 
@@ -51,7 +50,7 @@ void KCLVirtualInputConfig::setup()
         //    m_treeWidget->setItemWidget(item,2,secondary);
     }
 
-    connect(m_treeWidget,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),this,SLOT(changeButton(QTreeWidgetItem*,int)));
+    connect(m_treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(changeButton(QTreeWidgetItem*, int)));
 
 }
 
@@ -61,7 +60,7 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     dialog->setCaption("wainting");
     QWidget * main = new QWidget;
     QVBoxLayout * layout = new QVBoxLayout;
-    dialog->setButtons(KDialog::None );
+    dialog->setButtons(KDialog::None);
     KTitleWidget * title = new KTitleWidget(dialog);
     title->setPixmap(KIcon("configure.png"));
     title->setText("Press any button of any device");
@@ -71,14 +70,13 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     main->setLayout(layout);
     dialog->setMainWidget(main);
     setEnabled(false);
-    connect(button,SIGNAL(changed()),dialog,SLOT(accept()));
-    connect(dialog,SIGNAL(rejected()),button,SLOT(clear()));
+    connect(button, SIGNAL(changed()), dialog, SLOT(accept()));
+    connect(dialog, SIGNAL(rejected()), button, SLOT(clear()));
 
-    if ( dialog->exec())
-    {
-        item->setIcon(column,button->icon());
-        item->setText(column,KCLCode::buttonName(button->code()));
-        item->setToolTip(column,button->input()->deviceName());
+    if (dialog->exec()) {
+        item->setIcon(column, button->icon());
+        item->setText(column, KCLCode::buttonName(button->code()));
+        item->setToolTip(column, button->input()->deviceName());
     }
     setEnabled(true);
 }

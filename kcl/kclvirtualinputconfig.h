@@ -12,7 +12,7 @@ class KCLVirtualInputConfig : public KDialog
 {
     Q_OBJECT
 public:
-    KCLVirtualInputConfig(KCLVirtualInput * input ,QWidget * parent=0);
+    KCLVirtualInputConfig(KCLVirtualInput * input , QWidget * parent = 0);
 
 
 public slots:

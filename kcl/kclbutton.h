@@ -11,10 +11,16 @@ class KCLButton : public QWidget
     Q_OBJECT
 public:
 
-    KCLButton(KCL::InputTypeFlag inputType, QWidget * parent=0);
-    KIcon icon(){return m_currentIcon;}
-    KCLInput * input(){if (m_inputType!=NULL)return m_currentInput;else return NULL;}
-    int code(){return m_currentCode;}
+    KCLButton(KCL::InputTypeFlag inputType, QWidget * parent = 0);
+    KIcon icon() {
+        return m_currentIcon;
+    }
+    KCLInput * input() {
+        if (m_inputType != NULL)return m_currentInput;else return NULL;
+    }
+    int code() {
+        return m_currentCode;
+    }
 
 
 
@@ -26,7 +32,7 @@ private slots:
     void changeButtonValue(int axis, int value);
     void startDetect();
 
-    signals:
+signals:
     void changed();
 
 protected:

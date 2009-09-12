@@ -10,17 +10,17 @@ VirtualButton::VirtualButton(QString name, int buttonCode, KCLInput *input)
 
 
 KCLVirtualInput::KCLVirtualInput(QObject * parent)
-    :QObject(parent)
+        : QObject(parent)
 {
 
 
 }
 void KCLVirtualInput:: setButton(QString name)
 {
-kDebug()<<"insert";
-VirtualButton * button = new VirtualButton;
-button->setName(name);
-m_primaryButtonList.append(button);
+    kDebug() << "insert";
+    VirtualButton * button = new VirtualButton;
+    button->setName(name);
+    m_primaryButtonList.append(button);
 
-kDebug()<<m_primaryButtonList.size();
+    kDebug() << m_primaryButtonList.size();
 }

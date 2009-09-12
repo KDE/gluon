@@ -4,7 +4,7 @@
 class KCLKeyBoard : public KCLInput
 {
 public:
-    KCLKeyBoard(const QString& device, QObject * parent=0);
+    KCLKeyBoard(const QString& device, QObject * parent = 0);
 
 
 };

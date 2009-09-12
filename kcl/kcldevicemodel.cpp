@@ -3,7 +3,7 @@
 #include <KDebug>
 #include <QMessageBox>
 KCLDeviceModel::KCLDeviceModel(QObject * parent)
-    :QStandardItemModel(parent)
+        : QStandardItemModel(parent)
 {
 
     setColumnCount(2);
@@ -14,11 +14,9 @@ KCLDeviceModel::KCLDeviceModel(QObject * parent)
 void KCLDeviceModel::setupList()
 {
     clear();
-    foreach ( KCLInput * input,KCLDetect::allInputs())
-    {
+    foreach(KCLInput * input, KCLDetect::allInputs()) {
         QStandardItem * deviceItem = new QStandardItem;
-        switch ( input->deviceType())
-        {
+        switch (input->deviceType()) {
 
         case KCL::KeyBoard :deviceItem = new QStandardItem(KIcon("input-keyboard.png"),input->deviceName());break;
         case KCL::Mouse:deviceItem = new QStandardItem(KIcon("input-mouse.png"),input->deviceName());break;
@@ -33,30 +31,30 @@ void KCLDeviceModel::setupList()
         appendRow(deviceItem);
 
 
-        QStandardItem * info = new QStandardItem(KIcon("help-about.png"),input->devicePath());
-        info->appendRow(new QStandardItem("busttype:"+QString::number(input->bustype())));
-        info->appendRow(new QStandardItem("product:"+QString::number(input->product())));
-        info->appendRow(new QStandardItem("version:"+QString::number(input->version())));
-        info->appendRow(new QStandardItem("vendor:"+QString::number(input->vendor())));
+        QStandardItem * info = new QStandardItem(KIcon("help-about.png"), input->devicePath());
+        info->appendRow(new QStandardItem("busttype:" + QString::number(input->bustype())));
+        info->appendRow(new QStandardItem("product:" + QString::number(input->product())));
+        info->appendRow(new QStandardItem("version:" + QString::number(input->version())));
+        info->appendRow(new QStandardItem("vendor:" + QString::number(input->vendor())));
         deviceItem->appendRow(info);
 
         QStandardItem * button = new QStandardItem("button");
-        foreach ( int code, input->buttonCapabilities())
-            button->appendRow(new QStandardItem(KCLCode::buttonName(code)));
+        foreach(int code, input->buttonCapabilities())
+        button->appendRow(new QStandardItem(KCLCode::buttonName(code)));
 
         QStandardItem * absAxis = new QStandardItem("absolute axis");
-        foreach ( int code, input->absAxisCapabilities())
-            absAxis->appendRow(new QStandardItem(KCLCode::absAxisName(code)));
+        foreach(int code, input->absAxisCapabilities())
+        absAxis->appendRow(new QStandardItem(KCLCode::absAxisName(code)));
 
         QStandardItem * relAxis = new QStandardItem("relativ axis");
-        foreach ( int code, input->relAxisCapabilities())
-            relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
+        foreach(int code, input->relAxisCapabilities())
+        relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
 
-        QStandardItem * capab = new QStandardItem(KIcon("view-pim-tasks.png"),"capability");
+        QStandardItem * capab = new QStandardItem(KIcon("view-pim-tasks.png"), "capability");
 
-        if ( input->buttonCapabilities().size()>0)capab->appendRow(button);
-        if ( input->absAxisCapabilities().size()>0)capab->appendRow(absAxis);
-        if ( input->relAxisCapabilities().size()>0)capab->appendRow(relAxis);
+        if (input->buttonCapabilities().size() > 0)capab->appendRow(button);
+        if (input->absAxisCapabilities().size() > 0)capab->appendRow(absAxis);
+        if (input->relAxisCapabilities().size() > 0)capab->appendRow(relAxis);
 
         deviceItem->appendRow(capab);
 

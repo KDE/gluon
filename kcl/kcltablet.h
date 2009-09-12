@@ -4,7 +4,7 @@
 class KCLTablet : public KCLInput
 {
 public:
-    KCLTablet(const QString& device, QObject * parent=0);
+    KCLTablet(const QString& device, QObject * parent = 0);
 
 
 };
