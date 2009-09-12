@@ -1,6 +1,8 @@
 #include "slidepushbutton.h"
+
 #include <QPaintEvent>
 #include <QPainter>
+
 SlidePushButton::SlidePushButton(QWidget * parent)
         : KPushButton(parent)
 {
@@ -11,9 +13,7 @@ SlidePushButton::SlidePushButton(QWidget * parent)
 
 void SlidePushButton::paintEvent(QPaintEvent * event)
 {
-
     QPushButton::paintEvent(event);
-
 
     int w  = (m_value - m_min) * event->rect().width() / (m_max - m_min);
     QRect rect = event->rect();
@@ -30,5 +30,4 @@ void SlidePushButton::paintEvent(QPaintEvent * event)
     paint.setBrush(brush);
 
     paint.drawRect(rect);
-
 }

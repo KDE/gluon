@@ -1,6 +1,7 @@
 #ifndef KCL_H
 #define KCL_H
 #include <QFlags>
+
 class KCL
 {
 public:
@@ -23,9 +24,9 @@ public:
     };
     Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)
 
-
-
 };
+
 Q_DECLARE_OPERATORS_FOR_FLAGS(KCL::Devices);
+
 Q_DECLARE_OPERATORS_FOR_FLAGS(KCL::InputTypes);
 #endif // KCL_H

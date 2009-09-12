@@ -1,7 +1,10 @@
 #include "kclinput.h"
+
 #include <KDebug>
+
 #include <QFile>
 #include <QMessageBox>
+
 #define BITS_PER_LONG (sizeof(long) * 8)
 #define NBITS(x) ((((x)-1)/BITS_PER_LONG)+1)
 #define OFF(x)  ((x)%BITS_PER_LONG)
@@ -26,7 +29,6 @@ KCLInputEvent::KCLInputEvent(struct input_event ev)
     m_inputEvent = ev;
 }
 
-//=================================================================
 KCLThread::KCLThread(const QString &devicePath, QObject * parent)
         : QThread(parent)
 {
@@ -38,10 +40,10 @@ void KCLThread::run()
     while (1) {
         struct input_event ev;
         int rd = read(m_fd, &ev, sizeof(struct input_event));
-        if (rd < (int) sizeof(struct input_event))
-            kDebug() << "cannot read input...";
-        else {
-            KCLInputEvent * event = new KCLInputEvent(ev);
+        if (rd < (int) sizeof(struct input_event)) {
+            kDebug() << "Could not read input";
+        } else {
+            KCLInputEvent *event = new KCLInputEvent(ev);
             emitInputEvent(event);
         }
     }
@@ -51,12 +53,12 @@ bool KCLThread::openDevice(const QString& devicePath)
 {
     m_fd = -1;
     if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kDebug() << "cannot read  device";
+        kError() << "Could not read device";
         return false;
     }
+
     return true;
 }
-//===================================================================
 
 KCLInput::KCLInput(const QString& devicePath, QObject * parent)
         : QObject(parent)
@@ -71,13 +73,13 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
     m_devicePath = devicePath;
     readInformation();
     inputListener = new KCLThread(m_devicePath, this);
-
 }
+
 KCLInput::~KCLInput()
 {
     setDisable();
     delete inputListener;
-    kDebug() << "close device :" << deviceName();
+    kDebug() << "Closed device :" << deviceName();
 }
 
 void KCLInput:: slotInputEvent(KCLInputEvent * event)
@@ -110,42 +112,42 @@ void KCLInput:: slotInputEvent(KCLInputEvent * event)
         emit absAxisChanged(event->code(), event->value());
         break;
     }
-    inputEventFilter(event);
 
+    inputEventFilter(event);
 }
+
 void KCLInput::readInformation()
 {
     if (!QFile::exists(m_devicePath)) {
-        kDebug() << "m_devicePath don't exist....";
+        kDebug() << "m_devicePath does not exist";
         m_error = true;
-        m_msgError += "device url don't exist\n";
+        m_msgError += "device url does not exist \n";
         return;
     }
 
     int m_fd = -1;
     if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kDebug() << "cannot open the device " << m_devicePath;
+        kDebug() << "Could not open device" << m_devicePath;
         m_error = true;
-        m_msgError += "cannot open the device \n";
+        m_msgError += "could not open the device \n";
         return;
     }
 
     if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
-        kDebug() << "cannot retrieve information of device " << m_devicePath;
-        m_msgError += "cannot retrieve information of device\n";
+        kDebug() << "Could not retrieve information of device" << m_devicePath;
+        m_msgError += "could not retrieve information of device\n";
         m_error = true;
         return;
     }
+
     char name[256] = "Unknown";
     if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-        kDebug() << "cannot retrieve name of device " << m_devicePath;
+        kDebug() << "could not retrieve name of device" << m_devicePath;
         //        m_msgError += "cannot retrieve name of device\n";
         //        m_error = true;
     }
+
     m_deviceName = QString(name);
-
-
-
 
     unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
     int abs[5];
@@ -155,74 +157,96 @@ void KCLInput::readInformation()
     m_buttonCapabilities.clear();
     m_absAxisInfos.clear();
 
-    for (int i = 0; i < EV_MAX; i++)
+    for (int i = 0; i < EV_MAX; i++) {
         if (test_bit(i, bit[0])) {
+            if (!i) {
+                continue;
+            }
 
-            if (!i) continue;
             ioctl(m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
-            for (int j = 0; j < KEY_MAX; j++)
+            for (int j = 0; j < KEY_MAX; j++) {
                 if (test_bit(j, bit[i])) {
-                    if (i == EV_KEY)
+                    if (i == EV_KEY) {
                         m_buttonCapabilities.append(j);
+                    }
 
-                    if (i == EV_REL)
+                    if (i == EV_REL) {
                         m_relAxisCapabilities.append(j);
+                    }
 
                     if (i == EV_ABS) {
                         ioctl(m_fd, EVIOCGABS(j), abs);
                         AbsVal cabs(0, 0, 0, 0);
-                        for (int k = 0; k < 5; k++)
+                        for (int k = 0; k < 5; k++) {
                             if ((k < 3) || abs[k]) {
                                 switch (k) {
-                                case 0:cabs.value = abs[k];break;
-                                case 1:cabs.min = abs[k];break;
-                                case 2:cabs.max = abs[k];break;
-                                case 3:cabs.fuzz = abs[k];break;
-                                case 4: cabs.flat = abs[k];break;
+                                case 0:
+                                    cabs.value = abs[k];
+                                    break;
+                                case 1:
+                                    cabs.min = abs[k];
+                                    break;
+                                case 2:
+                                    cabs.max = abs[k];
+                                    break;
+                                case 3:
+                                    cabs.fuzz = abs[k];
+                                    break;
+                                case 4:
+                                    cabs.flat = abs[k];
+                                    break;
                                 }
                             }
+                        }
                         m_absAxisCapabilities.append(j);
                         m_absAxisInfos[j] = cabs;
                     }
                 }
+            }
         }
+    }
     close(m_fd);
 
     m_deviceType = KCL::Unknown;
 
-    if (m_buttonCapabilities.contains(BTN_STYLUS))
+    if (m_buttonCapabilities.contains(BTN_STYLUS)) {
         m_deviceType  = KCL::Tablet;
+    }
 
-    if ((m_buttonCapabilities.contains(BTN_STYLUS)) || (m_buttonCapabilities.contains(ABS_PRESSURE)))
+    if (m_buttonCapabilities.contains(BTN_STYLUS)
+        || m_buttonCapabilities.contains(ABS_PRESSURE)) {
         m_deviceType  = KCL::Mouse;
+    }
 
-    if (m_buttonCapabilities.contains(BTN_TRIGGER))
+    if (m_buttonCapabilities.contains(BTN_TRIGGER)) {
         m_deviceType  = KCL::Joystick;
+    }
 
-    if (m_buttonCapabilities.contains(BTN_MOUSE))
+    if (m_buttonCapabilities.contains(BTN_MOUSE)) {
         m_deviceType  = KCL::Mouse;
+    }
 
-    if (m_buttonCapabilities.contains(KEY_ESC))
+    if (m_buttonCapabilities.contains(KEY_ESC)) {
         m_deviceType  = KCL::KeyBoard;
-
-
-
+    }
 }
-void KCLInput::inputEventFilter(KCLInputEvent * event)
+
+void KCLInput::inputEventFilter(KCLInputEvent *event)
 {
-
-
 }
 
 void KCLInput::setEnable()
 {
     m_enable = true;
-    if ((!error())) {
+
+    if (!error()) {
         inputListener = new KCLThread(m_devicePath, this);
         inputListener->start();
+
         connect(inputListener, SIGNAL(emitInputEvent(KCLInputEvent*)), this, SLOT(slotInputEvent(KCLInputEvent*)));
     }
 }
+
 void KCLInput::setDisable()
 {
     m_enable = false;
@@ -231,6 +255,7 @@ void KCLInput::setDisable()
     m_absAxis.clear();
     m_relMove = false;
     m_absMove = false;
+
     inputListener->terminate();
     disconnect(inputListener, SIGNAL(emitInputEvent(KCLInputEvent*)), this, SLOT(slotInputEvent(KCLInputEvent*)));
 

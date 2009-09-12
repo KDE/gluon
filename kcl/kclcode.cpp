@@ -136,9 +136,6 @@ const char *KCL_CODE_ABSOLU[ABS_MAX + 1] = { "X", "Y", "Z", "Rx",  "Ry", "Rz", "
         /* 0x28: */ "Misc"
                                            };
 
-
-
-
 QString KCLCode::buttonName(int code)
 {
     return QString(KCL_CODE_BUTTON[code]);

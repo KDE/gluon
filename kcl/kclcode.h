@@ -1,6 +1,8 @@
 #ifndef KCLCODE_H
 #define KCLCODE_H
+
 #include <QString>
+
 class KCLCode
 {
 public:
