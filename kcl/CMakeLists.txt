@@ -1,5 +1,4 @@
 set(kcl_LIB_SRCS
-kcl.cpp
 kclinput.cpp
 kclmouse.cpp
 kcltablet.cpp

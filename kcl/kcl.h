@@ -2,10 +2,7 @@
 #define KCL_H
 #include <QFlags>
 
-class KCL
-{
-public:
-    KCL();
+namespace KCL {
     enum DeviceFlag {
         Unknown = 0x0,
         KeyBoard = 0x1,
@@ -23,7 +20,6 @@ public:
         AbsoluAxis = 0x3
     };
     Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)
-
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KCL::Devices);
