@@ -1,4 +1,6 @@
 set(kcl_LIB_SRCS
+kclinputevent.cpp
+kclthread.cpp
 kclinput.cpp
 kclmouse.cpp
 kcltablet.cpp
@@ -27,6 +29,8 @@ install(TARGETS kcl ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
 kcl.h
+kclinputevent.h
+kclthread.h
 kclinput.h
 kclmouse.h
 kcltablet.h

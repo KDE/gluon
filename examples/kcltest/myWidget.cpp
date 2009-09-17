@@ -9,30 +9,14 @@ timer = new QTimer;
 timer->setInterval(20);
 timer->start();
 
-KCLButtonWidget * widget = new KCLButtonWidget(0);
 
-widget->show();
+input = new KCLInput("/dev/input/by-path/pci-0000:00:1d.2-usb-0:2:1.0-event-joystick");
+input->setEnable();
 
 connect(timer,SIGNAL(timeout()),this, SLOT(mainLoop()));
 
-// input = new KCLInput("/dev/input/event3");
-// mouse = new KCLMouse("/dev/input/event4",this);
-
-pix = new QPixmap(width(),height());
-pix->fill(Qt::white);
 
 
-detect  = new KCLDetect(this);
-
-foreach ( KCLInput * input, detect->deviceList())
-{
- kDebug()<<"DEVICE : "<<input->name()<<"error :"<<input->error()<<"-"<<input->msgError(); 
-}
-
-
-
-
-pos = QPoint(0,0);
 
   }
 void MyWidget::mainLoop()

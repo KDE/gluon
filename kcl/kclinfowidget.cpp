@@ -35,7 +35,7 @@ void KCLInfoWidget::setupPreview()
     QHBoxLayout *layoutAbsolu = new QHBoxLayout;
     QHBoxLayout *layoutRelatif = new QHBoxLayout;
 
-    KCLButton *button = new KCLButton(KCL::Button);
+    KCLButton *button = new KCLButton(KCL::Key);
     KCLButton *axis = new KCLButton(KCL::AbsoluAxis);
     KCLButton *rel = new KCLButton(KCL::AbsoluAxis);
 

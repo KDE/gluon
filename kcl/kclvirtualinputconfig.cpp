@@ -61,7 +61,7 @@ void KCLVirtualInputConfig::changeButton(QTreeWidgetItem * item, int column)
     title->setPixmap(KIcon("configure.png"));
     title->setText("Press any button of any device");
 
-    KCLButton *button = new KCLButton(KCL::Button);
+    KCLButton *button = new KCLButton(KCL::Key);
 
     layout->addWidget(title);
     layout->addWidget(button);

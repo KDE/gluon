@@ -1,9 +1,10 @@
 #include "kclinput.h"
 
 #include <KDebug>
-
+#include <QApplication>
 #include <QFile>
 #include <QMessageBox>
+#include <QMouseEvent>
 
 #define BITS_PER_LONG (sizeof(long) * 8)
 #define NBITS(x) ((((x)-1)/BITS_PER_LONG)+1)
@@ -12,56 +13,8 @@
 #define LONG(x) ((x)/BITS_PER_LONG)
 #define test_bit(bit, array) ((array[LONG(bit)] >> OFF(bit)) & 1)
 
-KCLInputEvent::KCLInputEvent(unsigned long tvSec_, unsigned long tvUsec_, unsigned short type_, unsigned short code_, unsigned short value_)
-{
-    struct timeval time;
-    time.tv_sec = tvSec_;
-    time.tv_usec = tvUsec_;
-
-    m_inputEvent.time = time;
-    m_inputEvent.type = type_;
-    m_inputEvent.code = code_;
-    m_inputEvent.value = value_;
-}
-
-KCLInputEvent::KCLInputEvent(struct input_event ev)
-{
-    m_inputEvent = ev;
-}
-
-KCLThread::KCLThread(const QString &devicePath, QObject * parent)
-        : QThread(parent)
-{
-    openDevice(devicePath);
-}
-
-void KCLThread::run()
-{
-    while (1) {
-        struct input_event ev;
-        int rd = read(m_fd, &ev, sizeof(struct input_event));
-        if (rd < (int) sizeof(struct input_event)) {
-            kDebug() << "Could not read input";
-        } else {
-            KCLInputEvent *event = new KCLInputEvent(ev);
-            emitInputEvent(event);
-        }
-    }
-}
-
-bool KCLThread::openDevice(const QString& devicePath)
-{
-    m_fd = -1;
-    if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kError() << "Could not read device";
-        return false;
-    }
-
-    return true;
-}
-
 KCLInput::KCLInput(const QString& devicePath, QObject * parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     m_error = false;
     m_enable = true;
@@ -82,39 +35,48 @@ KCLInput::~KCLInput()
     kDebug() << "Closed device :" << deviceName();
 }
 
-void KCLInput:: slotInputEvent(KCLInputEvent * event)
+
+bool KCLInput::event(QEvent * evt)
 {
+
+    KCLInputEvent * event = (KCLInputEvent*)evt;
+
     switch (event->type()) {
-    case EV_KEY :
+    case QEvent::Type(KCL::Key):
+        kDebug()<<"press...";
         if (event->value() == 1) { // if click
             m_buttons.append(event->code());
             emit buttonPressed(event->code());
-
         }
 
         if (event->value() == 0) { //if release
             m_buttons.removeOne(event->code());
             emit buttonReleased(event->code());
         }
+        return true;
         break;
 
-    case EV_REL:
+    case QEvent::Type(KCL::RelatifAxis):
         m_relMove = true;
         m_lastRelAxis = event->code();
         m_relAxis[event->code()] = event->value();
         emit relAxisChanged(event->code(), event->value());
+        return true;
         break;
 
-    case EV_ABS:
+    case QEvent::Type(KCL::AbsoluAxis):
         m_absMove = true;
         m_lastAbsAxis = event->code();
         m_absAxis[event->code()] = event->value();
         emit absAxisChanged(event->code(), event->value());
+        return true;
         break;
-    }
 
-    inputEventFilter(event);
+    default:break;
+    }
+    return QObject::event(evt);
 }
+
 
 void KCLInput::readInformation()
 {
@@ -231,19 +193,12 @@ void KCLInput::readInformation()
     }
 }
 
-void KCLInput::inputEventFilter(KCLInputEvent *event)
-{
-}
-
 void KCLInput::setEnable()
 {
     m_enable = true;
-
     if (!error()) {
         inputListener = new KCLThread(m_devicePath, this);
         inputListener->start();
-
-        connect(inputListener, SIGNAL(emitInputEvent(KCLInputEvent*)), this, SLOT(slotInputEvent(KCLInputEvent*)));
     }
 }
 
@@ -255,8 +210,5 @@ void KCLInput::setDisable()
     m_absAxis.clear();
     m_relMove = false;
     m_absMove = false;
-
     inputListener->terminate();
-    disconnect(inputListener, SIGNAL(emitInputEvent(KCLInputEvent*)), this, SLOT(slotInputEvent(KCLInputEvent*)));
-
 }

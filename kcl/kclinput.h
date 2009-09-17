@@ -10,7 +10,7 @@
 #include <QPair>
 #include <QPoint>
 #include <QThread>
-
+#include <QEvent>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -18,10 +18,10 @@
 #include <stdio.h>
 #include <linux/input.h>
 
-class KCLInput;
-class KCLThread;
-class KCLInputEvent;
+#include "kclthread.h"
+#include "kclinputevent.h"
 
+class KCLInput;
 class AbsVal
 {
 public:
@@ -38,105 +38,6 @@ public:
     int flat;
     int fuzz;
 };
-/**
- * @class KCLInputEvent gluon/kcl/kclinput.h <Gluon/KCL/KCLInput>
- *
- * @short Provides input events
- *
- * This class provide an event like QEvent ( but it's not a QEvent child) which contains all information of an input status
- *
- * @author Sacha Schutz <istdasklar@gmail.com>
- */
-
-class KCLInputEvent
-{
-public:
-    KCLInputEvent(unsigned long tvSec_, unsigned long tvUsec_, unsigned short type_, unsigned short code_, unsigned short value_);
-    KCLInputEvent(struct input_event ev);
-
-    unsigned long tvSec() {
-        return m_inputEvent.time.tv_sec;
-    }
-
-    unsigned long tvUsec() {
-        return m_inputEvent.time.tv_usec;
-    }
-
-    /**
-    * For example, if you press a button, it will return EV_KEY.
-    *If you move your mouse, it will return EV_REL. If you move your joystick it will return EV_ABS.
-    * Please look in evdev type for more information
-    * @return the type of the input status .
-    */
-    unsigned short type() {
-        return m_inputEvent.type;
-    }
-
-    /**
-    * For example the code of Mouse button left is : LeftBtn. Look on this page to see the code list.
-    * @return  the code of the input status.
-    */
-    unsigned short code() {
-        return m_inputEvent.code;
-    }
-
-    /**
-    * For example the value after press a button is 1.
-    * If you move an axis, the value will return the axis value.
-    * @return the value of the input status.
-    */
-    unsigned int value() {
-        return m_inputEvent.value;
-    }
-
-    /**
-    * convert KCLInputEvent into a standard C input_event
-    * @return an input_event
-    */
-    struct input_event inputEvent() {
-        return m_inputEvent;
-    }
-
-private:
-    struct input_event m_inputEvent;
-};
-
-/**
- * @class KCLThread gluon/kcl/kclinput.h <Gluon/KCL/KCLInput>
- *
- * @short Provides a QThread which listen to inputs status.
- * @author Sacha Schutz <istdasklar@gmail.com>
- */
-
-class KCLThread : public QThread
-{
-    Q_OBJECT
-
-public:
-    KCLThread(const QString& devicePath, QObject *parent = 0);
-
-    ~KCLThread() {
-        close(m_fd);
-    }
-
-    virtual void run();
-
-signals:
-    /**
-    * Emit a KCLInput. This signal is emited when somthing happens on a device.
-    */
-    void emitInputEvent(KCLInputEvent * event);
-
-protected:
-    bool openDevice(const QString &devicePath);
-    void closeDevice() {
-        close(m_fd);
-    }
-
-private:
-    int m_fd;
-};
-
 /**
  * @class KCLInput gluon/kcl/kclinput.h <Gluon/KCL/KCLInput>
  *
@@ -335,27 +236,12 @@ public:
         return m_msgError;
     }
 
-    /**
-    * this function can be reimplemented to customize the event Loop.
-     * @code
-    * void MyInput::inputEventFilter(KCLInputEvent * event)
-    * {
-    *     switch (event->type())
-    *     {
-    *     case EV_KEY:
-    *         //do something
-    *         break;
-    *     }
-    * }
-    * @endcode
-    * @see KCLInputEvent
-    */
-    virtual void inputEventFilter(KCLInputEvent * event);
+
+
 
     bool isEnable() {
         return m_enable;
     }
-
 signals:
     void buttonPressed(int code);
     void buttonReleased(int code);
@@ -363,13 +249,12 @@ signals:
     void relAxisChanged(int axe, int code);
 
 public slots:
-    void slotInputEvent(KCLInputEvent *event);
     void setEnable();
     void setDisable();
 
 protected:
     void readInformation();
-
+    bool event(QEvent * evt);
 private:
     KCLThread *inputListener;
     struct input_id m_device_info;

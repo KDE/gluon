@@ -1,7 +1,8 @@
 #ifndef KCL_H
 #define KCL_H
 #include <QFlags>
-
+#include <QEvent>
+#include <linux/input.h>
 namespace KCL {
     enum DeviceFlag {
         Unknown = 0x0,
@@ -15,10 +16,14 @@ namespace KCL {
 
     enum InputTypeFlag {
         NoType = 0x0,
-        Button = 0x1,
-        RelatifAxis = 0x2,
-        AbsoluAxis = 0x3
+        Key = QEvent::User+EV_KEY,
+        RelatifAxis = QEvent::User+EV_REL,
+        AbsoluAxis = QEvent::User+EV_ABS
     };
+
+
+
+
     Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)
 };
 

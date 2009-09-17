@@ -124,7 +124,7 @@ void KCLButton::startDetect()
         }
     }
 
-    if (m_inputType == KCL::Button) {
+    if (m_inputType == KCL::Key) {
         foreach(KCLInput *input, KCLDetect::allInputs()) {
             connect(input, SIGNAL(buttonPressed(int)), this, SLOT(changeButtonName(int)));
         }

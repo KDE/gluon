@@ -23,11 +23,8 @@ class MyWidget : public QWidget
   private:
  
 KCLInput * input ;
-KCLDetect * detect;
+
     QTimer * timer;
-    
-    QPixmap * pix;
-    
-    QPoint pos;
+
 
 };
