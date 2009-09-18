@@ -21,6 +21,11 @@
 #include "kclthread.h"
 #include "kclinputevent.h"
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLInput;
 class AbsVal
 {
@@ -279,4 +284,5 @@ private:
     bool m_enable;
 };
 
+//@}
 #endif // KCLINPUT_H

@@ -25,6 +25,11 @@
 #include "Box2D/Box2D.h"
 #include <KDebug>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLPhysicsEngine;
 class KGLItem;
 
@@ -182,4 +187,5 @@ class KGLPhysicsItem : public KGLItem
         SHAPE_TYPE m_shapeType;
 };
 
+//@}
 #endif // KGLPHYSICSITEM_H

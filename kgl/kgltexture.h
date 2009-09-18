@@ -25,6 +25,11 @@
 #include <QPixmap>
 #include <QImage>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLTexture
 {
     public:
@@ -37,7 +42,7 @@ class KGLTexture
         void bind();
         void unBind();
         void load(const QImage &img, int width=0, int height=0);
-        
+
         GLuint gltexture()
         {
             return m_texture;
@@ -96,4 +101,5 @@ class KGLTexture
         QPointF m_scale;
 };
 
+//@}
 #endif // KGLTEXTURE_H

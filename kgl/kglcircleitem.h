@@ -24,6 +24,11 @@
 #include "kglitem.h"
 
 /**
+ * \defgroup KGL KGL
+ */
+//@{
+
+/**
 * @class KGLCircleItem kglcircleitem.h <KGLCircleItem>
 * This is a KGLItem subclass for creating circles
 */
@@ -35,4 +40,5 @@ class KGLCircleItem : public KGLItem
         void setCircle(float radius, unsigned int nbPoints);
 };
 
+//@}
 #endif //KGLCIRCLEITEM_H

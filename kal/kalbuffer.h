@@ -28,6 +28,11 @@
 #include <QStringList>
 #include "kalengine_export.h"
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALENGINE_EXPORT KALBuffer
 {
 public:
@@ -57,4 +62,5 @@ private :
 
 };
 
+//@}
 #endif // KALBUFFER_H

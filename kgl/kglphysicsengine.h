@@ -28,6 +28,11 @@
 
 #include "Box2D/Box2D.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLPhysicsEngine;
 class KGLContactListener;
 
@@ -43,21 +48,21 @@ class KGLPhysicsEngine : public KGLEngine
         void addItem(KGLPhysicsItem *  item);
         void addItem(KGLItem* item){KGLEngine::addItem(item);}
         bool removeItem(KGLPhysicsItem * item);
-        
+
         bool removeItem(KGLItem * item)
         {
             return KGLEngine::removeItem(item);
         }
 
         KGLPhysicsItem * physicsItemAt(QPointF pos);
-        
+
         QList<KGLPhysicsItem*> physicsItemList()
         {
             return m_list;
         }
 
         KGLPhysicsItem* itemAt(QPointF pos);
-        
+
         void setGravity(const QPointF& g)
         {
             m_gravity.x = g.x();
@@ -101,4 +106,5 @@ class KGLContactListener:public b2ContactListener
 //    }
 };
 
+//@}
 #endif // KGLPHYSICSENGINE_H

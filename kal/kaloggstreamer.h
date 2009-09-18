@@ -32,6 +32,11 @@
 
 using namespace std;
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALOggStreamer : public QThread
 {
     Q_OBJECT
@@ -78,4 +83,5 @@ private:
     QString m_fileName;
 };
 
+//@}
 #endif // KALOGGSTREAMER_H

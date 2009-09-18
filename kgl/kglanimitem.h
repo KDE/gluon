@@ -25,6 +25,11 @@
 
 #include "kglitem.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class QTimeLine;
 
 class KGLAnimItem: public KGLItem
@@ -43,4 +48,5 @@ class KGLAnimItem: public KGLItem
         QTimeLine *m_timeLine;
 };
 
+//@}
 #endif //KGLANIMITEM_H

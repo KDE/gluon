@@ -7,6 +7,10 @@
 #include<X11/extensions/Xrandr.h>
 #include <QX11Info>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
 
 class KGLScreenConfig : public QObject
 {
@@ -29,4 +33,5 @@ SizeID                  original_size_id;
 
 };
 
+//@}
 #endif // KGLScreenConfig_H

@@ -10,6 +10,12 @@
 #include <linux/input.h>
 
 #include "kclinputevent.h"
+
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLThread;
 class KCLThread : public QThread
 {
@@ -31,4 +37,5 @@ private:
     int m_fd;
 };
 
+//@}
 #endif // KCLTHREAD_H

@@ -27,6 +27,11 @@
 #include "kgltexture.h"
 #include "kglprogram.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLEngine;
 class KGLItem;
 
@@ -41,7 +46,7 @@ class KGLItem : public KGLBaseItem
         explicit KGLItem(const QSizeF &box, KGLEngine * parent=0);
         explicit KGLItem(const QLineF &line,KGLEngine * parent=0);
         KGLItem *clone();
-    
+
         void addChildItem(KGLItem* item)
         {
             m_childItems.append(item);
@@ -51,7 +56,7 @@ class KGLItem : public KGLBaseItem
         {
             m_childItems.removeOne(item);
         }
-   
+
         ~KGLItem();
 
     //Set
@@ -126,7 +131,7 @@ class KGLItem : public KGLBaseItem
         {
             return m_color;
         }
-        
+
         const float &alpha()
         {
             return m_alpha;
@@ -166,4 +171,5 @@ class KGLItem : public KGLBaseItem
         bool f_textureEnable;
 };
 
+//@}
 #endif // KGLITEM2_H

@@ -34,6 +34,11 @@ class QColor;
 class QFont;
 
 /**
+ * \defgroup KGL KGL
+ */
+//@{
+
+/**
 * @class KGLTextItem kgltextitem.h <KGLTextItem>
 * This class provides an item that is used to display text.
 */
@@ -57,4 +62,5 @@ class KGLTextItem: public KGLItem
         QRectF m_rect;
 };
 
+//@}
 #endif //KGLTEXTITEM_H

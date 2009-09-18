@@ -7,6 +7,11 @@
 #include "kglengine.h"
 #include "kglview.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLInfoWidget : public QWidget
 {
 public:
@@ -21,4 +26,5 @@ private:
 
 };
 
+//@}
 #endif // KCLINFOWIDGET_H

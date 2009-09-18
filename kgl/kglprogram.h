@@ -31,6 +31,11 @@ template<class K, class V> class QHash;
 #include <Eigen/Core>
 
 /**
+ * \defgroup KGL KGL
+ */
+//@{
+
+/**
  * @short Program class
  *
  * Program is a GPU-executed program that is ready to be used for manipulating
@@ -252,4 +257,5 @@ class KGLProgram
         QHash<QString, int>* mAttributeLocations;
 };
 
+//@}
 #endif //KGLPROGRAM_H

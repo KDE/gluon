@@ -9,6 +9,11 @@
 
 #include <QWidget>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLButton : public QWidget
 {
     Q_OBJECT
@@ -53,4 +58,5 @@ private:
     KCL::InputTypeFlag m_inputType;
 };
 
+//@}
 #endif // KCLRELAXISWIDGET_H

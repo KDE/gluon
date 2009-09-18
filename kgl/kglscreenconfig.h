@@ -20,10 +20,10 @@ extern "C"
 #include <X11/extensions/Xrandr.h>
 }
 
-
-
-
-
+/**
+ * \defgroup KGL KGL
+ */
+//@{
 
 class KGLScreenConfig : public QObject
 {
@@ -54,4 +54,5 @@ SizeID                  original_size_id;
 
 };
 
+//@}
 #endif // KGLScreenConfig_H

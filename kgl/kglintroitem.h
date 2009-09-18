@@ -28,6 +28,11 @@
  #include <QTimer>
 #include <QTimeLine>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 
 class KGLIntroItem: public KGLItem
 {
@@ -43,4 +48,6 @@ class KGLIntroItem: public KGLItem
         QTimeLine * m_timeLine;
 
 };
+
+//@}
 #endif //KGLINTRO_H

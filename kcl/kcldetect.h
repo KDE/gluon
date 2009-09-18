@@ -11,6 +11,11 @@
 #include <QObject>
 #include <QList>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 typedef QList<KCLInput *> KCLInputList;
 
 class KCLDetect : public QObject
@@ -134,4 +139,5 @@ private:
     QList<KCLInput *> m_unknownList;
 };
 
+//@}
 #endif // KCLDETECT_H

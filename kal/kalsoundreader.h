@@ -7,6 +7,11 @@
 #include <QString>
 #include <QStringList>
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALSoundReader
 {
 public:
@@ -36,4 +41,5 @@ private:
     QString m_fileName;
 };
 
+//@}
 #endif // KALSOUNDREADER_H

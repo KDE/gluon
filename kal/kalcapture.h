@@ -11,6 +11,11 @@
 #include <alc.h>
 #include <alut.h>
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALCapture : public QObject
 {
     Q_OBJECT
@@ -33,4 +38,5 @@ private:
     ALuint buffer;
 };
 
+//@}
 #endif // KALCAPTURE_H

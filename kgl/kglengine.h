@@ -29,6 +29,10 @@
 #include "kglboxitem.h"
 #include "kgltextitem.h"
 
+/**
+ * \defgroup KGL KGL
+*/
+//@{
 
 typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
 
@@ -49,7 +53,7 @@ class KGLEngine : public QObject
         bool eraseItems(const KGLItemList *item);
         KGLItem * itemAt(int id, unsigned int layer=0);
         int itemsCount() const;
-        
+
         KGLBoxItem * addBox(float w, float h)
         {
             KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;
@@ -64,4 +68,5 @@ class KGLEngine : public QObject
         IndexGroupMap m_items;
 };
 
+//@}
 #endif // KGLENGINE_H

@@ -3,10 +3,16 @@
 
 #include "kclinput.h"
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLTablet : public KCLInput
 {
 public:
     KCLTablet(const QString& device, QObject * parent = 0);
 };
 
+//@}
 #endif // KCLTABLET_H

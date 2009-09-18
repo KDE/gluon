@@ -25,6 +25,11 @@
 #include <QSizeF>
 #include <QList>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLGridItem : public KGLItem
 {
 
@@ -54,4 +59,5 @@ class KGLGridItem : public KGLItem
         float m_tile;
 };
 
+//@}
 #endif // KGLGRIDITEM_H

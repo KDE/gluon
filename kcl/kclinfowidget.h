@@ -12,6 +12,11 @@
 #include <QTreeView>
 #include <QWidget>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLInfoWidget : public QWidget
 {
     Q_OBJECT
@@ -32,4 +37,5 @@ private:
     KCLDeviceModel *m_model;
 };
 
+//@}
 #endif // KCLINFOWIDGET_H

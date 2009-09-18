@@ -30,6 +30,12 @@
 #include "kglengine.h"
 #include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
+
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLView : public QGLWidget
 {
     Q_OBJECT
@@ -185,4 +191,5 @@ private:
     int m_originalResolution;
 };
 
+//@}
 #endif // KGLVIEW_H

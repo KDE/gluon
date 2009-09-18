@@ -24,6 +24,11 @@
 #include <QtCore/QList>
 #include "kglitem.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLItemList: public QList<KGLItem*>
 {
     public:
@@ -31,4 +36,5 @@ class KGLItemList: public QList<KGLItem*>
         ~KGLItemList();
 };
 
+//@}
 #endif // KGLITEM_LIST_H

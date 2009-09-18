@@ -33,6 +33,11 @@
 #include <alut.h>
 
 /**
+ * \defgroup KAL KAL
+ */
+//@{
+
+/**
 * @class KALSound kalsource.h <KALSound>
 * KALSound lets you play an audio file in a separate thread
 */
@@ -208,4 +213,5 @@ private:
     ALfloat m_pitch;
 };
 
+//@}
 #endif // KALSOURCE_H

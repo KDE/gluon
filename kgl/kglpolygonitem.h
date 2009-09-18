@@ -24,6 +24,11 @@
 #include "kglitem.h"
 
 /**
+ * \defgroup KGL KGL
+ */
+//@{
+
+/**
 * @class KGLPolygonItem kglpolygonitem.h <KGLPolygonItem>
 * This is a KGLItem subclass that represents a polygon, and which can be initialized with a QPolygonF.
 */
@@ -34,4 +39,5 @@ class KGLPolygonItem : public KGLItem
         KGLPolygonItem(const QPolygonF &polygon, KGLEngine* parent=0);
 };
 
+//@}
 #endif //KGLPOLYGONITEM_H

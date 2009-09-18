@@ -4,6 +4,12 @@
 #include <QString>
 #include <KIcon>
 #include "kcl.h"
+
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLCode
 {
 public:
@@ -14,4 +20,5 @@ public:
     static KIcon iconDevice(KCL::DeviceFlag device);
 };
 
+//@}
 #endif // KCLCODE_H

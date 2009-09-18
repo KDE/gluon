@@ -24,6 +24,11 @@
 #include "kglitem.h"
 
 /**
+ * \defgroup KGL KGL
+ */
+//@{
+
+/**
 * @class KGLBoxItem kglboxitem.h <KGLBoxItem>
 * This is a KGLItem subclass which can be initialized with a QRectF or QSizeF
 */
@@ -41,7 +46,7 @@ class KGLBoxItem : public KGLItem
             createBox(dim);
             m_dim = dim;
         }
-        
+
         void setBox(const float &w, const float &h)
         {
             clear();
@@ -53,12 +58,12 @@ class KGLBoxItem : public KGLItem
         {
             return m_dim.width();
         }
-        
+
         float height()
         {
             return m_dim.height();
         }
-        
+
         QSizeF dim()
         {
             return m_dim;
@@ -67,4 +72,5 @@ class KGLBoxItem : public KGLItem
         QSizeF m_dim;
 };
 
+//@}
 #endif  //KGLBOXITEM_H

@@ -7,6 +7,11 @@
 
 #include <QStandardItemModel>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLDeviceModel : public QStandardItemModel
 {
 public:
@@ -14,4 +19,5 @@ public:
     void setupList();
 };
 
+//@}
 #endif // KCLDEVICEMODEL_H

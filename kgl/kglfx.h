@@ -23,6 +23,11 @@
 
 #include  "kglprogram.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLFx
 {
     public:
@@ -46,7 +51,7 @@ class KGLFx
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
@@ -63,7 +68,7 @@ class KGLFx
             program()->setUniform(name, value);
             program()->unbind();
         }
-    
+
         void setArg(const char* name,float value)
         {
             program()->bind();
@@ -81,7 +86,7 @@ class KGLLightFx: public KGLFx
 {
     public:
         KGLLightFx();
-        
+
         void setLight(float l)
         {
             setArg("alpha",l);
@@ -154,4 +159,5 @@ class KGLPixelateFx : public KGLFx
         float  m_blur;
 };
 
+//@}
 #endif // KGLEFFECT_H

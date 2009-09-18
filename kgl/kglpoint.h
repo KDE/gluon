@@ -30,6 +30,11 @@
 #include <QList>
 #include <QVector>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 #define KGLPOINT_PARAM_NUMBER 8
 
 class KGLPoint;
@@ -41,37 +46,37 @@ public:
     explicit KGLPoint();
     explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
     explicit KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
-    
+
     inline QPointF tex() {
         return QPointF(m_tx,m_ty);
     }
-    
+
     inline QColor color() {
         QColor c;
         c.setRgbF(m_r,m_g,m_b,m_a);
         return c;
     }
-    
+
     inline void setTex(const QPointF &t) {
         m_tx = t.x();
         m_ty = t.y();
     }
-    
+
     inline void setColor(const QColor &c) {
         m_r = c.redF();
         m_g = c.greenF();
         m_b = c.blueF();
         m_a = c.alphaF();
     }
-    
+
     inline void setAlpha(float a) {
         m_a = a;
     }
-    
+
     inline QPointF toQPointF() {
         return QPointF(m_x, m_y);
     }
-    
+
     inline void setX(float x)
     {
         m_x = x;
@@ -119,7 +124,7 @@ public:
     {
         return m_ty;
     }
-    
+
 private:
     float m_x;
     float m_y;
@@ -157,4 +162,5 @@ public:
     }
 };
 
+//@}
 #endif //KGLPoint_H

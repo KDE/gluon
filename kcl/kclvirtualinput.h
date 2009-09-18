@@ -8,6 +8,11 @@
 #include <QList>
 #include <QMap>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class VirtualButton // create a virtal button : example VirtalButton("JUMP", KEY_UP, keyboard);
 {
 public:
@@ -71,4 +76,5 @@ private:
     QList <VirtualButton*> m_secondaryButtonList;
 };
 
+//@}
 #endif // KCLVIRTUALINPUT_H

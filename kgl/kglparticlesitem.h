@@ -26,6 +26,11 @@
 #include "kgltexture.h"
 #include "kglitem.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLParticle;
 class KGLParticlesItem;
 class KGLParticle
@@ -34,7 +39,7 @@ class KGLParticle
         KGLParticle();
         void init();
         void move();
-        
+
         void reset()
         {
             m_alpha=m_initAlpha;
@@ -183,4 +188,5 @@ class KGLParticlesItem: public KGLItem
 //
 //========================================================
 
+//@}
 #endif //KGLPARTICLESITEM_H

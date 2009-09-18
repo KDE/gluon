@@ -36,6 +36,11 @@
 #include <alc.h>
 #include <alut.h>
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALSound;
 class KALBuffer;
 
@@ -111,4 +116,5 @@ private:
     QList<KALBuffer *> m_bufferList;
 };
 
+//@}
 #endif // KALENGINE2_H

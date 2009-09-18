@@ -3,6 +3,11 @@
 
 #include <KPushButton>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class SlidePushButton : public KPushButton
 {
     Q_OBJECT
@@ -36,4 +41,5 @@ private:
     int m_value;
 };
 
+//@}
 #endif // SLIDEPUSHBUTTON_H

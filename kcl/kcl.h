@@ -3,6 +3,12 @@
 #include <QFlags>
 #include <QEvent>
 #include <linux/input.h>
+
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 namespace KCL {
     enum DeviceFlag {
         Unknown = 0x0,
@@ -30,4 +36,6 @@ namespace KCL {
 Q_DECLARE_OPERATORS_FOR_FLAGS(KCL::Devices);
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KCL::InputTypes);
+
+//@}
 #endif // KCL_H

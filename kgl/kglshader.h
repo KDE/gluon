@@ -27,6 +27,11 @@
 class QString;
 class QByteArray;
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 
 /**
  * @short Shader class
@@ -74,11 +79,11 @@ class KGLShader
         **/
         bool compile();
 
-        bool isValid() const  
+        bool isValid() const
         {
             return mValid;
         }
-        
+
         bool isCompiled() const
         {
             return mCompiled;
@@ -99,7 +104,7 @@ class KGLShader
         {
             return mType;
         }
-        
+
         GLuint glId() const
         {
             return mGLId;
@@ -138,4 +143,5 @@ class KGLFragmentShader : public KGLShader
         KGLFragmentShader(const QString& filename);
 };
 
+//@}
 #endif //KGLSHADER_H

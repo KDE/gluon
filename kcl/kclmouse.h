@@ -7,6 +7,11 @@
 #include <QPoint>
 #include <QWidget>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 // this is a default mouse, with 2 axes, and wheel axes
 
 class KCLMouse : public KCLInput
@@ -35,4 +40,5 @@ private:
     QPoint m_originalPosition;
 };
 
+//@}
 #endif // KCLMOUSE_H

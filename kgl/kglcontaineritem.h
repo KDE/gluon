@@ -29,6 +29,11 @@
 
 #include <KDE/KDebug>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLContainerItem: public KGLItem
 {
     Q_OBJECT
@@ -43,8 +48,8 @@ class KGLContainerItem: public KGLItem
         {
             m_children.removeOne(item);
         }
-    
-        inline const KGLItemList childItems() const 
+
+        inline const KGLItemList childItems() const
         {
             return m_children;
         }
@@ -53,4 +58,5 @@ class KGLContainerItem: public KGLItem
         KGLItemList m_children;
 };
 
+//@}
 #endif //KGLCONTAINERITEM_H

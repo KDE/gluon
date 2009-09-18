@@ -23,6 +23,11 @@
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 #ifndef KALENGINE_EXPORT
 # if defined(MAKE_KALENGINE_LIB)
 /* We are building this library */
@@ -37,4 +42,5 @@
 #  define KALENGINE_EXPORT_DEPRECATED KDE_DEPRECATED KALENGINE_EXPORT
 # endif
 
+//@}
 #endif

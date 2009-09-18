@@ -27,6 +27,11 @@
 
 #include <QtCore/QRegExp>
 
+/**
+ * \defgroup KAL KAL
+ */
+//@{
+
 class KALPhononPrivate;
 
 /**
@@ -61,4 +66,5 @@ private Q_SLOTS:
 
 };
 
+//@}
 #endif // KALPHONON_H

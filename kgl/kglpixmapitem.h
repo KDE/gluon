@@ -27,6 +27,11 @@
 #include "kglitem.h"
 #include "kglboxitem.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLPixmapItem: public KGLBoxItem
 {
     Q_OBJECT
@@ -39,5 +44,5 @@ class KGLPixmapItem: public KGLBoxItem
         QPixmap  m_pix;
 };
 
+//@}
 #endif //KGLPIXMAP_ITEM_H
-

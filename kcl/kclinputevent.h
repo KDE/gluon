@@ -3,6 +3,12 @@
 
 #include <QEvent>
 #include <linux/input.h>
+
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLInputEvent;
 class KCLInputEvent : public QEvent
 {
@@ -33,4 +39,5 @@ private:
     struct input_event m_inputEvent;
 };
 
+//@}
 #endif // KCLINPUTEVENT_H

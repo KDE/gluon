@@ -10,6 +10,11 @@
 
 #include <QTreeWidget>
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 class KCLVirtualInputConfig : public KDialog
 {
     Q_OBJECT
@@ -28,4 +33,5 @@ private:
     KCLVirtualInput * m_virtualInput;
 };
 
+//@}
 #endif // KCLVIRTUALINPUTCONFIG_H

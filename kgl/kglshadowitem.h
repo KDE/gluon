@@ -30,6 +30,11 @@
 #include <QList>
 #include <QTimer>
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 class KGLShadowItem : public KGLItem
 {
     Q_OBJECT
@@ -38,8 +43,8 @@ class KGLShadowItem : public KGLItem
 
     public Q_SLOTS:
         void snapMatrix();
-        
-        void enable(bool t = 1) 
+
+        void enable(bool t = 1)
         {
             if (t)
             {
@@ -52,12 +57,12 @@ class KGLShadowItem : public KGLItem
         }
 
         void draw();
-        
+
         void setSnapDuration(float d) {
-            m_snapDuration = d; 
+            m_snapDuration = d;
             m_timer->start(m_snapDuration);
         }
-    
+
         void setNbFrame(float d);
 
     private:
@@ -71,4 +76,5 @@ class KGLShadowItem : public KGLItem
         QTimer *m_timer;
 };
 
+//@}
 #endif // KGLSHADOWITEM_H

@@ -3,6 +3,11 @@
 
 #include "kclinput.h"
 
+/**
+ * \defgroup KCL KCL
+ */
+//@{
+
 // this is a default joystick, with 2 axis
 
 class KCLJoystick : public KCLInput
@@ -23,4 +28,5 @@ public:
     }
 };
 
+//@}
 #endif // KCLJOYSTICK_H

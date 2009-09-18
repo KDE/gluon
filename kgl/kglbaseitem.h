@@ -29,6 +29,11 @@
 #include <QMatrix>
 #include "kglpoint.h"
 
+/**
+ * \defgroup KGL KGL
+ */
+//@{
+
 const Eigen::Vector3d AXIS_X(1, 0, 0);
 const Eigen::Vector3d AXIS_Y(0, 1, 0);
 const Eigen::Vector3d AXIS_Z(0, 0, 1);
@@ -45,7 +50,7 @@ public:
         m_pointList.append(p);
         computeGeometry();
     }
-    
+
     KGLPointList &pointList(){return m_pointList;}
 
     virtual void removeVertex(KGLPoint * p)
@@ -53,7 +58,7 @@ public:
         //            m_pointList.removeOne (p);
         computeGeometry();
     }
-    
+
     virtual void clear()
     {
         m_pointList.clear();
@@ -111,7 +116,7 @@ public:
     {
         return transform(m_center);
     }
-    
+
     inline const QPointF &itemCenter()
     {
         return  m_center;
@@ -131,7 +136,7 @@ public:
     {
         return polygon().boundingRect();
     }
-    
+
     virtual inline const QRectF itemBoundingBox()
     {
         return itemPolygon().boundingRect();
@@ -151,7 +156,7 @@ public:
     {
         m_matrix = m;
     }
-    
+
     //Set
     inline void setCenter(const QPointF &c)
     {
@@ -254,4 +259,5 @@ private:
     KGLPointList m_pointList;
 };
 
+//@}
 #endif // KGLBASEITEM_H
