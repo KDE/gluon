@@ -35,3 +35,8 @@ kalcapture.h
 widgets/kalinfowidget.h
 widgets/kalplayerwidget.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)
+
+install(FILES
+widgets/kalinfowidget.h
+widgets/kalplayerwidget.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal/widgets COMPONENT Devel)

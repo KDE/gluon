@@ -32,6 +32,7 @@
 #include <gluon/kcl/kclvirtualinput.h>
 #include <gluon/kcl/kclvirtualinputconfig.h>
 #include <gluon/kcl/kclbutton.h>
+#include <gluon/kal/widgets/kalplayerwidget.h>
 #include <gluon/gluonmainwindow.h>
 #include <QVBoxLayout>
 #include <QMainWindow>
@@ -52,7 +53,8 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KApplication app;
-
+KALPlayerWidget * widget= new KALPlayerWidget;
+widget->show();
     KALSound * sound = new KALSound();
 //     sound->load("/usr/share/sounds/k3b_success1.wav");
     sound->load("/usr/share/sounds/k3b_error1.wav");
