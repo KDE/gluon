@@ -3,6 +3,6 @@ install( FILES
   KALSound
   KALSoundReader
   KALPhonon
-  KALOggStreamer
+  KALMusic
   KALBuffer
 DESTINATION ${INCLUDE_INSTALL_DIR}/KDE/)
