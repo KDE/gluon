@@ -53,15 +53,10 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-    GluonMainWindow * gluon = new GluonMainWindow;
-    
-    gluon->show();
-
-  gluon->inputs()->setButton("Jump");
-  gluon->inputs()->setButton("Run");
-  gluon->inputs()->setButton("Go");
-  
- 
+    KALSound * sound = new KALSound();
+//     sound->load("/usr/share/sounds/k3b_success1.wav");
+    sound->load("/usr/share/sounds/k3b_error1.wav");
+ sound->play();
 app.exec();
 
 

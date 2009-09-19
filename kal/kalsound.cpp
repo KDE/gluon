@@ -28,30 +28,32 @@
 
 #include "kalengine.h"
 
-
-KALSound::KALSound(const QString &soundFile, QObject *parent)
-        : QObject(parent)
+KALSound::KALSound(QObject * parent)
+           :QObject(parent)
 {
-    if (!QFile::exists(soundFile)) {
-        kDebug() << "Could not open" << soundFile;
-        return;
-    }
-
-    m_buffer = new KALBuffer(soundFile);
     init();
+    m_buffer= new KALBuffer;
+}
+KALSound::KALSound(const QString &soundFile, QObject *parent)
+    : QObject(parent)
+{
+    init();
+    m_buffer = new KALBuffer;
+    load(soundFile);
 }
 
 KALSound::KALSound(KALBuffer *buffer, QObject *parent)
+    :QObject(parent)
 {
-    m_buffer = buffer;
     init();
+    load(buffer);
 }
 
 KALSound::KALSound(ALuint buffer, QObject *parent)
+    :QObject(parent)
 {
-    m_buffer = new KALBuffer();
-    m_buffer->setBuffer(buffer);
     init();
+    load(buffer);
 }
 
 KALSound::~KALSound()
@@ -60,12 +62,32 @@ KALSound::~KALSound()
     KALEngine * engineParent = KALEngine::instance();
     engineParent->removeSource(this);
 }
+void KALSound::load (const QString &soundFile)
+{
+    m_buffer->setBuffer(soundFile);
+    setupSource();
+}
+
+void KALSound::load(KALBuffer * buffer) {
+    m_buffer = buffer;
+    setupSource();
+}
+void KALSound::load(ALuint buffer) {
+    m_buffer = new KALBuffer(buffer);
+    setupSource();
+}
 
 void KALSound::init()
 {
-    KALEngine *engineParent = KALEngine::instance();
-    engineParent->addSource(this);
-    setupSource();
+
+
+    KALEngine::instance()->addSource(this);
+     m_source;
+     m_x=0;
+     m_y=0;
+     m_z=0;
+     m_volume=0;
+     m_pitch=0;
 }
 
 void KALSound::setupSource()
@@ -83,15 +105,6 @@ void KALSound::setupSource()
         return;
     }
 }
-
-void KALSound::updateSource()
-{
-//    stop();
-//    alDeleteSources(1, &m_source);
-//    //alDeleteBuffers(1, &m_buffer);
-//    m_setupSource();
-}
-
 ALfloat KALSound::elapsedTime()
 {
     ALfloat seconds = 0.f;
@@ -106,9 +119,10 @@ ALint KALSound::status()
     return status;
 }
 
-void KALSound::loop(bool enabled)
+void KALSound::setLoop(bool enabled)
 {
     alSourcei(m_source, AL_LOOPING, enabled);
+
 }
 
 ALfloat KALSound::x()
@@ -126,9 +140,9 @@ ALfloat KALSound::z()
     return m_z;
 }
 
-ALfloat KALSound::gain()
+ALfloat KALSound::volume()
 {
-    return m_gain;
+    return m_volume;
 }
 
 ALfloat KALSound::pitch()
@@ -146,9 +160,9 @@ void KALSound::setPosition(ALfloat x, ALfloat y, ALfloat z)
     alSourcefv(m_source, AL_POSITION, listenerPosition);
 }
 
-void KALSound::setGain(ALfloat volume)
+void KALSound::setVolume(ALfloat volume)
 {
-    m_gain = volume;
+    m_volume = volume;
     alSourcef(m_source, AL_GAIN, volume);
 }
 
@@ -178,12 +192,12 @@ void KALSound::rewind()
     alSourceRewind(m_source);
 }
 
-void KALSound::setMinGain(ALfloat min)
+void KALSound::setMinVolume(ALfloat min)
 {
     alSourcef(m_source, AL_MIN_GAIN, min);
 }
 
-void KALSound::setMaxGain(ALfloat max)
+void KALSound::setMaxVolume(ALfloat max)
 {
     alSourcef(m_source, AL_MAX_GAIN, max);
 }

@@ -18,15 +18,15 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALOGGSTREAMER_H
-#define KALOGGSTREAMER_H
+#ifndef KALMUSIC_H
+#define KALMUSIC_H
 
 #include <AL/al.h>
 #include <ogg/ogg.h>
 #include <vorbis/vorbisfile.h>
 
 #include <QThread>
-#include <string>
+#include <string.h>
 #include "kalsound.h"
 #define BUFFER_SIZE (4096 * 4)
 
@@ -37,12 +37,12 @@ using namespace std;
  */
 //@{
 
-class KALOggStreamer : public QThread
+class KALMusic : public QThread
 {
     Q_OBJECT
 
 public:
-    KALOggStreamer(QString fileName = QString());
+    KALMusic(QString fileName = QString());
     void run();
     bool isPlaying();
 
@@ -50,6 +50,8 @@ public slots:
     void play() {
         run();
     }
+
+    private slots:
     void playThread() {
         start();
     }
@@ -84,4 +86,4 @@ private:
 };
 
 //@}
-#endif // KALOGGSTREAMER_H
+#endif // KALMusic_H

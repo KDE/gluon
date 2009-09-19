@@ -2,7 +2,7 @@ set(kal_LIB_SRCS
     kalengine.cpp
     kalphonon.cpp
     kalsoundreader.cpp
-    kaloggstreamer.cpp
+    kalmusic.cpp
     kalcapture.cpp
     kalbuffer.cpp
     kalsound.cpp
@@ -30,7 +30,7 @@ kalsoundreader.h
 kalengine_export.h
 kalphonon.h
 kalsound.h
-kaloggstreamer.h
+kalmusic.h
 kalcapture.h
 widgets/kalinfowidget.h
 widgets/kalplayerwidget.h

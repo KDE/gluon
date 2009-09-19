@@ -24,13 +24,13 @@
 #include "kalsoundreader.h"
 
 KALBuffer::KALBuffer()
-        : m_buffer(0)
+    : m_buffer(0)
 {
     init();
 }
 
 KALBuffer::KALBuffer(const QString &fileName)
-        : m_buffer(0)
+    : m_buffer(0)
 {
     setBuffer(fileName);
     init();
@@ -44,8 +44,8 @@ KALBuffer::KALBuffer(ALuint buffer)
 
 void KALBuffer::init()
 {
-    KALEngine *engine = KALEngine::instance();
-    engine->addBuffer(this);
+
+    KALEngine::instance()->addBuffer(this);
 }
 
 KALBuffer::~KALBuffer()

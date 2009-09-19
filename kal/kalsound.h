@@ -46,6 +46,7 @@ class KALENGINE_EXPORT KALSound : public QObject
     Q_OBJECT
 
 public:
+    KALSound(QObject * parent=0);
     /**
     * This is the default constructor
     * @param soundFile the path of the file to play
@@ -62,15 +63,9 @@ public:
     */
     KALSound(ALuint buffer, QObject * parent = 0);
 
-    void setBuffer(const QString& soundFile) {
-        m_buffer = new KALBuffer(soundFile);
-    }
-    void setBuffer(KALBuffer * buffer) {
-        m_buffer = buffer;
-    }
-    void setBuffer(ALuint buffer) {
-        m_buffer = new KALBuffer(buffer);
-    }
+    void load (const QString &soundFile);
+    void load(KALBuffer * buffer);
+    void load(ALuint buffer);
 
     /**
     * Destructor
@@ -112,10 +107,10 @@ public:
     ALfloat z();
 
     /**
-    * @return the gain currently applied
-    * @see setGain
+    * @return the volume currently applied
+    * @see setvolume
     */
-    ALfloat gain();
+    ALfloat volume();
 
     /**
     * @return the pitch currently applied
@@ -156,7 +151,7 @@ public Q_SLOTS:
     * @p enabled play in a loop if set to true
     * @see play
     */
-    void loop(bool enabled = true);
+    void setLoop(bool enabled = true);
 
     /**
     * Sets the position of the listener, this is used to create
@@ -174,7 +169,7 @@ public Q_SLOTS:
     void setPosition(ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0);
 
     /**
-    * Change the gain (volume amplification) applied
+    * Change the volume (volume amplification) applied
     * The openAL documentation defines the underlying variable as:
     * A value of 1.0 means un-attenuated/unchanged.
     * Each division by 2 equals an attenuation of -6dB.
@@ -182,9 +177,9 @@ public Q_SLOTS:
     * A value of 0.0 is meaningless with respect to a logarithmic
     *  scale; it is interpreted as zero volume - the channel
     *  is effectively disabled.
-    * @see gain
+    * @see volume
     */
-    void setGain(ALfloat volume = 1.0f);
+    void setVolume(ALfloat volume = 1.0f);
 
     /**
     * Specify the pitch to be applied, either at source,
@@ -194,13 +189,12 @@ public Q_SLOTS:
     void setPitch(ALfloat pitch = 1.0f);
 
 
-    void setMinGain(ALfloat min = 0.0f);
-    void setMaxGain(ALfloat max = 10.0f);
+    void setMinVolume(ALfloat min = 0.0f);
+    void setMaxVolume(ALfloat max = 10.0f);
     void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
     void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
-
+protected:
     void setupSource();
-    void updateSource();
 private:
     bool m_toPlay;
 
@@ -209,7 +203,7 @@ private:
     ALfloat m_x;
     ALfloat m_y;
     ALfloat m_z;
-    ALfloat m_gain;
+    ALfloat m_volume;
     ALfloat m_pitch;
 };
 

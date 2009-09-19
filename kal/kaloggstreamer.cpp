@@ -18,15 +18,15 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kaloggstreamer.h"
+#include "kalmusic.h"
 #include <KDebug>
 
-KALOggStreamer::KALOggStreamer(QString fileName)
+KALMusic::KALMusic(QString fileName)
 {
     setFileName(fileName);
 }
 
-void KALOggStreamer::open(string path)
+void KALMusic::open(string path)
 {
     int result;
 
@@ -60,7 +60,7 @@ void KALOggStreamer::open(string path)
     alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
 }
 
-void KALOggStreamer::release()
+void KALMusic::release()
 {
     alSourceStop(source);
     empty();
@@ -72,7 +72,7 @@ void KALOggStreamer::release()
     ov_clear(&oggStream);
 }
 
-void KALOggStreamer::display()
+void KALMusic::display()
 {
     kDebug()
     << "version         " << vorbisInfo->version         << "\n"
@@ -90,7 +90,7 @@ void KALOggStreamer::display()
     }
 }
 
-bool KALOggStreamer::playback()
+bool KALMusic::playback()
 {
     if (isPlaying()) {
         return true;
@@ -110,7 +110,7 @@ bool KALOggStreamer::playback()
     return true;
 }
 
-bool KALOggStreamer::isPlaying()
+bool KALMusic::isPlaying()
 {
     ALenum state;
 
@@ -119,7 +119,7 @@ bool KALOggStreamer::isPlaying()
     return (state == AL_PLAYING);
 }
 
-bool KALOggStreamer::update()
+bool KALMusic::update()
 {
     int processed;
     bool active = true;
@@ -141,7 +141,7 @@ bool KALOggStreamer::update()
     return active;
 }
 
-bool KALOggStreamer::stream(ALuint buffer)
+bool KALMusic::stream(ALuint buffer)
 {
     char pcm[BUFFER_SIZE];
     int  size = 0;
@@ -172,7 +172,7 @@ bool KALOggStreamer::stream(ALuint buffer)
     return true;
 }
 
-void KALOggStreamer::empty()
+void KALMusic::empty()
 {
     int queued;
 
@@ -186,7 +186,7 @@ void KALOggStreamer::empty()
     }
 }
 
-void KALOggStreamer::check()
+void KALMusic::check()
 {
     int error = alGetError();
 
@@ -195,7 +195,7 @@ void KALOggStreamer::check()
     }
 }
 
-string KALOggStreamer::errorString(int code)
+string KALMusic::errorString(int code)
 {
     switch (code) {
     case OV_EREAD:
@@ -213,7 +213,7 @@ string KALOggStreamer::errorString(int code)
     }
 }
 
-void KALOggStreamer::run()
+void KALMusic::run()
 {
     open(m_fileName.toUtf8().data());
     display();

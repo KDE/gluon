@@ -75,12 +75,12 @@ public:
     */
     bool setDevice(QString deviceName);
 
-    ALCcontext *context() {
-        return m_context;
+    static ALCcontext *context() {
+        return instance()->getAlContext();
     }
 
-    ALCdevice* device() {
-        return m_device;
+    static ALCdevice* device() {
+        return instance()->getAlDevice();
     }
 
     /**
@@ -89,23 +89,32 @@ public:
     */
     static QStringList deviceList();
 
-    int sourceCount() {
-        return m_sourceList.size();
+    static int soundNumber() {
+        return instance()->getSoundList()->size();
     }
 
-    void addSource(KALSound * source) {
-        m_sourceList.append(source);
+    static void addSource(KALSound * source) {
+        if (instance()->getSoundList()->contains(source)) return;
+        instance()->getSoundList()->append(source);
     }
-    void removeSource(KALSound * source) {
-        m_sourceList.removeOne(source);
+    static void removeSource(KALSound * source) {
+        instance()->getSoundList()->removeOne(source);
     }
 
-    void addBuffer(KALBuffer * buffer) {
-        m_bufferList.append(buffer);
+    static void addBuffer(KALBuffer * buffer) {
+        if (instance()->getBufferList()->contains(buffer)) return;
+        instance()->getBufferList()->append(buffer);
     }
-    void removeBuffer(KALBuffer * buffer) {
-        m_bufferList.removeOne(buffer);
+    static void removeBuffer(KALBuffer * buffer) {
+        instance()->getBufferList()->removeOne(buffer);
     }
+
+
+
+    ALCdevice * getAlDevice(){return m_device;}
+    ALCcontext * getAlContext(){return m_context;}
+    QList<KALSound*> * getSoundList(){return &m_sourceList;}
+    QList<KALBuffer*> * getBufferList(){return &m_bufferList;}
 
 private:
     static KALEngine *m_instance;
