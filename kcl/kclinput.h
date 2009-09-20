@@ -252,6 +252,8 @@ signals:
     void buttonReleased(int code);
     void absAxisChanged(int axe, int code);
     void relAxisChanged(int axe, int code);
+    void pressed();
+    void moved();
 
 public slots:
     void setEnable();

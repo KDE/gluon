@@ -46,9 +46,10 @@ bool KCLInput::event(QEvent * evt)
     case QEvent::Type(KCL::Key):
 
         if (event->value() == 1) { // if click
-             kDebug()<<"press...";
+            kDebug()<<"press...";
             m_buttons.append(event->code());
             emit buttonPressed(event->code());
+              emit pressed();
         }
 
         if (event->value() == 0) { //if release
@@ -59,6 +60,7 @@ bool KCLInput::event(QEvent * evt)
         break;
 
     case QEvent::Type(KCL::RelatifAxis):
+        emit moved();
         m_relMove = true;
         m_lastRelAxis = event->code();
         m_relAxis[event->code()] = event->value();
@@ -67,6 +69,7 @@ bool KCLInput::event(QEvent * evt)
         break;
 
     case QEvent::Type(KCL::AbsoluAxis):
+        emit moved();
         m_absMove = true;
         m_lastAbsAxis = event->code();
         m_absAxis[event->code()] = event->value();

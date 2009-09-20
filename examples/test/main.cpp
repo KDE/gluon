@@ -60,12 +60,12 @@ int main(int argc, char *argv[])
  
 input->addButton("Feu!!!",KCLDetect::joystick(),BTN_TRIGGER);
 input->addButton("Stop",KCLDetect::joystick(),BTN_THUMB);
- 
+input->addButton("MOUSE",KCLDetect::mouse(),BTN_LEFT);
  QTextEdit * edit = new QTextEdit;
 edit->show();
+KALSound * son = new KALSound("/usr/share/sounds/pop.wav");
 
-
-QObject::connect(input,SIGNAL(buttonPressed(QString)),edit,SLOT(setText(QString)));
+QObject::connect(KCLDetect::joystick(),SIGNAL(pressed()),son,SLOT(play()));
 
 app.exec();
 
