@@ -49,27 +49,27 @@ void KCLDetect::searchDevice()
             switch (temp->deviceType()) {
             case KCL::KeyBoard:
                 kDebug() << "Keyboard found";
-                detect->addKeyboard(dynamic_cast<KCLKeyBoard*>(temp));
+                detect->addKeyboard(temp);
                 break;
 
             case KCL::Mouse:
                 kDebug() << "Mouse found";
-                detect->addMouse(dynamic_cast<KCLMouse*>(temp));
+                detect->addMouse(temp);
                 break;
 
             case KCL::Touchpad:
                 kDebug() << "Touchpad found";
-                detect->addMouse(dynamic_cast<KCLMouse*>(temp));
+                detect->addMouse(temp);
                 break;
 
             case KCL::Joystick:
                 kDebug() << "Joystick found";
-                detect->addJoystick(dynamic_cast<KCLJoystick*>(temp));
+                detect->addJoystick(temp);
                 break;
 
             case KCL::Tablet:
                 kDebug() << "Tablet found";
-                detect->addTablet(dynamic_cast<KCLTablet*>(temp));
+                detect->addTablet(temp);
                 break;
 
             case KCL::Unknown:

@@ -12,6 +12,7 @@
 
 class KCLJoystick : public KCLInput
 {
+    Q_OBJECT
 public:
     KCLJoystick(const QString& device, QObject * parent = 0);
 

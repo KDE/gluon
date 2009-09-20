@@ -107,20 +107,25 @@ public:
         m_inputList.append(i);
     }
 
-    void addKeyboard(KCLKeyBoard *i) {
-        m_keyboardList.append(i);
+    void addKeyboard(KCLInput *i) {
+        KCLKeyBoard * keybd = new KCLKeyBoard(i->devicePath());
+        m_keyboardList.append(keybd);
     }
 
-    void addMouse(KCLMouse *i) {
-        m_mouseList.append(i);
+    void addMouse(KCLInput *i) {
+        KCLMouse * mouse = new KCLMouse(i->devicePath());
+        m_mouseList.append(mouse);
     }
 
-    void addJoystick(KCLJoystick *i) {
-        m_joystickList.append(i);
+    void addJoystick(KCLInput *i) {
+        KCLJoystick * joy = new KCLJoystick(i->devicePath());
+        m_joystickList.append(joy);
+
     }
 
-    void addTablet(KCLTablet *i) {
-        m_tabletList.append(i);
+    void addTablet(KCLInput *i) {
+        KCLTablet * tablet = new KCLTablet(i->devicePath());
+        m_tabletList.append(tablet);
     }
 
     void addUnknown(KCLInput *i) {

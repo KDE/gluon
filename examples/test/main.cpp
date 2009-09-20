@@ -25,7 +25,7 @@
 #include <KCmdLineArgs>
 #include <KDebug>
 #include <iostream>
-#include <QDebug>
+
 
 
 #include <gluon/kcl/kcldetect.h>
@@ -53,12 +53,9 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KApplication app;
-KALPlayerWidget * widget= new KALPlayerWidget;
-widget->show();
-    KALSound * sound = new KALSound();
-//     sound->load("/usr/share/sounds/k3b_success1.wav");
-    sound->load("/usr/share/sounds/k3b_error1.wav");
- sound->play();
+
+kDebug()<<KCLDetect::joystick()->deviceName();
+ 
 app.exec();
 
 

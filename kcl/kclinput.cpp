@@ -24,6 +24,7 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
     m_lastRelAxis = 0;
     m_msgError = QString();
     m_devicePath = devicePath;
+    m_deviceName = "no name";
     readInformation();
     inputListener = new KCLThread(m_devicePath, this);
 }
