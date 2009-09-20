@@ -64,7 +64,7 @@ class KCLInput : public QObject
     Q_OBJECT
 
 public:
-    KCLInput(const QString& devicePath, QObject * parent = 0);
+    KCLInput(const QString& devicePath=QString(), QObject * parent = 0);
     ~KCLInput();
 
     /**
@@ -269,6 +269,7 @@ private:
     KCL::DeviceFlag m_deviceType;
 
     QList<int> m_buttons;  //list of button pressed
+    QList<int> m_forceFeedBack;
     QMap<int, int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;
     QMap<int, int> m_absAxis; // list of absolue axis value. m_absAxis[ABS_Rx] = 156
     QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....

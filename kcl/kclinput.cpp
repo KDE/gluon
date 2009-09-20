@@ -44,8 +44,9 @@ bool KCLInput::event(QEvent * evt)
 
     switch (event->type()) {
     case QEvent::Type(KCL::Key):
-        kDebug()<<"press...";
+
         if (event->value() == 1) { // if click
+             kDebug()<<"press...";
             m_buttons.append(event->code());
             emit buttonPressed(event->code());
         }
@@ -168,6 +169,13 @@ void KCLInput::readInformation()
             }
         }
     }
+
+    //===============Find Force feedback ?? ===============
+
+
+
+
+
     close(m_fd);
 
     m_deviceType = KCL::Unknown;

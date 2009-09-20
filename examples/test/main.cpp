@@ -29,8 +29,8 @@
 
 
 #include <gluon/kcl/kcldetect.h>
-#include <gluon/kcl/kclvirtualinput.h>
-#include <gluon/kcl/kclvirtualinputconfig.h>
+#include <gluon/kcl/kclcustominput.h>
+
 #include <gluon/kcl/kclbutton.h>
 #include <gluon/kal/widgets/kalplayerwidget.h>
 #include <gluon/gluonmainwindow.h>
@@ -39,6 +39,7 @@
 #include <QToolBar>
 #include <KAction>
 #include <KIcon>
+#include <QTextEdit>
 using namespace std;
 
 
@@ -54,8 +55,18 @@ int main(int argc, char *argv[])
 
     KApplication app;
 
-kDebug()<<KCLDetect::joystick()->deviceName();
+
+ KCLCustomInput * input = new KCLCustomInput;
  
+input->addButton("Feu!!!",KCLDetect::joystick(),BTN_TRIGGER);
+input->addButton("Stop",KCLDetect::joystick(),BTN_THUMB);
+ 
+ QTextEdit * edit = new QTextEdit;
+edit->show();
+
+
+QObject::connect(input,SIGNAL(buttonPressed(QString)),edit,SLOT(setText(QString)));
+
 app.exec();
 
 

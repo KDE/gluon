@@ -2,7 +2,6 @@
 #define KCLVIRTUALINPUTCONFIG_H
 
 #include "kcldetect.h"
-#include "kclvirtualinput.h"
 #include "kclbutton.h"
 
 #include <KDialog>
@@ -15,23 +14,23 @@
  */
 //@{
 
-class KCLVirtualInputConfig : public KDialog
-{
-    Q_OBJECT
-
-public:
-    KCLVirtualInputConfig(KCLVirtualInput * input , QWidget * parent = 0);
-
-public slots:
-    void setup();
-
-private slots:
-    void changeButton(QTreeWidgetItem * item, int column);
-
-private:
-    QTreeWidget * m_treeWidget;
-    KCLVirtualInput * m_virtualInput;
-};
+//class KCLVirtualInputConfig : public KDialog
+//{
+//    Q_OBJECT
+//
+//public:
+//    KCLVirtualInputConfig(KCLVirtualInput * input , QWidget * parent = 0);
+//
+//public slots:
+//    void setup();
+//
+//private slots:
+//    void changeButton(QTreeWidgetItem * item, int column);
+//
+//private:
+//    QTreeWidget * m_treeWidget;
+//    KCLVirtualInput * m_virtualInput;
+//};
 
 //@}
 #endif // KCLVIRTUALINPUTCONFIG_H

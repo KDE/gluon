@@ -1,5 +1,3 @@
-#include "kcl/kclvirtualinput.h"
-#include "kcl/kclvirtualinputconfig.h"
 #include "kgl/kglview.h"
 #include "kal/kalengine.h"
 #include <QMainWindow>
@@ -13,7 +11,7 @@ public:
     GluonMainWindow(QWidget * parent=0);
     ~GluonMainWindow();
     KGLView * view(){return m_view;}
-   KCLVirtualInput * inputs(){return m_inputs;}
+//   KCLVirtualInput * inputs(){return m_inputs;}
 public slots:
     void showKglService(){launchService("kgl.desktop");}
     void showKalService(){launchService("kal.desktop");}
@@ -27,7 +25,7 @@ protected:
 
 private:
     KGLView * m_view;
-    KCLVirtualInput * m_inputs;
+   // KCLVirtualInput * m_inputs;
 
 
 };

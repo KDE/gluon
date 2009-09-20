@@ -15,7 +15,7 @@ GluonMainWindow::GluonMainWindow(QWidget * parent)
 {
     KALEngine::instance();
     m_view = new KGLView;
-    m_inputs=new KCLVirtualInput;
+//    m_inputs=new KCLVirtualInput;
     setCentralWidget(m_view);
     setupAction();
 m_view->start();
@@ -71,11 +71,11 @@ void GluonMainWindow::setupAction()
     connect(kclAction,SIGNAL(triggered()),this,SLOT(showKclSercice()));
     KStandardAction::fullScreen(m_view,SLOT(toggleFullScreen()),this,actionCollection());
 
-    KAction* controlAction = new KAction(this);
+/*    KAction* controlAction = new KAction(this);
     controlAction->setText(i18n("controls...."));
     controlAction->setIcon(KIcon("games-config-options.png"));
     actionCollection()->addAction("setup controls",controlAction);
-    connect(controlAction,SIGNAL(triggered()),this,SLOT(showControlWidget()));
+    connect(controlAction,SIGNAL(triggered()),this,SLOT(showControlWidget()))*/;
 
 
 
@@ -87,7 +87,7 @@ void GluonMainWindow::setupAction()
     menu->addAction(kglAction);
     menu->addAction(kalAction);
     menu->addAction(kclAction);
-     menu->addAction(controlAction);
+//     menu->addAction(controlAction);
 }
 
 void GluonMainWindow::launchService(QString name)
@@ -103,8 +103,8 @@ void GluonMainWindow::launchService(QString name)
 }
   void GluonMainWindow::showControlWidget()
   {
-    KCLVirtualInputConfig *  m_controlWidget = new KCLVirtualInputConfig(m_inputs);
-    m_controlWidget->exec();
+//    KCLVirtualInputConfig *  m_controlWidget = new KCLVirtualInputConfig(m_inputs);
+//    m_controlWidget->exec();
 
   }
    void GluonMainWindow::showFps(int fps)

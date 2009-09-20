@@ -11,7 +11,7 @@ kclinfowidget.cpp
 kcldevicemodel.cpp
 kcldetect.cpp
 kclbutton.cpp
-kclvirtualinput.cpp
+kclcustominput.cpp
 kclvirtualinputconfig.cpp
 slidepushbutton.cpp
 
@@ -40,7 +40,7 @@ kclcode.h
 kclinfowidget.h
 kcldevicemodel.h
 kcldetect.h
-kclvirtualinput.h
+kclcustominput.h
 kclvirtualinputconfig.h
 kclbutton.h
 slidepushbutton.h
