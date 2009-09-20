@@ -45,6 +45,7 @@ void KCLDetect::searchDevice()
     foreach(QString name, event.entryList(QDir::Files)) {
         KCLInput *temp = new KCLInput(path + name);
         if (!temp->error()) {
+            temp->setEnable();
             detect->addInput(temp);
             switch (temp->deviceType()) {
             case KCL::KeyBoard:

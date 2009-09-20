@@ -21,21 +21,18 @@ public:
     void remAbsAxis(QString name);
     void remRelAxis(QString name);
 
-
-
+    bool button(const QString& name);
+    int relAxisValue(const QString &name);
+    int absAxisValue(const QString &name);
 signals:
     void buttonPressed(QString name);
     void buttonReleased(QString name);
     void absAxisChanged(QString name,int value);
     void relAxisChanged(QString name,int value);
-    void absAxisChanged(QString name);
-    void relAxisChanged(QString name);
 
 protected slots:
-    void emitButtonPressed(int code);
-    void emitButtonReleased(int code);
-   void emitAbsAxisChanged(int axis, int value);
-   void emitRelAxisChanged(int axis, int value);
+     void inputEvent(KCLInputEvent * event);
+
 
 private:
     QMap <QString,QPair<KCLInput*,int> > m_buttons;

@@ -40,8 +40,8 @@
 #include <KAction>
 #include <KIcon>
 #include <QTextEdit>
+#include <QSpinBox>
 using namespace std;
-
 
 
 int main(int argc, char *argv[])
@@ -57,7 +57,8 @@ int main(int argc, char *argv[])
 
 
  KCLCustomInput * input = new KCLCustomInput;
- 
+ KCLDetect::joystick()->setEnable();
+
 input->addButton("Feu!!!",KCLDetect::joystick(),BTN_TRIGGER);
 input->addButton("Stop",KCLDetect::joystick(),BTN_THUMB);
 input->addButton("MOUSE",KCLDetect::mouse(),BTN_LEFT);
@@ -65,7 +66,14 @@ input->addButton("MOUSE",KCLDetect::mouse(),BTN_LEFT);
 edit->show();
 KALSound * son = new KALSound("/usr/share/sounds/pop.wav");
 
-QObject::connect(KCLDetect::joystick(),SIGNAL(pressed()),son,SLOT(play()));
+QSpinBox * spinBox = new QSpinBox;
+spinBox->setMaximum(1000);
+spinBox->show();
+
+QObject::connect(input,SIGNAL(buttonPressed(QString)),edit,SLOT(setText(QString)));
+QObject::connect(KCLDetect::joystick(), SIGNAL(pressed()), son, SLOT(play()));
+//QObject::connect(input,SIGNAL(pressed()),son,SLOT(play()));
+//QObject::connect(KCLDetect::joystick(),SIGNAL(pressed()),son,SLOT(play()));
 
 app.exec();
 

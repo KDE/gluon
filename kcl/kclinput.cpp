@@ -41,6 +41,7 @@ bool KCLInput::event(QEvent * evt)
 {
 
     KCLInputEvent * event = (KCLInputEvent*)evt;
+    emit eventSent(event);
 
     switch (event->type()) {
     case QEvent::Type(KCL::Key):

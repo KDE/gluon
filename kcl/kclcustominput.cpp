@@ -8,9 +8,7 @@ KCLCustomInput::KCLCustomInput(QObject * parent)
 void KCLCustomInput::addButton(QString name, KCLInput* input, int keyCode)
 {
     input->setEnable();
-    connect(input,SIGNAL(buttonPressed(int)),this,SLOT(emitButtonPressed(int)));
-    connect(input,SIGNAL(buttonPressed(int)),this,SLOT(emitButtonReleased(int)));
-
+    connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
     m_buttons.insert(name,qMakePair(input,keyCode));
 
 }
@@ -24,47 +22,20 @@ void KCLCustomInput::addAbsAxis(QString name, KCLInput * input, int axis)
 {
     input->setEnable();
     m_absAxis.insert(name,qMakePair(input,axis));
-    connect(input,SIGNAL(absAxisChanged(int,int)),this,SLOT(emitAbsAxisChanged(int,int)));
+    connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 }
 void KCLCustomInput::addRelAxis(QString name,KCLInput* input, int axis)
 {
     input->setEnable();
     m_absAxis.insert(name,qMakePair(input,axis));
-    connect(input,SIGNAL(relAxisChanged(int,int)),this,SLOT(emitRelAxisChanged(int,int)));
+    connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 
 }
-void KCLCustomInput::emitButtonPressed(int code)
-{
-    kDebug()<<"click : "<<code;
-    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_buttons);
-    while (i.hasNext())
-    {
-        i.next();
-        if (( i.value().second == code) && (i.value().first == qobject_cast<KCLInput*>(sender())))
-        {
-            emit buttonPressed(i.key());
-        }
-    }
-}
-void KCLCustomInput::emitButtonReleased(int code)
-{
-    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_buttons);
-    while (i.hasNext())
-    {
-        i.next();
-        if (( i.value().second == code) && (i.value().first == qobject_cast<KCLInput*>(sender())))
-        {
-            emit buttonReleased(i.key());
-        }
-    }
-}
-
 void KCLCustomInput::remButton(QString name)
 {
     if ( m_buttons.contains(name))
     {
-        disconnect(m_buttons[name].first,SIGNAL(buttonPressed(int)),this,SLOT(emitButtonPressed(int)));
-        disconnect(m_buttons[name].first,SIGNAL(buttonReleased(int)),this,SLOT(emitButtonReleased(int)));
+        disconnect(m_buttons[name].first,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
         m_buttons.remove(name);
     }
 }
@@ -72,39 +43,93 @@ void KCLCustomInput::remAbsAxis(QString name)
 {
     if ( m_absAxis.contains(name))
     {
-        disconnect(m_absAxis[name].first,SIGNAL(absAxisChanged(int,int)),this,SLOT(emitAbsAxisChanged(int,int)));
+        disconnect(m_buttons[name].first,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
         m_absAxis.remove(name);
     }
 }
 void KCLCustomInput::remRelAxis(QString name)
 {
-  if ( m_relAxis.contains(name))
+    if ( m_relAxis.contains(name))
     {
-        disconnect(m_relAxis[name].first,SIGNAL(relAxisChanged(int,int)),this,SLOT(emitRelAxisChanged(int,int)));
+        disconnect(m_buttons[name].first,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
         m_relAxis.remove(name);
     }
 }
-void KCLCustomInput::emitAbsAxisChanged(int axis, int value)
+
+void KCLCustomInput::inputEvent(KCLInputEvent * event)
 {
-    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_absAxis);
-    while (i.hasNext())
+
+    //-------------IF BUTTON------------
+    if ( event->type() ==  QEvent::Type(KCL::Key))
     {
-        i.next();
-        if (( i.value().second == axis) && (i.value().first == qobject_cast<KCLInput*>(sender())))
+        QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_buttons);
+        while (i.hasNext())
         {
-            emit absAxisChanged(i.key(),value);
+            i.next();
+            if (( i.value().second == event->code()) && (i.value().first == qobject_cast<KCLInput*>(sender())))
+            {
+                if ( event->value() == 1)
+                    emit buttonPressed(i.key());
+
+                if ( event->value() == 0)
+                    emit buttonReleased(i.key());
+            }
+        }
+        return;
+    }
+
+    //-------------IF ABS AXIS-----------
+
+    if ( event->type() ==  QEvent::Type(KCL::AbsoluAxis))
+    {
+        QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_absAxis);
+        while (i.hasNext())
+        {
+            i.next();
+            if (( i.value().second == event->code()) && (i.value().first == qobject_cast<KCLInput*>(sender())))
+            {
+                emit absAxisChanged(i.key(),event->value());
+            }
+        }
+        return;
+    }
+
+    //-------------IF REL AXIS------------
+    if ( event->type() ==  QEvent::Type(KCL::RelatifAxis))
+    {
+        QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_relAxis);
+        while (i.hasNext())
+        {
+            i.next();
+            if (( i.value().second == event->code()) && (i.value().first == qobject_cast<KCLInput*>(sender())))
+            {
+                emit relAxisChanged(i.key(),event->value());
+            }
         }
     }
+    return;
 }
-void KCLCustomInput::emitRelAxisChanged(int axis, int value)
-{
-    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_relAxis);
-    while (i.hasNext())
+
+
+    bool KCLCustomInput::button(const QString& name)
     {
-        i.next();
-        if (( i.value().second == axis) && (i.value().first == qobject_cast<KCLInput*>(sender())))
-        {
-            emit relAxisChanged(i.key(),value);
-        }
-    }
+if (m_buttons.contains(name))
+    return m_buttons[name].first->button(m_buttons[name].second);
+else return false;
 }
+
+    int KCLCustomInput::relAxisValue(const QString &name)
+    {
+   if ( m_relAxis.contains(name))
+       return m_relAxis[name].first->relAxisValue(m_relAxis[name].second);
+   else return -1;
+
+
+    }
+    int KCLCustomInput::absAxisValue(const QString &name)
+    {
+   if ( m_absAxis.contains(name))
+       return m_absAxis[name].first->absAxisValue(m_absAxis[name].second);
+   else return -1;
+    }
+
