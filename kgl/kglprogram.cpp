@@ -25,6 +25,8 @@
 #include <QList>
 #include <QString>
 #include <QHash>
+#include <QVariant>
+#include <QMetaType>
 #include <KDebug>
 
 
@@ -61,6 +63,8 @@ KGLProgram::~KGLProgram()
     delete[] mLinkLog;
     delete mUniformLocations;
     delete mAttributeLocations;
+    delete mUniformParameters;
+    mUniformParameters = 0;
 }
 
 void KGLProgram::init()
@@ -70,6 +74,7 @@ void KGLProgram::init()
     mValid = false;
     mLinkLog = 0;
     mUniformLocations = mAttributeLocations = 0;
+    mUniformParameters = new QHash<QString, QVariant>;
 }
 
 void KGLProgram::addShader(KGLShader* shader)
@@ -117,7 +122,30 @@ bool KGLProgram::link()
 
 void KGLProgram::bind() const
 {
-glUseProgram(glId());
+  glUseProgram(glId());
+  QHash<QString, QVariant>::iterator itr = mUniformParameters->begin();
+  for(; itr != mUniformParameters->end(); ++itr)
+  {
+    int location = uniformLocation(itr.key());
+    if (location >= 0)
+    {
+      switch(itr.value().type())
+      {
+        case QMetaType::Int:
+        {
+          glUniform1i(location, itr.value().toInt());
+          break;
+        }
+        case QMetaType::Float:
+        {
+          glUniform1f(location, itr.value().value<float>());
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }
 }
 
 void KGLProgram::unbind() const
@@ -140,6 +168,19 @@ int KGLProgram::uniformLocation(const char* name)
         mUniformLocations->insert(name, location);
     }
     return mUniformLocations->value(name);
+}
+
+int KGLProgram::uniformLocation(const QString& name) const
+{
+  if (!mValid) {
+    return -1;
+  }
+  const char* name_cstr = name.toLatin1().data();
+  if (!mUniformLocations->contains(name_cstr)) {
+    int location = glGetUniformLocation(glId(), name_cstr);
+    mUniformLocations->insert(name_cstr, location);
+  }
+  return mUniformLocations->value(name_cstr);
 }
 
 int KGLProgram::attributeLocation(const QString& name)
@@ -209,3 +250,14 @@ bool KGLProgram::setUniform(const char* name, int value)
     }
     return (location >= 0);
 }
+
+void KGLProgram::declareUniform(const char* name, int value)
+{
+  mUniformParameters->insert(name, QVariant(value));
+}
+
+void KGLProgram::declareUniform(const char* name, float value)
+{
+  mUniformParameters->insert(name, QVariant(value));
+}
+

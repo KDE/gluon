@@ -23,12 +23,15 @@
 
 class KGLShader;
 class QString;
+class QVariant;
 template<class T> class QList;
 template<class K, class V> class QHash;
 
 #include <GL/glew.h>
 #include "kglshader.h"
 #include <Eigen/Core>
+
+//Q_DECLARE_METATYPE(float);
 
 /**
  * \defgroup KGL KGL
@@ -206,6 +209,8 @@ class KGLProgram
         int uniformLocation(const QString& name);
         int uniformLocation(const char* name);
 
+        int uniformLocation(const QString& name) const;
+
         int attributeLocation(const QString& name);
         int attributeLocation(const char* name);
 
@@ -246,6 +251,15 @@ class KGLProgram
             return mGLId;
         }
 
+        /**
+        * Declare a uniform parameter to be used when the program is bound.
+        * This will call setUniform(name, value) once bind() has been called.
+        */
+        void declareUniform(const char* name, int value);
+        
+        void declareUniform(const char* name, float value);
+
+
     protected:
         void init();
 
@@ -255,6 +269,8 @@ class KGLProgram
         char* mLinkLog;
         QHash<QString, int>* mUniformLocations;
         QHash<QString, int>* mAttributeLocations;
+
+        QHash<QString, QVariant>* mUniformParameters;
 };
 
 //@}
