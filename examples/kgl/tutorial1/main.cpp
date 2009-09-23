@@ -28,6 +28,8 @@
 #include <gluon/kgl/kglview.h>
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglboxitem.h>
+#include <gluon/kgl/kglprogram.h>
+
 using namespace std;
 
 
@@ -74,11 +76,29 @@ int main(int argc, char *argv[])
     //and this function apply a texture to the current Item
     item->setTexture(KIcon("kde.png").pixmap(128,128));
     
+    KGLProgram pixelate;
+    KGLFragmentShader pixelateFrag(QString("pixelate_new.frag"));
+    pixelate.addShader(&pixelateFrag);
+    pixelate.declareUniform("tex", 1);
+    //pixelate.declareUniform("amount", 5.0f);
+    pixelate.link();
+
+    kWarning() << pixelate.linkLog();
+
+    if(!pixelate.isValid())
+    {
+      kWarning() << "Invalid fragment program, aborting fragment program use.";
+    }
+    else
+    {
+      item->setProgram(&pixelate);
+    }
+    
     //after all setup... We can add the item inside the engine.
     engine->addItem(item);
     
     view->start(); //start the game main loop
     view->show();
- app.exec();
+    app.exec();
 
 }
