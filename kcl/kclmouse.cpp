@@ -7,10 +7,12 @@ KCLMouse::KCLMouse(QString device, QObject *parent)
 {
     m_originalPosition = QPoint(0, 0);
     m_position = m_originalPosition;
+    m_sensibility = 1;
 }
 
 QPoint KCLMouse::position()
 {
-    m_position = m_originalPosition + QPoint(relAxisValue(REL_X), relAxisValue(REL_Y));
-    return m_position;
+    if ( anyRelMove())
+    m_position += QPoint(relAxisValue(REL_X), relAxisValue(REL_Y));
+    return (m_position+m_originalPosition)*m_sensibility;
 }

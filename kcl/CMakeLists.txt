@@ -9,8 +9,6 @@ kcljoystick.cpp
 kclcode.cpp
 kcldetect.cpp
 kclcustominput.cpp
-kclvirtualinputconfig.cpp
-slidepushbutton.cpp
 
 widgets/kclpressbutton.cpp
 widgets/kclinputwidget.cpp
@@ -42,8 +40,6 @@ kcljoystick.h
 kclcode.h
 kcldetect.h
 kclcustominput.h
-kclvirtualinputconfig.h
-slidepushbutton.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 
 install(FILES

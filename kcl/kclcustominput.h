@@ -13,13 +13,15 @@ class KCLCustomInput : public QObject
     Q_OBJECT
 public:
     KCLCustomInput(QObject * parent=0);
-    void addButton(QString name, KCLInput* input, int keyCode);
-    void addButton(QString name);
+    void setButton(QString name, KCLInput* input, int keyCode);
+    void setButton(QString name);
     void remButton(QString name);
-    void addAbsAxis(QString name, KCLInput * input, int axis);
-    void addRelAxis(QString name,KCLInput* input, int axis);
+    void setAbsAxis(QString name, KCLInput * input, int axis);
+    void setRelAxis(QString name,KCLInput* input, int axis);
     void remAbsAxis(QString name);
     void remRelAxis(QString name);
+
+
 
     QStringList buttonNameList();
     QStringList absAxisNameList();

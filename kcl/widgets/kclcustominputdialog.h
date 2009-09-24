@@ -5,11 +5,12 @@
 #include <QTabWidget>
 #include <QList>
 #include <QTreeWidget>
-#include <QDialog>
+#include <KDialog>
 #include <QTreeWidgetItem>
+#include "kclpressbutton.h"
 #include "../kclcustominput.h"
 
-class KCLCustomInputDialog : public QDialog
+class KCLCustomInputDialog : public KDialog
 {
     Q_OBJECT
 public:

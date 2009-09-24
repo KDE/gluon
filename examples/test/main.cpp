@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
-//
+
     KCLCustomInput * input = new KCLCustomInput;
-    input->addButton("FIRE",KCLDetect::joystick(),BTN_TRIGGER);
-    input->addAbsAxis("AXE X",KCLDetect::joystick(),ABS_X);
-    input->addAbsAxis("AXE Y",KCLDetect::joystick(),ABS_Y);
-    input->addButton("KILL",KCLDetect::mouse(),BTN_LEFT);
+    input->setButton("FIRE",KCLDetect::joystick(),BTN_TRIGGER);
+    input->setAbsAxis("AXE X",KCLDetect::joystick(),ABS_X);
+    input->setAbsAxis("AXE Y",KCLDetect::joystick(),ABS_Y);
+    input->setButton("KILL",KCLDetect::mouse(),BTN_LEFT);
 
     KCLCustomInputDialog * dialog = new KCLCustomInputDialog;
     dialog->addCustomInput(input);
