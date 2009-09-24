@@ -17,6 +17,13 @@
 #include "mainwindow.h"
 #include <KStandardAction>
 #include <kactioncollection.h>
+#include <QDockWidget>
+#include <QStackedLayout>
+
+#include "shaderwidget.h"
+#include "greyscaleshaderwidget.h"
+#include "mosaicshaderwidget.h"
+#include "posterizeshaderwidget.h"
 
 MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
 {
@@ -29,21 +36,29 @@ MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
   mView = new KGLView(mEngine);
   
   // This function show the current axis xy
-  mView->setAxisShow(false);
-  mView->setInfoShow(true);
+  //mView->setAxisShow(false);
   
-  KGLBoxItem * item = new KGLBoxItem(5,5);
-  item->setPosition(-item->itemCenter());
-  item->updateTransform();
-  item->setColor(Qt::red);
-  item->setTexture(KIcon("kde.png").pixmap(128,128));
+  mItem = new KGLBoxItem(5,5);
+  mItem->setPosition(-mItem->itemCenter());
+  mItem->updateTransform();
+  mItem->setTexture(KIcon("kde.png").pixmap(128,128));
+  mItem->setZIndex(1);
+
+  KGLBoxItem* bg = new KGLBoxItem(200, 200);
+  bg->setPosition(-bg->itemCenter());
+  bg->updateTransform();
+  bg->setColor(Qt::white);
+  bg->setZIndex(0);
   
-  mMosaic = new KGLProgram();
+  /*mMosaic = new KGLProgram();
   KGLFragmentShader* mosaicFrag = new KGLFragmentShader(QString("mosaic.frag"));
+  //KGLFragmentShader* greyscaleFrag = new KGLFragmentShader(QString("posterize.frag"));
   mMosaic->addShader(mosaicFrag);
-  mMosaic->setUniform("tex", 1);
+  //mMosaic->addShader(greyscaleFrag);
+  mMosaic->setUniform("tex", 0);
+  //mMosaic->setUniform("level", 1.0f);
+  mMosaic->setUniform("tileSize", 1.0f);
   mMosaic->setUniform("texSize", (int)item->texture()->dim().width());
-  mMosaic->setUniform("amount", 1);
   mMosaic->link();
   
   if(!mMosaic->isValid())
@@ -55,29 +70,19 @@ MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
   else
   {
     item->setProgram(mMosaic);
-  }
+  }*/
   
   //after all setup... We can add the item inside the engine.
-  mEngine->addItem(item);
-
-  QSlider* slider = new QSlider();
-  slider->setMinimum(1);
-  slider->setMaximum(128);
-  slider->setSingleStep(0.1f);
-  slider->setOrientation(Qt::Horizontal);
-  connect(slider, SIGNAL(valueChanged(int)), SLOT(mosaicAmount(int)));
-  
-  QVBoxLayout* layout = new QVBoxLayout();
-  layout->addWidget(slider);
-  layout->addWidget(mView);
+  mEngine->addItem(mItem);
+  mEngine->addItem(bg);
   
   mView->start(); //start the game main loop
 
-  QWidget* central = new QWidget();
-  setCentralWidget(central);
-  central->setLayout(layout);
+  setCentralWidget(mView);
 
   KStandardAction::quit(this, SLOT(close()), actionCollection());
+
+  setupDock();
 
   setupGUI();
 }
@@ -88,8 +93,44 @@ MainWindow::~MainWindow()
   mEngine = 0;
 }
 
-
-void MainWindow::mosaicAmount(int amt)
+void MainWindow::shaderChanged(int index)
 {
-  mMosaic->setUniform("amount", amt);
+  if(index != 0)
+  {
+    mItem->setProgram(dynamic_cast<ShaderWidget*>(mWidgetStack->currentWidget())->program());
+  }
+  else
+  {
+    mItem->setProgram(0);
+  }
+}
+
+
+void MainWindow::setupDock()
+{
+  QDockWidget* shaders = new QDockWidget();
+  shaders->setObjectName("Shaders");
+  shaders->setWindowTitle("Shaders");
+  addDockWidget(Qt::LeftDockWidgetArea, shaders);
+  
+  QVBoxLayout* layout = new QVBoxLayout();
+  QComboBox* shadersSelector = new QComboBox();
+  shadersSelector->addItems(QStringList() << "<None>" << "Greyscale" << "Posterize" << "Mosaic");
+  layout->addWidget(shadersSelector);
+
+  mWidgetStack = new QStackedLayout();
+  mWidgetStack->addWidget(new QWidget);
+  mWidgetStack->addWidget(new GreyscaleShaderWidget);
+  mWidgetStack->addWidget(new PosterizeShaderWidget);
+  mWidgetStack->addWidget(new MosaicShaderWidget);
+
+  layout->addLayout(mWidgetStack);
+  
+  connect(shadersSelector, SIGNAL(currentIndexChanged(int)), mWidgetStack, SLOT(setCurrentIndex(int)));
+  connect(shadersSelector, SIGNAL(currentIndexChanged(int)), SLOT(shaderChanged(int)));
+  
+  QWidget* p = new QWidget(shaders);
+  shaders->setWidget(p);
+  
+  p->setLayout(layout);
 }

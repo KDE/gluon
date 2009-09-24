@@ -14,32 +14,13 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <KXmlGuiWindow>
-#include <gluon/kgl/kglview.h>
+#include "greyscaleshaderwidget.h"
+#include <gluon/kgl/kglprogram.h>
 
-class QStackedLayout;
-class ShaderWidget;
-class MainWindow : public KXmlGuiWindow
+GreyscaleShaderWidget::GreyscaleShaderWidget(QWidget* parent): ShaderWidget(parent)
 {
-  Q_OBJECT
-  public:
-    MainWindow(QWidget* parent = 0);
-    ~MainWindow();
-
-  private:
-    KGLView* mView;
-    KGLEngine* mEngine;
-
-    ShaderWidget* mShaderWidget;
-    KGLBoxItem* mItem;
-    QStackedLayout* mWidgetStack;
-    
-    void setupDock();
-
-public slots:
-    void shaderChanged(int);
-};
-
-#endif // MAINWINDOW_H
+  mProgram = new KGLProgram();
+  mProgram->addShader(new KGLFragmentShader("greyscale.frag"));
+  mProgram->setUniform("tex", 0);
+  mProgram->link();
+}
