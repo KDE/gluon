@@ -1,5 +1,6 @@
 #include "kgl/kglview.h"
 #include "kal/kalengine.h"
+
 #include <QMainWindow>
 #include <KXmlGuiWindow>
 #include <KActionCollection>

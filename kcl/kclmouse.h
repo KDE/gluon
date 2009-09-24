@@ -22,7 +22,9 @@ public:
     KCLMouse(QString device, QObject * parent = 0);
 
     QPoint position();
-
+    void setSensibility(double s){
+    m_sensibility=s;
+    }
     void setOrigin(QPoint p) {
         m_originalPosition = p;
     }
@@ -34,10 +36,14 @@ public:
     int hWheelPosition() {
         return relAxisValue(REL_HWHEEL);
     }
+    int sensibility(){
+        return m_sensibility;
+            }
 
 private:
     QPoint m_position;
     QPoint m_originalPosition;
+    double m_sensibility;
 };
 
 //@}

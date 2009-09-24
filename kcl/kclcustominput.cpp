@@ -5,7 +5,9 @@ KCLCustomInput::KCLCustomInput(QObject * parent)
 
 
 }
-void KCLCustomInput::addButton(QString name, KCLInput* input, int keyCode)
+
+
+void KCLCustomInput::setButton(QString name, KCLInput* input, int keyCode)
 {
     if (!input->buttonCapabilities().contains(keyCode))
     {
@@ -16,13 +18,13 @@ void KCLCustomInput::addButton(QString name, KCLInput* input, int keyCode)
     m_buttons.insert(name,qMakePair(input,keyCode));
 
 }
-void KCLCustomInput::addButton(QString name)
+void KCLCustomInput::setButton(QString name)
 {
     KCLInput * input = new KCLInput();
     m_buttons.insert(name,qMakePair(input,0));
 }
 
-void KCLCustomInput::addAbsAxis(QString name, KCLInput * input, int axis)
+void KCLCustomInput::setAbsAxis(QString name, KCLInput * input, int axis)
 {
  if (!input->absAxisCapabilities().contains(axis))
     {
@@ -32,7 +34,7 @@ void KCLCustomInput::addAbsAxis(QString name, KCLInput * input, int axis)
     m_absAxis.insert(name,qMakePair(input,axis));
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 }
-void KCLCustomInput::addRelAxis(QString name,KCLInput* input, int axis)
+void KCLCustomInput::setRelAxis(QString name,KCLInput* input, int axis)
 {
  if (!input->relAxisCapabilities().contains(axis))
     {
