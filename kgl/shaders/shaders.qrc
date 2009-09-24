@@ -4,7 +4,7 @@
         <file>blur.vert</file>
         <file>pixelate.vert</file>
         <file>pixelate.frag</file>
-        <file>pixelate_new.frag</file>
+        <file>mosaic.frag</file>
         <file>light.vert</file>
         <file>light.frag</file>
     </qresource>

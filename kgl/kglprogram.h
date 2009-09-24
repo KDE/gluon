@@ -255,9 +255,9 @@ class KGLProgram
         * Declare a uniform parameter to be used when the program is bound.
         * This will call setUniform(name, value) once bind() has been called.
         */
-        void declareUniform(const char* name, int value);
+        //void declareUniform(const char* name, int value);
         
-        void declareUniform(const char* name, float value);
+        //void declareUniform(const char* name, float value);
 
 
     protected:
@@ -271,6 +271,8 @@ class KGLProgram
         QHash<QString, int>* mAttributeLocations;
 
         QHash<QString, QVariant>* mUniformParameters;
+private:
+    bool mIsBound;
 };
 
 //@}
