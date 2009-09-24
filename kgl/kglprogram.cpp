@@ -25,6 +25,8 @@
 #include <QList>
 #include <QString>
 #include <QHash>
+#include <QVariant>
+#include <QMetaType>
 #include <KDebug>
 
 
@@ -61,6 +63,7 @@ KGLProgram::~KGLProgram()
     delete[] mLinkLog;
     delete mUniformLocations;
     delete mAttributeLocations;
+    delete mUniformParameters;
 }
 
 void KGLProgram::init()
@@ -70,6 +73,7 @@ void KGLProgram::init()
     mValid = false;
     mLinkLog = 0;
     mUniformLocations = mAttributeLocations = 0;
+    mUniformParameters = new QHash<QString, QVariant>;
 }
 
 void KGLProgram::addShader(KGLShader* shader)
@@ -117,12 +121,30 @@ bool KGLProgram::link()
 
 void KGLProgram::bind() const
 {
-glUseProgram(glId());
+    glUseProgram(glId());
+
+    QHash<QString, QVariant>::iterator itr = mUniformParameters->begin();
+    for(; itr != mUniformParameters->end(); ++itr)
+    {
+        int location = uniformLocation(itr.key());
+        if (location >= 0) {
+            switch(itr.value().type()) {
+                case QMetaType::Int:
+                    glUniform1i(location, itr.value().toInt());
+                    break;
+                case QMetaType::Double:
+                    glUniform1f(location, float(itr.value().toDouble()));
+                    break;
+                default:
+                  break;
+            }
+        }
+    }
 }
 
 void KGLProgram::unbind() const
 {
-glUseProgram(0);
+    glUseProgram(0);
 }
 
 int KGLProgram::uniformLocation(const QString& name)
@@ -140,6 +162,19 @@ int KGLProgram::uniformLocation(const char* name)
         mUniformLocations->insert(name, location);
     }
     return mUniformLocations->value(name);
+}
+
+int KGLProgram::uniformLocation(const QString& name) const
+{
+    if (!mValid) {
+      return -1;
+    }
+    const char* name_cstr = name.toLatin1().data();
+    if (!mUniformLocations->contains(name_cstr)) {
+      int location = glGetUniformLocation(glId(), name_cstr);
+      mUniformLocations->insert(name_cstr, location);
+    }
+    return mUniformLocations->value(name_cstr);
 }
 
 int KGLProgram::attributeLocation(const QString& name)
@@ -167,11 +202,21 @@ void KGLProgram::invalidateLocations()
 
 bool KGLProgram::setUniform(const char* name, float value)
 {
+  int prog;
+  glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+  if(prog != 0)
+  {
     int location = uniformLocation(name);
     if (location >= 0) {
         glUniform1f(location, value);
     }
     return (location >= 0);
+  }
+  else
+  {
+    mUniformParameters->insert(name, QVariant(double(value)));
+    return true;
+  }
 }
 
 bool KGLProgram::setUniform(const char* name, Eigen::Vector2f value)
@@ -203,9 +248,19 @@ bool KGLProgram::setUniform(const char* name, Eigen::Vector4f value)
 
 bool KGLProgram::setUniform(const char* name, int value)
 {
+  int prog;
+  glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+  if(prog != 0)
+  {
     int location = uniformLocation(name);
     if (location >= 0) {
-        glUniform1i(location, value);
+      glUniform1i(location, value);
     }
     return (location >= 0);
+  }
+  else
+  {
+    mUniformParameters->insert(name, QVariant(value));
+    return true;
+  }
 }
