@@ -27,7 +27,7 @@
 KALEngine *KALEngine::m_instance = NULL;
 
 KALEngine::KALEngine(QString deviceName, QObject *parent)
-        : QObject(parent)
+    : QObject(parent)
 {
     alutInitWithoutContext(0, 0);
     m_context = NULL;
@@ -132,4 +132,23 @@ bool KALEngine::setDevice(QString deviceName)
     }
 
     return true;
+}
+void KALEngine::disableAllSound()
+{
+  KALEngine * al  = instance();
+  foreach ( KALSound * sound,  *al->getSoundList())
+  sound->pause();
+}
+void KALEngine::enableAllSound()
+{
+  KALEngine * al  = instance();
+  foreach ( KALSound * sound,  *al->getSoundList())
+  sound->play();
+}
+bool KALEngine::isExtensionSupported(QString name)
+{
+  if (alcIsExtensionPresent(instance()->device(), name.toUtf8()) == ALC_TRUE)
+      return true;
+  else return false;
+
 }

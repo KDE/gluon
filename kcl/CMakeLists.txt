@@ -7,13 +7,19 @@ kcltablet.cpp
 kclkeyboard.cpp
 kcljoystick.cpp
 kclcode.cpp
-kclinfowidget.cpp
-kcldevicemodel.cpp
+
+
 kcldetect.cpp
 kclbutton.cpp
 kclcustominput.cpp
 kclvirtualinputconfig.cpp
 slidepushbutton.cpp
+
+widgets/kclpressbutton.cpp
+widgets/kclinputwidget.cpp
+widgets/kclcustominputdialog.cpp
+widgets/kclinfowidget.cpp
+widgets/kcldevicemodel.cpp
 
 )
 
@@ -37,8 +43,6 @@ kcltablet.h
 kclkeyboard.h
 kcljoystick.h
 kclcode.h
-kclinfowidget.h
-kcldevicemodel.h
 kcldetect.h
 kclcustominput.h
 kclvirtualinputconfig.h
@@ -46,5 +50,11 @@ kclbutton.h
 slidepushbutton.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 
-
+install(FILES
+widgets/kclpressbutton.h
+widgets/kclinputwidget.h
+widgets/kclcustominputdialog.h
+widgets/kclinfowidget.h
+widgets/kcldevicemodel.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl/widgets COMPONENT Devel)
 

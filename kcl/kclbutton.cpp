@@ -24,13 +24,13 @@ KCLButton::KCLButton(KCL::InputTypeFlag inputType, QWidget * parent)
     clear();
  
     if (m_inputType == KCL::RelatifAxis) {
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             connect(input, SIGNAL(relAxisChanged(int, int)), this, SLOT(changeButtonValue(int, int)));
         }
     }
 
     if (m_inputType == KCL::AbsoluAxis) {
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             connect(input, SIGNAL(absAxisChanged(int, int)), this, SLOT(changeButtonValue(int, int)));
         }
     }
@@ -51,14 +51,14 @@ void KCLButton::changeButtonName(int axis, int value)
 
     if (m_inputType == KCL::RelatifAxis) {
         m_button->setText(KCLCode::relAxisName(axis));
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             disconnect(input, SIGNAL(relAxisChanged(int, int)), this, SLOT(changeButtonName(int, int)));
         }
     }
 
     if (m_inputType == KCL::AbsoluAxis) {
         m_button->setText(KCLCode::absAxisName(axis));
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             disconnect(input, SIGNAL(absAxisChanged(int, int)), this, SLOT(changeButtonName(int, int)));
         }
     }
@@ -77,7 +77,7 @@ void KCLButton::changeButtonName(int button)
     setDeviceIcon(m_currentInput->deviceType());
     m_button->setText(KCLCode::buttonName(button));
 
-    foreach(KCLInput *input, KCLDetect::allInputs()) {
+    foreach(KCLInput *input, KCLDetect::inputList()) {
         disconnect(input, SIGNAL(buttonPressed(int)), this, SLOT(changeButtonName(int)));
     }
 
@@ -113,19 +113,19 @@ void KCLButton::startDetect()
     setEnabled(false);
 
     if (m_inputType == KCL::AbsoluAxis) {
-        foreach(KCLInput * input, KCLDetect::allInputs()) {
+        foreach(KCLInput * input, KCLDetect::inputList()) {
             connect(input, SIGNAL(absAxisChanged(int, int)), this, SLOT(changeButtonName(int, int)));
         }
     }
 
     if (m_inputType == KCL::RelatifAxis) {
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             connect(input, SIGNAL(relAxisChanged(int, int)), this, SLOT(changeButtonName(int, int)));
         }
     }
 
     if (m_inputType == KCL::Key) {
-        foreach(KCLInput *input, KCLDetect::allInputs()) {
+        foreach(KCLInput *input, KCLDetect::inputList()) {
             connect(input, SIGNAL(buttonPressed(int)), this, SLOT(changeButtonName(int)));
         }
     }

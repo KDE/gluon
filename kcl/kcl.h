@@ -14,17 +14,16 @@ namespace KCL {
         Unknown = 0x0,
         KeyBoard = 0x1,
         Mouse = 0x2,
-        Joystick = 0x3,
-        Tablet = 0x4,
-        Touchpad = 0x5
+        Joystick = 0x4,
+        Tablet = 0x8,
+        Touchpad = 0x16
     };
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
 
     enum InputTypeFlag {
-        NoType = 0x0,
-        Key = QEvent::User+EV_KEY,
-        RelatifAxis = QEvent::User+EV_REL,
-        AbsoluAxis = QEvent::User+EV_ABS
+        Key = QEvent::Type(QEvent::User+EV_KEY),
+        RelatifAxis = QEvent::Type(QEvent::User+EV_REL),
+        AbsoluAxis = QEvent::Type(QEvent::User+EV_ABS)
     };
 
 

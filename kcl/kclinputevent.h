@@ -13,7 +13,7 @@ class KCLInputEvent;
 class KCLInputEvent : public QEvent
 {
 public:
-    KCLInputEvent(unsigned short type_,unsigned long tvSec_, unsigned long tvUsec_, unsigned short code_, unsigned short value_);
+    KCLInputEvent(int type_,unsigned long tvSec_, unsigned long tvUsec_, unsigned short code_, unsigned short value_);
     KCLInputEvent(struct input_event ev);
 
     unsigned long tvSec() {

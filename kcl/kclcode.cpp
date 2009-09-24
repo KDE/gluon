@@ -175,6 +175,3 @@ KIcon KCLCode::iconDevice(KCL::DeviceFlag device)
 }
 
 
-
-
-

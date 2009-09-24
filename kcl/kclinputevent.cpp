@@ -1,6 +1,6 @@
 #include "kclinputevent.h"
 
-KCLInputEvent::KCLInputEvent( unsigned short type_,unsigned long tvSec_, unsigned long tvUsec_, unsigned short code_, unsigned short value_)
+KCLInputEvent::KCLInputEvent( int type_,unsigned long tvSec_, unsigned long tvUsec_, unsigned short code_, unsigned short value_)
     :QEvent(QEvent::Type(QEvent::User+type_))
 {
     struct timeval time;

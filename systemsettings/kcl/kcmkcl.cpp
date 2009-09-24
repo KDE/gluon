@@ -40,7 +40,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "kcmkcl.h"
-#include "kcl/kclinfowidget.h"
+#include "kcl/widgets/kclinfowidget.h"
 
 K_PLUGIN_FACTORY(KCLConfigFactory,
         registerPlugin<KCLConfig>();
