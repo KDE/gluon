@@ -111,7 +111,8 @@ void KGLItem::draw()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_FALSE);
-    glEnable(GL_POLYGON_SMOOTH);
+    //Disabled until necessary, causes diagonal lines on ATI cards.
+    //glEnable(GL_POLYGON_SMOOTH);
 
     if ( m_program != NULL ){
         if ( program()->isValid())
