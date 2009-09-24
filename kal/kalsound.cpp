@@ -82,12 +82,12 @@ void KALSound::init()
 
 
     KALEngine::instance()->addSource(this);
-     m_source;
-     m_x=0;
-     m_y=0;
-     m_z=0;
-     m_volume=0;
-     m_pitch=0;
+    m_source;
+    m_x=0;
+    m_y=0;
+    m_z=0;
+    m_volume=0;
+    m_pitch=0;
 }
 
 void KALSound::setupSource()
@@ -212,4 +212,14 @@ void KALSound::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
 {
     ALfloat direction[] = { dx, dy, dz };
     alSourcefv(m_source, AL_POSITION, direction);
+}
+
+void KALSound::setTimePosition(ALfloat time)
+{
+ alSourcef(m_source, AL_SEC_OFFSET, time);
+
+}
+ALfloat KALSound::duration()
+{
+    return m_buffer->duration();
 }

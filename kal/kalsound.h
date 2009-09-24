@@ -118,6 +118,12 @@ public:
     */
     ALfloat pitch();
 
+
+    ALfloat duration();
+
+    ALuint source(){
+        return m_source;
+    }
 protected:
     void init();
 
@@ -193,6 +199,7 @@ public Q_SLOTS:
     void setMaxVolume(ALfloat max = 10.0f);
     void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
     void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
+    void setTimePosition(ALfloat time);
 protected:
     void setupSource();
 private:

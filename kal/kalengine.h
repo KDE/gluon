@@ -115,6 +115,9 @@ public:
     static void disableAllSound();
     static void enableAllSound();
 
+    static void close(){
+        delete instance();
+    }
 
     ALCdevice * getAlDevice(){return m_device;}
     ALCcontext * getAlContext(){return m_context;}
