@@ -55,6 +55,7 @@ public:
         return m_buffer;
     }
 
+   ALfloat duration();
 protected:
     void init();
 private :

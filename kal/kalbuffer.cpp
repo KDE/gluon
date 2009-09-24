@@ -62,3 +62,24 @@ void KALBuffer::setBuffer(const QString &fileName)
         m_buffer = reader.buffer();
     }
 }
+ALfloat KALBuffer::duration()
+{
+    ALint size= 0.f;
+    ALint bits= 0.f;
+    ALint channels= 0.f;
+    ALint frequency= 0.f;
+    alGetBufferi(m_buffer,AL_SIZE,&size);
+    alGetBufferi(m_buffer,AL_BITS,&bits);
+    alGetBufferi(m_buffer,AL_CHANNELS,&channels);
+    alGetBufferi(m_buffer,AL_FREQUENCY,&frequency);
+
+   ALfloat sample = size/channels*8/bits;
+   ALfloat dur = (float)sample/frequency;
+
+   //
+//    <KittyCat> then size/channels*8/bits is the number of samples
+//[14:42] <KittyCat> and samples/(float)frequency is the time is seconds
+
+    return dur;
+
+}
