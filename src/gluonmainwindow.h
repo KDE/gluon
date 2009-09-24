@@ -13,6 +13,10 @@ public:
     ~GluonMainWindow();
     KGLView * view(){return m_view;}
 //   KCLVirtualInput * inputs(){return m_inputs;}
+    void setView(KGLView * view ){
+    m_view=view;
+    }
+
 public slots:
     void showKglService(){launchService("kgl.desktop");}
     void showKalService(){launchService("kal.desktop");}

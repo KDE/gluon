@@ -13,13 +13,12 @@
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)
 {
-    KALEngine::instance();
     m_view = new KGLView;
-//    m_inputs=new KCLVirtualInput;
+
     setCentralWidget(m_view);
     setupAction();
-m_view->start();
-connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
+    m_view->start();
+    connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
 
 }
 
@@ -33,12 +32,14 @@ void GluonMainWindow::setupAction()
 
     KAction* startAction = new KAction(this);
     startAction->setText(i18n("start"));
+    startAction->setShortcut(Qt::Key_Enter);
     startAction->setIcon(KIcon("media-playback-start.png"));
     actionCollection()->addAction("start",startAction);
     connect(startAction,SIGNAL(triggered()),m_view,SLOT(start()));
 
     KAction* stopAction = new KAction(this);
     stopAction->setText(i18n("stop"));
+    stopAction->setShortcut(Qt::Key_Pause);
     stopAction->setIcon(KIcon("media-playback-stop.png"));
     actionCollection()->addAction("stop",stopAction);
     connect(stopAction,SIGNAL(triggered()),m_view,SLOT(stop()));
@@ -69,25 +70,22 @@ void GluonMainWindow::setupAction()
     kclAction->setIcon(KIcon("kcl.png"));
     actionCollection()->addAction("kcl",kclAction);
     connect(kclAction,SIGNAL(triggered()),this,SLOT(showKclSercice()));
+
+
     KStandardAction::fullScreen(m_view,SLOT(toggleFullScreen()),this,actionCollection());
 
-/*    KAction* controlAction = new KAction(this);
+    /*    KAction* controlAction = new KAction(this);
     controlAction->setText(i18n("controls...."));
     controlAction->setIcon(KIcon("games-config-options.png"));
     actionCollection()->addAction("setup controls",controlAction);
     connect(controlAction,SIGNAL(triggered()),this,SLOT(showControlWidget()))*/;
 
 
-
-    setupGUI();
-
-
-
     QMenu * menu = menuBar()->addMenu("gluon");
     menu->addAction(kglAction);
     menu->addAction(kalAction);
     menu->addAction(kclAction);
-//     menu->addAction(controlAction);
+    //     menu->addAction(controlAction);
 }
 
 void GluonMainWindow::launchService(QString name)
@@ -101,17 +99,17 @@ void GluonMainWindow::launchService(QString name)
 
 
 }
-  void GluonMainWindow::showControlWidget()
-  {
-//    KCLVirtualInputConfig *  m_controlWidget = new KCLVirtualInputConfig(m_inputs);
-//    m_controlWidget->exec();
+void GluonMainWindow::showControlWidget()
+{
+    //    KCLVirtualInputConfig *  m_controlWidget = new KCLVirtualInputConfig(m_inputs);
+    //    m_controlWidget->exec();
 
-  }
-   void GluonMainWindow::showFps(int fps)
-   {
+}
+void GluonMainWindow::showFps(int fps)
+{
 
-       statusBar()->showMessage("fps:"+QString::number(fps));
+    statusBar()->showMessage("fps:"+QString::number(fps));
 
 
 
-   }
+}
