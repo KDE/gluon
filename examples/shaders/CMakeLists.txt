@@ -14,7 +14,8 @@ add_definitions(-DDEBUG -DKDE_DEFAULT_DEBUG_AREA=989)
 
 ########### next target ###############
 
-set(main_SRCS 
+set(main_SRCS posterizeshaderwidget.cpp mosaicshaderwidget.cpp greyscaleshaderwidget.cpp
+    shaderwidget.cpp
     main.cpp
     mainwindow.cpp
    )

@@ -14,32 +14,24 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <KXmlGuiWindow>
-#include <gluon/kgl/kglview.h>
+#ifndef SHADERWIDGET_H
+#define SHADERWIDGET_H
 
-class QStackedLayout;
-class ShaderWidget;
-class MainWindow : public KXmlGuiWindow
+#include <qt4/QtGui/QWidget>
+
+class KGLProgram;
+
+class ShaderWidget : public QWidget
 {
-  Q_OBJECT
+  Q_OBJECT;
   public:
-    MainWindow(QWidget* parent = 0);
-    ~MainWindow();
+    ShaderWidget(QWidget* parent = 0) : QWidget(parent), mProgram(0) { }
+    virtual ~ShaderWidget() { }
 
-  private:
-    KGLView* mView;
-    KGLEngine* mEngine;
+    virtual KGLProgram* program() { return mProgram; };
 
-    ShaderWidget* mShaderWidget;
-    KGLBoxItem* mItem;
-    QStackedLayout* mWidgetStack;
-    
-    void setupDock();
-
-public slots:
-    void shaderChanged(int);
+  protected:
+    KGLProgram* mProgram;
 };
 
-#endif // MAINWINDOW_H
+#endif // SHADERWIDGET_H
