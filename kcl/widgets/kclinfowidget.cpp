@@ -10,6 +10,8 @@
 #include <QLabel>
 #include <QProcess>
 #include <QVBoxLayout>
+#include <QStackedWidget>
+#include <QComboBox>
 
 KCLInfoWidget::KCLInfoWidget(QWidget *parent)
         : QWidget(parent)
@@ -29,26 +31,27 @@ KCLInfoWidget::KCLInfoWidget(QWidget *parent)
 
 void KCLInfoWidget::setupPreview()
 {
-    QVBoxLayout *layout = new QVBoxLayout;
 
-    QHBoxLayout *layoutButton = new QHBoxLayout;
-    QHBoxLayout *layoutAbsolu = new QHBoxLayout;
-    QHBoxLayout *layoutRelatif = new QHBoxLayout;
+QStackedWidget * widget = new QStackedWidget;
+QComboBox * combo = new QComboBox;
 
-    KCLButton *button = new KCLButton(KCL::Key);
-    KCLButton *axis = new KCLButton(KCL::AbsoluAxis);
-    KCLButton *rel = new KCLButton(KCL::AbsoluAxis);
 
-    layoutButton->addWidget(button);
-    layoutAbsolu->addWidget(axis);
-    layoutRelatif->addWidget(rel);
+foreach ( KCLInput * input, KCLDetect::inputList())
+{
+    KCLInputWidget * w = new KCLInputWidget(input);
+    combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
+    widget->addWidget(w);
 
-    layout->addLayout(layoutButton);
-    layout->addLayout(layoutAbsolu);
-    layout->addLayout(layoutRelatif);
-    layout->addStretch();
+}
 
-    m_preview->setLayout(layout);
+connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
+combo->setCurrentIndex(combo->count()-1);
+QVBoxLayout * layout = new QVBoxLayout;
+layout->addWidget(combo);
+layout->addWidget(widget);
+widget->setCurrentIndex(1);
+m_preview->setLayout(layout);
+
 }
 
 void KCLInfoWidget::setupInformation()
