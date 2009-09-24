@@ -2,7 +2,7 @@
 #define KCLINFOWIDGET_H
 
 #include "kcldevicemodel.h"
-#include "kclbutton.h"
+#include "../kclbutton.h"
 
 #include <KTabWidget>
 #include <KTitleWidget>

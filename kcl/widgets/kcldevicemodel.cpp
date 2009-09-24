@@ -16,7 +16,7 @@ void KCLDeviceModel::setupList()
 {
     clear();
 
-    foreach(KCLInput *input, KCLDetect::allInputs()) {
+    foreach(KCLInput *input, KCLDetect::inputList()) {
         QStandardItem *deviceItem = new QStandardItem;
 
         switch (input->deviceType()) {

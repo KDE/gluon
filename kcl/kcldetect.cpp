@@ -45,7 +45,7 @@ void KCLDetect::searchDevice()
     foreach(QString name, event.entryList(QDir::Files)) {
         KCLInput *temp = new KCLInput(path + name);
         if (!temp->error()) {
-            temp->setEnable();
+
             detect->addInput(temp);
             switch (temp->deviceType()) {
             case KCL::KeyBoard:
@@ -85,14 +85,14 @@ void KCLDetect::searchDevice()
 
 void KCLDetect::setAllEnable()
 {
-    foreach(KCLInput *input, instance()->allInputs()) {
+    foreach(KCLInput *input, instance()->inputList()) {
         input->setEnable();
     }
 }
 
 void KCLDetect::setAllDisable()
 {
-    foreach(KCLInput *input, instance()->allInputs()) {
+    foreach(KCLInput *input, instance()->inputList()) {
         input->setDisable();
     }
 }   

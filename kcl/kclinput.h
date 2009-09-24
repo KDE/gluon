@@ -111,7 +111,7 @@ public:
     * @return the device type. KCL_KEYBOARD, KCL_MOUSE, KCL_JOYSTICK, KCL_TABLET, KCL_TOUCHPAD, KCL_UNKNOWN;
     * @see DEVICE
     */
-    const KCL::DeviceFlag &deviceType() {
+   KCL::DeviceFlag deviceType() {
         return m_deviceType;
     }
 

@@ -33,7 +33,7 @@ public:
     static void setAllDisable();
 
     static unsigned int deviceCount() {
-        return allInputs().size();
+        return inputList().size();
     }
 
     static unsigned int keyboardCount() {
@@ -53,10 +53,32 @@ public:
     }
 
     static unsigned int unknownDeviceCount() {
-        return instance()->getUnknownList().size();
+        return instance()->getUnknownDeviceList().size();
     }
 
+    static QList <KCLKeyBoard*> keyboardList() {
+        return instance()->getKeyboardList();
+    }
 
+    static QList <KCLMouse*> mouseList(){
+        return instance()->getMouseList();
+    }
+
+    static QList <KCLJoystick*> joystickList(){
+        return instance()->getJoystickList();
+    }
+
+    static QList <KCLTablet*> tabletList() {
+        return instance()->getTabletList();
+    }
+
+    static QList <KCLInput*> unknownDeviceList() {
+        return instance()->getUnknownDeviceList();
+    }
+
+    static KCLInputList inputList() {
+        return instance()->getInputList();
+    }
 
     static KCLKeyBoard *keyboard(int id = 0) {
         return instance()->getKeyboardList().at(id);
@@ -74,9 +96,10 @@ public:
         return instance()->getTabletList().at(id);
     }
 
-    static KCLInputList allInputs() {
-        return instance()->getInputList();
+    static KCLInput * input(int id = 0){
+    return instance()->getInputList().at(id);
     }
+
 
     //accesseur read only
     QList<KCLInput *> getInputList() {
@@ -99,7 +122,7 @@ public:
         return m_tabletList;
     }
 
-    QList<KCLInput *> getUnknownList() {
+    QList<KCLInput *> getUnknownDeviceList() {
         return m_unknownList;
     }
 
@@ -109,22 +132,26 @@ public:
 
     void addKeyboard(KCLInput *i) {
         KCLKeyBoard * keybd = new KCLKeyBoard(i->devicePath());
+        keybd->setEnable();
         m_keyboardList.append(keybd);
     }
 
     void addMouse(KCLInput *i) {
         KCLMouse * mouse = new KCLMouse(i->devicePath());
+        mouse->setEnable();
         m_mouseList.append(mouse);
     }
 
     void addJoystick(KCLInput *i) {
         KCLJoystick * joy = new KCLJoystick(i->devicePath());
+        joy->setEnable();
         m_joystickList.append(joy);
 
     }
 
     void addTablet(KCLInput *i) {
         KCLTablet * tablet = new KCLTablet(i->devicePath());
+        tablet->setEnable();
         m_tabletList.append(tablet);
     }
 

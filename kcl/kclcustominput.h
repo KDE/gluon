@@ -21,9 +21,19 @@ public:
     void remAbsAxis(QString name);
     void remRelAxis(QString name);
 
+    QStringList buttonNameList();
+    QStringList absAxisNameList();
+    QStringList relAxisNameList();
+
+
+    KCLInput * inputAt(const QString& name, KCL::InputTypeFlag type);
+   int codeAt(const QString& name, KCL::InputTypeFlag type);
+
     bool button(const QString& name);
     int relAxisValue(const QString &name);
     int absAxisValue(const QString &name);
+
+
 signals:
     void buttonPressed(QString name);
     void buttonReleased(QString name);

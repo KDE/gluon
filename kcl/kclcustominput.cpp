@@ -7,7 +7,11 @@ KCLCustomInput::KCLCustomInput(QObject * parent)
 }
 void KCLCustomInput::addButton(QString name, KCLInput* input, int keyCode)
 {
-    input->setEnable();
+    if (!input->buttonCapabilities().contains(keyCode))
+    {
+        kDebug()<<"Cannot find keyCode for this input...";
+        return;
+    }
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
     m_buttons.insert(name,qMakePair(input,keyCode));
 
@@ -20,13 +24,21 @@ void KCLCustomInput::addButton(QString name)
 
 void KCLCustomInput::addAbsAxis(QString name, KCLInput * input, int axis)
 {
-    input->setEnable();
+ if (!input->absAxisCapabilities().contains(axis))
+    {
+        kDebug()<<"Cannot find keyCode for this input...";
+        return;
+    }
     m_absAxis.insert(name,qMakePair(input,axis));
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 }
 void KCLCustomInput::addRelAxis(QString name,KCLInput* input, int axis)
 {
-    input->setEnable();
+ if (!input->relAxisCapabilities().contains(axis))
+    {
+        kDebug()<<"Cannot find keyCode for this input...";
+        return;
+    }
     m_absAxis.insert(name,qMakePair(input,axis));
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 
@@ -111,25 +123,86 @@ void KCLCustomInput::inputEvent(KCLInputEvent * event)
 }
 
 
-    bool KCLCustomInput::button(const QString& name)
-    {
-if (m_buttons.contains(name))
-    return m_buttons[name].first->button(m_buttons[name].second);
-else return false;
+bool KCLCustomInput::button(const QString& name)
+{
+    if (m_buttons.contains(name))
+        return m_buttons[name].first->button(m_buttons[name].second);
+    else return false;
 }
 
-    int KCLCustomInput::relAxisValue(const QString &name)
+int KCLCustomInput::relAxisValue(const QString &name)
+{
+    if ( m_relAxis.contains(name))
+        return m_relAxis[name].first->relAxisValue(m_relAxis[name].second);
+    else return -1;
+
+
+}
+int KCLCustomInput::absAxisValue(const QString &name)
+{
+    if ( m_absAxis.contains(name))
+        return m_absAxis[name].first->absAxisValue(m_absAxis[name].second);
+    else return -1;
+}
+
+KCLInput *KCLCustomInput::inputAt(const QString& name, KCL::InputTypeFlag type)
+{
+    if ( type == KCL::Key)
+        return m_buttons[name].first;
+
+    if ( type == KCL::AbsoluAxis)
+        return m_absAxis[name].first;
+
+    if ( type == KCL::RelatifAxis)
+        return m_relAxis[name].first;
+
+    return NULL;
+}
+int KCLCustomInput::codeAt(const QString& name, KCL::InputTypeFlag type)
+{
+
+    if ( type == KCL::Key)
+        return m_buttons[name].second;
+
+    if ( type == KCL::AbsoluAxis)
+        return m_absAxis[name].second;
+
+    if ( type == KCL::RelatifAxis)
+        return m_relAxis[name].second;
+
+    return -1;
+
+}
+QStringList KCLCustomInput::buttonNameList()
+{
+    QStringList list;
+    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_buttons);
+    while (i.hasNext())
     {
-   if ( m_relAxis.contains(name))
-       return m_relAxis[name].first->relAxisValue(m_relAxis[name].second);
-   else return -1;
-
-
+        i.next();
+        list<<i.key();
     }
-    int KCLCustomInput::absAxisValue(const QString &name)
+    return list;
+}
+QStringList KCLCustomInput::absAxisNameList()
+{
+    QStringList list;
+    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_absAxis);
+    while (i.hasNext())
     {
-   if ( m_absAxis.contains(name))
-       return m_absAxis[name].first->absAxisValue(m_absAxis[name].second);
-   else return -1;
+        i.next();
+        list<<i.key();
     }
-
+    return list;
+}
+QStringList KCLCustomInput::relAxisNameList()
+{
+    QStringList list;
+    QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_relAxis);
+    while (i.hasNext())
+    {
+        i.next();
+        list<<i.key();
+    }
+    return list;
+}

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <KIcon>
+#include <QEvent>
 #include "kcl.h"
 
 /**
@@ -18,6 +19,8 @@ public:
     static QString relAxisName(int code);
     static QString absAxisName(int code);
     static KIcon iconDevice(KCL::DeviceFlag device);
+
+
 };
 
 //@}

@@ -36,6 +36,7 @@
 #include <alc.h>
 #include <alut.h>
 
+
 /**
  * \defgroup KAL KAL
  */
@@ -109,6 +110,10 @@ public:
         instance()->getBufferList()->removeOne(buffer);
     }
 
+
+    static  bool isExtensionSupported(QString name);
+    static void disableAllSound();
+    static void enableAllSound();
 
 
     ALCdevice * getAlDevice(){return m_device;}

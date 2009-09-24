@@ -30,9 +30,12 @@
 
 #include <gluon/kcl/kcldetect.h>
 #include <gluon/kcl/kclcustominput.h>
-
+#include <gluon/kcl/widgets/kclcustominputdialog.h>
 #include <gluon/kcl/kclbutton.h>
 #include <gluon/kal/widgets/kalplayerwidget.h>
+#include <gluon/kal/kalmusic.h>
+#include <gluon/kcl/widgets/kclinputwidget.h>
+#include <gluon/kcl/widgets/kclpressbutton.h>
 #include <gluon/gluonmainwindow.h>
 #include <QVBoxLayout>
 #include <QMainWindow>
@@ -56,24 +59,19 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
- KCLCustomInput * input = new KCLCustomInput;
- KCLDetect::joystick()->setEnable();
+//
+    KCLCustomInput * input = new KCLCustomInput;
+    input->addButton("FIRE",KCLDetect::joystick(),BTN_TRIGGER);
+    input->addAbsAxis("AXE X",KCLDetect::joystick(),ABS_X);
+    input->addAbsAxis("AXE Y",KCLDetect::joystick(),ABS_Y);
+    input->addButton("KILL",KCLDetect::mouse(),BTN_LEFT);
 
-input->addButton("Feu!!!",KCLDetect::joystick(),BTN_TRIGGER);
-input->addButton("Stop",KCLDetect::joystick(),BTN_THUMB);
-input->addButton("MOUSE",KCLDetect::mouse(),BTN_LEFT);
- QTextEdit * edit = new QTextEdit;
-edit->show();
-KALSound * son = new KALSound("/usr/share/sounds/pop.wav");
+    KCLCustomInputDialog * dialog = new KCLCustomInputDialog;
+    dialog->addCustomInput(input);
 
-QSpinBox * spinBox = new QSpinBox;
-spinBox->setMaximum(1000);
-spinBox->show();
+    dialog->exec();
 
-QObject::connect(input,SIGNAL(buttonPressed(QString)),edit,SLOT(setText(QString)));
-QObject::connect(KCLDetect::joystick(), SIGNAL(pressed()), son, SLOT(play()));
-//QObject::connect(input,SIGNAL(pressed()),son,SLOT(play()));
-//QObject::connect(KCLDetect::joystick(),SIGNAL(pressed()),son,SLOT(play()));
+
 
 app.exec();
 
