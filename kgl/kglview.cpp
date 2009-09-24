@@ -178,10 +178,7 @@ void  KGLView::paintGL()
 
     if ( engine() != NULL)drawGLItems();
     else
-    {
-
         logo->draw();
-    }
 
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);
@@ -197,7 +194,6 @@ void KGLView::nextFrame()
     updateGL();
     m_countFrame++;
 }
-
 //===============DRAW FUNCTION ============================
 
 void KGLView::drawRepere(float scalex, float scaley) // a modifier
