@@ -112,22 +112,22 @@ public:
         return m_zindex;
     }
 
-    inline const QPointF center()
+    inline const QPointF viewCenter()
     {
         return transform(m_center);
     }
 
-    inline const QPointF &itemCenter()
+    inline const QPointF &center()
     {
         return  m_center;
     }
 
-    inline const QPolygonF polygon()
+    inline const QPolygonF viewPolygon()
     {
         return transform(m_polygon);
     }
 
-    inline const QPolygonF itemPolygon()
+    inline const QPolygonF polygon()
     {
         return m_polygon;
     }
@@ -137,9 +137,9 @@ public:
         return polygon().boundingRect();
     }
 
-    virtual inline const QRectF itemBoundingBox()
+    virtual inline const QRectF viewBoundingBox()
     {
-        return itemPolygon().boundingRect();
+        return viewPolygon().boundingRect();
     }
 
     inline  bool contains(QPointF &p)

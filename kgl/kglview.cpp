@@ -102,7 +102,7 @@ void KGLView::init()
     logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
     logo->setColor(QColor(255,255,255,50));
     logo->setScale(0.5);
-    logo->setPosition(-logo->itemCenter()/2);
+    logo->setPosition(-logo->center()/2);
 
     logo->updateTransform();
     connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
@@ -178,7 +178,7 @@ void  KGLView::paintGL()
 
     if ( engine() != NULL)drawGLItems();
     else
-        logo->draw();
+        logo->paintGL();
 
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);
@@ -232,7 +232,7 @@ void KGLView::drawGLItems()
         KGLItem * it;
         foreach ( it, i.value())
         {
-            it->draw();
+            it->paintGL();
         }
         ++i;
     }

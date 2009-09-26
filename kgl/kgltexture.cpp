@@ -96,15 +96,9 @@ void KGLTexture::load(const QImage &img, int width, int height)
                  GL_UNSIGNED_BYTE,   //Color type
                  image.bits());      //image bits
 
-    //glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    //glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    
+    setFilter(GL_LINEAR);
+    setWrapMode(GL_TEXTURE_WRAP_S,GL_REPEAT);
+    setWrapMode(GL_TEXTURE_WRAP_T,GL_REPEAT);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -128,4 +122,19 @@ void KGLTexture::bind()
 void KGLTexture::unBind()
 {
     glDisable(GL_TEXTURE_2D);
+}
+void KGLTexture::setFilter(GLenum filter)
+{
+    bind();
+    GLenum magfilter = (filter == GL_NEAREST) ? GL_NEAREST : GL_LINEAR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magfilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+    unBind();
+
+}
+void KGLTexture::setWrapMode(GLenum coordinate, GLenum mode)
+{
+    bind();
+    glTexParameteri(GL_TEXTURE_2D, coordinate, mode);
+    unBind();
 }
