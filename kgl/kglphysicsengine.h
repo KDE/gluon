@@ -39,71 +39,68 @@ class KGLContactListener;
 class KGLPhysicsEngine : public KGLEngine
 {
     Q_OBJECT
-    public:
-        KGLPhysicsEngine(QObject * parent=0);
-        ~KGLPhysicsEngine();
-        virtual void mainLoop(float fps);
-        void createWorld();
-        void computeSimulation(int32 iterations = 10, float fps=60);
-        void addItem(KGLPhysicsItem *  item);
-        void addItem(KGLItem* item){KGLEngine::addItem(item);}
-        bool removeItem(KGLPhysicsItem * item);
+public:
+    KGLPhysicsEngine(QObject * parent=0);
+    ~KGLPhysicsEngine();
 
-        bool removeItem(KGLItem * item)
-        {
-            return KGLEngine::removeItem(item);
-        }
 
-        KGLPhysicsItem * physicsItemAt(QPointF pos);
+    void computeSimulation(int32 iterations = 10, float fps=60);
+    void addItem(KGLPhysicsItem *  item);
+    void addItem(KGLItem* item){KGLEngine::addItem(item);}
+    bool removeItem(KGLPhysicsItem * item);
 
-        QList<KGLPhysicsItem*> physicsItemList()
-        {
-            return m_list;
-        }
+    bool removeItem(KGLItem * item)
+    {
+        return KGLEngine::removeItem(item);
+    }
+    void createWorld( QPointF gravity=QPointF(0.0f,-10.0f), bool sleep=true);
+    b2World *world()
+    {
+        return m_world;
+    }
 
-        KGLPhysicsItem* itemAt(QPointF pos);
+    KGLPhysicsItem * physicsItemAt(QPointF pos);
 
-        void setGravity(const QPointF& g)
-        {
-            m_gravity.x = g.x();
-            m_gravity.y = g.y();
-        }
+    QList<KGLPhysicsItem*> physicsItems()
+    {
+        return m_list;
+    }
 
-    public slots:
-        void clearPhysicsItem();
+    KGLPhysicsItem* itemAt(QPointF pos);
 
-        b2World *world()
-        {
-            return m_world;
-        }
 
-    private:
-        b2World *m_world;
-        b2Vec2 m_gravity;
-        KGLContactListener * m_contactListener;
-        GLuint tex;
-        QList <KGLPhysicsItem*> m_list;
-        b2MouseJoint* m_mouseJoint;
+public slots:
+    void clearPhysicsItems();
+
+protected:
+    virtual void mainLoop(float fps);
+
+private:
+    b2World *m_world;
+    KGLContactListener * m_contactListener;
+    GLuint tex;
+    QList <KGLPhysicsItem*> m_list;
+    b2MouseJoint* m_mouseJoint;
 };
 
 class KGLContactListener:public b2ContactListener
 {
-    public:
-        void Add(const b2ContactPoint* point);
-//        void Persist(const b2ContactPoint* point)
-//    {
-//        // handle persist point
-//    }
-//
-//        void Remove(const b2ContactPoint* point)
-//    {
-//        // handle remove point
-//    }
-//
-//    void Result(const b2ContactResult* point)
-//    {
-//        // handle results
-//    }
+public:
+    void Add(const b2ContactPoint* point);
+    //        void Persist(const b2ContactPoint* point)
+    //    {
+    //        // handle persist point
+    //    }
+    //
+    //        void Remove(const b2ContactPoint* point)
+    //    {
+    //        // handle remove point
+    //    }
+    //
+    //    void Result(const b2ContactResult* point)
+    //    {
+    //        // handle results
+    //    }
 };
 
 //@}

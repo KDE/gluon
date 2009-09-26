@@ -24,7 +24,6 @@
 KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
     : KGLEngine(parent)
 {
-    m_gravity= b2Vec2(0.0f,-10.0f);
     createWorld();
 }
 
@@ -33,14 +32,12 @@ KGLPhysicsEngine::~KGLPhysicsEngine()
     delete m_world;
 }
 
-void KGLPhysicsEngine::createWorld()
+void KGLPhysicsEngine::createWorld(QPointF gravity, bool sleep)
 {
     b2AABB worldAABB;
     worldAABB.lowerBound.Set(-100.0f, -100.0f);
     worldAABB.upperBound.Set(100.0f, 100.0f);
-
-    bool doSleep = true;
-    m_world = new b2World(worldAABB, m_gravity, doSleep);
+    m_world = new b2World(worldAABB, b2Vec2(gravity.x(),gravity.y()), sleep);
 
     KGLContactListener * l = new KGLContactListener;
     m_world->SetContactListener(l);
@@ -66,7 +63,7 @@ bool KGLPhysicsEngine::removeItem(KGLPhysicsItem * item)
     return KGLEngine::removeItem(item);
 }
 
-void KGLPhysicsEngine::clearPhysicsItem()
+void KGLPhysicsEngine::clearPhysicsItems()
 {
     foreach ( KGLPhysicsItem * item, m_list)
     {

@@ -23,71 +23,59 @@
 #include "kglphysicsitem.h"
 #include <KDebug>
 
-KGLPhysicsItem::KGLPhysicsItem(KGLEngine * parent)
+KGLPhysicsItem::KGLPhysicsItem(ShapeType shapeType,KGLEngine * parent)
     : KGLItem(parent)
 {
     setObjectName("KGLPhysicsItem");
     m_body = NULL;
     m_isMassFromShape=true;
-    m_shapeType = POLYGON_SHAPE;
-    initDensity(1.0f);
-    initFriction(0.3f);
+    m_shapeType = shapeType;
+    setDensity(1.0f);
+    setFriction(0.3f);
+    setRestitution(0.5);
 }
 
-void KGLPhysicsItem::setupParam()
+void KGLPhysicsItem::createShape()
 {
-    m_bodyDef.userData = this;
-    m_bodyDef.position.Set(position().x(), position().y());
-    m_bodyDef.angle = angle();
-
-    kDebug()<<"GENOME : "<<polygon();
-
-    if ( m_shapeType == POLYGON_SHAPE)
+    if ( m_shapeType == PolygonShape)
     {
-        if ( itemPolygon().size() > 8)
+        if ( polygon().size() > 8)
         {
             kDebug()<<"Error! Cannot build a physics polygon with more 8 vertex...";
             return;
         }
-        m_polygonDef.vertexCount = itemPolygon().size();
-        kDebug()<<"POLYGON!!!!!!!!!!";
-        //---CONSTRUCT A POYLGON SHAPE
+        m_polygonDef.vertexCount = polygon().size();
         int i=0;
-        foreach (QPointF p, itemPolygon())
+        foreach (QPointF p, polygon())
         {
             m_polygonDef.vertices[i].Set(p.x(),p.y());
-            kDebug()<<m_polygonDef.vertices[i].x;
-            kDebug()<<m_polygonDef.vertices[i].y;
             ++i;
         }
     }
-    if ( m_shapeType == CIRCLE_SHAPE)
+    if ( m_shapeType == CircleShape)
     {
-
-        kDebug()<<"CIRCLE!!!!!!!!!!";
         //CONSTRUCT A CIRCLE SHAPE
         m_circleDef.radius = radius();
-        m_circleDef.density = 1;
-        m_circleDef.friction = 0.3;
-        m_circleDef.restitution = 0.5;
-        m_circleDef.localPosition.x = itemCenter().x();
-        m_circleDef.localPosition.y = itemCenter().y();
-        kDebug()<<"RADIUS:"<<radius();
-
+        m_circleDef.localPosition.x = center().x();
+        m_circleDef.localPosition.y = center().y();
     }
 }
 
 void KGLPhysicsItem::setup(b2World *world)
 {
-    setupParam();
+    createShape();
+    m_bodyDef.userData = this;
+    m_bodyDef.position.Set(position().x(), position().y());
+    m_bodyDef.angle = angle();
     m_body = world->CreateBody(&m_bodyDef);
 
-    if ( m_shapeType == POLYGON_SHAPE)
+    if ( m_shapeType == PolygonShape)
     {
         m_body->CreateShape(&m_polygonDef);
+
     }
 
-    if ( m_shapeType == CIRCLE_SHAPE)
+    if ( m_shapeType == CircleShape)
     {
         m_body->CreateShape(&m_circleDef);
     }

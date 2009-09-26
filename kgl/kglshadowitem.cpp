@@ -51,7 +51,7 @@ void KGLShadowItem::snapMatrix()
     }
 }
 
-void KGLShadowItem::draw()
+void KGLShadowItem::paintGL()
 {
 
  
@@ -68,7 +68,7 @@ void KGLShadowItem::draw()
         m_listItem[i]->setColor(QColor(255,255,255,30));
 
 
-        m_listItem[i]->draw();
+        m_listItem[i]->paintGL();
     }
 }
 

@@ -56,7 +56,7 @@ class KGLShadowItem : public KGLItem
             }
         }
 
-        void draw();
+        void paintGL();
 
         void setSnapDuration(float d) {
             m_snapDuration = d;

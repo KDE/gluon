@@ -39,7 +39,7 @@ class KGLItem : public KGLBaseItem
 {
     Q_OBJECT
     public:
-        virtual void draw();
+        virtual void paintGL();
         virtual void updateTransform();
         explicit KGLItem(KGLEngine * parent=0);
         explicit KGLItem(const QPolygonF &poly, KGLEngine * parent=0);

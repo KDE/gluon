@@ -48,7 +48,7 @@ KGLIntroItem::KGLIntroItem(KGLEngine* parent)
 void KGLIntroItem::anim(int id)
 {
  m_item->setPosition(position());
-  m_item->setAngle(id*M_PI/360,m_item->itemCenter());
+  m_item->setAngle(id*M_PI/360,m_item->center());
   m_item->updateTransform();
 }
 

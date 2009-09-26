@@ -96,7 +96,7 @@ KGLItem *KGLItem::clone()
     return newItem;
 }
 
-void KGLItem::draw()
+void KGLItem::paintGL()
 {
     if (!m_isCreated)
         create();
@@ -186,7 +186,7 @@ void KGLItem::drawChild()
     {
         foreach(KGLItem* item, m_childItems)
         {
-            item->draw();
+            item->paintGL();
         }
         }
 }
@@ -202,7 +202,7 @@ void KGLItem::drawGLPoint(KGLPoint &p)
 void KGLItem::drawBoundingBox()
 {
     glBegin(GL_LINE_LOOP);
-    QRectF rectAround = boundingBox();
+    QRectF rectAround = viewBoundingBox();
     glColor3f(100, 100, 100);
     glVertex2d(rectAround.x(), rectAround.y());
     glVertex2d(rectAround.x() + rectAround.width(), rectAround.y());
@@ -233,7 +233,7 @@ void KGLItem::drawCenter()
 {
     glPointSize(3);
     glBegin(GL_POINTS);
-    QPointF c = itemCenter();
+    QPointF c = center();
     glColor3f(100, 0, 0);
     glVertex2d(c.x(), c.y());
     glEnd();
