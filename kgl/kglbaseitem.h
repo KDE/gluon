@@ -62,6 +62,7 @@ public:
     virtual void clear()
     {
         m_pointList.clear();
+
     }
 
     virtual void updateTransform();

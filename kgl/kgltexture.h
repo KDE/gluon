@@ -81,11 +81,18 @@ public:
         m_scale = s;
     }
 
+    void setScale(float x,float y){
+    setScale(QPointF(x,y));
+    }
+
     void translate(QPointF t)
     {
         m_translate += t;
     }
 
+    void translate( float x, float y){
+    translate(QPointF(x,y));
+    }
     void rotate(float r)
     {
         m_rotate += r;
@@ -95,6 +102,12 @@ public:
     {
         m_scale+=s;
     }
+    void scale(int x,int y){
+        scale(QPointF(x,y));
+    }
+
+
+
 
     void updateTransform();
 

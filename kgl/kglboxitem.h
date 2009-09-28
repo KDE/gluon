@@ -69,6 +69,11 @@ class KGLBoxItem : public KGLItem
             return m_dim;
         }
 
+        void resize(QSizeF size);
+        void resize(float w, float h){
+            resize(QSizeF(w,h));
+        }
+        private:
         QSizeF m_dim;
 };
 
