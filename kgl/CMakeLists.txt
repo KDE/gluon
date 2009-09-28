@@ -8,7 +8,7 @@ set(kgl_LIB_SRCS
     kglboxitem.cpp
     kglcircleitem.cpp
     #kglcontaineritem.cpp
-	kglengine.cpp
+    kglengine.cpp
     kglgriditem.cpp
     kglintroitem.cpp
     kglitem.cpp
@@ -25,7 +25,8 @@ set(kgl_LIB_SRCS
     kgltextitem.cpp
     kgltexture.cpp
     kglview.cpp
-    kglscreenconfig.cpp
+    kglscreen.cpp
+    kglrandrscreen.cpp
     kglinfowidget.cpp
 
 )
