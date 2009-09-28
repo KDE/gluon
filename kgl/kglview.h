@@ -31,6 +31,8 @@
 #include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
 
+
+
 /**
  * \defgroup KGL KGL
  */
@@ -91,6 +93,7 @@ public:
                 );
     }
     KGLScreenConfig * screenConfig(){return m_screenConfig;}
+
     //=== Flags ====
     inline void setMode(GLenum mode)
     {

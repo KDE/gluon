@@ -37,7 +37,10 @@ public:
     KGLTexture (const QString& fileName);
     KGLTexture ( const QImage &img);
     KGLTexture(const QPixmap &pix);
-    void setGLTexture(const GLuint& t){m_texture = t;}
+    void setGLTexture(const GLuint& t){
+       glDeleteTextures(1,&m_texture);
+        m_texture = t;
+    }
     ~KGLTexture();
     void bind();
     void unBind();
