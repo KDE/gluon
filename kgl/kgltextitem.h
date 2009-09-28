@@ -46,20 +46,19 @@ class KGLTextItem: public KGLItem
 {
     Q_OBJECT
     public:
-        KGLTextItem( const QRectF& rectangle, const QString& text  , KGLEngine* parent=0);
-        void createTexture();
-
-        QString text() const {
-            return m_text;
+        KGLTextItem(const QString& text, QFont font=QFont(),KGLEngine* parent=0);
+        void setText(const QString& text,QFont font=QFont()){
+        m_text=text;
+        initTexture();
         }
-
-        void setText(const QString &text) {
-            m_text = text;
-        }
-
+        const QString& text(){return m_text;}
+protected:
+        bool initTexture();
     private:
         QString m_text;
-        QRectF m_rect;
+        QFont m_font;
+
+
 };
 
 //@}
