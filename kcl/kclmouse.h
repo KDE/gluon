@@ -19,13 +19,13 @@ class KCL_EXPORT KCLMouse : public KCLInput
     Q_OBJECT
 
 public:
-    KCLMouse(QString device, QObject * parent = 0);
+    KCLMouse(const QString &device, QObject * parent = 0);
 
     QPoint position();
     void setSensibility(double s){
     m_sensibility=s;
     }
-    void setOrigin(QPoint p) {
+    void setOrigin(const QPoint &p) {
         m_originalPosition = p;
     }
 

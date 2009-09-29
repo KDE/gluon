@@ -7,7 +7,7 @@ KCLCustomInput::KCLCustomInput(QObject * parent)
 }
 
 
-void KCLCustomInput::setButton(QString name, KCLInput* input, int keyCode)
+void KCLCustomInput::setButton(const QString &name, KCLInput* input, int keyCode)
 {
     if (!input->buttonCapabilities().contains(keyCode))
     {
@@ -18,13 +18,13 @@ void KCLCustomInput::setButton(QString name, KCLInput* input, int keyCode)
     m_buttons.insert(name,qMakePair(input,keyCode));
 
 }
-void KCLCustomInput::setButton(QString name)
+void KCLCustomInput::setButton(const QString &name)
 {
     KCLInput * input = new KCLInput();
     m_buttons.insert(name,qMakePair(input,0));
 }
 
-void KCLCustomInput::setAbsAxis(QString name, KCLInput * input, int axis)
+void KCLCustomInput::setAbsAxis(const QString &name, KCLInput * input, int axis)
 {
  if (!input->absAxisCapabilities().contains(axis))
     {
@@ -34,7 +34,7 @@ void KCLCustomInput::setAbsAxis(QString name, KCLInput * input, int axis)
     m_absAxis.insert(name,qMakePair(input,axis));
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 }
-void KCLCustomInput::setRelAxis(QString name,KCLInput* input, int axis)
+void KCLCustomInput::setRelAxis(const QString &name,KCLInput* input, int axis)
 {
  if (!input->relAxisCapabilities().contains(axis))
     {
@@ -45,7 +45,7 @@ void KCLCustomInput::setRelAxis(QString name,KCLInput* input, int axis)
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
 
 }
-void KCLCustomInput::remButton(QString name)
+void KCLCustomInput::remButton(const QString &name)
 {
     if ( m_buttons.contains(name))
     {
@@ -53,7 +53,7 @@ void KCLCustomInput::remButton(QString name)
         m_buttons.remove(name);
     }
 }
-void KCLCustomInput::remAbsAxis(QString name)
+void KCLCustomInput::remAbsAxis(const QString &name)
 {
     if ( m_absAxis.contains(name))
     {
@@ -61,7 +61,7 @@ void KCLCustomInput::remAbsAxis(QString name)
         m_absAxis.remove(name);
     }
 }
-void KCLCustomInput::remRelAxis(QString name)
+void KCLCustomInput::remRelAxis(const QString &name)
 {
     if ( m_relAxis.contains(name))
     {

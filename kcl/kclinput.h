@@ -140,7 +140,7 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    int anyPress() {
+    int anyPress() const {
         if (m_buttons.size() > 0) {
             return m_buttons.last();
         } else {

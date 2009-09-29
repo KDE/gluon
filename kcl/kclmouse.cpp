@@ -2,7 +2,7 @@
 
 #include <KDebug>
 
-KCLMouse::KCLMouse(QString device, QObject *parent)
+KCLMouse::KCLMouse(const QString &device, QObject *parent)
         : KCLInput(device, parent)
 {
     m_originalPosition = QPoint(0, 0);
