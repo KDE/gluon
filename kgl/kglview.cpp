@@ -79,6 +79,7 @@ KGLView::~KGLView()
 }
 void KGLView::init()
 {
+
     m_screenConfig = new KGLScreenConfig;
     m_engine = NULL;
     m_frameRate = 20;
@@ -183,6 +184,8 @@ void  KGLView::paintGL()
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);
     if ( m_infoShow) drawInfo();
+
+
 
     QGLWidget::paintGL();
 }

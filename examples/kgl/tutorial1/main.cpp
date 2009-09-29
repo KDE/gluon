@@ -62,10 +62,10 @@ int main(int argc, char *argv[])
     // itemCenter() return the coord center in Item coordinate
     //center() return the coord center in View coordinate
     // you can call translate() for add a translation.. And setTranslate() to define a translation factor in the transformation matrix
-    item->setPosition(-item->itemCenter());
+    item->setPosition(-item->center());
     //this function make a rotation around the itemCenter. 
     // you can call rotate() to add a rotation .
-    item->setAngle(45,item->itemCenter());
+    item->setAngle(45,item->center());
     //this function must be called after each transformation. It updates the current Tranformation matrix of the item.
     item->updateTransform();
     

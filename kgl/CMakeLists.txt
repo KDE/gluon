@@ -27,6 +27,7 @@ set(kgl_LIB_SRCS
     kglview.cpp
     kglscreenconfig.cpp
     kglinfowidget.cpp
+
 )
 
 SET(kgl_RCCS
@@ -77,6 +78,7 @@ install(FILES
     kglview.h
     kglscreenconfig.h
     kglinfowidget.h
+
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
 add_subdirectory(Box2D) #add header installation

@@ -37,7 +37,10 @@ public:
     KGLTexture (const QString& fileName);
     KGLTexture ( const QImage &img);
     KGLTexture(const QPixmap &pix);
-    void setGLTexture(const GLuint& t){m_texture = t;}
+    void setGLTexture(const GLuint& t){
+       glDeleteTextures(1,&m_texture);
+        m_texture = t;
+    }
     ~KGLTexture();
     void bind();
     void unBind();
@@ -78,11 +81,18 @@ public:
         m_scale = s;
     }
 
+    void setScale(float x,float y){
+    setScale(QPointF(x,y));
+    }
+
     void translate(QPointF t)
     {
         m_translate += t;
     }
 
+    void translate( float x, float y){
+    translate(QPointF(x,y));
+    }
     void rotate(float r)
     {
         m_rotate += r;
@@ -92,6 +102,12 @@ public:
     {
         m_scale+=s;
     }
+    void scale(int x,int y){
+        scale(QPointF(x,y));
+    }
+
+
+
 
     void updateTransform();
 

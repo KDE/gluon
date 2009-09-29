@@ -46,7 +46,9 @@ class KGLItem : public KGLBaseItem
         explicit KGLItem(const QSizeF &box, KGLEngine * parent=0);
         explicit KGLItem(const QLineF &line,KGLEngine * parent=0);
         KGLItem *clone();
-
+        void recreate(){
+        m_isCreated=false;
+        }
         void addChildItem(KGLItem* item)
         {
             m_childItems.append(item);

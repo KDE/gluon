@@ -42,3 +42,10 @@ KGLBoxItem::KGLBoxItem(const float &w, const float &h, KGLEngine * parent)
     setBox(w,h);
     m_dim = QSizeF(w,h);
 }
+void KGLBoxItem::resize(QSizeF size)
+{
+clear();
+m_dim=size;
+createBox(size);
+recreate();
+}

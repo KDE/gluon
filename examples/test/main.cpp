@@ -36,6 +36,8 @@
 #include <gluon/kal/kalmusic.h>
 #include <gluon/kcl/widgets/kclinputwidget.h>
 #include <gluon/kcl/widgets/kclpressbutton.h>
+#include <gluon/kgl/kglview.h>
+#include <gluon/kgl/kgltextitem.h>
 #include <gluon/gluonmainwindow.h>
 #include <QVBoxLayout>
 #include <QMainWindow>
@@ -59,17 +61,19 @@ int main(int argc, char *argv[])
     KApplication app;
 
 
+KGLView * view = new KGLView;
+KGLEngine * engine = new KGLEngine;
+view->setEngine(engine);
 
-    KCLCustomInput * input = new KCLCustomInput;
-    input->setButton("FIRE",KCLDetect::joystick(),BTN_TRIGGER);
-    input->setAbsAxis("AXE X",KCLDetect::joystick(),ABS_X);
-    input->setAbsAxis("AXE Y",KCLDetect::joystick(),ABS_Y);
-    input->setButton("KILL",KCLDetect::mouse(),BTN_LEFT);
+ QFont serifFont("Times", 40, QFont::Bold);
 
-    KCLCustomInputDialog * dialog = new KCLCustomInputDialog;
-    dialog->addCustomInput(input);
-
-    dialog->exec();
+ 
+KGLTextItem * item = new KGLTextItem("bonjour",serifFont);
+item->setColor(Qt::red);
+engine->addItem(item);
+item->setText("bonjour");
+view->start();
+view->show();
 
 
 
