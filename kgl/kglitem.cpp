@@ -39,7 +39,7 @@ void KGLItem::init()
     m_texture = new KGLTexture;
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
-    m_program = NULL;
+    m_shaderFx = NULL;
     resetTransform();
 }
 
@@ -78,7 +78,7 @@ KGLItem::KGLItem(const QLineF &line, KGLEngine * parent)
 KGLItem::~KGLItem()
 {
     delete m_texture;
-    delete m_program;
+    delete m_shaderFx;
     glDeleteLists(m_GLCallList,1);
 
 }
@@ -114,15 +114,15 @@ void KGLItem::paintGL()
     //Disabled until necessary, causes diagonal lines on ATI cards.
     //glEnable(GL_POLYGON_SMOOTH);
 
-    if ( m_program != NULL ){
-        if ( program()->isValid())
-            program()->bind();
+    if ( m_shaderFx != NULL ){
+        if (shaderFx()->isValid())
+            shaderFx()->bind();
     }
 
     glCallList(m_GLCallList);  //CALL THE LIST
 
-    if ( m_program != NULL ){
-        program()->unbind();
+    if ( m_shaderFx != NULL ){
+        shaderFx()->unbind();
     }
 
     glDepthMask(GL_TRUE);

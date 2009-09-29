@@ -32,7 +32,6 @@
 #include "kglpixmapitem.h"
 
 
-
 /**
  * \defgroup KGL KGL
  */

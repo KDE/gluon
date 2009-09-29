@@ -20,37 +20,64 @@
 
 #include "kglfx.h"
 
+KGLFx::KGLFx(const QString& vertexShader, const QString& fragmentShader)
+    :KGLProgram(vertexShader,fragmentShader)
+{
+
+}
 KGLFx::KGLFx()
+    :KGLProgram()
 {
-    m_program = new KGLProgram;
 }
-
-//===========LIGHT ==========================
-
+//==========================LIGHT=====================================
 KGLLightFx::KGLLightFx()
-    : KGLFx()
+    :KGLFx()
 {
-      program()->addShader(new KGLVertexShader(":shaders/light.vert"));
-      program()->addShader(new KGLFragmentShader(":shaders/light.frag"));
-      program()->link();
+    addShader(new KGLFragmentShader(":shaders/light.frag"));
+    link();
+    setAlpha(0);
+
 }
 
-//==========BLUR =========================
-
-KGLBlurFx::KGLBlurFx()
-    : KGLFx()
+void KGLLightFx::setAlpha(float alpha)
 {
-    program()->addShader(new KGLVertexShader(":shaders/blur.vert"));
-    program()->addShader(new KGLFragmentShader(":shaders/blur.frag"));
-    program()->link();
+    m_alpha=alpha;
+    bind();
+    setUniform("alpha",alpha);
+    unbind();
 }
 
-//========= PIXELATE ====================
-
-KGLPixelateFx::KGLPixelateFx()
-    : KGLFx()
+//==========================POSTERIZE=====================================
+KGLPosterizeFx::KGLPosterizeFx()
+          :KGLFx()
 {
-      program()->addShader(new KGLVertexShader(":shaders/pixelate.vert"));
-      program()->addShader(new KGLFragmentShader(":shaders/pixelate.frag"));
-      program()->link();
+    addShader(new KGLFragmentShader(":shaders/posterize.frag"));
+    link();
+    setLevel(20);
+}
+
+void KGLPosterizeFx::setLevel(float level)
+{
+    m_level=level;
+    bind();
+    setUniform("level", level);
+    unbind();
+}
+//==========================MOSAIC=====================================
+KGLMosaicFx::KGLMosaicFx()
+    :KGLFx()
+{
+    addShader(new KGLFragmentShader(":shaders/mosaic.frag"));
+    link();
+    bind();
+    setUniform("texSize", 128);
+    unbind();
+    setTileSize(1);
+}
+void KGLMosaicFx::setTileSize(float t)
+{
+    m_tileSize=t;
+    bind();
+    setUniform("tileSize", t);
+    unbind();
 }

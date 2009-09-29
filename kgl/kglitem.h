@@ -25,7 +25,7 @@
 
 #include "kglbaseitem.h"
 #include "kgltexture.h"
-#include "kglprogram.h"
+#include "kglfx.h"
 
 /**
  * \defgroup KGL KGL
@@ -112,9 +112,9 @@ class KGLItem : public KGLBaseItem
             f_textureEnable = t;
         }
 
-        void setProgram(KGLProgram * p)
+        void setShaderFx(KGLFx * s)
         {
-            m_program = p;
+            m_shaderFx = s;
         }
 
         KGLTexture * texture()
@@ -122,9 +122,9 @@ class KGLItem : public KGLBaseItem
             return m_texture;
         }
 
-        KGLProgram * program()
+        KGLFx * shaderFx()
         {
-            return m_program;
+            return m_shaderFx;
         }
 
 
@@ -163,7 +163,7 @@ class KGLItem : public KGLBaseItem
         float m_alpha;
         GLenum m_mode;
         KGLTexture *m_texture;
-        KGLProgram * m_program;
+        KGLFx * m_shaderFx;
         QList<KGLItem*> m_childItems;
         bool m_shaderEnable;
 
