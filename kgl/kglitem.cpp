@@ -90,7 +90,7 @@ KGLItem *KGLItem::clone()
     newItem->setTexture(texture());
     newItem->setMatrix(matrix());
  newItem->setPosition(position());
-    foreach(KGLPoint p, pointList())
+    foreach(const KGLPoint &p, pointList())
     newItem->addVertex(p);
 
     return newItem;

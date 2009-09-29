@@ -59,7 +59,7 @@ void KALInfoWidget::setupInformation()
 {
     KComboBox * combo = new KComboBox;
 
-    foreach(QString device, KALEngine::instance()->deviceList()) {
+    foreach(const QString &device, KALEngine::instance()->deviceList()) {
         combo->addItem(KIcon(), device);
     }
 

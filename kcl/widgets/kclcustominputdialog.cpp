@@ -40,7 +40,7 @@ void KCLCustomInputDialog::setupTab()
         tree->setAlternatingRowColors(true);
         connect(tree,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(changeItem(QTreeWidgetItem*,int)));
 
-        foreach (QString name, input->buttonNameList())
+        foreach (const QString &name, input->buttonNameList())
         {
 
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
@@ -50,7 +50,7 @@ void KCLCustomInputDialog::setupTab()
             item->setText(2,input->inputAt(name,KCL::Key)->deviceName());
         }
 
-        foreach (QString name, input->absAxisNameList())
+        foreach (const QString &name, input->absAxisNameList())
         {
 
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
@@ -61,7 +61,7 @@ void KCLCustomInputDialog::setupTab()
             item->setText(2,input->inputAt(name,KCL::AbsoluAxis)->deviceName());
         }
 
-        foreach (QString name, input->relAxisNameList())
+        foreach (const QString &name, input->relAxisNameList())
         {
 
 

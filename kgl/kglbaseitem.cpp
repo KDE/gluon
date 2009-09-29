@@ -77,14 +77,14 @@ void KGLBaseItem::computeGeometry()
 {
     //Compute the center
     m_center = QPointF(0,0);
-    foreach( KGLPoint p, m_pointList) {
+    foreach(const KGLPoint &p, m_pointList) {
         m_center += QPointF(p.x(), p.y());
     }
     m_center /= (float)pointCount();
 
     //Compute the Polygon
     m_polygon = QPolygonF();
-    foreach(KGLPoint p, m_pointList) {
+    foreach(const KGLPoint &p, m_pointList) {
         m_polygon<<QPointF(p.x(), p.y());
     }
 
@@ -114,7 +114,7 @@ QPointF KGLBaseItem::transform(const QPointF &p) const
 QPolygonF KGLBaseItem::transform(const QPolygonF &p) const
 {
     QPolygonF poly;
-    foreach(QPointF point, p) {
+    foreach(const QPointF &point, p) {
         poly<<transform(point);
     }
     return poly;
