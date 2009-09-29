@@ -47,11 +47,11 @@ public:
     explicit KGLPoint(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
     explicit KGLPoint(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
 
-    inline QPointF tex() {
+    inline QPointF tex() const{
         return QPointF(m_tx,m_ty);
     }
 
-    inline QColor color() {
+    inline QColor color() const{
         QColor c;
         c.setRgbF(m_r,m_g,m_b,m_a);
         return c;
@@ -85,46 +85,46 @@ public:
     {
         m_y = y;
     }
-    inline float x()
+    inline float x()const
     {
         return m_x;
     }
 
-    inline float y()
+    inline float y()const
     {
         return m_y;
     }
 
-    inline float red()
+    inline float red()const
     {
         return m_r;
     }
 
-    inline float green()
+    inline float green()const
     {
         return m_g;
     }
 
-    inline float blue()
+    inline float blue()const
     {
         return m_b;
     }
 
-    inline float alpha()
+    inline float alpha()const
     {
         return m_a;
     }
 
-    inline float texCoordX()
+    inline float texCoordX()const
     {
         return m_tx;
     }
 
-    inline float texCoordY()
+    inline float texCoordY()const
     {
         return m_ty;
     }
-
+//DO NOT CHANGE ORDER OF MEMBER VARIABLE!!!!! It's necessary for the openGL Vertex buffer array
 private:
     float m_x;
     float m_y;

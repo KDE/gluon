@@ -8,18 +8,30 @@
 #include <QWidgetAction>
 #include <KUrlRequester>
 #include <KDebug>
-KALPlayerWidget::KALPlayerWidget(QWidget *parent)
-    : QWidget(parent)
+
+class KALPlayerWidgetPrivate
 {
-    statusTimer = new QTimer;
-    statusTimer->setInterval(1000);
-    statusTimer->start();
-    sound = new KALSound;
+public :
+KUrlRequester * requester;
+KALSound * sound;
+QSlider * slider;
+QTimer * statusTimer;
+QSlider * bar;
+};
+
+KALPlayerWidget::KALPlayerWidget(QWidget *parent)
+    : QWidget(parent),
+    d(new KALPlayerWidgetPrivate)
+{
+    d->statusTimer = new QTimer;
+    d->statusTimer->setInterval(1000);
+    d->statusTimer->start();
+    d->sound = new KALSound;
     QHBoxLayout *layout = new QHBoxLayout;
 
-    requester = new KUrlRequester(parent);
-    requester->setFilter("*.ogg *.wav");
-    requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+    d->requester = new KUrlRequester(parent);
+    d->requester->setFilter("*.ogg *.wav");
+    d->requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
 
 
     QToolButton *bplay = new QToolButton;
@@ -35,18 +47,18 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     QToolButton *bvolume = new QToolButton;
     bvolume->setIcon(KIcon("player-volume.png"));
 
-    bar = new QSlider(Qt::Horizontal);
-    bar->setMinimum(0);
-    bar->setMaximum(100);
+    d->bar = new QSlider(Qt::Horizontal);
+    d->bar->setMinimum(0);
+    d->bar->setMaximum(100);
 
     QMenu * volumeMenu = new QMenu("volume");
-    slider = new QSlider(Qt::Vertical);
-    slider->setMinimum(0);
-    slider->setMaximum(100);
-    slider->setValue(100);
+    d->slider = new QSlider(Qt::Vertical);
+    d->slider->setMinimum(0);
+    d->slider->setMaximum(100);
+    d->slider->setValue(100);
     QWidgetAction * volumeAction = new QWidgetAction(volumeMenu);
     volumeMenu->setIcon(KIcon("player-volume.png"));
-    volumeAction->setDefaultWidget(slider);
+    volumeAction->setDefaultWidget(d->slider);
     volumeMenu->addAction(volumeAction);
     bvolume->setMenu(volumeMenu);
     bvolume->setPopupMode(QToolButton::InstantPopup);
@@ -60,54 +72,54 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     layout->addWidget(bvolume);
 
 
-    bigLayout->addWidget(requester);
-    bigLayout->addWidget(bar);
+    bigLayout->addWidget(d->requester);
+    bigLayout->addWidget(d->bar);
     bigLayout->addLayout(layout);
     bigLayout->addStretch();
 
 
 
-    connect(bar,SIGNAL(actionTriggered(int)),this,SLOT(setTimePosition(int)));
-    connect(statusTimer,SIGNAL(timeout()),this,SLOT(updateStatus()));
-    connect(bplay, SIGNAL(clicked()), sound, SLOT(play()));
-    connect(bstop, SIGNAL(clicked()), sound, SLOT(stop()));
-    connect(bpause, SIGNAL(clicked()),sound, SLOT(pause()));
-    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
-    connect(requester,SIGNAL(textChanged(QString)),this,SLOT(load(QString)));
+    connect(d->bar,SIGNAL(actionTriggered(int)),this,SLOT(setTimePosition(int)));
+    connect(d->statusTimer,SIGNAL(timeout()),this,SLOT(updateStatus()));
+    connect(bplay, SIGNAL(clicked()), d->sound, SLOT(play()));
+    connect(bstop, SIGNAL(clicked()), d->sound, SLOT(stop()));
+    connect(bpause, SIGNAL(clicked()),d->sound, SLOT(pause()));
+    connect(d->slider, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
+    connect(d->requester,SIGNAL(textChanged(QString)),this,SLOT(load(QString)));
 
     setWindowTitle("select a sound and play it");
 
     setLayout(bigLayout);
-    sound->load(requester->text());
+    d->sound->load(d->requester->text());
 }
 
 void KALPlayerWidget::load(const QString &file)
 {   
-    sound->stop();
-    sound->load(file);
-    sound->setVolume(float(slider->value())/100);
+    d->sound->stop();
+    d->sound->load(file);
+    d->sound->setVolume(float(d->slider->value())/100);
 
 
 }
 void KALPlayerWidget::setVolume(int v)
 {
-    sound->setVolume(float(v)/100);
+    d->sound->setVolume(float(v)/100);
 
 }
 void KALPlayerWidget::updateStatus()
 {
-    if ( sound->status() == AL_PLAYING)
-        bar->setValue(sound->elapsedTime()*100/sound->duration());
+    if ( d->sound->status() == AL_PLAYING)
+        d->bar->setValue(d->sound->elapsedTime()*100/d->sound->duration());
 
 
 }
 void KALPlayerWidget::setTimePosition(int t)
 {
-    if ( sound->status() == AL_PLAYING)
+    if ( d->sound->status() == AL_PLAYING)
     {
-        sound->stop();
-        float tps = bar->value()*sound->duration()/100;
-        sound->setTimePosition(tps);
-        sound->play();
+        d->sound->stop();
+        float tps = d->bar->value()*d->sound->duration()/100;
+        d->sound->setTimePosition(tps);
+        d->sound->play();
     }
 }

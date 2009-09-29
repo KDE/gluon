@@ -77,7 +77,7 @@ void KGLBaseItem::computeGeometry()
 {
     //Compute the center
     m_center = QPointF(0,0);
-    foreach(KGLPoint p, m_pointList) {
+    foreach( KGLPoint p, m_pointList) {
         m_center += QPointF(p.x(), p.y());
     }
     m_center /= (float)pointCount();
@@ -145,8 +145,7 @@ void KGLBaseItem::createBox(const QSizeF &dim)
 void KGLBaseItem::createPolygon(const QPolygonF &poly)
 {
     clear();
-    QPointF p;
-    foreach(p, poly) {
+    foreach(const QPointF &p, poly) {
         addVertex(KGLPoint(p.x(), p.y() , Qt::white, QPointF(p.x(), p.y())));
     }
     computeGeometry();
@@ -160,7 +159,7 @@ void KGLBaseItem::createLine(const QLineF &line)
     computeGeometry();
 }
 
-void KGLBaseItem::initShearMatrix(QPointF s)
+void KGLBaseItem::initShearMatrix(const QPointF &s)
 {
     m_shearMatrix(0,0) = 1;
     m_shearMatrix(0,1) = s.x();

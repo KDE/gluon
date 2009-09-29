@@ -44,16 +44,17 @@
 
 class KALSound;
 class KALBuffer;
-
+//TODO do a KALEnginePrivate class
 /**
 * @class KALEngine kalengine.h <KALEngine>
 * KALEngine is an audio engine which uses OpenAL for sound processing
 */
-class KALEngine : public QObject
+
+class KAL_EXPORT KALEngine : public QObject
 {
 
 private:
-    KALEngine(QString deviceName = QString(), QObject *parent = 0);
+    KALEngine(const QString &deviceName = QString(), QObject *parent = 0);
     KALEngine(Phonon::Category category, QObject *parent = 0);
     ~KALEngine();
 
@@ -61,7 +62,7 @@ public:
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
     */
-    static KALEngine *instance(QString deviceName = QString());
+    static KALEngine *instance(const QString &deviceName = QString());
 
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
@@ -74,7 +75,7 @@ public:
     * @return true if the new device was successfuly set, false otherwise
     * @see deviceList, setCategory
     */
-    bool setDevice(QString deviceName);
+    bool setDevice(const QString &deviceName);
 
     static ALCcontext *context() {
         return instance()->getAlContext();
@@ -90,7 +91,7 @@ public:
     */
     static QStringList deviceList();
 
-    static int soundNumber() {
+    static int soundNumber(){
         return instance()->getSoundList()->size();
     }
 
@@ -111,7 +112,7 @@ public:
     }
 
 
-    static  bool isExtensionSupported(QString name);
+    static  bool isExtensionSupported(const QString &name);
     static void disableAllSound();
     static void enableAllSound();
 

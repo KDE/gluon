@@ -27,7 +27,7 @@ install(FILES
 kalbuffer.h
 kalengine.h
 kalsoundreader.h
-kalengine_export.h
+kal_export.h
 kalphonon.h
 kalsound.h
 kalmusic.h

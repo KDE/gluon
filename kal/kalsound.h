@@ -23,7 +23,7 @@
 #ifndef KALSOURCE_H
 #define KALSOURCE_H
 
-#include "kalengine_export.h"
+#include "kal_export.h"
 #include "kalbuffer.h"
 
 #include <QtCore/QFile>
@@ -36,12 +36,12 @@
  * \defgroup KAL KAL
  */
 //@{
-
+class KALSoundPrivate;
 /**
 * @class KALSound kalsource.h <KALSound>
 * KALSound lets you play an audio file in a separate thread
 */
-class KALENGINE_EXPORT KALSound : public QObject
+class KAL_EXPORT KALSound : public QObject
 {
     Q_OBJECT
 
@@ -75,55 +75,53 @@ public:
     /**
     * @return the time since the sound started playing
     */
-    ALfloat elapsedTime();
+    ALfloat elapsedTime()const ;
 
     /**
     * @return the sound status
     */
-    ALint status();
+    ALint status()const ;
 
     /**
     * @todo this function isn't defined!
     * @return the last error reported
     */
-    QString lastError();
+    QString lastError()const ;
 
     /**
     * @return the x position of the listener
     * @see setPosition, y, z
     */
-    ALfloat x();
+    ALfloat x()const ;
 
     /**
     * @return the y position of the listener
     * @see setPosition, x, z
     */
-    ALfloat y();
+    ALfloat y()const ;
 
     /**
     * @return the z position of the listener
     * @see setPosition, x, y
     */
-    ALfloat z();
+    ALfloat z()const ;
 
     /**
     * @return the volume currently applied
     * @see setvolume
     */
-    ALfloat volume();
+    ALfloat volume()const ;
 
     /**
     * @return the pitch currently applied
     * @see setPitch
     */
-    ALfloat pitch();
+    ALfloat pitch()const ;
 
 
-    ALfloat duration();
+    ALfloat duration()const ;
 
-    ALuint source(){
-        return m_source;
-    }
+    ALuint source()const ;
 protected:
     void init();
 
@@ -203,15 +201,9 @@ public Q_SLOTS:
 protected:
     void setupSource();
 private:
-    bool m_toPlay;
+    KALSoundPrivate *d;
 
-    KALBuffer *m_buffer;
-    ALuint m_source;
-    ALfloat m_x;
-    ALfloat m_y;
-    ALfloat m_z;
-    ALfloat m_volume;
-    ALfloat m_pitch;
+
 };
 
 //@}

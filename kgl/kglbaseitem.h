@@ -51,7 +51,7 @@ public:
         computeGeometry();
     }
 
-    KGLPointList &pointList(){return m_pointList;}
+     KGLPointList &pointList() {return m_pointList;}
 
     virtual void removeVertex(KGLPoint * p)
     {
@@ -236,7 +236,7 @@ public:
 
 protected:
     void computeGeometry();
-    void initShearMatrix(QPointF s);
+    void initShearMatrix(const QPointF &s);
 
     QPointF transform(QPointF p);
     QPolygonF transform(QPolygonF p);

@@ -12,11 +12,19 @@
 #include <sys/stat.h>
 #include <vector>
 
+class KALSoundReaderPrivate
+{
+  public:
+        QString fileName;
+};
+
 #define BUFFER_SIZE 32768 // 32 KB buffers
 
 KALSoundReader::KALSoundReader(const QString& fileName)
-        : m_fileName(fileName)
+        :d(new KALSoundReaderPrivate)
+
 {
+    d->fileName = fileName;
     if (!QFile::exists(fileName)) {
         kDebug() << "Could not find file" << fileName;
     }
@@ -44,7 +52,7 @@ ALuint KALSoundReader::buffer()
 ALuint KALSoundReader::fromWav()
 {
     SF_INFO fileInfos;
-    SNDFILE* file = sf_open(m_fileName.toUtf8(), SFM_READ, &fileInfos);
+    SNDFILE* file = sf_open(d->fileName.toUtf8(), SFM_READ, &fileInfos);
 
     if (!file) {
         kDebug() << "Could not load file:" << sf_strerror(file);
@@ -103,10 +111,10 @@ ALuint KALSoundReader::fromOgg()
     FILE *f;
 
     // Open for binary reading
-    f = fopen(m_fileName.toUtf8(), "rb");
+    f = fopen(d->fileName.toUtf8(), "rb");
 
     if (f == NULL) {
-        kDebug() << "Cannot open " << m_fileName << " for reading...";
+        kDebug() << "Cannot open " << d->fileName << " for reading...";
         return 0;
     }
 
@@ -115,7 +123,7 @@ ALuint KALSoundReader::fromOgg()
 
     // Try opening the given file
     if (ov_open(f, &oggFile, NULL, 0) != 0) {
-        kDebug() << "Error opening " << m_fileName << " for decoding...";
+        kDebug() << "Error opening " << d->fileName << " for decoding...";
         return 0;
     }
 
@@ -139,7 +147,7 @@ ALuint KALSoundReader::fromOgg()
 
         if (bytes < 0) {
             ov_clear(&oggFile);
-            kDebug() << "Error decoding " << m_fileName << "..." ;
+            kDebug() << "Error decoding " << d->fileName << "..." ;
             return 0;
         }
 
@@ -165,7 +173,7 @@ ALuint KALSoundReader::fromOgg()
     return albuffer;
 
     /*
-           FILE *f = fopen(m_fileName.toUtf8(), "rb");
+           FILE *f = fopen(d->fileName.toUtf8(), "rb");
            int oggBitstream = 0;
            OggVorbis_File ov;
 
@@ -193,3 +201,10 @@ ALuint KALSoundReader::fromOgg()
 
            return buf;*/
 }
+    QString KALSoundReader::fileName() const {
+        return d->fileName;
+    }
+    QString KALSoundReader::format() {
+        QFileInfo file(d->fileName);
+        return file.completeSuffix();
+    }

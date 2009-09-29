@@ -17,29 +17,29 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALENGINE_EXPORT_H
-#define KALENGINE_EXPORT_H
+#ifndef KCL_EXPORT_H
+#define KCL_EXPORT_H
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
 /**
- * \defgroup KAL KAL
+ * \defgroup KCL KCL
  */
 //@{
 
-#ifndef KALENGINE_EXPORT
-# if defined(MAKE_KALENGINE_LIB)
+#ifndef KCL_EXPORT
+# if defined(MAKE_KCL_LIB)
 /* We are building this library */
-#  define KALENGINE_EXPORT KDE_EXPORT
+#  define KCL_EXPORT KDE_EXPORT
 # else
 /* We are using this library */
-#  define KALENGINE_EXPORT KDE_IMPORT
+#  define KCL_EXPORT KDE_IMPORT
 # endif
 #endif
 
-# ifndef KALENGINE_EXPORT_DEPRECATED
-#  define KALENGINE_EXPORT_DEPRECATED KDE_DEPRECATED KALENGINE_EXPORT
+# ifndef KCLE_EXPORT_DEPRECATED
+#  define KCL_EXPORT_DEPRECATED KDE_DEPRECATED KCL_EXPORT
 # endif
 
 //@}

@@ -2,17 +2,27 @@
 #include <KDebug>
 #include <QTime>
 #include <QFile>
+class KALCapturePrivate
+{
+public:
+    ALCdevice *device;
+    ALCdevice *captureDevice;
+    QVector<ALshort> samples;
+    ALuint buffer;
+
+};
 KALCapture::KALCapture(QString deviceName, QObject *parent)
-        : QObject(parent)
+    : QObject(parent),
+    d(new KALCapturePrivate)
 {
     if (isAvailable()) {
-        captureDevice = alcCaptureOpenDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
+        d->captureDevice = alcCaptureOpenDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
     } else {
         kError() << "No capture device available";
         return;
     }
 
-    if (!captureDevice) {
+    if (!d->captureDevice) {
         kError() << "Could not set the capture device";
         return;
     }
@@ -20,12 +30,12 @@ KALCapture::KALCapture(QString deviceName, QObject *parent)
 
 KALCapture::~KALCapture()
 {
-    alcCaptureCloseDevice(captureDevice);
+    alcCaptureCloseDevice(d->captureDevice);
 }
 
-bool KALCapture::isAvailable()
+bool KALCapture::isAvailable()const
 {
-    return alcIsExtensionPresent(device, "ALC_EXT_CAPTURE");
+    return alcIsExtensionPresent(d->device, "ALC_EXT_CAPTURE");
 }
 
 // TODO: This is mostly copy-pasted from KALEngine::deviceList(), find a way to avoid code duplication
@@ -53,20 +63,20 @@ void KALCapture::record(int duration)
 
     while (recordTime.elapsed() < duration) {
         ALCint samplesAvailable;
-        alcGetIntegerv(captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
+        alcGetIntegerv(d->captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
         if (samplesAvailable > 0) {
-            samples.append(samplesAvailable);
-            alcCaptureSamples(captureDevice, &samples.last(), samplesAvailable);
+            d->samples.append(samplesAvailable);
+            alcCaptureSamples(d->captureDevice, &d->samples.last(), samplesAvailable);
         }
     }
 
-    alcCaptureStop(captureDevice);
+    alcCaptureStop(d->captureDevice);
 
     ALCint samplesAvailable;
-    alcGetIntegerv(captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
+    alcGetIntegerv(d->captureDevice, ALC_CAPTURE_SAMPLES, 1, &samplesAvailable);
     if (samplesAvailable > 0) {
-        samples.append(samplesAvailable);
-        alcCaptureSamples(captureDevice, &samples.last(), samplesAvailable);
+        d->samples.append(samplesAvailable);
+        alcCaptureSamples(d->captureDevice, &d->samples.last(), samplesAvailable);
     }
 
 }
@@ -84,7 +94,7 @@ void KALCapture::save(const QString& fileName)
     if (!file)
         return;
 
-    sf_write_short(file, &samples[0], samples.size());
+    sf_write_short(file, &d->samples[0], d->samples.size());
 
     sf_close(file);
 }

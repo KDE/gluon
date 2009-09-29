@@ -9,7 +9,8 @@
 #include <QSlider>
 #include <QWidget>
 
-class KALInfoWidget : public QWidget
+class KALInfoWidgetPrivate;
+class KAL_EXPORT KALInfoWidget : public QWidget
 {
     Q_OBJECT
 
@@ -23,6 +24,7 @@ public slots:
     void setDevice(const QString& device);
 
 private:
+    KALInfoWidgetPrivate * d;
     QWidget *m_information;
     QWidget *m_preview;
     QComboBox *m_soundComboBox;

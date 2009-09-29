@@ -47,21 +47,17 @@ public:
     void load(const QImage &img, int width=0, int height=0);
     void setFilter(GLenum filter);
     void setWrapMode(GLenum coordinate, GLenum mode);
-    GLuint glId(){
+    GLuint glId()const{
         return m_texture;
     }
 
-    GLuint gltexture()
-    {
-        return m_texture;
-    }
 
-    QImage getQImage()
+    QImage image()const
     {
         return m_img;
     }
 
-    QSizeF dim()
+    QSizeF dim()const
     {
         return m_dim;
     }

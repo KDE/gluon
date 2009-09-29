@@ -30,6 +30,7 @@ install(TARGETS kcl ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
 kcl.h
+kcl_export.h
 kclinputevent.h
 kclthread.h
 kclinput.h

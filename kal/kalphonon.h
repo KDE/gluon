@@ -21,7 +21,7 @@
 #ifndef KALPHONON_H
 #define KALPHONON_H
 
-#include "kalengine_export.h"
+#include "kal_export.h"
 
 #include <Phonon/AudioOutput>
 
@@ -39,7 +39,7 @@ class KALPhononPrivate;
 * KALPhonon is a wrapper class around Phonon to make it possible to use
 * Phonon output device in KALEngine
 */
-class KALENGINE_EXPORT KALPhonon : public QObject
+class KAL_EXPORT KALPhonon : public QObject
 {
     Q_OBJECT
 

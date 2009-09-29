@@ -18,7 +18,7 @@
 
 typedef QList<KCLInput *> KCLInputList;
 
-class KCLDetect : public QObject
+class KCL_EXPORT KCLDetect : public QObject
 {
     Q_OBJECT
 

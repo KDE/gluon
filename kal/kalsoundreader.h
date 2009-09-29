@@ -11,26 +11,19 @@
  * \defgroup KAL KAL
  */
 //@{
-
-class KALSoundReader
+class KALSoundReaderPrivate;
+class KAL_EXPORT KALSoundReader
 {
 public:
     KALSoundReader(const QString& fileName);
 
-    QString format() {
-        QFileInfo file(m_fileName);
-        return file.completeSuffix();
-    }
-
+    QString format();
     bool canRead();
 
     static QStringList supportedSoundFormats() {
         return (QStringList() << "wav" << "ogg");
     }
-    QString fileName() const {
-        return m_fileName;
-    }
-
+    QString fileName() const;
     ALuint buffer();
 
 protected:
@@ -38,7 +31,8 @@ protected:
     ALuint fromOgg();
 
 private:
-    QString m_fileName;
+    KALSoundReaderPrivate *d;
+
 };
 
 //@}

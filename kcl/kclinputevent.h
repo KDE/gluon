@@ -3,14 +3,14 @@
 
 #include <QEvent>
 #include <linux/input.h>
-
+#include "kcl_export.h"
 /**
  * \defgroup KCL KCL
  */
 //@{
 
 class KCLInputEvent;
-class KCLInputEvent : public QEvent
+class KCL_EXPORT KCLInputEvent : public QEvent
 {
 public:
     KCLInputEvent(int type_,unsigned long tvSec_, unsigned long tvUsec_, unsigned short code_, unsigned short value_);

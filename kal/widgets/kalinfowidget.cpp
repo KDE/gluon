@@ -14,18 +14,29 @@
 #include <KTabWidget>
 #include <KTitleWidget>
 
+class KALInfoWidgetPrivate
+{
+public:
+    QWidget *information;
+    QWidget *preview;
+    QComboBox *soundComboBox;
+    KALSound *source;
+
+};
+
 KALInfoWidget::KALInfoWidget(QWidget * parent)
-        : QWidget(parent)
+    : QWidget(parent),
+    d(new KALInfoWidgetPrivate)
 {
     KALEngine::instance();
 
     QVBoxLayout *layout = new QVBoxLayout;
-    m_information = new QWidget;
-    m_preview = new QWidget;
+    d->information = new QWidget;
+    d->preview = new QWidget;
     KTabWidget *tab = new KTabWidget;
 
-    tab->addTab(m_preview, KIcon("run-build-configure.png"), "preview");
-    tab->addTab(m_information, KIcon("run-build-file.png"), "information");
+    tab->addTab(d->preview, KIcon("run-build-configure.png"), "preview");
+    tab->addTab(d->information, KIcon("run-build-file.png"), "information");
 
     setupPreview();
     setupInformation();
@@ -41,7 +52,7 @@ void KALInfoWidget::setupPreview()
     QHBoxLayout *layout = new QHBoxLayout;
 
     layout->addWidget(widget);
-    m_preview->setLayout(layout);
+    d->preview->setLayout(layout);
 
 }
 void KALInfoWidget::setupInformation()
@@ -64,7 +75,7 @@ void KALInfoWidget::setupInformation()
     info += "<p>Version :" + QString(alGetString(AL_VERSION)) + "</p>";
     info += "<p>Renderer :" + QString(alGetString(AL_RENDERER)) + "</p>";
 
-    //info+="<p>Vendor :"+QString(alcGetString(m_alEngine->AL_DEFAULT_DEVICE_SPECIFIER))+ "</p>";
+    //info+="<p>Vendor :"+QString(alcGetString(d->alEngine->AL_DEFAULT_DEVICE_SPECIFIER))+ "</p>";
     //info+="<p>Version :"+QString(alcGetString(AL_VERSION)) + "</p>";
     //info+="<p>Renderer :"+QString(alcGetString(AL_RENDERER)) + "</p>";
 
@@ -80,7 +91,7 @@ void KALInfoWidget::setupInformation()
     lv->addWidget(combo);
     lv->addStretch();
 
-    m_information->setLayout(lv);
+    d->information->setLayout(lv);
 }
 
 

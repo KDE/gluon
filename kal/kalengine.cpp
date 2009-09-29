@@ -26,7 +26,7 @@
 
 KALEngine *KALEngine::m_instance = NULL;
 
-KALEngine::KALEngine(QString deviceName, QObject *parent)
+KALEngine::KALEngine(const QString &deviceName, QObject *parent)
     : QObject(parent)
 {
     alutInitWithoutContext(0, 0);
@@ -63,7 +63,7 @@ KALEngine::~KALEngine()
 }
 
 // TODO: factor the getInstance or remove one of them
-KALEngine *KALEngine::instance(QString deviceName)
+KALEngine *KALEngine::instance(const QString &deviceName)
 {
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
@@ -103,7 +103,7 @@ QStringList KALEngine::deviceList()
     return deviceStringList;
 }
 
-bool KALEngine::setDevice(QString deviceName)
+bool KALEngine::setDevice(const QString &deviceName)
 {
     if (m_device) {
         alcMakeContextCurrent(NULL);
@@ -145,7 +145,7 @@ void KALEngine::enableAllSound()
   foreach ( KALSound * sound,  *al->getSoundList())
   sound->play();
 }
-bool KALEngine::isExtensionSupported(QString name)
+bool KALEngine::isExtensionSupported(const QString &name)
 {
   if (alcIsExtensionPresent(instance()->device(), name.toUtf8()) == ALC_TRUE)
       return true;

@@ -26,7 +26,7 @@
 #include <gluon/kal/kalsound.h>
 #include <gluon/kal/kalengine.h>
 #include <gluon/kal/widgets/kalplayerwidget.h>
-
+#include <gluon/kal/widgets/kalinfowidget.h>
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("kcl_tutorial1", 0,

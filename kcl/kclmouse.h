@@ -14,7 +14,7 @@
 
 // this is a default mouse, with 2 axes, and wheel axes
 
-class KCLMouse : public KCLInput
+class KCL_EXPORT KCLMouse : public KCLInput
 {
     Q_OBJECT
 
@@ -29,14 +29,14 @@ public:
         m_originalPosition = p;
     }
 
-    int wheelPosition() {
+    int wheelPosition() const{
         return relAxisValue(REL_WHEEL);
     }
 
-    int hWheelPosition() {
+    int hWheelPosition()const {
         return relAxisValue(REL_HWHEEL);
     }
-    int sensibility(){
+    double sensibility()const{
         return m_sensibility;
             }
 

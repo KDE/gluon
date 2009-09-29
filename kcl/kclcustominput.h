@@ -8,7 +8,7 @@
 #include <QList>
 #include <QMap>
 
-class KCLCustomInput : public QObject
+class KCL_EXPORT KCLCustomInput : public QObject
 {
     Q_OBJECT
 public:

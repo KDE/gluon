@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <linux/input.h>
 
+#include "kcl_export.h"
 #include "kclinputevent.h"
 
 /**
@@ -17,7 +18,7 @@
 //@{
 
 class KCLThread;
-class KCLThread : public QThread
+class KCL_EXPORT KCLThread : public QThread
 {
     Q_OBJECT
 
