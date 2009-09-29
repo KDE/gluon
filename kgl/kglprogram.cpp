@@ -19,9 +19,6 @@
  */
 
 #include "kglprogram.h"
-
-#include "kglshader.h"
-
 #include <QList>
 #include <QString>
 #include <QHash>

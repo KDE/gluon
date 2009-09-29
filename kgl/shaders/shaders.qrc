@@ -1,14 +1,10 @@
 <RCC>
     <qresource prefix="/shaders" >
-	<file>generic.vert</file>
+        <file>generic.vert</file>
         <file>blur.frag</file>
-        <file>blur.vert</file>
-        <file>pixelate.vert</file>
-        <file>pixelate.frag</file>
         <file>mosaic.frag</file>
-	<file>greyscale.frag</file>
-	<file>posterize.frag</file>
-        <file>light.vert</file>
+        <file>greyscale.frag</file>
         <file>light.frag</file>
+        <file>posterize.frag</file>
     </qresource>
 </RCC>
