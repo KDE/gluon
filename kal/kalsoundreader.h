@@ -17,8 +17,8 @@ class KAL_EXPORT KALSoundReader
 public:
     KALSoundReader(const QString& fileName);
 
-    QString format();
-    bool canRead();
+    QString format() const;
+    bool canRead() const;
 
     static QStringList supportedSoundFormats() {
         return (QStringList() << "wav" << "ogg");

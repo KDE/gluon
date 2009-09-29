@@ -44,7 +44,7 @@ class KALMusic : public QThread
 public:
     KALMusic(QString fileName = QString());
     void run();
-    bool isPlaying();
+    bool isPlaying() const;
 
 public slots:
     void play() {

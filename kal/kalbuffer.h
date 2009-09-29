@@ -46,8 +46,8 @@ public:
     void setBuffer(ALuint buffer);
     bool isEmpty() const;
     void setHelloWord();
-    ALuint buffer();
-   ALfloat duration();
+    ALuint buffer() const;
+   ALfloat duration() const;
 protected:
     void init();
 private :

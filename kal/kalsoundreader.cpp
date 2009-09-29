@@ -30,7 +30,7 @@ KALSoundReader::KALSoundReader(const QString& fileName)
     }
 }
 
-bool KALSoundReader::canRead()
+bool KALSoundReader::canRead() const
 {
     return supportedSoundFormats().contains(format());
 }
@@ -204,7 +204,7 @@ ALuint KALSoundReader::fromOgg()
     QString KALSoundReader::fileName() const {
         return d->fileName;
     }
-    QString KALSoundReader::format() {
+    QString KALSoundReader::format() const {
         QFileInfo file(d->fileName);
         return file.completeSuffix();
     }

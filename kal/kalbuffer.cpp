@@ -66,7 +66,7 @@ void KALBuffer::init()
 
     KALEngine::instance()->addBuffer(this);
 }
-ALuint KALBuffer::buffer() {
+ALuint KALBuffer::buffer() const {
     return  d->buffer;
 }
 KALBuffer::~KALBuffer()
@@ -84,7 +84,7 @@ void KALBuffer::setBuffer(const QString &fileName)
         d->buffer = reader.buffer();
     }
 }
-ALfloat KALBuffer::duration()
+ALfloat KALBuffer::duration() const
 {
     ALint size= 0.f;
     ALint bits= 0.f;

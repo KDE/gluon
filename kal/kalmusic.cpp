@@ -110,7 +110,7 @@ bool KALMusic::playback()
     return true;
 }
 
-bool KALMusic::isPlaying()
+bool KALMusic::isPlaying() const
 {
     ALenum state;
 
