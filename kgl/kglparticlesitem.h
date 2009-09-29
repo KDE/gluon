@@ -164,7 +164,7 @@ class KGLParticlesItem: public KGLItem
 {
     public:
         KGLParticlesItem(KGLEngine * parent=0);
-        virtual void draw();
+        virtual void paintGL();
 
         void addParticles(KGLParticle * p)
         {

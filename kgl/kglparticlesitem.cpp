@@ -76,7 +76,7 @@ KGLParticlesItem::KGLParticlesItem(KGLEngine * parent)
     qsrand(QDateTime::currentDateTime ().toTime_t ());
 }
 
-void KGLParticlesItem::draw()
+void KGLParticlesItem::paintGL()
 {
  glPushMatrix();
 glLoadMatrixd(matrix().data());
