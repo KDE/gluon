@@ -41,7 +41,7 @@ class KGLView : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit KGLView( QSize size, float frameRate ,QWidget* parent = 0);
+    explicit KGLView( const QSize &size, float frameRate ,QWidget* parent = 0);
     explicit KGLView(KGLEngine * engine,QWidget * parent = 0);
     explicit KGLView(QWidget * parent=0);
     ~KGLView();
@@ -63,7 +63,7 @@ public:
     }
 
 
-    inline void setOrthoView(QRectF &rect) {
+    inline void setOrthoView(const QRectF &rect) {
         m_orthoView = rect;
         resizeGL(width(), height());
     }
@@ -103,7 +103,7 @@ public:
     {
         m_axisShow=b;
     }
-    inline bool isAxisShow()
+    inline bool isAxisShow() const
     {
         return m_axisShow;
     }
@@ -111,20 +111,20 @@ public:
     {
         m_infoShow = b;
     }
-    inline bool isInfoShow()
+    inline bool isInfoShow() const
     {
         return m_axisShow;
     }
-    bool isExtensionSupported(QString name)
+    bool isExtensionSupported(const QString &name) const
     {
         return glewIsSupported(name.toUtf8());
     }
 
-    bool isShaderSupported()
+    bool isShaderSupported() const
     {
         return m_isShaderSupported;
     }
-    float fps()
+    float fps() const
     {
         return m_fps;
     }

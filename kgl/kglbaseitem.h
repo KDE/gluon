@@ -80,35 +80,35 @@ public:
     void createLine(const QLineF &line);
 
     //Get
-    unsigned int pointCount()
+    unsigned int pointCount() const
     {
         return m_pointList.size();
     }
 
-    inline const QPointF &position()
+    inline const QPointF &position() const
     {
         return m_position;
     }
 
-    inline const float &scaleValue()
+    inline const float &scaleValue() const
     {
         return m_scale;
     }
-    inline const QPointF &translateValue()
+    inline const QPointF &translateValue() const
     {
         return m_translate;
     }
-    inline const float &angle()
+    inline const float &angle() const
     {
         return m_angle;
     }
 
-    inline const float &radius()
+    inline const float &radius() const
     {
         return m_radius;
     }
 
-    inline unsigned int zindex()
+    inline unsigned int zindex() const
     {
         return m_zindex;
     }
@@ -118,32 +118,32 @@ public:
         return transform(m_center);
     }
 
-    inline const QPointF &center()
+    inline const QPointF &center() const
     {
         return  m_center;
     }
 
-    inline const QPolygonF viewPolygon()
+    inline const QPolygonF viewPolygon() const
     {
         return transform(m_polygon);
     }
 
-    inline const QPolygonF polygon()
+    inline const QPolygonF polygon() const
     {
         return m_polygon;
     }
 
-    virtual inline const QRectF boundingBox()
+    virtual inline const QRectF boundingBox() const
     {
         return polygon().boundingRect();
     }
 
-    virtual inline const QRectF viewBoundingBox()
+    virtual inline const QRectF viewBoundingBox() const
     {
         return viewPolygon().boundingRect();
     }
 
-    inline  bool contains(QPointF &p)
+    inline  bool contains(QPointF &p) const
     {
         return polygon().containsPoint(p,Qt::WindingFill);
     }
@@ -164,7 +164,7 @@ public:
         m_center = c;
     }
 
-    inline void setAngle(const float &a, QPointF c = QPointF(0,0))
+    inline void setAngle(const float &a, const QPointF &c = QPointF(0,0))
     {
         m_rotateCenter = c;m_angle = a;
     }
@@ -238,9 +238,9 @@ protected:
     void computeGeometry();
     void initShearMatrix(const QPointF &s);
 
-    QPointF transform(QPointF p);
-    QPolygonF transform(QPolygonF p);
-    QRectF transform(QRectF r);
+    QPointF transform(const QPointF &p) const;
+    QPolygonF transform(const QPolygonF &p) const;
+    QRectF transform(const QRectF &r) const;
 
 private:
     Eigen::Transform3d m_matrix;

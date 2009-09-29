@@ -34,11 +34,11 @@ class KGLGridItem : public KGLItem
 {
 
     public:
-        KGLGridItem(QSizeF size, float tile=1, KGLEngine * engine=0);
+        KGLGridItem(const QSizeF &size, float tile=1, KGLEngine * engine=0);
         KGLGridItem(float width, float height, float tile=1, KGLEngine * engine=0);
         void init();
         void createGrid();
-        const KGLPoint * pointAt(QPoint p);
+        const KGLPoint * pointAt(const QPoint &p);
         const KGLPoint * pointAt(int x, int y)
         {
             return pointAt(QPoint(x,y));

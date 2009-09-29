@@ -24,7 +24,7 @@
 
 
 
-KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
+KGLView:: KGLView( const QSize &size, float frameRate ,QWidget* parent)
     : QGLWidget(parent)
 {
     init();

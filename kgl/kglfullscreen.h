@@ -17,7 +17,7 @@ class KGLScreenConfig : public QObject
 public:
     KGLScreenConfig(QObject * parent=0);
     void saveCurrentResolution();
-   QStringList resolutionAvaible();
+   QStringList resolutionAvaible() const;
 
 
    private:

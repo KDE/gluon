@@ -73,7 +73,7 @@ public:
         m_a = a;
     }
 
-    inline QPointF toQPointF() {
+    inline QPointF toQPointF() const {
         return QPointF(m_x, m_y);
     }
 

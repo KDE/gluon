@@ -103,7 +103,7 @@ void KGLBaseItem::computeGeometry()
 
 //=======================================================
 
-QPointF KGLBaseItem::transform(QPointF p)
+QPointF KGLBaseItem::transform(const QPointF &p) const
 {
     Eigen::Vector3d vect = m_matrix * Eigen::Vector3d(p.x(), p.y(), 0);
     return QPointF(vect.x(), vect.y());
@@ -111,7 +111,7 @@ QPointF KGLBaseItem::transform(QPointF p)
 
 //=========================================================
 
-QPolygonF KGLBaseItem::transform(QPolygonF p)
+QPolygonF KGLBaseItem::transform(const QPolygonF &p) const
 {
     QPolygonF poly;
     foreach(QPointF point, p) {
@@ -122,7 +122,7 @@ QPolygonF KGLBaseItem::transform(QPolygonF p)
 
 //=========================================================
 
-QRectF KGLBaseItem::transform(QRectF r)
+QRectF KGLBaseItem::transform(const QRectF &r) const
 {
     Eigen::Vector3d a = m_matrix * Eigen::Vector3d(r.x(), r.y(), 0);
     Eigen::Vector3d b = m_matrix * Eigen::Vector3d(r.width(), r.height(), 0);

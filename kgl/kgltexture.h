@@ -62,7 +62,7 @@ public:
         return m_dim;
     }
 
-    void setTranslate(QPointF t)
+    void setTranslate(const QPointF &t)
     {
         m_translate = t;
     }
@@ -72,7 +72,7 @@ public:
         m_rotate= r;
     }
 
-    void setScale(QPointF s)
+    void setScale(const QPointF &s)
     {
         m_scale = s;
     }
@@ -81,7 +81,7 @@ public:
     setScale(QPointF(x,y));
     }
 
-    void translate(QPointF t)
+    void translate(const QPointF &t)
     {
         m_translate += t;
     }
@@ -94,7 +94,7 @@ public:
         m_rotate += r;
     }
 
-    void scale(QPointF s)
+    void scale(const QPointF &s)
     {
         m_scale+=s;
     }
