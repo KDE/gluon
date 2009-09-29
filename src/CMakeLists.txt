@@ -37,3 +37,5 @@ install(FILES
 #   gluonintroitem.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
+
+add_subdirectory(gameproject)
