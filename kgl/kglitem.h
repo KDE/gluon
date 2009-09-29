@@ -112,7 +112,7 @@ class KGLItem : public KGLBaseItem
             f_textureEnable = t;
         }
 
-        void setShaderFx(KGLFx * s)
+        void setShaderFx(KGLProgram * s)
         {
             m_shaderFx = s;
         }
@@ -122,7 +122,7 @@ class KGLItem : public KGLBaseItem
             return m_texture;
         }
 
-        KGLFx * shaderFx()
+        KGLProgram * shaderFx()
         {
             return m_shaderFx;
         }
@@ -163,7 +163,7 @@ class KGLItem : public KGLBaseItem
         float m_alpha;
         GLenum m_mode;
         KGLTexture *m_texture;
-        KGLFx * m_shaderFx;
+        KGLProgram * m_shaderFx;
         QList<KGLItem*> m_childItems;
         bool m_shaderEnable;
 
