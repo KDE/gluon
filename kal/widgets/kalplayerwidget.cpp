@@ -118,20 +118,4 @@ void KALPlayerWidget::setTimePosition(int t)
         d->sound->play();
     }
 }
-void KALPlayerWidget::updateStatus()
-{
-    if ( sound->status() == AL_PLAYING)
-        bar->setValue(sound->elapsedTime()*100/sound->duration());
 
-
-}
-void KALPlayerWidget::setTimePosition(int t)
-{
-    if ( sound->status() == AL_PLAYING)
-    {
-        sound->stop();
-        float tps = bar->value()*sound->duration()/100;
-        sound->setTimePosition(tps);
-        sound->play();
-    }
-}

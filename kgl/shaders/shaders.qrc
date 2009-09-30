@@ -1,21 +1,9 @@
 <RCC>
     <qresource prefix="/shaders" >
-<<<<<<< HEAD:kgl/shaders/shaders.qrc
-	<file>generic.vert</file>
-        <file>blur.frag</file>
-        <file>blur.vert</file>
-        <file>pixelate.vert</file>
-        <file>pixelate.frag</file>
-        <file>mosaic.frag</file>
-	<file>greyscale.frag</file>
-	<file>posterize.frag</file>
-        <file>light.vert</file>
-=======
         <file>generic.vert</file>
         <file>blur.frag</file>
         <file>mosaic.frag</file>
         <file>greyscale.frag</file>
->>>>>>> 12f1910e5737b9cb1899d525b90e6980c68ba19b:kgl/shaders/shaders.qrc
         <file>light.frag</file>
         <file>posterize.frag</file>
     </qresource>

@@ -241,13 +241,3 @@ ALfloat KALSound::duration()const
 ALuint  KALSound::source()const {
     return d->source;
 }
-
-void KALSound::setTimePosition(ALfloat time)
-{
- alSourcef(m_source, AL_SEC_OFFSET, time);
-
-}
-ALfloat KALSound::duration()
-{
-    return m_buffer->duration();
-}

@@ -21,7 +21,7 @@
 
 #include "kglview.h"
 #include <KDebug>
-
+#include <KIcon>
 
 
 KGLView:: KGLView( const QSize &size, float frameRate ,QWidget* parent)
@@ -105,7 +105,7 @@ void KGLView::init()
     logo->setPosition(-logo->center()/2);
 
     logo->updateTransform();
-    connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
+    //connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
 }

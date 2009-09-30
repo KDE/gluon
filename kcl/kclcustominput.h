@@ -21,16 +21,6 @@ public:
     void remAbsAxis(const QString &name);
     void remRelAxis(const QString &name);
 
-
-
-    QStringList buttonNameList();
-    QStringList absAxisNameList();
-    QStringList relAxisNameList();
-
-
-    KCLInput * inputAt(const QString& name, KCL::InputTypeFlag type);
-   int codeAt(const QString& name, KCL::InputTypeFlag type);
-
     QStringList buttonNameList();
     QStringList absAxisNameList();
     QStringList relAxisNameList();

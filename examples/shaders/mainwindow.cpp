@@ -15,10 +15,14 @@
 */
 
 #include "mainwindow.h"
-#include <KStandardAction>
-#include <kactioncollection.h>
+
 #include <QDockWidget>
 #include <QStackedLayout>
+#include <QComboBox>
+
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KIcon>
 
 #include "shaderwidget.h"
 #include "greyscaleshaderwidget.h"

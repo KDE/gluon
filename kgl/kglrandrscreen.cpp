@@ -2,8 +2,7 @@
 #include <QX11Info>
 #include <QLabel>
 
-KGLRandRScreen::KGLRandRScreen(QObject * parent)
-    :QObject(parent)
+KGLRandRScreen::KGLRandRScreen()
 {
   m_display = QX11Info::display();
   m_root = QX11Info::appRootWindow();
@@ -19,6 +18,12 @@ KGLRandRScreen::~KGLRandRScreen()
   {
     //Restore original screen settings
   }
+}
+
+
+QList< KGLScreenSettings > KGLRandRScreen::availableResolutions() const
+{
+  return QList<KGLScreenSettings>();
 }
 
 

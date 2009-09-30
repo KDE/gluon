@@ -78,7 +78,7 @@ install(FILES
   kglscreen.h
   kglrandrscreen.h
   kglinfowidget.h
-  kglfx.h)
-  
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
+  kglfx.h
+  DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
+
 add_subdirectory(Box2D) #add header installation
