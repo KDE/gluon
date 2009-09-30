@@ -223,8 +223,11 @@ void KGLItem::setAlpha(const float &a)
 {
     m_alpha = a;
 
-    foreach(KGLPoint p, pointList()) {
-        p.setAlpha(a);
+    KGLPointList &pList = pointList();
+    KGLPointList::iterator it = pList.begin();
+    KGLPointList::iterator itEnd = pList.end();
+    for( ; it != itEnd; ++it) {
+        (*it).setAlpha(a);
     }
     m_isCreated = false;
 }
