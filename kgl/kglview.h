@@ -49,6 +49,7 @@ public:
     void setEngine(KGLEngine * engine)
     {
         m_engine = engine;
+        m_engine->setParent(this);
     }
     KGLEngine * engine()
     {
