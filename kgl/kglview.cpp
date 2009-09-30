@@ -22,6 +22,9 @@
 #include "kglview.h"
 #include <KDebug>
 #include <KIcon>
+#include "kgldisplay.h"
+#include "kglscreen.h"
+#include "widgets/kglresolutiondialog.h"
 
 
 KGLView:: KGLView( const QSize &size, float frameRate ,QWidget* parent)
@@ -79,7 +82,7 @@ KGLView::~KGLView()
 }
 void KGLView::init()
 {
-    //m_screenConfig = new KGLScreenConfig;
+    m_display = new KGLDisplay();
     m_engine = NULL;
     m_frameRate = 20;
     m_timer = new QTimer(this);
@@ -114,24 +117,36 @@ void KGLView::goFullScreen()
     /*int id = m_screenConfig->askResolution();
     if ( id<0) return;
     m_screenConfig->setResolution(id);*/
-    
-    if ( parentWidget()!=NULL)
+    KGLResolutionDialog dialog(this);
+    m_display->currentScreen()->setFullscreen(true, false);
+    if(dialog.exec())
     {
-        parentWidget()->showFullScreen();
+      if ( parentWidget()!=NULL)
+      {
+          parentWidget()->showFullScreen();
+      }
+      else
+      {
+          showFullScreen();
+      }
+      m_fullscreen = true;
     }
     else
-        showFullScreen();
-    m_fullscreen = true;
+    {
+      m_display->currentScreen()->setFullscreen(false, false);
+    }
 }
 void KGLView::leaveFullScreen()
 {
-    //m_screenConfig->restore();
+    m_display->currentScreen()->restore();
     if ( parentWidget() != NULL)
     {
         parentWidget()->showNormal();
     }
     else
+    {
         showNormal();
+    }
     m_fullscreen = false;
 }
 
@@ -141,6 +156,19 @@ void KGLView::toggleFullScreen()
         leaveFullScreen();
     else goFullScreen();
 }
+
+void KGLView::setFullscreen(bool fs)
+{
+  if(fs)
+  {
+    goFullScreen();
+  }
+  else
+  {
+    leaveFullScreen();
+  }
+}
+
 void KGLView::initializeGL()
 {
 

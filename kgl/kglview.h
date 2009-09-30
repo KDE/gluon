@@ -30,6 +30,7 @@
 #include "kglengine.h"
 //#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
+#include "kgldisplay.h"
 
 /**
  * \defgroup KGL KGL
@@ -90,7 +91,7 @@ public:
                 side * p.y() / m_orthoView.height() + height() / 2 + CURSOR_HACK
                 );
     }
-   // KGLScreenConfig * screenConfig(){return m_screenConfig;}
+    KGLDisplay* display() { return m_display; }
 
     //=== Flags ====
     inline void setMode(GLenum mode)
@@ -156,6 +157,7 @@ public slots:
     void goFullScreen();
     void leaveFullScreen();
     void toggleFullScreen();
+    void setFullscreen(bool fs);
 
 signals:
     void fpsChanged(int fps);
@@ -190,6 +192,7 @@ private:
     bool m_isShaderSupported;
     GLenum m_mode;
     int m_originalResolution;
+    KGLDisplay* m_display;
 };
 
 //@}

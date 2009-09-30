@@ -14,33 +14,41 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <KXmlGuiWindow>
-#include <gluon/kgl/kglview.h>
+#include "kgldisplay.h"
+#include "kglrandrscreen.h"
 
-class QStackedLayout;
-class ShaderWidget;
-class MainWindow : public KXmlGuiWindow
+#ifdef __linux
+#include <X11/Xlib.h>
+#include <QX11Info>
+#endif
+
+KGLDisplay::KGLDisplay()
 {
-  Q_OBJECT
-  public:
-    MainWindow(QWidget* parent = 0);
-    ~MainWindow();
+#ifdef __linux
+  int screens = XScreenCount(QX11Info::display());
+  for(int i = 0; i < screens; ++i)
+  {
+    m_screens.append(new KGLRandRScreen(i));
+  }
+#endif
+}
 
-  private:
-    KGLView* mView;
-    KGLEngine* mEngine;
+KGLDisplay::~KGLDisplay()
+{
+  foreach(KGLScreen* screen, m_screens)
+  {
+    delete screen;
+  }
+  m_screens.clear();
+}
 
-    ShaderWidget* mShaderWidget;
-    KGLBoxItem* mItem;
-    QStackedLayout* mWidgetStack;
-    
-    void setupDock();
-    QWidget* resolutionBox();
+QList< KGLScreen* > KGLDisplay::allScreens() const
+{
+  return m_screens;
+}
 
-public slots:
-    void shaderChanged(int);
-};
 
-#endif // MAINWINDOW_H
+KGLScreen* KGLDisplay::currentScreen() const
+{
+  return m_screens.at(0);
+}

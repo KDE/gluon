@@ -1,7 +1,8 @@
 include_directories(Box2D/Include)
 include_directories(physics)
 
-set(kgl_LIB_SRCS 
+set(kgl_LIB_SRCS
+    kgldisplay.cpp
     #kglanimitem.cpp
     kglbaseitem.cpp
     kglboxitem.cpp
@@ -27,6 +28,8 @@ set(kgl_LIB_SRCS
     kglrandrscreen.cpp
     kglinfowidget.cpp
     kglfx.cpp
+
+    widgets/kglresolutiondialog.cpp
 )
 
 SET(kgl_RCCS
@@ -39,7 +42,7 @@ set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
 target_link_libraries(kgl ${QT_QTOPENGL_LIBRARY})
 target_link_libraries(kgl ${KDE4_KDEUI_LIBS})
-target_link_libraries(kgl ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
+target_link_libraries(kgl ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARIES} )
 target_link_libraries(kgl Box2D)
 
 # add_subdirectory(examples)
@@ -75,10 +78,16 @@ install(FILES
   kgltextitem.h
   kgltexture.h
   kglview.h
+  kgldisplay.h
   kglscreen.h
   kglrandrscreen.h
   kglinfowidget.h
   kglfx.h
-  DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel)
+  DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
+)
 
+INSTALL(FILES
+  widgets/kglresolutiondialog.h
+  DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl/widgets COMPONENT Devel
+)
 add_subdirectory(Box2D) #add header installation

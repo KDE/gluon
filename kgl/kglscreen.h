@@ -22,12 +22,14 @@ struct QPair;/*
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
-struct KGLScreenSettings
+struct KGLResolution
 {
+  QString name;
+  int id;
   int width;
   int height;
   int colourDepth;
-  int refreshRate;
+  short refreshRate;
 };
 
 /**
@@ -40,7 +42,7 @@ class KGLScreen : public QObject
 {
   Q_OBJECT
   public:
-    KGLScreen();
+    KGLScreen(int screen = 0);
     virtual ~KGLScreen();
 
     /*virtual KGLScreenInfo* screen(int screenIndex) const;
@@ -50,14 +52,19 @@ class KGLScreen : public QObject
     virtual int width() const { return m_width; }
     virtual int height() const { return m_height; }
     virtual int colourDepth() const { return m_colourDepth; }
-    virtual float refreshRate() const { return m_refreshRate; }
+    virtual short refreshRate() const { return m_refreshRate; }
     virtual bool isFullscreen() const { return m_fullscreen; }
-    virtual QList<KGLScreenSettings> availableResolutions() const = 0;
+    virtual int screenID() const { return m_screenID; }
+    virtual QList<KGLResolution*> availableResolutions() const = 0;
     
   public slots:
     virtual void setDimensions(int width, int height, bool apply = true);
     virtual void setColourDepth(int depth, bool apply = true);
+    virtual void setRefreshRate(short int rate, bool apply = true);
     virtual void setFullscreen(bool fullscreen, bool apply = true);
+    virtual void setResolution(KGLResolution* resolution);
+    
+    virtual void restore();
     virtual void applySettings() = 0;
 
   signals:
@@ -67,11 +74,15 @@ class KGLScreen : public QObject
     /*KGLScreenInfo m_currentScreenSettings;
     int           m_screenCount;
     QList<KGLScreenInfo*> m_screens;*/
+    
     bool  m_fullscreen;
+    bool  m_goFullscreen;
     int   m_width;
     int   m_height;
     int   m_colourDepth;
-    float m_refreshRate;
+    short m_refreshRate;
+
+    int   m_screenID;
 };
 
 #endif // KGLSCREENCONFIG_H

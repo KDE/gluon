@@ -23,11 +23,13 @@
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KIcon>
+#include <gluon/kgl/kglscreen.h>
 
 #include "shaderwidget.h"
 #include "greyscaleshaderwidget.h"
 #include "mosaicshaderwidget.h"
 #include "posterizeshaderwidget.h"
+
 
 MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
 {
@@ -39,15 +41,16 @@ MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
   // YOu can set the engine directly from the constructor
   mView = new KGLView(mEngine);
   
-  // This function show the current axis xy
-  //mView->setAxisShow(false);
-  
+  //Add a preview object, so we can actually see what is happening
   mItem = new KGLBoxItem(5,5);
   mItem->setPosition(-mItem->center());
   mItem->updateTransform();
   mItem->setTexture(KIcon("kde.png").pixmap(128,128));
   mItem->setZIndex(1);
 
+  //Add a white background
+  //Note that there should probably be a simple function to set the background color
+  //in KGLView. But until then, just fake it by using a KGLBoxItem.
   KGLBoxItem* bg = new KGLBoxItem(200, 200);
   bg->setPosition(-bg->center());
   bg->updateTransform();
@@ -63,6 +66,7 @@ MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
   setCentralWidget(mView);
 
   KStandardAction::quit(this, SLOT(close()), actionCollection());
+  KStandardAction::fullScreen(mView, SLOT(setFullscreen(bool)), mView, actionCollection());
 
   setupDock();
 
@@ -102,7 +106,7 @@ void MainWindow::setupDock()
   layout->addWidget(shadersSelector);
 
   mWidgetStack = new QStackedLayout();
-  mWidgetStack->addWidget(new QWidget);
+  mWidgetStack->addWidget(resolutionBox());
   mWidgetStack->addWidget(new GreyscaleShaderWidget);
   mWidgetStack->addWidget(new PosterizeShaderWidget);
   mWidgetStack->addWidget(new MosaicShaderWidget);
@@ -117,3 +121,16 @@ void MainWindow::setupDock()
   
   p->setLayout(layout);
 }
+
+QWidget* MainWindow::resolutionBox()
+{
+  QComboBox* box = new QComboBox();
+  QList<KGLScreen*> screens = mView->display()->allScreens();
+  int i = 0;
+  foreach(KGLScreen* screen, screens)
+  {
+    box->addItem(QString("%1").arg(i++));
+  }
+  return box;
+}
+

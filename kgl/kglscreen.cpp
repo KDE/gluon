@@ -17,11 +17,12 @@
 #include "kglscreen.h"
 
 
-KGLScreen::KGLScreen() :
+KGLScreen::KGLScreen(int screen) :
   m_fullscreen(false),
   m_width(0),
   m_height(0),
-  m_colourDepth(0)
+  m_colourDepth(0),
+  m_screenID(screen)
 {
 
 }
@@ -44,9 +45,31 @@ void KGLScreen::setDimensions(int width, int height, bool apply)
   if(apply) applySettings();
 }
 
-void KGLScreen::setFullscreen(bool fullscreen, bool apply)
+void KGLScreen::setRefreshRate(short rate, bool apply)
 {
-  m_fullscreen = fullscreen;
+  m_refreshRate = rate;
   if(apply) applySettings();
 }
+
+void KGLScreen::setFullscreen(bool fullscreen, bool apply)
+{
+  m_goFullscreen = fullscreen;
+  if(apply) applySettings();
+}
+
+void KGLScreen::restore()
+{
+  m_goFullscreen = false;
+  applySettings();
+}
+
+void KGLScreen::setResolution(KGLResolution* resolution)
+{
+  setDimensions(resolution->width, resolution->height, false);
+  setRefreshRate(resolution->refreshRate, false);
+  setColourDepth(resolution->colourDepth, false);
+  applySettings();
+}
+
+
 

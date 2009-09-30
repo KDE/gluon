@@ -14,33 +14,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <KXmlGuiWindow>
-#include <gluon/kgl/kglview.h>
+#ifndef KGLRESOLUTIONDIALOG_H
+#define KGLRESOLUTIONDIALOG_H
 
-class QStackedLayout;
-class ShaderWidget;
-class MainWindow : public KXmlGuiWindow
+#include <KDialog>
+
+class QComboBox;
+struct KGLResolution;
+class KGLView;
+class KGLResolutionDialog : public KDialog
 {
   Q_OBJECT
   public:
-    MainWindow(QWidget* parent = 0);
-    ~MainWindow();
+    KGLResolutionDialog(KGLView* parent);
 
   private:
-    KGLView* mView;
-    KGLEngine* mEngine;
-
-    ShaderWidget* mShaderWidget;
-    KGLBoxItem* mItem;
-    QStackedLayout* mWidgetStack;
-    
-    void setupDock();
-    QWidget* resolutionBox();
-
+    QList<KGLResolution*> m_resolutions;
+    QComboBox* m_resolutionComboBox;
+    KGLView* m_parent;
 public slots:
-    void shaderChanged(int);
+    void saveSettings();
 };
 
-#endif // MAINWINDOW_H
+#endif // KGLRESOLUTIONDIALOG_H

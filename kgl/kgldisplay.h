@@ -14,33 +14,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <KXmlGuiWindow>
-#include <gluon/kgl/kglview.h>
+#ifndef KGLDISPLAY_H
+#define KGLDISPLAY_H
 
-class QStackedLayout;
-class ShaderWidget;
-class MainWindow : public KXmlGuiWindow
+#include <QtCore/QObject>
+
+class KGLScreen;
+
+class KGLDisplay : public QObject
 {
   Q_OBJECT
   public:
-    MainWindow(QWidget* parent = 0);
-    ~MainWindow();
+    KGLDisplay();
+    virtual ~KGLDisplay();
 
-  private:
-    KGLView* mView;
-    KGLEngine* mEngine;
+    virtual KGLScreen* currentScreen() const;
+    virtual QList<KGLScreen*> allScreens() const;
 
-    ShaderWidget* mShaderWidget;
-    KGLBoxItem* mItem;
-    QStackedLayout* mWidgetStack;
+  protected:
+    QList<KGLScreen*> m_screens;
     
-    void setupDock();
-    QWidget* resolutionBox();
-
-public slots:
-    void shaderChanged(int);
 };
 
-#endif // MAINWINDOW_H
+#endif // KGLDISPLAY_H
