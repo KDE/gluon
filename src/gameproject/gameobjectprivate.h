@@ -24,7 +24,6 @@
 #include <QList>
 #include <QString>
 #include <Eigen/Geometry>
-#include "gluonvarianttypes.h"
 
 namespace Gluon
 {

@@ -22,19 +22,77 @@
 
 #include <QtCore/QObject>
 #include <QSharedData>
+#include "gluonvarianttypes.h"
 
 namespace Gluon
 {
     class GameObjectPrivate;
+    class Component;
     
     class GameObject : public QObject
     {
         Q_OBJECT
+        Q_PROPERTY(QString name READ name WRITE setName)
+        Q_PROPERTY(QString description READ description WRITE setDescription)
+        
+        Q_PROPERTY(Eigen::Vector3d position READ position WRITE setPosition)
+        Q_PROPERTY(Eigen::Vector3d scale READ scale WRITE setScale)
+        Q_PROPERTY(Eigen::Vector3d rotationAxis READ rotationAxis WRITE setRotationAxis)
+        Q_PROPERTY(float rotation READ rotation WRITE setRotation)
         
         public:
             GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
+            
+            GameObject * instantiate();
+            void Start();
+            void Update(float elapsedMilliseconds);
+            /**
+             * Run a command on all the components in this GameObject
+             */
+            void RunCommand(QString functionName);
+            void RunCommandInChildren(QString functionName);
+            
+            // ----------------------------------------------------------------
+            // Component management
+            
+            Component * findComponent(QString name);
+            Component * findComponentByType(QString typeName);
+            Component * findComponentInChildren(QString name);
+            Component * findComponentInChildrenByType(QString typeName);
+            QList<Component *> findComponentsInChildren(QString name);
+            QList<Component *> findComponentsInChildrenByType(QString typeName);
+            void addComponent(Component * addThis);
+            bool removeComponent(Component * removeThis);
+            
+            // ----------------------------------------------------------------
+            // GameObject tree management
+            
+            GameObject * child(int index);
+            GameObject * child(QString name);
+            void addChild(GameObject * addThis);
+            bool removeChild(GameObject * removeThis);
+            
+            void setParentGameObject(GameObject * newParent);
+            GameObject * parentGameObject();
+            
+            // ----------------------------------------------------------------
+            // Property getter-setters
+            
+            void setName(QString newName);
+            QString name() const;
+            void setDescription(QString newDescription);
+            QString description() const;
+            
+            void setPosition(Eigen::Vector3d newPosition);
+            Eigen::Vector3d position() const;
+            void setScale(Eigen::Vector3d newScale);
+            Eigen::Vector3d scale() const;
+            void setRotationAxis(Eigen::Vector3d newRotationAxis);
+            Eigen::Vector3d rotationAxis() const;
+            void setRotation(float newRotation);
+            float rotation() const;
             
         private:
             QSharedDataPointer<GameObjectPrivate> d;
