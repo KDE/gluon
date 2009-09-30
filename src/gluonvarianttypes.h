@@ -22,14 +22,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GLUON_VARIANTTYPES
 #define GLUON_VARIANTTYPES
 
-#ifndef EIGEN_CORE_H
-#warning This needs to be included AFTER Eigen and friends
-#endif
-
 #include <QVariant>
+#include <QMetaType>
 #include <Eigen/Geometry>
 
 Q_DECLARE_METATYPE(Eigen::Vector3d)
-//qRegisterMetatype<Eigen::Vector3d>("Eigen::Vector3d");
 
+namespace
+{
+    struct GluonVariantTypes
+    {
+        public:
+            GluonVariantTypes()
+            {
+                qRegisterMetaType<Eigen::Vector3d>("Eigen::Vector3d");
+            }
+    };
+
+    GluonVariantTypes gluonVariantTypes;
+}
 #endif
