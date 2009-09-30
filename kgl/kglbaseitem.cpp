@@ -77,14 +77,14 @@ void KGLBaseItem::computeGeometry()
 {
     //Compute the center
     m_center = QPointF(0,0);
-    foreach(KGLPoint p, m_pointList) {
+    foreach(const KGLPoint &p, m_pointList) {
         m_center += QPointF(p.x(), p.y());
     }
     m_center /= (float)pointCount();
 
     //Compute the Polygon
     m_polygon = QPolygonF();
-    foreach(KGLPoint p, m_pointList) {
+    foreach(const KGLPoint &p, m_pointList) {
         m_polygon<<QPointF(p.x(), p.y());
     }
 
@@ -103,7 +103,7 @@ void KGLBaseItem::computeGeometry()
 
 //=======================================================
 
-QPointF KGLBaseItem::transform(QPointF p)
+QPointF KGLBaseItem::transform(const QPointF &p) const
 {
     Eigen::Vector3d vect = m_matrix * Eigen::Vector3d(p.x(), p.y(), 0);
     return QPointF(vect.x(), vect.y());
@@ -111,10 +111,10 @@ QPointF KGLBaseItem::transform(QPointF p)
 
 //=========================================================
 
-QPolygonF KGLBaseItem::transform(QPolygonF p)
+QPolygonF KGLBaseItem::transform(const QPolygonF &p) const
 {
     QPolygonF poly;
-    foreach(QPointF point, p) {
+    foreach(const QPointF &point, p) {
         poly<<transform(point);
     }
     return poly;
@@ -122,7 +122,7 @@ QPolygonF KGLBaseItem::transform(QPolygonF p)
 
 //=========================================================
 
-QRectF KGLBaseItem::transform(QRectF r)
+QRectF KGLBaseItem::transform(const QRectF &r) const
 {
     Eigen::Vector3d a = m_matrix * Eigen::Vector3d(r.x(), r.y(), 0);
     Eigen::Vector3d b = m_matrix * Eigen::Vector3d(r.width(), r.height(), 0);
@@ -145,8 +145,7 @@ void KGLBaseItem::createBox(const QSizeF &dim)
 void KGLBaseItem::createPolygon(const QPolygonF &poly)
 {
     clear();
-    QPointF p;
-    foreach(p, poly) {
+    foreach(const QPointF &p, poly) {
         addVertex(KGLPoint(p.x(), p.y() , Qt::white, QPointF(p.x(), p.y())));
     }
     computeGeometry();
@@ -160,7 +159,7 @@ void KGLBaseItem::createLine(const QLineF &line)
     computeGeometry();
 }
 
-void KGLBaseItem::initShearMatrix(QPointF s)
+void KGLBaseItem::initShearMatrix(const QPointF &s)
 {
     m_shearMatrix(0,0) = 1;
     m_shearMatrix(0,1) = s.x();

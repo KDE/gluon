@@ -7,7 +7,9 @@
 #include <QSlider>
 #include <KUrlRequester>
 #include <QTimer>
-class KALPlayerWidget : public QWidget
+
+class KALPlayerWidgetPrivate;
+class KAL_EXPORT KALPlayerWidget : public QWidget
 {
     Q_OBJECT
 
@@ -21,11 +23,7 @@ public slots:
     void updateStatus();
 
 private:
-    KUrlRequester * requester;
-    KALSound * sound;
-    QSlider * slider;
-    QTimer * statusTimer;
-    QSlider * bar;
+    KALPlayerWidgetPrivate *d;
 };
 
 #endif // KALPLAYERWIDGET_H

@@ -24,7 +24,7 @@
 
 
 
-KGLView:: KGLView( QSize size, float frameRate ,QWidget* parent)
+KGLView:: KGLView( const QSize &size, float frameRate ,QWidget* parent)
     : QGLWidget(parent)
 {
     init();
@@ -79,7 +79,6 @@ KGLView::~KGLView()
 }
 void KGLView::init()
 {
-
     //m_screenConfig = new KGLScreenConfig;
     m_engine = NULL;
     m_frameRate = 20;
@@ -144,6 +143,7 @@ void KGLView::toggleFullScreen()
 }
 void KGLView::initializeGL()
 {
+
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA ,GL_ONE);
     glPolygonMode(GL_FRONT_AND_BACK, m_mode);
@@ -161,6 +161,7 @@ void KGLView::resizeGL(int w, int h)
     glViewport((w - side) / 2, (h- side) / 2, side, side);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
     glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
     glMatrixMode(GL_MODELVIEW);
 

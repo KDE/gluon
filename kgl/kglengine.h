@@ -51,7 +51,7 @@ class KGLEngine : public QObject
         bool removeItems(const KGLItemList *item);
         virtual bool eraseItem(KGLItem* item);
         bool eraseItems(const KGLItemList *item);
-        KGLItem * itemAt(int id, unsigned int layer=0);
+        KGLItem * itemAt(int id, unsigned int layer=0) const;
         int itemsCount() const;
 
         KGLBoxItem * addBox(float w, float h)
@@ -59,7 +59,7 @@ class KGLEngine : public QObject
             KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;
         }
 
-        IndexGroupMap items()
+        IndexGroupMap items() const
         {
             return m_items;
         }

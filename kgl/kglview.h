@@ -28,10 +28,8 @@
 #include <QDialog>
 
 #include "kglengine.h"
-#include "kglscreenconfig.h"
+//#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
-
-
 
 /**
  * \defgroup KGL KGL
@@ -42,7 +40,7 @@ class KGLView : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit KGLView( QSize size, float frameRate ,QWidget* parent = 0);
+    explicit KGLView( const QSize &size, float frameRate ,QWidget* parent = 0);
     explicit KGLView(KGLEngine * engine,QWidget * parent = 0);
     explicit KGLView(QWidget * parent=0);
     ~KGLView();
@@ -64,7 +62,7 @@ public:
     }
 
 
-    inline void setOrthoView(QRectF &rect) {
+    inline void setOrthoView(const QRectF &rect) {
         m_orthoView = rect;
         resizeGL(width(), height());
     }
@@ -92,7 +90,7 @@ public:
                 side * p.y() / m_orthoView.height() + height() / 2 + CURSOR_HACK
                 );
     }
-    KGLScreenConfig * screenConfig(){return m_screenConfig;}
+   // KGLScreenConfig * screenConfig(){return m_screenConfig;}
 
     //=== Flags ====
     inline void setMode(GLenum mode)
@@ -104,7 +102,7 @@ public:
     {
         m_axisShow=b;
     }
-    inline bool isAxisShow()
+    inline bool isAxisShow() const
     {
         return m_axisShow;
     }
@@ -112,20 +110,20 @@ public:
     {
         m_infoShow = b;
     }
-    inline bool isInfoShow()
+    inline bool isInfoShow() const
     {
         return m_axisShow;
     }
-    bool isExtensionSupported(QString name)
+    bool isExtensionSupported(const QString &name) const
     {
         return glewIsSupported(name.toUtf8());
     }
 
-    bool isShaderSupported()
+    bool isShaderSupported() const
     {
         return m_isShaderSupported;
     }
-    float fps()
+    float fps() const
     {
         return m_fps;
     }
@@ -175,7 +173,7 @@ protected:
 
 private:
     KGLEngine * m_engine;
-    KGLScreenConfig * m_screenConfig;
+    //KGLScreenConfig * m_screenConfig;
     KGLPixmapItem * logo ;
     QRectF m_orthoView;
     float m_countFrame;

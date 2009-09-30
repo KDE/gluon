@@ -19,8 +19,8 @@ struct QPair;/*
 #ifndef KGLSCREENCONFIG_H
 #define KGLSCREENCONFIG_H
 
-#include <QObject>
-#include <QList>
+#include <QtCore/QObject>
+#include <QtCore/QList>
 
 struct KGLScreenSettings
 {

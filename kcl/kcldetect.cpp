@@ -42,7 +42,7 @@ void KCLDetect::searchDevice()
     QString path("/dev/input/by-path/");
     QDir event(path);
 
-    foreach(QString name, event.entryList(QDir::Files)) {
+    foreach(const QString &name, event.entryList(QDir::Files)) {
         KCLInput *temp = new KCLInput(path + name);
         if (!temp->error()) {
 

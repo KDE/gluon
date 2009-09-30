@@ -10,21 +10,21 @@
 
 // this is a default joystick, with 2 axis
 
-class KCLJoystick : public KCLInput
+class KCL_EXPORT KCLJoystick : public KCLInput
 {
     Q_OBJECT
 public:
     KCLJoystick(const QString& device, QObject * parent = 0);
 
-    int axisX() {
+    int axisX() const{
         return absAxisValue(ABS_X);
     }
 
-    int axisY() {
+    int axisY()const {
         return absAxisValue(ABS_Y);
     }
 
-    int axisZ() {
+    int axisZ() const{
         return absAxisValue(ABS_Z);
     }
 };

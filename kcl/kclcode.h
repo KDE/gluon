@@ -5,13 +5,13 @@
 #include <KIcon>
 #include <QEvent>
 #include "kcl.h"
-
+#include "kcl_export.h"
 /**
  * \defgroup KCL KCL
  */
 //@{
 
-class KCLCode
+class KCL_EXPORT KCLCode
 {
 public:
     static QString buttonName(int code);

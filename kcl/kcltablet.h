@@ -8,7 +8,7 @@
  */
 //@{
 
-class KCLTablet : public KCLInput
+class KCL_EXPORT KCLTablet : public KCLInput
 {
 public:
     KCLTablet(const QString& device, QObject * parent = 0);

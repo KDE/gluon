@@ -73,7 +73,7 @@ bool KGLEngine::eraseItem(KGLItem* item)
     else return false;
 }
 
-KGLItem *KGLEngine::itemAt( int id, unsigned int layer)
+KGLItem *KGLEngine::itemAt( int id, unsigned int layer) const
 {
     if ( id < m_items[layer].size())
         return m_items[layer].at(id);

@@ -21,7 +21,7 @@
 #include "kglgriditem.h"
 #include <KDebug>
 
-KGLGridItem::KGLGridItem(QSizeF size, float tile, KGLEngine * parent)
+KGLGridItem::KGLGridItem(const QSizeF &size, float tile, KGLEngine * parent)
     : KGLItem(parent)
 {
     setMode(GL_TRIANGLE_STRIP);
@@ -53,7 +53,7 @@ void KGLGridItem::createGrid()
     }
 }
 
-const KGLPoint * KGLGridItem::pointAt(QPoint p)
+const KGLPoint * KGLGridItem::pointAt(const QPoint &p)
 {
     int id =  m_size.width()*p.y() + p.x();
     return &(pointList().at(id));

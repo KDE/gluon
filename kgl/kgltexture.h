@@ -47,26 +47,22 @@ public:
     void load(const QImage &img, int width=0, int height=0);
     void setFilter(GLenum filter);
     void setWrapMode(GLenum coordinate, GLenum mode);
-    GLuint glId(){
+
+    GLuint glId()const{
         return m_texture;
     }
 
-    GLuint gltexture()
-    {
-        return m_texture;
-    }
-
-    QImage getQImage()
+    QImage image() const
     {
         return m_img;
     }
 
-    QSizeF dim()
+    QSizeF dim() const
     {
         return m_dim;
     }
 
-    void setTranslate(QPointF t)
+    void setTranslate(const QPointF &t)
     {
         m_translate = t;
     }
@@ -76,14 +72,22 @@ public:
         m_rotate= r;
     }
 
-    void setScale(QPointF s)
+    void setScale(const QPointF &s)
     {
         m_scale = s;
     }
 
-    void translate(QPointF t)
+    void setScale(float x,float y){
+      setScale(QPointF(x,y));
+    }
+
+    void translate(const QPointF &t)
     {
         m_translate += t;
+    }
+
+    void translate( float x, float y){
+      translate(QPointF(x,y));
     }
 
     void rotate(float r)
@@ -91,9 +95,12 @@ public:
         m_rotate += r;
     }
 
-    void scale(QPointF s)
+    void scale(const QPointF &s)
     {
         m_scale+=s;
+    }
+    void scale(int x,int y){
+        scale(QPointF(x,y));
     }
 
     void updateTransform();

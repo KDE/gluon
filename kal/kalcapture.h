@@ -15,8 +15,8 @@
  * \defgroup KAL KAL
  */
 //@{
-
-class KALCapture : public QObject
+class KALCapturePrivate;
+class KAL_EXPORT KALCapture : public QObject
 {
     Q_OBJECT
 
@@ -24,7 +24,7 @@ public:
     KALCapture(QString deviceName = QString(), QObject *parent = 0);
     ~KALCapture();
 
-    bool isAvailable();
+    bool isAvailable() const;
 
     static QStringList deviceList();
 
@@ -32,10 +32,8 @@ public:
     void save(const QString &fileName);
 
 private:
-    ALCdevice *device;
-    ALCdevice *captureDevice;
-    QVector<ALshort> samples;
-    ALuint buffer;
+    KALCapturePrivate * d;
+
 };
 
 //@}

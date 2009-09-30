@@ -39,38 +39,16 @@ MainWindow::MainWindow(QWidget* parent) : KXmlGuiWindow(parent)
   //mView->setAxisShow(false);
   
   mItem = new KGLBoxItem(5,5);
-  mItem->setPosition(-mItem->itemCenter());
+  mItem->setPosition(-mItem->center());
   mItem->updateTransform();
   mItem->setTexture(KIcon("kde.png").pixmap(128,128));
   mItem->setZIndex(1);
 
   KGLBoxItem* bg = new KGLBoxItem(200, 200);
-  bg->setPosition(-bg->itemCenter());
+  bg->setPosition(-bg->center());
   bg->updateTransform();
   bg->setColor(Qt::white);
   bg->setZIndex(0);
-  
-  /*mMosaic = new KGLProgram();
-  KGLFragmentShader* mosaicFrag = new KGLFragmentShader(QString("mosaic.frag"));
-  //KGLFragmentShader* greyscaleFrag = new KGLFragmentShader(QString("posterize.frag"));
-  mMosaic->addShader(mosaicFrag);
-  //mMosaic->addShader(greyscaleFrag);
-  mMosaic->setUniform("tex", 0);
-  //mMosaic->setUniform("level", 1.0f);
-  mMosaic->setUniform("tileSize", 1.0f);
-  mMosaic->setUniform("texSize", (int)item->texture()->dim().width());
-  mMosaic->link();
-  
-  if(!mMosaic->isValid())
-  {
-    kWarning() << "Invalid fragment program, aborting fragment program use.";
-    kWarning() << "Compile log: " << mosaicFrag->compileLog();
-    kWarning() << "Link log: " << mMosaic->linkLog();
-  }
-  else
-  {
-    item->setProgram(mMosaic);
-  }*/
   
   //after all setup... We can add the item inside the engine.
   mEngine->addItem(mItem);
@@ -97,11 +75,12 @@ void MainWindow::shaderChanged(int index)
 {
   if(index != 0)
   {
-    mItem->setProgram(dynamic_cast<ShaderWidget*>(mWidgetStack->currentWidget())->program());
+    KGLProgram * program = dynamic_cast<ShaderWidget*>(mWidgetStack->currentWidget())->program();
+    mItem->setShaderFx(program);
   }
   else
   {
-    mItem->setProgram(0);
+    mItem->setShaderFx(0);
   }
 }
 

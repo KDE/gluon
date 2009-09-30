@@ -3,7 +3,7 @@
 
 #include "kclcode.h"
 #include "kcl.h"
-
+#include "kcl_export.h"
 #include <KDebug>
 
 #include <QMap>
@@ -27,7 +27,7 @@
 //@{
 
 class KCLInput;
-class AbsVal
+class KCL_EXPORT AbsVal
 {
 public:
     AbsVal(int v = 0, int m = 0, int M = 0, int f = 0, int F = 0) {
@@ -59,7 +59,7 @@ public:
  * @endcode
  */
 
-class KCLInput : public QObject
+class KCL_EXPORT KCLInput : public QObject
 {
     Q_OBJECT
 
@@ -85,7 +85,7 @@ public:
     /**
     * @return the version driver of the device
     */
-    unsigned int version() {
+    unsigned int version()const {
         return m_device_info.version;
     }
 
@@ -96,14 +96,14 @@ public:
         return m_device_info.bustype;
     }
 
-    const QString &devicePath() {
+    const QString &devicePath()const {
         return m_devicePath;
     }
 
     /**
     * @return the name of the device
     */
-    const QString &deviceName() {
+    const QString &deviceName() const{
         return m_deviceName;
     }
 
@@ -111,7 +111,8 @@ public:
     * @return the device type. KCL_KEYBOARD, KCL_MOUSE, KCL_JOYSTICK, KCL_TABLET, KCL_TOUCHPAD, KCL_UNKNOWN;
     * @see DEVICE
     */
-   KCL::DeviceFlag deviceType() {
+
+   KCL::DeviceFlag deviceType()const {
         return m_deviceType;
     }
 
@@ -125,7 +126,7 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    bool button(int code) {
+    bool button(int code)const {
         return m_buttons.contains(code);
     }
 
@@ -140,7 +141,7 @@ public:
     * @endcode
     * @see KCLInputEvent
     */
-    int anyPress() {
+    int anyPress() const {
         if (m_buttons.size() > 0) {
             return m_buttons.last();
         } else {
@@ -176,11 +177,11 @@ public:
         return false;
     }
 
-    int lastAbsAxis() {
+    int lastAbsAxis()const {
         return m_lastAbsAxis;
     }
 
-    int lastRelAxis() {
+    int lastRelAxis()const {
         return m_lastRelAxis;
     }
 
@@ -189,7 +190,7 @@ public:
     * @return the axis relative position. This is a relative value. For example the mouse return a relative position.
     * @see KCLInputEvent
     */
-    int relAxisValue(int code) {
+    int relAxisValue(int code)const {
         if (m_relAxis.contains(code)) {
             return m_relAxis[code];
         } else {
@@ -201,7 +202,7 @@ public:
     * @return the axis absolute value. This is an absolue value. For example the Joystick return an absolu position.
     * @see KCLInputEvent
     */
-    int absAxisValue(int code) {
+    int absAxisValue(int code)const{
         if (m_absAxis.contains(code)) {
             return m_absAxis[code];
         } else {
@@ -229,22 +230,22 @@ public:
     * @return the axis capability. This is useful to know the capability of a joystick.
     * @see KCLInputEvent
     */
-    AbsVal axisInfo(int axisCode) {
+    AbsVal axisInfo(int axisCode)const {
         return m_absAxisInfos[axisCode];
     }
 
-    bool error() {
+    bool error()const {
         return m_error;
     }
 
-    QString msgError() {
+    QString msgError()const {
         return m_msgError;
     }
 
 
 
 
-    bool isEnable() {
+    bool isEnable() const{
         return m_enable;
     }
 signals:

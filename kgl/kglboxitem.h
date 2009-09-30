@@ -54,21 +54,26 @@ class KGLBoxItem : public KGLItem
             m_dim = QSizeF(w,h);
         }
 
-        float width()
+        float width() const
         {
             return m_dim.width();
         }
 
-        float height()
+        float height() const
         {
             return m_dim.height();
         }
 
-        QSizeF dim()
+        QSizeF dim() const
         {
             return m_dim;
         }
 
+        void resize(const QSizeF &size);
+        void resize(float w, float h){
+            resize(QSizeF(w,h));
+        }
+        private:
         QSizeF m_dim;
 };
 

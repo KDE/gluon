@@ -46,7 +46,8 @@ void KGLPhysicsItem::createShape()
         }
         m_polygonDef.vertexCount = polygon().size();
         int i=0;
-        foreach (QPointF p, polygon())
+
+        foreach (const QPointF &p, polygon())
         {
             m_polygonDef.vertices[i].Set(p.x(),p.y());
             ++i;

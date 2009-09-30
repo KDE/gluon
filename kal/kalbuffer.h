@@ -26,14 +26,15 @@
 #include <sndfile.h>
 #include <QFile>
 #include <QStringList>
-#include "kalengine_export.h"
+#include "kal_export.h"
 
 /**
  * \defgroup KAL KAL
  */
 //@{
 
-class KALENGINE_EXPORT KALBuffer
+class KALBufferPrivate;
+class KAL_EXPORT KALBuffer
 {
 public:
     KALBuffer();
@@ -42,24 +43,17 @@ public:
     ~KALBuffer();
 
     void setBuffer(const QString &fileName);
-    void setBuffer(ALuint buffer) {
-        m_buffer = buffer;
-    }
-    bool isEmpty() {
-        return !m_buffer;
-    }
-    void setHelloWord() {
-        m_buffer = alutCreateBufferHelloWorld();
-    }
-    ALuint buffer() {
-        return m_buffer;
-    }
+    void setBuffer(ALuint buffer);
+    bool isEmpty() const;
+    void setHelloWord();
+    ALuint buffer() const;
+   ALfloat duration() const;
 
-   ALfloat duration();
 protected:
     void init();
 private :
-    ALuint m_buffer;
+        KALBufferPrivate *  d;
+
 
 };
 

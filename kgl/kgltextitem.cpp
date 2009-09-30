@@ -33,7 +33,7 @@
 #include <QDebug>
 
 
-KGLTextItem::KGLTextItem(const QString& text,QFont font, KGLEngine* parent)
+KGLTextItem::KGLTextItem(const QString& text, const QFont &font, KGLEngine* parent)
     : KGLItem(parent)
 {
     m_text=text;
@@ -97,7 +97,7 @@ bool KGLTextItem::initTexture()
     float rp = (float)texheight/2/10;
     createBox(ratio*rp,rp);
     texture()->setGLTexture(text);
-return true;
+    return true;
 }
 
 
