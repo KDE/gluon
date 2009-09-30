@@ -73,14 +73,14 @@ bool KGLView::initGlew()
 KGLView::~KGLView()
 {
     stop();
-    delete m_screenConfig;
+    //delete m_screenConfig;
     delete m_timer;
     delete m_fpsTimer;
 }
 void KGLView::init()
 {
 
-    m_screenConfig = new KGLScreenConfig;
+    //m_screenConfig = new KGLScreenConfig;
     m_engine = NULL;
     m_frameRate = 20;
     m_timer = new QTimer(this);
@@ -112,9 +112,10 @@ void KGLView::init()
 }
 void KGLView::goFullScreen()
 {
-    int id = m_screenConfig->askResolution();
+    /*int id = m_screenConfig->askResolution();
     if ( id<0) return;
-    m_screenConfig->setResolution(id);
+    m_screenConfig->setResolution(id);*/
+    
     if ( parentWidget()!=NULL)
     {
         parentWidget()->showFullScreen();
@@ -125,7 +126,7 @@ void KGLView::goFullScreen()
 }
 void KGLView::leaveFullScreen()
 {
-    m_screenConfig->restore();
+    //m_screenConfig->restore();
     if ( parentWidget() != NULL)
     {
         parentWidget()->showNormal();
