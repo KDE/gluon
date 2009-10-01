@@ -16,7 +16,6 @@ GluonMainWindow::GluonMainWindow(QWidget * parent)
     m_view = new KGLView;
 
     setCentralWidget(m_view);
-    setupAction();
     m_view->start();
     connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
 
@@ -27,7 +26,7 @@ GluonMainWindow::~GluonMainWindow()
 
 }
 
-void GluonMainWindow::setupAction()
+void GluonMainWindow::setupGluon()
 {
 
     KAction* startAction = new KAction(this);
@@ -44,29 +43,21 @@ void GluonMainWindow::setupAction()
     actionCollection()->addAction("stop",stopAction);
     connect(stopAction,SIGNAL(triggered()),m_view,SLOT(stop()));
 
-
-
-
-
-
-
-
-
     KAction* kglAction = new KAction(this);
-    kglAction->setText(i18n("kgl config"));
+    kglAction->setText(i18n("kgl info"));
     kglAction->setIcon(KIcon("kgl.png"));
     actionCollection()->addAction("kgl", kglAction);
     connect(kglAction,SIGNAL(triggered()),this,SLOT(showKglService()));
     //
 
     KAction* kalAction = new KAction(this);
-    kalAction->setText(i18n("kal config"));
+    kalAction->setText(i18n("kal info"));
     kalAction->setIcon(KIcon("kal.png"));
     actionCollection()->addAction("kal",kalAction);
     connect(kalAction,SIGNAL(triggered()),this,SLOT(showKalService()));
 
     KAction* kclAction = new KAction(this);
-    kclAction->setText(i18n("kcl config"));
+    kclAction->setText(i18n("kcl info"));
     kclAction->setIcon(KIcon("kcl.png"));
     actionCollection()->addAction("kcl",kclAction);
     connect(kclAction,SIGNAL(triggered()),this,SLOT(showKclSercice()));

@@ -31,6 +31,7 @@
 //#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
 #include "kgldisplay.h"
+#include <QMouseEvent>
 
 /**
  * \defgroup KGL KGL
@@ -77,11 +78,11 @@ public:
         resizeGL(width(),height());
     }
     inline QPointF mapToGL(const QPointF &p) {
-        const int CURSOR_HACK = 0x18; // cursor inversion
+//        const int CURSOR_HACK = 0x18; // cursor inversion
         int side = qMin(width(), height());
         return QPointF(
                 m_orthoView.width() * ( p.x() - width() / 2 ) / side,
-                m_orthoView.height() * ( p.y() - height() / 2 - CURSOR_HACK ) / side
+                m_orthoView.height() * ( p.y() - height() / 2 /*- CURSOR_HACK */) / side
                 );
     }
     inline QPointF mapFromGL(const QPointF &p) {
@@ -173,6 +174,9 @@ protected:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
 
 private:
     KGLEngine * m_engine;

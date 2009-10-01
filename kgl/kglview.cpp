@@ -185,6 +185,8 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
+    kDebug()<<w<<"--"<<width();
+    kDebug()<<h<<"--"<<height();
     int side = qMin(w, h);
     glViewport((w - side) / 2, (h- side) / 2, side, side);
     glMatrixMode(GL_PROJECTION);
@@ -269,4 +271,19 @@ void KGLView::drawGLItems()
         }
         ++i;
     }
+}
+void KGLView::mousePressEvent(QMouseEvent * event)
+{
+if ( m_engine!=NULL)
+    m_engine->mousePressed(mapToGL(event->posF()),event->button());
+}
+ void KGLView::mouseMoveEvent(QMouseEvent * event)
+{
+if ( m_engine!=NULL)
+    m_engine->mouseMoved(mapToGL(event->posF()),event->button());
+}
+void KGLView::mouseReleaseEvent(QMouseEvent * event)
+{
+if ( m_engine!=NULL)
+    m_engine->mouseReleased(mapToGL(event->posF()),event->button());
 }

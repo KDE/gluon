@@ -24,7 +24,7 @@ public slots:
     void showControlWidget();
     void showFps(int fps);
 protected:
-    void setupAction();
+    void setupGluon();
     void launchService(QString name);
 
 

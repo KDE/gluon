@@ -64,8 +64,12 @@ class KGLEngine : public QObject
             return m_items;
         }
 
+        virtual void mouseMoved(QPointF pos, Qt::MouseButton button);
+        virtual void mousePressed(QPointF pos, Qt::MouseButton button);
+        virtual void mouseReleased(QPointF pos,Qt::MouseButton button);
     private:
         IndexGroupMap m_items;
+
 };
 
 //@}
