@@ -31,7 +31,8 @@
 //#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
 #include "kgldisplay.h"
-#include <QMouseEvent>
+
+class QMouseEvent;
 
 /**
  * \defgroup KGL KGL

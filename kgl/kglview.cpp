@@ -20,6 +20,7 @@
  */
 
 #include "kglview.h"
+#include <QMouseEvent>
 #include <KDebug>
 #include <KIcon>
 #include "kgldisplay.h"
