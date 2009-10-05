@@ -55,13 +55,23 @@ GameObject::Start()
 }
 
 void
-GameObject::Update(float elapsedMilliseconds)
+GameObject::Update(int elapsedMilliseconds)
 {
     foreach(Component * component, d->components)
         component->Update(elapsedMilliseconds);
     
     foreach(GameObject * child, d->children)
         child->Update(elapsedMilliseconds);
+}
+
+void
+GameObject::Draw(int timeLapse)
+{
+    foreach(Component * component, d->components)
+        component->Draw(timeLapse);
+    
+    foreach(GameObject * child, d->children)
+        child->Draw(timeLapse);
 }
 
 void

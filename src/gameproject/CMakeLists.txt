@@ -26,6 +26,8 @@ kde4_add_library(gluonproject SHARED ${gluonproject_LIB_SRCS} ${gluonproject_RCC
 set_target_properties(gluonproject PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 target_link_libraries(gluonproject ${KDE4_KDEUI_LIBS})
 
+install(TARGETS gluonproject ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
 install(FILES
     asset.h
     component.h

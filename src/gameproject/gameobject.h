@@ -35,9 +35,9 @@ namespace Gluon
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QString description READ description WRITE setDescription)
         
-        Q_PROPERTY(Eigen::Vector3d position READ position WRITE setPosition)
+        /*Q_PROPERTY(Eigen::Vector3d position READ position WRITE setPosition)
         Q_PROPERTY(Eigen::Vector3d scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Vector3d rotationAxis READ rotationAxis WRITE setRotationAxis)
+        Q_PROPERTY(Eigen::Vector3d rotationAxis READ rotationAxis WRITE setRotationAxis)*/
         Q_PROPERTY(float rotation READ rotation WRITE setRotation)
         
         public:
@@ -47,7 +47,12 @@ namespace Gluon
             
             GameObject * instantiate();
             void Start();
-            void Update(float elapsedMilliseconds);
+            void Update(int elapsedMilliseconds);
+            /**
+             * Draw the GameObject onto the scene
+             * @param   int timeLapse   The number of milliseconds which has passed since the last update
+             */
+            void Draw(int timeLapse = 0);
             /**
              * Run a command on all the components in this GameObject
              */

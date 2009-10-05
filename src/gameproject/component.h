@@ -41,7 +41,8 @@ namespace Gluon
             ~Component();
             
             virtual void Start() {};
-            virtual void Update(float elapsedMilliseconds) = 0;
+            virtual void Update(int elapsedMilliseconds) = 0;
+            virtual void Draw(int timeLapse = 0) {};
             
             void setName(QString newName);
             QString name() const;
