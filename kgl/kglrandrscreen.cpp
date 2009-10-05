@@ -62,10 +62,10 @@ void KGLRandRScreen::retrieveResolutions()
       newResolution->width = sizes[s].width;
       newResolution->height = sizes[s].height;
       newResolution->refreshRate = rates[r];
-      newResolution->name = QString("%1x%2@%3hz/%4bpp")
+      newResolution->name = QString("%1x%2@%3hz")
                                     .arg(newResolution->width)
                                     .arg(newResolution->height)
-                                    .arg(newResolution->refreshRate)
+                                    .arg(newResolution->refreshRate);
       m_availableResolutions.append(newResolution);
     }
   }
