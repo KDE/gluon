@@ -11,8 +11,8 @@
 
 #include "kglscreen.h"
 
-//extern "C"
-//{
+extern "C"
+{
 #include <X11/Xlib.h>
 #define INT8 _X11INT8
 #define INT32 _X11INT32
@@ -20,12 +20,7 @@
 #undef INT8
 #undef INT32
 #include <X11/extensions/Xrandr.h>
-//}
-
-/**
- * \defgroup KGL KGL
- */
-//@{
+}
 
 class KGLRandRScreen : public KGLScreen
 {
@@ -34,26 +29,24 @@ class KGLRandRScreen : public KGLScreen
     KGLRandRScreen(int screen = 0);
     ~KGLRandRScreen();
 
+    int colourDepth() const;
     QList< KGLResolution* > availableResolutions() const;
     
   public slots:
     void applySettings();
 
   private:
+    void retrieveResolutions();
+    
     Display *m_display;
     Window m_root;
-    int m_numSizes;
-    XRRScreenSize *m_xrrSize;
     XRRScreenConfiguration *m_xrrConf;
-    short m_possibleFrequencies[64][64];
     short m_originalRate;
     Rotation m_originalRotation;
     SizeID m_originalSizeID;
 
     int sizeID();
     QList<KGLResolution*> m_availableResolutions;
-    void retrieveResolutions();
 };
 
-//@}
 #endif // KGLScreenConfig_H

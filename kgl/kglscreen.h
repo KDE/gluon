@@ -22,13 +22,16 @@ struct QPair;/*
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
+/**
+* A simple data structure to hold information
+* about a screen resolution.
+*/
 struct KGLResolution
 {
   QString name;
   int id;
   int width;
   int height;
-  int colourDepth;
   short refreshRate;
 };
 
@@ -45,13 +48,9 @@ class KGLScreen : public QObject
     KGLScreen(int screen = 0);
     virtual ~KGLScreen();
 
-    /*virtual KGLScreenInfo* screen(int screenIndex) const;
-    virtual int screenCount() const;
-    virtual QList<const KGLScreenInfo*> allScreens() const;*/
-
     virtual int width() const { return m_width; }
     virtual int height() const { return m_height; }
-    virtual int colourDepth() const { return m_colourDepth; }
+    virtual int colourDepth() const = 0;
     virtual short refreshRate() const { return m_refreshRate; }
     virtual bool isFullscreen() const { return m_fullscreen; }
     virtual int screenID() const { return m_screenID; }
@@ -59,7 +58,6 @@ class KGLScreen : public QObject
     
   public slots:
     virtual void setDimensions(int width, int height, bool apply = true);
-    virtual void setColourDepth(int depth, bool apply = true);
     virtual void setRefreshRate(short int rate, bool apply = true);
     virtual void setFullscreen(bool fullscreen, bool apply = true);
     virtual void setResolution(KGLResolution* resolution);
@@ -71,15 +69,13 @@ class KGLScreen : public QObject
     void screenSettingsChanged();
 
   protected:
-    /*KGLScreenInfo m_currentScreenSettings;
-    int           m_screenCount;
-    QList<KGLScreenInfo*> m_screens;*/
-    
+    /**
+    * @todo Move this into a KGLScreenPrivate class
+    */
     bool  m_fullscreen;
     bool  m_goFullscreen;
     int   m_width;
     int   m_height;
-    int   m_colourDepth;
     short m_refreshRate;
 
     int   m_screenID;
