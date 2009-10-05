@@ -22,12 +22,11 @@
 #include <klocalizedstring.h>
 #include <QLabel>
 
-KGLResolutionDialog::KGLResolutionDialog(KGLView* parent): KDialog(parent)
+KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): KDialog(parent)
 {
   setCaption(i18n("Select fullscreen resolution"));
-  m_resolutions = parent->display()->currentScreen()->availableResolutions();
-  m_parent = parent;
-  
+  m_resolutions = KGLDisplay::instance()->currentScreen()->availableResolutions();
+    
   m_resolutionComboBox = new QComboBox();
 
   for(int i = 0; i < m_resolutions.size(); ++i)
@@ -50,7 +49,7 @@ KGLResolutionDialog::KGLResolutionDialog(KGLView* parent): KDialog(parent)
 
 void KGLResolutionDialog::saveSettings()
 {
-  m_parent->display()->currentScreen()->setResolution(m_resolutions.at(m_resolutionComboBox->currentIndex()));
+  m_selectedResolution = m_resolutions.at(m_resolutionComboBox->currentIndex());
 }
 
 

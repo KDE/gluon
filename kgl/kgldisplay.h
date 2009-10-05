@@ -18,6 +18,7 @@
 #define KGLDISPLAY_H
 
 #include <QtCore/QObject>
+#include <QCoreApplication>
 
 class KGLScreen;
 
@@ -33,9 +34,6 @@ class KGLDisplay : public QObject
 {
   Q_OBJECT
   public:
-    KGLDisplay();
-    virtual ~KGLDisplay();
-
     /**
     * The currently active screen.
     */
@@ -45,8 +43,22 @@ class KGLDisplay : public QObject
     */
     virtual QList<KGLScreen*> allScreens() const;
 
+    static KGLDisplay* instance()
+    {
+      if(!m_instance)
+      {
+        m_instance = new KGLDisplay(QCoreApplication::instance());
+      }
+      return m_instance;
+    }
+
   protected:
+    KGLDisplay(QObject* parent = 0);
+    virtual ~KGLDisplay();
+    
     QList<KGLScreen*> m_screens;
+
+    static KGLDisplay* m_instance;
     
 };
 

@@ -77,13 +77,13 @@ bool KGLView::initGlew()
 KGLView::~KGLView()
 {
     stop();
-    //delete m_screenConfig;
+
     delete m_timer;
     delete m_fpsTimer;
 }
 void KGLView::init()
 {
-    m_display = new KGLDisplay();
+    //m_display = new KGLDisplay(this);
     m_engine = NULL;
     m_frameRate = 20;
     m_timer = new QTimer(this);
@@ -119,7 +119,7 @@ void KGLView::goFullScreen()
     if ( id<0) return;
     m_screenConfig->setResolution(id);*/
     KGLResolutionDialog dialog(this);
-    m_display->currentScreen()->setFullscreen(true, false);
+    KGLDisplay::instance()->currentScreen()->setFullscreen(true, false);
     if(dialog.exec())
     {
       if ( parentWidget()!=NULL)
@@ -134,12 +134,12 @@ void KGLView::goFullScreen()
     }
     else
     {
-      m_display->currentScreen()->setFullscreen(false, false);
+      KGLDisplay::instance()->currentScreen()->setFullscreen(false, false);
     }
 }
 void KGLView::leaveFullScreen()
 {
-    m_display->currentScreen()->restore();
+    KGLDisplay::instance()->currentScreen()->restore();
     if ( parentWidget() != NULL)
     {
         parentWidget()->showNormal();

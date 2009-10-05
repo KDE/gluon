@@ -56,7 +56,7 @@ class KGLScreen : public QObject
     * Constructor.
     * @param screen The screen number this object is created for.
     */
-    KGLScreen(int screen = 0);
+    KGLScreen(int screen = 0, QObject* parent = 0);
     
     virtual ~KGLScreen();
 

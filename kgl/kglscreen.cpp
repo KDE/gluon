@@ -17,7 +17,8 @@
 #include "kglscreen.h"
 
 
-KGLScreen::KGLScreen(int screen) :
+KGLScreen::KGLScreen(int screen, QObject* parent) :
+  QObject(parent),
   m_fullscreen(false),
   m_width(0),
   m_height(0),

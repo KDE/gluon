@@ -22,18 +22,23 @@
 class QComboBox;
 struct KGLResolution;
 class KGLView;
+
 class KGLResolutionDialog : public KDialog
 {
   Q_OBJECT
   public:
-    KGLResolutionDialog(KGLView* parent);
+    KGLResolutionDialog(QWidget* parent = 0);
+
+    KGLResolution* selectedResolution() const { return m_selectedResolution; }
+
+  public slots:
+    void saveSettings();
 
   private:
     QList<KGLResolution*> m_resolutions;
     QComboBox* m_resolutionComboBox;
     KGLView* m_parent;
-public slots:
-    void saveSettings();
+    KGLResolution* m_selectedResolution;
 };
 
 #endif // KGLRESOLUTIONDIALOG_H
