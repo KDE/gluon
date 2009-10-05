@@ -21,7 +21,6 @@ KGLScreen::KGLScreen(int screen) :
   m_fullscreen(false),
   m_width(0),
   m_height(0),
-  m_colourDepth(0),
   m_screenID(screen)
 {
 
@@ -30,12 +29,6 @@ KGLScreen::KGLScreen(int screen) :
 KGLScreen::~KGLScreen()
 {
 
-}
-
-void KGLScreen::setColourDepth(int depth, bool apply)
-{
-  m_colourDepth = depth;
-  if(apply) applySettings();
 }
 
 void KGLScreen::setDimensions(int width, int height, bool apply)
@@ -67,9 +60,14 @@ void KGLScreen::setResolution(KGLResolution* resolution)
 {
   setDimensions(resolution->width, resolution->height, false);
   setRefreshRate(resolution->refreshRate, false);
-  setColourDepth(resolution->colourDepth, false);
   applySettings();
 }
+
+void KGLScreen::applySettings()
+{
+  emit screenSettingsChanged();
+}
+
 
 
 

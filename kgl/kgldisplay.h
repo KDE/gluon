@@ -21,6 +21,14 @@
 
 class KGLScreen;
 
+/**
+* @class KGLDisplay
+*
+* This class is a container class for screen objects. It creates all the necessary screen objects
+* to manage the actual screens on the system.
+*
+* @todo Think of a way to create screens independent of operating system. Maybe use a factory?
+*/
 class KGLDisplay : public QObject
 {
   Q_OBJECT
@@ -28,7 +36,13 @@ class KGLDisplay : public QObject
     KGLDisplay();
     virtual ~KGLDisplay();
 
+    /**
+    * The currently active screen.
+    */
     virtual KGLScreen* currentScreen() const;
+    /**
+    * A list of all screens.
+    */
     virtual QList<KGLScreen*> allScreens() const;
 
   protected:
