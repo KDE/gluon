@@ -15,8 +15,8 @@
 */
 
 #include "kglresolutiondialog.h"
-#include <kglview.h>
 #include <kglscreen.h>
+#include <kgldisplay.h>
 #include <QComboBox>
 #include <QVBoxLayout>
 #include <klocalizedstring.h>

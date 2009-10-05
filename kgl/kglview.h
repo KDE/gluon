@@ -30,7 +30,6 @@
 #include "kglengine.h"
 //#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
-#include "kgldisplay.h"
 
 class QMouseEvent;
 
@@ -94,7 +93,6 @@ public:
                 side * p.y() / m_orthoView.height() + height() / 2 + CURSOR_HACK
                 );
     }
-    KGLDisplay* display() { return m_display; }
 
     //=== Flags ====
     inline void setMode(GLenum mode)
@@ -198,7 +196,6 @@ private:
     bool m_isShaderSupported;
     GLenum m_mode;
     int m_originalResolution;
-    KGLDisplay* m_display;
 };
 
 //@}

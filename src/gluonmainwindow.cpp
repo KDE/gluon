@@ -12,6 +12,7 @@
 #include <KStatusBar>
 #include <kgl/widgets/kglresolutiondialog.h>
 #include <kgl/kglscreen.h>
+#include <kgl/kgldisplay.h>
 
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)

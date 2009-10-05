@@ -83,7 +83,6 @@ KGLView::~KGLView()
 }
 void KGLView::init()
 {
-    //m_display = new KGLDisplay(this);
     m_engine = NULL;
     m_frameRate = 20;
     m_timer = new QTimer(this);
