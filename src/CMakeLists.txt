@@ -1,7 +1,22 @@
 include_directories(../)
+include_directories(${EIGEN2_INCLUDE_DIR})
+include_directories(gameproject)
 
-set(gluon_LIB_SRCS 
-     gluonmainwindow.cpp
+set(gluon_LIB_SRCS
+    gameproject/asset.cpp
+    gameproject/assetprivate.cpp
+    gameproject/component.cpp
+    gameproject/componentprivate.cpp
+    gameproject/gameobject.cpp
+    gameproject/gameobjectprivate.cpp
+    gameproject/prefab.cpp
+    gameproject/prefabprivate.cpp
+    gameproject/project.cpp
+    gameproject/projectprivate.cpp
+
+    gluonmainwindow.cpp
+    game.cpp
+    gameprivate.cpp
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
@@ -9,6 +24,8 @@ set(gluon_LIB_SRCS
 #      gluonintroitem.cpp
 
    )
+
+qt4_automoc(${gluon_LIB_SRCS})
 
 SET(gluon_RCCS
     ../resources/resources.qrc
@@ -18,7 +35,7 @@ QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
 kde4_add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
 
 set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
-target_link_libraries(gluon ${KDE4_KDEUI_LIBS} kgl kal kcl)
+target_link_libraries(gluon kgl kal kcl ${KDE4_KDEUI_LIBS})
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
                       ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} ${KDE4_KIO_LIBS}
@@ -29,7 +46,14 @@ target_link_libraries(gluon
 install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
+    gameproject/asset.h
+    gameproject/component.h
+    gameproject/gameobject.h
+    gameproject/prefab.h
+    gameproject/project.h
+
     gluonmainwindow.h
+    game.h
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h
@@ -37,5 +61,3 @@ install(FILES
 #   gluonintroitem.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
-
-add_subdirectory(gameproject)
