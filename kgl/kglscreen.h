@@ -26,7 +26,6 @@ struct QPair;/*
 * A simple data structure to hold information
 * about a screen resolution.
 */
-=======
 #include "kgl_export.h"
 
 struct KGLResolution

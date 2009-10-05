@@ -96,6 +96,7 @@ IF(NOT WIN32)
     kglfx.h
     kglprogram.h
     kglrandrscreen.h
+  DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
   )
 ENDIF(NOT WIN32)
 

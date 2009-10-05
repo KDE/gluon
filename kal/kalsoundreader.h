@@ -10,6 +10,13 @@
 /**
  * \defgroup KAL KAL
  */
+
+/**
+* @class KALSoundReader kal/kalsoundreader.h <KAL/KALSoundReader>
+* KALSoundReader generate a buffer from a sound file. Currently it allows to read Wav and ogg file.
+* Phonon output device in KALEngine
+*/
+
 //@{
 class KALSoundReaderPrivate;
 class KAL_EXPORT KALSoundReader
@@ -19,12 +26,10 @@ public:
 
     QString format() const;
     bool canRead() const;
-
-    static QStringList supportedSoundFormats() {
-        return (QStringList() << "wav" << "ogg");
-    }
+    static QStringList supportedSoundFormats() ;
     QString fileName() const;
-    ALuint buffer();
+    ALuint alBuffer();
+    KALBuffer *buffer();
 
 protected:
     ALuint fromWav();

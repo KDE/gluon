@@ -16,6 +16,7 @@ class KALSoundReaderPrivate
 {
   public:
         QString fileName;
+        bool error;
 };
 
 #define BUFFER_SIZE 32768 // 32 KB buffers
@@ -25,8 +26,10 @@ KALSoundReader::KALSoundReader(const QString& fileName)
 
 {
     d->fileName = fileName;
+    d->error = false;
     if (!QFile::exists(fileName)) {
         kDebug() << "Could not find file" << fileName;
+        d->error=true;
     }
 }
 
@@ -35,7 +38,7 @@ bool KALSoundReader::canRead() const
     return supportedSoundFormats().contains(format());
 }
 
-ALuint KALSoundReader::buffer()
+ALuint KALSoundReader::alBuffer()
 {
 
     if (format() == "ogg") {
@@ -48,6 +51,23 @@ ALuint KALSoundReader::buffer()
 
     return NULL;
 }
+
+    KALBuffer *KALSoundReader::buffer()
+    {
+  if (format() == "ogg") {
+        return new KALBuffer(fromOgg());
+    }
+
+    if (format() == "wav") {
+        return new KALBuffer(fromWav());
+    }
+    d->error=true;
+    return new KALBuffer();
+    }
+
+QStringList KALSoundReader::supportedSoundFormats() {
+        return (QStringList() << "wav" << "ogg");
+    }
 
 ALuint KALSoundReader::fromWav()
 {
