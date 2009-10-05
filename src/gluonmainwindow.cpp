@@ -10,11 +10,14 @@
 #include <KRun>
 #include <KMenuBar>
 #include <KStatusBar>
+#include <kgl/widgets/kglresolutiondialog.h>
+#include <kgl/kglscreen.h>
+
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)
 {
     m_view = new KGLView;
-
+    m_view->setObjectName("KGLView");
     setCentralWidget(m_view);
     m_view->start();
     connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
@@ -63,8 +66,8 @@ void GluonMainWindow::setupGluon()
     connect(kclAction,SIGNAL(triggered()),this,SLOT(showKclSercice()));
 
 
-    KStandardAction::fullScreen(m_view,SLOT(toggleFullScreen()),this,actionCollection());
-
+    KStandardAction::fullScreen(this, SLOT(toggleFullscreen(bool)), this, actionCollection());
+    
     /*    KAction* controlAction = new KAction(this);
     controlAction->setText(i18n("controls...."));
     controlAction->setIcon(KIcon("games-config-options.png"));
@@ -77,6 +80,8 @@ void GluonMainWindow::setupGluon()
     menu->addAction(kalAction);
     menu->addAction(kclAction);
     //     menu->addAction(controlAction);
+
+    setupGUI();
 }
 
 void GluonMainWindow::launchService(QString name)
@@ -98,9 +103,41 @@ void GluonMainWindow::showControlWidget()
 }
 void GluonMainWindow::showFps(int fps)
 {
-
     statusBar()->showMessage("fps:"+QString::number(fps));
-
-
-
 }
+
+
+void GluonMainWindow::toggleFullscreen(bool fullscreen)
+{
+  if(fullscreen)
+  {
+    KGLResolutionDialog dialog;
+    if(dialog.exec())
+    {
+      KGLDisplay::instance()->currentScreen()->setFullscreen(true, false);
+      KGLDisplay::instance()->currentScreen()->setResolution(dialog.selectedResolution());
+      foreach(QObject* object, children())
+      {
+        if(object->objectName() != "KGLView")
+        {
+          object->setProperty("visible", false);
+        }
+      }
+      showFullScreen();
+    }
+    else
+    {
+      actionCollection()->action(KStandardAction::name(KStandardAction::FullScreen))->setChecked(false);
+    }
+  }
+  else
+  {
+    KGLDisplay::instance()->currentScreen()->restore();
+    foreach(QObject* object, children())
+    {
+      object->setProperty("visible", true);
+    }
+    showNormal();
+  }
+}
+

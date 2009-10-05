@@ -23,6 +23,7 @@ public slots:
     void showKclSercice(){launchService("kcl.desktop");}
     void showControlWidget();
     void showFps(int fps);
+    void toggleFullscreen(bool);
 protected:
     void setupGluon();
     void launchService(QString name);
