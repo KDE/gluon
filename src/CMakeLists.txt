@@ -15,6 +15,7 @@ set(gluon_LIB_SRCS
     gameproject/projectprivate.cpp
 
     gluonmainwindow.cpp
+    gdlhandler.cpp
     game.cpp
     gameprivate.cpp
 #      gluondialog.cpp
@@ -53,6 +54,7 @@ install(FILES
     gameproject/project.h
 
     gluonmainwindow.h
+    gdlhandler.h
     game.h
 #    gluondialog.h
 #    kglconfig.h
