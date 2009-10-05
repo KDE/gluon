@@ -1,3 +1,6 @@
+find_package(KDE4 REQUIRED)
+include(KDE4Defaults)
+
 include_directories(Box2D/Include)
 include_directories(physics)
 
