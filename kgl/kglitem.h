@@ -22,10 +22,13 @@
 #define KGLITEM2_H
 #include <GL/glew.h>
 
-
+#include "kgl_export.h"
 #include "kglbaseitem.h"
 #include "kgltexture.h"
+
+#ifndef Q_WS_WIN
 #include "kglfx.h"
+#endif
 
 /**
  * \defgroup KGL KGL
@@ -35,7 +38,7 @@
 class KGLEngine;
 class KGLItem;
 
-class KGLItem : public KGLBaseItem
+class KGL_EXPORT KGLItem : public KGLBaseItem
 {
     Q_OBJECT
     public:
@@ -112,21 +115,24 @@ class KGLItem : public KGLBaseItem
             f_textureEnable = t;
         }
 
+#ifndef Q_WS_WIN
         void setShaderFx(KGLProgram * s)
         {
             m_shaderFx = s;
         }
+#endif
 
         KGLTexture * texture()
         {
             return m_texture;
         }
 
+#ifndef Q_WS_WIN
         KGLProgram * shaderFx()
         {
             return m_shaderFx;
         }
-
+#endif
 
         //Get
         const QColor &color()
@@ -163,7 +169,9 @@ class KGLItem : public KGLBaseItem
         float m_alpha;
         GLenum m_mode;
         KGLTexture *m_texture;
+#ifndef Q_WS_WIN
         KGLProgram * m_shaderFx;
+#endif
         QList<KGLItem*> m_childItems;
         bool m_shaderEnable;
 

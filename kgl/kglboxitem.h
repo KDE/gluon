@@ -21,6 +21,7 @@
 #ifndef KGLBOXITEM_H
 #define KGLBOXITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
 /**
@@ -32,7 +33,7 @@
 * @class KGLBoxItem kglboxitem.h <KGLBoxItem>
 * This is a KGLItem subclass which can be initialized with a QRectF or QSizeF
 */
-class KGLBoxItem : public KGLItem
+class KGL_EXPORT KGLBoxItem : public KGLItem
 {
     Q_OBJECT
     public:

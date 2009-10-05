@@ -27,6 +27,8 @@
 #include <QTransform>
 #include <QSizeF>
 #include <QMatrix>
+
+#include "kgl_export.h"
 #include "kglpoint.h"
 
 /**
@@ -38,7 +40,7 @@ const Eigen::Vector3d AXIS_X(1, 0, 0);
 const Eigen::Vector3d AXIS_Y(0, 1, 0);
 const Eigen::Vector3d AXIS_Z(0, 0, 1);
 
-class KGLBaseItem: public QObject
+class KGL_EXPORT KGLBaseItem: public QObject
 {
     Q_OBJECT
 public:

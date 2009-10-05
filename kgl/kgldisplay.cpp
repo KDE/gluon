@@ -15,9 +15,9 @@
 */
 
 #include "kgldisplay.h"
-#include "kglrandrscreen.h"
 
-#ifdef __linux
+#ifdef Q_WS_X11
+#include "kglrandrscreen.h"
 #include <X11/Xlib.h>
 #include <QX11Info>
 #endif
@@ -26,7 +26,7 @@ KGLDisplay* KGLDisplay::m_instance = 0;
 
 KGLDisplay::KGLDisplay(QObject* parent) : QObject(parent)
 {
-#ifdef __linux
+#ifdef Q_WS_X11
   int screens = XScreenCount(QX11Info::display());
   for(int i = 0; i < screens; ++i)
   {

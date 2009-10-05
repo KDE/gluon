@@ -23,6 +23,7 @@
 #ifndef KGLANIMITEM_H
 #define KGLANIMITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
 /**
@@ -32,7 +33,7 @@
 
 class QTimeLine;
 
-class KGLAnimItem: public KGLItem
+class KGL_EXPORT KGLAnimItem: public KGLItem
 {
     Q_OBJECT
     public:

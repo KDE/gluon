@@ -23,9 +23,14 @@
 #ifndef KGLSHADOWITEM_H
 #define KGLSHADOWITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
+#ifdef Q_WS_WIN
+#include <eigen2/Eigen/Geometry>
+#else
 #include <Eigen/Geometry>
+#endif
 
 #include <QList>
 #include <QTimer>
@@ -35,7 +40,7 @@
  */
 //@{
 
-class KGLShadowItem : public KGLItem
+class KGL_EXPORT KGLShadowItem : public KGLItem
 {
     Q_OBJECT
     public :

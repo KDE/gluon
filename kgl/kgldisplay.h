@@ -20,6 +20,8 @@
 #include <QtCore/QObject>
 #include <QCoreApplication>
 
+#include "kgl_export.h"
+
 class KGLScreen;
 
 /**
@@ -30,7 +32,7 @@ class KGLScreen;
 *
 * @todo Think of a way to create screens independent of operating system. Maybe use a factory?
 */
-class KGLDisplay : public QObject
+class KGL_EXPORT KGLDisplay : public QObject
 {
   Q_OBJECT
   public:

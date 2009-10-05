@@ -23,6 +23,7 @@
 #ifndef KGLCONTAINERITEM_H
 #define KGLCONTAINERITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 #include "kglitemlist.h"
 #include <QDataStream>
@@ -34,7 +35,7 @@
  */
 //@{
 
-class KGLContainerItem: public KGLItem
+class KGL_EXPORT KGLContainerItem: public KGLItem
 {
     Q_OBJECT
     public:

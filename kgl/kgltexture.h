@@ -25,12 +25,13 @@
 #include <QPixmap>
 #include <QImage>
 
+#include "kgl_export.h"
 /**
  * \defgroup KGL KGL
  */
 //@{
 
-class KGLTexture
+class KGL_EXPORT KGLTexture
 {
 public:
     KGLTexture();

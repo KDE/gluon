@@ -22,6 +22,8 @@
 #define KGLPHYSICSENGINE_H
 
 #include <QList>
+
+#include "kgl_export.h"
 #include "kglengine.h"
 #include "kgltextitem.h"
 #include "kglphysicsitem.h"
@@ -36,7 +38,7 @@
 class KGLPhysicsEngine;
 class KGLContactListener;
 
-class KGLPhysicsEngine : public KGLEngine
+class KGL_EXPORT KGLPhysicsEngine : public KGLEngine
 {
     Q_OBJECT
 public:

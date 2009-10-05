@@ -1,5 +1,4 @@
-find_package(KDE4 REQUIRED)
-include(KDE4Defaults)
+cmake_minimum_required(VERSION 2.6)
 
 include_directories(Box2D/Include)
 include_directories(physics)
@@ -21,19 +20,24 @@ set(kgl_LIB_SRCS
     kglpixmapitem.cpp
     kglpoint.cpp
     kglpolygonitem.cpp
-    kglprogram.cpp
     kglshader.cpp
     kglshadowitem.cpp
     kgltextitem.cpp
     kgltexture.cpp
     kglview.cpp
     kglscreen.cpp
-    kglrandrscreen.cpp
     kglinfowidget.cpp
-    kglfx.cpp
 
     widgets/kglresolutiondialog.cpp
 )
+
+IF(NOT WIN32)
+SET(kgl_LIB_SRCS
+    kglfx.cpp
+    kglprogram.cpp
+    kglrandrscreen.cpp
+    ${kgl_LIB_SRCS})
+ENDIF(NOT WIN32)
 
 SET(kgl_RCCS
 shaders/shaders.qrc
@@ -58,6 +62,7 @@ target_link_libraries(kgl Box2D)
 install(TARGETS kgl ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(FILES
+  kgl_export.h
   #kglanimitem.h
   kglbaseitem.h
   #kglblurprogram.h
@@ -75,7 +80,6 @@ install(FILES
   kglpixmapitem.h
   kglpoint.h
   kglpolygonitem.h
-  kglprogram.h
   kglshader.h
   kglshadowitem.h
   kgltextitem.h
@@ -83,14 +87,21 @@ install(FILES
   kglview.h
   kgldisplay.h
   kglscreen.h
-  kglrandrscreen.h
   kglinfowidget.h
-  kglfx.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
 )
+
+IF(NOT WIN32)
+  INSTALL(FILES
+    kglfx.h
+    kglprogram.h
+    kglrandrscreen.h
+  )
+ENDIF(NOT WIN32)
 
 INSTALL(FILES
   widgets/kglresolutiondialog.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl/widgets COMPONENT Devel
 )
+
 add_subdirectory(Box2D) #add header installation

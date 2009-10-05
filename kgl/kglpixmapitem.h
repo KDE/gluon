@@ -24,6 +24,8 @@
 #define KGLPIXMAP_ITEM_H
 
 #include <QPixmap>
+
+#include "kgl_export.h"
 #include "kglitem.h"
 #include "kglboxitem.h"
 
@@ -32,7 +34,7 @@
  */
 //@{
 
-class KGLPixmapItem: public KGLBoxItem
+class KGL_EXPORT KGLPixmapItem: public KGLBoxItem
 {
     Q_OBJECT
     public:

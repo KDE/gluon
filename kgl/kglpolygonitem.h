@@ -21,6 +21,7 @@
 #ifndef KGLPOLYGONITEM_H
 #define KGLPOLYGONITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
 /**
@@ -32,7 +33,7 @@
 * @class KGLPolygonItem kglpolygonitem.h <KGLPolygonItem>
 * This is a KGLItem subclass that represents a polygon, and which can be initialized with a QPolygonF.
 */
-class KGLPolygonItem : public KGLItem
+class KGL_EXPORT KGLPolygonItem : public KGLItem
 {
     Q_OBJECT
     public:

@@ -22,6 +22,8 @@
 #define KGLITEM_LIST_H
 
 #include <QtCore/QList>
+
+#include "kgl_export.h"
 #include "kglitem.h"
 
 /**
@@ -29,7 +31,7 @@
  */
 //@{
 
-class KGLItemList: public QList<KGLItem*>
+class KGL_EXPORT KGLItemList: public QList<KGLItem*>
 {
     public:
         KGLItemList();
