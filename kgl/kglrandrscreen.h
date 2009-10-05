@@ -22,6 +22,16 @@ extern "C"
 #include <X11/extensions/Xrandr.h>
 }
 
+/**
+* A KGLScreen implementation for the X Window Rotate and Resize extension.
+* This extension is the "modern" way of dealing with resolution changes and
+* as such is used for our mode setting code.
+*
+* @todo Use one output per KGLScreen. This needs to be done together with some
+* modifications to KGLDisplay. This would allow setting resolution of individual
+* outputs and thus not turning off secondary outputs. Or even allow us to use
+* those additional outputs to display stuff...
+*/
 class KGLRandRScreen : public KGLScreen
 {
   Q_OBJECT

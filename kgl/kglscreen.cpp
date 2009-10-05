@@ -63,5 +63,11 @@ void KGLScreen::setResolution(KGLResolution* resolution)
   applySettings();
 }
 
+void KGLScreen::applySettings()
+{
+  emit screenSettingsChanged();
+}
+
+
 
 

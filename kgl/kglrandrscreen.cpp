@@ -43,7 +43,12 @@ void KGLRandRScreen::applySettings()
     m_goFullscreen = true;
   }
 
-  emit screenSettingsChanged();
+  KGLScreen::applySettings();
+}
+
+int KGLRandRScreen::colourDepth() const
+{
+  return XDefaultDepth(m_display, m_screenID);
 }
 
 void KGLRandRScreen::retrieveResolutions()
