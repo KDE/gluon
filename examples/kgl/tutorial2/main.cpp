@@ -25,6 +25,7 @@
 #include <KCmdLineArgs>
 #include <KDebug>
 #include <QWidget>
+#include <KIcon>
 #include <gluon/kgl/kglview.h>
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglboxitem.h>
