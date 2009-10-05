@@ -144,7 +144,7 @@ void KGLParticlesItem::createExplose(unsigned int number,QPixmap texture,const d
 
 void KGLParticlesItem::createSmoke(unsigned int number,QPixmap texture,const double angle, float speed, float alphaStep,float size)
 {
-    for ( unsigned int i=0; i<number; ++i)
+    for ( unsigned int counter=0; counter<number; ++counter)
     {
         KGLParticle *  p = new KGLParticle;
         float a = (qrand()%(int)angle) * M_PI / 180;

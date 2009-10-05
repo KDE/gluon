@@ -27,6 +27,7 @@
 #include <QFont>
 #include <GL/glew.h>
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
 class QString;
@@ -42,7 +43,7 @@ class QFont;
 * @class KGLTextItem kgltextitem.h <KGLTextItem>
 * This class provides an item that is used to display text.
 */
-class KGLTextItem: public KGLItem
+class KGL_EXPORT KGLTextItem: public KGLItem
 {
     Q_OBJECT
     public:

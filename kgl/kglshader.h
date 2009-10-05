@@ -22,6 +22,7 @@
 #ifndef KGLSHADER_H
 #define KGLSHADER_H
 
+#include "kgl_export.h"
 #include <GL/glew.h>
 
 class QString;
@@ -43,7 +44,7 @@ class QByteArray;
  *
  * @see Program
  **/
-class KGLShader
+class KGL_EXPORT KGLShader
 {
     public:
        /**

@@ -26,6 +26,9 @@ struct QPair;/*
 * A simple data structure to hold information
 * about a screen resolution.
 */
+=======
+#include "kgl_export.h"
+
 struct KGLResolution
 {
   QString name;
@@ -48,7 +51,7 @@ struct KGLResolution
 *
 * @see KGLRandRScreen
 */
-class KGLScreen : public QObject
+class KGL_EXPORT KGLScreen : public QObject
 {
   Q_OBJECT
   public:

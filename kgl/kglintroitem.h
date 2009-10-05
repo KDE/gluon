@@ -23,6 +23,7 @@
 #ifndef KGLINTRO_H
 #define KGLINTRO_H
 
+#include "kgl_export.h"
 #include "kglpixmapitem.h"
 #include "kglshadowitem.h"
  #include <QTimer>
@@ -34,7 +35,7 @@
 //@{
 
 
-class KGLIntroItem: public KGLItem
+class KGL_EXPORT KGLIntroItem: public KGLItem
 {
     Q_OBJECT
     public:

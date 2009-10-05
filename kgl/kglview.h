@@ -27,6 +27,7 @@
 #include <QTimer>
 #include <QDialog>
 
+#include "kgl_export.h"
 #include "kglengine.h"
 //#include "kglscreenconfig.h"
 #include "kglpixmapitem.h"
@@ -38,7 +39,7 @@ class QMouseEvent;
  */
 //@{
 
-class KGLView : public QGLWidget
+class KGL_EXPORT KGLView : public QGLWidget
 {
     Q_OBJECT
 public:

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QLabel>
 #include <KTabWidget>
+
+#include "kgl_export.h"
 #include "kglengine.h"
 #include "kglview.h"
 
@@ -12,7 +14,7 @@
  */
 //@{
 
-class KGLInfoWidget : public QWidget
+class KGL_EXPORT KGLInfoWidget : public QWidget
 {
 public:
     KGLInfoWidget(QWidget * parent=0);

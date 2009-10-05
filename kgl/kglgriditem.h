@@ -21,6 +21,7 @@
 #ifndef KGLGRIDITEM_H
 #define KGLGRIDITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 #include <QSizeF>
 #include <QList>
@@ -30,7 +31,7 @@
  */
 //@{
 
-class KGLGridItem : public KGLItem
+class KGL_EXPORT KGLGridItem : public KGLItem
 {
 
     public:

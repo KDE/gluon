@@ -21,6 +21,7 @@
 #ifndef KGLPHYSICSITEM_H
 #define KGLPHYSICSITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 #include "Box2D/Box2D.h"
 #include <KDebug>
@@ -33,7 +34,7 @@
 class KGLPhysicsEngine;
 class KGLItem;
 
-class KGLPhysicsItem : public KGLItem
+class KGL_EXPORT KGLPhysicsItem : public KGLItem
 {
     Q_OBJECT
 public:

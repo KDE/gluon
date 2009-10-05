@@ -29,7 +29,13 @@ template<class K, class V> class QHash;
 
 #include <GL/glew.h>
 #include "kglshader.h"
+#include "kgl_export.h"
+
+#ifdef Q_WS_WIN
+#include <eigen2/Eigen/Core>
+#else
 #include <Eigen/Core>
+#endif
 
 //Q_DECLARE_METATYPE(float);
 
@@ -123,7 +129,7 @@ template<class K, class V> class QHash;
  *
  * @see Shader, Mesh
  **/
-class KGLProgram
+class KGL_EXPORT KGLProgram
 {
     public:
         /**

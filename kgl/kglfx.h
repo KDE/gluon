@@ -22,7 +22,8 @@
 #define KGLEFFECT_H
 
 #include <QString>
-#include  "kglprogram.h"
+#include "kgl_export.h"
+#include "kglprogram.h"
 #include "kglshader.h"
 
 /**
@@ -32,7 +33,7 @@
 
 class KGLFx;
 
-class KGLFx : public KGLProgram
+class KGL_EXPORT KGLFx : public KGLProgram
 {
 
 public:

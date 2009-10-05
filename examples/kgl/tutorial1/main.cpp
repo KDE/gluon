@@ -24,6 +24,7 @@
 #include <KAboutData>
 #include <KCmdLineArgs>
 #include <KDebug>
+#include <KIcon>
 #include <QWidget>
 #include <gluon/kgl/kglview.h>
 #include <gluon/kgl/kglengine.h>

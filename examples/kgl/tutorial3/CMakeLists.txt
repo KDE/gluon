@@ -1,9 +1,9 @@
 project(main)
 
 find_package(KDE4 REQUIRED)
-find_package(Gluon REQUIRED)
+find_package(KGL REQUIRED)
 
-include_directories(${KDE4_INCLUDES} ${GLUON_INCLUDES})
+include_directories(${KDE4_INCLUDES} ${KGL_INCLUDES})
 
 include(KDE4Defaults)
 
@@ -19,7 +19,7 @@ set(main_SRCS
 	)
 
 kde4_add_executable(kgl_tutorial3 ${main_SRCS})
-target_link_libraries(kgl_tutorial3 ${GLUON_LIBRARY})
+target_link_libraries(kgl_tutorial3 ${QT_QTOPENGL_LIBRARY} ${KDE4_KDEUI_LIBS} ${KGL_LIBRARY})
 
 ########### install files ###############
 

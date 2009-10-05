@@ -39,7 +39,9 @@ void KGLItem::init()
     m_texture = new KGLTexture;
     m_GLCallList = glGenLists(1);
     m_texRepeat = QPointF(1,1);
+#ifndef Q_WS_WIN
     m_shaderFx = NULL;
+#endif
     resetTransform();
 }
 
@@ -78,7 +80,9 @@ KGLItem::KGLItem(const QLineF &line, KGLEngine * parent)
 KGLItem::~KGLItem()
 {
     delete m_texture;
+#ifndef Q_WS_WIN
     delete m_shaderFx;
+#endif
     glDeleteLists(m_GLCallList,1);
 
 }
@@ -89,7 +93,7 @@ KGLItem *KGLItem::clone()
     KGLItem * newItem = new KGLItem;
     newItem->setTexture(texture());
     newItem->setMatrix(matrix());
- newItem->setPosition(position());
+    newItem->setPosition(position());
     foreach(const KGLPoint &p, pointList())
     newItem->addVertex(p);
 
@@ -114,16 +118,20 @@ void KGLItem::paintGL()
     //Disabled until necessary, causes diagonal lines on ATI cards.
     //glEnable(GL_POLYGON_SMOOTH);
 
+#ifndef Q_WS_WIN
     if ( m_shaderFx != NULL ){
         if (shaderFx()->isValid())
             shaderFx()->bind();
     }
+#endif
 
     glCallList(m_GLCallList);  //CALL THE LIST
 
+#ifndef Q_WS_WIN
     if ( m_shaderFx != NULL ){
         shaderFx()->unbind();
     }
+#endif
 
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);

@@ -30,6 +30,8 @@
 #include <QList>
 #include <QVector>
 
+#include "kgl_export.h"
+
 /**
  * \defgroup KGL KGL
  */

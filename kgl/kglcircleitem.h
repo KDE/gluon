@@ -21,6 +21,7 @@
 #ifndef KGLCIRCLEITEM_H
 #define KGLCIRCLEITEM_H
 
+#include "kgl_export.h"
 #include "kglitem.h"
 
 /**
@@ -32,7 +33,7 @@
 * @class KGLCircleItem kglcircleitem.h <KGLCircleItem>
 * This is a KGLItem subclass for creating circles
 */
-class KGLCircleItem : public KGLItem
+class KGL_EXPORT KGLCircleItem : public KGLItem
 {
     Q_OBJECT
     public:

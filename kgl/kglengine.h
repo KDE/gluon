@@ -23,6 +23,8 @@
 
 #include <QObject>
 #include <QMap>
+
+#include "kgl_export.h"
 #include "kglbaseitem.h"
 #include "kglitemlist.h"
 #include "kglitem.h"
@@ -39,7 +41,7 @@ typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
 class KGLEngine;
 class KGLPhysicsEngine;
 
-class KGLEngine : public QObject
+class KGL_EXPORT KGLEngine : public QObject
 {
     Q_OBJECT
     public:

@@ -23,6 +23,7 @@
 #ifndef KGLPARTICLESITEM_H
 #define KGLPARTICLESITEM_H
 
+#include "kgl_export.h"
 #include "kgltexture.h"
 #include "kglitem.h"
 
@@ -33,7 +34,7 @@
 
 class KGLParticle;
 class KGLParticlesItem;
-class KGLParticle
+class KGL_EXPORT KGLParticle
 {
     public:
         KGLParticle();
@@ -160,7 +161,7 @@ class KGLParticle
 
 //========================================================
 
-class KGLParticlesItem: public KGLItem
+class KGL_EXPORT KGLParticlesItem: public KGLItem
 {
     public:
         KGLParticlesItem(KGLEngine * parent=0);
