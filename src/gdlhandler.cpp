@@ -25,6 +25,14 @@ using namespace Gluon;
 
 template<> GDLHandler* KSingleton<GDLHandler>::m_instance = 0;
 
+GDLHandler::GDLHandler()
+{
+}
+
+GDLHandler::~GDLHandler()
+{
+}
+
 GluonObject *
 GDLHandler::instantiateObject(QString className)
 {

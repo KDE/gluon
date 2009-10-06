@@ -37,6 +37,12 @@ namespace Gluon
             QString serializeGDL(QList<GluonObject *> serializeThis);
             
         private:
+            friend class KSingleton<GDLHandler>;
+            GDLHandler();
+            GDLHandler(const GDLHandler &other);
+            GDLHandler & operator=(const GDLHandler&);
+            virtual ~GDLHandler();
+            
             GluonObject * instantiateObject(QString className);
             GluonObject * createObject(QStringList objectStringList, QObject * parent);
             /**
