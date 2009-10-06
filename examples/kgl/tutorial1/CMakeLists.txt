@@ -1,7 +1,7 @@
 project(main)
 
 find_package(KDE4 REQUIRED)
-find_package(kgl REQUIRED)
+find_package(KGL REQUIRED)
 
 include_directories(${KDE4_INCLUDES} ${KGL_INCLUDES})
 
