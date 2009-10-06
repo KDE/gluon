@@ -18,7 +18,7 @@
 #define KGLDISPLAY_H
 
 #include <QtCore/QObject>
-#include <QCoreApplication>
+//#include <QCoreApplication>
 
 #include "kgl_export.h"
 
@@ -49,7 +49,9 @@ class KGL_EXPORT KGLDisplay : public QObject
     {
       if(!m_instance)
       {
-        m_instance = new KGLDisplay(QCoreApplication::instance());
+        // You do not have a QCoreApplication when you're writing libraries like this! It will (and did) blow up in your face on compiletime
+        //m_instance = new KGLDisplay(QCoreApplication::instance());
+        m_instance = new KGLDisplay();
       }
       return m_instance;
     }
