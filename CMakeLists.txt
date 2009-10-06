@@ -9,9 +9,9 @@ find_package(KDE4 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Eigen2 REQUIRED)
+
 IF(NOT WIN32)
 find_package(X11 REQUIRED)
-
 find_package(OpenAL REQUIRED)
 find_package(Alut REQUIRED)
 find_package(SndFile REQUIRED)
@@ -20,12 +20,10 @@ ENDIF(NOT WIN32)
 
 include(KDE4Defaults)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${KDE4_INCLUDES})
-
 include_directories(${OPENAL_INCLUDE_DIR})
-
 include_directories(${QT_QTOPENGL_INCLUDE_DIR})
-include_directories({X11_Xrandr_INCLUDE_PATH})
 include_directories(${EIGEN2_INCLUDE_DIR})
 
 #include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -33,16 +31,15 @@ include_directories(${EIGEN2_INCLUDE_DIR})
 
 
 ## TODO: are those really needed?  Yes it's ! Otherwise a lot of Box2d warning appear!
-IF(NOT WIN32)
+if(NOT WIN32)
 add_definitions(-W -Wall -Wno-unused) 
 add_definitions(-fvisibility=default)
-
-add_definitions( -DNDEBUG -DKDE_DEFAULT_DEBUG_AREA=0000 )
-ENdIF(NOT WIN32)
+add_definitions( -DKDE_DEFAULT_DEBUG_AREA=12500 )
+endif(NOT WIN32)
 
 
 add_subdirectory(Box2D)
-
+add_subdirectory(common)
 add_subdirectory(kgl)
 IF(NOT WIN32)
 add_subdirectory(kal)

@@ -18,9 +18,9 @@
 #define KGLDISPLAY_H
 
 #include <QtCore/QObject>
-//#include <QCoreApplication>
 
 #include "kgl_export.h"
+#include <common/ksingleton.h>
 
 class KGLScreen;
 
@@ -32,10 +32,13 @@ class KGLScreen;
 *
 * @todo Think of a way to create screens independent of operating system. Maybe use a factory?
 */
-class KGL_EXPORT KGLDisplay : public QObject
+class KGL_EXPORT KGLDisplay : public KSingleton<KGLDisplay>
 {
   Q_OBJECT
   public:
+    KGLDisplay();
+    virtual ~KGLDisplay();
+    
     /**
     * The currently active screen.
     */
@@ -45,25 +48,9 @@ class KGL_EXPORT KGLDisplay : public QObject
     */
     virtual QList<KGLScreen*> allScreens() const;
 
-    static KGLDisplay* instance()
-    {
-      if(!m_instance)
-      {
-        // You do not have a QCoreApplication when you're writing libraries like this! It will (and did) blow up in your face on compiletime
-        //m_instance = new KGLDisplay(QCoreApplication::instance());
-        m_instance = new KGLDisplay();
-      }
-      return m_instance;
-    }
-
   protected:
-    KGLDisplay(QObject* parent = 0);
-    virtual ~KGLDisplay();
-    
     QList<KGLScreen*> m_screens;
 
-    static KGLDisplay* m_instance;
-    
 };
 
 #endif // KGLDISPLAY_H

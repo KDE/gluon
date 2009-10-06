@@ -22,9 +22,9 @@
 #include <QX11Info>
 #endif
 
-KGLDisplay* KGLDisplay::m_instance = 0;
+template<> KGLDisplay* KSingleton<KGLDisplay>::m_instance = 0;
 
-KGLDisplay::KGLDisplay(QObject* parent) : QObject(parent)
+KGLDisplay::KGLDisplay()
 {
 #ifdef Q_WS_X11
   int screens = XScreenCount(QX11Info::display());
