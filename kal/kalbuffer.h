@@ -29,6 +29,23 @@
 #include "kal_export.h"
 
 /**
+ * @class kal/kalbuffer.h <KAL/KALBuffer>
+ *
+ * @short the Wrapper class of openAL buffer.
+ *
+ * KALBuffer allow you to manage data of sound. If you want to generate or manupulate sound data, use this class.
+ * You can setup a KALSound from a KALBuffer
+ * You can initialize the class with a pathName or a buffer. For example :
+ * @code
+ * KALBuffer* buffer = new KALBuffer;
+ * {action inside the buffer}
+ * KALSound * sound = new KALSound(buffer);
+ * sound->play();
+ * @endcode
+
+ */
+
+/**
  * \defgroup KAL KAL
  */
 //@{
@@ -45,9 +62,15 @@ public:
     void setBuffer(const QString &fileName);
     void setBuffer(ALuint buffer);
     bool isEmpty() const;
+    /**
+    * This function will generate a "hello word" sound.
+    */
     void setHelloWord();
     ALuint buffer() const;
-   ALfloat duration() const;
+    /**
+    * @return the duration of buffer in msecond
+    */
+    ALfloat duration() const;
 
 protected:
     void init();

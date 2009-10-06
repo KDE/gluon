@@ -20,8 +20,8 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALSOURCE_H
-#define KALSOURCE_H
+#ifndef KALSOUND_H
+#define KALSOUND_H
 
 #include "kal_export.h"
 #include "kalbuffer.h"
@@ -31,6 +31,25 @@
 #include <QtCore/QThread>
 
 #include <alut.h>
+
+/**
+ * @class kal/kalsound.h <KAL/KALSound>
+ *
+ * @short The base sound player class
+ *
+ * KALSound provide a simple player which allow you to play small wav or ogg file.
+ *
+ * You can initialize the class with a pathName or a buffer. For example :
+ * @code
+ * KALSound * sound = new KALSound("explosion.ogg");
+ * sound->play();
+ * @endcode
+ * You can apply some properties by call for example, setVolume, setVelocity, setPosition ...
+ * For more information, see openAL doc. You can retrieve openAL value, by calling source() for the ALint source and
+ * buffer() for the ALint buffer;
+ */
+
+
 
 /**
  * \defgroup KAL KAL
@@ -193,11 +212,25 @@ public Q_SLOTS:
     */
     void setPitch(ALfloat pitch = 1.0f);
 
-
+   /**
+    * Specify the minimum index value of the volume,
+    * @param min is 0 by default
+    */
     void setMinVolume(ALfloat min = 0.0f);
+
+   /**
+    * Specify the maximum index value of the volume,
+    * @param max is 10.0f by default
+    */
     void setMaxVolume(ALfloat max = 10.0f);
     void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
     void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
+
+       /**
+    * Specify the current time position.
+    * @param time must be inferior than duration.
+    * @see duration()
+    */
     void setTimePosition(ALfloat time);
 protected:
     void setupSource();

@@ -81,7 +81,7 @@ void KALBuffer::setBuffer(const QString &fileName)
 {
     KALSoundReader reader(fileName);
     if (reader.canRead()) {
-        d->buffer = reader.buffer();
+        d->buffer = reader.alBuffer();
     }
 }
 
