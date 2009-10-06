@@ -35,10 +35,7 @@ class KGLScreen;
 class KGL_EXPORT KGLDisplay : public KSingleton<KGLDisplay>
 {
   Q_OBJECT
-  public:
-    KGLDisplay();
-    virtual ~KGLDisplay();
-    
+  public:   
     /**
     * The currently active screen.
     */
@@ -48,7 +45,13 @@ class KGL_EXPORT KGLDisplay : public KSingleton<KGLDisplay>
     */
     virtual QList<KGLScreen*> allScreens() const;
 
-  protected:
+  private:
+    friend class KSingleton<KGLDisplay>;
+    KGLDisplay();
+    KGLDisplay(const KGLDisplay&) { }
+    KGLDisplay& operator=(const KGLDisplay&);
+    virtual ~KGLDisplay();
+    
     QList<KGLScreen*> m_screens;
 
 };
