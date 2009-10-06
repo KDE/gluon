@@ -25,13 +25,15 @@
 
 namespace Gluon
 {
+    class GluonObject;
+    
     class GDLHandler
     {
         // Using the Meyers Singleton for this to reduce code impact
         public:
             static GDLHandler & instance();
-            QList<QObject *> parseGDL(const QString parseThis, QObject * parent);
-            QString serializeGDL(QObject * serializeThis);
+            QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
+            QString serializeGDL(QList<GluonObject *> serializeThis);
             
         private:
             GDLHandler() {};
@@ -39,7 +41,8 @@ namespace Gluon
             GDLHandler & operator=(GDLHandler const &other) { };
             ~GDLHandler() {};
             
-            QObject * instantiateObject(QString className);
+            GluonObject * instantiateObject(QString className);
+            GluonObject * createObject(QStringList objectStringList, QObject * parent);
             /**
              * Returns a list of QStringLists, where each QStringList is:
              * Index 0: The type of the object

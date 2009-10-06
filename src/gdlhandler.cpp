@@ -18,6 +18,7 @@
 */
 
 #include "gdlhandler.h"
+#include "gluonobject.h"
 #include <QStringList>
 
 using namespace Gluon;
@@ -29,18 +30,69 @@ GDLHandler::instance()
     return theInstance;
 }
 
-QObject *
+GluonObject *
 GDLHandler::instantiateObject(QString className)
 {
-    QObject * newObject = 0;
+    GluonObject * newObject = 0;
     
-    if(className == "")
-    {
-    }
+    if(className.isEmpty())
+        newObject = new GluonObject();
     else
-        newObject = new QObject();
+    {
+        // Do this for now to avoid crashes - we need it to do instantiations
+        // of the correct classes here (GameObject for gameobjects, and for
+        // Components of course all those wonderful components that... aren't
+        // written yet ;) )
+        newObject = new GluonObject();
+    }
     
     return newObject;
+}
+
+GluonObject *
+GDLHandler::createObject(QStringList objectStringList, QObject * parent)
+{
+    GluonObject * createdObject = 0;
+    int index = 0;
+    QString currentPropertyName;
+    foreach(const QString &item, objectStringList)
+    {
+        switch(index)
+        {
+            case 0:
+                // Object type
+                createdObject = instantiateObject(item);
+                createdObject->setParent(parent);
+                break;
+            case 1:
+                // Object name
+                createdObject->setName(item);
+                break;
+            default:
+                // Everything else
+                if(currentPropertyName.isEmpty())
+                {
+                    if(item.startsWith('{'))
+                    {
+                        // Items are parented automatically - see case 0 above
+                        QList<GluonObject *> childList = parseGDL(item, createdObject);
+                    }
+                    else
+                    {
+                        currentPropertyName = item;
+                    }
+                }
+                else
+                {
+                    // Set the property with the current string as the value, and finally clear the property name
+                    createdObject->setPropertyFromString(currentPropertyName, item);
+                    currentPropertyName.clear();
+                }
+                break;
+        }
+        ++index;
+    }
+    return createdObject;
 }
 
 QList<QStringList>
@@ -52,6 +104,7 @@ GDLHandler::tokenizeObject(QString objectString)
     bool inName = false;
     bool inValue = false;
     bool inChild = false;
+    bool inObjectDefinition = false;
     bool beingEscaped = false;
     int extraBracketCounter = 0;
     QString currentString;
@@ -60,9 +113,20 @@ GDLHandler::tokenizeObject(QString objectString)
     QString::const_iterator i;
     for(i = objectString.begin(); i != objectString.end(); ++i)
     {
-        if(inItem)
+        if(!inItem)
         {
-            if(!inValue && !inName && !inChild)
+            if(i->isSpace())
+            {
+                // Just do nothing - whitespace should be ignored outside of items
+            }
+            else if(i->toLower() == '{')
+            {
+                inItem = true;
+            }
+        }
+        else
+        {
+            if(!inValue && !inName && !inChild && !inObjectDefinition)
             {
                 if(!currentString.isEmpty())
                 {
@@ -89,13 +153,46 @@ GDLHandler::tokenizeObject(QString objectString)
                     }
                     else
                     {
-                        // Once you hit something, start reading the name
-                        inName = true;
+                        // Once you hit something, start reading the object definition
+                        inObjectDefinition = true;
                     }
                 }
             }
             
-            if(inChild)
+            if(inObjectDefinition)
+            {
+                if(!inName && !inValue)
+                {
+                    // Ignore spaces between the start { and the object type
+                    if(!i->isSpace())
+                        inName = true;
+                }
+                else if(inName)
+                {
+                    if(i->toLower() == '(')
+                    {
+                        currentItem.append(currentString.trimmed());
+                        currentString.clear();
+                        inName = false;
+                        inValue = true;
+                    }
+                    else
+                        currentString += i->unicode();
+                }
+                else // meaning inValue
+                {
+                    if(i->toLower() == ')')
+                    {
+                        currentItem.append(currentString.trimmed());
+                        currentString.clear();
+                        inValue = false;
+                        inObjectDefinition = false;
+                    }
+                    else
+                        currentString += i->unicode();
+                }
+            }
+            else if(inChild)
             {
                 if(i->toLower() == '\\' && !beingEscaped)
                     beingEscaped = true;
@@ -152,41 +249,28 @@ GDLHandler::tokenizeObject(QString objectString)
                 }
             }
         }
-        else
-        {
-            if(i->isSpace())
-            {
-                // Just do nothing - whitespace should be ignored outside of items
-            }
-            else
-            {
-                if(i->toLower() == '{')
-                {
-                    inItem = true;
-                }
-            }
-        }
     }
     
     return tokenizedObject;
 }
 
-QList<QObject *>
+QList<GluonObject *>
 GDLHandler::parseGDL(const QString parseThis, QObject * parent)
 {
-    QList<QObject *> thisObject;
+    QList<GluonObject *> thisObjectList;
     
     QList<QStringList> tokenizedObject = tokenizeObject(parseThis);
     foreach(const QStringList &item, tokenizedObject)
     {
-        
+        GluonObject * currentObject = createObject(item, parent);
+        thisObjectList.append(currentObject);
     }
     
-    return thisObject;
+    return thisObjectList;
 }
 
 QString
-serializeGDL(QObject * serializeThis)
+serializeGDL(QList<GluonObject *> serializeThis)
 {
     QString serializedData;
     return serializedData;
