@@ -37,10 +37,7 @@ KGLDisplay::KGLDisplay(QObject* parent) : QObject(parent)
 
 KGLDisplay::~KGLDisplay()
 {
-  foreach(KGLScreen* screen, m_screens)
-  {
-    delete screen;
-  }
+  qDeleteAll(m_screens);
   m_screens.clear();
 }
 
