@@ -34,7 +34,6 @@ namespace Gluon
             ComponentPrivate(const ComponentPrivate &other);
             ~ComponentPrivate();
             
-            QString name;
             QString description;
             bool enabled;
             GameObject * gameObject;

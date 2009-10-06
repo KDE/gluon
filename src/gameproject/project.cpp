@@ -23,12 +23,13 @@
 using namespace Gluon;
 
 Project::Project(QObject * parent)
+    : GluonObject(parent)
 {
     d = new ProjectPrivate;
 }
 
 Project::Project(const Project &other, QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
     , d(other.d)
 {
 }

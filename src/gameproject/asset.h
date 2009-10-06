@@ -20,7 +20,7 @@
 #ifndef GLUON_ASSET_H
 #define GLUON_ASSET_H
 
-#include <QObject>
+#include "gluonobject.h"
 #include <QUrl>
 #include <QSharedData>
 
@@ -28,7 +28,7 @@ namespace Gluon
 {
     class AssetPrivate;
     
-    class Asset : public QObject
+    class Asset : public GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QUrl file READ file WRITE setFile)

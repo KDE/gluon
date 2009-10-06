@@ -20,7 +20,7 @@
 #ifndef GLUON_PROJECT_H
 #define GLUON_PROJECT_H
 
-#include <QObject>
+#include "gluonobject.h"
 #include <QSharedData>
 #include <QUrl>
 
@@ -31,7 +31,7 @@ namespace Gluon
     class Asset;
     class Prefab;
     
-    class Project : public QObject
+    class Project : public GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QUrl file READ file WRITE setFile)

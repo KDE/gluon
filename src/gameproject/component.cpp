@@ -26,13 +26,13 @@
 using namespace Gluon;
 
 Component::Component(QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
 {
     d = new ComponentPrivate;
 }
 
 Component::Component(const Component &other, QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
     , d(other.d)
 {
 }
@@ -42,18 +42,6 @@ Component::~Component()
 }
 
 // Property getter-setters
-
-void
-Component::setName(QString newName)
-{
-    d->name = newName;
-}
-
-QString
-Component::name() const
-{
-    return d->name;
-}
 
 void
 Component::setDescription(QString newDescription)

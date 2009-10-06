@@ -37,7 +37,6 @@ namespace Gluon
             GameObjectPrivate(const GameObjectPrivate &other);
             ~GameObjectPrivate();
             
-            QString name;
             QString description;
             
             Eigen::Vector3d position;

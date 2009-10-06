@@ -20,7 +20,7 @@
 #ifndef GLUON_PREFAB_H
 #define GLUON_PREFAB_H
 
-#include <QtCore/QObject>
+#include "gluonobject.h"
 #include <QSharedData>
 
 
@@ -28,7 +28,7 @@ namespace Gluon
 {
     class PrefabPrivate;
     
-    class Prefab : public QObject
+    class Prefab : public GluonObject
     {
         Q_OBJECT
         
