@@ -81,10 +81,10 @@ GluonObject::setPropertyFromString(QString propertyName, QString propertyValue)
     this->setProperty(propertyName.toUtf8(), value);
 }
 
-QVariant
+QString
 GluonObject::getStringFromProperty(QString propertyName)
 {
-    QVariant value;
+    QString value;
     
     return value;
 }
