@@ -23,12 +23,7 @@
 
 using namespace Gluon;
 
-GDLHandler &
-GDLHandler::instance()
-{
-    static GDLHandler theInstance;
-    return theInstance;
-}
+template<> GDLHandler* KSingleton<GDLHandler>::m_instance = 0;
 
 GluonObject *
 GDLHandler::instantiateObject(QString className)
