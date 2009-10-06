@@ -20,7 +20,7 @@
 #ifndef GLUON_COMPONENT_H
 #define GLUON_COMPONENT_H
 
-#include <QtCore/QObject>
+#include "gluonobject.h"
 #include <QSharedData>
 
 namespace Gluon
@@ -28,10 +28,9 @@ namespace Gluon
     class GameObject;
     class ComponentPrivate;
     
-    class Component : public QObject
+    class Component : public GluonObject
     {
         Q_OBJECT
-        Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QString description READ description WRITE setDescription)
         Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
         
@@ -43,9 +42,6 @@ namespace Gluon
             virtual void Start() {};
             virtual void Update(int elapsedMilliseconds) = 0;
             virtual void Draw(int timeLapse = 0) {};
-            
-            void setName(QString newName);
-            QString name() const;
             
             void setDescription(QString newDescription);
             QString description() const;

@@ -23,13 +23,13 @@
 using namespace Gluon;
 
 Asset::Asset(QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
 {
     d = new AssetPrivate;
 }
 
 Asset::Asset(const Asset &other, QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
     , d(other.d)
 {
 }

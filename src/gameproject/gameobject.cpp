@@ -24,12 +24,13 @@
 using namespace Gluon;
 
 GameObject::GameObject(QObject * parent)
+    : GluonObject(parent)
 {
     d = new GameObjectPrivate;
 }
 
 GameObject::GameObject(const GameObject &other, QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
     , d(other.d)
 {
 }
@@ -258,18 +259,6 @@ GameObject::parentGameObject()
 
 // ----------------------------------------------------------------------------
 // Property getter-setters
-
-void
-GameObject::setName(QString newName)
-{
-    d->name = newName;
-}
-
-QString
-GameObject::name() const
-{
-    return d->name;
-}
 
 void
 GameObject::setDescription(QString newDescription)

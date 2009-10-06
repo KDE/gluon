@@ -41,7 +41,7 @@ namespace Gluon
             void setName(QString newName);
             
             virtual void setPropertyFromString(QString propertyName, QString propertyValue);
-            
+            virtual QString getStringFromProperty(QString propertyName);
         private:
             QSharedDataPointer<GluonObjectPrivate> d;
     };

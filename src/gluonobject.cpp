@@ -20,6 +20,7 @@
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
 #include <QVariant>
+#include <QColor>
 
 using namespace Gluon;
 
@@ -48,15 +49,42 @@ GluonObject::setPropertyFromString(QString propertyName, QString propertyValue)
 {
     QVariant value;
     
-    if(propertyValue.toLower().startsWith("qstring("))
-        value = propertyValue.mid(8, propertyValue.length() - 9);
-    else if(propertyValue.toLower().startsWith("float("))
-        value = propertyValue.mid(6, propertyValue.length() - 7).toFloat();
-    else if(propertyValue.toLower().startsWith("int("))
-        value = propertyValue.mid(4, propertyValue.length() - 5).toInt();
+    QString theTypeName = propertyValue.left(propertyValue.indexOf('(')).toLower();
+    QString theValue = propertyValue.mid(theTypeName.length(), propertyValue.length() - theTypeName.length() - 1);
+    
+    if(theTypeName == "qstring")
+        value = theValue;
+    else if(theTypeName == "qcolor")
+    {
+        int r = 0, g = 0, b = 0, a = 0;
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+            r = splitValues[0].toInt();
+        if(splitValues.length() > 1)
+            g = splitValues[1].toInt();
+        if(splitValues.length() > 2)
+            b = splitValues[2].toInt();
+        if(splitValues.length() > 3)
+            a = splitValues[3].toInt();
+        value = QColor(r, g, b, a);
+    }
+    else if(theTypeName == "bool")
+        value = theValue.toFloat();
+    else if(theTypeName == "float")
+        value = theValue.toFloat();
+    else if(theTypeName == "int")
+        value = theValue.toInt();
     else
         // If all else fails, pass the value through verbatim
         value = propertyValue;
     
     this->setProperty(propertyName.toUtf8(), value);
-;}
+}
+
+QString
+GluonObject::getStringFromProperty(QString propertyName)
+{
+    QString value;
+    
+    return value;
+}

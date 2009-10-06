@@ -20,7 +20,7 @@
 #ifndef GLUON_GAMEOBJECT_H
 #define GLUON_GAMEOBJECT_H
 
-#include <QtCore/QObject>
+#include "gluonobject.h"
 #include <QSharedData>
 #include "gluonvarianttypes.h"
 
@@ -29,10 +29,9 @@ namespace Gluon
     class GameObjectPrivate;
     class Component;
     
-    class GameObject : public QObject
+    class GameObject : public GluonObject
     {
         Q_OBJECT
-        Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QString description READ description WRITE setDescription)
         
         /*Q_PROPERTY(Eigen::Vector3d position READ position WRITE setPosition)
@@ -85,8 +84,6 @@ namespace Gluon
             // ----------------------------------------------------------------
             // Property getter-setters
             
-            void setName(QString newName);
-            QString name() const;
             void setDescription(QString newDescription);
             QString description() const;
             

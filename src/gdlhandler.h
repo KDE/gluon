@@ -22,25 +22,21 @@
 
 #include <QObject>
 #include <QString>
+#include "common/ksingleton.h"
 
 namespace Gluon
 {
     class GluonObject;
     
-    class GDLHandler
+    class GDLHandler : public KSingleton<GDLHandler>
     {
-        // Using the Meyers Singleton for this to reduce code impact
+        Q_OBJECT
+        
         public:
-            static GDLHandler & instance();
             QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
             QString serializeGDL(QList<GluonObject *> serializeThis);
             
         private:
-            GDLHandler() {};
-            GDLHandler(GDLHandler const&) {};
-            GDLHandler & operator=(GDLHandler const &other) { };
-            ~GDLHandler() {};
-            
             GluonObject * instantiateObject(QString className);
             GluonObject * createObject(QStringList objectStringList, QObject * parent);
             /**

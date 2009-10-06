@@ -23,12 +23,13 @@
 using namespace Gluon;
 
 Prefab::Prefab(QObject * parent)
+    : GluonObject(parent)
 {
     d = new PrefabPrivate;
 }
 
 Prefab::Prefab(const Prefab &other, QObject * parent)
-    : QObject(parent)
+    : GluonObject(parent)
     , d(other.d)
 {
 }
