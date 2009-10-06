@@ -28,9 +28,9 @@ protected:
     void setupGluon();
     void launchService(QString name);
 
-
 private:
     KGLView * m_view;
+    QList<QObject*> m_visibleWidgets;
    // KCLVirtualInput * m_inputs;
 
 

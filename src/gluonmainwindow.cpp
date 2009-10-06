@@ -13,6 +13,7 @@
 #include <kgl/widgets/kglresolutiondialog.h>
 #include <kgl/kglscreen.h>
 #include <kgl/kgldisplay.h>
+#include <KMessageBox>
 
 GluonMainWindow::GluonMainWindow(QWidget * parent)
     :KXmlGuiWindow(parent)
@@ -22,12 +23,13 @@ GluonMainWindow::GluonMainWindow(QWidget * parent)
     setCentralWidget(m_view);
     m_view->start();
     connect(m_view,SIGNAL(fpsChanged(int)),this,SLOT(showFps(int)));
-
+    
+    KGLDisplay::instance()->setParent(this);
 }
 
 GluonMainWindow::~GluonMainWindow()
 {
-
+    toggleFullscreen(false);
 }
 
 void GluonMainWindow::setupGluon()
@@ -76,13 +78,15 @@ void GluonMainWindow::setupGluon()
     connect(controlAction,SIGNAL(triggered()),this,SLOT(showControlWidget()))*/;
 
 
+    setupGUI();
+    
     QMenu * menu = menuBar()->addMenu("gluon");
     menu->addAction(kglAction);
     menu->addAction(kalAction);
     menu->addAction(kclAction);
     //     menu->addAction(controlAction);
 
-    setupGUI();
+
 }
 
 void GluonMainWindow::launchService(QString name)
@@ -121,7 +125,11 @@ void GluonMainWindow::toggleFullscreen(bool fullscreen)
       {
         if(object->objectName() != "KGLView")
         {
-          object->setProperty("visible", false);
+          if(object->property("visible").toBool())
+          {
+              m_visibleWidgets.append(object);
+              object->setProperty("visible", false);
+          }
         }
       }
       showFullScreen();
@@ -134,10 +142,11 @@ void GluonMainWindow::toggleFullscreen(bool fullscreen)
   else
   {
     KGLDisplay::instance()->currentScreen()->restore();
-    foreach(QObject* object, children())
+    foreach(QObject* object, m_visibleWidgets)
     {
       object->setProperty("visible", true);
     }
+    m_visibleWidgets.clear();
     showNormal();
   }
 }
