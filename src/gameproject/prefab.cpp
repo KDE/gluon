@@ -22,6 +22,8 @@
 
 using namespace Gluon;
 
+REGISTER_OBJECTTYPE(Prefab)
+
 Prefab::Prefab(QObject * parent)
     : GluonObject(parent)
 {
