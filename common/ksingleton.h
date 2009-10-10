@@ -14,6 +14,9 @@
     Boston, MA 02110-1301, USA.
 */
 
+#ifndef KSINGLETON
+#define KSINGLETON
+
 #include <QtCore/QObject>
 
 template <typename T>
@@ -29,3 +32,5 @@ class KSingleton : public QObject
     protected:
         static T* m_instance;
 };
+
+#endif
