@@ -10,7 +10,6 @@
  */
 //@{
 
-class KCLThread;
 class KCL_EXPORT KCLThread : public QThread
 {
     Q_OBJECT
