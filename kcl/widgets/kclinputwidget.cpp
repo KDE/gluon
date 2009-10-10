@@ -95,7 +95,7 @@ void KCLInputWidget::inputEvent(KCLInputEvent * event)
         }
         break;
 
-    case KCL::RelatifAxis:
+    case KCL::RelativeAxis:
         for ( int row = 1; row < m_tableWidget->rowCount(); ++row)
         {
 

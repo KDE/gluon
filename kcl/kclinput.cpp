@@ -59,7 +59,7 @@ bool KCLInput::event(QEvent * evt)
         return true;
         break;
 
-    case KCL::RelatifAxis:
+    case KCL::RelativeAxis:
         emit moved();
         m_relMove = true;
         m_lastRelAxis = event->code();

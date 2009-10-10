@@ -22,7 +22,7 @@ namespace KCL {
 
     enum InputTypeFlag {
         Key = QEvent::Type(QEvent::User+EV_KEY),
-        RelatifAxis = QEvent::Type(QEvent::User+EV_REL),
+        RelativeAxis = QEvent::Type(QEvent::User+EV_REL),
         AbsoluAxis = QEvent::Type(QEvent::User+EV_ABS)
     };
 

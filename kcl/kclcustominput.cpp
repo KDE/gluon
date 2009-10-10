@@ -111,7 +111,7 @@ void KCLCustomInput::inputEvent(KCLInputEvent * event)
     }
 
     //-------------IF REL AXIS------------
-    if ( event->type() ==  QEvent::Type(KCL::RelatifAxis))
+    if ( event->type() ==  QEvent::Type(KCL::RelativeAxis))
     {
         QMapIterator  <QString,QPair<KCLInput*,int> >  i(m_relAxis);
         while (i.hasNext())
@@ -157,7 +157,7 @@ KCLInput *KCLCustomInput::inputAt(const QString& name, KCL::InputTypeFlag type)
     if ( type == KCL::AbsoluAxis)
         return m_absAxis[name].first;
 
-    if ( type == KCL::RelatifAxis)
+    if ( type == KCL::RelativeAxis)
         return m_relAxis[name].first;
 
     return NULL;
@@ -171,7 +171,7 @@ int KCLCustomInput::codeAt(const QString& name, KCL::InputTypeFlag type)
     if ( type == KCL::AbsoluAxis)
         return m_absAxis[name].second;
 
-    if ( type == KCL::RelatifAxis)
+    if ( type == KCL::RelativeAxis)
         return m_relAxis[name].second;
 
     return -1;

@@ -59,7 +59,7 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
         if ( m_relAxisMode)
         {
 
-            if ( event->type() == QEvent::Type(KCL::RelatifAxis))
+            if ( event->type() == QEvent::Type(KCL::RelativeAxis))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
                 setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
