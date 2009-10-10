@@ -22,7 +22,7 @@
 
 #include <QtCore/QObject>
 #include <QSharedData>
-
+#include "gluonobjectfactory.h"
 
 namespace Gluon
 {
@@ -46,5 +46,7 @@ namespace Gluon
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }
+
+REGISTER_OBJECTTYPE(GluonObject)
 
 #endif				// GLUON_GLUONOBJECT_H

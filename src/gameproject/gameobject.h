@@ -23,6 +23,7 @@
 #include "gluonobject.h"
 #include <QSharedData>
 #include "gluonvarianttypes.h"
+#include "gluonobjectfactory.h"
 
 namespace Gluon
 {
@@ -101,5 +102,7 @@ namespace Gluon
     };
 
 }
+
+REGISTER_OBJECTTYPE(GameObject)
 
 #endif				// GLUON_GAMEOBJECT_H
