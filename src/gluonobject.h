@@ -47,6 +47,5 @@ namespace Gluon
     };
 }
 
-REGISTER_OBJECTTYPE(GluonObject)
 
 #endif				// GLUON_GLUONOBJECT_H

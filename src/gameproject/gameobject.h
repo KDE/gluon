@@ -100,9 +100,7 @@ namespace Gluon
         private:
             QSharedDataPointer<GameObjectPrivate> d;
     };
-
 }
 
-REGISTER_OBJECTTYPE(GameObject)
 
 #endif				// GLUON_GAMEOBJECT_H

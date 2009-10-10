@@ -23,6 +23,8 @@
 
 using namespace Gluon;
 
+REGISTER_OBJECTTYPE(GameObject)
+
 GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
 {

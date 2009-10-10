@@ -18,6 +18,7 @@
 */
 
 #include "gluonobjectfactory.h"
+#include "gluonobject.h"
 
 using namespace Gluon;
 
