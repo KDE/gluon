@@ -22,6 +22,8 @@
 
 using namespace Gluon;
 
+REGISTER_OBJECTTYPE(Asset)
+
 Asset::Asset(QObject * parent)
     : GluonObject(parent)
 {
