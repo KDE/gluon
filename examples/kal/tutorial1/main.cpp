@@ -36,8 +36,10 @@ int main(int argc, char *argv[])
                          ki18n("Copyright (c) 2009 Developer"));
     KCmdLineArgs::init(argc, argv, &aboutData);
 
-    KALSound * sound = new KALSound;
-    sound->load("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+    KALEngine::instance();
+
+    KALSound *sound = new KALSound;
+    sound->load("/usr/share/sounds/KDE-Im-Nudge.ogg");
 
     sound->play();
     sound->setVolume(0.9);    //between 0 and 1

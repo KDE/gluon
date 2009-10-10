@@ -35,24 +35,26 @@ int main(int argc, char *argv[])
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2009 Developer"));
     KCmdLineArgs::init(argc, argv, &aboutData);
-KApplication app;
+    KApplication app;
 
+    KALEngine::instance();
 
+    KALSound *left = new KALSound("/usr/share/sounds/alsa/Front_Left.wav");
+    KALSound *right = new KALSound("/usr/share/sounds/alsa/Front_Right.wav");
+    KALSound *center = new KALSound("/usr/share/sounds/alsa/Front_Center.wav");
 
-KALSound * left = new KALSound("/usr/share/sounds/alsa/Front_Left.wav");
-KALSound * right = new KALSound("/usr/share/sounds/alsa/Front_Right.wav");
-KALSound * center = new KALSound("/usr/share/sounds/alsa/Front_Center.wav");
+    left->setPosition(-1,0,0);
+    right->setPosition(1,0,0);
 
-left->setPosition(-1,0,0);
-right->setPosition(1,0,0);
+    left->play();
+    while ( left->status() == AL_PLAYING)
+    {}
 
-left->play();
-while ( left->status() == AL_PLAYING){}
+    right->play();
+    while ( right->status() == AL_PLAYING)
+    {}
 
-right->play();
-while ( right->status() == AL_PLAYING){}
+    center->play();
 
-center->play();
-
-   app.exec();
+    app.exec();
 }

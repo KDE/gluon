@@ -36,11 +36,13 @@ int main(int argc, char *argv[])
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2009 Developer"));
     KCmdLineArgs::init(argc, argv, &aboutData);
-KApplication app;
 
-KALPlayerWidget * player = new KALPlayerWidget;
-player->show();
+    KApplication app;
 
+    KALEngine::instance();
+
+    KALPlayerWidget * player = new KALPlayerWidget;
+    player->show();
 
    app.exec();
 }
