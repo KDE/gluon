@@ -61,19 +61,18 @@ bool KALBuffer::isEmpty()const {
 void KALBuffer::setHelloWord() {
     d->buffer = alutCreateBufferHelloWorld();
 }
+
 void KALBuffer::init()
 {
-
-    KALEngine::instance()->addBuffer(this);
 }
+
 ALuint KALBuffer::buffer() const {
     return  d->buffer;
 }
+
 KALBuffer::~KALBuffer()
 {
     alDeleteBuffers(1, &d->buffer);
-    KALEngine *engine = KALEngine::instance();
-    engine->removeBuffer(this);
     delete d;
 }
 

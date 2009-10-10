@@ -22,20 +22,15 @@
 #ifndef KALENGINE2_H
 #define KALENGINE2_H
 
-#include "kalsound.h"
-#include "kalbuffer.h"
-#include "kalphonon.h"
+#include "kal_export.h"
 
-#include <Phonon/Global>
-#include <KDebug>
-
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
-#include <QtCore/QList>
+#include <QObject>
+#include <QStringList>
+#include <phonon/phononnamespace.h>
 
 #include <alc.h>
-#include <alut.h>
 
+class KALPhonon;
 
 /**
  * \defgroup KAL KAL
@@ -91,47 +86,25 @@ public:
     */
     static QStringList deviceList();
 
-    static int soundNumber(){
-        return instance()->getSoundList()->size();
-    }
-
-    static void addSource(KALSound * source) {
-        if (instance()->getSoundList()->contains(source)) return;
-        instance()->getSoundList()->append(source);
-    }
-    static void removeSource(KALSound * source) {
-        instance()->getSoundList()->removeOne(source);
-    }
-
-    static void addBuffer(KALBuffer * buffer) {
-        if (instance()->getBufferList()->contains(buffer)) return;
-        instance()->getBufferList()->append(buffer);
-    }
-    static void removeBuffer(KALBuffer * buffer) {
-        instance()->getBufferList()->removeOne(buffer);
-    }
-
-
     static  bool isExtensionSupported(const QString &name);
-    static void disableAllSound();
-    static void enableAllSound();
 
-    static void close(){
+    static void close() {
         delete instance();
     }
 
-    ALCdevice * getAlDevice(){return m_device;}
-    ALCcontext * getAlContext(){return m_context;}
-    QList<KALSound*> * getSoundList(){return &m_sourceList;}
-    QList<KALBuffer*> * getBufferList(){return &m_bufferList;}
+    ALCdevice *getAlDevice() {
+        return m_device;
+    }
+
+    ALCcontext *getAlContext() {
+        return m_context;
+    }
 
 private:
     static KALEngine *m_instance;
     ALCcontext *m_context;
     ALCdevice *m_device;
     KALPhonon *m_phonon;
-    QList<KALSound *> m_sourceList;
-    QList<KALBuffer *> m_bufferList;
 };
 
 //@}

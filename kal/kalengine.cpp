@@ -22,7 +22,11 @@
 
 #include "kalengine.h"
 
+#include "kalphonon.h"
+
+#include <KDebug>
 #include <QtCore/QCoreApplication>
+#include <alut.h>
 
 KALEngine *KALEngine::m_instance = NULL;
 
@@ -54,9 +58,6 @@ KALEngine::KALEngine(Phonon::Category category, QObject *parent)
 
 KALEngine::~KALEngine()
 {
-    qDeleteAll(m_sourceList);
-    qDeleteAll(m_bufferList);
-
     alcMakeContextCurrent(NULL);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
@@ -132,18 +133,6 @@ bool KALEngine::setDevice(const QString &deviceName)
     }
 
     return true;
-}
-void KALEngine::disableAllSound()
-{
-  KALEngine * al  = instance();
-  foreach ( KALSound * sound,  *al->getSoundList())
-  sound->pause();
-}
-void KALEngine::enableAllSound()
-{
-  KALEngine * al  = instance();
-  foreach ( KALSound * sound,  *al->getSoundList())
-  sound->play();
 }
 
 bool KALEngine::isExtensionSupported(const QString &name)

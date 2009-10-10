@@ -25,8 +25,6 @@
 
 #include <Phonon/AudioOutput>
 
-#include <QtCore/QRegExp>
-
 /**
  * \defgroup KAL KAL
  */

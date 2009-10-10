@@ -55,20 +55,18 @@ public:
     {
         return KGLEngine::removeItem(item);
     }
-    void createWorld( QPointF gravity=QPointF(0.0f,-10.0f), bool sleep=true);
+    void createWorld( const QPointF &gravity=QPointF(0.0f,-10.0f), bool sleep=true);
     b2World *world()
     {
         return m_world;
     }
 
-    KGLPhysicsItem * physicsItemAt(QPointF pos);
-
-    QList<KGLPhysicsItem*> physicsItems()
+    QList<KGLPhysicsItem*> physicsItems() const
     {
         return m_list;
     }
 
-    KGLPhysicsItem* itemAt(QPointF pos);
+    KGLPhysicsItem* itemAt(const QPointF &pos) const;
 
 
 public slots:

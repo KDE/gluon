@@ -1,10 +1,16 @@
 #include "kclinfowidget.h"
 
+#include "kclcode.h"
+#include "kcldetect.h"
+#include "kcldevicemodel.h"
+#include "kclinputwidget.h"
+
 #include <KIcon>
 #include <KMessageBox>
 #include <KPushButton>
 #include <KSeparator>
 #include <KLocale>
+#include <KTabWidget>
 
 #include <QGroupBox>
 #include <QLabel>
@@ -12,6 +18,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QComboBox>
+#include <QTreeView>
 
 KCLInfoWidget::KCLInfoWidget(QWidget *parent)
         : QWidget(parent)

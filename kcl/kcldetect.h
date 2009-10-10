@@ -1,7 +1,6 @@
 #ifndef KCLDETECT_H
 #define KCLDETECT_H
 
-#include "kclcode.h"
 #include "kclinput.h"
 #include "kcljoystick.h"
 #include "kclkeyboard.h"

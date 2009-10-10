@@ -21,6 +21,8 @@
 #include "kalmusic.h"
 #include <KDebug>
 
+static const int BUFFER_SIZE = 4096 * 4;
+
 KALMusic::KALMusic(QString fileName)
 {
     setFileName(fileName);

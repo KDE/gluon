@@ -1,4 +1,11 @@
 #include "kclcustominputdialog.h"
+
+#include "kclcode.h"
+#include "kclcustominput.h"
+#include "kclinput.h"
+#include "kclpressbutton.h"
+
+#include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QHeaderView>
 #include <KLocale>
@@ -67,9 +74,9 @@ void KCLCustomInputDialog::setupTab()
 
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
             item->setText(0,name);
-            item->setText(1,KCLCode::relAxisName(input->codeAt(name,KCL::RelatifAxis)));
-            item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::RelatifAxis)->deviceType()));
-            item->setText(2,input->inputAt(name,KCL::RelatifAxis)->deviceName());
+            item->setText(1,KCLCode::relAxisName(input->codeAt(name,KCL::RelativeAxis)));
+            item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::RelativeAxis)->deviceType()));
+            item->setText(2,input->inputAt(name,KCL::RelativeAxis)->deviceName());
 
         }
 

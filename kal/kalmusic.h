@@ -22,13 +22,10 @@
 #define KALMUSIC_H
 
 #include <AL/al.h>
-#include <ogg/ogg.h>
 #include <vorbis/vorbisfile.h>
 
 #include <QThread>
 #include <string.h>
-#include "kalsound.h"
-#define BUFFER_SIZE (4096 * 4)
 
 using namespace std;
 

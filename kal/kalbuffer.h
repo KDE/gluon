@@ -23,9 +23,7 @@
 #define KALBUFFER_H
 
 #include <alut.h>
-#include <sndfile.h>
-#include <QFile>
-#include <QStringList>
+
 #include "kal_export.h"
 
 /**

@@ -1,5 +1,8 @@
 #include "kcldevicemodel.h"
 
+#include "kclcode.h"
+#include "kcldetect.h"
+
 #include <KIcon>
 #include <KDebug>
 

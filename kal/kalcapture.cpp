@@ -2,6 +2,9 @@
 #include <KDebug>
 #include <QTime>
 #include <QFile>
+#include <alut.h>
+#include <sndfile.h>
+
 class KALCapturePrivate
 {
 public:

@@ -1,15 +1,10 @@
 #ifndef KALCAPTURE_H
 #define KALCAPTURE_H
 
-#include "kalbuffer.h"
-
 #include <QObject>
 #include <QStringList>
-#include <QTimeLine>
-#include <QVector>
 
-#include <alc.h>
-#include <alut.h>
+#include "kal_export.h"
 
 /**
  * \defgroup KAL KAL

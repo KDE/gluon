@@ -75,8 +75,6 @@ KALSound::KALSound(ALuint buffer, QObject *parent)
 KALSound::~KALSound()
 {
     alDeleteSources(1, &d->source);
-    KALEngine * engineParent = KALEngine::instance();
-    engineParent->removeSource(this);
     delete d;
 }
 void KALSound::load (const QString &soundFile)
@@ -96,7 +94,6 @@ void KALSound::load(ALuint buffer) {
 
 void KALSound::init()
 {
-    KALEngine::instance()->addSource(this);
     d->source=0;
     d->x=0;
     d->y=0;

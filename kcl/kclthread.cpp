@@ -1,5 +1,16 @@
+
 #include "kclthread.h"
+
+#include "kclinputevent.h"
+
+#include <QCoreApplication>
 #include <KDebug>
+
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <linux/input.h>
+
 KCLThread::KCLThread(const QString &devicePath, QObject * parent)
     : QThread(parent)
 {

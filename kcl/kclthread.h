@@ -1,16 +1,9 @@
 #ifndef KCLTHREAD_H
 #define KCLTHREAD_H
-#include <QCoreApplication>
+
 #include <QThread>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <linux/input.h>
 
 #include "kcl_export.h"
-#include "kclinputevent.h"
 
 /**
  * \defgroup KCL KCL
