@@ -32,7 +32,7 @@ namespace Gluon
     {
         Q_OBJECT
         
-        private:
+        public:
             Prefab(QObject * parent = 0);
             Prefab(const Prefab &other, QObject * parent = 0);
             ~Prefab();
