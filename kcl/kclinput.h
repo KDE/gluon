@@ -1,25 +1,14 @@
 #ifndef KCLINPUT_H
 #define KCLINPUT_H
 
-#include "kclcode.h"
 #include "kcl.h"
 #include "kcl_export.h"
 #include <KDebug>
 
 #include <QMap>
-#include <QPair>
-#include <QPoint>
-#include <QThread>
-#include <QEvent>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <linux/input.h>
 
-#include "kclthread.h"
-#include "kclinputevent.h"
+class KCLInputEvent;
+class KCLThread;
 
 /**
  * \defgroup KCL KCL

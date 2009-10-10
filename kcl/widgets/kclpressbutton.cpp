@@ -1,5 +1,9 @@
 #include "kclpressbutton.h"
 
+#include "kclcode.h"
+#include "kcldetect.h"
+#include "kclinputevent.h"
+
 KCLPressButton::KCLPressButton( QWidget * parent)
            :QPushButton(parent)
 {

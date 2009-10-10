@@ -1,4 +1,10 @@
 #include "kclcustominput.h"
+
+#include "kclinput.h"
+#include "kclinputevent.h"
+
+#include <QStringList>
+
 KCLCustomInput::KCLCustomInput(QObject * parent)
             :QObject(parent)
 {

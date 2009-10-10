@@ -1,6 +1,13 @@
+
 #include "kclinputwidget.h"
-#include <QVBoxLayout>
+
+#include "kclcode.h"
+#include "kclinput.h"
+#include "kclinputevent.h"
+
 #include <QHeaderView>
+#include <QTableWidget>
+#include <QVBoxLayout>
 #include <KTitleWidget>
 #include <KLocale>
 KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)

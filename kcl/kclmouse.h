@@ -3,9 +3,7 @@
 
 #include "kclinput.h"
 
-#include <QList>
 #include <QPoint>
-#include <QWidget>
 
 /**
  * \defgroup KCL KCL

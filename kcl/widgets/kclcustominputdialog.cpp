@@ -1,4 +1,11 @@
 #include "kclcustominputdialog.h"
+
+#include "kclcode.h"
+#include "kclcustominput.h"
+#include "kclinput.h"
+#include "kclpressbutton.h"
+
+#include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QHeaderView>
 #include <KLocale>

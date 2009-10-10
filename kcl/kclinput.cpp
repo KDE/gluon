@@ -1,10 +1,17 @@
 #include "kclinput.h"
 
+#include "kclinputevent.h"
+#include "kclthread.h"
+
 #include <KDebug>
 #include <QApplication>
 #include <QFile>
 #include <QMessageBox>
 #include <QMouseEvent>
+
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #define BITS_PER_LONG (sizeof(long) * 8)
 #define NBITS(x) ((((x)-1)/BITS_PER_LONG)+1)

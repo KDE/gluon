@@ -2,12 +2,11 @@
 #define KCLINPUTWIDGET_H
 
 #include <QWidget>
-#include <QSlider>
-#include <QTableWidget>
-#include <QTimer>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include "../kclinput.h"
+
+class QTableWidget;
+class KCLInput;
+class KCLInputEvent;
+
 class KCLInputWidget : public QWidget
 {
     Q_OBJECT

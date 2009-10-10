@@ -1,10 +1,6 @@
 #ifndef KCLDEVICEMODEL_H
 #define KCLDEVICEMODEL_H
 
-#include "../kcldetect.h"
-
-#include <KIcon>
-
 #include <QStandardItemModel>
 
 /**

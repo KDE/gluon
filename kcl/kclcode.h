@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <KIcon>
-#include <QEvent>
 #include "kcl.h"
 #include "kcl_export.h"
 /**
