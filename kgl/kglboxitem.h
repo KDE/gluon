@@ -43,14 +43,12 @@ class KGL_EXPORT KGLBoxItem : public KGLItem
 
         void setBox(const QSizeF &dim)
         {
-            clear();
             createBox(dim);
             m_dim = dim;
         }
 
         void setBox(const float &w, const float &h)
         {
-            clear();
             createBox(w,h);
             m_dim = QSizeF(w,h);
         }
