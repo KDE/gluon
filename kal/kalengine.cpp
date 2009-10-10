@@ -22,7 +22,11 @@
 
 #include "kalengine.h"
 
+#include "kalphonon.h"
+
+#include <KDebug>
 #include <QtCore/QCoreApplication>
+#include <alut.h>
 
 KALEngine *KALEngine::m_instance = NULL;
 

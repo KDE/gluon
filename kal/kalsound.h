@@ -24,13 +24,12 @@
 #define KALSOUND_H
 
 #include "kal_export.h"
-#include "kalbuffer.h"
 
-#include <QtCore/QFile>
-#include <QtGui/QProgressBar>
-#include <QtCore/QThread>
+#include <QObject>
 
 #include <alut.h>
+
+class KALBuffer;
 
 /**
  * @class kal/kalsound.h <KAL/KALSound>

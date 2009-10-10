@@ -1,7 +1,11 @@
 #include "kalsoundreader.h"
 
+#include "kalbuffer.h"
+
 #include <KDebug>
 
+#include <QFile>
+#include <QFileInfo>
 #include <QMessageBox>
 #include <QVector>
 
@@ -11,6 +15,7 @@
 #include <vorbis/vorbisfile.h>
 #include <sys/stat.h>
 #include <vector>
+#include <sndfile.h>
 
 class KALSoundReaderPrivate
 {

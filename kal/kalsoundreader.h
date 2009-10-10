@@ -1,11 +1,14 @@
 #ifndef KALSOUNDREADER_H
 #define KALSOUNDREADER_H
 
-#include "kalbuffer.h"
+#include <alut.h>
 
-#include <QFileInfo>
+#include "kal_export.h"
+
 #include <QString>
 #include <QStringList>
+
+class KALBuffer;
 
 /**
  * \defgroup KAL KAL
