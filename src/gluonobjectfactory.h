@@ -22,20 +22,22 @@
 
 #include <common/ksingleton.h>
 #include <QSharedData>
+#include <QHash>
 
 namespace Gluon
 {
     class GluonObject;
-    class GluonObjectFactoryPrivate;
     
     class GluonObjectFactory : public KSingleton<GluonObjectFactory>
     {
+        Q_OBJECT
+        
         public:
             void registerObjectType(GluonObject * newObjectType);
             GluonObject * instantiateObjectByName(QString objectTypeName);
             
         private:
-            QSharedDataPointer<GluonObjectFactoryPrivate> d;
+            QHash<QString, GluonObject*> objectTypes;
     };
 
     template<class T>
@@ -43,14 +45,14 @@ namespace Gluon
     {
         
         public:
-            Registration(T* newObjectType)
+            GluonObjectRegistration(T* newObjectType)
             {
                 GluonObjectFactory::instance()->registerObjectType(newObjectType);
             }
     };
+#define REGISTER_OBJECTTYPE(NEWOBJECTTYPE) \
+GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE());
 }
 
-#define REGISTER_OBJECTTYPE(NEWOBJECTTYPE) \
-Gluon::GluonObjectRegistration<Gluon::NEWOBJECTTYPE> NEWOBJECTTYPE ## _registration_(new Gluon::NEWOBJECTTYPE());
     
 #endif				// GLUON_GLUONOBJECTFACTORY_H

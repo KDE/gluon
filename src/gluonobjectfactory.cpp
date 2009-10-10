@@ -18,7 +18,6 @@
 */
 
 #include "gluonobjectfactory.h"
-#include "gluonobjectfactoryprivate.h"
 
 using namespace Gluon;
 
@@ -27,11 +26,11 @@ template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
-    d->objectTypes[newObjectType->name()] = newObjectType;
+    objectTypes[newObjectType->name()] = newObjectType;
 }
 
 GluonObject *
 GluonObjectFactory::instantiateObjectByName(QString objectTypeName)
 {
-    return d->objectTypes[objectTypeName];
+    return objectTypes[objectTypeName];
 }

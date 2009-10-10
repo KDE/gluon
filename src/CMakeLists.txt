@@ -18,7 +18,6 @@ set(gluon_LIB_SRCS
     gluonobject.cpp
     gluonobjectprivate.cpp
     gluonobjectfactory.cpp
-    gluonobjectfactoryprivate.cpp
     gdlhandler.cpp
     game.cpp
     gameprivate.cpp
