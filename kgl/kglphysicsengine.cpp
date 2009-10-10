@@ -32,7 +32,7 @@ KGLPhysicsEngine::~KGLPhysicsEngine()
     delete m_world;
 }
 
-void KGLPhysicsEngine::createWorld(QPointF gravity, bool sleep)
+void KGLPhysicsEngine::createWorld(const QPointF &gravity, bool sleep)
 {
     b2AABB worldAABB;
     worldAABB.lowerBound.Set(-100.0f, -100.0f);
@@ -98,7 +98,7 @@ void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
     }
 }
 
-KGLPhysicsItem * KGLPhysicsEngine::itemAt(QPointF pos)
+KGLPhysicsItem * KGLPhysicsEngine::itemAt(const QPointF &pos) const
 {
     b2AABB aabb;
     b2Vec2 d;
