@@ -61,8 +61,6 @@ public:
         return m_world;
     }
 
-    KGLPhysicsItem * physicsItemAt(QPointF pos);
-
     QList<KGLPhysicsItem*> physicsItems() const
     {
         return m_list;
