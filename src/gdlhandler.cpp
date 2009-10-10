@@ -17,9 +17,10 @@
 
 */
 
+#include <QStringList>
 #include "gdlhandler.h"
 #include "gluonobject.h"
-#include <QStringList>
+#include "gluonobjectfactory.h"
 
 using namespace Gluon;
 
@@ -36,18 +37,9 @@ GDLHandler::~GDLHandler()
 GluonObject *
 GDLHandler::instantiateObject(QString className)
 {
-    GluonObject * newObject = 0;
-    
-    if(className.isEmpty())
+    GluonObject * newObject = GluonObjectFactory::instance()->instantiateObjectByName(className);
+    if(!newObject)
         newObject = new GluonObject();
-    else
-    {
-        // Do this for now to avoid crashes - we need it to do instantiations
-        // of the correct classes here (GameObject for gameobjects, and for
-        // Components of course all those wonderful components that... aren't
-        // written yet ;) )
-        newObject = new GluonObject();
-    }
     
     return newObject;
 }
