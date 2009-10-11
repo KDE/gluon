@@ -54,6 +54,7 @@ Component::sanitize()
                 if(theParent)
                 {
                     theParent->addComponent(this);
+                    d->gameObject = theParent;
                 }
             }
         }
