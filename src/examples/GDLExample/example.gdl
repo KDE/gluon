@@ -1,0 +1,13 @@
+{ GameObject(root)
+    { GameObject(Paddle)
+        
+    }
+
+    { GameObject(Block)
+        
+    }
+
+    { GameObject(Ball)
+        
+    }
+}
