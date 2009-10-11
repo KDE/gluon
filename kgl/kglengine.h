@@ -28,6 +28,7 @@
 #include "kglitemlist.h"
 
 class KGLBoxItem;
+class KGLEnginePrivate;
 
 /**
  * \defgroup KGL KGL
@@ -41,6 +42,7 @@ class KGL_EXPORT KGLEngine : public QObject
     Q_OBJECT
     public:
         KGLEngine(QObject * parent=0);
+        ~KGLEngine();
         virtual void mainLoop(float fps=60);
         void addItem(KGLItem* item);
         void addItems(const KGLItemList* items);
@@ -61,8 +63,7 @@ class KGL_EXPORT KGLEngine : public QObject
     private:
         Q_DISABLE_COPY(KGLEngine);
         
-        IndexGroupMap m_items;
-
+        KGLEnginePrivate *d;
 };
 
 //@}

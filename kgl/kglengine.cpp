@@ -19,6 +19,7 @@
  */
 
 #include "kglengine.h"
+#include "kglengine_p.h"
 
 #include "kglboxitem.h"
 
@@ -27,6 +28,12 @@
 KGLEngine::KGLEngine(QObject * parent)
     : QObject(parent)
 {
+    d = new KGLEnginePrivate();
+}
+
+KGLEngine::~KGLEngine()
+{
+    delete d;
 }
 
 void KGLEngine::mainLoop(float ff)
@@ -36,7 +43,7 @@ void KGLEngine::mainLoop(float ff)
 void KGLEngine::addItem(KGLItem* item)
 {
     kDebug() << "adding Item of type: " << item->objectName()<<"-"<<item->zindex();
-    m_items[item->zindex()].append(item);
+    d->m_items[item->zindex()].append(item);
     item->setParent(this);
 }
 
@@ -51,7 +58,7 @@ void KGLEngine::addItems(const KGLItemList* items)
 bool KGLEngine::removeItem(KGLItem* item)
 {
     if ( item != NULL)
-        return m_items[item->zindex()].removeOne(item);
+        return d->m_items[item->zindex()].removeOne(item);
     else return false;
 }
 
@@ -78,8 +85,8 @@ bool KGLEngine::eraseItem(KGLItem* item)
 
 KGLItem *KGLEngine::itemAt( int id, unsigned int layer) const
 {
-    if ( id < m_items[layer].size())
-        return m_items[layer].at(id);
+    if ( id < d->m_items[layer].size())
+        return d->m_items[layer].at(id);
 
     else return NULL;
 
@@ -97,8 +104,8 @@ bool KGLEngine::eraseItems(const KGLItemList *items)
 int KGLEngine::itemsCount() const
 {
     int size=0;
-    IndexGroupMap::const_iterator i = m_items.constBegin();
-    while (i != m_items.constEnd()) {
+    IndexGroupMap::const_iterator i = d->m_items.constBegin();
+    while (i != d->m_items.constEnd()) {
         size+=i.value().size();
         ++i;
     }
@@ -115,7 +122,7 @@ KGLBoxItem *KGLEngine::addBox(float w, float h)
 
 IndexGroupMap KGLEngine::items() const
 {
-    return m_items;
+    return d->m_items;
 }
 
 void KGLEngine::mouseMoved(const QPointF &pos, Qt::MouseButton button)
