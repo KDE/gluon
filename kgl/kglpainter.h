@@ -12,6 +12,8 @@ class KGLPainter : public QObject
 {
 public:
     KGLPainter(QObject * parent=0);
+    ~KGLPainter();
+    
         void setMode(int mode);
     void drawRect(const QRectF &rect);
     void drawRect(float x, float y, float w, float h);
@@ -27,6 +29,7 @@ protected:
     void draw();
 
 private:
+    Q_DISABLE_COPY(KGLPainter)
     KGLPainterPrivate * d;
 };
 

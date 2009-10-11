@@ -34,6 +34,7 @@ KALCapture::KALCapture(QString deviceName, QObject *parent)
 KALCapture::~KALCapture()
 {
     alcCaptureCloseDevice(d->captureDevice);
+    delete d;
 }
 
 bool KALCapture::isAvailable()const

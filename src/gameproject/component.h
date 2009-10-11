@@ -39,6 +39,7 @@ namespace Gluon
             Component(const Component &other, QObject * parent = 0);
             ~Component();
             
+            void sanitize();
             virtual void Start() {};
             virtual void Update(int elapsedMilliseconds) = 0;
             virtual void Draw(int timeLapse = 0) {};

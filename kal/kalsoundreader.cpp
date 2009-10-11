@@ -38,6 +38,11 @@ KALSoundReader::KALSoundReader(const QString& fileName)
     }
 }
 
+KALSoundReader::~KALSoundReader()
+{
+    delete d;
+}
+
 bool KALSoundReader::canRead() const
 {
     return supportedSoundFormats().contains(format());

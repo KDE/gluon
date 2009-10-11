@@ -46,6 +46,7 @@ namespace Gluon
             ~GameObject();
             
             GameObject * instantiate();
+            void sanitize();
             void Start();
             void Update(int elapsedMilliseconds);
             /**

@@ -18,6 +18,11 @@ KGLPainter::KGLPainter(QObject * parent)
     d->color = Qt::white;
 }
 
+KGLPainter::~KGLPainter()
+{
+    delete d;
+}
+
 //============Parameter Function
 
 void KGLPainter::setMode(int mode){
