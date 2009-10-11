@@ -38,10 +38,10 @@ namespace Gluon
             ~GluonObject();
             
             QString name() const;
-            void setName(QString newName);
+            void setName(const QString &newName);
             
-            virtual void setPropertyFromString(QString propertyName, QString propertyValue);
-            virtual QString getStringFromProperty(QString propertyName);
+            virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
+            virtual QString getStringFromProperty(const QString &propertyName);
         private:
             QSharedDataPointer<GluonObjectPrivate> d;
     };
