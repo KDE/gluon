@@ -47,9 +47,9 @@ void KGLEngine::addItem(KGLItem* item)
     item->setParent(this);
 }
 
-void KGLEngine::addItems(const KGLItemList* items)
+void KGLEngine::addItems(const KGLItemList &items)
 {
-    foreach(KGLItem* item, *items) {
+    foreach(KGLItem* item, items) {
         addItem(item);
         item->setParent(this);
     }
@@ -62,9 +62,9 @@ bool KGLEngine::removeItem(KGLItem* item)
     else return false;
 }
 
-bool KGLEngine::removeItems(const KGLItemList *items)
+bool KGLEngine::removeItems(const KGLItemList &items)
 {
-    foreach ( KGLItem* item , *items)
+    foreach ( KGLItem* item , items)
     {
         if (!removeItem(item))
             return false;
@@ -92,9 +92,9 @@ KGLItem *KGLEngine::itemAt( int id, unsigned int layer) const
 
 }
 
-bool KGLEngine::eraseItems(const KGLItemList *items)
+bool KGLEngine::eraseItems(const KGLItemList &items)
 {
-    foreach(KGLItem* item, *items) {
+    foreach(KGLItem* item, items) {
         if (!eraseItem(item)) return false;
         else return true;
     }

@@ -45,11 +45,11 @@ class KGL_EXPORT KGLEngine : public QObject
         ~KGLEngine();
         virtual void mainLoop(float fps=60);
         void addItem(KGLItem* item);
-        void addItems(const KGLItemList* items);
+        void addItems(const KGLItemList &items);
         bool removeItem(KGLItem* item);
-        bool removeItems(const KGLItemList *item);
+        bool removeItems(const KGLItemList &item);
         virtual bool eraseItem(KGLItem* item);
-        bool eraseItems(const KGLItemList *item);
+        bool eraseItems(const KGLItemList &item);
         KGLItem * itemAt(int id, unsigned int layer=0) const;
         int itemsCount() const;
 
