@@ -124,13 +124,13 @@ void MainWindow::setupDock()
 
 QWidget* MainWindow::resolutionBox()
 {
-  QComboBox* box = new QComboBox();
-  QList<KGLScreen*> screens = mView->display()->allScreens();
-  int i = 0;
-  foreach(KGLScreen* screen, screens)
-  {
-    box->addItem(QString("%1").arg(i++));
-  }
-  return box;
+   QComboBox* box = new QComboBox();
+//  QList<KGLScreen*> screens = mView->display()->allScreens();
+//   int i = 0;
+//   foreach(KGLScreen* screen, screens)
+//   {
+//     box->addItem(QString("%1").arg(i++));
+//   }
+   return box;
 }
 
