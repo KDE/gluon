@@ -79,6 +79,8 @@ namespace Gluon
             GameObject * child(const QString &name) const;
             void addChild(GameObject * addThis);
             bool removeChild(GameObject * removeThis);
+            int childCount() const;
+            int childIndex(GameObject* child) const;
             
             void setParentGameObject(GameObject * newParent);
             GameObject * parentGameObject();

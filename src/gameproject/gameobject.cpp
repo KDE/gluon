@@ -268,6 +268,18 @@ GameObject::removeChild(GameObject * removeThis)
     return d->children.removeOne(removeThis);
 }
 
+int
+GameObject::childCount() const
+{
+    return d->children.count();
+}
+
+int
+GameObject::childIndex(GameObject* child) const
+{
+    return d->children.indexOf(child);
+}
+
 void
 GameObject::setParentGameObject(GameObject * newParent)
 {
