@@ -28,13 +28,15 @@ KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
     setupTable();
     connect(m_input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
     setWindowIcon(KIcon(KCLCode::iconDevice(m_input->deviceType())));
-    setWindowTitle(i18n("input seetings"));
+    setWindowTitle(i18n("Input Settings"));
 }
 void KCLInputWidget::setupTable()
 {
 
     m_tableWidget->setColumnCount(2);
-    m_tableWidget->setRowCount(m_input->absAxisCapabilities().size() + m_input->relAxisCapabilities().size() + 1);
+    int nRows = m_input->absAxisCapabilities().size() + m_input->relAxisCapabilities().size();
+    if (m_input->buttonCapabilities().size() > 0) nRows += 1;
+    m_tableWidget->setRowCount(nRows);
     m_tableWidget->horizontalHeader()->setStretchLastSection(true);
     m_tableWidget->setAlternatingRowColors(true);
     m_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -42,11 +44,15 @@ void KCLInputWidget::setupTable()
     m_tableWidget->setHorizontalHeaderItem(0,new QTableWidgetItem("code"));
     m_tableWidget->setHorizontalHeaderItem(1,new QTableWidgetItem("value"));
     m_tableWidget->verticalHeader()->hide();
-    m_tableWidget->setItem(0,0,new QTableWidgetItem("button"));
-    m_tableWidget->setItem(0,1,new QTableWidgetItem("?"));
 
+    int row = 0;
+    if (m_input->buttonCapabilities().size() > 0)
+    {
+        m_tableWidget->setItem(row,0,new QTableWidgetItem(i18n("Button")));
+        m_tableWidget->setItem(row,1,new QTableWidgetItem(i18n("?")));
+        row++;
+    }
 
-    int row = 1;
     foreach ( int axis, m_input->absAxisCapabilities())
     {
         QTableWidgetItem * item = new QTableWidgetItem(KCLCode::absAxisName(axis));
@@ -55,6 +61,7 @@ void KCLInputWidget::setupTable()
         slider->setMinimum(m_input->axisInfo(axis).min);
         slider->setMaximum(m_input->axisInfo(axis).max);
         slider->setValue(m_input->axisInfo(axis).value);
+        slider->setEnabled(false);
         m_tableWidget->setCellWidget(row,1,slider);
         row++;
     }
@@ -67,6 +74,7 @@ void KCLInputWidget::setupTable()
         slider->setMinimum(0);
         slider->setMaximum(100);
         slider->setValue(50);
+        slider->setEnabled(false);
         m_tableWidget->setCellWidget(row,1,slider);
         row++;
     }

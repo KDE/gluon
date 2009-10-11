@@ -1,7 +1,7 @@
 #include "kglinfowidget.h"
 #include <QVBoxLayout>
-#include <KTitleWidget>
 #include <KIcon>
+#include <KLocale>
 #include <KPushButton>
 #include <QTextEdit>
 #include "kglintroitem.h"
@@ -15,8 +15,8 @@ KGLInfoWidget::KGLInfoWidget(QWidget * parent)
     m_information = new QWidget;
     m_preview = new QWidget;
     KTabWidget *tab = new KTabWidget;
-    tab->addTab(m_preview,KIcon("run-build-configure.png"),"premview");
-    tab->addTab(m_information,KIcon("run-build-file.png"),"information");
+    tab->addTab(m_preview,KIcon("run-build-configure.png"), i18n("Preview"));
+    tab->addTab(m_information,KIcon("run-build-file.png"), i18n("Information"));
 
     KGLEngine * engine = new KGLEngine;
     m_view = new KGLView;
@@ -35,7 +35,7 @@ KGLInfoWidget::KGLInfoWidget(QWidget * parent)
     layout->addWidget(tab);
 
     QHBoxLayout *hLayout = new QHBoxLayout;
-    KPushButton *toggleButton = new KPushButton(KIcon("go-last.png"),"start/stop");
+    KPushButton *toggleButton = new KPushButton(KIcon("go-last.png"), i18n("Start/Stop"));
     hLayout->addWidget(toggleButton);
     hLayout->addStretch();
     subLayout->addLayout(hLayout);
@@ -57,12 +57,14 @@ void KGLInfoWidget::setupInformation()
     QWidget * main = new QWidget;
     QString info("");
 
-    info+="<p>Vendor : <b>"+QString((char*)glGetString(GL_VENDOR)) + "</b></p>";
-    info+="<p>Render : <b>"+QString((char*)glGetString(GL_RENDERER))+ "</b></p>";
-    info+="<p>Version : <b>"+QString((char*)glGetString(GL_VERSION))+ "</b></p>";
-    info+="<p> <b>"+(m_view->isShaderSupported())?"Shader support : yes" : "Shader support : no"; info+="</b></p>";
-    info+="<p>extensions : </p>";
-    edit->setText(QString((char*)glGetString(GL_EXTENSIONS)));
+    info+=i18n("<p>Vendor: <b>%1</b></p>", QString((char*)glGetString(GL_VENDOR)));
+    info+=i18n("<p>Render: <b>%1</b></p>", QString((char*)glGetString(GL_RENDERER)));
+    info+=i18n("<p>Version: <b>%1</b></p>", QString((char*)glGetString(GL_VERSION)));
+    if (m_view->isShaderSupported()) info+=i18n("<p> <b>Shader support: yes</b></p>");
+    else info+=i18n("<p> Shader support: <b>no</b></p>");
+    info+=i18n("<p>Extensions: </p>");
+    edit->setText(QString((char*)glGetString(GL_EXTENSIONS)).replace(' ', '\n'));
+    edit->setReadOnly(true);
 
     QLabel * label = new QLabel;
     label->setText(info);

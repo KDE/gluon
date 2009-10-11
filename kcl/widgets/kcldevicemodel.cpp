@@ -5,6 +5,7 @@
 
 #include <KIcon>
 #include <KDebug>
+#include <KLocale>
 
 #include <QMessageBox>
 
@@ -13,6 +14,7 @@ KCLDeviceModel::KCLDeviceModel(QObject *parent)
 {
     setColumnCount(2);
     setupList();
+    setHorizontalHeaderItem(0, new QStandardItem(i18n("Devices")));
 }
 
 void KCLDeviceModel::setupList()
@@ -46,28 +48,28 @@ void KCLDeviceModel::setupList()
         appendRow(deviceItem);
 
         QStandardItem *info = new QStandardItem(KIcon("help-about.png"), input->devicePath());
-        info->appendRow(new QStandardItem("Bus Type:" + QString::number(input->bustype())));
-        info->appendRow(new QStandardItem("Product:" + QString::number(input->product())));
-        info->appendRow(new QStandardItem("Version:" + QString::number(input->version())));
-        info->appendRow(new QStandardItem("Vendor:" + QString::number(input->vendor())));
+        info->appendRow(new QStandardItem(i18n("Bus Type: %1", input->bustype())));
+        info->appendRow(new QStandardItem(i18n("Product: %1", input->product())));
+        info->appendRow(new QStandardItem(i18n("Version: %1", input->version())));
+        info->appendRow(new QStandardItem(i18n("Vendor: %1", input->vendor())));
         deviceItem->appendRow(info);
 
-        QStandardItem *button = new QStandardItem("Button");
+        QStandardItem *button = new QStandardItem(i18n("Button"));
         foreach(int code, input->buttonCapabilities()) {
             button->appendRow(new QStandardItem(KCLCode::buttonName(code)));
         }
 
-        QStandardItem *absAxis = new QStandardItem("Absolute axis");
+        QStandardItem *absAxis = new QStandardItem(i18n("Absolute axis"));
         foreach(int code, input->absAxisCapabilities()) {
             absAxis->appendRow(new QStandardItem(KCLCode::absAxisName(code)));
         }
 
-        QStandardItem *relAxis = new QStandardItem("Relative axis");
+        QStandardItem *relAxis = new QStandardItem(i18n("Relative axis"));
         foreach(int code, input->relAxisCapabilities()) {
             relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
         }
 
-        QStandardItem *capab = new QStandardItem(KIcon("view-pim-tasks.png"), "Capability");
+        QStandardItem *capab = new QStandardItem(KIcon("view-pim-tasks.png"), i18n("Capabilities"));
 
         if (input->buttonCapabilities().size() > 0)capab->appendRow(button);
         if (input->absAxisCapabilities().size() > 0)capab->appendRow(absAxis);

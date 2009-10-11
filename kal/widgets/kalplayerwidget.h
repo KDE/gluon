@@ -1,12 +1,9 @@
 #ifndef KALPLAYERWIDGET_H
 #define KALPLAYERWIDGET_H
 
-#include "../kalsound.h"
+#include "../kal_export.h"
 
 #include <QWidget>
-#include <QSlider>
-#include <KUrlRequester>
-#include <QTimer>
 
 class KALPlayerWidgetPrivate;
 class KAL_EXPORT KALPlayerWidget : public QWidget

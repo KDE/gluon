@@ -1,12 +1,8 @@
 #ifndef KALINFOWIDGET_H
 #define KALINFOWIDGET_H
 
-#include "../kalengine.h"
+#include "../kal_export.h"
 
-#include <QComboBox>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <QSlider>
 #include <QWidget>
 
 class KALInfoWidgetPrivate;
@@ -25,11 +21,6 @@ public slots:
 
 private:
     KALInfoWidgetPrivate * d;
-    QWidget *m_information;
-    QWidget *m_preview;
-    QComboBox *m_soundComboBox;
-
-    KALSound *m_source;
 };
 
 #endif // KALINFOWIDGET_H
