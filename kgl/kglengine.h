@@ -25,11 +25,10 @@
 #include <QMap>
 
 #include "kgl_export.h"
-#include "kglbaseitem.h"
 #include "kglitemlist.h"
-#include "kglitem.h"
-#include "kglboxitem.h"
-#include "kgltextitem.h"
+
+class KGLBoxItem;
+class KGLEnginePrivate;
 
 /**
  * \defgroup KGL KGL
@@ -38,40 +37,33 @@
 
 typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
 
-class KGLEngine;
-class KGLPhysicsEngine;
-
 class KGL_EXPORT KGLEngine : public QObject
 {
     Q_OBJECT
     public:
         KGLEngine(QObject * parent=0);
+        ~KGLEngine();
         virtual void mainLoop(float fps=60);
         void addItem(KGLItem* item);
-        void addItems(const KGLItemList* items);
+        void addItems(const KGLItemList &items);
         bool removeItem(KGLItem* item);
-        bool removeItems(const KGLItemList *item);
+        bool removeItems(const KGLItemList &item);
         virtual bool eraseItem(KGLItem* item);
-        bool eraseItems(const KGLItemList *item);
+        bool eraseItems(const KGLItemList &item);
         KGLItem * itemAt(int id, unsigned int layer=0) const;
         int itemsCount() const;
 
-        KGLBoxItem * addBox(float w, float h)
-        {
-            KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;
-        }
+        KGLBoxItem * addBox(float w, float h);
 
-        IndexGroupMap items() const
-        {
-            return m_items;
-        }
+        IndexGroupMap items() const;
 
         virtual void mouseMoved(const QPointF &pos, Qt::MouseButton button);
         virtual void mousePressed(const QPointF &pos, Qt::MouseButton button);
         virtual void mouseReleased(const QPointF &pos,Qt::MouseButton button);
     private:
-        IndexGroupMap m_items;
-
+        Q_DISABLE_COPY(KGLEngine);
+        
+        KGLEnginePrivate *d;
 };
 
 //@}

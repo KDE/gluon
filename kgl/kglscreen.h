@@ -1,6 +1,4 @@
-
-template<class T1, class T2 >
-struct QPair;/*
+/*
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License version 2 as published by the Free Software Foundation.
@@ -28,15 +26,7 @@ struct QPair;/*
 */
 
 #include "kgl_export.h"
-
-struct KGLResolution
-{
-  QString name;
-  int id;
-  int width;
-  int height;
-  short refreshRate;
-};
+#include "kglresolution.h"
 
 /**
 * @class KGLSCreen
@@ -92,7 +82,7 @@ class KGL_EXPORT KGLScreen : public QObject
     /**
     * Return all resolutions this screen can be set to.
     */
-    virtual QList<KGLResolution*> availableResolutions() const = 0;
+    virtual QList<KGLResolution> availableResolutions() const = 0;
     
   public slots:
     /**
@@ -120,7 +110,7 @@ class KGL_EXPORT KGLScreen : public QObject
     * Set all screen properties from one Resolution object.
     * @note This also applies those properties.
     */
-    virtual void setResolution(KGLResolution* resolution);
+    virtual void setResolution(const KGLResolution &resolution);
     /**
     * Restore the screen to its original settings. This method should be called
     * when switching from fullscreen back to a normal resolution.

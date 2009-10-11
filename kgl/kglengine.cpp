@@ -19,11 +19,21 @@
  */
 
 #include "kglengine.h"
+#include "kglengine_p.h"
+
+#include "kglboxitem.h"
+
 #include <KDebug>
 
 KGLEngine::KGLEngine(QObject * parent)
     : QObject(parent)
 {
+    d = new KGLEnginePrivate();
+}
+
+KGLEngine::~KGLEngine()
+{
+    delete d;
 }
 
 void KGLEngine::mainLoop(float ff)
@@ -33,13 +43,13 @@ void KGLEngine::mainLoop(float ff)
 void KGLEngine::addItem(KGLItem* item)
 {
     kDebug() << "adding Item of type: " << item->objectName()<<"-"<<item->zindex();
-    m_items[item->zindex()].append(item);
+    d->m_items[item->zindex()].append(item);
     item->setParent(this);
 }
 
-void KGLEngine::addItems(const KGLItemList* items)
+void KGLEngine::addItems(const KGLItemList &items)
 {
-    foreach(KGLItem* item, *items) {
+    foreach(KGLItem* item, items) {
         addItem(item);
         item->setParent(this);
     }
@@ -48,13 +58,13 @@ void KGLEngine::addItems(const KGLItemList* items)
 bool KGLEngine::removeItem(KGLItem* item)
 {
     if ( item != NULL)
-        return m_items[item->zindex()].removeOne(item);
+        return d->m_items[item->zindex()].removeOne(item);
     else return false;
 }
 
-bool KGLEngine::removeItems(const KGLItemList *items)
+bool KGLEngine::removeItems(const KGLItemList &items)
 {
-    foreach ( KGLItem* item , *items)
+    foreach ( KGLItem* item , items)
     {
         if (!removeItem(item))
             return false;
@@ -75,16 +85,16 @@ bool KGLEngine::eraseItem(KGLItem* item)
 
 KGLItem *KGLEngine::itemAt( int id, unsigned int layer) const
 {
-    if ( id < m_items[layer].size())
-        return m_items[layer].at(id);
+    if ( id < d->m_items[layer].size())
+        return d->m_items[layer].at(id);
 
     else return NULL;
 
 }
 
-bool KGLEngine::eraseItems(const KGLItemList *items)
+bool KGLEngine::eraseItems(const KGLItemList &items)
 {
-    foreach(KGLItem* item, *items) {
+    foreach(KGLItem* item, items) {
         if (!eraseItem(item)) return false;
         else return true;
     }
@@ -94,14 +104,27 @@ bool KGLEngine::eraseItems(const KGLItemList *items)
 int KGLEngine::itemsCount() const
 {
     int size=0;
-    IndexGroupMap::const_iterator i = m_items.constBegin();
-    while (i != m_items.constEnd()) {
+    IndexGroupMap::const_iterator i = d->m_items.constBegin();
+    while (i != d->m_items.constEnd()) {
         size+=i.value().size();
         ++i;
     }
     kDebug()<<"size="<<size;
     return size;
 }
+
+KGLBoxItem *KGLEngine::addBox(float w, float h)
+{
+    KGLBoxItem * b = new KGLBoxItem(w,h);
+    addItem(b);
+    return b;
+}
+
+IndexGroupMap KGLEngine::items() const
+{
+    return d->m_items;
+}
+
 void KGLEngine::mouseMoved(const QPointF &pos, Qt::MouseButton button)
 {}
 

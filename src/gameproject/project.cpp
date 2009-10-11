@@ -41,7 +41,7 @@ Project::~Project()
 // Property setter-getters
 
 void
-Project::setFile(QUrl newFile)
+Project::setFile(const QUrl &newFile)
 {
     d->file = newFile;
 }
@@ -53,7 +53,7 @@ Project::file() const
 }
 
 void
-Project::setLevels(QList<GameObject *> newLevels)
+Project::setLevels(const QList<GameObject *> &newLevels)
 {
     d->levels = newLevels;
 }
@@ -65,7 +65,7 @@ Project::levels() const
 }
 
 void
-Project::setAssets(QList<Asset *> newAssets)
+Project::setAssets(const QList<Asset *> &newAssets)
 {
     d->assets = newAssets;
 }
@@ -77,7 +77,7 @@ Project::assets() const
 }
 
 void
-Project::setPrefabs(QList<Prefab *> newPrefabs)
+Project::setPrefabs(const QList<Prefab *> &newPrefabs)
 {
     d->prefabs = newPrefabs;
 }

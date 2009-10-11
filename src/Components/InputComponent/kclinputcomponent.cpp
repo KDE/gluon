@@ -17,38 +17,5 @@
 
 */
 
-#include "asset.h"
-#include "assetprivate.h"
+#include "kclinputcomponent.h"
 
-using namespace Gluon;
-
-REGISTER_OBJECTTYPE(Asset)
-
-Asset::Asset(QObject * parent)
-    : GluonObject(parent)
-{
-    d = new AssetPrivate;
-}
-
-Asset::Asset(const Asset &other, QObject * parent)
-    : GluonObject(parent)
-    , d(other.d)
-{
-}
-
-Asset::~Asset()
-{
-}
-
-void Asset::setFile(const QUrl &newFile)
-{
-    d->file = newFile;
-    emit dataChanged(this);
-}
-
-QUrl Asset::file() const
-{
-    return d->file;
-}
-
-#include "asset.moc"

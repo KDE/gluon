@@ -21,6 +21,8 @@
 
 #include "kglview.h"
 #include <QMouseEvent>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <KDebug>
 #include <KIcon>
 #include "kgldisplay.h"
@@ -185,27 +187,33 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
-//    kDebug()<<w<<"--"<<width();
-//    kDebug()<<h<<"--"<<height();
-//    int side = qMin(w, h);
-//    glViewport((w - side) / 2, (h- side) / 2, side, side);
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//
-//    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
-//    glMatrixMode(GL_MODELVIEW);
+    kDebug()<<w<<"--"<<width();
+    kDebug()<<h<<"--"<<height();
 
+    QRect screenDim = QApplication::desktop()->screenGeometry();
+    double ratio = (double)screenDim.width()/screenDim.height();
 
-         glViewport(0, 0, w, h);
-         glMatrixMode(GL_PROJECTION);
-         glLoadIdentity();
+    int newWidth = w, newHeight = h;
 
+    if (h >= w)
+        newHeight = w/ratio;
+    else
+        newWidth = h*ratio;
 
-gluPerspective(70,(double)640/480,1,1000);
-gluLookAt(0, 0, 40, 0, 0, 0, 0, 1, 0);
-//         gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
+    int side = qMin(newWidth, newHeight);
+
+    glViewport((w - newWidth) / 2, (h - newHeight) / 2, newWidth, newHeight);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    // Changing orthoView size according to detected screen ratio.
+    m_orthoView.setCoords(-10*ratio, 10, 10*ratio, -10);
+
+    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+    glMatrixMode(GL_MODELVIEW);
 }
-
+  
 void  KGLView::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

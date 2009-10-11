@@ -44,7 +44,7 @@ Component::~Component()
 // Property getter-setters
 
 void
-Component::setDescription(QString newDescription)
+Component::setDescription(const QString &newDescription)
 {
     d->description = newDescription;
 }

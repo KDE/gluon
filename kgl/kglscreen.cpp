@@ -57,10 +57,10 @@ void KGLScreen::restore()
   applySettings();
 }
 
-void KGLScreen::setResolution(KGLResolution* resolution)
+void KGLScreen::setResolution(const KGLResolution &resolution)
 {
-  setDimensions(resolution->width, resolution->height, false);
-  setRefreshRate(resolution->refreshRate, false);
+  setDimensions(resolution.width(), resolution.height(), false);
+  setRefreshRate(resolution.refreshRate(), false);
   applySettings();
 }
 
