@@ -40,7 +40,7 @@ Asset::~Asset()
 {
 }
 
-void Asset::setFile(QUrl newFile)
+void Asset::setFile(const QUrl &newFile)
 {
     d->file = newFile;
     emit dataChanged(this);

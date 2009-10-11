@@ -56,26 +56,26 @@ namespace Gluon
             /**
              * Run a command on all the components in this GameObject
              */
-            void RunCommand(QString functionName);
-            void RunCommandInChildren(QString functionName);
+            void RunCommand(const QString &functionName);
+            void RunCommandInChildren(const QString &functionName);
             
             // ----------------------------------------------------------------
             // Component management
             
-            Component * findComponent(QString name);
-            Component * findComponentByType(QString typeName);
-            Component * findComponentInChildren(QString name);
-            Component * findComponentInChildrenByType(QString typeName);
-            QList<Component *> findComponentsInChildren(QString name);
-            QList<Component *> findComponentsInChildrenByType(QString typeName);
+            Component * findComponent(const QString &name) const;
+            Component * findComponentByType(const QString &typeName) const;
+            Component * findComponentInChildren(const QString &name) const;
+            Component * findComponentInChildrenByType(const QString &typeName) const;
+            QList<Component *> findComponentsInChildren(const QString &name) const;
+            QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
             void addComponent(Component * addThis);
             bool removeComponent(Component * removeThis);
             
             // ----------------------------------------------------------------
             // GameObject tree management
             
-            GameObject * child(int index);
-            GameObject * child(QString name);
+            GameObject * child(int index) const;
+            GameObject * child(const QString &name) const;
             void addChild(GameObject * addThis);
             bool removeChild(GameObject * removeThis);
             
@@ -85,7 +85,7 @@ namespace Gluon
             // ----------------------------------------------------------------
             // Property getter-setters
             
-            void setDescription(QString newDescription);
+            void setDescription(const QString &newDescription);
             QString description() const;
             
             void setPosition(Eigen::Vector3d newPosition);

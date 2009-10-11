@@ -44,16 +44,16 @@ namespace Gluon
             Project(const Project &other, QObject * parent = 0);
             ~Project();
             
-            void setFile(QUrl newFile);
+            void setFile(const QUrl &newFile);
             QUrl file() const;
             
-            void setLevels(QList<GameObject *> newLevels);
+            void setLevels(const QList<GameObject *> &newLevels);
             QList<GameObject *> levels() const;
             
-            void setAssets(QList<Asset *> newAssets);
+            void setAssets(const QList<Asset *> &newAssets);
             QList<Asset *> assets() const;
             
-            void setPrefabs(QList<Prefab *> newPrefabs);
+            void setPrefabs(const QList<Prefab *> &newPrefabs);
             QList<Prefab *> prefabs() const;
         private:
             QSharedDataPointer<ProjectPrivate> d;

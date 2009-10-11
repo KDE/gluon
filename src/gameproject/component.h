@@ -43,7 +43,7 @@ namespace Gluon
             virtual void Update(int elapsedMilliseconds) = 0;
             virtual void Draw(int timeLapse = 0) {};
             
-            void setDescription(QString newDescription);
+            void setDescription(const QString &newDescription);
             QString description() const;
             
             void setEnabled(bool newEnabled);

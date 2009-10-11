@@ -78,13 +78,13 @@ GameObject::Draw(int timeLapse)
 }
 
 void
-GameObject::RunCommand(QString functionName)
+GameObject::RunCommand(const QString &functionName)
 {
 #warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
 }
 
 void
-GameObject::RunCommandInChildren(QString functionName)
+GameObject::RunCommandInChildren(const QString &functionName)
 {
     foreach(GameObject * child, d->children)
         child->RunCommand(functionName);
@@ -94,7 +94,7 @@ GameObject::RunCommandInChildren(QString functionName)
 // Component management
 
 Component *
-GameObject::findComponent(QString name)
+GameObject::findComponent(const QString &name) const
 {
     Component * found = 0;
     foreach(Component * component, d->components)
@@ -109,7 +109,7 @@ GameObject::findComponent(QString name)
 }
 
 Component *
-GameObject::findComponentByType(QString typeName)
+GameObject::findComponentByType(const QString &typeName) const
 {
     Component * found = 0;
     const QMetaObject * metaObject;
@@ -129,7 +129,7 @@ GameObject::findComponentByType(QString typeName)
 }
 
 Component *
-GameObject::findComponentInChildren(QString name)
+GameObject::findComponentInChildren(const QString &name) const
 {
     Component * found = 0;
     foreach(GameObject * child, d->children)
@@ -145,7 +145,7 @@ GameObject::findComponentInChildren(QString name)
 }
 
 Component *
-GameObject::findComponentInChildrenByType(QString typeName)
+GameObject::findComponentInChildrenByType(const QString &typeName) const
 {
     Component * found = 0;
     QMetaObject * metaObject;
@@ -162,7 +162,7 @@ GameObject::findComponentInChildrenByType(QString typeName)
 }
 
 QList<Component *>
-GameObject::findComponentsInChildren(QString name)
+GameObject::findComponentsInChildren(const QString &name) const
 {
     QList<Component *> found;
     Component * tempFound;
@@ -177,7 +177,7 @@ GameObject::findComponentsInChildren(QString name)
 }
 
 QList<Component *>
-GameObject::findComponentsInChildrenByType(QString typeName)
+GameObject::findComponentsInChildrenByType(const QString &typeName) const
 {
     QList<Component *> found;
     Component * tempFound;
@@ -207,13 +207,13 @@ GameObject::removeComponent(Component * removeThis)
 // GameObject tree management
 
 GameObject *
-GameObject::child(int index)
+GameObject::child(int index) const
 {
     return d->children.at(index);
 }
 
 GameObject *
-GameObject::child(QString name)
+GameObject::child(const QString &name) const
 {
     GameObject * found = 0;
     foreach(GameObject * child, d->children)
@@ -263,7 +263,7 @@ GameObject::parentGameObject()
 // Property getter-setters
 
 void
-GameObject::setDescription(QString newDescription)
+GameObject::setDescription(const QString &newDescription)
 {
     d->description = newDescription;
 }

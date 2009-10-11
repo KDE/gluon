@@ -38,7 +38,7 @@ namespace Gluon
             Asset(const Asset &other, QObject * parent = 0);
             ~Asset();
 
-            void setFile(QUrl newFile);
+            void setFile(const QUrl &newFile);
             QUrl file() const;
 
         Q_SIGNALS:
