@@ -104,7 +104,7 @@ void KGLView::init()
     initGlew();
     logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
     logo->setColor(QColor(255,255,255,50));
-    logo->setScale(0.5);
+    logo->setScale(0.5,0.5);
     logo->setPosition(-logo->center()/2);
 
     logo->updateTransform();
@@ -185,21 +185,25 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
-    kDebug()<<w<<"--"<<width();
-    kDebug()<<h<<"--"<<height();
-    int side = qMin(w, h);
-    glViewport((w - side) / 2, (h- side) / 2, side, side);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+//    kDebug()<<w<<"--"<<width();
+//    kDebug()<<h<<"--"<<height();
+//    int side = qMin(w, h);
+//    glViewport((w - side) / 2, (h- side) / 2, side, side);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//
+//    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+//    glMatrixMode(GL_MODELVIEW);
 
-    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
-    glMatrixMode(GL_MODELVIEW);
+
+         glViewport(0, 0, w, h);
+         glMatrixMode(GL_PROJECTION);
+         glLoadIdentity();
 
 
-    //     glViewport(0, 0, w, h);
-    //     glMatrixMode(GL_PROJECTION);
-    //     glLoadIdentity();
-    //     gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
+gluPerspective(70,(double)640/480,1,1000);
+gluLookAt(0, 0, 40, 0, 0, 0, 0, 1, 0);
+//         gluOrtho2D(m_orthoView.left(),m_orthoView.right() ,m_orthoView.bottom(), m_orthoView.top());
 }
 
 void  KGLView::paintGL()

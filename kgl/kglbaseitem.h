@@ -53,7 +53,7 @@ public:
         computeGeometry();
     }
 
-     KGLPointList &pointList() {return m_pointList;}
+    KGLPointList &pointList() {return m_pointList;}
 
     virtual void removeVertex(KGLPoint * p)
     {
@@ -92,7 +92,7 @@ public:
         return m_position;
     }
 
-    inline const float &scaleValue() const
+    inline const QPointF &scaleValue() const
     {
         return m_scale;
     }
@@ -171,9 +171,13 @@ public:
         m_rotateCenter = c;m_angle = a;
     }
 
-    inline void setScale(const float &s)
+    inline void setScale(const QPointF &s)
     {
         m_scale = s;
+    }
+    inline void setScale(const float &sx, const float &sy)
+    {
+        setScale(QPointF(sx,sy));
     }
     inline void setTranslate(const QPointF &t)
     {
@@ -184,7 +188,7 @@ public:
         m_position = p;
 
 
-        }
+    }
 
     inline void setPosition(qreal x, qreal y )
     {
@@ -216,9 +220,14 @@ public:
         translate(QPointF(x,y));
     }
 
-    inline void scale(const float &s)
+    inline void scale(const QPointF &s)
     {
-        m_scale *=s;
+        m_scale.setX(m_scale.x() *s.x());
+        m_scale.setY( m_scale.y() *s.y());
+    }
+    inline void scale(const float &x, const float&y )
+    {
+        scale(QPointF(x,y));
     }
 
     inline void rotate(const float &angle)
@@ -249,7 +258,7 @@ private:
     Eigen::Matrix4d m_shearMatrix;
 
     float m_angle;
-    float m_scale;
+    QPointF m_scale;
     QPointF m_position;
     QPointF m_translate;
     QPointF m_rotateCenter;

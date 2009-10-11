@@ -48,7 +48,6 @@ bool KGLTextItem::initTexture()
     int texwidth = metrics.width(m_text);
     int texheight= metrics.height();
 
-    qDebug()<<texheight;
 
     QImage image( texwidth, texheight, QImage::Format_RGB32 );
     QPainter painter;
@@ -63,6 +62,20 @@ bool KGLTextItem::initTexture()
     painter.drawText(image.rect(),Qt::AlignCenter,m_text);
     painter.end();
 
+////     int x=1;
+////     while ( w
+//    image = image.scaled(64,16);
+//    texwidth = image.width();
+//    texheight = image.height();
+
+   int w = pow(2,static_cast<int>(log(image.width())/log(2))+1); //change if it's not 2^n
+//   int h = pow(2,static_cast<int>(log(image.height())/log(2))+1);
+
+   image = image.scaled(w,16);
+  texwidth = image.width();
+  texheight = image.height();
+    
+    
     GLubyte *bitmap = new GLubyte[ texwidth * texheight ];
     if( bitmap == 0 ) return false;
 
@@ -75,6 +88,9 @@ bool KGLTextItem::initTexture()
     GLuint text;
     glGenTextures( 1, &text );
     if( text== 0 ) return false;
+
+
+
 
     glBindTexture( GL_TEXTURE_2D, text);
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );

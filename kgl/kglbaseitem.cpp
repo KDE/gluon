@@ -29,7 +29,7 @@ KGLBaseItem::KGLBaseItem(QObject *parent)
     m_angle = 0;
     m_position=QPointF(0,0);
     m_translate=QPointF(0,0);
-    m_scale = 1;
+    m_scale = QPointF(1,1);
     m_rotateCenter = QPointF(0,0);
     m_shear = QPointF(0,0);
     m_center=QPointF(0,0);
@@ -50,7 +50,7 @@ void  KGLBaseItem::updateTransform()
 
     m_matrix.translate(Eigen::Vector3d(m_position.x() , m_position.y(), 0));
 
-    m_matrix.scale(m_scale);
+    m_matrix.scale(Eigen::Vector3d(m_scale.x() , m_scale.y(), 0));
     m_matrix.translate(Eigen::Vector3d(m_translate.x() , m_translate.y(), 0));
 
     m_matrix.translate(Eigen::Vector3d(m_rotateCenter.x(), m_rotateCenter.y(), 0));
@@ -68,7 +68,7 @@ void KGLBaseItem::resetTransform()
 {
     m_matrix.setIdentity();
     m_angle  = 0;
-    m_scale  = 1;
+    m_scale  = QPointF(1,1);
     m_shear  = QPointF(0,0);
     m_position = QPointF(0,0);
 }

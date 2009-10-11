@@ -138,3 +138,11 @@ void KGLTexture::setWrapMode(GLenum coordinate, GLenum mode)
     glTexParameteri(GL_TEXTURE_2D, coordinate, mode);
     unBind();
 }
+    int KGLTexture::maxSize()
+    {
+      GLint texSize;
+      glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texSize);
+      
+      return texSize;
+      
+    }

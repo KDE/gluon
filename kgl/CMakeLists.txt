@@ -27,7 +27,7 @@ set(kgl_LIB_SRCS
     kglview.cpp
     kglscreen.cpp
     kglinfowidget.cpp
-
+    kgldebugphysicsview.cpp
     widgets/kglresolutiondialog.cpp
 )
 
@@ -88,6 +88,7 @@ install(FILES
   kgldisplay.h
   kglscreen.h
   kglinfowidget.h
+   kgldebugphysicsview.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
 )
 

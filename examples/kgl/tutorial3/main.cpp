@@ -32,6 +32,7 @@
 #include <gluon/kgl/kglphysicsitem.h>
 #include <gluon/kgl/kglphysicsengine.h>
 #include <gluon/kgl/kglboxitem.h>
+#include <gluon/kgl/kgldebugphysicsview.h>
 
 using namespace std;
 
@@ -49,9 +50,12 @@ int main(int argc, char *argv[])
     KApplication app;
 
     KGLPhysicsEngine * engine = new KGLPhysicsEngine;
-    KGLView * view = new KGLView(engine);
+    KGLDebugPhysicsView * view = new KGLDebugPhysicsView();
+    view->setEngine(engine);
 
 
+  
+    
     KGLPhysicsItem * ground = new KGLPhysicsItem;
     ground->setStatic();
     ground->createBox(20,2);
@@ -76,6 +80,7 @@ int main(int argc, char *argv[])
     pendule2->setRestitution(0.7);
     engine->addItem(pendule2);
 
+      engine->world()->SetDebugDraw(view);
     view->start();
     view->show();
     app.exec();

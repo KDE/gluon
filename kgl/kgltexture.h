@@ -48,6 +48,10 @@ public:
     void load(const QImage &img, int width=0, int height=0);
     void setFilter(GLenum filter);
     void setWrapMode(GLenum coordinate, GLenum mode);
+    static int maxSize();
+    int size(){
+     return m_dim.width() * m_dim.height(); 
+    }
 
     GLuint glId()const{
         return m_texture;
