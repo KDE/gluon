@@ -18,6 +18,7 @@
 */
 
 #include <QStringList>
+#include <QDebug>
 #include "gdlhandler.h"
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"
@@ -116,6 +117,7 @@ GDLHandler::tokenizeObject(QString objectString)
             }
             else if(i->toLower() == '{')
             {
+                qDebug() << "Found opening bracket";
                 inItem = true;
             }
         }
@@ -136,6 +138,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         // Once we hit an end, we should stop looking at this item
                         // In other words - add the item to the list of items and make a new stringlist to work on...
+                        qDebug() << "Found closing bracket";
                         QStringList theItem(currentItem);
                         tokenizedObject.append(theItem);
                         currentItem.clear();
@@ -144,6 +147,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         // If we hit a start while already inside an item, we should simply start adding stuff
                         // until we hit the correct ending again
+                        qDebug() << "Found child object";
                         inChild = true;
                     }
                     else
@@ -167,6 +171,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(i->toLower() == '(')
                     {
                         currentItem.append(currentString.trimmed());
+                        qDebug() << "Name:" << currentString;
                         currentString.clear();
                         inName = false;
                         inValue = true;
@@ -180,6 +185,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         currentItem.append(currentString.trimmed());
                         currentString.clear();
+                        qDebug() << "Value:" << currentString;
                         inValue = false;
                         inObjectDefinition = false;
                     }
@@ -208,6 +214,7 @@ GDLHandler::tokenizeObject(QString objectString)
                                 // Now we're ready to look for more values, yay! ;)
                                 extraBracketCounter = 0;
                                 inChild = false;
+                                qDebug() << "End child" << currentString;
                             }
                         }
                     }
@@ -221,6 +228,7 @@ GDLHandler::tokenizeObject(QString objectString)
                 if(!i->isSpace())
                 {
                     currentString += i->unicode();
+                    qDebug() << "Name:" << i->unicode();
                 }
                 else
                 {
@@ -239,6 +247,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(!beingEscaped && i->toLower() == ')')
                     {
                         inValue = false;
+                        qDebug() << currentString;
                     }
                     beingEscaped = false;
                 }
@@ -252,15 +261,21 @@ GDLHandler::tokenizeObject(QString objectString)
 QList<GluonObject *>
 GDLHandler::parseGDL(const QString parseThis, QObject * parent)
 {
+    qDebug() << "Begin parsing data";
+    
     QList<GluonObject *> thisObjectList;
     
     QList<QStringList> tokenizedObject = tokenizeObject(parseThis);
+
+    qDebug() << tokenizedObject;
+    
     foreach(const QStringList &item, tokenizedObject)
     {
         GluonObject * currentObject = createObject(item, parent);
         thisObjectList.append(currentObject);
     }
-    
+
+    qDebug() << "End parsing data";
     return thisObjectList;
 }
 
