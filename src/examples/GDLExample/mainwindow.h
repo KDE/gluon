@@ -17,21 +17,23 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <gluon/gluonmainwindow.h>
+#include <KXmlGuiWindow>
 
+class QTreeView;
 class QTextEdit;
 
-class MainWindow : public GluonMainWindow
+class MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
     public:
         MainWindow();
         ~MainWindow();
-public slots:
-    void openFile(bool);
+    public slots:
+        void openFile(bool);
 
     private:
         QTextEdit * m_text;
+        QTreeView *m_tree;
 };
 
 #endif // MAINWINDOW_H
