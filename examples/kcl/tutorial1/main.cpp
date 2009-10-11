@@ -26,6 +26,7 @@
     #include <KDebug>
     #include <QDebug>
     #include <QWidget>
+    #include <gluon/kcl/kclcode.h>
     #include <gluon/kcl/kcldetect.h>
 
     using namespace std;
