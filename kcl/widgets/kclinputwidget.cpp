@@ -28,7 +28,7 @@ KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
     setupTable();
     connect(m_input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
     setWindowIcon(KIcon(KCLCode::iconDevice(m_input->deviceType())));
-    setWindowTitle(i18n("input seetings"));
+    setWindowTitle(i18n("Input Settings"));
 }
 void KCLInputWidget::setupTable()
 {
@@ -55,6 +55,7 @@ void KCLInputWidget::setupTable()
         slider->setMinimum(m_input->axisInfo(axis).min);
         slider->setMaximum(m_input->axisInfo(axis).max);
         slider->setValue(m_input->axisInfo(axis).value);
+        slider->setEnabled(false);
         m_tableWidget->setCellWidget(row,1,slider);
         row++;
     }
@@ -67,6 +68,7 @@ void KCLInputWidget::setupTable()
         slider->setMinimum(0);
         slider->setMaximum(100);
         slider->setValue(50);
+        slider->setEnabled(false);
         m_tableWidget->setCellWidget(row,1,slider);
         row++;
     }
