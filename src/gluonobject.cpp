@@ -42,13 +42,13 @@ GluonObject::name() const
 }
 
 void
-GluonObject::setName(QString newName)
+GluonObject::setName(const QString &newName)
 {
     d->name = newName;
 }
 
 void
-GluonObject::setPropertyFromString(QString propertyName, QString propertyValue)
+GluonObject::setPropertyFromString(const QString &propertyName, const QString &propertyValue)
 {
     QVariant value;
     
@@ -85,7 +85,7 @@ GluonObject::setPropertyFromString(QString propertyName, QString propertyValue)
 }
 
 QString
-GluonObject::getStringFromProperty(QString propertyName)
+GluonObject::getStringFromProperty(const QString &propertyName)
 {
     QString value;
     
