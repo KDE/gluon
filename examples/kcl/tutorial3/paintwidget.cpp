@@ -1,7 +1,8 @@
 #include "paintwidget.h"
+#include <KIcon>
 #include <QDebug>
 #include <QApplication>
- #include <gluon/kcl/kcldetect.h>
+#include <gluon/kcl/kcldetect.h>
 PaintWidget::PaintWidget(QWidget * parent)
         :QWidget(parent)
 {

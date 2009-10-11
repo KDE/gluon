@@ -102,9 +102,11 @@ int KGLEngine::itemsCount() const
     kDebug()<<"size="<<size;
     return size;
 }
-void KGLEngine::mouseMoved(QPointF pos, Qt::MouseButton button)
+void KGLEngine::mouseMoved(const QPointF &pos, Qt::MouseButton button)
 {}
- void KGLEngine::mousePressed(QPointF pos, Qt::MouseButton button)
- {}
-void KGLEngine::mouseReleased(QPointF pos, Qt::MouseButton button)
+
+void KGLEngine::mousePressed(const QPointF &pos, Qt::MouseButton button)
+{}
+
+void KGLEngine::mouseReleased(const QPointF &pos, Qt::MouseButton button)
 {}

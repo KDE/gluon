@@ -38,27 +38,23 @@ KCLInfoWidget::KCLInfoWidget(QWidget *parent)
 
 void KCLInfoWidget::setupPreview()
 {
+    QStackedWidget * widget = new QStackedWidget;
+    QComboBox * combo = new QComboBox;
 
-QStackedWidget * widget = new QStackedWidget;
-QComboBox * combo = new QComboBox;
+    foreach ( KCLInput * input, KCLDetect::inputList())
+    {
+        KCLInputWidget * w = new KCLInputWidget(input);
+        combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
+        widget->addWidget(w);
+    }
 
-
-foreach ( KCLInput * input, KCLDetect::inputList())
-{
-    KCLInputWidget * w = new KCLInputWidget(input);
-    combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
-    widget->addWidget(w);
-
-}
-
-connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
-combo->setCurrentIndex(combo->count()-1);
-QVBoxLayout * layout = new QVBoxLayout;
-layout->addWidget(combo);
-layout->addWidget(widget);
-widget->setCurrentIndex(1);
-m_preview->setLayout(layout);
-
+    connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
+    combo->setCurrentIndex(combo->count()-1);
+    QVBoxLayout * layout = new QVBoxLayout;
+    layout->addWidget(combo);
+    layout->addWidget(widget);
+    widget->setCurrentIndex(1);
+    m_preview->setLayout(layout);
 }
 
 void KCLInfoWidget::setupInformation()
