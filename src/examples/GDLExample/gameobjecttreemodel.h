@@ -36,8 +36,8 @@ class GameObjectTreeModel : public QAbstractItemModel
         virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
         
     protected:
-        QObject *m_root;
-        int rowIndex(QObject* object) const;
+        Gluon::GameObject *m_root;
+        int rowIndex(Gluon::GameObject* object) const;
 };
 
 #endif // GAMEOBJECTTREEMODEL_H

@@ -19,10 +19,12 @@
 #include <QDebug>
 #include <typeinfo>
 
+using namespace Gluon;
+
 GameObjectTreeModel::GameObjectTreeModel(Gluon::GameObject* root, QObject* parent): QAbstractItemModel(parent)
 {
-    m_root = new QObject();
-    root->setParent(m_root);
+    m_root = new GameObject(this);
+    m_root->addChild(root);
 }
 
 QVariant GameObjectTreeModel::data(const QModelIndex& index, int role) const
@@ -33,7 +35,7 @@ QVariant GameObjectTreeModel::data(const QModelIndex& index, int role) const
     if (role != Qt::DisplayRole)
         return QVariant();
     
-    Gluon::GameObject *item = static_cast<Gluon::GameObject*>(index.internalPointer());
+    GameObject *item = static_cast<GameObject*>(index.internalPointer());
 
     switch(index.column())
     {
@@ -55,16 +57,16 @@ int GameObjectTreeModel::columnCount(const QModelIndex&) const
 
 int GameObjectTreeModel::rowCount(const QModelIndex& parent) const
 {
-    QObject *parentItem;
+    GameObject *parentItem;
     if (parent.column() > 0)
         return 0;
     
     if (!parent.isValid())
         parentItem = m_root;
     else
-        parentItem = static_cast<QObject*>(parent.internalPointer());
-
-    return parentItem->children().count();
+        parentItem = static_cast<GameObject*>(parent.internalPointer());
+    
+    return parentItem->childCount();
 }
 
 QModelIndex GameObjectTreeModel::parent(const QModelIndex& child) const
@@ -72,8 +74,8 @@ QModelIndex GameObjectTreeModel::parent(const QModelIndex& child) const
     if (!child.isValid())
         return QModelIndex();
     
-    QObject *childItem = static_cast<QObject*>(child.internalPointer());
-    QObject *parentItem = childItem->parent();
+    GameObject *childItem = static_cast<GameObject*>(child.internalPointer());
+    GameObject *parentItem = childItem->parentGameObject();
     
     if (parentItem == m_root)
         return QModelIndex();
@@ -86,14 +88,14 @@ QModelIndex GameObjectTreeModel::index(int row, int column, const QModelIndex& p
     if (!hasIndex(row, column, parent))
         return QModelIndex();
     
-    QObject *parentItem;
+    GameObject *parentItem;
     
     if (!parent.isValid())
         parentItem = m_root;
     else
-        parentItem = static_cast<QObject*>(parent.internalPointer());
+        parentItem = static_cast<GameObject*>(parent.internalPointer());
     
-    QObject *childItem = parentItem->children().at(row);
+    GameObject *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -120,11 +122,11 @@ QVariant GameObjectTreeModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
-int GameObjectTreeModel::rowIndex(QObject* object) const
+int GameObjectTreeModel::rowIndex(GameObject* object) const
 {
-    if(object->parent())
+    if(object->parentGameObject())
     {   
-        return object->parent()->children().indexOf(object);
+        return object->parentGameObject()->childIndex(object);
     }
     return 0;
 }
