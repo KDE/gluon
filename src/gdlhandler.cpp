@@ -97,10 +97,13 @@ GDLHandler::tokenizeObject(QString objectString)
     QList<QStringList> tokenizedObject;
     
     bool inItem = false;
-    bool inName = false;
-    bool inValue = false;
-    bool inChild = false;
-    bool inObjectDefinition = false;
+    
+    bool inObjectDefinition = false, inObjectName = false, inObjectType = false;
+    
+    bool inPropertyName = false;
+    bool inPropertyValue = false;
+    bool inChild = false, childEnded = false;
+
     bool beingEscaped = false;
     int extraBracketCounter = 0;
     QString currentString;
@@ -123,7 +126,7 @@ GDLHandler::tokenizeObject(QString objectString)
         }
         else
         {
-            if(!inValue && !inName && !inChild && !inObjectDefinition)
+            if(!inPropertyValue && !inPropertyName && !inChild && !inObjectDefinition)
             {
                 if(!currentString.isEmpty())
                 {
@@ -160,99 +163,136 @@ GDLHandler::tokenizeObject(QString objectString)
             
             if(inObjectDefinition)
             {
-                if(!inName && !inValue)
+                if(!inPropertyName && !inObjectName && !inObjectType)
                 {
                     // Ignore spaces between the start { and the object type
                     if(!i->isSpace())
-                        inName = true;
+                        inObjectType = true;
                 }
-                else if(inName)
+                
+                if(inObjectType)
                 {
                     if(i->toLower() == '(')
                     {
                         currentItem.append(currentString.trimmed());
-                        qDebug() << "Name:" << currentString;
+                        qDebug() << "GameObject Type:" << currentString;
                         currentString.clear();
-                        inName = false;
-                        inValue = true;
+                        inObjectType = false;
+                        inObjectName = true;
                     }
                     else
                         currentString += i->unicode();
                 }
-                else // meaning inValue
+                else if(inObjectName)
                 {
                     if(i->toLower() == ')')
                     {
                         currentItem.append(currentString.trimmed());
+                        qDebug() << "GameObject Name:" << currentString;
                         currentString.clear();
-                        qDebug() << "Value:" << currentString;
-                        inValue = false;
-                        inObjectDefinition = false;
+                        inObjectName = false;
+                        inPropertyName = true;
                     }
                     else
                         currentString += i->unicode();
                 }
+                else if(inPropertyName)
+                {
+                    if(!i->isSpace())
+                        inObjectDefinition = false;
+                }
             }
             else if(inChild)
             {
-                if(i->toLower() == '\\' && !beingEscaped)
-                    beingEscaped = true;
+                if(childEnded)
+                {
+                    if(!i->isSpace())
+                    {
+                        inChild = false;
+                        qDebug() << "Property search begins";
+                    }
+                }
                 else
                 {
-                    currentString += i->unicode();
-                    if(!beingEscaped)
+                    if(i->toLower() == '\\' && !beingEscaped)
+                        beingEscaped = true;
+                    else
                     {
-                        if(i->toLower() == '{')
+                        currentString += i->unicode();
+                        if(!beingEscaped)
                         {
-                            ++extraBracketCounter;
-                        }
-                        if(i->toLower() == '}')
-                        {
-                            --extraBracketCounter;
-                            if(extraBracketCounter == -1)
+                            if(i->toLower() == '{')
                             {
-                                // Now we're ready to look for more values, yay! ;)
-                                extraBracketCounter = 0;
-                                inChild = false;
-                                qDebug() << "End child" << currentString;
+                                ++extraBracketCounter;
+                            }
+                            if(i->toLower() == '}')
+                            {
+                                --extraBracketCounter;
+                                if(extraBracketCounter == -1)
+                                {
+                                    // Now we're ready to look for more values, yay! ;)
+                                    extraBracketCounter = 0;
+                                    childEnded = true;
+                                    inPropertyName = true;
+                                    currentItem.append(currentString.trimmed());
+                                    qDebug() << "End child" << currentString;
+                                    currentString.clear();
+                                }
                             }
                         }
+                        else
+                            beingEscaped = false;
+                    }
+                }
+            }
+            
+            if(!inObjectDefinition && !inChild)
+            {
+                if(inPropertyName)
+                {
+                    // Read name until we hit a space, and after that, start reading the value...
+                    if(i->toLower() == '{')
+                    {
+                        inChild = true;
+                        childEnded = false;
+                        qDebug() << "Found child object";
+                    }
+                    else if(i->toLower() == '}')
+                    {
+                        inPropertyName = false;
+                        // Rewind the pointer to make it possible to catch the end brackets above
+                        i--;
+                    }
+                    else if(!i->isSpace())
+                    {
+                        currentString += i->unicode();
                     }
                     else
-                        beingEscaped = false;
-                }
-            }
-            else if(inName)
-            {
-                // Read name until we hit a space, and after that, start reading the value...
-                if(!i->isSpace())
-                {
-                    currentString += i->unicode();
-                    qDebug() << "Name:" << i->unicode();
-                }
-                else
-                {
-                    inName = false;
-                    inValue = true;
-                }
-            }
-            else if(inValue)
-            {
-                if(i->toLower() == '\\' && !beingEscaped)
-                    beingEscaped = true;
-                else
-                {
-                    // Read the value until the value ends, wooh! ;)
-                    currentString += i->unicode();
-                    if(!beingEscaped && i->toLower() == ')')
                     {
-                        inValue = false;
-                        qDebug() << currentString;
+                        inPropertyName = false;
+                        inPropertyValue = true;
                     }
-                    beingEscaped = false;
+                }
+                else if(inPropertyValue)
+                {
+                    if(i->toLower() == '\\' && !beingEscaped)
+                        beingEscaped = true;
+                    else
+                    {
+                        // Read the value until the value ends, wooh! ;)
+                        currentString += i->unicode();
+                        if(!beingEscaped && i->toLower() == ')')
+                        {
+                            inPropertyValue = false;
+                            inPropertyName = true;
+                            qDebug() << currentString;
+                        }
+                        beingEscaped = false;
+                    }
                 }
             }
         }
+        qDebug() << "Letter: " << i->toLower() << " inItem: " << inItem << " inObjectDefinition: " << inObjectDefinition << " inObjectType: " << inObjectType << " inObjectName: " << inObjectName << " inPropertyName: " << inPropertyName << " inPropertyValue: " << inPropertyValue << " inChild: " << inChild << " childEnded: " << childEnded;
     }
     
     return tokenizedObject;
