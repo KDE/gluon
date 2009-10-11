@@ -2,9 +2,9 @@
 #include "../kalsound.h"
 
 #include <QHBoxLayout>
-#include <QMessageBox>
 #include <QToolButton>
 #include <QMenu>
+#include <QTimer>
 #include <QWidgetAction>
 #include <KUrlRequester>
 #include <KDebug>

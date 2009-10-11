@@ -1,18 +1,15 @@
 #include "kalinfowidget.h"
 #include "kalplayerwidget.h"
+#include "../kalengine.h"
+#include "../kalsound.h"
 
-#include <QDir>
 #include <QLabel>
-#include <QMessageBox>
-#include <QToolButton>
 #include <QVBoxLayout>
 
 #include <KComboBox>
 #include <KIcon>
 #include <KLocale>
-#include <KPushButton>
 #include <KTabWidget>
-#include <KTitleWidget>
 
 class KALInfoWidgetPrivate
 {
@@ -35,8 +32,8 @@ KALInfoWidget::KALInfoWidget(QWidget * parent)
     d->preview = new QWidget;
     KTabWidget *tab = new KTabWidget;
 
-    tab->addTab(d->preview, KIcon("run-build-configure.png"), "preview");
-    tab->addTab(d->information, KIcon("run-build-file.png"), "information");
+    tab->addTab(d->preview, KIcon("run-build-configure.png"), i18n("Preview"));
+    tab->addTab(d->information, KIcon("run-build-file.png"), i18n("Information"));
 
     setupPreview();
     setupInformation();
@@ -71,9 +68,9 @@ void KALInfoWidget::setupInformation()
 
     QLabel *label = new QLabel;
     QString info = "";
-    info += "<p>Vendor :" + QString(alGetString(AL_VENDOR)) + "</p>";
-    info += "<p>Version :" + QString(alGetString(AL_VERSION)) + "</p>";
-    info += "<p>Renderer :" + QString(alGetString(AL_RENDERER)) + "</p>";
+    info += i18n("<p>Vendor: %1</p>", QString(alGetString(AL_VENDOR)));
+    info += i18n("<p>Version: %1</p>", QString(alGetString(AL_VERSION)));
+    info += i18n("<p>Renderer: %1</p>", QString(alGetString(AL_RENDERER)));
 
     //info+="<p>Vendor :"+QString(alcGetString(d->alEngine->AL_DEFAULT_DEVICE_SPECIFIER))+ "</p>";
     //info+="<p>Version :"+QString(alcGetString(AL_VERSION)) + "</p>";
