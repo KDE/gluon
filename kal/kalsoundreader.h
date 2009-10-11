@@ -26,6 +26,7 @@ class KAL_EXPORT KALSoundReader
 {
 public:
     KALSoundReader(const QString& fileName);
+    ~KALSoundReader();
 
     QString format() const;
     bool canRead() const;
