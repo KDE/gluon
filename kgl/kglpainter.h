@@ -29,6 +29,7 @@ protected:
     void draw();
 
 private:
+    Q_DISABLE_COPY(KGLPainter)
     KGLPainterPrivate * d;
 };
 
