@@ -57,6 +57,8 @@ Q_SIGNALS:
     void deviceChanged(const QString &deviceName);
 
 private:
+    Q_DISABLE_COPY(KALPhonon)
+    
     KALPhononPrivate *d;
 
 private Q_SLOTS:

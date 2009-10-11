@@ -32,13 +32,13 @@ set(kgl_LIB_SRCS
     widgets/kglresolutiondialog.cpp
 )
 
-IF(NOT WIN32)
+IF(NOT WIN32 AND NOT Q_WS_MAC)
 SET(kgl_LIB_SRCS
     kglfx.cpp
     kglprogram.cpp
     kglrandrscreen.cpp
     ${kgl_LIB_SRCS})
-ENDIF(NOT WIN32)
+ENDIF(NOT WIN32 AND NOT Q_WS_MAC)
 
 SET(kgl_RCCS
 shaders/shaders.qrc
@@ -47,6 +47,8 @@ shaders/shaders.qrc
 QT4_ADD_RESOURCES(kgl_RCC_SRCS ${kgl_RCCS})
 kde4_add_library(kgl SHARED ${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
 set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
+
+include_directories(${GLEW_INCLUDE_DIR}/..)
 
 target_link_libraries(kgl ${QT_QTOPENGL_LIBRARY})
 target_link_libraries(kgl ${KDE4_KDEUI_LIBS})

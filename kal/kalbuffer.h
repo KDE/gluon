@@ -72,10 +72,11 @@ public:
 
 protected:
     void init();
-private :
-        KALBufferPrivate *  d;
 
-
+private:
+    Q_DISABLE_COPY(KALBuffer)
+    
+    KALBufferPrivate *d;
 };
 
 //@}

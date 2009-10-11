@@ -27,8 +27,9 @@ public:
     void save(const QString &fileName);
 
 private:
+    Q_DISABLE_COPY(KALCapture)
+    
     KALCapturePrivate * d;
-
 };
 
 //@}
