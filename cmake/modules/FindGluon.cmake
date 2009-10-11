@@ -21,14 +21,24 @@ if (Gluon_FIND_REQUIRED)
 endif (Gluon_FIND_REQUIRED)
 
 find_package(KAL ${_gluonReq})
+
+if (APPLE)
+# KCL doesn't build on Apple yet - just ignore it
+set(KCL_INCLUDES "")
+set(KCLENGINE_H "")
+else (APPLE)
 find_package(KCL ${_gluonReq})
+set(KCLENGINE_H gluon/kcl/kclengine.h)
+endif (APPLE)
+
 find_package(KGL ${_gluonReq})
+
 
 find_path(GLUON_INCLUDE_DIR
     NAMES
     gluon/kgl/kglengine.h
     gluon/kal/kalengine.h
-    gluon/kcl/kclengine.h
+    ${KCLENGINE_H}
     PATHS
     ${INCLUDE_INSTALL_DIR}
 )

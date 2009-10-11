@@ -21,11 +21,16 @@
 #ifndef KALMUSIC_H
 #define KALMUSIC_H
 
-#include <AL/al.h>
-#include <vorbis/vorbisfile.h>
 
 #include <QThread>
 #include <string.h>
+
+#ifdef Q_OS_MACX
+#  include <OpenAL/al.h>
+#else
+#  include <AL/al.h>
+#endif
+#include <vorbis/vorbisfile.h>
 
 using namespace std;
 

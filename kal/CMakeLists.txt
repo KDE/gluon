@@ -14,6 +14,10 @@ set(kal_LIB_SRCS
 kde4_add_library(kal SHARED ${kal_LIB_SRCS})
 set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
+include_directories(${OPENAL_INCLUDE_DIR} ${ALUT_INCLUDE_DIR}
+                    ${SNDFILE_INCLUDE_DIR} ${OGG_INCLUDE_DIR}
+                    ${VORBISFILE_INCLUDE_DIR})
+
 target_link_libraries(kal 
 ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_PHONON_LIBS}
   ${OPENAL_LIBRARY} ${ALUT_LIBRARY}
