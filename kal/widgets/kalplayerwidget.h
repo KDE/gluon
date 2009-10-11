@@ -20,6 +20,8 @@ public slots:
     void updateStatus();
 
 private:
+    Q_DISABLE_COPY(KALPlayerWidget)
+    
     KALPlayerWidgetPrivate *d;
 };
 

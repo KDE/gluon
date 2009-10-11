@@ -39,6 +39,7 @@ protected:
     ALuint fromOgg();
 
 private:
+    Q_DISABLE_COPY(KALSoundReader)
     KALSoundReaderPrivate *d;
 
 };

@@ -234,9 +234,9 @@ public Q_SLOTS:
 protected:
     void setupSource();
 private:
+    Q_DISABLE_COPY(KALSound)
+    
     KALSoundPrivate *d;
-
-
 };
 
 //@}

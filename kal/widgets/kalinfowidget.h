@@ -20,6 +20,7 @@ public slots:
     void setDevice(const QString& device);
 
 private:
+    Q_DISABLE_COPY(KALInfoWidget)
     KALInfoWidgetPrivate * d;
 };
 
