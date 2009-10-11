@@ -26,21 +26,22 @@
 
 MainWindow::MainWindow() : GluonMainWindow()
 {
+    KStandardAction::open(this, SLOT(openFile(bool)), actionCollection());
     setupGluon();
-
-    QAction* openFile = menu()->addAction("Open File");
-    connect(openFile, SIGNAL(triggered(bool)), SLOT(openFile(bool)));
-
+    
     m_text = new QTextEdit;
 
+    delete view();
     QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
 
-    layout->addWidget(view());
+    //layout->addWidget(view());
     layout->addWidget(m_text);
     main->setLayout(layout);
     
     setCentralWidget(main);
+
+
 }
 
 MainWindow::~MainWindow()
