@@ -20,8 +20,49 @@
 #ifndef KCLINPUTCOMPONENT_H
 #define KCLINPUTCOMPONENT_H
 
+#include "component.h"
+#include <kcl/kcl.h>
+#include <QWidget>
+#include <QMouseEvent>
+#include <QGui>
+
 class KCLInputComponent
 {
+
+Q_OBJECT;
+Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
+ 
+public:
+    KCLInputComponent(QObject * parent = 0);
+    // True on any frame between GetActionStarted and
+    // GetActionStopped, inclusive of those two frames
+    bool GetActionHeld(QString actionName);
+    // True on the frame when an action was begun (for example the
+    // button represented by buttonName was pressed on a controller)
+    bool GetActionStarted(QString actionName);
+    // True on the frame when an action was stopped (for example a
+    // button was released on a controller)
+    bool GetActionStopped(QString actionName);
+    // The movement compared to last frame
+    QVector3D GetDistanceMovement(QString actionName);
+    // The movement along one axis compared to last frame
+    float GetAxisMovement(QString actionName);
+    virtual void Draw(int timeLapse = 0);
+       
+private:
+    QMouseEvent::QMouseEvent ( Type type, const QPoint & pos, const QPoint & globalPos, 
+			       Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
+    Qt::MouseButtons m_buttons;
+    Qt::MouseButtons m_buttonsLastFrame;
+    bool m_actionHeld;
+    bool m_actionStarted;
+    bool m_actionStopped;
+    QVector3D m_distanceMovement;
+    QVector3D m_lastFrame;
+    float m_axisMovement;
+    
+  
+  
 };
 
 #endif // KCLINPUTCOMPONENT_H
