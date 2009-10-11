@@ -70,6 +70,8 @@ class KGL_EXPORT KGLEngine : public QObject
         virtual void mousePressed(const QPointF &pos, Qt::MouseButton button);
         virtual void mouseReleased(const QPointF &pos,Qt::MouseButton button);
     private:
+        Q_DISABLE_COPY(KGLEngine);
+        
         IndexGroupMap m_items;
 
 };
