@@ -27,7 +27,7 @@ template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
-    if(!newObjectType)
+    if(newObjectType)
         objectTypes[newObjectType->name()] = newObjectType;
 }
 
