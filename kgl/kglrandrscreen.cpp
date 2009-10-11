@@ -22,7 +22,7 @@ KGLRandRScreen::~KGLRandRScreen()
 }
 
 
-QList< KGLResolution* > KGLRandRScreen::availableResolutions() const
+QList< KGLResolution > KGLRandRScreen::availableResolutions() const
 {
   return m_availableResolutions;
 }
@@ -62,15 +62,7 @@ void KGLRandRScreen::retrieveResolutions()
 
     for(int r = 0; r < numRates; ++r)
     {
-      KGLResolution* newResolution = new KGLResolution;
-      newResolution->id = s;
-      newResolution->width = sizes[s].width;
-      newResolution->height = sizes[s].height;
-      newResolution->refreshRate = rates[r];
-      newResolution->name = QString("%1x%2@%3hz")
-                                    .arg(newResolution->width)
-                                    .arg(newResolution->height)
-                                    .arg(newResolution->refreshRate);
+      KGLResolution newResolution(s, sizes[s].width, sizes[s].height, rates[r]);
       m_availableResolutions.append(newResolution);
     }
   }
@@ -78,9 +70,9 @@ void KGLRandRScreen::retrieveResolutions()
 
 int KGLRandRScreen::sizeID()
 {
-  foreach(KGLResolution* res, m_availableResolutions)
+  foreach(const KGLResolution &res, m_availableResolutions)
   {
-    if(res->width == m_width && res->height == m_height && res->refreshRate == m_refreshRate) return res->id;
+    if(res.width() == m_width && res.height() == m_height && res.refreshRate() == m_refreshRate) return res.id();
   }
   return -1;
 }

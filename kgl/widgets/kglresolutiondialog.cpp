@@ -31,11 +31,8 @@ KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): KDialog(parent)
 
   for(int i = 0; i < m_resolutions.size(); ++i)
   {
-    m_resolutionComboBox->addItem(m_resolutions.at(i)->name, i);
+    m_resolutionComboBox->addItem(m_resolutions.at(i).name(), i);
   }
-  
-
-  connect(this, SIGNAL(accepted()), SLOT(saveSettings()));
 
   QWidget *widget = new QWidget(this);
   QVBoxLayout* layout = new QVBoxLayout();
@@ -47,9 +44,9 @@ KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): KDialog(parent)
   setButtons(Ok | Cancel);
 }
 
-void KGLResolutionDialog::saveSettings()
+KGLResolution KGLResolutionDialog::selectedResolution() const
 {
-  m_selectedResolution = m_resolutions.at(m_resolutionComboBox->currentIndex());
+  return m_resolutions.at(m_resolutionComboBox->currentIndex());
 }
 
 

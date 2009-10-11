@@ -40,7 +40,7 @@ class KGLRandRScreen : public KGLScreen
     ~KGLRandRScreen();
 
     int colourDepth() const;
-    QList< KGLResolution* > availableResolutions() const;
+    QList< KGLResolution > availableResolutions() const;
     
   public slots:
     void applySettings();
@@ -56,7 +56,7 @@ class KGLRandRScreen : public KGLScreen
     SizeID m_originalSizeID;
 
     int sizeID();
-    QList<KGLResolution*> m_availableResolutions;
+    QList<KGLResolution> m_availableResolutions;
 };
 
 #endif // KGLScreenConfig_H

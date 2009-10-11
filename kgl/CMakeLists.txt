@@ -28,6 +28,7 @@ set(kgl_LIB_SRCS
     kglscreen.cpp
     kglinfowidget.cpp
     kgldebugphysicsview.cpp
+    kglresolution.cpp
     widgets/kglresolutiondialog.cpp
 )
 

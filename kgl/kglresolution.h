@@ -14,28 +14,31 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KGLRESOLUTIONDIALOG_H
-#define KGLRESOLUTIONDIALOG_H
+#ifndef KGLRESOLUTION_H
+#define KGLRESOLUTION_H
 
-#include <KDialog>
+#include <QSharedDataPointer>
+#include <QString>
 
-#include "kgl/kglresolution.h"
+class KGLResolutionPrivate;
 
-class QComboBox;
-struct KGLResolution;
-class KGLView;
-
-class KGLResolutionDialog : public KDialog
+class KGLResolution
 {
-  public:
-    KGLResolutionDialog(QWidget* parent = 0);
+    public:
+        KGLResolution();
+        KGLResolution(int id, int width, int height, short refreshRate);
+        KGLResolution(const KGLResolution &r);
+        KGLResolution &operator=(const KGLResolution &r);
+        ~KGLResolution();
+        
+        QString name() const;
+        int id() const;
+        int width() const;
+        int height() const;
+        short refreshRate() const;
 
-    KGLResolution selectedResolution() const;
-
-  private:
-    QList<KGLResolution> m_resolutions;
-    QComboBox* m_resolutionComboBox;
-    KGLView* m_parent;
+    private:
+        QSharedDataPointer<KGLResolutionPrivate> d;
 };
 
-#endif // KGLRESOLUTIONDIALOG_H
+#endif
