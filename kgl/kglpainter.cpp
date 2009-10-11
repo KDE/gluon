@@ -6,6 +6,8 @@ class KGLPainterPrivate
 public :
         int mode;
 QColor color;
+float lineWidth;
+float pointSize;
 KGLPointList pointList;
 
 
@@ -17,6 +19,10 @@ KGLPainter::KGLPainter(QObject * parent)
     d->mode = GL_POLYGON;
     d->color = Qt::white;
 }
+KGLPainter::~KGLPainter(){
+
+}
+
 
 //============Parameter Function
 
@@ -24,57 +30,64 @@ void KGLPainter::setMode(int mode){
     d->mode = mode;
 }
 
-void KGLPainter::drawRect(const QRectF &rect)
+void KGLPainter::setColor(const QColor &col){
+    d->color = col;
+}
+void KGLPainter::setLineWidth(float width){
+    d->lineWidth = width;
+    glLineWidth(d->lineWidth);
+}
+void KGLPainter::setPointSize(float size){
+    d->pointSize = size;
+    glPointSize(d->pointSize);
+}
+void KGLPainter::createRect(const QRectF &rect)
 {
     d->pointList.clear();
     d->pointList.append(KGLPoint(rect.x(), rect.y(),d->color,QPointF(0 , 0)));
     d->pointList.append(KGLPoint(rect.x() + rect.width(), rect.y(),d->color, QPointF(1 , 0)));
     d->pointList.append(KGLPoint(rect.x() + rect.width(), rect.y() + rect.height(),d->color, QPointF(1 , 1)));
     d->pointList.append(KGLPoint(rect.x(), rect.y() + rect.height(),d->color, QPointF(0 , 1)));
-    draw();
-}
-void KGLPainter::drawRect(float x, float y, float w, float h){
-    drawRect(QRectF(x,y,w,h));}
 
-void KGLPainter::drawLine(const QLineF &line ,float lineWidh)
+}
+void KGLPainter::createRect(float x, float y, float w, float h){
+    createRect(QRectF(x,y,w,h));}
+
+void KGLPainter::createLine(const QLineF &line )
 {
     setMode(GL_LINES);
     d->pointList.clear();
     d->pointList.append(KGLPoint(line.x1(), line.y1(),Qt::white));
     d->pointList.append(KGLPoint(line.x2(), line.y2(),Qt::white));
-    glLineWidth(lineWidh);
-    draw();
-    setMode(GL_POLYGON);
-    glLineWidth(1);
+
 
 }
-void KGLPainter::drawLine(float x1, float y1, float x2, float y2, float lineWidth){
-    drawLine(QLineF(x1,y1,x2,y2),lineWidth);
+void KGLPainter::createLine(float x1, float y1, float x2, float y2){
+    createLine(QLineF(x1,y1,x2,y2));
 }
 
-void KGLPainter::drawPoint(const QPointF &point ,float pointSize)
+void KGLPainter::createPoint(const QPointF &point )
 {
-    glPointSize(pointSize);
+
     glBegin(GL_POINT);
     glVertex2d(point.x(),point.y());
     glEnd();
-    glPointSize(1);
+
 }
 
-void KGLPainter::drawPoint(float x, float y){
-    drawPoint(QPointF(x,y));
+void KGLPainter::createPoint(float x, float y){
+    createPoint(QPointF(x,y));
 }
 
 
-void KGLPainter::drawCircle(const QPointF &center, float radius, float step)
+void KGLPainter::createCircle(const QPointF &center, float radius, float step)
 {
     if ( step <3)
     {
-        kDebug()<<"cannot draw it. Use drawline...";
+        kDebug()<<"cannot create it. Use createline...";
         return;
     }
     d->pointList.clear();
-
     setMode(GL_TRIANGLE_FAN);
     d->pointList.append(
             KGLPoint(center.x(),center.y(),d->color,QPointF(center.x() ,center.y())));
@@ -89,17 +102,23 @@ void KGLPainter::drawCircle(const QPointF &center, float radius, float step)
         float x = cosr*radius + center.x();
         float y = sinr*radius + center.y();
         d->pointList.append(KGLPoint(x,y,d->color,QPointF(cosr ,sinr)));
-
     }
-    draw();
-    setMode(GL_POLYGON);
+
 }
-void KGLPainter::drawCircle(float cx, float cy, float radius, float step){
-    drawCircle(QPointF(cx,cy),radius,step);
+void KGLPainter::createCircle(float cx, float cy, float radius, float step){
+    createCircle(QPointF(cx,cy),radius,step);
+}
+void KGLPainter::createPolygon(const QPolygonF & polygon)
+{
+d->pointList.clear();
+foreach(QPointF p, polygon)
+{
+
+}
+
 }
 void KGLPainter::draw()
 {
-
     /*enable client state */
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -110,7 +129,7 @@ void KGLPainter::draw()
     glTexCoordPointer(2,GL_FLOAT,sizeof(KGLPoint),d->pointList.texCoordStart());
     glColorPointer(4, GL_FLOAT,sizeof(KGLPoint),d->pointList.colorStart());
 
-    //    /* draw vertex */
+    //    /* create vertex */
     glDrawArrays(d->mode, 0, d->pointList.size());
 
     /* disable client state */
@@ -119,5 +138,13 @@ void KGLPainter::draw()
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-
+void KGLPainter::begin(int mode){
+    setMode(mode);
+    glLineWidth(d->lineWidth);
+    glPointSize(d->pointSize);
+}
+void KGLPainter::end(){
+    glLineWidth(1);
+    glPointSize(1);
+}
 
