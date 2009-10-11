@@ -53,7 +53,6 @@ void KCLInfoWidget::setupPreview()
     QVBoxLayout * layout = new QVBoxLayout;
     layout->addWidget(combo);
     layout->addWidget(widget);
-    widget->setCurrentIndex(1);
     m_preview->setLayout(layout);
 }
 
