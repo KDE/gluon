@@ -25,11 +25,9 @@
 #include <QMap>
 
 #include "kgl_export.h"
-#include "kglbaseitem.h"
 #include "kglitemlist.h"
-#include "kglitem.h"
-#include "kglboxitem.h"
-#include "kgltextitem.h"
+
+class KGLBoxItem;
 
 /**
  * \defgroup KGL KGL
@@ -53,15 +51,9 @@ class KGL_EXPORT KGLEngine : public QObject
         KGLItem * itemAt(int id, unsigned int layer=0) const;
         int itemsCount() const;
 
-        KGLBoxItem * addBox(float w, float h)
-        {
-            KGLBoxItem * b = new KGLBoxItem(w,h); addItem(b); return b;
-        }
+        KGLBoxItem * addBox(float w, float h);
 
-        IndexGroupMap items() const
-        {
-            return m_items;
-        }
+        IndexGroupMap items() const;
 
         virtual void mouseMoved(const QPointF &pos, Qt::MouseButton button);
         virtual void mousePressed(const QPointF &pos, Qt::MouseButton button);

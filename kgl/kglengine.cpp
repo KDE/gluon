@@ -19,6 +19,9 @@
  */
 
 #include "kglengine.h"
+
+#include "kglboxitem.h"
+
 #include <KDebug>
 
 KGLEngine::KGLEngine(QObject * parent)
@@ -102,6 +105,19 @@ int KGLEngine::itemsCount() const
     kDebug()<<"size="<<size;
     return size;
 }
+
+KGLBoxItem *KGLEngine::addBox(float w, float h)
+{
+    KGLBoxItem * b = new KGLBoxItem(w,h);
+    addItem(b);
+    return b;
+}
+
+IndexGroupMap KGLEngine::items() const
+{
+    return m_items;
+}
+
 void KGLEngine::mouseMoved(const QPointF &pos, Qt::MouseButton button)
 {}
 
