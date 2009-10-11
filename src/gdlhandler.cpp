@@ -234,7 +234,7 @@ GDLHandler::tokenizeObject(QString objectString)
                                     extraBracketCounter = 0;
                                     childEnded = true;
                                     inPropertyName = true;
-                                    currentItem.append(currentString.trimmed());
+                                    currentItem.append('{' + currentString.trimmed());
                                     qDebug() << "End child" << currentString;
                                     currentString.clear();
                                 }
