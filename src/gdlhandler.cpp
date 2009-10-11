@@ -313,6 +313,7 @@ GDLHandler::parseGDL(const QString parseThis, QObject * parent)
     {
         GluonObject * currentObject = createObject(item, parent);
         thisObjectList.append(currentObject);
+        currentObject->sanitize();
     }
 
     qDebug() << "End parsing data";

@@ -35,6 +35,20 @@ GluonObject::~GluonObject()
 {
 }
 
+void
+GluonObject::sanitize()
+{
+    GluonObject * theChild = 0;
+    foreach(QObject * child, this->children())
+    {
+        if(child->inherits("GluonObject"))
+        {
+            theChild = qobject_cast<GluonObject*>(child);
+            theChild->sanitize();
+        }
+    }
+}
+
 QString
 GluonObject::name() const
 {

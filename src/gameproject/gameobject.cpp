@@ -41,6 +41,35 @@ GameObject::~GameObject()
 {
 }
 
+void
+GameObject::sanitize()
+{
+    if(this->parent())
+    {
+        if(this->parent()->metaObject())
+        {
+            if(QString::compare(this->parent()->metaObject()->className(), "GameObject"))
+            {
+                GameObject * theParent = qobject_cast<GameObject*>(this->parent());
+                if(theParent)
+                {
+                    theParent->addChild(this);
+                }
+            }
+        }
+    }
+    
+    GluonObject * theChild = 0;
+    foreach(QObject * child, this->children())
+    {
+        if(child->inherits("GluonObject"))
+        {
+            theChild = qobject_cast<GluonObject*>(child);
+            theChild->sanitize();
+        }
+    }
+}
+
 GameObject *
 GameObject::instantiate()
 {
