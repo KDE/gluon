@@ -65,7 +65,7 @@ void KCLInfoWidget::setupInformation()
                                     "If you are sure, you can allow direct access by clicking here."));
 
     KPushButton *buttonAuthorizate = new KPushButton(KIcon("dialog-password.png"), i18n("Set permissions"));
-    KPushButton *buttonDetect = new KPushButton(KIcon("edit-find.png"), i18n("Detect device"));
+    KPushButton *buttonDetect = new KPushButton(KIcon("edit-find.png"), i18n("Detect devices"));
 
     connect(buttonAuthorizate, SIGNAL(clicked()), this, SLOT(setAuthorization()));
     connect(buttonDetect, SIGNAL(clicked()), this, SLOT(detectDevice()));
