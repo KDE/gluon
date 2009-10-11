@@ -38,8 +38,6 @@
 
 typedef QMap<unsigned int, KGLItemList > IndexGroupMap;
 
-class KGLPhysicsEngine;
-
 class KGL_EXPORT KGLEngine : public QObject
 {
     Q_OBJECT
