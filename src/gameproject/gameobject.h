@@ -44,8 +44,9 @@ namespace Gluon
             GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
+
+            GluonObject* instantiate();
             
-            GameObject * instantiate();
             void sanitize();
             void Start();
             void Update(int elapsedMilliseconds);

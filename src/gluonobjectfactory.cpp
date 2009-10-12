@@ -20,6 +20,8 @@
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
 
+#include <QDebug>
+
 using namespace Gluon;
 
 template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
@@ -28,11 +30,19 @@ void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
     if(newObjectType)
-        objectTypes[newObjectType->name()] = newObjectType;
+    {
+        qDebug() << "Registering object type" << newObjectType->metaObject()->className();
+        objectTypes[newObjectType->metaObject()->className()] = newObjectType;
+    }
 }
 
 GluonObject *
-GluonObjectFactory::instantiateObjectByName(QString objectTypeName)
+GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
-    return objectTypes[objectTypeName];
+    QString fullObjectTypeName = QString("Gluon::") + objectTypeName;
+    if(objectTypes.find(fullObjectTypeName) != objectTypes.end())
+    {
+        return objectTypes.value(fullObjectTypeName)->instantiate();
+    }
+    return 0;
 }

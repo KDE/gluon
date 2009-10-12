@@ -41,6 +41,12 @@ GameObject::~GameObject()
 {
 }
 
+
+GluonObject* GameObject::instantiate()
+{
+    return new GameObject(this);
+}
+
 void
 GameObject::sanitize()
 {
@@ -68,12 +74,6 @@ GameObject::sanitize()
             theChild->sanitize();
         }
     }
-}
-
-GameObject *
-GameObject::instantiate()
-{
-    return new GameObject(this);
 }
 
 void
@@ -260,11 +260,13 @@ void
 GameObject::addChild(GameObject * addThis)
 {
     d->children.append(addThis);
+    addThis->d->parentGameObject = this;
 }
 
 bool
 GameObject::removeChild(GameObject * removeThis)
 {
+    removeThis->d->parentGameObject = 0;
     return d->children.removeOne(removeThis);
 }
 
@@ -283,6 +285,9 @@ GameObject::childIndex(GameObject* child) const
 void
 GameObject::setParentGameObject(GameObject * newParent)
 {
+    //Do nothing if the new parent is the same as the old one.
+    if(d->parentGameObject == newParent) return;
+    
     // Clean up... We shouldn't be a child of more than one GameObject, or things will BLOW UP
     if(d->parentGameObject)
         d->parentGameObject->removeChild(this);

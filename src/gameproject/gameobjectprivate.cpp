@@ -23,6 +23,7 @@ using namespace Gluon;
 
 GameObjectPrivate::GameObjectPrivate()
 {
+    parentGameObject = 0;
 }
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)

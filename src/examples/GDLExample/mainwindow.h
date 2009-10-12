@@ -32,8 +32,8 @@ class MainWindow : public KXmlGuiWindow
         void openFile(bool);
 
     private:
-        QTextEdit * m_text;
-        QTreeView *m_tree;
+        QTreeView *m_qObjectTree;
+        QTreeView *m_gameObjectTree;
 };
 
 #endif // MAINWINDOW_H

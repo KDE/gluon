@@ -1,4 +1,8 @@
 { GameObject(root)
+    { Asset(PaddleSprite)
+        filename string(paddle.png)
+    }
+    
     { GameObject(Paddle)
         { KeyboardInputComponent(PaddleController)
             
@@ -6,18 +10,31 @@
         { CollisionComponent(PaddleCollision)
         }
         { SpriteRendererComponent(PaddleRenderer)
+            sprite asset(PaddleSprite)
         }
     }
 
+    { Asset(BlockSprite)
+        filename string(block.png)
+    }
+    
     { GameObject(Block)
         { CollisionComponent(BlockCollision)
         }
         { SpriteRendererComponent(BlockRenderer)
+            sprite asset(BlockSprite)
         }
     }
 
+
+    { Asset(BallSprite)
+        filename string(ball.png)
+    }
+    
     { GameObject(Ball)
         { SpriteRendererComponent(BallRenderer)
+            sprite asset(BallSprite)
         }
     }
+
 }

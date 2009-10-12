@@ -13,6 +13,7 @@ set(gdlexample_SRCS
     main.cpp
     mainwindow.cpp
     gameobjecttreemodel.cpp
+    qobjecttreemodel.cpp
 )
 
 kde4_add_executable(gdlexample ${gdlexample_SRCS})

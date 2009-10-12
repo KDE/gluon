@@ -35,7 +35,9 @@ namespace Gluon
         
         public:
             GluonObject(QObject * parent = 0);
-            ~GluonObject();
+            virtual ~GluonObject();
+
+            virtual GluonObject * instantiate();
             
             QString name() const;
             void setName(const QString &newName);

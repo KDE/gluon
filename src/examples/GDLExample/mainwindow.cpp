@@ -27,7 +27,9 @@
 #include <QVBoxLayout>
 #include <QTreeView>
 #include <QDebug>
+
 #include "gameobjecttreemodel.h"
+#include "qobjecttreemodel.h"
 
 
 MainWindow::MainWindow() : KXmlGuiWindow()
@@ -35,9 +37,18 @@ MainWindow::MainWindow() : KXmlGuiWindow()
     KStandardAction::open(this, SLOT(openFile(bool)), actionCollection());
     setupGUI();
 
-    m_tree = new QTreeView();
+    m_qObjectTree = new QTreeView();
+    m_gameObjectTree = new QTreeView();
+
+    QWidget* main = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout;
+
+    layout->addWidget(m_qObjectTree);
+    layout->addWidget(m_gameObjectTree);
+
+    main->setLayout(layout);
     
-    setCentralWidget(m_tree);
+    setCentralWidget(main);
 }
 
 MainWindow::~MainWindow()
@@ -58,8 +69,11 @@ void MainWindow::openFile(bool )
         QList<Gluon::GluonObject*> objects = Gluon::GDLHandler::instance()->parseGDL(data, this);
 
         Gluon::GluonObject* object = objects.at(0);
-        GameObjectTreeModel *tree = new GameObjectTreeModel(static_cast<Gluon::GameObject*>(object), m_tree);
-        m_tree->setModel(tree);
-        m_tree->update();
+        
+        QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
+        m_qObjectTree->setModel(qtree);
+
+        GameObjectTreeModel *gtree = new GameObjectTreeModel(qobject_cast<Gluon::GameObject*>(object), m_gameObjectTree);
+        m_gameObjectTree->setModel(gtree);
     }
 }

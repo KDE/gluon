@@ -30,7 +30,7 @@ namespace Gluon
     class GameObject;
     class Component;
     
-    class GameObjectPrivate:public QSharedData
+    class GameObjectPrivate : public QSharedData
     {
         public:
             GameObjectPrivate();

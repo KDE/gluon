@@ -34,7 +34,7 @@ namespace Gluon
         
         public:
             void registerObjectType(GluonObject * newObjectType);
-            GluonObject * instantiateObjectByName(QString objectTypeName);
+            GluonObject * instantiateObjectByName(const QString& objectTypeName);
             
         private:
             QHash<QString, GluonObject*> objectTypes;
