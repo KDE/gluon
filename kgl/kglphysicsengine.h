@@ -21,21 +21,19 @@
 #ifndef KGLPHYSICSENGINE_H
 #define KGLPHYSICSENGINE_H
 
-#include <QList>
-
 #include "kgl_export.h"
 #include "kglengine.h"
-#include "kgltextitem.h"
-#include "kglphysicsitem.h"
 
-#include "Box2D/Box2D.h"
+#include <QList>
 
 /**
  * \defgroup KGL KGL
  */
 //@{
 
-class KGLContactListener;
+class KGLPhysicsEnginePrivate;
+class KGLPhysicsItem;
+class b2World;
 
 class KGL_EXPORT KGLPhysicsEngine : public KGLEngine
 {
@@ -44,29 +42,17 @@ public:
     KGLPhysicsEngine(QObject * parent=0);
     ~KGLPhysicsEngine();
 
-
-    void computeSimulation(int32 iterations = 10, float fps=60);
+    void computeSimulation(int32_t iterations = 10, float fps=60);
     void addItem(KGLPhysicsItem *  item);
-    void addItem(KGLItem* item){KGLEngine::addItem(item);}
+    void addItem(KGLItem* item);
     bool removeItem(KGLPhysicsItem * item);
+    bool removeItem(KGLItem * item);
+    void createWorld(const QPointF &gravity = QPointF(0.0f,-10.0f), bool sleep = true);
+    b2World *world() const;
 
-    bool removeItem(KGLItem * item)
-    {
-        return KGLEngine::removeItem(item);
-    }
-    void createWorld( const QPointF &gravity=QPointF(0.0f,-10.0f), bool sleep=true);
-    b2World *world()
-    {
-        return m_world;
-    }
-
-    QList<KGLPhysicsItem*> physicsItems() const
-    {
-        return m_list;
-    }
-
+    QList<KGLPhysicsItem*> physicsItems() const;
+    
     KGLPhysicsItem* itemAt(const QPointF &pos) const;
-
 
 public slots:
     void clearPhysicsItems();
@@ -75,31 +61,8 @@ protected:
     virtual void mainLoop(float fps);
 
 private:
-    b2World *m_world;
-    KGLContactListener * m_contactListener;
-    GLuint tex;
-    QList <KGLPhysicsItem*> m_list;
-    b2MouseJoint* m_mouseJoint;
-};
-
-class KGLContactListener:public b2ContactListener
-{
-public:
-    void Add(const b2ContactPoint* point);
-    //        void Persist(const b2ContactPoint* point)
-    //    {
-    //        // handle persist point
-    //    }
-    //
-    //        void Remove(const b2ContactPoint* point)
-    //    {
-    //        // handle remove point
-    //    }
-    //
-    //    void Result(const b2ContactResult* point)
-    //    {
-    //        // handle results
-    //    }
+    Q_DISABLE_COPY(KGLPhysicsEngine)
+    KGLPhysicsEnginePrivate *d;
 };
 
 //@}

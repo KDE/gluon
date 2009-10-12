@@ -2,6 +2,7 @@
 #define KGLDEBUGPHYSICSVIEW_H
 #include "kglview.h"
 #include "kglphysicsengine.h"
+#include "Box2D/Box2D.h"
 class KGLDebugPhysicsView : public KGLView, public b2DebugDraw
 {
 public:
