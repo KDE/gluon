@@ -4,11 +4,12 @@
 class KGLPainterPrivate
 {
 public :
-        int mode;
-QColor color;
+        QColor color;
 float lineWidth;
 float pointSize;
+GLenum polygonMode;
 KGLPointList pointList;
+
 
 
 };
@@ -16,30 +17,30 @@ KGLPainter::KGLPainter(QObject * parent)
     :QObject(parent)
 {
     d = new KGLPainterPrivate;
-    d->mode = GL_POLYGON;
     d->color = Qt::white;
+    d->lineWidth = 1;
+    d->pointSize = 1;
 }
 KGLPainter::~KGLPainter(){
-
+    
 }
 
 
 //============Parameter Function
-
-void KGLPainter::setMode(int mode){
-    d->mode = mode;
-}
-
 void KGLPainter::setColor(const QColor &col){
     d->color = col;
 }
 void KGLPainter::setLineWidth(float width){
     d->lineWidth = width;
-    glLineWidth(d->lineWidth);
+
 }
 void KGLPainter::setPointSize(float size){
-    d->pointSize = size;
+    d->pointSize=size;
     glPointSize(d->pointSize);
+}
+void KGLPainter::setPolygonMode(GLenum mode){
+    d->polygonMode = mode;
+    glPolygonMode(GL_FRONT_AND_BACK,mode);
 }
 void KGLPainter::createRect(const QRectF &rect)
 {
@@ -48,14 +49,14 @@ void KGLPainter::createRect(const QRectF &rect)
     d->pointList.append(KGLPoint(rect.x() + rect.width(), rect.y(),d->color, QPointF(1 , 0)));
     d->pointList.append(KGLPoint(rect.x() + rect.width(), rect.y() + rect.height(),d->color, QPointF(1 , 1)));
     d->pointList.append(KGLPoint(rect.x(), rect.y() + rect.height(),d->color, QPointF(0 , 1)));
-
+    
 }
 void KGLPainter::createRect(float x, float y, float w, float h){
     createRect(QRectF(x,y,w,h));}
 
 void KGLPainter::createLine(const QLineF &line )
 {
-    setMode(GL_LINES);
+
     d->pointList.clear();
     d->pointList.append(KGLPoint(line.x1(), line.y1(),Qt::white));
     d->pointList.append(KGLPoint(line.x2(), line.y2(),Qt::white));
@@ -66,20 +67,6 @@ void KGLPainter::createLine(float x1, float y1, float x2, float y2){
     createLine(QLineF(x1,y1,x2,y2));
 }
 
-void KGLPainter::createPoint(const QPointF &point )
-{
-
-    glBegin(GL_POINT);
-    glVertex2d(point.x(),point.y());
-    glEnd();
-
-}
-
-void KGLPainter::createPoint(float x, float y){
-    createPoint(QPointF(x,y));
-}
-
-
 void KGLPainter::createCircle(const QPointF &center, float radius, float step)
 {
     if ( step <3)
@@ -88,7 +75,6 @@ void KGLPainter::createCircle(const QPointF &center, float radius, float step)
         return;
     }
     d->pointList.clear();
-    setMode(GL_TRIANGLE_FAN);
     d->pointList.append(
             KGLPoint(center.x(),center.y(),d->color,QPointF(center.x() ,center.y())));
 
@@ -110,15 +96,17 @@ void KGLPainter::createCircle(float cx, float cy, float radius, float step){
 }
 void KGLPainter::createPolygon(const QPolygonF & polygon)
 {
-d->pointList.clear();
-foreach(QPointF p, polygon)
-{
-
+    d->pointList.clear();
+    foreach(QPointF p, polygon)
+        d->pointList.append(KGLPoint(p.x(),p.y(),d->color,QPointF(p.x() ,p.y())));
 }
-
-}
-void KGLPainter::draw()
+void KGLPainter::draw(GLenum mode)
 {
+    glLineWidth(d->lineWidth);
+    glPointSize(d->pointSize);
+    glPolygonMode(GL_FRONT_AND_BACK,d->polygonMode);
+
+
     /*enable client state */
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -130,21 +118,56 @@ void KGLPainter::draw()
     glColorPointer(4, GL_FLOAT,sizeof(KGLPoint),d->pointList.colorStart());
 
     //    /* create vertex */
-    glDrawArrays(d->mode, 0, d->pointList.size());
+    glDrawArrays(mode, 0, d->pointList.size());
 
     /* disable client state */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-}
 
-void KGLPainter::begin(int mode){
-    setMode(mode);
-    glLineWidth(d->lineWidth);
-    glPointSize(d->pointSize);
-}
-void KGLPainter::end(){
     glLineWidth(1);
     glPointSize(1);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 }
 
+void KGLPainter::drawRect(const QRectF &rect){
+    createRect(rect);
+    draw(GL_POLYGON);
+}
+void KGLPainter::drawRect(float x, float y, float w, float h){
+    createRect(x,y,w,h);
+    draw(GL_POLYGON);
+}
+void KGLPainter::drawLine(const QLineF &line){
+    createLine(line);
+    draw(GL_LINE);
+
+}
+void KGLPainter::drawLine(float x1, float y1, float x2, float y2){
+    createLine(x1,y1,x2,y2);
+    draw(GL_LINE);
+}
+void KGLPainter::drawPoint(const QPointF &point){
+    glBegin(GL_POINT);
+    glVertex2d(point.x(),point.y());
+    glEnd();
+}
+void KGLPainter::drawPoint(float x, float y){
+    glBegin(GL_POINT);
+    glVertex2d(x,y);
+    glEnd();
+
+}
+void KGLPainter::drawCircle(const QPointF &center, float radius, float step){
+    createCircle(center,radius,step);
+    draw(GL_TRIANGLE_FAN);
+}
+void KGLPainter::drawCircle(float cx,float cy, float radius, float step ){
+    createCircle(cx,cy,radius,step);
+    draw(GL_TRIANGLE_FAN);
+}
+void KGLPainter::drawPolygon(const QPolygonF & polygon){
+    createPolygon(polygon);
+    draw(GL_POLYGON);
+
+}
