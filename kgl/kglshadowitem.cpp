@@ -35,6 +35,11 @@ KGLShadowItem::KGLShadowItem(KGLItem * item)
     connect(m_timer, SIGNAL(timeout()), this, SLOT(snapMatrix()));
 }
 
+KGLShadowItem::~KGLShadowItem()
+{
+    delete m_timer;
+}
+
 void KGLShadowItem::snapMatrix()
 {
 

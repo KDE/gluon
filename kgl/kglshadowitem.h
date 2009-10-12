@@ -45,6 +45,7 @@ class KGL_EXPORT KGLShadowItem : public KGLItem
     Q_OBJECT
     public :
         KGLShadowItem(KGLItem * item = 0);
+        ~KGLShadowItem();
 
     public Q_SLOTS:
         void snapMatrix();
