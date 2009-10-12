@@ -40,6 +40,11 @@ Asset::~Asset()
 {
 }
 
+GluonObject* Asset::instantiate()
+{
+    return new Asset(this);
+}
+
 void Asset::setFile(const QUrl &newFile)
 {
     d->file = newFile;

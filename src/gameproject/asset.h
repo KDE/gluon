@@ -38,6 +38,8 @@ namespace Gluon
             Asset(const Asset &other, QObject * parent = 0);
             ~Asset();
 
+            GluonObject* instantiate();
+
             void setFile(const QUrl &newFile);
             QUrl file() const;
 
