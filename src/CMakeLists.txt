@@ -22,6 +22,9 @@ set(gluon_LIB_SRCS
     gdlhandler.cpp
     game.cpp
     gameprivate.cpp
+
+    components/spriterenderer/spriterendercomponent.cpp
+    components/spriterenderer/spriterendercomponentprivate.cpp
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
@@ -67,6 +70,9 @@ install(FILES
     gdlhandler.h
     game.h
     gluonvarianttypes.h
+
+    components/spriterenderer/spriterendercomponent.h
+    components/spriterenderer/spriterendercomponentprivate.h
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h
@@ -74,4 +80,4 @@ install(FILES
 #   gluonintroitem.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
-add_subdirectory(Components)
+#add_subdirectory(Components)

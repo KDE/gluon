@@ -18,12 +18,12 @@
 #define GLUON_SPRITERENDERCOMPONENTPRIVATE_H
 
 #include <QtCore/QSharedData>
+#include <QSizeF>
 
 namespace Gluon
 {
 
 class KGLItem;
-class QSizeF;
     
 class SpriteRenderComponentPrivate : public QSharedData
 {

@@ -20,10 +20,10 @@
 #include <gameproject/component.h>
 #include <kgl/kglitem.h>
 
+#include "spriterendercomponentprivate.h"
+
 namespace Gluon
 {
-
-class SpriteRenderComponentPrivate;
 
 class SpriteRenderComponent : public Component
 {
@@ -50,7 +50,6 @@ class SpriteRenderComponent : public Component
         QSharedDataPointer<SpriteRenderComponentPrivate> d;
 };
 
-REGISTER_OBJECTTYPE(SpriteRenderComponent)
 }
 
 #endif // GLUON_SPRITERENDERCOMPONENT_H

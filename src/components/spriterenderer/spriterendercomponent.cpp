@@ -21,6 +21,8 @@
 
 using namespace Gluon;
 
+REGISTER_OBJECTTYPE(SpriteRenderComponent)
+
 SpriteRenderComponent::SpriteRenderComponent ( QObject* parent ) : Component ( parent )
 {
     d = new SpriteRenderComponentPrivate;
@@ -28,7 +30,7 @@ SpriteRenderComponent::SpriteRenderComponent ( QObject* parent ) : Component ( p
 
 SpriteRenderComponent::SpriteRenderComponent ( const Gluon::SpriteRenderComponent& other ) : Component ( other )
 {
-    d = new SpriteRenderComponentPrivate(other.d);
+    //d = new SpriteRenderComponentPrivate(other.d.data());
 }
 
 GluonObject* SpriteRenderComponent::instantiate()
