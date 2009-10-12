@@ -33,13 +33,12 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
     m_devicePath = devicePath;
     m_deviceName = "no name";
     readInformation();
-    inputListener = new KCLThread(m_devicePath, this);
+    inputListener = NULL;
 }
 
 KCLInput::~KCLInput()
 {
     setDisable();
-    delete inputListener;
     kDebug() << "Closed device :" << deviceName();
 }
 
@@ -214,6 +213,7 @@ void KCLInput::readInformation()
 
 void KCLInput::setEnable()
 {
+    setDisable();
     m_enable = true;
     if (!error()) {
         inputListener = new KCLThread(m_devicePath, this);
@@ -229,5 +229,8 @@ void KCLInput::setDisable()
     m_absAxis.clear();
     m_relMove = false;
     m_absMove = false;
-    inputListener->terminate();
+    if (inputListener) {
+        inputListener->terminate();
+        delete inputListener;
+    }
 }
