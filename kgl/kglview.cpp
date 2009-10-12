@@ -90,6 +90,7 @@ KGLView::~KGLView()
 
     delete m_timer;
     delete m_fpsTimer;
+    delete m_logo;
 }
 void KGLView::init()
 {
