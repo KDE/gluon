@@ -35,11 +35,13 @@
 MainWindow::MainWindow() : KXmlGuiWindow()
 {
     KStandardAction::open(this, SLOT(openFile(bool)), actionCollection());
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
+    
     setupGUI();
 
     m_qObjectTree = new QTreeView();
     m_gameObjectTree = new QTreeView();
-
+    
     QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
 
