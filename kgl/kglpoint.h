@@ -23,11 +23,8 @@
 #ifndef KGLPoint_H
 #define KGLPoint_H
 
-#include <vector>
-
 #include <QtGui/QColor>
 #include <QtCore/QPointF>
-#include <QList>
 #include <QVector>
 
 #include "kgl_export.h"
