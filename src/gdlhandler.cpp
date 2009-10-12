@@ -120,7 +120,6 @@ GDLHandler::tokenizeObject(QString objectString)
             }
             else if(i->toLower() == '{')
             {
-                qDebug() << "Found opening bracket";
                 inItem = true;
             }
         }
@@ -141,7 +140,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         // Once we hit an end, we should stop looking at this item
                         // In other words - add the item to the list of items and make a new stringlist to work on...
-                        qDebug() << "Found closing bracket";
                         QStringList theItem(currentItem);
                         tokenizedObject.append(theItem);
                         currentItem.clear();
@@ -150,7 +148,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         // If we hit a start while already inside an item, we should simply start adding stuff
                         // until we hit the correct ending again
-                        qDebug() << "Found child object";
                         inChild = true;
                     }
                     else
@@ -175,7 +172,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(i->toLower() == '(')
                     {
                         currentItem.append(currentString.trimmed());
-                        qDebug() << "GameObject Type:" << currentString;
                         currentString.clear();
                         inObjectType = false;
                         inObjectName = true;
@@ -188,7 +184,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(i->toLower() == ')')
                     {
                         currentItem.append(currentString.trimmed());
-                        qDebug() << "GameObject Name:" << currentString;
                         currentString.clear();
                         inObjectName = false;
                         inPropertyName = true;
@@ -209,7 +204,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(!i->isSpace())
                     {
                         inChild = false;
-                        qDebug() << "Property search begins";
                     }
                 }
                 else
@@ -235,7 +229,6 @@ GDLHandler::tokenizeObject(QString objectString)
                                     childEnded = true;
                                     inPropertyName = true;
                                     currentItem.append('{' + currentString.trimmed());
-                                    qDebug() << "End child" << currentString;
                                     currentString.clear();
                                 }
                             }
@@ -255,7 +248,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     {
                         inChild = true;
                         childEnded = false;
-                        qDebug() << "Found child object";
                     }
                     else if(i->toLower() == '}')
                     {
@@ -292,7 +284,6 @@ GDLHandler::tokenizeObject(QString objectString)
                 }
             }
         }
-        qDebug() << "Letter: " << i->toLower() << " inItem: " << inItem << " inObjectDefinition: " << inObjectDefinition << " inObjectType: " << inObjectType << " inObjectName: " << inObjectName << " inPropertyName: " << inPropertyName << " inPropertyValue: " << inPropertyValue << " inChild: " << inChild << " childEnded: " << childEnded;
     }
     
     return tokenizedObject;
@@ -301,14 +292,10 @@ GDLHandler::tokenizeObject(QString objectString)
 QList<GluonObject *>
 GDLHandler::parseGDL(const QString parseThis, QObject * parent)
 {
-    qDebug() << "Begin parsing data";
-    
     QList<GluonObject *> thisObjectList;
     
     QList<QStringList> tokenizedObject = tokenizeObject(parseThis);
 
-    qDebug() << tokenizedObject;
-    
     foreach(const QStringList &item, tokenizedObject)
     {
         GluonObject * currentObject = createObject(item, parent);
@@ -316,7 +303,6 @@ GDLHandler::parseGDL(const QString parseThis, QObject * parent)
         currentObject->sanitize();
     }
 
-    qDebug() << "End parsing data";
     return thisObjectList;
 }
 
