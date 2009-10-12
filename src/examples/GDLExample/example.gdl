@@ -1,15 +1,17 @@
 { GameObject(root)
     { Asset(PaddleSprite)
+        file string(paddle.png)
     }
     
     { GameObject(Paddle)
+        position vector3d(0;0;0)
+        
         { KeyboardInputComponent(PaddleController)
-            
         }
         { CollisionComponent(PaddleCollision)
         }
         { SpriteRendererComponent(PaddleRenderer)
-            sprite asset(PaddleSprite)
+            sprite asset(root.PaddleSprite)
         }
     }
 
@@ -18,21 +20,26 @@
     }
     
     { GameObject(Block)
+        position vector3d(0;10;0)
+        
         { CollisionComponent(BlockCollision)
         }
         { SpriteRendererComponent(BlockRenderer)
-            sprite asset(BlockSprite)
+            sprite asset(root.BlockSprite)
         }
     }
-
 
     { Asset(BallSprite)
         file string(ball.png)
     }
     
     { GameObject(Ball)
+        position vector3d(0;1;0)
+
+        { KeyboardInputComponent(BallController)
+        }
         { SpriteRendererComponent(BallRenderer)
-            sprite asset(BallSprite)
+            sprite asset(root.BallSprite)
         }
     }
 
