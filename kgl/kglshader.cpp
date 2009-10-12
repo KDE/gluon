@@ -15,6 +15,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <GL/glew.h>
+
 #include "kglshader.h"
 
 #include <QFile>

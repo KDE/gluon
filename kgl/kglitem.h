@@ -20,7 +20,6 @@
 
 #ifndef KGLITEM2_H
 #define KGLITEM2_H
-#include <GL/glew.h>
 
 #include "kgl_export.h"
 #include "kglbaseitem.h"

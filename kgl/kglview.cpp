@@ -19,6 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <GL/glew.h>
+
 #include "kglview.h"
 #include <QMouseEvent>
 #include <QApplication>
@@ -76,6 +78,12 @@ bool KGLView::initGlew()
     }
     return true;
 }
+
+bool KGLView::isExtensionSupported(const QString &name) const
+{
+    return glewIsSupported(name.toUtf8());
+}
+
 KGLView::~KGLView()
 {
     stop();
