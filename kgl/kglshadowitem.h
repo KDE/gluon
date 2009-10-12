@@ -72,6 +72,8 @@ class KGL_EXPORT KGLShadowItem : public KGLItem
         void setNbFrame(float d);
 
     private:
+        Q_DISABLE_COPY(KGLShadowItem)
+        
         KGLItem* m_parentItem;
         unsigned int m_snapDuration;
         unsigned int m_nbFrame;
