@@ -18,6 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <GL/glew.h>
+
 #include "kglprogram.h"
 #include <QList>
 #include <QString>
@@ -25,7 +27,6 @@
 #include <QVariant>
 #include <QMetaType>
 #include <KDebug>
-
 
 KGLProgram::KGLProgram()
 {

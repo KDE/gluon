@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QPainter>
-#include <GL/glew.h>
 #include "kgltexture.h"
 #include "kglpoint.h"
 class KGLPainterPrivate;

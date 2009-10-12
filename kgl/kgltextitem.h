@@ -25,7 +25,6 @@
 #define KGLTEXTITEM_H
 
 #include <QFont>
-#include <GL/glew.h>
 
 #include "kgl_export.h"
 #include "kglitem.h"

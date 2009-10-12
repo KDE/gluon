@@ -21,7 +21,7 @@
 #ifndef KGLTEXTURE_H
 #define KGLTEXTURE_H
 
-#include <GL/glew.h>
+#include <GL/gl.h>
 #include <QPixmap>
 #include <QImage>
 

@@ -21,7 +21,6 @@
 #ifndef KGLVIEW_H
 #define KGLVIEW_H
 
-#include <GL/glew.h>
 #include <KDebug>
 #include <QGLWidget>
 #include <QTimer>
@@ -115,10 +114,7 @@ public:
     {
         return m_axisShow;
     }
-    bool isExtensionSupported(const QString &name) const
-    {
-        return glewIsSupported(name.toUtf8());
-    }
+    bool isExtensionSupported(const QString &name) const;
 
     bool isShaderSupported() const
     {
