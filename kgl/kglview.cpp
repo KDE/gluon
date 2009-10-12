@@ -112,12 +112,12 @@ void KGLView::init()
     setAutoBufferSwap(true);
     glInit();
     initGlew();
-    logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
-    logo->setColor(QColor(255,255,255,50));
-    logo->setScale(0.5,0.5);
-    logo->setPosition(-logo->center()/2);
+    m_logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
+    m_logo->setColor(QColor(255,255,255,50));
+    m_logo->setScale(0.5,0.5);
+    m_logo->setPosition(-m_logo->center()/2);
 
-    logo->updateTransform();
+    m_logo->updateTransform();
     //connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
@@ -231,7 +231,7 @@ void  KGLView::paintGL()
 
     if ( engine() != NULL)drawGLItems();
     else
-        logo->paintGL();
+        m_logo->paintGL();
 
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);

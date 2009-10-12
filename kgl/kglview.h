@@ -175,7 +175,7 @@ protected:
 private:
     KGLEngine * m_engine;
     //KGLScreenConfig * m_screenConfig;
-    KGLPixmapItem * logo ;
+    KGLPixmapItem * m_logo ;
     QRectF m_orthoView;
     float m_countFrame;
     float m_fps;
