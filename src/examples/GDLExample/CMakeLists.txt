@@ -12,6 +12,7 @@ add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 set(gdlexample_SRCS
     main.cpp
     mainwindow.cpp
+    gameobjecttreemodel.cpp
 )
 
 kde4_add_executable(gdlexample ${gdlexample_SRCS})

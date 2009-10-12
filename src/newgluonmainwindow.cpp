@@ -14,26 +14,15 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "newgluonmainwindow.h"
 
-#include <KXmlGuiWindow>
-
-class QTreeView;
-class QTextEdit;
-
-class MainWindow : public KXmlGuiWindow
+NewGluonMainWindow::NewGluonMainWindow(QWidget* parent, Qt::WindowFlags flags): QMainWindow(parent, flags)
 {
-    Q_OBJECT
-    public:
-        MainWindow();
-        ~MainWindow();
-    public slots:
-        void openFile(bool);
+    m_settings = new QSettings("Gluon", "libgluon");
+    //m_settings->
+}
 
-    private:
-        QTextEdit * m_text;
-        QTreeView *m_tree;
-};
-
-#endif // MAINWINDOW_H
+NewGluonMainWindow::~NewGluonMainWindow()
+{
+    delete m_settings;
+}

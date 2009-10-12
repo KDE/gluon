@@ -1,13 +1,23 @@
 { GameObject(root)
     { GameObject(Paddle)
-        
+        { KeyboardInputComponent(PaddleController)
+            
+        }
+        { CollisionComponent(PaddleCollision)
+        }
+        { SpriteRendererComponent(PaddleRenderer)
+        }
     }
 
     { GameObject(Block)
-        
+        { CollisionComponent(BlockCollision)
+        }
+        { SpriteRendererComponent(BlockRenderer)
+        }
     }
 
     { GameObject(Ball)
-        
+        { SpriteRendererComponent(BallRenderer)
+        }
     }
 }

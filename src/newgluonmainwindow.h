@@ -14,26 +14,21 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef NEWGLUONMAINWINDOW_H
+#define NEWGLUONMAINWINDOW_H
 
-#include <KXmlGuiWindow>
+#include <QtGui/QMainWindow>
+#include <QtCore/QSettings>
 
-class QTreeView;
-class QTextEdit;
-
-class MainWindow : public KXmlGuiWindow
+class NewGluonMainWindow : public QMainWindow
 {
     Q_OBJECT
     public:
-        MainWindow();
-        ~MainWindow();
-    public slots:
-        void openFile(bool);
+        NewGluonMainWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+        ~NewGluonMainWindow();
 
     private:
-        QTextEdit * m_text;
-        QTreeView *m_tree;
+        QSettings* m_settings;
 };
 
-#endif // MAINWINDOW_H
+#endif // NEWGLUONMAINWINDOW_H
