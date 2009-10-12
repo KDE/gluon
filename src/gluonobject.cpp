@@ -35,6 +35,12 @@ GluonObject::~GluonObject()
 {
 }
 
+GluonObject *
+GluonObject::instantiate()
+{
+    return new GluonObject(this);
+}
+
 void
 GluonObject::sanitize()
 {
