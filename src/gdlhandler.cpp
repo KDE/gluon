@@ -283,6 +283,18 @@ GDLHandler::tokenizeObject(QString objectString)
                             currentString.clear();
                             inPropertyValue = false;
                             inPropertyName = true;
+                            // Make sure you don't start looking for property names again until you've got something that
+                            // isn't a space (since the propertyname search doesn't know how to handle that)
+                            forever
+                            {
+                                if(i == objectString.end())
+                                    break;
+                                ++i;
+                                if(i->isSpace())
+                                    continue;
+                                --i;
+                                break;
+                            }
                         }
                         beingEscaped = false;
                     }
