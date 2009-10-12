@@ -261,7 +261,6 @@ GDLHandler::tokenizeObject(QString objectString)
                     }
                     else
                     {
-                        qDebug() << currentString;
                         currentItem.append(currentString.trimmed());
                         currentString.clear();
                         inPropertyName = false;
@@ -278,7 +277,6 @@ GDLHandler::tokenizeObject(QString objectString)
                         currentString += i->unicode();
                         if(!beingEscaped && i->toLower() == ')')
                         {
-                            qDebug() << currentString;
                             currentItem.append(currentString.trimmed());
                             currentString.clear();
                             inPropertyValue = false;
