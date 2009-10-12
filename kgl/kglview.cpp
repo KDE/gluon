@@ -173,7 +173,6 @@ void KGLView::setFullscreen(bool fs)
 
 void KGLView::initializeGL()
 {
-
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA ,GL_ONE);
     glPolygonMode(GL_FRONT_AND_BACK, m_mode);
@@ -183,6 +182,16 @@ void KGLView::initializeGL()
     glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
     setAutoBufferSwap(true);
+    QRect screenDim = QApplication::desktop()->screenGeometry();
+    m_screenRatio = (double)screenDim.width()/screenDim.height();
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+
+    // Changing orthoView size according to detected screen ratio.
+    m_orthoView.setCoords(-10*m_screenRatio, 10, 10*m_screenRatio, -10);
+
+    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+//    glMatrixMode(GL_MODELVIEW);
 }
 
 void KGLView::resizeGL(int w, int h)
@@ -190,30 +199,18 @@ void KGLView::resizeGL(int w, int h)
     kDebug()<<w<<"--"<<width();
     kDebug()<<h<<"--"<<height();
 
-    QRect screenDim = QApplication::desktop()->screenGeometry();
-    double ratio = (double)screenDim.width()/screenDim.height();
-
     int newWidth = w, newHeight = h;
 
     if (h >= w)
-        newHeight = w/ratio;
+        newHeight = w/m_screenRatio;
     else
-        newWidth = h*ratio;
+        newWidth = h*m_screenRatio;
 
     int side = qMin(newWidth, newHeight);
 
     glViewport((w - newWidth) / 2, (h - newHeight) / 2, newWidth, newHeight);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    // Changing orthoView size according to detected screen ratio.
-    m_orthoView.setCoords(-10*ratio, 10, 10*ratio, -10);
-
-    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
-    glMatrixMode(GL_MODELVIEW);
 }
-  
+
 void  KGLView::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

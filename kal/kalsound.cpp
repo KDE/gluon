@@ -23,7 +23,6 @@
 #include "kalbuffer.h"
 #include <sndfile.h>
 
-#include <KDE/KApplication>
 #include <KDE/KDebug>
 
 #include "kalengine.h"
