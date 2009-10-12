@@ -1,8 +1,6 @@
 /*
  * This file is part of the Gluon library.
- * Copyright 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright 2008 Charles Huet <packadal@gmail.com>
+ * Copyright 2009 Gluon team
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,35 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef KGLANIMITEM_H
-#define KGLANIMITEM_H
+#ifndef KGLPHYSICSENGINEPRIVATE_H
+#define KGLPHYSICSENGINEPRIVATE_H
 
-#include "kgl_export.h"
-#include "kglitem.h"
+#include "Box2D/Box2D.h"
 
-/**
- * \defgroup KGL KGL
- */
-//@{
-
-class QTimeLine;
-
-class KGL_EXPORT KGLAnimItem: public KGLItem
+class KGLContactListener:public b2ContactListener
 {
-    Q_OBJECT
-    public:
-        explicit KGLAnimItem(const GLint &texture, const int &nbFrame = 2, const int &duration = 500,
-                             const QSizeF &dim = QSizeF(0.5, 0.5));
-
-    // inline QTimeLine* timeLine() { return m_timeLine; }
-
-    public Q_SLOTS:
-        void createFrame(int id = 0);
-
-    private:
-        Q_DISABLE_COPY(KGLAnimItem)
-        QTimeLine *m_timeLine;
+public:
+    void Add(const b2ContactPoint* point);
+    //        void Persist(const b2ContactPoint* point)
+    //    {
+    //        // handle persist point
+    //    }
+    //
+    //        void Remove(const b2ContactPoint* point)
+    //    {
+    //        // handle remove point
+    //    }
+    //
+    //    void Result(const b2ContactResult* point)
+    //    {
+    //        // handle results
+    //    }
 };
 
-//@}
-#endif //KGLANIMITEM_H
+class KGLPhysicsEnginePrivate
+{
+    public:
+        b2World *m_world;
+        KGLContactListener * m_contactListener;
+        GLuint tex;
+        QList <KGLPhysicsItem*> m_list;
+        b2MouseJoint* m_mouseJoint;
+};
+
+#endif

@@ -23,7 +23,8 @@
 #define KGLSHADER_H
 
 #include "kgl_export.h"
-#include <GL/glew.h>
+
+#include <GL/gl.h>
 
 class QString;
 class QByteArray;

@@ -19,17 +19,23 @@
  */
 
 #include "kglphysicsengine.h"
+#include "kglphysicsengine_p.h"
+
+#include "kglphysicsitem.h"
+
 #include <KDebug>
 
 KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
     : KGLEngine(parent)
 {
+    d = new KGLPhysicsEnginePrivate();
     createWorld();
 }
 
 KGLPhysicsEngine::~KGLPhysicsEngine()
 {
-    delete m_world;
+    delete d->m_world;
+    delete d;
 }
 
 void KGLPhysicsEngine::createWorld(const QPointF &gravity, bool sleep)
@@ -37,10 +43,20 @@ void KGLPhysicsEngine::createWorld(const QPointF &gravity, bool sleep)
     b2AABB worldAABB;
     worldAABB.lowerBound.Set(-100.0f, -100.0f);
     worldAABB.upperBound.Set(100.0f, 100.0f);
-    m_world = new b2World(worldAABB, b2Vec2(gravity.x(),gravity.y()), sleep);
+    d->m_world = new b2World(worldAABB, b2Vec2(gravity.x(),gravity.y()), sleep);
 
     KGLContactListener * l = new KGLContactListener;
-    m_world->SetContactListener(l);
+    d->m_world->SetContactListener(l);
+}
+
+b2World *KGLPhysicsEngine::world() const
+{
+    return d->m_world;
+}
+
+QList<KGLPhysicsItem*> KGLPhysicsEngine::physicsItems() const
+{
+    return d->m_list;
 }
 
 void KGLPhysicsEngine::mainLoop(float fps)
@@ -51,34 +67,44 @@ void KGLPhysicsEngine::mainLoop(float fps)
 void KGLPhysicsEngine::addItem(KGLPhysicsItem *  item)
 {
     kDebug()<<"added OK";
-    m_list.append(item);
+    d->m_list.append(item);
     KGLEngine::addItem(item);
-    item->setup(m_world);
+    item->setup(d->m_world);
+}
+
+void KGLPhysicsEngine::addItem(KGLItem *  item)
+{
+    KGLEngine::addItem(item);
 }
 
 bool KGLPhysicsEngine::removeItem(KGLPhysicsItem * item)
 {
-    m_list.removeOne(item);
-    m_world->DestroyBody(item->body());
+    d->m_list.removeOne(item);
+    d->m_world->DestroyBody(item->body());
+    return KGLEngine::removeItem(item);
+}
+
+bool KGLPhysicsEngine::removeItem(KGLItem * item)
+{
     return KGLEngine::removeItem(item);
 }
 
 void KGLPhysicsEngine::clearPhysicsItems()
 {
-    foreach ( KGLPhysicsItem * item, m_list)
+    foreach ( KGLPhysicsItem * item, d->m_list)
     {
-        m_world->DestroyBody(item->body());
+        d->m_world->DestroyBody(item->body());
         removeItem(item);
     }
-    m_list.clear();
+    d->m_list.clear();
 }
 
 void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
 {
     float32 timeStep = 1.0f / fps;
-    m_world->Step(timeStep, iterations);
+    d->m_world->Step(timeStep, iterations);
 
-    b2Body* node = m_world->GetBodyList();
+    b2Body* node = d->m_world->GetBodyList();
     while (node)
     {
         b2Body* b = node;
@@ -101,23 +127,23 @@ void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
 KGLPhysicsItem * KGLPhysicsEngine::itemAt(const QPointF &pos) const
 {
     b2AABB aabb;
-    b2Vec2 d;
-    b2Vec2 p(pos.x(),pos.y());
-    d.Set(0.1, 0.1);
-    aabb.lowerBound = p - d;
-    aabb.upperBound = p + d;
+    b2Vec2 dVec;
+    b2Vec2 pVec(pos.x(),pos.y());
+    dVec.Set(0.1, 0.1);
+    aabb.lowerBound = pVec - dVec;
+    aabb.upperBound = pVec + dVec;
 
     // Query the world for overlapping shapes.
     const int32 k_maxCount = 10;
     b2Shape* shapes[k_maxCount];
-    int32 count = m_world->Query(aabb, shapes, k_maxCount);
+    int32 count = d->m_world->Query(aabb, shapes, k_maxCount);
     b2Body* body = NULL;
     for (int32 i = 0; i < count; ++i)
     {
         b2Body* shapeBody = shapes[i]->GetBody();
         if (shapeBody->IsStatic() == false && shapeBody->GetMass() > 0.0f)
         {
-            bool inside = shapes[i]->TestPoint(shapeBody->GetXForm(), p);
+            bool inside = shapes[i]->TestPoint(shapeBody->GetXForm(), pVec);
             if (inside)
             {
                 body = shapes[i]->GetBody();
@@ -145,6 +171,5 @@ void KGLContactListener::Add(const b2ContactPoint* point)
     {
         item1->collidesWithItem(item2);
         item2->collidesWithItem(item1);
-
     }
 }

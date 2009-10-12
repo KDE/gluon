@@ -19,6 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <GL/glew.h>
+
 #include "kglview.h"
 #include <QMouseEvent>
 #include <QApplication>
@@ -76,12 +78,19 @@ bool KGLView::initGlew()
     }
     return true;
 }
+
+bool KGLView::isExtensionSupported(const QString &name) const
+{
+    return glewIsSupported(name.toUtf8());
+}
+
 KGLView::~KGLView()
 {
     stop();
 
     delete m_timer;
     delete m_fpsTimer;
+    delete m_logo;
 }
 void KGLView::init()
 {
@@ -104,12 +113,12 @@ void KGLView::init()
     setAutoBufferSwap(true);
     glInit();
     initGlew();
-    logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
-    logo->setColor(QColor(255,255,255,50));
-    logo->setScale(0.5,0.5);
-    logo->setPosition(-logo->center()/2);
+    m_logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
+    m_logo->setColor(QColor(255,255,255,50));
+    m_logo->setScale(0.5,0.5);
+    m_logo->setPosition(-m_logo->center()/2);
 
-    logo->updateTransform();
+    m_logo->updateTransform();
     //connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
@@ -173,16 +182,27 @@ void KGLView::setFullscreen(bool fs)
 
 void KGLView::initializeGL()
 {
-
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA ,GL_ONE);
     glPolygonMode(GL_FRONT_AND_BACK, m_mode);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
     setAutoBufferSwap(true);
+    QRect screenDim = QApplication::desktop()->screenGeometry();
+    m_screenRatio = (double)screenDim.width()/screenDim.height();
+
+    // Changing orthoView size according to detected screen ratio.
+    m_orthoView.setCoords(-10*m_screenRatio, 10, 10*m_screenRatio, -10);
+
+    glLoadIdentity();
+    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+    glMatrixMode(GL_MODELVIEW);
+
+    // Storing matrices for mapping from view to scene
+    glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
+    glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix);
 }
 
 void KGLView::resizeGL(int w, int h)
@@ -190,40 +210,29 @@ void KGLView::resizeGL(int w, int h)
     kDebug()<<w<<"--"<<width();
     kDebug()<<h<<"--"<<height();
 
-    QRect screenDim = QApplication::desktop()->screenGeometry();
-    double ratio = (double)screenDim.width()/screenDim.height();
-
     int newWidth = w, newHeight = h;
 
     if (h >= w)
-        newHeight = w/ratio;
+        newHeight = w/m_screenRatio;
     else
-        newWidth = h*ratio;
+        newWidth = h*m_screenRatio;
 
     int side = qMin(newWidth, newHeight);
 
-    glViewport((w - newWidth) / 2, (h - newHeight) / 2, newWidth, newHeight);
-
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    // Changing orthoView size according to detected screen ratio.
-    m_orthoView.setCoords(-10*ratio, 10, 10*ratio, -10);
-
-    glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
+    glViewport((w - newWidth) / 2, (h - newHeight) / 2, newWidth, newHeight);
     glMatrixMode(GL_MODELVIEW);
 }
-  
+
 void  KGLView::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     if ( engine() != NULL)drawGLItems();
     else
-        logo->paintGL();
+        m_logo->paintGL();
 
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);

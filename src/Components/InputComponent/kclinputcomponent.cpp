@@ -19,3 +19,89 @@
 
 #include "kclinputcomponent.h"
 
+//Gluon::REGISTER_OBJECTTYPE(GluonObject);
+
+QInputComponent::QInputComponent(QObject* parent)  : Component(parent)
+{
+//   we cannot track the mouse, since we are not a QWidget
+//   setMouseTracking(enable );
+}
+
+
+QInputComponent::QMouseEvent(Type, const QPoint&, const QPoint&, Qt::MouseButton, Qt::MouseButtons, Qt::KeyboardModifiers)
+{
+  m_actionStarted = true;
+  m_distanceMovement += QVector3D(pos.rx(), pos.ry(), 0);
+  m_buttons = buttons;
+  if (!m_actionStarted)
+  {
+    m_actionStarted = true;
+    m_actionHeld = true;
+  }
+}
+
+
+
+void KCLInputComponent::Draw(int timeLapse)
+{
+  if (m_actionStarted)
+    m_actionStarted = false;
+  
+  if (m_actionStopped)
+  {
+    m_actionStopped = false;
+    m_actionHeld = false;
+  }
+  
+  if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
+    m_actionStopped = true;
+
+  m_lastFrame = m_distanceMovement;
+  m_distanceMovement = QVector3D(0,0,0);
+  m_axisMovement = 0;
+}
+
+
+bool KCLInputComponent::GetActionStarted(QString actionName)
+{
+  return m_actionStarted;
+}
+
+
+
+bool KCLInputComponent::GetActionHeld(QString actionName)
+{
+  return m_actionHeld;
+}
+
+
+
+bool KCLInputComponent::GetActionStopped(QString actionName)
+{
+  return m_actionStopped;
+}
+
+
+QVector3D KCLInputComponent::GetDistanceMovement(QString actionName)
+{
+   return m_distanceMovement;
+}
+
+
+float KCLInputComponent::GetAxisMovement(QString actionName)
+{
+   return m_distanceMovement.length();
+}
+
+
+
+// void KCLInputComponent::QWidget::keyPressEvent(QKeyEvent* event)
+// {
+//   
+// }
+
+
+
+
+
+

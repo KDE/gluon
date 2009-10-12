@@ -23,7 +23,7 @@
 #include "kglphysicsitem.h"
 #include <KDebug>
 
-KGLPhysicsItem::KGLPhysicsItem(ShapeType shapeType,KGLEngine * parent)
+KGLPhysicsItem::KGLPhysicsItem(KGLEngine * parent, ShapeType shapeType)
     : KGLItem(parent)
 {
     setObjectName("KGLPhysicsItem");

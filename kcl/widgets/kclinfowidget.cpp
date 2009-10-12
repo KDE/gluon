@@ -75,7 +75,7 @@ void KCLInfoWidget::setupInformation()
     hlayout->addWidget(buttonAuthorizate);
     hlayout->addWidget(buttonDetect);
 
-    m_model = new KCLDeviceModel;
+    m_model = new KCLDeviceModel(this);
     m_treeView = new QTreeView;
     m_treeView->setModel(m_model);
     m_treeView->setIconSize(QSize(22, 22));

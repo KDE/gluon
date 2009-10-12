@@ -40,7 +40,7 @@ class KGL_EXPORT KGLPhysicsItem : public KGLItem
 public:
     enum ShapeType{PolygonShape, CircleShape};
 
-    KGLPhysicsItem(ShapeType shapType=PolygonShape,KGLEngine* parent=0);
+    KGLPhysicsItem(KGLEngine* parent=0, ShapeType shapType=PolygonShape);
     void setup(b2World *world);
     void createShape();
     void updatePhysics();

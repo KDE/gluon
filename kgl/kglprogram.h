@@ -27,7 +27,6 @@ class QVariant;
 template<class T> class QList;
 template<class K, class V> class QHash;
 
-#include <GL/glew.h>
 #include "kglshader.h"
 #include "kgl_export.h"
 
