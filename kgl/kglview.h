@@ -197,6 +197,7 @@ private:
     bool m_isShaderSupported;
     GLenum m_mode;
     int m_originalResolution;
+    double m_screenRatio;
 };
 
 //@}
