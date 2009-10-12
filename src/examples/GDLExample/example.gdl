@@ -1,6 +1,5 @@
 { GameObject(root)
     { Asset(PaddleSprite)
-        filename string(paddle.png)
     }
     
     { GameObject(Paddle)
@@ -15,7 +14,7 @@
     }
 
     { Asset(BlockSprite)
-        filename string(block.png)
+        file string(block.png)
     }
     
     { GameObject(Block)
@@ -28,7 +27,7 @@
 
 
     { Asset(BallSprite)
-        filename string(ball.png)
+        file string(ball.png)
     }
     
     { GameObject(Ball)
