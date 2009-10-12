@@ -17,29 +17,36 @@
 #include "mainwindow.h"
 #include <QMenuBar>
 #include <KFileDialog>
+#include <KStandardAction>
+#include <KActionCollection>
 
 #include <gluon/gdlhandler.h>
 #include <gluon/gluonobject.h>
+#include <gluon/gameobject.h>
 #include <QTextEdit>
 #include <QVBoxLayout>
+#include <QTreeView>
+#include <QDebug>
+#include "gameobjecttreemodel.h"
 
 
-MainWindow::MainWindow() : GluonMainWindow()
+MainWindow::MainWindow() : KXmlGuiWindow()
 {
     KStandardAction::open(this, SLOT(openFile(bool)), actionCollection());
-    setupGluon();
+    setupGUI();
     
-    m_text = new QTextEdit;
+    //m_text = new QTextEdit;
 
-    delete view();
-    QWidget* main = new QWidget;
+    //delete view();
+    /*QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
 
-    //layout->addWidget(view());
     layout->addWidget(m_text);
-    main->setLayout(layout);
+    main->setLayout(layout);*/
+
+    m_tree = new QTreeView();
     
-    setCentralWidget(main);
+    setCentralWidget(m_tree);
 
 
 }
@@ -62,10 +69,15 @@ void MainWindow::openFile(bool )
         qDebug() << "Parsing data: " << data;
         QList<Gluon::GluonObject*> objects = Gluon::GDLHandler::instance()->parseGDL(data, this);
 
-        m_text->append(QString("Number of objects: %1").arg(objects.length()));
-        foreach(Gluon::GluonObject* object, objects)
+        /*m_text->append(QString("Number of objects: %1").arg(objects.length()));
+        /foreach(Gluon::GluonObject* object, objects)
         {
             m_text->append(object->name());
-        }
+            m_text->append(QString("Number of children: %1").arg(object->children().length()));
+        }*/
+        Gluon::GluonObject* object = objects.at(0);
+        GameObjectTreeModel *tree = new GameObjectTreeModel(static_cast<Gluon::GameObject*>(object), m_tree);
+        m_tree->setModel(tree);
+        m_tree->update();
     }
 }

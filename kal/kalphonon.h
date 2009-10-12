@@ -43,6 +43,7 @@ class KAL_EXPORT KALPhonon : public QObject
 
 public:
     KALPhonon(QObject *parent = 0);
+    ~KALPhonon();
 
     void resetOutput();
 

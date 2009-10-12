@@ -21,10 +21,11 @@ KGLPainter::KGLPainter(QObject * parent)
     d->lineWidth = 1;
     d->pointSize = 1;
 }
-KGLPainter::~KGLPainter(){
-    
-}
 
+KGLPainter::~KGLPainter()
+{
+    delete d;
+}
 
 //============Parameter Function
 void KGLPainter::setColor(const QColor &col){

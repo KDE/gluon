@@ -13,7 +13,6 @@ class KGLPainter : public QObject
 public:
     KGLPainter(QObject * parent=0);
     ~KGLPainter();
-
     void createRect(const QRectF &rect);
     void createRect(float x, float y, float w, float h);
     void createLine(const QLineF &line);
@@ -21,6 +20,7 @@ public:
     void createCircle(const QPointF &center, float radius, float step=10);
     void createCircle(float cx,float cy, float radius, float step = 10);
     void createPolygon(const QPolygonF & polygon);
+
 
     void drawRect(const QRectF &rect);
     void drawRect(float x, float y, float w, float h);
@@ -40,6 +40,7 @@ public:
     void draw(GLenum mode=GL_POLYGON);
 
 private:
+    Q_DISABLE_COPY(KGLPainter)
     KGLPainterPrivate * d;
 };
 

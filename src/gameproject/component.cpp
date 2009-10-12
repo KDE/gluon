@@ -41,6 +41,26 @@ Component::~Component()
 {
 }
 
+void
+Component::sanitize()
+{
+    if(this->parent())
+    {
+        if(this->parent()->metaObject())
+        {
+            if(QString::compare(this->parent()->metaObject()->className(), "GameObject"))
+            {
+                GameObject * theParent = qobject_cast<GameObject*>(this->parent());
+                if(theParent)
+                {
+                    theParent->addComponent(this);
+                    d->gameObject = theParent;
+                }
+            }
+        }
+    }
+}
+
 // Property getter-setters
 
 void

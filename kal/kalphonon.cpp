@@ -48,6 +48,11 @@ KALPhonon::KALPhonon(QObject *parent)
     d = new KALPhononPrivate;
 }
 
+KALPhonon::~KALPhonon()
+{
+    delete d;
+}
+
 bool KALPhonon::setDevice(const Phonon::AudioOutputDevice &device)
 {
     // get the part of the device name that is common to Phonon and OpenAL
