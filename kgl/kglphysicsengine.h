@@ -35,7 +35,6 @@
  */
 //@{
 
-class KGLPhysicsEngine;
 class KGLContactListener;
 
 class KGL_EXPORT KGLPhysicsEngine : public KGLEngine
