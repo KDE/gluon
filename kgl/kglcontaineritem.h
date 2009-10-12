@@ -26,7 +26,6 @@
 #include "kgl_export.h"
 #include "kglitem.h"
 #include "kglitemlist.h"
-#include <QDataStream>
 
 #include <KDE/KDebug>
 
