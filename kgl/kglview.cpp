@@ -179,19 +179,21 @@ void KGLView::initializeGL()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
     setAutoBufferSwap(true);
     QRect screenDim = QApplication::desktop()->screenGeometry();
     m_screenRatio = (double)screenDim.width()/screenDim.height();
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
 
     // Changing orthoView size according to detected screen ratio.
     m_orthoView.setCoords(-10*m_screenRatio, 10, 10*m_screenRatio, -10);
 
+    glLoadIdentity();
     glOrtho(m_orthoView.left(), m_orthoView.right(), m_orthoView.bottom(), m_orthoView.top(), 0, 15);
-//    glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_MODELVIEW);
+
+    // Storing matrices for mapping from view to scene
+    glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
+    glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix);
 }
 
 void KGLView::resizeGL(int w, int h)
@@ -208,14 +210,15 @@ void KGLView::resizeGL(int w, int h)
 
     int side = qMin(newWidth, newHeight);
 
+    glMatrixMode(GL_PROJECTION);
     glViewport((w - newWidth) / 2, (h - newHeight) / 2, newWidth, newHeight);
+    glMatrixMode(GL_MODELVIEW);
 }
 
 void  KGLView::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     if ( engine() != NULL)drawGLItems();

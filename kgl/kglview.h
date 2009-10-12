@@ -79,12 +79,10 @@ public:
         resizeGL(width(),height());
     }
     inline QPointF mapToGL(const QPointF &p) {
-//        const int CURSOR_HACK = 0x18; // cursor inversion
-        int side = qMin(width(), height());
-        return QPointF(
-                m_orthoView.width() * ( p.x() - width() / 2 ) / side,
-                m_orthoView.height() * ( p.y() - height() / 2 /*- CURSOR_HACK */) / side
-                );
+        double x, y, z;
+        glGetIntegerv(GL_VIEWPORT, m_viewport);
+        gluUnProject(p.x(), p.y(), 0, m_modelMatrix, m_projMatrix, m_viewport, &x, &y, &z);
+        return QPointF(x, -y);
     }
     inline QPointF mapFromGL(const QPointF &p) {
         const int CURSOR_HACK = 0x18; // cursor inversion
@@ -197,7 +195,12 @@ private:
     bool m_isShaderSupported;
     GLenum m_mode;
     int m_originalResolution;
+
     double m_screenRatio;
+    GLdouble m_modelMatrix[16];
+    GLdouble m_projMatrix[16];
+    int m_viewport[4];
+
 };
 
 //@}
