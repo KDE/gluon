@@ -19,15 +19,16 @@
 
 #include "kclinputcomponent.h"
 
+//Gluon::REGISTER_OBJECTTYPE(GluonObject);
 
-KCLInputComponent::KCLInputComponent(QObject* parent) : : Component(parent)
+QInputComponent::QInputComponent(QObject* parent)  : Component(parent)
 {
-  QWidget::setMouseTracking();
+//   we cannot track the mouse, since we are not a QWidget
+//   setMouseTracking(enable );
 }
 
 
-KCLInputComponent::QMouseEvent::QMouseEvent(Type type, const QPoint& pos, const QPoint& globalPos, 
-					    Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+QInputComponent::QMouseEvent(Type, const QPoint&, const QPoint&, Qt::MouseButton, Qt::MouseButtons, Qt::KeyboardModifiers)
 {
   m_actionStarted = true;
   m_distanceMovement += QVector3D(pos.rx(), pos.ry(), 0);
@@ -37,7 +38,6 @@ KCLInputComponent::QMouseEvent::QMouseEvent(Type type, const QPoint& pos, const 
     m_actionStarted = true;
     m_actionHeld = true;
   }
- 
 }
 
 
@@ -94,6 +94,11 @@ float KCLInputComponent::GetAxisMovement(QString actionName)
 }
 
 
+
+// void KCLInputComponent::QWidget::keyPressEvent(QKeyEvent* event)
+// {
+//   
+// }
 
 
 

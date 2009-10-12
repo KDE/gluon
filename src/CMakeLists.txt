@@ -2,6 +2,7 @@ include_directories(../)
 include_directories(${EIGEN2_INCLUDE_DIR})
 include_directories(gameproject)
 
+
 set(gluon_LIB_SRCS
     gameproject/asset.cpp
     gameproject/assetprivate.cpp
@@ -65,6 +66,7 @@ install(FILES
     gluonobjectfactory.h
     gdlhandler.h
     game.h
+    gluonvarianttypes.h
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h
@@ -72,3 +74,4 @@ install(FILES
 #   gluonintroitem.h
    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
+add_subdirectory(Components)

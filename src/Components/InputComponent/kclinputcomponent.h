@@ -20,22 +20,22 @@
 #ifndef KCLINPUTCOMPONENT_H
 #define KCLINPUTCOMPONENT_H
 
-#include "component.h"
-#include <kcl/kcl.h>
+#include <gluon/component.h>
+// #include "gluon/kcl/kcl.h"
 #include <QWidget>
 #include <QMouseEvent>
-#include <QGui>
+// #include <QtGui>
 
-class KCLInputComponent
+class QInputComponent : public Gluon::Component
 {
 
 Q_OBJECT;
-Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
+//Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
  
 public:
-    KCLInputComponent(QObject * parent = 0);
-    // True on any frame between GetActionStarted and
-    // GetActionStopped, inclusive of those two frames
+    QInputComponent(QObject * parent = 0);
+     //  True on any frame between GetActionStarted and
+     //  GetActionStopped, inclusive of those two frames
     bool GetActionHeld(QString actionName);
     // True on the frame when an action was begun (for example the
     // button represented by buttonName was pressed on a controller)
@@ -47,11 +47,13 @@ public:
     QVector3D GetDistanceMovement(QString actionName);
     // The movement along one axis compared to last frame
     float GetAxisMovement(QString actionName);
-    virtual void Draw(int timeLapse = 0);
+    virtual void Update(int elapsedMilliseconds);
        
 private:
-    QMouseEvent::QMouseEvent ( Type type, const QPoint & pos, const QPoint & globalPos, 
+    QMouseEvent ( Type type, const QPoint & pos, const QPoint & globalPos, 
 			       Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
+//     void QWidget::keyPressEvent ( QKeyEvent * event );
+//     void QWidget::keyReleaseEvent ( QKeyEvent * event );
     Qt::MouseButtons m_buttons;
     Qt::MouseButtons m_buttonsLastFrame;
     bool m_actionHeld;
