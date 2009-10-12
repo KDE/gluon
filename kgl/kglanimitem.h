@@ -46,6 +46,7 @@ class KGL_EXPORT KGLAnimItem: public KGLItem
         void createFrame(int id = 0);
 
     private:
+        Q_DISABLE_COPY(KGLAnimItem)
         QTimeLine *m_timeLine;
 };
 
