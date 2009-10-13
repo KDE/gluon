@@ -34,6 +34,7 @@ class SpriteRenderComponent : public Component
     public:
         SpriteRenderComponent ( QObject* parent = 0 );
         SpriteRenderComponent ( const SpriteRenderComponent& other);
+        virtual ~SpriteRenderComponent();
 
         virtual GluonObject* instantiate();
         

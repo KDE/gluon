@@ -15,6 +15,7 @@
 */
 
 #include "spriterendercomponentprivate.h"
+#include <kgl/kglitem.h>
 
 using namespace Gluon;
 
@@ -24,7 +25,8 @@ Gluon::SpriteRenderComponentPrivate::SpriteRenderComponentPrivate()
 
 }
 
-Gluon::SpriteRenderComponentPrivate::SpriteRenderComponentPrivate ( const Gluon::SpriteRenderComponentPrivate& rt ) : QSharedData ( rt )
+Gluon::SpriteRenderComponentPrivate::SpriteRenderComponentPrivate ( const Gluon::SpriteRenderComponentPrivate& other )
+    : QSharedData ( other )
 {
 
 }

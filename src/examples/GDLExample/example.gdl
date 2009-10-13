@@ -10,8 +10,9 @@
         }
         { CollisionComponent(PaddleCollision)
         }
-        { SpriteRendererComponent(PaddleRenderer)
+        { SpriteRenderComponent(PaddleRenderer)
             sprite asset(root.PaddleSprite)
+            size size(5;1)
         }
     }
 
@@ -24,8 +25,9 @@
         
         { CollisionComponent(BlockCollision)
         }
-        { SpriteRendererComponent(BlockRenderer)
+        { SpriteRenderComponent(BlockRenderer)
             sprite asset(root.BlockSprite)
+            size size(5;1)
         }
     }
 
@@ -38,8 +40,9 @@
 
         { KeyboardInputComponent(BallController)
         }
-        { SpriteRendererComponent(BallRenderer)
+        { SpriteRenderComponent(BallRenderer)
             sprite asset(root.BallSprite)
+            size size(1;1)
         }
     }
 

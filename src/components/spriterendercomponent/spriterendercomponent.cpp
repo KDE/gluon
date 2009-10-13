@@ -26,11 +26,19 @@ REGISTER_OBJECTTYPE(SpriteRenderComponent)
 SpriteRenderComponent::SpriteRenderComponent ( QObject* parent ) : Component ( parent )
 {
     d = new SpriteRenderComponentPrivate;
+    d->item = new KGLItem;
 }
 
-SpriteRenderComponent::SpriteRenderComponent ( const Gluon::SpriteRenderComponent& other ) : Component ( other )
+SpriteRenderComponent::SpriteRenderComponent ( const Gluon::SpriteRenderComponent& other )
+    : Component ( other ),
+    d(other.d)
 {
-    //d = new SpriteRenderComponentPrivate(other.d.data());
+    d->item = new KGLItem;
+}
+
+SpriteRenderComponent::~SpriteRenderComponent()
+{
+    delete d->item;
 }
 
 GluonObject* SpriteRenderComponent::instantiate()
@@ -40,22 +48,22 @@ GluonObject* SpriteRenderComponent::instantiate()
 
 void SpriteRenderComponent::Update ( int elapsedMilliseconds )
 {
-
 }
 
 void SpriteRenderComponent::Start()
 {
-    Gluon::Component::Start();
+    //Gluon::Component::Start();
 }
 
 void SpriteRenderComponent::Draw ( int timeLapse )
 {
-    Gluon::Component::Draw ( timeLapse );
+    //Gluon::Component::Draw ( timeLapse );
 }
 
 void Gluon::SpriteRenderComponent::setSize ( const QSizeF& size )
 {
     d->size = size;
+    //d->item->setSize(size);
 }
 
 QSizeF Gluon::SpriteRenderComponent::size()

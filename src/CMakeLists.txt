@@ -23,8 +23,8 @@ set(gluon_LIB_SRCS
     game.cpp
     gameprivate.cpp
 
-    components/spriterenderer/spriterendercomponent.cpp
-    components/spriterenderer/spriterendercomponentprivate.cpp
+    components/spriterendercomponent/spriterendercomponent.cpp
+    components/spriterendercomponent/spriterendercomponentprivate.cpp
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
@@ -71,8 +71,7 @@ install(FILES
     game.h
     gluonvarianttypes.h
 
-    components/spriterenderer/spriterendercomponent.h
-    components/spriterenderer/spriterendercomponentprivate.h
+    components/spriterendercomponent/spriterendercomponent.h
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h

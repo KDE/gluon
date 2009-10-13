@@ -20,16 +20,16 @@
 #include <QtCore/QSharedData>
 #include <QSizeF>
 
+class KGLItem;
+
 namespace Gluon
 {
 
-class KGLItem;
-    
 class SpriteRenderComponentPrivate : public QSharedData
 {
     public:
         SpriteRenderComponentPrivate();
-        SpriteRenderComponentPrivate(const SpriteRenderComponentPrivate& rt);
+        SpriteRenderComponentPrivate(const SpriteRenderComponentPrivate& other);
         ~SpriteRenderComponentPrivate();
         
         KGLItem *item;
