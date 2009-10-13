@@ -1,5 +1,5 @@
 { GameObject(root)
-    { Asset(PaddleSprite)
+    { TextureAsset(PaddleSprite)
         file string(paddle.png)
     }
     
@@ -16,7 +16,7 @@
         }
     }
 
-    { Asset(BlockSprite)
+    { TextureAsset(BlockSprite)
         file string(block.png)
     }
     
@@ -31,7 +31,7 @@
         }
     }
 
-    { Asset(BallSprite)
+    { TextureAsset(BallSprite)
         file string(ball.png)
     }
     

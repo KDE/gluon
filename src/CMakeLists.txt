@@ -25,6 +25,9 @@ set(gluon_LIB_SRCS
 
     components/spriterendercomponent/spriterendercomponent.cpp
     components/spriterendercomponent/spriterendercomponentprivate.cpp
+
+    assets/textureasset/textureasset.cpp
+    assets/textureasset/textureassetprivate.cpp
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
@@ -72,6 +75,8 @@ install(FILES
     gluonvarianttypes.h
 
     components/spriterendercomponent/spriterendercomponent.h
+
+    assets/textureasset/textureasset.h 
 #    gluondialog.h
 #    kglconfig.h
 #    kalconfig.h
