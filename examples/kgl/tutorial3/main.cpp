@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     engine->addItem(ground);
     
 
-    KGLPhysicsItem * pendule= new KGLPhysicsItem(KGLPhysicsItem::PolygonShape );
+    KGLPhysicsItem * pendule= new KGLPhysicsItem(NULL, KGLPhysicsItem::PolygonShape);
     pendule->createBox(3,3);
     pendule->setPosition(-5,0);
     pendule->updateTransform();
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     pendule->setRestitution(0.4);
     engine->addItem(pendule);
 
-    KGLPhysicsItem * pendule2= new KGLPhysicsItem(KGLPhysicsItem::PolygonShape );
+    KGLPhysicsItem * pendule2= new KGLPhysicsItem(NULL, KGLPhysicsItem::PolygonShape );
     pendule2->createBox(3,3);
     pendule2->setPosition(0,0);
     pendule2->updateTransform();
