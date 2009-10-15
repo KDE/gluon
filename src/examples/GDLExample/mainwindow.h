@@ -29,9 +29,15 @@ class MainWindow : public KXmlGuiWindow
         MainWindow();
         ~MainWindow();
     public slots:
-        void openFile(bool);
-
+        void newProject();
+        void openProject();
+        void saveProject();
+        void saveProjectAs();
+        
     private:
+        void setupActions();
+        void setupDocks();
+        
         QTreeView *m_qObjectTree;
         QTreeView *m_gameObjectTree;
 };

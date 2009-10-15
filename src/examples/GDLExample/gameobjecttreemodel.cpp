@@ -29,30 +29,20 @@ GameObjectTreeModel::GameObjectTreeModel(Gluon::GameObject* root, QObject* paren
 
 QVariant GameObjectTreeModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
-    
-    if (role != Qt::DisplayRole)
-        return QVariant();
-    
-    GameObject *item = static_cast<GameObject*>(index.internalPointer());
-
-    switch(index.column())
+    if (index.isValid() && role == Qt::DisplayRole)
     {
-        case 0:
+        GameObject *item = static_cast<GameObject*>(index.internalPointer());
+
+        if(item)
             return item->name();
-            break;
-        case 1:
-            return item->metaObject()->className();
-            break;
-        default:
-            return QVariant();
     }
+
+    return QVariant();
 }
 
 int GameObjectTreeModel::columnCount(const QModelIndex&) const
 {
-    return 2;
+    return 1;
 }
 
 int GameObjectTreeModel::rowCount(const QModelIndex& parent) const
@@ -106,17 +96,7 @@ QVariant GameObjectTreeModel::headerData(int section, Qt::Orientation orientatio
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
-        switch(section)
-        {
-            case 0:
-                return QVariant("Name");
-                break;
-            case 1:
-                return QVariant("Type");
-                break;
-            default:
-                return QVariant();
-        }
+        return QVariant("Name");
     }
     
     return QVariant();

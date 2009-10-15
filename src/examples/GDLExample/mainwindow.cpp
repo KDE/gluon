@@ -16,9 +16,11 @@
 
 #include "mainwindow.h"
 #include <QMenuBar>
+#include <QDockWidget>
 #include <KFileDialog>
 #include <KStandardAction>
 #include <KActionCollection>
+#include <KAction>
 
 #include <gluon/gdlhandler.h>
 #include <gluon/gluonobject.h>
@@ -30,27 +32,31 @@
 
 #include "gameobjecttreemodel.h"
 #include "qobjecttreemodel.h"
+#include <klocalizedstring.h>
+#include <qlistview.h>
 
 
 MainWindow::MainWindow() : KXmlGuiWindow()
 {
-    KStandardAction::open(this, SLOT(openFile(bool)), actionCollection());
-    KStandardAction::quit(this, SLOT(close()), actionCollection());
+    //m_qObjectTree = new QTreeView();
+    //m_gameObjectTree = new QTreeView();
     
-    setupGUI();
+    QTabWidget* main = new QTabWidget(this);
+    main->addTab(new QWidget(main), i18n("Preview"));
+    main->addTab(new QWidget(main), i18n("Edit"));
+    //QVBoxLayout* layout = new QVBoxLayout;
 
-    m_qObjectTree = new QTreeView();
-    m_gameObjectTree = new QTreeView();
-    
-    QWidget* main = new QWidget;
-    QVBoxLayout* layout = new QVBoxLayout;
+    //layout->addWidget(m_qObjectTree);
+    //layout->addWidget(m_gameObjectTree);
 
-    layout->addWidget(m_qObjectTree);
-    layout->addWidget(m_gameObjectTree);
+    //main->setLayout(layout);
 
-    main->setLayout(layout);
-    
     setCentralWidget(main);
+
+    setupActions();
+    setupDocks();
+
+    setupGUI();
 }
 
 MainWindow::~MainWindow()
@@ -58,7 +64,12 @@ MainWindow::~MainWindow()
     
 }
 
-void MainWindow::openFile(bool )
+void MainWindow::newProject()
+{
+    
+}
+
+void MainWindow::openProject()
 {   
     QString filename = KFileDialog::getOpenFileName();
     if(filename != "")
@@ -78,4 +89,63 @@ void MainWindow::openFile(bool )
         GameObjectTreeModel *gtree = new GameObjectTreeModel(qobject_cast<Gluon::GameObject*>(object), m_gameObjectTree);
         m_gameObjectTree->setModel(gtree);
     }
+}
+
+void MainWindow::saveProject()
+{
+
+}
+
+void MainWindow::saveProjectAs()
+{
+
+}
+
+void MainWindow::setupActions()
+{
+    KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
+    KStandardAction::open(this, SLOT(openProject()), actionCollection());
+    KStandardAction::save(this, SLOT(saveProject()), actionCollection());
+    KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
+    
+    
+}
+
+void MainWindow::setupDocks()
+{
+    //Create Scene Dock
+    QDockWidget* sceneDock = new QDockWidget(this);
+    addDockWidget(Qt::LeftDockWidgetArea, sceneDock);
+    sceneDock->setWindowTitle(i18n("Scene"));
+    sceneDock->setObjectName("sceneDock");
+    m_gameObjectTree = new QTreeView(sceneDock);
+    sceneDock->setWidget(m_gameObjectTree);
+
+    //Create scene dock actions
+    KAction* showSceneDockAction = new KAction(i18n("Show Scene Dock"), this);
+    actionCollection()->addAction("showSceneDockAction", showSceneDockAction);
+    showSceneDockAction->setCheckable(true);
+    connect(showSceneDockAction, SIGNAL(toggled(bool)), sceneDock, SLOT(setVisible(bool)));
+    //showSceneDockActions
+
+    QDockWidget* projectDock = new QDockWidget(this);
+    addDockWidget(Qt::LeftDockWidgetArea, projectDock);
+    projectDock->setWindowTitle(i18n("Project"));
+    projectDock->setObjectName("projectDock");
+    m_qObjectTree = new QTreeView(projectDock);
+    projectDock->setWidget(m_qObjectTree);
+    
+    QDockWidget* propertiesDock = new QDockWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, propertiesDock);
+    propertiesDock->setWindowTitle(i18n("Properties"));
+    propertiesDock->setObjectName("propertiesDock");
+    propertiesDock->setWidget(new QListView(propertiesDock));
+    
+    QDockWidget* messageDock = new QDockWidget(this);
+    addDockWidget(Qt::BottomDockWidgetArea, messageDock);
+    messageDock->setWindowTitle(i18n("Messages"));
+    messageDock->setObjectName("messageDock");
+    messageDock->setWidget(new QTextEdit(messageDock));
+    
 }
