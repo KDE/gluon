@@ -17,7 +17,7 @@
 #ifndef GAMEOBJECTTREEMODEL_H
 #define GAMEOBJECTTREEMODEL_H
 
-#include <qt4/QtCore/QAbstractItemModel>
+#include <QAbstractItemModel>
 
 namespace Gluon
 {
