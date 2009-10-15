@@ -20,7 +20,9 @@
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
 #include <QVariant>
+#include <QPointF>
 #include <QColor>
+#include <Eigen/Geometry>
 
 using namespace Gluon;
 
@@ -75,9 +77,28 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     QString theTypeName = propertyValue.left(propertyValue.indexOf('(')).toLower();
     QString theValue = propertyValue.mid(theTypeName.length(), propertyValue.length() - theTypeName.length() - 1);
     
-    if(theTypeName == "qstring")
+    if(theTypeName == "string")
         value = theValue;
-    else if(theTypeName == "qcolor")
+    else if(theTypeName == "bool")
+        value = theValue.toFloat();
+    else if(theTypeName == "float")
+        value = theValue.toFloat();
+    else if(theTypeName == "int")
+        value = theValue.toInt();
+    else if(theTypeName == "vector2d")
+    {
+        float x = 0.0f, y = 0.0f;
+        //, z = 0.0f;
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+        {
+            x = splitValues.at(0).toFloat();
+            y = splitValues.at(1).toFloat();
+            //z = splitValues.at(2).toFloat();
+        }
+        value = QPointF(x, y);
+    }
+    else if(theTypeName == "rgba")
     {
         int r = 0, g = 0, b = 0, a = 0;
         QStringList splitValues = theValue.split(";");
@@ -91,12 +112,6 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
             a = splitValues[3].toInt();
         value = QColor(r, g, b, a);
     }
-    else if(theTypeName == "bool")
-        value = theValue.toFloat();
-    else if(theTypeName == "float")
-        value = theValue.toFloat();
-    else if(theTypeName == "int")
-        value = theValue.toInt();
     else
         // If all else fails, pass the value through verbatim
         value = propertyValue;
