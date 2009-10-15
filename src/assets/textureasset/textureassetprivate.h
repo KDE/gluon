@@ -17,7 +17,7 @@
 #ifndef GLUON_TEXTUREASSETPRIVATE_H
 #define GLUON_TEXTUREASSETPRIVATE_H
 
-#include <qt4/QtCore/QSharedData>
+#include <QSharedData>
 
 class QImage;
 class KGLTexture;
