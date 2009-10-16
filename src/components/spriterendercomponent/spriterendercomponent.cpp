@@ -26,14 +26,17 @@ REGISTER_OBJECTTYPE(SpriteRenderComponent)
 SpriteRenderComponent::SpriteRenderComponent ( QObject* parent ) : Component ( parent )
 {
     d = new SpriteRenderComponentPrivate;
-    d->item = new KGLItem;
+    #warning This really is not the way to fix this. Someone needs to take a
+    #warning long, hard look at KGLItem - being unable to instantiate it
+    #warning without a parent is pretty nasty
+    //d->item = new KGLItem;
 }
 
 SpriteRenderComponent::SpriteRenderComponent ( const Gluon::SpriteRenderComponent& other )
     : Component ( other ),
     d(other.d)
 {
-    d->item = new KGLItem;
+    //d->item = new KGLItem;
 }
 
 SpriteRenderComponent::~SpriteRenderComponent()
