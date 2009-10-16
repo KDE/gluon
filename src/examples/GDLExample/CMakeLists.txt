@@ -10,6 +10,8 @@ include(KDE4Defaults)
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 set(gdlexample_SRCS
+    propertywidgetitem.cpp
+    propertywidget.cpp
     main.cpp
     mainwindow.cpp
     gameobjecttreemodel.cpp

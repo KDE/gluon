@@ -16,6 +16,7 @@
 
 #include "mainwindow.h"
 #include <QMenuBar>
+#include <QScrollArea>
 #include <QDockWidget>
 #include <KFileDialog>
 #include <KStandardAction>
@@ -30,6 +31,7 @@
 #include <QTreeView>
 #include <QDebug>
 
+#include "propertywidget.h"
 #include "gameobjecttreemodel.h"
 #include "qobjecttreemodel.h"
 #include <klocalizedstring.h>
@@ -38,6 +40,7 @@
 
 
 MainWindow::MainWindow() : KXmlGuiWindow()
+    , m_propertyWidget(0)
 {
     //m_qObjectTree = new QTreeView();
     //m_gameObjectTree = new QTreeView();
@@ -62,8 +65,8 @@ MainWindow::MainWindow() : KXmlGuiWindow()
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 
-    setupActions();
     setupDocks();
+    setupActions();
 
     setupGUI();
 }
@@ -89,7 +92,14 @@ void MainWindow::openProject()
         QString data = file.readAll();
 
         QList<Gluon::GluonObject*> objects = Gluon::GDLHandler::instance()->parseGDL(data, this);
-
+        if(objects.isEmpty())
+        {
+            // Tell the user this is not proper GDL and then break out
+            return;
+        }
+        
+        disconnect(this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)));
+        
         Gluon::GluonObject* object = objects.at(0);
         
         QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
@@ -97,6 +107,9 @@ void MainWindow::openProject()
 
         GameObjectTreeModel *gtree = new GameObjectTreeModel(qobject_cast<Gluon::GameObject*>(object), m_gameObjectTree);
         m_gameObjectTree->setModel(gtree);
+        m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
+        
+        connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
     }
 }
 
@@ -110,6 +123,22 @@ void MainWindow::saveProjectAs()
 
 }
 
+void MainWindow::gameObjectActivated(const QItemSelection& selected, const QItemSelection& deselected)
+{
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
+    Gluon::GluonObject* selectedObject = static_cast<Gluon::GluonObject*>(m_gameObjectTree->selectionModel()->currentIndex().internalPointer());
+    showPropertiesFor(selectedObject);
+}
+
+void MainWindow::showPropertiesFor(Gluon::GluonObject * showFor)
+{
+    delete m_propertyWidget;
+    m_propertyWidget = new Gluon::Creator::PropertyWidget(this);
+    m_propertyWidgetScrollarea->setWidget(m_propertyWidget);
+    m_propertyWidget->setObject(showFor);
+}
+
 void MainWindow::setupActions()
 {
     KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
@@ -117,8 +146,6 @@ void MainWindow::setupActions()
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
     KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
     KStandardAction::quit(this, SLOT(close()), actionCollection());
-    
-    
 }
 
 void MainWindow::setupDocks()
@@ -179,7 +206,8 @@ void MainWindow::setupDocks()
     propertiesDock->setWindowTitle(i18n("Properties"));
     propertiesDock->setObjectName("propertiesDock");
     propertiesDock->setAllowedAreas(Qt::TopDockWidgetArea);
-    propertiesDock->setWidget(new QListView(propertiesDock));
+    m_propertyWidgetScrollarea = new QScrollArea(propertiesDock);
+    propertiesDock->setWidget(m_propertyWidgetScrollarea);
     layout()->setAlignment(propertiesDock, Qt::AlignRight);
     
     QDockWidget* componentDock = new QDockWidget(this);

@@ -18,9 +18,18 @@
 #define MAINWINDOW_H
 
 #include <KXmlGuiWindow>
-
+namespace Gluon
+{
+  namespace Creator
+  {
+    class PropertyWidget;
+  }
+  class GluonObject;
+}
 class QTreeView;
 class QTextEdit;
+class QScrollArea;
+class QItemSelection;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -33,13 +42,18 @@ class MainWindow : public KXmlGuiWindow
         void openProject();
         void saveProject();
         void saveProjectAs();
+        void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);
         
     private:
+        void showPropertiesFor(Gluon::GluonObject * showFor);
+        
         void setupActions();
         void setupDocks();
         
         QTreeView *m_qObjectTree;
         QTreeView *m_gameObjectTree;
+        QScrollArea * m_propertyWidgetScrollarea;
+        Gluon::Creator::PropertyWidget * m_propertyWidget;
 };
 
 #endif // MAINWINDOW_H
