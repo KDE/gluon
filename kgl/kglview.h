@@ -92,6 +92,10 @@ public:
                 );
     }
 
+    QRectF orthoView(){
+    return m_orthoView;
+    }
+
     //=== Flags ====
     inline void setMode(GLenum mode)
     {

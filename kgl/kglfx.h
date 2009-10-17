@@ -22,6 +22,7 @@
 #define KGLEFFECT_H
 
 #include <QString>
+#include <QPointF>
 #include "kgl_export.h"
 #include "kglprogram.h"
 #include "kglshader.h"
@@ -79,102 +80,44 @@ float m_level;
  **/
 class KGLMosaicFx : public KGLFx
 {
-  public :
-          KGLMosaicFx();
-  void setTileSize(float t);
+public :
+        KGLMosaicFx();
+void setTileSize(float t);
   private:
-  float m_tileSize;
+float m_tileSize;
+};
+/* @short KGrayScaleFx class
+ *
+ * change to gray
+ **/
+class KGLGrayScaleFx:public KGLFx
+{
+public:
+    KGLGrayScaleFx();
+};
+
+/* @short KGLBlurFx class
+ *
+ * setBlur
+ **/
+class KGLBlurFx:public KGLFx
+{
+public:
+    KGLBlurFx();
+    void setBlurLevel(QPointF blurLevel);
+    void setBlurLevel(float x, float y){
+    setBlurLevel(QPointF(x,y));
+    }
+    QPointF blurLevel(){
+    return m_blurLevel;
+    }
+    private:
+    QPointF m_blurLevel;
 };
 
 
 
 
-
-
-
-
-
-//class KGLFx
-//{
-//    public:
-//        KGLFx();
-//        void bind()
-//        {
-//            if (program()->isValid())
-//            {
-//                program()->bind();
-//            }
-//        }
-//
-//        void unbind()
-//        {
-//            program()->unbind();
-//        }
-//
-//        bool enable()
-//        {
-//            if ((program()->isValid()) && (program()!=NULL))
-//            {
-//                return true;
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-//
-//        KGLProgram* program()
-//        {
-//            return m_program;
-//        }
-//
-//        void setArg(const char* name, int value)
-//        {
-//            program()->bind();
-//            program()->setUniform(name, value);
-//            program()->unbind();
-//        }
-//
-//        void setArg(const char* name,float value)
-//        {
-//            program()->bind();
-//            program()->setUniform(name, value);
-//            program()->unbind();
-//        }
-//
-//    private:
-//        KGLProgram * m_program;
-//    };
-//
-////===================LIGHT============================================
-//
-//class KGLLightFx: public KGLFx
-//{
-//    public:
-//        KGLLightFx();
-//
-//        void setLight(float l)
-//        {
-//            setArg("alpha",l);
-//        }
-//};
-////
-////====================BLUR===============================================
-//
-//class KGLBlurFx : public KGLFx
-//{
-//    public:
-//        KGLBlurFx();
-//
-//        void setBlur(float b)
-//        {
-//            m_blur = b;
-//            setArg("blurfactor", b);
-//        }
-//
-//    private:
-//        float  m_blur;
-//};
 
 
 //@}
