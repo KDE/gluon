@@ -26,7 +26,7 @@
 #include <QHash>
 #include <QVariant>
 #include <QMetaType>
-#include <KDebug>
+#include <QDebug>
 
 KGLProgram::KGLProgram()
 {
@@ -77,7 +77,7 @@ void KGLProgram::init()
 void KGLProgram::addShader(KGLShader* shader)
 {
     if (!shader->isValid()) {
-        kDebug()<< "Program::addShader(): Cannot add invalid shader";
+        qDebug()<< "Program::addShader(): Cannot add invalid shader";
         return;
     }
     // Attach the shader to the program
@@ -105,7 +105,7 @@ bool KGLProgram::link()
     mLinkLog = new char[logarraysize];
     glGetProgramInfoLog(glId(), logarraysize, &logsize, mLinkLog);
     if (!mValid) {
-        kDebug()<< "Program::link(): Couldn't link program. Log follows:" << endl << mLinkLog;
+        qDebug()<< "Program::link(): Couldn't link program. Log follows:" << endl << mLinkLog;
     } else {
         mUniformLocations = new QHash<QString, int>;
         mAttributeLocations = new QHash<QString, int>;

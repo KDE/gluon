@@ -2,7 +2,7 @@
 
 #include "kalbuffer.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QFile>
 #include <QFileInfo>
@@ -33,7 +33,7 @@ KALSoundReader::KALSoundReader(const QString& fileName)
     d->fileName = fileName;
     d->error = false;
     if (!QFile::exists(fileName)) {
-        kDebug() << "Could not find file" << fileName;
+        qDebug() << "Could not find file" << fileName;
         d->error=true;
     }
 }
@@ -85,7 +85,7 @@ ALuint KALSoundReader::fromWav()
     SNDFILE* file = sf_open(d->fileName.toUtf8(), SFM_READ, &fileInfos);
 
     if (!file) {
-        kDebug() << "Could not load file:" << sf_strerror(file);
+        qDebug() << "Could not load file:" << sf_strerror(file);
         return 0;
     }
 
@@ -95,7 +95,7 @@ ALuint KALSoundReader::fromWav()
     // Reading signed 16 bits samples (most commonly used format)
     std::vector<ALshort> samples(samplesNumber);
     if (sf_read_short(file, &samples[0], samplesNumber) < samplesNumber) {
-        kDebug() << "Could not read the sound data";
+        qDebug() << "Could not read the sound data";
         return 0;
     }
 
@@ -111,7 +111,7 @@ ALuint KALSoundReader::fromWav()
         format = AL_FORMAT_STEREO16;
         break;
     default :
-        kDebug() << "Unsupported format: more than two channels";
+        qDebug() << "Unsupported format: more than two channels";
         return 0;
     }
 
@@ -122,7 +122,7 @@ ALuint KALSoundReader::fromWav()
     alBufferData(buffer, format, &samples[0], samplesNumber * sizeof(ALushort), samplesRate);
 
     if (alGetError() != AL_NO_ERROR) {
-        kDebug() << "Could not read the samples: " << alGetError();
+        qDebug() << "Could not read the samples: " << alGetError();
         return 0;
     }
 
@@ -144,7 +144,7 @@ ALuint KALSoundReader::fromOgg()
     f = fopen(d->fileName.toUtf8(), "rb");
 
     if (f == NULL) {
-        kDebug() << "Cannot open " << d->fileName << " for reading...";
+        qDebug() << "Cannot open " << d->fileName << " for reading...";
         return 0;
     }
 
@@ -153,7 +153,7 @@ ALuint KALSoundReader::fromOgg()
 
     // Try opening the given file
     if (ov_open(f, &oggFile, NULL, 0) != 0) {
-        kDebug() << "Error opening " << d->fileName << " for decoding...";
+        qDebug() << "Error opening " << d->fileName << " for decoding...";
         return 0;
     }
 
@@ -177,7 +177,7 @@ ALuint KALSoundReader::fromOgg()
 
         if (bytes < 0) {
             ov_clear(&oggFile);
-            kDebug() << "Error decoding " << d->fileName << "..." ;
+            qDebug() << "Error decoding " << d->fileName << "..." ;
             return 0;
         }
 
@@ -196,7 +196,7 @@ ALuint KALSoundReader::fromOgg()
     alBufferData(albuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
 
     if (alGetError() != AL_NO_ERROR) {
-        kDebug() << "Could not read the samples: " << alGetError();
+        qDebug() << "Could not read the samples: " << alGetError();
         return 0;
     }
 

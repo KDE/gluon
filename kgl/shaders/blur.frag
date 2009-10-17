@@ -1,23 +1,21 @@
-uniform sampler2D src_tex_unit0;
-uniform vec2 src_tex_offset0;
+// erosion.fs
+//
+// minimum of 3x3 kernel
+
+uniform sampler2D sampler0;
+uniform vec2 tc_offset[9];
 
 void main(void)
 {
-	float dx = src_tex_offset0.s;
-	float dy = src_tex_offset0.t;
-	vec2 st = gl_TexCoord[0].st;
+    vec4 sample[9];
+    vec4 minValue = vec4(1.0);
 
-	// Getting colors of the center and surrounding texels.
-	vec4 color	 = 4.0 * texture2D(src_tex_unit0, st);
-	color		+= 2.0 * texture2D(src_tex_unit0, st + vec2(+dx, 0.0));
-	color		+= 2.0 * texture2D(src_tex_unit0, st + vec2(-dx, 0.0));
-	color		+= 2.0 * texture2D(src_tex_unit0, st + vec2(0.0, +dy));
-	color		+= 2.0 * texture2D(src_tex_unit0, st + vec2(0.0, -dy));
-	color		+= texture2D(src_tex_unit0, st + vec2(+dx, +dy));
-	color		+= texture2D(src_tex_unit0, st + vec2(-dx, +dy));
-	color		+= texture2D(src_tex_unit0, st + vec2(-dx, -dy));
-	color		+= texture2D(src_tex_unit0, st + vec2(+dx, -dy));
-	
-        // Output color is the average.
-	gl_FragColor = color / 16.0;
+    for (int i = 0; i < 9; i++)
+    {
+        sample[i] = texture2D(sampler0, 
+                              gl_TexCoord[0].st + tc_offset[i]);
+        minValue = min(sample[i], minValue);
+    }
+
+    gl_FragColor = minValue;
 }

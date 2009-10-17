@@ -21,7 +21,7 @@
 #ifndef KGLVIEW_H
 #define KGLVIEW_H
 
-#include <KDebug>
+#include <QDebug>
 #include <QGLWidget>
 #include <QTimer>
 #include <QDialog>
@@ -179,7 +179,7 @@ protected:
 private:
     KGLEngine * m_engine;
     //KGLScreenConfig * m_screenConfig;
-    KGLPixmapItem * m_logo ;
+
     QRectF m_orthoView;
     float m_countFrame;
     float m_fps;

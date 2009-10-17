@@ -23,7 +23,7 @@
 
 #include "kglboxitem.h"
 
-#include <KDebug>
+#include <QDebug>
 
 KGLEngine::KGLEngine(QObject * parent)
     : QObject(parent)
@@ -42,7 +42,7 @@ void KGLEngine::mainLoop(float ff)
 
 void KGLEngine::addItem(KGLItem* item)
 {
-    kDebug() << "adding Item of type: " << item->objectName()<<"-"<<item->zindex();
+    qDebug() << "adding Item of type: " << item->objectName()<<"-"<<item->zindex();
     d->m_items[item->zindex()].append(item);
     item->setParent(this);
 }
@@ -109,7 +109,7 @@ int KGLEngine::itemsCount() const
         size+=i.value().size();
         ++i;
     }
-    kDebug()<<"size="<<size;
+    qDebug()<<"size="<<size;
     return size;
 }
 

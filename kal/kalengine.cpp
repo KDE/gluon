@@ -24,7 +24,8 @@
 
 #include "kalphonon.h"
 
-#include <KDebug>
+#include <QtGlobal>
+
 #include <QtCore/QCoreApplication>
 #include <alut.h>
 
@@ -39,15 +40,15 @@ KALEngine::KALEngine(const QString &deviceName, QObject *parent)
 
     if (setDevice(deviceName)) {
         if (deviceName.isEmpty()) {
-            kDebug() << "set device to default";
+            qDebug() << "set device to default";
         } else {
-            kDebug() << "set device to " << deviceName;
+            qDebug() << "set device to " << deviceName;
         }
     } else {
-        kDebug() << "cannot set openAL device...";
+        qDebug() << "cannot set openAL device...";
     }
 
-    kDebug() << alGetError();
+    qDebug() << alGetError();
 }
 
 KALEngine::KALEngine(Phonon::Category category, QObject *parent)
@@ -69,7 +70,7 @@ KALEngine *KALEngine::instance(const QString &deviceName)
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
         }
         m_instance =  new KALEngine(deviceName, parent);
     }
@@ -81,7 +82,7 @@ KALEngine *KALEngine::instance(Phonon::Category category)
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
         }
         m_instance =  new KALEngine(category, parent);
     }
