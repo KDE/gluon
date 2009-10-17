@@ -43,6 +43,7 @@ public:
     int flat;
     int fuzz;
 };
+
 /**
  * @class KCLInput gluon/kcl/kclinput.h <Gluon/KCL/KCLInput>
  *
@@ -66,7 +67,6 @@ class KCL_EXPORT KCLInput : public QObject
 public:
     KCLInput(const QString& devicePath=QString(), QObject * parent = 0);
     ~KCLInput();
-
     /**
     * @return the id of vendor
     */
@@ -264,7 +264,7 @@ public slots:
 protected:
     void readInformation();
     bool event(QEvent * evt);
-private:
+private:    
     KCLThread *inputListener;
     struct input_id m_device_info;
     struct input_event m_currentEvent;
