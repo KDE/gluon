@@ -10,6 +10,7 @@
 #include <QHeaderView>
 #include <KLocale>
 #include <KTitleWidget>
+#include <KDebug>
 KCLCustomInputDialog::KCLCustomInputDialog( QWidget * parent)
     :KDialog(parent)
 {

@@ -3,7 +3,7 @@
 
 #include "kcl.h"
 #include "kcl_export.h"
-#include <KDebug>
+#include <QDebug>
 
 #include <QMap>
 
@@ -44,7 +44,7 @@ public:
  * The easiest way to create a usable KCLInput is to set it by the evdev file name.
  * @code
  * KCLInput *myInput = new KCLInput("/dev/input/event2");
- * kDebug() << myInput->name();
+ * qDebug() << myInput->name();
  * @endcode
  */
 
@@ -110,7 +110,7 @@ public:
     * @code
     * KCLInput *myInput = new KCLInput("/dev/input/event3");
     * if (myInput->button(LeftBtn)) {
-    *     kDebug() << "clicked";
+    *     qDebug() << "clicked";
     * }
     * @endcode
     * @see KCLInputEvent
@@ -125,7 +125,7 @@ public:
     * KCLInput *myInput = new KCLInput("/dev/input/event3");
     * int pressedButton = myInput->anyPress();
     * if (pressedButton) {
-    *     kDebug() << "button" << pressedButton << "was pressed.";
+    *     qDebug() << "button" << pressedButton << "was pressed.";
     * }
     * @endcode
     * @see KCLInputEvent
@@ -143,7 +143,7 @@ public:
     * @code
     * KCLInput *myInput = new KCLInput("/dev/input/event3");
     * if (myInput->anyMove()) {
-    *     kDebug() << "Input was moved";
+    *     qDebug() << "Input was moved";
     * }
     * @endcode
     * @see KCLInputEvent

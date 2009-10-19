@@ -19,7 +19,7 @@
 */
 
 #include "kalmusic.h"
-#include <KDebug>
+#include <QDebug>
 
 static const int BUFFER_SIZE = 4096 * 4;
 
@@ -33,12 +33,12 @@ void KALMusic::open(string path)
     int result;
 
     if (!(oggFile = fopen(path.c_str(), "rb")))
-        kDebug() << "Could not open Ogg file.";
+        qDebug() << "Could not open Ogg file.";
 
     if ((result = ov_open(oggFile, &oggStream, NULL, 0)) < 0) {
         fclose(oggFile);
 
-        kDebug() << "Could not open Ogg stream. ";
+        qDebug() << "Could not open Ogg stream. ";
     }
 
     vorbisInfo = ov_info(&oggStream, -1);
@@ -76,7 +76,7 @@ void KALMusic::release()
 
 void KALMusic::display()
 {
-    kDebug()
+    qDebug()
     << "version         " << vorbisInfo->version         << "\n"
     << "channels        " << vorbisInfo->channels        << "\n"
     << "rate (hz)       " << vorbisInfo->rate            << "\n"
@@ -88,7 +88,7 @@ void KALMusic::display()
     << "vendor " << vorbisComment->vendor << "\n";
 
     for (int i = 0; i < vorbisComment->comments; i++) {
-        kDebug() << "   " << vorbisComment->user_comments[i] << "\n";
+        qDebug() << "   " << vorbisComment->user_comments[i] << "\n";
     }
 }
 
@@ -157,7 +157,7 @@ bool KALMusic::stream(ALuint buffer)
             size += result;
         } else {
             if (result < 0) {
-                kDebug() << "errorString(result)";
+                qDebug() << "errorString(result)";
             } else {
                 break;
             }
@@ -193,7 +193,7 @@ void KALMusic::check()
     int error = alGetError();
 
     if (error != AL_NO_ERROR) {
-        kDebug() << "OpenAL error was raised.";
+        qDebug() << "OpenAL error was raised.";
     }
 }
 
@@ -220,15 +220,15 @@ void KALMusic::run()
     open(m_fileName.toUtf8().data());
     display();
     if (!playback()) {
-        kDebug() << "Ogg refused to play.";
+        qDebug() << "Ogg refused to play.";
     }
 
     while (update()) {
         if (!isPlaying()) {
             if (!playback()) {
-                kDebug() << "Ogg abruptly stopped.";
+                qDebug() << "Ogg abruptly stopped.";
             } else {
-                kDebug() << "Ogg stream was interrupted.\n";
+                qDebug() << "Ogg stream was interrupted.\n";
             }
         }
     }

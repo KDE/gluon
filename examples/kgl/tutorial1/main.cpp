@@ -29,6 +29,7 @@
 #include <gluon/kgl/kglview.h>
 #include <gluon/kgl/kglengine.h>
 #include <gluon/kgl/kglboxitem.h>
+#include <gluon/kgl/kgltextitem.h>
 using namespace std;
 
 
@@ -77,6 +78,13 @@ int main(int argc, char *argv[])
     
     //after all setup... We can add the item inside the engine.
     engine->addItem(item);
+    
+    KGLTextItem * txt = new KGLTextItem("Gluon rocks!!!!");
+    engine->addItem(txt);
+    txt->setPosition(0,5);
+    txt->setAngle(32);
+    txt->updateTransform();
+    
     
     view->start(); //start the game main loop
     view->show();

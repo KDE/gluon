@@ -1,6 +1,6 @@
 #include "kcltablet.h"
 
-#include <KDebug>
+#include <QDebug>
 
 KCLTablet::KCLTablet(const QString& device, QObject *parent)
         : KCLInput(device, parent)

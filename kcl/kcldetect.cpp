@@ -3,7 +3,7 @@
 #include <QDir>
 #include <QtCore/QCoreApplication>
 #include <QMessageBox>
-
+#include <QtGlobal>
 KCLDetect *KCLDetect::m_instance = NULL;
 
 
@@ -14,7 +14,7 @@ KCLDetect::KCLDetect(QObject * parent)
 
 KCLDetect::~KCLDetect()
 {
-    //    kDebug()<<"clear device...";
+    //    qDebug()<<"clear device...";
     //    foreach ( KCLInput * input, m_inputList)
     //    {
     //        delete input;
@@ -26,7 +26,7 @@ KCLDetect *KCLDetect::instance()
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KCLDetect instance may be leaked when leaving";
+            qWarning() << "No QCoreApplication instance found, the KCLDetect instance may be leaked when leaving";
         }
         m_instance = new KCLDetect(parent);
         m_instance->searchDevice();
@@ -49,32 +49,32 @@ void KCLDetect::searchDevice()
             detect->addInput(temp);
             switch (temp->deviceType()) {
             case KCL::KeyBoard:
-                kDebug() << "Keyboard found";
+                qDebug() << "Keyboard found";
                 detect->addKeyboard(temp);
                 break;
 
             case KCL::Mouse:
-                kDebug() << "Mouse found";
+                qDebug() << "Mouse found";
                 detect->addMouse(temp);
                 break;
 
             case KCL::Touchpad:
-                kDebug() << "Touchpad found";
+                qDebug() << "Touchpad found";
                 detect->addMouse(temp);
                 break;
 
             case KCL::Joystick:
-                kDebug() << "Joystick found";
+                qDebug() << "Joystick found";
                 detect->addJoystick(temp);
                 break;
 
             case KCL::Tablet:
-                kDebug() << "Tablet found";
+                qDebug() << "Tablet found";
                 detect->addTablet(temp);
                 break;
 
             case KCL::Unknown:
-                kDebug() << "Unknown device found";
+                qDebug() << "Unknown device found";
                 detect->addUnknown(temp);
                 break;
             }

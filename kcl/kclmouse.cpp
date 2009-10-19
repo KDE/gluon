@@ -1,6 +1,6 @@
 #include "kclmouse.h"
 
-#include <KDebug>
+#include <QDebug>
 
 KCLMouse::KCLMouse(const QString &device, QObject *parent)
         : KCLInput(device, parent)

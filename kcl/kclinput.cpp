@@ -3,7 +3,7 @@
 #include "kclinputevent.h"
 #include "kclthread.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QApplication>
 #include <QFile>
 #include <QMessageBox>
@@ -39,7 +39,7 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
 KCLInput::~KCLInput()
 {
     setDisable();
-    kDebug() << "Closed device :" << deviceName();
+    qDebug() << "Closed device :" << deviceName();
 }
 
 
@@ -92,7 +92,7 @@ bool KCLInput::event(QEvent * evt)
 void KCLInput::readInformation()
 {
     if (!QFile::exists(m_devicePath)) {
-        kDebug() << "m_devicePath does not exist";
+        qDebug() << "m_devicePath does not exist";
         m_error = true;
         m_msgError += "device url does not exist \n";
         return;
@@ -100,14 +100,14 @@ void KCLInput::readInformation()
 
     int m_fd = -1;
     if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kDebug() << "Could not open device" << m_devicePath;
+        qDebug() << "Could not open device" << m_devicePath;
         m_error = true;
         m_msgError += "could not open the device \n";
         return;
     }
 
     if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
-        kDebug() << "Could not retrieve information of device" << m_devicePath;
+        qDebug() << "Could not retrieve information of device" << m_devicePath;
         m_msgError += "could not retrieve information of device\n";
         m_error = true;
         return;
@@ -115,7 +115,7 @@ void KCLInput::readInformation()
 
     char name[256] = "Unknown";
     if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-        kDebug() << "could not retrieve name of device" << m_devicePath;
+        qDebug() << "could not retrieve name of device" << m_devicePath;
         //        m_msgError += "cannot retrieve name of device\n";
         //        m_error = true;
     }

@@ -1,6 +1,6 @@
 #include "kclkeyboard.h"
 
-#include <KDebug>
+#include <QDebug>
 
 KCLKeyBoard::KCLKeyBoard(const QString& device, QObject * parent)
         : KCLInput(device, parent)

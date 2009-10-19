@@ -23,8 +23,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
-
-#include <KDE/KDebug>
+#include <QtGlobal>
+#include <QDebug>
 
 class KALPhononPrivate
 {
@@ -61,7 +61,7 @@ bool KALPhonon::setDevice(const Phonon::AudioOutputDevice &device)
     QStringList alDeviceList = KALEngine::deviceList().filter(phononDevice);
 
     if (alDeviceList.isEmpty()) {
-        kWarning() << "Could not find any OpenAL device that matches current Phonon device";
+        qWarning() << "Could not find any OpenAL device that matches current Phonon device";
         return false;
     }
 
@@ -78,7 +78,7 @@ bool KALPhonon::setCategory(Phonon::Category category)
 
     // An instance of QCoreApplication must be running to create a Phonon::AudioOutput
     if (!QCoreApplication::instance()) {
-        kWarning() << "Could not get current Phonon device because QCoreApplication is not running";
+        qWarning() << "Could not get current Phonon device because QCoreApplication is not running";
         return false;
     }
 

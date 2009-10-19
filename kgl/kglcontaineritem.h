@@ -27,7 +27,7 @@
 #include "kglitem.h"
 #include "kglitemlist.h"
 
-#include <KDE/KDebug>
+#include <QDebug>
 
 /**
  * \defgroup KGL KGL

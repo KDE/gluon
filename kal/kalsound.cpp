@@ -23,7 +23,7 @@
 #include "kalbuffer.h"
 #include <sndfile.h>
 
-#include <KDE/KDebug>
+#include <QDebug>
 
 #include "kalengine.h"
 
@@ -107,12 +107,12 @@ void KALSound::setupSource()
     alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
 
     if (alGetError() != AL_NO_ERROR) {
-        kDebug() << "Could not process sound while generating source:" << alGetError();
+        qDebug() << "Could not process sound while generating source:" << alGetError();
         return;
     }
 
     if (!d->source) {
-        kDebug() << "Could not process sound: generated source empty.";
+        qDebug() << "Could not process sound: generated source empty.";
         return;
     }
 }

@@ -25,8 +25,8 @@
 #include <QMouseEvent>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <KDebug>
-#include <KIcon>
+#include <QDebug>
+
 #include "kgldisplay.h"
 #include "kglscreen.h"
 #include "widgets/kglresolutiondialog.h"
@@ -55,25 +55,25 @@ KGLView::KGLView(KGLEngine * engine,QWidget * parent )
 bool KGLView::initGlew()
 {
     GLenum code;
-    kDebug()<<"Glew initialization....";
+    qDebug()<<"Glew initialization....";
     /* initialization of GLEW */
     code = glewInit();
     if(code != GLEW_OK)
     {
-        kDebug()<< "cannot init GLEW :"<<glewGetErrorString(code);
+        qDebug()<< "cannot init GLEW :"<<glewGetErrorString(code);
         return false;
     }
-    kDebug()<<"Glew success...";
+    qDebug()<<"Glew success...";
 
     if ( (isExtensionSupported("GL_ARB_vertex_shader") || isExtensionSupported("GL_vertex_shader"))
         && (isExtensionSupported("GL_ARB_fragment_shader") || isExtensionSupported("GL_fragment_shader")))
         {
-        kDebug()<<"Shaders supported...";
+        qDebug()<<"Shaders supported...";
         m_isShaderSupported = true;
     }
     else
     {
-        kDebug()<<"Shaders unsupported...";
+        qDebug()<<"Shaders unsupported...";
         m_isShaderSupported = false;
     }
     return true;
@@ -90,7 +90,7 @@ KGLView::~KGLView()
 
     delete m_timer;
     delete m_fpsTimer;
-    delete m_logo;
+
 }
 void KGLView::init()
 {
@@ -113,12 +113,7 @@ void KGLView::init()
     setAutoBufferSwap(true);
     glInit();
     initGlew();
-    m_logo  =new KGLPixmapItem(KIcon("gluon.png").pixmap(128,128));
-    m_logo->setColor(QColor(255,255,255,50));
-    m_logo->setScale(0.5,0.5);
-    m_logo->setPosition(-m_logo->center()/2);
 
-    m_logo->updateTransform();
     //connect(this,SIGNAL(destroyed()),m_screenConfig,SLOT(restore()));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
     connect(m_fpsTimer, SIGNAL(timeout()), this, SLOT(calculFps()));
@@ -207,8 +202,8 @@ void KGLView::initializeGL()
 
 void KGLView::resizeGL(int w, int h)
 {
-    kDebug()<<w<<"--"<<width();
-    kDebug()<<h<<"--"<<height();
+    qDebug()<<w<<"--"<<width();
+    qDebug()<<h<<"--"<<height();
 
     int newWidth = w, newHeight = h;
 
@@ -231,8 +226,7 @@ void  KGLView::paintGL()
     glLoadIdentity();
 
     if ( engine() != NULL)drawGLItems();
-    else
-        m_logo->paintGL();
+
 
     glColor3ub(255, 255, 255);
     if ( m_axisShow) drawRepere(1,1);
