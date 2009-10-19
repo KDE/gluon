@@ -30,6 +30,7 @@
 #include <QVBoxLayout>
 #include <QTreeView>
 #include <QDebug>
+#include <QVariant>
 
 #include "propertywidget.h"
 #include "gameobjecttreemodel.h"

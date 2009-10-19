@@ -18,6 +18,7 @@
 */
 
 #include <QtGui>
+#include <QVariant>
 
 #include "propertywidgetitem.h"
 
