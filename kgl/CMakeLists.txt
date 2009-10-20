@@ -1,7 +1,16 @@
 cmake_minimum_required(VERSION 2.6)
 
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+#find_package(Box2D REQUIRED)
+
+IF(Q_WS_X11)
+    find_package(X11 REQUIRED)
+ENDIF(Q_WS_X11)
+
 include_directories(Box2D/Include)
 include_directories(physics)
+include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 
 set(kgl_LIB_SRCS
     kgldisplay.cpp
@@ -29,7 +38,7 @@ set(kgl_LIB_SRCS
     kglinfowidget.cpp
     kgldebugphysicsview.cpp
     kglresolution.cpp
-kglpainter.cpp
+    kglpainter.cpp
     widgets/kglresolutiondialog.cpp
 )
 
@@ -37,9 +46,14 @@ IF(NOT WIN32 AND NOT Q_WS_MAC)
 SET(kgl_LIB_SRCS
     kglfx.cpp
     kglprogram.cpp
-    kglrandrscreen.cpp
     ${kgl_LIB_SRCS})
 ENDIF(NOT WIN32 AND NOT Q_WS_MAC)
+
+if(Q_WS_X11)
+    set(kgl_LIB_SRCS
+        kglrandrscreen.cpp
+        ${kgl_LIB_SRCS})
+endif(Q_WS_X11)
 
 SET(kgl_RCCS
 shaders/shaders.qrc
@@ -51,10 +65,18 @@ set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
 include_directories(${GLEW_INCLUDE_DIR}/..)
 
-target_link_libraries(kgl ${QT_QTOPENGL_LIBRARY})
-target_link_libraries(kgl ${KDE4_KDEUI_LIBS})
-target_link_libraries(kgl ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARIES} )
-target_link_libraries(kgl Box2D)
+target_link_libraries(kgl
+                      ${QT_QTOPENGL_LIBRARY}
+                      ${KDE4_KDEUI_LIBS}
+                      ${OPENGL_gl_LIBRARY}
+                      ${OPENGL_glu_LIBRARY}
+                      ${GLEW_LIBRARY}
+                      Box2D)
+
+#Only link X11 if we are actually using X11
+if(Q_WS_X11)
+    target_link_libraries(kgl ${X11_Xrandr_LIB} ${X11_LIBRARIES} )
+endif(Q_WS_X11)
 
 # add_subdirectory(examples)
 # add_subdirectory(includes)
@@ -92,8 +114,8 @@ install(FILES
   kgldisplay.h
   kglscreen.h
   kglinfowidget.h
-   kgldebugphysicsview.h
-kglpainter.h
+  kgldebugphysicsview.h
+  kglpainter.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
 )
 
@@ -101,10 +123,16 @@ IF(NOT WIN32)
   INSTALL(FILES
     kglfx.h
     kglprogram.h
-    kglrandrscreen.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
   )
 ENDIF(NOT WIN32)
+
+if(Q_WS_X11)
+    install(FILES
+        kglrandrscreen.h
+        DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kgl COMPONENT Devel
+    )
+endif(Q_WS_X11)
 
 INSTALL(FILES
   widgets/kglresolutiondialog.h

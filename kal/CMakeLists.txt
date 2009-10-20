@@ -1,3 +1,15 @@
+cmake_minimum_required(VERSION 2.6)
+
+find_package(OpenAL REQUIRED)
+find_package(SndFile REQUIRED)
+find_package(OggVorbis REQUIRED)
+
+include_directories(${OPENAL_INCLUDE_DIR})
+
+include_directories(${SNDFILE_INCLUDE_DIR}
+                    ${OGG_INCLUDE_DIR}
+                    ${VORBISFILE_INCLUDE_DIR})
+
 set(kal_LIB_SRCS
     kalengine.cpp
     kalphonon.cpp
@@ -14,14 +26,18 @@ set(kal_LIB_SRCS
 kde4_add_library(kal SHARED ${kal_LIB_SRCS})
 set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
 
-include_directories(${OPENAL_INCLUDE_DIR} ${ALUT_INCLUDE_DIR}
-                    ${SNDFILE_INCLUDE_DIR} ${OGG_INCLUDE_DIR}
-                    ${VORBISFILE_INCLUDE_DIR})
+#${ALUT_INCLUDE_DIR}
 
 target_link_libraries(kal 
-${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_PHONON_LIBS}
-  ${OPENAL_LIBRARY} ${ALUT_LIBRARY}
-    ${SNDFILE_LIBRARY} ${OGG_LIBRARY} ${VORBISFILE_LIBRARY})
+                      ${KDE4_KDEUI_LIBS}
+                      ${KDE4_KIO_LIBS}
+                      ${KDE4_PHONON_LIBS}
+                      ${OPENAL_LIBRARY}
+                      ${SNDFILE_LIBRARY}
+                      ${OGG_LIBRARY}
+                      ${VORBISFILE_LIBRARY})
+
+#${ALUT_LIBRARY}
 
 add_subdirectory(includes)
 

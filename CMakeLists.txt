@@ -5,29 +5,29 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
-
-find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(Eigen2 REQUIRED)
 
-IF(NOT WIN32 AND NOT Q_WS_MAC)
-find_package(X11 REQUIRED)
-ENDIF(NOT WIN32 AND NOT Q_WS_MAC)
+#find_package(OpenGL REQUIRED)
+#find_package(GLEW REQUIRED)
 
-IF(NOT WIN32)
-find_package(OpenAL REQUIRED)
-find_package(Alut REQUIRED)
-find_package(SndFile REQUIRED)
-find_package(OggVorbis REQUIRED)
-ENDIF(NOT WIN32)
+# IF(NOT WIN32 AND NOT Q_WS_MAC)
+# find_package(X11 REQUIRED)
+## ENDIF(NOT WIN32 AND NOT Q_WS_MAC)
+
+#IF(NOT WIN32)
+#find_package(OpenAL REQUIRED)
+#find_package(Alut REQUIRED)
+#find_package(SndFile REQUIRED)
+#find_package(OggVorbis REQUIRED)
+##ENDIF(NOT WIN32)
 
 include(KDE4Defaults)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${KDE4_INCLUDES})
-include_directories(${OPENAL_INCLUDE_DIR})
-include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 include_directories(${EIGEN2_INCLUDE_DIR})
+#include_directories(${OPENAL_INCLUDE_DIR})
+#include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 
 #include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 #include_directories(${CMAKE_CURRENT_BINARY_DIR})

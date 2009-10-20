@@ -21,9 +21,11 @@ if (KAL_FIND_REQUIRED)
 endif (KAL_FIND_REQUIRED)
 
 find_package(OpenAL ${_kalReq})
-find_package(Alut ${_kalReq})
+#find_package(Alut ${_kalReq})
 find_package(SndFile ${_kalReq})
 find_package(OggVorbis ${_kalReq})
+
+find_package(GluonCommon ${_kalReq})
 
 find_path(KAL_INCLUDE_DIR
     NAMES
@@ -33,6 +35,7 @@ find_path(KAL_INCLUDE_DIR
 )
 
 set(KAL_INCLUDES
+    ${GLUONCOMMON_INCLUDE_DIR}
     ${KAL_INCLUDE_DIR}
     ${OPENAL_INCLUDE_DIR}
     CACHE STRING "Includes needed to use KAL"

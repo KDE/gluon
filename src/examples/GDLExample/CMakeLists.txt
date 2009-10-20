@@ -3,7 +3,7 @@ PROJECT(gdlexample)
 find_package(KDE4 REQUIRED)
 find_package(Gluon REQUIRED)
 
-include_directories(${KDE4_INCLUDES} ${GLUON_INCLUDES} ${GLUON_INCLUDE_DIR}/gluon)
+include_directories(${KDE4_INCLUDES} ${GLUON_INCLUDES})
 
 include(KDE4Defaults)
 
