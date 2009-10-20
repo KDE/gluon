@@ -28,7 +28,10 @@
 #include <QStringList>
 #include <phonon/phononnamespace.h>
 
+
 #include <AL/alc.h>
+
+#include "common/ksingleton.h"
 
 class KALPhonon;
 
@@ -45,24 +48,18 @@ class KALBuffer;
 * KALEngine is an audio engine which uses OpenAL for sound processing
 */
 
-class KAL_EXPORT KALEngine : public QObject
+class KAL_EXPORT KALEngine : public KSingleton<KALEngine>
 {
-
-private:
-    KALEngine(const QString &deviceName = QString(), QObject *parent = 0);
-    KALEngine(Phonon::Category category, QObject *parent = 0);
-    ~KALEngine();
-
 public:
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
     */
-    static KALEngine *instance(const QString &deviceName = QString());
+    //static KALEngine *instance(const QString &deviceName = QString());
 
     /**
     * Return a reference to the KALEngine singleton instance or create one if none exist
     */
-    static KALEngine *instance(Phonon::Category category);
+    //static KALEngine *instance(Phonon::Category category);
 
     /**
     * Change the output device to the specified OpenAL device name
@@ -101,6 +98,15 @@ public:
     }
 
 private:
+    friend class KSingleton<KALEngine>;
+    
+    KALEngine();
+    //KALEngine(const QString &deviceName = QString(), QObject *parent = 0);
+    //KALEngine(Phonon::Category category, QObject *parent = 0);
+    ~KALEngine();
+
+    Q_DISABLE_COPY(KALEngine)
+    
     static KALEngine *m_instance;
     ALCcontext *m_context;
     ALCdevice *m_device;

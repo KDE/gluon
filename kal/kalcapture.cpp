@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QTime>
 #include <QFile>
-//#include <alut.h>
+
 #include <al.h>
 #include <alc.h>
 

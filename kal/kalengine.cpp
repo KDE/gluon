@@ -26,20 +26,24 @@
 
 #include <QtGlobal>
 
-#include <QtCore/QCoreApplication>
-#include <alut.h>
+#include <al.h>
+#include <alc.h>
 
-KALEngine *KALEngine::m_instance = NULL;
+//#include <QtCore/QCoreApplication>
+//#include <alut.h>
 
-KALEngine::KALEngine(const QString &deviceName, QObject *parent)
-    : QObject(parent)
+template<> KALEngine *KSingleton<KALEngine>::m_instance = 0;
+
+//KALEngine::KALEngine(const QString &deviceName, QObject *parent)
+//    : QObject(parent)
+KALEngine::KALEngine()
 {
     //alutInitWithoutContext(0, 0);
     
     m_context = NULL;
     m_device = NULL;
-
-    if (setDevice(deviceName)) {
+    
+    /*if (setDevice(deviceName)) {
         if (deviceName.isEmpty()) {
             qDebug() << "set device to default";
         } else {
@@ -47,16 +51,17 @@ KALEngine::KALEngine(const QString &deviceName, QObject *parent)
         }
     } else {
         qDebug() << "cannot set openAL device...";
-    }
+    }*/
+    setDevice("default");
 
     qDebug() << alGetError();
 }
 
-KALEngine::KALEngine(Phonon::Category category, QObject *parent)
+/*KALEngine::KALEngine(Phonon::Category category, QObject *parent)
 {
     m_phonon = new KALPhonon(this);
     m_phonon->setCategory(category);
-}
+}*/
 
 KALEngine::~KALEngine()
 {
@@ -66,7 +71,7 @@ KALEngine::~KALEngine()
 }
 
 // TODO: factor the getInstance or remove one of them
-KALEngine *KALEngine::instance(const QString &deviceName)
+/*KALEngine *KALEngine::instance(const QString &deviceName)
 {
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
@@ -88,7 +93,7 @@ KALEngine *KALEngine::instance(Phonon::Category category)
         m_instance =  new KALEngine(category, parent);
     }
     return m_instance;
-}
+}*/
 
 QStringList KALEngine::deviceList()
 {
