@@ -15,7 +15,7 @@
 */
 
 #include "gameobjecttreemodel.h"
-#include <gameobject.h>
+#include <gluon/gameobject.h>
 #include <QDebug>
 #include <typeinfo>
 

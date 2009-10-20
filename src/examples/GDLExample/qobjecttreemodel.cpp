@@ -17,7 +17,7 @@
 #include "qobjecttreemodel.h"
 #include <QDebug>
 #include <typeinfo>
-#include <gluonobject.h>
+#include <gluon/gluonobject.h>
 
 QObjectTreeModel::QObjectTreeModel(QObject* root, QObject* parent): QAbstractItemModel(parent)
 {
