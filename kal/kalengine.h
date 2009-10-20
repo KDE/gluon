@@ -28,7 +28,7 @@
 #include <QStringList>
 #include <phonon/phononnamespace.h>
 
-#include <alc.h>
+#include <AL/alc.h>
 
 class KALPhonon;
 

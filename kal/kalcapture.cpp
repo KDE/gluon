@@ -2,7 +2,10 @@
 #include <QDebug>
 #include <QTime>
 #include <QFile>
-#include <alut.h>
+//#include <alut.h>
+#include <al.h>
+#include <alc.h>
+
 #include <sndfile.h>
 #include <QtGlobal>
 class KALCapturePrivate

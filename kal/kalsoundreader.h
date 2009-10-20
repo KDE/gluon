@@ -1,7 +1,7 @@
 #ifndef KALSOUNDREADER_H
 #define KALSOUNDREADER_H
 
-#include <alut.h>
+#include <al.h>
 
 #include "kal_export.h"
 

@@ -27,7 +27,7 @@
 
 #include <QObject>
 
-#include <alut.h>
+#include <al.h>
 
 class KALBuffer;
 

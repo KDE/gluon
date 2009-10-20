@@ -34,7 +34,8 @@ KALEngine *KALEngine::m_instance = NULL;
 KALEngine::KALEngine(const QString &deviceName, QObject *parent)
     : QObject(parent)
 {
-    alutInitWithoutContext(0, 0);
+    //alutInitWithoutContext(0, 0);
+    
     m_context = NULL;
     m_device = NULL;
 

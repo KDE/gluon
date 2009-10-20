@@ -59,7 +59,7 @@ bool KALBuffer::isEmpty()const {
     return !d->buffer;
 }
 void KALBuffer::setHelloWord() {
-    d->buffer = alutCreateBufferHelloWorld();
+    //d->buffer = alutCreateBufferHelloWorld();
 }
 
 void KALBuffer::init()

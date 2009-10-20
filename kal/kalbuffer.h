@@ -22,7 +22,7 @@
 #ifndef KALBUFFER_H
 #define KALBUFFER_H
 
-#include <alut.h>
+#include <al.h>
 
 #include "kal_export.h"
 
@@ -63,7 +63,7 @@ public:
     /**
     * This function will generate a "hello word" sound.
     */
-    void setHelloWord();
+    //void setHelloWord();
     ALuint buffer() const;
     /**
     * @return the duration of buffer in msecond
