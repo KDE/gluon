@@ -88,6 +88,8 @@ void MainWindow::openProject()
         m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
         
         connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
+
+        newMessage( "Project loaded");
     }
 }
 
@@ -195,12 +197,20 @@ void MainWindow::setupDocks()
     messageDock->setWindowTitle(i18n("Messages"));
     messageDock->setObjectName("messageDock");
     messageDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    messageDock->setWidget(new QTextEdit(messageDock));
+    m_messageDock = new QTextEdit(messageDock);
+    m_messageDock->setReadOnly(true);
+    m_messageDock->append(i18n("Logging started"));
+    messageDock->setWidget(m_messageDock);
     layout()->setAlignment(messageDock, Qt::AlignBottom);
     
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
     setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);
 
 //    setMinimumSize(200, 500);
-    
+}
+
+
+void MainWindow::newMessage(const QString &string)
+{
+    m_messageDock->append(string);
 }

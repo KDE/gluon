@@ -43,6 +43,7 @@ class MainWindow : public KXmlGuiWindow
         void saveProject();
         void saveProjectAs();
         void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);
+        void newMessage(const QString & string);
         
     private:
         void showPropertiesFor(Gluon::GluonObject * showFor);
@@ -54,6 +55,7 @@ class MainWindow : public KXmlGuiWindow
         QTreeView *m_gameObjectTree;
         QScrollArea * m_propertyWidgetScrollarea;
         Gluon::Creator::PropertyWidget * m_propertyWidget;
+        QTextEdit * m_messageDock;
 };
 
 #endif // MAINWINDOW_H
