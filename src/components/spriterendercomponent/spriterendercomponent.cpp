@@ -41,7 +41,7 @@ SpriteRenderComponent::SpriteRenderComponent ( const Gluon::SpriteRenderComponen
 
 SpriteRenderComponent::~SpriteRenderComponent()
 {
-    delete d->item;
+    //delete d->item;
 }
 
 GluonObject* SpriteRenderComponent::instantiate()
