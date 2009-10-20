@@ -22,6 +22,7 @@
 
 #include <QtGui/QWidget>
 #include <QGridLayout>
+#include <QScrollArea>
 
 
 namespace Gluon
@@ -31,7 +32,7 @@ namespace Gluon
     
     namespace Creator
     {
-        class PropertyWidget : public QWidget
+        class PropertyWidget : public QScrollArea
         {
             Q_OBJECT;
             
@@ -41,6 +42,7 @@ namespace Gluon
                 
                 GluonObject * object() const;
                 void setObject(GluonObject * theObject);
+                void clear();
                 
             private:
                 GluonObject * m_object;

@@ -43,29 +43,6 @@
 MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
 {
-    //m_qObjectTree = new QTreeView();
-    //m_gameObjectTree = new QTreeView();
-    
-    QWidget* main = new QWidget(this);
-    main->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-    main->setFixedSize(QSize(1,1));
-    //main->addTab(new QWidget(main), i18n("Preview"));
-    //main->addTab(new QWidget(main), i18n("Edit"));
-    //QVBoxLayout* layout = new QVBoxLayout;
-
-    //layout->addWidget(m_qObjectTree);
-    //layout->addWidget(m_gameObjectTree);
-
-    //main->setLayout(layout);
-
-    setCentralWidget(main);
-
-    setDockNestingEnabled(true);
-    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-    setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-    setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-    setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
-
     setupDocks();
     setupActions();
 
@@ -134,9 +111,7 @@ void MainWindow::gameObjectActivated(const QItemSelection& selected, const QItem
 
 void MainWindow::showPropertiesFor(Gluon::GluonObject * showFor)
 {
-    delete m_propertyWidget;
-    m_propertyWidget = new Gluon::Creator::PropertyWidget(this);
-    m_propertyWidgetScrollarea->setWidget(m_propertyWidget);
+    m_propertyWidget->clear();
     m_propertyWidget->setObject(showFor);
 }
 
@@ -151,12 +126,13 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDocks()
 {
+    setDockNestingEnabled(true);
     //Create Scene Dock
     QDockWidget* sceneDock = new QDockWidget(this);
     addDockWidget(Qt::LeftDockWidgetArea, sceneDock, Qt::Vertical);
     sceneDock->setWindowTitle(i18n("Scene"));
     sceneDock->setObjectName("sceneDock");
-    //sceneDock->setAllowedAreas(Qt::TopDockWidgetArea);
+    sceneDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_gameObjectTree = new QTreeView(sceneDock);
     sceneDock->setWidget(m_gameObjectTree);
     layout()->setAlignment(sceneDock, Qt::AlignLeft);
@@ -172,7 +148,7 @@ void MainWindow::setupDocks()
     addDockWidget(Qt::LeftDockWidgetArea, projectDock, Qt::Vertical);
     projectDock->setWindowTitle(i18n("Project"));
     projectDock->setObjectName("projectDock");
-    //projectDock->setAllowedAreas(Qt::TopDockWidgetArea);
+    projectDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_qObjectTree = new QTreeView(projectDock);
     projectDock->setWidget(m_qObjectTree);
     layout()->setAlignment(projectDock, Qt::AlignLeft);
@@ -180,25 +156,27 @@ void MainWindow::setupDocks()
 
     QDockWidget* gameDock = new QDockWidget(i18n("Preview"), this);
     gameDock->setObjectName("gameDock");
-    addDockWidget(Qt::TopDockWidgetArea, gameDock, Qt::Horizontal);
+    addDockWidget(Qt::LeftDockWidgetArea, gameDock, Qt::Horizontal);
     gameDock->setWidget(new KGLView(gameDock));
     gameDock->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    gameDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     layout()->setAlignment(gameDock, Qt::AlignTop);
     
     QDockWidget* editDock = new QDockWidget(i18n("Edit"), this);
     editDock->setObjectName("editDock");
-    addDockWidget(Qt::TopDockWidgetArea, editDock, Qt::Horizontal);
+    addDockWidget(Qt::LeftDockWidgetArea, editDock, Qt::Horizontal);
     editDock->setWidget(new KGLView(editDock));
     editDock->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    editDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     layout()->setAlignment(editDock, Qt::AlignTop);
 
     tabifyDockWidget(gameDock, editDock);
 
     QDockWidget* messageDock = new QDockWidget(this);
-    addDockWidget(Qt::TopDockWidgetArea, messageDock, Qt::Vertical);
+    addDockWidget(Qt::LeftDockWidgetArea, messageDock, Qt::Vertical);
     messageDock->setWindowTitle(i18n("Messages"));
     messageDock->setObjectName("messageDock");
-    messageDock->setAllowedAreas(Qt::TopDockWidgetArea);
+    messageDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     messageDock->setWidget(new QTextEdit(messageDock));
     layout()->setAlignment(messageDock, Qt::AlignBottom);
 
@@ -206,20 +184,18 @@ void MainWindow::setupDocks()
     addDockWidget(Qt::RightDockWidgetArea, propertiesDock); //, Qt::Horizontal);
     propertiesDock->setWindowTitle(i18n("Properties"));
     propertiesDock->setObjectName("propertiesDock");
-    propertiesDock->setAllowedAreas(Qt::TopDockWidgetArea);
-    m_propertyWidgetScrollarea = new QScrollArea(propertiesDock);
-    propertiesDock->setWidget(m_propertyWidgetScrollarea);
+    propertiesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    m_propertyWidget = new Gluon::Creator::PropertyWidget(this);
+    propertiesDock->setWidget(m_propertyWidget);
     layout()->setAlignment(propertiesDock, Qt::AlignRight);
     
     QDockWidget* componentDock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, componentDock); //, Qt::Vertical);
     componentDock->setWindowTitle(i18n("Components"));
     componentDock->setObjectName("compoentDock");
-    componentDock->setAllowedAreas(Qt::TopDockWidgetArea);
-    //messageDock->setWidget(new QTextEdit(comDock));*/
-    //this->
-    //this->layout()->
-
-    setTabPosition(Qt::TopDockWidgetArea, QTabWidget::North);
+    componentDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    
+    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
+    setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);
     
 }
