@@ -20,7 +20,7 @@
 #ifndef GLUON_GLUONOBJECTFACTORY_H
 #define GLUON_GLUONOBJECTFACTORY_H
 
-#include <gluon/common/ksingleton.h>
+#include <common/ksingleton.h>
 #include <QSharedData>
 #include <QHash>
 
