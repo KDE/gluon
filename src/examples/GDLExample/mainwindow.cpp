@@ -39,6 +39,7 @@
 #include <qlistview.h>
 #include <gluon/kgl/kglview.h>
 
+ #include <QMessageBox>
 
 MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
@@ -73,6 +74,11 @@ void MainWindow::openProject()
         if(objects.isEmpty())
         {
             // Tell the user this is not proper GDL and then break out
+            //QMessageBox::warning ( this , "Loading Error" , "Layer 8 Problem, RTFM Module" ,
+             //                                     "OK"  );
+            QMessageBox::warning ( this , "Loading Error" , "not a proper GDL file" ,
+                                  "OK"  );
+            newMessage( "Project loading faild");
             return;
         }
         
