@@ -1,4 +1,4 @@
-PROJECT(gdlexample)
+PROJECT(gluoncreator)
 
 find_package(KDE4 REQUIRED)
 find_package(Gluon REQUIRED)
@@ -9,7 +9,7 @@ include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
-set(gdlexample_SRCS
+set(gluoncreator_SRCS
     propertywidgetitem.cpp
     propertywidget.cpp
     main.cpp
@@ -18,5 +18,5 @@ set(gdlexample_SRCS
     qobjecttreemodel.cpp
 )
 
-kde4_add_executable(gdlexample ${gdlexample_SRCS})
-target_link_libraries(gdlexample ${GLUON_LIBRARY})
+kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
+target_link_libraries(gluoncreator ${GLUON_LIBRARY})
