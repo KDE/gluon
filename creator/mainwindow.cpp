@@ -41,6 +41,8 @@
 
  #include <QMessageBox>
 
+using namespace Gluon::Creator;
+
 MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
 {

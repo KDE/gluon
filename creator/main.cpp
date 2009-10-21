@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
     KApplication app;
 
-    MainWindow* main = new MainWindow;
+    Gluon::Creator::MainWindow* main = new Gluon::Creator::MainWindow;
     main->show();
 
     app.exec();

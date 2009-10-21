@@ -19,6 +19,8 @@
 #include <typeinfo>
 #include <gluon/gluonobject.h>
 
+using namespace Gluon::Creator;
+
 QObjectTreeModel::QObjectTreeModel(QObject* root, QObject* parent): QAbstractItemModel(parent)
 {
     m_root = new QObject(this);
