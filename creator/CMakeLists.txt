@@ -20,3 +20,6 @@ set(gluoncreator_SRCS
 
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
 target_link_libraries(gluoncreator ${GLUON_LIBRARY})
+
+install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
+install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
