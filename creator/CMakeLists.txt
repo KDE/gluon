@@ -10,12 +10,12 @@ include(KDE4Defaults)
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 set(gluoncreator_SRCS
-    propertywidgetitem.cpp
-    propertywidget.cpp
+    widgets/propertywidgetitem.cpp
+    widgets/propertywidget.cpp
     main.cpp
     mainwindow.cpp
-    gameobjecttreemodel.cpp
-    qobjecttreemodel.cpp
+    models/gameobjecttreemodel.cpp
+    models/qobjecttreemodel.cpp
 )
 
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})

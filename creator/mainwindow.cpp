@@ -32,9 +32,9 @@
 #include <QDebug>
 #include <QVariant>
 
-#include "propertywidget.h"
-#include "gameobjecttreemodel.h"
-#include "qobjecttreemodel.h"
+#include "widgets/propertywidget.h"
+#include "models/gameobjecttreemodel.h"
+#include "models/qobjecttreemodel.h"
 #include <klocalizedstring.h>
 #include <qlistview.h>
 #include <gluon/kgl/kglview.h>
