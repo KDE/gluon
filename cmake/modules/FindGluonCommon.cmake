@@ -20,10 +20,9 @@ endif (GluonCommon_FIND_REQUIRED)
 
 find_path(GLUONCOMMON_INCLUDE_DIR
     NAMES
-    common/ksingleton.h
+    gluon/common/ksingleton.h
     PATHS
     ${INCLUDE_INSTALL_DIR}
-    ${INCLUDE_INSTALL_DIR}/gluon
 )
 
 set(GLUONCOMMON_INCLUDES
