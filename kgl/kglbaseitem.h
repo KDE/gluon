@@ -269,6 +269,9 @@ private:
     QSizeF m_dim;
     unsigned int m_zindex;
     KGLPointList m_pointList;
+
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

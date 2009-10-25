@@ -58,6 +58,9 @@ class KGL_EXPORT KGLGridItem : public KGLItem
     private:
         QSizeF m_size;
         float m_tile;
+
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

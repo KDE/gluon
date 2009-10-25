@@ -218,6 +218,9 @@ private:
     b2Body *m_body;
     bool m_isMassFromShape;
     ShapeType m_shapeType;
+    
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

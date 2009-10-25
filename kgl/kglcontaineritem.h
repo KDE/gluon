@@ -56,6 +56,9 @@ class KGL_EXPORT KGLContainerItem: public KGLItem
 
     protected:
         KGLItemList m_children;
+
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

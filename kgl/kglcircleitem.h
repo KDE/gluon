@@ -39,6 +39,9 @@ class KGL_EXPORT KGLCircleItem : public KGLItem
     public:
         explicit KGLCircleItem(float radius, unsigned int nbPoints = 10, KGLEngine * parent=0);
         void setCircle(float radius, unsigned int nbPoints);
+        
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}
