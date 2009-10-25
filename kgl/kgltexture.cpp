@@ -22,6 +22,7 @@
 
 #include "kgltexture.h"
 #include <QDebug>
+#include <QtCore/QFile>
 
 void KGLTexture::init()
 {
@@ -42,6 +43,11 @@ KGLTexture::KGLTexture()
 KGLTexture::KGLTexture(const QString& fileName)
 {
     init();
+    
+    if (!QFile::exists(fileName)) {
+        qDebug() << "KGLTexture::KGLTexture: Texture file not found: " << fileName;
+        return;
+    }
     load(QImage(fileName));
 }
 
@@ -66,7 +72,7 @@ void KGLTexture::load(const QImage &img, int width, int height)
 {
     qDebug()<<"load texture";
     if (img.isNull()) {
-        qDebug()<<"cannot load Texture. QImage is emply";
+        qDebug()<<"cannot load Texture. QImage is empty";
         return;
     }
 
