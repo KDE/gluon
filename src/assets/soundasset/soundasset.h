@@ -22,6 +22,7 @@
 
 class SoundAsset : public Gluon::Asset
 {
+Q_OBJECT
 public:
     SoundAsset(QObject *parent = 0);
 

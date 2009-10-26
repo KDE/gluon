@@ -40,3 +40,5 @@ void SoundAsset::updateBuffer()
 
     m_buffer = new KALBuffer(file());
 }
+
+#include "soundasset.moc"
