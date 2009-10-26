@@ -33,38 +33,53 @@ void KCLDetectLinux::searchDevice()
             detect->addInput(temp);
             switch (temp->deviceType()) {
                 case KCL::KeyBoard:
-                    kDebug() << "Kesyboard found";
+                    qDebug() << "Kesyboard found";
                     detect->addKeyboard(temp);
                     break;
                     
                 case KCL::Mouse:
-                    kDebug() << "Mouse found";
+                    qDebug() << "Mouse found";
                     detect->addMouse(temp);
                     break;
                     
                 case KCL::Touchpad:
-                    kDebug() << "Touchpad found";
+                    qDebug() << "Touchpad found";
                     detect->addMouse(temp);
                     break;
                     
                 case KCL::Joystick:
-                    kDebug() << "Joystick found";
+                    qDebug() << "Joystick found";
                     detect->addJoystick(temp);
                     break;
                     
                 case KCL::Tablet:
-                    kDebug() << "Tablet found";
+                    qDebug() << "Tablet found";
                     detect->addTablet(temp);
                     break;
                     
                 case KCL::Unknown:
-                    kDebug() << "Unknown device found";
+                    qDebug() << "Unknown device found";
                     detect->addUnknown(temp);
                     break;
             }
         }
     }
-    detect->setAllEnable();
+    detect->setAllEnabled();
+}
+
+void KCLDetectLinux::setAllEnabled()
+{
+    qDebug() << "Enabling all devices";
+    foreach(KCLInput *input, this->getInputList()) {
+        input->setEnable();
+    }
+}
+
+void KCLDetectLinux::setAllDisabled()
+{
+    foreach(KCLInput *input, this->getInputList()) {
+        input->setDisable();
+    }
 }
 
 void KCLDetectLinux::clear()
@@ -76,3 +91,5 @@ void KCLDetectLinux::clear()
     m_tabletList.clear();
     m_unknownList.clear();
 }
+
+#include "kcldetectlinux.moc"

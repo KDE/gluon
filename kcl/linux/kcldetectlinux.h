@@ -21,6 +21,8 @@ private:
     
 public:
     void searchDevice();
+    void setAllEnabled();
+    void setAllDisabled();
     
     QList<KCLInput *> getInputList() {
         return m_inputList;

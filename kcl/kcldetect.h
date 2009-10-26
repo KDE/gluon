@@ -1,7 +1,7 @@
 #ifndef KCLDETECT_H
 #define KCLDETECT_H
 
-#include "kcldetectabstract.h"
+#include "common/kcldetectabstract.h"
 
 #include "kcl_export.h"
 

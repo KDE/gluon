@@ -16,3 +16,5 @@ QPoint KCLMouse::position()
     m_position += QPoint(relAxisValue(REL_X), relAxisValue(REL_Y));
     return (m_position+m_originalPosition)*m_sensibility;
 }
+
+#include "kclmouse.moc"

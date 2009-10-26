@@ -2,7 +2,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
-#include <QtCore/QDebug>;
+#include <QtCore/QDebug>
 
 #ifdef linux
 #include "kcldetectlinux.h"

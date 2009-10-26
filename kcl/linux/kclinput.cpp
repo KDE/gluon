@@ -235,3 +235,5 @@ void KCLInput::setDisable()
         delete inputListener;
     }
 }
+
+#include "kclinput.moc"

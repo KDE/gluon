@@ -40,3 +40,5 @@ bool KCLThread::openDevice(const QString& devicePath)
     }
     return true;
 }
+
+#include "kclthread.moc"

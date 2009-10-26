@@ -1,5 +1,7 @@
 
 #include "kclinputwidget.h"
+#include "kclcode.h"
+#include "linux/kclinputevent.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHeaderView>

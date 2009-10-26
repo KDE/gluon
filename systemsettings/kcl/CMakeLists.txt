@@ -3,7 +3,16 @@
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(../../)
+
+if(WIN32)
+    include_directories(../../kcl/win/)
+elseif(APPLE)
+    include_directories(../../kcl/mac/)
+else()
+    include_directories(../../kcl/linux/)
+endif()
+include_directories(../../ ../../kcl/)
+
 set(kcm_kcl_PART_SRCS 
   kcmkcl.cpp
 )

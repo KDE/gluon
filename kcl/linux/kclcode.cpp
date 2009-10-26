@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 const char *KCL_CODE_EVENT[EV_MAX + 1] = { "Reset", "Key", "Relative", "Absolute", "MSC", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                                            NULL, NULL, NULL, "LED", "Sound", NULL, "Repeat", "ForceFeedback", "Power", "ForceFeedbackStatus"
                                        };
@@ -136,42 +135,52 @@ const char *KCL_CODE_ABSOLU[ABS_MAX + 1] = { "X", "Y", "Z", "Rx",  "Ry", "Rz", "
                                                                      /* 0x28: */ "Misc"
                                                                              };
 
-QString KCLCode::buttonName(int code)
+QString
+KCLCode::buttonName(int code)
 {
     return QString(KCL_CODE_BUTTON[code]);
 }
 
-QString KCLCode::relAxisName(int code)
+QString
+KCLCode::relAxisName(int code)
 {
     return QString(KCL_CODE_RELATIV[code]);
 }
-QString KCLCode::absAxisName(int code)
+
+QString
+KCLCode::absAxisName(int code)
 {
     return QString(KCL_CODE_ABSOLU[code]);
 }
-KIcon KCLCode::iconDevice(KCL::DeviceFlag device)
+
+QIcon
+KCLCode::iconDevice(KCL::DeviceFlag device)
 {
-    KIcon icon;
+    QIcon icon;
     switch ( device)
     {
-
-    case KCL::KeyBoard :icon = KIcon("input-keyboard");
+    case KCL::KeyBoard:
+        icon = QIcon("input-keyboard");
         break;
-    case KCL::Mouse:icon = KIcon("input-mouse.png");
+    case KCL::Mouse:
+        icon = QIcon("input-mouse.png");
         break;
-    case KCL::Touchpad:icon = KIcon("input-mouse.png");
+    case KCL::Touchpad:
+        icon = QIcon("input-mouse.png");
         break;
-    case KCL::Joystick:icon =  KIcon("input-gaming.png");
+    case KCL::Joystick:
+        icon =  QIcon("input-gaming.png");
         break;
-    case KCL::Tablet : icon = KIcon("input-tablet.png");
+    case KCL::Tablet:
+        icon = QIcon("input-tablet.png");
         break;
-    case KCL::Unknown : icon = KIcon("system-help.png");
+    case KCL::Unknown:
+        icon = QIcon("system-help.png");
         break;
-            default :icon =KIcon("document.png");
-            break;
-        }
+    default:
+        icon =QIcon("document.png");
+        break;
+    }
 
     return icon;
 }
-
-
