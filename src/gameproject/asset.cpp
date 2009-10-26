@@ -18,26 +18,26 @@
 */
 
 #include "asset.h"
-#include "assetprivate.h"
 
 using namespace Gluon;
 
 REGISTER_OBJECTTYPE(Asset)
 
-Asset::Asset(QObject * parent)
+class Gluon::AssetPrivate
+{
+public:
+    QString file;
+};
+
+Asset::Asset(QObject *parent)
     : GluonObject(parent)
 {
     d = new AssetPrivate;
 }
 
-Asset::Asset(const Asset &other, QObject * parent)
-    : GluonObject(parent)
-    , d(other.d)
-{
-}
-
 Asset::~Asset()
 {
+    delete d;
 }
 
 GluonObject* Asset::instantiate()
