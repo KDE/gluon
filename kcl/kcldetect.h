@@ -66,18 +66,6 @@ public:
 private:
     static KCLDetectAbstract * m_instance;
     static void init();
-    
-/*#ifdef _LINUX_
-    static  KCLDetectLinux *m_instance;
-#endif
-    
-#ifdef _APPLE_
-    static  KCLDetectMac *m_instance;
-#endif
-    
-#ifdef _WIN32
-    static  KCLDetectWin *m_instance;
-#endif*/
 };
 
 #endif

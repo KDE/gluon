@@ -6,9 +6,10 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHeaderView>
 
-#ifdef __LINUX__
+#ifdef Q_WS_X11
 #include <KTitleWidget>
 #include <KLocale>
+#include <KIcon>
 #endif
 
 KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
@@ -17,20 +18,20 @@ KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
     m_input=input;
     m_tableWidget=new QTableWidget;
     QVBoxLayout * layout = new QVBoxLayout;
-#ifdef __LINUX__
+/*#ifdef Q_WS_X11
     KTitleWidget * title = new KTitleWidget;
     title->setText(m_input->deviceName());
     title->setComment(m_input->devicePath());
     title->setPixmap(KIcon(KCLCode::iconDevice(m_input->deviceType())).pixmap(64,64));
 
     layout->addWidget(title);
-#endif
+#endif*/
     layout->addWidget(m_tableWidget);
     setLayout(layout);
     setupTable();
     connect(m_input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
-#ifdef __LINUX__    
-    setWindowIcon(KIcon(KCLCode::iconDevice(m_input->deviceType())));
+#ifdef Q_WS_X11    
+    setWindowIcon(QIcon(KCLCode::iconDevice(m_input->deviceType())));
 #endif
     setWindowTitle(tr("input seetings"));
 }

@@ -10,9 +10,10 @@
 #include <QtGui/QApplication>
 #include <QtCore/QDebug>
 
-#ifdef __LINUX__
+#ifdef Q_WS_X11
 #include <KLocale>
 #include <KTitleWidget>
+#include <KIcon>
 #endif
 
 KCLCustomInputDialog::KCLCustomInputDialog( QWidget * parent)
@@ -58,7 +59,7 @@ void KCLCustomInputDialog::setupTab()
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
             item->setText(0,name);
             item->setText(1,KCLCode::buttonName(input->codeAt(name,KCL::Key)));
-#ifdef __LINUX__
+#ifdef Q_WS_X11
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::Key)->deviceType()));
 #endif
             item->setText(2,input->inputAt(name,KCL::Key)->deviceName());
@@ -71,7 +72,7 @@ void KCLCustomInputDialog::setupTab()
 
             item->setText(0,name);
             item->setText(1,KCLCode::absAxisName(input->codeAt(name,KCL::AbsoluAxis)));
-#ifdef __LINUX__
+#ifdef Q_WS_X11
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::AbsoluAxis)->deviceType()));
 #endif
             item->setText(2,input->inputAt(name,KCL::AbsoluAxis)->deviceName());
@@ -84,7 +85,7 @@ void KCLCustomInputDialog::setupTab()
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
             item->setText(0,name);
             item->setText(1,KCLCode::relAxisName(input->codeAt(name,KCL::RelativeAxis)));
-#ifdef __LINUX__
+#ifdef Q_WS_X11
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::RelativeAxis)->deviceType()));
 #endif
             item->setText(2,input->inputAt(name,KCL::RelativeAxis)->deviceName());
@@ -107,14 +108,14 @@ void KCLCustomInputDialog::changeItem(QTreeWidgetItem * item,int col)
 
     QWidget *main = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout;
-#ifdef __LINUX__
+/*#ifdef Q_WS_X11
     dialog->setButtons(QDialog::None);
     //
     KTitleWidget *title = new KTitleWidget(dialog);
     title->setPixmap(KIcon("configure.png"));
 
     title->setText("Press or move anything from any device");
-#endif
+#endif*/
     
     KCLPressButton * button = new KCLPressButton;
 
@@ -127,14 +128,11 @@ void KCLCustomInputDialog::changeItem(QTreeWidgetItem * item,int col)
     if ( input->relAxisNameList().contains(item->text(0)))
         button->setRelAxisDetect(true);
 
-#ifdef __LINUX__
+/*#ifdef Q_WS_X11
     layout->addWidget(title);
-#endif
+#endif*/
     layout->addWidget(button);
     main->setLayout(layout);
-#ifdef __LINUX__
-    dialog->setMainWidget(main);
-#endif
     setEnabled(false);
     button->startDetection();
     connect(button,SIGNAL(changed()),dialog,SLOT(accept()));

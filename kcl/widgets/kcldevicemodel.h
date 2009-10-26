@@ -3,10 +3,6 @@
 
 #include "../kcldetect.h"
 
-#ifdef __LINUX__
-#include <KIcon>
-#endif
-
 #include <QtGui/QStandardItemModel>
 
 /**

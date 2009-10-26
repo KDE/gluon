@@ -1,10 +1,6 @@
 #include "kcldevicemodel.h"
 #include "kclcode.h"
 
-/*#ifdef __LINUX__
-#include <KIcon>
-#endif*/
-
 #include <QtGui/QIcon>
 #include <QtCore/QDebug>
 

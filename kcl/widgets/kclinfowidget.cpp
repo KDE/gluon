@@ -14,6 +14,8 @@
 #include <QtGui/QStackedWidget>
 #include <QtGui/QComboBox>
 
+#include "kclcode.h"
+
 KCLInfoWidget::KCLInfoWidget(QWidget *parent)
         : QWidget(parent)
 {
@@ -38,7 +40,7 @@ void KCLInfoWidget::setupPreview()
     foreach ( KCLInput * input, KCLDetect::inputList())
     {
         KCLInputWidget * w = new KCLInputWidget(input);
-    #ifdef __LINUX__
+    #ifdef Q_WS_X11
         combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
     #endif
         widget->addWidget(w);
