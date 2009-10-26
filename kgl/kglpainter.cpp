@@ -172,3 +172,5 @@ void KGLPainter::drawPolygon(const QPolygonF & polygon){
     draw(GL_POLYGON);
 
 }
+
+#include "kglpainter.cpp"

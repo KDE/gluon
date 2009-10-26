@@ -75,9 +75,7 @@ target_link_libraries(kgl
                       ${GLEW_LIBRARY}
                       Box2D)
 
-if(APPLE)
 target_link_libraries(kgl ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
-endif()
 
 #Only link X11 if we are actually using X11
 if(Q_WS_X11)

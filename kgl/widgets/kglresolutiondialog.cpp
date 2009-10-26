@@ -15,8 +15,8 @@
 */
 
 #include "kglresolutiondialog.h"
-#include <KGL/kglscreen.h>
-#include <KGL/kgldisplay.h>
+#include <kgl/kglscreen.h>
+#include <kgl/kgldisplay.h>
 #include <QtGui/QComboBox>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
@@ -40,9 +40,9 @@ KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): QDialog(parent)
   widget->setLayout(layout);
   
   //setMainWidget(widget);
-#ifdef Q_WS_X11
+/*#ifdef Q_WS_X11
   setButtons(Ok | Cancel);
-#endif
+#endif*/
 }
 
 KGLResolution KGLResolutionDialog::selectedResolution() const
@@ -50,4 +50,4 @@ KGLResolution KGLResolutionDialog::selectedResolution() const
   return m_resolutions.at(m_resolutionComboBox->currentIndex());
 }
 
-
+#include "kglresolutiondialog.moc"
