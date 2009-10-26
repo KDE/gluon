@@ -49,3 +49,5 @@ m_dim=size;
 createBox(size);
 recreate();
 }
+
+#include "kglboxitem.moc"

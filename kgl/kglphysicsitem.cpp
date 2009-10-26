@@ -105,3 +105,5 @@ b2Body* KGLPhysicsItem::body()
         return NULL;
     }
 }
+
+#include "kglphysicsitem.moc"

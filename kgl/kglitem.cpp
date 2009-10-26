@@ -251,3 +251,5 @@ void KGLItem::drawCenter()
     glColor3f(100, 100, 100);
     glPointSize(1);
 }
+
+#include "kglitem.moc"

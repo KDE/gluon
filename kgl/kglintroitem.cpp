@@ -52,4 +52,4 @@ void KGLIntroItem::anim(int id)
   m_item->updateTransform();
 }
 
-
+#include "kglintroitem.moc"

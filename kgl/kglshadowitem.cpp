@@ -88,3 +88,5 @@ void KGLShadowItem::setNbFrame(float d)
         m_listItem.append(item);
     }
 }
+
+#include "kglshadowitem.moc"

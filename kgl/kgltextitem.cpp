@@ -116,5 +116,4 @@ bool KGLTextItem::initTexture()
     return true;
 }
 
-
-
+#include "kgltextitem.moc"
