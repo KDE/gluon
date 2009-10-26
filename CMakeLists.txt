@@ -29,10 +29,10 @@ find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 ENDIF(NOT WIN32 AND NOT APPLE)
 
-IF(CMAKE_SYSTEM_NAME EQUAL "Linux")
+IF(NOT WIN32 AND NOT APPLE)
 include(KDE4Defaults)
 include_directories(${KDE4_INCLUDES})
-ENDIF(CMAKE_SYSTEM_NAME EQUAL "Linux")
+ENDIF()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${OPENAL_INCLUDE_DIR})
