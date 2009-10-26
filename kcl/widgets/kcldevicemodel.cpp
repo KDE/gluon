@@ -50,10 +50,10 @@ void KCLDeviceModel::setupList()
         }
 
         appendRow(deviceItem);
-#ifdef __LINUX__
+#ifdef Q_WS_X11
         QStandardItem *info = new QStandardItem(QIcon("help-about.png"), input->devicePath());
 #else
-       QStandardItem *info = new QStandardItem(QIcon("help-about.png"), "i'm a mac :D");
+        QStandardItem *info = new QStandardItem(QIcon("help-about.png"), "i'm a mac :D");
 #endif
         info->appendRow(new QStandardItem("Bus Type:" + QString::number(input->bustype())));
         info->appendRow(new QStandardItem("Product:" + QString::number(input->product())));

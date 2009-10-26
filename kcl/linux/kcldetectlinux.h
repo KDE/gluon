@@ -7,19 +7,19 @@
 #include "kclkeyboard.h"
 #include "kclmouse.h"
 #include "kcltablet.h"
+#include "kcldetectabstract.h"
 
 #include <QObject>
 #include <QList>
 
-class KCL_EXPORT KCLDetectLinux : public QObject
+class KCL_EXPORT KCLDetectLinux : public KCLDetectAbstract
 {
     Q_OBJECT
     
-private:
+public:
     KCLDetectLinux(QObject * parent);
     ~KCLDetectLinux();
     
-public:
     void searchDevice();
     void setAllEnabled();
     void setAllDisabled();

@@ -6,7 +6,7 @@
 
 
 KCLDetectLinux::KCLDetectLinux(QObject * parent)
-: QObject(parent)
+: KCLDetectAbstract(parent)
 {
 }
 

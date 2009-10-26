@@ -4,15 +4,15 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
-#ifdef linux
+#ifdef Q_WS_X11
 #include "kcldetectlinux.h"
 #endif
 
-#ifdef __APPLE__
+#ifdef Q_WS_MAC
 #include "kcldetectmac.h"
 #endif
 
-#ifdef _WIN32
+#ifdef Q_WS_WIN
 #include "kcldetectwin.h"
 #endif
 
@@ -42,23 +42,28 @@ void KCLDetect::init()
             qDebug() << "No QCoreApplication instance found, the KCLDetect instance may be leaked when leaving";
         }
         
-#ifdef linux
+#ifdef Q_WS_X11
         qDebug() << "Creating instance: Linux";
         m_instance = new KCLDetectLinux(parent);
 #endif
         
-#ifdef __APPLE__
+#ifdef Q_WS_MAC
         qDebug() << "Creating instance: Mac";
         KCLDetectMac* k = new KCLDetectMac(parent);
         m_instance =(KCLDetectAbstract*)k;
 #endif
         
-#ifdef _WIN32
+#ifdef Q_WS_WIN
         qDebug() << "Creating instance: Win";
         m_instance = new KCLDetectWin(parent);
 #endif
-        qDebug() << "Instance created, searching devices";
-        m_instance->searchDevice();
+        if(m_instance)
+        {
+            qDebug() << "Instance created, searching devices";
+            m_instance->searchDevice();
+        }
+        else
+            qDebug() << "Instance not created, fail!";
     }
 }
 
