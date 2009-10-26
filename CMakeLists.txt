@@ -10,9 +10,9 @@ find_library(IOKIT_LIBRARY NAMES IOKit)
 find_library(COREFOUNDATION_LIBRARY NAMES CoreFoundation)
 endif()
 
-IF(CMAKE_SYSTEM_NAME EQUAL "Linux")
+IF(NOT WIN32 AND NOT APPLE)
 find_package(KDE4 REQUIRED)
-ENDIF(CMAKE_SYSTEM_NAME EQUAL "Linux")
+ENDIF()
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
