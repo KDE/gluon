@@ -38,21 +38,10 @@ void KCLInfoWidget::setupPreview()
     foreach ( KCLInput * input, KCLDetect::inputList())
     {
         KCLInputWidget * w = new KCLInputWidget(input);
+    #ifdef __LINUX__
         combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
+    #endif
         widget->addWidget(w);
-    }
-
-QStackedWidget * widget = new QStackedWidget;
-QComboBox * combo = new QComboBox;
-
-
-foreach ( KCLInput * input, KCLDetect::inputList())
-{
-    KCLInputWidget * w = new KCLInputWidget(input);
-#ifdef __LINUX__
-    combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
-#endif
-    widget->addWidget(w);
 
 }
 

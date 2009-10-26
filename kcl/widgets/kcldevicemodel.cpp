@@ -17,7 +17,7 @@ KCLDeviceModel::KCLDeviceModel(QObject *parent)
 {
     setColumnCount(2);
     setupList();
-    setHorizontalHeaderItem(0, new QStandardItem(i18n("Devices")));
+    setHorizontalHeaderItem(0, new QStandardItem(tr("Devices")));
 }
 
 void KCLDeviceModel::setupList()
@@ -60,17 +60,17 @@ void KCLDeviceModel::setupList()
         info->appendRow(new QStandardItem("Vendor:" + QString::number(input->vendor())));
         deviceItem->appendRow(info);
 
-        QStandardItem *button = new QStandardItem(i18n("Button"));
+        QStandardItem *button = new QStandardItem(tr("Button"));
         foreach(int code, input->buttonCapabilities()) {
             button->appendRow(new QStandardItem(KCLCode::buttonName(code)));
         }
 
-        QStandardItem *absAxis = new QStandardItem(i18n("Absolute axis"));
+        QStandardItem *absAxis = new QStandardItem(tr("Absolute axis"));
         foreach(int code, input->absAxisCapabilities()) {
             absAxis->appendRow(new QStandardItem(KCLCode::absAxisName(code)));
         }
 
-        QStandardItem *relAxis = new QStandardItem(i18n("Relative axis"));
+        QStandardItem *relAxis = new QStandardItem(tr("Relative axis"));
         foreach(int code, input->relAxisCapabilities()) {
             relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
         }

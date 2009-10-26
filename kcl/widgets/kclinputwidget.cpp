@@ -50,8 +50,8 @@ void KCLInputWidget::setupTable()
     int row = 0;
     if (m_input->buttonCapabilities().size() > 0)
     {
-        m_tableWidget->setItem(row,0,new QTableWidgetItem(i18n("Button")));
-        m_tableWidget->setItem(row,1,new QTableWidgetItem(i18n("?")));
+        m_tableWidget->setItem(row,0,new QTableWidgetItem(tr("Button")));
+        m_tableWidget->setItem(row,1,new QTableWidgetItem(tr("?")));
         row++;
     }
 
