@@ -21,13 +21,13 @@
  */
 
 #include "kglintroitem.h"
-#include <KDebug>
-#include <KIcon>
+#include <QtCore/QDebug>
+#include <QtGui/QIcon>
 KGLIntroItem::KGLIntroItem(KGLEngine* parent)
     : KGLItem(parent)
 {
 
-    m_item = new KGLPixmapItem(KIcon("gluon.png").pixmap(256,256));
+    m_item = new KGLPixmapItem(QIcon("gluon.png").pixmap(256,256));
 
     m_shadow = new KGLShadowItem(m_item);
     m_shadow->enable(true);

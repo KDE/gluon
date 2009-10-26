@@ -23,7 +23,7 @@
 
 #include "kglphysicsitem.h"
 
-#include <KDebug>
+#include <QtCore/QDebug>
 
 KGLPhysicsEngine::KGLPhysicsEngine(QObject * parent)
     : KGLEngine(parent)
@@ -66,7 +66,7 @@ void KGLPhysicsEngine::mainLoop(float fps)
 
 void KGLPhysicsEngine::addItem(KGLPhysicsItem *  item)
 {
-    kDebug()<<"added OK";
+    qDebug()<<"added OK";
     d->m_list.append(item);
     KGLEngine::addItem(item);
     item->setup(d->m_world);

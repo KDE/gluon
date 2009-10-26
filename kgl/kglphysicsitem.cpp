@@ -41,7 +41,7 @@ void KGLPhysicsItem::createShape()
     {
         if ( polygon().size() > 8)
         {
-            kDebug()<<"Error! Cannot build a physics polygon with more 8 vertex...";
+            qDebug()<<"Error! Cannot build a physics polygon with more 8 vertex...";
             return;
         }
         m_polygonDef.vertexCount = polygon().size();

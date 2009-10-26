@@ -19,7 +19,7 @@
  */
 
 #include "kglgriditem.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 
 KGLGridItem::KGLGridItem(const QSizeF &size, float tile, KGLEngine * parent)
     : KGLItem(parent)

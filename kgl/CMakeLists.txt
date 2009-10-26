@@ -70,11 +70,14 @@ include_directories(${GLEW_INCLUDE_DIR}/..)
 
 target_link_libraries(kgl
                       ${QT_QTOPENGL_LIBRARY}
-                      ${KDE4_KDEUI_LIBS}
                       ${OPENGL_gl_LIBRARY}
                       ${OPENGL_glu_LIBRARY}
                       ${GLEW_LIBRARY}
                       Box2D)
+
+if(APPLE)
+target_link_libraries(kgl ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+endif()
 
 #Only link X11 if we are actually using X11
 if(Q_WS_X11)

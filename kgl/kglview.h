@@ -22,7 +22,7 @@
 #define KGLVIEW_H
 
 #include <QtCore/QDebug>
-#include <QGLWidget>
+#include <QtOpenGL/QGLWidget>
 #include <QtCore/QTimer>
 #include <QtGui/QDialog>
 

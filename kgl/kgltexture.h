@@ -21,16 +21,19 @@
 #ifndef KGLTEXTURE_H
 #define KGLTEXTURE_H
 
+#include "kgl_export.h"
+
 #ifdef Q_WS_X11
 #include <GL/gl.h>
 #endif
+
 #ifdef Q_WS_MAC
 #include <OpenGL/gl.h>
 #endif
+
 #include <QtGui/QPixmap>
 #include <QtGui/QImage>
 
-#include "kgl_export.h"
 /**
  * \defgroup KGL KGL
  */
