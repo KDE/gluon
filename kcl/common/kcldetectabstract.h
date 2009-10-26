@@ -19,8 +19,8 @@ public:
     KCLDetectAbstract(QObject * parent = 0);
     
     virtual void searchDevice() = 0;
-    virtual void setAllEnable() = 0;
-    virtual void setAllDisable() = 0;
+    virtual void setAllEnabled() = 0;
+    virtual void setAllDisabled() = 0;
     
     virtual QList<KCLInput *> getInputList() = 0;    
     virtual QList<KCLKeyBoard *> getKeyboardList() = 0;

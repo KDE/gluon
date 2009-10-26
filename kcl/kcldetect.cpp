@@ -77,13 +77,13 @@ void KCLDetect::searchDevice()
 void KCLDetect::setAllEnable()
 {
     init();
-    m_instance->setAllEnable();
+    m_instance->setAllEnabled();
 }
 
 void KCLDetect::setAllDisable()
 {
     init();
-    m_instance->setAllDisable();
+    m_instance->setAllDisabled();
 }   
 
 unsigned int KCLDetect::deviceCount() 
