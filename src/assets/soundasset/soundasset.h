@@ -20,7 +20,9 @@
 #include "asset.h"
 #include "kal/kalbuffer.h"
 
-class SoundAsset : public Gluon::Asset
+namespace Gluon {
+
+class SoundAsset : public Asset
 {
 Q_OBJECT
 public:
@@ -39,4 +41,5 @@ private:
     KALBuffer *m_buffer;
 };
 
+}
 #endif // SOUNDASSET_H

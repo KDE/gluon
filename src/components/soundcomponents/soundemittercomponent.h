@@ -17,15 +17,18 @@
 #ifndef GLUON_SOUNDEMITTERCOMPONENT_H
 #define GLUON_SOUNDEMITTERCOMPONENT_H
 
-#include <gluon/component.h>
+#include "gluon/component.h"
 
+class KALSound;
 
 namespace Gluon
 {
+class SoundAsset;
 
-class SoundEmitterComponent : public Gluon::Component
+class SoundEmitterComponent : public Component
 {
     Q_OBJECT
+    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
 
 public:
     SoundEmitterComponent(QObject *parent = 0);
@@ -33,8 +36,16 @@ public:
 
     virtual GluonObject *instantiate();
 
+    SoundAsset *sound() {
+        return m_soundAsset;
+    }
+
+    void setSound(SoundAsset *asset);
+
 private:
     virtual void Update(int elapsedMilliseconds);
+    KALSound *m_sound;
+    SoundAsset *m_soundAsset;
 };
 
 }

@@ -16,6 +16,9 @@
 
 #include "soundemittercomponent.h"
 
+#include "kal/kalsound.h"
+#include "assets/soundasset/soundasset.h"
+
 #include <QtCore/QDebug>
 
 using namespace Gluon;
@@ -23,7 +26,8 @@ using namespace Gluon;
 REGISTER_OBJECTTYPE(SoundEmitterComponent)
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
-    : Component(parent)
+    : Component(parent),
+      m_sound(0)
 {
 }
 
@@ -35,6 +39,16 @@ SoundEmitterComponent::SoundEmitterComponent(const Gluon::SoundEmitterComponent 
 GluonObject *SoundEmitterComponent::instantiate()
 {
     return new SoundEmitterComponent(this);
+}
+
+void SoundEmitterComponent::setSound(SoundAsset *asset)
+{
+    m_soundAsset = asset;
+
+    if (m_sound) {
+        delete m_sound;
+    }
+    m_sound = new KALSound(m_soundAsset->buffer());
 }
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
