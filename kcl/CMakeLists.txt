@@ -65,7 +65,7 @@ set(kcl_LIB_SRCS_LINUX
 ./linux/kclkeyboard.cpp
 ./linux/kcljoystick.cpp
 ./linux/kclcode.cpp
-./linux/kcldetect.cpp
+./linux/kcldetectlinux.cpp
 ./linux/kclcustominput.cpp
 
 )
@@ -82,7 +82,7 @@ set(kcl_LIB_HEADERS_LINUX
 ./linux/kclkeyboard.h
 ./linux/kcljoystick.h
 ./linux/kclcode.h
-./linux/kcldetect.h
+./linux/kcldetectlinux.h
 ./linux/kclcustominput.h
 
 )
