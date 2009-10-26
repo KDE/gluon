@@ -35,6 +35,10 @@
         file string(ball.png)
     }
     
+    { SoundAsset(BallSound)
+        file string(ball.wav)
+    }
+
     { GameObject(Ball)
         position vector3d(0;1;0)
 
@@ -43,6 +47,9 @@
         { SpriteRenderComponent(BallRenderer)
             sprite asset(root.BallSprite)
             size size(1;1)
+        }
+        { SoundEmitterComponent(BallSoundEmitter)
+            sound asset(root.BallSound)
         }
     }
 
