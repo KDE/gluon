@@ -46,7 +46,7 @@ const QString KCL_CODE_RELABS[] = {   "Misc",NULL,NULL,NULL,NULL,NULL,NULL,NULL,
                                     NULL,NULL,NULL,NULL,NULL,"Gas","Brake"/*191-197*/
 };
 
-QString KCLCode::keyboardButtonName(int code)
+QString KCLCode::buttonName(int code)
 {
     if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
     {
@@ -56,11 +56,6 @@ QString KCLCode::keyboardButtonName(int code)
     {
         return QString(KCL_CODE_BUTTON[code]);   
     }
-}
-
-QString KCLCode::buttonName(int code)
-{
-    return "Button " + QVariant(code).toString();
 }
 
 QString KCLCode::relAxisName(int code)

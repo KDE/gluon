@@ -9,7 +9,6 @@
 class KCL_EXPORT KCLCode
 {
 public:
-    static QString keyboardButtonName(int code);
     static QString buttonName(int code);
     static QString eventName(int code);
     static QString relAxisName(int code);
