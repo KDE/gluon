@@ -45,13 +45,13 @@ GluonObject* Asset::instantiate()
     return new Asset(this);
 }
 
-void Asset::setFile(const QUrl &newFile)
+void Asset::setFile(const QString &newFile)
 {
     d->file = newFile;
     emit dataChanged();
 }
 
-QUrl Asset::file() const
+QString Asset::file() const
 {
     return d->file;
 }
