@@ -1,24 +1,18 @@
 #include "kclinfowidget.h"
 
-#include "kclcode.h"
-#include "kcldetect.h"
-#include "kcldevicemodel.h"
-#include "kclinputwidget.h"
+#include <QtGui/QIcon>
+#include <QtGui/QMessageBox>
 
-#include <KIcon>
-#include <KMessageBox>
-#include <KPushButton>
-#include <KSeparator>
-#include <KLocale>
-#include <KTabWidget>
+#include <QtGui/QPushButton>
+//#include <QtGui/QSeparator>
+//#include <KLocale>
 
-#include <QGroupBox>
-#include <QLabel>
-#include <QProcess>
-#include <QVBoxLayout>
-#include <QStackedWidget>
-#include <QComboBox>
-#include <QTreeView>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtCore/QProcess>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QStackedWidget>
+#include <QtGui/QComboBox>
 
 KCLInfoWidget::KCLInfoWidget(QWidget *parent)
         : QWidget(parent)
@@ -27,9 +21,9 @@ KCLInfoWidget::KCLInfoWidget(QWidget *parent)
 
     m_information = new QWidget;
     m_preview = new QWidget;
-    KTabWidget *tab = new KTabWidget;
-    tab->addTab(m_preview, KIcon("run-build-configure.png"), i18n("Preview"));
-    tab->addTab(m_information, KIcon("run-build-file.png"), i18n("Information"));
+    QTabWidget *tab = new QTabWidget;
+    tab->addTab(m_preview, QIcon("run-build-configure.png"), "preview");
+    tab->addTab(m_information, QIcon("run-build-file.png"), "information");
     setupPreview();
     setupInformation();
     layout->addWidget(tab);
@@ -48,23 +42,39 @@ void KCLInfoWidget::setupPreview()
         widget->addWidget(w);
     }
 
-    connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
-    combo->setCurrentIndex(combo->count()-1);
-    QVBoxLayout * layout = new QVBoxLayout;
-    layout->addWidget(combo);
-    layout->addWidget(widget);
-    m_preview->setLayout(layout);
+QStackedWidget * widget = new QStackedWidget;
+QComboBox * combo = new QComboBox;
+
+
+foreach ( KCLInput * input, KCLDetect::inputList())
+{
+    KCLInputWidget * w = new KCLInputWidget(input);
+#ifdef __LINUX__
+    combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
+#endif
+    widget->addWidget(w);
+
+}
+
+connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
+combo->setCurrentIndex(combo->count()-1);
+QVBoxLayout * layout = new QVBoxLayout;
+layout->addWidget(combo);
+layout->addWidget(widget);
+widget->setCurrentIndex(1);
+m_preview->setLayout(layout);
+
 }
 
 void KCLInfoWidget::setupInformation()
 {
     QVBoxLayout *layout = new QVBoxLayout;
 
-    QLabel *info = new QLabel(i18n("Some Linux distributions forbid direct access \n to the input method used by KCL(evdev) as it can causes security-related issues\n"
+    QLabel *info = new QLabel(tr("Some Linux distributions forbid direct access \n to the input method used by KCL(evdev) as it can causes security-related issues\n"
                                     "If you are sure, you can allow direct access by clicking here."));
 
-    KPushButton *buttonAuthorizate = new KPushButton(KIcon("dialog-password.png"), i18n("Set permissions"));
-    KPushButton *buttonDetect = new KPushButton(KIcon("edit-find.png"), i18n("Detect devices"));
+    QPushButton *buttonAuthorizate = new QPushButton(QIcon("dialog-password.png"), "set permission");
+    QPushButton *buttonDetect = new QPushButton(QIcon("edit-find.png"), "Detect device");
 
     connect(buttonAuthorizate, SIGNAL(clicked()), this, SLOT(setAuthorization()));
     connect(buttonDetect, SIGNAL(clicked()), this, SLOT(detectDevice()));
@@ -88,9 +98,9 @@ void KCLInfoWidget::setAuthorization()
 {
     //TODO: Find a better way to do that(either via HAL, PolicyKit, or use X11 libs instead of evdev.
     if (QProcess::execute("kdesudo chmod -R a+rwx /dev/input/*")) {
-        KMessageBox::information(this, i18n("authorization success..."), i18n("success"));
+        QMessageBox::information(this, tr("authorization success..."), "success");
     } else {
-        KMessageBox::error(this, i18n("authorization failed..."), i18n("failed"));
+        QMessageBox::critical(this, tr("authorization failed..."), "failed");
     }
 }
 
@@ -99,3 +109,5 @@ void KCLInfoWidget::detectDevice()
     m_model->clear();
     m_model->setupList();
 }
+
+#include "kclinfowidget.moc"

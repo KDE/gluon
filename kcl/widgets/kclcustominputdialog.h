@@ -1,14 +1,18 @@
 #ifndef KCLCUSTOMINPUTWIDGET_H
 #define KCLCUSTOMINPUTWIDGET_H
 
-#include <QList>
-#include <KDialog>
+#include <QtGui/QWidget>
+#include <QtGui/QTabWidget>
+#include <QtCore/QList>
+#include <QtGui/QTreeWidget>
+#include <QtGui/QDialog>
 
-class KCLCustomInput;
-class QTabWidget;
-class QTreeWidgetItem;
+#include <QtGui/QTreeWidgetItem>
 
-class KCLCustomInputDialog : public KDialog
+#include "kclpressbutton.h"
+#include "kclcustominput.h"
+
+class KCLCustomInputDialog : public QDialog
 {
     Q_OBJECT
 public:

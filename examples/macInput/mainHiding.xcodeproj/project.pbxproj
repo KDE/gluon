@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		652F5F6A1071F927003F93DA /* kclcocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = 652F5F691071F927003F93DA /* kclcocoa.mm */; };
+		651002CF107B7FCD00A43C6A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651002CE107B7FCD00A43C6A /* IOKit.framework */; };
 		6542712910737A4F00B53F15 /* QtOpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6542712810737A4F00B53F15 /* QtOpenGL.framework */; };
 		656275401075FA1D00DDA620 /* QtGui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6562753F1075FA1D00DDA620 /* QtGui.framework */; };
+		65ECFAEA1079E5BE0043824F /* kclcocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65ECFAE91079E5BE0043824F /* kclcocoa.mm */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -22,12 +23,13 @@
 		29B97316FDCFA39411CA2CEA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		651002CE107B7FCD00A43C6A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		652F5F681071F927003F93DA /* kclcocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kclcocoa.h; sourceTree = "<group>"; };
-		652F5F691071F927003F93DA /* kclcocoa.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = kclcocoa.mm; sourceTree = "<group>"; };
 		652F5F8B1071FB3C003F93DA /* kclmain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kclmain.h; sourceTree = "<group>"; };
 		652F61CA107245D8003F93DA /* mainHiding_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = mainHiding_Prefix.pch; sourceTree = "<group>"; };
 		6542712810737A4F00B53F15 /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = /Library/Frameworks/QtOpenGL.framework; sourceTree = "<absolute>"; };
 		6562753F1075FA1D00DDA620 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
+		65ECFAE91079E5BE0043824F /* kclcocoa.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = kclcocoa.mm; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* mainHiding-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mainHiding-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* mainHiding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mainHiding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -40,6 +42,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				6542712910737A4F00B53F15 /* QtOpenGL.framework in Frameworks */,
 				656275401075FA1D00DDA620 /* QtGui.framework in Frameworks */,
+				651002CF107B7FCD00A43C6A /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,8 +52,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				65ECFAE91079E5BE0043824F /* kclcocoa.mm */,
 				652F5F681071F927003F93DA /* kclcocoa.h */,
-				652F5F691071F927003F93DA /* kclcocoa.mm */,
 				652F5F8B1071FB3C003F93DA /* kclmain.h */,
 			);
 			name = Classes;
@@ -92,6 +95,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				651002CE107B7FCD00A43C6A /* IOKit.framework */,
 			);
 			name = mainHiding;
 			sourceTree = "<group>";
@@ -178,7 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.cpp in Sources */,
-				652F5F6A1071F927003F93DA /* kclcocoa.mm in Sources */,
+				65ECFAEA1079E5BE0043824F /* kclcocoa.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,34 +1,36 @@
 
 #include "kclinputwidget.h"
 
-#include "kclcode.h"
-#include "kclinput.h"
-#include "kclinputevent.h"
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHeaderView>
 
-#include <QHeaderView>
-#include <QTableWidget>
-#include <QVBoxLayout>
+#ifdef __LINUX__
 #include <KTitleWidget>
 #include <KLocale>
+#endif
+
 KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
     :QWidget(parent)
 {
     m_input=input;
     m_tableWidget=new QTableWidget;
     QVBoxLayout * layout = new QVBoxLayout;
-
+#ifdef __LINUX__
     KTitleWidget * title = new KTitleWidget;
     title->setText(m_input->deviceName());
     title->setComment(m_input->devicePath());
     title->setPixmap(KIcon(KCLCode::iconDevice(m_input->deviceType())).pixmap(64,64));
 
     layout->addWidget(title);
+#endif
     layout->addWidget(m_tableWidget);
     setLayout(layout);
     setupTable();
     connect(m_input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
+#ifdef __LINUX__    
     setWindowIcon(KIcon(KCLCode::iconDevice(m_input->deviceType())));
-    setWindowTitle(i18n("Input Settings"));
+#endif
+    setWindowTitle(tr("input seetings"));
 }
 void KCLInputWidget::setupTable()
 {
@@ -124,13 +126,7 @@ void KCLInputWidget::inputEvent(KCLInputEvent * event)
         break;
 
     default :break;
-
-
-
-
+    }
 }
 
-
-
-
-}
+#include "kclinputwidget.moc"

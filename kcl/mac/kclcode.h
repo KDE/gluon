@@ -1,14 +1,10 @@
 #ifndef KCLCODE_H
 #define KCLCODE_H
 
-#include <QString>
-#include <KIcon>
+#include <QtCore/QString>
+#include <QtCore/QEvent>
 #include "kcl.h"
 #include "kcl_export.h"
-/**
- * \defgroup KCL KCL
- */
-//@{
 
 class KCL_EXPORT KCLCode
 {
@@ -17,10 +13,9 @@ public:
     static QString eventName(int code);
     static QString relAxisName(int code);
     static QString absAxisName(int code);
-    static KIcon iconDevice(KCL::DeviceFlag device);
 
-
+private:
+    
 };
 
-//@}
 #endif // KCLCODE_H

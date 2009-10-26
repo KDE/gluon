@@ -1,10 +1,10 @@
 #ifndef KCLPRESSBUTTON_H
 #define KCLPRESSBUTTON_H
 
-#include <QPushButton>
-
-class KCLInput;
-class KCLInputEvent;
+#include <QtGui/QPushButton>
+#include <QtGui/QMouseEvent>
+#include "kclinput.h"
+#include "../kcldetect.h"
 
 class KCLPressButton : public QPushButton
 {

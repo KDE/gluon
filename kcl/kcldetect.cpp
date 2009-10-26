@@ -1,11 +1,22 @@
 #include "kcldetect.h"
 
-#include <QDir>
 #include <QtCore/QCoreApplication>
-#include <QMessageBox>
+#include <QtGui/QMessageBox>
+#include <QtCore/QDebug>;
 
-KCLDetect *KCLDetect::m_instance = NULL;
+#ifdef linux
+#include "kcldetectlinux.h"
+#endif
 
+#ifdef __APPLE__
+#include "kcldetectmac.h"
+#endif
+
+#ifdef _WIN32
+#include "kcldetectwin.h"
+#endif
+
+KCLDetectAbstract * KCLDetect::m_instance = NULL;
 
 KCLDetect::KCLDetect(QObject * parent)
         : QObject(parent)
@@ -21,91 +32,162 @@ KCLDetect::~KCLDetect()
     //    }
 }
 
-KCLDetect *KCLDetect::instance()
+void KCLDetect::init()
 {
-    if (!m_instance) {
+    if (!m_instance) 
+    {
+        qDebug() << "Setting parent";
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KCLDetect instance may be leaked when leaving";
+            qDebug() << "No QCoreApplication instance found, the KCLDetect instance may be leaked when leaving";
         }
-        m_instance = new KCLDetect(parent);
+        
+#ifdef linux
+        qDebug() << "Creating instance: Linux";
+        m_instance = new KCLDetectLinux(parent);
+#endif
+        
+#ifdef __APPLE__
+        qDebug() << "Creating instance: Mac";
+        KCLDetectMac* k = new KCLDetectMac(parent);
+        m_instance =(KCLDetectAbstract*)k;
+#endif
+        
+#ifdef _WIN32
+        qDebug() << "Creating instance: Win";
+        m_instance = new KCLDetectWin(parent);
+#endif
+        qDebug() << "Instance created, searching devices";
         m_instance->searchDevice();
     }
-
-    return m_instance;
 }
 
 void KCLDetect::searchDevice()
-{
-    KCLDetect *detect = instance();
-    detect->clear();
-    QString path("/dev/input/by-path/");
-    QDir event(path);
-
-    foreach(const QString &name, event.entryList(QDir::Files)) {
-        KCLInput *temp = new KCLInput(path + name);
-        if (!temp->error()) {
-
-            detect->addInput(temp);
-            switch (temp->deviceType()) {
-            case KCL::KeyBoard:
-                kDebug() << "Keyboard found";
-                detect->addKeyboard(temp);
-                break;
-
-            case KCL::Mouse:
-                kDebug() << "Mouse found";
-                detect->addMouse(temp);
-                break;
-
-            case KCL::Touchpad:
-                kDebug() << "Touchpad found";
-                detect->addMouse(temp);
-                break;
-
-            case KCL::Joystick:
-                kDebug() << "Joystick found";
-                detect->addJoystick(temp);
-                break;
-
-            case KCL::Tablet:
-                kDebug() << "Tablet found";
-                detect->addTablet(temp);
-                break;
-
-            case KCL::Unknown:
-                kDebug() << "Unknown device found";
-                detect->addUnknown(temp);
-                break;
-            }
-        }
+{    
+    if(!m_instance)
+    {
+        init();
     }
-    detect->setAllEnable();
+    else
+    {
+        m_instance->searchDevice();
+    }
 }
 
 void KCLDetect::setAllEnable()
 {
-    foreach(KCLInput *input, instance()->inputList()) {
-        input->setEnable();
-    }
+    init();
+    m_instance->setAllEnable();
 }
 
 void KCLDetect::setAllDisable()
 {
-    foreach(KCLInput *input, instance()->inputList()) {
-        input->setDisable();
-    }
+    init();
+    m_instance->setAllDisable();
 }   
 
-void KCLDetect::clear()
+unsigned int KCLDetect::deviceCount() 
 {
-    m_inputList.clear();
-    m_keyboardList.clear();
-    m_mouseList.clear();
-    m_joystickList.clear();
-    m_tabletList.clear();
-    m_unknownList.clear();
+    qDebug() << "Checking if instance exists";
+    init();
+    qDebug() << "Accessing Inputlist";
+    return inputList().size();
 }
 
+unsigned int KCLDetect::keyboardCount() 
+{
+    init();
+    return m_instance->getKeyboardList().size();
+}
 
+unsigned int KCLDetect::mouseCount() 
+{
+    init();
+    return m_instance->getMouseList().size();
+}
 
+unsigned int KCLDetect::joystickCount() 
+{
+    init();
+    return m_instance->getJoystickList().size();
+}
+
+unsigned int KCLDetect::tabletCount() 
+{
+    init();
+    return m_instance->getTabletList().size();
+}
+
+unsigned int KCLDetect::unknownDeviceCount() 
+{
+    init();
+    return m_instance->getUnknownDeviceList().size();
+}
+
+QList<KCLKeyBoard*> KCLDetect::keyboardList() 
+{
+    init();
+    return m_instance->getKeyboardList();
+}
+
+QList<KCLMouse*> KCLDetect::mouseList()
+{
+    init();
+    return m_instance->getMouseList();
+}
+
+QList<KCLJoystick*> KCLDetect::joystickList()
+{
+    init();
+    return m_instance->getJoystickList();
+}
+
+QList<KCLTablet*> KCLDetect::tabletList() 
+{
+    init();
+    return m_instance->getTabletList();
+}
+
+QList<KCLInput*> KCLDetect::unknownDeviceList() 
+{
+    init();
+    return m_instance->getUnknownDeviceList();
+}
+
+KCLInputList KCLDetect::inputList() 
+{
+    init();
+    return m_instance->getInputList();
+}
+
+KCLKeyBoard* KCLDetect::keyboard(int id) 
+{
+    init();
+    return m_instance->getKeyboardList().at(id);
+}
+
+KCLMouse* KCLDetect::mouse(int id) 
+{
+    init();
+    return m_instance->getMouseList().at(id);
+}
+
+KCLJoystick* KCLDetect::joystick(int id) 
+{
+    init();
+    return m_instance->getJoystickList().at(id);
+}
+
+KCLTablet* KCLDetect::tablet(int id) 
+{
+    init();
+    return m_instance->getTabletList().at(id);
+}
+
+KCLInput* KCLDetect::input(int id) 
+{
+    init();
+    return m_instance->getInputList().at(id);
+}
+
+#include "kcldetect.moc"

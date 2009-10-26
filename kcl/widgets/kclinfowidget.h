@@ -1,7 +1,16 @@
 #ifndef KCLINFOWIDGET_H
 #define KCLINFOWIDGET_H
 
-#include <QWidget>
+#include "kcldevicemodel.h"
+#include "kclinputwidget.h"
+
+#include <QtGui/QTabWidget>
+//#include <KTitleWidget>
+
+#include <QtGui/QGraphicsView>
+#include <QtGui/QLabel>
+#include <QtGui/QTreeView>
+#include <QtGui/QWidget>
 
 class KCLDeviceModel;
 class QTreeView;

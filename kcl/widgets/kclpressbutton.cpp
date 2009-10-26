@@ -34,7 +34,9 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
             if ( event->type() == QEvent::Type(KCL::Key))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
+#ifdef __LINUX__
                 setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
+#endif                
                 setText(KCLCode::buttonName(event->code()));
                 m_detection = false;
                 setEnabled(true);
@@ -50,7 +52,9 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
             if ( event->type() == QEvent::Type(KCL::AbsoluAxis))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
+#ifdef __LINUX__
                 setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
+#endif
                 setText(KCLCode::absAxisName(event->code()) );
                 m_detection = false;
                 setEnabled(true);
@@ -66,7 +70,9 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
             if ( event->type() == QEvent::Type(KCL::RelativeAxis))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
+#ifdef __LINUX__
                 setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
+#endif
                 setText(KCLCode::relAxisName(event->code()));
                 m_detection = false;
                 setEnabled(true);
@@ -85,3 +91,5 @@ void KCLPressButton::startDetection()
 
 
 }
+
+#include "kclpressbutton.moc"

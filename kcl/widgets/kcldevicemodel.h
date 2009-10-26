@@ -1,7 +1,13 @@
 #ifndef KCLDEVICEMODEL_H
 #define KCLDEVICEMODEL_H
 
-#include <QStandardItemModel>
+#include "../kcldetect.h"
+
+#ifdef __LINUX__
+#include <KIcon>
+#endif
+
+#include <QtGui/QStandardItemModel>
 
 /**
  * \defgroup KCL KCL

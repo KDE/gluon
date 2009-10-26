@@ -5,21 +5,25 @@
 #include "kclinput.h"
 #include "kclpressbutton.h"
 
-#include <QTreeWidget>
-#include <QVBoxLayout>
-#include <QHeaderView>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QApplication>
+#include <QtCore/QDebug>
+
+#ifdef __LINUX__
 #include <KLocale>
 #include <KTitleWidget>
+#endif
 KCLCustomInputDialog::KCLCustomInputDialog( QWidget * parent)
-    :KDialog(parent)
+    :QDialog(parent)
 {
     m_tabWidget = new QTabWidget;
 
     QVBoxLayout * layout = new QVBoxLayout;
     layout->addWidget(m_tabWidget);
-    QWidget * main =new QWidget;
+    QWidget * main = new QWidget;
     main->setLayout(layout);
-    setMainWidget(main);
+    //setMainWidget(main);
 
 }
 void KCLCustomInputDialog::addCustomInput(KCLCustomInput * input)
@@ -39,9 +43,9 @@ void KCLCustomInputDialog::setupTab()
     {
         QTreeWidget * tree = new QTreeWidget;
         tree->setColumnCount(3);
-        tree->headerItem()->setText(0,i18n("action"));
-        tree->headerItem()->setText(1,i18n("code"));
-        tree->headerItem()->setText(2,i18n("device"));
+        tree->headerItem()->setText(0,tr("action"));
+        tree->headerItem()->setText(1,tr("code"));
+        tree->headerItem()->setText(2,tr("device"));
 
         tree->setRootIsDecorated(false);
         tree->setAlternatingRowColors(true);
@@ -53,7 +57,9 @@ void KCLCustomInputDialog::setupTab()
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
             item->setText(0,name);
             item->setText(1,KCLCode::buttonName(input->codeAt(name,KCL::Key)));
+#ifdef __LINUX__
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::Key)->deviceType()));
+#endif
             item->setText(2,input->inputAt(name,KCL::Key)->deviceName());
         }
 
@@ -64,7 +70,9 @@ void KCLCustomInputDialog::setupTab()
 
             item->setText(0,name);
             item->setText(1,KCLCode::absAxisName(input->codeAt(name,KCL::AbsoluAxis)));
+#ifdef __LINUX__
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::AbsoluAxis)->deviceType()));
+#endif
             item->setText(2,input->inputAt(name,KCL::AbsoluAxis)->deviceName());
         }
 
@@ -75,7 +83,9 @@ void KCLCustomInputDialog::setupTab()
             QTreeWidgetItem * item = new QTreeWidgetItem(tree);
             item->setText(0,name);
             item->setText(1,KCLCode::relAxisName(input->codeAt(name,KCL::RelativeAxis)));
+#ifdef __LINUX__
             item->setIcon(1,KCLCode::iconDevice(input->inputAt(name,KCL::RelativeAxis)->deviceType()));
+#endif
             item->setText(2,input->inputAt(name,KCL::RelativeAxis)->deviceName());
 
         }
@@ -86,22 +96,25 @@ void KCLCustomInputDialog::setupTab()
 }
 void KCLCustomInputDialog::changeItem(QTreeWidgetItem * item,int col)
 {
-    kDebug()<<"will change...";
+    qDebug()<<"will change...";
 
     QTreeWidget * tree = qobject_cast<QTreeWidget*>(sender());
     KCLCustomInput * input = m_inputList.at(m_tabWidget->currentIndex());
 
-    KDialog *dialog = new KDialog;
-    dialog->setCaption("Waiting...");
+    QDialog *dialog = new QDialog;
+    dialog->setWindowTitle("Waiting...");
 
     QWidget *main = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout;
-    dialog->setButtons(KDialog::None);
+#ifdef __LINUX__
+    dialog->setButtons(QDialog::None);
     //
     KTitleWidget *title = new KTitleWidget(dialog);
     title->setPixmap(KIcon("configure.png"));
-    title->setText("Press or move anything from any device");
 
+    title->setText("Press or move anything from any device");
+#endif
+    
     KCLPressButton * button = new KCLPressButton;
 
     if ( input->buttonNameList().contains(item->text(0)))
@@ -113,18 +126,21 @@ void KCLCustomInputDialog::changeItem(QTreeWidgetItem * item,int col)
     if ( input->relAxisNameList().contains(item->text(0)))
         button->setRelAxisDetect(true);
 
-
+#ifdef __LINUX__
     layout->addWidget(title);
+#endif
     layout->addWidget(button);
     main->setLayout(layout);
+#ifdef __LINUX__
     dialog->setMainWidget(main);
+#endif
     setEnabled(false);
     button->startDetection();
     connect(button,SIGNAL(changed()),dialog,SLOT(accept()));
 
     if ( dialog->exec())
     {
-        kDebug()<<"accept...";
+        qDebug()<<"accept...";
         if ( input->buttonNameList().contains(item->text(0)))
             input->setButton(item->text(0),button->input(),button->code());
 
@@ -138,7 +154,6 @@ void KCLCustomInputDialog::changeItem(QTreeWidgetItem * item,int col)
         setupTab();
     }
     setEnabled(true);
-
-
-
 }
+
+#include "kclcustominputdialog.moc"

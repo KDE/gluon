@@ -1,9 +1,7 @@
 #include "kclcustominput.h"
 
-#include "kclinput.h"
-#include "kclinputevent.h"
-
-#include <QStringList>
+#include <QtCore/QDebug>
+#include <QtCore/QStringlist>
 
 KCLCustomInput::KCLCustomInput(QObject * parent)
             :QObject(parent)
@@ -17,7 +15,7 @@ void KCLCustomInput::setButton(const QString &name, KCLInput* input, int keyCode
 {
     if (!input->buttonCapabilities().contains(keyCode))
     {
-        kDebug()<<"Cannot find keyCode for this input...";
+        qDebug()<<"Cannot find keyCode for this input...";
         return;
     }
     connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
@@ -35,7 +33,7 @@ void KCLCustomInput::setAbsAxis(const QString &name, KCLInput * input, int axis)
 {
  if (!input->absAxisCapabilities().contains(axis))
     {
-        kDebug()<<"Cannot find keyCode for this input...";
+        qDebug()<<"Cannot find keyCode for this input...";
         return;
     }
     m_absAxis.insert(name,qMakePair(input,axis));
@@ -46,7 +44,7 @@ void KCLCustomInput::setRelAxis(const QString &name,KCLInput* input, int axis)
 {
  if (!input->relAxisCapabilities().contains(axis))
     {
-        kDebug()<<"Cannot find keyCode for this input...";
+        qDebug()<<"Cannot find keyCode for this input...";
         return;
     }
     m_absAxis.insert(name,qMakePair(input,axis));
@@ -216,3 +214,5 @@ QStringList KCLCustomInput::relAxisNameList()
     }
     return list;
 }
+
+#include "kclcustominput.moc"

@@ -21,7 +21,7 @@
 #define test_bit(bit, array) ((array[LONG(bit)] >> OFF(bit)) & 1)
 
 KCLInput::KCLInput(const QString& devicePath, QObject * parent)
-    : QObject(parent)
+: QObject(parent)
 {
     m_error = false;
     m_enable = true;
@@ -30,8 +30,9 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
     m_lastAbsAxis = 0;
     m_lastRelAxis = 0;
     m_msgError = QString();
-    m_devicePath = devicePath;
     m_deviceName = "no name";
+    
+    m_devicePath = devicePath;
     readInformation();
     inputListener = NULL;
 }
@@ -92,7 +93,7 @@ bool KCLInput::event(QEvent * evt)
 void KCLInput::readInformation()
 {
     if (!QFile::exists(m_devicePath)) {
-        kDebug() << "m_devicePath does not exist";
+        qDebug() << "m_devicePath does not exist";
         m_error = true;
         m_msgError += "device url does not exist \n";
         return;
@@ -100,14 +101,14 @@ void KCLInput::readInformation()
 
     int m_fd = -1;
     if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kDebug() << "Could not open device" << m_devicePath;
+        qDebug() << "Could not open device" << m_devicePath;
         m_error = true;
         m_msgError += "could not open the device \n";
         return;
     }
 
     if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
-        kDebug() << "Could not retrieve information of device" << m_devicePath;
+        qDebug() << "Could not retrieve information of device" << m_devicePath;
         m_msgError += "could not retrieve information of device\n";
         m_error = true;
         return;
@@ -115,13 +116,13 @@ void KCLInput::readInformation()
 
     char name[256] = "Unknown";
     if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-        kDebug() << "could not retrieve name of device" << m_devicePath;
+        qDebug() << "could not retrieve name of device" << m_devicePath;
         //        m_msgError += "cannot retrieve name of device\n";
         //        m_error = true;
     }
 
     m_deviceName = QString(name);
-
+    ///this next bit can be shared across platform
     unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
     int abs[5];
     memset(bit, 0, sizeof(bit));
