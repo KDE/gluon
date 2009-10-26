@@ -23,6 +23,7 @@
 #include <common/ksingleton.h>
 #include <QSharedData>
 #include <QHash>
+#include <QMetaType>
 
 namespace Gluon
 {
@@ -48,10 +49,13 @@ namespace Gluon
             GluonObjectRegistration(T* newObjectType)
             {
                 GluonObjectFactory::instance()->registerObjectType(newObjectType);
+                if(newObjectType->metaObject())
+                    qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
             }
     };
 #define REGISTER_OBJECTTYPE(NEWOBJECTTYPE) \
-GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE());
+GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); \
+Q_DECLARE_METATYPE(NEWOBJECTTYPE *);
 }
 
     
