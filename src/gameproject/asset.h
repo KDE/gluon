@@ -27,7 +27,7 @@
 namespace Gluon
 {
     class AssetPrivate;
-    
+
     class Asset : public GluonObject
     {
         Q_OBJECT
@@ -44,7 +44,7 @@ namespace Gluon
             QUrl file() const;
 
         Q_SIGNALS:
-            void dataChanged(Asset * changedAsset);
+            void dataChanged();
 
         private:
             QSharedDataPointer<AssetPrivate> d;

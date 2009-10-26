@@ -48,7 +48,7 @@ GluonObject* Asset::instantiate()
 void Asset::setFile(const QUrl &newFile)
 {
     d->file = newFile;
-    emit dataChanged(this);
+    emit dataChanged();
 }
 
 QUrl Asset::file() const
