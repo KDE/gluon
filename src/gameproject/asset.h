@@ -27,11 +27,11 @@
 namespace Gluon
 {
     class AssetPrivate;
-    
+
     class Asset : public GluonObject
     {
         Q_OBJECT
-        Q_PROPERTY(QUrl file READ file WRITE setFile)
+        Q_PROPERTY(QString file READ file WRITE setFile)
 
         public:
             Asset(QObject * parent = 0);
@@ -40,11 +40,11 @@ namespace Gluon
 
             GluonObject* instantiate();
 
-            void setFile(const QUrl &newFile);
-            QUrl file() const;
+            void setFile(const QString &newFile);
+            QString file() const;
 
         Q_SIGNALS:
-            void dataChanged(Asset * changedAsset);
+            void dataChanged();
 
         private:
             QSharedDataPointer<AssetPrivate> d;

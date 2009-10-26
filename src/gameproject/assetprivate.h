@@ -31,8 +31,8 @@ namespace Gluon
             AssetPrivate();
             AssetPrivate(const AssetPrivate &other);
             ~AssetPrivate() {};
-            
-            QUrl file;
+
+            QString file;
     };
 }
 
