@@ -15,11 +15,12 @@
 */
 
 #include "gameobjecttreemodel.h"
-#include <gameobject.h>
+#include <gluon/gameobject.h>
 #include <QDebug>
 #include <typeinfo>
 
 using namespace Gluon;
+using namespace Gluon::Creator;
 
 GameObjectTreeModel::GameObjectTreeModel(Gluon::GameObject* root, QObject* parent): QAbstractItemModel(parent)
 {

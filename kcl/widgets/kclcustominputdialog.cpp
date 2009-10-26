@@ -14,6 +14,7 @@
 #include <KLocale>
 #include <KTitleWidget>
 #endif
+
 KCLCustomInputDialog::KCLCustomInputDialog( QWidget * parent)
     :QDialog(parent)
 {

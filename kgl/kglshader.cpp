@@ -20,7 +20,7 @@
 #include "kglshader.h"
 
 #include <QFile>
-#include <KDebug>
+#include <QDebug>
 
 
 KGLShader::KGLShader(GLenum type)
@@ -34,7 +34,7 @@ KGLShader::KGLShader(GLenum type, const QString& filename)
 
     QFile f(filename);
     if (!f.open(QIODevice::ReadOnly)) {
-        kDebug() << " Can't open file" << filename << "for reading";
+        qDebug() << " Can't open file" << filename << "for reading";
         return;
     }
     setSource(f.readAll());
@@ -64,7 +64,7 @@ void KGLShader::setSource(const QString& source)
 void KGLShader::setSource(const QByteArray& source)
 {
     if (isCompiled()) {
-        kDebug() <<"Can't set source for compiled shaders";
+        qDebug() <<"Can't set source for compiled shaders";
         return;
     }
     const char* src = source.data();
@@ -74,7 +74,7 @@ void KGLShader::setSource(const QByteArray& source)
 bool KGLShader::compile()
 {
     if (isCompiled()) {
-        kDebug() << " Can't compile a shader twice";
+        qDebug() << " Can't compile a shader twice";
         return false;
     }
     // Compile the shader
@@ -91,7 +91,7 @@ bool KGLShader::compile()
     glGetShaderInfoLog(glId(), logarraysize, &logsize, mCompileLog);
     // Output the log if compilation failed
     if (!mValid) {
-       kDebug() << " Couldn't compile shader. Log follows:" << "\n"<< mCompileLog;
+       qDebug() << " Couldn't compile shader. Log follows:" << "\n"<< mCompileLog;
     }
     if (!logsize) {
         delete[] mCompileLog;

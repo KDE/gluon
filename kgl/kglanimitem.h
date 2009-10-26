@@ -48,6 +48,9 @@ class KGL_EXPORT KGLAnimItem: public KGLItem
     private:
         Q_DISABLE_COPY(KGLAnimItem)
         QTimeLine *m_timeLine;
+
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

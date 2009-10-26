@@ -58,9 +58,9 @@ void KALBuffer::setBuffer(ALuint buffer) {
 bool KALBuffer::isEmpty()const {
     return !d->buffer;
 }
-void KALBuffer::setHelloWord() {
-    d->buffer = alutCreateBufferHelloWorld();
-}
+/*void KALBuffer::setHelloWord() {
+    //d->buffer = alutCreateBufferHelloWorld();
+}*/
 
 void KALBuffer::init()
 {

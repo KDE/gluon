@@ -43,10 +43,13 @@ class KGL_EXPORT KGLIntroItem: public KGLItem
     public Q_SLOTS:
      void anim(int id);
 
-        private:
-  KGLPixmapItem * m_item;
-  KGLShadowItem * m_shadow;
+    private:
+        KGLPixmapItem * m_item;
+        KGLShadowItem * m_shadow;
         QTimeLine * m_timeLine;
+        
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
 };
 

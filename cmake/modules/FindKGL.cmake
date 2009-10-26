@@ -24,6 +24,8 @@ find_package(OpenGL ${_kglReq})
 find_package(GLEW ${_kglReq})
 find_package(Eigen2 ${_kglReq})
 
+find_package(GluonCommon ${_kglReq})
+
 find_path(KGL_INCLUDE_DIR
     NAMES
     gluon/kgl/kglengine.h
@@ -32,6 +34,7 @@ find_path(KGL_INCLUDE_DIR
 )
 
 set(KGL_INCLUDES
+    ${GLUON_COMMON_INCLUDE_DIR}
     ${KGL_INCLUDE_DIR}
     ${EIGEN2_INCLUDE_DIR}
     CACHE STRING "Includes needed to use KGL"

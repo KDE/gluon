@@ -72,8 +72,11 @@ class KGL_EXPORT KGLBoxItem : public KGLItem
         void resize(float w, float h){
             resize(QSizeF(w,h));
         }
-        private:
+    private:
         QSizeF m_dim;
+        
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 //@}

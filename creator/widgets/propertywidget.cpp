@@ -27,6 +27,7 @@ using namespace Gluon::Creator;
 #include <QLineEdit>
 #include <QDoubleSpinBox>
 #include <QGridLayout>
+#include <QDebug>
 #include <QtCore/QMetaClassInfo>
 
 #include "propertywidget.h"
@@ -36,6 +37,7 @@ using namespace Gluon::Creator;
 
 PropertyWidget::PropertyWidget(QObject * parent)
 {
+    Q_UNUSED(parent)
 }
 
 PropertyWidget::~PropertyWidget()
@@ -51,8 +53,10 @@ PropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject
 void
 PropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject * object, QString name, QString description, QVariant options)
 {
-    ++row;
+    Q_UNUSED(options)
     
+    ++row;
+
     QLabel * nameLabel = new QLabel(this);
     nameLabel->setText(name);
     nameLabel->setToolTip(description);
@@ -144,14 +148,9 @@ PropertyWidget::setupPropertyView()
     // Add spacery type stuffs...
     QWidget * containerWidget = new QWidget(this);
     containerWidget->setLayout(propertyLayout);
-    
-    QVBoxLayout * containerLayout = new QVBoxLayout(this);
-    containerLayout->addWidget(containerWidget);
-    containerLayout->addStretch();
-    containerLayout->setSpacing(0);
-    containerLayout->setMargin(0);
-    
-    this->setLayout(containerLayout);
+    containerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    setWidget(containerWidget);
 }
 
 Gluon::GluonObject *
@@ -165,4 +164,9 @@ PropertyWidget::setObject(Gluon::GluonObject * node)
 {
     m_object = node;
     setupPropertyView();
+}
+
+void Gluon::Creator::PropertyWidget::clear()
+{
+    delete widget();
 }

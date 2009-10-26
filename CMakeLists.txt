@@ -39,10 +39,6 @@ include_directories(${OPENAL_INCLUDE_DIR})
 include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 include_directories(${EIGEN2_INCLUDE_DIR})
 
-#include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-#include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-
 ## TODO: are those really needed?  Yes it's ! Otherwise a lot of Box2d warning appear!
 if(NOT WIN32)
 add_definitions(-W -Wall -Wno-unused) 
@@ -65,3 +61,4 @@ IF(NOT WIN32 AND NOT Q_WS_MAC)
 add_subdirectory(kcl)
 add_subdirectory(systemsettings)
 ENDIF(NOT WIN32 AND NOT Q_WS_MAC)
+#add_subdirectory(creator)

@@ -4,7 +4,7 @@
 #include "kclinputevent.h"
 
 #include <QCoreApplication>
-#include <KDebug>
+#include <QDebug>
 
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -23,7 +23,7 @@ void KCLThread::run()
         struct input_event ev;
         int rd = read(m_fd, &ev, sizeof(struct input_event));
         if (rd < (int) sizeof(struct input_event)) {
-            kError() << "Could not read input";
+            qDebug() << "Could not read input";
         } else {
             KCLInputEvent *event = new KCLInputEvent(ev);
             QCoreApplication::sendEvent(parent(),event);
@@ -35,7 +35,7 @@ bool KCLThread::openDevice(const QString& devicePath)
 {
     m_fd = -1;
     if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
-        kError() << "Could not read device";
+        qDebug() << "Could not read device";
         return false;
     }
     return true;

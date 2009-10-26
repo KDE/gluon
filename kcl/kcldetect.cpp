@@ -25,7 +25,7 @@ KCLDetect::KCLDetect(QObject * parent)
 
 KCLDetect::~KCLDetect()
 {
-    //    kDebug()<<"clear device...";
+    //    qDebug()<<"clear device...";
     //    foreach ( KCLInput * input, m_inputList)
     //    {
     //        delete input;

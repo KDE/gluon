@@ -23,13 +23,9 @@
 
 
 #include <QThread>
-#include <string.h>
+#include <cstring>
 
-#ifdef Q_OS_MACX
-#  include <OpenAL/al.h>
-#else
-#  include <AL/al.h>
-#endif
+#include <al.h>
 #include <vorbis/vorbisfile.h>
 
 using namespace std;

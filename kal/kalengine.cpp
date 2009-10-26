@@ -24,37 +24,44 @@
 
 #include "kalphonon.h"
 
-#include <KDebug>
-#include <QtCore/QCoreApplication>
-#include <alut.h>
+#include <QtGlobal>
 
-KALEngine *KALEngine::m_instance = NULL;
+#include <al.h>
+#include <alc.h>
 
-KALEngine::KALEngine(const QString &deviceName, QObject *parent)
-    : QObject(parent)
+//#include <QtCore/QCoreApplication>
+//#include <alut.h>
+
+template<> KALEngine *KSingleton<KALEngine>::m_instance = 0;
+
+//KALEngine::KALEngine(const QString &deviceName, QObject *parent)
+//    : QObject(parent)
+KALEngine::KALEngine()
 {
-    alutInitWithoutContext(0, 0);
+    //alutInitWithoutContext(0, 0);
+    
     m_context = NULL;
     m_device = NULL;
-
-    if (setDevice(deviceName)) {
+    
+    /*if (setDevice(deviceName)) {
         if (deviceName.isEmpty()) {
-            kDebug() << "set device to default";
+            qDebug() << "set device to default";
         } else {
-            kDebug() << "set device to " << deviceName;
+            qDebug() << "set device to " << deviceName;
         }
     } else {
-        kDebug() << "cannot set openAL device...";
-    }
+        qDebug() << "cannot set openAL device...";
+    }*/
+    setDevice("default");
 
-    kDebug() << alGetError();
+    qDebug() << alGetError();
 }
 
-KALEngine::KALEngine(Phonon::Category category, QObject *parent)
+/*KALEngine::KALEngine(Phonon::Category category, QObject *parent)
 {
     m_phonon = new KALPhonon(this);
     m_phonon->setCategory(category);
-}
+}*/
 
 KALEngine::~KALEngine()
 {
@@ -64,12 +71,12 @@ KALEngine::~KALEngine()
 }
 
 // TODO: factor the getInstance or remove one of them
-KALEngine *KALEngine::instance(const QString &deviceName)
+/*KALEngine *KALEngine::instance(const QString &deviceName)
 {
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
         }
         m_instance =  new KALEngine(deviceName, parent);
     }
@@ -81,12 +88,12 @@ KALEngine *KALEngine::instance(Phonon::Category category)
     if (!m_instance) {
         QObject *parent = QCoreApplication::instance();
         if (!parent) {
-            kWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
+            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
         }
         m_instance =  new KALEngine(category, parent);
     }
     return m_instance;
-}
+}*/
 
 QStringList KALEngine::deviceList()
 {

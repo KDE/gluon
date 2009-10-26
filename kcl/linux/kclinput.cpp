@@ -3,7 +3,7 @@
 #include "kclinputevent.h"
 #include "kclthread.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QApplication>
 #include <QFile>
 #include <QMessageBox>
@@ -40,7 +40,7 @@ KCLInput::KCLInput(const QString& devicePath, QObject * parent)
 KCLInput::~KCLInput()
 {
     setDisable();
-    kDebug() << "Closed device :" << deviceName();
+    qDebug() << "Closed device :" << deviceName();
 }
 
 

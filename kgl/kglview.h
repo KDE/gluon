@@ -21,7 +21,7 @@
 #ifndef KGLVIEW_H
 #define KGLVIEW_H
 
-#include <KDebug>
+#include <QDebug>
 #include <QGLWidget>
 #include <QTimer>
 #include <QDialog>
@@ -90,6 +90,10 @@ public:
                 side * p.x() / m_orthoView.width() + width() / 2,
                 side * p.y() / m_orthoView.height() + height() / 2 + CURSOR_HACK
                 );
+    }
+
+    QRectF orthoView(){
+    return m_orthoView;
     }
 
     //=== Flags ====
@@ -175,7 +179,7 @@ protected:
 private:
     KGLEngine * m_engine;
     //KGLScreenConfig * m_screenConfig;
-    KGLPixmapItem * m_logo ;
+
     QRectF m_orthoView;
     float m_countFrame;
     float m_fps;

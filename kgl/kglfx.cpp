@@ -21,17 +21,17 @@
 #include "kglfx.h"
 
 KGLFx::KGLFx(const QString& vertexShader, const QString& fragmentShader)
-    :KGLProgram(vertexShader,fragmentShader)
+        :KGLProgram(vertexShader,fragmentShader)
 {
 
 }
 KGLFx::KGLFx()
-    :KGLProgram()
+        :KGLProgram()
 {
 }
 //==========================LIGHT=====================================
 KGLLightFx::KGLLightFx()
-    :KGLFx()
+        :KGLFx()
 {
     addShader(new KGLFragmentShader(":shaders/light.frag"));
     link();
@@ -49,7 +49,7 @@ void KGLLightFx::setAlpha(float alpha)
 
 //==========================POSTERIZE=====================================
 KGLPosterizeFx::KGLPosterizeFx()
-          :KGLFx()
+        :KGLFx()
 {
     addShader(new KGLFragmentShader(":shaders/posterize.frag"));
     link();
@@ -65,7 +65,7 @@ void KGLPosterizeFx::setLevel(float level)
 }
 //==========================MOSAIC=====================================
 KGLMosaicFx::KGLMosaicFx()
-    :KGLFx()
+        :KGLFx()
 {
     addShader(new KGLFragmentShader(":shaders/mosaic.frag"));
     link();
@@ -80,4 +80,29 @@ void KGLMosaicFx::setTileSize(float t)
     bind();
     setUniform("tileSize", t);
     unbind();
+}
+//=======================GRAY SCALE==================================
+KGLGrayScaleFx::KGLGrayScaleFx()
+        :KGLFx()
+{
+    addShader(new KGLFragmentShader(":shaders/greyscale.frag"));
+    link();
+
+}
+//=======================BLUR ==================================
+KGLBlurFx::KGLBlurFx()
+        :KGLFx()
+{
+    addShader(new KGLFragmentShader(":shaders/blur.frag"));
+    link();
+
+}
+void  KGLBlurFx::setBlurLevel(QPointF blurLevel)
+{
+    m_blurLevel = blurLevel;
+
+    bind();
+    setUniform("src_tex_offset0",Eigen::Vector2f(m_blurLevel.x(), m_blurLevel.y()));
+    unbind();
+
 }

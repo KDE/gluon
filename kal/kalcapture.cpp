@@ -1,10 +1,13 @@
 #include "kalcapture.h"
-#include <KDebug>
+#include <QDebug>
 #include <QTime>
 #include <QFile>
-#include <alut.h>
-#include <sndfile.h>
 
+#include <al.h>
+#include <alc.h>
+
+#include <sndfile.h>
+#include <QtGlobal>
 class KALCapturePrivate
 {
 public:
@@ -21,12 +24,12 @@ KALCapture::KALCapture(QString deviceName, QObject *parent)
     if (isAvailable()) {
         d->captureDevice = alcCaptureOpenDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
     } else {
-        kError() << "No capture device available";
+        qCritical() << "No capture device available";
         return;
     }
 
     if (!d->captureDevice) {
-        kError() << "Could not set the capture device";
+        qCritical() << "Could not set the capture device";
         return;
     }
 }

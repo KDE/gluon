@@ -21,7 +21,7 @@
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
 #include <QtGui/QWidget>
-
+#include <QtCore/QVariant>
 
 namespace Gluon
 {
