@@ -60,8 +60,11 @@ shaders/shaders.qrc
 )
 
 QT4_ADD_RESOURCES(kgl_RCC_SRCS ${kgl_RCCS})
-kde4_add_library(kgl SHARED ${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
-set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
+
+qt4_automoc(${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
+add_library(kgl SHARED ${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
+
+set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 
 include_directories(${GLEW_INCLUDE_DIR}/..)
 
@@ -85,7 +88,15 @@ endif(Q_WS_X11)
 # add_subdirectory(tests)
 ########### INSTALL FILES ###############
 
+if(APPLE)
+
+install(TARGETS kgl DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+
+else()
+
 install(TARGETS kgl ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+endif()
 
 install(FILES
   kgl_export.h
