@@ -44,3 +44,5 @@ void KGLCircleItem::setCircle(float radius, unsigned int nbPoints)
        addVertex( KGLPoint(x*radius, y*radius, Qt::white, QPointF(x, y)));
     }
 }
+
+#include "kglcircleitem.moc"

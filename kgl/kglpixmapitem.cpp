@@ -55,3 +55,5 @@ KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLEngine * parent )
      float ratio = 10/texture->dim().width() ;
     createBox(texture->dim().width()*ratio, texture->dim().height()*ratio);
 }
+
+#include "kglpixmapitem.moc"

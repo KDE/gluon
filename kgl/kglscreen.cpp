@@ -69,6 +69,4 @@ void KGLScreen::applySettings()
   emit screenSettingsChanged();
 }
 
-
-
-
+#include "kglscreen.moc"

@@ -58,3 +58,5 @@ const KGLPoint * KGLGridItem::pointAt(const QPoint &p)
     int id =  m_size.width()*p.y() + p.x();
     return &(pointList().at(id));
 }
+
+#include "kglgriditem.moc"

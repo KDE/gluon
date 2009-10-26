@@ -97,3 +97,5 @@ int KGLRandRScreen::sizeID()
   }
   return -1;
 }
+
+#include "kglrandrscreen.moc"

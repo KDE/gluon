@@ -51,3 +51,5 @@ KGLScreen* KGLDisplay::currentScreen() const
 {
   return m_screens.at(0);
 }
+
+#include "kgldisplay.moc"

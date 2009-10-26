@@ -25,3 +25,5 @@ KGLPolygonItem::KGLPolygonItem(const QPolygonF &polygon, KGLEngine * parent)
 {
     createPolygon(polygon);
 }
+
+#include "kglpolygonitem.moc"

@@ -302,3 +302,5 @@ void KGLView::mouseReleaseEvent(QMouseEvent * event)
 if ( m_engine!=NULL)
     m_engine->mouseReleased(mapToGL(event->posF()),event->button());
 }
+
+#include "kglview.moc"

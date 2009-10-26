@@ -133,3 +133,5 @@ void KGLEngine::mousePressed(const QPointF &pos, Qt::MouseButton button)
 
 void KGLEngine::mouseReleased(const QPointF &pos, Qt::MouseButton button)
 {}
+
+#include "kglengine.moc"

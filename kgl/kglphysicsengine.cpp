@@ -173,3 +173,5 @@ void KGLContactListener::Add(const b2ContactPoint* point)
         item2->collidesWithItem(item1);
     }
 }
+
+#include "kglphysicsengine.moc"

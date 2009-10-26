@@ -181,3 +181,5 @@ void KGLBaseItem::initShearMatrix(const QPointF &s)
     m_shearMatrix(3,2) = 0;
     m_shearMatrix(3,3) = 1;
 }
+
+#include "kglbaseitem.moc"
