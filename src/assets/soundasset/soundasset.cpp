@@ -24,7 +24,7 @@ SoundAsset::SoundAsset(QObject *parent)
     : Asset(parent),
       m_buffer(0)
 {
-    connect(this, SIGNAL(dataChanged()), this, SLOT(setBuffer()));
+    connect(this, SIGNAL(dataChanged()), this, SLOT(updateBuffer()));
 }
 
 Gluon::GluonObject *SoundAsset::instantiate()
@@ -32,7 +32,7 @@ Gluon::GluonObject *SoundAsset::instantiate()
     return new SoundAsset(this);
 }
 
-void SoundAsset::setBuffer()
+void SoundAsset::updateBuffer()
 {
     if (m_buffer) {
         delete m_buffer;

@@ -39,6 +39,6 @@ GluonObject *SoundEmitterComponent::instantiate()
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
-    qDebug() << "Hello, World";
+    qDebug() << "Hello, World" << elapsedMilliseconds;
 }
 

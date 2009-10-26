@@ -22,9 +22,11 @@ set(gluon_LIB_SRCS
     game.cpp
     gameprivate.cpp
 
+    components/soundcomponents/soundemittercomponent.cpp
     components/spriterendercomponent/spriterendercomponent.cpp
     components/spriterendercomponent/spriterendercomponentprivate.cpp
 
+    assets/soundasset/soundasset.cpp
     assets/textureasset/textureasset.cpp
 
 #      gluondialog.cpp

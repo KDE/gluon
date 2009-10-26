@@ -31,8 +31,8 @@ public:
         return m_buffer;
     }
 
-private slots:
-    void setBuffer();
+private Q_SLOTS:
+    void updateBuffer();
 
 private:
     KALBuffer *m_buffer;
