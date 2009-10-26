@@ -18,24 +18,31 @@
 #include <kgl/kgltexture.h>
 
 #include "textureasset.h"
-#include "textureassetprivate.h"
 #include <QUrl>
 
 using namespace Gluon;
 
 REGISTER_OBJECTTYPE(TextureAsset)
 
-TextureAsset::TextureAsset ( QObject* parent ) : Asset ( parent )
+class Gluon::TextureAssetPrivate {
+public:
+    TextureAssetPrivate() {
+        texture = new KGLTexture;
+        image = new QImage;
+    }
+    ~TextureAssetPrivate() {
+        delete texture;
+        delete image;
+    }
+
+    KGLTexture *texture;
+    QImage *image;
+};
+
+TextureAsset::TextureAsset (QObject *parent) :
+    Asset(parent)
 {
     d = new TextureAssetPrivate;
-    d->texture = new KGLTexture;
-    d->image = new QImage;
-}
-
-TextureAsset::TextureAsset ( const Gluon::TextureAsset& other )
-    : Asset ( other ),
-      d(other.d)
-{
 }
 
 TextureAsset::~TextureAsset()
@@ -43,7 +50,6 @@ TextureAsset::~TextureAsset()
     delete d->texture;
     delete d->image;
 }
-
 
 void TextureAsset::load()
 {

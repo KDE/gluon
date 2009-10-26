@@ -24,18 +24,17 @@ namespace Gluon
 class TextureAssetPrivate;
 class TextureAsset : public Asset
 {
-    Q_OBJECT
-    public:
-        TextureAsset ( QObject* parent = 0 );
-        TextureAsset(const TextureAsset& other);
-        ~TextureAsset();
+Q_OBJECT
+public:
+    TextureAsset(QObject *parent = 0);
+    ~TextureAsset();
 
-        GluonObject* instantiate();
+    GluonObject* instantiate();
 
-        void load();
-    private:
-        TextureAssetPrivate *d;
-        
+    void load();
+
+private:
+    TextureAssetPrivate *d;
 };
 
 }

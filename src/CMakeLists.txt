@@ -5,7 +5,6 @@ include_directories(gameproject)
 
 set(gluon_LIB_SRCS
     gameproject/asset.cpp
-    gameproject/assetprivate.cpp
     gameproject/component.cpp
     gameproject/componentprivate.cpp
     gameproject/gameobject.cpp
@@ -27,7 +26,7 @@ set(gluon_LIB_SRCS
     components/spriterendercomponent/spriterendercomponentprivate.cpp
 
     assets/textureasset/textureasset.cpp
-    assets/textureasset/textureassetprivate.cpp
+
 #      gluondialog.cpp
 #      kglconfig.cpp
 #      kalconfig.cpp
