@@ -23,8 +23,8 @@
 
 #include "kgl_export.h"
 #include "kglitem.h"
-#include <QSizeF>
-#include <QList>
+#include <QtCore/QSizeF>
+#include <QtCore/QList>
 
 /**
  * \defgroup KGL KGL

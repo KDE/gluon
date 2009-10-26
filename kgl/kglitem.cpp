@@ -21,7 +21,7 @@
  */
 
 #include "kglitem.h"
-#include <KDebug>
+#include <QtCore/QDebug>
 
 #include <iostream>
 using namespace std;

@@ -17,7 +17,7 @@
 #ifndef KGLRESOLUTIONDIALOG_H
 #define KGLRESOLUTIONDIALOG_H
 
-#include <KDialog>
+#include <QtGui/QDialog>
 
 #include "kgl/kglresolution.h"
 
@@ -25,7 +25,7 @@ class QComboBox;
 struct KGLResolution;
 class KGLView;
 
-class KGLResolutionDialog : public KDialog
+class KGLResolutionDialog : public QDialog
 {
   public:
     KGLResolutionDialog(QWidget* parent = 0);

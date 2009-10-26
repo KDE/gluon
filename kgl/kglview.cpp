@@ -22,10 +22,10 @@
 #include <GL/glew.h>
 
 #include "kglview.h"
-#include <QMouseEvent>
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QDebug>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QApplication>
+#include <QtGui/QDesktopWidget>
+#include <QtCore/QDebug>
 
 #include "kgldisplay.h"
 #include "kglscreen.h"

@@ -1,6 +1,6 @@
 #include "kglpainter.h"
 #include <math.h>
-#include <KDebug>
+#include <QtCore/QDebug>
 class KGLPainterPrivate
 {
 public :
@@ -72,7 +72,7 @@ void KGLPainter::createCircle(const QPointF &center, float radius, float step)
 {
     if ( step <3)
     {
-        kDebug()<<"cannot create it. Use createline...";
+        qDebug()<<"cannot create it. Use createline...";
         return;
     }
     d->pointList.clear();

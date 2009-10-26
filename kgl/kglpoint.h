@@ -25,7 +25,7 @@
 
 #include <QtGui/QColor>
 #include <QtCore/QPointF>
-#include <QVector>
+#include <QtCore/QVector>
 
 #include "kgl_export.h"
 

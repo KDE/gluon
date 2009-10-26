@@ -24,7 +24,7 @@
 #include "kgl_export.h"
 #include "kglengine.h"
 
-#include <QList>
+#include <QtCore/QList>
 
 /**
  * \defgroup KGL KGL

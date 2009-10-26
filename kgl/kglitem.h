@@ -35,7 +35,6 @@
 //@{
 
 class KGLEngine;
-class KGLItem;
 
 class KGL_EXPORT KGLItem : public KGLBaseItem
 {

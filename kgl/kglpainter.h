@@ -1,8 +1,8 @@
 #ifndef KGLPAINTER_H
 #define KGLPAINTER_H
 
-#include <QObject>
-#include <QPainter>
+#include <QtCore/QObject>
+#include <QtGui/QPainter>
 #include "kgltexture.h"
 #include "kglpoint.h"
 class KGLPainterPrivate;

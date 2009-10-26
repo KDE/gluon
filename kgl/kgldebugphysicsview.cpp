@@ -1,5 +1,5 @@
 #include "kgldebugphysicsview.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 KGLDebugPhysicsView::KGLDebugPhysicsView(QWidget * parent)
     :KGLView(parent),b2DebugDraw()
 {

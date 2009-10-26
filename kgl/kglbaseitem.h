@@ -20,13 +20,14 @@
 
 #ifndef KGLBASEITEM_H
 #define KGLBASEITEM_H
-#include <QObject>
+
+#include <QtCore/QObject>
 #include <Eigen/Geometry>
-#include <QRectF>
-#include <QPolygonF>
-#include <QTransform>
-#include <QSizeF>
-#include <QMatrix>
+#include <QtCore/QRectF>
+#include <QtGui/QPolygonF>
+#include <QtGui/QTransform>
+#include <QtCore/QSizeF>
+#include <QtGui/QMatrix>
 
 #include "kgl_export.h"
 #include "kglpoint.h"

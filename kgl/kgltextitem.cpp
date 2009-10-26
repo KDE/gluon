@@ -24,13 +24,13 @@
 
 #include "kgltextitem.h"
 
-#include <QString>
-#include <QPainter>
-#include <QFontMetricsF>
-#include <QPainter>
-#include <QHash>
-#include <QMap>
-#include <QDebug>
+#include <QtCore/QString>
+#include <QtGui/QPainter>
+#include <QtGui/QFontMetricsF>
+#include <QtGui/QPainter>
+#include <QtCore/QHash>
+#include <QtCore/QMap>
+#include <QtCore/QDebug>
 
 
 KGLTextItem::KGLTextItem(const QString& text, const QFont &font, KGLEngine* parent)

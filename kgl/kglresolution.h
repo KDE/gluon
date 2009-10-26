@@ -17,8 +17,8 @@
 #ifndef KGLRESOLUTION_H
 #define KGLRESOLUTION_H
 
-#include <QSharedDataPointer>
-#include <QString>
+#include <QtCore/QSharedDataPointer>
+#include <QtCore/QString>
 
 class KGLResolutionPrivate;
 

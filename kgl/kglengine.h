@@ -21,8 +21,8 @@
 #ifndef KGLENGINE_H
 #define KGLENGINE_H
 
-#include <QObject>
-#include <QMap>
+#include <QtCore/QObject>
+#include <QtCore/QMap>
 
 #include "kgl_export.h"
 #include "kglitemlist.h"

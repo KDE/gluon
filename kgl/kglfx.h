@@ -21,8 +21,8 @@
 #ifndef KGLEFFECT_H
 #define KGLEFFECT_H
 
-#include <QString>
-#include <QPointF>
+#include <QtCore/QString>
+#include <QtCore/QPointF>
 #include "kgl_export.h"
 #include "kglprogram.h"
 #include "kglshader.h"

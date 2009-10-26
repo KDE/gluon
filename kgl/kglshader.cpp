@@ -19,8 +19,8 @@
 
 #include "kglshader.h"
 
-#include <QFile>
-#include <QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
 
 
 KGLShader::KGLShader(GLenum type)

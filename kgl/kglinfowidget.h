@@ -1,9 +1,9 @@
 #ifndef KGLINFOWIDGET_H
 #define KGLINFOWIDGET_H
 
-#include <QWidget>
-#include <QLabel>
-#include <KTabWidget>
+#include <QtGui/QWidget>
+#include <QtGui/QLabel>
+#include <QtGui/QTabWidget>
 
 #include "kgl_export.h"
 #include "kglengine.h"

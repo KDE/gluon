@@ -2,7 +2,7 @@
 #ifndef KGLRESOLUTIONPRIVATE_H
 #define KGLRESOLUTIONPRIVATE_H
 
-#include <QSharedData>
+#include <QtCore/QSharedData>
 
 class KGLResolutionPrivate : public QSharedData
 {

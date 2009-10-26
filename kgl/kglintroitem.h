@@ -26,8 +26,8 @@
 #include "kgl_export.h"
 #include "kglpixmapitem.h"
 #include "kglshadowitem.h"
- #include <QTimer>
-#include <QTimeLine>
+#include <QtCore/QTimer>
+#include <QtCore/QTimeLine>
 
 /**
  * \defgroup KGL KGL

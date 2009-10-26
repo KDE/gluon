@@ -1,9 +1,8 @@
 #include "kglinfowidget.h"
-#include <QVBoxLayout>
-#include <KIcon>
-#include <KLocale>
-#include <KPushButton>
-#include <QTextEdit>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QIcon>
+#include <QtGui/QPushButton>
+#include <QtGui/QTextEdit>
 #include "kglintroitem.h"
 KGLInfoWidget::KGLInfoWidget(QWidget * parent)
     :QWidget(parent)
@@ -14,9 +13,9 @@ KGLInfoWidget::KGLInfoWidget(QWidget * parent)
 
     m_information = new QWidget;
     m_preview = new QWidget;
-    KTabWidget *tab = new KTabWidget;
-    tab->addTab(m_preview,KIcon("run-build-configure.png"), i18n("Preview"));
-    tab->addTab(m_information,KIcon("run-build-file.png"), i18n("Information"));
+    QTabWidget *tab = new QTabWidget;
+    tab->addTab(m_preview,QIcon("run-build-configure.png"), tr("Preview"));
+    tab->addTab(m_information,QIcon("run-build-file.png"), tr("Information"));
 
     KGLEngine * engine = new KGLEngine;
     m_view = new KGLView;
@@ -35,7 +34,7 @@ KGLInfoWidget::KGLInfoWidget(QWidget * parent)
     layout->addWidget(tab);
 
     QHBoxLayout *hLayout = new QHBoxLayout;
-    KPushButton *toggleButton = new KPushButton(KIcon("go-last.png"), i18n("Start/Stop"));
+    QPushButton *toggleButton = new QPushButton(QIcon("go-last.png"), tr("Start/Stop"));
     hLayout->addWidget(toggleButton);
     hLayout->addStretch();
     subLayout->addLayout(hLayout);
@@ -51,18 +50,18 @@ void KGLInfoWidget::setupInformation()
 {
     QLabel * logo = new QLabel;
     QTextEdit * edit = new QTextEdit;
-   logo->setPixmap(KIcon("media-flash").pixmap(128,128));
+    logo->setPixmap(QIcon("media-flash").pixmap(128,128));
     logo->setAlignment(Qt::AlignTop);
 
     QWidget * main = new QWidget;
     QString info("");
 
-    info+=i18n("<p>Vendor: <b>%1</b></p>", QString((char*)glGetString(GL_VENDOR)));
-    info+=i18n("<p>Render: <b>%1</b></p>", QString((char*)glGetString(GL_RENDERER)));
-    info+=i18n("<p>Version: <b>%1</b></p>", QString((char*)glGetString(GL_VERSION)));
-    if (m_view->isShaderSupported()) info+=i18n("<p> <b>Shader support: yes</b></p>");
-    else info+=i18n("<p> Shader support: <b>no</b></p>");
-    info+=i18n("<p>Extensions: </p>");
+    info+=tr("<p>Vendor: <b>%1</b></p>").arg(QString((char*)glGetString(GL_VENDOR)));
+    info+=tr("<p>Render: <b>%1</b></p>").arg( QString((char*)glGetString(GL_RENDERER)));
+    info+=tr("<p>Version: <b>%1</b></p>").arg( QString((char*)glGetString(GL_VERSION)));
+    if (m_view->isShaderSupported()) info+=tr("<p> <b>Shader support: yes</b></p>");
+    else info+=tr("<p> Shader support: <b>no</b></p>");
+    info+=tr("<p>Extensions: </p>");
     edit->setText(QString((char*)glGetString(GL_EXTENSIONS)).replace(' ', '\n'));
     edit->setReadOnly(true);
 

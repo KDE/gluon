@@ -24,7 +24,7 @@
 #ifndef KGLTEXTITEM_H
 #define KGLTEXTITEM_H
 
-#include <QFont>
+#include <QtGui/QFont>
 
 #include "kgl_export.h"
 #include "kglitem.h"

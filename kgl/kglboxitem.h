@@ -33,7 +33,7 @@
 * @class KGLBoxItem kglboxitem.h <KGLBoxItem>
 * This is a KGLItem subclass which can be initialized with a QRectF or QSizeF
 */
-class KGL_EXPORT KGLBoxItem : public KGLItem
+class KGLBoxItem : public KGLItem
 {
     Q_OBJECT
     public:

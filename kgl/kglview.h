@@ -21,10 +21,10 @@
 #ifndef KGLVIEW_H
 #define KGLVIEW_H
 
-#include <QDebug>
+#include <QtCore/QDebug>
 #include <QGLWidget>
-#include <QTimer>
-#include <QDialog>
+#include <QtCore/QTimer>
+#include <QtGui/QDialog>
 
 #include "kgl_export.h"
 #include "kglengine.h"

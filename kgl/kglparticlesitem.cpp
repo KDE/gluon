@@ -21,8 +21,8 @@
  */
 
 #include "kglparticlesitem.h"
-#include <KDebug>
-#include <QDateTime>
+#include <QtCore/QDebug>
+#include <QtCore/QDateTime>
 
 #include <iostream>
 using namespace std;

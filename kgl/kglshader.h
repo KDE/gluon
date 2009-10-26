@@ -24,7 +24,13 @@
 
 #include "kgl_export.h"
 
+#ifdef Q_WS_X11
 #include <GL/gl.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenGL/gl.h>
+#endif
 
 class QString;
 class QByteArray;

@@ -23,7 +23,7 @@
 #include "kglpixmapitem.h"
 #include "kglengine.h"
 #include <QtCore/QFile>
-#include <KDebug>
+#include <QtCore/QDebug>
 #include <Eigen/Core>
 
 KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLEngine * parent)
@@ -32,7 +32,7 @@ KGLPixmapItem::KGLPixmapItem(const QString &fileName,KGLEngine * parent)
     m_pix = QPixmap(fileName);
     if ( m_pix.isNull())
     {
-        kDebug()<<"cannot load pixmap";
+        qDebug()<<"cannot load pixmap";
         return;
     }
     KGLTexture *texture = new KGLTexture(fileName);
@@ -47,7 +47,7 @@ KGLPixmapItem::KGLPixmapItem(const QPixmap &p, KGLEngine * parent )
     m_pix = p;
     if ( m_pix.isNull())
     {
-        kDebug()<<"cannot load pixmap";
+        qDebug()<<"cannot load pixmap";
         return;
     }
     KGLTexture * texture= new KGLTexture(m_pix);

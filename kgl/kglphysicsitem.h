@@ -24,7 +24,7 @@
 #include "kgl_export.h"
 #include "kglitem.h"
 #include "Box2D/Box2D.h"
-#include <KDebug>
+#include <QtCore/QDebug>
 
 /**
  * \defgroup KGL KGL

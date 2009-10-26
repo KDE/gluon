@@ -22,10 +22,12 @@
 
 #include <QtCore/qglobal.h>
 
-#if defined(JH_LIBRARY)
+#ifndef KGL_EXPORT
+#if defined(KCL_LIBRARY)
 #  define KCL_EXPORT Q_DECL_EXPORT
 #else
 #  define KCL_EXPORT Q_DECL_IMPORT
+#endif
 #endif
 
 #endif

@@ -21,7 +21,7 @@
  */
 
 #include "kglpoint.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 
 KGLPoint::KGLPoint()
 {

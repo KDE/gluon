@@ -20,6 +20,8 @@
 #ifndef KGL_EXPORT_H
 #define KGL_EXPORT_H
 
+#ifdef Q_WS_X11
+
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
 
@@ -36,5 +38,21 @@
 # ifndef KGL_EXPORT_DEPRECATED
 #  define KGL_EXPORT_DEPRECATED KDE_DEPRECATED KGL_EXPORT
 # endif
+
+#endif
+
+#ifdef Q_WS_MAC
+
+#include <QtCore/qglobal.h>
+
+#ifndef KGL_EXPORT
+    #if defined(KGL_LIBRARY)
+    #  define KGL_EXPORT Q_DECL_EXPORT
+    #else
+    #  define KGL_EXPORT Q_DECL_IMPORT
+    #endif
+#endif
+
+#endif
 
 #endif

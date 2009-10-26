@@ -21,7 +21,7 @@
  */
 
 #include "kglphysicsitem.h"
-#include <KDebug>
+#include <QtCore/QDebug>
 
 KGLPhysicsItem::KGLPhysicsItem(KGLEngine * parent, ShapeType shapeType)
     : KGLItem(parent)
@@ -101,7 +101,7 @@ b2Body* KGLPhysicsItem::body()
 
     else
     {
-        kDebug()<<"ERROR : cannot get the body! You need to add KGLPhyisicsItem to the KGLPhysicsWidget ";
+        qDebug()<<"ERROR : cannot get the body! You need to add KGLPhyisicsItem to the KGLPhysicsWidget ";
         return NULL;
     }
 }

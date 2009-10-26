@@ -21,7 +21,7 @@
  */
 
 #include "kglshadowitem.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 
 KGLShadowItem::KGLShadowItem(KGLItem * item)
     : KGLItem()

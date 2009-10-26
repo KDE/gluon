@@ -23,7 +23,7 @@
 #ifndef KGLPIXMAP_ITEM_H
 #define KGLPIXMAP_ITEM_H
 
-#include <QPixmap>
+#include <QtGui/QPixmap>
 
 #include "kgl_export.h"
 #include "kglitem.h"

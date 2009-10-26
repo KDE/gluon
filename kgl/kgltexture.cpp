@@ -21,7 +21,7 @@
  */
 
 #include "kgltexture.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 
 void KGLTexture::init()

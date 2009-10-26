@@ -17,14 +17,14 @@
 #include "kglresolutiondialog.h"
 #include <kglscreen.h>
 #include <kgldisplay.h>
-#include <QComboBox>
-#include <QVBoxLayout>
+#include <QtGui/QComboBox>
+#include <QtGui/QVBoxLayout>
 #include <klocalizedstring.h>
-#include <QLabel>
+#include <QtGui//QLabel>
 
 KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): KDialog(parent)
 {
-  setCaption(i18n("Select fullscreen resolution"));
+  setCaption(tr("Select fullscreen resolution"));
   m_resolutions = KGLDisplay::instance()->currentScreen()->availableResolutions();
     
   m_resolutionComboBox = new QComboBox();
@@ -36,7 +36,7 @@ KGLResolutionDialog::KGLResolutionDialog(QWidget* parent): KDialog(parent)
 
   QWidget *widget = new QWidget(this);
   QVBoxLayout* layout = new QVBoxLayout();
-  layout->addWidget(new QLabel(i18n("Please select your preferred fullscreen resolution:")));
+  layout->addWidget(new QLabel(tr("Please select your preferred fullscreen resolution:")));
   layout->addWidget(m_resolutionComboBox);
   widget->setLayout(layout);
   

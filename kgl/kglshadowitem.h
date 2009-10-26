@@ -32,8 +32,8 @@
 #include <Eigen/Geometry>
 #endif
 
-#include <QList>
-#include <QTimer>
+#include <QtCore/QList>
+#include <QtCore/QTimer>
 
 /**
  * \defgroup KGL KGL

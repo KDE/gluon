@@ -23,7 +23,7 @@
 
 #include "kglboxitem.h"
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 KGLEngine::KGLEngine(QObject * parent)
     : QObject(parent)
