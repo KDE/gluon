@@ -4,7 +4,7 @@
 #include "kclinput.h"
 #include <IOKit/hid/IOHIDLib.h>
 
-class KCLTablet : public KCLInput
+class KCL_EXPORT KCLTablet : public KCLInput
 {
 public:
     KCLTablet(IOHIDDeviceRef device, QObject * parent = 0);

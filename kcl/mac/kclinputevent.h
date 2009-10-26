@@ -1,12 +1,14 @@
 #ifndef KCLINPUTEVENT_H
 #define KCLINPUTEVENT_H
 
-#include <QEvent>
+#include <QtCore/QEvent>
 
-class KCLInputEvent : public QEvent
+#include "kcl_export.h"
+
+class KCL_EXPORT KCLInputEvent : public QEvent
 {
 public:
-    KCLInputEvent( QEvent::Type eventType);
+    KCLInputEvent(int code, int value, int usagePage, int usage, int id, QEvent::Type eventType);
 
     int code() const;
     int value() const;

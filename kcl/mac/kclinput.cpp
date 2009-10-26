@@ -1,10 +1,10 @@
 #include "kclinput.h"
 
-#include <QDebug>
-#include <QApplication>
-#include <QFile>
-#include <QMessageBox>
-#include <QMouseEvent>
+#include <QtCore/QDebug>
+#include <QtGui/QApplication>
+#include <QtCore/QFile>
+#include <QtGui/QMessageBox>
+#include <QtGui/QMouseEvent>
 
 KCLInput::KCLInput(IOHIDDeviceRef device, QObject * parent)
 : QObject(parent)
@@ -13,7 +13,7 @@ KCLInput::KCLInput(IOHIDDeviceRef device, QObject * parent)
     
     m_device = device;
     readInformation();
-    inputListener = new KCLThread(m_device, this);
+    inputListener = new KCLThread(m_device, m_deviceType, this);
 }
 
 KCLInput::KCLInput()
@@ -23,9 +23,9 @@ KCLInput::KCLInput()
 
 KCLInput::~KCLInput()
 {
+    setDisable();
     IOHIDDeviceClose(m_device, kIOHIDOptionsTypeNone);
     CFRelease(m_device);
-    setDisable();
     delete inputListener;
     
     qDebug() << "Closed device :" << deviceName();
@@ -40,27 +40,27 @@ void KCLInput::init()
     m_lastAbsAxis = 0;
     m_lastRelAxis = 0;
     m_msgError = QString();
-    m_deviceName = "no name";
+    m_deviceName = "Unknown";
 }
 
 int KCLInput::vendor()const 
 {
-    return CFStringGetIntValue( (CFStringRef) IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVendorIDKey)));
+    return m_vendor;
 }
 
 int KCLInput::product()const 
 {
-    return CFStringGetIntValue( (CFStringRef) IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDProductIDKey)));
+    return m_product;
 }
 
 int KCLInput::version()const 
 {
-    return CFStringGetIntValue( (CFStringRef) IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVersionNumberKey)));
+    return m_version;
 }
 
 int KCLInput::bustype()const 
 {
-    return CFStringGetIntValue( (CFStringRef) IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDTransportKey)));
+    return m_bustype;
 }
 
 const IOHIDDeviceRef KCLInput::device()const 
@@ -70,9 +70,7 @@ const IOHIDDeviceRef KCLInput::device()const
 
 const QString KCLInput::deviceName() const
 {
-    const char * deviceNameChar = CFStringGetCStringPtr((CFStringRef) IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVendorIDKey)), kCFStringEncodingMacRoman);
-    QString deviceName( deviceNameChar);
-    return  deviceName;
+    return m_deviceName;
 }
 
 KCL::DeviceFlag KCLInput::deviceType()const 
@@ -186,7 +184,6 @@ bool KCLInput::isEnable() const
 
 bool KCLInput::event(QEvent * evt)
 {
-
     KCLInputEvent * event = (KCLInputEvent*)evt;
     emit eventSent(event);
 
@@ -237,135 +234,180 @@ bool KCLInput::event(QEvent * evt)
 
 void KCLInput::readInformation()
 {
-    /*if (!QFile::exists(m_devicePath)) {
-        qDebug() << "m_devicePath does not exist";
-        m_error = true;
-        m_msgError += "device url does not exist \n";
-        return;
+    CFStringRef deviceNameRef = (CFStringRef)IOHIDDeviceGetProperty(m_device, CFSTR(kIOHIDProductKey));
+    if(CFGetTypeID(deviceNameRef) == CFStringGetTypeID())
+    {
+        m_deviceName = CFStringGetCStringPtr(deviceNameRef, kCFStringEncodingMacRoman);
+    }
+    
+    CFTypeRef type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVendorIDKey));
+    if(type)
+    {
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_vendor );
+        CFRelease(type);
+    }
+    else 
+    {
+        m_vendor = -1;
     }
 
-    int m_fd = -1;
-    if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
-        qDebug() << "Could not open device" << m_devicePath;
-        m_error = true;
-        m_msgError += "could not open the device \n";
-        return;
+    type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDProductIDKey));
+    if(type)
+    {
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_product );
+        CFRelease(type);
+    }
+    else 
+    {
+        m_product = -1;  
     }
 
-    if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
-        qDebug() << "Could not retrieve information of device" << m_devicePath;
-        m_msgError += "could not retrieve information of device\n";
-        m_error = true;
-        return;
-    }
+    
+    type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDTransportKey));
+    if(type)
+    {
+        if(CFGetTypeID(type) == CFNumberGetTypeID())
+        {
+            CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_bustype );
+            CFRelease(type);            
+        }
+        else if(CFGetTypeID(type) == CFStringGetTypeID())
+        {
+            m_bustype = -1;
+        }
+        else 
+        {
+            m_bustype = -1;
+        }
 
-    char name[256] = "Unknown";
-    if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-        qDebug() << "could not retrieve name of device" << m_devicePath;
-        //        m_msgError += "cannot retrieve name of device\n";
-        //        m_error = true;
     }
-
-    m_deviceName = QString(name);
-    ///this next bit can be shared across platform
-    unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
-    int abs[5];
-    memset(bit, 0, sizeof(bit));
-    ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
+    
+    type = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVersionNumberKey));
+    if(type)
+    {
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_version );
+        CFRelease(type);
+    }
+    else 
+    {
+        m_version = -1;
+    }
 
     m_buttonCapabilities.clear();
+    m_absAxisCapabilities.clear();
+    m_relAxisCapabilities.clear();
     m_absAxisInfos.clear();
-
-    for (int i = 0; i < EV_MAX; i++) {
-        if (test_bit(i, bit[0])) {
-            if (!i) {
-                continue;
-            }
-
-            ioctl(m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
-            for (int j = 0; j < KEY_MAX; j++) {
-                if (test_bit(j, bit[i])) {
-                    if (i == EV_KEY) {
-                        m_buttonCapabilities.append(j);
+    
+    CFArrayRef elements = IOHIDDeviceCopyMatchingElements(m_device, NULL, kIOHIDOptionsTypeNone);
+    
+    if(elements)
+    {
+        for(int i = 0; i < CFArrayGetCount(elements); i++)
+        {
+            IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elements,(CFIndex)i);
+            if(CFGetTypeID(elementRef) == IOHIDElementGetTypeID())
+            {
+                int usagePage = IOHIDElementGetUsagePage( elementRef );
+                int usage = IOHIDElementGetUsage( elementRef );
+                
+                if(usagePage == kHIDPage_Button)
+                {
+                    m_buttonCapabilities.append(usage);
+                }
+                else if(usagePage == kHIDPage_KeyboardOrKeypad)
+                {
+                    if(usage > 3 && usage <= 231 && !m_buttonCapabilities.contains(usage))
+                        m_buttonCapabilities.append(usage);
+                }
+                else if (usagePage == kHIDPage_GenericDesktop)
+                {
+                    if(usage <= 47 || usage == 60)
+                        continue;
+                    
+                    if(IOHIDElementIsRelative(elementRef))
+                    {
+                        m_relAxisCapabilities.append(usage);
                     }
-
-                    if (i == EV_REL) {
-                        m_relAxisCapabilities.append(j);
-                    }
-
-                    if (i == EV_ABS) {
-                        ioctl(m_fd, EVIOCGABS(j), abs);
-                        AbsVal cabs(0, 0, 0, 0);
-                        for (int k = 0; k < 5; k++) {
-                            if ((k < 3) || abs[k]) {
-                                switch (k) {
-                                case 0:
-                                    cabs.value = abs[k];
-                                    break;
-                                case 1:
-                                    cabs.min = abs[k];
-                                    break;
-                                case 2:
-                                    cabs.max = abs[k];
-                                    break;
-                                case 3:
-                                    cabs.fuzz = abs[k];
-                                    break;
-                                case 4:
-                                    cabs.flat = abs[k];
-                                    break;
-                                }
-                            }
+                    else
+                    {
+                        m_absAxisCapabilities.append(usage);
+                        AbsVal val(0,0,0,0);
+                        val.max = (int)IOHIDElementGetLogicalMax(elementRef);
+                        val.min = (int)IOHIDElementGetLogicalMin(elementRef);
+                        IOHIDValueRef valRef = NULL;
+                        IOHIDDeviceGetValue(m_device, elementRef, &valRef); 
+                        val.value = (int) valRef;
+                        m_absAxisInfos[usage] = val;
+                        if(usage == kHIDUsage_GD_X)
+                        {
+                            m_xAbsUsage = usage;
                         }
-                        m_absAxisCapabilities.append(j);
-                        m_absAxisInfos[j] = cabs;
+                        else if (usage == kHIDUsage_GD_Y)
+                        {
+                            m_yAbsUsage = usage;
+                        }
+                        else if(usage == kHIDUsage_GD_Z)
+                        {
+                            m_zAbsUsage = usage;
+                        }
                     }
                 }
             }
         }
     }
-
-    //===============Find Force feedback ?? ===============
-
-
-
-
-
-    close(m_fd);
-
-    m_deviceType = KCL::Unknown;
-
-    if (m_buttonCapabilities.contains(BTN_STYLUS)) 
+    
+    CFRelease(elements);
+    
+    int deviceUsage = NULL;
+    
+    type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDPrimaryUsageKey));
+    
+    if(type)
     {
-        m_deviceType  = KCL::Tablet;
+        CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
+        CFRelease(type);
+    }
+    else 
+    {
+        type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDDeviceUsageKey));
+        CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
+        CFRelease(type);
     }
 
-    if (m_buttonCapabilities.contains(BTN_STYLUS) || m_buttonCapabilities.contains(ABS_PRESSURE)) 
+    switch (deviceUsage)
     {
-        m_deviceType  = KCL::Mouse;
+        case KCL::KeyBoard:
+            m_deviceType = KCL::KeyBoard;
+            break;
+        case KCL::Mouse:
+            m_deviceType = KCL::Mouse;
+            break;
+        case KCL::Joystick:
+            m_deviceType = KCL::Joystick;
+            break;
+        case KCL::Tablet:
+            m_deviceType = KCL::Tablet;
+            break;
+        case KCL::Touchpad:
+            m_deviceType = KCL::Touchpad;
+            break;
+        default:
+            m_deviceType = KCL::Unknown;
+            break;
     }
-
-    if (m_buttonCapabilities.contains(BTN_TRIGGER)) 
-    {
-        m_deviceType  = KCL::Joystick;
-    }
-
-    if (m_buttonCapabilities.contains(BTN_MOUSE)) 
-    {
-        m_deviceType  = KCL::Mouse;
-    }
-
-    if (m_buttonCapabilities.contains(KEY_ESC)) 
-    {
-        m_deviceType  = KCL::KeyBoard;
-    }*/
 }
 
 void KCLInput::setEnable()
 {
     m_enable = true;
-    if (!error()) {
-        inputListener = new KCLThread(m_device, this);
+    if (!error()) 
+    {
+        if(inputListener != NULL)
+        {
+            inputListener->terminate();
+            delete inputListener;
+        }
+        inputListener = new KCLThread(m_device, m_deviceType,this);
         inputListener->start();
     }
 }
@@ -379,4 +421,7 @@ void KCLInput::setDisable()
     m_relMove = false;
     m_absMove = false;
     inputListener->terminate();
+    delete inputListener;
 }
+
+#include "kclinput.moc"

@@ -4,19 +4,18 @@
 #include "kclcode.h"
 #include "kcl.h"
 
-#include <QMap>
-#include <QPair>
-#include <QPoint>
-#include <QThread>
-#include <QEvent>
-#include <stdio.h>
+#include <QtCore/QMap>
+#include <QtCore/QPair>
+#include <QtCore/QPoint>
+#include <QtCore/QThread>
+#include <QtCore/QEvent>
 
 #include "kclthread.h"
 #include "kclinputevent.h"
 
 #include <IOKit/hid/IOHIDLib.h>
 
-class AbsVal
+class KCL_EXPORT AbsVal
 {
 public:
     AbsVal(int v = 0, int m = 0, int M = 0, int f = 0, int F = 0) {
@@ -81,6 +80,13 @@ public slots:
 protected:
     void readInformation();
     bool event(QEvent * evt);
+    
+    int m_xAbsUsage;
+    int m_yAbsUsage;
+    int m_zAbsUsage;
+    
+    int m_lastAbsAxis;
+    int m_lastRelAxis;
 private:    
     KCLThread *inputListener;
     IOHIDDeviceRef m_device;
@@ -99,9 +105,12 @@ private:
     bool m_absMove;
     bool m_relMove;
     bool m_error;
-    int m_lastAbsAxis;
-    int m_lastRelAxis;
     bool m_enable;
+    
+    int m_vendor;
+    int m_product;
+    int m_version;
+    int m_bustype;
     
     void init();
 };

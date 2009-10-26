@@ -3,13 +3,13 @@
 
 #include "kclinput.h"
 
-#include <QList>
-#include <QPoint>
-#include <QWidget>
+#include <QtCore/QList>
+#include <QtCore/QPoint>
+#include <QtGui/QWidget>
 
 #include <IOKit/hid/IOHIDLib.h>
 
-class KCLMouse : public KCLInput
+class KCL_EXPORT KCLMouse : public KCLInput
 {
     Q_OBJECT
 

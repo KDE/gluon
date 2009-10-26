@@ -1,19 +1,22 @@
 #ifndef KCLCODE_H
 #define KCLCODE_H
 
-#include <QString>
-#include <QEvent>
+#include <QtCore/QString>
+#include <QtCore/QEvent>
 #include "kcl.h"
+#include "kcl_export.h"
 
-class KCLCode
+class KCL_EXPORT KCLCode
 {
 public:
+    static QString keyboardButtonName(int code);
     static QString buttonName(int code);
     static QString eventName(int code);
     static QString relAxisName(int code);
     static QString absAxisName(int code);
 
-
+private:
+    
 };
 
 #endif // KCLCODE_H

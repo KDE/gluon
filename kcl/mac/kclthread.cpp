@@ -1,22 +1,27 @@
 #include "kclthread.h"
 
-#include <iostream>
 #include <QtCore/qeventloop.h>
+#include "kcl.h"
+#include <QtCore/QCoreApplication>
+#include "kclinputevent.h"
+#include <IOKit/hid/IOHIDUsageTables.h>
 
-//static void reportCallBack(void * inContext, IOReturn inResult, void * inSender, IOHIDReportType inType, uint32_t inReportID, uint8_t * inReport, CFIndex inReportLength );
-
-KCLThread::KCLThread(IOHIDDeviceRef pDevice , QObject * parent)
+KCLThread::KCLThread(IOHIDDeviceRef pDevice, int deviceUsage ,QObject * parent)
 : QThread(parent)
 {   
+    m_deviceUsage = deviceUsage;
     IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
     IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
-    CFIndex reportSize = (CFIndex) IOHIDDeviceGetProperty(pDevice,CFSTR( kIOHIDMaxInputReportSizeKey));
-    uint8_t *report = (uint8_t*)malloc( reportSize );
-    IOHIDDeviceRegisterInputReportCallback( pDevice, report, reportSize, deviceReport, NULL );
+    IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
 }
 
 KCLThread::~KCLThread()
 {
+}
+
+int KCLThread::deviceUsage() const
+{
+    return m_deviceUsage;
 }
 
 void KCLThread::run()
@@ -24,41 +29,59 @@ void KCLThread::run()
     this->exec();
 }
 
-
-//maybe use value callback
-void KCLThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDReportType inType, uint32_t inReportID, uint8_t * inReport, CFIndex inReportLength )
+void KCLThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) 
 {
-    //refactor sedn events as kclevents to qcoreapp
     IOHIDDeviceRef deviceRef = (IOHIDDeviceRef) inSender;
+    KCLThread * currentThread = (KCLThread* ) inContext;
     if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
     {
-        CFArrayRef elements = IOHIDDeviceCopyMatchingElements(deviceRef, NULL, kIOHIDOptionsTypeNone);
+        IOHIDElementRef elementRef = IOHIDValueGetElement(inIOHIDValueRef);
         
-        if(elements)
-        {
+        int usagePage = IOHIDElementGetUsagePage( elementRef );
+        int usage = IOHIDElementGetUsage( elementRef );
+        int value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
             
-            for(int i = 0; i < CFArrayGetCount(elements); i++)
+        if(usagePage == kHIDPage_GenericDesktop || usagePage == kHIDPage_KeyboardOrKeypad || usagePage == kHIDPage_Button)
+        {
+            if(usagePage == kHIDPage_GenericDesktop && usage == 60)
+                return;
+            else if(usagePage == kHIDPage_KeyboardOrKeypad && (usage <= 3 || usage > 231))
+                return;
+            
+            QEvent::Type eventType;
+            
+            switch (currentThread->deviceUsage())
             {
-                IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elements,(CFIndex)i);
-                if(CFGetTypeID(elementRef) == IOHIDElementGetTypeID())
-                {
-                    uint32_t usagePage = IOHIDElementGetUsagePage( elementRef );
-                    uint32_t usage = IOHIDElementGetUsage( elementRef );
-                    
-                    IOHIDValueRef bla = NULL;
-                    IOHIDDeviceGetValue(deviceRef, elementRef, &bla);                    
-                    
-                    if ( bla != NULL ) 
+                case KCL::KeyBoard:
+                    eventType = QEvent::Type(KCL::Key);
+                    break;
+                case KCL::Mouse:
+                    if(usagePage == kHIDPage_GenericDesktop)
                     {
-                        CFIndex mdmd = IOHIDValueGetIntegerValue( bla );
-                        
-                        if(mdmd > 0 && usage > -1)
-                        {
-                            printf("usagepage: %d usage: %d thread: %d\n", usagePage, usage, (int)CFRunLoopGetCurrent());
-                        }
+                        eventType = QEvent::Type(KCL::RelativeAxis);
                     }
-                }
+                    else if(usagePage == kHIDPage_Button)
+                    {
+                        eventType = QEvent::Type(KCL::Key);
+
+                    }
+                case KCL::Joystick:
+                    break;
+                case KCL::Tablet:
+                    break;
+                case KCL::Touchpad:
+                    break;
+                default:
+                    break;
             }
-        }
+            
+            CFNumberRef numberRef =  (CFNumberRef)IOHIDDeviceGetProperty(deviceRef,CFSTR(kIOHIDLocationIDKey));
+            int id = -1;
+            CFNumberGetValue(numberRef, kCFNumberSInt32Type, &id);
+            KCLInputEvent * event = new KCLInputEvent(usage, value, usagePage, usage, id, eventType);
+            QCoreApplication::sendEvent(currentThread->parent(), event);
+         }
     }
 }
+
+#include "kclthread.moc"

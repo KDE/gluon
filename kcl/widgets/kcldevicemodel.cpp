@@ -1,9 +1,16 @@
 #include "kcldevicemodel.h"
 
+/*#ifdef __LINUX__
 #include <KIcon>
-#include <KDebug>
+#endif*/
 
-#include <QMessageBox>
+#include <QtGui/QIcon>
+#include <QtCore/QDebug>
+
+#include <QtGui/QMessageBox>
+
+#include "kcl.h"
+#include "kclinput.h"
 
 KCLDeviceModel::KCLDeviceModel(QObject *parent)
         : QStandardItemModel(parent)
@@ -20,29 +27,32 @@ void KCLDeviceModel::setupList()
         QStandardItem *deviceItem = new QStandardItem;
 
         switch (input->deviceType()) {
-        case KCL::KeyBoard :
-            deviceItem = new QStandardItem(KIcon("input-keyboard.png"), input->deviceName());
+        case KCL::KeyBoard:
+            deviceItem = new QStandardItem(QIcon("input-keyboard.png"), input->deviceName());
             break;
         case KCL::Mouse:
-            deviceItem = new QStandardItem(KIcon("input-mouse.png"), input->deviceName());
+            deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
             break;
         case KCL::Touchpad:
-            deviceItem = new QStandardItem(KIcon("input-mouse.png"), input->deviceName());
+            deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
             break;
         case KCL::Joystick:
-            deviceItem = new QStandardItem(KIcon("input-gaming.png"), input->deviceName());
+            deviceItem = new QStandardItem(QIcon("input-gaming.png"), input->deviceName());
             break;
         case KCL::Tablet :
-            deviceItem = new QStandardItem(KIcon("input-tablet.png"), input->deviceName());
+            deviceItem = new QStandardItem(QIcon("input-tablet.png"), input->deviceName());
             break;
         case KCL::Unknown :
-            deviceItem = new QStandardItem(KIcon("system-help.png"), input->deviceName());
+            deviceItem = new QStandardItem(QIcon("system-help.png"), input->deviceName());
             break;
         }
 
         appendRow(deviceItem);
-
-        QStandardItem *info = new QStandardItem(KIcon("help-about.png"), input->devicePath());
+#ifdef __LINUX__
+        QStandardItem *info = new QStandardItem(QIcon("help-about.png"), input->devicePath());
+#else
+       QStandardItem *info = new QStandardItem(QIcon("help-about.png"), "i'm a mac :D");
+#endif
         info->appendRow(new QStandardItem("Bus Type:" + QString::number(input->bustype())));
         info->appendRow(new QStandardItem("Product:" + QString::number(input->product())));
         info->appendRow(new QStandardItem("Version:" + QString::number(input->version())));
@@ -64,7 +74,7 @@ void KCLDeviceModel::setupList()
             relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
         }
 
-        QStandardItem *capab = new QStandardItem(KIcon("view-pim-tasks.png"), "Capability");
+        QStandardItem *capab = new QStandardItem(QIcon("view-pim-tasks.png"), "Capability");
 
         if (input->buttonCapabilities().size() > 0)capab->appendRow(button);
         if (input->absAxisCapabilities().size() > 0)capab->appendRow(absAxis);

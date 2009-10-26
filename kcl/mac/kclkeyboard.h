@@ -4,7 +4,7 @@
 #include "kclinput.h"
 #include <IOKit/hid/IOHIDLib.h>
 
-class KCLKeyBoard : public KCLInput
+class KCL_EXPORT KCLKeyBoard : public KCLInput
 {
 public:
     KCLKeyBoard(IOHIDDeviceRef device, QObject * parent = 0);

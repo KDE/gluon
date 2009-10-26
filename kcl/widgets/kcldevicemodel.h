@@ -3,9 +3,11 @@
 
 #include "../kcldetect.h"
 
+#ifdef __LINUX__
 #include <KIcon>
+#endif
 
-#include <QStandardItemModel>
+#include <QtGui/QStandardItemModel>
 
 /**
  * \defgroup KCL KCL

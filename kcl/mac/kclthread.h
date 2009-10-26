@@ -6,17 +6,23 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDKeys.h>
 #include <IOKit/hid/IOHIDLib.h>
-#include <QObject>
 
-class KCLThread : public QThread
+#include <QtCore/QObject>
+
+#include "kcl_export.h"
+
+class KCL_EXPORT KCLThread : public QThread
 {
     Q_OBJECT
 public:
-    KCLThread(IOHIDDeviceRef pDevice, QObject* parent = 0);
+    KCLThread(IOHIDDeviceRef pDevice, int deviceUsage , QObject* parent = 0);
     ~KCLThread();
-    
-    static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDReportType inType, uint32_t inReportID, uint8_t * inReport, CFIndex inReportLength );    
+    static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
     void run();
+    
+    int deviceUsage() const;
+private:
+    int m_deviceUsage;
 };
 
 #endif

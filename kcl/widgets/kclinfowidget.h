@@ -3,13 +3,14 @@
 
 #include "kcldevicemodel.h"
 #include "kclinputwidget.h"
-#include <KTabWidget>
-#include <KTitleWidget>
 
-#include <QGraphicsView>
-#include <QLabel>
-#include <QTreeView>
-#include <QWidget>
+#include <QtGui/QTabWidget>
+//#include <KTitleWidget>
+
+#include <QtGui/QGraphicsView>
+#include <QtGui/QLabel>
+#include <QtGui/QTreeView>
+#include <QtGui/QWidget>
 
 /**
  * \defgroup KCL KCL

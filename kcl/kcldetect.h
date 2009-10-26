@@ -1,27 +1,22 @@
 #ifndef KCLDETECT_H
 #define KCLDETECT_H
 
-#include "common/kcldetectabstract.h"
-/*#ifdef _LINUX_
-#include "linux/kcldetectlinux.h"
-#elseifdef _APPLE_
-#include "mac/kcldetectmac.h"
-#elseifdef _WIN32
-#include "win/kcldetectwin.h"
-#endif*/
+#include "kcldetectabstract.h"
 
-#include <QObject>
-#include <QList>
+#include "kcl_export.h"
 
-class KCLInput;
-class KCLJoystick;
-class KCLKeyBoard;
-class KCLMouse;
-class KCLTablet;
+#include <QtCore/QObject>
+#include <QtCore/QList>
+
+#include "kclinput.h"
+#include "kclmouse.h"
+#include "kclkeyboard.h"
+#include "kcljoystick.h"
+#include "kcltablet.h"
 
 typedef QList<KCLInput *> KCLInputList;
 
-class KCLDetect : public QObject
+class KCL_EXPORT KCLDetect : public QObject
 {
     Q_OBJECT
 

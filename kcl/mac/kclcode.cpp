@@ -1,146 +1,87 @@
 #include "kclcode.h"
 
-
+#include <QtCore/QVariant>
 //const char *KCL_CODE_EVENT[EV_MAX + 1] = { "Reset", "Key", "Relative", "Absolute", "MSC", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 //                                           NULL, NULL, NULL, "LED", "Sound", NULL, "Repeat", "ForceFeedback", "Power", "ForceFeedbackStatus"
 //                                       };
 //
-//const char *KCL_CODE_BUTTON[KEY_MAX + 1] = { "Reserved", "Esc", /* 0, 1 */
-//                                             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", /* 2 - 11 */
-//                                             "Minus", "Equal", "Backspace", "Tab", /* 12 - 15 */
-//                                             "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", /* 16 - 25 */
-//                                             "LeftBrace", "RightBrace", "Enter", "LeftControl", /* 26 - 29 */
-//                                             "A", "S", "D", "F", "G", "H", "J", "K", "L", /* 30 - 38 */
-//                                             "Semicolon", "Apostrophe", "Grave", "LeftShift", "BackSlash", /* 39 - 43 */
-//                                             "Z", "X", "C", "V", "B", "N", "M",  /* 44 - 50 */
-//                                             "Comma", "Dot", "Slash", "RightShift", "KPAsterisk",
-//                                             "LeftAlt", "Space", "CapsLock",  /* 51 - 58 */
-//                                             "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", /* 59 - 68 */
-//                                             "NumLock", "ScrollLock", /* 69, 70 */
-//                                             "KP7", "KP8", "KP9", "KPMinus", /* 71 - 74 */
-//                                             "KP4", "KP5", "KP6", "KPPlus", /* 75 - 78 */
-//                                             "KP1", "KP2", "KP3", "KP0", "KPDot", /* 79 - 83 */
-//                                             NULL,
-//                                             "ZENKAKUHANKAKU", /* 85 */
-//                                             "102nd", "F11", "F12", /* 86 - 88 */
-//                                             "R0", "KATAKANA", "HIRAGANA", "HENKAN", /* 89 - 92 */
-//                                             "KATAKANAHIRAGANA", "MUHENKAN", "KPJPCOMMA", /* 93 - 95 */
-//                                             "KPEnter", "RightCtrl", "KPSlash", "SysRq", /* 96 - 99 */
-//                                             "RightAlt", "LineFeed", /*100 - 101 */
-//                                             "Home", "Up", "PageUp", "Left", "Right", "End", "Down",
-//                                             "PageDown", "Insert", "Delete", /* 102 - 111 */
-//                                             "Macro", "Mute", "VolumeDown", "VolumeUp", "Power", /* 112 - 116 */
-//                                             "KPEqual", "KPPlusMinus", "Pause", /* 117 - 119 */
-//                                             NULL,
-//                                             "KPComma", /* 121 */
-//                                             "Hanguel", "Hanja", "Yen", /* 122 - 124 */
-//                                             "LeftMeta", "RightMeta", "Compose", /* 125 - 127 */
-//                                             "Stop", "Again", "Props", "Undo", "Front", "Copy", "Open",
-//                                             "Paste", "Find", "Cut", "Help", "Menu", "Calc", "Setup",
-//                                             "Sleep", "WakeUp", "File", "SendFile", "DeleteFile", "X-fer",
-//                                             "Prog1", "Prog2", "WWW", "MSDOS", "Coffee", "Direction",
-//                                             "CycleWindows", "Mail", "Bookmarks", "Computer",
-//                                             "Back", "Forward", "CloseCD", "EjectCD", "EjectCloseCD",
-//                                             "NextSong", "PlayPause", "PreviousSong", "StopCD",
-//                                             "Record", "Rewind", "Phone", /* 128 - 169 */
-//                                             "ISOKey", "Config", "HomePage", "Refresh", "Exit",
-//                                             "Move", "Edit", "ScrollUp", "ScrollDown", /* 170 - 178 */
-//                                             "KPLeftParenthesis", "KPRightParenthesis", /* 179 - 180 */
-//                                             NULL, NULL,
-//                                             "F13", "F14", "F15", "F16", "F17", "F18",
-//                                             "F19", "F20", "F21", "F22", "F23", "F24", /* 183 - 194 */
-//                                             NULL, NULL, NULL, NULL, NULL,
-//                                             "PlayCD", "PauseCD", "Prog3", "Prog4", NULL,
-//                                             "Suspend", "Close", /* 200 - 206 */
-//                                             "Play", "FastForward", "BassBoost", "Print", "HP", "Camera",
-//                                             "Sound", "Question", "Email", "Chat", "Search",
-//                                             "Connect", "Finance", "Sport", "Shop", "AltErase",
-//                                             "Cancel", "BrightnessDown", "BrightnessUp", "Media", /* 207 - 226 */
-//                                             "SwitchVideoMode",
-//                                             "KBDIllumToggle", "KBDIllumDown", "KBDIllumUp", /* 227 - 230 */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "Unknown", /* 240 */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "Btn0", "Btn1", "Btn2", "Btn3", "Btn4",
-//                                             "Btn5", "Btn6", "Btn7", "Btn8", "Btn9", /* 256 - 265 */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "LeftBtn", "RightBtn", "MiddleBtn", "SideBtn",
-//                                             "ExtraBtn", "ForwardBtn", "BackBtn", "TaskBtn", /* 0x110 - 0x117 */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "Trigger", "ThumbBtn", "ThumbBtn2", "TopBtn",
-//                                             "TopBtn2", "PinkieBtn", "BaseBtn", "BaseBtn2",
-//                                             "BaseBtn3", "BaseBtn4", "BaseBtn5", "BaseBtn6",
-//                                             NULL, NULL, NULL, "BtnDead", /* 0x120 - 0x12f */
-//                                             "BtnA", "BtnB", "BtnC", "BtnX",
-//                                             "BtnY", "BtnZ", "BtnTL", "BtnTR",
-//                                             "BtnTL2", "BtnTR2", "BtnSelect", "BtnStart",
-//                                             "BtnMode", "BtnThumbL", "BtnThumbR", /* 0x130 - 0x13e */ NULL,
-//                                             "ToolPen", "ToolRubber", "ToolBrush", "ToolPencil",
-//                                             "ToolAirbrush", "ToolFinger", "ToolMouse", "ToolLens", /* 0x140-0x147 */
-//                                             NULL, NULL, "Touch", "Stylus",
-//                                             "Stylus2", "DoubleTap", "TripleTap", /* 0x14a - 0x14e */ NULL,
-//                                             "GearUp", "GearDown", /* 0x150, 0x151 */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "Ok", "Select", "Goto", "Clear", "Power2", "Option", "Info", "Time",
-//                                             "Vendor", "Archive", "Program", "Channel",
-//                                             "Favorites", "Epg", "Pvr", "Mhp",
-//                                             "Language", "Title", "Subtitle", "Angle",
-//                                             "Zoom", "Mode", "Keyboard", "Screen",
-//                                             "Pc", "Tv", "Tv2", "Vcr", "Vcr2", "Sat", "Sat2", "Cd",
-//                                             "Tape", "Radio", "Tuner", "Player", "Text", "Dvd", "Aux", "Mp3",
-//                                             "Audio", "Video", "Directory", "List",
-//                                             "Memo", "Calendar", "Red", "Green",
-//                                             "Yellow", "Blue", "Channelup", "Channeldown",
-//                                             "First", "Last", "Ab", "Next",
-//                                             "Restart", "Slow", "Shuffle", "Break",
-//                                             "Previous", "Digits", "Teen", "Twen", /* 160 - 19f */
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "DelEol", "DelEos", "InsLine", "DelLine", /* 1c0 - 1c3 */
-//                                             NULL, NULL, NULL, NULL,
-//                                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//                                             "FN", "FN_ESC",
-//                                             "FN_F1", "FN_F2", "FN_F3", "FN_F4", "FN_F5",
-//                                             "FN_F6", "FN_F7", "FN_F8", "FN_F9", "FN_F10",
-//                                             "FN_F11", "FN_F12",
-//                                             "FN_1", "FN_2", "FN_D", "FN_E", "FN_F", "FN_S", "FN_B" /* 0x1d0 - 0x1e4 */
-//                                         };
+const QString KCL_CODE_BUTTON[] =  {"Reserved","Reserved","Reserved","Reserved","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+                                            "1","2","3","4","5","6","7","8","9","0",
+                                            "Return","ESCAPE","DELETE","Tab","Spacebar","-","=","[","]","\"","Non-US # and ~",";","'","Grave Accent and Tilde",",",".","/","Caps Lock",
+                                            "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",
+                                            "PrintScreen","Scroll","Pause","Insert","Home","PageUp","Delete Forward","End","PageDown",
+                                            "RightArrow","LeftArrow","DownArrow","UpArrow",
+                                            "Keypad Num Lock and Clear","Keypad /","Keypad *","Keypad -","Keypad +","Keypad ENTER","Keypad 1","Keypad 2","Keypad 3","Keypad 4","Keypad 5","Keypad 6","Keypad 7","Keypad 8","Keypad 9","Keypad 0","Keypad . and Delete",
+                                            "Non-US \\ and |","Application","Power","Keypad =",
+                                            "F13","F14","F15","F16","F17","F18","F19","F20","F21","F22","F23","F24",
+                                            "Execute","Help","Menu","Select","Stop","Again","Undo","Cut","Copy","Paste","Find","Mute","Volume Up","Volume Down",
+                                            "Locking Caps Lock","Locking Num Lock","Locking Scroll Lock",
+                                            "Keypad Comma","Keypad Equal Sign","International1","International2","International3","International4","International5",
+                                            "International6","International7","International8","International9","LANG1","LANG2","LANG3","LANG4","LANG5","LANG6","LANG7","LANG8","LANG9","Alternate Erase","SysReq/Attention","Cancel","Clear","Prior","Return","Separator","Out",
+                                            "Oper","Clear/Again","CrSel/Props","ExSel","Reserved","Keypad 00","Keypad 000","Thousands Separator","Decimal Separator","Currency Unit","Currency Sub-unit","Keypad (","Keypad )","Keypad {","Keypad }","Tab","Backspace","Keypad A","Keypad B","Keypad C","Keypad D","Keypad E","Keypad F","Keypad XOR","Keypad ^","Keypad %","Keypad <","Keypad >","Keypad &","Keypad &&","Keypad |","Keypad ||","Keypad :","Keypad #","Keypad Space","Keypad @","Keypad !","Keypad Memory Store","Keypad Memory Recall","Keypad Memory Clear","Keypad Memory Add","Keypad Memory Subtract","Keypad Memory Multiply","Keypad Memory Divide","Keypad +/-","Keypad Clear","Keypad Clear Entry","Keypad Binary","Keypad Octal","Keypad Decimal","Keypad Hexadecimal",
+                                                "Reserved", "Reserved", //Reserved
+                                                "LeftControl","LeftShift","LeftAlt","Left GUI","RightControl","RightShift","RightAlt","Right GUI"};
 
 
-//const char *KCL_CODE_RELATIV[REL_MAX + 1] = { "X", "Y", "Z", NULL,
-//                                              NULL, NULL, "HWheel", "Dial",
-//                                              /* 0x08: */ "Wheel", "MISC"
-//                                                      };
 
+const QString KCL_CODE_RELABS[] = {   "Misc",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*0-10*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*11-20*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*21-30*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*31-40*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,"X", "Y","Z",/*41-50*/
+                                    "Rx","Ry","Rz",NULL,"Dial","Wheel","Hat switch",NULL,NULL,NULL,/*51-60*/
+                                    "XTilt","YTilt",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*61-70*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*71-80*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*81-90*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*91-100*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*101-110*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*111-120*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*121-130*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*131-140*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*141-150*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*151-160*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*161-170*/
+                                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*171-180*/
+                                    NULL,NULL,NULL,NULL,NULL,"Rudder","Throttle",NULL,NULL,NULL,/*181-190*/
+                                    NULL,NULL,NULL,NULL,NULL,"Gas","Brake"/*191-197*/
+};
 
-//const char *KCL_CODE_ABSOLU[ABS_MAX + 1] = { "X", "Y", "Z", "Rx",  "Ry", "Rz", "Throttle", "Rudder",
-//                                             "Wheel", "Gas", "Brake", NULL, NULL, NULL, NULL, NULL,
-//                                             /* 0x10: */ "Hat0X", "Hat0Y", "Hat1X", "Hat1Y",
-//                                                         "Hat2X", "Hat2Y", "Hat3X", "Hat 3Y",
-//                                                         "Pressure", "Distance", "XTilt", "YTilt",
-//                                                         "ToolWidth", NULL, NULL, NULL,
-//                                                         /* 0x20: */ "Volume", NULL, NULL, NULL,
-//                                                                     NULL, NULL, NULL, NULL,
-//                                                                     /* 0x28: */ "Misc"
-//                                                                             };
+QString KCLCode::keyboardButtonName(int code)
+{
+    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    {
+        return "Reserved";
+    }
+    else 
+    {
+        return QString(KCL_CODE_BUTTON[code]);   
+    }
+}
 
 QString KCLCode::buttonName(int code)
 {
-    //return QString(KCL_CODE_BUTTON[code]);
-    return "";
+    return "Button " + QVariant(code).toString();
 }
 
 QString KCLCode::relAxisName(int code)
 {
-    //return QString(KCL_CODE_RELATIV[code]);
-    return "";
+    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    {
+        return "";
+    }
+    else 
+    {
+        return QString(KCL_CODE_RELABS[code]);   
+    }
 }
 QString KCLCode::absAxisName(int code)
 {
-    //return QString(KCL_CODE_ABSOLU[code]);
-    return "";
+    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    {
+        return "";
+    }
+    else 
+    {
+        return QString(KCL_CODE_RELABS[code]);
+    }
 }

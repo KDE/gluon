@@ -1,13 +1,13 @@
 #ifndef KCLINPUTWIDGET_H
 #define KCLINPUTWIDGET_H
 
-#include <QWidget>
-#include <QSlider>
-#include <QTableWidget>
-#include <QTimer>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include "../kclinput.h"
+#include <QtGui/QWidget>
+#include <QtGui/QSlider>
+#include <QtGui/QTableWidget>
+#include <QtCore/QTimer>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsScene>
+#include "kclinput.h"
 class KCLInputWidget : public QWidget
 {
     Q_OBJECT

@@ -1,7 +1,13 @@
 #include "kclinputevent.h"
 
-KCLInputEvent::KCLInputEvent(QEvent::Type eventType) : QEvent(eventType)
+KCLInputEvent::KCLInputEvent(int code, int value, int usagePage, int usage, int id, QEvent::Type eventType) 
+: QEvent(eventType)
 {
+    m_code = code;
+    m_value = value;
+    m_usage = usage;
+    m_usagePage = usagePage;
+    m_id = id;
 }
 
 int KCLInputEvent::code() const 

@@ -1,7 +1,7 @@
 #include "kclcustominput.h"
 
-#include <QDebug>
-#include <QStringlist>
+#include <QtCore/QDebug>
+#include <QtCore/QStringlist>
 
 KCLCustomInput::KCLCustomInput(QObject * parent)
             :QObject(parent)
@@ -214,3 +214,5 @@ QStringList KCLCustomInput::relAxisNameList()
     }
     return list;
 }
+
+#include "kclcustominput.moc"

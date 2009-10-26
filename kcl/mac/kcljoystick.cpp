@@ -7,18 +7,17 @@ KCLJoystick::KCLJoystick(IOHIDDeviceRef device, QObject * parent)
 
 int KCLJoystick::axisX() const
 {
-    //return absAxisValue(ABS_X);
-    return 0;
+    return absAxisValue(m_xAbsUsage);
 }
 
 int KCLJoystick::axisY()const 
 {
-    //return absAxisValue(ABS_Y);
-    return 0;
+    return absAxisValue(m_yAbsUsage);
 }
 
 int KCLJoystick::axisZ() const
 {
-    //return absAxisValue(ABS_Z);
-    return 0;
+    return absAxisValue(m_zAbsUsage);
 }
+
+#include "kcljoystick.moc"

@@ -4,25 +4,25 @@
 #include "kclcode.h"
 #include "kclinput.h"
 #include "kcljoystick.h"
-#include "../common/kcldetectabstract.h"
-
+#include "kcldetectabstract.h"
 #include "kclkeyboard.h"
 #include "kclmouse.h"
 #include "kcltablet.h"
 
-#include <QObject>
-#include <QList>
+#include <QtCore/QObject>
+#include <QtCore/QList>
 
-class KCLDetectMac : public KCLDetectAbstract
+class KCL_EXPORT KCLDetectMac : public KCLDetectAbstract
 {
     Q_OBJECT
     
-private:
+public:
     KCLDetectMac(QObject * parent);
     ~KCLDetectMac();
     
-public:
     void searchDevice();
+    void setAllEnable();
+    void setAllDisable();
     
     QList<KCLInput *> getInputList();    
     QList<KCLKeyBoard *> getKeyboardList();
@@ -40,12 +40,11 @@ public:
     void clear();
     
 private:
- /*   QList<KCLInput *> m_inputList;
-    QList<KCLKeyBoard *> m_keyboardList;
-    QList<KCLMouse *> m_mouseList;
-    QList<KCLJoystick *> m_joystickList;
-    QList<KCLTablet *> m_tabletList;
-    QList<KCLInput *> m_unknownList;*/
+    static void createDevices(const void *value, void *context);
+    CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
+    
+    IOHIDManagerRef deviceManager;
+    CFSetRef devices;
 };
 
 #endif

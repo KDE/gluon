@@ -4,7 +4,7 @@
 #include "kclinput.h"
 #include <IOKit/hid/IOHIDLib.h>
 
-class KCLJoystick : public KCLInput
+class KCL_EXPORT KCLJoystick : public KCLInput
 {
     Q_OBJECT
 public:

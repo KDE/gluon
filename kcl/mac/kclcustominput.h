@@ -1,14 +1,14 @@
 #ifndef KCLCUSTOMINPUT_H
 #define KCLCUSTOMINPUT_H
 
-#include "kcldetect.h"
+//#include "kcldetect.h"
 #include "kclinput.h"
 
-#include <QObject>
-#include <QList>
-#include <QMap>
+#include <QtCore/QObject>
+#include <QtCore/QList>
+#include <QtCore/QMap>
 
-class KCLCustomInput : public QObject
+class KCL_EXPORT KCLCustomInput : public QObject
 {
     Q_OBJECT
 public:

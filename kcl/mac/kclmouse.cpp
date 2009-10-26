@@ -1,6 +1,6 @@
 #include "kclmouse.h"
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 KCLMouse::KCLMouse(IOHIDDeviceRef device, QObject *parent)
         : KCLInput(device, parent)
@@ -13,7 +13,9 @@ KCLMouse::KCLMouse(IOHIDDeviceRef device, QObject *parent)
 QPoint KCLMouse::position()
 {
     if ( anyRelMove())
-    //m_position += QPoint(relAxisValue(REL_X), relAxisValue(REL_Y));
+    {
+        m_position += QPoint(relAxisValue(m_lastRelAxis), relAxisValue(m_lastRelAxis));
+    }
     return (m_position+m_originalPosition)*m_sensibility;
 }
 
@@ -29,17 +31,17 @@ void KCLMouse::setOrigin(const QPoint p)
 
 int KCLMouse::wheelPosition() const
 {
-    //return relAxisValue(REL_WHEEL);
-    return 0;
+    return relAxisValue(m_lastRelAxis);
 }
 
 int KCLMouse::hWheelPosition()const 
 {
-    //return relAxisValue(REL_HWHEEL);
-    return 0;
+    return relAxisValue(m_lastRelAxis);
 }
 
 double KCLMouse::sensibility()const
 {
     return m_sensibility;
 }
+
+#include "kclmouse.moc"
