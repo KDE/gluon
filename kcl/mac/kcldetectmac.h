@@ -21,8 +21,8 @@ public:
     ~KCLDetectMac();
     
     void searchDevice();
-    void setAllEnable();
-    void setAllDisable();
+    void setAllEnabled();
+    void setAllDisabled();
     
     QList<KCLInput *> getInputList();    
     QList<KCLKeyBoard *> getKeyboardList();

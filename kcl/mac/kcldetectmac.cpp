@@ -80,7 +80,7 @@ void KCLDetectMac::searchDevice()
         }        
     }
     
-    setAllEnable();
+    setAllEnabled();
 }
 
 QList<KCLInput *> KCLDetectMac::getInputList() 
@@ -167,7 +167,7 @@ void KCLDetectMac::clear()
     m_unknownList.clear();
 }
 
-void KCLDetectMac::setAllEnable()
+void KCLDetectMac::setAllEnabled()
 {
     qDebug() << "Enabling all devices";
     foreach(KCLInput *input, this->getInputList()) {
@@ -175,7 +175,7 @@ void KCLDetectMac::setAllEnable()
     }
 }
 
-void KCLDetectMac::setAllDisable()
+void KCLDetectMac::setAllDisabled()
 {
     foreach(KCLInput *input, this->getInputList()) {
         input->setDisable();
