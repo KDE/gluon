@@ -23,8 +23,11 @@
 
 #include "kal_export.h"
 
+#ifdef Q_WS_X11
 #include <Phonon/AudioOutput>
-
+#else#ifdef Q_WS_MAC
+#include <Phonon/audiooutput.h>
+#endif
 /**
  * \defgroup KAL KAL
  */

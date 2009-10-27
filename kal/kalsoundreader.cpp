@@ -2,12 +2,12 @@
 
 #include "kalbuffer.h"
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
-#include <QFile>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QVector>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
+#include <QtGui/QMessageBox>
+#include <QtCore/QVector>
 
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>

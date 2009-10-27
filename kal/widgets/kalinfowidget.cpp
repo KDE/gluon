@@ -3,13 +3,12 @@
 #include "../kalengine.h"
 #include "../kalsound.h"
 
-#include <QLabel>
-#include <QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
 
-#include <KComboBox>
-#include <KIcon>
-#include <KLocale>
-#include <KTabWidget>
+#include <QtGui/QComboBox>
+#include <QtGui/QIcon>
+#include <QtGui/QTabWidget>
 
 class KALInfoWidgetPrivate
 {
@@ -30,10 +29,10 @@ KALInfoWidget::KALInfoWidget(QWidget * parent)
     QVBoxLayout *layout = new QVBoxLayout;
     d->information = new QWidget;
     d->preview = new QWidget;
-    KTabWidget *tab = new KTabWidget;
+    QTabWidget *tab = new QTabWidget;
 
-    tab->addTab(d->preview, KIcon("run-build-configure.png"), i18n("Preview"));
-    tab->addTab(d->information, KIcon("run-build-file.png"), i18n("Information"));
+    tab->addTab(d->preview, QIcon("run-build-configure.png"), tr("Preview"));
+    tab->addTab(d->information, QIcon("run-build-file.png"), tr("Information"));
 
     setupPreview();
     setupInformation();
@@ -54,23 +53,23 @@ void KALInfoWidget::setupPreview()
 }
 void KALInfoWidget::setupInformation()
 {
-    KComboBox * combo = new KComboBox;
+    QComboBox * combo = new QComboBox;
 
     foreach(const QString &device, KALEngine::instance()->deviceList()) {
-        combo->addItem(KIcon(), device);
+        combo->addItem(QIcon(), device);
     }
 
     connect(combo, SIGNAL(activated(QString)), this, SLOT(setDevice(QString)));
 
     QLabel *logo = new QLabel;
-    logo->setPixmap(KIcon("media-flash").pixmap(128, 128));
+    logo->setPixmap(QIcon("media-flash").pixmap(128, 128));
     logo->setAlignment(Qt::AlignTop);
 
     QLabel *label = new QLabel;
     QString info = "";
-    info += i18n("<p>Vendor: %1</p>", QString(alGetString(AL_VENDOR)));
-    info += i18n("<p>Version: %1</p>", QString(alGetString(AL_VERSION)));
-    info += i18n("<p>Renderer: %1</p>", QString(alGetString(AL_RENDERER)));
+    info += tr("<p>Vendor: %1</p>").arg(QString(alGetString(AL_VENDOR)));
+    info += tr("<p>Version: %1</p>").arg(QString(alGetString(AL_VERSION)));
+    info += tr("<p>Renderer: %1</p>").arg(QString(alGetString(AL_RENDERER)));
 
     //info+="<p>Vendor :"+QString(alcGetString(d->alEngine->AL_DEFAULT_DEVICE_SPECIFIER))+ "</p>";
     //info+="<p>Version :"+QString(alcGetString(AL_VERSION)) + "</p>";
@@ -96,3 +95,5 @@ void KALInfoWidget::setDevice(const QString& device)
 {
     KALEngine::instance()->setDevice(device);
 }
+
+#include "kalinfowidget.moc"

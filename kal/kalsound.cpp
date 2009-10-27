@@ -23,7 +23,7 @@
 #include "kalbuffer.h"
 #include <sndfile.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 #include "kalengine.h"
 
@@ -237,3 +237,5 @@ ALfloat KALSound::duration()const
 ALuint  KALSound::source()const {
     return d->source;
 }
+
+#include "kalsound.moc"

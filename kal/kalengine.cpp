@@ -24,10 +24,16 @@
 
 #include "kalphonon.h"
 
-#include <QtGlobal>
+#include <QtCore/QtGlobal>
 
-#include <al.h>
-#include <alc.h>
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#include <AL/alc.h>
+#endif
+#ifdef Q_WS_MAC
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#endif
 
 //#include <QtCore/QCoreApplication>
 //#include <alut.h>

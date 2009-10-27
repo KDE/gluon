@@ -20,8 +20,7 @@
 #ifndef KAL_EXPORT_H
 #define KAL_EXPORT_H
 
-/* needed for KDE_EXPORT and KDE_IMPORT macros */
-#include <kdemacros.h>
+#include <QtCore/QtGlobal>
 
 /**
  * \defgroup KAL KAL
@@ -31,15 +30,15 @@
 #ifndef KAL_EXPORT
 # if defined(MAKE_KAL_LIB)
 /* We are building this library */
-#  define KAL_EXPORT KDE_EXPORT
+#  define KAL_EXPORT Q_DECL_EXPORT
 # else
 /* We are using this library */
-#  define KAL_EXPORT KDE_IMPORT
+#  define KAL_EXPORT Q_DECL_IMPORT
 # endif
 #endif
 
 # ifndef KAL_EXPORT_DEPRECATED
-#  define KAL_EXPORT_DEPRECATED KDE_DEPRECATED KAL_EXPORT
+#  define KAL_EXPORT_DEPRECATED Q_DECL__DEPRECATED KAL_EXPORT
 # endif
 
 //@}

@@ -1,8 +1,8 @@
 #ifndef KALCAPTURE_H
 #define KALCAPTURE_H
 
-#include <QObject>
-#include <QStringList>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
 
 #include "kal_export.h"
 

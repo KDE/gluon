@@ -93,6 +93,7 @@ endif(Q_WS_X11)
 if(APPLE)
 
 install(TARGETS kgl DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 
 else()
 

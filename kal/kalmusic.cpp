@@ -19,7 +19,7 @@
 */
 
 #include "kalmusic.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 
 static const int BUFFER_SIZE = 4096 * 4;
 
@@ -234,3 +234,5 @@ void KALMusic::run()
     }
     release();
 }
+
+#include "kalmusic.moc"

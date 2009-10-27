@@ -1,18 +1,25 @@
 #include "kalplayerwidget.h"
 #include "../kalsound.h"
 
-#include <QHBoxLayout>
-#include <QToolButton>
-#include <QMenu>
-#include <QTimer>
-#include <QWidgetAction>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QToolButton>
+#include <QtGui/QMenu>
+#include <QtCore/QTimer>
+#include <QtGui/QWidgetAction>
+#include <QtGui/QSlider>
+
+#ifdef Q_WS_X11
 #include <KUrlRequester>
-#include <KDebug>
+#endif
+
+#include <QtCore/QDebug>
 
 class KALPlayerWidgetPrivate
 {
 public :
+#ifdef Q_WS_X11
 KUrlRequester * requester;
+#endif
 KALSound * sound;
 QSlider * slider;
 QTimer * statusTimer;
@@ -28,24 +35,25 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     d->statusTimer->start();
     d->sound = new KALSound;
     QHBoxLayout *layout = new QHBoxLayout;
-
+#ifdef Q_WS_X11
     d->requester = new KUrlRequester(parent);
     d->requester->setFilter("*.ogg *.wav");
     d->requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+#endif
 
 
     QToolButton *bplay = new QToolButton;
-    bplay->setIcon(KIcon("media-playback-start.png"));
+    bplay->setIcon(QIcon("media-playback-start.png"));
 
     QToolButton *bstop = new QToolButton;
-    bstop->setIcon(KIcon("media-playback-stop.png"));
+    bstop->setIcon(QIcon("media-playback-stop.png"));
 
     QToolButton *bpause = new QToolButton;
-    bpause->setIcon(KIcon("media-playback-pause.png"));
+    bpause->setIcon(QIcon("media-playback-pause.png"));
 
 
     QToolButton *bvolume = new QToolButton;
-    bvolume->setIcon(KIcon("player-volume.png"));
+    bvolume->setIcon(QIcon("player-volume.png"));
 
     d->bar = new QSlider(Qt::Horizontal);
     d->bar->setMinimum(0);
@@ -57,7 +65,7 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     d->slider->setMaximum(100);
     d->slider->setValue(100);
     QWidgetAction * volumeAction = new QWidgetAction(volumeMenu);
-    volumeMenu->setIcon(KIcon("player-volume.png"));
+    volumeMenu->setIcon(QIcon("player-volume.png"));
     volumeAction->setDefaultWidget(d->slider);
     volumeMenu->addAction(volumeAction);
     bvolume->setMenu(volumeMenu);
@@ -70,8 +78,9 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     layout->addWidget(bstop);
     layout->addStretch();
     layout->addWidget(bvolume);
-
+#ifdef Q_WS_X11
     bigLayout->addWidget(d->requester);
+#endif
     bigLayout->addWidget(d->bar);
     bigLayout->addLayout(layout);
     bigLayout->addStretch();
@@ -82,12 +91,16 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     connect(bstop, SIGNAL(clicked()), d->sound, SLOT(stop()));
     connect(bpause, SIGNAL(clicked()),d->sound, SLOT(pause()));
     connect(d->slider, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
+#ifdef Q_WS_X11
     connect(d->requester,SIGNAL(textChanged(QString)),this,SLOT(load(QString)));
+#endif
 
     setWindowTitle("select a sound and play it");
 
     setLayout(bigLayout);
+#ifdef Q_WS_X11
     d->sound->load(d->requester->text());
+#endif
 }
 
 void KALPlayerWidget::load(const QString &file)
@@ -119,3 +132,4 @@ void KALPlayerWidget::setTimePosition(int t)
     }
 }
 
+#include "kalplayerwidget.moc"

@@ -3,7 +3,7 @@
 
 #include "../kal_export.h"
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 class KALPlayerWidgetPrivate;
 class KAL_EXPORT KALPlayerWidget : public QWidget

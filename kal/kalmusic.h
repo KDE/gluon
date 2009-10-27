@@ -22,7 +22,7 @@
 #define KALMUSIC_H
 
 
-#include <QThread>
+#include <QtCore/QThread>
 #include <cstring>
 
 #include <al.h>

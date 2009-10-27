@@ -24,12 +24,17 @@
 
 #include "kal_export.h"
 
-#include <QObject>
-#include <QStringList>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
 #include <phonon/phononnamespace.h>
 
-
+#ifdef Q_WS_X11
 #include <AL/alc.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenAL/alc.h>
+#endif
 
 #include "common/ksingleton.h"
 

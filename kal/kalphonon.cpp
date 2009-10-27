@@ -23,8 +23,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
-#include <QtGlobal>
-#include <QDebug>
+#include <QtCore/QtGlobal>
+#include <QtCore/QDebug>
 
 class KALPhononPrivate
 {
@@ -118,3 +118,5 @@ Phonon::Category KALPhonon::category() const
 {
     return d->category;
 }
+
+#include "kalphonon.moc"

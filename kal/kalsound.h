@@ -25,7 +25,7 @@
 
 #include "kal_export.h"
 
-#include <QObject>
+#include <QtCore/QObject>
 
 #include <al.h>
 

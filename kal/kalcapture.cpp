@@ -1,13 +1,21 @@
 #include "kalcapture.h"
-#include <QDebug>
-#include <QTime>
-#include <QFile>
+#include <QtCore/QDebug>
+#include <QtCore/QTime>
+#include <QtCore/QFile>
 
-#include <al.h>
-#include <alc.h>
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#include <AL/alc.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#endif
 
 #include <sndfile.h>
-#include <QtGlobal>
+#include <QtCore/QtGlobal>
+
 class KALCapturePrivate
 {
 public:
@@ -105,3 +113,5 @@ void KALCapture::save(const QString& fileName)
 
     sf_close(file);
 }
+
+#include "kalcapture.moc"
