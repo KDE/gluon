@@ -14,40 +14,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_SOUNDEMITTERCOMPONENT_H
-#define GLUON_SOUNDEMITTERCOMPONENT_H
+#include "scenedock.h"
 
-#include "component.h"
+using namespace Gluon::Creator;
 
-class KALSound;
-
-namespace Gluon
-{
-class SoundAsset;
-
-class SoundEmitterComponent : public Component
-{
-    Q_OBJECT
-    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
-
-public:
-    SoundEmitterComponent(QObject *parent = 0);
-    SoundEmitterComponent(const Gluon::SoundEmitterComponent &other);
-
-    virtual GluonObject *instantiate();
-
-    SoundAsset *sound() {
-        return m_soundAsset;
-    }
-
-    void setSound(SoundAsset *asset);
-
-private:
-    virtual void Update(int elapsedMilliseconds);
-    KALSound *m_sound;
-    SoundAsset *m_soundAsset;
-};
-
-}
-
-#endif // GLUON_SOUNDEMITTERCOMPONENT_H

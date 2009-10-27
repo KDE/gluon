@@ -14,7 +14,7 @@ set(gluoncreator_SRCS
     widgets/propertywidget.cpp
     main.cpp
     mainwindow.cpp
-    models/gameobjecttreemodel.cpp
+    models/scenemodel.cpp
     models/qobjecttreemodel.cpp
 )
 

@@ -14,40 +14,35 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_SOUNDEMITTERCOMPONENT_H
-#define GLUON_SOUNDEMITTERCOMPONENT_H
+#ifndef GLUON_CREATOR_SCENEDOCK_H
+#define GLUON_CREATOR_SCENEDOCK_H
 
-#include "component.h"
+#include <QtGui/QDockWidget>
 
-class KALSound;
+class QTreeView;
 
-namespace Gluon
-{
-class SoundAsset;
+namespace Gluon {
 
-class SoundEmitterComponent : public Component
-{
-    Q_OBJECT
-    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
+    namespace Creator
+    {
+        class SceneModel;
 
-public:
-    SoundEmitterComponent(QObject *parent = 0);
-    SoundEmitterComponent(const Gluon::SoundEmitterComponent &other);
+        class SceneDock : public QDockWidget
+        {
+            public:
+                SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+                ~SceneDock();
 
-    virtual GluonObject *instantiate();
+                SceneModel* model();
+                void setModel(SceneModel* model);
 
-    SoundAsset *sound() {
-        return m_soundAsset;
+            private:
+                SceneModel* m_model;
+                QTreeView* m_view;
+        };
+
     }
-
-    void setSound(SoundAsset *asset);
-
-private:
-    virtual void Update(int elapsedMilliseconds);
-    KALSound *m_sound;
-    SoundAsset *m_soundAsset;
-};
 
 }
 
-#endif // GLUON_SOUNDEMITTERCOMPONENT_H
+#endif // GLUON_CREATOR_SCENEDOCK_H
