@@ -25,7 +25,8 @@
 
 #ifdef Q_WS_X11
 #include <Phonon/AudioOutput>
-#else#ifdef Q_WS_MAC
+#endif
+#ifdef Q_WS_MAC
 #include <Phonon/audiooutput.h>
 #endif
 /**
