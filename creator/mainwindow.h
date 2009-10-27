@@ -41,6 +41,7 @@ namespace Gluon
             public slots:
                 void newProject();
                 void openProject();
+                void openProject(const QString &fileName);
                 void saveProject();
                 void saveProjectAs();
                 void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);

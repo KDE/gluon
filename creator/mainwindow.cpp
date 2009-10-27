@@ -63,11 +63,15 @@ void MainWindow::newProject()
 }
 
 void MainWindow::openProject()
-{   
-    QString filename = KFileDialog::getOpenFileName();
-    if(filename != "")
-    {
-        QFile file(filename);
+{
+    QString fileName = KFileDialog::getOpenFileName();
+    openProject(fileName);
+}
+
+void MainWindow::openProject(const QString &fileName)
+{
+    if(!fileName.isEmpty()) {
+        QFile file(fileName);
         file.open(QIODevice::ReadOnly);
         
         QString data = file.readAll();
