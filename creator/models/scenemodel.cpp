@@ -14,7 +14,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "gameobjecttreemodel.h"
+#include "scenemodel.h"
 #include <gluon/gameobject.h>
 #include <QDebug>
 #include <typeinfo>
@@ -22,13 +22,26 @@
 using namespace Gluon;
 using namespace Gluon::Creator;
 
-GameObjectTreeModel::GameObjectTreeModel(Gluon::GameObject* root, QObject* parent): QAbstractItemModel(parent)
+SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 {
-    m_root = new GameObject(this);
-    m_root->addChild(root);
+    m_root = 0;
 }
 
-QVariant GameObjectTreeModel::data(const QModelIndex& index, int role) const
+
+GameObject* SceneModel::rootGameObject()
+{
+    return m_root->child(0);
+}
+
+
+void SceneModel::setRootGameObject(GameObject* obj)
+{
+    if(m_root) delete m_root;
+    m_root = new GameObject(this);
+    m_root->addChild(obj);
+}
+
+QVariant SceneModel::data(const QModelIndex& index, int role) const
 {
     if (index.isValid() && role == Qt::DisplayRole)
     {
@@ -41,12 +54,12 @@ QVariant GameObjectTreeModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int GameObjectTreeModel::columnCount(const QModelIndex&) const
+int SceneModel::columnCount(const QModelIndex&) const
 {
     return 1;
 }
 
-int GameObjectTreeModel::rowCount(const QModelIndex& parent) const
+int SceneModel::rowCount(const QModelIndex& parent) const
 {
     GameObject *parentItem;
     if (parent.column() > 0)
@@ -60,7 +73,7 @@ int GameObjectTreeModel::rowCount(const QModelIndex& parent) const
     return parentItem->childCount();
 }
 
-QModelIndex GameObjectTreeModel::parent(const QModelIndex& child) const
+QModelIndex SceneModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
@@ -74,7 +87,7 @@ QModelIndex GameObjectTreeModel::parent(const QModelIndex& child) const
     return createIndex(rowIndex(parentItem), 0, parentItem);
 }
 
-QModelIndex GameObjectTreeModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
@@ -93,7 +106,7 @@ QModelIndex GameObjectTreeModel::index(int row, int column, const QModelIndex& p
         return QModelIndex();
 }
 
-QVariant GameObjectTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
@@ -103,7 +116,7 @@ QVariant GameObjectTreeModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
-int GameObjectTreeModel::rowIndex(GameObject* object) const
+int SceneModel::rowIndex(GameObject* object) const
 {
     if(object->parentGameObject())
     {   

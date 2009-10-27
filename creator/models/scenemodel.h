@@ -14,8 +14,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GAMEOBJECTTREEMODEL_H
-#define GAMEOBJECTTREEMODEL_H
+#ifndef GLUON_CREATOR_SCENEMODEL_H
+#define GLUON_CREATOR_SCENEMODEL_H
 
 #include <QAbstractItemModel>
 
@@ -25,10 +25,14 @@ namespace Gluon
 
     namespace Creator
     {
-        class GameObjectTreeModel : public QAbstractItemModel
+        class SceneModel : public QAbstractItemModel
         {
             public:
-                GameObjectTreeModel(Gluon::GameObject* root, QObject* parent = 0);
+                SceneModel(QObject* parent = 0);
+
+                Gluon::GameObject* rootGameObject();
+                void setRootGameObject(Gluon::GameObject* obj);
+                
                 virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
                 virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
                 virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -43,4 +47,4 @@ namespace Gluon
     }
 }
 
-#endif // GAMEOBJECTTREEMODEL_H
+#endif // GLUON_CREATOR_SCENEMODEL_H

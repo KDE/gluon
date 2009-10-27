@@ -33,7 +33,7 @@
 #include <QVariant>
 
 #include "widgets/propertywidget.h"
-#include "models/gameobjecttreemodel.h"
+#include "models/scenemodel.h"
 #include "models/qobjecttreemodel.h"
 #include <klocalizedstring.h>
 #include <qlistview.h>
@@ -91,7 +91,8 @@ void MainWindow::openProject()
         QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
         m_qObjectTree->setModel(qtree);
 
-        GameObjectTreeModel *gtree = new GameObjectTreeModel(qobject_cast<Gluon::GameObject*>(object), m_gameObjectTree);
+        SceneModel *gtree = new SceneModel(m_gameObjectTree);
+	gtree->setRootGameObject(qobject_cast<Gluon::GameObject*>(object));
         m_gameObjectTree->setModel(gtree);
         m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
         
