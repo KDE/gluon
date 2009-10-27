@@ -8,9 +8,9 @@
 #include <QtGui/QWidgetAction>
 #include <QtGui/QSlider>
 
-#ifdef Q_WS_X11
-#include <KUrlRequester>
-#endif
+// #ifdef Q_WS_X11
+// #include <KUrlRequester>
+// #endif
 
 #include <QtCore/QDebug>
 
@@ -18,7 +18,7 @@ class KALPlayerWidgetPrivate
 {
 public :
 #ifdef Q_WS_X11
-KUrlRequester * requester;
+// KUrlRequester * requester;
 #endif
 KALSound * sound;
 QSlider * slider;
@@ -35,11 +35,11 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     d->statusTimer->start();
     d->sound = new KALSound;
     QHBoxLayout *layout = new QHBoxLayout;
-#ifdef Q_WS_X11
-    d->requester = new KUrlRequester(parent);
-    d->requester->setFilter("*.ogg *.wav");
-    d->requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
-#endif
+// #ifdef Q_WS_X11
+//     d->requester = new KUrlRequester(parent);
+//     d->requester->setFilter("*.ogg *.wav");
+//     d->requester->setPath("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+// #endif
 
 
     QToolButton *bplay = new QToolButton;
@@ -78,9 +78,9 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     layout->addWidget(bstop);
     layout->addStretch();
     layout->addWidget(bvolume);
-#ifdef Q_WS_X11
+/*#ifdef Q_WS_X11
     bigLayout->addWidget(d->requester);
-#endif
+#endif*/
     bigLayout->addWidget(d->bar);
     bigLayout->addLayout(layout);
     bigLayout->addStretch();
@@ -91,16 +91,16 @@ KALPlayerWidget::KALPlayerWidget(QWidget *parent)
     connect(bstop, SIGNAL(clicked()), d->sound, SLOT(stop()));
     connect(bpause, SIGNAL(clicked()),d->sound, SLOT(pause()));
     connect(d->slider, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
-#ifdef Q_WS_X11
-    connect(d->requester,SIGNAL(textChanged(QString)),this,SLOT(load(QString)));
-#endif
+// #ifdef Q_WS_X11
+//     connect(d->requester,SIGNAL(textChanged(QString)),this,SLOT(load(QString)));
+// #endif
 
     setWindowTitle("select a sound and play it");
 
     setLayout(bigLayout);
-#ifdef Q_WS_X11
+/*#ifdef Q_WS_X11
     d->sound->load(d->requester->text());
-#endif
+#endif*/
 }
 
 void KALPlayerWidget::load(const QString &file)
