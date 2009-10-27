@@ -24,6 +24,8 @@
 #include <QColor>
 #include <Eigen/Geometry>
 
+#include <QDebug>
+
 using namespace Gluon;
 
 REGISTER_OBJECTTYPE(GluonObject)
@@ -73,20 +75,24 @@ void
 GluonObject::setPropertyFromString(const QString &propertyName, const QString &propertyValue)
 {
     QVariant value;
-    
-    QString theTypeName = propertyValue.left(propertyValue.indexOf('(')).toLower();
-    QString theValue = propertyValue.mid(theTypeName.length(), propertyValue.length() - theTypeName.length() - 1);
-    
-    if(theTypeName == "string")
+
+    // propertyValue format is type(value)
+    QRegExp rx("(\\w+)\\((.+)\\)");
+    int pos = rx.indexIn(propertyValue);
+
+    QString theTypeName = rx.cap(1);
+    QString theValue = rx.cap(2);
+    qDebug() << theTypeName << theValue;
+
+    if(theTypeName == "string") {
         value = theValue;
-    else if(theTypeName == "bool")
+    } else if(theTypeName == "bool") {
         value = theValue.toFloat();
-    else if(theTypeName == "float")
+    } else if(theTypeName == "float") {
         value = theValue.toFloat();
-    else if(theTypeName == "int")
+    } else if(theTypeName == "int") {
         value = theValue.toInt();
-    else if(theTypeName == "vector2d")
-    {
+    } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
         //, z = 0.0f;
         QStringList splitValues = theValue.split(";");
@@ -97,9 +103,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
             //z = splitValues.at(2).toFloat();
         }
         value = QPointF(x, y);
-    }
-    else if(theTypeName == "rgba")
-    {
+    } else if(theTypeName == "rgba") {
         int r = 0, g = 0, b = 0, a = 0;
         QStringList splitValues = theValue.split(";");
         if(splitValues.length() > 0)
@@ -111,11 +115,11 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         if(splitValues.length() > 3)
             a = splitValues[3].toInt();
         value = QColor(r, g, b, a);
-    }
-    else
+    } else {
         // If all else fails, pass the value through verbatim
         value = propertyValue;
-    
+    }
+
     this->setProperty(propertyName.toUtf8(), value);
 }
 
@@ -123,6 +127,6 @@ QString
 GluonObject::getStringFromProperty(const QString &propertyName)
 {
     QString value;
-    
+
     return value;
 }
