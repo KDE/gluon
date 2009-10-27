@@ -151,3 +151,4 @@ void GluonMainWindow::toggleFullscreen(bool fullscreen)
   }
 }
 
+#include "gluonmainwindow.moc"

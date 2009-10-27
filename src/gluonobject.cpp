@@ -130,3 +130,5 @@ GluonObject::getStringFromProperty(const QString &propertyName)
 
     return value;
 }
+
+#include "gluonobject.moc"

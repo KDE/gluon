@@ -327,3 +327,5 @@ serializeGDL(QList<GluonObject *> serializeThis)
     QString serializedData;
     return serializedData;
 }
+
+#include "gdlhandler.moc"

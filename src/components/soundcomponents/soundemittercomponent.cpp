@@ -56,3 +56,4 @@ void SoundEmitterComponent::Update(int elapsedMilliseconds)
     qDebug() << "Hello, World" << elapsedMilliseconds;
 }
 
+#include "soundemittercomponent.moc"

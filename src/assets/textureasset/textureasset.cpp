@@ -62,3 +62,4 @@ Gluon::GluonObject* Gluon::TextureAsset::instantiate()
     return new TextureAsset(this);
 }
 
+#include "textureasset.moc"

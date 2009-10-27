@@ -1,3 +1,6 @@
+#ifndef GLUONMAINWINDOW_H
+#define GLUONMAINWINDOW_H
+
 #include "kgl/kglview.h"
 #include "kal/kalengine.h"
 
@@ -35,3 +38,5 @@ private:
 
 
 };
+
+#endif

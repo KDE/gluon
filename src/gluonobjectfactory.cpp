@@ -46,3 +46,5 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     }
     return 0;
 }
+
+#include "gluonobjectfactory.moc"

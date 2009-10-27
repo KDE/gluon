@@ -73,3 +73,5 @@ QSizeF Gluon::SpriteRenderComponent::size()
 {
     return d->size;
 }
+
+#include "spriterendercomponent.moc"
