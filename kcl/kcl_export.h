@@ -22,12 +22,17 @@
 
 #include <QtCore/qglobal.h>
 
-#ifndef KGL_EXPORT
-#if defined(KCL_LIBRARY)
+#ifndef KCL_EXPORT
+#if defined(MAKE_KCL_LIB)
 #  define KCL_EXPORT Q_DECL_EXPORT
 #else
 #  define KCL_EXPORT Q_DECL_IMPORT
 #endif
 #endif
+
+# ifndef KCL_EXPORT_DEPRECATED
+#  define KCL_EXPORT_DEPRECATED Q_DECL_DEPRECATED KCL_EXPORT
+# endif
+
 
 #endif

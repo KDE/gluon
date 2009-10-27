@@ -11,6 +11,7 @@ ENDIF(Q_WS_X11)
 include_directories(Box2D/Include)
 include_directories(physics)
 include_directories(${QT_QTOPENGL_INCLUDE_DIR})
+include_directories(./)
 
 set(kgl_LIB_SRCS
     kgldisplay.cpp

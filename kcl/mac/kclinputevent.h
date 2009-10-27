@@ -1,9 +1,9 @@
 #ifndef KCLINPUTEVENT_H
 #define KCLINPUTEVENT_H
 
-#include <QtCore/QEvent>
-
 #include "kcl_export.h"
+
+#include <QtCore/QEvent>
 
 class KCL_EXPORT KCLInputEvent : public QEvent
 {

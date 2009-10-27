@@ -12,7 +12,8 @@ include_directories(./linux/)
 
 endif()
 
-include_directories(./common ./)
+include_directories(./common/)
+include_directories(./)
 
 ###############win source and headers###################
 set(kcl_LIB_SRCS_WIN )
@@ -39,7 +40,6 @@ set(kcl_LIB_SRCS_MAC
 set(kcl_LIB_HEADERS_MAC 
 
 ./mac/kcl.h
-./mac/kcl_export.h
 ./mac/kclinputevent.h
 ./mac/kclthread.h
 ./mac/kclinput.h
@@ -73,7 +73,6 @@ set(kcl_LIB_SRCS_LINUX
 set(kcl_LIB_HEADERS_LINUX
 
 ./linux/kcl.h
-./linux/kcl_export.h
 ./linux/kclinputevent.h
 ./linux/kclthread.h
 ./linux/kclinput.h
@@ -103,6 +102,7 @@ widgets/kcldevicemodel.cpp
 
 set(kcl_LIB_HEADERS_COMMON
 
+kcl_export.h
 kcldetect.h
 ./common/kcldetectabstract.h
 
