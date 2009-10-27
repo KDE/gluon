@@ -19,9 +19,9 @@
 
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
-#include <QVariant>
-#include <QPointF>
-#include <QColor>
+#include <QtCore/QVariant>
+#include <QtCore/QPointF>
+#include <QtGui/QColor>
 #include <Eigen/Geometry>
 
 using namespace Gluon;

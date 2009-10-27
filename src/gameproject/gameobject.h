@@ -21,7 +21,7 @@
 #define GLUON_GAMEOBJECT_H
 
 #include "gluonobject.h"
-#include <QSharedData>
+#include <QtCore/QSharedData>
 #include "gluonvarianttypes.h"
 #include "gluonobjectfactory.h"
 

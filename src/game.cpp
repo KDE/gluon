@@ -21,9 +21,9 @@
 #include "gameprivate.h"
 #include "gameproject/gameobject.h"
 
-#include <QThread>
-#include <QTime>
-#include <QDebug>
+#include <QtCore/QThread>
+#include <QtCore/QTime>
+#include <QtCore/QDebug>
 
 using namespace Gluon;
 

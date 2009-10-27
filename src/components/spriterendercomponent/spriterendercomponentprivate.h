@@ -18,7 +18,7 @@
 #define GLUON_SPRITERENDERCOMPONENTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QSizeF>
+#include <QtCore/QSizeF>
 
 class KGLItem;
 

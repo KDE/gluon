@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GLUON_VARIANTTYPES
 #define GLUON_VARIANTTYPES
 
-#include <QVariant>
-#include <QMetaType>
+#include <QtCore/QVariant>
+#include <QtCore/QMetaType>
 #include <Eigen/Geometry>
 
 Q_DECLARE_METATYPE(Eigen::Vector3d)

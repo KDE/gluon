@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GLUON_COMPONENTPRIVATE_H
 #define GLUON_COMPONENTPRIVATE_H
 
-#include <QSharedData>
-#include <QString>
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
 
 namespace Gluon
 {

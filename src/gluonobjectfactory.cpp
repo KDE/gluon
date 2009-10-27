@@ -20,7 +20,7 @@
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace Gluon;
 

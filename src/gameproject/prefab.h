@@ -21,7 +21,7 @@
 #define GLUON_PREFAB_H
 
 #include "gluonobject.h"
-#include <QSharedData>
+#include <QtCore/QSharedData>
 
 
 namespace Gluon

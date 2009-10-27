@@ -21,8 +21,8 @@
 #define GLUON_GAMEOBJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QList>
-#include <QString>
+#include <QtCore/QList>
+#include <QtCore/QString>
 #include <Eigen/Geometry>
 
 namespace Gluon

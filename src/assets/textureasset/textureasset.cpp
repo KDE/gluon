@@ -14,11 +14,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <QImage>
+#include <QtGui/QImage>
 #include <kgl/kgltexture.h>
 
 #include "textureasset.h"
-#include <QUrl>
+#include <QtCore/QUrl>
 
 using namespace Gluon;
 

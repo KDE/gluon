@@ -1,6 +1,7 @@
 include_directories(../)
 include_directories(${EIGEN2_INCLUDE_DIR})
 include_directories(gameproject)
+include_directories(./)
 
 
 set(gluon_LIB_SRCS
@@ -44,13 +45,11 @@ SET(gluon_RCCS
    )
 
 QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
-kde4_add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
+add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
 
-set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
+set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 target_link_libraries(gluon kgl kal ${KDE4_KDEUI_LIBS})
-if (NOT APPLE)
 target_link_libraries(kcl)
-endif (NOT APPLE)
 include_directories(${GLEW_INCLUDE_DIR}/..)
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
@@ -59,7 +58,16 @@ target_link_libraries(gluon
                       ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
 ########### INSTALL FILES ###############
 
+if(APPLE)
+
+install(TARGETS gluon DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
+
+else()
+
 install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+endif()
 
 install(FILES
     gameproject/asset.h

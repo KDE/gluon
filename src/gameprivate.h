@@ -21,7 +21,7 @@
 #define GLUON_GAMEPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QTime>
+#include <QtCore/QTime>
 
 namespace Gluon
 {

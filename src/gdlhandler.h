@@ -20,8 +20,8 @@
 #ifndef GLUON_GDLHANDLER_H
 #define GLUON_GDLHANDLER_H
 
-#include <QObject>
-#include <QString>
+#include <QtCore/QObject>
+#include <QtCore/QString>
 #include "common/ksingleton.h"
 
 namespace Gluon

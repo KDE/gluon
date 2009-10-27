@@ -21,9 +21,9 @@
 #define GLUON_GLUONOBJECTFACTORY_H
 
 #include <common/ksingleton.h>
-#include <QSharedData>
-#include <QHash>
-#include <QMetaType>
+#include <QtCore/QSharedData>
+#include <QtCore/QHash>
+#include <QtCore/QMetaType>
 
 namespace Gluon
 {

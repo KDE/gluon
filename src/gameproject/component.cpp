@@ -21,7 +21,7 @@
 #include "componentprivate.h"
 #include "gameobject.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 using namespace Gluon;
 

@@ -21,7 +21,7 @@
 #define GLUON_GLUONOBJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QString>
+#include <QtCore/QString>
 
 namespace Gluon
 {

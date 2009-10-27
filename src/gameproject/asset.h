@@ -21,8 +21,8 @@
 #define GLUON_ASSET_H
 
 #include "gluonobject.h"
-#include <QUrl>
-#include <QSharedData>
+#include <QtCore/QUrl>
+#include <QtCore/QSharedData>
 
 namespace Gluon
 {

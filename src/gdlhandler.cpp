@@ -17,8 +17,8 @@
 
 */
 
-#include <QStringList>
-#include <QDebug>
+#include <QtCore/QStringList>
+#include <QtCore/QDebug>
 #include "gdlhandler.h"
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"

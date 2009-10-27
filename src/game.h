@@ -21,8 +21,8 @@
 #define GLUON_GAME_H
 
 #include <QtCore/QObject>
-#include <QSharedData>
-#include <QThread>
+#include <QtCore/QSharedData>
+#include <QtCore/QThread>
 
 namespace Gluon
 {
