@@ -17,7 +17,7 @@
 #ifndef GLUON_SOUNDEMITTERCOMPONENT_H
 #define GLUON_SOUNDEMITTERCOMPONENT_H
 
-#include "gluon/component.h"
+#include "component.h"
 
 class KALSound;
 
