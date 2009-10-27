@@ -28,7 +28,6 @@
 namespace Gluon
 {
     class GluonObject;
-    
     class GluonObjectFactory : public KSingleton<GluonObjectFactory>
     {
         Q_OBJECT
@@ -40,23 +39,24 @@ namespace Gluon
         private:
             QHash<QString, GluonObject*> objectTypes;
     };
+}
 
-    template<class T>
-    class GluonObjectRegistration
-    {
-        
-        public:
-            GluonObjectRegistration(T* newObjectType)
-            {
-                GluonObjectFactory::instance()->registerObjectType(newObjectType);
-                if(newObjectType->metaObject())
-                    qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
-            }
-    };
+template<class T>
+class GluonObjectRegistration
+{
+    
+    public:
+        GluonObjectRegistration(T* newObjectType)
+        {
+            Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType);
+            if(newObjectType->metaObject())
+                qRegisterMetaType<T*>();//(newObjectType->metaObject()->className() + ' ' + '*');
+        }
+};
+
 #define REGISTER_OBJECTTYPE(NEWOBJECTTYPE) \
 GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); \
 Q_DECLARE_METATYPE(NEWOBJECTTYPE *);
-}
 
     
 #endif				// GLUON_GLUONOBJECTFACTORY_H
