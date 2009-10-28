@@ -28,6 +28,7 @@
 #include <QtCore/QObject>
 
 #include <al.h>
+#include <Eigen/Geometry>
 
 class KALBuffer;
 
@@ -107,6 +108,12 @@ public:
     QString lastError()const ;
 
     /**
+    * @return the position of the listener
+    * @see setPosition, x ,y ,z
+    */
+    Eigen::Vector3f position() const;
+
+    /**
     * @return the x position of the listener
     * @see setPosition, y, z
     */
@@ -177,23 +184,32 @@ public Q_SLOTS:
     void setLoop(bool enabled = true);
 
     /**
-    * Sets the position of the listener, this is used to create
+    * Set the position of the listener, this is used to create
     * 3D sounds using effects to artificially change sound origin
-    * The openAL documentation defines the underlying variable as:
+    * The three scalars of the vector correspond to x, y and z in
+    * the coordinate system.
+    * The OpenAL documentation defines the underlying variable as:
     * Specify the current location in three dimensional space.
     * OpenAL, like OpenGL, uses a right handed coordinate system,
-    * where in a frontal default view @p x (thumb) points right,
-    * @p y points up (index finger), and @p z points towards the
+    * where in a frontal default view x (thumb) points right,
+    * y points up (index finger), and z points towards the
     * viewer/camera (middle finger).
     * To switch from a left handed coordinate system, flip the
     * sign on the Z coordinate.
     * Listener position is always in the world coordinate system.
     */
+    void setPosition(Eigen::Vector3f position);
+
+    /**
+    * @overload setPosition()
+    * Set the position of the listener using the coordinates
+    * (@p x, @p y, @p z)
+    */
     void setPosition(ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0);
 
     /**
     * Change the volume (volume amplification) applied
-    * The openAL documentation defines the underlying variable as:
+    * The OpenAL documentation defines the underlying variable as:
     * A value of 1.0 means un-attenuated/unchanged.
     * Each division by 2 equals an attenuation of -6dB.
     * Each multiplicaton with 2 equals an amplification of +6dB.
@@ -235,7 +251,7 @@ protected:
     void setupSource();
 private:
     Q_DISABLE_COPY(KALSound)
-    
+
     KALSoundPrivate *d;
 };
 

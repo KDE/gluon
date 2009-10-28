@@ -32,9 +32,7 @@ class KALSoundPrivate
 public:
     KALBuffer *buffer;
     ALuint source;
-    ALfloat x;
-    ALfloat y;
-    ALfloat z;
+    Eigen::Vector3f position;
     ALfloat volume;
     ALfloat pitch;
 };
@@ -94,9 +92,9 @@ void KALSound::load(ALuint buffer) {
 void KALSound::init()
 {
     d->source=0;
-    d->x=0;
-    d->y=0;
-    d->z=0;
+    d->position[0]=0;
+    d->position[1]=0;
+    d->position[2]=0;
     d->volume=0;
     d->pitch=0;
 }
@@ -136,19 +134,24 @@ void KALSound::setLoop(bool enabled)
 
 }
 
+Eigen::Vector3f KALSound::position() const
+{
+    return d->position;
+}
+
 ALfloat KALSound::x()const
 {
-    return d->x;
+    return d->position[0];
 }
 
 ALfloat KALSound::y()const
 {
-    return d->y;
+    return d->position[1];
 }
 
 ALfloat KALSound::z()const
 {
-    return d->z;
+    return d->position[2];
 }
 
 ALfloat KALSound::volume()const
@@ -163,11 +166,19 @@ ALfloat KALSound::pitch()const
 
 void KALSound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
-    d->x = x;
-    d->y = y;
-    d->z = z;
+    Eigen::Vector3f position;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
 
-    ALfloat listenerPosition[] = { x, y, z };
+    setPosition(position);
+}
+
+void KALSound::setPosition(Eigen::Vector3f position)
+{
+    d->position = position;
+
+    ALfloat listenerPosition[] = { position[0], position[1], position[2] };
     alSourcefv(d->source, AL_POSITION, listenerPosition);
 }
 
