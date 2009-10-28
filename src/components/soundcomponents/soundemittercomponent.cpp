@@ -16,6 +16,7 @@
 
 #include "soundemittercomponent.h"
 
+#include "soundlistenercomponent.h"
 #include "kal/kalsound.h"
 #include "assets/soundasset/soundasset.h"
 
@@ -41,6 +42,25 @@ GluonObject *SoundEmitterComponent::instantiate()
     return new SoundEmitterComponent(this);
 }
 
+
+void SoundEmitterComponent::play()
+{
+    SoundListenerComponent *listener = SoundListenerComponent::instance();
+
+    if (listener->effectsEnabled()) {
+        m_sound->setPosition(listener->position());
+    } else {
+        m_sound->setPosition(0, 0, 0);
+    }
+
+    m_sound->play();
+}
+
+void SoundEmitterComponent::stop()
+{
+    m_sound->stop();
+}
+
 void SoundEmitterComponent::setSound(SoundAsset *asset)
 {
     m_soundAsset = asset;
@@ -53,7 +73,6 @@ void SoundEmitterComponent::setSound(SoundAsset *asset)
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
-    qDebug() << "Hello, World" << elapsedMilliseconds;
 }
 
 #include "soundemittercomponent.moc"

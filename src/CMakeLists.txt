@@ -26,6 +26,7 @@ set(gluon_LIB_SRCS
     gameprivate.cpp
 
     components/soundcomponents/soundemittercomponent.cpp
+    components/soundcomponents/soundlistenercomponent.cpp
     components/spriterendercomponent/spriterendercomponent.cpp
     components/spriterendercomponent/spriterendercomponentprivate.cpp
 

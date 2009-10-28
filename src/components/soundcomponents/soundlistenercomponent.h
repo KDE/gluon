@@ -14,43 +14,37 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_SOUNDEMITTERCOMPONENT_H
-#define GLUON_SOUNDEMITTERCOMPONENT_H
+#ifndef SOUNDLISTENERCOMPONENT_H
+#define SOUNDLISTENERCOMPONENT_H
 
 #include "component.h"
-
-class KALSound;
+#include "common/ksingleton.h"
+#include "src/gluonvarianttypes.h"
 
 namespace Gluon
 {
-class SoundAsset;
 
-class SoundEmitterComponent : public Component
+class SoundListenerComponent : public Component, public KSingleton<SoundListenerComponent>
 {
     Q_OBJECT
-    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
+    Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
+    Q_PROPERTY(Eigen::Vector3f position READ position)
 
 public:
-    SoundEmitterComponent(QObject *parent = 0);
-    SoundEmitterComponent(const Gluon::SoundEmitterComponent &other);
+    virtual void Update(int elapsedMilliseconds);
 
-    virtual GluonObject *instantiate();
-
-    SoundAsset *sound() {
-        return m_soundAsset;
+    void setEffectsEnabled(bool enable);
+    bool effectsEnabled() {
+        return m_effectsEnabled;
     }
 
-    void setSound(SoundAsset *asset);
-
-    void play();
-    void stop();
+    Eigen::Vector3f position();
 
 private:
-    virtual void Update(int elapsedMilliseconds);
-    KALSound *m_sound;
-    SoundAsset *m_soundAsset;
+    bool m_effectsEnabled;
+    Eigen::Vector3f m_position;
 };
 
 }
 
-#endif // GLUON_SOUNDEMITTERCOMPONENT_H
+#endif // SOUNDLISTENERCOMPONENT_H
