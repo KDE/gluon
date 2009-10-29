@@ -17,6 +17,7 @@
 #include "soundemittercomponent.h"
 
 #include "soundlistenercomponent.h"
+#include "kal/kalengine.h"
 #include "kal/kalsound.h"
 #include "assets/soundasset/soundasset.h"
 #include "src/gameproject/gameobject.h"
@@ -46,6 +47,8 @@ GluonObject *SoundEmitterComponent::instantiate()
 
 void SoundEmitterComponent::play()
 {
+    KALEngine::instance();
+
     m_sound->play();
 }
 
@@ -56,25 +59,24 @@ void SoundEmitterComponent::stop()
 
 void SoundEmitterComponent::setSound(SoundAsset *asset)
 {
-    m_soundAsset = asset;
-
     if (m_sound) {
-        delete m_sound;
+        m_sound->deleteLater();
+        m_sound = 0;
     }
+
+    m_soundAsset = asset;
     m_sound = new KALSound(m_soundAsset->buffer());
 }
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
-    //TODO: implement
-    /* SoundListenerComponent *listener = GlobalComponents::instance()->activeListener();
-       if (!listener->effectsEnabled()) {
-           return;
-       }
+    SoundListenerComponent *listener = SoundListenerComponent::activeInstance();
+    if (!listener->effectsEnabled()) {
+        return;
+    }
 
-       Eigen::Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
-       m_sound->setPosition(relativePosition);
-    */
+    Eigen::Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
+    m_sound->setPosition(relativePosition);
 }
 
 #include "soundemittercomponent.moc"

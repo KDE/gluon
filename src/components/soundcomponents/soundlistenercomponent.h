@@ -39,7 +39,10 @@ public:
 
     void setActive(bool active);
     bool isActive() {
-        return m_isActive;
+        if (m_activeInstance != this) {
+            return false;
+        }
+        return true;
     }
 
     void setEffectsEnabled(bool enable);
@@ -47,9 +50,12 @@ public:
         return m_effectsEnabled;
     }
 
+    static SoundListenerComponent *activeInstance();
+
 private:
-    bool m_isActive;
     bool m_effectsEnabled;
+
+    static SoundListenerComponent *m_activeInstance;
 };
 
 }

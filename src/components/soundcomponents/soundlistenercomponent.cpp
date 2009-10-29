@@ -18,6 +18,8 @@
 
 using namespace Gluon;
 
+SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
+
 REGISTER_OBJECTTYPE(SoundListenerComponent)
 
 SoundListenerComponent::SoundListenerComponent(QObject *parent)
@@ -41,13 +43,17 @@ void SoundListenerComponent::Update(int elapsedMilliseconds)
 
 void SoundListenerComponent::setActive(bool active)
 {
-    //GlobalComponent::instance()->setActiveListener(this);
-    m_isActive = true;
+    m_activeInstance = this;
 }
 
 void SoundListenerComponent::setEffectsEnabled(bool enable)
 {
     m_effectsEnabled = enable;
+}
+
+SoundListenerComponent *SoundListenerComponent::activeInstance()
+{
+    return m_activeInstance;
 }
 
 #include "soundlistenercomponent.moc"
