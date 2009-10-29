@@ -72,8 +72,7 @@ void SoundEmitterComponent::Update(int elapsedMilliseconds)
            return;
        }
 
-       Eigen::Vector3f position = gameObject()->position();
-       Eigen::Vector3f relativePosition = position.relativeTo(listener->gameObject()->position());
+       Eigen::Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
        m_sound->setPosition(relativePosition);
     */
 }
