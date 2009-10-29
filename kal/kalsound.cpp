@@ -178,8 +178,8 @@ void KALSound::setPosition(Eigen::Vector3f position)
 {
     d->position = position;
 
-    ALfloat listenerPosition[] = { position[0], position[1], position[2] };
-    alSourcefv(d->source, AL_POSITION, listenerPosition);
+    ALfloat sourcePosition[] = { position[0], position[1], position[2] };
+    alSourcefv(d->source, AL_POSITION, sourcePosition);
 }
 
 void KALSound::setVolume(ALfloat volume)
