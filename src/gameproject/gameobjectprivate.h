@@ -39,9 +39,9 @@ namespace Gluon
             
             QString description;
             
-            Eigen::Vector3d position;
-            Eigen::Vector3d scale;
-            Eigen::Vector3d rotationAxis;
+            Eigen::Vector3f position;
+            Eigen::Vector3f scale;
+            Eigen::Vector3f rotationAxis;
             float rotation;
             
             GameObject * parentGameObject;

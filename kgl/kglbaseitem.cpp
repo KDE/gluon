@@ -48,14 +48,14 @@ void  KGLBaseItem::updateTransform()
 {
     m_matrix.setIdentity();
 
-    m_matrix.translate(Eigen::Vector3d(m_position.x() , m_position.y(), 0));
+    m_matrix.translate(Eigen::Vector3f(m_position.x() , m_position.y(), 0));
 
-    m_matrix.scale(Eigen::Vector3d(m_scale.x() , m_scale.y(), 0));
-    m_matrix.translate(Eigen::Vector3d(m_translate.x() , m_translate.y(), 0));
+    m_matrix.scale(Eigen::Vector3f(m_scale.x() , m_scale.y(), 0));
+    m_matrix.translate(Eigen::Vector3f(m_translate.x() , m_translate.y(), 0));
 
-    m_matrix.translate(Eigen::Vector3d(m_rotateCenter.x(), m_rotateCenter.y(), 0));
-    m_matrix.rotate(Eigen::AngleAxisd(m_angle, AXIS_Z));
-    m_matrix.translate(Eigen::Vector3d(-m_rotateCenter.x() , -m_rotateCenter.y(), 0));
+    m_matrix.translate(Eigen::Vector3f(m_rotateCenter.x(), m_rotateCenter.y(), 0));
+    m_matrix.rotate(Eigen::AngleAxisf(m_angle, AXIS_Z));
+    m_matrix.translate(Eigen::Vector3f(-m_rotateCenter.x() , -m_rotateCenter.y(), 0));
 
 
 
@@ -105,7 +105,7 @@ void KGLBaseItem::computeGeometry()
 
 QPointF KGLBaseItem::transform(const QPointF &p) const
 {
-    Eigen::Vector3d vect = m_matrix * Eigen::Vector3d(p.x(), p.y(), 0);
+    Eigen::Vector3f vect = m_matrix * Eigen::Vector3f(p.x(), p.y(), 0);
     return QPointF(vect.x(), vect.y());
 }
 
@@ -124,8 +124,8 @@ QPolygonF KGLBaseItem::transform(const QPolygonF &p) const
 
 QRectF KGLBaseItem::transform(const QRectF &r) const
 {
-    Eigen::Vector3d a = m_matrix * Eigen::Vector3d(r.x(), r.y(), 0);
-    Eigen::Vector3d b = m_matrix * Eigen::Vector3d(r.width(), r.height(), 0);
+    Eigen::Vector3f a = m_matrix * Eigen::Vector3f(r.x(), r.y(), 0);
+    Eigen::Vector3f b = m_matrix * Eigen::Vector3f(r.width(), r.height(), 0);
 
     return QRectF(a.x(), a.y(), b.x(), b.y());
 }

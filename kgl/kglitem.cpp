@@ -109,7 +109,7 @@ void KGLItem::paintGL()
     m_texture->updateTransform();
 
     glPushMatrix();
-    glLoadMatrixd(matrix().data());
+    glLoadMatrixf(matrix().data());
 
     m_texture->bind();
     glEnable(GL_BLEND);
@@ -170,7 +170,7 @@ void  KGLItem::create()
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 
-    if (f_showCenter) 
+    if (f_showCenter)
     {
         drawCenter();
     }
