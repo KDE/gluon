@@ -37,12 +37,6 @@ GluonObject *SoundListenerComponent::instantiate()
 
 void SoundListenerComponent::Update(int elapsedMilliseconds)
 {
-    if (!m_effectsEnabled) {
-        return;
-    }
-
-    //TODO: implement GameObject/Component relation
-    //m_position = m_gameObject->position();
 }
 
 void SoundListenerComponent::setActive(bool active)
@@ -54,13 +48,6 @@ void SoundListenerComponent::setActive(bool active)
 void SoundListenerComponent::setEffectsEnabled(bool enable)
 {
     m_effectsEnabled = enable;
-}
-
-Eigen::Vector3f SoundListenerComponent::position()
-{
-    Q_ASSERT(m_effectsEnabled);
-
-    return m_position;
 }
 
 #include "soundlistenercomponent.moc"

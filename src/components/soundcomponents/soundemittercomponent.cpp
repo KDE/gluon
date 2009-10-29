@@ -19,6 +19,7 @@
 #include "soundlistenercomponent.h"
 #include "kal/kalsound.h"
 #include "assets/soundasset/soundasset.h"
+#include "src/gameproject/gameobject.h"
 
 #include <QtCore/QDebug>
 
@@ -67,12 +68,12 @@ void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
     //TODO: implement
     /* SoundListenerComponent *listener = GlobalComponents::instance()->activeListener();
-       if (listener->effectsEnabled()) {
+       if (!listener->effectsEnabled()) {
            return;
        }
 
-       Eigen::Vector3f position = m_gameObject->position();
-       Eigen::Vector3f relativePosition = position.relativeTo(listener->position());
+       Eigen::Vector3f position = gameObject()->position();
+       Eigen::Vector3f relativePosition = position.relativeTo(listener->gameObject()->position());
        m_sound->setPosition(relativePosition);
     */
 }
