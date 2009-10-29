@@ -321,36 +321,36 @@ GameObject::description() const
 }
 
 void
-GameObject::setPosition(Eigen::Vector3d newPosition)
+GameObject::setPosition(Eigen::Vector3f newPosition)
 {
     d->position = newPosition;
 }
 
-Eigen::Vector3d
+Eigen::Vector3f
 GameObject::position() const
 {
     return d->position;
 }
 
 void
-GameObject::setScale(Eigen::Vector3d newScale)
+GameObject::setScale(Eigen::Vector3f newScale)
 {
     d->scale = newScale;
 }
 
-Eigen::Vector3d
+Eigen::Vector3f
 GameObject::scale() const
 {
     return d->scale;
 }
 
 void
-GameObject::setRotationAxis(Eigen::Vector3d newRotationAxis)
+GameObject::setRotationAxis(Eigen::Vector3f newRotationAxis)
 {
     d->rotationAxis = newRotationAxis;
 }
 
-Eigen::Vector3d
+Eigen::Vector3f
 GameObject::rotationAxis() const
 {
     return d->rotationAxis;

@@ -73,12 +73,12 @@ class KGL_EXPORT KGLShadowItem : public KGLItem
 
     private:
         Q_DISABLE_COPY(KGLShadowItem)
-        
+
         KGLItem* m_parentItem;
         unsigned int m_snapDuration;
         unsigned int m_nbFrame;
         unsigned int m_currentFrame;
-        QList <Eigen::Transform3d> m_listMatrix;
+        QList <Eigen::Transform3f> m_listMatrix;
         QList <KGLItem*> m_listItem;
         QList <float> m_listAlpha;
         QTimer *m_timer;

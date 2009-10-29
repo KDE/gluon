@@ -18,31 +18,38 @@
 #define SOUNDLISTENERCOMPONENT_H
 
 #include "component.h"
-#include "common/ksingleton.h"
 #include "src/gluonvarianttypes.h"
 
 namespace Gluon
 {
 
-class SoundListenerComponent : public Component, public KSingleton<SoundListenerComponent>
+class SoundListenerComponent : public Component
 {
     Q_OBJECT
+    Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
-    Q_PROPERTY(Eigen::Vector3f position READ position)
 
 public:
+    SoundListenerComponent(QObject *parent = 0);
+    SoundListenerComponent(const Gluon::SoundListenerComponent &other);
+
+    virtual GluonObject *instantiate();
+
     virtual void Update(int elapsedMilliseconds);
+
+    void setActive(bool active);
+    bool isActive() {
+        return m_isActive;
+    }
 
     void setEffectsEnabled(bool enable);
     bool effectsEnabled() {
         return m_effectsEnabled;
     }
 
-    Eigen::Vector3f position();
-
 private:
+    bool m_isActive;
     bool m_effectsEnabled;
-    Eigen::Vector3f m_position;
 };
 
 }

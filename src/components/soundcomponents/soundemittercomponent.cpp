@@ -19,6 +19,7 @@
 #include "soundlistenercomponent.h"
 #include "kal/kalsound.h"
 #include "assets/soundasset/soundasset.h"
+#include "src/gameproject/gameobject.h"
 
 #include <QtCore/QDebug>
 
@@ -45,14 +46,6 @@ GluonObject *SoundEmitterComponent::instantiate()
 
 void SoundEmitterComponent::play()
 {
-    SoundListenerComponent *listener = SoundListenerComponent::instance();
-
-    if (listener->effectsEnabled()) {
-        m_sound->setPosition(listener->position());
-    } else {
-        m_sound->setPosition(0, 0, 0);
-    }
-
     m_sound->play();
 }
 
@@ -73,6 +66,16 @@ void SoundEmitterComponent::setSound(SoundAsset *asset)
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
+    //TODO: implement
+    /* SoundListenerComponent *listener = GlobalComponents::instance()->activeListener();
+       if (!listener->effectsEnabled()) {
+           return;
+       }
+
+       Eigen::Vector3f position = gameObject()->position();
+       Eigen::Vector3f relativePosition = position.relativeTo(listener->gameObject()->position());
+       m_sound->setPosition(relativePosition);
+    */
 }
 
 #include "soundemittercomponent.moc"

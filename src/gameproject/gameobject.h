@@ -35,9 +35,9 @@ namespace Gluon
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
         
-        /*Q_PROPERTY(Eigen::Vector3d position READ position WRITE setPosition)
-        Q_PROPERTY(Eigen::Vector3d scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Vector3d rotationAxis READ rotationAxis WRITE setRotationAxis)*/
+        /*Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
+        Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
+        Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)*/
         Q_PROPERTY(float rotation READ rotation WRITE setRotation)
         
         public:
@@ -92,12 +92,12 @@ namespace Gluon
             void setDescription(const QString &newDescription);
             QString description() const;
             
-            void setPosition(Eigen::Vector3d newPosition);
-            Eigen::Vector3d position() const;
-            void setScale(Eigen::Vector3d newScale);
-            Eigen::Vector3d scale() const;
-            void setRotationAxis(Eigen::Vector3d newRotationAxis);
-            Eigen::Vector3d rotationAxis() const;
+            void setPosition(Eigen::Vector3f newPosition);
+            Eigen::Vector3f position() const;
+            void setScale(Eigen::Vector3f newScale);
+            Eigen::Vector3f scale() const;
+            void setRotationAxis(Eigen::Vector3f newRotationAxis);
+            Eigen::Vector3f rotationAxis() const;
             void setRotation(float newRotation);
             float rotation() const;
             
