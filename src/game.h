@@ -23,10 +23,12 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QThread>
+#include <common/ksingleton.h>
 
 namespace Gluon
 {
-class GameObject;
+    class GameProject;
+    class GameObject;
     class GamePrivate;
     
     class I : public QThread
@@ -43,16 +45,18 @@ class GameObject;
             }
     };
     
-    class Game : public QObject
+    class Game : public KSingleton<Game>
     {
         Q_OBJECT
+        Q_PROPERTY(GameObject* currentLevel READ currentLevel WRITE setCurrentLevel)
+        Q_PROPERTY(GameProject* gameProject READ gameProject WRITE setGameProject)
         
         public:
-            Game(QObject * parent = 0);
-            Game(const Game &other, QObject * parent = 0);
-            ~Game();
-            
+            GameObject * currentLevel() const;
             void setCurrentLevel(GameObject * newCurrentLevel);
+            
+            GameProject * gameProject() const;
+            void setGameProject(GameProject * newGameProject);
             
             void runGame() { this->runGameFixedUpdate(); }
             /**
@@ -71,6 +75,11 @@ class GameObject;
             int getCurrentTick();
             
         private:
+            friend class KSingleton<Game>;
+            
+            Game(QObject * parent = 0);
+            ~Game();
+            
             QSharedDataPointer<GamePrivate> d;
     };
 }

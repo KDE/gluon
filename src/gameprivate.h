@@ -25,7 +25,9 @@
 
 namespace Gluon
 {
-class GameObject;
+    class GameObject;
+    class GameProject;
+    
     class GamePrivate : public QSharedData
     {
         public:
@@ -37,6 +39,7 @@ class GameObject;
             bool gameRunning;
             bool gamePaused;
             GameObject * currentLevel;
+            GameProject * gameProject;
     };
 }
 
