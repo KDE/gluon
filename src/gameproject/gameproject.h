@@ -24,7 +24,7 @@
 #include "gameobject.h"
 
 #include <QtCore/QSharedData>
-#include <QUrl>
+#include <QtCore/QUrl>
 
 namespace Gluon
 {

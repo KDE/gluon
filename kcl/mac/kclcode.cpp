@@ -5,7 +5,8 @@
 //                                           NULL, NULL, NULL, "LED", "Sound", NULL, "Repeat", "ForceFeedback", "Power", "ForceFeedbackStatus"
 //                                       };
 //
-const QString KCL_CODE_BUTTON[] =  {"Reserved","Reserved","Reserved","Reserved","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+
+const QString KCL_CODE_BUTTON[KCL_CODE_BUTTON_SIZE] =  {"Reserved","Reserved","Reserved","Reserved","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
                                             "1","2","3","4","5","6","7","8","9","0",
                                             "Return","ESCAPE","DELETE","Tab","Spacebar","-","=","[","]","\"","Non-US # and ~",";","'","Grave Accent and Tilde",",",".","/","Caps Lock",
                                             "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",
@@ -23,8 +24,7 @@ const QString KCL_CODE_BUTTON[] =  {"Reserved","Reserved","Reserved","Reserved",
                                                 "LeftControl","LeftShift","LeftAlt","Left GUI","RightControl","RightShift","RightAlt","Right GUI"};
 
 
-
-const QString KCL_CODE_RELABS[] = {   "Misc",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*0-10*/
+const QString KCL_CODE_RELABS[KCL_CODE_RELABS_SIZE] = {   "Misc",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*0-10*/
                                     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*11-20*/
                                     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*21-30*/
                                     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,/*31-40*/
@@ -48,9 +48,9 @@ const QString KCL_CODE_RELABS[] = {   "Misc",NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 
 QString KCLCode::buttonName(int code)
 {
-    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    if(code > KCL_CODE_BUTTON_SIZE-1)
     {
-        return "Reserved";
+        return "Button " + QVariant(code - KCL_CODE_BUTTON_SIZE).toString();
     }
     else 
     {
@@ -60,7 +60,7 @@ QString KCLCode::buttonName(int code)
 
 QString KCLCode::relAxisName(int code)
 {
-    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    if(code > KCL_CODE_RELABS_SIZE-1)
     {
         return "";
     }
@@ -71,7 +71,7 @@ QString KCLCode::relAxisName(int code)
 }
 QString KCLCode::absAxisName(int code)
 {
-    if(code > (sizeof(KCL_CODE_BUTTON)/sizeof(QString))-1)
+    if(code > KCL_CODE_RELABS_SIZE-1)
     {
         return "";
     }

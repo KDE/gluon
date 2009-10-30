@@ -63,7 +63,6 @@ public:
     bool error()const;
     QString msgError()const;
     bool isEnable() const;
-    QString buttonName(int code) const;
     
 signals:
     void eventSent(KCLInputEvent * event);

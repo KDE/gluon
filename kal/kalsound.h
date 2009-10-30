@@ -27,7 +27,14 @@
 
 #include <QtCore/QObject>
 
-#include <al.h>
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenAL/al.h>
+#endif
+
 #include <Eigen/Geometry>
 
 class KALBuffer;

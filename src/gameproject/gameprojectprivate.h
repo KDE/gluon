@@ -21,7 +21,7 @@
 #define GLUON_GAMEPROJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QUrl>
+#include <QtCore/QUrl>
 
 namespace Gluon
 {

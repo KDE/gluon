@@ -19,7 +19,7 @@
 
 #include "gameproject.h"
 #include "gameprojectprivate.h"
-#include <QStringList>
+#include <QtCore/QStringList>
 
 using namespace Gluon;
 

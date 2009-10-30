@@ -24,7 +24,7 @@
 #include <QtGui/QColor>
 #include <Eigen/Geometry>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace Gluon;
 
