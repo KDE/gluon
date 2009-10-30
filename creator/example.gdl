@@ -14,6 +14,10 @@
             sprite asset(root.PaddleSprite)
             size size(5;1)
         }
+        { SoundListenerComponent(PaddleListener)
+            active bool(true)
+            effectsEnabled bool(true)
+        }
     }
 
     { TextureAsset(BlockSprite)

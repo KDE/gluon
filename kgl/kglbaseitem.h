@@ -37,9 +37,9 @@
  */
 //@{
 
-const Eigen::Vector3d AXIS_X(1, 0, 0);
-const Eigen::Vector3d AXIS_Y(0, 1, 0);
-const Eigen::Vector3d AXIS_Z(0, 0, 1);
+const Eigen::Vector3f AXIS_X(1, 0, 0);
+const Eigen::Vector3f AXIS_Y(0, 1, 0);
+const Eigen::Vector3f AXIS_Z(0, 0, 1);
 
 class KGL_EXPORT KGLBaseItem: public QObject
 {
@@ -71,7 +71,7 @@ public:
     virtual void updateTransform();
     virtual void resetTransform();
 
-    void applyTransform(const Eigen::Transform3d &m)
+    void applyTransform(const Eigen::Transform3f &m)
     {
         m_matrix = m * m_matrix;
     }
@@ -151,12 +151,12 @@ public:
         return polygon().containsPoint(p,Qt::WindingFill);
     }
 
-    inline  Eigen::Transform3d& matrix()
+    inline  Eigen::Transform3f& matrix()
     {
         return m_matrix;
     }
 
-    inline void setMatrix(const Eigen::Transform3d& m)
+    inline void setMatrix(const Eigen::Transform3f& m)
     {
         m_matrix = m;
     }
@@ -255,8 +255,8 @@ protected:
     QRectF transform(const QRectF &r) const;
 
 private:
-    Eigen::Transform3d m_matrix;
-    Eigen::Matrix4d m_shearMatrix;
+    Eigen::Transform3f m_matrix;
+    Eigen::Matrix4f m_shearMatrix;
 
     float m_angle;
     QPointF m_scale;

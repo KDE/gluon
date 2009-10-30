@@ -20,6 +20,7 @@
 #include "game.h"
 #include "gameprivate.h"
 #include "gameproject/gameobject.h"
+#include <gameproject/gameproject.h>
 
 #include <QtCore/QThread>
 #include <QtCore/QTime>
@@ -27,25 +28,15 @@
 
 using namespace Gluon;
 
+template<> Game *KSingleton<Game>::m_instance = 0;
+
 Game::Game(QObject * parent)
 {
     d = new GamePrivate;
 }
 
-Game::Game(const Game &other, QObject * parent)
-    : QObject(parent)
-    , d(other.d)
-{
-}
-
 Game::~Game()
 {
-}
-
-void
-Game::setCurrentLevel(GameObject * newCurrentLevel)
-{
-    d->currentLevel = newCurrentLevel;
 }
 
 int
@@ -121,5 +112,33 @@ Game::runGameFixedTimestep(int framesPerSecond)
         }
     }
 }
+
+/******************************************************************************
+ * Property Getter-setters
+ *****************************************************************************/
+
+GameObject *
+Game::currentLevel() const
+{
+    return d->currentLevel;
+}
+void
+Game::setCurrentLevel(GameObject * newCurrentLevel)
+{
+    d->currentLevel = newCurrentLevel;
+}
+
+GameProject *
+Game::gameProject() const
+{
+    return d->gameProject;
+}
+void
+Game::setGameProject(GameProject * newGameProject)
+{
+    d->gameProject = newGameProject;
+    d->currentLevel = newGameProject->entryPoint();
+}
+
 
 #include "game.moc"

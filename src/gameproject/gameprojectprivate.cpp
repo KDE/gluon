@@ -27,6 +27,11 @@ GameProjectPrivate::GameProjectPrivate()
 
 GameProjectPrivate::GameProjectPrivate(const GameProjectPrivate &other)
     : QSharedData(other)
+    , description(other.description)
+    , homepage(other.homepage)
+    , mediaInfo(other.mediaInfo)
+    , filename(other.filename)
+    , entryPoint(other.entryPoint)
 {
 }
 

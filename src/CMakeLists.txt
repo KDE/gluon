@@ -57,7 +57,7 @@ include_directories(${GLEW_INCLUDE_DIR}/..)
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
                       ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} ${KDE4_KIO_LIBS}
-                      ${OPENAL_LIBRARY} ${ALUT_LIBRARY}
+                      ${OPENAL_LIBRARY} #${ALUT_LIBRARY}
                       ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
 ########### INSTALL FILES ###############
 

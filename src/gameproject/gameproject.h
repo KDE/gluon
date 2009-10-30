@@ -21,12 +21,10 @@
 #define GLUON_GAMEPROJECT_H
 
 #include "gluonobject.h"
-#include "prefab.h"
-#include "asset.h"
 #include "gameobject.h"
 
 #include <QtCore/QSharedData>
-#include <QUrl>
+#include <QtCore/QUrl>
 
 namespace Gluon
 {
@@ -42,10 +40,6 @@ namespace Gluon
         
         Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
         
-        Q_PROPERTY(QList<GameObject*> scenes READ scenes WRITE setScenes)
-        Q_PROPERTY(QList<Asset*> assets READ assets WRITE setAssets)
-        Q_PROPERTY(QList<Prefab*> prefabs READ prefabs WRITE setPrefabs)
-        
         Q_PROPERTY(GameObject* entryPoint READ entryPoint WRITE setEntryPoint)
         
         public:
@@ -53,6 +47,8 @@ namespace Gluon
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
 
+            GluonObject * findItemByName(QString qualifiedName);
+            
             /******************************************************************
              * Property Getter-setters
              *****************************************************************/
@@ -67,15 +63,6 @@ namespace Gluon
             
             QUrl filename() const;
             void setFilename(QUrl newFilename);
-            
-            QList<GameObject*> scenes() const;
-            void setScenes(QList<GameObject*> newScenes);
-            
-            QList<Asset*> assets() const;
-            void setAssets(QList<Asset*> newAssets);
-            
-            QList<Prefab*> prefabs() const;
-            void setPrefabs(QList<Prefab*> newPrefabs);
             
             GameObject * entryPoint() const;
             void setEntryPoint(GameObject * newEntryPoint);

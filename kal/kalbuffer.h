@@ -22,9 +22,15 @@
 #ifndef KALBUFFER_H
 #define KALBUFFER_H
 
-#include <al.h>
-
 #include "kal_export.h"
+
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenAL/al.h>
+#endif
 
 /**
  * @class kal/kalbuffer.h <KAL/KALBuffer>

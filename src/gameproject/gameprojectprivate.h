@@ -21,13 +21,12 @@
 #define GLUON_GAMEPROJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QUrl>
+#include <QtCore/QUrl>
 
 namespace Gluon
 {
+    class GluonObject;
     class GameObject;
-    class Asset;
-    class Prefab;
     
     class GameProjectPrivate : public QSharedData
     {
@@ -40,9 +39,6 @@ namespace Gluon
             QUrl homepage;
             QList<QUrl> mediaInfo;
             QUrl filename;
-            QList<GameObject*> scenes;
-            QList<Asset*> assets;
-            QList<Prefab*> prefabs;
             GameObject* entryPoint;
     };
 }

@@ -27,7 +27,14 @@
 
 #include <QtCore/QObject>
 
-#include <al.h>
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <OpenAL/al.h>
+#endif
+
 #include <Eigen/Geometry>
 
 class KALBuffer;
@@ -108,25 +115,29 @@ public:
     QString lastError()const ;
 
     /**
-    * @return the position of the listener
+    * @return the coordinates of the sound postion
+    * relative to the listener
     * @see setPosition, x ,y ,z
     */
     Eigen::Vector3f position() const;
 
     /**
-    * @return the x position of the listener
+    * @return the x coordinate of the sound position
+    * relative to the listener
     * @see setPosition, y, z
     */
     ALfloat x()const ;
 
     /**
-    * @return the y position of the listener
+    * @return the y coordinate of the sound position
+    * relative to the listener
     * @see setPosition, x, z
     */
     ALfloat y()const ;
 
     /**
-    * @return the z position of the listener
+    * @return the z coordinate of the sound position
+    * relative to the listener
     * @see setPosition, x, y
     */
     ALfloat z()const ;
@@ -184,38 +195,41 @@ public Q_SLOTS:
     void setLoop(bool enabled = true);
 
     /**
-    * Set the position of the listener, this is used to create
-    * 3D sounds using effects to artificially change sound origin
+    * Set the position of the sound relative to the listener.
+    * This is used to create 3D sounds using effects to alter
+    * the perception of the sound origin.
     * The three scalars of the vector correspond to x, y and z in
     * the coordinate system.
+    *
     * The OpenAL documentation defines the underlying variable as:
-    * Specify the current location in three dimensional space.
+    * "Specify the current location in three dimensional space.
     * OpenAL, like OpenGL, uses a right handed coordinate system,
     * where in a frontal default view x (thumb) points right,
     * y points up (index finger), and z points towards the
     * viewer/camera (middle finger).
     * To switch from a left handed coordinate system, flip the
     * sign on the Z coordinate.
-    * Listener position is always in the world coordinate system.
+    * Listener position is always in the world coordinate system."
     */
     void setPosition(Eigen::Vector3f position);
 
     /**
     * @overload setPosition()
-    * Set the position of the listener using the coordinates
-    * (@p x, @p y, @p z)
+    * Set the position of the sound relative to the listener
+    * using the coordinates (@p x, @p y, @p z).
     */
     void setPosition(ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0);
 
     /**
     * Change the volume (volume amplification) applied
+    *
     * The OpenAL documentation defines the underlying variable as:
-    * A value of 1.0 means un-attenuated/unchanged.
+    * "A value of 1.0 means un-attenuated/unchanged.
     * Each division by 2 equals an attenuation of -6dB.
     * Each multiplicaton with 2 equals an amplification of +6dB.
     * A value of 0.0 is meaningless with respect to a logarithmic
-    *  scale; it is interpreted as zero volume - the channel
-    *  is effectively disabled.
+    * scale; it is interpreted as zero volume - the channel
+    * is effectively disabled."
     * @see volume
     */
     void setVolume(ALfloat volume = 1.0f);

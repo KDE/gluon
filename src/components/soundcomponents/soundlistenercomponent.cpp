@@ -18,16 +18,32 @@
 
 using namespace Gluon;
 
+SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
+
 REGISTER_OBJECTTYPE(SoundListenerComponent)
 
-template<> SoundListenerComponent* KSingleton<SoundListenerComponent>::m_instance = 0;
+SoundListenerComponent::SoundListenerComponent(QObject *parent)
+    : Component(parent)
+{
+}
+
+SoundListenerComponent::SoundListenerComponent(const Gluon::SoundListenerComponent &other)
+    : Component(other)
+{
+}
+
+GluonObject *SoundListenerComponent::instantiate()
+{
+    return new SoundListenerComponent(this);
+}
 
 void SoundListenerComponent::Update(int elapsedMilliseconds)
 {
-    if (effectsEnabled()) {
-        //TODO: implement GameObject/Component relation
-        //m_position = m_gameObject->position();
-    }
+}
+
+void SoundListenerComponent::setActive(bool active)
+{
+    m_activeInstance = this;
 }
 
 void SoundListenerComponent::setEffectsEnabled(bool enable)
@@ -35,9 +51,9 @@ void SoundListenerComponent::setEffectsEnabled(bool enable)
     m_effectsEnabled = enable;
 }
 
-Eigen::Vector3f SoundListenerComponent::position()
+SoundListenerComponent *SoundListenerComponent::activeInstance()
 {
-    return m_position;
+    return m_activeInstance;
 }
 
 #include "soundlistenercomponent.moc"

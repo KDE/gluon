@@ -1,6 +1,9 @@
 #ifndef KCLCODE_H
 #define KCLCODE_H
 
+#define KCL_CODE_BUTTON_SIZE 232
+#define KCL_CODE_RELABS_SIZE 198
+
 #include <QtCore/QString>
 #include <QtCore/QEvent>
 #include "kcl.h"

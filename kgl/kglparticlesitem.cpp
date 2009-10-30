@@ -79,7 +79,7 @@ KGLParticlesItem::KGLParticlesItem(KGLEngine * parent)
 void KGLParticlesItem::paintGL()
 {
  glPushMatrix();
-glLoadMatrixd(matrix().data());
+glLoadMatrixf(matrix().data());
 
 
     foreach(KGLParticle * p, m_particles)
@@ -98,7 +98,7 @@ glLoadMatrixd(matrix().data());
         const float g = (float)p->color().green() / 255;
         const float b = (float)p->color().blue() / 255;
         glColor4f(r, g, b,p->alpha());
-        glVertex2d(p->position().x(), p->position().y());
+        glVertex2f(p->position().x(), p->position().y());
         glEnd();
         glDisable(GL_POINT_SPRITE);
         glDisable(GL_BLEND);

@@ -5,6 +5,7 @@
 #include <QtCore/QCoreApplication>
 #include "kclinputevent.h"
 #include <IOKit/hid/IOHIDUsageTables.h>
+#include "kclcode.h"
 
 KCLThread::KCLThread(IOHIDDeviceRef pDevice, int deviceUsage ,QObject * parent)
 : QThread(parent)
@@ -62,8 +63,8 @@ void KCLThread::deviceReport(void * inContext, IOReturn inResult, void * inSende
                     }
                     else if(usagePage == kHIDPage_Button)
                     {
+                        value += KCL_CODE_BUTTON_SIZE;
                         eventType = QEvent::Type(KCL::Key);
-
                     }
                 case KCL::Joystick:
                     break;

@@ -424,17 +424,4 @@ void KCLInput::setDisable()
     delete inputListener;
 }
 
-QString KCLInput::buttonName(int code) const
-{
-    if(m_deviceType == KCL::KeyBoard)
-    {
-        return KCLCode::buttonName(code);
-    }
-    else
-    {
-        return "Button " + QVariant(code).toString();
-    }
-
-}
-
 #include "kclinput.moc"

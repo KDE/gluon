@@ -19,6 +19,7 @@
 
 #include "gameproject.h"
 #include "gameprojectprivate.h"
+#include <QtCore/QStringList>
 
 using namespace Gluon;
 
@@ -37,6 +38,39 @@ GameProject::GameProject(const GameProject &other, QObject * parent)
 
 GameProject::~GameProject()
 {
+}
+
+GluonObject *
+GameProject::findItemByName(QString qualifiedName)
+{
+    GluonObject * parentObject = this;
+    GluonObject * foundChild = NULL;
+    
+    QStringList path = qualifiedName.split('.');
+    QStringList::const_iterator constIterator;
+    for (constIterator = path.constBegin(); constIterator != path.constEnd(); ++constIterator)
+    {
+        foundChild == NULL;
+        foreach(QObject * child, parentObject->children())
+        {
+            if(qobject_cast<GluonObject*>(child)->name() == (*constIterator).toUtf8())
+            {
+                foundChild = qobject_cast<GluonObject*>(child);
+                break;
+            }
+        }
+
+        // Guard against trying to go into non-existent sub-trees
+        if(foundChild == NULL)
+            return NULL;
+
+        if(constIterator != path.constEnd())
+        {
+            parentObject = foundChild;
+            foundChild = NULL;
+        }
+    }
+    return foundChild;
 }
 
 /******************************************************************************
@@ -85,39 +119,6 @@ void
 GameProject::setFilename(QUrl newFilename)
 {
     d->filename = newFilename;
-}
-
-QList<GameObject*>
-GameProject::scenes() const
-{
-    return d->scenes;
-}
-void
-GameProject::setScenes(QList<GameObject*> newScenes)
-{
-    d->scenes = newScenes;
-}
-
-QList<Asset*>
-GameProject::assets() const
-{
-    return d->assets;
-}
-void
-GameProject::setAssets(QList<Asset*> newAssets)
-{
-    d->assets = newAssets;
-}
-
-QList<Prefab*>
-GameProject::prefabs() const
-{
-    return d->prefabs;
-}
-void
-GameProject::setPrefabs(QList<Prefab*> newPrefabs)
-{
-    d->prefabs = newPrefabs;
 }
 
 GameObject *
