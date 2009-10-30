@@ -49,7 +49,7 @@ void
 Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 {
     // Bail out if we're not fed a level to work with!
-    if(!d->currentLevel)
+    if(!d->currentScene)
         return;
     
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
@@ -67,13 +67,13 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         loops = 0;
         while(getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
-            d->currentLevel->Update(millisecondsPerUpdate);
+            d->currentScene->update(millisecondsPerUpdate);
             nextTick += millisecondsPerUpdate;
             loops++;
         }
         
         timeLapse = (getCurrentTick() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
-        d->currentLevel->Draw(timeLapse);
+        d->currentScene->draw(timeLapse);
     }
 }
 
@@ -81,7 +81,7 @@ void
 Game::runGameFixedTimestep(int framesPerSecond)
 {
     // Bail out if we're not fed a level to work with!
-    if(!d->currentLevel)
+    if(!d->currentScene)
         return;
     
     int millisecondsPerUpdate = 1000 / framesPerSecond;
@@ -95,9 +95,9 @@ Game::runGameFixedTimestep(int framesPerSecond)
     while(d->gameRunning)
     {
         // Update the current level
-        d->currentLevel->Update(millisecondsPerUpdate);
+        d->currentScene->update(millisecondsPerUpdate);
         // Do drawing
-        d->currentLevel->Draw();
+        d->currentScene->draw();
         
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();
@@ -118,14 +118,14 @@ Game::runGameFixedTimestep(int framesPerSecond)
  *****************************************************************************/
 
 GameObject *
-Game::currentLevel() const
+Game::currentScene() const
 {
-    return d->currentLevel;
+    return d->currentScene;
 }
 void
-Game::setCurrentLevel(GameObject * newCurrentLevel)
+Game::setCurrentScene(GameObject * newCurrentScene)
 {
-    d->currentLevel = newCurrentLevel;
+    d->currentScene = newCurrentScene;
 }
 
 GameProject *
@@ -137,7 +137,7 @@ void
 Game::setGameProject(GameProject * newGameProject)
 {
     d->gameProject = newGameProject;
-    d->currentLevel = newGameProject->entryPoint();
+    d->currentScene = newGameProject->entryPoint();
 }
 
 

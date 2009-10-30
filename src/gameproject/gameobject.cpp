@@ -77,46 +77,49 @@ GameObject::sanitize()
 }
 
 void
-GameObject::Start()
+GameObject::start()
 {
     foreach(Component * component, d->components)
-        component->Start();
+        if(component->enabled())
+            component->start();
     
     foreach(GameObject * child, d->children)
-        child->Start();
+        child->start();
 }
 
 void
-GameObject::Update(int elapsedMilliseconds)
+GameObject::update(int elapsedMilliseconds)
 {
     foreach(Component * component, d->components)
-        component->Update(elapsedMilliseconds);
+        if(component->enabled())
+            component->update(elapsedMilliseconds);
     
     foreach(GameObject * child, d->children)
-        child->Update(elapsedMilliseconds);
+        child->update(elapsedMilliseconds);
 }
 
 void
-GameObject::Draw(int timeLapse)
+GameObject::draw(int timeLapse)
 {
     foreach(Component * component, d->components)
-        component->Draw(timeLapse);
+        if(component->enabled())
+            component->draw(timeLapse);
     
     foreach(GameObject * child, d->children)
-        child->Draw(timeLapse);
+        child->draw(timeLapse);
 }
 
 void
-GameObject::RunCommand(const QString &functionName)
+GameObject::runCommand(const QString &functionName)
 {
 #warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
 }
 
 void
-GameObject::RunCommandInChildren(const QString &functionName)
+GameObject::runCommandInChildren(const QString &functionName)
 {
     foreach(GameObject * child, d->children)
-        child->RunCommand(functionName);
+        child->runCommand(functionName);
 }
 
 // ----------------------------------------------------------------------------

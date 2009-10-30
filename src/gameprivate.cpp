@@ -31,7 +31,7 @@ GamePrivate::GamePrivate(const GamePrivate &other)
     : QSharedData(other)
     , gameRunning(other.gameRunning)
     , gamePaused(other.gamePaused)
-    , currentLevel(other.currentLevel)
+    , currentScene(other.currentScene)
 {
 }
 

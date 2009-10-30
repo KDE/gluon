@@ -48,12 +48,12 @@ namespace Gluon
     class Game : public KSingleton<Game>
     {
         Q_OBJECT
-        Q_PROPERTY(GameObject* currentLevel READ currentLevel WRITE setCurrentLevel)
+        Q_PROPERTY(GameObject* currentScene READ currentScene WRITE setCurrentScene)
         Q_PROPERTY(GameProject* gameProject READ gameProject WRITE setGameProject)
         
         public:
-            GameObject * currentLevel() const;
-            void setCurrentLevel(GameObject * newCurrentLevel);
+            GameObject * currentScene() const;
+            void setCurrentScene(GameObject * newCurrentScene);
             
             GameProject * gameProject() const;
             void setGameProject(GameProject * newGameProject);

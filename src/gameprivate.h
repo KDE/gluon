@@ -38,7 +38,7 @@ namespace Gluon
             QTime time;
             bool gameRunning;
             bool gamePaused;
-            GameObject * currentLevel;
+            GameObject * currentScene;
             GameProject * gameProject;
     };
 }

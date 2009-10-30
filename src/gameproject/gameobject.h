@@ -48,18 +48,18 @@ namespace Gluon
             GluonObject* instantiate();
             
             void sanitize();
-            void Start();
-            void Update(int elapsedMilliseconds);
+            void start();
+            void update(int elapsedMilliseconds);
             /**
              * Draw the GameObject onto the scene
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
-            void Draw(int timeLapse = 0);
+            void draw(int timeLapse = 0);
             /**
              * Run a command on all the components in this GameObject
              */
-            void RunCommand(const QString &functionName);
-            void RunCommandInChildren(const QString &functionName);
+            void runCommand(const QString &functionName);
+            void runCommandInChildren(const QString &functionName);
             
             // ----------------------------------------------------------------
             // Component management
