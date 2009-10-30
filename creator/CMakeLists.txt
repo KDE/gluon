@@ -9,12 +9,16 @@ include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
+#add_subdirectory(plugins)
+
 set(gluoncreator_SRCS
+    plugins/plugin.cpp
+    plugins/pluginloader.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidget.cpp
     main.cpp
     mainwindow.cpp
-    models/scenemodel.cpp
+    #models/scenemodel.cpp
     models/qobjecttreemodel.cpp
 )
 

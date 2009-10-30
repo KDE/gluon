@@ -95,10 +95,10 @@ void MainWindow::openProject(const QString &fileName)
         QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
         m_qObjectTree->setModel(qtree);
 
-        SceneModel *gtree = new SceneModel(m_gameObjectTree);
-	gtree->setRootGameObject(qobject_cast<Gluon::GameObject*>(object));
-        m_gameObjectTree->setModel(gtree);
-        m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
+        //SceneModel *gtree = new SceneModel(m_gameObjectTree);
+        //gtree->setRootGameObject(qobject_cast<Gluon::GameObject*>(object));
+        //m_gameObjectTree->setModel(gtree);
+        //m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
         
         connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
 
