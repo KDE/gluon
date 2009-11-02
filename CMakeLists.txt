@@ -15,20 +15,7 @@ IF(NOT WIN32 AND NOT APPLE)
 find_package(KDE4 REQUIRED)
 ENDIF()
 
-find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(Eigen2 REQUIRED)
-
-IF(NOT WIN32 AND NOT APPLE)
-find_package(X11 REQUIRED)
-ENDIF(NOT WIN32 AND NOT APPLE)
-
-IF(NOT WIN32 AND NOT APPLE)
-find_package(OpenAL REQUIRED)
-find_package(Alut REQUIRED)
-find_package(SndFile REQUIRED)
-find_package(OggVorbis REQUIRED)
-ENDIF(NOT WIN32 AND NOT APPLE)
 
 IF(NOT WIN32 AND NOT APPLE)
 include(KDE4Defaults)
@@ -36,8 +23,6 @@ include_directories(${KDE4_INCLUDES})
 ENDIF()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${OPENAL_INCLUDE_DIR})
-include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 include_directories(${EIGEN2_INCLUDE_DIR})
 
 ## TODO: are those really needed?  Yes it's ! Otherwise a lot of Box2d warning appear!

@@ -33,7 +33,7 @@
 #include <QVariant>
 
 #include "widgets/propertywidget.h"
-#include "models/scenemodel.h"
+//##include "models/scenemodel.h"
 #include "models/qobjecttreemodel.h"
 #include <klocalizedstring.h>
 #include <qlistview.h>

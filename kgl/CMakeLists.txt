@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
+
+#TODO: We should really find a way not to include Box2D stuff manually.
 #find_package(Box2D REQUIRED)
 
 IF(Q_WS_X11)
