@@ -58,7 +58,7 @@ KALEngine::KALEngine()
     } else {
         qDebug() << "cannot set openAL device...";
     }*/
-    setDevice("default");
+    setDevice("");
 
     qDebug() << alGetError();
 }
