@@ -104,7 +104,6 @@ set(kcl_LIB_HEADERS_COMMON
 
 kcl_export.h
 kcldetect.h
-./common/kcldetectabstract.h
 
 )
 ###############common source and headers###################
@@ -174,6 +173,10 @@ ${kcl_LIB_HEADERS_COMMON}
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl COMPONENT Devel)
 
 endif()
+
+install(FILES
+./common/kcldetectabstract.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kcl/common COMPONENT Devel)
 
 install(FILES
 widgets/kclpressbutton.h

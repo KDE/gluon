@@ -336,7 +336,7 @@ void KCLInput::readInformation()
                         val.min = (int)IOHIDElementGetLogicalMin(elementRef);
                         IOHIDValueRef valRef = NULL;
                         IOHIDDeviceGetValue(m_device, elementRef, &valRef); 
-                        val.value = (int) valRef;
+                        val.value = IOHIDValueGetIntegerValue(valRef);
                         m_absAxisInfos[usage] = val;
                         if(usage == kHIDUsage_GD_X)
                         {
