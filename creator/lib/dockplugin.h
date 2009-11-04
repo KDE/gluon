@@ -14,7 +14,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "scenedock.h"
+#ifndef GLUON_CREATOR_DOCKPLUGIN_H
+#define GLUON_CREATOR_DOCKPLUGIN_H
+#include <QtGui/QDockWidget>
 
-using namespace Gluon::Creator;
+class QItemSelectionModel;
+class QAbstractItemModel;
+namespace Gluon {
 
+namespace Creator {
+
+class DockPlugin : public QDockWidget
+{
+  Q_OBJECT
+  public:
+    DockPlugin(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    virtual ~DockPlugin();
+
+    virtual QAbstractItemModel* model() = 0;
+    virtual QItemSelectionModel* selectionModel() = 0;
+};
+
+}
+
+}
+
+#endif // GLUON_CREATOR_DOCKPLUGIN_H

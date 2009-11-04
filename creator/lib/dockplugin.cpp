@@ -14,7 +14,18 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "pluginloader.h"
+#include "dockplugin.h"
 
 using namespace Gluon::Creator;
 
+Gluon::Creator::DockPlugin::DockPlugin(const QString& title, QWidget* parent, Qt::WindowFlags flags): QDockWidget(title, parent, flags)
+{
+
+}
+
+Gluon::Creator::DockPlugin::~DockPlugin()
+{
+
+}
+
+#include "dockplugin.moc"

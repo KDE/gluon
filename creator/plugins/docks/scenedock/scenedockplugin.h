@@ -17,19 +17,24 @@
 #ifndef GLUON_CREATOR_SCENEDOCKPLUGIN_H
 #define GLUON_CREATOR_SCENEDOCKPLUGIN_H
 
-#include <creator/plugins/plugin.h>
+#include <gluoncreator/dockplugin.h>
 
 namespace Gluon {
 
 namespace Creator {
 
-class SceneDockPlugin : public Gluon::Creator::Plugin
+class SceneDockPlugin : public Gluon::Creator::DockPlugin
 {
-    SceneDockPlugin();
-    
-    virtual QDialog* instantiateDialog(QObject* parent = 0);
-    virtual QDockWidget* instantiateDock(QObject* parent = 0);
-    virtual QWidget* instantiate(QObject* parent = 0);
+  public:
+    SceneDockPlugin(QWidget* parent, const QList<QVariant>& params);
+    ~SceneDockPlugin();
+
+    QAbstractItemModel* model();
+    QItemSelectionModel* selectionModel();
+
+  private:
+    class SceneDockPluginPrivate;
+    SceneDockPluginPrivate* d;
 };
 
 }
