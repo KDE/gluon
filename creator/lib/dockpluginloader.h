@@ -14,22 +14,35 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_PLUGINLOADER_H
-#define GLUON_CREATOR_PLUGINLOADER_H
+#ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
+#define GLUON_CREATOR_DOCKPLUGINLOADER_H
 
-#include <qt4/QtCore/QObject>
+#include <QtCore/QObject>
 
-
-namespace Gluon {
-
-namespace Creator {
-
-class PluginLoader : public QObject
+namespace Gluon
 {
-};
+
+  namespace Creator
+  {
+
+    class DockPlugin;
+
+    class DockPluginLoader : public QObject
+    {
+      Q_OBJECT
+      public:
+        DockPluginLoader(QObject * parent = 0);
+        ~DockPluginLoader();
+
+        DockPlugin* loadPlugin(const QString& name = 0);
+        QList<DockPlugin*> loadAllPlugins();
+
+      signals:
+        void pluginLoaded(DockPlugin * plugin);
+    };
+
+  }
 
 }
 
-}
-
-#endif // GLUON_CREATOR_PLUGINLOADER_H
+#endif // GLUON_CREATOR_DOCKPLUGINLOADER_H

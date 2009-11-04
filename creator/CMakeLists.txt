@@ -9,11 +9,10 @@ include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
-#add_subdirectory(plugins)
+add_subdirectory(lib)
+add_subdirectory(plugins)
 
 set(gluoncreator_SRCS
-    plugins/plugin.cpp
-    plugins/pluginloader.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidget.cpp
     main.cpp
@@ -23,7 +22,8 @@ set(gluoncreator_SRCS
 )
 
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator ${GLUON_LIBRARY})
+target_link_libraries(gluoncreator gluoncreatorlib)
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
+

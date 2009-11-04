@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=gluon
+Type=Service
+ServiceTypes=GluonCreator/Dock
+
+Name=Scene Dock
+Comment=Provides a Scene browser dock plugin.
+
+X-KDE-PluginInfo-Author=Arjen Hiemstra
+X-KDE-PluginInfo-Email=djfreestyler@gmail.com
+X-KDE-PluginInfo-Name=gluon_creator_dockplugin_scenedock
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=dock
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

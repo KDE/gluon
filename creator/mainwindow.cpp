@@ -39,6 +39,8 @@
 #include <qlistview.h>
 #include <gluon/kgl/kglview.h>
 
+#include "lib/dockpluginloader.h"
+
  #include <QMessageBox>
 
 using namespace Gluon::Creator;
@@ -141,7 +143,7 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDocks()
 {
-    setDockNestingEnabled(true);
+    /*setDockNestingEnabled(true);
     //Create Scene Dock
     QDockWidget* sceneDock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, sceneDock, Qt::Vertical);
@@ -217,9 +219,17 @@ void MainWindow::setupDocks()
     layout()->setAlignment(messageDock, Qt::AlignBottom);
     
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
-    setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);
+    setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);*/
 
 //    setMinimumSize(200, 500);
+    DockPluginLoader loader;
+    //QList<DockPlugin*> docks = loader.loadAllPlugins();
+   // QList<DockPlugin*>::const_iterator itr;
+    //for(itr = docks.begin(); itr != docks.end(); ++itr)
+    //{
+    //  DockPlugin* dock = *itr;
+    //  addDockWidget(Qt::LeftDockWidgetArea, reinterpret_cast<QDockWidget*>(dock));
+    //}
 }
 
 
