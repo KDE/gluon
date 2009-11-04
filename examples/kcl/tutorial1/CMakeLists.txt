@@ -19,7 +19,7 @@ set(main_SRCS
 	)
 
 kde4_add_executable(kcl_tutorial1 ${main_SRCS})
-target_link_libraries(kcl_tutorial1 ${GLUON_LIBRARY})
+target_link_libraries(kcl_tutorial1 ${GLUON_LIBRARY} ${KCL_LIBRARY})
 
 ########### install files ###############
 
