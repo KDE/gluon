@@ -17,6 +17,8 @@
 #ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
 #define GLUON_CREATOR_DOCKPLUGINLOADER_H
 
+#include "gluoncreatorlib_export.h"
+
 #include <QtCore/QObject>
 
 namespace Gluon
@@ -27,7 +29,7 @@ namespace Gluon
 
     class DockPlugin;
 
-    class DockPluginLoader : public QObject
+    class GLUONCREATORLIB_EXPORT DockPluginLoader : public QObject
     {
       Q_OBJECT
       public:
