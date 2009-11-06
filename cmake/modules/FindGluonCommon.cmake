@@ -20,15 +20,15 @@ endif (GluonCommon_FIND_REQUIRED)
 
 find_path(GLUONCOMMON_INCLUDE_DIR
     NAMES
-    common/ksingleton.h
+    gluon/common/ksingleton.h
     PATHS
-    ${INCLUDE_INSTALL_DIR}/gluon
+    ${INCLUDE_INSTALL_DIR}
 )
 
 set(GLUONCOMMON_INCLUDES
-    ${GLUONCOMMON_INCLUDE_DIR}
+    ${GLUONCOMMON_INCLUDE_DIR}/gluon
     CACHE STRING "Common files for Gluon"
 )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(GluonCommon DEFAULT_MSG GLUONCOMMON_INCLUDE_DIR)
+find_package_handle_standard_args(GluonCommon DEFAULT_MSG GLUONCOMMON_INCLUDES)
