@@ -63,7 +63,6 @@ void KCLThread::deviceReport(void * inContext, IOReturn inResult, void * inSende
                     }
                     else if(usagePage == kHIDPage_Button)
                     {
-                        value += KCL_CODE_BUTTON_SIZE;
                         eventType = QEvent::Type(KCL::Key);
                     }
                 case KCL::Joystick:
