@@ -45,6 +45,7 @@ public:
     int product()const;
     int version()const;
     int bustype()const;
+    const QString devicePath() const;
     const IOHIDDeviceRef device() const;
     const QString deviceName() const;
     KCL::DeviceFlag deviceType()const;

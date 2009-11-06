@@ -424,4 +424,9 @@ void KCLInput::setDisable()
     delete inputListener;
 }
 
+const QString KCLInput::devicePath() const
+{
+    return "Unknown";
+}
+
 #include "kclinput.moc"
