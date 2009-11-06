@@ -22,6 +22,7 @@
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KAction>
+#include <KDebug>
 
 #include <gluon/gdlhandler.h>
 #include <gluon/gluonobject.h>
@@ -39,9 +40,10 @@
 #include <qlistview.h>
 #include <gluon/kgl/kglview.h>
 
+#include "lib/dockplugin.h"
 #include "lib/dockpluginloader.h"
 
- #include <QMessageBox>
+#include <QMessageBox>
 
 using namespace Gluon::Creator;
 
@@ -222,14 +224,16 @@ void MainWindow::setupDocks()
     setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);*/
 
 //    setMinimumSize(200, 500);
+    setDockNestingEnabled(true);
+    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
+
     DockPluginLoader loader;
-    //QList<DockPlugin*> docks = loader.loadAllPlugins();
-   // QList<DockPlugin*>::const_iterator itr;
-    //for(itr = docks.begin(); itr != docks.end(); ++itr)
-    //{
-    //  DockPlugin* dock = *itr;
-    //  addDockWidget(Qt::LeftDockWidgetArea, reinterpret_cast<QDockWidget*>(dock));
-    //}
+    QList<DockPlugin*> docks = loader.loadAllPlugins();
+    QList<DockPlugin*>::const_iterator itr;
+    for(itr = docks.begin(); itr != docks.end(); ++itr)
+    {
+      addDockWidget(Qt::LeftDockWidgetArea, *itr);
+    }
 }
 
 

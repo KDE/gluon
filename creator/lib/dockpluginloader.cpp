@@ -24,13 +24,13 @@ DockPlugin* DockPluginLoader::loadPlugin(const QString& name)
 
 QList< DockPlugin* > DockPluginLoader::loadAllPlugins()
 {
-  kDebug() << "Load all plugins";
+  kDebug(3344) << "Load all plugins";
   KService::List offers = KServiceTypeTrader::self()->query("GluonCreator/Dock");
-  kDebug() << "Found" << offers.size() << "plugins.";
-  KService::List::const_iterator iter;
+  kDebug(3344) << "Found" << offers.size() << "plugins.";
 
   QList<DockPlugin*> plugins;
-  
+
+  KService::List::const_iterator iter;
   for(iter = offers.begin(); iter < offers.end(); ++iter)
   {
     QString error;
@@ -49,7 +49,7 @@ QList< DockPlugin* > DockPluginLoader::loadAllPlugins()
     DockPlugin *plugin = factory->create<DockPlugin>(this);
     
     if (plugin) {
-      kDebug() << "Load plugin:" << service->name();
+      kDebug(3344) << "Load plugin:" << service->name();
       emit pluginLoaded(plugin);
       plugins.append(plugin);
     } else {

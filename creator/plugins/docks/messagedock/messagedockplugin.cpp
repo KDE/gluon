@@ -14,8 +14,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "scenedockplugin.h"
-#include "scenemodel.h"
+#include "messagedockplugin.h"
 
 #include <QtGui/QTreeView>
 
@@ -26,44 +25,44 @@
 
 using namespace Gluon::Creator;
 
-class Gluon::Creator::SceneDockPlugin::SceneDockPluginPrivate
+class Gluon::Creator::MessageDockPlugin::MessageDockPluginPrivate
 {
   public:
-    SceneDockPluginPrivate() { model = 0; view = 0; }
-    SceneModel* model;
+    MessageDockPluginPrivate() { view = 0; }
+    //MessageModel* model;
     QTreeView* view;
 };
 
-Gluon::Creator::SceneDockPlugin::SceneDockPlugin(QWidget* parent, const QList< QVariant >& params)
-  : DockPlugin(i18n("Scene Dock"), parent)
+Gluon::Creator::MessageDockPlugin::MessageDockPlugin(QWidget* parent, const QList< QVariant >& params)
+  : DockPlugin(i18n("Message Dock"), parent)
 {
   Q_UNUSED(params)
 
-  setObjectName("SceneDock");
+  setObjectName("MessageDock");
   
-  d = new SceneDockPluginPrivate;
+  d = new MessageDockPluginPrivate;
 
-  //d->model = new SceneModel(this);
+  //d->model = new MessageModel(this);
   d->view = new QTreeView(this);
   //d->view->setModel(d->model);
-  //d->model->setRootGameObject(Game::instance()->currentScene());
+  //d->model->setRootGameObject(Game::instance()->currentMessage());
   
   setWidget(d->view);
 }
 
-Gluon::Creator::SceneDockPlugin::~SceneDockPlugin()
+Gluon::Creator::MessageDockPlugin::~MessageDockPlugin()
 {
   
 }
 
-QAbstractItemModel* Gluon::Creator::SceneDockPlugin::model()
+QAbstractItemModel* Gluon::Creator::MessageDockPlugin::model()
 {
-  return d->model;
+  //return d->model;
 }
 
-QItemSelectionModel* Gluon::Creator::SceneDockPlugin::selectionModel()
+QItemSelectionModel* Gluon::Creator::MessageDockPlugin::selectionModel()
 {
-  return d->view->selectionModel();
+  //return d->view->selectionModel();
 }
 
-GLUON_CREATOR_DOCKPLUGIN_EXPORT(SceneDockPlugin)
+GLUON_CREATOR_DOCKPLUGIN_EXPORT(MessageDockPlugin)

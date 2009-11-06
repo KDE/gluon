@@ -22,3 +22,8 @@ install(FILES
         gluoncreatorlib_export.h
         DESTINATION ${INCLUDE_INSTALL_DIR}
 )
+
+install(FILES
+        gluoncreator_dockplugin.desktop
+        DESTINATION ${SERVICETYPES_INSTALL_DIR}
+)

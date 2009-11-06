@@ -1,11 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-project(gluon_creator_dockplugin_scenedock)
-
-find_package(KDE4 REQUIRED)
-find_package(GluonCreator REQUIRED)
-
-include_directories(${GLUON_CREATOR_INCLUDES})
-
 set(scenedock_SRCS
     scenedockplugin.cpp
     scenemodel.cpp
