@@ -126,6 +126,7 @@ void
 Game::setCurrentScene(GameObject * newCurrentScene)
 {
     d->currentScene = newCurrentScene;
+    emit currentSceneChanged(newCurrentScene);
 }
 
 GameProject *
@@ -138,6 +139,7 @@ Game::setGameProject(GameProject * newGameProject)
 {
     d->gameProject = newGameProject;
     d->currentScene = newGameProject->entryPoint();
+    emit currentProjectChanged(newGameProject);
 }
 
 

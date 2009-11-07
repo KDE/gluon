@@ -18,7 +18,7 @@
 
 #include <QtGui/QTreeView>
 
-#include <gluon/creator/models/scenemodel.h>
+#include <models/scenemodel.h>
 
 using namespace Gluon::Creator;
 

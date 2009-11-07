@@ -114,3 +114,5 @@ PropertyWidgetItem::createDoubleSpinBox(QVariant value)
     connect(widget, SIGNAL(valueChanged(double)), this, SLOT(propertyChanged(double)));
     return widget;
 }
+
+#include "propertywidgetitem.moc"

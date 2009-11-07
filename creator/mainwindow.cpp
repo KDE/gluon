@@ -33,12 +33,12 @@
 #include <QDebug>
 #include <QVariant>
 
-#include "widgets/propertywidget.h"
+//#include "widgets/propertywidget.h"
 //##include "models/scenemodel.h"
-#include "models/qobjecttreemodel.h"
+//#include "models/qobjecttreemodel.h"
 #include <klocalizedstring.h>
 #include <qlistview.h>
-#include <gluon/kgl/kglview.h>
+//#include <gluon/kgl/kglview.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginloader.h"
@@ -94,17 +94,17 @@ void MainWindow::openProject(const QString &fileName)
         
         disconnect(this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)));
         
-        Gluon::GluonObject* object = objects.at(0);
+        //Gluon::GluonObject* object = objects.at(0);
         
-        QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
-        m_qObjectTree->setModel(qtree);
+//        QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
+  //      m_qObjectTree->setModel(qtree);
 
         //SceneModel *gtree = new SceneModel(m_gameObjectTree);
         //gtree->setRootGameObject(qobject_cast<Gluon::GameObject*>(object));
         //m_gameObjectTree->setModel(gtree);
         //m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
         
-        connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
+    //    connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
 
         newMessage( "Project loaded");
     }
@@ -124,14 +124,14 @@ void MainWindow::gameObjectActivated(const QItemSelection& selected, const QItem
 {
     Q_UNUSED(selected)
     Q_UNUSED(deselected)
-    Gluon::GluonObject* selectedObject = static_cast<Gluon::GluonObject*>(m_gameObjectTree->selectionModel()->currentIndex().internalPointer());
-    showPropertiesFor(selectedObject);
+    //Gluon::GluonObject* selectedObject = static_cast<Gluon::GluonObject*>(m_gameObjectTree->selectionModel()->currentIndex().internalPointer());
+//    showPropertiesFor(selectedObject);
 }
 
 void MainWindow::showPropertiesFor(Gluon::GluonObject * showFor)
 {
-    m_propertyWidget->clear();
-    m_propertyWidget->setObject(showFor);
+  //  m_propertyWidget->clear();
+//    m_propertyWidget->setObject(showFor);
 }
 
 void MainWindow::setupActions()

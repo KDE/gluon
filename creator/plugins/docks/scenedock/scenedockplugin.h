@@ -17,7 +17,7 @@
 #ifndef GLUON_CREATOR_SCENEDOCKPLUGIN_H
 #define GLUON_CREATOR_SCENEDOCKPLUGIN_H
 
-#include <gluon/creator/dockplugin.h>
+#include <dockplugin.h>
 
 namespace Gluon {
 

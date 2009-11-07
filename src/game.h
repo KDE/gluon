@@ -73,6 +73,10 @@ namespace Gluon
             void runGameFixedTimestep(int framesPerSecond = 25);
             
             int getCurrentTick();
+
+        signals:
+            void currentSceneChanged(GameObject*);
+            void currentProjectChanged(GameProject*);
             
         private:
             friend class KSingleton<Game>;

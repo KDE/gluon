@@ -170,3 +170,5 @@ void Gluon::Creator::PropertyWidget::clear()
 {
     delete widget();
 }
+
+#include "propertywidget.moc"

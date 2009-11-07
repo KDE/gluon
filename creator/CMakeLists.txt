@@ -13,12 +13,8 @@ add_subdirectory(lib)
 add_subdirectory(plugins)
 
 set(gluoncreator_SRCS
-    widgets/propertywidgetitem.cpp
-    widgets/propertywidget.cpp
     main.cpp
     mainwindow.cpp
-    #models/scenemodel.cpp
-    models/qobjecttreemodel.cpp
 )
 
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
