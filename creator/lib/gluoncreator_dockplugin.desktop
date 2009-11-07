@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Gluon Creator Dock Plugin
-Comment=The type used for Gluon Creator Dock plugins
-
-Type=ServiceType
-X-KDE-ServiceType=GluonCreator/Dock

@@ -17,9 +17,10 @@
 #ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
 #define GLUON_CREATOR_DOCKPLUGINLOADER_H
 
-#include "gluoncreatorlib_export.h"
+#include "gluoncreatorlib_macros.h"
 
 #include <QtCore/QObject>
+#include <common/ksingleton.h>
 
 namespace Gluon
 {
@@ -27,20 +28,23 @@ namespace Gluon
   namespace Creator
   {
 
-    class DockPlugin;
+    class Plugin;
 
-    class GLUONCREATORLIB_EXPORT DockPluginLoader : public QObject
+    class GLUONCREATORLIB_EXPORT PluginLoader : public KSingleton<PluginLoader>
     {
-      Q_OBJECT
-      public:
-        DockPluginLoader(QObject * parent = 0);
-        ~DockPluginLoader();
+        friend class KSingleton<PluginLoader>;
 
-        DockPlugin* loadPlugin(const QString& name = 0);
-        QList<DockPlugin*> loadAllPlugins();
+        Q_OBJECT
+        public:
+            void loadAllPlugins();
 
-      signals:
-        void pluginLoaded(DockPlugin * plugin);
+        signals:
+            void pluginLoaded(Plugin * plugin);
+
+        private:
+            PluginLoader() { }
+            ~PluginLoader() { }
+            Q_DISABLE_COPY(PluginLoader)
     };
 
   }

@@ -26,12 +26,11 @@ find_package(Gluon ${_gluonCreatorReq})
 find_path(GLUON_CREATOR_INCLUDE_DIR
   NAMES
   gluon/creator/gluoncreator_macros.h
-  PATHS
-  ${INCLUDE_INSTALL_DIR}
 )
-        
+
 set(GLUON_CREATOR_INCLUDES
     ${GLUON_CREATOR_INCLUDE_DIR}
+    ${GLUON_CREATOR_INCLUDE_DIR}/gluon/creator
     ${GLUON_INCLUDES}
     ${KDE4_INCLUDES}
 )

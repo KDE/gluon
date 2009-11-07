@@ -40,8 +40,8 @@
 #include <qlistview.h>
 #include <gluon/kgl/kglview.h>
 
-#include "lib/dockplugin.h"
-#include "lib/dockpluginloader.h"
+#include "lib/plugin.h"
+#include "lib/pluginloader.h"
 
 #include <QMessageBox>
 
@@ -227,17 +227,18 @@ void MainWindow::setupDocks()
     setDockNestingEnabled(true);
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
 
-    DockPluginLoader loader;
-    QList<DockPlugin*> docks = loader.loadAllPlugins();
-    QList<DockPlugin*>::const_iterator itr;
-    for(itr = docks.begin(); itr != docks.end(); ++itr)
-    {
-      addDockWidget(Qt::LeftDockWidgetArea, *itr);
-    }
+    connect(PluginLoader::instance(), SIGNAL(pluginLoaded(Plugin*)), SLOT(loadPlugin(Plugin*)));
+    PluginLoader::instance()->loadAllPlugins();
 }
 
 
 void MainWindow::newMessage(const QString &string)
 {
-    m_messageDock->append(string);
+    //m_messageDock->append(string);
 }
+
+void MainWindow::loadPlugin(Plugin* plugin)
+{
+    plugin->initialize(this);
+}
+

@@ -30,6 +30,7 @@ namespace Gluon
 
     namespace Creator
     {
+        class Plugin;
         class PropertyWidget;
  
         class MainWindow : public KXmlGuiWindow
@@ -46,6 +47,7 @@ namespace Gluon
                 void saveProjectAs();
                 void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);
                 void newMessage(const QString & string);
+                void loadPlugin(Plugin*);
 
             private:
                 void showPropertiesFor(Gluon::GluonObject * showFor);

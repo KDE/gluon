@@ -1,6 +1,12 @@
 set(gluoncreatorlib_SRCS
+    plugin.cpp
     dockplugin.cpp
-    dockpluginloader.cpp
+    pluginloader.cpp
+
+    models/projectmodel.cpp
+    models/scenemodel.cpp
+    
+    widgets/dock.cpp
 )
 
 qt4_automoc(${gluoncreatorlib_SRCS})
@@ -16,14 +22,25 @@ install(TARGETS gluoncreatorlib LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/creator)
 install(FILES
-        gluoncreator_macros.h
+        plugin.h
         dockplugin.h
-        dockpluginloader.h
-        gluoncreatorlib_export.h
+        pluginloader.h
+        gluoncreatorlib_macros.h
         DESTINATION ${INCLUDE_INSTALL_DIR}
 )
 
 install(FILES
-        gluoncreator_dockplugin.desktop
+        models/projectmodel.h
+        models/scenemodel.h
+        DESTINATION ${INCLUDE_INSTALL_DIR}/models
+)
+
+install(FILES
+        widgets/dock.h
+        DESTINATION ${INCLUDE_INSTALL_DIR}/widgets
+)
+
+install(FILES
+        gluoncreator_plugin.desktop
         DESTINATION ${SERVICETYPES_INSTALL_DIR}
 )

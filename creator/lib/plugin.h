@@ -14,26 +14,31 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "dockplugin.h"
-#include "widgets/dock.h"
-#include <KXmlGuiWindow>
+#ifndef GLUON_CREATOR_PLUGIN_H
+#define GLUON_CREATOR_PLUGIN_H
 
-using namespace Gluon::Creator;
+#include <QtCore/QObject>
 
-Gluon::Creator::DockPlugin::DockPlugin(QObject* parent, const QList< QVariant >& params) : Plugin(parent, params)
+#include "gluoncreatorlib_macros.h"
+
+class KXmlGuiWindow;
+
+namespace Gluon {
+
+namespace Creator {
+
+class GLUONCREATORLIB_EXPORT Plugin : public QObject
 {
+    Q_OBJECT
+    public:
+        Plugin(QObject* parent, const QList<QVariant>& params);
+        virtual ~Plugin();
+
+        virtual void initialize(KXmlGuiWindow* mainwindow) = 0;
+};
 
 }
 
-Gluon::Creator::DockPlugin::~DockPlugin()
-{
-
 }
 
-
-void Gluon::Creator::DockPlugin::initialize(KXmlGuiWindow* mainwindow)
-{
-    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, createDock(mainwindow));
-}
-
-#include "dockplugin.moc"
+#endif // GLUON_CREATOR_PLUGIN_H

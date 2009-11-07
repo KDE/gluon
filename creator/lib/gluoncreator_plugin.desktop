@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Gluon Creator Plugin
+Comment=The type used for Gluon Creator plugins
+
+Type=ServiceType
+X-KDE-ServiceType=GluonCreator/Plugin

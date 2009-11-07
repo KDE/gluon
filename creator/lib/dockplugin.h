@@ -17,25 +17,28 @@
 #ifndef GLUON_CREATOR_DOCKPLUGIN_H
 #define GLUON_CREATOR_DOCKPLUGIN_H
 
-#include "gluoncreatorlib_export.h"
-#include <QtGui/QDockWidget>
+#include <KXmlGuiWindow>
 
-class QItemSelectionModel;
-class QAbstractItemModel;
+#include "plugin.h"
+
 namespace Gluon {
 
 namespace Creator {
 
-class GLUONCREATORLIB_EXPORT DockPlugin : public QDockWidget
-{
-  Q_OBJECT
-  public:
-    DockPlugin(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    virtual ~DockPlugin();
+    class Dock;
 
-    virtual QAbstractItemModel* model() = 0;
-    virtual QItemSelectionModel* selectionModel() = 0;
-};
+    class GLUONCREATORLIB_EXPORT DockPlugin : public Plugin
+    {
+        Q_OBJECT
+        public:
+            DockPlugin(QObject* parent, const QList<QVariant>& params);
+            virtual ~DockPlugin();
+
+            virtual void initialize(KXmlGuiWindow* mainwindow);
+
+        protected:
+            virtual Dock* createDock(KXmlGuiWindow* parent) = 0;
+    };
 
 }
 

@@ -1,34 +1,18 @@
-#include "dockpluginloader.h"
-#include "dockplugin.h"
+#include "pluginloader.h"
+#include "plugin.h"
 
 #include <KDebug>
 #include <KServiceTypeTrader>
 
 using namespace Gluon::Creator;
 
-DockPluginLoader::DockPluginLoader(QObject* parent) : QObject(parent)
-{
+template<> GLUONCREATORLIB_EXPORT PluginLoader* KSingleton<PluginLoader>::m_instance = 0;
 
-}
-
-DockPluginLoader::~DockPluginLoader()
-{
-
-}
-
-DockPlugin* DockPluginLoader::loadPlugin(const QString& name)
-{
-  Q_UNUSED(name)
-  return 0;
-}
-
-QList< DockPlugin* > DockPluginLoader::loadAllPlugins()
+void PluginLoader::loadAllPlugins()
 {
   kDebug(3344) << "Load all plugins";
-  KService::List offers = KServiceTypeTrader::self()->query("GluonCreator/Dock");
+  KService::List offers = KServiceTypeTrader::self()->query("GluonCreator/Plugin");
   kDebug(3344) << "Found" << offers.size() << "plugins.";
-
-  QList<DockPlugin*> plugins;
 
   KService::List::const_iterator iter;
   for(iter = offers.begin(); iter < offers.end(); ++iter)
@@ -46,18 +30,15 @@ QList< DockPlugin* > DockPluginLoader::loadAllPlugins()
       continue;
     }
     
-    DockPlugin *plugin = factory->create<DockPlugin>(this);
+    Plugin *plugin = factory->create<Plugin>(this);
     
     if (plugin) {
       kDebug(3344) << "Load plugin:" << service->name();
       emit pluginLoaded(plugin);
-      plugins.append(plugin);
     } else {
       kDebug() << error;
     }
   }
-
-  return plugins;
 }
 
-#include "dockpluginloader.moc"
+#include "pluginloader.moc"
