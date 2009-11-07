@@ -1,4 +1,5 @@
 set(projectdock_SRCS
+    projectdock.cpp
     projectdockplugin.cpp
 )
 

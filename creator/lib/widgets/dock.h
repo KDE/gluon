@@ -14,29 +14,37 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "messagedockplugin.h"
-
-#include "messagedock.h"
+#ifndef GLUON_CREATOR_DOCK_H
+#define GLUON_CREATOR_DOCK_H
 
 #include <gluoncreatorlib_macros.h>
-#include <KLocalizedString>
 
-using namespace Gluon::Creator;
+#include <QtGui/QDockWidget>
 
+class QAbstractItemModel;
+class QAbstractItemView;
 
-Gluon::Creator::MessageDockPlugin::MessageDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+namespace Gluon
 {
+    class GluonObject;
 
+    namespace Creator
+    {
+
+        class GLUONCREATORLIB_EXPORT Dock : public QDockWidget
+        {
+            Q_OBJECT
+            public:
+                Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+                virtual ~Dock();
+
+                virtual QAbstractItemModel* model() = 0;
+                virtual QAbstractItemView*  view() = 0;
+
+            public slots:
+                virtual void setSelection(Gluon::GluonObject* obj = 0) = 0;
+        };
+    }
 }
 
-Gluon::Creator::MessageDockPlugin::~MessageDockPlugin()
-{
-    
-}
-
-Dock* Gluon::Creator::MessageDockPlugin::createDock(KXmlGuiWindow* parent)
-{
-    return new MessageDock(i18n("Messages"), parent);
-}
-
-GLUON_CREATOR_PLUGIN_EXPORT(MessageDockPlugin)
+#endif // GLUON_CREATOR_DOCK_H

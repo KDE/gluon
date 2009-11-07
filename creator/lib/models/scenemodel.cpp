@@ -1,17 +1,17 @@
 /*
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public
+License version 2 as published by the Free Software Foundation.
 
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
 
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
+You should have received a copy of the GNU Library General Public License
+along with this library; see the file COPYING.LIB.  If not, write to
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.
 */
 
 #include "scenemodel.h"
@@ -30,15 +30,19 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 
 GameObject* SceneModel::rootGameObject()
 {
-    return m_root->child(0);
+    if(m_root) return m_root->child(0);
+    return 0;
 }
 
 
 void SceneModel::setRootGameObject(GameObject* obj)
 {
-    if(m_root) delete m_root;
-    m_root = new GameObject(this);
-    m_root->addChild(obj);
+    if(obj)
+    {
+        if(m_root) delete m_root;
+        m_root = new GameObject(this);
+        m_root->addChild(obj);
+    }
 }
 
 QVariant SceneModel::data(const QModelIndex& index, int role) const
@@ -46,11 +50,11 @@ QVariant SceneModel::data(const QModelIndex& index, int role) const
     if (index.isValid() && role == Qt::DisplayRole)
     {
         GameObject *item = static_cast<GameObject*>(index.internalPointer());
-
+        
         if(item)
             return item->name();
     }
-
+    
     return QVariant();
 }
 
@@ -69,8 +73,9 @@ int SceneModel::rowCount(const QModelIndex& parent) const
         parentItem = m_root;
     else
         parentItem = static_cast<GameObject*>(parent.internalPointer());
-    
-    return parentItem->childCount();
+
+    if(parentItem) return parentItem->childCount();
+    return 0;
 }
 
 QModelIndex SceneModel::parent(const QModelIndex& child) const
@@ -108,6 +113,8 @@ QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) co
 
 QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_UNUSED(section)
+    
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
         return QVariant("Name");
@@ -119,7 +126,7 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 int SceneModel::rowIndex(GameObject* object) const
 {
     if(object->parentGameObject())
-    {   
+    {
         return object->parentGameObject()->childIndex(object);
     }
     return 0;

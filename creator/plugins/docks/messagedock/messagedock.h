@@ -14,25 +14,34 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "projectdockplugin.h"
-#include <KLocalizedString>
-#include "projectdock.h"
+#ifndef GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#define GLUON_CREATOR_SCENEDOCKPLUGIN_H
 
-using namespace Gluon::Creator;
+#include <gluon/creator/widgets/dock.h>
 
-ProjectDockPlugin::ProjectDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+namespace Gluon {
+
+namespace Creator {
+
+class MessageDock : public Gluon::Creator::Dock
 {
+    public:
+        MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+        ~MessageDock();
+
+        QAbstractItemModel* model();
+        QAbstractItemView* view();
+
+    public slots:
+        void setSelection(GluonObject* obj = 0);
+
+    private:
+        class MessageDockPrivate;
+        MessageDockPrivate* d;
+};
 
 }
 
-ProjectDockPlugin::~ProjectDockPlugin()
-{
-
 }
 
-Dock* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
-{
-    return new ProjectDock(i18n("Project"), parent);
-}
-
-GLUON_CREATOR_PLUGIN_EXPORT(ProjectDockPlugin)
+#endif // GLUON_CREATOR_SCENEDOCKPLUGIN_H

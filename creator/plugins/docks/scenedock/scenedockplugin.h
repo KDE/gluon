@@ -23,18 +23,15 @@ namespace Gluon {
 
 namespace Creator {
 
-class SceneDockPlugin : public Gluon::Creator::DockPlugin
+class SceneDockPlugin : public DockPlugin
 {
-  public:
-    SceneDockPlugin(QWidget* parent, const QList<QVariant>& params);
-    ~SceneDockPlugin();
+    Q_OBJECT
+    public:
+        SceneDockPlugin(QObject* parent, const QList<QVariant>& params);
+        ~SceneDockPlugin();
 
-    QAbstractItemModel* model();
-    QItemSelectionModel* selectionModel();
-
-  private:
-    class SceneDockPluginPrivate;
-    SceneDockPluginPrivate* d;
+    protected:
+        Dock* createDock(KXmlGuiWindow* parent);
 };
 
 }

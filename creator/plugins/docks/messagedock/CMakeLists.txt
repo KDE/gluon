@@ -1,4 +1,5 @@
 set(messagedock_SRCS
+    messagedock.cpp
     messagedockplugin.cpp
 )
 

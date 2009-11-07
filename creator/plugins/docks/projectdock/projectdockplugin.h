@@ -14,31 +14,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_SCENEDOCKPLUGIN_H
-#define GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#ifndef GLUON_CREATOR_PROJECTDOCKPLUGIN_H
+#define GLUON_CREATOR_PROJECTDOCKPLUGIN_H
 
-#include <gluon/creator/dockplugin.h>
+#include <dockplugin.h>
 
 namespace Gluon {
 
 namespace Creator {
 
-class ProjectDockPlugin : public Gluon::Creator::DockPlugin
+class ProjectDockPlugin : public DockPlugin
 {
-  public:
-    ProjectDockPlugin(QWidget* parent, const QList<QVariant>& params);
-    ~ProjectDockPlugin();
+    Q_OBJECT
+    public:
+        ProjectDockPlugin(QObject* parent, const QList< QVariant >& params);
+        ~ProjectDockPlugin();
 
-    QAbstractItemModel* model();
-    QItemSelectionModel* selectionModel();
-
-  private:
-    class ProjectDockPluginPrivate;
-    ProjectDockPluginPrivate* d;
+    protected:
+        Dock* createDock(KXmlGuiWindow* parent);
+        
 };
 
 }
 
 }
 
-#endif // GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#endif // GLUON_CREATOR_PROJECTDOCKPLUGIN_H

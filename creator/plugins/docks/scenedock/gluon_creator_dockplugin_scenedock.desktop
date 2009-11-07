@@ -6,7 +6,7 @@ Comment=Provides a Scene browser dock plugin.
 Icon=gluon
 
 Type=Service
-ServiceTypes=GluonCreator/Dock
+ServiceTypes=GluonCreator/Plugin
 
 X-KDE-Library=gluon_creator_dockplugin_scenedock
 X-KDE-PluginInfo-Author=Arjen Hiemstra

@@ -15,55 +15,29 @@
 */
 
 #include "scenedockplugin.h"
-#include "scenemodel.h"
-
-#include <QtGui/QTreeView>
 
 #include <KLocalizedString>
-#include <gluon/game.h>
-#include <gluon/creator/gluoncreator_macros.h>
-#include <KDebug>
+
+#include "scenedock.h"
 
 using namespace Gluon::Creator;
 
-class Gluon::Creator::SceneDockPlugin::SceneDockPluginPrivate
+
+Gluon::Creator::SceneDockPlugin::SceneDockPlugin(QObject* parent, const QList< QVariant >& params)
+    : DockPlugin(parent, params)
 {
-  public:
-    SceneDockPluginPrivate() { model = 0; view = 0; }
-    SceneModel* model;
-    QTreeView* view;
-};
 
-Gluon::Creator::SceneDockPlugin::SceneDockPlugin(QWidget* parent, const QList< QVariant >& params)
-  : DockPlugin(i18n("Scene Dock"), parent)
-{
-  Q_UNUSED(params)
-
-  setObjectName("SceneDock");
-  
-  d = new SceneDockPluginPrivate;
-
-  //d->model = new SceneModel(this);
-  d->view = new QTreeView(this);
-  //d->view->setModel(d->model);
-  //d->model->setRootGameObject(Game::instance()->currentScene());
-  
-  setWidget(d->view);
 }
+
 
 Gluon::Creator::SceneDockPlugin::~SceneDockPlugin()
 {
-  
+
 }
 
-QAbstractItemModel* Gluon::Creator::SceneDockPlugin::model()
+Dock* Gluon::Creator::SceneDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-  return d->model;
+    return new SceneDock(i18n("Scene"), parent);
 }
 
-QItemSelectionModel* Gluon::Creator::SceneDockPlugin::selectionModel()
-{
-  return d->view->selectionModel();
-}
-
-GLUON_CREATOR_DOCKPLUGIN_EXPORT(SceneDockPlugin)
+GLUON_CREATOR_PLUGIN_EXPORT(SceneDockPlugin)

@@ -17,31 +17,30 @@
 #ifndef GLUON_CREATOR_SCENEDOCK_H
 #define GLUON_CREATOR_SCENEDOCK_H
 
-#include <QtGui/QDockWidget>
-
-class QTreeView;
+#include <gluon/creator/widgets/dock.h>
 
 namespace Gluon {
 
-    namespace Creator
+namespace Creator {
+
+    class SceneDock : public Gluon::Creator::Dock
     {
-        class SceneModel;
+        public:
+            SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            ~SceneDock();
 
-        class SceneDock : public QDockWidget
-        {
-            public:
-                SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-                ~SceneDock();
+            virtual QAbstractItemView* view();
+            virtual QAbstractItemModel* model();
 
-                SceneModel* model();
-                void setModel(SceneModel* model);
+        public slots:
+            virtual void setSelection(Gluon::GluonObject* obj = 0);
 
-            private:
-                SceneModel* m_model;
-                QTreeView* m_view;
-        };
+        private:
+            class SceneDockPrivate;
+            SceneDockPrivate* d;
+    };
 
-    }
+}
 
 }
 

@@ -14,25 +14,27 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "projectdockplugin.h"
-#include <KLocalizedString>
-#include "projectdock.h"
+#ifndef GLUON_CREATOR_PROJECTMODEL_H
+#define GLUON_CREATOR_PROJECTMODEL_H
 
-using namespace Gluon::Creator;
+#include <qt4/QtCore/QAbstractItemModel>
 
-ProjectDockPlugin::ProjectDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+
+namespace Gluon {
+
+namespace Creator {
+
+class ProjectModel : public QAbstractItemModel
 {
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex& child) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+};
 
 }
 
-ProjectDockPlugin::~ProjectDockPlugin()
-{
-
 }
 
-Dock* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
-{
-    return new ProjectDock(i18n("Project"), parent);
-}
-
-GLUON_CREATOR_PLUGIN_EXPORT(ProjectDockPlugin)
+#endif // GLUON_CREATOR_PROJECTMODEL_H

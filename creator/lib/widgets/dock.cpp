@@ -14,25 +14,19 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "projectdockplugin.h"
-#include <KLocalizedString>
-#include "projectdock.h"
+#include "dock.h"
 
 using namespace Gluon::Creator;
 
-ProjectDockPlugin::ProjectDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+Dock::Dock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags)
 {
 
 }
 
-ProjectDockPlugin::~ProjectDockPlugin()
+Gluon::Creator::Dock::~Dock()
 {
 
 }
 
-Dock* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
-{
-    return new ProjectDock(i18n("Project"), parent);
-}
-
-GLUON_CREATOR_PLUGIN_EXPORT(ProjectDockPlugin)
+#include "dock.moc"
