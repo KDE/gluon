@@ -21,6 +21,7 @@
 
 #include "plugin.h"
 
+class KAction;
 namespace Gluon {
 
 namespace Creator {
@@ -38,6 +39,12 @@ namespace Creator {
 
         protected:
             virtual Dock* createDock(KXmlGuiWindow* parent) = 0;
+
+            //virtual KAction* showAction();
+
+        private:
+            //class DockPluginPrivate;
+            //DockPluginPrivate* d;
     };
 
 }

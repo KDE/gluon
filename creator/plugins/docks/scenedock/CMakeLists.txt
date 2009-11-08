@@ -8,3 +8,4 @@ target_link_libraries(gluon_creator_dockplugin_scenedock ${GLUON_CREATOR_LIBS})
 
 install(TARGETS gluon_creator_dockplugin_scenedock DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES gluon_creator_dockplugin_scenedock.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install(FILES gluon_creator_dockplugin_scenedockui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)

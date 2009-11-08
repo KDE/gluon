@@ -17,23 +17,40 @@
 #include "dockplugin.h"
 #include "widgets/dock.h"
 #include <KXmlGuiWindow>
+#include <KActionCollection>
+#include <KStandardDirs>
 
 using namespace Gluon::Creator;
 
+/*class DockPlugin::DockPluginPrivate
+{
+    public:
+        DockPluginPrivate() { showAction = 0; }
+        
+        KAction* showAction;
+};*/
+
 Gluon::Creator::DockPlugin::DockPlugin(QObject* parent, const QList< QVariant >& params) : Plugin(parent, params)
 {
-
+    //d = new DockPluginPrivate;
 }
 
 Gluon::Creator::DockPlugin::~DockPlugin()
 {
-
+    //delete d;
 }
 
 
 void Gluon::Creator::DockPlugin::initialize(KXmlGuiWindow* mainwindow)
 {
-    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, createDock(mainwindow));
+    mainwindow->insertChildClient(this);
+
+    Dock* dockWidget = createDock(mainwindow);
+    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+    actionCollection()->addAction("show" + dockWidget->objectName() + "Action", dockWidget->toggleViewAction());
+
+    setXMLFile(KStandardDirs::locate("appdata", "gluon_creator_dockplugin_" + dockWidget->objectName().toLower() + "ui.rc"));
 }
 
 #include "dockplugin.moc"

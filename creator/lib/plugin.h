@@ -19,6 +19,8 @@
 
 #include <QtCore/QObject>
 
+#include <KXMLGUIClient>
+
 #include "gluoncreatorlib_macros.h"
 
 class KXmlGuiWindow;
@@ -27,7 +29,7 @@ namespace Gluon {
 
 namespace Creator {
 
-class GLUONCREATORLIB_EXPORT Plugin : public QObject
+class GLUONCREATORLIB_EXPORT Plugin : public QObject, public KXMLGUIClient
 {
     Q_OBJECT
     public:
