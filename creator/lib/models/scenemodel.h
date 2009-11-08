@@ -29,12 +29,12 @@ namespace Gluon
     {
         class GLUONCREATORLIB_EXPORT SceneModel : public QAbstractItemModel
         {
+            Q_OBJECT
             public:
                 SceneModel(QObject* parent = 0);
                 
                 Gluon::GameObject* rootGameObject();
-                void setRootGameObject(Gluon::GameObject* obj);
-                
+
                 virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
                 virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
                 virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -42,9 +42,12 @@ namespace Gluon
                 virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
                 virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
                 
+            public slots:
+                void setRootGameObject(GameObject* obj);
+                
             protected:
-                Gluon::GameObject *m_root;
-                int rowIndex(Gluon::GameObject* object) const;
+                GameObject *m_root;
+                int rowIndex(GameObject* object) const;
         };
     }
 }

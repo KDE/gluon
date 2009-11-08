@@ -19,7 +19,9 @@
 #include <QtGui/QTreeView>
 
 #include <models/scenemodel.h>
+#include <game.h>
 
+using namespace Gluon;
 using namespace Gluon::Creator;
 
 class SceneDock::SceneDockPrivate
@@ -37,6 +39,9 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     
     d = new SceneDockPrivate;
     d->model = new SceneModel;
+    d->model->setRootGameObject(Game::instance()->currentScene());
+    connect(Game::instance(), SIGNAL(currentSceneChanged(GameObject*)), d->model, SLOT(setRootGameObject(GameObject*)));
+    
     d->view = new QTreeView;
     d->view->setModel(d->model);
     
@@ -48,7 +53,7 @@ SceneDock::~SceneDock()
     delete d;
 }
 
-void SceneDock::setSelection(Gluon::GluonObject* obj)
+void SceneDock::setSelection(GluonObject* obj)
 {
     Q_UNUSED(obj)
 }

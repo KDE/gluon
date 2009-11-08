@@ -114,11 +114,8 @@ QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) co
 QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(section)
-    
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    {
-        return QVariant("Name");
-    }
+    Q_UNUSED(orientation)
+    Q_UNUSED(role)
     
     return QVariant();
 }
@@ -132,5 +129,5 @@ int SceneModel::rowIndex(GameObject* object) const
     return 0;
 }
 
-
+#include "scenemodel.moc"
 

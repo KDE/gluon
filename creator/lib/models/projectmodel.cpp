@@ -15,31 +15,135 @@
 */
 
 #include "projectmodel.h"
+#include <game.h>
+#include <gameproject.h>
+#include <gluonobject.h>
+#include <KDebug>
 
 using namespace Gluon::Creator;
 
+class ProjectModel::ProjectModelPrivate
+{
+    public:
+        ProjectModelPrivate() { project = 0; }
+
+        QObject* root;        
+        Gluon::GameProject* project;
+        
+};
+
+Gluon::Creator::ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
+{
+    d = new ProjectModelPrivate;
+}
+
+Gluon::Creator::ProjectModel::~ProjectModel()
+{
+    delete d;
+}
+
+
+Gluon::GameProject* Gluon::Creator::ProjectModel::project()
+{
+    return d->project;
+}
+
+void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
+{
+    d->root = new QObject(this);
+    d->project = project;
+    project->setParent(d->root);
+
+    Gluon::GluonObject* obj = new Gluon::GluonObject(project);
+    obj->setParent(project);
+    obj->setName("Scenes");
+
+    obj = new Gluon::GluonObject(project);
+    obj->setParent(project);
+    obj->setName("Assets");
+
+    obj = new Gluon::GluonObject(project);
+    obj->setParent(project);
+    obj->setName("Prefabs");
+
+}
+
 QVariant ProjectModel::data(const QModelIndex& index, int role) const
 {
+    if (!index.isValid())
+        return QVariant();
 
+    if (role != Qt::DisplayRole)
+        return QVariant();
+
+    QObject *item = static_cast<QObject*>(index.internalPointer());
+
+    Gluon::GluonObject* gobj = qobject_cast<Gluon::GluonObject*>(item);
+    if(gobj) return gobj->name();
+
+    return item->objectName() + item->metaObject()->className();
 }
 
 int ProjectModel::columnCount(const QModelIndex& parent) const
 {
-
+    return 1;
 }
 
 int ProjectModel::rowCount(const QModelIndex& parent) const
 {
+    QObject *parentItem;
+    if (parent.column() > 0)
+        return 0;
+    
+    if (!parent.isValid())
+        parentItem = d->root;
+    else
+        parentItem = static_cast<QObject*>(parent.internalPointer());
 
+    if(parentItem) return parentItem->children().count();
+    return 0;
 }
 
 QModelIndex ProjectModel::parent(const QModelIndex& child) const
 {
-
+    if (!child.isValid())
+        return QModelIndex();
+    
+    QObject *childItem = static_cast<QObject*>(child.internalPointer());
+    QObject *parentItem = childItem->parent();
+    
+    if (parentItem == d->root)
+        return QModelIndex();
+    
+    return createIndex(parentItem->children().indexOf(childItem), 0, parentItem);
 }
 
 QModelIndex ProjectModel::index(int row, int column, const QModelIndex& parent) const
 {
-
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
+    
+    QObject *parentItem;
+    
+    if (!parent.isValid())
+        parentItem = d->root;
+    else
+        parentItem = static_cast<QObject*>(parent.internalPointer());
+    
+    QObject *childItem = parentItem->children().at(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
 }
 
+QVariant ProjectModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    Q_UNUSED(section)
+    Q_UNUSED(orientation)
+    Q_UNUSED(role)
+    
+    return QVariant();
+}
+
+#include "projectmodel.moc"
