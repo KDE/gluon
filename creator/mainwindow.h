@@ -41,6 +41,9 @@ namespace Gluon
                 ~MainWindow();
             public slots:
                 void newProject();
+                void newObject();
+                void newScene();
+                
                 void openProject();
                 void openProject(const QString &fileName);
                 void saveProject();
@@ -54,12 +57,14 @@ namespace Gluon
 
                 void setupActions();
                 void setupDocks();
+    void setupGame();
 
                 QTreeView *m_qObjectTree;
                 QTreeView *m_gameObjectTree;
                 QScrollArea * m_propertyWidgetScrollarea;
                 PropertyWidget * m_propertyWidget;
                 QTextEdit * m_messageDock;
+                int m_uid;
         };
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="1" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="2" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
@@ -8,11 +8,29 @@
     <Menu name="file">
         
     </Menu>
+    <Menu name="scene">
+        <text>&amp;Scene</text>
+        <Action name="newScene" />
+        <Action name="newObject" />
+    </Menu>
+
+    <Menu name="tools">
+        <text>&amp;Tools</text>
+    </Menu>
+    
+    <Menu name="settings">
+        <Menu name="docks">
+            <text>&amp;Docks</text>
+        </Menu>
+    </Menu>
+
+    <Menu name="help">
+    </Menu>
 </MenuBar>
 
 <ToolBar name="mainToolBar">
     <text>Main Toolbar</text>
-
+    <Action name="newObject" />
 </ToolBar>
 
 </gui>

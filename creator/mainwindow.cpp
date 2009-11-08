@@ -40,6 +40,9 @@
 #include <qlistview.h>
 //#include <gluon/kgl/kglview.h>
 
+#include <game.h>
+#include <gameproject.h>
+
 #include "lib/plugin.h"
 #include "lib/pluginloader.h"
 
@@ -50,7 +53,16 @@ using namespace Gluon::Creator;
 MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
 {
-    setupDocks();
+    setupGame();
+
+    setDockNestingEnabled(true);
+    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
+
+    m_uid = 0;
+    
+    connect(PluginLoader::instance(), SIGNAL(pluginLoaded(Plugin*)), SLOT(loadPlugin(Plugin*)));
+    PluginLoader::instance()->loadAllPlugins();
+
     setupActions();
 
     setupGUI();
@@ -134,9 +146,30 @@ void MainWindow::showPropertiesFor(Gluon::GluonObject * showFor)
 //    m_propertyWidget->setObject(showFor);
 }
 
+
+void MainWindow::setupGame()
+{
+    Gluon::GameProject* project = new Gluon::GameProject(Gluon::Game::instance());
+    project->setName(i18n("New Project"));
+    Gluon::GameObject* root = new Gluon::GameObject(project);
+    root->setName(i18n("New Scene"));
+    
+    Gluon::Game::instance()->setGameProject(project);
+    Gluon::Game::instance()->setCurrentScene(root);
+}
+
 void MainWindow::setupActions()
 {
     KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
+
+    KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
+    actionCollection()->addAction("newObject", newObject);
+    connect(newObject, SIGNAL(triggered(bool)), SLOT(newObject()));
+
+    KAction* newScene = new KAction(KIcon("document-new"), i18n("New Scene"), actionCollection());
+    actionCollection()->addAction("newScene", newScene);
+    connect(newObject, SIGNAL(triggered(bool)), SLOT(newScene()));
+    
     KStandardAction::open(this, SLOT(openProject()), actionCollection());
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
     KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
@@ -145,90 +178,7 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDocks()
 {
-    /*setDockNestingEnabled(true);
-    //Create Scene Dock
-    QDockWidget* sceneDock = new QDockWidget(this);
-    addDockWidget(Qt::RightDockWidgetArea, sceneDock, Qt::Vertical);
-    sceneDock->setWindowTitle(i18n("Scene"));
-    sceneDock->setObjectName("sceneDock");
-    sceneDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_gameObjectTree = new QTreeView(sceneDock);
-    sceneDock->setWidget(m_gameObjectTree);
-    layout()->setAlignment(sceneDock, Qt::AlignLeft);
 
-    //Create scene dock actions
-    KAction* showSceneDockAction = new KAction(i18n("Show Scene Dock"), this);
-    actionCollection()->addAction("showSceneDockAction", showSceneDockAction);
-    showSceneDockAction->setCheckable(true);
-    connect(showSceneDockAction, SIGNAL(toggled(bool)), sceneDock, SLOT(setVisible(bool)));
-    //showSceneDockActions
-
-    QDockWidget* projectDock = new QDockWidget(this);
-    addDockWidget(Qt::LeftDockWidgetArea, projectDock, Qt::Vertical);
-    projectDock->setWindowTitle(i18n("Project"));
-    projectDock->setObjectName("projectDock");
-    projectDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_qObjectTree = new QTreeView(projectDock);
-    projectDock->setWidget(m_qObjectTree);
-    layout()->setAlignment(projectDock, Qt::AlignLeft);
-
-    QDockWidget* componentDock = new QDockWidget(this);
-    addDockWidget(Qt::LeftDockWidgetArea, componentDock); //, Qt::Vertical);
-    componentDock->setWindowTitle(i18n("Components"));
-    componentDock->setObjectName("componentDock");
-    componentDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-    tabifyDockWidget(projectDock, componentDock);
-
-    QDockWidget* gameDock = new QDockWidget(i18n("Preview"), this);
-    gameDock->setObjectName("gameDock");
-    addDockWidget(Qt::LeftDockWidgetArea, gameDock, Qt::Horizontal);
-    gameDock->setWidget(new KGLView(gameDock));
-    gameDock->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    gameDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    layout()->setAlignment(gameDock, Qt::AlignTop);
-    
-    QDockWidget* editDock = new QDockWidget(i18n("Edit"), this);
-    editDock->setObjectName("editDock");
-    addDockWidget(Qt::LeftDockWidgetArea, editDock, Qt::Horizontal);
-    editDock->setWidget(new KGLView(editDock));
-    editDock->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    editDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    layout()->setAlignment(editDock, Qt::AlignTop);
-
-    tabifyDockWidget(gameDock, editDock);
-
-
-    QDockWidget* propertiesDock = new QDockWidget(this);
-    addDockWidget(Qt::RightDockWidgetArea, propertiesDock); //, Qt::Horizontal);
-    propertiesDock->setWindowTitle(i18n("Properties"));
-    propertiesDock->setObjectName("propertiesDock");
-    propertiesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_propertyWidget = new Gluon::Creator::PropertyWidget(this);
-    propertiesDock->setWidget(m_propertyWidget);
-    layout()->setAlignment(propertiesDock, Qt::AlignRight);
-    
-
-    QDockWidget* messageDock = new QDockWidget(this);
-    addDockWidget(Qt::LeftDockWidgetArea, messageDock, Qt::Vertical);
-    messageDock->setWindowTitle(i18n("Messages"));
-    messageDock->setObjectName("messageDock");
-    messageDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_messageDock = new QTextEdit(messageDock);
-    m_messageDock->setReadOnly(true);
-    m_messageDock->append(i18n("Logging started"));
-    messageDock->setWidget(m_messageDock);
-    layout()->setAlignment(messageDock, Qt::AlignBottom);
-    
-    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
-    setTabPosition(Qt::RightDockWidgetArea, QTabWidget::North);*/
-
-//    setMinimumSize(200, 500);
-    setDockNestingEnabled(true);
-    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
-
-    connect(PluginLoader::instance(), SIGNAL(pluginLoaded(Plugin*)), SLOT(loadPlugin(Plugin*)));
-    PluginLoader::instance()->loadAllPlugins();
 }
 
 
@@ -240,5 +190,18 @@ void MainWindow::newMessage(const QString &string)
 void MainWindow::loadPlugin(Plugin* plugin)
 {
     plugin->initialize(this);
+}
+
+void MainWindow::newObject()
+{
+    Gluon::GameObject * newObject = new Gluon::GameObject();
+    newObject->setName(QString("New Object %1").arg(m_uid++));
+    Gluon::Game::instance()->currentScene()->addChild(newObject);
+    
+}
+
+void MainWindow::newScene()
+{
+
 }
 
