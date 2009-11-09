@@ -21,6 +21,10 @@
 #include "gluonobject.h"
 
 #include <QtCore/QDebug>
+#include <QDir>
+#include <QApplication>
+#include <QPluginLoader>
+#include <component.h>
 
 using namespace Gluon;
 
@@ -45,6 +49,33 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
         return objectTypes.value(fullObjectTypeName)->instantiate();
     }
     return 0;
+}
+
+void
+GluonObjectFactory::loadPlugins()
+{
+    QDir pluginDir(QApplication::applicationDirPath());
+    
+#if defined(Q_OS_WIN)
+    if (pluginDir.dirName().tolower() == "debug" || pluginDir.dirName().tolower() == "release")
+        pluginDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginDir.dirName() == "MacOS")
+    {
+        pluginDir.cdUp();
+        pluginDir.cdUp();
+        pluginDir.cdUp();
+    }
+#endif
+    if(!pluginDir.cd("plugins"))
+        return;
+    
+    foreach (QString fileName, pluginDir.entryList(QDir::Files))
+    {
+        QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
+        if(Component* loaded = qobject_cast<Component*>(loader.instance()))
+            m_pluggedComponents.append(loaded);
+    }
 }
 
 #include "gluonobjectfactory.moc"

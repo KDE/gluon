@@ -151,5 +151,7 @@ namespace Gluon
             QSharedDataPointer<ComponentPrivate> d;
     };
 }
+Q_DECLARE_INTERFACE(Gluon::Component, "com.gluon.Component/1.0")
+
 
 #endif				// GLUON_COMPONENT_H

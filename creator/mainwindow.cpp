@@ -53,6 +53,8 @@ using namespace Gluon::Creator;
 MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
 {
+    Gluon::GluonObjectFactory::instance()->loadPlugins();
+    
     setupGame();
 
     setDockNestingEnabled(true);
