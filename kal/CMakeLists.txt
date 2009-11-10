@@ -19,9 +19,12 @@ set(kal_LIB_SRCS
     kalcapture.cpp
     kalbuffer.cpp
     kalsound.cpp
-    
+
     widgets/kalinfowidget.cpp
     widgets/kalplayerwidget.cpp
+
+    kalcapturedevice_p.cpp
+    kaldevice_p.cpp
 )
 
 qt4_automoc(${kal_LIB_SRCS})
@@ -31,7 +34,7 @@ set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${
 
 #${ALUT_INCLUDE_DIR}
 
-target_link_libraries(kal 
+target_link_libraries(kal
                       ${KDE4_PHONON_LIBS}
                       ${OPENAL_LIBRARY}
                       ${SNDFILE_LIBRARY}

@@ -88,8 +88,6 @@ public:
     */
     static QStringList deviceList();
 
-    static  bool isExtensionSupported(const QString &name);
-
     static void close() {
         delete instance();
     }
@@ -101,17 +99,18 @@ public:
     ALCcontext *getAlContext() {
         return m_context;
     }
+    void alcList(const char* arg1);
 
 private:
     friend class KSingleton<KALEngine>;
-    
+
     KALEngine();
     //KALEngine(const QString &deviceName = QString(), QObject *parent = 0);
     //KALEngine(Phonon::Category category, QObject *parent = 0);
     ~KALEngine();
 
     Q_DISABLE_COPY(KALEngine)
-    
+
     static KALEngine *m_instance;
     ALCcontext *m_context;
     ALCdevice *m_device;

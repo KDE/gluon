@@ -21,8 +21,8 @@
 */
 
 #include "kalengine.h"
-
 #include "kalphonon.h"
+#include "kaldevice_p.h"
 
 #include <QtCore/QtGlobal>
 
@@ -45,10 +45,10 @@ template<> KALEngine *KSingleton<KALEngine>::m_instance = 0;
 KALEngine::KALEngine()
 {
     //alutInitWithoutContext(0, 0);
-    
+
     m_context = NULL;
     m_device = NULL;
-    
+
     /*if (setDevice(deviceName)) {
         if (deviceName.isEmpty()) {
             qDebug() << "set device to default";
@@ -103,18 +103,7 @@ KALEngine *KALEngine::instance(Phonon::Category category)
 
 QStringList KALEngine::deviceList()
 {
-    const ALCchar* devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
-
-    // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
-    // So we can't pass it directly to QStringList
-    QStringList deviceStringList;
-    if (devices) {
-        while (strlen(devices) > 0) {
-            deviceStringList << QString(devices);
-            devices += strlen(devices) + 1;
-        }
-    }
-    return deviceStringList;
+    return KALDevice::contextOption(ALC_DEVICE_SPECIFIER);
 }
 
 bool KALEngine::setDevice(const QString &deviceName)
@@ -122,7 +111,6 @@ bool KALEngine::setDevice(const QString &deviceName)
     if (m_device) {
         alcMakeContextCurrent(NULL);
         alcDestroyContext(m_context);
-        alcCloseDevice(m_device);
     }
 
     if (!deviceName.isEmpty()) {
@@ -146,12 +134,4 @@ bool KALEngine::setDevice(const QString &deviceName)
     }
 
     return true;
-}
-
-bool KALEngine::isExtensionSupported(const QString &name)
-{
-  if (alcIsExtensionPresent(instance()->device(), name.toUtf8()) == ALC_TRUE)
-      return true;
-  else return false;
-
 }
