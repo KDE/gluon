@@ -80,6 +80,7 @@ install(FILES
     gameproject/project.h
     gameproject/gameproject.h
 
+    gluon_export.h
     gluonmainwindow.h
     gluonobject.h
     gluonobjectfactory.h

@@ -23,12 +23,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include "gluonobjectfactory.h"
+#include "gluon_export.h"
 
 namespace Gluon
 {
     class GluonObjectPrivate;
     
-    class GluonObject : public QObject
+    class GLUON_EXPORT GluonObject : public QObject
     {
         Q_OBJECT
         Q_PROPERTY(QString name READ name WRITE setName)

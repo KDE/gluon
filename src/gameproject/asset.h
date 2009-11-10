@@ -26,30 +26,30 @@
 
 namespace Gluon
 {
+    class AssetPrivate;
 
-class AssetPrivate;
+    class GLUON_EXPORT Asset : public GluonObject
+    {
+        Q_OBJECT
+        Q_PROPERTY(QString file READ file WRITE setFile)
 
-class Asset : public GluonObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString file READ file WRITE setFile)
+        public:
+            Asset(QObject *parent = 0);
+            ~Asset();
 
-    public:
-        Asset(QObject *parent = 0);
-        ~Asset();
+            virtual GluonObject *instantiate();
 
-        GluonObject *instantiate();
+            virtual void setFile(const QString &newFile);
+            virtual QString file() const;
 
-        void setFile(const QString &newFile);
-        QString file() const;
+        Q_SIGNALS:
+            void dataChanged();
 
-    Q_SIGNALS:
-        void dataChanged();
-
-    private:
-        AssetPrivate *d;
-};
-
+        private:
+            AssetPrivate *d;
+    };
 }
+
+Q_DECLARE_INTERFACE(Gluon::Asset, "com.gluon.Asset/1.0")
 
 #endif				// GLUON_ASSET_H
