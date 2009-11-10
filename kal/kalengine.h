@@ -36,7 +36,7 @@
 #include <OpenAL/alc.h>
 #endif
 
-#include "common/ksingleton.h"
+#include "../common/ksingleton.h"
 
 class KALPhonon;
 
