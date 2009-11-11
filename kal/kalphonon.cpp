@@ -43,9 +43,9 @@ public:
 };
 
 KALPhonon::KALPhonon(QObject *parent)
-        : QObject(parent)
+        : QObject(parent),
+          d(new KALPhononPrivate)
 {
-    d = new KALPhononPrivate;
 }
 
 KALPhonon::~KALPhonon()

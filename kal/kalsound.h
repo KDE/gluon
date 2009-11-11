@@ -77,17 +77,17 @@ public:
     * This is the default constructor
     * @param soundFile the path of the file to play
     */
-    KALSound(const QString &soundFile, QObject * parent = 0);
+    explicit KALSound(const QString &soundFile, QObject * parent = 0);
     /**
     * This is the default constructor
     * @param KALBuffer the buffer
     */
-    KALSound(KALBuffer *buffer, QObject * parent = 0);
+    explicit KALSound(KALBuffer *buffer, QObject * parent = 0);
     /**
     * This is the default constructor
     * @param ALuint the buffer
     */
-    KALSound(ALuint buffer, QObject * parent = 0);
+    explicit KALSound(ALuint buffer, QObject * parent = 0);
 
     void load (const QString &soundFile);
     void load(KALBuffer * buffer);
@@ -266,7 +266,7 @@ protected:
 private:
     Q_DISABLE_COPY(KALSound)
 
-    KALSoundPrivate *d;
+    KALSoundPrivate * const d;
 };
 
 //@}

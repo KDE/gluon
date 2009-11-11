@@ -44,12 +44,12 @@ public:
     void run();
     bool isPlaying() const;
 
-public slots:
+public Q_SLOTS:
     void play() {
         run();
     }
 
-    private slots:
+private Q_SLOTS:
     void playThread() {
         start();
     }

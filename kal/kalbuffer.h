@@ -81,8 +81,8 @@ protected:
 
 private:
     Q_DISABLE_COPY(KALBuffer)
-    
-    KALBufferPrivate *d;
+
+    KALBufferPrivate * const d;
 };
 
 //@}

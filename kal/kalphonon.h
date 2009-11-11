@@ -63,8 +63,8 @@ Q_SIGNALS:
 
 private:
     Q_DISABLE_COPY(KALPhonon)
-    
-    KALPhononPrivate *d;
+
+    KALPhononPrivate * const d;
 
 private Q_SLOTS:
     bool setDevice(const Phonon::AudioOutputDevice &device);
