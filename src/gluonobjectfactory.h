@@ -24,6 +24,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QHash>
 #include <QtCore/QMetaType>
+#include "gluon_export.h"
 
 namespace Gluon
 {
@@ -31,7 +32,7 @@ namespace Gluon
 class Asset;
     class GluonObject;
     class Component;
-    class GluonObjectFactory : public KSingleton<GluonObjectFactory>
+    class GLUON_EXPORT GluonObjectFactory : public KSingleton<GluonObjectFactory>
     {
         Q_OBJECT
         
@@ -45,13 +46,14 @@ class Asset;
             
         private:
             QList<GluonObject*> m_pluggedComponents;
+            QList<Asset*> m_pluggedAssets;
             
             QHash<QString, GluonObject*> objectTypes;
     };
 }
 
 template<class T>
-class GluonObjectRegistration
+class GLUON_EXPORT GluonObjectRegistration
 {
     
     public:

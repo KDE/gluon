@@ -23,6 +23,7 @@
 #include "gluonobject.h"
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
+#include <QtPlugin>
 
 namespace Gluon
 {

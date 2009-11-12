@@ -19,12 +19,13 @@
 
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
+#include "component.h"
+#include "asset.h"
 
 #include <QtCore/QDebug>
 #include <QDir>
 #include <QApplication>
 #include <QPluginLoader>
-#include <component.h>
 
 using namespace Gluon;
 
@@ -68,13 +69,38 @@ GluonObjectFactory::loadPlugins()
     }
 #endif
     if(!pluginDir.cd("plugins"))
-        return;
+        pluginDir.cd("/home/leinir/Documents/Uni/msc/btcomponents/build/lib");
+
+    qDebug() << "Looking for pluggable components in:" << pluginDir.absolutePath();
+    qDebug() << "Found" << (pluginDir.count() - 2) << "potential plugins. Attempting to load:";
     
     foreach (QString fileName, pluginDir.entryList(QDir::Files))
     {
+        qDebug() << "Attempting to load plugin from" << pluginDir.absoluteFilePath(fileName);
         QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
         if(Component* loaded = qobject_cast<Component*>(loader.instance()))
+        {
             m_pluggedComponents.append(loaded);
+        }
+        else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
+        {
+            m_pluggedAssets.append(loaded);
+        }
+        else
+        {
+            QObject* loaded = loader.instance();
+            QString name;
+            if(loaded != NULL)
+            {
+                if(loaded->metaObject() != NULL)
+                    name = QString("object classname = ") + QString(loaded->metaObject()->className());
+                else
+                    name = "loaded's metaobject was null";
+            }
+            else
+                name = "loaded was null";
+            qDebug() << "No object type found in file (" << name <<")";
+        }
     }
 }
 
