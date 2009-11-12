@@ -20,8 +20,10 @@
 #ifndef GLUON_COMPONENT_H
 #define GLUON_COMPONENT_H
 
+#include "gluon_export.h"
 #include "gluonobject.h"
 #include <QtCore/QSharedData>
+#include <QtPlugin>
 
 /**
  * \defgroup Component Component
@@ -51,7 +53,7 @@ namespace Gluon
      *   http://doc.trolltech.com/qshareddata.html
      * * Expose any properties visible in the editor through Q_PROPERTY
      */
-    class Component : public GluonObject
+    class GLUON_EXPORT Component : public GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
