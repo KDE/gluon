@@ -28,10 +28,12 @@
 #ifdef Q_WS_X11
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <AL/alext.h>
 #endif
 #ifdef Q_WS_MAC
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
+#include <OpenAL/alext.h>
 #endif
 
 //#include <QtCore/QCoreApplication>
@@ -102,7 +104,7 @@ KALEngine *KALEngine::instance(Phonon::Category category)
 
 QStringList KALEngine::deviceList()
 {
-    return KALDevice::contextOption(ALC_DEVICE_SPECIFIER);
+    return KALDevice::contextOption(ALC_ALL_DEVICES_SPECIFIER);
 }
 
 bool KALEngine::setDevice(const QString &deviceName)
