@@ -76,7 +76,6 @@ GluonObjectFactory::loadPlugins()
     
     foreach (QString fileName, pluginDir.entryList(QDir::Files))
     {
-        qDebug() << "Attempting to load plugin from" << pluginDir.absoluteFilePath(fileName);
         QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
         if(Component* loaded = qobject_cast<Component*>(loader.instance()))
         {
@@ -99,7 +98,7 @@ GluonObjectFactory::loadPlugins()
             }
             else
                 name = "loaded was null";
-            qDebug() << "No object type found in file (" << name <<")";
+            qDebug() << "No object type found in" << fileName << "(Reason:" << name <<")";
         }
     }
 }
