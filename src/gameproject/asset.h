@@ -42,6 +42,13 @@ namespace Gluon
 
             virtual void setFile(const QString &newFile);
             virtual QString file() const;
+            
+            /**
+             * The specialization of toGDL on the Asset class does not recurse.
+             * This allows Assets to handle their own children in a flexible
+             * manner, without polluting the GDL with that information.
+             */
+            virtual QString toGDL() const;
 
         Q_SIGNALS:
             void dataChanged();

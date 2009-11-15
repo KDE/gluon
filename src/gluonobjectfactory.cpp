@@ -69,7 +69,7 @@ GluonObjectFactory::loadPlugins()
     }
 #endif
     if(!pluginDir.cd("plugins"))
-        pluginDir.cd("/home/leinir/Documents/Uni/msc/btcomponents/build/lib");
+        pluginDir.cd("/home/leinir/Documents/Uni/msc/btcomponents/build");
 
     qDebug() << "Looking for pluggable components in:" << pluginDir.absolutePath();
     qDebug() << "Found" << (pluginDir.count() - 2) << "potential plugins. Attempting to load:";
@@ -78,28 +78,11 @@ GluonObjectFactory::loadPlugins()
     {
         QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
         if(Component* loaded = qobject_cast<Component*>(loader.instance()))
-        {
             m_pluggedComponents.append(loaded);
-        }
         else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
-        {
             m_pluggedAssets.append(loaded);
-        }
         else
-        {
-            QObject* loaded = loader.instance();
-            QString name;
-            if(loaded != NULL)
-            {
-                if(loaded->metaObject() != NULL)
-                    name = QString("object classname = ") + QString(loaded->metaObject()->className());
-                else
-                    name = "loaded's metaobject was null";
-            }
-            else
-                name = "loaded was null";
-            qDebug() << "No object type found in" << fileName << "(Reason:" << name <<")";
-        }
+            qDebug() << loader.errorString();
     }
 }
 

@@ -322,9 +322,13 @@ GDLHandler::parseGDL(const QString parseThis, QObject * parent)
 }
 
 QString
-serializeGDL(QList<GluonObject *> serializeThis)
+GDLHandler::serializeGDL(QList<const GluonObject*> serializeThis)
 {
     QString serializedData;
+    
+    foreach(const GluonObject* theObject, serializeThis)
+        serializedData += theObject->toGDL();
+    
     return serializedData;
 }
 

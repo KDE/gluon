@@ -30,7 +30,17 @@ namespace Gluon
 {
     class GameProjectPrivate;
     
-    class GameProject : public GluonObject
+    /**
+     * The GameProject class describes and contains a complete game project,
+     * and all the meta information that goes with it, making it into a
+     * complete game (minus engine, which is Gluon::Game and all the
+     * Gluon::Component subclasses).
+     *
+     * The project's children (all assets, gameobjects and prefabs in the
+     * project) are all found in the QObject hierarchy - they are simply
+     * anchored by the QObject parent/child system
+     */
+    class GLUON_EXPORT GameProject : public GluonObject
     {
         Q_OBJECT;
         
@@ -48,6 +58,10 @@ namespace Gluon
             ~GameProject();
 
             GluonObject * findItemByName(QString qualifiedName);
+            
+            bool saveToFile() const;
+            bool loadFromFile();
+            bool loadFromFile(QUrl filename);
             
             /******************************************************************
              * Property Getter-setters

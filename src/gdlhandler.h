@@ -23,18 +23,19 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include "common/ksingleton.h"
+#include "gluon_export.h"
 
 namespace Gluon
 {
     class GluonObject;
     
-    class GDLHandler : public KSingleton<GDLHandler>
+    class GLUON_EXPORT GDLHandler : public KSingleton<GDLHandler>
     {
         Q_OBJECT
         
         public:
             QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
-            QString serializeGDL(QList<GluonObject *> serializeThis);
+            QString serializeGDL(QList<const GluonObject *> serializeThis);
             
         private:
             friend class KSingleton<GDLHandler>;

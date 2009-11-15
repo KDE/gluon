@@ -25,6 +25,7 @@
 #include <Eigen/Geometry>
 
 #include <QtCore/QDebug>
+#include <QMetaClassInfo>
 
 using namespace Gluon;
 
@@ -69,6 +70,50 @@ void
 GluonObject::setName(const QString &newName)
 {
     d->name = newName;
+}
+
+QString
+GluonObject::toGDL() const
+{
+    QString serializedObject;
+    
+    serializedObject += propertiesToGDL();
+    
+    // Run through all the children to get them as well
+    foreach(QObject* child, children())
+    {
+        GluonObject* theChild = qobject_cast<GluonObject*>(child);
+        if(theChild)
+            serializedObject += theChild->toGDL();
+    }
+    
+    return serializedObject;
+}
+
+QString
+GluonObject::propertiesToGDL() const
+{
+    QString serializedObject;
+
+    // Get all the normally defined properties
+    const QMetaObject *metaobject = this->metaObject();
+    int count = metaobject->propertyCount();
+    for(int i = 0; i < count; ++i)
+    {
+        QMetaProperty metaproperty = metaobject->property(i);
+        const QString theName(metaproperty.name());
+        serializedObject += this->getStringFromProperty(theName);
+    }
+    
+    // Then get all the dynamic ones (in case any such exist)
+    QList<QByteArray> propertyNames = dynamicPropertyNames();
+    foreach(QByteArray propName, propertyNames)
+    {
+        const QString theName(propName);
+        serializedObject += this->getStringFromProperty(theName);
+    }
+    
+    return serializedObject;
 }
 
 void
@@ -124,7 +169,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 }
 
 QString
-GluonObject::getStringFromProperty(const QString &propertyName)
+GluonObject::getStringFromProperty(const QString &propertyName) const
 {
     QString value;
 

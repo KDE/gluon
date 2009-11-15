@@ -19,7 +19,11 @@
 
 #include "gameproject.h"
 #include "gameprojectprivate.h"
+#include "gdlhandler.h"
+
 #include <QtCore/QStringList>
+#include <QFile>
+#include <qtextstream.h>
 
 using namespace Gluon;
 
@@ -71,6 +75,90 @@ GameProject::findItemByName(QString qualifiedName)
         }
     }
     return foundChild;
+}
+
+bool 
+GameProject::saveToFile() const
+{
+    QFile *projectFile = new QFile(filename().toLocalFile());
+    if(!projectFile->open(QIODevice::WriteOnly))
+        return false;
+    
+    QList<const GluonObject*> thisProject;
+    thisProject.append(this);
+    
+    QTextStream projectWriter(projectFile);
+    projectWriter << GDLHandler::instance()->serializeGDL(thisProject);
+    projectFile->close();
+    
+    delete(projectFile);
+    return true;
+}
+
+bool 
+GameProject::loadFromFile()
+{
+    QFile *projectFile = new QFile(filename().toLocalFile());
+    if(!projectFile->open(QIODevice::ReadOnly))
+        return false;
+    
+    QTextStream projectReader(projectFile);
+    QString fileContents = projectReader.readAll();
+    projectFile->close();
+    
+    if(fileContents.isEmpty())
+        return false;
+    
+    QList<GluonObject*> objectList = GDLHandler::instance()->parseGDL(fileContents, this->parent());
+    if(objectList.count() > 0)
+    {
+        if(objectList[0]->metaObject())
+        {
+            // If the first object in the list is a GluonProject, then let's
+            // adapt ourselves to represent that object...
+            if(objectList[0]->metaObject()->className() == this->metaObject()->className())
+            {
+                GameProject* loadedProject = qobject_cast<GameProject*>(objectList[0]);
+                
+                // First things first - clean ourselves out, all the children
+                // and the media info list should be gone-ified
+                qDeleteAll(this->children());
+                
+                // Reassign all the children of the newly loaded project to
+                // ourselves...
+                foreach(QObject* child, loadedProject->children())
+                {
+                    GluonObject* theChild = qobject_cast<GluonObject*>(child);
+                    theChild->setParent(this);
+                }
+                
+                // Set all the interesting values...
+                setName(loadedProject->name());
+                setDescription(loadedProject->description());
+                setEntryPoint(loadedProject->entryPoint());
+                setHomepage(loadedProject->homepage());
+                setMediaInfo(loadedProject->mediaInfo());
+                
+                // Finally, get rid of the left-overs
+                qDeleteAll(objectList);
+            }
+            // Otherwise it is not a GluonProject, and should fail!
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    
+    delete(projectFile);
+    return true;
+}
+
+bool 
+GameProject::loadFromFile(QUrl filename)
+{
+    setFilename(filename);
+    return loadFromFile();
 }
 
 /******************************************************************************

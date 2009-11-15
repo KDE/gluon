@@ -56,4 +56,12 @@ QString Asset::file() const
     return d->file;
 }
 
+QString
+Asset::toGDL() const
+{
+    // We do not recurse here - this allows the assets to handle their own
+    // children
+    return propertiesToGDL();
+}
+
 #include "asset.moc"

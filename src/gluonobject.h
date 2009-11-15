@@ -43,8 +43,11 @@ namespace Gluon
             QString name() const;
             void setName(const QString &newName);
             
+            virtual QString toGDL() const;
+            virtual QString propertiesToGDL() const;
+            
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
-            virtual QString getStringFromProperty(const QString &propertyName);
+            virtual QString getStringFromProperty(const QString &propertyName) const;
             
             virtual void sanitize();
         private:
