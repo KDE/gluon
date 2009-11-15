@@ -55,6 +55,8 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 void
 GluonObjectFactory::loadPlugins()
 {
+    QList<QDir> pluginDirs;
+    
     QDir pluginDir(QApplication::applicationDirPath());
     
 #if defined(Q_OS_WIN)
@@ -68,21 +70,34 @@ GluonObjectFactory::loadPlugins()
         pluginDir.cdUp();
     }
 #endif
-    if(!pluginDir.cd("plugins"))
-        pluginDir.cd("/home/leinir/Documents/Uni/msc/btcomponents/build");
-
-    qDebug() << "Looking for pluggable components in:" << pluginDir.absolutePath();
-    qDebug() << "Found" << (pluginDir.count() - 2) << "potential plugins. Attempting to load:";
+    if(pluginDir.cd("plugins"))
+        pluginDirs.append(pluginDir);
     
-    foreach (QString fileName, pluginDir.entryList(QDir::Files))
+    if(pluginDir.cd("/usr/lib/gluon"))
+        pluginDirs.append(pluginDir);
+    
+    // Always look in the current dir
+    pluginDirs.append(QDir::current());
+    
+    if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
+        pluginDirs.append(pluginDir);
+
+    qDebug() << "Number of plugin locations:" << pluginDirs.count();
+    foreach(const QDir &theDir, pluginDirs)
     {
-        QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
-        if(Component* loaded = qobject_cast<Component*>(loader.instance()))
-            m_pluggedComponents.append(loaded);
-        else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
-            m_pluggedAssets.append(loaded);
-        else
-            qDebug() << loader.errorString();
+        qDebug() << "Looking for pluggable components in:" << theDir.absolutePath();
+        qDebug() << "Found" << (theDir.count() - 2) << "potential plugins. Attempting to load:";
+        
+        foreach (QString fileName, theDir.entryList(QDir::Files))
+        {
+            QPluginLoader loader(theDir.absoluteFilePath(fileName));
+            if(Component* loaded = qobject_cast<Component*>(loader.instance()))
+                m_pluggedComponents.append(loaded);
+            else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
+                m_pluggedAssets.append(loaded);
+            else
+                qDebug() << loader.errorString();
+        }
     }
 }
 
