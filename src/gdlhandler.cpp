@@ -59,6 +59,7 @@ GDLHandler::createObject(QStringList objectStringList, QObject * parent)
                 // Object type
                 createdObject = instantiateObject(item);
                 createdObject->setParent(parent);
+                qDebug() << "Instantiated object of type" << createdObject->metaObject()->className();
                 break;
             case 1:
                 // Object name

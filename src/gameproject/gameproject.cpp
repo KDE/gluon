@@ -21,6 +21,7 @@
 #include "gameprojectprivate.h"
 #include "gdlhandler.h"
 
+#include <QtCore/QDebug>
 #include <QtCore/QStringList>
 #include <QFile>
 #include <qtextstream.h>
@@ -42,6 +43,12 @@ GameProject::GameProject(const GameProject &other, QObject * parent)
 
 GameProject::~GameProject()
 {
+}
+
+GameProject *
+GameProject::instantiate()
+{
+    return new GameProject(this);
 }
 
 GluonObject *
@@ -118,6 +125,7 @@ GameProject::loadFromFile()
             // adapt ourselves to represent that object...
             if(objectList[0]->metaObject()->className() == this->metaObject()->className())
             {
+                qDebug() << "Project successfully parsed - applying to local instance";
                 GameProject* loadedProject = qobject_cast<GameProject*>(objectList[0]);
                 
                 // First things first - clean ourselves out, all the children
@@ -141,10 +149,17 @@ GameProject::loadFromFile()
                 
                 // Finally, get rid of the left-overs
                 qDeleteAll(objectList);
+                
+                qDebug() << "Project loading successful!";
             }
             // Otherwise it is not a GluonProject, and should fail!
             else
+            {
+                qDebug() << "First object loaded is not a Gluon::GameProject.";
+                qDebug() << "Type of loaded object:" << objectList[0]->metaObject()->className();
+                qDebug() << "Name of loaded object:" << objectList[0]->name();
                 return false;
+            }
         }
         else
             return false;

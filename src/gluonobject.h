@@ -38,6 +38,12 @@ namespace Gluon
             GluonObject(QObject * parent = 0);
             virtual ~GluonObject();
 
+            /**
+             * This function returns a new instance of this GluonObject.
+             * If you subclass GluonObject, make sure to implement this function!
+             * Otherwise you will end up with wrongly instanced objects all
+             * over your games
+             */
             virtual GluonObject * instantiate();
             
             QString name() const;

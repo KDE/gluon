@@ -56,6 +56,8 @@ namespace Gluon
             GameProject(QObject * parent = 0);
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
+            
+            virtual GameProject * instantiate();
 
             GluonObject * findItemByName(QString qualifiedName);
             

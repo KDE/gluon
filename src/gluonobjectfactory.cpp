@@ -31,6 +31,23 @@ using namespace Gluon;
 
 template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
 
+QString
+GluonObjectFactory::objectTypeNames() const
+{
+    QString theNames("The following object types are registered:");
+    
+    QHash<QString, GluonObject*>::const_iterator i;
+    for (i = objectTypes.constBegin(); i != objectTypes.constEnd(); ++i)
+    {
+        theNames += '\n';
+        theNames += i.value()->metaObject()->className();
+        theNames += " is registered as ";
+        theNames += i.key();
+    }
+    
+    return theNames + '\n';
+}
+
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
@@ -47,10 +64,14 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     QString fullObjectTypeName(objectTypeName);
     if(!objectTypeName.contains("::"))
          fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
-    if(objectTypes.find(fullObjectTypeName) != objectTypes.end())
-    {
-        return objectTypes.value(fullObjectTypeName)->instantiate();
-    }
+    
+    qDebug() << "Attempting to instantiate object of type " << fullObjectTypeName;
+    
+    if(objectTypes.keys().indexOf(fullObjectTypeName) > -1)
+        return objectTypes[fullObjectTypeName]->instantiate();
+    
+    qDebug() << "Object type name not found in factory!";
+
     return 0;
 }
 

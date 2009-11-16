@@ -28,8 +28,7 @@
 
 namespace Gluon
 {
-
-class Asset;
+    class Asset;
     class GluonObject;
     class Component;
     class GLUON_EXPORT GluonObjectFactory : public KSingleton<GluonObjectFactory>
@@ -43,6 +42,8 @@ class Asset;
             void loadPlugins();
             QList<Component*> pluggedComponents() const;
             QList<Asset*> pluggedAssets() const;
+            
+            QString objectTypeNames() const;
             
         private:
             QList<GluonObject*> m_pluggedComponents;

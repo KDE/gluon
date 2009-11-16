@@ -76,6 +76,7 @@ QString
 GluonObject::toGDL() const
 {
     QString serializedObject;
+    qDebug() << "Serializing " << this->name();
     
     serializedObject += propertiesToGDL();
     
@@ -127,7 +128,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
     QString theTypeName = rx.cap(1);
     QString theValue = rx.cap(2);
-    qDebug() << theTypeName << theValue;
+    qDebug() << "  Setting property" << propertyName << "of type" << theTypeName << "to value" << theValue;
 
     if(theTypeName == "string") {
         value = theValue;
