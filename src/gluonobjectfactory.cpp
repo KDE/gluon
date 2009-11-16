@@ -44,7 +44,9 @@ GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 GluonObject *
 GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
-    QString fullObjectTypeName = QString("Gluon::") + objectTypeName;
+    QString fullObjectTypeName(objectTypeName);
+    if(!objectTypeName.contains("::"))
+         fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
     if(objectTypes.find(fullObjectTypeName) != objectTypes.end())
     {
         return objectTypes.value(fullObjectTypeName)->instantiate();
