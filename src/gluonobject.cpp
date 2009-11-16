@@ -43,6 +43,8 @@ GluonObject::~GluonObject()
 GluonObject *
 GluonObject::instantiate()
 {
+    if(QString(this->metaObject()->className()) != QString("Gluon::GluonObject"))
+        qDebug() << "Missing instantiate() implementation in" << this->metaObject()->className();
     return new GluonObject(this);
 }
 
@@ -76,7 +78,12 @@ QString
 GluonObject::toGDL() const
 {
     QString serializedObject;
-    qDebug() << "Serializing " << this->name();
+    qDebug() << "Serializing object named" << this->name();
+
+    QString minimalClassName(this->metaObject()->className());
+    if(QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
+        minimalClassName = minimalClassName.right(minimalClassName.length() - 7);
+    serializedObject += "{ " + minimalClassName + '(' + this->name() + ")";        
     
     serializedObject += propertiesToGDL();
     
@@ -88,7 +95,7 @@ GluonObject::toGDL() const
             serializedObject += theChild->toGDL();
     }
     
-    return serializedObject;
+    return serializedObject + "}\n";
 }
 
 QString
@@ -103,6 +110,8 @@ GluonObject::propertiesToGDL() const
     {
         QMetaProperty metaproperty = metaobject->property(i);
         const QString theName(metaproperty.name());
+        if(theName == "objectName" || theName == "name")
+            continue;
         serializedObject += this->getStringFromProperty(theName);
     }
     
@@ -174,7 +183,36 @@ GluonObject::getStringFromProperty(const QString &propertyName) const
 {
     QString value;
 
-    return value;
+    QVariant theValue = this->property(propertyName.toUtf8());
+    
+    QColor theColor;
+    switch(theValue.type())
+    {
+        case QVariant::String:
+            value = "string(" + theValue.toString() + ')';
+            break;
+        case QVariant::Bool:
+            value = QString("bool(%1)").arg(theValue.toBool());
+            break;
+        case QVariant::Double:
+            value = QString("float(%1)").arg(theValue.toDouble());
+            break;
+        case QVariant::Int:
+            value = QString("int(%1)").arg(theValue.toInt());
+            break;
+        case QVariant::PointF:
+            value = QString("vector2d(%1;%2)").arg(theValue.toPointF().x()).arg(theValue.toPointF().y());
+            break;
+        case QVariant::Color:
+            theColor = theValue.value<QColor>();
+            value = QString("rgba(%1;%2;%3;%4)").arg(theColor.red()).arg(theColor.green()).arg(theColor.blue()).arg(theColor.alpha());
+            break;
+        default:
+            value = theValue.toString();
+            break;
+    }
+    
+    return QString("\n%1 %2").arg(propertyName).arg(value);
 }
 
 #include "gluonobject.moc"
