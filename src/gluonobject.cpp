@@ -34,6 +34,7 @@ REGISTER_OBJECTTYPE(GluonObject)
 
 GluonObject::GluonObject(QObject * parent) : QObject(parent)
 {
+    qRegisterMetaType< QList<QUrl> >();
     d = new GluonObjectPrivate();
 }
 

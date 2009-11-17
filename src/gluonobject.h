@@ -25,6 +25,11 @@
 #include "gluonobjectfactory.h"
 #include "gluon_export.h"
 
+#include <QtCore/QList>
+#include <QtCore/QUrl>
+
+Q_DECLARE_METATYPE(QList<QUrl>)
+
 namespace Gluon
 {
     class GameProject;
