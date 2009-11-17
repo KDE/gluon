@@ -17,7 +17,7 @@
 #ifndef GLUON_CREATOR_COMPONENTSDOCK_H
 #define GLUON_CREATOR_COMPONENTSDOCK_H
 
-#include <../../home/ahiemstra/Projects/gluon/creator/lib/widgets/dock.h>
+#include "widgets/dock.h"
 
 
 namespace Gluon {
