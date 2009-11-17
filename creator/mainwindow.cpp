@@ -50,6 +50,7 @@
 #include <QMessageBox>
 #include <KStatusBar>
 #include <KMessageBox>
+#include "lib/objectmanager.h"
 
 using namespace Gluon::Creator;
 
@@ -151,11 +152,9 @@ void MainWindow::setupGame()
 {
     Gluon::GameProject* project = new Gluon::GameProject(Gluon::Game::instance());
     project->setName(i18n("New Project"));
-    Gluon::GameObject* root = new Gluon::GameObject(project);
-    root->setName(i18n("New Scene"));
-    project->addChild(root);
-
     Gluon::Game::instance()->setGameProject(project);
+
+    Gluon::GameObject* root = ObjectManager::instance()->createNewScene();
     Gluon::Game::instance()->setCurrentScene(root);
 }
 
@@ -165,11 +164,11 @@ void MainWindow::setupActions()
 
     KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
     actionCollection()->addAction("newObject", newObject);
-    connect(newObject, SIGNAL(triggered(bool)), SLOT(newObject()));
+    connect(newObject, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewObject()));
 
     KAction* newScene = new KAction(KIcon("document-new"), i18n("New Scene"), actionCollection());
     actionCollection()->addAction("newScene", newScene);
-    connect(newObject, SIGNAL(triggered(bool)), SLOT(newScene()));
+    connect(newScene, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
 
     KStandardAction::open(this, SLOT(openProject()), actionCollection());
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
@@ -193,18 +192,4 @@ void MainWindow::loadPlugin(Plugin* plugin)
     plugin->initialize(this);
 }
 
-void MainWindow::newObject()
-{
-    Gluon::GameObject * newObject = new Gluon::GameObject();
-    newObject->setName(QString("New Object %1").arg(m_uid++));
-    Gluon::Game::instance()->currentScene()->addChild(newObject);
-
-}
-
-void MainWindow::newScene()
-{
-    Gluon::GameObject* newObject = new Gluon::GameObject();
-    newObject->setName(QString("New Scene %1").arg(m_sceneId++));
-    Gluon::Game::instance()->gameProject()->addChild(newObject);
-}
 

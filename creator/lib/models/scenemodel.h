@@ -24,7 +24,7 @@ Boston, MA 02110-1301, USA.
 namespace Gluon
 {
     class GameObject;
-    
+
     namespace Creator
     {
         class GLUONCREATORLIB_EXPORT SceneModel : public QAbstractItemModel
@@ -32,7 +32,7 @@ namespace Gluon
             Q_OBJECT
             public:
                 SceneModel(QObject* parent = 0);
-                
+
                 Gluon::GameObject* rootGameObject();
 
                 virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
@@ -41,11 +41,11 @@ namespace Gluon
                 virtual QModelIndex parent(const QModelIndex& child) const;
                 virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
                 virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-                
+
             public slots:
                 void setRootGameObject(GameObject* obj);
-                
-            protected:
+
+            private:
                 GameObject *m_root;
                 int rowIndex(GameObject* object) const;
         };

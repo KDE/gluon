@@ -22,6 +22,7 @@
 
 namespace Gluon {
 class GameProject;
+class GameObject;
 
 namespace Creator {
 
@@ -47,6 +48,7 @@ class GLUONCREATORLIB_EXPORT ProjectModel : public QAbstractItemModel
     private:
         class ProjectModelPrivate;
         ProjectModelPrivate* d;
+
 };
 
 }

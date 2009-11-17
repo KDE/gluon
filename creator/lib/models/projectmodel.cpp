@@ -20,6 +20,7 @@
 #include <gluonobject.h>
 #include <KDebug>
 #include <KLocalizedString>
+#include <objectmanager.h>
 
 using namespace Gluon::Creator;
 
@@ -36,6 +37,7 @@ class ProjectModel::ProjectModelPrivate
 Gluon::Creator::ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
 {
     d = new ProjectModelPrivate;
+    connect(ObjectManager::instance(), SIGNAL(newScene(Gluon::GameObject*)), SIGNAL(layoutChanged()));
 }
 
 Gluon::Creator::ProjectModel::~ProjectModel()
@@ -55,9 +57,11 @@ void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
     d->project = project;
     project->setParent(d->root);
 
-    project->addChild(new Gluon::GluonObject(i18n("Scenes")));
+    emit layoutChanged();
+
+    /*project->addChild(new Gluon::GluonObject(i18n("Scenes")));
     project->addChild(new Gluon::GluonObject(i18n("Assets")));
-    project->addChild(new Gluon::GluonObject(i18n("Prefabs")));
+    project->addChild(new Gluon::GluonObject(i18n("Prefabs")));*/
 }
 
 QVariant ProjectModel::data(const QModelIndex& index, int role) const
@@ -78,6 +82,7 @@ QVariant ProjectModel::data(const QModelIndex& index, int role) const
 
 int ProjectModel::columnCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent)
     return 1;
 }
 

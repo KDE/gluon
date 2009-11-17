@@ -2,10 +2,11 @@ set(gluoncreatorlib_SRCS
     plugin.cpp
     dockplugin.cpp
     pluginloader.cpp
+    objectmanager.cpp
 
     models/projectmodel.cpp
     models/scenemodel.cpp
-    
+
     widgets/dock.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetitem.cpp

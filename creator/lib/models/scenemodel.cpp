@@ -18,6 +18,7 @@ Boston, MA 02110-1301, USA.
 #include <gluon/gameobject.h>
 #include <QDebug>
 #include <typeinfo>
+#include <objectmanager.h>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -25,6 +26,7 @@ using namespace Gluon::Creator;
 SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 {
     m_root = 0;
+    connect(ObjectManager::instance(), SIGNAL(newObject(Gluon::GameObject*)), SIGNAL(layoutChanged()));
 }
 
 
@@ -42,6 +44,7 @@ void SceneModel::setRootGameObject(GameObject* obj)
         if(m_root) delete m_root;
         m_root = new GameObject(this);
         m_root->addChild(obj);
+        emit layoutChanged();
     }
 }
 
