@@ -8,4 +8,3 @@ target_link_libraries(gluon_creator_dockplugin_projectdock ${GLUON_CREATOR_LIBS}
 
 install(TARGETS gluon_creator_dockplugin_projectdock DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES gluon_creator_dockplugin_projectdock.desktop DESTINATION ${SERVICES_INSTALL_DIR})
-install(FILES gluon_creator_dockplugin_projectdockui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)

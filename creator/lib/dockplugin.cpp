@@ -19,25 +19,18 @@
 #include <KXmlGuiWindow>
 #include <KActionCollection>
 #include <KStandardDirs>
+#include <KDebug>
 
 using namespace Gluon::Creator;
 
-/*class DockPlugin::DockPluginPrivate
-{
-    public:
-        DockPluginPrivate() { showAction = 0; }
-        
-        KAction* showAction;
-};*/
-
 Gluon::Creator::DockPlugin::DockPlugin(QObject* parent, const QList< QVariant >& params) : Plugin(parent, params)
 {
-    //d = new DockPluginPrivate;
+
 }
 
 Gluon::Creator::DockPlugin::~DockPlugin()
 {
-    //delete d;
+
 }
 
 
@@ -50,7 +43,10 @@ void Gluon::Creator::DockPlugin::initialize(KXmlGuiWindow* mainwindow)
 
     actionCollection()->addAction("show" + dockWidget->objectName() + "Action", dockWidget->toggleViewAction());
 
-    setXMLFile(KStandardDirs::locate("appdata", "gluon_creator_dockplugin_" + dockWidget->objectName().toLower() + "ui.rc"));
+    QString xml = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">").arg(dockWidget->objectName());
+    xml += QString("<MenuBar><Menu name=\"settings\"><Menu name=\"docks\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>").arg(dockWidget->objectName());
+
+    setXML(xml);
 }
 
 #include "dockplugin.moc"

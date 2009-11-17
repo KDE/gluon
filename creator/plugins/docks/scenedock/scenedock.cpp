@@ -36,15 +36,19 @@ class SceneDock::SceneDockPrivate
 SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
     setObjectName("SceneDock");
-    
+
     d = new SceneDockPrivate;
     d->model = new SceneModel;
     d->model->setRootGameObject(Game::instance()->currentScene());
     connect(Game::instance(), SIGNAL(currentSceneChanged(GameObject*)), d->model, SLOT(setRootGameObject(GameObject*)));
-    
+
     d->view = new QTreeView;
     d->view->setModel(d->model);
-    
+    d->view->setDragEnabled(true);
+    d->view->setAcceptDrops(true);
+    d->view->setDropIndicatorShown(true);
+    d->view->setDragDropMode(QAbstractItemView::InternalMove);
+
     setWidget(d->view);
 }
 
