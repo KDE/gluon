@@ -19,6 +19,7 @@
 #include <gameproject.h>
 #include <gluonobject.h>
 #include <KDebug>
+#include <KLocalizedString>
 
 using namespace Gluon::Creator;
 
@@ -27,9 +28,9 @@ class ProjectModel::ProjectModelPrivate
     public:
         ProjectModelPrivate() { project = 0; }
 
-        QObject* root;        
+        QObject* root;
         Gluon::GameProject* project;
-        
+
 };
 
 Gluon::Creator::ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
@@ -54,18 +55,9 @@ void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
     d->project = project;
     project->setParent(d->root);
 
-    Gluon::GluonObject* obj = new Gluon::GluonObject(project);
-    obj->setParent(project);
-    obj->setName("Scenes");
-
-    obj = new Gluon::GluonObject(project);
-    obj->setParent(project);
-    obj->setName("Assets");
-
-    obj = new Gluon::GluonObject(project);
-    obj->setParent(project);
-    obj->setName("Prefabs");
-
+    project->addChild(new Gluon::GluonObject(i18n("Scenes")));
+    project->addChild(new Gluon::GluonObject(i18n("Assets")));
+    project->addChild(new Gluon::GluonObject(i18n("Prefabs")));
 }
 
 QVariant ProjectModel::data(const QModelIndex& index, int role) const
@@ -94,7 +86,7 @@ int ProjectModel::rowCount(const QModelIndex& parent) const
     QObject *parentItem;
     if (parent.column() > 0)
         return 0;
-    
+
     if (!parent.isValid())
         parentItem = d->root;
     else
@@ -108,13 +100,13 @@ QModelIndex ProjectModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-    
+
     QObject *childItem = static_cast<QObject*>(child.internalPointer());
     QObject *parentItem = childItem->parent();
-    
+
     if (parentItem == d->root)
         return QModelIndex();
-    
+
     return createIndex(parentItem->children().indexOf(childItem), 0, parentItem);
 }
 
@@ -122,14 +114,14 @@ QModelIndex ProjectModel::index(int row, int column, const QModelIndex& parent) 
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-    
+
     QObject *parentItem;
-    
+
     if (!parent.isValid())
         parentItem = d->root;
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
-    
+
     QObject *childItem = parentItem->children().at(row);
     if (childItem)
         return createIndex(row, column, childItem);
@@ -142,7 +134,7 @@ QVariant ProjectModel::headerData(int section, Qt::Orientation orientation, int 
     Q_UNUSED(section)
     Q_UNUSED(orientation)
     Q_UNUSED(role)
-    
+
     return QVariant();
 }
 

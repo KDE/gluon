@@ -30,7 +30,7 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 
 GameObject* SceneModel::rootGameObject()
 {
-    if(m_root) return m_root->child(0);
+    if(m_root) return m_root->childGameObject(0);
     return 0;
 }
 
@@ -50,11 +50,11 @@ QVariant SceneModel::data(const QModelIndex& index, int role) const
     if (index.isValid() && role == Qt::DisplayRole)
     {
         GameObject *item = static_cast<GameObject*>(index.internalPointer());
-        
+
         if(item)
             return item->name();
     }
-    
+
     return QVariant();
 }
 
@@ -68,7 +68,7 @@ int SceneModel::rowCount(const QModelIndex& parent) const
     GameObject *parentItem;
     if (parent.column() > 0)
         return 0;
-    
+
     if (!parent.isValid())
         parentItem = m_root;
     else
@@ -82,13 +82,13 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-    
+
     GameObject *childItem = static_cast<GameObject*>(child.internalPointer());
     GameObject *parentItem = childItem->parentGameObject();
-    
+
     if (parentItem == m_root)
         return QModelIndex();
-    
+
     return createIndex(rowIndex(parentItem), 0, parentItem);
 }
 
@@ -96,15 +96,15 @@ QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) co
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-    
+
     GameObject *parentItem;
-    
+
     if (!parent.isValid())
         parentItem = m_root;
     else
         parentItem = static_cast<GameObject*>(parent.internalPointer());
-    
-    GameObject *childItem = parentItem->child(row);
+
+    GameObject *childItem = parentItem->childGameObject(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -116,7 +116,7 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
     Q_UNUSED(section)
     Q_UNUSED(orientation)
     Q_UNUSED(role)
-    
+
     return QVariant();
 }
 

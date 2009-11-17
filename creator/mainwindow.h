@@ -32,7 +32,7 @@ namespace Gluon
     {
         class Plugin;
         class PropertyWidget;
- 
+
         class MainWindow : public KXmlGuiWindow
         {
             Q_OBJECT
@@ -43,10 +43,11 @@ namespace Gluon
                 void newProject();
                 void newObject();
                 void newScene();
-                
+
                 void openProject();
                 void openProject(const QString &fileName);
                 void saveProject();
+                void saveProject(const QString &fileName);
                 void saveProjectAs();
                 void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);
                 void newMessage(const QString & string);
@@ -57,7 +58,7 @@ namespace Gluon
 
                 void setupActions();
                 void setupDocks();
-    void setupGame();
+                void setupGame();
 
                 QTreeView *m_qObjectTree;
                 QTreeView *m_gameObjectTree;
@@ -65,6 +66,8 @@ namespace Gluon
                 PropertyWidget * m_propertyWidget;
                 QTextEdit * m_messageDock;
                 int m_uid;
+                int m_sceneId;
+                QString m_fileName;
         };
     }
 }
