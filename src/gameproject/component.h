@@ -64,7 +64,7 @@ namespace Gluon
             Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
-            
+
             /**
              * The start function is run once after each scene change,
              * immediately before the first update
@@ -80,7 +80,7 @@ namespace Gluon
              * @param elapsedMilliseconds The amount of time in milliseconds which has passed since the last update
              * @see Game::runGame, draw
              */
-            virtual void update(int elapsedMilliseconds) {};
+            virtual void update(int elapsedMilliseconds) { Q_UNUSED(elapsedMilliseconds) };
             /**
              * The draw function is run every time the engine requests a redraw
              * of the screen. Avoid putting any game logic in this function.
@@ -94,7 +94,7 @@ namespace Gluon
              * @param timeLapse The number of milliseconds passed since the last update
              * @see Game::runGame, update
              */
-            virtual void draw(int timeLapse = 0) {};
+            virtual void draw(int timeLapse = 0) { Q_UNUSED(timeLapse) };
 
             /**
              * The description of the Component instance. An arbitrary value

@@ -34,29 +34,30 @@ namespace Gluon
     class GLUON_EXPORT GluonObjectFactory : public KSingleton<GluonObjectFactory>
     {
         Q_OBJECT
-        
+
         public:
             void registerObjectType(GluonObject * newObjectType);
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
-            
+
             void loadPlugins();
             QList<Component*> pluggedComponents() const;
             QList<Asset*> pluggedAssets() const;
-            
+
             QStringList objectTypeNames() const;
-            
+            QHash<QString, GluonObject*> objectTypes() const;
+
         private:
             QList<GluonObject*> m_pluggedComponents;
             QList<Asset*> m_pluggedAssets;
-            
-            QHash<QString, GluonObject*> objectTypes;
+
+            QHash<QString, GluonObject*> m_objectTypes;
     };
 }
 
 template<class T>
 class GLUON_EXPORT GluonObjectRegistration
 {
-    
+
     public:
         GluonObjectRegistration(T* newObjectType)
         {
@@ -70,5 +71,5 @@ class GLUON_EXPORT GluonObjectRegistration
 GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); \
 Q_DECLARE_METATYPE(NEWOBJECTTYPE *);
 
-    
+
 #endif				// GLUON_GLUONOBJECTFACTORY_H
