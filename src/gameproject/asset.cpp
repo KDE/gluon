@@ -57,7 +57,7 @@ QString Asset::file() const
 }
 
 QString
-Asset::toGDL() const
+Asset::toGDL(int indentLevel) const
 {
     // We do not recurse here - this allows the assets to handle their own
     // children

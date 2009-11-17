@@ -43,7 +43,7 @@ namespace Gluon
             QList<Component*> pluggedComponents() const;
             QList<Asset*> pluggedAssets() const;
             
-            QString objectTypeNames() const;
+            QStringList objectTypeNames() const;
             
         private:
             QList<GluonObject*> m_pluggedComponents;

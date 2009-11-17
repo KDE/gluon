@@ -27,12 +27,14 @@
 
 namespace Gluon
 {
+    class GameProject;
     class GluonObjectPrivate;
     
     class GLUON_EXPORT GluonObject : public QObject
     {
         Q_OBJECT
         Q_PROPERTY(QString name READ name WRITE setName)
+        // There is deliberately no gameProject property
         
         public:
             GluonObject(QObject * parent = 0);
@@ -48,12 +50,28 @@ namespace Gluon
             
             QString name() const;
             void setName(const QString &newName);
+
+            /**
+             * Use this to access functions on the GameProject instance associated
+             * with this GluonObject.
+             * 
+             * @return The instance of GameProject this GluonObject is associated with
+             * @see GameProject GameProject::findItemByName
+             */
+            GameProject * gameProject() const;
+            /**
+             * Do not use this function unless you are absolutely sure what you
+             * are doing!
+             * 
+             * @param newGameProject The GameProject instance this GluonObject can be found underneath
+             */
+            void setGameProject(GameProject * newGameProject);
             
-            virtual QString toGDL() const;
-            virtual QString propertiesToGDL() const;
+            virtual QString toGDL(int indentLevel = 0) const;
+            virtual QString propertiesToGDL(int indentLevel = 0) const;
             
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
-            virtual QString getStringFromProperty(const QString &propertyName) const;
+            virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
             
             virtual void sanitize();
         private:

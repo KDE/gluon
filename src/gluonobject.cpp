@@ -19,11 +19,12 @@
 
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
+#include "gameproject.h"
+
 #include <QtCore/QVariant>
 #include <QtCore/QPointF>
 #include <QtGui/QColor>
 #include <Eigen/Geometry>
-
 #include <QtCore/QDebug>
 #include <QMetaClassInfo>
 
@@ -60,6 +61,106 @@ GluonObject::sanitize()
             theChild->sanitize();
         }
     }
+    
+    // Make sure the GameProject is set... Iterate upwards until you either reach
+    // the first GameProject instance, or you run into a parent which is null
+    QObject * currentParent = this->parent();
+    while(currentParent)
+    {
+        if(qobject_cast<GameProject*>(currentParent))
+        {
+            setGameProject(qobject_cast<GameProject*>(currentParent));
+            break;
+        }
+        currentParent = currentParent->parent();
+    }
+    
+    // Run through all properties, check whether they are set to the correct
+    // value. If they should be pointing to something, make them!
+    // (e.g. GameObject(Projectname.Something))
+    // This step is only possible if a gameProject is available. Otherwise
+    // you will be unable to find the other objects!
+    if(gameProject())
+    {
+        QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
+        
+        qDebug() << "Sanitizing properties in" << this->name();
+        const QMetaObject *metaobject = this->metaObject();
+        if(metaobject == NULL)
+            return;
+        int count = metaobject->propertyCount();
+        for(int i = 0; i < count; ++i)
+        {
+            QMetaProperty metaproperty = metaobject->property(i);
+            
+            // This is really only relevant if the property value is a string.
+            // If it is not, what happens below is irrelevant
+            if(metaproperty.type() != QVariant::String)
+                continue;
+            
+            const QString theName(metaproperty.name());
+            if(theName == "objectName" || theName == "name")
+                continue;
+            
+            QString theValue(metaproperty.read(this).toString());
+            // Yes, i know this is O(n*m) but it does not happen during gameplay
+            foreach(const QString &name, objectTypeNames)
+            {
+                // Reset the value of this property to be a reference to GluonObjct
+                // instance by that name, found in the project
+                if(theValue.startsWith(name + '(') && theValue.endsWith(')'))
+                {
+                    QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
+                    QVariant theReferencedObject;
+                    theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
+                    this->setProperty(metaproperty.name(), theReferencedObject);
+                    break;
+                }
+            }
+        }
+        
+        // Then get all the dynamic ones (in case any such exist)
+        QList<QByteArray> propertyNames = dynamicPropertyNames();
+        foreach(QByteArray propName, propertyNames)
+        {
+            const QString theName(propName);
+            if(theName == "objectName" || theName == "name")
+                continue;
+            
+            // This is really only relevant if the property value is a string.
+            // If it is not, what happens below is irrelevant
+            if(property(propName).type() != QVariant::String)
+                continue;
+            
+            QString theValue(property(propName).toString());
+            // Yes, i know this is O(n*m) but it does not happen during gameplay
+            foreach(const QString &name, objectTypeNames)
+            {
+                // Reset the value of this property to be a reference to GluonObjct
+                // instance by that name, found in the project
+                if(theValue.startsWith(name + '(') && theValue.endsWith(')'))
+                {
+                    QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
+                    QVariant theReferencedObject;
+                    theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
+                    this->setProperty(propName, theReferencedObject);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+GameProject *
+GluonObject::gameProject() const
+{
+    return d->gameProject;
+}
+
+void
+GluonObject::setGameProject(GameProject * newGameProject)
+{
+    d->gameProject = newGameProject;
 }
 
 QString
@@ -75,34 +176,42 @@ GluonObject::setName(const QString &newName)
 }
 
 QString
-GluonObject::toGDL() const
+GluonObject::toGDL(int indentLevel) const
 {
     QString serializedObject;
     qDebug() << "Serializing object named" << this->name();
 
+    QString indentChars(indentLevel * 4, ' ');
+
+    // Only jump to net line in case we are inside another object
+    if(indentLevel > 0)
+        serializedObject += '\n';
+    
     QString minimalClassName(this->metaObject()->className());
     if(QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
         minimalClassName = minimalClassName.right(minimalClassName.length() - 7);
-    serializedObject += "{ " + minimalClassName + '(' + this->name() + ")";        
+    serializedObject += QString("%1{ %2(%3)").arg(indentChars).arg(minimalClassName).arg(this->name());
     
-    serializedObject += propertiesToGDL();
+    serializedObject += propertiesToGDL(indentLevel + 1);
     
     // Run through all the children to get them as well
     foreach(QObject* child, children())
     {
         GluonObject* theChild = qobject_cast<GluonObject*>(child);
         if(theChild)
-            serializedObject += theChild->toGDL();
+            serializedObject += theChild->toGDL(indentLevel + 1);
     }
     
-    return serializedObject + "}\n";
+    return QString("%1\n%2}").arg(serializedObject).arg(indentChars);
 }
 
 QString
-GluonObject::propertiesToGDL() const
+GluonObject::propertiesToGDL(int indentLevel) const
 {
     QString serializedObject;
 
+    QString indentChars(indentLevel * 4, ' ');
+    
     // Get all the normally defined properties
     const QMetaObject *metaobject = this->metaObject();
     int count = metaobject->propertyCount();
@@ -112,7 +221,7 @@ GluonObject::propertiesToGDL() const
         const QString theName(metaproperty.name());
         if(theName == "objectName" || theName == "name")
             continue;
-        serializedObject += this->getStringFromProperty(theName);
+        serializedObject += this->getStringFromProperty(theName, indentChars);
     }
     
     // Then get all the dynamic ones (in case any such exist)
@@ -120,7 +229,7 @@ GluonObject::propertiesToGDL() const
     foreach(QByteArray propName, propertyNames)
     {
         const QString theName(propName);
-        serializedObject += this->getStringFromProperty(theName);
+        serializedObject += this->getStringFromProperty(theName, indentChars);
     }
     
     return serializedObject;
@@ -179,7 +288,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 }
 
 QString
-GluonObject::getStringFromProperty(const QString &propertyName) const
+GluonObject::getStringFromProperty(const QString &propertyName, const QString &indentChars) const
 {
     QString value;
 
@@ -212,7 +321,10 @@ GluonObject::getStringFromProperty(const QString &propertyName) const
             break;
     }
     
-    return QString("\n%1 %2").arg(propertyName).arg(value);
+    if(value.isEmpty())
+        return QString();
+    
+    return QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
 }
 
 #include "gluonobject.moc"
