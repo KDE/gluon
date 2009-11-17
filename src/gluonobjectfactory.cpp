@@ -31,21 +31,16 @@ using namespace Gluon;
 
 template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
 
-QString
+QStringList
 GluonObjectFactory::objectTypeNames() const
 {
-    QString theNames("The following object types are registered:");
+    QStringList theNames;
     
     QHash<QString, GluonObject*>::const_iterator i;
     for (i = objectTypes.constBegin(); i != objectTypes.constEnd(); ++i)
-    {
-        theNames += '\n';
-        theNames += i.value()->metaObject()->className();
-        theNames += " is registered as ";
-        theNames += i.key();
-    }
+        theNames << i.key();
     
-    return theNames + '\n';
+    return theNames;
 }
 
 void
