@@ -69,6 +69,7 @@ namespace Gluon
             void setGameProject(GameProject * newGameProject);
             
             virtual QString toGDL(int indentLevel = 0) const;
+            virtual QString childrenToGDL(int indentLevel = 0) const;
             virtual QString propertiesToGDL(int indentLevel = 0) const;
             
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);

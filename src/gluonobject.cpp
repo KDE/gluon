@@ -226,16 +226,25 @@ GluonObject::toGDL(int indentLevel) const
     serializedObject += QString("%1{ %2(%3)").arg(indentChars).arg(minimalClassName).arg(this->name());
     
     serializedObject += propertiesToGDL(indentLevel + 1);
+    serializedObject += childrenToGDL(indentLevel + 1);
+    
+    return QString("%1\n%2}").arg(serializedObject).arg(indentChars);
+}
+
+QString
+GluonObject::childrenToGDL(int indentLevel) const
+{
+    QString serializedChildren;
     
     // Run through all the children to get them as well
     foreach(QObject* child, children())
     {
         GluonObject* theChild = qobject_cast<GluonObject*>(child);
         if(theChild)
-            serializedObject += theChild->toGDL(indentLevel + 1);
+            serializedChildren += theChild->toGDL(indentLevel);
     }
-
-    return QString("%1\n%2}").arg(serializedObject).arg(indentChars);
+    
+    return serializedChildren;
 }
 
 QString

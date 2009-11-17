@@ -48,7 +48,7 @@ namespace Gluon
              * This allows Assets to handle their own children in a flexible
              * manner, without polluting the GDL with that information.
              */
-            virtual QString toGDL(int indentLevel = 0) const;
+            virtual QString childrenToGDL(int indentLevel = 0) const;
 
         Q_SIGNALS:
             void dataChanged();
