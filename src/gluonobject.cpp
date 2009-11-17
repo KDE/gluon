@@ -31,9 +31,15 @@ using namespace Gluon;
 
 REGISTER_OBJECTTYPE(GluonObject)
 
-GluonObject::GluonObject(QObject * parent)
+GluonObject::GluonObject(QObject * parent) : QObject(parent)
 {
     d = new GluonObjectPrivate();
+}
+
+GluonObject::GluonObject(const QString& name, QObject* parent): QObject(parent)
+{
+    d = new GluonObjectPrivate();
+    d->name = name;
 }
 
 GluonObject::~GluonObject()
@@ -74,6 +80,32 @@ GluonObject::setName(const QString &newName)
     d->name = newName;
 }
 
+void GluonObject::addChild(GluonObject* child)
+{
+    child->setParent(this);
+}
+
+GluonObject* GluonObject::child(int index) const
+{
+    return qobject_cast<GluonObject*>(children().at(index));
+}
+
+GluonObject* GluonObject::child(const QString& name) const
+{
+    foreach(QObject *child, children())
+    {
+        GluonObject *obj = qobject_cast<GluonObject*>(child);
+        if(obj && obj->name() == name) return obj;
+    }
+    return 0;
+}
+
+bool GluonObject::removeChild(GluonObject* child)
+{
+    child->setParent(0);
+    return true;
+}
+
 QString
 GluonObject::toGDL() const
 {
@@ -83,10 +115,10 @@ GluonObject::toGDL() const
     QString minimalClassName(this->metaObject()->className());
     if(QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
         minimalClassName = minimalClassName.right(minimalClassName.length() - 7);
-    serializedObject += "{ " + minimalClassName + '(' + this->name() + ")";        
-    
+    serializedObject += "{ " + minimalClassName + '(' + this->name() + ")";
+
     serializedObject += propertiesToGDL();
-    
+
     // Run through all the children to get them as well
     foreach(QObject* child, children())
     {
@@ -94,7 +126,7 @@ GluonObject::toGDL() const
         if(theChild)
             serializedObject += theChild->toGDL();
     }
-    
+
     return serializedObject + "}\n";
 }
 
@@ -114,7 +146,7 @@ GluonObject::propertiesToGDL() const
             continue;
         serializedObject += this->getStringFromProperty(theName);
     }
-    
+
     // Then get all the dynamic ones (in case any such exist)
     QList<QByteArray> propertyNames = dynamicPropertyNames();
     foreach(QByteArray propName, propertyNames)
@@ -122,7 +154,7 @@ GluonObject::propertiesToGDL() const
         const QString theName(propName);
         serializedObject += this->getStringFromProperty(theName);
     }
-    
+
     return serializedObject;
 }
 
@@ -184,7 +216,7 @@ GluonObject::getStringFromProperty(const QString &propertyName) const
     QString value;
 
     QVariant theValue = this->property(propertyName.toUtf8());
-    
+
     QColor theColor;
     switch(theValue.type())
     {
@@ -211,7 +243,7 @@ GluonObject::getStringFromProperty(const QString &propertyName) const
             value = theValue.toString();
             break;
     }
-    
+
     return QString("\n%1 %2").arg(propertyName).arg(value);
 }
 

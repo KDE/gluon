@@ -64,7 +64,7 @@ GameObject::sanitize()
             }
         }
     }
-    
+
     GluonObject * theChild = 0;
     foreach(QObject * child, this->children())
     {
@@ -82,7 +82,7 @@ GameObject::start()
     foreach(Component * component, d->components)
         if(component->enabled())
             component->start();
-    
+
     foreach(GameObject * child, d->children)
         child->start();
 }
@@ -93,7 +93,7 @@ GameObject::update(int elapsedMilliseconds)
     foreach(Component * component, d->components)
         if(component->enabled())
             component->update(elapsedMilliseconds);
-    
+
     foreach(GameObject * child, d->children)
         child->update(elapsedMilliseconds);
 }
@@ -104,7 +104,7 @@ GameObject::draw(int timeLapse)
     foreach(Component * component, d->components)
         if(component->enabled())
             component->draw(timeLapse);
-    
+
     foreach(GameObject * child, d->children)
         child->draw(timeLapse);
 }
@@ -239,13 +239,13 @@ GameObject::removeComponent(Component * removeThis)
 // GameObject tree management
 
 GameObject *
-GameObject::child(int index) const
+GameObject::childGameObject(int index) const
 {
     return d->children.at(index);
 }
 
 GameObject *
-GameObject::child(const QString &name) const
+GameObject::childGameObject(const QString &name) const
 {
     GameObject * found = 0;
     foreach(GameObject * child, d->children)
@@ -257,6 +257,11 @@ GameObject::child(const QString &name) const
         }
     }
     return found;
+}
+
+void GameObject::addChild(GluonObject* child)
+{
+    Gluon::GluonObject::addChild(child);
 }
 
 void
@@ -271,6 +276,11 @@ GameObject::removeChild(GameObject * removeThis)
 {
     removeThis->d->parentGameObject = 0;
     return d->children.removeOne(removeThis);
+}
+
+bool GameObject::removeChild(GluonObject* child)
+{
+    return GluonObject::removeChild(child);
 }
 
 int
@@ -290,7 +300,7 @@ GameObject::setParentGameObject(GameObject * newParent)
 {
     //Do nothing if the new parent is the same as the old one.
     if(d->parentGameObject == newParent) return;
-    
+
     // Clean up... We shouldn't be a child of more than one GameObject, or things will BLOW UP
     if(d->parentGameObject)
         d->parentGameObject->removeChild(this);
@@ -298,7 +308,7 @@ GameObject::setParentGameObject(GameObject * newParent)
     // We could potentially be setting ourselves as a top level GameObject... Don't die!
     if(newParent)
         newParent->addChild(this);
-    
+
     d->parentGameObject = newParent;
 }
 
