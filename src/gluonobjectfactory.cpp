@@ -94,9 +94,6 @@ GluonObjectFactory::loadPlugins()
     if(pluginDir.cd("/usr/lib/gluon"))
         pluginDirs.append(pluginDir);
     
-    // Always look in the current dir
-    pluginDirs.append(QDir::current());
-    
     if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
         pluginDirs.append(pluginDir);
 
