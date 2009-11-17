@@ -32,13 +32,14 @@ using namespace Gluon;
 
 REGISTER_OBJECTTYPE(GluonObject)
 
+static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
+
 GluonObject::GluonObject(QObject * parent) : QObject(parent)
 {
-    qRegisterMetaType< QList<QUrl> >();
     d = new GluonObjectPrivate();
 }
 
-GluonObject::GluonObject(const QString& name, QObject* parent): QObject(parent)
+GluonObject::GluonObject(const QString& name, QObject* parent):QObject(parent)
 {
     d = new GluonObjectPrivate();
     d->name = name;
