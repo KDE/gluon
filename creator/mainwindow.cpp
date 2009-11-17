@@ -23,6 +23,7 @@
 #include <KActionCollection>
 #include <KAction>
 #include <KDebug>
+#include <KApplication>
 
 #include <gluon/gdlhandler.h>
 #include <gluon/gluonobject.h>
@@ -47,6 +48,8 @@
 #include "lib/pluginloader.h"
 
 #include <QMessageBox>
+#include <KStatusBar>
+#include <KMessageBox>
 
 using namespace Gluon::Creator;
 
@@ -54,14 +57,15 @@ MainWindow::MainWindow() : KXmlGuiWindow()
     , m_propertyWidget(0)
 {
     Gluon::GluonObjectFactory::instance()->loadPlugins();
-    
+
     setupGame();
 
     setDockNestingEnabled(true);
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
 
     m_uid = 0;
-    
+    m_sceneId = 0;
+
     connect(PluginLoader::instance(), SIGNAL(pluginLoaded(Plugin*)), SLOT(loadPlugin(Plugin*)));
     PluginLoader::instance()->loadAllPlugins();
 
@@ -72,12 +76,12 @@ MainWindow::MainWindow() : KXmlGuiWindow()
 
 MainWindow::~MainWindow()
 {
-    
+
 }
 
 void MainWindow::newProject()
 {
-    
+
 }
 
 void MainWindow::openProject()
@@ -88,50 +92,44 @@ void MainWindow::openProject()
 
 void MainWindow::openProject(const QString &fileName)
 {
+    statusBar()->showMessage(i18n("Opening project..."));
     if(!fileName.isEmpty()) {
-        QFile file(fileName);
-        file.open(QIODevice::ReadOnly);
-        
-        QString data = file.readAll();
+        Gluon::GameProject* project = new Gluon::GameProject();
+        project->loadFromFile(QUrl(fileName));
 
-        QList<Gluon::GluonObject*> objects = Gluon::GDLHandler::instance()->parseGDL(data, this);
-        if(objects.isEmpty())
-        {
-            // Tell the user this is not proper GDL and then break out
-            //QMessageBox::warning ( this , "Loading Error" , "Layer 8 Problem, RTFM Module" ,
-             //                                     "OK"  );
-            QMessageBox::warning ( this , "Loading Error" , "not a proper GDL file" ,
-                                  "OK"  );
-            newMessage( "Project loading faild");
-            return;
-        }
-        
-        disconnect(this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)));
-        
-        //Gluon::GluonObject* object = objects.at(0);
-        
-//        QObjectTreeModel *qtree = new QObjectTreeModel(object, m_qObjectTree);
-  //      m_qObjectTree->setModel(qtree);
-
-        //SceneModel *gtree = new SceneModel(m_gameObjectTree);
-        //gtree->setRootGameObject(qobject_cast<Gluon::GameObject*>(object));
-        //m_gameObjectTree->setModel(gtree);
-        //m_gameObjectTree->setSelectionModel(new QItemSelectionModel(gtree));
-        
-    //    connect( m_gameObjectTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(gameObjectActivated(QItemSelection,QItemSelection)) );
-
-        newMessage( "Project loaded");
+        Gluon::Game::instance()->setGameProject(project);
     }
+    statusBar()->showMessage(i18n("Project successfully opened"));
 }
 
 void MainWindow::saveProject()
 {
+    saveProject(m_fileName);
+}
 
+void MainWindow::saveProject(const QString &fileName)
+{
+    if(!fileName.isEmpty())
+    {
+        statusBar()->showMessage(i18n("Saving project..."));
+        Gluon::Game::instance()->gameProject()->setFilename(QUrl(fileName));
+        if(!Gluon::Game::instance()->gameProject()->saveToFile())
+        {
+            KMessageBox::error(this, i18n("Could not save file."));
+            return;
+        }
+        statusBar()->showMessage(i18n("Project successfully saved."));
+    }
+    else
+    {
+        saveProjectAs();
+    }
 }
 
 void MainWindow::saveProjectAs()
 {
-
+    m_fileName = KFileDialog::getSaveFileName();
+    if(!m_fileName.isEmpty()) saveProject();
 }
 
 void MainWindow::gameObjectActivated(const QItemSelection& selected, const QItemSelection& deselected)
@@ -155,7 +153,8 @@ void MainWindow::setupGame()
     project->setName(i18n("New Project"));
     Gluon::GameObject* root = new Gluon::GameObject(project);
     root->setName(i18n("New Scene"));
-    
+    project->addChild(root);
+
     Gluon::Game::instance()->setGameProject(project);
     Gluon::Game::instance()->setCurrentScene(root);
 }
@@ -171,7 +170,7 @@ void MainWindow::setupActions()
     KAction* newScene = new KAction(KIcon("document-new"), i18n("New Scene"), actionCollection());
     actionCollection()->addAction("newScene", newScene);
     connect(newObject, SIGNAL(triggered(bool)), SLOT(newScene()));
-    
+
     KStandardAction::open(this, SLOT(openProject()), actionCollection());
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
     KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
@@ -199,11 +198,13 @@ void MainWindow::newObject()
     Gluon::GameObject * newObject = new Gluon::GameObject();
     newObject->setName(QString("New Object %1").arg(m_uid++));
     Gluon::Game::instance()->currentScene()->addChild(newObject);
-    
+
 }
 
 void MainWindow::newScene()
 {
-
+    Gluon::GameObject* newObject = new Gluon::GameObject();
+    newObject->setName(QString("New Scene %1").arg(m_sceneId++));
+    Gluon::Game::instance()->gameProject()->addChild(newObject);
 }
 

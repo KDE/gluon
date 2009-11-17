@@ -22,35 +22,35 @@ using namespace Gluon::Creator;
 
 class MessageDock::MessageDockPrivate
 {
-  public:
-    MessageDockPrivate() { view = 0; }
-    //MessageModel* model;
-    QTreeView* view;
+    public:
+        MessageDockPrivate() { view = 0; }
+        //MessageModel* model;
+        QTreeView* view;
 };
 
 MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags flags) : Dock(title, parent, flags)
 {
-  setObjectName("MessageDock");
-  
-  d = new MessageDockPrivate;
+    setObjectName("MessageDock");
 
-  //d->model = new MessageModel(this);
-  d->view = new QTreeView(this);
-  //d->view->setModel(d->model);
-  //d->model->setRootGameObject(Game::instance()->currentMessage());
-  
-  setWidget(d->view);
+    d = new MessageDockPrivate;
+
+    //d->model = new MessageModel(this);
+    d->view = new QTreeView(this);
+    //d->view->setModel(d->model);
+    //d->model->setRootGameObject(Game::instance()->currentMessage());
+
+    setWidget(d->view);
 }
 
 MessageDock::~MessageDock()
 {
-  
+
 }
 
 QAbstractItemModel* MessageDock::model()
 {
-  //return d->model;
-  return 0;
+    //return d->model;
+    return 0;
 }
 
 QAbstractItemView* MessageDock::view()

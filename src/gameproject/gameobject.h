@@ -29,24 +29,24 @@ namespace Gluon
 {
     class GameObjectPrivate;
     class Component;
-    
+
     class GameObject : public GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
-        
+
         /*Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
         Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
         Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)*/
         Q_PROPERTY(float rotation READ rotation WRITE setRotation)
-        
+
         public:
             GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
 
             GluonObject* instantiate();
-            
+
             void sanitize();
             void start();
             void update(int elapsedMilliseconds);
@@ -60,10 +60,10 @@ namespace Gluon
              */
             void runCommand(const QString &functionName);
             void runCommandInChildren(const QString &functionName);
-            
+
             // ----------------------------------------------------------------
             // Component management
-            
+
             Component * findComponent(const QString &name) const;
             Component * findComponentByType(const QString &typeName) const;
             Component * findComponentInChildren(const QString &name) const;
@@ -72,26 +72,28 @@ namespace Gluon
             QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
             void addComponent(Component * addThis);
             bool removeComponent(Component * removeThis);
-            
+
             // ----------------------------------------------------------------
             // GameObject tree management
-            
-            GameObject * child(int index) const;
-            GameObject * child(const QString &name) const;
+
+            GameObject * childGameObject(int index) const;
+            GameObject * childGameObject(const QString &name) const;
+            void addChild(GluonObject * child);
             void addChild(GameObject * addThis);
+            bool removeChild(GluonObject * child);
             bool removeChild(GameObject * removeThis);
             int childCount() const;
             int childIndex(GameObject* child) const;
-            
+
             void setParentGameObject(GameObject * newParent);
             GameObject * parentGameObject();
-            
+
             // ----------------------------------------------------------------
             // Property getter-setters
-            
+
             void setDescription(const QString &newDescription);
             QString description() const;
-            
+
             void setPosition(Eigen::Vector3f newPosition);
             Eigen::Vector3f position() const;
             void setScale(Eigen::Vector3f newScale);
@@ -100,7 +102,7 @@ namespace Gluon
             Eigen::Vector3f rotationAxis() const;
             void setRotation(float newRotation);
             float rotation() const;
-            
+
         private:
             QSharedDataPointer<GameObjectPrivate> d;
     };

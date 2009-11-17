@@ -29,7 +29,7 @@ namespace Gluon
 {
     class GameProject;
     class GluonObjectPrivate;
-    
+
     class GLUON_EXPORT GluonObject : public QObject
     {
         Q_OBJECT
@@ -38,6 +38,7 @@ namespace Gluon
         
         public:
             GluonObject(QObject * parent = 0);
+            GluonObject(const QString& name, QObject *parent = 0);
             virtual ~GluonObject();
 
             /**
@@ -47,7 +48,7 @@ namespace Gluon
              * over your games
              */
             virtual GluonObject * instantiate();
-            
+
             QString name() const;
             void setName(const QString &newName);
 
@@ -74,6 +75,15 @@ namespace Gluon
             virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
             
             virtual void sanitize();
+
+            /**
+            * QObject hierarchy helper functions.
+            */
+            virtual void addChild(GluonObject *child);
+            virtual bool removeChild(GluonObject *child);
+            virtual GluonObject * child(int index) const;
+            virtual GluonObject * child(const QString& name) const;
+
         private:
             QSharedDataPointer<GluonObjectPrivate> d;
     };

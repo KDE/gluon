@@ -51,19 +51,19 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     // Bail out if we're not fed a level to work with!
     if(!d->currentScene)
         return;
-    
+
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
-    
+
     int nextTick = 0, loops = 0;
     int timeLapse = 0;
     d->time.start();
-    
+
     d->gameRunning = true;
-    
+
     while(d->gameRunning)
     {
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
-        
+
         loops = 0;
         while(getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
@@ -71,7 +71,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
             nextTick += millisecondsPerUpdate;
             loops++;
         }
-        
+
         timeLapse = (getCurrentTick() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
         d->currentScene->draw(timeLapse);
     }
@@ -83,22 +83,22 @@ Game::runGameFixedTimestep(int framesPerSecond)
     // Bail out if we're not fed a level to work with!
     if(!d->currentScene)
         return;
-    
+
     int millisecondsPerUpdate = 1000 / framesPerSecond;
-    
+
     int remainingSleep = 0;
     int nextTick = 0;
     d->time.start();
-    
+
     d->gameRunning = true;
-    
+
     while(d->gameRunning)
     {
         // Update the current level
         d->currentScene->update(millisecondsPerUpdate);
         // Do drawing
         d->currentScene->draw();
-        
+
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();
         if(remainingSleep > 0)
@@ -138,7 +138,17 @@ void
 Game::setGameProject(GameProject * newGameProject)
 {
     d->gameProject = newGameProject;
-    d->currentScene = newGameProject->entryPoint();
+    foreach(QObject * obj, newGameProject->children())
+    {
+        GameObject *gameObj = qobject_cast<GameObject*>(obj);
+        if(obj)
+        {
+            newGameProject->setEntryPoint(gameObj);
+            break;
+        }
+    }
+
+    setCurrentScene(newGameProject->entryPoint());
     emit currentProjectChanged(newGameProject);
 }
 

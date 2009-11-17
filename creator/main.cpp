@@ -8,10 +8,15 @@ int main(int argc, char **argv)
 {
     KAboutData aboutData("gluoncreator", NULL,
                         ki18n("Gluon Creator"), "1.0",
-                        ki18n("Gluon Creator"),
+                        ki18n("A tool to easily create games"),
                         KAboutData::License_GPL,
-                        ki18n("Copyright (c) 2009 Developer"));
+                        ki18n("Copyright (c) 2009 The Gluon Developers"),
+                        KLocalizedString(),
+                        "http://gluon.tuxfamily.org"                        
+                         );
     aboutData.setProgramIconName("gluon");
+    aboutData.addAuthor(ki18n("Arjen Hiemstra"), KLocalizedString(), "djfreestyler@gmail.com" );
+    aboutData.addAuthor(ki18n("Dan Leinir Tuthra Jensen"), KLocalizedString(), "");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
