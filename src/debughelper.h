@@ -9,25 +9,29 @@
 
 #ifndef QT_NO_DEBUG
 #    define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
+#    define DEBUG_BLOCK DbgHelper dbgHelper;
 #    define DEBUG_TEXT(X) dbgHelper.addText(X);
 #else
 #    define DEBUG_FUNC_NAME
+#    define DEBUG_BLOCK
 #    define DEBUG_TEXT(X)
 #endif
+
+#define NO_COLOR 1
  
 class DbgHelper
 {
     public:
+        DbgHelper();
         DbgHelper(const QString &t);
         ~DbgHelper();
         
         void addText(const QString &t);
     private:
-        QString messages;
         QString txt;
         static int indent;
         static int colorIndex;
         int myColor;
-        bool justamessage;
+        bool noFunctionName;
 };
 #endif

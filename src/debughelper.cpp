@@ -8,11 +8,11 @@
 #else
 #include <QtCore/QtDebug>
 #endif
- 
+
 int DbgHelper::indent = 0;
 int DbgHelper::colorIndex = 0;
- 
- 
+
+
 static void DbgHelper_output(int color, int indent, const QString &prefix, const QString &funcName)
 {
     QString text = QString(4*indent, ' ')+QString(prefix+funcName);
@@ -28,10 +28,23 @@ static void DbgHelper_output(int color, int indent, const QString &prefix, const
 #else
     fprintf(stderr, "%s\n", qPrintable(text));
 #endif
-    }
- 
+}
+
+DbgHelper::DbgHelper()
+{
+    noFunctionName = true;
+    
+#ifdef NO_COLOR
+    myColor=-1;
+#else
+    myColor = colorIndex;
+    colorIndex = (colorIndex+1) % 7;
+#endif
+}
+
 DbgHelper::DbgHelper(const QString &t)
 {
+    noFunctionName = false;
     txt = t;
     
 #ifdef NO_COLOR
@@ -48,14 +61,13 @@ DbgHelper::DbgHelper(const QString &t)
 void DbgHelper::addText(const QString &t)
 {
     DbgHelper_output(myColor, indent, "", t);
-/*    if(messages.isEmpty())
-        messages += QString("%1%2").arg(QString(4*indent - 1, ' ')).arg(t);
-    else
-        messages += QString("\n%1%2").arg(QString(4*indent + 1, ' ')).arg(t);*/
 }
 
 DbgHelper::~DbgHelper()
 {
-    --indent;
-    DbgHelper_output(myColor, indent, "END ", txt);
+    if(!noFunctionName)
+    {
+        --indent;
+        DbgHelper_output(myColor, indent, "END   ", txt);
+    }
 }
