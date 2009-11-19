@@ -20,11 +20,11 @@
 #include "gameproject.h"
 #include "gameprojectprivate.h"
 #include "gdlhandler.h"
+#include "debughelper.h"
 
-#include <QtCore/QDebug>
 #include <QtCore/QStringList>
-#include <QFile>
-#include <qtextstream.h>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 using namespace Gluon;
 
@@ -105,6 +105,7 @@ GameProject::saveToFile() const
 bool 
 GameProject::loadFromFile()
 {
+    DEBUG_FUNC_NAME
     QFile *projectFile = new QFile(filename().toLocalFile());
     if(!projectFile->open(QIODevice::ReadOnly))
         return false;
@@ -125,7 +126,7 @@ GameProject::loadFromFile()
             // adapt ourselves to represent that object...
             if(objectList[0]->metaObject()->className() == this->metaObject()->className())
             {
-                qDebug() << "Project successfully parsed - applying to local instance";
+                DEBUG_TEXT("Project successfully parsed - applying to local instance");
                 GameProject* loadedProject = qobject_cast<GameProject*>(objectList[0]);
                 
                 // First things first - clean ourselves out, all the children
@@ -150,14 +151,14 @@ GameProject::loadFromFile()
                 // Finally, get rid of the left-overs
                 qDeleteAll(objectList);
                 
-                qDebug() << "Project loading successful!";
+                DEBUG_TEXT("Project loading successful!");
             }
             // Otherwise it is not a GluonProject, and should fail!
             else
             {
-                qDebug() << "First object loaded is not a Gluon::GameProject.";
-                qDebug() << "Type of loaded object:" << objectList[0]->metaObject()->className();
-                qDebug() << "Name of loaded object:" << objectList[0]->name();
+                DEBUG_TEXT(QString("First object loaded is not a Gluon::GameProject."));
+                DEBUG_TEXT(QString("Type of loaded object:").arg(objectList[0]->metaObject()->className()));
+                DEBUG_TEXT(QString("Name of loaded object:").arg(objectList[0]->name()));
                 return false;
             }
         }

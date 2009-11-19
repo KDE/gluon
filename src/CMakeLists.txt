@@ -30,6 +30,8 @@ set(gluon_LIB_SRCS
 
     assets/soundasset/soundasset.cpp
     assets/textureasset/textureasset.cpp
+    
+    debughelper.cpp
 
 #      gluondialog.cpp
 #      kglconfig.cpp

@@ -18,10 +18,10 @@
 */
 
 #include <QtCore/QStringList>
-#include <QtCore/QDebug>
 #include "gdlhandler.h"
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"
+#include "debughelper.h"
 
 using namespace Gluon;
 
@@ -48,6 +48,7 @@ GDLHandler::instantiateObject(QString className)
 GluonObject *
 GDLHandler::createObject(QStringList objectStringList, QObject * parent)
 {
+    DEBUG_FUNC_NAME
     GluonObject * createdObject = 0;
     int index = 0;
     QString currentPropertyName;
@@ -59,7 +60,7 @@ GDLHandler::createObject(QStringList objectStringList, QObject * parent)
                 // Object type
                 createdObject = instantiateObject(item);
                 createdObject->setParent(parent);
-                qDebug() << "Instantiated object of type" << createdObject->metaObject()->className();
+                DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
                 break;
             case 1:
                 // Object name

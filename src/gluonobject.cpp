@@ -20,13 +20,14 @@
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
 #include "gameproject.h"
+#include "debughelper.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QPointF>
 #include <QtGui/QColor>
 #include <Eigen/Geometry>
 #include <QtCore/QDebug>
-#include <QMetaClassInfo>
+#include <QtCore/QMetaClassInfo>
 
 using namespace Gluon;
 
@@ -60,6 +61,7 @@ GluonObject::instantiate()
 void
 GluonObject::sanitize()
 {
+    DEBUG_FUNC_NAME
     GluonObject * theChild = 0;
     foreach(QObject * child, this->children())
     {
@@ -92,7 +94,7 @@ GluonObject::sanitize()
     {
         QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
         
-        qDebug() << "Sanitizing properties in" << this->name();
+        DEBUG_TEXT(QString("Sanitizing properties in %1").arg(this->name()));
         const QMetaObject *metaobject = this->metaObject();
         if(metaobject == NULL)
             return;
@@ -110,6 +112,8 @@ GluonObject::sanitize()
             if(theName == "objectName" || theName == "name")
                 continue;
             
+            DEBUG_TEXT(QString("Attempting to sanitize %1").arg(metaproperty.name()));
+            
             QString theValue(metaproperty.read(this).toString());
             // Yes, i know this is O(n*m) but it does not happen during gameplay
             foreach(const QString &name, objectTypeNames)
@@ -122,7 +126,7 @@ GluonObject::sanitize()
                     QVariant theReferencedObject;
                     theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
                     this->setProperty(metaproperty.name(), theReferencedObject);
-                    qDebug() << "Set the property" << metaproperty.name() << "to reference the object" << theReferencedName << "of type" << name;
+                    DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(metaproperty.name()).arg(theReferencedName).arg(name));
                     break;
                 }
             }
@@ -141,6 +145,8 @@ GluonObject::sanitize()
             if(property(propName).type() != QVariant::String)
                 continue;
             
+            DEBUG_TEXT(QString("Attempting to sanitize %1").arg(QString(propName)));
+            
             QString theValue(property(propName).toString());
             // Yes, i know this is O(n*m) but it does not happen during gameplay
             foreach(const QString &name, objectTypeNames)
@@ -153,11 +159,14 @@ GluonObject::sanitize()
                     QVariant theReferencedObject;
                     theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
                     this->setProperty(propName, theReferencedObject);
+                    DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
                     break;
                 }
             }
         }
     }
+    else
+        DEBUG_TEXT(QString("Missing a GameProject so reference properties cannot be sanitized"));
 }
 
 GameProject *
@@ -213,8 +222,9 @@ bool GluonObject::removeChild(GluonObject* child)
 QString
 GluonObject::toGDL(int indentLevel) const
 {
+    DEBUG_FUNC_NAME
     QString serializedObject;
-    qDebug() << "Serializing object named" << this->name();
+    DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
 
     QString indentChars(indentLevel * 4, ' ');
 
@@ -282,6 +292,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
 void
 GluonObject::setPropertyFromString(const QString &propertyName, const QString &propertyValue)
 {
+    DEBUG_FUNC_NAME
     QVariant value;
 
     // propertyValue format is type(value)
@@ -290,7 +301,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
     QString theTypeName = rx.cap(1);
     QString theValue = rx.cap(2);
-    qDebug() << "  Setting property" << propertyName << "of type" << theTypeName << "to value" << theValue;
+    DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3").arg(propertyName).arg(theTypeName).arg(theValue));
 
     if(theTypeName == "string") {
         value = theValue;

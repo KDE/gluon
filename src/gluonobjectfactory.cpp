@@ -21,11 +21,11 @@
 #include "gluonobject.h"
 #include "component.h"
 #include "asset.h"
+#include "debughelper.h"
 
-#include <QtCore/QDebug>
-#include <QDir>
-#include <QApplication>
-#include <QPluginLoader>
+#include <QtCore/QDir>
+#include <QtGui/QApplication>
+#include <QtCore/QPluginLoader>
 
 using namespace Gluon;
 
@@ -52,9 +52,10 @@ QHash< QString, GluonObject* > GluonObjectFactory::objectTypes() const
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
+    DEBUG_FUNC_NAME
     if(newObjectType)
     {
-        qDebug() << "Registering object type" << newObjectType->metaObject()->className();
+        DEBUG_TEXT(QString("Registering object type %1").arg(newObjectType->metaObject()->className()));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
     }
 }
@@ -62,16 +63,17 @@ GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 GluonObject *
 GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
+    DEBUG_FUNC_NAME
     QString fullObjectTypeName(objectTypeName);
     if(!objectTypeName.contains("::"))
          fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
 
-    qDebug() << "Attempting to instantiate object of type " << fullObjectTypeName;
+    DEBUG_TEXT(QString("Attempting to instantiate object of type %1").arg(fullObjectTypeName));
 
     if(m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
         return m_objectTypes[fullObjectTypeName]->instantiate();
 
-    qDebug() << "Object type name not found in factory!";
+    DEBUG_TEXT(QString("Object type name not found in factory!"));
 
     return 0;
 }
@@ -79,6 +81,7 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 void
 GluonObjectFactory::loadPlugins()
 {
+    DEBUG_FUNC_NAME
     QList<QDir> pluginDirs;
 
     QDir pluginDir(QApplication::applicationDirPath());
@@ -103,11 +106,11 @@ GluonObjectFactory::loadPlugins()
     if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
         pluginDirs.append(pluginDir);
 
-    qDebug() << "Number of plugin locations:" << pluginDirs.count();
+    DEBUG_TEXT(QString("Number of plugin locations: %1").arg(pluginDirs.count()));
     foreach(const QDir &theDir, pluginDirs)
     {
-        qDebug() << "Looking for pluggable components in:" << theDir.absolutePath();
-        qDebug() << "Found" << (theDir.count() - 2) << "potential plugins. Attempting to load:";
+        DEBUG_TEXT(QString("Looking for pluggable components in %1").arg(theDir.absolutePath()));
+        DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
 
         foreach (QString fileName, theDir.entryList(QDir::Files))
         {
@@ -117,7 +120,7 @@ GluonObjectFactory::loadPlugins()
             else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
                 m_pluggedAssets.append(loaded);
             else
-                qDebug() << loader.errorString();
+                DEBUG_TEXT(loader.errorString());
         }
     }
 }
