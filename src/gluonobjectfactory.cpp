@@ -52,23 +52,23 @@ QHash< QString, GluonObject* > GluonObjectFactory::objectTypes() const
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     if(newObjectType)
     {
         DEBUG_TEXT(QString("Registering object type %1").arg(newObjectType->metaObject()->className()));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
     }
+    else
+        DEBUG_TEXT(QString("Attempted to register a NULL object type"));
 }
 
 GluonObject *
 GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     QString fullObjectTypeName(objectTypeName);
     if(!objectTypeName.contains("::"))
          fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
-
-    DEBUG_TEXT(QString("Attempting to instantiate object of type %1").arg(fullObjectTypeName));
 
     if(m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
         return m_objectTypes[fullObjectTypeName]->instantiate();

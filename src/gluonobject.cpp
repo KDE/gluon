@@ -61,7 +61,7 @@ GluonObject::instantiate()
 void
 GluonObject::sanitize()
 {
-    DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     GluonObject * theChild = 0;
     foreach(QObject * child, this->children())
     {
@@ -74,15 +74,18 @@ GluonObject::sanitize()
     
     // Make sure the GameProject is set... Iterate upwards until you either reach
     // the first GameProject instance, or you run into a parent which is null
-    QObject * currentParent = this->parent();
-    while(currentParent)
+    if(!this->gameProject())
     {
-        if(qobject_cast<GameProject*>(currentParent))
+        QObject * currentParent = this->parent();
+        while(currentParent)
         {
-            setGameProject(qobject_cast<GameProject*>(currentParent));
-            break;
+            if(qobject_cast<GameProject*>(currentParent))
+            {
+                setGameProject(qobject_cast<GameProject*>(currentParent));
+                break;
+            }
+            currentParent = currentParent->parent();
         }
-        currentParent = currentParent->parent();
     }
     
     // Run through all properties, check whether they are set to the correct
@@ -112,9 +115,14 @@ GluonObject::sanitize()
             if(theName == "objectName" || theName == "name")
                 continue;
             
-            DEBUG_TEXT(QString("Attempting to sanitize %1").arg(metaproperty.name()));
-            
             QString theValue(metaproperty.read(this).toString());
+            
+            // If we haven't got a reference, don't bother to look
+            if(!theValue.endsWith(')'))
+                continue;
+            
+            DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
+            
             // Yes, i know this is O(n*m) but it does not happen during gameplay
             foreach(const QString &name, objectTypeNames)
             {
@@ -145,28 +153,35 @@ GluonObject::sanitize()
             if(property(propName).type() != QVariant::String)
                 continue;
             
-            DEBUG_TEXT(QString("Attempting to sanitize %1").arg(QString(propName)));
-            
             QString theValue(property(propName).toString());
+            
+            // If we haven't got a reference, don't bother to look
+            if(!theValue.endsWith(')'))
+                continue;
+            
+            DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
+
             // Yes, i know this is O(n*m) but it does not happen during gameplay
             foreach(const QString &name, objectTypeNames)
             {
                 // Reset the value of this property to be a reference to GluonObjct
                 // instance by that name, found in the project
-                if(theValue.startsWith(name + '(') && theValue.endsWith(')'))
+                if(theValue.startsWith(name + '('))
                 {
                     QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
                     QVariant theReferencedObject;
                     theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
                     this->setProperty(propName, theReferencedObject);
-                    DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
+                    DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
                     break;
                 }
             }
         }
     }
     else
+    {
         DEBUG_TEXT(QString("Missing a GameProject so reference properties cannot be sanitized"));
+    }
 }
 
 GameProject *
@@ -292,7 +307,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
 void
 GluonObject::setPropertyFromString(const QString &propertyName, const QString &propertyValue)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     QVariant value;
 
     // propertyValue format is type(value)

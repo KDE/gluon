@@ -23,6 +23,7 @@ using namespace Gluon;
 
 GluonObjectPrivate::GluonObjectPrivate()
 {
+    gameProject = NULL;
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)

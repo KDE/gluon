@@ -33,6 +33,7 @@ REGISTER_OBJECTTYPE(GameProject)
 GameProject::GameProject(QObject * parent)
 {
     d = new GameProjectPrivate;
+    setGameProject(this);
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
