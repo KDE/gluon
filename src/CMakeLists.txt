@@ -1,7 +1,33 @@
-include_directories(../)
-include_directories(${EIGEN2_INCLUDE_DIR})
-include_directories(gameproject)
-include_directories(./)
+cmake_minimum_required(VERSION 2.6)
+project(libgluon)
+
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules")
+
+find_package(Qt4 REQUIRED)
+
+IF(NOT WIN32 AND NOT APPLE)
+find_package(KDE4 REQUIRED)
+include(KDE4Defaults)
+include_directories(${KDE4_INCLUDES})
+ENDIF()
+
+find_package(Eigen2 REQUIRED)
+find_package(GluonCommon REQUIRED)
+find_package(KGL REQUIRED)
+
+message("-- Found KGL include dir: " ${KGL_INCLUDE_DIR})
+message("-- Found KGL includes: " ${KGL_INCLUDES})
+message("-- Found KGL library: " ${KGL_LIBRARY})
+
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR} 
+    ${KGL_INCLUDE_DIR}/gluon/kgl
+    ${KGL_INCLUDE_DIR}/gluon
+    ${KGL_INCLUDE_DIR}
+    ${GLUONCOMMON_INCLUDES}
+    ${EIGEN2_INCLUDE_DIR}
+    ${GLEW_INCLUDE_DIR}/..
+    gameproject)
 
 
 set(gluon_LIB_SRCS
@@ -32,13 +58,6 @@ set(gluon_LIB_SRCS
     assets/textureasset/textureasset.cpp
     
     debughelper.cpp
-
-#      gluondialog.cpp
-#      kglconfig.cpp
-#      kalconfig.cpp
-#      kclconfig.cpp
-#      gluonintroitem.cpp
-
    )
 
 qt4_automoc(${gluon_LIB_SRCS})
@@ -53,11 +72,10 @@ add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
 set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 target_link_libraries(gluon kgl kal ${KDE4_KDEUI_LIBS})
 target_link_libraries(kcl)
-include_directories(${GLEW_INCLUDE_DIR}/..)
 target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
 target_link_libraries(gluon
                       ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} ${KDE4_KIO_LIBS}
-                      ${OPENAL_LIBRARY} #${ALUT_LIBRARY}
+                      ${OPENAL_LIBRARY}
                       ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
 ########### INSTALL FILES ###############
 

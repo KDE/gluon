@@ -20,7 +20,7 @@
 #include "kal/kalengine.h"
 #include "kal/kalsound.h"
 #include "assets/soundasset/soundasset.h"
-#include "src/gameproject/gameobject.h"
+#include "gameproject/gameobject.h"
 
 #include <QtCore/QDebug>
 

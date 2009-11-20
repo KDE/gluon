@@ -35,9 +35,9 @@ namespace Gluon
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
 
-        /*Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
+        Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
         Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)*/
+        Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
         Q_PROPERTY(float rotation READ rotation WRITE setRotation)
 
         public:

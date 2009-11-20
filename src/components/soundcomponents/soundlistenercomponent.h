@@ -18,7 +18,7 @@
 #define SOUNDLISTENERCOMPONENT_H
 
 #include "component.h"
-#include "src/gluonvarianttypes.h"
+#include "gluonvarianttypes.h"
 
 namespace Gluon
 {
