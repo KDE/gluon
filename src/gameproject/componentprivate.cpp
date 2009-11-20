@@ -23,10 +23,14 @@ using namespace Gluon;
 
 ComponentPrivate::ComponentPrivate()
 {
+    enabled = true;
+    gameObject = 0;
 }
 
 ComponentPrivate::ComponentPrivate(const ComponentPrivate &other)
     : QSharedData(other)
+    , enabled(other.enabled)
+    , gameObject(other.gameObject)
 {
 }
 
