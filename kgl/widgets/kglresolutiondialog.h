@@ -19,7 +19,7 @@
 
 #include <QtGui/QDialog>
 
-#include "kgl/kglresolution.h"
+#include "../kglresolution.h"
 
 class QComboBox;
 struct KGLResolution;

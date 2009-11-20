@@ -122,6 +122,7 @@ install(FILES
   kglpixmapitem.h
   kglpoint.h
   kglpolygonitem.h
+  kglresolution.h
   kglshader.h
   kglshadowitem.h
   kgltextitem.h
