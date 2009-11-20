@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(libgluon)
 
+add_definitions(-DMAKE_GLUON_LIB)
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules")
 
 find_package(Qt4 REQUIRED)
@@ -108,11 +110,7 @@ install(FILES
     components/spriterendercomponent/spriterendercomponent.h
 
     assets/textureasset/textureasset.h 
-#    gluondialog.h
-#    kglconfig.h
-#    kalconfig.h
-#    kclconfig.h
-#   gluonintroitem.h
-   DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
+
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
 #add_subdirectory(Components)

@@ -29,7 +29,7 @@
 
 using namespace Gluon;
 
-template<> GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
+template<> GLUON_EXPORT GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
 
 QStringList
 GluonObjectFactory::objectTypeNames() const

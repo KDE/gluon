@@ -28,7 +28,7 @@
 
 using namespace Gluon;
 
-template<> Game *KSingleton<Game>::m_instance = 0;
+template<> GLUON_EXPORT Game *KSingleton<Game>::m_instance = 0;
 
 Game::Game(QObject * parent)
 {

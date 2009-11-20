@@ -20,6 +20,8 @@
 #ifndef GLUON_GAME_H
 #define GLUON_GAME_H
 
+#include "gluon_export.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QThread>
@@ -45,7 +47,7 @@ namespace Gluon
             }
     };
     
-    class Game : public KSingleton<Game>
+    class GLUON_EXPORT Game : public KSingleton<Game>
     {
         Q_OBJECT
         Q_PROPERTY(GameObject* currentScene READ currentScene WRITE setCurrentScene)

@@ -21,13 +21,14 @@
 #include <Eigen/Core>
 
 using namespace Gluon;
+using namespace Eigen;
 
 GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
-    position = Eigen::Vector3f(0, 0, 0);
-    scale = Eigen::Vector3f(0, 0, 0);
-    rotationAxis = Eigen::Vector3f(0, 0, 0);
+    position = Vector3f(0, 0, 0);
+    scale = Vector3f(0, 0, 0);
+    rotationAxis = Vector3f(0, 0, 0);
     rotation = 0;
 }
 

@@ -312,7 +312,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
     // propertyValue format is type(value)
     QRegExp rx("(\\w+)\\((.+)\\)");
-    int pos = rx.indexIn(propertyValue);
+    //int pos = rx.indexIn(propertyValue);
 
     QString theTypeName = rx.cap(1);
     QString theValue = rx.cap(2);
