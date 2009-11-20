@@ -114,13 +114,17 @@ GluonObjectFactory::loadPlugins()
 
         foreach (QString fileName, theDir.entryList(QDir::Files))
         {
+            // Don't attempt to load non-libraries
+            if(!QLibrary::isLibrary(theDir.absoluteFilePath(fileName)))
+                continue;
+
             QPluginLoader loader(theDir.absoluteFilePath(fileName));
-            if(Component* loaded = qobject_cast<Component*>(loader.instance()))
-                m_pluggedComponents.append(loaded);
-            else if(Asset* loaded = qobject_cast<Asset*>(loader.instance()))
-                m_pluggedAssets.append(loaded);
-            else
+            loader.load();
+
+            if(!loader.isLoaded())
+            {
                 DEBUG_TEXT(loader.errorString());
+            }
         }
     }
 }

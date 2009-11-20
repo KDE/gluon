@@ -40,16 +40,11 @@ namespace Gluon
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
 
             void loadPlugins();
-            QList<Component*> pluggedComponents() const;
-            QList<Asset*> pluggedAssets() const;
 
             QStringList objectTypeNames() const;
             QHash<QString, GluonObject*> objectTypes() const;
 
         private:
-            QList<GluonObject*> m_pluggedComponents;
-            QList<Asset*> m_pluggedAssets;
-
             QHash<QString, GluonObject*> m_objectTypes;
     };
 }
