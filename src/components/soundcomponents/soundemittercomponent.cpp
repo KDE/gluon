@@ -25,6 +25,7 @@
 #include <QtCore/QDebug>
 
 using namespace Gluon;
+using namespace Eigen;
 
 REGISTER_OBJECTTYPE(SoundEmitterComponent)
 
@@ -75,7 +76,7 @@ void SoundEmitterComponent::Update(int elapsedMilliseconds)
         return;
     }
 
-    Eigen::Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
+    Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
     m_sound->setPosition(relativePosition);
 }
 
