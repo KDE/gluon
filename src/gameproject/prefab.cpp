@@ -20,9 +20,9 @@
 #include "prefab.h"
 #include "prefabprivate.h"
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,Prefab)
 
-REGISTER_OBJECTTYPE(Prefab)
+using namespace Gluon;
 
 Prefab::Prefab(QObject * parent)
     : GluonObject(parent)

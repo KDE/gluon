@@ -24,10 +24,10 @@
 
 #include <QtCore/QDebug>
 
+REGISTER_OBJECTTYPE(Gluon,SoundEmitterComponent)
+
 using namespace Gluon;
 using namespace Eigen;
-
-REGISTER_OBJECTTYPE(SoundEmitterComponent)
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
     : Component(parent),

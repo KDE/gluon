@@ -29,9 +29,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,GluonObject)
 
-REGISTER_OBJECTTYPE(GluonObject)
+using namespace Gluon;
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
@@ -168,7 +168,7 @@ GluonObject::sanitize()
                 // instance by that name, found in the project
                 if(theValue.startsWith(name + '('))
                 {
-                    QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
+                    QString theReferencedName = theValue.mid(name.length() + 1, theValue.length() - (name.length() + 2));
                     QVariant theReferencedObject;
                     theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
                     this->setProperty(propName, theReferencedObject);
@@ -311,12 +311,11 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     QVariant value;
 
     // propertyValue format is type(value)
-    QRegExp rx("(\\w+)\\((.+)\\)");
-    //int pos = rx.indexIn(propertyValue);
+    QRegExp rx("((\\w*\\:*\\**)+)\\((.+)\\)");
+    rx.indexIn(propertyValue);
 
     QString theTypeName = rx.cap(1);
-    QString theValue = rx.cap(2);
-    DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3").arg(propertyName).arg(theTypeName).arg(theValue));
+    QString theValue = rx.cap(3);
 
     if(theTypeName == "string") {
         value = theValue;
@@ -326,6 +325,8 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         value = theValue.toFloat();
     } else if(theTypeName == "int") {
         value = theValue.toInt();
+    } else if(theTypeName == "file" ) {
+        value = QUrl(theValue);
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
         //, z = 0.0f;
@@ -352,32 +353,43 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     } else {
         // If all else fails, pass the value through verbatim
         value = propertyValue;
+        DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
     }
 
     this->setProperty(propertyName.toUtf8(), value);
+    
+    DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName).arg(theTypeName).arg(theValue).arg(value.typeName()).arg(value.type()).arg(propertyValue));
 }
 
 QString
 GluonObject::getStringFromProperty(const QString &propertyName, const QString &indentChars) const
 {
+    DEBUG_BLOCK
     QString value;
 
     QVariant theValue = this->property(propertyName.toUtf8());
-
+    
     QColor theColor;
     switch(theValue.type())
     {
+//        case QVariant::UserType:
+//            int id = QMetaType::type(types.at(i));
+//            break;
         case QVariant::String:
-            value = "string(" + theValue.toString() + ')';
+            if(!theValue.toString().isEmpty())
+                value = "string(" + theValue.toString() + ')';
             break;
         case QVariant::Bool:
-            value = QString("bool(%1)").arg(theValue.toBool());
+            value = QString("bool(%1)").arg(theValue.toString());
             break;
+        case 135:
         case QVariant::Double:
-            value = QString("float(%1)").arg(theValue.toDouble());
+            if(theValue.toDouble() != 0)
+                value = QString("float(%1)").arg(theValue.toDouble());
             break;
         case QVariant::Int:
-            value = QString("int(%1)").arg(theValue.toInt());
+            if(theValue.toInt() != 0)
+                value = QString("int(%1)").arg(theValue.toInt());
             break;
         case QVariant::PointF:
             value = QString("vector2d(%1;%2)").arg(theValue.toPointF().x()).arg(theValue.toPointF().y());
@@ -386,13 +398,28 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             theColor = theValue.value<QColor>();
             value = QString("rgba(%1;%2;%3;%4)").arg(theColor.red()).arg(theColor.green()).arg(theColor.blue()).arg(theColor.alpha());
             break;
+        case QVariant::Url:
+            if(theValue.toString().startsWith("file"))
+                value = QString("file(%1)").arg(theValue.toString());
+            else
+                value = QString("url(%1)").arg(theValue.toString());
+            break;
         default:
             value = theValue.toString();
+            if(!value.isEmpty())
+            {
+                DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
+            }
             break;
     }
     
     if(value.isEmpty())
+    {
+        DEBUG_TEXT(QString("Property %1 is empty").arg(propertyName));
         return QString();
+    }
+
+    DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(theValue.toString()).arg(theValue.type()));
     
     return QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
 }

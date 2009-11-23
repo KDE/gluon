@@ -43,6 +43,7 @@ namespace Gluon
 
             QStringList objectTypeNames() const;
             QHash<QString, GluonObject*> objectTypes() const;
+            const QHash<QString, int> objectTypeIDs() const;
 
         private:
             QHash<QString, GluonObject*> m_objectTypes;
@@ -58,13 +59,13 @@ class GLUON_EXPORT GluonObjectRegistration
         GluonObjectRegistration(T* newObjectType)
         {
             if(newObjectType->metaObject())
-                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, qRegisterMetaType<T*>(newObjectType->metaObject()->className()));
+                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*'));
         }
 };
 
-#define REGISTER_OBJECTTYPE(NEWOBJECTTYPE) \
-GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); \
-Q_DECLARE_METATYPE(NEWOBJECTTYPE *);
+#define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
+namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); }\
+Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
 
 
 #endif				// GLUON_GLUONOBJECTFACTORY_H

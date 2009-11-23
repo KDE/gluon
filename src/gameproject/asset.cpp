@@ -19,9 +19,9 @@
 
 #include "asset.h"
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,Asset)
 
-REGISTER_OBJECTTYPE(Asset)
+using namespace Gluon;
 
 class Gluon::AssetPrivate
 {

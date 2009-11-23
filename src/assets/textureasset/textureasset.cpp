@@ -20,9 +20,9 @@
 #include "textureasset.h"
 #include <QtCore/QUrl>
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,TextureAsset)
 
-REGISTER_OBJECTTYPE(TextureAsset)
+using namespace Gluon;
 
 class Gluon::TextureAssetPrivate {
 public:

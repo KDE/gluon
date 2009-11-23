@@ -21,9 +21,9 @@
 #include "gameobjectprivate.h"
 #include "component.h"
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,GameObject)
 
-REGISTER_OBJECTTYPE(GameObject)
+using namespace Gluon;
 
 GameObject::GameObject(QObject * parent)
     : GluonObject(parent)

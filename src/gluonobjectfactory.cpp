@@ -43,11 +43,17 @@ GluonObjectFactory::objectTypeNames() const
     return theNames;
 }
 
-QHash< QString, GluonObject* > GluonObjectFactory::objectTypes() const
+QHash< QString, GluonObject* >
+GluonObjectFactory::objectTypes() const
 {
     return m_objectTypes;
 }
 
+const QHash<QString, int>
+GluonObjectFactory::objectTypeIDs() const
+{
+    return m_objectTypeIDs;
+}
 
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)

@@ -19,9 +19,9 @@
 
 #include <kgl/kglitem.h>
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,SpriteRenderComponent)
 
-REGISTER_OBJECTTYPE(SpriteRenderComponent)
+using namespace Gluon;
 
 SpriteRenderComponent::SpriteRenderComponent ( QObject* parent ) : Component ( parent )
 {

@@ -16,9 +16,9 @@
 
 #include "soundasset.h"
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,SoundAsset)
 
-REGISTER_OBJECTTYPE(SoundAsset)
+using namespace Gluon;
 
 SoundAsset::SoundAsset(QObject *parent)
     : Asset(parent),

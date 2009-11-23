@@ -26,9 +26,9 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(Gluon,GameProject)
 
-REGISTER_OBJECTTYPE(GameProject)
+using namespace Gluon;
 
 GameProject::GameProject(QObject * parent)
 {

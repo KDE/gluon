@@ -16,11 +16,11 @@
 
 #include "soundlistenercomponent.h"
 
+REGISTER_OBJECTTYPE(Gluon,SoundListenerComponent)
+
 using namespace Gluon;
 
 SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
-
-REGISTER_OBJECTTYPE(SoundListenerComponent)
 
 SoundListenerComponent::SoundListenerComponent(QObject *parent)
     : Component(parent)
