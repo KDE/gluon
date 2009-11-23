@@ -142,6 +142,10 @@ GluonObject::sanitize()
         
         // Then get all the dynamic ones (in case any such exist)
         QList<QByteArray> propertyNames = dynamicPropertyNames();
+        if(propertyNames.length() == 0)
+        {
+            DEBUG_TEXT(QString("No dynamic properties found"));
+        }
         foreach(QByteArray propName, propertyNames)
         {
             const QString theName(propName);
@@ -171,7 +175,7 @@ GluonObject::sanitize()
                     QString theReferencedName = theValue.mid(name.length() + 1, theValue.length() - (name.length() + 2));
                     QVariant theReferencedObject;
                     theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
-                    this->setProperty(propName, theReferencedObject);
+                    setProperty(propName, theReferencedObject);
                     DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
                     break;
                 }
@@ -277,6 +281,7 @@ GluonObject::childrenToGDL(int indentLevel) const
 QString
 GluonObject::propertiesToGDL(int indentLevel) const
 {
+    DEBUG_BLOCK
     QString serializedObject;
 
     QString indentChars(indentLevel * 4, ' ');
@@ -284,6 +289,10 @@ GluonObject::propertiesToGDL(int indentLevel) const
     // Get all the normally defined properties
     const QMetaObject *metaobject = this->metaObject();
     int count = metaobject->propertyCount();
+    if(count == 2)
+    {
+        DEBUG_TEXT(QString("No normal properties"));
+    }
     for(int i = 0; i < count; ++i)
     {
         QMetaProperty metaproperty = metaobject->property(i);
@@ -295,6 +304,10 @@ GluonObject::propertiesToGDL(int indentLevel) const
 
     // Then get all the dynamic ones (in case any such exist)
     QList<QByteArray> propertyNames = dynamicPropertyNames();
+    if(propertyNames.length() == 0)
+    {
+        DEBUG_TEXT(QString("No dynamic properties"));
+    }
     foreach(QByteArray propName, propertyNames)
     {
         const QString theName(propName);
@@ -356,7 +369,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
     }
 
-    this->setProperty(propertyName.toUtf8(), value);
+    setProperty(propertyName.toUtf8(), value);
     
     DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName).arg(theTypeName).arg(theValue).arg(value.typeName()).arg(value.type()).arg(propertyValue));
 }
