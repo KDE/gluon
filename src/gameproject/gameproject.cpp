@@ -62,7 +62,7 @@ GameProject::findItemByName(QString qualifiedName)
     QStringList::const_iterator constIterator;
     for (constIterator = path.constBegin(); constIterator != path.constEnd(); ++constIterator)
     {
-        foundChild == NULL;
+        foundChild = NULL;
         foreach(QObject * child, parentObject->children())
         {
             if(qobject_cast<GluonObject*>(child)->name() == (*constIterator).toUtf8())
