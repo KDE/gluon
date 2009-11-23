@@ -50,7 +50,7 @@ namespace Gluon
         
         Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
         
-        Q_PROPERTY(GameObject* entryPoint READ entryPoint WRITE setEntryPoint)
+        //Q_PROPERTY(Gluon::GameObject* entryPoint READ entryPoint WRITE setEntryPoint)
         
         public:
             GameProject(QObject * parent = 0);
