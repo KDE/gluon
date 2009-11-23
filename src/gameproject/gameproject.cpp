@@ -25,12 +25,14 @@
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QMetaClassInfo>
 
 REGISTER_OBJECTTYPE(Gluon,GameProject)
 
 using namespace Gluon;
 
 GameProject::GameProject(QObject * parent)
+    : GluonObject(parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
@@ -144,10 +146,30 @@ GameProject::loadFromFile()
                 
                 // Set all the interesting values...
                 setName(loadedProject->name());
-                setDescription(loadedProject->description());
+                
+                // Copy accross all the properties
+                const QMetaObject *metaobject = loadedProject->metaObject();
+                int count = metaobject->propertyCount();
+                for(int i = 0; i < count; ++i)
+                {
+                    QMetaProperty metaproperty = metaobject->property(i);
+                    const QString theName(metaproperty.name());
+                    if(theName == "objectName" || theName == "name")
+                        continue;
+                    setProperty(metaproperty.name(), loadedProject->property(metaproperty.name()));
+                }
+
+                // Then get all the dynamic ones (in case any such exist)
+                QList<QByteArray> propertyNames = loadedProject->dynamicPropertyNames();
+                foreach(QByteArray propName, propertyNames)
+                    setProperty(propName, loadedProject->property(propName));
+/*                setDescription(loadedProject->description());
                 setEntryPoint(loadedProject->entryPoint());
                 setHomepage(loadedProject->homepage());
-                setMediaInfo(loadedProject->mediaInfo());
+                setMediaInfo(loadedProject->mediaInfo());*/
+
+                // Sanitize me!
+                this->sanitize();
                 
                 // Finally, get rid of the left-overs
                 qDeleteAll(objectList);
