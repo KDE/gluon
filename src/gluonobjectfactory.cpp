@@ -50,13 +50,14 @@ QHash< QString, GluonObject* > GluonObjectFactory::objectTypes() const
 
 
 void
-GluonObjectFactory::registerObjectType(GluonObject * newObjectType)
+GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
 {
     DEBUG_BLOCK
     if(newObjectType)
     {
-        DEBUG_TEXT(QString("Registering object type %1").arg(newObjectType->metaObject()->className()));
+        DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(newObjectType->metaObject()->className()).arg(typeID));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
+        m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
     }
     else
         DEBUG_TEXT(QString("Attempted to register a NULL object type"));

@@ -36,7 +36,7 @@ namespace Gluon
         Q_OBJECT
 
         public:
-            void registerObjectType(GluonObject * newObjectType);
+            void registerObjectType(GluonObject * newObjectType, int typeID);
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
 
             void loadPlugins();
@@ -46,6 +46,7 @@ namespace Gluon
 
         private:
             QHash<QString, GluonObject*> m_objectTypes;
+            QHash<QString, int> m_objectTypeIDs;
     };
 }
 
@@ -56,9 +57,8 @@ class GLUON_EXPORT GluonObjectRegistration
     public:
         GluonObjectRegistration(T* newObjectType)
         {
-            Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType);
             if(newObjectType->metaObject())
-                qRegisterMetaType<T*>();//(newObjectType->metaObject()->className() + ' ' + '*');
+                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, qRegisterMetaType<T*>(newObjectType->metaObject()->className()));
         }
 };
 
