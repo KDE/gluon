@@ -59,6 +59,7 @@ Component::sanitize()
             }
         }
     }
+    GluonObject::sanitize();
 }
 
 // Property getter-setters
