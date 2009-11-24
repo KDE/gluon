@@ -32,6 +32,7 @@ template<> GLUON_EXPORT Game *KSingleton<Game>::m_instance = 0;
 
 Game::Game(QObject * parent)
 {
+    Q_UNUSED(parent);
     d = new GamePrivate;
 }
 
