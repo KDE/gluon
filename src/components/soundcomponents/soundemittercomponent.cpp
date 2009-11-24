@@ -71,6 +71,7 @@ void SoundEmitterComponent::setSound(SoundAsset *asset)
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
+    Q_UNUSED(elapsedMilliseconds)
     SoundListenerComponent *listener = SoundListenerComponent::activeInstance();
     if (!listener->effectsEnabled()) {
         return;

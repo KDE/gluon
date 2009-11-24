@@ -51,6 +51,7 @@ GluonObject* SpriteRenderComponent::instantiate()
 
 void SpriteRenderComponent::Update ( int elapsedMilliseconds )
 {
+    Q_UNUSED(elapsedMilliseconds)
 }
 
 void SpriteRenderComponent::Start()
@@ -60,6 +61,7 @@ void SpriteRenderComponent::Start()
 
 void SpriteRenderComponent::Draw ( int timeLapse )
 {
+    Q_UNUSED(timeLapse)
     //Gluon::Component::Draw ( timeLapse );
 }
 

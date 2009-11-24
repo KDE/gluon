@@ -39,10 +39,12 @@ GluonObject *SoundListenerComponent::instantiate()
 
 void SoundListenerComponent::Update(int elapsedMilliseconds)
 {
+    Q_UNUSED(elapsedMilliseconds)
 }
 
 void SoundListenerComponent::setActive(bool active)
 {
+    Q_UNUSED(active)
     m_activeInstance = this;
 }
 
