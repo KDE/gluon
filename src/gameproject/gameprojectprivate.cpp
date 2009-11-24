@@ -18,6 +18,9 @@
 */
 
 #include "gameprojectprivate.h"
+#include "gluonobject.h"
+#include "debughelper.h"
+#include <QtCore/QStringList>
 
 using namespace Gluon;
 
@@ -37,4 +40,43 @@ GameProjectPrivate::GameProjectPrivate(const GameProjectPrivate &other)
 
 GameProjectPrivate::~GameProjectPrivate()
 {
+}
+
+GluonObject *
+GameProjectPrivate::findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject)
+{
+    DEBUG_FUNC_NAME
+    GluonObject * foundChild = NULL;
+    QString lookingFor(qualifiedName[0]);
+    qualifiedName.removeFirst();
+    
+    DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(parentObject->name()));
+    foreach(QObject * child, parentObject->children())
+    {
+        if(qobject_cast<GluonObject*>(child)->name() == lookingFor)
+        {
+            foundChild = qobject_cast<GluonObject*>(child);
+            break;
+        }
+    }
+
+    // checking for nullity to guard against trying to go into non-existent sub-trees
+    if(foundChild != NULL)
+    {
+        if(qualifiedName.count() > 0)
+        {
+            DEBUG_TEXT(QString("Found child, recursing..."));
+            return findItemByNameInObject(qualifiedName, foundChild);
+        }
+        else
+        {
+            DEBUG_TEXT(QString("Found child!"));
+        }
+    }
+    else
+    {
+        DEBUG_TEXT("Did not find child! Bailing out");
+    }
+    
+    return foundChild;
 }

@@ -57,34 +57,7 @@ GameProject::instantiate()
 GluonObject *
 GameProject::findItemByName(QString qualifiedName)
 {
-    GluonObject * parentObject = this;
-    GluonObject * foundChild = NULL;
-    
-    QStringList path = qualifiedName.split('.');
-    QStringList::const_iterator constIterator;
-    for (constIterator = path.constBegin(); constIterator != path.constEnd(); ++constIterator)
-    {
-        foundChild = NULL;
-        foreach(QObject * child, parentObject->children())
-        {
-            if(qobject_cast<GluonObject*>(child)->name() == (*constIterator).toUtf8())
-            {
-                foundChild = qobject_cast<GluonObject*>(child);
-                break;
-            }
-        }
-
-        // Guard against trying to go into non-existent sub-trees
-        if(foundChild == NULL)
-            return NULL;
-
-        if(constIterator != path.constEnd())
-        {
-            parentObject = foundChild;
-            foundChild = NULL;
-        }
-    }
-    return foundChild;
+    return d->findItemByNameInObject(qualifiedName.split('.'), this);
 }
 
 bool 

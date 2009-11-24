@@ -40,6 +40,8 @@ namespace Gluon
             QList<QUrl> mediaInfo;
             QUrl filename;
             GameObject* entryPoint;
+            
+            GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject);
     };
 }
 
