@@ -56,6 +56,7 @@ namespace Gluon
 
             QString name() const;
             void setName(const QString &newName);
+            QString fullyQualifiedName() const;
 
             /**
              * Use this to access functions on the GameProject instance associated

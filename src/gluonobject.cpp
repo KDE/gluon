@@ -61,13 +61,20 @@ GluonObject::instantiate()
 void
 GluonObject::sanitize()
 {
-    DEBUG_FUNC_NAME
-    GluonObject * theChild = 0;
-    foreach(QObject * child, this->children())
+    DEBUG_BLOCK
+    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
+    
+    const QObjectList &children = this->children();
+    foreach(QObject * child, children)
     {
-        theChild = qobject_cast<GluonObject*>(child);
-        if(theChild)
-            theChild->sanitize();
+        if(qobject_cast<GluonObject*>(child))
+        {
+            qobject_cast<GluonObject*>(child)->sanitize();
+        }
+        else
+        {
+            DEBUG_TEXT(QString("Child found which is not a GluonObject!"));
+        }
     }
     
     // Make sure the GameProject is set... Iterate upwards until you either reach
@@ -95,7 +102,6 @@ GluonObject::sanitize()
     {
         QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
         
-        DEBUG_TEXT(QString("Sanitizing properties in %1").arg(this->name()));
         const QMetaObject *metaobject = this->metaObject();
         if(metaobject == NULL)
             return;
@@ -145,10 +151,6 @@ GluonObject::sanitize()
         
         // Then get all the dynamic ones (in case any such exist)
         QList<QByteArray> propertyNames = dynamicPropertyNames();
-        if(propertyNames.length() == 0)
-        {
-            DEBUG_TEXT(QString("No dynamic properties found"));
-        }
         foreach(QByteArray propName, propertyNames)
         {
             const QString theName(propName);
@@ -218,6 +220,15 @@ void
 GluonObject::setName(const QString &newName)
 {
     d->name = newName;
+}
+
+QString
+GluonObject::fullyQualifiedName() const
+{
+    QString theName(this->name());
+    if(qobject_cast<GluonObject*>(this->parent()))
+        theName = QString("%1.%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
+    return theName;
 }
 
 void GluonObject::addChild(GluonObject* child)
