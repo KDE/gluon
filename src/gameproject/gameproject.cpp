@@ -163,10 +163,6 @@ GameProject::loadFromFile()
                 QList<QByteArray> propertyNames = loadedProject->dynamicPropertyNames();
                 foreach(QByteArray propName, propertyNames)
                     setProperty(propName, loadedProject->property(propName));
-/*                setDescription(loadedProject->description());
-                setEntryPoint(loadedProject->entryPoint());
-                setHomepage(loadedProject->homepage());
-                setMediaInfo(loadedProject->mediaInfo());*/
 
                 // Sanitize me!
                 this->sanitize();
