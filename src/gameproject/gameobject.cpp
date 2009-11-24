@@ -180,7 +180,6 @@ Component *
 GameObject::findComponentInChildrenByType(const QString &typeName) const
 {
     Component * found = 0;
-    QMetaObject * metaObject;
     foreach(GameObject * child, d->children)
     {
         found = child->findComponentByType(typeName);
