@@ -358,7 +358,8 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     } else if(theTypeName == "int") {
         value = theValue.toInt();
     } else if(theTypeName == "file" ) {
-        value = QUrl(theValue);
+        DEBUG_TEXT(QString("Setting property from file"));
+        value = QVariant(QUrl(theValue));
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
         //, z = 0.0f;
@@ -431,29 +432,48 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             value = QString("rgba(%1;%2;%3;%4)").arg(theColor.red()).arg(theColor.green()).arg(theColor.blue()).arg(theColor.alpha());
             break;
         case QVariant::Url:
-            if(theValue.toString().startsWith("file"))
-                value = QString("file(%1)").arg(theValue.toString());
-            else
-                value = QString("url(%1)").arg(theValue.toString());
+            if(!theValue.toUrl().toString().isEmpty())
+            {
+                if(theValue.toString().startsWith("file"))
+                    value = QString("file(%1)").arg(theValue.toUrl().toString());
+                else
+                    value = QString("url(%1)").arg(theValue.toUrl().toString());
+            }
             break;
         default:
-            value = theValue.toString();
-            if(!value.isEmpty())
+            if(theValue.canConvert<GluonObject*>())
             {
-                DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
+                GluonObject* theObject = theValue.value<GluonObject*>();
+                if(theObject)
+                    value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
+                else
+                {
+                    value = QString("Gluon::GluonObject()");
+                    DEBUG_TEXT(QString("Invalid object reference!"));
+                }
+            }
+            else
+            {
+                value = theValue.toString();
+                if(!value.isEmpty())
+                {
+                    DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
+                }
             }
             break;
     }
     
+    QString returnString = QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
+    
     if(value.isEmpty())
     {
-        DEBUG_TEXT(QString("Property %1 is empty").arg(propertyName));
-        return QString();
+        value = QString("(empty value)");
+        returnString = QString();
     }
 
-    DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(theValue.toString()).arg(theValue.type()));
-    
-    return QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
+    DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));
+
+    return returnString;
 }
 
 #include "gluonobject.moc"
