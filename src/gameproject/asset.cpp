@@ -26,7 +26,7 @@ using namespace Gluon;
 class Gluon::AssetPrivate
 {
 public:
-    QString file;
+    QUrl file;
 };
 
 Asset::Asset(QObject *parent)
@@ -45,13 +45,13 @@ GluonObject* Asset::instantiate()
     return new Asset(this);
 }
 
-void Asset::setFile(const QString &newFile)
+void Asset::setFile(const QUrl &newFile)
 {
     d->file = newFile;
     emit dataChanged();
 }
 
-QString Asset::file() const
+QUrl Asset::file() const
 {
     return d->file;
 }

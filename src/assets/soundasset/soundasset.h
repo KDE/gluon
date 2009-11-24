@@ -17,7 +17,7 @@
 #ifndef SOUNDASSET_H
 #define SOUNDASSET_H
 
-#include "asset.h"
+#include "gameproject/asset.h"
 #include "kal/kalbuffer.h"
 
 namespace Gluon {

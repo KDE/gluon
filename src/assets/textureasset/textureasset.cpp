@@ -53,7 +53,7 @@ TextureAsset::~TextureAsset()
 
 void TextureAsset::load()
 {
-    d->image->load(file());
+    d->image->load(file().toLocalFile());
     d->texture->load(*d->image, d->image->width(), d->image->height());
 }
 

@@ -16,7 +16,7 @@
 
 #ifndef GLUON_TEXTUREASSET_H
 #define GLUON_TEXTUREASSET_H
-#include <asset.h>
+#include "gameproject/asset.h"
 
 namespace Gluon
 {

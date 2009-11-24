@@ -32,7 +32,7 @@ namespace Gluon
     class GLUON_EXPORT Asset : public GluonObject
     {
         Q_OBJECT
-        Q_PROPERTY(QString file READ file WRITE setFile)
+        Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
             Asset(QObject *parent = 0);
@@ -40,8 +40,8 @@ namespace Gluon
 
             virtual GluonObject *instantiate();
 
-            virtual void setFile(const QString &newFile);
-            virtual QString file() const;
+            virtual void setFile(const QUrl &newFile);
+            virtual QUrl file() const;
             
             /**
              * The specialization of toGDL on the Asset class does not recurse.

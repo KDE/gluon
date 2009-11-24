@@ -38,7 +38,7 @@ void SoundAsset::updateBuffer()
         delete m_buffer;
     }
 
-    m_buffer = new KALBuffer(file());
+    m_buffer = new KALBuffer(file().toLocalFile());
 }
 
 #include "soundasset.moc"
