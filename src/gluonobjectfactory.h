@@ -54,12 +54,14 @@ namespace Gluon
 template<class T>
 class GLUON_EXPORT GluonObjectRegistration
 {
-
     public:
         GluonObjectRegistration(T* newObjectType)
         {
             if(newObjectType->metaObject())
-                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*'));
+            {
+                int typeID = qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
+                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, typeID);
+            }
         }
 };
 
