@@ -61,15 +61,13 @@ GluonObject::instantiate()
 void
 GluonObject::sanitize()
 {
-    DEBUG_BLOCK
+    DEBUG_FUNC_NAME
     GluonObject * theChild = 0;
     foreach(QObject * child, this->children())
     {
-        if(child->inherits("GluonObject"))
-        {
-            theChild = qobject_cast<GluonObject*>(child);
+        theChild = qobject_cast<GluonObject*>(child);
+        if(theChild)
             theChild->sanitize();
-        }
     }
     
     // Make sure the GameProject is set... Iterate upwards until you either reach
@@ -132,9 +130,14 @@ GluonObject::sanitize()
                 {
                     QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
                     QVariant theReferencedObject;
-                    theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
+                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    theReferencedObject.setValue<GluonObject*>(theObject);
                     this->setProperty(metaproperty.name(), theReferencedObject);
                     DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(metaproperty.name()).arg(theReferencedName).arg(name));
+                    if(!theObject)
+                    {
+                        DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
+                    }
                     break;
                 }
             }
@@ -174,9 +177,14 @@ GluonObject::sanitize()
                 {
                     QString theReferencedName = theValue.mid(name.length() + 1, theValue.length() - (name.length() + 2));
                     QVariant theReferencedObject;
-                    theReferencedObject.setValue<GluonObject*>(gameProject()->findItemByName(theReferencedName));
+                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    theReferencedObject.setValue<GluonObject*>(theObject);
                     setProperty(propName, theReferencedObject);
                     DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
+                    if(!theObject)
+                    {
+                        DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
+                    }
                     break;
                 }
             }
