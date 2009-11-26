@@ -49,6 +49,7 @@ GameProject::GameProject(const GameProject &other, QObject * parent)
     : GluonObject(parent)
     , d(other.d)
 {
+    setProperty("entryPoint", other.property("entryPoint"));
 }
 
 GameProject::~GameProject()
