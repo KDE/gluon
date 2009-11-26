@@ -138,7 +138,7 @@ GluonObject::sanitize()
                     QVariant theReferencedObject;
                     GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
                     theReferencedObject.setValue<GluonObject*>(theObject);
-                    this->setProperty(metaproperty.name(), theReferencedObject);
+                    setProperty(metaproperty.name(), theReferencedObject);
                     DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(metaproperty.name()).arg(theReferencedName).arg(name));
                     if(!theObject)
                     {
