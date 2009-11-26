@@ -28,6 +28,7 @@
 #include <QMetaClassInfo>
 
 REGISTER_OBJECTTYPE(Gluon,GameProject)
+Q_DECLARE_METATYPE(Gluon::GameObject*);
 
 using namespace Gluon;
 
@@ -36,6 +37,12 @@ GameProject::GameProject(QObject * parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
+    
+    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+    QVariant somethingEmpty;
+    GameObject * theObject = NULL;
+    somethingEmpty.setValue<GameObject*>(theObject);
+    setProperty("entryPoint", somethingEmpty);
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
@@ -220,12 +227,16 @@ GameProject::setFilename(QUrl newFilename)
 GameObject *
 GameProject::entryPoint() const
 {
-    return d->entryPoint;
+//    return d->entryPoint;
+    return property("entryPoint").value<GameObject*>();
 }
 void
 GameProject::setEntryPoint(GameObject * newEntryPoint)
 {
-    d->entryPoint = newEntryPoint;
+    //d->entryPoint = newEntryPoint;
+    QVariant theNewValue;
+    theNewValue.setValue<GameObject*>(newEntryPoint);
+    setProperty("entryPoint", theNewValue);
 }
 
 #include "gameproject.moc"
