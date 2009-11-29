@@ -125,7 +125,7 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 
 int SceneModel::rowIndex(GameObject* object) const
 {
-    if(object->parentGameObject())
+    if(object && object->parentGameObject())
     {
         return object->parentGameObject()->childIndex(object);
     }

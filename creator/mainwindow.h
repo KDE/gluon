@@ -19,19 +19,11 @@
 
 #include <KXmlGuiWindow>
 
-class QTreeView;
-class QTextEdit;
-class QScrollArea;
-class QItemSelection;
-
 namespace Gluon
 {
-    class GluonObject;
-
     namespace Creator
     {
         class Plugin;
-        class PropertyWidget;
 
         class MainWindow : public KXmlGuiWindow
         {
@@ -47,24 +39,13 @@ namespace Gluon
                 void saveProject();
                 void saveProject(const QString &fileName);
                 void saveProjectAs();
-                void gameObjectActivated(const QItemSelection & index, const QItemSelection & deselected);
-                void newMessage(const QString & string);
-                void loadPlugin(Plugin*);
+                void showPreferences();
 
             private:
-                void showPropertiesFor(Gluon::GluonObject * showFor);
-
                 void setupActions();
                 void setupDocks();
                 void setupGame();
 
-                QTreeView *m_qObjectTree;
-                QTreeView *m_gameObjectTree;
-                QScrollArea * m_propertyWidgetScrollarea;
-                PropertyWidget * m_propertyWidget;
-                QTextEdit * m_messageDock;
-                int m_uid;
-                int m_sceneId;
                 QString m_fileName;
         };
     }

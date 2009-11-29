@@ -15,60 +15,45 @@
 */
 
 #include "mainwindow.h"
-#include <QMenuBar>
-#include <QScrollArea>
-#include <QDockWidget>
+
 #include <KFileDialog>
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KAction>
 #include <KDebug>
-#include <KApplication>
-
-#include <gluon/gdlhandler.h>
-#include <gluon/gluonobject.h>
-#include <gluon/gameobject.h>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QTreeView>
-#include <QDebug>
-#include <QVariant>
-
-//#include "widgets/propertywidget.h"
-//##include "models/scenemodel.h"
-//#include "models/qobjecttreemodel.h"
-#include <klocalizedstring.h>
-#include <qlistview.h>
-//#include <gluon/kgl/kglview.h>
+#include <KStatusBar>
+#include <KMessageBox>
+#include <KConfigDialog>
+#include <KLocalizedString>
+#include <KPluginSelector>
 
 #include <game.h>
 #include <gameproject.h>
 
 #include "lib/plugin.h"
-#include "lib/pluginloader.h"
-
-#include <QMessageBox>
-#include <KStatusBar>
-#include <KMessageBox>
+#include "lib/pluginmanager.h"
 #include "lib/objectmanager.h"
+
+#include "gluoncreatorsettings.h"
+#include "dialogs/configdialog.h"
+#include <KRun>
 
 using namespace Gluon::Creator;
 
 MainWindow::MainWindow() : KXmlGuiWindow()
-    , m_propertyWidget(0)
 {
     Gluon::GluonObjectFactory::instance()->loadPlugins();
+
+    PluginManager::instance()->setParent(this);
+    ObjectManager::instance()->setParent(this);
 
     setupGame();
 
     setDockNestingEnabled(true);
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
 
-    m_uid = 0;
-    m_sceneId = 0;
-
-    connect(PluginLoader::instance(), SIGNAL(pluginLoaded(Plugin*)), SLOT(loadPlugin(Plugin*)));
-    PluginLoader::instance()->loadAllPlugins();
+    PluginManager::instance()->setMainWindow(this);
+    PluginManager::instance()->loadPlugins();
 
     setupActions();
 
@@ -82,7 +67,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::newProject()
 {
-
+    KRun::run("gluoncreator", KUrl::List(), this);
 }
 
 void MainWindow::openProject()
@@ -133,21 +118,6 @@ void MainWindow::saveProjectAs()
     if(!m_fileName.isEmpty()) saveProject();
 }
 
-void MainWindow::gameObjectActivated(const QItemSelection& selected, const QItemSelection& deselected)
-{
-    Q_UNUSED(selected)
-    Q_UNUSED(deselected)
-    //Gluon::GluonObject* selectedObject = static_cast<Gluon::GluonObject*>(m_gameObjectTree->selectionModel()->currentIndex().internalPointer());
-//    showPropertiesFor(selectedObject);
-}
-
-void MainWindow::showPropertiesFor(Gluon::GluonObject * showFor)
-{
-  //  m_propertyWidget->clear();
-//    m_propertyWidget->setObject(showFor);
-}
-
-
 void MainWindow::setupGame()
 {
     Gluon::GameProject* project = new Gluon::GameProject(Gluon::Game::instance());
@@ -174,22 +144,15 @@ void MainWindow::setupActions()
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
     KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
     KStandardAction::quit(this, SLOT(close()), actionCollection());
+    KStandardAction::preferences(this, SLOT(showPreferences()), actionCollection());
 }
 
-void MainWindow::setupDocks()
+void Gluon::Creator::MainWindow::showPreferences()
 {
-
+    if ( KConfigDialog::showDialog( "settings" ) )  {
+        return;
+    }
+    ConfigDialog *dialog = new ConfigDialog(this, "settings", Gluon::Settings::self());
+    dialog->setAttribute( Qt::WA_DeleteOnClose );
+    dialog->show();
 }
-
-
-void MainWindow::newMessage(const QString &string)
-{
-    //m_messageDock->append(string);
-}
-
-void MainWindow::loadPlugin(Plugin* plugin)
-{
-    plugin->initialize(this);
-}
-
-

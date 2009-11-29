@@ -35,16 +35,13 @@ namespace Creator {
             DockPlugin(QObject* parent, const QList<QVariant>& params);
             virtual ~DockPlugin();
 
-            virtual void initialize(KXmlGuiWindow* mainwindow);
+            virtual void load(KXmlGuiWindow* mainWindow);
+            virtual void unload(KXmlGuiWindow* mainWindow);
 
         protected:
             virtual Dock* createDock(KXmlGuiWindow* parent) = 0;
 
-            //virtual KAction* showAction();
-
-        private:
-            //class DockPluginPrivate;
-            //DockPluginPrivate* d;
+            Dock* m_dock;
     };
 
 }

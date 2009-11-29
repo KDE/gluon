@@ -1,7 +1,7 @@
 set(gluoncreatorlib_SRCS
     plugin.cpp
     dockplugin.cpp
-    pluginloader.cpp
+    pluginmanager.cpp
     objectmanager.cpp
 
     models/projectmodel.cpp
@@ -27,7 +27,7 @@ set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/creator)
 install(FILES
         plugin.h
         dockplugin.h
-        pluginloader.h
+        pluginmanager.h
         gluoncreatorlib_macros.h
         DESTINATION ${INCLUDE_INSTALL_DIR}
 )

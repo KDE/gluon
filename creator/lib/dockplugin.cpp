@@ -34,19 +34,26 @@ Gluon::Creator::DockPlugin::~DockPlugin()
 }
 
 
-void Gluon::Creator::DockPlugin::initialize(KXmlGuiWindow* mainwindow)
+void Gluon::Creator::DockPlugin::load(KXmlGuiWindow* mainwindow)
 {
     mainwindow->insertChildClient(this);
 
-    Dock* dockWidget = createDock(mainwindow);
-    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    m_dock = createDock(mainwindow);
+    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, m_dock);
 
-    actionCollection()->addAction("show" + dockWidget->objectName() + "Action", dockWidget->toggleViewAction());
+    actionCollection()->addAction(QString("show%1Action").arg(m_dock->objectName()), m_dock->toggleViewAction());
 
-    QString xml = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">").arg(dockWidget->objectName());
-    xml += QString("<MenuBar><Menu name=\"settings\"><Menu name=\"docks\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>").arg(dockWidget->objectName());
+    QString xml = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">").arg(m_dock->objectName());
+    xml += QString("<MenuBar><Menu name=\"settings\"><Menu name=\"docks\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>").arg(m_dock->objectName());
 
     setXML(xml);
+}
+
+void Gluon::Creator::DockPlugin::unload(KXmlGuiWindow* mainWindow)
+{
+    mainWindow->removeDockWidget(m_dock);
+    actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));
+    parentClient()->removeChildClient(this);
 }
 
 #include "dockplugin.moc"

@@ -14,31 +14,31 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_PLUGIN_H
-#define GLUON_CREATOR_PLUGIN_H
+#ifndef GLUON_CREATOR_CONFIGDIALOG_H
+#define GLUON_CREATOR_CONFIGDIALOG_H
 
-#include <QtCore/QObject>
-#include <KXmlGuiWindow>
+#include <KConfigDialog>
 
-#include "gluoncreatorlib_macros.h"
+class KPluginSelector;
 
 namespace Gluon {
 
 namespace Creator {
 
-class GLUONCREATORLIB_EXPORT Plugin : public QObject, public KXMLGUIClient
+class ConfigDialog : public KConfigDialog
 {
-    Q_OBJECT
     public:
-        Plugin(QObject* parent, const QList<QVariant>& params);
-        virtual ~Plugin();
+        ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config);
+        ~ConfigDialog();
 
-        virtual void load(KXmlGuiWindow* mainWindow) = 0;
-        virtual void unload(KXmlGuiWindow* mainWindow) = 0;
+        virtual void accept();
+
+    private:
+        KPluginSelector *m_plugins;
 };
 
 }
 
 }
 
-#endif // GLUON_CREATOR_PLUGIN_H
+#endif // GLUON_CREATOR_CONFIGDIALOG_H
