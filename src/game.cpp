@@ -153,7 +153,7 @@ Game::setGameProject(GameProject * newGameProject)
         foreach(QObject * obj, newGameProject->children())
         {
             GameObject *gameObj = qobject_cast<GameObject*>(obj);
-            if(obj)
+            if(gameObj)
             {
                 newGameProject->setEntryPoint(gameObj);
                 DEBUG_TEXT(QString("Entry point salvaged by resetting to first game object in project"))

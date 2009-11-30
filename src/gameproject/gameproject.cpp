@@ -228,8 +228,8 @@ GameProject::setFilename(QUrl newFilename)
 GameObject *
 GameProject::entryPoint() const
 {
-    return d->entryPoint;
-//    return property("entryPoint").value<GameObject*>();
+//    return d->entryPoint;
+    return property("entryPoint").value<GameObject*>();
 }
 void
 GameProject::setEntryPoint(GameObject * newEntryPoint)
