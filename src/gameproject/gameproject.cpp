@@ -40,7 +40,7 @@ GameProject::GameProject(QObject * parent)
     
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
-    GameObject * theObject = NULL;
+    GameObject * theObject = d->entryPoint;
     somethingEmpty.setValue<GameObject*>(theObject);
     setProperty("entryPoint", somethingEmpty);
 }
@@ -228,13 +228,13 @@ GameProject::setFilename(QUrl newFilename)
 GameObject *
 GameProject::entryPoint() const
 {
-//    return d->entryPoint;
-    return property("entryPoint").value<GameObject*>();
+    return d->entryPoint;
+//    return property("entryPoint").value<GameObject*>();
 }
 void
 GameProject::setEntryPoint(GameObject * newEntryPoint)
 {
-    //d->entryPoint = newEntryPoint;
+    d->entryPoint = newEntryPoint;
     QVariant theNewValue;
     theNewValue.setValue<GameObject*>(newEntryPoint);
     setProperty("entryPoint", theNewValue);

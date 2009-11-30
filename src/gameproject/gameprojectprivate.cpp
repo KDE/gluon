@@ -26,6 +26,7 @@ using namespace Gluon;
 
 GameProjectPrivate::GameProjectPrivate()
 {
+    entryPoint = NULL;
 }
 
 GameProjectPrivate::GameProjectPrivate(const GameProjectPrivate &other)

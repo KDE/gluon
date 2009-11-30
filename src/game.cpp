@@ -20,7 +20,8 @@
 #include "game.h"
 #include "gameprivate.h"
 #include "gameproject/gameobject.h"
-#include <gameproject/gameproject.h>
+#include "gameproject/gameproject.h"
+#include "debughelper.h"
 
 #include <QtCore/QThread>
 #include <QtCore/QTime>
@@ -81,9 +82,14 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 void
 Game::runGameFixedTimestep(int framesPerSecond)
 {
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT(QString("Running the game using fixed timestep at %1 frames per second").arg(framesPerSecond));
     // Bail out if we're not fed a level to work with!
     if(!d->currentScene)
+    {
+        DEBUG_TEXT(QString("There is no scene to run!"));
         return;
+    }
 
     int millisecondsPerUpdate = 1000 / framesPerSecond;
 
@@ -138,17 +144,33 @@ Game::gameProject() const
 void
 Game::setGameProject(GameProject * newGameProject)
 {
+    DEBUG_FUNC_NAME
     d->gameProject = newGameProject;
-    foreach(QObject * obj, newGameProject->children())
+    
+    if(!gameProject()->entryPoint())
     {
-        GameObject *gameObj = qobject_cast<GameObject*>(obj);
-        if(obj)
+        DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
+        foreach(QObject * obj, newGameProject->children())
         {
-            newGameProject->setEntryPoint(gameObj);
-            break;
+            GameObject *gameObj = qobject_cast<GameObject*>(obj);
+            if(obj)
+            {
+                newGameProject->setEntryPoint(gameObj);
+                DEBUG_TEXT(QString("Entry point salvaged by resetting to first game object in project"))
+                break;
+            }
         }
     }
 
+    if(newGameProject->entryPoint())
+    {
+        DEBUG_TEXT(QString("Setting the gameproject to %1 with the entry point %2").arg(newGameProject->name()).arg(newGameProject->entryPoint()->name()))
+    }
+    else
+    {
+        DEBUG_TEXT(QString("Somehow we have got here with no entrypoint... This is very, very wrong!"))
+    }
+    
     setCurrentScene(newGameProject->entryPoint());
     emit currentProjectChanged(newGameProject);
 }
