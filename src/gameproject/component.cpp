@@ -20,6 +20,7 @@
 #include "component.h"
 #include "componentprivate.h"
 #include "gameobject.h"
+#include "debughelper.h"
 
 #include <QtCore/QString>
 
@@ -40,6 +41,13 @@ Component::Component(const Component &other, QObject * parent)
 Component::~Component()
 {
 }
+
+void
+Component::update(int elapsedMilliseconds)
+{
+    Q_UNUSED(elapsedMilliseconds)
+}
+
 
 void
 Component::sanitize()

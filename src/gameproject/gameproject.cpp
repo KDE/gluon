@@ -29,6 +29,7 @@
 
 REGISTER_OBJECTTYPE(Gluon,GameProject)
 Q_DECLARE_METATYPE(Gluon::GameObject*);
+Q_DECLARE_METATYPE(Gluon::GluonObject*);
 
 using namespace Gluon;
 
@@ -229,7 +230,7 @@ GameObject *
 GameProject::entryPoint() const
 {
 //    return d->entryPoint;
-    return property("entryPoint").value<GameObject*>();
+    return qobject_cast<GameObject*>(property("entryPoint").value<GluonObject*>());
 }
 void
 GameProject::setEntryPoint(GameObject * newEntryPoint)

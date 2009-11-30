@@ -35,12 +35,14 @@ using namespace Gluon;
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
-GluonObject::GluonObject(QObject * parent) : QObject(parent)
+GluonObject::GluonObject(QObject * parent)
+    : QObject(parent)
 {
     d = new GluonObjectPrivate();
 }
 
-GluonObject::GluonObject(const QString& name, QObject* parent):QObject(parent)
+GluonObject::GluonObject(const QString& name, QObject* parent)
+    : QObject(parent)
 {
     d = new GluonObjectPrivate();
     d->name = name;
@@ -48,6 +50,13 @@ GluonObject::GluonObject(const QString& name, QObject* parent):QObject(parent)
 
 GluonObject::~GluonObject()
 {
+}
+
+void
+GluonObject::debug(QString debugText) const
+{
+    DEBUG_BLOCK
+    DEBUG_TEXT(debugText);
 }
 
 GluonObject *
@@ -139,10 +148,13 @@ GluonObject::sanitize()
                     GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
                     theReferencedObject.setValue<GluonObject*>(theObject);
                     setProperty(metaproperty.name(), theReferencedObject);
-                    DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3").arg(metaproperty.name()).arg(theReferencedName).arg(name));
                     if(!theObject)
                     {
                         DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
+                    }
+                    else
+                    {
+                        DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(metaproperty.name()).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
                     }
                     break;
                 }
@@ -182,10 +194,13 @@ GluonObject::sanitize()
                     GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
                     theReferencedObject.setValue<GluonObject*>(theObject);
                     setProperty(propName, theReferencedObject);
-                    DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3").arg(QString(propName)).arg(theReferencedName).arg(name));
                     if(!theObject)
                     {
                         DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
+                    }
+                    else
+                    {
+                        DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3 (classname %4)").arg(QString(propName)).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
                     }
                     break;
                 }

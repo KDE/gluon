@@ -83,7 +83,6 @@ void
 Game::runGameFixedTimestep(int framesPerSecond)
 {
     DEBUG_FUNC_NAME
-    DEBUG_TEXT(QString("Running the game using fixed timestep at %1 frames per second").arg(framesPerSecond));
     // Bail out if we're not fed a level to work with!
     if(!d->currentScene)
     {
@@ -92,6 +91,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
     }
 
     int millisecondsPerUpdate = 1000 / framesPerSecond;
+    DEBUG_TEXT(QString("Running the game using fixed timestep at %1 frames per second (meaning %2 milliseconds between each update)").arg(framesPerSecond).arg(millisecondsPerUpdate));
 
     int remainingSleep = 0;
     int nextTick = 0;
@@ -110,12 +110,13 @@ Game::runGameFixedTimestep(int framesPerSecond)
         remainingSleep = nextTick - this->getCurrentTick();
         if(remainingSleep > 0)
         {
+            DEBUG_TEXT(QString("Sleeping for %1 milliseconds").arg(remainingSleep))
             I::msleep(remainingSleep);
         }
         else
         {
             // Oh buggery, we're falling behind... can we fix this in a generic manner? Or do we just allow for falling behind...
-            qDebug() << tr("Gameloop has fallen behind by %1 milliseconds").arg(QString(remainingSleep));
+            DEBUG_TEXT(tr("Gameloop has fallen behind by %1 milliseconds").arg(remainingSleep))
         }
     }
 }

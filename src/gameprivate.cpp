@@ -24,14 +24,18 @@ using namespace Gluon;
 GamePrivate::GamePrivate()
     : gameRunning(false)
     , gamePaused(false)
+    , currentScene(NULL)
+    , gameProject(NULL)
 {
 }
 
 GamePrivate::GamePrivate(const GamePrivate &other)
     : QSharedData(other)
+    , time(other.time)
     , gameRunning(other.gameRunning)
     , gamePaused(other.gamePaused)
     , currentScene(other.currentScene)
+    , gameProject(other.gameProject)
 {
 }
 

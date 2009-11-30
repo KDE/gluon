@@ -46,6 +46,8 @@ namespace Gluon
             GluonObject(const QString& name, QObject *parent = 0);
             virtual ~GluonObject();
 
+            void debug(QString debugText) const;
+
             /**
              * This function returns a new instance of this GluonObject.
              * If you subclass GluonObject, make sure to implement this function!

@@ -6,20 +6,21 @@
 #define DEBUGHELPER_H
 
 #include <QtCore/QString>
+#include "gluon_export.h"
 
-#ifndef QT_NO_DEBUG
+//#ifndef QT_NO_DEBUG
 #    define DEBUG_FUNC_NAME DbgHelper dbgHelper(Q_FUNC_INFO);
 #    define DEBUG_BLOCK DbgHelper dbgHelper;
 #    define DEBUG_TEXT(X) dbgHelper.addText(X);
-#else
-#    define DEBUG_FUNC_NAME
-#    define DEBUG_BLOCK
-#    define DEBUG_TEXT(X)
-#endif
+//#else
+//#    define DEBUG_FUNC_NAME
+//#    define DEBUG_BLOCK
+//#    define DEBUG_TEXT(X)
+//#endif
 
 #define NO_COLOR 1
  
-class DbgHelper
+class GLUON_EXPORT DbgHelper
 {
     public:
         DbgHelper();

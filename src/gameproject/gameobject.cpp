@@ -20,6 +20,7 @@
 #include "gameobject.h"
 #include "gameobjectprivate.h"
 #include "component.h"
+#include "debughelper.h"
 
 REGISTER_OBJECTTYPE(Gluon,GameObject)
 
@@ -81,10 +82,13 @@ GameObject::start()
 void
 GameObject::update(int elapsedMilliseconds)
 {
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT(QString("Updating GameObject %2 with %1 components").arg(d->components.count()).arg(this->fullyQualifiedName()))
     foreach(Component * component, d->components)
         if(component->enabled())
             component->update(elapsedMilliseconds);
 
+    DEBUG_TEXT(QString("Updating %1 children").arg(d->children.count()))
     foreach(GameObject * child, d->children)
         child->update(elapsedMilliseconds);
 }
@@ -216,7 +220,8 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 void
 GameObject::addComponent(Component * addThis)
 {
-    d->components.append(addThis);
+    if(!d->components.contains(addThis))
+        d->components.append(addThis);
 }
 
 bool
@@ -257,8 +262,11 @@ void GameObject::addChild(GluonObject* child)
 void
 GameObject::addChild(GameObject * addThis)
 {
-    d->children.append(addThis);
-    addThis->d->parentGameObject = this;
+    if(!d->children.contains(addThis))
+    {
+        d->children.append(addThis);
+        addThis->d->parentGameObject = this;
+    }
 }
 
 bool

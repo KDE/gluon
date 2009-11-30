@@ -34,6 +34,12 @@ GameObjectPrivate::GameObjectPrivate()
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
     : QSharedData(other)
+    , description(other.description)
+    , position(other.position)
+    , scale(other.scale)
+    , rotationAxis(other.rotationAxis)
+    , rotation(other.rotation)
+    , parentGameObject(other.parentGameObject)
 {
 }
 

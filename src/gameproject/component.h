@@ -80,7 +80,7 @@ namespace Gluon
              * @param elapsedMilliseconds The amount of time in milliseconds which has passed since the last update
              * @see Game::runGame, draw
              */
-            virtual void update(int elapsedMilliseconds) { Q_UNUSED(elapsedMilliseconds) };
+            virtual void update(int elapsedMilliseconds);
             /**
              * The draw function is run every time the engine requests a redraw
              * of the screen. Avoid putting any game logic in this function.
