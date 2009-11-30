@@ -23,6 +23,7 @@
 #include "gluonobject.h"
 #include "gluonvarianttypes.h"
 #include "gluonobjectfactory.h"
+#include "gluon_export.h"
 
 #include <QtCore/QSharedData>
 
@@ -31,7 +32,7 @@ namespace Gluon
     class GameObjectPrivate;
     class Component;
 
-    class GameObject : public GluonObject
+    class GLUON_EXPORT GameObject : public GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
