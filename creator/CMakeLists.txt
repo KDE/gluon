@@ -15,6 +15,7 @@ add_subdirectory(plugins)
 set(gluoncreator_SRCS
     main.cpp
     mainwindow.cpp
+    gamethread.cpp
 
     dialogs/configdialog.cpp
 )

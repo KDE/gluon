@@ -26,6 +26,7 @@
 #include <KConfigDialog>
 #include <KLocalizedString>
 #include <KPluginSelector>
+#include <KRun>
 
 #include <game.h>
 #include <gameproject.h>
@@ -36,7 +37,7 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
-#include <KRun>
+#include "gamethread.h"
 
 using namespace Gluon::Creator;
 
@@ -55,6 +56,8 @@ MainWindow::MainWindow() : KXmlGuiWindow()
     PluginManager::instance()->setMainWindow(this);
     PluginManager::instance()->loadPlugins();
 
+    m_gameThread = new GameThread(this);
+
     setupActions();
 
     setupGUI();
@@ -62,7 +65,7 @@ MainWindow::MainWindow() : KXmlGuiWindow()
 
 MainWindow::~MainWindow()
 {
-
+    Gluon::Game::instance()->stopGame();
 }
 
 void MainWindow::newProject()
@@ -140,6 +143,21 @@ void MainWindow::setupActions()
     actionCollection()->addAction("newScene", newScene);
     connect(newScene, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
 
+    KAction* play = new KAction(KIcon("media-playback-start"), i18n("Play Game"), actionCollection());
+    actionCollection()->addAction("playGame", play);
+    connect(play, SIGNAL(triggered(bool)), SLOT(startGame()));
+
+    KAction* pause = new KAction(KIcon("media-playback-pause"), i18n("Pause Game"), actionCollection());
+    actionCollection()->addAction("pauseGame", pause);
+    pause->setCheckable(true);
+    pause->setEnabled(false);
+    connect(pause, SIGNAL(triggered(bool)), Gluon::Game::instance(), SLOT(setPause(bool)));
+
+    KAction* stop = new KAction(KIcon("media-playback-stop"), i18n("Stop Game"), actionCollection());
+    actionCollection()->addAction("stopGame", stop);
+    stop->setEnabled(false);
+    connect(stop, SIGNAL(triggered(bool)), SLOT(stopGame()));
+
     KStandardAction::open(this, SLOT(openProject()), actionCollection());
     KStandardAction::save(this, SLOT(saveProject()), actionCollection());
     KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
@@ -156,3 +174,21 @@ void Gluon::Creator::MainWindow::showPreferences()
     dialog->setAttribute( Qt::WA_DeleteOnClose );
     dialog->show();
 }
+
+void Gluon::Creator::MainWindow::startGame()
+{
+    actionCollection()->action("playGame")->setEnabled(false);
+    actionCollection()->action("pauseGame")->setEnabled(true);
+    actionCollection()->action("stopGame")->setEnabled(true);
+    m_gameThread->start();
+}
+
+void Gluon::Creator::MainWindow::stopGame()
+{
+    Game::instance()->stopGame();
+    actionCollection()->action("playGame")->setEnabled(true);
+    actionCollection()->action("pauseGame")->setEnabled(false);
+    actionCollection()->action("pauseGame")->setChecked(false);
+    actionCollection()->action("stopGame")->setEnabled(false);
+}
+
