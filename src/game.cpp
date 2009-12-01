@@ -23,6 +23,7 @@
 #include "gameproject/gameproject.h"
 #include "debughelper.h"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
@@ -64,6 +65,9 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 
     while(d->gameRunning)
     {
+        // Don't block everything...
+        QCoreApplication::processEvents();
+        
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
 
         loops = 0;
@@ -101,6 +105,9 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
     while(d->gameRunning)
     {
+        // Don't block everything...
+        QCoreApplication::processEvents();
+        
         // Update the current level
         if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
         // Do drawing
