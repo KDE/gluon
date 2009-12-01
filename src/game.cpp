@@ -51,11 +51,16 @@ Game::getCurrentTick()
 void
 Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 {
+    DEBUG_FUNC_NAME
     // Bail out if we're not fed a level to work with!
     if(!d->currentScene)
+    {
+        DEBUG_TEXT(QString("There is no scene to run!"));
         return;
+    }
 
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
+    DEBUG_TEXT(QString("Running the game using fixed update at %1 updates per second (meaning %2 milliseconds between each update, and drawing as often as possible, with a maximum of %3 frames skipped before forcing a draw)").arg(updatesPerSecond).arg(millisecondsPerUpdate).arg(maxFrameSkip));
 
     int nextTick = 0, loops = 0;
     int timeLapse = 0;
@@ -63,11 +68,13 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 
     d->gameRunning = true;
 
+    // First allow everybody to initialize themselves properly
+    d->currentScene->start();
     while(d->gameRunning)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
-        
+
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
 
         loops = 0;
@@ -95,7 +102,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
     }
 
     int millisecondsPerUpdate = 1000 / framesPerSecond;
-    DEBUG_TEXT(QString("Running the game using fixed timestep at %1 frames per second (meaning %2 milliseconds between each update)").arg(framesPerSecond).arg(millisecondsPerUpdate));
+    DEBUG_TEXT(QString("Running the game using fixed timestep at %1 frames per second (meaning %2 milliseconds between each update and draw)").arg(framesPerSecond).arg(millisecondsPerUpdate));
 
     int remainingSleep = 0;
     int nextTick = 0;
@@ -103,11 +110,13 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
     d->gameRunning = true;
 
+    // First allow everybody to initialize themselves properly
+    d->currentScene->start();
     while(d->gameRunning)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
-        
+
         // Update the current level
         if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
         // Do drawing
@@ -130,11 +139,20 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
 void Game::stopGame()
 {
+    DEBUG_BLOCK
+    DEBUG_TEXT(QString("Stopping gameloop"))
+    
     d->gameRunning = false;
 }
 
 void Game::setPause(bool pause)
 {
+    DEBUG_BLOCK
+    if(pause)
+    { DEBUG_TEXT(QString("Pausing gameloop")) }
+    else
+    { DEBUG_TEXT(QString("Un-pausing gameloop")) }
+    
     d->gamePaused = pause;
 }
 
