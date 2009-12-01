@@ -58,10 +58,6 @@ void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
     project->setParent(d->root);
 
     emit layoutChanged();
-
-    /*project->addChild(new Gluon::GluonObject(i18n("Scenes")));
-    project->addChild(new Gluon::GluonObject(i18n("Assets")));
-    project->addChild(new Gluon::GluonObject(i18n("Prefabs")));*/
 }
 
 QVariant ProjectModel::data(const QModelIndex& index, int role) const

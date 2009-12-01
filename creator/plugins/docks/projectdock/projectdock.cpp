@@ -19,8 +19,10 @@
 #include <QtGui/QTreeView>
 
 #include <gluon/game.h>
+#include <gluon/gameobject.h>
 
 #include <models/projectmodel.h>
+#include <KDebug>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -36,29 +38,30 @@ class ProjectDock::ProjectDockPrivate
 
 Gluon::Creator::ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
-  setObjectName("ProjectDock");
-  
-  d = new ProjectDockPrivate;
+    setObjectName("ProjectDock");
+    
+    d = new ProjectDockPrivate;
 
-  d->model = new ProjectModel(this);
-  d->view = new QTreeView(this);
-  d->view->setModel(d->model);
+    d->model = new ProjectModel(this);
+    d->view = new QTreeView(this);
+    d->view->setModel(d->model);
 
-  d->model->setProject(Game::instance()->gameProject());
-  connect(Game::instance(), SIGNAL(currentProjectChanged(GameProject*)), d->model, SLOT(setProject(GameProject*)));
+    d->model->setProject(Game::instance()->gameProject());
+    connect(Game::instance(), SIGNAL(currentProjectChanged(GameProject*)), d->model, SLOT(setProject(GameProject*)));
+    connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
-  setWidget(d->view);
+    setWidget(d->view);
 }
 
 Gluon::Creator::ProjectDock::~ProjectDock()
 {
-  delete d;
+    delete d;
 }
 
 QAbstractItemModel* Gluon::Creator::ProjectDock::model()
 {
-  //return d->model;
-  return 0;
+    //return d->model;
+    return 0;
 }
 
 QAbstractItemView* Gluon::Creator::ProjectDock::view()
@@ -69,4 +72,13 @@ QAbstractItemView* Gluon::Creator::ProjectDock::view()
 void Gluon::Creator::ProjectDock::setSelection(GluonObject* obj)
 {
     Q_UNUSED(obj)
+}
+
+void Gluon::Creator::ProjectDock::activated(QModelIndex index)
+{
+    QObject* obj = static_cast<QObject*>(index.internalPointer());
+    Gluon::GameObject* scene = qobject_cast<Gluon::GameObject*>(obj);
+    if(scene && Game::instance()->currentScene() != scene) {
+        Game::instance()->setCurrentScene(scene);
+    }
 }
