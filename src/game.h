@@ -54,11 +54,15 @@ namespace Gluon
         Q_PROPERTY(GameProject* gameProject READ gameProject WRITE setGameProject)
         
         public:
+            int getCurrentTick();
             GameObject * currentScene() const;
-            void setCurrentScene(GameObject * newCurrentScene);
             
             GameProject * gameProject() const;
+
+        public slots:
             void setGameProject(GameProject * newGameProject);
+            
+            void setCurrentScene(GameObject * newCurrentScene);
             
             void runGame() { this->runGameFixedUpdate(); }
             /**
@@ -73,9 +77,11 @@ namespace Gluon
              * @param   int framesPerSecond The number of frames per second that the game will attempt to keep up with
              */
             void runGameFixedTimestep(int framesPerSecond = 25);
-            
-            int getCurrentTick();
 
+            void stopGame();
+            
+            void setPause(bool pause);
+            
         signals:
             void currentSceneChanged(GameObject*);
             void currentProjectChanged(GameProject*);

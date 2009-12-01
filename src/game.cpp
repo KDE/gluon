@@ -69,7 +69,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         loops = 0;
         while(getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
-            d->currentScene->update(millisecondsPerUpdate);
+            if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
             nextTick += millisecondsPerUpdate;
             loops++;
         }
@@ -102,7 +102,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
     while(d->gameRunning)
     {
         // Update the current level
-        d->currentScene->update(millisecondsPerUpdate);
+        if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
         // Do drawing
         d->currentScene->draw();
 
@@ -119,6 +119,16 @@ Game::runGameFixedTimestep(int framesPerSecond)
             DEBUG_TEXT(tr("Gameloop has fallen behind by %1 milliseconds").arg(remainingSleep))
         }
     }
+}
+
+void Game::stopGame()
+{
+    d->gameRunning = false;
+}
+
+void Game::setPause(bool pause)
+{
+    d->gamePaused = pause;
 }
 
 /******************************************************************************
