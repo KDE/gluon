@@ -23,6 +23,8 @@
 #include <QtGui/QWidget>
 #include <QtCore/QVariant>
 
+#include "gluoncreatorlib_macros.h"
+
 namespace Gluon
 {
     namespace Creator
@@ -32,33 +34,33 @@ namespace Gluon
          * of a property, and provide functionality for editing this property's value,
          * at the same time updating it in the object containing the project
          */
-        class PropertyWidgetItem : public QWidget
+        class GLUONCREATORLIB_EXPORT PropertyWidgetItem : public QWidget
         {
             Q_OBJECT;
-            
+
             public:
                 PropertyWidgetItem(QObject * parent = 0, Qt::WindowFlags f = 0);
                 ~PropertyWidgetItem();
-                
+
                 void setEditObject(QObject * editThis);
                 void setEditProperty(QString propertyName);
-                
+
             private Q_SLOTS:
                 void propertyChanged(QVariant value);
                 void propertyChanged(int value);
                 void propertyChanged(double value);
                 void propertyChanged(QString value);
-                
+
             private:
                 void setupPropertyWidget();
-                
+
                 QObject * editedObject;
                 QString propertyName;
-                
+
                 QWidget *createLineEdit (QVariant value);
                 QWidget *createSpinBox (QVariant value);
                 QWidget *createDoubleSpinBox (QVariant value);
-                
+
                 QWidget * editWidget;
         };
     }
