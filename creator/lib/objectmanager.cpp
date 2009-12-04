@@ -20,6 +20,7 @@
 #include <KLocalizedString>
 #include <game.h>
 #include <gameproject.h>
+#include "selectionmanager.h"
 
 using namespace Gluon::Creator;
 
@@ -29,7 +30,19 @@ Gluon::GameObject* Gluon::Creator::ObjectManager::createNewObject()
 {
     Gluon::GameObject *newObj = new Gluon::GameObject();
     newObj->setName(i18n("New Object %1").arg(m_objectId++));
-    Gluon::Game::instance()->currentScene()->addChild(newObj);
+
+    SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
+    if(selection.size() > 0)
+    {
+        GameObject* obj = qobject_cast<GameObject*>(selection.at(0));
+        if(obj) obj->addChild(newObj);
+    }
+
+    if(newObj->parentGameObject() == 0)
+    {
+        Gluon::Game::instance()->currentScene()->addChild(newObj);
+    }
+
     emit newObject(newObj);
     return newObj;
 }
