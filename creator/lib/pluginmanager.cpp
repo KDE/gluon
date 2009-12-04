@@ -4,6 +4,8 @@
 #include <KDebug>
 #include <KServiceTypeTrader>
 
+#include <debughelper.h>
+
 using namespace Gluon::Creator;
 
 template<> GLUONCREATORLIB_EXPORT PluginManager* KSingleton<PluginManager>::m_instance = 0;
@@ -20,6 +22,7 @@ void Gluon::Creator::PluginManager::setMainWindow(KXmlGuiWindow* window)
 
 void PluginManager::loadPlugins()
 {
+    DEBUG_FUNC_NAME
     KConfigGroup group = KGlobal::config()->group("Plugins");
     KService::List offers = KServiceTypeTrader::self()->query("GluonCreator/Plugin");
 
@@ -38,18 +41,18 @@ void PluginManager::loadPlugins()
 
             if (!factory)
             {
-                kError(5001) << "KPluginFactory could not load the plugin:" << service->library();
+                DEBUG_TEXT(QString("KPluginFactory could not load the plugin: %1").arg(service->library()));
                 continue;
             }
 
             Plugin *plugin = factory->create<Plugin>(this);
 
             if (plugin) {
-                kDebug(3344) << "Load plugin:" << service->name();
+                DEBUG_TEXT(QString("Load plugin: %1").arg(service->name()));
                 plugin->load(m_mainWindow);
                 m_loadedPlugins.insert(serviceName, plugin);
             } else {
-                kDebug() << error;
+                DEBUG_TEXT(error);
             }
         }
         else if(!loadPlugin && m_loadedPlugins.contains(serviceName))

@@ -14,41 +14,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
-#define GLUON_CREATOR_DOCKPLUGINLOADER_H
+#ifndef GLUON_CREATOR_PROPERTIESDOCKPLUGIN_H
+#define GLUON_CREATOR_PROPERTIESDOCKPLUGIN_H
 
-#include "gluoncreatorlib_macros.h"
+#include <dockplugin.h>
 
-#include <QtCore/QObject>
-#include <common/ksingleton.h>
+namespace Gluon {
 
-namespace Gluon
+namespace Creator {
+
+class PropertiesDockPlugin : public Gluon::Creator::DockPlugin
 {
+    Q_OBJECT
+    public:
+        PropertiesDockPlugin(QObject* parent, const QList< QVariant >& params);
+        ~PropertiesDockPlugin();
 
-  namespace Creator
-  {
-
-    class Plugin;
-
-    class GLUONCREATORLIB_EXPORT PluginLoader : public KSingleton<PluginLoader>
-    {
-        friend class KSingleton<PluginLoader>;
-
-        Q_OBJECT
-        public:
-            void loadAllPlugins();
-
-        signals:
-            void pluginLoaded(Plugin * plugin);
-
-        private:
-            PluginLoader() { }
-            ~PluginLoader() { }
-            Q_DISABLE_COPY(PluginLoader)
-    };
-
-  }
+    protected:
+        Dock* createDock(KXmlGuiWindow* parent);
+};
 
 }
 
-#endif // GLUON_CREATOR_DOCKPLUGINLOADER_H
+}
+
+#endif // GLUON_CREATOR_PROPERTIESDOCKPLUGIN_H

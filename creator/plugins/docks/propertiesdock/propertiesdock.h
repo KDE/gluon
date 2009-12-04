@@ -14,38 +14,38 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_SCENEDOCK_H
-#define GLUON_CREATOR_SCENEDOCK_H
-
-#include <QModelIndex>
+#ifndef GLUON_CREATOR_PROPERTIESDOCK_H
+#define GLUON_CREATOR_PROPERTIESDOCK_H
 
 #include <widgets/dock.h>
+
+#include <selectionmanager.h>
 
 namespace Gluon {
 
 namespace Creator {
 
-    class SceneDock : public Gluon::Creator::Dock
-    {
-        Q_OBJECT
-        public:
-            SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-            ~SceneDock();
+class PropertiesDock : public Gluon::Creator::Dock
+{
+    Q_OBJECT
+    public:
+        PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+        ~PropertiesDock();
 
-            virtual QAbstractItemView* view();
-            virtual QAbstractItemModel* model();
+        QAbstractItemView* view();
+        QAbstractItemModel* model();
 
-        public slots:
-            virtual void setSelection(Gluon::GluonObject* obj = 0);
-            void selectionChanged(QModelIndex);
+    public slots:
+        void setSelection(Gluon::GluonObject* obj = 0);
+        void selectionChanged(SelectionManager::SelectionList selection);
 
-        private:
-            class SceneDockPrivate;
-            SceneDockPrivate* d;
-    };
-
-}
+    private:
+        class PropertiesDockPrivate;
+        PropertiesDockPrivate *d;
+};
 
 }
 
-#endif // GLUON_CREATOR_SCENEDOCK_H
+}
+
+#endif // GLUON_CREATOR_PROPERTIESDOCK_H

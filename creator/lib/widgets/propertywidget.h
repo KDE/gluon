@@ -24,31 +24,32 @@
 #include <QGridLayout>
 #include <QScrollArea>
 
+#include "gluoncreatorlib_macros.h"
 
 namespace Gluon
 {
     class GluonObject;
     class Component;
-    
+
     namespace Creator
     {
-        class PropertyWidget : public QScrollArea
+        class GLUONCREATORLIB_EXPORT PropertyWidget : public QScrollArea
         {
             Q_OBJECT;
-            
+
             public:
                 PropertyWidget(QObject * parent = 0);
                 ~PropertyWidget();
-                
+
                 GluonObject * object() const;
                 void setObject(GluonObject * theObject);
                 void clear();
-                
+
             private:
                 GluonObject * m_object;
-                
+
                 QWidget * createSubobjectPropertyView();
-                
+
                 void setupPropertyView();
                 void appendToPropertyView(QGridLayout *layout, qint32 & row, QObject * name, QString description, QString value, QVariant options);
                 void appendToPropertyView(QGridLayout *layout, qint32 & row, QObject * name, QString description, QString value);

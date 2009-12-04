@@ -22,7 +22,7 @@ message("-- Found KGL includes: " ${KGL_INCLUDES})
 message("-- Found KGL library: " ${KGL_LIBRARY})
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR} 
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${KGL_INCLUDE_DIR}/gluon/kgl
     ${KGL_INCLUDE_DIR}/gluon
     ${KGL_INCLUDE_DIR}
@@ -60,7 +60,7 @@ set(gluon_LIB_SRCS
 
     assets/soundasset/soundasset.cpp
     assets/textureasset/textureasset.cpp
-    
+
     debughelper.cpp
    )
 
@@ -109,10 +109,11 @@ install(FILES
     gdlhandler.h
     game.h
     gluonvarianttypes.h
+    debughelper.h
 
     components/spriterendercomponent/spriterendercomponent.h
 
-    assets/textureasset/textureasset.h 
+    assets/textureasset/textureasset.h
 
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
 
