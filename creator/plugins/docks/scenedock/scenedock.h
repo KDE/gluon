@@ -17,6 +17,8 @@
 #ifndef GLUON_CREATOR_SCENEDOCK_H
 #define GLUON_CREATOR_SCENEDOCK_H
 
+#include <QModelIndex>
+
 #include <widgets/dock.h>
 
 namespace Gluon {
@@ -25,6 +27,7 @@ namespace Creator {
 
     class SceneDock : public Gluon::Creator::Dock
     {
+        Q_OBJECT
         public:
             SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~SceneDock();
@@ -34,6 +37,7 @@ namespace Creator {
 
         public slots:
             virtual void setSelection(Gluon::GluonObject* obj = 0);
+            void selectionChanged(QModelIndex);
 
         private:
             class SceneDockPrivate;

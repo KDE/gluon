@@ -20,6 +20,7 @@
 
 #include <models/scenemodel.h>
 #include <game.h>
+#include <selectionmanager.h>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -48,6 +49,7 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d->view->setAcceptDrops(true);
     d->view->setDropIndicatorShown(true);
     d->view->setDragDropMode(QAbstractItemView::InternalMove);
+    connect(d->view, SIGNAL(activated(QModelIndex)), SLOT(selectionChanged(QModelIndex)));
 
     setWidget(d->view);
 }
@@ -72,3 +74,13 @@ QAbstractItemModel* SceneDock::model()
     return d->model;
 }
 
+void SceneDock::selectionChanged(QModelIndex index)
+{
+    GluonObject* obj = static_cast<GluonObject*>(index.internalPointer());
+    if(obj)
+    {
+        SelectionManager::SelectionList selection;
+        selection.append(obj);
+        SelectionManager::instance()->setSelection(selection);
+    }
+}
