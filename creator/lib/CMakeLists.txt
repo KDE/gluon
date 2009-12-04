@@ -3,6 +3,7 @@ set(gluoncreatorlib_SRCS
     dockplugin.cpp
     pluginmanager.cpp
     objectmanager.cpp
+    selectionmanager.cpp
 
     models/projectmodel.cpp
     models/scenemodel.cpp
@@ -28,6 +29,7 @@ install(FILES
         plugin.h
         dockplugin.h
         pluginmanager.h
+        selectionmanager.h
         gluoncreatorlib_macros.h
         DESTINATION ${INCLUDE_INSTALL_DIR}
 )
