@@ -16,9 +16,12 @@ Boston, MA 02110-1301, USA.
 
 #include "scenemodel.h"
 #include <gluon/gameobject.h>
-#include <QDebug>
 #include <typeinfo>
 #include <objectmanager.h>
+
+#include <debughelper.h>
+#include <qmimedata.h>
+#include <KLocalizedString>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -131,6 +134,58 @@ int SceneModel::rowIndex(GameObject* object) const
     }
     return 0;
 }
+
+
+Qt::DropActions SceneModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
+
+Qt::ItemFlags SceneModel::flags(const QModelIndex& index) const
+{
+    if (index.isValid())
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    else
+        return Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+}
+
+bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
+{
+    DEBUG_FUNC_NAME
+
+    DEBUG_TEXT(data->data("application/x-qabstractitemmodeldatalist"));
+    return true;
+}
+
+bool SceneModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (index.isValid() && role == Qt::EditRole) {
+        static_cast<GluonObject*>(index.internalPointer())->setName(value.toString());
+        emit dataChanged(index, index);
+        return true;
+    }
+    return false;
+}
+
+bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
+{
+    beginInsertRows(parent, row, row + count - 1);
+
+    GameObject* obj = static_cast<GameObject*>(parent.internalPointer());
+    for (int i = 0; i < count; ++i) {
+        obj->addChild(new GameObject());
+    }
+
+    endInsertRows();
+    return true;
+}
+
+bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
+{
+
+}
+
+
 
 #include "scenemodel.moc"
 

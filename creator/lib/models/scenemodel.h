@@ -41,6 +41,13 @@ namespace Gluon
                 virtual QModelIndex parent(const QModelIndex& child) const;
                 virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
                 virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+                virtual Qt::DropActions supportedDropActions() const;
+                virtual Qt::ItemFlags flags(const QModelIndex& index) const;
+                virtual bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
+                virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+
+                virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
+                virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
             public slots:
                 void setRootGameObject(GameObject* obj);

@@ -20,6 +20,7 @@
 
 #include <models/scenemodel.h>
 #include <game.h>
+#include <gameobject.h>
 #include <selectionmanager.h>
 
 using namespace Gluon;
@@ -41,14 +42,15 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d = new SceneDockPrivate;
     d->model = new SceneModel;
     d->model->setRootGameObject(Game::instance()->currentScene());
-    connect(Game::instance(), SIGNAL(currentSceneChanged(GameObject*)), d->model, SLOT(setRootGameObject(GameObject*)));
+    connect(Game::instance(), SIGNAL(currentSceneChanged(GameObject*)), SLOT(sceneChanged(GameObject*)));
 
     d->view = new QTreeView;
     d->view->setModel(d->model);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(true);
     d->view->setDropIndicatorShown(true);
-    d->view->setDragDropMode(QAbstractItemView::InternalMove);
+    d->view->setDragDropMode(QAbstractItemView::DragDrop);
+    d->view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     connect(d->view, SIGNAL(activated(QModelIndex)), SLOT(selectionChanged(QModelIndex)));
 
     setWidget(d->view);
@@ -83,4 +85,12 @@ void SceneDock::selectionChanged(QModelIndex index)
         selection.append(obj);
         SelectionManager::instance()->setSelection(selection);
     }
+}
+
+void Gluon::Creator::SceneDock::sceneChanged(GameObject* obj)
+{
+    d->model->setRootGameObject(obj);
+    SelectionManager::SelectionList selection;
+    selection.append(obj);
+    SelectionManager::instance()->setSelection(selection);
 }
