@@ -37,7 +37,6 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
-#include "gamethread.h"
 
 using namespace Gluon::Creator;
 
@@ -55,8 +54,6 @@ MainWindow::MainWindow() : KXmlGuiWindow()
 
     PluginManager::instance()->setMainWindow(this);
     PluginManager::instance()->loadPlugins();
-
-    m_gameThread = new GameThread(this);
 
     setupActions();
 
@@ -180,7 +177,7 @@ void Gluon::Creator::MainWindow::startGame()
     actionCollection()->action("playGame")->setEnabled(false);
     actionCollection()->action("pauseGame")->setEnabled(true);
     actionCollection()->action("stopGame")->setEnabled(true);
-    m_gameThread->start();
+    Game::instance()->runGame();
 }
 
 void Gluon::Creator::MainWindow::stopGame()
