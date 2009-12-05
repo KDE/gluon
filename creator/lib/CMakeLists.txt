@@ -10,7 +10,12 @@ set(gluoncreatorlib_SRCS
 
     widgets/dock.cpp
     widgets/propertywidget.cpp
-    widgets/propertywidgetitem.cpp
+
+    widgets/propertywidgetitems/propertywidgetitem.cpp
+    widgets/propertywidgetitems/propertywidgetitemfactory.cpp
+    widgets/propertywidgetitems/textpropertywidgetitem.cpp
+    widgets/propertywidgetitems/nullpropertywidgetitem.cpp
+    widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
 )
 
 #qt4_automoc(${gluoncreatorlib_SRCS})
@@ -42,6 +47,7 @@ install(FILES
 
 install(FILES
         widgets/dock.h
+        widgets/propertywidget.h
         DESTINATION ${INCLUDE_INSTALL_DIR}/widgets
 )
 

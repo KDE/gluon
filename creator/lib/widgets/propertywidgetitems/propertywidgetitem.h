@@ -20,8 +20,8 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
-#include <QtGui/QWidget>
 #include <QtCore/QVariant>
+#include <QtGui/QWidget>
 
 #include "gluoncreatorlib_macros.h"
 
@@ -36,32 +36,23 @@ namespace Gluon
          */
         class GLUONCREATORLIB_EXPORT PropertyWidgetItem : public QWidget
         {
-            Q_OBJECT;
-
+            Q_OBJECT
             public:
-                PropertyWidgetItem(QObject * parent = 0, Qt::WindowFlags f = 0);
-                ~PropertyWidgetItem();
+                PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+                virtual ~PropertyWidgetItem();
 
-                void setEditObject(QObject * editThis);
-                void setEditProperty(QString propertyName);
+                QWidget* editWidget();
 
-            private Q_SLOTS:
-                void propertyChanged(QVariant value);
-                void propertyChanged(int value);
-                void propertyChanged(double value);
-                void propertyChanged(QString value);
+            public slots:
+                virtual void setEditObject(QObject * editThis);
+                virtual void setEditProperty(const QString& propertyName);
+                virtual void setEditWidget(QWidget *widget);
+                virtual void setEditValue(const QVariant& value);
+                virtual void valueChanged(QVariant);
 
             private:
-                void setupPropertyWidget();
-
-                QObject * editedObject;
-                QString propertyName;
-
-                QWidget *createLineEdit (QVariant value);
-                QWidget *createSpinBox (QVariant value);
-                QWidget *createDoubleSpinBox (QVariant value);
-
-                QWidget * editWidget;
+                class PropertyWidgetItemPrivate;
+                PropertyWidgetItemPrivate *d;
         };
     }
 }

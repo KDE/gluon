@@ -38,24 +38,20 @@ namespace Gluon
             Q_OBJECT;
 
             public:
-                PropertyWidget(QObject * parent = 0);
+                PropertyWidget(QWidget* parent = 0);
                 ~PropertyWidget();
 
                 GluonObject * object() const;
-                void setObject(GluonObject * theObject);
                 void clear();
 
+                void setObject(Gluon::GluonObject* object);
+                void appendObject(Gluon::GluonObject* obj, bool useColor = false);
+
             private:
-                GluonObject * m_object;
+                class PropertyWidgetPrivate;
+                PropertyWidgetPrivate *d;
 
-                QWidget * createSubobjectPropertyView();
-
-                void setupPropertyView();
-                void appendToPropertyView(QGridLayout *layout, qint32 & row, QObject * name, QString description, QString value, QVariant options);
-                void appendToPropertyView(QGridLayout *layout, qint32 & row, QObject * name, QString description, QString value);
-                void appendObjectToPropertyView (QGridLayout * layout, qint32 &row, GluonObject * node);
-                void appendSubobjectToPropertyView (QGridLayout *layout, qint32 &row, GluonObject * node);
-                void appendMetaObjectToPropertyView (QGridLayout * layout, qint32 &row, QObject * object);
+                void appendMetaObject(QObject* object, QGridLayout* layout);
         };
     }
 }
