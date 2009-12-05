@@ -35,7 +35,6 @@ Gluon::Creator::PropertiesDockPlugin::~PropertiesDockPlugin()
 
 Gluon::Creator::Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    DEBUG_FUNC_NAME
     return new PropertiesDock(i18n("Properties"), parent);
 }
 
