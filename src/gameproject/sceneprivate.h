@@ -20,10 +20,25 @@
 #ifndef GLUON_SCENEPRIVATE_H
 #define GLUON_SCENEPRIVATE_H
 
+#include <QList>
+class QUrl;
+
 namespace Gluon
 {
+    class Scene;
+    class GluonObject;
     class ScenePrivate
     {
+        public:
+            ScenePrivate(Scene* q);
+            ~ScenePrivate();
+            
+            void loadContents(const QUrl& file);
+            void unloadContents();
+            void saveContents(const QUrl& file);
+            
+            QList<GluonObject*> sceneContents;
+            Scene* q;
     };
 }
 

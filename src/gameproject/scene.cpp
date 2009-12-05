@@ -19,20 +19,33 @@
 
 #include "scene.h"
 #include "gameobject.h"
+#include "sceneprivate.h"
 
 using namespace Gluon;
 
 Scene::Scene(QObject * parent)
 {
+    d = new ScenePrivate(this);
 }
 
 Scene::~Scene()
 {
+    delete(d);
 }
 
-QList<GameObject *>
+void
+Scene::setFile(const QUrl &newFile)
+{
+    d->unloadContents();
+    Gluon::Asset::setFile(newFile);
+}
+
+QList<GluonObject *>
 Scene::sceneContents()
 {
+    if(d->sceneContents.empty())
+        d->loadContents(file());
+    return d->sceneContents;
 }
 
 #include "scene.moc"

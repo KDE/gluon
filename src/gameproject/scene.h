@@ -24,7 +24,7 @@
 
 namespace Gluon
 {
-    class GameObject;
+    class ScenePrivate;
     
     class Scene : public Gluon::Asset
     {
@@ -36,7 +36,10 @@ namespace Gluon
             
             virtual void setFile(const QUrl &newFile);
             
-            QList<GameObject *> sceneContents();
+            QList<GluonObject *> sceneContents();
+        
+        private:
+            ScenePrivate* d;
     };
 }
 
