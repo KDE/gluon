@@ -22,11 +22,13 @@
 
 #include <QtCore/QUrl>
 
+#include "gluon_export.h"
+
 namespace Gluon
 {
     class GameProject;
     class FileLocationPrivate;
-    class FileLocation
+    class GLUON_EXPORT FileLocation
     {
         public:
             FileLocation(GameProject* parent, const QUrl& relativeUrl);

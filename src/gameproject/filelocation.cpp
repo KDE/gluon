@@ -46,5 +46,10 @@ QUrl
 FileLocation::location() const
 {
     #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+    
+    // Don't attempt to use the gameProject if it doesn't exist yet - fall back
+    if(!d->gameProject)
+        return d->url;
+    
     return QUrl(QFileInfo(d->gameProject->filename().toLocalFile()).canonicalPath() + d->url.toString());
 }

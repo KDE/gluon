@@ -22,7 +22,9 @@
 #include "gdlhandler.h"
 #include "debughelper.h"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QMetaClassInfo>
@@ -91,7 +93,14 @@ bool
 GameProject::loadFromFile()
 {
     DEBUG_FUNC_NAME
-    QFile *projectFile = new QFile(filename().toLocalFile());
+    
+    // change directory to the project path..
+    DEBUG_TEXT(QString("Changing working directory to %1").arg(QFileInfo(filename().toLocalFile()).canonicalPath()));
+    QDir::setCurrent(QFileInfo(filename().toLocalFile()).canonicalPath());
+    setFilename(filename().toLocalFile());
+
+    DEBUG_TEXT(QString("Loading project from %1").arg(QFileInfo(filename().toLocalFile()).fileName()));
+    QFile *projectFile = new QFile(QFileInfo(filename().toLocalFile()).fileName());
     if(!projectFile->open(QIODevice::ReadOnly))
         return false;
     
