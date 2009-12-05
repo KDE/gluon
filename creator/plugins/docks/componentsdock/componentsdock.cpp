@@ -38,6 +38,8 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 
     d = new ComponentsDockPrivate();
     d->view = new QListWidget(this);
+    d->view->setDragEnabled(true);
+    d->view->setDragDropMode(QAbstractItemView::DragOnly);
 
     QHash<QString, Gluon::GluonObject*> objectTypes = Gluon::GluonObjectFactory::instance()->objectTypes();
     foreach(Gluon::GluonObject* obj, objectTypes)

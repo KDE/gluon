@@ -14,23 +14,21 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "gamethread.h"
-#include <game.h>
+#include "propertywidgetitemfactory.h"
+
+#include "textpropertywidgetitem.h"
+#include "vectorpropertywidgetitem.h"
+#include "nullpropertywidgetitem.h"
 
 using namespace Gluon::Creator;
 
-Gluon::Creator::GameThread::GameThread(QObject* parent): QThread(parent)
+template<> PropertyWidgetItemFactory* KSingleton<PropertyWidgetItemFactory>::m_instance = 0;
+
+PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
+    if(type == "QString") return new TextPropertyWidgetItem(parent);
+    if(type == "Eigen::Vector3f") return new VectorPropertyWidgetItem(parent);
 
-}
-
-Gluon::Creator::GameThread::~GameThread()
-{
-
-}
-
-void GameThread::run()
-{
-    Gluon::Game::instance()->runGame();
+    return new NullPropertyWidgetItem(parent);
 }
 

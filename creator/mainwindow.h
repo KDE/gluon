@@ -24,7 +24,6 @@ namespace Gluon
     namespace Creator
     {
         class Plugin;
-        class GameThread;
 
         class MainWindow : public KXmlGuiWindow
         {
@@ -44,14 +43,13 @@ namespace Gluon
 
                 void startGame();
                 void stopGame();
-                
+
             private:
                 void setupActions();
                 void setupDocks();
                 void setupGame();
 
                 QString m_fileName;
-                GameThread* m_gameThread;
         };
     }
 }

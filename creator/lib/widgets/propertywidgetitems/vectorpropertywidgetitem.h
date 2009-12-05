@@ -14,40 +14,35 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_SCENEDOCK_H
-#define GLUON_CREATOR_SCENEDOCK_H
+#ifndef GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 
-#include <QModelIndex>
-
-#include <widgets/dock.h>
+#include "propertywidgetitem.h"
 
 namespace Gluon {
-    class GameObject;
 
 namespace Creator {
 
-    class SceneDock : public Gluon::Creator::Dock
-    {
-        Q_OBJECT
-        public:
-            SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-            ~SceneDock();
+class VectorPropertyWidgetItem : public Gluon::Creator::PropertyWidgetItem
+{
+    Q_OBJECT
+    public:
+        VectorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+        ~VectorPropertyWidgetItem();
 
-            virtual QAbstractItemView* view();
-            virtual QAbstractItemModel* model();
+    public slots:
+        void setEditValue(const QVariant& value);
+        void xValueChanged(double value);
+        void yValueChanged(double value);
+        void zValueChanged(double value);
 
-        public slots:
-            virtual void setSelection(Gluon::GluonObject* obj = 0);
-            void selectionChanged(QModelIndex);
-            void sceneChanged(GameObject*);
-
-        private:
-            class SceneDockPrivate;
-            SceneDockPrivate* d;
-    };
+    private:
+        class VectorPropertyWidgetItemPrivate;
+        VectorPropertyWidgetItemPrivate* d;
+};
 
 }
 
 }
 
-#endif // GLUON_CREATOR_SCENEDOCK_H
+#endif // GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H

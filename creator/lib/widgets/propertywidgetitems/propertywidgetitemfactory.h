@@ -14,40 +14,33 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_SCENEDOCK_H
-#define GLUON_CREATOR_SCENEDOCK_H
+#ifndef GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
+#define GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 
-#include <QModelIndex>
+#include <common/ksingleton.h>
 
-#include <widgets/dock.h>
 
 namespace Gluon {
-    class GameObject;
 
 namespace Creator {
 
-    class SceneDock : public Gluon::Creator::Dock
-    {
-        Q_OBJECT
-        public:
-            SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-            ~SceneDock();
+class PropertyWidgetItem;
 
-            virtual QAbstractItemView* view();
-            virtual QAbstractItemModel* model();
+class PropertyWidgetItemFactory : public KSingleton<PropertyWidgetItemFactory>
+{
+    public:
+        PropertyWidgetItem* create(const QString& type, QWidget* parent);
 
-        public slots:
-            virtual void setSelection(Gluon::GluonObject* obj = 0);
-            void selectionChanged(QModelIndex);
-            void sceneChanged(GameObject*);
+    private:
+        friend class KSingleton<PropertyWidgetItemFactory>;
 
-        private:
-            class SceneDockPrivate;
-            SceneDockPrivate* d;
-    };
+        PropertyWidgetItemFactory() { }
+        ~PropertyWidgetItemFactory() { }
+        Q_DISABLE_COPY(PropertyWidgetItemFactory)
+};
 
 }
 
 }
 
-#endif // GLUON_CREATOR_SCENEDOCK_H
+#endif // GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H

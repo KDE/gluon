@@ -14,29 +14,27 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_GAMETHREAD_H
-#define GLUON_CREATOR_GAMETHREAD_H
+#include "nullpropertywidgetitem.h"
 
-#include <QtCore/QThread>
+#include <QLabel>
+#include <KLocalizedString>
+
+using namespace Gluon::Creator;
 
 
-namespace Gluon {
-
-namespace Creator {
-
-class GameThread : public QThread
+Gluon::Creator::NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
-    Q_OBJECT
-    public:
-        GameThread(QObject* parent = 0);
-        ~GameThread();
+    setEditWidget(new QLabel(i18n("Unknown Type")));
+}
 
-    protected:
-        virtual void run();
-};
+Gluon::Creator::NullPropertyWidgetItem::~NullPropertyWidgetItem()
+{
 
 }
 
+void Gluon::Creator::NullPropertyWidgetItem::setEditValue(const QVariant& value)
+{
+    editWidget()->setProperty("text", QString("Unknown Type: %1").arg(value.toString()));
 }
 
-#endif // GLUON_CREATOR_GAMETHREAD_H
+#include "nullpropertywidgetitem.moc"

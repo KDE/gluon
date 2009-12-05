@@ -14,28 +14,30 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "propertiesdockplugin.h"
-#include "propertiesdock.h"
-#include <KLocalizedString>
-
-#include <debughelper.h>
+#include "textpropertywidgetitem.h"
 
 using namespace Gluon::Creator;
 
 
-Gluon::Creator::PropertiesDockPlugin::PropertiesDockPlugin(QObject* parent, const QList< QVariant >& params): DockPlugin(parent, params)
+TextPropertyWidgetItem::TextPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+{
+    setEditWidget(new QLineEdit(this));
+    connect(editWidget(), SIGNAL(textEdited(QString)), SLOT(textEdited(QString)));
+}
+
+TextPropertyWidgetItem::~TextPropertyWidgetItem()
 {
 
 }
 
-Gluon::Creator::PropertiesDockPlugin::~PropertiesDockPlugin()
+void TextPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-
+    editWidget()->setProperty("text", value);
 }
 
-Gluon::Creator::Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
+void TextPropertyWidgetItem::textEdited(QString value)
 {
-    return new PropertiesDock(i18n("Properties"), parent);
+    PropertyWidgetItem::valueChanged(QVariant(value));
 }
 
-GLUON_CREATOR_PLUGIN_EXPORT(PropertiesDockPlugin)
+#include "textpropertywidgetitem.moc"

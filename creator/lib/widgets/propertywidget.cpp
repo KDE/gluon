@@ -21,154 +21,124 @@
 
 using namespace Gluon::Creator;
 
-#include <QBoxLayout>
-#include <QVariant>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
-#include <QGridLayout>
-#include <QDebug>
+#include <QtCore/QVariant>
 #include <QtCore/QMetaClassInfo>
 
-#include "propertywidget.h"
-#include "propertywidgetitem.h"
-#include "gluon/component.h"
-#include "gluon/gluonobject.h"
+#include <QtGui/QBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
 
-PropertyWidget::PropertyWidget(QObject * parent)
+#include <gluon/gluonobject.h>
+#include <gluon/debughelper.h>
+
+#include "propertywidget.h"
+#include "propertywidgetitems/propertywidgetitem.h"
+#include "propertywidgetitems/propertywidgetitemfactory.h"
+
+class PropertyWidget::PropertyWidgetPrivate
 {
-    Q_UNUSED(parent)
+    public:
+        PropertyWidgetPrivate() { object = 0; layout = 0; }
+        GluonObject *object;
+        QVBoxLayout *layout;
+};
+
+
+PropertyWidget::PropertyWidget(QWidget* parent): QScrollArea(parent)
+{
+    d = new PropertyWidgetPrivate;
 }
 
 PropertyWidget::~PropertyWidget()
 {
+    delete d;
 }
 
-void
-PropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject * object, QString name, QString description)
+Gluon::GluonObject *PropertyWidget::object() const
 {
-    appendToPropertyView(layout, row, object, name, description, QVariant());
+    return d->object;
 }
 
-void
-PropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject * object, QString name, QString description, QVariant options)
+void PropertyWidget::setObject(Gluon::GluonObject * object)
 {
-    Q_UNUSED(options)
-    
-    ++row;
-
-    QLabel * nameLabel = new QLabel(this);
-    nameLabel->setText(name);
-    nameLabel->setToolTip(description);
-    layout->addWidget(nameLabel, row, 0);
-    
-    PropertyWidgetItem * editWidget = new PropertyWidgetItem(this);
-    editWidget->setEditObject(object);
-    editWidget->setEditProperty(name);
-    layout->addWidget(editWidget, row, 1);
-}
-
-void
-PropertyWidget::appendMetaObjectToPropertyView (QGridLayout * layout, qint32 &row, QObject * object)
-{
-    QString propertyName, propertyDescription;
-    QVariant propertyValue;
-    
-    const QMetaObject *metaobject = object->metaObject();
-    
-    int count = metaobject->propertyCount();
-    for (int i=0; i<count; ++i)
+    if(object)
     {
-        QMetaProperty metaproperty = metaobject->property(i);
-        propertyName = metaproperty.name();
-        if(propertyName == "objectName")
-            continue;
-        propertyValue = object->property(propertyName.toUtf8());
-        appendToPropertyView(layout, row, object, propertyName, propertyDescription);
+        d->object = object;
+        d->layout = new QVBoxLayout(this);
+
+        appendObject(object, true);
+        for(int i = 0; i < object->children().count(); i++)
+        {
+            appendObject(object->child(i));
+        }
+
+        QWidget * containerWidget = new QWidget(this);
+        containerWidget->setLayout(d->layout);
+
+        setWidget(containerWidget);
+        setWidgetResizable(true);
     }
-    
-    foreach(QByteArray name, object->dynamicPropertyNames())
-    {
-        propertyName = QString(name);
-        propertyValue = object->property(name);
-        appendToPropertyView(layout, row, object, propertyName, propertyDescription);
-    }
-}
-
-void
-PropertyWidget::appendObjectToPropertyView (QGridLayout * layout, qint32 &row, Gluon::GluonObject * node)
-{
-    ++row;
-    QLabel * titleLabel = new QLabel(this);
-    titleLabel->setText(node->name());
-    // Just grab this one in this manner - you can't guarantee it exists, but it's likely to be there. Yes, this is slower, but it always works.
-    titleLabel->setToolTip(node->property("description").toString());
-    layout->addWidget(titleLabel, row, 0, 1, 2);
- 
-    // Add a new property line for each property in the object's metaobject...
-    QObject *object = node;
-    appendMetaObjectToPropertyView(layout, row, object);
-}
-
-void
-PropertyWidget::appendSubobjectToPropertyView (QGridLayout * layout, qint32 &row, Gluon::GluonObject * node)
-{
-    // TODO We're doing this for now... i am thinking it might be interesting to allow the subobject titles to be styled differently, so... :)
-    appendObjectToPropertyView(layout, row, node);
-    /*++row;
-    QLabel * titleLabel = new QLabel(this);
-    titleLabel->setText(node->name());
-    // Just grab this one in this manner - you can't guarantee it exists, but it's likely to be there. Yes, this is slower, but it always works.
-    titleLabel->setToolTip(QString(node->property("description")));
-    layout->addWidget(titleLabel, row, 0, 1, 2);
-    
-    // Add a new property line for each property in the object's metaobject...
-    QObject *object = node;
-    appendMetaObjectToPropertyView(layout, row, object);*/
-}
-
-void
-PropertyWidget::setupPropertyView()
-{
-    QGridLayout * propertyLayout = new QGridLayout(this);
-    propertyLayout->setMargin(0);
-    propertyLayout->setSpacing(0);
-    
-    qint32 row = 0;
-
-    // First add yourself...
-    appendObjectToPropertyView(propertyLayout, row, this->object());
-    
-    // Then add all the decorators...
-    for(int i = 0; i < this->object()->children().count(); i++)
-    {
-        appendSubobjectToPropertyView(propertyLayout, row, qobject_cast<Gluon::GluonObject*>(this->object()->children()[i]));
-    }
-    
-    // Add spacery type stuffs...
-    QWidget * containerWidget = new QWidget(this);
-    containerWidget->setLayout(propertyLayout);
-    containerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    setWidget(containerWidget);
-}
-
-Gluon::GluonObject *
-PropertyWidget::object() const
-{
-    return m_object;
-}
-
-void
-PropertyWidget::setObject(Gluon::GluonObject * node)
-{
-    m_object = node;
-    setupPropertyView();
 }
 
 void Gluon::Creator::PropertyWidget::clear()
 {
     delete widget();
+}
+
+void PropertyWidget::appendObject(Gluon::GluonObject *obj, bool useColor)
+{
+    QGroupBox* objectBox = new QGroupBox(obj->name(), this);
+    objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    if(useColor)
+    {
+        long addr = reinterpret_cast<long>(obj);
+        QColor color;
+        color.setHsv(addr % 255, 255, 192);
+        objectBox->setPalette(QPalette(color));
+    }
+
+    d->layout->addWidget(objectBox);
+
+    QGridLayout* boxLayout = new QGridLayout(objectBox);
+    objectBox->setLayout(boxLayout);
+
+    appendMetaObject(obj, boxLayout);
+}
+
+void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
+{
+    QString propertyName;
+    QString propertyDescription;
+    QVariant propertyValue;
+
+    object->setProperty("test", QVariant(QString("test")));
+    const QMetaObject *metaObject = object->metaObject();
+    QMetaProperty metaProperty;
+
+    int row;
+    int count = metaObject->propertyCount();
+    for (int i=0; i<count; ++i)
+    {
+        row = layout->rowCount();
+        metaProperty = metaObject->property(i);
+
+        if(metaProperty.name() == QString("objectName"))
+            continue;
+
+        QLabel * nameLabel = new QLabel(this);
+        nameLabel->setText(metaProperty.name());
+        nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        layout->addWidget(nameLabel, row, 0);
+
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(metaProperty.typeName(), this);
+        editWidget->setEditObject(object);
+        editWidget->setEditProperty(metaProperty.name());
+        editWidget->setMinimumWidth(250);
+        editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        layout->addWidget(editWidget, row, 1);
+    }
 }
 
 #include "propertywidget.moc"
