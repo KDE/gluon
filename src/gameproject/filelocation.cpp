@@ -17,36 +17,34 @@
 
 */
 
-#include "scene.h"
-#include "gameobject.h"
-#include "sceneprivate.h"
 #include "filelocation.h"
+#include "filelocationprivate.h"
+#include "gameproject.h"
+#include <qfileinfo.h>
 
 using namespace Gluon;
 
-Scene::Scene(QObject * parent)
+FileLocation::FileLocation(GameProject* parent, const QUrl &relativeUrl)
 {
-    d = new ScenePrivate(this);
+    d = new FileLocationPrivate;
+    d->gameProject = parent;
+    d->url = relativeUrl;
+    
 }
 
-Scene::~Scene()
+FileLocation::FileLocation(const FileLocation &other)
+    : d(other.d)
+{
+}
+
+FileLocation::~FileLocation()
 {
     delete(d);
 }
 
-void
-Scene::setFile(const QUrl &newFile)
+QUrl
+FileLocation::location() const
 {
-    d->unloadContents();
-    Gluon::Asset::setFile(newFile);
+    #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+    return QUrl(QFileInfo(d->gameProject->filename().toLocalFile()).canonicalPath() + d->url.toString());
 }
-
-QList<GluonObject *>
-Scene::sceneContents()
-{
-    if(d->sceneContents.empty())
-        d->loadContents(FileLocation(gameProject(), file()).location());
-    return d->sceneContents;
-}
-
-#include "scene.moc"

@@ -44,6 +44,8 @@ set(gluon_LIB_SRCS
     gameproject/sceneprivate.cpp
     gameproject/gameproject.cpp
     gameproject/gameprojectprivate.cpp
+    gameproject/filelocation.cpp
+    gameproject/filelocationprivate.cpp
 
     gluonmainwindow.cpp
     gluonobject.cpp
@@ -101,6 +103,7 @@ install(FILES
     gameproject/prefab.h
     gameproject/scene.h
     gameproject/gameproject.h
+    gameproject/filelocation.h
 
     gluon_export.h
     gluonmainwindow.h

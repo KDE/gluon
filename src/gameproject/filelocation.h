@@ -17,36 +17,27 @@
 
 */
 
-#include "scene.h"
-#include "gameobject.h"
-#include "sceneprivate.h"
-#include "filelocation.h"
+#ifndef FILELOCATION_H
+#define FILELOCATION_H
 
-using namespace Gluon;
+#include <QtCore/QUrl>
 
-Scene::Scene(QObject * parent)
+namespace Gluon
 {
-    d = new ScenePrivate(this);
+    class GameProject;
+    class FileLocationPrivate;
+    class FileLocation
+    {
+        public:
+            FileLocation(GameProject* parent, const QUrl& relativeUrl);
+            FileLocation(const FileLocation &other);
+            ~FileLocation();
+            
+            QUrl location() const;
+            
+        private:
+            FileLocationPrivate* d;
+    };
 }
 
-Scene::~Scene()
-{
-    delete(d);
-}
-
-void
-Scene::setFile(const QUrl &newFile)
-{
-    d->unloadContents();
-    Gluon::Asset::setFile(newFile);
-}
-
-QList<GluonObject *>
-Scene::sceneContents()
-{
-    if(d->sceneContents.empty())
-        d->loadContents(FileLocation(gameProject(), file()).location());
-    return d->sceneContents;
-}
-
-#include "scene.moc"
+#endif // FILELOCATION_H
