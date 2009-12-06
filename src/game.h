@@ -29,8 +29,8 @@
 
 namespace Gluon
 {
+    class Scene;
     class GameProject;
-    class GameObject;
     class GamePrivate;
     
     class I : public QThread
@@ -50,19 +50,19 @@ namespace Gluon
     class GLUON_EXPORT Game : public KSingleton<Game>
     {
         Q_OBJECT
-        Q_PROPERTY(GameObject* currentScene READ currentScene WRITE setCurrentScene)
+        Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
         Q_PROPERTY(GameProject* gameProject READ gameProject WRITE setGameProject)
         
         public:
             int getCurrentTick();
-            GameObject * currentScene() const;
+            Scene * currentScene() const;
             
             GameProject * gameProject() const;
 
         public slots:
             void setGameProject(GameProject * newGameProject);
             
-            void setCurrentScene(GameObject * newCurrentScene);
+            void setCurrentScene(Scene * newCurrentScene);
             
             void runGame() { this->runGameFixedUpdate(); }
             /**
@@ -83,7 +83,7 @@ namespace Gluon
             void setPause(bool pause);
             
         signals:
-            void currentSceneChanged(GameObject*);
+            void currentSceneChanged(Scene*);
             void currentProjectChanged(GameProject*);
             
         private:

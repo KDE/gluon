@@ -21,6 +21,7 @@
 #include "gameprojectprivate.h"
 #include "gdlhandler.h"
 #include "debughelper.h"
+#include "scene.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
@@ -30,7 +31,7 @@
 #include <QMetaClassInfo>
 
 REGISTER_OBJECTTYPE(Gluon,GameProject)
-Q_DECLARE_METATYPE(Gluon::GameObject*);
+Q_DECLARE_METATYPE(Gluon::Scene*);
 Q_DECLARE_METATYPE(Gluon::GluonObject*);
 
 using namespace Gluon;
@@ -43,8 +44,8 @@ GameProject::GameProject(QObject * parent)
     
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
-    GameObject * theObject = d->entryPoint;
-    somethingEmpty.setValue<GameObject*>(theObject);
+    Scene * theObject = d->entryPoint;
+    somethingEmpty.setValue<Scene*>(theObject);
     setProperty("entryPoint", somethingEmpty);
 }
 
@@ -235,18 +236,18 @@ GameProject::setFilename(QUrl newFilename)
     d->filename = newFilename;
 }
 
-GameObject *
+Scene *
 GameProject::entryPoint() const
 {
 //    return d->entryPoint;
-    return qobject_cast<GameObject*>(property("entryPoint").value<GluonObject*>());
+    return qobject_cast<Scene*>(property("entryPoint").value<GluonObject*>());
 }
 void
-GameProject::setEntryPoint(GameObject * newEntryPoint)
+GameProject::setEntryPoint(Scene * newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
     QVariant theNewValue;
-    theNewValue.setValue<GameObject*>(newEntryPoint);
+    theNewValue.setValue<Scene*>(newEntryPoint);
     setProperty("entryPoint", theNewValue);
 }
 

@@ -28,6 +28,7 @@
 
 namespace Gluon
 {
+    class Scene;
     class GameProjectPrivate;
     
     /**
@@ -51,7 +52,7 @@ namespace Gluon
         Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
         
         // Namespaced types do not work in Q_PROPERTY - workaround in constructor, getter and setter
-        //Q_PROPERTY(Gluon::GameObject* entryPoint READ entryPoint WRITE setEntryPoint)
+        //Q_PROPERTY(Gluon::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
         
         public:
             GameProject(QObject * parent = 0);
@@ -81,8 +82,8 @@ namespace Gluon
             QUrl filename() const;
             void setFilename(QUrl newFilename);
             
-            GameObject * entryPoint() const;
-            void setEntryPoint(GameObject * newEntryPoint);
+            Scene *entryPoint() const;
+            void setEntryPoint(Scene *newEntryPoint);
             
         private:
             QSharedDataPointer<GameProjectPrivate> d;

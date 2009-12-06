@@ -37,7 +37,7 @@ class ProjectModel::ProjectModelPrivate
 Gluon::Creator::ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
 {
     d = new ProjectModelPrivate;
-    connect(ObjectManager::instance(), SIGNAL(newScene(Gluon::GameObject*)), SIGNAL(layoutChanged()));
+    connect(ObjectManager::instance(), SIGNAL(newScene(Gluon::Scene*)), SIGNAL(layoutChanged()));
 }
 
 Gluon::Creator::ProjectModel::~ProjectModel()

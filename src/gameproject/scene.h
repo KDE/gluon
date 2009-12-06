@@ -24,9 +24,10 @@
 
 namespace Gluon
 {
+    class GameObject;
     class ScenePrivate;
     
-    class Scene : public Gluon::Asset
+    class GLUON_EXPORT Scene : public Gluon::Asset
     {
         Q_OBJECT
         
@@ -34,9 +35,15 @@ namespace Gluon
             Scene(QObject * parent = 0);
             ~Scene();
             
+            virtual Scene * instantiate();
+            
             virtual void setFile(const QUrl &newFile);
             
-            QList<GluonObject *> sceneContents();
+            virtual void startAll();
+            virtual void updateAll(int elapsedMilliseconds);
+            virtual void drawAll(int timeLapse = 0);
+            
+            GameObject* sceneContents();
         
         private:
             ScenePrivate* d;

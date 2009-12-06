@@ -22,9 +22,12 @@
 #include "sceneprivate.h"
 #include "filelocation.h"
 
+REGISTER_OBJECTTYPE(Gluon, Scene)
+
 using namespace Gluon;
 
 Scene::Scene(QObject * parent)
+    : Asset(parent)
 {
     d = new ScenePrivate(this);
 }
@@ -34,6 +37,28 @@ Scene::~Scene()
     delete(d);
 }
 
+Scene *
+Scene::instantiate()
+{
+    return new Scene(this);
+}
+
+void
+Scene::startAll()
+{
+    sceneContents()->start();
+}
+void
+Scene::updateAll(int elapsedMilliseconds)
+{
+    sceneContents()->update(elapsedMilliseconds);
+}
+void
+Scene::drawAll(int timeLapse)
+{
+    sceneContents()->draw(timeLapse);
+}
+
 void
 Scene::setFile(const QUrl &newFile)
 {
@@ -41,10 +66,10 @@ Scene::setFile(const QUrl &newFile)
     Gluon::Asset::setFile(newFile);
 }
 
-QList<GluonObject *>
+GameObject*
 Scene::sceneContents()
 {
-    if(d->sceneContents.empty())
+    if(!d->sceneContents)
         d->loadContents(FileLocation(gameProject(), file()).location());
     return d->sceneContents;
 }

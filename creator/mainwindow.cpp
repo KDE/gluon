@@ -124,7 +124,7 @@ void MainWindow::setupGame()
     project->setName(i18n("New Project"));
     Gluon::Game::instance()->setGameProject(project);
 
-    Gluon::GameObject* root = ObjectManager::instance()->createNewScene();
+    Gluon::Scene* root = ObjectManager::instance()->createNewScene();
     Gluon::Game::instance()->setCurrentScene(root);
 }
 

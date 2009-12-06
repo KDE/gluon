@@ -18,11 +18,13 @@
 
 #include <QtGui/QTreeView>
 
+#include <gluon/debughelper.h>
 #include <gluon/game.h>
 #include <gluon/gameobject.h>
 
 #include <models/projectmodel.h>
 #include <KDebug>
+#include <scene.h>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -76,9 +78,21 @@ void Gluon::Creator::ProjectDock::setSelection(GluonObject* obj)
 
 void Gluon::Creator::ProjectDock::activated(QModelIndex index)
 {
+    if(!index.isValid())
+    {
+        return;
+    }
+    
     QObject* obj = static_cast<QObject*>(index.internalPointer());
-    Gluon::GameObject* scene = qobject_cast<Gluon::GameObject*>(obj);
-    if(scene && Game::instance()->currentScene() != scene) {
-        Game::instance()->setCurrentScene(scene);
+    if(!obj)
+    {
+        return;
+    }
+    
+    Gluon::Scene* scene = qobject_cast<Gluon::Scene*>(obj);
+    if(scene)
+    {
+        if(Game::instance()->currentScene() != scene)
+            Game::instance()->setCurrentScene(scene);
     }
 }

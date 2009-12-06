@@ -25,7 +25,7 @@
 
 namespace Gluon
 {
-    class GameObject;
+    class Scene;
     class GameProject;
     
     class GamePrivate : public QSharedData
@@ -38,7 +38,7 @@ namespace Gluon
             QTime time;
             bool gameRunning;
             bool gamePaused;
-            GameObject * currentScene;
+            Scene * currentScene;
             GameProject * gameProject;
     };
 }

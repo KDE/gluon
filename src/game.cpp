@@ -19,6 +19,7 @@
 
 #include "game.h"
 #include "gameprivate.h"
+#include "gameproject/scene.h"
 #include "gameproject/gameobject.h"
 #include "gameproject/gameproject.h"
 #include "debughelper.h"
@@ -69,7 +70,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     d->gameRunning = true;
 
     // First allow everybody to initialize themselves properly
-    d->currentScene->start();
+    d->currentScene->startAll();
     while(d->gameRunning)
     {
         // Don't block everything...
@@ -80,13 +81,13 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         loops = 0;
         while(getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
-            if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
+            if(!d->gamePaused) d->currentScene->updateAll(millisecondsPerUpdate);
             nextTick += millisecondsPerUpdate;
             loops++;
         }
 
         timeLapse = (getCurrentTick() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
-        d->currentScene->draw(timeLapse);
+        d->currentScene->drawAll(timeLapse);
     }
 }
 
@@ -111,16 +112,16 @@ Game::runGameFixedTimestep(int framesPerSecond)
     d->gameRunning = true;
 
     // First allow everybody to initialize themselves properly
-    d->currentScene->start();
+    d->currentScene->startAll();
     while(d->gameRunning)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
 
         // Update the current level
-        if(!d->gamePaused) d->currentScene->update(millisecondsPerUpdate);
+        if(!d->gamePaused) d->currentScene->updateAll(millisecondsPerUpdate);
         // Do drawing
-        d->currentScene->draw();
+        d->currentScene->drawAll();
 
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();
@@ -160,13 +161,13 @@ void Game::setPause(bool pause)
  * Property Getter-setters
  *****************************************************************************/
 
-GameObject *
+Scene *
 Game::currentScene() const
 {
     return d->currentScene;
 }
 void
-Game::setCurrentScene(GameObject * newCurrentScene)
+Game::setCurrentScene(Scene * newCurrentScene)
 {
     d->currentScene = newCurrentScene;
     emit currentSceneChanged(newCurrentScene);
@@ -188,10 +189,10 @@ Game::setGameProject(GameProject * newGameProject)
         DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
         foreach(QObject * obj, newGameProject->children())
         {
-            GameObject *gameObj = qobject_cast<GameObject*>(obj);
-            if(gameObj)
+            Scene *scene = qobject_cast<Scene*>(obj);
+            if(scene)
             {
-                newGameProject->setEntryPoint(gameObj);
+                newGameProject->setEntryPoint(scene);
                 DEBUG_TEXT(QString("Entry point salvaged by resetting to first game object in project"))
                 break;
             }

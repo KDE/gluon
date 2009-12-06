@@ -26,7 +26,7 @@ class QUrl;
 namespace Gluon
 {
     class Scene;
-    class GluonObject;
+    class GameObject;
     class ScenePrivate
     {
         public:
@@ -37,7 +37,7 @@ namespace Gluon
             void unloadContents();
             void saveContents(const QUrl& file);
             
-            QList<GluonObject*> sceneContents;
+            GameObject* sceneContents;
             Scene* q;
     };
 }

@@ -20,6 +20,7 @@
 #include "sceneprivate.h"
 #include "scene.h"
 #include "gdlhandler.h"
+#include "gameobject.h"
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
@@ -30,6 +31,7 @@ using namespace Gluon;
 ScenePrivate::ScenePrivate(Scene* q)
 {
     this->q = q;
+    sceneContents = NULL;
 }
 
 ScenePrivate::ScenePrivate::~ScenePrivate()
@@ -39,28 +41,33 @@ ScenePrivate::ScenePrivate::~ScenePrivate()
 void
 ScenePrivate::unloadContents()
 {
-    qDeleteAll(sceneContents);
 }
 
 void
 ScenePrivate::loadContents(const QUrl& file)
 {
+    delete(sceneContents);
+    
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::ReadOnly))
         return;
     
     QTextStream sceneReader(sceneFile);
-    sceneContents = GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
+    QList<GluonObject*> theContents = GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
     sceneFile->close();
     delete(sceneFile);
+    
+    sceneContents = new GameObject(q);
+    foreach(GluonObject * child, theContents)
+        sceneContents->addChild(child);
 }
 
 void
 ScenePrivate::saveContents(const QUrl& file)
 {
     QList<const GluonObject*> scene;
-    foreach(const GluonObject &item, sceneContents)
-        scene.append(&item);
+    foreach(const QObject *item, sceneContents->children())
+        scene.append(qobject_cast<const GluonObject*>(item));
     
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::WriteOnly))

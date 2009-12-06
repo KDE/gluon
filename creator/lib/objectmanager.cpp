@@ -17,6 +17,7 @@
 #include "objectmanager.h"
 
 #include <gameobject.h>
+#include <scene.h>
 #include <KLocalizedString>
 #include <game.h>
 #include <gameproject.h>
@@ -40,16 +41,16 @@ Gluon::GameObject* Gluon::Creator::ObjectManager::createNewObject()
 
     if(newObj->parentGameObject() == 0)
     {
-        Gluon::Game::instance()->currentScene()->addChild(newObj);
+        Gluon::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
     }
 
     emit newObject(newObj);
     return newObj;
 }
 
-Gluon::GameObject* Gluon::Creator::ObjectManager::createNewScene()
+Gluon::Scene* Gluon::Creator::ObjectManager::createNewScene()
 {
-    Gluon::GameObject *newScn = new Gluon::GameObject();
+    Gluon::Scene *newScn = new Gluon::Scene();
     newScn->setName(i18n("New Scene %1").arg(m_sceneId++));
     Gluon::Game::instance()->gameProject()->addChild(newScn);
     emit newScene(newScn);

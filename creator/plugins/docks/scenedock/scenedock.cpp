@@ -22,6 +22,7 @@
 #include <game.h>
 #include <gameobject.h>
 #include <selectionmanager.h>
+#include <scene.h>
 
 using namespace Gluon;
 using namespace Gluon::Creator;
@@ -41,8 +42,8 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
 
     d = new SceneDockPrivate;
     d->model = new SceneModel;
-    d->model->setRootGameObject(Game::instance()->currentScene());
-    connect(Game::instance(), SIGNAL(currentSceneChanged(GameObject*)), SLOT(sceneChanged(GameObject*)));
+    d->model->setRootGameObject(Game::instance()->currentScene()->sceneContents());
+    connect(Game::instance(), SIGNAL(currentSceneChanged(Scene*)), SLOT(sceneChanged(Scene*)));
 
     d->view = new QTreeView;
     d->view->setModel(d->model);
@@ -87,10 +88,13 @@ void SceneDock::selectionChanged(QModelIndex index)
     }
 }
 
-void Gluon::Creator::SceneDock::sceneChanged(GameObject* obj)
+void Gluon::Creator::SceneDock::sceneChanged(Scene* obj)
 {
-    d->model->setRootGameObject(obj);
-    SelectionManager::SelectionList selection;
-    selection.append(obj);
-    SelectionManager::instance()->setSelection(selection);
+    if(obj)
+    {
+        d->model->setRootGameObject(obj->sceneContents());
+        SelectionManager::SelectionList selection;
+        selection.append(obj);
+        SelectionManager::instance()->setSelection(selection);
+    }
 }

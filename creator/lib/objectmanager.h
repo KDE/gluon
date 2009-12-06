@@ -23,6 +23,7 @@
 
 namespace Gluon {
 class GameObject;
+class Scene;
 
 namespace Creator {
 
@@ -30,11 +31,11 @@ class GLUONCREATORLIB_EXPORT ObjectManager : public KSingleton<ObjectManager>
 {
     Q_OBJECT
     public slots:
-        Gluon::GameObject* createNewScene();
+        Gluon::Scene* createNewScene();
         Gluon::GameObject* createNewObject();
 
     signals:
-        void newScene(Gluon::GameObject*);
+        void newScene(Gluon::Scene*);
         void newObject(Gluon::GameObject*);
 
     private:

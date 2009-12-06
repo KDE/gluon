@@ -22,6 +22,7 @@
 #include <widgets/dock.h>
 
 namespace Gluon {
+    class Scene;
     class GameObject;
 
 namespace Creator {
@@ -39,7 +40,7 @@ namespace Creator {
         public slots:
             virtual void setSelection(Gluon::GluonObject* obj = 0);
             void selectionChanged(QModelIndex);
-            void sceneChanged(GameObject*);
+            void sceneChanged(Scene*);
 
         private:
             class SceneDockPrivate;

@@ -25,8 +25,8 @@
 
 namespace Gluon
 {
+    class Scene;
     class GluonObject;
-    class GameObject;
     
     class GameProjectPrivate : public QSharedData
     {
@@ -39,7 +39,7 @@ namespace Gluon
             QUrl homepage;
             QList<QUrl> mediaInfo;
             QUrl filename;
-            GameObject* entryPoint;
+            Scene* entryPoint;
             
             GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject);
     };
