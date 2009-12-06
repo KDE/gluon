@@ -25,17 +25,20 @@
 REGISTER_OBJECTTYPE(Gluon,GameObject)
 
 using namespace Gluon;
+using namespace Eigen;
 
 GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
 {
     d = new GameObjectPrivate;
+    updateTransform();
 }
 
 GameObject::GameObject(const GameObject &other, QObject * parent)
     : GluonObject(parent)
     , d(other.d)
 {
+    updateTransform();
 }
 
 GameObject::~GameObject()
@@ -332,36 +335,57 @@ GameObject::description() const
 }
 
 void
-GameObject::setPosition(Eigen::Vector3f newPosition)
+GameObject::setPosition(Vector3f newPosition)
 {
     d->position = newPosition;
+   
+    Vector3f parentPosition(0,0,0);
+    if(parentGameObject())
+        parentPosition = parentGameObject()->positionGlobal();
+    d->positionGlobal = parentPosition + newPosition;
+    
+    updateTransform();
 }
 
-Eigen::Vector3f
+Vector3f
 GameObject::position() const
 {
     return d->position;
 }
 
 void
-GameObject::setScale(Eigen::Vector3f newScale)
+GameObject::setScale(Vector3f newScale)
 {
     d->scale = newScale;
+    
+    Vector3f parentScale(0,0,0);
+    if(parentGameObject())
+        parentScale = parentGameObject()->scale();
+    d->scaleGlobal = parentScale + newScale;
+    
+    updateTransform();
 }
 
-Eigen::Vector3f
+Vector3f
 GameObject::scale() const
 {
     return d->scale;
 }
 
 void
-GameObject::setRotationAxis(Eigen::Vector3f newRotationAxis)
+GameObject::setRotationAxis(Vector3f newRotationAxis)
 {
     d->rotationAxis = newRotationAxis;
+    
+    Vector3f parentRotationAxis(0,0,0);
+    if(parentGameObject())
+        parentRotationAxis = parentGameObject()->rotationAxis();
+    d->rotationAxisGlobal = parentRotationAxis + newRotationAxis;
+    
+    updateTransform();
 }
 
-Eigen::Vector3f
+Vector3f
 GameObject::rotationAxis() const
 {
     return d->rotationAxis;
@@ -371,6 +395,13 @@ void
 GameObject::setRotation(float newRotation)
 {
     d->rotation = newRotation;
+    
+    float parentRotation = 0;
+    if(parentGameObject())
+        parentRotation = parentGameObject()->rotation();
+    d->rotationGlobal = parentRotation + newRotation;
+    
+    updateTransform();
 }
 
 float
@@ -378,4 +409,123 @@ GameObject::rotation() const
 {
     return d->rotation;
 }
+
+Vector3f
+GameObject::positionGlobal() const
+{
+    return d->positionGlobal;
+}
+
+void
+GameObject::setPositionGlobal(Vector3f newPositionGlobal)
+{
+    d->positionGlobal = newPositionGlobal;
+    
+    Vector3f parentPosition(0,0,0);
+    if(parentGameObject())
+        parentPosition = parentGameObject()->positionGlobal();
+    d->position = newPositionGlobal - parentPosition;
+    
+    updateTransform();
+}
+
+Vector3f
+GameObject::scaleGlobal() const
+{
+    return d->scaleGlobal;
+}
+
+void
+GameObject::setScaleGlobal(Vector3f newScaleGlobal)
+{
+    d->scaleGlobal = newScaleGlobal;
+    
+    Vector3f parentScaleGlobal(0,0,0);
+    if(parentGameObject())
+        parentScaleGlobal = parentGameObject()->scaleGlobal();
+    d->scale = newScaleGlobal - parentScaleGlobal;
+    
+    updateTransform();
+}
+
+Vector3f
+GameObject::rotationAxisGlobal() const
+{
+    return d->rotationAxisGlobal;
+}
+
+void
+GameObject::setRotationAxisGlobal(Vector3f newRotationAxisGlobal)
+{
+    d->rotationAxisGlobal = newRotationAxisGlobal;
+    
+    Vector3f parentRotationAxisGlobal(0,0,0);
+    if(parentGameObject())
+        parentRotationAxisGlobal = parentGameObject()->rotationAxisGlobal();
+    d->rotationAxis = newRotationAxisGlobal - parentRotationAxisGlobal;
+    
+    updateTransform();
+}
+
+float
+GameObject::rotationGlobal() const
+{
+    return d->rotationGlobal;
+}
+
+void
+GameObject::setRotationGlobal(float newRotationGlobal)
+{
+    d->rotationGlobal = newRotationGlobal;
+    
+    float parentRotationGlobal = 0;
+    if(parentGameObject())
+        parentRotationGlobal = parentGameObject()->rotationGlobal();
+    d->rotationGlobal = newRotationGlobal - parentRotationGlobal;
+    
+    updateTransform();
+}
+
+void
+GameObject::updateTransform()
+{
+    // Reset the transform matrix to the new values of position, scale and rotation
+    d->transformMatrix;
+    
+    if(parentGameObject())
+        d->transformMatrix = d->transformMatrix * parentGameObject()->transform();
+    
+    // Finally, update the child objects' position
+    foreach(QObject *child, children())
+    {
+        GameObject *theChild = qobject_cast<GameObject*>(child);
+        if(theChild)
+        {
+            theChild->updateTransformFromParent(d->transformMatrix);
+        }
+    }
+}
+
+void
+GameObject::updateTransformFromParent(Eigen::Transform<float, 3> parentTransform)
+{
+    // Find new values according to change between old and new transformMatrix
+    parentTransform;
+    // Set the new values directly (without passing set*), it's expensive enough already
+    
+    // Finally, update the child objects' position
+    foreach(QObject *child, children())
+    {
+        GameObject *theChild = qobject_cast<GameObject*>(child);
+        if(theChild)
+            theChild->updateTransformFromParent(d->transformMatrix);
+    }
+}
+
+Transform<float, 3>
+GameObject::transform() const
+{
+    return d->transformMatrix;
+}
+
 #include "gameobject.moc"

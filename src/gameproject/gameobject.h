@@ -105,6 +105,22 @@ namespace Gluon
             void setRotation(float newRotation);
             float rotation() const;
 
+            void setPositionGlobal(Eigen::Vector3f newPositionGlobal);
+            Eigen::Vector3f positionGlobal() const;
+            void setScaleGlobal(Eigen::Vector3f newScaleGlobal);
+            Eigen::Vector3f scaleGlobal() const;
+            void setRotationAxisGlobal(Eigen::Vector3f newRotationAxisGlobal);
+            Eigen::Vector3f rotationAxisGlobal() const;
+            void setRotationGlobal(float newRotationGlobal);
+            float rotationGlobal() const;
+            
+            void updateTransform();
+            Eigen::Transform<float, 3> transform() const;
+
+
+        protected:
+            void updateTransformFromParent(Eigen::Transform<float, 3> parentTransform);
+            
         private:
             QSharedDataPointer<GameObjectPrivate> d;
     };
