@@ -115,11 +115,11 @@ namespace Gluon
             float rotationGlobal() const;
             
             void updateTransform();
-            Eigen::Transform<float, 3> transform() const;
+            Eigen::Transform3f transform() const;
 
 
         protected:
-            void updateTransformFromParent(Eigen::Transform<float, 3> parentTransform);
+            void updateTransformFromParent(Eigen::Transform3f parentTransform);
             
         private:
             QSharedDataPointer<GameObjectPrivate> d;

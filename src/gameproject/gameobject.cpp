@@ -489,11 +489,9 @@ GameObject::setRotationGlobal(float newRotationGlobal)
 void
 GameObject::updateTransform()
 {
-    // Reset the transform matrix to the new values of position, scale and rotation
-    d->transformMatrix;
-    
-    if(parentGameObject())
-        d->transformMatrix = d->transformMatrix * parentGameObject()->transform();
+    // Reset the transform matrix to the new values of positionGlobal, scaleGlobal and rotationGlobal
+    #warning Why do i not have the Scaling3f typedef?!
+    d->transformMatrix = Translation3f(positionGlobal()) * AngleAxisf(rotationGlobal(), rotationAxisGlobal()); // * Scaling3f(scaleGlobal());
     
     // Finally, update the child objects' position
     foreach(QObject *child, children())
@@ -507,7 +505,7 @@ GameObject::updateTransform()
 }
 
 void
-GameObject::updateTransformFromParent(Eigen::Transform<float, 3> parentTransform)
+GameObject::updateTransformFromParent(Transform3f parentTransform)
 {
     // Find new values according to change between old and new transformMatrix
     parentTransform;
@@ -522,7 +520,7 @@ GameObject::updateTransformFromParent(Eigen::Transform<float, 3> parentTransform
     }
 }
 
-Transform<float, 3>
+Transform3f
 GameObject::transform() const
 {
     return d->transformMatrix;

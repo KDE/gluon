@@ -49,7 +49,7 @@ namespace Gluon
             Eigen::Vector3f rotationAxisGlobal;
             float rotationGlobal;
 
-            Eigen::Transform<float, 3> transformMatrix;
+            Eigen::Transform3f transformMatrix;
             
             GameObject * parentGameObject;
             QList<GameObject *> children;
