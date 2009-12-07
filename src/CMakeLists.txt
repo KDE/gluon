@@ -3,7 +3,11 @@ project(libgluon)
 
 add_definitions(-DMAKE_GLUON_LIB)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules")
+IF(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+	set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules")
+ELSE()
+	set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+ENDIF(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
 
 find_package(Qt4 REQUIRED)
 
