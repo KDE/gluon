@@ -32,8 +32,6 @@ add_library(kal SHARED ${kal_LIB_SRCS})
 
 set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 
-#${ALUT_INCLUDE_DIR}
-
 target_link_libraries(kal
                       ${KDE4_PHONON_LIBS}
                       ${OPENAL_LIBRARY}
@@ -43,10 +41,6 @@ target_link_libraries(kal
 		      ${PHONON_LIBRARY}
 		${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
 )
-
-#${ALUT_LIBRARY}
-
-add_subdirectory(includes)
 
 if(APPLE)
 
