@@ -23,11 +23,12 @@
 
 #include "kgl_export.h"
 
-#ifdef Q_WS_X11
-#include <GL/gl.h>
+#ifdef Q_WS_WIN
+#include <windows.h>
 #endif
-
-#ifdef Q_WS_MAC
+#ifndef Q_WS_MAC
+#include <GL/gl.h>
+#else
 #include <OpenGL/gl.h>
 #endif
 

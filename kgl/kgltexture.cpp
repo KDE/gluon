@@ -20,6 +20,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <GL/glew.h>
 #include "kgltexture.h"
 #include <QtCore/QDebug>
 #include <QtCore/QFile>

@@ -15,6 +15,7 @@ include_directories(Box2D/Include)
 include_directories(physics)
 include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 include_directories(./)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(kgl_LIB_SRCS
     kgldisplay.cpp
@@ -67,6 +68,9 @@ QT4_ADD_RESOURCES(kgl_RCC_SRCS ${kgl_RCCS})
 
 qt4_automoc(${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
 add_library(kgl SHARED ${kgl_LIB_SRCS} ${kgl_RCC_SRCS})
+IF(WIN32)
+add_definitions(-DNOMINMAX)
+ENDIF(WIN32)
 
 set_target_properties(kgl PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 
@@ -95,6 +99,7 @@ endif(Q_WS_X11)
 
 if(APPLE OR WIN32)
 
+add_definitions(-DMAKE_KGL_LIB)
 install(TARGETS kgl DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 

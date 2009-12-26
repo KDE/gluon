@@ -20,6 +20,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <GL/glew.h>
 #include "kglparticlesitem.h"
 #include <QtCore/QDebug>
 #include <QtCore/QDateTime>
@@ -36,7 +37,7 @@ void KGLParticle::init()
 {
     m_alpha =1;
     m_initAlpha=m_alpha;
-    m_alphaStep = 0.01;
+    m_alphaStep = 0.01f;
 
     m_col = Qt::white;
     m_initCol = m_col;
@@ -46,7 +47,7 @@ void KGLParticle::init()
     m_initPos = m_pos;
 
     m_direction = QPointF(1,1);
-    m_speed = 0.01;
+    m_speed = 0.01f;
     m_size = 20;
 
     m_tex = new KGLTexture();

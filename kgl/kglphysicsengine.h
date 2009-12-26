@@ -42,7 +42,7 @@ public:
     KGLPhysicsEngine(QObject * parent=0);
     ~KGLPhysicsEngine();
 
-    void computeSimulation(int32_t iterations = 10, float fps=60);
+    void computeSimulation(int iterations = 10, float fps=60);
     void addItem(KGLPhysicsItem *  item);
     void addItem(KGLItem* item);
     bool removeItem(KGLPhysicsItem * item);

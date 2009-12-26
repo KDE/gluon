@@ -1,18 +1,21 @@
 #include "kglpainter.h"
 #include <math.h>
 #include <QtCore/QDebug>
+
+#ifndef M_PI
+#define M_PI           3.14159265358979323846
+#endif
+
 class KGLPainterPrivate
 {
-public :
+    public :
         QColor color;
-float lineWidth;
-float pointSize;
-GLenum polygonMode;
-KGLPointList pointList;
-
-
-
+        float lineWidth;
+        float pointSize;
+        GLenum polygonMode;
+        KGLPointList pointList;
 };
+
 KGLPainter::KGLPainter(QObject * parent)
     :QObject(parent)
 {

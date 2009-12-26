@@ -68,7 +68,7 @@ bool KGLTextItem::initTexture()
 //    texwidth = image.width();
 //    texheight = image.height();
 
-   int w = pow(2,static_cast<int>(log(image.width())/log(2))+1); //change if it's not 2^n
+   int w = pow((float)2,static_cast<int>(log((float)image.width())/log((float)2))+1); //change if it's not 2^n
 //   int h = pow(2,static_cast<int>(log(image.height())/log(2))+1);
 
    image = image.scaled(w,16);

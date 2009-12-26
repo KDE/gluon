@@ -22,7 +22,7 @@
 #include <QX11Info>
 #endif
 
-//template<> KGLDisplay* KSingleton<KGLDisplay>::m_instance = 0;
+template<> KGLDisplay* KSingleton<KGLDisplay>::m_instance = 0;
 
 KGLDisplay::KGLDisplay()
 {

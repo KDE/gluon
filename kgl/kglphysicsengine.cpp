@@ -99,7 +99,7 @@ void KGLPhysicsEngine::clearPhysicsItems()
     d->m_list.clear();
 }
 
-void KGLPhysicsEngine::computeSimulation(int32 iterations,float fps)
+void KGLPhysicsEngine::computeSimulation(int iterations,float fps)
 {
     float32 timeStep = 1.0f / fps;
     d->m_world->Step(timeStep, iterations);
@@ -129,7 +129,7 @@ KGLPhysicsItem * KGLPhysicsEngine::itemAt(const QPointF &pos) const
     b2AABB aabb;
     b2Vec2 dVec;
     b2Vec2 pVec(pos.x(),pos.y());
-    dVec.Set(0.1, 0.1);
+    dVec.Set(0.1f, 0.1f);
     aabb.lowerBound = pVec - dVec;
     aabb.upperBound = pVec + dVec;
 
