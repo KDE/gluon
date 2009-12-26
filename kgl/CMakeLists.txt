@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
+find_package(Qt4 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
@@ -92,7 +93,7 @@ endif(Q_WS_X11)
 # add_subdirectory(tests)
 ########### INSTALL FILES ###############
 
-if(APPLE)
+if(APPLE OR WIN32)
 
 install(TARGETS kgl DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
