@@ -37,6 +37,7 @@ include_directories(
 
 
 set(gluon_LIB_SRCS
+    gameproject/savable.cpp
     gameproject/asset.cpp
     gameproject/component.cpp
     gameproject/componentprivate.cpp
@@ -101,6 +102,7 @@ install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
 endif()
 
 install(FILES
+    gameproject/savable.h
     gameproject/asset.h
     gameproject/component.h
     gameproject/gameobject.h

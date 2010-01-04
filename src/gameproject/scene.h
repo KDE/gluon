@@ -21,13 +21,14 @@
 #define GLUON_SCENE_H
 
 #include "asset.h"
+#include "savable.h"
 
 namespace Gluon
 {
     class GameObject;
     class ScenePrivate;
     
-    class GLUON_EXPORT Scene : public Gluon::Asset
+    class GLUON_EXPORT Scene : public Gluon::Asset, public Gluon::Savable
     {
         Q_OBJECT
         
@@ -38,13 +39,14 @@ namespace Gluon
             virtual Scene * instantiate();
             
             virtual void setFile(const QUrl &newFile);
+            virtual bool saveToFile() const;
             
             virtual void startAll();
             virtual void updateAll(int elapsedMilliseconds);
             virtual void drawAll(int timeLapse = 0);
             
             GameObject* sceneContents();
-        
+            
         private:
             ScenePrivate* d;
     };

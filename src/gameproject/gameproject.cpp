@@ -75,6 +75,8 @@ GameProject::findItemByName(QString qualifiedName)
 bool 
 GameProject::saveToFile() const
 {
+    // Run through everything first and save each of the saveable assets
+    
     QFile *projectFile = new QFile(filename().toLocalFile());
     if(!projectFile->open(QIODevice::WriteOnly))
         return false;
