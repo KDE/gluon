@@ -42,6 +42,7 @@ namespace Gluon
             Scene* entryPoint;
             
             GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject);
+            static bool saveChildren(const Gluon::GluonObject* parent);
     };
 }
 

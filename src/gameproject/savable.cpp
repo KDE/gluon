@@ -18,6 +18,11 @@
 */
 
 #include "savable.h"
+#include "gluonobject.h"
+#include "gdlhandler.h"
+#include "asset.h"
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 using namespace Gluon;
 
@@ -28,5 +33,17 @@ Savable::~Savable()
 bool
 Savable::saveToFile(QString fileContents) const
 {
+    QFile *savableFile = new QFile(qobject_cast<Asset*>(this)->file().toLocalFile());
+    if(!savableFile->open(QIODevice::WriteOnly))
+        return false;
+    
+    QList<const GluonObject*> thisProject;
+    thisProject.append(this);
+    
+    QTextStream fileWriter(savableFile);
+    fileWriter << GDLHandler::instance()->serializeGDL(thisProject);
+    savableFile->close();
+    
+    delete(savableFile);
     return true;
 }

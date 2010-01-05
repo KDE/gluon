@@ -21,6 +21,7 @@
 #include "gluonobject.h"
 #include "debughelper.h"
 #include <QtCore/QStringList>
+#include "savable.h"
 
 using namespace Gluon;
 
@@ -80,4 +81,31 @@ GameProjectPrivate::findItemByNameInObject(QStringList qualifiedName, GluonObjec
     }
     
     return foundChild;
+}
+
+bool
+GameProjectPrivate::saveChildren(const GluonObject* parent)
+{
+    DEBUG_FUNC_NAME
+    if(!parent)
+    {
+        DEBUG_TEXT(QString("Object child was null!"));
+        return false;
+    }
+    
+    QObjectList childList = parent->children();
+    foreach(const QObject* child, childList)
+    {
+        // Meh, dynamic_cast is slow, but at least it's going to be calling something that does
+        // disk IO, so it's not the slowest thing there
+        if(child->inherits("Gluon::Savable"))
+        {
+            DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonObject*>(child)->name()));
+            dynamic_cast<const Savable *>(child)->saveToFile(qobject_cast<const GluonObject*>(child)->toGDL());
+        }
+        
+        // Recurse, wooh!
+        saveChildren(qobject_cast<const GluonObject*>(child));
+    }
+    return true;
 }

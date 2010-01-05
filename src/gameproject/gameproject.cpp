@@ -76,7 +76,9 @@ bool
 GameProject::saveToFile() const
 {
     // Run through everything first and save each of the saveable assets
+    GameProjectPrivate::saveChildren(this);
     
+    // Eventually, save self
     QFile *projectFile = new QFile(filename().toLocalFile());
     if(!projectFile->open(QIODevice::WriteOnly))
         return false;
