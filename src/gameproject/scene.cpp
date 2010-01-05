@@ -66,12 +66,6 @@ Scene::setFile(const QUrl &newFile)
     Gluon::Asset::setFile(newFile);
 }
 
-bool
-bool Scene::saveToFile() const
-{
-    return Gluon::Savable::saveToFile(this->toGDL());
-}
-
 GameObject*
 Scene::sceneContents()
 {

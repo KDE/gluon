@@ -26,6 +26,7 @@ namespace Gluon
     class Savable
     {
         public:
+            virtual ~Savable();
             virtual bool saveToFile(QString fileContents) const;
     };
 }

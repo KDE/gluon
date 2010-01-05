@@ -39,7 +39,6 @@ namespace Gluon
             virtual Scene * instantiate();
             
             virtual void setFile(const QUrl &newFile);
-            virtual bool saveToFile() const;
             
             virtual void startAll();
             virtual void updateAll(int elapsedMilliseconds);

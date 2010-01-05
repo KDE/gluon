@@ -21,8 +21,12 @@
 
 using namespace Gluon;
 
+Savable::~Savable()
+{
+}
+
 bool
-Gluon::Savable::saveToFile(QString fileContents) const
+Savable::saveToFile(QString fileContents) const
 {
     return true;
 }
