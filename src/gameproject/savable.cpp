@@ -20,6 +20,7 @@
 #include "savable.h"
 #include "gluonobject.h"
 #include "asset.h"
+#include "debughelper.h"
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QDir>
@@ -33,8 +34,12 @@ Savable::~Savable()
 bool
 Savable::saveToFile(Asset* asset)
 {
+    DEBUG_BLOCK
     if(!asset)
+    {
+        DEBUG_TEXT(QString("Asset was NULL!"))
         return false;
+    }
     
     // Make sure the filename is populated and is sane
     if(asset->file().isEmpty())
@@ -47,7 +52,10 @@ Savable::saveToFile(Asset* asset)
     // Perform the save
     QFile *savableFile = new QFile(asset->file().toLocalFile());
     if(!savableFile->open(QIODevice::WriteOnly))
+    {
+        DEBUG_TEXT(QString("Could not write to file %1").arg(asset->file().toString()))
         return false;
+    }
     
     QTextStream fileWriter(savableFile);
     fileWriter << asset->toGDL();
