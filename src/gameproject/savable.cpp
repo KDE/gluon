@@ -58,7 +58,7 @@ Savable::saveToFile(Asset* asset)
     }
 
     QTextStream fileWriter(savableFile);
-    fileWriter << asset->toGDL();
+    fileWriter << dynamic_cast<Savable*>(asset)->contentsToGDL();
     savableFile->close();
 
     delete(savableFile);
