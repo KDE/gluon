@@ -57,7 +57,7 @@ void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
     d->project = project;
     project->setParent(d->root);
 
-    emit layoutChanged();
+    reset();
 }
 
 QVariant ProjectModel::data(const QModelIndex& index, int role) const

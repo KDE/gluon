@@ -72,7 +72,7 @@ GluonObject::sanitize()
 {
     DEBUG_BLOCK
     DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
-    
+
     const QObjectList &children = this->children();
     foreach(QObject * child, children)
     {
@@ -85,7 +85,7 @@ GluonObject::sanitize()
             DEBUG_TEXT(QString("Child found which is not a GluonObject!"));
         }
     }
-    
+
     // Make sure the GameProject is set... Iterate upwards until you either reach
     // the first GameProject instance, or you run into a parent which is null
     if(!this->gameProject())
@@ -101,7 +101,7 @@ GluonObject::sanitize()
             currentParent = currentParent->parent();
         }
     }
-    
+
     // Run through all properties, check whether they are set to the correct
     // value. If they should be pointing to something, make them!
     // (e.g. GameObject(Projectname.Something))
@@ -110,7 +110,7 @@ GluonObject::sanitize()
     if(gameProject())
     {
         QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
-        
+
         const QMetaObject *metaobject = this->metaObject();
         if(metaobject == NULL)
             return;
@@ -118,24 +118,24 @@ GluonObject::sanitize()
         for(int i = 0; i < count; ++i)
         {
             QMetaProperty metaproperty = metaobject->property(i);
-            
+
             // This is really only relevant if the property value is a string.
             // If it is not, what happens below is irrelevant
             if(metaproperty.type() != QVariant::String)
                 continue;
-            
+
             const QString theName(metaproperty.name());
             if(theName == "objectName" || theName == "name")
                 continue;
-            
+
             QString theValue(metaproperty.read(this).toString());
-            
+
             // If we haven't got a reference, don't bother to look
             if(!theValue.endsWith(')'))
                 continue;
-            
+
             DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
-            
+
             // Yes, i know this is O(n*m) but it does not happen during gameplay
             foreach(const QString &name, objectTypeNames)
             {
@@ -160,7 +160,7 @@ GluonObject::sanitize()
                 }
             }
         }
-        
+
         // Then get all the dynamic ones (in case any such exist)
         QList<QByteArray> propertyNames = dynamicPropertyNames();
         foreach(QByteArray propName, propertyNames)
@@ -168,18 +168,18 @@ GluonObject::sanitize()
             const QString theName(propName);
             if(theName == "objectName" || theName == "name")
                 continue;
-            
+
             // This is really only relevant if the property value is a string.
             // If it is not, what happens below is irrelevant
             if(property(propName).type() != QVariant::String)
                 continue;
-            
+
             QString theValue(property(propName).toString());
-            
+
             // If we haven't got a reference, don't bother to look
             if(!theValue.endsWith(')'))
                 continue;
-            
+
             DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
 
             // Yes, i know this is O(n*m) but it does not happen during gameplay
@@ -278,21 +278,22 @@ GluonObject::toGDL(int indentLevel) const
     DEBUG_FUNC_NAME
     QString serializedObject;
     DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
+    DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
 
     QString indentChars(indentLevel * 4, ' ');
 
     // Only jump to net line in case we are inside another object
     if(indentLevel > 0)
         serializedObject += '\n';
-    
+
     QString minimalClassName(this->metaObject()->className());
     if(QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
         minimalClassName = minimalClassName.right(minimalClassName.length() - 7);
     serializedObject += QString("%1{ %2(%3)").arg(indentChars).arg(minimalClassName).arg(this->name());
-    
+
     serializedObject += propertiesToGDL(indentLevel + 1);
     serializedObject += childrenToGDL(indentLevel + 1);
-    
+
     return QString("%1\n%2}").arg(serializedObject).arg(indentChars);
 }
 
@@ -300,7 +301,7 @@ QString
 GluonObject::childrenToGDL(int indentLevel) const
 {
     QString serializedChildren;
-    
+
     // Run through all the children to get them as well
     foreach(QObject* child, children())
     {
@@ -308,7 +309,7 @@ GluonObject::childrenToGDL(int indentLevel) const
         if(theChild)
             serializedChildren += theChild->toGDL(indentLevel);
     }
-    
+
     return serializedChildren;
 }
 
@@ -319,7 +320,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
     QString serializedObject;
 
     QString indentChars(indentLevel * 4, ' ');
-    
+
     // Get all the normally defined properties
     const QMetaObject *metaobject = this->metaObject();
     int count = metaobject->propertyCount();
@@ -405,7 +406,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     }
 
     setProperty(propertyName.toUtf8(), value);
-    
+
     DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName).arg(theTypeName).arg(theValue).arg(value.typeName()).arg(value.type()).arg(propertyValue));
 }
 
@@ -416,7 +417,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     QString value;
 
     QVariant theValue = this->property(propertyName.toUtf8());
-    
+
     QColor theColor;
     switch(theValue.type())
     {
@@ -477,9 +478,9 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             }
             break;
     }
-    
+
     QString returnString = QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
-    
+
     if(value.isEmpty())
     {
         value = QString("(empty value)");
