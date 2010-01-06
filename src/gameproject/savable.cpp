@@ -43,7 +43,7 @@ Savable::saveToFile(Asset* asset)
     
     // Make sure the filename is populated and is sane
     if(asset->file().isEmpty())
-        asset->setFile( QUrl( QString("Scenes/%1.gdl").arg(asset->fullyQualifiedName()) ) );
+        asset->setFile( QUrl( QString("Scenes/%1.gdl").arg(asset->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) );
     
     // Create appropriate folders
     if(!QDir::current().exists("Scenes"))
