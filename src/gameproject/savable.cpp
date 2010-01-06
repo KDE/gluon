@@ -33,15 +33,16 @@ Savable::~Savable()
 bool
 Savable::saveToFile(QString fileContents) const
 {
-    QFile *savableFile = new QFile(qobject_cast<Asset*>(this)->file().toLocalFile());
+    const Asset * asset = dynamic_cast<const Asset*>(this);
+    if(!asset)
+        return false;
+    
+    QFile *savableFile = new QFile(asset->file().toLocalFile());
     if(!savableFile->open(QIODevice::WriteOnly))
         return false;
     
-    QList<const GluonObject*> thisProject;
-    thisProject.append(this);
-    
     QTextStream fileWriter(savableFile);
-    fileWriter << GDLHandler::instance()->serializeGDL(thisProject);
+    fileWriter << fileContents;
     savableFile->close();
     
     delete(savableFile);
