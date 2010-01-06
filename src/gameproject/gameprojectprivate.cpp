@@ -52,7 +52,7 @@ GameProjectPrivate::findItemByNameInObject(QStringList qualifiedName, GluonObjec
     GluonObject * foundChild = NULL;
     QString lookingFor(qualifiedName[0]);
     qualifiedName.removeFirst();
-    
+
     DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(parentObject->name()));
     foreach(QObject * child, parentObject->children())
     {
@@ -80,7 +80,7 @@ GameProjectPrivate::findItemByNameInObject(QStringList qualifiedName, GluonObjec
     {
         DEBUG_TEXT("Did not find child! Bailing out");
     }
-    
+
     return foundChild;
 }
 
@@ -93,18 +93,22 @@ GameProjectPrivate::saveChildren(const GluonObject* parent)
         DEBUG_TEXT(QString("Object child was null!"));
         return false;
     }
-    
-    QObjectList childList = parent->children();
-    foreach(const QObject* child, childList)
+
+    for(int i = 0; i < parent->children().size(); ++i)
     {
+        GluonObject *child = parent->child(i);
         // Meh, dynamic_cast is slow, but at least it's going to be calling something that does
         // disk IO, so it's not the slowest thing there
         if(child->inherits("Gluon::Savable"))
         {
             DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonObject*>(child)->name()));
+<<<<<<< HEAD:src/gameproject/gameprojectprivate.cpp
+            Savable::saveToFile(dynamic_cast<Gluon::Asset*>(child));
+=======
             Savable::saveToFile(const_cast<Asset*>(qobject_cast<const Asset*>(child)));
+>>>>>>> 8650207696974294491f91cfdfd5a7c02112b226:src/gameproject/gameprojectprivate.cpp
         }
-        
+
         // Recurse, wooh!
         saveChildren(qobject_cast<const GluonObject*>(child));
     }

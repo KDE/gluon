@@ -40,15 +40,15 @@ Savable::saveToFile(Asset* asset)
         DEBUG_TEXT(QString("Asset was NULL!"))
         return false;
     }
-    
+
     // Make sure the filename is populated and is sane
     if(asset->file().isEmpty())
         asset->setFile( QUrl( QString("Scenes/%1.gdl").arg(asset->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) );
-    
+
     // Create appropriate folders
     if(!QDir::current().exists("Scenes"))
         QDir::current().mkdir("Scenes");
-    
+
     // Perform the save
     QFile *savableFile = new QFile(asset->file().toLocalFile());
     if(!savableFile->open(QIODevice::WriteOnly))
@@ -56,11 +56,11 @@ Savable::saveToFile(Asset* asset)
         DEBUG_TEXT(QString("Could not write to file %1").arg(asset->file().toString()))
         return false;
     }
-    
+
     QTextStream fileWriter(savableFile);
     fileWriter << dynamic_cast<Savable*>(asset)->contentsToGDL();
     savableFile->close();
-    
+
     delete(savableFile);
     return true;
 }

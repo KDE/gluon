@@ -31,7 +31,7 @@ using namespace Gluon;
 ScenePrivate::ScenePrivate(Scene* q)
 {
     this->q = q;
-    sceneContents = NULL;
+    sceneContents = new GameObject();
 }
 
 ScenePrivate::ScenePrivate::~ScenePrivate()
@@ -47,16 +47,16 @@ void
 ScenePrivate::loadContents(const QUrl& file)
 {
     delete(sceneContents);
-    
+
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::ReadOnly))
         return;
-    
+
     QTextStream sceneReader(sceneFile);
     QList<GluonObject*> theContents = GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
     sceneFile->close();
     delete(sceneFile);
-    
+
     sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);
@@ -68,11 +68,11 @@ ScenePrivate::saveContents(const QUrl& file)
     QList<const GluonObject*> scene;
     foreach(const QObject *item, sceneContents->children())
         scene.append(qobject_cast<const GluonObject*>(item));
-    
+
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::WriteOnly))
         return;
-    
+
     QTextStream sceneWriter(sceneFile);
     sceneWriter << GDLHandler::instance()->serializeGDL(scene);
     sceneWriter.flush();
