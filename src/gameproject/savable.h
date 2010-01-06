@@ -45,6 +45,15 @@ namespace Gluon
              * @see Gluon::Asset
              */
             static bool saveToFile(Asset * asset);
+            
+            /**
+             * Serialise the contents of the asset to GDL. This function should
+             * be implemented in a way which returns the GDL for what the asset
+             * contains.
+             * 
+             * @return The serialised contents of the asset
+             */
+            virtual QString contentsToGDL() = 0;
     };
 }
 

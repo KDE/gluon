@@ -102,7 +102,7 @@ GameProjectPrivate::saveChildren(const GluonObject* parent)
         if(child->inherits("Gluon::Savable"))
         {
             DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonObject*>(child)->name()));
-            Savable::saveToFile(qobject_cast<Asset*>(child));
+            Savable::saveToFile(const_cast<Asset*>(qobject_cast<const Asset*>(child)));
         }
         
         // Recurse, wooh!

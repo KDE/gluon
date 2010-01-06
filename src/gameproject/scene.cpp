@@ -66,6 +66,12 @@ Scene::setFile(const QUrl &newFile)
     Gluon::Asset::setFile(newFile);
 }
 
+QString
+Scene::contentsToGDL()
+{
+    return sceneContents()->childrenToGDL();
+}
+
 GameObject*
 Scene::sceneContents()
 {
