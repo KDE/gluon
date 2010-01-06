@@ -99,6 +99,7 @@ void MainWindow::saveProject(const QString &fileName)
     {
         statusBar()->showMessage(i18n("Saving project..."));
         Gluon::Game::instance()->gameProject()->setFilename(QUrl(fileName));
+        QDir::setCurrent(KUrl(fileName).directory());
         if(!Gluon::Game::instance()->gameProject()->saveToFile())
         {
             KMessageBox::error(this, i18n("Could not save file."));

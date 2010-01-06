@@ -24,7 +24,7 @@
 namespace Gluon
 {
     class Asset;
-    
+
     /**
      * The Savable class decorates any Asset to allow for saving that Asset
      * to a GDL file (the filename it has). Note that you should only ever
@@ -37,14 +37,14 @@ namespace Gluon
             /**
              * Saves the passed asset to the filename indicated
              * by the Asset's file property.
-             * 
+             *
              * @param asset     The asset to save
              *
              * @return Whether or not the file was successfully saved
              *
              * @see Gluon::Asset
              */
-            static bool saveToFile(Asset * asset);
+            static bool saveToFile(Gluon::Asset* asset);
     };
 }
 

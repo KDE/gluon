@@ -44,7 +44,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     QHash<QString, Gluon::GluonObject*> objectTypes = Gluon::GluonObjectFactory::instance()->objectTypes();
     foreach(Gluon::GluonObject* obj, objectTypes)
     {
-        if(obj->metaObject()->superClass()->className() == QString("Gluon::Component")) d->view->addItem(obj->metaObject()->className());
+        if(obj->inherits("Gluon::Component")) d->view->addItem(obj->metaObject()->className());
     }
 
     setWidget(d->view);

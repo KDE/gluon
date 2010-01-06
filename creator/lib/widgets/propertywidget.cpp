@@ -113,7 +113,6 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
     QString propertyDescription;
     QVariant propertyValue;
 
-    object->setProperty("test", QVariant(QString("test")));
     const QMetaObject *metaObject = object->metaObject();
     QMetaProperty metaProperty;
 
