@@ -19,10 +19,10 @@
 
 #include "savable.h"
 #include "gluonobject.h"
-#include "gdlhandler.h"
 #include "asset.h"
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QDir>
 
 using namespace Gluon;
 
@@ -31,18 +31,26 @@ Savable::~Savable()
 }
 
 bool
-Savable::saveToFile(QString fileContents) const
+Savable::saveToFile(Asset* asset)
 {
-    const Asset * asset = dynamic_cast<const Asset*>(this);
     if(!asset)
         return false;
     
+    // Make sure the filename is populated and is sane
+    if(asset->file().isEmpty())
+        asset->setFile( QUrl( QString("Scenes/%1.gdl").arg(asset->fullyQualifiedName()) ) );
+    
+    // Create appropriate folders
+    if(!QDir::current().exists("Scenes"))
+        QDir::current().mkdir("Scenes");
+    
+    // Perform the save
     QFile *savableFile = new QFile(asset->file().toLocalFile());
     if(!savableFile->open(QIODevice::WriteOnly))
         return false;
     
     QTextStream fileWriter(savableFile);
-    fileWriter << fileContents;
+    fileWriter << asset->toGDL();
     savableFile->close();
     
     delete(savableFile);

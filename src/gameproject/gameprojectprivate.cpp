@@ -19,9 +19,10 @@
 
 #include "gameprojectprivate.h"
 #include "gluonobject.h"
+#include "asset.h"
+#include "savable.h"
 #include "debughelper.h"
 #include <QtCore/QStringList>
-#include "savable.h"
 
 using namespace Gluon;
 
@@ -101,7 +102,7 @@ GameProjectPrivate::saveChildren(const GluonObject* parent)
         if(child->inherits("Gluon::Savable"))
         {
             DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonObject*>(child)->name()));
-            dynamic_cast<const Savable *>(child)->saveToFile(qobject_cast<const GluonObject*>(child)->toGDL());
+            Savable::saveToFile(qobject_cast<Asset*>(child));
         }
         
         // Recurse, wooh!

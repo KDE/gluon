@@ -23,6 +23,8 @@
 
 namespace Gluon
 {
+    class Asset;
+    
     /**
      * The Savable class decorates any Asset to allow for saving that Asset
      * to a GDL file (the filename it has). Note that you should only ever
@@ -33,15 +35,16 @@ namespace Gluon
         public:
             virtual ~Savable();
             /**
-             * Saves the contents of the passed string to the filename indicated
+             * Saves the passed asset to the filename indicated
              * by the Asset's file property.
-             * @param fileContents  The contents to save to file. This would most likely be the data returned by toGDL()
+             * 
+             * @param asset     The asset to save
              *
              * @return Whether or not the file was successfully saved
              *
-             * @see Gluon::Asset, Gluon::GluonObject::toGDL()
+             * @see Gluon::Asset
              */
-            virtual bool saveToFile(QString fileContents) const;
+            static bool saveToFile(Asset * asset);
     };
 }
 
