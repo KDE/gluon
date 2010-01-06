@@ -1,7 +1,0 @@
-{ GameProject(Test Project)
-	description string(A test project)
-	entryPoint GluonObject(A Scene)
-	{ Scene(A Scene)
-		file file(assets/scene.gdl)
-	}
-}
