@@ -31,7 +31,9 @@ using namespace Gluon;
 ScenePrivate::ScenePrivate(Scene* q)
 {
     this->q = q;
-    sceneContents = new GameObject();
+
+    sceneContents = new GameObject(q);
+    sceneContents->setName(q->name());
 }
 
 ScenePrivate::ScenePrivate::~ScenePrivate()
@@ -57,6 +59,7 @@ ScenePrivate::loadContents(const QUrl& file)
     sceneFile->close();
     delete(sceneFile);
 
+    if(sceneContents) delete sceneContents;
     sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);

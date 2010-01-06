@@ -66,10 +66,17 @@ Scene::setFile(const QUrl &newFile)
     Gluon::Asset::setFile(newFile);
 }
 
+void Scene::setName(const QString& newName)
+{
+    sceneContents()->setName(newName);
+    Gluon::GluonObject::setName(newName);
+}
+
+
 QString
 Scene::contentsToGDL()
 {
-    return sceneContents()->childrenToGDL();
+    return sceneContents()->toGDL();
 }
 
 GameObject*

@@ -41,12 +41,13 @@ class ProjectDock::ProjectDockPrivate
 Gluon::Creator::ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
     setObjectName("ProjectDock");
-    
+
     d = new ProjectDockPrivate;
 
     d->model = new ProjectModel(this);
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
+    d->view->set
 
     d->model->setProject(Game::instance()->gameProject());
     connect(Game::instance(), SIGNAL(currentProjectChanged(GameProject*)), d->model, SLOT(setProject(GameProject*)));
@@ -62,8 +63,7 @@ Gluon::Creator::ProjectDock::~ProjectDock()
 
 QAbstractItemModel* Gluon::Creator::ProjectDock::model()
 {
-    //return d->model;
-    return 0;
+    return d->model;
 }
 
 QAbstractItemView* Gluon::Creator::ProjectDock::view()
@@ -82,13 +82,13 @@ void Gluon::Creator::ProjectDock::activated(QModelIndex index)
     {
         return;
     }
-    
+
     QObject* obj = static_cast<QObject*>(index.internalPointer());
     if(!obj)
     {
         return;
     }
-    
+
     Gluon::Scene* scene = qobject_cast<Gluon::Scene*>(obj);
     if(scene)
     {

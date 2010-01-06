@@ -94,7 +94,7 @@ void Gluon::Creator::SceneDock::sceneChanged(Scene* obj)
     {
         d->model->setRootGameObject(obj->sceneContents());
         SelectionManager::SelectionList selection;
-        selection.append(obj);
+        selection.append(obj->sceneContents());
         SelectionManager::instance()->setSelection(selection);
     }
 }

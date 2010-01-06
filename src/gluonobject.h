@@ -40,7 +40,7 @@ namespace Gluon
         Q_OBJECT
         Q_PROPERTY(QString name READ name WRITE setName)
         // There is deliberately no gameProject property
-        
+
         public:
             GluonObject(QObject * parent = 0);
             GluonObject(const QString& name, QObject *parent = 0);
@@ -56,14 +56,14 @@ namespace Gluon
              */
             virtual GluonObject * instantiate();
 
-            QString name() const;
-            void setName(const QString &newName);
+            virtual QString name() const;
+            virtual void setName(const QString &newName);
             QString fullyQualifiedName() const;
 
             /**
              * Use this to access functions on the GameProject instance associated
              * with this GluonObject.
-             * 
+             *
              * @return The instance of GameProject this GluonObject is associated with
              * @see GameProject GameProject::findItemByName
              */
@@ -71,18 +71,18 @@ namespace Gluon
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
-             * 
+             *
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
             void setGameProject(GameProject * newGameProject);
-            
+
             virtual QString toGDL(int indentLevel = 0) const;
             virtual QString childrenToGDL(int indentLevel = 0) const;
             virtual QString propertiesToGDL(int indentLevel = 0) const;
-            
+
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
             virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
-            
+
             virtual void sanitize();
 
             /**

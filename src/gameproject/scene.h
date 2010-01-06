@@ -27,26 +27,28 @@ namespace Gluon
 {
     class GameObject;
     class ScenePrivate;
-    
+
     class GLUON_EXPORT Scene : public Gluon::Asset, public Gluon::Savable
     {
         Q_OBJECT
-        
+
         public:
             Scene(QObject * parent = 0);
             ~Scene();
-            
+
             virtual Scene * instantiate();
-            
+
             virtual void setFile(const QUrl &newFile);
+            virtual void setName(const QString& newName);
+
             virtual QString contentsToGDL();
-            
+
             virtual void startAll();
             virtual void updateAll(int elapsedMilliseconds);
             virtual void drawAll(int timeLapse = 0);
-            
+
             GameObject* sceneContents();
-            
+
         private:
             ScenePrivate* d;
     };
