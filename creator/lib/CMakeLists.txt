@@ -27,7 +27,7 @@ target_link_libraries(gluoncreatorlib ${GLUON_LIBRARY} ${KDE4_KDEUI_LIBS})
 
 add_subdirectory(cmake)
 
-install(TARGETS gluoncreatorlib LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS gluoncreatorlib ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/creator)
 install(FILES
