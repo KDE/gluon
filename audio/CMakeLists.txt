@@ -4,69 +4,49 @@ find_package(OpenAL REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 
-include_directories(${OPENAL_INCLUDE_DIR})
-
-include_directories(${SNDFILE_INCLUDE_DIR}
+include_directories(${OPENAL_INCLUDE_DIR}
+		    ${SNDFILE_INCLUDE_DIR}
                     ${OGG_INCLUDE_DIR}
                     ${VORBISFILE_INCLUDE_DIR})
+
 include_directories(./)
 
-set(kal_LIB_SRCS
-    kalengine.cpp
-    kalphonon.cpp
-    kalsoundreader.cpp
-    kalmusic.cpp
-    kalcapture.cpp
-    kalbuffer.cpp
-    kalsound.cpp
+set(GluonAudio_SRCS
+    engine.cpp
+    phonon.cpp
+    soundreader.cpp
+    music.cpp
+    capture.cpp
+    buffer.cpp
+    sound.cpp
 
-    widgets/kalinfowidget.cpp
-    widgets/kalplayerwidget.cpp
-
-    kalcapturedevice_p.cpp
-    kaldevice_p.cpp
+    capturedevice_p.cpp
+    device_p.cpp
 )
 
-qt4_automoc(${kal_LIB_SRCS})
-add_library(kal SHARED ${kal_LIB_SRCS})
+qt4_automoc(${GluonAudio_SRCS})
+add_library(GluonAudio SHARED ${GluonAudio_SRCS})
 
-set_target_properties(kal PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
+set_target_properties(GluonAudio PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 
-target_link_libraries(kal
-                      ${KDE4_PHONON_LIBS}
+target_link_libraries(GluonAudio
                       ${OPENAL_LIBRARY}
                       ${SNDFILE_LIBRARY}
                       ${OGG_LIBRARY}
                       ${VORBISFILE_LIBRARY}
 		      ${PHONON_LIBRARY}
-		${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
+		      ${QT_QTCORE_LIBRARY}
 )
 
-if(APPLE)
-
-install(TARGETS kal DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS GluonAudio DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 
-else()
-
-install(TARGETS kal ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
-endif()
-
 install(FILES
-kalbuffer.h
-kalengine.h
-kalsoundreader.h
-kal_export.h
-kalphonon.h
-kalsound.h
-kalmusic.h
-kalcapture.h
-widgets/kalinfowidget.h
-widgets/kalplayerwidget.h
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal COMPONENT Devel)
-
-install(FILES
-widgets/kalinfowidget.h
-widgets/kalplayerwidget.h
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/kal/widgets COMPONENT Devel)
+  buffer.h
+  engine.h
+  soundreader.h
+  phonon.h
+  sound.h
+  music.h
+  capture.h
+DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio COMPONENT Devel)

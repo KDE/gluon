@@ -1,6 +1,7 @@
 /*
-   This file is part of the Gluon project.
+   This file is part of Gluon Audio
    Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
+   Copyright (C) 2010 Arjen Hiemstra <>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -17,7 +18,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "kalcapturedevice_p.h"
+#include "capturedevice_p.h"
 
 #ifdef Q_WS_X11
 #include <AL/alc.h>

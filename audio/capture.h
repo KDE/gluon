@@ -25,7 +25,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-#include "kal_export.h"
+#include "gluon_export.h"
 
 /**
  * \defgroup KAL KAL

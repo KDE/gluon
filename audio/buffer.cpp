@@ -19,9 +19,9 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalbuffer.h"
-#include "kalengine.h"
-#include "kalsoundreader.h"
+#include "buffer.h"
+#include "engine.h"
+#include "soundreader.h"
 
 class KALBufferPrivate
 {

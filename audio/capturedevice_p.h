@@ -17,7 +17,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "kaldevice_p.h"
+#ifndef GLUONAUDIO_CAPTUREDEVICE_H
+#define GLUONAUDIO_CAPTUREDEVICE_H
+
+#include "device_p.h"
 
 #ifdef Q_WS_X11
 #include <AL/al.h>
@@ -26,33 +29,16 @@
 #include <OpenAL/al.h>
 #endif
 
-KALDevice::KALDevice(ALCdevice *device)
-    : m_device(device)
+class KALCaptureDevice : public KALDevice
 {
-}
+public:
+    explicit KALCaptureDevice(const QString &deviceName = QString(), int frequency = 44100, int format = AL_FORMAT_MONO16, int buffersize = 44100);
+    ~KALCaptureDevice();
 
-KALDevice::~KALDevice()
-{
-    alcCloseDevice(m_device);
-}
+    ALCint samples();
 
-bool KALDevice::isExtensionPresent(const QString &extension)
-{
-    return alcIsExtensionPresent(NULL, extension.toUtf8());
-}
+    ALshort startCapture(ALCsizei samples);
+    void stopCapture();
+};
 
-QStringList KALDevice::contextOption(int option)
-{
-    const ALCchar *alcList = alcGetString(NULL, option);
-
-    // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
-    // So we can't pass it directly to QStringList
-    QStringList optionList;
-    if (alcList) {
-        while (strlen(alcList) > 0) {
-            optionList << QString(alcList);
-            alcList += strlen(alcList) + 1;
-        }
-    }
-    return optionList;
-}
+#endif // GLUONAUDIO_CAPTUREDEVICE_H

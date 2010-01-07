@@ -19,9 +19,9 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalengine.h"
-#include "kalphonon.h"
-#include "kaldevice_p.h"
+#include "engine.h"
+#include "phonon.h"
+#include "device_p.h"
 
 #include <QtCore/QtGlobal>
 

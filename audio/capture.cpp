@@ -18,9 +18,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "kalcapture.h"
-#include "kalcapturedevice_p.h"
+#include "capture.h"
+#include "capturedevice_p.h"
 
+#include <QtCore/QtGlobal>
 #include <QtCore/QDebug>
 #include <QtCore/QTime>
 #include <QtCore/QFile>
@@ -36,7 +37,6 @@
 #endif
 
 #include <sndfile.h>
-#include <QtCore/QtGlobal>
 
 class KALCapturePrivate
 {
@@ -121,4 +121,4 @@ void KALCapture::save(const QString& fileName)
     sf_close(file);
 }
 
-#include "kalcapture.moc"
+#include "capture.moc"

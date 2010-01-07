@@ -22,7 +22,7 @@
 #ifndef KALENGINE2_H
 #define KALENGINE2_H
 
-#include "kal_export.h"
+#include "gluon_export.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
