@@ -101,6 +101,11 @@ GluonObject::sanitize()
             currentParent = currentParent->parent();
         }
     }
+    
+    if(!gameProject())
+    {
+        DEBUG_TEXT(QString("GameProject is null, we must thus fail at sanitizing"))
+    }
 
     // Run through all properties, check whether they are set to the correct
     // value. If they should be pointing to something, make them!

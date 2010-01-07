@@ -82,7 +82,7 @@ Scene::contentsToGDL()
 GameObject*
 Scene::sceneContents()
 {
-    if(!d->sceneContents)
+    if(!d->sceneContentsLoaded)
         d->loadContents(FileLocation(gameProject(), file()).location());
     return d->sceneContents;
 }

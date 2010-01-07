@@ -21,6 +21,7 @@
 #include "scene.h"
 #include "gdlhandler.h"
 #include "gameobject.h"
+#include "debughelper.h"
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
@@ -32,6 +33,7 @@ ScenePrivate::ScenePrivate(Scene* q)
 {
     this->q = q;
 
+    sceneContentsLoaded = false;
     sceneContents = new GameObject(q);
     sceneContents->setName(q->name());
 }
@@ -43,26 +45,35 @@ ScenePrivate::ScenePrivate::~ScenePrivate()
 void
 ScenePrivate::unloadContents()
 {
+    qDeleteAll(sceneContents->children());
+    sceneContentsLoaded = false;
 }
 
 void
 ScenePrivate::loadContents(const QUrl& file)
 {
-    delete(sceneContents);
+    DEBUG_FUNC_NAME
 
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::ReadOnly))
+    {
+        DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
         return;
+    }
 
     QTextStream sceneReader(sceneFile);
     QList<GluonObject*> theContents = GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
     sceneFile->close();
     delete(sceneFile);
 
-    if(sceneContents) delete sceneContents;
+    if(sceneContents)
+        delete sceneContents;
     sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);
+    
+    sceneContents->sanitize();
+    sceneContentsLoaded = true;
 }
 
 void
