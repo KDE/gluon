@@ -1,34 +1,40 @@
-# - Try to find Gluon's common files
+# - Try to find the Gluon Core library.
 #
 # Once done this will define
-#  GLUONCOMMON_FOUND - system has Gluon common files
-#  GLUONCOMMON_INCLUDES - all include directories required for Gluon's common files, use it with KDE4_INCLUDES
-#  GLUONCOMMON_INCLUDE_DIR - the Gluon common include directory
+#  GLUON_CORE_FOUND - The Gluon Core library was found
+#  GLUON_CORE_LIBRARY - The Gluon Core library location
+#  GLUON_CORE_INCLUDES - all include directories required for the Gluon Core library
+#  GLUON_CORE_INCLUDE_DIR - the Gluon Core include directory
 #
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+# For details see the COPYING-CMAKE-SCRIPTS file from Gluon's Source tree.
 
-if (GLUONCOMMON_LIBRARY AND GLUONCOMMON_INCLUDE_DIR)
+if (GLUON_CORE_LIBRARY AND GLUON_CORE_INCLUDE_DIR)
   # Already in cache, be silent
-  set(GLUONCOMMON_FOUND TRUE)
-endif (GLUONCOMMON_LIBRARY AND GLUONCOMMON_INCLUDE_DIR)
+  set(GLUON_CORE_FOUND TRUE)
+endif (GLUON_CORE_LIBRARY AND GLUON_CORE_INCLUDE_DIR)
 
-if (GluonCommon_FIND_REQUIRED)
-    set(_gluonCommonReq "REQUIRED")
-endif (GluonCommon_FIND_REQUIRED)
+if (GluonCore_FIND_REQUIRED)
+    set(_gluonCoreReq "REQUIRED")
+endif (GluonCore_FIND_REQUIRED)
 
-find_path(GLUONCOMMON_INCLUDE_DIR
+find_path(GLUON_CORE_INCLUDE_DIR
     NAMES
-    gluon/common/ksingleton.h
+    gluon/core/singleton.h
     PATHS
-    ${INCLUDE_INSTALL_DIR}
+    ${CMAKE_INSTALL_PREFIX}/includes
 )
 
-set(GLUONCOMMON_INCLUDES
-    ${GLUONCOMMON_INCLUDE_DIR}/gluon
-    CACHE STRING "Common files for Gluon"
+set(GLUON_CORE_INCLUDES
+    ${GLUON_CORE_INCLUDE_DIR}
+    CACHE STRING "Includes required for Gluon Core"
 )
+
+#find_path(GLUON_CORE_LIBRARY
+#    NAMES
+#
+#)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(GluonCommon DEFAULT_MSG GLUONCOMMON_INCLUDES)
+find_package_handle_standard_args(GluonCore DEFAULT_MSG GLUON_CORE_INCLUDES)
