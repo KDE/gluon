@@ -14,23 +14,28 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef KSINGLETON
-#define KSINGLETON
+#ifndef GLUON_CORE_SINGLETON
+#define GLUON_CORE_SINGLETON
 
 #include <QtCore/QObject>
 
-template <typename T>
-class KSingleton : public QObject
+namespace GluonCore
 {
+    template <typename T>
+    class Singleton : public QObject
+    {
     public:
         static T* instance()
         {
-            if(!m_instance) m_instance = new T;
+            if(!m_instance) {
+                m_instance = new T;
+            }
             return m_instance;
         }
 
     protected:
         static T* m_instance;
-};
+    };
+}
 
-#endif
+#endif //GLUON_CORE_SINGLETON
