@@ -187,21 +187,17 @@ Game::setGameProject(GameProject * newGameProject)
     if(!gameProject()->entryPoint())
     {
         DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
-        foreach(QObject * obj, newGameProject->children())
+        Scene *scene = GamePrivate::findSceneInChildren(newGameProject);
+        if(scene)
         {
-            Scene *scene = qobject_cast<Scene*>(obj);
-            if(scene)
-            {
-                newGameProject->setEntryPoint(scene);
-                DEBUG_TEXT(QString("Entry point salvaged by resetting to first game object in project"))
-                break;
-            }
+            d->gameProject->setEntryPoint(scene);
+            DEBUG_TEXT(QString("Entry point salvaged by resetting to first Scene in project - %1").arg(scene->fullyQualifiedName()))
         }
     }
 
-    if(newGameProject->entryPoint())
+    if(gameProject()->entryPoint())
     {
-        DEBUG_TEXT(QString("Setting the gameproject to %1 with the entry point %2").arg(newGameProject->name()).arg(newGameProject->entryPoint()->name()))
+        DEBUG_TEXT(QString("Set the gameproject to %1 with the entry point %2").arg(gameProject()->name()).arg(gameProject()->entryPoint()->name()))
     }
     else
     {
