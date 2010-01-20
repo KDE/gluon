@@ -190,7 +190,7 @@ Game::setGameProject(GameProject * newGameProject)
         Scene *scene = GamePrivate::findSceneInChildren(newGameProject);
         if(scene)
         {
-            d->gameProject->setEntryPoint(scene);
+            gameProject()->setEntryPoint(scene);
             DEBUG_TEXT(QString("Entry point salvaged by resetting to first Scene in project - %1").arg(scene->fullyQualifiedName()))
         }
     }
@@ -204,8 +204,8 @@ Game::setGameProject(GameProject * newGameProject)
         DEBUG_TEXT(QString("Somehow we have got here with no entrypoint... This is very, very wrong!"))
     }
     
-    setCurrentScene(newGameProject->entryPoint());
-    emit currentProjectChanged(newGameProject);
+    setCurrentScene(gameProject()->entryPoint());
+    emit currentProjectChanged(gameProject());
 }
 
 
