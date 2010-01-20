@@ -378,8 +378,8 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         value = theValue.toFloat();
     } else if(theTypeName == "int") {
         value = theValue.toInt();
-    } else if(theTypeName == "file" ) {
-        DEBUG_TEXT(QString("Setting property from file"));
+    } else if(theTypeName == "file" || theTypeName == "url") {
+        DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
         value = QVariant(QUrl(theValue));
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
