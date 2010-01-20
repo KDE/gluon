@@ -244,7 +244,7 @@ Scene *
 GameProject::entryPoint() const
 {
 //    return d->entryPoint;
-    return qobject_cast<Scene*>(property("entryPoint").value<GluonObject*>());
+    return qobject_cast<Scene*>(property("entryPoint").value<Scene*>());
 }
 void
 GameProject::setEntryPoint(Scene * newEntryPoint)
