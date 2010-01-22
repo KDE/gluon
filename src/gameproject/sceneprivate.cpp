@@ -74,6 +74,8 @@ ScenePrivate::loadContents(const QUrl& file)
     
     sceneContents->sanitize();
     sceneContentsLoaded = true;
+    
+    sceneContents->setName(q->name());
 }
 
 void
