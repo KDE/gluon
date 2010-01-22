@@ -90,6 +90,10 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
         return QModelIndex();
 
     GameObject *childItem = static_cast<GameObject*>(child.internalPointer());
+    
+    if(!childItem)
+        return QModelIndex();
+    
     GameObject *parentItem = childItem->parentGameObject();
 
     if (parentItem == m_root)
@@ -128,9 +132,12 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 
 int SceneModel::rowIndex(GameObject* object) const
 {
-    if(object && object->parentGameObject())
+    if(object)
     {
-        return object->parentGameObject()->childIndex(object);
+        if(object->parentGameObject())
+        {
+            return object->parentGameObject()->childIndex(object);
+        }
     }
     return 0;
 }
