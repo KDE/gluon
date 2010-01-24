@@ -44,9 +44,15 @@ void SceneModel::setRootGameObject(GameObject* obj)
 {
     if(obj)
     {
-        if(m_root) delete m_root;
-        m_root = new GameObject(this);
-        m_root->addChild(obj);
+        /*if(!m_root)
+            m_root = new GameObject(this);
+        
+        if(m_root->childCount() > 0)
+            m_root->removeChild(m_root->childGameObject(0));
+
+        m_root->addChild(obj);*/
+        m_root = obj;
+        
         reset();
     }
 }

@@ -15,6 +15,7 @@
 */
 
 #include "objectmanager.h"
+#include "debughelper.h"
 
 #include <gameobject.h>
 #include <scene.h>
@@ -29,20 +30,30 @@ template<> GLUONCREATORLIB_EXPORT ObjectManager* KSingleton<ObjectManager>::m_in
 
 Gluon::GameObject* Gluon::Creator::ObjectManager::createNewObject()
 {
+    DEBUG_FUNC_NAME
     Gluon::GameObject *newObj = new Gluon::GameObject();
     newObj->setName(i18n("New Object %1").arg(m_objectId++));
+    DEBUG_TEXT(QString("Creating object: %1").arg(newObj->name()));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
     if(selection.size() > 0)
     {
         GameObject* obj = qobject_cast<GameObject*>(selection.at(0));
-        if(obj) obj->addChild(newObj);
+        if(obj)
+        {
+            DEBUG_TEXT(QString("Item %1 selected in Scene tree - assign new object as child").arg(obj->fullyQualifiedName()));
+            obj->addChild(newObj);
+        }
     }
 
     if(newObj->parentGameObject() == 0)
     {
+        DEBUG_TEXT(QString("No parent game object yet - assign as child to Scene root"));
         Gluon::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
     }
+    
+    // Remember to mark the current scene dirty
+    Gluon::Game::instance()->currentScene()->savableDirty = true;
 
     emit newObject(newObj);
     return newObj;

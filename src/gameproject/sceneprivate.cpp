@@ -45,7 +45,8 @@ ScenePrivate::ScenePrivate::~ScenePrivate()
 void
 ScenePrivate::unloadContents()
 {
-    qDeleteAll(sceneContents->children());
+    if(sceneContentsLoaded)
+        qDeleteAll(sceneContents->children());
     sceneContentsLoaded = false;
 }
 
@@ -53,8 +54,19 @@ void
 ScenePrivate::loadContents(const QUrl& file)
 {
     DEBUG_FUNC_NAME
+    if(file.isEmpty())
+    {
+        DEBUG_TEXT(QString("Filename for scene was empty, so we can't load - aborting"));
+        return;
+    }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
+    if(!sceneFile->exists())
+    {
+        DEBUG_TEXT(QString("File %1 does not exist, aborting scene load").arg(file.toLocalFile()));
+        return;
+    }
+    
     if(!sceneFile->open(QIODevice::ReadOnly))
     {
         DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
@@ -74,6 +86,7 @@ ScenePrivate::loadContents(const QUrl& file)
     
     sceneContents->sanitize();
     sceneContentsLoaded = true;
+    q->savableDirty = false;
     
     sceneContents->setName(q->name());
 }
@@ -84,7 +97,7 @@ ScenePrivate::saveContents(const QUrl& file)
     QList<const GluonObject*> scene;
     foreach(const QObject *item, sceneContents->children())
         scene.append(qobject_cast<const GluonObject*>(item));
-
+    
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::WriteOnly))
         return;
@@ -94,4 +107,5 @@ ScenePrivate::saveContents(const QUrl& file)
     sceneWriter.flush();
     sceneFile->close();
     delete(sceneFile);
+    q->savableDirty = false;
 }
