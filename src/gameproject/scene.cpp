@@ -66,14 +66,12 @@ Scene::setFile(const QUrl &newFile)
     if(!savableDirty)
         d->unloadContents();
     Gluon::Asset::setFile(newFile);
-    savableDirty = true;
 }
 
 void Scene::setName(const QString& newName)
 {
     sceneContents()->setName(newName);
     Gluon::GluonObject::setName(newName);
-    savableDirty = true;
 }
 
 

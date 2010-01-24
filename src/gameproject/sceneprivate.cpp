@@ -80,9 +80,13 @@ ScenePrivate::loadContents(const QUrl& file)
 
     if(sceneContents)
         delete sceneContents;
-    sceneContents = new GameObject(q);
+    /*sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
-        sceneContents->addChild(child);
+        sceneContents->addChild(child);*/
+    if(theContents.count() > 0)
+        sceneContents = qobject_cast<GameObject*>(theContents.at(0));
+    if(!sceneContents)
+        sceneContents = new GameObject(q);
     
     sceneContents->sanitize();
     sceneContentsLoaded = true;
