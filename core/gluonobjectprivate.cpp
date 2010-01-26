@@ -19,16 +19,16 @@
 
 #include "gluonobjectprivate.h"
 
-using namespace Gluon;
+using namespace GluonCore;
 
 GluonObjectPrivate::GluonObjectPrivate()
 {
-    gameProject = NULL;
+    //gameProject = NULL;
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)
     : QSharedData(other)
     , name(other.name)
-    , gameProject(other.gameProject)
+    //, gameProject(other.gameProject)
 {
 }

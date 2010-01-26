@@ -17,33 +17,34 @@
 
 */
 
-#ifndef GLUON_GDLHANDLER_H
-#define GLUON_GDLHANDLER_H
+#ifndef GLUON_CORE_GDLHANDLER_H
+#define GLUON_CORE_GDLHANDLER_H
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include "common/ksingleton.h"
-#include "gluon_export.h"
 
-namespace Gluon
+#include "singleton.h"
+#include "gluon_core_export.h"
+
+namespace GluonCore
 {
     class GluonObject;
-    
-    class GLUON_EXPORT GDLHandler : public KSingleton<GDLHandler>
+
+    class GLUON_CORE_EXPORT GDLHandler : public Singleton<GDLHandler>
     {
         Q_OBJECT
-        
+
         public:
             QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
             QString serializeGDL(QList<const GluonObject *> serializeThis);
-            
+
         private:
-            friend class KSingleton<GDLHandler>;
+            friend class Singleton<GDLHandler>;
+
             GDLHandler();
-            GDLHandler(const GDLHandler &other);
-            GDLHandler & operator=(const GDLHandler&);
             virtual ~GDLHandler();
-            
+            Q_DISABLE_COPY(GDLHandler)
+
             GluonObject * instantiateObject(QString className);
             GluonObject * createObject(QStringList objectStringList, QObject * parent);
             /**
@@ -57,4 +58,4 @@ namespace Gluon
     };
 }
 
-#endif				// GLUON_GDLHANDLER_H
+#endif  // GLUON_CORE_GDLHANDLER_H

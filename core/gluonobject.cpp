@@ -19,7 +19,7 @@
 
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
-#include "gameproject.h"
+//#include "gameproject.h"
 #include "debughelper.h"
 
 #include <QtCore/QVariant>
@@ -29,9 +29,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
 
-REGISTER_OBJECTTYPE(Gluon,GluonObject)
+REGISTER_OBJECTTYPE(GluonCore, GluonObject)
 
-using namespace Gluon;
+using namespace GluonCore;
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
@@ -88,7 +88,7 @@ GluonObject::sanitize()
 
     // Make sure the GameProject is set... Iterate upwards until you either reach
     // the first GameProject instance, or you run into a parent which is null
-    if(!this->gameProject())
+    /*if(!this->gameProject())
     {
         QObject * currentParent = this->parent();
         while(currentParent)
@@ -100,14 +100,16 @@ GluonObject::sanitize()
             }
             currentParent = currentParent->parent();
         }
-    }
+    }*/
 
     // Run through all properties, check whether they are set to the correct
     // value. If they should be pointing to something, make them!
     // (e.g. GameObject(Projectname.Something))
     // This step is only possible if a gameProject is available. Otherwise
     // you will be unable to find the other objects!
-    if(gameProject())
+    //if(gameProject())
+    #warning TODO: Fix this stuff so it does not depend on GameProject or we need to move GameProject to Core
+    if(0)
     {
         QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
 
@@ -145,7 +147,9 @@ GluonObject::sanitize()
                 {
                     QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
                     QVariant theReferencedObject;
-                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    //########### GameProject Stuff ############
+                    //GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    GluonObject * theObject = 0;
                     theReferencedObject.setValue<GluonObject*>(theObject);
                     setProperty(metaproperty.name(), theReferencedObject);
                     if(!theObject)
@@ -191,7 +195,9 @@ GluonObject::sanitize()
                 {
                     QString theReferencedName = theValue.mid(name.length() + 1, theValue.length() - (name.length() + 2));
                     QVariant theReferencedObject;
-                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    //########### GameProject Stuff ############
+                    //GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
+                    GluonObject * theObject = 0;
                     theReferencedObject.setValue<GluonObject*>(theObject);
                     setProperty(propName, theReferencedObject);
                     if(!theObject)
@@ -213,7 +219,7 @@ GluonObject::sanitize()
     }
 }
 
-GameProject *
+/*GameProject *
 GluonObject::gameProject() const
 {
     return d->gameProject;
@@ -223,7 +229,7 @@ void
 GluonObject::setGameProject(GameProject * newGameProject)
 {
     d->gameProject = newGameProject;
-}
+}*/
 
 QString
 GluonObject::name() const

@@ -53,9 +53,10 @@ target_link_libraries(
                 ${QT_QTCORE_LIBRARY}
 )
 
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION} SOVERSION ${GLUON_VERSION})
+set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 
 install(TARGETS GluonAudio DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 
 install(
@@ -68,5 +69,12 @@ install(
     music.h
     capture.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
+    COMPONENT Devel
+)
+
+install(
+    FILES
+    cmake/FindGluonAudio.cmake
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake
     COMPONENT Devel
 )

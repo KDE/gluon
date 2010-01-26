@@ -17,25 +17,25 @@
 
 */
 
-#ifndef GLUON_GLUONOBJECT_H
-#define GLUON_GLUONOBJECT_H
+#ifndef GLUON_CORE_GLUONOBJECT_H
+#define GLUON_CORE_GLUONOBJECT_H
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
-#include "gluonobjectfactory.h"
-#include "gluon_export.h"
-
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 
+#include "gluonobjectfactory.h"
+#include "gluon_core_export.h"
+
 Q_DECLARE_METATYPE(QList<QUrl>)
 
-namespace Gluon
+namespace GluonCore
 {
-    class GameProject;
+    //class GameProject;
     class GluonObjectPrivate;
 
-    class GLUON_EXPORT GluonObject : public QObject
+    class GLUON_CORE_EXPORT GluonObject : public QObject
     {
         Q_OBJECT
         Q_PROPERTY(QString name READ name WRITE setName)
@@ -67,15 +67,18 @@ namespace Gluon
              * @return The instance of GameProject this GluonObject is associated with
              * @see GameProject GameProject::findItemByName
              */
-            GameProject * gameProject() const;
+            //GameProject * gameProject() const;
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
              *
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
-            void setGameProject(GameProject * newGameProject);
+            //void setGameProject(GameProject * newGameProject);
 
+            /**
+             * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?
+             */
             virtual QString toGDL(int indentLevel = 0) const;
             virtual QString childrenToGDL(int indentLevel = 0) const;
             virtual QString propertiesToGDL(int indentLevel = 0) const;
@@ -99,4 +102,4 @@ namespace Gluon
 }
 
 
-#endif				// GLUON_GLUONOBJECT_H
+#endif  // GLUON_CORE_GLUONOBJECT_H

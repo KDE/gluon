@@ -17,21 +17,21 @@
 
 */
 
-#ifndef GLUON_GLUONOBJECTFACTORY_H
-#define GLUON_GLUONOBJECTFACTORY_H
+#ifndef GLUON_CORE_GLUONOBJECTFACTORY_H
+#define GLUON_CORE_GLUONOBJECTFACTORY_H
 
-#include <common/ksingleton.h>
 #include <QtCore/QSharedData>
 #include <QtCore/QHash>
 #include <QtCore/QMetaType>
-#include "gluon_export.h"
 
-namespace Gluon
+#include "singleton.h"
+#include "gluon_core_export.h"
+
+namespace GluonCore
 {
-    class Asset;
     class GluonObject;
-    class Component;
-    class GLUON_EXPORT GluonObjectFactory : public KSingleton<GluonObjectFactory>
+
+    class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
         Q_OBJECT
 
@@ -52,7 +52,7 @@ namespace Gluon
 }
 
 template<class T>
-class GLUON_EXPORT GluonObjectRegistration
+class GLUON_CORE_EXPORT GluonObjectRegistration
 {
     public:
         GluonObjectRegistration(T* newObjectType)
@@ -60,7 +60,7 @@ class GLUON_EXPORT GluonObjectRegistration
             if(newObjectType->metaObject())
             {
                 int typeID = qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
-                Gluon::GluonObjectFactory::instance()->registerObjectType(newObjectType, typeID);
+                GluonCore::GluonObjectFactory::instance()->registerObjectType(newObjectType, typeID);
             }
         }
 };
@@ -70,4 +70,4 @@ namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _G
 Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
 
 
-#endif				// GLUON_GLUONOBJECTFACTORY_H
+#endif  // GLUON_CORE_GLUONOBJECTFACTORY_H

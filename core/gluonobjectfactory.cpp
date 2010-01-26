@@ -19,17 +19,15 @@
 
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
-#include "component.h"
-#include "asset.h"
 #include "debughelper.h"
 
 #include <QtCore/QDir>
-#include <QtGui/QApplication>
 #include <QtCore/QPluginLoader>
+#include <QtGui/QApplication>
 
-using namespace Gluon;
+using namespace GluonCore;
 
-template<> GLUON_EXPORT GluonObjectFactory* KSingleton<GluonObjectFactory>::m_instance = 0;
+template<> GLUON_CORE_EXPORT GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
 
 QStringList
 GluonObjectFactory::objectTypeNames() const
@@ -127,7 +125,7 @@ GluonObjectFactory::loadPlugins()
             // Don't attempt to load non-gluon_plugin prefixed libraries
             if(!fileName.contains("gluon_plugin_"))
                 continue;
-            
+
             // Don't attempt to load non-libraries
             if(!QLibrary::isLibrary(theDir.absoluteFilePath(fileName)))
                 continue;

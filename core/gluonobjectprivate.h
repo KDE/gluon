@@ -17,25 +17,26 @@
 
 */
 
-#ifndef GLUON_GLUONOBJECTPRIVATE_H
-#define GLUON_GLUONOBJECTPRIVATE_H
+#ifndef GLUON_CORE_GLUONOBJECTPRIVATE_H
+#define GLUON_CORE_GLUONOBJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QString>
 
-namespace Gluon
+namespace GluonCore
 {
-    class GameProject;
+    //class GameProject;
+
     class GluonObjectPrivate : public QSharedData
     {
         public:
             GluonObjectPrivate();
             GluonObjectPrivate(const GluonObjectPrivate &other);
             ~GluonObjectPrivate() {};
-            
+
             QString name;
-            GameProject * gameProject;
+            //GameProject * gameProject;
     };
 }
 
-#endif				// GLUON_GLUONOBJECTPRIVATE_H
+#endif  // GLUON_CORE_GLUONOBJECTPRIVATE_H

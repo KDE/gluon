@@ -18,14 +18,15 @@
 */
 
 #include <QtCore/QStringList>
+
 #include "gdlhandler.h"
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"
 #include "debughelper.h"
 
-using namespace Gluon;
+using namespace GluonCore;
 
-template<> GDLHandler* KSingleton<GDLHandler>::m_instance = 0;
+template<> GLUON_CORE_EXPORT GDLHandler *Singleton<GDLHandler>::m_instance = 0;
 
 GDLHandler::GDLHandler()
 {
@@ -41,7 +42,7 @@ GDLHandler::instantiateObject(QString className)
     GluonObject * newObject = GluonObjectFactory::instance()->instantiateObjectByName(className);
     if(!newObject)
         newObject = new GluonObject();
-    
+
     return newObject;
 }
 
@@ -97,11 +98,11 @@ QList<QStringList>
 GDLHandler::tokenizeObject(QString objectString)
 {
     QList<QStringList> tokenizedObject;
-    
+
     bool inItem = false;
-    
+
     bool inObjectDefinition = false, inObjectName = false, inObjectType = false;
-    
+
     bool inPropertyName = false;
     bool inPropertyValue = false;
     bool inChild = false, childEnded = false;
@@ -110,7 +111,7 @@ GDLHandler::tokenizeObject(QString objectString)
     int extraBracketCounter = 0;
     QString currentString;
     QStringList currentItem;
-    
+
     QString::const_iterator i;
     for(i = objectString.begin(); i != objectString.end(); ++i)
     {
@@ -134,7 +135,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     currentItem.append(currentString.trimmed());
                     currentString.clear();
                 }
-                
+
                 // Ignore whitespace as instructed, rar!
                 if(!i->isSpace())
                 {
@@ -159,7 +160,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     }
                 }
             }
-            
+
             if(inObjectDefinition)
             {
                 if(!inPropertyName && !inObjectName && !inObjectType)
@@ -168,7 +169,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     if(!i->isSpace())
                         inObjectType = true;
                 }
-                
+
                 if(inObjectType)
                 {
                     if(i->toLower() == '(')
@@ -240,7 +241,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     }
                 }
             }
-            
+
             if(!inObjectDefinition && !inChild)
             {
                 if(inPropertyName)
@@ -302,7 +303,7 @@ GDLHandler::tokenizeObject(QString objectString)
             }
         }
     }
-    
+
     return tokenizedObject;
 }
 
@@ -310,7 +311,7 @@ QList<GluonObject *>
 GDLHandler::parseGDL(const QString parseThis, QObject * parent)
 {
     QList<GluonObject *> thisObjectList;
-    
+
     QList<QStringList> tokenizedObject = tokenizeObject(parseThis);
 
     foreach(const QStringList &item, tokenizedObject)
@@ -327,10 +328,10 @@ QString
 GDLHandler::serializeGDL(QList<const GluonObject*> serializeThis)
 {
     QString serializedData;
-    
+
     foreach(const GluonObject* theObject, serializeThis)
         serializedData += theObject->toGDL();
-    
+
     return serializedData;
 }
 
