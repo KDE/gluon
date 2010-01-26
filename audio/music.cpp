@@ -18,20 +18,20 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalmusic.h"
-
-#include <kde_file.h>
+#include "music.h"
 
 #include <QtCore/QDebug>
 
+using namespace GluonAudio;
+
 static const int BUFFER_SIZE = 4096 * 4;
 
-KALMusic::KALMusic(QString fileName)
+Music::Music(QString fileName)
 {
     setFileName(fileName);
 }
 
-void KALMusic::open(string path)
+void Music::open(std::string path)
 {
     int result;
 
@@ -65,7 +65,7 @@ void KALMusic::open(string path)
     alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
 }
 
-void KALMusic::release()
+void Music::release()
 {
     alSourceStop(source);
     empty();
@@ -77,7 +77,7 @@ void KALMusic::release()
     ov_clear(&oggStream);
 }
 
-void KALMusic::display()
+void Music::display()
 {
     qDebug()
     << "version         " << vorbisInfo->version         << "\n"
@@ -95,7 +95,7 @@ void KALMusic::display()
     }
 }
 
-bool KALMusic::playback()
+bool Music::playback()
 {
     if (isPlaying()) {
         return true;
@@ -115,7 +115,7 @@ bool KALMusic::playback()
     return true;
 }
 
-bool KALMusic::isPlaying() const
+bool Music::isPlaying() const
 {
     ALenum state;
 
@@ -124,7 +124,7 @@ bool KALMusic::isPlaying() const
     return (state == AL_PLAYING);
 }
 
-bool KALMusic::update()
+bool Music::update()
 {
     int processed;
     bool active = true;
@@ -146,7 +146,7 @@ bool KALMusic::update()
     return active;
 }
 
-bool KALMusic::stream(ALuint buffer)
+bool Music::stream(ALuint buffer)
 {
     char pcm[BUFFER_SIZE];
     int  size = 0;
@@ -177,7 +177,7 @@ bool KALMusic::stream(ALuint buffer)
     return true;
 }
 
-void KALMusic::empty()
+void Music::empty()
 {
     int queued;
 
@@ -191,7 +191,7 @@ void KALMusic::empty()
     }
 }
 
-void KALMusic::check()
+void Music::check()
 {
     int error = alGetError();
 
@@ -200,25 +200,25 @@ void KALMusic::check()
     }
 }
 
-string KALMusic::errorString(int code)
+std::string Music::errorString(int code)
 {
     switch (code) {
     case OV_EREAD:
-        return string("Read from media.");
+        return std::string("Read from media.");
     case OV_ENOTVORBIS:
-        return string("Not Vorbis data.");
+        return std::string("Not Vorbis data.");
     case OV_EVERSION:
-        return string("Vorbis version mismatch.");
+        return std::string("Vorbis version mismatch.");
     case OV_EBADHEADER:
-        return string("Invalid Vorbis header.");
+        return std::string("Invalid Vorbis header.");
     case OV_EFAULT:
-        return string("Internal logic fault (bug or heap/stack corruption.");
+        return std::string("Internal logic fault (bug or heap/stack corruption.");
     default:
-        return string("Unknown Ogg error.");
+        return std::string("Unknown Ogg error.");
     }
 }
 
-void KALMusic::run()
+void Music::run()
 {
     open(m_fileName.toUtf8().data());
     display();
@@ -238,4 +238,4 @@ void KALMusic::run()
     release();
 }
 
-#include "kalmusic.moc"
+#include "music.moc"

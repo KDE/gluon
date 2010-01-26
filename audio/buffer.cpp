@@ -23,22 +23,24 @@
 #include "engine.h"
 #include "soundreader.h"
 
-class KALBufferPrivate
+using namespace GluonAudio;
+
+class Buffer::BufferPrivate
 {
 public:
     ALuint buffer;
 };
 
 
-KALBuffer::KALBuffer()
-    :d(new KALBufferPrivate)
+Buffer::Buffer()
+    :d(new BufferPrivate)
 {
     d->buffer=0;
     init();
 }
 
-KALBuffer::KALBuffer(const QString &fileName)
-            :d(new KALBufferPrivate)
+Buffer::Buffer(const QString &fileName)
+            :d(new BufferPrivate)
 
 {
     d->buffer=0;
@@ -46,45 +48,45 @@ KALBuffer::KALBuffer(const QString &fileName)
     init();
 }
 
-KALBuffer::KALBuffer(ALuint buffer)
-            :d(new KALBufferPrivate)
+Buffer::Buffer(ALuint buffer)
+            :d(new BufferPrivate)
 {
     d->buffer= buffer;
     init();
 }
-void KALBuffer::setBuffer(ALuint buffer) {
+void Buffer::setBuffer(ALuint buffer) {
     d->buffer = buffer;
 }
-bool KALBuffer::isEmpty()const {
+bool Buffer::isEmpty()const {
     return !d->buffer;
 }
-/*void KALBuffer::setHelloWord() {
+/*void Buffer::setHelloWord() {
     //d->buffer = alutCreateBufferHelloWorld();
 }*/
 
-void KALBuffer::init()
+void Buffer::init()
 {
 }
 
-ALuint KALBuffer::buffer() const {
+ALuint Buffer::buffer() const {
     return  d->buffer;
 }
 
-KALBuffer::~KALBuffer()
+Buffer::~Buffer()
 {
     alDeleteBuffers(1, &d->buffer);
     delete d;
 }
 
-void KALBuffer::setBuffer(const QString &fileName)
+void Buffer::setBuffer(const QString &fileName)
 {
-    KALSoundReader reader(fileName);
+    SoundReader reader(fileName);
     if (reader.canRead()) {
         d->buffer = reader.alBuffer();
     }
 }
 
-ALfloat KALBuffer::duration() const
+ALfloat Buffer::duration() const
 {
     ALint size= 0.f;
     ALint bits= 0.f;

@@ -20,30 +20,19 @@
 */
 
 #include "engine.h"
-#include "phonon.h"
 #include "device_p.h"
 
-#include <QtCore/QtGlobal>
+#include <QtCore/QDebug>
 
-#ifdef Q_WS_X11
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#endif
-#ifdef Q_WS_MAC
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#include <OpenAL/alext.h>
-#endif
+#include <al.h>
+#include <alc.h>
+#include <alext.h>
 
-//#include <QtCore/QCoreApplication>
-//#include <alut.h>
+using namespace GluonAudio;
 
-template<> KALEngine *KSingleton<KALEngine>::m_instance = 0;
+template<> GLUON_AUDIO_EXPORT Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 
-//KALEngine::KALEngine(const QString &deviceName, QObject *parent)
-//    : QObject(parent)
-KALEngine::KALEngine()
+Engine::Engine()
 {
     //alutInitWithoutContext(0, 0);
 
@@ -64,50 +53,26 @@ KALEngine::KALEngine()
     qDebug() << alGetError();
 }
 
-/*KALEngine::KALEngine(Phonon::Category category, QObject *parent)
+/*Engine::Engine(Phonon::Category category, QObject *parent)
 {
-    m_phonon = new KALPhonon(this);
+    m_phonon = new Phonon(this);
     m_phonon->setCategory(category);
 }*/
 
-KALEngine::~KALEngine()
+Engine::~Engine()
 {
     alcMakeContextCurrent(NULL);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
 }
 
-// TODO: factor the getInstance or remove one of them
-/*KALEngine *KALEngine::instance(const QString &deviceName)
+QStringList Engine::deviceList()
 {
-    if (!m_instance) {
-        QObject *parent = QCoreApplication::instance();
-        if (!parent) {
-            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
-        }
-        m_instance =  new KALEngine(deviceName, parent);
-    }
-    return m_instance;
+    //TODO *Shudder* put this into engineprivate and rename the entire class to device. Or something.
+    return Device::contextOption(ALC_ALL_DEVICES_SPECIFIER);
 }
 
-KALEngine *KALEngine::instance(Phonon::Category category)
-{
-    if (!m_instance) {
-        QObject *parent = QCoreApplication::instance();
-        if (!parent) {
-            qWarning() << "No QCoreApplication instance found, the KALEngine instance may be leaked when leaving";
-        }
-        m_instance =  new KALEngine(category, parent);
-    }
-    return m_instance;
-}*/
-
-QStringList KALEngine::deviceList()
-{
-    return KALDevice::contextOption(ALC_ALL_DEVICES_SPECIFIER);
-}
-
-bool KALEngine::setDevice(const QString &deviceName)
+bool Engine::setDevice(const QString &deviceName)
 {
     if (m_device) {
         alcMakeContextCurrent(NULL);

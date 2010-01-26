@@ -19,39 +19,37 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALCAPTURE_H
-#define KALCAPTURE_H
+#ifndef GLUON_AUDIO_CAPTURE_H
+#define GLUON_AUDIO_CAPTURE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-#include "gluon_export.h"
+#include "gluon_audio_export.h"
 
-/**
- * \defgroup KAL KAL
- */
-//@{
-class KALCapturePrivate;
-class KAL_EXPORT KALCapture : public QObject
+namespace GluonAudio
 {
-    Q_OBJECT
+    class GLUON_AUDIO_EXPORT Capture : public QObject
+    {
+        Q_OBJECT
 
-public:
-    explicit KALCapture(QString deviceName = QString(), QObject *parent = 0);
-    ~KALCapture();
+    public:
+        explicit Capture(QString deviceName = QString(), QObject *parent = 0);
+        ~Capture();
 
-    bool isAvailable() const;
+        bool isAvailable() const;
 
-    static QStringList deviceList();
+        static QStringList deviceList();
 
-    void record(int duration = 1000);
-    void save(const QString &fileName);
+        void record(int duration = 1000);
+        void save(const QString &fileName);
 
-private:
-    Q_DISABLE_COPY(KALCapture)
+    private:
+        Q_DISABLE_COPY(Capture)
 
-    KALCapturePrivate * const d;
-};
+        class CapturePrivate;
+        CapturePrivate * const d;
+    };
+}
 
-//@}
-#endif // KALCAPTURE_H
+#endif // GLUON_AUDIO_CAPTURE_H

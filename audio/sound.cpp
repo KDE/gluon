@@ -19,77 +19,79 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalsound.h"
-#include "kalbuffer.h"
 #include <sndfile.h>
-
 #include <QtCore/QDebug>
 
-#include "kalengine.h"
+#include "engine.h"
+#include "sound.h"
+#include "buffer.h"
 
-class KALSoundPrivate
+using namespace GluonAudio;
+
+class Sound::SoundPrivate
 {
 public:
-    KALBuffer *buffer;
+    Buffer *buffer;
     ALuint source;
     Eigen::Vector3f position;
     ALfloat volume;
     ALfloat pitch;
 };
 
-KALSound::KALSound(QObject * parent)
+Sound::Sound(QObject * parent)
            :QObject(parent),
-           d(new KALSoundPrivate)
+           d(new SoundPrivate)
 {
     init();
-    d->buffer= new KALBuffer;
+    d->buffer= new Buffer;
 }
-KALSound::KALSound(const QString &soundFile, QObject *parent)
+
+Sound::Sound(const QString &soundFile, QObject *parent)
     : QObject(parent),
-    d(new KALSoundPrivate)
+    d(new SoundPrivate)
 {
     init();
-    d->buffer = new KALBuffer;
+    d->buffer = new Buffer;
     load(soundFile);
 }
 
-KALSound::KALSound(KALBuffer *buffer, QObject *parent)
+Sound::Sound(Buffer *buffer, QObject *parent)
     :QObject(parent),
-    d(new KALSoundPrivate)
+    d(new SoundPrivate)
 {
     init();
     load(buffer);
 }
 
-KALSound::KALSound(ALuint buffer, QObject *parent)
+Sound::Sound(ALuint buffer, QObject *parent)
     :QObject(parent),
-    d(new KALSoundPrivate)
+    d(new SoundPrivate)
 {
     init();
     load(buffer);
 }
 
-KALSound::~KALSound()
+Sound::~Sound()
 {
     alDeleteSources(1, &d->source);
     delete d;
 }
-void KALSound::load (const QString &soundFile)
+void Sound::load (const QString &soundFile)
 {
     d->buffer->setBuffer(soundFile);
     setupSource();
 }
 
-void KALSound::load(KALBuffer * buffer) {
+void Sound::load(Buffer * buffer) {
     d->buffer = buffer;
     setupSource();
 }
-void KALSound::load(ALuint buffer) {
-    d->buffer = new KALBuffer(buffer);
+void Sound::load(ALuint buffer) {
+    d->buffer = new Buffer(buffer);
     setupSource();
 }
 
-void KALSound::init()
+void Sound::init()
 {
     d->source=0;
     d->position[0]=0;
@@ -99,7 +101,7 @@ void KALSound::init()
     d->pitch=0;
 }
 
-void KALSound::setupSource()
+void Sound::setupSource()
 {
     alGenSources(1, &d->source);  // Generate the source to play the buffer with
     alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
@@ -114,57 +116,58 @@ void KALSound::setupSource()
         return;
     }
 }
-ALfloat KALSound::elapsedTime()const
+
+ALfloat Sound::elapsedTime()const
 {
     ALfloat seconds = 0.f;
     alGetSourcef(d->source, AL_SEC_OFFSET, &seconds);
     return seconds;
 }
 
-ALint KALSound::status()const
+ALint Sound::status()const
 {
     ALint status;
     alGetSourcei(d->source, AL_SOURCE_STATE, &status);
     return status;
 }
 
-void KALSound::setLoop(bool enabled)
+void Sound::setLoop(bool enabled)
 {
     alSourcei(d->source, AL_LOOPING, enabled);
 
 }
 
-Eigen::Vector3f KALSound::position() const
+Eigen::Vector3f Sound::position() const
 {
     return d->position;
 }
 
-ALfloat KALSound::x()const
+ALfloat Sound::x()const
 {
     return d->position[0];
 }
 
-ALfloat KALSound::y()const
+ALfloat Sound::y()const
 {
     return d->position[1];
 }
 
-ALfloat KALSound::z()const
+ALfloat Sound::z()const
 {
     return d->position[2];
 }
 
-ALfloat KALSound::volume()const
+ALfloat Sound::volume()const
 {
     return d->volume;
 }
 
-ALfloat KALSound::pitch()const
+ALfloat Sound::pitch()const
 {
     return d->pitch;
 }
 
-void KALSound::setPosition(ALfloat x, ALfloat y, ALfloat z)
+void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
     Eigen::Vector3f position;
     position[0] = x;
@@ -174,7 +177,7 @@ void KALSound::setPosition(ALfloat x, ALfloat y, ALfloat z)
     setPosition(position);
 }
 
-void KALSound::setPosition(Eigen::Vector3f position)
+void Sound::setPosition(Eigen::Vector3f position)
 {
     d->position = position;
 
@@ -182,71 +185,71 @@ void KALSound::setPosition(Eigen::Vector3f position)
     alSourcefv(d->source, AL_POSITION, sourcePosition);
 }
 
-void KALSound::setVolume(ALfloat volume)
+void Sound::setVolume(ALfloat volume)
 {
     d->volume = volume;
     alSourcef(d->source, AL_GAIN, volume);
 }
 
-void KALSound::setPitch(ALfloat pitch)
+void Sound::setPitch(ALfloat pitch)
 {
     d->pitch = pitch;
     alSourcef(d->source, AL_PITCH, pitch);
 }
 
-void KALSound::play()
+void Sound::play()
 {
     alSourcePlay(d->source);
 }
 
-void KALSound::pause()
+void Sound::pause()
 {
     alSourcePause(d->source);
 }
 
-void KALSound::stop()
+void Sound::stop()
 {
     alSourceStop(d->source);
 }
 
-void KALSound::rewind()
+void Sound::rewind()
 {
     alSourceRewind(d->source);
 }
 
-void KALSound::setMinVolume(ALfloat min)
+void Sound::setMinVolume(ALfloat min)
 {
     alSourcef(d->source, AL_MIN_GAIN, min);
 }
 
-void KALSound::setMaxVolume(ALfloat max)
+void Sound::setMaxVolume(ALfloat max)
 {
     alSourcef(d->source, AL_MAX_GAIN, max);
 }
 
-void KALSound::setVelocity(ALfloat vx, ALfloat vy, ALfloat vz)
+void Sound::setVelocity(ALfloat vx, ALfloat vy, ALfloat vz)
 {
     ALfloat velocity[] = { vx, vy, vz };
     alSourcefv(d->source, AL_VELOCITY, velocity);
 }
 
-void KALSound::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
+void Sound::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
 {
     ALfloat direction[] = { dx, dy, dz };
     alSourcefv(d->source, AL_POSITION, direction);
 }
 
-void KALSound::setTimePosition(ALfloat time)
+void Sound::setTimePosition(ALfloat time)
 {
     alSourcef(d->source, AL_SEC_OFFSET, time);
 
 }
-ALfloat KALSound::duration()const
+ALfloat Sound::duration()const
 {
     return d->buffer->duration();
 }
-ALuint  KALSound::source()const {
+ALuint  Sound::source()const {
     return d->source;
 }
 
-#include "kalsound.moc"
+#include "sound.moc"

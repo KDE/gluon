@@ -19,52 +19,43 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALSOUNDREADER_H
-#define KALSOUNDREADER_H
-
-#include <al.h>
-
-#include "kal_export.h"
+#ifndef GLUON_AUDIO_SOUNDREADER_H
+#define GLUON_AUDIO_SOUNDREADER_H
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <al.h>
 
-class KALBuffer;
+#include "gluon_audio_export.h"
 
-/**
- * \defgroup KAL KAL
- */
-
-/**
-* @class KALSoundReader kal/kalsoundreader.h <KAL/KALSoundReader>
-* KALSoundReader generate a buffer from a sound file. Currently it allows to read Wav and ogg file.
-* Phonon output device in KALEngine
-*/
-
-//@{
-class KALSoundReaderPrivate;
-class KAL_EXPORT KALSoundReader
+namespace GluonAudio
 {
-public:
-    KALSoundReader(const QString& fileName);
-    ~KALSoundReader();
+    class Buffer;
 
-    QString format() const;
-    bool canRead() const;
-    static QStringList supportedSoundFormats() ;
-    QString fileName() const;
-    ALuint alBuffer();
-    KALBuffer *buffer();
+    class GLUON_AUDIO_EXPORT SoundReader
+    {
+    public:
+        SoundReader(const QString& fileName);
+        ~SoundReader();
 
-protected:
-    ALuint fromWav();
-    ALuint fromOgg();
+        QString format() const;
+        bool canRead() const;
+        static QStringList supportedSoundFormats() ;
+        QString fileName() const;
+        ALuint alBuffer();
+        Buffer *buffer();
 
-private:
-    Q_DISABLE_COPY(KALSoundReader)
-    KALSoundReaderPrivate * const d;
+    protected:
+        ALuint fromWav();
+        ALuint fromOgg();
 
-};
+    private:
+        Q_DISABLE_COPY(SoundReader)
 
-//@}
-#endif // KALSOUNDREADER_H
+        class SoundReaderPrivate;
+        SoundReaderPrivate * const d;
+
+    };
+}
+
+#endif // GLUON_AUDIO_SOUNDREADER_H

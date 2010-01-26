@@ -29,18 +29,22 @@
 #include <OpenAL/alc.h>
 #endif
 
-class KALDevice
+namespace GluonAudio
 {
-public:
-    KALDevice(ALCdevice *device = 0);
-    ~KALDevice();
 
-    static bool isExtensionPresent(const QString &extension);
+    class Device
+    {
+    public:
+        Device(ALCdevice *device = 0);
+        ~Device();
 
-    static QStringList contextOption(int option);
+        static bool isExtensionPresent(const QString &extension);
 
-protected:
-    ALCdevice *m_device;
-};
+        static QStringList contextOption(int option);
+
+    protected:
+        ALCdevice *m_device;
+    };
+}
 
 #endif // KALDEVICE_H

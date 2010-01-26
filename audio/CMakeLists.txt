@@ -4,6 +4,8 @@ if(NOT GLUON_BUILD_ALL)
     project(GluonAudio)
     find_package(GluonCore REQUIRED)
     include_directories(${GLUON_CORE_INCLUDES})
+else(NOT GLUON_BUILD_ALL)
+    include_directories(${QT_INCLUDES} ${EIGEN2_INCLUDE_DIR})
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -12,7 +14,9 @@ find_package(OpenAL REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 
+message(${OPENAL_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}
                     ${OPENAL_INCLUDE_DIR}
                     ${SNDFILE_INCLUDE_DIR}
                     ${OGG_INCLUDE_DIR}
@@ -22,7 +26,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 
 set(GluonAudio_SRCS
     engine.cpp
-    phonon.cpp
+    #phonon.cpp
     soundreader.cpp
     music.cpp
     capture.cpp
@@ -64,7 +68,7 @@ install(
     buffer.h
     engine.h
     soundreader.h
-    phonon.h
+    #phonon.h
     sound.h
     music.h
     capture.h

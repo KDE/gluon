@@ -19,71 +19,45 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALBUFFER_H
-#define KALBUFFER_H
+#ifndef GLUON_AUDIO_BUFFER_H
+#define GLUON_AUDIO_BUFFER_H
 
-#include "kal_export.h"
+#include "gluon_audio_export.h"
 
-#ifdef Q_WS_X11
-#include <AL/al.h>
-#endif
+#include <al.h>
 
-#ifdef Q_WS_MAC
-#include <OpenAL/al.h>
-#endif
-
-/**
- * @class kal/kalbuffer.h <KAL/KALBuffer>
- *
- * @short the Wrapper class of openAL buffer.
- *
- * KALBuffer allow you to manage data of sound. If you want to generate or manupulate sound data, use this class.
- * You can setup a KALSound from a KALBuffer
- * You can initialize the class with a pathName or a buffer. For example :
- * @code
- * KALBuffer* buffer = new KALBuffer;
- * {action inside the buffer}
- * KALSound * sound = new KALSound(buffer);
- * sound->play();
- * @endcode
-
- */
-
-/**
- * \defgroup KAL KAL
- */
-//@{
-
-class KALBufferPrivate;
-class KAL_EXPORT KALBuffer
+namespace GluonAudio
 {
-public:
-    KALBuffer();
-    KALBuffer(const QString &fileName);
-    KALBuffer(ALuint buffer);
-    ~KALBuffer();
+    class GLUON_AUDIO_EXPORT Buffer
+    {
+    public:
+        Buffer();
+        Buffer(const QString &fileName);
+        Buffer(ALuint buffer);
+        ~Buffer();
 
-    void setBuffer(const QString &fileName);
-    void setBuffer(ALuint buffer);
-    bool isEmpty() const;
-    /**
-    * This function will generate a "hello word" sound.
-    */
-    //void setHelloWord();
-    ALuint buffer() const;
-    /**
-    * @return the duration of buffer in msecond
-    */
-    ALfloat duration() const;
+        void setBuffer(const QString &fileName);
+        void setBuffer(ALuint buffer);
+        bool isEmpty() const;
+        /**
+        * This function will generate a "hello word" sound.
+        */
+        //void setHelloWord();
+        ALuint buffer() const;
+        /**
+        * @return the duration of buffer in msecond
+        */
+        ALfloat duration() const;
 
-protected:
-    void init();
+    protected:
+        void init();
 
-private:
-    Q_DISABLE_COPY(KALBuffer)
+    private:
+        Q_DISABLE_COPY(Buffer)
 
-    KALBufferPrivate * const d;
-};
+        class BufferPrivate;
+        BufferPrivate * const d;
+    };
+}
 
-//@}
-#endif // KALBUFFER_H
+#endif // GLUON_AUDIO_BUFFER_H

@@ -19,9 +19,8 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include "kalsoundreader.h"
-
-#include "kalbuffer.h"
+#include "soundreader.h"
+#include "buffer.h"
 
 #include <QtCore/QDebug>
 
@@ -38,7 +37,9 @@
 #include <vector>
 #include <sndfile.h>
 
-class KALSoundReaderPrivate
+using namespace GluonAudio;
+
+class SoundReader::SoundReaderPrivate
 {
   public:
         QString fileName;
@@ -47,8 +48,8 @@ class KALSoundReaderPrivate
 
 #define BUFFER_SIZE 32768 // 32 KB buffers
 
-KALSoundReader::KALSoundReader(const QString& fileName)
-        :d(new KALSoundReaderPrivate)
+SoundReader::SoundReader(const QString& fileName)
+        :d(new SoundReaderPrivate)
 
 {
     d->fileName = fileName;
@@ -59,17 +60,17 @@ KALSoundReader::KALSoundReader(const QString& fileName)
     }
 }
 
-KALSoundReader::~KALSoundReader()
+SoundReader::~SoundReader()
 {
     delete d;
 }
 
-bool KALSoundReader::canRead() const
+bool SoundReader::canRead() const
 {
     return supportedSoundFormats().contains(format());
 }
 
-ALuint KALSoundReader::alBuffer()
+ALuint SoundReader::alBuffer()
 {
 
     if (format() == "ogg") {
@@ -83,24 +84,25 @@ ALuint KALSoundReader::alBuffer()
     return NULL;
 }
 
-    KALBuffer *KALSoundReader::buffer()
-    {
+Buffer *SoundReader::buffer()
+{
   if (format() == "ogg") {
-        return new KALBuffer(fromOgg());
+        return new Buffer(fromOgg());
     }
 
     if (format() == "wav") {
-        return new KALBuffer(fromWav());
+        return new Buffer(fromWav());
     }
     d->error=true;
-    return new KALBuffer();
-    }
+    return new Buffer();
+}
 
-QStringList KALSoundReader::supportedSoundFormats() {
-        return (QStringList() << "wav" << "ogg");
-    }
+QStringList SoundReader::supportedSoundFormats()
+{
+    return (QStringList() << "wav" << "ogg");
+}
 
-ALuint KALSoundReader::fromWav()
+ALuint SoundReader::fromWav()
 {
     SF_INFO fileInfos;
     SNDFILE* file = sf_open(d->fileName.toUtf8(), SFM_READ, &fileInfos);
@@ -149,7 +151,7 @@ ALuint KALSoundReader::fromWav()
 
     return buffer;
 }
-ALuint KALSoundReader::fromOgg()
+ALuint SoundReader::fromOgg()
 {
 
     std::vector<char> buffer;
@@ -252,10 +254,10 @@ ALuint KALSoundReader::fromOgg()
 
            return buf;*/
 }
-    QString KALSoundReader::fileName() const {
+    QString SoundReader::fileName() const {
         return d->fileName;
     }
-    QString KALSoundReader::format() const {
+    QString SoundReader::format() const {
         QFileInfo file(d->fileName);
         return file.completeSuffix();
     }

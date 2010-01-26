@@ -18,70 +18,68 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALMUSIC_H
-#define KALMUSIC_H
-
+#ifndef GLUON_AUDIO_MUSIC_H
+#define GLUON_AUDIO_MUSIC_H
 
 #include <QtCore/QThread>
 #include <cstring>
+#include <cstdio>
 
 #include <al.h>
 #include <vorbis/vorbisfile.h>
 
-using namespace std;
+#include "gluon_audio_export.h"
 
-/**
- * \defgroup KAL KAL
- */
-//@{
-
-class KALMusic : public QThread
+#warning TODO: Clean up this class. Heavily.
+namespace GluonAudio
 {
-    Q_OBJECT
+    class GLUON_AUDIO_EXPORT Music : public QThread
+    {
+        Q_OBJECT
 
-public:
-    KALMusic(QString fileName = QString());
-    void run();
-    bool isPlaying() const;
+    public:
+        Music(QString fileName = QString());
+        void run();
+        bool isPlaying() const;
 
-public Q_SLOTS:
-    void play() {
-        run();
-    }
+    public Q_SLOTS:
+        void play() {
+            run();
+        }
 
-private Q_SLOTS:
-    void playThread() {
-        start();
-    }
+    private Q_SLOTS:
+        void playThread() {
+            start();
+        }
 
-protected:
-    void open(string path);
-    void release();
-    void display();
-    bool playback();
-    bool update();
+    protected:
+        void open(std::string path);
+        void release();
+        void display();
+        bool playback();
+        bool update();
 
-    void setFileName(QString f) {
-        m_fileName = f;
-    }
+        void setFileName(QString f) {
+            m_fileName = f;
+        }
 
-    bool stream(ALuint buffer);
-    void empty();
-    void check();
-    string errorString(int code);
+        bool stream(ALuint buffer);
+        void empty();
+        void check();
+        std::string errorString(int code);
 
-private:
-    FILE*           oggFile;
-    OggVorbis_File  oggStream;
-    vorbis_info*    vorbisInfo;
-    vorbis_comment* vorbisComment;
+    private:
+        FILE*           oggFile;
+        OggVorbis_File  oggStream;
+        vorbis_info*    vorbisInfo;
+        vorbis_comment* vorbisComment;
 
-    ALuint buffers[2];
-    ALuint source;
-    ALenum format;
+        ALuint buffers[2];
+        ALuint source;
+        ALenum format;
 
-    QString m_fileName;
-};
+        QString m_fileName;
+    };
+}
 
-//@}
-#endif // KALMusic_H
+#endif // GLUON_AUDIO_MUSIC_H

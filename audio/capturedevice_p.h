@@ -17,8 +17,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUONAUDIO_CAPTUREDEVICE_H
-#define GLUONAUDIO_CAPTUREDEVICE_H
+#ifndef GLUON_AUDIO_CAPTUREDEVICE_H
+#define GLUON_AUDIO_CAPTUREDEVICE_H
 
 #include "device_p.h"
 
@@ -29,16 +29,20 @@
 #include <OpenAL/al.h>
 #endif
 
-class KALCaptureDevice : public KALDevice
+namespace GluonAudio
 {
-public:
-    explicit KALCaptureDevice(const QString &deviceName = QString(), int frequency = 44100, int format = AL_FORMAT_MONO16, int buffersize = 44100);
-    ~KALCaptureDevice();
 
-    ALCint samples();
+    class CaptureDevice : public Device
+    {
+    public:
+        explicit CaptureDevice(const QString &deviceName = QString(), int frequency = 44100, int format = AL_FORMAT_MONO16, int buffersize = 44100);
+        ~CaptureDevice();
 
-    ALshort startCapture(ALCsizei samples);
-    void stopCapture();
-};
+        ALCint samples();
 
-#endif // GLUONAUDIO_CAPTUREDEVICE_H
+        ALshort startCapture(ALCsizei samples);
+        void stopCapture();
+    };
+}
+
+#endif // GLUON_AUDIO_CAPTUREDEVICE_H

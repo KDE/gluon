@@ -26,22 +26,24 @@
 #include <OpenAL/al.h>
 #endif
 
-KALDevice::KALDevice(ALCdevice *device)
+using namespace GluonAudio;
+
+Device::Device(ALCdevice *device)
     : m_device(device)
 {
 }
 
-KALDevice::~KALDevice()
+Device::~Device()
 {
     alcCloseDevice(m_device);
 }
 
-bool KALDevice::isExtensionPresent(const QString &extension)
+bool Device::isExtensionPresent(const QString &extension)
 {
     return alcIsExtensionPresent(NULL, extension.toUtf8());
 }
 
-QStringList KALDevice::contextOption(int option)
+QStringList Device::contextOption(int option)
 {
     const ALCchar *alcList = alcGetString(NULL, option);
 

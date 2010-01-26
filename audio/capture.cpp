@@ -26,32 +26,26 @@
 #include <QtCore/QTime>
 #include <QtCore/QFile>
 
-#ifdef Q_WS_X11
-#include <AL/al.h>
-#include <AL/alc.h>
-#endif
-
-#ifdef Q_WS_MAC
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#endif
-
+#include <al.h>
+#include <alc.h>
 #include <sndfile.h>
 
-class KALCapturePrivate
+using namespace GluonAudio;
+
+class Capture::CapturePrivate
 {
 public:
-    KALCaptureDevice *captureDevice;
+    CaptureDevice *captureDevice;
     QVector<ALshort> samples;
     ALuint buffer;
 };
 
-KALCapture::KALCapture(QString deviceName, QObject *parent)
+Capture::Capture(QString deviceName, QObject *parent)
     : QObject(parent),
-    d(new KALCapturePrivate)
+    d(new CapturePrivate)
 {
     if (isAvailable()) {
-        d->captureDevice = new KALCaptureDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
+        d->captureDevice = new CaptureDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
     } else {
         qCritical() << "No capture device available";
         return;
@@ -63,23 +57,23 @@ KALCapture::KALCapture(QString deviceName, QObject *parent)
     }
 }
 
-KALCapture::~KALCapture()
+Capture::~Capture()
 {
     delete d->captureDevice;
     delete d;
 }
 
-bool KALCapture::isAvailable()const
+bool Capture::isAvailable()const
 {
-    return KALDevice::isExtensionPresent("ALC_EXT_CAPTURE");
+    return Device::isExtensionPresent("ALC_EXT_CAPTURE");
 }
 
-QStringList KALCapture::deviceList()
+QStringList Capture::deviceList()
 {
-    return KALDevice::contextOption(ALC_CAPTURE_DEVICE_SPECIFIER);
+    return Device::contextOption(ALC_CAPTURE_DEVICE_SPECIFIER);
 }
 
-void KALCapture::record(int duration)
+void Capture::record(int duration)
 {
     QTime recordTime;
     recordTime.start();
@@ -103,7 +97,7 @@ void KALCapture::record(int duration)
 }
 
 
-void KALCapture::save(const QString& fileName)
+void Capture::save(const QString& fileName)
 {
     SF_INFO fileInfo;
     fileInfo.channels = 1;

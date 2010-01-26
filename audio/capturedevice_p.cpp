@@ -27,31 +27,33 @@
 #include <OpenAL/alc.h>
 #endif
 
-KALCaptureDevice::KALCaptureDevice(const QString &deviceName, int frequency, int format, int buffersize)
+using namespace GluonAudio;
+
+CaptureDevice::CaptureDevice(const QString &deviceName, int frequency, int format, int buffersize)
 {
     m_device = alcCaptureOpenDevice(deviceName.toUtf8(), frequency, format, buffersize);
 }
 
-KALCaptureDevice::~KALCaptureDevice()
+CaptureDevice::~CaptureDevice()
 {
     alcCaptureCloseDevice(m_device);
 }
 
-ALCint KALCaptureDevice::samples()
+ALCint CaptureDevice::samples()
 {
     ALCint samples;
     alcGetIntegerv(m_device, ALC_CAPTURE_SAMPLES, 1, &samples);
     return samples;
 }
 
-ALshort KALCaptureDevice::startCapture(ALCsizei samples)
+ALshort CaptureDevice::startCapture(ALCsizei samples)
 {
     ALshort capture;
     alcCaptureSamples(m_device, &capture, samples);
     return capture;
 }
 
-void KALCaptureDevice::stopCapture()
+void CaptureDevice::stopCapture()
 {
     alcCaptureStop(m_device);
 }

@@ -19,103 +19,72 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#ifndef KALENGINE2_H
-#define KALENGINE2_H
+#ifndef GLUON_AUDIO_ENGINE_H
+#define GLUON_AUDIO_ENGINE_H
 
-#include "gluon_export.h"
+#include "gluon_audio_export.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 #include <phonon/phononnamespace.h>
+#include <alc.h>
 
-#ifdef Q_WS_X11
-#include <AL/alc.h>
-#endif
+#include <core/singleton.h>
 
-#ifdef Q_WS_MAC
-#include <OpenAL/alc.h>
-#endif
-
-#include "../common/ksingleton.h"
-
-class KALPhonon;
-
-/**
- * \defgroup KAL KAL
- */
-//@{
-
-class KALSound;
-class KALBuffer;
-//TODO do a KALEnginePrivate class
-/**
-* @class KALEngine kalengine.h <KALEngine>
-* KALEngine is an audio engine which uses OpenAL for sound processing
-*/
-
-class KAL_EXPORT KALEngine : public KSingleton<KALEngine>
+namespace GluonAudio
 {
-public:
-    /**
-    * Return a reference to the KALEngine singleton instance or create one if none exist
-    */
-    //static KALEngine *instance(const QString &deviceName = QString());
+    class Sound;
+    class Buffer;
 
-    /**
-    * Return a reference to the KALEngine singleton instance or create one if none exist
-    */
-    //static KALEngine *instance(Phonon::Category category);
+    class GLUON_AUDIO_EXPORT Engine : public GluonCore::Singleton<Engine>
+    {
+    public:
+        /**
+        * Change the output device to the specified OpenAL device name
+        * @param deviceName the OpenAL device name
+        * @return true if the new device was successfuly set, false otherwise
+        * @see deviceList, setCategory
+        */
+        bool setDevice(const QString &deviceName);
 
-    /**
-    * Change the output device to the specified OpenAL device name
-    * @param deviceName the OpenAL device name
-    * @return true if the new device was successfuly set, false otherwise
-    * @see deviceList, setCategory
-    */
-    bool setDevice(const QString &deviceName);
+        static ALCcontext *context() {
+            return instance()->getAlContext();
+        }
 
-    static ALCcontext *context() {
-        return instance()->getAlContext();
-    }
+        static ALCdevice* device() {
+            return instance()->getAlDevice();
+        }
 
-    static ALCdevice* device() {
-        return instance()->getAlDevice();
-    }
+        /**
+        * @return a QStringList of the available output devices
+        * @see setDevice
+        */
+        static QStringList deviceList();
 
-    /**
-    * @return a QStringList of the available output devices
-    * @see setDevice
-    */
-    static QStringList deviceList();
+        static void close() {
+            delete instance();
+        }
 
-    static void close() {
-        delete instance();
-    }
+        ALCdevice *getAlDevice() {
+            return m_device;
+        }
 
-    ALCdevice *getAlDevice() {
-        return m_device;
-    }
+        ALCcontext *getAlContext() {
+            return m_context;
+        }
+        void alcList(const char* arg1);
 
-    ALCcontext *getAlContext() {
-        return m_context;
-    }
-    void alcList(const char* arg1);
+    private:
+        friend class GluonCore::Singleton<Engine>;
 
-private:
-    friend class KSingleton<KALEngine>;
+        Engine();
+        ~Engine();
 
-    KALEngine();
-    //KALEngine(const QString &deviceName = QString(), QObject *parent = 0);
-    //KALEngine(Phonon::Category category, QObject *parent = 0);
-    ~KALEngine();
+        Q_DISABLE_COPY(Engine)
 
-    Q_DISABLE_COPY(KALEngine)
+        ALCcontext *m_context;
+        ALCdevice *m_device;
+    };
+}
 
-    static KALEngine *m_instance;
-    ALCcontext *m_context;
-    ALCdevice *m_device;
-    KALPhonon *m_phonon;
-};
-
-//@}
-#endif // KALENGINE2_H
+#endif // GLUON_AUDIO_ENGINE_H
