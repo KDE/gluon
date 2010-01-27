@@ -223,8 +223,17 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 void
 GameObject::addComponent(Component * addThis)
 {
-    if(!d->components.contains(addThis))
-        d->components.append(addThis);
+    DEBUG_FUNC_NAME
+    if(addThis)
+    {
+        DEBUG_TEXT(QString("Adding %2 to %1").arg(name()).arg(addThis->name()));
+        if(!d->components.contains(addThis))
+            d->components.append(addThis);
+    }
+    else
+    {
+        DEBUG_TEXT("Attempting to add a null component");
+    }
 }
 
 bool
