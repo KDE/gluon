@@ -43,6 +43,9 @@ namespace Gluon
 
                 QWidget* editWidget();
 
+            signals:
+                void propertyChanged(const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+                
             public slots:
                 virtual void setEditObject(QObject * editThis);
                 virtual void setEditProperty(const QString& propertyName);
