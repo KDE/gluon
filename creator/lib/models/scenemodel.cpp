@@ -16,6 +16,7 @@ Boston, MA 02110-1301, USA.
 
 #include "scenemodel.h"
 #include <gluon/gameobject.h>
+#include <gluon/component.h>
 #include <typeinfo>
 #include <objectmanager.h>
 
@@ -157,16 +158,66 @@ Qt::DropActions SceneModel::supportedDropActions() const
 Qt::ItemFlags SceneModel::flags(const QModelIndex& index) const
 {
     if (index.isValid())
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
-        return Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+}
+
+QStringList
+SceneModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/gluon.text.componentclass";
+    return types;
 }
 
 bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
     DEBUG_FUNC_NAME
+    
+    if(action == Qt::IgnoreAction)
+        return false;
 
-    DEBUG_TEXT(data->data("application/x-qabstractitemmodeldatalist"));
+    if(!parent.isValid())
+        return false;
+    
+    GameObject *gobj = qobject_cast<GameObject*>((QObject*)parent.internalPointer());
+    
+    if(!gobj)
+        return false;
+    
+    foreach(QString something, data->formats())
+    {
+        DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
+    }
+    
+    QByteArray encodedData = data->data("application/gluon.text.componentclass");
+    QDataStream stream(&encodedData, QIODevice::ReadOnly);
+    QStringList newItems;
+    int rows = 0;
+
+    while (!stream.atEnd())
+    {
+        QString text;
+        stream >> text;
+        newItems << text;
+        ++rows;
+    }
+    foreach(QString text, newItems)
+    {
+        DEBUG_TEXT(QString("Adding component of class %1").arg(text));
+        GluonObject *component = Gluon::GluonObjectFactory::instance()->instantiateObjectByName(text);
+        if(!component)
+        {
+            DEBUG_TEXT("Returned component instance was null, something's fishy");
+        }
+        else
+        {
+            DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
+            gobj->addComponent(qobject_cast<Gluon::Component*>(component));
+        }
+    }
+    
     return true;
 }
 
