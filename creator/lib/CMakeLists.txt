@@ -5,6 +5,7 @@ set(gluoncreatorlib_SRCS
     objectmanager.cpp
     selectionmanager.cpp
 
+    models/componentmodel.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
 
@@ -40,6 +41,7 @@ install(FILES
 )
 
 install(FILES
+        models/componentmodel.h
         models/projectmodel.h
         models/scenemodel.h
         DESTINATION ${INCLUDE_INSTALL_DIR}/models
