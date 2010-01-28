@@ -31,6 +31,11 @@ GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
 {
     d = new GameObjectPrivate;
+    
+    setPosition(Vector3f(0,0,0));
+    setScale(Vector3f(1,1,1));
+    setRotationAxis(Vector3f::Identity());
+    
     updateTransform();
 }
 

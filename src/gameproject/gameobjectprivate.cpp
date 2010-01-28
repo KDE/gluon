@@ -26,9 +26,9 @@ using namespace Eigen;
 GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
-    position = Vector3f::Identity();
-    scale = Vector3f::Identity();
-    rotationAxis = Vector3f(0, 0, 0);
+    position = Vector3f(0,0,0);
+    scale = Vector3f(1,1,1);
+    rotationAxis = Vector3f::Identity();
     rotation = 0;
 }
 
