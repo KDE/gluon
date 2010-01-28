@@ -173,6 +173,8 @@ SceneModel::mimeTypes() const
 
 bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(column)
     DEBUG_FUNC_NAME
     
     if(action == Qt::IgnoreAction)
@@ -247,7 +249,11 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
 
 bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(count)
+    Q_UNUSED(parent)
 
+    return false;
 }
 
 
