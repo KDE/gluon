@@ -214,7 +214,8 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         else
         {
             DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
-            gobj->addComponent((Gluon::Component*)component);
+            #warning This should be a qobject_cast, but that for some reason returns a null object
+            gobj->addComponent(reinterpret_cast<Gluon::Component*>(component));
         }
     }
     
