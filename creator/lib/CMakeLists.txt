@@ -14,11 +14,13 @@ set(gluoncreatorlib_SRCS
 
     widgets/propertywidgetitems/propertywidgetitem.cpp
     widgets/propertywidgetitems/propertywidgetitemfactory.cpp
+    widgets/propertywidgetitems/nullpropertywidgetitem.cpp
     widgets/propertywidgetitems/boolpropertywidgetitem.cpp
     widgets/propertywidgetitems/textpropertywidgetitem.cpp
     widgets/propertywidgetitems/floatpropertywidgetitem.cpp
-    widgets/propertywidgetitems/nullpropertywidgetitem.cpp
+    widgets/propertywidgetitems/intpropertywidgetitem.cpp
     widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
+    widgets/propertywidgetitems/qsizefpropertywidgetitem.cpp
 )
 
 #qt4_automoc(${gluoncreatorlib_SRCS})
