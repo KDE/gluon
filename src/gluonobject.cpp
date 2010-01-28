@@ -426,9 +426,9 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     QColor theColor;
     switch(theValue.type())
     {
-//        case QVariant::UserType:
-//            int id = QMetaType::type(types.at(i));
-//            break;
+/*        case QVariant::UserType:
+            int id = QMetaType::type(types.at(i));
+            break;*/
         case QVariant::String:
             if(!theValue.toString().isEmpty())
                 value = "string(" + theValue.toString() + ')';
@@ -440,6 +440,8 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Double:
             if(theValue.toDouble() != 0)
                 value = QString("float(%1)").arg(theValue.toDouble());
+            break;
+        case QVariant::Vector3D:
             break;
         case QVariant::Int:
             if(theValue.toInt() != 0)
@@ -472,6 +474,11 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
                     value = QString("Gluon::GluonObject()");
                     DEBUG_TEXT(QString("Invalid object reference!"));
                 }
+            }
+            if(theValue.canConvert<Eigen::Vector3f>())
+            {
+                Eigen::Vector3f theVector = theValue.value<Eigen::Vector3f>();
+                value = QString("vector3d(%1,%2,%3)").arg(theVector.x()).arg(theVector.y()).arg(theVector.z());
             }
             else
             {
