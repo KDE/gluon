@@ -19,11 +19,12 @@
 
 #include "component.h"
 #include "gluonvarianttypes.h"
+#include "gluon_export.h"
 
 namespace Gluon
 {
 
-class SoundListenerComponent : public Component
+class GLUON_EXPORT SoundListenerComponent : public Component
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive WRITE setActive)

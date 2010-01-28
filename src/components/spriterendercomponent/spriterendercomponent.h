@@ -17,7 +17,7 @@
 #ifndef GLUON_SPRITERENDERCOMPONENT_H
 #define GLUON_SPRITERENDERCOMPONENT_H
 
-#include <gameproject/component.h>
+#include "component.h"
 #include <kgl/kglitem.h>
 
 #include "spriterendercomponentprivate.h"
@@ -25,7 +25,7 @@
 namespace Gluon
 {
 
-class SpriteRenderComponent : public Component
+class GLUON_EXPORT SpriteRenderComponent : public Component
 {
     Q_OBJECT
 
