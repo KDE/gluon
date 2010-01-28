@@ -14,7 +14,9 @@ set(gluoncreatorlib_SRCS
 
     widgets/propertywidgetitems/propertywidgetitem.cpp
     widgets/propertywidgetitems/propertywidgetitemfactory.cpp
+    widgets/propertywidgetitems/boolpropertywidgetitem.cpp
     widgets/propertywidgetitems/textpropertywidgetitem.cpp
+    widgets/propertywidgetitems/floatpropertywidgetitem.cpp
     widgets/propertywidgetitems/nullpropertywidgetitem.cpp
     widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
 )
