@@ -226,9 +226,12 @@ GameObject::addComponent(Component * addThis)
     DEBUG_FUNC_NAME
     if(addThis)
     {
-        DEBUG_TEXT(QString("Adding %2 to %1").arg(name()).arg(addThis->name()));
+        DEBUG_TEXT(QString("Adding %2 to %1").arg(name()).arg(addThis->metaObject()->className()));
         if(!d->components.contains(addThis))
+        {
             d->components.append(addThis);
+            addThis->setParent(this);
+        }
     }
     else
     {
