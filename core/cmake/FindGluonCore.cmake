@@ -63,6 +63,7 @@ find_library(GLUON_CORE_LIBRARY
 set(GLUON_CORE_LIBS
     ${GLUON_CORE_LIBRARY}
     ${QT_QTCORE_LIBRARY}
+    ${QT_QTGUI_LIBRARY}
     CACHE PATHS "Libraries required for Gluon Core"
 )
 
