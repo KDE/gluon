@@ -20,12 +20,11 @@
 #include "gameobject.h"
 #include "gameobjectprivate.h"
 #include "component.h"
-#include "debughelper.h"
+#include "core/debughelper.h"
 
-REGISTER_OBJECTTYPE(Gluon,GameObject)
+REGISTER_OBJECTTYPE(GluonEngine,GameObject)
 
-using namespace Gluon;
-using namespace Eigen;
+using namespace GluonEngine;
 
 GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
@@ -46,7 +45,7 @@ GameObject::~GameObject()
 }
 
 
-GluonObject* GameObject::instantiate()
+GluonCore::GluonObject* GameObject::instantiate()
 {
     return new GameObject(this);
 }
@@ -259,7 +258,7 @@ GameObject::childGameObject(const QString &name) const
 
 void GameObject::addChild(GluonObject* child)
 {
-    Gluon::GluonObject::addChild(child);
+    GluonCore::GluonObject::addChild(child);
 }
 
 void
@@ -336,11 +335,11 @@ GameObject::description() const
 }
 
 void
-GameObject::setPosition(Vector3f newPosition)
+GameObject::setPosition(Eigen::Vector3f newPosition)
 {
     d->position = newPosition;
 
-    Vector3f parentPosition(0,0,0);
+    Eigen::Vector3f parentPosition(0,0,0);
     if(parentGameObject())
         parentPosition = parentGameObject()->positionGlobal();
     d->positionGlobal = parentPosition + newPosition;
@@ -348,18 +347,18 @@ GameObject::setPosition(Vector3f newPosition)
     updateTransform();
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::position() const
 {
     return d->position;
 }
 
 void
-GameObject::setScale(Vector3f newScale)
+GameObject::setScale(Eigen::Vector3f newScale)
 {
     d->scale = newScale;
 
-    Vector3f parentScale(0,0,0);
+    Eigen::Vector3f parentScale(0,0,0);
     if(parentGameObject())
         parentScale = parentGameObject()->scale();
     d->scaleGlobal = parentScale + newScale;
@@ -367,18 +366,18 @@ GameObject::setScale(Vector3f newScale)
     updateTransform();
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::scale() const
 {
     return d->scale;
 }
 
 void
-GameObject::setRotationAxis(Vector3f newRotationAxis)
+GameObject::setRotationAxis(Eigen::Vector3f newRotationAxis)
 {
     d->rotationAxis = newRotationAxis;
 
-    Vector3f parentRotationAxis(0,0,0);
+    Eigen::Vector3f parentRotationAxis(0,0,0);
     if(parentGameObject())
         parentRotationAxis = parentGameObject()->rotationAxis();
     d->rotationAxisGlobal = parentRotationAxis + newRotationAxis;
@@ -386,7 +385,7 @@ GameObject::setRotationAxis(Vector3f newRotationAxis)
     updateTransform();
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::rotationAxis() const
 {
     return d->rotationAxis;
@@ -411,18 +410,18 @@ GameObject::rotation() const
     return d->rotation;
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::positionGlobal() const
 {
     return d->positionGlobal;
 }
 
 void
-GameObject::setPositionGlobal(Vector3f newPositionGlobal)
+GameObject::setPositionGlobal(Eigen::Vector3f newPositionGlobal)
 {
     d->positionGlobal = newPositionGlobal;
 
-    Vector3f parentPosition(0,0,0);
+    Eigen::Vector3f parentPosition(0,0,0);
     if(parentGameObject())
         parentPosition = parentGameObject()->positionGlobal();
     d->position = newPositionGlobal - parentPosition;
@@ -430,18 +429,18 @@ GameObject::setPositionGlobal(Vector3f newPositionGlobal)
     updateTransform();
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::scaleGlobal() const
 {
     return d->scaleGlobal;
 }
 
 void
-GameObject::setScaleGlobal(Vector3f newScaleGlobal)
+GameObject::setScaleGlobal(Eigen::Vector3f newScaleGlobal)
 {
     d->scaleGlobal = newScaleGlobal;
 
-    Vector3f parentScaleGlobal(0,0,0);
+    Eigen::Vector3f parentScaleGlobal(0,0,0);
     if(parentGameObject())
         parentScaleGlobal = parentGameObject()->scaleGlobal();
     d->scale = newScaleGlobal - parentScaleGlobal;
@@ -449,18 +448,18 @@ GameObject::setScaleGlobal(Vector3f newScaleGlobal)
     updateTransform();
 }
 
-Vector3f
+Eigen::Vector3f
 GameObject::rotationAxisGlobal() const
 {
     return d->rotationAxisGlobal;
 }
 
 void
-GameObject::setRotationAxisGlobal(Vector3f newRotationAxisGlobal)
+GameObject::setRotationAxisGlobal(Eigen::Vector3f newRotationAxisGlobal)
 {
     d->rotationAxisGlobal = newRotationAxisGlobal;
 
-    Vector3f parentRotationAxisGlobal(0,0,0);
+    Eigen::Vector3f parentRotationAxisGlobal(0,0,0);
     if(parentGameObject())
         parentRotationAxisGlobal = parentGameObject()->rotationAxisGlobal();
     d->rotationAxis = newRotationAxisGlobal - parentRotationAxisGlobal;
@@ -492,7 +491,7 @@ GameObject::updateTransform()
 {
     // Reset the transform matrix to the new values of positionGlobal, scaleGlobal and rotationGlobal
     #warning Why do i not have the Scaling3f typedef?!
-    d->transformMatrix = Translation3f(positionGlobal()) * AngleAxisf(rotationGlobal(), rotationAxisGlobal()); // * Scaling3f(scaleGlobal());
+    d->transformMatrix = Eigen::Translation3f(positionGlobal()) * Eigen::AngleAxisf(rotationGlobal(), rotationAxisGlobal()); // * Scaling3f(scaleGlobal());
 
     // Finally, update the child objects' position
     foreach(QObject *child, children())
@@ -506,7 +505,7 @@ GameObject::updateTransform()
 }
 
 void
-GameObject::updateTransformFromParent(Transform3f parentTransform)
+GameObject::updateTransformFromParent(Eigen::Transform3f parentTransform)
 {
     // Find new values according to change between old and new transformMatrix
     parentTransform;
@@ -521,7 +520,7 @@ GameObject::updateTransformFromParent(Transform3f parentTransform)
     }
 }
 
-Transform3f
+Eigen::Transform3f
 GameObject::transform() const
 {
     return d->transformMatrix;

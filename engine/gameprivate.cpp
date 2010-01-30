@@ -19,7 +19,7 @@
 
 #include "gameprivate.h"
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 GamePrivate::GamePrivate()
     : gameRunning(false)

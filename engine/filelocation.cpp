@@ -19,17 +19,18 @@
 
 #include "filelocation.h"
 #include "filelocationprivate.h"
-#include "gameproject.h"
+
+#include "core/gameproject.h"
 #include <qfileinfo.h>
 
-using namespace Gluon;
+using namespace GluonEngine;
 
-FileLocation::FileLocation(GameProject* parent, const QUrl &relativeUrl)
+FileLocation::FileLocation(GluonCore::GameProject* parent, const QUrl &relativeUrl)
 {
     d = new FileLocationPrivate;
     d->gameProject = parent;
     d->url = relativeUrl;
-    
+
 }
 
 FileLocation::FileLocation(const FileLocation &other)
@@ -46,13 +47,13 @@ QUrl
 FileLocation::location() const
 {
     #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
-    
+
     // Bah, this am not workey... needs more thinkings
     return d->url;
 
     // Don't attempt to use the gameProject if it doesn't exist yet - fall back
     if(!d->gameProject)
         return d->url;
-    
+
     return QUrl(QFileInfo(d->gameProject->filename().toLocalFile()).canonicalPath() + d->url.toLocalFile());
 }

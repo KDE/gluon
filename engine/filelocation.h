@@ -17,24 +17,33 @@
 
 */
 
-#ifndef GLUON_FILELOCATIONPRIVATE_H
-#define GLUON_FILELOCATIONPRIVATE_H
+#ifndef GLUON_ENGINE_FILELOCATION_H
+#define GLUON_ENGINE_FILELOCATION_H
 
 #include <QtCore/QUrl>
 
-namespace Gluon
+#include "gluon_engine_export.h"
+
+namespace GluonCore
 {
     class GameProject;
-    class FileLocationPrivate
+}
+
+namespace GluonEngine
+{
+    class FileLocationPrivate;
+    class GLUON_ENGINE_EXPORT FileLocation
     {
         public:
-            FileLocationPrivate();
-            FileLocationPrivate(const FileLocationPrivate &other);
-            ~FileLocationPrivate();
-            
-            GameProject* gameProject;
-            QUrl url;
+            FileLocation(GluonCore::GameProject* parent, const QUrl& relativeUrl);
+            FileLocation(const FileLocation &other);
+            ~FileLocation();
+
+            QUrl location() const;
+
+        private:
+            FileLocationPrivate* d;
     };
 }
 
-#endif // GLUON_FILELOCATIONPRIVATE_H
+#endif // GLUON_ENGINE_FILELOCATION_H

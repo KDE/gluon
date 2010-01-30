@@ -17,11 +17,12 @@
 
 */
 
-#ifndef GLUON_SAVABLE_H
-#define GLUON_SAVABLE_H
+#ifndef GLUON_ENGINE_SAVABLE_H
+#define GLUON_ENGINE_SAVABLE_H
+
 #include <QString>
 
-namespace Gluon
+namespace GluonEngine
 {
     class Asset;
 
@@ -45,16 +46,16 @@ namespace Gluon
              * @see Gluon::Asset
              */
             static bool saveToFile(Asset * asset);
-            
+
             /**
              * Serialise the contents of the asset to GDL. This function should
              * be implemented in a way which returns the GDL for what the asset
              * contains.
-             * 
+             *
              * @return The serialised contents of the asset
              */
             virtual QString contentsToGDL() = 0;
     };
 }
 
-#endif // GLUON_SAVABLE_H
+#endif // GLUON_ENGINE_SAVABLE_H

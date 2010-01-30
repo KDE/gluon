@@ -17,32 +17,29 @@
 
 */
 
-#include "gameobjectprivate.h"
-#include <Eigen/Core>
+#ifndef GLUON_ENGINE_SCENEPRIVATE_H
+#define GLUON_ENGINE_SCENEPRIVATE_H
 
-using namespace Gluon;
-using namespace Eigen;
+#include <QList>
+class QUrl;
 
-GameObjectPrivate::GameObjectPrivate()
+namespace GluonEngine
 {
-    parentGameObject = 0;
-    position = Vector3f(0, 0, 0);
-    scale = Vector3f(0, 0, 0);
-    rotationAxis = Vector3f(0, 0, 0);
-    rotation = 0;
+    class Scene;
+    class GameObject;
+    class ScenePrivate
+    {
+        public:
+            ScenePrivate(Scene* q);
+            ~ScenePrivate();
+
+            void loadContents(const QUrl& file);
+            void unloadContents();
+            void saveContents(const QUrl& file);
+
+            GameObject* sceneContents;
+            Scene* q;
+    };
 }
 
-GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
-    : QSharedData(other)
-    , description(other.description)
-    , position(other.position)
-    , scale(other.scale)
-    , rotationAxis(other.rotationAxis)
-    , rotation(other.rotation)
-    , parentGameObject(other.parentGameObject)
-{
-}
-
-GameObjectPrivate::~GameObjectPrivate()
-{
-}
+#endif // GLUON_ENGINE_SCENEPRIVATE_H

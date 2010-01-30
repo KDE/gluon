@@ -1,129 +1,67 @@
 cmake_minimum_required(VERSION 2.6)
-project(libgluon)
 
-add_definitions(-DMAKE_GLUON_LIB)
+if(NOT GLUON_BUILD_ALL)
+    project(GluonEngine)
+    find_package(GluonCore REQUIRED)
+endif()
 
-IF(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-	set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules")
-ELSE()
-	set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
-ENDIF(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(Qt4 REQUIRED)
-
-IF(NOT WIN32 AND NOT APPLE)
-find_package(KDE4 REQUIRED)
-include(KDE4Defaults)
-include_directories(${KDE4_INCLUDES})
-ENDIF()
-
-find_package(Eigen2 REQUIRED)
-find_package(GluonCommon REQUIRED)
-find_package(KGL REQUIRED)
-
-message("-- Found KGL include dir: " ${KGL_INCLUDE_DIR})
-message("-- Found KGL includes: " ${KGL_INCLUDES})
-message("-- Found KGL library: " ${KGL_LIBRARY})
+include_directories(${GLUON_CORE_INCLUDES})
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${KGL_INCLUDE_DIR}/gluon/kgl
-    ${KGL_INCLUDE_DIR}/gluon
-    ${KGL_INCLUDE_DIR}
-    ${GLUONCOMMON_INCLUDES}
-    ${EIGEN2_INCLUDE_DIR}
-    ${GLEW_INCLUDE_DIR}/..
-    gameproject)
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
+#TODO: Make the assets and components build.
+#add_subdirectory(assets)
+#add_subdirectory(components)
 
-set(gluon_LIB_SRCS
-    gameproject/savable.cpp
-    gameproject/asset.cpp
-    gameproject/component.cpp
-    gameproject/componentprivate.cpp
-    gameproject/gameobject.cpp
-    gameproject/gameobjectprivate.cpp
-    gameproject/prefab.cpp
-    gameproject/prefabprivate.cpp
-    gameproject/scene.cpp
-    gameproject/sceneprivate.cpp
-    gameproject/gameproject.cpp
-    gameproject/gameprojectprivate.cpp
-    gameproject/filelocation.cpp
-    gameproject/filelocationprivate.cpp
+set(GluonEngine_SRCS
+    savable.cpp
+    asset.cpp
+    component.cpp
+    componentprivate.cpp
+    gameobject.cpp
+    gameobjectprivate.cpp
+    prefab.cpp
+    prefabprivate.cpp
+    scene.cpp
+    sceneprivate.cpp
+    filelocation.cpp
+    filelocationprivate.cpp
 
-    gluonmainwindow.cpp
-    gluonobject.cpp
-    gluonobjectprivate.cpp
-    gluonobjectfactory.cpp
-    gdlhandler.cpp
     game.cpp
     gameprivate.cpp
+)
 
-    components/soundcomponents/soundemittercomponent.cpp
-    components/soundcomponents/soundlistenercomponent.cpp
-    components/spriterendercomponent/spriterendercomponent.cpp
-    components/spriterendercomponent/spriterendercomponentprivate.cpp
+qt4_automoc(${GluonEngine_SRCS})
+add_library(GluonEngine SHARED ${GluonEngine_SRCS})
 
-    assets/soundasset/soundasset.cpp
-    assets/textureasset/textureasset.cpp
-
-    debughelper.cpp
-   )
-
-qt4_automoc(${gluon_LIB_SRCS})
-
-SET(gluon_RCCS
-    ../resources/resources.qrc
-   )
-
-QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
-add_library(gluon SHARED ${gluon_LIB_SRCS} ${gluon_RCC_SRCS})
-
-set_target_properties(gluon PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
-target_link_libraries(gluon kgl kal ${KDE4_KDEUI_LIBS})
-target_link_libraries(kcl)
-target_link_libraries(gluon ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${GLEW_LIBRARY} ${X11_Xrandr_LIB} ${X11_LIBRARY} )
-target_link_libraries(gluon
-                      ${KDE4_KDEUI_LIBS} ${KDE4_PHONON_LIBS} ${KDE4_KIO_LIBS}
-                      ${OPENAL_LIBRARY}
-                      ${SNDFILE_LIBRARY} ${OGG_LIBRARIES} ${VORBISFILE_LIBRARIES})
-########### INSTALL FILES ###############
-
-if(APPLE)
-
-install(TARGETS gluon DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
-
+set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+if(GLUON_BUILD_ALL)
+    add_dependencies(GluonEngine GluonCore)
+    target_link_libraries(GluonEngine GluonCore)
 else()
-
-install(TARGETS gluon ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
+    target_link_libraries(GluonEngine ${GLUON_CORE_LIBS})
 endif()
 
-install(FILES
-    gameproject/savable.h
-    gameproject/asset.h
-    gameproject/component.h
-    gameproject/gameobject.h
-    gameproject/prefab.h
-    gameproject/scene.h
-    gameproject/gameproject.h
-    gameproject/filelocation.h
+install(TARGETS GluonEngine DESTINATION ${LIB_INSTALL_DIR})
 
-    gluon_export.h
-    gluonmainwindow.h
-    gluonobject.h
-    gluonobjectfactory.h
-    gdlhandler.h
+install(
+    FILES
+    savable.h
+    asset.h
+    component.h
+    gameobject.h
+    prefab.h
+    scene.h
+    filelocation.h
+
+    gluon_engine_export.h
     game.h
-    gluonvarianttypes.h
-    debughelper.h
 
-    components/spriterendercomponent/spriterendercomponent.h
-
-    assets/textureasset/textureasset.h
-
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon COMPONENT Devel)
-
-#add_subdirectory(Components)
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
+    COMPONENT Devel
+)

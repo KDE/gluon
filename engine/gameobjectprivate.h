@@ -17,44 +17,44 @@
 
 */
 
-#ifndef GLUON_GAMEOBJECTPRIVATE_H
-#define GLUON_GAMEOBJECTPRIVATE_H
+#ifndef GLUON_ENGINE_GAMEOBJECTPRIVATE_H
+#define GLUON_ENGINE_GAMEOBJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <Eigen/Geometry>
 
-namespace Gluon
+namespace GluonEngine
 {
     class GameObject;
     class Component;
-    
+
     class GameObjectPrivate : public QSharedData
     {
         public:
             GameObjectPrivate();
             GameObjectPrivate(const GameObjectPrivate &other);
             ~GameObjectPrivate();
-            
+
             QString description;
-            
+
             Eigen::Vector3f position;
             Eigen::Vector3f scale;
             Eigen::Vector3f rotationAxis;
             float rotation;
-            
+
             Eigen::Vector3f positionGlobal;
             Eigen::Vector3f scaleGlobal;
             Eigen::Vector3f rotationAxisGlobal;
             float rotationGlobal;
 
             Eigen::Transform3f transformMatrix;
-            
+
             GameObject * parentGameObject;
             QList<GameObject *> children;
             QList<Component *> components;
     };
 }
 
-#endif // GLUON_GAMEOBJECTPRIVATE_H
+#endif // GLUON_ENGINE_GAMEOBJECTPRIVATE_H

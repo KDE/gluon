@@ -17,19 +17,22 @@
 
 */
 
-#ifndef GLUON_ASSET_H
-#define GLUON_ASSET_H
+#ifndef GLUON_ENGINE_ASSET_H
+#define GLUON_ENGINE_ASSET_H
 
-#include "gluonobject.h"
+#include "core/gluonobject.h"
+
+#include "gluon_engine_export.h"
+
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
 #include <QtPlugin>
 
-namespace Gluon
+namespace GluonEngine
 {
     class AssetPrivate;
 
-    class GLUON_EXPORT Asset : public GluonObject
+    class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QUrl file READ file WRITE setFile)
@@ -38,11 +41,11 @@ namespace Gluon
             Asset(QObject *parent = 0);
             ~Asset();
 
-            virtual GluonObject *instantiate();
+            virtual GluonCore::GluonObject *instantiate();
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
-            
+
             /**
              * The specialization of toGDL on the Asset class does not recurse.
              * This allows Assets to handle their own children in a flexible
@@ -57,7 +60,6 @@ namespace Gluon
             AssetPrivate *d;
     };
 }
+Q_DECLARE_INTERFACE(GluonEngine::Asset, "com.gluon.Asset/1.0")
 
-Q_DECLARE_INTERFACE(Gluon::Asset, "com.gluon.Asset/1.0")
-
-#endif				// GLUON_ASSET_H
+#endif  // GLUON_ASSET_H

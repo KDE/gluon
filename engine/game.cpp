@@ -19,19 +19,20 @@
 
 #include "game.h"
 #include "gameprivate.h"
-#include "gameproject/scene.h"
-#include "gameproject/gameobject.h"
-#include "gameproject/gameproject.h"
-#include "debughelper.h"
+#include "scene.h"
+#include "gameobject.h"
+
+#include "core/gameproject.h"
+#include "core/debughelper.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
 
-using namespace Gluon;
+using namespace GluonEngine;
 
-template<> GLUON_EXPORT Game *KSingleton<Game>::m_instance = 0;
+template<> GLUON_ENGINE_EXPORT Game *GluonCore::Singleton<Game>::m_instance = 0;
 
 Game::Game(QObject * parent)
 {
@@ -142,7 +143,7 @@ void Game::stopGame()
 {
     DEBUG_BLOCK
     DEBUG_TEXT(QString("Stopping gameloop"))
-    
+
     d->gameRunning = false;
 }
 
@@ -153,7 +154,7 @@ void Game::setPause(bool pause)
     { DEBUG_TEXT(QString("Pausing gameloop")) }
     else
     { DEBUG_TEXT(QString("Un-pausing gameloop")) }
-    
+
     d->gamePaused = pause;
 }
 
@@ -173,17 +174,17 @@ Game::setCurrentScene(Scene * newCurrentScene)
     emit currentSceneChanged(newCurrentScene);
 }
 
-GameProject *
+GluonCore::GameProject *
 Game::gameProject() const
 {
     return d->gameProject;
 }
 void
-Game::setGameProject(GameProject * newGameProject)
+Game::setGameProject(GluonCore::GameProject * newGameProject)
 {
     DEBUG_FUNC_NAME
     d->gameProject = newGameProject;
-    
+
     if(!gameProject()->entryPoint())
     {
         DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
@@ -207,8 +208,8 @@ Game::setGameProject(GameProject * newGameProject)
     {
         DEBUG_TEXT(QString("Somehow we have got here with no entrypoint... This is very, very wrong!"))
     }
-    
-    setCurrentScene(newGameProject->entryPoint());
+
+    setCurrentScene(qobject_cast<Scene*>(newGameProject->entryPoint()));
     emit currentProjectChanged(newGameProject);
 }
 

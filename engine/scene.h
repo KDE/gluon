@@ -17,33 +17,41 @@
 
 */
 
-#ifndef GLUON_GAMEPROJECTPRIVATE_H
-#define GLUON_GAMEPROJECTPRIVATE_H
+#ifndef GLUON_ENGINE_SCENE_H
+#define GLUON_ENGINE_SCENE_H
 
-#include <QtCore/QSharedData>
-#include <QtCore/QUrl>
+#include "asset.h"
+#include "savable.h"
 
-namespace Gluon
+namespace GluonEngine
 {
-    class Scene;
-    class GluonObject;
-    
-    class GameProjectPrivate : public QSharedData
+    class GameObject;
+    class ScenePrivate;
+
+    class GLUON_ENGINE_EXPORT Scene : public Asset, public Savable
     {
+        Q_OBJECT
+
         public:
-            GameProjectPrivate();
-            GameProjectPrivate(const GameProjectPrivate &other);
-            ~GameProjectPrivate();
-            
-            QString description;
-            QUrl homepage;
-            QList<QUrl> mediaInfo;
-            QUrl filename;
-            Scene* entryPoint;
-            
-            GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject);
-            static bool saveChildren(const Gluon::GluonObject* parent);
+            Scene(QObject * parent = 0);
+            ~Scene();
+
+            virtual Scene * instantiate();
+
+            virtual void setFile(const QUrl &newFile);
+            virtual void setName(const QString& newName);
+
+            virtual QString contentsToGDL();
+
+            virtual void startAll();
+            virtual void updateAll(int elapsedMilliseconds);
+            virtual void drawAll(int timeLapse = 0);
+
+            GameObject* sceneContents();
+
+        private:
+            ScenePrivate* d;
     };
 }
 
-#endif // GLUON_GAMEPROJECTPRIVATE_H
+#endif // GLUON_ENGINE_SCENE_H

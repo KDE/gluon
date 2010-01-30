@@ -17,23 +17,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "componentprivate.h"
+#ifndef GLUON_ENGINE_COMPONENTPRIVATE_H
+#define GLUON_ENGINE_COMPONENTPRIVATE_H
 
-using namespace Gluon;
+#include <QtCore/QSharedData>
+#include <QtCore/QString>
 
-ComponentPrivate::ComponentPrivate()
+namespace GluonEngine
 {
-    enabled = true;
-    gameObject = 0;
+    class GameObject;
+
+    class ComponentPrivate : public QSharedData
+    {
+        public:
+            ComponentPrivate();
+            ComponentPrivate(const ComponentPrivate &other);
+            ~ComponentPrivate();
+
+            QString description;
+            bool enabled;
+            GameObject * gameObject;
+    };
 }
 
-ComponentPrivate::ComponentPrivate(const ComponentPrivate &other)
-    : QSharedData(other)
-    , enabled(other.enabled)
-    , gameObject(other.gameObject)
-{
-}
-
-ComponentPrivate::~ComponentPrivate()
-{
-}
+#endif // GLUON_ENGINE_COMPONENTPRIVATE_H

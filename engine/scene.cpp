@@ -22,9 +22,9 @@
 #include "sceneprivate.h"
 #include "filelocation.h"
 
-REGISTER_OBJECTTYPE(Gluon, Scene)
+REGISTER_OBJECTTYPE(GluonEngine, Scene)
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 Scene::Scene(QObject * parent)
     : Asset(parent)
@@ -63,13 +63,13 @@ void
 Scene::setFile(const QUrl &newFile)
 {
     d->unloadContents();
-    Gluon::Asset::setFile(newFile);
+    GluonEngine::Asset::setFile(newFile);
 }
 
 void Scene::setName(const QString& newName)
 {
     sceneContents()->setName(newName);
-    Gluon::GluonObject::setName(newName);
+    GluonCore::GluonObject::setName(newName);
 }
 
 

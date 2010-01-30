@@ -17,22 +17,27 @@
 
 */
 
-#ifndef GLUON_GAME_H
-#define GLUON_GAME_H
+#ifndef GLUON_ENGINE_GAME_H
+#define GLUON_ENGINE_GAME_H
 
-#include "gluon_export.h"
+#include "gluon_engine_export.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QThread>
-#include <common/ksingleton.h>
 
-namespace Gluon
+#include <core/singleton.h>
+
+namespace GluonCore
+{
+    class GameProject;
+}
+
+namespace GluonEngine
 {
     class Scene;
-    class GameProject;
     class GamePrivate;
-    
+
     class I : public QThread
     {
         public:
@@ -46,24 +51,25 @@ namespace Gluon
                 QThread::usleep(usecs);
             }
     };
-    
-    class GLUON_EXPORT Game : public KSingleton<Game>
+
+    class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
         Q_OBJECT
         Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
-        Q_PROPERTY(GameProject* gameProject READ gameProject WRITE setGameProject)
-        
+        //TODO Fix this once moc doesnt choke on namespaces anymore
+        //Q_PROPERTY(GluonCore::GameProject* gameProject READ gameProject WRITE setGameProject)
+
         public:
             int getCurrentTick();
             Scene * currentScene() const;
-            
-            GameProject * gameProject() const;
+
+            GluonCore::GameProject * gameProject() const;
 
         public slots:
-            void setGameProject(GameProject * newGameProject);
-            
+            void setGameProject(GluonCore::GameProject * newGameProject);
+
             void setCurrentScene(Scene * newCurrentScene);
-            
+
             void runGame() { this->runGameFixedUpdate(); }
             /**
              * Run the game at full framerate (with an optional maximum number of skipped frames), but with a fixed game update rate, defaulting to 25 updates per second
@@ -71,7 +77,7 @@ namespace Gluon
              * @param   int maxFrameSkip The maximum number of frames that you're allowed to skip before forcing a redraw
              */
             void runGameFixedUpdate(int updatesPerSecond = 25, int maxFramesPerSeconds = 5);
-            
+
             /**
              * Run the game using a fixed time between each update
              * @param   int framesPerSecond The number of frames per second that the game will attempt to keep up with
@@ -79,21 +85,22 @@ namespace Gluon
             void runGameFixedTimestep(int framesPerSecond = 25);
 
             void stopGame();
-            
+
             void setPause(bool pause);
-            
+
         signals:
-            void currentSceneChanged(Scene*);
-            void currentProjectChanged(GameProject*);
-            
+            void currentSceneChanged(GluonEngine::Scene*);
+            void currentProjectChanged(GluonCore::GameProject*);
+
         private:
-            friend class KSingleton<Game>;
-            
+            friend class GluonCore::Singleton<Game>;
+
             Game(QObject * parent = 0);
             ~Game();
-            
+            Q_DISABLE_COPY(Game)
+
             QSharedDataPointer<GamePrivate> d;
     };
 }
 
-#endif // GLUON_GAME_H
+#endif // GLUON_ENGINE_GAME_H

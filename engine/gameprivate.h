@@ -17,30 +17,34 @@
 
 */
 
-#ifndef GLUON_GAMEPRIVATE_H
-#define GLUON_GAMEPRIVATE_H
+#ifndef GLUON_ENGINE_GAMEPRIVATE_H
+#define GLUON_ENGINE_GAMEPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QTime>
 
-namespace Gluon
+namespace GluonCore
+{
+    class GameProject;
+}
+
+namespace GluonEngine
 {
     class Scene;
-    class GameProject;
-    
+
     class GamePrivate : public QSharedData
     {
         public:
             GamePrivate();
             GamePrivate(const GamePrivate &other);
             ~GamePrivate();
-            
+
             QTime time;
             bool gameRunning;
             bool gamePaused;
             Scene * currentScene;
-            GameProject * gameProject;
+            GluonCore::GameProject * gameProject;
     };
 }
 
-#endif // GLUON_GAMEPRIVATE_H
+#endif // GLUON_ENGINE_GAMEPRIVATE_H

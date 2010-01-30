@@ -18,14 +18,16 @@
 */
 
 #include "savable.h"
-#include "gluonobject.h"
 #include "asset.h"
-#include "debughelper.h"
+
+#include "core/gluonobject.h"
+#include "core/debughelper.h"
+
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QDir>
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 Savable::~Savable()
 {

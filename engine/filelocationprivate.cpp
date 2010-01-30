@@ -17,23 +17,23 @@
 
 */
 
-#include "projectprivate.h"
+#include "filelocationprivate.h"
 
-using namespace Gluon;
+#include "core/gameproject.h"
 
-ProjectPrivate::ProjectPrivate()
+using namespace GluonEngine;
+
+FileLocationPrivate::FileLocationPrivate()
+{
+    gameProject = NULL;
+}
+
+FileLocationPrivate::FileLocationPrivate(const FileLocationPrivate &other)
+    : gameProject(other.gameProject)
+    , url(other.url)
 {
 }
 
-ProjectPrivate::ProjectPrivate(const ProjectPrivate &other)
-    : QSharedData(other)
-    , file(other.file)
-    , assets(other.assets)
-    , levels(other.levels)
-    , prefabs(other.prefabs)
-{
-}
-
-ProjectPrivate::~ProjectPrivate()
+FileLocationPrivate::~FileLocationPrivate()
 {
 }

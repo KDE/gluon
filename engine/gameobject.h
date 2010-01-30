@@ -17,22 +17,22 @@
 
 */
 
-#ifndef GLUON_GAMEOBJECT_H
-#define GLUON_GAMEOBJECT_H
+#ifndef GLUON_ENGINE_GAMEOBJECT_H
+#define GLUON_ENGINE_GAMEOBJECT_H
 
-#include "gluonobject.h"
-#include "gluonvarianttypes.h"
-#include "gluonobjectfactory.h"
-#include "gluon_export.h"
+#include "core/gluonobject.h"
+#include "core/gluonvarianttypes.h"
+#include "core/gluonobjectfactory.h"
+#include "gluon_engine_export.h"
 
 #include <QtCore/QSharedData>
 
-namespace Gluon
+namespace GluonEngine
 {
     class GameObjectPrivate;
     class Component;
 
-    class GLUON_EXPORT GameObject : public GluonObject
+    class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
@@ -47,7 +47,7 @@ namespace Gluon
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
 
-            GluonObject* instantiate();
+            GluonCore::GluonObject* instantiate();
 
             void sanitize();
             void start();
@@ -80,7 +80,7 @@ namespace Gluon
 
             GameObject * childGameObject(int index) const;
             GameObject * childGameObject(const QString &name) const;
-            void addChild(GluonObject * child);
+            void addChild(GluonCore::GluonObject * child);
             void addChild(GameObject * addThis);
             bool removeChild(GluonObject * child);
             bool removeChild(GameObject * removeThis);
@@ -113,18 +113,18 @@ namespace Gluon
             Eigen::Vector3f rotationAxisGlobal() const;
             void setRotationGlobal(float newRotationGlobal);
             float rotationGlobal() const;
-            
+
             void updateTransform();
             Eigen::Transform3f transform() const;
 
 
         protected:
             void updateTransformFromParent(Eigen::Transform3f parentTransform);
-            
+
         private:
             QSharedDataPointer<GameObjectPrivate> d;
     };
 }
 
 
-#endif				// GLUON_GAMEOBJECT_H
+#endif  // GLUON_ENGINE_GAMEOBJECT_H

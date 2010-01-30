@@ -17,22 +17,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#ifndef GLUON_EXPORT_H
-#define GLUON_EXPORT_H
+#ifndef GLUON_ENGINE_EXPORT_H
+#define GLUON_ENGINE_EXPORT_H
 
 #include <QtCore/qglobal.h>
 
-#ifndef GLUON_EXPORT
-#if defined(MAKE_GLUON_LIB)
-#  define GLUON_EXPORT Q_DECL_EXPORT
+#ifndef GLUON_ENGINE_EXPORT
+#if defined(MAKE_GLUON_ENGINE_LIB)
+#  define GLUON_ENGINE_EXPORT Q_DECL_EXPORT
 #else
-#  define GLUON_EXPORT Q_DECL_IMPORT
+#  define GLUON_ENGINE_EXPORT Q_DECL_IMPORT
 #endif
 #endif
 
-# ifndef GLUON_EXPORT_DEPRECATED
-#  define GLUON_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUON_EXPORT
+# ifndef GLUON_ENGINE_EXPORT_DEPRECATED
+#  define GLUON_ENGINE_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUON_EXPORT
 # endif
 
 
-#endif
+#endif // GLUON_ENGINE_EXPORT_H

@@ -17,20 +17,28 @@
 
 */
 
-#ifndef GLUON_PREFABPRIVATE_H
-#define GLUON_PREFABPRIVATE_H
+#ifndef GLUON_ENGINE_FILELOCATIONPRIVATE_H
+#define GLUON_ENGINE_FILELOCATIONPRIVATE_H
 
-#include <QtCore/QSharedData>
+#include <QtCore/QUrl>
 
-namespace Gluon
+namespace GluonCore
 {
-    class PrefabPrivate : public QSharedData
+    class GameProject;
+}
+
+namespace GluonEngine
+{
+    class FileLocationPrivate
     {
         public:
-            PrefabPrivate();
-            PrefabPrivate(const PrefabPrivate &other);
-            ~PrefabPrivate();
+            FileLocationPrivate();
+            FileLocationPrivate(const FileLocationPrivate &other);
+            ~FileLocationPrivate();
+
+            GluonCore::GameProject* gameProject;
+            QUrl url;
     };
 }
 
-#endif				// GLUON_PREFABPRIVATE_H
+#endif // GLUON_ENGINE_FILELOCATIONPRIVATE_H

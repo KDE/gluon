@@ -17,29 +17,20 @@
 
 */
 
-#ifndef GLUON_SCENEPRIVATE_H
-#define GLUON_SCENEPRIVATE_H
+#ifndef GLUON_ENGINE_PREFABPRIVATE_H
+#define GLUON_ENGINE_PREFABPRIVATE_H
 
-#include <QList>
-class QUrl;
+#include <QtCore/QSharedData>
 
-namespace Gluon
+namespace GluonEngine
 {
-    class Scene;
-    class GameObject;
-    class ScenePrivate
+    class PrefabPrivate : public QSharedData
     {
         public:
-            ScenePrivate(Scene* q);
-            ~ScenePrivate();
-            
-            void loadContents(const QUrl& file);
-            void unloadContents();
-            void saveContents(const QUrl& file);
-            
-            GameObject* sceneContents;
-            Scene* q;
+            PrefabPrivate();
+            PrefabPrivate(const PrefabPrivate &other);
+            ~PrefabPrivate();
     };
 }
 
-#endif // GLUON_SCENEPRIVATE_H
+#endif  // GLUON_ENGINE_PREFABPRIVATE_H

@@ -17,52 +17,27 @@
 
 */
 
-#include "asset.h"
+#include "prefab.h"
+#include "prefabprivate.h"
 
-REGISTER_OBJECTTYPE(Gluon,Asset)
+REGISTER_OBJECTTYPE(GluonEngine,Prefab)
 
-using namespace Gluon;
+using namespace GluonEngine;
 
-class Gluon::AssetPrivate
-{
-public:
-    QUrl file;
-};
-
-Asset::Asset(QObject *parent)
+Prefab::Prefab(QObject * parent)
     : GluonObject(parent)
 {
-    d = new AssetPrivate;
+    d = new PrefabPrivate;
 }
 
-Asset::~Asset()
+Prefab::Prefab(const Prefab &other, QObject * parent)
+    : GluonObject(parent)
+    , d(other.d)
 {
-    delete d;
 }
 
-GluonObject* Asset::instantiate()
+Prefab::~Prefab()
 {
-    return new Asset(this);
 }
 
-void Asset::setFile(const QUrl &newFile)
-{
-    d->file = newFile;
-    emit dataChanged();
-}
-
-QUrl Asset::file() const
-{
-    return d->file;
-}
-
-QString
-Asset::childrenToGDL(int indentLevel) const
-{
-    Q_UNUSED(indentLevel)
-    // We do not recurse here - this allows the assets to handle their own
-    // children
-    return QString();
-}
-
-#include "asset.moc"
+#include "prefab.moc"

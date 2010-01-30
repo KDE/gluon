@@ -17,22 +17,31 @@
 
 */
 
-#include "filelocationprivate.h"
-#include "gameproject.h"
+#include "gameobjectprivate.h"
+#include <Eigen/Core>
 
-using namespace Gluon;
+using namespace GluonEngine;
 
-FileLocationPrivate::FileLocationPrivate()
+GameObjectPrivate::GameObjectPrivate()
 {
-    gameProject = NULL;
+    parentGameObject = 0;
+    position = Eigen::Vector3f(0, 0, 0);
+    scale = Eigen::Vector3f(0, 0, 0);
+    rotationAxis = Eigen::Vector3f(0, 0, 0);
+    rotation = 0;
 }
 
-FileLocationPrivate::FileLocationPrivate(const FileLocationPrivate &other)
-    : gameProject(other.gameProject)
-    , url(other.url)
+GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
+    : QSharedData(other)
+    , description(other.description)
+    , position(other.position)
+    , scale(other.scale)
+    , rotationAxis(other.rotationAxis)
+    , rotation(other.rotation)
+    , parentGameObject(other.parentGameObject)
 {
 }
 
-FileLocationPrivate::~FileLocationPrivate()
+GameObjectPrivate::~GameObjectPrivate()
 {
 }

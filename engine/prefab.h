@@ -17,29 +17,29 @@
 
 */
 
-#ifndef FILELOCATION_H
-#define FILELOCATION_H
+#ifndef GLUON_ENGINE_PREFAB_H
+#define GLUON_ENGINE_PREFAB_H
 
-#include <QtCore/QUrl>
+#include "core/gluonobject.h"
 
-#include "gluon_export.h"
+#include <QtCore/QSharedData>
 
-namespace Gluon
+namespace GluonEngine
 {
-    class GameProject;
-    class FileLocationPrivate;
-    class GLUON_EXPORT FileLocation
+    class PrefabPrivate;
+
+    class Prefab : public GluonCore::GluonObject
     {
+        Q_OBJECT
+
         public:
-            FileLocation(GameProject* parent, const QUrl& relativeUrl);
-            FileLocation(const FileLocation &other);
-            ~FileLocation();
-            
-            QUrl location() const;
-            
+            Prefab(QObject * parent = 0);
+            Prefab(const Prefab &other, QObject * parent = 0);
+            ~Prefab();
+
         private:
-            FileLocationPrivate* d;
+            QSharedDataPointer<PrefabPrivate> d;
     };
 }
 
-#endif // FILELOCATION_H
+#endif  // GLUON_ENGINE_PREFAB_H

@@ -17,29 +17,19 @@
 
 */
 
-#ifndef GLUON_PREFAB_H
-#define GLUON_PREFAB_H
+#include "prefabprivate.h"
 
-#include "gluonobject.h"
-#include <QtCore/QSharedData>
+using namespace GluonEngine;
 
-
-namespace Gluon
+PrefabPrivate::PrefabPrivate()
 {
-    class PrefabPrivate;
-    
-    class Prefab : public GluonObject
-    {
-        Q_OBJECT
-        
-        public:
-            Prefab(QObject * parent = 0);
-            Prefab(const Prefab &other, QObject * parent = 0);
-            ~Prefab();
-            
-        private:
-            QSharedDataPointer<PrefabPrivate> d;
-    };
 }
 
-#endif				// GLUON_PREFAB_H
+PrefabPrivate::PrefabPrivate(const PrefabPrivate &other)
+    : QSharedData(other)
+{
+}
+
+PrefabPrivate::~PrefabPrivate()
+{
+}

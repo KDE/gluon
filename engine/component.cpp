@@ -20,11 +20,12 @@
 #include "component.h"
 #include "componentprivate.h"
 #include "gameobject.h"
-#include "debughelper.h"
+
+#include "core/debughelper.h"
 
 #include <QtCore/QString>
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 Component::Component(QObject * parent)
     : GluonObject(parent)

@@ -17,11 +17,12 @@
 
 */
 
-#ifndef GLUON_COMPONENT_H
-#define GLUON_COMPONENT_H
+#ifndef GLUON_ENGINE_COMPONENT_H
+#define GLUON_ENGINE_COMPONENT_H
 
-#include "gluon_export.h"
-#include "gluonobject.h"
+#include "gluon_engine_export.h"
+#include "core/gluonobject.h"
+
 #include <QtCore/QSharedData>
 #include <QtPlugin>
 
@@ -29,7 +30,7 @@
  * \defgroup Component Component
  */
 
-namespace Gluon
+namespace GluonEngine
 {
     class GameObject;
     class ComponentPrivate;
@@ -53,7 +54,7 @@ namespace Gluon
      *   http://doc.trolltech.com/qshareddata.html
      * * Expose any properties visible in the editor through Q_PROPERTY
      */
-    class GLUON_EXPORT Component : public GluonObject
+    class GLUON_ENGINE_EXPORT Component : public GluonCore::GluonObject
     {
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
@@ -153,7 +154,6 @@ namespace Gluon
             QSharedDataPointer<ComponentPrivate> d;
     };
 }
-Q_DECLARE_INTERFACE(Gluon::Component, "com.gluon.Component/1.0")
+Q_DECLARE_INTERFACE(GluonEngine::Component, "com.gluon.Component/1.0")
 
-
-#endif				// GLUON_COMPONENT_H
+#endif  // GLUON_COMPONENT_H
