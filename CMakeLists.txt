@@ -1,33 +1,40 @@
-cmake_minimum_required(VERSION 2.8)
-project(gluon)
+cmake_minimum_required(VERSION 2.6)
+project(Gluon)
 
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
 #do not make a whole lot of sense combined.
-option(WITH_KDE "Build with KDE Development Platform Support" OFF)
-option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" OFF)
+option(WITH_KDE "Build with KDE Development Platform Support" ON)
+option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" ON)
 option(BUILD_GLUON_INPUT "Build Gluon Input Library" OFF)
 option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" OFF)
-option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" OFF)
-option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
+option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
+option(BUILD_GLUON_PLAYER "Build Gluon Player Application" OFF)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 
 set(GLUON_BUILD_ALL TRUE
-    CACHE BOOL "Build all of Gluon"
+    CACHE INTERNAL "Build all of Gluon"
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-#Gluon Libraries
+
+##### Gluon Libraries #####
+
+####### Gluon Core ########
 add_subdirectory(core)
+####### Gluon Audio #######
 if(BUILD_GLUON_AUDIO)
     add_subdirectory(audio)
 endif()
+####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
     add_subdirectory(input)
 endif()
+###### Gluon Graphics #####
 if(BUILD_GLUON_GRAPHICS)
     add_subdirectory(graphics)
 endif()
+###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
 endif()
@@ -35,9 +42,11 @@ endif()
 #Gluon Applications - Currently dependant on KDE Development Platform
 find_package(KDE4)
 if(KDE4_FOUND AND WITH_KDE)
+    ##### Gluon Player #####
     if(BUILD_GLUON_PLAYER)
         add_subdirectory(player)
     endif(BUILD_GLUON_PLAYER)
+    ##### Gluon Creator ####
     if(BUILD_GLUON_CREATOR)
         add_subdirectory(creator)
     endif(BUILD_GLUON_CREATOR)
@@ -52,6 +61,7 @@ endif(KDE4_FOUND AND WITH_KDE)
 
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
+message(STATUS "Build Version: ${GLUON_VERSION_STRING}")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}")
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
