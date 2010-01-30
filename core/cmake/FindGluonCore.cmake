@@ -19,22 +19,52 @@ if (GluonCore_FIND_REQUIRED)
     set(_gluonCoreReq "REQUIRED")
 endif (GluonCore_FIND_REQUIRED)
 
+find_package(Qt4 ${_gluonCoreReq})
+find_package(Eigen2 ${_gluonCoreReq})
+
+set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
+set(GLUON_VERSION_MINOR     60      CACHE STRING "Gluon Minor Version")
+set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
+set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
+
+if(NOT INCLUDE_INSTALL_DIR)
+    set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
+endif()
+if(NOT LIB_INSTALL_DIR)
+    set(LIB_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
+endif()
+if(NOT SHARE_INSTALL_DIR)
+    set(SHARE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
+endif()
+
 find_path(GLUON_CORE_INCLUDE_DIR
     NAMES
-    gluon/core/singleton.h
+    core/singleton.h
     PATHS
-    ${CMAKE_INSTALL_PREFIX}/includes
+    ${INCLUDE_INSTALL_DIR}
+    PATH_SUFFIXES
+    gluon
 )
 
 set(GLUON_CORE_INCLUDES
     ${GLUON_CORE_INCLUDE_DIR}
-    CACHE STRING "Includes required for Gluon Core"
+    ${QT_INCLUDES}
+    ${EIGEN2_INCLUDE_DIR}
+    CACHE PATHS "Includes required for Gluon Core"
 )
 
-#find_path(GLUON_CORE_LIBRARY
-#    NAMES
-#
-#)
+find_library(GLUON_CORE_LIBRARY
+    NAMES
+    GluonCore
+    PATHS
+    ${LIB_INSTALL_DIR}
+)
+
+set(GLUON_CORE_LIBS
+    ${GLUON_CORE_LIBRARY}
+    ${QT_QTCORE_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Core"
+)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(GluonCore DEFAULT_MSG GLUON_CORE_INCLUDES)
+find_package_handle_standard_args(GluonCore DEFAULT_MSG GLUON_CORE_LIBRARY GLUON_CORE_INCLUDE_DIR)

@@ -17,26 +17,32 @@
 
 */
 
-#ifndef GLUON_CORE_GLUONOBJECTPRIVATE_H
-#define GLUON_CORE_GLUONOBJECTPRIVATE_H
+#ifndef GLUON_GAMEPROJECTPRIVATE_H
+#define GLUON_GAMEPROJECTPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QtCore/QString>
+#include <QtCore/QUrl>
 
 namespace GluonCore
 {
-    class GameProject;
+    class GluonObject;
 
-    class GluonObjectPrivate : public QSharedData
+    class GameProjectPrivate : public QSharedData
     {
         public:
-            GluonObjectPrivate();
-            GluonObjectPrivate(const GluonObjectPrivate &other);
-            ~GluonObjectPrivate() {};
+            GameProjectPrivate();
+            GameProjectPrivate(const GameProjectPrivate &other);
+            ~GameProjectPrivate();
 
-            QString name;
-            GameProject * gameProject;
+            QString description;
+            QUrl homepage;
+            QList<QUrl> mediaInfo;
+            QUrl filename;
+            GluonObject* entryPoint;
+
+            GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonObject * parentObject);
+            static bool saveChildren(const GluonCore::GluonObject* parent);
     };
 }
 
-#endif  // GLUON_CORE_GLUONOBJECTPRIVATE_H
+#endif // GLUON_GAMEPROJECTPRIVATE_H

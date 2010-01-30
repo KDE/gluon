@@ -28,11 +28,12 @@
 #include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
 
+
 Q_DECLARE_METATYPE(QList<QUrl>)
 
 namespace GluonCore
 {
-    //class GameProject;
+    class GameProject;
     class GluonObjectPrivate;
 
     class GLUON_CORE_EXPORT GluonObject : public QObject
@@ -67,14 +68,14 @@ namespace GluonCore
              * @return The instance of GameProject this GluonObject is associated with
              * @see GameProject GameProject::findItemByName
              */
-            //GameProject * gameProject() const;
+            GameProject * gameProject() const;
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
              *
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
-            //void setGameProject(GameProject * newGameProject);
+            void setGameProject(GameProject * newGameProject);
 
             /**
              * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?

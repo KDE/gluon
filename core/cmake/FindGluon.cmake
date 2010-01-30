@@ -31,7 +31,7 @@ set(GLUON_INCLUDES
     ${GLUON_INPUT_INCLUDES}
     ${GLUON_GRAPHICS_INCLUDES}
     ${GLUON_ENGINE_INCLUDES}
-    CACHE STRING "Includes required for Gluon"
+    CACHE PATHS "Includes required for Gluon"
 )
 
 set(GLUON_LIBS
@@ -40,7 +40,7 @@ set(GLUON_LIBS
     ${GLUON_INPUT_LIBS}
     ${GLUON_GRAPHICS_LIBS}
     ${GLUON_ENGINE_LIBS}
-    CACHE STRING "Libraries required for Gluon"
+    CACHE PATHS "Libraries required for Gluon"
 )
 
 include(FindPackageHandleStandardArgs)

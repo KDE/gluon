@@ -1,23 +1,38 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.6)
+
+if(NOT GLUON_BUILD_ALL)
+    project(GluonCore)
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(Qt4 REQUIRED)
 find_package(Eigen2 REQUIRED)
 
+set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
+set(GLUON_VERSION_MINOR     60      CACHE STRING "Gluon Minor Version")
+set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
+set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
+
+set(INCLUDE_INSTALL_DIR     ${CMAKE_INSTALL_PREFIX}/include             CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
+set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
+set(SHARE_INSTALL_DIR       ${CMAKE_INSTALL_PREFIX}/share               CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
+
 include_directories(${QT_INCLUDES})
 include_directories(${EIGEN2_INCLUDE_DIR})
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(GLUON_VERSION_MAJOR 0)
-set(GLUON_VERSION_MINOR 60)
-set(GLUON_VERSION_PATCH 0)
-set(GLUON_VERSION_STRING "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
+set(GLUON_CORE_INCLUDES
+    ${QT_INCLUDES}
+    ${EIGEN2_INCLUDE_DIR}
+    CACHE STRING "Gluon Core required includes"
+)
 
 set(GluonCore_SRCS
     debughelper.cpp
+    gameproject.cpp
+    gameprojectprivate.cpp
     gdlhandler.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
@@ -25,16 +40,19 @@ set(GluonCore_SRCS
 )
 
 qt4_automoc(${GluonCore_SRCS})
-add_library(GluonCore ${GluonCore_SRCS})
+add_library(GluonCore SHARED ${GluonCore_SRCS})
+
+target_link_libraries(GluonCore ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
 
 set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 
-install(TARGETS GluonCore DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS GluonCore DESTINATION ${LIB_INSTALL_DIR})
 
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
 install(
     FILES
     debughelper.h
+    gameproject.h
+    gameprojectprivate.h
     gdlhandler.h
     gluonobject.h
     gluonobjectfactory.h
@@ -48,13 +66,14 @@ install(
 install(
     FILES
     cmake/FindGluonCore.cmake
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake
+    cmake/FindEigen2.cmake
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
     COMPONENT Devel
 )
 
 install(
     FILES
     cmake/FindGluon.cmake
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake/modules
+    DESTINATION ${SHARE_INSTALL_DIR}/cmake/modules
     COMPONENT Devel
 )
