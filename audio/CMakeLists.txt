@@ -5,8 +5,6 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
 endif()
 
-include_directories(${GLUON_CORE_INCLUDES})
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL REQUIRED)
@@ -16,7 +14,11 @@ find_package(OggVorbis REQUIRED)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+
+    ${GLUON_CORE_INCLUDES}
+
     ${OPENAL_INCLUDE_DIR}
+    #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
     ${SNDFILE_INCLUDE_DIR}
     ${OGG_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
@@ -25,7 +27,6 @@ include_directories(
 
 set(GluonAudio_SRCS
     engine.cpp
-    #phonon.cpp
     soundreader.cpp
     music.cpp
     capture.cpp
@@ -43,15 +44,15 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
     target_link_libraries(GluonAudio GluonCore)
 else(GLUON_BUILD_ALL)
-    target_link_libraries(GluonAudio ${GLUON_CORE_LIBRARY})
+    target_link_libraries(GluonAudio ${GLUON_CORE_LIBS})
 endif()
 
 target_link_libraries(
-                GluonAudio
-                ${OPENAL_LIBRARY}
-                ${SNDFILE_LIBRARY}
-                ${OGG_LIBRARY}
-                ${VORBISFILE_LIBRARY}
+    GluonAudio
+    ${OPENAL_LIBRARY}
+    ${SNDFILE_LIBRARY}
+    ${OGG_LIBRARY}
+    ${VORBISFILE_LIBRARY}
 )
 
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
@@ -63,7 +64,6 @@ install(
     buffer.h
     engine.h
     soundreader.h
-    #phonon.h
     sound.h
     music.h
     capture.h
