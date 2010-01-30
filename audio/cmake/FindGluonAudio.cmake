@@ -19,31 +19,36 @@ if (GLUON_AUDIO_LIBRARY AND GLUON_AUDIO_INCLUDE_DIR)
 endif (GLUON_AUDIO_LIBRARY AND GLUON_AUDIO_INCLUDE_DIR)
 
 if (GLUON_AUDIO_FIND_REQUIRED)
-    set(_gluAuReq "REQUIRED")
+    set(_gluonAudioReq "REQUIRED")
 endif (GLUON_AUDIO_FIND_REQUIRED)
 
-find_package(OpenAL ${_gluAuReq})
-find_package(SndFile ${_gluAuReq})
-find_package(OggVorbis ${_gluAuReq})
-find_package(GluonCore ${_gluAuReq})
+find_package(OpenAL ${_gluonAudioReq})
+find_package(SndFile ${_gluonAudioReq})
+find_package(OggVorbis ${_gluonAudioReq})
+
+find_package(GluonCore ${_gluonAudioReq})
 
 find_path(GLUON_AUDIO_INCLUDE_DIR
     NAMES
     gluon/audio/engine.h
     PATHS
     ${INCLUDE_INSTALL_DIR}
+    PATH_SUFFIXES
+    gluon
 )
 
 set(GLUON_AUDIO_INCLUDES
-    ${GLUON_CORE_INCLUDE_DIR}
+    ${GLUON_CORE_INCLUDES}
     ${GLUON_AUDIO_INCLUDE_DIR}
     ${OPENAL_INCLUDE_DIR}
     ${SNDFILE_INCLUDE_DIR}
     ${OGGVORBIS_INCLUDE_DIR}
-    CACHE STRING "Includes needed for Gluon Audio"
+    CACHE PATHS "Includes needed for Gluon Audio"
 )
 
-find_library(GLUON_AUDIO_LIBRARY NAMES GluonAudio
+find_library(GLUON_AUDIO_LIBRARY
+    NAMES
+    GluonAudio
     PATHS
     ${LIB_INSTALL_DIR}
 )
@@ -54,7 +59,7 @@ set(GLUON_AUDIO_LIBS
     ${SNDFILE_LIBRARY}
     ${OGGVORBIS_LIBRARY}
     ${GLUON_AUDIO_LIBRARY}
-    CACHE STRING "Libraries need for Gluon Audio"
+    CACHE PATHS "Libraries needed for Gluon Audio"
 )
 
 include(FindPackageHandleStandardArgs)

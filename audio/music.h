@@ -30,7 +30,7 @@
 
 #include "gluon_audio_export.h"
 
-#warning TODO: Clean up this class. Heavily.
+//TODO: Clean up this class. Heavily.
 namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Music : public QThread

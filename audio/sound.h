@@ -23,11 +23,11 @@
 #ifndef GLUON_AUDIO_SOUND_H
 #define GLUON_AUDIO_SOUND_H
 
-#include "gluon_audio_export.h"
-
 #include <QtCore/QObject>
 #include <al.h>
 #include <Eigen/Geometry>
+
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {

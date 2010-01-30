@@ -74,6 +74,7 @@ Sound::Sound(ALuint buffer, QObject *parent)
 Sound::~Sound()
 {
     alDeleteSources(1, &d->source);
+    if(d->buffer) delete d->buffer;
     delete d;
 }
 void Sound::load (const QString &soundFile)
@@ -99,11 +100,12 @@ void Sound::init()
     d->position[2]=0;
     d->volume=0;
     d->pitch=0;
+
+    alGenSources(1, &d->source);  // Generate the source to play the buffer with
 }
 
 void Sound::setupSource()
 {
-    alGenSources(1, &d->source);  // Generate the source to play the buffer with
     alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
 
     if (alGetError() != AL_NO_ERROR) {

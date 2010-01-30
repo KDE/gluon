@@ -3,10 +3,9 @@ cmake_minimum_required(VERSION 2.6)
 if(NOT GLUON_BUILD_ALL)
     project(GluonAudio)
     find_package(GluonCore REQUIRED)
-    include_directories(${GLUON_CORE_INCLUDES})
-else(NOT GLUON_BUILD_ALL)
-    include_directories(${QT_INCLUDES} ${EIGEN2_INCLUDE_DIR})
 endif()
+
+include_directories(${GLUON_CORE_INCLUDES})
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -14,14 +13,14 @@ find_package(OpenAL REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 
-message(${OPENAL_INCLUDE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}
-                    ${CMAKE_CURRENT_BINARY_DIR}
-                    ${OPENAL_INCLUDE_DIR}
-                    ${SNDFILE_INCLUDE_DIR}
-                    ${OGG_INCLUDE_DIR}
-                    ${VORBISFILE_INCLUDE_DIR}
-                    )
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${OPENAL_INCLUDE_DIR}
+    ${SNDFILE_INCLUDE_DIR}
+    ${OGG_INCLUDE_DIR}
+    ${VORBISFILE_INCLUDE_DIR}
+)
 
 
 set(GluonAudio_SRCS
@@ -53,15 +52,11 @@ target_link_libraries(
                 ${SNDFILE_LIBRARY}
                 ${OGG_LIBRARY}
                 ${VORBISFILE_LIBRARY}
-                ${PHONON_LIBRARY}
-                ${QT_QTCORE_LIBRARY}
 )
 
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 
-install(TARGETS GluonAudio DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
+install(TARGETS GluonAudio DESTINATION ${LIB_INSTALL_DIR})
 
 install(
     FILES
@@ -72,6 +67,7 @@ install(
     sound.h
     music.h
     capture.h
+    gluon_audio_export.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
     COMPONENT Devel
 )
@@ -79,6 +75,8 @@ install(
 install(
     FILES
     cmake/FindGluonAudio.cmake
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake
+    cmake/FindOggVorbis.cmake
+    cmake/FindSndFile.cmake
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
     COMPONENT Devel
 )
