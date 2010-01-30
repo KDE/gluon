@@ -1,9 +1,13 @@
-PROJECT(gluoncreator)
+cmake_minimum_required(VERSION 2.6)
 
-find_package(KDE4 REQUIRED)
-find_package(Gluon REQUIRED)
+if(NOT GLUON_BUILD_ALL)
+    project(GluonCreator)
+    find_package(KDE4 REQUIRED)
+    find_package(GluonCore REQUIRED)
+    find_package(GluonEngine REQUIRED)
+endif()
 
-include_directories(${KDE4_INCLUDES} ${GLUON_INCLUDES})
+include_directories(${KDE4_INCLUDES} ${GLUON_CORE_INCLUDES} ${GLUON_ENGINE_INCLUDES})
 
 include(KDE4Defaults)
 
@@ -21,7 +25,7 @@ set(gluoncreator_SRCS
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator gluoncreatorlib ${KDE4_KUTILS_LIBS})
+target_link_libraries(gluoncreator libGluonCreator ${KDE4_KUTILS_LIBS})
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)

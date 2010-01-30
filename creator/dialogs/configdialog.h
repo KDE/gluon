@@ -21,9 +21,7 @@
 
 class KPluginSelector;
 
-namespace Gluon {
-
-namespace Creator {
+namespace GluonCreator {
 
 class ConfigDialog : public KConfigDialog
 {
@@ -36,8 +34,6 @@ class ConfigDialog : public KConfigDialog
     private:
         KPluginSelector *m_plugins;
 };
-
-}
 
 }
 

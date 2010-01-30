@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 #include <QLayout>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class PropertyWidgetItem::PropertyWidgetItemPrivate
 {
@@ -72,12 +72,12 @@ void PropertyWidgetItem::setEditWidget(QWidget* widget)
     layout()->addWidget(widget);
 }
 
-void Gluon::Creator::PropertyWidgetItem::setEditValue(const QVariant& value)
+void PropertyWidgetItem::setEditValue(const QVariant& value)
 {
     if(d->editWidget) d->editWidget->setProperty("value", value);
 }
 
-void Gluon::Creator::PropertyWidgetItem::valueChanged(QVariant value)
+void PropertyWidgetItem::valueChanged(QVariant value)
 {
     d->editedObject->setProperty(d->propertyName.toUtf8(), value);
 }

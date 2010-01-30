@@ -17,39 +17,40 @@
 #ifndef GLUON_CREATOR_OBJECTMANAGER_H
 #define GLUON_CREATOR_OBJECTMANAGER_H
 
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-#include <common/ksingleton.h>
+#include <core/singleton.h>
 
-namespace Gluon {
-class GameObject;
-class Scene;
-
-namespace Creator {
-
-class GLUONCREATORLIB_EXPORT ObjectManager : public KSingleton<ObjectManager>
+namespace GluonEngine
 {
-    Q_OBJECT
-    public slots:
-        Gluon::Scene* createNewScene();
-        Gluon::GameObject* createNewObject();
-
-    signals:
-        void newScene(Gluon::Scene*);
-        void newObject(Gluon::GameObject*);
-
-    private:
-        friend class KSingleton<ObjectManager>;
-
-        ObjectManager() { m_objectId = 0; m_sceneId = 0; }
-        ~ObjectManager() { }
-        Q_DISABLE_COPY(ObjectManager)
-
-        int m_objectId;
-        int m_sceneId;
-};
-
+    class GameObject;
+    class Scene;
 }
+
+namespace GluonCreator
+{
+
+    class GLUONCREATOR_EXPORT ObjectManager : public GluonCore::Singleton<ObjectManager>
+    {
+        Q_OBJECT
+        public slots:
+            GluonEngine::Scene* createNewScene();
+            GluonEngine::GameObject* createNewObject();
+
+        signals:
+            void newScene(GluonEngine::Scene*);
+            void newObject(GluonEngine::GameObject*);
+
+        private:
+            friend class GluonCore::Singleton<ObjectManager>;
+
+            ObjectManager() { m_objectId = 0; m_sceneId = 0; }
+            ~ObjectManager() { }
+            Q_DISABLE_COPY(ObjectManager)
+
+            int m_objectId;
+            int m_sceneId;
+    };
 
 }
 

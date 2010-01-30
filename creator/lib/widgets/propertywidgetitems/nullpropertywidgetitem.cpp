@@ -19,20 +19,20 @@
 #include <QLabel>
 #include <KLocalizedString>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 
-Gluon::Creator::NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
     setEditWidget(new QLabel(i18n("Unknown Type")));
 }
 
-Gluon::Creator::NullPropertyWidgetItem::~NullPropertyWidgetItem()
+NullPropertyWidgetItem::~NullPropertyWidgetItem()
 {
 
 }
 
-void Gluon::Creator::NullPropertyWidgetItem::setEditValue(const QVariant& value)
+void NullPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     editWidget()->setProperty("text", QString("Unknown Type: %1").arg(value.toString()));
 }

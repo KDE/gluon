@@ -28,8 +28,8 @@
 #include <KPluginSelector>
 #include <KRun>
 
-#include <game.h>
-#include <gameproject.h>
+#include <engine/game.h>
+#include <core/gameproject.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
@@ -38,11 +38,11 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 MainWindow::MainWindow() : KXmlGuiWindow()
 {
-    Gluon::GluonObjectFactory::instance()->loadPlugins();
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     PluginManager::instance()->setParent(this);
     ObjectManager::instance()->setParent(this);
@@ -62,7 +62,7 @@ MainWindow::MainWindow() : KXmlGuiWindow()
 
 MainWindow::~MainWindow()
 {
-    Gluon::Game::instance()->stopGame();
+    GluonEngine::Game::instance()->stopGame();
 }
 
 void MainWindow::newProject()
@@ -80,10 +80,10 @@ void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
     if(!fileName.isEmpty()) {
-        Gluon::GameProject* project = new Gluon::GameProject();
+        GluonCore::GameProject* project = new GluonCore::GameProject();
         project->loadFromFile(QUrl(fileName));
 
-        Gluon::Game::instance()->setGameProject(project);
+        GluonEngine::Game::instance()->setGameProject(project);
     }
     statusBar()->showMessage(i18n("Project successfully opened"));
 }
@@ -98,9 +98,9 @@ void MainWindow::saveProject(const QString &fileName)
     if(!fileName.isEmpty())
     {
         statusBar()->showMessage(i18n("Saving project..."));
-        Gluon::Game::instance()->gameProject()->setFilename(QUrl(fileName));
+        GluonEngine::Game::instance()->gameProject()->setFilename(QUrl(fileName));
         QDir::setCurrent(KUrl(fileName).directory());
-        if(!Gluon::Game::instance()->gameProject()->saveToFile())
+        if(!GluonEngine::Game::instance()->gameProject()->saveToFile())
         {
             KMessageBox::error(this, i18n("Could not save file."));
             return;
@@ -121,12 +121,12 @@ void MainWindow::saveProjectAs()
 
 void MainWindow::setupGame()
 {
-    Gluon::GameProject* project = new Gluon::GameProject(Gluon::Game::instance());
+    GluonCore::GameProject* project = new GluonCore::GameProject(GluonEngine::Game::instance());
     project->setName(i18n("New Project"));
-    Gluon::Game::instance()->setGameProject(project);
+    GluonEngine::Game::instance()->setGameProject(project);
 
-    Gluon::Scene* root = ObjectManager::instance()->createNewScene();
-    Gluon::Game::instance()->setCurrentScene(root);
+    GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
+    GluonEngine::Game::instance()->setCurrentScene(root);
 }
 
 void MainWindow::setupActions()
@@ -149,7 +149,7 @@ void MainWindow::setupActions()
     actionCollection()->addAction("pauseGame", pause);
     pause->setCheckable(true);
     pause->setEnabled(false);
-    connect(pause, SIGNAL(triggered(bool)), Gluon::Game::instance(), SLOT(setPause(bool)));
+    connect(pause, SIGNAL(triggered(bool)), GluonEngine::Game::instance(), SLOT(setPause(bool)));
 
     KAction* stop = new KAction(KIcon("media-playback-stop"), i18n("Stop Game"), actionCollection());
     actionCollection()->addAction("stopGame", stop);
@@ -163,27 +163,27 @@ void MainWindow::setupActions()
     KStandardAction::preferences(this, SLOT(showPreferences()), actionCollection());
 }
 
-void Gluon::Creator::MainWindow::showPreferences()
+void MainWindow::showPreferences()
 {
     if ( KConfigDialog::showDialog( "settings" ) )  {
         return;
     }
-    ConfigDialog *dialog = new ConfigDialog(this, "settings", Gluon::Settings::self());
+    ConfigDialog *dialog = new ConfigDialog(this, "settings", GluonCreator::Settings::self());
     dialog->setAttribute( Qt::WA_DeleteOnClose );
     dialog->show();
 }
 
-void Gluon::Creator::MainWindow::startGame()
+void MainWindow::startGame()
 {
     actionCollection()->action("playGame")->setEnabled(false);
     actionCollection()->action("pauseGame")->setEnabled(true);
     actionCollection()->action("stopGame")->setEnabled(true);
-    Game::instance()->runGame();
+    GluonEngine::Game::instance()->runGame();
 }
 
-void Gluon::Creator::MainWindow::stopGame()
+void MainWindow::stopGame()
 {
-    Game::instance()->stopGame();
+    GluonEngine::Game::instance()->stopGame();
     actionCollection()->action("playGame")->setEnabled(true);
     actionCollection()->action("pauseGame")->setEnabled(false);
     actionCollection()->action("pauseGame")->setChecked(false);

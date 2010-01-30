@@ -19,18 +19,15 @@
 
 #include "widgets/dock.h"
 
+namespace GluonCreator {
 
-namespace Gluon {
-
-namespace Creator {
-
-class ComponentsDock : public Gluon::Creator::Dock
+class ComponentsDock : public Dock
 {
     public:
         ComponentsDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
         ~ComponentsDock();
 
-        void setSelection(Gluon::GluonObject* obj = 0);
+        void setSelection(GluonCore::GluonObject* obj = 0);
         QAbstractItemView* view();
         QAbstractItemModel* model();
 
@@ -38,8 +35,6 @@ class ComponentsDock : public Gluon::Creator::Dock
         class ComponentsDockPrivate;
         ComponentsDockPrivate* d;
 };
-
-}
 
 }
 

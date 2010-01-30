@@ -12,7 +12,7 @@ int main(int argc, char **argv)
                         KAboutData::License_GPL,
                         ki18n("Copyright (c) 2009 The Gluon Developers"),
                         KLocalizedString(),
-                        "http://gluon.tuxfamily.org"                        
+                        "http://gluon.tuxfamily.org"
                          );
     aboutData.setProgramIconName("gluon");
     aboutData.addAuthor(ki18n("Arjen Hiemstra"), KLocalizedString(), "djfreestyler@gmail.com" );
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
     KApplication app;
 
-    Gluon::Creator::MainWindow* window = new Gluon::Creator::MainWindow;
+    GluonCreator::MainWindow* window = new GluonCreator::MainWindow;
     window->show();
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

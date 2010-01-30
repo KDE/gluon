@@ -17,34 +17,33 @@
 #ifndef GLUON_CREATOR_DOCK_H
 #define GLUON_CREATOR_DOCK_H
 
-#include <gluoncreatorlib_macros.h>
+#include <gluoncreator_macros.h>
 
 #include <QtGui/QDockWidget>
 
 class QAbstractItemModel;
 class QAbstractItemView;
 
-namespace Gluon
+namespace GluonCore
 {
     class GluonObject;
+}
 
-    namespace Creator
+namespace GluonCreator
+{
+    class GLUONCREATOR_EXPORT Dock : public QDockWidget
     {
+        Q_OBJECT
+        public:
+            Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            virtual ~Dock();
 
-        class GLUONCREATORLIB_EXPORT Dock : public QDockWidget
-        {
-            Q_OBJECT
-            public:
-                Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-                virtual ~Dock();
+            virtual QAbstractItemModel* model() = 0;
+            virtual QAbstractItemView*  view() = 0;
 
-                virtual QAbstractItemModel* model() = 0;
-                virtual QAbstractItemView*  view() = 0;
-
-            public slots:
-                virtual void setSelection(Gluon::GluonObject* obj = 0) = 0;
-        };
-    }
+        public slots:
+            virtual void setSelection(GluonCore::GluonObject* obj = 0) = 0;
+    };
 }
 
 #endif // GLUON_CREATOR_DOCK_H

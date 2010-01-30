@@ -24,36 +24,38 @@
 #include <QGridLayout>
 #include <QScrollArea>
 
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-namespace Gluon
-{
+namespace GluonCore {
     class GluonObject;
+}
+
+namespace GluonEngine {
     class Component;
+}
 
-    namespace Creator
+namespace GluonCreator
+{
+    class GLUONCREATOR_EXPORT PropertyWidget : public QScrollArea
     {
-        class GLUONCREATORLIB_EXPORT PropertyWidget : public QScrollArea
-        {
-            Q_OBJECT;
+        Q_OBJECT;
 
-            public:
-                PropertyWidget(QWidget* parent = 0);
-                ~PropertyWidget();
+        public:
+            PropertyWidget(QWidget* parent = 0);
+            ~PropertyWidget();
 
-                GluonObject * object() const;
-                void clear();
+            GluonCore::GluonObject * object() const;
+            void clear();
 
-                void setObject(Gluon::GluonObject* object);
-                void appendObject(Gluon::GluonObject* obj, bool useColor = false);
+            void setObject(GluonCore::GluonObject* object);
+            void appendObject(GluonCore::GluonObject* obj, bool useColor = false);
 
-            private:
-                class PropertyWidgetPrivate;
-                PropertyWidgetPrivate *d;
+        private:
+            class PropertyWidgetPrivate;
+            PropertyWidgetPrivate *d;
 
-                void appendMetaObject(QObject* object, QGridLayout* layout);
-        };
-    }
+            void appendMetaObject(QObject* object, QGridLayout* layout);
+    };
 }
 
 #endif				// GLUON_CREATOR_PROPERTYWIDGET_H

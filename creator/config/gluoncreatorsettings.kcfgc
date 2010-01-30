@@ -1,7 +1,7 @@
 # Code generation options for kconfig_compiler
 File=gluoncreatorsettings.kcfg
 ClassName=Settings
-NameSpace=Gluon
+NameSpace=GluonCreator
 Singleton=true
 Mutators=
 # will create the necessary code for setting those variables

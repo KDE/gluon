@@ -19,13 +19,12 @@
 #include <QtGui/QTreeView>
 
 #include <models/scenemodel.h>
-#include <game.h>
-#include <gameobject.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
 #include <selectionmanager.h>
-#include <scene.h>
+#include <engine/scene.h>
 
-using namespace Gluon;
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class SceneDock::SceneDockPrivate
 {
@@ -42,8 +41,8 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
 
     d = new SceneDockPrivate;
     d->model = new SceneModel;
-    d->model->setRootGameObject(Game::instance()->currentScene()->sceneContents());
-    connect(Game::instance(), SIGNAL(currentSceneChanged(Scene*)), SLOT(sceneChanged(Scene*)));
+    d->model->setRootGameObject(GluonEngine::Game::instance()->currentScene()->sceneContents());
+    connect(GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)));
 
     d->view = new QTreeView;
     d->view->setModel(d->model);
@@ -62,7 +61,7 @@ SceneDock::~SceneDock()
     delete d;
 }
 
-void SceneDock::setSelection(GluonObject* obj)
+void SceneDock::setSelection(GluonCore::GluonObject* obj)
 {
     Q_UNUSED(obj)
 }
@@ -79,7 +78,7 @@ QAbstractItemModel* SceneDock::model()
 
 void SceneDock::selectionChanged(QModelIndex index)
 {
-    GluonObject* obj = static_cast<GluonObject*>(index.internalPointer());
+    GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
     if(obj)
     {
         SelectionManager::SelectionList selection;
@@ -88,7 +87,7 @@ void SceneDock::selectionChanged(QModelIndex index)
     }
 }
 
-void Gluon::Creator::SceneDock::sceneChanged(Scene* obj)
+void SceneDock::sceneChanged(GluonEngine::Scene* obj)
 {
     if(obj)
     {

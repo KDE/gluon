@@ -17,12 +17,12 @@
 #include "componentsdock.h"
 
 #include <QListWidget>
-#include <gluonobjectfactory.h>
-#include <gluonobject.h>
-#include <component.h>
+#include <core/gluonobjectfactory.h>
+#include <core/gluonobject.h>
+#include <engine/component.h>
 #include <KDebug>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class ComponentsDock::ComponentsDockPrivate
 {
@@ -41,8 +41,8 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     d->view->setDragEnabled(true);
     d->view->setDragDropMode(QAbstractItemView::DragOnly);
 
-    QHash<QString, Gluon::GluonObject*> objectTypes = Gluon::GluonObjectFactory::instance()->objectTypes();
-    foreach(Gluon::GluonObject* obj, objectTypes)
+    QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
+    foreach(GluonCore::GluonObject* obj, objectTypes)
     {
         if(obj->inherits("Gluon::Component")) d->view->addItem(obj->metaObject()->className());
     }
@@ -55,7 +55,7 @@ ComponentsDock::~ComponentsDock()
     delete d;
 }
 
-void ComponentsDock::setSelection(Gluon::GluonObject* obj)
+void ComponentsDock::setSelection(GluonCore::GluonObject* obj)
 {
     Q_UNUSED(obj);
 }

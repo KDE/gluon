@@ -16,7 +16,7 @@
 
 #include "dock.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 Dock::Dock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
     : QDockWidget(title, parent, flags)
@@ -24,7 +24,7 @@ Dock::Dock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
 
 }
 
-Gluon::Creator::Dock::~Dock()
+Dock::~Dock()
 {
 
 }

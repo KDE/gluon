@@ -19,9 +19,7 @@
 
 #include <dockplugin.h>
 
-namespace Gluon {
-
-namespace Creator {
+namespace GluonCreator {
 
 class ProjectDockPlugin : public DockPlugin
 {
@@ -32,10 +30,8 @@ class ProjectDockPlugin : public DockPlugin
 
     protected:
         Dock* createDock(KXmlGuiWindow* parent);
-        
-};
 
-}
+};
 
 }
 

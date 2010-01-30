@@ -16,7 +16,7 @@
 
 #include "textpropertywidgetitem.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 
 TextPropertyWidgetItem::TextPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)

@@ -17,46 +17,46 @@ Boston, MA 02110-1301, USA.
 #ifndef GLUON_CREATOR_SCENEMODEL_H
 #define GLUON_CREATOR_SCENEMODEL_H
 
-#include <gluoncreatorlib_macros.h>
+#include <gluoncreator_macros.h>
 
 #include <QAbstractItemModel>
 
-namespace Gluon
+namespace GluonEngine
 {
     class GameObject;
+}
 
-    namespace Creator
+namespace GluonCreator
+{
+    class GLUONCREATOR_EXPORT SceneModel : public QAbstractItemModel
     {
-        class GLUONCREATORLIB_EXPORT SceneModel : public QAbstractItemModel
-        {
-            Q_OBJECT
-            public:
-                SceneModel(QObject* parent = 0);
+        Q_OBJECT
+        public:
+            SceneModel(QObject* parent = 0);
 
-                Gluon::GameObject* rootGameObject();
+            GluonEngine::GameObject* rootGameObject();
 
-                virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-                virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-                virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-                virtual QModelIndex parent(const QModelIndex& child) const;
-                virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-                virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-                virtual Qt::DropActions supportedDropActions() const;
-                virtual Qt::ItemFlags flags(const QModelIndex& index) const;
-                virtual bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
-                virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+            virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+            virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+            virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+            virtual QModelIndex parent(const QModelIndex& child) const;
+            virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+            virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+            virtual Qt::DropActions supportedDropActions() const;
+            virtual Qt::ItemFlags flags(const QModelIndex& index) const;
+            virtual bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
+            virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
-                virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
-                virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
+            virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
+            virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
-            public slots:
-                void setRootGameObject(GameObject* obj);
+        public slots:
+            void setRootGameObject(GluonEngine::GameObject* obj);
 
-            private:
-                GameObject *m_root;
-                int rowIndex(GameObject* object) const;
-        };
-    }
+        private:
+            GluonEngine::GameObject *m_root;
+            int rowIndex(GluonEngine::GameObject* object) const;
+    };
 }
 
 #endif // GLUON_CREATOR_SCENEMODEL_H

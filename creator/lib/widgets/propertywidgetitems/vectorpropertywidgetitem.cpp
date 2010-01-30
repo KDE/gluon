@@ -23,7 +23,7 @@
 
 #include <Eigen/Geometry>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
 {
@@ -37,7 +37,7 @@ class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
         Eigen::Vector3f value;
 };
 
-Gluon::Creator::VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
     d = new VectorPropertyWidgetItemPrivate;
 
@@ -66,7 +66,7 @@ Gluon::Creator::VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* pare
     setEditWidget(base);
 }
 
-Gluon::Creator::VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
+VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
 {
 
 }
@@ -81,17 +81,17 @@ void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
     d->z->setValue(vector->z());
 }
 
-void Gluon::Creator::VectorPropertyWidgetItem::xValueChanged(double value)
+void VectorPropertyWidgetItem::xValueChanged(double value)
 {
 
 }
 
-void Gluon::Creator::VectorPropertyWidgetItem::yValueChanged(double value)
+void VectorPropertyWidgetItem::yValueChanged(double value)
 {
 
 }
 
-void Gluon::Creator::VectorPropertyWidgetItem::zValueChanged(double value)
+void VectorPropertyWidgetItem::zValueChanged(double value)
 {
 
 }

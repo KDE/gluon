@@ -18,7 +18,7 @@
 #include <KLocalizedString>
 #include "projectdock.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 ProjectDockPlugin::ProjectDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
 {

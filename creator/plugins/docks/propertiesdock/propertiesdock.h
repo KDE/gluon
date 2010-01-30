@@ -21,11 +21,9 @@
 
 #include <selectionmanager.h>
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class PropertiesDock : public Gluon::Creator::Dock
+class PropertiesDock : public Dock
 {
     Q_OBJECT
     public:
@@ -36,15 +34,13 @@ class PropertiesDock : public Gluon::Creator::Dock
         QAbstractItemModel* model();
 
     public slots:
-        void setSelection(Gluon::GluonObject* obj = 0);
+        void setSelection(GluonCore::GluonObject* obj = 0);
         void selectionChanged(SelectionManager::SelectionList selection);
 
     private:
         class PropertiesDockPrivate;
         PropertiesDockPrivate *d;
 };
-
-}
 
 }
 

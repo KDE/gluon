@@ -16,43 +16,45 @@
 
 #include "objectmanager.h"
 
-#include <gameobject.h>
-#include <scene.h>
+#include <engine/gameobject.h>
+#include <engine/scene.h>
 #include <KLocalizedString>
-#include <game.h>
-#include <gameproject.h>
+#include <engine/game.h>
+#include <core/gameproject.h>
 #include "selectionmanager.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
-template<> GLUONCREATORLIB_EXPORT ObjectManager* KSingleton<ObjectManager>::m_instance = 0;
+template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
 
-Gluon::GameObject* Gluon::Creator::ObjectManager::createNewObject()
+GluonEngine::GameObject* ObjectManager::createNewObject()
 {
-    Gluon::GameObject *newObj = new Gluon::GameObject();
+    GluonEngine::GameObject *newObj = new GluonEngine::GameObject();
     newObj->setName(i18n("New Object %1").arg(m_objectId++));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
     if(selection.size() > 0)
     {
-        GameObject* obj = qobject_cast<GameObject*>(selection.at(0));
+        GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>(selection.at(0));
         if(obj) obj->addChild(newObj);
     }
 
     if(newObj->parentGameObject() == 0)
     {
-        Gluon::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
+        GluonEngine::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
     }
 
     emit newObject(newObj);
     return newObj;
 }
 
-Gluon::Scene* Gluon::Creator::ObjectManager::createNewScene()
+GluonEngine::Scene* ObjectManager::createNewScene()
 {
-    Gluon::Scene *newScn = new Gluon::Scene();
+    GluonEngine::Scene *newScn = new GluonEngine::Scene();
     newScn->setName(i18n("New Scene %1").arg(m_sceneId++));
-    Gluon::Game::instance()->gameProject()->addChild(newScn);
+    GluonEngine::Game::instance()->gameProject()->addChild(newScn);
     emit newScene(newScn);
     return newScn;
 }
+
+#include "objectmanager.moc"

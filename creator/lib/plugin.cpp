@@ -1,6 +1,6 @@
 #include "plugin.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 Plugin::Plugin(QObject* parent, const QList< QVariant >& params) : QObject(parent)
 {
@@ -10,7 +10,7 @@ Plugin::Plugin(QObject* parent, const QList< QVariant >& params) : QObject(paren
 
 Plugin::~Plugin()
 {
-    
+
 }
 
 #include "plugin.moc"

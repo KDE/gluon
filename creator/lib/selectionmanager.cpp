@@ -16,9 +16,9 @@
 
 #include "selectionmanager.h"
 
-#include <debughelper.h>
+#include <core/debughelper.h>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class SelectionManager::SelectionManagerPrivate
 {
@@ -28,15 +28,14 @@ class SelectionManager::SelectionManagerPrivate
         SelectionList selection;
 };
 
-template<> GLUONCREATORLIB_EXPORT SelectionManager* KSingleton<SelectionManager>::m_instance = 0;
+template<> GLUONCREATOR_EXPORT SelectionManager* GluonCore::Singleton<SelectionManager>::m_instance = 0;
 
-
-Gluon::Creator::SelectionManager::SelectionManager()
+SelectionManager::SelectionManager()
 {
     d = new SelectionManagerPrivate;
 }
 
-Gluon::Creator::SelectionManager::~SelectionManager()
+SelectionManager::~SelectionManager()
 {
     delete d;
     d = 0;
@@ -52,3 +51,5 @@ void SelectionManager::setSelection(const SelectionManager::SelectionList& selec
     d->selection = selection;
     emit selectionChanged(selection);
 }
+
+#include "selectionmanager.moc"

@@ -17,25 +17,19 @@
 #ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
 #define GLUON_CREATOR_DOCKPLUGINLOADER_H
 
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
 #include <QtCore/QObject>
 #include <KPluginInfo>
-#include <common/ksingleton.h>
+#include <core/singleton.h>
 
 class KXmlGuiWindow;
-namespace Gluon
+namespace GluonCreator
 {
-
-  namespace Creator
-  {
-
     class Plugin;
 
-    class GLUONCREATORLIB_EXPORT PluginManager : public KSingleton<PluginManager>
+    class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
-        friend class KSingleton<PluginManager>;
-
         Q_OBJECT
         public:
             QList<KPluginInfo> pluginInfos() const;
@@ -48,6 +42,8 @@ namespace Gluon
             void pluginLoaded(Plugin * plugin);
 
         private:
+            friend class GluonCore::Singleton<PluginManager>;
+
             PluginManager() { }
             ~PluginManager() { }
             Q_DISABLE_COPY(PluginManager)
@@ -55,9 +51,6 @@ namespace Gluon
             QHash<QString, Plugin*> m_loadedPlugins;
             KXmlGuiWindow* m_mainWindow;
     };
-
-  }
-
 }
 
 #endif // GLUON_CREATOR_DOCKPLUGINLOADER_H

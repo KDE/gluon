@@ -18,22 +18,20 @@
 #include "propertiesdock.h"
 #include <KLocalizedString>
 
-#include <debughelper.h>
-
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 
-Gluon::Creator::PropertiesDockPlugin::PropertiesDockPlugin(QObject* parent, const QList< QVariant >& params): DockPlugin(parent, params)
+PropertiesDockPlugin::PropertiesDockPlugin(QObject* parent, const QList< QVariant >& params): DockPlugin(parent, params)
 {
 
 }
 
-Gluon::Creator::PropertiesDockPlugin::~PropertiesDockPlugin()
+PropertiesDockPlugin::~PropertiesDockPlugin()
 {
 
 }
 
-Gluon::Creator::Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
+Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new PropertiesDock(i18n("Properties"), parent);
 }

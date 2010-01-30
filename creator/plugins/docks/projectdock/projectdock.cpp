@@ -18,16 +18,15 @@
 
 #include <QtGui/QTreeView>
 
-#include <gluon/debughelper.h>
-#include <gluon/game.h>
-#include <gluon/gameobject.h>
+#include <core/debughelper.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
+#include <engine/scene.h>
 
 #include <models/projectmodel.h>
 #include <KDebug>
-#include <scene.h>
 
-using namespace Gluon;
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class ProjectDock::ProjectDockPrivate
 {
@@ -38,7 +37,7 @@ class ProjectDock::ProjectDockPrivate
 };
 
 
-Gluon::Creator::ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
     setObjectName("ProjectDock");
 
@@ -48,34 +47,34 @@ Gluon::Creator::ProjectDock::ProjectDock(const QString& title, QWidget* parent, 
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
 
-    d->model->setProject(Game::instance()->gameProject());
-    connect(Game::instance(), SIGNAL(currentProjectChanged(GameProject*)), d->model, SLOT(setProject(GameProject*)));
+    d->model->setProject(GluonEngine::Game::instance()->gameProject());
+    connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonCore::GameProject*)), d->model, SLOT(setProject(GluonCore::GameProject*)));
     connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
     setWidget(d->view);
 }
 
-Gluon::Creator::ProjectDock::~ProjectDock()
+ProjectDock::~ProjectDock()
 {
     delete d;
 }
 
-QAbstractItemModel* Gluon::Creator::ProjectDock::model()
+QAbstractItemModel* ProjectDock::model()
 {
     return d->model;
 }
 
-QAbstractItemView* Gluon::Creator::ProjectDock::view()
+QAbstractItemView* ProjectDock::view()
 {
     return d->view;
 }
 
-void Gluon::Creator::ProjectDock::setSelection(GluonObject* obj)
+void ProjectDock::setSelection(GluonCore::GluonObject* obj)
 {
     Q_UNUSED(obj)
 }
 
-void Gluon::Creator::ProjectDock::activated(QModelIndex index)
+void ProjectDock::activated(QModelIndex index)
 {
     if(!index.isValid())
     {
@@ -88,10 +87,10 @@ void Gluon::Creator::ProjectDock::activated(QModelIndex index)
         return;
     }
 
-    Gluon::Scene* scene = qobject_cast<Gluon::Scene*>(obj);
+    GluonEngine::Scene* scene = qobject_cast<GluonEngine::Scene*>(obj);
     if(scene)
     {
-        if(Game::instance()->currentScene() != scene)
-            Game::instance()->setCurrentScene(scene);
+        if(GluonEngine::Game::instance()->currentScene() != scene)
+            GluonEngine::Game::instance()->setCurrentScene(scene);
     }
 }

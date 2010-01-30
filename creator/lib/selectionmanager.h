@@ -17,20 +17,21 @@
 #ifndef GLUON_CREATOR_SELECTIONMANAGER_H
 #define GLUON_CREATOR_SELECTIONMANAGER_H
 
-#include <common/ksingleton.h>
+#include <core/singleton.h>
 
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-namespace Gluon {
+namespace GluonCore {
     class GluonObject;
+}
 
-namespace Creator {
+namespace GluonCreator {
 
-class GLUONCREATORLIB_EXPORT SelectionManager : public KSingleton<SelectionManager>
+class GLUONCREATOR_EXPORT SelectionManager : public GluonCore::Singleton<SelectionManager>
 {
     Q_OBJECT
     public:
-        typedef QList<GluonObject*> SelectionList;
+        typedef QList<GluonCore::GluonObject*> SelectionList;
         SelectionList selection() const;
 
     public slots:
@@ -40,7 +41,7 @@ class GLUONCREATORLIB_EXPORT SelectionManager : public KSingleton<SelectionManag
         void selectionChanged(SelectionManager::SelectionList);
 
     private:
-        friend class KSingleton<SelectionManager>;
+        friend class GluonCore::Singleton<SelectionManager>;
         SelectionManager();
         ~SelectionManager();
         Q_DISABLE_COPY(SelectionManager)
@@ -48,8 +49,6 @@ class GLUONCREATORLIB_EXPORT SelectionManager : public KSingleton<SelectionManag
         class SelectionManagerPrivate;
         SelectionManagerPrivate *d;
 };
-
-}
 
 }
 

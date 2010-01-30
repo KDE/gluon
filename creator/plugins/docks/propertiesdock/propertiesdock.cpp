@@ -18,7 +18,7 @@
 
 #include <widgets/propertywidget.h>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class PropertiesDock::PropertiesDockPrivate
 {
@@ -28,7 +28,7 @@ class PropertiesDock::PropertiesDockPrivate
         PropertyWidget *widget;
 };
 
-Gluon::Creator::PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
     setObjectName("PropertiesDock");
 
@@ -40,13 +40,13 @@ Gluon::Creator::PropertiesDock::PropertiesDock(const QString& title, QWidget* pa
     connect(SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)));
 }
 
-Gluon::Creator::PropertiesDock::~PropertiesDock()
+PropertiesDock::~PropertiesDock()
 {
     delete d;
     d = 0;
 }
 
-void PropertiesDock::setSelection(Gluon::GluonObject* obj)
+void PropertiesDock::setSelection(GluonCore::GluonObject* obj)
 {
     d->widget->setObject(obj);
 }
@@ -61,7 +61,7 @@ QAbstractItemModel* PropertiesDock::model()
     return 0;
 }
 
-void PropertiesDock::selectionChanged(Gluon::Creator::SelectionManager::SelectionList selection)
+void PropertiesDock::selectionChanged(SelectionManager::SelectionList selection)
 {
     setSelection(selection.at(0));
 }

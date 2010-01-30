@@ -15,14 +15,16 @@
 */
 
 #include "projectmodel.h"
-#include <game.h>
-#include <gameproject.h>
-#include <gluonobject.h>
+#include <engine/game.h>
+#include <core/gameproject.h>
+#include <core/gluonobject.h>
+
 #include <KDebug>
 #include <KLocalizedString>
+
 #include <objectmanager.h>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class ProjectModel::ProjectModelPrivate
 {
@@ -30,28 +32,28 @@ class ProjectModel::ProjectModelPrivate
         ProjectModelPrivate() { project = 0; }
 
         QObject* root;
-        Gluon::GameProject* project;
+        GluonCore::GameProject* project;
 
 };
 
-Gluon::Creator::ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
+ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
 {
     d = new ProjectModelPrivate;
-    connect(ObjectManager::instance(), SIGNAL(newScene(Gluon::Scene*)), SIGNAL(layoutChanged()));
+    connect(ObjectManager::instance(), SIGNAL(newScene(GluonEngine::Scene*)), SIGNAL(layoutChanged()));
 }
 
-Gluon::Creator::ProjectModel::~ProjectModel()
+ProjectModel::~ProjectModel()
 {
     delete d;
 }
 
 
-Gluon::GameProject* Gluon::Creator::ProjectModel::project()
+GluonCore::GameProject* ProjectModel::project()
 {
     return d->project;
 }
 
-void Gluon::Creator::ProjectModel::setProject(Gluon::GameProject* project)
+void ProjectModel::setProject(GluonCore::GameProject* project)
 {
     d->root = new QObject(this);
     d->project = project;
@@ -70,7 +72,7 @@ QVariant ProjectModel::data(const QModelIndex& index, int role) const
 
     QObject *item = static_cast<QObject*>(index.internalPointer());
 
-    Gluon::GluonObject* gobj = qobject_cast<Gluon::GluonObject*>(item);
+    GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(item);
     if(gobj) return gobj->name();
 
     return item->objectName() + item->metaObject()->className();
@@ -93,7 +95,7 @@ int ProjectModel::rowCount(const QModelIndex& parent) const
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
-    if(parentItem && parentItem->metaObject()->className() != QString("Gluon::Scene")) return parentItem->children().count();
+    if(parentItem && parentItem->metaObject()->className() != QString("GluonEngine::Scene")) return parentItem->children().count();
     return 0;
 }
 

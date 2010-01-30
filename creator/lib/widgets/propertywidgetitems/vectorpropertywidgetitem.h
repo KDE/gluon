@@ -19,11 +19,9 @@
 
 #include "propertywidgetitem.h"
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class VectorPropertyWidgetItem : public Gluon::Creator::PropertyWidgetItem
+class VectorPropertyWidgetItem : public PropertyWidgetItem
 {
     Q_OBJECT
     public:
@@ -40,8 +38,6 @@ class VectorPropertyWidgetItem : public Gluon::Creator::PropertyWidgetItem
         class VectorPropertyWidgetItemPrivate;
         VectorPropertyWidgetItemPrivate* d;
 };
-
-}
 
 }
 

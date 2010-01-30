@@ -23,38 +23,35 @@
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
 
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-namespace Gluon
+namespace GluonCreator
 {
-    namespace Creator
+    /**
+    * The Property Widget Item is a class which will take an object and the name
+    * of a property, and provide functionality for editing this property's value,
+    * at the same time updating it in the object containing the project
+    */
+    class GLUONCREATOR_EXPORT PropertyWidgetItem : public QWidget
     {
-        /**
-         * The Property Widget Item is a class which will take an object and the name
-         * of a property, and provide functionality for editing this property's value,
-         * at the same time updating it in the object containing the project
-         */
-        class GLUONCREATORLIB_EXPORT PropertyWidgetItem : public QWidget
-        {
-            Q_OBJECT
-            public:
-                PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-                virtual ~PropertyWidgetItem();
+        Q_OBJECT
+        public:
+            PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            virtual ~PropertyWidgetItem();
 
-                QWidget* editWidget();
+            QWidget* editWidget();
 
-            public slots:
-                virtual void setEditObject(QObject * editThis);
-                virtual void setEditProperty(const QString& propertyName);
-                virtual void setEditWidget(QWidget *widget);
-                virtual void setEditValue(const QVariant& value);
-                virtual void valueChanged(QVariant);
+        public slots:
+            virtual void setEditObject(QObject * editThis);
+            virtual void setEditProperty(const QString& propertyName);
+            virtual void setEditWidget(QWidget *widget);
+            virtual void setEditValue(const QVariant& value);
+            virtual void valueChanged(QVariant);
 
-            private:
-                class PropertyWidgetItemPrivate;
-                PropertyWidgetItemPrivate *d;
-        };
-    }
+        private:
+            class PropertyWidgetItemPrivate;
+            PropertyWidgetItemPrivate *d;
+    };
 }
 
 #endif				// GLUON_CREATOR_PROPERTYWIDGETITEM_H

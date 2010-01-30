@@ -20,11 +20,9 @@
 #include "propertywidgetitem.h"
 
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class NullPropertyWidgetItem : public Gluon::Creator::PropertyWidgetItem
+class NullPropertyWidgetItem : public PropertyWidgetItem
 {
     Q_OBJECT
     public:
@@ -34,8 +32,6 @@ class NullPropertyWidgetItem : public Gluon::Creator::PropertyWidgetItem
     public slots:
         void setEditValue(const QVariant& value);
 };
-
-}
 
 }
 

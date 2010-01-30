@@ -18,10 +18,10 @@
 #include <KPluginSelector>
 #include <lib/pluginmanager.h>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 
-Gluon::Creator::ConfigDialog::ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config): KConfigDialog(parent, name, config)
+ConfigDialog::ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config): KConfigDialog(parent, name, config)
 {
     QList<KPluginInfo> infos = PluginManager::instance()->pluginInfos();
 
@@ -34,12 +34,12 @@ Gluon::Creator::ConfigDialog::ConfigDialog(QWidget* parent, const QString& name,
     connect(m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)));
 }
 
-Gluon::Creator::ConfigDialog::~ConfigDialog()
+ConfigDialog::~ConfigDialog()
 {
 
 }
 
-void Gluon::Creator::ConfigDialog::accept()
+void ConfigDialog::accept()
 {
     m_plugins->save();
     PluginManager::instance()->loadPlugins();

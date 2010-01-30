@@ -21,13 +21,14 @@
 
 #include <widgets/dock.h>
 
-namespace Gluon {
+namespace GluonEngine {
     class Scene;
     class GameObject;
+}
 
-namespace Creator {
+namespace GluonCreator {
 
-    class SceneDock : public Gluon::Creator::Dock
+    class SceneDock : public Dock
     {
         Q_OBJECT
         public:
@@ -38,16 +39,14 @@ namespace Creator {
             virtual QAbstractItemModel* model();
 
         public slots:
-            virtual void setSelection(Gluon::GluonObject* obj = 0);
+            virtual void setSelection(GluonCore::GluonObject* obj = 0);
             void selectionChanged(QModelIndex);
-            void sceneChanged(Scene*);
+            void sceneChanged(GluonEngine::Scene*);
 
         private:
             class SceneDockPrivate;
             SceneDockPrivate* d;
     };
-
-}
 
 }
 

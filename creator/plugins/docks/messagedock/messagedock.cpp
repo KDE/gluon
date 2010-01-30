@@ -18,7 +18,7 @@
 
 #include <QtGui/QTreeView>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 class MessageDock::MessageDockPrivate
 {
@@ -58,7 +58,7 @@ QAbstractItemView* MessageDock::view()
     return d->view;
 }
 
-void MessageDock::setSelection(Gluon::GluonObject* obj)
+void MessageDock::setSelection(GluonCore::GluonObject* obj)
 {
     Q_UNUSED(obj)
 }

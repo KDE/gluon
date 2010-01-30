@@ -17,29 +17,25 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 
-#include <common/ksingleton.h>
+#include <core/singleton.h>
 
 
-namespace Gluon {
-
-namespace Creator {
+namespace GluonCreator {
 
 class PropertyWidgetItem;
 
-class PropertyWidgetItemFactory : public KSingleton<PropertyWidgetItemFactory>
+class PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
 {
     public:
         PropertyWidgetItem* create(const QString& type, QWidget* parent);
 
     private:
-        friend class KSingleton<PropertyWidgetItemFactory>;
+        friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
 
         PropertyWidgetItemFactory() { }
         ~PropertyWidgetItemFactory() { }
         Q_DISABLE_COPY(PropertyWidgetItemFactory)
 };
-
-}
 
 }
 

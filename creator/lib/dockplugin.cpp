@@ -21,20 +21,20 @@
 #include <KStandardDirs>
 #include <KDebug>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
-Gluon::Creator::DockPlugin::DockPlugin(QObject* parent, const QList< QVariant >& params) : Plugin(parent, params)
+DockPlugin::DockPlugin(QObject* parent, const QList< QVariant >& params) : Plugin(parent, params)
 {
 
 }
 
-Gluon::Creator::DockPlugin::~DockPlugin()
+DockPlugin::~DockPlugin()
 {
 
 }
 
 
-void Gluon::Creator::DockPlugin::load(KXmlGuiWindow* mainwindow)
+void DockPlugin::load(KXmlGuiWindow* mainwindow)
 {
     mainwindow->insertChildClient(this);
 
@@ -49,7 +49,7 @@ void Gluon::Creator::DockPlugin::load(KXmlGuiWindow* mainwindow)
     setXML(xml);
 }
 
-void Gluon::Creator::DockPlugin::unload(KXmlGuiWindow* mainWindow)
+void DockPlugin::unload(KXmlGuiWindow* mainWindow)
 {
     mainWindow->removeDockWidget(m_dock);
     actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));

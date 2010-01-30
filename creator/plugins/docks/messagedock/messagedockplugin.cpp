@@ -18,23 +18,22 @@
 
 #include "messagedock.h"
 
-#include <gluoncreatorlib_macros.h>
+#include <gluoncreator_macros.h>
 #include <KLocalizedString>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
-
-Gluon::Creator::MessageDockPlugin::MessageDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+MessageDockPlugin::MessageDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
 {
 
 }
 
-Gluon::Creator::MessageDockPlugin::~MessageDockPlugin()
+MessageDockPlugin::~MessageDockPlugin()
 {
-    
+
 }
 
-Dock* Gluon::Creator::MessageDockPlugin::createDock(KXmlGuiWindow* parent)
+Dock* MessageDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new MessageDock(i18n("Messages"), parent);
 }

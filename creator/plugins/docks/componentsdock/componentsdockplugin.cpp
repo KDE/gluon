@@ -15,26 +15,24 @@
 */
 
 #include "componentsdockplugin.h"
-
 #include "componentsdock.h"
 
-#include <gluoncreatorlib_macros.h>
+#include <gluoncreator_macros.h>
 #include <KLocalizedString>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
-
-Gluon::Creator::ComponentsDockPlugin::ComponentsDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
+ComponentsDockPlugin::ComponentsDockPlugin(QObject* parent, const QList< QVariant >& params) : DockPlugin(parent, params)
 {
 
 }
 
-Gluon::Creator::ComponentsDockPlugin::~ComponentsDockPlugin()
+ComponentsDockPlugin::~ComponentsDockPlugin()
 {
 
 }
 
-Dock* Gluon::Creator::ComponentsDockPlugin::createDock(KXmlGuiWindow* parent)
+Dock* ComponentsDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new ComponentsDock(i18n("Components"), parent);
 }

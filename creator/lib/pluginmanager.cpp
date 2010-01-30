@@ -4,18 +4,18 @@
 #include <KDebug>
 #include <KServiceTypeTrader>
 
-#include <debughelper.h>
+#include <core/debughelper.h>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
-template<> GLUONCREATORLIB_EXPORT PluginManager* KSingleton<PluginManager>::m_instance = 0;
+template<> GLUONCREATOR_EXPORT PluginManager* GluonCore::Singleton<PluginManager>::m_instance = 0;
 
-QList< KPluginInfo > Gluon::Creator::PluginManager::pluginInfos() const
+QList< KPluginInfo > PluginManager::pluginInfos() const
 {
     return KPluginInfo::fromServices(KServiceTypeTrader::self()->query("GluonCreator/Plugin"));
 }
 
-void Gluon::Creator::PluginManager::setMainWindow(KXmlGuiWindow* window)
+void PluginManager::setMainWindow(KXmlGuiWindow* window)
 {
     m_mainWindow = window;
 }

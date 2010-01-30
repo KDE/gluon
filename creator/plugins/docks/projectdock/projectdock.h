@@ -21,11 +21,9 @@
 
 #include <widgets/dock.h>
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class ProjectDock : public Gluon::Creator::Dock
+class ProjectDock : public Dock
 {
     Q_OBJECT
     public:
@@ -36,15 +34,13 @@ class ProjectDock : public Gluon::Creator::Dock
         QAbstractItemView* view();
 
     public slots:
-        void setSelection(GluonObject* obj = 0);
-	void activated(QModelIndex index);
-    
+        void setSelection(GluonCore::GluonObject* obj = 0);
+        void activated(QModelIndex index);
+
     private:
         class ProjectDockPrivate;
         ProjectDockPrivate* d;
 };
-
-}
 
 }
 

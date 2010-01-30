@@ -19,39 +19,36 @@
 
 #include <KXmlGuiWindow>
 
-namespace Gluon
+namespace GluonCreator
 {
-    namespace Creator
+    class Plugin;
+
+    class MainWindow : public KXmlGuiWindow
     {
-        class Plugin;
+        Q_OBJECT
+        public:
+            MainWindow();
+            ~MainWindow();
+        public slots:
+            void newProject();
 
-        class MainWindow : public KXmlGuiWindow
-        {
-            Q_OBJECT
-            public:
-                MainWindow();
-                ~MainWindow();
-            public slots:
-                void newProject();
+            void openProject();
+            void openProject(const QString &fileName);
+            void saveProject();
+            void saveProject(const QString &fileName);
+            void saveProjectAs();
+            void showPreferences();
 
-                void openProject();
-                void openProject(const QString &fileName);
-                void saveProject();
-                void saveProject(const QString &fileName);
-                void saveProjectAs();
-                void showPreferences();
+            void startGame();
+            void stopGame();
 
-                void startGame();
-                void stopGame();
+        private:
+            void setupActions();
+            void setupDocks();
+            void setupGame();
 
-            private:
-                void setupActions();
-                void setupDocks();
-                void setupGame();
-
-                QString m_fileName;
-        };
-    }
+            QString m_fileName;
+    };
 }
 
 #endif // MAINWINDOW_H

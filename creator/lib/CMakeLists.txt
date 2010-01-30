@@ -1,4 +1,5 @@
-set(gluoncreatorlib_SRCS
+
+set(libGluonCreator_SRCS
     plugin.cpp
     dockplugin.cpp
     pluginmanager.cpp
@@ -18,40 +19,50 @@ set(gluoncreatorlib_SRCS
     widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
 )
 
-#qt4_automoc(${gluoncreatorlib_SRCS})
-kde4_add_library(gluoncreatorlib SHARED ${gluoncreatorlib_SRCS})
-set_target_properties(gluoncreatorlib PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} DEFINE_SYMBOL "MAKE_GLUONCREATOR_LIB")
-target_link_libraries(gluoncreatorlib ${GLUON_LIBRARY} ${KDE4_KDEUI_LIBS})
+qt4_automoc(${libGluonCreator_SRCS})
+kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
+set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL "MAKE_GLUONCREATOR" PREFIX "")
+if(GLUON_BUILD_ALL)
+    add_dependencies(libGluonCreator GluonEngine)
+    target_link_libraries(libGluonCreator GluonEngine ${KDE4_KDEUI_LIBS})
+else()
+    target_link_libraries(libGluonCreator ${GLUON_ENGINE_LIBS} ${KDE4_KDEUI_LIBS})
+endif()
 
-##### INSTALL #####
+install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
 
-add_subdirectory(cmake)
-
-install(TARGETS gluoncreatorlib LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/creator)
 install(FILES
-        plugin.h
-        dockplugin.h
-        pluginmanager.h
-        selectionmanager.h
-        gluoncreatorlib_macros.h
-        DESTINATION ${INCLUDE_INSTALL_DIR}
+    plugin.h
+    dockplugin.h
+    pluginmanager.h
+    selectionmanager.h
+    gluoncreator_macros.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator
+    COMPONENT Devel
 )
 
 install(FILES
-        models/projectmodel.h
-        models/scenemodel.h
-        DESTINATION ${INCLUDE_INSTALL_DIR}/models
+    models/projectmodel.h
+    models/scenemodel.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/models
+    COMPONENT Devel
 )
 
 install(FILES
-        widgets/dock.h
-        widgets/propertywidget.h
-        DESTINATION ${INCLUDE_INSTALL_DIR}/widgets
+    widgets/dock.h
+    widgets/propertywidget.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/widgets
+    COMPONENT Devel
 )
 
 install(FILES
-        gluoncreator_plugin.desktop
-        DESTINATION ${SERVICETYPES_INSTALL_DIR}
+    gluoncreator_plugin.desktop
+    DESTINATION ${SERVICETYPES_INSTALL_DIR}
+    COMPONENT Devel
+)
+
+install(FILES
+    cmake/FindGluonCreator.cmake
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/${cmakeFiles}
+    COMPONENT Devel
 )

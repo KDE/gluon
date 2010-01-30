@@ -20,22 +20,22 @@
 
 #include "scenedock.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 
-Gluon::Creator::SceneDockPlugin::SceneDockPlugin(QObject* parent, const QList< QVariant >& params)
+SceneDockPlugin::SceneDockPlugin(QObject* parent, const QList< QVariant >& params)
     : DockPlugin(parent, params)
 {
 
 }
 
 
-Gluon::Creator::SceneDockPlugin::~SceneDockPlugin()
+SceneDockPlugin::~SceneDockPlugin()
 {
 
 }
 
-Dock* Gluon::Creator::SceneDockPlugin::createDock(KXmlGuiWindow* parent)
+Dock* SceneDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new SceneDock(i18n("Scene"), parent);
 }

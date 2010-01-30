@@ -18,22 +18,26 @@
 #define GLUON_CREATOR_PROJECTMODEL_H
 
 #include <QtCore/QAbstractItemModel>
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-namespace Gluon {
-class GameProject;
-class GameObject;
+namespace GluonCore {
+    class GameProject;
+}
 
-namespace Creator {
+namespace GluonEngine {
+    class GameObject;
+}
 
-class GLUONCREATORLIB_EXPORT ProjectModel : public QAbstractItemModel
+namespace GluonCreator {
+
+class GLUONCREATOR_EXPORT ProjectModel : public QAbstractItemModel
 {
     Q_OBJECT
     public:
         ProjectModel(QObject* parent = 0);
         ~ProjectModel();
 
-        Gluon::GameProject* project();
+        GluonCore::GameProject* project();
 
         virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
@@ -43,15 +47,13 @@ class GLUONCREATORLIB_EXPORT ProjectModel : public QAbstractItemModel
         virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     public slots:
-        void setProject(GameProject* project);
+        void setProject(GluonCore::GameProject* project);
 
     private:
         class ProjectModelPrivate;
         ProjectModelPrivate* d;
 
 };
-
-}
 
 }
 

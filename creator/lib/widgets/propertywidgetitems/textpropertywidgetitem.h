@@ -20,22 +20,19 @@
 #include <QtGui/QLineEdit>
 #include "propertywidgetitem.h"
 
-namespace Gluon {
+namespace GluonCreator {
+    class TextPropertyWidgetItem : public PropertyWidgetItem
+    {
+        Q_OBJECT
+        public:
+            TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~TextPropertyWidgetItem();
 
-    namespace Creator {
-
-        class TextPropertyWidgetItem : public PropertyWidgetItem
-        {
-            Q_OBJECT
-            public:
-                TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-                ~TextPropertyWidgetItem();
-
-            public slots:
-                void setEditValue(const QVariant& value);
-                void textEdited(QString value);
-        };
-    }
+        public slots:
+            void setEditValue(const QVariant& value);
+            void textEdited(QString value);
+    };
 }
+
 
 #endif // TEXTPROPERTYWIDGETITEM_H

@@ -19,7 +19,7 @@
 
 #include "propertywidget.h"
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 #include <QtCore/QVariant>
 #include <QtCore/QMetaClassInfo>
@@ -29,8 +29,8 @@ using namespace Gluon::Creator;
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 
-#include <gluon/gluonobject.h>
-#include <gluon/debughelper.h>
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
 
 #include "propertywidget.h"
 #include "propertywidgetitems/propertywidgetitem.h"
@@ -40,7 +40,7 @@ class PropertyWidget::PropertyWidgetPrivate
 {
     public:
         PropertyWidgetPrivate() { object = 0; layout = 0; }
-        GluonObject *object;
+        GluonCore::GluonObject *object;
         QVBoxLayout *layout;
 };
 
@@ -55,12 +55,12 @@ PropertyWidget::~PropertyWidget()
     delete d;
 }
 
-Gluon::GluonObject *PropertyWidget::object() const
+GluonCore::GluonObject *PropertyWidget::object() const
 {
     return d->object;
 }
 
-void PropertyWidget::setObject(Gluon::GluonObject * object)
+void PropertyWidget::setObject(GluonCore::GluonObject * object)
 {
     if(object)
     {
@@ -81,12 +81,12 @@ void PropertyWidget::setObject(Gluon::GluonObject * object)
     }
 }
 
-void Gluon::Creator::PropertyWidget::clear()
+void PropertyWidget::clear()
 {
     delete widget();
 }
 
-void PropertyWidget::appendObject(Gluon::GluonObject *obj, bool useColor)
+void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool useColor)
 {
     QGroupBox* objectBox = new QGroupBox(obj->name(), this);
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

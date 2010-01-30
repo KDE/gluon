@@ -22,13 +22,11 @@
 #include "plugin.h"
 
 class KAction;
-namespace Gluon {
-
-namespace Creator {
+namespace GluonCreator {
 
     class Dock;
 
-    class GLUONCREATORLIB_EXPORT DockPlugin : public Plugin
+    class GLUONCREATOR_EXPORT DockPlugin : public Plugin
     {
         Q_OBJECT
         public:
@@ -43,8 +41,6 @@ namespace Creator {
 
             Dock* m_dock;
     };
-
-}
 
 }
 

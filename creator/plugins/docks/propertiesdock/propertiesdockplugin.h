@@ -19,11 +19,9 @@
 
 #include <dockplugin.h>
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class PropertiesDockPlugin : public Gluon::Creator::DockPlugin
+class PropertiesDockPlugin : public DockPlugin
 {
     Q_OBJECT
     public:
@@ -33,8 +31,6 @@ class PropertiesDockPlugin : public Gluon::Creator::DockPlugin
     protected:
         Dock* createDock(KXmlGuiWindow* parent);
 };
-
-}
 
 }
 
