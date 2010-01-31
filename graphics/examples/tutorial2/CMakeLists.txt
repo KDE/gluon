@@ -9,6 +9,6 @@ set(tutorial2_SRCS
     main.cpp 
 )
 
-add_executable(test ${tutorial2_SRCS})
-target_link_libraries(test ${GLUON_GRAPHICS_LIBS})
+add_executable(tutorial2 ${tutorial2_SRCS})
+target_link_libraries(tutorial2 ${GLUON_GRAPHICS_LIBS})
 
