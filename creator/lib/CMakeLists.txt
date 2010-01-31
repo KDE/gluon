@@ -6,6 +6,7 @@ set(libGluonCreator_SRCS
     objectmanager.cpp
     selectionmanager.cpp
 
+    models/componentmodel.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
 
@@ -14,9 +15,13 @@ set(libGluonCreator_SRCS
 
     widgets/propertywidgetitems/propertywidgetitem.cpp
     widgets/propertywidgetitems/propertywidgetitemfactory.cpp
-    widgets/propertywidgetitems/textpropertywidgetitem.cpp
     widgets/propertywidgetitems/nullpropertywidgetitem.cpp
+    widgets/propertywidgetitems/boolpropertywidgetitem.cpp
+    widgets/propertywidgetitems/textpropertywidgetitem.cpp
+    widgets/propertywidgetitems/floatpropertywidgetitem.cpp
+    widgets/propertywidgetitems/intpropertywidgetitem.cpp
     widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
+    widgets/propertywidgetitems/qsizefpropertywidgetitem.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})
@@ -42,6 +47,7 @@ install(FILES
 )
 
 install(FILES
+    models/componentmodel.h
     models/projectmodel.h
     models/scenemodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/models
@@ -63,6 +69,6 @@ install(FILES
 
 install(FILES
     cmake/FindGluonCreator.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake/${cmakeFiles}
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
     COMPONENT Devel
 )

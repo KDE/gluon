@@ -15,12 +15,14 @@
 */
 
 #include "componentsdock.h"
+#include "models/componentmodel.h"
 
-#include <QListWidget>
+#include <QtGui/QListWidget>
+#include <QtGui/QStringListModel>
+#include <KDebug>
 #include <core/gluonobjectfactory.h>
 #include <core/gluonobject.h>
 #include <engine/component.h>
-#include <KDebug>
 
 using namespace GluonCreator;
 
@@ -29,7 +31,8 @@ class ComponentsDock::ComponentsDockPrivate
     public:
         ComponentsDockPrivate() { view = 0; };
 
-        QListWidget *view;
+        QListView *view;
+        ComponentModel *model;
 };
 
 ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
@@ -37,15 +40,25 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     setObjectName("ComponentsDock");
 
     d = new ComponentsDockPrivate();
-    d->view = new QListWidget(this);
+
+    d->view = new QListView(this);
+    d->view->setSelectionMode(QAbstractItemView::SingleSelection);
     d->view->setDragEnabled(true);
-    d->view->setDragDropMode(QAbstractItemView::DragOnly);
+    d->view->setAcceptDrops(false);
+    d->view->setDropIndicatorShown(false);
 
     QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
+    QStringList list;
     foreach(GluonCore::GluonObject* obj, objectTypes)
     {
-        if(obj->inherits("Gluon::Component")) d->view->addItem(obj->metaObject()->className());
+        if(obj->inherits("Gluon::Component"))
+        {
+            list << obj->metaObject()->className();            
+        }
     }
+    d->model = new ComponentModel(this);
+    d->model->setStringList(list);
+    d->view->setModel(d->model);
 
     setWidget(d->view);
 }

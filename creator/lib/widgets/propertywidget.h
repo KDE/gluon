@@ -50,6 +50,9 @@ namespace GluonCreator
             void setObject(GluonCore::GluonObject* object);
             void appendObject(GluonCore::GluonObject* obj, bool useColor = false);
 
+        signals:
+            void propertyChanged(const QString& property, const QVariant& oldValue, const QVariant& newValue);
+
         private:
             class PropertyWidgetPrivate;
             PropertyWidgetPrivate *d;

@@ -15,6 +15,9 @@
 */
 
 #include "scenedock.h"
+#include "models/scenemodel.h"
+#include "selectionmanager.h"
+#include "debughelper.h"
 
 #include <QtGui/QTreeView>
 
@@ -40,11 +43,13 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     setObjectName("SceneDock");
 
     d = new SceneDockPrivate;
-    d->model = new SceneModel;
-    d->model->setRootGameObject(GluonEngine::Game::instance()->currentScene()->sceneContents());
-    connect(GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)));
+    d->view = new QTreeView(this);
+    d->model = new SceneModel(d->view);
+    setWidget(d->view);
+    
+    d->model->setRootGameObject(Game::instance()->currentScene()->sceneContents());
+    connect(Game::instance(), SIGNAL(currentSceneChanged(Scene*)), SLOT(sceneChanged(Scene*)));
 
-    d->view = new QTreeView;
     d->view->setModel(d->model);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(true);
@@ -52,8 +57,6 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d->view->setDragDropMode(QAbstractItemView::DragDrop);
     d->view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     connect(d->view, SIGNAL(activated(QModelIndex)), SLOT(selectionChanged(QModelIndex)));
-
-    setWidget(d->view);
 }
 
 SceneDock::~SceneDock()

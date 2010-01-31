@@ -15,10 +15,15 @@
 */
 
 #include "propertywidgetitemfactory.h"
+#include "debughelper.h"
 
+#include "nullpropertywidgetitem.h"
 #include "textpropertywidgetitem.h"
 #include "vectorpropertywidgetitem.h"
-#include "nullpropertywidgetitem.h"
+#include "boolpropertywidgetitem.h"
+#include "floatpropertywidgetitem.h"
+#include "intpropertywidgetitem.h"
+#include "qsizefpropertywidgetitem.h"
 
 using namespace GluonCreator;
 
@@ -26,8 +31,22 @@ template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFac
 
 PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
-    if(type == "QString") return new TextPropertyWidgetItem(parent);
-    if(type == "Eigen::Vector3f") return new VectorPropertyWidgetItem(parent);
+    DEBUG_BLOCK
+    
+    if(type == "QString")
+        return new TextPropertyWidgetItem(parent);
+    if(type == "Eigen::Vector3f")
+        return new VectorPropertyWidgetItem(parent);
+    if(type == "bool")
+        return new BoolPropertyWidgetItem(parent);
+    if(type == "float")
+        return new FloatPropertyWidgetItem(parent);
+    if(type == "int")
+        return new IntPropertyWidgetItem(parent);
+    if(type == "QSizeF")
+        return new QSizeFPropertyWidgetItem(parent);
+
+    DEBUG_TEXT(QString("Attempting to instantiate unknown property widgtet item of type %1").arg(type));
 
     return new NullPropertyWidgetItem(parent);
 }

@@ -48,6 +48,9 @@ namespace GluonCreator
             virtual void setEditValue(const QVariant& value);
             virtual void valueChanged(QVariant);
 
+        signals:
+            void propertyChanged(const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+
         private:
             class PropertyWidgetItemPrivate;
             PropertyWidgetItemPrivate *d;

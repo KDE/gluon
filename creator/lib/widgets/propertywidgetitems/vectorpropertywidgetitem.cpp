@@ -21,7 +21,7 @@
 #include <QDoubleSpinBox>
 #include <cfloat>
 
-#include <Eigen/Geometry>
+#include <gluon/gluonvarianttypes.h>
 
 using namespace GluonCreator;
 
@@ -68,7 +68,7 @@ VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 
 VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
 {
-
+    delete d;
 }
 
 
@@ -83,17 +83,20 @@ void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
 
 void VectorPropertyWidgetItem::xValueChanged(double value)
 {
-
+    d->value = Eigen::Vector3f(value, d->y->value(), d->z->value());
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
 }
 
 void VectorPropertyWidgetItem::yValueChanged(double value)
 {
-
+    d->value = Eigen::Vector3f(d->x->value(), value, d->z->value());
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
 }
 
 void VectorPropertyWidgetItem::zValueChanged(double value)
 {
-
+    d->value = Eigen::Vector3f(d->x->value(), d->y->value(), value);
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
 }
 
 #include "vectorpropertywidgetitem.moc"

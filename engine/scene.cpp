@@ -30,6 +30,7 @@ Scene::Scene(QObject * parent)
     : Asset(parent)
 {
     d = new ScenePrivate(this);
+    savableDirty = false;
 }
 
 Scene::~Scene()
@@ -62,7 +63,8 @@ Scene::drawAll(int timeLapse)
 void
 Scene::setFile(const QUrl &newFile)
 {
-    d->unloadContents();
+    if(!savableDirty)
+        d->unloadContents();
     GluonEngine::Asset::setFile(newFile);
 }
 
@@ -82,7 +84,7 @@ Scene::contentsToGDL()
 GameObject*
 Scene::sceneContents()
 {
-    if(!d->sceneContents)
+    if(!d->sceneContentsLoaded && !savableDirty)
         d->loadContents(FileLocation(gameProject(), file()).location());
     return d->sceneContents;
 }

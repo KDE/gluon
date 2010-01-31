@@ -15,13 +15,14 @@ Boston, MA 02110-1301, USA.
 */
 
 #include "scenemodel.h"
-#include <engine/gameobject.h>
-#include <typeinfo>
-#include <objectmanager.h>
-
-#include <core/debughelper.h>
 #include <qmimedata.h>
 #include <KLocalizedString>
+#include <typeinfo>
+
+#include <core/debughelper.h>
+#include <engine/gameobject.h>
+#include <engine/component.h>
+#include <objectmanager.h>
 
 using namespace GluonCreator;
 
@@ -43,9 +44,15 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 {
     if(obj)
     {
-        if(m_root) delete m_root;
-        m_root = new GluonEngine::GameObject(this);
-        m_root->addChild(obj);
+        /*if(!m_root)
+            m_root = new GameObject(this);
+        
+        if(m_root->childCount() > 0)
+            m_root->removeChild(m_root->childGameObject(0));
+
+        m_root->addChild(obj);*/
+        m_root = obj;
+        
         reset();
     }
 }
@@ -89,6 +96,10 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
         return QModelIndex();
 
     GluonEngine::GameObject *childItem = static_cast<GluonEngine::GameObject*>(child.internalPointer());
+    
+    if(!childItem)
+        return QModelIndex();
+    
     GluonEngine::GameObject *parentItem = childItem->parentGameObject();
 
     if (parentItem == m_root)
@@ -127,9 +138,12 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 
 int SceneModel::rowIndex(GluonEngine::GameObject* object) const
 {
-    if(object && object->parentGameObject())
+    if(object)
     {
-        return object->parentGameObject()->childIndex(object);
+        if(object->parentGameObject())
+        {
+            return object->parentGameObject()->childIndex(object);
+        }
     }
     return 0;
 }
@@ -143,16 +157,69 @@ Qt::DropActions SceneModel::supportedDropActions() const
 Qt::ItemFlags SceneModel::flags(const QModelIndex& index) const
 {
     if (index.isValid())
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
-        return Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+}
+
+QStringList
+SceneModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/gluon.text.componentclass";
+    return types;
 }
 
 bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(column)
     DEBUG_FUNC_NAME
+    
+    if(action == Qt::IgnoreAction)
+        return false;
 
-    DEBUG_TEXT(data->data("application/x-qabstractitemmodeldatalist"));
+    if(!parent.isValid())
+        return false;
+    
+    GameObject *gobj = qobject_cast<GameObject*>((QObject*)parent.internalPointer());
+    
+    if(!gobj)
+        return false;
+    
+    foreach(QString something, data->formats())
+    {
+        DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
+    }
+    
+    QByteArray encodedData = data->data("application/gluon.text.componentclass");
+    QDataStream stream(&encodedData, QIODevice::ReadOnly);
+    QStringList newItems;
+    int rows = 0;
+
+    while (!stream.atEnd())
+    {
+        QString text;
+        stream >> text;
+        newItems << text;
+        ++rows;
+    }
+    foreach(QString text, newItems)
+    {
+        DEBUG_TEXT(QString("Adding component of class %1").arg(text));
+        GluonObject *component = Gluon::GluonObjectFactory::instance()->instantiateObjectByName(text);
+        if(!component)
+        {
+            DEBUG_TEXT("Returned component instance was null, something's fishy");
+        }
+        else
+        {
+            DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
+            #warning This should be a qobject_cast, but that for some reason returns a null object
+            gobj->addComponent(reinterpret_cast<Gluon::Component*>(component));
+        }
+    }
+    
     return true;
 }
 
@@ -181,7 +248,11 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
 
 bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
 {
+    Q_UNUSED(row)
+    Q_UNUSED(count)
+    Q_UNUSED(parent)
 
+    return false;
 }
 
 #include "scenemodel.moc"

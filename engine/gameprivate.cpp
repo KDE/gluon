@@ -18,6 +18,8 @@
 */
 
 #include "gameprivate.h"
+#include "scene.h"
+#include "debughelper.h"
 
 using namespace GluonEngine;
 
@@ -41,4 +43,24 @@ GamePrivate::GamePrivate(const GamePrivate &other)
 
 GamePrivate::~GamePrivate()
 {
+}
+
+Scene *
+GamePrivate::findSceneInChildren(QObject* object)
+{
+    DEBUG_BLOCK
+    foreach(QObject * child, object->children())
+    {
+        DEBUG_TEXT(QString("Checking child %1").arg(qobject_cast<GluonObject*>(child)->fullyQualifiedName()));
+        Scene *scene = qobject_cast<Scene*>(child);
+        if(scene)
+            return scene;
+        else
+        {
+            Scene *foundChild = findSceneInChildren(child);
+            if(foundChild)
+                return foundChild;
+        }
+    }
+    return NULL;
 }

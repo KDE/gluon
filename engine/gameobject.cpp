@@ -30,6 +30,11 @@ GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
 {
     d = new GameObjectPrivate;
+    
+    setPosition(Vector3f(0,0,0));
+    setScale(Vector3f(1,1,1));
+    setRotationAxis(Vector3f::Identity());
+    
     updateTransform();
 }
 
@@ -222,8 +227,20 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 void
 GameObject::addComponent(Component * addThis)
 {
-    if(!d->components.contains(addThis))
-        d->components.append(addThis);
+    DEBUG_FUNC_NAME
+    if(addThis)
+    {
+        DEBUG_TEXT(QString("Adding %2 to %1").arg(name()).arg(addThis->metaObject()->className()));
+        if(!d->components.contains(addThis))
+        {
+            d->components.append(addThis);
+            addThis->setParent(this);
+        }
+    }
+    else
+    {
+        DEBUG_TEXT("Attempting to add a null component");
+    }
 }
 
 bool
@@ -264,11 +281,20 @@ void GameObject::addChild(GluonObject* child)
 void
 GameObject::addChild(GameObject * addThis)
 {
-    if(!d->children.contains(addThis))
+    DEBUG_FUNC_NAME
+    if(!addThis)
+    {
+        DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject"));
+    }
+    else if(!d->children.contains(addThis))
     {
         d->children.append(addThis);
+        
+        if(addThis->d->parentGameObject)
+            addThis->d->parentGameObject->removeChild(addThis);
+        
         addThis->d->parentGameObject = this;
-        if(addThis->parent() == 0) addThis->setParent(this);
+        Gluon::GluonObject::addChild(addThis);
     }
 }
 

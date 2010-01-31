@@ -55,6 +55,12 @@ namespace GluonEngine
              * @return The serialised contents of the asset
              */
             virtual QString contentsToGDL() = 0;
+            
+            /**
+             * Set this to true any time you do anything to the asset which would
+             * be considered a change to the data represented by it
+             */
+            bool savableDirty;
     };
 }
 

@@ -101,6 +101,11 @@ GluonObject::sanitize()
             currentParent = currentParent->parent();
         }
     }
+    
+    if(!gameProject())
+    {
+        DEBUG_TEXT(QString("GameProject is null, we must thus fail at sanitizing"))
+    }
 
     // Run through all properties, check whether they are set to the correct
     // value. If they should be pointing to something, make them!
@@ -375,8 +380,8 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         value = theValue.toFloat();
     } else if(theTypeName == "int") {
         value = theValue.toInt();
-    } else if(theTypeName == "file" ) {
-        DEBUG_TEXT(QString("Setting property from file"));
+    } else if(theTypeName == "file" || theTypeName == "url") {
+        DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
         value = QVariant(QUrl(theValue));
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
@@ -423,9 +428,9 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     QColor theColor;
     switch(theValue.type())
     {
-//        case QVariant::UserType:
-//            int id = QMetaType::type(types.at(i));
-//            break;
+/*        case QVariant::UserType:
+            int id = QMetaType::type(types.at(i));
+            break;*/
         case QVariant::String:
             if(!theValue.toString().isEmpty())
                 value = "string(" + theValue.toString() + ')';
@@ -437,6 +442,8 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Double:
             if(theValue.toDouble() != 0)
                 value = QString("float(%1)").arg(theValue.toDouble());
+            break;
+        case QVariant::Vector3D:
             break;
         case QVariant::Int:
             if(theValue.toInt() != 0)
@@ -469,6 +476,11 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
                     value = QString("Gluon::GluonObject()");
                     DEBUG_TEXT(QString("Invalid object reference!"));
                 }
+            }
+            if(theValue.canConvert<Eigen::Vector3f>())
+            {
+                Eigen::Vector3f theVector = theValue.value<Eigen::Vector3f>();
+                value = QString("vector3d(%1,%2,%3)").arg(theVector.x()).arg(theVector.y()).arg(theVector.z());
             }
             else
             {

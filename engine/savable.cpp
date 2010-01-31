@@ -64,5 +64,9 @@ Savable::saveToFile(Asset* asset)
     savableFile->close();
 
     delete(savableFile);
+    
+    // Remember to undirty yourself
+    if(dynamic_cast<Savable*>(asset))
+        dynamic_cast<Savable*>(asset)->savableDirty = false;
     return true;
 }

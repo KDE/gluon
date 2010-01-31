@@ -38,7 +38,9 @@ namespace GluonEngine
             GamePrivate();
             GamePrivate(const GamePrivate &other);
             ~GamePrivate();
-
+            
+	    static Scene * findSceneInChildren(QObject * object);
+            
             QTime time;
             bool gameRunning;
             bool gamePaused;

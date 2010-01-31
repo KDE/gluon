@@ -25,7 +25,7 @@ namespace Gluon
 {
 class SoundAsset;
 
-class SoundEmitterComponent : public Component
+class GLUON_EXPORT SoundEmitterComponent : public Component
 {
     Q_OBJECT
     Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)

@@ -20,6 +20,7 @@
 #include "sceneprivate.h"
 #include "scene.h"
 #include "gameobject.h"
+#include "debughelper.h"
 
 #include "core/gdlhandler.h"
 
@@ -33,6 +34,7 @@ ScenePrivate::ScenePrivate(Scene* q)
 {
     this->q = q;
 
+    sceneContentsLoaded = false;
     sceneContents = new GameObject(q);
     sceneContents->setName(q->name());
 }
@@ -44,34 +46,63 @@ ScenePrivate::ScenePrivate::~ScenePrivate()
 void
 ScenePrivate::unloadContents()
 {
+    if(sceneContentsLoaded)
+        qDeleteAll(sceneContents->children());
+    sceneContentsLoaded = false;
 }
 
 void
 ScenePrivate::loadContents(const QUrl& file)
 {
-    delete(sceneContents);
+    DEBUG_FUNC_NAME
+    if(file.isEmpty())
+    {
+        DEBUG_TEXT(QString("Filename for scene was empty, so we can't load - aborting"));
+        return;
+    }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
-    if(!sceneFile->open(QIODevice::ReadOnly))
+    if(!sceneFile->exists())
+    {
+        DEBUG_TEXT(QString("File %1 does not exist, aborting scene load").arg(file.toLocalFile()));
         return;
+    }
+    
+    if(!sceneFile->open(QIODevice::ReadOnly))
+    {
+        DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
+        return;
+    }
 
     QTextStream sceneReader(sceneFile);
     QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
     sceneFile->close();
     delete(sceneFile);
 
-    if(sceneContents) delete sceneContents;
-    sceneContents = new GameObject(q);
-    foreach(GluonCore::GluonObject * child, theContents)
-        sceneContents->addChild(child);
+    if(sceneContents)
+        delete sceneContents;
+    /*sceneContents = new GameObject(q);
+    foreach(GluonObject * child, theContents)
+        sceneContents->addChild(child);*/
+    if(theContents.count() > 0)
+        sceneContents = qobject_cast<GluonEngine::GameObject*>(theContents.at(0));
+    if(!sceneContents)
+        sceneContents = new GluonEngine::GameObject(q);
+    
+    sceneContents->sanitize();
+    sceneContentsLoaded = true;
+    q->savableDirty = false;
+    
+    sceneContents->setName(q->name());
 }
 
 void
 ScenePrivate::saveContents(const QUrl& file)
 {
     QList<const GluonCore::GluonObject*> scene;
-    foreach(const QObject *item, sceneContents->children())
+    foreach(const QObject *item, sceneContents->children()) {
         scene.append(qobject_cast<const GluonCore::GluonObject*>(item));
+    }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
     if(!sceneFile->open(QIODevice::WriteOnly))
@@ -82,4 +113,5 @@ ScenePrivate::saveContents(const QUrl& file)
     sceneWriter.flush();
     sceneFile->close();
     delete(sceneFile);
+    q->savableDirty = false;
 }
