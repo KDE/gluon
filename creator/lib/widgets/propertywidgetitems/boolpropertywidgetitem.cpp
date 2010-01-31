@@ -22,7 +22,7 @@
 
 #include <QtGui/QCheckBox>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)

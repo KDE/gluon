@@ -46,13 +46,13 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
     {
         /*if(!m_root)
             m_root = new GameObject(this);
-        
+
         if(m_root->childCount() > 0)
             m_root->removeChild(m_root->childGameObject(0));
 
         m_root->addChild(obj);*/
         m_root = obj;
-        
+
         reset();
     }
 }
@@ -96,10 +96,10 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
         return QModelIndex();
 
     GluonEngine::GameObject *childItem = static_cast<GluonEngine::GameObject*>(child.internalPointer());
-    
+
     if(!childItem)
         return QModelIndex();
-    
+
     GluonEngine::GameObject *parentItem = childItem->parentGameObject();
 
     if (parentItem == m_root)
@@ -175,23 +175,23 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
     Q_UNUSED(row)
     Q_UNUSED(column)
     DEBUG_FUNC_NAME
-    
+
     if(action == Qt::IgnoreAction)
         return false;
 
     if(!parent.isValid())
         return false;
-    
-    GameObject *gobj = qobject_cast<GameObject*>((QObject*)parent.internalPointer());
-    
+
+    GluonEngine::GameObject *gobj = qobject_cast<GluonEngine::GameObject*>((QObject*)parent.internalPointer());
+
     if(!gobj)
         return false;
-    
+
     foreach(QString something, data->formats())
     {
         DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
     }
-    
+
     QByteArray encodedData = data->data("application/gluon.text.componentclass");
     QDataStream stream(&encodedData, QIODevice::ReadOnly);
     QStringList newItems;
@@ -207,7 +207,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
     foreach(QString text, newItems)
     {
         DEBUG_TEXT(QString("Adding component of class %1").arg(text));
-        GluonObject *component = Gluon::GluonObjectFactory::instance()->instantiateObjectByName(text);
+        GluonCore::GluonObject *component = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(text);
         if(!component)
         {
             DEBUG_TEXT("Returned component instance was null, something's fishy");
@@ -216,10 +216,10 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         {
             DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
             #warning This should be a qobject_cast, but that for some reason returns a null object
-            gobj->addComponent(reinterpret_cast<Gluon::Component*>(component));
+            gobj->addComponent(reinterpret_cast<GluonEngine::Component*>(component));
         }
     }
-    
+
     return true;
 }
 

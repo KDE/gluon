@@ -15,13 +15,15 @@
 */
 
 #include "objectmanager.h"
-#include "debughelper.h"
 
+#include <KLocalizedString>
+
+#include <core/debughelper.h>
+#include <core/gameproject.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>
-#include <KLocalizedString>
 #include <engine/game.h>
-#include <core/gameproject.h>
+
 #include "selectionmanager.h"
 
 using namespace GluonCreator;
@@ -51,7 +53,7 @@ GluonEngine::GameObject* ObjectManager::createNewObject()
         DEBUG_TEXT(QString("No parent game object yet - assign as child to Scene root"));
         GluonEngine::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
     }
-    
+
     // Remember to mark the current scene dirty
     GluonEngine::Game::instance()->currentScene()->savableDirty = true;
 

@@ -23,22 +23,19 @@
 
 #include "propertywidgetitem.h"
 
-namespace Gluon
+namespace GluonCreator
 {
-    namespace Creator
+    class BoolPropertyWidgetItem : public PropertyWidgetItem
     {
-        class BoolPropertyWidgetItem : public PropertyWidgetItem
-        {
-            Q_OBJECT
-            public:
-                BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-                ~BoolPropertyWidgetItem();
-                
-            public slots:
-                void setEditValue(const QVariant& value);
-                void toggled(bool checked);
-        };
-    }
+        Q_OBJECT
+        public:
+            BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~BoolPropertyWidgetItem();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+            void toggled(bool checked);
+    };
 }
 
 #endif // GLUON_CREATOR_BOOLPROPERTYWIDGET_H

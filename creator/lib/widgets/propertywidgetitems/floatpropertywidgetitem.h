@@ -23,22 +23,19 @@
 
 #include "propertywidgetitem.h"
 
-namespace Gluon
+namespace GluonCreator
 {
-    namespace Creator
+    class FloatPropertyWidgetItem : public PropertyWidgetItem
     {
-        class FloatPropertyWidgetItem : public PropertyWidgetItem
-        {
-            Q_OBJECT
-            public:
-                FloatPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-                ~FloatPropertyWidgetItem();
-                
-            public slots:
-                void setEditValue(const QVariant& value);
-                void floatValueChanged(double value);
-        };
-    }
+        Q_OBJECT
+        public:
+            FloatPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~FloatPropertyWidgetItem();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+            void floatValueChanged(double value);
+    };
 }
 
 #endif // GLUON_CREATOR_FLOATPROPERTYWIDGET_H

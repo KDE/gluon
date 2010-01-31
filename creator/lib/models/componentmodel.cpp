@@ -22,7 +22,7 @@
 
 #include <QtCore/QMimeData>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 ComponentModel::ComponentModel(QObject* parent)
     : QStringListModel(parent)

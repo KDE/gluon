@@ -22,7 +22,7 @@
 
 #include <QtGui/QSpinBox>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)

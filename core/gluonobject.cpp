@@ -21,6 +21,7 @@
 #include "gluonobjectprivate.h"
 #include "gameproject.h"
 #include "debughelper.h"
+#include "gluonvarianttypes.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QPointF>
@@ -101,7 +102,7 @@ GluonObject::sanitize()
             currentParent = currentParent->parent();
         }
     }
-    
+
     if(!gameProject())
     {
         DEBUG_TEXT(QString("GameProject is null, we must thus fail at sanitizing"))

@@ -20,6 +20,7 @@
 #include <QtGui/QListWidget>
 #include <QtGui/QStringListModel>
 #include <KDebug>
+
 #include <core/gluonobjectfactory.h>
 #include <core/gluonobject.h>
 #include <engine/component.h>
@@ -53,7 +54,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     {
         if(obj->inherits("Gluon::Component"))
         {
-            list << obj->metaObject()->className();            
+            list << obj->metaObject()->className();
         }
     }
     d->model = new ComponentModel(this);

@@ -22,24 +22,20 @@
 #define GLUON_CREATOR_COMPONENTMODEL_H
 
 #include <QtGui/QStringListModel>
-#include "gluoncreatorlib_macros.h"
+#include "gluoncreator_macros.h"
 
-namespace Gluon {
+namespace GluonCreator {
 
-namespace Creator {
-
-class GLUONCREATORLIB_EXPORT ComponentModel : public QStringListModel
+class GLUONCREATOR_EXPORT ComponentModel : public QStringListModel
 {
     Q_OBJECT
     public:
         ComponentModel(QObject * parent = 0);
-        
+
         virtual Qt::ItemFlags flags(const QModelIndex &index) const;
         virtual QStringList mimeTypes() const;
         virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
 };
-
-}
 
 }
 

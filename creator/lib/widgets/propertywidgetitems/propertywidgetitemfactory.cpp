@@ -15,7 +15,8 @@
 */
 
 #include "propertywidgetitemfactory.h"
-#include "debughelper.h"
+
+#include <core/debughelper.h>
 
 #include "nullpropertywidgetitem.h"
 #include "textpropertywidgetitem.h"
@@ -32,7 +33,7 @@ template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFac
 PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
     DEBUG_BLOCK
-    
+
     if(type == "QString")
         return new TextPropertyWidgetItem(parent);
     if(type == "Eigen::Vector3f")

@@ -22,7 +22,7 @@
 
 #include <QtGui/QDoubleSpinBox>
 
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)

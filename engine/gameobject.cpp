@@ -30,11 +30,11 @@ GameObject::GameObject(QObject * parent)
     : GluonObject(parent)
 {
     d = new GameObjectPrivate;
-    
-    setPosition(Vector3f(0,0,0));
-    setScale(Vector3f(1,1,1));
-    setRotationAxis(Vector3f::Identity());
-    
+
+    setPosition(Eigen::Vector3f(0,0,0));
+    setScale(Eigen::Vector3f(1,1,1));
+    setRotationAxis(Eigen::Vector3f::Identity());
+
     updateTransform();
 }
 
@@ -289,12 +289,12 @@ GameObject::addChild(GameObject * addThis)
     else if(!d->children.contains(addThis))
     {
         d->children.append(addThis);
-        
+
         if(addThis->d->parentGameObject)
             addThis->d->parentGameObject->removeChild(addThis);
-        
+
         addThis->d->parentGameObject = this;
-        Gluon::GluonObject::addChild(addThis);
+        GluonCore::GluonObject::addChild(addThis);
     }
 }
 

@@ -15,17 +15,16 @@
 */
 
 #include "scenedock.h"
-#include "models/scenemodel.h"
-#include "selectionmanager.h"
-#include "debughelper.h"
 
 #include <QtGui/QTreeView>
 
-#include <models/scenemodel.h>
+#include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
-#include <selectionmanager.h>
 #include <engine/scene.h>
+
+#include <selectionmanager.h>
+#include <models/scenemodel.h>
 
 using namespace GluonCreator;
 
@@ -46,9 +45,9 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d->view = new QTreeView(this);
     d->model = new SceneModel(d->view);
     setWidget(d->view);
-    
-    d->model->setRootGameObject(Game::instance()->currentScene()->sceneContents());
-    connect(Game::instance(), SIGNAL(currentSceneChanged(Scene*)), SLOT(sceneChanged(Scene*)));
+
+    d->model->setRootGameObject(GluonEngine::Game::instance()->currentScene()->sceneContents());
+    connect(GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)));
 
     d->view->setModel(d->model);
     d->view->setDragEnabled(true);

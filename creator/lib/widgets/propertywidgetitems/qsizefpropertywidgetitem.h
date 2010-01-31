@@ -24,27 +24,24 @@
 #include "propertywidgetitem.h"
 
 class QDoubleSpinBox;
-namespace Gluon
+namespace GluonCreator
 {
-    namespace Creator
+    class QSizeFPropertyWidgetItem : public PropertyWidgetItem
     {
-        class QSizeFPropertyWidgetItem : public PropertyWidgetItem
-        {
-            Q_OBJECT
-            public:
-                QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-                ~QSizeFPropertyWidgetItem();
-                
-            public slots:
-                void setEditValue(const QVariant& value);
-                void heightValueChanged(double value);
-                void widthValueChanged(double value);
-                
-            private:
-                class QSizeFPropertyWidgetItemPrivate;
-                QSizeFPropertyWidgetItemPrivate* d;
-        };
-    }
+        Q_OBJECT
+        public:
+            QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~QSizeFPropertyWidgetItem();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+            void heightValueChanged(double value);
+            void widthValueChanged(double value);
+
+        private:
+            class QSizeFPropertyWidgetItemPrivate;
+            QSizeFPropertyWidgetItemPrivate* d;
+    };
 }
 
 #endif // GLUON_CREATOR_QSIZEFPROPERTYWIDGET_H

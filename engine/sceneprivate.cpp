@@ -20,9 +20,9 @@
 #include "sceneprivate.h"
 #include "scene.h"
 #include "gameobject.h"
-#include "debughelper.h"
 
-#include "core/gdlhandler.h"
+#include <core/debughelper.h>
+#include <core/gdlhandler.h>
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
@@ -67,7 +67,7 @@ ScenePrivate::loadContents(const QUrl& file)
         DEBUG_TEXT(QString("File %1 does not exist, aborting scene load").arg(file.toLocalFile()));
         return;
     }
-    
+
     if(!sceneFile->open(QIODevice::ReadOnly))
     {
         DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
@@ -88,11 +88,11 @@ ScenePrivate::loadContents(const QUrl& file)
         sceneContents = qobject_cast<GluonEngine::GameObject*>(theContents.at(0));
     if(!sceneContents)
         sceneContents = new GluonEngine::GameObject(q);
-    
+
     sceneContents->sanitize();
     sceneContentsLoaded = true;
     q->savableDirty = false;
-    
+
     sceneContents->setName(q->name());
 }
 
