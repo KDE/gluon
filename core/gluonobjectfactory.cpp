@@ -111,6 +111,15 @@ GluonObjectFactory::loadPlugins()
     if(pluginDir.cd("/usr/lib64"))
         pluginDirs.append(pluginDir);
 
+    if(pluginDir.cd("/usr/lib/gluon"))
+        pluginDirs.append(pluginDir);
+
+    if(pluginDir.cd("/usr/lib64/gluon"))
+        pluginDirs.append(pluginDir);
+
+    if(pluginDir.cd("/usr/local/lib/gluon"))
+        pluginDirs.append(pluginDir);
+
     if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
         pluginDirs.append(pluginDir);
 
@@ -123,7 +132,7 @@ GluonObjectFactory::loadPlugins()
         foreach (QString fileName, theDir.entryList(QDir::Files))
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
-            if(!fileName.contains("gluon_plugin_"))
+            if(!fileName.contains("gluon"))
                 continue;
 
             // Don't attempt to load non-libraries
