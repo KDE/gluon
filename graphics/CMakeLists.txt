@@ -20,6 +20,14 @@ include_directories(
     ${GLEW_INCLUDE_DIR}
 )
 
+set(GLUON_GRAPHICS_INCLUDES
+    ${GLUON_CORE_INCLUDES}
+
+    ${OPENGL_INCLUDE_DIR}
+    ${GLEW_INCLUDE_DIR}
+    CACHE PATHS "Includes required for Gluon Graphics"
+)
+
 set(GluonGraphics_SRCS
     camera.cpp
     glwidget.cpp
@@ -45,17 +53,25 @@ set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} S
 
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonGraphics GluonCore)
-    target_link_libraries(GluonGraphics GluonCore)
-else(GLUON_BUILD_ALL)
-    target_link_libraries(GluonGraphics ${GLUON_CORE_LIBS})
 endif()
 
 target_link_libraries(
     GluonGraphics
+    ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
     ${OPENGL_gl_LIBRARY}
     ${OPENGL_glu_LIBRARY}
     ${GLEW_LIBRARY}
+)
+
+set(GLUON_GRAPHICS_LIBS
+    GluonGraphics
+    ${GLUON_CORE_LIBS}
+    ${QT_QTOPENGL_LIBRARY}
+    ${OPENGL_gl_LIBRARY}
+    ${OPENGL_glu_LIBRARY}
+    ${GLEW_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
 install(TARGETS GluonGraphics DESTINATION ${LIB_INSTALL_DIR})

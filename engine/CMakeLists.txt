@@ -5,18 +5,40 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
+option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
+option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
+option(BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON)
+option(BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON)
+option(BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON)
+option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF)
+option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
+option(BUILD_OTHER_COMPONENTS "Build other Components" OFF)
+option(BUILD_OTHER_ASSETS "Build other Assets" OFF)
 
-include_directories(${GLUON_CORE_INCLUDES})
+if(NOT BUILD_GLUON_AUDIO)
+    set(BUILD_AUDIO_COMPONENTS OFF)
+    set(BUILD_AUDIO_ASSETS OFF)
+endif()
+if(NOT BUILD_GLUON_GRAPHICS)
+    set(BUILD_GRAPHICS_ASSETS OFF)
+    set(BUILD_GRAPHICS_COMPONENTS OFF)
+endif()
+if(NOT BUILD_GLUON_INPUT)
+    set(BUILD_INPUT_ASSETS OFF)
+    set(BUILD_INPUT_COMPONENTS OFF)
+endif()
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${GLUON_CORE_INCLUDES}
 )
 
-#TODO: Make the assets and components build.
-#add_subdirectory(assets)
-#add_subdirectory(components)
+add_subdirectory(assets)
+add_subdirectory(components)
 
 set(GluonEngine_SRCS
     savable.cpp
@@ -40,12 +62,18 @@ qt4_automoc(${GluonEngine_SRCS})
 add_library(GluonEngine SHARED ${GluonEngine_SRCS})
 
 set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)
-    target_link_libraries(GluonEngine GluonCore)
-else()
-    target_link_libraries(GluonEngine ${GLUON_CORE_LIBS})
 endif()
+
+target_link_libraries(GluonEngine ${GLUON_CORE_LIBS})
+
+set(GLUON_ENGINE_LIBS
+    GluonEngine
+    ${GLUON_CORE_LIBS}
+    CACHE PATHS "Libraries required for Gluon Engine"
+)
 
 install(TARGETS GluonEngine DESTINATION ${LIB_INSTALL_DIR})
 

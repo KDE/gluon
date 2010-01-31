@@ -36,7 +36,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(GLUON_CORE_INCLUDES
     ${QT_INCLUDES}
     ${EIGEN2_INCLUDE_DIR}
-    CACHE STRING "Gluon Core required includes"
+    CACHE PATHS "Includes required for Gluon Core"
 )
 
 set(GluonCore_SRCS
@@ -53,6 +53,13 @@ qt4_automoc(${GluonCore_SRCS})
 add_library(GluonCore SHARED ${GluonCore_SRCS})
 
 target_link_libraries(GluonCore ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+
+set(GLUON_CORE_LIBS
+    GluonCore
+    ${QT_QTCORE_LIBRARY}
+    ${QT_QTGUI_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Core"
+)
 
 set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 

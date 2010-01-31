@@ -24,6 +24,15 @@ include_directories(
     ${VORBISFILE_INCLUDE_DIR}
 )
 
+set(GLUON_AUDIO_INCLUDES
+    ${GLUON_CORE_INCLUDES}
+
+    ${OPENAL_INCLUDE_DIR}
+    ${SNDFILE_INCLUDE_DIR}
+    ${OGG_INCLUDE_DIR}
+    ${VORBISFILE_INCLUDE_DIR}
+    CACHE PATHS "Includes required for Gluon Audio"
+)
 
 set(GluonAudio_SRCS
     engine.cpp
@@ -42,17 +51,25 @@ add_library(GluonAudio SHARED ${GluonAudio_SRCS})
 
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
-    target_link_libraries(GluonAudio GluonCore)
-else(GLUON_BUILD_ALL)
-    target_link_libraries(GluonAudio ${GLUON_CORE_LIBS})
 endif()
 
 target_link_libraries(
     GluonAudio
+    ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
     ${SNDFILE_LIBRARY}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
+)
+
+set(GLUON_AUDIO_LIBS
+    GluonAudio
+    ${GLUON_CORE_LIBS}
+    ${OPENAL_LIBRARY}
+    ${SNDFILE_LIBRARY}
+    ${OGG_LIBRARY}
+    ${VORBISFILE_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon audio"
 )
 
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
