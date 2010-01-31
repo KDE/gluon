@@ -33,7 +33,7 @@
 #ifdef Q_WS_MAC
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
-#include <OpenAL/alext.h>
+//#include <OpenAL/alext.h> // not supported under OS X
 #endif
 
 //#include <QtCore/QCoreApplication>
@@ -104,7 +104,15 @@ KALEngine *KALEngine::instance(Phonon::Category category)
 
 QStringList KALEngine::deviceList()
 {
-    return KALDevice::contextOption(ALC_ALL_DEVICES_SPECIFIER);
+    if (!KALDevice::isExtensionPresent("ALC_ENUMERATION_EXT")) {
+        return QStringList();
+    }
+
+    if (KALDevice::isExtensionPresent("ALC_ENUMERATE_ALL_EXT")) {
+        return KALDevice::contextOption(ALC_ALL_DEVICES_SPECIFIER);
+    } else {
+        return KALDevice::contextOption(ALC_DEVICE_SPECIFIER);
+    }
 }
 
 bool KALEngine::setDevice(const QString &deviceName)
