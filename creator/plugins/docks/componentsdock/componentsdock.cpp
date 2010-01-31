@@ -23,6 +23,7 @@
 
 #include <core/gluonobjectfactory.h>
 #include <core/gluonobject.h>
+#include <core/debughelper.h>
 #include <engine/component.h>
 
 using namespace GluonCreator;
@@ -38,6 +39,7 @@ class ComponentsDock::ComponentsDockPrivate
 
 ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
 {
+    DEBUG_FUNC_NAME
     setObjectName("ComponentsDock");
 
     d = new ComponentsDockPrivate();
@@ -52,7 +54,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     QStringList list;
     foreach(GluonCore::GluonObject* obj, objectTypes)
     {
-        if(obj->inherits("Gluon::Component"))
+        if(obj->inherits("GluonEngine::Component"))
         {
             list << obj->metaObject()->className();
         }
