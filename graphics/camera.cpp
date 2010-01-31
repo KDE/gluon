@@ -3,6 +3,8 @@
 
 #include <glew.h>
 
+#include <Eigen/LU>
+
 using namespace GluonGraphics;
 
 Camera::Camera()
@@ -208,3 +210,5 @@ Eigen::Vector3f Camera::unProject(const Eigen::Vector3f& v, bool* ok) const
     }
     return a.start<3>() / a.w();
 }
+
+#include "camera.moc"
