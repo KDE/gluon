@@ -27,6 +27,18 @@ set(GLUON_VERSION_MINOR     60      CACHE STRING "Gluon Minor Version")
 set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
 
+if(NOT LIB_SUFFIX)
+    set(_Init_LIB_SUFFIX "")
+    if ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
+        set(_Init_LIB_SUFFIX 64)
+    endif ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
+    if ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
+        set(_Init_LIB_SUFFIX 32)
+    endif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
+
+    set(LIB_SUFFIX              ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
+endif(NOT LIB_SUFFIX)
+
 if(NOT INCLUDE_INSTALL_DIR)
     set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
 endif()
