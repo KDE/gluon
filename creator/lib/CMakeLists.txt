@@ -63,6 +63,6 @@ install(FILES
 
 install(FILES
     cmake/FindGluonCreator.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/${cmakeFiles}
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake/${cmakeFiles}
     COMPONENT Devel
 )
