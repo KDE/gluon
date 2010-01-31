@@ -16,9 +16,9 @@
 
 #include "soundlistenercomponent.h"
 
-REGISTER_OBJECTTYPE(Gluon,SoundListenerComponent)
+REGISTER_OBJECTTYPE(GluonEngine,SoundListenerComponent)
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
 
@@ -27,12 +27,12 @@ SoundListenerComponent::SoundListenerComponent(QObject *parent)
 {
 }
 
-SoundListenerComponent::SoundListenerComponent(const Gluon::SoundListenerComponent &other)
+SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &other)
     : Component(other)
 {
 }
 
-GluonObject *SoundListenerComponent::instantiate()
+GluonCore::GluonObject *SoundListenerComponent::instantiate()
 {
     return new SoundListenerComponent(this);
 }
@@ -57,5 +57,7 @@ SoundListenerComponent *SoundListenerComponent::activeInstance()
 {
     return m_activeInstance;
 }
+
+Q_EXPORT_PLUGIN2(gluon_component_soundlistener, GluonEngine::SoundListenerComponent)
 
 #include "soundlistenercomponent.moc"

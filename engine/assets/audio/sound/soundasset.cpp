@@ -16,9 +16,9 @@
 
 #include "soundasset.h"
 
-REGISTER_OBJECTTYPE(Gluon,SoundAsset)
+REGISTER_OBJECTTYPE(GluonEngine,SoundAsset)
 
-using namespace Gluon;
+using namespace GluonEngine;
 
 SoundAsset::SoundAsset(QObject *parent)
     : Asset(parent),
@@ -27,7 +27,7 @@ SoundAsset::SoundAsset(QObject *parent)
     connect(this, SIGNAL(dataChanged()), this, SLOT(updateBuffer()));
 }
 
-Gluon::GluonObject *SoundAsset::instantiate()
+GluonCore::GluonObject *SoundAsset::instantiate()
 {
     return new SoundAsset(this);
 }
@@ -38,7 +38,9 @@ void SoundAsset::updateBuffer()
         delete m_buffer;
     }
 
-    m_buffer = new KALBuffer(file().toLocalFile());
+    m_buffer = new GluonAudio::Buffer(file().toLocalFile());
 }
+
+Q_EXPORT_PLUGIN2(gluon_asset_sound, GluonEngine::SoundAsset)
 
 #include "soundasset.moc"

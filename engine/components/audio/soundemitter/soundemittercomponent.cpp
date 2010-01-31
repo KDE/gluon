@@ -16,18 +16,16 @@
 
 #include "soundemittercomponent.h"
 
-#include "soundlistenercomponent.h"
-#include "kal/kalengine.h"
-#include "kal/kalsound.h"
-#include "assets/soundasset/soundasset.h"
-#include "gameproject/gameobject.h"
-
 #include <QtCore/QDebug>
 
-REGISTER_OBJECTTYPE(Gluon,SoundEmitterComponent)
+#include <audio/engine.h>
+#include <audio/sound.h>
+#include <engine/assets/audio/sound/soundasset.h>
+#include <engine/gameobject.h>
 
-using namespace Gluon;
-using namespace Eigen;
+REGISTER_OBJECTTYPE(GluonEngine,SoundEmitterComponent)
+
+using namespace GluonEngine;
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
     : Component(parent),
@@ -35,12 +33,12 @@ SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
 {
 }
 
-SoundEmitterComponent::SoundEmitterComponent(const Gluon::SoundEmitterComponent &other)
+SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
     : Component(other)
 {
 }
 
-GluonObject *SoundEmitterComponent::instantiate()
+GluonCore::GluonObject *SoundEmitterComponent::instantiate()
 {
     return new SoundEmitterComponent(this);
 }
@@ -48,7 +46,7 @@ GluonObject *SoundEmitterComponent::instantiate()
 
 void SoundEmitterComponent::play()
 {
-    KALEngine::instance();
+    GluonAudio::Engine::instance();
 
     m_sound->play();
 }
@@ -66,19 +64,16 @@ void SoundEmitterComponent::setSound(SoundAsset *asset)
     }
 
     m_soundAsset = asset;
-    m_sound = new KALSound(m_soundAsset->buffer());
+    m_sound = new GluonAudio::Sound(m_soundAsset->buffer());
 }
 
 void SoundEmitterComponent::Update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
-    SoundListenerComponent *listener = SoundListenerComponent::activeInstance();
-    if (!listener->effectsEnabled()) {
-        return;
-    }
 
-    Vector3f relativePosition = gameObject()->position() - listener->gameObject()->position();
-    m_sound->setPosition(relativePosition);
+    m_sound->setPosition(gameObject()->positionGlobal());
 }
+
+Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)
 
 #include "soundemittercomponent.moc"

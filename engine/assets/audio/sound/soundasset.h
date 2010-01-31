@@ -14,43 +14,34 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_SOUNDEMITTERCOMPONENT_H
-#define GLUON_SOUNDEMITTERCOMPONENT_H
+#ifndef GLUON_ENGINE_SOUNDASSET_H
+#define GLUON_ENGINE_SOUNDASSET_H
 
-#include "component.h"
+#include <engine/asset.h>
+#include <engine/gluon_engine_export.h>
+#include <audio/buffer.h>
 
-class KALSound;
+namespace GluonEngine {
 
-namespace Gluon
+class GLUON_ENGINE_EXPORT SoundAsset : public Asset
 {
-class SoundAsset;
-
-class GLUON_EXPORT SoundEmitterComponent : public Component
-{
-    Q_OBJECT
-    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
-
+Q_OBJECT
+Q_INTERFACES(GluonEngine::Asset)
 public:
-    SoundEmitterComponent(QObject *parent = 0);
-    SoundEmitterComponent(const Gluon::SoundEmitterComponent &other);
+    SoundAsset(QObject *parent = 0);
 
-    virtual GluonObject *instantiate();
+    virtual GluonCore::GluonObject *instantiate();
 
-    SoundAsset *sound() {
-        return m_soundAsset;
+    GluonAudio::Buffer *buffer() {
+        return m_buffer;
     }
 
-    void setSound(SoundAsset *asset);
-
-    void play();
-    void stop();
+private Q_SLOTS:
+    void updateBuffer();
 
 private:
-    virtual void Update(int elapsedMilliseconds);
-    KALSound *m_sound;
-    SoundAsset *m_soundAsset;
+    GluonAudio::Buffer *m_buffer;
 };
 
 }
-
-#endif // GLUON_SOUNDEMITTERCOMPONENT_H
+#endif // SOUNDASSET_H

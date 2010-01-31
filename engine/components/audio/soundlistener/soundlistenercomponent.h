@@ -14,36 +14,35 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef SOUNDLISTENERCOMPONENT_H
-#define SOUNDLISTENERCOMPONENT_H
+#ifndef GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H
+#define GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H
 
-#include "component.h"
-#include "gluonvarianttypes.h"
-#include "gluon_export.h"
+#include <core/gluonvarianttypes.h>
+#include <engine/component.h>
+#include <engine/gluon_engine_export.h>
 
-namespace Gluon
+namespace GluonEngine
 {
 
-class GLUON_EXPORT SoundListenerComponent : public Component
+class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
 
+    Q_INTERFACES(GluonEngine::Component)
+
 public:
     SoundListenerComponent(QObject *parent = 0);
-    SoundListenerComponent(const Gluon::SoundListenerComponent &other);
+    SoundListenerComponent(const SoundListenerComponent &other);
 
-    virtual GluonObject *instantiate();
+    virtual GluonCore::GluonObject *instantiate();
 
     virtual void Update(int elapsedMilliseconds);
 
     void setActive(bool active);
     bool isActive() {
-        if (m_activeInstance != this) {
-            return false;
-        }
-        return true;
+        return m_activeInstance == this;
     }
 
     void setEffectsEnabled(bool enable);
@@ -61,4 +60,4 @@ private:
 
 }
 
-#endif // SOUNDLISTENERCOMPONENT_H
+#endif // GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H

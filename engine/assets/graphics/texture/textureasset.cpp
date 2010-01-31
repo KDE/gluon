@@ -14,20 +14,21 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <QtGui/QImage>
-#include <kgl/kgltexture.h>
-
 #include "textureasset.h"
+
 #include <QtCore/QUrl>
+#include <QtGui/QImage>
 
-REGISTER_OBJECTTYPE(Gluon,TextureAsset)
+#include <graphics/texture.h>
 
-using namespace Gluon;
+REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
 
-class Gluon::TextureAssetPrivate {
+using namespace GluonEngine;
+
+class TextureAsset::TextureAssetPrivate {
 public:
     TextureAssetPrivate() {
-        texture = new KGLTexture;
+        texture = new GluonGraphics::Texture;
         image = new QImage;
     }
     ~TextureAssetPrivate() {
@@ -35,7 +36,7 @@ public:
         delete image;
     }
 
-    KGLTexture *texture;
+    GluonGraphics::Texture *texture;
     QImage *image;
 };
 
@@ -47,8 +48,7 @@ TextureAsset::TextureAsset (QObject *parent) :
 
 TextureAsset::~TextureAsset()
 {
-    delete d->texture;
-    delete d->image;
+    delete d;
 }
 
 void TextureAsset::load()
@@ -57,9 +57,11 @@ void TextureAsset::load()
     d->texture->load(*d->image, d->image->width(), d->image->height());
 }
 
-Gluon::GluonObject* Gluon::TextureAsset::instantiate()
+GluonCore::GluonObject* TextureAsset::instantiate()
 {
     return new TextureAsset(this);
 }
+
+Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)
 
 #include "textureasset.moc"

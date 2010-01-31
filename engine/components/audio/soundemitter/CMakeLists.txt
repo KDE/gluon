@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 2.6)
+
+if(NOT GLUON_BUILD_ALL)
+    find_package(GluonAudio REQUIRED)
+endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_AUDIO_INCLUDES})
+
+set(soundemittercomponent_SRCS
+    soundemittercomponent.cpp
+)
+
+qt4_automoc(${soundemittercomponent_SRCS})
+add_library(gluon_component_soundemitter SHARED ${soundemittercomponent_SRCS})
+
+if(GLUON_BUILD_ALL)
+    add_dependencies(gluon_component_soundemitter GluonEngine GluonAudio gluon_asset_sound)
+endif()
+
+target_link_libraries(gluon_component_soundemitter GluonEngine ${GLUON_AUDIO_LIBS} gluon_asset_sound)
+
+install(
+    TARGETS
+    gluon_component_soundemitter
+    DESTINATION
+    ${LIB_INSTALL_DIR}/gluon
+)

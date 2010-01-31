@@ -1,0 +1,18 @@
+#Use this to add new assets to the build
+#add_subdirectory($TYPE/someasset)
+
+if(BUILD_AUDIO_ASSETS)
+    add_subdirectory(audio/sound)
+endif()
+if(BUILD_GRAPHICS_ASSETS)
+    add_subdirectory(graphics/texture)
+endif()
+if(BUILD_INPUT_ASSETS)
+    #add_subdirectory(input/asset)
+endif()
+if(BUILD_PHYSICS_ASSETS)
+    #add_subdirectory(physics/asset)
+endif()
+if(BUILD_OTHER_ASSETS)
+    #add_subdirectory(other/asset)
+endif()

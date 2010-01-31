@@ -14,29 +14,33 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_TEXTUREASSET_H
-#define GLUON_TEXTUREASSET_H
-#include "gameproject/asset.h"
+#ifndef GLUON_ENGINE_TEXTUREASSET_H
+#define GLUON_ENGINE_TEXTUREASSET_H
 
-namespace Gluon
+#include <gluon_engine_export.h>
+#include <asset.h>
+
+namespace GluonEngine
 {
 
-class TextureAssetPrivate;
-class TextureAsset : public Asset
+class GLUON_ENGINE_EXPORT TextureAsset : public Asset
 {
-Q_OBJECT
-public:
-    TextureAsset(QObject *parent = 0);
-    ~TextureAsset();
+    Q_OBJECT
+    Q_INTERFACES(GluonEngine::Asset)
 
-    GluonObject* instantiate();
+    public:
+        TextureAsset(QObject *parent = 0);
+        ~TextureAsset();
 
-    void load();
+        GluonObject* instantiate();
 
-private:
-    TextureAssetPrivate *d;
+        void load();
+
+    private:
+        class TextureAssetPrivate;
+        TextureAssetPrivate *d;
 };
 
 }
 
-#endif // GLUON_TEXTUREASSET_H
+#endif // GLUON_ENGINE_TEXTUREASSET_H
