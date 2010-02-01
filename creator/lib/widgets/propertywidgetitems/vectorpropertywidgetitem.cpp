@@ -21,7 +21,7 @@
 #include <QDoubleSpinBox>
 #include <cfloat>
 
-#include <gluon/gluonvarianttypes.h>
+#include <core/gluonvarianttypes.h>
 
 using namespace GluonCreator;
 
