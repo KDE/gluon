@@ -55,6 +55,12 @@ GluonObjectFactory::objectTypeIDs() const
     return m_objectTypeIDs;
 }
 
+QStringList
+GluonObjectFactory::objectMimeTypes() const
+{
+    return m_mimeTypes.keys();
+}
+
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
 {
