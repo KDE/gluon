@@ -70,7 +70,7 @@ namespace Gluon
              * @param   int updatesPerSecond    The number of updates per second
              * @param   int maxFrameSkip The maximum number of frames that you're allowed to skip before forcing a redraw
              */
-            void runGameFixedUpdate(int updatesPerSecond = 25, int maxFramesPerSeconds = 5);
+            void runGameFixedUpdate(int updatesPerSecond = 25, int maxFrameSkip = 5);
             
             /**
              * Run the game using a fixed time between each update
