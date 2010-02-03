@@ -18,6 +18,7 @@
 */
 
 #include "asset.h"
+#include <QtCore/QStringList>
 
 REGISTER_OBJECTTYPE(Gluon,Asset)
 
@@ -54,6 +55,13 @@ void Asset::setFile(const QUrl &newFile)
 QUrl Asset::file() const
 {
     return d->file;
+}
+
+const QStringList
+Asset::supportedMimeTypes() const
+{
+    // We return an empty list, as the Asset class itself supports no mimetypes
+    return QStringList();
 }
 
 QString

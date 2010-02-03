@@ -43,6 +43,8 @@ namespace Gluon
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
             
+            virtual const QStringList supportedMimeTypes() const;
+            
             /**
              * The specialization of toGDL on the Asset class does not recurse.
              * This allows Assets to handle their own children in a flexible
