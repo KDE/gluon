@@ -19,6 +19,7 @@
 
 #include "gameproject/asset.h"
 #include "kal/kalbuffer.h"
+#include <QtCore/QStringList>
 
 namespace Gluon {
 
@@ -28,8 +29,11 @@ Q_OBJECT
 public:
     SoundAsset(QObject *parent = 0);
 
-    virtual Gluon::GluonObject *instantiate();
+    virtual GluonObject *instantiate();
+    virtual const QStringList supportedMimeTypes() const;
 
+    virtual void setFile(const QUrl &newFile);
+    
     KALBuffer *buffer() {
         return m_buffer;
     }
