@@ -22,8 +22,6 @@
 
 namespace GluonEngine
 {
-    class SpriteRendererComponentPrivate;
-
     class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
     {
         Q_OBJECT
@@ -38,9 +36,9 @@ namespace GluonEngine
 
             virtual GluonObject* instantiate();
 
-            virtual void Update ( int elapsedMilliseconds );
-            virtual void Start();
-            virtual void Draw ( int timeLapse = 0 );
+            virtual void start();
+            virtual void update ( int elapsedMilliseconds );
+            virtual void draw ( int timeLapse = 0 );
 
             virtual QSizeF size();
             virtual QColor color();
@@ -50,7 +48,8 @@ namespace GluonEngine
             virtual void setColor(const QColor& color);
 
         private:
-            QSharedDataPointer<SpriteRendererComponentPrivate> d;
+            class SpriteRendererComponentPrivate;
+            SpriteRendererComponentPrivate *d;
     };
 
 }

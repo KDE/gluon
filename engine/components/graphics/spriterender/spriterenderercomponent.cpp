@@ -19,27 +19,37 @@
 
 #include <graphics/item.h>
 #include <gameobject.h>
+#include <core/debughelper.h>
+
+#include <iostream>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
 using namespace GluonEngine;
 
+class SpriteRendererComponent::SpriteRendererComponentPrivate
+{
+    public:
+        SpriteRendererComponentPrivate() { item = 0; }
+
+        GluonGraphics::Item *item;
+};
+
 SpriteRendererComponent::SpriteRendererComponent ( QObject* parent ) : Component ( parent )
 {
     d = new SpriteRendererComponentPrivate;
-    d->item = new GluonGraphics::Item(QSizeF(1.f, 1.f));
 }
 
 SpriteRendererComponent::SpriteRendererComponent ( const SpriteRendererComponent& other )
     : Component ( other ),
     d(other.d)
 {
-    d->item = new GluonGraphics::Item(other.d->size);
 }
 
 SpriteRendererComponent::~SpriteRendererComponent()
 {
-
+    delete d->item;
+    delete d;
 }
 
 GluonCore::GluonObject* SpriteRendererComponent::instantiate()
@@ -47,9 +57,19 @@ GluonCore::GluonObject* SpriteRendererComponent::instantiate()
     return new SpriteRendererComponent(this);
 }
 
-void SpriteRendererComponent::Update ( int elapsedMilliseconds )
+void SpriteRendererComponent::update ( int elapsedMilliseconds )
 {
     Q_UNUSED(elapsedMilliseconds)
+}
+
+void SpriteRendererComponent::start()
+{
+    if(!d->item) d->item = new GluonGraphics::Item(QSizeF(1.f, 1.f));
+}
+
+void SpriteRendererComponent::draw ( int timeLapse )
+{
+    Q_UNUSED(timeLapse)
 
     Eigen::Vector3f position = gameObject()->position();
     d->item->setPosition(position.x(), position.y());
@@ -59,15 +79,8 @@ void SpriteRendererComponent::Update ( int elapsedMilliseconds )
     d->item->setScale(scale.x(), scale.y());
 
     d->item->setAngle(gameObject()->rotation());
-}
 
-void SpriteRendererComponent::Start()
-{
-}
-
-void SpriteRendererComponent::Draw ( int timeLapse )
-{
-    Q_UNUSED(timeLapse)
+    d->item->updateTransform();
 }
 
 void SpriteRendererComponent::setSize ( const QSizeF &size )
@@ -82,12 +95,17 @@ QSizeF SpriteRendererComponent::size()
 
 void SpriteRendererComponent::setColor(const QColor& color)
 {
-    d->item->setColor(color);
+    if(d->item) {
+        d->item->setColor(color);
+    }
 }
 
 QColor SpriteRendererComponent::color()
 {
-    return d->item->color();
+    if(d->item) {
+        return d->item->color();
+    }
+    return QColor();
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent);

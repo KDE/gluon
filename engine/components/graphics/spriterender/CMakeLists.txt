@@ -8,7 +8,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GL
 
 set(spriterenderercomponent_SRCS
     spriterenderercomponent.cpp
-    spriterenderercomponentprivate.cpp
 )
 
 qt4_automoc(${spriterenderercomponent_SRCS})
