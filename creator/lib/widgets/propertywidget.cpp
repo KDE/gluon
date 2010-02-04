@@ -86,8 +86,12 @@ void PropertyWidget::clear()
     delete widget();
 }
 
-void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool useColor)
+void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
 {
+    if(!first && obj->metaObject()->className() == QString("GluonEngine::GameObject")) {
+        return;
+    }
+
     QGroupBox* objectBox = new QGroupBox(obj->name(), this);
     if(obj->name().isEmpty()) {
         objectBox->setTitle(obj->metaObject()->className());
@@ -95,7 +99,7 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool useColor)
 
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    if(useColor)
+    if(first)
     {
         long addr = reinterpret_cast<long>(obj);
         QColor color;
