@@ -14,28 +14,33 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_SPRITERENDERCOMPONENTPRIVATE_H
-#define GLUON_SPRITERENDERCOMPONENTPRIVATE_H
+#ifndef GLUON_ENGINE_SPRITERENDERCOMPONENTPRIVATE_H
+#define GLUON_ENGINE_SPRITERENDERCOMPONENTPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QSizeF>
+#include <QtGui/QColor>
 
-class KGLItem;
+namespace GluonGraphics
+{
+    class Item;
+}
 
-namespace Gluon
+namespace GluonEngine
 {
 
-class SpriteRenderComponentPrivate : public QSharedData
+class SpriteRendererComponentPrivate : public QSharedData
 {
     public:
-        SpriteRenderComponentPrivate();
-        SpriteRenderComponentPrivate(const SpriteRenderComponentPrivate& other);
-        ~SpriteRenderComponentPrivate();
-        
-        KGLItem *item;
+        SpriteRendererComponentPrivate();
+        SpriteRendererComponentPrivate(const SpriteRendererComponentPrivate& other);
+        ~SpriteRendererComponentPrivate();
+
+        GluonGraphics::Item *item;
         QSizeF size;
+        QColor color;
 };
 
 }
 
-#endif // GLUON_SPRITERENDERCOMPONENTPRIVATE_H
+#endif // GLUON_ENGINE_SPRITERENDERCOMPONENTPRIVATE_H

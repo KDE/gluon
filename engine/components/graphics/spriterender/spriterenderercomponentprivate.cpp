@@ -14,24 +14,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "spriterendercomponentprivate.h"
-#include <kgl/kglitem.h>
+#include "spriterenderercomponentprivate.h"
 
-using namespace Gluon;
+#include <QtCore/QSizeF>
+#include <QtGui/QColor>
+
+#include <graphics/item.h>
+
+using namespace GluonEngine;
 
 
-Gluon::SpriteRenderComponentPrivate::SpriteRenderComponentPrivate()
+SpriteRendererComponentPrivate::SpriteRendererComponentPrivate()
 {
 
 }
 
-Gluon::SpriteRenderComponentPrivate::SpriteRenderComponentPrivate ( const Gluon::SpriteRenderComponentPrivate& other )
+SpriteRendererComponentPrivate::SpriteRendererComponentPrivate ( const SpriteRendererComponentPrivate& other )
     : QSharedData ( other )
 {
 
 }
 
-Gluon::SpriteRenderComponentPrivate::~SpriteRenderComponentPrivate()
+SpriteRendererComponentPrivate::~SpriteRendererComponentPrivate()
 {
 
 }
