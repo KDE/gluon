@@ -60,6 +60,7 @@ public:
 
     virtual void removeVertex(Vertex * p)
     {
+        Q_UNUSED(p);
         //            m_vertexList.removeOne (p);
         computeGeometry();
     }
