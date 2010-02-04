@@ -216,7 +216,11 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         {
             DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
             #warning This should be a qobject_cast, but that for some reason returns a null object
-            gobj->addComponent(reinterpret_cast<GluonEngine::Component*>(component));
+            GluonEngine::Component* comp = reinterpret_cast<GluonEngine::Component*>(component);
+            gobj->addComponent(comp);
+
+            //Call start. We are, after all, basically working with a paused game.
+            comp->start();
         }
     }
 
