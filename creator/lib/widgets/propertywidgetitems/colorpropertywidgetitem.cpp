@@ -50,18 +50,21 @@ ColorPropertyWidgetItem::ColorPropertyWidgetItem(QWidget* parent, Qt::WindowFlag
     d->r = new QDoubleSpinBox(this);
     d->r->setPrefix("R: ");
     d->r->setRange(0.0f, 1.0f);
+    d->r->setSingleStep(0.001f);
     layout->addWidget(d->r);
     connect(d->r, SIGNAL(valueChanged(double)), SLOT(rValueChanged(double)));
 
     d->g = new QDoubleSpinBox(this);
     d->g->setPrefix("G: ");
     d->g->setRange(0.0f, 1.0f);
+    d->g->setSingleStep(0.001f);
     layout->addWidget(d->g);
     connect(d->g, SIGNAL(valueChanged(double)), SLOT(gValueChanged(double)));
 
     d->b = new QDoubleSpinBox(this);
     d->b->setPrefix("B: ");
     d->b->setRange(0.0f, 1.0f);
+    d->b->setSingleStep(0.001f);
     layout->addWidget(d->b);
     connect(d->b, SIGNAL(valueChanged(double)), SLOT(bValueChanged(double)));
 
