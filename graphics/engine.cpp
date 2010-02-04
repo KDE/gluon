@@ -21,13 +21,13 @@
 #include "engine.h"
 #include "engine_p.h"
 
-
-
 #include <QtCore/QDebug>
-namespace GluonGraphics
-{
-Engine::Engine(QObject * parent)
-    : QObject(parent)
+
+using namespace GluonGraphics;
+
+template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
+
+Engine::Engine()
 {
     d = new EnginePrivate();
 }
@@ -35,10 +35,6 @@ Engine::Engine(QObject * parent)
 Engine::~Engine()
 {
     delete d;
-}
-
-void Engine::mainLoop(float ff)
-{
 }
 
 void Engine::addItem(Item* item)
@@ -114,25 +110,9 @@ int Engine::itemsCount() const
     return size;
 }
 
-// KGLBoxItem *Engine::addBox(float w, float h)
-// {
-//     KGLBoxItem * b = new KGLBoxItem(w,h);
-//     addItem(b);
-//     return b;
-// }
-
 IndexGroupMap Engine::items() const
 {
     return d->m_items;
 }
 
-void Engine::mouseMoved(const QPointF &pos, Qt::MouseButton button)
-{}
-
-void Engine::mousePressed(const QPointF &pos, Qt::MouseButton button)
-{}
-
-void Engine::mouseReleased(const QPointF &pos, Qt::MouseButton button)
-{}
-} //namespace
 #include "engine.moc"

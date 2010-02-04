@@ -80,26 +80,6 @@ public:
     bool glInitialized() const  { return mGLInitialized; }
 
     /**
-     * @li sets engine of this view
-     **/
-      void setEngine(Engine * engine)
-    {
-        m_engine = engine;
-        m_engine->setParent(this);
-    }
-     /**
-     * @return engine of this view
-     **/
-   	Engine * engine()
-    {
-        return m_engine;
-    }
-
-
-
-
-
-    /**
      * Initializes OpenGL.
      * Base implementation:
      * @li calls @ref KGLLib::init() to initialize KGLLib
@@ -196,7 +176,7 @@ private:
    GluonGraphics::Camera* mCamera;
    GluonGraphics::FPSCounter* mFpsCounter;
     mutable GluonGraphics::TextRenderer* mTextRenderer;
-   GluonGraphics::Engine * m_engine;
+   //GluonGraphics::Engine * m_engine;
 
 
     bool mAutomaticClear;

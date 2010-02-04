@@ -44,16 +44,22 @@ class GLUON_GRAPHICS_EXPORT Item : public BaseItem
 {
     Q_OBJECT
     public:
+        Item();
+        explicit Item(const QPolygonF& poly);
+        explicit Item(const QSizeF& box);
+        explicit Item(const QLineF& line);
+        ~Item();
+
         virtual void paintGL();
         virtual void updateTransform();
-        explicit Item(Engine * parent=0);
-        explicit Item(const QPolygonF &poly, Engine * parent=0);
-        explicit Item(const QSizeF &box, Engine * parent=0);
-        explicit Item(const QLineF &line,Engine * parent=0);
+
         Item *clone();
-        void recreate(){
-        m_isCreated=false;
+
+        void recreate()
+        {
+            m_isCreated=false;
         }
+
         void addChildItem(Item* item)
         {
             m_childItems.append(item);
@@ -63,8 +69,6 @@ class GLUON_GRAPHICS_EXPORT Item : public BaseItem
         {
             m_childItems.removeOne(item);
         }
-
-        ~Item();
 
     //Set
         void setMode(GLenum m)
@@ -84,9 +88,7 @@ class GLUON_GRAPHICS_EXPORT Item : public BaseItem
 
         void setTexture(const QString& fileName)
         {
-
             m_texture = new Texture(fileName);
-
         }
 
         void setTexture(const QImage& image)
@@ -183,8 +185,8 @@ class GLUON_GRAPHICS_EXPORT Item : public BaseItem
         bool f_showBoundingBox;
         bool f_showCenter;
         bool f_textureEnable;
-	 GLPainter * m_painter ;
-};
+        GLPainter * m_painter ;
+    };
 }//namespace
 //@}
 #endif // GLUON_GRAPHICS_KGLITEM2_H

@@ -26,45 +26,40 @@
 #include <QtCore/QObject>
 #include <QtCore/QMap>
 
+#include <core/singleton.h>
 #include "itemlist.h"
 
-//TODO: Make Singleton class and remove stuff that should not be here
 namespace GluonGraphics
 {
-  class EnginePrivate;
+    class EnginePrivate;
 
-  typedef QMap<unsigned int, ItemList > IndexGroupMap;
+    typedef QMap<unsigned int, ItemList > IndexGroupMap;
 
-class GLUON_GRAPHICS_EXPORT Engine : public QObject
-{
-    Q_OBJECT
+    class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
+    {
+        Q_OBJECT
 
-    public:
-        Engine(QObject * parent=0);
-        ~Engine();
+        public:
+            void addItem(Item* item);
+            void addItems(const ItemList &items);
+            bool removeItem(Item* item);
+            bool removeItems(const ItemList &item);
+            virtual bool eraseItem(Item* item);
+            bool eraseItems(const ItemList &item);
+            Item * itemAt(int id, unsigned int layer=0) const;
+            int itemsCount() const;
 
-        virtual void mainLoop(float fps=60);
-        void addItem(Item* item);
-        void addItems(const ItemList &items);
-        bool removeItem(Item* item);
-        bool removeItems(const ItemList &item);
-        virtual bool eraseItem(Item* item);
-        bool eraseItems(const ItemList &item);
-        Item * itemAt(int id, unsigned int layer=0) const;
-        int itemsCount() const;
+            IndexGroupMap items() const;
 
-//         KGLBoxItem * addBox(float w, float h);
+        private:
+            friend class GluonCore::Singleton<Engine>;
 
-        IndexGroupMap items() const;
+            Engine();
+            ~Engine();
+            Q_DISABLE_COPY(Engine);
 
-        virtual void mouseMoved(const QPointF &pos, Qt::MouseButton button);
-        virtual void mousePressed(const QPointF &pos, Qt::MouseButton button);
-        virtual void mouseReleased(const QPointF &pos,Qt::MouseButton button);
-    private:
-        Q_DISABLE_COPY(Engine);
-
-        EnginePrivate *d;
-};
+            EnginePrivate *d;
+    };
 } //namespace
-//@}
+
 #endif // GLUON_GRAPHICS_ENGINE_H

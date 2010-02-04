@@ -26,10 +26,7 @@
 
 
 using namespace Eigen;
-
-
-namespace GluonGraphics
-{
+using namespace GluonGraphics;
 
 GLWidget::GLWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f) :
         QGLWidget(parent, shareWidget, f)
@@ -67,8 +64,8 @@ void GLWidget::init()
     mShowFps = false;
     mWireframeMode = false;
     mShortcutsEnabled = true;
-    m_engine=0;
-    
+    //m_engine=0;
+
     QAction* a;
     a = new QAction(this);
     a->setShortcut(Qt::META + Qt::Key_F);
@@ -139,13 +136,13 @@ GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 void GLWidget::initializeGL()
 {
 
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
     // Init KGLLib
 
     mGLInitialized = true;
@@ -154,23 +151,23 @@ void GLWidget::initializeGL()
     mCamera = new GluonGraphics::Camera;
     mFpsCounter = new GluonGraphics::FPSCounter;
 
-    
-    
-    
-    
+
+
+
+
     // Set some defaults
     // TODO: make sure we're in RGBA mode
     setClearColor(mClearColor);
     glShadeModel(GL_SMOOTH);
      glEnable(GL_DEPTH_TEST);
-   
+
 
 //     glPolygonMode(GL_FRONT_AND_BACK, m_mode);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
     glDisable(GL_DEPTH_TEST);
-   
+
 
 
     // Enable depth testing if we have depth
@@ -196,15 +193,15 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::paintGL()
 {
-  
-  
-  
+
+
+
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
 
-    if ( engine() != NULL)drawItems();
+    drawItems();
 
 
 //     glColor3ub(255, 255, 255);
@@ -214,11 +211,11 @@ void GLWidget::paintGL()
 
 
     QGLWidget::paintGL();
-  
-  
-  
-  
-  
+
+
+
+
+
     // If error text has been set then show it and return
     if (!mErrorText.isNull()) {
         glClear(GL_COLOR_BUFFER_BIT);
@@ -262,22 +259,20 @@ void GLWidget::paintGL()
     }
 }
 
-   void GLWidget::drawItems(){
-   
- IndexGroupMap::const_iterator i = engine()->items().constBegin();
-    while (i != engine()->items().constEnd())
+void GLWidget::drawItems()
+{
+
+    IndexGroupMap::const_iterator i;
+    for(i = Engine::instance()->items().constBegin(); i != Engine::instance()->items().constEnd(); ++i)
     {
-        Item * it;
-        foreach ( it, i.value())
+        foreach (Item *it, i.value())
         {
 
             it->paintGL();
-	 
+
         }
-        ++i;
     }
-   
-   }
+}
 
 
 
@@ -285,10 +280,8 @@ void GLWidget::paintGL()
 void GLWidget::render()
 {
 
-  if (m_engine!=0)
+  //if (m_engine!=0)
     drawItems();
 }
-
-}//namespace
 
 #include "glwidget.moc"
