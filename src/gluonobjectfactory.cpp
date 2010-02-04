@@ -71,10 +71,15 @@ GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
         m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
         
-        Asset *obj = qobject_cast< Gluon::Asset* >(newObjectType);
+        Asset *obj = dynamic_cast< Gluon::Asset* >(newObjectType);
         if(obj)
+        {
             foreach(const QString &mimetype, obj->supportedMimeTypes())
+            {
+                DEBUG_TEXT(QString("Adding mimetype %1 to the index").arg(mimetype));
                 m_mimeTypes[mimetype] = newObjectType->metaObject()->className();
+            }
+        }
     }
     else
         DEBUG_TEXT(QString("Attempted to register a NULL object type"));
