@@ -136,10 +136,10 @@ QRectF BaseItem::transform(const QRectF &r) const
 void BaseItem::createBox(const QSizeF &dim)
 {
     clear();
-    addVertex( Vertex(0, 0, Qt::white, QPointF(0 , 0 )));
-    addVertex( Vertex(dim.width(), 0, Qt::white, QPointF(1 , 0)));
-    addVertex(Vertex(dim.width(), dim.height(), Qt::white, QPointF(1 , 1)));
-    addVertex(Vertex(0, dim.height(), Qt::white, QPointF(0 , 1)));
+    addVertex(Vertex(-dim.width()/2, -dim.width()/2, Qt::white, QPointF(0 , 0 )));
+    addVertex(Vertex( dim.width()/2, -dim.width()/2, Qt::white, QPointF(1 , 0)));
+    addVertex(Vertex( dim.width()/2,  dim.width()/2, Qt::white, QPointF(1 , 1)));
+    addVertex(Vertex(-dim.width()/2,  dim.width()/2, Qt::white, QPointF(0 , 1)));
     computeGeometry();
 }
 
