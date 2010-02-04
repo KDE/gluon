@@ -30,27 +30,27 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     //Create an Engine. This class contains all items that will be shown in the view. 
     // to add item, call : addItem(KGLItem *) or addItems(KGLItemList *)
-    GluonGraphics::Engine * engine = new GluonGraphics::Engine; 
+//    GluonGraphics::Engine * engine = new GluonGraphics::Engine; 
     
     //this is the view widget . It's a QGLWidget child. Call KGLView::setEngine(KGLEngine *) to attach the engine to the view. 
     // YOu can set the engine directly from the constructor
     GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
     
-    view->setEngine(engine);
+//    view->setEngine(engine);
    
     // This function show the current axis xy
   
     //Now we can create an object. KGLBoxItem is a simple box with 4 GLPoints. 
-    GluonGraphics::Item * item = new GluonGraphics::Item(QSizeF(5.f, 5.f), engine);
+    GluonGraphics::Item * item = new GluonGraphics::Item(QSizeF(5.f, 5.f));
     //setup the item.
     //This function align the center of item to the center of the view.
     // itemCenter() return the coord center in Item coordinate
     //center() return the coord center in View coordinate
     // you can call translate() for add a translation.. And setTranslate() to define a translation factor in the transformation matrix
-    item->setPosition(-item->center());
+    //item->setPosition(-item->center());
     //this function make a rotation around the itemCenter. 
     // you can call rotate() to add a rotation .
-    item->setAngle(45,item->center());
+    item->setAngle(45);
     //this function must be called after each transformation. It updates the current Tranformation matrix of the item.
     item->updateTransform();
     
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     //and this function apply a texture to the current Item
     
     //after all setup... We can add the item inside the engine.
-    engine->addItem(item);
+//    engine->addItem(item);
     
     view->show();
    
