@@ -14,27 +14,31 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "nullpropertywidgetitem.h"
+#ifndef GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 
-#include <QLabel>
-#include <KLocalizedString>
+#include "propertywidgetitem.h"
 
-using namespace GluonCreator;
+namespace GluonCreator {
 
-
-NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+class ColorPropertyWidgetItem : public PropertyWidgetItem
 {
-    setEditWidget(new QLabel(i18n("Unknown Type")));
+    Q_OBJECT
+    public:
+        ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+        ~ColorPropertyWidgetItem();
+
+    public slots:
+        void setEditValue(const QVariant& value);
+        void rValueChanged(double value);
+        void gValueChanged(double value);
+        void bValueChanged(double value);
+
+    private:
+        class ColorPropertyWidgetItemPrivate;
+        ColorPropertyWidgetItemPrivate* d;
+};
+
 }
 
-NullPropertyWidgetItem::~NullPropertyWidgetItem()
-{
-
-}
-
-void NullPropertyWidgetItem::setEditValue(const QVariant& value)
-{
-    editWidget()->setProperty("text", QString("Unknown: %1(%2)").arg(value.typeName()).arg(value.toString()));
-}
-
-#include "nullpropertywidgetitem.moc"
+#endif // GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H

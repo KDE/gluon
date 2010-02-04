@@ -25,6 +25,7 @@
 #include "floatpropertywidgetitem.h"
 #include "intpropertywidgetitem.h"
 #include "qsizefpropertywidgetitem.h"
+#include "colorpropertywidgetitem.h"
 
 using namespace GluonCreator;
 
@@ -46,8 +47,10 @@ PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidg
         return new IntPropertyWidgetItem(parent);
     if(type == "QSizeF")
         return new QSizeFPropertyWidgetItem(parent);
+    if(type == "QColor")
+        return new ColorPropertyWidgetItem(parent);
 
-    DEBUG_TEXT(QString("Attempting to instantiate unknown property widgtet item of type %1").arg(type));
+    DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
 
     return new NullPropertyWidgetItem(parent);
 }

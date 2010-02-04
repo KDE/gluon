@@ -89,6 +89,10 @@ void PropertyWidget::clear()
 void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool useColor)
 {
     QGroupBox* objectBox = new QGroupBox(obj->name(), this);
+    if(obj->name().isEmpty()) {
+        objectBox->setTitle(obj->metaObject()->className());
+    }
+
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     if(useColor)
