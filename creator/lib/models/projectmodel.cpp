@@ -145,7 +145,7 @@ QVariant ProjectModel::headerData(int section, Qt::Orientation orientation, int 
 Qt::DropActions
 ProjectModel::supportedDropActions() const
 {
-    return Qt::CopyAction | Qt::MoveAction;
+    return Qt::CopyAction | Qt::MoveAction | Qt::LinkAction;
 }
 
 Qt::ItemFlags
@@ -153,10 +153,13 @@ ProjectModel::flags(const QModelIndex& index) const
 {
     if (index.isValid())
     {
-        Gluon::Asset *obj = qobject_cast<Gluon::Asset*>(static_cast<QObject*>(index.internalPointer()));
+        DEBUG_BLOCK
+        QObject * obj = static_cast<QObject*>(index.internalPointer());
+        //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
         // One does not simply drop Assets into Mord...other Assets!
-        if(obj)
+        if(obj->inherits("Gluon::Asset"))
         {
+            DEBUG_TEXT("Object inherits Gluon::Asset, and you cannot drop stuff onto here");
             return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
         else
@@ -165,16 +168,24 @@ ProjectModel::flags(const QModelIndex& index) const
         }
     }
     else
+    {
         return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled;
+    }
 }
 
 QStringList
 ProjectModel::mimeTypes() const
 {
-    if(d->acceptedMimeTypes.length() == 0)
+    if(d->acceptedMimeTypes.count() < 1)
     {
+        DEBUG_FUNC_NAME
         d->acceptedMimeTypes.append("application/gluoncreator.projectmodel.gluonobject");
+        d->acceptedMimeTypes.append("text/uri-list");
         d->acceptedMimeTypes.append(Gluon::GluonObjectFactory::instance()->objectMimeTypes());
+        foreach(QString theName, d->acceptedMimeTypes)
+        {
+            DEBUG_TEXT(QString("%1").arg(theName));
+        }
     }
     
     return d->acceptedMimeTypes;
@@ -193,20 +204,23 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
     if(!parent.isValid())
         return false;
     
-    if(data->formats().length() == 0)
-        return false;
-    
-    Gluon::GluonObject *gobj = qobject_cast<Gluon::GluonObject*>((QObject*)parent.internalPointer());
-
-    // We only allow users to drop new Asset data into folders, not into other Assets
-    if(gobj->inherits("Gluon::Asset"))
-        return false;
-    
-    ///\TODO Add the data...
-    for(int i = 0; i <= data->formats().length(); ++i)
+    if(data->hasUrls())
     {
-        DEBUG_TEXT(QString("Found drop data of mimetype %1").arg(data->formats()[i]));
+        Gluon::GluonObject *gobj = dynamic_cast<Gluon::GluonObject*>((QObject*)parent.internalPointer());
+        foreach(const QUrl& theUrl, data->urls())
+        {
+            DEBUG_TEXT(QString("Dropped file %1").arg(theUrl.toLocalFile()));
+        }
     }
+    else if(data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
+    {
+    }
+    else
+    {
+    }
+    
+    if(data->formats().length() < 1)
+        return false;
     
     return QAbstractItemModel::dropMimeData(data, action, row, column, parent);
 }
