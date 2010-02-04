@@ -37,7 +37,7 @@ GluonCore::GluonObject *SoundListenerComponent::instantiate()
     return new SoundListenerComponent(this);
 }
 
-void SoundListenerComponent::Update(int elapsedMilliseconds)
+void SoundListenerComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 }

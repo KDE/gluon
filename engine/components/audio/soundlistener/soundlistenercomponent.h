@@ -38,7 +38,7 @@ public:
 
     virtual GluonCore::GluonObject *instantiate();
 
-    virtual void Update(int elapsedMilliseconds);
+    virtual void update(int elapsedMilliseconds);
 
     void setActive(bool active);
     bool isActive() {

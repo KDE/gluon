@@ -50,7 +50,7 @@ class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
         void stop();
 
     private:
-        virtual void Update(int elapsedMilliseconds);
+        virtual void update(int elapsedMilliseconds);
         GluonAudio::Sound *m_sound;
         SoundAsset *m_soundAsset;
 };

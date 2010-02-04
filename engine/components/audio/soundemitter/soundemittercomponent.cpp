@@ -67,7 +67,7 @@ void SoundEmitterComponent::setSound(SoundAsset *asset)
     m_sound = new GluonAudio::Sound(m_soundAsset->buffer());
 }
 
-void SoundEmitterComponent::Update(int elapsedMilliseconds)
+void SoundEmitterComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 
