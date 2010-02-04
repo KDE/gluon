@@ -15,7 +15,6 @@
 */
 
 #include "spriterenderercomponent.h"
-#include "spriterenderercomponentprivate.h"
 
 #include <graphics/item.h>
 #include <gameobject.h>
@@ -57,11 +56,6 @@ GluonCore::GluonObject* SpriteRendererComponent::instantiate()
     return new SpriteRendererComponent(this);
 }
 
-void SpriteRendererComponent::update ( int elapsedMilliseconds )
-{
-    Q_UNUSED(elapsedMilliseconds)
-}
-
 void SpriteRendererComponent::start()
 {
     if(!d->item) d->item = new GluonGraphics::Item(QSizeF(1.f, 1.f));
@@ -70,6 +64,11 @@ void SpriteRendererComponent::start()
 void SpriteRendererComponent::draw ( int timeLapse )
 {
     Q_UNUSED(timeLapse)
+}
+
+void SpriteRendererComponent::update ( int elapsedMilliseconds )
+{
+    Q_UNUSED(elapsedMilliseconds)
 
     Eigen::Vector3f position = gameObject()->position();
     d->item->setPosition(position.x(), position.y());
