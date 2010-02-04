@@ -168,6 +168,15 @@ void Game::setPause(bool pause)
     d->gamePaused = pause;
 }
 
+void Game::updateAll()
+{
+    d->currentScene->updateAll(10);
+    emit updated();
+
+    d->currentScene->drawAll();
+    emit painted();
+}
+
 /******************************************************************************
  * Property Getter-setters
  *****************************************************************************/

@@ -88,6 +88,11 @@ namespace GluonEngine
 
             void setPause(bool pause);
 
+            /**
+             * Update all items in the current scene.
+             */
+            void updateAll();
+
         signals:
             void currentSceneChanged(GluonEngine::Scene*);
             void currentProjectChanged(GluonCore::GameProject*);
