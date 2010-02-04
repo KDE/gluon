@@ -43,8 +43,8 @@ GameProject::GameProject(QObject * parent)
 
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
-    //Scene * theObject = d->entryPoint;
-    //somethingEmpty.setValue<Scene*>(theObject);
+    GluonObject *theObject = d->entryPoint;
+    somethingEmpty.setValue<GluonObject*>(theObject);
     setProperty("entryPoint", somethingEmpty);
 }
 
