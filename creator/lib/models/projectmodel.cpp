@@ -24,6 +24,8 @@
 #include <KLocalizedString>
 #include <objectmanager.h>
 #include <QtCore/QMimeData>
+#include <kmimetype.h>
+#include <QtCore/QFileInfo>
 
 using namespace Gluon::Creator;
 
@@ -153,13 +155,11 @@ ProjectModel::flags(const QModelIndex& index) const
 {
     if (index.isValid())
     {
-        DEBUG_BLOCK
         QObject * obj = static_cast<QObject*>(index.internalPointer());
         //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
         // One does not simply drop Assets into Mord...other Assets!
         if(obj->inherits("Gluon::Asset"))
         {
-            DEBUG_TEXT("Object inherits Gluon::Asset, and you cannot drop stuff onto here");
             return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
         else
@@ -209,7 +209,20 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
         Gluon::GluonObject *gobj = dynamic_cast<Gluon::GluonObject*>((QObject*)parent.internalPointer());
         foreach(const QUrl& theUrl, data->urls())
         {
-            DEBUG_TEXT(QString("Dropped file %1").arg(theUrl.toLocalFile()));
+            KMimeType::Ptr type = KMimeType::findByUrl(theUrl);
+            DEBUG_TEXT(QString("Dropped file %1 of mimetype %2").arg(theUrl.toLocalFile()).arg(type->name()));
+            Gluon::Asset* newChild = static_cast<Gluon::Asset*>(Gluon::GluonObjectFactory::instance()->instantiateObjectByMimetype(type->name()));
+            if(gobj)
+            {
+                gobj->addChild(newChild);
+                #warning Copy the file to newChild->fullyQualifiedName() + filetype, and set this as the filename in stead...
+                newChild->setName(QFileInfo(theUrl.path()).fileName());
+                newChild->setFile(theUrl);
+            }
+            else
+            {
+                //\TODO Some error handling might be nice here...
+            }
         }
     }
     else if(data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
