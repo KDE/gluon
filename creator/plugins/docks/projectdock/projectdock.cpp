@@ -46,6 +46,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->model = new ProjectModel(this);
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
+    d->view->setAcceptDrops(true);
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
     connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonCore::GameProject*)), d->model, SLOT(setProject(GluonCore::GameProject*)));

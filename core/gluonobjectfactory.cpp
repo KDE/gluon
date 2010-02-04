@@ -53,6 +53,12 @@ GluonObjectFactory::objectTypeIDs() const
     return m_objectTypeIDs;
 }
 
+QStringList
+GluonObjectFactory::objectMimeTypes() const
+{
+    return m_mimeTypes.keys();
+}
+
 void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
 {
@@ -62,6 +68,16 @@ GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
         DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(newObjectType->metaObject()->className()).arg(typeID));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
         m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
+        
+        Asset *obj = dynamic_cast< Gluon::Asset* >(newObjectType);
+        if(obj)
+        {
+            foreach(const QString &mimetype, obj->supportedMimeTypes())
+            {
+                DEBUG_TEXT(QString("Adding mimetype %1 to the index").arg(mimetype));
+                m_mimeTypes[mimetype] = newObjectType->metaObject()->className();
+            }
+        }
     }
     else
         DEBUG_TEXT(QString("Attempted to register a NULL object type"));
@@ -81,6 +97,12 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     DEBUG_TEXT(QString("Object type name not found in factory!"));
 
     return 0;
+}
+
+GluonObject* 
+GluonObjectFactory::instantiateObjectByMimetype(const QString& objectMimeType)
+{
+    return instantiateObjectByName(m_mimeTypes[objectMimeType]);
 }
 
 void

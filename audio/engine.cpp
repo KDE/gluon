@@ -26,7 +26,9 @@
 
 #include <al.h>
 #include <alc.h>
-#include <alext.h>
+#ifndef Q_WS_MAC
+  #include <alext.h>
+#endif
 
 using namespace GluonAudio;
 
@@ -69,7 +71,15 @@ Engine::~Engine()
 QStringList Engine::deviceList()
 {
     //TODO *Shudder* put this into engineprivate and rename the entire class to device. Or something.
-    return Device::contextOption(ALC_ALL_DEVICES_SPECIFIER);
+    if (!Device::isExtensionPresent("ALC_ENUMERATION_EXT")) {
+        return QStringList();
+    }
+
+    if (Device::isExtensionPresent("ALC_ENUMERATE_ALL_EXT")) {
+        return Device::contextOption(ALC_ALL_DEVICES_SPECIFIER);
+    } else {
+        return Device::contextOption(ALC_DEVICE_SPECIFIER);
+    }
 }
 
 bool Engine::setDevice(const QString &deviceName)

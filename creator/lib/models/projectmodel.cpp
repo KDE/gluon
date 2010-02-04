@@ -15,14 +15,20 @@
 */
 
 #include "projectmodel.h"
-#include <engine/game.h>
+
 #include <core/gameproject.h>
 #include <core/gluonobject.h>
+#include <core/debughelper.h>
+#include <engine/game.h>
+#include <engine/asset.h>
 
+#include <objectmanager.h>
 #include <KDebug>
 #include <KLocalizedString>
 
-#include <objectmanager.h>
+#include <QtCore/QMimeData>
+#include <kmimetype.h>
+#include <QtCore/QFileInfo>
 
 using namespace GluonCreator;
 
@@ -34,6 +40,7 @@ class ProjectModel::ProjectModelPrivate
         QObject* root;
         GluonCore::GameProject* project;
 
+        QStringList acceptedMimeTypes;
 };
 
 ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
@@ -139,6 +146,113 @@ QVariant ProjectModel::headerData(int section, Qt::Orientation orientation, int 
     Q_UNUSED(role)
 
     return QVariant();
+}
+
+Qt::DropActions
+ProjectModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction | Qt::LinkAction;
+}
+
+Qt::ItemFlags
+ProjectModel::flags(const QModelIndex& index) const
+{
+    if (index.isValid())
+    {
+        QObject * obj = static_cast<QObject*>(index.internalPointer());
+        //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
+        // One does not simply drop Assets into Mord...other Assets!
+        if(obj->inherits("Gluon::Asset"))
+        {
+            return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        }
+        else
+        {
+            return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
+        }
+    }
+    else
+    {
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled;
+    }
+}
+
+QStringList
+ProjectModel::mimeTypes() const
+{
+    if(d->acceptedMimeTypes.count() < 1)
+    {
+        DEBUG_FUNC_NAME
+        d->acceptedMimeTypes.append("application/gluoncreator.projectmodel.gluonobject");
+        d->acceptedMimeTypes.append("text/uri-list");
+        d->acceptedMimeTypes.append(Gluon::GluonObjectFactory::instance()->objectMimeTypes());
+        foreach(QString theName, d->acceptedMimeTypes)
+        {
+            DEBUG_TEXT(QString("%1").arg(theName));
+        }
+    }
+    
+    return d->acceptedMimeTypes;
+}
+
+bool 
+ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
+{
+    Q_UNUSED(row)
+    Q_UNUSED(column)
+    DEBUG_FUNC_NAME
+    
+    if(action == Qt::IgnoreAction)
+        return false;
+    
+    if(!parent.isValid())
+        return false;
+    
+    if(data->hasUrls())
+    {
+        Gluon::GluonObject *gobj = dynamic_cast<Gluon::GluonObject*>((QObject*)parent.internalPointer());
+        foreach(const QUrl& theUrl, data->urls())
+        {
+            KMimeType::Ptr type = KMimeType::findByUrl(theUrl);
+            DEBUG_TEXT(QString("Dropped file %1 of mimetype %2").arg(theUrl.toLocalFile()).arg(type->name()));
+            Gluon::Asset* newChild = static_cast<Gluon::Asset*>(Gluon::GluonObjectFactory::instance()->instantiateObjectByMimetype(type->name()));
+            if(gobj)
+            {
+                gobj->addChild(newChild);
+                #warning Copy the file to newChild->fullyQualifiedName() + filetype, and set this as the filename in stead...
+                newChild->setName(QFileInfo(theUrl.path()).fileName());
+                newChild->setFile(theUrl);
+            }
+            else
+            {
+                //\TODO Some error handling might be nice here...
+            }
+        }
+    }
+    else if(data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
+    {
+    }
+    else
+    {
+    }
+    
+    if(data->formats().length() < 1)
+        return false;
+    
+    return QAbstractItemModel::dropMimeData(data, action, row, column, parent);
+}
+
+
+bool
+ProjectModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (index.isValid() && role == Qt::EditRole)
+    {
+        static_cast<Gluon::GluonObject*>(index.internalPointer())->setName(value.toString());
+        emit dataChanged(index, index);
+        return true;
+    }
+    return false;
 }
 
 #include "projectmodel.moc"

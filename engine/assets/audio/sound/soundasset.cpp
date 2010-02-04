@@ -32,7 +32,29 @@ GluonCore::GluonObject *SoundAsset::instantiate()
     return new SoundAsset(this);
 }
 
-void SoundAsset::updateBuffer()
+const QStringList
+SoundAsset::supportedMimeTypes() const
+{
+    QStringList list;
+    list.append("audio/x-aiff");
+    list.append("audio/mpeg");
+    list.append("audio/x-wav");
+    return list;
+}
+
+void
+SoundAsset::setFile(const QUrl& newFile)
+{
+    if(m_buffer)
+        delete(m_buffer);
+    
+    m_buffer = new KALBuffer(newFile.toLocalFile());
+    
+    Gluon::Asset::setFile(newFile);
+}
+
+void
+SoundAsset::updateBuffer()
 {
     if (m_buffer) {
         delete m_buffer;

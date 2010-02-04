@@ -21,6 +21,8 @@
 #include <engine/gluon_engine_export.h>
 #include <audio/buffer.h>
 
+#include <QtCore/QStringList>
+
 namespace GluonEngine {
 
 class GLUON_ENGINE_EXPORT SoundAsset : public Asset
@@ -31,6 +33,10 @@ public:
     SoundAsset(QObject *parent = 0);
 
     virtual GluonCore::GluonObject *instantiate();
+    
+    virtual const QStringList supportedMimeTypes() const;
+
+    virtual void setFile(const QUrl &newFile);
 
     GluonAudio::Buffer *buffer() {
         return m_buffer;

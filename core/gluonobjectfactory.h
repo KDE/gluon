@@ -38,15 +38,17 @@ namespace GluonCore
         public:
             void registerObjectType(GluonObject * newObjectType, int typeID);
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
+            GluonObject * instantiateObjectByMimetype(const QString& objectMimeType);
 
             void loadPlugins();
 
             QStringList objectTypeNames() const;
+            QStringList objectMimeTypes() const;
             QHash<QString, GluonObject*> objectTypes() const;
             const QHash<QString, int> objectTypeIDs() const;
-
         private:
             QHash<QString, GluonObject*> m_objectTypes;
+            QHash<QString, QString> m_mimeTypes;
             QHash<QString, int> m_objectTypeIDs;
     };
 }
