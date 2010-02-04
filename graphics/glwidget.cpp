@@ -21,9 +21,11 @@
 #include "fpscounter.h"
 #include "textrenderer.h"
 #include "glpainter.h"
+
 #include <QtOpenGL/QGLContext>
 #include <QtOpenGL/QGLFormat>
 
+#include <core/debughelper.h>
 
 using namespace Eigen;
 using namespace GluonGraphics;
@@ -193,7 +195,7 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::paintGL()
 {
-
+    DEBUG_BLOCK
 
 
 
@@ -201,7 +203,7 @@ void GLWidget::paintGL()
 
     glLoadIdentity();
 
-    drawItems();
+    //drawItems();
 
 
 //     glColor3ub(255, 255, 255);
@@ -218,12 +220,7 @@ void GLWidget::paintGL()
 
     // If error text has been set then show it and return
     if (!mErrorText.isNull()) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        QFont font("Helvetica", 16);
-        glColor4f(1.0, 0.8, 0.8, 1.0);
-        textRenderer()->begin(this);
-        textRenderer()->draw(rect(), mErrorText, Qt::TextWordWrap | Qt::AlignCenter, font);
-        textRenderer()->end();
+        DEBUG_TEXT(mErrorText);
         return;
     }
 
