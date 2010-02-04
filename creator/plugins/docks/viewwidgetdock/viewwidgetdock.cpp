@@ -20,6 +20,8 @@
 #include <core/debughelper.h>
 #include <engine/component.h>
 #include <graphics/glwidget.h>
+#include <objectmanager.h>
+#include <engine/game.h>
 
 using namespace GluonCreator;
 
@@ -39,6 +41,8 @@ ViewWidgetDock::ViewWidgetDock(const QString& title, QWidget* parent, Qt::Window
     d = new ViewWidgetDockPrivate();
 
     d->view = new GluonGraphics::GLWidget(this);
+    connect(GluonEngine::Game::instance(), SIGNAL(painted()), d->view, SLOT(updateGL()));
+
     setWidget(d->view);
 }
 
