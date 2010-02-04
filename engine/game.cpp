@@ -82,13 +82,18 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         loops = 0;
         while(getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
-            if(!d->gamePaused) d->currentScene->updateAll(millisecondsPerUpdate);
+            if(!d->gamePaused)
+            {
+                d->currentScene->updateAll(millisecondsPerUpdate);
+                emit updated();
+            }
             nextTick += millisecondsPerUpdate;
             loops++;
         }
 
         timeLapse = (getCurrentTick() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
         d->currentScene->drawAll(timeLapse);
+        emit painted();
     }
 }
 
@@ -120,9 +125,14 @@ Game::runGameFixedTimestep(int framesPerSecond)
         QCoreApplication::processEvents();
 
         // Update the current level
-        if(!d->gamePaused) d->currentScene->updateAll(millisecondsPerUpdate);
+        if(!d->gamePaused)
+        {
+            d->currentScene->updateAll(millisecondsPerUpdate);
+            emit updated();
+        }
         // Do drawing
         d->currentScene->drawAll();
+        emit painted();
 
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();

@@ -92,6 +92,9 @@ namespace GluonEngine
             void currentSceneChanged(GluonEngine::Scene*);
             void currentProjectChanged(GluonCore::GameProject*);
 
+            void updated();
+            void painted();
+
         private:
             friend class GluonCore::Singleton<Game>;
 
