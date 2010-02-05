@@ -39,6 +39,8 @@ SoundAsset::supportedMimeTypes() const
     list.append("audio/x-aiff");
     list.append("audio/mpeg");
     list.append("audio/x-wav");
+    list.append("audio/x-vorbis+ogg");
+    list.append("application/x-ogg");
     return list;
 }
 
@@ -47,10 +49,10 @@ SoundAsset::setFile(const QUrl& newFile)
 {
     if(m_buffer)
         delete(m_buffer);
-    
-    m_buffer = new KALBuffer(newFile.toLocalFile());
-    
-    Gluon::Asset::setFile(newFile);
+
+    m_buffer = new GluonAudio::Buffer(newFile.toLocalFile());
+
+    Asset::setFile(newFile);
 }
 
 void

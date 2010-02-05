@@ -57,13 +57,6 @@ QUrl Asset::file() const
     return d->file;
 }
 
-const QStringList
-Asset::supportedMimeTypes() const
-{
-    // We return an empty list, as the Asset class itself supports no mimetypes
-    return QStringList();
-}
-
 QString
 Asset::childrenToGDL(int indentLevel) const
 {

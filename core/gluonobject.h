@@ -24,6 +24,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
+#include <QtCore/QStringList>
 
 #include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
@@ -60,6 +61,8 @@ namespace GluonCore
             virtual QString name() const;
             virtual void setName(const QString &newName);
             QString fullyQualifiedName() const;
+
+	    virtual const QStringList supportedMimeTypes() const;
 
             /**
              * Use this to access functions on the GameProject instance associated

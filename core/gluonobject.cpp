@@ -239,6 +239,13 @@ GluonObject::name() const
     return d->name;
 }
 
+const QStringList
+GluonObject::supportedMimeTypes() const
+{
+    // We return an empty list, as the Asset class itself supports no mimetypes
+    return QStringList();
+}
+
 void
 GluonObject::setName(const QString &newName)
 {
