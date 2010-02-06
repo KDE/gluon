@@ -1,0 +1,12 @@
+#ifndef GLUONINPUT_GLOBAL_H
+#define GLUONINPUT_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(GLUONINPUT_LIBRARY)
+#  define GLUONINPUTSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GLUONINPUTSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GLUONINPUT_GLOBAL_H
