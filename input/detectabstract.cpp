@@ -1,8 +1,10 @@
-#include "kcldetectabstract.h"
+#include "detectabstract.h"
 
-KCLDetectAbstract::KCLDetectAbstract(QObject * parent)
-: QObject(parent)
+namespace GluonInput
 {
+	DetectAbstract::DetectAbstract(QObject * parent)
+	: QObject(parent)
+	{
+	}
 }
-
-#include "kcldetectabstract.moc"
+#include "detectabstract.moc"
