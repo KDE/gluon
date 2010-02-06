@@ -26,8 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QMetaType>
 #include <Eigen/Geometry>
 
-Q_DECLARE_METATYPE(Eigen::Vector3d)
-Q_DECLARE_METATYPE(Eigen::Vector3f)
+Q_DECLARE_METATYPE(Eigen::Vector3d);
+Q_DECLARE_METATYPE(Eigen::Vector3f);
+Q_DECLARE_METATYPE(Eigen::Quaternionf);
 
 namespace
 {
@@ -38,6 +39,7 @@ namespace
             {
                 qRegisterMetaType<Eigen::Vector3d>("Eigen::Vector3d");
                 qRegisterMetaType<Eigen::Vector3f>("Eigen::Vector3f");
+                qRegisterMetaType<Eigen::Quaternionf>("Eigen::Quaternionf");
             }
     };
 
