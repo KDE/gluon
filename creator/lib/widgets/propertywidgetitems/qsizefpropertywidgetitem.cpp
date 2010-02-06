@@ -41,7 +41,9 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 {
     d = new QSizeFPropertyWidgetItemPrivate;
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QWidget *widget = new QWidget(this);
+    QHBoxLayout *layout = new QHBoxLayout();
+    widget->setLayout(layout);
 
     d->height = new QDoubleSpinBox(this);
     d->height->setPrefix(tr("Height: "));
@@ -53,8 +55,6 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFl
     layout->addWidget(d->width);
     connect(d->width, SIGNAL(valueChanged(double)), SLOT(widthValueChanged(double)));
 
-    QWidget *widget = new QWidget(this);
-    widget->setLayout(layout);
     setEditWidget(widget);
 }
 
