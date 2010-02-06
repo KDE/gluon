@@ -40,10 +40,7 @@ namespace GluonEngine
 
         Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
         Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
-        //Q_PROPERTY(Eigen::Quaternionf orientation READ orientation WRITE setOrientation)
-        Q_PROPERTY(float pitch READ pitch WRITE setPitch)
-        Q_PROPERTY(float yaw READ yaw WRITE setYaw)
-        Q_PROPERTY(float roll READ roll WRITE setRoll)
+        Q_PROPERTY(Eigen::Quaternionf orientation READ orientation WRITE setOrientation)
 
         //Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
         //Q_PROPERTY(float rotation READ rotation WRITE setRotation)
@@ -119,16 +116,8 @@ namespace GluonEngine
             Eigen::Vector3f worldScale() const;
 
             void setOrientation(const Eigen::Quaternionf& newOrientation);
-            void setOrientation(float pitch, float yaw, float roll);
             Eigen::Quaternionf orientation() const;
             Eigen::Quaternionf worldOrientation() const;
-
-            void setPitch(float pitch);
-            float pitch() const;
-            void setYaw(float yaw);
-            float yaw() const;
-            void setRoll(float roll);
-            float roll() const;
 
             //TODO: Implement
             //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
@@ -136,7 +125,6 @@ namespace GluonEngine
             //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
             //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
             //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
-            //void rotate(float pitch, float yaw, float roll, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();
             void invalidateTransform();

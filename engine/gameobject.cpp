@@ -417,21 +417,6 @@ void GameObject::setOrientation(const Eigen::Quaternionf& newOrientation)
     updateTransform();
 }
 
-void GameObject::setOrientation(float pitch, float yaw, float roll)
-{
-    //Eigen::Quaternionf pitchQuat(Eigen::AngleAxisf(pitch, Eigen::Vector3f::UnitX()));
-    Eigen::Quaternionf pitchQuat(Eigen::ei_sin(pitch/2), 0, 0, Eigen::ei_cos(pitch/2));
-    //Eigen::Quaternionf yawQuat(Eigen::AngleAxisf(yaw, Eigen::Vector3f::UnitY()));
-    Eigen::Quaternionf yawQuat(0, Eigen::ei_sin(yaw/2), 0, Eigen::ei_cos(yaw/2));
-    //Eigen::Quaternionf rollQuat(Eigen::AngleAxisf(roll, Eigen::Vector3f::UnitZ()));
-    Eigen::Quaternionf rollQuat(0, 0, Eigen::ei_sin(roll/2), Eigen::ei_cos(roll/2));
-
-    d->orientation = pitchQuat * yawQuat * rollQuat;
-
-    d->transformInvalidated = true;
-    updateTransform();
-}
-
 Eigen::Quaternionf GameObject::orientation() const
 {
     return d->orientation;
@@ -441,52 +426,6 @@ Eigen::Quaternionf
 GameObject::worldOrientation() const
 {
     return d->worldOrientation;
-}
-
-
-void GameObject::setPitch(float pitch)
-{
-    setOrientation(pitch, yaw(), roll());
-}
-
-float GameObject::pitch() const
-{
-    float x = d->orientation.x();
-    float y = d->orientation.y();
-    float z = d->orientation.z();
-    float w = d->orientation.w();
-
-    return Eigen::ei_atan2(2*(y*z + w*x), w*w - x*x - y*y + z*z);
-}
-
-void GameObject::setYaw(float yaw)
-{
-    setOrientation(pitch(), yaw, roll());
-}
-
-float GameObject::yaw() const
-{
-    float x = d->orientation.x();
-    float y = d->orientation.y();
-    float z = d->orientation.z();
-    float w = d->orientation.w();
-
-    return asin(-2*(x*z + w*y));
-}
-
-void GameObject::setRoll(float roll)
-{
-    setOrientation(pitch(), yaw(), roll);
-}
-
-float GameObject::roll() const
-{
-    float x = d->orientation.x();
-    float y = d->orientation.y();
-    float z = d->orientation.z();
-    float w = d->orientation.w();
-
-    return Eigen::ei_atan2(2*(x*y + w*z), w*w + x*x - y*y - z*z);
 }
 
 void

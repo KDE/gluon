@@ -77,7 +77,7 @@ void SpriteRendererComponent::update ( int elapsedMilliseconds )
     Eigen::Vector3f scale = gameObject()->worldScale();
     d->item->setScale(scale.x(), scale.y());
 
-    d->item->setAngle(gameObject()->angle());
+    //d->item->setAngle(gameObject()->angle());
 
     d->item->updateTransform();
 }
