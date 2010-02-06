@@ -31,10 +31,6 @@ GameObject::GameObject(QObject * parent)
 {
     d = new GameObjectPrivate;
 
-    setPosition(Eigen::Vector3f(0,0,0));
-    setScale(Eigen::Vector3f(1,1,1));
-    setRotationAxis(Eigen::Vector3f::Identity());
-
     updateTransform();
 }
 
@@ -361,16 +357,17 @@ GameObject::description() const
 }
 
 void
-GameObject::setPosition(Eigen::Vector3f newPosition)
+GameObject::setPosition(const Eigen::Vector3f& newPosition)
 {
     d->position = newPosition;
 
-    Eigen::Vector3f parentPosition(0,0,0);
-    if(parentGameObject())
-        parentPosition = parentGameObject()->positionGlobal();
-    d->positionGlobal = parentPosition + newPosition;
-
+    d->transformInvalidated = true;
     updateTransform();
+}
+
+void GameObject::setPosition(float x, float y, float z)
+{
+    setPosition(Eigen::Vector3f(x, y, z));
 }
 
 Eigen::Vector3f
@@ -379,17 +376,24 @@ GameObject::position() const
     return d->position;
 }
 
+Eigen::Vector3f
+GameObject::worldPosition() const
+{
+    return d->worldPosition;
+}
+
 void
-GameObject::setScale(Eigen::Vector3f newScale)
+GameObject::setScale(const Eigen::Vector3f& newScale)
 {
     d->scale = newScale;
 
-    Eigen::Vector3f parentScale(0,0,0);
-    if(parentGameObject())
-        parentScale = parentGameObject()->scale();
-    d->scaleGlobal = parentScale + newScale;
-
+    d->transformInvalidated = true;
     updateTransform();
+}
+
+void GameObject::setScale(float x, float y, float z)
+{
+    setScale(Eigen::Vector3f(x, y, z));
 }
 
 Eigen::Vector3f
@@ -398,126 +402,117 @@ GameObject::scale() const
     return d->scale;
 }
 
-void
-GameObject::setRotationAxis(Eigen::Vector3f newRotationAxis)
-{
-    d->rotationAxis = newRotationAxis;
-
-    Eigen::Vector3f parentRotationAxis(0,0,0);
-    if(parentGameObject())
-        parentRotationAxis = parentGameObject()->rotationAxis();
-    d->rotationAxisGlobal = parentRotationAxis + newRotationAxis;
-
-    updateTransform();
-}
-
 Eigen::Vector3f
-GameObject::rotationAxis() const
+GameObject::worldScale() const
 {
-    return d->rotationAxis;
+    return d->worldScale;
 }
 
-void
-GameObject::setRotation(float newRotation)
+
+void GameObject::setOrientation(const Eigen::Quaternionf& newOrientation)
 {
-    d->rotation = newRotation;
+    d->orientation = newOrientation;
 
-    float parentRotation = 0;
-    if(parentGameObject())
-        parentRotation = parentGameObject()->rotation();
-    d->rotationGlobal = parentRotation + newRotation;
-
+    d->transformInvalidated = true;
     updateTransform();
 }
 
-float
-GameObject::rotation() const
+void GameObject::setOrientation(float pitch, float yaw, float roll)
 {
-    return d->rotation;
-}
+    //Eigen::Quaternionf pitchQuat(Eigen::AngleAxisf(pitch, Eigen::Vector3f::UnitX()));
+    Eigen::Quaternionf pitchQuat(Eigen::ei_sin(pitch/2), 0, 0, Eigen::ei_cos(pitch/2));
+    //Eigen::Quaternionf yawQuat(Eigen::AngleAxisf(yaw, Eigen::Vector3f::UnitY()));
+    Eigen::Quaternionf yawQuat(0, Eigen::ei_sin(yaw/2), 0, Eigen::ei_cos(yaw/2));
+    //Eigen::Quaternionf rollQuat(Eigen::AngleAxisf(roll, Eigen::Vector3f::UnitZ()));
+    Eigen::Quaternionf rollQuat(0, 0, Eigen::ei_sin(roll/2), Eigen::ei_cos(roll/2));
 
-Eigen::Vector3f
-GameObject::positionGlobal() const
-{
-    return d->positionGlobal;
-}
+    d->orientation = pitchQuat * yawQuat * rollQuat;
 
-void
-GameObject::setPositionGlobal(Eigen::Vector3f newPositionGlobal)
-{
-    d->positionGlobal = newPositionGlobal;
-
-    Eigen::Vector3f parentPosition(0,0,0);
-    if(parentGameObject())
-        parentPosition = parentGameObject()->positionGlobal();
-    d->position = newPositionGlobal - parentPosition;
-
+    d->transformInvalidated = true;
     updateTransform();
 }
 
-Eigen::Vector3f
-GameObject::scaleGlobal() const
+Eigen::Quaternionf GameObject::orientation() const
 {
-    return d->scaleGlobal;
+    return d->orientation;
 }
 
-void
-GameObject::setScaleGlobal(Eigen::Vector3f newScaleGlobal)
+Eigen::Quaternionf
+GameObject::worldOrientation() const
 {
-    d->scaleGlobal = newScaleGlobal;
-
-    Eigen::Vector3f parentScaleGlobal(0,0,0);
-    if(parentGameObject())
-        parentScaleGlobal = parentGameObject()->scaleGlobal();
-    d->scale = newScaleGlobal - parentScaleGlobal;
-
-    updateTransform();
+    return d->worldOrientation;
 }
 
-Eigen::Vector3f
-GameObject::rotationAxisGlobal() const
+
+void GameObject::setPitch(float pitch)
 {
-    return d->rotationAxisGlobal;
+    setOrientation(pitch, yaw(), roll());
 }
 
-void
-GameObject::setRotationAxisGlobal(Eigen::Vector3f newRotationAxisGlobal)
+float GameObject::pitch() const
 {
-    d->rotationAxisGlobal = newRotationAxisGlobal;
+    float x = d->orientation.x();
+    float y = d->orientation.y();
+    float z = d->orientation.z();
+    float w = d->orientation.w();
 
-    Eigen::Vector3f parentRotationAxisGlobal(0,0,0);
-    if(parentGameObject())
-        parentRotationAxisGlobal = parentGameObject()->rotationAxisGlobal();
-    d->rotationAxis = newRotationAxisGlobal - parentRotationAxisGlobal;
-
-    updateTransform();
+    return Eigen::ei_atan2(2*(y*z + w*x), w*w - x*x - y*y + z*z);
 }
 
-float
-GameObject::rotationGlobal() const
+void GameObject::setYaw(float yaw)
 {
-    return d->rotationGlobal;
+    setOrientation(pitch(), yaw, roll());
 }
 
-void
-GameObject::setRotationGlobal(float newRotationGlobal)
+float GameObject::yaw() const
 {
-    d->rotationGlobal = newRotationGlobal;
+    float x = d->orientation.x();
+    float y = d->orientation.y();
+    float z = d->orientation.z();
+    float w = d->orientation.w();
 
-    float parentRotationGlobal = 0;
-    if(parentGameObject())
-        parentRotationGlobal = parentGameObject()->rotationGlobal();
-    d->rotationGlobal = newRotationGlobal - parentRotationGlobal;
+    return asin(-2*(x*z + w*y));
+}
 
-    updateTransform();
+void GameObject::setRoll(float roll)
+{
+    setOrientation(pitch(), yaw(), roll);
+}
+
+float GameObject::roll() const
+{
+    float x = d->orientation.x();
+    float y = d->orientation.y();
+    float z = d->orientation.z();
+    float w = d->orientation.w();
+
+    return Eigen::ei_atan2(2*(x*y + w*z), w*w + x*x - y*y - z*z);
 }
 
 void
 GameObject::updateTransform()
 {
-    // Reset the transform matrix to the new values of positionGlobal, scaleGlobal and rotationGlobal
-    #warning Why do i not have the Scaling3f typedef?!
-    d->transformMatrix = Eigen::Translation3f(positionGlobal()) * Eigen::AngleAxisf(rotationGlobal(), rotationAxisGlobal()); // * Scaling3f(scaleGlobal());
+    if(!d->transformInvalidated) return;
+
+    GameObject* parent = parentGameObject();
+
+    if(parent)
+    {
+        //Calculate the new world position
+        //d->worldPosition = parent->worldPosition() + (parent->worldOrientation() * (parent->worldScale().cwise() * Eigen::Translation3f(d->position)));
+        d->worldPosition = parent->worldPosition() + parent->worldOrientation() * (parent->worldScale().cwise() * d->position);
+        d->worldOrientation = parent->worldOrientation() * d->orientation;
+        d->worldScale = parent->worldScale().cwise() * d->scale;
+    }
+    else
+    {
+        //Apparently we do not have a parent, just set our local position to world then
+        d->worldPosition = d->position;
+        d->worldOrientation = d->orientation;
+        d->worldScale = d->scale;
+    }
+
+    d->transform.translate(d->worldPosition).rotate(d->worldOrientation).scale(d->worldScale);
 
     // Finally, update the child objects' position
     foreach(QObject *child, children())
@@ -525,31 +520,23 @@ GameObject::updateTransform()
         GameObject *theChild = qobject_cast<GameObject*>(child);
         if(theChild)
         {
-            theChild->updateTransformFromParent(d->transformMatrix);
+            theChild->invalidateTransform();
+            theChild->updateTransform();
         }
     }
+
+    d->transformInvalidated = false;
 }
 
-void
-GameObject::updateTransformFromParent(Eigen::Transform3f parentTransform)
+void GameObject::invalidateTransform()
 {
-    // Find new values according to change between old and new transformMatrix
-    parentTransform;
-    // Set the new values directly (without passing set*), it's expensive enough already
-
-    // Finally, update the child objects' position
-    foreach(QObject *child, children())
-    {
-        GameObject *theChild = qobject_cast<GameObject*>(child);
-        if(theChild)
-            theChild->updateTransformFromParent(d->transformMatrix);
-    }
+    d->transformInvalidated = true;
 }
 
 Eigen::Transform3f
 GameObject::transform() const
 {
-    return d->transformMatrix;
+    return d->transform;
 }
 
 #include "gameobject.moc"

@@ -70,14 +70,14 @@ void SpriteRendererComponent::update ( int elapsedMilliseconds )
 {
     Q_UNUSED(elapsedMilliseconds)
 
-    Eigen::Vector3f position = gameObject()->position();
+    Eigen::Vector3f position = gameObject()->worldPosition();
     d->item->setPosition(position.x(), position.y());
     d->item->setZIndex(position.z());
 
-    Eigen::Vector3f scale = gameObject()->scale();
+    Eigen::Vector3f scale = gameObject()->worldScale();
     d->item->setScale(scale.x(), scale.y());
 
-    d->item->setAngle(gameObject()->rotation());
+    d->item->setAngle(gameObject()->angle());
 
     d->item->updateTransform();
 }

@@ -23,6 +23,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QString>
+
 #include <Eigen/Geometry>
 
 namespace GluonEngine
@@ -41,15 +42,14 @@ namespace GluonEngine
 
             Eigen::Vector3f position;
             Eigen::Vector3f scale;
-            Eigen::Vector3f rotationAxis;
-            float rotation;
+            Eigen::Quaternionf orientation;
 
-            Eigen::Vector3f positionGlobal;
-            Eigen::Vector3f scaleGlobal;
-            Eigen::Vector3f rotationAxisGlobal;
-            float rotationGlobal;
+            Eigen::Vector3f worldPosition;
+            Eigen::Vector3f worldScale;
+            Eigen::Quaternionf worldOrientation;
 
-            Eigen::Transform3f transformMatrix;
+            Eigen::Transform3f transform;
+            bool transformInvalidated;
 
             GameObject * parentGameObject;
             QList<GameObject *> children;

@@ -71,7 +71,7 @@ void SoundEmitterComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 
-    m_sound->setPosition(gameObject()->positionGlobal());
+    m_sound->setPosition(gameObject()->worldPosition());
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)

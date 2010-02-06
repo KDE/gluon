@@ -19,6 +19,7 @@
 
 #include "gameobjectprivate.h"
 #include <Eigen/Core>
+#include <Eigen/Geometry>
 
 using namespace GluonEngine;
 
@@ -26,9 +27,11 @@ GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
     position = Eigen::Vector3f::Identity();
-    scale = Eigen::Vector3f(1, 1, 1);
-    rotationAxis = Eigen::Vector3f::Identity();
-    rotation = 0;
+    scale = Eigen::Vector3f::Ones();
+    orientation = Eigen::Quaternionf::Identity();
+
+    transform = Eigen::Transform3f::Identity();
+    transformInvalidated = true;
 }
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
@@ -36,10 +39,11 @@ GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
     , description(other.description)
     , position(other.position)
     , scale(other.scale)
-    , rotationAxis(other.rotationAxis)
-    , rotation(other.rotation)
+    , orientation(other.orientation)
     , parentGameObject(other.parentGameObject)
 {
+    transform = Eigen::Transform3f::Identity();
+    transformInvalidated = true;
 }
 
 GameObjectPrivate::~GameObjectPrivate()

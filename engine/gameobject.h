@@ -20,12 +20,13 @@
 #ifndef GLUON_ENGINE_GAMEOBJECT_H
 #define GLUON_ENGINE_GAMEOBJECT_H
 
-#include "core/gluonobject.h"
-#include "core/gluonvarianttypes.h"
-#include "core/gluonobjectfactory.h"
-#include "gluon_engine_export.h"
-
 #include <QtCore/QSharedData>
+
+#include <core/gluonobject.h>
+#include <core/gluonvarianttypes.h>
+#include <core/gluonobjectfactory.h>
+
+#include "gluon_engine_export.h"
 
 namespace GluonEngine
 {
@@ -39,10 +40,21 @@ namespace GluonEngine
 
         Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
         Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
-        Q_PROPERTY(float rotation READ rotation WRITE setRotation)
+        //Q_PROPERTY(Eigen::Quaternionf orientation READ orientation WRITE setOrientation)
+        Q_PROPERTY(float pitch READ pitch WRITE setPitch)
+        Q_PROPERTY(float yaw READ yaw WRITE setYaw)
+        Q_PROPERTY(float roll READ roll WRITE setRoll)
+
+        //Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
+        //Q_PROPERTY(float rotation READ rotation WRITE setRotation)
 
         public:
+            enum TransformSpace
+            {
+                TS_LOCAL,
+                TS_WORLD,
+            };
+
             GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
@@ -96,30 +108,39 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
-            void setPosition(Eigen::Vector3f newPosition);
+            void setPosition(const Eigen::Vector3f& newPosition);
+            void setPosition(float x, float y, float z);
             Eigen::Vector3f position() const;
-            void setScale(Eigen::Vector3f newScale);
-            Eigen::Vector3f scale() const;
-            void setRotationAxis(Eigen::Vector3f newRotationAxis);
-            Eigen::Vector3f rotationAxis() const;
-            void setRotation(float newRotation);
-            float rotation() const;
+            Eigen::Vector3f worldPosition() const;
 
-            void setPositionGlobal(Eigen::Vector3f newPositionGlobal);
-            Eigen::Vector3f positionGlobal() const;
-            void setScaleGlobal(Eigen::Vector3f newScaleGlobal);
-            Eigen::Vector3f scaleGlobal() const;
-            void setRotationAxisGlobal(Eigen::Vector3f newRotationAxisGlobal);
-            Eigen::Vector3f rotationAxisGlobal() const;
-            void setRotationGlobal(float newRotationGlobal);
-            float rotationGlobal() const;
+            void setScale(const Eigen::Vector3f& newScale);
+            void setScale(float x, float y, float z);
+            Eigen::Vector3f scale() const;
+            Eigen::Vector3f worldScale() const;
+
+            void setOrientation(const Eigen::Quaternionf& newOrientation);
+            void setOrientation(float pitch, float yaw, float roll);
+            Eigen::Quaternionf orientation() const;
+            Eigen::Quaternionf worldOrientation() const;
+
+            void setPitch(float pitch);
+            float pitch() const;
+            void setYaw(float yaw);
+            float yaw() const;
+            void setRoll(float roll);
+            float roll() const;
+
+            //TODO: Implement
+            //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
+            //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
+            //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
+            //void rotate(float pitch, float yaw, float roll, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();
+            void invalidateTransform();
             Eigen::Transform3f transform() const;
-
-
-        protected:
-            void updateTransformFromParent(Eigen::Transform3f parentTransform);
 
         private:
             QSharedDataPointer<GameObjectPrivate> d;
