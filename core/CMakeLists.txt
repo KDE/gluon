@@ -82,15 +82,9 @@ install(
 
 install(
     FILES
+    cmake/FindGluon.cmake
     cmake/FindGluonCore.cmake
     cmake/FindEigen2.cmake
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
-    COMPONENT Devel
-)
-
-install(
-    FILES
-    cmake/FindGluon.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/cmake/modules
     COMPONENT Devel
 )
