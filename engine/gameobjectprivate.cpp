@@ -26,7 +26,7 @@ using namespace GluonEngine;
 GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
-    position = Eigen::Vector3f::Identity();
+    position = Eigen::Vector3f::Zero();
     scale = Eigen::Vector3f::Ones();
     orientation = Eigen::Quaternionf::Identity();
 
