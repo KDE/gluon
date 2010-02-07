@@ -99,7 +99,7 @@ if(INSTALL_CMAKE_FILES)
         engine/cmake/FindGluonEngine.cmake
         creator/lib/cmake/FindGluonCreator.cmake
         DESTINATION
-        ${CMAKE_ROOT}/modules
+        ${CMAKE_ROOT}/Modules
         OPTIONAL
     )
 endif()
