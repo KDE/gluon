@@ -23,6 +23,7 @@ set(libGluonCreator_SRCS
     widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
     widgets/propertywidgetitems/qsizefpropertywidgetitem.cpp
     widgets/propertywidgetitems/colorpropertywidgetitem.cpp
+    widgets/propertywidgetitems/quaternionpropertywidgetitem.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})
