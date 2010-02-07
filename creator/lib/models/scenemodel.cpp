@@ -29,7 +29,8 @@ using namespace GluonCreator;
 SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 {
     m_root = 0;
-    connect(ObjectManager::instance(), SIGNAL(newObject(GluonEngine::GameObject*)), SIGNAL(layoutChanged()));
+    setSupportedDragActions(Qt::MoveAction);
+    connect(ObjectManager::instance(), SIGNAL(newGameObject(GluonEngine::GameObject*)), SIGNAL(layoutChanged()));
 }
 
 
@@ -44,13 +45,6 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 {
     if(obj)
     {
-        /*if(!m_root)
-            m_root = new GameObject(this);
-
-        if(m_root->childCount() > 0)
-            m_root->removeChild(m_root->childGameObject(0));
-
-        m_root->addChild(obj);*/
         m_root = obj;
 
         reset();
@@ -59,7 +53,10 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 
 QVariant SceneModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && role == Qt::DisplayRole)
+    if(!index.isValid())
+        return QVariant();
+
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         GluonEngine::GameObject *item = static_cast<GluonEngine::GameObject*>(index.internalPointer());
 
@@ -166,61 +163,57 @@ QStringList
 SceneModel::mimeTypes() const
 {
     QStringList types;
+    types << "application/gluon.object.gameobject";
     types << "application/gluon.text.componentclass";
     return types;
 }
 
+QMimeData* SceneModel::mimeData(const QModelIndexList& indexes) const
+{
+    return QAbstractItemModel::mimeData(indexes);
+}
+
 bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
-    Q_UNUSED(row)
-    Q_UNUSED(column)
     DEBUG_FUNC_NAME
 
     if(action == Qt::IgnoreAction)
         return false;
 
-    if(!parent.isValid())
-        return false;
+    if(parent.isValid()) {
+        GluonEngine::GameObject *gobj = qobject_cast<GluonEngine::GameObject*>((QObject*)parent.internalPointer());
 
-    GluonEngine::GameObject *gobj = qobject_cast<GluonEngine::GameObject*>((QObject*)parent.internalPointer());
-
-    if(!gobj)
-        return false;
-
-    foreach(QString something, data->formats())
-    {
-        DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
-    }
-
-    QByteArray encodedData = data->data("application/gluon.text.componentclass");
-    QDataStream stream(&encodedData, QIODevice::ReadOnly);
-    QStringList newItems;
-    int rows = 0;
-
-    while (!stream.atEnd())
-    {
-        QString text;
-        stream >> text;
-        newItems << text;
-        ++rows;
-    }
-    foreach(QString text, newItems)
-    {
-        DEBUG_TEXT(QString("Adding component of class %1").arg(text));
-        GluonCore::GluonObject *component = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(text);
-        if(!component)
-        {
-            DEBUG_TEXT("Returned component instance was null, something's fishy");
+        if(!gobj) {
+            gobj = m_root;
         }
-        else
-        {
-            DEBUG_TEXT(QString("Adding component of class name %1").arg(component->metaObject()->className()));
-            #warning This should be a qobject_cast, but that for some reason returns a null object
-            GluonEngine::Component* comp = reinterpret_cast<GluonEngine::Component*>(component);
-            gobj->addComponent(comp);
 
-            //Call start. We are, after all, basically working with a paused game.
-            comp->start();
+        foreach(QString something, data->formats())
+        {
+            DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
+        }
+
+        if(data->hasFormat("application/gluon.text.componentclass")) {
+            QByteArray encodedData = data->data("application/gluon.text.componentclass");
+            QDataStream stream(&encodedData, QIODevice::ReadOnly);
+            QStringList newItems;
+            int rows = 0;
+
+            while (!stream.atEnd())
+            {
+                QString text;
+                stream >> text;
+                newItems << text;
+                ++rows;
+            }
+            foreach(QString text, newItems)
+            {
+                DEBUG_TEXT(QString("Adding component of class %1").arg(text));
+                ObjectManager::instance()->createNewComponent(text, gobj);
+            }
+        }
+
+        if(data->hasFormat("application/gluon.object.gameobject")) {
+            DEBUG_TEXT("TODO: Implement move of objects");
         }
     }
 
@@ -229,10 +222,18 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 
 bool SceneModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    DEBUG_FUNC_NAME
+    if(!index.isValid())
+        return false;
+
+    if (role == Qt::EditRole) {
+        DEBUG_TEXT(value.typeName());
         static_cast<GluonCore::GluonObject*>(index.internalPointer())->setName(value.toString());
         emit dataChanged(index, index);
         return true;
+    } else {
+        DEBUG_TEXT(value.typeName());
+        DEBUG_TEXT(value.toString());
     }
     return false;
 }
@@ -242,6 +243,9 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
     beginInsertRows(parent, row, row + count - 1);
 
     GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
+    if(!obj)
+        obj = m_root;
+
     for (int i = 0; i < count; ++i) {
         obj->addChild(new GluonEngine::GameObject());
     }
@@ -252,11 +256,23 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
 
 bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
 {
-    Q_UNUSED(row)
-    Q_UNUSED(count)
-    Q_UNUSED(parent)
+    DEBUG_FUNC_NAME
+    beginRemoveRows(parent, row, row + count - 1);
+    GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
+    if(!obj) {
+        obj = m_root;
+    }
 
-    return false;
+    while(count > 0)
+    {
+        GluonEngine::GameObject* child = obj->childGameObject(row);
+        obj->removeChild(child);
+        delete child;
+        count--;
+    }
+
+    endRemoveRows();
+    return true;
 }
 
 #include "scenemodel.moc"
