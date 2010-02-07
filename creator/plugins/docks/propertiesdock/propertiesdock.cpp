@@ -18,6 +18,8 @@
 
 #include <widgets/propertywidget.h>
 #include <engine/game.h>
+#include <engine/component.h>
+#include <objectmanager.h>
 
 using namespace GluonCreator;
 
@@ -40,6 +42,7 @@ PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::Window
 
     connect(SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)));
     connect(d->widget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), GluonEngine::Game::instance(), SLOT(updateAll()));
+    connect(ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)));
 }
 
 PropertiesDock::~PropertiesDock()
@@ -67,4 +70,13 @@ void PropertiesDock::selectionChanged(SelectionManager::SelectionList selection)
 {
     setSelection(selection.at(0));
 }
+
+void PropertiesDock::newComponent(GluonEngine::Component* comp)
+{
+    if(comp->parent() == d->widget->object())
+    {
+        d->widget->setObject(d->widget->object());
+    }
+}
+
 

@@ -21,6 +21,11 @@
 
 #include <selectionmanager.h>
 
+namespace GluonEngine
+{
+    class Component;
+}
+
 namespace GluonCreator {
 
 class PropertiesDock : public Dock
@@ -36,6 +41,7 @@ class PropertiesDock : public Dock
     public slots:
         void setSelection(GluonCore::GluonObject* obj = 0);
         void selectionChanged(SelectionManager::SelectionList selection);
+        void newComponent(GluonEngine::Component* comp);
 
     private:
         class PropertiesDockPrivate;
