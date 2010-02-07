@@ -451,6 +451,7 @@ GameObject::updateTransform()
         d->worldScale = d->scale;
     }
 
+    d->transform.setIdentity();
     d->transform.translate(d->worldPosition).rotate(d->worldOrientation).scale(d->worldScale);
 
     // Finally, update the child objects' position
