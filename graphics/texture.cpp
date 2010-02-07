@@ -33,7 +33,6 @@ void Texture::init()
     m_translate = QPointF(0,0);
     m_rotate = 0;
     m_scale = QPointF(1,1);
-    qDebug()<<"init texture";
 }
 
 Texture::Texture()
@@ -44,7 +43,7 @@ Texture::Texture()
 Texture::Texture(const QString& fileName)
 {
     init();
-    
+
     if (!QFile::exists(fileName)) {
         qDebug() << "Texture::Texture: Texture file not found: " << fileName;
         return;
@@ -149,8 +148,8 @@ void Texture::setWrapMode(GLenum coordinate, GLenum mode)
     {
       GLint texSize;
       glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texSize);
-      
+
       return texSize;
-      
+
     }
 }
