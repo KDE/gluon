@@ -19,13 +19,20 @@
  */
 
 #include "engine.h"
-#include "engine_p.h"
 
 #include <QtCore/QDebug>
 
 using namespace GluonGraphics;
 
 template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
+
+class Engine::EnginePrivate
+{
+public:
+    EnginePrivate() { }
+    
+    ItemList items;
+};
 
 Engine::Engine()
 {
@@ -39,8 +46,7 @@ Engine::~Engine()
 
 void Engine::addItem(Item* item)
 {
-    qDebug() << "adding Item of type: " << item->objectName()<<"-"<<item->zindex();
-    d->m_items[item->zindex()].append(item);
+    d->items.append(item);
     item->setParent(this);
 }
 
@@ -48,26 +54,25 @@ void Engine::addItems(const ItemList &items)
 {
     foreach(Item* item, items) {
         addItem(item);
-        item->setParent(this);
     }
 }
 
 bool Engine::removeItem(Item* item)
 {
     if ( item != NULL)
-        return d->m_items[item->zindex()].removeOne(item);
+        return d->items.removeOne(item);
     else return false;
 }
 
 bool Engine::removeItems(const ItemList &items)
 {
+    bool retVal = true;
     foreach ( Item* item , items)
     {
-        if (!removeItem(item))
-            return false;
-        else return true;
+        if(!removeItem(item))
+            retVal = false;
     }
-    return true;
+    return retVal;
 }
 
 bool Engine::eraseItem(Item* item)
@@ -80,39 +85,29 @@ bool Engine::eraseItem(Item* item)
     else return false;
 }
 
-Item *Engine::itemAt( int id, unsigned int layer) const
+Item *Engine::itemAt( int id) const
 {
-    if ( id < d->m_items[layer].size())
-        return d->m_items[layer].at(id);
-
-    else return NULL;
-
+    return d->items.at(id);
 }
 
 bool Engine::eraseItems(const ItemList &items)
 {
+    bool retVal = true;
     foreach(Item* item, items) {
-        if (!eraseItem(item)) return false;
-        else return true;
+        if (!eraseItem(item))
+            retVal = false;
     }
-    return true;
+    return retVal;
 }
 
 int Engine::itemsCount() const
 {
-    int size=0;
-    IndexGroupMap::const_iterator i = d->m_items.constBegin();
-    while (i != d->m_items.constEnd()) {
-        size+=i.value().size();
-        ++i;
-    }
-    qDebug()<<"size="<<size;
-    return size;
+    return d->items.size();
 }
 
-IndexGroupMap Engine::items() const
+ItemList Engine::items() const
 {
-    return d->m_items;
+    return d->items;
 }
 
 #include "engine.moc"

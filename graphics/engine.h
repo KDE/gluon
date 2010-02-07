@@ -31,10 +31,6 @@
 
 namespace GluonGraphics
 {
-    class EnginePrivate;
-
-    typedef QMap<unsigned int, ItemList > IndexGroupMap;
-
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
         Q_OBJECT
@@ -46,10 +42,10 @@ namespace GluonGraphics
             bool removeItems(const ItemList &item);
             virtual bool eraseItem(Item* item);
             bool eraseItems(const ItemList &item);
-            Item * itemAt(int id, unsigned int layer=0) const;
+            Item * itemAt(int id) const;
             int itemsCount() const;
 
-            IndexGroupMap items() const;
+            ItemList items() const;
 
         private:
             friend class GluonCore::Singleton<Engine>;
@@ -57,7 +53,8 @@ namespace GluonGraphics
             Engine();
             ~Engine();
             Q_DISABLE_COPY(Engine);
-
+	    
+            class EnginePrivate;
             EnginePrivate *d;
     };
 } //namespace

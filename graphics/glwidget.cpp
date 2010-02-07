@@ -259,16 +259,10 @@ void GLWidget::paintGL()
 
 void GLWidget::drawItems()
 {
-
-    IndexGroupMap::const_iterator i;
-    for(i = Engine::instance()->items().constBegin(); i != Engine::instance()->items().constEnd(); ++i)
+    ItemList items = Engine::instance()->items();
+    foreach (Item *it, items)
     {
-        foreach (Item *it, i.value())
-        {
-
-            it->paintGL();
-
-        }
+        it->paintGL();
     }
 }
 
