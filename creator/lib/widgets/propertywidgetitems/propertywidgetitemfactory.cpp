@@ -26,6 +26,7 @@
 #include "intpropertywidgetitem.h"
 #include "qsizefpropertywidgetitem.h"
 #include "colorpropertywidgetitem.h"
+#include "quaternionpropertywidgetitem.h"
 
 using namespace GluonCreator;
 
@@ -49,6 +50,8 @@ PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidg
         return new QSizeFPropertyWidgetItem(parent);
     if(type == "QColor")
         return new ColorPropertyWidgetItem(parent);
+    if(type == "Eigen::Quaternionf")
+        return new QuaternionPropertyWidgetItem(parent);
 
     DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
 
