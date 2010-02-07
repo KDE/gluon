@@ -4,7 +4,9 @@
 #define GLUONINPUT_CODE_BUTTON_SIZE 232
 #define GLUONINPUT_CODE_RELABS_SIZE 198
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
+
 #include <QtCore/QString>
 #include <QtCore/QEvent>
 

@@ -1,7 +1,9 @@
 #ifndef DETECTMAC_H
 #define DETECTMAC_H
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
+
 #include "code.h"
 #include "inputdevice.h"
 #include "joystick.h"

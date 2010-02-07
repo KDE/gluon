@@ -1,6 +1,8 @@
 #include "detectmac.h"
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
+
 #include <QtCore/QDebug>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDUsageTables.h>

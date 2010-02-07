@@ -8,13 +8,13 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDES}
 )
 
 set(GLUON_INPUT_INCLUDES
     ${GLUON_CORE_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/
+    ${CMAKE_CURRENT_SOURCE_DIR}
     CACHE PATHS "Includes required for Gluon Input"
 )
 
@@ -102,7 +102,7 @@ set(GluonInput_HEADERS_COMMON
 qt4_automoc(${GluonInput_SRCS_COMMON})
 
 if(APPLE)
-    qt4_automoc(${kcl_LIB_SRCS_MAC})
+    qt4_automoc(${GluonInput_SRCS_MAC})
     add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON})
 elseif(WIN32)
     qt4_automoc(${GluonInput_SRCS_WIN})

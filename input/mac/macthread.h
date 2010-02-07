@@ -1,7 +1,9 @@
 #ifndef _THREAD_H_
 #define _THREAD_H_
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
+
 #include "threadabstract.h"
 
 #include <QtCore/QThread>
