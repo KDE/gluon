@@ -13,7 +13,7 @@
 
 namespace GluonInput
 {
-	class GLUONINPUTSHARED_EXPORT MacThread : public ThreadAbstract
+	class GLUON_INPUT_EXPORT MacThread : public ThreadAbstract
 	{
 		Q_OBJECT
 	public:
@@ -22,25 +22,25 @@ namespace GluonInput
 		~MacThread();
 		static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
 		//void run();
-		
+
 		//const IOHIDDeviceRef device() const;
 		void setEnabled();
 		void setDisabled();
-		
+
 		int deviceUsage();
 		int getJoystickXAxis();
 		int getJoystickYAxis();
 		int getJoystickZAxis();
-		
+
 	private:
 		void readInformation();
-		
-		
+
+
 		int m_deviceUsage;
 		int m_xAbsUsage;
 		int m_yAbsUsage;
 		int m_zAbsUsage;
-		
+
 		IOHIDDeviceRef m_device;
 	};
 }

@@ -1,13 +1,10 @@
 #ifndef DETECT_H
 #define DETECT_H
 
-#include "gluoninput.h"
-
-#include "detectabstract.h"
-
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
+#include "detectabstract.h"
 #include "inputdevice.h"
 #include "mouse.h"
 #include "keyboard.h"
@@ -18,7 +15,7 @@ namespace GluonInput
 {
 	typedef QList<InputDevice *> InputList;
 
-	class GLUONINPUTSHARED_EXPORT Detect : public QObject
+	class GLUON_INPUT_EXPORT Detect : public QObject
 	{
 		Q_OBJECT
 

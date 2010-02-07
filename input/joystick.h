@@ -6,8 +6,8 @@
 namespace GluonInput
 {
 	class ThreadAbstract;
-	
-	class GLUONINPUTSHARED_EXPORT Joystick : public InputDevice
+
+	class GLUON_INPUT_EXPORT Joystick : public InputDevice
 	{
 		Q_OBJECT
 	public:

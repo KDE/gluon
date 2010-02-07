@@ -3,7 +3,7 @@
 
 #include <QtCore/QThread>
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
 #include "threadabstract.h"
 /**
  * \defgroup KCL KCL
@@ -12,7 +12,7 @@
 
 namespace GluonInput
 {
-	class GLUONINPUTSHARED_EXPORT LinuxThread : public ThreadAbstract
+	class GLUON_INPUT_EXPORT LinuxThread : public ThreadAbstract
 	{
 		Q_OBJECT
 
@@ -22,7 +22,7 @@ namespace GluonInput
 			close(m_fd);
 		}
 		void run();
-		
+
 		///
 		const QString devicePath() const;
 		void setEnabled();
@@ -31,13 +31,13 @@ namespace GluonInput
 		int getJoystickYAxis();
 		int getJoystickZAxis();
 		///
-		
+
 	protected:
 		bool openDevice(const QString &devicePath);
 		void closeDevice() {
 			close(m_fd);
 		}
-		
+
 		void readInformation();
 
 	private:

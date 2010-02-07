@@ -10,7 +10,7 @@
 
 namespace GluonInput
 {
-	class GLUONINPUTSHARED_EXPORT Code
+	class GLUON_INPUT_EXPORT Code
 	{
 	public:
 		static QString buttonName(int code);
@@ -19,7 +19,7 @@ namespace GluonInput
 		static QString absAxisName(int code);
 
 	private:
-		
+
 	};
 }
 #endif // KCLCODE_H

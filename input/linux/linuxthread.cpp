@@ -1,6 +1,5 @@
 
 #include "linuxthread.h"
-
 #include "inputevent.h"
 
 #include <QtCore/QCoreApplication>
@@ -52,7 +51,7 @@ namespace GluonInput
 		}
 		return true;
 	}
-	
+
 	void LinuxThread::setEnabled()
 	{
 		if(!m_enabled)
@@ -61,7 +60,7 @@ namespace GluonInput
 			m_enabled = true;
 		}
 	}
-	
+
 	void LinuxThread::setDisabled()
 	{
 		if(m_enabled)
@@ -70,7 +69,7 @@ namespace GluonInput
 			m_enabled = false;
 		}
 	}
-	
+
 	void LinuxThread::readInformation()
 	{
 		if (!QFile::exists(m_devicePath)) {
@@ -79,7 +78,7 @@ namespace GluonInput
 			m_msgError += "device url does not exist \n";
 			return;
 		}
-		
+
 		int m_fd = -1;
 		if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
 			qDebug() << "Could not open device" << m_devicePath;
@@ -87,48 +86,48 @@ namespace GluonInput
 			m_msgError += "could not open the device \n";
 			return;
 		}
-		
+
 		if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
 			qDebug() << "Could not retrieve information of device" << m_devicePath;
 			m_msgError += "could not retrieve information of device\n";
 			m_error = true;
 			return;
 		}
-		
+
 		char name[256] = "Unknown";
 		if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
 			qDebug() << "could not retrieve name of device" << m_devicePath;
 			//        m_msgError += "cannot retrieve name of device\n";
 			//        m_error = true;
 		}
-		
+
 		m_deviceName = QString(name);
 		///this next bit can be shared across platform
 		unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 		int abs[5];
 		memset(bit, 0, sizeof(bit));
 		ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
-		
+
 		m_buttonCapabilities.clear();
 		m_absAxisInfos.clear();
-		
+
 		for (int i = 0; i < EV_MAX; i++) {
 			if (test_bit(i, bit[0])) {
 				if (!i) {
 					continue;
 				}
-				
+
 				ioctl(m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
 				for (int j = 0; j < KEY_MAX; j++) {
 					if (test_bit(j, bit[i])) {
 						if (i == EV_KEY) {
 							m_buttonCapabilities.append(j);
 						}
-						
+
 						if (i == EV_REL) {
 							m_relAxisCapabilities.append(j);
 						}
-						
+
 						if (i == EV_ABS) {
 							ioctl(m_fd, EVIOCGABS(j), abs);
 							AbsVal cabs(0, 0, 0, 0);
@@ -160,45 +159,45 @@ namespace GluonInput
 				}
 			}
 		}
-		
+
 		//===============Find Force feedback ?? ===============
-		
+
 		close(m_fd);
-		
+
 		m_deviceType = GluonInput::UnknownDevice;
-		
+
 		if (m_buttonCapabilities.contains(BTN_STYLUS)) {
 			m_deviceType  = GluonInput::TabletDevice;
 		}
-		
+
 		if (m_buttonCapabilities.contains(BTN_STYLUS)
 			|| m_buttonCapabilities.contains(ABS_PRESSURE)) {
 			m_deviceType  = GluonInput::MouseDevice;
 		}
-		
+
 		if (m_buttonCapabilities.contains(BTN_TRIGGER)) {
 			m_deviceType  = GluonInput::JoystickDevice;
 		}
-		
+
 		if (m_buttonCapabilities.contains(BTN_MOUSE)) {
 			m_deviceType  = GluonInput::MouseDevice;
 		}
-		
+
 		if (m_buttonCapabilities.contains(KEY_ESC)) {
 			m_deviceType  = GluonInput::KeyBoardDevice;
 		}
 	}
-	
+
 	int LinuxThread::getJoystickXAxis()
 	{
 		return ABS_X;
 	}
-	
+
 	int LinuxThread::getJoystickYAxis()
 	{
 		return ABS_Y;
 	}
-	
+
 	int LinuxThread::getJoystickZAxis()
 	{
 		return ABS_Z;

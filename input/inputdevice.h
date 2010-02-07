@@ -1,22 +1,19 @@
 #ifndef INPUTDEVICE_H
 #define INPUTDEVICE_H
 
-#include "gluoninput.h"
-
-#include "code.h"
-
 #include <QtCore/QMap>
 #include <QtCore/QPair>
 #include <QtCore/QPoint>
 #include <QtCore/QThread>
 #include <QtCore/QEvent>
 
+#include "code.h"
 #include "threadabstract.h"
 #include "inputevent.h"
 
 namespace GluonInput
 {
-	class GLUONINPUTSHARED_EXPORT InputDevice : public QObject
+	class GLUON_INPUT_EXPORT InputDevice : public QObject
 	{
 		Q_OBJECT
 
@@ -25,7 +22,7 @@ namespace GluonInput
 		InputDevice(ThreadAbstract * inputThread, QObject * parent = 0);
 		InputDevice();
 		~InputDevice();
-		
+
 		int vendor()const;
 		int product()const;
 		int version()const;
@@ -49,7 +46,7 @@ namespace GluonInput
 		bool error()const;
 		QString msgError()const;
 		bool isEnabled() const;
-		
+
 	signals:
 		void eventSent(InputEvent * event);
 		void buttonPressed(int code);
@@ -66,14 +63,14 @@ namespace GluonInput
 	protected:
 		//void readInformation();
 		bool event(QEvent * evt);
-		
+
 		/*int m_xAbsUsage;
 		int m_yAbsUsage;
 		int m_zAbsUsage;*/
-		
+
 		int m_lastAbsAxis;
 		int m_lastRelAxis;
-		
+
 		ThreadAbstract *inputListener;
 	private:
 		//ThreadAbstract *inputListener;
@@ -94,12 +91,12 @@ namespace GluonInput
 		bool m_relMove;
 		//bool m_error;
 		//bool m_enable;
-		
+
 		/*int m_vendor;
 		int m_product;
 		int m_version;
 		int m_bustype;*/
-		
+
 		void init();
 	};
 }

@@ -5,7 +5,9 @@
 #include <QtGui/QIcon>
 #include <QtCore/QEvent>
 
-#include "gluoninput.h"
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
+
 /**
  * \defgroup KCL KCL
  */
@@ -13,7 +15,7 @@
 
 namespace GluonInput
 {
-  class GLUONINPUTSHARED_EXPORT Code
+  class GLUON_INPUT_EXPORT Code
   {
   public:
       static QString buttonName(int code);

@@ -1,14 +1,13 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "gluoninput.h"
 #include "inputdevice.h"
 
 namespace GluonInput
 {
 	class ThreadAbstract;
-	
-	class GLUONINPUTSHARED_EXPORT KeyBoard : public InputDevice
+
+	class GLUON_INPUT_EXPORT KeyBoard : public InputDevice
 	{
 	public:
 		//KeyBoard(IOHIDDeviceRef device, QObject * parent = 0);

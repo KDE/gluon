@@ -1,19 +1,20 @@
 #ifndef CUSTOMINPUT_H
 #define CUSTOMINPUT_H
 
-#include "gluoninput.h"
-
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QMap>
 #include <QtCore/QPair>
+
+#include "gluon_input_export.h"
+#include "inputdefinitions.h"
 
 namespace GluonInput
 {
 	class InputDevice;
 	class InputEvent;
 
-	class GLUONINPUTSHARED_EXPORT CustomInput : public QObject
+	class GLUON_INPUT_EXPORT CustomInput : public QObject
 	{
 		Q_OBJECT
 	public:

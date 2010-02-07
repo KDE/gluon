@@ -17,25 +17,25 @@
 
 namespace GluonInput
 {
-	class GLUONINPUTSHARED_EXPORT DetectMac : public DetectAbstract
+	class GLUON_INPUT_EXPORT DetectMac : public DetectAbstract
 	{
 		Q_OBJECT
-		
+
 	public:
 		DetectMac(QObject * parent);
 		~DetectMac();
-		
+
 		void searchDevice();
 		void setAllEnabled();
 		void setAllDisabled();
-		
-		QList<InputDevice *> getInputList();    
+
+		QList<InputDevice *> getInputList();
 		QList<KeyBoard *> getKeyboardList();
 		QList<Mouse *> getMouseList();
 		QList<Joystick *> getJoystickList();
 		QList<Tablet *> getTabletList();
-		QList<InputDevice *> getUnknownDeviceList();    
-		
+		QList<InputDevice *> getUnknownDeviceList();
+
 		void addInput(InputDevice *i);
 		void addKeyboard(InputDevice *i);
 		void addMouse(InputDevice *i);
@@ -43,11 +43,11 @@ namespace GluonInput
 		void addTablet(InputDevice *i);
 		void addUnknown(InputDevice *i);
 		void clear();
-		
+
 	private:
 		static void createDevices(const void *value, void *context);
 		CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
-		
+
 		IOHIDManagerRef deviceManager;
 		CFSetRef devices;
 	};
