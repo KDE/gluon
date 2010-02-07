@@ -22,23 +22,19 @@
 
 #include "baseitem.h"
 #include <algorithm>
-namespace GluonGraphics
-{
+
+using namespace GluonGraphics;
+
 BaseItem::BaseItem(QObject *parent)
     : QObject(parent)
 {
-    m_angle = 0;
-    m_position=QPointF(0,0);
-    m_translate=QPointF(0,0);
-    m_scale = QPointF(1,1);
-    m_rotateCenter = QPointF(0,0);
-    m_shear = QPointF(0,0);
-    m_center=QPointF(0,0);
+    m_position = Eigen::Vector3f::Zero();
+    m_scale = Eigen::Vector3f::Ones();
+    m_center= Eigen::Vector3f::Zero();
     m_polygon = QPolygonF();
     m_dim = QSizeF();
-    m_radius = 1;
-    m_zindex = 0;
-    initShearMatrix(m_shear);
+
+    m_orientation = Eigen::Quaternionf::Identity();
 }
 
 BaseItem::~BaseItem()
@@ -49,37 +45,25 @@ void  BaseItem::updateTransform()
 {
     m_matrix.setIdentity();
 
-    m_matrix.translate(Eigen::Vector3f(m_position.x() , m_position.y(), 0));
-
-    m_matrix.scale(Eigen::Vector3f(m_scale.x() , m_scale.y(), 0));
-    m_matrix.translate(Eigen::Vector3f(m_translate.x() , m_translate.y(), 0));
-
-    m_matrix.translate(Eigen::Vector3f(m_rotateCenter.x(), m_rotateCenter.y(), 0));
-    m_matrix.rotate(Eigen::AngleAxisf(m_angle, AXIS_Z));
-    m_matrix.translate(Eigen::Vector3f(-m_rotateCenter.x() , -m_rotateCenter.y(), 0));
-
-
-
-    //    m_shearMatrix(0,1) = m_shear.x();
-    //    m_shearMatrix(1,0) = m_shear.y();
-    //    m_matrix =   m_matrix* m_shearMatrix ;
+    m_matrix.translate(m_position);
+    m_matrix.scale(m_scale);
+    m_matrix.rotate(m_orientation);
 }
 
 void BaseItem::resetTransform()
 {
     m_matrix.setIdentity();
-    m_angle  = 0;
-    m_scale  = QPointF(1,1);
-    m_shear  = QPointF(0,0);
-    m_position = QPointF(0,0);
+    m_position = Eigen::Vector3f::Zero();
+    m_scale = Eigen::Vector3f::Ones();
+    m_orientation = Eigen::Quaternionf::Identity();
 }
 
 void BaseItem::computeGeometry()
 {
     //Compute the center
-    m_center = QPointF(0,0);
+    m_center = Eigen::Vector3f::Zero();
     foreach(const Vertex &p, m_vertexList) {
-        m_center += QPointF(p.x(), p.y());
+        m_center += Eigen::Vector3f(p.x(), p.y(), 0);
     }
     m_center /= (float)vertexCount();
 
@@ -160,27 +144,4 @@ void BaseItem::createLine(const QLineF &line)
     computeGeometry();
 }
 
-void BaseItem::initShearMatrix(const QPointF &s)
-{
-    m_shearMatrix(0,0) = 1;
-    m_shearMatrix(0,1) = s.x();
-    m_shearMatrix(0,2) = 0;
-    m_shearMatrix(0,3) = 0;
-
-    m_shearMatrix(1,0) = s.y();
-    m_shearMatrix(1,1) = 1;
-    m_shearMatrix(1,2) = 0;
-    m_shearMatrix(1,3) = 0;
-
-    m_shearMatrix(2,0) = 0;
-    m_shearMatrix(2,1) = 0;
-    m_shearMatrix(2,2) = 1;
-    m_shearMatrix(2,3) = 0;
-
-    m_shearMatrix(3,0) = 0;
-    m_shearMatrix(3,1) = 0;
-    m_shearMatrix(3,2) = 0;
-    m_shearMatrix(3,3) = 1;
-}
-}//namespace
 #include "baseitem.moc"

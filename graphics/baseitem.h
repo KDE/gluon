@@ -31,15 +31,6 @@
 
 #include "gluon_graphics_export.h"
 #include "vertex.h"
-const Eigen::Vector3f AXIS_X(1, 0, 0);
-const Eigen::Vector3f AXIS_Y(0, 1, 0);
-const Eigen::Vector3f AXIS_Z(0, 0, 1);
-
-/**
- * \defgroup KGL KGL
- */
-//@{
-
 
 namespace GluonGraphics
 {
@@ -91,40 +82,22 @@ public:
         return m_vertexList.size();
     }
 
-    inline const QPointF &position() const
+    inline Eigen::Vector3f position() const
     {
         return m_position;
     }
 
-    inline const QPointF &scaleValue() const
+    inline Eigen::Vector3f scaleValue() const
     {
         return m_scale;
     }
-    inline const QPointF &translateValue() const
-    {
-        return m_translate;
-    }
-    inline const float &angle() const
-    {
-        return m_angle;
-    }
 
-    inline const float &radius() const
+    inline float radius() const
     {
         return m_radius;
     }
 
-    inline unsigned int zindex() const
-    {
-        return m_zindex;
-    }
-
-    inline const QPointF viewCenter()
-    {
-        return transform(m_center);
-    }
-
-    inline const QPointF &center() const
+    inline Eigen::Vector3f center() const
     {
         return  m_center;
     }
@@ -154,99 +127,58 @@ public:
         return polygon().containsPoint(p,Qt::WindingFill);
     }
 
-    inline  Eigen::Transform3f& matrix()
+    inline  Eigen::Transform3f transformMatrix()
     {
         return m_matrix;
     }
 
-    inline void setMatrix(const Eigen::Transform3f& m)
+    inline void setTransformMatrix(const Eigen::Transform3f& m)
     {
         m_matrix = m;
     }
 
     //Set
-    inline void setCenter(const QPointF &c)
+    inline void setCenter(const Eigen::Vector3f &c)
     {
         m_center = c;
     }
 
-    inline void setAngle(const float &a, const QPointF &c = QPointF(0,0))
-    {
-        m_rotateCenter = c;m_angle = a;
-    }
-
-    inline void setScale(const QPointF &s)
+    inline void setScale(const Eigen::Vector3f &s)
     {
         m_scale = s;
     }
-    inline void setScale(const float &sx, const float &sy)
+    inline void setScale(float sx, float sy, float sz)
     {
-        setScale(QPointF(sx,sy));
+        setScale(Eigen::Vector3f(sx, sy, sz));
     }
-    inline void setTranslate(const QPointF &t)
-    {
-        m_translate = t;
-    }
-    inline void setPosition(const QPointF &p)
+    
+    inline void setPosition(const Eigen::Vector3f &p)
     {
         m_position = p;
-
-
     }
 
-    inline void setPosition(qreal x, qreal y )
+    inline void setPosition(float x, float y, float z)
     {
-        setPosition(QPointF(x,y));
+        setPosition(Eigen::Vector3f(x, y, z));
     }
 
-    inline void setShear(const QPointF &s)
+    inline void translate(const Eigen::Vector3f &step)
     {
-        m_shear = s;
+        m_position += step;
     }
 
-    inline void setShear(const float &sx, const float &sy)
+    inline void translate(float x, float y, float z)
     {
-        setShear(QPointF(sx,sy));
+        translate(Eigen::Vector3f(x, y, z));
     }
 
-    inline void setZIndex(int i)
+    inline void scale(const Eigen::Vector3f &s)
     {
-        m_zindex = i;
+        m_scale = s;
     }
-
-    inline void translate(const QPointF &step)
+    inline void scale(float x, float y, float z)
     {
-        m_translate+=step;
-    }
-
-    inline void translate(const float &x,const float &y)
-    {
-        translate(QPointF(x,y));
-    }
-
-    inline void scale(const QPointF &s)
-    {
-        m_scale.setX(m_scale.x() *s.x());
-        m_scale.setY( m_scale.y() *s.y());
-    }
-    inline void scale(const float &x, const float&y )
-    {
-        scale(QPointF(x,y));
-    }
-
-    inline void rotate(const float &angle)
-    {
-        m_angle += angle;
-    }
-
-    inline void shear(const QPointF &s)
-    {
-        m_shear+=s;
-    }
-
-    inline void shear(const float &sx,const float &sy)
-    {
-        shear(QPointF(sx,sy));
+        scale(Eigen::Vector3f(x, y, z));
     }
 
 protected:
@@ -259,21 +191,20 @@ protected:
 
 private:
     Eigen::Transform3f m_matrix;
-    Eigen::Matrix4f m_shearMatrix;
 
-    float m_angle;
-    QPointF m_scale;
-    QPointF m_position;
-    QPointF m_translate;
-    QPointF m_rotateCenter;
-    QPointF m_shear;
-    QPointF m_center;
+    Eigen::Vector3f m_position;
+    Eigen::Vector3f m_scale;
+    Eigen::Quaternionf m_orientation;
+
+    Eigen::Vector3f m_center;
+
     QPolygonF m_polygon;
     float m_radius;
     QSizeF m_dim;
     unsigned int m_zindex;
     VertexList m_vertexList;
 };
+
 }//namespace
-//@}
+
 #endif // GLUON_GRAPHICS_BASEITEM_H
