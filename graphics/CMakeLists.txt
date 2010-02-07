@@ -90,7 +90,6 @@ install(
     item.h
     itemlist.h
     engine.h
-    engine_p.h
     program.h
     shader.h
     fx.h
@@ -106,3 +105,4 @@ install(
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
     COMPONENT Devel
 )
+
