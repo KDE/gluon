@@ -26,6 +26,9 @@
 #include <selectionmanager.h>
 #include <models/scenemodel.h>
 
+#include <KAction>
+#include <KLocalizedString>
+
 using namespace GluonCreator;
 
 class SceneDock::SceneDockPrivate
@@ -55,7 +58,13 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d->view->setDropIndicatorShown(true);
     d->view->setDragDropMode(QAbstractItemView::DragDrop);
     d->view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    connect(d->view, SIGNAL(activated(QModelIndex)), SLOT(selectionChanged(QModelIndex)));
+    d->view->setContextMenuPolicy(Qt::ActionsContextMenu);
+    connect(d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
+
+    KAction* deleteAction = new KAction(KIcon("edit-delete"), i18n("Delete Object(s)"), d->view);
+    d->view->addAction(deleteAction);
+    deleteAction->setShortcut(KShortcut(Qt::Key_Delete), KAction::DefaultShortcut);
+    connect(deleteAction, SIGNAL(triggered(bool)), SLOT(deleteSelection()));
 }
 
 SceneDock::~SceneDock()
@@ -78,15 +87,22 @@ QAbstractItemModel* SceneDock::model()
     return d->model;
 }
 
-void SceneDock::selectionChanged(QModelIndex index)
+
+void SceneDock::selectionChanged(QItemSelection selected, QItemSelection deselected)
 {
-    GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
-    if(obj)
+    Q_UNUSED(deselected)
+    DEBUG_FUNC_NAME
+
+    SelectionManager::SelectionList selection;
+    foreach(const QItemSelectionRange range, selected)
     {
-        SelectionManager::SelectionList selection;
-        selection.append(obj);
-        SelectionManager::instance()->setSelection(selection);
+        foreach(QModelIndex index, range.indexes())
+        {
+            GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
+            selection.append(obj);
+        }
     }
+    SelectionManager::instance()->setSelection(selection);
 }
 
 void SceneDock::sceneChanged(GluonEngine::Scene* obj)
@@ -97,5 +113,20 @@ void SceneDock::sceneChanged(GluonEngine::Scene* obj)
         SelectionManager::SelectionList selection;
         selection.append(obj->sceneContents());
         SelectionManager::instance()->setSelection(selection);
+    }
+}
+
+void SceneDock::deleteSelection()
+{
+    DEBUG_FUNC_NAME;
+
+    if(d->view->selectionModel()->hasSelection())
+    {
+        QItemSelection currentSelection = d->view->selectionModel()->selection();
+        foreach(QItemSelectionRange range, currentSelection)
+        {
+            DEBUG_TEXT(QString("Removing rows %1 to %2").arg(range.top()).arg(range.bottom() - range.top()));
+            d->model->removeRows(range.top(), (range.bottom() - range.top()) + 1, range.parent());
+        }
     }
 }
