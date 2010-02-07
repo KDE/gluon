@@ -21,10 +21,14 @@
 
 #include <core/singleton.h>
 
+namespace GluonCore {
+class GluonObject;}
+
 namespace GluonEngine
 {
     class GameObject;
     class Scene;
+    class Component;
 }
 
 namespace GluonCreator
@@ -34,12 +38,15 @@ namespace GluonCreator
     {
         Q_OBJECT
         public slots:
+            GluonEngine::Component* createNewComponent(const QString& type, GluonEngine::GameObject* parent);
             GluonEngine::Scene* createNewScene();
-            GluonEngine::GameObject* createNewObject();
+            GluonEngine::GameObject* createNewGameObject();
 
         signals:
+            void newObject(GluonCore::GluonObject*);
             void newScene(GluonEngine::Scene*);
-            void newObject(GluonEngine::GameObject*);
+            void newGameObject(GluonEngine::GameObject*);
+            void newComponent(GluonEngine::Component*);
 
         private:
             friend class GluonCore::Singleton<ObjectManager>;

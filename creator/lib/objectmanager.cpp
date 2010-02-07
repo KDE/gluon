@@ -23,6 +23,7 @@
 #include <engine/gameobject.h>
 #include <engine/scene.h>
 #include <engine/game.h>
+#include <engine/component.h>
 
 #include "selectionmanager.h"
 
@@ -30,7 +31,29 @@ using namespace GluonCreator;
 
 template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
 
-GluonEngine::GameObject* ObjectManager::createNewObject()
+GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, GluonEngine::GameObject* parent)
+{
+    DEBUG_BLOCK
+    GluonCore::GluonObject* newObj = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(type);
+    if(newObj)
+    {
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(newObj);
+        parent->addComponent(comp);
+
+        //Call start. We are, after all, basically working with a paused game.
+        comp->start();
+
+        GluonEngine::Game::instance()->currentScene()->savableDirty = true;
+
+        emit newComponent(comp);
+        emit newObject(comp);
+
+        return comp;
+    }
+    return 0;
+}
+
+GluonEngine::GameObject* ObjectManager::createNewGameObject()
 {
     DEBUG_FUNC_NAME
     GluonEngine::GameObject *newObj = new GluonEngine::GameObject();
@@ -58,6 +81,7 @@ GluonEngine::GameObject* ObjectManager::createNewObject()
     GluonEngine::Game::instance()->currentScene()->savableDirty = true;
 
     emit newObject(newObj);
+    emit newGameObject(newObj);
     return newObj;
 }
 
@@ -66,6 +90,8 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     GluonEngine::Scene *newScn = new GluonEngine::Scene();
     newScn->setName(i18n("New Scene %1").arg(m_sceneId++));
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
+
+    emit newObject(newScn);
     emit newScene(newScn);
     return newScn;
 }

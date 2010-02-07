@@ -128,7 +128,7 @@ void MainWindow::setupGame()
     GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
     GluonEngine::Game::instance()->setCurrentScene(root);
 
-    connect(ObjectManager::instance(), SIGNAL(newObject(GluonEngine::GameObject*)), GluonEngine::Game::instance(), SLOT(updateAll()));
+    connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(updateAll()));
 }
 
 void MainWindow::setupActions()
@@ -137,7 +137,7 @@ void MainWindow::setupActions()
 
     KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
     actionCollection()->addAction("newObject", newObject);
-    connect(newObject, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewObject()));
+    connect(newObject, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewGameObject()));
 
     KAction* newScene = new KAction(KIcon("document-new"), i18n("New Scene"), actionCollection());
     actionCollection()->addAction("newScene", newScene);
