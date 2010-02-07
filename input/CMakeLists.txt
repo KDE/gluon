@@ -169,3 +169,11 @@ else()
         COMPONENT Devel
     )
 endif()
+
+install(
+    FILES
+    cmake/FindGluonInput.cmake
+    DESTINATION
+    ${SHARE_INSTALL_DIR}/gluon/cmake
+    COMPONENT Devel
+)

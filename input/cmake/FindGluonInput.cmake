@@ -1,37 +1,65 @@
-# - Try to find KCL
+# - Try to find Gluon Input
 #
 # Once done this will define
-#  KCL_FOUND - system has KCL
-#  KCL_INCLUDES - all include directories required for KCL, use it with KDE4_INCLUDES
-#  KCL_INCLUDE_DIR - the KCL include directory
-#  KCL_LIBRARY - the KCL library
+#   GLUON_INPUT_FOUND - system has Gluon Input
+#   GLUON_INPUT_INCLUDES - all include directories required for Gluon Input
+#   GLUON_INPUT_INCLUDE_DIR - the Gluon Input include directory
+#   GLUON_INPUT_LIBRARY - The Gluon Input library location
+#   GLUON_INPUT_LIBS - All libraries necessary for Gluon Input to work
 #
 # Copyright (C) 2009 Guillaume Martres
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if (KCL_LIBRARY AND KCL_INCLUDE_DIR)
+if (GLUON_INPUT_LIBRARY AND GLUON_INPUT_INCLUDE_DIR)
   # Already in cache, be silent
-  set(KCL_FOUND TRUE)
-endif (KCL_LIBRARY AND KCL_INCLUDE_DIR)
+  set(GLUON_INPUT_FOUND TRUE)
+endif (GLUON_INPUT_LIBRARY AND GLUON_INPUT_INCLUDE_DIR)
 
-find_path(KCL_INCLUDE_DIR
+if (GluonInput_FIND_REQUIRED)
+    set(_gluonInputReq "REQUIRED")
+endif (GluonInput_FIND_REQUIRED)
+
+find_package(GluonCore _gluonInputReq)
+
+if(MAC)
+    find_library(IOKIT_LIBRARY NAMES IOKit)
+    message(STATUS "Found IOKit:" ${IOKIT_LIBRARY})
+
+    find_library(COREFOUNDATION_LIBRARY NAMES CoreFoundation)
+    message(STATUS "Found CoreFoundation:" ${COREFOUNDATION_LIBRARY})
+endif(MAC)
+
+find_path(GLUON_INPUT_INCLUDE_DIR
     NAMES
-    gluon/kcl/kcldetect.h
+    input/gluon_input_export.h
     PATHS
     ${INCLUDE_INSTALL_DIR}
+    PATH_SUFFIXES
+    gluon
 )
 
-set(KCL_INCLUDES
-    ${KCL_INCLUDE_DIR}
-    CACHE STRING "Includes needed to use KCL"
+set(GLUON_INPUT_INCLUDES
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_INPUT_INCLUDE_DIR}
+    CACHE PATHS "Includes needed for Gluon Input"
 )
 
-find_library(KCL_LIBRARY NAMES kcl
+find_library(GLUON_INPUT_LIBRARY
+    NAMES
+    GluonInput
     PATHS
     ${LIB_INSTALL_DIR}
 )
 
+set(GLUON_INPUT_LIBS
+    ${GLUON_CORE_LIBS}
+    ${GLUON_INPUT_LIBRARY}
+    ${IOKIT_LIBRARY}
+    ${COREFOUNDATION_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Input"
+)
+
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(KCL DEFAULT_MSG KCL_LIBRARY KCL_INCLUDE_DIR)
+find_package_handle_standard_args(KCL DEFAULT_MSG GLUON_INPUT_LIBRARY GLUON_INPUT_INCLUDE_DIR)
