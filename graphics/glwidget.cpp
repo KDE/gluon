@@ -168,7 +168,7 @@ void GLWidget::initializeGL()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
-    glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST);
 
 
 
@@ -178,10 +178,10 @@ void GLWidget::initializeGL()
 //     }
 
     // Set up camera
-    camera()->setPosition(Vector3f(0, 0, 5));
-    camera()->setLookAt(Vector3f(0, 0, 0));
-    camera()->setUp(Vector3f(0, 1, 0));
-    camera()->setDepthRange(1, 100);
+    //camera()->setPosition(Vector3f(0, 0, 5));
+    //camera()->setLookAt(Vector3f(0, 0, 0));
+    //camera()->setUp(Vector3f(0, 1, 0));
+    //camera()->setDepthRange(1, 100);
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -190,7 +190,8 @@ void GLWidget::resizeGL(int width, int height)
     camera()->applyViewport();
 
     camera()->setAspect(width/(float)height);
-    camera()->applyPerspective();
+    //camera()->applyPerspective();
+    camera()->applyOrtho();
 }
 
 void GLWidget::paintGL()

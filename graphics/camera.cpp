@@ -11,9 +11,9 @@ Camera::Camera()
 {
     mFoV = 45.0f;
     mAspect = 1.0f;
-    mDepthNear = 1.0f;
-    mDepthFar = 100.0f;
-    mPosition = Eigen::Vector3f(-10, 0, 10);
+    mDepthNear = -1000.0f;
+    mDepthFar = 1000.0f;
+    mPosition = Eigen::Vector3f(0, 0, 100);
     mLookAt = Eigen::Vector3f(0, 0, 0);
     mUp = Eigen::Vector3f(0, 1, 0);
     mModelviewMatrixDirty = true;
@@ -83,6 +83,21 @@ void Camera::applyPerspective()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glMultMatrixf(mProjectionMatrix.data());
+    //glOrtho(, 5, -5, 5, mDepthNear, mDepthFar);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void Camera::applyOrtho()
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    float left = mViewport[0] / 10.0f - mViewport[2] / 20.0f;
+    float right = (mViewport[0] + mViewport[2]) / 20.0f;
+    float top = mViewport[1] / 10.0f - mViewport[3] / 20.0f;
+    float bottom = (mViewport[1] + mViewport[3]) / 20.0f;
+
+    glOrtho(left, right, top, bottom, mDepthNear, mDepthFar);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -125,6 +140,7 @@ void Camera::recalculateProjectionMatrix()
     // Code from Mesa project, src/glu/sgi/libutil/project.c
     mProjectionMatrixDirty = false;
     mProjectionMatrix.setIdentity();
+
     float radians = mFoV / 2 * M_PI / 180;
 
     float deltaZ = mDepthFar - mDepthNear;
@@ -140,6 +156,9 @@ void Camera::recalculateProjectionMatrix()
     mProjectionMatrix(3, 2) = -1;
     mProjectionMatrix(2, 3) = -2 * mDepthNear * mDepthFar / deltaZ;
     mProjectionMatrix(3, 3) = 0;
+
+    //glO
+    //mProjectionMatrix.
 }
 
 void Camera::setModelviewMatrix(const Eigen::Transform3f& modelview)

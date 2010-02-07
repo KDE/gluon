@@ -107,6 +107,8 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
          * Any current perspective transformations will be lost.
          **/
         virtual void applyPerspective();
+        
+        virtual void applyOrtho();
         /**
          * Applies the camera's modelview matrix.
          *
