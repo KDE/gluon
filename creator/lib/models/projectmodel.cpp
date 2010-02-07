@@ -74,15 +74,13 @@ QVariant ProjectModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
-        return QVariant();
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
+    {
+        GluonCore::GluonObject* gobj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
+        if(gobj) return gobj->name();
+    }
 
-    QObject *item = static_cast<QObject*>(index.internalPointer());
-
-    GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(item);
-    if(gobj) return gobj->name();
-
-    return item->objectName() + item->metaObject()->className();
+    return QVariant();
 }
 
 int ProjectModel::columnCount(const QModelIndex& parent) const
