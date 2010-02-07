@@ -61,6 +61,7 @@ Item::Item(const QLineF &line)
 
 Item::~Item()
 {
+    Engine::instance()->removeItem(this);
     delete m_texture;
 // #ifndef Q_WS_WIN
 //     delete m_shaderFx;
@@ -95,7 +96,7 @@ Item *Item::clone()
 
     Item * newItem = new Item;
     newItem->setTexture(texture());
-    newItem->setMatrix(matrix());
+    newItem->setTransformMatrix(transformMatrix());
     newItem->setPosition(position());
 
     foreach(const Vertex &p, vertexList()) {
@@ -114,13 +115,13 @@ void Item::paintGL()
   }
 
   glPushMatrix();
-  glMultMatrixf(matrix().data());
+  glMultMatrixf(transformMatrix().data());
 
    if ( f_showBoundingBox) drawBoundingBox();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthMask(GL_FALSE);
+    //glDepthMask(GL_FALSE);
     //Disabled until necessary, causes diagonal lines on ATI cards.
     //glEnable(GL_POLYGON_SMOOTH);
 
@@ -129,10 +130,10 @@ void Item::paintGL()
      m_painter->draw();
      m_texture->unBind();
 
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
 
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);
     glPopMatrix();
 
     drawChild();
@@ -188,7 +189,7 @@ void Item::updateTransform()
     if ( m_childItems.size()>0)
     {
         foreach(Item* item, m_childItems)
-            item->applyTransform(matrix());
+            item->applyTransform(transformMatrix());
     }
 }
 
@@ -243,7 +244,7 @@ void Item::drawCenter()
 {
     glPointSize(3);
     glBegin(GL_POINTS);
-    QPointF c = center();
+    Eigen::Vector3f c = center();
     glColor3f(100, 0, 0);
     glVertex2d(c.x(), c.y());
     glEnd();
