@@ -15,36 +15,44 @@ if (GLUON_CREATOR_LIBRARY AND GLUON_CREATOR_INCLUDE_DIR)
   # Already in cache, be silent
   set(GLUON_CREATOR_FOUND TRUE)
 endif (GLUON_CREATOR_LIBRARY AND GLUON_CREATOR_INCLUDE_DIR)
-  
+
 if (GluonCreator_FIND_REQUIRED)
   set(_gluonCreatorReq "REQUIRED")
 endif (GluonCreator_FIND_REQUIRED)
 
 find_package(KDE4 ${_gluonCreatorReq})
-find_package(Gluon ${_gluonCreatorReq})
+find_package(GluonCore ${_gluonCreatorReq})
+find_package(GluonEngine ${_gluonCreatorReq})
 
 find_path(GLUON_CREATOR_INCLUDE_DIR
-  NAMES
-  gluon/creator/gluoncreator_macros.h
+    NAMES
+    creator/gluoncreator_macros.h
+    PATHS
+    ${INCLUDE_INSTALL_DIR}
+    PATH_SUFFIXES
+    gluon
 )
 
 set(GLUON_CREATOR_INCLUDES
     ${GLUON_CREATOR_INCLUDE_DIR}
-    ${GLUON_CREATOR_INCLUDE_DIR}/gluon/creator
-    ${GLUON_INCLUDES}
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES}
     ${KDE4_INCLUDES}
 )
-        
-find_library(GLUON_CREATOR_LIBRARY NAMES gluoncreatorlib
+
+find_library(GLUON_CREATOR_LIBRARY
+    NAMES
+    GluonCreator
     PATHS
     ${LIB_INSTALL_DIR}
 )
 
 set(GLUON_CREATOR_LIBS
     ${KDE4_KDEUI_LIBS}
-    ${GLUON_LIBRARY}
-    ${GLUON_CREATOR_LIBRARY})
-        
+    ${GLUON_CORE_LIBS}
+    ${GLUON_ENGINE_LIBS}
+    ${GLUON_CREATOR_LIBRARY}
+)
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(GluonCreator DEFAULT_MSG GLUON_CREATOR_LIBRARY GLUON_CREATOR_INCLUDE_DIR)
-        
