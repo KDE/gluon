@@ -17,14 +17,14 @@
 
 */
 
-#ifndef GLUON_ENGINE_SAVABLE_H
-#define GLUON_ENGINE_SAVABLE_H
+#ifndef GLUON_CORE_SAVABLE_H
+#define GLUON_CORE_SAVABLE_H
 
 #include <QString>
 
-namespace GluonEngine
+namespace GluonCore
 {
-    class Asset;
+    class GluonObject;
 
     /**
      * The Savable class decorates any Asset to allow for saving that Asset
@@ -45,7 +45,7 @@ namespace GluonEngine
              *
              * @see Gluon::Asset
              */
-            static bool saveToFile(Asset * asset);
+            static bool saveToFile(GluonObject * object);
 
             /**
              * Serialise the contents of the asset to GDL. This function should
@@ -64,4 +64,4 @@ namespace GluonEngine
     };
 }
 
-#endif // GLUON_ENGINE_SAVABLE_H
+#endif // GLUON_CORE_SAVABLE_H

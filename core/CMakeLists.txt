@@ -47,6 +47,7 @@ set(GluonCore_SRCS
     gluonobject.cpp
     gluonobjectfactory.cpp
     gluonobjectprivate.cpp
+    savable.cpp
 )
 
 qt4_automoc(${GluonCore_SRCS})
@@ -72,6 +73,7 @@ install(
     gameprojectprivate.h
     gdlhandler.h
     gluonobject.h
+    savable.h
     gluonobjectfactory.h
     gluonobjectprivate.h
     singleton.h

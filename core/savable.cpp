@@ -18,55 +18,60 @@
 */
 
 #include "savable.h"
-#include "asset.h"
-
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
+#include "gluonobject.h"
+#include "debughelper.h"
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
-#include <QDir>
+#include <QtCore/QDir>
+#include <QtCore/QVariant>
 
-using namespace GluonEngine;
+using namespace GluonCore;
 
 Savable::~Savable()
 {
 }
 
 bool
-Savable::saveToFile(Asset* asset)
+Savable::saveToFile(GluonObject * object)
 {
     DEBUG_BLOCK
-    if(!asset)
+    if(!object)
     {
-        DEBUG_TEXT(QString("Asset was NULL!"))
+        DEBUG_TEXT("Asset was NULL!");
         return false;
     }
-
+    Savable * savableObject = dynamic_cast<Savable*>(object);
+    if(!savableObject)
+    {
+        DEBUG_TEXT("Attempted to save an object which does not inherit Savable!");
+        return false;
+    }
+    
     // Make sure the filename is populated and is sane
-    if(asset->file().isEmpty())
-        asset->setFile( QUrl( QString("Scenes/%1.gdl").arg(asset->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) );
+    if(object->property("file").value<QUrl>().isEmpty())
+        object->setProperty("file", QVariant::fromValue<QUrl>( QUrl( QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) ) );
 
     // Create appropriate folders
     if(!QDir::current().exists("Scenes"))
         QDir::current().mkdir("Scenes");
 
     // Perform the save
-    QFile *savableFile = new QFile(asset->file().toLocalFile());
+    QFile *savableFile = new QFile(object->property("file").value<QUrl>().toLocalFile());
     if(!savableFile->open(QIODevice::WriteOnly))
     {
-        DEBUG_TEXT(QString("Could not write to file %1").arg(asset->file().toString()))
+        DEBUG_TEXT(QString("Could not write to file %1").arg(object->property("file").value<QUrl>().toString()))
         return false;
     }
 
     QTextStream fileWriter(savableFile);
-    fileWriter << dynamic_cast<Savable*>(asset)->contentsToGDL();
+    fileWriter << savableObject->contentsToGDL();
     savableFile->close();
 
     delete(savableFile);
     
     // Remember to undirty yourself
-    if(dynamic_cast<Savable*>(asset))
-        dynamic_cast<Savable*>(asset)->savableDirty = false;
+    if(savableObject)
+        savableObject->savableDirty = false;
     return true;
 }

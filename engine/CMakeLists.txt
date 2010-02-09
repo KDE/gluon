@@ -41,7 +41,6 @@ add_subdirectory(assets)
 add_subdirectory(components)
 
 set(GluonEngine_SRCS
-    savable.cpp
     asset.cpp
     component.cpp
     componentprivate.cpp
@@ -79,7 +78,6 @@ install(TARGETS GluonEngine DESTINATION ${LIB_INSTALL_DIR})
 
 install(
     FILES
-    savable.h
     asset.h
     component.h
     gameobject.h

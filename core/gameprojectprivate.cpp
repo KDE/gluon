@@ -19,6 +19,7 @@
 
 #include "gameprojectprivate.h"
 #include "gluonobject.h"
+#include "savable.h"
 #include "debughelper.h"
 
 #include <QtCore/QStringList>
@@ -96,13 +97,12 @@ GameProjectPrivate::saveChildren(const GluonObject* parent)
     for(int i = 0; i < parent->children().size(); ++i)
     {
         GluonObject *child = parent->child(i);
-        // Meh, dynamic_cast is slow, but at least it's going to be calling something that does
+        // Meh, inherits is slow, but at least it's going to be calling something that does
         // disk IO, so it's not the slowest thing there
-        if(child->inherits("Gluon::Savable"))
+        if(child->inherits("GluonCore::Savable"))
         {
             DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonObject*>(child)->name()));
-            //TODO: Fix this
-            //Savable::saveToFile(dynamic_cast<Gluon::Asset*>(child));
+            Savable::saveToFile(qobject_cast<GluonObject*>(child));
         }
 
         // Recurse, wooh!
