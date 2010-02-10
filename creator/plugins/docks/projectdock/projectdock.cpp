@@ -26,6 +26,7 @@
 #include <QtGui/QMenu>
 
 #include <KDebug>
+#include <KInputDialog>
 
 using namespace GluonCreator;
 
@@ -166,6 +167,9 @@ void ProjectDock::newSubMenuTriggered()
     if(sender)
     {
         DEBUG_TEXT(QString("Requested a new submenu under %1").arg(sender->fullyQualifiedName()));
+        QString theName(KInputDialog::getText(tr("Enter Name"), tr("Please enter the name of the new folder in the text box below:"), tr("New Folder"), 0, this));
+        if(!theName.isEmpty())
+            new GluonCore::GluonObject(theName, sender);
     }
 }
 
