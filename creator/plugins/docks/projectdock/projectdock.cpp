@@ -150,8 +150,15 @@ void ProjectDock::showContextMenuRequested(const QPoint& pos)
             QMenu menu(object->name(), this);
             menu.addActions(d->menuForObject(object));
             menu.exec(d->view->mapToGlobal(pos));
+            connect(&menu, SIGNAL(aboutToHide()), this, SLOT(contextMenuHiding()));
         }
     }
+}
+
+void ProjectDock::contextMenuHiding()
+{
+    d->currentContextObject = NULL;
+    qDeleteAll(d->currentContextMenu);
 }
 
 void ProjectDock::deleteActionTriggered()
@@ -160,8 +167,6 @@ void ProjectDock::deleteActionTriggered()
     if(d->currentContextObject)
     {
         DEBUG_TEXT(QString("Requested deletion of %1").arg(d->currentContextObject->fullyQualifiedName()));
-        d->currentContextObject = NULL;
-        qDeleteAll(d->currentContextMenu);
     }
 }
 
@@ -174,8 +179,6 @@ void ProjectDock::newSubMenuTriggered()
         QString theName(KInputDialog::getText(tr("Enter Name"), tr("Please enter the name of the new folder in the text box below:"), tr("New Folder"), 0, this));
         if(!theName.isEmpty())
             new GluonCore::GluonObject(theName, d->currentContextObject);
-        d->currentContextObject = NULL;
-        qDeleteAll(d->currentContextMenu);
     }
 }
 

@@ -38,6 +38,7 @@ class ProjectDock : public Dock
         void activated(QModelIndex index);
         void showContextMenuRequested(const QPoint& pos);
         
+        void contextMenuHiding();
         void newSubMenuTriggered();
         void deleteActionTriggered();
         
