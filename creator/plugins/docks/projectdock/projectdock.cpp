@@ -27,6 +27,7 @@
 
 #include <KDebug>
 #include <KInputDialog>
+#include <KMessageBox>
 
 using namespace GluonCreator;
 
@@ -167,6 +168,10 @@ void ProjectDock::deleteActionTriggered()
     if(d->currentContextObject)
     {
         DEBUG_TEXT(QString("Requested deletion of %1").arg(d->currentContextObject->fullyQualifiedName()));
+        if(KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(d->currentContextObject->name()), tr("Really Delete?")) == KMessageBox::Yes)
+        {
+            d->currentContextObject->deleteLater();
+        }
     }
 }
 
