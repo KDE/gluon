@@ -77,7 +77,8 @@ QVariant ProjectModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         GluonCore::GluonObject* gobj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
-        if(gobj) return gobj->name();
+        if(gobj)
+            return gobj->name();
     }
 
     return QVariant();
