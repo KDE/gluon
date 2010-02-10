@@ -37,7 +37,10 @@ class ProjectDock : public Dock
         void setSelection(GluonCore::GluonObject* obj = 0);
         void activated(QModelIndex index);
         void showContextMenuRequested(const QPoint& pos);
-
+        
+        void newSubMenuTriggered();
+        void deleteActionTriggered();
+        
     private:
         class ProjectDockPrivate;
         ProjectDockPrivate* d;

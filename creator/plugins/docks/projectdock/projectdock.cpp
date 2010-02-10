@@ -32,7 +32,8 @@ using namespace GluonCreator;
 class ProjectDock::ProjectDockPrivate
 {
   public:
-    ProjectDockPrivate() { view = 0; }
+    ProjectDockPrivate(ProjectDock * parent) { q = parent; view = 0; }
+    ProjectDock * q;
     ProjectModel* model;
     QTreeView* view;
     
@@ -49,17 +50,20 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::Gluo
         if(mobj)
         {
             QAction * action;
-            if(object->inherits("Gluon::Asset"))
+            if(object->inherits("GluonEngine::Asset"))
             {
-                action = new QAction("Asset actions...", object);
+                action = new QAction("Asset actions go here", object);
+                action->setEnabled(false);
                 menuItems.append(action);
             }
             else
             {
                 action = new QAction("New Folder...", object);
+                connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
                 menuItems.append(action);
             }
             action = new QAction(QString("Delete \"%1\"...").arg(object->name()), object);
+            connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
             menuItems.append(action);
         }
     }
@@ -73,7 +77,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
 {
     setObjectName("ProjectDock");
 
-    d = new ProjectDockPrivate;
+    d = new ProjectDockPrivate(this);
 
     d->model = new ProjectModel(this);
     d->view = new QTreeView(this);
@@ -144,3 +148,24 @@ void ProjectDock::showContextMenuRequested(const QPoint& pos)
         }
     }
 }
+
+void ProjectDock::deleteActionTriggered()
+{
+    DEBUG_FUNC_NAME
+    GluonCore::GluonObject * sender = qobject_cast<GluonCore::GluonObject*>(QObject::sender()->parent());
+    if(sender)
+    {
+        DEBUG_TEXT(QString("Requested deletion of %1").arg(sender->fullyQualifiedName()));
+    }
+}
+
+void ProjectDock::newSubMenuTriggered()
+{
+    DEBUG_FUNC_NAME
+    GluonCore::GluonObject * sender = qobject_cast<GluonCore::GluonObject*>(QObject::sender()->parent());
+    if(sender)
+    {
+        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(sender->fullyQualifiedName()));
+    }
+}
+
