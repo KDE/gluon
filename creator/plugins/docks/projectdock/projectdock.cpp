@@ -16,14 +16,15 @@
 
 #include "projectdock.h"
 
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameobject.h"
+#include "engine/scene.h"
+#include "models/projectmodel.h"
+
 #include <QtGui/QTreeView>
+#include <QtGui/QMenu>
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameobject.h>
-#include <engine/scene.h>
-
-#include <models/projectmodel.h>
 #include <KDebug>
 
 using namespace GluonCreator;
@@ -34,7 +35,38 @@ class ProjectDock::ProjectDockPrivate
     ProjectDockPrivate() { view = 0; }
     ProjectModel* model;
     QTreeView* view;
+    
+    QList<QAction*> menuForObject(GluonCore::GluonObject * object) const;
 };
+
+QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::GluonObject* object) const
+{
+    QList<QAction*> menuItems;
+    
+    if(object)
+    {
+        const QMetaObject * mobj = object->metaObject();
+        if(mobj)
+        {
+            QAction * action;
+            if(object->inherits("Gluon::Asset"))
+            {
+                action = new QAction("Asset actions...", object);
+                menuItems.append(action);
+            }
+            else
+            {
+                action = new QAction("New Folder...", object);
+                menuItems.append(action);
+            }
+            action = new QAction(QString("Delete \"%1\"...").arg(object->name()), object);
+            menuItems.append(action);
+        }
+    }
+    
+    return menuItems;
+}
+
 
 
 ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
@@ -47,6 +79,8 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
     d->view->setAcceptDrops(true);
+    d->view->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(d->view, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenuRequested(const QPoint&)));
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
     connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonCore::GameProject*)), d->model, SLOT(setProject(GluonCore::GameProject*)));
@@ -93,5 +127,20 @@ void ProjectDock::activated(QModelIndex index)
     {
         if(GluonEngine::Game::instance()->currentScene() != scene)
             GluonEngine::Game::instance()->setCurrentScene(scene);
+    }
+}
+
+void ProjectDock::showContextMenuRequested(const QPoint& pos)
+{
+    QModelIndex index = d->view->indexAt(pos);
+    if(index.isValid())
+    {
+        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(index.internalPointer());
+        if(object)
+        {
+            QMenu menu(object->name(), this);
+            menu.addActions(d->menuForObject(object));
+            menu.exec(d->view->mapToGlobal(pos));
+        }
     }
 }
