@@ -28,10 +28,6 @@
 
 using namespace GluonCore;
 
-Savable::~Savable()
-{
-}
-
 bool
 Savable::saveToFile(GluonObject * object)
 {
