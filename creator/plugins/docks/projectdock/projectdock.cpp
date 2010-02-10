@@ -38,10 +38,12 @@ class ProjectDock::ProjectDockPrivate
     ProjectModel* model;
     QTreeView* view;
     
-    QList<QAction*> menuForObject(GluonCore::GluonObject * object) const;
+    GluonCore::GluonObject * currentContextObject;
+    QList<QAction*> menuForObject(GluonCore::GluonObject * object);
+    QList<QAction*> currentContextMenu;
 };
 
-QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::GluonObject* object) const
+QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::GluonObject* object)
 {
     QList<QAction*> menuItems;
     
@@ -50,24 +52,26 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::Gluo
         const QMetaObject * mobj = object->metaObject();
         if(mobj)
         {
+            currentContextObject = object;
             QAction * action;
             if(object->inherits("GluonEngine::Asset"))
             {
-                action = new QAction("Asset actions go here", object);
+                action = new QAction("Asset actions go here", this->q);
                 action->setEnabled(false);
                 menuItems.append(action);
             }
             else
             {
-                action = new QAction("New Folder...", object);
+                action = new QAction("New Folder...", this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
                 menuItems.append(action);
             }
-            action = new QAction(QString("Delete \"%1\"...").arg(object->name()), object);
+            action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
             connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
             menuItems.append(action);
         }
     }
+    currentContextMenu = QList<QAction*>(menuItems);
     
     return menuItems;
 }
@@ -153,23 +157,25 @@ void ProjectDock::showContextMenuRequested(const QPoint& pos)
 void ProjectDock::deleteActionTriggered()
 {
     DEBUG_FUNC_NAME
-    GluonCore::GluonObject * sender = qobject_cast<GluonCore::GluonObject*>(QObject::sender()->parent());
-    if(sender)
+    if(d->currentContextObject)
     {
-        DEBUG_TEXT(QString("Requested deletion of %1").arg(sender->fullyQualifiedName()));
+        DEBUG_TEXT(QString("Requested deletion of %1").arg(d->currentContextObject->fullyQualifiedName()));
+        d->currentContextObject = NULL;
+        qDeleteAll(d->currentContextMenu);
     }
 }
 
 void ProjectDock::newSubMenuTriggered()
 {
     DEBUG_FUNC_NAME
-    GluonCore::GluonObject * sender = qobject_cast<GluonCore::GluonObject*>(QObject::sender()->parent());
-    if(sender)
+    if(d->currentContextObject)
     {
-        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(sender->fullyQualifiedName()));
+        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(d->currentContextObject->fullyQualifiedName()));
         QString theName(KInputDialog::getText(tr("Enter Name"), tr("Please enter the name of the new folder in the text box below:"), tr("New Folder"), 0, this));
         if(!theName.isEmpty())
-            new GluonCore::GluonObject(theName, sender);
+            new GluonCore::GluonObject(theName, d->currentContextObject);
+        d->currentContextObject = NULL;
+        qDeleteAll(d->currentContextMenu);
     }
 }
 
