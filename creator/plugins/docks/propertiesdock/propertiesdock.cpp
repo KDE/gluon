@@ -68,7 +68,8 @@ QAbstractItemModel* PropertiesDock::model()
 
 void PropertiesDock::selectionChanged(SelectionManager::SelectionList selection)
 {
-    setSelection(selection.at(0));
+    if(!selection.empty())
+        setSelection(selection.at(0));
 }
 
 void PropertiesDock::newComponent(GluonEngine::Component* comp)
