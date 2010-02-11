@@ -16,13 +16,14 @@
 
 #include "projectmodel.h"
 
-#include <core/gameproject.h>
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/asset.h>
+#include "core/gameproject.h"
+#include "core/gluonobject.h"
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/asset.h"
+#include "engine/scene.h"
+#include "objectmanager.h"
 
-#include <objectmanager.h>
 #include <KDebug>
 #include <KLocalizedString>
 
@@ -107,7 +108,7 @@ ProjectModel::rowCount(const QModelIndex& parent) const
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
     if(parentItem)
-        if(parentItem->metaObject()->className() != QString("GluonEngine::Scene"))
+        if(!qobject_cast<GluonEngine::Scene*>(parentItem))
             return parentItem->children().count();
 
     return 0;
