@@ -106,7 +106,10 @@ ProjectModel::rowCount(const QModelIndex& parent) const
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
-    if(parentItem && parentItem->metaObject()->className() != QString("GluonEngine::Scene")) return parentItem->children().count();
+    if(parentItem)
+        if(parentItem->metaObject()->className() != QString("GluonEngine::Scene"))
+            return parentItem->children().count();
+
     return 0;
 }
 
