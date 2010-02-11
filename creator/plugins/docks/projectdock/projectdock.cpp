@@ -39,21 +39,22 @@ class ProjectDock::ProjectDockPrivate
     ProjectModel* model;
     QTreeView* view;
     
-    GluonCore::GluonObject * currentContextObject;
-    QList<QAction*> menuForObject(GluonCore::GluonObject * object);
+    QModelIndex currentContextIndex;
+    QList<QAction*> menuForObject(QModelIndex index);
     QList<QAction*> currentContextMenu;
 };
 
-QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(GluonCore::GluonObject* object)
+QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex index)
 {
     QList<QAction*> menuItems;
     
+    GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(index.internalPointer());
     if(object)
     {
         const QMetaObject * mobj = object->metaObject();
         if(mobj)
         {
-            currentContextObject = object;
+            currentContextIndex = index;
             QAction * action;
             if(object->inherits("GluonEngine::Asset"))
             {
@@ -145,32 +146,31 @@ void ProjectDock::showContextMenuRequested(const QPoint& pos)
     QModelIndex index = d->view->indexAt(pos);
     if(index.isValid())
     {
-        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(index.internalPointer());
-        if(object)
-        {
-            QMenu menu(object->name(), this);
-            menu.addActions(d->menuForObject(object));
-            menu.exec(d->view->mapToGlobal(pos));
-            connect(&menu, SIGNAL(aboutToHide()), this, SLOT(contextMenuHiding()));
-        }
+        QMenu menu(static_cast<GluonCore::GluonObject*>(index.internalPointer())->name(), this);
+        menu.addActions(d->menuForObject(index));
+        menu.exec(d->view->mapToGlobal(pos));
+        connect(&menu, SIGNAL(aboutToHide()), this, SLOT(contextMenuHiding()));
     }
 }
 
 void ProjectDock::contextMenuHiding()
 {
-    d->currentContextObject = NULL;
+    d->currentContextIndex = QModelIndex();
     qDeleteAll(d->currentContextMenu);
 }
 
 void ProjectDock::deleteActionTriggered()
 {
     DEBUG_FUNC_NAME
-    if(d->currentContextObject)
+    if(d->currentContextIndex.isValid())
     {
-        DEBUG_TEXT(QString("Requested deletion of %1").arg(d->currentContextObject->fullyQualifiedName()));
-        if(KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(d->currentContextObject->name()), tr("Really Delete?")) == KMessageBox::Yes)
+        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
+        if(KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
         {
-            d->currentContextObject->deleteLater();
+            d->view->selectionModel()->select(d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect);
+            d->view->collapse(d->currentContextIndex.parent());
+            d->model->removeRows(d->currentContextIndex.row(), 1, d->currentContextIndex.parent());
         }
     }
 }
@@ -178,12 +178,13 @@ void ProjectDock::deleteActionTriggered()
 void ProjectDock::newSubMenuTriggered()
 {
     DEBUG_FUNC_NAME
-    if(d->currentContextObject)
+    if(d->currentContextIndex.isValid())
     {
-        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(d->currentContextObject->fullyQualifiedName()));
+        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(object->fullyQualifiedName()));
         QString theName(KInputDialog::getText(tr("Enter Name"), tr("Please enter the name of the new folder in the text box below:"), tr("New Folder"), 0, this));
         if(!theName.isEmpty())
-            new GluonCore::GluonObject(theName, d->currentContextObject);
+            new GluonCore::GluonObject(theName, object);
     }
 }
 

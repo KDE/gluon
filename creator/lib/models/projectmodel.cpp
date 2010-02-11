@@ -55,12 +55,14 @@ ProjectModel::~ProjectModel()
 }
 
 
-GluonCore::GameProject* ProjectModel::project()
+GluonCore::GameProject*
+ProjectModel::project()
 {
     return d->project;
 }
 
-void ProjectModel::setProject(GluonCore::GameProject* project)
+void
+ProjectModel::setProject(GluonCore::GameProject* project)
 {
     d->root = new QObject(this);
     d->project = project;
@@ -69,7 +71,8 @@ void ProjectModel::setProject(GluonCore::GameProject* project)
     reset();
 }
 
-QVariant ProjectModel::data(const QModelIndex& index, int role) const
+QVariant
+ProjectModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -84,13 +87,15 @@ QVariant ProjectModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int ProjectModel::columnCount(const QModelIndex& parent) const
+int
+ProjectModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent)
     return 1;
 }
 
-int ProjectModel::rowCount(const QModelIndex& parent) const
+int
+ProjectModel::rowCount(const QModelIndex& parent) const
 {
     QObject *parentItem;
     if (parent.column() > 0)
@@ -105,7 +110,8 @@ int ProjectModel::rowCount(const QModelIndex& parent) const
     return 0;
 }
 
-QModelIndex ProjectModel::parent(const QModelIndex& child) const
+QModelIndex
+ProjectModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
@@ -119,7 +125,8 @@ QModelIndex ProjectModel::parent(const QModelIndex& child) const
     return createIndex(parentItem->children().indexOf(childItem), 0, parentItem);
 }
 
-QModelIndex ProjectModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex
+ProjectModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
@@ -138,7 +145,8 @@ QModelIndex ProjectModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
-QVariant ProjectModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant
+ProjectModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(section)
     Q_UNUSED(orientation)
@@ -258,5 +266,29 @@ ProjectModel::setData(const QModelIndex& index, const QVariant& value, int role)
     }
     return false;
 }
+
+bool
+ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
+{
+    DEBUG_FUNC_NAME
+    if(!parent.isValid())
+        return false;
+    
+    GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+    DEBUG_TEXT("Object removal begins...");
+    
+    beginRemoveRows(parent, row, row + count);
+    for(int i = row; i < row + count; ++i)
+    {
+        DEBUG_TEXT(QString("Removing child at row %1").arg(i));
+        GluonCore::GluonObject * child = parentObject->child(row);
+        if(parentObject->removeChild(child))
+            delete(child);
+    }
+    endRemoveRows();
+    
+    return true;
+}
+
 
 #include "projectmodel.moc"

@@ -51,6 +51,7 @@ class GLUONCREATOR_EXPORT ProjectModel : public QAbstractItemModel
         virtual QStringList mimeTypes() const;
         virtual bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
         virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+        virtual bool removeRows(int row, int count, const QModelIndex & parent);
 
     public slots:
         void setProject(GluonCore::GameProject* project);
