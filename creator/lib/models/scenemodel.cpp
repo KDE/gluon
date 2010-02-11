@@ -36,7 +36,8 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
 {
-    if(m_root) return m_root->childGameObject(0);
+    if(m_root)
+        return m_root->childGameObject(0);
     return 0;
 }
 
@@ -46,7 +47,6 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
     if(obj)
     {
         m_root = obj;
-
         reset();
     }
 }
@@ -83,7 +83,8 @@ int SceneModel::rowCount(const QModelIndex& parent) const
     else
         parentItem = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
 
-    if(parentItem) return parentItem->childCount();
+    if(parentItem)
+        return parentItem->childCount();
     return 0;
 }
 

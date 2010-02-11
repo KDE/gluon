@@ -35,6 +35,7 @@ namespace GluonCreator {
         public:
             SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~SceneDock();
+            void setupActions();
 
             virtual QAbstractItemView* view();
             virtual QAbstractItemModel* model();
@@ -43,8 +44,9 @@ namespace GluonCreator {
             virtual void setSelection(GluonCore::GluonObject* obj = 0);
             void selectionChanged(QItemSelection selected, QItemSelection deselected);
             void sceneChanged(GluonEngine::Scene*);
+            
             void deleteSelection();
-
+            void newGameObjectAction();
 
         private:
             class SceneDockPrivate;
