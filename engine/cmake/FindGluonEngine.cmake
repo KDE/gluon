@@ -1,61 +1,57 @@
-# - Try to find Gluon
+# - Try to find Gluon Engine
 #
 # Once done this will define
-#  GLUON_FOUND - system has Gluon
-#  GLUON_INCLUDES - all include directories required for Gluon, use it with KDE4_INCLUDES
-#  GLUON_INCLUDE_DIR - the Gluon include directory
-#  GLUON_LIBRARY - the Gluon library
+#  GLUON_ENGINE_FOUND - system has Gluon Engine
+#  GLUON_ENGINE_INCLUDES - all include directories required for Gluon Engine, use it with KDE4_INCLUDES
+#  GLUON_ENGINE_INCLUDE_DIR - the Gluon Engine include directory
+#  GLUON_ENGINE_LIBRARY - the Gluon Engine library
+#  GLUON_ENGINE_LIBS - All libraries required for Gluon Engine
 #
 # Copyright (C) 2009 Guillaume Martres
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if (GLUON_LIBRARY AND GLUON_INCLUDE_DIR)
+if (GLUON_ENGINE_LIBRARY AND GLUON_ENGINE_INCLUDE_DIR)
   # Already in cache, be silent
-  set(GLUON_FOUND TRUE)
-endif (GLUON_LIBRARY AND GLUON_INCLUDE_DIR)
+  set(GLUON_ENGINE_FOUND TRUE)
+endif (GLUON_ENGINE_LIBRARY AND GLUON_ENGINE_INCLUDE_DIR)
 
-if (Gluon_FIND_REQUIRED)
-    set(_gluonReq "REQUIRED")
-endif (Gluon_FIND_REQUIRED)
+if (GluonEngine_FIND_REQUIRED)
+    set(_gluonEngineReq "REQUIRED")
+endif (GluonEngine_FIND_REQUIRED)
 
-find_package(KAL ${_gluonReq})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
 
-if (APPLE)
-# KCL doesn't build on Apple yet - just ignore it
-set(KCL_INCLUDES "")
-set(KCLENGINE_H "")
-else (APPLE)
-find_package(KCL ${_gluonReq})
-set(KCLENGINE_H gluon/kcl/kclengine.h)
-endif (APPLE)
+find_package(GluonCore _gluonEngineReq)
 
-find_package(KGL ${_gluonReq})
-
-
-find_path(GLUON_INCLUDE_DIR
+find_path(GLUON_ENGINE_INCLUDE_DIR
     NAMES
-    gluon/kgl/kglengine.h
-    gluon/kal/kalengine.h
-    ${KCLENGINE_H}
+    engine/gluon_engine_export.h
     PATHS
     ${INCLUDE_INSTALL_DIR}
+    PATH_SUFFIXES
+    gluon
 )
 
-set(GLUON_INCLUDES
-    ${GLUONCOMMON_INCLUDES}
-    ${GLUON_INCLUDE_DIR}
-    ${KAL_INCLUDES}
-    ${KCL_INCLUDES}
-    ${KGL_INCLUDES}
-    CACHE STRING "Includes needed to use gluon"
+set(GLUON_ENGINE_INCLUDES
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDE_DIR}
+    CACHE PATHS "Includes needed for Gluon Engine"
 )
 
-find_library(GLUON_LIBRARY NAMES gluon
+find_library(GLUON_ENGINE_LIBRARY
+    NAMES
+    GluonEngine
     PATHS
     ${LIB_INSTALL_DIR}
 )
 
+set(GLUON_ENGINE_LIBS
+    ${GLUON_CORE_LIBS}
+    ${GLUON_ENGINE_LIBRARY}
+    CACHE PATHS "Libraries needed for Gluon Engine"
+)
+
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Gluon DEFAULT_MSG GLUON_LIBRARY GLUON_INCLUDE_DIR)
+find_package_handle_standard_args(GluonEngine DEFAULT_MSG GLUON_ENGINE_LIBRARY GLUON_ENGINE_INCLUDE_DIR)
