@@ -19,6 +19,8 @@ if (GluonCore_FIND_REQUIRED)
     set(_gluonCoreReq "REQUIRED")
 endif (GluonCore_FIND_REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+
 find_package(Qt4 ${_gluonCoreReq})
 find_package(Eigen2 ${_gluonCoreReq})
 
