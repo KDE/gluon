@@ -44,7 +44,7 @@ GluonObject::GluonObject(QObject * parent)
     // Get a nice name first time the object is created...
     QString theClassName(this->metaObject()->className());
     if(theClassName.contains(':'))
-        setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':')));
+        setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':') - 1));
     else
         setName(theClassName);
 }
@@ -269,11 +269,12 @@ GluonObject::setName(const QString &newName)
     {
         bool nameIsOK = true;
         int addedNumber = 0;
-        QObjectList theChildren = children();
+        QObjectList theChildren = parent()->children();
         do
         {
             addedNumber++;
             nameIsOK = true;
+            int checker = 0;
             foreach(QObject* child, theChildren)
             {
                 GluonObject * theChild = qobject_cast<GluonObject*>(child);
