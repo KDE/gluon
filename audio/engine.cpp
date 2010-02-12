@@ -36,30 +36,12 @@ template<> GLUON_AUDIO_EXPORT Engine *GluonCore::Singleton<Engine>::m_instance =
 
 Engine::Engine()
 {
-    //alutInitWithoutContext(0, 0);
-
     m_context = NULL;
     m_device = NULL;
-
-    /*if (setDevice(deviceName)) {
-        if (deviceName.isEmpty()) {
-            qDebug() << "set device to default";
-        } else {
-            qDebug() << "set device to " << deviceName;
-        }
-    } else {
-        qDebug() << "cannot set openAL device...";
-    }*/
     setDevice("");
 
     qDebug() << alGetError();
 }
-
-/*Engine::Engine(Phonon::Category category, QObject *parent)
-{
-    m_phonon = new Phonon(this);
-    m_phonon->setCategory(category);
-}*/
 
 Engine::~Engine()
 {
@@ -70,7 +52,6 @@ Engine::~Engine()
 
 QStringList Engine::deviceList()
 {
-    //TODO *Shudder* put this into engineprivate and rename the entire class to device. Or something.
     if (!Device::isExtensionPresent("ALC_ENUMERATION_EXT")) {
         return QStringList();
     }

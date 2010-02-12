@@ -26,7 +26,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
-#include <phonon/phononnamespace.h>
+
 #include <alc.h>
 
 #include <core/singleton.h>
