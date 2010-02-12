@@ -28,6 +28,7 @@
 #include <KDebug>
 #include <KInputDialog>
 #include <KMessageBox>
+#include <KLocalizedString>
 
 using namespace GluonCreator;
 
@@ -182,7 +183,7 @@ void ProjectDock::newSubMenuTriggered()
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         DEBUG_TEXT(QString("Requested a new submenu under %1").arg(object->fullyQualifiedName()));
-        QString theName(KInputDialog::getText(tr("Enter Name"), tr("Please enter the name of the new folder in the text box below:"), tr("New Folder"), 0, this));
+        QString theName(KInputDialog::getText(i18n("Enter Name"), i18n("Please enter the name of the new folder in the text box below:"), i18n("New Folder"), 0, this));
         if(!theName.isEmpty())
             new GluonCore::GluonObject(theName, object);
     }
