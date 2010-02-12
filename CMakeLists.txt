@@ -11,11 +11,15 @@ option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" ON)
 option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" OFF)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
-option(INSTALL_CMAKE_FILES "Install the FindGluon*.cmake files into the CMake root" ON)
+option(INSTALL_CMAKE_FILES "Install the FindGluon*.cmake files into the CMake root" OFF)
 
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
+
+if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
+    set(INSTALL_CMAKE_FILES ON)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -64,6 +68,7 @@ message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING}")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Install the FindGluon*.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
 message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}")
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
 message(STATUS "Build Gluon Input Library (BUILD_GLUON_INPUT): ${BUILD_GLUON_INPUT}")
@@ -83,7 +88,7 @@ if(BUILD_GLUON_ENGINE)
 endif()
 message(STATUS "Build Gluon Player Application (BUILD_GLUON_PLAYER): ${BUILD_GLUON_PLAYER}")
 message(STATUS "Build Gluon Creator Application (BUILD_GLUON_CREATOR): ${BUILD_GLUON_CREATOR}")
-message(STATUS "Install the FindGluon*.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
+message(STATUS "")
 message(STATUS "To change any of these options, override them using -D{OPTION_NAME} on the commandline.")
 message(STATUS "To build and install Gluon, run \"make\" and \"make install\"")
 message(STATUS)
