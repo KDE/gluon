@@ -21,6 +21,8 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
     set(INSTALL_CMAKE_FILES ON)
 endif()
 
+add_definitions(-DEIGEN_DONT_ALIGN)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 ##### Gluon Libraries #####
