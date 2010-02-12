@@ -40,13 +40,20 @@ GluonObject::GluonObject(QObject * parent)
     : QObject(parent)
 {
     d = new GluonObjectPrivate();
+    
+    // Get a nice name first time the object is created...
+    QString theClassName(this->metaObject()->className());
+    if(theClassName.contains(':'))
+        setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':')));
+    else
+        setName(theClassName);
 }
 
 GluonObject::GluonObject(const QString& name, QObject* parent)
     : QObject(parent)
 {
     d = new GluonObjectPrivate();
-    d->name = name;
+    setName(name);
 }
 
 GluonObject::~GluonObject()
