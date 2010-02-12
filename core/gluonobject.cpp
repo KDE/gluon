@@ -249,7 +249,41 @@ GluonObject::supportedMimeTypes() const
 void
 GluonObject::setName(const QString &newName)
 {
-    d->name = newName;
+    // Don't allow setting the name to nothing
+    if(newName.isEmpty())
+        return;
+    
+    // This is kinda nasty, but it's the easiest way to not clash with ourselves ;)
+    d->name = "";
+    
+    // Make sure we don't set a name on an object which is already used!
+    QString theName(newName);
+    if(parent())
+    {
+        bool nameIsOK = true;
+        int addedNumber = 0;
+        QObjectList theChildren = children();
+        do
+        {
+            addedNumber++;
+            nameIsOK = true;
+            foreach(QObject* child, theChildren)
+            {
+                GluonObject * theChild = qobject_cast<GluonObject*>(child);
+                if(theChild)
+                {
+                    if(theChild->name() == theName)
+                    {
+                        theName = QString(newName + " %1").arg(addedNumber);
+                        nameIsOK = false;
+                        break;
+                    }
+                }
+            }
+        }
+        while(!nameIsOK);
+    }
+    d->name = theName;
 }
 
 QString
@@ -264,6 +298,7 @@ GluonObject::fullyQualifiedName() const
 void GluonObject::addChild(GluonObject* child)
 {
     child->setParent(this);
+    child->setName(child->name());
 }
 
 GluonObject* GluonObject::child(int index) const

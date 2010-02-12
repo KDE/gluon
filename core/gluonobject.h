@@ -62,7 +62,7 @@ namespace GluonCore
             virtual void setName(const QString &newName);
             QString fullyQualifiedName() const;
 
-	    virtual const QStringList supportedMimeTypes() const;
+            virtual const QStringList supportedMimeTypes() const;
 
             /**
              * Use this to access functions on the GameProject instance associated
