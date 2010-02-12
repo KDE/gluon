@@ -19,6 +19,8 @@ if (GluonGraphics_FIND_REQUIRED)
     set(_gluonGraphicsReq "REQUIRED")
 endif (GluonGraphics_FIND_REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+
 find_package(GluonCore ${_gluonGraphicsReq})
 find_package(OpenGL ${_gluonGraphicsReq})
 find_package(GLEW ${_gluonGraphicsReq})

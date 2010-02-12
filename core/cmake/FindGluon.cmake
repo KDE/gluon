@@ -17,6 +17,8 @@ if(Gluon_FIND_REQUIRED)
     set(_gluonReq "REQUIRED")
 endif(Gluon_FIND_REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+
 find_package(GluonCore _gluonReq)
 find_package(GluonAudio _gluonReq)
 find_package(GluonInput _gluonReq)

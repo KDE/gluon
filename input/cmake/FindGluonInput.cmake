@@ -21,6 +21,8 @@ if (GluonInput_FIND_REQUIRED)
     set(_gluonInputReq "REQUIRED")
 endif (GluonInput_FIND_REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+
 find_package(GluonCore _gluonInputReq)
 
 if(MAC)

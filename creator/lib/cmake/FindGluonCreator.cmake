@@ -20,6 +20,8 @@ if (GluonCreator_FIND_REQUIRED)
   set(_gluonCreatorReq "REQUIRED")
 endif (GluonCreator_FIND_REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+
 find_package(KDE4 ${_gluonCreatorReq})
 find_package(GluonCore ${_gluonCreatorReq})
 find_package(GluonEngine ${_gluonCreatorReq})
