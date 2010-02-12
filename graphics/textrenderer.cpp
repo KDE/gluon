@@ -5,7 +5,8 @@
 #include <QtCore/QHash>
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
-
+#include <QtGlobal>
+#include <cmath>
 namespace {
 
 #define OUTLINE_WIDTH     3
@@ -364,7 +365,7 @@ namespace GluonGraphics {
             qDebug() << "Are you using a bad font, or what?";
             qDebug() << "The font being used is:";
             qDebug() << font.toString();
-            assert(false);
+            Q_ASSERT(false);
           }
         }
         chars.insert( string[i], c);
@@ -441,7 +442,7 @@ namespace GluonGraphics {
 
 
     // make sure we called ::end
-    assert(!d->glwidget);
+    Q_ASSERT(!d->glwidget);
 
     d->glwidget = widget;
     d->textmode = true;
@@ -464,7 +465,7 @@ namespace GluonGraphics {
   void TextRenderer::end()
   {
     if(d->glwidget) {
-      assert(d->textmode);
+      Q_ASSERT(d->textmode);
       glMatrixMode( GL_PROJECTION );
       glPopMatrix();
       glMatrixMode( GL_MODELVIEW );
@@ -476,7 +477,7 @@ namespace GluonGraphics {
 
   int TextRenderer::draw( int x, int y, const QString &string, const QFont& font )
   {
-    assert(d->textmode);
+    Q_ASSERT(d->textmode);
     if( string.isEmpty() ) return 0;
     glPushMatrix();
     glLoadIdentity();
@@ -562,9 +563,9 @@ namespace GluonGraphics {
       return texth;
   }
 
-  int TextRenderer::draw( const Eigen::Vector3d &pos, const QString &string, const QFont& font )
+  int TextRenderer::draw( const QVector3D &pos, const QString &string, const QFont& font )
   {
-    assert(d->textmode);
+    Q_ASSERT(d->textmode);
     if( string.isEmpty() ) return 0;
 
     const QFontMetrics fontMetrics ( font );
@@ -572,13 +573,21 @@ namespace GluonGraphics {
     int h = fontMetrics.height();
 
     // TODO: uncomment once Camera has project() method
-    Eigen::Vector3d wincoords;// = d->glwidget->camera()->project(pos);
+    QVector3D wincoords;// = d->glwidget->camera()->project(pos);
 
     // project is in QT window coordinates
-    wincoords.y() = d->glwidget->height() - wincoords.y();
+//    wincoords.y() = d->glwidget->height() - wincoords.y();
+//
+//    wincoords.x() -= w/2;
+//    wincoords.y() += h/2;
 
-    wincoords.x() -= w/2;
-    wincoords.y() += h/2;
+        wincoords.setY( d->glwidget->height() - wincoords.y());
+
+        wincoords.setX(wincoords.x() - w/2);
+        wincoords.setY(wincoords.y() + h/2);
+
+
+
 
     glPushMatrix();
     glLoadIdentity();
