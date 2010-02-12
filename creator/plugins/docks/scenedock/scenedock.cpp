@@ -171,7 +171,6 @@ void GluonCreator::SceneDock::newGameObjectAction()
     if(obj)
     {
         GluonEngine::GameObject * newChild = new GluonEngine::GameObject();
-        newChild->setName(tr("New GameObject"));
         obj->addChild(newChild);
         d->view->reset();
         DEBUG_TEXT(QString("Created the new GameObject: %1").arg(newChild->fullyQualifiedName()));
