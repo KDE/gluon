@@ -133,10 +133,24 @@ ALint Sound::status()const
     return status;
 }
 
+
+bool Sound::isLooping()
+{
+    ALint loop;
+    alGetSourcei(d->source, AL_LOOPING, &loop);
+    return loop == AL_TRUE;
+}
+
+bool Sound::isPlaying()
+{
+    ALint state;
+    alGetSourcei(d->source, AL_SOURCE_STATE, &state);
+    return state == AL_PLAYING;
+}
+
 void Sound::setLoop(bool enabled)
 {
     alSourcei(d->source, AL_LOOPING, enabled);
-
 }
 
 Eigen::Vector3f Sound::position() const

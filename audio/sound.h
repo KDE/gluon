@@ -74,6 +74,9 @@ namespace GluonAudio
         */
         ALint status()const ;
 
+        bool isPlaying();
+        bool isLooping();
+
         /**
         * @todo this function isn't defined!
         * @return the last error reported
@@ -224,6 +227,8 @@ namespace GluonAudio
         * @see duration()
         */
         void setTimePosition(ALfloat time);
+
+        //void setRadius(float radius);
 
     protected:
         void init();
