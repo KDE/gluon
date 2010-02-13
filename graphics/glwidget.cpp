@@ -50,7 +50,7 @@ GLWidget::GLWidget(const QGLFormat& format, QWidget* parent, const QGLWidget* sh
 
 GLWidget::~GLWidget()
 {
-    delete mCamera;
+    //delete mCamera;
     delete mFpsCounter;
     delete mTextRenderer;
 }
@@ -137,90 +137,57 @@ GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 
 void GLWidget::initializeGL()
 {
-
-
-
-
-
-
-
-
     // Init KGLLib
-
     mGLInitialized = true;
 
     // Create camera and fps counter
-    mCamera = new GluonGraphics::Camera;
+    mCamera = Engine::instance()->activeCamera();
+    //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
+    //mCamera = new Camera();
+    connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
+
     mFpsCounter = new GluonGraphics::FPSCounter;
-
-
-
-
 
     // Set some defaults
     // TODO: make sure we're in RGBA mode
     setClearColor(mClearColor);
     glShadeModel(GL_SMOOTH);
-     glEnable(GL_DEPTH_TEST);
 
-
-//     glPolygonMode(GL_FRONT_AND_BACK, m_mode);
+    glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
     //glDisable(GL_DEPTH_TEST);
-
-
-
-    // Enable depth testing if we have depth
-//     if (context()->format().depth()) {
-//         glEnable(GL_DEPTH_TEST);
-//     }
-
-    // Set up camera
-    //camera()->setPosition(Vector3f(0, 0, 5));
-    //camera()->setLookAt(Vector3f(0, 0, 0));
-    //camera()->setUp(Vector3f(0, 1, 0));
-    //camera()->setDepthRange(1, 100);
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
-    camera()->setViewport(0, 0, width, height);
-    camera()->applyViewport();
+    m_viewportWidth = width;
+    m_viewportHeight = height;
 
-    camera()->setAspect(width/(float)height);
-    //camera()->applyPerspective();
-    camera()->applyOrtho();
+    if(mCamera)
+    {
+        camera()->setViewport(0, 0, width, height);
+        camera()->setAspect(width/(float)height);
+        camera()->applyViewport();
+        //camera()->applyPerspective();
+        camera()->applyOrtho();
+    }
 }
 
 void GLWidget::paintGL()
 {
-    DEBUG_BLOCK
+    makeCurrent();
 
-
-
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
 
-    //drawItems();
-
-
-//     glColor3ub(255, 255, 255);
-//     if ( m_axisShow) drawRepere(1,1);
-//     if ( m_infoShow) drawInfo();
-
-
-
     QGLWidget::paintGL();
-
-
-
-
 
     // If error text has been set then show it and return
     if (!mErrorText.isNull()) {
+        DEBUG_BLOCK
         DEBUG_TEXT(mErrorText);
         return;
     }
@@ -239,7 +206,8 @@ void GLWidget::paintGL()
     }
 
     // Apply camera
-    camera()->applyView();
+    if(mCamera)
+        mCamera->applyView();
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     if (mWireframeMode) {
@@ -275,5 +243,13 @@ void GLWidget::render()
   //if (m_engine!=0)
     drawItems();
 }
+
+void GLWidget::setCamera(Camera* camera)
+{
+    DEBUG_FUNC_NAME
+    mCamera = camera;
+    resizeGL(m_viewportWidth, m_viewportHeight);
+}
+
 
 #include "glwidget.moc"

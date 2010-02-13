@@ -165,19 +165,22 @@ public:
     virtual void setShortcutsEnabled( bool enabled);
 
 
-       void drawItems();
-           void init();
-private:
+    void drawItems();
+    void init();
 
 public Q_SLOTS:
     void toggleShowFps();
     void toggleWireframeMode();
+    void setCamera(GluonGraphics::Camera* camera);
+
 private:
-   GluonGraphics::Camera* mCamera;
-   GluonGraphics::FPSCounter* mFpsCounter;
+    GluonGraphics::Camera* mCamera;
+    GluonGraphics::FPSCounter* mFpsCounter;
     mutable GluonGraphics::TextRenderer* mTextRenderer;
    //GluonGraphics::Engine * m_engine;
 
+    int m_viewportWidth;
+    int m_viewportHeight;
 
     bool mAutomaticClear;
     Eigen::Vector4f mClearColor;
