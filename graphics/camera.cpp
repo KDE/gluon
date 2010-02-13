@@ -13,8 +13,8 @@ Camera::Camera()
     mAspect = 1.0f;
     mDepthNear = -1000.0f;
     mDepthFar = 1000.0f;
-    mPosition = Eigen::Vector3f(0, 0, 100);
-    mLookAt = Eigen::Vector3f(0, 0, 0);
+    mPosition = Eigen::Vector3f(0, 0, 0);
+    mLookAt = Eigen::Vector3f(0, 0, -1);
     mUp = Eigen::Vector3f(0, 1, 0);
     mModelviewMatrixDirty = true;
     mProjectionMatrixDirty = true;
@@ -123,7 +123,7 @@ void Camera::recalculateModelviewMatrix()
     // Code from Mesa project, src/glu/sgi/libutil/project.c
     mModelviewMatrixDirty = false;
     // Our looking direction
-    Eigen::Vector3f forward = (mLookAt - mPosition).normalized();
+    Eigen::Vector3f forward = mLookAt.normalized();
 
     Eigen::Vector3f side = forward.cross(mUp).normalized();
 
