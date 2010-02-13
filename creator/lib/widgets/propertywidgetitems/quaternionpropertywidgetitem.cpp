@@ -94,7 +94,7 @@ void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
    d->proxi->setX(quat.x());
    d->proxi->setY(quat.y());
    d->proxi->setZ(quat.z());
-   d->proxi->setScalar(quat.scalar());
+   d->proxi->setScalar(quat.scalar() * (180/M_PI) );
 }
 
 void QuaternionPropertyWidgetItem::xValueChanged(double value)
@@ -117,7 +117,7 @@ void QuaternionPropertyWidgetItem::zValueChanged(double value)
 
 void QuaternionPropertyWidgetItem::angleValueChanged(double value)
 {
-  d->proxi->setScalar(value);
+  d->proxi->setScalar(value * (180/M_PI) );
   PropertyWidgetItem::valueChanged(d->proxi->operator QVariant());
 }
 
