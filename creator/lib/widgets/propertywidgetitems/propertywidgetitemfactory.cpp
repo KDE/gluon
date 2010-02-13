@@ -38,7 +38,7 @@ PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidg
 
     if(type == "QString")
         return new TextPropertyWidgetItem(parent);
-    if(type == "Eigen::Vector3f")
+    if(type == "QVector3D")
         return new VectorPropertyWidgetItem(parent);
     if(type == "bool")
         return new BoolPropertyWidgetItem(parent);
@@ -50,7 +50,7 @@ PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidg
         return new QSizeFPropertyWidgetItem(parent);
     if(type == "QColor")
         return new ColorPropertyWidgetItem(parent);
-    if(type == "Eigen::Quaternionf")
+    if(type == "QQuaternion")
         return new QuaternionPropertyWidgetItem(parent);
 
     DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
