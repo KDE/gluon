@@ -38,6 +38,8 @@ public:
 
     virtual GluonCore::GluonObject *instantiate();
 
+    virtual void start();
+    virtual void draw(int timeLapse = 0);
     virtual void update(int elapsedMilliseconds);
 
     void setActive(bool active);
