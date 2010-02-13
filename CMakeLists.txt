@@ -21,7 +21,7 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
     set(INSTALL_CMAKE_FILES ON)
 endif()
 
-add_definitions(-DEIGEN_DONT_ALIGN)
+add_definitions(-DEIGEN_DONT_ALIGN -DEIGEN_DONT_VECTORIZE)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
