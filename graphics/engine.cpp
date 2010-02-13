@@ -19,6 +19,7 @@
  */
 
 #include "engine.h"
+#include "camera.h"
 
 #include <QtCore/QDebug>
 
@@ -30,8 +31,9 @@ class Engine::EnginePrivate
 {
 public:
     EnginePrivate() { }
-    
+
     ItemList items;
+    Camera* activeCamera;
 };
 
 Engine::Engine()
@@ -108,6 +110,19 @@ int Engine::itemsCount() const
 ItemList Engine::items() const
 {
     return d->items;
+}
+
+
+Camera* Engine::activeCamera()
+{
+    return d->activeCamera;
+}
+
+void Engine::setActiveCamera(Camera* camera)
+{
+    d->activeCamera = camera;
+
+    emit activeCameraChanged(camera);
 }
 
 #include "engine.moc"

@@ -31,6 +31,8 @@
 
 namespace GluonGraphics
 {
+    class Camera;
+
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
         Q_OBJECT
@@ -47,13 +49,21 @@ namespace GluonGraphics
 
             ItemList items() const;
 
+            Camera* activeCamera();
+
+        public slots:
+            void setActiveCamera(GluonGraphics::Camera* camera);
+
+        signals:
+            void activeCameraChanged(GluonGraphics::Camera*);
+
         private:
             friend class GluonCore::Singleton<Engine>;
 
             Engine();
             ~Engine();
             Q_DISABLE_COPY(Engine);
-	    
+
             class EnginePrivate;
             EnginePrivate *d;
     };
