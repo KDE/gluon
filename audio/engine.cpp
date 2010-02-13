@@ -92,3 +92,17 @@ bool Engine::setDevice(const QString &deviceName)
 
     return true;
 }
+
+Eigen::Vector3f Engine::listenerPosition()
+{
+    ALfloat listener[3];
+    alGetListenerfv(AL_POSITION, listener);
+
+    return Eigen::Vector3f(listener);
+}
+
+void Engine::setListenerPosition(const Eigen::Vector3f& position)
+{
+    alListener3f(AL_POSITION, position.x(), position.y(), position.z());
+}
+

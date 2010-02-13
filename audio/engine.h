@@ -30,6 +30,7 @@
 #include <alc.h>
 
 #include <core/singleton.h>
+#include <Eigen/Geometry>
 
 namespace GluonAudio
 {
@@ -54,6 +55,10 @@ namespace GluonAudio
         static ALCdevice* device() {
             return instance()->getAlDevice();
         }
+
+        Eigen::Vector3f listenerPosition();
+        void setListenerPosition(const Eigen::Vector3f& position);
+
 
         /**
         * @return a QStringList of the available output devices
