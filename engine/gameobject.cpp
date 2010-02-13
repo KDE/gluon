@@ -428,6 +428,7 @@ GameObject::worldOrientation() const
     return d->worldOrientation;
 }
 
+
 void
 GameObject::updateTransform()
 {

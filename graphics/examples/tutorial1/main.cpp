@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     //item->setPosition(-item->center());
     //this function make a rotation around the itemCenter. 
     // you can call rotate() to add a rotation .
-    item->setAngle(45);
+ 
     //this function must be called after each transformation. It updates the current Tranformation matrix of the item.
     item->updateTransform();
     
