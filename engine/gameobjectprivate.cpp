@@ -30,7 +30,7 @@ GameObjectPrivate::GameObjectPrivate()
     scale = QVector3D(1,1,1);
     orientation = QQuaternion(0,0,0,1);
 
-    transform = Transform();
+    transform = QMatrix4x4();
     transformInvalidated = true;
 }
 
@@ -42,7 +42,7 @@ GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
     , orientation(other.orientation)
     , parentGameObject(other.parentGameObject)
 {
-    transform = Transform();
+    transform = QMatrix4x4();
     transformInvalidated = true;
 }
 

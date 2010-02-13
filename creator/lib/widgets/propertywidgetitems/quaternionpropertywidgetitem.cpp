@@ -35,7 +35,7 @@ class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
         QDoubleSpinBox* z;
         QDoubleSpinBox* angle;
 
-        Eigen::AngleAxisf value;
+//        Eigen::AngleAxisf value;
 };
 
 QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
@@ -84,47 +84,47 @@ QuaternionPropertyWidgetItem::~QuaternionPropertyWidgetItem()
 
 void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    Eigen::Quaternionf quat = value.value<Eigen::Quaternionf>();
-
-    Eigen::AngleAxisf angleAxis(quat);
-    d->value = angleAxis;
-
-    d->x->setValue(angleAxis.axis().x());
-    d->y->setValue(angleAxis.axis().y());
-    d->z->setValue(angleAxis.axis().z());
-    d->angle->setValue(angleAxis.angle() * (180/M_PI));
+//    Eigen::Quaternionf quat = value.value<Eigen::Quaternionf>();
+//
+//    Eigen::AngleAxisf angleAxis(quat);
+//    d->value = angleAxis;
+//
+//    d->x->setValue(angleAxis.axis().x());
+//    d->y->setValue(angleAxis.axis().y());
+//    d->z->setValue(angleAxis.axis().z());
+//    d->angle->setValue(angleAxis.angle() * (180/M_PI));
 }
 
 void QuaternionPropertyWidgetItem::xValueChanged(double value)
-{
+{/*
     d->value.axis().x() = value;
 
     Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));*/
 }
 
 void QuaternionPropertyWidgetItem::yValueChanged(double value)
 {
-    d->value.axis().y() = value;
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+//    d->value.axis().y() = value;
+//
+//    Eigen::Quaternionf tempValue(d->value);
+//    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
 }
 
 void QuaternionPropertyWidgetItem::zValueChanged(double value)
 {
-    d->value.axis().z() = value;
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+//    d->value.axis().z() = value;
+//
+//    Eigen::Quaternionf tempValue(d->value);
+//    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
 }
 
 void QuaternionPropertyWidgetItem::angleValueChanged(double value)
 {
-    d->value.angle() = value * (M_PI/180);
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+//    d->value.angle() = value * (M_PI/180);
+//
+//    Eigen::Quaternionf tempValue(d->value);
+//    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
 }
 
 #include "quaternionpropertywidgetitem.moc"

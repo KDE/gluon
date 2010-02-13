@@ -41,7 +41,7 @@ if(BUILD_GLUON_GRAPHICS)
 endif()
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
-  #  add_subdirectory(engine)
+   add_subdirectory(engine)
 endif()
 
 #Gluon Applications - Currently dependant on KDE Development Platform
@@ -53,7 +53,7 @@ if(KDE4_FOUND AND WITH_KDE)
     endif(BUILD_GLUON_PLAYER)
     ##### Gluon Creator ####
     if(BUILD_GLUON_CREATOR)
-      #  add_subdirectory(creator)
+       add_subdirectory(creator)
     endif(BUILD_GLUON_CREATOR)
 else(KDE4_FOUND AND WITH_KDE)
     if(WITH_KDE)
