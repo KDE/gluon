@@ -428,8 +428,7 @@ GameObject::worldOrientation() const
     return d->worldOrientation;
 }
 
-void
-GameObject::updateTransform()
+void GameObject::updateTransform()
 {
     if(!d->transformInvalidated) return;
 
@@ -439,10 +438,10 @@ GameObject::updateTransform()
     {
         //Calculate the new world position
         //d->worldPosition = parent->worldPosition() + (parent->worldOrientation() * (parent->worldScale().cwise() * Eigen::Translation3f(d->position)));
-        d->worldPosition = parent->worldPosition + 
-          parent->worldOrientation()->rotatedVector (
-          parent->worldScale() * d->position);
-        d->worldOrientation = parent->worldOrientation() * d->orientation;
+//        d->worldPosition = parent->worldPosition +
+//          parent->worldOrientation()->rotatedVector (
+//          parent->worldScale() * d->position);
+//        d->worldOrientation = parent->worldOrientation() * d->orientation;
         d->worldScale = parent->worldScale() * d->scale;
     }
     else

@@ -18,8 +18,7 @@
 */
 
 #include "gameobjectprivate.h"
-#include <Eigen/Core>
-#include <Eigen/Geometry>
+
 
 using namespace GluonEngine;
 
