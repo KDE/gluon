@@ -22,6 +22,7 @@
 #include <audio/sound.h>
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
+#include <gluon/audio/sound.h>
 
 REGISTER_OBJECTTYPE(GluonEngine,SoundEmitterComponent)
 
@@ -46,33 +47,50 @@ GluonCore::GluonObject *SoundEmitterComponent::instantiate()
 
 void SoundEmitterComponent::play()
 {
-    GluonAudio::Engine::instance();
-
     m_sound->play();
-}
-
-void SoundEmitterComponent::stop()
-{
-    m_sound->stop();
 }
 
 void SoundEmitterComponent::setSound(SoundAsset *asset)
 {
-    if (m_sound) {
-        m_sound->deleteLater();
-        m_sound = 0;
-    }
-
     m_soundAsset = asset;
-    m_sound = new GluonAudio::Sound(m_soundAsset->buffer());
+    m_sound->load(asset->buffer());
+}
+
+void SoundEmitterComponent::start()
+{
+    m_sound = new GluonAudio::Sound();
+}
+
+void SoundEmitterComponent::draw(int timeLapse)
+{
+    Q_UNUSED(timeLapse);
+    m_sound->setPosition(gameObject()->position());
+
+    if(m_sound->isLooping() && !m_sound->isPlaying())
+        m_sound->play();
 }
 
 void SoundEmitterComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
-
-    m_sound->setPosition(gameObject()->worldPosition());
 }
+
+bool SoundEmitterComponent::isLooping()
+{
+
+}
+
+void SoundEmitterComponent::setLoop(bool loop)
+{
+
+}
+
+
+/*void SoundEmitterComponent::stop()
+{
+    m_sound->stop();
+}*/
+
 
 Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)
 

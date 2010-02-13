@@ -32,6 +32,7 @@ class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
 {
     Q_OBJECT
     Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
+    Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
     Q_INTERFACES(GluonEngine::Component)
 
     public:
@@ -46,11 +47,19 @@ class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
 
         void setSound(SoundAsset *asset);
 
+        virtual void start();
+        virtual void update(int elapsedMilliseconds);
+        virtual void draw(int timeLapse = 0);
+
         void play();
-        void stop();
+        //void stop();
+
+        bool isLooping();
+
+    public slots:
+        void setLoop(bool loop);
 
     private:
-        virtual void update(int elapsedMilliseconds);
         GluonAudio::Sound *m_sound;
         SoundAsset *m_soundAsset;
 };
