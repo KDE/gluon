@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 project(Gluon)
-
+add_definitions(-DEIGEN_DONT_ALIGN)
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
 #do not make a whole lot of sense combined.
@@ -21,8 +21,6 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
     set(INSTALL_CMAKE_FILES ON)
 endif()
 
-add_definitions(-DEIGEN_DONT_ALIGN)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 ##### Gluon Libraries #####
@@ -31,19 +29,19 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory(core)
 ####### Gluon Audio #######
 if(BUILD_GLUON_AUDIO)
-  # add_subdirectory(audio)
+    add_subdirectory(audio)
 endif()
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
- #   add_subdirectory(input)
+    add_subdirectory(input)
 endif()
 ###### Gluon Graphics #####
 if(BUILD_GLUON_GRAPHICS)
-    add_subdirectory(graphics)
+#     add_subdirectory(graphics)
 endif()
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
- #  add_subdirectory(engine)
+  #  add_subdirectory(engine)
 endif()
 
 #Gluon Applications - Currently dependant on KDE Development Platform
