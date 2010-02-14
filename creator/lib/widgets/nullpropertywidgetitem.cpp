@@ -19,7 +19,12 @@
 #include <QLabel>
 #include <KLocalizedString>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,NullPropertyWidgetItem)
+// This is commented out specifically to inform you that this should not be done.
+// As this class is not supposed to be used normally, it is a special case
+// and as such does not register in the normal way (the registration would be a NOOP
+// at any rate, as this does not support any data types. See the
+// ::supportedDataTypes() function below)
+// REGISTER_PROPERTYWIDGETITEM(GluonCreator,NullPropertyWidgetItem)
 
 using namespace GluonCreator;
 
