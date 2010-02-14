@@ -21,7 +21,7 @@
 
 using namespace GluonCreator;
 
-template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
+template<> GLUONCREATOR_EXPORT PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
 
 PropertyWidgetItem*
 PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
