@@ -21,9 +21,9 @@ if (GluonInput_FIND_REQUIRED)
     set(_gluonInputReq "REQUIRED")
 endif (GluonInput_FIND_REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
-
 find_package(GluonCore _gluonInputReq)
+
+set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
 
 if(MAC)
     find_library(IOKIT_LIBRARY NAMES IOKit)
