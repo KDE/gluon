@@ -23,6 +23,8 @@
 #include <QtGui/QDoubleSpinBox>
 #include <QtGui/QHBoxLayout>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,QSizeFPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 class QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItemPrivate
@@ -61,6 +63,20 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 QSizeFPropertyWidgetItem::~QSizeFPropertyWidgetItem()
 {
     delete d;
+}
+
+QList< QString >
+QSizeFPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("QSizeF");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+QSizeFPropertyWidgetItem::instantiate()
+{
+    return new QSizeFPropertyWidgetItem();
 }
 
 void

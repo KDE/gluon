@@ -19,8 +19,9 @@
 #include <QLabel>
 #include <KLocalizedString>
 
-using namespace GluonCreator;
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,NullPropertyWidgetItem)
 
+using namespace GluonCreator;
 
 NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
@@ -32,7 +33,21 @@ NullPropertyWidgetItem::~NullPropertyWidgetItem()
 
 }
 
-void NullPropertyWidgetItem::setEditValue(const QVariant& value)
+QList< QString >
+NullPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+NullPropertyWidgetItem::instantiate()
+{
+    return new NullPropertyWidgetItem();
+}
+
+void
+NullPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     editWidget()->setProperty("text", QString("Unknown: %1(%2)").arg(value.typeName()).arg(value.toString()));
 }

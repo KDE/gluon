@@ -17,7 +17,7 @@
 #ifndef GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 
-#include "propertywidgetitem.h"
+#include "widgets/propertywidgetitem.h"
 
 namespace GluonCreator {
 
@@ -27,6 +27,9 @@ class VectorPropertyWidgetItem : public PropertyWidgetItem
     public:
         VectorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
         ~VectorPropertyWidgetItem();
+        
+        virtual QList<QString> supportedDataTypes() const;
+        virtual PropertyWidgetItem* instantiate();
 
     public slots:
         void setEditValue(const QVariant& value);

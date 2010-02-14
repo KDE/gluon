@@ -15,46 +15,43 @@
 */
 
 #include "propertywidgetitemfactory.h"
+#include "nullpropertywidgetitem.h"
 
 #include <core/debughelper.h>
-
-#include "nullpropertywidgetitem.h"
-#include "textpropertywidgetitem.h"
-#include "vectorpropertywidgetitem.h"
-#include "boolpropertywidgetitem.h"
-#include "floatpropertywidgetitem.h"
-#include "intpropertywidgetitem.h"
-#include "qsizefpropertywidgetitem.h"
-#include "colorpropertywidgetitem.h"
-#include "quaternionpropertywidgetitem.h"
 
 using namespace GluonCreator;
 
 template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
 
-PropertyWidgetItem* PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
+PropertyWidgetItem*
+PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
     DEBUG_BLOCK
-
-    if(type == "QString")
-        return new TextPropertyWidgetItem(parent);
-    if(type == "Eigen::Vector3f")
-        return new VectorPropertyWidgetItem(parent);
-    if(type == "bool")
-        return new BoolPropertyWidgetItem(parent);
-    if(type == "float")
-        return new FloatPropertyWidgetItem(parent);
-    if(type == "int")
-        return new IntPropertyWidgetItem(parent);
-    if(type == "QSizeF")
-        return new QSizeFPropertyWidgetItem(parent);
-    if(type == "QColor")
-        return new ColorPropertyWidgetItem(parent);
-    if(type == "Eigen::Quaternionf")
-        return new QuaternionPropertyWidgetItem(parent);
+    
+    foreach(const QString &thisType, piwTypes.keys())
+    {
+        if(thisType == type)
+        {
+            PropertyWidgetItem* item = piwTypes[thisType]->instantiate();
+            item->setParent(parent);
+            return item;
+        }
+    }
 
     DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
 
     return new NullPropertyWidgetItem(parent);
+}
+
+void
+PropertyWidgetItemFactory::registerNewPIW(PropertyWidgetItem* newPIW)
+{
+    if(newPIW)
+    {
+        foreach(const QString &type, newPIW->supportedDataTypes())
+        {
+            piwTypes[type] = newPIW;
+        }
+    }
 }
 

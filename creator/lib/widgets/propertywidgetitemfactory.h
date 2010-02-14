@@ -17,20 +17,25 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 
+#include "gluoncreator_macros.h"
+
 #include <core/singleton.h>
+#include <QtCore/QHash>
 
 
 namespace GluonCreator {
 
 class PropertyWidgetItem;
 
-class PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
+class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
 {
     public:
         PropertyWidgetItem* create(const QString& type, QWidget* parent);
+        void registerNewPIW(PropertyWidgetItem* newPIW);
 
     private:
         friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
+        QHash<QString, PropertyWidgetItem*> piwTypes;
 
         PropertyWidgetItemFactory() { }
         ~PropertyWidgetItemFactory() { }
@@ -38,5 +43,21 @@ class PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItem
 };
 
 }
+
+template<class T>
+class GLUONCREATOR_EXPORT PropertyWidgetItemRegistration
+{
+    public:
+        PropertyWidgetItemRegistration(T* newPIW)
+        {
+            if(newPIW->metaObject())
+            {
+                GluonCreator::PropertyWidgetItemFactory::instance()->registerNewPIW(newPIW);
+            }
+        }
+};
+
+#define REGISTER_PROPERTYWIDGETITEM(NAMESPACE,NEWPIW) \
+namespace NAMESPACE { PropertyWidgetItemRegistration<NEWPIW> NEWPIW ## _PropertyWidgetItemRegistration_(new NEWPIW()); }
 
 #endif // GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H

@@ -28,6 +28,9 @@ class NullPropertyWidgetItem : public PropertyWidgetItem
     public:
         NullPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
         ~NullPropertyWidgetItem();
+        
+        virtual QList<QString> supportedDataTypes() const;
+        virtual PropertyWidgetItem* instantiate();
 
     public slots:
         void setEditValue(const QVariant& value);

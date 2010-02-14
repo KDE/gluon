@@ -20,10 +20,11 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
+#include "gluoncreator_macros.h"
+#include "propertywidgetitemfactory.h"
+
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
-
-#include "gluoncreator_macros.h"
 
 namespace GluonCreator
 {
@@ -40,6 +41,9 @@ namespace GluonCreator
             virtual ~PropertyWidgetItem();
 
             QWidget* editWidget();
+            
+            virtual QList<QString> supportedDataTypes() const = 0;
+            virtual PropertyWidgetItem* instantiate() = 0;
 
         public slots:
             virtual void setEditObject(QObject * editThis);

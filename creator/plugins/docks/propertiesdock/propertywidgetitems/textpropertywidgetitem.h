@@ -17,8 +17,9 @@
 #ifndef TEXTPROPERTYWIDGETITEM_H
 #define TEXTPROPERTYWIDGETITEM_H
 
+#include "widgets/propertywidgetitem.h"
+
 #include <QtGui/QLineEdit>
-#include "propertywidgetitem.h"
 
 namespace GluonCreator {
     class TextPropertyWidgetItem : public PropertyWidgetItem
@@ -27,6 +28,9 @@ namespace GluonCreator {
         public:
             TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~TextPropertyWidgetItem();
+            
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
 
         public slots:
             void setEditValue(const QVariant& value);

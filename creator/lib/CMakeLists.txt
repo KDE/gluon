@@ -13,17 +13,9 @@ set(libGluonCreator_SRCS
     widgets/dock.cpp
     widgets/propertywidget.cpp
 
-    widgets/propertywidgetitems/propertywidgetitem.cpp
-    widgets/propertywidgetitems/propertywidgetitemfactory.cpp
-    widgets/propertywidgetitems/nullpropertywidgetitem.cpp
-    widgets/propertywidgetitems/boolpropertywidgetitem.cpp
-    widgets/propertywidgetitems/textpropertywidgetitem.cpp
-    widgets/propertywidgetitems/floatpropertywidgetitem.cpp
-    widgets/propertywidgetitems/intpropertywidgetitem.cpp
-    widgets/propertywidgetitems/vectorpropertywidgetitem.cpp
-    widgets/propertywidgetitems/qsizefpropertywidgetitem.cpp
-    widgets/propertywidgetitems/colorpropertywidgetitem.cpp
-    widgets/propertywidgetitems/quaternionpropertywidgetitem.cpp
+    widgets/propertywidgetitem.cpp
+    widgets/propertywidgetitemfactory.cpp
+    widgets/nullpropertywidgetitem.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})

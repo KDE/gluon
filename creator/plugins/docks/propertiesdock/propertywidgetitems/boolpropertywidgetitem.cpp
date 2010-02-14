@@ -22,6 +22,8 @@
 
 #include <QtGui/QCheckBox>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,BoolPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
@@ -34,6 +36,20 @@ BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags 
 BoolPropertyWidgetItem::~BoolPropertyWidgetItem()
 {
 
+}
+
+QList< QString >
+BoolPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("bool");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+BoolPropertyWidgetItem::instantiate()
+{
+    return new BoolPropertyWidgetItem();
 }
 
 void

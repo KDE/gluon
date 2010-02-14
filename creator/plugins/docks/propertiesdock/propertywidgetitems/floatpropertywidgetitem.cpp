@@ -37,6 +37,20 @@ FloatPropertyWidgetItem::~FloatPropertyWidgetItem()
 
 }
 
+QList< QString >
+FloatPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("float");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+FloatPropertyWidgetItem::instantiate()
+{
+    return new FloatPropertyWidgetItem();
+}
+
 void
 FloatPropertyWidgetItem::setEditValue(const QVariant& value)
 {

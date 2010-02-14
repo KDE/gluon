@@ -22,6 +22,8 @@
 
 #include <QtGui/QSpinBox>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,IntPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
@@ -35,6 +37,20 @@ IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
 IntPropertyWidgetItem::~IntPropertyWidgetItem()
 {
 
+}
+
+QList< QString >
+IntPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("int");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+IntPropertyWidgetItem::instantiate()
+{
+    return new IntPropertyWidgetItem();
 }
 
 void

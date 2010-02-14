@@ -1,6 +1,15 @@
 set(propertiesdock_SRCS
     propertiesdock.cpp
     propertiesdockplugin.cpp
+
+    propertywidgetitems/boolpropertywidgetitem.cpp
+    propertywidgetitems/textpropertywidgetitem.cpp
+    propertywidgetitems/floatpropertywidgetitem.cpp
+    propertywidgetitems/intpropertywidgetitem.cpp
+    propertywidgetitems/vectorpropertywidgetitem.cpp
+    propertywidgetitems/qsizefpropertywidgetitem.cpp
+    propertywidgetitems/colorpropertywidgetitem.cpp
+    propertywidgetitems/quaternionpropertywidgetitem.cpp
 )
 
 kde4_add_plugin(gluon_creator_dockplugin_propertiesdock ${propertiesdock_SRCS})
