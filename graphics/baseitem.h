@@ -166,6 +166,18 @@ public:
         setPosition(QVector3D(x, y, z));
     }
 
+    inline void setQuaternion(const QQuaternion &orientation)
+    {
+    m_orientation = orientation;
+
+    }
+
+    inline void setRotation(const QVector3D &axis, const qreal &angle ){
+
+        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
+
+    }
+
     inline void translate(const QVector3D &step)
     {
         m_position += step;
@@ -184,6 +196,9 @@ public:
     {
         scale(QVector3D(x, y, z));
     }
+
+
+
 
 protected:
     void computeGeometry();
