@@ -43,6 +43,8 @@ namespace GluonEngine
 
             virtual GluonCore::GluonObject *instantiate();
 
+            virtual void setName(const QString &newName);
+            
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
             
