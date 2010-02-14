@@ -21,7 +21,7 @@ Boston, MA 02110-1301, USA.
 #include <QDoubleSpinBox>
 #include <QtGui/QQuaternion>
 #include <cfloat>
-
+#include <cmath>
 #include <core/gluonvarianttypes.h>
 
 using namespace GluonCreator;
