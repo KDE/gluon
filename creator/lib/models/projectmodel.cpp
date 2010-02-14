@@ -31,6 +31,7 @@
 #include <kmimetype.h>
 #include <QtCore/QFileInfo>
 #include <engine/filelocation.h>
+#include <QDir>
 
 using namespace GluonCreator;
 
@@ -239,6 +240,8 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
                     gobj->addChild(newChild);
                     newChild->setName(theFileInfo.fileName());
                     
+                    if(!QDir::current().exists("Assets"))
+                        QDir::current().mkdir("Assets");
                     QUrl newLocation(QString("Assets/%1.%2").arg(newChild->fullyQualifiedName()).arg(theFileInfo.completeSuffix()));
                     QFile(theUrl.toLocalFile()).copy(newLocation.toLocalFile());
                     newChild->setFile(newLocation);
