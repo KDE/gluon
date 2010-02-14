@@ -106,6 +106,15 @@ GameObject::draw(int timeLapse)
         child->draw(timeLapse);
 }
 
+void GameObject::stop()
+{
+    foreach(Component * component, d->components)
+        component->stop();
+    
+    foreach(GameObject * child, d->children)
+        child->stop();
+}
+
 void
 GameObject::runCommand(const QString &functionName)
 {

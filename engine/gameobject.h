@@ -66,6 +66,7 @@ namespace GluonEngine
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
             void draw(int timeLapse = 0);
+            void stop();
             /**
              * Run a command on all the components in this GameObject
              */

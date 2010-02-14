@@ -61,6 +61,12 @@ Scene::drawAll(int timeLapse)
 }
 
 void
+Scene::stopAll()
+{
+    sceneContents()->stop();
+}
+
+void
 Scene::setFile(const QUrl &newFile)
 {
     if(!savableDirty)
