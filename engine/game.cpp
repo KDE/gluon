@@ -95,6 +95,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         d->currentScene->drawAll(timeLapse);
         emit painted();
     }
+    d->currentScene->stopAll();
 }
 
 void
@@ -147,6 +148,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
             DEBUG_TEXT(tr("Gameloop has fallen behind by %1 milliseconds").arg(remainingSleep))
         }
     }
+    d->currentScene->stopAll();
 }
 
 void Game::stopGame()

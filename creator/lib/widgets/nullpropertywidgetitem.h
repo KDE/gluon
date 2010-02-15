@@ -14,25 +14,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef TEXTPROPERTYWIDGETITEM_H
-#define TEXTPROPERTYWIDGETITEM_H
+#ifndef GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H
 
-#include <QtGui/QLineEdit>
 #include "propertywidgetitem.h"
 
-namespace GluonCreator {
-    class TextPropertyWidgetItem : public PropertyWidgetItem
-    {
-        Q_OBJECT
-        public:
-            TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-            ~TextPropertyWidgetItem();
 
-        public slots:
-            void setEditValue(const QVariant& value);
-            void textEdited(QString value);
-    };
+namespace GluonCreator {
+
+class NullPropertyWidgetItem : public PropertyWidgetItem
+{
+    Q_OBJECT
+    public:
+        NullPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+        ~NullPropertyWidgetItem();
+        
+        virtual QList<QString> supportedDataTypes() const;
+        virtual PropertyWidgetItem* instantiate();
+
+    public slots:
+        void setEditValue(const QVariant& value);
+};
+
 }
 
-
-#endif // TEXTPROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H

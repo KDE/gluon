@@ -23,6 +23,8 @@ Boston, MA 02110-1301, USA.
 
 #include <core/gluonvarianttypes.h>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,QuaternionPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
@@ -81,6 +83,19 @@ QuaternionPropertyWidgetItem::~QuaternionPropertyWidgetItem()
     delete d;
 }
 
+QList< QString >
+QuaternionPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("QQuaternion");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+QuaternionPropertyWidgetItem::instantiate()
+{
+    return new QuaternionPropertyWidgetItem();
+}
 
 void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
 {

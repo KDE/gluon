@@ -36,6 +36,7 @@ class PropertyWidgetItem::PropertyWidgetItemPrivate
 };
 
 PropertyWidgetItem::PropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+    : QWidget(parent, f)
 {
     d = new PropertyWidgetItemPrivate;
 

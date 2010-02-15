@@ -25,6 +25,8 @@
 
 #include <core/gluonvarianttypes.h>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,ColorPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 class ColorPropertyWidgetItem::ColorPropertyWidgetItemPrivate
@@ -76,8 +78,22 @@ ColorPropertyWidgetItem::~ColorPropertyWidgetItem()
     delete d;
 }
 
+QList< QString >
+ColorPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("QColor");
+    return supportedTypes;
+}
 
-void ColorPropertyWidgetItem::setEditValue(const QVariant& value)
+PropertyWidgetItem*
+ColorPropertyWidgetItem::instantiate()
+{
+    return new ColorPropertyWidgetItem();
+}
+
+void
+ColorPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     QColor color = value.value<QColor>();
     d->value = color;
@@ -87,19 +103,22 @@ void ColorPropertyWidgetItem::setEditValue(const QVariant& value)
     d->b->setValue(color.blueF());
 }
 
-void ColorPropertyWidgetItem::rValueChanged(double value)
+void
+ColorPropertyWidgetItem::rValueChanged(double value)
 {
     d->value.setRedF(value);
     PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));
 }
 
-void ColorPropertyWidgetItem::gValueChanged(double value)
+void
+ColorPropertyWidgetItem::gValueChanged(double value)
 {
     d->value.setGreenF(value);
     PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));
 }
 
-void ColorPropertyWidgetItem::bValueChanged(double value)
+void
+ColorPropertyWidgetItem::bValueChanged(double value)
 {
     d->value.setBlueF(value);
     PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));

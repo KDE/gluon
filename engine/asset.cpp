@@ -19,6 +19,8 @@
 
 #include "asset.h"
 #include <QtCore/QStringList>
+#include <QFile>
+#include <QDir>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -44,6 +46,23 @@ Asset::~Asset()
 GluonCore::GluonObject* Asset::instantiate()
 {
     return new Asset(this);
+}
+
+void Asset::setName(const QString& newName)
+{
+    QString oldName(name());
+
+    GluonCore::GluonObject::setName(newName);
+    
+    // Rename the underlying file, if one exists...
+    if(QDir::current().exists(d->file.toLocalFile()) && !d->file.isEmpty())
+    {
+        QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
+        if(QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile()))
+        {
+            setFile(newFile);
+        }
+    }
 }
 
 void Asset::setFile(const QUrl &newFile)

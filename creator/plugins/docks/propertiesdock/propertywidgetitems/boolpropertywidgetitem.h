@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_BOOLPROPERTYWIDGET_H
 #define GLUON_CREATOR_BOOLPROPERTYWIDGET_H
 
-#include "propertywidgetitem.h"
+#include "widgets/propertywidgetitem.h"
 
 namespace GluonCreator
 {
@@ -31,6 +31,9 @@ namespace GluonCreator
         public:
             BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~BoolPropertyWidgetItem();
+            
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
 
         public slots:
             void setEditValue(const QVariant& value);

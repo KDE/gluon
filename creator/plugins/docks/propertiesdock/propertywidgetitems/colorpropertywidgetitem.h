@@ -17,7 +17,7 @@
 #ifndef GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 
-#include "propertywidgetitem.h"
+#include "widgets/propertywidgetitem.h"
 
 namespace GluonCreator {
 
@@ -27,6 +27,9 @@ class ColorPropertyWidgetItem : public PropertyWidgetItem
     public:
         ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
         ~ColorPropertyWidgetItem();
+        
+        virtual QList<QString> supportedDataTypes() const;
+        virtual PropertyWidgetItem* instantiate();
 
     public slots:
         void setEditValue(const QVariant& value);

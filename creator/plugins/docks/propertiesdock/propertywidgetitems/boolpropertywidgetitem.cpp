@@ -18,35 +18,50 @@
 
 */
 
-#include "intpropertywidgetitem.h"
+#include "boolpropertywidgetitem.h"
 
-#include <QtGui/QSpinBox>
+#include <QtGui/QCheckBox>
+
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,BoolPropertyWidgetItem)
 
 using namespace GluonCreator;
 
-IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
-    QSpinBox *spinBox = new QSpinBox(this);
-    setEditWidget(spinBox);
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(intValueChanged(double)));
+    setEditWidget(new QCheckBox(this));
+    connect(editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)));
 }
 
-IntPropertyWidgetItem::~IntPropertyWidgetItem()
+BoolPropertyWidgetItem::~BoolPropertyWidgetItem()
 {
 
+}
+
+QList< QString >
+BoolPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("bool");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+BoolPropertyWidgetItem::instantiate()
+{
+    return new BoolPropertyWidgetItem();
 }
 
 void
-IntPropertyWidgetItem::setEditValue(const QVariant& value)
+BoolPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    editWidget()->setProperty("value", value);
+    editWidget()->setProperty("checked", value);
 }
 
 void
-IntPropertyWidgetItem::intValueChanged(int value)
+BoolPropertyWidgetItem::toggled(bool checked)
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged(QVariant(checked));
 }
 
-#include "intpropertywidgetitem.moc"
+#include "boolpropertywidgetitem.moc"

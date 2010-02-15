@@ -21,6 +21,13 @@
 
 using namespace GluonCreator;
 
+#include "propertywidget.h"
+#include "propertywidgetitem.h"
+#include "propertywidgetitemfactory.h"
+
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+
 #include <QtCore/QVariant>
 #include <QtCore/QMetaClassInfo>
 
@@ -28,13 +35,6 @@ using namespace GluonCreator;
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
-
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
-
-#include "propertywidget.h"
-#include "propertywidgetitems/propertywidgetitem.h"
-#include "propertywidgetitems/propertywidgetitemfactory.h"
 
 class PropertyWidget::PropertyWidgetPrivate
 {

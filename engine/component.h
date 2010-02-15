@@ -96,6 +96,13 @@ namespace GluonEngine
              * @see Game::runGame, update
              */
             virtual void draw(int timeLapse = 0) { Q_UNUSED(timeLapse) };
+            /**
+             * The stop function is run once when the gameloop is stopped.
+             * Use it for removing temporary data between runs. Reimplement
+             * this function if you have something that needs cleaning up
+             * between runs.
+             */
+            virtual void stop() {};
 
             /**
              * The description of the Component instance. An arbitrary value

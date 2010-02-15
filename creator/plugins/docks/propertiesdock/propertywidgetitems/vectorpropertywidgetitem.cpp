@@ -23,6 +23,8 @@
 
 #include <core/gluonvarianttypes.h>
 
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,VectorPropertyWidgetItem)
+
 using namespace GluonCreator;
 
 class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
@@ -71,6 +73,19 @@ VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
     delete d;
 }
 
+QList< QString >
+VectorPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("QVector3D");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+VectorPropertyWidgetItem::instantiate()
+{
+    return new VectorPropertyWidgetItem();
+}
 
 void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
 {

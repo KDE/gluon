@@ -46,6 +46,7 @@ namespace GluonEngine
             virtual void startAll();
             virtual void updateAll(int elapsedMilliseconds);
             virtual void drawAll(int timeLapse = 0);
+            virtual void stopAll();
 
             GameObject* sceneContents();
 

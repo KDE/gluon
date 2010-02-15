@@ -14,29 +14,29 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
-#define GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
+#ifndef TEXTPROPERTYWIDGETITEM_H
+#define TEXTPROPERTYWIDGETITEM_H
 
-#include <core/singleton.h>
+#include "widgets/propertywidgetitem.h"
 
+#include <QtGui/QLineEdit>
 
 namespace GluonCreator {
+    class TextPropertyWidgetItem : public PropertyWidgetItem
+    {
+        Q_OBJECT
+        public:
+            TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~TextPropertyWidgetItem();
+            
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
 
-class PropertyWidgetItem;
-
-class PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
-{
-    public:
-        PropertyWidgetItem* create(const QString& type, QWidget* parent);
-
-    private:
-        friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
-
-        PropertyWidgetItemFactory() { }
-        ~PropertyWidgetItemFactory() { }
-        Q_DISABLE_COPY(PropertyWidgetItemFactory)
-};
-
+        public slots:
+            void setEditValue(const QVariant& value);
+            void textEdited(QString value);
+    };
 }
 
-#endif // GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
+
+#endif // TEXTPROPERTYWIDGETITEM_H

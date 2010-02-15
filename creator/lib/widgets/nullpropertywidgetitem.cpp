@@ -19,8 +19,14 @@
 #include <QLabel>
 #include <KLocalizedString>
 
-using namespace GluonCreator;
+// This is commented out specifically to inform you that this should not be done.
+// As this class is not supposed to be used normally, it is a special case
+// and as such does not register in the normal way (the registration would be a NOOP
+// at any rate, as this does not support any data types. See the
+// ::supportedDataTypes() function below)
+// REGISTER_PROPERTYWIDGETITEM(GluonCreator,NullPropertyWidgetItem)
 
+using namespace GluonCreator;
 
 NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
@@ -32,7 +38,21 @@ NullPropertyWidgetItem::~NullPropertyWidgetItem()
 
 }
 
-void NullPropertyWidgetItem::setEditValue(const QVariant& value)
+QList< QString >
+NullPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+NullPropertyWidgetItem::instantiate()
+{
+    return new NullPropertyWidgetItem();
+}
+
+void
+NullPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     editWidget()->setProperty("text", QString("Unknown: %1(%2)").arg(value.typeName()).arg(value.toString()));
 }

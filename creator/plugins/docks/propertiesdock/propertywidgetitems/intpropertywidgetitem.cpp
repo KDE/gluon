@@ -18,35 +18,51 @@
 
 */
 
-#include "floatpropertywidgetitem.h"
+#include "intpropertywidgetitem.h"
 
-#include <QtGui/QDoubleSpinBox>
+#include <QtGui/QSpinBox>
+
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,IntPropertyWidgetItem)
 
 using namespace GluonCreator;
 
-FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
-    QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
+    QSpinBox *spinBox = new QSpinBox(this);
     setEditWidget(spinBox);
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(floatValueChanged(double)));
+    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(intValueChanged(double)));
 }
 
-FloatPropertyWidgetItem::~FloatPropertyWidgetItem()
+IntPropertyWidgetItem::~IntPropertyWidgetItem()
 {
 
+}
+
+QList< QString >
+IntPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("int");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+IntPropertyWidgetItem::instantiate()
+{
+    return new IntPropertyWidgetItem();
 }
 
 void
-FloatPropertyWidgetItem::setEditValue(const QVariant& value)
+IntPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     editWidget()->setProperty("value", value);
 }
 
 void
-FloatPropertyWidgetItem::floatValueChanged(double value)
+IntPropertyWidgetItem::intValueChanged(int value)
 {
     PropertyWidgetItem::valueChanged(QVariant(value));
 }
 
-#include "floatpropertywidgetitem.moc"
+#include "intpropertywidgetitem.moc"

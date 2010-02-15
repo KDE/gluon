@@ -18,34 +18,49 @@
 
 */
 
-#include "boolpropertywidgetitem.h"
+#include "floatpropertywidgetitem.h"
 
-#include <QtGui/QCheckBox>
+#include <QtGui/QDoubleSpinBox>
 
 using namespace GluonCreator;
 
-BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
-    setEditWidget(new QCheckBox(this));
-    connect(editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)));
+    QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
+    setEditWidget(spinBox);
+    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(floatValueChanged(double)));
 }
 
-BoolPropertyWidgetItem::~BoolPropertyWidgetItem()
+FloatPropertyWidgetItem::~FloatPropertyWidgetItem()
 {
 
+}
+
+QList< QString >
+FloatPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("float");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+FloatPropertyWidgetItem::instantiate()
+{
+    return new FloatPropertyWidgetItem();
 }
 
 void
-BoolPropertyWidgetItem::setEditValue(const QVariant& value)
+FloatPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    editWidget()->setProperty("checked", value);
+    editWidget()->setProperty("value", value);
 }
 
 void
-BoolPropertyWidgetItem::toggled(bool checked)
+FloatPropertyWidgetItem::floatValueChanged(double value)
 {
-    PropertyWidgetItem::valueChanged(QVariant(checked));
+    PropertyWidgetItem::valueChanged(QVariant(value));
 }
 
-#include "boolpropertywidgetitem.moc"
+#include "floatpropertywidgetitem.moc"

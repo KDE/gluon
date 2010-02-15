@@ -16,8 +16,9 @@
 
 #include "textpropertywidgetitem.h"
 
-using namespace GluonCreator;
+REGISTER_PROPERTYWIDGETITEM(GluonCreator,TextPropertyWidgetItem)
 
+using namespace GluonCreator;
 
 TextPropertyWidgetItem::TextPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
@@ -30,12 +31,28 @@ TextPropertyWidgetItem::~TextPropertyWidgetItem()
 
 }
 
-void TextPropertyWidgetItem::setEditValue(const QVariant& value)
+QList< QString >
+TextPropertyWidgetItem::supportedDataTypes() const
+{
+    QList<QString> supportedTypes;
+    supportedTypes.append("QString");
+    return supportedTypes;
+}
+
+PropertyWidgetItem*
+TextPropertyWidgetItem::instantiate()
+{
+    return new TextPropertyWidgetItem();
+}
+
+void
+TextPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     editWidget()->setProperty("text", value);
 }
 
-void TextPropertyWidgetItem::textEdited(QString value)
+void
+TextPropertyWidgetItem::textEdited(QString value)
 {
     PropertyWidgetItem::valueChanged(QVariant(value));
 }
