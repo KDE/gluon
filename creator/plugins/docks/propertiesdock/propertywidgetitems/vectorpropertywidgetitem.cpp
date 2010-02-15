@@ -45,6 +45,7 @@ VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 
     QWidget* base = new QWidget(this);
     QHBoxLayout* layout = new QHBoxLayout();
+    layout->setSpacing(0);
     base->setLayout(layout);
 
     d->x = new QDoubleSpinBox(this);

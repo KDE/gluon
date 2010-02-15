@@ -41,6 +41,7 @@ PropertyWidgetItem::PropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     d = new PropertyWidgetItemPrivate;
 
     setLayout(new QVBoxLayout());
+    layout()->setSpacing(0);
 }
 
 PropertyWidgetItem::~PropertyWidgetItem()

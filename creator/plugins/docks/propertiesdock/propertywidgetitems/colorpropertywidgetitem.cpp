@@ -47,6 +47,7 @@ ColorPropertyWidgetItem::ColorPropertyWidgetItem(QWidget* parent, Qt::WindowFlag
 
     QWidget* base = new QWidget(this);
     QHBoxLayout* layout = new QHBoxLayout();
+    layout->setSpacing(0);
     base->setLayout(layout);
 
     d->r = new QDoubleSpinBox(this);

@@ -45,6 +45,7 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 
     QWidget *widget = new QWidget(this);
     QHBoxLayout *layout = new QHBoxLayout();
+    layout->setSpacing(0);
     widget->setLayout(layout);
 
     d->height = new QDoubleSpinBox(this);

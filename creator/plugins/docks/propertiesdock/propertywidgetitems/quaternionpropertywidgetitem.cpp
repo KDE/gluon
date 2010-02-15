@@ -46,6 +46,7 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::
 
     QWidget* base = new QWidget(this);
     QVBoxLayout* layout = new QVBoxLayout();
+    layout->setSpacing(0);
     base->setLayout(layout);
 
     QHBoxLayout* vectorLayout = new QHBoxLayout();

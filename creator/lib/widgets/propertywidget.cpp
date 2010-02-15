@@ -66,12 +66,16 @@ void PropertyWidget::setObject(GluonCore::GluonObject * object)
     {
         d->object = object;
         d->layout = new QVBoxLayout(this);
+        d->layout->setSpacing(0);
+        d->layout->setContentsMargins(0, 0, 0, 0);
+        d->layout->setAlignment(Qt::AlignTop);
 
         appendObject(object, true);
         for(int i = 0; i < object->children().count(); i++)
         {
             appendObject(object->child(i));
         }
+        d->layout->addStretch();
 
         QWidget * containerWidget = new QWidget(this);
         containerWidget->setLayout(d->layout);
@@ -110,6 +114,8 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
     d->layout->addWidget(objectBox);
 
     QGridLayout* boxLayout = new QGridLayout(objectBox);
+    boxLayout->setSpacing(0);
+    boxLayout->setContentsMargins(0, 0, 0, 0);
     objectBox->setLayout(boxLayout);
 
     appendMetaObject(obj, boxLayout);
