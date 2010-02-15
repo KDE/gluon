@@ -13,7 +13,7 @@ option(BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" OFF)
 option(BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" OFF)
 option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF)
 option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
-option(BUILD_OTHER_COMPONENTS "Build other Components" OFF)
+option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
 option(BUILD_OTHER_ASSETS "Build other Assets" OFF)
 
 if(NOT BUILD_GLUON_AUDIO)

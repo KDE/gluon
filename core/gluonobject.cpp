@@ -40,7 +40,7 @@ GluonObject::GluonObject(QObject * parent)
     : QObject(parent)
 {
     d = new GluonObjectPrivate();
-    
+
     // Get a nice name first time the object is created...
     QString theClassName(this->metaObject()->className());
     if(theClassName.contains(':'))
@@ -259,10 +259,10 @@ GluonObject::setName(const QString &newName)
     // Don't allow setting the name to nothing
     if(newName.isEmpty())
         return;
-    
+
     // This is kinda nasty, but it's the easiest way to not clash with ourselves ;)
     d->name = "";
-    
+
     // Make sure we don't set a name on an object which is already used!
     QString theName(newName);
     if(parent())
@@ -292,6 +292,7 @@ GluonObject::setName(const QString &newName)
         while(!nameIsOK);
     }
     d->name = theName;
+    setObjectName(d->name);
 }
 
 QString

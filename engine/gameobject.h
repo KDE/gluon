@@ -75,12 +75,12 @@ namespace GluonEngine
             // ----------------------------------------------------------------
             // Component management
 
-            Component * findComponent(const QString &name) const;
-            Component * findComponentByType(const QString &typeName) const;
-            Component * findComponentInChildren(const QString &name) const;
-            Component * findComponentInChildrenByType(const QString &typeName) const;
-            QList<Component *> findComponentsInChildren(const QString &name) const;
-            QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
+            Q_INVOKABLE Component * findComponent(const QString &name) const;
+            Q_INVOKABLE Component * findComponentByType(const QString &typeName) const;
+            Q_INVOKABLE Component * findComponentInChildren(const QString &name) const;
+            Q_INVOKABLE Component * findComponentInChildrenByType(const QString &typeName) const;
+            Q_INVOKABLE QList<Component *> findComponentsInChildren(const QString &name) const;
+            Q_INVOKABLE QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
             void addComponent(Component * addThis);
             bool removeComponent(Component * removeThis);
 
@@ -96,8 +96,7 @@ namespace GluonEngine
             int childCount() const;
             int childIndex(GameObject* child) const;
 
-            void setParentGameObject(GameObject * newParent);
-            GameObject * parentGameObject();
+            Q_INVOKABLE GameObject * parentGameObject();
 
             // ----------------------------------------------------------------
             // Property getter-setters
@@ -105,30 +104,38 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
+
+            Q_INVOKABLE Eigen::Vector3f position() const;
+            Q_INVOKABLE Eigen::Vector3f worldPosition() const;
+
+
+            Q_INVOKABLE Eigen::Vector3f scale() const;
+            Q_INVOKABLE Eigen::Vector3f worldScale() const;
+
+            Q_INVOKABLE Eigen::Quaternionf orientation() const;
+            Q_INVOKABLE Eigen::Quaternionf worldOrientation() const;
+
+            Q_INVOKABLE Eigen::Transform3f transform() const;
+
+        public slots:
+            void setParentGameObject(GameObject * newParent);
+
+            //Transformation
             void setPosition(const Eigen::Vector3f& newPosition);
             void setPosition(float x, float y, float z);
-            Eigen::Vector3f position() const;
-            Eigen::Vector3f worldPosition() const;
+            //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
+            //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
 
             void setScale(const Eigen::Vector3f& newScale);
             void setScale(float x, float y, float z);
-            Eigen::Vector3f scale() const;
-            Eigen::Vector3f worldScale() const;
-
-            void setOrientation(const Eigen::Quaternionf& newOrientation);
-            Eigen::Quaternionf orientation() const;
-            Eigen::Quaternionf worldOrientation() const;
-
-            //TODO: Implement
-            //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
-            //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
             //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
             //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+
+            void setOrientation(const Eigen::Quaternionf& newOrientation);
             //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();
             void invalidateTransform();
-            Eigen::Transform3f transform() const;
 
         private:
             QSharedDataPointer<GameObjectPrivate> d;
