@@ -22,7 +22,6 @@
 #include <audio/sound.h>
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
-#include <gluon/audio/sound.h>
 
 REGISTER_OBJECTTYPE(GluonEngine,SoundEmitterComponent)
 
