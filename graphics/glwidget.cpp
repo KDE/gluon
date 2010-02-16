@@ -162,16 +162,18 @@ void GLWidget::initializeGL()
 
 void GLWidget::resizeGL(int width, int height)
 {
+    DEBUG_FUNC_NAME
     m_viewportWidth = width;
     m_viewportHeight = height;
 
     if(mCamera)
     {
-        camera()->setViewport(0, 0, width, height);
-        camera()->setAspect(width/(float)height);
-        camera()->applyViewport();
+        DEBUG_TEXT("Camera found")
+        mCamera->setViewport(0, 0, width, height);
+        mCamera->setAspect(width/(float)height);
+        mCamera->applyViewport();
         //camera()->applyPerspective();
-        camera()->applyOrtho();
+        mCamera->applyOrtho();
     }
 }
 
@@ -246,7 +248,6 @@ void GLWidget::render()
 
 void GLWidget::setCamera(Camera* camera)
 {
-    DEBUG_FUNC_NAME
     mCamera = camera;
     resizeGL(m_viewportWidth, m_viewportHeight);
 }
