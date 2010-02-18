@@ -42,10 +42,12 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
     }
     
     // Then see if it's a reference type inheriting GluonObject...
+    QString typeTruncated = type.left(type.length() - 1);
     foreach(const QString &thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames())
     {
-        if(thisType == type)
+        if(thisType == typeTruncated)
         {
+            DEBUG_TEXT(QString("Found property of type %1").arg(thisType));
             return new GluonObjectPropertyWidgetItem(parent);
         }
     }

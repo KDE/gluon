@@ -153,6 +153,24 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget, row, 1);
     }
+    
+    foreach(const QByteArray &propName, object->dynamicPropertyNames())
+    {
+        QString thePropName(propName);
+        row = layout->rowCount();
+        QLabel * nameLabel = new QLabel(this);
+        nameLabel->setText(thePropName);
+        nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        layout->addWidget(nameLabel, row, 0);
+        
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object->property(propName).typeName(), this);
+        editWidget->setEditObject(object);
+        editWidget->setEditProperty(propName);
+        connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
+        editWidget->setMinimumWidth(250);
+        editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        layout->addWidget(editWidget);
+    }
 }
 
 #include "propertywidget.moc"

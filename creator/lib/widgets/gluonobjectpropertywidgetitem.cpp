@@ -27,7 +27,7 @@ using namespace GluonCreator;
 GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
-    QHBoxLayout * base = new QHBoxLayout(this);
+    QHBoxLayout * base = new QHBoxLayout;
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
 
@@ -38,7 +38,9 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt
     browseButton->setText("...");
     base->addWidget(browseButton);
     
-    setLayout(base);
+    QWidget * local = new QWidget(parent);
+    local->setLayout(base);
+    layout()->addWidget(local);
 }
 
 GluonObjectPropertyWidgetItem::~GluonObjectPropertyWidgetItem()

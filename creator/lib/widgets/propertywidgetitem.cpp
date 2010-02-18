@@ -42,6 +42,7 @@ PropertyWidgetItem::PropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
 
     setLayout(new QVBoxLayout());
     layout()->setSpacing(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
 }
 
 PropertyWidgetItem::~PropertyWidgetItem()
@@ -65,7 +66,8 @@ void
 PropertyWidgetItem::setEditProperty(const QString& propertyName)
 {
     d->propertyName = propertyName;
-    if(d->editedObject) setEditValue(d->editedObject->property(d->propertyName.toUtf8()));
+    if(d->editedObject)
+        setEditValue(d->editedObject->property(d->propertyName.toUtf8()));
 }
 
 void PropertyWidgetItem::setEditWidget(QWidget* widget)
