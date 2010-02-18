@@ -165,7 +165,7 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object->property(propName).typeName(), this);
         editWidget->setEditObject(object);
-        editWidget->setEditProperty(propName);
+        editWidget->setEditProperty(thePropName);
         connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);

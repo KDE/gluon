@@ -47,7 +47,6 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
     {
         if(thisType == typeTruncated)
         {
-            DEBUG_TEXT(QString("Found property of type %1").arg(thisType));
             return new GluonObjectPropertyWidgetItem(parent);
         }
     }
