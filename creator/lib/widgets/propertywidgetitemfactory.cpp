@@ -16,8 +16,10 @@
 
 #include "propertywidgetitemfactory.h"
 #include "nullpropertywidgetitem.h"
+#include "gluonobjectpropertywidgetitem.h"
 
-#include <core/debughelper.h>
+#include "core/debughelper.h"
+#include "core/gluonobjectfactory.h"
 
 using namespace GluonCreator;
 
@@ -28,6 +30,7 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
     DEBUG_BLOCK
     
+    // First check if there's any PIW which supports the type
     foreach(const QString &thisType, piwTypes.keys())
     {
         if(thisType == type)
@@ -37,7 +40,17 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
             return item;
         }
     }
-
+    
+    // Then see if it's a reference type inheriting GluonObject...
+    foreach(const QString &thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames())
+    {
+        if(thisType == type)
+        {
+            return new GluonObjectPropertyWidgetItem(parent);
+        }
+    }
+    
+    // Finally, throw back a Null item if we've got nothing...
     DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
 
     return new NullPropertyWidgetItem(parent);
