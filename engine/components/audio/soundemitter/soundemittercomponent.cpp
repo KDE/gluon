@@ -24,6 +24,7 @@
 #include <engine/gameobject.h>
 
 REGISTER_OBJECTTYPE(GluonEngine,SoundEmitterComponent)
+Q_DECLARE_METATYPE(GluonEngine::SoundAsset*);
 
 using namespace GluonEngine;
 
@@ -31,6 +32,11 @@ SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
     : Component(parent),
       m_sound(0)
 {
+    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+    QVariant somethingEmpty;
+    SoundAsset *theObject = m_soundAsset;
+    somethingEmpty.setValue<GluonEngine::SoundAsset*>(theObject);
+    setProperty("sound", somethingEmpty);
 }
 
 SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
@@ -38,29 +44,43 @@ SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComp
 {
 }
 
-GluonCore::GluonObject *SoundEmitterComponent::instantiate()
+GluonCore::GluonObject *
+SoundEmitterComponent::instantiate()
 {
     return new SoundEmitterComponent(this);
 }
 
-
-void SoundEmitterComponent::play()
+void
+SoundEmitterComponent::play()
 {
     m_sound->play();
 }
 
-void SoundEmitterComponent::setSound(SoundAsset *asset)
+SoundAsset *
+SoundEmitterComponent::sound()
+{
+    //return m_soundAsset;
+    return property("sound").value<GluonEngine::SoundAsset*>();
+}
+
+void
+SoundEmitterComponent::setSound(SoundAsset *asset)
 {
     m_soundAsset = asset;
+    QVariant theNewValue;
+    theNewValue.setValue<GluonEngine::SoundAsset*>(asset);
+    setProperty("sound", theNewValue);
     m_sound->load(asset->buffer());
 }
 
-void SoundEmitterComponent::start()
+void
+SoundEmitterComponent::start()
 {
     m_sound = new GluonAudio::Sound();
 }
 
-void SoundEmitterComponent::draw(int timeLapse)
+void
+SoundEmitterComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse);
     m_sound->setPosition(gameObject()->position());
@@ -69,17 +89,20 @@ void SoundEmitterComponent::draw(int timeLapse)
         m_sound->play();
 }
 
-void SoundEmitterComponent::update(int elapsedMilliseconds)
+void
+SoundEmitterComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 }
 
-bool SoundEmitterComponent::isLooping()
+bool
+SoundEmitterComponent::isLooping()
 {
 
 }
 
-void SoundEmitterComponent::setLoop(bool loop)
+void
+SoundEmitterComponent::setLoop(bool loop)
 {
 
 }
