@@ -28,7 +28,7 @@ using namespace GluonCreator;
 class PropertyWidgetItem::PropertyWidgetItemPrivate
 {
     public:
-        PropertyWidgetItemPrivate() { editedObject = 0; }
+        PropertyWidgetItemPrivate() { editedObject = 0; editWidget = 0; }
 
         QObject *editedObject;
         QString propertyName;
@@ -67,21 +67,25 @@ PropertyWidgetItem::setEditProperty(const QString& propertyName)
 {
     d->propertyName = propertyName;
     if(d->editedObject)
-        setEditValue(d->editedObject->property(d->propertyName.toUtf8()));
+        setEditValue(d->editedObject->property(propertyName.toUtf8()));
 }
 
-void PropertyWidgetItem::setEditWidget(QWidget* widget)
+void
+PropertyWidgetItem::setEditWidget(QWidget* widget)
 {
     d->editWidget = widget;
     layout()->addWidget(widget);
 }
 
-void PropertyWidgetItem::setEditValue(const QVariant& value)
+void
+PropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    if(d->editWidget) d->editWidget->setProperty("value", value);
+    if(d->editWidget)
+        d->editWidget->setProperty("value", value);
 }
 
-void PropertyWidgetItem::valueChanged(QVariant value)
+void
+PropertyWidgetItem::valueChanged(QVariant value)
 {
     QVariant oldValue = d->editedObject->property(d->propertyName.toUtf8());
     d->editedObject->setProperty(d->propertyName.toUtf8(), value);
