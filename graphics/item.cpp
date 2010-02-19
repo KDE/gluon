@@ -115,7 +115,7 @@ void Item::paintGL()
   }
 
   glPushMatrix();
-  glMultMatrixf(transformMatrix().data());
+  glMultMatrixd((GLdouble*)(transformMatrix().data()));  // EIGEN TO QT
 
    if ( f_showBoundingBox) drawBoundingBox();
 
@@ -244,7 +244,7 @@ void Item::drawCenter()
 {
     glPointSize(3);
     glBegin(GL_POINTS);
-    Eigen::Vector3f c = center();
+    QVector3D c = center();
     glColor3f(100, 0, 0);
     glVertex2d(c.x(), c.y());
     glEnd();

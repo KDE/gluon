@@ -30,7 +30,9 @@ template<class K, class V> class QHash;
 
 #include "shader.h"
 
-#include <Eigen/Core>
+#include <QVector2D>
+#include <QVector3D>
+#include <QVector4D>
 
 //Q_DECLARE_METATYPE(float);
 
@@ -233,15 +235,15 @@ class GLUON_GRAPHICS_EXPORT  Program
        /**
         * @overload
         **/
-        bool setUniform(const char* name, Eigen::Vector2f value);
+        bool setUniform(const char* name, QVector2D value);
        /**
         * @overload
         **/
-        bool setUniform(const char* name, Eigen::Vector3f value);
+        bool setUniform(const char* name, QVector3D value);
        /**
         * @overload
         **/
-        bool setUniform(const char* name, Eigen::Vector4f value);
+        bool setUniform(const char* name, QVector4D value);
        /**
         * @overload
         **/

@@ -27,7 +27,7 @@
 
 #include <core/debughelper.h>
 
-using namespace Eigen;
+
 using namespace GluonGraphics;
 
 GLWidget::GLWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f) :
@@ -61,7 +61,7 @@ void GLWidget::init()
     mFpsCounter = 0;
     mTextRenderer = 0;
     mAutomaticClear = true;
-    mClearColor = Vector4f(0, 0, 0, 0);
+    mClearColor = QVector4D(0, 0, 0, 0);
     mGLInitialized = false;
     mShowFps = false;
     mWireframeMode = false;
@@ -105,7 +105,7 @@ void GLWidget::toggleWireframeMode()
     update();
 }
 
-void GLWidget::setClearColor(const Eigen::Vector4f& c)
+void GLWidget::setClearColor(const QVector4D& c)
 {
     mClearColor = c;
     if (mGLInitialized) {

@@ -22,19 +22,20 @@
 
 #include "baseitem.h"
 #include <algorithm>
+#include <cmath>
 
 using namespace GluonGraphics;
 
 BaseItem::BaseItem(QObject *parent)
     : QObject(parent)
 {
-    m_position = Eigen::Vector3f::Zero();
-    m_scale = Eigen::Vector3f::Ones();
-    m_center= Eigen::Vector3f::Zero();
+    m_position = QVector3D(0,0,0);
+    m_scale = QVector3D(1,1,1);
+    m_center= QVector3D(0,0,0);
     m_polygon = QPolygonF();
     m_dim = QSizeF();
 
-    m_orientation = Eigen::Quaternionf::Identity();
+    m_orientation = QQuaternion(1,0,0,0);
 }
 
 BaseItem::~BaseItem()
@@ -43,7 +44,7 @@ BaseItem::~BaseItem()
 
 void  BaseItem::updateTransform()
 {
-    m_matrix.setIdentity();
+    m_matrix.setToIdentity();
 
     m_matrix.translate(m_position);
     m_matrix.scale(m_scale);
@@ -52,18 +53,18 @@ void  BaseItem::updateTransform()
 
 void BaseItem::resetTransform()
 {
-    m_matrix.setIdentity();
-    m_position = Eigen::Vector3f::Zero();
-    m_scale = Eigen::Vector3f::Ones();
-    m_orientation = Eigen::Quaternionf::Identity();
+    m_matrix.setToIdentity();;
+    m_position = QVector3D(0,0,0);
+    m_scale = QVector3D(1,1,1);
+    m_orientation = QQuaternion(1,0,0,0);
 }
 
 void BaseItem::computeGeometry()
 {
     //Compute the center
-    m_center = Eigen::Vector3f::Zero();
+    m_center = QVector3D(0,0,0);
     foreach(const Vertex &p, m_vertexList) {
-        m_center += Eigen::Vector3f(p.x(), p.y(), 0);
+        m_center += QVector3D(p.x(), p.y(), 0);
     }
     m_center /= (float)vertexCount();
 
@@ -90,7 +91,7 @@ void BaseItem::computeGeometry()
 
 QPointF BaseItem::transform(const QPointF &p) const
 {
-    Eigen::Vector3f vect = m_matrix * Eigen::Vector3f(p.x(), p.y(), 0);
+    QVector3D vect = m_matrix * QVector3D(p.x(), p.y(), 0);
     return QPointF(vect.x(), vect.y());
 }
 
@@ -109,8 +110,8 @@ QPolygonF BaseItem::transform(const QPolygonF &p) const
 
 QRectF BaseItem::transform(const QRectF &r) const
 {
-    Eigen::Vector3f a = m_matrix * Eigen::Vector3f(r.x(), r.y(), 0);
-    Eigen::Vector3f b = m_matrix * Eigen::Vector3f(r.width(), r.height(), 0);
+    QVector3D a = m_matrix * QVector3D(r.x(), r.y(), 0);
+    QVector3D b = m_matrix * QVector3D(r.width(), r.height(), 0);
 
     return QRectF(a.x(), a.y(), b.x(), b.y());
 }

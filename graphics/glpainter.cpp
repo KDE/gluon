@@ -119,7 +119,7 @@ void GLPainter::draw(GLenum mode)
     glEnableClientState(GL_COLOR_ARRAY);
 
     /* send data */
-    glVertexPointer(2, GL_FLOAT,sizeof(Vertex),d->pointList.vertexStart());
+    glVertexPointer(3, GL_FLOAT,sizeof(Vertex),d->pointList.vertexStart());
     glTexCoordPointer(2,GL_FLOAT,sizeof(Vertex),d->pointList.texCoordStart());
     glColorPointer(4, GL_FLOAT,sizeof(Vertex),d->pointList.colorStart());
 

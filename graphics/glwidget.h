@@ -22,7 +22,6 @@
 
 #include <QtOpenGL/QGLWidget>
 #include <QtCore/QList>
-#include <Eigen/Core>
 
 #include <QtGui/QAction>
 #include <QtGui/QFontMetrics>
@@ -31,6 +30,7 @@
 #include "gluon_graphics_export.h"
 #include "engine.h"
 
+#include <QVector4D>
 namespace GluonGraphics
 {
 class Camera;
@@ -120,14 +120,14 @@ public:
      * Default is black.
      * TODO: maybe rename to setBackgroundColor?
      **/
-    void setClearColor(const Eigen::Vector4f& c);
+    void setClearColor(const QVector4D& c);
     /**
      * Specifies whether OpenGL buffers should be automatically cleared in the
      *  beginning of @ref paintGL.
      **/
     void setAutomaticClear(bool clear);
 
-    Eigen::Vector4f clearColor() const  { return mClearColor; }
+    QVector4D clearColor() const  { return mClearColor; }
     bool automaticClear() const  { return mAutomaticClear; }
 
     /**
@@ -183,7 +183,7 @@ private:
     int m_viewportHeight;
 
     bool mAutomaticClear;
-    Eigen::Vector4f mClearColor;
+    QVector4D mClearColor;
     bool mGLInitialized;
 
     bool mShowFps;

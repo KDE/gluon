@@ -16,7 +16,6 @@ int main(int argc, char **argv)
   GluonGraphics::Item * box = new GluonGraphics::Item;
   box->createBox(200,200);
 
-  box->setTexture("/usr/share/icons/oxygen/64x64/apps/akonadi.png");
   box->showBoundingBox(true);
   box->showCenter(true);
 

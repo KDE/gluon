@@ -27,7 +27,11 @@
 #include <QtGui/QPolygonF>
 #include <QtGui/QTransform>
 #include <QtGui/QMatrix>
-#include <Eigen/Geometry>
+
+#include <QMatrix4x4>
+#include <QVector2D>
+#include <QVector3D>
+#include <QQuaternion>
 
 #include "gluon_graphics_export.h"
 #include "vertex.h"
@@ -65,7 +69,7 @@ public:
     virtual void updateTransform();
     virtual void resetTransform();
 
-    void applyTransform(const Eigen::Transform3f &m)
+    void applyTransform(const QMatrix4x4 &m)
     {
         m_matrix = m * m_matrix;
     }
@@ -82,12 +86,12 @@ public:
         return m_vertexList.size();
     }
 
-    inline Eigen::Vector3f position() const
+    inline QVector3D position() const
     {
         return m_position;
     }
 
-    inline Eigen::Vector3f scaleValue() const
+    inline QVector3D scaleValue() const
     {
         return m_scale;
     }
@@ -97,7 +101,7 @@ public:
         return m_radius;
     }
 
-    inline Eigen::Vector3f center() const
+    inline QVector3D center() const
     {
         return  m_center;
     }
@@ -127,59 +131,74 @@ public:
         return polygon().containsPoint(p,Qt::WindingFill);
     }
 
-    inline  Eigen::Transform3f transformMatrix()
+    inline  QMatrix4x4 transformMatrix()
     {
         return m_matrix;
     }
 
-    inline void setTransformMatrix(const Eigen::Transform3f& m)
+    inline void setTransformMatrix(const QMatrix4x4& m)
     {
         m_matrix = m;
     }
 
     //Set
-    inline void setCenter(const Eigen::Vector3f &c)
+    inline void setCenter(const QVector3D &c)
     {
         m_center = c;
     }
 
-    inline void setScale(const Eigen::Vector3f &s)
+    inline void setScale(const QVector3D &s)
     {
         m_scale = s;
     }
     inline void setScale(float sx, float sy, float sz)
     {
-        setScale(Eigen::Vector3f(sx, sy, sz));
+        setScale(QVector3D(sx, sy, sz));
     }
     
-    inline void setPosition(const Eigen::Vector3f &p)
+    inline void setPosition(const QVector3D &p)
     {
         m_position = p;
     }
 
     inline void setPosition(float x, float y, float z)
     {
-        setPosition(Eigen::Vector3f(x, y, z));
+        setPosition(QVector3D(x, y, z));
     }
 
-    inline void translate(const Eigen::Vector3f &step)
+    inline void setQuaternion(const QQuaternion &orientation)
+    {
+    m_orientation = orientation;
+
+    }
+
+    inline void setRotation(const QVector3D &axis, const qreal &angle ){
+
+        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
+
+    }
+
+    inline void translate(const QVector3D &step)
     {
         m_position += step;
     }
 
     inline void translate(float x, float y, float z)
     {
-        translate(Eigen::Vector3f(x, y, z));
+        translate(QVector3D(x, y, z));
     }
 
-    inline void scale(const Eigen::Vector3f &s)
+    inline void scale(const QVector3D &s)
     {
         m_scale = s;
     }
     inline void scale(float x, float y, float z)
     {
-        scale(Eigen::Vector3f(x, y, z));
+        scale(QVector3D(x, y, z));
     }
+
+
+
 
 protected:
     void computeGeometry();
@@ -190,13 +209,13 @@ protected:
     QRectF transform(const QRectF &r) const;
 
 private:
-    Eigen::Transform3f m_matrix;
+    QMatrix4x4 m_matrix;
 
-    Eigen::Vector3f m_position;
-    Eigen::Vector3f m_scale;
-    Eigen::Quaternionf m_orientation;
+    QVector3D m_position;
+    QVector3D m_scale;
+    QQuaternion m_orientation;
 
-    Eigen::Vector3f m_center;
+    QVector3D m_center;
 
     QPolygonF m_polygon;
     float m_radius;

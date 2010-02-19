@@ -38,12 +38,9 @@ namespace GluonEngine
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
 
-        Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
-        Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Quaternionf orientation READ orientation WRITE setOrientation)
-
-        //Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
-        //Q_PROPERTY(float rotation READ rotation WRITE setRotation)
+        Q_PROPERTY(QVector3D position READ position WRITE setPosition)
+        Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
+        Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
 
         public:
             enum TransformSpace
@@ -105,34 +102,33 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
+            Q_INVOKABLE QVector3D position() const;
+            Q_INVOKABLE QVector3D worldPosition() const;
 
-            Q_INVOKABLE Eigen::Vector3f position() const;
-            Q_INVOKABLE Eigen::Vector3f worldPosition() const;
 
+            Q_INVOKABLE QVector3D scale() const;
+            Q_INVOKABLE QVector3D worldScale() const;
 
-            Q_INVOKABLE Eigen::Vector3f scale() const;
-            Q_INVOKABLE Eigen::Vector3f worldScale() const;
+            Q_INVOKABLE QQuaternion orientation() const;
+            Q_INVOKABLE QQuaternion worldOrientation() const;
 
-            Q_INVOKABLE Eigen::Quaternionf orientation() const;
-            Q_INVOKABLE Eigen::Quaternionf worldOrientation() const;
-
-            Q_INVOKABLE Eigen::Transform3f transform() const;
+            Q_INVOKABLE QMatrix4x4 transform() const;
 
         public slots:
             void setParentGameObject(GameObject * newParent);
 
             //Transformation
-            void setPosition(const Eigen::Vector3f& newPosition);
+            void setPosition(const QVector3D& newPosition);
             void setPosition(float x, float y, float z);
             //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
             //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
 
-            void setScale(const Eigen::Vector3f& newScale);
+            void setScale(const QVector3D& newScale);
             void setScale(float x, float y, float z);
             //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
             //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
 
-            void setOrientation(const Eigen::Quaternionf& newOrientation);
+            void setOrientation(const QQuaternion& newOrientation);
             //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();

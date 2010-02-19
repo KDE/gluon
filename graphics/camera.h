@@ -20,8 +20,9 @@
 #define GLUON_GRAPHICS_CAMERA_H
 
 #include <QtCore/QObject>
-#include <Eigen/Geometry>
 
+#include <QVector3D>
+#include <QMatrix4x4>
 #include "gluon_graphics_export.h"
 
 namespace GluonGraphics
@@ -67,23 +68,23 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
         Camera();
         virtual ~Camera();
 
-        Eigen::Vector3f position() const  { return mPosition; }
-        Eigen::Vector3f lookAt() const  { return mLookAt; }
-        Eigen::Vector3f up() const  { return mUp; }
+        QVector3D position() const  { return mPosition; }
+        QVector3D lookAt() const  { return mLookAt; }
+        QVector3D up() const  { return mUp; }
 
         /**
         * @return current modelview matrix.
         * Modelview matrix is either set using the @ref setModelviewMatrix method
         *  or automatically calculated using position, lookAt and up vectors.
         **/
-        Eigen::Transform3f modelviewMatrix() const;
+        QMatrix4x4 modelviewMatrix() const;
         /**
         * @return current projection matrix.
         * Projection matrix is either set using the @ref setProjectionMatrix
         *   method or automatically calculated using fov, aspect and depth range
         *   parameters.
         **/
-        Eigen::Transform3f projectionMatrix() const;
+        QMatrix4x4 projectionMatrix() const;
 
         /**
         * Transforms vector @p v from world coordinates to window coordinates.
@@ -91,14 +92,14 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
         * If @p ok is not null then it will be set to true or false depending on
         *  whether the projection was successful or not.
         **/
-        Eigen::Vector3f project(const Eigen::Vector3f& v, bool* ok = 0) const;
+        QVector3D project(const QVector3D& v, bool* ok = 0) const;
         /**
         * Transforms vector @p v from window coordinates to world coordinates.
         *
         * If @p ok is not null then it will be set to true or false depending on
         *  whether the projection was successful or not.
         **/
-        Eigen::Vector3f unProject(const Eigen::Vector3f& v, bool* ok = 0) const;
+        QVector3D unProject(const QVector3D& v, bool* ok = 0) const;
 
     public slots:
         /**
@@ -153,27 +154,27 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
         /**
          * Sets the camera's positionto @p pos.
          **/
-        void setPosition(const Eigen::Vector3f& pos);
-        void setPosition(float x, float y, float z)  { setPosition(Eigen::Vector3f(x, y, z)); }
+        void setPosition(const QVector3D& pos);
+        void setPosition(float x, float y, float z)  { setPosition(QVector3D(x, y, z)); }
         /**
          * Sets the lookat point to @p lookat.
          * LookAt is the point at which the camera is looking at.
          **/
-        void setLookAt(const Eigen::Vector3f& lookat);
-        void setLookAt(float x, float y, float z)  { setLookAt(Eigen::Vector3f(x, y, z)); }
+        void setLookAt(const QVector3D& lookat);
+        void setLookAt(float x, float y, float z)  { setLookAt(QVector3D(x, y, z)); }
         /**
          * Sets the up vector to @p up.
          * Up vector is the one pointing upwards in the viewport.
          **/
-        void setUp(const Eigen::Vector3f& up);
-        void setUp(float x, float y, float z)  { setUp(Eigen::Vector3f(x, y, z)); }
+        void setUp(const QVector3D& up);
+        void setUp(float x, float y, float z)  { setUp(QVector3D(x, y, z)); }
         /**
          * Sets the viewing direction of the camera to @p dir.
          * This method sets lookat point to @ref position() + dir, thus
          *  you will need to set camera's position before using this method.
          **/
-        void setDirection(const Eigen::Vector3f& dir);
-        void setDirection(float x, float y, float z)  { setDirection(Eigen::Vector3f(x, y, z)); }
+        void setDirection(const QVector3D& dir);
+        void setDirection(float x, float y, float z)  { setDirection(QVector3D(x, y, z)); }
 
         /**
          * Sets the modelview matrix.
@@ -187,7 +188,7 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
          *  will be ignored and new modelview matrix will be calculated using
          *  specified position, lookat and up vectors.
          **/
-        void setModelviewMatrix(const Eigen::Transform3f& modelview);
+        void setModelviewMatrix(const QMatrix4x4& modelview);
         /**
          * Sets the projection matrix.
          *
@@ -200,21 +201,21 @@ class GLUON_GRAPHICS_EXPORT Camera : public QObject
          *  will be ignored and new projection matrix will be calculated using
          *  specified fov, aspect and depth range parameters.
          **/
-        void setProjectionMatrix(const Eigen::Transform3f& projection);
+        void setProjectionMatrix(const QMatrix4x4& projection);
 
     protected:
         void recalculateModelviewMatrix();
         void recalculateProjectionMatrix();
 
     protected:
-        Eigen::Vector3f mPosition;
-        Eigen::Vector3f mLookAt;
-        Eigen::Vector3f mUp;
+        QVector3D mPosition;
+        QVector3D mLookAt;
+        QVector3D mUp;
         float mFoV, mAspect, mDepthNear, mDepthFar;
 
-        Eigen::Transform3f mModelviewMatrix;
+        QMatrix4x4 mModelviewMatrix;
         bool mModelviewMatrixDirty;
-        Eigen::Transform3f mProjectionMatrix;
+        QMatrix4x4 mProjectionMatrix;
         bool mProjectionMatrixDirty;
         int mViewport[4];
     };

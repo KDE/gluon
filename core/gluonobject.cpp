@@ -26,7 +26,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QPointF>
 #include <QtGui/QColor>
-#include <Eigen/Geometry>
+#include <QtGui/QVector3D>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
 
@@ -496,6 +496,10 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
                 value = QString("float(%1)").arg(theValue.toDouble());
             break;
         case QVariant::Vector3D:
+        {
+            QVector3D aVector = theValue.value<QVector3D>();
+            value = QString("vector3d(%1,%2,%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
+        }
             break;
         case QVariant::Int:
             if(theValue.toInt() != 0)
@@ -528,11 +532,6 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
                     value = QString("Gluon::GluonObject()");
                     DEBUG_TEXT(QString("Invalid object reference!"));
                 }
-            }
-            if(theValue.canConvert<Eigen::Vector3f>())
-            {
-                Eigen::Vector3f theVector = theValue.value<Eigen::Vector3f>();
-                value = QString("vector3d(%1,%2,%3)").arg(theVector.x()).arg(theVector.y()).arg(theVector.z());
             }
             else
             {

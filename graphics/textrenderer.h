@@ -27,9 +27,9 @@
  into the other one.
  */
 
-#include <Eigen/Core>
-#include <QtGui/QFont>
 
+#include <QtGui/QFont>
+#include <QVector3D>
 #include "gluon_graphics_export.h"
 
 namespace GluonGraphics
@@ -117,7 +117,7 @@ class GLWidget;
        * @param string the QString to render
        * @returns the line spacing in pixels of the text just rendered (0 for an empty string).
        */
-      int draw( const Eigen::Vector3d & pos, const QString &string, const QFont& font = QFont());
+      int draw( const QVector3D & pos, const QString &string, const QFont& font = QFont());
 
       /**
        * Draw a single line of 2D text at the position (x,y) in window coordinates. Must be called

@@ -7,7 +7,6 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(Qt4 REQUIRED)
-find_package(Eigen2 REQUIRED)
 
 set(_Init_LIB_SUFFIX "")
 if ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
@@ -29,13 +28,11 @@ set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PA
 set(SHARE_INSTALL_DIR       ${CMAKE_INSTALL_PREFIX}/share               CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
 
 include_directories(${QT_INCLUDES})
-include_directories(${EIGEN2_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(GLUON_CORE_INCLUDES
     ${QT_INCLUDES}
-    ${EIGEN2_INCLUDE_DIR}
     CACHE PATHS "Includes required for Gluon Core"
 )
 
@@ -86,7 +83,6 @@ install(
     FILES
     cmake/FindGluon.cmake
     cmake/FindGluonCore.cmake
-    cmake/FindEigen2.cmake
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
     COMPONENT Devel
 )

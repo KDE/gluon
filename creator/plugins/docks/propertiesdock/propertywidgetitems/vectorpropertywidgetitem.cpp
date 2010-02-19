@@ -20,7 +20,7 @@
 #include <QLabel>
 #include <QDoubleSpinBox>
 #include <cfloat>
-
+#include <QVector3D>
 #include <core/gluonvarianttypes.h>
 
 REGISTER_PROPERTYWIDGETITEM(GluonCreator,VectorPropertyWidgetItem)
@@ -36,7 +36,7 @@ class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
         QDoubleSpinBox* y;
         QDoubleSpinBox* z;
 
-        Eigen::Vector3f value;
+        QVector3D value;
 };
 
 VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
@@ -90,7 +90,7 @@ VectorPropertyWidgetItem::instantiate()
 
 void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    const Eigen::Vector3f *vector = static_cast<const Eigen::Vector3f*>(value.data());
+    const QVector3D *vector = static_cast<const QVector3D*>(value.data());
 
     d->x->setValue(vector->x());
     d->y->setValue(vector->y());
@@ -99,20 +99,20 @@ void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
 
 void VectorPropertyWidgetItem::xValueChanged(double value)
 {
-    d->value = Eigen::Vector3f(value, d->y->value(), d->z->value());
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
+    d->value = QVector3D(value, d->y->value(), d->z->value());
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
 }
 
 void VectorPropertyWidgetItem::yValueChanged(double value)
 {
-    d->value = Eigen::Vector3f(d->x->value(), value, d->z->value());
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
+    d->value = QVector3D(d->x->value(), value, d->z->value());
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
 }
 
 void VectorPropertyWidgetItem::zValueChanged(double value)
 {
-    d->value = Eigen::Vector3f(d->x->value(), d->y->value(), value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Vector3f>(d->value));
+    d->value = QVector3D(d->x->value(), d->y->value(), value);
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
 }
 
 #include "vectorpropertywidgetitem.moc"

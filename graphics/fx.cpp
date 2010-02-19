@@ -19,6 +19,7 @@
  */
 
 #include "fx.h"
+#include <QVector2D>
 namespace GluonGraphics
 {
 Fx::Fx(const QString& vertexShader, const QString& fragmentShader)
@@ -103,7 +104,7 @@ void  BlurFx::setBlurLevel(QPointF blurLevel)
     m_blurLevel = blurLevel;
 
     bind();
-    setUniform("src_tex_offset0",Eigen::Vector2f(m_blurLevel.x(), m_blurLevel.y()));
+    setUniform("src_tex_offset0",QVector2D(m_blurLevel.x(), m_blurLevel.y()));
     unbind();
 
 }

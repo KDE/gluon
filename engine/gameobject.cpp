@@ -110,7 +110,7 @@ void GameObject::stop()
 {
     foreach(Component * component, d->components)
         component->stop();
-    
+
     foreach(GameObject * child, d->children)
         child->stop();
 }
@@ -366,7 +366,7 @@ GameObject::description() const
 }
 
 void
-GameObject::setPosition(const Eigen::Vector3f& newPosition)
+GameObject::setPosition(const QVector3D& newPosition)
 {
     d->position = newPosition;
 
@@ -376,23 +376,23 @@ GameObject::setPosition(const Eigen::Vector3f& newPosition)
 
 void GameObject::setPosition(float x, float y, float z)
 {
-    setPosition(Eigen::Vector3f(x, y, z));
+    setPosition(QVector3D(x, y, z));
 }
 
-Eigen::Vector3f
+QVector3D
 GameObject::position() const
 {
     return d->position;
 }
 
-Eigen::Vector3f
+QVector3D
 GameObject::worldPosition() const
 {
     return d->worldPosition;
 }
 
 void
-GameObject::setScale(const Eigen::Vector3f& newScale)
+GameObject::setScale(const QVector3D& newScale)
 {
     d->scale = newScale;
 
@@ -402,23 +402,23 @@ GameObject::setScale(const Eigen::Vector3f& newScale)
 
 void GameObject::setScale(float x, float y, float z)
 {
-    setScale(Eigen::Vector3f(x, y, z));
+    setScale(QVector3D(x, y, z));
 }
 
-Eigen::Vector3f
+QVector3D
 GameObject::scale() const
 {
     return d->scale;
 }
 
-Eigen::Vector3f
+QVector3D
 GameObject::worldScale() const
 {
     return d->worldScale;
 }
 
 
-void GameObject::setOrientation(const Eigen::Quaternionf& newOrientation)
+void GameObject::setOrientation(const QQuaternion& newOrientation)
 {
     d->orientation = newOrientation;
 
@@ -426,17 +426,16 @@ void GameObject::setOrientation(const Eigen::Quaternionf& newOrientation)
     updateTransform();
 }
 
-Eigen::Quaternionf GameObject::orientation() const
+QQuaternion GameObject::orientation() const
 {
     return d->orientation;
 }
 
-Eigen::Quaternionf
+QQuaternion
 GameObject::worldOrientation() const
 {
     return d->worldOrientation;
 }
-
 
 void
 GameObject::updateTransform()
@@ -448,10 +447,13 @@ GameObject::updateTransform()
     if(parent)
     {
         //Calculate the new world position
-        //d->worldPosition = parent->worldPosition() + (parent->worldOrientation() * (parent->worldScale().cwise() * Eigen::Translation3f(d->position)));
-        d->worldPosition = parent->worldPosition() + parent->worldOrientation() * (parent->worldScale().cwise() * d->position);
+        #warning Urgh. This is almost /the/ most important part of this function... Needs to be fixed
+        /*d->worldPosition = parent->worldPosition() + (parent->worldOrientation() * (parent->worldScale().cwise() * Eigen::Translation3f(d->position)));
+        d->worldPosition = parent->worldPosition +
+          parent->worldOrientation()->rotatedVector (
+          parent->worldScale() * d->position);
         d->worldOrientation = parent->worldOrientation() * d->orientation;
-        d->worldScale = parent->worldScale().cwise() * d->scale;
+        d->worldScale = parent->worldScale() * d->scale;*/
     }
     else
     {
@@ -461,8 +463,10 @@ GameObject::updateTransform()
         d->worldScale = d->scale;
     }
 
-    d->transform.setIdentity();
-    d->transform.translate(d->worldPosition).rotate(d->worldOrientation).scale(d->worldScale);
+    d->transform.setToIdentity();
+    d->transform.translate(d->worldPosition);
+    d->transform.rotate(d->worldOrientation);
+    d->transform.scale(d->worldScale);
 
     // Finally, update the child objects' position
     foreach(QObject *child, children())
@@ -483,7 +487,7 @@ void GameObject::invalidateTransform()
     d->transformInvalidated = true;
 }
 
-Eigen::Transform3f
+QMatrix4x4
 GameObject::transform() const
 {
     return d->transform;

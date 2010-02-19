@@ -27,6 +27,7 @@
 #include <QVariant>
 #include <QMetaType>
 #include <QDebug>
+#include <QVector3D>
 
 namespace GluonGraphics
 {
@@ -219,31 +220,31 @@ bool Program::setUniform(const char* name, float value)
   }
 }
 
-bool Program::setUniform(const char* name, Eigen::Vector2f value)
+bool Program::setUniform(const char* name, QVector2D value)
 {
-    int location = uniformLocation(name);
-    if (location >= 0) {
-        glUniform2fv(location, 1, value.data());
-    }
-    return (location >= 0);
+//    int location = uniformLocation(name);   EIGEN TO QT
+//    if (location >= 0) {
+//        glUniform2fv(location, 1, value.data());
+//    }
+//    return (location >= 0);
 }
 
-bool Program::setUniform(const char* name, Eigen::Vector3f value)
+bool Program::setUniform(const char* name, QVector3D value)
 {
-    int location = uniformLocation(name);
-    if (location >= 0) {
-        glUniform3fv(location, 1, value.data());
-    }
-    return (location >= 0);
+//    int location = uniformLocation(name);  EIGEN TO QT
+//    if (location >= 0) {
+//        glUniform3fv(location, 1, value.data());
+//    }
+//    return (location >= 0);
 }
 
-bool Program::setUniform(const char* name, Eigen::Vector4f value)
+bool Program::setUniform(const char* name, QVector4D value)
 {
-    int location = uniformLocation(name);
-    if (location >= 0) {
-        glUniform4fv(location, 1, value.data());
-    }
-    return (location >= 0);
+//    int location = uniformLocation(name); EIGEN TO QT
+//    if (location >= 0) {
+//        glUniform4fv(location, 1, value.data());
+//    }
+//    return (location >= 0);
 }
 
 bool Program::setUniform(const char* name, int value)

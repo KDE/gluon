@@ -3,7 +3,7 @@
 
 #include <glew.h>
 
-#include <Eigen/LU>
+
 
 using namespace GluonGraphics;
 
@@ -13,9 +13,9 @@ Camera::Camera()
     mAspect = 1.0f;
     mDepthNear = -1000.0f;
     mDepthFar = 1000.0f;
-    mPosition = Eigen::Vector3f(0, 0, 0);
-    mLookAt = Eigen::Vector3f(0, 0, -1);
-    mUp = Eigen::Vector3f(0, 1, 0);
+    mPosition = QVector3D(0, 0, 0);
+    mLookAt = QVector3D(0, 0, -1);
+    mUp = QVector3D(0, 1, 0);
     mModelviewMatrixDirty = true;
     mProjectionMatrixDirty = true;
 }
@@ -43,25 +43,25 @@ void Camera::setDepthRange(float near, float far)
     mProjectionMatrixDirty = true;
 }
 
-void Camera::setPosition(const Eigen::Vector3f& pos)
+void Camera::setPosition(const QVector3D& pos)
 {
     mPosition = pos;
     mModelviewMatrixDirty = true;
 }
 
-void Camera::setLookAt(const Eigen::Vector3f& lookat)
+void Camera::setLookAt(const QVector3D& lookat)
 {
     mLookAt = lookat;
     mModelviewMatrixDirty = true;
 }
 
-void Camera::setUp(const Eigen::Vector3f& up)
+void Camera::setUp(const QVector3D& up)
 {
     mUp = up;
     mModelviewMatrixDirty = true;
 }
 
-void Camera::setDirection(const Eigen::Vector3f& dir)
+void Camera::setDirection(const QVector3D& dir)
 {
     setLookAt(mPosition + dir);
 }
@@ -82,7 +82,7 @@ void Camera::applyPerspective()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glMultMatrixf(mProjectionMatrix.data());
+    glMultMatrixd((GLdouble*)(mProjectionMatrix.data()));
     //glOrtho(, 5, -5, 5, mDepthNear, mDepthFar);
     glMatrixMode(GL_MODELVIEW);
 }
@@ -110,7 +110,7 @@ void Camera::applyView(bool reset)
     if (reset) {
         glLoadIdentity();
     }
-    glMultMatrixf(mModelviewMatrix.data());
+    glMultMatrixd((GLdouble*)(mModelviewMatrix.data()));
 }
 
 void Camera::applyViewport()
@@ -123,32 +123,49 @@ void Camera::recalculateModelviewMatrix()
     // Code from Mesa project, src/glu/sgi/libutil/project.c
     mModelviewMatrixDirty = false;
     // Our looking direction
-    Eigen::Vector3f forward = mLookAt.normalized();
+    QVector3D forward = mLookAt.normalized();
 
-    Eigen::Vector3f side = forward.cross(mUp).normalized();
+    //QVector3D side = forward.cross(mUp).normalized();
+    QVector3D side = QVector3D::crossProduct(forward,mUp).normalized();
 
     // Recompute up vector, using cross product
-    Eigen::Vector3f up = side.cross(forward);
+    //QVector3D up = side.cross(forward);
+     QVector3D up = QVector3D::crossProduct(side,forward);
 
-    mModelviewMatrix.setIdentity();
-    mModelviewMatrix.linear() << side.transpose(), up.transpose(), -forward.transpose();
-    mModelviewMatrix.translate(-mPosition);
+  mModelviewMatrix.setToIdentity();
+
+//    mModelviewMatrix.linear() << side.transpose(), up.transpose(), -forward.transpose();
+
+  mModelviewMatrix.setColumn(0,QVector4D(side.x(),side.y(),side.z(),0));
+  mModelviewMatrix.setColumn(1,QVector4D(up.x(),up.y(),up.z(),0));
+  mModelviewMatrix.setColumn(2,QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
+
+   mModelviewMatrix.translate(-mPosition);
+
+
+
+
+
 }
 
 void Camera::recalculateProjectionMatrix()
 {
     // Code from Mesa project, src/glu/sgi/libutil/project.c
     mProjectionMatrixDirty = false;
-    mProjectionMatrix.setIdentity();
+    mProjectionMatrix.setToIdentity();
 
     float radians = mFoV / 2 * M_PI / 180;
 
     float deltaZ = mDepthFar - mDepthNear;
-    float sine = Eigen::ei_sin(radians);
+//    float sine = Eigen::ei_sin(radians);
+     float sine = sin(radians);
     if ((deltaZ == 0) || (sine == 0) || (mAspect == 0)) {
         return;
     }
-    float cotangent = Eigen::ei_cos(radians) / sine;
+//    float cotangent = Eigen::ei_cos(radians) / sine;
+      float cotangent = cos(radians) / sine;
+
+
 
     mProjectionMatrix(0, 0) = cotangent / mAspect;
     mProjectionMatrix(1, 1) = cotangent;
@@ -161,19 +178,19 @@ void Camera::recalculateProjectionMatrix()
     //mProjectionMatrix.
 }
 
-void Camera::setModelviewMatrix(const Eigen::Transform3f& modelview)
+void Camera::setModelviewMatrix(const QMatrix4x4& modelview)
 {
     mModelviewMatrix = modelview;
     mModelviewMatrixDirty = false;
 }
 
-void Camera::setProjectionMatrix(const Eigen::Transform3f& projection)
+void Camera::setProjectionMatrix(const QMatrix4x4& projection)
 {
     mProjectionMatrix = projection;
     mProjectionMatrixDirty = false;
 }
 
-Eigen::Transform3f Camera::modelviewMatrix() const
+QMatrix4x4 Camera::modelviewMatrix() const
 {
     if (mModelviewMatrixDirty) {
         const_cast<Camera*>(this)->recalculateModelviewMatrix();
@@ -181,7 +198,7 @@ Eigen::Transform3f Camera::modelviewMatrix() const
     return mModelviewMatrix;
 }
 
-Eigen::Transform3f Camera::projectionMatrix() const
+QMatrix4x4 Camera::projectionMatrix() const
 {
     if (mProjectionMatrixDirty) {
         const_cast<Camera*>(this)->recalculateProjectionMatrix();
@@ -189,29 +206,29 @@ Eigen::Transform3f Camera::projectionMatrix() const
     return mProjectionMatrix;
 }
 
-Eigen::Vector3f Camera::project(const Eigen::Vector3f& v, bool* ok) const
+QVector3D Camera::project(const QVector3D& v, bool* ok) const
 {
     // TODO add unit test
-    Eigen::Vector3f res;
-    Eigen::Vector4f p4 = projectionMatrix() * (modelviewMatrix() * Eigen::Vector4f(v[0],v[1],v[2],1));
-    if (p4.w()!=0)
-    {
-      res = p4.start<3>() / p4.w();
-      res = (res * 0.5).cwise() + 0.5;
-      res.start<2>() = Eigen::Vector2f(mViewport[0],mViewport[1])
-                       + Eigen::Vector2f(mViewport[2],mViewport[3]).cwise() * res.start<2>();
-      if (ok)
-          *ok = true;
-    }
-    else if (ok)
-        *ok = false;
-    return res;
+//    QVector3D res;
+//    QVector4D p4 = projectionMatrix() * (modelviewMatrix() * QVector4D(v[0],v[1],v[2],1));
+//    if (p4.w()!=0)
+//    {
+//      res = p4.start<3>() / p4.w();
+//      res = (res * 0.5).cwise() + 0.5;
+//      res.start<2>() = Eigen::Vector2f(mViewport[0],mViewport[1])
+//                       + Eigen::Vector2f(mViewport[2],mViewport[3]).cwise() * res.start<2>();
+//      if (ok)
+//          *ok = true;
+//    }
+//    else if (ok)
+//        *ok = false;
+//    return res;
 }
 
-Eigen::Vector3f Camera::unProject(const Eigen::Vector3f& v, bool* ok) const
+QVector3D Camera::unProject(const QVector3D& v, bool* ok) const
 {
     // TODO add unit test
-    if (ok) *ok = true;
+/*   if (ok) *ok = true;
     Eigen::Vector4f a;
     a << (v.start<2>() - Eigen::Vector2f(mViewport[0],mViewport[1]))
               .cwise() / Eigen::Vector2f(mViewport[2],mViewport[3]),
@@ -227,7 +244,7 @@ Eigen::Vector3f Camera::unProject(const Eigen::Vector3f& v, bool* ok) const
         if (ok) *ok = false;
         return a.start<3>();
     }
-    return a.start<3>() / a.w();
+    return a.start<3>() / a.w();*/
 }
 
 #include "camera.moc"

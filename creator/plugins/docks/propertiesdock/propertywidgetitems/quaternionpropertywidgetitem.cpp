@@ -19,8 +19,9 @@ Boston, MA 02110-1301, USA.
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QDoubleSpinBox>
+#include <QtGui/QQuaternion>
 #include <cfloat>
-
+#include <cmath>
 #include <core/gluonvarianttypes.h>
 
 REGISTER_PROPERTYWIDGETITEM(GluonCreator,QuaternionPropertyWidgetItem)
@@ -36,8 +37,10 @@ class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
         QDoubleSpinBox* y;
         QDoubleSpinBox* z;
         QDoubleSpinBox* angle;
+        
+        QQuaternion* proxi;
 
-        Eigen::AngleAxisf value;
+//        Eigen::AngleAxisf value;
 };
 
 QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
@@ -56,25 +59,27 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::
     d->x->setPrefix("X: ");
     d->x->setRange(-FLT_MAX, FLT_MAX);
     vectorLayout->addWidget(d->x);
-    connect(d->x, SIGNAL(valueChanged(double)), SLOT(xValueChanged(double)));
+    connect(d->x, SIGNAL(valueChanged(double)),this,  SLOT(xValueChanged(double)));
 
     d->y = new QDoubleSpinBox(this);
     d->y->setPrefix("Y: ");
     d->y->setRange(-FLT_MAX, FLT_MAX);
     vectorLayout->addWidget(d->y);
-    connect(d->y, SIGNAL(valueChanged(double)), SLOT(yValueChanged(double)));
+    connect(d->y, SIGNAL(valueChanged(double)),this,  SLOT(yValueChanged(double)));
 
     d->z = new QDoubleSpinBox(this);
     d->z->setPrefix("Z: ");
     d->z->setRange(-FLT_MAX, FLT_MAX);
     vectorLayout->addWidget(d->z);
-    connect(d->z, SIGNAL(valueChanged(double)), SLOT(zValueChanged(double)));
+    connect(d->z, SIGNAL(valueChanged(double)),this, SLOT(zValueChanged(double)));
 
     d->angle = new QDoubleSpinBox(this);
     d->angle->setPrefix("Angle: ");
     d->angle->setRange(-FLT_MAX, FLT_MAX);
     layout->addWidget(d->angle);
-    connect(d->angle, SIGNAL(valueChanged(double)), SLOT(angleValueChanged(double)));
+    connect(d->angle, SIGNAL(valueChanged(double)),this, SLOT(angleValueChanged(double)));
+    
+    d->proxi = new QQuaternion();
 
     setEditWidget(base);
 }
@@ -100,47 +105,36 @@ QuaternionPropertyWidgetItem::instantiate()
 
 void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    Eigen::Quaternionf quat = value.value<Eigen::Quaternionf>();
-
-    Eigen::AngleAxisf angleAxis(quat);
-    d->value = angleAxis;
-
-    d->x->setValue(angleAxis.axis().x());
-    d->y->setValue(angleAxis.axis().y());
-    d->z->setValue(angleAxis.axis().z());
-    d->angle->setValue(angleAxis.angle() * (180/M_PI));
+   QQuaternion quat = value.value<QQuaternion>();
+   
+   d->proxi->setX(quat.x());
+   d->proxi->setY(quat.y());
+   d->proxi->setZ(quat.z());
+   d->proxi->setScalar(quat.scalar() * (180/M_PI) );
 }
 
 void QuaternionPropertyWidgetItem::xValueChanged(double value)
 {
-    d->value.axis().x() = value;
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+  d->proxi->setX(value);
+  PropertyWidgetItem::valueChanged(d->proxi->operator QVariant());
 }
 
 void QuaternionPropertyWidgetItem::yValueChanged(double value)
 {
-    d->value.axis().y() = value;
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+  d->proxi->setY(value);
+  PropertyWidgetItem::valueChanged(d->proxi->operator QVariant());
 }
 
 void QuaternionPropertyWidgetItem::zValueChanged(double value)
 {
-    d->value.axis().z() = value;
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+  d->proxi->setZ(value);
+  PropertyWidgetItem::valueChanged(d->proxi->operator QVariant());
 }
 
 void QuaternionPropertyWidgetItem::angleValueChanged(double value)
 {
-    d->value.angle() = value * (M_PI/180);
-
-    Eigen::Quaternionf tempValue(d->value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<Eigen::Quaternionf>(tempValue));
+  d->proxi->setScalar(value * (180/M_PI) );
+  PropertyWidgetItem::valueChanged(d->proxi->operator QVariant());
 }
 
 #include "quaternionpropertywidgetitem.moc"
