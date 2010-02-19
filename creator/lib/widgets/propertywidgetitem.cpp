@@ -56,6 +56,12 @@ QWidget* PropertyWidgetItem::editWidget()
     return d->editWidget;
 }
 
+const QString
+PropertyWidgetItem::typeName() const
+{
+    return QString(d->editedObject->property(d->propertyName.toUtf8()).typeName());
+}
+
 void
 PropertyWidgetItem::setEditObject(QObject * editThis)
 {

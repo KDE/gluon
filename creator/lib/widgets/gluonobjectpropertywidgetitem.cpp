@@ -15,12 +15,49 @@
 */
 
 #include "gluonobjectpropertywidgetitem.h"
-#include "core/gluonobject.h"
+#include "engine/game.h"
+#include "engine/scene.h"
+#include "engine/gameobject.h"
+
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
+#include <core/gameproject.h>
+#include <KMessageBox>
+#include <KLocalizedString>
 
 Q_DECLARE_METATYPE(GluonCore::GluonObject*);
+
+namespace GluonCreator
+{
+    class GluonObjectPWIPrivate
+    {
+        public:
+            GluonObjectPWIPrivate()
+            {
+                currentValue = 0;
+                browseButton = 0;
+            };
+            
+            QLabel * currentValue;
+            QPushButton * browseButton;
+            
+            static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
+            {
+                QList<const GluonCore::GluonObject*> foundChildren;
+                
+                foreach(const QObject *child, lookHere->children())
+                {
+                    if(child->inherits(typeName.toUtf8()))
+                        foundChildren.append(qobject_cast<const GluonCore::GluonObject*>(child));
+                        
+                    foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject*>(child)));
+                }
+                
+                return foundChildren;
+            }
+    };
+}
 
 using namespace GluonCreator;
 
@@ -31,12 +68,14 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
 
-    currentValue = new QLabel(this);
-    base->addWidget(currentValue);
+    d->currentValue = new QLabel(this);
+    d->currentValue->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    base->addWidget(d->currentValue);
     
-    browseButton = new QPushButton(this);
-    browseButton->setText("...");
-    base->addWidget(browseButton);
+    d->browseButton = new QPushButton(this);
+    d->browseButton->setText("...");
+    connect(d->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
+    base->addWidget(d->browseButton);
     
     QWidget * local = new QWidget(parent);
     local->setLayout(base);
@@ -58,6 +97,22 @@ GluonObjectPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
     return supportedTypes;
+}
+
+void
+GluonObjectPropertyWidgetItem::browseForItems()
+{
+    QList<const GluonCore::GluonObject*> projectItems = GluonObjectPWIPrivate::getChildrenOfType(typeName(), GluonEngine::Game::instance()->gameProject());
+    QList<const GluonCore::GluonObject*> sceneItems =   GluonObjectPWIPrivate::getChildrenOfType(typeName(), GluonEngine::Game::instance()->currentScene()->sceneContents());
+    
+    if(projectItems.count() == 0 && sceneItems.count() == 0)
+    {
+        KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(typeName()), i18n("No Items Found"));
+    }
+    else
+    {
+        KMessageBox::information(this, i18n("Yay found some stuff! :D").arg(typeName()), i18n("%1 Items Found").arg(projectItems.count() + sceneItems.count()));
+    }
 }
 
 void

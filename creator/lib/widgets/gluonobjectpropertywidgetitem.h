@@ -25,6 +25,7 @@ namespace GluonCore { class GluonObject; }
 
 namespace GluonCreator
 {
+    class GluonObjectPWIPrivate;
     class GluonObjectPropertyWidgetItem : public PropertyWidgetItem
     {
         Q_OBJECT
@@ -36,12 +37,12 @@ namespace GluonCreator
             virtual QList< QString > supportedDataTypes() const;
             
         public slots:
+            void browseForItems();
             void setEditValue(const QVariant& value);
             void objectValueChanged(GluonCore::GluonObject * value);
             
         private:
-            QLabel * currentValue;
-            QPushButton * browseButton;
+            GluonObjectPWIPrivate * d;
     };
 }
 
