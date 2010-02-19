@@ -17,7 +17,7 @@
 #ifndef GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
 
-#include "lib/widgets/propertywidgetitem.h"
+#include "propertywidgetitem.h"
 
 class QPushButton;
 class QLabel;
