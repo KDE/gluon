@@ -25,6 +25,7 @@
 #include <core/gameproject.h>
 #include <KMessageBox>
 #include <KLocalizedString>
+#include <KInputDialog>
 
 Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 
@@ -107,16 +108,38 @@ GluonObjectPropertyWidgetItem::browseForItems()
 {
     QString theTypeName(typeName());
     theTypeName = theTypeName.left(theTypeName.length() - 1);
-    QList<const GluonCore::GluonObject*> projectItems = GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->gameProject());
-    QList<const GluonCore::GluonObject*> sceneItems =   GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->currentScene()->sceneContents());
+    QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->gameProject());
+    items.append(GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
     
-    if(projectItems.count() == 0 && sceneItems.count() == 0)
+    if(items.count() == 0)
     {
         KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(theTypeName), i18n("No Items Found"));
     }
     else
     {
-        KMessageBox::information(this, i18n("Yay found some stuff! :D").arg(theTypeName), i18n("%1 Items Found").arg(projectItems.count() + sceneItems.count()));
+        QString caption("");
+        QString label("");
+        QStringList nameList;
+        bool ok = false;
+        
+        nameList.append(i18n("Clear object reference"));
+        foreach(const GluonCore::GluonObject *item, items)
+            nameList.append(item->fullyQualifiedName());
+        
+        QString chosen = KInputDialog::getItem(caption, label, nameList, 0, false, &ok, this);
+        if(ok)
+        {
+            GluonCore::GluonObject *chosenItem = NULL;
+            foreach(const GluonCore::GluonObject *testItem, items)
+            {
+                if(testItem->fullyQualifiedName() == chosen)
+                {
+                    chosenItem = const_cast<GluonCore::GluonObject*>(testItem);
+                    break;
+                }
+            }
+            objectValueChanged(chosenItem);
+        }
     }
 }
 
