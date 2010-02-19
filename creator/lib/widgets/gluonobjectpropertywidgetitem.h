@@ -17,7 +17,7 @@
 #ifndef GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
 
-#include <../../home/leinir/Documents/Uni/msc/gluon/creator/lib/widgets/propertywidgetitem.h>
+#include "lib/widgets/propertywidgetitem.h"
 
 class QPushButton;
 class QLabel;
