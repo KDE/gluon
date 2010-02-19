@@ -64,6 +64,8 @@ using namespace GluonCreator;
 GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
+    d = new GluonObjectPWIPrivate;
+    
     QHBoxLayout * base = new QHBoxLayout;
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
@@ -84,6 +86,7 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt
 
 GluonObjectPropertyWidgetItem::~GluonObjectPropertyWidgetItem()
 {
+    delete(d);
 }
 
 PropertyWidgetItem*
