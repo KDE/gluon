@@ -152,6 +152,10 @@ GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
 void
 GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value)
 {
+    if(value)
+        d->currentValue->setText(value->name());
+    else
+        d->currentValue->setText("");
     PropertyWidgetItem::valueChanged(QVariant::fromValue<GluonCore::GluonObject*>(value));
 }
 
