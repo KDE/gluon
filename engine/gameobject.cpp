@@ -447,13 +447,9 @@ GameObject::updateTransform()
     if(parent)
     {
         //Calculate the new world position
-        #warning Urgh. This is almost /the/ most important part of this function... Needs to be fixed
-        /*d->worldPosition = parent->worldPosition() + (parent->worldOrientation() * (parent->worldScale().cwise() * Eigen::Translation3f(d->position)));
-        d->worldPosition = parent->worldPosition +
-          parent->worldOrientation()->rotatedVector (
-          parent->worldScale() * d->position);
+        d->worldPosition = parent->worldPosition() + parent->worldOrientation().rotatedVector(parent->worldScale() * d->position);
         d->worldOrientation = parent->worldOrientation() * d->orientation;
-        d->worldScale = parent->worldScale() * d->scale;*/
+        d->worldScale = parent->worldScale() * d->scale;
     }
     else
     {
@@ -463,20 +459,17 @@ GameObject::updateTransform()
         d->worldScale = d->scale;
     }
 
+    //Calculate the new transform matrix
     d->transform.setToIdentity();
     d->transform.translate(d->worldPosition);
     d->transform.rotate(d->worldOrientation);
     d->transform.scale(d->worldScale);
 
     // Finally, update the child objects' position
-    foreach(QObject *child, children())
+    foreach(GameObject *child, d->children)
     {
-        GameObject *theChild = qobject_cast<GameObject*>(child);
-        if(theChild)
-        {
-            theChild->invalidateTransform();
-            theChild->updateTransform();
-        }
+        child->invalidateTransform();
+        child->updateTransform();
     }
 
     d->transformInvalidated = false;
