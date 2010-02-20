@@ -22,6 +22,8 @@
 
 namespace GluonEngine
 {
+    class Asset;
+
     class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
     {
         Q_OBJECT
@@ -42,10 +44,12 @@ namespace GluonEngine
 
             virtual QSizeF size();
             virtual QColor color();
+            virtual Asset* texture();
 
         public slots:
             virtual void setSize(const QSizeF& size);
             virtual void setColor(const QColor& color);
+            virtual void setTexture(Asset* asset);
 
         private:
             class SpriteRendererComponentPrivate;

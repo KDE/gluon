@@ -21,6 +21,7 @@
 #include <QtCore/QStringList>
 #include <QFile>
 #include <QDir>
+#include <QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -53,7 +54,7 @@ void Asset::setName(const QString& newName)
     QString oldName(name());
 
     GluonCore::GluonObject::setName(newName);
-    
+
     // Rename the underlying file, if one exists...
     if(QDir::current().exists(d->file.toLocalFile()) && !d->file.isEmpty())
     {
@@ -74,6 +75,16 @@ void Asset::setFile(const QUrl &newFile)
 QUrl Asset::file() const
 {
     return d->file;
+}
+
+QMimeData* Asset::data() const
+{
+    return new QMimeData();
+}
+
+void Asset::load()
+{
+
 }
 
 QString

@@ -21,8 +21,12 @@
 #include <core/debughelper.h>
 
 #include <iostream>
+#include <asset.h>
+#include <QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
+
+Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 
 using namespace GluonEngine;
 
@@ -37,6 +41,11 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
 SpriteRendererComponent::SpriteRendererComponent ( QObject* parent ) : Component ( parent )
 {
     d = new SpriteRendererComponentPrivate;
+
+    QVariant somethingEmpty;
+    Asset *theObject = 0;
+    somethingEmpty.setValue<GluonCore::GluonObject*>(theObject);
+    setProperty("texture", somethingEmpty);
 }
 
 SpriteRendererComponent::SpriteRendererComponent ( const SpriteRendererComponent& other )
@@ -58,7 +67,19 @@ GluonCore::GluonObject* SpriteRendererComponent::instantiate()
 
 void SpriteRendererComponent::start()
 {
+    DEBUG_FUNC_NAME;
     if(!d->item) d->item = new GluonGraphics::Item(QSizeF(1.f, 1.f));
+    if(texture()) {
+        DEBUG_TEXT("We have a texture!");
+        QMimeData* data = texture()->data();
+        if(data->hasImage()) {
+            DEBUG_TEXT("Setting item texture...");
+            d->item->setTexture(data->imageData().value<QImage>());
+        } else {
+            DEBUG_TEXT("Boo! We dont have image data.");
+            DEBUG_TEXT(QString("Instead we have: %1").arg(data->formats().join(" ")));
+        }
+    }
 }
 
 void SpriteRendererComponent::draw ( int timeLapse )
@@ -97,6 +118,19 @@ QColor SpriteRendererComponent::color()
         return d->item->color();
     }
     return QColor();
+}
+
+Asset* SpriteRendererComponent::texture()
+{
+    GluonObject* obj = property("texture").value<GluonCore::GluonObject*>();
+    return qobject_cast<Asset*>(obj);
+}
+
+void SpriteRendererComponent::setTexture(Asset* asset)
+{
+    QVariant theNewValue;
+    theNewValue.setValue<GluonCore::GluonObject*>(asset);
+    setProperty("texture", theNewValue);
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent);
