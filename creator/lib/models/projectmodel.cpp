@@ -236,15 +236,19 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
                 if(gobj)
                 {
                     QFileInfo theFileInfo(theUrl.path());
-                    
+
                     gobj->addChild(newChild);
                     newChild->setName(theFileInfo.fileName());
-                    
-                    if(!QDir::current().exists("Assets"))
+                    newChild->setFile(theUrl);
+                    newChild->load();
+
+                    #warning We need to fix this so we dont run creator without a project.
+                    /*if(!QDir::current().exists("Assets"))
                         QDir::current().mkdir("Assets");
                     QUrl newLocation(QString("Assets/%1.%2").arg(newChild->fullyQualifiedName()).arg(theFileInfo.completeSuffix()));
                     QFile(theUrl.toLocalFile()).copy(newLocation.toLocalFile());
                     newChild->setFile(newLocation);
+                    newChild->load();*/
                 }
                 else
                 {
@@ -285,10 +289,10 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     DEBUG_FUNC_NAME
     if(!parent.isValid())
         return false;
-    
+
     GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
     DEBUG_TEXT("Object removal begins...");
-    
+
     beginRemoveRows(parent, row, row + count);
     for(int i = row; i < row + count; ++i)
     {
@@ -298,7 +302,7 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
             delete(child);
     }
     endRemoveRows();
-    
+
     return true;
 }
 
