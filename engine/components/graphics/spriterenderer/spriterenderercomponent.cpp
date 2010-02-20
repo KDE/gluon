@@ -64,14 +64,14 @@ void SpriteRendererComponent::start()
 void SpriteRendererComponent::draw ( int timeLapse )
 {
     Q_UNUSED(timeLapse)
+
+    d->item->resetTransform();
+    d->item->applyTransform(gameObject()->transform());
 }
 
 void SpriteRendererComponent::update ( int elapsedMilliseconds )
 {
     Q_UNUSED(elapsedMilliseconds)
-
-    d->item->resetTransform();
-    d->item->applyTransform(gameObject()->transform());
 }
 
 void SpriteRendererComponent::setSize ( const QSizeF &size )
