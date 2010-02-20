@@ -29,7 +29,7 @@ PropertyWidgetItem*
 PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
 {
     DEBUG_BLOCK
-    
+
     // First check if there's any PIW which supports the type
     foreach(const QString &thisType, piwTypes.keys())
     {
@@ -40,7 +40,7 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
             return item;
         }
     }
-    
+
     // Then see if it's a reference type inheriting GluonObject...
     QString typeTruncated = type.left(type.length() - 1);
     foreach(const QString &thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames())
@@ -50,7 +50,7 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
             return new GluonObjectPropertyWidgetItem(parent);
         }
     }
-    
+
     // Finally, throw back a Null item if we've got nothing...
     DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
 
