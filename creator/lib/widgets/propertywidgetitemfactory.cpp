@@ -47,7 +47,7 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
     {
         if(thisType == typeTruncated)
         {
-            return new GluonObjectPropertyWidgetItem(parent);
+            return new GluonObjectPropertyWidgetItem(typeTruncated, parent);
         }
     }
     

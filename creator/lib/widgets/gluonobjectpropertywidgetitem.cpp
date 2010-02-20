@@ -42,6 +42,7 @@ namespace GluonCreator
             
             QLabel * currentValue;
             QPushButton * browseButton;
+            QString typeName;
             
             static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
             {
@@ -62,10 +63,11 @@ namespace GluonCreator
 
 using namespace GluonCreator;
 
-GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
     d = new GluonObjectPWIPrivate;
+    d->typeName = typeName;
     
     QHBoxLayout * base = new QHBoxLayout;
     base->setSpacing(0);
@@ -93,7 +95,7 @@ GluonObjectPropertyWidgetItem::~GluonObjectPropertyWidgetItem()
 PropertyWidgetItem*
 GluonObjectPropertyWidgetItem::instantiate()
 {
-    return new GluonObjectPropertyWidgetItem();
+    return new GluonObjectPropertyWidgetItem(QString());
 }
 
 QList< QString >
@@ -104,16 +106,26 @@ GluonObjectPropertyWidgetItem::supportedDataTypes() const
 }
 
 void
+GluonObjectPropertyWidgetItem::setTypeName(const QString& typeName)
+{
+    d->typeName = typeName;
+}
+
+QString
+GluonObjectPropertyWidgetItem::typeName() const
+{
+    return d->typeName;
+}
+
+void
 GluonObjectPropertyWidgetItem::browseForItems()
 {
-    QString theTypeName(typeName());
-    theTypeName = theTypeName.left(theTypeName.length() - 1);
-    QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->gameProject());
-    items.append(GluonObjectPWIPrivate::getChildrenOfType(theTypeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
+    QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->gameProject());
+    items.append(GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
     
     if(items.count() == 0)
     {
-        KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(theTypeName), i18n("No Items Found"));
+        KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(d->typeName), i18n("No Items Found"));
     }
     else
     {
@@ -156,7 +168,8 @@ GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value
         d->currentValue->setText(value->name());
     else
         d->currentValue->setText("");
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<GluonCore::GluonObject*>(value));
+    QVariant newValue = QVariant::fromValue<GluonCore::GluonObject*>(value);
+    PropertyWidgetItem::valueChanged(newValue);
 }
 
 #include "gluonobjectpropertywidgetitem.moc"

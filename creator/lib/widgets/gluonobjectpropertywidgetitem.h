@@ -30,11 +30,14 @@ namespace GluonCreator
     {
         Q_OBJECT
         public:
-            GluonObjectPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~GluonObjectPropertyWidgetItem();
             
             virtual PropertyWidgetItem* instantiate();
             virtual QList< QString > supportedDataTypes() const;
+            
+            void setTypeName(const QString &typeName);
+            QString typeName() const;
             
         public slots:
             void browseForItems();
