@@ -17,9 +17,11 @@
 #include "qtscriptcomponent.h"
 
 #include <QtScript/QScriptEngine>
+#include <QtCore/QDebug>
 
 #include <gameobject.h>
 #include <core/debughelper.h>
+#include <game.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
@@ -32,8 +34,7 @@ class QtScriptComponent::QtScriptComponentPrivate
 
         QString code;
         QScriptEngine engine;
-
-        QScriptValue script;
+        QScriptValue thisObject;
 };
 
 QtScriptComponent::QtScriptComponent ( QObject* parent ) : Component ( parent )
@@ -59,27 +60,54 @@ GluonCore::GluonObject* QtScriptComponent::instantiate()
 
 void QtScriptComponent::start()
 {
-    d->script = d->engine.evaluate(code());
+    d->engine.evaluate(code(), gameObject()->name());
+    if(!d->engine.uncaughtException().isNull()) {
+        qDebug() << d->engine.uncaughtException().toString();
+        qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        return;
+    }
+
+    d->thisObject = d->engine.newQObject(this);
+    d->engine.globalObject().setProperty("Component", d->thisObject);
+
     QScriptValue object = d->engine.newQObject(gameObject());
-    d->engine.globalObject().setProperty("gameObject", object);
+    d->engine.globalObject().setProperty("GameObject", object);
+
+    object = d->engine.newQObject(Game::instance());
+    d->engine.globalObject().setProperty("Game", object);
 
     QScriptValue startFunc = d->engine.globalObject().property("start");
-    if(startFunc.isFunction())
-        startFunc.call();
+    if(startFunc.isFunction()) {
+        startFunc.call(d->thisObject);
+        if(!d->engine.uncaughtException().isNull()) {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        }
+    }
 }
 
 void QtScriptComponent::draw ( int timeLapse )
 {
     QScriptValue drawFunc = d->engine.globalObject().property("draw");
-    if(drawFunc.isFunction())
-        drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
+    if(drawFunc.isFunction()) {
+        drawFunc.call(d->thisObject, QScriptValueList() << timeLapse);
+        if(!d->engine.uncaughtException().isNull()) {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        }
+    }
 }
 
 void QtScriptComponent::update ( int elapsedMilliseconds )
 {
     QScriptValue updateFunc = d->engine.globalObject().property("update");
-    if(updateFunc.isFunction())
-        updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
+    if(updateFunc.isFunction()) {
+        updateFunc.call(d->thisObject, QScriptValueList() << elapsedMilliseconds);
+        if(!d->engine.uncaughtException().isNull()) {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        }
+    }
 }
 
 QString QtScriptComponent::code()
