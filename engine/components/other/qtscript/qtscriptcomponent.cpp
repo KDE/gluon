@@ -67,18 +67,18 @@ void QtScriptComponent::start()
         return;
     }
 
-    d->thisObject = d->engine.newQObject(this);
-    d->engine.globalObject().setProperty("Component", d->thisObject);
+    QScriptValue component = d->engine.newQObject(this);
+    d->engine.globalObject().setProperty("Component", component);
 
-    QScriptValue object = d->engine.newQObject(gameObject());
-    d->engine.globalObject().setProperty("GameObject", object);
+    QScriptValue gameObj = d->engine.newQObject(gameObject());
+    d->engine.globalObject().setProperty("Object", gameObj);
 
-    object = d->engine.newQObject(Game::instance());
-    d->engine.globalObject().setProperty("Game", object);
+    QScriptValue game = d->engine.newQObject(Game::instance());
+    d->engine.globalObject().setProperty("Game", game);
 
     QScriptValue startFunc = d->engine.globalObject().property("start");
     if(startFunc.isFunction()) {
-        startFunc.call(d->thisObject);
+        startFunc.call(QScriptValue());
         if(!d->engine.uncaughtException().isNull()) {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
@@ -90,7 +90,7 @@ void QtScriptComponent::draw ( int timeLapse )
 {
     QScriptValue drawFunc = d->engine.globalObject().property("draw");
     if(drawFunc.isFunction()) {
-        drawFunc.call(d->thisObject, QScriptValueList() << timeLapse);
+        drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
         if(!d->engine.uncaughtException().isNull()) {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
@@ -102,7 +102,7 @@ void QtScriptComponent::update ( int elapsedMilliseconds )
 {
     QScriptValue updateFunc = d->engine.globalObject().property("update");
     if(updateFunc.isFunction()) {
-        updateFunc.call(d->thisObject, QScriptValueList() << elapsedMilliseconds);
+        updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
         if(!d->engine.uncaughtException().isNull()) {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
