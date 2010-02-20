@@ -36,6 +36,10 @@ class GLUON_ENGINE_EXPORT TextureAsset : public Asset
 
         void load();
 
+        virtual const QStringList supportedMimeTypes() const;
+
+        virtual QMimeData* data() const;
+
     private:
         class TextureAssetPrivate;
         TextureAssetPrivate *d;
