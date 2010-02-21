@@ -54,6 +54,7 @@ namespace GluonEngine
             ~GameObject();
 
             GluonCore::GluonObject* instantiate();
+            virtual QVariant toVariant(GluonObject * wrapThis);
 
             void sanitize();
             void start();

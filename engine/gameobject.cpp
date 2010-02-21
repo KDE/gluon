@@ -51,6 +51,12 @@ GluonCore::GluonObject* GameObject::instantiate()
     return new GameObject(this);
 }
 
+QVariant
+GameObject::toVariant(GluonCore::GluonObject* wrapThis)
+{
+    return QVariant::fromValue<GluonEngine::GameObject*>(qobject_cast<GluonEngine::GameObject*>(wrapThis));
+}
+
 void
 GameObject::sanitize()
 {
