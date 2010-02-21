@@ -60,6 +60,12 @@ GluonObject::~GluonObject()
 {
 }
 
+QVariant
+GluonObject::toVariant(GluonObject* wrapThis)
+{
+    return QVariant::fromValue<GluonCore::GluonObject*>(wrapThis);
+}
+
 void
 GluonObject::debug(QString debugText) const
 {

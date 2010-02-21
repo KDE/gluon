@@ -39,6 +39,16 @@ namespace GluonCore
             void registerObjectType(GluonObject * newObjectType, int typeID);
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
             GluonObject * instantiateObjectByMimetype(const QString& objectMimeType);
+            
+            /**
+             * This somewhat odd looking function is the final product of a long winded
+             * mission to try and wrap objects in a suitable QVariant, so as to
+             * not get the wrong type when getting it back from the property view
+             * @param original The original value of the property
+             * @param newValue The new value of the reference property
+             * @return The object wrapped in a suitably typed QVariant
+             */
+            QVariant wrapObject(const QVariant &original, GluonObject* newValue);
 
             void loadPlugins();
 

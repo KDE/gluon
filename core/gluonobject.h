@@ -25,6 +25,7 @@
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
+#include <QtCore/QVariant>
 
 #include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
@@ -57,6 +58,7 @@ namespace GluonCore
              * over your games
              */
             virtual GluonObject * instantiate();
+            virtual QVariant toVariant(GluonObject * wrapThis);
 
             virtual QString name() const;
             virtual void setName(const QString &newName);
@@ -104,6 +106,5 @@ namespace GluonCore
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }
-
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

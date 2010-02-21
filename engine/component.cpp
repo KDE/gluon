@@ -25,6 +25,7 @@
 
 #include <QtCore/QString>
 
+Q_DECLARE_METATYPE(GluonEngine::Component*);
 using namespace GluonEngine;
 
 Component::Component(QObject * parent)
@@ -41,6 +42,14 @@ Component::Component(const Component &other, QObject * parent)
 
 Component::~Component()
 {
+}
+
+QVariant
+Component::toVariant(GluonCore::GluonObject* wrapThis)
+{
+    if(this->metaObject()->className() != "GluonCore::Component")
+        debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
+    return QVariant::fromValue<GluonEngine::Component*>(qobject_cast<GluonEngine::Component*>(wrapThis));
 }
 
 void

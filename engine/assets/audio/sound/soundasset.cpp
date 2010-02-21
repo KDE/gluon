@@ -32,6 +32,12 @@ GluonCore::GluonObject *SoundAsset::instantiate()
     return new SoundAsset(this);
 }
 
+QVariant
+SoundAsset::toVariant(GluonCore::GluonObject* wrapThis)
+{
+    return QVariant::fromValue<GluonEngine::SoundAsset*>(qobject_cast<GluonEngine::SoundAsset*>(wrapThis));
+}
+
 const QStringList
 SoundAsset::supportedMimeTypes() const
 {

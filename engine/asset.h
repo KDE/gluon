@@ -44,6 +44,7 @@ namespace GluonEngine
             ~Asset();
 
             virtual GluonCore::GluonObject *instantiate();
+            virtual QVariant toVariant(GluonObject * wrapThis);
 
             virtual void setName(const QString &newName);
 

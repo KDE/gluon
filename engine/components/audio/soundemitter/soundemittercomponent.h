@@ -40,7 +40,8 @@ class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
         SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
 
         virtual GluonCore::GluonObject *instantiate();
-
+        virtual QVariant toVariant(GluonObject * wrapThis);
+        
         SoundAsset *sound();
         void setSound(SoundAsset *asset);
 

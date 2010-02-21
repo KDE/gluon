@@ -33,6 +33,7 @@ public:
     SoundAsset(QObject *parent = 0);
 
     virtual GluonCore::GluonObject *instantiate();
+    virtual QVariant toVariant(GluonObject * wrapThis);
     
     virtual const QStringList supportedMimeTypes() const;
 

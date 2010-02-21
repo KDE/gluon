@@ -65,6 +65,13 @@ namespace GluonEngine
             Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
+            
+            /**
+            * If you wish to be able to use your objects as properties, make sure
+            * to implement this function to return a QVariant which is of the type
+            * of your class.
+            */
+            virtual QVariant toVariant(GluonObject * wrapThis);
 
             /**
              * The start function is run once after each scene change,

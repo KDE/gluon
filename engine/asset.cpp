@@ -19,9 +19,9 @@
 
 #include "asset.h"
 #include <QtCore/QStringList>
-#include <QFile>
-#include <QDir>
-#include <QMimeData>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -47,6 +47,14 @@ Asset::~Asset()
 GluonCore::GluonObject* Asset::instantiate()
 {
     return new Asset(this);
+}
+
+QVariant
+Asset::toVariant(GluonCore::GluonObject* wrapThis)
+{
+    if(this->metaObject()->className() != "GluonCore::Asset")
+        debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
+    return QVariant::fromValue<GluonEngine::Asset*>(qobject_cast<GluonEngine::Asset*>(wrapThis));
 }
 
 void Asset::setName(const QString& newName)

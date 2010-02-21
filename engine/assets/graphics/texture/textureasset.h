@@ -33,6 +33,7 @@ class GLUON_ENGINE_EXPORT TextureAsset : public Asset
         ~TextureAsset();
 
         GluonObject* instantiate();
+        virtual QVariant toVariant(GluonObject * wrapThis);
 
         void load();
 

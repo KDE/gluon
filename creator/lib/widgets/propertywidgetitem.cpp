@@ -51,9 +51,22 @@ PropertyWidgetItem::~PropertyWidgetItem()
 }
 
 
-QWidget* PropertyWidgetItem::editWidget()
+QWidget*
+PropertyWidgetItem::editWidget() const
 {
     return d->editWidget;
+}
+
+QObject*
+PropertyWidgetItem::editObject() const
+{
+    return d->editedObject;
+}
+
+QString
+PropertyWidgetItem::editProperty() const
+{
+    return d->propertyName;
 }
 
 const QString

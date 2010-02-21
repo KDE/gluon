@@ -168,7 +168,9 @@ GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value
         d->currentValue->setText(value->name());
     else
         d->currentValue->setText("");
-    QVariant newValue = QVariant::fromValue<GluonCore::GluonObject*>(value);
+    
+    QVariant oldValue = editObject()->property(editProperty().toUtf8());
+    QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject(oldValue, value);
     PropertyWidgetItem::valueChanged(newValue);
 }
 

@@ -40,7 +40,10 @@ namespace GluonCreator
             PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             virtual ~PropertyWidgetItem();
 
-            QWidget* editWidget();
+            QWidget* editWidget() const;
+            QObject* editObject() const;
+            QString editProperty() const;
+            
             
             virtual QList<QString> supportedDataTypes() const = 0;
             virtual PropertyWidgetItem* instantiate() = 0;
