@@ -27,13 +27,11 @@ class GLUON_ENGINE_EXPORT TextureAsset : public Asset
 {
     Q_OBJECT
     Q_INTERFACES(GluonEngine::Asset)
+    GLUON_OBJECT(GluonEngine::TextureAsset)
 
     public:
         TextureAsset(QObject *parent = 0);
         ~TextureAsset();
-
-        GluonObject* instantiate();
-        virtual QVariant toVariant(GluonObject * wrapThis);
 
         void load();
 

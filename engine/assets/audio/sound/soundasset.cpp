@@ -27,17 +27,6 @@ SoundAsset::SoundAsset(QObject *parent)
     connect(this, SIGNAL(dataChanged()), this, SLOT(updateBuffer()));
 }
 
-GluonCore::GluonObject *SoundAsset::instantiate()
-{
-    return new SoundAsset(this);
-}
-
-QVariant
-SoundAsset::toVariant(GluonCore::GluonObject* wrapThis)
-{
-    return QVariant::fromValue<GluonEngine::SoundAsset*>(qobject_cast<GluonEngine::SoundAsset*>(wrapThis));
-}
-
 const QStringList
 SoundAsset::supportedMimeTypes() const
 {

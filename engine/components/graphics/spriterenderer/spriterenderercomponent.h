@@ -27,6 +27,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::SpriteRendererComponent)
         Q_PROPERTY(QSizeF size READ size WRITE setSize)
         Q_PROPERTY(QColor color READ color WRITE setColor)
         Q_INTERFACES(GluonEngine::Component)
@@ -35,8 +36,6 @@ namespace GluonEngine
             SpriteRendererComponent ( QObject* parent = 0 );
             SpriteRendererComponent ( const SpriteRendererComponent& other);
             virtual ~SpriteRendererComponent();
-
-            virtual GluonObject* instantiate();
 
             virtual void start();
             virtual void update ( int elapsedMilliseconds );

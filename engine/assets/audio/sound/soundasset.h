@@ -23,32 +23,30 @@
 
 #include <QtCore/QStringList>
 
-namespace GluonEngine {
-
-class GLUON_ENGINE_EXPORT SoundAsset : public Asset
+namespace GluonEngine
 {
-Q_OBJECT
-Q_INTERFACES(GluonEngine::Asset)
-public:
-    SoundAsset(QObject *parent = 0);
-
-    virtual GluonCore::GluonObject *instantiate();
-    virtual QVariant toVariant(GluonObject * wrapThis);
+    class GLUON_ENGINE_EXPORT SoundAsset : public Asset
+    {
+    Q_OBJECT
+    Q_INTERFACES(GluonEngine::Asset)
+    GLUON_OBJECT(GluonEngine::SoundAsset)
     
-    virtual const QStringList supportedMimeTypes() const;
+    public:
+        SoundAsset(QObject *parent = 0);
+        
+        virtual const QStringList supportedMimeTypes() const;
 
-    virtual void setFile(const QUrl &newFile);
+        virtual void setFile(const QUrl &newFile);
 
-    GluonAudio::Buffer *buffer() {
-        return m_buffer;
-    }
+        GluonAudio::Buffer *buffer() {
+            return m_buffer;
+        }
 
-private Q_SLOTS:
-    void updateBuffer();
+    private Q_SLOTS:
+        void updateBuffer();
 
-private:
-    GluonAudio::Buffer *m_buffer;
-};
-
+    private:
+        GluonAudio::Buffer *m_buffer;
+    };
 }
 #endif // SOUNDASSET_H

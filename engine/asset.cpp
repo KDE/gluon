@@ -44,19 +44,6 @@ Asset::~Asset()
     delete d;
 }
 
-GluonCore::GluonObject* Asset::instantiate()
-{
-    return new Asset(this);
-}
-
-QVariant
-Asset::toVariant(GluonCore::GluonObject* wrapThis)
-{
-    if(this->metaObject()->className() != "GluonCore::Asset")
-        debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
-    return QVariant::fromValue<GluonEngine::Asset*>(qobject_cast<GluonEngine::Asset*>(wrapThis));
-}
-
 void Asset::setName(const QString& newName)
 {
     QString oldName(name());

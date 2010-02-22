@@ -44,18 +44,6 @@ SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComp
 {
 }
 
-GluonCore::GluonObject *
-SoundEmitterComponent::instantiate()
-{
-    return new SoundEmitterComponent(this);
-}
-
-QVariant
-SoundEmitterComponent::toVariant(GluonCore::GluonObject* wrapThis)
-{
-    return QVariant::fromValue<GluonEngine::SoundEmitterComponent*>(qobject_cast<GluonEngine::SoundEmitterComponent*>(wrapThis));
-}
-
 void
 SoundEmitterComponent::play()
 {

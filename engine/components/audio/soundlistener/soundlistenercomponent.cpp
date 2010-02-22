@@ -34,11 +34,6 @@ SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &oth
 {
 }
 
-GluonCore::GluonObject *SoundListenerComponent::instantiate()
-{
-    return new SoundListenerComponent(this);
-}
-
 void SoundListenerComponent::start()
 {
 }

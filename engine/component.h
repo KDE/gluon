@@ -49,6 +49,7 @@ namespace GluonEngine
      *
      * Implementation checklist:
      * * Inherit from Gluon::Component
+     * * Add the GLUON_OBJECT macro to your class' header
      * * Implement using QSharedData since GameObjects can be duplicated
      *   and the Components attached to it get duplicated along with it
      *   http://doc.trolltech.com/qshareddata.html

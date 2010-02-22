@@ -53,11 +53,6 @@ QtScriptComponent::~QtScriptComponent()
 
 }
 
-GluonCore::GluonObject* QtScriptComponent::instantiate()
-{
-    return new QtScriptComponent(this);
-}
-
 void QtScriptComponent::start()
 {
     d->engine.evaluate(code(), gameObject()->name());

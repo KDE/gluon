@@ -60,25 +60,11 @@ GluonObject::~GluonObject()
 {
 }
 
-QVariant
-GluonObject::toVariant(GluonObject* wrapThis)
-{
-    return QVariant::fromValue<GluonCore::GluonObject*>(wrapThis);
-}
-
 void
 GluonObject::debug(QString debugText) const
 {
     DEBUG_BLOCK
     DEBUG_TEXT(debugText);
-}
-
-GluonObject *
-GluonObject::instantiate()
-{
-    if(QString(this->metaObject()->className()) != QString("Gluon::GluonObject"))
-        qDebug() << "Missing instantiate() implementation in" << this->metaObject()->className();
-    return new GluonObject(this);
 }
 
 void
