@@ -145,7 +145,7 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
 
-        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(metaProperty.typeName(), this);
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), this);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(metaProperty.name());
         connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
@@ -163,7 +163,7 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
         
-        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object->property(propName).typeName(), this);
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), this);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(thePropName);
         connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));

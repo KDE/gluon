@@ -16,17 +16,19 @@
 
 #include "propertywidgetitemfactory.h"
 #include "nullpropertywidgetitem.h"
+#include "enumpropertywidgetitem.h"
 #include "gluonobjectpropertywidgetitem.h"
 
 #include "core/debughelper.h"
 #include "core/gluonobjectfactory.h"
+#include <QMetaClassInfo>
 
 using namespace GluonCreator;
 
 template<> GLUONCREATOR_EXPORT PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
 
 PropertyWidgetItem*
-PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
+PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QWidget* parent)
 {
     DEBUG_BLOCK
 
@@ -38,6 +40,23 @@ PropertyWidgetItemFactory::create(const QString& type, QWidget* parent)
             PropertyWidgetItem* item = piwTypes[thisType]->instantiate();
             item->setParent(parent);
             return item;
+        }
+    }
+
+    // Check whether we've got an item which uses an enum to grab its value
+    const QMetaObject * mo = object->metaObject();
+    if(mo)
+    {
+        if(mo->enumeratorCount() > 0)
+        {
+            for(int i = 0; i < mo->enumeratorCount(); ++i)
+            {
+                DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
+            }
+        }
+        if(mo->indexOfEnumerator(type.toUtf8()) > -1)
+        {
+            return new EnumPropertyWidgetItem(parent);
         }
     }
 
