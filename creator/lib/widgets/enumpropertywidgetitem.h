@@ -26,7 +26,7 @@ class EnumPWIPrivate;
     {
         Q_OBJECT
         public:
-            EnumPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~EnumPropertyWidgetItem();
 
             virtual PropertyWidgetItem* instantiate();
@@ -34,7 +34,6 @@ class EnumPWIPrivate;
 
         public slots:
             virtual void setEditObject(QObject* editThis);
-            virtual void setEditProperty(const QString& propertyName);
             virtual void setEditValue(const QVariant& value);
             virtual void indexChanged(int newIndex);
             

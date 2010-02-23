@@ -56,7 +56,7 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
         }
         if(mo->indexOfEnumerator(type.toUtf8()) > -1)
         {
-            return new EnumPropertyWidgetItem(parent);
+            return new EnumPropertyWidgetItem(type, parent);
         }
     }
 

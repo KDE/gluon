@@ -39,8 +39,8 @@ namespace GluonEngine
         public:
             enum KeyName
             {
-                Key_Space,
                 Key_Enter,
+                Key_Space,
                 Key_0
             };
             

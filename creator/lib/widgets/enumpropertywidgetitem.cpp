@@ -15,6 +15,7 @@
 */
 
 #include "enumpropertywidgetitem.h"
+#include "core/debughelper.h"
 
 #include <QtGui/QComboBox>
 #include <QtGui/QLayout>
@@ -30,24 +31,23 @@ namespace GluonCreator
             
             QComboBox * comboBox;
             QObject * editObject;
-            QString editProperty;
+            QString typeName;
             QMetaEnum metaEnum;
             
             void setupComboBox()
             {
+                DEBUG_BLOCK
                 if(!editObject)
                     return;
-                if(editProperty.isEmpty())
-                    return;
                 
-                const char * enumName = editObject->property(editProperty.toUtf8()).typeName();
                 const QMetaObject * mo = editObject->metaObject();
-                int enumIndex = mo->indexOfEnumerator(enumName);
+                int enumIndex = mo->indexOfEnumerator(typeName.toUtf8());
                 if(enumIndex > -1)
                     metaEnum = mo->enumerator(enumIndex);
                 else
                     metaEnum = QMetaEnum();
                 
+                DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
                 for(int i = 0; i < metaEnum.keyCount(); ++i)
                 {
                     comboBox->addItem(QString(metaEnum.key(i)), QVariant(i));
@@ -58,10 +58,11 @@ namespace GluonCreator
 
 using namespace GluonCreator;
 
-EnumPropertyWidgetItem::EnumPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
+EnumPropertyWidgetItem::EnumPropertyWidgetItem(const QString& typeName, QWidget* parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
 {
     d = new EnumPWIPrivate();
+    d->typeName = typeName;
     
     d->comboBox = new QComboBox(this);
     layout()->addWidget(d->comboBox);
@@ -75,7 +76,7 @@ EnumPropertyWidgetItem::~EnumPropertyWidgetItem()
 PropertyWidgetItem*
 EnumPropertyWidgetItem::instantiate()
 {
-    return new EnumPropertyWidgetItem();
+    return new EnumPropertyWidgetItem(QString());
 }
 
 QList< QString >
@@ -90,13 +91,7 @@ EnumPropertyWidgetItem::setEditObject(QObject* editThis)
 {
     GluonCreator::PropertyWidgetItem::setEditObject(editThis);
     d->editObject = editThis;
-}
-
-void
-EnumPropertyWidgetItem::setEditProperty(const QString& propertyName)
-{
-    GluonCreator::PropertyWidgetItem::setEditProperty(propertyName);
-    d->editProperty = propertyName;
+    d->setupComboBox();
 }
 
 void
