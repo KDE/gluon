@@ -21,7 +21,8 @@
 #define KEYBOARDINPUTCOMPONENT_H
 
 #include "component.h"
-#include "input/keyboard.h"
+#include "input/inputevent.h"
+//#include "input/keyboard.h"
 #include <QVector3D>
 
 namespace GluonEngine
@@ -30,6 +31,7 @@ namespace GluonEngine
     {
         Q_OBJECT;
         GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
+        Q_PROPERTY(Qt::Key keyCode READ keyCode WRITE setKeyCode);
         //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
         
         public:
@@ -37,32 +39,39 @@ namespace GluonEngine
 
             //  True on any frame between getActionStarted and
             //  getActionStopped, inclusive of those two frames
-            bool getActionHeld(QString actionName);
+            bool getActionHeld();
             // True on the frame when an action was begun (for example the
             // button represented by buttonName was pressed on a controller)
-            bool getActionStarted(QString actionName);
+            bool getActionStarted();
             // True on the frame when an action was stopped (for example a
             // button was released on a controller)
-            bool getActionStopped(QString actionName);
+            bool getActionStopped();
             // The movement compared to last frame
-            QVector3D getDistanceMovement(QString actionName);
+            //QVector3D getDistanceMovement(QString actionName);
             // The movement along one axis compared to last frame
-            float getAxisMovement(QString actionName);
+            //float getAxisMovement(QString actionName);
             
-            //virtual void start();
+            virtual void start();
             virtual void update(int elapsedMilliseconds);
             //virtual void draw(int timeLapse);
-            //virtual void stop();
+            virtual void stop();
+            
+            Qt::Key keyCode() const;
+            void setKeyCode(const Qt::Key &newKeyCode);
+            
+        public Q_SLOTS:
+            void inputEvent(GluonInput::InputEvent* inputEvent);
             
         private:
-            Qt::MouseButtons m_buttons;
-            Qt::MouseButtons m_buttonsLastFrame;
+            Qt::Key m_keyCode;
+/*            Qt::MouseButtons m_buttons;
+            Qt::MouseButtons m_buttonsLastFrame;*/
             bool m_actionHeld;
             bool m_actionStarted;
             bool m_actionStopped;
-            QVector3D m_distanceMovement;
+/*            QVector3D m_distanceMovement;
             QVector3D m_lastFrame;
-            float m_axisMovement;
+            float m_axisMovement;*/
     };
 }
 
