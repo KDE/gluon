@@ -12,15 +12,16 @@ include_directories(
     ${GLUON_CORE_INCLUDES}
 )
 
-set(GLUON_INPUT_INCLUDES
-    ${GLUON_CORE_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    CACHE PATHS "Includes required for Gluon Input"
-)
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(APPLE)
+    set(GLUON_INPUT_INCLUDES
+        ${GLUON_CORE_INCLUDES}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/mac
+        CACHE PATHS "Includes required for Gluon Input"
+    )
+
     find_library(IOKIT_LIBRARY NAMES IOKit)
     message("-- Found IOKit:" ${IOKIT_LIBRARY})
 
@@ -29,8 +30,20 @@ if(APPLE)
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
 elseif(WIN32)
+    set(GLUON_INPUT_INCLUDES
+        ${GLUON_CORE_INCLUDES}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/win
+        CACHE PATHS "Includes required for Gluon Input"
+    )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
 else()
+    set(GLUON_INPUT_INCLUDES
+        ${GLUON_CORE_INCLUDES}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/linux
+        CACHE PATHS "Includes required for Gluon Input"
+    )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)
 endif()
 
