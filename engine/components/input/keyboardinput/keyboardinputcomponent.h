@@ -32,6 +32,7 @@ namespace GluonEngine
         Q_OBJECT;
         GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
         Q_PROPERTY(Qt::Key keyCode READ keyCode WRITE setKeyCode);
+        Q_INTERFACES(GluonEngine::Component)
         //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
         
         public:

@@ -47,13 +47,13 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
 {
     if (m_actionStarted)
         m_actionStarted = false;
-    
+
     if (m_actionStopped)
     {
         m_actionStopped = false;
         m_actionHeld = false;
     }
-    
+
 /*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
         m_actionStopped = true;
     
@@ -125,5 +125,7 @@ KeyboardInputComponent::setKeyCode(const Qt::Key& newKeyCode)
 // {
 //    return m_distanceMovement.length();
 // }
+
+Q_EXPORT_PLUGIN2(gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent);
 
 #include "keyboardinputcomponent.moc"
