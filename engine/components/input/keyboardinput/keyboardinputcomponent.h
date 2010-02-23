@@ -31,11 +31,19 @@ namespace GluonEngine
     {
         Q_OBJECT;
         GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
-        Q_PROPERTY(Qt::Key keyCode READ keyCode WRITE setKeyCode);
+        Q_PROPERTY(KeyName keyCode READ keyCode WRITE setKeyCode);
+        Q_ENUMS(KeyName)
         Q_INTERFACES(GluonEngine::Component)
         //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
-        
+
         public:
+            enum KeyName
+            {
+                Key_Space,
+                Key_Enter,
+                Key_0
+            };
+            
             KeyboardInputComponent(QObject * parent = 0);
 
             //  True on any frame between getActionStarted and
@@ -51,20 +59,20 @@ namespace GluonEngine
             //QVector3D getDistanceMovement(QString actionName);
             // The movement along one axis compared to last frame
             //float getAxisMovement(QString actionName);
-            
+
             virtual void start();
             virtual void update(int elapsedMilliseconds);
             //virtual void draw(int timeLapse);
             virtual void stop();
-            
-            Qt::Key keyCode() const;
-            void setKeyCode(const Qt::Key &newKeyCode);
-            
+
+            KeyName keyCode() const;
+            void setKeyCode(const KeyName &newKeyCode);
+
         public Q_SLOTS:
             void inputEvent(GluonInput::InputEvent* inputEvent);
-            
+
         private:
-            Qt::Key m_keyCode;
+            KeyName m_keyCode;
 /*            Qt::MouseButtons m_buttons;
             Qt::MouseButtons m_buttonsLastFrame;*/
             bool m_actionHeld;

@@ -30,6 +30,7 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
     m_actionHeld = false;
     m_actionStarted = false;
     m_actionStopped = false;
+    m_keyCode = Key_Space;
 }
 
 void
@@ -103,13 +104,14 @@ KeyboardInputComponent::getActionStopped()
   return m_actionStopped;
 }
 
-Qt::Key KeyboardInputComponent::keyCode() const
+KeyboardInputComponent::KeyName
+KeyboardInputComponent::keyCode() const
 {
     return m_keyCode;
 }
 
 void
-KeyboardInputComponent::setKeyCode(const Qt::Key& newKeyCode)
+KeyboardInputComponent::setKeyCode(const KeyName& newKeyCode)
 {
     m_keyCode = newKeyCode;
 }
