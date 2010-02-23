@@ -48,7 +48,7 @@ namespace GluonInput
 		bool isEnabled() const;
 
 	signals:
-		void eventSent(InputEvent * event);
+		void eventSent(GluonInput::InputEvent * event);
 		void buttonPressed(int code);
 		void buttonReleased(int code);
 		void absAxisChanged(int axe, int code);
