@@ -42,7 +42,9 @@ set(GluonGraphics_SRCS
     engine.cpp
     program.cpp
     shader.cpp
+    shapeitem.cpp
     fx.cpp
+    transformitem.cpp
     widgetproxy.cpp
 )
 
@@ -93,6 +95,8 @@ install(
     program.h
     shader.h
     fx.h
+    transformitem.h
+    shapeitem.h
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel
