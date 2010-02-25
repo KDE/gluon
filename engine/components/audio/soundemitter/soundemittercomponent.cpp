@@ -70,7 +70,7 @@ SoundEmitterComponent::setSound(SoundAsset *asset)
     QVariant theNewValue;
     theNewValue.setValue<GluonEngine::SoundAsset*>(asset);
     setProperty("sound", theNewValue);
-    m_sound->load(asset->buffer());
+    //m_sound->load(asset->buffer());
 }
 
 void
