@@ -33,14 +33,16 @@ public:
     SoundAsset(QObject *parent = 0);
 
     virtual GluonCore::GluonObject *instantiate();
-    
+
     virtual const QStringList supportedMimeTypes() const;
 
-    virtual void setFile(const QUrl &newFile);
+    //virtual QMimeData* data() const;
+
+    /*virtual void setFile(const QUrl &newFile);
 
     GluonAudio::Buffer *buffer() {
         return m_buffer;
-    }
+    }*/
 
 private Q_SLOTS:
     void updateBuffer();
