@@ -17,54 +17,71 @@
 
 */
 
-#ifndef KCLINPUTCOMPONENT_H
-#define KCLINPUTCOMPONENT_H
+#ifndef KEYBOARDINPUTCOMPONENT_H
+#define KEYBOARDINPUTCOMPONENT_H
 
-#include <gluon/component.h>
-// #include "gluon/kcl/kcl.h"
-#include <QWidget>
-#include <QMouseEvent>
-// #include <QtGui>
+#include "component.h"
+#include "input/inputevent.h"
+//#include "input/keyboard.h"
+#include <QVector3D>
 
-class QInputComponent : public Gluon::Component
+namespace GluonEngine
 {
+    class KeyboardInputComponent : public Component
+    {
+        Q_OBJECT;
+        GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
+        Q_PROPERTY(KeyName keyCode READ keyCode WRITE setKeyCode);
+        Q_ENUMS(KeyName)
+        Q_INTERFACES(GluonEngine::Component)
+        //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
 
-Q_OBJECT;
-//Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
- 
-public:
-    QInputComponent(QObject * parent = 0);
-     //  True on any frame between GetActionStarted and
-     //  GetActionStopped, inclusive of those two frames
-    bool GetActionHeld(QString actionName);
-    // True on the frame when an action was begun (for example the
-    // button represented by buttonName was pressed on a controller)
-    bool GetActionStarted(QString actionName);
-    // True on the frame when an action was stopped (for example a
-    // button was released on a controller)
-    bool GetActionStopped(QString actionName);
-    // The movement compared to last frame
-    QVector3D GetDistanceMovement(QString actionName);
-    // The movement along one axis compared to last frame
-    float GetAxisMovement(QString actionName);
-    virtual void Update(int elapsedMilliseconds);
-       
-private:
-    QMouseEvent ( Type type, const QPoint & pos, const QPoint & globalPos, 
-			       Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers );
-//     void QWidget::keyPressEvent ( QKeyEvent * event );
-//     void QWidget::keyReleaseEvent ( QKeyEvent * event );
-    Qt::MouseButtons m_buttons;
-    Qt::MouseButtons m_buttonsLastFrame;
-    bool m_actionHeld;
-    bool m_actionStarted;
-    bool m_actionStopped;
-    QVector3D m_distanceMovement;
-    QVector3D m_lastFrame;
-    float m_axisMovement;
-    
-  
-  
-};
+        public:
+            enum KeyName
+            {
+                Key_Enter,
+                Key_Space,
+                Key_0
+            };
+            
+            KeyboardInputComponent(QObject * parent = 0);
 
-#endif // KCLINPUTCOMPONENT_H
+            //  True on any frame between getActionStarted and
+            //  getActionStopped, inclusive of those two frames
+            bool getActionHeld();
+            // True on the frame when an action was begun (for example the
+            // button represented by buttonName was pressed on a controller)
+            bool getActionStarted();
+            // True on the frame when an action was stopped (for example a
+            // button was released on a controller)
+            bool getActionStopped();
+            // The movement compared to last frame
+            //QVector3D getDistanceMovement(QString actionName);
+            // The movement along one axis compared to last frame
+            //float getAxisMovement(QString actionName);
+
+            virtual void start();
+            virtual void update(int elapsedMilliseconds);
+            //virtual void draw(int timeLapse);
+            virtual void stop();
+
+            KeyName keyCode() const;
+            void setKeyCode(const KeyName &newKeyCode);
+
+        public Q_SLOTS:
+            void inputEvent(GluonInput::InputEvent* inputEvent);
+
+        private:
+            KeyName m_keyCode;
+/*            Qt::MouseButtons m_buttons;
+            Qt::MouseButtons m_buttonsLastFrame;*/
+            bool m_actionHeld;
+            bool m_actionStarted;
+            bool m_actionStopped;
+/*            QVector3D m_distanceMovement;
+            QVector3D m_lastFrame;
+            float m_axisMovement;*/
+    };
+}
+
+#endif // KEYBOARDINPUTCOMPONENT_H

@@ -38,12 +38,6 @@ Scene::~Scene()
     delete(d);
 }
 
-Scene *
-Scene::instantiate()
-{
-    return new Scene(this);
-}
-
 void
 Scene::startAll()
 {

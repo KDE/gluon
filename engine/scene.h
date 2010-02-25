@@ -31,12 +31,11 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonCore::Savable
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::Scene);
 
         public:
             Scene(QObject * parent = 0);
             ~Scene();
-
-            virtual Scene * instantiate();
 
             virtual void setFile(const QUrl &newFile);
             virtual void setName(const QString& newName);

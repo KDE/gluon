@@ -45,12 +45,6 @@ GameObject::~GameObject()
 {
 }
 
-
-GluonCore::GluonObject* GameObject::instantiate()
-{
-    return new GameObject(this);
-}
-
 void
 GameObject::sanitize()
 {

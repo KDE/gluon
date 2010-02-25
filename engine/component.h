@@ -49,6 +49,7 @@ namespace GluonEngine
      *
      * Implementation checklist:
      * * Inherit from Gluon::Component
+     * * Add the GLUON_OBJECT macro to your class' header
      * * Implement using QSharedData since GameObjects can be duplicated
      *   and the Components attached to it get duplicated along with it
      *   http://doc.trolltech.com/qshareddata.html
@@ -65,6 +66,13 @@ namespace GluonEngine
             Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
+            
+            /**
+            * If you wish to be able to use your objects as properties, make sure
+            * to implement this function to return a QVariant which is of the type
+            * of your class.
+            */
+            virtual QVariant toVariant(GluonObject * wrapThis);
 
             /**
              * The start function is run once after each scene change,

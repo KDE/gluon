@@ -59,12 +59,6 @@ GameProject::~GameProject()
 {
 }
 
-GameProject *
-GameProject::instantiate()
-{
-    return new GameProject(this);
-}
-
 GluonObject *
 GameProject::findItemByName(QString qualifiedName)
 {

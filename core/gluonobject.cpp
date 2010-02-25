@@ -67,14 +67,6 @@ GluonObject::debug(QString debugText) const
     DEBUG_TEXT(debugText);
 }
 
-GluonObject *
-GluonObject::instantiate()
-{
-    if(QString(this->metaObject()->className()) != QString("Gluon::GluonObject"))
-        qDebug() << "Missing instantiate() implementation in" << this->metaObject()->className();
-    return new GluonObject(this);
-}
-
 void
 GluonObject::sanitize()
 {

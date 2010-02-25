@@ -37,13 +37,12 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::Asset);
         Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
             Asset(QObject *parent = 0);
             ~Asset();
-
-            virtual GluonCore::GluonObject *instantiate();
 
             virtual void setName(const QString &newName);
 

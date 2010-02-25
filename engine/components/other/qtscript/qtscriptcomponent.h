@@ -25,6 +25,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT QtScriptComponent : public Component
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::QtScriptComponent)
         Q_PROPERTY(QString code READ code WRITE setCode)
         Q_INTERFACES(GluonEngine::Component)
 
@@ -32,8 +33,6 @@ namespace GluonEngine
             QtScriptComponent ( QObject* parent = 0 );
             QtScriptComponent ( const QtScriptComponent& other);
             virtual ~QtScriptComponent();
-
-            virtual GluonObject* instantiate();
 
             virtual void start();
             virtual void update ( int elapsedMilliseconds );

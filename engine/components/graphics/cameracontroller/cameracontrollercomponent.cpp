@@ -54,11 +54,6 @@ CameraControllerComponent::~CameraControllerComponent()
     delete d;
 }
 
-GluonCore::GluonObject* CameraControllerComponent::instantiate()
-{
-    return new CameraControllerComponent(this);
-}
-
 void CameraControllerComponent::start()
 {
     if(!d->camera) d->camera = new GluonGraphics::Camera();

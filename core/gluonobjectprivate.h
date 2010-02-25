@@ -22,6 +22,7 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QString>
+#include <QtCore/QHash>
 
 namespace GluonCore
 {

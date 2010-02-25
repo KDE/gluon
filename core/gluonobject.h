@@ -25,12 +25,19 @@
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
+#include <QtCore/QVariant>
 
 #include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
 
 
 Q_DECLARE_METATYPE(QList<QUrl>)
+
+#define GLUON_OBJECT(CLASSNAME)\
+public:\
+    virtual GluonCore::GluonObject *instantiate();\
+    virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
+private:
 
 namespace GluonCore
 {
@@ -42,6 +49,7 @@ namespace GluonCore
         Q_OBJECT
         Q_PROPERTY(QString name READ name WRITE setName)
         // There is deliberately no gameProject property
+        GLUON_OBJECT(GluonCore::GluonObject);
 
         public:
             GluonObject(QObject * parent = 0);
@@ -49,14 +57,6 @@ namespace GluonCore
             virtual ~GluonObject();
 
             void debug(QString debugText) const;
-
-            /**
-             * This function returns a new instance of this GluonObject.
-             * If you subclass GluonObject, make sure to implement this function!
-             * Otherwise you will end up with wrongly instanced objects all
-             * over your games
-             */
-            virtual GluonObject * instantiate();
 
             virtual QString name() const;
             virtual void setName(const QString &newName);
@@ -104,6 +104,5 @@ namespace GluonCore
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }
-
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

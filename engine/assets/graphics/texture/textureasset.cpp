@@ -79,11 +79,6 @@ void TextureAsset::load()
     d->mime->setImageData(*d->image);
 }
 
-GluonCore::GluonObject* TextureAsset::instantiate()
-{
-    return new TextureAsset(this);
-}
-
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)
 
 #include "textureasset.moc"

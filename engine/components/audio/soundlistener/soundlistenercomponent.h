@@ -27,6 +27,7 @@ namespace GluonEngine
 class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
 {
     Q_OBJECT
+    GLUON_OBJECT(GluonEngine::SoundListenerComponent)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
 
@@ -35,8 +36,6 @@ class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
 public:
     SoundListenerComponent(QObject *parent = 0);
     SoundListenerComponent(const SoundListenerComponent &other);
-
-    virtual GluonCore::GluonObject *instantiate();
 
     virtual void start();
     virtual void draw(int timeLapse = 0);

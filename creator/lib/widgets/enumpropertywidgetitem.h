@@ -14,39 +14,32 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
-#define GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
+#ifndef GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H
+#define GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H
 
 #include "propertywidgetitem.h"
 
-class QPushButton;
-class QLabel;
-namespace GluonCore { class GluonObject; }
-
 namespace GluonCreator
 {
-    class GluonObjectPWIPrivate;
-    class GluonObjectPropertyWidgetItem : public PropertyWidgetItem
+class EnumPWIPrivate;
+    class EnumPropertyWidgetItem : public PropertyWidgetItem
     {
         Q_OBJECT
         public:
-            GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
-            ~GluonObjectPropertyWidgetItem();
-            
+            EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~EnumPropertyWidgetItem();
+
             virtual PropertyWidgetItem* instantiate();
             virtual QList< QString > supportedDataTypes() const;
-            
-            void setTypeName(const QString &typeName);
-            QString typeName() const;
-            
+
         public slots:
-            void browseForItems();
-            void setEditValue(const QVariant& value);
-            void objectValueChanged(GluonCore::GluonObject * value);
+            virtual void setEditObject(QObject* editThis);
+            virtual void setEditValue(const QVariant& value);
+            virtual void indexChanged(int newIndex);
             
         private:
-            GluonObjectPWIPrivate * d;
+            EnumPWIPrivate * d;
     };
 }
 
-#endif // GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
+#endif // GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H

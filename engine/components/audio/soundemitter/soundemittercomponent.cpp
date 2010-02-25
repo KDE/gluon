@@ -44,12 +44,6 @@ SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComp
 {
 }
 
-GluonCore::GluonObject *
-SoundEmitterComponent::instantiate()
-{
-    return new SoundEmitterComponent(this);
-}
-
 void
 SoundEmitterComponent::play()
 {

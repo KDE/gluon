@@ -60,11 +60,6 @@ SpriteRendererComponent::~SpriteRendererComponent()
     delete d;
 }
 
-GluonCore::GluonObject* SpriteRendererComponent::instantiate()
-{
-    return new SpriteRendererComponent(this);
-}
-
 void SpriteRendererComponent::start()
 {
     DEBUG_FUNC_NAME;

@@ -19,9 +19,9 @@
 
 #include "asset.h"
 #include <QtCore/QStringList>
-#include <QFile>
-#include <QDir>
-#include <QMimeData>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -42,11 +42,6 @@ Asset::Asset(QObject *parent)
 Asset::~Asset()
 {
     delete d;
-}
-
-GluonCore::GluonObject* Asset::instantiate()
-{
-    return new Asset(this);
 }
 
 void Asset::setName(const QString& newName)

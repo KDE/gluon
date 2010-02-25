@@ -36,6 +36,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::GameObject);
         Q_PROPERTY(QString description READ description WRITE setDescription)
 
         Q_PROPERTY(QVector3D position READ position WRITE setPosition)
@@ -52,8 +53,6 @@ namespace GluonEngine
             GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
-
-            GluonCore::GluonObject* instantiate();
 
             void sanitize();
             void start();
