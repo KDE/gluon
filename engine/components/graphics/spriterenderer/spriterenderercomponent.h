@@ -40,6 +40,7 @@ namespace GluonEngine
             virtual void start();
             virtual void update ( int elapsedMilliseconds );
             virtual void draw ( int timeLapse = 0 );
+            virtual void stop();
 
             virtual QSizeF size();
             virtual QColor color();
@@ -48,6 +49,7 @@ namespace GluonEngine
         public slots:
             virtual void setSize(const QSizeF& size);
             virtual void setColor(const QColor& color);
+            virtual void setColor(int r, int g, int b, int a = 255);
             virtual void setTexture(Asset* asset);
 
         private:
