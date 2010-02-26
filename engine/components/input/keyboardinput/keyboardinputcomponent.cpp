@@ -57,7 +57,7 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
 
 /*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
         m_actionStopped = true;
-    
+
     m_lastFrame = m_distanceMovement;
     m_distanceMovement = QVector3D(0,0,0);
     m_axisMovement = 0;*/
@@ -87,19 +87,19 @@ KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
 }
 
 bool
-KeyboardInputComponent::getActionStarted()
+KeyboardInputComponent::isActionStarted()
 {
   return m_actionStarted;
 }
 
 bool
-KeyboardInputComponent::getActionHeld()
+KeyboardInputComponent::isActionHeld()
 {
   return m_actionHeld;
 }
 
 bool
-KeyboardInputComponent::getActionStopped()
+KeyboardInputComponent::isActionStopped()
 {
   return m_actionStopped;
 }
@@ -121,7 +121,7 @@ KeyboardInputComponent::setKeyCode(const KeyName& newKeyCode)
 // {
 //    return m_distanceMovement;
 // }
-// 
+//
 // float
 // KeyboardInputComponent::getAxisMovement(const QString &actionName)
 // {
