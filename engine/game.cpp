@@ -191,6 +191,10 @@ Game::currentScene() const
 void
 Game::setCurrentScene(Scene * newCurrentScene)
 {
+    if(d->currentScene) {
+        d->currentScene->stopAll();
+    }
+
     d->currentScene = newCurrentScene;
     emit currentSceneChanged(newCurrentScene);
 }
