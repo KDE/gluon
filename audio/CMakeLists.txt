@@ -7,7 +7,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(OpenAL REQUIRED)
+find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 

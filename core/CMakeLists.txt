@@ -6,7 +6,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(Qt4 REQUIRED)
+find_package(Qt4 4.6 REQUIRED)
 
 set(_Init_LIB_SUFFIX "")
 if ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
