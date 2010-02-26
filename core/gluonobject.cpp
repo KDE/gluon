@@ -419,7 +419,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     if(theTypeName == "string") {
         value = theValue;
     } else if(theTypeName == "bool") {
-        value = theValue.toFloat();
+        value = theValue == "true" ? true : false;
     } else if(theTypeName == "float") {
         value = theValue.toFloat();
     } else if(theTypeName == "int") {
@@ -429,15 +429,25 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         value = QVariant(QUrl(theValue));
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
-        //, z = 0.0f;
+
         QStringList splitValues = theValue.split(";");
         if(splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
             y = splitValues.at(1).toFloat();
-            //z = splitValues.at(2).toFloat();
         }
         value = QPointF(x, y);
+    } else if(theTypeName == "vector3d") {
+        float x = 0.0f, y = 0.0f, z = 0.0f;
+
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+        {
+            x = splitValues.at(0).toFloat();
+            y = splitValues.at(1).toFloat();
+            z = splitValues.at(2).toFloat();
+        }
+        value = QVector3D(x, y, z);
     } else if(theTypeName == "rgba") {
         int r = 0, g = 0, b = 0, a = 0;
         QStringList splitValues = theValue.split(";");
@@ -490,7 +500,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Vector3D:
         {
             QVector3D aVector = theValue.value<QVector3D>();
-            value = QString("vector3d(%1,%2,%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
+            value = QString("vector3d(%1;%2;%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
         }
             break;
         case QVariant::Int:
