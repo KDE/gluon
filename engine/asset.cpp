@@ -30,17 +30,23 @@ using namespace GluonEngine;
 class GluonEngine::AssetPrivate
 {
 public:
+    AssetPrivate() { loaded = false; }
+
     QUrl file;
+    bool loaded;
+    QMimeData* mime;
 };
 
 Asset::Asset(QObject *parent)
     : GluonObject(parent)
 {
     d = new AssetPrivate;
+    d->mime = new QMimeData;
 }
 
 Asset::~Asset()
 {
+    delete d->mime;
     delete d;
 }
 
@@ -72,14 +78,19 @@ QUrl Asset::file() const
     return d->file;
 }
 
-QMimeData* Asset::data() const
+const QMimeData* Asset::data() const
 {
-    return new QMimeData();
+    return d->mime;
+}
+
+bool Asset::isLoaded() const
+{
+    return d->loaded;
 }
 
 void Asset::load()
 {
-
+    d->loaded = true;
 }
 
 QString
@@ -89,6 +100,16 @@ Asset::childrenToGDL(int indentLevel) const
     // We do not recurse here - this allows the assets to handle their own
     // children
     return QString();
+}
+
+QMimeData* Asset::mimeData() const
+{
+    return d->mime;
+}
+
+void Asset::setLoaded(bool loaded)
+{
+    d->loaded = loaded;
 }
 
 #include "asset.moc"
