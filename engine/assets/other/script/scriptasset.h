@@ -14,41 +14,32 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef GLUON_ENGINE_SOUNDASSET_H
-#define GLUON_ENGINE_SOUNDASSET_H
+#ifndef GLUONENGINE_SCRIPTASSET_H
+#define GLUONENGINE_SCRIPTASSET_H
 
-#include <engine/asset.h>
 #include <engine/gluon_engine_export.h>
-#include <audio/buffer.h>
-
-#include <QtCore/QStringList>
+#include <engine/asset.h>
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT SoundAsset : public Asset
+    class GLUON_ENGINE_EXPORT ScriptAsset : public GluonEngine::Asset
     {
-    Q_OBJECT
-    Q_INTERFACES(GluonEngine::Asset)
-    GLUON_OBJECT(GluonEngine::SoundAsset)
-    
-    public:
-        SoundAsset(QObject *parent = 0);
-        
-        virtual const QStringList supportedMimeTypes() const;
+        Q_OBJECT
+        Q_INTERFACES(GluonEngine::Asset)
+        GLUON_OBJECT(GluonEngine::ScriptAsset)
 
-        //virtual QMimeData* data() const;
+        public:
+            ScriptAsset(QObject* parent = 0);
+            ~ScriptAsset();
 
-        //virtual void setFile(const QUrl &newFile);
+            virtual const QStringList supportedMimeTypes() const;
+            virtual void load();
 
-        //GluonAudio::Buffer *buffer() {
-        //    return m_buffer;
-        //}
-
-    private Q_SLOTS:
-        void updateBuffer();
-
-    private:
-        GluonAudio::Buffer *m_buffer;
+        private:
+            class ScriptAssetPrivate;
+            ScriptAssetPrivate* d;
     };
+
 }
-#endif // SOUNDASSET_H
+
+#endif // GLUONENGINE_SCRIPTASSET_H

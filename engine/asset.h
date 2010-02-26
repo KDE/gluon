@@ -49,7 +49,7 @@ namespace GluonEngine
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
 
-            virtual QMimeData* data() const;
+            virtual const QMimeData* data() const;
 
             /**
              * The specialization of toGDL on the Asset class does not recurse.
@@ -58,11 +58,17 @@ namespace GluonEngine
              */
             virtual QString childrenToGDL(int indentLevel = 0) const;
 
+            virtual bool isLoaded() const;
+
         public slots:
             virtual void load();
 
         Q_SIGNALS:
             void dataChanged();
+
+        protected:
+            QMimeData* mimeData() const;
+            void setLoaded(bool loaded);
 
         private:
             AssetPrivate *d;

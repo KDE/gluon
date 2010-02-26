@@ -32,15 +32,12 @@ class TextureAsset::TextureAssetPrivate {
 public:
     TextureAssetPrivate() {
         image = new QImage;
-        mime = new QMimeData;
     }
     ~TextureAssetPrivate() {
         delete image;
-        delete mime;
     }
 
     QImage *image;
-    QMimeData* mime;
 };
 
 TextureAsset::TextureAsset (QObject *parent) :
@@ -67,16 +64,12 @@ const QStringList TextureAsset::supportedMimeTypes() const
     return supportedTypes;
 }
 
-QMimeData* TextureAsset::data() const
-{
-    return d->mime;
-}
-
 void TextureAsset::load()
 {
     DEBUG_FUNC_NAME
     d->image->load(file().toLocalFile());
-    d->mime->setImageData(*d->image);
+    mimeData()->setImageData(*d->image);
+    setLoaded(true);
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)

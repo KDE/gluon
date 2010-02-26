@@ -22,11 +22,12 @@
 
 namespace GluonEngine
 {
+    class Asset;
+
     class GLUON_ENGINE_EXPORT QtScriptComponent : public Component
     {
         Q_OBJECT
         GLUON_OBJECT(GluonEngine::QtScriptComponent)
-        Q_PROPERTY(QString code READ code WRITE setCode)
         Q_INTERFACES(GluonEngine::Component)
 
         public:
@@ -38,10 +39,10 @@ namespace GluonEngine
             virtual void update ( int elapsedMilliseconds );
             virtual void draw ( int timeLapse = 0 );
 
-            virtual QString code();
+            virtual Asset* script();
 
         public slots:
-            virtual void setCode(const QString& code);
+            virtual void setScript(GluonEngine::Asset* asset);
 
         private:
             class QtScriptComponentPrivate;

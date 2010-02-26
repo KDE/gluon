@@ -43,18 +43,18 @@ namespace GluonEngine
                 Key_Space,
                 Key_0
             };
-            
+
             KeyboardInputComponent(QObject * parent = 0);
 
             //  True on any frame between getActionStarted and
             //  getActionStopped, inclusive of those two frames
-            bool getActionHeld();
+            Q_INVOKABLE bool isActionHeld();
             // True on the frame when an action was begun (for example the
             // button represented by buttonName was pressed on a controller)
-            bool getActionStarted();
+            Q_INVOKABLE bool isActionStarted();
             // True on the frame when an action was stopped (for example a
             // button was released on a controller)
-            bool getActionStopped();
+            Q_INVOKABLE bool isActionStopped();
             // The movement compared to last frame
             //QVector3D getDistanceMovement(QString actionName);
             // The movement along one axis compared to last frame

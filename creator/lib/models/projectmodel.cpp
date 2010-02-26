@@ -239,16 +239,16 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
 
                     gobj->addChild(newChild);
                     newChild->setName(theFileInfo.fileName());
-                    newChild->setFile(theUrl);
-                    newChild->load();
+                    /*newChild->setFile(theUrl);
+                    newChild->load();*/
 
                     #warning We need to fix this so we dont run creator without a project.
-                    /*if(!QDir::current().exists("Assets"))
+                    if(!QDir::current().exists("Assets"))
                         QDir::current().mkdir("Assets");
-                    QUrl newLocation(QString("Assets/%1.%2").arg(newChild->fullyQualifiedName()).arg(theFileInfo.completeSuffix()));
+                    QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedName()));
                     QFile(theUrl.toLocalFile()).copy(newLocation.toLocalFile());
                     newChild->setFile(newLocation);
-                    newChild->load();*/
+                    newChild->load();
                 }
                 else
                 {
