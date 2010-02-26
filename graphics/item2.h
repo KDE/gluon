@@ -1,5 +1,5 @@
-#ifndef Item_H
-#define Item_H
+#ifndef ITEM2_H
+#define ITEM2_H
 #include "transform.h"
 #include "mesh.h"
 #include "glpainter.h"
@@ -8,17 +8,12 @@
 
 namespace GluonGraphics
 {
-    class Engine;
-    class GLUON_GRAPHICS_EXPORT Item : public Transform
+    class GLUON_GRAPHICS_EXPORT Item2 : public Transform
     {
-
+          class Engine;
     public:
-        Item(Mesh * mesh= 0, QObject* parent=0);
-        Item(QSizeF size){init();}
+        Item2(Mesh * mesh, QObject* parent=0);
         virtual void paintGL();
-        void setColor(const QColor& col){m_color=col;}
-        QColor color(){return m_color;}
-
     protected:
         void init();
 
@@ -26,8 +21,7 @@ namespace GluonGraphics
         Mesh * m_mesh;
         GLPainter * m_painter;
         Texture * m_texture;
-        QColor m_color;
     };
 
 }
-#endif // Item_H
+#endif // ITEM2_H

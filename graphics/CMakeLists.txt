@@ -42,10 +42,11 @@ set(GluonGraphics_SRCS
     engine.cpp
     program.cpp
     shader.cpp
-    shapeitem.cpp
+    mesh.cpp
     fx.cpp
-    transformitem.cpp
+    transform.cpp
     widgetproxy.cpp
+
 )
 
 qt4_automoc(${GluonGraphics_SRCS})
@@ -95,8 +96,9 @@ install(
     program.h
     shader.h
     fx.h
-    transformitem.h
-    shapeitem.h
+    transform.h
+    mesh.h
+
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel

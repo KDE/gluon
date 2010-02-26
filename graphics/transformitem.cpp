@@ -1,7 +1,7 @@
-#include "transformitem.h"
+#include "transform.h"
 namespace GluonGraphics
 {
-    TransformItem::TransformItem(QObject * parent)
+    Transform::Transform(QObject * parent)
         :QObject(parent)
     {
         m_scale = QVector3D(1,1,1);
@@ -13,7 +13,7 @@ namespace GluonGraphics
     }
 
 
-    void  TransformItem::updateTransform()
+    void  Transform::updateTransform()
     {
         m_matrix.setToIdentity();
         m_matrix.translate(m_position);
@@ -21,7 +21,7 @@ namespace GluonGraphics
         m_matrix.rotate(m_orientation);
     }
 
-    void TransformItem::resetTransform()
+    void Transform::resetTransform()
     {
         m_matrix.setToIdentity();;
         m_position = QVector3D(0,0,0);
@@ -30,7 +30,7 @@ namespace GluonGraphics
     }
     //------------------------------------------------------
 
-    QVector3D TransformItem::transform(const QVector3D &p) const
+    QVector3D Transform::transform(const QVector3D &p) const
     {
         QVector3D vect = m_matrix * QVector3D(p.x(), p.y(), p.y());
         return vect;
@@ -38,7 +38,7 @@ namespace GluonGraphics
 
     //------------------------------------------------------
 
-    QPointF TransformItem::transform(const QPointF &p) const
+    QPointF Transform::transform(const QPointF &p) const
     {
         QVector3D vect = m_matrix * QVector3D(p.x(), p.y(), 0);
         return QPointF(vect.x(), vect.y());
@@ -46,7 +46,7 @@ namespace GluonGraphics
 
     //------------------------------------------------------
 
-    QPolygonF TransformItem::transform(const QPolygonF &p) const
+    QPolygonF Transform::transform(const QPolygonF &p) const
     {
         QPolygonF poly;
         foreach(const QPointF &point, p) {
@@ -57,7 +57,7 @@ namespace GluonGraphics
 
     //------------------------------------------------------
 
-    QRectF TransformItem::transform(const QRectF &r) const
+    QRectF Transform::transform(const QRectF &r) const
     {
         QVector3D a = m_matrix * QVector3D(r.x(), r.y(), 0);
         QVector3D b = m_matrix * QVector3D(r.width(), r.height(), 0);
@@ -66,67 +66,67 @@ namespace GluonGraphics
     }
     //------------------------------------------------------
 
-    void TransformItem::applyTransform(const QMatrix4x4 &m)
+    void Transform::applyTransform(const QMatrix4x4 &m)
     {
         m_matrix = m * m_matrix;
     }
     //------------------------------------------------------
 
-    QMatrix4x4 TransformItem::matrix(){
+    QMatrix4x4 Transform::matrix(){
         return m_matrix;
     }
 
     //------------------------------------------------------
-    void TransformItem::setMatrix(const QMatrix4x4& m){
+    void Transform::setMatrix(const QMatrix4x4& m){
         m_matrix = m;
     }
     //------------------------------------------------------
-    void TransformItem::setScale(const QVector3D &s)
+    void Transform::setScale(const QVector3D &s)
     {
         m_scale = s;
     }
-    void TransformItem::setScale(float sx, float sy, float sz)
+    void Transform::setScale(float sx, float sy, float sz)
     {
         setScale(QVector3D(sx, sy, sz));
     }
 
-    void TransformItem::setPosition(const QVector3D &p)
+    void Transform::setPosition(const QVector3D &p)
     {
         m_position = p;
     }
 
-    void TransformItem::setPosition(float x, float y, float z)
+    void Transform::setPosition(float x, float y, float z)
     {
         setPosition(QVector3D(x, y, z));
     }
 
-    void TransformItem::setQuaternion(const QQuaternion &orientation)
+    void Transform::setQuaternion(const QQuaternion &orientation)
     {
     m_orientation = orientation;
 
     }
 
-    void TransformItem::setRotation(const QVector3D &axis, const qreal &angle ){
+    void Transform::setRotation(const QVector3D &axis, const qreal &angle ){
 
         m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
 
     }
 
-    void TransformItem::translate(const QVector3D &step)
+    void Transform::translate(const QVector3D &step)
     {
         m_position += step;
     }
 
-    void TransformItem::translate(float x, float y, float z)
+    void Transform::translate(float x, float y, float z)
     {
         translate(QVector3D(x, y, z));
     }
 
-    void TransformItem::scale(const QVector3D &s)
+    void Transform::scale(const QVector3D &s)
     {
         m_scale = s;
     }
-    void TransformItem::scale(float x, float y, float z)
+    void Transform::scale(float x, float y, float z)
     {
         scale(QVector3D(x, y, z));
     }
