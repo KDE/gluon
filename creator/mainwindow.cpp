@@ -37,6 +37,7 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
+#include <engine/scene.h>
 
 using namespace GluonCreator;
 
@@ -84,6 +85,7 @@ void MainWindow::openProject(const QString &fileName)
         project->loadFromFile(QUrl(fileName));
 
         GluonEngine::Game::instance()->setGameProject(project);
+        GluonEngine::Game::instance()->currentScene()->startAll();
     }
     statusBar()->showMessage(i18n("Project successfully opened"));
 }
@@ -190,5 +192,6 @@ void MainWindow::stopGame()
     actionCollection()->action("pauseGame")->setEnabled(false);
     actionCollection()->action("pauseGame")->setChecked(false);
     actionCollection()->action("stopGame")->setEnabled(false);
+    GluonEngine::Game::instance()->currentScene()->startAll();
 }
 
