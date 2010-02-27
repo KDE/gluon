@@ -36,13 +36,14 @@ set(GluonGraphics_SRCS
     vertex.cpp
     texture.cpp
     glpainter.cpp
-    baseitem.cpp
     item.cpp
     itemlist.cpp
     engine.cpp
     program.cpp
     shader.cpp
     mesh.cpp
+    polygonmesh.cpp
+    cubemesh.cpp
     fx.cpp
     transform.cpp
     widgetproxy.cpp
@@ -89,7 +90,6 @@ install(
     vertex.h
     texture.h
     glpainter.h
-    baseitem.h
     item.h
     itemlist.h
     engine.h
@@ -98,7 +98,8 @@ install(
     fx.h
     transform.h
     mesh.h
-
+    polygonmesh.h
+    cubemesh.h
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel

@@ -145,6 +145,15 @@ namespace GluonGraphics
     }
     //------------------------------------------------------
 
+    void Transform::setRotation(const qreal &angle){
+
+        QVector3D axis= QVector3D(0,0,1);
+        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
+        m_angle=angle;
+
+    }
+    //------------------------------------------------------
+
     void Transform::translate(const QVector3D &step)
     {
         m_position += step;

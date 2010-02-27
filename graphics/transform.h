@@ -23,32 +23,33 @@ public:
     void applyTransform(const QMatrix4x4 &m);
     QMatrix4x4 matrix();
     void setMatrix(const QMatrix4x4& m);
-    inline void setScale(const QVector3D &s);
-    inline void setScale(float sx, float sy, float sz);
-    inline void setScale(float sx, float sy);
-    inline void setScale(const QVector2D &s);
+    void setScale(const QVector3D &s);
+    void setScale(float sx, float sy, float sz);
+    void setScale(float sx, float sy);
+    void setScale(const QVector2D &s);
 
-    inline void setPosition(const QVector3D &p);
-    inline void setPosition(float x, float y, float z);
-    inline void setPosition(float x, float y);
-    inline void setPosition(const QVector2D &p);
+    void setPosition(const QVector3D &p);
+    void setPosition(float x, float y, float z);
+    void setPosition(float x, float y);
+    void setPosition(const QVector2D &p);
 
 
-    inline void setQuaternion(const QQuaternion &orientation);
-    inline void setRotation(const qreal &angle,const QVector3D &axis);
-    inline void setRotation(const qreal &angle, const QVector2D &center);
+    void setQuaternion(const QQuaternion &orientation);
+    void setRotation(const qreal &angle,const QVector3D &axis);
+    void setRotation(const qreal &angle, const QVector2D &center);
+    void setRotation(const qreal &angle);
 
-    inline void translate(const QVector3D &step);
-    inline void translate(float x, float y, float z);
-    inline void translate(float x, float y);
-    inline void translate(const QVector2D &step);
+    void translate(const QVector3D &step);
+    void translate(float x, float y, float z);
+    void translate(float x, float y);
+    void translate(const QVector2D &step);
 
-    inline void scale(const QVector3D &s);
-    inline void scale(float x, float y, float z);
-    inline void scale(float x, float y);
-    inline void scale(const QVector2D &s);
-    inline void rotate(const qreal &angle,const QVector3D &axis){}
-    inline void rotate(const qreal &angle, const QVector2D &center){}
+    void scale(const QVector3D &s);
+    void scale(float x, float y, float z);
+    void scale(float x, float y);
+    void scale(const QVector2D &s);
+    void rotate(const qreal &angle,const QVector3D &axis){}
+    void rotate(const qreal &angle, const QVector2D &center){}
 
 
     QVector3D transform(const QVector3D &p) ;

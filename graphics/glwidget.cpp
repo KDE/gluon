@@ -178,10 +178,10 @@ void GLWidget::initializeGL()
 //     }
 
     // Set up camera
-    //camera()->setPosition(Vector3f(0, 0, 5));
-    //camera()->setLookAt(Vector3f(0, 0, 0));
-    //camera()->setUp(Vector3f(0, 1, 0));
-    //camera()->setDepthRange(1, 100);
+    camera()->setPosition(QVector3D(0, 0, 100));
+    camera()->setLookAt(QVector3D(0, 0, 0));
+    camera()->setUp(QVector3D(0, 1, 0));
+    camera()->setDepthRange(1, 100);
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -190,7 +190,7 @@ void GLWidget::resizeGL(int width, int height)
     camera()->applyViewport();
 
     camera()->setAspect(width/(float)height);
-    //camera()->applyPerspective();
+    camera()->applyPerspective();
     camera()->applyOrtho();
 }
 

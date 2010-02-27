@@ -39,7 +39,7 @@ Vertex::Vertex()
     m_ty= 0;
 }
 
-Vertex::Vertex(const QPointF &p, const QColor &c, const QPointF &t)
+Vertex::Vertex(const QVector2D &p, const QColor &c, const QVector2D &t)
 {
     m_x = p.x();
     m_y = p.y();
@@ -51,8 +51,19 @@ Vertex::Vertex(const QPointF &p, const QColor &c, const QPointF &t)
     m_tx= t.x();
     m_ty= t.y();
 }
-
-Vertex::Vertex(float x, float y, const QColor &c, const QPointF &t)
+Vertex::Vertex(const QVector3D &p, const QColor &c, const QVector2D &t)
+{
+    m_x = p.x();
+    m_y = p.y();
+    m_z = p.z();
+    m_r = c.redF();
+    m_g = c.greenF();
+    m_b = c.blueF();
+    m_a = c.alphaF();
+    m_tx= t.x();
+    m_ty= t.y();
+}
+Vertex::Vertex(float x, float y, const QColor &c, const QVector2D &t)
 {
     m_x = x;
     m_y = y;
@@ -64,7 +75,7 @@ Vertex::Vertex(float x, float y, const QColor &c, const QPointF &t)
     m_tx= t.x();
     m_ty= t.y();
 }
-Vertex::Vertex(float x, float y,float z, const QColor &c, const QPointF &t)
+Vertex::Vertex(float x, float y,float z, const QColor &c, const QVector2D &t)
 {
     m_x = x;
     m_y = y;

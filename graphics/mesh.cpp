@@ -19,7 +19,26 @@ namespace GluonGraphics
         m_vector.append(vertex);
         computeGeometry();
     }
-
+    void Mesh::addVertex(const QVector3D& coord)
+    {
+        Vertex vertex(coord);
+        m_vector.append(vertex);
+        computeGeometry();
+    }
+    void Mesh::addVertex(const QVector2D& coord)
+    {
+        Vertex vertex(coord);
+        m_vector.append(vertex);
+        computeGeometry();
+    }
+    QVector <Vertex> * Mesh::vertexes()
+    {
+        return &m_vector;
+    }
+    Vertex * Mesh::vertexAt(int i)
+    {
+        return &m_vector[i];
+    }
     float * Mesh::array()
     {
         return (float*)m_vector.data();

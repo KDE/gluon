@@ -15,7 +15,11 @@ namespace GluonGraphics
     public:
         Mesh(QObject * parent=0);
         void addVertex(const Vertex& vertex);
+        void addVertex(const QVector3D& coord);
+        void addVertex(const QVector2D& coord);
         int vertexCount();
+        Vertex * vertexAt(int i);
+        QVector <Vertex> * vertexes();
 
         void clear();
         float * array();
