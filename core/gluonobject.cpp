@@ -255,8 +255,11 @@ GluonObject::setName(const QString &newName)
     // This is kinda nasty, but it's the easiest way to not clash with ourselves ;)
     d->name = "";
 
-    // Make sure we don't set a name on an object which is already used!
     QString theName(newName);
+    // Fix up the name to not include any '/' (this would screw up the fullyQualifiedName)
+    theName.replace('/', ' ');
+    
+    // Make sure we don't set a name on an object which is already used!
     if(parent())
     {
         bool nameIsOK = true;
