@@ -61,5 +61,5 @@ GenericName[zh_TW]=Game Creation Tool
 Exec=gluoncreator
 Icon=gluon_creator
 Type=Application
-Categories=Qt;KDE;Core;Development;Games;
+Categories=Qt;KDE;Development;IDE;
 Terminal=false
