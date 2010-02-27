@@ -42,7 +42,7 @@ GluonObject::GluonObject(QObject * parent)
     d = new GluonObjectPrivate();
 
     // Get a nice name first time the object is created...
-    QString theClassName(this->metaObject()->className());
+    QString theClassName(metaObject()->className());
     if(theClassName.contains(':'))
         setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':') - 1));
     else
@@ -292,7 +292,7 @@ GluonObject::fullyQualifiedName() const
 {
     QString theName(this->name());
     if(qobject_cast<GluonObject*>(this->parent()))
-        theName = QString("%1.%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
+        theName = QString("%1/%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
     return theName;
 }
 
