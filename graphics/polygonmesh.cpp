@@ -1,7 +1,7 @@
 #include "polygonmesh.h"
 namespace GluonGraphics
 {
- PolygonMesh::PolygonMesh(QObject * parent)
+    PolygonMesh::PolygonMesh(QObject * parent)
         :Mesh(parent)
     {
         m_polygon = QPolygonF();
@@ -18,10 +18,11 @@ namespace GluonGraphics
     }
     void PolygonMesh::setPolygon(const QPolygonF &polygon)
     {
+        clear();
         m_polygon = polygon;
         foreach(QPointF p, m_polygon)
         {
-           QVector2D textureCoord(p.x(), p.y());
+            QVector2D textureCoord(p.x(), p.y());
             addVertex(Vertex(p.x(),p.y(),Qt::white,textureCoord ));
         }
     }

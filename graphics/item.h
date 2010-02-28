@@ -27,13 +27,6 @@ namespace GluonGraphics
         {
             m_mesh = mesh;
         }
-
-        void setGLMode(const GLenum& mode)
-        {
-            m_gl_mode = mode;
-        }
-
-        const GLenum& glMode(){return m_gl_mode;}
         const QColor& color();
         const float& alpha();
         Mesh * mesh(){return m_mesh;}
@@ -43,11 +36,9 @@ namespace GluonGraphics
 
     private:
         Mesh * m_mesh;
-        GLPainter * m_painter;
-        Texture * m_texture;
-        QColor m_color;
-        float m_alpha;
-        GLenum m_gl_mode;
+
+
+
     };
 
 }

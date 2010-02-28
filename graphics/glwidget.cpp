@@ -138,13 +138,6 @@ GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 void GLWidget::initializeGL()
 {
 
-
-
-
-
-
-
-
     // Init KGLLib
 
     mGLInitialized = true;
@@ -178,8 +171,8 @@ void GLWidget::initializeGL()
 //     }
 
     // Set up camera
-    camera()->setPosition(QVector3D(0, 0, 100));
-    camera()->setLookAt(QVector3D(0, 0, 0));
+    camera()->setPosition(QVector3D(0, 0, 20));
+    camera()->setLookAt(QVector3D(0, 0, 1));
     camera()->setUp(QVector3D(0, 1, 0));
     camera()->setDepthRange(1, 100);
 }
@@ -191,7 +184,7 @@ void GLWidget::resizeGL(int width, int height)
 
     camera()->setAspect(width/(float)height);
     camera()->applyPerspective();
-    camera()->applyOrtho();
+
 }
 
 void GLWidget::paintGL()
@@ -271,6 +264,30 @@ void GLWidget::drawItems()
 
 void GLWidget::render()
 {
+
+    glBegin(GL_LINES) ;
+      glColor3f(0,1,0) ;
+      glVertex3f(0,0,0) ;
+      glVertex3f(0,5,0) ;
+      glEnd() ;
+
+      glBegin(GL_LINES) ;
+        glColor3f(1,0,0) ;
+        glVertex3f(0,0,0) ;
+        glVertex3f(5,0,0) ;
+        glEnd() ;
+
+        glBegin(GL_LINES) ;
+          glColor3f(0,0,1) ;
+          glVertex3f(0,0,0) ;
+          glVertex3f(0,0,5) ;
+          glEnd() ;
+
+
+
+
+
+
 
   //if (m_engine!=0)
     drawItems();

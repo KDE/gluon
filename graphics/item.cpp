@@ -25,11 +25,6 @@ namespace GluonGraphics
     {
         Engine::instance()->addItem(this);
         setObjectName(metaObject()->className());
-
-        m_texture = new Texture();
-        m_color = Qt::white;
-        m_alpha = 1;
-        m_gl_mode = GL_POLYGON;
     }
     //------------------------------------------------------------
 
@@ -38,12 +33,9 @@ namespace GluonGraphics
         glPushMatrix();
         glMultMatrixd((GLdouble*)(matrix().data()));
 
-
-        m_texture->bind();
+        m_mesh->texture()->bind();
         drawMesh();
-        m_texture->unBind();
-
-
+        m_mesh->texture()->unBind();
 
         glPopMatrix();
     }
@@ -51,7 +43,7 @@ namespace GluonGraphics
     void Item::drawMesh()
     {
 
-        glPolygonMode(GL_FRONT_AND_BACK,m_gl_mode);
+        glPolygonMode(GL_FRONT_AND_BACK,mesh()->glMode());
 
 
         /*enable client state */
@@ -65,7 +57,7 @@ namespace GluonGraphics
         glColorPointer(4, GL_FLOAT,sizeof(Vertex),m_mesh->colorArray());
 
         //    /* create vertex */
-        glDrawArrays(m_gl_mode, 0, m_mesh->vertexCount());
+        glDrawArrays(mesh()->glMode(), 0, m_mesh->vertexCount());
 
         /* disable client state */
         glDisableClientState(GL_COLOR_ARRAY);
@@ -78,52 +70,45 @@ namespace GluonGraphics
 
     void Item::setColor(const QColor& col)
     {
-        QVector <Vertex> * vertexes = m_mesh->vertexes();
-        for ( int i=0; i<vertexes->size(); ++i)
-            (*vertexes)[i].setColor(col);
-        m_color = col;
-
+        if ( m_mesh)
+            m_mesh->setColor(col);
     }
     //------------------------------------------------------------
     void Item::setAlpha(const float& alpha)
     {
-
-        QVector <Vertex> * vertexes = m_mesh->vertexes();
-        for ( int i=0; i<vertexes->size(); ++i)
-            (*vertexes)[i].setAlpha(alpha);
-
-        m_alpha = alpha;
+        if ( m_mesh)
+            m_mesh->setAlpha(alpha);
 
     }
     //------------------------------------------------------------
     const QColor& Item::color()
     {
-        return m_color;
+        return m_mesh->color();
     }
     //------------------------------------------------------------
     const float& Item::alpha()
     {
-        return m_alpha;
+        return m_mesh->alpha();
     }
     //------------------------------------------------------------
     void Item::setTexture(Texture * texture)
     {
-        m_texture = texture;
+        m_mesh->setTexture(texture);
     }
     //------------------------------------------------------------
     void Item::setTexture(const QPixmap& pix)
     {
-        m_texture= new Texture(pix);
+        m_mesh->setTexture(pix);
     }
     //------------------------------------------------------------
     void Item::setTexture(const QImage& img)
     {
-        m_texture= new Texture(img);
+        m_mesh->setTexture(img);
     }
     //------------------------------------------------------------
     void Item::setTexture(const QString& path)
     {
-        m_texture =new Texture(path);
+        m_mesh->setTexture(path);
     }
     //------------------------------------------------------------
 
