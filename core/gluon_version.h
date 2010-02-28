@@ -1,0 +1,13 @@
+#ifndef GLUON_CORE_GLUON_VERSION_H
+#define GLUON_CORE_GLUON_VERSION_H
+
+#define GLUON_PLATFORM_NAME     "Gluon Development Platform"
+
+#define GLUON_VERSION_MAJOR     0
+#define GLUON_VERSION_MINOR     69
+#define GLUON_VERSION_PATCH     0
+#define GLUON_VERSION_NAME      "X-Ray"
+
+#define GLUON_VERSION_STRING    "0.69.0 (X-Ray)"
+
+#endif //GLUON_CORE_GLUON_VERSION_H
