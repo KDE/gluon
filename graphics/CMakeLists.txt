@@ -44,6 +44,9 @@ set(GluonGraphics_SRCS
     mesh.cpp
     polygonmesh.cpp
     cubemesh.cpp
+    gridmesh.cpp
+    conemesh.cpp
+    discmesh.cpp
     fx.cpp
     transform.cpp
     widgetproxy.cpp
@@ -100,6 +103,9 @@ install(
     mesh.h
     polygonmesh.h
     cubemesh.h
+    gridmesh.h
+    conemesh.h
+    discmesh.h
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel
