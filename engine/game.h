@@ -35,6 +35,7 @@ namespace GluonCore
 
 namespace GluonEngine
 {
+    class GameObject;
     class Scene;
     class GamePrivate;
 
@@ -65,10 +66,18 @@ namespace GluonEngine
 
             GluonCore::GameProject * gameProject() const;
 
+            Q_INVOKABLE bool isRunning() const;
+            Q_INVOKABLE bool isPaused() const;
+
+            //TODO Implement
+            //Q_INVOKABLE GameObject* clone(GaneObject* object);
+            //Q_INVOKABLE GameObject* spawn(const QString& prefabName);
+
         public slots:
             void setGameProject(GluonCore::GameProject * newGameProject);
 
             void setCurrentScene(Scene * newCurrentScene);
+            void setCurrentScene(const QString& sceneName);
 
             void runGame() { this->runGameFixedUpdate(); }
             /**
@@ -77,7 +86,7 @@ namespace GluonEngine
              * @param   int maxFrameSkip The maximum number of frames that you're allowed to skip before forcing a redraw
              */
             void runGameFixedUpdate(int updatesPerSecond = 25, int maxFrameSkip = 5);
-            
+
             /**
              * Run the game using a fixed time between each update
              * @param   int framesPerSecond The number of frames per second that the game will attempt to keep up with

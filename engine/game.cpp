@@ -188,6 +188,17 @@ Game::currentScene() const
 {
     return d->currentScene;
 }
+
+bool Game::isRunning() const
+{
+    return d->gameRunning;
+}
+
+bool Game::isPaused() const
+{
+    return d->gamePaused;
+}
+
 void
 Game::setCurrentScene(Scene * newCurrentScene)
 {
@@ -197,6 +208,13 @@ Game::setCurrentScene(Scene * newCurrentScene)
 
     d->currentScene = newCurrentScene;
     emit currentSceneChanged(newCurrentScene);
+}
+
+void Game::setCurrentScene(const QString& sceneName)
+{
+    Scene* scene = qobject_cast< GluonEngine::Scene* >(gameProject()->findItemByName(sceneName));
+    if(scene)
+        setCurrentScene(scene);
 }
 
 GluonCore::GameProject *
