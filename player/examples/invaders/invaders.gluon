@@ -1,6 +1,6 @@
 { GluonCore::GameProject(Invaders)
     filename url(/home/ahiemstra/Projects/KDE/Gluon/gluon-git/player/examples/invaders/invaders.gluon)
-    entryPoint GluonEngine::Scene(Invaders.Menu)
+    entryPoint GluonEngine::Scene(Invaders/Game)
     { GluonEngine::Scene(Game)
         file url(Scenes/Invaders.Game.gdl)
     }
