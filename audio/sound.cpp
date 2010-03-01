@@ -33,7 +33,7 @@ class Sound::SoundPrivate
 public:
     Buffer *buffer;
     ALuint source;
-    Eigen::Vector3f position;
+    QVector3D position;
     ALfloat volume;
     ALfloat pitch;
 };
@@ -95,9 +95,9 @@ void Sound::load(ALuint buffer) {
 void Sound::init()
 {
     d->source=0;
-    d->position[0]=0;
-    d->position[1]=0;
-    d->position[2]=0;
+    d->position.setX(0);
+    d->position.setY(0);
+    d->position.setZ(0);
     d->volume=0;
     d->pitch=0;
 
@@ -153,24 +153,24 @@ void Sound::setLoop(bool enabled)
     alSourcei(d->source, AL_LOOPING, enabled);
 }
 
-Eigen::Vector3f Sound::position() const
+QVector3D Sound::position() const
 {
     return d->position;
 }
 
 ALfloat Sound::x()const
 {
-    return d->position[0];
+    return d->position.x();
 }
 
 ALfloat Sound::y()const
 {
-    return d->position[1];
+    return d->position.y();
 }
 
 ALfloat Sound::z()const
 {
-    return d->position[2];
+    return d->position.z();
 }
 
 ALfloat Sound::volume()const
@@ -185,19 +185,16 @@ ALfloat Sound::pitch()const
 
 void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
-    Eigen::Vector3f position;
-    position[0] = x;
-    position[1] = y;
-    position[2] = z;
+    QVector3D tempPosition(x,y,z);
 
-    setPosition(position);
+    setPosition(tempPosition);
 }
 
-void Sound::setPosition(Eigen::Vector3f position)
+void Sound::setPosition(QVector3D position)
 {
     d->position = position;
 
-    ALfloat sourcePosition[] = { position[0], position[1], position[2] };
+    ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
     alSourcefv(d->source, AL_POSITION, sourcePosition);
 }
 

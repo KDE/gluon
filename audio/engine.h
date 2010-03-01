@@ -28,9 +28,9 @@
 #include <QtCore/QStringList>
 
 #include <alc.h>
-
+#include <QVector3D>
 #include <core/singleton.h>
-#include <Eigen/Geometry>
+
 
 namespace GluonAudio
 {
@@ -56,8 +56,8 @@ namespace GluonAudio
             return instance()->getAlDevice();
         }
 
-        Eigen::Vector3f listenerPosition();
-        void setListenerPosition(const Eigen::Vector3f& position);
+        QVector3D listenerPosition();
+        void setListenerPosition(const QVector3D& position);
 
 
         /**

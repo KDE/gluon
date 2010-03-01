@@ -3,7 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtGui/QPainter>
-
+#include <QVector2D>
 #include "gluon_graphics_export.h"
 #include "texture.h"
 #include "vertex.h"
@@ -22,7 +22,7 @@ public:
     void createRect(float x, float y, float w, float h);
     void createLine(const QLineF &line);
     void createLine(float x1, float y1, float x2, float y2);
-    void createCircle(const QPointF &center, float radius, float step=10);
+    void createCircle(const QVector2D &center, float radius, float step=10);
     void createCircle(float cx,float cy, float radius, float step = 10);
     void createPolygon(const QPolygonF & polygon);
 
@@ -31,9 +31,9 @@ public:
     void drawRect(float x, float y, float w, float h);
     void drawLine(const QLineF &line);
     void drawLine(float x1, float y1, float x2, float y2);
-    void drawPoint(const QPointF &point);
+    void drawPoint(const QVector2D &point);
     void drawPoint(float x, float y);
-    void drawCircle(const QPointF &center, float radius, float step=10);
+    void drawCircle(const QVector2D &center, float radius, float step=10);
     void drawCircle(float cx,float cy, float radius, float step = 10);
     void drawPolygon(const QPolygonF & polygon);
 

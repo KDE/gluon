@@ -51,10 +51,10 @@ void GLPainter::setPolygonMode(GLenum mode){
 void GLPainter::createRect(const QRectF &rect)
 {
     d->pointList.clear();
-    d->pointList.append(Vertex(rect.x(), rect.y(),d->color,QPointF(0 , 0)));
-    d->pointList.append(Vertex(rect.x() + rect.width(), rect.y(),d->color, QPointF(1 , 0)));
-    d->pointList.append(Vertex(rect.x() + rect.width(), rect.y() + rect.height(),d->color, QPointF(1 , 1)));
-    d->pointList.append(Vertex(rect.x(), rect.y() + rect.height(),d->color, QPointF(0 , 1)));
+    d->pointList.append(Vertex(rect.x(), rect.y(),d->color,QVector2D(0 , 0)));
+    d->pointList.append(Vertex(rect.x() + rect.width(), rect.y(),d->color, QVector2D(1 , 0)));
+    d->pointList.append(Vertex(rect.x() + rect.width(), rect.y() + rect.height(),d->color, QVector2D(1 , 1)));
+    d->pointList.append(Vertex(rect.x(), rect.y() + rect.height(),d->color, QVector2D(0 , 1)));
     
 }
 void GLPainter::createRect(float x, float y, float w, float h){
@@ -73,7 +73,7 @@ void GLPainter::createLine(float x1, float y1, float x2, float y2){
     createLine(QLineF(x1,y1,x2,y2));
 }
 
-void GLPainter::createCircle(const QPointF &center, float radius, float step)
+void GLPainter::createCircle(const QVector2D &center, float radius, float step)
 {
     if ( step <3)
     {
@@ -82,7 +82,7 @@ void GLPainter::createCircle(const QPointF &center, float radius, float step)
     }
     d->pointList.clear();
     d->pointList.append(
-            Vertex(center.x(),center.y(),d->color,QPointF(center.x() ,center.y())));
+            Vertex(center.x(),center.y(),d->color,QVector2D(center.x() ,center.y())));
 
     float radStep = 2*M_PI/step;
 
@@ -93,18 +93,18 @@ void GLPainter::createCircle(const QPointF &center, float radius, float step)
 
         float x = cosr*radius + center.x();
         float y = sinr*radius + center.y();
-        d->pointList.append(Vertex(x,y,d->color,QPointF(cosr ,sinr)));
+        d->pointList.append(Vertex(x,y,d->color,QVector2D(cosr ,sinr)));
     }
 
 }
 void GLPainter::createCircle(float cx, float cy, float radius, float step){
-    createCircle(QPointF(cx,cy),radius,step);
+    createCircle(QVector2D(cx,cy),radius,step);
 }
 void GLPainter::createPolygon(const QPolygonF & polygon)
 {
     d->pointList.clear();
     foreach(QPointF p, polygon)
-        d->pointList.append(Vertex(p.x(),p.y(),d->color,QPointF(p.x() ,p.y())));
+        d->pointList.append(Vertex(p.x(),p.y(),d->color,QVector2D(p.x() ,p.y())));
 }
 void GLPainter::draw(GLenum mode)
 {
@@ -119,7 +119,7 @@ void GLPainter::draw(GLenum mode)
     glEnableClientState(GL_COLOR_ARRAY);
 
     /* send data */
-    glVertexPointer(2, GL_FLOAT,sizeof(Vertex),d->pointList.vertexStart());
+    glVertexPointer(3, GL_FLOAT,sizeof(Vertex),d->pointList.vertexStart());
     glTexCoordPointer(2,GL_FLOAT,sizeof(Vertex),d->pointList.texCoordStart());
     glColorPointer(4, GL_FLOAT,sizeof(Vertex),d->pointList.colorStart());
 
@@ -153,7 +153,7 @@ void GLPainter::drawLine(float x1, float y1, float x2, float y2){
     createLine(x1,y1,x2,y2);
     draw(GL_LINE);
 }
-void GLPainter::drawPoint(const QPointF &point){
+void GLPainter::drawPoint(const QVector2D &point){
     glBegin(GL_POINT);
     glVertex2d(point.x(),point.y());
     glEnd();
@@ -164,7 +164,7 @@ void GLPainter::drawPoint(float x, float y){
     glEnd();
 
 }
-void GLPainter::drawCircle(const QPointF &center, float radius, float step){
+void GLPainter::drawCircle(const QVector2D &center, float radius, float step){
     createCircle(center,radius,step);
     draw(GL_TRIANGLE_FAN);
 }

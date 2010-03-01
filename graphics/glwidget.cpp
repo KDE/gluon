@@ -27,7 +27,7 @@
 
 #include <core/debughelper.h>
 
-using namespace Eigen;
+
 using namespace GluonGraphics;
 
 GLWidget::GLWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f) :
@@ -61,7 +61,7 @@ void GLWidget::init()
     mFpsCounter = 0;
     mTextRenderer = 0;
     mAutomaticClear = true;
-    mClearColor = Vector4f(0, 0, 0, 0);
+    mClearColor = QVector4D(0, 0, 0, 0);
     mGLInitialized = false;
     mShowFps = false;
     mWireframeMode = false;
@@ -105,7 +105,7 @@ void GLWidget::toggleWireframeMode()
     update();
 }
 
-void GLWidget::setClearColor(const Eigen::Vector4f& c)
+void GLWidget::setClearColor(const QVector4D& c)
 {
     mClearColor = c;
     if (mGLInitialized) {
@@ -137,14 +137,14 @@ GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 
 void GLWidget::initializeGL()
 {
-    // Init KGLLib
+
     mGLInitialized = true;
 
     // Create camera and fps counter
-    mCamera = Engine::instance()->activeCamera();
+    mCamera =new Camera();
     //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
-    //mCamera = new Camera();
-    connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
+
+    //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
 
     mFpsCounter = new GluonGraphics::FPSCounter;
 
@@ -158,6 +158,20 @@ void GLWidget::initializeGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
     //glDisable(GL_DEPTH_TEST);
+
+
+
+    // Enable depth testing if we have depth
+//     if (context()->format().depth()) {
+//         glEnable(GL_DEPTH_TEST);
+//     }
+
+    // Set up camera
+    camera()->setPosition(QVector3D(0, 0, 20));
+    camera()->setLookAt(QVector3D(0, 0, 1));
+    camera()->setUp(QVector3D(0, 1, 0));
+    camera()->setDepthRange(1, 100);
+
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -165,14 +179,18 @@ void GLWidget::resizeGL(int width, int height)
     m_viewportWidth = width;
     m_viewportHeight = height;
 
+
     if(mCamera)
     {
         camera()->setViewport(0, 0, width, height);
         camera()->setAspect(width/(float)height);
         camera()->applyViewport();
-        //camera()->applyPerspective();
+        camera()->applyPerspective();
         camera()->applyOrtho();
     }
+
+
+
 }
 
 void GLWidget::paintGL()
@@ -239,6 +257,30 @@ void GLWidget::drawItems()
 
 void GLWidget::render()
 {
+
+    glBegin(GL_LINES) ;
+      glColor3f(0,1,0) ;
+      glVertex3f(0,0,0) ;
+      glVertex3f(0,5,0) ;
+      glEnd() ;
+
+      glBegin(GL_LINES) ;
+        glColor3f(1,0,0) ;
+        glVertex3f(0,0,0) ;
+        glVertex3f(5,0,0) ;
+        glEnd() ;
+
+        glBegin(GL_LINES) ;
+          glColor3f(0,0,1) ;
+          glVertex3f(0,0,0) ;
+          glVertex3f(0,0,5) ;
+          glEnd() ;
+
+
+
+
+
+
 
   //if (m_engine!=0)
     drawItems();

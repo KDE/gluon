@@ -23,7 +23,7 @@
 #include "device_p.h"
 
 #include <QtCore/QDebug>
-
+#include <QVector3D>
 #include <al.h>
 #include <alc.h>
 #ifndef Q_WS_MAC
@@ -93,15 +93,15 @@ bool Engine::setDevice(const QString &deviceName)
     return true;
 }
 
-Eigen::Vector3f Engine::listenerPosition()
+QVector3D Engine::listenerPosition()
 {
     ALfloat listener[3];
     alGetListenerfv(AL_POSITION, listener);
 
-    return Eigen::Vector3f(listener);
+    return QVector3D(listener[0],listener[1],listener[2]);
 }
 
-void Engine::setListenerPosition(const Eigen::Vector3f& position)
+void Engine::setListenerPosition(const QVector3D& position)
 {
     alListener3f(AL_POSITION, position.x(), position.y(), position.z());
 }

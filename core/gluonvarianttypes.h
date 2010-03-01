@@ -24,11 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore/QVariant>
 #include <QtCore/QMetaType>
-#include <Eigen/Geometry>
-
-Q_DECLARE_METATYPE(Eigen::Vector3d);
-Q_DECLARE_METATYPE(Eigen::Vector3f);
-Q_DECLARE_METATYPE(Eigen::Quaternionf);
+#include <QtGui/QVector3D>
+#include <QtGui/QQuaternion>
 
 namespace
 {
@@ -37,9 +34,8 @@ namespace
         public:
             GluonVariantTypes()
             {
-                qRegisterMetaType<Eigen::Vector3d>("Eigen::Vector3d");
-                qRegisterMetaType<Eigen::Vector3f>("Eigen::Vector3f");
-                qRegisterMetaType<Eigen::Quaternionf>("Eigen::Quaternionf");
+                qRegisterMetaType<QVector3D>("Vector3d");
+                qRegisterMetaType<QQuaternion>("Quaternion");
             }
     };
 

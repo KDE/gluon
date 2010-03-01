@@ -38,11 +38,11 @@ namespace GluonEngine
         Q_OBJECT
         Q_PROPERTY(QString description READ description WRITE setDescription)
 
-        Q_PROPERTY(Eigen::Vector3f position READ position WRITE setPosition)
-        Q_PROPERTY(Eigen::Vector3f scale READ scale WRITE setScale)
-        Q_PROPERTY(Eigen::Quaternionf orientation READ orientation WRITE setOrientation)
+        Q_PROPERTY(QVector3D position READ position WRITE setPosition)
+        Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
+        Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
 
-        //Q_PROPERTY(Eigen::Vector3f rotationAxis READ rotationAxis WRITE setRotationAxis)
+        //Q_PROPERTY(QVector3D rotationAxis READ rotationAxis WRITE setRotationAxis)
         //Q_PROPERTY(float rotation READ rotation WRITE setRotation)
 
         public:
@@ -106,30 +106,30 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
-            void setPosition(const Eigen::Vector3f& newPosition);
+            void setPosition(const QVector3D& newPosition);
             void setPosition(float x, float y, float z);
-            Eigen::Vector3f position() const;
-            Eigen::Vector3f worldPosition() const;
+            QVector3D position() const;
+            QVector3D worldPosition() const;
 
-            void setScale(const Eigen::Vector3f& newScale);
+            void setScale(const QVector3D& newScale);
             void setScale(float x, float y, float z);
-            Eigen::Vector3f scale() const;
-            Eigen::Vector3f worldScale() const;
+            QVector3D scale() const;
+            QVector3D worldScale() const;
 
-            void setOrientation(const Eigen::Quaternionf& newOrientation);
-            Eigen::Quaternionf orientation() const;
-            Eigen::Quaternionf worldOrientation() const;
+            void setOrientation(const QQuaternion& newOrientation);
+            QQuaternion orientation() const;
+            QQuaternion worldOrientation() const;
 
             //TODO: Implement
-            //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
+            //void translate(QVector3D translation, TransformSpace ts = TS_LOCAL);
             //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
-            //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
+            //void scaleRelative(QVector3D scaling, TransformSpace ts = TS_LOCAL);
             //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
-            //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
+            //void rotate(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();
             void invalidateTransform();
-            Eigen::Transform3f transform() const;
+            QMatrix4x4 transform() const;
 
         private:
             QSharedDataPointer<GameObjectPrivate> d;

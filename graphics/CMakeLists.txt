@@ -36,14 +36,24 @@ set(GluonGraphics_SRCS
     vertex.cpp
     texture.cpp
     glpainter.cpp
-    baseitem.cpp
     item.cpp
     itemlist.cpp
     engine.cpp
     program.cpp
     shader.cpp
+    mesh.cpp
+    polygonmesh.cpp
+    cubemesh.cpp
+    gridmesh.cpp
+    conemesh.cpp
+    discmesh.cpp
+    icospheremesh.cpp
+    uvspheremesh.cpp
+    cylindremesh.cpp
     fx.cpp
+    transform.cpp
     widgetproxy.cpp
+
 )
 
 qt4_automoc(${GluonGraphics_SRCS})
@@ -86,13 +96,22 @@ install(
     vertex.h
     texture.h
     glpainter.h
-    baseitem.h
     item.h
     itemlist.h
     engine.h
     program.h
     shader.h
     fx.h
+    transform.h
+    mesh.h
+    polygonmesh.h
+    cubemesh.h
+    gridmesh.h
+    conemesh.h
+    discmesh.h
+    icospheremesh.h
+    uvspheremesh.h
+    cylindremesh.h
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel

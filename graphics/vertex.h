@@ -24,17 +24,21 @@
 #define GLUON_GRAPHICS_VERTEX_H
 
 #include <QtGui/QColor>
-#include <QtCore/QPointF>
+#include <QVector2D>
+#include <QVector3D>
 #include <QtCore/QVector>
 
 #include "gluon_graphics_export.h"
 
-/**
- * \defgroup KGL KGL
- */
-//@{
 
-#define KGLPOINT_PARAM_NUMBER 8
+
+/**
+ * @brief Vertex represents an openGL point with 3d coordination, color and texture coordinate.
+ *It used is @ref VertexList and @ref VertexBufferArray
+ *It will probably be replaced by Qt4.6 feature.....
+ **/
+
+
 namespace GluonGraphics
 {
 class Vertex;
@@ -44,11 +48,13 @@ class GLUON_GRAPHICS_EXPORT Vertex
 {
 public:
     explicit Vertex();
-    explicit Vertex(const QPointF &p, const QColor &c = Qt::white, const QPointF &t = QPointF());
-    explicit Vertex(float x, float y, const QColor &c = Qt::white, const QPointF &t = QPointF());
+    explicit Vertex(const QVector2D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+    explicit Vertex(const QVector3D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+    explicit Vertex(float x, float y, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+    explicit Vertex(float x, float y, float z, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
 
-    inline QPointF tex() const{
-        return QPointF(m_tx,m_ty);
+    inline QVector2D tex() const{
+        return QVector2D(m_tx,m_ty);
     }
 
     inline QColor color() const{
@@ -57,7 +63,7 @@ public:
         return c;
     }
 
-    inline void setTex(const QPointF &t) {
+    inline void setTex(const QVector2D &t) {
         m_tx = t.x();
         m_ty = t.y();
     }
@@ -73,9 +79,6 @@ public:
         m_a = a;
     }
 
-    inline QPointF toQPointF() const {
-        return QPointF(m_x, m_y);
-    }
 
     inline void setX(float x)
     {
@@ -85,6 +88,12 @@ public:
     {
         m_y = y;
     }
+
+    inline void setZ(float z)
+    {
+        m_z = z;
+    }
+
     inline float x()const
     {
         return m_x;
@@ -93,6 +102,11 @@ public:
     inline float y()const
     {
         return m_y;
+    }
+
+    inline float z()const
+    {
+        return m_z;
     }
 
     inline float red()const
@@ -128,6 +142,7 @@ public:
 private:
     float m_x;
     float m_y;
+    float m_z;
     float m_r;
     float m_g;
     float m_b;
@@ -153,12 +168,12 @@ public:
 
     float *colorStart()
     {
-        return &(array())[2];
+        return &(array())[3];
     }
 
     float *texCoordStart()
     {
-        return &(array())[6];
+        return &(array())[7];
     }
 };
 } //namespace

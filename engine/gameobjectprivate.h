@@ -24,7 +24,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-#include <Eigen/Geometry>
+#include <QtGui/QMatrix4x4>
 
 namespace GluonEngine
 {
@@ -40,15 +40,15 @@ namespace GluonEngine
 
             QString description;
 
-            Eigen::Vector3f position;
-            Eigen::Vector3f scale;
-            Eigen::Quaternionf orientation;
+            QVector3D position;
+            QVector3D scale;
+            QQuaternion orientation;
 
-            Eigen::Vector3f worldPosition;
-            Eigen::Vector3f worldScale;
-            Eigen::Quaternionf worldOrientation;
+            QVector3D worldPosition;
+            QVector3D worldScale;
+            QQuaternion worldOrientation;
 
-            Eigen::Transform3f transform;
+            QMatrix4x4 transform;
             bool transformInvalidated;
 
             GameObject * parentGameObject;
