@@ -21,7 +21,7 @@ if (GluonInput_FIND_REQUIRED)
     set(_gluonInputReq "REQUIRED")
 endif (GluonInput_FIND_REQUIRED)
 
-find_package(GluonCore _gluonInputReq)
+find_package(GluonCore ${_gluonInputReq})
 
 set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
 
@@ -64,4 +64,4 @@ set(GLUON_INPUT_LIBS
 )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(KCL DEFAULT_MSG GLUON_INPUT_LIBRARY GLUON_INPUT_INCLUDE_DIR)
+find_package_handle_standard_args(GluonInput DEFAULT_MSG GLUON_INPUT_LIBRARY GLUON_INPUT_INCLUDE_DIR)
