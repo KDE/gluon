@@ -109,6 +109,7 @@ set(GluonInput_HEADERS_COMMON
     joystick.h
     custominput.h
 	detectabstract.h
+	threadabstract.h
 )
 ###############common source and headers###################
 
