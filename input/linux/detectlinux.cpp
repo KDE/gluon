@@ -5,6 +5,8 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
+#include <core/debughelper.h>
+
 #include "linuxthread.h"
 
 namespace GluonInput
@@ -25,50 +27,57 @@ namespace GluonInput
 
   void DetectLinux::searchDevice()
   {
+      DEBUG_FUNC_NAME
       DetectLinux *detect = this;
       detect->clear();
       QString path("/dev/input/by-path/");
       QDir event(path);
-      
+
+      DEBUG_TEXT("Starting search...");
       foreach(const QString &name, event.entryList(QDir::Files)) {
-	  InputDevice *temp = new InputDevice(new LinuxThread(path + name));
-	  if (!temp->error()) {
-	      
-	      detect->addInput(temp);
-	      switch (temp->deviceType()) {
-		  case GluonInput::KeyBoardDevice:
-		      qDebug() << "Kesyboard found";
-		      detect->addKeyboard(temp);
-		      break;
-		      
-		  case GluonInput::MouseDevice:
-		      qDebug() << "Mouse found";
-		      detect->addMouse(temp);
-		      break;
-		      
-		  case GluonInput::TouchpadDevice:
-		      qDebug() << "Touchpad found";
-		      detect->addMouse(temp);
-		      break;
-		      
-		  case GluonInput::JoystickDevice:
-		      qDebug() << "Joystick found";
-		      detect->addJoystick(temp);
-		      break;
-		      
-		  case GluonInput::TabletDevice:
-		      qDebug() << "Tablet found";
-		      detect->addTablet(temp);
-		      break;
-		      
-		  case GluonInput::UnknownDevice:
-		      qDebug() << "Unknown device found";
-		      detect->addUnknown(temp);
-		      break;
-	      }
-	  }
-      }
-      detect->setAllEnabled();
+          DEBUG_TEXT(QString("Creating device for: %1").arg(path + name));
+
+        InputDevice *temp = new InputDevice(new LinuxThread(path + name));
+        if (!temp->error()) {
+
+            detect->addInput(temp);
+            switch (temp->deviceType()) {
+            case GluonInput::KeyBoardDevice:
+                qDebug() << "Keyboard found";
+                detect->addKeyboard(temp);
+                break;
+
+            case GluonInput::MouseDevice:
+                qDebug() << "Mouse found";
+                detect->addMouse(temp);
+                break;
+
+            case GluonInput::TouchpadDevice:
+                qDebug() << "Touchpad found";
+                detect->addMouse(temp);
+                break;
+
+            case GluonInput::JoystickDevice:
+                qDebug() << "Joystick found";
+                detect->addJoystick(temp);
+                break;
+
+            case GluonInput::TabletDevice:
+                qDebug() << "Tablet found";
+                detect->addTablet(temp);
+                break;
+
+            case GluonInput::UnknownDevice:
+                qDebug() << "Unknown device found";
+                detect->addUnknown(temp);
+                break;
+            default:
+                DEBUG_TEXT("Fail! Device has no type?!");
+                DEBUG_TEXT(QString("Actual type sent is: %1").arg(temp->deviceType()));
+            }
+        }
+    }
+    detect->setAllEnabled();
   }
 
   void DetectLinux::setAllEnabled()

@@ -26,30 +26,6 @@ namespace GluonInput
       void setAllEnabled();
       void setAllDisabled();
 
-      QList<InputDevice *> getInputList() {
-	  return m_inputList;
-      }
-
-      QList<KeyBoard *> getKeyboardList() {
-	  return m_keyboardList;
-      }
-
-      QList<Mouse *> getMouseList() {
-	  return m_mouseList;
-      }
-
-      QList<Joystick *> getJoystickList() {
-	  return m_joystickList;
-      }
-
-      QList<Tablet *> getTabletList() {
-	  return m_tabletList;
-      }
-
-      QList<InputDevice *> getUnknownDeviceList() {
-	  return m_unknownList;
-      }
-
 
       void addInput(InputDevice *i) {
 	  m_inputList.append(i);
@@ -91,12 +67,6 @@ namespace GluonInput
       void clear();
 
   private:
-      QList<InputDevice *> m_inputList;
-      QList<KeyBoard *> m_keyboardList;
-      QList<Mouse *> m_mouseList;
-      QList<Joystick *> m_joystickList;
-      QList<Tablet *> m_tabletList;
-      QList<InputDevice *> m_unknownList;
   };
 }
 #endif
