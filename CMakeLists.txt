@@ -51,11 +51,11 @@ find_package(KDE4)
 if(KDE4_FOUND AND WITH_KDE)
     ##### Gluon Player #####
     if(BUILD_GLUON_PLAYER)
-       # add_subdirectory(player)
+        add_subdirectory(player)
     endif(BUILD_GLUON_PLAYER)
     ##### Gluon Creator ####
     if(BUILD_GLUON_CREATOR)
-     #   add_subdirectory(creator)
+       add_subdirectory(creator)
     endif(BUILD_GLUON_CREATOR)
 else(KDE4_FOUND AND WITH_KDE)
     if(WITH_KDE)
