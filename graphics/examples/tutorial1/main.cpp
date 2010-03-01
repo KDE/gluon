@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 
 
     item->setRotation(45);
+    item->setColor(Qt::green);
     item->updateTransform();
 
     view->show();
