@@ -31,20 +31,16 @@ class SoundAsset;
 class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
 {
     Q_OBJECT
-    Q_PROPERTY(SoundAsset *sound READ sound WRITE setSound)
+//    Q_PROPERTY(GluonEngine::SoundAsset* sound READ sound WRITE setSound)
     Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
     Q_INTERFACES(GluonEngine::Component)
+    GLUON_OBJECT(GluonEngine::SoundEmitterComponent)
 
     public:
         SoundEmitterComponent(QObject *parent = 0);
         SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
-
-        virtual GluonCore::GluonObject *instantiate();
-
-        SoundAsset *sound() {
-            return m_soundAsset;
-        }
-
+        
+        SoundAsset *sound();
         void setSound(SoundAsset *asset);
 
         virtual void start();

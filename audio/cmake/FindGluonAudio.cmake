@@ -22,13 +22,13 @@ if (GLUON_AUDIO_FIND_REQUIRED)
     set(_gluonAudioReq "REQUIRED")
 endif (GLUON_AUDIO_FIND_REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+find_package(GluonCore ${_gluonAudioReq})
+
+set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
 
 find_package(OpenAL ${_gluonAudioReq})
 find_package(SndFile ${_gluonAudioReq})
 find_package(OggVorbis ${_gluonAudioReq})
-
-find_package(GluonCore ${_gluonAudioReq})
 
 find_path(GLUON_AUDIO_INCLUDE_DIR
     NAMES

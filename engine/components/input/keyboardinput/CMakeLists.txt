@@ -1,19 +1,27 @@
-project(ddd)
+cmake_minimum_required(VERSION 2.6)
 
-find_package(KDE4 REQUIRED)
-find_package(Gluon REQUIRED)
+if(NOT GLUON_BUILD_ALL)
+    find_package(GluonInput REQUIRED)
+endif()
 
-include_directories(${KDE4_INCLUDES} ${GLUON_INCLUDES} ${GLUON_INCLUDE_DIR}/gluon)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDES})
 
-include(KDE4Defaults)
+set(keyboardinputcomponent_SRCS
+    keyboardinputcomponent.cpp
+)
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+qt4_automoc(${keyboardinputcomponent_SRCS})
+add_library(gluon_component_keyboardinput SHARED ${keyboardinputcomponent_SRCS})
 
-set(ddd_SRCS 
-    kclinputcomponent.cpp
-   )
+if(GLUON_BUILD_ALL)
+    add_dependencies(gluon_component_keyboardinput GluonEngine GluonInput)
+endif()
 
-#QT4_ADD_RESOURCES(gluon_RCC_SRCS ${gluon_RCCS})
-kde4_add_library(ddd ${ddd_SRCS})
-set_target_properties(ddd PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 1)
-target_link_libraries(ddd ${GLUON_LIBRARY})
+target_link_libraries(gluon_component_keyboardinput GluonEngine ${GLUON_INPUT_LIBS})
+
+install(
+    TARGETS
+    gluon_component_keyboardinput
+    DESTINATION
+    ${LIB_INSTALL_DIR}/gluon
+)

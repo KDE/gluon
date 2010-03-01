@@ -20,10 +20,11 @@ if (GluonCreator_FIND_REQUIRED)
   set(_gluonCreatorReq "REQUIRED")
 endif (GluonCreator_FIND_REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+find_package(GluonCore ${_gluonCreatorReq})
+
+set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
 
 find_package(KDE4 ${_gluonCreatorReq})
-find_package(GluonCore ${_gluonCreatorReq})
 find_package(GluonEngine ${_gluonCreatorReq})
 
 find_path(GLUON_CREATOR_INCLUDE_DIR
@@ -40,6 +41,7 @@ set(GLUON_CREATOR_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${GLUON_ENGINE_INCLUDES}
     ${KDE4_INCLUDES}
+    CACHE PATHS "Include files required for Gluon Creator"
 )
 
 find_library(GLUON_CREATOR_LIBRARY
@@ -54,6 +56,7 @@ set(GLUON_CREATOR_LIBS
     ${GLUON_CORE_LIBS}
     ${GLUON_ENGINE_LIBS}
     ${GLUON_CREATOR_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Creator"
 )
 
 include(FindPackageHandleStandardArgs)

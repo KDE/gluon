@@ -7,6 +7,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QEvent>
 
+#include <core/debughelper.h>
+
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -30,14 +32,16 @@ namespace GluonInput
 
 	void LinuxThread::run()
 	{
+        DEBUG_FUNC_NAME
 		while (1) {
 			struct input_event ev;
 			int rd = read(m_fd, &ev, sizeof(struct input_event));
 			if (rd < (int) sizeof(struct input_event)) {
 				qDebug() << "Could not read input";
 			} else {
+                DEBUG_TEXT("Dispatching Event");
 				InputEvent *event = new InputEvent(ev.code, ev.value, QEvent::Type(QEvent::User+ev.type));
-				QCoreApplication::sendEvent(parent(),event);
+				QCoreApplication::postEvent(parent(), event);
 			}
 		}
 	}
@@ -46,18 +50,21 @@ namespace GluonInput
 	{
 		m_fd = -1;
 		if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
-			qDebug() << "Could not read device";
+			qDebug() << "Could not read device " << devicePath;
 			return false;
 		}
-		return true;
+
+		readInformation();
+        return true;
 	}
 
 	void LinuxThread::setEnabled()
 	{
+        DEBUG_FUNC_NAME
 		if(!m_enabled)
 		{
-			this->run();
-			m_enabled = true;
+            m_enabled = true;
+            this->start();
 		}
 	}
 
@@ -97,11 +104,12 @@ namespace GluonInput
 		char name[256] = "Unknown";
 		if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
 			qDebug() << "could not retrieve name of device" << m_devicePath;
-			//        m_msgError += "cannot retrieve name of device\n";
-			//        m_error = true;
+			m_msgError += "cannot retrieve name of device\n";
+			m_error = true;
+            return;
 		}
-
 		m_deviceName = QString(name);
+
 		///this next bit can be shared across platform
 		unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 		int abs[5];

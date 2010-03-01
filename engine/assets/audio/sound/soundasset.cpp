@@ -27,11 +27,6 @@ SoundAsset::SoundAsset(QObject *parent)
     connect(this, SIGNAL(dataChanged()), this, SLOT(updateBuffer()));
 }
 
-GluonCore::GluonObject *SoundAsset::instantiate()
-{
-    return new SoundAsset(this);
-}
-
 const QStringList
 SoundAsset::supportedMimeTypes() const
 {
@@ -44,7 +39,7 @@ SoundAsset::supportedMimeTypes() const
     return list;
 }
 
-void
+/*void
 SoundAsset::setFile(const QUrl& newFile)
 {
     if(m_buffer)
@@ -53,7 +48,7 @@ SoundAsset::setFile(const QUrl& newFile)
     m_buffer = new GluonAudio::Buffer(newFile.toLocalFile());
 
     Asset::setFile(newFile);
-}
+}*/
 
 void
 SoundAsset::updateBuffer()

@@ -66,12 +66,16 @@ void PropertyWidget::setObject(GluonCore::GluonObject * object)
     {
         d->object = object;
         d->layout = new QVBoxLayout(this);
+        d->layout->setSpacing(0);
+        d->layout->setContentsMargins(0, 0, 0, 0);
+        d->layout->setAlignment(Qt::AlignTop);
 
         appendObject(object, true);
         for(int i = 0; i < object->children().count(); i++)
         {
             appendObject(object->child(i));
         }
+        d->layout->addStretch();
 
         QWidget * containerWidget = new QWidget(this);
         containerWidget->setLayout(d->layout);
@@ -110,6 +114,8 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
     d->layout->addWidget(objectBox);
 
     QGridLayout* boxLayout = new QGridLayout(objectBox);
+    boxLayout->setSpacing(0);
+    boxLayout->setContentsMargins(0, 0, 0, 0);
     objectBox->setLayout(boxLayout);
 
     appendMetaObject(obj, boxLayout);
@@ -139,13 +145,31 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
 
-        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(metaProperty.typeName(), this);
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), this);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(metaProperty.name());
         connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget, row, 1);
+    }
+    
+    foreach(const QByteArray &propName, object->dynamicPropertyNames())
+    {
+        QString thePropName(propName);
+        row = layout->rowCount();
+        QLabel * nameLabel = new QLabel(this);
+        nameLabel->setText(thePropName);
+        nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        layout->addWidget(nameLabel, row, 0);
+        
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), this);
+        editWidget->setEditObject(object);
+        editWidget->setEditProperty(thePropName);
+        connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
+        editWidget->setMinimumWidth(250);
+        editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        layout->addWidget(editWidget);
     }
 }
 

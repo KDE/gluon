@@ -24,6 +24,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
 #include <QtGui/QApplication>
+#include <QVariant>
 
 using namespace GluonCore;
 
@@ -99,6 +100,14 @@ GluonObject*
 GluonObjectFactory::instantiateObjectByMimetype(const QString& objectMimeType)
 {
     return instantiateObjectByName(m_mimeTypes[objectMimeType]);
+}
+
+QVariant
+GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
+{
+    QString type = original.typeName();
+    type = type.left(type.length() - 1);
+    return m_objectTypes[type]->toVariant(newValue);
 }
 
 void

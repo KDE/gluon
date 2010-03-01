@@ -19,9 +19,10 @@ if (GluonGraphics_FIND_REQUIRED)
     set(_gluonGraphicsReq "REQUIRED")
 endif (GluonGraphics_FIND_REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
-
 find_package(GluonCore ${_gluonGraphicsReq})
+
+set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
+
 find_package(OpenGL ${_gluonGraphicsReq})
 find_package(GLEW ${_gluonGraphicsReq})
 
@@ -39,7 +40,7 @@ set(GLUON_GRAPHICS_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${OPENGL_INCLUDE_DIR}
     ${GLEW_INCLUDE_DIR}
-    CACHE STRING "Include files required for Gluon Graphics"
+    CACHE PATHS "Include files required for Gluon Graphics"
 )
 
 find_library(GLUON_GRAPHICS_LIBRARY
@@ -56,6 +57,7 @@ set(GLUON_GRAPHICS_LIBS
     ${OPENGL_gl_LIBRARY}
     ${OPENGL_glu_LIBRARY}
     ${GLEW_LIBRARY}
+    CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
 include(FindPackageHandleStandardArgs)

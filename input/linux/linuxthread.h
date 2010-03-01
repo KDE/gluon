@@ -18,7 +18,7 @@ namespace GluonInput
 
 	public:
 		LinuxThread(const QString& devicePath, QObject *parent = 0);
-	 ~LinuxThread() {
+        ~LinuxThread() {
 			close(m_fd);
 		}
 		void run();

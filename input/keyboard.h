@@ -9,9 +9,10 @@ namespace GluonInput
 
 	class GLUON_INPUT_EXPORT KeyBoard : public InputDevice
 	{
-	public:
+        Q_OBJECT
+        public:
 		//KeyBoard(IOHIDDeviceRef device, QObject * parent = 0);
-		KeyBoard(ThreadAbstract * inputThread, QObject * parent = 0);
+            KeyBoard(ThreadAbstract * inputThread, QObject * parent = 0);
 	};
 }
 #endif // KCLKEYBOARD_H

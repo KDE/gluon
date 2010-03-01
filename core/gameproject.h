@@ -46,6 +46,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GameProject : public GluonObject
     {
         Q_OBJECT;
+        GLUON_OBJECT(GluonCore::GameProject);
 
         Q_PROPERTY(QString description READ description WRITE setDescription)
         Q_PROPERTY(QUrl homepage READ homepage WRITE setHomepage)
@@ -60,8 +61,6 @@ namespace GluonCore
             GameProject(QObject * parent = 0);
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
-
-            virtual GameProject * instantiate();
 
             GluonObject * findItemByName(QString qualifiedName);
 

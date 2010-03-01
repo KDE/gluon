@@ -40,9 +40,9 @@ GluonObject::GluonObject(QObject * parent)
     : QObject(parent)
 {
     d = new GluonObjectPrivate();
-    
+
     // Get a nice name first time the object is created...
-    QString theClassName(this->metaObject()->className());
+    QString theClassName(metaObject()->className());
     if(theClassName.contains(':'))
         setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':') - 1));
     else
@@ -65,14 +65,6 @@ GluonObject::debug(QString debugText) const
 {
     DEBUG_BLOCK
     DEBUG_TEXT(debugText);
-}
-
-GluonObject *
-GluonObject::instantiate()
-{
-    if(QString(this->metaObject()->className()) != QString("Gluon::GluonObject"))
-        qDebug() << "Missing instantiate() implementation in" << this->metaObject()->className();
-    return new GluonObject(this);
 }
 
 void
@@ -259,12 +251,15 @@ GluonObject::setName(const QString &newName)
     // Don't allow setting the name to nothing
     if(newName.isEmpty())
         return;
-    
+
     // This is kinda nasty, but it's the easiest way to not clash with ourselves ;)
     d->name = "";
+
+    QString theName(newName);
+    // Fix up the name to not include any '/' (this would screw up the fullyQualifiedName)
+    theName.replace('/', ' ');
     
     // Make sure we don't set a name on an object which is already used!
-    QString theName(newName);
     if(parent())
     {
         bool nameIsOK = true;
@@ -292,6 +287,7 @@ GluonObject::setName(const QString &newName)
         while(!nameIsOK);
     }
     d->name = theName;
+    setObjectName(d->name);
 }
 
 QString
@@ -299,7 +295,7 @@ GluonObject::fullyQualifiedName() const
 {
     QString theName(this->name());
     if(qobject_cast<GluonObject*>(this->parent()))
-        theName = QString("%1.%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
+        theName = QString("%1/%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
     return theName;
 }
 
@@ -426,7 +422,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     if(theTypeName == "string") {
         value = theValue;
     } else if(theTypeName == "bool") {
-        value = theValue.toFloat();
+        value = theValue == "true" ? true : false;
     } else if(theTypeName == "float") {
         value = theValue.toFloat();
     } else if(theTypeName == "int") {
@@ -436,15 +432,25 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         value = QVariant(QUrl(theValue));
     } else if(theTypeName == "vector2d") {
         float x = 0.0f, y = 0.0f;
-        //, z = 0.0f;
+
         QStringList splitValues = theValue.split(";");
         if(splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
             y = splitValues.at(1).toFloat();
-            //z = splitValues.at(2).toFloat();
         }
         value = QPointF(x, y);
+    } else if(theTypeName == "vector3d") {
+        float x = 0.0f, y = 0.0f, z = 0.0f;
+
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+        {
+            x = splitValues.at(0).toFloat();
+            y = splitValues.at(1).toFloat();
+            z = splitValues.at(2).toFloat();
+        }
+        value = QVector3D(x, y, z);
     } else if(theTypeName == "rgba") {
         int r = 0, g = 0, b = 0, a = 0;
         QStringList splitValues = theValue.split(";");
@@ -497,7 +503,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Vector3D:
         {
             QVector3D aVector = theValue.value<QVector3D>();
-            value = QString("vector3d(%1,%2,%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
+            value = QString("vector3d(%1;%2;%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
         }
             break;
         case QVariant::Int:

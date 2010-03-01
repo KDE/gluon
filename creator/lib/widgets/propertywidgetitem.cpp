@@ -28,7 +28,7 @@ using namespace GluonCreator;
 class PropertyWidgetItem::PropertyWidgetItemPrivate
 {
     public:
-        PropertyWidgetItemPrivate() { editedObject = 0; }
+        PropertyWidgetItemPrivate() { editedObject = 0; editWidget = 0; }
 
         QObject *editedObject;
         QString propertyName;
@@ -41,6 +41,8 @@ PropertyWidgetItem::PropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
     d = new PropertyWidgetItemPrivate;
 
     setLayout(new QVBoxLayout());
+    layout()->setSpacing(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
 }
 
 PropertyWidgetItem::~PropertyWidgetItem()
@@ -49,9 +51,28 @@ PropertyWidgetItem::~PropertyWidgetItem()
 }
 
 
-QWidget* PropertyWidgetItem::editWidget()
+QWidget*
+PropertyWidgetItem::editWidget() const
 {
     return d->editWidget;
+}
+
+QObject*
+PropertyWidgetItem::editObject() const
+{
+    return d->editedObject;
+}
+
+QString
+PropertyWidgetItem::editProperty() const
+{
+    return d->propertyName;
+}
+
+const QString
+PropertyWidgetItem::typeName() const
+{
+    return QString(d->editedObject->property(d->propertyName.toUtf8()).typeName());
 }
 
 void
@@ -64,21 +85,26 @@ void
 PropertyWidgetItem::setEditProperty(const QString& propertyName)
 {
     d->propertyName = propertyName;
-    if(d->editedObject) setEditValue(d->editedObject->property(d->propertyName.toUtf8()));
+    if(d->editedObject)
+        setEditValue(d->editedObject->property(propertyName.toUtf8()));
 }
 
-void PropertyWidgetItem::setEditWidget(QWidget* widget)
+void
+PropertyWidgetItem::setEditWidget(QWidget* widget)
 {
     d->editWidget = widget;
     layout()->addWidget(widget);
 }
 
-void PropertyWidgetItem::setEditValue(const QVariant& value)
+void
+PropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    if(d->editWidget) d->editWidget->setProperty("value", value);
+    if(d->editWidget)
+        d->editWidget->setProperty("value", value);
 }
 
-void PropertyWidgetItem::valueChanged(QVariant value)
+void
+PropertyWidgetItem::valueChanged(QVariant value)
 {
     QVariant oldValue = d->editedObject->property(d->propertyName.toUtf8());
     d->editedObject->setProperty(d->propertyName.toUtf8(), value);

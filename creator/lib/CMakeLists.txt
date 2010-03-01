@@ -16,6 +16,8 @@ set(libGluonCreator_SRCS
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
     widgets/nullpropertywidgetitem.cpp
+    widgets/gluonobjectpropertywidgetitem.cpp
+    widgets/enumpropertywidgetitem.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})
@@ -23,10 +25,19 @@ kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
 set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL "MAKE_GLUONCREATOR" PREFIX "")
 if(GLUON_BUILD_ALL)
     add_dependencies(libGluonCreator GluonEngine)
-    target_link_libraries(libGluonCreator GluonEngine ${KDE4_KDEUI_LIBS})
-else()
-    target_link_libraries(libGluonCreator ${GLUON_ENGINE_LIBS} ${KDE4_KDEUI_LIBS})
 endif()
+
+target_link_libraries(libGluonCreator ${GLUON_ENGINE_LIBS} ${KDE4_KDEUI_LIBS})
+
+set(GLUON_CREATOR_LIBS
+    libGluonCreator
+    ${GLUON_ENGINE_LIBS}
+    ${KDE4_KDECORE_LIBS}
+    ${KDE4_KUTILS_LIBS}
+    ${KDE4_KIO_LIBS}
+    ${KDE4_KDEUI_LIBS}
+    CACHE PATHS "Libraries required for Gluon Creator"
+)
 
 install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
 

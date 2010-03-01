@@ -59,16 +59,10 @@ GameProject::~GameProject()
 {
 }
 
-GameProject *
-GameProject::instantiate()
-{
-    return new GameProject(this);
-}
-
 GluonObject *
 GameProject::findItemByName(QString qualifiedName)
 {
-    return d->findItemByNameInObject(qualifiedName.split('.'), this);
+    return d->findItemByNameInObject(qualifiedName.split('/'), this);
 }
 
 bool

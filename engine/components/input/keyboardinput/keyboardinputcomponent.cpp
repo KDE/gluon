@@ -17,91 +17,133 @@
 
 */
 
-#include "kclinputcomponent.h"
+#include "keyboardinputcomponent.h"
+#include "input/detect.h"
 
-//Gluon::REGISTER_OBJECTTYPE(GluonObject);
+#include <QtCore/QEvent>
 
-QInputComponent::QInputComponent(QObject* parent)  : Component(parent)
+#include <core/debughelper.h>
+
+REGISTER_OBJECTTYPE(GluonEngine,KeyboardInputComponent);
+
+using namespace GluonEngine;
+
+KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
+    : Component(parent)
 {
-//   we cannot track the mouse, since we are not a QWidget
-//   setMouseTracking(enable );
-}
-
-
-QInputComponent::QMouseEvent(Type, const QPoint&, const QPoint&, Qt::MouseButton, Qt::MouseButtons, Qt::KeyboardModifiers)
-{
-  m_actionStarted = true;
-  m_distanceMovement += QVector3D(pos.rx(), pos.ry(), 0);
-  m_buttons = buttons;
-  if (!m_actionStarted)
-  {
-    m_actionStarted = true;
-    m_actionHeld = true;
-  }
-}
-
-
-
-void KCLInputComponent::Draw(int timeLapse)
-{
-  if (m_actionStarted)
-    m_actionStarted = false;
-  
-  if (m_actionStopped)
-  {
-    m_actionStopped = false;
     m_actionHeld = false;
-  }
-  
-  if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
-    m_actionStopped = true;
-
-  m_lastFrame = m_distanceMovement;
-  m_distanceMovement = QVector3D(0,0,0);
-  m_axisMovement = 0;
+    m_actionStarted = false;
+    m_actionStopped = false;
+    m_keyCode = Key_Space;
 }
 
+void
+KeyboardInputComponent::start()
+{
+    DEBUG_FUNC_NAME
 
-bool KCLInputComponent::GetActionStarted(QString actionName)
+
+    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::keyboardList())
+    {
+        DEBUG_TEXT(QString("Enabling input for device: %1").arg(input->deviceName()));
+        connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
+        connect(input, SIGNAL(buttonPressed(int)), this, SLOT(buttonPressed(int)));
+    }
+    GluonEngine::Component::start();
+}
+
+void
+KeyboardInputComponent::update(int elapsedMilliseconds)
+{
+    if (m_actionStarted)
+        m_actionStarted = false;
+
+    if (m_actionStopped)
+    {
+        m_actionStopped = false;
+        m_actionHeld = false;
+    }
+
+/*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
+        m_actionStopped = true;
+
+    m_lastFrame = m_distanceMovement;
+    m_distanceMovement = QVector3D(0,0,0);
+    m_axisMovement = 0;*/
+}
+
+void KeyboardInputComponent::stop()
+{
+    disconnect(this, SLOT(inputEvent(GluonInput::InputEvent*)));
+    GluonEngine::Component::stop();
+}
+
+void
+KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
+{
+    DEBUG_FUNC_NAME
+    if(inputEvent->code() == m_keyCode)
+    {
+        if(inputEvent->value() == 0)
+        {
+            m_actionStopped = true;
+        }
+        else if(inputEvent->value() == 1)
+        {
+            m_actionStarted = true;
+            m_actionHeld = true;
+        }
+    }
+}
+
+void KeyboardInputComponent::buttonPressed(int key)
+{
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT(QString("Key %1 was pressed.").arg(key));
+}
+
+bool
+KeyboardInputComponent::isActionStarted()
 {
   return m_actionStarted;
 }
 
-
-
-bool KCLInputComponent::GetActionHeld(QString actionName)
+bool
+KeyboardInputComponent::isActionHeld()
 {
   return m_actionHeld;
 }
 
-
-
-bool KCLInputComponent::GetActionStopped(QString actionName)
+bool
+KeyboardInputComponent::isActionStopped()
 {
   return m_actionStopped;
 }
 
-
-QVector3D KCLInputComponent::GetDistanceMovement(QString actionName)
+KeyboardInputComponent::KeyName
+KeyboardInputComponent::keyCode() const
 {
-   return m_distanceMovement;
+    return m_keyCode;
 }
 
-
-float KCLInputComponent::GetAxisMovement(QString actionName)
+void
+KeyboardInputComponent::setKeyCode(const KeyName& newKeyCode)
 {
-   return m_distanceMovement.length();
+    m_keyCode = newKeyCode;
 }
 
-
-
-// void KCLInputComponent::QWidget::keyPressEvent(QKeyEvent* event)
+// QVector3D
+// KeyboardInputComponent::getDistanceMovement(const QString &actionName)
 // {
-//   
+//    return m_distanceMovement;
+// }
+//
+// float
+// KeyboardInputComponent::getAxisMovement(const QString &actionName)
+// {
+//    return m_distanceMovement.length();
 // }
 
+Q_EXPORT_PLUGIN2(gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent);
 
-
-
-
-
+#include "keyboardinputcomponent.moc"

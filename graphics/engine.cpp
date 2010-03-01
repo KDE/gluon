@@ -30,7 +30,7 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 class Engine::EnginePrivate
 {
 public:
-    EnginePrivate() { }
+    EnginePrivate() { activeCamera = 0; }
 
     ItemList items;
     Camera* activeCamera;

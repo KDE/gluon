@@ -50,8 +50,16 @@ GameProjectPrivate::findItemByNameInObject(QStringList qualifiedName, GluonObjec
 {
     DEBUG_FUNC_NAME
     GluonObject * foundChild = NULL;
+
     QString lookingFor(qualifiedName[0]);
     qualifiedName.removeFirst();
+
+    if(lookingFor == parentObject->name()) {
+        if(qualifiedName.count() > 0) {
+            lookingFor = qualifiedName.at(0);
+            qualifiedName.removeFirst();
+        }
+    }
 
     DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(parentObject->name()));
     foreach(QObject * child, parentObject->children())

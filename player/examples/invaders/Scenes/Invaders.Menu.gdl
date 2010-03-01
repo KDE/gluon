@@ -1,0 +1,40 @@
+{ GluonEngine::GameObject(Menu)
+    position vector3d(0;0;0)
+    scale vector3d(1;1;1)
+    { GluonEngine::GameObject(Icon)
+        position vector3d(0;0;0)
+        scale vector3d(30;30;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            color rgba(255;255;255;255)
+            texture GluonEngine::TextureAsset(Invaders/gluon-invaders-128-png)
+        }
+    }
+    { GluonEngine::GameObject(Play Text)
+        position vector3d(0;0;1)
+        scale vector3d(40;6;1)
+        { GluonEngine::SpriteRendererComponent(SpriteRenderer)
+            enabled bool(true)
+            color rgba(50;50;50;255)
+            texture GluonEngine::TextureAsset(Invaders/menu-text-png)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Space)
+            enabled bool(true)
+            keyCode int(1)
+        }
+        { GluonEngine::QtScriptComponent(GluonObject)
+            enabled bool(true)
+        }
+        { GluonEngine::QtScriptComponent(GluonObject 1)
+            enabled bool(true)
+        }
+    }
+    { GluonEngine::GameObject(Camera)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        { GluonEngine::CameraControllerComponent(GluonObject)
+            enabled bool(true)
+            active bool(true)
+        }
+    }
+}

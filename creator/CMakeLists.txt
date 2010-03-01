@@ -15,6 +15,7 @@ add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 add_subdirectory(lib)
 add_subdirectory(plugins)
+add_subdirectory(icons)
 
 set(gluoncreator_SRCS
     main.cpp
@@ -25,8 +26,9 @@ set(gluoncreator_SRCS
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator libGluonCreator ${KDE4_KUTILS_LIBS})
+target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS})
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
 install(FILES config/gluoncreatorsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES gluon-creator.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )

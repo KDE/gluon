@@ -19,6 +19,9 @@
 
 #include "asset.h"
 #include <QtCore/QStringList>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -27,23 +30,41 @@ using namespace GluonEngine;
 class GluonEngine::AssetPrivate
 {
 public:
+    AssetPrivate() { loaded = false; }
+
     QUrl file;
+    bool loaded;
+    QMimeData* mime;
 };
 
 Asset::Asset(QObject *parent)
     : GluonObject(parent)
 {
     d = new AssetPrivate;
+    d->mime = new QMimeData;
 }
 
 Asset::~Asset()
 {
+    delete d->mime;
     delete d;
 }
 
-GluonCore::GluonObject* Asset::instantiate()
+void Asset::setName(const QString& newName)
 {
-    return new Asset(this);
+    QString oldName(name());
+
+    GluonCore::GluonObject::setName(newName);
+
+    // Rename the underlying file, if one exists...
+    if(QDir::current().exists(d->file.toLocalFile()) && !d->file.isEmpty())
+    {
+        QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
+        if(QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile()))
+        {
+            setFile(newFile);
+        }
+    }
 }
 
 void Asset::setFile(const QUrl &newFile)
@@ -57,6 +78,21 @@ QUrl Asset::file() const
     return d->file;
 }
 
+const QMimeData* Asset::data() const
+{
+    return d->mime;
+}
+
+bool Asset::isLoaded() const
+{
+    return d->loaded;
+}
+
+void Asset::load()
+{
+    d->loaded = true;
+}
+
 QString
 Asset::childrenToGDL(int indentLevel) const
 {
@@ -64,6 +100,16 @@ Asset::childrenToGDL(int indentLevel) const
     // We do not recurse here - this allows the assets to handle their own
     // children
     return QString();
+}
+
+QMimeData* Asset::mimeData() const
+{
+    return d->mime;
+}
+
+void Asset::setLoaded(bool loaded)
+{
+    d->loaded = loaded;
 }
 
 #include "asset.moc"

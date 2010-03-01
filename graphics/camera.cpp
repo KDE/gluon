@@ -13,11 +13,9 @@ Camera::Camera()
     mAspect = 1.0f;
     mDepthNear = -1000.0f;
     mDepthFar = 1000.0f;
-
     mPosition = QVector3D(0, 0, 100);
-    mLookAt = QVector3D(0, 0, 0);
+    mLookAt = QVector3D(0, 0, -1);
     mUp = QVector3D(0, 1, 0);
-
     mModelviewMatrixDirty = true;
     mProjectionMatrixDirty = true;
 }
@@ -122,32 +120,18 @@ void Camera::applyViewport()
 
 void Camera::recalculateModelviewMatrix()
 {
-    // Code from Mesa project, src/glu/sgi/libutil/project.c
-    mModelviewMatrixDirty = false;
-    // Our looking direction
-
-    QVector3D forward = (mLookAt - mPosition).normalized();
-
-    //QVector3D side = forward.cross(mUp).normalized();
-    QVector3D side = QVector3D::crossProduct(forward,mUp).normalized();
-
-
-
-    // Recompute up vector, using cross product
-    //QVector3D up = side.cross(forward);
-     QVector3D up = QVector3D::crossProduct(side,forward);
-
+     // Code from Mesa project, src/glu/sgi/libutil/project.c
+  mModelviewMatrixDirty = false;
+  QVector3D forward = (mLookAt - mPosition).normalized();
+  QVector3D side = QVector3D::crossProduct(forward,mUp).normalized();
+  QVector3D up = QVector3D::crossProduct(side,forward);
+  
   mModelviewMatrix.setToIdentity();
-
-//    mModelviewMatrix.linear() << side.transpose(), up.transpose(), -forward.transpose();
-
   mModelviewMatrix.setColumn(0,QVector4D(side.x(),side.y(),side.z(),0));
   mModelviewMatrix.setColumn(1,QVector4D(up.x(),up.y(),up.z(),0));
-  mModelviewMatrix.setColumn(2,QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
-
-   mModelviewMatrix.translate(-mPosition);
-
-
+ mModelviewMatrix.setColumn(2,QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
+ mModelviewMatrix.translate(-mPosition);
+	
 
 
 

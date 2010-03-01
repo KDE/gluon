@@ -68,7 +68,7 @@ endif(KDE4_FOUND AND WITH_KDE)
 
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
-message(STATUS "Build Version: ${GLUON_VERSION_STRING}")
+message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Install the FindGluon*.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
 message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}")

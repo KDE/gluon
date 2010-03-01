@@ -1,0 +1,31 @@
+{ GluonCore::GameProject(Invaders)
+    filename url(/home/ahiemstra/Projects/KDE/Gluon/gluon-git/player/examples/invaders/invaders.gluon)
+    entryPoint GluonEngine::Scene(Invaders/Game)
+    { GluonEngine::Scene(Game)
+        file url(Scenes/Invaders.Game.gdl)
+    }
+    { GluonEngine::Scene(Menu)
+        file url(Scenes/Invaders.Menu.gdl)
+    }
+    { GluonEngine::TextureAsset(background-png)
+        file url(Assets/Invaders.background-png.background.png)
+    }
+    { GluonEngine::TextureAsset(gluon-invaders-128-png)
+        file url(Assets/Invaders.gluon-invaders-128-png.gluon.invaders.128.png)
+    }
+    { GluonEngine::TextureAsset(menu-text-png)
+        file url(Assets/Invaders.menu-text-png.menu-text.png)
+    }
+    { GluonEngine::TextureAsset(spaceship-png)
+        file url(Assets/Invaders.spaceship-png.spaceship.png)
+    }
+    { GluonEngine::TextureAsset(alien-png)
+        file url(Assets/Invaders.alien-png.alien.png)
+    }
+    { GluonEngine::TextureAsset(spaceship-reflection-png)
+        file url(Assets/Invaders.spaceship-reflection-png.spaceship-reflection.png)
+    }
+    { GluonEngine::ScriptAsset(menu-js)
+        file url(Assets/Invaders.menu-js.menu.js)
+    }
+}

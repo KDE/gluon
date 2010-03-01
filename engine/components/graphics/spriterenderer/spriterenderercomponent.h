@@ -22,9 +22,12 @@
 
 namespace GluonEngine
 {
+    class Asset;
+
     class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::SpriteRendererComponent)
         Q_PROPERTY(QSizeF size READ size WRITE setSize)
         Q_PROPERTY(QColor color READ color WRITE setColor)
         Q_INTERFACES(GluonEngine::Component)
@@ -34,18 +37,20 @@ namespace GluonEngine
             SpriteRendererComponent ( const SpriteRendererComponent& other);
             virtual ~SpriteRendererComponent();
 
-            virtual GluonObject* instantiate();
-
             virtual void start();
             virtual void update ( int elapsedMilliseconds );
             virtual void draw ( int timeLapse = 0 );
+            virtual void stop();
 
             virtual QSizeF size();
             virtual QColor color();
+            virtual Asset* texture();
 
         public slots:
             virtual void setSize(const QSizeF& size);
             virtual void setColor(const QColor& color);
+            virtual void setColor(int r, int g, int b, int a = 255);
+            virtual void setTexture(Asset* asset);
 
         private:
             class SpriteRendererComponentPrivate;

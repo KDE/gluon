@@ -28,6 +28,8 @@
 #include <QtCore/QSharedData>
 #include <QtPlugin>
 
+class QMimeData;
+
 namespace GluonEngine
 {
     class AssetPrivate;
@@ -35,17 +37,20 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
         Q_OBJECT
+        GLUON_OBJECT(GluonEngine::Asset);
         Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
             Asset(QObject *parent = 0);
             ~Asset();
 
-            virtual GluonCore::GluonObject *instantiate();
+            virtual void setName(const QString &newName);
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
-            
+
+            virtual const QMimeData* data() const;
+
             /**
              * The specialization of toGDL on the Asset class does not recurse.
              * This allows Assets to handle their own children in a flexible
@@ -53,8 +58,17 @@ namespace GluonEngine
              */
             virtual QString childrenToGDL(int indentLevel = 0) const;
 
+            virtual bool isLoaded() const;
+
+        public slots:
+            virtual void load();
+
         Q_SIGNALS:
             void dataChanged();
+
+        protected:
+            QMimeData* mimeData() const;
+            void setLoaded(bool loaded);
 
         private:
             AssetPrivate *d;

@@ -6,18 +6,20 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QMouseEvent>
 
+#include <core/debughelper.h>
+
 namespace GluonInput
 {
 	/*InputDevice::InputDevice(IOHIDDeviceRef device, QObject * parent)
 	: QObject(parent)
 	{
 		this->init();
-		
+
 		m_device = device;
 		readInformation();
 		inputListener = new ThreadAbstract(m_device, m_deviceType, this);
 	}*/
-	
+
 	InputDevice::InputDevice(ThreadAbstract * inputThread, QObject * parent)
 	: QObject(parent)
 	{
@@ -36,7 +38,7 @@ namespace GluonInput
 		//IOHIDDeviceClose(m_device, kIOHIDOptionsTypeNone);
 		//CFRelease(m_device);
 		delete inputListener;
-		
+
 		qDebug() << "Closed device :" << deviceName();
 	}
 
@@ -48,31 +50,31 @@ namespace GluonInput
 		m_lastRelAxis = 0;
 	}
 
-	int InputDevice::vendor()const 
+	int InputDevice::vendor()const
 	{
 		//return m_vendor;
 		return inputListener->vendor();
 	}
 
-	int InputDevice::product()const 
+	int InputDevice::product()const
 	{
 		//return m_product;
 		return inputListener->product();
 	}
 
-	int InputDevice::version()const 
+	int InputDevice::version()const
 	{
 		//return m_version;
 		return inputListener->version();
 	}
 
-	int InputDevice::bustype()const 
+	int InputDevice::bustype()const
 	{
 		//return m_bustype;
 		return inputListener->bustype();
 	}
 
-	/*const IOHIDDeviceRef InputDevice::device()const 
+	/*const IOHIDDeviceRef InputDevice::device()const
 	{
 		return m_device;
 	}*/
@@ -83,20 +85,20 @@ namespace GluonInput
 		return inputListener->deviceName();
 	}
 
-	GluonInput::DeviceFlag InputDevice::deviceType()const 
+	GluonInput::DeviceFlag InputDevice::deviceType()const
 	{
 		//return m_deviceType;
 		return inputListener->deviceType();
 	}
 
-	bool InputDevice::button(int code)const 
+	bool InputDevice::button(int code)const
 	{
 		return m_buttons.contains(code);
 	}
 
-	int InputDevice::anyPress() const 
+	int InputDevice::anyPress() const
 	{
-		if (m_buttons.size() > 0) 
+		if (m_buttons.size() > 0)
 		{
 			return m_buttons.last();
 		} else {
@@ -104,9 +106,9 @@ namespace GluonInput
 		}
 	}
 
-	bool InputDevice::anyAbsMove() 
+	bool InputDevice::anyAbsMove()
 	{
-		if (m_absMove) 
+		if (m_absMove)
 		{
 			m_absMove = false;
 			return true;
@@ -114,9 +116,9 @@ namespace GluonInput
 		return false;
 	}
 
-	bool InputDevice::anyRelMove() 
+	bool InputDevice::anyRelMove()
 	{
-		if (m_relMove) 
+		if (m_relMove)
 		{
 			m_relMove = false;
 			return true;
@@ -124,19 +126,19 @@ namespace GluonInput
 		return false;
 	}
 
-	int InputDevice::lastAbsAxis()const 
+	int InputDevice::lastAbsAxis()const
 	{
 		return m_lastAbsAxis;
 	}
 
-	int InputDevice::lastRelAxis()const 
+	int InputDevice::lastRelAxis()const
 	{
 		return m_lastRelAxis;
 	}
 
-	int InputDevice::relAxisValue(int code)const 
+	int InputDevice::relAxisValue(int code)const
 	{
-		if (m_relAxis.contains(code)) 
+		if (m_relAxis.contains(code))
 		{
 			return m_relAxis[code];
 		} else {
@@ -146,7 +148,7 @@ namespace GluonInput
 
 	int InputDevice::absAxisValue(int code)const
 	{
-		if (m_absAxis.contains(code)) 
+		if (m_absAxis.contains(code))
 		{
 			return m_absAxis[code];
 		} else {
@@ -154,31 +156,31 @@ namespace GluonInput
 		}
 	}
 
-	QList<int> InputDevice::buttonCapabilities()const 
+	QList<int> InputDevice::buttonCapabilities()const
 	{
 		//return m_buttonCapabilities;
 		return inputListener->buttonCapabilities();
 	}
 
-	QList<int> InputDevice::absAxisCapabilities()const 
+	QList<int> InputDevice::absAxisCapabilities()const
 	{
 		//return m_absAxisCapabilities;
 		return inputListener->absAxisCapabilities();
 	}
 
-	QList<int> InputDevice::relAxisCapabilities()const 
+	QList<int> InputDevice::relAxisCapabilities()const
 	{
 		//return m_relAxisCapabilities;
 		return inputListener->relAxisCapabilities();
 	}
 
-	AbsVal InputDevice::axisInfo(int axisCode)const 
+	AbsVal InputDevice::axisInfo(int axisCode)const
 	{
 		//return m_absAxisInfos[axisCode];
 		return inputListener->axisInfo(axisCode);
 	}
 
-	bool InputDevice::error()const 
+	bool InputDevice::error()const
 	{
 		//return m_error;
 		return inputListener->error();
@@ -199,28 +201,29 @@ namespace GluonInput
 
 	bool InputDevice::event(QEvent * evt)
 	{
+        DEBUG_FUNC_NAME
 		InputEvent * event = (InputEvent*)evt;
 		emit eventSent(event);
 
-		switch (event->type()) 
+		switch (event->type())
 		{
 			case GluonInput::Key:
-				
-				if (event->value() == 1) 
+
+				if (event->value() == 1)
 				{ // if click
 					m_buttons.append(event->code());
 					emit buttonPressed(event->code());
 					emit pressed();
 				}
-				
-				if (event->value() == 0) 
+
+				if (event->value() == 0)
 				{ //if release
 					m_buttons.removeOne(event->code());
 					emit buttonReleased(event->code());
 				}
 				return true;
 				break;
-				
+
 			case GluonInput::RelativeAxis:
 				emit moved();
 				m_relMove = true;
@@ -229,7 +232,7 @@ namespace GluonInput
 				emit relAxisChanged(event->code(), event->value());
 				return true;
 				break;
-				
+
 			case GluonInput::AbsoluAxis:
 				emit moved();
 				m_absMove = true;
@@ -238,11 +241,11 @@ namespace GluonInput
 				emit absAxisChanged(event->code(), event->value());
 				return true;
 				break;
-			
+
 			default:
 				break;
 		}
-		
+
 		return QObject::event(evt);
 	}
 
@@ -254,14 +257,14 @@ namespace GluonInput
 		{
 			m_deviceName = CFStringGetCStringPtr(deviceNameRef, kCFStringEncodingMacRoman);
 		}
-		
+
 		CFTypeRef type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVendorIDKey));
 		if(type)
 		{
 			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_vendor );
 			CFRelease(type);
 		}
-		else 
+		else
 		{
 			m_vendor = -1;
 		}
@@ -272,38 +275,38 @@ namespace GluonInput
 			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_product );
 			CFRelease(type);
 		}
-		else 
+		else
 		{
-			m_product = -1;  
+			m_product = -1;
 		}
 
-		
+
 		type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDTransportKey));
 		if(type)
 		{
 			if(CFGetTypeID(type) == CFNumberGetTypeID())
 			{
 				CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_bustype );
-				CFRelease(type);            
+				CFRelease(type);
 			}
 			else if(CFGetTypeID(type) == CFStringGetTypeID())
 			{
 				m_bustype = -1;
 			}
-			else 
+			else
 			{
 				m_bustype = -1;
 			}
 
 		}
-		
+
 		type = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVersionNumberKey));
 		if(type)
 		{
 			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_version );
 			CFRelease(type);
 		}
-		else 
+		else
 		{
 			m_version = -1;
 		}
@@ -312,9 +315,9 @@ namespace GluonInput
 		m_absAxisCapabilities.clear();
 		m_relAxisCapabilities.clear();
 		m_absAxisInfos.clear();
-		
+
 		CFArrayRef elements = IOHIDDeviceCopyMatchingElements(m_device, NULL, kIOHIDOptionsTypeNone);
-		
+
 		if(elements)
 		{
 			for(int i = 0; i < CFArrayGetCount(elements); i++)
@@ -324,7 +327,7 @@ namespace GluonInput
 				{
 					int usagePage = IOHIDElementGetUsagePage( elementRef );
 					int usage = IOHIDElementGetUsage( elementRef );
-					
+
 					if(usagePage == kHIDPage_Button)
 					{
 						m_buttonCapabilities.append(usage);
@@ -338,7 +341,7 @@ namespace GluonInput
 					{
 						if(usage <= 47 || usage == 60)
 							continue;
-						
+
 						if(IOHIDElementIsRelative(elementRef))
 						{
 							m_relAxisCapabilities.append(usage);
@@ -350,7 +353,7 @@ namespace GluonInput
 							val.max = (int)IOHIDElementGetLogicalMax(elementRef);
 							val.min = (int)IOHIDElementGetLogicalMin(elementRef);
 							IOHIDValueRef valRef = NULL;
-							IOHIDDeviceGetValue(m_device, elementRef, &valRef); 
+							IOHIDDeviceGetValue(m_device, elementRef, &valRef);
 							val.value = IOHIDValueGetIntegerValue(valRef);
 							m_absAxisInfos[usage] = val;
 							if(usage == kHIDUsage_GD_X)
@@ -370,19 +373,19 @@ namespace GluonInput
 				}
 			}
 		}
-		
+
 		CFRelease(elements);
-		
+
 		int deviceUsage = NULL;
-		
+
 		type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDPrimaryUsageKey));
-		
+
 		if(type)
 		{
 			CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
 			CFRelease(type);
 		}
-		else 
+		else
 		{
 			type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDDeviceUsageKey));
 			CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
@@ -416,7 +419,7 @@ namespace GluonInput
 	{
 		inputListener->setEnabled();
 		/*m_enable = true;
-		if (!error()) 
+		if (!error())
 		{
 			if(inputListener != NULL)
 			{

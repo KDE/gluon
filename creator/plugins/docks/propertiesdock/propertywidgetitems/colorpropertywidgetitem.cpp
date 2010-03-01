@@ -16,12 +16,8 @@
 
 #include "colorpropertywidgetitem.h"
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QColor>
-
-#include <cfloat>
+#include <KColorButton>
 
 #include <core/gluonvarianttypes.h>
 
@@ -34,43 +30,16 @@ class ColorPropertyWidgetItem::ColorPropertyWidgetItemPrivate
     public:
         ColorPropertyWidgetItemPrivate() { }
 
-        QDoubleSpinBox* r;
-        QDoubleSpinBox* g;
-        QDoubleSpinBox* b;
-
-        QColor value;
+        KColorButton * button;
 };
 
 ColorPropertyWidgetItem::ColorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
     d = new ColorPropertyWidgetItemPrivate;
-
-    QWidget* base = new QWidget(this);
-    QHBoxLayout* layout = new QHBoxLayout();
-    base->setLayout(layout);
-
-    d->r = new QDoubleSpinBox(this);
-    d->r->setPrefix("R: ");
-    d->r->setRange(0.0f, 1.0f);
-    d->r->setSingleStep(0.01f);
-    layout->addWidget(d->r);
-    connect(d->r, SIGNAL(valueChanged(double)), SLOT(rValueChanged(double)));
-
-    d->g = new QDoubleSpinBox(this);
-    d->g->setPrefix("G: ");
-    d->g->setRange(0.0f, 1.0f);
-    d->g->setSingleStep(0.01f);
-    layout->addWidget(d->g);
-    connect(d->g, SIGNAL(valueChanged(double)), SLOT(gValueChanged(double)));
-
-    d->b = new QDoubleSpinBox(this);
-    d->b->setPrefix("B: ");
-    d->b->setRange(0.0f, 1.0f);
-    d->b->setSingleStep(0.01f);
-    layout->addWidget(d->b);
-    connect(d->b, SIGNAL(valueChanged(double)), SLOT(bValueChanged(double)));
-
-    setEditWidget(base);
+    
+    d->button = new KColorButton(this);
+    connect(d->button, SIGNAL(changed(const QColor&)), this, SLOT(colorValuechanged(const QColor&)));
+    setEditWidget(d->button);
 }
 
 ColorPropertyWidgetItem::~ColorPropertyWidgetItem()
@@ -96,32 +65,13 @@ void
 ColorPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     QColor color = value.value<QColor>();
-    d->value = color;
-
-    d->r->setValue(color.redF());
-    d->g->setValue(color.greenF());
-    d->b->setValue(color.blueF());
+    d->button->setColor(color);
 }
 
 void
-ColorPropertyWidgetItem::rValueChanged(double value)
+ColorPropertyWidgetItem::colorValuechanged(const QColor& value)
 {
-    d->value.setRedF(value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));
-}
-
-void
-ColorPropertyWidgetItem::gValueChanged(double value)
-{
-    d->value.setGreenF(value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));
-}
-
-void
-ColorPropertyWidgetItem::bValueChanged(double value)
-{
-    d->value.setBlueF(value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(d->value));
+    PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(value));
 }
 
 #include "colorpropertywidgetitem.moc"

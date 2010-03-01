@@ -17,8 +17,11 @@
 #include "textureasset.h"
 
 #include <QtCore/QUrl>
+#include <QtCore/QMimeData>
 #include <QtGui/QImage>
+#include <QtGui/QImageReader>
 
+#include <core/debughelper.h>
 #include <graphics/texture.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
@@ -28,15 +31,12 @@ using namespace GluonEngine;
 class TextureAsset::TextureAssetPrivate {
 public:
     TextureAssetPrivate() {
-        texture = new GluonGraphics::Texture;
         image = new QImage;
     }
     ~TextureAssetPrivate() {
-        delete texture;
         delete image;
     }
 
-    GluonGraphics::Texture *texture;
     QImage *image;
 };
 
@@ -51,15 +51,25 @@ TextureAsset::~TextureAsset()
     delete d;
 }
 
-void TextureAsset::load()
+const QStringList TextureAsset::supportedMimeTypes() const
 {
-    d->image->load(file().toLocalFile());
-    d->texture->load(*d->image, d->image->width(), d->image->height());
+    QList<QByteArray> supported = QImageReader::supportedImageFormats();
+
+    QStringList supportedTypes;
+    foreach(QByteArray type, supported)
+    {
+        supportedTypes << QString("image/%1").arg(QString(type));
+    }
+
+    return supportedTypes;
 }
 
-GluonCore::GluonObject* TextureAsset::instantiate()
+void TextureAsset::load()
 {
-    return new TextureAsset(this);
+    DEBUG_FUNC_NAME
+    d->image->load(file().toLocalFile());
+    mimeData()->setImageData(*d->image);
+    setLoaded(true);
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)

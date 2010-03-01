@@ -30,7 +30,7 @@ class PropertyWidgetItem;
 class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
 {
     public:
-        PropertyWidgetItem* create(const QString& type, QWidget* parent);
+        PropertyWidgetItem* create(const QObject *object, const QString& type, QWidget* parent);
         void registerNewPIW(PropertyWidgetItem* newPIW);
 
     private:

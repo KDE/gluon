@@ -22,24 +22,24 @@
 
 namespace GluonEngine
 {
+    class GLUON_ENGINE_EXPORT TextureAsset : public Asset
+    {
+        Q_OBJECT
+        Q_INTERFACES(GluonEngine::Asset)
+        GLUON_OBJECT(GluonEngine::TextureAsset)
 
-class GLUON_ENGINE_EXPORT TextureAsset : public Asset
-{
-    Q_OBJECT
-    Q_INTERFACES(GluonEngine::Asset)
+        public:
+            TextureAsset(QObject *parent = 0);
+            ~TextureAsset();
 
-    public:
-        TextureAsset(QObject *parent = 0);
-        ~TextureAsset();
+            void load();
 
-        GluonObject* instantiate();
+            virtual const QStringList supportedMimeTypes() const;
 
-        void load();
-
-    private:
-        class TextureAssetPrivate;
-        TextureAssetPrivate *d;
-};
+        private:
+            class TextureAssetPrivate;
+            TextureAssetPrivate *d;
+    };
 
 }
 

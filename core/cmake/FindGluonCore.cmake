@@ -19,15 +19,21 @@ if (GluonCore_FIND_REQUIRED)
     set(_gluonCoreReq "REQUIRED")
 endif (GluonCore_FIND_REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
+set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
+set(GLUON_VERSION_MINOR     69      CACHE STRING "Gluon Minor Version")
+set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
+set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
+set(GLUON_VERSION_NAME      "X-Ray" CACHE STRING "Gluon Version Name")
+
+find_path(GLUON_INSTALL_PREFIX
+    NAMES
+    include/gluon
+)
+
+set(CMAKE_MODULE_PATH ${GLUON_INSTALL_PREFIX}/share/gluon/cmake)
 
 find_package(Qt4 ${_gluonCoreReq})
 find_package(Eigen2 ${_gluonCoreReq})
-
-set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
-set(GLUON_VERSION_MINOR     60      CACHE STRING "Gluon Minor Version")
-set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
-set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
 
 if(NOT LIB_SUFFIX)
     set(_Init_LIB_SUFFIX "")
@@ -42,13 +48,13 @@ if(NOT LIB_SUFFIX)
 endif(NOT LIB_SUFFIX)
 
 if(NOT INCLUDE_INSTALL_DIR)
-    set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
+    set(INCLUDE_INSTALL_DIR ${GLUON_INSTALL_PREFIX}/include CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
 endif()
 if(NOT LIB_INSTALL_DIR)
-    set(LIB_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
+    set(LIB_INSTALL_DIR ${GLUON_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
 endif()
 if(NOT SHARE_INSTALL_DIR)
-    set(SHARE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
+    set(SHARE_INSTALL_DIR ${GLUON_INSTALL_PREFIX}/share CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
 endif()
 
 find_path(GLUON_CORE_INCLUDE_DIR

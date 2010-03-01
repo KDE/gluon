@@ -39,7 +39,7 @@ class ProjectDock::ProjectDockPrivate
     ProjectDock * q;
     ProjectModel* model;
     QTreeView* view;
-    
+
     QModelIndex currentContextIndex;
     QList<QAction*> menuForObject(QModelIndex index);
     QList<QAction*> currentContextMenu;
@@ -48,7 +48,7 @@ class ProjectDock::ProjectDockPrivate
 QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex index)
 {
     QList<QAction*> menuItems;
-    
+
     GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(index.internalPointer());
     if(object)
     {
@@ -75,7 +75,7 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
         }
     }
     currentContextMenu = QList<QAction*>(menuItems);
-    
+
     return menuItems;
 }
 
@@ -137,8 +137,11 @@ void ProjectDock::activated(QModelIndex index)
     GluonEngine::Scene* scene = qobject_cast<GluonEngine::Scene*>(obj);
     if(scene)
     {
-        if(GluonEngine::Game::instance()->currentScene() != scene)
+        if(GluonEngine::Game::instance()->currentScene() != scene) {
             GluonEngine::Game::instance()->setCurrentScene(scene);
+            GluonEngine::Game::instance()->currentScene()->startAll();
+            GluonEngine::Game::instance()->updateAll();
+        }
     }
 }
 

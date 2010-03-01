@@ -33,9 +33,7 @@ class ColorPropertyWidgetItem : public PropertyWidgetItem
 
     public slots:
         void setEditValue(const QVariant& value);
-        void rValueChanged(double value);
-        void gValueChanged(double value);
-        void bValueChanged(double value);
+        void colorValuechanged(const QColor &value);
 
     private:
         class ColorPropertyWidgetItemPrivate;
