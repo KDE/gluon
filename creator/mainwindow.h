@@ -18,7 +18,9 @@
 #define MAINWINDOW_H
 
 #include <KXmlGuiWindow>
+#include <KUrl>
 
+class KRecentFilesAction;
 namespace GluonCreator
 {
     class Plugin;
@@ -27,19 +29,20 @@ namespace GluonCreator
     {
         Q_OBJECT
         public:
-            MainWindow();
+            MainWindow(const QString& fileName = "");
             ~MainWindow();
         public slots:
             void newProject();
 
             void openProject();
+            void openProject(KUrl url);
             void openProject(const QString &fileName);
             void saveProject();
             void saveProject(const QString &fileName);
             void saveProjectAs();
             void showPreferences();
 
-            void startGame();
+            void playPauseGame(bool checked);
             void stopGame();
 
         private:
@@ -48,6 +51,7 @@ namespace GluonCreator
             void setupGame();
 
             QString m_fileName;
+            KRecentFilesAction* m_recentFiles;
     };
 }
 

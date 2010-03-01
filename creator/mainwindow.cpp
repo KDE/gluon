@@ -27,6 +27,7 @@
 #include <KLocalizedString>
 #include <KPluginSelector>
 #include <KRun>
+#include <KRecentFilesAction>
 
 #include <engine/game.h>
 #include <core/gameproject.h>
@@ -41,7 +42,7 @@
 
 using namespace GluonCreator;
 
-MainWindow::MainWindow() : KXmlGuiWindow()
+MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -59,10 +60,18 @@ MainWindow::MainWindow() : KXmlGuiWindow()
     setupActions();
 
     setupGUI();
+
+    if(!fileName.isEmpty()) {
+        openProject(fileName);
+    }
+    else {
+        //Show new project dialog.
+    }
 }
 
 MainWindow::~MainWindow()
 {
+    m_recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
     GluonEngine::Game::instance()->stopGame();
 }
 
@@ -77,6 +86,11 @@ void MainWindow::openProject()
     openProject(fileName);
 }
 
+void MainWindow::openProject(KUrl url)
+{
+    openProject(url.path());
+}
+
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
@@ -86,8 +100,13 @@ void MainWindow::openProject(const QString &fileName)
 
         GluonEngine::Game::instance()->setGameProject(project);
         GluonEngine::Game::instance()->currentScene()->startAll();
+
+        m_fileName = fileName;
+
+        m_recentFiles->addUrl(KUrl(fileName));
     }
     statusBar()->showMessage(i18n("Project successfully opened"));
+    setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
 }
 
 void MainWindow::saveProject()
@@ -108,6 +127,7 @@ void MainWindow::saveProject(const QString &fileName)
             return;
         }
         statusBar()->showMessage(i18n("Project successfully saved."));
+        setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
     }
     else
     {
@@ -136,6 +156,8 @@ void MainWindow::setupGame()
 void MainWindow::setupActions()
 {
     KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(openProject(KUrl)), actionCollection());
+    m_recentFiles->loadEntries(KGlobal::config()->group("Recent Files"));
 
     KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
     actionCollection()->addAction("newObject", newObject);
@@ -146,14 +168,15 @@ void MainWindow::setupActions()
     connect(newScene, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
 
     KAction* play = new KAction(KIcon("media-playback-start"), i18n("Play Game"), actionCollection());
-    actionCollection()->addAction("playGame", play);
-    connect(play, SIGNAL(triggered(bool)), SLOT(startGame()));
+    actionCollection()->addAction("playPauseGame", play);
+    play->setCheckable(true);
+    connect(play, SIGNAL(triggered(bool)), SLOT(playPauseGame(bool)));
 
-    KAction* pause = new KAction(KIcon("media-playback-pause"), i18n("Pause Game"), actionCollection());
+    /*KAction* pause = new KAction(KIcon("media-playback-pause"), i18n("Pause Game"), actionCollection());
     actionCollection()->addAction("pauseGame", pause);
     pause->setCheckable(true);
     pause->setEnabled(false);
-    connect(pause, SIGNAL(triggered(bool)), GluonEngine::Game::instance(), SLOT(setPause(bool)));
+    connect(pause, SIGNAL(triggered(bool)), GluonEngine::Game::instance(), SLOT(setPause(bool)));*/
 
     KAction* stop = new KAction(KIcon("media-playback-stop"), i18n("Stop Game"), actionCollection());
     actionCollection()->addAction("stopGame", stop);
@@ -177,21 +200,50 @@ void MainWindow::showPreferences()
     dialog->show();
 }
 
-void MainWindow::startGame()
+void MainWindow::playPauseGame(bool checked)
 {
-    actionCollection()->action("playGame")->setEnabled(false);
-    actionCollection()->action("pauseGame")->setEnabled(true);
-    actionCollection()->action("stopGame")->setEnabled(true);
-    GluonEngine::Game::instance()->runGame();
+    if(checked)
+    {
+        if(GluonEngine::Game::instance()->isRunning())
+        {
+            actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
+            actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
+            GluonEngine::Game::instance()->setPause(false);
+        }
+        else
+        {
+            actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
+            actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
+            actionCollection()->action("stopGame")->setEnabled(true);
+            QWidget* oldFocus = focusWidget();
+            setFocus();
+
+            //Start the game loop
+            //Note that this starts an infinite loop in Game
+            GluonEngine::Game::instance()->runGame();
+
+            //This happens after we exit the game loop
+            actionCollection()->action("playPauseGame")->setEnabled(true);
+            actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-start"));
+            actionCollection()->action("playPauseGame")->setText(i18n("Play Game"));
+            actionCollection()->action("playPauseGame")->setChecked(false);
+            actionCollection()->action("stopGame")->setEnabled(false);
+
+            GluonEngine::Game::instance()->currentScene()->startAll();
+
+            oldFocus->setFocus();
+        }
+    }
+    else
+    {
+        actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-start"));
+        actionCollection()->action("playPauseGame")->setText(i18n("Play Game"));
+        GluonEngine::Game::instance()->setPause(true);
+    }
 }
 
 void MainWindow::stopGame()
 {
     GluonEngine::Game::instance()->stopGame();
-    actionCollection()->action("playGame")->setEnabled(true);
-    actionCollection()->action("pauseGame")->setEnabled(false);
-    actionCollection()->action("pauseGame")->setChecked(false);
-    actionCollection()->action("stopGame")->setEnabled(false);
-    GluonEngine::Game::instance()->currentScene()->startAll();
 }
 

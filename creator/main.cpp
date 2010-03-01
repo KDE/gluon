@@ -30,15 +30,20 @@ int main(int argc, char **argv)
 
     KApplication app;
 
-    GluonCreator::MainWindow* window = new GluonCreator::MainWindow;
-    window->show();
+
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    if (args->count())
+    GluonCreator::MainWindow* window;
+    if(args->count())
     {
-        window->openProject(args->arg(0));
+        window = new GluonCreator::MainWindow(args->arg(0));
     }
+    else
+    {
+        window = new GluonCreator::MainWindow();
+    }
+    window->show();
 
     app.exec();
 }
