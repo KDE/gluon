@@ -5,9 +5,8 @@ namespace GluonGraphics
     DiscMesh::DiscMesh(QObject * parent)
         :Mesh(parent)
     {
-        m_radius=1;
-        m_nbPoints=10;
-        setDisc(m_radius,m_nbPoints);
+
+        setDisc(1,10);
     }
     DiscMesh::DiscMesh(float radius, unsigned int nbPoints, QObject *parent)
         :Mesh(parent)

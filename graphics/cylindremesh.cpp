@@ -14,7 +14,7 @@ clear();
 m_radius=radius;
 m_height= height;
 m_nbPoints=nbPoints;
-setGLMode(GL_POINTS);
+setGLMode(GL_TRIANGLE_STRIP);
 
            float step = M_PI * 2 / (float)nbPoints;
 

@@ -5,9 +5,7 @@ namespace GluonGraphics
     CubeMesh::CubeMesh(QObject * parent)
         :Mesh(parent)
     {
-        m_dimX = m_dimY = m_dimZ = 1;
         setCube(1,1,1);
-
     }
     CubeMesh::CubeMesh(float dimX, float dimY, float dimZ, QObject * parent)
         :Mesh(parent)

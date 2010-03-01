@@ -4,8 +4,7 @@ namespace GluonGraphics
     GridMesh::GridMesh(QObject* parent)
         :Mesh(parent)
     {
-        m_tile=1;
-        m_size=QSizeF();
+        setGrid(QSizeF(5,5), 1);
     }
     GridMesh::GridMesh(QSizeF size, float tile, QObject* parent)
         :Mesh(parent)
