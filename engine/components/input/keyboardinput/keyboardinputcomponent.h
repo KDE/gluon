@@ -70,6 +70,7 @@ namespace GluonEngine
 
         public Q_SLOTS:
             void inputEvent(GluonInput::InputEvent* inputEvent);
+            void buttonPressed(int key);
 
         private:
             KeyName m_keyCode;

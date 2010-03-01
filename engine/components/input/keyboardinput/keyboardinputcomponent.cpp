@@ -20,6 +20,10 @@
 #include "keyboardinputcomponent.h"
 #include "input/detect.h"
 
+#include <QtCore/QEvent>
+
+#include <core/debughelper.h>
+
 REGISTER_OBJECTTYPE(GluonEngine,KeyboardInputComponent);
 
 using namespace GluonEngine;
@@ -36,9 +40,14 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
 void
 KeyboardInputComponent::start()
 {
-    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::inputList())
+    DEBUG_FUNC_NAME
+
+
+    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::keyboardList())
     {
+        DEBUG_TEXT(QString("Enabling input for device: %1").arg(input->deviceName()));
         connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
+        connect(input, SIGNAL(buttonPressed(int)), this, SLOT(buttonPressed(int)));
     }
     GluonEngine::Component::start();
 }
@@ -65,13 +74,14 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
 
 void KeyboardInputComponent::stop()
 {
-    disconnect(this, SLOT(inputEvent(const GluonInput::InputEvent&)));
+    disconnect(this, SLOT(inputEvent(GluonInput::InputEvent*)));
     GluonEngine::Component::stop();
 }
 
 void
 KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
 {
+    DEBUG_FUNC_NAME
     if(inputEvent->code() == m_keyCode)
     {
         if(inputEvent->value() == 0)
@@ -84,6 +94,12 @@ KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
             m_actionHeld = true;
         }
     }
+}
+
+void KeyboardInputComponent::buttonPressed(int key)
+{
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT(QString("Key %1 was pressed.").arg(key));
 }
 
 bool
