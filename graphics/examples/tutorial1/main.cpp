@@ -24,6 +24,7 @@
 #include <gluon/graphics/glwidget.h>
 #include <gluon/graphics/engine.h>
 #include <gluon/graphics/item.h>
+#include <gluon/graphics/polygonmesh.h>
 
 int main(int argc, char *argv[])
 {
@@ -36,31 +37,14 @@ int main(int argc, char *argv[])
     // YOu can set the engine directly from the constructor
     GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
     
-//    view->setEngine(engine);
-   
-    // This function show the current axis xy
-  
-    //Now we can create an object. KGLBoxItem is a simple box with 4 GLPoints. 
-    GluonGraphics::Item * item = new GluonGraphics::Item(QSizeF(5.f, 5.f));
-    //setup the item.
-    //This function align the center of item to the center of the view.
-    // itemCenter() return the coord center in Item coordinate
-    //center() return the coord center in View coordinate
-    // you can call translate() for add a translation.. And setTranslate() to define a translation factor in the transformation matrix
-    //item->setPosition(-item->center());
-    //this function make a rotation around the itemCenter. 
-    // you can call rotate() to add a rotation .
- 
-    //this function must be called after each transformation. It updates the current Tranformation matrix of the item.
+
+    GluonGraphics::PolygonMesh * mesh = new GluonGraphics::PolygonMesh(QRectF(0,0,5,5));
+    GluonGraphics::Item * item = new GluonGraphics::Item(mesh);
+
+
+    item->setRotation(45);
     item->updateTransform();
-    
-    //now we can add a color filter.
-    item->setColor(Qt::red);
-    //and this function apply a texture to the current Item
-    
-    //after all setup... We can add the item inside the engine.
-//    engine->addItem(item);
-    
+
     view->show();
    
     return app.exec();
