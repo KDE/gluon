@@ -7,20 +7,21 @@
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGraphicsScene>
-#include "kclinput.h"
+#include <gluon/input/inputdevice.h>
+#include <gluon/input/inputevent.h>
 
 class KCLInputWidget : public QWidget
 {
     Q_OBJECT
 public:
-    KCLInputWidget(KCLInput * input, QWidget * parent=0);
+    KCLInputWidget(GluonInput::InputDevice * input, QWidget * parent=0);
 
 protected:
     void setupTable();
     protected slots:
-    void inputEvent(KCLInputEvent * event);
+    void inputEvent(GluonInput::InputEvent * event);
 private:
-    KCLInput * m_input;
+    GluonInput::InputDevice * m_input;
     QTableWidget * m_tableWidget;
 
 

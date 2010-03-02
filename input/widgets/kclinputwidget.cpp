@@ -1,18 +1,17 @@
 
 #include "kclinputwidget.h"
-#include "kclcode.h"
-#include "linux/kclinputevent.h"
+#include <gluon/input/code.h>
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHeaderView>
 
-#ifdef Q_WS_X11
+/*#ifdef Q_WS_X11
 #include <KTitleWidget>
 #include <KLocale>
 #include <KIcon>
-#endif
+#endif*/
 
-KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
+KCLInputWidget::KCLInputWidget(GluonInput::InputDevice * input,QWidget * parent)
     :QWidget(parent)
 {
     m_input=input;
@@ -29,9 +28,9 @@ KCLInputWidget::KCLInputWidget(KCLInput * input,QWidget * parent)
     layout->addWidget(m_tableWidget);
     setLayout(layout);
     setupTable();
-    connect(m_input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
+    connect(m_input,SIGNAL(eventSent(GluonInput::InputEvent*)),this,SLOT(inputEvent(GluonInput::InputEvent*)));
 #ifdef Q_WS_X11    
-    setWindowIcon(QIcon(KCLCode::iconDevice(m_input->deviceType())));
+    setWindowIcon(QIcon(GluonInput::Code::iconDevice(m_input->deviceType())));
 #endif
     setWindowTitle(tr("input seetings"));
 }
@@ -60,7 +59,7 @@ void KCLInputWidget::setupTable()
 
     foreach ( int axis, m_input->absAxisCapabilities())
     {
-        QTableWidgetItem * item = new QTableWidgetItem(KCLCode::absAxisName(axis));
+        QTableWidgetItem * item = new QTableWidgetItem(GluonInput::Code::absAxisName(axis));
         m_tableWidget->setItem(row,0,item);
         QSlider * slider = new QSlider(Qt::Horizontal);
         slider->setMinimum(m_input->axisInfo(axis).min);
@@ -73,7 +72,7 @@ void KCLInputWidget::setupTable()
 
     foreach ( int axis, m_input->relAxisCapabilities())
     {
-        QTableWidgetItem * item = new QTableWidgetItem(KCLCode::absAxisName(axis));
+        QTableWidgetItem * item = new QTableWidgetItem(GluonInput::Code::absAxisName(axis));
         m_tableWidget->setItem(row,0,item);
         QSlider * slider = new QSlider(Qt::Horizontal);
         slider->setMinimum(0);
@@ -86,14 +85,14 @@ void KCLInputWidget::setupTable()
 
 }
 
-void KCLInputWidget::inputEvent(KCLInputEvent * event)
+void KCLInputWidget::inputEvent(GluonInput::InputEvent * event)
 {
 
     switch (event->type())
     {
 
-    case KCL::Key :
-        m_tableWidget->item(0,1)->setText(KCLCode::buttonName(event->code()))   ;
+    case GluonInput::Key :
+        m_tableWidget->item(0,1)->setText(GluonInput::Code::buttonName(event->code()))   ;
         if ( event->value() == 1)
             m_tableWidget->item(0,1)->setBackgroundColor(QColor(0,0,255,100));
         else
@@ -102,11 +101,11 @@ void KCLInputWidget::inputEvent(KCLInputEvent * event)
 
 
 
-    case KCL::AbsoluAxis :
+    case GluonInput::AbsoluAxis :
         for ( int row = 1; row < m_tableWidget->rowCount(); ++row)
         {
 
-            if ( m_tableWidget->item(row, 0)->text() == KCLCode::absAxisName(event->code()))
+            if ( m_tableWidget->item(row, 0)->text() == GluonInput::Code::absAxisName(event->code()))
             {
 
                 QSlider * slider =qobject_cast<QSlider*>( m_tableWidget->cellWidget(row,1));
@@ -115,11 +114,11 @@ void KCLInputWidget::inputEvent(KCLInputEvent * event)
         }
         break;
 
-    case KCL::RelativeAxis:
+    case GluonInput::RelativeAxis:
         for ( int row = 1; row < m_tableWidget->rowCount(); ++row)
         {
 
-            if ( m_tableWidget->item(row, 0)->text() == KCLCode::relAxisName(event->code()))
+            if ( m_tableWidget->item(row, 0)->text() == GluonInput::Code::relAxisName(event->code()))
             {
 
                 QSlider * slider =qobject_cast<QSlider*>( m_tableWidget->cellWidget(row,1));

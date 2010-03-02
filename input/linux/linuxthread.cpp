@@ -63,8 +63,8 @@ namespace GluonInput
         DEBUG_FUNC_NAME
 		if(!m_enabled)
 		{
-            m_enabled = true;
-            this->start();
+		    m_enabled = true;
+		    this->start();
 		}
 	}
 
@@ -72,8 +72,8 @@ namespace GluonInput
 	{
 		if(m_enabled)
 		{
-			this->stop();
-			m_enabled = false;
+		    this->stop();
+		    m_enabled = false;
 		}
 	}
 

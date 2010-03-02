@@ -5,7 +5,7 @@ namespace GluonInput
 	ThreadAbstract::ThreadAbstract(QObject * parent) : QThread(parent)
 	{
 		m_error = false;
-		m_enabled = true;
+		m_enabled = false;
 		m_msgError = QString();
 		m_deviceName = "Unknown";
 	}
