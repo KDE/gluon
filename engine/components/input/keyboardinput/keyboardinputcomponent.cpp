@@ -43,7 +43,7 @@ KeyboardInputComponent::start()
     DEBUG_FUNC_NAME
 
 
-    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::keyboardList())
+    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::instance()->keyboardList())
     {
         DEBUG_TEXT(QString("Enabling input for device: %1").arg(input->deviceName()));
         connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));

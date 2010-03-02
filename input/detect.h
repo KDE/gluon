@@ -10,61 +10,60 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "tablet.h"
+#include "core/singleton.h"
 
 namespace GluonInput
 {
 	typedef QList<InputDevice *> InputList;
 
-	class GLUON_INPUT_EXPORT Detect : public QObject
+	class GLUON_INPUT_EXPORT Detect : public GluonCore::Singleton<Detect>
 	{
 		Q_OBJECT
 
-	private:
-		Detect(QObject * parent);
-		~Detect();
-
 	public:
-		static void searchDevice();
-		static void setAllEnable();
-		static void setAllDisable();
+		Detect();
+		void searchDevice();
+		void setAllEnable();
+		void setAllDisable();
 
-		static unsigned int deviceCount();
+		unsigned int deviceCount();
 
-		static unsigned int keyboardCount();
+		unsigned int keyboardCount();
 
-		static unsigned int mouseCount();
+		unsigned int mouseCount();
 
-		static unsigned int joystickCount();
+		unsigned int joystickCount();
 
-		static unsigned int tabletCount();
+		unsigned int tabletCount();
 
-		static unsigned int unknownDeviceCount();
+		unsigned int unknownDeviceCount();
 
-		static QList <KeyBoard*> keyboardList();
+		QList <KeyBoard*> keyboardList();
 
-		static QList <Mouse*> mouseList();
+		QList <Mouse*> mouseList();
 
-		static QList <Joystick*> joystickList();
+		QList <Joystick*> joystickList();
 
-		static QList <Tablet*> tabletList();
+		QList <Tablet*> tabletList();
 
-		static QList <InputDevice*> unknownDeviceList();
+		QList <InputDevice*> unknownDeviceList();
 
-		static InputList inputList();
+		InputList inputList();
 
-		static KeyBoard* keyboard(int id = 0);
+		KeyBoard* keyboard(int id = 0);
 
-		static Mouse* mouse(int id = 0);
+		Mouse* mouse(int id = 0);
 
-		static Joystick* joystick(int id = 0);
+		Joystick* joystick(int id = 0);
 
-		static Tablet* tablet(int id = 0);
+		Tablet* tablet(int id = 0);
 
-		static InputDevice* input(int id = 0);
+		InputDevice* input(int id = 0);
 
 	private:
-		static DetectAbstract * m_instance;
-		static void init();
+		~Detect();
+		DetectAbstract * m_instance;
+		void init();
 	};
 }
 

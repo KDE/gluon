@@ -10,7 +10,6 @@ namespace GluonInput
 	class GLUON_INPUT_EXPORT Tablet : public InputDevice
 	{
 	public:
-		//Tablet(IOHIDDeviceRef device, QObject * parent = 0);
 		Tablet(InputThread * inputThread, QObject * parent = 0);
 	};
 }

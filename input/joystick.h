@@ -11,7 +11,6 @@ namespace GluonInput
 	{
 		Q_OBJECT
 	public:
-		//Joystick(IOHIDDeviceRef device, QObject * parent = 0);
 		Joystick(InputThread * inputThread, QObject * parent = 0);
 
 		int axisX() const;

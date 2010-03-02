@@ -63,13 +63,11 @@ namespace GluonInput
 
 	const QString InputDevice::deviceName() const
 	{
-		//return m_deviceName;
 		return inputListener->deviceName();
 	}
 
 	GluonInput::DeviceFlag InputDevice::deviceType()const
 	{
-		//return m_deviceType;
 		return inputListener->deviceType();
 	}
 

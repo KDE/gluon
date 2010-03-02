@@ -16,7 +16,6 @@ namespace GluonInput
 		Q_OBJECT
 
 	public:
-		//Mouse(IOHIDDeviceRef device, QObject * parent = 0);
 		Mouse(InputThread * inputThread, QObject * parent = 0);
 
 		QPoint position();

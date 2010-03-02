@@ -58,14 +58,14 @@ namespace GluonInput
 		void setEnabled();
 		void setDisabled();
 
-	protected:
+	private:
 		bool event(QEvent * evt);
 
 		int m_lastAbsAxis;
 		int m_lastRelAxis;
 
 		InputThread *inputListener;
-	private:
+		
 		QList<int> m_buttons;  //list of button pressed
 		QList<int> m_forceFeedBack;
 		QMap<int, int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;

@@ -1,12 +1,7 @@
 #include "joystick.h"
 
 namespace GluonInput
-{
-	/*Joystick::Joystick(IOHIDDeviceRef device, QObject * parent)
-			: InputDevice(device, parent)
-	{
-	}*/
-	
+{	
 	Joystick::Joystick(InputThread * inputThread, QObject * parent)	: InputDevice(inputThread, parent)
 	{
 	}

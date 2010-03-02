@@ -31,15 +31,15 @@
     {
 	QApplication app(argc, argv);
     
-	if ( GluonInput::Detect::mouseList().size() > 0)
+	if ( GluonInput::Detect::instance()->mouseList().size() > 0)
 	{
-	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::mouse());
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::instance()->mouse());
 	  widget->show();
 	}
 	
-	if ( GluonInput::Detect::joystickList().size() > 0)
+	if ( GluonInput::Detect::instance()->joystickList().size() > 0)
 	{
-	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::joystick(0));
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::instance()->joystick(0));
 	  widget->show();
 	}	
 	

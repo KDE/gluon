@@ -11,7 +11,6 @@ namespace GluonInput
 	{
         Q_OBJECT
         public:
-		//KeyBoard(IOHIDDeviceRef device, QObject * parent = 0);
             KeyBoard(InputThread * inputThread, QObject * parent = 0);
 	};
 }
