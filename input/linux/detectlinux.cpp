@@ -7,7 +7,7 @@
 
 #include <core/debughelper.h>
 
-#include "linuxthread.h"
+#include "inputthread.h"
 
 namespace GluonInput
 {
@@ -37,7 +37,7 @@ namespace GluonInput
       foreach(const QString &name, event.entryList(QDir::Files)) {
           DEBUG_TEXT(QString("Creating device for: %1").arg(path + name));
 
-        InputDevice *temp = new InputDevice(new LinuxThread(path + name));
+        InputDevice *temp = new InputDevice(new InputThread(path + name));
         if (!temp->error()) {
 
             detect->addInput(temp);

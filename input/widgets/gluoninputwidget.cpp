@@ -18,7 +18,7 @@ GluonInputWidget::GluonInputWidget(GluonInput::InputDevice * input,QWidget * par
     setupTable();
     connect(m_input,SIGNAL(eventSent(GluonInput::InputEvent*)),this,SLOT(inputEvent(GluonInput::InputEvent*)));
 
-	m_input->setEnabled();
+    m_input->setEnabled();
     setWindowTitle(tr("input settings"));
 }
 void GluonInputWidget::setupTable()

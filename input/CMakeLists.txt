@@ -71,13 +71,13 @@ set(GluonInput_HEADERS_MAC
 
 ###############linux source and headers###################
 set(GluonInput_SRCS_LINUX
-	linux/linuxthread.cpp
+	linux/inputthread.cpp
 	linux/code.cpp
     linux/detectlinux.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
-	linux/linuxthread.h
+	linux/inputthread.h
 	linux/code.h
     linux/detectlinux.h
     linux/inputdefinitions.h

@@ -3,6 +3,7 @@
 
 #include "gluon_input_export.h"
 #include "inputdefinitions.h"
+#include "absval.h"
 
 #include <QtCore/QThread>
 #include <QtCore/QObject>
@@ -13,9 +14,7 @@
 #include <IOKit/hid/IOHIDLib.h>
 
 namespace GluonInput
-{
-	class AbsVal;
-	
+{	
 	class GLUON_INPUT_EXPORT InputThread : public QThread
 	{
 		Q_OBJECT

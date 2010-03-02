@@ -33,7 +33,7 @@
     
 	if ( GluonInput::Detect::mouseList().size() > 0)
 	{
-	  KCLInputWidget * widget = new KCLInputWidget(GluonInput::Detect::mouse());
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::mouse());
 	  widget->show();
 	}
 	

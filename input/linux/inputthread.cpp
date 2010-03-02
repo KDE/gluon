@@ -1,6 +1,6 @@
-
-#include "linuxthread.h"
+#include "inputthread.h"
 #include "inputevent.h"
+#include "absval.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
@@ -23,14 +23,14 @@
 
 namespace GluonInput
 {
-	LinuxThread::LinuxThread(const QString &devicePath, QObject * parent)
-		: ThreadAbstract(parent)
+	InputThread::InputThread(const QString &devicePath, QObject * parent)
+		: QThread(parent)
 	{
 		m_devicePath = devicePath;
 		openDevice(devicePath);
 	}
 
-	void LinuxThread::run()
+	void InputThread::run()
 	{
         DEBUG_FUNC_NAME
 		while (1) {
@@ -46,7 +46,7 @@ namespace GluonInput
 		}
 	}
 
-	bool LinuxThread::openDevice(const QString& devicePath)
+	bool InputThread::openDevice(const QString& devicePath)
 	{
 		m_fd = -1;
 		if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
@@ -58,27 +58,23 @@ namespace GluonInput
         return true;
 	}
 
-	void LinuxThread::setEnabled()
+	void InputThread::setEnabled()
 	{
-        DEBUG_FUNC_NAME
-		if(!m_enabled)
+		if(!this->isRunning())
 		{
-		    m_enabled = true;
 		    this->start();
 		}
 	}
 
-	void LinuxThread::setDisabled()
+	void InputThread::setDisabled()
 	{
-		#warning fix this such that it uses is running instead
-		if(m_enabled)
+		if(this->isRunning())
 		{
 		    this->stop();
-		    m_enabled = false;
 		}
 	}
 
-	void LinuxThread::readInformation()
+	void InputThread::readInformation()
 	{
 		if (!QFile::exists(m_devicePath)) {
 			qDebug() << "m_devicePath does not exist";
@@ -197,19 +193,89 @@ namespace GluonInput
 		}
 	}
 
-	int LinuxThread::getJoystickXAxis()
+	int InputThread::getJoystickXAxis()
 	{
 		return ABS_X;
 	}
 
-	int LinuxThread::getJoystickYAxis()
+	int InputThread::getJoystickYAxis()
 	{
 		return ABS_Y;
 	}
 
-	int LinuxThread::getJoystickZAxis()
+	int InputThread::getJoystickZAxis()
 	{
 		return ABS_Z;
 	}
+	
+	void InputThread::stop()
+	{
+		this->quit();
+	}
+	
+	int InputThread::vendor()const
+	{
+		return m_vendor;
+	}
+	
+	int InputThread::product()const
+	{
+		return m_product;
+	}
+	
+	int InputThread::version()const
+	{
+		return m_version;
+	}
+	
+	int InputThread::bustype()const
+	{
+		return m_bustype;
+	}
+	
+	QList<int> InputThread::buttonCapabilities()const
+	{
+		return m_buttonCapabilities;
+	}
+	
+	QList<int> InputThread::absAxisCapabilities()const
+	{
+		return m_absAxisCapabilities;
+	}
+	
+	QList<int> InputThread::relAxisCapabilities()const
+	{
+		return m_relAxisCapabilities;
+	}
+	
+	AbsVal InputThread::axisInfo(int axisCode) const
+	{
+		return m_absAxisInfos[axisCode];
+	}
+	
+	const QString InputThread::deviceName() const
+	{
+		return m_deviceName;
+	}
+	
+	GluonInput::DeviceFlag InputThread::deviceType()const
+	{
+		return m_deviceType;
+	}
+	
+	bool InputThread::isEnabled() const
+	{
+		return this->isRunning();
+	}
+	
+	bool InputThread::error()
+	{
+		return m_error;
+	}
+	
+	QString InputThread::msgError()
+	{
+		return m_msgError;
+	}
 }
-#include "linuxthread.moc"
+#include "inputthread.moc"
