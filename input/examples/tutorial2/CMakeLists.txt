@@ -13,7 +13,7 @@ include_directories(${QT_INCLUDES})
 
 set(tutorial2_SRCS 
    main.cpp 
-   ./../../widgets/kclinputwidget.cpp
+   ./../../widgets/gluoninputwidget.cpp
 	)
 qt4_automoc(${tutorial2_SRCS})
 add_executable(tutorial2 ${tutorial2_SRCS})

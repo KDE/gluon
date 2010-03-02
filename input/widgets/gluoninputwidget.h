@@ -7,14 +7,14 @@
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGraphicsScene>
-#include <gluon/input/inputdevice.h>
-#include <gluon/input/inputevent.h>
+#include "input/inputdevice.h"
+#include "input/inputevent.h"
 
-class KCLInputWidget : public QWidget
+class GluonInputWidget : public QWidget
 {
     Q_OBJECT
 public:
-    KCLInputWidget(GluonInput::InputDevice * input, QWidget * parent=0);
+    GluonInputWidget(GluonInput::InputDevice * input, QWidget * parent=0);
 
 protected:
     void setupTable();

@@ -22,8 +22,8 @@
 
 #include <QDebug>
 
-#include <gluon/input/code.h>
-#include <gluon/input/detect.h>
+#include "input/code.h"
+#include "input/detect.h"
 
 using namespace std;
 

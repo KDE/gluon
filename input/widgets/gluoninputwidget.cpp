@@ -1,40 +1,27 @@
+#include "gluoninputwidget.h"
 
-#include "kclinputwidget.h"
-#include <gluon/input/code.h>
+#include "input/code.h"
+#include "input/absval.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHeaderView>
+#include <QtCore/QDebug>
 
-/*#ifdef Q_WS_X11
-#include <KTitleWidget>
-#include <KLocale>
-#include <KIcon>
-#endif*/
-
-KCLInputWidget::KCLInputWidget(GluonInput::InputDevice * input,QWidget * parent)
+GluonInputWidget::GluonInputWidget(GluonInput::InputDevice * input,QWidget * parent)
     :QWidget(parent)
 {
     m_input=input;
     m_tableWidget=new QTableWidget;
     QVBoxLayout * layout = new QVBoxLayout;
-/*#ifdef Q_WS_X11
-    KTitleWidget * title = new KTitleWidget;
-    title->setText(m_input->deviceName());
-    title->setComment(m_input->devicePath());
-    title->setPixmap(KIcon(KCLCode::iconDevice(m_input->deviceType())).pixmap(64,64));
-
-    layout->addWidget(title);
-#endif*/
     layout->addWidget(m_tableWidget);
     setLayout(layout);
     setupTable();
     connect(m_input,SIGNAL(eventSent(GluonInput::InputEvent*)),this,SLOT(inputEvent(GluonInput::InputEvent*)));
-#ifdef Q_WS_X11    
-    setWindowIcon(QIcon(GluonInput::Code::iconDevice(m_input->deviceType())));
-#endif
-    setWindowTitle(tr("input seetings"));
+
+	m_input->setEnabled();
+    setWindowTitle(tr("input settings"));
 }
-void KCLInputWidget::setupTable()
+void GluonInputWidget::setupTable()
 {
 
     m_tableWidget->setColumnCount(2);
@@ -85,9 +72,8 @@ void KCLInputWidget::setupTable()
 
 }
 
-void KCLInputWidget::inputEvent(GluonInput::InputEvent * event)
+void GluonInputWidget::inputEvent(GluonInput::InputEvent * event)
 {
-
     switch (event->type())
     {
 
@@ -131,4 +117,4 @@ void KCLInputWidget::inputEvent(GluonInput::InputEvent * event)
     }
 }
 
-#include "kclinputwidget.moc"
+#include "gluoninputwidget.moc"

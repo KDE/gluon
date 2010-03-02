@@ -7,7 +7,7 @@ using namespace GluonInput;
 	{
 	}*/
 
-KeyBoard::KeyBoard(ThreadAbstract * inputThread, QObject * parent) : InputDevice(inputThread, parent)
+KeyBoard::KeyBoard(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 {
 }
 

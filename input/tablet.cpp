@@ -7,7 +7,7 @@ namespace GluonInput
 	{
 	}*/
 	
-	Tablet::Tablet(ThreadAbstract * inputThread, QObject * parent) : InputDevice(inputThread, parent)
+	Tablet::Tablet(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 	{
 	}
 }

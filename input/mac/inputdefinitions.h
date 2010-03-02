@@ -17,9 +17,9 @@ namespace GluonInput {
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
 
     enum InputTypeFlag {
-        Key = QEvent::Type(QEvent::User),
-        RelativeAxis = QEvent::Type(QEvent::User+1),
-        AbsoluAxis = QEvent::Type(QEvent::User+2)
+        Key = QEvent::Type(QEvent::User+1),
+        RelativeAxis = QEvent::Type(QEvent::User+2),
+        AbsoluAxis = QEvent::Type(QEvent::User+3)
     };
 
     Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)

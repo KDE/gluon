@@ -6,11 +6,13 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QMouseEvent>
 
+#include "absval.h"
+
 #include <core/debughelper.h>
 
 namespace GluonInput
 {
-	InputDevice::InputDevice(ThreadAbstract * inputThread, QObject * parent)
+	InputDevice::InputDevice(InputThread * inputThread, QObject * parent)
 	: QObject(parent)
 	{
 		inputListener = inputThread;
@@ -174,7 +176,6 @@ namespace GluonInput
 
 	bool InputDevice::event(QEvent * evt)
 	{
-        DEBUG_FUNC_NAME
 		InputEvent * event = (InputEvent*)evt;
 		emit eventSent(event);
 
@@ -216,7 +217,6 @@ namespace GluonInput
 				break;
 
 			default:
-			  qDebug() << "nothing at all " << event->type();
 				break;
 		}
 

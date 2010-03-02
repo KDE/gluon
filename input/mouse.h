@@ -9,7 +9,7 @@
 
 namespace GluonInput
 {
-	class ThreadAbstract;
+	class InputThread;
 
 	class GLUON_INPUT_EXPORT Mouse : public InputDevice
 	{
@@ -17,7 +17,7 @@ namespace GluonInput
 
 	public:
 		//Mouse(IOHIDDeviceRef device, QObject * parent = 0);
-		Mouse(ThreadAbstract * inputThread, QObject * parent = 0);
+		Mouse(InputThread * inputThread, QObject * parent = 0);
 
 		QPoint position();
 		void setSensibility(double s);

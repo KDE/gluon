@@ -7,7 +7,7 @@ namespace GluonInput
 	{
 	}*/
 	
-	Joystick::Joystick(ThreadAbstract * inputThread, QObject * parent)	: InputDevice(inputThread, parent)
+	Joystick::Joystick(InputThread * inputThread, QObject * parent)	: InputDevice(inputThread, parent)
 	{
 	}
 

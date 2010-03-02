@@ -70,6 +70,7 @@ namespace GluonInput
 
 	void LinuxThread::setDisabled()
 	{
+		#warning fix this such that it uses is running instead
 		if(m_enabled)
 		{
 		    this->stop();

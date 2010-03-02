@@ -1,48 +1,36 @@
-#include "macthread.h"
+#include "inputthread.h"
 
 #include <QtCore/qeventloop.h>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include "inputevent.h"
 #include <IOKit/hid/IOHIDUsageTables.h>
 #include "code.h"
+#include "absval.h"
 
 namespace GluonInput
-{
-	/*MacThread::MacThread(IOHIDDeviceRef pDevice, int deviceUsage ,QObject * parent)
-	: ThreadAbstract(parent)
-	{   
-		m_deviceUsage = deviceUsage;
-		IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
-		IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
-		IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
-	}*/
-	
-	MacThread::MacThread(IOHIDDeviceRef pDevice, QObject * parent)
-	: ThreadAbstract(parent)
+{	
+	InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
+	: QThread(parent)
 	{   
 		m_device = pDevice;
 		IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
 		IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
 		IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
+		
+		m_error = false;
+		m_msgError = QString();
+		m_deviceName = "Unknown";
+		this->readInformation();
 	}
 
-	MacThread::~MacThread()
+	InputThread::~InputThread()
 	{
 		IOHIDDeviceClose(m_device, kIOHIDOptionsTypeNone);
 		CFRelease(m_device);
 	}
-
-	/*int MacThread::deviceUsage() const
-	{
-		return m_deviceUsage;
-	}*/
-
-	/*void MacThread::run()
-	{
-		this->Start();
-	}*/
 	
-	void MacThread::readInformation()
+	void InputThread::readInformation()
 	{
 		CFStringRef deviceNameRef = (CFStringRef)IOHIDDeviceGetProperty(m_device, CFSTR(kIOHIDProductKey));
 		if(CFGetTypeID(deviceNameRef) == CFStringGetTypeID())
@@ -207,10 +195,10 @@ namespace GluonInput
 		}
 	}
 
-	void MacThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) 
+	void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) 
 	{
 		IOHIDDeviceRef deviceRef = (IOHIDDeviceRef) inSender;
-		MacThread * currentThread = (MacThread* ) inContext;
+		InputThread * currentThread = (InputThread* ) inContext;
 		if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
 		{
 			IOHIDElementRef elementRef = IOHIDValueGetElement(inIOHIDValueRef);
@@ -228,12 +216,13 @@ namespace GluonInput
 				
 				QEvent::Type eventType;
 				
-				switch (currentThread->deviceUsage())
+				switch (currentThread->deviceType())
 				{
 					case GluonInput::KeyBoardDevice:
 						eventType = QEvent::Type(GluonInput::Key);
 						break;
 					case GluonInput::MouseDevice:
+#warning fix such that, mouse buttons return 0,1,2 and so forth. Atm. it is using the same buttonname as keyboard
 						if(usagePage == kHIDPage_GenericDesktop)
 						{
 							eventType = QEvent::Type(GluonInput::RelativeAxis);
@@ -262,42 +251,111 @@ namespace GluonInput
 		}
 	}
 	
-	void MacThread::setEnabled()
+	void InputThread::setEnabled()
 	{
-		if(!m_enabled)
+		if(!this->isRunning())
 		{
-			this->run();
-			m_enabled = true;
+			this->start();
 		}
 	}
 	
-	void MacThread::setDisabled()
+	void InputThread::setDisabled()
 	{
-		if(m_enabled)
+		if(this->isRunning())
 		{
 			this->stop();
-			m_enabled = false;
 		}
 	}
 	
-	int MacThread::deviceUsage()
-	{
-		return m_deviceUsage;
-	}
-	
-	int MacThread::getJoystickXAxis()
+	int InputThread::getJoystickXAxis()
 	{
 		return m_xAbsUsage;
 	}
 	
-	int MacThread::getJoystickYAxis()
+	int InputThread::getJoystickYAxis()
 	{
 		return m_yAbsUsage;
 	}
 	
-	int MacThread::getJoystickZAxis()
+	int InputThread::getJoystickZAxis()
 	{
 		return m_zAbsUsage;
 	}
+	
+	void InputThread::run()
+	{
+		this->exec();
+	}
+	
+	void InputThread::stop()
+	{
+		this->quit();
+	}
+	
+	int InputThread::vendor()const
+	{
+		return m_vendor;
+	}
+	
+	int InputThread::product()const
+	{
+		return m_product;
+	}
+	
+	int InputThread::version()const
+	{
+		return m_version;
+	}
+	
+	int InputThread::bustype()const
+	{
+		return m_bustype;
+	}
+	
+	QList<int> InputThread::buttonCapabilities()const
+	{
+		return m_buttonCapabilities;
+	}
+	
+	QList<int> InputThread::absAxisCapabilities()const
+	{
+		return m_absAxisCapabilities;
+	}
+	
+	QList<int> InputThread::relAxisCapabilities()const
+	{
+		return m_relAxisCapabilities;
+	}
+	
+	AbsVal InputThread::axisInfo(int axisCode) const
+	{
+		return m_absAxisInfos[axisCode];
+	}
+	
+	const QString InputThread::deviceName() const
+	{
+		return m_deviceName;
+	}
+	
+	GluonInput::DeviceFlag InputThread::deviceType()const
+	{
+		return m_deviceType;
+	}
+	
+	bool InputThread::isEnabled() const
+	{
+		return this->isRunning();
+	}
+	
+	bool InputThread::error()
+	{
+		return m_error;
+	}
+	
+	QString InputThread::msgError()
+	{
+		return m_msgError;
+	}
 }
-#include "macthread.moc"
+
+#include "inputthread.moc"

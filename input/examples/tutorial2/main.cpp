@@ -21,8 +21,8 @@
     */
 
     #include <QWidget>
-    #include "../../widgets/kclinputwidget.h"
-    #include <gluon/input/detect.h>
+    #include "../../widgets/gluoninputwidget.h"
+    #include "input/detect.h"
     #include <QtGui>
     #include <QtCore/QDebug>
     using namespace std;
@@ -39,7 +39,7 @@
 	
 	if ( GluonInput::Detect::joystickList().size() > 0)
 	{
-	  KCLInputWidget * widget = new KCLInputWidget(GluonInput::Detect::joystick(0));
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::joystick(0));
 	  widget->show();
 	}	
 	

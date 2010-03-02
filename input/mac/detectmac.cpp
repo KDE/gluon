@@ -6,7 +6,7 @@
 #include <QtCore/QDebug>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDUsageTables.h>
-#include "macthread.h"
+#include "inputthread.h"
 
 namespace GluonInput
 {
@@ -84,8 +84,6 @@ namespace GluonInput
 				}
 			}        
 		}
-		
-		setAllEnabled();
 	}
 
 	QList<InputDevice *> DetectMac::getInputList() 
@@ -127,7 +125,7 @@ namespace GluonInput
 	void DetectMac::addKeyboard(InputDevice *i)
 	{
 		KeyBoard * keybd = (KeyBoard*) i;
-		keybd->setEnabled();
+		//keybd->setEnabled();
 		m_keyboardList.append(keybd);
 		m_inputList.append(i);
 	}
@@ -135,7 +133,7 @@ namespace GluonInput
 	void DetectMac::addMouse(InputDevice *i) 
 	{
 		Mouse * mouse = (Mouse*) i;
-		mouse->setEnabled();
+		//mouse->setEnabled();
 		m_mouseList.append(mouse);
 		m_inputList.append(i);
 	}
@@ -143,7 +141,7 @@ namespace GluonInput
 	void DetectMac::addJoystick(InputDevice *i)
 	{
 		Joystick * joy = (Joystick*) i;
-		joy->setEnabled();
+		//joy->setEnabled();
 		m_joystickList.append(joy);
 		m_inputList.append(i);
 	}
@@ -151,7 +149,7 @@ namespace GluonInput
 	void DetectMac::addTablet(InputDevice *i) 
 	{
 		Tablet * tablet = (Tablet*) i;
-		tablet->setEnabled();
+		//tablet->setEnabled();
 		m_tabletList.append(tablet);
 		m_inputList.append(i);
 	}
@@ -267,19 +265,19 @@ namespace GluonInput
 				switch (usage) 
 				{
 					case GluonInput::KeyBoardDevice:
-						inputDevice = new KeyBoard(new MacThread(device));
+						inputDevice = new KeyBoard(new InputThread(device));
 						detect->addKeyboard(inputDevice);
 						break;
 					case GluonInput::MouseDevice:
-						inputDevice = new Mouse(new MacThread(device));
+						inputDevice = new Mouse(new InputThread(device));
 						detect->addMouse(inputDevice);
 						break;
 					case GluonInput::JoystickDevice:
-						inputDevice = new Joystick(new MacThread(device));
+						inputDevice = new Joystick(new InputThread(device));
 						detect->addJoystick(inputDevice);
 						break;
 					default:
-						inputDevice = new InputDevice(new MacThread(device));
+						inputDevice = new InputDevice(new InputThread(device));
 						detect->addUnknown(inputDevice);
 						break;
 				}
@@ -291,11 +289,11 @@ namespace GluonInput
 					case GluonInput::TouchpadDevice:
 						break;
 					case GluonInput::TabletDevice:
-						inputDevice = new Tablet(new MacThread(device));
+						inputDevice = new Tablet(new InputThread(device));
 						detect->addTablet(inputDevice);
 						break;
 					default:
-						inputDevice = new InputDevice(new MacThread(device));
+						inputDevice = new InputDevice(new InputThread(device));
 						detect->addUnknown(inputDevice);
 						break;
 				}

@@ -11,7 +11,7 @@ namespace GluonInput
 		m_position = m_originalPosition;
 		m_sensibility = 1;
 	}*/
-	Mouse::Mouse(ThreadAbstract * inputThread, QObject * parent) : InputDevice(inputThread, parent)
+	Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 	{
 		m_originalPosition = QPoint(0, 0);
 		m_position = m_originalPosition;

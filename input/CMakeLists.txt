@@ -55,7 +55,7 @@ set(GluonInput_HEADERS_WIN )
 
 ###############mac source and headers###################
 set(GluonInput_SRCS_MAC
-	mac/macthread.cpp
+	mac/inputthread.cpp
 	mac/code.cpp
     mac/detectmac.cpp
 )
@@ -63,7 +63,7 @@ set(GluonInput_SRCS_MAC
 set(GluonInput_HEADERS_MAC
 	mac/code.h
     mac/detectmac.h
-	mac/macthread.h
+	mac/inputthread.h
     mac/inputdefinitions.h
 
 )
@@ -93,7 +93,6 @@ set(GluonInput_SRCS_COMMON
     keyboard.cpp
     joystick.cpp
     custominput.cpp
-	threadabstract.cpp
     detect.cpp
     detectabstract.cpp
 )
@@ -109,7 +108,7 @@ set(GluonInput_HEADERS_COMMON
     joystick.h
     custominput.h
 	detectabstract.h
-	threadabstract.h
+	absval.h
 )
 ###############common source and headers###################
 
