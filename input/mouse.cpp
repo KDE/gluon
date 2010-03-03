@@ -15,7 +15,7 @@ namespace GluonInput
 	{
 		if ( anyRelMove())
 		{
-			m_position += QPoint(relAxisValue(m_lastRelAxis), relAxisValue(m_lastRelAxis));
+		  m_position += QPoint(relAxisValue(lastRelAxis()), relAxisValue(lastRelAxis()));
 		}
 		return (m_position+m_originalPosition)*m_sensibility;
 	}
@@ -32,12 +32,12 @@ namespace GluonInput
 
 	int Mouse::wheelPosition() const
 	{
-		return relAxisValue(m_lastRelAxis);
+	  return relAxisValue(lastRelAxis());
 	}
 
 	int Mouse::hWheelPosition()const 
 	{
-		return relAxisValue(m_lastRelAxis);
+	  return relAxisValue(lastRelAxis());
 	}
 
 	double Mouse::sensibility()const

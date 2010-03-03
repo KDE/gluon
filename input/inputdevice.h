@@ -26,7 +26,9 @@ namespace GluonInput
 		int product()const;
 		int version()const;
 		int bustype()const;
-		
+
+		InputThread *inputListener;
+
 		const QString deviceName() const;
 		GluonInput::DeviceFlag deviceType()const;
 		bool button(int code)const;
@@ -64,8 +66,6 @@ namespace GluonInput
 		int m_lastAbsAxis;
 		int m_lastRelAxis;
 
-		InputThread *inputListener;
-		
 		QList<int> m_buttons;  //list of button pressed
 		QList<int> m_forceFeedBack;
 		QMap<int, int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;
