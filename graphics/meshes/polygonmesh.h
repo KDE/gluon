@@ -4,6 +4,7 @@
 #include "gluon_graphics_export.h"
 #include "mesh.h"
 #include <QPolygonF>
+
 namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT PolygonMesh: public Mesh
