@@ -12,7 +12,7 @@
 namespace GluonInput
 {
   DetectLinux::DetectLinux(QObject * parent)
-  : DetectAbstract(parent)
+  : Detect(parent)
   {
   }
 

@@ -7,14 +7,14 @@
 #include "keyboard.h"
 #include "mouse.h"
 #include "tablet.h"
-#include "detectabstract.h"
+#include "detect.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
 namespace GluonInput
 {
-  class GLUON_INPUT_EXPORT DetectLinux : public DetectAbstract
+  class GLUON_INPUT_EXPORT DetectLinux : public Detect
   {
       Q_OBJECT
 
