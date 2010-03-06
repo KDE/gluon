@@ -24,6 +24,9 @@
 #include <asset.h>
 #include <QMimeData>
 
+#include <graphics/meshes/polygonmesh.h>
+#include <graphics/meshes/spritemesh.h>
+
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
 Q_DECLARE_METATYPE(GluonCore::GluonObject*);
@@ -34,9 +37,17 @@ using namespace GluonEngine;
 class SpriteRendererComponent::SpriteRendererComponentPrivate
 {
     public:
-        SpriteRendererComponentPrivate() { item = 0; }
+        SpriteRendererComponentPrivate()
+        {
+            item = 0;
+            mesh = 0;
+            size.setHeight(1.0f);
+            size.setWidth(1.0f);
+            color.setRgb(255, 255, 255);
+        }
 
         GluonGraphics::Item *item;
+        GluonGraphics::SpriteMesh *mesh;
 
         QColor color;
         QSizeF size;
@@ -60,14 +71,16 @@ SpriteRendererComponent::SpriteRendererComponent ( const SpriteRendererComponent
 
 SpriteRendererComponent::~SpriteRendererComponent()
 {
-    delete d->item;
+    stop();
+
     delete d;
 }
 
 void SpriteRendererComponent::start()
 {
     if(!d->item) {
-        d->item = new GluonGraphics::Item(d->size);
+        d->mesh = new GluonGraphics::SpriteMesh(d->size);
+        d->item = new GluonGraphics::Item(d->mesh);
         d->item->setColor(d->color);
     }
 
@@ -77,7 +90,7 @@ void SpriteRendererComponent::start()
 
         const QMimeData* data = texture()->data();
         if(data->hasImage()) {
-            d->item->setTexture(data->imageData().value<QImage>());
+            d->item->mesh()->setTexture(data->imageData().value<QImage>());
         }
     }
 }
@@ -87,8 +100,7 @@ void SpriteRendererComponent::draw ( int timeLapse )
     Q_UNUSED(timeLapse)
 
     if(d->item) {
-        d->item->resetTransform();
-        d->item->applyTransform(gameObject()->transform());
+        d->item->setMatrix(gameObject()->transform());
     }
 }
 
@@ -101,15 +113,18 @@ void SpriteRendererComponent::stop()
 {
     if(d->item) {
         delete d->item;
+        delete d->mesh;
         d->item = 0;
+        d->mesh = 0;
     }
 }
 
 void SpriteRendererComponent::setSize ( const QSizeF &size )
 {
     d->size = size;
-    if(d->item) {
-        //d->item->setSize(size);
+
+    if(d->mesh) {
+        d->mesh->setSize(size);
     }
 }
 
@@ -121,8 +136,8 @@ QSizeF SpriteRendererComponent::size()
 void SpriteRendererComponent::setColor(const QColor& color)
 {
     d->color = color;
-    if(d->item) {
-        d->item->setColor(color);
+    if(d->mesh) {
+        d->mesh->setColor(color);
     }
 }
 
