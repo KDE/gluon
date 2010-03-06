@@ -21,6 +21,7 @@ include_directories(
 )
 
 set(GLUON_GRAPHICS_INCLUDES
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDES}
 
     ${OPENGL_INCLUDE_DIR}
@@ -42,18 +43,19 @@ set(GluonGraphics_SRCS
     program.cpp
     shader.cpp
     mesh.cpp
-    polygonmesh.cpp
-    cubemesh.cpp
-    gridmesh.cpp
-    conemesh.cpp
-    discmesh.cpp
-    icospheremesh.cpp
-    uvspheremesh.cpp
-    cylindremesh.cpp
     fx.cpp
     transform.cpp
     widgetproxy.cpp
 
+    meshes/polygonmesh.cpp
+    meshes/cubemesh.cpp
+    meshes/gridmesh.cpp
+    meshes/conemesh.cpp
+    meshes/discmesh.cpp
+    meshes/icospheremesh.cpp
+    meshes/uvspheremesh.cpp
+    meshes/cylindremesh.cpp
+    meshes/spritemesh.cpp
 )
 
 qt4_automoc(${GluonGraphics_SRCS})
@@ -104,16 +106,23 @@ install(
     fx.h
     transform.h
     mesh.h
-    polygonmesh.h
-    cubemesh.h
-    gridmesh.h
-    conemesh.h
-    discmesh.h
-    icospheremesh.h
-    uvspheremesh.h
-    cylindremesh.h
     widgetproxy.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
+    COMPONENT Devel
+)
+
+install(
+    FILES
+    meshes/polygonmesh.h
+    meshes/cubemesh.h
+    meshes/gridmesh.h
+    meshes/conemesh.h
+    meshes/discmesh.h
+    meshes/icospheremesh.h
+    meshes/uvspheremesh.h
+    meshes/cylindremesh.h
+    meshes/spritemesh.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/meshes
     COMPONENT Devel
 )
 
