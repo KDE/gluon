@@ -63,7 +63,7 @@ void GLWidget::init()
     mAutomaticClear = true;
     mClearColor = QVector4D(0, 0, 0, 0);
     mGLInitialized = false;
-    mShowFps = false;
+    mShowFps = true;
     mWireframeMode = false;
     mShortcutsEnabled = true;
     //m_engine=0;
@@ -141,8 +141,8 @@ void GLWidget::initializeGL()
     mGLInitialized = true;
 
     // Create camera and fps counter
-    mCamera =new Camera();
-    //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
+    mCamera = Engine::instance()->activeCamera();
+    connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
 
     //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
 
@@ -167,19 +167,19 @@ void GLWidget::initializeGL()
 //     }
 
     // Set up camera
-    camera()->setPosition(QVector3D(0, 0, 20));
-    camera()->setLookAt(QVector3D(0, 0, 1));
-    camera()->setUp(QVector3D(0, 1, 0));
-    camera()->setDepthRange(1, 100);
+    //camera()->setPosition(QVector3D(0, 0, 20));
+    //camera()->setLookAt(QVector3D(0, 0, 1));
+    //camera()->setUp(QVector3D(0, 1, 0));
+    //camera()->setDepthRange(1, 100);
 
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
-    DEBUG_FUNC_NAME
+    makeCurrent();
+
     m_viewportWidth = width;
     m_viewportHeight = height;
-
 
     if(mCamera)
     {
@@ -187,13 +187,9 @@ void GLWidget::resizeGL(int width, int height)
         camera()->setViewport(0, 0, width, height);
         camera()->setAspect(width/(float)height);
         camera()->applyViewport();
-        camera()->applyPerspective();
-//         camera()->applyOrtho();
-
+        //camera()->applyPerspective();
+        camera()->applyOrtho();
     }
-
-
-
 }
 
 void GLWidget::paintGL()
@@ -261,7 +257,7 @@ void GLWidget::drawItems()
 void GLWidget::render()
 {
 
-    glBegin(GL_LINES) ;
+    /*glBegin(GL_LINES) ;
       glColor3f(0,1,0) ;
       glVertex3f(0,0,0) ;
       glVertex3f(0,5,0) ;
@@ -277,7 +273,7 @@ void GLWidget::render()
           glColor3f(0,0,1) ;
           glVertex3f(0,0,0) ;
           glVertex3f(0,0,5) ;
-          glEnd() ;
+          glEnd() ;*/
 
 
 
