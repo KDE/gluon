@@ -1,4 +1,20 @@
 { GluonEngine::GameObject(Game)
     position vector3d(0;0;0)
     scale vector3d(1;1;1)
+    { GluonEngine::GameObject(Camera)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        { GluonEngine::CameraControllerComponent(GluonObject)
+            enabled bool(true)
+            active bool(true)
+        }
+    }
+    { GluonEngine::GameObject(Background)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            color rgba(255;255;255;255)
+        }
+    }
 }
