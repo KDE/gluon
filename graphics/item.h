@@ -15,7 +15,7 @@ namespace GluonGraphics
     public:
         Item(QObject * parent = 0);
         Item(Mesh * mesh, QObject* parent=0);
-        Item(QSizeF size){init();}
+        //Item(QSizeF size){init();}
         virtual void paintGL();
         void setColor(const QColor& col);
         void setAlpha(const float& alpha);

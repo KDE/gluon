@@ -31,7 +31,7 @@ namespace GluonGraphics
     void  Item::paintGL()
     {
         glPushMatrix();
-        glMultMatrixd((GLdouble*)(matrix().data()));
+        glMultMatrixd((GLdouble*)matrix().data());
 
         m_mesh->texture()->bind();
         drawMesh();

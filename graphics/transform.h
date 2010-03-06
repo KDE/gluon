@@ -48,8 +48,8 @@ public:
     void scale(float x, float y, float z);
     void scale(float x, float y);
     void scale(const QVector2D &s);
-    void rotate(const qreal &angle,const QVector3D &axis){}
-    void rotate(const qreal &angle, const QVector2D &center){}
+    //void rotate(const qreal &angle,const QVector3D &axis){}
+    //void rotate(const qreal &angle, const QVector2D &center){}
 
 
     QVector3D transform(const QVector3D &p) ;

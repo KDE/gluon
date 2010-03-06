@@ -20,7 +20,7 @@ namespace GluonGraphics
 
     void Transform::resetTransform()
     {
-        m_matrix.setToIdentity();;
+        m_matrix.setToIdentity();
         m_position = QVector3D(0,0,0);
         m_scale = QVector3D(1,1,1);
         m_orientation = QQuaternion(1,0,0,0);
