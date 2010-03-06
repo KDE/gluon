@@ -11,7 +11,7 @@
 namespace GluonInput
 {
 	DetectMac::DetectMac(QObject * parent)
-	: DetectAbstract(parent)
+	: Detect(parent)
 	{
 		deviceManager = NULL;
 		devices = NULL;

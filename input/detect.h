@@ -2,69 +2,51 @@
 #define DETECT_H
 
 #include <QtCore/QObject>
-#include <QtCore/QList>
 
-#include "detectabstract.h"
-#include "inputdevice.h"
-#include "mouse.h"
-#include "keyboard.h"
-#include "joystick.h"
-#include "tablet.h"
-#include "core/singleton.h"
+#include "gluon_input_export.h"
 
 namespace GluonInput
 {
-	typedef QList<InputDevice *> InputList;
+	class Joystick;
+	class Mouse;
+	class Tablet;
+	class KeyBoard;
+	class InputDevice;
 
-	class GLUON_INPUT_EXPORT Detect : public GluonCore::Singleton<Detect>
+	class GLUON_INPUT_EXPORT Detect : public QObject
 	{
 		Q_OBJECT
 
 	public:
-		Detect();
-		void searchDevice();
-		void setAllEnable();
-		void setAllDisable();
+		Detect(QObject * parent = 0);
 
-		unsigned int deviceCount();
+		virtual void searchDevice() = 0;
+		virtual void setAllEnabled() = 0;
+		virtual void setAllDisabled() = 0;
 
-		unsigned int keyboardCount();
+		virtual QList<InputDevice *> getInputList();
+		virtual QList<KeyBoard *> getKeyboardList();
+		virtual QList<Mouse *> getMouseList();
+		virtual QList<Joystick *> getJoystickList();
+		virtual QList<Tablet *> getTabletList();
+		virtual QList<InputDevice *> getUnknownDeviceList();
 
-		unsigned int mouseCount();
+		virtual void addInput(InputDevice *i) = 0;
+		virtual void addKeyboard(InputDevice *i) = 0;
+		virtual void addMouse(InputDevice *i) = 0;
+		virtual void addJoystick(InputDevice *i) = 0;
+		virtual void addTablet(InputDevice *i) = 0;
+		virtual void addUnknown(InputDevice *i) = 0;
+		virtual void clear() = 0;
 
-		unsigned int joystickCount();
+	protected:
+		QList<InputDevice *> m_inputList;
+		QList<KeyBoard *> m_keyboardList;
+		QList<Mouse *> m_mouseList;
+		QList<Joystick *> m_joystickList;
+		QList<Tablet *> m_tabletList;
+		QList<InputDevice *> m_unknownList;
 
-		unsigned int tabletCount();
-
-		unsigned int unknownDeviceCount();
-
-		QList <KeyBoard*> keyboardList();
-
-		QList <Mouse*> mouseList();
-
-		QList <Joystick*> joystickList();
-
-		QList <Tablet*> tabletList();
-
-		QList <InputDevice*> unknownDeviceList();
-
-		InputList inputList();
-
-		KeyBoard* keyboard(int id = 0);
-
-		Mouse* mouse(int id = 0);
-
-		Joystick* joystick(int id = 0);
-
-		Tablet* tablet(int id = 0);
-
-		InputDevice* input(int id = 0);
-
-	private:
-		~Detect();
-		DetectAbstract * m_instance;
-		void init();
 	};
 }
-
 #endif

@@ -23,20 +23,20 @@
 #include <QDebug>
 
 #include "input/code.h"
-#include "input/detect.h"
+#include "input/inputdetection.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-	qDebug()<<"Number of devices available : "         << GluonInput::Detect::instance()->deviceCount();
-	qDebug()<<"Number of keyboards available : "       << GluonInput::Detect::instance()->keyboardCount();
-	qDebug()<<"Number of mice available : "          << GluonInput::Detect::instance()->mouseCount();
-	qDebug()<<"Number of joysticks available : "       << GluonInput::Detect::instance()->joystickCount();
-	qDebug()<<"Number of tablets available : "         << GluonInput::Detect::instance()->tabletCount();
-	qDebug()<<"Number of unknown devices available : "  << GluonInput::Detect::instance()->unknownDeviceCount();
+	qDebug()<<"Number of devices available : "         << GluonInput::InputDetection::instance()->deviceCount();
+	qDebug()<<"Number of keyboards available : "       << GluonInput::InputDetection::instance()->keyboardCount();
+	qDebug()<<"Number of mice available : "          << GluonInput::InputDetection::instance()->mouseCount();
+	qDebug()<<"Number of joysticks available : "       << GluonInput::InputDetection::instance()->joystickCount();
+	qDebug()<<"Number of tablets available : "         << GluonInput::InputDetection::instance()->tabletCount();
+	qDebug()<<"Number of unknown devices available : "  << GluonInput::InputDetection::instance()->unknownDeviceCount();
 
-	foreach(GluonInput::InputDevice * input, GluonInput::Detect::instance()->inputList())
+	foreach(GluonInput::InputDevice * input, GluonInput::InputDetection::instance()->inputList())
 	{
         qDebug() << input->deviceName();
 

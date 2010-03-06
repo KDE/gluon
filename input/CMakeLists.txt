@@ -8,15 +8,14 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GLUON_CORE_INCLUDES}
 )
+
+	message(${GLUON_CORE_INCLUDES})
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(APPLE)
     set(GLUON_INPUT_INCLUDES
-        ${GLUON_CORE_INCLUDES}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/mac
         CACHE PATHS "Includes required for Gluon Input"
@@ -31,7 +30,6 @@ if(APPLE)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
 elseif(WIN32)
     set(GLUON_INPUT_INCLUDES
-        ${GLUON_CORE_INCLUDES}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/win
         CACHE PATHS "Includes required for Gluon Input"
@@ -39,7 +37,6 @@ elseif(WIN32)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
 else()
     set(GLUON_INPUT_INCLUDES
-        ${GLUON_CORE_INCLUDES}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
         CACHE PATHS "Includes required for Gluon Input"
@@ -93,13 +90,13 @@ set(GluonInput_SRCS_COMMON
     keyboard.cpp
     joystick.cpp
     custominput.cpp
+    inputdetection.cpp
     detect.cpp
-    detectabstract.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
     gluon_input_export.h
-    detect.h
+    inputdetection.h
     inputevent.h
     inputdevice.h
     mouse.h
@@ -107,7 +104,7 @@ set(GluonInput_HEADERS_COMMON
     keyboard.h
     joystick.h
     custominput.h
-	detectabstract.h
+	detect.h
 	absval.h
 )
 ###############common source and headers###################

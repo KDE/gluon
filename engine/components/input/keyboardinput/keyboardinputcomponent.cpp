@@ -18,7 +18,7 @@
 */
 
 #include "keyboardinputcomponent.h"
-#include "input/detect.h"
+#include "input/inputdetection.h"
 
 #include <QtCore/QEvent>
 
@@ -43,7 +43,7 @@ KeyboardInputComponent::start()
     DEBUG_FUNC_NAME
 
 
-    foreach(const GluonInput::InputDevice *input, GluonInput::Detect::instance()->keyboardList())
+    foreach(const GluonInput::InputDevice *input, GluonInput::InputDetection::instance()->keyboardList())
     {
         DEBUG_TEXT(QString("Enabling input for device: %1").arg(input->deviceName()));
         connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));

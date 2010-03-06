@@ -7,7 +7,7 @@
 #include "code.h"
 #include "inputdevice.h"
 #include "joystick.h"
-#include "detectabstract.h"
+#include "detect.h"
 #include "keyboard.h"
 #include "mouse.h"
 #include "tablet.h"
@@ -19,7 +19,7 @@
 
 namespace GluonInput
 {
-	class GLUON_INPUT_EXPORT DetectMac : public DetectAbstract
+	class GLUON_INPUT_EXPORT DetectMac : public Detect
 	{
 		Q_OBJECT
 

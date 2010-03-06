@@ -22,7 +22,7 @@
 
     #include <QWidget>
     #include "../../widgets/gluoninputwidget.h"
-    #include "input/detect.h"
+    #include "input/inputdetection.h"
     #include <QtGui>
     #include <QtCore/QDebug>
     using namespace std;
@@ -31,15 +31,15 @@
     {
 	QApplication app(argc, argv);
     
-	if ( GluonInput::Detect::instance()->mouseList().size() > 0)
+	if ( GluonInput::InputDetection::instance()->mouseList().size() > 0)
 	{
-	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::instance()->mouse());
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputDetection::instance()->mouse());
 	  widget->show();
 	}
 	
-	if ( GluonInput::Detect::instance()->joystickList().size() > 0)
+	if ( GluonInput::InputDetection::instance()->joystickList().size() > 0)
 	{
-	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::Detect::instance()->joystick(0));
+	  GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputDetection::instance()->joystick(0));
 	  widget->show();
 	}	
 	
