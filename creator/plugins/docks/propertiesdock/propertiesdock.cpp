@@ -41,7 +41,7 @@ PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::Window
     setWidget(d->widget);
 
     connect(SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)));
-    connect(d->widget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), GluonEngine::Game::instance(), SLOT(updateAll()));
+    connect(d->widget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), GluonEngine::Game::instance(), SLOT(drawAll()));
     connect(ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)));
 }
 
