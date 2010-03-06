@@ -35,6 +35,12 @@ namespace GluonGraphics
         m_vector.append(vertex);
         computeGeometry();
     }
+
+    void Mesh::removeVertex(int id)
+    {
+        m_vector.remove(id);
+    }
+
     QVector <Vertex> * Mesh::vertexes()
     {
         return &m_vector;

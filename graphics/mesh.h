@@ -19,6 +19,8 @@ namespace GluonGraphics
         void addVertex(const Vertex& vertex);
         void addVertex(const QVector3D& coord);
         void addVertex(const QVector2D& coord);
+        void removeVertex(int id);
+
         int vertexCount();
         Vertex * vertexAt(int i);
         QVector <Vertex> * vertexes();
