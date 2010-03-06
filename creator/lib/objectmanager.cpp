@@ -19,7 +19,7 @@
 #include <KLocalizedString>
 
 #include <core/debughelper.h>
-#include <core/gameproject.h>
+#include <engine/gameproject.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>
 #include <engine/game.h>

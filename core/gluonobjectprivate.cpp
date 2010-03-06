@@ -19,6 +19,12 @@
 
 #include "gluonobjectprivate.h"
 
+#include "gluonobject.h"
+#include "gluonobjectfactory.h"
+#include "debughelper.h"
+
+#include <QtCore/QStringList>
+
 using namespace GluonCore;
 
 GluonObjectPrivate::GluonObjectPrivate()

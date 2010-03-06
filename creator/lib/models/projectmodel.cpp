@@ -16,10 +16,10 @@
 
 #include "projectmodel.h"
 
-#include "core/gameproject.h"
 #include "core/gluonobject.h"
 #include "core/debughelper.h"
 #include "engine/game.h"
+#include "engine/gameproject.h"
 #include "engine/asset.h"
 #include "engine/scene.h"
 #include "objectmanager.h"
@@ -41,7 +41,7 @@ class ProjectModel::ProjectModelPrivate
         ProjectModelPrivate() { project = 0; }
 
         QObject* root;
-        GluonCore::GameProject* project;
+        GluonEngine::GameProject* project;
 
         QStringList acceptedMimeTypes;
 };
@@ -58,14 +58,14 @@ ProjectModel::~ProjectModel()
 }
 
 
-GluonCore::GameProject*
+GluonEngine::GameProject*
 ProjectModel::project()
 {
     return d->project;
 }
 
 void
-ProjectModel::setProject(GluonCore::GameProject* project)
+ProjectModel::setProject(GluonEngine::GameProject* project)
 {
     d->root = new QObject(this);
     d->project = project;

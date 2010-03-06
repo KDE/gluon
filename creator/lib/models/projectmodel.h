@@ -20,11 +20,8 @@
 #include <QtCore/QAbstractItemModel>
 #include "gluoncreator_macros.h"
 
-namespace GluonCore {
-    class GameProject;
-}
-
 namespace GluonEngine {
+    class GameProject;
     class GameObject;
 }
 
@@ -37,7 +34,7 @@ class GLUONCREATOR_EXPORT ProjectModel : public QAbstractItemModel
         ProjectModel(QObject* parent = 0);
         ~ProjectModel();
 
-        GluonCore::GameProject* project();
+        GluonEngine::GameProject* project();
 
         virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
@@ -45,7 +42,7 @@ class GLUONCREATOR_EXPORT ProjectModel : public QAbstractItemModel
         virtual QModelIndex parent(const QModelIndex& child) const;
         virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
         virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-        
+
         virtual Qt::DropActions supportedDropActions() const;
         virtual Qt::ItemFlags flags(const QModelIndex& index) const;
         virtual QStringList mimeTypes() const;
@@ -54,7 +51,7 @@ class GLUONCREATOR_EXPORT ProjectModel : public QAbstractItemModel
         virtual bool removeRows(int row, int count, const QModelIndex & parent);
 
     public slots:
-        void setProject(GluonCore::GameProject* project);
+        void setProject(GluonEngine::GameProject* project);
 
     private:
         class ProjectModelPrivate;

@@ -21,14 +21,14 @@
 #define GLUON_ENGINE_SCENE_H
 
 #include "asset.h"
-#include "core/savable.h"
+#include "savable.h"
 
 namespace GluonEngine
 {
     class GameObject;
     class ScenePrivate;
 
-    class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonCore::Savable
+    class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonEngine::Savable
     {
         Q_OBJECT
         GLUON_OBJECT(GluonEngine::Scene);

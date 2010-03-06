@@ -24,18 +24,14 @@
 
 #include "gluon_engine_export.h"
 
-namespace GluonCore
-{
-    class GameProject;
-}
-
 namespace GluonEngine
 {
+    class GameProject;
     class FileLocationPrivate;
     class GLUON_ENGINE_EXPORT FileLocation
     {
         public:
-            FileLocation(GluonCore::GameProject* parent, const QUrl& relativeUrl);
+            FileLocation(GluonEngine::GameProject* parent, const QUrl& relativeUrl);
             FileLocation(const FileLocation &other);
             ~FileLocation();
 

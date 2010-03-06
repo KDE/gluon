@@ -18,18 +18,19 @@
 */
 
 #include "savable.h"
-#include "gluonobject.h"
-#include "debughelper.h"
+
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QDir>
 #include <QtCore/QVariant>
 
-using namespace GluonCore;
+using namespace GluonEngine;
 
 bool
-Savable::saveToFile(GluonObject * object)
+Savable::saveToFile(GluonCore::GluonObject * object)
 {
     DEBUG_BLOCK
     if(!object)
@@ -43,7 +44,7 @@ Savable::saveToFile(GluonObject * object)
         DEBUG_TEXT("Attempted to save an object which does not inherit Savable!");
         return false;
     }
-    
+
     // Make sure the filename is populated and is sane
     if(object->property("file").value<QUrl>().isEmpty())
         object->setProperty("file", QVariant::fromValue<QUrl>( QUrl( QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) ) );
@@ -65,7 +66,7 @@ Savable::saveToFile(GluonObject * object)
     savableFile->close();
 
     delete(savableFile);
-    
+
     // Remember to undirty yourself
     if(savableObject)
         savableObject->savableDirty = false;

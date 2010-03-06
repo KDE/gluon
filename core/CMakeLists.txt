@@ -39,13 +39,10 @@ set(GLUON_CORE_INCLUDES
 
 set(GluonCore_SRCS
     debughelper.cpp
-    gameproject.cpp
-    gameprojectprivate.cpp
     gdlhandler.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
     gluonobjectprivate.cpp
-    savable.cpp
 )
 
 qt4_automoc(${GluonCore_SRCS})
@@ -67,11 +64,8 @@ install(TARGETS GluonCore DESTINATION ${LIB_INSTALL_DIR})
 install(
     FILES
     debughelper.h
-    gameproject.h
-    gameprojectprivate.h
     gdlhandler.h
     gluonobject.h
-    savable.h
     gluonobjectfactory.h
     gluonobjectprivate.h
     singleton.h

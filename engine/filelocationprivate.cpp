@@ -19,7 +19,7 @@
 
 #include "filelocationprivate.h"
 
-#include "core/gameproject.h"
+#include "gameproject.h"
 
 using namespace GluonEngine;
 

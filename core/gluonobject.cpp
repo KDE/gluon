@@ -19,7 +19,6 @@
 
 #include "gluonobject.h"
 #include "gluonobjectprivate.h"
-#include "gameproject.h"
 #include "debughelper.h"
 #include "gluonvarianttypes.h"
 
@@ -93,9 +92,9 @@ GluonObject::sanitize()
         QObject * currentParent = this->parent();
         while(currentParent)
         {
-            if(qobject_cast<GameProject*>(currentParent))
+            if(currentParent->metaObject()->className() == "GluonEngine::GameProject")
             {
-                setGameProject(qobject_cast<GameProject*>(currentParent));
+                setGameProject(qobject_cast<GluonObject*>(currentParent));
                 break;
             }
             currentParent = currentParent->parent();
@@ -141,30 +140,7 @@ GluonObject::sanitize()
 
             DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
 
-            // Yes, i know this is O(n*m) but it does not happen during gameplay
-            foreach(const QString &name, objectTypeNames)
-            {
-                // Reset the value of this property to be a reference to GluonObjct
-                // instance by that name, found in the project
-                if(theValue.startsWith(name + '(') && theValue.endsWith(')'))
-                {
-                    QString theReferencedName = theValue.mid(name.length() + 2, theValue.length() - (name.length() + 3));
-                    QVariant theReferencedObject;
-
-                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
-                    theReferencedObject.setValue<GluonObject*>(theObject);
-                    setProperty(metaproperty.name(), theReferencedObject);
-                    if(!theObject)
-                    {
-                        DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
-                    }
-                    else
-                    {
-                        DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(metaproperty.name()).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
-                    }
-                    break;
-                }
-            }
+            sanitizeReference(theName, theValue);
         }
 
         // Then get all the dynamic ones (in case any such exist)
@@ -188,30 +164,7 @@ GluonObject::sanitize()
 
             DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
 
-            // Yes, i know this is O(n*m) but it does not happen during gameplay
-            foreach(const QString &name, objectTypeNames)
-            {
-                // Reset the value of this property to be a reference to GluonObjct
-                // instance by that name, found in the project
-                if(theValue.startsWith(name + '('))
-                {
-                    QString theReferencedName = theValue.mid(name.length() + 1, theValue.length() - (name.length() + 2));
-                    QVariant theReferencedObject;
-
-                    GluonObject * theObject = gameProject()->findItemByName(theReferencedName);
-                    theReferencedObject.setValue<GluonObject*>(theObject);
-                    setProperty(propName, theReferencedObject);
-                    if(!theObject)
-                    {
-                        DEBUG_TEXT(QString("No object found fitting the reference %1").arg(theValue));
-                    }
-                    else
-                    {
-                        DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3 (classname %4)").arg(QString(propName)).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
-                    }
-                    break;
-                }
-            }
+            sanitizeReference(theName, theValue);
         }
     }
     else
@@ -220,14 +173,14 @@ GluonObject::sanitize()
     }
 }
 
-GameProject *
+GluonObject *
 GluonObject::gameProject() const
 {
     return d->gameProject;
 }
 
 void
-GluonObject::setGameProject(GameProject * newGameProject)
+GluonObject::setGameProject(GluonObject * newGameProject)
 {
     d->gameProject = newGameProject;
 }
@@ -258,7 +211,7 @@ GluonObject::setName(const QString &newName)
     QString theName(newName);
     // Fix up the name to not include any '/' (this would screw up the fullyQualifiedName)
     theName.replace('/', ' ');
-    
+
     // Make sure we don't set a name on an object which is already used!
     if(parent())
     {
@@ -560,6 +513,86 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));
 
     return returnString;
+}
+
+GluonObject*
+GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* object)
+{
+    DEBUG_FUNC_NAME
+    GluonObject * foundChild = NULL;
+
+    QString lookingFor(qualifiedName[0]);
+    qualifiedName.removeFirst();
+
+    if(lookingFor == object->name()) {
+        if(qualifiedName.count() > 0) {
+            lookingFor = qualifiedName.at(0);
+            qualifiedName.removeFirst();
+        }
+    }
+
+    DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
+    foreach(QObject * child, object->children())
+    {
+        if(qobject_cast<GluonObject*>(child)->name() == lookingFor)
+        {
+            foundChild = qobject_cast<GluonObject*>(child);
+            break;
+        }
+    }
+
+    // checking for nullity to guard against trying to go into non-existent sub-trees
+    if(foundChild != NULL)
+    {
+        if(qualifiedName.count() > 0)
+        {
+            DEBUG_TEXT(QString("Found child, recursing..."));
+            return GluonObject::findItemByNameInObject(qualifiedName, foundChild);
+        }
+        else
+        {
+            DEBUG_TEXT(QString("Found child!"));
+        }
+    }
+    else
+    {
+        DEBUG_TEXT("Did not find child! Bailing out");
+    }
+
+    return foundChild;
+}
+
+
+void
+GluonObject::sanitizeReference(const QString& propName, const QString& propValue)
+{
+    DEBUG_BLOCK
+    QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
+    // Yes, i know this is O(n*m) but it does not happen during gameplay
+    foreach(const QString &name, objectTypeNames)
+    {
+        // Reset the value of this property to be a reference to GluonObjct
+        // instance by that name, found in the project
+        if(propValue.startsWith(name + '('))
+        {
+            QString theReferencedName = propValue.mid(name.length() + 1, propValue.length() - (name.length() + 2));
+            QVariant theReferencedObject;
+
+            GluonObject * theObject = GluonObject::findItemByNameInObject(theReferencedName.split('/'), gameProject());
+
+            theReferencedObject.setValue<GluonObject*>(theObject);
+            setProperty(propName.toAscii(), theReferencedObject);
+            if(!theObject)
+            {
+                DEBUG_TEXT(QString("No object found fitting the reference %1").arg(propValue));
+            }
+            else
+            {
+                DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3 (classname %4)").arg(QString(propName)).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
+            }
+            break;
+        }
+    }
 }
 
 #include "gluonobject.moc"

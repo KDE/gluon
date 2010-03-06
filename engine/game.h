@@ -28,16 +28,12 @@
 
 #include <core/singleton.h>
 
-namespace GluonCore
-{
-    class GameProject;
-}
-
 namespace GluonEngine
 {
     class GameObject;
     class Scene;
     class GamePrivate;
+    class GameProject;
 
     class I : public QThread
     {
@@ -64,7 +60,7 @@ namespace GluonEngine
             int getCurrentTick();
             Scene * currentScene() const;
 
-            GluonCore::GameProject * gameProject() const;
+            GluonEngine::GameProject * gameProject() const;
 
             Q_INVOKABLE bool isRunning() const;
             Q_INVOKABLE bool isPaused() const;
@@ -74,7 +70,7 @@ namespace GluonEngine
             //Q_INVOKABLE GameObject* spawn(const QString& prefabName);
 
         public slots:
-            void setGameProject(GluonCore::GameProject * newGameProject);
+            void setGameProject(GluonEngine::GameProject * newGameProject);
 
             void setCurrentScene(Scene * newCurrentScene);
             void setCurrentScene(const QString& sceneName);
@@ -98,13 +94,17 @@ namespace GluonEngine
             void setPause(bool pause);
 
             /**
+             * Draw all items in the current scene.
+             */
+            void drawAll();
+            /**
              * Update all items in the current scene.
              */
             void updateAll();
 
         signals:
             void currentSceneChanged(GluonEngine::Scene*);
-            void currentProjectChanged(GluonCore::GameProject*);
+            void currentProjectChanged(GluonEngine::GameProject*);
 
             void updated();
             void painted();

@@ -30,7 +30,7 @@
 #include <KRecentFilesAction>
 
 #include <engine/game.h>
-#include <core/gameproject.h>
+#include <engine/gameproject.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
@@ -95,7 +95,7 @@ void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
     if(!fileName.isEmpty()) {
-        GluonCore::GameProject* project = new GluonCore::GameProject();
+        GluonEngine::GameProject* project = new GluonEngine::GameProject();
         project->loadFromFile(QUrl(fileName));
 
         GluonEngine::Game::instance()->setGameProject(project);
@@ -143,7 +143,7 @@ void MainWindow::saveProjectAs()
 
 void MainWindow::setupGame()
 {
-    GluonCore::GameProject* project = new GluonCore::GameProject(GluonEngine::Game::instance());
+    GluonEngine::GameProject* project = new GluonEngine::GameProject(GluonEngine::Game::instance());
     project->setName(i18n("New Project"));
     GluonEngine::Game::instance()->setGameProject(project);
 

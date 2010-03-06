@@ -20,12 +20,12 @@
 #include "filelocation.h"
 #include "filelocationprivate.h"
 
-#include "core/gameproject.h"
+#include "gameproject.h"
 #include <qfileinfo.h>
 
 using namespace GluonEngine;
 
-FileLocation::FileLocation(GluonCore::GameProject* parent, const QUrl &relativeUrl)
+FileLocation::FileLocation(GluonEngine::GameProject* parent, const QUrl &relativeUrl)
 {
     d = new FileLocationPrivate;
     d->gameProject = parent;

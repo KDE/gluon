@@ -21,8 +21,8 @@
 #include "gameprivate.h"
 #include "scene.h"
 #include "gameobject.h"
+#include "gameproject.h"
 
-#include "core/gameproject.h"
 #include "core/debughelper.h"
 
 #include <QtCore/QCoreApplication>
@@ -170,13 +170,16 @@ void Game::setPause(bool pause)
     d->gamePaused = pause;
 }
 
+void Game::drawAll()
+{
+    d->currentScene->drawAll(1);
+    emit painted();
+}
+
 void Game::updateAll()
 {
     d->currentScene->updateAll(10);
     emit updated();
-
-    d->currentScene->drawAll();
-    emit painted();
 }
 
 /******************************************************************************
@@ -217,13 +220,13 @@ void Game::setCurrentScene(const QString& sceneName)
         setCurrentScene(scene);
 }
 
-GluonCore::GameProject *
+GluonEngine::GameProject *
 Game::gameProject() const
 {
     return d->gameProject;
 }
 void
-Game::setGameProject(GluonCore::GameProject * newGameProject)
+Game::setGameProject(GluonEngine::GameProject * newGameProject)
 {
     DEBUG_FUNC_NAME
     d->gameProject = newGameProject;

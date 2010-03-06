@@ -17,28 +17,31 @@
 
 */
 
-#ifndef GLUON_CORE_SAVABLE_H
-#define GLUON_CORE_SAVABLE_H
+#ifndef GLUON_ENGINE_SAVABLE_H
+#define GLUON_ENGINE_SAVABLE_H
 
-#include "gluon_core_export.h"
+#include "gluon_engine_export.h"
 
 #include <QString>
 
 namespace GluonCore
 {
     class GluonObject;
+}
 
+namespace GluonEngine
+{
     /**
      * The Savable class decorates any GluonObject to allow for saving it
      * to a GDL file (the filename it has).
-     * 
+     *
      * Note that you should only ever inherit Savable in a class which also
      * has a property called "file" which is of QVariant type QUrl.
-     * 
+     *
      * It is designed with the GluonEngine::Asset class in mind, but can
      * handle any class with the above requirement in order.
      */
-    class GLUON_CORE_EXPORT Savable
+    class GLUON_ENGINE_EXPORT Savable
     {
         public:
             virtual ~Savable() {};
@@ -52,7 +55,7 @@ namespace GluonCore
              *
              * @see GluonEngine::Asset
              */
-            static bool saveToFile(GluonObject * object);
+            static bool saveToFile(GluonCore::GluonObject * object);
 
             /**
              * Serialise the contents of the asset to GDL. This function should
@@ -62,7 +65,7 @@ namespace GluonCore
              * @return The serialised contents of the asset
              */
             virtual QString contentsToGDL() = 0;
-            
+
             /**
              * Set this to true any time you do anything to the asset which would
              * be considered a change to the data represented by it
@@ -71,4 +74,4 @@ namespace GluonCore
     };
 }
 
-#endif // GLUON_CORE_SAVABLE_H
+#endif // GLUON_ENGINE_SAVABLE_H

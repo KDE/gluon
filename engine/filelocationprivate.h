@@ -22,13 +22,10 @@
 
 #include <QtCore/QUrl>
 
-namespace GluonCore
-{
-    class GameProject;
-}
-
 namespace GluonEngine
 {
+    class GameProject;
+
     class FileLocationPrivate
     {
         public:
@@ -36,7 +33,7 @@ namespace GluonEngine
             FileLocationPrivate(const FileLocationPrivate &other);
             ~FileLocationPrivate();
 
-            GluonCore::GameProject* gameProject;
+            GluonEngine::GameProject* gameProject;
             QUrl url;
     };
 }

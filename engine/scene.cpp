@@ -21,6 +21,7 @@
 #include "gameobject.h"
 #include "sceneprivate.h"
 #include "filelocation.h"
+#include "gameproject.h"
 
 REGISTER_OBJECTTYPE(GluonEngine, Scene)
 
@@ -85,7 +86,7 @@ GameObject*
 Scene::sceneContents()
 {
     if(!d->sceneContentsLoaded && !savableDirty)
-        d->loadContents(FileLocation(gameProject(), file()).location());
+        d->loadContents(FileLocation(qobject_cast<GameProject*>(gameProject()), file()).location());
     return d->sceneContents;
 }
 

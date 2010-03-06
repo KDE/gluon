@@ -17,10 +17,11 @@
 
 */
 
-#ifndef GLUON_CORE_GAMEPROJECT_H
-#define GLUON_CORE_GAMEPROJECT_H
+#ifndef GLUON_ENGINE_GAMEPROJECT_H
+#define GLUON_ENGINE_GAMEPROJECT_H
 
-#include "gluonobject.h"
+#include "gluon_engine_export.h"
+#include <core/gluonobject.h>
 
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
@@ -28,11 +29,8 @@
 namespace GluonEngine
 {
     class Scene;
-}
-
-namespace GluonCore
-{
     class GameProjectPrivate;
+
     /**
      * The GameProject class describes and contains a complete game project,
      * and all the meta information that goes with it, making it into a
@@ -43,7 +41,7 @@ namespace GluonCore
      * project) are all found in the QObject hierarchy - they are simply
      * anchored by the QObject parent/child system
      */
-    class GLUON_CORE_EXPORT GameProject : public GluonObject
+    class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
         Q_OBJECT;
         GLUON_OBJECT(GluonCore::GameProject);
@@ -83,8 +81,8 @@ namespace GluonCore
             QUrl filename() const;
             void setFilename(QUrl newFilename);
 
-            GluonObject *entryPoint() const;
-            void setEntryPoint(GluonObject *newEntryPoint);
+            Scene *entryPoint() const;
+            void setEntryPoint(Scene *newEntryPoint);
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;
@@ -92,4 +90,4 @@ namespace GluonCore
 
 }
 
-#endif  // GLUON_CORE_GAMEPROJECT_H
+#endif  // GLUON_ENGINE_GAMEPROJECT_H

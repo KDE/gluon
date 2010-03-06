@@ -46,8 +46,11 @@ set(GluonEngine_SRCS
     componentprivate.cpp
     gameobject.cpp
     gameobjectprivate.cpp
+    gameproject.cpp
+    gameprojectprivate.cpp
     prefab.cpp
     prefabprivate.cpp
+    savable.cpp
     scene.cpp
     sceneprivate.cpp
     filelocation.cpp
@@ -81,7 +84,9 @@ install(
     asset.h
     component.h
     gameobject.h
+    gameproject.h
     prefab.h
+    savable.h
     scene.h
     filelocation.h
 

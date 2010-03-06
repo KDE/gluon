@@ -68,20 +68,22 @@ namespace GluonCore
              * Use this to access functions on the GameProject instance associated
              * with this GluonObject.
              *
-             * @return The instance of GameProject this GluonObject is associated with
+             * @return The instance of GameProject this GluonObject is associated with.
+             * Note that it is returned as GluonObject so you will need to use a qobject_cast to cast it.
              * @see GameProject GameProject::findItemByName
              */
-            GameProject * gameProject() const;
+            GluonObject * gameProject() const;
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
              *
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
-            void setGameProject(GameProject * newGameProject);
+            void setGameProject(GluonObject * newGameProject);
 
             /**
              * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?
+             * We need to separate this into a parser class, imo. Can wait until post-alpha though. -ahiemstra
              */
             virtual QString toGDL(int indentLevel = 0) const;
             virtual QString childrenToGDL(int indentLevel = 0) const;
@@ -100,7 +102,11 @@ namespace GluonCore
             virtual GluonObject * child(int index) const;
             virtual GluonObject * child(const QString& name) const;
 
+        protected:
+            static GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonCore::GluonObject* object);
+
         private:
+            void sanitizeReference(const QString& propName, const QString& propValue);
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }

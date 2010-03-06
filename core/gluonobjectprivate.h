@@ -26,7 +26,7 @@
 
 namespace GluonCore
 {
-    class GameProject;
+    class GluonObject;
 
     class GluonObjectPrivate : public QSharedData
     {
@@ -36,7 +36,7 @@ namespace GluonCore
             ~GluonObjectPrivate() {};
 
             QString name;
-            GameProject * gameProject;
+            GluonObject *gameProject;
     };
 }
 

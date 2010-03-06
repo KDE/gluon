@@ -19,9 +19,9 @@
 
 #include "gameproject.h"
 #include "gameprojectprivate.h"
-#include "gdlhandler.h"
-#include "debughelper.h"
 
+#include <core/gdlhandler.h>
+#include <core/debughelper.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
@@ -30,10 +30,10 @@
 #include <QtCore/QTextStream>
 #include <QMetaClassInfo>
 
-REGISTER_OBJECTTYPE(GluonCore,GameProject)
-Q_DECLARE_METATYPE(GluonCore::GluonObject*);
+REGISTER_OBJECTTYPE(GluonEngine, GameProject)
+Q_DECLARE_METATYPE(GluonEngine::Scene*);
 
-using namespace GluonCore;
+using namespace GluonEngine;
 
 GameProject::GameProject(QObject * parent)
     : GluonObject(parent)
@@ -43,8 +43,8 @@ GameProject::GameProject(QObject * parent)
 
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
-    GluonObject *theObject = d->entryPoint;
-    somethingEmpty.setValue<GluonObject*>(theObject);
+    Scene *theObject = d->entryPoint;
+    somethingEmpty.setValue<Scene*>(theObject);
     setProperty("entryPoint", somethingEmpty);
 }
 
@@ -59,10 +59,10 @@ GameProject::~GameProject()
 {
 }
 
-GluonObject *
+GluonCore::GluonObject *
 GameProject::findItemByName(QString qualifiedName)
 {
-    return d->findItemByNameInObject(qualifiedName.split('/'), this);
+    return GluonObject::findItemByNameInObject(qualifiedName.split('/'), this);
 }
 
 bool
@@ -80,7 +80,7 @@ GameProject::saveToFile() const
     thisProject.append(this);
 
     QTextStream projectWriter(projectFile);
-    projectWriter << GDLHandler::instance()->serializeGDL(thisProject);
+    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL(thisProject);
     projectFile->close();
 
     delete(projectFile);
@@ -109,7 +109,7 @@ GameProject::loadFromFile()
     if(fileContents.isEmpty())
         return false;
 
-    QList<GluonObject*> objectList = GDLHandler::instance()->parseGDL(fileContents, this->parent());
+    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL(fileContents, this->parent());
     if(objectList.count() > 0)
     {
         if(objectList[0]->metaObject())
@@ -233,18 +233,19 @@ GameProject::setFilename(QUrl newFilename)
     d->filename = newFilename;
 }
 
-GluonObject *
+Scene *
 GameProject::entryPoint() const
 {
 //    return d->entryPoint;
-    return property("entryPoint").value<GluonObject*>();
+    return property("entryPoint").value<Scene*>();
 }
+
 void
-GameProject::setEntryPoint(GluonObject * newEntryPoint)
+GameProject::setEntryPoint(Scene * newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
     QVariant theNewValue;
-    theNewValue.setValue<GluonObject*>(newEntryPoint);
+    theNewValue.setValue<Scene*>(newEntryPoint);
     setProperty("entryPoint", theNewValue);
 }
 
