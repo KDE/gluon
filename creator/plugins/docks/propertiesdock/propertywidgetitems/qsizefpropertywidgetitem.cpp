@@ -23,6 +23,8 @@
 #include <QtGui/QDoubleSpinBox>
 #include <QtGui/QHBoxLayout>
 
+#include <cfloat>
+
 REGISTER_PROPERTYWIDGETITEM(GluonCreator,QSizeFPropertyWidgetItem)
 
 using namespace GluonCreator;
@@ -50,11 +52,13 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFl
 
     d->height = new QDoubleSpinBox(this);
     d->height->setPrefix(tr("Height: "));
+    d->height->setRange(-FLT_MAX, FLT_MAX);
     layout->addWidget(d->height);
     connect(d->height, SIGNAL(valueChanged(double)), SLOT(heightValueChanged(double)));
 
     d->width = new QDoubleSpinBox(this);
     d->width->setPrefix(tr("Width: "));
+    d->width->setRange(-FLT_MAX, FLT_MAX);
     layout->addWidget(d->width);
     connect(d->width, SIGNAL(valueChanged(double)), SLOT(widthValueChanged(double)));
 
@@ -92,14 +96,14 @@ QSizeFPropertyWidgetItem::setEditValue(const QVariant& value)
 void
 QSizeFPropertyWidgetItem::heightValueChanged(double value)
 {
-    d->value = QSizeF(value, d->value.width());
+    d->value.setHeight(value);
     PropertyWidgetItem::valueChanged(QVariant(d->value));
 }
 
 void
 QSizeFPropertyWidgetItem::widthValueChanged(double value)
 {
-    d->value = QSizeF(d->value.height(), value);
+    d->value.setWidth(value);
     PropertyWidgetItem::valueChanged(QVariant(d->value));
 }
 
