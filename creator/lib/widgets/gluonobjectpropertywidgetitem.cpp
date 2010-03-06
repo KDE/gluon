@@ -18,11 +18,11 @@
 #include "engine/game.h"
 #include "engine/scene.h"
 #include "engine/gameobject.h"
+#include "engine/gameproject.h"
 
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
-#include <core/gameproject.h>
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KInputDialog>
