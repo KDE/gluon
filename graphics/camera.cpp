@@ -121,20 +121,16 @@ void Camera::applyViewport()
 void Camera::recalculateModelviewMatrix()
 {
      // Code from Mesa project, src/glu/sgi/libutil/project.c
-  mModelviewMatrixDirty = false;
-  QVector3D forward = (mLookAt - mPosition).normalized();
-  QVector3D side = QVector3D::crossProduct(forward,mUp).normalized();
-  QVector3D up = QVector3D::crossProduct(side,forward);
-  
-  mModelviewMatrix.setToIdentity();
-  mModelviewMatrix.setColumn(0,QVector4D(side.x(),side.y(),side.z(),0));
-  mModelviewMatrix.setColumn(1,QVector4D(up.x(),up.y(),up.z(),0));
- mModelviewMatrix.setColumn(2,QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
- mModelviewMatrix.translate(-mPosition);
-	
+    mModelviewMatrixDirty = false;
+    QVector3D forward = mLookAt.normalized();
+    QVector3D side = -QVector3D::crossProduct(forward, mUp).normalized();
+    QVector3D up = QVector3D::crossProduct(side,forward);
 
-
-
+    mModelviewMatrix.setToIdentity();
+    mModelviewMatrix.setColumn(0, QVector4D(side.x(),side.y(),side.z(),0));
+    mModelviewMatrix.setColumn(1, QVector4D(up.x(),up.y(),up.z(),0));
+    mModelviewMatrix.setColumn(2, QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
+    mModelviewMatrix.translate(mPosition);
 }
 
 void Camera::recalculateProjectionMatrix()
