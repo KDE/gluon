@@ -131,6 +131,7 @@ GameProject::loadFromFile()
                 {
                     GluonObject* theChild = qobject_cast<GluonObject*>(child);
                     theChild->setParent(this);
+                    theChild->setGameProject(this);
                 }
 
                 // Set all the interesting values...
