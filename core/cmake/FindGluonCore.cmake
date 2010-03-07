@@ -33,7 +33,6 @@ find_path(GLUON_INSTALL_PREFIX
 set(CMAKE_MODULE_PATH ${GLUON_INSTALL_PREFIX}/share/gluon/cmake)
 
 find_package(Qt4 ${_gluonCoreReq})
-find_package(Eigen2 ${_gluonCoreReq})
 
 if(NOT LIB_SUFFIX)
     set(_Init_LIB_SUFFIX "")
