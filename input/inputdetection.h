@@ -5,7 +5,6 @@
 #include <QtCore/QList>
 #include <QtCore/QSharedData>
 
-#include "inputdetectionprivate.h"
 #include "inputdevice.h"
 #include "mouse.h"
 #include "keyboard.h"
@@ -16,6 +15,8 @@
 namespace GluonInput
 {
 	typedef QList<InputDevice *> InputList;
+
+    class InputDetectionPrivate;
 
 	class GLUON_INPUT_EXPORT InputDetection : public GluonCore::Singleton<InputDetection>
 	{
@@ -64,7 +65,7 @@ namespace GluonInput
 	private:
 		~InputDetection();
 		void init();
-		
+
 		QSharedDataPointer<InputDetectionPrivate> d;
 	};
 }

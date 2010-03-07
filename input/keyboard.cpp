@@ -1,4 +1,5 @@
 #include "keyboard.h"
+#include "keyboardprivate.h"
 
 using namespace GluonInput;
 

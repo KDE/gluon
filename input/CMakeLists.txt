@@ -113,21 +113,14 @@ set(GluonInput_SRCS_COMMON
 
 set(GluonInput_HEADERS_COMMON
     gluon_input_export.h
-    inputdetectionprivate.h
+    inputdetection.h
     inputevent.h
-	inputeventprivate.h
     inputdevice.h
-	inputdeviceprivate.h
     mouse.h
-	mouseprivate.h
     tablet.h
-	tabletprivate.h
     keyboard.h
-	keyboardprivate.h
     joystick.h
-	joystickprivate.h
     custominput.h
-	custominputprivate.h
 	detect.h
 	absval.h
 )

@@ -1,8 +1,9 @@
 #include "inputevent.h"
+#include "inputeventprivate.h"
 
 namespace GluonInput
 {
-	InputEvent::InputEvent(int code, int value, QEvent::Type eventType) 
+	InputEvent::InputEvent(int code, int value, QEvent::Type eventType)
 	: QEvent(eventType)
 	{
 		d = new InputEventPrivate();
@@ -10,7 +11,7 @@ namespace GluonInput
 		d->m_value = value;
 	}
 
-	int InputEvent::code() const 
+	int InputEvent::code() const
 	{
 		return d->m_code;
 	}

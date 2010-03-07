@@ -2,7 +2,6 @@
 #define MOUSE_H
 
 #include "inputdevice.h"
-#include "mouseprivate.h"
 
 #include <QtCore/QList>
 #include <QtCore/QPoint>
@@ -12,6 +11,7 @@
 namespace GluonInput
 {
 	class InputThread;
+    class MousePrivate;
 
 	class GLUON_INPUT_EXPORT Mouse : public InputDevice
 	{

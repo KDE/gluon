@@ -1,4 +1,5 @@
 #include "mouse.h"
+#include "mouseprivate.h"
 
 #include <QtCore/QDebug>
 
@@ -25,7 +26,7 @@ namespace GluonInput
 		d->m_sensibility=s;
 	}
 
-	void Mouse::setOrigin(const QPoint p) 
+	void Mouse::setOrigin(const QPoint p)
 	{
 		d->m_originalPosition = p;
 	}
@@ -35,7 +36,7 @@ namespace GluonInput
 	  return relAxisValue(lastRelAxis());
 	}
 
-	int Mouse::hWheelPosition()const 
+	int Mouse::hWheelPosition()const
 	{
 	  return relAxisValue(lastRelAxis());
 	}

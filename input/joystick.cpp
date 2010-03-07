@@ -1,7 +1,8 @@
 #include "joystick.h"
+#include "joystickprivate.h"
 
 namespace GluonInput
-{	
+{
 	Joystick::Joystick(InputThread * inputThread, QObject * parent)	: InputDevice(inputThread, parent)
 	{
 		d = new JoystickPrivate();
@@ -12,7 +13,7 @@ namespace GluonInput
 		return absAxisValue(this->inputThread()->getJoystickXAxis());
 	}
 
-	int Joystick::axisY()const 
+	int Joystick::axisY()const
 	{
 		return absAxisValue(this->inputThread()->getJoystickYAxis());
 	}

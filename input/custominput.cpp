@@ -1,6 +1,8 @@
 #include "custominput.h"
 
 #include "inputdevice.h"
+#include "custominputprivate.h"
+
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
 
@@ -11,7 +13,7 @@ namespace GluonInput
 	{
 		d = new CustomInputPrivate();
 	}
-	
+
 	CustomInput::~CustomInput()
 	{
 	}
@@ -56,7 +58,7 @@ namespace GluonInput
 		connect(input,SIGNAL(eventSent(InputEvent*)),this,SLOT(inputEvent(InputEvent*)));
 
 	}
-	
+
 	void CustomInput::remButton(const QString &name)
 	{
 		if (d->m_buttons.contains(name))
@@ -65,7 +67,7 @@ namespace GluonInput
 			d->m_buttons.remove(name);
 		}
 	}
-	
+
 	void CustomInput::remAbsAxis(const QString &name)
 	{
 		if (d->m_absAxis.contains(name))
@@ -74,7 +76,7 @@ namespace GluonInput
 			d->m_absAxis.remove(name);
 		}
 	}
-	
+
 	void CustomInput::remRelAxis(const QString &name)
 	{
 		if (d->m_relAxis.contains(name))
@@ -154,7 +156,7 @@ namespace GluonInput
 
 
 	}
-	
+
 	int CustomInput::absAxisValue(const QString &name)
 	{
 		if (d->m_absAxis.contains(name))
@@ -175,7 +177,7 @@ namespace GluonInput
 
 		return NULL;
 	}
-	
+
 	int CustomInput::codeAt(const QString& name, GluonInput::InputTypeFlag type)
 	{
 
@@ -191,7 +193,7 @@ namespace GluonInput
 		return -1;
 
 	}
-	
+
 	QStringList CustomInput::buttonNameList()
 	{
 		QStringList list;
@@ -203,7 +205,7 @@ namespace GluonInput
 		}
 		return list;
 	}
-	
+
 	QStringList CustomInput::absAxisNameList()
 	{
 		QStringList list;
@@ -215,7 +217,7 @@ namespace GluonInput
 		}
 		return list;
 	}
-	
+
 	QStringList CustomInput::relAxisNameList()
 	{
 		QStringList list;

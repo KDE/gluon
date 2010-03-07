@@ -2,13 +2,13 @@
 #define JOYSTICK_H
 
 #include "inputdevice.h"
-#include "joystickprivate.h"
 
 #include <QtCore/QSharedData>
 
 namespace GluonInput
 {
 	class InputThread;
+    class JoystickPrivate;
 
 	class GLUON_INPUT_EXPORT Joystick : public InputDevice
 	{
@@ -19,7 +19,7 @@ namespace GluonInput
 		int axisX() const;
 		int axisY()const;
 		int axisZ() const;
-		
+
 	private:
 		QSharedDataPointer<JoystickPrivate> d;
 	};

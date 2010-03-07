@@ -7,6 +7,7 @@
 #include <QtGui/QMouseEvent>
 
 #include "absval.h"
+#include "inputdeviceprivate.h"
 
 #include <core/debughelper.h>
 
@@ -236,14 +237,14 @@ namespace GluonInput
 		d->m_relMove = false;
 		d->m_absMove = false;
 	}
-	
+
 	void InputDevice::setInputThread(InputThread * inputThread)
 	{
 		d->inputThread->setDisabled();
 		delete d->inputThread;
 		d->inputThread = inputThread;
 	}
-	
+
 	InputThread * InputDevice::inputThread() const
 	{
 		return d->inputThread;

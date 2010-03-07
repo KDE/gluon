@@ -11,10 +11,11 @@
 #include "code.h"
 #include "inputthread.h"
 #include "inputevent.h"
-#include "inputdeviceprivate.h"
 
 namespace GluonInput
 {
+    class InputDevicePrivate;
+
 	class GLUON_INPUT_EXPORT InputDevice : public QObject
 	{
 		Q_OBJECT
@@ -46,7 +47,7 @@ namespace GluonInput
 		bool error()const;
 		QString msgError()const;
 		bool isEnabled() const;
-		
+
 		void setInputThread(InputThread * inputThread);
 		InputThread * inputThread() const;
 
@@ -66,7 +67,7 @@ namespace GluonInput
 	private:
 		bool event(QEvent * evt);
 		void init();
-		
+
 		QSharedDataPointer<InputDevicePrivate> d;
 	};
 }

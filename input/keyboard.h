@@ -2,12 +2,12 @@
 #define KEYBOARD_H
 
 #include "inputdevice.h"
-#include "keyboardprivate.h"
 
 #include <QtCore/QSharedData>
 
 namespace GluonInput
 {
+    class KeyBoardPrivate;
 	class InputThread;
 
 	class GLUON_INPUT_EXPORT KeyBoard : public InputDevice
@@ -15,7 +15,7 @@ namespace GluonInput
         Q_OBJECT
         public:
             KeyBoard(InputThread * inputThread, QObject * parent = 0);
-		
+
 		private:
 		QSharedDataPointer<KeyBoardPrivate> d;
 	};

@@ -8,12 +8,12 @@
 
 #include "gluon_input_export.h"
 #include "inputdefinitions.h"
-#include "custominputprivate.h"
 
 namespace GluonInput
 {
 	class InputDevice;
 	class InputEvent;
+    class CustomInputPrivate;
 
 	class GLUON_INPUT_EXPORT CustomInput : public QObject
 	{
@@ -21,7 +21,7 @@ namespace GluonInput
 	public:
 		CustomInput(QObject * parent=0);
 		~CustomInput();
-		
+
 		void setButton(const QString &name, InputDevice* input, int keyCode);
 		void setButton(const QString &name);
 		void remButton(const QString &name);
