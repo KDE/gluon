@@ -229,30 +229,38 @@ void
 Game::setGameProject(GluonEngine::GameProject * newGameProject)
 {
     DEBUG_FUNC_NAME
+    if(d->gameProject)
+    {
+        if(d->currentScene)
+            d->currentScene->stopAll();
+        delete d->gameProject;
+    }
+
     d->gameProject = newGameProject;
 
-    if(!gameProject()->entryPoint())
+    if(!d->gameProject->entryPoint())
     {
         DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
-        Scene *scene = GamePrivate::findSceneInChildren(newGameProject);
+        Scene *scene = GamePrivate::findSceneInChildren(d->gameProject);
         if(scene)
         {
-            gameProject()->setEntryPoint(scene);
+            d->gameProject->setEntryPoint(scene);
             DEBUG_TEXT(QString("Entry point salvaged by resetting to first Scene in project - %1").arg(scene->fullyQualifiedName()))
         }
     }
 
-    if(gameProject()->entryPoint())
+    if(d->gameProject->entryPoint())
     {
-        DEBUG_TEXT(QString("Set the gameproject to %1 with the entry point %2").arg(gameProject()->name()).arg(gameProject()->entryPoint()->name()))
+        DEBUG_TEXT(QString("Set the gameproject to %1 with the entry point %2").arg(d->gameProject->name()).arg(d->gameProject->entryPoint()->name()))
     }
     else
     {
         DEBUG_TEXT(QString("Somehow we have got here with no entrypoint... This is very, very wrong!"))
     }
 
-    setCurrentScene(qobject_cast<Scene*>(newGameProject->entryPoint()));
-    emit currentProjectChanged(newGameProject);
+    d->currentScene = d->gameProject->entryPoint();
+    emit currentProjectChanged(d->gameProject);
+    emit currentSceneChanged(d->currentScene);
 }
 
 
