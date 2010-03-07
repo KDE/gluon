@@ -45,6 +45,12 @@ Savable::saveToFile(GluonCore::GluonObject * object)
         return false;
     }
 
+    if(!savableObject->savableDirty)
+    {
+        DEBUG_TEXT("Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?");
+        return true;
+    }
+
     // Make sure the filename is populated and is sane
     if(object->property("file").value<QUrl>().isEmpty())
         object->setProperty("file", QVariant::fromValue<QUrl>( QUrl( QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) ) );
