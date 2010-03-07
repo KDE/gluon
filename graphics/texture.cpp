@@ -45,7 +45,6 @@ Texture::Texture(const QString& fileName)
     init();
 
     if (!QFile::exists(fileName)) {
-        qDebug() << "Texture::Texture: Texture file not found: " << fileName;
         return;
     }
     load(QImage(fileName));
@@ -70,7 +69,6 @@ Texture::~Texture()
 
 void Texture::load(const QImage &img, int width, int height)
 {
-    qDebug()<<"load texture";
     if (img.isNull()) {
         qDebug()<<"cannot load Texture. QImage is empty";
         return;
