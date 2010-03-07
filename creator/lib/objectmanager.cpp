@@ -89,6 +89,7 @@ GluonEngine::Scene* ObjectManager::createNewScene()
 {
     GluonEngine::Scene *newScn = new GluonEngine::Scene();
     newScn->setName(i18n("New Scene %1").arg(m_sceneId++));
+    newScn->setGameProject(GluonEngine::Game::instance()->gameProject());
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
 
     emit newObject(newScn);
