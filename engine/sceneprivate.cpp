@@ -58,6 +58,7 @@ ScenePrivate::loadContents(const QUrl& file)
     if(file.isEmpty())
     {
         DEBUG_TEXT(QString("Filename for scene was empty, so we can't load - aborting"));
+        sceneContentsLoaded = true;
         return;
     }
 
