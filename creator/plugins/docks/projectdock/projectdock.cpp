@@ -95,7 +95,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     connect(d->view, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenuRequested(const QPoint&)));
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
-    connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonCore::GameProject*)), d->model, SLOT(setProject(GluonCore::GameProject*)));
+    connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), d->model, SLOT(setProject(GluonEngine::GameProject*)));
     connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
     setWidget(d->view);
