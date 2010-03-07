@@ -29,7 +29,7 @@ using namespace GluonCore;
 
 GluonObjectPrivate::GluonObjectPrivate()
 {
-    gameProject = NULL;
+    gameProject = 0;
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)

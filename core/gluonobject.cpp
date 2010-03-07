@@ -87,12 +87,12 @@ GluonObject::sanitize()
 
     // Make sure the GameProject is set... Iterate upwards until you either reach
     // the first GameProject instance, or you run into a parent which is null
-    if(!this->gameProject())
+    if(!gameProject())
     {
         QObject * currentParent = this->parent();
         while(currentParent)
         {
-            if(currentParent->metaObject()->className() == "GluonEngine::GameProject")
+            if(currentParent->metaObject()->className() == QString("GluonEngine::GameProject"))
             {
                 setGameProject(qobject_cast<GluonObject*>(currentParent));
                 break;
