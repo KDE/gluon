@@ -2,6 +2,9 @@
 #define KEYBOARD_H
 
 #include "inputdevice.h"
+#include "keyboardprivate.h"
+
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -12,6 +15,9 @@ namespace GluonInput
         Q_OBJECT
         public:
             KeyBoard(InputThread * inputThread, QObject * parent = 0);
+		
+		private:
+		QSharedDataPointer<KeyBoardPrivate> d;
 	};
 }
 #endif // KCLKEYBOARD_H

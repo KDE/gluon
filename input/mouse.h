@@ -2,10 +2,12 @@
 #define MOUSE_H
 
 #include "inputdevice.h"
+#include "mouseprivate.h"
 
 #include <QtCore/QList>
 #include <QtCore/QPoint>
 #include <QtGui/QWidget>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -26,9 +28,7 @@ namespace GluonInput
 		double sensibility()const;
 
 	private:
-		QPoint m_position;
-		QPoint m_originalPosition;
-		double m_sensibility;
+		QSharedDataPointer<MousePrivate> d;
 	};
 }
 //@}

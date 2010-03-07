@@ -3,8 +3,9 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedData>
 
-#include "detect.h"
+#include "inputdetectionprivate.h"
 #include "inputdevice.h"
 #include "mouse.h"
 #include "keyboard.h"
@@ -62,8 +63,9 @@ namespace GluonInput
 
 	private:
 		~InputDetection();
-		Detect * m_instance;
 		void init();
+		
+		QSharedDataPointer<InputDetectionPrivate> d;
 	};
 }
 

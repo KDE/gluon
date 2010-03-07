@@ -2,6 +2,9 @@
 #define JOYSTICK_H
 
 #include "inputdevice.h"
+#include "joystickprivate.h"
+
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -16,6 +19,9 @@ namespace GluonInput
 		int axisX() const;
 		int axisY()const;
 		int axisZ() const;
+		
+	private:
+		QSharedDataPointer<JoystickPrivate> d;
 	};
 }
 //@}

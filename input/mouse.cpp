@@ -6,28 +6,28 @@ namespace GluonInput
 {
 	Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 	{
-		m_originalPosition = QPoint(0, 0);
-		m_position = m_originalPosition;
-		m_sensibility = 1;
+		d = new MousePrivate();
+		d->m_originalPosition = d->m_position = QPoint(0, 0);
+		d->m_sensibility = 1;
 	}
 
 	QPoint Mouse::position()
 	{
 		if ( anyRelMove())
 		{
-		  m_position += QPoint(relAxisValue(lastRelAxis()), relAxisValue(lastRelAxis()));
+		  d->m_position += QPoint(relAxisValue(lastRelAxis()), relAxisValue(lastRelAxis()));
 		}
-		return (m_position+m_originalPosition)*m_sensibility;
+		return (d->m_position+d->m_originalPosition)*d->m_sensibility;
 	}
 
 	void Mouse::setSensibility(double s)
 	{
-		m_sensibility=s;
+		d->m_sensibility=s;
 	}
 
 	void Mouse::setOrigin(const QPoint p) 
 	{
-		m_originalPosition = p;
+		d->m_originalPosition = p;
 	}
 
 	int Mouse::wheelPosition() const
@@ -42,7 +42,7 @@ namespace GluonInput
 
 	double Mouse::sensibility()const
 	{
-		return m_sensibility;
+		return d->m_sensibility;
 	}
 }
 #include "mouse.moc"

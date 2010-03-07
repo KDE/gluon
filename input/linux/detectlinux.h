@@ -8,9 +8,11 @@
 #include "mouse.h"
 #include "tablet.h"
 #include "detect.h"
+#include "detectlinuxprivate.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -25,40 +27,25 @@ namespace GluonInput
       void searchDevice();
       void setAllEnabled();
       void setAllDisabled();
+      
+      QList<InputDevice *> getInputList();
+      QList<KeyBoard *> getKeyboardList();
+      QList<Mouse *> getMouseList();
+      QList<Joystick *> getJoystickList();
+      QList<Tablet *> getTabletList();
+      QList<InputDevice *> getUnknownDeviceList();
 
-
-      void addInput(InputDevice *i) {
-	  m_inputList.append(i);
-      }
-
-      void addKeyboard(InputDevice *i) {
-	  KeyBoard * keybd = (KeyBoard*)i;
-	  m_keyboardList.append(keybd);
-      }
-
-      void addMouse(InputDevice *i) {
-	  Mouse * mouse = (Mouse*)i;
-	  m_mouseList.append(mouse);
-      }
-
-      void addJoystick(InputDevice *i) {
-	  Joystick * joy = (Joystick*)i;
-	  m_joystickList.append(joy);
-
-      }
-
-      void addTablet(InputDevice *i) {
-	  Tablet * tablet = (Tablet*)i;
-	  m_tabletList.append(tablet);
-      }
-
-      void addUnknown(InputDevice *i) {
-	  m_unknownList.append(i);
-      }
+      void addInput(InputDevice *i);
+      void addKeyboard(InputDevice *i);
+      void addMouse(InputDevice *i);
+      void addJoystick(InputDevice *i);
+      void addTablet(InputDevice *i);
+      void addUnknown(InputDevice *i);
 
       void clear();
 
   private:
+    QSharedDataPointer<DetectLinuxPrivate> d;
   };
 }
 #endif

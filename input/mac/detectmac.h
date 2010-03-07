@@ -11,9 +11,11 @@
 #include "keyboard.h"
 #include "mouse.h"
 #include "tablet.h"
+#include "detectmacprivate.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedData>
 
 #include <IOKit/hid/IOHIDLib.h>
 
@@ -49,9 +51,8 @@ namespace GluonInput
 	private:
 		static void createDevices(const void *value, void *context);
 		CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
-
-		IOHIDManagerRef deviceManager;
-		CFSetRef devices;
+		
+		QSharedDataPointer<DetectMacPrivate> d;
 	};
 }
 #endif

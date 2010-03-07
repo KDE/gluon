@@ -10,8 +10,6 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-	message(${GLUON_CORE_INCLUDES})
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(APPLE)
@@ -53,14 +51,18 @@ set(GluonInput_HEADERS_WIN )
 ###############mac source and headers###################
 set(GluonInput_SRCS_MAC
 	mac/inputthread.cpp
+	mac/inputthreadprivate.cpp
 	mac/code.cpp
     mac/detectmac.cpp
+	mac/detectmacprivate.cpp
 )
 
 set(GluonInput_HEADERS_MAC
 	mac/code.h
     mac/detectmac.h
+	mac/detectmacprivate.h
 	mac/inputthread.h
+	mac/inputthreadprivate.h
     mac/inputdefinitions.h
 
 )
@@ -69,14 +71,18 @@ set(GluonInput_HEADERS_MAC
 ###############linux source and headers###################
 set(GluonInput_SRCS_LINUX
 	linux/inputthread.cpp
+	linux/inputthreadprivate.cpp
 	linux/code.cpp
     linux/detectlinux.cpp
+	linux/detectlinuxprivate.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
 	linux/inputthread.h
+	linux/inputthreadprivate.h
 	linux/code.h
     linux/detectlinux.h
+	linux/detectlinuxprivate.h
     linux/inputdefinitions.h
 )
 ###############linux source and headers###################
@@ -84,26 +90,41 @@ set(GluonInput_HEADERS_LINUX
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
 	inputevent.cpp
+	inputeventprivate.cpp
     inputdevice.cpp
+	inputdeviceprivate.cpp
     mouse.cpp
+	mouseprivate.cpp
     tablet.cpp
+	tabletprivate.cpp
     keyboard.cpp
+	keyboardprivate.cpp
     joystick.cpp
+	joystickprivate.cpp
     custominput.cpp
+	custominputprivate.cpp
     inputdetection.cpp
+	inputdetectionprivate.cpp
     detect.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
     gluon_input_export.h
-    inputdetection.h
+    inputdetectionprivate.h
     inputevent.h
+	inputeventprivate.h
     inputdevice.h
+	inputdeviceprivate.h
     mouse.h
+	mouseprivate.h
     tablet.h
+	tabletprivate.h
     keyboard.h
+	keyboardprivate.h
     joystick.h
+	joystickprivate.h
     custominput.h
+	custominputprivate.h
 	detect.h
 	absval.h
 )

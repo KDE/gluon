@@ -6,10 +6,12 @@
 #include <QtCore/QPoint>
 #include <QtCore/QThread>
 #include <QtCore/QEvent>
+#include <QtCore/QSharedData>
 
 #include "code.h"
 #include "inputthread.h"
 #include "inputevent.h"
+#include "inputdeviceprivate.h"
 
 namespace GluonInput
 {
@@ -26,8 +28,6 @@ namespace GluonInput
 		int product()const;
 		int version()const;
 		int bustype()const;
-
-		InputThread *inputListener;
 
 		const QString deviceName() const;
 		GluonInput::DeviceFlag deviceType()const;
@@ -46,6 +46,9 @@ namespace GluonInput
 		bool error()const;
 		QString msgError()const;
 		bool isEnabled() const;
+		
+		void setInputThread(InputThread * inputThread);
+		InputThread * inputThread() const;
 
 	signals:
 		void eventSent(GluonInput::InputEvent * event);
@@ -62,19 +65,9 @@ namespace GluonInput
 
 	private:
 		bool event(QEvent * evt);
-
-		int m_lastAbsAxis;
-		int m_lastRelAxis;
-
-		QList<int> m_buttons;  //list of button pressed
-		QList<int> m_forceFeedBack;
-		QMap<int, int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;
-		QMap<int, int> m_absAxis; // list of absolue axis value. m_absAxis[ABS_Rx] = 156
-
-		bool m_absMove;
-		bool m_relMove;
-
 		void init();
+		
+		QSharedDataPointer<InputDevicePrivate> d;
 	};
 }
 #endif // KCLINPUT_H

@@ -26,8 +26,14 @@ namespace GluonInput
 	InputThread::InputThread(const QString &devicePath, QObject * parent)
 		: QThread(parent)
 	{
-		m_devicePath = devicePath;
+		d = new InputThreadPrivate();
+		d->m_devicePath = devicePath;
 		openDevice(devicePath);
+	}
+	
+	InputThread::~InputThread()
+	{
+		close(d->m_fd);
 	}
 
 	void InputThread::run()
@@ -35,7 +41,7 @@ namespace GluonInput
         DEBUG_FUNC_NAME
 		while (1) {
 			struct input_event ev;
-			int rd = read(m_fd, &ev, sizeof(struct input_event));
+			int rd = read(d->m_fd, &ev, sizeof(struct input_event));
 			if (rd < (int) sizeof(struct input_event)) {
 				qDebug() << "Could not read input";
 			} else {
@@ -48,8 +54,8 @@ namespace GluonInput
 
 	bool InputThread::openDevice(const QString& devicePath)
 	{
-		m_fd = -1;
-		if ((m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
+		d->m_fd = -1;
+		if ((d->m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0) {
 			qDebug() << "Could not read device " << devicePath;
 			return false;
 		}
@@ -76,36 +82,36 @@ namespace GluonInput
 
 	void InputThread::readInformation()
 	{
-		if (!QFile::exists(m_devicePath)) {
+		if (!QFile::exists(d->m_devicePath)) {
 			qDebug() << "m_devicePath does not exist";
-			m_error = true;
-			m_msgError += "device url does not exist \n";
+			d->m_error = true;
+			d->m_msgError += "device url does not exist \n";
 			return;
 		}
 
 		int m_fd = -1;
-		if ((m_fd = open(m_devicePath.toUtf8(), O_RDONLY)) < 0) {
-			qDebug() << "Could not open device" << m_devicePath;
-			m_error = true;
-			m_msgError += "could not open the device \n";
+		if ((m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) < 0) {
+			qDebug() << "Could not open device" << d->m_devicePath;
+			d->m_error = true;
+			d->m_msgError += "could not open the device \n";
 			return;
 		}
 
-		if (ioctl(m_fd, EVIOCGID, &m_device_info)) {
-			qDebug() << "Could not retrieve information of device" << m_devicePath;
-			m_msgError += "could not retrieve information of device\n";
-			m_error = true;
+		if (ioctl(m_fd, EVIOCGID, &d->m_device_info)) {
+			qDebug() << "Could not retrieve information of device" << d->m_devicePath;
+			d->m_msgError += "could not retrieve information of device\n";
+			d->m_error = true;
 			return;
 		}
 
 		char name[256] = "Unknown";
 		if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-			qDebug() << "could not retrieve name of device" << m_devicePath;
-			m_msgError += "cannot retrieve name of device\n";
-			m_error = true;
+			qDebug() << "could not retrieve name of device" << d->m_devicePath;
+			d->m_msgError += "cannot retrieve name of device\n";
+			d->m_error = true;
             return;
 		}
-		m_deviceName = QString(name);
+		d->m_deviceName = QString(name);
 
 		///this next bit can be shared across platform
 		unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
@@ -113,8 +119,8 @@ namespace GluonInput
 		memset(bit, 0, sizeof(bit));
 		ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
-		m_buttonCapabilities.clear();
-		m_absAxisInfos.clear();
+		d->m_buttonCapabilities.clear();
+		d->m_absAxisInfos.clear();
 
 		for (int i = 0; i < EV_MAX; i++) {
 			if (test_bit(i, bit[0])) {
@@ -126,11 +132,11 @@ namespace GluonInput
 				for (int j = 0; j < KEY_MAX; j++) {
 					if (test_bit(j, bit[i])) {
 						if (i == EV_KEY) {
-							m_buttonCapabilities.append(j);
+							d->m_buttonCapabilities.append(j);
 						}
 
 						if (i == EV_REL) {
-							m_relAxisCapabilities.append(j);
+							d->m_relAxisCapabilities.append(j);
 						}
 
 						if (i == EV_ABS) {
@@ -157,8 +163,8 @@ namespace GluonInput
 									}
 								}
 							}
-							m_absAxisCapabilities.append(j);
-							m_absAxisInfos[j] = cabs;
+							d->m_absAxisCapabilities.append(j);
+							d->m_absAxisInfos[j] = cabs;
 						}
 					}
 				}
@@ -169,27 +175,27 @@ namespace GluonInput
 
 		close(m_fd);
 
-		m_deviceType = GluonInput::UnknownDevice;
+		d->m_deviceType = GluonInput::UnknownDevice;
 
-		if (m_buttonCapabilities.contains(BTN_STYLUS)) {
-			m_deviceType  = GluonInput::TabletDevice;
+		if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
+			d->m_deviceType  = GluonInput::TabletDevice;
 		}
 
-		if (m_buttonCapabilities.contains(BTN_STYLUS)
-			|| m_buttonCapabilities.contains(ABS_PRESSURE)) {
-			m_deviceType  = GluonInput::MouseDevice;
+		if (d->m_buttonCapabilities.contains(BTN_STYLUS)
+			|| d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
+			d->m_deviceType  = GluonInput::MouseDevice;
 		}
 
-		if (m_buttonCapabilities.contains(BTN_TRIGGER)) {
-			m_deviceType  = GluonInput::JoystickDevice;
+		if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
+			d->m_deviceType  = GluonInput::JoystickDevice;
 		}
 
-		if (m_buttonCapabilities.contains(BTN_MOUSE)) {
-			m_deviceType  = GluonInput::MouseDevice;
+		if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
+			d->m_deviceType  = GluonInput::MouseDevice;
 		}
 
-		if (m_buttonCapabilities.contains(KEY_ESC)) {
-			m_deviceType  = GluonInput::KeyBoardDevice;
+		if (d->m_buttonCapabilities.contains(KEY_ESC)) {
+			d->m_deviceType  = GluonInput::KeyBoardDevice;
 		}
 	}
 
@@ -215,52 +221,52 @@ namespace GluonInput
 	
 	int InputThread::vendor()const
 	{
-		return m_vendor;
+		return d->m_vendor;
 	}
 	
 	int InputThread::product()const
 	{
-		return m_product;
+		return d->m_product;
 	}
 	
 	int InputThread::version()const
 	{
-		return m_version;
+		return d->m_version;
 	}
 	
 	int InputThread::bustype()const
 	{
-		return m_bustype;
+		return d->m_bustype;
 	}
 	
 	QList<int> InputThread::buttonCapabilities()const
 	{
-		return m_buttonCapabilities;
+		return d->m_buttonCapabilities;
 	}
 	
 	QList<int> InputThread::absAxisCapabilities()const
 	{
-		return m_absAxisCapabilities;
+		return d->m_absAxisCapabilities;
 	}
 	
 	QList<int> InputThread::relAxisCapabilities()const
 	{
-		return m_relAxisCapabilities;
+		return d->m_relAxisCapabilities;
 	}
 	
 	AbsVal InputThread::axisInfo(int axisCode) const
 	{
-		return m_absAxisInfos[axisCode];
+		return d->m_absAxisInfos[axisCode];
 	}
 	
 	const QString InputThread::deviceName() const
 	{
-		return m_deviceName;
+		return d->m_deviceName;
 	}
 	
 	GluonInput::DeviceFlag InputThread::deviceType()const
 	{
-		return m_deviceType;
+		return d->m_deviceType;
 	}
 	
 	bool InputThread::isEnabled() const
@@ -270,12 +276,17 @@ namespace GluonInput
 	
 	bool InputThread::error()
 	{
-		return m_error;
+		return d->m_error;
 	}
 	
 	QString InputThread::msgError()
 	{
-		return m_msgError;
+		return d->m_msgError;
+	}
+	
+	void InputThread::closeDevice()
+	{
+		close(d->m_fd);
 	}
 }
 #include "inputthread.moc"

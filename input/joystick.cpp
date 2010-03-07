@@ -4,21 +4,22 @@ namespace GluonInput
 {	
 	Joystick::Joystick(InputThread * inputThread, QObject * parent)	: InputDevice(inputThread, parent)
 	{
+		d = new JoystickPrivate();
 	}
 
 	int Joystick::axisX() const
 	{
-		return absAxisValue(inputListener->getJoystickXAxis());
+		return absAxisValue(this->inputThread()->getJoystickXAxis());
 	}
 
 	int Joystick::axisY()const 
 	{
-		return absAxisValue(inputListener->getJoystickYAxis());
+		return absAxisValue(this->inputThread()->getJoystickYAxis());
 	}
 
 	int Joystick::axisZ() const
 	{
-		return absAxisValue(inputListener->getJoystickZAxis());
+		return absAxisValue(this->inputThread()->getJoystickZAxis());
 	}
 }
 #include "joystick.moc"

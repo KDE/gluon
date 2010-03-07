@@ -5,17 +5,18 @@ namespace GluonInput
 	InputEvent::InputEvent(int code, int value, QEvent::Type eventType) 
 	: QEvent(eventType)
 	{
-		m_code = code;
-		m_value = value;
+		d = new InputEventPrivate();
+		d->m_code = code;
+		d->m_value = value;
 	}
 
 	int InputEvent::code() const 
 	{
-		return m_code;
+		return d->m_code;
 	}
 
 	int InputEvent::value() const
 	{
-		return m_value;
+		return d->m_value;
 	}
 }

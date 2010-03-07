@@ -12,90 +12,91 @@ namespace GluonInput
 	InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 	: QThread(parent)
 	{   
-		m_device = pDevice;
+		d = new InputThreadPrivate();
+		d->m_device = pDevice;
 		IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
 		IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
 		IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
 		
-		m_error = false;
-		m_msgError = QString();
-		m_deviceName = "Unknown";
+		d->m_error = false;
+		d->m_msgError = QString();
+		d->m_deviceName = "Unknown";
 		this->readInformation();
 	}
 
 	InputThread::~InputThread()
 	{
-		IOHIDDeviceClose(m_device, kIOHIDOptionsTypeNone);
-		CFRelease(m_device);
+		IOHIDDeviceClose(d->m_device, kIOHIDOptionsTypeNone);
+		CFRelease(d->m_device);
 	}
 	
 	void InputThread::readInformation()
 	{
-		CFStringRef deviceNameRef = (CFStringRef)IOHIDDeviceGetProperty(m_device, CFSTR(kIOHIDProductKey));
+		CFStringRef deviceNameRef = (CFStringRef)IOHIDDeviceGetProperty(d->m_device, CFSTR(kIOHIDProductKey));
 		if(CFGetTypeID(deviceNameRef) == CFStringGetTypeID())
 		{
-			m_deviceName = CFStringGetCStringPtr(deviceNameRef, kCFStringEncodingMacRoman);
+			d->m_deviceName = CFStringGetCStringPtr(deviceNameRef, kCFStringEncodingMacRoman);
 		}
 		
-		CFTypeRef type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVendorIDKey));
+		CFTypeRef type  = IOHIDDeviceGetProperty(d->m_device, CFSTR( kIOHIDVendorIDKey));
 		if(type)
 		{
-			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_vendor );
+			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->m_vendor );
 			CFRelease(type);
 		}
 		else 
 		{
-			m_vendor = -1;
+			d->m_vendor = -1;
 		}
 		
-		type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDProductIDKey));
+		type  = IOHIDDeviceGetProperty(d->m_device, CFSTR( kIOHIDProductIDKey));
 		if(type)
 		{
-			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_product );
+			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->m_product );
 			CFRelease(type);
 		}
 		else 
 		{
-			m_product = -1;  
+			d->m_product = -1;  
 		}
 		
 		
-		type  = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDTransportKey));
+		type  = IOHIDDeviceGetProperty(d->m_device, CFSTR( kIOHIDTransportKey));
 		if(type)
 		{
 			if(CFGetTypeID(type) == CFNumberGetTypeID())
 			{
-				CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_bustype );
+				CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->m_bustype );
 				CFRelease(type);            
 			}
 			else if(CFGetTypeID(type) == CFStringGetTypeID())
 			{
-				m_bustype = -1;
+				d->m_bustype = -1;
 			}
 			else 
 			{
-				m_bustype = -1;
+				d->m_bustype = -1;
 			}
 			
 		}
 		
-		type = IOHIDDeviceGetProperty(m_device, CFSTR( kIOHIDVersionNumberKey));
+		type = IOHIDDeviceGetProperty(d->m_device, CFSTR( kIOHIDVersionNumberKey));
 		if(type)
 		{
-			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &m_version );
+			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->m_version );
 			CFRelease(type);
 		}
 		else 
 		{
-			m_version = -1;
+			d->m_version = -1;
 		}
 		
-		m_buttonCapabilities.clear();
-		m_absAxisCapabilities.clear();
-		m_relAxisCapabilities.clear();
-		m_absAxisInfos.clear();
+		d->m_buttonCapabilities.clear();
+		d->m_absAxisCapabilities.clear();
+		d->m_relAxisCapabilities.clear();
+		d->m_absAxisInfos.clear();
 		
-		CFArrayRef elements = IOHIDDeviceCopyMatchingElements(m_device, NULL, kIOHIDOptionsTypeNone);
+		CFArrayRef elements = IOHIDDeviceCopyMatchingElements(d->m_device, NULL, kIOHIDOptionsTypeNone);
 		
 		if(elements)
 		{
@@ -109,12 +110,12 @@ namespace GluonInput
 					
 					if(usagePage == kHIDPage_Button)
 					{
-						m_buttonCapabilities.append(usage);
+						d->m_buttonCapabilities.append(usage);
 					}
 					else if(usagePage == kHIDPage_KeyboardOrKeypad)
 					{
-						if(usage > 3 && usage <= 231 && !m_buttonCapabilities.contains(usage))
-							m_buttonCapabilities.append(usage);
+						if(usage > 3 && usage <= 231 && !d->m_buttonCapabilities.contains(usage))
+							d->m_buttonCapabilities.append(usage);
 					}
 					else if (usagePage == kHIDPage_GenericDesktop)
 					{
@@ -123,29 +124,29 @@ namespace GluonInput
 						
 						if(IOHIDElementIsRelative(elementRef))
 						{
-							m_relAxisCapabilities.append(usage);
+							d->m_relAxisCapabilities.append(usage);
 						}
 						else
 						{
-							m_absAxisCapabilities.append(usage);
+							d->m_absAxisCapabilities.append(usage);
 							AbsVal val(0,0,0,0);
 							val.max = (int)IOHIDElementGetLogicalMax(elementRef);
 							val.min = (int)IOHIDElementGetLogicalMin(elementRef);
 							IOHIDValueRef valRef = NULL;
-							IOHIDDeviceGetValue(m_device, elementRef, &valRef); 
+							IOHIDDeviceGetValue(d->m_device, elementRef, &valRef); 
 							val.value = IOHIDValueGetIntegerValue(valRef);
-							m_absAxisInfos[usage] = val;
+							d->m_absAxisInfos[usage] = val;
 							if(usage == kHIDUsage_GD_X)
 							{
-								m_xAbsUsage = usage;
+								d->m_xAbsUsage = usage;
 							}
 							else if (usage == kHIDUsage_GD_Y)
 							{
-								m_yAbsUsage = usage;
+								d->m_yAbsUsage = usage;
 							}
 							else if(usage == kHIDUsage_GD_Z)
 							{
-								m_zAbsUsage = usage;
+								d->m_zAbsUsage = usage;
 							}
 						}
 					}
@@ -157,7 +158,7 @@ namespace GluonInput
 		
 		int deviceUsage = NULL;
 		
-		type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDPrimaryUsageKey));
+		type = IOHIDDeviceGetProperty( d->m_device, CFSTR( kIOHIDPrimaryUsageKey));
 		
 		if(type)
 		{
@@ -166,7 +167,7 @@ namespace GluonInput
 		}
 		else 
 		{
-			type = IOHIDDeviceGetProperty( m_device, CFSTR( kIOHIDDeviceUsageKey));
+			type = IOHIDDeviceGetProperty( d->m_device, CFSTR( kIOHIDDeviceUsageKey));
 			CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
 			CFRelease(type);
 		}
@@ -174,22 +175,22 @@ namespace GluonInput
 		switch (deviceUsage)
 		{
 			case GluonInput::KeyBoardDevice:
-				m_deviceType = GluonInput::KeyBoardDevice;
+				d->m_deviceType = GluonInput::KeyBoardDevice;
 				break;
 			case GluonInput::MouseDevice:
-				m_deviceType = GluonInput::MouseDevice;
+				d->m_deviceType = GluonInput::MouseDevice;
 				break;
 			case GluonInput::JoystickDevice:
-				m_deviceType = GluonInput::JoystickDevice;
+				d->m_deviceType = GluonInput::JoystickDevice;
 				break;
 			case GluonInput::TabletDevice:
-				m_deviceType = GluonInput::TabletDevice;
+				d->m_deviceType = GluonInput::TabletDevice;
 				break;
 			case GluonInput::TouchpadDevice:
-				m_deviceType = GluonInput::TouchpadDevice;
+				d->m_deviceType = GluonInput::TouchpadDevice;
 				break;
 			default:
-				m_deviceType = GluonInput::UnknownDevice;
+				d->m_deviceType = GluonInput::UnknownDevice;
 				break;
 		}
 	}
@@ -268,17 +269,17 @@ namespace GluonInput
 	
 	int InputThread::getJoystickXAxis()
 	{
-		return m_xAbsUsage;
+		return d->m_xAbsUsage;
 	}
 	
 	int InputThread::getJoystickYAxis()
 	{
-		return m_yAbsUsage;
+		return d->m_yAbsUsage;
 	}
 	
 	int InputThread::getJoystickZAxis()
 	{
-		return m_zAbsUsage;
+		return d->m_zAbsUsage;
 	}
 	
 	void InputThread::run()
@@ -293,52 +294,52 @@ namespace GluonInput
 	
 	int InputThread::vendor()const
 	{
-		return m_vendor;
+		return d->m_vendor;
 	}
 	
 	int InputThread::product()const
 	{
-		return m_product;
+		return d->m_product;
 	}
 	
 	int InputThread::version()const
 	{
-		return m_version;
+		return d->m_version;
 	}
 	
 	int InputThread::bustype()const
 	{
-		return m_bustype;
+		return d->m_bustype;
 	}
 	
 	QList<int> InputThread::buttonCapabilities()const
 	{
-		return m_buttonCapabilities;
+		return d->m_buttonCapabilities;
 	}
 	
 	QList<int> InputThread::absAxisCapabilities()const
 	{
-		return m_absAxisCapabilities;
+		return d->m_absAxisCapabilities;
 	}
 	
 	QList<int> InputThread::relAxisCapabilities()const
 	{
-		return m_relAxisCapabilities;
+		return d->m_relAxisCapabilities;
 	}
 	
 	AbsVal InputThread::axisInfo(int axisCode) const
 	{
-		return m_absAxisInfos[axisCode];
+		return d->m_absAxisInfos[axisCode];
 	}
 	
 	const QString InputThread::deviceName() const
 	{
-		return m_deviceName;
+		return d->m_deviceName;
 	}
 	
 	GluonInput::DeviceFlag InputThread::deviceType()const
 	{
-		return m_deviceType;
+		return d->m_deviceType;
 	}
 	
 	bool InputThread::isEnabled() const
@@ -348,12 +349,12 @@ namespace GluonInput
 	
 	bool InputThread::error()
 	{
-		return m_error;
+		return d->m_error;
 	}
 	
 	QString InputThread::msgError()
 	{
-		return m_msgError;
+		return d->m_msgError;
 	}
 }
 

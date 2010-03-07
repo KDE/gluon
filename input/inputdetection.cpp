@@ -22,6 +22,7 @@ namespace GluonInput
 	
 	InputDetection::InputDetection()
 	{
+		d = new InputDetectionPrivate();
 		this->init();
 	}
 
@@ -39,22 +40,22 @@ namespace GluonInput
 		
 #ifdef Q_WS_X11
 		qDebug() << "Creating instance: Linux";
-		m_instance = new DetectLinux(parent);
+		d->m_instance = new DetectLinux(parent);
 #endif
 		
 #ifdef Q_WS_MAC
 		qDebug() << "Creating instance: Mac";
-		m_instance = new DetectMac(parent);
+		d->m_instance = new DetectMac(parent);
 #endif
 		
 #ifdef Q_WS_WIN
 		qDebug() << "Creating instance: Win";
-		m_instance = new DetectWin(parent);
+		d->m_instance = new DetectWin(parent);
 #endif
-		if(m_instance)
+		if(d->m_instance)
 		{
 			qDebug() << "Instance created, searching devices";
-			m_instance->searchDevice();
+			d->m_instance->searchDevice();
 		}
 		else
 			qDebug() << "Instance not created, fail!";
@@ -62,17 +63,17 @@ namespace GluonInput
 
 	void InputDetection::searchDevice()
 	{    
-		m_instance->searchDevice();
+		d->m_instance->searchDevice();
 	}
 
 	void InputDetection::setAllEnable()
 	{
-		m_instance->setAllEnabled();
+		d->m_instance->setAllEnabled();
 	}
 
 	void InputDetection::setAllDisable()
 	{
-		m_instance->setAllDisabled();
+		d->m_instance->setAllDisabled();
 	}   
 
 	unsigned int InputDetection::deviceCount() 
@@ -82,82 +83,82 @@ namespace GluonInput
 
 	unsigned int InputDetection::keyboardCount() 
 	{
-		return m_instance->getKeyboardList().size();
+		return d->m_instance->getKeyboardList().size();
 	}
 
 	unsigned int InputDetection::mouseCount() 
 	{
-		return m_instance->getMouseList().size();
+		return d->m_instance->getMouseList().size();
 	}
 
 	unsigned int InputDetection::joystickCount() 
 	{
-		return m_instance->getJoystickList().size();
+		return d->m_instance->getJoystickList().size();
 	}
 
 	unsigned int InputDetection::tabletCount() 
 	{
-		return m_instance->getTabletList().size();
+		return d->m_instance->getTabletList().size();
 	}
 
 	unsigned int InputDetection::unknownDeviceCount() 
 	{
-		return m_instance->getUnknownDeviceList().size();
+		return d->m_instance->getUnknownDeviceList().size();
 	}
 
 	QList<KeyBoard*> InputDetection::keyboardList() 
 	{
-		return m_instance->getKeyboardList();
+		return d->m_instance->getKeyboardList();
 	}
 
 	QList<Mouse*> InputDetection::mouseList()
 	{
-		return m_instance->getMouseList();
+		return d->m_instance->getMouseList();
 	}
 
 	QList<Joystick*> InputDetection::joystickList()
 	{
-		return m_instance->getJoystickList();
+		return d->m_instance->getJoystickList();
 	}
 
 	QList<Tablet*> InputDetection::tabletList() 
 	{
-		return m_instance->getTabletList();
+		return d->m_instance->getTabletList();
 	}
 
 	QList<InputDevice*> InputDetection::unknownDeviceList() 
 	{
-		return m_instance->getUnknownDeviceList();
+		return d->m_instance->getUnknownDeviceList();
 	}
 
 	InputList InputDetection::inputList() 
 	{
-		return m_instance->getInputList();
+		return d->m_instance->getInputList();
 	}
 
 	KeyBoard* InputDetection::keyboard(int id) 
 	{
-		return m_instance->getKeyboardList().at(id);
+		return d->m_instance->getKeyboardList().at(id);
 	}
 
 	Mouse* InputDetection::mouse(int id) 
 	{
-		return m_instance->getMouseList().at(id);
+		return d->m_instance->getMouseList().at(id);
 	}
 
 	Joystick* InputDetection::joystick(int id) 
 	{
-		return m_instance->getJoystickList().at(id);
+		return d->m_instance->getJoystickList().at(id);
 	}
 
 	Tablet* InputDetection::tablet(int id) 
 	{
-		return m_instance->getTabletList().at(id);
+		return d->m_instance->getTabletList().at(id);
 	}
 
 	InputDevice* InputDetection::input(int id) 
 	{
-		return m_instance->getInputList().at(id);
+		return d->m_instance->getInputList().at(id);
 	}	
 }
 

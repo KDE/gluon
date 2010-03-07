@@ -3,11 +3,12 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QMap>
 #include <QtCore/QPair>
+#include <QtCore/QSharedData>
 
 #include "gluon_input_export.h"
 #include "inputdefinitions.h"
+#include "custominputprivate.h"
 
 namespace GluonInput
 {
@@ -19,6 +20,8 @@ namespace GluonInput
 		Q_OBJECT
 	public:
 		CustomInput(QObject * parent=0);
+		~CustomInput();
+		
 		void setButton(const QString &name, InputDevice* input, int keyCode);
 		void setButton(const QString &name);
 		void remButton(const QString &name);
@@ -49,11 +52,7 @@ namespace GluonInput
 
 
 	private:
-		QMap <QString,QPair<InputDevice*,int> > m_buttons;
-		QMap <QString,QPair<InputDevice*,int> > m_absAxis;
-		QMap <QString,QPair<InputDevice*,int> > m_relAxis;
-
-
+		QSharedDataPointer<CustomInputPrivate> d;
 	};
 }
 

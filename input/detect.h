@@ -2,6 +2,7 @@
 #define DETECT_H
 
 #include <QtCore/QObject>
+#include <QtCore/QSharedData>
 
 #include "gluon_input_export.h"
 
@@ -24,12 +25,12 @@ namespace GluonInput
 		virtual void setAllEnabled() = 0;
 		virtual void setAllDisabled() = 0;
 
-		virtual QList<InputDevice *> getInputList();
-		virtual QList<KeyBoard *> getKeyboardList();
-		virtual QList<Mouse *> getMouseList();
-		virtual QList<Joystick *> getJoystickList();
-		virtual QList<Tablet *> getTabletList();
-		virtual QList<InputDevice *> getUnknownDeviceList();
+		virtual QList<InputDevice *> getInputList() = 0;
+		virtual QList<KeyBoard *> getKeyboardList() = 0;
+		virtual QList<Mouse *> getMouseList() = 0;
+		virtual QList<Joystick *> getJoystickList() = 0;
+		virtual QList<Tablet *> getTabletList() = 0;
+		virtual QList<InputDevice *> getUnknownDeviceList() = 0;
 
 		virtual void addInput(InputDevice *i) = 0;
 		virtual void addKeyboard(InputDevice *i) = 0;
@@ -38,15 +39,6 @@ namespace GluonInput
 		virtual void addTablet(InputDevice *i) = 0;
 		virtual void addUnknown(InputDevice *i) = 0;
 		virtual void clear() = 0;
-
-	protected:
-		QList<InputDevice *> m_inputList;
-		QList<KeyBoard *> m_keyboardList;
-		QList<Mouse *> m_mouseList;
-		QList<Joystick *> m_joystickList;
-		QList<Tablet *> m_tabletList;
-		QList<InputDevice *> m_unknownList;
-
 	};
 }
 #endif

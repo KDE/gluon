@@ -3,9 +3,12 @@
 
 #include <QtCore/QThread>
 #include <QtCore/QMap>
+#include <QtCore/QSharedData>
+
 #include "inputdefinitions.h"
 #include "gluon_input_export.h"
 #include "absval.h"
+#include "inputthreadprivate.h"
 /**
  * \defgroup KCL KCL
  */
@@ -19,9 +22,7 @@ namespace GluonInput
 
 	public:
 		InputThread(const QString& devicePath, QObject *parent = 0);
-        ~InputThread() {
-			close(m_fd);
-		}
+		~InputThread();
 		void run();
 
 		const QString devicePath() const;
@@ -52,36 +53,14 @@ namespace GluonInput
 		
 		QObject * getParent();
 
-	private:		
-		int m_vendor;
-		int m_product;
-		int m_version;
-		int m_bustype;
-		
-		QString m_deviceName;
-		QString m_msgError;
-		
-		bool m_error;
-		
-		GluonInput::DeviceFlag m_deviceType;
-		
-		QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
-		QList<int> m_relAxisCapabilities; // list of rel Axis capability..
-		QList<int> m_absAxisCapabilities; // list of abs Axis capabilty
-		QMap<int, AbsVal> m_absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
+	  private:
 
 		bool openDevice(const QString &devicePath);
-		void closeDevice() {
-			close(m_fd);
-		}
+		void closeDevice();
 
 		void readInformation();
-
-	private:
-		int m_fd;
-		struct input_id m_device_info;
-		struct input_event m_currentEvent;
-		QString m_devicePath;
+		
+		QSharedDataPointer<InputThreadPrivate> d;
 	};
 }
 //@}

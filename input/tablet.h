@@ -2,6 +2,8 @@
 #define TABLET_H
 
 #include "inputdevice.h"
+#include "tabletprivate.h"
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -11,6 +13,9 @@ namespace GluonInput
 	{
 	public:
 		Tablet(InputThread * inputThread, QObject * parent = 0);
+		
+	private:
+		QSharedDataPointer<TabletPrivate> d;
 	};
 }
 #endif // KCLTABLET_H

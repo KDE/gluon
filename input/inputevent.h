@@ -2,8 +2,10 @@
 #define INPUTEVENT_H
 
 #include "gluon_input_export.h"
+#include "inputeventprivate.h"
 
 #include <QtCore/QEvent>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -16,8 +18,7 @@ namespace GluonInput
 		int value() const;
 		
 	private:
-		int m_code;
-		int m_value;
+		QSharedDataPointer<InputEventPrivate> d;
 	};
 }
 #endif

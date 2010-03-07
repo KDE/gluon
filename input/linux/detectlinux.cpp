@@ -14,6 +14,7 @@ namespace GluonInput
   DetectLinux::DetectLinux(QObject * parent)
   : Detect(parent)
   {
+    d = new DetectLinuxPrivate();
   }
 
   DetectLinux::~DetectLinux()
@@ -97,12 +98,76 @@ namespace GluonInput
 
   void DetectLinux::clear()
   {
-      m_inputList.clear();
-      m_keyboardList.clear();
-      m_mouseList.clear();
-      m_joystickList.clear();
-      m_tabletList.clear();
-      m_unknownList.clear();
+      d->m_inputList.clear();
+      d->m_keyboardList.clear();
+      d->m_mouseList.clear();
+      d->m_joystickList.clear();
+      d->m_tabletList.clear();
+      d->m_unknownList.clear();
+  }
+  
+  void DetectLinux::addInput(InputDevice *i) 
+  {
+    d->m_inputList.append(i);
+  }
+
+  void DetectLinux::addKeyboard(InputDevice *i) 
+  {
+    KeyBoard * keybd = (KeyBoard*)i;
+    d->m_keyboardList.append(keybd);
+  }
+
+  void DetectLinux::addMouse(InputDevice *i) 
+  {
+    Mouse * mouse = (Mouse*)i;
+    d->m_mouseList.append(mouse);
+  }
+  
+  void DetectLinux::addJoystick(InputDevice *i) 
+  {
+    Joystick * joy = (Joystick*)i;
+    d->m_joystickList.append(joy);
+  }
+
+  void DetectLinux::addTablet(InputDevice *i) 
+  {
+    Tablet * tablet = (Tablet*)i;
+    d->m_tabletList.append(tablet);
+  }
+
+  void DetectLinux::addUnknown(InputDevice *i)
+  {
+    d->m_unknownList.append(i);
+  }
+  
+  QList<InputDevice *> DetectLinux::getInputList() 
+  {
+	  return d->m_inputList;
+  }
+
+  QList<KeyBoard *> DetectLinux::getKeyboardList() 
+  {
+	  return d->m_keyboardList;
+  }
+
+  QList<Mouse *> DetectLinux::getMouseList() 
+  {
+	  return d->m_mouseList;
+  }
+
+  QList<Joystick *> DetectLinux::getJoystickList() 
+  {
+	  return d->m_joystickList;
+  }
+
+  QList<Tablet *> DetectLinux::getTabletList() 
+  {
+	  return d->m_tabletList;
+  }
+
+  QList<InputDevice *> DetectLinux::getUnknownDeviceList() 
+  {
+	  return d->m_unknownList;
   }
 }
 #include "detectlinux.moc"

@@ -15,8 +15,9 @@ namespace GluonInput
 	InputDevice::InputDevice(InputThread * inputThread, QObject * parent)
 	: QObject(parent)
 	{
-		inputListener = inputThread;
-		inputListener->setParent(this);
+		d = new InputDevicePrivate();
+		d->inputThread = inputThread;
+		d->inputThread->setParent(this);
 		this->init();
 	}
 
@@ -28,59 +29,59 @@ namespace GluonInput
 	InputDevice::~InputDevice()
 	{
 		setDisabled();
-		delete inputListener;
+		delete d->inputThread;
 
 		qDebug() << "Closed device :" << deviceName();
 	}
 
 	void InputDevice::init()
 	{
-		m_absMove  = false;
-		m_relMove = false;
-		m_lastAbsAxis = 0;
-		m_lastRelAxis = 0;
+		d->m_absMove  = false;
+		d->m_relMove = false;
+		d->m_lastAbsAxis = 0;
+		d->m_lastRelAxis = 0;
 	}
 
 	int InputDevice::vendor()const
 	{
-		return inputListener->vendor();
+		return d->inputThread->vendor();
 	}
 
 	int InputDevice::product()const
 	{
-		return inputListener->product();
+		return d->inputThread->product();
 	}
 
 	int InputDevice::version()const
 	{
-		return inputListener->version();
+		return d->inputThread->version();
 	}
 
 	int InputDevice::bustype()const
 	{
-		return inputListener->bustype();
+		return d->inputThread->bustype();
 	}
 
 	const QString InputDevice::deviceName() const
 	{
-		return inputListener->deviceName();
+		return d->inputThread->deviceName();
 	}
 
 	GluonInput::DeviceFlag InputDevice::deviceType()const
 	{
-		return inputListener->deviceType();
+		return d->inputThread->deviceType();
 	}
 
 	bool InputDevice::button(int code)const
 	{
-		return m_buttons.contains(code);
+		return d->m_buttons.contains(code);
 	}
 
 	int InputDevice::anyPress() const
 	{
-		if (m_buttons.size() > 0)
+		if (d->m_buttons.size() > 0)
 		{
-			return m_buttons.last();
+			return d->m_buttons.last();
 		} else {
 			return 0;
 		}
@@ -88,9 +89,9 @@ namespace GluonInput
 
 	bool InputDevice::anyAbsMove()
 	{
-		if (m_absMove)
+		if (d->m_absMove)
 		{
-			m_absMove = false;
+			d->m_absMove = false;
 			return true;
 		}
 		return false;
@@ -98,9 +99,9 @@ namespace GluonInput
 
 	bool InputDevice::anyRelMove()
 	{
-		if (m_relMove)
+		if (d->m_relMove)
 		{
-			m_relMove = false;
+			d->m_relMove = false;
 			return true;
 		}
 		return false;
@@ -108,19 +109,19 @@ namespace GluonInput
 
 	int InputDevice::lastAbsAxis()const
 	{
-		return m_lastAbsAxis;
+		return d->m_lastAbsAxis;
 	}
 
 	int InputDevice::lastRelAxis()const
 	{
-		return m_lastRelAxis;
+		return d->m_lastRelAxis;
 	}
 
 	int InputDevice::relAxisValue(int code)const
 	{
-		if (m_relAxis.contains(code))
+		if (d->m_relAxis.contains(code))
 		{
-			return m_relAxis[code];
+			return d->m_relAxis[code];
 		} else {
 			return 0;
 		}
@@ -128,9 +129,9 @@ namespace GluonInput
 
 	int InputDevice::absAxisValue(int code)const
 	{
-		if (m_absAxis.contains(code))
+		if (d->m_absAxis.contains(code))
 		{
-			return m_absAxis[code];
+			return d->m_absAxis[code];
 		} else {
 			return 0;
 		}
@@ -138,37 +139,37 @@ namespace GluonInput
 
 	QList<int> InputDevice::buttonCapabilities()const
 	{
-		return inputListener->buttonCapabilities();
+		return d->inputThread->buttonCapabilities();
 	}
 
 	QList<int> InputDevice::absAxisCapabilities()const
 	{
-		return inputListener->absAxisCapabilities();
+		return d->inputThread->absAxisCapabilities();
 	}
 
 	QList<int> InputDevice::relAxisCapabilities()const
 	{
-		return inputListener->relAxisCapabilities();
+		return d->inputThread->relAxisCapabilities();
 	}
 
 	AbsVal InputDevice::axisInfo(int axisCode)const
 	{
-		return inputListener->axisInfo(axisCode);
+		return d->inputThread->axisInfo(axisCode);
 	}
 
 	bool InputDevice::error()const
 	{
-		return inputListener->error();
+		return d->inputThread->error();
 	}
 
 	QString InputDevice::msgError()const
 	{
-		return inputListener->msgError();
+		return d->inputThread->msgError();
 	}
 
 	bool InputDevice::isEnabled() const
 	{
-		return inputListener->isEnabled();
+		return d->inputThread->isEnabled();
 	}
 
 
@@ -183,14 +184,14 @@ namespace GluonInput
 
 				if (event->value() == 1)
 				{ // if click
-					m_buttons.append(event->code());
+					d->m_buttons.append(event->code());
 					emit buttonPressed(event->code());
 					emit pressed();
 				}
 
 				if (event->value() == 0)
 				{ //if release
-					m_buttons.removeOne(event->code());
+					d->m_buttons.removeOne(event->code());
 					emit buttonReleased(event->code());
 				}
 				return true;
@@ -198,18 +199,18 @@ namespace GluonInput
 
 			case GluonInput::RelativeAxis:
 				emit moved();
-				m_relMove = true;
-				m_lastRelAxis = event->code();
-				m_relAxis[event->code()] = event->value();
+				d->m_relMove = true;
+				d->m_lastRelAxis = event->code();
+				d->m_relAxis[event->code()] = event->value();
 				emit relAxisChanged(event->code(), event->value());
 				return true;
 				break;
 
 			case GluonInput::AbsoluAxis:
 				emit moved();
-				m_absMove = true;
-				m_lastAbsAxis = event->code();
-				m_absAxis[event->code()] = event->value();
+				d->m_absMove = true;
+				d->m_lastAbsAxis = event->code();
+				d->m_absAxis[event->code()] = event->value();
 				emit absAxisChanged(event->code(), event->value());
 				return true;
 				break;
@@ -223,17 +224,29 @@ namespace GluonInput
 
 	void InputDevice::setEnabled()
 	{
-		inputListener->setEnabled();
+		d->inputThread->setEnabled();
 	}
 
 	void InputDevice::setDisabled()
 	{
-		inputListener->setDisabled();
-		m_buttons.clear();
-		m_relAxis.clear();
-		m_absAxis.clear();
-		m_relMove = false;
-		m_absMove = false;
+		d->inputThread->setDisabled();
+		d->m_buttons.clear();
+		d->m_relAxis.clear();
+		d->m_absAxis.clear();
+		d->m_relMove = false;
+		d->m_absMove = false;
+	}
+	
+	void InputDevice::setInputThread(InputThread * inputThread)
+	{
+		d->inputThread->setDisabled();
+		delete d->inputThread;
+		d->inputThread = inputThread;
+	}
+	
+	InputThread * InputDevice::inputThread() const
+	{
+		return d->inputThread;
 	}
 }
 

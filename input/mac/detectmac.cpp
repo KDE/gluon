@@ -13,23 +13,22 @@ namespace GluonInput
 	DetectMac::DetectMac(QObject * parent)
 	: Detect(parent)
 	{
-		deviceManager = NULL;
-		devices = NULL;
+		d = new DetectMacPrivate();
 	}
 
 	DetectMac::~DetectMac()
 	{
-		CFRelease(deviceManager);
-		CFRelease(devices);
+		CFRelease(d->deviceManager);
+		CFRelease(d->devices);
 	}
 
 	void DetectMac::searchDevice()
 	{
 		qDebug() << "Checking if deviceManager exists";
-		if(deviceManager == NULL)
+		if(d->deviceManager == NULL)
 		{
 			qDebug() << "Creating device manager";
-			deviceManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+			d->deviceManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 		}
 		
 		CFMutableDictionaryRef dict;
@@ -70,17 +69,17 @@ namespace GluonInput
 			CFRelease(dict);
 		}   
 		
-		if ( CFGetTypeID( deviceManager ) == IOHIDManagerGetTypeID( ) ) 
+		if ( CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID( ) ) 
 		{
-			IOHIDManagerSetDeviceMatchingMultiple(deviceManager, matchingArray);
+			IOHIDManagerSetDeviceMatchingMultiple(d->deviceManager, matchingArray);
 			
-			if(IOHIDManagerOpen(deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess)
+			if(IOHIDManagerOpen(d->deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess)
 			{
-				devices = IOHIDManagerCopyDevices(deviceManager);
+				d->devices = IOHIDManagerCopyDevices(d->deviceManager);
 				
-				if(CFSetGetCount(devices) > 0)
+				if(CFSetGetCount(d->devices) > 0)
 				{               
-					CFSetApplyFunction(devices, createDevices, this);
+					CFSetApplyFunction(d->devices, createDevices, this);
 				}
 			}        
 		}
@@ -88,86 +87,86 @@ namespace GluonInput
 
 	QList<InputDevice *> DetectMac::getInputList() 
 	{
-		return m_inputList;
+		return d->m_inputList;
 	}
 
 	QList<KeyBoard *> DetectMac::getKeyboardList() 
 	{
-		return m_keyboardList;
+		return d->m_keyboardList;
 	}
 
 	QList<Mouse *> DetectMac::getMouseList() 
 	{
-		return m_mouseList;
+		return d->m_mouseList;
 	}
 
 	QList<Joystick *> DetectMac::getJoystickList() 
 	{
-		return m_joystickList;
+		return d->m_joystickList;
 	}
 
 	QList<Tablet *> DetectMac::getTabletList() 
 	{
-		return m_tabletList;
+		return d->m_tabletList;
 	}
 
 	QList<InputDevice *> DetectMac::getUnknownDeviceList() 
 	{
-		return m_unknownList;
+		return d->m_unknownList;
 	}
 
 
 	void DetectMac::addInput(InputDevice *i) 
 	{
-		m_inputList.append(i);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::addKeyboard(InputDevice *i)
 	{
 		KeyBoard * keybd = (KeyBoard*) i;
 		//keybd->setEnabled();
-		m_keyboardList.append(keybd);
-		m_inputList.append(i);
+		d->m_keyboardList.append(keybd);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::addMouse(InputDevice *i) 
 	{
 		Mouse * mouse = (Mouse*) i;
 		//mouse->setEnabled();
-		m_mouseList.append(mouse);
-		m_inputList.append(i);
+		d->m_mouseList.append(mouse);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::addJoystick(InputDevice *i)
 	{
 		Joystick * joy = (Joystick*) i;
 		//joy->setEnabled();
-		m_joystickList.append(joy);
-		m_inputList.append(i);
+		d->m_joystickList.append(joy);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::addTablet(InputDevice *i) 
 	{
 		Tablet * tablet = (Tablet*) i;
 		//tablet->setEnabled();
-		m_tabletList.append(tablet);
-		m_inputList.append(i);
+		d->m_tabletList.append(tablet);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::addUnknown(InputDevice *i) 
 	{
-		m_unknownList.append(i);
-		m_inputList.append(i);
+		d->m_unknownList.append(i);
+		d->m_inputList.append(i);
 	}
 
 	void DetectMac::clear()
 	{
-		m_inputList.clear();
-		m_keyboardList.clear();
-		m_mouseList.clear();
-		m_joystickList.clear();
-		m_tabletList.clear();
-		m_unknownList.clear();
+		d->m_inputList.clear();
+		d->m_keyboardList.clear();
+		d->m_mouseList.clear();
+		d->m_joystickList.clear();
+		d->m_tabletList.clear();
+		d->m_unknownList.clear();
 	}
 
 	void DetectMac::setAllEnabled()
