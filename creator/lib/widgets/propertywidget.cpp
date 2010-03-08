@@ -96,10 +96,9 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
         return;
     }
 
-    QGroupBox* objectBox = new QGroupBox(obj->name(), this);
-    if(obj->name().isEmpty()) {
-        objectBox->setTitle(obj->metaObject()->className());
-    }
+    QString classname = obj->metaObject()->className();
+    classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
+    QGroupBox* objectBox = new QGroupBox(classname, this);
 
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
