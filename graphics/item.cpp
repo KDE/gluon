@@ -1,6 +1,8 @@
 #include "item.h"
 #include "engine.h"
-#include <QDebug>
+
+#include <core/debughelper.h>
+
 namespace GluonGraphics
 {
 
@@ -20,6 +22,13 @@ namespace GluonGraphics
         init();
     }
     //------------------------------------------------------------
+
+    Item::~Item()
+    {
+        Engine::instance()->removeItem(this);
+        delete m_mesh;
+        m_mesh = 0;
+    }
 
     void Item::init()
     {
