@@ -62,7 +62,7 @@ GameProjectPrivate::saveChildren(const GluonCore::GluonObject* parent)
         GluonCore::GluonObject *child = parent->child(i);
         // Meh, inherits is slow, but at least it's going to be calling something that does
         // disk IO, so it's not the slowest thing there
-        if(child->inherits("GluonCore::Savable"))
+        if(child && child->inherits("GluonEngine::Savable"))
         {
             DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonCore::GluonObject*>(child)->name()));
             Savable::saveToFile(qobject_cast<GluonCore::GluonObject*>(child));
