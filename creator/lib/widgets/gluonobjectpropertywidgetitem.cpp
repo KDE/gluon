@@ -39,23 +39,26 @@ namespace GluonCreator
                 currentValue = 0;
                 browseButton = 0;
             };
-            
+
             QLabel * currentValue;
             QPushButton * browseButton;
             QString typeName;
-            
+
             static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
             {
                 QList<const GluonCore::GluonObject*> foundChildren;
-                
-                foreach(const QObject *child, lookHere->children())
+
+                if(lookHere)
                 {
-                    if(child->inherits(typeName.toUtf8()))
-                        foundChildren.append(qobject_cast<const GluonCore::GluonObject*>(child));
-                        
-                    foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject*>(child)));
+                    foreach(const QObject *child, lookHere->children())
+                    {
+                        if(child->inherits(typeName.toUtf8()))
+                            foundChildren.append(qobject_cast<const GluonCore::GluonObject*>(child));
+
+                        foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject*>(child)));
+                    }
                 }
-                
+
                 return foundChildren;
             }
     };
@@ -68,7 +71,7 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &type
 {
     d = new GluonObjectPWIPrivate;
     d->typeName = typeName;
-    
+
     QHBoxLayout * base = new QHBoxLayout;
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
@@ -76,12 +79,12 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &type
     d->currentValue = new QLabel(this);
     d->currentValue->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     base->addWidget(d->currentValue);
-    
+
     d->browseButton = new QPushButton(this);
     d->browseButton->setText("...");
     connect(d->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
     base->addWidget(d->browseButton);
-    
+
     QWidget * local = new QWidget(parent);
     local->setLayout(base);
     layout()->addWidget(local);
@@ -122,7 +125,7 @@ GluonObjectPropertyWidgetItem::browseForItems()
 {
     QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->gameProject());
     items.append(GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
-    
+
     if(items.count() == 0)
     {
         KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(d->typeName), i18n("No Items Found"));
@@ -133,11 +136,11 @@ GluonObjectPropertyWidgetItem::browseForItems()
         QString label("");
         QStringList nameList;
         bool ok = false;
-        
+
         nameList.append(i18n("Clear object reference"));
         foreach(const GluonCore::GluonObject *item, items)
             nameList.append(item->fullyQualifiedName());
-        
+
         QString chosen = KInputDialog::getItem(caption, label, nameList, 0, false, &ok, this);
         if(ok)
         {
@@ -168,7 +171,7 @@ GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value
         d->currentValue->setText(value->name());
     else
         d->currentValue->setText("");
-    
+
     QVariant oldValue = editObject()->property(editProperty().toUtf8());
     QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject(oldValue, value);
     PropertyWidgetItem::valueChanged(newValue);
