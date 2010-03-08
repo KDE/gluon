@@ -63,8 +63,9 @@ void GLWidget::init()
     mAutomaticClear = true;
     mClearColor = QVector4D(0, 0, 0, 0);
     mGLInitialized = false;
-    mShowFps = true;
+    mShowFps = false;
     mWireframeMode = false;
+    m_displayAxis = false;
     mShortcutsEnabled = true;
     //m_engine=0;
 
@@ -256,33 +257,32 @@ void GLWidget::drawItems()
 
 void GLWidget::render()
 {
-
-    /*glBegin(GL_LINES) ;
-      glColor3f(0,1,0) ;
-      glVertex3f(0,0,0) ;
-      glVertex3f(0,5,0) ;
-      glEnd() ;
-
-      glBegin(GL_LINES) ;
-        glColor3f(1,0,0) ;
-        glVertex3f(0,0,0) ;
-        glVertex3f(5,0,0) ;
+    if(m_displayAxis)
+    {
+        glBegin(GL_LINES);
+        glColor3f(0,1,0);
+        glVertex3f(0,0,0);
+        glVertex3f(0,5,0);
         glEnd() ;
 
-        glBegin(GL_LINES) ;
-          glColor3f(0,0,1) ;
-          glVertex3f(0,0,0) ;
-          glVertex3f(0,0,5) ;
-          glEnd() ;*/
+        glBegin(GL_LINES);
+        glColor3f(1,0,0);
+        glVertex3f(0,0,0);
+        glVertex3f(5,0,0);
+        glEnd();
 
+        glBegin(GL_LINES);
+        glColor3f(0,0,1);
+        glVertex3f(0,0,0);
+        glVertex3f(0,0,5);
+        glEnd();
+    }
 
-
-
-
-
-
-  //if (m_engine!=0)
-    drawItems();
+    ItemList items = Engine::instance()->items();
+    foreach (Item *it, items)
+    {
+        it->paintGL();
+    }
 }
 
 void GLWidget::setCamera(Camera* camera)

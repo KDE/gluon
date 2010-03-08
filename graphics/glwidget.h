@@ -188,6 +188,7 @@ private:
 
     bool mShowFps;
     bool mWireframeMode;
+    bool m_displayAxis;
     QString mErrorText;
     // We use our own list of actions here because we want to be able to
     //  enable/disable only those actions
