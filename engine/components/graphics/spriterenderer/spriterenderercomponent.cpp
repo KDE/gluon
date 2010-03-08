@@ -41,8 +41,7 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         {
             item = 0;
             mesh = 0;
-            size.setHeight(1.0f);
-            size.setWidth(1.0f);
+            size = QSizeF(1.0f, 1.0f);
             color.setRgb(255, 255, 255);
         }
 
@@ -79,8 +78,8 @@ SpriteRendererComponent::~SpriteRendererComponent()
 void SpriteRendererComponent::start()
 {
     if(!d->item) {
-        d->mesh = new GluonGraphics::SpriteMesh(d->size);
-        d->item = new GluonGraphics::Item(d->mesh);
+        d->mesh = new GluonGraphics::SpriteMesh(d->size, this);
+        d->item = new GluonGraphics::Item(d->mesh, this);
         d->item->setColor(d->color);
     }
 
@@ -90,7 +89,7 @@ void SpriteRendererComponent::start()
 
         const QMimeData* data = texture()->data();
         if(data->hasImage()) {
-            d->item->mesh()->setTexture(data->imageData().value<QImage>());
+            d->mesh->setTexture(data->imageData().value<QImage>());
         }
     }
 }
@@ -113,7 +112,6 @@ void SpriteRendererComponent::stop()
 {
     if(d->item) {
         delete d->item;
-        delete d->mesh;
         d->item = 0;
         d->mesh = 0;
     }
