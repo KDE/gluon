@@ -30,7 +30,7 @@ namespace GluonInput
 		d->m_devicePath = devicePath;
 		openDevice(devicePath);
 	}
-	
+
 	InputThread::~InputThread()
 	{
 		close(d->m_fd);
@@ -38,14 +38,11 @@ namespace GluonInput
 
 	void InputThread::run()
 	{
-        DEBUG_FUNC_NAME
 		while (1) {
 			struct input_event ev;
 			int rd = read(d->m_fd, &ev, sizeof(struct input_event));
-			if (rd < (int) sizeof(struct input_event)) {
-				qDebug() << "Could not read input";
-			} else {
-                DEBUG_TEXT("Dispatching Event");
+			if (rd >= (int) sizeof(struct input_event))
+            {
 				InputEvent *event = new InputEvent(ev.code, ev.value, QEvent::Type(QEvent::User+ev.type));
 				QCoreApplication::postEvent(parent(), event);
 			}
@@ -213,77 +210,77 @@ namespace GluonInput
 	{
 		return ABS_Z;
 	}
-	
+
 	void InputThread::stop()
 	{
 		this->quit();
 	}
-	
+
 	int InputThread::vendor()const
 	{
 		return d->m_vendor;
 	}
-	
+
 	int InputThread::product()const
 	{
 		return d->m_product;
 	}
-	
+
 	int InputThread::version()const
 	{
 		return d->m_version;
 	}
-	
+
 	int InputThread::bustype()const
 	{
 		return d->m_bustype;
 	}
-	
+
 	QList<int> InputThread::buttonCapabilities()const
 	{
 		return d->m_buttonCapabilities;
 	}
-	
+
 	QList<int> InputThread::absAxisCapabilities()const
 	{
 		return d->m_absAxisCapabilities;
 	}
-	
+
 	QList<int> InputThread::relAxisCapabilities()const
 	{
 		return d->m_relAxisCapabilities;
 	}
-	
+
 	AbsVal InputThread::axisInfo(int axisCode) const
 	{
 		return d->m_absAxisInfos[axisCode];
 	}
-	
+
 	const QString InputThread::deviceName() const
 	{
 		return d->m_deviceName;
 	}
-	
+
 	GluonInput::DeviceFlag InputThread::deviceType()const
 	{
 		return d->m_deviceType;
 	}
-	
+
 	bool InputThread::isEnabled() const
 	{
 		return this->isRunning();
 	}
-	
+
 	bool InputThread::error()
 	{
 		return d->m_error;
 	}
-	
+
 	QString InputThread::msgError()
 	{
 		return d->m_msgError;
 	}
-	
+
 	void InputThread::closeDevice()
 	{
 		close(d->m_fd);
