@@ -40,12 +40,8 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
 void
 KeyboardInputComponent::start()
 {
-    DEBUG_FUNC_NAME
-
-
     foreach(const GluonInput::InputDevice *input, GluonInput::InputDetection::instance()->keyboardList())
     {
-        DEBUG_TEXT(QString("Enabling input for device: %1").arg(input->deviceName()));
         connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
         connect(input, SIGNAL(buttonPressed(int)), this, SLOT(buttonPressed(int)));
     }
@@ -81,7 +77,6 @@ void KeyboardInputComponent::stop()
 void
 KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
 {
-    DEBUG_FUNC_NAME
     if(inputEvent->code() == m_keyCode)
     {
         if(inputEvent->value() == 0)
