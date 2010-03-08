@@ -6,6 +6,7 @@
 #include "inputevent.h"
 #include <IOKit/hid/IOHIDUsageTables.h>
 #include "code.h"
+#include "inputthreadprivate.h"
 
 namespace GluonInput
 {	

@@ -8,6 +8,7 @@
 #include <core/debughelper.h>
 
 #include "inputthread.h"
+#include "detectlinuxprivate.h"
 
 namespace GluonInput
 {

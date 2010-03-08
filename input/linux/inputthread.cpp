@@ -1,6 +1,7 @@
 #include "inputthread.h"
 #include "inputevent.h"
 #include "absval.h"
+#include "inputthreadprivate.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>

@@ -8,7 +8,6 @@
 #include "inputdefinitions.h"
 #include "gluon_input_export.h"
 #include "absval.h"
-#include "inputthreadprivate.h"
 /**
  * \defgroup KCL KCL
  */
@@ -16,6 +15,8 @@
 
 namespace GluonInput
 {	
+	class InputThreadPrivate;
+	
 	class GLUON_INPUT_EXPORT InputThread : public QThread
 	{
 		Q_OBJECT

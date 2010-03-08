@@ -4,7 +4,6 @@
 #include "gluon_input_export.h"
 #include "inputdefinitions.h"
 #include "absval.h"
-#include "inputthreadprivate.h"
 
 #include <QtCore/QThread>
 #include <QtCore/QObject>
@@ -17,6 +16,9 @@
 
 namespace GluonInput
 {	
+	
+	class InputThreadPrivate;
+	
 	class GLUON_INPUT_EXPORT InputThread : public QThread
 	{
 		Q_OBJECT

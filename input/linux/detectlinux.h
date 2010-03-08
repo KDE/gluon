@@ -8,7 +8,6 @@
 #include "mouse.h"
 #include "tablet.h"
 #include "detect.h"
-#include "detectlinuxprivate.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -16,6 +15,8 @@
 
 namespace GluonInput
 {
+	class DetectLinuxPrivate;
+	
   class GLUON_INPUT_EXPORT DetectLinux : public Detect
   {
       Q_OBJECT

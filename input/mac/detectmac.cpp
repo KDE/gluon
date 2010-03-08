@@ -7,6 +7,7 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDUsageTables.h>
 #include "inputthread.h"
+#include "detectmacprivate.h"
 
 namespace GluonInput
 {

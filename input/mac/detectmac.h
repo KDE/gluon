@@ -11,7 +11,6 @@
 #include "keyboard.h"
 #include "mouse.h"
 #include "tablet.h"
-#include "detectmacprivate.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -21,6 +20,8 @@
 
 namespace GluonInput
 {
+	class DetectMacPrivate;
+	
 	class GLUON_INPUT_EXPORT DetectMac : public Detect
 	{
 		Q_OBJECT
