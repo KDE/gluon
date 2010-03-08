@@ -28,6 +28,7 @@
 #include <QtGui/QVector3D>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
+#include <QSizeF>
 
 REGISTER_OBJECTTYPE(GluonCore, GluonObject)
 
@@ -416,6 +417,17 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         if(splitValues.length() > 3)
             a = splitValues[3].toInt();
         value = QColor(r, g, b, a);
+    } else if(theTypeName == "size2d") {
+        float w = 0.0f;
+        float h = 0.0f;
+
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+        {
+            w = splitValues.at(0).toFloat();
+            h = splitValues.at(1).toFloat();
+        }
+        value = QSizeF(w, h);
     } else {
         // If all else fails, pass the value through verbatim
         value = propertyValue;
@@ -463,7 +475,12 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             if(theValue.toInt() != 0)
                 value = QString("int(%1)").arg(theValue.toInt());
             break;
+        case QVariant::Size:
+        case QVariant::SizeF:
+            value = QString("size2d(%1;%2)").arg(theValue.toSizeF().width()).arg(theValue.toSizeF().height());
+            break;
         case QVariant::PointF:
+        case QVariant::Vector2D:
             value = QString("vector2d(%1;%2)").arg(theValue.toPointF().x()).arg(theValue.toPointF().y());
             break;
         case QVariant::Color:
