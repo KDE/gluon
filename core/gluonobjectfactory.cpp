@@ -149,17 +149,22 @@ GluonObjectFactory::loadPlugins()
 
     if(QCoreApplication::applicationDirPath() != QString("/usr/bin"))
     {
-        if(pluginDir.cd(QCoreApplication::applicationDirPath() + "../lib"))
-            pluginDirs.append(pluginDir);
+        DEBUG_TEXT("Custom install prefix found");
+        if(pluginDir.cd(QCoreApplication::applicationDirPath()))
+        {
+            DEBUG_TEXT("Successfully entered custom install prefix");
+            if(pluginDir.cd("../lib"))
+                pluginDirs.append(pluginDir);
 
-        if(pluginDir.cd(QCoreApplication::applicationDirPath() + "../lib64"))
-            pluginDirs.append(pluginDir);
+            if(pluginDir.cd("../lib64"))
+                pluginDirs.append(pluginDir);
 
-        if(pluginDir.cd(QCoreApplication::applicationDirPath() + "../lib/gluon"))
-            pluginDirs.append(pluginDir);
+            if(pluginDir.cd("../lib/gluon"))
+                pluginDirs.append(pluginDir);
 
-        if(pluginDir.cd(QCoreApplication::applicationDirPath() + "../lib64/gluon"))
-            pluginDirs.append(pluginDir);
+            if(pluginDir.cd("../../lib64/gluon"))
+                pluginDirs.append(pluginDir);
+        }
     }
 
     if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
