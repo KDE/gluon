@@ -23,6 +23,7 @@ Boston, MA 02110-1301, USA.
 #include <engine/gameobject.h>
 #include <engine/component.h>
 #include <objectmanager.h>
+#include <engine/gameproject.h>
 
 using namespace GluonCreator;
 
@@ -171,11 +172,27 @@ SceneModel::mimeTypes() const
 
 QMimeData* SceneModel::mimeData(const QModelIndexList& indexes) const
 {
-    return QAbstractItemModel::mimeData(indexes);
+    if(indexes.count() <= 0)
+        return 0;
+
+    QStringList types = mimeTypes();
+    if (types.isEmpty())
+        return 0;
+
+    QMimeData* data = new QMimeData();
+    QStringList names;
+    foreach(const QModelIndex& index, indexes)
+    {
+        names.append(static_cast<GluonEngine::GameObject*>(index.internalPointer())->fullyQualifiedName());
+    }
+    data->setData("application/gluon.object.gameobject", names.join(",").toUtf8());
+
+    return data;
 }
 
 bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
+    Q_UNUSED(column)
     DEBUG_FUNC_NAME
 
     if(action == Qt::IgnoreAction)
@@ -214,7 +231,20 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         }
 
         if(data->hasFormat("application/gluon.object.gameobject")) {
-            DEBUG_TEXT("TODO: Implement move of objects");
+            QList<GluonEngine::GameObject*> objects;
+
+            QString dataString = data->data("application/gluon.object.gameobject");
+            QStringList names = dataString.split(',');
+
+            GluonEngine::GameProject *project = qobject_cast<GluonEngine::GameProject*>(m_root->gameProject());
+            foreach(QString name, names)
+            {
+                GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(project->findItemByName(name));
+                if(gobj)
+                    objects.append(gobj);
+            }
+
+            insertRows(row, objects, parent);
         }
     }
 
@@ -248,7 +278,26 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
         obj = m_root;
 
     for (int i = 0; i < count; ++i) {
-        obj->addChild(new GluonEngine::GameObject());
+        obj->addChildAt(new GluonEngine::GameObject(), i);
+    }
+
+    endInsertRows();
+    return true;
+}
+
+bool SceneModel::insertRows(int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent)
+{
+    int count = children.count();
+    beginInsertRows(parent, row, row + count - 1);
+
+    GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
+    if(!obj)
+        obj = m_root;
+
+    int index = row;
+    foreach(GluonEngine::GameObject* obj, children)
+    {
+        obj->addChildAt(obj, index++);
     }
 
     endInsertRows();
@@ -259,6 +308,7 @@ bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     DEBUG_FUNC_NAME
     beginRemoveRows(parent, row, row + count - 1);
+
     GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
     if(!obj) {
         obj = m_root;

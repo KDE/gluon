@@ -50,7 +50,10 @@ namespace GluonCreator
             virtual bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
 
             virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+
             virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
+            virtual bool insertRows(int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent = QModelIndex());
+
             virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
         public slots:

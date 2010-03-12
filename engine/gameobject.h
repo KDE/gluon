@@ -88,6 +88,7 @@ namespace GluonEngine
             GameObject * childGameObject(const QString &name) const;
             void addChild(GluonCore::GluonObject * child);
             void addChild(GameObject * addThis);
+            void addChildAt(GameObject* child, int index);
             bool removeChild(GluonObject * child);
             bool removeChild(GameObject * removeThis);
             int childCount() const;
