@@ -26,3 +26,7 @@ mText= "test";
     }
 
 }
+
+Q_EXPORT_PLUGIN2(gluon_component_textrenderer, GluonEngine::TextRendererComponent);
+
+#include "textrenderercomponent.moc"
