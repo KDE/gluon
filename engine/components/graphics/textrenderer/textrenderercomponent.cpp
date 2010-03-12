@@ -53,7 +53,7 @@ namespace GluonEngine
 
         d->textItem = new GluonGraphics::TextItem("Bonjour");
         d->textItem->setColor(Qt::white);
-        d->textItem->scale(10,10);
+
         d->textItem->updateTransform();
 
     }
