@@ -43,6 +43,7 @@ engine.cpp
 mesh.cpp
 transform.cpp
 widgetproxy.cpp
+textitem.cpp
 
 
     meshes/polygonmesh.cpp
@@ -111,6 +112,8 @@ engine.h
 transform.h
 mesh.h
 widgetproxy.h
+textitem.h
+
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
 COMPONENT Devel
 )
