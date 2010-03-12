@@ -38,7 +38,7 @@ using namespace GluonCreator;
 class ProjectModel::ProjectModelPrivate
 {
     public:
-        ProjectModelPrivate() { project = 0; }
+        ProjectModelPrivate() { root = 0; project = 0; }
 
         QObject* root;
         GluonEngine::GameProject* project;
