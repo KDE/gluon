@@ -297,6 +297,26 @@ GameObject::addChild(GameObject * addThis)
     }
 }
 
+void
+GameObject::addChildAt(GameObject * addThis, int index)
+{
+    DEBUG_FUNC_NAME
+    if(!addThis || index >= d->children.count())
+    {
+        DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range."));
+    }
+    else if(!d->children.contains(addThis))
+    {
+        d->children.insert(index, addThis);
+
+        if(addThis->d->parentGameObject)
+            addThis->d->parentGameObject->removeChild(addThis);
+
+        addThis->d->parentGameObject = this;
+        GluonCore::GluonObject::addChild(addThis);
+    }
+}
+
 bool
 GameObject::removeChild(GameObject * removeThis)
 {
