@@ -1,8 +1,8 @@
 #ifndef CONEMESH_H
 #define CONEMESH_H
 
-#include "gluon_graphics_export.h"
-#include "mesh.h"
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 
 namespace GluonGraphics
 {

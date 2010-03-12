@@ -1,8 +1,8 @@
 #ifndef CYLINDREMESH_H
 #define CYLINDREMESH_H
 
-#include "gluon_graphics_export.h"
-#include "mesh.h"
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 #include <cmath>
 namespace GluonGraphics
 {

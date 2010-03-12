@@ -34,6 +34,7 @@ namespace GluonGraphics
     {
         Engine::instance()->addItem(this);
         setObjectName(metaObject()->className());
+        mProgram = 0;
     }
     //------------------------------------------------------------
 
@@ -42,9 +43,16 @@ namespace GluonGraphics
         glPushMatrix();
         glMultMatrixd((GLdouble*)matrix().data());
 
+        if ( mProgram!=0)
+            mProgram->bind();
+
         m_mesh->texture()->bind();
         drawMesh();
         m_mesh->texture()->unBind();
+
+        if ( mProgram!=0)
+            mProgram->release();
+
 
         glPopMatrix();
     }
@@ -120,5 +128,12 @@ namespace GluonGraphics
         m_mesh->setTexture(path);
     }
     //------------------------------------------------------------
-
+    void Item::setShader( QGLShaderProgram* program)
+    {
+        mProgram = program;
+    }
+    void Item::removeShader()
+    {
+        mProgram =0 ;
+    }
 }

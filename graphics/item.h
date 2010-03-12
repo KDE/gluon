@@ -1,11 +1,12 @@
 #ifndef Item_H
 #define Item_H
+
 #include "transform.h"
 #include "mesh.h"
 #include "glpainter.h"
 #include "texture.h"
 #include "gluon_graphics_export.h"
-
+#include <QGLShaderProgram>
 namespace GluonGraphics
 {
     class Engine;
@@ -24,6 +25,8 @@ namespace GluonGraphics
         void setTexture(const QPixmap& pix);
         void setTexture(const QImage& img);
         void setTexture(const QString& path);
+        void setShader( QGLShaderProgram* program);
+        void removeShader();
         void setMesh(Mesh * mesh)
         {
             m_mesh = mesh;
@@ -37,6 +40,8 @@ namespace GluonGraphics
 
     private:
         Mesh * m_mesh;
+        QGLShaderProgram *mProgram;
+
 
 
 

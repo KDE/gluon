@@ -1,8 +1,8 @@
 #ifndef POLYGONMESH_H
 #define POLYGONMESH_H
 
-#include "gluon_graphics_export.h"
-#include "mesh.h"
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 #include <QPolygonF>
 
 namespace GluonGraphics

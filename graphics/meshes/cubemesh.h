@@ -1,8 +1,8 @@
 #ifndef CUBEMESH_H
 #define CUBEMESH_H
 
-#include "gluon_graphics_export.h"
-#include "mesh.h"
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 
 namespace GluonGraphics
 {

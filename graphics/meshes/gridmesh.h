@@ -1,8 +1,8 @@
 #ifndef GRIDMESH_H
 #define GRIDMESH_H
 
-#include "gluon_graphics_export.h"
-#include "mesh.h"
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 
 namespace GluonGraphics
 {

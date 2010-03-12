@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/shaders" >
+    <qresource prefix="/GLSL">
         <file>generic.vert</file>
         <file>blur.frag</file>
         <file>mosaic.frag</file>
