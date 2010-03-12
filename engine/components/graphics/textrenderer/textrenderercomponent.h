@@ -15,12 +15,15 @@ namespace GluonEngine
     public:
         TextRendererComponent(QObject* parent = 0 );
         virtual QString text();
-
+    virtual void start();
+    virtual void draw ( int timeLapse );
     public slots:
         virtual void setText(const QString& text);
 
     private:
-        QString mText;
+        class TextRendererComponentPrivate;
+        TextRendererComponentPrivate *d;
+
     };
 }
 #endif // TEXTRENDERERCOMPONENT_H
