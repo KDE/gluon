@@ -4,7 +4,7 @@
 #include <QFont>
 namespace GluonGraphics
 {
-    class TextItem : public Item
+    class GLUON_GRAPHICS_EXPORT TextItem : public Item
     {
     public:
         explicit TextItem(const QString& txt,const QFont& fnt= QFont(),QObject *parent = 0);
