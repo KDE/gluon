@@ -150,7 +150,7 @@ void MainWindow::setupGame()
     GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
     GluonEngine::Game::instance()->setCurrentScene(root);
 
-    connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(updateAll()));
+    connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(drawAll()));
 }
 
 void MainWindow::setupActions()
