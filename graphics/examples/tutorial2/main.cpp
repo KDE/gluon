@@ -33,7 +33,6 @@
   #include <gluon/graphics/glwidget.h>
   #include <gluon/graphics/engine.h>
   #include <gluon/graphics/item.h>
-  #include <gluon/graphics/polygonmesh.h>
  #include <gluon/graphics/camera.h>
   #include "testa.h"
 
@@ -47,6 +46,10 @@
 
   //Create the openGL View
      GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
+
+     //Create a camera
+     GluonGraphics::Camera *cam = new GluonGraphics::Camera();
+     GluonGraphics::Engine::instance()->setActiveCamera(cam);
 
      //Use a timer to update frame each 20 ms
      QTimer * timer = new QTimer;
