@@ -98,8 +98,10 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
 
     QString classname = obj->metaObject()->className();
     classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
+    #warning We will need to replace the group box with a custom widget of some type, as we cannot collapse it. Unfortunate, but such is life ;)
     QGroupBox* objectBox = new QGroupBox(classname, this);
 
+    objectBox->setFlat(true);
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     if(first)
