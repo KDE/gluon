@@ -23,8 +23,9 @@
 #include <QApplication>
 #include <gluon/graphics/glwidget.h>
 #include <gluon/graphics/engine.h>
+#include <gluon/graphics/camera.h>
 #include <gluon/graphics/item.h>
-#include <gluon/graphics/polygonmesh.h>
+#include <gluon/graphics/meshes/polygonmesh.h>
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +37,9 @@ int main(int argc, char *argv[])
     //this is the view widget . It's a QGLWidget child. Call KGLView::setEngine(KGLEngine *) to attach the engine to the view. 
     // YOu can set the engine directly from the constructor
     GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
-    
+   
+    GluonGraphics::Camera* cam = new GluonGraphics::Camera();
+    GluonGraphics::Engine::instance()->setActiveCamera(cam); 
 
     GluonGraphics::PolygonMesh * mesh = new GluonGraphics::PolygonMesh(QRectF(0,0,5,5));
     GluonGraphics::Item * item = new GluonGraphics::Item(mesh);
