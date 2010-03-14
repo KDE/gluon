@@ -7,67 +7,90 @@ REGISTER_OBJECTTYPE(GluonEngine, TextRendererComponent)
 
         Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 
-namespace GluonEngine
-{
+using namespace GluonEngine;
 
-    class TextRendererComponent::TextRendererComponentPrivate
-    {
+class TextRendererComponent::TextRendererComponentPrivate
+{
     public:
         TextRendererComponentPrivate()
         {
+            textItem = 0;
             text = "empty";
-
         }
 
         QString text;
+        QFont font;
+        QColor color;
         GluonGraphics::TextItem * textItem;
-
-    };
-
-
-    TextRendererComponent::TextRendererComponent(QObject * parent)
-        :Component(parent)
-    {
-        d = new TextRendererComponentPrivate;
-
-    }
-
-    QString TextRendererComponent::text()
-    {
-        return d->text;
-    }
-
-    void TextRendererComponent::setText(const QString &text)
-    {
-        if ( d->textItem)
-        {
-            d->text = text;
-            d->textItem->setText(text);
-        }
-
-    }
-
-    void TextRendererComponent::start()
-    {
+};
 
 
-        d->textItem = new GluonGraphics::TextItem("Bonjour");
-        d->textItem->setColor(Qt::white);
+TextRendererComponent::TextRendererComponent(QObject * parent)
+    :Component(parent)
+{
+    d = new TextRendererComponentPrivate;
 
-        d->textItem->updateTransform();
+}
 
-    }
+QString
+TextRendererComponent::text() const
+{
+    return d->text;
+}
 
-    void TextRendererComponent::draw ( int timeLapse )
-    {
+void
+TextRendererComponent::setText(const QString &text)
+{
+    d->text = text;
+    if(d->textItem)
+        d->textItem->setText(text);
+}
 
-        if(d->textItem) {
-            d->textItem->setMatrix(gameObject()->transform());
-        }
+QFont
+TextRendererComponent::font() const
+{
+    return d->font;
+}
+
+void
+TextRendererComponent::setFont(const QFont& font)
+{
+    d->font = font;
+    if(d->textItem)
+        d->textItem->setFont(font);
+}
+
+QColor
+TextRendererComponent::color() const
+{
+    return d->color;
+}
+
+void
+TextRendererComponent::setColor(const QColor& color)
+{
+    d->color = color;
+    if(d->textItem)
+        d->textItem->setColor(color);
+}
+
+void
+TextRendererComponent::start()
+{
 
 
-    }
+    d->textItem = new GluonGraphics::TextItem(d->text, d->font);
+    d->textItem->setColor(d->color);
 
+    d->textItem->updateTransform();
+
+}
+
+void
+TextRendererComponent::draw ( int timeLapse )
+{
+    if(d->textItem)
+        d->textItem->setMatrix(gameObject()->transform());
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_textrenderer, GluonEngine::TextRendererComponent);
