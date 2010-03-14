@@ -7,6 +7,7 @@ set(propertiesdock_SRCS
     propertywidgetitems/floatpropertywidgetitem.cpp
     propertywidgetitems/intpropertywidgetitem.cpp
     propertywidgetitems/vectorpropertywidgetitem.cpp
+    propertywidgetitems/qfontpropertywidgetitem.cpp
     propertywidgetitems/qsizefpropertywidgetitem.cpp
     propertywidgetitems/colorpropertywidgetitem.cpp
     propertywidgetitems/quaternionpropertywidgetitem.cpp
