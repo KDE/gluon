@@ -245,7 +245,8 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
                     #warning We need to fix this so we dont run creator without a project.
                     if(!QDir::current().exists("Assets"))
                         QDir::current().mkdir("Assets");
-                    QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedName()));
+                    DEBUG_TEXT(QString("Copying file to %1").arg(newChild->fullyQualifiedFileName()));
+                    QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedFileName()));
                     QFile(theUrl.toLocalFile()).copy(newLocation.toLocalFile());
                     newChild->setFile(newLocation);
                     newChild->load();
