@@ -4,6 +4,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GL
 
 set(qtscriptcomponent_SRCS
     qtscriptcomponent.cpp
+    
+    bindings/com_trolltech_qt_gui_init.cpp
+    bindings/qtscript_QVector2D.cpp
+    bindings/qtscript_QVector3D.cpp
+    bindings/qtscript_QVector4D.cpp
 )
 
 qt4_automoc(${qtscriptcomponent_SRCS})
