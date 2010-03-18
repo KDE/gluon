@@ -61,6 +61,7 @@ namespace GluonCore
             virtual QString name() const;
             virtual void setName(const QString &newName);
             QString fullyQualifiedName() const;
+            QString fullyQualifiedFileName() const;
 
             virtual const QStringList supportedMimeTypes() const;
 

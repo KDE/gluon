@@ -32,10 +32,15 @@ using namespace GluonEngine;
 Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 Q_DECLARE_METATYPE(GluonEngine::Asset*);
 
+void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 class QtScriptComponent::QtScriptComponentPrivate
 {
     public:
-        QtScriptComponentPrivate() { }
+        QtScriptComponentPrivate()
+        {
+			QScriptValue extensionObject = engine.globalObject();
+			qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
+		}
 
         QScriptEngine engine;
 };

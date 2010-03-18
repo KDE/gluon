@@ -253,6 +253,21 @@ GluonObject::fullyQualifiedName() const
     return theName;
 }
 
+QString
+GluonObject::fullyQualifiedFileName() const
+{
+    QString qualifiedName = fullyQualifiedName();
+    QString ext = qualifiedName.split('.').last().toLower();
+    qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
+    
+    //Filter out invalid characters for filenames
+    QRegExp rx("[\\/\\\\\\:\\.,\\* ]");
+    qualifiedName.replace(rx, "_");
+    qualifiedName.append("." + ext);
+
+    return qualifiedName;
+}
+
 void GluonObject::addChild(GluonObject* child)
 {
     child->setParent(this);
