@@ -2,6 +2,7 @@
 #define INPUTEVENTPRIVATE_H
 
 #include <QtCore/QSharedData>
+#include <QtCore/QString>
 
 namespace GluonInput
 {
@@ -13,6 +14,7 @@ namespace GluonInput
 		
 		int m_code;
 		int m_value;
+		QString m_name;
 	};
 }
 

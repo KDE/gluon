@@ -55,13 +55,11 @@ set(GluonInput_HEADERS_WIN )
 set(GluonInput_SRCS_MAC
 	mac/inputthread.cpp
 	mac/inputthreadprivate.cpp
-	mac/code.cpp
     mac/detectmac.cpp
 	mac/detectmacprivate.cpp
 )
 
 set(GluonInput_HEADERS_MAC
-	mac/code.h
     mac/detectmac.h
 	mac/inputthread.h
     mac/inputdefinitions.h
@@ -73,14 +71,12 @@ set(GluonInput_HEADERS_MAC
 set(GluonInput_SRCS_LINUX
 	linux/inputthread.cpp
 	linux/inputthreadprivate.cpp
-	linux/code.cpp
     linux/detectlinux.cpp
 	linux/detectlinuxprivate.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
 	linux/inputthread.h
-	linux/code.h
     linux/detectlinux.h
     linux/inputdefinitions.h
 )
@@ -102,14 +98,14 @@ set(GluonInput_SRCS_COMMON
 	joystickprivate.cpp
     custominput.cpp
 	custominputprivate.cpp
-    inputdetection.cpp
-	inputdetectionprivate.cpp
+    inputmanager.cpp
+	inputmanagerprivate.cpp
     detect.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
     gluon_input_export.h
-    inputdetection.h
+    inputmanager.h
     inputevent.h
     inputdevice.h
     mouse.h

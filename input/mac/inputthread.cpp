@@ -226,6 +226,9 @@ namespace GluonInput
 #warning fix such that, mouse buttons return 0,1,2 and so forth. Atm. it is using the same buttonname as keyboard
 						if(usagePage == kHIDPage_GenericDesktop)
 						{
+							if(value == 0)
+								return;
+							
 							eventType = QEvent::Type(GluonInput::RelativeAxis);
 						}
 						else if(usagePage == kHIDPage_Button)

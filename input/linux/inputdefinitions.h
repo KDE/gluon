@@ -27,16 +27,10 @@ namespace GluonInput
         RelativeAxis = QEvent::Type(QEvent::User+EV_REL),
         AbsoluAxis = QEvent::Type(QEvent::User+EV_ABS)
     };
-
-
-
-
-    Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)
+    Q_ENUMS(InputTypeFlag)
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(GluonInput::Devices);
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(GluonInput::InputTypes);
 
 //@}
 #endif // KCL_H

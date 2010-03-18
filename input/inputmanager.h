@@ -1,5 +1,5 @@
-#ifndef INPUTDETECTION_H
-#define INPUTDETECTION_H
+#ifndef INPUTMANAGER_H
+#define INPUTMANAGER_H
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -16,14 +16,14 @@ namespace GluonInput
 {
 	typedef QList<InputDevice *> InputList;
 
-    class InputDetectionPrivate;
+    class InputManagerPrivate;
 
-	class GLUON_INPUT_EXPORT InputDetection : public GluonCore::Singleton<InputDetection>
+	class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
 	{
 		Q_OBJECT
 
 	public:
-		InputDetection();
+		InputManager();
 		void searchDevice();
 		void setAllEnable();
 		void setAllDisable();
@@ -63,10 +63,10 @@ namespace GluonInput
 		InputDevice* input(int id = 0);
 
 	private:
-		~InputDetection();
+		~InputManager();
 		void init();
 
-		QSharedDataPointer<InputDetectionPrivate> d;
+		QSharedDataPointer<InputManagerPrivate> d;
 	};
 }
 

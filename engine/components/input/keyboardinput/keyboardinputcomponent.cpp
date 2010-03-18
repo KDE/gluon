@@ -18,7 +18,7 @@
 */
 
 #include "keyboardinputcomponent.h"
-#include "input/inputdetection.h"
+#include "input/inputmanager.h"
 
 #include <QtCore/QEvent>
 
@@ -40,7 +40,7 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
 void
 KeyboardInputComponent::start()
 {
-    foreach(const GluonInput::InputDevice *input, GluonInput::InputDetection::instance()->keyboardList())
+    foreach(const GluonInput::InputDevice *input, GluonInput::InputManager::instance()->keyboardList())
     {
         connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
         connect(input, SIGNAL(buttonPressed(int)), this, SLOT(buttonPressed(int)));

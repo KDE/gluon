@@ -3,7 +3,7 @@
 
 namespace GluonInput
 {
-	InputEvent::InputEvent(int code, int value, QEvent::Type eventType)
+	InputEvent::InputEvent(int code, int value ,QEvent::Type eventType)
 	: QEvent(eventType)
 	{
 		d = new InputEventPrivate();
