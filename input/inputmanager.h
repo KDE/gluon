@@ -5,15 +5,18 @@
 #include <QtCore/QList>
 #include <QtCore/QSharedData>
 
-#include "inputdevice.h"
-#include "mouse.h"
-#include "keyboard.h"
-#include "joystick.h"
-#include "tablet.h"
 #include "core/singleton.h"
+#include "gluon_input_export.h"
 
 namespace GluonInput
 {
+	
+	class InputDevice;
+	class Mouse;
+	class Joystick;
+	class Tablet;
+	class KeyBoard;
+	
 	typedef QList<InputDevice *> InputList;
 
     class InputManagerPrivate;

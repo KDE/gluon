@@ -101,6 +101,8 @@ set(GluonInput_SRCS_COMMON
     inputmanager.cpp
 	inputmanagerprivate.cpp
     detect.cpp
+	inputbuffer.cpp
+	inputbufferprivate.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
@@ -115,6 +117,7 @@ set(GluonInput_HEADERS_COMMON
     custominput.h
 	detect.h
 	absval.h
+	inputbuffer.h
 )
 ###############common source and headers###################
 

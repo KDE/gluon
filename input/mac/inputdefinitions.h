@@ -272,9 +272,9 @@ namespace GluonInput
 	//atm only support for 15 mouse buttons :p
 	enum MouseButtons
 	{
-		LEFT_MOUSE_BUTTON = 1,
-		RIGHT_MOUSE_BUTTON,
-		MIDDLE_MOUSE_BUTTON,
+		MOUSE_LEFT_BUTTON = 1,
+		MOUSE_RIGHT_BUTTON,
+		MOUSE_MIDDLE_BUTTON,
 		MOUSE_BUTTON_FOUR,
 		MOUSE_BUTTON_FIVE,
 		MOUSE_BUTTON_SIX,

@@ -5,6 +5,11 @@
 #include <QtCore/QDebug>
 
 #include "inputmanagerprivate.h"
+#include "inputdevice.h"
+#include "mouse.h"
+#include "keyboard.h"
+#include "joystick.h"
+#include "tablet.h"
 
 #ifdef Q_WS_X11
 #include "detectlinux.h"
