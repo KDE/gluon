@@ -215,7 +215,7 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
             actionCollection()->action("stopGame")->setEnabled(true);
-            QWidget* oldFocus = focusWidget();
+            //QWidget* oldFocus = focusWidget();
             setFocus();
 
             //Start the game loop
@@ -231,7 +231,7 @@ void MainWindow::playPauseGame(bool checked)
 
             GluonEngine::Game::instance()->currentScene()->startAll();
 
-            oldFocus->setFocus();
+            //oldFocus->setFocus();
         }
     }
     else
