@@ -19,9 +19,10 @@ int main(int argc, char **argv)
     aboutData.setProgramIconName("gluon_creator");
     aboutData.addAuthor(ki18n("Arjen Hiemstra"), ki18n("Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator"), "");
     aboutData.addAuthor(ki18n("Dan Leinir Tuthra Jensen"), ki18n("Gluon Core, Gluon Engine, Gluon Creator"), "");
-    aboutData.addAuthor(ki18n("Sacha Schutz"), ki18n("Gluon Graphics"), "");
+    aboutData.addAuthor(ki18n("Sacha Schutz"), ki18n("Gluon Graphics,Gluon Audio,Gluon Input"), "");
     aboutData.addAuthor(ki18n("Guillaume Martres"), ki18n("Gluon Audio, Gluon Graphics"), "");
     aboutData.addAuthor(ki18n("Kim Jung Nissen"), ki18n("Gluon Input, Mac compatibility"), "");
+    aboutData.addAuthor(ki18n("Rivo Laks"), ki18n("Gluon Graphics through KGLLIB"), "");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
