@@ -67,9 +67,15 @@ const QStringList TextureAsset::supportedMimeTypes() const
 void TextureAsset::load()
 {
     DEBUG_FUNC_NAME
-    d->image->load(file().toLocalFile());
-    mimeData()->setImageData(*d->image);
-    setLoaded(true);
+    if(d->image->load(file().toLocalFile()))
+    {
+        mimeData()->setImageData(*d->image);
+        setLoaded(true);
+    }
+    else
+    {
+        DEBUG_TEXT("Error loading texture!");
+    }
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)
