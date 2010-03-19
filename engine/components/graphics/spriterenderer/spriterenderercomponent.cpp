@@ -29,7 +29,7 @@
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
-Q_DECLARE_METATYPE(GluonCore::GluonObject*);
+//Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 Q_DECLARE_METATYPE(GluonEngine::Asset*);
 
 using namespace GluonEngine;
@@ -41,12 +41,15 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         {
             item = 0;
             mesh = 0;
+            texture = 0;
             size = QSizeF(1.0f, 1.0f);
             color.setRgb(255, 255, 255);
         }
 
         GluonGraphics::Item *item;
         GluonGraphics::SpriteMesh *mesh;
+
+        GluonEngine::Asset* texture;
 
         QColor color;
         QSizeF size;
@@ -56,10 +59,10 @@ SpriteRendererComponent::SpriteRendererComponent ( QObject* parent ) : Component
 {
     d = new SpriteRendererComponentPrivate;
 
-    QVariant somethingEmpty;
+    /*QVariant somethingEmpty;
     Asset *theObject = 0;
     somethingEmpty.setValue<GluonEngine::Asset*>(theObject);
-    setProperty("texture", somethingEmpty);
+    setProperty("texture", somethingEmpty);*/
 }
 
 SpriteRendererComponent::SpriteRendererComponent ( const SpriteRendererComponent& other )
@@ -77,20 +80,29 @@ SpriteRendererComponent::~SpriteRendererComponent()
 
 void SpriteRendererComponent::start()
 {
+    DEBUG_FUNC_NAME
     if(!d->item) {
         d->mesh = new GluonGraphics::SpriteMesh(d->size, this);
         d->item = new GluonGraphics::Item(d->mesh, this);
         d->item->setColor(d->color);
     }
 
-    if(texture()) {
-        if(!texture()->isLoaded())
-            texture()->load();
+    if(d->texture) {
+        if(!d->texture->isLoaded())
+            d->texture->load();
 
-        const QMimeData* data = texture()->data();
+        const QMimeData* data = d->texture->data();
         if(data->hasImage()) {
             d->mesh->setTexture(data->imageData().value<QImage>());
         }
+        else
+        {
+            DEBUG_TEXT("Fail! No texture data!");
+        }
+    }
+    else
+    {
+        DEBUG_TEXT("Fail! No texture!");
     }
 }
 
@@ -151,15 +163,25 @@ QColor SpriteRendererComponent::color()
 
 Asset* SpriteRendererComponent::texture()
 {
-    GluonObject* obj = property("texture").value<GluonCore::GluonObject*>();
-    return qobject_cast< GluonEngine::Asset* >(obj);
+    /*GluonObject* obj = property("texture").value<GluonCore::GluonObject*>();
+    return qobject_cast< GluonEngine::Asset* >(obj);*/
+    return d->texture;
 }
 
 void SpriteRendererComponent::setTexture(Asset* asset)
 {
-    QVariant somethingEmpty;
+    /*QVariant somethingEmpty;
     somethingEmpty.setValue<GluonEngine::Asset*>(asset);
-    setProperty("texture", somethingEmpty);
+    setProperty("texture", somethingEmpty);*/
+    d->texture = asset;
+
+    if(asset)
+    {
+        if(d->mesh && asset->isLoaded())
+        {
+            d->mesh->setTexture(asset->data()->imageData().value<QImage>());
+        }
+    }
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent);

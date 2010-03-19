@@ -30,6 +30,7 @@ namespace GluonEngine
         GLUON_OBJECT(GluonEngine::SpriteRendererComponent)
         Q_PROPERTY(QSizeF size READ size WRITE setSize)
         Q_PROPERTY(QColor color READ color WRITE setColor)
+        Q_PROPERTY(GluonEngine::Asset* texture READ texture WRITE setTexture)
         Q_INTERFACES(GluonEngine::Component)
 
         public:
