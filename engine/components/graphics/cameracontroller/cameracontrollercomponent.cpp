@@ -28,11 +28,12 @@ using namespace GluonEngine;
 class CameraControllerComponent::CameraControllerComponentPrivate
 {
     public:
-        CameraControllerComponentPrivate() { camera = 0; }
+        CameraControllerComponentPrivate() { camera = 0; active = false; }
 
         GluonGraphics::Camera *camera;
+        bool active;
 
-        static GluonGraphics::Camera* activeCamera;
+        static GluonGraphics::Camera *activeCamera;
 };
 
 GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
@@ -56,7 +57,11 @@ CameraControllerComponent::~CameraControllerComponent()
 
 void CameraControllerComponent::start()
 {
-    if(!d->camera) d->camera = new GluonGraphics::Camera();
+    if(!d->camera)
+        d->camera = new GluonGraphics::Camera();
+
+    if(d->active)
+        GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
 }
 
 void CameraControllerComponent::draw ( int timeLapse )
@@ -74,12 +79,13 @@ void CameraControllerComponent::update ( int elapsedMilliseconds )
 
 bool CameraControllerComponent::isActive()
 {
-    return d->camera == CameraControllerComponentPrivate::activeCamera;
+    return d->active;
 }
 
 void CameraControllerComponent::setActive(bool active)
 {
-    if(active) {
+    d->active = active;
+    if(active && d->camera) {
         CameraControllerComponentPrivate::activeCamera = d->camera;
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }
