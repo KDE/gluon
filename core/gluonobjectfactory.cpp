@@ -69,7 +69,7 @@ GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
         DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(newObjectType->metaObject()->className()).arg(typeID));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
         m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
-        
+
         foreach(const QString &mimetype, newObjectType->supportedMimeTypes())
         {
             DEBUG_TEXT(QString("Adding mimetype %1 to the index").arg(mimetype));
@@ -96,7 +96,7 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     return 0;
 }
 
-GluonObject* 
+GluonObject*
 GluonObjectFactory::instantiateObjectByMimetype(const QString& objectMimeType)
 {
     return instantiateObjectByName(m_mimeTypes[objectMimeType]);
@@ -106,8 +106,20 @@ QVariant
 GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
 {
     QString type = original.typeName();
+
+    //Remove the * from the type
     type = type.left(type.length() - 1);
+
     return m_objectTypes[type]->toVariant(newValue);
+}
+
+QVariant
+GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
+{
+    if(m_objectTypes.contains(type))
+        return m_objectTypes[type]->toVariant(newValue);
+
+    return QVariant();
 }
 
 void

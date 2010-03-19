@@ -259,7 +259,7 @@ GluonObject::fullyQualifiedFileName() const
     QString qualifiedName = fullyQualifiedName();
     QString ext = qualifiedName.split('.').last().toLower();
     qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
-    
+
     //Filter out invalid characters for filenames
     QRegExp rx("[\\/\\\\\\:\\.,\\* ]");
     qualifiedName.replace(rx, "_");
@@ -446,12 +446,21 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     } else {
         // If all else fails, pass the value through verbatim
         value = propertyValue;
+
+        //Set a sanitizable property
+        setProperty((propertyName + "_sanitizable").toUtf8(), value);
+
         DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
     }
 
-    setProperty(propertyName.toUtf8(), value);
-
-    DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName).arg(theTypeName).arg(theValue).arg(value.typeName()).arg(value.type()).arg(propertyValue));
+    if(!setProperty(propertyName.toUtf8(), value))
+    {
+        DEBUG_TEXT(QString("Failed to set or set dynamic property %1 to %2").arg(propertyName, propertyValue));
+    }
+    else
+    {
+        DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName, theTypeName, theValue, value.typeName()).arg(value.type()).arg(propertyValue));
+    }
 }
 
 QString
@@ -598,7 +607,7 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
 void
 GluonObject::sanitizeReference(const QString& propName, const QString& propValue)
 {
-    DEBUG_BLOCK
+    DEBUG_FUNC_NAME
     QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
     // Yes, i know this is O(n*m) but it does not happen during gameplay
     foreach(const QString &name, objectTypeNames)
@@ -610,17 +619,29 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             QString theReferencedName = propValue.mid(name.length() + 1, propValue.length() - (name.length() + 2));
             QVariant theReferencedObject;
 
-            GluonObject * theObject = GluonObject::findItemByNameInObject(theReferencedName.split('/'), gameProject());
+            QStringList nameParts = theReferencedName.split('/');
+            if(nameParts.at(0) == gameProject()->name())
+                nameParts.removeFirst();
 
-            theReferencedObject.setValue<GluonObject*>(theObject);
-            setProperty(propName.toAscii(), theReferencedObject);
-            if(!theObject)
+            GluonObject * theObject = GluonObject::findItemByNameInObject(nameParts, gameProject());
+
+            theReferencedObject = GluonObjectFactory::instance()->wrapObject(name, theObject);
+            DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
+
+            QString propertyName = propName;
+            if(propertyName.contains("_sanitizable"))
             {
-                DEBUG_TEXT(QString("No object found fitting the reference %1").arg(propValue));
+                setProperty(propertyName.toUtf8(), QVariant());
+                propertyName = propertyName.left(propertyName.lastIndexOf("_sanitizable"));
+            }
+
+            if(!setProperty(propertyName.toUtf8(), theReferencedObject))
+            {
+                DEBUG_TEXT(QString("Failed to set the property %1 to %2").arg(propertyName, propValue));
             }
             else
             {
-                DEBUG_TEXT(QString("Set the dynamic property %1 to reference the object %2 of type %3 (classname %4)").arg(QString(propName)).arg(theReferencedName).arg(name).arg(theObject->metaObject()->className()));
+                DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(propertyName, theReferencedName, name, theObject->metaObject()->className()));
             }
             break;
         }
