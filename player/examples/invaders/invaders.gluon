@@ -27,4 +27,7 @@
     { GluonEngine::ScriptAsset(menu-js)
         file url(Assets/Invaders.menu-js.menu.js)
     }
+    { GluonEngine::ScriptAsset(enemy.js)
+        file url(Assets/invaders_enemy.js)
+    }
 }
