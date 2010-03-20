@@ -1,6 +1,7 @@
 set(propertiesdock_SRCS
     propertiesdock.cpp
     propertiesdockplugin.cpp
+    propertychangedcommand.cpp
 
     propertywidgetitems/boolpropertywidgetitem.cpp
     propertywidgetitems/textpropertywidgetitem.cpp

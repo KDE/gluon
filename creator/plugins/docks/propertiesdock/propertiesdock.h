@@ -42,6 +42,7 @@ class PropertiesDock : public Dock
         void setSelection(GluonCore::GluonObject* obj = 0);
         void selectionChanged(SelectionManager::SelectionList selection);
         void newComponent(GluonEngine::Component* comp);
+        void propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue);
 
     private:
         class PropertiesDockPrivate;
