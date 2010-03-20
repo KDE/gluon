@@ -22,7 +22,6 @@
 #include "engine/gameproject.h"
 #include "engine/asset.h"
 #include "engine/scene.h"
-#include "objectmanager.h"
 
 #include <KDebug>
 #include <KLocalizedString>
@@ -32,6 +31,7 @@
 #include <QtCore/QFileInfo>
 #include <engine/filelocation.h>
 #include <QDir>
+#include <historymanager.h>
 
 using namespace GluonCreator;
 
@@ -49,7 +49,7 @@ class ProjectModel::ProjectModelPrivate
 ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
 {
     d = new ProjectModelPrivate;
-    connect(ObjectManager::instance(), SIGNAL(newScene(GluonEngine::Scene*)), SIGNAL(layoutChanged()));
+    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
 
 ProjectModel::~ProjectModel()

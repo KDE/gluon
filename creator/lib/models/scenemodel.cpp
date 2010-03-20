@@ -19,10 +19,11 @@ Boston, MA 02110-1301, USA.
 #include <KLocalizedString>
 #include <typeinfo>
 
+#include <historymanager.h>
+#include <objectmanager.h>
 #include <core/debughelper.h>
 #include <engine/gameobject.h>
 #include <engine/component.h>
-#include <objectmanager.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
@@ -32,7 +33,7 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 {
     m_root = 0;
     setSupportedDragActions(Qt::MoveAction);
-    connect(ObjectManager::instance(), SIGNAL(newGameObject(GluonEngine::GameObject*)), SIGNAL(layoutChanged()));
+    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
 
 
