@@ -26,6 +26,8 @@
 #include <engine/component.h>
 
 #include "selectionmanager.h"
+#include "newobjectcommand.h"
+#include "historymanager.h"
 
 using namespace GluonCreator;
 
@@ -43,10 +45,9 @@ GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, G
         //Call start. We are, after all, basically working with a paused game.
         comp->start();
 
-        GluonEngine::Game::instance()->currentScene()->savableDirty = true;
-
         emit newComponent(comp);
-        emit newObject(comp);
+
+        HistoryManager::instance()->addCommand(new NewObjectCommand(comp));
 
         return comp;
     }
@@ -77,11 +78,10 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
         GluonEngine::Game::instance()->currentScene()->sceneContents()->addChild(newObj);
     }
 
-    // Remember to mark the current scene dirty
-    GluonEngine::Game::instance()->currentScene()->savableDirty = true;
-
-    emit newObject(newObj);
     emit newGameObject(newObj);
+
+    HistoryManager::instance()->addCommand(new NewObjectCommand(newObj));
+
     return newObj;
 }
 
@@ -92,8 +92,10 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     newScn->setGameProject(GluonEngine::Game::instance()->gameProject());
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
 
-    emit newObject(newScn);
     emit newScene(newScn);
+
+    HistoryManager::instance()->addCommand(new NewObjectCommand(newScn));
+
     return newScn;
 }
 

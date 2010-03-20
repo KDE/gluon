@@ -4,7 +4,9 @@ set(libGluonCreator_SRCS
     dockplugin.cpp
     pluginmanager.cpp
     objectmanager.cpp
+    historymanager.cpp
     selectionmanager.cpp
+    newobjectcommand.cpp
 
     models/componentmodel.cpp
     models/projectmodel.cpp
@@ -45,6 +47,7 @@ install(FILES
     plugin.h
     dockplugin.h
     pluginmanager.h
+    historymanager.h
     selectionmanager.h
     gluoncreator_macros.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator
