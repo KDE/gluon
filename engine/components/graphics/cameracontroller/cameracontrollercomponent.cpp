@@ -69,7 +69,8 @@ void CameraControllerComponent::draw ( int timeLapse )
     Q_UNUSED(timeLapse)
 
     #warning TODO: Set rotation/fov/all that crap
-    d->camera->setPosition(gameObject()->position());
+    if(d->camera)
+        d->camera->setPosition(gameObject()->position());
 }
 
 void CameraControllerComponent::update ( int elapsedMilliseconds )
