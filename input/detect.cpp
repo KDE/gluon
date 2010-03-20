@@ -1,10 +1,10 @@
 #include "detect.h"
 
-namespace GluonInput
+using namespace GluonInput;
+
+Detect::Detect(QObject * parent)
+	: QObject(parent)
 {
-    Detect::Detect(QObject * parent)
-            : QObject(parent)
-    {
-    }
 }
+
 #include "detect.moc"
