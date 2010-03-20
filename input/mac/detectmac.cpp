@@ -1,7 +1,7 @@
 #include "detectmac.h"
 
 #include "gluon_input_export.h"
-#include "inputdefinitions.h"
+#include "keydefinitions.h"
 
 #include <QtCore/QDebug>
 #include <IOKit/IOKitLib.h>

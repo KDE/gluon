@@ -3,7 +3,7 @@
 
 #include "core/singleton.h"
 #include "gluon_input_export.h"
-#include "inputdefinitions.h"
+#include "keydefinitions.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>

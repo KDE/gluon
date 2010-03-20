@@ -6,7 +6,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-#include "inputdefinitions.h"
+#include "keydefinitions.h"
 #include "absval.h"
 
 #include <IOKit/IOKitLib.h>

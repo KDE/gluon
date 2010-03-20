@@ -5,7 +5,7 @@
 #define GLUONINPUT_CODE_RELABS_SIZE 198
 
 #include "gluon_input_export.h"
-#include "inputdefinitions.h"
+#include "keydefinitions.h"
 
 #include <QtCore/QString>
 #include <QtCore/QEvent>

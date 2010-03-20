@@ -7,7 +7,7 @@
 #include <QtCore/QSharedData>
 
 #include "gluon_input_export.h"
-#include "inputdefinitions.h"
+#include "keydefinitions.h"
 
 namespace GluonInput
 {

@@ -63,7 +63,7 @@ set(GluonInput_SRCS_MAC
 set(GluonInput_HEADERS_MAC
     mac/detectmac.h
 	mac/inputthread.h
-    mac/inputdefinitions.h
+    mac/keydefinitions.h
 	mac/code.h
 
 )
@@ -80,7 +80,7 @@ set(GluonInput_SRCS_LINUX
 set(GluonInput_HEADERS_LINUX
 	linux/inputthread.h
     linux/detectlinux.h
-    linux/inputdefinitions.h
+    linux/keydefinitions.h
 )
 ###############linux source and headers###################
 
