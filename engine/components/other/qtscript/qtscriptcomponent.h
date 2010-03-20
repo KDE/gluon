@@ -30,6 +30,8 @@ namespace GluonEngine
         GLUON_OBJECT(GluonEngine::QtScriptComponent)
         Q_INTERFACES(GluonEngine::Component)
 
+        Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
+
         public:
             QtScriptComponent ( QObject* parent = 0 );
             QtScriptComponent ( const QtScriptComponent& other);
