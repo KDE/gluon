@@ -28,7 +28,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT HistoryManager : public GluonCore::Singleton<HistoryManager>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
 
         public slots:

@@ -35,7 +35,11 @@ using namespace GluonCreator;
 class SceneDock::SceneDockPrivate
 {
     public:
-        SceneDockPrivate() { model = 0; view = 0; }
+        SceneDockPrivate()
+        {
+            model = 0;
+            view = 0;
+        }
         SceneModel* model;
         QTreeView* view;
 };
@@ -60,8 +64,8 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     d->view->setDragDropMode(QAbstractItemView::DragDrop);
     d->view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     d->view->setContextMenuPolicy(Qt::ActionsContextMenu);
-    connect(d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
-    
+    connect(d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(selectionChanged(QItemSelection, QItemSelection)));
+
     setupActions();
 }
 
@@ -76,11 +80,11 @@ void SceneDock::setupActions()
     d->view->addAction(deleteAction);
     deleteAction->setShortcut(KShortcut(Qt::Key_Delete), KAction::DefaultShortcut);
     connect(deleteAction, SIGNAL(triggered(bool)), SLOT(deleteSelection()));
-    
+
     KAction* separator = new KAction(d->view);
     d->view->addAction(separator);
     separator->setSeparator(true);
-    
+
     KAction* newGameObject = new KAction(KIcon("file-new"), i18n("New GameObject"), d->view);
     d->view->addAction(newGameObject);
     connect(newGameObject, SIGNAL(triggered(bool)), SLOT(newGameObjectAction()));
@@ -121,7 +125,7 @@ void SceneDock::selectionChanged(QItemSelection selected, QItemSelection deselec
 
 void SceneDock::sceneChanged(GluonEngine::Scene* obj)
 {
-    if(obj)
+    if (obj)
     {
         d->model->setRootGameObject(obj->sceneContents());
         SelectionManager::SelectionList selection;
@@ -134,7 +138,7 @@ void SceneDock::deleteSelection()
 {
     DEBUG_FUNC_NAME;
 
-    if(d->view->selectionModel()->hasSelection())
+    if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
         foreach(QItemSelectionRange range, currentSelection)
@@ -148,9 +152,9 @@ void SceneDock::deleteSelection()
 void GluonCreator::SceneDock::newGameObjectAction()
 {
     DEBUG_FUNC_NAME
-    
+
     GluonEngine::GameObject * obj = NULL;
-    if(d->view->selectionModel()->hasSelection())
+    if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
         foreach(QItemSelectionRange range, currentSelection)
@@ -160,15 +164,15 @@ void GluonCreator::SceneDock::newGameObjectAction()
             break;
         }
     }
-    
+
     // Find the root item and add a new child to that if we've not got something by now
-    if(!obj)
+    if (!obj)
     {
         DEBUG_TEXT(QString("No selection with a gameobject in it, so add the new GameObject to the root of the scene"));
         obj = d->model->rootGameObject();
     }
-    
-    if(obj)
+
+    if (obj)
     {
         GluonEngine::GameObject * newChild = new GluonEngine::GameObject();
         obj->addChild(newChild);

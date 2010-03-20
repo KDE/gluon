@@ -34,15 +34,19 @@ using namespace GluonCreator;
 
 class ProjectDock::ProjectDockPrivate
 {
-  public:
-    ProjectDockPrivate(ProjectDock * parent) { q = parent; view = 0; }
-    ProjectDock * q;
-    ProjectModel* model;
-    QTreeView* view;
+    public:
+        ProjectDockPrivate(ProjectDock * parent)
+        {
+            q = parent;
+            view = 0;
+        }
+        ProjectDock * q;
+        ProjectModel* model;
+        QTreeView* view;
 
-    QModelIndex currentContextIndex;
-    QList<QAction*> menuForObject(QModelIndex index);
-    QList<QAction*> currentContextMenu;
+        QModelIndex currentContextIndex;
+        QList<QAction*> menuForObject(QModelIndex index);
+        QList<QAction*> currentContextMenu;
 };
 
 QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex index)
@@ -50,14 +54,14 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
     QList<QAction*> menuItems;
 
     GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(index.internalPointer());
-    if(object)
+    if (object)
     {
         const QMetaObject * mobj = object->metaObject();
-        if(mobj)
+        if (mobj)
         {
             currentContextIndex = index;
             QAction * action;
-            if(object->inherits("GluonEngine::Asset"))
+            if (object->inherits("GluonEngine::Asset"))
             {
                 action = new QAction("Asset actions go here", this->q);
                 action->setEnabled(false);
@@ -123,21 +127,22 @@ void ProjectDock::setSelection(GluonCore::GluonObject* obj)
 
 void ProjectDock::activated(QModelIndex index)
 {
-    if(!index.isValid())
+    if (!index.isValid())
     {
         return;
     }
 
     QObject* obj = static_cast<QObject*>(index.internalPointer());
-    if(!obj)
+    if (!obj)
     {
         return;
     }
 
     GluonEngine::Scene* scene = qobject_cast<GluonEngine::Scene*>(obj);
-    if(scene)
+    if (scene)
     {
-        if(GluonEngine::Game::instance()->currentScene() != scene) {
+        if (GluonEngine::Game::instance()->currentScene() != scene)
+        {
             GluonEngine::Game::instance()->setCurrentScene(scene);
             GluonEngine::Game::instance()->currentScene()->startAll();
             GluonEngine::Game::instance()->updateAll();
@@ -148,7 +153,7 @@ void ProjectDock::activated(QModelIndex index)
 void ProjectDock::showContextMenuRequested(const QPoint& pos)
 {
     QModelIndex index = d->view->indexAt(pos);
-    if(index.isValid())
+    if (index.isValid())
     {
         QMenu menu(static_cast<GluonCore::GluonObject*>(index.internalPointer())->name(), this);
         menu.addActions(d->menuForObject(index));
@@ -166,11 +171,11 @@ void ProjectDock::contextMenuHiding()
 void ProjectDock::deleteActionTriggered()
 {
     DEBUG_FUNC_NAME
-    if(d->currentContextIndex.isValid())
+    if (d->currentContextIndex.isValid())
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
-        if(KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
         {
             d->view->selectionModel()->select(d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect);
             d->view->collapse(d->currentContextIndex.parent());
@@ -182,12 +187,12 @@ void ProjectDock::deleteActionTriggered()
 void ProjectDock::newSubMenuTriggered()
 {
     DEBUG_FUNC_NAME
-    if(d->currentContextIndex.isValid())
+    if (d->currentContextIndex.isValid())
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         DEBUG_TEXT(QString("Requested a new submenu under %1").arg(object->fullyQualifiedName()));
         QString theName(KInputDialog::getText(i18n("Enter Name"), i18n("Please enter the name of the new folder in the text box below:"), i18n("New Folder"), 0, this));
-        if(!theName.isEmpty())
+        if (!theName.isEmpty())
             new GluonCore::GluonObject(theName, object);
     }
 }

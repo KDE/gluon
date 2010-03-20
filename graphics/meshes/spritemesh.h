@@ -11,8 +11,8 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT SpriteMesh: public Mesh
     {
         public:
-            SpriteMesh(QObject * parent=0);
-            SpriteMesh(const QSizeF& Size, QObject * parent=0);
+            SpriteMesh(QObject * parent = 0);
+            SpriteMesh(const QSizeF& Size, QObject * parent = 0);
             ~SpriteMesh();
 
             QSizeF size() const;

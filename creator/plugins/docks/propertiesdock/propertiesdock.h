@@ -26,28 +26,29 @@ namespace GluonEngine
     class Component;
 }
 
-namespace GluonCreator {
-
-class PropertiesDock : public Dock
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-        ~PropertiesDock();
 
-        QAbstractItemView* view();
-        QAbstractItemModel* model();
+    class PropertiesDock : public Dock
+    {
+            Q_OBJECT
+        public:
+            PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            ~PropertiesDock();
 
-    public slots:
-        void setSelection(GluonCore::GluonObject* obj = 0);
-        void selectionChanged(SelectionManager::SelectionList selection);
-        void newComponent(GluonEngine::Component* comp);
-        void propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue);
+            QAbstractItemView* view();
+            QAbstractItemModel* model();
 
-    private:
-        class PropertiesDockPrivate;
-        PropertiesDockPrivate *d;
-};
+        public slots:
+            void setSelection(GluonCore::GluonObject* obj = 0);
+            void selectionChanged(SelectionManager::SelectionList selection);
+            void newComponent(GluonEngine::Component* comp);
+            void propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue);
+
+        private:
+            class PropertiesDockPrivate;
+            PropertiesDockPrivate *d;
+    };
 
 }
 

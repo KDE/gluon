@@ -12,9 +12,9 @@
 
 class KCLDeviceModel : public QStandardItemModel
 {
-public:
-    KCLDeviceModel(QObject * parent = 0);
-    void setupList();
+    public:
+        KCLDeviceModel(QObject * parent = 0);
+        void setupList();
 };
 
 //@}

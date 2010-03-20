@@ -5,14 +5,14 @@
 
 namespace GluonInput
 {
-	class Detect;
-	class InputDetectionPrivate : public QSharedData
-	{
-	public:
-		InputDetectionPrivate();
-		InputDetectionPrivate(InputDetectionPrivate &other);
-		
-		Detect * m_instance;
-	};	
+    class Detect;
+    class InputDetectionPrivate : public QSharedData
+    {
+        public:
+            InputDetectionPrivate();
+            InputDetectionPrivate(InputDetectionPrivate &other);
+
+            Detect * m_instance;
+    };
 }
 #endif

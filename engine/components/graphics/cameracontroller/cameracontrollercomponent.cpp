@@ -28,7 +28,11 @@ using namespace GluonEngine;
 class CameraControllerComponent::CameraControllerComponentPrivate
 {
     public:
-        CameraControllerComponentPrivate() { camera = 0; active = false; }
+        CameraControllerComponentPrivate()
+        {
+            camera = 0;
+            active = false;
+        }
 
         GluonGraphics::Camera *camera;
         bool active;
@@ -38,14 +42,14 @@ class CameraControllerComponent::CameraControllerComponentPrivate
 
 GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
 
-CameraControllerComponent::CameraControllerComponent ( QObject* parent ) : Component ( parent )
+CameraControllerComponent::CameraControllerComponent(QObject* parent) : Component(parent)
 {
     d = new CameraControllerComponentPrivate;
 }
 
-CameraControllerComponent::CameraControllerComponent ( const CameraControllerComponent& other )
-    : Component ( other ),
-    d(other.d)
+CameraControllerComponent::CameraControllerComponent(const CameraControllerComponent& other)
+        : Component(other),
+        d(other.d)
 {
 }
 
@@ -57,23 +61,23 @@ CameraControllerComponent::~CameraControllerComponent()
 
 void CameraControllerComponent::start()
 {
-    if(!d->camera)
+    if (!d->camera)
         d->camera = new GluonGraphics::Camera();
 
-    if(d->active)
+    if (d->active)
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
 }
 
-void CameraControllerComponent::draw ( int timeLapse )
+void CameraControllerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-    #warning TODO: Set rotation/fov/all that crap
-    if(d->camera)
+#warning TODO: Set rotation/fov/all that crap
+    if (d->camera)
         d->camera->setPosition(gameObject()->position());
 }
 
-void CameraControllerComponent::update ( int elapsedMilliseconds )
+void CameraControllerComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 }
@@ -86,7 +90,8 @@ bool CameraControllerComponent::isActive()
 void CameraControllerComponent::setActive(bool active)
 {
     d->active = active;
-    if(active && d->camera) {
+    if (active && d->camera)
+    {
         CameraControllerComponentPrivate::activeCamera = d->camera;
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }

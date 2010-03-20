@@ -8,7 +8,7 @@ namespace GluonGraphics
 
 
     Item::Item(QObject * parent)
-        :Transform(parent)
+            : Transform(parent)
     {
         m_mesh = new Mesh;
         init();
@@ -16,7 +16,7 @@ namespace GluonGraphics
 
     //------------------------------------------------------------
     Item::Item(Mesh * mesh , QObject * parent)
-        :Transform(parent)
+            : Transform(parent)
     {
         m_mesh = mesh;
         init();
@@ -43,14 +43,14 @@ namespace GluonGraphics
         glPushMatrix();
         glMultMatrixd((GLdouble*)matrix().data());
 
-        if ( mProgram!=0)
+        if (mProgram != 0)
             mProgram->bind();
 
         m_mesh->texture()->bind();
         drawMesh();
         m_mesh->texture()->unBind();
 
-        if ( mProgram!=0)
+        if (mProgram != 0)
             mProgram->release();
 
 
@@ -60,7 +60,7 @@ namespace GluonGraphics
     void Item::drawMesh()
     {
 
-        glPolygonMode(GL_FRONT_AND_BACK,mesh()->glMode());
+        glPolygonMode(GL_FRONT_AND_BACK, mesh()->glMode());
 
 
         /*enable client state */
@@ -69,9 +69,9 @@ namespace GluonGraphics
         glEnableClientState(GL_COLOR_ARRAY);
 
         /* send data */
-        glVertexPointer(3, GL_FLOAT,sizeof(Vertex),m_mesh->vertexArray());
-        glTexCoordPointer(2,GL_FLOAT,sizeof(Vertex),m_mesh->texCoordsArray());
-        glColorPointer(4, GL_FLOAT,sizeof(Vertex),m_mesh->colorArray());
+        glVertexPointer(3, GL_FLOAT, sizeof(Vertex), m_mesh->vertexArray());
+        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), m_mesh->texCoordsArray());
+        glColorPointer(4, GL_FLOAT, sizeof(Vertex), m_mesh->colorArray());
 
         //    /* create vertex */
         glDrawArrays(mesh()->glMode(), 0, m_mesh->vertexCount());
@@ -87,13 +87,13 @@ namespace GluonGraphics
 
     void Item::setColor(const QColor& col)
     {
-        if ( m_mesh)
+        if (m_mesh)
             m_mesh->setColor(col);
     }
     //------------------------------------------------------------
     void Item::setAlpha(const float& alpha)
     {
-        if ( m_mesh)
+        if (m_mesh)
             m_mesh->setAlpha(alpha);
 
     }
@@ -128,12 +128,12 @@ namespace GluonGraphics
         m_mesh->setTexture(path);
     }
     //------------------------------------------------------------
-    void Item::setShader( QGLShaderProgram* program)
+    void Item::setShader(QGLShaderProgram* program)
     {
         mProgram = program;
     }
     void Item::removeShader()
     {
-        mProgram =0 ;
+        mProgram = 0 ;
     }
 }

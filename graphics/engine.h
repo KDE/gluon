@@ -35,7 +35,7 @@ namespace GluonGraphics
 
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             void addItem(Item* item);

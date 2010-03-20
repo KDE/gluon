@@ -22,12 +22,12 @@
 
 #include <QtGui/QCheckBox>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,BoolPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, BoolPropertyWidgetItem)
 
 using namespace GluonCreator;
 
 BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     setEditWidget(new QCheckBox(this));
     connect(editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)));

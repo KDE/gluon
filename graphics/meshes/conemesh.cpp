@@ -3,29 +3,30 @@
 namespace GluonGraphics
 {
     ConeMesh::ConeMesh(QObject * parent)
-        :Mesh(parent)
+            : Mesh(parent)
     {
 
-        setCone(2,5,10);
+        setCone(2, 5, 10);
 
     }
 
     ConeMesh::ConeMesh(float radius, float height, unsigned int nbPoints, QObject *parent)
-        :Mesh(parent)
+            : Mesh(parent)
     {
-        setCone(radius,height,nbPoints);
+        setCone(radius, height, nbPoints);
     }
 
     void ConeMesh::setCone(float radius, float height, unsigned int nbPoints)
     {
-        m_radius= radius;
-        m_height=height;
+        m_radius = radius;
+        m_height = height;
         m_nbPoints = nbPoints;
         clear();
 
-        QVector3D apex(0,0,height);
+        QVector3D apex(0, 0, height);
         setGLMode(GL_TRIANGLE_STRIP);
-        if (nbPoints < 3) {
+        if (nbPoints < 3)
+        {
             return;
         }
 
@@ -39,7 +40,7 @@ namespace GluonGraphics
             addVertex(Vertex(apex, Qt::white, QVector2D(0, 0)));
 
         }
-        addVertex(Vertex(QVector2D(1*radius,0), Qt::white, QVector2D(0, 0)));
+        addVertex(Vertex(QVector2D(1*radius, 0), Qt::white, QVector2D(0, 0)));
 
 
 

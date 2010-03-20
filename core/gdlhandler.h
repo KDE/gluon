@@ -32,7 +32,7 @@ namespace GluonCore
 
     class GLUON_CORE_EXPORT GDLHandler : public Singleton<GDLHandler>
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);

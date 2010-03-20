@@ -23,7 +23,7 @@
 #include <QVector3D>
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,VectorPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, VectorPropertyWidgetItem)
 
 using namespace GluonCreator;
 

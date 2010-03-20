@@ -9,14 +9,14 @@ class SpriteMesh::SpriteMeshPrivate
 };
 
 SpriteMesh::SpriteMesh(QObject * parent)
-    :Mesh(parent)
+        : Mesh(parent)
 {
     d = new SpriteMeshPrivate;
     setSize(QSizeF(1.0f, 1.0f));
 }
 
 SpriteMesh::SpriteMesh(const QSizeF& rect, QObject * parent)
-    :Mesh(parent)
+        : Mesh(parent)
 {
     d = new SpriteMeshPrivate;
     setSize(rect);
@@ -35,9 +35,9 @@ SpriteMesh::setSize(const QSizeF &size)
     float halfw = size.width() / 2.0f;
     float halfh = size.height() / 2.0f;
 
-    if(vertexCount() < 4)
+    if (vertexCount() < 4)
     {
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             addVertex(QVector2D());
         }

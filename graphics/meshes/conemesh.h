@@ -8,15 +8,15 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT ConeMesh: public Mesh
     {
-    public:
-        ConeMesh(QObject * parent=0);
-        ConeMesh(float radius, float height, unsigned int nbPoints, QObject * parent=0 );
-        void setCone(float radius, float height, unsigned int nbPoints);
+        public:
+            ConeMesh(QObject * parent = 0);
+            ConeMesh(float radius, float height, unsigned int nbPoints, QObject * parent = 0);
+            void setCone(float radius, float height, unsigned int nbPoints);
 
-    private:
-        float m_radius;
-        float m_height;
-        float m_nbPoints;
+        private:
+            float m_radius;
+            float m_height;
+            float m_nbPoints;
 
     };
 }

@@ -27,37 +27,39 @@ using namespace GluonAudio;
 
 class Buffer::BufferPrivate
 {
-public:
-    ALuint buffer;
+    public:
+        ALuint buffer;
 };
 
 
 Buffer::Buffer()
-    :d(new BufferPrivate)
+        : d(new BufferPrivate)
 {
-    d->buffer=0;
+    d->buffer = 0;
     init();
 }
 
 Buffer::Buffer(const QString &fileName)
-            :d(new BufferPrivate)
+        : d(new BufferPrivate)
 
 {
-    d->buffer=0;
+    d->buffer = 0;
     setBuffer(fileName);
     init();
 }
 
 Buffer::Buffer(ALuint buffer)
-            :d(new BufferPrivate)
+        : d(new BufferPrivate)
 {
-    d->buffer= buffer;
+    d->buffer = buffer;
     init();
 }
-void Buffer::setBuffer(ALuint buffer) {
+void Buffer::setBuffer(ALuint buffer)
+{
     d->buffer = buffer;
 }
-bool Buffer::isEmpty()const {
+bool Buffer::isEmpty()const
+{
     return !d->buffer;
 }
 /*void Buffer::setHelloWord() {
@@ -68,7 +70,8 @@ void Buffer::init()
 {
 }
 
-ALuint Buffer::buffer() const {
+ALuint Buffer::buffer() const
+{
     return  d->buffer;
 }
 
@@ -81,25 +84,26 @@ Buffer::~Buffer()
 void Buffer::setBuffer(const QString &fileName)
 {
     SoundReader reader(fileName);
-    if (reader.canRead()) {
+    if (reader.canRead())
+    {
         d->buffer = reader.alBuffer();
     }
 }
 
 ALfloat Buffer::duration() const
 {
-    ALint size= 0.f;
-    ALint bits= 0.f;
-    ALint channels= 0.f;
-    ALint frequency= 0.f;
+    ALint size = 0.f;
+    ALint bits = 0.f;
+    ALint channels = 0.f;
+    ALint frequency = 0.f;
 
-    alGetBufferi( d->buffer,AL_SIZE,&size);
-    alGetBufferi( d->buffer,AL_BITS,&bits);
-    alGetBufferi( d->buffer,AL_CHANNELS,&channels);
-    alGetBufferi( d->buffer,AL_FREQUENCY,&frequency);
+    alGetBufferi(d->buffer, AL_SIZE, &size);
+    alGetBufferi(d->buffer, AL_BITS, &bits);
+    alGetBufferi(d->buffer, AL_CHANNELS, &channels);
+    alGetBufferi(d->buffer, AL_FREQUENCY, &frequency);
 
-    ALfloat sample = size/channels*8/bits;
-    ALfloat dur = (float)sample/frequency;
+    ALfloat sample = size / channels * 8 / bits;
+    ALfloat dur = (float)sample / frequency;
 
     //
     //    <KittyCat> then size/channels*8/bits is the number of samples

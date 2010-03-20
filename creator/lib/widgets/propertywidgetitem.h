@@ -35,7 +35,7 @@ namespace GluonCreator
     */
     class GLUONCREATOR_EXPORT PropertyWidgetItem : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             virtual ~PropertyWidgetItem();
@@ -66,4 +66,4 @@ namespace GluonCreator
     };
 }
 
-#endif				// GLUON_CREATOR_PROPERTYWIDGETITEM_H
+#endif    // GLUON_CREATOR_PROPERTYWIDGETITEM_H

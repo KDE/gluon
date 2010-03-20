@@ -5,7 +5,7 @@
 #include <graphics/meshes/polygonmesh.h>
 REGISTER_OBJECTTYPE(GluonEngine, TextRendererComponent)
 
-        Q_DECLARE_METATYPE(GluonCore::GluonObject*);
+Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 
 using namespace GluonEngine;
 
@@ -26,7 +26,7 @@ class TextRendererComponent::TextRendererComponentPrivate
 
 
 TextRendererComponent::TextRendererComponent(QObject * parent)
-    :Component(parent)
+        : Component(parent)
 {
     d = new TextRendererComponentPrivate;
 
@@ -42,7 +42,7 @@ void
 TextRendererComponent::setText(const QString &text)
 {
     d->text = text;
-    if(d->textItem)
+    if (d->textItem)
         d->textItem->setText(text);
 }
 
@@ -56,7 +56,7 @@ void
 TextRendererComponent::setFont(const QFont& font)
 {
     d->font = font;
-    if(d->textItem)
+    if (d->textItem)
         d->textItem->setFont(font);
 }
 
@@ -70,7 +70,7 @@ void
 TextRendererComponent::setColor(const QColor& color)
 {
     d->color = color;
-    if(d->textItem)
+    if (d->textItem)
         d->textItem->setColor(color);
 }
 
@@ -87,9 +87,9 @@ TextRendererComponent::start()
 }
 
 void
-TextRendererComponent::draw ( int timeLapse )
+TextRendererComponent::draw(int timeLapse)
 {
-    if(d->textItem)
+    if (d->textItem)
         d->textItem->setMatrix(gameObject()->transform());
 }
 

@@ -28,7 +28,10 @@ using namespace GluonCreator;
 class ViewWidgetDock::ViewWidgetDockPrivate
 {
     public:
-        ViewWidgetDockPrivate() { view = 0; };
+        ViewWidgetDockPrivate()
+        {
+            view = 0;
+        };
 
         GluonGraphics::GLWidget *view;
 };

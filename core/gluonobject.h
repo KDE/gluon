@@ -34,10 +34,10 @@
 Q_DECLARE_METATYPE(QList<QUrl>)
 
 #define GLUON_OBJECT(CLASSNAME)\
-public:\
+    public:\
     virtual GluonCore::GluonObject *instantiate();\
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
-private:
+    private:
 
 namespace GluonCore
 {
@@ -46,10 +46,10 @@ namespace GluonCore
 
     class GLUON_CORE_EXPORT GluonObject : public QObject
     {
-        Q_OBJECT
-        Q_PROPERTY(QString name READ name WRITE setName)
-        // There is deliberately no gameProject property
-        GLUON_OBJECT(GluonCore::GluonObject);
+            Q_OBJECT
+            Q_PROPERTY(QString name READ name WRITE setName)
+            // There is deliberately no gameProject property
+            GLUON_OBJECT(GluonCore::GluonObject);
 
         public:
             GluonObject(QObject * parent = 0);

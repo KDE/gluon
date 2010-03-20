@@ -21,13 +21,13 @@
 #include "itemlist.h"
 namespace GluonGraphics
 {
-ItemList::ItemList()
-    : QList<Item*>()
-{
-}
+    ItemList::ItemList()
+            : QList<Item*>()
+    {
+    }
 
-ItemList::~ItemList()
-{
-    clear();
-}
+    ItemList::~ItemList()
+    {
+        clear();
+    }
 }//namespace

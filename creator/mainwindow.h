@@ -27,7 +27,7 @@ namespace GluonCreator
 
     class MainWindow : public KXmlGuiWindow
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             MainWindow(const QString& fileName = "");
             ~MainWindow();

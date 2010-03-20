@@ -30,7 +30,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT SceneModel : public QAbstractItemModel
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             SceneModel(QObject* parent = 0);
 

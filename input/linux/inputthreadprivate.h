@@ -1,4 +1,4 @@
-#ifndef INPUTTHREADPRIVATE_H	
+#ifndef INPUTTHREADPRIVATE_H
 #define INPUTTHREADPRIVATE_H
 
 #include <QtCore/QSharedData>
@@ -11,33 +11,33 @@
 
 namespace GluonInput
 {
-  class InputThreadPrivate : public QSharedData
-  {
-    public:
-      InputThreadPrivate();
-      InputThreadPrivate(InputThreadPrivate &other);
-      
-      int m_fd;
-      struct input_id m_device_info;
-      struct input_event m_currentEvent;
-      QString m_devicePath;
+    class InputThreadPrivate : public QSharedData
+    {
+        public:
+            InputThreadPrivate();
+            InputThreadPrivate(InputThreadPrivate &other);
 
-      int m_vendor;
-      int m_product;
-      int m_version;
-      int m_bustype;
+            int m_fd;
+            struct input_id m_device_info;
+            struct input_event m_currentEvent;
+            QString m_devicePath;
 
-      QString m_deviceName;
-      QString m_msgError;
+            int m_vendor;
+            int m_product;
+            int m_version;
+            int m_bustype;
 
-      bool m_error;
+            QString m_deviceName;
+            QString m_msgError;
 
-      GluonInput::DeviceFlag m_deviceType;
+            bool m_error;
 
-      QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
-      QList<int> m_relAxisCapabilities; // list of rel Axis capability..
-      QList<int> m_absAxisCapabilities; // list of abs Axis capabilty
-      QMap<int, AbsVal> m_absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
-  };
+            GluonInput::DeviceFlag m_deviceType;
+
+            QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
+            QList<int> m_relAxisCapabilities; // list of rel Axis capability..
+            QList<int> m_absAxisCapabilities; // list of abs Axis capabilty
+            QMap<int, AbsVal> m_absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
+    };
 }
 #endif

@@ -23,7 +23,10 @@ using namespace GluonCreator;
 class MessageDock::MessageDockPrivate
 {
     public:
-        MessageDockPrivate() { view = 0; }
+        MessageDockPrivate()
+        {
+            view = 0;
+        }
         //MessageModel* model;
         QTreeView* view;
 };

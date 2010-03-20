@@ -7,17 +7,17 @@
 
 namespace GluonInput
 {
-	class InputThread;
+    class InputThread;
     class TabletPrivate;
 
-	class GLUON_INPUT_EXPORT Tablet : public InputDevice
-	{
-    Q_OBJECT
-	public:
-		Tablet(InputThread * inputThread, QObject * parent = 0);
+    class GLUON_INPUT_EXPORT Tablet : public InputDevice
+    {
+            Q_OBJECT
+        public:
+            Tablet(InputThread * inputThread, QObject * parent = 0);
 
-	private:
-		QSharedDataPointer<TabletPrivate> d;
-	};
+        private:
+            QSharedDataPointer<TabletPrivate> d;
+    };
 }
 #endif // KCLTABLET_H

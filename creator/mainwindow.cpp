@@ -67,10 +67,12 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 
     setupGUI();
 
-    if(!fileName.isEmpty()) {
+    if (!fileName.isEmpty())
+    {
         openProject(fileName);
     }
-    else {
+    else
+    {
         //Show new project dialog.
     }
 }
@@ -100,7 +102,8 @@ void MainWindow::openProject(KUrl url)
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
-    if(!fileName.isEmpty()) {
+    if (!fileName.isEmpty())
+    {
         GluonEngine::GameProject* project = new GluonEngine::GameProject();
         project->loadFromFile(QUrl(fileName));
 
@@ -123,12 +126,12 @@ void MainWindow::saveProject()
 
 void MainWindow::saveProject(const QString &fileName)
 {
-    if(!fileName.isEmpty())
+    if (!fileName.isEmpty())
     {
         statusBar()->showMessage(i18n("Saving project..."));
         GluonEngine::Game::instance()->gameProject()->setFilename(QUrl(fileName));
         QDir::setCurrent(KUrl(fileName).directory());
-        if(!GluonEngine::Game::instance()->gameProject()->saveToFile())
+        if (!GluonEngine::Game::instance()->gameProject()->saveToFile())
         {
             KMessageBox::error(this, i18n("Could not save file."));
             return;
@@ -148,7 +151,7 @@ void MainWindow::saveProject(const QString &fileName)
 void MainWindow::saveProjectAs()
 {
     m_fileName = KFileDialog::getSaveFileName();
-    if(!m_fileName.isEmpty()) saveProject();
+    if (!m_fileName.isEmpty()) saveProject();
 }
 
 void MainWindow::setupGame()
@@ -216,19 +219,20 @@ void MainWindow::setupActions()
 
 void MainWindow::showPreferences()
 {
-    if ( KConfigDialog::showDialog( "settings" ) )  {
+    if (KConfigDialog::showDialog("settings"))
+    {
         return;
     }
     ConfigDialog *dialog = new ConfigDialog(this, "settings", GluonCreator::Settings::self());
-    dialog->setAttribute( Qt::WA_DeleteOnClose );
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
 
 void MainWindow::playPauseGame(bool checked)
 {
-    if(checked)
+    if (checked)
     {
-        if(GluonEngine::Game::instance()->isRunning())
+        if (GluonEngine::Game::instance()->isRunning())
         {
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
@@ -281,7 +285,7 @@ void MainWindow::historyChanged()
 
 void MainWindow::cleanChanged(bool clean)
 {
-    if(clean)
+    if (clean)
     {
         m_modified = false;
         setCaption(i18n("%1").arg(m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
@@ -290,14 +294,14 @@ void MainWindow::cleanChanged(bool clean)
 
 bool MainWindow::queryClose()
 {
-    if(m_modified)
+    if (m_modified)
     {
         int code = KMessageBox::questionYesNoCancel(this, i18n("The project has been changed. Do you want to save before closing?"), i18n("Save Before Closing?"));
 
-        if(code == KMessageBox::Cancel)
+        if (code == KMessageBox::Cancel)
             return false;
 
-        if(code == KMessageBox::No)
+        if (code == KMessageBox::No)
             return true;
 
         saveProject();

@@ -21,34 +21,36 @@
 
 #include "gluoncreator_macros.h"
 
-namespace GluonCore {
+namespace GluonCore
+{
     class GluonObject;
 }
 
-namespace GluonCreator {
-
-class GLUONCREATOR_EXPORT SelectionManager : public GluonCore::Singleton<SelectionManager>
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        typedef QList<GluonCore::GluonObject*> SelectionList;
-        SelectionList selection() const;
 
-    public slots:
-        void setSelection(const SelectionList& selection);
+    class GLUONCREATOR_EXPORT SelectionManager : public GluonCore::Singleton<SelectionManager>
+    {
+            Q_OBJECT
+        public:
+            typedef QList<GluonCore::GluonObject*> SelectionList;
+            SelectionList selection() const;
 
-    signals:
-        void selectionChanged(SelectionManager::SelectionList);
+        public slots:
+            void setSelection(const SelectionList& selection);
 
-    private:
-        friend class GluonCore::Singleton<SelectionManager>;
-        SelectionManager();
-        ~SelectionManager();
-        Q_DISABLE_COPY(SelectionManager)
+        signals:
+            void selectionChanged(SelectionManager::SelectionList);
 
-        class SelectionManagerPrivate;
-        SelectionManagerPrivate *d;
-};
+        private:
+            friend class GluonCore::Singleton<SelectionManager>;
+            SelectionManager();
+            ~SelectionManager();
+            Q_DISABLE_COPY(SelectionManager)
+
+            class SelectionManagerPrivate;
+            SelectionManagerPrivate *d;
+    };
 
 }
 

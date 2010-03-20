@@ -35,11 +35,11 @@ class MainWindow::MainWindowPrivate
 };
 
 GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags)
+        : QMainWindow(parent, flags)
 {
     d = new MainWindowPrivate;
 
-    if(argc > 1)
+    if (argc > 1)
     {
         d->fileName = argv[1];
     }
@@ -58,7 +58,7 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
 
 void MainWindow::openProject()
 {
-    if(d->fileName.isEmpty())
+    if (d->fileName.isEmpty())
     {
         d->fileName = QFileDialog::getOpenFileName(this, tr("Please select a project"), QString(), QString("Gluon Project Files (*.gluon)"));
     }

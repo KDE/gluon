@@ -15,38 +15,38 @@
 
 namespace GluonInput
 {
-	class DetectLinuxPrivate;
-	
-  class GLUON_INPUT_EXPORT DetectLinux : public Detect
-  {
-      Q_OBJECT
+    class DetectLinuxPrivate;
 
-  public:
-      DetectLinux(QObject * parent);
-      ~DetectLinux();
+    class GLUON_INPUT_EXPORT DetectLinux : public Detect
+    {
+            Q_OBJECT
 
-      void searchDevice();
-      void setAllEnabled();
-      void setAllDisabled();
-      
-      QList<InputDevice *> getInputList();
-      QList<KeyBoard *> getKeyboardList();
-      QList<Mouse *> getMouseList();
-      QList<Joystick *> getJoystickList();
-      QList<Tablet *> getTabletList();
-      QList<InputDevice *> getUnknownDeviceList();
+        public:
+            DetectLinux(QObject * parent);
+            ~DetectLinux();
 
-      void addInput(InputDevice *i);
-      void addKeyboard(InputDevice *i);
-      void addMouse(InputDevice *i);
-      void addJoystick(InputDevice *i);
-      void addTablet(InputDevice *i);
-      void addUnknown(InputDevice *i);
+            void searchDevice();
+            void setAllEnabled();
+            void setAllDisabled();
 
-      void clear();
+            QList<InputDevice *> getInputList();
+            QList<KeyBoard *> getKeyboardList();
+            QList<Mouse *> getMouseList();
+            QList<Joystick *> getJoystickList();
+            QList<Tablet *> getTabletList();
+            QList<InputDevice *> getUnknownDeviceList();
 
-  private:
-    QSharedDataPointer<DetectLinuxPrivate> d;
-  };
+            void addInput(InputDevice *i);
+            void addKeyboard(InputDevice *i);
+            void addMouse(InputDevice *i);
+            void addJoystick(InputDevice *i);
+            void addTablet(InputDevice *i);
+            void addUnknown(InputDevice *i);
+
+            void clear();
+
+        private:
+            QSharedDataPointer<DetectLinuxPrivate> d;
+    };
 }
 #endif

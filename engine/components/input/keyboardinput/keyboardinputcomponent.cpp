@@ -24,12 +24,12 @@
 
 #include <core/debughelper.h>
 
-REGISTER_OBJECTTYPE(GluonEngine,KeyboardInputComponent);
+REGISTER_OBJECTTYPE(GluonEngine, KeyboardInputComponent);
 
 using namespace GluonEngine;
 
 KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
-    : Component(parent)
+        : Component(parent)
 {
     m_actionHeld = false;
     m_actionStarted = false;
@@ -60,12 +60,12 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
         m_actionHeld = false;
     }
 
-/*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
-        m_actionStopped = true;
+    /*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
+            m_actionStopped = true;
 
-    m_lastFrame = m_distanceMovement;
-    m_distanceMovement = QVector3D(0,0,0);
-    m_axisMovement = 0;*/
+        m_lastFrame = m_distanceMovement;
+        m_distanceMovement = QVector3D(0,0,0);
+        m_axisMovement = 0;*/
 }
 
 void KeyboardInputComponent::stop()
@@ -77,13 +77,13 @@ void KeyboardInputComponent::stop()
 void
 KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
 {
-    if(inputEvent->code() == m_keyCode)
+    if (inputEvent->code() == m_keyCode)
     {
-        if(inputEvent->value() == 0)
+        if (inputEvent->value() == 0)
         {
             m_actionStopped = true;
         }
-        else if(inputEvent->value() == 1)
+        else if (inputEvent->value() == 1)
         {
             m_actionStarted = true;
             m_actionHeld = true;
@@ -100,19 +100,19 @@ void KeyboardInputComponent::buttonPressed(int key)
 bool
 KeyboardInputComponent::isActionStarted()
 {
-  return m_actionStarted;
+    return m_actionStarted;
 }
 
 bool
 KeyboardInputComponent::isActionHeld()
 {
-  return m_actionHeld;
+    return m_actionHeld;
 }
 
 bool
 KeyboardInputComponent::isActionStopped()
 {
-  return m_actionStopped;
+    return m_actionStopped;
 }
 
 KeyboardInputComponent::KeyName

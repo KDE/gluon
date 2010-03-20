@@ -23,16 +23,16 @@
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
 
-REGISTER_OBJECTTYPE(GluonEngine,SoundEmitterComponent)
+REGISTER_OBJECTTYPE(GluonEngine, SoundEmitterComponent)
 Q_DECLARE_METATYPE(GluonEngine::SoundAsset*);
 
 using namespace GluonEngine;
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
-    : Component(parent),
-      m_sound(0)
+        : Component(parent),
+        m_sound(0)
 {
-    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
     SoundAsset *theObject = m_soundAsset;
     somethingEmpty.setValue<GluonEngine::SoundAsset*>(theObject);
@@ -40,7 +40,7 @@ SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
 }
 
 SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
-    : Component(other)
+        : Component(other)
 {
 }
 
@@ -79,7 +79,7 @@ SoundEmitterComponent::draw(int timeLapse)
     Q_UNUSED(timeLapse);
     m_sound->setPosition(gameObject()->position());
 
-    if(m_sound->isLooping() && !m_sound->isPlaying())
+    if (m_sound->isLooping() && !m_sound->isPlaying())
         m_sound->play();
 }
 

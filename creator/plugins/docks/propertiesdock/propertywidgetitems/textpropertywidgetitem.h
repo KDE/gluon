@@ -21,14 +21,15 @@
 
 #include <QtGui/QLineEdit>
 
-namespace GluonCreator {
+namespace GluonCreator
+{
     class TextPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             TextPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~TextPropertyWidgetItem();
-            
+
             virtual QList<QString> supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

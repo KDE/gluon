@@ -7,6 +7,6 @@ KeyBoardPrivate::KeyBoardPrivate()
 }
 
 KeyBoardPrivate::KeyBoardPrivate(KeyBoardPrivate &other)
-:QSharedData(other)
+        : QSharedData(other)
 {
 }

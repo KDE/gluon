@@ -21,29 +21,32 @@
 
 class QPushButton;
 class QLabel;
-namespace GluonCore { class GluonObject; }
+namespace GluonCore
+{
+    class GluonObject;
+}
 
 namespace GluonCreator
 {
     class GluonObjectPWIPrivate;
     class GluonObjectPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~GluonObjectPropertyWidgetItem();
-            
+
             virtual PropertyWidgetItem* instantiate();
             virtual QList< QString > supportedDataTypes() const;
-            
+
             void setTypeName(const QString &typeName);
             QString typeName() const;
-            
+
         public slots:
             void browseForItems();
             void setEditValue(const QVariant& value);
             void objectValueChanged(GluonCore::GluonObject * value);
-            
+
         private:
             GluonObjectPWIPrivate * d;
     };

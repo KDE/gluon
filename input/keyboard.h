@@ -8,16 +8,16 @@
 namespace GluonInput
 {
     class KeyBoardPrivate;
-	class InputThread;
+    class InputThread;
 
-	class GLUON_INPUT_EXPORT KeyBoard : public InputDevice
-	{
-        Q_OBJECT
+    class GLUON_INPUT_EXPORT KeyBoard : public InputDevice
+    {
+            Q_OBJECT
         public:
             KeyBoard(InputThread * inputThread, QObject * parent = 0);
 
-		private:
-		QSharedDataPointer<KeyBoardPrivate> d;
-	};
+        private:
+            QSharedDataPointer<KeyBoardPrivate> d;
+    };
 }
 #endif // KCLKEYBOARD_H

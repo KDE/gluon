@@ -5,12 +5,12 @@
 
 namespace GluonInput
 {
-	class JoystickPrivate : public QSharedData
-	{
-	public:
-		JoystickPrivate();
-		JoystickPrivate(JoystickPrivate &other);
-	};
+    class JoystickPrivate : public QSharedData
+    {
+        public:
+            JoystickPrivate();
+            JoystickPrivate(JoystickPrivate &other);
+    };
 }
 
 #endif

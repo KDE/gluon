@@ -41,141 +41,146 @@
 
 namespace GluonGraphics
 {
-class Vertex;
-class VertexList;
+    class Vertex;
+    class VertexList;
 
-class GLUON_GRAPHICS_EXPORT Vertex
-{
-public:
-    explicit Vertex();
-    explicit Vertex(const QVector2D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
-    explicit Vertex(const QVector3D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
-    explicit Vertex(float x, float y, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
-    explicit Vertex(float x, float y, float z, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
-
-    inline QVector2D tex() const{
-        return QVector2D(m_tx,m_ty);
-    }
-
-    inline QColor color() const{
-        QColor c;
-        c.setRgbF(m_r,m_g,m_b,m_a);
-        return c;
-    }
-
-    inline void setTex(const QVector2D &t) {
-        m_tx = t.x();
-        m_ty = t.y();
-    }
-
-    inline void setColor(const QColor &c) {
-        m_r = c.redF();
-        m_g = c.greenF();
-        m_b = c.blueF();
-        m_a = c.alphaF();
-    }
-
-    inline void setAlpha(float a) {
-        m_a = a;
-    }
-
-
-    inline void setX(float x)
+    class GLUON_GRAPHICS_EXPORT Vertex
     {
-        m_x = x;
-    }
-    inline void setY(float y)
-    {
-        m_y = y;
-    }
+        public:
+            explicit Vertex();
+            explicit Vertex(const QVector2D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+            explicit Vertex(const QVector3D &p, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+            explicit Vertex(float x, float y, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
+            explicit Vertex(float x, float y, float z, const QColor &c = Qt::white, const QVector2D &t = QVector2D());
 
-    inline void setZ(float z)
-    {
-        m_z = z;
-    }
+            inline QVector2D tex() const
+            {
+                return QVector2D(m_tx, m_ty);
+            }
 
-    inline float x()const
-    {
-        return m_x;
-    }
+            inline QColor color() const
+            {
+                QColor c;
+                c.setRgbF(m_r, m_g, m_b, m_a);
+                return c;
+            }
 
-    inline float y()const
-    {
-        return m_y;
-    }
+            inline void setTex(const QVector2D &t)
+            {
+                m_tx = t.x();
+                m_ty = t.y();
+            }
 
-    inline float z()const
-    {
-        return m_z;
-    }
+            inline void setColor(const QColor &c)
+            {
+                m_r = c.redF();
+                m_g = c.greenF();
+                m_b = c.blueF();
+                m_a = c.alphaF();
+            }
 
-    inline float red()const
-    {
-        return m_r;
-    }
+            inline void setAlpha(float a)
+            {
+                m_a = a;
+            }
 
-    inline float green()const
-    {
-        return m_g;
-    }
 
-    inline float blue()const
-    {
-        return m_b;
-    }
+            inline void setX(float x)
+            {
+                m_x = x;
+            }
+            inline void setY(float y)
+            {
+                m_y = y;
+            }
 
-    inline float alpha()const
-    {
-        return m_a;
-    }
+            inline void setZ(float z)
+            {
+                m_z = z;
+            }
 
-    inline float texCoordX()const
-    {
-        return m_tx;
-    }
+            inline float x()const
+            {
+                return m_x;
+            }
 
-    inline float texCoordY()const
-    {
-        return m_ty;
-    }
+            inline float y()const
+            {
+                return m_y;
+            }
+
+            inline float z()const
+            {
+                return m_z;
+            }
+
+            inline float red()const
+            {
+                return m_r;
+            }
+
+            inline float green()const
+            {
+                return m_g;
+            }
+
+            inline float blue()const
+            {
+                return m_b;
+            }
+
+            inline float alpha()const
+            {
+                return m_a;
+            }
+
+            inline float texCoordX()const
+            {
+                return m_tx;
+            }
+
+            inline float texCoordY()const
+            {
+                return m_ty;
+            }
 //DO NOT CHANGE ORDER OF MEMBER VARIABLE!!!!! It's necessary for the openGL Vertex buffer array
-private:
-    float m_x;
-    float m_y;
-    float m_z;
-    float m_r;
-    float m_g;
-    float m_b;
-    float m_a;
-    float m_tx;
-    float m_ty;
-};
+        private:
+            float m_x;
+            float m_y;
+            float m_z;
+            float m_r;
+            float m_g;
+            float m_b;
+            float m_a;
+            float m_tx;
+            float m_ty;
+    };
 
-class VertexList : public QVector <Vertex>
-{
-public:
-    VertexList();
-
-    float * array()
+    class VertexList : public QVector <Vertex>
     {
-        return (float*)data();
-    }
+        public:
+            VertexList();
 
-    float *vertexStart()
-    {
-        return array();
-    }
+            float * array()
+            {
+                return (float*)data();
+            }
 
-    float *colorStart()
-    {
-        return &(array())[3];
-    }
+            float *vertexStart()
+            {
+                return array();
+            }
 
-    float *texCoordStart()
-    {
-        return &(array())[7];
-    }
-};
+            float *colorStart()
+            {
+                return &(array())[3];
+            }
+
+            float *texCoordStart()
+            {
+                return &(array())[7];
+            }
+    };
 } //namespace
 //@}
 #endif //GLUON_GRAPHICS_VERTEX_H

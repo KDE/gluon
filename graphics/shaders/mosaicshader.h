@@ -1,8 +1,8 @@
 /*
     <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2010  
+    Copyright (C) 2010
     Author:
-    Sacha schutz 
+    Sacha schutz
     ...
 
     This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,13 @@
 class MosaicShader : public QGLShaderProgram
 {
 
-public:
-    explicit MosaicShader(QObject *parent = 0);
-void setTileSize(const float& value);
-private:
-    QGLShader * vertexShader;
-    QGLShader * fragmentShader;
-    float mTileSize;
+    public:
+        explicit MosaicShader(QObject *parent = 0);
+        void setTileSize(const float& value);
+    private:
+        QGLShader * vertexShader;
+        QGLShader * fragmentShader;
+        float mTileSize;
 
 };
 

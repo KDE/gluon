@@ -83,13 +83,15 @@ void GLWidget::init()
     glInit();
 }
 
-void GLWidget::setShortcutsEnabled( bool enabled)
+void GLWidget::setShortcutsEnabled(bool enabled)
 {
-    if (enabled == mShortcutsEnabled) {
+    if (enabled == mShortcutsEnabled)
+    {
         return;
     }
     mShortcutsEnabled = enabled;
-    foreach (QAction* a, mShortcuts) {
+    foreach(QAction* a, mShortcuts)
+    {
         a->setEnabled(enabled);
     }
 }
@@ -109,7 +111,8 @@ void GLWidget::toggleWireframeMode()
 void GLWidget::setClearColor(const QVector4D& c)
 {
     mClearColor = c;
-    if (mGLInitialized) {
+    if (mGLInitialized)
+    {
         // TODO: what if this is called when context isn't current?
         glClearColor(mClearColor.x(), mClearColor.y(), mClearColor.z(), mClearColor.w());
     }
@@ -128,7 +131,8 @@ void GLWidget::setErrorText(const QString& text)
 
 GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 {
-    if (!mTextRenderer) {
+    if (!mTextRenderer)
+    {
         mTextRenderer = new GluonGraphics::TextRenderer();
     }
     return mTextRenderer;
@@ -182,11 +186,11 @@ void GLWidget::resizeGL(int width, int height)
     m_viewportWidth = width;
     m_viewportHeight = height;
 
-    if(mCamera)
+    if (mCamera)
     {
 
         camera()->setViewport(0, 0, width, height);
-        camera()->setAspect(width/(float)height);
+        camera()->setAspect(width / (float)height);
         camera()->applyViewport();
         //camera()->applyPerspective();
         camera()->applyOrtho();
@@ -204,7 +208,8 @@ void GLWidget::paintGL()
     QGLWidget::paintGL();
 
     // If error text has been set then show it and return
-    if (!mErrorText.isNull()) {
+    if (!mErrorText.isNull())
+    {
         DEBUG_BLOCK
         DEBUG_TEXT(mErrorText);
         return;
@@ -214,21 +219,26 @@ void GLWidget::paintGL()
     fpsCounter()->nextFrame();
 
     // Clear buffers
-    if (mAutomaticClear) {
+    if (mAutomaticClear)
+    {
         setClearColor(mClearColor);
-        if (context()->format().depth()) {
+        if (context()->format().depth())
+        {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        } else {
+        }
+        else
+        {
             glClear(GL_COLOR_BUFFER_BIT);
         }
     }
 
     // Apply camera
-    if(mCamera)
+    if (mCamera)
         mCamera->applyView();
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    if (mWireframeMode) {
+    if (mWireframeMode)
+    {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
@@ -236,7 +246,8 @@ void GLWidget::paintGL()
 
     glPopAttrib();
 
-    if (mShowFps) {
+    if (mShowFps)
+    {
         textRenderer()->begin(this);
         textRenderer()->draw(5, 0, "FPS: " + fpsCounter()->fpsString());
         textRenderer()->end();
@@ -246,7 +257,7 @@ void GLWidget::paintGL()
 void GLWidget::drawItems()
 {
     ItemList items = Engine::instance()->items();
-    foreach (Item *it, items)
+    foreach(Item *it, items)
     {
         it->paintGL();
     }
@@ -257,29 +268,29 @@ void GLWidget::drawItems()
 
 void GLWidget::render()
 {
-    if(m_displayAxis)
+    if (m_displayAxis)
     {
         glBegin(GL_LINES);
-        glColor3f(0,1,0);
-        glVertex3f(0,0,0);
-        glVertex3f(0,5,0);
+        glColor3f(0, 1, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 5, 0);
         glEnd() ;
 
         glBegin(GL_LINES);
-        glColor3f(1,0,0);
-        glVertex3f(0,0,0);
-        glVertex3f(5,0,0);
+        glColor3f(1, 0, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(5, 0, 0);
         glEnd();
 
         glBegin(GL_LINES);
-        glColor3f(0,0,1);
-        glVertex3f(0,0,0);
-        glVertex3f(0,0,5);
+        glColor3f(0, 0, 1);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 0, 5);
         glEnd();
     }
 
     ItemList items = Engine::instance()->items();
-    foreach (Item *it, items)
+    foreach(Item *it, items)
     {
         it->paintGL();
     }

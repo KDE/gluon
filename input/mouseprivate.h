@@ -6,16 +6,16 @@
 
 namespace GluonInput
 {
-	class MousePrivate : public QSharedData
-	{
-	public:
-		MousePrivate();
-		MousePrivate(MousePrivate &other);
-		
-		QPoint m_position;
-		QPoint m_originalPosition;
-		double m_sensibility;
-	};
+    class MousePrivate : public QSharedData
+    {
+        public:
+            MousePrivate();
+            MousePrivate(MousePrivate &other);
+
+            QPoint m_position;
+            QPoint m_originalPosition;
+            double m_sensibility;
+    };
 }
 
 #endif

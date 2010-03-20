@@ -43,31 +43,31 @@ class KALPhononPrivate;
 */
 class KAL_EXPORT KALPhonon : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    KALPhonon(QObject *parent = 0);
-    ~KALPhonon();
+    public:
+        KALPhonon(QObject *parent = 0);
+        ~KALPhonon();
 
-    void resetOutput();
+        void resetOutput();
 
-    QString alDevice() const;
-    Phonon::AudioOutput* phononOutput() const;
-    Phonon::Category category() const;
+        QString alDevice() const;
+        Phonon::AudioOutput* phononOutput() const;
+        Phonon::Category category() const;
 
-public Q_SLOTS:
-    bool setCategory(Phonon::Category category);
+    public Q_SLOTS:
+        bool setCategory(Phonon::Category category);
 
-Q_SIGNALS:
-    void deviceChanged(const QString &deviceName);
+    Q_SIGNALS:
+        void deviceChanged(const QString &deviceName);
 
-private:
-    Q_DISABLE_COPY(KALPhonon)
+    private:
+        Q_DISABLE_COPY(KALPhonon)
 
-    KALPhononPrivate * const d;
+        KALPhononPrivate * const d;
 
-private Q_SLOTS:
-    bool setDevice(const Phonon::AudioOutputDevice &device);
+    private Q_SLOTS:
+        bool setDevice(const Phonon::AudioOutputDevice &device);
 
 };
 

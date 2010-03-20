@@ -34,7 +34,7 @@ FileLocation::FileLocation(GluonEngine::GameProject* parent, const QUrl &relativ
 }
 
 FileLocation::FileLocation(const FileLocation &other)
-    : d(other.d)
+        : d(other.d)
 {
 }
 
@@ -46,13 +46,13 @@ FileLocation::~FileLocation()
 QUrl
 FileLocation::location() const
 {
-    #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+#warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
 
     // Bah, this am not workey... needs more thinkings
     return d->url;
 
     // Don't attempt to use the gameProject if it doesn't exist yet - fall back
-    if(!d->gameProject)
+    if (!d->gameProject)
         return d->url;
 
     return QUrl(QFileInfo(d->gameProject->filename().toLocalFile()).canonicalPath() + d->url.toLocalFile());

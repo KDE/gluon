@@ -46,7 +46,7 @@ ScenePrivate::ScenePrivate::~ScenePrivate()
 void
 ScenePrivate::unloadContents()
 {
-    if(sceneContentsLoaded)
+    if (sceneContentsLoaded)
         qDeleteAll(sceneContents->children());
     sceneContentsLoaded = false;
 }
@@ -55,7 +55,7 @@ void
 ScenePrivate::loadContents(const QUrl& file)
 {
     DEBUG_FUNC_NAME
-    if(file.isEmpty())
+    if (file.isEmpty())
     {
         DEBUG_TEXT(QString("Filename for scene was empty, so we can't load - aborting"));
         sceneContentsLoaded = true;
@@ -63,13 +63,13 @@ ScenePrivate::loadContents(const QUrl& file)
     }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
-    if(!sceneFile->exists())
+    if (!sceneFile->exists())
     {
         DEBUG_TEXT(QString("File %1 does not exist, aborting scene load").arg(file.toLocalFile()));
         return;
     }
 
-    if(!sceneFile->open(QIODevice::ReadOnly))
+    if (!sceneFile->open(QIODevice::ReadOnly))
     {
         DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
         return;
@@ -80,14 +80,14 @@ ScenePrivate::loadContents(const QUrl& file)
     sceneFile->close();
     delete(sceneFile);
 
-    if(sceneContents)
+    if (sceneContents)
         delete sceneContents;
     /*sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);*/
-    if(theContents.count() > 0)
+    if (theContents.count() > 0)
         sceneContents = qobject_cast<GluonEngine::GameObject*>(theContents.at(0));
-    if(!sceneContents)
+    if (!sceneContents)
         sceneContents = new GluonEngine::GameObject(q);
 
     sceneContents->sanitize();
@@ -101,12 +101,13 @@ void
 ScenePrivate::saveContents(const QUrl& file)
 {
     QList<const GluonCore::GluonObject*> scene;
-    foreach(const QObject *item, sceneContents->children()) {
+    foreach(const QObject *item, sceneContents->children())
+    {
         scene.append(qobject_cast<const GluonCore::GluonObject*>(item));
     }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
-    if(!sceneFile->open(QIODevice::WriteOnly))
+    if (!sceneFile->open(QIODevice::WriteOnly))
         return;
 
     QTextStream sceneWriter(sceneFile);

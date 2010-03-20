@@ -24,17 +24,18 @@ namespace GluonCore
     template <typename T>
     class Singleton : public QObject
     {
-    public:
-        static T* instance()
-        {
-            if(!m_instance) {
-                m_instance = new T;
+        public:
+            static T* instance()
+            {
+                if (!m_instance)
+                {
+                    m_instance = new T;
+                }
+                return m_instance;
             }
-            return m_instance;
-        }
 
-    protected:
-        static T* m_instance;
+        protected:
+            static T* m_instance;
     };
 }
 

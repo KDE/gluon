@@ -55,7 +55,7 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         QSizeF size;
 };
 
-SpriteRendererComponent::SpriteRendererComponent ( QObject* parent ) : Component ( parent )
+SpriteRendererComponent::SpriteRendererComponent(QObject* parent) : Component(parent)
 {
     d = new SpriteRendererComponentPrivate;
 
@@ -65,9 +65,9 @@ SpriteRendererComponent::SpriteRendererComponent ( QObject* parent ) : Component
     setProperty("texture", somethingEmpty);*/
 }
 
-SpriteRendererComponent::SpriteRendererComponent ( const SpriteRendererComponent& other )
-    : Component ( other ),
-    d(other.d)
+SpriteRendererComponent::SpriteRendererComponent(const SpriteRendererComponent& other)
+        : Component(other),
+        d(other.d)
 {
 }
 
@@ -81,18 +81,21 @@ SpriteRendererComponent::~SpriteRendererComponent()
 void SpriteRendererComponent::start()
 {
     DEBUG_FUNC_NAME
-    if(!d->item) {
+    if (!d->item)
+    {
         d->mesh = new GluonGraphics::SpriteMesh(d->size, this);
         d->item = new GluonGraphics::Item(d->mesh, this);
         d->item->setColor(d->color);
     }
 
-    if(d->texture) {
-        if(!d->texture->isLoaded())
+    if (d->texture)
+    {
+        if (!d->texture->isLoaded())
             d->texture->load();
 
         const QMimeData* data = d->texture->data();
-        if(data->hasImage()) {
+        if (data->hasImage())
+        {
             d->mesh->setTexture(data->imageData().value<QImage>());
         }
         else
@@ -106,34 +109,37 @@ void SpriteRendererComponent::start()
     }
 }
 
-void SpriteRendererComponent::draw ( int timeLapse )
+void SpriteRendererComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-    if(d->item) {
+    if (d->item)
+    {
         d->item->setMatrix(gameObject()->transform());
     }
 }
 
-void SpriteRendererComponent::update ( int elapsedMilliseconds )
+void SpriteRendererComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
 }
 
 void SpriteRendererComponent::stop()
 {
-    if(d->item) {
+    if (d->item)
+    {
         delete d->item;
         d->item = 0;
         d->mesh = 0;
     }
 }
 
-void SpriteRendererComponent::setSize ( const QSizeF &size )
+void SpriteRendererComponent::setSize(const QSizeF &size)
 {
     d->size = size;
 
-    if(d->mesh) {
+    if (d->mesh)
+    {
         d->mesh->setSize(size);
     }
 }
@@ -146,7 +152,8 @@ QSizeF SpriteRendererComponent::size()
 void SpriteRendererComponent::setColor(const QColor& color)
 {
     d->color = color;
-    if(d->mesh) {
+    if (d->mesh)
+    {
         d->mesh->setColor(color);
     }
 }
@@ -175,9 +182,9 @@ void SpriteRendererComponent::setTexture(Asset* asset)
     setProperty("texture", somethingEmpty);*/
     d->texture = asset;
 
-    if(asset)
+    if (asset)
     {
-        if(d->mesh && asset->isLoaded())
+        if (d->mesh && asset->isLoaded())
         {
             d->mesh->setTexture(asset->data()->imageData().value<QImage>());
         }

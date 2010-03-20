@@ -19,17 +19,18 @@
 
 #include <dockplugin.h>
 
-namespace GluonCreator {
-
-class MessageDockPlugin : public DockPlugin
+namespace GluonCreator
 {
-    public:
-        MessageDockPlugin(QObject* parent, const QList<QVariant>& params);
-        ~MessageDockPlugin();
 
-    protected:
-        Dock* createDock(KXmlGuiWindow* parent);
-};
+    class MessageDockPlugin : public DockPlugin
+    {
+        public:
+            MessageDockPlugin(QObject* parent, const QList<QVariant>& params);
+            ~MessageDockPlugin();
+
+        protected:
+            Dock* createDock(KXmlGuiWindow* parent);
+    };
 
 }
 

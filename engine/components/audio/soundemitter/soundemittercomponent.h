@@ -20,45 +20,46 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
-namespace GluonAudio {
+namespace GluonAudio
+{
     class Sound;
 }
 
 namespace GluonEngine
 {
-class SoundAsset;
+    class SoundAsset;
 
-class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
-{
-    Q_OBJECT
+    class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
+    {
+            Q_OBJECT
 //    Q_PROPERTY(GluonEngine::SoundAsset* sound READ sound WRITE setSound)
-    Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
-    Q_INTERFACES(GluonEngine::Component)
-    GLUON_OBJECT(GluonEngine::SoundEmitterComponent)
+            Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
+            Q_INTERFACES(GluonEngine::Component)
+            GLUON_OBJECT(GluonEngine::SoundEmitterComponent)
 
-    public:
-        SoundEmitterComponent(QObject *parent = 0);
-        SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
-        
-        SoundAsset *sound();
-        void setSound(SoundAsset *asset);
+        public:
+            SoundEmitterComponent(QObject *parent = 0);
+            SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
 
-        virtual void start();
-        virtual void update(int elapsedMilliseconds);
-        virtual void draw(int timeLapse = 0);
+            SoundAsset *sound();
+            void setSound(SoundAsset *asset);
 
-        void play();
-        //void stop();
+            virtual void start();
+            virtual void update(int elapsedMilliseconds);
+            virtual void draw(int timeLapse = 0);
 
-        bool isLooping();
+            void play();
+            //void stop();
 
-    public slots:
-        void setLoop(bool loop);
+            bool isLooping();
 
-    private:
-        GluonAudio::Sound *m_sound;
-        SoundAsset *m_soundAsset;
-};
+        public slots:
+            void setLoop(bool loop);
+
+        private:
+            GluonAudio::Sound *m_sound;
+            SoundAsset *m_soundAsset;
+    };
 
 }
 

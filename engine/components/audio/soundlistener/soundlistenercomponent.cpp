@@ -18,19 +18,19 @@
 #include <audio/engine.h>
 #include <gameobject.h>
 
-REGISTER_OBJECTTYPE(GluonEngine,SoundListenerComponent)
+REGISTER_OBJECTTYPE(GluonEngine, SoundListenerComponent)
 
 using namespace GluonEngine;
 
 SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
 
 SoundListenerComponent::SoundListenerComponent(QObject *parent)
-    : Component(parent)
+        : Component(parent)
 {
 }
 
 SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &other)
-    : Component(other)
+        : Component(other)
 {
 }
 
@@ -42,7 +42,7 @@ void SoundListenerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse);
 
-    if(isActive())
+    if (isActive())
         GluonAudio::Engine::instance()->setListenerPosition(gameObject()->position());
 }
 
@@ -53,7 +53,7 @@ void SoundListenerComponent::update(int elapsedMilliseconds)
 
 void SoundListenerComponent::setActive(bool active)
 {
-    if(active)
+    if (active)
         m_activeInstance = this;
 }
 

@@ -19,18 +19,19 @@
 
 #include <dockplugin.h>
 
-namespace GluonCreator {
-
-class SceneDockPlugin : public DockPlugin
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        SceneDockPlugin(QObject* parent, const QList<QVariant>& params);
-        ~SceneDockPlugin();
 
-    protected:
-        Dock* createDock(KXmlGuiWindow* parent);
-};
+    class SceneDockPlugin : public DockPlugin
+    {
+            Q_OBJECT
+        public:
+            SceneDockPlugin(QObject* parent, const QList<QVariant>& params);
+            ~SceneDockPlugin();
+
+        protected:
+            Dock* createDock(KXmlGuiWindow* parent);
+    };
 
 }
 

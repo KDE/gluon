@@ -37,23 +37,23 @@ void KCLInfoWidget::setupPreview()
     QStackedWidget * widget = new QStackedWidget;
     QComboBox * combo = new QComboBox;
 
-    foreach ( KCLInput * input, KCLDetect::inputList())
+    foreach(KCLInput * input, KCLDetect::inputList())
     {
         KCLInputWidget * w = new KCLInputWidget(input);
-    #ifdef Q_WS_X11
-        combo->addItem(KCLCode::iconDevice(input->deviceType()),input->deviceName());
-    #endif
+#ifdef Q_WS_X11
+        combo->addItem(KCLCode::iconDevice(input->deviceType()), input->deviceName());
+#endif
         widget->addWidget(w);
 
-}
+    }
 
-connect(combo,SIGNAL(currentIndexChanged(int)),widget,SLOT(setCurrentIndex(int)));
-combo->setCurrentIndex(combo->count()-1);
-QVBoxLayout * layout = new QVBoxLayout;
-layout->addWidget(combo);
-layout->addWidget(widget);
-widget->setCurrentIndex(1);
-m_preview->setLayout(layout);
+    connect(combo, SIGNAL(currentIndexChanged(int)), widget, SLOT(setCurrentIndex(int)));
+    combo->setCurrentIndex(combo->count() - 1);
+    QVBoxLayout * layout = new QVBoxLayout;
+    layout->addWidget(combo);
+    layout->addWidget(widget);
+    widget->setCurrentIndex(1);
+    m_preview->setLayout(layout);
 
 }
 
@@ -62,7 +62,7 @@ void KCLInfoWidget::setupInformation()
     QVBoxLayout *layout = new QVBoxLayout;
 
     QLabel *info = new QLabel(tr("Some Linux distributions forbid direct access \n to the input method used by KCL(evdev) as it can causes security-related issues\n"
-                                    "If you are sure, you can allow direct access by clicking here."));
+                                 "If you are sure, you can allow direct access by clicking here."));
 
     QPushButton *buttonAuthorizate = new QPushButton(QIcon("dialog-password.png"), "set permission");
     QPushButton *buttonDetect = new QPushButton(QIcon("edit-find.png"), "Detect device");
@@ -88,9 +88,12 @@ void KCLInfoWidget::setupInformation()
 void KCLInfoWidget::setAuthorization()
 {
     //TODO: Find a better way to do that(either via HAL, PolicyKit, or use X11 libs instead of evdev.
-    if (QProcess::execute("kdesudo chmod -R a+rwx /dev/input/*")) {
+    if (QProcess::execute("kdesudo chmod -R a+rwx /dev/input/*"))
+    {
         QMessageBox::information(this, tr("authorization success..."), "success");
-    } else {
+    }
+    else
+    {
         QMessageBox::critical(this, tr("authorization failed..."), "failed");
     }
 }

@@ -7,7 +7,7 @@ InputDetectionPrivate::InputDetectionPrivate()
 }
 
 InputDetectionPrivate::InputDetectionPrivate(InputDetectionPrivate &other)
-	: QSharedData(other),
-	m_instance(other.m_instance)
+        : QSharedData(other),
+        m_instance(other.m_instance)
 {
 }

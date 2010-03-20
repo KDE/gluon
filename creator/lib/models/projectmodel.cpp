@@ -38,7 +38,11 @@ using namespace GluonCreator;
 class ProjectModel::ProjectModelPrivate
 {
     public:
-        ProjectModelPrivate() { root = 0; project = 0; }
+        ProjectModelPrivate()
+        {
+            root = 0;
+            project = 0;
+        }
 
         QObject* root;
         GluonEngine::GameProject* project;
@@ -83,7 +87,7 @@ ProjectModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(static_cast<QObject*>(index.internalPointer()));
-        if(gobj)
+        if (gobj)
             return gobj->name();
     }
 
@@ -109,8 +113,8 @@ ProjectModel::rowCount(const QModelIndex& parent) const
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
-    if(parentItem)
-        if(!qobject_cast<GluonEngine::Scene*>(parentItem))
+    if (parentItem)
+        if (!qobject_cast<GluonEngine::Scene*>(parentItem))
             return parentItem->children().count();
 
     return 0;
@@ -175,7 +179,7 @@ ProjectModel::flags(const QModelIndex& index) const
         QObject * obj = static_cast<QObject*>(index.internalPointer());
         //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
         // One does not simply drop Assets into Mord...other Assets!
-        if(obj->inherits("GluonEngine::Asset"))
+        if (obj->inherits("GluonEngine::Asset"))
         {
             return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
@@ -193,7 +197,7 @@ ProjectModel::flags(const QModelIndex& index) const
 QStringList
 ProjectModel::mimeTypes() const
 {
-    if(d->acceptedMimeTypes.count() < 1)
+    if (d->acceptedMimeTypes.count() < 1)
     {
         DEBUG_FUNC_NAME
         d->acceptedMimeTypes.append("application/gluoncreator.projectmodel.gluonobject");
@@ -215,13 +219,13 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
     Q_UNUSED(column)
     DEBUG_FUNC_NAME
 
-    if(action == Qt::IgnoreAction)
+    if (action == Qt::IgnoreAction)
         return false;
 
-    if(!parent.isValid())
+    if (!parent.isValid())
         return false;
 
-    if(data->hasUrls())
+    if (data->hasUrls())
     {
         GluonCore::GluonObject *gobj = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
         foreach(const QUrl& theUrl, data->urls())
@@ -230,10 +234,10 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
             DEBUG_TEXT(QString("Dropped file %1 of mimetype %2").arg(theUrl.toLocalFile()).arg(type->name()));
 
             GluonCore::GluonObject* newasset = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype(type->name());
-            if(newasset)
+            if (newasset)
             {
                 GluonEngine::Asset* newChild = static_cast<GluonEngine::Asset*>(newasset);
-                if(gobj)
+                if (gobj)
                 {
                     QFileInfo theFileInfo(theUrl.path());
 
@@ -242,8 +246,8 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
                     /*newChild->setFile(theUrl);
                     newChild->load();*/
 
-                    #warning We need to fix this so we dont run creator without a project.
-                    if(!QDir::current().exists("Assets"))
+#warning We need to fix this so we dont run creator without a project.
+                    if (!QDir::current().exists("Assets"))
                         QDir::current().mkdir("Assets");
                     DEBUG_TEXT(QString("Copying file to %1").arg(newChild->fullyQualifiedFileName()));
                     QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedFileName()));
@@ -258,14 +262,14 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
             }
         }
     }
-    else if(data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
+    else if (data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
     {
     }
     else
     {
     }
 
-    if(data->formats().length() < 1)
+    if (data->formats().length() < 1)
         return false;
 
     return QAbstractItemModel::dropMimeData(data, action, row, column, parent);
@@ -288,18 +292,18 @@ bool
 ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     DEBUG_FUNC_NAME
-    if(!parent.isValid())
+    if (!parent.isValid())
         return false;
 
     GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
     DEBUG_TEXT("Object removal begins...");
 
     beginRemoveRows(parent, row, row + count);
-    for(int i = row; i < row + count; ++i)
+    for (int i = row; i < row + count; ++i)
     {
         DEBUG_TEXT(QString("Removing child at row %1").arg(i));
         GluonCore::GluonObject * child = parentObject->child(row);
-        if(parentObject->removeChild(child))
+        if (parentObject->removeChild(child))
             delete(child);
     }
     endRemoveRows();

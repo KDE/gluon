@@ -20,8 +20,8 @@
 
 #ifndef GLUON_CREATOR_PLUGIN_EXPORT
 #   define GLUON_CREATOR_PLUGIN_EXPORT( c ) \
-           K_PLUGIN_FACTORY( GluonCreatorPluginFactory, registerPlugin< c >(); ) \
-           K_EXPORT_PLUGIN( GluonCreatorPluginFactory("c") )
+    K_PLUGIN_FACTORY( GluonCreatorPluginFactory, registerPlugin< c >(); ) \
+    K_EXPORT_PLUGIN( GluonCreatorPluginFactory("c") )
 #endif
 
 #endif // GLUON_CREATOR_MACROS

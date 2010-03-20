@@ -30,25 +30,25 @@ using namespace GluonAudio;
 
 class Sound::SoundPrivate
 {
-public:
-    Buffer *buffer;
-    ALuint source;
-    QVector3D position;
-    ALfloat volume;
-    ALfloat pitch;
+    public:
+        Buffer *buffer;
+        ALuint source;
+        QVector3D position;
+        ALfloat volume;
+        ALfloat pitch;
 };
 
 Sound::Sound(QObject * parent)
-           :QObject(parent),
-           d(new SoundPrivate)
+        : QObject(parent),
+        d(new SoundPrivate)
 {
     init();
-    d->buffer= new Buffer;
+    d->buffer = new Buffer;
 }
 
 Sound::Sound(const QString &soundFile, QObject *parent)
-    : QObject(parent),
-    d(new SoundPrivate)
+        : QObject(parent),
+        d(new SoundPrivate)
 {
     init();
     d->buffer = new Buffer;
@@ -56,16 +56,16 @@ Sound::Sound(const QString &soundFile, QObject *parent)
 }
 
 Sound::Sound(Buffer *buffer, QObject *parent)
-    :QObject(parent),
-    d(new SoundPrivate)
+        : QObject(parent),
+        d(new SoundPrivate)
 {
     init();
     load(buffer);
 }
 
 Sound::Sound(ALuint buffer, QObject *parent)
-    :QObject(parent),
-    d(new SoundPrivate)
+        : QObject(parent),
+        d(new SoundPrivate)
 {
     init();
     load(buffer);
@@ -74,32 +74,34 @@ Sound::Sound(ALuint buffer, QObject *parent)
 Sound::~Sound()
 {
     alDeleteSources(1, &d->source);
-    if(d->buffer) delete d->buffer;
+    if (d->buffer) delete d->buffer;
     delete d;
 }
-void Sound::load (const QString &soundFile)
+void Sound::load(const QString &soundFile)
 {
     d->buffer->setBuffer(soundFile);
     setupSource();
 }
 
-void Sound::load(Buffer * buffer) {
+void Sound::load(Buffer * buffer)
+{
     d->buffer = buffer;
     setupSource();
 }
-void Sound::load(ALuint buffer) {
+void Sound::load(ALuint buffer)
+{
     d->buffer = new Buffer(buffer);
     setupSource();
 }
 
 void Sound::init()
 {
-    d->source=0;
+    d->source = 0;
     d->position.setX(0);
     d->position.setY(0);
     d->position.setZ(0);
-    d->volume=0;
-    d->pitch=0;
+    d->volume = 0;
+    d->pitch = 0;
 
     alGenSources(1, &d->source);  // Generate the source to play the buffer with
 }
@@ -108,12 +110,14 @@ void Sound::setupSource()
 {
     alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
 
-    if (alGetError() != AL_NO_ERROR) {
+    if (alGetError() != AL_NO_ERROR)
+    {
         qDebug() << "Could not process sound while generating source:" << alGetError();
         return;
     }
 
-    if (!d->source) {
+    if (!d->source)
+    {
         qDebug() << "Could not process sound: generated source empty.";
         return;
     }
@@ -185,7 +189,7 @@ ALfloat Sound::pitch()const
 
 void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
-    QVector3D tempPosition(x,y,z);
+    QVector3D tempPosition(x, y, z);
 
     setPosition(tempPosition);
 }
@@ -261,7 +265,8 @@ ALfloat Sound::duration()const
 {
     return d->buffer->duration();
 }
-ALuint  Sound::source()const {
+ALuint  Sound::source()const
+{
     return d->source;
 }
 

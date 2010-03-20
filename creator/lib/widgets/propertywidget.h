@@ -26,11 +26,13 @@
 
 #include "gluoncreator_macros.h"
 
-namespace GluonCore {
+namespace GluonCore
+{
     class GluonObject;
 }
 
-namespace GluonEngine {
+namespace GluonEngine
+{
     class Component;
 }
 
@@ -38,7 +40,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT PropertyWidget : public QScrollArea
     {
-        Q_OBJECT;
+            Q_OBJECT;
 
         public:
             PropertyWidget(QWidget* parent = 0);
@@ -61,4 +63,4 @@ namespace GluonCreator
     };
 }
 
-#endif				// GLUON_CREATOR_PROPERTYWIDGET_H
+#endif    // GLUON_CREATOR_PROPERTYWIDGET_H

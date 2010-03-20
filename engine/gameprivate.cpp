@@ -25,20 +25,20 @@
 using namespace GluonEngine;
 
 GamePrivate::GamePrivate()
-    : gameRunning(false)
-    , gamePaused(false)
-    , currentScene(NULL)
-    , gameProject(NULL)
+        : gameRunning(false)
+        , gamePaused(false)
+        , currentScene(NULL)
+        , gameProject(NULL)
 {
 }
 
 GamePrivate::GamePrivate(const GamePrivate &other)
-    : QSharedData(other)
-    , time(other.time)
-    , gameRunning(other.gameRunning)
-    , gamePaused(other.gamePaused)
-    , currentScene(other.currentScene)
-    , gameProject(other.gameProject)
+        : QSharedData(other)
+        , time(other.time)
+        , gameRunning(other.gameRunning)
+        , gamePaused(other.gamePaused)
+        , currentScene(other.currentScene)
+        , gameProject(other.gameProject)
 {
 }
 
@@ -54,12 +54,12 @@ GamePrivate::findSceneInChildren(QObject* object)
     {
         DEBUG_TEXT(QString("Checking child %1").arg(qobject_cast<GluonCore::GluonObject*>(child)->fullyQualifiedName()));
         Scene *scene = qobject_cast<Scene*>(child);
-        if(scene)
+        if (scene)
             return scene;
         else
         {
             Scene *foundChild = findSceneInChildren(child);
-            if(foundChild)
+            if (foundChild)
                 return foundChild;
         }
     }

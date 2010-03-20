@@ -30,33 +30,33 @@ namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Buffer
     {
-    public:
-        Buffer();
-        Buffer(const QString &fileName);
-        Buffer(ALuint buffer);
-        ~Buffer();
+        public:
+            Buffer();
+            Buffer(const QString &fileName);
+            Buffer(ALuint buffer);
+            ~Buffer();
 
-        void setBuffer(const QString &fileName);
-        void setBuffer(ALuint buffer);
-        bool isEmpty() const;
-        /**
-        * This function will generate a "hello word" sound.
-        */
-        //void setHelloWord();
-        ALuint buffer() const;
-        /**
-        * @return the duration of buffer in msecond
-        */
-        ALfloat duration() const;
+            void setBuffer(const QString &fileName);
+            void setBuffer(ALuint buffer);
+            bool isEmpty() const;
+            /**
+            * This function will generate a "hello word" sound.
+            */
+            //void setHelloWord();
+            ALuint buffer() const;
+            /**
+            * @return the duration of buffer in msecond
+            */
+            ALfloat duration() const;
 
-    protected:
-        void init();
+        protected:
+            void init();
 
-    private:
-        Q_DISABLE_COPY(Buffer)
+        private:
+            Q_DISABLE_COPY(Buffer)
 
-        class BufferPrivate;
-        BufferPrivate * const d;
+            class BufferPrivate;
+            BufferPrivate * const d;
     };
 }
 

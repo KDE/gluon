@@ -27,7 +27,7 @@ void PluginManager::loadPlugins()
     KService::List offers = KServiceTypeTrader::self()->query("GluonCreator/Plugin");
 
     KService::List::const_iterator iter;
-    for(iter = offers.begin(); iter < offers.end(); ++iter)
+    for (iter = offers.begin(); iter < offers.end(); ++iter)
     {
         QString error;
         KService::Ptr service = *iter;
@@ -35,7 +35,7 @@ void PluginManager::loadPlugins()
         QString serviceName = service->desktopEntryName();
         bool loadPlugin = group.readEntry<bool>(QString("%1Enabled").arg(serviceName), true);
 
-        if(!m_loadedPlugins.contains(serviceName) && loadPlugin)
+        if (!m_loadedPlugins.contains(serviceName) && loadPlugin)
         {
             KPluginFactory *factory = KPluginLoader(service->library()).factory();
 
@@ -47,15 +47,18 @@ void PluginManager::loadPlugins()
 
             Plugin *plugin = factory->create<Plugin>(this);
 
-            if (plugin) {
+            if (plugin)
+            {
                 DEBUG_TEXT(QString("Load plugin: %1").arg(service->name()));
                 plugin->load(m_mainWindow);
                 m_loadedPlugins.insert(serviceName, plugin);
-            } else {
+            }
+            else
+            {
                 DEBUG_TEXT(error);
             }
         }
-        else if(!loadPlugin && m_loadedPlugins.contains(serviceName))
+        else if (!loadPlugin && m_loadedPlugins.contains(serviceName))
         {
             Plugin* plugin = m_loadedPlugins.value(serviceName);
             plugin->unload(m_mainWindow);

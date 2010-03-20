@@ -10,9 +10,10 @@
  */
 //@{
 
-namespace GluonInput 
+namespace GluonInput
 {
-    enum DeviceFlag {
+    enum DeviceFlag
+    {
         UnknownDevice = 0x0,
         KeyBoardDevice = 0x1,
         MouseDevice = 0x2,
@@ -22,10 +23,11 @@ namespace GluonInput
     };
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
 
-    enum InputTypeFlag {
-        Key = QEvent::Type(QEvent::User+EV_KEY),
-        RelativeAxis = QEvent::Type(QEvent::User+EV_REL),
-        AbsoluAxis = QEvent::Type(QEvent::User+EV_ABS)
+    enum InputTypeFlag
+    {
+        Key = QEvent::Type(QEvent::User + EV_KEY),
+        RelativeAxis = QEvent::Type(QEvent::User + EV_REL),
+        AbsoluAxis = QEvent::Type(QEvent::User + EV_ABS)
     };
 
 

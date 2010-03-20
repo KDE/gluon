@@ -27,8 +27,14 @@ template<> GLUONCREATOR_EXPORT HistoryManager* GluonCore::Singleton<HistoryManag
 class HistoryManager::HistoryManagerPrivate
 {
     public:
-        HistoryManagerPrivate() { stack = new KUndoStack(); }
-        ~HistoryManagerPrivate() { delete stack; }
+        HistoryManagerPrivate()
+        {
+            stack = new KUndoStack();
+        }
+        ~HistoryManagerPrivate()
+        {
+            delete stack;
+        }
 
         KUndoStack* stack;
 };

@@ -37,7 +37,7 @@ GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, G
 {
     DEBUG_BLOCK
     GluonCore::GluonObject* newObj = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(type);
-    if(newObj)
+    if (newObj)
     {
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(newObj);
         parent->addComponent(comp);
@@ -62,17 +62,17 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
     DEBUG_TEXT(QString("Creating object: %1").arg(newObj->name()));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
-    if(selection.size() > 0)
+    if (selection.size() > 0)
     {
         GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>(selection.at(0));
-        if(obj)
+        if (obj)
         {
             DEBUG_TEXT(QString("Item %1 selected in Scene tree - assign new object as child").arg(obj->fullyQualifiedName()));
             obj->addChild(newObj);
         }
     }
 
-    if(newObj->parentGameObject() == 0)
+    if (newObj->parentGameObject() == 0)
     {
         DEBUG_TEXT(QString("No parent game object yet - assign as child to Scene root"));
         GluonEngine::Game::instance()->currentScene()->sceneContents()->addChild(newObj);

@@ -14,20 +14,20 @@
 
 class KCLCustomInputDialog : public QDialog
 {
-    Q_OBJECT
-public:
-    KCLCustomInputDialog(QWidget* parent=0);
-    void addCustomInput(KCLCustomInput * input);
+        Q_OBJECT
+    public:
+        KCLCustomInputDialog(QWidget* parent = 0);
+        void addCustomInput(KCLCustomInput * input);
 
     protected:
-    void setupTab();
+        void setupTab();
 
     protected slots:
-    void changeItem(QTreeWidgetItem * item, int col);
+        void changeItem(QTreeWidgetItem * item, int col);
 
-private:
-    QTabWidget * m_tabWidget;
-    QList <KCLCustomInput*> m_inputList;
+    private:
+        QTabWidget * m_tabWidget;
+        QList <KCLCustomInput*> m_inputList;
 };
 
 #endif // KCLCUSTOMINPUTWIDGET_H

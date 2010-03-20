@@ -28,11 +28,11 @@ namespace GluonCreator
 {
     class QSizeFPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~QSizeFPropertyWidgetItem();
-            
+
             virtual QList<QString> supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

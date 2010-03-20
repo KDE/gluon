@@ -29,12 +29,12 @@ namespace GluonEngine
 {
     class KeyboardInputComponent : public Component
     {
-        Q_OBJECT;
-        GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
-        Q_PROPERTY(KeyName keyCode READ keyCode WRITE setKeyCode);
-        Q_ENUMS(KeyName)
-        Q_INTERFACES(GluonEngine::Component)
-        //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
+            Q_OBJECT;
+            GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
+            Q_PROPERTY(KeyName keyCode READ keyCode WRITE setKeyCode);
+            Q_ENUMS(KeyName)
+            Q_INTERFACES(GluonEngine::Component)
+            //Q_PROPERTY(QList<InputAction> inputActions READ inputActions WRITE setInputActions);
 
         public:
             enum KeyName
@@ -74,14 +74,14 @@ namespace GluonEngine
 
         private:
             KeyName m_keyCode;
-/*            Qt::MouseButtons m_buttons;
-            Qt::MouseButtons m_buttonsLastFrame;*/
+            /*            Qt::MouseButtons m_buttons;
+                        Qt::MouseButtons m_buttonsLastFrame;*/
             bool m_actionHeld;
             bool m_actionStarted;
             bool m_actionStopped;
-/*            QVector3D m_distanceMovement;
-            QVector3D m_lastFrame;
-            float m_axisMovement;*/
+            /*            QVector3D m_distanceMovement;
+                        QVector3D m_lastFrame;
+                        float m_axisMovement;*/
     };
 }
 

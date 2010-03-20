@@ -32,12 +32,12 @@
 //@{
 namespace GluonGraphics
 {
-class GLUON_GRAPHICS_EXPORT ItemList: public QList<Item*>
-{
-    public:
-        ItemList();
-        ~ItemList();
-};
+    class GLUON_GRAPHICS_EXPORT ItemList: public QList<Item*>
+    {
+        public:
+            ItemList();
+            ~ItemList();
+    };
 } //namesapce
 //@}
 #endif // ITEM_LIST_H

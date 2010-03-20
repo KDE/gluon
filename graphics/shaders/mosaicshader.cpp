@@ -1,8 +1,8 @@
 /*
     <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2010  
+    Copyright (C) 2010
     Author:
-    Sacha schutz 
+    Sacha schutz
     ...
 
     This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,11 @@
 #include "mosaicshader.h"
 
 MosaicShader::MosaicShader(QObject *parent) :
-    QGLShaderProgram(parent)
+        QGLShaderProgram(parent)
 {
     mTileSize = 1;
     vertexShader = new QGLShader(QGLShader::Vertex);
-    fragmentShader= new QGLShader(QGLShader::Fragment);
+    fragmentShader = new QGLShader(QGLShader::Fragment);
 
     vertexShader->compileSourceFile(":/GLSL/generic.vert");
     fragmentShader->compileSourceFile(":/GLSL/mosaic.frag");
@@ -39,10 +39,10 @@ MosaicShader::MosaicShader(QObject *parent) :
 
     bind();
     setUniformValue("texSize", float(128.0));
-        setUniformValue("tileSize",float(2.0));
+    setUniformValue("tileSize", float(2.0));
     release();
 
-    qDebug()<<log();
+    qDebug() << log();
 
 }
 
@@ -51,6 +51,6 @@ void MosaicShader::setTileSize(const float& value)
 
     mTileSize = value;
     bind();
-    setUniformValue("tileSize",2);
+    setUniformValue("tileSize", 2);
     release();
 }

@@ -21,19 +21,20 @@
 
 class KPluginSelector;
 
-namespace GluonCreator {
-
-class ConfigDialog : public KConfigDialog
+namespace GluonCreator
 {
-    public:
-        ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config);
-        ~ConfigDialog();
 
-        virtual void accept();
+    class ConfigDialog : public KConfigDialog
+    {
+        public:
+            ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config);
+            ~ConfigDialog();
 
-    private:
-        KPluginSelector *m_plugins;
-};
+            virtual void accept();
+
+        private:
+            KPluginSelector *m_plugins;
+    };
 
 }
 

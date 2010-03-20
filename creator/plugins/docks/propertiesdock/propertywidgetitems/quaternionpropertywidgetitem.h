@@ -19,11 +19,12 @@ Boston, MA 02110-1301, USA.
 
 #include "widgets/propertywidgetitem.h"
 
-namespace GluonCreator {
+namespace GluonCreator
+{
 
     class QuaternionPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             QuaternionPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~QuaternionPropertyWidgetItem();

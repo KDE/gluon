@@ -30,8 +30,8 @@ namespace GluonEngine
 
     class Prefab : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::Prefab);
+            Q_OBJECT
+            GLUON_OBJECT(GluonEngine::Prefab);
 
         public:
             Prefab(QObject * parent = 0);

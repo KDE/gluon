@@ -22,22 +22,22 @@ class QTreeView;
 
 class KCLInfoWidget : public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    KCLInfoWidget(QWidget * parent = 0);
-    void setupPreview();
-    void setupInformation();
+    public:
+        KCLInfoWidget(QWidget * parent = 0);
+        void setupPreview();
+        void setupInformation();
 
-public slots:
-    void setAuthorization();
-    void detectDevice();
+    public slots:
+        void setAuthorization();
+        void detectDevice();
 
-private:
-    QWidget *m_information;
-    QWidget *m_preview;
-    QTreeView *m_treeView;
-    KCLDeviceModel *m_model;
+    private:
+        QWidget *m_information;
+        QWidget *m_preview;
+        QTreeView *m_treeView;
+        KCLDeviceModel *m_model;
 };
 
 //@}

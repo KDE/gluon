@@ -28,20 +28,23 @@ REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
 
 using namespace GluonEngine;
 
-class TextureAsset::TextureAssetPrivate {
-public:
-    TextureAssetPrivate() {
-        image = new QImage;
-    }
-    ~TextureAssetPrivate() {
-        delete image;
-    }
+class TextureAsset::TextureAssetPrivate
+{
+    public:
+        TextureAssetPrivate()
+        {
+            image = new QImage;
+        }
+        ~TextureAssetPrivate()
+        {
+            delete image;
+        }
 
-    QImage *image;
+        QImage *image;
 };
 
-TextureAsset::TextureAsset (QObject *parent) :
-    Asset(parent)
+TextureAsset::TextureAsset(QObject *parent) :
+        Asset(parent)
 {
     d = new TextureAssetPrivate;
 }
@@ -67,7 +70,7 @@ const QStringList TextureAsset::supportedMimeTypes() const
 void TextureAsset::load()
 {
     DEBUG_FUNC_NAME
-    if(d->image->load(file().toLocalFile()))
+    if (d->image->load(file().toLocalFile()))
     {
         mimeData()->setImageData(*d->image);
         setLoaded(true);

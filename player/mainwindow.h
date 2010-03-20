@@ -23,7 +23,7 @@ namespace GluonPlayer
 {
     class MainWindow : public QMainWindow
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             MainWindow(int argc, char** argv, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             virtual void closeEvent(QCloseEvent* event);

@@ -38,7 +38,7 @@ NewObjectCommand::NewObjectCommand(GluonCore::GluonObject* newObject)
 
 NewObjectCommand::~NewObjectCommand()
 {
-    if(!d->applied)
+    if (!d->applied)
         delete d->object;
 }
 
@@ -49,11 +49,11 @@ NewObjectCommand::undo()
     d->parent->removeChild(d->object);
 
     GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(d->object);
-    if(obj)
+    if (obj)
         obj->parentGameObject()->removeChild(obj);
 
     GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(d->object);
-    if(comp)
+    if (comp)
         comp->gameObject()->removeComponent(comp);
 }
 
@@ -65,11 +65,11 @@ NewObjectCommand::redo()
 
     GluonEngine::GameObject *gobjParent = qobject_cast< GluonEngine::GameObject* >(d->parent);
     GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(d->object);
-    if(obj && gobjParent)
+    if (obj && gobjParent)
         gobjParent->addChild(obj);
 
     GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(d->object);
-    if(comp && gobjParent)
+    if (comp && gobjParent)
         gobjParent->addComponent(comp);
 
 }

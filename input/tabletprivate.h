@@ -5,12 +5,12 @@
 
 namespace GluonInput
 {
-	class TabletPrivate : public QSharedData 
-	{
-	public:
-		TabletPrivate();
-		TabletPrivate(TabletPrivate &other);
-	};
+    class TabletPrivate : public QSharedData
+    {
+        public:
+            TabletPrivate();
+            TabletPrivate(TabletPrivate &other);
+    };
 }
 
 #endif

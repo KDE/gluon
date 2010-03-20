@@ -1,8 +1,8 @@
 /*
     <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2010  
+    Copyright (C) 2010
     Author:
-    Sacha schutz 
+    Sacha schutz
     ...
 
     This program is free software: you can redistribute it and/or modify
@@ -30,18 +30,18 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT PosterizeShader : public QGLShaderProgram
     {
-    public:
-        explicit PosterizeShader(QObject *parent = 0);
-        void setLevel(const float& value);
-        const float& level()
-        {
-            return mLevel;
-        }
+        public:
+            explicit PosterizeShader(QObject *parent = 0);
+            void setLevel(const float& value);
+            const float& level()
+            {
+                return mLevel;
+            }
 
-    private:
-        QGLShader * vertexShader;
-        QGLShader * fragmentShader;
-        float mLevel;
+        private:
+            QGLShader * vertexShader;
+            QGLShader * fragmentShader;
+            float mLevel;
 
 
     };

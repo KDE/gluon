@@ -26,20 +26,20 @@ GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
     position = QVector3D();
-    scale = QVector3D(1,1,1);
-    orientation = QQuaternion(0,0,0,1);
+    scale = QVector3D(1, 1, 1);
+    orientation = QQuaternion(0, 0, 0, 1);
 
     transform = QMatrix4x4();
     transformInvalidated = true;
 }
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
-    : QSharedData(other)
-    , description(other.description)
-    , position(other.position)
-    , scale(other.scale)
-    , orientation(other.orientation)
-    , parentGameObject(other.parentGameObject)
+        : QSharedData(other)
+        , description(other.description)
+        , position(other.position)
+        , scale(other.scale)
+        , orientation(other.orientation)
+        , parentGameObject(other.parentGameObject)
 {
     transform = QMatrix4x4();
     transformInvalidated = true;

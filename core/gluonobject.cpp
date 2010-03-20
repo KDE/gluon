@@ -37,20 +37,20 @@ using namespace GluonCore;
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
 GluonObject::GluonObject(QObject * parent)
-    : QObject(parent)
+        : QObject(parent)
 {
     d = new GluonObjectPrivate();
 
     // Get a nice name first time the object is created...
     QString theClassName(metaObject()->className());
-    if(theClassName.contains(':'))
+    if (theClassName.contains(':'))
         setName(theClassName.right(theClassName.length() - theClassName.lastIndexOf(':') - 1));
     else
         setName(theClassName);
 }
 
 GluonObject::GluonObject(const QString& name, QObject* parent)
-    : QObject(parent)
+        : QObject(parent)
 {
     d = new GluonObjectPrivate();
     setName(name);
@@ -76,7 +76,7 @@ GluonObject::sanitize()
     const QObjectList &children = this->children();
     foreach(QObject * child, children)
     {
-        if(qobject_cast<GluonObject*>(child))
+        if (qobject_cast<GluonObject*>(child))
         {
             qobject_cast<GluonObject*>(child)->sanitize();
         }
@@ -88,12 +88,12 @@ GluonObject::sanitize()
 
     // Make sure the GameProject is set... Iterate upwards until you either reach
     // the first GameProject instance, or you run into a parent which is null
-    if(!gameProject())
+    if (!gameProject())
     {
         QObject * currentParent = this->parent();
-        while(currentParent)
+        while (currentParent)
         {
-            if(currentParent->metaObject()->className() == QString("GluonEngine::GameProject"))
+            if (currentParent->metaObject()->className() == QString("GluonEngine::GameProject"))
             {
                 setGameProject(qobject_cast<GluonObject*>(currentParent));
                 break;
@@ -102,7 +102,7 @@ GluonObject::sanitize()
         }
     }
 
-    if(!gameProject())
+    if (!gameProject())
     {
         DEBUG_TEXT(QString("GameProject is null, we must thus fail at sanitizing"))
     }
@@ -112,31 +112,31 @@ GluonObject::sanitize()
     // (e.g. GameObject(Projectname.Something))
     // This step is only possible if a gameProject is available. Otherwise
     // you will be unable to find the other objects!
-    if(gameProject())
+    if (gameProject())
     {
         QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
 
         const QMetaObject *metaobject = this->metaObject();
-        if(metaobject == NULL)
+        if (metaobject == NULL)
             return;
         int count = metaobject->propertyCount();
-        for(int i = 0; i < count; ++i)
+        for (int i = 0; i < count; ++i)
         {
             QMetaProperty metaproperty = metaobject->property(i);
 
             // This is really only relevant if the property value is a string.
             // If it is not, what happens below is irrelevant
-            if(metaproperty.type() != QVariant::String)
+            if (metaproperty.type() != QVariant::String)
                 continue;
 
             const QString theName(metaproperty.name());
-            if(theName == "objectName" || theName == "name")
+            if (theName == "objectName" || theName == "name")
                 continue;
 
             QString theValue(metaproperty.read(this).toString());
 
             // If we haven't got a reference, don't bother to look
-            if(!theValue.endsWith(')'))
+            if (!theValue.endsWith(')'))
                 continue;
 
             DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
@@ -149,18 +149,18 @@ GluonObject::sanitize()
         foreach(QByteArray propName, propertyNames)
         {
             const QString theName(propName);
-            if(theName == "objectName" || theName == "name")
+            if (theName == "objectName" || theName == "name")
                 continue;
 
             // This is really only relevant if the property value is a string.
             // If it is not, what happens below is irrelevant
-            if(property(propName).type() != QVariant::String)
+            if (property(propName).type() != QVariant::String)
                 continue;
 
             QString theValue(property(propName).toString());
 
             // If we haven't got a reference, don't bother to look
-            if(!theValue.endsWith(')'))
+            if (!theValue.endsWith(')'))
                 continue;
 
             DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
@@ -203,7 +203,7 @@ void
 GluonObject::setName(const QString &newName)
 {
     // Don't allow setting the name to nothing
-    if(newName.isEmpty())
+    if (newName.isEmpty())
         return;
 
     // This is kinda nasty, but it's the easiest way to not clash with ourselves ;)
@@ -214,7 +214,7 @@ GluonObject::setName(const QString &newName)
     theName.replace('/', ' ');
 
     // Make sure we don't set a name on an object which is already used!
-    if(parent())
+    if (parent())
     {
         bool nameIsOK = true;
         int addedNumber = 0;
@@ -227,9 +227,9 @@ GluonObject::setName(const QString &newName)
             foreach(QObject* child, theChildren)
             {
                 GluonObject * theChild = qobject_cast<GluonObject*>(child);
-                if(theChild)
+                if (theChild)
                 {
-                    if(theChild->name() == theName)
+                    if (theChild->name() == theName)
                     {
                         theName = QString(newName + " %1").arg(addedNumber);
                         nameIsOK = false;
@@ -238,7 +238,7 @@ GluonObject::setName(const QString &newName)
                 }
             }
         }
-        while(!nameIsOK);
+        while (!nameIsOK);
     }
     d->name = theName;
     setObjectName(d->name);
@@ -248,7 +248,7 @@ QString
 GluonObject::fullyQualifiedName() const
 {
     QString theName(this->name());
-    if(qobject_cast<GluonObject*>(this->parent()))
+    if (qobject_cast<GluonObject*>(this->parent()))
         theName = QString("%1/%2").arg(qobject_cast<GluonObject*>(this->parent())->fullyQualifiedName()).arg(theName);
     return theName;
 }
@@ -284,7 +284,7 @@ GluonObject* GluonObject::child(const QString& name) const
     foreach(QObject *child, children())
     {
         GluonObject *obj = qobject_cast<GluonObject*>(child);
-        if(obj && obj->name() == name) return obj;
+        if (obj && obj->name() == name) return obj;
     }
     return 0;
 }
@@ -306,11 +306,11 @@ GluonObject::toGDL(int indentLevel) const
     QString indentChars(indentLevel * 4, ' ');
 
     // Only jump to net line in case we are inside another object
-    if(indentLevel > 0)
+    if (indentLevel > 0)
         serializedObject += '\n';
 
     QString minimalClassName(this->metaObject()->className());
-    if(QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
+    if (QString(this->metaObject()->className()).startsWith(QString("Gluon::")))
         minimalClassName = minimalClassName.right(minimalClassName.length() - 7);
     serializedObject += QString("%1{ %2(%3)").arg(indentChars).arg(minimalClassName).arg(this->name());
 
@@ -329,7 +329,7 @@ GluonObject::childrenToGDL(int indentLevel) const
     foreach(QObject* child, children())
     {
         GluonObject* theChild = qobject_cast<GluonObject*>(child);
-        if(theChild)
+        if (theChild)
             serializedChildren += theChild->toGDL(indentLevel);
     }
 
@@ -347,22 +347,22 @@ GluonObject::propertiesToGDL(int indentLevel) const
     // Get all the normally defined properties
     const QMetaObject *metaobject = this->metaObject();
     int count = metaobject->propertyCount();
-    if(count == 2)
+    if (count == 2)
     {
         DEBUG_TEXT(QString("No normal properties"));
     }
-    for(int i = 0; i < count; ++i)
+    for (int i = 0; i < count; ++i)
     {
         QMetaProperty metaproperty = metaobject->property(i);
         const QString theName(metaproperty.name());
-        if(theName == "objectName" || theName == "name")
+        if (theName == "objectName" || theName == "name")
             continue;
         serializedObject += this->getStringFromProperty(theName, indentChars);
     }
 
     // Then get all the dynamic ones (in case any such exist)
     QList<QByteArray> propertyNames = dynamicPropertyNames();
-    if(propertyNames.length() == 0)
+    if (propertyNames.length() == 0)
     {
         DEBUG_TEXT(QString("No dynamic properties"));
     }
@@ -388,62 +388,81 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     QString theTypeName = rx.cap(1);
     QString theValue = rx.cap(3);
 
-    if(theTypeName == "string") {
+    if (theTypeName == "string")
+    {
         value = theValue;
-    } else if(theTypeName == "bool") {
+    }
+    else if (theTypeName == "bool")
+    {
         value = theValue == "true" ? true : false;
-    } else if(theTypeName == "float") {
+    }
+    else if (theTypeName == "float")
+    {
         value = theValue.toFloat();
-    } else if(theTypeName == "int") {
+    }
+    else if (theTypeName == "int")
+    {
         value = theValue.toInt();
-    } else if(theTypeName == "file" || theTypeName == "url") {
+    }
+    else if (theTypeName == "file" || theTypeName == "url")
+    {
         DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
         value = QVariant(QUrl(theValue));
-    } else if(theTypeName == "vector2d") {
+    }
+    else if (theTypeName == "vector2d")
+    {
         float x = 0.0f, y = 0.0f;
 
         QStringList splitValues = theValue.split(";");
-        if(splitValues.length() > 0)
+        if (splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
             y = splitValues.at(1).toFloat();
         }
         value = QPointF(x, y);
-    } else if(theTypeName == "vector3d") {
+    }
+    else if (theTypeName == "vector3d")
+    {
         float x = 0.0f, y = 0.0f, z = 0.0f;
 
         QStringList splitValues = theValue.split(";");
-        if(splitValues.length() > 0)
+        if (splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
             y = splitValues.at(1).toFloat();
             z = splitValues.at(2).toFloat();
         }
         value = QVector3D(x, y, z);
-    } else if(theTypeName == "rgba") {
+    }
+    else if (theTypeName == "rgba")
+    {
         int r = 0, g = 0, b = 0, a = 0;
         QStringList splitValues = theValue.split(";");
-        if(splitValues.length() > 0)
+        if (splitValues.length() > 0)
             r = splitValues[0].toInt();
-        if(splitValues.length() > 1)
+        if (splitValues.length() > 1)
             g = splitValues[1].toInt();
-        if(splitValues.length() > 2)
+        if (splitValues.length() > 2)
             b = splitValues[2].toInt();
-        if(splitValues.length() > 3)
+        if (splitValues.length() > 3)
             a = splitValues[3].toInt();
         value = QColor(r, g, b, a);
-    } else if(theTypeName == "size2d") {
+    }
+    else if (theTypeName == "size2d")
+    {
         float w = 0.0f;
         float h = 0.0f;
 
         QStringList splitValues = theValue.split(";");
-        if(splitValues.length() > 0)
+        if (splitValues.length() > 0)
         {
             w = splitValues.at(0).toFloat();
             h = splitValues.at(1).toFloat();
         }
         value = QSizeF(w, h);
-    } else {
+    }
+    else
+    {
         // If all else fails, pass the value through verbatim
         value = propertyValue;
 
@@ -453,7 +472,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
     }
 
-    if(!setProperty(propertyName.toUtf8(), value))
+    if (!setProperty(propertyName.toUtf8(), value))
     {
         DEBUG_TEXT(QString("Failed to set or set dynamic property %1 to %2").arg(propertyName, propertyValue));
     }
@@ -472,13 +491,13 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     QVariant theValue = this->property(propertyName.toUtf8());
 
     QColor theColor;
-    switch(theValue.type())
+    switch (theValue.type())
     {
-/*        case QVariant::UserType:
-            int id = QMetaType::type(types.at(i));
-            break;*/
+            /*        case QVariant::UserType:
+                        int id = QMetaType::type(types.at(i));
+                        break;*/
         case QVariant::String:
-            if(!theValue.toString().isEmpty())
+            if (!theValue.toString().isEmpty())
                 value = "string(" + theValue.toString() + ')';
             break;
         case QVariant::Bool:
@@ -486,7 +505,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             break;
         case 135:
         case QVariant::Double:
-            if(theValue.toDouble() != 0)
+            if (theValue.toDouble() != 0)
                 value = QString("float(%1)").arg(theValue.toDouble());
             break;
         case QVariant::Vector3D:
@@ -494,9 +513,9 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             QVector3D aVector = theValue.value<QVector3D>();
             value = QString("vector3d(%1;%2;%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
         }
-            break;
+        break;
         case QVariant::Int:
-            if(theValue.toInt() != 0)
+            if (theValue.toInt() != 0)
                 value = QString("int(%1)").arg(theValue.toInt());
             break;
         case QVariant::Size:
@@ -512,19 +531,19 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             value = QString("rgba(%1;%2;%3;%4)").arg(theColor.red()).arg(theColor.green()).arg(theColor.blue()).arg(theColor.alpha());
             break;
         case QVariant::Url:
-            if(!theValue.toUrl().toString().isEmpty())
+            if (!theValue.toUrl().toString().isEmpty())
             {
-                if(theValue.toString().startsWith("file"))
+                if (theValue.toString().startsWith("file"))
                     value = QString("file(%1)").arg(theValue.toUrl().toString());
                 else
                     value = QString("url(%1)").arg(theValue.toUrl().toString());
             }
             break;
         default:
-            if(theValue.canConvert<GluonObject*>())
+            if (theValue.canConvert<GluonObject*>())
             {
                 GluonObject* theObject = theValue.value<GluonObject*>();
-                if(theObject)
+                if (theObject)
                     value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
                 else
                 {
@@ -535,7 +554,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             else
             {
                 value = theValue.toString();
-                if(!value.isEmpty())
+                if (!value.isEmpty())
                 {
                     DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
                 }
@@ -545,7 +564,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
 
     QString returnString = QString("\n%1%2 %3").arg(indentChars).arg(propertyName).arg(value);
 
-    if(value.isEmpty())
+    if (value.isEmpty())
     {
         value = QString("(empty value)");
         returnString = QString();
@@ -575,7 +594,7 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
     DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
     foreach(QObject * child, object->children())
     {
-        if(qobject_cast<GluonObject*>(child)->name() == lookingFor)
+        if (qobject_cast<GluonObject*>(child)->name() == lookingFor)
         {
             foundChild = qobject_cast<GluonObject*>(child);
             break;
@@ -583,9 +602,9 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
     }
 
     // checking for nullity to guard against trying to go into non-existent sub-trees
-    if(foundChild != NULL)
+    if (foundChild != NULL)
     {
-        if(qualifiedName.count() > 0)
+        if (qualifiedName.count() > 0)
         {
             DEBUG_TEXT(QString("Found child, recursing..."));
             return GluonObject::findItemByNameInObject(qualifiedName, foundChild);
@@ -614,10 +633,10 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
     {
         // Reset the value of this property to be a reference to GluonObjct
         // instance by that name, found in the project
-        if(propValue.startsWith(name + '('))
+        if (propValue.startsWith(name + '('))
         {
             QString propertyName = propName;
-            if(propertyName.contains("_sanitizable"))
+            if (propertyName.contains("_sanitizable"))
             {
                 setProperty(propertyName.toUtf8(), QVariant());
                 propertyName = propertyName.left(propertyName.lastIndexOf("_sanitizable"));
@@ -627,7 +646,7 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             QVariant theReferencedObject;
 
             QStringList nameParts = theReferencedName.split('/');
-            if(nameParts.at(0) == gameProject()->name())
+            if (nameParts.at(0) == gameProject()->name())
                 nameParts.removeFirst();
 
             GluonObject * theObject = GluonObject::findItemByNameInObject(nameParts, gameProject());
@@ -636,7 +655,7 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);
             DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
 
-            if(!setProperty(propertyName.toUtf8(), theReferencedObject))
+            if (!setProperty(propertyName.toUtf8(), theReferencedObject))
             {
                 DEBUG_TEXT(QString("Failed to set the property %1 to %2").arg(propertyName, propValue));
             }

@@ -28,9 +28,9 @@ ComponentPrivate::ComponentPrivate()
 }
 
 ComponentPrivate::ComponentPrivate(const ComponentPrivate &other)
-    : QSharedData(other)
-    , enabled(other.enabled)
-    , gameObject(other.gameObject)
+        : QSharedData(other)
+        , enabled(other.enabled)
+        , gameObject(other.gameObject)
 {
 }
 

@@ -25,7 +25,7 @@
 
 #include <cfloat>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,QSizeFPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, QSizeFPropertyWidgetItem)
 
 using namespace GluonCreator;
 
@@ -41,7 +41,7 @@ class QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItemPrivate
 };
 
 QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     d = new QSizeFPropertyWidgetItemPrivate;
 

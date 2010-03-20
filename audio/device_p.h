@@ -34,16 +34,16 @@ namespace GluonAudio
 
     class Device
     {
-    public:
-        Device(ALCdevice *device = 0);
-        ~Device();
+        public:
+            Device(ALCdevice *device = 0);
+            ~Device();
 
-        static bool isExtensionPresent(const QString &extension);
+            static bool isExtensionPresent(const QString &extension);
 
-        static QStringList contextOption(int option);
+            static QStringList contextOption(int option);
 
-    protected:
-        ALCdevice *m_device;
+        protected:
+            ALCdevice *m_device;
     };
 }
 

@@ -20,21 +20,22 @@
 #include "propertywidgetitem.h"
 
 
-namespace GluonCreator {
-
-class NullPropertyWidgetItem : public PropertyWidgetItem
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        NullPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-        ~NullPropertyWidgetItem();
-        
-        virtual QList<QString> supportedDataTypes() const;
-        virtual PropertyWidgetItem* instantiate();
 
-    public slots:
-        void setEditValue(const QVariant& value);
-};
+    class NullPropertyWidgetItem : public PropertyWidgetItem
+    {
+            Q_OBJECT
+        public:
+            NullPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~NullPropertyWidgetItem();
+
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+    };
 
 }
 

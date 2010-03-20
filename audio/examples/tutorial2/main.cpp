@@ -31,12 +31,12 @@ int main(int argc, char *argv[])
     GluonAudio::Engine::instance();
 
     GluonAudio::Sound *left = new GluonAudio::Sound("/usr/share/sounds/alsa/Front_Left.wav");
-    GluonAudio::Sound *right = new GluonAudio::Sound("/usr/share/sounds/alsa/Front_Right.wav");    
+    GluonAudio::Sound *right = new GluonAudio::Sound("/usr/share/sounds/alsa/Front_Right.wav");
     GluonAudio::Sound *center = new GluonAudio::Sound("/usr/share/sounds/alsa/Front_Center.wav");
 
-    left->setPosition(-1,0,0);
-    right->setPosition(1,0,0);
-    
+    left->setPosition(-1, 0, 0);
+    right->setPosition(1, 0, 0);
+
     qDebug() << "Playing left. Press enter to continue.";
     left->play();
     std::cin.get();
@@ -44,14 +44,14 @@ int main(int argc, char *argv[])
     qDebug() << "Playing right. Press enter to continue.";
     right->play();
     std::cin.get();
-    
+
     qDebug() << "Playing center. Press enter to continue.";
     center->play();
     std::cin.get();
-   
+
     delete left;
     delete right;
     delete center;
-    
+
     GluonAudio::Engine::close();
 }

@@ -5,8 +5,10 @@
 #include <QtCore/QEvent>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
-namespace GluonInput {
-    enum DeviceFlag {
+namespace GluonInput
+{
+    enum DeviceFlag
+    {
         UnknownDevice = kHIDUsage_Undefined,
         KeyBoardDevice = kHIDUsage_GD_Keyboard,
         MouseDevice = kHIDUsage_GD_Mouse,
@@ -16,10 +18,11 @@ namespace GluonInput {
     };
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
 
-    enum InputTypeFlag {
-        Key = QEvent::Type(QEvent::User+1),
-        RelativeAxis = QEvent::Type(QEvent::User+2),
-        AbsoluAxis = QEvent::Type(QEvent::User+3)
+    enum InputTypeFlag
+    {
+        Key = QEvent::Type(QEvent::User + 1),
+        RelativeAxis = QEvent::Type(QEvent::User + 2),
+        AbsoluAxis = QEvent::Type(QEvent::User + 3)
     };
 
     Q_DECLARE_FLAGS(InputTypes, InputTypeFlag)
