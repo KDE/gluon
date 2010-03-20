@@ -9,7 +9,7 @@ option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" ON)
 option(BUILD_GLUON_INPUT "Build Gluon Input Library" ON)
 option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" ON)
 option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
-option(BUILD_GLUON_PLAYER "Build Gluon Player Application" OFF)
+option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(INSTALL_CMAKE_FILES "Install the FindGluon*.cmake files into the CMake root" OFF)
 
