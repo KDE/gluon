@@ -31,6 +31,9 @@ namespace GluonCreator
         public:
             MainWindow(const QString& fileName = "");
             ~MainWindow();
+
+            virtual bool queryClose();
+
         public slots:
             void newProject();
 
@@ -44,12 +47,15 @@ namespace GluonCreator
 
             void playPauseGame(bool checked);
             void stopGame();
+            void historyChanged();
+            void cleanChanged(bool);
 
         private:
             void setupActions();
             void setupDocks();
             void setupGame();
 
+            bool m_modified;
             QString m_fileName;
             KRecentFilesAction* m_recentFiles;
     };
