@@ -16,6 +16,7 @@ namespace GluonInput
         TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
         TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
     };
+	
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
 	
     enum InputTypeFlag 
@@ -246,7 +247,7 @@ namespace GluonInput
 		Right_GUI
 	};
 	
-	Q_ENUMS(KeyboardKey);
+	Q_ENUMS(KeyboardKey)
 	
 	enum RelAbs
 	{
@@ -267,7 +268,8 @@ namespace GluonInput
 		Gas = 196,
 		Brake
 	};	 
-	Q_ENUMS(RelAbs);
+	
+	Q_ENUMS(RelAbs)
 	
 	//atm only support for 15 mouse buttons :p
 	enum MouseButton
@@ -288,6 +290,7 @@ namespace GluonInput
 		MOUSE_BUTTON_FOURTEEN,
 		MOUSE_BUTTON_FIFTEEN
 	};
+	
 	Q_ENUMS(MouseButton)
 	
 	//atm only support for 15 joystick buttons :p
@@ -309,10 +312,11 @@ namespace GluonInput
 		JOYSTICK_BUTTON_FOURTEEN,
 		JOYSTICK_BUTTON_FIFTEEN
 	};
+	
 	Q_ENUMS(JoystickButton)
 	
 	
-};
+}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(GluonInput::Devices);
 

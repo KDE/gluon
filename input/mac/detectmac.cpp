@@ -12,7 +12,7 @@
 namespace GluonInput
 {
 	DetectMac::DetectMac(QObject * parent)
-	: Detect(parent)
+		: Detect(parent)
 	{
 		d = new DetectMacPrivate();
 	}
@@ -173,14 +173,16 @@ namespace GluonInput
 	void DetectMac::setAllEnabled()
 	{
 		qDebug() << "Enabling all devices";
-		foreach(InputDevice *input, this->getInputList()) {
+		foreach(InputDevice *input, this->getInputList())
+		{
 			input->setEnabled();
 		}
 	}
 
 	void DetectMac::setAllDisabled()
 	{
-		foreach(InputDevice *input, this->getInputList()) {
+		foreach(InputDevice *input, this->getInputList()) 
+		{
 			input->setDisabled();
 		}
 	}   
@@ -319,8 +321,6 @@ namespace GluonInput
 		{
 			return NULL;
 		}
-
-		
 	}
 }
 #include "detectmac.moc"

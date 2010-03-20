@@ -39,5 +39,6 @@ namespace GluonInput
             virtual void addTablet(InputDevice *i) = 0;
             virtual void addUnknown(InputDevice *i) = 0;
             virtual void clear() = 0;
+	};
 }
 #endif
