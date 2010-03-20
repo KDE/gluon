@@ -39,6 +39,7 @@ namespace GluonEngine
 
             GameObject* sceneContents;
             bool sceneContentsLoaded;
+            bool sceneContentsStarted;
             Scene* q;
     };
 }
