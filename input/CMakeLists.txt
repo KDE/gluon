@@ -57,12 +57,14 @@ set(GluonInput_SRCS_MAC
 	mac/inputthreadprivate.cpp
     mac/detectmac.cpp
 	mac/detectmacprivate.cpp
+	mac/code.cpp
 )
 
 set(GluonInput_HEADERS_MAC
     mac/detectmac.h
 	mac/inputthread.h
     mac/inputdefinitions.h
+	mac/code.h
 
 )
 ###############mac source and headers###################

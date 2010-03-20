@@ -5,11 +5,15 @@
 
 namespace GluonInput
 {
+	class QHash;
+	
 	class InputBufferPrivate : public QSharedData
 	{
 	public:
 		InputBufferPrivate();
 		InputBufferPrivate(InputBufferPrivate &other);
+		
+		//QHash<>
 	};
 }
 

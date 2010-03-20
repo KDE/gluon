@@ -14,3 +14,27 @@ InputBuffer::InputBuffer()
 InputBuffer::~InputBuffer()
 {
 }
+
+bool InputBuffer::KeyboardKeyPressed(GluonInput::KeyboardKey key)
+{
+}
+
+bool InputBuffer::MouseButtonPressed(GluonInput::MouseButton button)
+{
+}
+
+bool InputBuffer::JoystickButtonPressed(GluonInput::JoystickButton button)
+{
+}
+
+void InputBuffer::SetKeyboardKeyState(GluonInput::KeyboardKey key, bool pressed)
+{
+}
+
+void InputBuffer::SetMouseButtonState(GluonInput::MouseButton button, bool pressed)
+{
+}
+
+void InputBuffer::SetJoystickButtonState(GluonInput::JoystickButton button, bool pressed)
+{
+}

@@ -5,11 +5,6 @@
 #include <QtCore/QDebug>
 
 #include "inputmanagerprivate.h"
-#include "inputdevice.h"
-#include "mouse.h"
-#include "keyboard.h"
-#include "joystick.h"
-#include "tablet.h"
 
 #ifdef Q_WS_X11
 #include "detectlinux.h"
@@ -113,7 +108,7 @@ namespace GluonInput
 		return d->m_instance->getUnknownDeviceList().size();
 	}
 
-	QList<KeyBoard*> InputManager::keyboardList()
+	QList<Keyboard*> InputManager::keyboardList()
 	{
 		return d->m_instance->getKeyboardList();
 	}
@@ -143,7 +138,7 @@ namespace GluonInput
 		return d->m_instance->getInputList();
 	}
 
-	KeyBoard* InputManager::keyboard(int id)
+	Keyboard* InputManager::keyboard(int id)
 	{
 		return d->m_instance->getKeyboardList().at(id);
 	}

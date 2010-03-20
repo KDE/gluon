@@ -91,7 +91,7 @@ namespace GluonInput
 		return d->m_inputList;
 	}
 
-	QList<KeyBoard *> DetectMac::getKeyboardList() 
+	QList<Keyboard *> DetectMac::getKeyboardList() 
 	{
 		return d->m_keyboardList;
 	}
@@ -124,7 +124,7 @@ namespace GluonInput
 
 	void DetectMac::addKeyboard(InputDevice *i)
 	{
-		KeyBoard * keybd = (KeyBoard*) i;
+		Keyboard * keybd = (Keyboard*) i;
 		//keybd->setEnabled();
 		d->m_keyboardList.append(keybd);
 		d->m_inputList.append(i);
@@ -264,8 +264,8 @@ namespace GluonInput
 			{
 				switch (usage) 
 				{
-					case GluonInput::KeyBoardDevice:
-						inputDevice = new KeyBoard(new InputThread(device));
+					case GluonInput::KeyboardDevice:
+						inputDevice = new Keyboard(new InputThread(device));
 						detect->addKeyboard(inputDevice);
 						break;
 					case GluonInput::MouseDevice:

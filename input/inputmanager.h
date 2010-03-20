@@ -8,15 +8,14 @@
 #include "core/singleton.h"
 #include "gluon_input_export.h"
 
+#include "inputdevice.h"
+#include "mouse.h"
+#include "keyboard.h"
+#include "joystick.h"
+#include "tablet.h"
+
 namespace GluonInput
-{
-	
-	class InputDevice;
-	class Mouse;
-	class Joystick;
-	class Tablet;
-	class KeyBoard;
-	
+{	
 	typedef QList<InputDevice *> InputList;
 
     class InputManagerPrivate;
@@ -43,7 +42,7 @@ namespace GluonInput
 
 		unsigned int unknownDeviceCount();
 
-		QList <KeyBoard*> keyboardList();
+		QList <Keyboard*> keyboardList();
 
 		QList <Mouse*> mouseList();
 
@@ -55,7 +54,7 @@ namespace GluonInput
 
 		InputList inputList();
 
-		KeyBoard* keyboard(int id = 0);
+		Keyboard* keyboard(int id = 0);
 
 		Mouse* mouse(int id = 0);
 

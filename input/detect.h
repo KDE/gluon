@@ -11,7 +11,7 @@ namespace GluonInput
 	class Joystick;
 	class Mouse;
 	class Tablet;
-	class KeyBoard;
+	class Keyboard;
 	class InputDevice;
 
 	class GLUON_INPUT_EXPORT Detect : public QObject
@@ -26,7 +26,7 @@ namespace GluonInput
 		virtual void setAllDisabled() = 0;
 
 		virtual QList<InputDevice *> getInputList() = 0;
-		virtual QList<KeyBoard *> getKeyboardList() = 0;
+		virtual QList<Keyboard *> getKeyboardList() = 0;
 		virtual QList<Mouse *> getMouseList() = 0;
 		virtual QList<Joystick *> getJoystickList() = 0;
 		virtual QList<Tablet *> getTabletList() = 0;

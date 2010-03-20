@@ -175,8 +175,8 @@ namespace GluonInput
 		
 		switch (deviceUsage)
 		{
-			case GluonInput::KeyBoardDevice:
-				d->m_deviceType = GluonInput::KeyBoardDevice;
+			case GluonInput::KeyboardDevice:
+				d->m_deviceType = GluonInput::KeyboardDevice;
 				break;
 			case GluonInput::MouseDevice:
 				d->m_deviceType = GluonInput::MouseDevice;
@@ -219,11 +219,10 @@ namespace GluonInput
 				
 				switch (currentThread->deviceType())
 				{
-					case GluonInput::KeyBoardDevice:
+					case GluonInput::KeyboardDevice:
 						eventType = QEvent::Type(GluonInput::Key);
 						break;
 					case GluonInput::MouseDevice:
-#warning fix such that, mouse buttons return 0,1,2 and so forth. Atm. it is using the same buttonname as keyboard
 						if(usagePage == kHIDPage_GenericDesktop)
 						{
 							if(value == 0)
@@ -249,6 +248,7 @@ namespace GluonInput
 				CFNumberRef numberRef =  (CFNumberRef)IOHIDDeviceGetProperty(deviceRef,CFSTR(kIOHIDLocationIDKey));
 				int id = -1;
 				CFNumberGetValue(numberRef, kCFNumberSInt32Type, &id);
+#warning remove this and the event class
 				InputEvent * event = new InputEvent(usage, value, eventType);
 				QCoreApplication::sendEvent(currentThread->parent(), event);
 			 }

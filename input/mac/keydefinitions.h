@@ -10,7 +10,7 @@ namespace GluonInput
     enum DeviceFlag 
 	{
         UnknownDevice = kHIDUsage_Undefined,
-        KeyBoardDevice = kHIDUsage_GD_Keyboard,
+        KeyboardDevice = kHIDUsage_GD_Keyboard,
         MouseDevice = kHIDUsage_GD_Mouse,
         JoystickDevice = kHIDUsage_GD_Joystick,
         TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
@@ -27,7 +27,7 @@ namespace GluonInput
 	
     Q_ENUMS(InputTypeFlag)
 	
-	enum KeyBoardKeys
+	enum KeyboardKey
 	{
 		A = 4,
 		B,
@@ -246,7 +246,7 @@ namespace GluonInput
 		Right_GUI
 	};
 	
-	Q_ENUMS(KeyBoardKeys);
+	Q_ENUMS(KeyboardKey);
 	
 	enum RelAbs
 	{
@@ -270,7 +270,7 @@ namespace GluonInput
 	Q_ENUMS(RelAbs);
 	
 	//atm only support for 15 mouse buttons :p
-	enum MouseButtons
+	enum MouseButton
 	{
 		MOUSE_LEFT_BUTTON = 1,
 		MOUSE_RIGHT_BUTTON,
@@ -288,10 +288,10 @@ namespace GluonInput
 		MOUSE_BUTTON_FOURTEEN,
 		MOUSE_BUTTON_FIFTEEN
 	};
-	Q_ENUMS(MouseButtons)
+	Q_ENUMS(MouseButton)
 	
 	//atm only support for 15 joystick buttons :p
-	enum JoystickButtons
+	enum JoystickButton
 	{
 		JOYSTICK_BUTTON_ONE = 1,
 		JOYSTICK_BUTTON_TWO,
@@ -309,7 +309,7 @@ namespace GluonInput
 		JOYSTICK_BUTTON_FOURTEEN,
 		JOYSTICK_BUTTON_FIFTEEN
 	};
-	Q_ENUMS(JoystickButtons)
+	Q_ENUMS(JoystickButton)
 	
 	
 };

@@ -173,7 +173,7 @@ namespace GluonInput
 		return d->inputThread->isEnabled();
 	}
 
-
+#warning remove this and do something else
 	bool InputDevice::event(QEvent * evt)
 	{
 		InputEvent * event = (InputEvent*)evt;

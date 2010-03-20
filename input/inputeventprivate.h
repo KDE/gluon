@@ -14,7 +14,6 @@ namespace GluonInput
 		
 		int m_code;
 		int m_value;
-		QString m_name;
 	};
 }
 

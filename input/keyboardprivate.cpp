@@ -2,11 +2,11 @@
 
 using namespace GluonInput;
 
-KeyBoardPrivate::KeyBoardPrivate()
+KeyboardPrivate::KeyboardPrivate()
 {
 }
 
-KeyBoardPrivate::KeyBoardPrivate(KeyBoardPrivate &other)
+KeyboardPrivate::KeyboardPrivate(KeyboardPrivate &other)
 :QSharedData(other)
 {
 }
