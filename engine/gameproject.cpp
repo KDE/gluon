@@ -36,12 +36,12 @@ Q_DECLARE_METATYPE(GluonEngine::Scene*);
 using namespace GluonEngine;
 
 GameProject::GameProject(QObject * parent)
-    : GluonObject(parent)
+        : GluonObject(parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
 
-    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     QVariant somethingEmpty;
     Scene *theObject = d->entryPoint;
     somethingEmpty.setValue<Scene*>(theObject);
@@ -49,8 +49,8 @@ GameProject::GameProject(QObject * parent)
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
-    : GluonObject(parent)
-    , d(other.d)
+        : GluonObject(parent)
+        , d(other.d)
 {
     setProperty("entryPoint", other.property("entryPoint"));
 }
@@ -65,7 +65,7 @@ GameProject::findItemByName(QString qualifiedName)
     DEBUG_FUNC_NAME
     DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));
     QStringList names = qualifiedName.split('/');
-    if(names.at(0) == name())
+    if (names.at(0) == name())
         names.removeFirst();
     return GluonObject::findItemByNameInObject(names, this);
 }
@@ -78,7 +78,7 @@ GameProject::saveToFile() const
 
     // Eventually, save self
     QFile *projectFile = new QFile(filename().toLocalFile());
-    if(!projectFile->open(QIODevice::WriteOnly))
+    if (!projectFile->open(QIODevice::WriteOnly))
         return false;
 
     QList<const GluonObject*> thisProject;
@@ -104,24 +104,24 @@ GameProject::loadFromFile()
 
     DEBUG_TEXT(QString("Loading project from %1").arg(QFileInfo(filename().toLocalFile()).fileName()));
     QFile *projectFile = new QFile(QFileInfo(filename().toLocalFile()).fileName());
-    if(!projectFile->open(QIODevice::ReadOnly))
+    if (!projectFile->open(QIODevice::ReadOnly))
         return false;
 
     QTextStream projectReader(projectFile);
     QString fileContents = projectReader.readAll();
     projectFile->close();
 
-    if(fileContents.isEmpty())
+    if (fileContents.isEmpty())
         return false;
 
     QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL(fileContents, this->parent());
-    if(objectList.count() > 0)
+    if (objectList.count() > 0)
     {
-        if(objectList[0]->metaObject())
+        if (objectList[0]->metaObject())
         {
             // If the first object in the list is a GluonProject, then let's
             // adapt ourselves to represent that object...
-            if(objectList[0]->metaObject()->className() == this->metaObject()->className())
+            if (objectList[0]->metaObject()->className() == this->metaObject()->className())
             {
                 DEBUG_TEXT("Project successfully parsed - applying to local instance");
                 GameProject* loadedProject = qobject_cast<GameProject*>(objectList[0]);
@@ -145,11 +145,11 @@ GameProject::loadFromFile()
                 // Copy accross all the properties
                 const QMetaObject *metaobject = loadedProject->metaObject();
                 int count = metaobject->propertyCount();
-                for(int i = 0; i < count; ++i)
+                for (int i = 0; i < count; ++i)
                 {
                     QMetaProperty metaproperty = metaobject->property(i);
                     const QString theName(metaproperty.name());
-                    if(theName == "objectName" || theName == "name")
+                    if (theName == "objectName" || theName == "name")
                         continue;
                     setProperty(metaproperty.name(), loadedProject->property(metaproperty.name()));
                 }
@@ -157,7 +157,7 @@ GameProject::loadFromFile()
                 // Then get all the dynamic ones (in case any such exist)
                 QList<QByteArray> propertyNames = loadedProject->dynamicPropertyNames();
                 foreach(QByteArray propName, propertyNames)
-                    setProperty(propName, loadedProject->property(propName));
+                setProperty(propName, loadedProject->property(propName));
 
                 // Sanitize me!
                 this->sanitize();

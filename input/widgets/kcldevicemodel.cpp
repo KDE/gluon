@@ -21,28 +21,30 @@ void KCLDeviceModel::setupList()
 {
     clear();
 
-    foreach(KCLInput *input, KCLDetect::inputList()) {
+    foreach(KCLInput *input, KCLDetect::inputList())
+    {
         QStandardItem *deviceItem = new QStandardItem;
 
-        switch (input->deviceType()) {
-        case KCL::KeyBoard:
-            deviceItem = new QStandardItem(QIcon("input-keyboard.png"), input->deviceName());
-            break;
-        case KCL::Mouse:
-            deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
-            break;
-        case KCL::Touchpad:
-            deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
-            break;
-        case KCL::Joystick:
-            deviceItem = new QStandardItem(QIcon("input-gaming.png"), input->deviceName());
-            break;
-        case KCL::Tablet :
-            deviceItem = new QStandardItem(QIcon("input-tablet.png"), input->deviceName());
-            break;
-        case KCL::Unknown :
-            deviceItem = new QStandardItem(QIcon("system-help.png"), input->deviceName());
-            break;
+        switch (input->deviceType())
+        {
+            case KCL::KeyBoard:
+                deviceItem = new QStandardItem(QIcon("input-keyboard.png"), input->deviceName());
+                break;
+            case KCL::Mouse:
+                deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
+                break;
+            case KCL::Touchpad:
+                deviceItem = new QStandardItem(QIcon("input-mouse.png"), input->deviceName());
+                break;
+            case KCL::Joystick:
+                deviceItem = new QStandardItem(QIcon("input-gaming.png"), input->deviceName());
+                break;
+            case KCL::Tablet :
+                deviceItem = new QStandardItem(QIcon("input-tablet.png"), input->deviceName());
+                break;
+            case KCL::Unknown :
+                deviceItem = new QStandardItem(QIcon("system-help.png"), input->deviceName());
+                break;
         }
 
         appendRow(deviceItem);
@@ -58,17 +60,20 @@ void KCLDeviceModel::setupList()
         deviceItem->appendRow(info);
 
         QStandardItem *button = new QStandardItem(tr("Button"));
-        foreach(int code, input->buttonCapabilities()) {
+        foreach(int code, input->buttonCapabilities())
+        {
             button->appendRow(new QStandardItem(KCLCode::buttonName(code)));
         }
 
         QStandardItem *absAxis = new QStandardItem(tr("Absolute axis"));
-        foreach(int code, input->absAxisCapabilities()) {
+        foreach(int code, input->absAxisCapabilities())
+        {
             absAxis->appendRow(new QStandardItem(KCLCode::absAxisName(code)));
         }
 
         QStandardItem *relAxis = new QStandardItem(tr("Relative axis"));
-        foreach(int code, input->relAxisCapabilities()) {
+        foreach(int code, input->relAxisCapabilities())
+        {
             relAxis->appendRow(new QStandardItem(KCLCode::relAxisName(code)));
         }
 

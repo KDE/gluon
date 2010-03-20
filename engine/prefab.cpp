@@ -20,19 +20,19 @@
 #include "prefab.h"
 #include "prefabprivate.h"
 
-REGISTER_OBJECTTYPE(GluonEngine,Prefab)
+REGISTER_OBJECTTYPE(GluonEngine, Prefab)
 
 using namespace GluonEngine;
 
 Prefab::Prefab(QObject * parent)
-    : GluonObject(parent)
+        : GluonObject(parent)
 {
     d = new PrefabPrivate;
 }
 
 Prefab::Prefab(const Prefab &other, QObject * parent)
-    : GluonObject(parent)
-    , d(other.d)
+        : GluonObject(parent)
+        , d(other.d)
 {
 }
 

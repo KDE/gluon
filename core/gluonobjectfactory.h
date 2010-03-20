@@ -33,13 +33,13 @@ namespace GluonCore
 
     class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             void registerObjectType(GluonObject * newObjectType, int typeID);
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
             GluonObject * instantiateObjectByMimetype(const QString& objectMimeType);
-            
+
             /**
              * This somewhat odd looking function is the final product of a long winded
              * mission to try and wrap objects in a suitable QVariant, so as to
@@ -49,6 +49,7 @@ namespace GluonCore
              * @return The object wrapped in a suitably typed QVariant
              */
             QVariant wrapObject(const QVariant &original, GluonObject* newValue);
+            QVariant wrapObject(const QString &type, GluonObject* newValue);
 
             void loadPlugins();
 
@@ -69,7 +70,7 @@ class GLUON_CORE_EXPORT GluonObjectRegistration
     public:
         GluonObjectRegistration(T* newObjectType)
         {
-            if(newObjectType->metaObject())
+            if (newObjectType->metaObject())
             {
                 int typeID = qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
                 GluonCore::GluonObjectFactory::instance()->registerObjectType(newObjectType, typeID);
@@ -78,18 +79,18 @@ class GLUON_CORE_EXPORT GluonObjectRegistration
 };
 
 #define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
-namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); }\
-Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);\
-GluonCore::GluonObject * \
-NAMESPACE::NEWOBJECTTYPE::instantiate()\
-{\
-    return new NAMESPACE :: NEWOBJECTTYPE();\
-}\
-QVariant \
-NAMESPACE::NEWOBJECTTYPE::toVariant(GluonCore::GluonObject *wrapThis)\
-{\
-    return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE*>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
-}\
-
+    namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); }\
+    Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);\
+    GluonCore::GluonObject * \
+    NAMESPACE::NEWOBJECTTYPE::instantiate()\
+    {\
+        return new NAMESPACE :: NEWOBJECTTYPE();\
+    }\
+    QVariant \
+    NAMESPACE::NEWOBJECTTYPE::toVariant(GluonCore::GluonObject *wrapThis)\
+    {\
+        return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE*>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
+    }\
+     
 
 #endif  // GLUON_CORE_GLUONOBJECTFACTORY_H

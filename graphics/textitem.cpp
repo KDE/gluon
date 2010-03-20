@@ -5,12 +5,12 @@
 #include <cmath>
 namespace GluonGraphics
 {
-    TextItem::TextItem(const QString& txt,const QFont& fnt,QObject *parent)
-        :Item(parent)
+    TextItem::TextItem(const QString& txt, const QFont& fnt, QObject *parent)
+            : Item(parent)
     {
 
-        mText=txt;
-        mFont=fnt;
+        mText = txt;
+        mFont = fnt;
         initTexture();
 
     }
@@ -22,20 +22,20 @@ namespace GluonGraphics
 
         QFontMetrics metrics(mFont);
         int texwidth = metrics.width(mText);
-        int texheight= metrics.height();
+        int texheight = metrics.height();
 
 
-        QImage image( texwidth, texheight, QImage::Format_RGB32 );
+        QImage image(texwidth, texheight, QImage::Format_RGB32);
         QPainter painter;
         // start painting the image
-        painter.begin( &image );
-        painter.setFont( mFont);
-        painter.setRenderHint( QPainter::TextAntialiasing );
-        painter.setBackground( Qt::black);
-        painter.eraseRect( image.rect() );
+        painter.begin(&image);
+        painter.setFont(mFont);
+        painter.setRenderHint(QPainter::TextAntialiasing);
+        painter.setBackground(Qt::black);
+        painter.eraseRect(image.rect());
         //    // use an artificial blue color. This image is only used internally anyway.
-        painter.setPen( Qt::white );
-        painter.drawText(image.rect(),Qt::AlignCenter,mText);
+        painter.setPen(Qt::white);
+        painter.drawText(image.rect(), Qt::AlignCenter, mText);
         painter.end();
 
 //        ////     int x=1;
@@ -85,12 +85,12 @@ namespace GluonGraphics
 //
 //        delete [] bitmap;
 //
-      int ratio = texwidth/texheight;
+        int ratio = texwidth / texheight;
 //        float rp = (float)texheight/2/10;
 //
 //        qDebug()<<"ratio"<<ratio*rp<<rp;
 
-        PolygonMesh * rect = new PolygonMesh(QRectF(0,0,1,ratio));
+        PolygonMesh * rect = new PolygonMesh(QRectF(0, 0, 1, ratio));
         setMesh(rect);
 
 

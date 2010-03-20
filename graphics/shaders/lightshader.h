@@ -10,18 +10,18 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT LightShader : public QGLShaderProgram
     {
 
-    public:
-        LightShader(QObject *parent = 0);
-        void setAlpha(const float& value);
-        const float& alpha()
-        {
-            return mAlpha;
-        }
+        public:
+            LightShader(QObject *parent = 0);
+            void setAlpha(const float& value);
+            const float& alpha()
+            {
+                return mAlpha;
+            }
 
-    private:
-        QGLShader * vertexShader;
-        QGLShader * fragmentShader;
-        float mAlpha;
+        private:
+            QGLShader * vertexShader;
+            QGLShader * fragmentShader;
+            float mAlpha;
     };
 }
 #endif // LIGHTSHADER_H

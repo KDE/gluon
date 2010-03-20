@@ -26,18 +26,20 @@ namespace GluonEngine
 
     class GLUON_ENGINE_EXPORT QtScriptComponent : public Component
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::QtScriptComponent)
-        Q_INTERFACES(GluonEngine::Component)
+            Q_OBJECT
+            GLUON_OBJECT(GluonEngine::QtScriptComponent)
+            Q_INTERFACES(GluonEngine::Component)
+
+            Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
 
         public:
-            QtScriptComponent ( QObject* parent = 0 );
-            QtScriptComponent ( const QtScriptComponent& other);
+            QtScriptComponent(QObject* parent = 0);
+            QtScriptComponent(const QtScriptComponent& other);
             virtual ~QtScriptComponent();
 
             virtual void start();
-            virtual void update ( int elapsedMilliseconds );
-            virtual void draw ( int timeLapse = 0 );
+            virtual void update(int elapsedMilliseconds);
+            virtual void draw(int timeLapse = 0);
 
             virtual Asset* script();
 

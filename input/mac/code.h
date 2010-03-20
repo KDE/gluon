@@ -12,16 +12,16 @@
 
 namespace GluonInput
 {
-	class GLUON_INPUT_EXPORT Code
-	{
-	public:
-		static QString buttonName(int code);
-		static QString eventName(int code);
-		static QString relAxisName(int code);
-		static QString absAxisName(int code);
+    class GLUON_INPUT_EXPORT Code
+    {
+        public:
+            static QString buttonName(int code);
+            static QString eventName(int code);
+            static QString relAxisName(int code);
+            static QString absAxisName(int code);
 
-	private:
+        private:
 
-	};
+    };
 }
 #endif // KCLCODE_H

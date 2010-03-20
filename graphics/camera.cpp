@@ -76,7 +76,8 @@ void Camera::setViewport(int x, int y, int width, int height)
 
 void Camera::applyPerspective()
 {
-    if (mProjectionMatrixDirty) {
+    if (mProjectionMatrixDirty)
+    {
         recalculateProjectionMatrix();
     }
 
@@ -103,11 +104,13 @@ void Camera::applyOrtho()
 
 void Camera::applyView(bool reset)
 {
-    if (mModelviewMatrixDirty) {
+    if (mModelviewMatrixDirty)
+    {
         recalculateModelviewMatrix();
     }
 
-    if (reset) {
+    if (reset)
+    {
         glLoadIdentity();
     }
     glMultMatrixd((GLdouble*)(mModelviewMatrix.data()));
@@ -120,16 +123,16 @@ void Camera::applyViewport()
 
 void Camera::recalculateModelviewMatrix()
 {
-     // Code from Mesa project, src/glu/sgi/libutil/project.c
+    // Code from Mesa project, src/glu/sgi/libutil/project.c
     mModelviewMatrixDirty = false;
     QVector3D forward = mLookAt.normalized();
     QVector3D side = -QVector3D::crossProduct(forward, mUp).normalized();
-    QVector3D up = QVector3D::crossProduct(side,forward);
+    QVector3D up = QVector3D::crossProduct(side, forward);
 
     mModelviewMatrix.setToIdentity();
-    mModelviewMatrix.setColumn(0, QVector4D(side.x(),side.y(),side.z(),0));
-    mModelviewMatrix.setColumn(1, QVector4D(up.x(),up.y(),up.z(),0));
-    mModelviewMatrix.setColumn(2, QVector4D(-forward.x(),-forward.y(),-forward.z(),0));
+    mModelviewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
+    mModelviewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
+    mModelviewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
     mModelviewMatrix.translate(mPosition);
 }
 
@@ -143,12 +146,13 @@ void Camera::recalculateProjectionMatrix()
 
     float deltaZ = mDepthFar - mDepthNear;
 //    float sine = Eigen::ei_sin(radians);
-     float sine = sin(radians);
-    if ((deltaZ == 0) || (sine == 0) || (mAspect == 0)) {
+    float sine = sin(radians);
+    if ((deltaZ == 0) || (sine == 0) || (mAspect == 0))
+    {
         return;
     }
 //    float cotangent = Eigen::ei_cos(radians) / sine;
-      float cotangent = cos(radians) / sine;
+    float cotangent = cos(radians) / sine;
 
 
 
@@ -177,7 +181,8 @@ void Camera::setProjectionMatrix(const QMatrix4x4& projection)
 
 QMatrix4x4 Camera::modelviewMatrix() const
 {
-    if (mModelviewMatrixDirty) {
+    if (mModelviewMatrixDirty)
+    {
         const_cast<Camera*>(this)->recalculateModelviewMatrix();
     }
     return mModelviewMatrix;
@@ -185,7 +190,8 @@ QMatrix4x4 Camera::modelviewMatrix() const
 
 QMatrix4x4 Camera::projectionMatrix() const
 {
-    if (mProjectionMatrixDirty) {
+    if (mProjectionMatrixDirty)
+    {
         const_cast<Camera*>(this)->recalculateProjectionMatrix();
     }
     return mProjectionMatrix;
@@ -213,23 +219,23 @@ QVector3D Camera::project(const QVector3D& v, bool* ok) const
 QVector3D Camera::unProject(const QVector3D& v, bool* ok) const
 {
     // TODO add unit test
-/*   if (ok) *ok = true;
-    Eigen::Vector4f a;
-    a << (v.start<2>() - Eigen::Vector2f(mViewport[0],mViewport[1]))
-              .cwise() / Eigen::Vector2f(mViewport[2],mViewport[3]),
-         v.z(),
-         1;
-    a.start<3>() = a.start<3>() * 2 - Eigen::Vector3f::Constant(1);
-    // FIXME if we assume the projection matrix always has the structure defined in
-    // recalculateProjectionMatrix, then the following matrix product could be
-    // significantly improved !!
-    a = (projectionMatrix() * modelviewMatrix()).inverse() * a;
-    if (a.w()==0)
-    {
-        if (ok) *ok = false;
-        return a.start<3>();
-    }
-    return a.start<3>() / a.w();*/
+    /*   if (ok) *ok = true;
+        Eigen::Vector4f a;
+        a << (v.start<2>() - Eigen::Vector2f(mViewport[0],mViewport[1]))
+                  .cwise() / Eigen::Vector2f(mViewport[2],mViewport[3]),
+             v.z(),
+             1;
+        a.start<3>() = a.start<3>() * 2 - Eigen::Vector3f::Constant(1);
+        // FIXME if we assume the projection matrix always has the structure defined in
+        // recalculateProjectionMatrix, then the following matrix product could be
+        // significantly improved !!
+        a = (projectionMatrix() * modelviewMatrix()).inverse() * a;
+        if (a.w()==0)
+        {
+            if (ok) *ok = false;
+            return a.start<3>();
+        }
+        return a.start<3>() / a.w();*/
 }
 
 #include "camera.moc"

@@ -17,58 +17,57 @@
 namespace GluonInput
 {	
 	typedef QList<InputDevice *> InputList;
-
     class InputManagerPrivate;
 
 	class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
 	{
 		Q_OBJECT
 
-	public:
-		InputManager();
-		void searchDevice();
-		void setAllEnable();
-		void setAllDisable();
+		public:
+			InputManager();
+			void searchDevice();
+			void setAllEnable();
+			void setAllDisable();
 
-		unsigned int deviceCount();
+			unsigned int deviceCount();
 
-		unsigned int keyboardCount();
+			unsigned int keyboardCount();
 
-		unsigned int mouseCount();
+			unsigned int mouseCount();
 
-		unsigned int joystickCount();
+			unsigned int joystickCount();
 
-		unsigned int tabletCount();
+			unsigned int tabletCount();
 
-		unsigned int unknownDeviceCount();
+			unsigned int unknownDeviceCount();
 
-		QList <Keyboard*> keyboardList();
+			QList <Keyboard*> keyboardList();
 
-		QList <Mouse*> mouseList();
+			QList <Mouse*> mouseList();
 
-		QList <Joystick*> joystickList();
+			QList <Joystick*> joystickList();
 
-		QList <Tablet*> tabletList();
+			QList <Tablet*> tabletList();
 
-		QList <InputDevice*> unknownDeviceList();
+			QList <InputDevice*> unknownDeviceList();
 
-		InputList inputList();
+			InputList inputList();
 
-		Keyboard* keyboard(int id = 0);
+			Keyboard* keyboard(int id = 0);
 
-		Mouse* mouse(int id = 0);
+			Mouse* mouse(int id = 0);
 
-		Joystick* joystick(int id = 0);
+			Joystick* joystick(int id = 0);
 
-		Tablet* tablet(int id = 0);
+			Tablet* tablet(int id = 0);
 
-		InputDevice* input(int id = 0);
+			InputDevice* input(int id = 0);
 
-	private:
-		~InputManager();
-		void init();
+		private:
+			~InputManager();
+			void init();
 
-		QSharedDataPointer<InputManagerPrivate> d;
+			QSharedDataPointer<InputManagerPrivate> d;
 	};
 }
 

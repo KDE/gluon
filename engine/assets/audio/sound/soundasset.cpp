@@ -16,13 +16,13 @@
 
 #include "soundasset.h"
 
-REGISTER_OBJECTTYPE(GluonEngine,SoundAsset)
+REGISTER_OBJECTTYPE(GluonEngine, SoundAsset)
 
 using namespace GluonEngine;
 
 SoundAsset::SoundAsset(QObject *parent)
-    : Asset(parent),
-      m_buffer(0)
+        : Asset(parent),
+        m_buffer(0)
 {
     connect(this, SIGNAL(dataChanged()), this, SLOT(updateBuffer()));
 }
@@ -53,7 +53,8 @@ SoundAsset::setFile(const QUrl& newFile)
 void
 SoundAsset::updateBuffer()
 {
-    if (m_buffer) {
+    if (m_buffer)
+    {
         delete m_buffer;
     }
 

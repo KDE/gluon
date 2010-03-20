@@ -20,40 +20,40 @@
 
 namespace GluonInput
 {
-	class DetectMacPrivate;
-	
-	class GLUON_INPUT_EXPORT DetectMac : public Detect
-	{
-		Q_OBJECT
+    class DetectMacPrivate;
 
-	public:
-		DetectMac(QObject * parent);
-		~DetectMac();
+    class GLUON_INPUT_EXPORT DetectMac : public Detect
+    {
+            Q_OBJECT
 
-		void searchDevice();
-		void setAllEnabled();
-		void setAllDisabled();
+        public:
+            DetectMac(QObject * parent);
+            ~DetectMac();
 
-		QList<InputDevice *> getInputList();
-		QList<Keyboard *> getKeyboardList();
-		QList<Mouse *> getMouseList();
-		QList<Joystick *> getJoystickList();
-		QList<Tablet *> getTabletList();
-		QList<InputDevice *> getUnknownDeviceList();
+            void searchDevice();
+            void setAllEnabled();
+            void setAllDisabled();
 
-		void addInput(InputDevice *i);
-		void addKeyboard(InputDevice *i);
-		void addMouse(InputDevice *i);
-		void addJoystick(InputDevice *i);
-		void addTablet(InputDevice *i);
-		void addUnknown(InputDevice *i);
-		void clear();
+            QList<InputDevice *> getInputList();
+            QList<Keyboard *> getKeyboardList();
+            QList<Mouse *> getMouseList();
+            QList<Joystick *> getJoystickList();
+            QList<Tablet *> getTabletList();
+            QList<InputDevice *> getUnknownDeviceList();
 
-	private:
-		static void createDevices(const void *value, void *context);
-		CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
-		
-		QSharedDataPointer<DetectMacPrivate> d;
-	};
+            void addInput(InputDevice *i);
+            void addKeyboard(InputDevice *i);
+            void addMouse(InputDevice *i);
+            void addJoystick(InputDevice *i);
+            void addTablet(InputDevice *i);
+            void addUnknown(InputDevice *i);
+            void clear();
+
+        private:
+            static void createDevices(const void *value, void *context);
+            CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
+
+            QSharedDataPointer<DetectMacPrivate> d;
+    };
 }
 #endif

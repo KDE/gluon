@@ -29,11 +29,14 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 
 class Engine::EnginePrivate
 {
-public:
-    EnginePrivate() { activeCamera = 0; }
+    public:
+        EnginePrivate()
+        {
+            activeCamera = 0;
+        }
 
-    ItemList items;
-    Camera* activeCamera;
+        ItemList items;
+        Camera* activeCamera;
 };
 
 Engine::Engine()
@@ -54,14 +57,15 @@ void Engine::addItem(Item* item)
 
 void Engine::addItems(const ItemList &items)
 {
-    foreach(Item* item, items) {
+    foreach(Item* item, items)
+    {
         addItem(item);
     }
 }
 
 bool Engine::removeItem(Item* item)
 {
-    if ( item != NULL)
+    if (item != NULL)
         return d->items.removeOne(item);
     else return false;
 }
@@ -69,9 +73,9 @@ bool Engine::removeItem(Item* item)
 bool Engine::removeItems(const ItemList &items)
 {
     bool retVal = true;
-    foreach ( Item* item , items)
+    foreach(Item* item , items)
     {
-        if(!removeItem(item))
+        if (!removeItem(item))
             retVal = false;
     }
     return retVal;
@@ -79,7 +83,7 @@ bool Engine::removeItems(const ItemList &items)
 
 bool Engine::eraseItem(Item* item)
 {
-    if ( removeItem(item))
+    if (removeItem(item))
     {
         delete item;
         return true;
@@ -87,7 +91,7 @@ bool Engine::eraseItem(Item* item)
     else return false;
 }
 
-Item *Engine::itemAt( int id) const
+Item *Engine::itemAt(int id) const
 {
     return d->items.at(id);
 }
@@ -95,7 +99,8 @@ Item *Engine::itemAt( int id) const
 bool Engine::eraseItems(const ItemList &items)
 {
     bool retVal = true;
-    foreach(Item* item, items) {
+    foreach(Item* item, items)
+    {
         if (!eraseItem(item))
             retVal = false;
     }

@@ -8,9 +8,9 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT UvSphereMesh: public Mesh
     {
-    public:
-        UvSphereMesh(QObject * parent=0);
-        void setUvSphere(float radius, int division);
+        public:
+            UvSphereMesh(QObject * parent = 0);
+            void setUvSphere(float radius, int division);
     };
 }
 #endif // UVSPHEREMESH_H

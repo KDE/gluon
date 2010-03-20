@@ -19,7 +19,7 @@
 using namespace GluonCreator;
 
 Dock::Dock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
-    : QDockWidget(title, parent, flags)
+        : QDockWidget(title, parent, flags)
 {
 
 }

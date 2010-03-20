@@ -19,24 +19,25 @@
 
 #include <widgets/dock.h>
 
-namespace GluonCreator {
-
-class MessageDock : public Dock
+namespace GluonCreator
 {
-    public:
-        MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-        ~MessageDock();
 
-        QAbstractItemModel* model();
-        QAbstractItemView* view();
+    class MessageDock : public Dock
+    {
+        public:
+            MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            ~MessageDock();
 
-    public slots:
-        void setSelection(GluonCore::GluonObject* obj = 0);
+            QAbstractItemModel* model();
+            QAbstractItemView* view();
 
-    private:
-        class MessageDockPrivate;
-        MessageDockPrivate* d;
-};
+        public slots:
+            void setSelection(GluonCore::GluonObject* obj = 0);
+
+        private:
+            class MessageDockPrivate;
+            MessageDockPrivate* d;
+    };
 
 }
 

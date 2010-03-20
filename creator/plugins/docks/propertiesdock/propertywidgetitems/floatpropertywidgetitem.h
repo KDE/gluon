@@ -27,11 +27,11 @@ namespace GluonCreator
 {
     class FloatPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             FloatPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~FloatPropertyWidgetItem();
-            
+
             virtual QList<QString> supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

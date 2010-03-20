@@ -30,7 +30,7 @@ namespace GluonCreator
 
     class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             QList<KPluginInfo> pluginInfos() const;
 

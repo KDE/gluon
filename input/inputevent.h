@@ -10,16 +10,16 @@ namespace GluonInput
 {
     class InputEventPrivate;
 
-	class GLUON_INPUT_EXPORT InputEvent : public QEvent
-	{
-	public:
-		InputEvent(int code, int value, QEvent::Type eventType);
+    class GLUON_INPUT_EXPORT InputEvent : public QEvent
+    {
+        public:
+            InputEvent(int code, int value, QEvent::Type eventType);
 
-		int code() const;
-		int value() const;
+            int code() const;
+            int value() const;
 
-	private:
-		QSharedDataPointer<InputEventPrivate> d;
-	};
+        private:
+            QSharedDataPointer<InputEventPrivate> d;
+    };
 }
 #endif

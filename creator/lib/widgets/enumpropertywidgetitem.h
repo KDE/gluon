@@ -21,10 +21,10 @@
 
 namespace GluonCreator
 {
-class EnumPWIPrivate;
+    class EnumPWIPrivate;
     class EnumPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~EnumPropertyWidgetItem();
@@ -36,7 +36,7 @@ class EnumPWIPrivate;
             virtual void setEditObject(QObject* editThis);
             virtual void setEditValue(const QVariant& value);
             virtual void indexChanged(int newIndex);
-            
+
         private:
             EnumPWIPrivate * d;
     };

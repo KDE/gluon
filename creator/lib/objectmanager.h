@@ -21,8 +21,10 @@
 
 #include <core/singleton.h>
 
-namespace GluonCore {
-class GluonObject;}
+namespace GluonCore
+{
+    class GluonObject;
+}
 
 namespace GluonEngine
 {
@@ -36,7 +38,7 @@ namespace GluonCreator
 
     class GLUONCREATOR_EXPORT ObjectManager : public GluonCore::Singleton<ObjectManager>
     {
-        Q_OBJECT
+            Q_OBJECT
         public slots:
             GluonEngine::Component* createNewComponent(const QString& type, GluonEngine::GameObject* parent);
             GluonEngine::Scene* createNewScene();
@@ -51,7 +53,11 @@ namespace GluonCreator
         private:
             friend class GluonCore::Singleton<ObjectManager>;
 
-            ObjectManager() { m_objectId = 0; m_sceneId = 0; }
+            ObjectManager()
+            {
+                m_objectId = 0;
+                m_sceneId = 0;
+            }
             ~ObjectManager() { }
             Q_DISABLE_COPY(ObjectManager)
 

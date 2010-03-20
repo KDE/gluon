@@ -28,23 +28,23 @@
 
 class KALPhononPrivate
 {
-public:
-    KALPhononPrivate() :
-            phononOutput(0),
-            parentheses(QRegExp::escape(" (") + ".*" + QRegExp::escape(")")) {}
+    public:
+        KALPhononPrivate() :
+                phononOutput(0),
+                parentheses(QRegExp::escape(" (") + ".*" + QRegExp::escape(")")) {}
 
-    virtual ~KALPhononPrivate() {}
+        virtual ~KALPhononPrivate() {}
 
-    QString alDevice;
-    Phonon::AudioOutput *phononOutput;
-    Phonon::Category category;
-    QRegExp parentheses;
+        QString alDevice;
+        Phonon::AudioOutput *phononOutput;
+        Phonon::Category category;
+        QRegExp parentheses;
 
 };
 
 KALPhonon::KALPhonon(QObject *parent)
         : QObject(parent),
-          d(new KALPhononPrivate)
+        d(new KALPhononPrivate)
 {
 }
 
@@ -60,7 +60,8 @@ bool KALPhonon::setDevice(const Phonon::AudioOutputDevice &device)
 
     QStringList alDeviceList = KALEngine::deviceList().filter(phononDevice);
 
-    if (alDeviceList.isEmpty()) {
+    if (alDeviceList.isEmpty())
+    {
         qWarning() << "Could not find any OpenAL device that matches current Phonon device";
         return false;
     }
@@ -77,13 +78,15 @@ bool KALPhonon::setCategory(Phonon::Category category)
     resetOutput();
 
     // An instance of QCoreApplication must be running to create a Phonon::AudioOutput
-    if (!QCoreApplication::instance()) {
+    if (!QCoreApplication::instance())
+    {
         qWarning() << "Could not get current Phonon device because QCoreApplication is not running";
         return false;
     }
 
     d->phononOutput = new Phonon::AudioOutput(category, this);
-    if (!setDevice(d->phononOutput->outputDevice())) {
+    if (!setDevice(d->phononOutput->outputDevice()))
+    {
         return false;
     }
 
@@ -95,7 +98,8 @@ bool KALPhonon::setCategory(Phonon::Category category)
 
 void KALPhonon::resetOutput()
 {
-    if (!d->phononOutput) {
+    if (!d->phononOutput)
+    {
         return;
     }
 

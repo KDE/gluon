@@ -7,6 +7,6 @@ TabletPrivate::TabletPrivate()
 }
 
 TabletPrivate::TabletPrivate(TabletPrivate &other)
-	: QSharedData(other)
+        : QSharedData(other)
 {
 }

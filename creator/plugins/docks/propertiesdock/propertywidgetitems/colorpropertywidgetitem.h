@@ -19,26 +19,27 @@
 
 #include "widgets/propertywidgetitem.h"
 
-namespace GluonCreator {
-
-class ColorPropertyWidgetItem : public PropertyWidgetItem
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-        ~ColorPropertyWidgetItem();
-        
-        virtual QList<QString> supportedDataTypes() const;
-        virtual PropertyWidgetItem* instantiate();
 
-    public slots:
-        void setEditValue(const QVariant& value);
-        void colorValuechanged(const QColor &value);
+    class ColorPropertyWidgetItem : public PropertyWidgetItem
+    {
+            Q_OBJECT
+        public:
+            ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~ColorPropertyWidgetItem();
 
-    private:
-        class ColorPropertyWidgetItemPrivate;
-        ColorPropertyWidgetItemPrivate* d;
-};
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+            void colorValuechanged(const QColor &value);
+
+        private:
+            class ColorPropertyWidgetItemPrivate;
+            ColorPropertyWidgetItemPrivate* d;
+    };
 
 }
 

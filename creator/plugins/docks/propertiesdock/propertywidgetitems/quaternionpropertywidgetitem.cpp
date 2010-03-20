@@ -24,7 +24,7 @@ Boston, MA 02110-1301, USA.
 #include <cmath>
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,QuaternionPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, QuaternionPropertyWidgetItem)
 
 using namespace GluonCreator;
 
@@ -59,25 +59,25 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::
     d->x->setPrefix("X: ");
     d->x->setRange(0, 1);
     vectorLayout->addWidget(d->x);
-    connect(d->x, SIGNAL(valueChanged(double)),this,  SLOT(valueChanged(double)));
+    connect(d->x, SIGNAL(valueChanged(double)), this,  SLOT(valueChanged(double)));
 
     d->y = new QDoubleSpinBox(this);
     d->y->setPrefix("Y: ");
     d->y->setRange(0, 1);
     vectorLayout->addWidget(d->y);
-    connect(d->y, SIGNAL(valueChanged(double)),this,  SLOT(valueChanged(double)));
+    connect(d->y, SIGNAL(valueChanged(double)), this,  SLOT(valueChanged(double)));
 
     d->z = new QDoubleSpinBox(this);
     d->z->setPrefix("Z: ");
     d->z->setRange(0, 1);
     vectorLayout->addWidget(d->z);
-    connect(d->z, SIGNAL(valueChanged(double)),this, SLOT(valueChanged(double)));
+    connect(d->z, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
 
     d->angle = new QDoubleSpinBox(this);
     d->angle->setPrefix("Angle: ");
     d->angle->setRange(-FLT_MAX, FLT_MAX);
     layout->addWidget(d->angle);
-    connect(d->angle, SIGNAL(valueChanged(double)),this, SLOT(valueChanged(double)));
+    connect(d->angle, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
 
     setEditWidget(base);
 }
@@ -109,16 +109,16 @@ void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
     d->y->setValue(d->value.y() * sqrt(1 - d->value.scalar() * d->value.scalar()));
     d->z->setValue(d->value.z() * sqrt(1 - d->value.scalar() * d->value.scalar()));
 
-    d->angle->setValue((2 * acos(d->value.scalar())) * (180/M_PI));
+    d->angle->setValue((2 * acos(d->value.scalar())) * (180 / M_PI));
 
     /*angle = 2 * acos(qw)
     x = qx / sqrt(1-qw*qw)
     y = qy / sqrt(1-qw*qw)
     z = qz / sqrt(1-qw*qw)
-   d->proxi->setX(quat.x());
-   d->proxi->setY(quat.y());
-   d->proxi->setZ(quat.z());
-   d->proxi->setScalar(quat.scalar() * (180/M_PI) );*/
+    d->proxi->setX(quat.x());
+    d->proxi->setY(quat.y());
+    d->proxi->setZ(quat.z());
+    d->proxi->setScalar(quat.scalar() * (180/M_PI) );*/
 
 }
 

@@ -48,11 +48,11 @@ namespace GluonCreator
             {
                 QList<const GluonCore::GluonObject*> foundChildren;
 
-                if(lookHere)
+                if (lookHere)
                 {
                     foreach(const QObject *child, lookHere->children())
                     {
-                        if(child->inherits(typeName.toUtf8()))
+                        if (child->inherits(typeName.toUtf8()))
                             foundChildren.append(qobject_cast<const GluonCore::GluonObject*>(child));
 
                         foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject*>(child)));
@@ -67,7 +67,7 @@ namespace GluonCreator
 using namespace GluonCreator;
 
 GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     d = new GluonObjectPWIPrivate;
     d->typeName = typeName;
@@ -126,7 +126,7 @@ GluonObjectPropertyWidgetItem::browseForItems()
     QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->gameProject());
     items.append(GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
 
-    if(items.count() == 0)
+    if (items.count() == 0)
     {
         KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(d->typeName), i18n("No Items Found"));
     }
@@ -139,15 +139,15 @@ GluonObjectPropertyWidgetItem::browseForItems()
 
         nameList.append(i18n("Clear object reference"));
         foreach(const GluonCore::GluonObject *item, items)
-            nameList.append(item->fullyQualifiedName());
+        nameList.append(item->fullyQualifiedName());
 
         QString chosen = KInputDialog::getItem(caption, label, nameList, 0, false, &ok, this);
-        if(ok)
+        if (ok)
         {
             GluonCore::GluonObject *chosenItem = NULL;
             foreach(const GluonCore::GluonObject *testItem, items)
             {
-                if(testItem->fullyQualifiedName() == chosen)
+                if (testItem->fullyQualifiedName() == chosen)
                 {
                     chosenItem = const_cast<GluonCore::GluonObject*>(testItem);
                     break;
@@ -167,7 +167,7 @@ GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
 void
 GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value)
 {
-    if(value)
+    if (value)
         d->currentValue->setText(value->name());
     else
         d->currentValue->setText("");

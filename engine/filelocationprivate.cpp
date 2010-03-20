@@ -29,8 +29,8 @@ FileLocationPrivate::FileLocationPrivate()
 }
 
 FileLocationPrivate::FileLocationPrivate(const FileLocationPrivate &other)
-    : gameProject(other.gameProject)
-    , url(other.url)
+        : gameProject(other.gameProject)
+        , url(other.url)
 {
 }
 

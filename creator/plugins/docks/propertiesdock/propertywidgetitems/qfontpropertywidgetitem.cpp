@@ -18,12 +18,12 @@
 
 #include <KFontRequester>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,QFontPropertyWidgetItem);
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, QFontPropertyWidgetItem);
 
 using namespace GluonCreator;
 
 QFontPropertyWidgetItem::QFontPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     KFontRequester * theFontReq = new KFontRequester(this);
     connect(theFontReq, SIGNAL(fontSelected(const QFont&)), this, SLOT(fontChanged(const QFont&)));

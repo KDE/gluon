@@ -34,24 +34,28 @@ using namespace GluonAudio;
 
 class Capture::CapturePrivate
 {
-public:
-    CaptureDevice *captureDevice;
-    QVector<ALshort> samples;
-    ALuint buffer;
+    public:
+        CaptureDevice *captureDevice;
+        QVector<ALshort> samples;
+        ALuint buffer;
 };
 
 Capture::Capture(QString deviceName, QObject *parent)
-    : QObject(parent),
-    d(new CapturePrivate)
+        : QObject(parent),
+        d(new CapturePrivate)
 {
-    if (isAvailable()) {
+    if (isAvailable())
+    {
         d->captureDevice = new CaptureDevice(deviceName.toUtf8(), 44100, AL_FORMAT_MONO16, 44100);
-    } else {
+    }
+    else
+    {
         qCritical() << "No capture device available";
         return;
     }
 
-    if (!d->captureDevice) {
+    if (!d->captureDevice)
+    {
         qCritical() << "Could not set the capture device";
         return;
     }
@@ -78,9 +82,11 @@ void Capture::record(int duration)
     QTime recordTime;
     recordTime.start();
 
-    while (recordTime.elapsed() < duration) {
+    while (recordTime.elapsed() < duration)
+    {
         ALCint samples = d->captureDevice->samples();
-        if (samples > 0) {
+        if (samples > 0)
+        {
             //d->samples.append(samples);
             d->samples.append(d->captureDevice->startCapture(samples));
         }
@@ -106,7 +112,8 @@ void Capture::save(const QString& fileName)
 
     SNDFILE *file = sf_open(fileName.toUtf8(), SFM_WRITE, &fileInfo);
 
-    if (!file) {
+    if (!file)
+    {
         return;
     }
 

@@ -8,14 +8,14 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT GridMesh: public Mesh
     {
-    public:
-        GridMesh(QObject * parent=0);
-        GridMesh(QSizeF size, float tile, QObject *parent=0);
-        void setGrid(QSizeF size, float tile=1);
-    private:
-    private:
-         QSizeF m_size;
-         float m_tile;
+        public:
+            GridMesh(QObject * parent = 0);
+            GridMesh(QSizeF size, float tile, QObject *parent = 0);
+            void setGrid(QSizeF size, float tile = 1);
+        private:
+        private:
+            QSizeF m_size;
+            float m_tile;
 
     };
 }

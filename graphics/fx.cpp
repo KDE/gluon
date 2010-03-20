@@ -22,90 +22,90 @@
 #include <QVector2D>
 namespace GluonGraphics
 {
-Fx::Fx(const QString& vertexShader, const QString& fragmentShader)
-        :Program(vertexShader,fragmentShader)
-{
+    Fx::Fx(const QString& vertexShader, const QString& fragmentShader)
+            : Program(vertexShader, fragmentShader)
+    {
 
-}
-Fx::Fx()
-        :Program()
-{
-}
+    }
+    Fx::Fx()
+            : Program()
+    {
+    }
 //==========================LIGHT=====================================
-LightFx::LightFx()
-        :Fx()
-{
-    addShader(new FragmentShader(":shaders/light.frag"));
-    link();
-    setAlpha(0);
+    LightFx::LightFx()
+            : Fx()
+    {
+        addShader(new FragmentShader(":shaders/light.frag"));
+        link();
+        setAlpha(0);
 
-}
+    }
 
-void LightFx::setAlpha(float alpha)
-{
-    m_alpha=alpha;
-    bind();
-    setUniform("alpha",alpha);
-    unbind();
-}
+    void LightFx::setAlpha(float alpha)
+    {
+        m_alpha = alpha;
+        bind();
+        setUniform("alpha", alpha);
+        unbind();
+    }
 
 //==========================POSTERIZE=====================================
-PosterizeFx::PosterizeFx()
-        :Fx()
-{
-    addShader(new FragmentShader(":shaders/posterize.frag"));
-    link();
-    setLevel(20);
-}
+    PosterizeFx::PosterizeFx()
+            : Fx()
+    {
+        addShader(new FragmentShader(":shaders/posterize.frag"));
+        link();
+        setLevel(20);
+    }
 
-void PosterizeFx::setLevel(float level)
-{
-    m_level=level;
-    bind();
-    setUniform("level", level);
-    unbind();
-}
+    void PosterizeFx::setLevel(float level)
+    {
+        m_level = level;
+        bind();
+        setUniform("level", level);
+        unbind();
+    }
 //==========================MOSAIC=====================================
-MosaicFx::MosaicFx()
-        :Fx()
-{
-    addShader(new FragmentShader(":shaders/mosaic.frag"));
-    link();
-    bind();
-    setUniform("texSize", 128);
-    unbind();
-    setTileSize(1);
-}
-void MosaicFx::setTileSize(float t)
-{
-    m_tileSize=t;
-    bind();
-    setUniform("tileSize", t);
-    unbind();
-}
+    MosaicFx::MosaicFx()
+            : Fx()
+    {
+        addShader(new FragmentShader(":shaders/mosaic.frag"));
+        link();
+        bind();
+        setUniform("texSize", 128);
+        unbind();
+        setTileSize(1);
+    }
+    void MosaicFx::setTileSize(float t)
+    {
+        m_tileSize = t;
+        bind();
+        setUniform("tileSize", t);
+        unbind();
+    }
 //=======================GRAY SCALE==================================
-GrayScaleFx::GrayScaleFx()
-        :Fx()
-{
-    addShader(new FragmentShader(":shaders/greyscale.frag"));
-    link();
+    GrayScaleFx::GrayScaleFx()
+            : Fx()
+    {
+        addShader(new FragmentShader(":shaders/greyscale.frag"));
+        link();
 
-}
+    }
 //=======================BLUR ==================================
-BlurFx::BlurFx()
-        :Fx()
-{
-    addShader(new FragmentShader(":shaders/blur.frag"));
-    link();
+    BlurFx::BlurFx()
+            : Fx()
+    {
+        addShader(new FragmentShader(":shaders/blur.frag"));
+        link();
 
-}
-void  BlurFx::setBlurLevel(QPointF blurLevel)
-{
-    m_blurLevel = blurLevel;
+    }
+    void  BlurFx::setBlurLevel(QPointF blurLevel)
+    {
+        m_blurLevel = blurLevel;
 
-    bind();
-    setUniform("src_tex_offset0",QVector2D(m_blurLevel.x(), m_blurLevel.y()));
-    unbind();
+        bind();
+        setUniform("src_tex_offset0", QVector2D(m_blurLevel.x(), m_blurLevel.y()));
+        unbind();
 
-}
+    }
 }//namespace

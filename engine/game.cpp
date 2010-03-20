@@ -55,7 +55,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 {
     DEBUG_FUNC_NAME
     // Bail out if we're not fed a level to work with!
-    if(!d->currentScene)
+    if (!d->currentScene)
     {
         DEBUG_TEXT(QString("There is no scene to run!"));
         return;
@@ -72,7 +72,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
 
     // First allow everybody to initialize themselves properly
     d->currentScene->startAll();
-    while(d->gameRunning)
+    while (d->gameRunning)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
@@ -80,9 +80,9 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
 
         loops = 0;
-        while(getCurrentTick() > nextTick && loops < maxFrameSkip)
+        while (getCurrentTick() > nextTick && loops < maxFrameSkip)
         {
-            if(!d->gamePaused)
+            if (!d->gamePaused)
             {
                 d->currentScene->updateAll(millisecondsPerUpdate);
                 emit updated();
@@ -103,7 +103,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
 {
     DEBUG_FUNC_NAME
     // Bail out if we're not fed a level to work with!
-    if(!d->currentScene)
+    if (!d->currentScene)
     {
         DEBUG_TEXT(QString("There is no scene to run!"));
         return;
@@ -120,13 +120,13 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
     // First allow everybody to initialize themselves properly
     d->currentScene->startAll();
-    while(d->gameRunning)
+    while (d->gameRunning)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
 
         // Update the current level
-        if(!d->gamePaused)
+        if (!d->gamePaused)
         {
             d->currentScene->updateAll(millisecondsPerUpdate);
             emit updated();
@@ -137,7 +137,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();
-        if(remainingSleep > 0)
+        if (remainingSleep > 0)
         {
             DEBUG_TEXT(QString("Sleeping for %1 milliseconds").arg(remainingSleep))
             I::msleep(remainingSleep);
@@ -162,10 +162,14 @@ void Game::stopGame()
 void Game::setPause(bool pause)
 {
     DEBUG_BLOCK
-    if(pause)
-    { DEBUG_TEXT(QString("Pausing gameloop")) }
+    if (pause)
+    {
+        DEBUG_TEXT(QString("Pausing gameloop"))
+    }
     else
-    { DEBUG_TEXT(QString("Un-pausing gameloop")) }
+    {
+        DEBUG_TEXT(QString("Un-pausing gameloop"))
+    }
 
     d->gamePaused = pause;
 }
@@ -205,18 +209,20 @@ bool Game::isPaused() const
 void
 Game::setCurrentScene(Scene * newCurrentScene)
 {
-    if(d->currentScene) {
+    if (d->currentScene)
+    {
         d->currentScene->stopAll();
     }
 
     d->currentScene = newCurrentScene;
+    d->currentScene->startAll();
     emit currentSceneChanged(newCurrentScene);
 }
 
 void Game::setCurrentScene(const QString& sceneName)
 {
     Scene* scene = qobject_cast< GluonEngine::Scene* >(gameProject()->findItemByName(sceneName));
-    if(scene)
+    if (scene)
         setCurrentScene(scene);
 }
 
@@ -229,27 +235,27 @@ void
 Game::setGameProject(GluonEngine::GameProject * newGameProject)
 {
     DEBUG_FUNC_NAME
-    if(d->gameProject)
+    if (d->gameProject)
     {
-        if(d->currentScene)
+        if (d->currentScene)
             d->currentScene->stopAll();
         delete d->gameProject;
     }
 
     d->gameProject = newGameProject;
 
-    if(!d->gameProject->entryPoint())
+    if (!d->gameProject->entryPoint())
     {
         DEBUG_TEXT(QString("Entry point invalid, attempting to salvage"))
         Scene *scene = GamePrivate::findSceneInChildren(d->gameProject);
-        if(scene)
+        if (scene)
         {
             d->gameProject->setEntryPoint(scene);
             DEBUG_TEXT(QString("Entry point salvaged by resetting to first Scene in project - %1").arg(scene->fullyQualifiedName()))
         }
     }
 
-    if(d->gameProject->entryPoint())
+    if (d->gameProject->entryPoint())
     {
         DEBUG_TEXT(QString("Set the gameproject to %1 with the entry point %2").arg(d->gameProject->name()).arg(d->gameProject->entryPoint()->name()))
     }

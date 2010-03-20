@@ -34,26 +34,26 @@ namespace GluonAudio
 
     class GLUON_AUDIO_EXPORT SoundReader
     {
-    public:
-        SoundReader(const QString& fileName);
-        ~SoundReader();
+        public:
+            SoundReader(const QString& fileName);
+            ~SoundReader();
 
-        QString format() const;
-        bool canRead() const;
-        static QStringList supportedSoundFormats() ;
-        QString fileName() const;
-        ALuint alBuffer();
-        Buffer *buffer();
+            QString format() const;
+            bool canRead() const;
+            static QStringList supportedSoundFormats() ;
+            QString fileName() const;
+            ALuint alBuffer();
+            Buffer *buffer();
 
-    protected:
-        ALuint fromWav();
-        ALuint fromOgg();
+        protected:
+            ALuint fromWav();
+            ALuint fromOgg();
 
-    private:
-        Q_DISABLE_COPY(SoundReader)
+        private:
+            Q_DISABLE_COPY(SoundReader)
 
-        class SoundReaderPrivate;
-        SoundReaderPrivate * const d;
+            class SoundReaderPrivate;
+            SoundReaderPrivate * const d;
 
     };
 }

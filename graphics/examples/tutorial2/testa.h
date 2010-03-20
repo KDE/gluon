@@ -6,14 +6,14 @@
 
 class Testa : public QWidget
 {
-    Q_OBJECT
-public:
-    Testa(QWidget * parent=0);
-public slots:
-    void test();
-private:
-    double a;
-    GluonGraphics::Item * item ;
+        Q_OBJECT
+    public:
+        Testa(QWidget * parent = 0);
+    public slots:
+        void test();
+    private:
+        double a;
+        GluonGraphics::Item * item ;
 
 
 

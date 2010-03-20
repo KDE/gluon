@@ -8,9 +8,9 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT IcoSphereMesh: public Mesh
     {
-    public:
-        IcoSphereMesh(QObject * parent=0);
-        void setIcoSphere(float radius, int division);
+        public:
+            IcoSphereMesh(QObject * parent = 0);
+            void setIcoSphere(float radius, int division);
     };
 }
 

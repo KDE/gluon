@@ -2,7 +2,7 @@
 namespace GluonGraphics
 {
     Mesh::Mesh(QObject * parent)
-        :QObject(parent)
+            : QObject(parent)
     {
         m_gl_mode = GL_POLYGON;
         m_color = Qt::white;
@@ -70,8 +70,9 @@ namespace GluonGraphics
     }
     void Mesh::computeGeometry()
     {
-        m_center = QVector3D(0,0,0);
-        foreach(const Vertex &p, m_vector) {
+        m_center = QVector3D(0, 0, 0);
+        foreach(const Vertex &p, m_vector)
+        {
             m_center += QVector3D(p.x(), p.y(), p.z());
         }
         m_center.setX(m_center.x() / vertexCount());
@@ -81,14 +82,14 @@ namespace GluonGraphics
     //-------------------------------------------
     void Mesh::setColor(const QColor& col)
     {
-        for ( int i=0; i<vertexes()->size(); ++i)
+        for (int i = 0; i < vertexes()->size(); ++i)
             (*vertexes())[i].setColor(col);
         m_color = col;
     }
     //-------------------------------------------
     void Mesh::setAlpha(const float& alpha)
     {
-        for ( int i=0; i<vertexes()->size(); ++i)
+        for (int i = 0; i < vertexes()->size(); ++i)
             (*vertexes())[i].setAlpha(alpha);
 
         m_alpha = alpha;
@@ -105,17 +106,17 @@ namespace GluonGraphics
     //------------------------------------------------------------
     void Mesh::setTexture(const QPixmap& pix)
     {
-        m_texture= new Texture(pix);
+        m_texture = new Texture(pix);
     }
     //------------------------------------------------------------
     void Mesh::setTexture(const QImage& img)
     {
-        m_texture= new Texture(img);
+        m_texture = new Texture(img);
     }
     //------------------------------------------------------------
     void Mesh::setTexture(const QString& path)
     {
-        m_texture =new Texture(path);
+        m_texture = new Texture(path);
     }
     //------------------------------------------------------------
 

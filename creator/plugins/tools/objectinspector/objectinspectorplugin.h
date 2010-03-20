@@ -19,15 +19,17 @@
 
 #include <plugin.h>
 
-namespace Gluon {
-
-namespace Creator {
-
-class ObjectInspectorPlugin : public Gluon::Creator::Plugin
+namespace Gluon
 {
-};
 
-}
+    namespace Creator
+    {
+
+        class ObjectInspectorPlugin : public Gluon::Creator::Plugin
+        {
+        };
+
+    }
 
 }
 

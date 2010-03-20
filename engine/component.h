@@ -57,16 +57,16 @@ namespace GluonEngine
      */
     class GLUON_ENGINE_EXPORT Component : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        Q_PROPERTY(QString description READ description WRITE setDescription)
-        Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
-        // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
+            Q_OBJECT
+            Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
+            // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
 
         public:
             Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
-            
+
             /**
             * If you wish to be able to use your objects as properties, make sure
             * to implement this function to return a QVariant which is of the type
@@ -103,7 +103,10 @@ namespace GluonEngine
              * @param timeLapse The number of milliseconds passed since the last update
              * @see Game::runGame, update
              */
-            virtual void draw(int timeLapse = 0) { Q_UNUSED(timeLapse) };
+            virtual void draw(int timeLapse = 0)
+            {
+                Q_UNUSED(timeLapse)
+            };
             /**
              * The stop function is run once when the gameloop is stopped.
              * Use it for removing temporary data between runs. Reimplement

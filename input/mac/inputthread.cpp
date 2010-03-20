@@ -11,7 +11,7 @@
 namespace GluonInput
 {	
 	InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
-	: QThread(parent)
+		: QThread(parent)
 	{   
 		d = new InputThreadPrivate();
 		d->m_device = pDevice;

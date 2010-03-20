@@ -38,23 +38,26 @@ namespace GluonEngine
     class I : public QThread
     {
         public:
-            static void sleep(unsigned long secs) {
+            static void sleep(unsigned long secs)
+            {
                 QThread::sleep(secs);
             }
-            static void msleep(unsigned long msecs) {
+            static void msleep(unsigned long msecs)
+            {
                 QThread::msleep(msecs);
             }
-            static void usleep(unsigned long usecs) {
+            static void usleep(unsigned long usecs)
+            {
                 QThread::usleep(usecs);
             }
     };
 
     class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
-        Q_OBJECT
-        Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
-        //TODO Fix this once moc doesnt choke on namespaces anymore
-        //Q_PROPERTY(GluonCore::GameProject* gameProject READ gameProject WRITE setGameProject)
+            Q_OBJECT
+            Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
+            //TODO Fix this once moc doesnt choke on namespaces anymore
+            //Q_PROPERTY(GluonCore::GameProject* gameProject READ gameProject WRITE setGameProject)
 
         public:
             int getCurrentTick();
@@ -75,7 +78,10 @@ namespace GluonEngine
             void setCurrentScene(Scene * newCurrentScene);
             void setCurrentScene(const QString& sceneName);
 
-            void runGame() { this->runGameFixedUpdate(); }
+            void runGame()
+            {
+                this->runGameFixedUpdate();
+            }
             /**
              * Run the game at full framerate (with an optional maximum number of skipped frames), but with a fixed game update rate, defaulting to 25 updates per second
              * @param   int updatesPerSecond    The number of updates per second

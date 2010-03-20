@@ -6,18 +6,18 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT TextItem : public Item
     {
-    public:
-        explicit TextItem(const QString& txt,const QFont& fnt= QFont(),QObject *parent = 0);
-void setText(const QString& txt);
-void setFont(const QFont& fnt);
-const QString& text();
-const QFont& font();
+        public:
+            explicit TextItem(const QString& txt, const QFont& fnt = QFont(), QObject *parent = 0);
+            void setText(const QString& txt);
+            void setFont(const QFont& fnt);
+            const QString& text();
+            const QFont& font();
 
-    protected:
-bool initTexture();
-    private:
-        QFont mFont;
-        QString mText;
+        protected:
+            bool initTexture();
+        private:
+            QFont mFont;
+            QString mText;
 
 
 

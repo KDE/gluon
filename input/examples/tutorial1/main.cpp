@@ -29,39 +29,50 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	qDebug()<<"Number of devices available : "         << GluonInput::InputDetection::instance()->deviceCount();
-	qDebug()<<"Number of keyboards available : "       << GluonInput::InputDetection::instance()->keyboardCount();
-	qDebug()<<"Number of mice available : "          << GluonInput::InputDetection::instance()->mouseCount();
-	qDebug()<<"Number of joysticks available : "       << GluonInput::InputDetection::instance()->joystickCount();
-	qDebug()<<"Number of tablets available : "         << GluonInput::InputDetection::instance()->tabletCount();
-	qDebug()<<"Number of unknown devices available : "  << GluonInput::InputDetection::instance()->unknownDeviceCount();
+    qDebug() << "Number of devices available : "         << GluonInput::InputDetection::instance()->deviceCount();
+    qDebug() << "Number of keyboards available : "       << GluonInput::InputDetection::instance()->keyboardCount();
+    qDebug() << "Number of mice available : "          << GluonInput::InputDetection::instance()->mouseCount();
+    qDebug() << "Number of joysticks available : "       << GluonInput::InputDetection::instance()->joystickCount();
+    qDebug() << "Number of tablets available : "         << GluonInput::InputDetection::instance()->tabletCount();
+    qDebug() << "Number of unknown devices available : "  << GluonInput::InputDetection::instance()->unknownDeviceCount();
 
-	foreach(GluonInput::InputDevice * input, GluonInput::InputDetection::instance()->inputList())
-	{
+    foreach(GluonInput::InputDevice * input, GluonInput::InputDetection::instance()->inputList())
+    {
         qDebug() << input->deviceName();
 
-        switch ( input->deviceType())
+        switch (input->deviceType())
         {
-            case GluonInput::KeyBoardDevice : qDebug()<<"this is a keyboard"; break;
-            case GluonInput::MouseDevice : qDebug()<<"this is a mouse"; break;
-            case GluonInput::JoystickDevice : qDebug()<<"this is a joystick"; break;
-            case GluonInput::TabletDevice : qDebug()<<"this is a tablet"; break;
-            case GluonInput::UnknownDevice: qDebug()<<"this is an unknown device"; break;
-            default:break;
+            case GluonInput::KeyBoardDevice :
+                qDebug() << "this is a keyboard";
+                break;
+            case GluonInput::MouseDevice :
+                qDebug() << "this is a mouse";
+                break;
+            case GluonInput::JoystickDevice :
+                qDebug() << "this is a joystick";
+                break;
+            case GluonInput::TabletDevice :
+                qDebug() << "this is a tablet";
+                break;
+            case GluonInput::UnknownDevice:
+                qDebug() << "this is an unknown device";
+                break;
+            default:
+                break;
         }
         // Now we can show the capability of inputs...This example show the buttons capabilities
-        foreach (int buttonCode, input->buttonCapabilities())
-        qDebug()<<"BUTTON : "<<buttonCode<<"->"<< GluonInput::Code::buttonName(buttonCode);
+        foreach(int buttonCode, input->buttonCapabilities())
+        qDebug() << "BUTTON : " << buttonCode << "->" << GluonInput::Code::buttonName(buttonCode);
 
-        foreach (int axis, input->absAxisCapabilities())
-        qDebug()<<"ABSOLUTE AXIS "<<axis<<"->"<< GluonInput::Code::absAxisName(axis);
+        foreach(int axis, input->absAxisCapabilities())
+        qDebug() << "ABSOLUTE AXIS " << axis << "->" << GluonInput::Code::absAxisName(axis);
 
-        foreach (int axis, input->relAxisCapabilities())
-        qDebug()<<"RELATIF AXIS" <<axis<<"->"<< GluonInput::Code::relAxisName(axis);
+        foreach(int axis, input->relAxisCapabilities())
+        qDebug() << "RELATIF AXIS" << axis << "->" << GluonInput::Code::relAxisName(axis);
 
 
 
-        qDebug()<<"===========================================================";
+        qDebug() << "===========================================================";
 
     }
 

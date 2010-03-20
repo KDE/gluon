@@ -19,28 +19,29 @@
 
 #include "widgets/propertywidgetitem.h"
 
-namespace GluonCreator {
-
-class VectorPropertyWidgetItem : public PropertyWidgetItem
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        VectorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-        ~VectorPropertyWidgetItem();
-        
-        virtual QList<QString> supportedDataTypes() const;
-        virtual PropertyWidgetItem* instantiate();
 
-    public slots:
-        void setEditValue(const QVariant& value);
-        void xValueChanged(double value);
-        void yValueChanged(double value);
-        void zValueChanged(double value);
+    class VectorPropertyWidgetItem : public PropertyWidgetItem
+    {
+            Q_OBJECT
+        public:
+            VectorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~VectorPropertyWidgetItem();
 
-    private:
-        class VectorPropertyWidgetItemPrivate;
-        VectorPropertyWidgetItemPrivate* d;
-};
+            virtual QList<QString> supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
+
+        public slots:
+            void setEditValue(const QVariant& value);
+            void xValueChanged(double value);
+            void yValueChanged(double value);
+            void zValueChanged(double value);
+
+        private:
+            class VectorPropertyWidgetItemPrivate;
+            VectorPropertyWidgetItemPrivate* d;
+    };
 
 }
 

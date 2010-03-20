@@ -28,7 +28,7 @@ REGISTER_OBJECTTYPE(GluonEngine, Scene)
 using namespace GluonEngine;
 
 Scene::Scene(QObject * parent)
-    : Asset(parent)
+        : Asset(parent)
 {
     d = new ScenePrivate(this);
     savableDirty = false;
@@ -42,7 +42,11 @@ Scene::~Scene()
 void
 Scene::startAll()
 {
-    sceneContents()->start();
+    if (!d->sceneContentsStarted)
+    {
+        sceneContents()->start();
+        d->sceneContentsStarted = true;
+    }
 }
 void
 Scene::updateAll(int elapsedMilliseconds)
@@ -58,13 +62,17 @@ Scene::drawAll(int timeLapse)
 void
 Scene::stopAll()
 {
-    sceneContents()->stop();
+    if (d->sceneContentsStarted)
+    {
+        sceneContents()->stop();
+        d->sceneContentsStarted = false;
+    }
 }
 
 void
 Scene::setFile(const QUrl &newFile)
 {
-    if(!savableDirty)
+    if (!savableDirty)
         d->unloadContents();
     GluonEngine::Asset::setFile(newFile);
 }
@@ -85,7 +93,7 @@ Scene::contentsToGDL()
 GameObject*
 Scene::sceneContents()
 {
-    if(!d->sceneContentsLoaded && !savableDirty)
+    if (!d->sceneContentsLoaded && !savableDirty)
         d->loadContents(FileLocation(qobject_cast<GameProject*>(gameProject()), file()).location());
     return d->sceneContents;
 }

@@ -31,12 +31,12 @@ namespace
 {
     struct GluonVariantTypes
     {
-        public:
-            GluonVariantTypes()
-            {
-                qRegisterMetaType<QVector3D>("Vector3d");
-                qRegisterMetaType<QQuaternion>("Quaternion");
-            }
+public:
+        GluonVariantTypes()
+        {
+            qRegisterMetaType<QVector3D>("Vector3d");
+            qRegisterMetaType<QQuaternion>("Quaternion");
+        }
     };
 
     GluonVariantTypes gluonVariantTypes;

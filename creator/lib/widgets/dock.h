@@ -33,7 +33,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT Dock : public QDockWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             virtual ~Dock();

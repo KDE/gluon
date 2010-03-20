@@ -3,11 +3,11 @@
 namespace GluonGraphics
 {
     Transform::Transform(QObject * parent)
-        :QObject(parent)
+            : QObject(parent)
     {
-        m_scale = QVector3D(1,1,1);
-        m_orientation = QQuaternion(1,0,0,0);
-        m_position = QVector3D(0,0,0);
+        m_scale = QVector3D(1, 1, 1);
+        m_orientation = QQuaternion(1, 0, 0, 0);
+        m_position = QVector3D(0, 0, 0);
         m_angle = 0;
     }
     void  Transform::updateTransform()
@@ -21,9 +21,9 @@ namespace GluonGraphics
     void Transform::resetTransform()
     {
         m_matrix.setToIdentity();
-        m_position = QVector3D(0,0,0);
-        m_scale = QVector3D(1,1,1);
-        m_orientation = QQuaternion(1,0,0,0);
+        m_position = QVector3D(0, 0, 0);
+        m_scale = QVector3D(1, 1, 1);
+        m_orientation = QQuaternion(1, 0, 0, 0);
         m_angle = 0;
     }
     //------------------------------------------------------
@@ -35,7 +35,7 @@ namespace GluonGraphics
     }
 
     //------------------------------------------------------
-     QVector2D Transform::transform(const QVector2D &p)
+    QVector2D Transform::transform(const QVector2D &p)
     {
         QVector3D vect = m_matrix * QVector3D(p.x(), p.y(), Z2D);
         return QVector2D(vect.x(), vect.y());
@@ -47,9 +47,10 @@ namespace GluonGraphics
     QPolygonF Transform::transform(const QPolygonF &p)
     {
         QPolygonF poly;
-        foreach(const QPointF &point, p) {
-            QVector2D v = transform(QVector2D(point.x(),point.y()));
-            poly<<v.toPointF();
+        foreach(const QPointF &point, p)
+        {
+            QVector2D v = transform(QVector2D(point.x(), point.y()));
+            poly << v.toPointF();
         }
         return poly;
     }
@@ -71,12 +72,14 @@ namespace GluonGraphics
     }
     //------------------------------------------------------
 
-    QMatrix4x4 Transform::matrix(){
+    QMatrix4x4 Transform::matrix()
+    {
         return m_matrix;
     }
 
     //------------------------------------------------------
-    void Transform::setMatrix(const QMatrix4x4& m){
+    void Transform::setMatrix(const QMatrix4x4& m)
+    {
         m_matrix = m;
     }
     //------------------------------------------------------
@@ -87,7 +90,7 @@ namespace GluonGraphics
     //------------------------------------------------------
     void Transform::setScale(const QVector2D &s)
     {
-        m_scale = QVector3D(s.x(),s.y(),Z2D);
+        m_scale = QVector3D(s.x(), s.y(), Z2D);
     }
     //------------------------------------------------------
 
@@ -111,7 +114,7 @@ namespace GluonGraphics
 
     void Transform::setPosition(const QVector2D &p)
     {
-        m_position = QVector3D(p.x(),p.y(),Z2D);
+        m_position = QVector3D(p.x(), p.y(), Z2D);
     }
     //------------------------------------------------------
 
@@ -123,33 +126,36 @@ namespace GluonGraphics
 
     void Transform::setQuaternion(const QQuaternion &orientation)
     {
-    m_orientation = orientation;
+        m_orientation = orientation;
 
     }
     //------------------------------------------------------
 
-    void Transform::setRotation( const qreal &angle,const QVector3D &axis){
+    void Transform::setRotation(const qreal &angle, const QVector3D &axis)
+    {
 
-        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
+        m_orientation = QQuaternion::fromAxisAndAngle(axis, angle);
         m_angle = angle;
 
     }
     //------------------------------------------------------
 
-    void Transform::setRotation(const qreal &angle,const QVector2D &center){
+    void Transform::setRotation(const qreal &angle, const QVector2D &center)
+    {
 
-        QVector3D axis= QVector3D(center.x(),center.y(),1);
-        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
-        m_angle=angle;
+        QVector3D axis = QVector3D(center.x(), center.y(), 1);
+        m_orientation = QQuaternion::fromAxisAndAngle(axis, angle);
+        m_angle = angle;
 
     }
     //------------------------------------------------------
 
-    void Transform::setRotation(const qreal &angle){
+    void Transform::setRotation(const qreal &angle)
+    {
 
-        QVector3D axis= QVector3D(0,0,1);
-        m_orientation = QQuaternion::fromAxisAndAngle (axis, angle );
-        m_angle=angle;
+        QVector3D axis = QVector3D(0, 0, 1);
+        m_orientation = QQuaternion::fromAxisAndAngle(axis, angle);
+        m_angle = angle;
 
     }
     //------------------------------------------------------
@@ -162,7 +168,7 @@ namespace GluonGraphics
 
     void Transform::translate(const QVector2D &step)
     {
-        m_position += QVector3D(step.x(),step.y(),Z2D);
+        m_position += QVector3D(step.x(), step.y(), Z2D);
     }
     //------------------------------------------------------
 
@@ -186,7 +192,7 @@ namespace GluonGraphics
 
     void Transform::scale(const QVector2D &s)
     {
-        m_scale = QVector3D(s.x(),s.y(),Z2D);
+        m_scale = QVector3D(s.x(), s.y(), Z2D);
     }
     //------------------------------------------------------
     void Transform::scale(float x, float y)

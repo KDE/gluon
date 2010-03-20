@@ -22,12 +22,12 @@
 
 #include <QtGui/QSpinBox>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,IntPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, IntPropertyWidgetItem)
 
 using namespace GluonCreator;
 
 IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     QSpinBox *spinBox = new QSpinBox(this);
     setEditWidget(spinBox);

@@ -31,24 +31,24 @@ namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Capture : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
 
-    public:
-        explicit Capture(QString deviceName = QString(), QObject *parent = 0);
-        ~Capture();
+        public:
+            explicit Capture(QString deviceName = QString(), QObject *parent = 0);
+            ~Capture();
 
-        bool isAvailable() const;
+            bool isAvailable() const;
 
-        static QStringList deviceList();
+            static QStringList deviceList();
 
-        void record(int duration = 1000);
-        void save(const QString &fileName);
+            void record(int duration = 1000);
+            void save(const QString &fileName);
 
-    private:
-        Q_DISABLE_COPY(Capture)
+        private:
+            Q_DISABLE_COPY(Capture)
 
-        class CapturePrivate;
-        CapturePrivate * const d;
+            class CapturePrivate;
+            CapturePrivate * const d;
     };
 }
 

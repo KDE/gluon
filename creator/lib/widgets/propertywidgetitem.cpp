@@ -28,7 +28,11 @@ using namespace GluonCreator;
 class PropertyWidgetItem::PropertyWidgetItemPrivate
 {
     public:
-        PropertyWidgetItemPrivate() { editedObject = 0; editWidget = 0; }
+        PropertyWidgetItemPrivate()
+        {
+            editedObject = 0;
+            editWidget = 0;
+        }
 
         QObject *editedObject;
         QString propertyName;
@@ -36,7 +40,7 @@ class PropertyWidgetItem::PropertyWidgetItemPrivate
 };
 
 PropertyWidgetItem::PropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : QWidget(parent, f)
+        : QWidget(parent, f)
 {
     d = new PropertyWidgetItemPrivate;
 
@@ -85,7 +89,7 @@ void
 PropertyWidgetItem::setEditProperty(const QString& propertyName)
 {
     d->propertyName = propertyName;
-    if(d->editedObject)
+    if (d->editedObject)
         setEditValue(d->editedObject->property(propertyName.toUtf8()));
 }
 
@@ -99,7 +103,7 @@ PropertyWidgetItem::setEditWidget(QWidget* widget)
 void
 PropertyWidgetItem::setEditValue(const QVariant& value)
 {
-    if(d->editWidget)
+    if (d->editWidget)
         d->editWidget->setProperty("value", value);
 }
 
@@ -108,7 +112,7 @@ PropertyWidgetItem::valueChanged(QVariant value)
 {
     QVariant oldValue = d->editedObject->property(d->propertyName.toUtf8());
     d->editedObject->setProperty(d->propertyName.toUtf8(), value);
-    emit propertyChanged(d->propertyName, oldValue, value);
+    emit propertyChanged(d->editedObject, d->propertyName, oldValue, value);
 }
 
 #include "propertywidgetitem.moc"

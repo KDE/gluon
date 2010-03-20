@@ -19,10 +19,11 @@ Boston, MA 02110-1301, USA.
 #include <KLocalizedString>
 #include <typeinfo>
 
+#include <historymanager.h>
+#include <objectmanager.h>
 #include <core/debughelper.h>
 #include <engine/gameobject.h>
 #include <engine/component.h>
-#include <objectmanager.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
@@ -32,13 +33,13 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 {
     m_root = 0;
     setSupportedDragActions(Qt::MoveAction);
-    connect(ObjectManager::instance(), SIGNAL(newGameObject(GluonEngine::GameObject*)), SIGNAL(layoutChanged()));
+    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
 
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
 {
-    if(m_root)
+    if (m_root)
         return m_root->childGameObject(0);
     return 0;
 }
@@ -46,7 +47,7 @@ GluonEngine::GameObject* SceneModel::rootGameObject()
 
 void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 {
-    if(obj)
+    if (obj)
     {
         m_root = obj;
         reset();
@@ -55,14 +56,14 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 
 QVariant SceneModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid())
         return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         GluonEngine::GameObject *item = static_cast<GluonEngine::GameObject*>(index.internalPointer());
 
-        if(item)
+        if (item)
             return item->name();
     }
 
@@ -85,7 +86,7 @@ int SceneModel::rowCount(const QModelIndex& parent) const
     else
         parentItem = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
 
-    if(parentItem)
+    if (parentItem)
         return parentItem->childCount();
     return 0;
 }
@@ -97,7 +98,7 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
 
     GluonEngine::GameObject *childItem = static_cast<GluonEngine::GameObject*>(child.internalPointer());
 
-    if(!childItem)
+    if (!childItem)
         return QModelIndex();
 
     GluonEngine::GameObject *parentItem = childItem->parentGameObject();
@@ -138,9 +139,9 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 
 int SceneModel::rowIndex(GluonEngine::GameObject* object) const
 {
-    if(object)
+    if (object)
     {
-        if(object->parentGameObject())
+        if (object->parentGameObject())
         {
             return object->parentGameObject()->childIndex(object);
         }
@@ -173,7 +174,7 @@ SceneModel::mimeTypes() const
 
 QMimeData* SceneModel::mimeData(const QModelIndexList& indexes) const
 {
-    if(indexes.count() <= 0)
+    if (indexes.count() <= 0)
         return 0;
 
     QStringList types = mimeTypes();
@@ -196,13 +197,15 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
     Q_UNUSED(column)
     DEBUG_FUNC_NAME
 
-    if(action == Qt::IgnoreAction)
+    if (action == Qt::IgnoreAction)
         return false;
 
-    if(parent.isValid()) {
+    if (parent.isValid())
+    {
         GluonEngine::GameObject *gobj = qobject_cast<GluonEngine::GameObject*>((QObject*)parent.internalPointer());
 
-        if(!gobj) {
+        if (!gobj)
+        {
             gobj = m_root;
         }
 
@@ -211,7 +214,8 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
         }
 
-        if(data->hasFormat("application/gluon.text.componentclass")) {
+        if (data->hasFormat("application/gluon.text.componentclass"))
+        {
             QByteArray encodedData = data->data("application/gluon.text.componentclass");
             QDataStream stream(&encodedData, QIODevice::ReadOnly);
             QStringList newItems;
@@ -231,7 +235,8 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             }
         }
 
-        if(data->hasFormat("application/gluon.object.gameobject")) {
+        if (data->hasFormat("application/gluon.object.gameobject"))
+        {
             QList<GluonEngine::GameObject*> objects;
 
             QString dataString = data->data("application/gluon.object.gameobject");
@@ -242,7 +247,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             foreach(QString name, names)
             {
                 GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(project->findItemByName(name));
-                if(gobj)
+                if (gobj)
                     objects.append(gobj);
             }
 
@@ -256,10 +261,11 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 
 bool SceneModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if(!index.isValid())
+    if (!index.isValid())
         return false;
 
-    if (role == Qt::EditRole) {
+    if (role == Qt::EditRole)
+    {
         static_cast<GluonCore::GluonObject*>(index.internalPointer())->setName(value.toString());
         emit dataChanged(index, index);
         return true;
@@ -272,10 +278,11 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
     beginInsertRows(parent, row, row + count - 1);
 
     GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
-    if(!obj)
+    if (!obj)
         obj = m_root;
 
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i)
+    {
         obj->addChildAt(new GluonEngine::GameObject(), i);
     }
 
@@ -290,7 +297,7 @@ bool SceneModel::insertRows(int row, const QList<GluonEngine::GameObject*> &chil
     beginInsertRows(parent, row, row + count);
 
     GluonEngine::GameObject* pobj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
-    if(!pobj)
+    if (!pobj)
         pobj = m_root;
 
     int index = row;

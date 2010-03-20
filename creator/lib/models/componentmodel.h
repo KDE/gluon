@@ -24,18 +24,19 @@
 #include <QtGui/QStringListModel>
 #include "gluoncreator_macros.h"
 
-namespace GluonCreator {
-
-class GLUONCREATOR_EXPORT ComponentModel : public QStringListModel
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        ComponentModel(QObject * parent = 0);
 
-        virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-        virtual QStringList mimeTypes() const;
-        virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
-};
+    class GLUONCREATOR_EXPORT ComponentModel : public QStringListModel
+    {
+            Q_OBJECT
+        public:
+            ComponentModel(QObject * parent = 0);
+
+            virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+            virtual QStringList mimeTypes() const;
+            virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
+    };
 
 }
 

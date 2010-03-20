@@ -4,19 +4,19 @@
 #include "kcldetect.h"
 #include "kclinputevent.h"
 
-KCLPressButton::KCLPressButton( QWidget * parent)
-           :QPushButton(parent)
+KCLPressButton::KCLPressButton(QWidget * parent)
+        : QPushButton(parent)
 {
-    m_detection=false;
-    m_buttonMode=false;
-    m_absAxisMode=false;
-    m_relAxisMode=false;
-    m_code=-1;
-    connect(this,SIGNAL(clicked()),this,SLOT(startDetection()));
+    m_detection = false;
+    m_buttonMode = false;
+    m_absAxisMode = false;
+    m_relAxisMode = false;
+    m_code = -1;
+    connect(this, SIGNAL(clicked()), this, SLOT(startDetection()));
 
-    foreach ( KCLInput * input, KCLDetect::inputList())
+    foreach(KCLInput * input, KCLDetect::inputList())
     {
-        connect(input,SIGNAL(eventSent(KCLInputEvent*)),this,SLOT(inputEvent(KCLInputEvent*)));
+        connect(input, SIGNAL(eventSent(KCLInputEvent*)), this, SLOT(inputEvent(KCLInputEvent*)));
     }
 
     setText("press...");
@@ -24,50 +24,50 @@ KCLPressButton::KCLPressButton( QWidget * parent)
 
 void KCLPressButton::inputEvent(KCLInputEvent * event)
 {
-    if ( m_detection==true)
+    if (m_detection == true)
     {
 
 
-        if ( m_buttonMode)
+        if (m_buttonMode)
         {
 
-            if ( event->type() == QEvent::Type(KCL::Key))
-            {
-                m_currentInput  = qobject_cast<KCLInput*>(sender());
-#ifdef Q_WS_X11
-                setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
-#endif                
-                setText(KCLCode::buttonName(event->code()));
-                m_detection = false;
-                setEnabled(true);
-                m_code=event->code();
-                emit changed();
-                return;
-            }
-        }
-
-        if ( m_absAxisMode)
-        {
-
-            if ( event->type() == QEvent::Type(KCL::AbsoluAxis))
+            if (event->type() == QEvent::Type(KCL::Key))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
 #ifdef Q_WS_X11
                 setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
 #endif
-                setText(KCLCode::absAxisName(event->code()) );
+                setText(KCLCode::buttonName(event->code()));
                 m_detection = false;
                 setEnabled(true);
-                m_code=event->code();
+                m_code = event->code();
                 emit changed();
                 return;
             }
         }
 
-        if ( m_relAxisMode)
+        if (m_absAxisMode)
         {
 
-            if ( event->type() == QEvent::Type(KCL::RelativeAxis))
+            if (event->type() == QEvent::Type(KCL::AbsoluAxis))
+            {
+                m_currentInput  = qobject_cast<KCLInput*>(sender());
+#ifdef Q_WS_X11
+                setIcon(KCLCode::iconDevice(m_currentInput->deviceType()));
+#endif
+                setText(KCLCode::absAxisName(event->code()));
+                m_detection = false;
+                setEnabled(true);
+                m_code = event->code();
+                emit changed();
+                return;
+            }
+        }
+
+        if (m_relAxisMode)
+        {
+
+            if (event->type() == QEvent::Type(KCL::RelativeAxis))
             {
                 m_currentInput  = qobject_cast<KCLInput*>(sender());
 #ifdef Q_WS_X11
@@ -76,7 +76,7 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
                 setText(KCLCode::relAxisName(event->code()));
                 m_detection = false;
                 setEnabled(true);
-                m_code=event->code();
+                m_code = event->code();
                 emit changed();
                 return;
             }
@@ -85,7 +85,7 @@ void KCLPressButton::inputEvent(KCLInputEvent * event)
 }
 void KCLPressButton::startDetection()
 {
-    m_detection=true;
+    m_detection = true;
     setEnabled(false);
     setText("press...");
 

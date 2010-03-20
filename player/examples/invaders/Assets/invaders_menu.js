@@ -4,15 +4,19 @@ var ypos = 0.0;
 var ypos_increment = 1 - Math.random() * 2;
 var xpos = 0.0;
 var xpos_increment = 1 - Math.random() * 2;
+var timer = 0;
 
 function start() {
   
 }
 
 function update() {
-  if(GameObject.Key_Space.isActionHeld()) {
-    Game.setCurrentScene("Invaders.Game");
-  }
+  //if(GameObject.Key_Space.isActionHeld()) {
+  //  Game.setCurrentScene("Invaders.Game");
+  //}
+  timer += 1;
+  if(timer > 200)
+    Game.setCurrentScene("Invaders/Game");
 
   GameObject.setPosition(xpos, ypos, 1);
   

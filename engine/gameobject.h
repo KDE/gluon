@@ -35,13 +35,13 @@ namespace GluonEngine
 
     class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::GameObject);
-        Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_OBJECT
+            GLUON_OBJECT(GluonEngine::GameObject);
+            Q_PROPERTY(QString description READ description WRITE setDescription)
 
-        Q_PROPERTY(QVector3D position READ position WRITE setPosition)
-        Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
-        Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
+            Q_PROPERTY(QVector3D position READ position WRITE setPosition)
+            Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
+            Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
 
         public:
             enum TransformSpace

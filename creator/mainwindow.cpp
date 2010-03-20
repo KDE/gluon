@@ -31,23 +31,29 @@
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
+#include <engine/scene.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
 #include "lib/objectmanager.h"
+#include "lib/historymanager.h"
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
-#include <engine/scene.h>
+#include "lib/selectionmanager.h"
 
 using namespace GluonCreator;
 
 MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 {
+    m_modified = false;
+
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     PluginManager::instance()->setParent(this);
     ObjectManager::instance()->setParent(this);
+    HistoryManager::instance()->setParent(this);
+    SelectionManager::instance()->setParent(this);
 
     setupGame();
 
@@ -61,10 +67,12 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 
     setupGUI();
 
-    if(!fileName.isEmpty()) {
+    if (!fileName.isEmpty())
+    {
         openProject(fileName);
     }
-    else {
+    else
+    {
         //Show new project dialog.
     }
 }
@@ -94,7 +102,8 @@ void MainWindow::openProject(KUrl url)
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
-    if(!fileName.isEmpty()) {
+    if (!fileName.isEmpty())
+    {
         GluonEngine::GameProject* project = new GluonEngine::GameProject();
         project->loadFromFile(QUrl(fileName));
 
@@ -107,6 +116,7 @@ void MainWindow::openProject(const QString &fileName)
     }
     statusBar()->showMessage(i18n("Project successfully opened"));
     setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
+    HistoryManager::instance()->clear();
 }
 
 void MainWindow::saveProject()
@@ -116,18 +126,21 @@ void MainWindow::saveProject()
 
 void MainWindow::saveProject(const QString &fileName)
 {
-    if(!fileName.isEmpty())
+    if (!fileName.isEmpty())
     {
         statusBar()->showMessage(i18n("Saving project..."));
         GluonEngine::Game::instance()->gameProject()->setFilename(QUrl(fileName));
         QDir::setCurrent(KUrl(fileName).directory());
-        if(!GluonEngine::Game::instance()->gameProject()->saveToFile())
+        if (!GluonEngine::Game::instance()->gameProject()->saveToFile())
         {
             KMessageBox::error(this, i18n("Could not save file."));
             return;
         }
         statusBar()->showMessage(i18n("Project successfully saved."));
         setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
+        HistoryManager::instance()->setClean();
+
+        m_recentFiles->addUrl(KUrl(fileName));
     }
     else
     {
@@ -138,24 +151,44 @@ void MainWindow::saveProject(const QString &fileName)
 void MainWindow::saveProjectAs()
 {
     m_fileName = KFileDialog::getSaveFileName();
-    if(!m_fileName.isEmpty()) saveProject();
+    if (!m_fileName.isEmpty()) saveProject();
 }
 
 void MainWindow::setupGame()
 {
     GluonEngine::GameProject* project = new GluonEngine::GameProject(GluonEngine::Game::instance());
     project->setName(i18n("New Project"));
+    setCaption(i18n("%1 - Gluon Creator").arg(i18n("New Project")));
     GluonEngine::Game::instance()->setGameProject(project);
 
     GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
     GluonEngine::Game::instance()->setCurrentScene(root);
+    project->setEntryPoint(root);
 
-    connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(drawAll()));
+    HistoryManager::instance()->clear();
+    //connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(drawAll()));
+    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
 }
 
 void MainWindow::setupActions()
 {
     KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
+    KStandardAction::open(this, SLOT(openProject()), actionCollection());
+    KStandardAction::save(this, SLOT(saveProject()), actionCollection());
+    KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
+    KStandardAction::preferences(this, SLOT(showPreferences()), actionCollection());
+
+    KAction *undo = KStandardAction::undo(HistoryManager::instance(), SLOT(undo()), actionCollection());
+    undo->setEnabled(false);
+    connect(HistoryManager::instance(), SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
+
+    KAction *redo = KStandardAction::redo(HistoryManager::instance(), SLOT(redo()), actionCollection());
+    redo->setEnabled(false);
+    connect(HistoryManager::instance(), SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
+
+    connect(HistoryManager::instance(), SIGNAL(cleanChanged(bool)), SLOT(cleanChanged(bool)));
+
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openProject(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group("Recent Files"));
 
@@ -182,29 +215,24 @@ void MainWindow::setupActions()
     actionCollection()->addAction("stopGame", stop);
     stop->setEnabled(false);
     connect(stop, SIGNAL(triggered(bool)), SLOT(stopGame()));
-
-    KStandardAction::open(this, SLOT(openProject()), actionCollection());
-    KStandardAction::save(this, SLOT(saveProject()), actionCollection());
-    KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
-    KStandardAction::quit(this, SLOT(close()), actionCollection());
-    KStandardAction::preferences(this, SLOT(showPreferences()), actionCollection());
 }
 
 void MainWindow::showPreferences()
 {
-    if ( KConfigDialog::showDialog( "settings" ) )  {
+    if (KConfigDialog::showDialog("settings"))
+    {
         return;
     }
     ConfigDialog *dialog = new ConfigDialog(this, "settings", GluonCreator::Settings::self());
-    dialog->setAttribute( Qt::WA_DeleteOnClose );
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
 
 void MainWindow::playPauseGame(bool checked)
 {
-    if(checked)
+    if (checked)
     {
-        if(GluonEngine::Game::instance()->isRunning())
+        if (GluonEngine::Game::instance()->isRunning())
         {
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
@@ -215,7 +243,8 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
             actionCollection()->action("stopGame")->setEnabled(true);
-            QWidget* oldFocus = focusWidget();
+
+            //Set the focus to the entire window, so that we do not accidentally trigger actions
             setFocus();
 
             //Start the game loop
@@ -230,8 +259,6 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("stopGame")->setEnabled(false);
 
             GluonEngine::Game::instance()->currentScene()->startAll();
-
-            oldFocus->setFocus();
         }
     }
     else
@@ -246,4 +273,42 @@ void MainWindow::stopGame()
 {
     GluonEngine::Game::instance()->stopGame();
 }
+
+void MainWindow::historyChanged()
+{
+    GluonEngine::Game::instance()->drawAll();
+    GluonEngine::Game::instance()->currentScene()->savableDirty = true;
+    m_modified = true;
+
+    setCaption(i18n("%1 [modified]").arg(m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+}
+
+void MainWindow::cleanChanged(bool clean)
+{
+    if (clean)
+    {
+        m_modified = false;
+        setCaption(i18n("%1").arg(m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+    }
+}
+
+bool MainWindow::queryClose()
+{
+    if (m_modified)
+    {
+        int code = KMessageBox::questionYesNoCancel(this, i18n("The project has been changed. Do you want to save before closing?"), i18n("Save Before Closing?"));
+
+        if (code == KMessageBox::Cancel)
+            return false;
+
+        if (code == KMessageBox::No)
+            return true;
+
+        saveProject();
+        return true;
+    }
+
+    return true;
+}
+
 

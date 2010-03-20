@@ -43,17 +43,17 @@ namespace GluonEngine
      */
     class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
-        Q_OBJECT;
-        GLUON_OBJECT(GluonCore::GameProject);
+            Q_OBJECT;
+            GLUON_OBJECT(GluonCore::GameProject);
 
-        Q_PROPERTY(QString description READ description WRITE setDescription)
-        Q_PROPERTY(QUrl homepage READ homepage WRITE setHomepage)
-        Q_PROPERTY(QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo)
+            Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY(QUrl homepage READ homepage WRITE setHomepage)
+            Q_PROPERTY(QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo)
 
-        Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
+            Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
 
-        // Namespaced types do not work in Q_PROPERTY - workaround in constructor, getter and setter
-        //Q_PROPERTY(Gluon::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
+            // Namespaced types do not work in Q_PROPERTY - workaround in constructor, getter and setter
+            //Q_PROPERTY(Gluon::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:
             GameProject(QObject * parent = 0);

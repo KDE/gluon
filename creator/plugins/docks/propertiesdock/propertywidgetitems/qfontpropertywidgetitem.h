@@ -23,11 +23,11 @@ namespace GluonCreator
 {
     class QFontPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             QFontPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~QFontPropertyWidgetItem();
-            
+
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QList< QString > supportedDataTypes() const;
 

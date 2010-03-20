@@ -33,8 +33,8 @@ GluonObjectPrivate::GluonObjectPrivate()
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)
-    : QSharedData(other)
-    , name(other.name)
-    , gameProject(other.gameProject)
+        : QSharedData(other)
+        , name(other.name)
+        , gameProject(other.gameProject)
 {
 }

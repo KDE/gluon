@@ -34,14 +34,14 @@ namespace GluonAudio
 
     class CaptureDevice : public Device
     {
-    public:
-        explicit CaptureDevice(const QString &deviceName = QString(), int frequency = 44100, int format = AL_FORMAT_MONO16, int buffersize = 44100);
-        ~CaptureDevice();
+        public:
+            explicit CaptureDevice(const QString &deviceName = QString(), int frequency = 44100, int format = AL_FORMAT_MONO16, int buffersize = 44100);
+            ~CaptureDevice();
 
-        ALCint samples();
+            ALCint samples();
 
-        ALshort startCapture(ALCsizei samples);
-        void stopCapture();
+            ALshort startCapture(ALCsizei samples);
+            void stopCapture();
     };
 }
 

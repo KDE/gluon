@@ -21,7 +21,7 @@
 
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,ColorPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, ColorPropertyWidgetItem)
 
 using namespace GluonCreator;
 
@@ -36,7 +36,7 @@ class ColorPropertyWidgetItem::ColorPropertyWidgetItemPrivate
 ColorPropertyWidgetItem::ColorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
     d = new ColorPropertyWidgetItemPrivate;
-    
+
     d->button = new KColorButton(this);
     connect(d->button, SIGNAL(changed(const QColor&)), this, SLOT(colorValuechanged(const QColor&)));
     setEditWidget(d->button);

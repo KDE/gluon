@@ -37,87 +37,91 @@
 namespace GluonGraphics
 {
 
-class Fx;
-class GLUON_GRAPHICS_EXPORT Fx : public Program
-{
+    class Fx;
+    class GLUON_GRAPHICS_EXPORT Fx : public Program
+    {
 
-public:
-    Fx(const QString& vertexShader, const QString& fragmentShader);
-    Fx();
-};
+        public:
+            Fx(const QString& vertexShader, const QString& fragmentShader);
+            Fx();
+    };
 
-/* @short LightFx class
- *
- * Add Lighter . setAlpha between 1 and 10
- **/
-class LightFx: public Fx
-{
-public :
-        LightFx();
-void setAlpha(float alpha);
-float alpha(){
-    return m_alpha;
-}
- private:
-float m_alpha;
-};
+    /* @short LightFx class
+     *
+     * Add Lighter . setAlpha between 1 and 10
+     **/
+    class LightFx: public Fx
+    {
+        public :
+            LightFx();
+            void setAlpha(float alpha);
+            float alpha()
+            {
+                return m_alpha;
+            }
+        private:
+            float m_alpha;
+    };
 
-/* @short LightFx class
- *
- * Add Posterize effect . SetLevel between 1 and 20.
- **/
-class PosterizeFx : public Fx
-{
-public :
-        PosterizeFx();
-void setLevel(float level);
-float level(){
-    return m_level;
-}
-private:
-float m_level;
+    /* @short LightFx class
+     *
+     * Add Posterize effect . SetLevel between 1 and 20.
+     **/
+    class PosterizeFx : public Fx
+    {
+        public :
+            PosterizeFx();
+            void setLevel(float level);
+            float level()
+            {
+                return m_level;
+            }
+        private:
+            float m_level;
 
-};
-/* @short LightFx class
- *
- * Add Mosaic effect . SetLevel between 1 and 256.
- **/
-class MosaicFx : public Fx
-{
-public :
-        MosaicFx();
-void setTileSize(float t);
-  private:
-float m_tileSize;
-};
-/* @short KGrayScaleFx class
- *
- * change to gray
- **/
-class GrayScaleFx:public Fx
-{
-public:
-    GrayScaleFx();
-};
+    };
+    /* @short LightFx class
+     *
+     * Add Mosaic effect . SetLevel between 1 and 256.
+     **/
+    class MosaicFx : public Fx
+    {
+        public :
+            MosaicFx();
+            void setTileSize(float t);
+        private:
+            float m_tileSize;
+    };
+    /* @short KGrayScaleFx class
+     *
+     * change to gray
+     **/
+    class GrayScaleFx: public Fx
+    {
+        public:
+            GrayScaleFx();
+    };
 
-/* @short BlurFx class
- *
- * setBlur
- **/
-class BlurFx:public Fx
-{
-public:
-    BlurFx();
-    void setBlurLevel(QPointF blurLevel);
-    void setBlurLevel(float x, float y){
-    setBlurLevel(QPointF(x,y));
-    }
-    QPointF blurLevel(){
-    return m_blurLevel;
-    }
-    private:
-    QPointF m_blurLevel;
-};
+    /* @short BlurFx class
+     *
+     * setBlur
+     **/
+    class BlurFx: public Fx
+    {
+        public:
+            BlurFx();
+            void setBlurLevel(QPointF blurLevel);
+            void setBlurLevel(float x, float y)
+            {
+                setBlurLevel(QPointF(x, y));
+            }
+            QPointF blurLevel()
+            {
+                return m_blurLevel;
+            }
+        private:
+            QPointF m_blurLevel;
+    };
 
 } //namespace
 

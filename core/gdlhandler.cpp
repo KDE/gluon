@@ -40,7 +40,7 @@ GluonObject *
 GDLHandler::instantiateObject(QString className)
 {
     GluonObject * newObject = GluonObjectFactory::instance()->instantiateObjectByName(className);
-    if(!newObject)
+    if (!newObject)
         newObject = new GluonObject();
 
     return newObject;
@@ -55,7 +55,7 @@ GDLHandler::createObject(QStringList objectStringList, QObject * parent)
     QString currentPropertyName;
     foreach(const QString &item, objectStringList)
     {
-        switch(index)
+        switch (index)
         {
             case 0:
                 // Object type
@@ -69,9 +69,9 @@ GDLHandler::createObject(QStringList objectStringList, QObject * parent)
                 break;
             default:
                 // Everything else
-                if(currentPropertyName.isEmpty())
+                if (currentPropertyName.isEmpty())
                 {
-                    if(item.startsWith('{'))
+                    if (item.startsWith('{'))
                     {
                         // Items are parented automatically - see case 0 above
                         QList<GluonObject *> childList = parseGDL(item, createdObject);
@@ -113,33 +113,33 @@ GDLHandler::tokenizeObject(QString objectString)
     QStringList currentItem;
 
     QString::const_iterator i;
-    for(i = objectString.begin(); i != objectString.end(); ++i)
+    for (i = objectString.begin(); i != objectString.end(); ++i)
     {
-        if(!inItem)
+        if (!inItem)
         {
-            if(i->isSpace())
+            if (i->isSpace())
             {
                 // Just do nothing - whitespace should be ignored outside of items
             }
-            else if(i->toLower() == '{')
+            else if (i->toLower() == '{')
             {
                 inItem = true;
             }
         }
         else
         {
-            if(!inPropertyValue && !inPropertyName && !inChild && !inObjectDefinition)
+            if (!inPropertyValue && !inPropertyName && !inChild && !inObjectDefinition)
             {
-                if(!currentString.isEmpty())
+                if (!currentString.isEmpty())
                 {
                     currentItem.append(currentString.trimmed());
                     currentString.clear();
                 }
 
                 // Ignore whitespace as instructed, rar!
-                if(!i->isSpace())
+                if (!i->isSpace())
                 {
-                    if(i->toLower() == '}')
+                    if (i->toLower() == '}')
                     {
                         // Once we hit an end, we should stop looking at this item
                         // In other words - add the item to the list of items and make a new stringlist to work on...
@@ -147,7 +147,7 @@ GDLHandler::tokenizeObject(QString objectString)
                         tokenizedObject.append(theItem);
                         currentItem.clear();
                     }
-                    else if(i->toLower() == '{')
+                    else if (i->toLower() == '{')
                     {
                         // If we hit a start while already inside an item, we should simply start adding stuff
                         // until we hit the correct ending again
@@ -161,18 +161,18 @@ GDLHandler::tokenizeObject(QString objectString)
                 }
             }
 
-            if(inObjectDefinition)
+            if (inObjectDefinition)
             {
-                if(!inPropertyName && !inObjectName && !inObjectType)
+                if (!inPropertyName && !inObjectName && !inObjectType)
                 {
                     // Ignore spaces between the start { and the object type
-                    if(!i->isSpace())
+                    if (!i->isSpace())
                         inObjectType = true;
                 }
 
-                if(inObjectType)
+                if (inObjectType)
                 {
-                    if(i->toLower() == '(')
+                    if (i->toLower() == '(')
                     {
                         currentItem.append(currentString.trimmed());
                         currentString.clear();
@@ -182,9 +182,9 @@ GDLHandler::tokenizeObject(QString objectString)
                     else
                         currentString += i->unicode();
                 }
-                else if(inObjectName)
+                else if (inObjectName)
                 {
-                    if(i->toLower() == ')')
+                    if (i->toLower() == ')')
                     {
                         currentItem.append(currentString.trimmed());
                         currentString.clear();
@@ -194,38 +194,38 @@ GDLHandler::tokenizeObject(QString objectString)
                     else
                         currentString += i->unicode();
                 }
-                else if(inPropertyName)
+                else if (inPropertyName)
                 {
-                    if(!i->isSpace())
+                    if (!i->isSpace())
                         inObjectDefinition = false;
                 }
             }
-            else if(inChild)
+            else if (inChild)
             {
-                if(childEnded)
+                if (childEnded)
                 {
-                    if(!i->isSpace())
+                    if (!i->isSpace())
                     {
                         inChild = false;
                     }
                 }
                 else
                 {
-                    if(i->toLower() == '\\' && !beingEscaped)
+                    if (i->toLower() == '\\' && !beingEscaped)
                         beingEscaped = true;
                     else
                     {
                         currentString += i->unicode();
-                        if(!beingEscaped)
+                        if (!beingEscaped)
                         {
-                            if(i->toLower() == '{')
+                            if (i->toLower() == '{')
                             {
                                 ++extraBracketCounter;
                             }
-                            if(i->toLower() == '}')
+                            if (i->toLower() == '}')
                             {
                                 --extraBracketCounter;
-                                if(extraBracketCounter == -1)
+                                if (extraBracketCounter == -1)
                                 {
                                     // Now we're ready to look for more values, yay! ;)
                                     extraBracketCounter = 0;
@@ -242,23 +242,23 @@ GDLHandler::tokenizeObject(QString objectString)
                 }
             }
 
-            if(!inObjectDefinition && !inChild)
+            if (!inObjectDefinition && !inChild)
             {
-                if(inPropertyName)
+                if (inPropertyName)
                 {
                     // Read name until we hit a space, and after that, start reading the value...
-                    if(i->toLower() == '{')
+                    if (i->toLower() == '{')
                     {
                         inChild = true;
                         childEnded = false;
                     }
-                    else if(i->toLower() == '}')
+                    else if (i->toLower() == '}')
                     {
                         inPropertyName = false;
                         // Rewind the pointer to make it possible to catch the end brackets above
                         i--;
                     }
-                    else if(!i->isSpace())
+                    else if (!i->isSpace())
                     {
                         currentString += i->unicode();
                     }
@@ -270,15 +270,15 @@ GDLHandler::tokenizeObject(QString objectString)
                         inPropertyValue = true;
                     }
                 }
-                else if(inPropertyValue)
+                else if (inPropertyValue)
                 {
-                    if(i->toLower() == '\\' && !beingEscaped)
+                    if (i->toLower() == '\\' && !beingEscaped)
                         beingEscaped = true;
                     else
                     {
                         // Read the value until the value ends, wooh! ;)
                         currentString += i->unicode();
-                        if(!beingEscaped && i->toLower() == ')')
+                        if (!beingEscaped && i->toLower() == ')')
                         {
                             currentItem.append(currentString.trimmed());
                             currentString.clear();
@@ -288,10 +288,10 @@ GDLHandler::tokenizeObject(QString objectString)
                             // isn't a space (since the propertyname search doesn't know how to handle that)
                             forever
                             {
-                                if(i == objectString.end())
+                                if (i == objectString.end())
                                     break;
                                 ++i;
-                                if(i->isSpace())
+                                if (i->isSpace())
                                     continue;
                                 --i;
                                 break;
@@ -330,7 +330,7 @@ GDLHandler::serializeGDL(QList<const GluonObject*> serializeThis)
     QString serializedData;
 
     foreach(const GluonObject* theObject, serializeThis)
-        serializedData += theObject->toGDL();
+    serializedData += theObject->toGDL();
 
     return serializedData;
 }

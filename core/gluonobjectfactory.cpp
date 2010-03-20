@@ -64,12 +64,12 @@ void
 GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
 {
     DEBUG_BLOCK
-    if(newObjectType)
+    if (newObjectType)
     {
         DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(newObjectType->metaObject()->className()).arg(typeID));
         m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
         m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
-        
+
         foreach(const QString &mimetype, newObjectType->supportedMimeTypes())
         {
             DEBUG_TEXT(QString("Adding mimetype %1 to the index").arg(mimetype));
@@ -85,10 +85,10 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
     DEBUG_BLOCK
     QString fullObjectTypeName(objectTypeName);
-    if(!objectTypeName.contains("::"))
-         fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
+    if (!objectTypeName.contains("::"))
+        fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
 
-    if(m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
+    if (m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
         return m_objectTypes[fullObjectTypeName]->instantiate();
 
     DEBUG_TEXT(QString("Object type name not found in factory!"));
@@ -96,7 +96,7 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     return 0;
 }
 
-GluonObject* 
+GluonObject*
 GluonObjectFactory::instantiateObjectByMimetype(const QString& objectMimeType)
 {
     return instantiateObjectByName(m_mimeTypes[objectMimeType]);
@@ -106,8 +106,35 @@ QVariant
 GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
 {
     QString type = original.typeName();
-    type = type.left(type.length() - 1);
-    return m_objectTypes[type]->toVariant(newValue);
+
+    if (type.endsWith('*'))
+    {
+        //Remove the * from the type
+        type = type.left(type.length() - 1);
+    }
+
+    if (m_objectTypes.contains(type))
+        return m_objectTypes[type]->toVariant(newValue);
+
+    return QVariant();
+}
+
+QVariant
+GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
+{
+    DEBUG_BLOCK
+    QString typeName = type;
+    if (type.endsWith('*'))
+        typeName = type.left(type.length() - 1);
+
+    if (m_objectTypes.contains(typeName))
+    {
+        return m_objectTypes[typeName]->toVariant(newValue);
+    }
+
+    DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
+
+    return QVariant();
 }
 
 void
@@ -129,45 +156,45 @@ GluonObjectFactory::loadPlugins()
         pluginDir.cdUp();
     }
 #endif
-    if(pluginDir.cd("plugins"))
+    if (pluginDir.cd("plugins"))
         pluginDirs.append(pluginDir);
 
-    if(pluginDir.cd("/usr/lib"))
+    if (pluginDir.cd("/usr/lib"))
         pluginDirs.append(pluginDir);
 
-    if(pluginDir.cd("/usr/lib64"))
+    if (pluginDir.cd("/usr/lib64"))
         pluginDirs.append(pluginDir);
 
-    if(pluginDir.cd("/usr/lib/gluon"))
+    if (pluginDir.cd("/usr/lib/gluon"))
         pluginDirs.append(pluginDir);
 
-    if(pluginDir.cd("/usr/lib64/gluon"))
+    if (pluginDir.cd("/usr/lib64/gluon"))
         pluginDirs.append(pluginDir);
 
-    if(pluginDir.cd("/usr/local/lib/gluon"))
+    if (pluginDir.cd("/usr/local/lib/gluon"))
         pluginDirs.append(pluginDir);
 
-    if(QCoreApplication::applicationDirPath() != QString("/usr/bin"))
+    if (QCoreApplication::applicationDirPath() != QString("/usr/bin"))
     {
         DEBUG_TEXT("Custom install prefix found");
-        if(pluginDir.cd(QCoreApplication::applicationDirPath()))
+        if (pluginDir.cd(QCoreApplication::applicationDirPath()))
         {
             DEBUG_TEXT("Successfully entered custom install prefix");
-            if(pluginDir.cd("../lib"))
+            if (pluginDir.cd("../lib"))
                 pluginDirs.append(pluginDir);
 
-            if(pluginDir.cd("../lib64"))
+            if (pluginDir.cd("../lib64"))
                 pluginDirs.append(pluginDir);
 
-            if(pluginDir.cd("../lib/gluon"))
+            if (pluginDir.cd("../lib/gluon"))
                 pluginDirs.append(pluginDir);
 
-            if(pluginDir.cd("../../lib64/gluon"))
+            if (pluginDir.cd("../../lib64/gluon"))
                 pluginDirs.append(pluginDir);
         }
     }
 
-    if(pluginDir.cd(QDir::homePath() + "/gluonplugins"))
+    if (pluginDir.cd(QDir::homePath() + "/gluonplugins"))
         pluginDirs.append(pluginDir);
 
     DEBUG_TEXT(QString("Number of plugin locations: %1").arg(pluginDirs.count()));
@@ -176,20 +203,20 @@ GluonObjectFactory::loadPlugins()
         DEBUG_TEXT(QString("Looking for pluggable components in %1").arg(theDir.absolutePath()));
         DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
 
-        foreach (QString fileName, theDir.entryList(QDir::Files))
+        foreach(QString fileName, theDir.entryList(QDir::Files))
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
-            if(!fileName.contains("gluon"))
+            if (!fileName.contains("gluon"))
                 continue;
 
             // Don't attempt to load non-libraries
-            if(!QLibrary::isLibrary(theDir.absoluteFilePath(fileName)))
+            if (!QLibrary::isLibrary(theDir.absoluteFilePath(fileName)))
                 continue;
 
             QPluginLoader loader(theDir.absoluteFilePath(fileName));
             loader.load();
 
-            if(!loader.isLoaded())
+            if (!loader.isLoaded())
             {
                 DEBUG_TEXT(loader.errorString());
             }

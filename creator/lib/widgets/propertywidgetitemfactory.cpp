@@ -35,7 +35,7 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
     // First check if there's any PIW which supports the type
     foreach(const QString &thisType, piwTypes.keys())
     {
-        if(thisType == type)
+        if (thisType == type)
         {
             PropertyWidgetItem* item = piwTypes[thisType]->instantiate();
             item->setParent(parent);
@@ -45,16 +45,16 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
 
     // Check whether we've got an item which uses an enum to grab its value
     const QMetaObject * mo = object->metaObject();
-    if(mo)
+    if (mo)
     {
-        if(mo->enumeratorCount() > 0)
+        if (mo->enumeratorCount() > 0)
         {
-            for(int i = 0; i < mo->enumeratorCount(); ++i)
+            for (int i = 0; i < mo->enumeratorCount(); ++i)
             {
                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
             }
         }
-        if(mo->indexOfEnumerator(type.toUtf8()) > -1)
+        if (mo->indexOfEnumerator(type.toUtf8()) > -1)
         {
             return new EnumPropertyWidgetItem(type, parent);
         }
@@ -64,7 +64,7 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
     QString typeTruncated = type.left(type.length() - 1);
     foreach(const QString &thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames())
     {
-        if(thisType == typeTruncated)
+        if (thisType == typeTruncated)
         {
             return new GluonObjectPropertyWidgetItem(typeTruncated, parent);
         }
@@ -79,7 +79,7 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
 void
 PropertyWidgetItemFactory::registerNewPIW(PropertyWidgetItem* newPIW)
 {
-    if(newPIW)
+    if (newPIW)
     {
         foreach(const QString &type, newPIW->supportedDataTypes())
         {

@@ -26,29 +26,33 @@ namespace GluonCreator
     class EnumPWIPrivate
     {
         public:
-            EnumPWIPrivate() { comboBox = 0; editObject = 0; };
+            EnumPWIPrivate()
+            {
+                comboBox = 0;
+                editObject = 0;
+            };
             ~EnumPWIPrivate() {};
-            
+
             QComboBox * comboBox;
             QObject * editObject;
             QString typeName;
             QMetaEnum metaEnum;
-            
+
             void setupComboBox()
             {
                 DEBUG_BLOCK
-                if(!editObject)
+                if (!editObject)
                     return;
-                
+
                 const QMetaObject * mo = editObject->metaObject();
                 int enumIndex = mo->indexOfEnumerator(typeName.toUtf8());
-                if(enumIndex > -1)
+                if (enumIndex > -1)
                     metaEnum = mo->enumerator(enumIndex);
                 else
                     metaEnum = QMetaEnum();
-                
+
                 DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
-                for(int i = 0; i < metaEnum.keyCount(); ++i)
+                for (int i = 0; i < metaEnum.keyCount(); ++i)
                 {
                     comboBox->addItem(QString(metaEnum.key(i)), QVariant(i));
                 }
@@ -59,11 +63,11 @@ namespace GluonCreator
 using namespace GluonCreator;
 
 EnumPropertyWidgetItem::EnumPropertyWidgetItem(const QString& typeName, QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     d = new EnumPWIPrivate();
     d->typeName = typeName;
-    
+
     d->comboBox = new QComboBox(this);
     layout()->addWidget(d->comboBox);
 }

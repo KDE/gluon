@@ -29,7 +29,6 @@ REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
 using namespace GluonEngine;
 
-Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 Q_DECLARE_METATYPE(GluonEngine::Asset*);
 
 void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
@@ -38,45 +37,44 @@ class QtScriptComponent::QtScriptComponentPrivate
     public:
         QtScriptComponentPrivate()
         {
-			QScriptValue extensionObject = engine.globalObject();
-			qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
-		}
+            QScriptValue extensionObject = engine.globalObject();
+            qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
+            script = 0;
+        }
 
         QScriptEngine engine;
+
+        GluonEngine::Asset* script;
 };
 
-QtScriptComponent::QtScriptComponent ( QObject* parent ) : Component ( parent )
+QtScriptComponent::QtScriptComponent(QObject* parent) : Component(parent)
 {
     d = new QtScriptComponentPrivate;
-
-    QVariant somethingEmpty;
-    Asset *theObject = 0;
-    somethingEmpty.setValue<GluonEngine::Asset*>(theObject);
-    setProperty("script", somethingEmpty);
 }
 
-QtScriptComponent::QtScriptComponent ( const QtScriptComponent& other )
-    : Component ( other ),
-    d(other.d)
+QtScriptComponent::QtScriptComponent(const QtScriptComponent& other)
+        : Component(other),
+        d(other.d)
 {
 }
 
 QtScriptComponent::~QtScriptComponent()
 {
-
+    delete d;
 }
 
 void QtScriptComponent::start()
 {
     DEBUG_FUNC_NAME
-    Asset* asset = script();
-    if(!asset) return;
+    if (!d->script) return;
 
-    asset->load();
+    d->script->load();
 
-    if(asset->data()->hasText()) {
-        d->engine.evaluate(asset->data()->text(), gameObject()->name());
-        if(d->engine.uncaughtException().isValid()) {
+    if (d->script->data()->hasText())
+    {
+        d->engine.evaluate(d->script->data()->text(), gameObject()->name());
+        if (d->engine.uncaughtException().isValid())
+        {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
             return;
@@ -92,9 +90,11 @@ void QtScriptComponent::start()
         d->engine.globalObject().setProperty("Game", game);
 
         QScriptValue startFunc = d->engine.globalObject().property("start");
-        if(startFunc.isFunction()) {
+        if (startFunc.isFunction())
+        {
             startFunc.call(QScriptValue());
-            if(d->engine.uncaughtException().isValid()) {
+            if (d->engine.uncaughtException().isValid())
+            {
                 qDebug() << d->engine.uncaughtException().toString();
                 qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
             }
@@ -102,10 +102,11 @@ void QtScriptComponent::start()
     }
 }
 
-void QtScriptComponent::draw ( int timeLapse )
+void QtScriptComponent::draw(int timeLapse)
 {
     QScriptValue drawFunc = d->engine.globalObject().property("draw");
-    if(drawFunc.isFunction()) {
+    if (drawFunc.isFunction())
+    {
         QScriptValue component = d->engine.newQObject(this);
         d->engine.globalObject().setProperty("Component", component);
 
@@ -116,17 +117,18 @@ void QtScriptComponent::draw ( int timeLapse )
         d->engine.globalObject().setProperty("Game", game);
 
         drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
-        if(d->engine.uncaughtException().isValid()) {
+        if (d->engine.uncaughtException().isValid())
+        {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
         }
     }
 }
 
-void QtScriptComponent::update ( int elapsedMilliseconds )
+void QtScriptComponent::update(int elapsedMilliseconds)
 {
     QScriptValue updateFunc = d->engine.globalObject().property("update");
-    if(updateFunc.isFunction())
+    if (updateFunc.isFunction())
     {
         QScriptValue component = d->engine.newQObject(this);
         d->engine.globalObject().setProperty("Component", component);
@@ -138,7 +140,8 @@ void QtScriptComponent::update ( int elapsedMilliseconds )
         d->engine.globalObject().setProperty("Game", game);
 
         updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
-        if(d->engine.uncaughtException().isValid()) {
+        if (d->engine.uncaughtException().isValid())
+        {
             qDebug() << d->engine.uncaughtException().toString();
             qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
         }
@@ -147,15 +150,12 @@ void QtScriptComponent::update ( int elapsedMilliseconds )
 
 Asset* QtScriptComponent::script()
 {
-    GluonObject* obj = property("script").value<GluonEngine::Asset*>();
-    return qobject_cast< GluonEngine::Asset* >(obj);
+    return d->script;
 }
 
 void QtScriptComponent::setScript(Asset* asset)
 {
-    QVariant somethingEmpty;
-    somethingEmpty.setValue<GluonEngine::Asset*>(asset);
-    setProperty("script", somethingEmpty);
+    d->script = asset;
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_qtscript, GluonEngine::QtScriptComponent);

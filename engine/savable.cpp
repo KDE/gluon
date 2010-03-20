@@ -33,35 +33,35 @@ bool
 Savable::saveToFile(GluonCore::GluonObject * object)
 {
     DEBUG_BLOCK
-    if(!object)
+    if (!object)
     {
         DEBUG_TEXT("Asset was NULL!");
         return false;
     }
     Savable * savableObject = dynamic_cast<Savable*>(object);
-    if(!savableObject)
+    if (!savableObject)
     {
         DEBUG_TEXT("Attempted to save an object which does not inherit Savable!");
         return false;
     }
 
-    if(!savableObject->savableDirty)
+    if (!savableObject->savableDirty)
     {
         DEBUG_TEXT("Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?");
         return true;
     }
 
     // Make sure the filename is populated and is sane
-    if(object->property("file").value<QUrl>().isEmpty())
-        object->setProperty("file", QVariant::fromValue<QUrl>( QUrl( QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ') ) ) ) );
+    if (object->property("file").value<QUrl>().isEmpty())
+        object->setProperty("file", QVariant::fromValue<QUrl>(QUrl(QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ')))));
 
     // Create appropriate folders
-    if(!QDir::current().exists("Scenes"))
+    if (!QDir::current().exists("Scenes"))
         QDir::current().mkdir("Scenes");
 
     // Perform the save
     QFile *savableFile = new QFile(object->property("file").value<QUrl>().toLocalFile());
-    if(!savableFile->open(QIODevice::WriteOnly))
+    if (!savableFile->open(QIODevice::WriteOnly))
     {
         DEBUG_TEXT(QString("Could not write to file %1").arg(object->property("file").value<QUrl>().toString()))
         return false;
@@ -74,7 +74,7 @@ Savable::saveToFile(GluonCore::GluonObject * object)
     delete(savableFile);
 
     // Remember to undirty yourself
-    if(savableObject)
+    if (savableObject)
         savableObject->savableDirty = false;
     return true;
 }

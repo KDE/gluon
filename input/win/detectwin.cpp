@@ -5,7 +5,7 @@
 #include <IOKit/hid/IOHIDLib.h>
 
 KCLDetectWin::KCLDetectWin(QObject * parent)
-: QObject(parent)
+        : QObject(parent)
 {
 }
 
@@ -21,28 +21,28 @@ KCLDetectWin::~KCLDetectWin()
 void KCLDetectWin::searchDevice()
 {
     KCLDetectWin *detect = this;
-    
+
     ///move it out and maybe in detection
     /*IOHIDManagerRef miw = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-     
-     if ( CFGetTypeID( miw ) == IOHIDManagerGetTypeID( ) ) 
+
+     if ( CFGetTypeID( miw ) == IOHIDManagerGetTypeID( ) )
      {
      IOHIDManagerSetDeviceMatching(miw, NULL);
-     
+
      IOReturn success = IOHIDManagerOpen(miw, kIOHIDOptionsTypeNone);
-     
+
      if(success == kIOReturnSuccess)
      {
      CFSetRef devicesSet = IOHIDManagerCopyDevices(miw);
-     
+
      if(CFSetGetCount(devicesSet) > 0)
-     {               
+     {
      CFSetApplyFunction(devicesSet, callBack, NULL);
      }
      // CFRelease(devicesSet);
-     }        
+     }
      }*/
-    
+
     detect->setAllEnable();
 }
 

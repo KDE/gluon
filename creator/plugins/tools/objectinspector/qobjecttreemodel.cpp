@@ -31,18 +31,18 @@ QVariant QObjectTreeModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    
+
     if (role != Qt::DisplayRole)
         return QVariant();
-    
+
     QObject *item = static_cast<QObject*>(index.internalPointer());
 
-    switch(index.column())
+    switch (index.column())
     {
         case 0:
         {
             Gluon::GluonObject* gobj = qobject_cast<Gluon::GluonObject*>(item);
-            if(gobj) return gobj->name();
+            if (gobj) return gobj->name();
             return item->objectName();
             break;
         }
@@ -64,12 +64,12 @@ int QObjectTreeModel::rowCount(const QModelIndex& parent) const
     QObject *parentItem;
     if (parent.column() > 0)
         return 0;
-    
+
     if (!parent.isValid())
         parentItem = m_root;
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
-    
+
     return parentItem->children().count();
 }
 
@@ -77,13 +77,13 @@ QModelIndex QObjectTreeModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-    
+
     QObject *childItem = static_cast<QObject*>(child.internalPointer());
     QObject *parentItem = childItem->parent();
-    
+
     if (parentItem == m_root)
         return QModelIndex();
-    
+
     return createIndex(rowIndex(parentItem), 0, parentItem);
 }
 
@@ -91,14 +91,14 @@ QModelIndex QObjectTreeModel::index(int row, int column, const QModelIndex& pare
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-    
+
     QObject *parentItem;
-    
+
     if (!parent.isValid())
         parentItem = m_root;
     else
         parentItem = static_cast<QObject*>(parent.internalPointer());
-    
+
     QObject *childItem = parentItem->children().at(row);
     if (childItem)
         return createIndex(row, column, childItem);
@@ -110,7 +110,7 @@ QVariant QObjectTreeModel::headerData(int section, Qt::Orientation orientation, 
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
-        switch(section)
+        switch (section)
         {
             case 0:
                 return QVariant("Name");
@@ -122,14 +122,14 @@ QVariant QObjectTreeModel::headerData(int section, Qt::Orientation orientation, 
                 return QVariant();
         }
     }
-    
+
     return QVariant();
 }
 
 int QObjectTreeModel::rowIndex(QObject* object) const
 {
-    if(object->parent())
-    {   
+    if (object->parent())
+    {
         return object->parent()->children().indexOf(object);
     }
     return 0;

@@ -27,28 +27,28 @@ namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT SoundAsset : public Asset
     {
-    Q_OBJECT
-    Q_INTERFACES(GluonEngine::Asset)
-    GLUON_OBJECT(GluonEngine::SoundAsset)
-    
-    public:
-        SoundAsset(QObject *parent = 0);
-        
-        virtual const QStringList supportedMimeTypes() const;
+            Q_OBJECT
+            Q_INTERFACES(GluonEngine::Asset)
+            GLUON_OBJECT(GluonEngine::SoundAsset)
 
-        //virtual QMimeData* data() const;
+        public:
+            SoundAsset(QObject *parent = 0);
 
-        //virtual void setFile(const QUrl &newFile);
+            virtual const QStringList supportedMimeTypes() const;
 
-        //GluonAudio::Buffer *buffer() {
-        //    return m_buffer;
-        //}
+            //virtual QMimeData* data() const;
 
-    private Q_SLOTS:
-        void updateBuffer();
+            //virtual void setFile(const QUrl &newFile);
 
-    private:
-        GluonAudio::Buffer *m_buffer;
+            //GluonAudio::Buffer *buffer() {
+            //    return m_buffer;
+            //}
+
+        private Q_SLOTS:
+            void updateBuffer();
+
+        private:
+            GluonAudio::Buffer *m_buffer;
     };
 }
 #endif // SOUNDASSET_H

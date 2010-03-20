@@ -26,40 +26,40 @@ class QGraphicsProxyWidget;
 
 namespace GluonGraphics
 {
-class GLWidget;
+    class GLWidget;
 
-/**
- * @brief Embeds QWidgets in GLWidget
- *
- * WidgetProxy class allows easy embedding of QWidget subclasses inside a
- *  GLWidget. It tries to be as transparent as possible, continuing to use the
- *  GLWidget for rendering and doing smart event forwarding.
- * Mouse events are sent to the widget that is under the cursor. Keyboard
- *  events are sent to the widget that has focus. When user clicks outside any
- *  embedded QWidgets then focus is given to the GLWidget.
- **/
-class  WidgetProxy : public QGraphicsView
-{
-public:
-    explicit WidgetProxy(GLWidget* w, QWidget* parent = 0);
+    /**
+     * @brief Embeds QWidgets in GLWidget
+     *
+     * WidgetProxy class allows easy embedding of QWidget subclasses inside a
+     *  GLWidget. It tries to be as transparent as possible, continuing to use the
+     *  GLWidget for rendering and doing smart event forwarding.
+     * Mouse events are sent to the widget that is under the cursor. Keyboard
+     *  events are sent to the widget that has focus. When user clicks outside any
+     *  embedded QWidgets then focus is given to the GLWidget.
+     **/
+    class  WidgetProxy : public QGraphicsView
+    {
+        public:
+            explicit WidgetProxy(GLWidget* w, QWidget* parent = 0);
 
-    QGraphicsProxyWidget* addWidget(QWidget* w);
-    QWidget* createWindow(const QString& title);
+            QGraphicsProxyWidget* addWidget(QWidget* w);
+            QWidget* createWindow(const QString& title);
 
-protected:
-    virtual void resizeEvent(QResizeEvent* event);
-    virtual bool event(QEvent* event);
-    virtual bool viewportEvent(QEvent* event);
+        protected:
+            virtual void resizeEvent(QResizeEvent* event);
+            virtual bool event(QEvent* event);
+            virtual bool viewportEvent(QEvent* event);
 
-    bool handleMouseEvent(QEvent* event, const QPoint& pos);
-    bool forwardEvent(QEvent* event);
+            bool handleMouseEvent(QEvent* event, const QPoint& pos);
+            bool forwardEvent(QEvent* event);
 
-private:
-    class Scene;
+        private:
+            class Scene;
 
-    GLWidget* mGLWidget;
-    bool mEventIsBeingForwarded;
-};
+            GLWidget* mGLWidget;
+            bool mEventIsBeingForwarded;
+    };
 }
 
 

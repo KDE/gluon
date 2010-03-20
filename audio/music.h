@@ -35,50 +35,53 @@ namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Music : public QThread
     {
-        Q_OBJECT
+            Q_OBJECT
 
-    public:
-        Music(QString fileName = QString());
-        void run();
-        bool isPlaying() const;
+        public:
+            Music(QString fileName = QString());
+            void run();
+            bool isPlaying() const;
 
-    public Q_SLOTS:
-        void play() {
-            run();
-        }
+        public Q_SLOTS:
+            void play()
+            {
+                run();
+            }
 
-    private Q_SLOTS:
-        void playThread() {
-            start();
-        }
+        private Q_SLOTS:
+            void playThread()
+            {
+                start();
+            }
 
-    protected:
-        void open(std::string path);
-        void release();
-        void display();
-        bool playback();
-        bool update();
+        protected:
+            void open(std::string path);
+            void release();
+            void display();
+            bool playback();
+            bool update();
 
-        void setFileName(QString f) {
-            m_fileName = f;
-        }
+            void setFileName(QString f)
+            {
+                m_fileName = f;
+            }
 
-        bool stream(ALuint buffer);
-        void empty();
-        void check();
-        std::string errorString(int code);
+            bool stream(ALuint buffer);
+            void empty();
+            void check();
+            std::string errorString(int code);
 
-    private:
-        FILE*           oggFile;
-        OggVorbis_File  oggStream;
-        vorbis_info*    vorbisInfo;
-        vorbis_comment* vorbisComment;
+        private:
+            FILE*           oggFile;
+            OggVorbis_File  oggStream;
+            vorbis_info*    vorbisInfo;
+            vorbis_comment* vorbisComment;
 
-        ALuint buffers[2];
-        ALuint source;
-        ALenum format;
+            ALuint buffers[2];
+            ALuint source;
+            ALenum format;
 
-        QString m_fileName;
+            QString m_fileName;
     };
 }
 

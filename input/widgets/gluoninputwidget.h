@@ -12,17 +12,17 @@
 
 class GluonInputWidget : public QWidget
 {
-    Q_OBJECT
-public:
-    GluonInputWidget(GluonInput::InputDevice * input, QWidget * parent=0);
+        Q_OBJECT
+    public:
+        GluonInputWidget(GluonInput::InputDevice * input, QWidget * parent = 0);
 
-protected:
-    void setupTable();
+    protected:
+        void setupTable();
     protected slots:
-    void inputEvent(GluonInput::InputEvent * event);
-private:
-    GluonInput::InputDevice * m_input;
-    QTableWidget * m_tableWidget;
+        void inputEvent(GluonInput::InputEvent * event);
+    private:
+        GluonInput::InputDevice * m_input;
+        QTableWidget * m_tableWidget;
 
 
 

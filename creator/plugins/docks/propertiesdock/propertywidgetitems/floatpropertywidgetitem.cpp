@@ -25,7 +25,7 @@
 using namespace GluonCreator;
 
 FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+        : PropertyWidgetItem(parent, f)
 {
     QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
     setEditWidget(spinBox);

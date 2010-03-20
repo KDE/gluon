@@ -8,19 +8,19 @@
 
 namespace GluonInput
 {
-	class InputDevice;
-	
-	class CustomInputPrivate : public QSharedData 
-	{
-	public:
-		CustomInputPrivate();
-		CustomInputPrivate(CustomInputPrivate &other);
-		~CustomInputPrivate();
-		
-		QMap <QString,QPair<InputDevice*,int> > m_buttons;
-		QMap <QString,QPair<InputDevice*,int> > m_absAxis;
-		QMap <QString,QPair<InputDevice*,int> > m_relAxis;
-	};
-	
+    class InputDevice;
+
+    class CustomInputPrivate : public QSharedData
+    {
+        public:
+            CustomInputPrivate();
+            CustomInputPrivate(CustomInputPrivate &other);
+            ~CustomInputPrivate();
+
+            QMap <QString, QPair<InputDevice*, int> > m_buttons;
+            QMap <QString, QPair<InputDevice*, int> > m_absAxis;
+            QMap <QString, QPair<InputDevice*, int> > m_relAxis;
+    };
+
 }
 #endif

@@ -12,12 +12,12 @@ namespace GluonInput
 
 	class GLUON_INPUT_EXPORT Keyboard : public InputDevice
 	{
-        Q_OBJECT
+		Q_OBJECT
         public:
             Keyboard(InputThread * inputThread, QObject * parent = 0);
 
-		private:
-		QSharedDataPointer<KeyboardPrivate> d;
-	};
+        private:
+            QSharedDataPointer<KeyboardPrivate> d;
+    };
 }
 #endif // KCLKEYBOARD_H

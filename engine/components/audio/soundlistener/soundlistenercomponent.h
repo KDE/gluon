@@ -24,40 +24,42 @@
 namespace GluonEngine
 {
 
-class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
-{
-    Q_OBJECT
-    GLUON_OBJECT(GluonEngine::SoundListenerComponent)
-    Q_PROPERTY(bool active READ isActive WRITE setActive)
-    Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
+    class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
+    {
+            Q_OBJECT
+            GLUON_OBJECT(GluonEngine::SoundListenerComponent)
+            Q_PROPERTY(bool active READ isActive WRITE setActive)
+            Q_PROPERTY(bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled)
 
-    Q_INTERFACES(GluonEngine::Component)
+            Q_INTERFACES(GluonEngine::Component)
 
-public:
-    SoundListenerComponent(QObject *parent = 0);
-    SoundListenerComponent(const SoundListenerComponent &other);
+        public:
+            SoundListenerComponent(QObject *parent = 0);
+            SoundListenerComponent(const SoundListenerComponent &other);
 
-    virtual void start();
-    virtual void draw(int timeLapse = 0);
-    virtual void update(int elapsedMilliseconds);
+            virtual void start();
+            virtual void draw(int timeLapse = 0);
+            virtual void update(int elapsedMilliseconds);
 
-    void setActive(bool active);
-    bool isActive() {
-        return m_activeInstance == this;
-    }
+            void setActive(bool active);
+            bool isActive()
+            {
+                return m_activeInstance == this;
+            }
 
-    void setEffectsEnabled(bool enable);
-    bool effectsEnabled() {
-        return m_effectsEnabled;
-    }
+            void setEffectsEnabled(bool enable);
+            bool effectsEnabled()
+            {
+                return m_effectsEnabled;
+            }
 
-    static SoundListenerComponent *activeInstance();
+            static SoundListenerComponent *activeInstance();
 
-private:
-    bool m_effectsEnabled;
+        private:
+            bool m_effectsEnabled;
 
-    static SoundListenerComponent *m_activeInstance;
-};
+            static SoundListenerComponent *m_activeInstance;
+    };
 
 }
 

@@ -7,6 +7,6 @@ JoystickPrivate::JoystickPrivate()
 }
 
 JoystickPrivate::JoystickPrivate(JoystickPrivate &other)
-	: QSharedData(other)
+        : QSharedData(other)
 {
 }

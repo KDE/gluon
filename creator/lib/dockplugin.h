@@ -22,13 +22,14 @@
 #include "plugin.h"
 
 class KAction;
-namespace GluonCreator {
+namespace GluonCreator
+{
 
     class Dock;
 
     class GLUONCREATOR_EXPORT DockPlugin : public Plugin
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             DockPlugin(QObject* parent, const QList<QVariant>& params);
             virtual ~DockPlugin();

@@ -22,16 +22,18 @@
 
 #include <widgets/dock.h>
 
-namespace GluonEngine {
+namespace GluonEngine
+{
     class Scene;
     class GameObject;
 }
 
-namespace GluonCreator {
+namespace GluonCreator
+{
 
     class SceneDock : public Dock
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             SceneDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~SceneDock();
@@ -44,7 +46,7 @@ namespace GluonCreator {
             virtual void setSelection(GluonCore::GluonObject* obj = 0);
             void selectionChanged(QItemSelection selected, QItemSelection deselected);
             void sceneChanged(GluonEngine::Scene*);
-            
+
             void deleteSelection();
             void newGameObjectAction();
 

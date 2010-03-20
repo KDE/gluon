@@ -15,18 +15,18 @@ namespace GluonInput
 	
 	class DetectMacPrivate : public QSharedData
 	{
-	public:
-		DetectMacPrivate();
-		DetectMacPrivate(DetectMacPrivate &other);
-		
-		QList<InputDevice *> m_inputList;
-		QList<Keyboard *> m_keyboardList;
-		QList<Mouse *> m_mouseList;
-		QList<Joystick *> m_joystickList;
-		QList<Tablet *> m_tabletList;
-		QList<InputDevice *> m_unknownList;
-		IOHIDManagerRef deviceManager;
-		CFSetRef devices;		
+		public:
+			DetectMacPrivate();
+			DetectMacPrivate(DetectMacPrivate &other);
+			
+			QList<InputDevice *> m_inputList;
+			QList<Keyboard *> m_keyboardList;
+			QList<Mouse *> m_mouseList;
+			QList<Joystick *> m_joystickList;
+			QList<Tablet *> m_tabletList;
+			QList<InputDevice *> m_unknownList;
+			IOHIDManagerRef deviceManager;
+			CFSetRef devices;		
 	};
 }
 #endif

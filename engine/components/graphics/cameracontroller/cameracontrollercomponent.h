@@ -24,19 +24,19 @@ namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT CameraControllerComponent : public Component
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::CameraControllerComponent)
-        Q_PROPERTY(bool active READ isActive WRITE setActive)
-        Q_INTERFACES(GluonEngine::Component)
+            Q_OBJECT
+            GLUON_OBJECT(GluonEngine::CameraControllerComponent)
+            Q_PROPERTY(bool active READ isActive WRITE setActive)
+            Q_INTERFACES(GluonEngine::Component)
 
         public:
-            CameraControllerComponent ( QObject* parent = 0 );
-            CameraControllerComponent ( const CameraControllerComponent& other);
+            CameraControllerComponent(QObject* parent = 0);
+            CameraControllerComponent(const CameraControllerComponent& other);
             virtual ~CameraControllerComponent();
 
             virtual void start();
-            virtual void update ( int elapsedMilliseconds );
-            virtual void draw ( int timeLapse = 0 );
+            virtual void update(int elapsedMilliseconds);
+            virtual void draw(int timeLapse = 0);
 
             virtual bool isActive();
 

@@ -45,96 +45,102 @@
 //@{
 namespace GluonGraphics
 {
-class GLUON_GRAPHICS_EXPORT Texture
-{
-public:
-    Texture();
-    Texture (const QString& fileName);
-    Texture ( const QImage &img);
-    Texture(const QPixmap &pix);
-    void setGLTexture(const GLuint& t){
-       glDeleteTextures(1,&m_texture);
-        m_texture = t;
-    }
-    ~Texture();
-    void bind();
-    void unBind();
-    void load(const QImage &img, int width=0, int height=0);
-    void setFilter(GLenum filter);
-    void setWrapMode(GLenum coordinate, GLenum mode);
-    static int maxSize();
-    int size(){
-     return m_dim.width() * m_dim.height();
-    }
-
-    GLuint glId()const{
-        return m_texture;
-    }
-
-    QImage image() const
+    class GLUON_GRAPHICS_EXPORT Texture
     {
-        return m_img;
-    }
+        public:
+            Texture();
+            Texture(const QString& fileName);
+            Texture(const QImage &img);
+            Texture(const QPixmap &pix);
+            void setGLTexture(const GLuint& t)
+            {
+                glDeleteTextures(1, &m_texture);
+                m_texture = t;
+            }
+            ~Texture();
+            void bind();
+            void unBind();
+            void load(const QImage &img, int width = 0, int height = 0);
+            void setFilter(GLenum filter);
+            void setWrapMode(GLenum coordinate, GLenum mode);
+            static int maxSize();
+            int size()
+            {
+                return m_dim.width() * m_dim.height();
+            }
 
-    QSizeF dim() const
-    {
-        return m_dim;
-    }
+            GLuint glId()const
+            {
+                return m_texture;
+            }
 
-    void setTranslate(const QPointF &t)
-    {
-        m_translate = t;
-    }
+            QImage image() const
+            {
+                return m_img;
+            }
 
-    void setRotate(float r)
-    {
-        m_rotate= r;
-    }
+            QSizeF dim() const
+            {
+                return m_dim;
+            }
 
-    void setScale(const QPointF &s)
-    {
-        m_scale = s;
-    }
+            void setTranslate(const QPointF &t)
+            {
+                m_translate = t;
+            }
 
-    void setScale(float x,float y){
-      setScale(QPointF(x,y));
-    }
+            void setRotate(float r)
+            {
+                m_rotate = r;
+            }
 
-    void translate(const QPointF &t)
-    {
-        m_translate += t;
-    }
+            void setScale(const QPointF &s)
+            {
+                m_scale = s;
+            }
 
-    void translate( float x, float y){
-      translate(QPointF(x,y));
-    }
+            void setScale(float x, float y)
+            {
+                setScale(QPointF(x, y));
+            }
 
-    void rotate(float r)
-    {
-        m_rotate += r;
-    }
+            void translate(const QPointF &t)
+            {
+                m_translate += t;
+            }
 
-    void scale(const QPointF &s)
-    {
-        m_scale+=s;
-    }
-    void scale(int x,int y){
-        scale(QPointF(x,y));
-    }
+            void translate(float x, float y)
+            {
+                translate(QPointF(x, y));
+            }
 
-    void updateTransform();
+            void rotate(float r)
+            {
+                m_rotate += r;
+            }
 
-protected:
-    void init();
-private:
-    GLuint m_texture;
-    GLenum m_filter;
-    QSizeF m_dim;
-    QImage m_img;
-    QPointF m_translate;
-    float m_rotate;
-    QPointF m_scale;
-};
+            void scale(const QPointF &s)
+            {
+                m_scale += s;
+            }
+            void scale(int x, int y)
+            {
+                scale(QPointF(x, y));
+            }
+
+            void updateTransform();
+
+        protected:
+            void init();
+        private:
+            GLuint m_texture;
+            GLenum m_filter;
+            QSizeF m_dim;
+            QImage m_img;
+            QPointF m_translate;
+            float m_rotate;
+            QPointF m_scale;
+    };
 }//namespace
 //@}
 #endif // GLUON_GRAPHICS_TEXTURE_H

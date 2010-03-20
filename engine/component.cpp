@@ -29,14 +29,14 @@ Q_DECLARE_METATYPE(GluonEngine::Component*);
 using namespace GluonEngine;
 
 Component::Component(QObject * parent)
-    : GluonObject(parent)
+        : GluonObject(parent)
 {
     d = new ComponentPrivate;
 }
 
 Component::Component(const Component &other, QObject * parent)
-    : GluonObject(parent)
-    , d(other.d)
+        : GluonObject(parent)
+        , d(other.d)
 {
 }
 
@@ -47,7 +47,7 @@ Component::~Component()
 QVariant
 Component::toVariant(GluonCore::GluonObject* wrapThis)
 {
-    if(this->metaObject()->className() != "GluonCore::Component")
+    if (this->metaObject()->className() != "GluonCore::Component")
         debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
     return QVariant::fromValue<GluonEngine::Component*>(qobject_cast<GluonEngine::Component*>(wrapThis));
 }
@@ -62,14 +62,14 @@ Component::update(int elapsedMilliseconds)
 void
 Component::sanitize()
 {
-    if(this->parent())
+    if (this->parent())
     {
-        if(this->parent()->metaObject())
+        if (this->parent()->metaObject())
         {
-            if(QString::compare(this->parent()->metaObject()->className(), "GameObject"))
+            if (QString::compare(this->parent()->metaObject()->className(), "GameObject"))
             {
                 GameObject * theParent = qobject_cast<GameObject*>(this->parent());
-                if(theParent)
+                if (theParent)
                 {
                     theParent->addComponent(this);
                     d->gameObject = theParent;

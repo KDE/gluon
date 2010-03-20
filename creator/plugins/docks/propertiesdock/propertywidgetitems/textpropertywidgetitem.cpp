@@ -16,7 +16,7 @@
 
 #include "textpropertywidgetitem.h"
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator,TextPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM(GluonCreator, TextPropertyWidgetItem)
 
 using namespace GluonCreator;
 

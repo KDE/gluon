@@ -21,31 +21,32 @@
 
 #include <widgets/dock.h>
 
-namespace GluonCreator {
-
-class ProjectDock : public Dock
+namespace GluonCreator
 {
-    Q_OBJECT
-    public:
-        ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-        ~ProjectDock();
 
-        QAbstractItemModel* model();
-        QAbstractItemView* view();
+    class ProjectDock : public Dock
+    {
+            Q_OBJECT
+        public:
+            ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            ~ProjectDock();
 
-    public slots:
-        void setSelection(GluonCore::GluonObject* obj = 0);
-        void activated(QModelIndex index);
-        void showContextMenuRequested(const QPoint& pos);
-        
-        void contextMenuHiding();
-        void newSubMenuTriggered();
-        void deleteActionTriggered();
-        
-    private:
-        class ProjectDockPrivate;
-        ProjectDockPrivate* d;
-};
+            QAbstractItemModel* model();
+            QAbstractItemView* view();
+
+        public slots:
+            void setSelection(GluonCore::GluonObject* obj = 0);
+            void activated(QModelIndex index);
+            void showContextMenuRequested(const QPoint& pos);
+
+            void contextMenuHiding();
+            void newSubMenuTriggered();
+            void deleteActionTriggered();
+
+        private:
+            class ProjectDockPrivate;
+            ProjectDockPrivate* d;
+    };
 
 }
 

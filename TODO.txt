@@ -1,8 +1,5 @@
 Things still to do for a decent creator workflow:
 
-- Reordering of scene tree (In progress)
 - Change Scene/Project file names when changing their respective objects in Creator.
 - Changing empty asset handling to not parse the attributes as QString
-- Fix the sanitze FQN on asset file write to not replace the extension's . with a _
-- Text render component (maybe?)
 - Fix delete asset crash

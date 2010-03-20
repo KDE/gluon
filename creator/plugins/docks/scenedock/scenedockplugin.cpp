@@ -24,7 +24,7 @@ using namespace GluonCreator;
 
 
 SceneDockPlugin::SceneDockPlugin(QObject* parent, const QList< QVariant >& params)
-    : DockPlugin(parent, params)
+        : DockPlugin(parent, params)
 {
 
 }

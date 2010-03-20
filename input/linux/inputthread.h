@@ -14,55 +14,55 @@
 //@{
 
 namespace GluonInput
-{	
-	class InputThreadPrivate;
-	
-	class GLUON_INPUT_EXPORT InputThread : public QThread
-	{
-		Q_OBJECT
+{
+    class InputThreadPrivate;
 
-	public:
-		InputThread(const QString& devicePath, QObject *parent = 0);
-		~InputThread();
-		void run();
+    class GLUON_INPUT_EXPORT InputThread : public QThread
+    {
+            Q_OBJECT
 
-		const QString devicePath() const;
-		void setEnabled();
-		void setDisabled();
-		int getJoystickXAxis();
-		int getJoystickYAxis();
-		int getJoystickZAxis();
-		void stop();
-		
-		int vendor()const;
-		int product()const;
-		int version()const;
-		int bustype()const;
-		
-		QList<int> buttonCapabilities()const;
-		QList<int> absAxisCapabilities()const;
-		QList<int> relAxisCapabilities()const;
-		AbsVal axisInfo(int axisCode)const;
-		
-		const QString deviceName() const;
-		GluonInput::DeviceFlag deviceType()const;
-		
-		bool isEnabled() const;
-		
-		bool error();
-		QString msgError();
-		
-		QObject * getParent();
+        public:
+            InputThread(const QString& devicePath, QObject *parent = 0);
+            ~InputThread();
+            void run();
 
-	  private:
+            const QString devicePath() const;
+            void setEnabled();
+            void setDisabled();
+            int getJoystickXAxis();
+            int getJoystickYAxis();
+            int getJoystickZAxis();
+            void stop();
 
-		bool openDevice(const QString &devicePath);
-		void closeDevice();
+            int vendor()const;
+            int product()const;
+            int version()const;
+            int bustype()const;
 
-		void readInformation();
-		
-		QSharedDataPointer<InputThreadPrivate> d;
-	};
+            QList<int> buttonCapabilities()const;
+            QList<int> absAxisCapabilities()const;
+            QList<int> relAxisCapabilities()const;
+            AbsVal axisInfo(int axisCode)const;
+
+            const QString deviceName() const;
+            GluonInput::DeviceFlag deviceType()const;
+
+            bool isEnabled() const;
+
+            bool error();
+            QString msgError();
+
+            QObject * getParent();
+
+        private:
+
+            bool openDevice(const QString &devicePath);
+            void closeDevice();
+
+            void readInformation();
+
+            QSharedDataPointer<InputThreadPrivate> d;
+    };
 }
 //@}
 #endif // KCLTHREAD_H

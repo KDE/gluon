@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="6" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="8" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
@@ -30,6 +30,9 @@
 
 <ToolBar name="mainToolBar">
     <text>Main Toolbar</text>
+    <Action name="edit_undo" />
+    <Action name="edit_redo" />
+    <Separator />
     <Action name="newObject" />
     <Action name="newScene" />
     <Separator />

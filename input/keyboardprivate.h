@@ -7,9 +7,9 @@ namespace GluonInput
 {
 	class KeyboardPrivate : public QSharedData 
 	{
-	public:
-		KeyboardPrivate();
-		KeyboardPrivate(KeyboardPrivate &other);
+		public:
+			KeyboardPrivate();
+			KeyboardPrivate(KeyboardPrivate &other);
 	};
 }
 

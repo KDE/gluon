@@ -29,7 +29,7 @@
 using namespace GluonAudio;
 
 Device::Device(ALCdevice *device)
-    : m_device(device)
+        : m_device(device)
 {
 }
 
@@ -50,8 +50,10 @@ QStringList Device::contextOption(int option)
     // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
     // So we can't pass it directly to QStringList
     QStringList optionList;
-    if (alcList) {
-        while (strlen(alcList) > 0) {
+    if (alcList)
+    {
+        while (strlen(alcList) > 0)
+        {
             optionList << QString(alcList);
             alcList += strlen(alcList) + 1;
         }

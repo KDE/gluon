@@ -23,24 +23,25 @@
 #include <QtCore/QHash>
 
 
-namespace GluonCreator {
-
-class PropertyWidgetItem;
-
-class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
+namespace GluonCreator
 {
-    public:
-        PropertyWidgetItem* create(const QObject *object, const QString& type, QWidget* parent);
-        void registerNewPIW(PropertyWidgetItem* newPIW);
 
-    private:
-        friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
-        QHash<QString, PropertyWidgetItem*> piwTypes;
+    class PropertyWidgetItem;
 
-        PropertyWidgetItemFactory() { }
-        ~PropertyWidgetItemFactory() { }
-        Q_DISABLE_COPY(PropertyWidgetItemFactory)
-};
+    class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
+    {
+        public:
+            PropertyWidgetItem* create(const QObject *object, const QString& type, QWidget* parent);
+            void registerNewPIW(PropertyWidgetItem* newPIW);
+
+        private:
+            friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
+            QHash<QString, PropertyWidgetItem*> piwTypes;
+
+            PropertyWidgetItemFactory() { }
+            ~PropertyWidgetItemFactory() { }
+            Q_DISABLE_COPY(PropertyWidgetItemFactory)
+    };
 
 }
 
@@ -50,7 +51,7 @@ class GLUONCREATOR_EXPORT PropertyWidgetItemRegistration
     public:
         PropertyWidgetItemRegistration(T* newPIW)
         {
-            if(newPIW->metaObject())
+            if (newPIW->metaObject())
             {
                 GluonCreator::PropertyWidgetItemFactory::instance()->registerNewPIW(newPIW);
             }
@@ -58,6 +59,6 @@ class GLUONCREATOR_EXPORT PropertyWidgetItemRegistration
 };
 
 #define REGISTER_PROPERTYWIDGETITEM(NAMESPACE,NEWPIW) \
-namespace NAMESPACE { PropertyWidgetItemRegistration<NEWPIW> NEWPIW ## _PropertyWidgetItemRegistration_(new NEWPIW()); }
+    namespace NAMESPACE { PropertyWidgetItemRegistration<NEWPIW> NEWPIW ## _PropertyWidgetItemRegistration_(new NEWPIW()); }
 
 #endif // GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H

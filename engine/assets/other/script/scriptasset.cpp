@@ -52,7 +52,8 @@ const QStringList ScriptAsset::supportedMimeTypes() const
 void ScriptAsset::load()
 {
     QFile script(file().path());
-    if(script.open(QIODevice::ReadOnly)) {
+    if (script.open(QIODevice::ReadOnly))
+    {
         d->script = script.readAll();
         mimeData()->setText(d->script);
     }

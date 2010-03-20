@@ -16,10 +16,14 @@
 
 #include "propertiesdock.h"
 
+#include "propertychangedcommand.h"
+
 #include <widgets/propertywidget.h>
 #include <engine/game.h>
 #include <engine/component.h>
 #include <objectmanager.h>
+#include <historymanager.h>
+#include <core/debughelper.h>
 
 using namespace GluonCreator;
 
@@ -41,7 +45,7 @@ PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::Window
     setWidget(d->widget);
 
     connect(SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)));
-    connect(d->widget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), GluonEngine::Game::instance(), SLOT(drawAll()));
+    connect(d->widget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), SLOT(propertyChanged(QObject*, QString, QVariant, QVariant)));
     connect(ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)));
 }
 
@@ -68,16 +72,21 @@ QAbstractItemModel* PropertiesDock::model()
 
 void PropertiesDock::selectionChanged(SelectionManager::SelectionList selection)
 {
-    if(!selection.empty())
+    if (!selection.empty())
         setSelection(selection.at(0));
 }
 
 void PropertiesDock::newComponent(GluonEngine::Component* comp)
 {
-    if(comp->parent() == d->widget->object())
+    if (comp->parent() == d->widget->object())
     {
         d->widget->setObject(d->widget->object());
     }
+}
+
+void PropertiesDock::propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue)
+{
+    HistoryManager::instance()->addCommand(new PropertyChangedCommand(object, property, oldValue, newValue));
 }
 
 

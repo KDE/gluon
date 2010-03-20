@@ -31,7 +31,10 @@ using namespace GluonCreator;
 class ComponentsDock::ComponentsDockPrivate
 {
     public:
-        ComponentsDockPrivate() { view = 0; };
+        ComponentsDockPrivate()
+        {
+            view = 0;
+        };
 
         QListView *view;
         ComponentModel *model;
@@ -54,7 +57,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     QStringList list;
     foreach(GluonCore::GluonObject* obj, objectTypes)
     {
-        if(obj->inherits("GluonEngine::Component"))
+        if (obj->inherits("GluonEngine::Component"))
         {
             list << obj->metaObject()->className();
         }

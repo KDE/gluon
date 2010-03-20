@@ -39,56 +39,61 @@ namespace GluonAudio
 
     class GLUON_AUDIO_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
-    public:
-        /**
-        * Change the output device to the specified OpenAL device name
-        * @param deviceName the OpenAL device name
-        * @return true if the new device was successfuly set, false otherwise
-        * @see deviceList, setCategory
-        */
-        bool setDevice(const QString &deviceName);
+        public:
+            /**
+            * Change the output device to the specified OpenAL device name
+            * @param deviceName the OpenAL device name
+            * @return true if the new device was successfuly set, false otherwise
+            * @see deviceList, setCategory
+            */
+            bool setDevice(const QString &deviceName);
 
-        static ALCcontext *context() {
-            return instance()->getAlContext();
-        }
+            static ALCcontext *context()
+            {
+                return instance()->getAlContext();
+            }
 
-        static ALCdevice* device() {
-            return instance()->getAlDevice();
-        }
+            static ALCdevice* device()
+            {
+                return instance()->getAlDevice();
+            }
 
-        QVector3D listenerPosition();
-        void setListenerPosition(const QVector3D& position);
+            QVector3D listenerPosition();
+            void setListenerPosition(const QVector3D& position);
 
 
-        /**
-        * @return a QStringList of the available output devices
-        * @see setDevice
-        */
-        static QStringList deviceList();
+            /**
+            * @return a QStringList of the available output devices
+            * @see setDevice
+            */
+            static QStringList deviceList();
 
-        static void close() {
-            delete instance();
-        }
+            static void close()
+            {
+                delete instance();
+            }
 
-        ALCdevice *getAlDevice() {
-            return m_device;
-        }
+            ALCdevice *getAlDevice()
+            {
+                return m_device;
+            }
 
-        ALCcontext *getAlContext() {
-            return m_context;
-        }
-        void alcList(const char* arg1);
+            ALCcontext *getAlContext()
+            {
+                return m_context;
+            }
+            void alcList(const char* arg1);
 
-    private:
-        friend class GluonCore::Singleton<Engine>;
+        private:
+            friend class GluonCore::Singleton<Engine>;
 
-        Engine();
-        ~Engine();
+            Engine();
+            ~Engine();
 
-        Q_DISABLE_COPY(Engine)
+            Q_DISABLE_COPY(Engine)
 
-        ALCcontext *m_context;
-        ALCdevice *m_device;
+            ALCcontext *m_context;
+            ALCdevice *m_device;
     };
 }
 
