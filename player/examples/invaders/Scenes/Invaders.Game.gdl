@@ -37,14 +37,14 @@
         }
     }
     { GluonEngine::GameObject(Enemy)
-        position vector3d(35;-35;1)
+        position vector3d(0.1;-35;1)
         scale vector3d(1;1;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(5;5)
             color rgba(255;255;255;255)
         }
-        { GluonEngine::QtScriptComponent(GluonObject)
+        { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
         }
     }
