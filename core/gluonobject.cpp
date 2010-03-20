@@ -616,6 +616,13 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
         // instance by that name, found in the project
         if(propValue.startsWith(name + '('))
         {
+            QString propertyName = propName;
+            if(propertyName.contains("_sanitizable"))
+            {
+                setProperty(propertyName.toUtf8(), QVariant());
+                propertyName = propertyName.left(propertyName.lastIndexOf("_sanitizable"));
+            }
+
             QString theReferencedName = propValue.mid(name.length() + 1, propValue.length() - (name.length() + 2));
             QVariant theReferencedObject;
 
@@ -625,15 +632,9 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
 
             GluonObject * theObject = GluonObject::findItemByNameInObject(nameParts, gameProject());
 
-            theReferencedObject = GluonObjectFactory::instance()->wrapObject(name, theObject);
+            QMetaProperty property = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
+            theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);
             DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
-
-            QString propertyName = propName;
-            if(propertyName.contains("_sanitizable"))
-            {
-                setProperty(propertyName.toUtf8(), QVariant());
-                propertyName = propertyName.left(propertyName.lastIndexOf("_sanitizable"));
-            }
 
             if(!setProperty(propertyName.toUtf8(), theReferencedObject))
             {
