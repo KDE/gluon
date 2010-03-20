@@ -149,12 +149,12 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), this);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(metaProperty.name());
-        connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
+        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QObject*, QString,QVariant,QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget, row, 1);
     }
-    
+
     foreach(const QByteArray &propName, object->dynamicPropertyNames())
     {
         QString thePropName(propName);
@@ -163,11 +163,11 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         nameLabel->setText(thePropName);
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
-        
+
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), this);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(thePropName);
-        connect(editWidget, SIGNAL(propertyChanged(QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QString,QVariant,QVariant)));
+        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString,QVariant,QVariant)), this, SIGNAL(propertyChanged(QObject*, QString,QVariant,QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget);

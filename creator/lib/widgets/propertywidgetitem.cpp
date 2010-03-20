@@ -108,7 +108,7 @@ PropertyWidgetItem::valueChanged(QVariant value)
 {
     QVariant oldValue = d->editedObject->property(d->propertyName.toUtf8());
     d->editedObject->setProperty(d->propertyName.toUtf8(), value);
-    emit propertyChanged(d->propertyName, oldValue, value);
+    emit propertyChanged(d->editedObject, d->propertyName, oldValue, value);
 }
 
 #include "propertywidgetitem.moc"

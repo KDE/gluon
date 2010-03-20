@@ -43,11 +43,11 @@ namespace GluonCreator
             QWidget* editWidget() const;
             QObject* editObject() const;
             QString editProperty() const;
-            
-            
+
+
             virtual QList<QString> supportedDataTypes() const = 0;
             virtual PropertyWidgetItem* instantiate() = 0;
-            
+
             const QString typeName() const;
 
         public slots:
@@ -58,7 +58,7 @@ namespace GluonCreator
             virtual void valueChanged(QVariant);
 
         signals:
-            void propertyChanged(const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+            void propertyChanged(QObject* object, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
 
         private:
             class PropertyWidgetItemPrivate;
