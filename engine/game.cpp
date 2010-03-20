@@ -210,6 +210,7 @@ Game::setCurrentScene(Scene * newCurrentScene)
     }
 
     d->currentScene = newCurrentScene;
+    d->currentScene->startAll();
     emit currentSceneChanged(newCurrentScene);
 }
 
