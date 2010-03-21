@@ -7,6 +7,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QEvent>
 #include <QtCore/QSharedData>
+#include <QtCore/QObject>
 
 #include "code.h"
 #include "inputthread.h"
@@ -19,6 +20,11 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT InputDevice : public QObject
     {
             Q_OBJECT
+		
+			Q_ENUMS(GluonInput::KeyboardKey)
+			Q_ENUMS(GluonInput::MouseButton)
+			Q_ENUMS(GluonInput::JoystickButton)
+			Q_ENUMS(GluonInput::RelAbs)
 
         public:
             InputDevice(InputThread * inputThread, QObject * parent = 0);
@@ -33,7 +39,6 @@ namespace GluonInput
             const QString deviceName() const;
             GluonInput::DeviceFlag deviceType()const;
             bool button(int code)const;
-            int anyPress() const;
             bool anyAbsMove();
             bool anyRelMove();
             int lastAbsAxis()const;
@@ -44,14 +49,16 @@ namespace GluonInput
             QList<int> absAxisCapabilities()const;
             QList<int> relAxisCapabilities()const;
             AbsVal axisInfo(int axisCode)const;
+			bool buttonPressed(int code) const;
+			QString buttonName(int code) const;
+		
             bool error()const;
-            QString msgError()const;
-            bool isEnabled() const;
+			QString msgError()const;
 
             void setInputThread(InputThread * inputThread);
             InputThread * inputThread() const;
 
-        signals:
+        /*signals:
             void eventSent(GluonInput::InputEvent * event);
             void buttonPressed(int code);
             void buttonReleased(int code);
@@ -60,12 +67,13 @@ namespace GluonInput
             void pressed();
             void moved();
 
-        public slots:
-            void setEnabled();
-            void setDisabled();
+        public slots:*/
+			bool isEnabled() const;
+            void enable();
+            void disable();
 
         private:
-            bool event(QEvent * evt);
+            //bool event(QEvent * evt);
             void init();
 
             QSharedDataPointer<InputDevicePrivate> d;

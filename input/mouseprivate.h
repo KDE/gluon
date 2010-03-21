@@ -12,9 +12,9 @@ namespace GluonInput
             MousePrivate();
             MousePrivate(MousePrivate &other);
 
-            QPoint m_position;
-            QPoint m_originalPosition;
-            double m_sensibility;
+            QPoint position;
+            QPoint originalPosition;
+            double sensibility;
     };
 }
 

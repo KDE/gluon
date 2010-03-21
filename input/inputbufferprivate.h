@@ -2,18 +2,21 @@
 #define INPUTBUFFERPRIVATE_H
 
 #include <QtCore/QSharedData>
+#include <QtCore/QHash>
+#include <QtCore/QQueue>
+
+//#include "keydefinitions.h"
 
 namespace GluonInput
-{
-	class QHash;
+{	
+	class InputDevice;
 	
 	class InputBufferPrivate : public QSharedData
 	{
 	public:
 		InputBufferPrivate();
-		InputBufferPrivate(InputBufferPrivate &other);
 		
-		//QHash<>
+		QHash<int, QQueue<bool> > keyState;
 	};
 }
 

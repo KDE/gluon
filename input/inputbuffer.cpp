@@ -2,9 +2,10 @@
 
 #include"inputbufferprivate.h"
 
-using namespace GluonInput;
+#include <QtCore/QQueue>
+#include <QtCore/QHash>
 
-template<> GLUON_INPUT_EXPORT InputBuffer *GluonCore::Singleton<InputBuffer>::m_instance = 0;
+using namespace GluonInput;
 
 InputBuffer::InputBuffer()
 {
@@ -15,26 +16,14 @@ InputBuffer::~InputBuffer()
 {
 }
 
-bool InputBuffer::KeyboardKeyPressed(GluonInput::KeyboardKey key)
+bool InputBuffer::keyState(int key)
 {
+	return d->keyState[key].dequeue();
 }
 
-bool InputBuffer::MouseButtonPressed(GluonInput::MouseButton button)
+void InputBuffer::setKeyState(int key, bool pressed)
 {
+	d->keyState[key].enqueue(pressed);
 }
 
-bool InputBuffer::JoystickButtonPressed(GluonInput::JoystickButton button)
-{
-}
-
-void InputBuffer::SetKeyboardKeyState(GluonInput::KeyboardKey key, bool pressed)
-{
-}
-
-void InputBuffer::SetMouseButtonState(GluonInput::MouseButton button, bool pressed)
-{
-}
-
-void InputBuffer::SetJoystickButtonState(GluonInput::JoystickButton button, bool pressed)
-{
-}
+#include "inputbuffer.moc"

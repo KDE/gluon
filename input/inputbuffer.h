@@ -1,7 +1,6 @@
 #ifndef INPUTBUFFER_H
 #define INPUTBUFFER_H
 
-#include "core/singleton.h"
 #include "gluon_input_export.h"
 #include "keydefinitions.h"
 
@@ -12,23 +11,18 @@ namespace GluonInput
 {
 	class InputBufferPrivate;
 	
-	class GLUON_INPUT_EXPORT InputBuffer : public GluonCore::Singleton<InputBuffer>
+	class GLUON_INPUT_EXPORT InputBuffer : public QObject
 	{
-	public:
-		InputBuffer();
+		Q_OBJECT
+		public:
+			InputBuffer();
+			~InputBuffer();
 		
-		bool KeyboardKeyPressed(GluonInput::KeyboardKey key);
-		bool MouseButtonPressed(GluonInput::MouseButton button);
-		bool JoystickButtonPressed(GluonInput::JoystickButton button);
-		
-		void SetKeyboardKeyState(GluonInput::KeyboardKey key, bool pressed);
-		void SetMouseButtonState(GluonInput::MouseButton button, bool pressed);
-		void SetJoystickButtonState(GluonInput::JoystickButton button, bool pressed);
-		
-	private:
-		~InputBuffer();
-		
-		QSharedDataPointer<InputBufferPrivate> d;
+			bool keyState(int key);
+			void setKeyState(int key, bool pressed);
+			
+		private:
+			QSharedDataPointer<InputBufferPrivate> d;
 	};
 }
 

@@ -175,7 +175,7 @@ void DetectMac::setAllEnabled()
 	qDebug() << "Enabling all devices";
 	foreach(InputDevice *input, this->getInputList())
 	{
-		input->setEnabled();
+		input->enable();
 	}
 }
 
@@ -183,7 +183,7 @@ void DetectMac::setAllDisabled()
 {
 	foreach(InputDevice *input, this->getInputList()) 
 	{
-		input->setDisabled();
+		input->disable();
 	}
 }   
 
@@ -288,8 +288,8 @@ void DetectMac::createDevices(const void *value, void *context)
 		{
 			switch (usage) 
 			{
-				case GluonInput::TouchpadDevice:
-					break;
+				/*case GluonInput::TouchpadDevice:
+					break;*/
 				case GluonInput::TabletDevice:
 					inputDevice = new Tablet(new InputThread(device));
 					detect->addTablet(inputDevice);

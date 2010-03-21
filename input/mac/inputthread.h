@@ -18,18 +18,19 @@ namespace GluonInput
 {
 
     class InputThreadPrivate;
+	class InputBuffer;
 
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
             Q_OBJECT
         public:
-            InputThread(IOHIDDeviceRef pDevice, QObject* parent = 0);
+            InputThread(IOHIDDeviceRef pDevice ,QObject* parent = 0);
             ~InputThread();
 
             static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
 
-            void setEnabled();
-            void setDisabled();
+            void enable();
+            void disable();
 
             int getJoystickXAxis();
             int getJoystickYAxis();
@@ -57,6 +58,9 @@ namespace GluonInput
             QString msgError();
 
             QObject * getParent();
+		
+			void setInputBuffer(InputBuffer * buffer);
+			void setKeyState(int key, bool pressed);
 
         private:
             void readInformation();

@@ -16,6 +16,7 @@ InputDevicePrivate::InputDevicePrivate(InputDevicePrivate &other)
         m_absAxis(other.m_absAxis),
         m_absMove(other.m_absMove),
         m_relMove(other.m_relMove),
-        inputThread(NULL)
+        inputThread(NULL),
+		inputBuffer(NULL)
 {
 }

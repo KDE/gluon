@@ -5,9 +5,13 @@
 #include <QtCore/QFile>
 #include <QtGui/QMessageBox>
 #include <QtGui/QMouseEvent>
+#include <QtCore/QMetaObject>
+#include <QtCore/QMetaEnum>
 
 #include "absval.h"
 #include "inputdeviceprivate.h"
+#include "inputbuffer.h"
+#include "keydefinitions.h"
 
 #include <core/debughelper.h>
 
@@ -19,6 +23,9 @@ InputDevice::InputDevice(InputThread * inputThread, QObject * parent)
 	d = new InputDevicePrivate();
 	d->inputThread = inputThread;
 	d->inputThread->setParent(this);
+	d->inputBuffer = new InputBuffer();
+	d->inputBuffer->setParent(this);
+	d->inputThread->setInputBuffer(d->inputBuffer);
 	this->init();
 }
 
@@ -29,8 +36,10 @@ InputDevice::InputDevice()
 
 InputDevice::~InputDevice()
 {
-	setDisabled();
+	disable();
 	delete d->inputThread;
+	delete d->inputBuffer;
+	//InputBuffer::instance()->removeDevice(this);
 
 	qDebug() << "Closed device :" << deviceName();
 }
@@ -76,16 +85,6 @@ GluonInput::DeviceFlag InputDevice::deviceType()const
 bool InputDevice::button(int code)const
 {
 	return d->m_buttons.contains(code);
-}
-
-int InputDevice::anyPress() const
-{
-	if (d->m_buttons.size() > 0)
-	{
-		return d->m_buttons.last();
-	} else {
-		return 0;
-	}
 }
 
 bool InputDevice::anyAbsMove()
@@ -174,7 +173,7 @@ bool InputDevice::isEnabled() const
 }
 
 #warning remove this and do something else
-bool InputDevice::event(QEvent * evt)
+/*bool InputDevice::event(QEvent * evt)
 {
 	InputEvent * event = (InputEvent*)evt;
 	emit eventSent(event);
@@ -221,16 +220,16 @@ bool InputDevice::event(QEvent * evt)
 	}
 
 	return QObject::event(evt);
+}*/
+
+void InputDevice::enable()
+{
+	d->inputThread->enable();
 }
 
-void InputDevice::setEnabled()
+void InputDevice::disable()
 {
-	d->inputThread->setEnabled();
-}
-
-void InputDevice::setDisabled()
-{
-	d->inputThread->setDisabled();
+	d->inputThread->disable();
 	d->m_buttons.clear();
 	d->m_relAxis.clear();
 	d->m_absAxis.clear();
@@ -240,7 +239,7 @@ void InputDevice::setDisabled()
 
 void InputDevice::setInputThread(InputThread * inputThread)
 {
-	d->inputThread->setDisabled();
+	d->inputThread->disable();
 	delete d->inputThread;
 	d->inputThread = inputThread;
 }
@@ -248,6 +247,32 @@ void InputDevice::setInputThread(InputThread * inputThread)
 InputThread * InputDevice::inputThread() const
 {
 	return d->inputThread;
+}
+
+bool InputDevice::buttonPressed(int code) const
+{
+	return d->inputBuffer->keyState(code);
+}
+
+QString InputDevice::buttonName(int code) const
+{
+	switch (this->deviceType())
+	{
+		case KeyboardDevice:
+			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardKey")).valueToKey(code);
+			break;
+		case MouseDevice:
+			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("MouseButton")).valueToKey(code);
+			break;
+		case JoystickDevice:
+			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("JoystickButton")).valueToKey(code);
+			break;
+		case TabletDevice:
+//			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardKey")).valueToKey(code);
+//			break;
+		default:
+			return "Unknown";
+	}
 }
 
 #include "inputdevice.moc"

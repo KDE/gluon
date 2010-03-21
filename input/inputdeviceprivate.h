@@ -5,10 +5,12 @@
 #include <QtCore/QMap>
 #include <QtCore/QList>
 
-#include "inputthread.h"
+//#include "inputthread.h"
 
 namespace GluonInput
-{
+{	
+	class InputBuffer;
+	class InputThread;
     class InputDevicePrivate : public QSharedData
     {
         public:
@@ -27,6 +29,7 @@ namespace GluonInput
             bool m_relMove;
 
             InputThread * inputThread;
+			InputBuffer * inputBuffer;
     };
 }
 

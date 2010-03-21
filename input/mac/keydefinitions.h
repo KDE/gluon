@@ -1,32 +1,37 @@
-#ifndef INPUTDIFINITIONS_H
-#define INPUTDIFINITIONS_H
+#ifndef KEYDIFINITIONS_H
+#define KEYDIFINITIONS_H
 
 #include <QtCore/QFlags>
 #include <QtCore/QEvent>
+#include <QtCore/QObject>
 #include <IOKit/hid/IOHIDUsageTables.h>
+
+#include "core/singleton.h"
 
 namespace GluonInput 
 {
-    enum DeviceFlag 
+	enum DeviceFlag 
 	{
-        UnknownDevice = kHIDUsage_Undefined,
-        KeyboardDevice = kHIDUsage_GD_Keyboard,
-        MouseDevice = kHIDUsage_GD_Mouse,
-        JoystickDevice = kHIDUsage_GD_Joystick,
-        TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
-        TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
-    };
+		UnknownDevice = kHIDUsage_Undefined,
+		KeyboardDevice = kHIDUsage_GD_Keyboard,
+		MouseDevice = kHIDUsage_GD_Mouse,
+		JoystickDevice = kHIDUsage_GD_Joystick,
+		//TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
+		TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
+	};
 	
-    Q_DECLARE_FLAGS(Devices, DeviceFlag)
+	Q_DECLARE_FLAGS(Devices, DeviceFlag)
 	
-    enum InputTypeFlag 
+	
+#warning remove this and do not use the QEvent thing
+	enum InputTypeFlag 
 	{
-        Key = QEvent::Type(QEvent::User+1),
-        RelativeAxis = QEvent::Type(QEvent::User+2),
-        AbsoluAxis = QEvent::Type(QEvent::User+3)
-    };
+		Key = QEvent::Type(QEvent::User+1),
+		RelativeAxis = QEvent::Type(QEvent::User+2),
+		AbsoluAxis = QEvent::Type(QEvent::User+3)
+	};
 	
-    Q_ENUMS(InputTypeFlag)
+	Q_ENUMS(InputTypeFlag)
 	
 	enum KeyboardKey
 	{
@@ -247,8 +252,6 @@ namespace GluonInput
 		Right_GUI
 	};
 	
-	Q_ENUMS(KeyboardKey)
-	
 	enum RelAbs
 	{
 		Misc = 0,
@@ -268,8 +271,6 @@ namespace GluonInput
 		Gas = 196,
 		Brake
 	};	 
-	
-	Q_ENUMS(RelAbs)
 	
 	//atm only support for 15 mouse buttons :p
 	enum MouseButton
@@ -291,8 +292,6 @@ namespace GluonInput
 		MOUSE_BUTTON_FIFTEEN
 	};
 	
-	Q_ENUMS(MouseButton)
-	
 	//atm only support for 15 joystick buttons :p
 	enum JoystickButton
 	{
@@ -311,14 +310,10 @@ namespace GluonInput
 		JOYSTICK_BUTTON_THIRTEEN,
 		JOYSTICK_BUTTON_FOURTEEN,
 		JOYSTICK_BUTTON_FIFTEEN
-	};
+	};	
 	
-	Q_ENUMS(JoystickButton)
-	
-	
+	Q_DECLARE_OPERATORS_FOR_FLAGS(Devices);
 }
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(GluonInput::Devices);
 
 //@}
 #endif // KCL_H
