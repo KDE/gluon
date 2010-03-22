@@ -86,7 +86,7 @@ void CustomInput::remRelAxis(const QString &name)
 	}
 }
 
-void CustomInput::inputEvent(InputEvent * event)
+/*void CustomInput::inputEvent(InputEvent * event)
 {
 
 	//-------------IF BUTTON------------
@@ -138,7 +138,7 @@ void CustomInput::inputEvent(InputEvent * event)
 		}
 	}
 	return;
-}
+}*/
 
 
 bool CustomInput::button(const QString& name)
@@ -164,7 +164,7 @@ int CustomInput::absAxisValue(const QString &name)
 	else return -1;
 }
 
-InputDevice* CustomInput::inputAt(const QString& name, GluonInput::InputTypeFlag type)
+/*InputDevice* CustomInput::inputAt(const QString& name, GluonInput::InputTypeFlag type)
 {
 	if (type == GluonInput::Key)
 		return d->m_buttons[name].first;
@@ -192,7 +192,7 @@ int CustomInput::codeAt(const QString& name, GluonInput::InputTypeFlag type)
 
 	return -1;
 
-}
+}*/
 
 QStringList CustomInput::buttonNameList()
 {

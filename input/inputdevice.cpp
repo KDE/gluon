@@ -39,7 +39,6 @@ InputDevice::~InputDevice()
 	disable();
 	delete d->inputThread;
 	delete d->inputBuffer;
-	//InputBuffer::instance()->removeDevice(this);
 
 	qDebug() << "Closed device :" << deviceName();
 }
@@ -267,12 +266,23 @@ QString InputDevice::buttonName(int code) const
 		case JoystickDevice:
 			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("JoystickButton")).valueToKey(code);
 			break;
-		case TabletDevice:
-//			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardKey")).valueToKey(code);
-//			break;
 		default:
 			return "Unknown";
 	}
+}
+
+QString InputDevice::axisName(int code) const
+{
+	switch (this->deviceType())
+	{
+		case MouseDevice:
+		case JoystickDevice:
+			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
+			break;
+		default:
+			return "Unknown";
+			break;
+	}		
 }
 
 #include "inputdevice.moc"

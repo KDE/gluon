@@ -219,38 +219,27 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 			
 			switch (currentThread->deviceType())
 			{
-				case GluonInput::KeyboardDevice:
-					currentThread->setKeyState(usage, value);
-					break;
 				case GluonInput::MouseDevice:
 					if(usagePage == kHIDPage_GenericDesktop)
 					{
 						if(value == 0)
 							return;
 						
-#warning set the mouse pos thing here
-					}
-					else if(usagePage == kHIDPage_Button)
-					{
-						currentThread->setKeyState(usage, value);
+						emit currentThread->relAxisMoved(usage, value);
 					}
 					break;
 				case GluonInput::JoystickDevice:
-					break;
-				case GluonInput::TabletDevice:
-					break;
-				/*case GluonInput::TouchpadDevice:
-					break;*/
-				default:
+					if(usagePage == kHIDPage_GenericDesktop)
+					{
+						if(value == 0)
+							return;
+						
+						emit currentThread->absAxisMoved(usage, value);
+					}
 					break;
 			}
-//#warning remove this and the event class			
-/*			CFNumberRef numberRef =  (CFNumberRef)IOHIDDeviceGetProperty(deviceRef,CFSTR(kIOHIDLocationIDKey));
-			int id = -1;
-			CFNumberGetValue(numberRef, kCFNumberSInt32Type, &id);
-
-			InputEvent * event = new InputEvent(usage, value, eventType);
-			QCoreApplication::sendEvent(currentThread->parent(), event);*/
+			
+			currentThread->setKeyState(usage, value);
 		 }
 	}
 }

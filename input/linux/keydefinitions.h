@@ -22,7 +22,7 @@ namespace GluonInput
         TouchpadDevice = 0x16
     };
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
-
+#warning remove this, and all other events things on Linux
     enum InputTypeFlag
     {
         Key = QEvent::Type(QEvent::User + EV_KEY),

@@ -11,6 +11,7 @@ namespace GluonInput
 {	
 	class InputBuffer;
 	class InputThread;
+	
     class InputDevicePrivate : public QSharedData
     {
         public:
@@ -20,6 +21,7 @@ namespace GluonInput
             int m_lastAbsAxis;
             int m_lastRelAxis;
 
+#warning check if these are needed anymore
             QList<int> m_buttons;  //list of button pressed
             QList<int> m_forceFeedBack;
             QMap<int, int> m_relAxis; // list of relatif axis Value .  m_relAxis[REL_X] = -1;

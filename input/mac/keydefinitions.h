@@ -2,7 +2,7 @@
 #define KEYDIFINITIONS_H
 
 #include <QtCore/QFlags>
-#include <QtCore/QEvent>
+//#include <QtCore/QEvent>
 #include <QtCore/QObject>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
@@ -23,15 +23,15 @@ namespace GluonInput
 	Q_DECLARE_FLAGS(Devices, DeviceFlag)
 	
 	
-#warning remove this and do not use the QEvent thing
-	enum InputTypeFlag 
+//#warning remove this and do not use the QEvent thing
+	/*enum InputTypeFlag 
 	{
 		Key = QEvent::Type(QEvent::User+1),
 		RelativeAxis = QEvent::Type(QEvent::User+2),
 		AbsoluAxis = QEvent::Type(QEvent::User+3)
 	};
 	
-	Q_ENUMS(InputTypeFlag)
+	Q_ENUMS(InputTypeFlag)*/
 	
 	enum KeyboardKey
 	{

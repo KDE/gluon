@@ -41,16 +41,21 @@ namespace GluonInput
             bool button(int code)const;
             bool anyAbsMove();
             bool anyRelMove();
+		
+#warning this mapping not needed maybe?
+		/////////
             int lastAbsAxis()const;
             int lastRelAxis()const;
             int relAxisValue(int code)const;
             int absAxisValue(int code)const;
+		/////////
             QList<int> buttonCapabilities()const;
             QList<int> absAxisCapabilities()const;
             QList<int> relAxisCapabilities()const;
             AbsVal axisInfo(int axisCode)const;
 			bool buttonPressed(int code) const;
 			QString buttonName(int code) const;
+			QString axisName(int code) const;
 		
             bool error()const;
 			QString msgError()const;

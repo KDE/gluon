@@ -61,7 +61,11 @@ namespace GluonInput
 		
 			void setInputBuffer(InputBuffer * buffer);
 			void setKeyState(int key, bool pressed);
-
+		
+		signals:		
+			void relAxisMoved(int axis, int distance);
+			void absAxisMoved(int axis, int distance);
+		
         private:
             void readInformation();
 
