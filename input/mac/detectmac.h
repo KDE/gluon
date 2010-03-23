@@ -2,9 +2,7 @@
 #define DETECTMAC_H
 
 #include "gluon_input_export.h"
-#include "keydefinitions.h"
 
-#include "code.h"
 #include "inputdevice.h"
 #include "joystick.h"
 #include "detect.h"

@@ -5,6 +5,7 @@
 #include <QtCore/QDebug>
 
 #include "inputmanagerprivate.h"
+#include "gluondevices.h"
 
 #ifdef Q_WS_X11
 #include "detectlinux.h"

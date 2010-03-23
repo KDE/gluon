@@ -7,11 +7,10 @@
 #include <QtGui/QMouseEvent>
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaEnum>
-
 #include "absval.h"
 #include "inputdeviceprivate.h"
 #include "inputbuffer.h"
-#include "keydefinitions.h"
+#include "gluondevices.h"
 
 #include <core/debughelper.h>
 
@@ -255,20 +254,7 @@ bool InputDevice::buttonPressed(int code) const
 
 QString InputDevice::buttonName(int code) const
 {
-	switch (this->deviceType())
-	{
-		case KeyboardDevice:
-			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardKey")).valueToKey(code);
-			break;
-		case MouseDevice:
-			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("MouseButton")).valueToKey(code);
-			break;
-		case JoystickDevice:
-			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("JoystickButton")).valueToKey(code);
-			break;
-		default:
-			return "Unknown";
-	}
+	return GluonButtons::instance()->buttonName(this->deviceType(), code);
 }
 
 QString InputDevice::axisName(int code) const
@@ -277,7 +263,7 @@ QString InputDevice::axisName(int code) const
 	{
 		case MouseDevice:
 		case JoystickDevice:
-			return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
+			return GluonButtons::instance()->axisName(this->deviceType(), code);
 			break;
 		default:
 			return "Unknown";

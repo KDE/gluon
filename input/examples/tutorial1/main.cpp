@@ -22,27 +22,26 @@
 
 #include <QDebug>
 
-#include "input/code.h"
-#include "input/inputdetection.h"
+#include "input/inputmanager.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    qDebug() << "Number of devices available : "         << GluonInput::InputDetection::instance()->deviceCount();
-    qDebug() << "Number of keyboards available : "       << GluonInput::InputDetection::instance()->keyboardCount();
-    qDebug() << "Number of mice available : "          << GluonInput::InputDetection::instance()->mouseCount();
-    qDebug() << "Number of joysticks available : "       << GluonInput::InputDetection::instance()->joystickCount();
-    qDebug() << "Number of tablets available : "         << GluonInput::InputDetection::instance()->tabletCount();
-    qDebug() << "Number of unknown devices available : "  << GluonInput::InputDetection::instance()->unknownDeviceCount();
+    qDebug() << "Number of devices available : "         << GluonInput::InputManager::instance()->deviceCount();
+    qDebug() << "Number of keyboards available : "       << GluonInput::InputManager::instance()->keyboardCount();
+    qDebug() << "Number of mice available : "          << GluonInput::InputManager::instance()->mouseCount();
+    qDebug() << "Number of joysticks available : "       << GluonInput::InputManager::instance()->joystickCount();
+    qDebug() << "Number of tablets available : "         << GluonInput::InputManager::instance()->tabletCount();
+    qDebug() << "Number of unknown devices available : "  << GluonInput::InputManager::instance()->unknownDeviceCount();
 
-    foreach(GluonInput::InputDevice * input, GluonInput::InputDetection::instance()->inputList())
+    foreach(GluonInput::InputDevice * input, GluonInput::InputManager::instance()->inputList())
     {
         qDebug() << input->deviceName();
 
         switch (input->deviceType())
         {
-            case GluonInput::KeyBoardDevice :
+            case GluonInput::KeyboardDevice :
                 qDebug() << "this is a keyboard";
                 break;
             case GluonInput::MouseDevice :
@@ -62,13 +61,13 @@ int main(int argc, char *argv[])
         }
         // Now we can show the capability of inputs...This example show the buttons capabilities
         foreach(int buttonCode, input->buttonCapabilities())
-        qDebug() << "BUTTON : " << buttonCode << "->" << GluonInput::Code::buttonName(buttonCode);
+        qDebug() << "BUTTON : " << buttonCode << "->" << input->buttonName(buttonCode);
 
         foreach(int axis, input->absAxisCapabilities())
-        qDebug() << "ABSOLUTE AXIS " << axis << "->" << GluonInput::Code::absAxisName(axis);
+        qDebug() << "ABSOLUTE AXIS " << axis << "->" << input->axisName(axis);
 
         foreach(int axis, input->relAxisCapabilities())
-        qDebug() << "RELATIF AXIS" << axis << "->" << GluonInput::Code::relAxisName(axis);
+        qDebug() << "RELATIF AXIS" << axis << "->" << input->axisName(axis);
 
 
 

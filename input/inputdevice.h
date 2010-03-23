@@ -9,9 +9,8 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QObject>
 
-#include "code.h"
 #include "inputthread.h"
-#include "inputevent.h"
+#include "gluondevices.h"
 
 namespace GluonInput
 {
@@ -20,11 +19,7 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT InputDevice : public QObject
     {
             Q_OBJECT
-		
-			Q_ENUMS(GluonInput::KeyboardKey)
-			Q_ENUMS(GluonInput::MouseButton)
-			Q_ENUMS(GluonInput::JoystickButton)
-			Q_ENUMS(GluonInput::RelAbs)
+			Q_ENUMS(GluonInput::KeyboardButton)
 
         public:
             InputDevice(InputThread * inputThread, QObject * parent = 0);

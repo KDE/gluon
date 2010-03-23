@@ -6,7 +6,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-#include "keydefinitions.h"
+#include "gluonbuttons.h"
 #include "absval.h"
 #include "inputbuffer.h"
 

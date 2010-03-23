@@ -2,7 +2,7 @@
 #define _INPUTTHREAD_H_
 
 #include "gluon_input_export.h"
-#include "keydefinitions.h"
+#include "gluonbuttons.h"
 #include "absval.h"
 
 #include <QtCore/QThread>
