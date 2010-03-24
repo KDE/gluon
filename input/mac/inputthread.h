@@ -18,7 +18,7 @@ namespace GluonInput
 {
 
     class InputThreadPrivate;
-	class InputBuffer;
+	class InputEvent;
 
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
@@ -59,15 +59,15 @@ namespace GluonInput
 
             QObject * getParent();
 		
-			void setInputBuffer(InputBuffer * buffer);
-			void setKeyState(int key, bool pressed);
-		
 		signals:		
 			void relAxisMoved(int axis, int distance);
 			void absAxisMoved(int axis, int distance);
+			void buttonStateChanged(int button, int value);
 		
         private:
+			bool event(QEvent * event);
             void readInformation();
+			void sendEvent(InputEvent* event);
 
             QSharedDataPointer<InputThreadPrivate> d;
     };

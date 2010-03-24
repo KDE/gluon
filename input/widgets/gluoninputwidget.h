@@ -18,8 +18,6 @@ class GluonInputWidget : public QWidget
 
     protected:
         void setupTable();
-    protected slots:
-        void inputEvent(GluonInput::InputEvent * event);
     private:
         GluonInput::InputDevice * m_input;
         QTableWidget * m_tableWidget;

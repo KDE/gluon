@@ -1,5 +1,4 @@
 #include "inputthread.h"
-#include "inputevent.h"
 #include "absval.h"
 #include "inputthreadprivate.h"
 
@@ -22,7 +21,7 @@
 #define LONG(x) ((x)/BITS_PER_LONG)
 #define test_bit(bit, array) ((array[LONG(bit)] >> OFF(bit)) & 1)
 
-using namespace GluonInput,
+using namespace GluonInput;
 
 InputThread::InputThread(const QString &devicePath, QObject * parent)
 		: QThread(parent)
@@ -45,8 +44,9 @@ void InputThread::run()
 		int rd = read(d->m_fd, &ev, sizeof(struct input_event));
 		if (rd >= (int) sizeof(struct input_event))
 		{
-			InputEvent *event = new InputEvent(ev.code, ev.value, QEvent::Type(QEvent::User + ev.type));
-			QCoreApplication::postEvent(parent(), event);
+		  #warning emit events instead
+			//InputEvent *event = new InputEvent(ev.code, ev.value, QEvent::Type(QEvent::User + ev.type));
+			//QCoreApplication::postEvent(parent(), event);
 		}
 	}
 }
@@ -64,7 +64,7 @@ bool InputThread::openDevice(const QString& devicePath)
 	return true;
 }
 
-void InputThread::setEnabled()
+void InputThread::enable()
 {
 	if (!this->isRunning())
 	{
@@ -72,7 +72,7 @@ void InputThread::setEnabled()
 	}
 }
 
-void InputThread::setDisabled()
+void InputThread::disable()
 {
 	if (this->isRunning())
 	{

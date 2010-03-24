@@ -8,7 +8,6 @@
 
 #include "gluonbuttons.h"
 #include "absval.h"
-#include "inputbuffer.h"
 
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDKeys.h>
@@ -18,7 +17,6 @@ namespace GluonInput
 {
     class InputThreadPrivate : public QSharedData
     {
-		//class InputBuffer;
 		
         public:
             InputThreadPrivate();
@@ -46,8 +44,6 @@ namespace GluonInput
             int zAbsUsage;
 
             IOHIDDeviceRef device;
-		
-			InputBuffer * inputBuffer;
     };
 }
 

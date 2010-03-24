@@ -23,7 +23,6 @@ InputThreadPrivate::InputThreadPrivate(InputThreadPrivate &other)
         xAbsUsage(other.xAbsUsage),
         yAbsUsage(other.yAbsUsage),
         zAbsUsage(other.zAbsUsage),
-        device(other.device),
-		inputBuffer(NULL)
+        device(other.device)
 {
 }

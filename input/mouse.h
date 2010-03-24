@@ -29,6 +29,7 @@ namespace GluonInput
 
 		private slots:
 			void mouseMoved(int axis, int distance);
+		
         private:
             QSharedDataPointer<MousePrivate> d;
     };

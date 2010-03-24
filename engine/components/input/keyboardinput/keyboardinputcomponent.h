@@ -21,7 +21,7 @@
 #define KEYBOARDINPUTCOMPONENT_H
 
 #include "component.h"
-#include "input/inputevent.h"
+//#include "input/inputevent.h"
 //#include "input/keyboard.h"
 #include <QVector3D>
 
@@ -68,9 +68,10 @@ namespace GluonEngine
             KeyName keyCode() const;
             void setKeyCode(const KeyName &newKeyCode);
 
-        public Q_SLOTS:
+#warning Adopta: I commented these out because they are not needed anymore, but I do not know what to do instead
+        /*public Q_SLOTS:
             void inputEvent(GluonInput::InputEvent* inputEvent);
-            void buttonPressed(int key);
+            void buttonPressed(int key);*/
 
         private:
             KeyName m_keyCode;

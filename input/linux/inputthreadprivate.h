@@ -6,7 +6,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
-#include "inputdefinitions.h"
+#include "gluonbuttons.h"
 #include "absval.h"
 
 namespace GluonInput

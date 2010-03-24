@@ -7,7 +7,7 @@
 namespace GluonInput
 {
     class InputDevice;
-    class KeyBoard;
+    class Keyboard;
     class Mouse;
     class Joystick;
     class Tablet;
@@ -18,12 +18,12 @@ namespace GluonInput
             DetectLinuxPrivate();
             DetectLinuxPrivate(DetectLinuxPrivate &other);
 
-            QList<InputDevice *> m_inputList;
-            QList<KeyBoard *> m_keyboardList;
-            QList<Mouse *> m_mouseList;
-            QList<Joystick *> m_joystickList;
-            QList<Tablet *> m_tabletList;
-            QList<InputDevice *> m_unknownList;
+            QList<InputDevice *> inputList;
+            QList<Keyboard *> keyboardList;
+            QList<Mouse *> mouseList;
+            QList<Joystick *> joystickList;
+            QList<Tablet *> tabletList;
+            QList<InputDevice *> unknownList;
     };
 }
 #endif

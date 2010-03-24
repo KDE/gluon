@@ -17,19 +17,7 @@ namespace GluonInput
 		Q_ENUMS(MouseButton)
 		Q_ENUMS(RelAbs)
 		
-		public:
-			
-			
-		//#warning remove this and do not use the QEvent thing
-			/*enum InputTypeFlag 
-			{
-				Key = QEvent::Type(QEvent::User+1),
-				RelativeAxis = QEvent::Type(QEvent::User+2),
-				AbsoluAxis = QEvent::Type(QEvent::User+3)
-			};
-			
-			Q_ENUMS(InputTypeFlag)*/
-			
+		public:			
 			enum KeyboardButton
 			{
 				A = 4,
@@ -76,7 +64,7 @@ namespace GluonInput
 				MINUS,
 				EQUAL,
 				LEFT_BRACKET,
-				RIGT_BRACKET,
+				RIGHT_BRACKET,
 				QUOTE,
 				NON_US_HASH_AND_TILDE,
 				SEMICOLON,
@@ -232,29 +220,32 @@ namespace GluonInput
 				KEYPAD_MEMORY_SUBTRACT,
 				KEYPAD_MEMORY_MULTIPLY,
 				KEYPAD_MEMORY_DIVIDE,
-				Keypad_PLUS_AND_MINUS,
-				Keypad_Clear,
-				Keypad_Clear_Entry,
-				Keypad_Binary,
-				Keypad_Octal,
-				Keypad_Decimal,
-				Keypad_Hexadecimal,
-				LeftControl = 224,
-				LeftShift,
-				LeftAlt,
-				Left_GUI,
-				RightControl,
-				RightShift,
-				RightAlt,
-				Right_GUI
+				KEYPAD_PLUS_AND_MINUS,
+				KEYPAD_CLEAR,
+				KEYPAD_CLEAR_ENTRY,
+				KEYPAD_BINARY,
+				KEYPAD_OCTAL,
+				KEYPAD_DECIMAL,
+				KEYPAD_HEXADECIMAL,
+				LEFT_CTRL= 224,
+				LEFT_SHIFT,
+				LEFT_ALT,
+				LEFT_GUI,
+				RIGHT_CTRL,
+				RIGHT_SHIFT,
+				RIGHT_ALT,
+				RIGHT_GUI
 			};
 			
 			enum RelAbs
 			{
 				Misc = 0,
-				X_AXIS = 48,
-				Y_AXIS,
-				Z_AXIS,
+				X_REL = 48,
+				Y_REL = 49,
+				Z_REL = 50,
+				X_ABS = 48,
+				Y_ABS = 49,
+				Z_ABS = 50,
 				ROTATION_X_AXIS,
 				ROTATION_Y_AXIS,
 				ROTATION_Z_AXIS,
@@ -269,7 +260,6 @@ namespace GluonInput
 				Brake
 			};	 
 			
-			//atm only support for 15 mouse buttons :p
 			enum MouseButton
 			{
 				MOUSE_LEFT_BUTTON = 1,
@@ -280,33 +270,19 @@ namespace GluonInput
 				MOUSE_BUTTON_SIX,
 				MOUSE_BUTTON_SEVEN,
 				MOUSE_BUTTON_EIGHT,
-				MOUSE_BUTTON_NINE,
-				MOUSE_BUTTON_TEN,
-				MOUSE_BUTTON_ELEVEN,
-				MOUSE_BUTTON_TWELVE,
-				MOUSE_BUTTON_THIRTEEN,
-				MOUSE_BUTTON_FOURTEEN,
-				MOUSE_BUTTON_FIFTEEN
 			};
 			
-			//atm only support for 15 joystick buttons :p
 			enum JoystickButton
 			{
-				JOYSTICK_BUTTON_ONE = 1,
-				JOYSTICK_BUTTON_TWO,
-				JOYSTICK_BUTTON_THREE,
-				JOYSTICK_BUTTON_FOUR,
-				JOYSTICK_BUTTON_FIVE,
-				JOYSTICK_BUTTON_SIX,
-				JOYSTICK_BUTTON_SEVEN,
-				JOYSTICK_BUTTON_EIGHT,
-				JOYSTICK_BUTTON_NINE,
-				JOYSTICK_BUTTON_TEN,
-				JOYSTICK_BUTTON_ELEVEN,
-				JOYSTICK_BUTTON_TWELVE,
-				JOYSTICK_BUTTON_THIRTEEN,
-				JOYSTICK_BUTTON_FOURTEEN,
-				JOYSTICK_BUTTON_FIFTEEN
+				BUTTON_ONE = 1,
+				BUTTON_TWO,
+				BUTTON_THREE,
+				BUTTON_FOUR,
+				BUTTON_FIVE,
+				BUTTON_SIX,
+				BUTTON_SEVEN,
+				BUTTON_EIGHT,
+				BUTTON_NINE
 			};
 		
 			GluonButtons();

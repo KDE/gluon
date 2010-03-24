@@ -267,14 +267,17 @@ void DetectMac::createDevices(const void *value, void *context)
 			switch (usage) 
 			{
 				case GluonInput::KeyboardDevice:
+					qDebug() << "found keyboard";
 					inputDevice = new Keyboard(new InputThread(device));
 					detect->addKeyboard(inputDevice);
 					break;
 				case GluonInput::MouseDevice:
+					qDebug() << "found mouse";
 					inputDevice = new Mouse(new InputThread(device));
 					detect->addMouse(inputDevice);
 					break;
 				case GluonInput::JoystickDevice:
+					qDebug() << "found joystick";
 					inputDevice = new Joystick(new InputThread(device));
 					detect->addJoystick(inputDevice);
 					break;

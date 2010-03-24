@@ -58,6 +58,8 @@ set(GluonInput_SRCS_MAC
     mac/detectmac.cpp
 	mac/detectmacprivate.cpp
 	mac/gluonbuttons.cpp
+	mac/inputevent.cpp
+	mac/inputeventprivate.cpp
 )
 
 set(GluonInput_HEADERS_MAC
@@ -85,8 +87,6 @@ set(GluonInput_HEADERS_LINUX
 
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
-	inputevent.cpp
-	inputeventprivate.cpp
     inputdevice.cpp
 	inputdeviceprivate.cpp
     mouse.cpp
@@ -109,7 +109,6 @@ set(GluonInput_SRCS_COMMON
 set(GluonInput_HEADERS_COMMON
     gluon_input_export.h
     inputmanager.h
-    inputevent.h
     inputdevice.h
     mouse.h
     tablet.h

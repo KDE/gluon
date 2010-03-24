@@ -20,30 +20,97 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include <QWidget>
+/*#include <QWidget>
 #include "../../widgets/gluoninputwidget.h"
-#include "input/inputdetection.h"
-#include <QtGui>
+#include "input/inputmanager.h"
+#include <QtGui>*/
+//#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
+#include <QtCore/QThread>
+#include <QtCore/QTime>
+#include <QtCore/QPoint>
+#include <QtCore/QCoreApplication>
+
+#include "input/keyboard.h"
+#include "input/mouse.h"
+#include "input/inputmanager.h"
 
 using namespace std;
+using namespace GluonInput;
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+	QCoreApplication app(argc, argv);
+	
+	QTime time;
+	int millisecondsPerUpdate = 1000 / 25;
+	int maxFrameSkip = 5;
+	
+	int nextTick = 0, loops = 0;
+	int timeLapse = 0;
+	time.start();
+	
+	QPoint old(0,0);
+	
+	Keyboard * keyboard = InputManager::instance()->keyboard();
+	Mouse * mouse = InputManager::instance()->mouse();
+	
+	foreach(Mouse* m, InputManager::instance()->mouseList())
+	{
+		qDebug() << m->deviceName();
+		if(m->deviceName() == "Trackball")
+		{
+			qDebug() << "found my mouse";
+			mouse = m;
+			mouse->enable();
+			break;
+		}
+	}
+	
+	/*while (true)
+	{	
+		loops = 0;
+		QCoreApplication::processEvents();
+		while (time.elapsed() > nextTick && loops < maxFrameSkip)
+		{
+			foreach(const int button, mouse->buttonCapabilities())
+			{
+				if(mouse->buttonPressed(button))
+					qDebug() << "button : " << mouse->buttonName(button) << " pressed";
+			}
+			
+			if(old != mouse->position())
+			{
+				old = mouse->position();
+				qDebug() << "mouse pos: " << old;
+			}
+			
+			nextTick += millisecondsPerUpdate;
+			loops++;
+		}
+		
+		timeLapse = (time.elapsed() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
+		
+	}//*/
+	
+	app.exec();
+	
+    /*QApplication app(argc, argv);
 
-    if (GluonInput::InputDetection::instance()->mouseList().size() > 0)
+    if (GluonInput::InputManager::instance()->mouseList().size() > 0)
     {
-        GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputDetection::instance()->mouse());
+        GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputManager::instance()->mouse());
         widget->show();
     }
 
-    if (GluonInput::InputDetection::instance()->joystickList().size() > 0)
+    if (GluonInput::InputManager::instance()->joystickList().size() > 0)
     {
-        GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputDetection::instance()->joystick());
+        GluonInputWidget * widget = new GluonInputWidget(GluonInput::InputManager::instance()->joystick());
         widget->show();
     }
 
-    app.exec();
+    app.exec();*/
+	
+	return 0;
 
 }

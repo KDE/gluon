@@ -1,13 +1,13 @@
 #include "inputthread.h"
 
-#include <QtCore/qeventloop.h>
+#include <QtCore/QEvent>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
 #include "inputthreadprivate.h"
 #include "inputbuffer.h"
-
+#include "inputevent.h"
 
 using namespace GluonInput;
 
@@ -199,6 +199,7 @@ void InputThread::readInformation()
 
 void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) 
 {
+	qDebug() <<"getting report";
 	IOHIDDeviceRef deviceRef = (IOHIDDeviceRef) inSender;
 	InputThread * currentThread = (InputThread* ) inContext;
 	if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
@@ -216,6 +217,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 			else if(usagePage == kHIDPage_KeyboardOrKeypad && (usage <= 3 || usage > 231))
 				return;
 			
+			QEvent::Type eventType;
 			switch (currentThread->deviceType())
 			{
 				case GluonInput::MouseDevice:
@@ -223,8 +225,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-						
-						emit currentThread->relAxisMoved(usage, value);
+						eventType = QEvent::Type(InputEvent::RelativeAxis);
 					}
 					break;
 				case GluonInput::JoystickDevice:
@@ -233,14 +234,27 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 						if(value == 0)
 							return;
 						
-						emit currentThread->absAxisMoved(usage, value);
+						eventType = QEvent::Type(InputEvent::AbsoluteAxis);
 					}
 					break;
+				default:
+					eventType = QEvent::Type(InputEvent::Button);
+					break;					
 			}
 			
-			currentThread->setKeyState(usage, value);
+			printf("omg");
+			InputEvent * event = new InputEvent(usage, value, eventType);
+			currentThread->sendEvent(event);
+			/*QCoreApplication::postEvent(currentThread, event);
+			QCoreApplication::processEvents();*/
 		 }
 	}
+}
+void InputThread::sendEvent(InputEvent* event)
+{
+	qDebug() <<"sddsfsd";
+	QCoreApplication::postEvent(this, event);
+	QCoreApplication::processEvents();
 }
 
 void InputThread::enable()
@@ -349,14 +363,11 @@ QString InputThread::msgError()
 	return d->msgError;
 }
 
-void InputThread::setInputBuffer(InputBuffer * buffer)
+bool InputThread::event(QEvent * event)
 {
-	d->inputBuffer = buffer;
-}
-
-void InputThread::setKeyState(int key, bool pressed)
-{
-	d->inputBuffer->setKeyState(key, pressed);
+	qDebug() <<"wwaaargg";
+	
+	return QObject::event(event);
 }
 
 #include "inputthread.moc"

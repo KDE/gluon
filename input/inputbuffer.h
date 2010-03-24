@@ -18,8 +18,8 @@ namespace GluonInput
 			InputBuffer();
 			~InputBuffer();
 		
-			bool keyState(int key);
-			void setKeyState(int key, bool pressed);
+			bool buttonState(int button);
+			void setButtonState(int button, bool pressed);
 			
 		private:
 			QSharedDataPointer<InputBufferPrivate> d;

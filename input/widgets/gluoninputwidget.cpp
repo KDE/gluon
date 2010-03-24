@@ -1,6 +1,6 @@
 #include "gluoninputwidget.h"
 
-#include "input/code.h"
+#include "input/gluonbuttons.h"
 #include "input/absval.h"
 
 #include <QtGui/QVBoxLayout>
@@ -16,9 +16,8 @@ GluonInputWidget::GluonInputWidget(GluonInput::InputDevice * input, QWidget * pa
     layout->addWidget(m_tableWidget);
     setLayout(layout);
     setupTable();
-    connect(m_input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
 
-    m_input->setEnabled();
+    m_input->enable();
     setWindowTitle(tr("input settings"));
 }
 void GluonInputWidget::setupTable()
@@ -46,7 +45,7 @@ void GluonInputWidget::setupTable()
 
     foreach(int axis, m_input->absAxisCapabilities())
     {
-        QTableWidgetItem * item = new QTableWidgetItem(GluonInput::Code::absAxisName(axis));
+        QTableWidgetItem * item = new QTableWidgetItem(m_input->axisName(axis));
         m_tableWidget->setItem(row, 0, item);
         QSlider * slider = new QSlider(Qt::Horizontal);
         slider->setMinimum(m_input->axisInfo(axis).min);
@@ -59,7 +58,7 @@ void GluonInputWidget::setupTable()
 
     foreach(int axis, m_input->relAxisCapabilities())
     {
-        QTableWidgetItem * item = new QTableWidgetItem(GluonInput::Code::absAxisName(axis));
+        QTableWidgetItem * item = new QTableWidgetItem(m_input->axisName(axis));
         m_tableWidget->setItem(row, 0, item);
         QSlider * slider = new QSlider(Qt::Horizontal);
         slider->setMinimum(0);
@@ -70,52 +69,6 @@ void GluonInputWidget::setupTable()
         row++;
     }
 
-}
-
-void GluonInputWidget::inputEvent(GluonInput::InputEvent * event)
-{
-    switch (event->type())
-    {
-
-        case GluonInput::Key :
-            m_tableWidget->item(0, 1)->setText(GluonInput::Code::buttonName(event->code()))   ;
-            if (event->value() == 1)
-                m_tableWidget->item(0, 1)->setBackgroundColor(QColor(0, 0, 255, 100));
-            else
-                m_tableWidget->item(0, 1)->setBackgroundColor(Qt::white);
-            break;
-
-
-
-        case GluonInput::AbsoluAxis :
-            for (int row = 1; row < m_tableWidget->rowCount(); ++row)
-            {
-
-                if (m_tableWidget->item(row, 0)->text() == GluonInput::Code::absAxisName(event->code()))
-                {
-
-                    QSlider * slider = qobject_cast<QSlider*>(m_tableWidget->cellWidget(row, 1));
-                    slider->setValue(event->value());
-                }
-            }
-            break;
-
-        case GluonInput::RelativeAxis:
-            for (int row = 1; row < m_tableWidget->rowCount(); ++row)
-            {
-
-                if (m_tableWidget->item(row, 0)->text() == GluonInput::Code::relAxisName(event->code()))
-                {
-
-                    QSlider * slider = qobject_cast<QSlider*>(m_tableWidget->cellWidget(row, 1));
-                    slider->setValue(slider->value() + event->value());
-                }
-            }
-            break;
-
-        default :
-            break;
-    }
 }
 
 #include "gluoninputwidget.moc"

@@ -57,23 +57,15 @@ namespace GluonInput
 
             void setInputThread(InputThread * inputThread);
             InputThread * inputThread() const;
-
-        /*signals:
-            void eventSent(GluonInput::InputEvent * event);
-            void buttonPressed(int code);
-            void buttonReleased(int code);
-            void absAxisChanged(int axe, int code);
-            void relAxisChanged(int axe, int code);
-            void pressed();
-            void moved();
-
-        public slots:*/
+		
 			bool isEnabled() const;
             void enable();
             void disable();
-
-        private:
-            //bool event(QEvent * evt);
+		
+		private slots:
+			void buttonStateChanged(int code, int value);
+		
+		private:
             void init();
 
             QSharedDataPointer<InputDevicePrivate> d;

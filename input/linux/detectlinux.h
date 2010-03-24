@@ -30,7 +30,7 @@ namespace GluonInput
             void setAllDisabled();
 
             QList<InputDevice *> getInputList();
-            QList<KeyBoard *> getKeyboardList();
+            QList<Keyboard *> getKeyboardList();
             QList<Mouse *> getMouseList();
             QList<Joystick *> getJoystickList();
             QList<Tablet *> getTabletList();

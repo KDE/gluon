@@ -74,7 +74,7 @@ void KeyboardInputComponent::stop()
     GluonEngine::Component::stop();
 }
 
-void
+/*void
 KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
 {
     if (inputEvent->code() == m_keyCode)
@@ -95,7 +95,7 @@ void KeyboardInputComponent::buttonPressed(int key)
 {
     DEBUG_FUNC_NAME
     DEBUG_TEXT(QString("Key %1 was pressed.").arg(key));
-}
+}*/
 
 bool
 KeyboardInputComponent::isActionStarted()

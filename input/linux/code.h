@@ -6,7 +6,7 @@
 #include <QtCore/QEvent>
 
 #include "gluon_input_export.h"
-#include "inputdefinitions.h"
+#include "gluonbuttons.h"
 
 /**
  * \defgroup KCL KCL

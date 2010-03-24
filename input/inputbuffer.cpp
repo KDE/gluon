@@ -4,6 +4,7 @@
 
 #include <QtCore/QQueue>
 #include <QtCore/QHash>
+#include <QtCore/QDebug>
 
 using namespace GluonInput;
 
@@ -16,14 +17,17 @@ InputBuffer::~InputBuffer()
 {
 }
 
-bool InputBuffer::keyState(int key)
+bool InputBuffer::buttonState(int button)
 {
-	return d->keyState[key].dequeue();
+	if(d->buttonState[button].count() == 0)
+		return false;
+	
+	return d->buttonState[button].dequeue();
 }
 
-void InputBuffer::setKeyState(int key, bool pressed)
+void InputBuffer::setButtonState(int button, bool pressed)
 {
-	d->keyState[key].enqueue(pressed);
+	d->buttonState[button].enqueue(pressed);
 }
 
 #include "inputbuffer.moc"

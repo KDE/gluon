@@ -51,11 +51,12 @@ double Mouse::sensibility()const
 
 void Mouse::mouseMoved(int axis, int distance)
 {
-	if(axis == GluonButtons::X_AXIS)
+	qDebug() << "signal emitted";
+	if(axis == GluonButtons::X_REL)
 	{
 		d->position.setX(d->position.x() + distance);
 	}
-	else if (axis == GluonButtons::Y_AXIS)
+	else if (axis == GluonButtons::Y_REL)
 	{
 		d->position.setY(d->position.y() + distance);
 	}

@@ -5,7 +5,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QSharedData>
 
-#include "inputdefinitions.h"
+#include "gluonbuttons.h"
 #include "gluon_input_export.h"
 #include "absval.h"
 /**
@@ -27,8 +27,8 @@ namespace GluonInput
             void run();
 
             const QString devicePath() const;
-            void setEnabled();
-            void setDisabled();
+            void enable();
+            void disable();
             int getJoystickXAxis();
             int getJoystickYAxis();
             int getJoystickZAxis();
@@ -53,6 +53,11 @@ namespace GluonInput
             QString msgError();
 
             QObject * getParent();
+	    
+	    signals:		
+			void relAxisMoved(int axis, int distance);
+			void absAxisMoved(int axis, int distance);
+			void buttonStateChanged(int button, int value);
 
         private:
 

@@ -131,11 +131,11 @@ const char *GLUONINPUT_CODE_ABSOLU[ABS_MAX + 1] = { "X", "Y", "Z", "Rx",  "Ry", 
 		"Wheel", "Gas", "Brake", NULL, NULL, NULL, NULL, NULL,
 		/* 0x10: */ "Hat0X", "Hat0Y", "Hat1X", "Hat1Y",
 		"Hat2X", "Hat2Y", "Hat3X", "Hat 3Y",
-		"Pressure", "Distance", "XTilt", "YTilt",
-		"ToolWidth", NULL, NULL, NULL,
-		/* 0x20: */ "Volume", NULL, NULL, NULL,
-		NULL, NULL, NULL, NULL,
-		/* 0x28: */ "Misc"
+		  "Pressure", "Distance", "XTilt", "YTilt",
+		  "ToolWidth", NULL, NULL, NULL,
+		  /* 0x20: */ "Volume", NULL, NULL, NULL,
+		  NULL, NULL, NULL, NULL,
+		  /* 0x28: */ "Misc"
 												  };
 
 QString Code::buttonName(int code)

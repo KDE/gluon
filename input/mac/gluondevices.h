@@ -2,6 +2,7 @@
 #define GLUONDEVICES_H
 
 #include <QtCore/QFlags>
+#include <QtCore/QEvent>
 
 #include <IOKit/hid/IOHIDUsageTables.h>
 
@@ -16,7 +17,6 @@ namespace GluonInput
 		//TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
 		TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
 	};
-	
 	Q_DECLARE_FLAGS(Devices, DeviceFlag)
 	
 	Q_DECLARE_OPERATORS_FOR_FLAGS(Devices);

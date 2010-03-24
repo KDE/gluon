@@ -77,7 +77,7 @@ void DetectLinux::setAllEnabled()
 {
 	foreach(InputDevice *input, this->getInputList())
 	{
-		input->setEnabled();
+		input->enable();
 	}
 }
 
@@ -85,82 +85,82 @@ void DetectLinux::setAllDisabled()
 {
 	foreach(InputDevice *input, this->getInputList())
 	{
-		input->setDisabled();
+		input->disable();
 	}
 }
 
 void DetectLinux::clear()
 {
-	d->m_inputList.clear();
-	d->m_keyboardList.clear();
-	d->m_mouseList.clear();
-	d->m_joystickList.clear();
-	d->m_tabletList.clear();
-	d->m_unknownList.clear();
+	d->inputList.clear();
+	d->keyboardList.clear();
+	d->mouseList.clear();
+	d->joystickList.clear();
+	d->tabletList.clear();
+	d->unknownList.clear();
 }
 
 void DetectLinux::addInput(InputDevice *i)
 {
-	d->m_inputList.append(i);
+	d->inputList.append(i);
 }
 
 void DetectLinux::addKeyboard(InputDevice *i)
 {
-	KeyBoard * keybd = qobject_cast<KeyBoard*>(i);
-	d->m_keyboardList.append(keybd);
+	Keyboard * keybd = qobject_cast<Keyboard*>(i);
+	d->keyboardList.append(keybd);
 }
 
 void DetectLinux::addMouse(InputDevice *i)
 {
 	Mouse * mouse = (Mouse*)i;
-	d->m_mouseList.append(mouse);
+	d->mouseList.append(mouse);
 }
 
 void DetectLinux::addJoystick(InputDevice *i)
 {
 	Joystick * joy = (Joystick*)i;
-	d->m_joystickList.append(joy);
+	d->joystickList.append(joy);
 }
 
 void DetectLinux::addTablet(InputDevice *i)
 {
 	Tablet * tablet = (Tablet*)i;
-	d->m_tabletList.append(tablet);
+	d->tabletList.append(tablet);
 }
 
 void DetectLinux::addUnknown(InputDevice *i)
 {
-	d->m_unknownList.append(i);
+	d->unknownList.append(i);
 }
 
 QList<InputDevice *> DetectLinux::getInputList()
 {
-	return d->m_inputList;
+	return d->inputList;
 }
 
-QList<KeyBoard *> DetectLinux::getKeyboardList()
+QList<Keyboard *> DetectLinux::getKeyboardList()
 {
-	return d->m_keyboardList;
+	return d->keyboardList;
 }
 
 QList<Mouse *> DetectLinux::getMouseList()
 {
-	return d->m_mouseList;
+	return d->mouseList;
 }
 
 QList<Joystick *> DetectLinux::getJoystickList()
 {
-	return d->m_joystickList;
+	return d->joystickList;
 }
 
 QList<Tablet *> DetectLinux::getTabletList()
 {
-	return d->m_tabletList;
+	return d->tabletList;
 }
 
 QList<InputDevice *> DetectLinux::getUnknownDeviceList()
 {
-	return d->m_unknownList;
+	return d->unknownList;
 }
 
 #include "detectlinux.moc"
