@@ -2,7 +2,6 @@
 #define GLUONDEVICES_H
 
 #include <QtCore/QFlags>
-#include <QtCore/QEvent>
 #include <linux/input.h>
 
 namespace GluonInput
@@ -10,7 +9,7 @@ namespace GluonInput
     enum DeviceFlag
     {
         UnknownDevice = 0x0,
-        KeyBoardDevice = 0x1,
+        KeyboardDevice = 0x1,
         MouseDevice = 0x2,
         JoystickDevice = 0x4,
         TabletDevice = 0x8,

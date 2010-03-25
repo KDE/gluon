@@ -76,12 +76,14 @@ set(GluonInput_SRCS_LINUX
 	linux/inputthreadprivate.cpp
     linux/detectlinux.cpp
 	linux/detectlinuxprivate.cpp
+	linux/gluonbuttons.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
 	linux/inputthread.h
     linux/detectlinux.h
-    linux/keydefinitions.h
+    linux/gluonbuttons.h
+	linux/gluondevices.h
 )
 ###############linux source and headers###################
 

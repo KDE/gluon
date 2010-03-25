@@ -44,7 +44,7 @@ void DetectLinux::searchDevice()
 			detect->addInput(temp);
 			switch (temp->deviceType())
 			{
-				case GluonInput::KeyBoardDevice:
+				case GluonInput::KeyboardDevice:
 					detect->addKeyboard(temp);
 					break;
 

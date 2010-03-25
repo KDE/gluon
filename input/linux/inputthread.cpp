@@ -215,7 +215,7 @@ void InputThread::readInformation()
 
 	if (d->m_buttonCapabilities.contains(KEY_ESC))
 	{
-		d->m_deviceType  = GluonInput::KeyBoardDevice;
+		d->m_deviceType  = GluonInput::KeyboardDevice;
 	}
 }
 

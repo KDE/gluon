@@ -12,12 +12,12 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT GluonButtons :public GluonCore::Singleton<GluonButtons>
     {
 		Q_OBJECT
-		Q_ENUMS(KeyboardButton)
+		Q_ENUMS(Button)
 		Q_ENUMS(Absolute)
 		Q_ENUMS(Relative)
 		
 	    public:			
-		      enum KeyboadButton
+		      enum Button
 		      {
 				ESC = 1,
 				ONE,
