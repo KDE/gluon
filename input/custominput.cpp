@@ -148,7 +148,7 @@ bool CustomInput::button(const QString& name)
 	else return false;
 }
 
-int CustomInput::relAxisValue(const QString &name)
+/*int CustomInput::relAxisValue(const QString &name)
 {
 	if (d->m_relAxis.contains(name))
 		return d->m_relAxis[name].first->relAxisValue(d->m_relAxis[name].second);
@@ -162,7 +162,7 @@ int CustomInput::absAxisValue(const QString &name)
 	if (d->m_absAxis.contains(name))
 		return d->m_absAxis[name].first->absAxisValue(d->m_absAxis[name].second);
 	else return -1;
-}
+}*/
 
 /*InputDevice* CustomInput::inputAt(const QString& name, GluonInput::InputTypeFlag type)
 {

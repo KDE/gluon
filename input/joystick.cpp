@@ -12,17 +12,18 @@ Joystick::Joystick(InputThread * inputThread, QObject * parent) : InputDevice(in
 
 int Joystick::axisX() const
 {
-	return absAxisValue(this->inputThread()->getJoystickXAxis());
+  #warning fix the joystick thing, when I have a joystick to test with
+//	return absAxisValue(this->inputThread()->getJoystickXAxis());
 }
 
 int Joystick::axisY()const
 {
-	return absAxisValue(this->inputThread()->getJoystickYAxis());
+//	return absAxisValue(this->inputThread()->getJoystickYAxis());
 }
 
 int Joystick::axisZ() const
 {
-	return absAxisValue(this->inputThread()->getJoystickZAxis());
+//	return absAxisValue(this->inputThread()->getJoystickZAxis());
 }
 
 void Joystick::joystickMoved(int axis, int distance)

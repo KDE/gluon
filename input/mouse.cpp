@@ -33,12 +33,12 @@ void Mouse::setOrigin(const QPoint p)
 
 int Mouse::wheelPosition() const
 {
-	return relAxisValue(lastRelAxis());
+	return d->wheelPos;//relAxisValue(lastRelAxis());
 }
 
 int Mouse::hWheelPosition()const
 {
-	return relAxisValue(lastRelAxis());
+	return d->hWheelPos;//relAxisValue(lastRelAxis());
 }
 
 double Mouse::sensibility()const
@@ -48,13 +48,21 @@ double Mouse::sensibility()const
 
 void Mouse::mouseMoved(int axis, int distance)
 {
-	if(axis == GluonButtons::X_REL)
+	switch(axis)
 	{
-		d->position.setX(d->position.x() + distance);
-	}
-	else if (axis == GluonButtons::Y_REL)
-	{
-		d->position.setY(d->position.y() + distance);
+		case GluonButtons::X_REL:
+			d->position.setX(d->position.x() + distance);
+			break;
+			
+		case GluonButtons::Y_REL:
+			d->position.setY(d->position.y() + distance);
+			break;
+		case GluonButtons::HWHEEL:
+			d->hWheelPos = distance;
+			break;
+		case GluonButtons::WHEEL_REL:
+			d->wheelPos = distance;
+			break;
 	}
 }
 

@@ -84,7 +84,7 @@ bool InputDevice::button(int code)const
 	return d->m_buttons.contains(code);
 }
 
-bool InputDevice::anyAbsMove()
+/*bool InputDevice::anyAbsMove()
 {
 	if (d->m_absMove)
 	{
@@ -132,7 +132,7 @@ int InputDevice::absAxisValue(int code)const
 	} else {
 		return 0;
 	}
-}
+}*/
 
 QList<int> InputDevice::buttonCapabilities()const
 {
@@ -221,5 +221,54 @@ void InputDevice::buttonStateChanged(int code, int value)
 {
 	d->inputBuffer->setButtonState(code, value);
 }
+/*
+bool InputDevice::event(QEvent * evt)
+    {
+        InputEvent * event = (InputEvent*)evt;
+        emit eventSent(event);
 
+        switch (event->type())
+        {
+            case GluonInput::Key:
+
+                if (event->value() == 1)
+                { // if click
+                    d->m_buttons.append(event->code());
+                    emit buttonPressed(event->code());
+                    emit pressed();
+                }
+
+                if (event->value() == 0)
+                { //if release
+                    d->m_buttons.removeOne(event->code());
+                    emit buttonReleased(event->code());
+                }
+                return true;
+                break;
+
+            case GluonInput::RelativeAxis:
+                emit moved();
+                d->m_relMove = true;
+                d->m_lastRelAxis = event->code();
+                d->m_relAxis[event->code()] = event->value();
+                emit relAxisChanged(event->code(), event->value());
+                return true;
+                break;
+
+            case GluonInput::AbsoluAxis:
+                emit moved();
+                d->m_absMove = true;
+                d->m_lastAbsAxis = event->code();
+                d->m_absAxis[event->code()] = event->value();
+                emit absAxisChanged(event->code(), event->value());
+                return true;
+                break;
+
+            default:
+                break;
+        }
+
+        return QObject::event(evt);
+    }
+*/
 #include "inputdevice.moc"

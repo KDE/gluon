@@ -15,6 +15,8 @@ namespace GluonInput
             QPoint position;
             QPoint originalPosition;
             double sensibility;
+	    int hWheelPos;
+	    int wheelPos;
     };
 }
 
