@@ -7,20 +7,17 @@ using namespace GluonInput;
 
 Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 {
+  qDebug() <<"creating mouse";
 	d = new MousePrivate();
 	d->originalPosition = d->position = QPoint(0, 0);
 	d->sensibility = 1;
+	
 	
 	connect(inputThread, SIGNAL(relAxisMoved(int, int)), this, SLOT(mouseMoved(int, int)));
 }
 
 QPoint Mouse::position()
 {
-	/*if (anyRelMove())
-	{
-		d->position += QPoint(relAxisValue(lastRelAxis()), relAxisValue(lastRelAxis()));
-	}
-	return (d->position + d->originalPosition)*d->sensibility;*/
 	return d->position;
 }
 
@@ -51,7 +48,6 @@ double Mouse::sensibility()const
 
 void Mouse::mouseMoved(int axis, int distance)
 {
-	qDebug() << "signal emitted";
 	if(axis == GluonButtons::X_REL)
 	{
 		d->position.setX(d->position.x() + distance);
@@ -61,5 +57,6 @@ void Mouse::mouseMoved(int axis, int distance)
 		d->position.setY(d->position.y() + distance);
 	}
 }
+
 
 #include "mouse.moc"

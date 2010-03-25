@@ -11,6 +11,7 @@ include_directories(${QT_INCLUDES})
 ########### next target ###############
 
 set(tutorial2_SRCS 
+  gameloop.cpp
    main.cpp 
 	)
 qt4_automoc(${tutorial2_SRCS})

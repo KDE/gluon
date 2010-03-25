@@ -44,9 +44,20 @@ void InputThread::run()
 		int rd = read(d->m_fd, &ev, sizeof(struct input_event));
 		if (rd >= (int) sizeof(struct input_event))
 		{
-		  #warning emit events instead
-			//InputEvent *event = new InputEvent(ev.code, ev.value, QEvent::Type(QEvent::User + ev.type));
-			//QCoreApplication::postEvent(parent(), event);
+			QEvent::Type eventType = QEvent::Type(QEvent::User + ev.type);
+			
+			switch(eventType)
+			{
+				case GluonInput::Button:
+					emit this->buttonStateChanged(ev.code, ev.value);
+					break;
+				case GluonInput::RelativeAxis:
+					emit this->relAxisMoved(ev.code, ev.value);
+					break;
+				case GluonInput::AbsoluteAxis:
+					emit this->absAxisMoved(ev.code, ev.value);
+					break;
+			}
 		}
 	}
 }
@@ -64,42 +75,33 @@ bool InputThread::openDevice(const QString& devicePath)
 	return true;
 }
 
-void InputThread::enable()
-{
-	if (!this->isRunning())
-	{
-		this->start();
-	}
-}
-
-void InputThread::disable()
-{
-	if (this->isRunning())
-	{
-		this->stop();
-	}
-}
-
 void InputThread::readInformation()
 {
-	if (!QFile::exists(d->m_devicePath))
+	/*if (!QFile::exists(d->m_devicePath))
 	{
 		qDebug() << "m_devicePath does not exist";
 		d->m_error = true;
 		d->m_msgError += "device url does not exist \n";
 		return;
+	}*/
+	
+	if(d->m_fd < 0)
+	{
+		qDebug() <<"device not open";
+		d->m_error = true;
+		d->m_msgError += "device is not open\n";
+		return;
 	}
-
-	int m_fd = -1;
-	if ((m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) < 0)
+	
+	if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) < 0)
 	{
 		qDebug() << "Could not open device" << d->m_devicePath;
 		d->m_error = true;
 		d->m_msgError += "could not open the device \n";
 		return;
 	}
-
-	if (ioctl(m_fd, EVIOCGID, &d->m_device_info))
+		
+	if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info))
 	{
 		qDebug() << "Could not retrieve information of device" << d->m_devicePath;
 		d->m_msgError += "could not retrieve information of device\n";
@@ -108,7 +110,7 @@ void InputThread::readInformation()
 	}
 
 	char name[256] = "Unknown";
-	if (ioctl(m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
+	if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
 	{
 		qDebug() << "could not retrieve name of device" << d->m_devicePath;
 		d->m_msgError += "cannot retrieve name of device\n";
@@ -121,7 +123,7 @@ void InputThread::readInformation()
 	unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 	int abs[5];
 	memset(bit, 0, sizeof(bit));
-	ioctl(m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
+	ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
 	d->m_buttonCapabilities.clear();
 	d->m_absAxisInfos.clear();
@@ -135,7 +137,7 @@ void InputThread::readInformation()
 				continue;
 			}
 
-			ioctl(m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
+			ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
 			for (int j = 0; j < KEY_MAX; j++)
 			{
 				if (test_bit(j, bit[i]))
@@ -152,7 +154,7 @@ void InputThread::readInformation()
 
 					if (i == EV_ABS)
 					{
-						ioctl(m_fd, EVIOCGABS(j), abs);
+						ioctl(d->m_fd, EVIOCGABS(j), abs);
 						AbsVal cabs(0, 0, 0, 0);
 						for (int k = 0; k < 5; k++)
 						{
@@ -187,9 +189,7 @@ void InputThread::readInformation()
 	}
 
 	//===============Find Force feedback ?? ===============
-
-	close(m_fd);
-
+	
 	d->m_deviceType = GluonInput::UnknownDevice;
 
 	if (d->m_buttonCapabilities.contains(BTN_STYLUS))

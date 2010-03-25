@@ -27,8 +27,7 @@ namespace GluonInput
             void run();
 
             const QString devicePath() const;
-            void enable();
-            void disable();
+
             int getJoystickXAxis();
             int getJoystickYAxis();
             int getJoystickZAxis();

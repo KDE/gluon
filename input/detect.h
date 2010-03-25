@@ -21,9 +21,8 @@ namespace GluonInput
         public:
             Detect(QObject * parent = 0);
 
-            virtual void searchDevice() = 0;
-            virtual void setAllEnabled() = 0;
-            virtual void setAllDisabled() = 0;
+            virtual void detectDevices() = 0;
+            virtual void setAllEnabled(bool enable) = 0;
 
             virtual QList<InputDevice *> getInputList() = 0;
             virtual QList<Keyboard *> getKeyboardList() = 0;

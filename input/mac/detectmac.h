@@ -29,8 +29,8 @@ namespace GluonInput
             ~DetectMac();
 
             void searchDevice();
-            void setAllEnabled();
-            void setAllDisabled();
+            void enableAll();
+            void disableAll();
 
             QList<InputDevice *> getInputList();
             QList<Keyboard *> getKeyboardList();

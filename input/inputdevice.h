@@ -59,8 +59,7 @@ namespace GluonInput
             InputThread * inputThread() const;
 		
 			bool isEnabled() const;
-            void enable();
-            void disable();
+            void setEnabled(bool enable);
 		
 		private slots:
 			void buttonStateChanged(int code, int value);

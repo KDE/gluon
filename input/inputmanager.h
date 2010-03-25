@@ -25,9 +25,8 @@ namespace GluonInput
 
 		public:
 			InputManager();
-			void searchDevice();
-			void setAllEnable();
-			void setAllDisable();
+			void detectDevices();
+			void setAllEnabled(bool enable);
 
 			unsigned int deviceCount();
 

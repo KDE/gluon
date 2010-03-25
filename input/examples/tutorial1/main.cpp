@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         qDebug() << "ABSOLUTE AXIS " << axis << "->" << input->axisName(axis);
 
         foreach(int axis, input->relAxisCapabilities())
-        qDebug() << "RELATIF AXIS" << axis << "->" << input->axisName(axis);
+        qDebug() << "RELATIVE AXIS " << axis << "->" << input->axisName(axis);
 
 
 

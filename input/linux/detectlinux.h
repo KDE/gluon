@@ -25,9 +25,8 @@ namespace GluonInput
             DetectLinux(QObject * parent);
             ~DetectLinux();
 
-            void searchDevice();
-            void setAllEnabled();
-            void setAllDisabled();
+            void detectDevices();
+            void setAllEnabled(bool enable);
 
             QList<InputDevice *> getInputList();
             QList<Keyboard *> getKeyboardList();

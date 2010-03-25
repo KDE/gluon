@@ -58,25 +58,20 @@ void InputManager::init()
 	if(d->m_instance)
 	{
 		qDebug() << "Instance created, searching devices";
-		d->m_instance->searchDevice();
+		d->m_instance->detectDevices();
 	}
 	else
 		qDebug() << "Instance not created, fail!";
 }
 
-void InputManager::searchDevice()
+void InputManager::detectDevices()
 {
-	d->m_instance->searchDevice();
+	d->m_instance->detectDevices();
 }
 
-void InputManager::setAllEnable()
+void InputManager::setAllEnabled(bool enable)
 {
-	d->m_instance->setAllEnabled();
-}
-
-void InputManager::setAllDisable()
-{
-	d->m_instance->setAllDisabled();
+	d->m_instance->setAllEnabled(enable);
 }
 
 unsigned int InputManager::deviceCount()

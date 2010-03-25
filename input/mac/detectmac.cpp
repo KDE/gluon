@@ -170,7 +170,7 @@ void DetectMac::clear()
 	d->m_unknownList.clear();
 }
 
-void DetectMac::setAllEnabled()
+void DetectMac::enableAll()
 {
 	qDebug() << "Enabling all devices";
 	foreach(InputDevice *input, this->getInputList())
@@ -179,7 +179,7 @@ void DetectMac::setAllEnabled()
 	}
 }
 
-void DetectMac::setAllDisabled()
+void DetectMac::disableAll()
 {
 	foreach(InputDevice *input, this->getInputList()) 
 	{

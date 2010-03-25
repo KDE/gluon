@@ -1,12 +1,10 @@
 #include "inputdevice.h"
 
 #include <QtCore/QDebug>
-#include <QtGui/QApplication>
 #include <QtCore/QFile>
-#include <QtGui/QMessageBox>
-#include <QtGui/QMouseEvent>
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaEnum>
+
 #include "absval.h"
 #include "inputdeviceprivate.h"
 #include "inputbuffer.h"
@@ -21,10 +19,12 @@ InputDevice::InputDevice(InputThread * inputThread, QObject * parent)
 {
 	d = new InputDevicePrivate();
 	d->inputThread = inputThread;
-	d->inputThread->setParent(this);
+	d->inputThread->setParent(this);	
 	d->inputBuffer = new InputBuffer();
 	d->inputBuffer->setParent(this);
 	this->init();
+	
+	connect(inputThread, SIGNAL(buttonStateChanged(int, int)), this, SLOT(buttonStateChanged(int, int)));
 }
 
 InputDevice::InputDevice()
@@ -34,7 +34,7 @@ InputDevice::InputDevice()
 
 InputDevice::~InputDevice()
 {
-	disable();
+	this->setEnabled(false);
 	delete d->inputThread;
 	delete d->inputBuffer;
 
@@ -169,24 +169,21 @@ bool InputDevice::isEnabled() const
 	return d->inputThread->isEnabled();
 }
 
-void InputDevice::enable()
+void InputDevice::setEnabled(bool enable)
 {
-	d->inputThread->enable();
-}
-
-void InputDevice::disable()
-{
-	d->inputThread->disable();
-	d->m_buttons.clear();
-	d->m_relAxis.clear();
-	d->m_absAxis.clear();
-	d->m_relMove = false;
-	d->m_absMove = false;
+  if(enable && !d->inputThread->isEnabled())
+  {
+	d->inputThread->start();
+  }
+  else if (!enable && d->inputThread->isEnabled())
+  {
+	d->inputThread->stop();
+  }
 }
 
 void InputDevice::setInputThread(InputThread * inputThread)
 {
-	d->inputThread->disable();
+	d->inputThread->stop();
 	delete d->inputThread;
 	d->inputThread = inputThread;
 }

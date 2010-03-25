@@ -1,11 +1,12 @@
 #include "gluoninputwidget.h"
 
-#include "input/gluonbuttons.h"
 #include "input/absval.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtCore/QDebug>
+#include <QtCore/QTime>
+#include <QtGui/QPushButton>
 
 GluonInputWidget::GluonInputWidget(GluonInput::InputDevice * input, QWidget * parent)
         : QWidget(parent)
@@ -19,7 +20,51 @@ GluonInputWidget::GluonInputWidget(GluonInput::InputDevice * input, QWidget * pa
 
     m_input->enable();
     setWindowTitle(tr("input settings"));
+    
+    connect(this, SIGNAL(startTheLoop()), this, SLOT(startLoop()), Qt::QueuedConnection);
+
+    
+    //startLoop();
 }
+
+void GluonInputWidget::stuff()
+{
+  emit this->startTheLoop();
+}
+
+
+void GluonInputWidget::startLoop()
+{
+    int nextTick = 0, loops = 0;
+    int timeLapse = 0;
+    QTime timer;
+    int updatesPerSecond = 25;
+    int maxFrameSkip = 5;
+    int millisecondsPerUpdate = 1000 / updatesPerSecond;
+    timer.start();
+    
+      m_tableWidget->item(0, 1)->setText(m_input->buttonName(0));
+           
+      qDebug() << "starting the loop";
+    // First allow everybody to initialize themselves properly
+    while (true)
+    {
+        m_tableWidget->item(0, 1)->setBackgroundColor(QColor(0, 0, 255, 100));
+
+        // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
+
+        loops = 0;
+        while (timer.elapsed() > nextTick && loops < maxFrameSkip)
+        {
+	    m_tableWidget->item(0, 1)->setBackgroundColor(Qt::white);
+            nextTick += millisecondsPerUpdate;
+            loops++;
+        }
+
+        timeLapse = (timer.elapsed() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
+    }
+}
+
 void GluonInputWidget::setupTable()
 {
 
@@ -68,6 +113,56 @@ void GluonInputWidget::setupTable()
         m_tableWidget->setCellWidget(row, 1, slider);
         row++;
     }
+    
+    QPushButton * button = new QPushButton("start loop");
+    
+    /*
+    void GluonInputWidget::inputEvent(GluonInput::InputEvent * event)
+{
+    switch (event->type())
+    {
+
+        case GluonInput::Key :
+            m_tableWidget->item(0, 1)->setText(GluonInput::Code::buttonName(event->code()))   ;
+            if (event->value() == 1)
+                m_tableWidget->item(0, 1)->setBackgroundColor(QColor(0, 0, 255, 100));
+            else
+                m_tableWidget->item(0, 1)->setBackgroundColor(Qt::white);
+            break;
+
+
+
+        case GluonInput::AbsoluAxis :
+            for (int row = 1; row < m_tableWidget->rowCount(); ++row)
+            {
+
+                if (m_tableWidget->item(row, 0)->text() == GluonInput::Code::absAxisName(event->code()))
+                {
+
+                    QSlider * slider = qobject_cast<QSlider*>(m_tableWidget->cellWidget(row, 1));
+                    slider->setValue(event->value());
+                }
+            }
+            break;
+
+        case GluonInput::RelativeAxis:
+            for (int row = 1; row < m_tableWidget->rowCount(); ++row)
+            {
+
+                if (m_tableWidget->item(row, 0)->text() == GluonInput::Code::relAxisName(event->code()))
+                {
+
+                    QSlider * slider = qobject_cast<QSlider*>(m_tableWidget->cellWidget(row, 1));
+                    slider->setValue(slider->value() + event->value());
+                }
+            }
+            break;
+
+        default :
+            break;
+    }
+}
+    */
 
 }
 

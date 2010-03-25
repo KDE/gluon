@@ -27,7 +27,7 @@ DetectLinux::~DetectLinux()
 	//    }
 }
 
-void DetectLinux::searchDevice()
+void DetectLinux::detectDevices()
 {
 	DetectLinux *detect = this;
 	detect->clear();
@@ -36,56 +36,54 @@ void DetectLinux::searchDevice()
 
 	foreach(const QString &name, event.entryList(QDir::Files))
 	{
-
-		InputDevice *temp = new InputDevice(new InputThread(path + name));
-		if (!temp->error())
+	  #warning fix this
+		InputDevice *device = NULL;
+		InputThread* thread = new InputThread(path + name);
+		if (!thread->error())
 		{
-
-			detect->addInput(temp);
-			switch (temp->deviceType())
+			switch (thread->deviceType())
 			{
 				case GluonInput::KeyboardDevice:
-					detect->addKeyboard(temp);
+					device = new Keyboard(thread);
+					detect->addKeyboard(device);
 					break;
 
 				case GluonInput::MouseDevice:
-					detect->addMouse(temp);
+					device = new Mouse(thread);
+					detect->addMouse(device);
 					break;
 
 				case GluonInput::TouchpadDevice:
-					detect->addMouse(temp);
+					device = new Mouse(thread);
+					detect->addMouse(device);
 					break;
 
 				case GluonInput::JoystickDevice:
-					detect->addJoystick(temp);
+					device = new Joystick(thread);
+					detect->addJoystick(device);
 					break;
 
 				case GluonInput::TabletDevice:
-					detect->addTablet(temp);
+					device = new Tablet(thread);
+					detect->addTablet(device);
 					break;
 
 				case GluonInput::UnknownDevice:
-					detect->addUnknown(temp);
+					device = new InputDevice(thread);
+					detect->addUnknown(device);
 					break;
 			}
+			
+			detect->addInput(device);
 		}
 	}
-	detect->setAllEnabled();
 }
 
-void DetectLinux::setAllEnabled()
+void DetectLinux::setAllEnabled(bool enable)
 {
 	foreach(InputDevice *input, this->getInputList())
 	{
-		input->enable();
-	}
-}
-
-void DetectLinux::setAllDisabled()
-{
-	foreach(InputDevice *input, this->getInputList())
-	{
-		input->disable();
+		input->setEnabled(enable);
 	}
 }
 

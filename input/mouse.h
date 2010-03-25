@@ -26,11 +26,11 @@ namespace GluonInput
             int wheelPosition() const;
             int hWheelPosition()const;
             double sensibility()const;
-
-		private slots:
-			void mouseMoved(int axis, int distance);
-		
-        private:
+	   
+      private slots:
+	  void mouseMoved(int axis, int distance);
+	    
+        private:	    
             QSharedDataPointer<MousePrivate> d;
     };
 }

@@ -29,9 +29,6 @@ namespace GluonInput
 
             static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
 
-            void enable();
-            void disable();
-
             int getJoystickXAxis();
             int getJoystickYAxis();
             int getJoystickZAxis();
