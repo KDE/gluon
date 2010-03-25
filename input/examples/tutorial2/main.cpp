@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	{
 	  qDebug() <<"creating test gameloop";
 	  Keyboard * keyboard = InputManager::instance()->keyboard();
-	  keyboard->enable();
+	  keyboard->setEnabled(true);
 	  GameLoop * gameLoop = new GameLoop(keyboard);
 	  gameLoop->run();
 	}

@@ -8,9 +8,7 @@
 //#include "keydefinitions.h"
 
 namespace GluonInput
-{	
-	class InputDevice;
-	
+{		
 	class InputBufferPrivate : public QSharedData
 	{
 	public:

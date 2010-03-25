@@ -13,7 +13,7 @@ Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThr
 	d->sensibility = 1;
 	
 	
-	connect(inputThread, SIGNAL(relAxisMoved(int, int)), this, SLOT(mouseMoved(int, int)));
+	connect(inputThread, SIGNAL(relAxisMoved(int, int)), this, SLOT(mouseMoved(int, int)), Qt::DirectConnection);
 }
 
 QPoint Mouse::position()

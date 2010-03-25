@@ -5,6 +5,7 @@
 
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
+#include <QtCore/QCoreApplication>
 
 GameLoop::GameLoop(Keyboard * keyb)
 {
@@ -28,11 +29,8 @@ void GameLoop::gameLoop()
     timer.start();
     
     qDebug() << "starting gameloop";
-    // First allow everybody to initialize themselves properly
     while (true)
-    {
-        // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
-
+    {	
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip)
         {
@@ -40,6 +38,7 @@ void GameLoop::gameLoop()
 	    {
 		if(keyboard->buttonPressed(button))
 		   qDebug() << keyboard->buttonName(button) << " is pressed ";
+		  
 	    }
 	  
             nextTick += millisecondsPerUpdate;

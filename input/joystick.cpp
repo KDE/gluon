@@ -7,7 +7,7 @@ Joystick::Joystick(InputThread * inputThread, QObject * parent) : InputDevice(in
 {
 	d = new JoystickPrivate();
 	
-	connect(inputThread, SIGNAL(absAxisMoved(int, int)), this, SLOT(joystickMoved(int, int)));
+	connect(inputThread, SIGNAL(absAxisMoved(int, int)), this, SLOT(joystickMoved(int, int)), Qt::DirectConnection);
 }
 
 int Joystick::axisX() const
