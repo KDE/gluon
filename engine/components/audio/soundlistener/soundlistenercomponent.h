@@ -63,4 +63,7 @@ namespace GluonEngine
 
 }
 
+Q_DECLARE_METATYPE(GluonEngine::SoundListenerComponent)
+Q_DECLARE_METATYPE(GluonEngine::SoundListenerComponent*)
+
 #endif // GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H

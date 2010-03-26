@@ -6,6 +6,9 @@
 
 #include <core/gluon_version.h>
 
+//#include <core/gluon_core_metatypes.h>
+#include <engine/gluon_engine_metatypes.h>
+
 int main(int argc, char **argv)
 {
     KAboutData aboutData("gluoncreator", NULL,

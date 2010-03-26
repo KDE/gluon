@@ -74,6 +74,9 @@ namespace GluonEngine
             AssetPrivate *d;
     };
 }
+
 Q_DECLARE_INTERFACE(GluonEngine::Asset, "com.gluon.Asset/1.0")
+Q_DECLARE_METATYPE(GluonEngine::Asset)
+Q_DECLARE_METATYPE(GluonEngine::Asset*)
 
 #endif  // GLUON_ASSET_H

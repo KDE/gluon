@@ -24,7 +24,6 @@
 #include <engine/gameobject.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, SoundEmitterComponent)
-Q_DECLARE_METATYPE(GluonEngine::SoundAsset*);
 
 using namespace GluonEngine;
 
@@ -32,11 +31,11 @@ SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
         : Component(parent),
         m_sound(0)
 {
-#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
-    QVariant somethingEmpty;
-    SoundAsset *theObject = m_soundAsset;
+    //QVariant somethingEmpty;
+
+    /*SoundAsset *theObject = m_soundAsset;
     somethingEmpty.setValue<GluonEngine::SoundAsset*>(theObject);
-    setProperty("sound", somethingEmpty);
+    setProperty("sound", somethingEmpty);*/
 }
 
 SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
@@ -50,20 +49,20 @@ SoundEmitterComponent::play()
     m_sound->play();
 }
 
-SoundAsset *
+Asset *
 SoundEmitterComponent::sound()
 {
-    //return m_soundAsset;
-    return property("sound").value<GluonEngine::SoundAsset*>();
+    return m_soundAsset;
+    //return property("sound").value<GluonEngine::SoundAsset*>();
 }
 
 void
-SoundEmitterComponent::setSound(SoundAsset *asset)
+SoundEmitterComponent::setSound(Asset* asset)
 {
     m_soundAsset = asset;
-    QVariant theNewValue;
-    theNewValue.setValue<GluonEngine::SoundAsset*>(asset);
-    setProperty("sound", theNewValue);
+    //QVariant theNewValue;
+    //theNewValue.setValue<GluonEngine::SoundAsset*>(asset);
+    //setProperty("sound", theNewValue);
     //m_sound->load(asset->buffer());
 }
 

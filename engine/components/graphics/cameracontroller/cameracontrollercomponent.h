@@ -50,4 +50,7 @@ namespace GluonEngine
 
 }
 
+Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent)
+Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent*)
+
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

@@ -87,7 +87,9 @@ namespace GluonEngine
         private:
             QSharedDataPointer<GameProjectPrivate> d;
     };
-
 }
+
+Q_DECLARE_METATYPE(GluonEngine::GameProject)
+Q_DECLARE_METATYPE(GluonEngine::GameProject*)
 
 #endif  // GLUON_ENGINE_GAMEPROJECT_H

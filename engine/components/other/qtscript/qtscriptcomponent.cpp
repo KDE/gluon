@@ -29,8 +29,6 @@ REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
 using namespace GluonEngine;
 
-Q_DECLARE_METATYPE(GluonEngine::Asset*);
-
 void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 class QtScriptComponent::QtScriptComponentPrivate
 {

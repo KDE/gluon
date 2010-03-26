@@ -35,4 +35,8 @@ namespace GluonEngine
 
     };
 }
+
+Q_DECLARE_METATYPE(GluonEngine::TextRendererComponent)
+Q_DECLARE_METATYPE(GluonEngine::TextRendererComponent*)
+
 #endif // TEXTRENDERERCOMPONENT_H

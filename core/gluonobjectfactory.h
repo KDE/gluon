@@ -80,7 +80,6 @@ class GLUON_CORE_EXPORT GluonObjectRegistration
 
 #define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
     namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); }\
-    Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);\
     GluonCore::GluonObject * \
     NAMESPACE::NEWOBJECTTYPE::instantiate()\
     {\
@@ -91,6 +90,7 @@ class GLUON_CORE_EXPORT GluonObjectRegistration
     {\
         return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE*>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
     }\
-     
+
+//Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
 
 #endif  // GLUON_CORE_GLUONOBJECTFACTORY_H

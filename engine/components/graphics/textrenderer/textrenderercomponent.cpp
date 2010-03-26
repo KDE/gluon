@@ -5,8 +5,6 @@
 #include <graphics/meshes/polygonmesh.h>
 REGISTER_OBJECTTYPE(GluonEngine, TextRendererComponent)
 
-Q_DECLARE_METATYPE(GluonCore::GluonObject*);
-
 using namespace GluonEngine;
 
 class TextRendererComponent::TextRendererComponentPrivate

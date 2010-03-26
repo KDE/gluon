@@ -27,13 +27,15 @@ namespace GluonAudio
 
 namespace GluonEngine
 {
-    class SoundAsset;
+    class Asset;
 
     class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
     {
             Q_OBJECT
-//    Q_PROPERTY(GluonEngine::SoundAsset* sound READ sound WRITE setSound)
+            Q_PROPERTY(GluonEngine::Asset* sound READ sound WRITE setSound)
             Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
+
+
             Q_INTERFACES(GluonEngine::Component)
             GLUON_OBJECT(GluonEngine::SoundEmitterComponent)
 
@@ -41,8 +43,7 @@ namespace GluonEngine
             SoundEmitterComponent(QObject *parent = 0);
             SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
 
-            SoundAsset *sound();
-            void setSound(SoundAsset *asset);
+            Asset *sound();
 
             virtual void start();
             virtual void update(int elapsedMilliseconds);
@@ -55,12 +56,16 @@ namespace GluonEngine
 
         public slots:
             void setLoop(bool loop);
+            void setSound(Asset *asset);
 
         private:
             GluonAudio::Sound *m_sound;
-            SoundAsset *m_soundAsset;
+            Asset *m_soundAsset;
     };
 
 }
+
+Q_DECLARE_METATYPE(GluonEngine::SoundEmitterComponent)
+Q_DECLARE_METATYPE(GluonEngine::SoundEmitterComponent*)
 
 #endif // GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H

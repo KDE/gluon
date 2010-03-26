@@ -139,5 +139,7 @@ namespace GluonEngine
     };
 }
 
+Q_DECLARE_METATYPE(GluonEngine::GameObject)
+Q_DECLARE_METATYPE(GluonEngine::GameObject*)
 
 #endif  // GLUON_ENGINE_GAMEOBJECT_H

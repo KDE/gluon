@@ -54,6 +54,7 @@ namespace GluonCore
         public:
             GluonObject(QObject * parent = 0);
             GluonObject(const QString& name, QObject *parent = 0);
+            GluonObject(const GluonObject& rt);
             virtual ~GluonObject();
 
             void debug(QString debugText) const;
@@ -108,8 +109,12 @@ namespace GluonCore
 
         private:
             void sanitizeReference(const QString& propName, const QString& propValue);
+
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }
+
+Q_DECLARE_METATYPE(GluonCore::GluonObject)
+Q_DECLARE_METATYPE(GluonCore::GluonObject*)
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

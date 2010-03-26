@@ -29,9 +29,6 @@
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
-//Q_DECLARE_METATYPE(GluonCore::GluonObject*);
-Q_DECLARE_METATYPE(GluonEngine::Asset*);
-
 using namespace GluonEngine;
 
 class SpriteRendererComponent::SpriteRendererComponentPrivate
@@ -115,7 +112,11 @@ void SpriteRendererComponent::draw(int timeLapse)
 
     if (d->item)
     {
-        d->item->setMatrix(gameObject()->transform());
+        //d->item->setMatrix(gameObject()->transform())
+        d->item->setPosition(gameObject()->worldPosition());
+        d->item->setScale(gameObject()->worldScale());
+        d->item->setQuaternion(gameObject()->worldOrientation());
+        d->item->updateTransform();
     }
 }
 

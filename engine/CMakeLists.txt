@@ -91,6 +91,7 @@ install(
     filelocation.h
 
     gluon_engine_export.h
+    gluon_engine_metatypes.h
     game.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine

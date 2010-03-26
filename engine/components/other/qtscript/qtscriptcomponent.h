@@ -53,4 +53,7 @@ namespace GluonEngine
 
 }
 
+Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent)
+Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent*)
+
 #endif // GLUON_ENGINE_QTSCRIPTCOMPONENT_H

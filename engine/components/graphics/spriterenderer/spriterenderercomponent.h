@@ -60,4 +60,7 @@ namespace GluonEngine
 
 }
 
+Q_DECLARE_METATYPE(GluonEngine::SpriteRendererComponent)
+Q_DECLARE_METATYPE(GluonEngine::SpriteRendererComponent*)
+
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

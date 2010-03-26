@@ -42,4 +42,7 @@ namespace GluonEngine
 
 }
 
+Q_DECLARE_METATYPE(GluonEngine::ScriptAsset)
+Q_DECLARE_METATYPE(GluonEngine::ScriptAsset*)
+
 #endif // GLUONENGINE_SCRIPTASSET_H

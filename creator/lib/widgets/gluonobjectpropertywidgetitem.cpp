@@ -19,6 +19,7 @@
 #include "engine/scene.h"
 #include "engine/gameobject.h"
 #include "engine/gameproject.h"
+#include "engine/gluon_engine_metatypes.h"
 
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
@@ -26,8 +27,6 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KInputDialog>
-
-Q_DECLARE_METATYPE(GluonCore::GluonObject*);
 
 namespace GluonCreator
 {

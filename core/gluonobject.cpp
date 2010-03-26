@@ -56,6 +56,11 @@ GluonObject::GluonObject(const QString& name, QObject* parent)
     setName(name);
 }
 
+GluonObject::GluonObject(const GluonCore::GluonObject& rt)
+{
+    d = new GluonObjectPrivate(*rt.d);
+}
+
 GluonObject::~GluonObject()
 {
 }
@@ -434,6 +439,21 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         }
         value = QVector3D(x, y, z);
     }
+    else if (theTypeName == "quaternion")
+    {
+        float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
+
+        QStringList splitValues = theValue.split(";");
+        if(splitValues.length() > 0)
+        {
+            x = splitValues.at(0).toFloat();
+            y = splitValues.at(1).toFloat();
+            z = splitValues.at(2).toFloat();
+            w = splitValues.at(3).toFloat();
+        }
+
+        value = QQuaternion(w, x, y, z);
+    }
     else if (theTypeName == "rgba")
     {
         int r = 0, g = 0, b = 0, a = 0;
@@ -491,11 +511,14 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     QVariant theValue = this->property(propertyName.toUtf8());
 
     QColor theColor;
+    QVector3D theVector;
+    QQuaternion theQuat;
     switch (theValue.type())
     {
-            /*        case QVariant::UserType:
-                        int id = QMetaType::type(types.at(i));
-                        break;*/
+        /*case QVariant::UserType:
+            DEBUG_TEXT("UserType detected");
+
+            break;*/
         case QVariant::String:
             if (!theValue.toString().isEmpty())
                 value = "string(" + theValue.toString() + ')';
@@ -509,11 +532,13 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
                 value = QString("float(%1)").arg(theValue.toDouble());
             break;
         case QVariant::Vector3D:
-        {
-            QVector3D aVector = theValue.value<QVector3D>();
-            value = QString("vector3d(%1;%2;%3)").arg(aVector.x()).arg(aVector.y()).arg(aVector.z());
-        }
-        break;
+            theVector = theValue.value<QVector3D>();
+            value = QString("vector3d(%1;%2;%3)").arg(theVector.x()).arg(theVector.y()).arg(theVector.z());
+            break;
+        case QVariant::Quaternion:
+            theQuat = theValue.value<QQuaternion>();
+            value = QString("quaternion(%1;%2;%3;%4)").arg(theQuat.x()).arg(theQuat.y()).arg(theQuat.z()).arg(theQuat.scalar());
+            break;
         case QVariant::Int:
             if (theValue.toInt() != 0)
                 value = QString("int(%1)").arg(theValue.toInt());
@@ -540,7 +565,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             }
             break;
         default:
-            if (theValue.canConvert<GluonObject*>())
+            if (theValue.canConvert<GluonCore::GluonObject*>())
             {
                 GluonObject* theObject = theValue.value<GluonObject*>();
                 if (theObject)
@@ -553,11 +578,8 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             }
             else
             {
+                DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
                 value = theValue.toString();
-                if (!value.isEmpty())
-                {
-                    DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
-                }
             }
             break;
     }
@@ -583,13 +605,6 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
 
     QString lookingFor(qualifiedName[0]);
     qualifiedName.removeFirst();
-
-    /*if(lookingFor == object->name()) {
-        if(qualifiedName.count() > 0) {
-            lookingFor = qualifiedName.at(0);
-            qualifiedName.removeFirst();
-        }
-    }*/
 
     DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
     foreach(QObject * child, object->children())

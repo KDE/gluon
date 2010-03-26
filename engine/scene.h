@@ -54,4 +54,7 @@ namespace GluonEngine
     };
 }
 
+Q_DECLARE_METATYPE(GluonEngine::Scene)
+Q_DECLARE_METATYPE(GluonEngine::Scene*)
+
 #endif // GLUON_ENGINE_SCENE_H

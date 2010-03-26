@@ -168,10 +168,16 @@ namespace GluonEngine
              * @see GDLHandler::parseGDL
              */
             void sanitize();
+
+            virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
+
         private:
             QSharedDataPointer<ComponentPrivate> d;
     };
 }
+
 Q_DECLARE_INTERFACE(GluonEngine::Component, "com.gluon.Component/1.0")
+Q_DECLARE_METATYPE(GluonEngine::Component)
+Q_DECLARE_METATYPE(GluonEngine::Component*)
 
 #endif  // GLUON_COMPONENT_H
