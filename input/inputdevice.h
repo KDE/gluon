@@ -33,17 +33,7 @@ namespace GluonInput
 
             const QString deviceName() const;
             GluonInput::DeviceFlag deviceType()const;
-            bool button(int code)const;
-        /*    bool anyAbsMove();
-            bool anyRelMove();
-		
-#warning this mapping not needed maybe?
-		/////////
-            int lastAbsAxis()const;
-            int lastRelAxis()const;
-            int relAxisValue(int code)const;
-            int absAxisValue(int code)const;
-		/////////*/
+	    
             QList<int> buttonCapabilities()const;
             QList<int> absAxisCapabilities()const;
             QList<int> relAxisCapabilities()const;
@@ -65,7 +55,6 @@ namespace GluonInput
 			void buttonStateChanged(int code, int value);
 		
 		private:
-            void init();
 
             QSharedDataPointer<InputDevicePrivate> d;
     };

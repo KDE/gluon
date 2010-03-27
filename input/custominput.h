@@ -38,7 +38,7 @@ namespace GluonInput
             /*InputDevice * inputAt(const QString& name, GluonInput::InputTypeFlag type);
             int codeAt(const QString& name, GluonInput::InputTypeFlag type);*/
 
-            bool button(const QString& name);
+           // bool button(const QString& name);
           //  int relAxisValue(const QString &name);
            // int absAxisValue(const QString &name);
 

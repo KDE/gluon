@@ -36,7 +36,6 @@ void DetectLinux::detectDevices()
 
 	foreach(const QString &name, event.entryList(QDir::Files))
 	{
-	  #warning fix this
 		InputDevice *device = NULL;
 		InputThread* thread = new InputThread(path + name);
 		if (!thread->error())

@@ -141,12 +141,12 @@ void CustomInput::remRelAxis(const QString &name)
 }*/
 
 
-bool CustomInput::button(const QString& name)
+/*bool CustomInput::button(const QString& name)
 {
 	if (d->m_buttons.contains(name))
 		return d->m_buttons[name].first->button(d->m_buttons[name].second);
 	else return false;
-}
+}*/
 
 /*int CustomInput::relAxisValue(const QString &name)
 {
