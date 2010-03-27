@@ -102,7 +102,7 @@ void MainWindow::openProject(KUrl url)
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
-    if (!fileName.isEmpty())
+    if (!fileName.isEmpty() && QFile::exists(fileName))
     {
         GluonEngine::GameProject* project = new GluonEngine::GameProject();
         project->loadFromFile(QUrl(fileName));
