@@ -12,7 +12,7 @@ namespace GluonGraphics
     {
         public:
             SpriteMesh(QObject * parent = 0);
-            SpriteMesh(const QSizeF& Size, QObject * parent = 0);
+            explicit SpriteMesh(const QSizeF& size, QObject * parent = 0);
             ~SpriteMesh();
 
             QSizeF size() const;

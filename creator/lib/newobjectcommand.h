@@ -37,7 +37,7 @@ namespace GluonCreator
 
         private:
             class NewObjectCommandPrivate;
-            NewObjectCommandPrivate *d;
+            NewObjectCommandPrivate * const d;
     };
 }
 

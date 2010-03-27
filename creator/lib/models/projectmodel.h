@@ -57,7 +57,7 @@ namespace GluonCreator
 
         private:
             class ProjectModelPrivate;
-            ProjectModelPrivate* d;
+            ProjectModelPrivate * const d;
 
     };
 

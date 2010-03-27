@@ -40,19 +40,13 @@ GameProject::GameProject(QObject * parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
-
-#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
-    QVariant somethingEmpty;
-    Scene *theObject = d->entryPoint;
-    somethingEmpty.setValue<Scene*>(theObject);
-    setProperty("entryPoint", somethingEmpty);
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
         : GluonObject(parent)
         , d(other.d)
 {
-    setProperty("entryPoint", other.property("entryPoint"));
+
 }
 
 GameProject::~GameProject()
@@ -242,17 +236,13 @@ GameProject::setFilename(QUrl newFilename)
 Scene *
 GameProject::entryPoint() const
 {
-//    return d->entryPoint;
-    return property("entryPoint").value<Scene*>();
+    return d->entryPoint;
 }
 
 void
 GameProject::setEntryPoint(Scene * newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
-    QVariant theNewValue;
-    theNewValue.setValue<Scene*>(newEntryPoint);
-    setProperty("entryPoint", theNewValue);
 }
 
 #include "gameproject.moc"

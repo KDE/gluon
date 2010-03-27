@@ -26,7 +26,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~ColorPropertyWidgetItem();
 
             virtual QList<QString> supportedDataTypes() const;

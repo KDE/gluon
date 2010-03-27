@@ -29,9 +29,18 @@ Boston, MA 02110-1301, USA.
 
 using namespace GluonCreator;
 
-SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
+class SceneModel::SceneModelPrivate
 {
-    m_root = 0;
+    public:
+        SceneModelPrivate() { root = 0; }
+
+        GluonEngine::GameObject *root;
+
+        int rowIndex(GluonEngine::GameObject* object) const;
+};
+
+SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent), d(new SceneModelPrivate)
+{
     setSupportedDragActions(Qt::MoveAction);
     connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
@@ -39,9 +48,7 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent)
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
 {
-    if (m_root)
-        return m_root->childGameObject(0);
-    return 0;
+    return d->root;
 }
 
 
@@ -49,7 +56,7 @@ void SceneModel::setRootGameObject(GluonEngine::GameObject* obj)
 {
     if (obj)
     {
-        m_root = obj;
+        d->root = obj;
         reset();
     }
 }
@@ -82,7 +89,7 @@ int SceneModel::rowCount(const QModelIndex& parent) const
         return 0;
 
     if (!parent.isValid())
-        parentItem = m_root;
+        parentItem = d->root;
     else
         parentItem = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
 
@@ -103,10 +110,10 @@ QModelIndex SceneModel::parent(const QModelIndex& child) const
 
     GluonEngine::GameObject *parentItem = childItem->parentGameObject();
 
-    if (parentItem == m_root)
+    if (parentItem == d->root)
         return QModelIndex();
 
-    return createIndex(rowIndex(parentItem), 0, parentItem);
+    return createIndex(d->rowIndex(parentItem), 0, parentItem);
 }
 
 QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) const
@@ -117,7 +124,7 @@ QModelIndex SceneModel::index(int row, int column, const QModelIndex& parent) co
     GluonEngine::GameObject *parentItem;
 
     if (!parent.isValid())
-        parentItem = m_root;
+        parentItem = d->root;
     else
         parentItem = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
 
@@ -136,19 +143,6 @@ QVariant SceneModel::headerData(int section, Qt::Orientation orientation, int ro
 
     return QVariant();
 }
-
-int SceneModel::rowIndex(GluonEngine::GameObject* object) const
-{
-    if (object)
-    {
-        if (object->parentGameObject())
-        {
-            return object->parentGameObject()->childIndex(object);
-        }
-    }
-    return 0;
-}
-
 
 Qt::DropActions SceneModel::supportedDropActions() const
 {
@@ -206,7 +200,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 
         if (!gobj)
         {
-            gobj = m_root;
+            gobj = d->root;
         }
 
         foreach(QString something, data->formats())
@@ -279,7 +273,7 @@ bool SceneModel::insertRows(int row, int count, const QModelIndex& parent)
 
     GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
     if (!obj)
-        obj = m_root;
+        obj = d->root;
 
     for (int i = 0; i < count; ++i)
     {
@@ -298,7 +292,7 @@ bool SceneModel::insertRows(int row, const QList<GluonEngine::GameObject*> &chil
 
     GluonEngine::GameObject* pobj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
     if (!pobj)
-        pobj = m_root;
+        pobj = d->root;
 
     int index = row;
     foreach(GluonEngine::GameObject *obj, children)
@@ -312,24 +306,24 @@ bool SceneModel::insertRows(int row, const QList<GluonEngine::GameObject*> &chil
 
 bool SceneModel::removeRows(int row, int count, const QModelIndex& parent)
 {
-    //DEBUG_FUNC_NAME
     beginRemoveRows(parent, row, row + count - 1);
-
-    /*GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>(parent.internalPointer());
-    if(!obj) {
-        obj = m_root;
-    }
-
-    while(count > 0)
-    {
-        //GluonEngine::GameObject* child = obj->childGameObject(row);
-        //obj->removeChild(child);
-        count--;
-    }*/
 
     endRemoveRows();
     return true;
 }
+
+int SceneModel::SceneModelPrivate::rowIndex(GluonEngine::GameObject* object) const
+{
+    if (object)
+    {
+        if (object->parentGameObject())
+        {
+            return object->parentGameObject()->childIndex(object);
+        }
+    }
+    return 0;
+}
+
 
 #include "scenemodel.moc"
 

@@ -25,7 +25,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            QFontPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QFontPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~QFontPropertyWidgetItem();
 
             virtual GluonCreator::PropertyWidgetItem* instantiate();

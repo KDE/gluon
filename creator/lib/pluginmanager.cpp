@@ -10,6 +10,14 @@ using namespace GluonCreator;
 
 template<> GLUONCREATOR_EXPORT PluginManager* GluonCore::Singleton<PluginManager>::m_instance = 0;
 
+class PluginManager::PluginManagerPrivate
+{
+    public:
+        PluginManagerPrivate() { mainWindow = 0; }
+        QHash<QString, Plugin*> loadedPlugins;
+        KXmlGuiWindow* mainWindow;
+};
+
 QList< KPluginInfo > PluginManager::pluginInfos() const
 {
     return KPluginInfo::fromServices(KServiceTypeTrader::self()->query("GluonCreator/Plugin"));
@@ -17,7 +25,7 @@ QList< KPluginInfo > PluginManager::pluginInfos() const
 
 void PluginManager::setMainWindow(KXmlGuiWindow* window)
 {
-    m_mainWindow = window;
+    d->mainWindow = window;
 }
 
 void PluginManager::loadPlugins()
@@ -35,7 +43,7 @@ void PluginManager::loadPlugins()
         QString serviceName = service->desktopEntryName();
         bool loadPlugin = group.readEntry<bool>(QString("%1Enabled").arg(serviceName), true);
 
-        if (!m_loadedPlugins.contains(serviceName) && loadPlugin)
+        if (!d->loadedPlugins.contains(serviceName) && loadPlugin)
         {
             KPluginFactory *factory = KPluginLoader(service->library()).factory();
 
@@ -50,22 +58,31 @@ void PluginManager::loadPlugins()
             if (plugin)
             {
                 DEBUG_TEXT(QString("Load plugin: %1").arg(service->name()));
-                plugin->load(m_mainWindow);
-                m_loadedPlugins.insert(serviceName, plugin);
+                plugin->load(d->mainWindow);
+                d->loadedPlugins.insert(serviceName, plugin);
             }
             else
             {
                 DEBUG_TEXT(error);
             }
         }
-        else if (!loadPlugin && m_loadedPlugins.contains(serviceName))
+        else if (!loadPlugin && d->loadedPlugins.contains(serviceName))
         {
-            Plugin* plugin = m_loadedPlugins.value(serviceName);
-            plugin->unload(m_mainWindow);
+            Plugin* plugin = d->loadedPlugins.value(serviceName);
+            plugin->unload(d->mainWindow);
             delete plugin;
-            m_loadedPlugins.remove(serviceName);
+            d->loadedPlugins.remove(serviceName);
         }
     }
+}
+
+PluginManager::PluginManager() : d(new PluginManagerPrivate)
+{
+}
+
+PluginManager::~PluginManager()
+{
+    delete d;
 }
 
 #include "pluginmanager.moc"

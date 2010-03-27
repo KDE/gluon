@@ -25,7 +25,7 @@ namespace GluonCreator
     class ViewWidgetDock : public Dock
     {
         public:
-            ViewWidgetDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit ViewWidgetDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ViewWidgetDock();
 
             void setSelection(GluonCore::GluonObject* obj = 0);

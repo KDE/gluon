@@ -544,7 +544,7 @@ namespace GluonGraphics
                 QStringList words = line.simplified().split(' ');
                 foreach(QString word, words)
                 {
-                    int wordw = fontMetrics.width(" " + word);
+                    int wordw = fontMetrics.width(' ' + word);
                     if (newlinew + wordw > rect.width())
                     {
                         // Break the line here

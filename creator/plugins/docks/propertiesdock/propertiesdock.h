@@ -33,7 +33,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~PropertiesDock();
 
             QAbstractItemView* view();

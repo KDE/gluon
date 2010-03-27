@@ -28,7 +28,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ProjectDock();
 
             QAbstractItemModel* model();

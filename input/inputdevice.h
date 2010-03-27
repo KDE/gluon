@@ -22,8 +22,8 @@ namespace GluonInput
 			Q_ENUMS(GluonInput::KeyboardButton)
 
         public:
-            InputDevice(InputThread * inputThread, QObject * parent = 0);
             InputDevice();
+            explicit InputDevice(InputThread * inputThread, QObject * parent = 0);
             ~InputDevice();
 
             int vendor()const;
@@ -33,7 +33,7 @@ namespace GluonInput
 
             const QString deviceName() const;
             GluonInput::DeviceFlag deviceType()const;
-	    
+
             QList<int> buttonCapabilities()const;
             QList<int> absAxisCapabilities()const;
             QList<int> relAxisCapabilities()const;
@@ -41,19 +41,19 @@ namespace GluonInput
 			bool buttonPressed(int code) const;
 			QString buttonName(int code) const;
 			QString axisName(int code) const;
-		
+
             bool error()const;
 			QString msgError()const;
 
             void setInputThread(InputThread * inputThread);
             InputThread * inputThread() const;
-		
+
 			bool isEnabled() const;
             void setEnabled(bool enable);
-		
+
 		private slots:
 			void buttonStateChanged(int code, int value);
-		
+
 		private:
 
             QSharedDataPointer<InputDevicePrivate> d;

@@ -46,12 +46,13 @@ class PropertyWidget::PropertyWidgetPrivate
         }
         GluonCore::GluonObject *object;
         QVBoxLayout *layout;
+
+        void appendMetaObject(QWidget* parent, QObject* object, QGridLayout* layout);
 };
 
 
-PropertyWidget::PropertyWidget(QWidget* parent): QScrollArea(parent)
+PropertyWidget::PropertyWidget(QWidget* parent): QScrollArea(parent), d(new PropertyWidgetPrivate)
 {
-    d = new PropertyWidgetPrivate;
 }
 
 PropertyWidget::~PropertyWidget()
@@ -103,7 +104,9 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
 
     QString classname = obj->metaObject()->className();
     classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
-#warning We will need to replace the group box with a custom widget of some type, as we cannot collapse it. Unfortunate, but such is life ;)
+    #ifdef __GNUC__
+    #warning We will need to replace the group box with a custom widget of some type, as we cannot collapse it. Unfortunate, but such is life ;)
+    #endif
     QGroupBox* objectBox = new QGroupBox(classname, this);
 
     objectBox->setFlat(true);
@@ -124,10 +127,10 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
     boxLayout->setContentsMargins(0, 0, 0, 0);
     objectBox->setLayout(boxLayout);
 
-    appendMetaObject(obj, boxLayout);
+    d->appendMetaObject(this, obj, boxLayout);
 }
 
-void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
+void PropertyWidget::PropertyWidgetPrivate::appendMetaObject(QWidget *parent, QObject *object, QGridLayout* layout)
 {
     QString propertyName;
     QString propertyDescription;
@@ -146,15 +149,15 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
         if (metaProperty.name() == QString("objectName"))
             continue;
 
-        QLabel * nameLabel = new QLabel(this);
+        QLabel * nameLabel = new QLabel(parent);
         nameLabel->setText(metaProperty.name());
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
 
-        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), this);
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), parent);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(metaProperty.name());
-        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), this, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
+        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget, row, 1);
@@ -164,15 +167,15 @@ void PropertyWidget::appendMetaObject(QObject * object, QGridLayout* layout)
     {
         QString thePropName(propName);
         row = layout->rowCount();
-        QLabel * nameLabel = new QLabel(this);
+        QLabel * nameLabel = new QLabel(parent);
         nameLabel->setText(thePropName);
         nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         layout->addWidget(nameLabel, row, 0);
 
-        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), this);
+        PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), parent);
         editWidget->setEditObject(object);
         editWidget->setEditProperty(thePropName);
-        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), this, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
+        connect(editWidget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         layout->addWidget(editWidget);

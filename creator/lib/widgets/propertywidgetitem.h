@@ -37,7 +37,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             virtual ~PropertyWidgetItem();
 
             QWidget* editWidget() const;

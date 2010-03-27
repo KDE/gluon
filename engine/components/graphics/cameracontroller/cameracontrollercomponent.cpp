@@ -72,7 +72,9 @@ void CameraControllerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-#warning TODO: Set rotation/fov/all that crap
+    #ifdef __GNUC__
+    #warning TODO: Set rotation/fov/all that crap
+    #endif
     if (d->camera)
         d->camera->setPosition(gameObject()->position());
 }

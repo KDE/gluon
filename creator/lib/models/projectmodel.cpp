@@ -50,9 +50,8 @@ class ProjectModel::ProjectModelPrivate
         QStringList acceptedMimeTypes;
 };
 
-ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent)
+ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent), d(new ProjectModelPrivate)
 {
-    d = new ProjectModelPrivate;
     connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
 
@@ -246,7 +245,9 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
                     /*newChild->setFile(theUrl);
                     newChild->load();*/
 
-#warning We need to fix this so we dont run creator without a project.
+                    #ifdef __GNUC__
+                    #warning We need to fix this so we dont run creator without a project.
+                    #endif
                     if (!QDir::current().exists("Assets"))
                         QDir::current().mkdir("Assets");
                     DEBUG_TEXT(QString("Copying file to %1").arg(newChild->fullyQualifiedFileName()));

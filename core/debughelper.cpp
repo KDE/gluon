@@ -20,7 +20,7 @@ static void DbgHelper_output(int color, int indent, const QString &prefix, const
 
     if (color >= 0)
     {
-        text.prepend("\x1b[3" + QString::number(1 + color) + "m");
+        text.prepend("\x1b[3" + QString::number(1 + color) + 'm');
         text.append("\x1b[39m");
     }
 

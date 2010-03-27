@@ -15,7 +15,7 @@ namespace GluonGraphics
 
         public:
             Item(QObject * parent = 0);
-            Item(Mesh * mesh, QObject* parent = 0);
+            explicit Item(Mesh * mesh, QObject* parent = 0);
             ~Item();
 
             virtual void paintGL();

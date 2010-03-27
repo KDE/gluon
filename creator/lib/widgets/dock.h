@@ -35,7 +35,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit Dock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             virtual ~Dock();
 
             virtual QAbstractItemModel* model() = 0;

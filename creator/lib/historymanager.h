@@ -55,7 +55,7 @@ namespace GluonCreator
             Q_DISABLE_COPY(HistoryManager)
 
             class HistoryManagerPrivate;
-            HistoryManagerPrivate *d;
+            HistoryManagerPrivate * const d;
     };
 }
 

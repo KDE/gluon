@@ -53,12 +53,8 @@ namespace GluonCreator
         private:
             friend class GluonCore::Singleton<ObjectManager>;
 
-            ObjectManager()
-            {
-                m_objectId = 0;
-                m_sceneId = 0;
-            }
-            ~ObjectManager() { }
+            ObjectManager();
+            ~ObjectManager();
             Q_DISABLE_COPY(ObjectManager)
 
             int m_objectId;

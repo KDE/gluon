@@ -113,7 +113,9 @@ void GameObject::stop()
 void
 GameObject::runCommand(const QString &functionName)
 {
-#warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
+    #ifdef __GNUC__
+    #warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
+    #endif
 }
 
 void
@@ -417,7 +419,9 @@ GameObject::translate(const QVector3D& translation, GameObject::TransformSpace t
     }
     else
     {
+        #ifdef __GNUC__
         #warning This probably needs fixing to account for world scale/orientation
+        #endif
         setPosition((worldPosition() + translation) - position());
     }
 }

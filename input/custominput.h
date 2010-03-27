@@ -34,23 +34,11 @@ namespace GluonInput
             QStringList absAxisNameList();
             QStringList relAxisNameList();
 
-#warning fix this for later, after finishing the input buffer thing
-            /*InputDevice * inputAt(const QString& name, GluonInput::InputTypeFlag type);
-            int codeAt(const QString& name, GluonInput::InputTypeFlag type);*/
-
-           // bool button(const QString& name);
-          //  int relAxisValue(const QString &name);
-           // int absAxisValue(const QString &name);
-
         signals:
             void buttonPressed(QString name);
             void buttonReleased(QString name);
             void absAxisChanged(QString name, int value);
             void relAxisChanged(QString name, int value);
-
-       /* protected slots:
-            void inputEvent(InputEvent * event);*/
-
 
         private:
             QSharedDataPointer<CustomInputPrivate> d;

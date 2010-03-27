@@ -57,9 +57,7 @@ namespace GluonCreator
 
         private:
             class PropertyWidgetPrivate;
-            PropertyWidgetPrivate *d;
-
-            void appendMetaObject(QObject* object, QGridLayout* layout);
+            PropertyWidgetPrivate * const d;
     };
 }
 

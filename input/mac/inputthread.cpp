@@ -13,13 +13,13 @@ using namespace GluonInput;
 
 InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 	: QThread(parent)
-{   
+{
 	d = new InputThreadPrivate();
 	d->device = pDevice;
 	IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
 	IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
 	IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
-	
+
 	d->error = false;
 	d->msgError = QString();
 	d->deviceName = "Unknown";
@@ -39,67 +39,67 @@ void InputThread::readInformation()
 	{
 		d->deviceName = CFStringGetCStringPtr(deviceNameRef, kCFStringEncodingMacRoman);
 	}
-	
+
 	CFTypeRef type  = IOHIDDeviceGetProperty(d->device, CFSTR( kIOHIDVendorIDKey));
 	if(type)
 	{
 		CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->vendor );
 		CFRelease(type);
 	}
-	else 
+	else
 	{
 		d->vendor = -1;
 	}
-	
+
 	type  = IOHIDDeviceGetProperty(d->device, CFSTR( kIOHIDProductIDKey));
 	if(type)
 	{
 		CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->product );
 		CFRelease(type);
 	}
-	else 
+	else
 	{
-		d->product = -1;  
+		d->product = -1;
 	}
-	
-	
+
+
 	type  = IOHIDDeviceGetProperty(d->device, CFSTR( kIOHIDTransportKey));
 	if(type)
 	{
 		if(CFGetTypeID(type) == CFNumberGetTypeID())
 		{
 			CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->bustype );
-			CFRelease(type);            
+			CFRelease(type);
 		}
 		else if(CFGetTypeID(type) == CFStringGetTypeID())
 		{
 			d->bustype = -1;
 		}
-		else 
+		else
 		{
 			d->bustype = -1;
 		}
-		
+
 	}
-	
+
 	type = IOHIDDeviceGetProperty(d->device, CFSTR( kIOHIDVersionNumberKey));
 	if(type)
 	{
 		CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->version );
 		CFRelease(type);
 	}
-	else 
+	else
 	{
 		d->version = -1;
 	}
-	
+
 	d->buttonCapabilities.clear();
 	d->absAxisCapabilities.clear();
 	d->relAxisCapabilities.clear();
 	d->absAxisInfos.clear();
-	
+
 	CFArrayRef elements = IOHIDDeviceCopyMatchingElements(d->device, NULL, kIOHIDOptionsTypeNone);
-	
+
 	if(elements)
 	{
 		for(int i = 0; i < CFArrayGetCount(elements); i++)
@@ -109,7 +109,7 @@ void InputThread::readInformation()
 			{
 				int usagePage = IOHIDElementGetUsagePage( elementRef );
 				int usage = IOHIDElementGetUsage( elementRef );
-				
+
 				if(usagePage == kHIDPage_Button)
 				{
 					d->buttonCapabilities.append(usage);
@@ -123,7 +123,7 @@ void InputThread::readInformation()
 				{
 					if(usage <= 47 || usage == 60)
 						continue;
-					
+
 					if(IOHIDElementIsRelative(elementRef))
 					{
 						d->relAxisCapabilities.append(usage);
@@ -135,7 +135,7 @@ void InputThread::readInformation()
 						val.max = (int)IOHIDElementGetLogicalMax(elementRef);
 						val.min = (int)IOHIDElementGetLogicalMin(elementRef);
 						IOHIDValueRef valRef = NULL;
-						IOHIDDeviceGetValue(d->device, elementRef, &valRef); 
+						IOHIDDeviceGetValue(d->device, elementRef, &valRef);
 						val.value = IOHIDValueGetIntegerValue(valRef);
 						d->absAxisInfos[usage] = val;
 						if(usage == kHIDUsage_GD_X)
@@ -155,25 +155,25 @@ void InputThread::readInformation()
 			}
 		}
 	}
-	
+
 	CFRelease(elements);
-	
+
 	int deviceUsage = NULL;
-	
+
 	type = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDPrimaryUsageKey));
-	
+
 	if(type)
 	{
 		CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
 		CFRelease(type);
 	}
-	else 
+	else
 	{
 		type = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDDeviceUsageKey));
 		CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
 		CFRelease(type);
 	}
-	
+
 	switch (deviceUsage)
 	{
 		case GluonInput::KeyboardDevice:
@@ -197,7 +197,7 @@ void InputThread::readInformation()
 	}
 }
 
-void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) 
+void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef)
 {
 	qDebug() <<"getting report";
 	IOHIDDeviceRef deviceRef = (IOHIDDeviceRef) inSender;
@@ -205,18 +205,18 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 	if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
 	{
 		IOHIDElementRef elementRef = IOHIDValueGetElement(inIOHIDValueRef);
-		
+
 		int usagePage = IOHIDElementGetUsagePage( elementRef );
 		int usage = IOHIDElementGetUsage( elementRef );
 		int value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
-			
+
 		if(usagePage == kHIDPage_GenericDesktop || usagePage == kHIDPage_KeyboardOrKeypad || usagePage == kHIDPage_Button)
 		{
 			if(usagePage == kHIDPage_GenericDesktop && usage == 60)
 				return;
 			else if(usagePage == kHIDPage_KeyboardOrKeypad && (usage <= 3 || usage > 231))
 				return;
-			
+
 			QEvent::Type eventType;
 			switch (currentThread->deviceType())
 			{
@@ -233,15 +233,15 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-						
+
 						eventType = QEvent::Type(InputEvent::AbsoluteAxis);
 					}
 					break;
 				default:
 					eventType = QEvent::Type(InputEvent::Button);
-					break;					
+					break;
 			}
-			
+
 			printf("omg");
 			InputEvent * event = new InputEvent(usage, value, eventType);
 			currentThread->sendEvent(event);
@@ -366,7 +366,7 @@ QString InputThread::msgError()
 bool InputThread::event(QEvent * event)
 {
 	qDebug() <<"wwaaargg";
-	
+
 	return QObject::event(event);
 }
 

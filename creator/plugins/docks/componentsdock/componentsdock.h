@@ -25,7 +25,7 @@ namespace GluonCreator
     class ComponentsDock : public Dock
     {
         public:
-            ComponentsDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit ComponentsDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ComponentsDock();
 
             void setSelection(GluonCore::GluonObject* obj = 0);

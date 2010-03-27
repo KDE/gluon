@@ -30,15 +30,14 @@ class SelectionManager::SelectionManagerPrivate
 
 template<> GLUONCREATOR_EXPORT SelectionManager* GluonCore::Singleton<SelectionManager>::m_instance = 0;
 
-SelectionManager::SelectionManager()
+SelectionManager::SelectionManager() :  d(new SelectionManagerPrivate)
 {
-    d = new SelectionManagerPrivate;
+
 }
 
 SelectionManager::~SelectionManager()
 {
     delete d;
-    d = 0;
 }
 
 SelectionManager::SelectionList SelectionManager::selection() const

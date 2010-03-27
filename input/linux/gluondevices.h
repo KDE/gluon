@@ -17,7 +17,7 @@ namespace GluonInput
         TouchpadDevice = 0x16
     };
     Q_DECLARE_FLAGS(Devices, DeviceFlag)
-    
+
     enum InputTypeFlag
     {
         Button = QEvent::Type(QEvent::User + EV_KEY),

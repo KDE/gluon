@@ -26,7 +26,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~EnumPropertyWidgetItem();
 
             virtual PropertyWidgetItem* instantiate();

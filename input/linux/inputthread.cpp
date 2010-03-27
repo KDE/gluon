@@ -45,7 +45,7 @@ void InputThread::run()
 		if (rd >= (int) sizeof(struct input_event))
 		{
 			QEvent::Type eventType = QEvent::Type(QEvent::User + ev.type);
-			
+
 			switch(eventType)
 			{
 				case GluonInput::Button:
@@ -84,7 +84,7 @@ void InputThread::readInformation()
 		d->m_msgError += "device url does not exist \n";
 		return;
 	}*/
-	
+
 	if(d->m_fd < 0)
 	{
 		qDebug() <<"device not open";
@@ -92,7 +92,7 @@ void InputThread::readInformation()
 		d->m_msgError += "device is not open\n";
 		return;
 	}
-	
+
 	if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) < 0)
 	{
 		qDebug() << "Could not open device" << d->m_devicePath;
@@ -100,7 +100,7 @@ void InputThread::readInformation()
 		d->m_msgError += "could not open the device \n";
 		return;
 	}
-		
+
 	if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info))
 	{
 		qDebug() << "Could not retrieve information of device" << d->m_devicePath;
@@ -189,7 +189,7 @@ void InputThread::readInformation()
 	}
 
 	//===============Find Force feedback ?? ===============
-	
+
 	d->m_deviceType = GluonInput::UnknownDevice;
 
 	if (d->m_buttonCapabilities.contains(BTN_STYLUS))

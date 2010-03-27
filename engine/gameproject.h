@@ -52,8 +52,7 @@ namespace GluonEngine
 
             Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
 
-            // Namespaced types do not work in Q_PROPERTY - workaround in constructor, getter and setter
-            //Q_PROPERTY(Gluon::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
+            Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:
             GameProject(QObject * parent = 0);

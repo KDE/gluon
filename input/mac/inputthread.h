@@ -24,7 +24,7 @@ namespace GluonInput
     {
             Q_OBJECT
         public:
-            InputThread(IOHIDDeviceRef pDevice ,QObject* parent = 0);
+            explicit InputThread(IOHIDDeviceRef pDevice ,QObject* parent = 0);
             ~InputThread();
 
             static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
@@ -55,12 +55,12 @@ namespace GluonInput
             QString msgError();
 
             QObject * getParent();
-		
-		signals:		
+
+		signals:
 			void relAxisMoved(int axis, int distance);
 			void absAxisMoved(int axis, int distance);
 			void buttonStateChanged(int button, int value);
-		
+
         private:
 			bool event(QEvent * event);
             void readInformation();

@@ -53,7 +53,7 @@ namespace GluonCore
 
         public:
             GluonObject(QObject * parent = 0);
-            GluonObject(const QString& name, QObject *parent = 0);
+            explicit GluonObject(const QString& name, QObject *parent = 0);
             GluonObject(const GluonObject& rt);
             virtual ~GluonObject();
 

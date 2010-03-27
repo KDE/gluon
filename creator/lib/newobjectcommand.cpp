@@ -28,9 +28,8 @@ class NewObjectCommand::NewObjectCommandPrivate
         bool applied;
 };
 
-NewObjectCommand::NewObjectCommand(GluonCore::GluonObject* newObject)
+NewObjectCommand::NewObjectCommand(GluonCore::GluonObject* newObject) : d(new NewObjectCommandPrivate)
 {
-    d = new NewObjectCommandPrivate;
     d->object = newObject;
     d->parent = qobject_cast<GluonCore::GluonObject*>(newObject->parent());
     d->applied = true;

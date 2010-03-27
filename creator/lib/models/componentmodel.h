@@ -32,10 +32,15 @@ namespace GluonCreator
             Q_OBJECT
         public:
             ComponentModel(QObject * parent = 0);
+            ~ComponentModel();
 
             virtual Qt::ItemFlags flags(const QModelIndex &index) const;
             virtual QStringList mimeTypes() const;
             virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
+
+        private:
+            class ComponentModelPrivate;
+            ComponentModelPrivate * const d;
     };
 
 }

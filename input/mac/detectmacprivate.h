@@ -12,13 +12,13 @@ namespace GluonInput
 	class Mouse;
 	class Joystick;
 	class Tablet;
-	
+
 	class DetectMacPrivate : public QSharedData
 	{
 		public:
 			DetectMacPrivate();
 			DetectMacPrivate(DetectMacPrivate &other);
-			
+
 			QList<InputDevice *> m_inputList;
 			QList<Keyboard *> m_keyboardList;
 			QList<Mouse *> m_mouseList;
@@ -26,7 +26,7 @@ namespace GluonInput
 			QList<Tablet *> m_tabletList;
 			QList<InputDevice *> m_unknownList;
 			IOHIDManagerRef deviceManager;
-			CFSetRef devices;		
+			CFSetRef devices;
 	};
 }
 #endif

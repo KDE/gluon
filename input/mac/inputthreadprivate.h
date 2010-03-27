@@ -17,7 +17,7 @@ namespace GluonInput
 {
     class InputThreadPrivate : public QSharedData
     {
-		
+
         public:
             InputThreadPrivate();
             InputThreadPrivate(InputThreadPrivate &other);

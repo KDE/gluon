@@ -28,7 +28,7 @@ namespace Gluon
         class QObjectTreeModel : public QAbstractItemModel
         {
             public:
-                QObjectTreeModel(QObject* root, QObject* parent = 0);
+                explicit QObjectTreeModel(QObject* root, QObject* parent = 0);
                 virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
                 virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
                 virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;

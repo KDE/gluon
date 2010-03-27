@@ -8,10 +8,10 @@
 //#include "inputthread.h"
 
 namespace GluonInput
-{	
+{
 	class InputBuffer;
 	class InputThread;
-	
+
     class InputDevicePrivate : public QSharedData
     {
         public:

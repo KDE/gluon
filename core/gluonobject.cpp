@@ -268,7 +268,7 @@ GluonObject::fullyQualifiedFileName() const
     //Filter out invalid characters for filenames
     QRegExp rx("[\\/\\\\\\:\\.,\\* ]");
     qualifiedName.replace(rx, "_");
-    qualifiedName.append("." + ext);
+    qualifiedName.append('.' + ext);
 
     return qualifiedName;
 }
@@ -418,7 +418,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     {
         float x = 0.0f, y = 0.0f;
 
-        QStringList splitValues = theValue.split(";");
+        QStringList splitValues = theValue.split(';');
         if (splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
@@ -430,7 +430,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     {
         float x = 0.0f, y = 0.0f, z = 0.0f;
 
-        QStringList splitValues = theValue.split(";");
+        QStringList splitValues = theValue.split(';');
         if (splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
@@ -443,7 +443,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     {
         float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
 
-        QStringList splitValues = theValue.split(";");
+        QStringList splitValues = theValue.split(';');
         if(splitValues.length() > 0)
         {
             x = splitValues.at(0).toFloat();
@@ -457,7 +457,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     else if (theTypeName == "rgba")
     {
         int r = 0, g = 0, b = 0, a = 0;
-        QStringList splitValues = theValue.split(";");
+        QStringList splitValues = theValue.split(';');
         if (splitValues.length() > 0)
             r = splitValues[0].toInt();
         if (splitValues.length() > 1)
@@ -473,7 +473,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         float w = 0.0f;
         float h = 0.0f;
 
-        QStringList splitValues = theValue.split(";");
+        QStringList splitValues = theValue.split(';');
         if (splitValues.length() > 0)
         {
             w = splitValues.at(0).toFloat();

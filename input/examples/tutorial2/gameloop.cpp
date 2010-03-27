@@ -27,10 +27,10 @@ void GameLoop::gameLoop()
     int maxFrameSkip = 5;
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
     timer.start();
-    
+
     qDebug() << "starting gameloop";
     while (true)
-    {	
+    {
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip)
         {
@@ -38,9 +38,9 @@ void GameLoop::gameLoop()
 	    {
 		if(keyboard->buttonPressed(button))
 		   qDebug() << keyboard->buttonName(button) << " is pressed ";
-		  
+
 	    }
-	  
+
             nextTick += millisecondsPerUpdate;
             loops++;
         }

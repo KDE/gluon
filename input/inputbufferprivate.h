@@ -8,12 +8,12 @@
 //#include "keydefinitions.h"
 
 namespace GluonInput
-{		
+{
 	class InputBufferPrivate : public QSharedData
 	{
 	public:
 		InputBufferPrivate();
-		
+
 		QHash<int, QQueue<bool> > buttonState;
 	};
 }

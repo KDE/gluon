@@ -1,7 +1,6 @@
 #ifndef DETECTLINUX_H
 #define DETECTLINUX_H
 
-#include "code.h"
 #include "inputdevice.h"
 #include "joystick.h"
 #include "keyboard.h"

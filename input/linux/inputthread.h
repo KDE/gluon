@@ -22,7 +22,7 @@ namespace GluonInput
             Q_OBJECT
 
         public:
-            InputThread(const QString& devicePath, QObject *parent = 0);
+            explicit InputThread(const QString& devicePath, QObject *parent = 0);
             ~InputThread();
             void run();
 
@@ -52,8 +52,8 @@ namespace GluonInput
             QString msgError();
 
             QObject * getParent();
-	    
-	    signals:		
+
+	    signals:
 			void relAxisMoved(int axis, int distance);
 			void absAxisMoved(int axis, int distance);
 			void buttonStateChanged(int button, int value);

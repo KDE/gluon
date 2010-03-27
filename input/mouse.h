@@ -18,7 +18,7 @@ namespace GluonInput
             Q_OBJECT
 
         public:
-            Mouse(InputThread * inputThread, QObject * parent = 0);
+            explicit Mouse(InputThread * inputThread, QObject * parent = 0);
 
             QPoint position();
             void setSensibility(double s);
@@ -26,11 +26,11 @@ namespace GluonInput
             int wheelPosition() const;
             int hWheelPosition()const;
             double sensibility()const;
-	   
+
       private slots:
 	  void mouseMoved(int axis, int distance);
-	    
-        private:	    
+
+        private:
             QSharedDataPointer<MousePrivate> d;
     };
 }

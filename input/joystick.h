@@ -14,12 +14,12 @@ namespace GluonInput
     {
             Q_OBJECT
         public:
-            Joystick(InputThread * inputThread, QObject * parent = 0);
+            explicit Joystick(InputThread * inputThread, QObject * parent = 0);
 
             int axisX() const;
             int axisY()const;
-            int axisZ() const;	
-	    
+            int axisZ() const;
+
 	private slots:
 	    void joystickMoved(int axis, int distance);
 

@@ -99,4 +99,15 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     return newScn;
 }
 
+ObjectManager::ObjectManager()
+{
+    m_objectId = 0;
+    m_sceneId = 0;
+}
+
+ObjectManager::~ObjectManager()
+{
+
+}
+
 #include "objectmanager.moc"

@@ -11,7 +11,7 @@ namespace GluonGraphics
         public:
             CubeMesh(QObject * parent = 0);
             CubeMesh(float dimX, float dimY, float dimZ, QObject * parent = 0);
-            CubeMesh(float dim, QObject * parent = 0);
+            explicit CubeMesh(float dim, QObject * parent = 0);
             void setCube(float dimX, float dimY, float dimZ);
 
         private:

@@ -23,6 +23,8 @@
 #include "gameproject.h"
 #include <qfileinfo.h>
 
+#include "core/debughelper.h"
+
 using namespace GluonEngine;
 
 FileLocation::FileLocation(GluonEngine::GameProject* parent, const QUrl &relativeUrl)
@@ -46,7 +48,9 @@ FileLocation::~FileLocation()
 QUrl
 FileLocation::location() const
 {
-#warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+    #ifdef __GNUC__
+    #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+    #endif
 
     // Bah, this am not workey... needs more thinkings
     return d->url;

@@ -67,10 +67,8 @@ void HistoryManager::setClean()
     d->stack->setClean();
 }
 
-HistoryManager::HistoryManager()
+HistoryManager::HistoryManager() : d(new HistoryManagerPrivate)
 {
-    d = new HistoryManagerPrivate;
-
     connect(d->stack, SIGNAL(canRedoChanged(bool)), SIGNAL(canRedoChanged(bool)));
     connect(d->stack, SIGNAL(canUndoChanged(bool)), SIGNAL(canUndoChanged(bool)));
     connect(d->stack, SIGNAL(cleanChanged(bool)), SIGNAL(cleanChanged(bool)));

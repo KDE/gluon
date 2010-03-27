@@ -21,11 +21,10 @@
 
 namespace GluonCreator
 {
-
     class MessageDock : public Dock
     {
         public:
-            MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+            explicit MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~MessageDock();
 
             QAbstractItemModel* model();

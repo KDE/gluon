@@ -29,7 +29,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~BoolPropertyWidgetItem();
 
             virtual QList<QString> supportedDataTypes() const;

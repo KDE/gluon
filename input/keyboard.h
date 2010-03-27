@@ -14,7 +14,7 @@ namespace GluonInput
 	{
 		Q_OBJECT
         public:
-            Keyboard(InputThread * inputThread, QObject * parent = 0);
+            explicit Keyboard(InputThread * inputThread, QObject * parent = 0);
 
         private:
             QSharedDataPointer<KeyboardPrivate> d;

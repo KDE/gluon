@@ -44,12 +44,12 @@ namespace GluonCreator
         private:
             friend class GluonCore::Singleton<PluginManager>;
 
-            PluginManager() { }
-            ~PluginManager() { }
+            PluginManager();
+            ~PluginManager();
             Q_DISABLE_COPY(PluginManager)
 
-            QHash<QString, Plugin*> m_loadedPlugins;
-            KXmlGuiWindow* m_mainWindow;
+            class PluginManagerPrivate;
+            PluginManagerPrivate * const d;
     };
 }
 

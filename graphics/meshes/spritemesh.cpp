@@ -15,11 +15,11 @@ SpriteMesh::SpriteMesh(QObject * parent)
     setSize(QSizeF(1.0f, 1.0f));
 }
 
-SpriteMesh::SpriteMesh(const QSizeF& rect, QObject * parent)
+SpriteMesh::SpriteMesh(const QSizeF& size, QObject* parent)
         : Mesh(parent)
 {
     d = new SpriteMeshPrivate;
-    setSize(rect);
+    setSize(size);
 }
 
 SpriteMesh::~SpriteMesh()

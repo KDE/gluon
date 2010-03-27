@@ -30,7 +30,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
             ~QSizeFPropertyWidgetItem();
 
             virtual QList<QString> supportedDataTypes() const;

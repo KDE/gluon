@@ -49,7 +49,7 @@ namespace GluonCreator
             Q_DISABLE_COPY(SelectionManager)
 
             class SelectionManagerPrivate;
-            SelectionManagerPrivate *d;
+            SelectionManagerPrivate * const d;
     };
 
 }

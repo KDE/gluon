@@ -60,8 +60,8 @@ namespace GluonCreator
             void setRootGameObject(GluonEngine::GameObject* obj);
 
         private:
-            GluonEngine::GameObject *m_root;
-            int rowIndex(GluonEngine::GameObject* object) const;
+            class SceneModelPrivate;
+            SceneModelPrivate * const d;
     };
 }
 

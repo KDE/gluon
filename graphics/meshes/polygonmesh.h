@@ -11,8 +11,8 @@ namespace GluonGraphics
     {
         public:
             PolygonMesh(QObject * parent = 0);
-            PolygonMesh(const QPolygonF& polygon, QObject * parent = 0);
-            PolygonMesh(const QRectF& rect, QObject* parent = 0);
+            explicit PolygonMesh(const QPolygonF& polygon, QObject * parent = 0);
+            explicit PolygonMesh(const QRectF& rect, QObject* parent = 0);
             void setPolygon(const QPolygonF& polygon);
 
             const QPolygonF& polygon()

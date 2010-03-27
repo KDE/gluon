@@ -6,9 +6,9 @@
 
 #include <IOKit/hid/IOHIDUsageTables.h>
 
-namespace GluonInput 
+namespace GluonInput
 {
-	enum DeviceFlag 
+	enum DeviceFlag
 	{
 		UnknownDevice = kHIDUsage_Undefined,
 		KeyboardDevice = kHIDUsage_GD_Keyboard,
@@ -18,7 +18,7 @@ namespace GluonInput
 		TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
 	};
 	Q_DECLARE_FLAGS(Devices, DeviceFlag)
-	
+
 	Q_DECLARE_OPERATORS_FOR_FLAGS(Devices);
 }
 

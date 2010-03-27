@@ -24,9 +24,20 @@
 
 using namespace GluonCreator;
 
-ComponentModel::ComponentModel(QObject* parent)
-        : QStringListModel(parent)
+class ComponentModel::ComponentModelPrivate
 {
+    public:
+
+};
+
+ComponentModel::ComponentModel(QObject* parent)
+        : QStringListModel(parent), d(new ComponentModelPrivate)
+{
+}
+
+ComponentModel::~ComponentModel()
+{
+    delete d;
 }
 
 Qt::ItemFlags
