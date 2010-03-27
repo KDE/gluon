@@ -11,12 +11,9 @@ function start() {
 }
 
 function update() {
-  //if(GameObject.Key_Space.isActionHeld()) {
-  //  Game.setCurrentScene("Invaders.Game");
-  //}
-  timer += 1;
-  if(timer > 200)
+  if(GameObject.Key_Space.isActionHeld()) {
     Game.setCurrentScene("Invaders/Game");
+  }
 
   GameObject.setPosition(xpos, ypos, 1);
   

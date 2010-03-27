@@ -1,13 +1,19 @@
 { GluonEngine::GameProject(Invaders)
-    filename url(/home/ahiemstra/Projects/KDE/Gluon/gluon-git/player/examples/invaders/invaders.gluon)
+    filename url(/home/ahiemstra/Projects/KDE/Gluon/invaders/project/Invaders.gluon)
     { GluonEngine::Scene(Menu)
-        file url(Scenes/Invaders.Menu.gdl)
+        file url(Scenes/invaders_menu.gdl)
     }
     { GluonEngine::Scene(Game)
-        file url(Scenes/Invaders.Game.gdl)
+        file url(Scenes/invaders_game.gdl)
+    }
+    { GluonEngine::TextureAsset(alien.png)
+        file url(Assets/invaders_alien.png)
     }
     { GluonEngine::TextureAsset(background.png)
         file url(Assets/invaders_background.png)
+    }
+    { GluonEngine::ScriptAsset(enemy.js)
+        file url(Assets/invaders_enemy.js)
     }
     { GluonEngine::TextureAsset(gluon.invaders.128.png)
         file url(Assets/invaders_gluon_invaders_128.png)
@@ -15,22 +21,16 @@
     { GluonEngine::TextureAsset(menu-text.png)
         file url(Assets/invaders_menu-text.png)
     }
-    { GluonEngine::TextureAsset(spaceship.png)
-        file url(Assets/invaders_spaceship.png)
+    { GluonEngine::ScriptAsset(menu.js)
+        file url(Assets/invaders_menu.js)
     }
-    { GluonEngine::TextureAsset(alien.png)
-        file url(Assets/invaders_alien.png)
+    { GluonEngine::ScriptAsset(player.js)
+        file url(Assets/invaders_player.js)
     }
     { GluonEngine::TextureAsset(spaceship-reflection.png)
         file url(Assets/invaders_spaceship-reflection.png)
     }
-    { GluonEngine::ScriptAsset(menu.js)
-        file url(Assets/invaders_menu.js)
-    }
-    { GluonEngine::ScriptAsset(enemy.js)
-        file url(Assets/invaders_enemy.js)
-    }
-    { GluonEngine::ScriptAsset(player.js)
-        file url(Assets/invaders_player.js)
+    { GluonEngine::TextureAsset(spaceship.png)
+        file url(Assets/invaders_spaceship.png)
     }
 }

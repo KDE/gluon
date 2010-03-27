@@ -1,0 +1,74 @@
+{ GluonEngine::GameObject(Game)
+    position vector3d(0;0;0)
+    scale vector3d(1;1;1)
+    orientation quaternion(0;0;0;1)
+    { GluonEngine::GameObject(Camera)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::CameraControllerComponent(GluonObject)
+            enabled bool(true)
+            active bool(true)
+        }
+    }
+    { GluonEngine::GameObject(Background)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            size size2d(95;90)
+            color rgba(255;255;255;255)
+            texture GluonEngine::Asset(Invaders/background.png)
+        }
+    }
+    { GluonEngine::GameObject(Player)
+        position vector3d(0;24;1)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            size size2d(8;8)
+            color rgba(255;255;255;255)
+            texture GluonEngine::Asset(Invaders/spaceship.png)
+        }
+        { GluonEngine::GameObject(Reflection)
+            position vector3d(0;12;0)
+            scale vector3d(1;1;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(8;8)
+                color rgba(255;255;255;255)
+                texture GluonEngine::Asset(Invaders/spaceship-reflection.png)
+            }
+        }
+        { GluonEngine::QtScriptComponent(GluonObject)
+            enabled bool(true)
+            script GluonEngine::Asset(Invaders/player.js)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Left)
+            enabled bool(true)
+            keyCode int(30)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Right)
+            enabled bool(true)
+            keyCode int(32)
+        }
+    }
+    { GluonEngine::GameObject(Enemy)
+        position vector3d(0;-35;1)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            size size2d(5;5)
+            color rgba(255;255;255;255)
+            texture GluonEngine::Asset(Invaders/alien.png)
+        }
+        { GluonEngine::QtScriptComponent(GluonObject)
+            enabled bool(true)
+            script GluonEngine::Asset(Invaders/enemy.js)
+        }
+    }
+}
