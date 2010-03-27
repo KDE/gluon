@@ -96,18 +96,22 @@ EnumPropertyWidgetItem::setEditObject(QObject* editThis)
     GluonCreator::PropertyWidgetItem::setEditObject(editThis);
     d->editObject = editThis;
     d->setupComboBox();
+    connect(d->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(indexChanged(int)));
 }
 
 void
 EnumPropertyWidgetItem::setEditValue(const QVariant& value)
 {
+    int key = value.toInt();
+    d->comboBox->setCurrentIndex(d->comboBox->findData(QVariant(key)));
     GluonCreator::PropertyWidgetItem::setEditValue(value);
 }
 
 void
 EnumPropertyWidgetItem::indexChanged(int newIndex)
 {
-    //GluonCreator::PropertyWidgetItem::valueChanged( QVariant::fromValue<>() );
+    d->editObject->setProperty(editProperty().toUtf8(), d->comboBox->itemData(newIndex));
+    GluonCreator::PropertyWidgetItem::valueChanged( QVariant(newIndex) );
 }
 
 #include "enumpropertywidgetitem.moc"
