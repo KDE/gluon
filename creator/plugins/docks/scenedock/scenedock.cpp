@@ -112,9 +112,9 @@ void SceneDock::selectionChanged(QItemSelection selected, QItemSelection deselec
     DEBUG_FUNC_NAME
 
     SelectionManager::SelectionList selection;
-    foreach(const QItemSelectionRange range, selected)
+    foreach(const QItemSelectionRange &range, selected)
     {
-        foreach(QModelIndex index, range.indexes())
+        foreach(const QModelIndex &index, range.indexes())
         {
             GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
             selection.append(obj);
@@ -141,7 +141,7 @@ void SceneDock::deleteSelection()
     if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
-        foreach(QItemSelectionRange range, currentSelection)
+        foreach(const QItemSelectionRange &range, currentSelection)
         {
             DEBUG_TEXT(QString("Removing rows %1 to %2").arg(range.top()).arg(range.bottom() - range.top()));
             d->model->removeRows(range.top(), (range.bottom() - range.top()) + 1, range.parent());
@@ -157,7 +157,7 @@ void GluonCreator::SceneDock::newGameObjectAction()
     if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
-        foreach(QItemSelectionRange range, currentSelection)
+        foreach(const QItemSelectionRange &range, currentSelection)
         {
             DEBUG_TEXT(QString("Adding new child to first GluonObject in selection"));
             obj = qobject_cast<GluonEngine::GameObject*>(static_cast<QObject*>(range.parent().child(range.top(), 0).internalPointer()));

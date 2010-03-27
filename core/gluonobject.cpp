@@ -151,7 +151,7 @@ GluonObject::sanitize()
 
         // Then get all the dynamic ones (in case any such exist)
         QList<QByteArray> propertyNames = dynamicPropertyNames();
-        foreach(QByteArray propName, propertyNames)
+        foreach(const QByteArray &propName, propertyNames)
         {
             const QString theName(propName);
             if (theName == "objectName" || theName == "name")
@@ -371,7 +371,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
     {
         DEBUG_TEXT(QString("No dynamic properties"));
     }
-    foreach(QByteArray propName, propertyNames)
+    foreach(const QByteArray &propName, propertyNames)
     {
         const QString theName(propName);
         serializedObject += this->getStringFromProperty(theName, indentChars);

@@ -111,8 +111,10 @@ namespace GluonGraphics
     void GLPainter::createPolygon(const QPolygonF & polygon)
     {
         d->pointList.clear();
-        foreach(QPointF p, polygon)
-        d->pointList.append(Vertex(p.x(), p.y(), d->color, QVector2D(p.x() , p.y())));
+        foreach(const QPointF &p, polygon)
+        {
+            d->pointList.append(Vertex(p.x(), p.y(), d->color, QVector2D(p.x() , p.y())));
+        }
     }
     void GLPainter::draw(GLenum mode)
     {

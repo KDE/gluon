@@ -33,7 +33,8 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
     DEBUG_BLOCK
 
     // First check if there's any PIW which supports the type
-    foreach(const QString &thisType, piwTypes.keys())
+    QList<QString> pwiKeys = piwTypes.keys();
+    foreach(const QString &thisType, pwiKeys)
     {
         if (thisType == type)
         {

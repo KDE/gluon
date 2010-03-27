@@ -202,7 +202,7 @@ ProjectModel::mimeTypes() const
         d->acceptedMimeTypes.append("application/gluoncreator.projectmodel.gluonobject");
         d->acceptedMimeTypes.append("text/uri-list");
         d->acceptedMimeTypes.append(GluonCore::GluonObjectFactory::instance()->objectMimeTypes());
-        foreach(QString theName, d->acceptedMimeTypes)
+        foreach(const QString &theName, d->acceptedMimeTypes)
         {
             DEBUG_TEXT(QString("%1").arg(theName));
         }

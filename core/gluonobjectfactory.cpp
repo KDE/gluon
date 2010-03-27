@@ -203,7 +203,7 @@ GluonObjectFactory::loadPlugins()
         DEBUG_TEXT(QString("Looking for pluggable components in %1").arg(theDir.absolutePath()));
         DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
 
-        foreach(QString fileName, theDir.entryList(QDir::Files))
+        foreach(const QString &fileName, theDir.entryList(QDir::Files))
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
             if (!fileName.contains("gluon"))

@@ -150,8 +150,10 @@ GameProject::loadFromFile()
 
                 // Then get all the dynamic ones (in case any such exist)
                 QList<QByteArray> propertyNames = loadedProject->dynamicPropertyNames();
-                foreach(QByteArray propName, propertyNames)
-                setProperty(propName, loadedProject->property(propName));
+                foreach(const QByteArray &propName, propertyNames)
+                {
+                    setProperty(propName, loadedProject->property(propName));
+                }
 
                 // Sanitize me!
                 this->sanitize();

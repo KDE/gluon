@@ -506,7 +506,7 @@ namespace GluonGraphics
 
         // Split the string into lines
         QStringList lines = string.split('\n');
-        foreach(QString line, lines)
+        foreach(const QString &line, lines)
         {
             d->do_draw(line, font);
             // Move one line down
@@ -537,12 +537,12 @@ namespace GluonGraphics
         {
             // Wrap the lines if necessary
             QStringList newlines;
-            foreach(QString line, lines)
+            foreach(const QString &line, lines)
             {
                 QString newline;
                 int newlinew = 0;
                 QStringList words = line.simplified().split(' ');
-                foreach(QString word, words)
+                foreach(const QString &word, words)
                 {
                     int wordw = fontMetrics.width(' ' + word);
                     if (newlinew + wordw > rect.width())

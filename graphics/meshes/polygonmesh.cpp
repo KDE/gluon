@@ -20,7 +20,7 @@ namespace GluonGraphics
     {
         clear();
         m_polygon = polygon;
-        foreach(QPointF p, m_polygon)
+        foreach(const QPointF &p, m_polygon)
         {
             QVector2D textureCoord(p.x(), p.y());
             addVertex(Vertex(p.x(), p.y(), Qt::white, textureCoord));

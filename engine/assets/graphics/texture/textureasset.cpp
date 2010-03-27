@@ -59,7 +59,7 @@ const QStringList TextureAsset::supportedMimeTypes() const
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
 
     QStringList supportedTypes;
-    foreach(QByteArray type, supported)
+    foreach(const QByteArray &type, supported)
     {
         supportedTypes << QString("image/%1").arg(QString(type));
     }

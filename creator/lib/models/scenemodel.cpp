@@ -203,7 +203,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             gobj = d->root;
         }
 
-        foreach(QString something, data->formats())
+        foreach(const QString &something, data->formats())
         {
             DEBUG_TEXT(QString("Dropped mimetype %1 on object %2").arg(something).arg(gobj->fullyQualifiedName()));
         }
@@ -222,7 +222,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
                 newItems << text;
                 ++rows;
             }
-            foreach(QString text, newItems)
+            foreach(const QString &text, newItems)
             {
                 DEBUG_TEXT(QString("Adding component of class %1").arg(text));
                 ObjectManager::instance()->createNewComponent(text, gobj);
@@ -238,7 +238,7 @@ bool SceneModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             DEBUG_TEXT(QString("Dropped names %1 on Scene Model").arg(dataString));
 
             GluonEngine::GameProject *project = GluonEngine::Game::instance()->gameProject();
-            foreach(QString name, names)
+            foreach(const QString &name, names)
             {
                 GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(project->findItemByName(name));
                 if (gobj)

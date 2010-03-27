@@ -68,7 +68,7 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
     QDataStream stream(&encodedData, QIODevice::WriteOnly);
 
     // There should really only be one, but let's do the loop-de-loop anyway
-    foreach(QModelIndex index, indexes)
+    foreach(const QModelIndex &index, indexes)
     {
         if (index.isValid())
         {
