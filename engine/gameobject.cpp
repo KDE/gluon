@@ -380,6 +380,20 @@ GameObject::description() const
     return d->description;
 }
 
+//// Translation ////
+
+QVector3D
+GameObject::position() const
+{
+    return d->position;
+}
+
+QVector3D
+GameObject::worldPosition() const
+{
+    return d->worldPosition;
+}
+
 void
 GameObject::setPosition(const QVector3D& newPosition)
 {
@@ -394,16 +408,38 @@ void GameObject::setPosition(float x, float y, float z)
     setPosition(QVector3D(x, y, z));
 }
 
-QVector3D
-GameObject::position() const
+void
+GameObject::translate(const QVector3D& translation, GameObject::TransformSpace ts)
 {
-    return d->position;
+    if(ts == TS_LOCAL)
+    {
+        setPosition(position() + translation);
+    }
+    else
+    {
+        #warning This probably needs fixing to account for world scale/orientation
+        setPosition((worldPosition() + translation) - position());
+    }
+}
+
+void
+GameObject::translate(float x, float y, float z, GameObject::TransformSpace ts)
+{
+    translate(QVector3D(x, y, z), ts);
+}
+
+//// Scaling ////
+
+QVector3D
+GameObject::scale() const
+{
+    return d->scale;
 }
 
 QVector3D
-GameObject::worldPosition() const
+GameObject::worldScale() const
 {
-    return d->worldPosition;
+    return d->worldScale;
 }
 
 void
@@ -420,26 +456,24 @@ void GameObject::setScale(float x, float y, float z)
     setScale(QVector3D(x, y, z));
 }
 
-QVector3D
-GameObject::scale() const
+void GameObject::scaleRelative(QVector3D scaling, GameObject::TransformSpace ts)
 {
-    return d->scale;
+    if(ts == TS_LOCAL)
+    {
+        setScale(scale() + scaling);
+    }
+    else
+    {
+        setScale((worldScale() + scaling) - scale());
+    }
 }
 
-QVector3D
-GameObject::worldScale() const
+void GameObject::scaleRelative(float x, float y, float z, GameObject::TransformSpace ts)
 {
-    return d->worldScale;
+    scaleRelative(QVector3D(x, y, z), ts);
 }
 
-
-void GameObject::setOrientation(const QQuaternion& newOrientation)
-{
-    d->orientation = newOrientation;
-
-    d->transformInvalidated = true;
-    updateTransform();
-}
+//// Orientation ////
 
 QQuaternion GameObject::orientation() const
 {
@@ -452,6 +486,25 @@ GameObject::worldOrientation() const
     return d->worldOrientation;
 }
 
+void GameObject::setOrientation(const QQuaternion& newOrientation)
+{
+    d->orientation = newOrientation;
+
+    d->transformInvalidated = true;
+    updateTransform();
+}
+
+void GameObject::orient(QQuaternion rotation, GameObject::TransformSpace ts)
+{
+    if(ts == TS_LOCAL)
+    {
+        setOrientation(orientation() * rotation);
+    }
+    else
+    {
+        //setOrientation((worldOrientation() * rotation) / orientation());
+    }
+}
 
 void GameObject::updateTransform()
 

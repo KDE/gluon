@@ -118,18 +118,66 @@ namespace GluonEngine
             void setParentGameObject(GameObject * newParent);
 
             //Transformation
+            /**
+             * Set the position of the object
+             * Note that this position is relative to the object's parent.
+             * E.g.: setPosition(QVector3D(0, 0, 0)) set the object at the
+             * parent's pivot.
+             *
+             * @param newPosition The new position of the object
+             */
             void setPosition(const QVector3D& newPosition);
+            /**
+             * Set the position of the object
+             *
+             * @see setPosition(const QVector3D& newPosition)
+             *
+             * @param x The X-axis component of the new position of the object
+             * @param y The Y-axis component of the new position of the object
+             * @param z The Z-axis component of the new position of the object
+             */
             void setPosition(float x, float y, float z);
-            //void translate(Eigen::Vector3f translation, TransformSpace ts = TS_LOCAL);
-            //void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            /**
+             * Translate the object relative to its current position.
+             * This moves the object so that its new position will be equal to
+             * position + translation. So translating by QVector3D(1, 0, 0) would
+             * move the object one unit to the right.
+             *
+             * @param translation The amount to translate the object by
+             * @param ts The transform space to use. If transform space is TS_LOCAL,
+             * the object will move in local space, if transform space is TS_WORLD,
+             * the object will move in world space.
+             */
+            void translate(const QVector3D& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL);
+            /**
+             * Translate the object relative to its current position.
+             *
+             * @see translate(const QVector3D& translation)
+             *
+             * @param x The X-axis component of the translation
+             * @param y The Y-axis component of the translation
+             * @param z The Z-axis component of the translation
+             */
+            void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
 
+            /**
+             * Set the object's scale
+             *
+             * @param newScale The new scale of the object
+             */
             void setScale(const QVector3D& newScale);
             void setScale(float x, float y, float z);
-            //void scaleRelative(Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL);
-            //void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            void scaleRelative(QVector3D scaling, TransformSpace ts = TS_LOCAL);
+            void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
 
+            /**
+             * Set the object's orientation.
+             * Due to many reasons, orientation is handled by Quaternions,
+             *
+             * @param newOrientation The new orientation of the object
+             */
             void setOrientation(const QQuaternion& newOrientation);
-            //void rotate(Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL);
+            void orient(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
 
             void updateTransform();
             void invalidateTransform();
