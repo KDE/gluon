@@ -34,68 +34,56 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
     m_actionHeld = false;
     m_actionStarted = false;
     m_actionStopped = false;
-    m_keyCode = Key_Space;
+
+    m_keyCode = KeyboardInputComponent::UNKNOWN;
+
+    m_keyboard = 0;
 }
 
 void
 KeyboardInputComponent::start()
 {
-    foreach(const GluonInput::InputDevice *input, GluonInput::InputManager::instance()->keyboardList())
-    {
-        connect(input, SIGNAL(eventSent(GluonInput::InputEvent*)), this, SLOT(inputEvent(GluonInput::InputEvent*)));
-        connect(input, SIGNAL(buttonPressed(int)), this, SLOT(buttonPressed(int)));
-    }
-    GluonEngine::Component::start();
+    if(!m_keyboard)
+        m_keyboard = GluonInput::InputManager::instance()->keyboard();
+    m_keyboard->setEnabled(true);
 }
 
 void
 KeyboardInputComponent::update(int elapsedMilliseconds)
 {
-    if (m_actionStarted)
+    DEBUG_BLOCK
+    if(m_actionStarted)
         m_actionStarted = false;
 
-    if (m_actionStopped)
+    if(m_actionStopped)
+        m_actionStopped = true;
+
+    if(m_keyboard && m_keyboard->buttonPressed(m_keyCode))
     {
-        m_actionStopped = false;
-        m_actionHeld = false;
-    }
-
-    /*    if ( (m_distanceMovement == QVector3D(0,0,0)) && m_actionHeld )
-            m_actionStopped = true;
-
-        m_lastFrame = m_distanceMovement;
-        m_distanceMovement = QVector3D(0,0,0);
-        m_axisMovement = 0;*/
-}
-
-void KeyboardInputComponent::stop()
-{
-    disconnect(this, SLOT(inputEvent(GluonInput::InputEvent*)));
-    GluonEngine::Component::stop();
-}
-
-/*void
-KeyboardInputComponent::inputEvent(GluonInput::InputEvent *inputEvent)
-{
-    if (inputEvent->code() == m_keyCode)
-    {
-        if (inputEvent->value() == 0)
-        {
-            m_actionStopped = true;
-        }
-        else if (inputEvent->value() == 1)
+        if(!m_actionHeld)
         {
             m_actionStarted = true;
             m_actionHeld = true;
         }
     }
+    else
+    {
+        if(m_actionHeld)
+        {
+            m_actionStopped = true;
+            m_actionHeld = false;
+        }
+    }
 }
 
-void KeyboardInputComponent::buttonPressed(int key)
+void KeyboardInputComponent::stop()
 {
-    DEBUG_FUNC_NAME
-    DEBUG_TEXT(QString("Key %1 was pressed.").arg(key));
-}*/
+    m_keyboard->setEnabled(false);
+
+    m_actionStopped = false;
+    m_actionStarted = false;
+    m_actionHeld = false;
+}
 
 bool
 KeyboardInputComponent::isActionStarted()
@@ -122,22 +110,10 @@ KeyboardInputComponent::keyCode() const
 }
 
 void
-KeyboardInputComponent::setKeyCode(const KeyName& newKeyCode)
+KeyboardInputComponent::setKeyCode(KeyboardInputComponent::KeyName newKeyCode)
 {
     m_keyCode = newKeyCode;
 }
-
-// QVector3D
-// KeyboardInputComponent::getDistanceMovement(const QString &actionName)
-// {
-//    return m_distanceMovement;
-// }
-//
-// float
-// KeyboardInputComponent::getAxisMovement(const QString &actionName)
-// {
-//    return m_distanceMovement.length();
-// }
 
 Q_EXPORT_PLUGIN2(gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent);
 
