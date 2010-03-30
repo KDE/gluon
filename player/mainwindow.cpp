@@ -22,6 +22,9 @@
 #include <engine/gameproject.h>
 #include <graphics/glwidget.h>
 #include <engine/scene.h>
+#include <fpscounter.h>
+#include <QStatusBar>
+#include <QApplication>
 
 using namespace GluonPlayer;
 
@@ -31,7 +34,11 @@ class MainWindow::MainWindowPrivate
         QString fileName;
 
         GluonEngine::GameProject *project;
+
+        GluonGraphics::GLWidget *widget;
+
         QLabel *label;
+        QString title;
 };
 
 GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::WindowFlags flags)
@@ -60,7 +67,7 @@ void MainWindow::openProject()
 {
     if (d->fileName.isEmpty())
     {
-        d->fileName = QFileDialog::getOpenFileName(this, tr("Please select a project"), QString(), QString("Gluon Project Files (*.gluon)"));
+        d->fileName = QFileDialog::getOpenFileName(this, tr("Please select a project"), QString(), tr("Gluon Project Files (*.gluon)"));
     }
 
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
@@ -69,12 +76,16 @@ void MainWindow::openProject()
     d->project = new GluonEngine::GameProject();
     d->project->loadFromFile(QUrl(d->fileName));
 
+    setWindowFilePath(d->fileName);
+    d->title = windowTitle();
+
     GluonEngine::Game::instance()->setGameProject(d->project);
     GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
 
-    GluonGraphics::GLWidget* widget = new GluonGraphics::GLWidget(this);
-    setCentralWidget(widget);
-    connect(GluonEngine::Game::instance(), SIGNAL(painted()), widget, SLOT(updateGL()));
+    d->widget = new GluonGraphics::GLWidget(this);
+    setCentralWidget(d->widget);
+    connect(GluonEngine::Game::instance(), SIGNAL(painted()), d->widget, SLOT(updateGL()));
+    connect(GluonEngine::Game::instance(), SIGNAL(painted()), SLOT(updateTitle()));
 
     GluonEngine::Game::instance()->runGame();
 }
@@ -83,6 +94,13 @@ void MainWindow::closeEvent(QCloseEvent* event)
 {
     GluonEngine::Game::instance()->stopGame();
     QWidget::closeEvent(event);
+}
+
+void MainWindow::updateTitle()
+{
+    QString fps = d->widget->fpsCounter()->fpsString();
+
+    setWindowTitle(d->title + QString(" (%1 FPS)").arg(fps));
 }
 
 #include "mainwindow.moc"

@@ -30,6 +30,7 @@ namespace GluonPlayer
 
         public slots:
             void openProject();
+            void updateTitle();
 
         private:
             class MainWindowPrivate;
