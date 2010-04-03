@@ -1,8 +1,10 @@
 { GluonEngine::GameObject(Game)
+    enabled bool(true)
     position vector3d(0;0;0)
     scale vector3d(1;1;1)
     orientation quaternion(0;0;0;1)
     { GluonEngine::GameObject(Camera)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -22,6 +24,7 @@
         }
     }
     { GluonEngine::GameObject(Background)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -37,7 +40,8 @@
         }
     }
     { GluonEngine::GameObject(Player)
-        position vector3d(-4;-2.4;1)
+        enabled bool(true)
+        position vector3d(23.2;30;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
@@ -47,6 +51,7 @@
             texture GluonEngine::Asset(Invaders/spaceship.png)
         }
         { GluonEngine::GameObject(Reflection)
+            enabled bool(true)
             position vector3d(0;12;0)
             scale vector3d(1;1;1)
             orientation quaternion(0;0;0;1)
@@ -77,10 +82,6 @@
             enabled bool(true)
             keyCode int(31)
         }
-        { GluonEngine::SphereCollisionComponent(Collider)
-            enabled bool(true)
-            radius float(1)
-        }
         { GluonEngine::KeyboardInputComponent(Key_Fire)
             enabled bool(true)
             keyCode int(57)
@@ -89,8 +90,13 @@
             enabled bool(true)
             loop bool(false)
         }
+        { GluonEngine::SphereCollisionComponent(Collider)
+            enabled bool(true)
+            radius float(1)
+        }
     }
     { GluonEngine::GameObject(Enemy)
+        enabled bool(false)
         position vector3d(1000;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -101,7 +107,7 @@
             texture GluonEngine::Asset(Invaders/alien.png)
         }
         { GluonEngine::QtScriptComponent(GluonObject 1)
-            enabled bool(false)
+            enabled bool(true)
             script GluonEngine::Asset(Invaders/enemy.js)
         }
         { GluonEngine::SphereCollisionComponent(Collider)
@@ -110,6 +116,7 @@
         }
     }
     { GluonEngine::GameObject(Bullet)
+        enabled bool(false)
         position vector3d(1000;0;2)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -120,7 +127,7 @@
             texture GluonEngine::Asset(Invaders/alien.png)
         }
         { GluonEngine::QtScriptComponent(Script)
-            enabled bool(false)
+            enabled bool(true)
             script GluonEngine::Asset(Invaders/bullet.js)
         }
     }

@@ -1,8 +1,11 @@
+var g_bullet;
+
 function start() 
 {
+    g_bullet = Game.getFromScene("Bullet");
 }
 
-function update(time) 
+function move(time)
 {
     if(GameObject.Key_Left.isActionHeld())
     {
@@ -25,14 +28,27 @@ function update(time)
     }
 
     var pos = GameObject.position;
-    if(pos.x() < -30)
+    if(pos.x() < -30) 
+    {
         GameObject.setPosition(-30, pos.y(), pos.z());
+    }
     if(pos.x() > 30)
+    {
         GameObject.setPosition(30, pos.y(), pos.z());
+    }
     if(pos.y() > 30)
+    {
         GameObject.setPosition(pos.x(), 30, pos.z());
+    }
     if(pos.y() < -30)
+    {
         GameObject.setPosition(pos.x(), -30, pos.z());
+    }
+}
+
+function update(time) 
+{
+    move(time);
     
     if(GameObject.Collider.isColliding())
     {
@@ -43,13 +59,11 @@ function update(time)
         GameObject.SpriteRenderer.setColor(new QColor(255, 255, 255));
     }
     
-    if(GameObject.Key_Fire.isActionHeld())
+    if(GameObject.Key_Fire.isActionStarted())
     {
-        GameObject.FireSound.play();
-        
-        var bullet = Game.clone(Game.getFromScene("Bullet"));
+        var bullet = Game.clone(g_bullet);
         bullet.setPosition(GameObject.position);
-        bullet.Script.enabled = true;
+        bullet.enabled = true;
     }
 }
 
