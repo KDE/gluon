@@ -86,11 +86,13 @@ GluonObject::clone() const
         parentObject->addChild(newObject);
 
     // Clone all the children
-    foreach(const QObject* child, children())
+    foreach(QObject* child, children())
     {
-        const GluonObject* childObject = qobject_cast<const GluonObject*>(child);
+        GluonObject* childObject = qobject_cast<GluonObject*>(child);
         if(childObject)
+        {
             newObject->addChild(childObject->clone());
+        }
     }
     
     // Copy over the values from pre-defined properties
@@ -109,6 +111,8 @@ GluonObject::clone() const
     }
     
     #warning Clones with properties pointing to children should point to new children rather than the old children
+    
+    return newObject;
 }
 
 void

@@ -63,7 +63,7 @@ namespace GluonCore
              *
              * @return A deep copy of the object and all its children
              */
-            GluonObject * clone() const;
+            Q_INVOKABLE GluonObject * clone() const;
 
             virtual QString name() const;
             virtual void setName(const QString &newName);
