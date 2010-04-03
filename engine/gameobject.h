@@ -39,6 +39,7 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::GameObject);
             Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
             Q_PROPERTY(QVector3D position READ position WRITE setPosition)
             Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
@@ -103,6 +104,9 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
+            Q_INVOKABLE bool enabled() const;
+            Q_INVOKABLE void setEnabled(bool newEnabled);
+            
             Q_INVOKABLE QVector3D position() const;
             Q_INVOKABLE QVector3D worldPosition() const;
 
