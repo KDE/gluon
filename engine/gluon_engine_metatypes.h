@@ -35,6 +35,7 @@ namespace
         public:
             GluonEngineMetaTypes()
             {
+                qRegisterMetaType<GluonCore::GluonObject*>();
                 qRegisterMetaType<GluonEngine::Asset*>();
                 qRegisterMetaType<GluonEngine::Component*>();
                 qRegisterMetaType<GluonEngine::GameObject*>();
