@@ -39,4 +39,10 @@
     { GluonEngine::SoundAsset(Harmful or Fatal.ogg)
         file url(Assets/invaders_harmful_or_fatal.ogg)
     }
+    { GluonEngine::ScriptAsset(bullet.js)
+        file url(Assets/invaders_bullet.js)
+    }
+    { GluonEngine::ScriptAsset(controller.js)
+        file url(Assets/invaders_controller.js)
+    }
 }
