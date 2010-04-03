@@ -10,6 +10,16 @@
             enabled bool(true)
             active bool(true)
         }
+        { GluonEngine::SoundListenerComponent(GluonObject)
+            enabled bool(true)
+            active bool(true)
+            effectsEnabled bool(true)
+        }
+        { GluonEngine::SoundEmitterComponent(GluonObject)
+            enabled bool(true)
+            sound GluonEngine::Asset(Invaders/Harmful or Fatal.ogg)
+            loop bool(true)
+        }
     }
     { GluonEngine::GameObject(Background)
         position vector3d(0;0;0)
@@ -43,7 +53,7 @@
                 texture GluonEngine::Asset(Invaders/spaceship-reflection.png)
             }
         }
-        { GluonEngine::QtScriptComponent(GluonObject)
+        { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
             script GluonEngine::Asset(Invaders/player.js)
         }
@@ -57,7 +67,7 @@
         }
     }
     { GluonEngine::GameObject(Enemy)
-        position vector3d(0;-35;1)
+        position vector3d(14;-30;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
@@ -66,7 +76,7 @@
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/alien.png)
         }
-        { GluonEngine::QtScriptComponent(GluonObject)
+        { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
             script GluonEngine::Asset(Invaders/enemy.js)
         }
