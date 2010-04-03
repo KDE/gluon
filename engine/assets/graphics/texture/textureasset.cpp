@@ -72,7 +72,6 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
-    DEBUG_FUNC_NAME
     if (d->image->load(file().toLocalFile()))
     {
         mimeData()->setImageData(*d->image);
@@ -80,6 +79,7 @@ void TextureAsset::load()
     }
     else
     {
+        DEBUG_BLOCK
         DEBUG_TEXT("Error loading texture!");
     }
 }
