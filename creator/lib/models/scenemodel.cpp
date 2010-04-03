@@ -48,6 +48,10 @@ SceneModel::SceneModel(QObject* parent): QAbstractItemModel(parent), d(new Scene
     connect(HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()));
 }
 
+SceneModel::~SceneModel()
+{
+    delete d;
+}
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
 {

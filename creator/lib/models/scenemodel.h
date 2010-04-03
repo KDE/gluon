@@ -35,6 +35,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             SceneModel(QObject* parent = 0);
+            ~SceneModel();
 
             GluonEngine::GameObject* rootGameObject();
 
