@@ -270,5 +270,21 @@ Game::setGameProject(GluonEngine::GameProject * newGameProject)
     emit currentSceneChanged(d->currentScene);
 }
 
+GameObject* Game::getFromScene(const QString& name)
+{
+    return d->currentScene->sceneContents()->childGameObject(name);
+}
+
+GameObject* Game::clone(GameObject* obj)
+{
+    if(obj)
+    {
+        GameObject *newObj = qobject_cast<GameObject*>(obj->clone());
+        obj->parentGameObject()->addChild(newObj);
+        return newObj;
+    }
+    
+    return 0;
+}
 
 #include "game.moc"
