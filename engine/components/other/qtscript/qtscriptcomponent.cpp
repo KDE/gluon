@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -45,6 +45,9 @@ class QtScriptComponent::QtScriptComponentPrivate
         }
 
         QScriptEngine engine;
+
+        QScriptValue drawFunc;
+        QScriptValue updateFunc;
 
         GluonEngine::Asset* script;
 };
@@ -91,6 +94,9 @@ void QtScriptComponent::start()
         QScriptValue game = d->engine.newQObject(Game::instance());
         d->engine.globalObject().setProperty("Game", game);
 
+        d->updateFunc = d->engine.globalObject().property("update");
+        d->drawFunc = d->engine.globalObject().property("draw");
+
         QScriptValue startFunc = d->engine.globalObject().property("start");
         if (startFunc.isFunction())
         {
@@ -106,47 +112,21 @@ void QtScriptComponent::start()
 
 void QtScriptComponent::draw(int timeLapse)
 {
-    QScriptValue drawFunc = d->engine.globalObject().property("draw");
-    if (drawFunc.isFunction())
+    d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
+    if (d->engine.uncaughtException().isValid())
     {
-        QScriptValue component = d->engine.newQObject(this);
-        d->engine.globalObject().setProperty("Component", component);
-
-        QScriptValue gameObj = d->engine.newQObject(gameObject());
-        d->engine.globalObject().setProperty("GameObject", gameObj);
-
-        QScriptValue game = d->engine.newQObject(Game::instance());
-        d->engine.globalObject().setProperty("Game", game);
-
-        drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
-        if (d->engine.uncaughtException().isValid())
-        {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-        }
+        qDebug() << d->engine.uncaughtException().toString();
+        qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
     }
 }
 
 void QtScriptComponent::update(int elapsedMilliseconds)
 {
-    QScriptValue updateFunc = d->engine.globalObject().property("update");
-    if (updateFunc.isFunction())
+   d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
+    if (d->engine.uncaughtException().isValid())
     {
-        QScriptValue component = d->engine.newQObject(this);
-        d->engine.globalObject().setProperty("Component", component);
-
-        QScriptValue gameObj = d->engine.newQObject(gameObject());
-        d->engine.globalObject().setProperty("GameObject", gameObj);
-
-        QScriptValue game = d->engine.newQObject(Game::instance());
-        d->engine.globalObject().setProperty("Game", game);
-
-        updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
-        if (d->engine.uncaughtException().isValid())
-        {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-        }
+        qDebug() << d->engine.uncaughtException().toString();
+        qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
     }
 }
 
