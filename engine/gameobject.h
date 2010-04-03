@@ -57,14 +57,14 @@ namespace GluonEngine
             ~GameObject();
 
             void sanitize();
-            void start();
-            void update(int elapsedMilliseconds);
+            Q_INVOKABLE void start();
+            Q_INVOKABLE void update(int elapsedMilliseconds);
             /**
              * Draw the GameObject onto the scene
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
-            void draw(int timeLapse = 0);
-            void stop();
+            Q_INVOKABLE void draw(int timeLapse = 0);
+            Q_INVOKABLE void stop();
             /**
              * Run a command on all the components in this GameObject
              */
