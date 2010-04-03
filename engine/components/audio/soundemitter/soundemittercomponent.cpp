@@ -22,68 +22,110 @@
 
 #include <QtCore/QDebug>
 
+#include <core/debughelper.h>
 #include <audio/engine.h>
 #include <audio/sound.h>
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
+#include <QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, SoundEmitterComponent)
 
 using namespace GluonEngine;
 
-SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
-        : Component(parent),
-        m_sound(0)
+class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
-    //QVariant somethingEmpty;
+    public:
+        SoundEmitterComponentPrivate() { asset = 0; sound = 0; buffer = 0; loop = false; }
+        
+        Asset *asset;
+        
+        GluonAudio::Sound *sound;
+        GluonAudio::Buffer *buffer;
+        bool loop;
+};
 
-    /*SoundAsset *theObject = m_soundAsset;
-    somethingEmpty.setValue<GluonEngine::SoundAsset*>(theObject);
-    setProperty("sound", somethingEmpty);*/
+SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
+        : Component(parent), 
+        d(new SoundEmitterComponentPrivate)
+{
+
 }
 
 SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
-        : Component(other)
+        : Component(other),
+        d(other.d)
 {
+}
+
+SoundEmitterComponent::~SoundEmitterComponent()
+{
+    stop();
+    
+    delete d;
 }
 
 void
 SoundEmitterComponent::play()
 {
-    m_sound->play();
+    d->sound->play();
 }
 
 Asset *
 SoundEmitterComponent::sound()
 {
-    return m_soundAsset;
-    //return property("sound").value<GluonEngine::SoundAsset*>();
+    return d->asset;
 }
 
 void
 SoundEmitterComponent::setSound(Asset* asset)
 {
-    m_soundAsset = asset;
-    //QVariant theNewValue;
-    //theNewValue.setValue<GluonEngine::SoundAsset*>(asset);
-    //setProperty("sound", theNewValue);
-    //m_sound->load(asset->buffer());
+    d->asset = asset;
+    
+    if(d->sound && asset->data()->hasFormat("application/gluon-audio-buffer"))
+    {
+        d->sound->stop();
+        d->buffer->setBuffer(asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
+        d->sound->load(d->buffer);
+    }
 }
 
 void
 SoundEmitterComponent::start()
 {
-    m_sound = new GluonAudio::Sound();
+    DEBUG_FUNC_NAME
+    if(!d->sound)
+        d->sound = new GluonAudio::Sound();
+    
+    if(!d->buffer)
+        d->buffer = new GluonAudio::Buffer();
+    
+    if(d->asset)
+    {
+        if(!d->asset->isLoaded()) 
+            d->asset->load();
+        
+        if(d->asset->data()->hasFormat("application/gluon-audio-buffer")) 
+        {
+            DEBUG_TEXT(QString("Setting buffer to %1").arg(QString(d->asset->data()->data("application/gluon-audio-buffer"))));
+            d->buffer->setBuffer(d->asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
+        }
+    }
+    
+    d->sound->load(d->buffer);
+    
+    if(d->loop)
+    {
+        d->sound->setLoop(true);
+        d->sound->play();
+    }
 }
 
 void
 SoundEmitterComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse);
-    m_sound->setPosition(gameObject()->position());
-
-    if (m_sound->isLooping() && !m_sound->isPlaying())
-        m_sound->play();
+    d->sound->setPosition(gameObject()->position());
 }
 
 void
@@ -92,24 +134,48 @@ SoundEmitterComponent::update(int elapsedMilliseconds)
     Q_UNUSED(elapsedMilliseconds)
 }
 
+void SoundEmitterComponent::stop()
+{
+    d->sound->stop();
+    
+    delete d->sound;
+    d->sound = 0;
+    d->buffer = 0;
+}
+
 bool
 SoundEmitterComponent::isLooping()
 {
+    return d->loop;
+}
 
+bool SoundEmitterComponent::isPlaying()
+{
+    if(d->sound)
+    {
+        return d->sound->isPlaying();
+    }
+    return false;
 }
 
 void
 SoundEmitterComponent::setLoop(bool loop)
 {
-
+    d->loop = loop;
+    
+    if(d->sound)
+    {
+        d->sound->setLoop(loop);
+        if(loop)
+        {
+            d->sound->play();
+        }
+        else if(d->sound->isPlaying())
+        {
+            d->sound->stop();
+        }
+    }
 }
-
-
-/*void SoundEmitterComponent::stop()
-{
-    m_sound->stop();
-}*/
-
 
 Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)
 

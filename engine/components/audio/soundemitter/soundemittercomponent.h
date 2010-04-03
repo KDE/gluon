@@ -24,11 +24,6 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
-namespace GluonAudio
-{
-    class Sound;
-}
-
 namespace GluonEngine
 {
     class Asset;
@@ -46,25 +41,26 @@ namespace GluonEngine
         public:
             SoundEmitterComponent(QObject *parent = 0);
             SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
+            ~SoundEmitterComponent();
 
             Asset *sound();
 
             virtual void start();
             virtual void update(int elapsedMilliseconds);
             virtual void draw(int timeLapse = 0);
+            virtual void stop();
 
             void play();
-            //void stop();
-
             bool isLooping();
+            bool isPlaying();
 
         public slots:
             void setLoop(bool loop);
             void setSound(Asset *asset);
 
         private:
-            GluonAudio::Sound *m_sound;
-            Asset *m_soundAsset;
+            class SoundEmitterComponentPrivate;
+            SoundEmitterComponentPrivate * const d;
     };
 
 }
