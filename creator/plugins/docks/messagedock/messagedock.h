@@ -38,7 +38,7 @@ namespace GluonCreator
 
         private:
             class MessageDockPrivate;
-            MessageDockPrivate* d;
+            MessageDockPrivate * const d;
     };
 
 }

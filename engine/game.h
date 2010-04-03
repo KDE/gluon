@@ -68,10 +68,19 @@ namespace GluonEngine
 
             Q_INVOKABLE bool isRunning() const;
             Q_INVOKABLE bool isPaused() const;
+            
+            /**
+             * Retrieve an object from the current scene.
+             *
+             * @param name The name of the object
+             */
+            Q_INVOKABLE GluonEngine::GameObject* getFromScene(const QString &name);
+            
+            Q_INVOKABLE GluonEngine::GameObject* clone(GluonEngine::GameObject *obj);
 
             //TODO Implement
-            //Q_INVOKABLE GameObject* clone(GaneObject* object);
             //Q_INVOKABLE GameObject* spawn(const QString& prefabName);
+            
 
         public slots:
             void setGameProject(GluonEngine::GameProject * newGameProject);

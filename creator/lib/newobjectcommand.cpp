@@ -43,6 +43,8 @@ NewObjectCommand::~NewObjectCommand()
 {
     if (!d->applied)
         delete d->object;
+    
+    delete d;
 }
 
 void

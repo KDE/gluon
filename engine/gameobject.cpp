@@ -80,11 +80,12 @@ GameObject::start()
 void
 GameObject::update(int elapsedMilliseconds)
 {
+    if(!d->enabled)
+        return;
+
     foreach(Component * component, d->components)
     if (component->enabled())
-    {
         component->update(elapsedMilliseconds);
-    }
 
     //DEBUG_TEXT(QString("Updating %1 children").arg(d->children.count()))
     foreach(GameObject * child, d->children)
@@ -94,6 +95,9 @@ GameObject::update(int elapsedMilliseconds)
 void
 GameObject::draw(int timeLapse)
 {
+    if(!d->enabled)
+        return;
+
     foreach(Component * component, d->components)
     if (component->enabled())
         component->draw(timeLapse);
@@ -381,6 +385,18 @@ QString
 GameObject::description() const
 {
     return d->description;
+}
+
+bool
+GameObject::enabled() const
+{
+    return d->enabled;
+}
+
+void
+GameObject::setEnabled(bool newEnabled)
+{
+    d->enabled = newEnabled;
 }
 
 //// Translation ////

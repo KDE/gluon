@@ -34,11 +34,11 @@ class MessageDock::MessageDockPrivate
         QTreeView* view;
 };
 
-MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags flags) : Dock(title, parent, flags)
+MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags flags) 
+    : Dock(title, parent, flags),
+    d(new MessageDockPrivate)
 {
     setObjectName("MessageDock");
-
-    d = new MessageDockPrivate;
 
     //d->model = new MessageModel(this);
     d->view = new QTreeView(this);
@@ -50,7 +50,7 @@ MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags 
 
 MessageDock::~MessageDock()
 {
-
+    delete d;
 }
 
 QAbstractItemModel* MessageDock::model()

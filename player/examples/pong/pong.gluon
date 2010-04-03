@@ -1,0 +1,9 @@
+{ GluonEngine::GameProject(pong)
+    filename url(/home/schutz/programmation/gluon/player/examples/pong/pong)
+    { GluonEngine::Scene(scene1)
+        file url(Scenes/test scene1.gdl)
+    }
+    { GluonEngine::ScriptAsset(script.js)
+        file url(Assets/test_script.js)
+    }
+}

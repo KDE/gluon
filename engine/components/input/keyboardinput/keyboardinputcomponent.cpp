@@ -47,7 +47,16 @@ KeyboardInputComponent::start()
 {
     if(!m_keyboard)
         m_keyboard = GluonInput::InputManager::instance()->keyboard();
-    m_keyboard->setEnabled(true);
+    
+    if(m_keyboard) 
+    {
+      m_keyboard->setEnabled(true);
+    }
+    else
+    {
+      DEBUG_BLOCK
+      DEBUG_TEXT("WARNING! No keyboard found!");
+    }
 }
 
 void

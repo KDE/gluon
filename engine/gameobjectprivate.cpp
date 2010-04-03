@@ -26,6 +26,7 @@ using namespace GluonEngine;
 GameObjectPrivate::GameObjectPrivate()
 {
     parentGameObject = 0;
+    enabled = true;
     position = QVector3D();
     scale = QVector3D(1, 1, 1);
     orientation = QQuaternion(0, 0, 0, 1);
@@ -36,6 +37,7 @@ GameObjectPrivate::GameObjectPrivate()
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
         : QSharedData(other)
+        , enabled(other.enabled)
         , description(other.description)
         , position(other.position)
         , scale(other.scale)

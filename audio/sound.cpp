@@ -24,6 +24,8 @@
 #include "sound.h"
 #include "buffer.h"
 
+#include <core/debughelper.h>
+
 using namespace GluonAudio;
 
 class Sound::SoundPrivate
@@ -83,11 +85,13 @@ void Sound::load(const QString &soundFile)
 
 void Sound::load(Buffer * buffer)
 {
+    delete d->buffer;
     d->buffer = buffer;
     setupSource();
 }
 void Sound::load(ALuint buffer)
 {
+    delete d->buffer;
     d->buffer = new Buffer(buffer);
     setupSource();
 }

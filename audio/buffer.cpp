@@ -23,17 +23,25 @@
 
 using namespace GluonAudio;
 
-class Buffer::BufferPrivate
+class Buffer::BufferPrivate : public QSharedData
 {
     public:
+        BufferPrivate() { buffer = 0; shared = false; }
+        ~BufferPrivate();
+
         ALuint buffer;
+        bool shared;
 };
 
+Buffer::BufferPrivate::~BufferPrivate()
+{
+    if(buffer && !shared)
+        alDeleteBuffers(1, &buffer);
+}
 
 Buffer::Buffer()
         : d(new BufferPrivate)
 {
-    d->buffer = 0;
     init();
 }
 
@@ -41,7 +49,6 @@ Buffer::Buffer(const QString &fileName)
         : d(new BufferPrivate)
 
 {
-    d->buffer = 0;
     setBuffer(fileName);
     init();
 }
@@ -52,17 +59,26 @@ Buffer::Buffer(ALuint buffer)
     d->buffer = buffer;
     init();
 }
-void Buffer::setBuffer(ALuint buffer)
+
+Buffer::Buffer(const GluonAudio::Buffer& other)
+    : d(other.d)
+{
+    
+}
+
+Buffer::~Buffer()
+{
+}
+
+void Buffer::setBuffer(ALuint buffer, bool shared)
 {
     d->buffer = buffer;
+    d->shared = shared;
 }
 bool Buffer::isEmpty()const
 {
     return !d->buffer;
 }
-/*void Buffer::setHelloWord() {
-    //d->buffer = alutCreateBufferHelloWorld();
-}*/
 
 void Buffer::init()
 {
@@ -71,12 +87,6 @@ void Buffer::init()
 ALuint Buffer::buffer() const
 {
     return  d->buffer;
-}
-
-Buffer::~Buffer()
-{
-    alDeleteBuffers(1, &d->buffer);
-    delete d;
 }
 
 void Buffer::setBuffer(const QString &fileName)

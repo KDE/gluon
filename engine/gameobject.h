@@ -39,6 +39,7 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::GameObject);
             Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
             Q_PROPERTY(QVector3D position READ position WRITE setPosition)
             Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
@@ -56,14 +57,14 @@ namespace GluonEngine
             ~GameObject();
 
             void sanitize();
-            void start();
-            void update(int elapsedMilliseconds);
+            Q_INVOKABLE void start();
+            Q_INVOKABLE void update(int elapsedMilliseconds);
             /**
              * Draw the GameObject onto the scene
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
-            void draw(int timeLapse = 0);
-            void stop();
+            Q_INVOKABLE void draw(int timeLapse = 0);
+            Q_INVOKABLE void stop();
             /**
              * Run a command on all the components in this GameObject
              */
@@ -103,6 +104,9 @@ namespace GluonEngine
             void setDescription(const QString &newDescription);
             QString description() const;
 
+            Q_INVOKABLE bool enabled() const;
+            Q_INVOKABLE void setEnabled(bool newEnabled);
+            
             Q_INVOKABLE QVector3D position() const;
             Q_INVOKABLE QVector3D worldPosition() const;
 

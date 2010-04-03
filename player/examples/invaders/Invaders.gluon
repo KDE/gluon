@@ -1,5 +1,5 @@
 { GluonEngine::GameProject(Invaders)
-    filename url(/home/ahiemstra/Projects/KDE/Gluon/invaders/project/Invaders.gluon)
+    filename url(/home/ahiemstra/Projects/gluon/player/examples/invaders/Invaders.gluon)
     { GluonEngine::Scene(Menu)
         file url(Scenes/invaders_menu.gdl)
     }
@@ -32,5 +32,17 @@
     }
     { GluonEngine::TextureAsset(spaceship.png)
         file url(Assets/invaders_spaceship.png)
+    }
+    { GluonEngine::SoundAsset(The Whip Theme Extended Version.ogg)
+        file url(Assets/invaders_the_whip_theme_extended_version.ogg)
+    }
+    { GluonEngine::SoundAsset(Harmful or Fatal.ogg)
+        file url(Assets/invaders_harmful_or_fatal.ogg)
+    }
+    { GluonEngine::ScriptAsset(bullet.js)
+        file url(Assets/invaders_bullet.js)
+    }
+    { GluonEngine::ScriptAsset(controller.js)
+        file url(Assets/invaders_controller.js)
     }
 }

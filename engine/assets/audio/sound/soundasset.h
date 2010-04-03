@@ -37,22 +37,15 @@ namespace GluonEngine
 
         public:
             SoundAsset(QObject *parent = 0);
+            ~SoundAsset();
 
             virtual const QStringList supportedMimeTypes() const;
 
-            //virtual QMimeData* data() const;
-
-            //virtual void setFile(const QUrl &newFile);
-
-            //GluonAudio::Buffer *buffer() {
-            //    return m_buffer;
-            //}
-
-        private Q_SLOTS:
-            void updateBuffer();
+            virtual void load();
 
         private:
-            GluonAudio::Buffer *m_buffer;
+            class SoundAssetPrivate;
+            SoundAssetPrivate * const d;
     };
 }
 

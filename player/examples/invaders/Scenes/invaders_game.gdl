@@ -1,8 +1,10 @@
 { GluonEngine::GameObject(Game)
+    enabled bool(true)
     position vector3d(0;0;0)
     scale vector3d(1;1;1)
     orientation quaternion(0;0;0;1)
     { GluonEngine::GameObject(Camera)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -10,8 +12,19 @@
             enabled bool(true)
             active bool(true)
         }
+        { GluonEngine::SoundListenerComponent(GluonObject 1)
+            enabled bool(true)
+            active bool(true)
+            effectsEnabled bool(true)
+        }
+        { GluonEngine::SoundEmitterComponent(GluonObject 2)
+            enabled bool(true)
+            sound GluonEngine::Asset(Invaders/Harmful or Fatal.ogg)
+            loop bool(true)
+        }
     }
     { GluonEngine::GameObject(Background)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -21,18 +34,24 @@
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/background.png)
         }
+        { GluonEngine::QtScriptComponent(ControllerScript)
+            enabled bool(true)
+            script GluonEngine::Asset(Invaders/controller.js)
+        }
     }
     { GluonEngine::GameObject(Player)
-        position vector3d(0;24;1)
+        enabled bool(true)
+        position vector3d(23.2;30;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
+        { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(8;8)
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/spaceship.png)
         }
         { GluonEngine::GameObject(Reflection)
+            enabled bool(true)
             position vector3d(0;12;0)
             scale vector3d(1;1;1)
             orientation quaternion(0;0;0;1)
@@ -43,7 +62,7 @@
                 texture GluonEngine::Asset(Invaders/spaceship-reflection.png)
             }
         }
-        { GluonEngine::QtScriptComponent(GluonObject)
+        { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
             script GluonEngine::Asset(Invaders/player.js)
         }
@@ -55,9 +74,30 @@
             enabled bool(true)
             keyCode int(32)
         }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(17)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(31)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Fire)
+            enabled bool(true)
+            keyCode int(57)
+        }
+        { GluonEngine::SoundEmitterComponent(FireSound)
+            enabled bool(true)
+            loop bool(false)
+        }
+        { GluonEngine::SphereCollisionComponent(Collider)
+            enabled bool(true)
+            radius float(1)
+        }
     }
     { GluonEngine::GameObject(Enemy)
-        position vector3d(0;-35;1)
+        enabled bool(false)
+        position vector3d(1000;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
@@ -66,9 +106,29 @@
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/alien.png)
         }
-        { GluonEngine::QtScriptComponent(GluonObject)
+        { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
             script GluonEngine::Asset(Invaders/enemy.js)
+        }
+        { GluonEngine::SphereCollisionComponent(Collider)
+            enabled bool(true)
+            radius float(1)
+        }
+    }
+    { GluonEngine::GameObject(Bullet)
+        enabled bool(false)
+        position vector3d(1000;0;2)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::SpriteRendererComponent(GluonObject)
+            enabled bool(true)
+            size size2d(1;5)
+            color rgba(255;0;0;255)
+            texture GluonEngine::Asset(Invaders/alien.png)
+        }
+        { GluonEngine::QtScriptComponent(Script)
+            enabled bool(true)
+            script GluonEngine::Asset(Invaders/bullet.js)
         }
     }
 }

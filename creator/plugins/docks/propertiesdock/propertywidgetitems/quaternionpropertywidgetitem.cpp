@@ -44,8 +44,6 @@ class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
         QDoubleSpinBox* angle;
 
         QQuaternion value;
-
-//        Eigen::AngleAxisf value;
 };
 
 QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
@@ -53,11 +51,11 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::
     d = new QuaternionPropertyWidgetItemPrivate;
 
     QWidget* base = new QWidget(this);
-    QVBoxLayout* layout = new QVBoxLayout();
+    QVBoxLayout* layout = new QVBoxLayout(base);
     layout->setSpacing(0);
     base->setLayout(layout);
 
-    QHBoxLayout* vectorLayout = new QHBoxLayout();
+    QHBoxLayout* vectorLayout = new QHBoxLayout(this);
     layout->addLayout(vectorLayout);
 
     d->x = new QDoubleSpinBox(this);
@@ -115,16 +113,6 @@ void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
     d->z->setValue(d->value.z() * sqrt(1 - d->value.scalar() * d->value.scalar()));
 
     d->angle->setValue((2 * acos(d->value.scalar())) * (180 / M_PI));
-
-    /*angle = 2 * acos(qw)
-    x = qx / sqrt(1-qw*qw)
-    y = qy / sqrt(1-qw*qw)
-    z = qz / sqrt(1-qw*qw)
-    d->proxi->setX(quat.x());
-    d->proxi->setY(quat.y());
-    d->proxi->setZ(quat.z());
-    d->proxi->setScalar(quat.scalar() * (180/M_PI) );*/
-
 }
 
 void QuaternionPropertyWidgetItem::valueChanged(QVariant value)
