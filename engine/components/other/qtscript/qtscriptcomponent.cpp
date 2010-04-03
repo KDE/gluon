@@ -29,6 +29,8 @@
 #include <engine/asset.h>
 #include <QMimeData>
 
+#include <core/gluonobject.h>
+
 REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
 using namespace GluonEngine;
@@ -52,6 +54,9 @@ class QtScriptComponent::QtScriptComponentPrivate
 QtScriptComponent::QtScriptComponent(QObject* parent) : Component(parent)
 {
     d = new QtScriptComponentPrivate;
+    
+    qScriptRegisterMetaType(&d->engine, gluonObjectToScriptValue, gluonObjectFromScriptValue);
+    qScriptRegisterMetaType(&d->engine, gameObjectToScriptValue, gameObjectFromScriptValue);
 }
 
 QtScriptComponent::QtScriptComponent(const QtScriptComponent& other)
@@ -158,6 +163,26 @@ Asset* QtScriptComponent::script()
 void QtScriptComponent::setScript(Asset* asset)
 {
     d->script = asset;
+}
+
+QScriptValue gluonObjectToScriptValue(QScriptEngine *engine, const pGluonObject &in)
+{ 
+    return engine->newQObject(in); 
+}
+
+void gluonObjectFromScriptValue(const QScriptValue &object, pGluonObject &out)
+{ 
+    out = qobject_cast<GluonCore::GluonObject*>(object.toQObject()); 
+}
+
+QScriptValue gameObjectToScriptValue(QScriptEngine *engine, const pGameObject &in)
+{ 
+    return engine->newQObject(in); 
+}
+
+void gameObjectFromScriptValue(const QScriptValue &object, pGameObject &out)
+{ 
+    out = qobject_cast<GameObject*>(object.toQObject()); 
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_qtscript, GluonEngine::QtScriptComponent);

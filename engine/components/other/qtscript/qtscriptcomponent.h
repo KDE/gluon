@@ -24,6 +24,9 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
+class QScriptValue;
+class QScriptEngine;
+
 namespace GluonEngine
 {
     class Asset;
@@ -59,5 +62,13 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent)
 Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent*)
+
+typedef GluonCore::GluonObject* pGluonObject;
+typedef GluonEngine::GameObject* pGameObject;
+
+QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue(QScriptEngine* engine, const pGluonObject& in);
+void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue(const QScriptValue& object, pGluonObject& out);
+QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue(QScriptEngine* engine, const pGameObject& in);
+void GLUON_ENGINE_EXPORT gameObjectFromScriptValue(const QScriptValue &object, GluonEngine::GameObject * &out);
 
 #endif // GLUON_ENGINE_QTSCRIPTCOMPONENT_H
