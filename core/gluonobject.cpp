@@ -71,6 +71,46 @@ GluonObject::debug(QString debugText) const
     DEBUG_TEXT(debugText);
 }
 
+GluonObject*
+GluonObject::clone() const
+{
+    const QMetaObject* metaObj = metaObject();
+    if(!metaObj)
+        debug(QString("Failed to get the meta object for object %1").arg(fullyQualifiedName()));
+    
+    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName(metaObj->className());
+    
+    // First, add ourselves as a child to the current object's parent
+    GluonObject* parentObject = qobject_cast<GluonObject*>(parent());
+    if(parentObject)
+        parentObject->addChild(newObject);
+
+    // Clone all the children
+    foreach(const QObject* child, children())
+    {
+        const GluonObject* childObject = qobject_cast<const GluonObject*>(child);
+        if(childObject)
+            newObject->addChild(childObject->clone());
+    }
+    
+    // Copy over the values from pre-defined properties
+    int count = metaObj->propertyCount();
+    for (int i = 0; i < count; ++i)
+    {
+        QMetaProperty metaproperty = metaObj->property(i);
+        newObject->setProperty(metaproperty.name(), metaproperty.read(this));
+    }
+    
+    // Copy values from dynamic properties
+    QList<QByteArray> propertyNames = dynamicPropertyNames();
+    foreach(const QByteArray &propName, propertyNames)
+    {
+        newObject->setProperty(propName, property(propName));
+    }
+    
+    #warning Clones with properties pointing to children should point to new children rather than the old children
+}
+
 void
 GluonObject::sanitize()
 {

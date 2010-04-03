@@ -40,6 +40,7 @@ namespace GluonEngine
             ~GameObjectPrivate();
 
             QString description;
+            bool enabled;
 
             QVector3D position;
             QVector3D scale;
