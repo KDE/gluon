@@ -24,6 +24,8 @@
 
 #include <al.h>
 
+#include <QtCore/QSharedDataPointer>
+
 namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Buffer
@@ -32,10 +34,11 @@ namespace GluonAudio
             Buffer();
             Buffer(const QString &fileName);
             Buffer(ALuint buffer);
+            Buffer(const Buffer &other);
             ~Buffer();
 
             void setBuffer(const QString &fileName);
-            void setBuffer(ALuint buffer);
+            void setBuffer(ALuint buffer, bool shared = false);
             bool isEmpty() const;
             /**
             * This function will generate a "hello word" sound.
@@ -51,10 +54,8 @@ namespace GluonAudio
             void init();
 
         private:
-            Q_DISABLE_COPY(Buffer)
-
             class BufferPrivate;
-            BufferPrivate * const d;
+            QSharedDataPointer<BufferPrivate> d;
     };
 }
 

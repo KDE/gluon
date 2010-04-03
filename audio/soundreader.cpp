@@ -144,15 +144,22 @@ ALuint SoundReader::fromWav()
             return 0;
     }
 
+    alGetError();
     // creating openAL buffer and filling it with the samples we read
     ALuint buffer;
     alGenBuffers(1, &buffer);
+    if(alGetError() != AL_NO_ERROR)
+    {
+        qDebug() << "Error generating buffer.";
+        return 0;
+    }
 
     alBufferData(buffer, format, &samples[0], samplesNumber * sizeof(ALushort), samplesRate);
 
-    if (alGetError() != AL_NO_ERROR)
+    int error = alGetError();
+    if (error != AL_NO_ERROR)
     {
-        qDebug() << "Could not read the samples: " << alGetError();
+        qDebug() << "Could not read the samples: " << error;
         return 0;
     }
 
@@ -227,15 +234,21 @@ ALuint SoundReader::fromOgg()
     ov_clear(&oggFile);
 
 // end of LoadOGG
-
+    alGetError();
     ALuint albuffer;
     alGenBuffers(1, &albuffer);
-
-    alBufferData(albuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
-
-    if (alGetError() != AL_NO_ERROR)
+    if(alGetError() != AL_NO_ERROR)
     {
-        qDebug() << "Could not read the samples: " << alGetError();
+        qDebug() << "Error generating buffer.";
+        return 0;
+    }
+    
+    alBufferData(albuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
+    
+    int error = alGetError();
+    if (error != AL_NO_ERROR)
+    {
+        qDebug() << "Could not read the samples: " << error;
         return 0;
     }
 
