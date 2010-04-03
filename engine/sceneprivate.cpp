@@ -36,6 +36,7 @@ ScenePrivate::ScenePrivate(Scene* q)
     this->q = q;
 
     sceneContentsLoaded = false;
+    sceneContentsStarted = false;
     sceneContents = new GameObject(q);
     sceneContents->setName(q->name());
 }

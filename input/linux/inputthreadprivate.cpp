@@ -23,6 +23,7 @@ using namespace GluonInput;
 
 InputThreadPrivate::InputThreadPrivate()
 {
+    m_error = false;
 }
 
 InputThreadPrivate::InputThreadPrivate(InputThreadPrivate &other)
