@@ -136,11 +136,14 @@ SoundEmitterComponent::update(int elapsedMilliseconds)
 
 void SoundEmitterComponent::stop()
 {
-    d->sound->stop();
-    
-    delete d->sound;
-    d->sound = 0;
-    d->buffer = 0;
+    if(d->sound)
+    {
+        d->sound->stop();
+        
+        delete d->sound;
+        d->sound = 0;
+        d->buffer = 0;
+    }
 }
 
 bool
