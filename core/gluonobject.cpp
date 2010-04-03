@@ -115,7 +115,7 @@ void
 GluonObject::sanitize()
 {
     DEBUG_BLOCK
-    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
+//    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
 
     const QObjectList &children = this->children();
     foreach(QObject * child, children)
@@ -183,7 +183,7 @@ GluonObject::sanitize()
             if (!theValue.endsWith(')'))
                 continue;
 
-            DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
+            //DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
 
             sanitizeReference(theName, theValue);
         }
@@ -207,7 +207,7 @@ GluonObject::sanitize()
             if (!theValue.endsWith(')'))
                 continue;
 
-            DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
+            //DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
 
             sanitizeReference(theName, theValue);
         }
@@ -342,10 +342,10 @@ bool GluonObject::removeChild(GluonObject* child)
 QString
 GluonObject::toGDL(int indentLevel) const
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     QString serializedObject;
-    DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
-    DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
+    //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
+    //DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
 
     QString indentChars(indentLevel * 4, ' ');
 
@@ -393,7 +393,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
     int count = metaobject->propertyCount();
     if (count == 2)
     {
-        DEBUG_TEXT(QString("No normal properties"));
+        //DEBUG_TEXT(QString("No normal properties"));
     }
     for (int i = 0; i < count; ++i)
     {
@@ -408,7 +408,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
     QList<QByteArray> propertyNames = dynamicPropertyNames();
     if (propertyNames.length() == 0)
     {
-        DEBUG_TEXT(QString("No dynamic properties"));
+        //DEBUG_TEXT(QString("No dynamic properties"));
     }
     foreach(const QByteArray &propName, propertyNames)
     {
@@ -450,7 +450,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     }
     else if (theTypeName == "file" || theTypeName == "url")
     {
-        DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
+        //DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
         value = QVariant(QUrl(theValue));
     }
     else if (theTypeName == "vector2d")
@@ -537,7 +537,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     }
     else
     {
-        DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName, theTypeName, theValue, value.typeName()).arg(value.type()).arg(propertyValue));
+        //DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName, theTypeName, theValue, value.typeName()).arg(value.type()).arg(propertyValue));
     }
 }
 
@@ -631,7 +631,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         returnString = QString();
     }
 
-    DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));
+    //DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));
 
     return returnString;
 }
@@ -639,13 +639,14 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
 GluonObject*
 GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* object)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     GluonObject * foundChild = NULL;
 
     QString lookingFor(qualifiedName[0]);
     qualifiedName.removeFirst();
 
-    DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
+    //DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
     foreach(QObject * child, object->children())
     {
         if (qobject_cast<GluonObject*>(child)->name() == lookingFor)
@@ -660,12 +661,12 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
     {
         if (qualifiedName.count() > 0)
         {
-            DEBUG_TEXT(QString("Found child, recursing..."));
+            //DEBUG_TEXT(QString("Found child, recursing..."));
             return GluonObject::findItemByNameInObject(qualifiedName, foundChild);
         }
         else
         {
-            DEBUG_TEXT(QString("Found child!"));
+            //DEBUG_TEXT(QString("Found child!"));
         }
     }
     else
@@ -680,7 +681,8 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
 void
 GluonObject::sanitizeReference(const QString& propName, const QString& propValue)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
     // Yes, i know this is O(n*m) but it does not happen during gameplay
     foreach(const QString &name, objectTypeNames)
@@ -707,7 +709,7 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
 
             QMetaProperty property = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
             theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);
-            DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
+            //DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
 
             if (!setProperty(propertyName.toUtf8(), theReferencedObject))
             {
@@ -715,7 +717,7 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             }
             else
             {
-                DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(propertyName, theReferencedName, name, theObject->metaObject()->className()));
+                //DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(propertyName, theReferencedName, name, theObject->metaObject()->className()));
             }
             break;
         }
