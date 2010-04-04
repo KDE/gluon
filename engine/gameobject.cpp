@@ -22,6 +22,7 @@
 #include "gameobjectprivate.h"
 #include "component.h"
 #include "core/debughelper.h"
+#include "game.h"
 
 REGISTER_OBJECTTYPE(GluonEngine, GameObject)
 
@@ -94,7 +95,7 @@ GameObject::update(int elapsedMilliseconds)
 {
     if(!d->enabled)
         return;
-
+    
     foreach(Component * component, d->components)
     {
         if (component->enabled())
@@ -617,15 +618,23 @@ GameObject::transform() const
 void
 GameObject::postCloneSanitize()
 {
+    DEBUG_FUNC_NAME
     foreach(QObject* child, children())
     {
         if(qobject_cast<Component*>(child))
         {
             Component* comp = qobject_cast<Component*>(child);
+            DEBUG_TEXT(QString("Sanitizing component %1").arg(comp->name()));
             d->components.append(comp);
             comp->setParent(this);
             comp->setGameObject(this);
         }
+    }
+
+    if(Game::instance()->isRunning())
+    {
+        initialize();
+        start();
     }
     
     GluonCore::GluonObject::postCloneSanitize();

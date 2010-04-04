@@ -313,9 +313,7 @@ GameObject* Game::clone(GameObject* obj)
 {
     if(obj)
     {
-        GameObject *newObj = qobject_cast<GameObject*>(obj->clone());
-        obj->parentGameObject()->addChild(newObj);
-        return newObj;
+        return qobject_cast<GameObject*>(obj->clone());
     }
     
     return 0;

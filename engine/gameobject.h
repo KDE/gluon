@@ -219,6 +219,10 @@ namespace GluonEngine
             void invalidateTransform();
 
         protected:
+            /**
+             * Sanitize a cloned object.
+             * Note: This initializes/starts the object if the game is running.
+             */
             virtual void postCloneSanitize();
         private:
             QSharedDataPointer<GameObjectPrivate> d;
