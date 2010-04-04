@@ -42,20 +42,22 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
     m_keyboard = 0;
 }
 
-void
-KeyboardInputComponent::start()
+void KeyboardInputComponent::initialize()
 {
     if(!m_keyboard)
         m_keyboard = GluonInput::InputManager::instance()->keyboard();
-    
+}
+
+void
+KeyboardInputComponent::start()
+{    
     if(m_keyboard) 
     {
-      m_keyboard->setEnabled(true);
+        m_keyboard->setEnabled(true);
     }
     else
     {
-      DEBUG_BLOCK
-      DEBUG_TEXT("WARNING! No keyboard found!");
+        debug("WARNING! No keyboard found!");
     }
 }
 

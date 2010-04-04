@@ -41,9 +41,7 @@ namespace GluonEngine
             SoundListenerComponent(QObject *parent = 0);
             SoundListenerComponent(const SoundListenerComponent &other);
 
-            virtual void start();
             virtual void draw(int timeLapse = 0);
-            virtual void update(int elapsedMilliseconds);
 
             void setActive(bool active);
             bool isActive()

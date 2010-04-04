@@ -45,9 +45,11 @@ class CameraControllerComponent::CameraControllerComponentPrivate
 
 GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
 
-CameraControllerComponent::CameraControllerComponent(QObject* parent) : Component(parent)
+CameraControllerComponent::CameraControllerComponent(QObject* parent) 
+    : Component(parent),
+    d(new CameraControllerComponentPrivate)
 {
-    d = new CameraControllerComponentPrivate;
+    
 }
 
 CameraControllerComponent::CameraControllerComponent(const CameraControllerComponent& other)
@@ -58,15 +60,17 @@ CameraControllerComponent::CameraControllerComponent(const CameraControllerCompo
 
 CameraControllerComponent::~CameraControllerComponent()
 {
-    delete d->camera;
     delete d;
+}
+
+void CameraControllerComponent::initialize()
+{
+    if (!d->camera)
+        d->camera = new GluonGraphics::Camera();
 }
 
 void CameraControllerComponent::start()
 {
-    if (!d->camera)
-        d->camera = new GluonGraphics::Camera();
-
     if (d->active)
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
 }
@@ -82,9 +86,13 @@ void CameraControllerComponent::draw(int timeLapse)
         d->camera->setPosition(gameObject()->position());
 }
 
-void CameraControllerComponent::update(int elapsedMilliseconds)
+void CameraControllerComponent::cleanup()
 {
-    Q_UNUSED(elapsedMilliseconds)
+    CameraControllerComponentPrivate::activeCamera = 0;
+    GluonGraphics::Engine::instance()->setActiveCamera(0);
+    
+    delete d->camera;
+    d->camera = 0;
 }
 
 bool CameraControllerComponent::isActive()

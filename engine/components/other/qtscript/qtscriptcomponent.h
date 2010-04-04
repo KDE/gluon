@@ -44,9 +44,12 @@ namespace GluonEngine
             QtScriptComponent(const QtScriptComponent& other);
             virtual ~QtScriptComponent();
 
+            virtual void initialize();
             virtual void start();
             virtual void update(int elapsedMilliseconds);
             virtual void draw(int timeLapse = 0);
+            virtual void stop();
+            virtual void cleanup();
 
             virtual Asset* script();
 

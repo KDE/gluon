@@ -90,16 +90,19 @@ SoundEmitterComponent::setSound(Asset* asset)
     }
 }
 
-void
-SoundEmitterComponent::start()
+void 
+SoundEmitterComponent::initialize()
 {
-    DEBUG_FUNC_NAME
     if(!d->sound)
         d->sound = new GluonAudio::Sound();
     
     if(!d->buffer)
         d->buffer = new GluonAudio::Buffer();
-    
+}
+
+void
+SoundEmitterComponent::start()
+{    
     if(d->asset)
     {
         if(!d->asset->isLoaded()) 
@@ -107,7 +110,6 @@ SoundEmitterComponent::start()
         
         if(d->asset->data()->hasFormat("application/gluon-audio-buffer")) 
         {
-            DEBUG_TEXT(QString("Setting buffer to %1").arg(QString(d->asset->data()->data("application/gluon-audio-buffer"))));
             d->buffer->setBuffer(d->asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
         }
     }
@@ -128,22 +130,22 @@ SoundEmitterComponent::draw(int timeLapse)
     d->sound->setPosition(gameObject()->position());
 }
 
-void
-SoundEmitterComponent::update(int elapsedMilliseconds)
-{
-    Q_UNUSED(elapsedMilliseconds)
-}
-
-void SoundEmitterComponent::stop()
+void 
+SoundEmitterComponent::stop()
 {
     if(d->sound)
     {
         d->sound->stop();
-        
-        delete d->sound;
-        d->sound = 0;
-        d->buffer = 0;
     }
+}
+
+void 
+SoundEmitterComponent::cleanup()
+{
+    delete d->sound;
+    
+    d->sound = 0;
+    d->buffer = 0;
 }
 
 bool

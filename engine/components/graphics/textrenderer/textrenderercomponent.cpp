@@ -44,10 +44,14 @@ class TextRendererComponent::TextRendererComponentPrivate
 
 
 TextRendererComponent::TextRendererComponent(QObject * parent)
-        : Component(parent)
+    : Component(parent),
+    d(new TextRendererComponentPrivate)
 {
-    d = new TextRendererComponentPrivate;
+}
 
+TextRendererComponent::~TextRendererComponent()
+{
+    delete d;
 }
 
 QString
@@ -93,15 +97,15 @@ TextRendererComponent::setColor(const QColor& color)
 }
 
 void
+TextRendererComponent::initialize()
+{
+    d->textItem = new GluonGraphics::TextItem(d->text, d->font);
+}
+
+void
 TextRendererComponent::start()
 {
-
-
-    d->textItem = new GluonGraphics::TextItem(d->text, d->font);
     d->textItem->setColor(d->color);
-
-    d->textItem->updateTransform();
-
 }
 
 void
@@ -109,6 +113,13 @@ TextRendererComponent::draw(int timeLapse)
 {
     if (d->textItem)
         d->textItem->setMatrix(gameObject()->transform());
+}
+
+void 
+TextRendererComponent::cleanup()
+{
+    delete d->textItem;
+    d->textItem = 0;
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_textrenderer, GluonEngine::TextRendererComponent);

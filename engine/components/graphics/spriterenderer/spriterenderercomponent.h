@@ -41,10 +41,10 @@ namespace GluonEngine
             SpriteRendererComponent(const SpriteRendererComponent& other);
             virtual ~SpriteRendererComponent();
 
+            virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
             virtual void draw(int timeLapse = 0);
-            virtual void stop();
+            virtual void cleanup();
 
             virtual QSizeF size();
             virtual QColor color();
@@ -58,7 +58,7 @@ namespace GluonEngine
 
         private:
             class SpriteRendererComponentPrivate;
-            SpriteRendererComponentPrivate *d;
+            SpriteRendererComponentPrivate * const d;
     };
 
 }

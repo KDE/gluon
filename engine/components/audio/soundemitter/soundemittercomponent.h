@@ -44,17 +44,18 @@ namespace GluonEngine
             ~SoundEmitterComponent();
 
             Asset *sound();
-
+            
+            virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
             virtual void draw(int timeLapse = 0);
             virtual void stop();
+            virtual void cleanup();
 
-            void play();
-            bool isLooping();
-            bool isPlaying();
+            Q_INVOKABLE bool isLooping();
+            Q_INVOKABLE bool isPlaying();
 
         public slots:
+            void play();
             void setLoop(bool loop);
             void setSound(Asset *asset);
 

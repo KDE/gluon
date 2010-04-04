@@ -39,21 +39,12 @@ SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &oth
 {
 }
 
-void SoundListenerComponent::start()
-{
-}
-
 void SoundListenerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse);
 
     if (isActive())
         GluonAudio::Engine::instance()->setListenerPosition(gameObject()->position());
-}
-
-void SoundListenerComponent::update(int elapsedMilliseconds)
-{
-    Q_UNUSED(elapsedMilliseconds)
 }
 
 void SoundListenerComponent::setActive(bool active)

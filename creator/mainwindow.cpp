@@ -111,7 +111,7 @@ void MainWindow::openProject(const QString &fileName)
         project->loadFromFile(QUrl(fileName));
 
         GluonEngine::Game::instance()->setGameProject(project);
-        GluonEngine::Game::instance()->startAll();
+        GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
 
         m_fileName = fileName;
@@ -262,7 +262,7 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setChecked(false);
             actionCollection()->action("stopGame")->setEnabled(false);
 
-            GluonEngine::Game::instance()->startAll();
+            GluonEngine::Game::instance()->initializeAll();
             GluonEngine::Game::instance()->drawAll();
         }
     }

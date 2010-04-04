@@ -426,6 +426,7 @@ namespace GluonEngine
             // button was released on a controller)
             Q_INVOKABLE bool isActionStopped();
 
+            virtual void initialize();
             virtual void start();
             virtual void update(int elapsedMilliseconds);
             virtual void stop();

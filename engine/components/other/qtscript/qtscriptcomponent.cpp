@@ -73,9 +73,8 @@ QtScriptComponent::~QtScriptComponent()
     delete d;
 }
 
-void QtScriptComponent::start()
+void QtScriptComponent::initialize()
 {
-    DEBUG_FUNC_NAME
     if (!d->script) return;
 
     d->script->load();
@@ -101,7 +100,24 @@ void QtScriptComponent::start()
 
         d->updateFunc = d->engine.globalObject().property("update");
         d->drawFunc = d->engine.globalObject().property("draw");
+        
+        QScriptValue initFunc = d->engine.globalObject().property("initialize");
+        if (initFunc.isFunction())
+        {
+            initFunc.call(QScriptValue());
+            if (d->engine.uncaughtException().isValid())
+            {
+                qDebug() << d->engine.uncaughtException().toString();
+                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            }
+        }
+    }
+}
 
+void QtScriptComponent::start()
+{
+    if(d->script)
+    {
         QScriptValue startFunc = d->engine.globalObject().property("start");
         if (startFunc.isFunction())
         {
@@ -117,21 +133,61 @@ void QtScriptComponent::start()
 
 void QtScriptComponent::draw(int timeLapse)
 {
-    d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
-    if (d->engine.uncaughtException().isValid())
+    if(d->drawFunc.isFunction())
     {
-        qDebug() << d->engine.uncaughtException().toString();
-        qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
+        if (d->engine.uncaughtException().isValid())
+        {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        }
     }
 }
 
 void QtScriptComponent::update(int elapsedMilliseconds)
 {
-   d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
-    if (d->engine.uncaughtException().isValid())
+    if(d->updateFunc.isFunction())
     {
-        qDebug() << d->engine.uncaughtException().toString();
-        qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
+        if (d->engine.uncaughtException().isValid())
+        {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+        }
+    }
+}
+
+void QtScriptComponent::stop()
+{
+    if(d->script)
+    {
+        QScriptValue stopFunc = d->engine.globalObject().property("stop");
+        if (stopFunc.isFunction())
+        {
+            stopFunc.call(QScriptValue());
+            if (d->engine.uncaughtException().isValid())
+            {
+                qDebug() << d->engine.uncaughtException().toString();
+                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            }
+        }
+    }
+}
+
+void QtScriptComponent::cleanup()
+{
+    if(d->script)
+    {
+        QScriptValue cleanupFunc = d->engine.globalObject().property("cleanup");
+        if (cleanupFunc.isFunction())
+        {
+            cleanupFunc.call(QScriptValue());
+            if (d->engine.uncaughtException().isValid())
+            {
+                qDebug() << d->engine.uncaughtException().toString();
+                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            }
+        }
     }
 }
 

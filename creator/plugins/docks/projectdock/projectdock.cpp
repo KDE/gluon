@@ -147,7 +147,7 @@ void ProjectDock::activated(QModelIndex index)
         if (GluonEngine::Game::instance()->currentScene() != scene)
         {
             GluonEngine::Game::instance()->setCurrentScene(scene);
-            GluonEngine::Game::instance()->startAll();
+            GluonEngine::Game::instance()->initializeAll();
             GluonEngine::Game::instance()->drawAll();
         }
     }

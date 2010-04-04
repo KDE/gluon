@@ -36,10 +36,11 @@ namespace GluonEngine
             CameraControllerComponent(QObject* parent = 0);
             CameraControllerComponent(const CameraControllerComponent& other);
             virtual ~CameraControllerComponent();
-
+            
+            virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
             virtual void draw(int timeLapse = 0);
+            virtual void cleanup();
 
             virtual bool isActive();
 
@@ -48,7 +49,7 @@ namespace GluonEngine
 
         private:
             class CameraControllerComponentPrivate;
-            CameraControllerComponentPrivate *d;
+            CameraControllerComponentPrivate * const d;
     };
 
 }

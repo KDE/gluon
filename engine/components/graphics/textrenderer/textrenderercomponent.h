@@ -38,12 +38,17 @@ namespace GluonEngine
 
         public:
             TextRendererComponent(QObject* parent = 0);
+            ~TextRendererComponent();
+            
             virtual QString text() const;
             virtual QFont font() const;
             virtual QColor color() const;
 
+            virtual void initialize();
             virtual void start();
             virtual void draw(int timeLapse);
+            virtual void cleanup();
+            
         public slots:
             virtual void setText(const QString& text);
             virtual void setFont(const QFont& font);
@@ -51,7 +56,7 @@ namespace GluonEngine
 
         private:
             class TextRendererComponentPrivate;
-            TextRendererComponentPrivate *d;
+            TextRendererComponentPrivate * const d;
 
     };
 }
