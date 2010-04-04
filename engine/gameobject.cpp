@@ -70,11 +70,10 @@ void
 GameObject::start()
 {
     foreach(Component * component, d->components)
-    if (component->enabled())
         component->start();
 
     foreach(GameObject * child, d->children)
-    child->start();
+        child->start();
 }
 
 void
@@ -84,12 +83,12 @@ GameObject::update(int elapsedMilliseconds)
         return;
 
     foreach(Component * component, d->components)
-    if (component->enabled())
-        component->update(elapsedMilliseconds);
+        if (component->enabled())
+            component->update(elapsedMilliseconds);
 
     //DEBUG_TEXT(QString("Updating %1 children").arg(d->children.count()))
     foreach(GameObject * child, d->children)
-    child->update(elapsedMilliseconds);
+        child->update(elapsedMilliseconds);
 }
 
 void
@@ -99,20 +98,20 @@ GameObject::draw(int timeLapse)
         return;
 
     foreach(Component * component, d->components)
-    if (component->enabled())
-        component->draw(timeLapse);
+        if (component->enabled())
+            component->draw(timeLapse);
 
     foreach(GameObject * child, d->children)
-    child->draw(timeLapse);
+        child->draw(timeLapse);
 }
 
 void GameObject::stop()
 {
     foreach(Component * component, d->components)
-    component->stop();
+        component->stop();
 
     foreach(GameObject * child, d->children)
-    child->stop();
+        child->stop();
 }
 
 void
