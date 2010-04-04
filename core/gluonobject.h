@@ -112,6 +112,12 @@ namespace GluonCore
 
         protected:
             static GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonCore::GluonObject* object);
+            /**
+             * This function is called by the clone function before handing the cloned object
+             * back to the caller. If you have something special which needs to be done to each
+             * child after adding, re-implement this function and perform those actions.
+             */
+            virtual void postCloneSanitize() {};
 
         private:
             void sanitizeReference(const QString& propName, const QString& propValue);

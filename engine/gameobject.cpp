@@ -390,7 +390,8 @@ void
 GameObject::setParentGameObject(GameObject * newParent)
 {
     //Do nothing if the new parent is the same as the old one.
-    if (d->parentGameObject == newParent) return;
+    if (d->parentGameObject == newParent)
+        return;
 
     // Clean up... We shouldn't be a child of more than one GameObject, or things will BLOW UP
     if (d->parentGameObject)
@@ -611,6 +612,35 @@ QMatrix4x4
 GameObject::transform() const
 {
     return d->transform;
+}
+
+void
+GameObject::postCloneSanitize()
+{
+    foreach(QObject* child, children())
+    {
+        if(qobject_cast<GameObject*>(child))
+        {
+            GameObject* gaob = qobject_cast<GameObject*>(child);
+            if (!d->children.contains(gaob))
+            {
+                d->children.append(gaob);
+                
+                if (gaob->d->parentGameObject)
+                    gaob->d->parentGameObject->removeChild(gaob);
+                
+                gaob->d->parentGameObject = this;
+            }
+        }
+        else if(qobject_cast<Component*>(child))
+        {
+            Component* comp = qobject_cast<Component*>(child);
+            d->components.append(comp);
+            comp->setParent(this);
+            comp->setGameObject(this);
+        }
+    }
+    GluonCore::GluonObject::postCloneSanitize();
 }
 
 #include "gameobject.moc"

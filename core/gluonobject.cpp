@@ -112,6 +112,8 @@ GluonObject::clone() const
     
     #warning Clones with properties pointing to children should point to new children rather than the old children
     
+    // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
+    newObject->postCloneSanitize();
     return newObject;
 }
 
