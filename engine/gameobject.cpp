@@ -69,11 +69,15 @@ GameObject::sanitize()
 void
 GameObject::start()
 {
-    foreach(Component * component, d->components)
-        component->start();
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(i; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->start();
 
-    foreach(GameObject * child, d->children)
-        child->start();
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->start();
 }
 
 void
@@ -82,13 +86,15 @@ GameObject::update(int elapsedMilliseconds)
     if(!d->enabled)
         return;
 
-    foreach(Component * component, d->components)
-        if (component->enabled())
-            component->update(elapsedMilliseconds);
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(i; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->update(elapsedMilliseconds);
 
-    //DEBUG_TEXT(QString("Updating %1 children").arg(d->children.count()))
-    foreach(GameObject * child, d->children)
-        child->update(elapsedMilliseconds);
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->update(elapsedMilliseconds);
 }
 
 void
@@ -96,22 +102,29 @@ GameObject::draw(int timeLapse)
 {
     if(!d->enabled)
         return;
+    
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->draw(timeLapse);
 
-    foreach(Component * component, d->components)
-        if (component->enabled())
-            component->draw(timeLapse);
-
-    foreach(GameObject * child, d->children)
-        child->draw(timeLapse);
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->draw(timeLapse);
 }
 
 void GameObject::stop()
 {
-    foreach(Component * component, d->components)
-        component->stop();
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(i; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->stop();
 
-    foreach(GameObject * child, d->children)
-        child->stop();
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->stop();
 }
 
 void
