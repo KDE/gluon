@@ -32,7 +32,7 @@ IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
 {
     QSpinBox *spinBox = new QSpinBox(this);
     setEditWidget(spinBox);
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(intValueChanged(double)));
+    connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(intValueChanged(int)));
 }
 
 IntPropertyWidgetItem::~IntPropertyWidgetItem()
