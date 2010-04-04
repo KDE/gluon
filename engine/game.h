@@ -108,22 +108,38 @@ namespace GluonEngine
             void stopGame();
 
             void setPause(bool pause);
-
+            
+            /**
+             * Initialize all objects in the current scene.
+             */
+            void initializeAll();
+            /**
+             * Start all objects in the current scene.
+             */
+            void startAll();
             /**
              * Draw all items in the current scene.
              */
-            void drawAll();
+            void drawAll(int time = 1);
             /**
              * Update all items in the current scene.
              */
-            void updateAll();
+            void updateAll(int time = 10);
+            /**
+             * Stop all objects in the current scene.
+             */
+            void stopAll();
+            /**
+             * Cleanup all objects in the current scene.
+             */
+            void cleanupAll();
 
         signals:
             void currentSceneChanged(GluonEngine::Scene*);
             void currentProjectChanged(GluonEngine::GameProject*);
 
-            void updated();
-            void painted();
+            void updated(int);
+            void painted(int);
 
         private:
             friend class GluonCore::Singleton<Game>;

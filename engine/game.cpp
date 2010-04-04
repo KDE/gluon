@@ -43,6 +43,8 @@ Game::Game(QObject * parent)
 
 Game::~Game()
 {
+    if(d->gameRunning)
+        stopGame();
 }
 
 int
@@ -70,9 +72,10 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     d->time.start();
 
     d->gameRunning = true;
-
+    
+    initializeAll();
     // First allow everybody to initialize themselves properly
-    d->currentScene->startAll();
+    startAll();
     while (d->gameRunning)
     {
         // Don't block everything...
@@ -85,18 +88,18 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         {
             if (!d->gamePaused)
             {
-                d->currentScene->updateAll(millisecondsPerUpdate);
-                emit updated();
+                updateAll(millisecondsPerUpdate);
             }
             nextTick += millisecondsPerUpdate;
             loops++;
         }
 
         timeLapse = (getCurrentTick() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
-        d->currentScene->drawAll(timeLapse);
-        emit painted();
+        drawAll(timeLapse);
     }
-    d->currentScene->stopAll();
+    stopAll();
+    
+    cleanupAll();
 }
 
 void
@@ -119,8 +122,9 @@ Game::runGameFixedTimestep(int framesPerSecond)
 
     d->gameRunning = true;
 
+    initializeAll();
     // First allow everybody to initialize themselves properly
-    d->currentScene->startAll();
+    startAll();
     while (d->gameRunning)
     {
         // Don't block everything...
@@ -129,12 +133,10 @@ Game::runGameFixedTimestep(int framesPerSecond)
         // Update the current level
         if (!d->gamePaused)
         {
-            d->currentScene->updateAll(millisecondsPerUpdate);
-            emit updated();
+            updateAll(millisecondsPerUpdate);
         }
         // Do drawing
-        d->currentScene->drawAll();
-        emit painted();
+        drawAll();
 
         nextTick += millisecondsPerUpdate;
         remainingSleep = nextTick - this->getCurrentTick();
@@ -149,7 +151,9 @@ Game::runGameFixedTimestep(int framesPerSecond)
             DEBUG_TEXT(tr("Gameloop has fallen behind by %1 milliseconds").arg(remainingSleep))
         }
     }
-    d->currentScene->stopAll();
+    stopAll();
+    
+    cleanupAll();
 }
 
 void Game::stopGame()
@@ -175,16 +179,36 @@ void Game::setPause(bool pause)
     d->gamePaused = pause;
 }
 
-void Game::drawAll()
+void Game::initializeAll()
 {
-    d->currentScene->drawAll(1);
-    emit painted();
+    d->currentScene->sceneContents()->initialize();
 }
 
-void Game::updateAll()
+void Game::startAll()
 {
-    d->currentScene->updateAll(10);
-    emit updated();
+    d->currentScene->sceneContents()->start();
+}
+
+void Game::drawAll(int time)
+{
+    d->currentScene->sceneContents()->draw(time);
+    emit painted(time);
+}
+
+void Game::updateAll(int time)
+{
+    d->currentScene->sceneContents()->update(time);
+    emit updated(time);
+}
+
+void Game::stopAll()
+{
+    d->currentScene->sceneContents()->stop();
+}
+
+void Game::cleanupAll()
+{
+    d->currentScene->sceneContents()->cleanup();
 }
 
 /******************************************************************************
@@ -212,11 +236,18 @@ Game::setCurrentScene(Scene * newCurrentScene)
 {
     if (d->currentScene)
     {
-        d->currentScene->stopAll();
+        stopAll();
+        cleanupAll();
     }
 
     d->currentScene = newCurrentScene;
-    d->currentScene->startAll();
+    
+    if(d->gameRunning)
+    {
+        initializeAll();
+        startAll();
+    }
+    
     emit currentSceneChanged(newCurrentScene);
 }
 
@@ -239,7 +270,10 @@ Game::setGameProject(GluonEngine::GameProject * newGameProject)
     if (d->gameProject)
     {
         if (d->currentScene)
-            d->currentScene->stopAll();
+        {
+            stopAll();
+            cleanupAll();
+        }
         delete d->gameProject;
     }
 

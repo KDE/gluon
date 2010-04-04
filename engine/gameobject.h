@@ -57,14 +57,45 @@ namespace GluonEngine
             ~GameObject();
 
             void sanitize();
+            
+            /**
+             * Initialize to a workable state
+             */
+            Q_INVOKABLE void initialize();
+            /**
+             * The game loop or scene is starting. Do anything necessary.
+             */
             Q_INVOKABLE void start();
+            /**
+             * Update the object and any children.
+             * Note that by convention any changes made to GameObjects should
+             * be done in this phase, not during draw().
+             *
+             * @param int elapsedMilliseconds The time elapsed since the last update
+             */
             Q_INVOKABLE void update(int elapsedMilliseconds);
             /**
              * Draw the GameObject onto the scene
+             * By convention, this should not change GameObjects but only objects needed
+             * for correct operation.
+             *
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
             Q_INVOKABLE void draw(int timeLapse = 0);
+            /**
+             * The game loop or scene is stopping. Do anything necessary.
+             */
             Q_INVOKABLE void stop();
+            /**
+             * The object has served its purpose. Clean up.
+             */
+            Q_INVOKABLE void cleanup();
+            
+            /**
+             * Destroy the object.
+             */
+            Q_INVOKABLE void destroy();
+            
             /**
              * Run a command on all the components in this GameObject
              */

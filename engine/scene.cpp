@@ -41,36 +41,6 @@ Scene::~Scene()
 }
 
 void
-Scene::startAll()
-{
-    if (!d->sceneContentsStarted)
-    {
-        sceneContents()->start();
-        d->sceneContentsStarted = true;
-    }
-}
-void
-Scene::updateAll(int elapsedMilliseconds)
-{
-    sceneContents()->update(elapsedMilliseconds);
-}
-void
-Scene::drawAll(int timeLapse)
-{
-    sceneContents()->draw(timeLapse);
-}
-
-void
-Scene::stopAll()
-{
-    if (d->sceneContentsStarted)
-    {
-        sceneContents()->stop();
-        d->sceneContentsStarted = false;
-    }
-}
-
-void
 Scene::setFile(const QUrl &newFile)
 {
     if (!savableDirty)

@@ -74,7 +74,12 @@ namespace GluonEngine
             * of your class.
             */
             virtual QVariant toVariant(GluonObject * wrapThis);
-
+            
+            /**
+             * The initialize function is called whenever an initialized object
+             * is needed. This includes scene changes.
+             */
+            virtual void initialize() {}
             /**
              * The start function is run once after each scene change,
              * immediately before the first update
@@ -115,6 +120,12 @@ namespace GluonEngine
              * between runs.
              */
             virtual void stop() {};
+            
+            /**
+             * The cleanup function is called whenever a n object is no longer
+             * needed. This happens mostly during scene changes.
+             */
+            virtual void cleanup() {} 
 
             /**
              * The description of the Component instance. An arbitrary value
