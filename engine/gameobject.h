@@ -187,6 +187,8 @@ namespace GluonEngine
             void updateTransform();
             void invalidateTransform();
 
+        protected:
+            virtual void postCloneSanitize();
         private:
             QSharedDataPointer<GameObjectPrivate> d;
     };
