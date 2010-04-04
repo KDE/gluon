@@ -281,7 +281,10 @@ GameObject::childGameObject(const QString &name) const
 
 void GameObject::addChild(GluonObject* child)
 {
-    GluonCore::GluonObject::addChild(child);
+    if(qobject_cast<GameObject*>(child))
+        addChild(qobject_cast<GameObject*>(child));
+    else
+        GluonCore::GluonObject::addChild(child);
 }
 
 void
@@ -581,20 +584,7 @@ GameObject::postCloneSanitize()
 {
     foreach(QObject* child, children())
     {
-        if(qobject_cast<GameObject*>(child))
-        {
-            GameObject* gaob = qobject_cast<GameObject*>(child);
-            if (!d->children.contains(gaob))
-            {
-                d->children.append(gaob);
-                
-                if (gaob->d->parentGameObject)
-                    gaob->d->parentGameObject->removeChild(gaob);
-                
-                gaob->d->parentGameObject = this;
-            }
-        }
-        else if(qobject_cast<Component*>(child))
+        if(qobject_cast<Component*>(child))
         {
             Component* comp = qobject_cast<Component*>(child);
             d->components.append(comp);
@@ -602,6 +592,7 @@ GameObject::postCloneSanitize()
             comp->setGameObject(this);
         }
     }
+    
     GluonCore::GluonObject::postCloneSanitize();
 }
 
