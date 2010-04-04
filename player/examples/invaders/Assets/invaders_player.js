@@ -1,8 +1,9 @@
 var g_bullet;
 
-function start() 
+function initialize() 
 {
     g_bullet = Game.getFromScene("Bullet");
+    Game.setProperty("lives", 5);
 }
 
 function move(time)
@@ -53,6 +54,11 @@ function update(time)
     if(GameObject.Collider.isColliding())
     {
         GameObject.SpriteRenderer.setColor(new QColor(255, 0, 0));
+        Game.setProperty("lives", Game.property("lives") - 1);
+        if(Game.property("lives") <= 0)
+        {
+            GameObject.destroy();
+        }
     }
     else
     {
