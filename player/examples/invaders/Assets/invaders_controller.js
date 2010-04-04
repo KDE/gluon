@@ -11,7 +11,6 @@ function update(time)
             
             newEnemy.setPosition(10*i, -30, 2);
             newEnemy.enabled = true;
-            newEnemy.start();
         }
         spawned = true;
     }

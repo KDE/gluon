@@ -63,7 +63,7 @@ function update(time)
     {
         var bullet = Game.clone(g_bullet);
         bullet.setPosition(GameObject.position);
-        bullet.enabled = true;
+        bullet.setEnabled(true);
     }
 }
 
