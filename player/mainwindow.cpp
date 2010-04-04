@@ -87,8 +87,8 @@ void MainWindow::openProject()
 
     d->widget = new GluonGraphics::GLWidget(this);
     setCentralWidget(d->widget);
-    connect(GluonEngine::Game::instance(), SIGNAL(painted()), d->widget, SLOT(updateGL()));
-    connect(GluonEngine::Game::instance(), SIGNAL(painted()), SLOT(updateTitle()));
+    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
+    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(updateTitle()));
 
     GluonEngine::Game::instance()->runGame();
 }
