@@ -95,7 +95,7 @@ void QtScriptComponent::initialize()
         QScriptValue gameObj = d->engine.newQObject(gameObject());
         d->engine.globalObject().setProperty("GameObject", gameObj);
 
-        QScriptValue game = d->engine.newQObject(Game::instance());
+        QScriptValue game = d->engine.newQObject(Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
         d->engine.globalObject().setProperty("Game", game);
 
         d->updateFunc = d->engine.globalObject().property("update");
