@@ -60,10 +60,18 @@ namespace GluonCore
             
             /**
              * Copy this object and all of its children, resursively.
+             * It will be a child of the same GluonObject that the current object is a child of.
              *
              * @return A deep copy of the object and all its children
              */
             Q_INVOKABLE GluonObject * clone() const;
+            /**
+             * Copy this object and all of its children, recursively, and insert the cloned object
+             * as a child of the passed GluonObject
+             *
+             * @return A deep copy of the object and all its children
+             */
+            Q_INVOKABLE GluonObject * clone(GluonObject* parentObject) const;
 
             virtual QString name() const;
             virtual void setName(const QString &newName);

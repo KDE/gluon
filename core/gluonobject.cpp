@@ -77,13 +77,24 @@ GluonObject::clone() const
     const QMetaObject* metaObj = metaObject();
     if(!metaObj)
         debug(QString("Failed to get the meta object for object %1").arg(fullyQualifiedName()));
-    
-    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName(metaObj->className());
-    
-    // First, add ourselves as a child to the current object's parent
+
+    // Find my parent...
     GluonObject* parentObject = qobject_cast<GluonObject*>(parent());
-    if(parentObject)
-        parentObject->addChild(newObject);
+    if(!parentObject)
+        return 0;
+
+    return clone(parentObject);
+}
+
+GluonObject*
+GluonObject::clone(GluonObject* parentObject) const
+{
+    const QMetaObject* metaObj = metaObject();
+    if(!metaObj)
+        debug(QString("Failed to get the meta object for object %1").arg(fullyQualifiedName()));
+
+    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName(metaObj->className());
+    parentObject->addChild(newObject);
 
     // Clone all the children
     foreach(QObject* child, children())
@@ -91,10 +102,10 @@ GluonObject::clone() const
         GluonObject* childObject = qobject_cast<GluonObject*>(child);
         if(childObject)
         {
-            newObject->addChild(childObject->clone());
+            childObject->clone(newObject);
         }
     }
-    
+
     // Copy over the values from pre-defined properties
     int count = metaObj->propertyCount();
     for (int i = 0; i < count; ++i)
@@ -102,16 +113,16 @@ GluonObject::clone() const
         QMetaProperty metaproperty = metaObj->property(i);
         newObject->setProperty(metaproperty.name(), metaproperty.read(this));
     }
-    
+
     // Copy values from dynamic properties
     QList<QByteArray> propertyNames = dynamicPropertyNames();
     foreach(const QByteArray &propName, propertyNames)
     {
         newObject->setProperty(propName, property(propName));
     }
-    
+
     #warning Clones with properties pointing to children should point to new children rather than the old children
-    
+
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();
     return newObject;
