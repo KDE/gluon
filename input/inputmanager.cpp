@@ -154,27 +154,47 @@ InputList InputManager::inputList()
 
 Keyboard* InputManager::keyboard(int id)
 {
-	return d->m_instance->getKeyboardList().at(id);
+    if(d->m_instance->getKeyboardList().count() > 0)
+    {
+        return d->m_instance->getKeyboardList().at(id);
+    }
+    return 0;
 }
 
 Mouse* InputManager::mouse(int id)
 {
-	return d->m_instance->getMouseList().at(id);
+    if(d->m_instance->getMouseList().count() > 0)
+    {
+        return d->m_instance->getMouseList().at(id);
+    }
+    return 0;
 }
 
 Joystick* InputManager::joystick(int id)
 {
-	return d->m_instance->getJoystickList().at(id);
+    if(d->m_instance->getJoystickList().count() > 0)
+    {
+        return d->m_instance->getJoystickList().at(id);
+    }
+    return 0;
 }
 
 Tablet* InputManager::tablet(int id)
 {
-	return d->m_instance->getTabletList().at(id);
+    if(d->m_instance->getTabletList().count() > 0)
+    {
+        return d->m_instance->getTabletList().at(id);
+    }
+    return 0;
 }
 
 InputDevice* InputManager::input(int id)
 {
-	return d->m_instance->getInputList().at(id);
+    if(d->m_instance->getInputList().count() > 0)
+    {
+        return d->m_instance->getInputList().at(id);
+    }
+    return 0;
 }
 
 #include "inputmanager.moc"
