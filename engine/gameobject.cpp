@@ -70,14 +70,15 @@ GameObject::sanitize()
 void 
 GameObject::initialize()
 {
-    foreach(Component * component, d->components)
-    {
-        if (component->enabled())
-            component->initialize();
-    }
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(i; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->initialize();
 
-    foreach(GameObject * child, d->children)
-        child->initialize();
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->initialize();
 }
 
 void
@@ -144,11 +145,15 @@ void GameObject::stop()
 void 
 GameObject::cleanup()
 {
-    foreach(Component * component, d->components)
-        component->cleanup();
+    const int componentCount = d->components.count();
+    int i = 0;
+    for(i; i < componentCount; ++i)
+        if (d->components.at(i)->enabled())
+            d->components.at(i)->cleanup();
 
-    foreach(GameObject * child, d->children)
-        child->cleanup();
+    const int childCount = d->children.count();
+    for(i = 0; i < childCount; ++i)
+        d->children.at(i)->cleanup();
 }
 
 void GameObject::destroy()
@@ -277,10 +282,8 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 void
 GameObject::addComponent(Component * addThis)
 {
-    DEBUG_FUNC_NAME
     if (addThis)
     {
-        DEBUG_TEXT(QString("Adding %2 to %1").arg(name()).arg(addThis->metaObject()->className()));
         if (!d->components.contains(addThis))
         {
             d->components.append(addThis);
@@ -335,7 +338,6 @@ void GameObject::addChild(GluonObject* child)
 void
 GameObject::addChild(GameObject * addThis)
 {
-    DEBUG_FUNC_NAME
     if (!addThis)
     {
         DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject"));
@@ -355,7 +357,6 @@ GameObject::addChild(GameObject * addThis)
 void
 GameObject::addChildAt(GameObject * addThis, int index)
 {
-    DEBUG_FUNC_NAME
     if (!addThis || index >= d->children.count())
     {
         DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range."));
@@ -627,13 +628,11 @@ GameObject::transform() const
 void
 GameObject::postCloneSanitize()
 {
-    DEBUG_FUNC_NAME
     foreach(QObject* child, children())
     {
         if(qobject_cast<Component*>(child))
         {
             Component* comp = qobject_cast<Component*>(child);
-            DEBUG_TEXT(QString("Sanitizing component %1").arg(comp->name()));
             d->components.append(comp);
             comp->setParent(this);
             comp->setGameObject(this);
