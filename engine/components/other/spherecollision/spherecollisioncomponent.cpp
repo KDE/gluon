@@ -36,7 +36,7 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
         
         int collisionGroup;
         float radius;
-        SphereCollisionComponent *collides;
+        GameObject *collides;
 };
 
 SphereCollisionComponent::SphereCollisionComponent(QObject* parent)
@@ -94,7 +94,7 @@ void SphereCollisionComponent::update(int elapsedMilliseconds)
                 //have a collision.
                 if(dist < (otherRadius + radius))
                 {
-                    d->collides = object;
+                    d->collides = object->gameObject();
                 }
             }
         }
@@ -116,7 +116,7 @@ bool SphereCollisionComponent::isColliding() const
     return d->collides != 0;
 }
 
-SphereCollisionComponent* SphereCollisionComponent::collidesWith() const
+QObject* SphereCollisionComponent::collidesWith() const
 {
     return d->collides;
 }

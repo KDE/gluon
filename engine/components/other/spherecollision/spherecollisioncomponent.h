@@ -79,7 +79,7 @@ namespace GluonEngine
              * @return The object this object is colliding with or 0
              * if there is no collision.
              */
-            Q_INVOKABLE SphereCollisionComponent * collidesWith() const;
+            Q_INVOKABLE QObject* collidesWith() const;
             
         public Q_SLOTS:
             /**
