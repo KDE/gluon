@@ -119,6 +119,11 @@
             collisionGroup int(1)
             radius float(4)
         }
+        { GluonEngine::SoundEmitterComponent(Kapow)
+            enabled bool(true)
+            sound GluonEngine::Asset(Invaders/quiet-explosion.ogg)
+            loop bool(false)
+        }
     }
     { GluonEngine::GameObject(Bullet)
         enabled bool(false)
@@ -139,6 +144,12 @@
             enabled bool(true)
             collisionGroup int(1)
             radius float(2)
+        }
+        { GluonEngine::SoundEmitterComponent(Pew)
+            enabled bool(true)
+            sound GluonEngine::Asset(Invaders/laser-pew.ogg)
+            loop bool(false)
+            autoPlay bool(true)
         }
     }
 }

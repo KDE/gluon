@@ -14,5 +14,6 @@ function update(time) {
     {
         GameObject.destroy();
         GameObject.BulletCollider.collidesWith().destroy();
+        GameObject.Kapow.play();
     }
 }
