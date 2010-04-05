@@ -45,8 +45,8 @@ GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, G
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(newObj);
         parent->addComponent(comp);
 
-        //Call start. We are, after all, basically working with a paused game.
-        comp->start();
+        // Initialize the component
+        comp->initialize();
 
         emit newComponent(comp);
 
