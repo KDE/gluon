@@ -31,6 +31,24 @@ using namespace GluonAudio;
 class Sound::SoundPrivate
 {
     public:
+        SoundPrivate()
+        {
+            buffer = new Buffer;
+            source = 0;
+            position.setX(0);
+            position.setY(0);
+            position.setZ(0);
+            volume = 0;
+            pitch = 0;
+
+            alGenSources(1, &source);  // Generate the source to play the buffer with
+        }
+        ~SoundPrivate()
+        {
+            alDeleteSources(1, &source);
+            delete buffer;
+        }
+        
         Buffer *buffer;
         ALuint source;
         QVector3D position;
@@ -39,44 +57,37 @@ class Sound::SoundPrivate
 };
 
 Sound::Sound(QObject * parent)
-        : QObject(parent),
-        d(new SoundPrivate)
+        : QObject(parent)
+        , d(new SoundPrivate)
 {
-    init();
-    d->buffer = new Buffer;
 }
 
 Sound::Sound(const QString &soundFile, QObject *parent)
-        : QObject(parent),
-        d(new SoundPrivate)
+        : QObject(parent)
+        , d(new SoundPrivate)
 {
-    init();
-    d->buffer = new Buffer;
     load(soundFile);
 }
 
 Sound::Sound(Buffer *buffer, QObject *parent)
-        : QObject(parent),
-        d(new SoundPrivate)
+        : QObject(parent)
+        , d(new SoundPrivate)
 {
-    init();
     load(buffer);
 }
 
 Sound::Sound(ALuint buffer, QObject *parent)
-        : QObject(parent),
-        d(new SoundPrivate)
+        : QObject(parent)
+        , d(new SoundPrivate)
 {
-    init();
     load(buffer);
 }
 
 Sound::~Sound()
 {
-    alDeleteSources(1, &d->source);
-    if (d->buffer) delete d->buffer;
     delete d;
 }
+
 void Sound::load(const QString &soundFile)
 {
     d->buffer->setBuffer(soundFile);
@@ -94,18 +105,6 @@ void Sound::load(ALuint buffer)
     delete d->buffer;
     d->buffer = new Buffer(buffer);
     setupSource();
-}
-
-void Sound::init()
-{
-    d->source = 0;
-    d->position.setX(0);
-    d->position.setY(0);
-    d->position.setZ(0);
-    d->volume = 0;
-    d->pitch = 0;
-
-    alGenSources(1, &d->source);  // Generate the source to play the buffer with
 }
 
 void Sound::setupSource()

@@ -229,7 +229,6 @@ namespace GluonAudio
             //void setRadius(float radius);
 
         protected:
-            void init();
             void setupSource();
 
         private:
