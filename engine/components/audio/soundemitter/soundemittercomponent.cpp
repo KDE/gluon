@@ -36,13 +36,14 @@ using namespace GluonEngine;
 class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
     public:
-        SoundEmitterComponentPrivate() { asset = 0; sound = 0; buffer = 0; loop = false; }
+        SoundEmitterComponentPrivate() { asset = 0; sound = 0; buffer = 0; loop = false; autoPlay = false; }
         
         Asset *asset;
         
         GluonAudio::Sound *sound;
         GluonAudio::Buffer *buffer;
         bool loop;
+        bool autoPlay;
 };
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
@@ -69,6 +70,7 @@ void
 SoundEmitterComponent::play()
 {
     d->sound->play();
+    debug(QString("Playing sound: %1").arg(name()));
 }
 
 Asset *
@@ -119,6 +121,10 @@ SoundEmitterComponent::start()
     if(d->loop)
     {
         d->sound->setLoop(true);
+        d->sound->play();
+    }
+    if(d->autoPlay)
+    {
         d->sound->play();
     }
 }
@@ -180,6 +186,18 @@ SoundEmitterComponent::setLoop(bool loop)
             d->sound->stop();
         }
     }
+}
+
+bool
+SoundEmitterComponent::autoPlay()
+{
+    return d->autoPlay;
+}
+
+void
+SoundEmitterComponent::setAutoPlay(bool autoPlay)
+{
+    d->autoPlay = autoPlay;
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)
