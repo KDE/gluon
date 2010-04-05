@@ -12,7 +12,7 @@ function update(time) {
     
     if(GameObject.BulletCollider.isColliding())
     {
-        GameObject.BulletCollider.collidesWith().destroy();
         GameObject.destroy();
+        GameObject.BulletCollider.collidesWith().destroy();
     }
 }

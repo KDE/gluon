@@ -92,7 +92,7 @@
         }
         { GluonEngine::SphereCollisionComponent(Collider)
             enabled bool(true)
-            radius float(1)
+            radius float(3)
         }
     }
     { GluonEngine::GameObject(Enemy)
@@ -117,7 +117,7 @@
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(1)
-            radius float(1)
+            radius float(4)
         }
     }
     { GluonEngine::GameObject(Bullet)
@@ -135,10 +135,10 @@
             enabled bool(true)
             script GluonEngine::Asset(Invaders/bullet.js)
         }
-        { GluonEngine::SphereCollisionComponent(GluonObject 1)
+        { GluonEngine::SphereCollisionComponent(Collider)
             enabled bool(true)
             collisionGroup int(1)
-            radius float(1)
+            radius float(2)
         }
     }
 }
