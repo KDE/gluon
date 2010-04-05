@@ -217,6 +217,7 @@ namespace GluonEngine
 
             void updateTransform();
             void invalidateTransform();
+            void removeLater(GluonEngine::GameObject* remove);
 
         protected:
             /**

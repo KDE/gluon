@@ -56,6 +56,7 @@ namespace GluonEngine
             GameObject * parentGameObject;
             QList<GameObject *> children;
             QList<Component *> components;
+            QList<GameObject *> objectsToDelete;
     };
 }
 

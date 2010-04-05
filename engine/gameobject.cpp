@@ -110,6 +110,21 @@ GameObject::update(int elapsedMilliseconds)
     const int childCount = d->children.count();
     for(i = 0; i < childCount; ++i)
         d->children.at(i)->update(elapsedMilliseconds);
+    
+    const int deleteCount = d->objectsToDelete.count();
+    if(deleteCount > 0)
+    {
+        for(i = 0; i < deleteCount; ++i)
+        {
+            GameObject* obj = d->objectsToDelete.at(i);
+            removeChild(obj);
+            obj->stop();
+            obj->cleanup();
+            delete obj;        
+        }
+        
+        d->objectsToDelete.clear();
+    }
 }
 
 void
@@ -158,10 +173,14 @@ GameObject::cleanup()
 
 void GameObject::destroy()
 {
-    stop();
-    cleanup();
+//     DEBUG_FUNC_NAME
     
-    delete this;
+    parentGameObject()->removeLater(this);
+}
+
+void GameObject::removeLater(GameObject *remove)
+{
+    d->objectsToDelete.append(remove);
 }
 
 void
