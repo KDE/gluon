@@ -21,7 +21,9 @@
     <Menu name="settings">
         <Menu name="docks">
             <text>&amp;Docks</text>
+            
         </Menu>
+          <Action name="lockDock" />
     </Menu>
 
     <Menu name="help">

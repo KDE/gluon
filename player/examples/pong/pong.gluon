@@ -1,9 +1,15 @@
 { GluonEngine::GameProject(pong)
-    filename url(/home/schutz/programmation/gluon/player/examples/pong/pong)
+    filename url(/home/schutz/programmation/gluon/player/examples/pong/pong.gluon)
     { GluonEngine::Scene(scene1)
         file url(Scenes/test scene1.gdl)
     }
     { GluonEngine::ScriptAsset(script.js)
         file url(Assets/test_script.js)
+    }
+    { GluonEngine::ScriptAsset(player.js)
+        file url(Assets/pong_player.js)
+    }
+    { GluonEngine::TextureAsset(invaders_alien.png)
+        file url(Assets/pong_invaders_alien.png)
     }
 }

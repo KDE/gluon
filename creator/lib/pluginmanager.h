@@ -25,7 +25,7 @@
 #include <QtCore/QObject>
 #include <KPluginInfo>
 #include <core/singleton.h>
-
+#include <QHash>
 class KXmlGuiWindow;
 namespace GluonCreator
 {
@@ -33,26 +33,26 @@ namespace GluonCreator
 
     class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
-            Q_OBJECT
-        public:
-            QList<KPluginInfo> pluginInfos() const;
+        Q_OBJECT
+    public:
+        QList<KPluginInfo> pluginInfos() const;
+        QHash<QString, Plugin*> loadedPlugins();
+    public slots:
+        void loadPlugins();
+        void setMainWindow(KXmlGuiWindow* window);
 
-        public slots:
-            void loadPlugins();
-            void setMainWindow(KXmlGuiWindow* window);
+    signals:
+        void pluginLoaded(Plugin * plugin);
 
-        signals:
-            void pluginLoaded(Plugin * plugin);
+    private:
+        friend class GluonCore::Singleton<PluginManager>;
 
-        private:
-            friend class GluonCore::Singleton<PluginManager>;
+        PluginManager();
+        ~PluginManager();
+        Q_DISABLE_COPY(PluginManager)
 
-            PluginManager();
-            ~PluginManager();
-            Q_DISABLE_COPY(PluginManager)
-
-            class PluginManagerPrivate;
-            PluginManagerPrivate * const d;
+        class PluginManagerPrivate;
+        PluginManagerPrivate * const d;
     };
 }
 

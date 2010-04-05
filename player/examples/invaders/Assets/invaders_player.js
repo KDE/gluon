@@ -1,5 +1,5 @@
 var g_bullet;
-
+var speed = 30;
 function initialize() 
 {
     g_bullet = Game.getFromScene("Bullet");
@@ -8,24 +8,27 @@ function initialize()
 
 function move(time)
 {
+
+var addX = speed*(time/1000);
+
     if(GameObject.Key_Left.isActionHeld())
     {
-        GameObject.translate(10*(time/1000), 0, 0);
+        GameObject.translate(addX, 0, 0);
     }
 
     if(GameObject.Key_Right.isActionHeld())
     {
-        GameObject.translate(-10*(time/1000), 0, 0);
+        GameObject.translate(-addX, 0, 0);
     }
 
     if(GameObject.Key_Up.isActionHeld())
     {
-        GameObject.translate(0, 10*(time/1000), 0);
+        GameObject.translate(0, addX, 0);
     }
 
     if(GameObject.Key_Down.isActionHeld())
     {
-        GameObject.translate(0, -10*(time/1000), 0);
+        GameObject.translate(0, -addX, 0);
     }
 
     var pos = GameObject.position;

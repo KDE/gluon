@@ -1,8 +1,10 @@
 { GluonEngine::GameObject(scene1)
+    enabled bool(true)
     position vector3d(0;0;0)
     scale vector3d(1;1;1)
     orientation quaternion(0;0;0;1)
     { GluonEngine::GameObject(camera)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -12,13 +14,15 @@
         }
     }
     { GluonEngine::GameObject(ball)
-        position vector3d(4;0;1)
-        scale vector3d(1;1;1)
+        enabled bool(true)
+        position vector3d(3;0;1)
+        scale vector3d(3;3;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(1;1)
             color rgba(255;255;255;255)
+            texture GluonEngine::Asset(pong/invaders_alien.png)
         }
         { GluonEngine::QtScriptComponent(GluonObject 1)
             enabled bool(true)
@@ -26,28 +30,106 @@
         }
     }
     { GluonEngine::GameObject(leftPlayer)
-        position vector3d(11;0;0)
-        scale vector3d(1;9;1)
+        enabled bool(true)
+        position vector3d(26;6.8;0)
+        scale vector3d(2;20;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(1;1)
-            color rgba(255;255;255;255)
+            color rgba(255;184;184;255)
+            texture GluonEngine::Asset(pong/invaders_alien.png)
         }
-        { GluonEngine::GameObject(New Object 1)
-            position vector3d(0;0;0)
-            scale vector3d(1;1;1)
-            orientation quaternion(0;0;0;1)
+        { GluonEngine::KeyboardInputComponent(KeyUp)
+            enabled bool(true)
+            keyCode int(16)
+        }
+        { GluonEngine::QtScriptComponent(GluonObject 2)
+            enabled bool(true)
+            script GluonEngine::Asset(pong/player.js)
+        }
+        { GluonEngine::KeyboardInputComponent(KeyDown)
+            enabled bool(true)
+            keyCode int(31)
         }
     }
     { GluonEngine::GameObject(rightPlayer)
-        position vector3d(-11;0;0)
-        scale vector3d(1;9;1)
+        enabled bool(true)
+        position vector3d(-26;0;0)
+        scale vector3d(2;20;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
-            size size2d(1;1)
-            color rgba(255;255;255;255)
+            size size2d(1;-1)
+            color rgba(128;128;192;255)
+            texture GluonEngine::Asset(pong/invaders_alien.png)
+        }
+        { GluonEngine::KeyboardInputComponent(KeyUp)
+            enabled bool(true)
+            keyCode int(102)
+        }
+        { GluonEngine::QtScriptComponent(script)
+            enabled bool(true)
+            script GluonEngine::Asset(pong/player.js)
+        }
+        { GluonEngine::KeyboardInputComponent(KeyDown)
+            enabled bool(true)
+            keyCode int(107)
+        }
+    }
+    { GluonEngine::GameObject(background)
+        enabled bool(true)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::GameObject(up)
+            enabled bool(true)
+            position vector3d(0;-30;0)
+            scale vector3d(58;1;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(1;1)
+                color rgba(255;255;255;255)
+            }
+        }
+        { GluonEngine::GameObject(down)
+            enabled bool(true)
+            position vector3d(0;30;0)
+            scale vector3d(1;1;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(58;1)
+                color rgba(255;255;255;255)
+            }
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(1;1)
+                color rgba(255;255;255;255)
+            }
+        }
+        { GluonEngine::GameObject(left)
+            enabled bool(true)
+            position vector3d(29;0;0)
+            scale vector3d(1;59;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(1;1)
+                color rgba(255;255;255;255)
+            }
+        }
+        { GluonEngine::GameObject(right)
+            enabled bool(true)
+            position vector3d(-29;0;0)
+            scale vector3d(1;59;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(GluonObject)
+                enabled bool(true)
+                size size2d(1;1)
+                color rgba(255;255;255;255)
+            }
         }
     }
 }

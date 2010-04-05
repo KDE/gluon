@@ -102,5 +102,9 @@ PluginManager::~PluginManager()
 {
     delete d;
 }
+ QHash<QString, Plugin*> PluginManager::loadedPlugins()
+ {
+     return d->loadedPlugins;
+ }
 
 #include "pluginmanager.moc"

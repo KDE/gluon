@@ -1,3 +1,4 @@
+var speed = 30;
 
 function start()
 {
@@ -6,5 +7,7 @@ function start()
 
 function update(time)
 {
-    GameObject.translate(0, -20*(time/1000), 0);
+var addX = speed*(time/1000)
+
+    GameObject.translate(0,-addX, 0);
 }
