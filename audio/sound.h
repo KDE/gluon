@@ -121,6 +121,10 @@ namespace GluonAudio
             */
             ALfloat pitch()const ;
 
+            /**
+             *
+             */
+            ALfloat radius() const;
 
             ALfloat duration()const ;
 
@@ -204,6 +208,12 @@ namespace GluonAudio
             * @param pitch a value between 0.5 and 2.0
             */
             void setPitch(ALfloat pitch = 1.0f);
+            
+            /**
+             * Specify the distance from which the sound can no longer be heard
+             * @param radius A length
+             */
+            void setRadius(ALfloat radius = 10000.0f);
 
             /**
             * Specify the minimum index value of the volume,

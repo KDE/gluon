@@ -35,13 +35,18 @@ class Sound::SoundPrivate
         {
             buffer = new Buffer;
             source = 0;
-            position.setX(0);
-            position.setY(0);
-            position.setZ(0);
-            volume = 0;
-            pitch = 0;
+            position = QVector3D(0, 0, 0);
+            volume = 1.0f;
+            pitch = 1.0f;
+            radius = 10000.0f;
 
             alGenSources(1, &source);  // Generate the source to play the buffer with
+
+            ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
+            alSourcefv(source, AL_POSITION, sourcePosition);
+            alSourcef(source, AL_GAIN, volume);
+            alSourcef(source, AL_PITCH, pitch);
+            alSourcef(source, AL_REFERENCE_DISTANCE, radius);
         }
         ~SoundPrivate()
         {
@@ -54,6 +59,7 @@ class Sound::SoundPrivate
         QVector3D position;
         ALfloat volume;
         ALfloat pitch;
+        ALfloat radius;
 };
 
 Sound::Sound(QObject * parent)
@@ -188,6 +194,11 @@ ALfloat Sound::pitch()const
     return d->pitch;
 }
 
+ALfloat Sound::radius() const
+{
+    return d->radius;
+}
+
 void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
     QVector3D tempPosition(x, y, z);
@@ -213,6 +224,12 @@ void Sound::setPitch(ALfloat pitch)
 {
     d->pitch = pitch;
     alSourcef(d->source, AL_PITCH, pitch);
+}
+
+void Sound::setRadius(ALfloat radius)
+{
+    d->radius = radius;
+    alSourcef(d->source, AL_REFERENCE_DISTANCE, radius);
 }
 
 void Sound::play()
