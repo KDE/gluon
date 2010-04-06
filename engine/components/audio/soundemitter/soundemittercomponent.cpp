@@ -117,6 +117,7 @@ SoundEmitterComponent::start()
     }
     
     d->sound->load(d->buffer);
+    d->sound->setPosition(gameObject()->position());
     
     if(d->loop)
     {
