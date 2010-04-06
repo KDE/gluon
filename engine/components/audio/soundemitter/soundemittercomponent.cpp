@@ -155,13 +155,25 @@ SoundEmitterComponent::cleanup()
     d->buffer = 0;
 }
 
+float
+SoundEmitterComponent::radius() const
+{
+    d->sound->radius();
+}
+
+void
+SoundEmitterComponent::setRadius(float radius)
+{
+    d->sound->setRadius(radius);
+}
+
 bool
-SoundEmitterComponent::isLooping()
+SoundEmitterComponent::isLooping() const
 {
     return d->loop;
 }
 
-bool SoundEmitterComponent::isPlaying()
+bool SoundEmitterComponent::isPlaying() const
 {
     if(d->sound)
     {
@@ -190,7 +202,7 @@ SoundEmitterComponent::setLoop(bool loop)
 }
 
 bool
-SoundEmitterComponent::autoPlay()
+SoundEmitterComponent::autoPlay() const
 {
     return d->autoPlay;
 }

@@ -32,6 +32,7 @@ namespace GluonEngine
     {
             Q_OBJECT
             Q_PROPERTY(GluonEngine::Asset* sound READ sound WRITE setSound)
+            Q_PROPERTY(float radius READ radius WRITE setRadius)
             Q_PROPERTY(bool loop READ isLooping WRITE setLoop)
             Q_PROPERTY(bool autoPlay READ autoPlay WRITE setAutoPlay)
 
@@ -52,12 +53,14 @@ namespace GluonEngine
             virtual void stop();
             virtual void cleanup();
 
-            Q_INVOKABLE bool isLooping();
-            Q_INVOKABLE bool isPlaying();
-            Q_INVOKABLE bool autoPlay();
+            Q_INVOKABLE float radius() const;
+            Q_INVOKABLE bool isLooping() const;
+            Q_INVOKABLE bool isPlaying() const;
+            Q_INVOKABLE bool autoPlay() const;
 
         public slots:
             Q_INVOKABLE void play();
+            Q_INVOKABLE void setRadius(float radius);
             Q_INVOKABLE void setLoop(bool loop);
             Q_INVOKABLE void setSound(Asset *asset);
             Q_INVOKABLE void setAutoPlay(bool autoPlay);
