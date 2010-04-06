@@ -36,12 +36,13 @@ using namespace GluonEngine;
 class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
     public:
-        SoundEmitterComponentPrivate() { asset = 0; sound = 0; buffer = 0; loop = false; autoPlay = false; }
+        SoundEmitterComponentPrivate() { radius = 10000.0f; asset = 0; sound = 0; buffer = 0; loop = false; autoPlay = false; }
         
         Asset *asset;
         
         GluonAudio::Sound *sound;
         GluonAudio::Buffer *buffer;
+        float radius;
         bool loop;
         bool autoPlay;
 };
@@ -118,6 +119,7 @@ SoundEmitterComponent::start()
     
     d->sound->load(d->buffer);
     d->sound->setPosition(gameObject()->position());
+    d->sound->setRadius(d->radius);
     
     if(d->loop)
     {
@@ -158,13 +160,15 @@ SoundEmitterComponent::cleanup()
 float
 SoundEmitterComponent::radius() const
 {
-    d->sound->radius();
+    return d->radius;
 }
 
 void
 SoundEmitterComponent::setRadius(float radius)
 {
-    d->sound->setRadius(radius);
+    if(d->sound)
+        d->sound->setRadius(radius);
+    d->radius = radius;
 }
 
 bool
