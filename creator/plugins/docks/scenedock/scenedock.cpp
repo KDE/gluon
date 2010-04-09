@@ -58,7 +58,9 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     setWidget(d->view);
 
     d->model->setRootGameObject(GluonEngine::Game::instance()->currentScene()->sceneContents());
+    
     connect(GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)));
+    connect(GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()));
 
     d->view->setModel(d->model);
     d->view->setDragEnabled(true);
