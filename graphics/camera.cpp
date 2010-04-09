@@ -26,53 +26,81 @@
 
 #include <glew.h>
 
-
-
 using namespace GluonGraphics;
 
-Camera::Camera()
+class Camera::CameraPrivate
 {
-    mFoV = 45.0f;
-    mAspect = 1.0f;
-    mDepthNear = -1000.0f;
-    mDepthFar = 1000.0f;
-    mPosition = QVector3D(0, 0, 100);
-    mLookAt = QVector3D(0, 0, -1);
-    mUp = QVector3D(0, 1, 0);
-    mModelviewMatrixDirty = true;
-    mProjectionMatrixDirty = true;
+    public:
+        CameraPrivate()
+            : fieldOfView(90),
+            aspectRatio(1.0f),
+            nearPlane(0.0f),
+            farPlane(100.0f),
+            modelViewMatrixDirty(true),
+            projectionMatrixDirty(true)
+        { }
+        QVector3D position;
+        
+        float fieldOfView;
+        float aspectRatio;
+        float nearPlane;
+        float farPlane;
+        
+        QMatrix4x4 modelViewMatrix;
+        bool modelViewMatrixDirty;
+        QMatrix4x4 projectionMatrix;
+        bool projectionMatrixDirty;
+        
+        int viewport[4];
+};
+
+Camera::Camera()
+    : d(new CameraPrivate)
+{
+    
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::setFoV(float fov)
+void Camera::setFieldOfView(float fov)
 {
-    mFoV = fov;
-    mProjectionMatrixDirty = true;
+    d->fieldOfView = fov;
+    d->projectionMatrixDirty = true;
 }
 
-void Camera::setAspect(float aspect)
+void Camera::setAspectRatio(float aspect)
 {
-    mAspect = aspect;
-    mProjectionMatrixDirty = true;
+    d->aspectRatio = aspect;
+    d->projectionMatrixDirty = true;
 }
 
 void Camera::setDepthRange(float near, float far)
 {
-    mDepthNear = near;
-    mDepthFar = far;
-    mProjectionMatrixDirty = true;
+    d->nearPlane = near;
+    d->farPlane = far;
+    d->projectionMatrixDirty = true;
 }
 
 void Camera::setPosition(const QVector3D& pos)
 {
-    mPosition = pos;
-    mModelviewMatrixDirty = true;
+    d->position = pos;
+    d->modelViewMatrixDirty = true;
 }
 
-void Camera::setLookAt(const QVector3D& lookat)
+void Camera::setPosition(float x, float y, float z)
+{
+    setPosition(QVector3D(x, y, z));
+}
+
+QVector3D Camera::position() const
+{
+    return d->position;
+}
+
+
+/*void Camera::setLookAt(const QVector3D& lookat)
 {
     mLookAt = lookat;
     mModelviewMatrixDirty = true;
@@ -87,27 +115,26 @@ void Camera::setUp(const QVector3D& up)
 void Camera::setDirection(const QVector3D& dir)
 {
     setLookAt(mPosition + dir);
-}
+}*/
 
 void Camera::setViewport(int x, int y, int width, int height)
 {
-    mViewport[0] = x;
-    mViewport[1] = y;
-    mViewport[2] = width;
-    mViewport[3] = height;
+    d->viewport[0] = x;
+    d->viewport[1] = y;
+    d->viewport[2] = width;
+    d->viewport[3] = height;
 }
 
 void Camera::applyPerspective()
 {
-    if (mProjectionMatrixDirty)
+    if (d->projectionMatrixDirty)
     {
         recalculateProjectionMatrix();
     }
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glMultMatrixd((GLdouble*)(mProjectionMatrix.data()));
-    //glOrtho(, 5, -5, 5, mDepthNear, mDepthFar);
+    glMultMatrixd((GLdouble*)(d->projectionMatrix.data()));
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -116,18 +143,18 @@ void Camera::applyOrtho()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    float left = mViewport[0] / 10.0f - mViewport[2] / 20.0f;
-    float right = (mViewport[0] + mViewport[2]) / 20.0f;
-    float top = mViewport[1] / 10.0f - mViewport[3] / 20.0f;
-    float bottom = (mViewport[1] + mViewport[3]) / 20.0f;
+    float left = d->viewport[0] / 10.0f - d->viewport[2] / 20.0f;
+    float right = (d->viewport[0] + d->viewport[2]) / 20.0f;
+    float top = d->viewport[1] / 10.0f - d->viewport[3] / 20.0f;
+    float bottom = (d->viewport[1] + d->viewport[3]) / 20.0f;
 
-    glOrtho(left, right, top, bottom, mDepthNear, mDepthFar);
+    glOrtho(left, right, top, bottom, d->nearPlane, d->farPlane);
     glMatrixMode(GL_MODELVIEW);
 }
 
 void Camera::applyView(bool reset)
 {
-    if (mModelviewMatrixDirty)
+    if (d->modelViewMatrixDirty)
     {
         recalculateModelviewMatrix();
     }
@@ -136,55 +163,56 @@ void Camera::applyView(bool reset)
     {
         glLoadIdentity();
     }
-    glMultMatrixd((GLdouble*)(mModelviewMatrix.data()));
+    glMultMatrixd((GLdouble*)(d->modelViewMatrix.data()));
 }
 
 void Camera::applyViewport()
 {
-    glViewport(mViewport[0], mViewport[1], mViewport[2], mViewport[3]);
+    glViewport(d->viewport[0], d->viewport[1], d->viewport[2], d->viewport[3]);
 }
 
 void Camera::recalculateModelviewMatrix()
 {
     // Code from Mesa project, src/glu/sgi/libutil/project.c
-    mModelviewMatrixDirty = false;
-    QVector3D forward = mLookAt.normalized();
+    d->modelViewMatrixDirty = false;
+    /*QVector3D forward = mLookAt.normalized();
     QVector3D side = -QVector3D::crossProduct(forward, mUp).normalized();
-    QVector3D up = QVector3D::crossProduct(side, forward);
+    QVector3D up = QVector3D::crossProduct(side, forward);*/
+    QVector3D forward(0.0f, 0.0f, 1.0f);
+    QVector3D side(1.0f, 0.0f, 0.0f);
+    QVector3D up(0.0f, 1.0f, 0.0f);
 
-    mModelviewMatrix.setToIdentity();
-    mModelviewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
-    mModelviewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
-    mModelviewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
-    mModelviewMatrix.translate(mPosition);
+    d->modelViewMatrix.setToIdentity();
+    d->modelViewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
+    d->modelViewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
+    d->modelViewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
+    d->modelViewMatrix.translate(d->position);
 }
 
 void Camera::recalculateProjectionMatrix()
 {
     // Code from Mesa project, src/glu/sgi/libutil/project.c
-    mProjectionMatrixDirty = false;
-    mProjectionMatrix.setToIdentity();
+    d->projectionMatrixDirty = false;
+    d->projectionMatrix.setToIdentity();
 
-    float radians = mFoV / 2 * M_PI / 180;
+    float radians = d->fieldOfView / 2 * M_PI / 180;
 
-    float deltaZ = mDepthFar - mDepthNear;
+    float deltaZ = d->farPlane - d->nearPlane;
 //    float sine = Eigen::ei_sin(radians);
     float sine = sin(radians);
-    if ((deltaZ == 0) || (sine == 0) || (mAspect == 0))
+    if ((deltaZ == 0) || (sine == 0) || (d->aspectRatio == 0))
     {
         return;
     }
 //    float cotangent = Eigen::ei_cos(radians) / sine;
     float cotangent = cos(radians) / sine;
 
-
-
-    mProjectionMatrix(0, 0) = cotangent / mAspect;
-    mProjectionMatrix(1, 1) = cotangent;
-    mProjectionMatrix(2, 2) = -(mDepthFar + mDepthNear) / deltaZ;
-    mProjectionMatrix(3, 2) = -1;
-    mProjectionMatrix(2, 3) = -2 * mDepthNear * mDepthFar / deltaZ;
-    mProjectionMatrix(3, 3) = 0;
+    d->projectionMatrix(0, 0) = cotangent / d->aspectRatio;
+    d->projectionMatrix(1, 1) = cotangent;
+    d->projectionMatrix(2, 2) = -(d->farPlane + d->nearPlane) / deltaZ;
+    d->projectionMatrix(3, 2) = -1;
+    d->projectionMatrix(2, 3) = -2 * d->nearPlane * d->farPlane / deltaZ;
+    d->projectionMatrix(3, 3) = 0;
 
     //glO
     //mProjectionMatrix.
@@ -192,32 +220,32 @@ void Camera::recalculateProjectionMatrix()
 
 void Camera::setModelviewMatrix(const QMatrix4x4& modelview)
 {
-    mModelviewMatrix = modelview;
-    mModelviewMatrixDirty = false;
+    d->modelViewMatrix = modelview;
+    d->modelViewMatrixDirty = false;
 }
 
 void Camera::setProjectionMatrix(const QMatrix4x4& projection)
 {
-    mProjectionMatrix = projection;
-    mProjectionMatrixDirty = false;
+    d->projectionMatrix = projection;
+    d->projectionMatrixDirty = false;
 }
 
 QMatrix4x4 Camera::modelviewMatrix() const
 {
-    if (mModelviewMatrixDirty)
+    if (d->modelViewMatrixDirty)
     {
         const_cast<Camera*>(this)->recalculateModelviewMatrix();
     }
-    return mModelviewMatrix;
+    return d->modelViewMatrix;
 }
 
 QMatrix4x4 Camera::projectionMatrix() const
 {
-    if (mProjectionMatrixDirty)
+    if (d->projectionMatrixDirty)
     {
         const_cast<Camera*>(this)->recalculateProjectionMatrix();
     }
-    return mProjectionMatrix;
+    return d->projectionMatrix;
 }
 
 QVector3D Camera::project(const QVector3D& v, bool* ok) const

@@ -73,18 +73,7 @@ namespace GluonGraphics
             Camera();
             virtual ~Camera();
 
-            QVector3D position() const
-            {
-                return mPosition;
-            }
-            QVector3D lookAt() const
-            {
-                return mLookAt;
-            }
-            QVector3D up() const
-            {
-                return mUp;
-            }
+            QVector3D position() const;
 
             /**
             * @return current modelview matrix.
@@ -146,12 +135,12 @@ namespace GluonGraphics
             /**
              * Sets the vertical field-of-view angle in degrees to @p fov.
              **/
-            void setFoV(float fov);
+            void setFieldOfView(float fov);
             /**
              * Sets the aspect ration to @p aspect.
              * Aspect ratio is usually window's width divided by its height.
              **/
-            void setAspect(float aspect);
+            void setAspectRatio(float aspect);
             /**
              * Sets the depth buffer's range.
              *
@@ -169,38 +158,36 @@ namespace GluonGraphics
              * Sets the camera's positionto @p pos.
              **/
             void setPosition(const QVector3D& pos);
-            void setPosition(float x, float y, float z)
-            {
-                setPosition(QVector3D(x, y, z));
-            }
+            void setPosition(float x, float y, float z);
+            
             /**
              * Sets the lookat point to @p lookat.
              * LookAt is the point at which the camera is looking at.
              **/
-            void setLookAt(const QVector3D& lookat);
+            /*void setLookAt(const QVector3D& lookat);
             void setLookAt(float x, float y, float z)
             {
                 setLookAt(QVector3D(x, y, z));
-            }
+            }*/
             /**
              * Sets the up vector to @p up.
              * Up vector is the one pointing upwards in the viewport.
              **/
-            void setUp(const QVector3D& up);
+            /*void setUp(const QVector3D& up);
             void setUp(float x, float y, float z)
             {
                 setUp(QVector3D(x, y, z));
-            }
+            }*/
             /**
              * Sets the viewing direction of the camera to @p dir.
              * This method sets lookat point to @ref position() + dir, thus
              *  you will need to set camera's position before using this method.
              **/
-            void setDirection(const QVector3D& dir);
+            /*void setDirection(const QVector3D& dir);
             void setDirection(float x, float y, float z)
             {
                 setDirection(QVector3D(x, y, z));
-            }
+            }*/
 
             /**
              * Sets the modelview matrix.
@@ -233,17 +220,9 @@ namespace GluonGraphics
             void recalculateModelviewMatrix();
             void recalculateProjectionMatrix();
 
-        protected:
-            QVector3D mPosition;
-            QVector3D mLookAt;
-            QVector3D mUp;
-            float mFoV, mAspect, mDepthNear, mDepthFar;
-
-            QMatrix4x4 mModelviewMatrix;
-            bool mModelviewMatrixDirty;
-            QMatrix4x4 mProjectionMatrix;
-            bool mProjectionMatrixDirty;
-            int mViewport[4];
+        private:
+            class CameraPrivate;
+            CameraPrivate * const d;
     };
 
 }

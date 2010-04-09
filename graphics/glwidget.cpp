@@ -196,7 +196,7 @@ void GLWidget::resizeGL(int width, int height)
     {
 
         camera()->setViewport(0, 0, width, height);
-        camera()->setAspect(width / (float)height);
+        camera()->setAspectRatio(width / (float)height);
         camera()->applyViewport();
         //camera()->applyPerspective();
         camera()->applyOrtho();
