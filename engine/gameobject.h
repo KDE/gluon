@@ -214,7 +214,8 @@ namespace GluonEngine
              */
             void setOrientation(const QQuaternion& newOrientation);
             void orient(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
-
+            void rotate(float angle, const QVector3D &axis, TransformSpace ts = TS_LOCAL);
+            
             void updateTransform();
             void invalidateTransform();
             void removeLater(GluonEngine::GameObject* remove);

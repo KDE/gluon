@@ -100,31 +100,32 @@ GameObject::update(int elapsedMilliseconds)
 {
     if(!d->enabled)
         return;
-
-    const int componentCount = d->components.count();
+    
+    //Remove all objects that were marked to destroy last update
+    const int deleteCount = d->objectsToDelete.count();
     int i = 0;
-    for(i; i < componentCount; ++i)
+
+    for(i = 0; i < deleteCount; ++i)
+    {
+        GameObject* obj = d->objectsToDelete.at(i);
+        removeChild(obj);
+        obj->stop();
+        obj->cleanup();
+        delete obj;        
+    }
+    
+    d->objectsToDelete.clear();
+    
+    //Update all components
+    const int componentCount = d->components.count();
+    for(i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->update(elapsedMilliseconds);
 
+    //Update all children
     const int childCount = d->children.count();
     for(i = 0; i < childCount; ++i)
         d->children.at(i)->update(elapsedMilliseconds);
-    
-    const int deleteCount = d->objectsToDelete.count();
-    if(deleteCount > 0)
-    {
-        for(i = 0; i < deleteCount; ++i)
-        {
-            GameObject* obj = d->objectsToDelete.at(i);
-            removeChild(obj);
-            obj->stop();
-            obj->cleanup();
-            delete obj;        
-        }
-        
-        d->objectsToDelete.clear();
-    }
 }
 
 void
@@ -173,8 +174,6 @@ GameObject::cleanup()
 
 void GameObject::destroy()
 {
-//     DEBUG_FUNC_NAME
-    
     parentGameObject()->removeLater(this);
 }
 
@@ -503,14 +502,18 @@ GameObject::translate(const QVector3D& translation, GameObject::TransformSpace t
 {
     if(ts == TS_LOCAL)
     {
-        setPosition(position() + translation);
+        QVector3D trans = d->orientation.rotatedVector(translation);
+        trans = trans * d->scale;
+        setPosition(position() + trans);
     }
     else
     {
         #ifdef __GNUC__
         #warning This probably needs fixing to account for world scale/orientation
         #endif
-        setPosition((worldPosition() + translation) - position());
+        QVector3D trans = d->worldOrientation.rotatedVector(translation);
+        trans = trans * d->worldScale;
+        setPosition(position() + trans);
     }
 }
 
@@ -596,6 +599,12 @@ void GameObject::orient(QQuaternion rotation, GameObject::TransformSpace ts)
     {
         //setOrientation((worldOrientation() * rotation) / orientation());
     }
+}
+
+void GameObject::rotate(float angle, const QVector3D& axis, GameObject::TransformSpace ts)
+{
+    QQuaternion orientation = QQuaternion::fromAxisAndAngle(axis, angle);
+    orient(orientation, ts);
 }
 
 void GameObject::updateTransform()
