@@ -1,5 +1,5 @@
 { GluonEngine::GameProject(Invaders)
-    filename url(/home/leinir/Documents/Uni/msc/gluon/player/examples/invaders/Invaders.gluon)
+    filename url(/home/ahiemstra/Projects/gluon/player/examples/invaders/Invaders.gluon)
     { GluonEngine::Scene(Menu)
         file url(Scenes/invaders_menu.gdl)
     }
@@ -50,5 +50,14 @@
     }
     { GluonEngine::SoundAsset(quiet-explosion.ogg)
         file url(Assets/invaders_quiet-explosion.ogg)
+    }
+    { GluonEngine::TextureAsset(gameover.png)
+        file url(Assets/invaders_gameover.png)
+    }
+    { GluonEngine::TextureAsset(play.png)
+        file url(Assets/invaders_play.png)
+    }
+    { GluonEngine::TextureAsset(win.png)
+        file url(Assets/invaders_win.png)
     }
 }

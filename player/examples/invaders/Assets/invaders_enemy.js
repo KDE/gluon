@@ -1,6 +1,13 @@
 var xdir = 10;
 var ydir = 5;
 
+var bullet = null;
+var bulletChance = 0.005;
+
+function start() {
+    bullet = Game.getFromScene("Bullet");
+}
+
 function update(time) {
     GameObject.translate(xdir * (time/1000), 0, 0);
     
@@ -15,5 +22,15 @@ function update(time) {
         GameObject.destroy();
         GameObject.BulletCollider.collidesWith().destroy();
         GameObject.Kapow.play();
+        Game.enemies--;
+    }
+    
+    if(Math.random() < bulletChance)
+    {
+        var newBullet = Game.clone(bullet);
+        newBullet.position = GameObject.position;
+        newBullet.enabled = true;
+        newBullet.Collider.collisionGroup = 0;
+        newBullet.rotate(180, new QVector3D(0, 0, 1));
     }
 }

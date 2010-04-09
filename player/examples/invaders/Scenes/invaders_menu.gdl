@@ -1,8 +1,10 @@
 { GluonEngine::GameObject(Menu)
+    enabled bool(true)
     position vector3d(0;0;0)
     scale vector3d(1;1;1)
     orientation quaternion(0;0;0;1)
     { GluonEngine::GameObject(Camera)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -18,10 +20,13 @@
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/The Whip Theme Extended Version.ogg)
+            radius float(10000)
             loop bool(true)
+            autoPlay bool(false)
         }
     }
     { GluonEngine::GameObject(Icon)
+        enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -33,14 +38,15 @@
         }
     }
     { GluonEngine::GameObject(Text)
-        position vector3d(-1.16358;27.5476;1)
+        enabled bool(true)
+        position vector3d(-1.16;27.55;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
-            size size2d(40;6)
+            size size2d(40;5)
             color rgba(152;152;152;255)
-            texture GluonEngine::Asset(Invaders/menu-text.png)
+            texture GluonEngine::Asset(Invaders/play.png)
         }
         { GluonEngine::QtScriptComponent(GluonObject)
             enabled bool(true)

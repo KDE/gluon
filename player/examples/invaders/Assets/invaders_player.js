@@ -1,15 +1,14 @@
-var g_bullet;
+var bullet = null;
 var speed = 30;
+
 function initialize() 
 {
-    g_bullet = Game.getFromScene("Bullet");
-    //Game.setProperty("lives", 5);
+    bullet = Game.getFromScene("Bullet");
 }
 
 function move(time)
 {
-
-var addX = speed*(time/1000);
+    var addX = speed*(time/1000);
 
     if(GameObject.Key_Left.isActionHeld())
     {
@@ -21,7 +20,7 @@ var addX = speed*(time/1000);
         GameObject.translate(-addX, 0, 0);
     }
 
-    if(GameObject.Key_Up.isActionHeld())
+    /*if(GameObject.Key_Up.isActionHeld())
     {
         GameObject.translate(0, addX, 0);
     }
@@ -29,7 +28,7 @@ var addX = speed*(time/1000);
     if(GameObject.Key_Down.isActionHeld())
     {
         GameObject.translate(0, -addX, 0);
-    }
+    }*/
 
     var pos = GameObject.position;
     if(pos.x() < -30) 
@@ -40,13 +39,17 @@ var addX = speed*(time/1000);
     {
         GameObject.setPosition(30, pos.y(), pos.z());
     }
-    if(pos.y() > 30)
+    /*if(pos.y() > 30)
     {
         GameObject.setPosition(pos.x(), 30, pos.z());
     }
     if(pos.y() < -30)
     {
         GameObject.setPosition(pos.x(), -30, pos.z());
+    }*/
+    if(pos.y() > 30)
+    {
+        GameObject.translate(0, -5 * (time/1000), 0);
     }
 }
 
@@ -57,14 +60,20 @@ function update(time)
     if(GameObject.Collider.isColliding())
     {
         GameObject.SpriteRenderer.setColor(new QColor(255, 0, 0));
-        Game.getFromScene("Background").translate(0.0, 1.0, 0.0);
+        
         GameObject.Collider.collidesWith().destroy();
         
-        //Game.setProperty("lives", Game.property("lives") - 1);
-        /*if(Game.property("lives") <= 0)
+        Game.enemies--;
+        Game.lives--;
+        GameObject.Kapow.play();
+        GameObject.destroy();
+        
+        if(Game.lives > 0)
         {
-            GameObject.destroy();
-        }*/
+            var player = Game.clone(Game.getFromScene("Player"));
+            player.setPosition(0, 50, 1);
+            player.enabled = true;
+        }
     }
     else
     {
@@ -73,9 +82,9 @@ function update(time)
     
     if(GameObject.Key_Fire.isActionStarted())
     {
-        var bullet = Game.clone(g_bullet);
-        bullet.setPosition(GameObject.position);
-        bullet.setEnabled(true);
+        var newBullet = Game.clone(bullet);
+        newBullet.setPosition(GameObject.position);
+        newBullet.setEnabled(true);
     }
 }
 
