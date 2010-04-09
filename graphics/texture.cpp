@@ -78,7 +78,7 @@ namespace GluonGraphics
 
         QImage image = img.convertToFormat(QImage::Format_ARGB32);
 
-        image = image.mirrored(0, 1); // Reverse the picture!Otherwise the texture will be reverse
+        //image = image.mirrored(0, 1); // Reverse the picture!Otherwise the texture will be reverse
 
         if (width <= 0)
             width = image.width();

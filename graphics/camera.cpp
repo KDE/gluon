@@ -183,9 +183,9 @@ void Camera::recalculateModelviewMatrix()
     QVector3D up(0.0f, 1.0f, 0.0f);
 
     d->modelViewMatrix.setToIdentity();
-    d->modelViewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
-    d->modelViewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
-    d->modelViewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
+    //d->modelViewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
+    //d->modelViewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
+    //d->modelViewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
     d->modelViewMatrix.translate(d->position);
 }
 
