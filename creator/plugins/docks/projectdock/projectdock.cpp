@@ -24,6 +24,7 @@
 #include "engine/gameobject.h"
 #include "engine/scene.h"
 #include "models/projectmodel.h"
+#include "engine/gameproject.h"
 
 #include <QtGui/QTreeView>
 #include <QtGui/QMenu>
@@ -32,6 +33,9 @@
 #include <KInputDialog>
 #include <KMessageBox>
 #include <KLocalizedString>
+#include <QFile>
+#include <QFileInfo>
+#include <KRun>
 
 using namespace GluonCreator;
 
@@ -142,6 +146,8 @@ void ProjectDock::activated(QModelIndex index)
     }
 
     GluonEngine::Scene* scene = qobject_cast<GluonEngine::Scene*>(obj);
+    GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>(obj);
+    // Scene's a special asset, so we check for that first
     if (scene)
     {
         if (GluonEngine::Game::instance()->currentScene() != scene)
@@ -149,6 +155,15 @@ void ProjectDock::activated(QModelIndex index)
             GluonEngine::Game::instance()->setCurrentScene(scene);
             GluonEngine::Game::instance()->initializeAll();
             GluonEngine::Game::instance()->drawAll();
+        }
+    }
+    else if(asset)
+    {
+        QString filename = QUrl(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).canonicalPath() + '/' + asset->file().toLocalFile()).toLocalFile();
+        if(QFile::exists(filename))
+        {
+            KRun* runner = new KRun(filename, this);
+            Q_UNUSED(runner);
         }
     }
 }

@@ -36,7 +36,14 @@ using namespace GluonEngine;
 class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
     public:
-        SoundEmitterComponentPrivate() { radius = 10000.0f; asset = 0; sound = 0; buffer = 0; loop = false; autoPlay = false; }
+        SoundEmitterComponentPrivate()
+            : radius(10000.0f)
+            , asset(0)
+            , sound(0)
+            , buffer(0)
+            , loop(false)
+            , autoPlay(false)
+            {}
         
         Asset *asset;
         
