@@ -247,6 +247,8 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
             actionCollection()->action("stopGame")->setEnabled(true);
+            
+            saveProject();
 
             //Set the focus to the entire window, so that we do not accidentally trigger actions
             setFocus();
@@ -261,9 +263,8 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setText(i18n("Play Game"));
             actionCollection()->action("playPauseGame")->setChecked(false);
             actionCollection()->action("stopGame")->setEnabled(false);
-
-            GluonEngine::Game::instance()->initializeAll();
-            GluonEngine::Game::instance()->drawAll();
+            
+            openProject(m_fileName);
         }
     }
     else
