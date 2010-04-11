@@ -70,6 +70,7 @@ install(
     gluonobjectprivate.h
     singleton.h
     gluon_core_export.h
+	gluonvarianttypes.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
     COMPONENT Devel
 )
