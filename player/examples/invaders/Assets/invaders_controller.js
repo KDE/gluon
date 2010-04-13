@@ -1,3 +1,5 @@
+var paused = false;
+
 function start()
 {
     Game.enemies = 28;
@@ -22,17 +24,16 @@ function start()
 
 function update(time)
 {
-    if(Game.lives <= 0)
-    {
-        //Game over
-        Game.getFromScene("GameOver").setPosition(0, 0, 10);
-        Game.setPause(true);
-    }
-    
-    if(Game.enemies <= 0)
+    if(Game.enemies < 0)
     {
         //Win
         Game.getFromScene("GameWon").setPosition(0, 0, 10);
-        Game.setPause(true);
+        paused = true;
+    }
+    else if(Game.lives <= 0)
+    {
+        //Game over
+        Game.getFromScene("GameOver").setPosition(0, 0, 10);
+        paused = true;
     }
 }

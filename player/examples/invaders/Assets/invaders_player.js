@@ -1,8 +1,10 @@
+var controller = null;
 var bullet = null;
 var speed = 30;
 
 function initialize() 
 {
+	controller = Game.getFromScene("Background").ControllerScript;
     bullet = Game.getFromScene("Bullet");
 }
 
@@ -55,6 +57,9 @@ function move(time)
 
 function update(time) 
 {
+	if(controller.paused)
+		return;
+	
     move(time);
     
     if(GameObject.Collider.isColliding())

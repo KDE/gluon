@@ -1,14 +1,20 @@
 var xdir = 10;
 var ydir = 5;
 
+var controller = null;
 var bullet = null;
 var bulletChance = 0.005;
+var alive = true;
 
 function start() {
+	controller = Game.getFromScene("Background").ControllerScript;
     bullet = Game.getFromScene("Bullet");
 }
 
 function update(time) {
+	if(controller.paused)
+		return;
+
     GameObject.translate(xdir * (time/1000), 0, 0);
     
     var position = GameObject.position;
@@ -19,6 +25,7 @@ function update(time) {
     
     if(GameObject.BulletCollider.isColliding())
     {
+		alive = false;
         GameObject.destroy();
         GameObject.BulletCollider.collidesWith().destroy();
         GameObject.Kapow.play();
