@@ -15,11 +15,12 @@ function start() {
 }
 
 function update(time) {
-	if(controller.paused)
-		return;
 
 	if(alive)
 	{
+		if(controller.paused)
+			return;
+		
 		GameObject.translate(xdir * (time/1000), 0, 0);
 		
 		var position = GameObject.position;
