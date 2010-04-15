@@ -21,3 +21,10 @@ install(
     DESTINATION
     ${LIB_INSTALL_DIR}/gluon
 )
+
+install(
+    FILES
+    scriptasset.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
+    COMPONENT Devel
+)
