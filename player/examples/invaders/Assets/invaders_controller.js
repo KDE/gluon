@@ -1,4 +1,7 @@
-var paused = false;
+function initialize()
+{
+	Component.paused = false;
+}
 
 function start()
 {
@@ -28,12 +31,12 @@ function update(time)
     {
         //Win
         Game.getFromScene("GameWon").setPosition(0, 0, 10);
-        paused = true;
+        Component.paused = true;
     }
     else if(Game.lives <= 0)
     {
         //Game over
         Game.getFromScene("GameOver").setPosition(0, 0, 10);
-        paused = true;
+        Component.paused = true;
     }
 }
