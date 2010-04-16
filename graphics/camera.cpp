@@ -129,9 +129,6 @@ void Camera::setViewport(int x, int y, int width, int height)
         actualHeight = visibleHeight;
         actualWidth = visibleHeight * d->aspectRatio;
         widthDiff = visibleWidth - actualWidth;
-        
-        DEBUG_BLOCK
-        DEBUG_TEXT(QString("Actual Width: %1, Aspect: %2").arg(actualWidth).arg(d->aspectRatio));
     }
     else
     {
