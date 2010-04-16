@@ -26,6 +26,8 @@
 
 #include <glew.h>
 
+#include <core/debughelper.h>
+
 using namespace GluonGraphics;
 
 class Camera::CameraPrivate
@@ -49,8 +51,11 @@ class Camera::CameraPrivate
         QMatrix4x4 modelViewMatrix;
         bool modelViewMatrixDirty;
         
-        int viewport[4];
+        QRect viewport;
+        float viewportAspect;
         QSizeF visibleArea;
+        
+        QRectF clippingArea;
 };
 
 Camera::Camera()
@@ -109,15 +114,42 @@ void Camera::setOrientation(const QQuaternion& orient)
 
 void Camera::setViewport(int x, int y, int width, int height)
 {
-    d->viewport[0] = x;
-    d->viewport[1] = y;
-    d->viewport[2] = width;
-    d->viewport[3] = height;
+    d->viewport.setRect(x, y, width, height);
+    d->viewportAspect = width/float(height);
+    
+    float visibleWidth = float(width);
+    float actualWidth = 0;
+    float visibleHeight = float(height);
+    float actualHeight = 0;
+    float widthDiff = 0;
+    float heightDiff = 0;
+    
+    if(d->viewportAspect > 1)
+    {
+        actualHeight = visibleHeight;
+        actualWidth = visibleHeight * d->aspectRatio;
+        widthDiff = visibleWidth - actualWidth;
+        
+        DEBUG_BLOCK
+        DEBUG_TEXT(QString("Actual Width: %1, Aspect: %2").arg(actualWidth).arg(d->aspectRatio));
+    }
+    else
+    {
+        actualWidth = visibleWidth;
+        actualHeight = visibleWidth * (d->visibleArea.height() / d->visibleArea.width());
+        heightDiff = visibleHeight - actualHeight;
+    }
+    
+    d->clippingArea.setX(widthDiff/2);
+    d->clippingArea.setWidth(actualWidth);
+    d->clippingArea.setY(heightDiff/2);
+    d->clippingArea.setHeight(actualHeight);
 }
 
 void Camera::setVisibleArea(const QSizeF& area)
 {
     d->visibleArea = area;
+    d->aspectRatio = area.width() / area.height();
     
     applyOrtho();
 }
@@ -126,8 +158,21 @@ void Camera::applyOrtho()
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
- 
-    glOrtho(-(d->visibleArea.width()/2), d->visibleArea.width()/2, -(d->visibleArea.height()/2), d->visibleArea.height()/2, d->nearPlane, d->farPlane);
+    
+    float visibleWidth = d->visibleArea.width();
+    float visibleHeight = d->visibleArea.height();
+    
+    if(d->viewportAspect > 1)
+    {
+        visibleWidth = visibleWidth * d->viewportAspect;
+    }
+    else
+    {
+        visibleHeight = visibleHeight * (d->viewport.height()/float(d->viewport.width()));
+    }
+    
+    glOrtho(-(visibleWidth/2), visibleWidth/2, -(visibleHeight/2), visibleHeight/2, d->nearPlane, d->farPlane);
+    
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -138,13 +183,15 @@ void Camera::applyView(bool reset)
         recalculateModelviewMatrix();
     }
     
+    glScissor(d->clippingArea.x(), d->clippingArea.y(), d->clippingArea.width(), d->clippingArea.height());
+    
     glMatrixMode(GL_MODELVIEW);
     glMultMatrixd((GLdouble*)d->modelViewMatrix.data());
 }
 
 void Camera::applyViewport()
 {
-    glViewport(d->viewport[0], d->viewport[1], d->viewport[2], d->viewport[3]);
+    glViewport(d->viewport.x(), d->viewport.y(), d->viewport.width(), d->viewport.height());
 }
 
 void Camera::recalculateModelviewMatrix()

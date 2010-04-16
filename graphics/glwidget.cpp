@@ -161,6 +161,7 @@ void GLWidget::initializeGL()
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+    glEnable(GL_SCISSOR_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -179,6 +180,8 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::paintGL()
 {
+    glScissor(0, 0, m_viewportWidth, m_viewportHeight);
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
