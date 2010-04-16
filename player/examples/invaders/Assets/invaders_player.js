@@ -16,23 +16,13 @@ function move(time)
 
     if(GameObject.Key_Left.isActionHeld())
     {
-        GameObject.translate(addX, 0, 0);
+        GameObject.translate(-addX, 0, 0);
     }
 
     if(GameObject.Key_Right.isActionHeld())
     {
-        GameObject.translate(-addX, 0, 0);
+        GameObject.translate(addX, 0, 0);
     }
-
-    /*if(GameObject.Key_Up.isActionHeld())
-    {
-        GameObject.translate(0, addX, 0);
-    }
-
-    if(GameObject.Key_Down.isActionHeld())
-    {
-        GameObject.translate(0, -addX, 0);
-    }*/
 
     var pos = GameObject.position;
     if(pos.x() < -30) 
@@ -43,14 +33,7 @@ function move(time)
     {
         GameObject.setPosition(30, pos.y(), pos.z());
     }
-    /*if(pos.y() > 30)
-    {
-        GameObject.setPosition(pos.x(), 30, pos.z());
-    }
-    if(pos.y() < -30)
-    {
-        GameObject.setPosition(pos.x(), -30, pos.z());
-    }*/
+
     if(pos.y() < -30)
     {
         GameObject.translate(0, 5 * (time/1000), 0);
@@ -88,7 +71,7 @@ function update(time)
 			if(Game.lives > 0)
 			{
 				var player = Game.clone(Game.getFromScene("Player"));
-				player.setPosition(0, 50, 1);
+				player.setPosition(0, -50, 1);
 				player.enabled = true;
 			}
 		}
