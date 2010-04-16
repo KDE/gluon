@@ -47,9 +47,9 @@ function move(time)
     {
         GameObject.setPosition(pos.x(), -30, pos.z());
     }*/
-    if(pos.y() > 30)
+    if(pos.y() < -30)
     {
-        GameObject.translate(0, -5 * (time/1000), 0);
+        GameObject.translate(0, 5 * (time/1000), 0);
     }
 }
 
@@ -71,7 +71,7 @@ function update(time)
         if(Game.lives > 0)
         {
             var player = Game.clone(Game.getFromScene("Player"));
-            player.setPosition(0, 50, 1);
+            player.setPosition(0, -50, 1);
             player.enabled = true;
         }
     }

@@ -23,6 +23,7 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
+class QSizeF;
 namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT CameraControllerComponent : public Component
@@ -30,6 +31,9 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::CameraControllerComponent)
             Q_PROPERTY(bool active READ isActive WRITE setActive)
+            Q_PROPERTY(QSizeF visibleArea READ visibleArea WRITE setVisibleArea)
+            Q_PROPERTY(float nearPlane READ nearPlane WRITE setNearPlane)
+            Q_PROPERTY(float farPlane READ farPlane WRITE setFarPlane)
             Q_INTERFACES(GluonEngine::Component)
 
         public:
@@ -43,9 +47,15 @@ namespace GluonEngine
             virtual void cleanup();
 
             virtual bool isActive();
-
+            virtual QSizeF visibleArea();
+            virtual float nearPlane();
+            virtual float farPlane();
+            
         public slots:
             virtual void setActive(bool active);
+            virtual void setVisibleArea(const QSizeF &area);
+            virtual void setNearPlane(float near);
+            virtual void setFarPlane(float far);
 
         private:
             class CameraControllerComponentPrivate;

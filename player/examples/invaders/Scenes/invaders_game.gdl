@@ -5,12 +5,15 @@
     orientation quaternion(0;0;0;1)
     { GluonEngine::GameObject(Camera)
         enabled bool(true)
-        position vector3d(0;0;0)
+        position vector3d(0;0;50)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::CameraControllerComponent(GluonObject)
             enabled bool(true)
             active bool(true)
+            visibleArea size2d(90;90)
+            nearPlane float(1)
+            farPlane float(99.99)
         }
         { GluonEngine::SoundListenerComponent(GluonObject 1)
             enabled bool(true)
@@ -20,7 +23,7 @@
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/Harmful or Fatal.ogg)
-            radius float(10000)
+            radius float(99.99)
             loop bool(true)
             autoPlay bool(false)
         }
@@ -43,7 +46,7 @@
     }
     { GluonEngine::GameObject(Player)
         enabled bool(false)
-        position vector3d(23.2;30;1)
+        position vector3d(1000;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
@@ -54,7 +57,7 @@
         }
         { GluonEngine::GameObject(Reflection)
             enabled bool(true)
-            position vector3d(0;12;0)
+            position vector3d(0;-12;0)
             scale vector3d(1;1;1)
             orientation quaternion(0;0;0;1)
             { GluonEngine::SpriteRendererComponent(GluonObject)

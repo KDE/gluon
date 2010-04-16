@@ -34,11 +34,17 @@ class CameraControllerComponent::CameraControllerComponentPrivate
         CameraControllerComponentPrivate()
         {
             camera = 0;
-            active = false;
+            active = true;
+            visibleArea = QSizeF(100.0f, 100.0f);
+            nearPlane = 1.0f;
+            farPlane = 100.0f;
         }
 
         GluonGraphics::Camera *camera;
         bool active;
+        QSizeF visibleArea;
+        float nearPlane;
+        float farPlane;
 
         static GluonGraphics::Camera *activeCamera;
 };
@@ -67,23 +73,27 @@ void CameraControllerComponent::initialize()
 {
     if (!d->camera)
         d->camera = new GluonGraphics::Camera();
+    
+    if (d->active)
+    {
+        GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
+    }
+    
+    d->camera->setVisibleArea(d->visibleArea);
+    d->camera->setDepthRange(d->nearPlane, d->farPlane);
 }
 
 void CameraControllerComponent::start()
 {
-    if (d->active)
-        GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
+    
 }
 
 void CameraControllerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
-
-    #ifdef __GNUC__
-    #warning TODO: Set rotation/fov/all that crap
-    #endif
+    
     if (d->camera)
-        d->camera->setPosition(gameObject()->position());
+        d->camera->setModelviewMatrix(gameObject()->transform().inverted());
 }
 
 void CameraControllerComponent::cleanup()
@@ -108,6 +118,45 @@ void CameraControllerComponent::setActive(bool active)
         CameraControllerComponentPrivate::activeCamera = d->camera;
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }
+}
+
+void CameraControllerComponent::setVisibleArea(const QSizeF& area)
+{
+    d->visibleArea = area;
+    
+    if(d->camera)
+        d->camera->setVisibleArea(d->visibleArea);
+}
+
+QSizeF CameraControllerComponent::visibleArea()
+{
+    return d->visibleArea;
+}
+
+float CameraControllerComponent::nearPlane()
+{
+    return d->nearPlane;
+}
+
+float CameraControllerComponent::farPlane()
+{
+    return d->farPlane;
+}
+
+void CameraControllerComponent::setNearPlane(float near)
+{
+    d->nearPlane = near;
+    
+    if(d->camera)
+        d->camera->setDepthRange(d->nearPlane, d->farPlane);
+}
+
+void CameraControllerComponent::setFarPlane(float far)
+{
+    d->farPlane = far;
+    
+    if(d->camera)
+        d->camera->setDepthRange(d->nearPlane, d->farPlane);
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_cameracontroller, GluonEngine::CameraControllerComponent);

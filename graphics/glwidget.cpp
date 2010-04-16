@@ -148,70 +148,39 @@ GluonGraphics::TextRenderer* GLWidget::textRenderer() const
 
 void GLWidget::initializeGL()
 {
-
     mGLInitialized = true;
 
-    // Create camera and fps counter
     mCamera = Engine::instance()->activeCamera();
     connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
 
-    //connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)), SLOT(setCamera(GluonGraphics::Camera*)));
-
     mFpsCounter = new GluonGraphics::FPSCounter;
-
     // Set some defaults
     // TODO: make sure we're in RGBA mode
     setClearColor(mClearColor);
+    
     glShadeModel(GL_SMOOTH);
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glMatrixMode(GL_PROJECTION);
-    //glDisable(GL_DEPTH_TEST);
-
-
-
-    // Enable depth testing if we have depth
-//     if (context()->format().depth()) {
-//         glEnable(GL_DEPTH_TEST);
-//     }
-
-    // Set up camera
-    //camera()->setPosition(QVector3D(0, 0, 20));
-    //camera()->setLookAt(QVector3D(0, 0, 1));
-    //camera()->setUp(QVector3D(0, 1, 0));
-    //camera()->setDepthRange(1, 100);
-
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
-    makeCurrent();
-
     m_viewportWidth = width;
     m_viewportHeight = height;
 
     if (mCamera)
     {
-
         camera()->setViewport(0, 0, width, height);
-        camera()->setAspectRatio(width / (float)height);
         camera()->applyViewport();
-        //camera()->applyPerspective();
         camera()->applyOrtho();
     }
 }
 
 void GLWidget::paintGL()
 {
-    makeCurrent();
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glLoadIdentity();
-
-    QGLWidget::paintGL();
 
     // If error text has been set then show it and return
     if (!mErrorText.isNull())
@@ -239,8 +208,10 @@ void GLWidget::paintGL()
     }
 
     // Apply camera
-    if (mCamera)
+    if (mCamera) 
+    {
         mCamera->applyView();
+    }
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     if (mWireframeMode)
@@ -259,18 +230,6 @@ void GLWidget::paintGL()
         textRenderer()->end();
     }
 }
-
-void GLWidget::drawItems()
-{
-    ItemList items = Engine::instance()->items();
-    foreach(Item *it, items)
-    {
-        it->paintGL();
-    }
-}
-
-
-
 
 void GLWidget::render()
 {

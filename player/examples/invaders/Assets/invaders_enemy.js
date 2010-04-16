@@ -1,5 +1,5 @@
 var xdir = 10;
-var ydir = 5;
+var ydir = -5;
 
 var bullet = null;
 var bulletChance = 0.005;

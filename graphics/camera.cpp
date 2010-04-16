@@ -32,26 +32,25 @@ class Camera::CameraPrivate
 {
     public:
         CameraPrivate()
-            : fieldOfView(90),
+            : visibleArea(100.0f, 100.0f),
             aspectRatio(1.0f),
-            nearPlane(0.0f),
+            nearPlane(1.0f),
             farPlane(100.0f),
-            modelViewMatrixDirty(true),
-            projectionMatrixDirty(true)
+            modelViewMatrixDirty(true)
         { }
-        QVector3D position;
         
-        float fieldOfView;
+        QVector3D position;
+        QQuaternion orientation;
+        
         float aspectRatio;
         float nearPlane;
         float farPlane;
         
         QMatrix4x4 modelViewMatrix;
         bool modelViewMatrixDirty;
-        QMatrix4x4 projectionMatrix;
-        bool projectionMatrixDirty;
         
         int viewport[4];
+        QSizeF visibleArea;
 };
 
 Camera::Camera()
@@ -62,25 +61,20 @@ Camera::Camera()
 
 Camera::~Camera()
 {
-}
-
-void Camera::setFieldOfView(float fov)
-{
-    d->fieldOfView = fov;
-    d->projectionMatrixDirty = true;
+    delete d;
 }
 
 void Camera::setAspectRatio(float aspect)
 {
     d->aspectRatio = aspect;
-    d->projectionMatrixDirty = true;
 }
 
 void Camera::setDepthRange(float near, float far)
 {
     d->nearPlane = near;
     d->farPlane = far;
-    d->projectionMatrixDirty = true;
+    
+    applyOrtho();
 }
 
 void Camera::setPosition(const QVector3D& pos)
@@ -92,6 +86,8 @@ void Camera::setPosition(const QVector3D& pos)
 void Camera::setPosition(float x, float y, float z)
 {
     setPosition(QVector3D(x, y, z));
+    
+    recalculateModelviewMatrix();
 }
 
 QVector3D Camera::position() const
@@ -99,23 +95,17 @@ QVector3D Camera::position() const
     return d->position;
 }
 
-
-/*void Camera::setLookAt(const QVector3D& lookat)
+QQuaternion Camera::orientation() const
 {
-    mLookAt = lookat;
-    mModelviewMatrixDirty = true;
+    return d->orientation;
 }
 
-void Camera::setUp(const QVector3D& up)
+void Camera::setOrientation(const QQuaternion& orient)
 {
-    mUp = up;
-    mModelviewMatrixDirty = true;
+    d->orientation = orient;
+    recalculateModelviewMatrix();
 }
 
-void Camera::setDirection(const QVector3D& dir)
-{
-    setLookAt(mPosition + dir);
-}*/
 
 void Camera::setViewport(int x, int y, int width, int height)
 {
@@ -125,30 +115,19 @@ void Camera::setViewport(int x, int y, int width, int height)
     d->viewport[3] = height;
 }
 
-void Camera::applyPerspective()
+void Camera::setVisibleArea(const QSizeF& area)
 {
-    if (d->projectionMatrixDirty)
-    {
-        recalculateProjectionMatrix();
-    }
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMultMatrixd((GLdouble*)(d->projectionMatrix.data()));
-    glMatrixMode(GL_MODELVIEW);
+    d->visibleArea = area;
+    
+    applyOrtho();
 }
 
 void Camera::applyOrtho()
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
-    float left = d->viewport[0] / 10.0f - d->viewport[2] / 20.0f;
-    float right = (d->viewport[0] + d->viewport[2]) / 20.0f;
-    float top = d->viewport[1] / 10.0f - d->viewport[3] / 20.0f;
-    float bottom = (d->viewport[1] + d->viewport[3]) / 20.0f;
-
-    glOrtho(left, right, top, bottom, d->nearPlane, d->farPlane);
+ 
+    glOrtho(-(d->visibleArea.width()/2), d->visibleArea.width()/2, -(d->visibleArea.height()/2), d->visibleArea.height()/2, d->nearPlane, d->farPlane);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -158,12 +137,9 @@ void Camera::applyView(bool reset)
     {
         recalculateModelviewMatrix();
     }
-
-    if (reset)
-    {
-        glLoadIdentity();
-    }
-    glMultMatrixd((GLdouble*)(d->modelViewMatrix.data()));
+    
+    glMatrixMode(GL_MODELVIEW);
+    glMultMatrixd((GLdouble*)d->modelViewMatrix.data());
 }
 
 void Camera::applyViewport()
@@ -173,49 +149,12 @@ void Camera::applyViewport()
 
 void Camera::recalculateModelviewMatrix()
 {
-    // Code from Mesa project, src/glu/sgi/libutil/project.c
     d->modelViewMatrixDirty = false;
-    /*QVector3D forward = mLookAt.normalized();
-    QVector3D side = -QVector3D::crossProduct(forward, mUp).normalized();
-    QVector3D up = QVector3D::crossProduct(side, forward);*/
-    QVector3D forward(0.0f, 0.0f, 1.0f);
-    QVector3D side(1.0f, 0.0f, 0.0f);
-    QVector3D up(0.0f, 1.0f, 0.0f);
 
     d->modelViewMatrix.setToIdentity();
-    //d->modelViewMatrix.setColumn(0, QVector4D(side.x(), side.y(), side.z(), 0));
-    //d->modelViewMatrix.setColumn(1, QVector4D(up.x(), up.y(), up.z(), 0));
-    //d->modelViewMatrix.setColumn(2, QVector4D(-forward.x(), -forward.y(), -forward.z(), 0));
     d->modelViewMatrix.translate(d->position);
-}
-
-void Camera::recalculateProjectionMatrix()
-{
-    // Code from Mesa project, src/glu/sgi/libutil/project.c
-    d->projectionMatrixDirty = false;
-    d->projectionMatrix.setToIdentity();
-
-    float radians = d->fieldOfView / 2 * M_PI / 180;
-
-    float deltaZ = d->farPlane - d->nearPlane;
-//    float sine = Eigen::ei_sin(radians);
-    float sine = sin(radians);
-    if ((deltaZ == 0) || (sine == 0) || (d->aspectRatio == 0))
-    {
-        return;
-    }
-//    float cotangent = Eigen::ei_cos(radians) / sine;
-    float cotangent = cos(radians) / sine;
-
-    d->projectionMatrix(0, 0) = cotangent / d->aspectRatio;
-    d->projectionMatrix(1, 1) = cotangent;
-    d->projectionMatrix(2, 2) = -(d->farPlane + d->nearPlane) / deltaZ;
-    d->projectionMatrix(3, 2) = -1;
-    d->projectionMatrix(2, 3) = -2 * d->nearPlane * d->farPlane / deltaZ;
-    d->projectionMatrix(3, 3) = 0;
-
-    //glO
-    //mProjectionMatrix.
+    d->modelViewMatrix.rotate(d->orientation);
+    d->modelViewMatrix = d->modelViewMatrix.inverted();
 }
 
 void Camera::setModelviewMatrix(const QMatrix4x4& modelview)
@@ -224,69 +163,9 @@ void Camera::setModelviewMatrix(const QMatrix4x4& modelview)
     d->modelViewMatrixDirty = false;
 }
 
-void Camera::setProjectionMatrix(const QMatrix4x4& projection)
-{
-    d->projectionMatrix = projection;
-    d->projectionMatrixDirty = false;
-}
-
 QMatrix4x4 Camera::modelviewMatrix() const
 {
-    if (d->modelViewMatrixDirty)
-    {
-        const_cast<Camera*>(this)->recalculateModelviewMatrix();
-    }
     return d->modelViewMatrix;
-}
-
-QMatrix4x4 Camera::projectionMatrix() const
-{
-    if (d->projectionMatrixDirty)
-    {
-        const_cast<Camera*>(this)->recalculateProjectionMatrix();
-    }
-    return d->projectionMatrix;
-}
-
-QVector3D Camera::project(const QVector3D& v, bool* ok) const
-{
-    // TODO add unit test
-//    QVector3D res;
-//    QVector4D p4 = projectionMatrix() * (modelviewMatrix() * QVector4D(v[0],v[1],v[2],1));
-//    if (p4.w()!=0)
-//    {
-//      res = p4.start<3>() / p4.w();
-//      res = (res * 0.5).cwise() + 0.5;
-//      res.start<2>() = Eigen::Vector2f(mViewport[0],mViewport[1])
-//                       + Eigen::Vector2f(mViewport[2],mViewport[3]).cwise() * res.start<2>();
-//      if (ok)
-//          *ok = true;
-//    }
-//    else if (ok)
-//        *ok = false;
-//    return res;
-}
-
-QVector3D Camera::unProject(const QVector3D& v, bool* ok) const
-{
-    // TODO add unit test
-    /*   if (ok) *ok = true;
-        Eigen::Vector4f a;
-        a << (v.start<2>() - Eigen::Vector2f(mViewport[0],mViewport[1]))
-                  .cwise() / Eigen::Vector2f(mViewport[2],mViewport[3]),
-             v.z(),
-             1;
-        a.start<3>() = a.start<3>() * 2 - Eigen::Vector3f::Constant(1);
-        // FIXME if we assume the projection matrix always has the structure defined in
-        // recalculateProjectionMatrix, then the following matrix product could be
-        // significantly improved !!
-        a = (projectionMatrix() * modelviewMatrix()).inverse() * a;
-        if (a.w()==0)
-        {
-            if (ok) *ok = false;
-            return a.start<3>();
-        }
-        return a.start<3>() / a.w();*/
 }
 
 #include "camera.moc"

@@ -33,7 +33,6 @@
 namespace GluonGraphics
 {
 
-//TODO: Move private members to private class
     class GLUON_GRAPHICS_EXPORT Camera : public QObject
     {
             /**
@@ -74,6 +73,8 @@ namespace GluonGraphics
             virtual ~Camera();
 
             QVector3D position() const;
+            
+            QQuaternion orientation() const;
 
             /**
             * @return current modelview matrix.
@@ -81,37 +82,8 @@ namespace GluonGraphics
             *  or automatically calculated using position, lookAt and up vectors.
             **/
             QMatrix4x4 modelviewMatrix() const;
-            /**
-            * @return current projection matrix.
-            * Projection matrix is either set using the @ref setProjectionMatrix
-            *   method or automatically calculated using fov, aspect and depth range
-            *   parameters.
-            **/
-            QMatrix4x4 projectionMatrix() const;
-
-            /**
-            * Transforms vector @p v from world coordinates to window coordinates.
-            *
-            * If @p ok is not null then it will be set to true or false depending on
-            *  whether the projection was successful or not.
-            **/
-            QVector3D project(const QVector3D& v, bool* ok = 0) const;
-            /**
-            * Transforms vector @p v from window coordinates to world coordinates.
-            *
-            * If @p ok is not null then it will be set to true or false depending on
-            *  whether the projection was successful or not.
-            **/
-            QVector3D unProject(const QVector3D& v, bool* ok = 0) const;
 
         public slots:
-            /**
-             * Applies the camera's projection matrix.
-             *
-             * Any current perspective transformations will be lost.
-             **/
-            virtual void applyPerspective();
-
             virtual void applyOrtho();
             /**
              * Applies the camera's modelview matrix.
@@ -132,10 +104,6 @@ namespace GluonGraphics
              **/
             void setViewport(int x, int y, int width, int height);
 
-            /**
-             * Sets the vertical field-of-view angle in degrees to @p fov.
-             **/
-            void setFieldOfView(float fov);
             /**
              * Sets the aspect ration to @p aspect.
              * Aspect ratio is usually window's width divided by its height.
@@ -160,34 +128,9 @@ namespace GluonGraphics
             void setPosition(const QVector3D& pos);
             void setPosition(float x, float y, float z);
             
-            /**
-             * Sets the lookat point to @p lookat.
-             * LookAt is the point at which the camera is looking at.
-             **/
-            /*void setLookAt(const QVector3D& lookat);
-            void setLookAt(float x, float y, float z)
-            {
-                setLookAt(QVector3D(x, y, z));
-            }*/
-            /**
-             * Sets the up vector to @p up.
-             * Up vector is the one pointing upwards in the viewport.
-             **/
-            /*void setUp(const QVector3D& up);
-            void setUp(float x, float y, float z)
-            {
-                setUp(QVector3D(x, y, z));
-            }*/
-            /**
-             * Sets the viewing direction of the camera to @p dir.
-             * This method sets lookat point to @ref position() + dir, thus
-             *  you will need to set camera's position before using this method.
-             **/
-            /*void setDirection(const QVector3D& dir);
-            void setDirection(float x, float y, float z)
-            {
-                setDirection(QVector3D(x, y, z));
-            }*/
+            void setOrientation(const QQuaternion &orient);
+            
+            void setVisibleArea(const QSizeF& area);
 
             /**
              * Sets the modelview matrix.
@@ -202,23 +145,9 @@ namespace GluonGraphics
              *  specified position, lookat and up vectors.
              **/
             void setModelviewMatrix(const QMatrix4x4& modelview);
-            /**
-             * Sets the projection matrix.
-             *
-             * If you specify the projection matrix using this method then parameters
-             *  specified using @ref setFoV, @ref setAspect and @ref setDepthRange
-             *  methods will be ignored.
-             *
-             * If you call any of @ref setFoV, @ref setAspect or @ref setDepthRange
-             *  after calling this method, then the projection matrix specified here
-             *  will be ignored and new projection matrix will be calculated using
-             *  specified fov, aspect and depth range parameters.
-             **/
-            void setProjectionMatrix(const QMatrix4x4& projection);
 
         protected:
             void recalculateModelviewMatrix();
-            void recalculateProjectionMatrix();
 
         private:
             class CameraPrivate;

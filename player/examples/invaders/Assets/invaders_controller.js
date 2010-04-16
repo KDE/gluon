@@ -4,7 +4,7 @@ function start()
     Game.lives = 5;
     
     var enemy = Game.getFromScene("Enemy");
-    for(var y = -30; y <= 0; y += 10)
+    for(var y = 40; y >= 10; y -= 10)
     {
         for(var x = -30; x <= 30; x += 10)
         {
@@ -16,7 +16,7 @@ function start()
     }
     
     var player = Game.clone(Game.getFromScene("Player"));
-    player.setPosition(0, 50, 1);
+    player.setPosition(0, -50, 1);
     player.enabled = true;
 }
 

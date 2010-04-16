@@ -160,16 +160,11 @@ QColor SpriteRendererComponent::color()
 
 Asset* SpriteRendererComponent::texture()
 {
-    /*GluonObject* obj = property("texture").value<GluonCore::GluonObject*>();
-    return qobject_cast< GluonEngine::Asset* >(obj);*/
     return d->texture;
 }
 
 void SpriteRendererComponent::setTexture(Asset* asset)
 {
-    /*QVariant somethingEmpty;
-    somethingEmpty.setValue<GluonEngine::Asset*>(asset);
-    setProperty("texture", somethingEmpty);*/
     d->texture = asset;
 
     if (asset)
