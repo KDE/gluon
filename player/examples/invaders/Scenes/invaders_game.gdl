@@ -114,7 +114,7 @@
         position vector3d(1000;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
+        { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(5;5)
             color rgba(255;255;255;255)

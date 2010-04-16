@@ -1,6 +1,10 @@
 var speed = 30;
 var life = 3000;
 
+function start()
+{
+}
+
 function update(time)
 {
     var addX = speed*(time/1000)

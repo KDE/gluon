@@ -89,10 +89,10 @@ void QtScriptComponent::initialize()
             return;
         }
 
-        QScriptValue component = d->engine.newQObject(this);
+        QScriptValue component = d->engine.newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
         d->engine.globalObject().setProperty("Component", component);
 
-        QScriptValue gameObj = d->engine.newQObject(gameObject());
+        QScriptValue gameObj = d->engine.newQObject(gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
         d->engine.globalObject().setProperty("GameObject", gameObj);
 
         QScriptValue game = d->engine.newQObject(Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);

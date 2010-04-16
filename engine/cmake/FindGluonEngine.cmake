@@ -21,7 +21,7 @@ if (GluonEngine_FIND_REQUIRED)
     set(_gluonEngineReq "REQUIRED")
 endif (GluonEngine_FIND_REQUIRED)
 
-find_package(GluonCore _gluonEngineReq)
+find_package(GluonCore ${_gluonEngineReq})
 
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
 

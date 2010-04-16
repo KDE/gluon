@@ -1,8 +1,12 @@
+var controller = null;
 var bullet = null;
 var speed = 30;
 
+var justSpawned = true;
+
 function initialize() 
 {
+	controller = Game.getFromScene("Background").ControllerScript;
     bullet = Game.getFromScene("Bullet");
 }
 
@@ -51,33 +55,47 @@ function move(time)
     {
         GameObject.translate(0, 5 * (time/1000), 0);
     }
+    else if(justSpawned)
+    {
+		justSpawned = false;
+	}
 }
 
 function update(time) 
 {
+	if(controller.paused)
+		return;
+	
     move(time);
     
-    if(GameObject.Collider.isColliding())
+    if(justSpawned)
     {
-        GameObject.SpriteRenderer.setColor(new QColor(255, 0, 0));
-        
-        GameObject.Collider.collidesWith().destroy();
-        
-        Game.enemies--;
-        Game.lives--;
-        GameObject.Kapow.play();
-        GameObject.destroy();
-        
-        if(Game.lives > 0)
-        {
-            var player = Game.clone(Game.getFromScene("Player"));
-            player.setPosition(0, -50, 1);
-            player.enabled = true;
-        }
+		GameObject.SpriteRenderer.setColor(new QColor(255, 255, 255, 128));
     }
     else
     {
-        GameObject.SpriteRenderer.setColor(new QColor(255, 255, 255));
+		if(GameObject.Collider.isColliding())
+		{
+			GameObject.SpriteRenderer.setColor(new QColor(255, 0, 0));
+			
+			GameObject.Collider.collidesWith().destroy();
+			
+			Game.enemies--;
+			Game.lives--;
+			GameObject.Kapow.play();
+			GameObject.destroy();
+			
+			if(Game.lives > 0)
+			{
+				var player = Game.clone(Game.getFromScene("Player"));
+				player.setPosition(0, 50, 1);
+				player.enabled = true;
+			}
+		}
+		else
+		{
+			GameObject.SpriteRenderer.setColor(new QColor(255, 255, 255));
+		}
     }
     
     if(GameObject.Key_Fire.isActionStarted())
