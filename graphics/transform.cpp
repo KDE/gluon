@@ -36,8 +36,8 @@ namespace GluonGraphics
     {
         m_matrix.setToIdentity();
         m_matrix.translate(m_position);
-        m_matrix.scale(m_scale);
         m_matrix.rotate(m_orientation);
+        m_matrix.scale(m_scale);
     }
 
     void Transform::resetTransform()
@@ -132,6 +132,12 @@ namespace GluonGraphics
     {
         m_position = p;
     }
+    
+    void Transform::setPosition(float x, float y, float z)
+    {
+        setPosition(QVector3D(x, y, z));
+    }
+
     //------------------------------------------------------
 
     void Transform::setPosition(const QVector2D &p)
@@ -220,6 +226,11 @@ namespace GluonGraphics
     void Transform::scale(float x, float y)
     {
         scale(QVector3D(x, y, Z2D));
+    }
+    
+    void Transform::scale(float x, float y, float z)
+    {
+        scale(QVector3D(x, y, z));
     }
 
 
