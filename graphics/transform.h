@@ -54,7 +54,8 @@ namespace GluonGraphics
             void setPosition(float x, float y);
             void setPosition(const QVector2D &p);
 
-
+            QVector3D position() const;
+            
             void setQuaternion(const QQuaternion &orientation);
             void setRotation(const qreal &angle, const QVector3D &axis);
             void setRotation(const qreal &angle, const QVector2D &center);
@@ -69,9 +70,6 @@ namespace GluonGraphics
             void scale(float x, float y, float z);
             void scale(float x, float y);
             void scale(const QVector2D &s);
-            //void rotate(const qreal &angle,const QVector3D &axis){}
-            //void rotate(const qreal &angle, const QVector2D &center){}
-
 
             QVector3D transform(const QVector3D &p) ;
             QVector2D transform(const QVector2D &p) ;

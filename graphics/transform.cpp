@@ -150,6 +150,13 @@ namespace GluonGraphics
     {
         setPosition(QVector3D(x, y, Z2D));
     }
+    
+    QVector3D Transform::position() const
+    {
+        return m_position;
+    }
+
+    
     //------------------------------------------------------
 
     void Transform::setQuaternion(const QQuaternion &orientation)

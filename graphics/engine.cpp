@@ -25,6 +25,8 @@
 
 #include <QtCore/QDebug>
 
+#include "item.h"
+
 using namespace GluonGraphics;
 
 template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
@@ -37,7 +39,8 @@ class Engine::EnginePrivate
             activeCamera = 0;
         }
 
-        ItemList items;
+        QList<Item*> items;
+        
         Camera* activeCamera;
 };
 
@@ -57,7 +60,7 @@ void Engine::addItem(Item* item)
     item->setParent(this);
 }
 
-void Engine::addItems(const ItemList &items)
+void Engine::addItems(const QList<Item*> &items)
 {
     foreach(Item* item, items)
     {
@@ -72,7 +75,7 @@ bool Engine::removeItem(Item* item)
     else return false;
 }
 
-bool Engine::removeItems(const ItemList &items)
+bool Engine::removeItems(const QList<Item*> &items)
 {
     bool retVal = true;
     foreach(Item* item , items)
@@ -98,7 +101,7 @@ Item *Engine::itemAt(int id) const
     return d->items.at(id);
 }
 
-bool Engine::eraseItems(const ItemList &items)
+bool Engine::eraseItems(const QList<Item*> &items)
 {
     bool retVal = true;
     foreach(Item* item, items)
@@ -114,11 +117,10 @@ int Engine::itemsCount() const
     return d->items.size();
 }
 
-ItemList Engine::items() const
+QList<Item*> Engine::items() const
 {
     return d->items;
 }
-
 
 Camera* Engine::activeCamera()
 {
@@ -130,6 +132,16 @@ void Engine::setActiveCamera(Camera* camera)
     d->activeCamera = camera;
 
     emit activeCameraChanged(camera);
+}
+
+void Engine::sortItems()
+{
+    qStableSort(d->items.begin(), d->items.end(), Engine::compareDepth);
+}
+
+bool Engine::compareDepth(const GluonGraphics::Item* left, const GluonGraphics::Item* right)
+{
+    return left->position().z() < right->position().z();
 }
 
 #include "engine.moc"

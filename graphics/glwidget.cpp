@@ -27,12 +27,12 @@
 #include "fpscounter.h"
 #include "textrenderer.h"
 #include "glpainter.h"
+#include "item.h"
 
 #include <QtOpenGL/QGLContext>
 #include <QtOpenGL/QGLFormat>
 
 #include <core/debughelper.h>
-
 
 using namespace GluonGraphics;
 
@@ -162,7 +162,10 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glEnable(GL_SCISSOR_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_ALPHA_TEST);
+    
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+    glAlphaFunc(GL_GREATER, 0.01);
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -257,7 +260,8 @@ void GLWidget::render()
         glEnd();
     }
 
-    ItemList items = Engine::instance()->items();
+    Engine::instance()->sortItems();
+    QList<Item*> items = Engine::instance()->items();
     foreach(Item *it, items)
     {
         it->paintGL();

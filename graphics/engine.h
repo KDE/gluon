@@ -29,11 +29,11 @@
 #include <QtCore/QMap>
 
 #include <core/singleton.h>
-#include "itemlist.h"
 
 namespace GluonGraphics
 {
     class Camera;
+    class Item;
 
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
@@ -41,17 +41,21 @@ namespace GluonGraphics
 
         public:
             void addItem(Item* item);
-            void addItems(const ItemList &items);
+            void addItems(const QList<Item*> &items);
             bool removeItem(Item* item);
-            bool removeItems(const ItemList &item);
+            bool removeItems(const QList< GluonGraphics::Item* >& items);
             virtual bool eraseItem(Item* item);
-            bool eraseItems(const ItemList &item);
+            bool eraseItems(const QList< GluonGraphics::Item* >& items);
             Item * itemAt(int id) const;
             int itemsCount() const;
 
-            ItemList items() const;
+            QList<Item*> items() const;
 
             Camera* activeCamera();
+            
+            void sortItems();
+            
+            static bool compareDepth(const GluonGraphics::Item* left, const GluonGraphics::Item* right);
 
         public slots:
             void setActiveCamera(GluonGraphics::Camera* camera);
