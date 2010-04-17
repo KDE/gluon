@@ -47,6 +47,21 @@ GamePrivate::~GamePrivate()
 {
 }
 
+QList<const GluonCore::GluonObject*>
+GamePrivate::listAllChildren(const GluonCore::GluonObject* root) const
+{
+    QList<const GluonCore::GluonObject*> list;
+    if(root)
+    {
+        list.append(root);
+        foreach(const QObject* child, root->children())
+        {
+            list.append(listAllChildren(qobject_cast<const GluonCore::GluonObject*>(child)));
+        }
+    }
+    return list;
+}
+
 Scene *
 GamePrivate::findSceneInChildren(QObject* object)
 {

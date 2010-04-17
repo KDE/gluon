@@ -23,7 +23,12 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QTime>
+#include <QtCore/QList>
 
+namespace GluonCore
+{
+    class GluonObject;
+}
 namespace GluonEngine
 {
     class Scene;
@@ -35,6 +40,8 @@ namespace GluonEngine
             GamePrivate();
             GamePrivate(const GamePrivate &other);
             ~GamePrivate();
+
+            QList<const GluonCore::GluonObject*> listAllChildren(const GluonCore::GluonObject* root) const;
 
             static Scene * findSceneInChildren(QObject * object);
 
