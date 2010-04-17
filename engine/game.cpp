@@ -80,6 +80,20 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
+        
+        if(d->resetScene)
+        {
+            stopAll();
+            cleanupAll();
+            
+            d->currentScene->resetScene();
+            
+            initializeAll();
+            startAll();
+            
+            d->resetScene = false;
+            emit currentSceneChanged(d->currentScene);
+        }
 
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
 
@@ -256,6 +270,21 @@ void Game::setCurrentScene(const QString& sceneName)
     Scene* scene = qobject_cast< GluonEngine::Scene* >(gameProject()->findItemByName(sceneName));
     if (scene)
         setCurrentScene(scene);
+}
+
+void Game::resetCurrentScene()
+{
+    if(d->currentScene)
+    {
+        if(d->gameRunning)
+        {
+            d->resetScene = true;
+        }
+        else
+        {
+            d->currentScene->resetScene();
+        }
+    }
 }
 
 GluonEngine::GameProject *

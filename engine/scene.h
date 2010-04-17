@@ -40,6 +40,7 @@ namespace GluonEngine
 
             virtual void setFile(const QUrl &newFile);
             virtual void setName(const QString& newName);
+            virtual void resetScene();
 
             virtual QString contentsToGDL();
 
