@@ -34,6 +34,7 @@
 #include <engine/filelocation.h>
 #include <QDir>
 #include <historymanager.h>
+#include <objectmanager.h>
 
 using namespace GluonCreator;
 
@@ -191,7 +192,7 @@ ProjectModel::flags(const QModelIndex& index) const
     }
     else
     {
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled;
     }
 }
 
@@ -223,46 +224,12 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
     if (action == Qt::IgnoreAction)
         return false;
 
-    if (!parent.isValid())
-        return false;
-
     if (data->hasUrls())
     {
         GluonCore::GluonObject *gobj = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
         foreach(const QUrl& theUrl, data->urls())
         {
-            KMimeType::Ptr type = KMimeType::findByUrl(theUrl);
-            DEBUG_TEXT(QString("Dropped file %1 of mimetype %2").arg(theUrl.toLocalFile()).arg(type->name()));
-
-            GluonCore::GluonObject* newasset = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype(type->name());
-            if (newasset)
-            {
-                GluonEngine::Asset* newChild = static_cast<GluonEngine::Asset*>(newasset);
-                if (gobj)
-                {
-                    QFileInfo theFileInfo(theUrl.path());
-
-                    gobj->addChild(newChild);
-                    newChild->setName(theFileInfo.fileName());
-                    /*newChild->setFile(theUrl);
-                    newChild->load();*/
-
-                    #ifdef __GNUC__
-                    #warning We need to fix this so we dont run creator without a project.
-                    #endif
-                    if (!QDir::current().exists("Assets"))
-                        QDir::current().mkdir("Assets");
-                    DEBUG_TEXT(QString("Copying file to %1").arg(newChild->fullyQualifiedFileName()));
-                    QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedFileName()));
-                    QFile(theUrl.toLocalFile()).copy(newLocation.toLocalFile());
-                    newChild->setFile(newLocation);
-                    newChild->load();
-                }
-                else
-                {
-                    //\TODO Some error handling might be nice here...
-                }
-            }
+            ObjectManager::instance()->createNewAsset(theUrl.toLocalFile());
         }
     }
     else if (data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
