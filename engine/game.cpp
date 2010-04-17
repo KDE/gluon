@@ -354,7 +354,13 @@ GameObject* Game::clone(GameObject* obj)
 {
     if(obj)
     {
-        return qobject_cast<GameObject*>(obj->clone());
+        GameObject* objClone = qobject_cast<GameObject*>(obj->clone());
+        QList<const GluonCore::GluonObject*> objects = d->listAllChildren(objClone);
+        foreach(const GluonCore::GluonObject* child, objects)
+        {
+            connect(child, SIGNAL(showDebug(const QString&)), this, SIGNAL(showDebug(const QString&)));
+        }
+        return objClone;
     }
     
     return 0;
