@@ -27,6 +27,7 @@ namespace GluonCreator
 
     class ComponentsDockPlugin : public DockPlugin
     {
+        Q_OBJECT
         public:
             ComponentsDockPlugin(QObject* parent, const QList< QVariant >& params);
             ~ComponentsDockPlugin();

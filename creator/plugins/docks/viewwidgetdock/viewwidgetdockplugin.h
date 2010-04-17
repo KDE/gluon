@@ -27,6 +27,7 @@ namespace GluonCreator
 
     class ViewWidgetDockPlugin : public DockPlugin
     {
+        Q_OBJECT
         public:
             ViewWidgetDockPlugin(QObject* parent, const QList< QVariant >& params);
             ~ViewWidgetDockPlugin();
