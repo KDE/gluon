@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Arjen Hiemstra <>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (C) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or

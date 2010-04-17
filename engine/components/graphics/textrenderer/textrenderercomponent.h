@@ -1,7 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2010 Arjen Hiemstra <>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
