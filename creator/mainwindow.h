@@ -52,6 +52,8 @@ namespace GluonCreator
             void stopGame();
             void historyChanged();
             void cleanChanged(bool);
+            
+            void addAsset();
 
         private:
             void setupActions();

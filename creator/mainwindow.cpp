@@ -97,7 +97,7 @@ void MainWindow::newProject()
 
 void MainWindow::openProject()
 {
-    QString fileName = KFileDialog::getOpenFileName();
+    QString fileName = KFileDialog::getOpenFileName(KUrl(), i18n("*.gluon|Gluon Project Files"));
     openProject(fileName);
 }
 
@@ -158,7 +158,7 @@ void MainWindow::saveProject(const QString &fileName)
 
 void MainWindow::saveProjectAs()
 {
-    m_fileName = KFileDialog::getSaveFileName();
+    m_fileName = KFileDialog::getSaveFileName(KUrl(), i18n("*.gluon|Gluon Project Files"));
     if (!m_fileName.isEmpty()) saveProject();
 }
 
@@ -213,16 +213,14 @@ void MainWindow::setupActions()
     play->setCheckable(true);
     connect(play, SIGNAL(triggered(bool)), SLOT(playPauseGame(bool)));
 
-    /*KAction* pause = new KAction(KIcon("media-playback-pause"), i18n("Pause Game"), actionCollection());
-    actionCollection()->addAction("pauseGame", pause);
-    pause->setCheckable(true);
-    pause->setEnabled(false);
-    connect(pause, SIGNAL(triggered(bool)), GluonEngine::Game::instance(), SLOT(setPause(bool)));*/
-
     KAction* stop = new KAction(KIcon("media-playback-stop"), i18n("Stop Game"), actionCollection());
     actionCollection()->addAction("stopGame", stop);
     stop->setEnabled(false);
     connect(stop, SIGNAL(triggered(bool)), SLOT(stopGame()));
+    
+    KAction *addAsset = new KAction(KIcon("document-new"), i18n("Add Assets..."), actionCollection());
+    actionCollection()->addAction("addAsset", addAsset);
+    connect(addAsset, SIGNAL(triggered(bool)), SLOT(addAsset()));
 }
 
 void MainWindow::showPreferences()
@@ -306,7 +304,8 @@ bool MainWindow::queryClose()
 {
     if (m_modified)
     {
-        int code = KMessageBox::questionYesNoCancel(this, i18n("The project has been changed. Do you want to save before closing?"), i18n("Save Before Closing?"));
+        int code = KMessageBox::questionYesNoCancel(this, i18n("The project has been changed. Do you want to save before closing?"), i18n("Save Before Closing?"),
+                                                    KStandardGuiItem::save(), KStandardGuiItem::dontSave());
 
         if (code == KMessageBox::Cancel)
             return false;
@@ -321,4 +320,13 @@ bool MainWindow::queryClose()
     return true;
 }
 
+void MainWindow::addAsset()
+{
+    QStringList assets = KFileDialog::getOpenFileNames();
+    
+    foreach(const QString &asset, assets)
+    {
+        ObjectManager::instance()->createNewAsset(asset);
+    }
+}
 

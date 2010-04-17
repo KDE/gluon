@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="8" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="9" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
@@ -8,9 +8,18 @@
     <Menu name="file">
 
     </Menu>
+    
+    <Menu name="edit">
+    </Menu>
+    
+    <Menu name="project">
+        <text>&amp;Project</text>
+        <Action name="newScene" />
+        <Action name="addAsset" />
+    </Menu>
+    
     <Menu name="scene">
         <text>&amp;Scene</text>
-        <Action name="newScene" />
         <Action name="newObject" />
     </Menu>
 
@@ -23,7 +32,7 @@
             <text>&amp;Docks</text>
             
         </Menu>
-          <Action name="lockDock" />
+        <Action name="lockDock" />
     </Menu>
 
     <Menu name="help">
