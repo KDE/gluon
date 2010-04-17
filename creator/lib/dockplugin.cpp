@@ -23,6 +23,7 @@
 #include <KActionCollection>
 #include <KStandardDirs>
 #include <KDebug>
+#include "core/debughelper.h"
 
 using namespace GluonCreator;
 
@@ -42,7 +43,36 @@ void DockPlugin::load(KXmlGuiWindow* mainwindow)
     mainwindow->insertChildClient(this);
 
     m_dock = createDock(mainwindow);
-    mainwindow->addDockWidget(Qt::LeftDockWidgetArea, m_dock);
+
+    // This is pretty ugly stuff, but the layouting system for docks in Qt is sort of odd anyway...
+    // So, string matching hackery it is for now ;)
+    Qt::DockWidgetArea theArea = Qt::AllDockWidgetAreas;
+    QString theClassName(metaObject()->className());
+    if(theClassName == "GluonCreator::ViewWidgetDockPlugin")
+    {
+        mainwindow->setCentralWidget(m_dock);
+    }
+    else
+    {
+        if(theClassName == "GluonCreator::ProjectDockPlugin" || theClassName == "GluonCreator::ComponentsDockPlugin")
+        {
+            theArea = Qt::LeftDockWidgetArea;
+        }
+        else if(theClassName == "GluonCreator::SceneDockPlugin" || theClassName == "GluonCreator::PropertiesDockPlugin")
+        {
+            theArea = Qt::RightDockWidgetArea;
+        }
+        else if(theClassName == "GluonCreator::MessageDockPlugin")
+        {
+            theArea = Qt::BottomDockWidgetArea;
+        }
+        else
+        {
+            theArea = Qt::BottomDockWidgetArea;
+        }
+        mainwindow->addDockWidget(theArea, m_dock);
+    }
+    // End horrible hackery ;)
 
     actionCollection()->addAction(QString("show%1Action").arg(m_dock->objectName()), m_dock->toggleViewAction());
 
