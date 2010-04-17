@@ -80,14 +80,6 @@ SpriteRendererComponent::initialize()
     {
         d->mesh = new GluonGraphics::SpriteMesh(d->size, this);
         d->item = new GluonGraphics::Item(d->mesh, this);
-    }
-}
-
-void 
-SpriteRendererComponent::start()
-{
-    if(d->item)
-    {
         d->item->setColor(d->color);
     }
 
@@ -102,6 +94,11 @@ SpriteRendererComponent::start()
             d->mesh->setTexture(data->imageData().value<QImage>());
         }
     }
+}
+
+void 
+SpriteRendererComponent::start()
+{
 }
 
 void SpriteRendererComponent::draw(int timeLapse)
