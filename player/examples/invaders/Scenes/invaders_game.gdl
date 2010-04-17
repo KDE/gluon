@@ -176,24 +176,24 @@
     }
     { GluonEngine::GameObject(GameOver)
         enabled bool(true)
-        position vector3d(6;50;10)
+        position vector3d(0;50;10)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
-            size size2d(40;5)
+            size size2d(40;7)
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/gameover.png)
         }
     }
     { GluonEngine::GameObject(GameWon)
         enabled bool(true)
-        position vector3d(9;50;10)
+        position vector3d(0;50;10)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
-            size size2d(40;5)
+            size size2d(40;9)
             color rgba(255;255;255;255)
             texture GluonEngine::Asset(Invaders/win.png)
         }
