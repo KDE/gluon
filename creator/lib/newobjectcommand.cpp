@@ -51,11 +51,15 @@ void
 NewObjectCommand::undo()
 {
     d->applied = false;
-    d->parent->removeChild(d->object);
+    if(d->parent->children().indexOf(d->object) != -1)
+        d->parent->removeChild(d->object);
 
     GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(d->object);
     if (obj)
-        obj->parentGameObject()->removeChild(obj);
+    {
+        if(obj->parentGameObject()->childIndex(obj) != -1)
+            obj->parentGameObject()->removeChild(obj);
+    }
 
     GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(d->object);
     if (comp)
