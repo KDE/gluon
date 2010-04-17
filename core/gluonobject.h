@@ -56,8 +56,9 @@ namespace GluonCore
             GluonObject(const GluonObject& rt);
             virtual ~GluonObject();
 
-            void debug(QString debugText) const;
-            
+            Q_INVOKABLE void debug(const QString& debugText) const;
+            Q_SIGNAL void showDebug(const QString& debugText) const;
+
             /**
              * Copy this object and all of its children, resursively.
              * It will be a child of the same GluonObject that the current object is a child of.

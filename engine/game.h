@@ -140,6 +140,7 @@ namespace GluonEngine
             void cleanupAll();
 
         signals:
+            void showDebug(const QString& debugText);
             void currentSceneChanged(GluonEngine::Scene*);
             void currentProjectChanged(GluonEngine::GameProject*);
 

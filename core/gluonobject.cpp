@@ -65,10 +65,11 @@ GluonObject::~GluonObject()
 }
 
 void
-GluonObject::debug(QString debugText) const
+GluonObject::debug(const QString& debugText) const
 {
     DEBUG_BLOCK
     DEBUG_TEXT(debugText);
+    emit showDebug(QString("%1: %2").arg(fullyQualifiedName()).arg(debugText));
 }
 
 GluonObject*

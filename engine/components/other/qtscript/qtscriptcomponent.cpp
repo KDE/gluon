@@ -84,8 +84,7 @@ void QtScriptComponent::initialize()
         d->engine.evaluate(d->script->data()->text(), gameObject()->name());
         if (d->engine.uncaughtException().isValid())
         {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             return;
         }
 
@@ -106,10 +105,7 @@ void QtScriptComponent::initialize()
         {
             initFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
-            {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-            }
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
     }
 }
@@ -123,10 +119,7 @@ void QtScriptComponent::start()
         {
             startFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
-            {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-            }
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
     }
 }
@@ -137,10 +130,7 @@ void QtScriptComponent::draw(int timeLapse)
     {
         d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
         if (d->engine.uncaughtException().isValid())
-        {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-        }
+            debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
     }
 }
 
@@ -150,10 +140,7 @@ void QtScriptComponent::update(int elapsedMilliseconds)
     {
         d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
         if (d->engine.uncaughtException().isValid())
-        {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-        }
+            debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
     }
 }
 
@@ -166,10 +153,7 @@ void QtScriptComponent::stop()
         {
             stopFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
-            {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-            }
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
     }
 }
@@ -183,10 +167,7 @@ void QtScriptComponent::cleanup()
         {
             cleanupFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
-            {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
-            }
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
     }
 }
