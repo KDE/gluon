@@ -243,7 +243,6 @@ Game::setCurrentScene(Scene * newCurrentScene)
     QList<const GluonCore::GluonObject*> objects = d->listAllChildren(d->currentScene);
     foreach(const GluonCore::GluonObject* child, objects)
     {
-        qDebug() << QString("Disconnecting child %1").arg(child->name());
         disconnect(child, SIGNAL(showDebug(const QString&)), this, SIGNAL(showDebug(const QString&)));
     }
     
@@ -258,7 +257,6 @@ Game::setCurrentScene(Scene * newCurrentScene)
     objects = d->listAllChildren(newCurrentScene->sceneContents());
     foreach(const GluonCore::GluonObject* child, objects)
     {
-        qDebug() << QString("Connecting child %1").arg(child->name());
         connect(child, SIGNAL(showDebug(const QString&)), this, SIGNAL(showDebug(const QString&)));
     }
     
