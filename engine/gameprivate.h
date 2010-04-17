@@ -49,6 +49,7 @@ namespace GluonEngine
             bool gameRunning;
             bool gamePaused;
             Scene * currentScene;
+            bool resetScene;
             GluonEngine::GameProject * gameProject;
     };
 }

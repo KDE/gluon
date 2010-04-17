@@ -61,7 +61,11 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     setupGame();
 
     setDockNestingEnabled(true);
-    setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
+    //setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
+    setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
     PluginManager::instance()->setMainWindow(this);
     PluginManager::instance()->loadPlugins();

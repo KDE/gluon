@@ -32,6 +32,8 @@
 #include <KAction>
 #include <KLocalizedString>
 #include <QMenu>
+#include <historymanager.h>
+#include "deleteobjectcommand.h"
 
 using namespace GluonCreator;
 
@@ -141,30 +143,34 @@ void SceneDock::sceneChanged(GluonEngine::Scene* obj)
 
 void SceneDock::deleteSelection()
 {
-    DEBUG_FUNC_NAME;
-
     if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
         foreach(const QItemSelectionRange &range, currentSelection)
         {
-            DEBUG_TEXT(QString("Removing rows %1 to %2").arg(range.top()).arg(range.bottom() - range.top()));
-            d->model->removeRows(range.top(), (range.bottom() - range.top()) + 1, range.parent());
+            foreach(const QModelIndex &index, range.indexes())
+            {
+                GluonEngine::GameObject *obj = static_cast<GluonEngine::GameObject*>(index.internalPointer());
+                if(obj && obj->parentGameObject())
+                {
+                    HistoryManager::instance()->addCommand(new DeleteObjectCommand(obj, obj->parentGameObject()));
+                }
+            }
+            
+            d->view->reset();
+            SelectionManager::instance()->setSelection(SelectionManager::SelectionList());
         }
     }
 }
 
 void GluonCreator::SceneDock::newGameObjectAction()
 {
-    DEBUG_FUNC_NAME
-
     GluonEngine::GameObject * obj = NULL;
     if (d->view->selectionModel()->hasSelection())
     {
         QItemSelection currentSelection = d->view->selectionModel()->selection();
         foreach(const QItemSelectionRange &range, currentSelection)
         {
-            DEBUG_TEXT(QString("Adding new child to first GluonObject in selection"));
             obj = qobject_cast<GluonEngine::GameObject*>(static_cast<QObject*>(range.parent().child(range.top(), 0).internalPointer()));
             break;
         }
@@ -173,7 +179,6 @@ void GluonCreator::SceneDock::newGameObjectAction()
     // Find the root item and add a new child to that if we've not got something by now
     if (!obj)
     {
-        DEBUG_TEXT(QString("No selection with a gameobject in it, so add the new GameObject to the root of the scene"));
         obj = d->model->rootGameObject();
     }
 
@@ -182,6 +187,5 @@ void GluonCreator::SceneDock::newGameObjectAction()
         GluonEngine::GameObject * newChild = new GluonEngine::GameObject();
         obj->addChild(newChild);
         d->view->reset();
-        DEBUG_TEXT(QString("Created the new GameObject: %1").arg(newChild->fullyQualifiedName()));
     }
 }

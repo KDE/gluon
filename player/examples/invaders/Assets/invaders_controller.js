@@ -44,7 +44,7 @@ function update(time)
     {
         if(GameObject.Continue.isActionStarted())
         {
-            Game.setCurrentScene("Invaders/Game");
+            Game.resetCurrentScene();
         }
     }
 }

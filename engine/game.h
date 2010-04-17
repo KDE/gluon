@@ -87,6 +87,11 @@ namespace GluonEngine
 
             void setCurrentScene(Scene * newCurrentScene);
             void setCurrentScene(const QString& sceneName);
+            
+            /**
+             * Resets the current scene to its initial conditions
+             */
+            void resetCurrentScene();
 
             void runGame()
             {

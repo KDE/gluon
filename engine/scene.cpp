@@ -54,6 +54,13 @@ void Scene::setName(const QString& newName)
     GluonCore::GluonObject::setName(newName);
 }
 
+void Scene::resetScene()
+{
+    if(!d->sceneContentsLoaded)
+        return;
+    
+    d->loadContents(FileLocation(qobject_cast<GameProject*>(gameProject()), file()).location());
+}
 
 QString
 Scene::contentsToGDL()

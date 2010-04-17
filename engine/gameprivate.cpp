@@ -30,6 +30,7 @@ GamePrivate::GamePrivate()
         , gamePaused(false)
         , currentScene(NULL)
         , gameProject(NULL)
+        , resetScene(false)
 {
 }
 
@@ -40,6 +41,7 @@ GamePrivate::GamePrivate(const GamePrivate &other)
         , gamePaused(other.gamePaused)
         , currentScene(other.currentScene)
         , gameProject(other.gameProject)
+        , resetScene(other.resetScene)
 {
 }
 
