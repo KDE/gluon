@@ -27,7 +27,7 @@ function start()
 
 function update(time)
 {
-    if(Game.enemies < 0)
+    if(Game.enemies <= 0)
     {
         //Win
         Game.getFromScene("GameWon").setPosition(0, 0, 10);

@@ -14,4 +14,7 @@ function update(time)
     life -= time;
     if(life <= 0)
         GameObject.destroy();
+    
+    if(GameObject.Collider.isColliding())
+        GameObject.destroy();
 }
