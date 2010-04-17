@@ -36,6 +36,10 @@ using namespace GluonCreator;
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
+#include <QtGui/QToolButton>
+
+#include <KIcon>
+#include <klocalizedstring.h>
 
 class PropertyWidget::PropertyWidgetPrivate
 {
@@ -113,14 +117,6 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
     objectBox->setFlat(true);
     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    if (first)
-    {
-        long addr = reinterpret_cast<long>(obj);
-        QColor color;
-        color.setHsv(addr % 255, 255, 192);
-        objectBox->setPalette(QPalette(color));
-    }
-
     d->layout->addWidget(objectBox);
 
     QGridLayout* boxLayout = new QGridLayout(objectBox);
@@ -179,7 +175,7 @@ void PropertyWidget::PropertyWidgetPrivate::appendMetaObject(QWidget *parent, QO
         connect(editWidget, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
         editWidget->setMinimumWidth(250);
         editWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        layout->addWidget(editWidget);
+        layout->addWidget(editWidget, row, 1);
     }
 }
 
