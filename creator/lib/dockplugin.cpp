@@ -51,6 +51,7 @@ void DockPlugin::load(KXmlGuiWindow* mainwindow)
     if(theClassName == "GluonCreator::ViewWidgetDockPlugin")
     {
         mainwindow->setCentralWidget(m_dock);
+        m_dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     }
     else
     {
