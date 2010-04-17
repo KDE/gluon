@@ -29,10 +29,9 @@ function update(time) {
 			xdir = -xdir;
 		}
 		
-		if(GameObject.BulletCollider.isColliding())
+		if(GameObject.BulletCollider.isColliding() || GameObject.PlayerCollider.isColliding())
 		{
 			alive = false;
-			GameObject.BulletCollider.collidesWith().destroy();
 			GameObject.Kapow.play();
 			Game.enemies--;
 		}

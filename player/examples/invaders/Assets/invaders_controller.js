@@ -39,4 +39,12 @@ function update(time)
         Game.getFromScene("GameOver").setPosition(0, 0, 10);
         Component.paused = true;
     }
+    
+    if(Component.paused)
+    {
+        if(GameObject.Continue.isActionStarted())
+        {
+            Game.setCurrentScene("Invaders/Game");
+        }
+    }
 }
