@@ -78,7 +78,6 @@ void
 SoundEmitterComponent::play()
 {
     d->sound->play();
-    debug(QString("Playing sound: %1").arg(name()));
 }
 
 Asset *
