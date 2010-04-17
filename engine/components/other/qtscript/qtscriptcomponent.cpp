@@ -130,7 +130,10 @@ void QtScriptComponent::draw(int timeLapse)
     {
         d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
         if (d->engine.uncaughtException().isValid())
+        {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
+            d->drawFunc = QScriptValue();
+        }        
     }
 }
 
@@ -140,7 +143,10 @@ void QtScriptComponent::update(int elapsedMilliseconds)
     {
         d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
         if (d->engine.uncaughtException().isValid())
+        {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
+            d->updateFunc = QScriptValue();
+        }
     }
 }
 
