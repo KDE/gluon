@@ -26,6 +26,7 @@ namespace GluonCreator
 {
     class MessageDock : public Dock
     {
+        Q_OBJECT
         public:
             explicit MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~MessageDock();
@@ -35,6 +36,7 @@ namespace GluonCreator
 
         public slots:
             void setSelection(GluonCore::GluonObject* obj = 0);
+            void showDebug(const QString& debugText);
 
         private:
             class MessageDockPrivate;

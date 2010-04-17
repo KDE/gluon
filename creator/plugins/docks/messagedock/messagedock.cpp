@@ -18,8 +18,11 @@
  */
 
 #include "messagedock.h"
+#include <engine/game.h>
 
-#include <QtGui/QTreeView>
+// Yup, this should be a view... but for now...
+#include <QtGui/QListWidget>
+#include <QDebug>
 
 using namespace GluonCreator;
 
@@ -30,8 +33,7 @@ class MessageDock::MessageDockPrivate
         {
             view = 0;
         }
-        //MessageModel* model;
-        QTreeView* view;
+        QListWidget* view;
 };
 
 MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags flags) 
@@ -39,13 +41,18 @@ MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d(new MessageDockPrivate)
 {
     setObjectName("MessageDock");
-
-    //d->model = new MessageModel(this);
-    d->view = new QTreeView(this);
-    //d->view->setModel(d->model);
-    //d->model->setRootGameObject(Game::instance()->currentMessage());
-
+    d->view = new QListWidget(this);
+    
+    connect(GluonEngine::Game::instance(), SIGNAL(showDebug(const QString&)), this, SLOT(showDebug(const QString&)));
+    
     setWidget(d->view);
+}
+
+void MessageDock::showDebug(const QString& debugText)
+{
+    QListWidgetItem* item = new QListWidgetItem(debugText, d->view);
+    d->view->addItem(item);
+    d->view->scrollToItem(item);
 }
 
 MessageDock::~MessageDock()
@@ -69,3 +76,4 @@ void MessageDock::setSelection(GluonCore::GluonObject* obj)
     Q_UNUSED(obj)
 }
 
+#include "messagedock.moc"
