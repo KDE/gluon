@@ -393,7 +393,7 @@ namespace GluonGraphics
         const QFontMetrics fontMetrics(font);
 
         // Pass 1: render and cache the glyphs that are not yet cached.
-        for (i = 0; i < string.size(); i++)
+        for (i = 0; i < string.size(); ++i)
         {
             if (! chars.contains(string[i]))
             {
@@ -422,7 +422,7 @@ namespace GluonGraphics
         // Pass 2: render the outline
         glColor4f(0, 0, 0, color[3]);
         glPushMatrix();
-        for (i = 0; i < string.size(); i++)
+        for (i = 0; i < string.size(); ++i)
         {
             chars.value(string[i])->drawOutline();
             glTranslatef(fontMetrics.charWidth(string, i), 0, 0);
@@ -432,7 +432,7 @@ namespace GluonGraphics
         // Pass 3: render the glyphs themselves
         glPushMatrix();
         glColor4fv(color);
-        for (i = 0; i < string.size(); i++)
+        for (i = 0; i < string.size(); ++i)
         {
             chars.value(string[i])->drawGlyph();
             glTranslatef(fontMetrics.charWidth(string, i), 0, 0);
@@ -450,10 +450,10 @@ namespace GluonGraphics
     TextRenderer::~TextRenderer()
     {
         QMap<QFont, QHash<QChar, CharRenderer*> >::iterator j = d->charTable.begin();
-        for (; j != d->charTable.end(); j++)
+        for (; j != d->charTable.end(); ++j)
         {
             QHash<QChar, CharRenderer *>::iterator i = j.value().begin();
-            for (; i != j.value().end(); i++)
+            for (; i != j.value().end(); ++i)
             {
                 delete i.value();
             }
