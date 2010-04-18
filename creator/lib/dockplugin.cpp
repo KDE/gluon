@@ -24,6 +24,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include "core/debughelper.h"
+#include "../mainwindow.h"
 
 using namespace GluonCreator;
 
@@ -38,11 +39,11 @@ DockPlugin::~DockPlugin()
 }
 
 
-void DockPlugin::load(KXmlGuiWindow* mainwindow)
+void DockPlugin::load(MainWindow* mainWindow)
 {
-    mainwindow->insertChildClient(this);
+    mainWindow->insertChildClient(this);
 
-    m_dock = createDock(mainwindow);
+    m_dock = createDock(mainWindow);
 
     // This is pretty ugly stuff, but the layouting system for docks in Qt is sort of odd anyway...
     // So, string matching hackery it is for now ;)
@@ -50,7 +51,7 @@ void DockPlugin::load(KXmlGuiWindow* mainwindow)
     QString theClassName(metaObject()->className());
     if(theClassName == "GluonCreator::ViewWidgetDockPlugin")
     {
-        mainwindow->setCentralWidget(m_dock);
+        mainWindow->setCentralWidget(m_dock);
         m_dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     }
     else
@@ -71,7 +72,7 @@ void DockPlugin::load(KXmlGuiWindow* mainwindow)
         {
             theArea = Qt::BottomDockWidgetArea;
         }
-        mainwindow->addDockWidget(theArea, m_dock);
+        mainWindow->addDock(m_dock, theArea);
     }
     // End horrible hackery ;)
 
@@ -83,7 +84,7 @@ void DockPlugin::load(KXmlGuiWindow* mainwindow)
     setXML(xml);
 }
 
-void DockPlugin::unload(KXmlGuiWindow* mainWindow)
+void DockPlugin::unload(MainWindow* mainWindow)
 {
     mainWindow->removeDockWidget(m_dock);
     actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));

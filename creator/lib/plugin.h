@@ -27,7 +27,8 @@
 
 namespace GluonCreator
 {
-
+    class MainWindow;
+    
     class GLUONCREATOR_EXPORT Plugin : public QObject, public KXMLGUIClient
     {
             Q_OBJECT
@@ -35,8 +36,8 @@ namespace GluonCreator
             Plugin(QObject* parent, const QList<QVariant>& params);
             virtual ~Plugin();
 
-            virtual void load(KXmlGuiWindow* mainWindow) = 0;
-            virtual void unload(KXmlGuiWindow* mainWindow) = 0;
+            virtual void load(MainWindow* mainWindow) = 0;
+            virtual void unload(MainWindow* mainWindow) = 0;
     };
 
 }

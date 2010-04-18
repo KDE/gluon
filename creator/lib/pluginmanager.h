@@ -28,10 +28,10 @@
 
 #include <core/singleton.h>
 
-class KXmlGuiWindow;
 namespace GluonCreator
 {
     class Plugin;
+    class MainWindow;
 
     class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
@@ -41,7 +41,7 @@ namespace GluonCreator
         QHash<QString, Plugin*> loadedPlugins();
     public Q_SLOTS:
         void loadPlugins();
-        void setMainWindow(KXmlGuiWindow* window);
+        void setMainWindow(MainWindow* window);
 
     Q_SIGNALS:
         void pluginLoaded(Plugin * plugin);

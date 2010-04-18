@@ -18,11 +18,12 @@
  */
 #include "pluginmanager.h"
 #include "plugin.h"
+#include "../mainwindow.h"
 
 #include <KDebug>
 #include <KServiceTypeTrader>
 
-#include <core/debughelper.h>
+#include <core/debughelper.h>\
 
 using namespace GluonCreator;
 
@@ -33,7 +34,7 @@ class PluginManager::PluginManagerPrivate
     public:
         PluginManagerPrivate() { mainWindow = 0; }
         QHash<QString, Plugin*> loadedPlugins;
-        KXmlGuiWindow* mainWindow;
+        MainWindow* mainWindow;
 };
 
 QList< KPluginInfo > PluginManager::pluginInfos() const
@@ -41,7 +42,7 @@ QList< KPluginInfo > PluginManager::pluginInfos() const
     return KPluginInfo::fromServices(KServiceTypeTrader::self()->query("GluonCreator/Plugin"));
 }
 
-void PluginManager::setMainWindow(KXmlGuiWindow* window)
+void PluginManager::setMainWindow(MainWindow* window)
 {
     d->mainWindow = window;
 }

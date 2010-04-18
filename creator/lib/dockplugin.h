@@ -27,8 +27,8 @@
 class KAction;
 namespace GluonCreator
 {
-
     class Dock;
+    class MainWindow;
 
     class GLUONCREATOR_EXPORT DockPlugin : public Plugin
     {
@@ -37,8 +37,8 @@ namespace GluonCreator
             DockPlugin(QObject* parent, const QList<QVariant>& params);
             virtual ~DockPlugin();
 
-            virtual void load(KXmlGuiWindow* mainWindow);
-            virtual void unload(KXmlGuiWindow* mainWindow);
+            virtual void load(MainWindow* mainWindow);
+            virtual void unload(MainWindow* mainWindow);
 
         protected:
             virtual Dock* createDock(KXmlGuiWindow* parent) = 0;
