@@ -1,5 +1,0 @@
-Things still to do for a decent creator workflow:
-
-- Change Scene/Project file names when changing their respective objects in Creator.
-- Changing empty asset handling to not parse the attributes as QString
-- Fix delete asset crash
