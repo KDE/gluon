@@ -34,7 +34,7 @@ namespace GluonCreator
                 PROJECTPAGE_OPEN
             };
             
-            ProjectSelectionDialog(QWidget* parent = 0, Qt::WFlags flags = 0);
+            explicit ProjectSelectionDialog(QWidget* parent = 0, Qt::WFlags flags = 0);
             virtual ~ProjectSelectionDialog();
             
             QString fileName();

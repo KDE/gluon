@@ -54,7 +54,7 @@ GluonCreator::NewProjectDialogPage::NewProjectDialogPage()
     setIcon(KIcon("document-new"));
     
     QVBoxLayout *layout = new QVBoxLayout(widget());
-    QGroupBox* box = new QGroupBox(i18n("General"), widget());
+    QGroupBox* box = new QGroupBox(i18n("General Information"), widget());
     
     widget()->setLayout(layout);
     layout->addWidget(box);
