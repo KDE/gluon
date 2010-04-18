@@ -32,9 +32,45 @@
 #include "newobjectcommand.h"
 #include "historymanager.h"
 
+#include <KMimeType>
+#include <QFileInfo>
+#include <QDir>
+
 using namespace GluonCreator;
 
 template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
+
+GluonEngine::Asset* ObjectManager::createNewAsset(const QString &fileName)
+{
+    DEBUG_BLOCK
+    KMimeType::Ptr type = KMimeType::findByFileContent(fileName);
+    DEBUG_TEXT(QString("Creating asset for file %1 of mimetype %2").arg(fileName).arg(type->name()));
+
+    GluonCore::GluonObject* newasset = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype(type->name());
+    if (newasset)
+    {
+        GluonEngine::Asset* newChild = static_cast<GluonEngine::Asset*>(newasset);
+        
+        QFileInfo theFileInfo(fileName);
+
+        GluonEngine::Game::instance()->gameProject()->addChild(newChild);
+        newChild->setName(theFileInfo.fileName());
+
+        if (!QDir::current().exists("Assets"))
+            QDir::current().mkdir("Assets");
+            
+        DEBUG_TEXT(QString("Copying file to %1").arg(newChild->fullyQualifiedFileName()));
+        QUrl newLocation(QString("Assets/%1").arg(newChild->fullyQualifiedFileName()));
+        QFile(fileName).copy(newLocation.toLocalFile());
+        newChild->setFile(newLocation);
+        newChild->load();
+        
+        HistoryManager::instance()->addCommand(new NewObjectCommand(newasset));
+        return newChild;
+    }
+    
+    return 0;
+}
 
 GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, GluonEngine::GameObject* parent)
 {

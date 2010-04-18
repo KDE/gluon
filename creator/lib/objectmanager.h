@@ -31,6 +31,7 @@ namespace GluonCore
 
 namespace GluonEngine
 {
+    class Asset;
     class GameObject;
     class Scene;
     class Component;
@@ -46,6 +47,7 @@ namespace GluonCreator
             GluonEngine::Component* createNewComponent(const QString& type, GluonEngine::GameObject* parent);
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
+            GluonEngine::Asset* createNewAsset(const QString& fileName);
 
         signals:
             void newObject(GluonCore::GluonObject*);
