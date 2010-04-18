@@ -221,6 +221,10 @@ void MainWindow::setupActions()
     KAction *addAsset = new KAction(KIcon("document-new"), i18n("Add Assets..."), actionCollection());
     actionCollection()->addAction("addAsset", addAsset);
     connect(addAsset, SIGNAL(triggered(bool)), SLOT(addAsset()));
+    
+    KAction* chooseEntryPoint = new KAction(KIcon("media-playback-start"), i18n("Set current scene as entry point"), actionCollection());
+    actionCollection()->addAction("chooseEntryPoint", chooseEntryPoint);
+    connect(chooseEntryPoint, SIGNAL(triggered(bool)), SLOT(chooseEntryPoint()));
 }
 
 void MainWindow::showPreferences()
@@ -327,6 +331,17 @@ void MainWindow::addAsset()
     foreach(const QString &asset, assets)
     {
         ObjectManager::instance()->createNewAsset(asset);
+    }
+}
+
+void MainWindow::chooseEntryPoint()
+{
+    if(GluonEngine::Game::instance()->gameProject())
+    {
+        if(GluonEngine::Game::instance()->currentScene())
+        {
+            GluonEngine::Game::instance()->gameProject()->setEntryPoint(GluonEngine::Game::instance()->currentScene());
+        }
     }
 }
 

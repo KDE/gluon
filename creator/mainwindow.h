@@ -54,6 +54,7 @@ namespace GluonCreator
             void cleanChanged(bool);
             
             void addAsset();
+            void chooseEntryPoint();
 
         private:
             void setupActions();
