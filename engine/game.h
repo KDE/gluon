@@ -57,7 +57,7 @@ namespace GluonEngine
     {
             Q_OBJECT
             Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
-            //TODO Fix this once moc doesnt choke on namespaces anymore
+            //TODO Fix this once moc doesn't choke on namespaces anymore
             //Q_PROPERTY(GluonCore::GameProject* gameProject READ gameProject WRITE setGameProject)
 
         public:

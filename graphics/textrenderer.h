@@ -137,7 +137,7 @@ namespace GluonGraphics
 
             /**
              * Draws 2D text within the given rectangle.
-             * The text will be positioned and layed out according to @p flags which
+             * The text will be positioned and laid out according to @p flags which
              * is a bitwise OR of the following flags:
              * @li Qt::AlignLeft
              * @li Qt::AlignRight

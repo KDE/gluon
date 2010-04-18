@@ -137,7 +137,7 @@ GameProject::loadFromFile()
                 // Set all the interesting values...
                 setName(loadedProject->name());
 
-                // Copy accross all the properties
+                // Copy across all the properties
                 const QMetaObject *metaobject = loadedProject->metaObject();
                 int count = metaobject->propertyCount();
                 for (int i = 0; i < count; ++i)

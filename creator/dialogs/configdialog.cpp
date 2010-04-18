@@ -25,12 +25,12 @@ using namespace GluonCreator;
 
 ConfigDialog::ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton* config): KConfigDialog(parent, name, config)
 {
-    QList<KPluginInfo> infos = PluginManager::instance()->pluginInfos();
+    QList<KPluginInfo> plugins = PluginManager::instance()->pluginInfos();
 
     m_plugins = new KPluginSelector();
-    m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Docks"), QString("dock"));
-    m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Tools"), QString("tool"));
-    m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Others"), QString());
+    m_plugins->addPlugins(plugins, KPluginSelector::ReadConfigFile, i18n("Docks"), QString("dock"));
+    m_plugins->addPlugins(plugins, KPluginSelector::ReadConfigFile, i18n("Tools"), QString("tool"));
+    m_plugins->addPlugins(plugins, KPluginSelector::ReadConfigFile, i18n("Others"), QString());
 
     addPage(m_plugins, i18n("Plugins"), "gluon");
     connect(m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)));

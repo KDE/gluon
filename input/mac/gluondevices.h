@@ -33,7 +33,7 @@ namespace GluonInput
 		MouseDevice = kHIDUsage_GD_Mouse,
 		JoystickDevice = kHIDUsage_GD_Joystick,
 		//TouchpadDevice = kHIDUsage_Dig_TouchPad, //this belongs under the category of digitizers
-		TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist alot of different kinds of tablets
+		TabletDevice = kHIDUsage_Dig_Digitizer //change this because there exist a lot of different kinds of tablets
 	};
 	Q_DECLARE_FLAGS(Devices, DeviceFlag)
 
