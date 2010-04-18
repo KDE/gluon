@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2007-2008 Benoit Jacob
+ * Copyright (C) 2007-2008 Benoit Jacob <something@mailunknown.com>
  * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
