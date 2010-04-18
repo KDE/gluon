@@ -17,16 +17,20 @@ add_subdirectory(lib)
 add_subdirectory(plugins)
 add_subdirectory(icons)
 
-set(gluoncreator_SRCS
+set(gluoncreator_SRCS 
     main.cpp
     mainwindow.cpp
 
     dialogs/configdialog.cpp
+    dialogs/projectselectiondialog.cpp
+    dialogs/newprojectdialogpage.cpp
+    dialogs/recentprojectsdialogpage.cpp
+    dialogs/openprojectdialogpage.cpp
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS})
+target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS})
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
