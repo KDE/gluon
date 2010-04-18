@@ -321,13 +321,18 @@ QString
 GluonObject::fullyQualifiedFileName() const
 {
     QString qualifiedName = fullyQualifiedName();
-    QString ext = qualifiedName.split('.').last().toLower();
-    qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
+    QString ext;
+    if(qualifiedName.indexOf('.') != -1)
+    {
+        ext = qualifiedName.right(qualifiedName.lastIndexOf('.')).toLower();
+        qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
+    }
 
     //Filter out invalid characters for filenames
     QRegExp rx("[\\/\\\\\\:\\.,\\* ]");
     qualifiedName.replace(rx, "_");
-    qualifiedName.append('.' + ext);
+    if(!ext.isEmpty())
+        qualifiedName.append('.' + ext);
 
     return qualifiedName;
 }
