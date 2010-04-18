@@ -129,7 +129,7 @@ GluonObjectPropertyWidgetItem::browseForItems()
 
     if (items.count() == 0)
     {
-        KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.").arg(d->typeName), i18n("No Items Found"));
+        KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.", d->typeName), i18n("No Items Found"));
     }
     else
     {

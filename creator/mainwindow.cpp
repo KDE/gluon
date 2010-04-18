@@ -123,7 +123,7 @@ void MainWindow::openProject(const QString &fileName)
         m_recentFiles->addUrl(KUrl(fileName));
     }
     statusBar()->showMessage(i18n("Project successfully opened"));
-    setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
+    setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
     HistoryManager::instance()->clear();
 }
 
@@ -145,7 +145,7 @@ void MainWindow::saveProject(const QString &fileName)
             return;
         }
         statusBar()->showMessage(i18n("Project successfully saved."));
-        setCaption(i18n("%1 - Gluon Creator").arg(fileName.section('/', -1)));
+        setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
         HistoryManager::instance()->setClean();
 
         m_recentFiles->addUrl(KUrl(fileName));
@@ -166,7 +166,7 @@ void MainWindow::setupGame()
 {
     GluonEngine::GameProject* project = new GluonEngine::GameProject(GluonEngine::Game::instance());
     project->setName(i18n("New Project"));
-    setCaption(i18n("%1 - Gluon Creator").arg(i18n("New Project")));
+    setCaption(i18n("%1 - Gluon Creator", i18n("New Project")));
     GluonEngine::Game::instance()->setGameProject(project);
 
     GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
@@ -288,7 +288,7 @@ void MainWindow::historyChanged()
     GluonEngine::Game::instance()->currentScene()->savableDirty = true;
     m_modified = true;
 
-    setCaption(i18n("%1 [modified]").arg(m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+    setCaption(i18n("%1 [modified]", m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
 }
 
 void MainWindow::cleanChanged(bool clean)
@@ -296,7 +296,7 @@ void MainWindow::cleanChanged(bool clean)
     if (clean)
     {
         m_modified = false;
-        setCaption(i18n("%1").arg(m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+        setCaption(i18n("%1", m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
     }
 }
 

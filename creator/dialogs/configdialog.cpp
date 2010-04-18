@@ -30,7 +30,7 @@ ConfigDialog::ConfigDialog(QWidget* parent, const QString& name, KConfigSkeleton
     m_plugins = new KPluginSelector();
     m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Docks"), QString("dock"));
     m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Tools"), QString("tool"));
-    m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Other"), QString());
+    m_plugins->addPlugins(infos, KPluginSelector::ReadConfigFile, i18n("Others"), QString());
 
     addPage(m_plugins, i18n("Plugins"), "gluon");
     connect(m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)));

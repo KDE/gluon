@@ -97,7 +97,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 {
     DEBUG_FUNC_NAME
     GluonEngine::GameObject *newObj = new GluonEngine::GameObject();
-    newObj->setName(i18n("New Object %1").arg(m_objectId++));
+    newObj->setName(i18n("New Object %1", m_objectId++));
     DEBUG_TEXT(QString("Creating object: %1").arg(newObj->name()));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
@@ -127,7 +127,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 GluonEngine::Scene* ObjectManager::createNewScene()
 {
     GluonEngine::Scene *newScn = new GluonEngine::Scene();
-    newScn->setName(i18n("New Scene %1").arg(m_sceneId++));
+    newScn->setName(i18n("New Scene %1", m_sceneId++));
     newScn->setGameProject(GluonEngine::Game::instance()->gameProject());
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
 
