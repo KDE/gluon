@@ -32,6 +32,7 @@
 #include <KRun>
 #include <KRecentFilesAction>
 
+#include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
@@ -44,13 +45,14 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 #include "lib/selectionmanager.h"
+#include <QDockWidget>
 
 using namespace GluonCreator;
 
 MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 {
     m_modified = false;
-
+    
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     PluginManager::instance()->setParent(this);
@@ -58,7 +60,7 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     HistoryManager::instance()->setParent(this);
     SelectionManager::instance()->setParent(this);
 
-    setupGame();
+    //setupGame();
 
     setDockNestingEnabled(true);
     //setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
@@ -66,13 +68,26 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-
+    
     PluginManager::instance()->setMainWindow(this);
     PluginManager::instance()->loadPlugins();
 
     setupActions();
-
+    
     setupGUI();
+    
+    m_projectDialog = new ProjectSelectionDialog(this);
+    m_projectDialog->setModal(true);
+    connect(m_projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
+    
+    QList<QDockWidget*> docks = m_dockWidgets.values();
+    foreach(QDockWidget* dock, docks)
+    {
+        dock->setEnabled(false);
+    }
+    
+    if(centralWidget())
+        centralWidget()->setEnabled(false);
 
     if (!fileName.isEmpty())
     {
@@ -81,6 +96,11 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     else
     {
         //Show new project dialog.
+        QTimer *timer = new QTimer(this);
+        timer->setInterval(200);
+        timer->setSingleShot(true);
+        connect(timer, SIGNAL(timeout()), SLOT(showNewProjectDialog()));
+        timer->start();
     }
 }
 
@@ -88,17 +108,6 @@ MainWindow::~MainWindow()
 {
     m_recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
     GluonEngine::Game::instance()->stopGame();
-}
-
-void MainWindow::newProject()
-{
-    KRun::run("gluoncreator", KUrl::List(), this);
-}
-
-void MainWindow::openProject()
-{
-    QString fileName = KFileDialog::getOpenFileName(KUrl(), i18n("*.gluon|Gluon Project Files"));
-    openProject(fileName);
 }
 
 void MainWindow::openProject(KUrl url)
@@ -125,6 +134,7 @@ void MainWindow::openProject(const QString &fileName)
     statusBar()->showMessage(i18n("Project successfully opened"));
     setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
     HistoryManager::instance()->clear();
+    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
 }
 
 void MainWindow::saveProject()
@@ -162,28 +172,12 @@ void MainWindow::saveProjectAs()
     if (!m_fileName.isEmpty()) saveProject();
 }
 
-void MainWindow::setupGame()
-{
-    GluonEngine::GameProject* project = new GluonEngine::GameProject(GluonEngine::Game::instance());
-    project->setName(i18n("New Project"));
-    setCaption(i18n("%1 - Gluon Creator", i18n("New Project")));
-    GluonEngine::Game::instance()->setGameProject(project);
-
-    GluonEngine::Scene* root = ObjectManager::instance()->createNewScene();
-    GluonEngine::Game::instance()->setCurrentScene(root);
-    project->setEntryPoint(root);
-
-    HistoryManager::instance()->clear();
-    //connect(ObjectManager::instance(), SIGNAL(newObject(GluonCore::GluonObject*)), GluonEngine::Game::instance(), SLOT(drawAll()));
-    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
-}
-
 void MainWindow::setupActions()
 {
-    KStandardAction::openNew(this, SLOT(newProject()), actionCollection());
-    KStandardAction::open(this, SLOT(openProject()), actionCollection());
-    KStandardAction::save(this, SLOT(saveProject()), actionCollection());
-    KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection());
+    KStandardAction::openNew(this, SLOT(showNewProjectDialog()), actionCollection());
+    KStandardAction::open(this, SLOT(showOpenProjectDialog()), actionCollection());
+    KStandardAction::save(this, SLOT(saveProject()), actionCollection())->setEnabled(false);
+    KStandardAction::saveAs(this, SLOT(saveProjectAs()), actionCollection())->setEnabled(false);;
     KStandardAction::quit(this, SLOT(close()), actionCollection());
     KStandardAction::preferences(this, SLOT(showPreferences()), actionCollection());
 
@@ -202,15 +196,18 @@ void MainWindow::setupActions()
 
     KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
     actionCollection()->addAction("newObject", newObject);
+    newObject->setEnabled(false);
     connect(newObject, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewGameObject()));
 
     KAction* newScene = new KAction(KIcon("document-new"), i18n("New Scene"), actionCollection());
     actionCollection()->addAction("newScene", newScene);
+    newScene->setEnabled(false);
     connect(newScene, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
 
     KAction* play = new KAction(KIcon("media-playback-start"), i18n("Play Game"), actionCollection());
     actionCollection()->addAction("playPauseGame", play);
     play->setCheckable(true);
+    play->setEnabled(false);
     connect(play, SIGNAL(triggered(bool)), SLOT(playPauseGame(bool)));
 
     KAction* stop = new KAction(KIcon("media-playback-stop"), i18n("Stop Game"), actionCollection());
@@ -220,10 +217,12 @@ void MainWindow::setupActions()
     
     KAction *addAsset = new KAction(KIcon("document-new"), i18n("Add Assets..."), actionCollection());
     actionCollection()->addAction("addAsset", addAsset);
+    addAsset->setEnabled(false);
     connect(addAsset, SIGNAL(triggered(bool)), SLOT(addAsset()));
     
     KAction* chooseEntryPoint = new KAction(KIcon("media-playback-start"), i18n("Set current scene as entry point"), actionCollection());
     actionCollection()->addAction("chooseEntryPoint", chooseEntryPoint);
+    chooseEntryPoint->setEnabled(false);
     connect(chooseEntryPoint, SIGNAL(triggered(bool)), SLOT(chooseEntryPoint()));
 }
 
@@ -254,6 +253,7 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
             actionCollection()->action("stopGame")->setEnabled(true);
             
+            QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
             saveProject();
 
             //Set the focus to the entire window, so that we do not accidentally trigger actions
@@ -271,6 +271,10 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("stopGame")->setEnabled(false);
             
             openProject(m_fileName);
+            
+            DEBUG_BLOCK;
+            DEBUG_TEXT(currentSceneName);
+            GluonEngine::Game::instance()->setCurrentScene(currentSceneName);
         }
     }
     else
@@ -345,3 +349,42 @@ void MainWindow::chooseEntryPoint()
     }
 }
 
+void GluonCreator::MainWindow::showNewProjectDialog()
+{
+    m_projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_NEW);
+    m_projectDialog->show();
+}
+
+void GluonCreator::MainWindow::showOpenProjectDialog()
+{
+    m_projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_OPEN);
+    m_projectDialog->show();
+}
+
+void GluonCreator::MainWindow::projectDialogClosed()
+{
+    openProject(m_projectDialog->fileName());
+    
+    actionCollection()->action(KStandardAction::name(KStandardAction::Save))->setEnabled(true);
+    actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs))->setEnabled(true);
+    actionCollection()->action("newObject")->setEnabled(true);
+    actionCollection()->action("newScene")->setEnabled(true);
+    actionCollection()->action("playPauseGame")->setEnabled(true);
+    actionCollection()->action("addAsset")->setEnabled(true);
+    actionCollection()->action("chooseEntryPoint")->setEnabled(true);
+    
+    QList<QDockWidget*> docks = m_dockWidgets.values();
+    foreach(QDockWidget* dock, docks)
+    {
+        dock->setEnabled(true);
+    }
+    
+    if(centralWidget())
+        centralWidget()->setEnabled(true);
+}
+
+void GluonCreator::MainWindow::addDock(QDockWidget* dockWidget, Qt::DockWidgetArea area)
+{
+    m_dockWidgets.insert(dockWidget->objectName(), dockWidget);
+    addDockWidget(area, dockWidget);
+}

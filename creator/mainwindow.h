@@ -23,6 +23,8 @@
 #include <KXmlGuiWindow>
 #include <KUrl>
 
+#include "dialogs/projectselectiondialog.h"
+
 class KRecentFilesAction;
 namespace GluonCreator
 {
@@ -36,11 +38,9 @@ namespace GluonCreator
             ~MainWindow();
 
             virtual bool queryClose();
+            virtual void addDock(QDockWidget *dockWidget, Qt::DockWidgetArea area);
 
         public slots:
-            void newProject();
-
-            void openProject();
             void openProject(KUrl url);
             void openProject(const QString &fileName);
             void saveProject();
@@ -55,15 +55,19 @@ namespace GluonCreator
             
             void addAsset();
             void chooseEntryPoint();
+            
+            void showNewProjectDialog();
+            void showOpenProjectDialog();
+            void projectDialogClosed();
 
         private:
             void setupActions();
-            void setupDocks();
-            void setupGame();
 
             bool m_modified;
             QString m_fileName;
             KRecentFilesAction* m_recentFiles;
+            ProjectSelectionDialog *m_projectDialog;
+            QHash<QString, QDockWidget*> m_dockWidgets;
     };
 }
 
