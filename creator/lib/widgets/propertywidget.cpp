@@ -22,7 +22,6 @@
 
 using namespace GluonCreator;
 
-#include "propertywidget.h"
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
@@ -38,8 +37,8 @@ using namespace GluonCreator;
 #include <QtGui/QLabel>
 #include <QtGui/QToolButton>
 
-#include <KIcon>
-#include <klocalizedstring.h>
+#include <KDE/KIcon>
+#include <KDE/KLocalizedString>
 
 class PropertyWidget::PropertyWidgetPrivate
 {

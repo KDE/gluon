@@ -21,7 +21,7 @@
 #define GLUON_CREATOR_PLUGIN_H
 
 #include <QtCore/QObject>
-#include <KXmlGuiWindow>
+#include <KDE/KXmlGuiWindow>
 
 #include "gluoncreator_macros.h"
 

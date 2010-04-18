@@ -20,9 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#ifndef TESTA_H
+#define TESTA_H
+
 #include <QWidget>
 #include <QObject>
 #include <QDebug>
+
 #include <gluon/graphics/item.h>
 #include <gluon/graphics/meshes/cubemesh.h>
 
@@ -36,8 +40,6 @@ class Testa : public QWidget
     private:
         double a;
         GluonGraphics::Item * item ;
-
-
-
-
 };
+
+#endif

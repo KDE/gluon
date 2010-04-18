@@ -26,7 +26,6 @@
 #include <QtCore/QDebug>
 #include <qmetaobject.h>
 
-#include <qquaternion.h>
 #include <QVariant>
 #include <qdatastream.h>
 #include <qquaternion.h>

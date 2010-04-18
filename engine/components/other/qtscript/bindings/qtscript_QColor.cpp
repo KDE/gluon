@@ -26,7 +26,6 @@
 #include <QtCore/QDebug>
 #include <qmetaobject.h>
 
-#include <qcolor.h>
 #include <QVariant>
 #include <qcolor.h>
 #include <qdatastream.h>

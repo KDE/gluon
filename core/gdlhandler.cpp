@@ -16,9 +16,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+#include "gdlhandler.h"
+
 #include <QtCore/QStringList>
 
-#include "gdlhandler.h"
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"
 #include "debughelper.h"

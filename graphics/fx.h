@@ -20,15 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef EFFECT_H
-#define EFFECT_H
+#ifndef GLUON_GRAPHICS_FX_H
+#define GLUON_GRAPHICS_FX_H
 
 #include <QtCore/QString>
 #include <QtCore/QPointF>
 
 #include "gluon_graphics_export.h"
-#include "shader.h"
-#include "program.h"
 
 /**
  * \defgroup

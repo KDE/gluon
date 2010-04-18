@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
-#define GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
+#ifndef GLUON_ENGINE_CAMERACONTROLLERCOMPONENT_H
+#define GLUON_ENGINE_CAMERACONTROLLERCOMPONENT_H
 
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>

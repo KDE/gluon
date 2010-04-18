@@ -17,15 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_DOCKPLUGINLOADER_H
-#define GLUON_CREATOR_DOCKPLUGINLOADER_H
+#ifndef GLUON_CREATOR_PLUGINMANAGER_H
+#define GLUON_CREATOR_PLUGINMANAGER_H
 
 #include "gluoncreator_macros.h"
 
 #include <QtCore/QObject>
-#include <KPluginInfo>
+#include <QtCore/QHash>
+#include <KDE/KPluginInfo>
+
 #include <core/singleton.h>
-#include <QHash>
+
 class KXmlGuiWindow;
 namespace GluonCreator
 {

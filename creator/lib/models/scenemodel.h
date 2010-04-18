@@ -21,7 +21,7 @@
 
 #include <gluoncreator_macros.h>
 
-#include <QAbstractItemModel>
+#include <QtCore/QAbstractItemModel>
 
 namespace GluonEngine
 {

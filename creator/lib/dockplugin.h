@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_DOCKPLUGIN_H
 #define GLUON_CREATOR_DOCKPLUGIN_H
 
-#include <KXmlGuiWindow>
+#include <KDE/KXmlGuiWindow>
 
 #include "plugin.h"
 

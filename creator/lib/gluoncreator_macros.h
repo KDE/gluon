@@ -19,10 +19,11 @@
 #ifndef GLUON_CREATOR_MACROS
 #define GLUON_CREATOR_MACROS
 
+#include <QtCore/QGlobalStatic>
+
 #include <kdemacros.h>
-#include <KPluginFactory>
-#include <KPluginLoader>
-#include <QtCore/qglobal.h>
+#include <KDE/KPluginFactory>
+#include <KDE/KPluginLoader>
 
 #ifndef GLUONCREATOR_EXPORT
 #if defined(MAKE_GLUONCREATOR)

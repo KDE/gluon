@@ -21,13 +21,12 @@
 #include "device_p.h"
 
 #include <QtCore/QDebug>
-#include <QVector3D>
+#include <QtGui/QVector3D>
 #include <al.h>
 #include <alc.h>
 #ifndef Q_WS_MAC
 #include <alext.h>
 #endif
-#include <QVector3D>
 
 using namespace GluonAudio;
 

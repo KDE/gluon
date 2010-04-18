@@ -21,8 +21,8 @@
 #define GLUON_CREATOR_PROPERTYWIDGET_H
 
 #include <QtGui/QWidget>
-#include <QGridLayout>
-#include <QScrollArea>
+#include <QtGui/QGridLayout>
+#include <QtGui/QScrollArea>
 
 #include "gluoncreator_macros.h"
 

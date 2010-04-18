@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_SCENEDOCKPLUGIN_H
-#define GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#ifndef GLUON_CREATOR_PROJECTDOCK_H
+#define GLUON_CREATOR_PROJECTDOCK_H
 
 #include <QModelIndex>
 

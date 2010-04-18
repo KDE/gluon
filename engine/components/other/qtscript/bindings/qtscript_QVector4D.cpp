@@ -26,7 +26,6 @@
 #include <QtCore/QDebug>
 #include <qmetaobject.h>
 
-#include <qvector4d.h>
 #include <QVariant>
 #include <qdatastream.h>
 #include <qpoint.h>
