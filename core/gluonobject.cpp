@@ -615,9 +615,9 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             value = QString("rgba(%1;%2;%3;%4)").arg(theColor.red()).arg(theColor.green()).arg(theColor.blue()).arg(theColor.alpha());
             break;
         case QVariant::Url:
-            if (!theValue.toUrl().toString().isEmpty())
+            if (!theValue.toUrl().isEmpty())
             {
-                if (theValue.toString().startsWith("file"))
+                if (theValue.toString().startsWith(QLatin1String("file")))
                     value = QString("file(%1)").arg(theValue.toUrl().toString());
                 else
                     value = QString("url(%1)").arg(theValue.toUrl().toString());
