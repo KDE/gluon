@@ -73,11 +73,14 @@ ProjectModel::project()
 void
 ProjectModel::setProject(GluonEngine::GameProject* project)
 {
-    d->root = new QObject(this);
-    d->project = project;
-    project->setParent(d->root);
+    if(project)
+    {
+        d->root = new QObject(this);
+        d->project = project;
+        project->setParent(d->root);
 
-    reset();
+        reset();
+    }
 }
 
 QVariant
