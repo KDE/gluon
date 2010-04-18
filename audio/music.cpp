@@ -238,7 +238,7 @@ std::string Music::errorString(int code)
 
 void Music::run()
 {
-    open(m_fileName.toUtf8().data());
+    this->open(m_fileName.toUtf8().data());
     display();
     if (!playback())
     {
