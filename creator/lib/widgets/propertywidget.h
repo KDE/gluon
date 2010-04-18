@@ -52,7 +52,7 @@ namespace GluonCreator
             void setObject(GluonCore::GluonObject* object);
             void appendObject(GluonCore::GluonObject* obj, bool useColor = false);
 
-        signals:
+        Q_SIGNALS:
             void propertyChanged(QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue);
 
         private:

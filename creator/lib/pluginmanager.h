@@ -39,11 +39,11 @@ namespace GluonCreator
     public:
         QList<KPluginInfo> pluginInfos() const;
         QHash<QString, Plugin*> loadedPlugins();
-    public slots:
+    public Q_SLOTS:
         void loadPlugins();
         void setMainWindow(KXmlGuiWindow* window);
 
-    signals:
+    Q_SIGNALS:
         void pluginLoaded(Plugin * plugin);
 
     private:

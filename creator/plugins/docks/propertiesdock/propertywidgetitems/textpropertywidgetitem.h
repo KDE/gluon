@@ -24,8 +24,6 @@
 
 #include "widgets/propertywidgetitem.h"
 
-#include <QtGui/QLineEdit>
-
 namespace GluonCreator
 {
     class TextPropertyWidgetItem : public PropertyWidgetItem

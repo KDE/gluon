@@ -39,10 +39,10 @@ namespace GluonCreator
             typedef QList<GluonCore::GluonObject*> SelectionList;
             SelectionList selection() const;
 
-        public slots:
+        public Q_SLOTS:
             void setSelection(const SelectionList& selection);
 
-        signals:
+        Q_SIGNALS:
             void selectionChanged(SelectionManager::SelectionList);
 
         private:

@@ -59,7 +59,7 @@ namespace GluonCreator
 
             virtual bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
-        public slots:
+        public Q_SLOTS:
             void setRootGameObject(GluonEngine::GameObject* obj);
 
         private:

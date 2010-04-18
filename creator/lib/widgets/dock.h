@@ -43,7 +43,7 @@ namespace GluonCreator
             virtual QAbstractItemModel* model() = 0;
             virtual QAbstractItemView*  view() = 0;
 
-        public slots:
+        public Q_SLOTS:
             virtual void setSelection(GluonCore::GluonObject* obj = 0) = 0;
     };
 }

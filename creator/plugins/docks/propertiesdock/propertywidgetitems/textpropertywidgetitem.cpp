@@ -21,13 +21,15 @@
 
 #include "textpropertywidgetitem.h"
 
+#include <KDE/KLineEdit>
+
 REGISTER_PROPERTYWIDGETITEM(GluonCreator, TextPropertyWidgetItem)
 
 using namespace GluonCreator;
 
 TextPropertyWidgetItem::TextPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
 {
-    setEditWidget(new QLineEdit(this));
+    setEditWidget(new KLineEdit(this));
     connect(editWidget(), SIGNAL(textEdited(QString)), SLOT(textEdited(QString)));
 }
 

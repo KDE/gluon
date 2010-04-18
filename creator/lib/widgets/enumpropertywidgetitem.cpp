@@ -19,9 +19,10 @@
 #include "enumpropertywidgetitem.h"
 #include "core/debughelper.h"
 
-#include <QtGui/QComboBox>
 #include <QtGui/QLayout>
 #include <QtCore/QMetaEnum>
+
+#include <KDE/KComboBox>
 
 namespace GluonCreator
 {
@@ -35,7 +36,7 @@ namespace GluonCreator
             };
             ~EnumPWIPrivate() {};
 
-            QComboBox * comboBox;
+            KComboBox * comboBox;
             QObject * editObject;
             QString typeName;
             QMetaEnum metaEnum;
@@ -70,7 +71,7 @@ EnumPropertyWidgetItem::EnumPropertyWidgetItem(const QString& typeName, QWidget*
     d = new EnumPWIPrivate();
     d->typeName = typeName;
 
-    d->comboBox = new QComboBox(this);
+    d->comboBox = new KComboBox(this);
     layout()->addWidget(d->comboBox);
 }
 

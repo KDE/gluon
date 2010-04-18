@@ -34,7 +34,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
 
-        public slots:
+        public Q_SLOTS:
             void addCommand(QUndoCommand* command);
 
             void undo();
@@ -43,7 +43,7 @@ namespace GluonCreator
             void clear();
             void setClean();
 
-        signals:
+        Q_SIGNALS:
             void historyChanged();
 
             void canUndoChanged(bool);

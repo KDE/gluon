@@ -159,7 +159,7 @@ void ProjectDock::activated(QModelIndex index)
     }
     else if(asset)
     {
-        QString filename = QUrl(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).canonicalPath() + '/' + asset->file().toLocalFile()).toLocalFile();
+        QString filename = KUrl(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).canonicalPath() + '/' + asset->file().toLocalFile()).toLocalFile();
         if(QFile::exists(filename))
         {
             KRun* runner = new KRun(filename, this);
