@@ -54,7 +54,7 @@ Savable::saveToFile(GluonCore::GluonObject * object)
 
     // Make sure the filename is populated and is sane
     if (object->property("file").value<QUrl>().isEmpty())
-        object->setProperty("file", QVariant::fromValue<QUrl>(QUrl(QString("Scenes/%1.gdl").arg(object->fullyQualifiedName().replace('/', ' ').replace('\\', ' ').replace(':', ' ')))));
+        object->setProperty("file", QVariant::fromValue<QUrl>(QUrl(QString("Scenes/%1.gdl").arg(object->fullyQualifiedFileName()))));
 
     // Create appropriate folders
     if (!QDir::current().exists("Scenes"))
