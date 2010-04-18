@@ -581,7 +581,7 @@ namespace GluonGraphics
                     {
                         // Break the line here
                         newlines.append(newline);
-                        newline = QString();
+                        newline.clear();
                         newlinew = 0;
                     }
                     if (!newline.isEmpty())

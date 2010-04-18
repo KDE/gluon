@@ -648,7 +648,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
     if (value.isEmpty())
     {
         value = QString("(empty value)");
-        returnString = QString();
+        returnString.clear();
     }
 
     //DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));

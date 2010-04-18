@@ -39,7 +39,7 @@ InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 	IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
 
 	d->error = false;
-	d->msgError = QString();
+	d->msgError.clear();
 	d->deviceName = "Unknown";
 	this->readInformation();
 }
