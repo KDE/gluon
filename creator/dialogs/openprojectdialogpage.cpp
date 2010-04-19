@@ -20,11 +20,13 @@
 #include "openprojectdialogpage.h"
 
 #include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
-#include <KFileWidget>
-#include <QVBoxLayout>
+#include <KDE/KFileWidget>
+
+#include <core/debughelper.h>
 
 using namespace GluonCreator;
 
@@ -42,8 +44,10 @@ GluonCreator::OpenProjectDialogPage::OpenProjectDialogPage()
     setIcon(KIcon("document-open"));
     
     d->fileWidget = new KFileWidget(KUrl("kfiledialog:///OpenDialog"), widget());
+    d->fileWidget->setOperationMode(KFileWidget::Opening);
     d->fileWidget->setFilter(i18n("*.gluon|Gluon Project Files"));
-    
+    d->fileWidget->setLocationLabel(i18n("Project"));
+
     QVBoxLayout *layout = new QVBoxLayout();
     widget()->setLayout(layout);
     
@@ -57,5 +61,8 @@ GluonCreator::OpenProjectDialogPage::~OpenProjectDialogPage()
 
 QString GluonCreator::OpenProjectDialogPage::fileName()
 {
+    d->fileWidget->accept();
     return d->fileWidget->selectedFile();
 }
+
+#include "openprojectdialogpage.moc"

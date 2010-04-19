@@ -20,15 +20,13 @@
 #include "projectselectiondialog.h"
 
 #include <KDE/KLocalizedString>
-#include <QLabel>
-#include <qlistview.h>
-#include <KLineEdit>
-#include <KFileWidget>
-#include <QResizeEvent>
+#include <KDE/KConfig>
 
 #include "newprojectdialogpage.h"
 #include "recentprojectsdialogpage.h"
 #include "openprojectdialogpage.h"
+
+#include <core/debughelper.h>
 
 using namespace GluonCreator;
 
@@ -48,7 +46,7 @@ ProjectSelectionDialog::ProjectSelectionDialog(QWidget* parent, Qt::WFlags flags
     : KPageDialog(parent, flags),
     d(new ProjectSelectionDialogPrivate)
 {
-    setFaceType(    List);
+    setFaceType(List);
     setButtons(KDialog::Ok | KDialog::Close);
     
     restoreDialogSize(KGlobal::config()->group("ProjectSelectionDialog"));
@@ -77,14 +75,25 @@ QString ProjectSelectionDialog::fileName()
 
 void ProjectSelectionDialog::slotButtonClicked(int button)
 {
+    DEBUG_FUNC_NAME
     if(button == KDialog::Ok)
     {
         if(currentPage() == d->newPage)
+	{
+	    DEBUG_TEXT("New");
             d->fileName = d->newPage->fileName();
-        if(currentPage() == d->recentPage)
+	}
+        else if(currentPage() == d->recentPage)
+	{
+	    DEBUG_TEXT("Recent");
             d->fileName = d->recentPage->fileName();
-        if(currentPage() == d->openPage)
+	}
+        else if(currentPage() == d->openPage)
+	{
+	    DEBUG_TEXT("Open");
             d->fileName = d->openPage->fileName();
+	}
+	DEBUG_TEXT(d->fileName);
     
         if(d->fileName.isEmpty())
         {

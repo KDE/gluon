@@ -21,11 +21,13 @@
 #define GLUONCREATOR_OPENPROJECTDIALOGPAGE_H
 
 #include <kpagewidgetmodel.h>
+#include <KDE/KUrl>
 
 namespace GluonCreator 
 {
     class OpenProjectDialogPage : public KPageWidgetItem
     {
+	Q_OBJECT
         public:
             OpenProjectDialogPage();
             virtual ~OpenProjectDialogPage();
