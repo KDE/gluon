@@ -142,7 +142,8 @@ void
 SoundEmitterComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse);
-    d->sound->setPosition(gameObject()->position());
+    if(d->sound)
+      d->sound->setPosition(gameObject()->position());
 }
 
 void 
