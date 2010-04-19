@@ -49,10 +49,6 @@ endif()
 #Gluon Applications - Currently dependant on KDE Development Platform
 find_package(KDE4)
 if(KDE4_FOUND AND WITH_KDE)
-    ##### Gluon Player #####
-    if(BUILD_GLUON_PLAYER)
-        add_subdirectory(player)
-    endif(BUILD_GLUON_PLAYER)
     ##### Gluon Creator ####
     if(BUILD_GLUON_CREATOR)
        add_subdirectory(creator)
@@ -62,9 +58,14 @@ else(KDE4_FOUND AND WITH_KDE)
         message(WARNING "WITH_KDE is enabled but KDE libraries are not found - not building KDE-dependant applications")
         set(WITH_KDE OFF)
     endif(WITH_KDE)
-    set(BUILD_GLUON_PLAYER OFF)
     set(BUILD_GLUON_CREATOR OFF)
 endif(KDE4_FOUND AND WITH_KDE)
+
+##### Gluon Player #####
+# This currently does not require KDE, so we can safely put it down here
+if(BUILD_GLUON_PLAYER)
+	add_subdirectory(player)
+endif(BUILD_GLUON_PLAYER)
 
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
