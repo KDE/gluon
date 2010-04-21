@@ -20,7 +20,7 @@
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QBoxLayout>
-#include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 #include <QtGui/QCheckBox>
 #include <QtGui/QLabel>
 #include <QtGui/QMenu>
@@ -38,7 +38,6 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             , containerLayout(0)
             , expander(0)
             , enabler(0)
-            , titleLabel(0)
             , menuButton(0)
         {
             this->parent = parent;
@@ -53,20 +52,20 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             titleLayout->setContentsMargins(0, 0, 0, 0);
             titleWidget->setLayout(titleLayout);
             
-            expander = new QPushButton(parent);
-            expander->setFlat(true);
+            expander = new QToolButton(parent);
+            expander->setAutoRaise(true);
+            expander->setArrowType(Qt::DownArrow);
+            connect(expander, SIGNAL(clicked(bool)), parent, SLOT(toggleExpanded()));
             titleLayout->addWidget(expander);
             
             enabler = new QCheckBox(parent);
+            enabler->setText(title);
             titleLayout->addWidget(enabler);
             
-            titleLabel = new QLabel(parent);
-            titleLabel->setText(title);
-            titleLayout->addWidget(titleLabel);
-            
-            menuButton = new QPushButton(parent);
-            menuButton->setFlat(true);
-            parent->connect(menuButton, SIGNAL(clicked(bool)), menuButton, SLOT(showMenu()));
+            menuButton = new QToolButton(parent);
+            menuButton->setAutoRaise(true);
+            menuButton->setPopupMode(QToolButton::InstantPopup);
+            menuButton->setMenu(menu);
             titleLayout->addWidget(menuButton);
             
             // The widget used for containing the children
@@ -79,7 +78,7 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         }
         ~PropertyWidgetContainerPrivate()
         {
-        };
+        }
         
         PropertyWidgetContainer* parent;
         void appendMetaObject(QObject* object);
@@ -93,10 +92,9 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         QGridLayout* containerLayout;
         QHash<QString, QWidget*> items;
         
-        QPushButton* expander;
+        QToolButton* expander;
         QCheckBox* enabler;
-        QLabel* titleLabel;
-        QPushButton* menuButton;
+        QToolButton* menuButton;
         
         QMenu* menu;
 }; }
@@ -139,9 +137,23 @@ void
 PropertyWidgetContainer::setExpanded(const bool& newExpanded)
 {
     d->expanded = newExpanded;
-    
+
+    if(newExpanded)
+    {
+        d->expander->setArrowType(Qt::DownArrow);
+    }
+    else
+    {
+        d->expander->setArrowType(Qt::RightArrow);
+    }
     // This should be animated - need to experiment with the animation framework for that to be pretty ;)
     d->containerWidget->setVisible(newExpanded);
+}
+
+void
+PropertyWidgetContainer::toggleExpanded()
+{
+    setExpanded(!expanded());
 }
 
 bool
@@ -166,7 +178,7 @@ void
 PropertyWidgetContainer::setTitle(const QString& newTitle)
 {
     d->title = newTitle;
-    d->titleLabel->setText(newTitle);
+    d->enabler->setText(newTitle);
 }
 
 void

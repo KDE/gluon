@@ -43,6 +43,7 @@ namespace GluonCreator
             
             bool expanded() const;
             void setExpanded(const bool& newExpanded);
+            Q_SLOT void toggleExpanded();
             
             bool enabled() const;
             void setEnabled(const bool& newEnabled);
