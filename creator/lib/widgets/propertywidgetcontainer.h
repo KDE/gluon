@@ -46,7 +46,7 @@ namespace GluonCreator
             Q_SLOT void toggleExpanded();
             
             bool enabled() const;
-            void setEnabled(const bool& newEnabled);
+            Q_SLOT void setEnabled(const bool& newEnabled);
             
             QString title() const;
             void setTitle(const QString& newTitle);
