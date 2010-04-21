@@ -14,7 +14,7 @@ set(libGluonCreator_SRCS
 
     widgets/dock.cpp
     widgets/propertywidget.cpp
-
+    widgets/propertywidgetcontainer.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
     widgets/nullpropertywidgetitem.cpp

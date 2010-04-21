@@ -22,6 +22,7 @@
 
 using namespace GluonCreator;
 
+#include "propertywidgetcontainer.h"
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
@@ -106,24 +107,28 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
         return;
     }
 
-    QString classname = obj->metaObject()->className();
-    classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
-    #ifdef __GNUC__
-    #warning We will need to replace the group box with a custom widget of some type, as we cannot collapse it. Unfortunate, but such is life ;)
-    #endif
-    QGroupBox* objectBox = new QGroupBox(classname, this);
+    d->layout->addWidget(new PropertyWidgetContainer(obj, this));
 
-    objectBox->setFlat(true);
-    objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    d->layout->addWidget(objectBox);
-
-    QGridLayout* boxLayout = new QGridLayout(objectBox);
-    boxLayout->setSpacing(0);
-    boxLayout->setContentsMargins(0, 0, 0, 0);
-    objectBox->setLayout(boxLayout);
-
-    d->appendMetaObject(this, obj, boxLayout);
+//     QString classname = obj->metaObject()->className();
+//     classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
+//     #ifdef __GNUC__
+//     #warning We will need to replace the group box with a custom widget of some type, as we cannot collapse it. Unfortunate, but such is life ;)
+//     #endif
+//     
+//     
+//     QGroupBox* objectBox = new QGroupBox(classname, this);
+// 
+//     objectBox->setFlat(true);
+//     objectBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+// 
+//     d->layout->addWidget(objectBox);
+// 
+//     QGridLayout* boxLayout = new QGridLayout(objectBox);
+//     boxLayout->setSpacing(0);
+//     boxLayout->setContentsMargins(0, 0, 0, 0);
+//     objectBox->setLayout(boxLayout);
+// 
+//     d->appendMetaObject(this, obj, boxLayout);
 }
 
 void PropertyWidget::PropertyWidgetPrivate::appendMetaObject(QWidget *parent, QObject *object, QGridLayout* layout)
