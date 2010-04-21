@@ -26,6 +26,7 @@
 #include <QtGui/QMenu>
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
+#include <KIcon>
 
 namespace GluonCreator {
 class PropertyWidgetContainer::PropertyWidgetContainerPrivate
@@ -45,6 +46,8 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             
             // The widget used for the heading
             QWidget* titleWidget = new QWidget(parent);
+            titleWidget->setBackgroundRole(QPalette::ToolTipBase);
+            titleWidget->setForegroundRole(QPalette::ToolTipText);
             parent->layout()->addWidget(titleWidget);
             
             QHBoxLayout* titleLayout = new QHBoxLayout();
@@ -52,17 +55,20 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             titleLayout->setContentsMargins(0, 0, 0, 0);
             titleWidget->setLayout(titleLayout);
             
-            expander = new QToolButton(parent);
+            expander = new QToolButton(titleWidget);
             expander->setAutoRaise(true);
             expander->setArrowType(Qt::DownArrow);
             connect(expander, SIGNAL(clicked(bool)), parent, SLOT(toggleExpanded()));
             titleLayout->addWidget(expander);
             
-            enabler = new QCheckBox(parent);
+            enabler = new QCheckBox(titleWidget);
             enabler->setText(title);
+            enabler->setChecked(enabled);
+            connect(enabler, SIGNAL(toggled(bool)), parent, SLOT(setEnabled(bool)));
             titleLayout->addWidget(enabler);
             
-            menuButton = new QToolButton(parent);
+            menuButton = new QToolButton(titleWidget);
+            menuButton->setIcon(KIcon("preferences-other"));
             menuButton->setAutoRaise(true);
             menuButton->setPopupMode(QToolButton::InstantPopup);
             menuButton->setMenu(menu);
@@ -81,6 +87,7 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         }
         
         PropertyWidgetContainer* parent;
+        GluonCore::GluonObject* object;
         void appendMetaObject(QObject* object);
         void addPropertyItem(QString name, PropertyWidgetItem* item);
         
@@ -121,9 +128,31 @@ PropertyWidgetContainer::~PropertyWidgetContainer()
 
 void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
 {
+    d->object = theObject;
+
     QString classname(theObject->metaObject()->className());
     classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
     setTitle(classname);
+
+    if(!theObject->property("enabled").isNull())
+        setEnabled(theObject->property("enabled").value<bool>());
+    if(!theObject->property("expanded").isNull())
+        setExpanded(theObject->property("expanded").value<bool>());
+
+    PropertyWidgetItem *nameWidget = PropertyWidgetItemFactory::instance()->create(theObject, "QString", parentWidget());
+    nameWidget->setEditObject(theObject);
+    nameWidget->setEditProperty("name");
+    d->addPropertyItem("name", nameWidget);
+
+    PropertyWidgetItem *descriptionWidget = PropertyWidgetItemFactory::instance()->create(theObject, "QString", parentWidget());
+    descriptionWidget->setEditObject(theObject);
+    descriptionWidget->setEditProperty("description");
+    d->addPropertyItem("description", descriptionWidget);
+
+    QFrame* separator = new QFrame(this);
+    separator->setFrameShape(QFrame::HLine);
+    d->containerLayout->addWidget(separator, d->containerLayout->rowCount(), 0, 1, 2);
+    
     d->appendMetaObject(theObject);
 }
 
@@ -138,6 +167,12 @@ PropertyWidgetContainer::setExpanded(const bool& newExpanded)
 {
     d->expanded = newExpanded;
 
+    // This is done to avoid polluting the GDL with unneeded data - the invalid QVariant removes the expanded property, because true is the default value
+    if(!newExpanded)
+        d->object->setProperty("expanded", false);
+    else
+        d->object->setProperty("expanded", QVariant());
+    
     if(newExpanded)
     {
         d->expander->setArrowType(Qt::DownArrow);
@@ -166,6 +201,10 @@ void
 PropertyWidgetContainer::setEnabled(const bool& newEnabled)
 {
     d->enabled = newEnabled;
+    if(d->enabled != d->object->property("enabled").value<bool>())
+        d->object->setProperty("enabled", newEnabled);
+    if(d->enabler->isChecked() != newEnabled)
+        d->enabler->setChecked(newEnabled);
 }
 
 QString
@@ -182,7 +221,7 @@ PropertyWidgetContainer::setTitle(const QString& newTitle)
 }
 
 void
-PropertyWidgetContainer::addDefaultMenuItems(QObject* referenceObject)
+PropertyWidgetContainer::addDefaultMenuItems()
 {
 }
 
@@ -217,7 +256,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
         // are right at the top and have a little line under them and such... all pretty ;)
         // Also disregard enabled, as that is done by the checkbox above...
         propertyName = QString(metaProperty.name());
-        if (propertyName == QString("objectName"))// || propertyName == QString("name") || propertyName == QString("description") || propertyName == QString("enabled"))
+        if (propertyName == QString("objectName") || propertyName == QString("name") || propertyName == QString("description") || propertyName == QString("expanded") || propertyName == QString("enabled"))
             continue;
         
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), parent->parentWidget());
@@ -230,6 +269,10 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
     foreach(const QByteArray &propName, object->dynamicPropertyNames())
     {
         QString thePropName(propName);
+        // Don't show the expanded dynamic property - we make this one dynamic because
+        // we don't want to pollute the API with this arguably very meta information
+        if(thePropName == QString("expanded") || thePropName == QString("enabled"))
+            continue;
         
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), parent->parentWidget());
         editWidget->setEditObject(object);

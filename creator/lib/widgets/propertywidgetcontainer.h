@@ -51,7 +51,7 @@ namespace GluonCreator
             QString title() const;
             void setTitle(const QString& newTitle);
             
-            void addDefaultMenuItems(QObject* referenceObject);
+            void addDefaultMenuItems();
             void addMenuItem(QAction* menuItem);
             void removeMenuItem(QAction* menuItem);
             
