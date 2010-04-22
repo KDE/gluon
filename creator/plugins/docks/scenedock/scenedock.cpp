@@ -66,6 +66,7 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
     connect(GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()));
 
     d->view->setModel(d->model);
+    d->view->setHeaderHidden(true);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(true);
     d->view->setDropIndicatorShown(true);

@@ -18,11 +18,12 @@
  */
 
 #include "messagedock.h"
-#include <engine/game.h>
+#include "core/gluon_version.h"
+#include "engine/game.h"
 
 // Yup, this should be a view... but for now...
 #include <QtGui/QListWidget>
-#include <QDebug>
+#include <KDE/KLocalizedString>
 
 using namespace GluonCreator;
 
@@ -42,6 +43,7 @@ MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags 
 {
     setObjectName("MessageDock");
     d->view = new QListWidget(this);
+    d->view->addItem(new QListWidgetItem(i18n("Welcome to Gluon Creator %1").arg(GLUON_VERSION_STRING), d->view));
     
     connect(GluonEngine::Game::instance(), SIGNAL(showDebug(const QString&)), this, SLOT(showDebug(const QString&)));
     

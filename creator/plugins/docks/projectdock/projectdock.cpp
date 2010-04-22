@@ -101,6 +101,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->model = new ProjectModel(this);
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
+    d->view->setHeaderHidden(true);
     d->view->setAcceptDrops(true);
     d->view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(d->view, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenuRequested(const QPoint&)));
