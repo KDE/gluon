@@ -26,6 +26,7 @@
 #include <QtGui/QMenu>
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
+#include <QtCore/QStringBuilder>
 #include <KIcon>
 
 namespace GluonCreator {
@@ -86,6 +87,8 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         {
         }
         
+        QString humanifyString(QString fixThis);
+        
         PropertyWidgetContainer* parent;
         GluonCore::GluonObject* object;
         void appendMetaObject(QObject* object);
@@ -132,7 +135,7 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
 
     QString classname(theObject->metaObject()->className());
     classname = classname.right(classname.length() - classname.lastIndexOf(':') - 1);
-    setTitle(classname);
+    setTitle(d->humanifyString(classname));
 
     if(!theObject->property("enabled").isNull())
         setEnabled(theObject->property("enabled").value<bool>());
@@ -298,7 +301,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem(QString
     // - Make first letter upper case
     // - Split at upper-case letters
     // - Add space between those indicated words
-    nameLabel->setText(name);
+    nameLabel->setText(humanifyString(name));
     
     item->setMinimumWidth(250);
     item->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -310,6 +313,34 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem(QString
     containerLayout->addWidget(item, row, 1);
     
     items.insert(name, item);
+}
+
+QString
+PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString(QString fixThis)
+{
+    QString fixedString;
+    const int length = fixThis.size();
+    for(int i = 0; i < length; ++i)
+    {
+        const QChar current = fixThis.at(i);
+        if(i == 0)
+        {
+            // Always upper-case the first word, whether it is or not...
+            fixedString = current.toUpper();
+        }
+        else
+        {
+            if(current.isUpper())
+            {
+                fixedString = fixedString % ' ' % current;
+            }
+            else
+            {
+                fixedString = fixedString % current;
+            }
+        }
+    }
+    return fixedString;
 }
 
 #include "propertywidgetcontainer.moc"
