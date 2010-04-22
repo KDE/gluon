@@ -45,9 +45,9 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             menu = new QMenu(parent);
             
             // The widget used for the heading
-            QWidget* titleWidget = new QWidget(parent);
-            titleWidget->setBackgroundRole(QPalette::ToolTipBase);
-            titleWidget->setForegroundRole(QPalette::ToolTipText);
+            QFrame* titleWidget = new QFrame(parent);
+            titleWidget->setFrameShape(QFrame::StyledPanel);
+            titleWidget->setFrameShadow(QFrame::Raised);
             parent->layout()->addWidget(titleWidget);
             
             QHBoxLayout* titleLayout = new QHBoxLayout();
