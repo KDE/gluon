@@ -138,6 +138,7 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
         setEnabled(theObject->property("enabled").value<bool>());
     if(!theObject->property("expanded").isNull())
         setExpanded(theObject->property("expanded").value<bool>());
+    connect(this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)));
 
     PropertyWidgetItem *nameWidget = PropertyWidgetItemFactory::instance()->create(theObject, "QString", parentWidget());
     nameWidget->setEditObject(theObject);
@@ -165,6 +166,7 @@ PropertyWidgetContainer::expanded() const
 void
 PropertyWidgetContainer::setExpanded(const bool& newExpanded)
 {
+    bool oldExpanded = d->expanded;
     d->expanded = newExpanded;
 
     // This is done to avoid polluting the GDL with unneeded data - the invalid QVariant removes the expanded property, because true is the default value
@@ -183,6 +185,8 @@ PropertyWidgetContainer::setExpanded(const bool& newExpanded)
     }
     // This should be animated - need to experiment with the animation framework for that to be pretty ;)
     d->containerWidget->setVisible(newExpanded);
+    
+    emit propertyChanged(d->object, "expanded", oldExpanded, newExpanded);
 }
 
 void
@@ -200,11 +204,13 @@ PropertyWidgetContainer::enabled() const
 void
 PropertyWidgetContainer::setEnabled(const bool& newEnabled)
 {
+    bool oldEnabled = d->enabled;
     d->enabled = newEnabled;
     if(d->enabled != d->object->property("enabled").value<bool>())
         d->object->setProperty("enabled", newEnabled);
     if(d->enabler->isChecked() != newEnabled)
         d->enabler->setChecked(newEnabled);
+    emit propertyChanged(d->object, "expanded", oldEnabled, newEnabled);
 }
 
 QString
@@ -296,7 +302,8 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem(QString
     
     item->setMinimumWidth(250);
     item->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    connect(item, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent->parent(), SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
+    // Yeah, looks a bit funny, but this makes it possible to connect to either the pwi container... or the pwi view ;)
+    connect(item, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
     
     int row = containerLayout->rowCount();
     containerLayout->addWidget(nameLabel, row, 0);

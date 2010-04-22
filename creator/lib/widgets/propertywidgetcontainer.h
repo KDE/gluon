@@ -55,6 +55,9 @@ namespace GluonCreator
             void addMenuItem(QAction* menuItem);
             void removeMenuItem(QAction* menuItem);
             
+        Q_SIGNALS:
+            void propertyChanged(QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue);
+            
         private:
             class PropertyWidgetContainerPrivate;
             PropertyWidgetContainerPrivate* d;
