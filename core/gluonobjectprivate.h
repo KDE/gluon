@@ -26,6 +26,7 @@
 namespace GluonCore
 {
     class GluonObject;
+    class MetaInfo;
 
     class GluonObjectPrivate : public QSharedData
     {
@@ -36,6 +37,7 @@ namespace GluonCore
 
             QString name;
             GluonObject *gameProject;
+            MetaInfo* metaInfo;
     };
 }
 

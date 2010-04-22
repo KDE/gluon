@@ -40,6 +40,7 @@ set(GLUON_CORE_INCLUDES
 set(GluonCore_SRCS
     debughelper.cpp
     gdlhandler.cpp
+    metainfo.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
     gluonobjectprivate.cpp

@@ -42,6 +42,7 @@ namespace GluonCore
 {
     class GameProject;
     class GluonObjectPrivate;
+    class MetaInfo;
 
     class GLUON_CORE_EXPORT GluonObject : public QObject
     {
@@ -97,6 +98,12 @@ namespace GluonCore
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
             void setGameProject(GluonObject * newGameProject);
+
+            /**
+             * Get the Gluon meta info for this object
+             * @return The meta information related to this object
+             */
+            MetaInfo* metaInfo();
 
             /**
              * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?
