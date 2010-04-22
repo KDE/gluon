@@ -33,7 +33,7 @@ namespace GluonCore
         public:
             GluonObjectPrivate();
             GluonObjectPrivate(const GluonObjectPrivate &other);
-            ~GluonObjectPrivate() {};
+            ~GluonObjectPrivate();
 
             QString name;
             GluonObject *gameProject;

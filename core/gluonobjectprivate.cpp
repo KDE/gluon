@@ -40,3 +40,8 @@ GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)
         , metaInfo(other.metaInfo)
 {
 }
+
+GluonCore::GluonObjectPrivate::~GluonObjectPrivate()
+{
+    delete(metaInfo);
+}
