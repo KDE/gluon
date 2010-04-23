@@ -103,7 +103,8 @@ namespace GluonCore
              * Get the Gluon meta info for this object
              * @return The meta information related to this object
              */
-            MetaInfo* metaInfo();
+            Q_INVOKABLE MetaInfo* metaInfo();
+            Q_INVOKABLE bool hasMetaInfo() const;
 
             /**
              * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?

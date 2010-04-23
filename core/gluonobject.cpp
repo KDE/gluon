@@ -758,5 +758,12 @@ GluonObject::metaInfo()
     return d->metaInfo;
 }
 
+bool
+GluonObject::hasMetaInfo() const
+{
+    if(d->metaInfo)
+        return true;
+    return false;
+}
 
 #include "gluonobject.moc"
