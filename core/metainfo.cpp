@@ -1,18 +1,21 @@
-/*
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
-*/
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 #include "metainfo.h"
 #include "gluonobject.h"
@@ -27,11 +30,12 @@ class MetaInfo::MetaInfoPrivate
 
         QHash<QString, qreal> propertyRangeMin;
         QHash<QString, qreal> propertyRangeMax;
-        QHash<QString, qreal> propertyStep;
+        QHash<QString, quint32> propertySteps;
 };
 
 MetaInfo::MetaInfo(GluonObject* parent)
-    : d(new MetaInfoPrivate())
+    : QObject(parent)
+    , d(new MetaInfoPrivate())
 {
 }
 
@@ -63,7 +67,7 @@ MetaInfo::propertyRangeMin(const QString& property) const
 {
     // This will return 0 if we do not have a property range for this property
     // name - but anybody using it should have checked beforehand
-    return d->propertyRangeMin[property];
+    return d->propertyRangeMin.value(property);
 }
 
 qreal
@@ -71,7 +75,7 @@ MetaInfo::propertyRangeMax(const QString& property) const
 {
     // This will return 0 if we do not have a property range for this property
     // name - but anybody using it should have checked beforehand
-    return d->propertyRangeMax[property];
+    return d->propertyRangeMax.value(property);
 }
 
 void
@@ -81,28 +85,60 @@ MetaInfo::removePropertyRange(const QString& property)
     d->propertyRangeMax.remove(property);
 }
 
-void
-MetaInfo::setPropertyStep(const QString& property, qreal step)
+qreal
+MetaInfo::applyRange(const QString& property, qreal newValue) const
 {
-    d->propertyStep.insert(property, step);
+    if(!hasPropertyRange(property))
+        return newValue;
+    qBound(d->propertyRangeMin[property], newValue, d->propertyRangeMax[property]);
+}
+
+void
+MetaInfo::setPropertySteps(const QString& property, quint32 steps)
+{
+    d->propertySteps.insert(property, steps);
 }
 
 bool
-MetaInfo::hasPropertyStep(const QString& property) const
+MetaInfo::hasPropertySteps(const QString& property) const
 {
-    return d->propertyStep.keys().contains(property);
+    return d->propertySteps.keys().contains(property);
 }
 
-qreal
-MetaInfo::propertyStep(const QString& property) const
+quint32
+MetaInfo::propertySteps(const QString& property) const
 {
     // This will return 0 if we do not have a property step for this property
     // name - but anybody using it should have checked beforehand
-    return d->propertyStep[property];
+    return d->propertySteps.value(property);
 }
 
 void
-MetaInfo::removePropertyStep(const QString& property)
+MetaInfo::removePropertySteps(const QString& property)
 {
-    d->propertyStep.remove(property);
+    d->propertySteps.remove(property);
 }
+
+qreal
+MetaInfo::applySteps(const QString& property, qreal newValue) const
+{
+    if(!hasPropertySteps(property) || !hasPropertyRange(property))
+        return newValue;
+    
+    // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)
+    const qreal step = (d->propertyRangeMax.value(property) - d->propertyRangeMin.value(property)) / d->propertySteps.value(property);
+    return qRound64(newValue / step) * step;
+}
+
+qreal
+MetaInfo::applyRangeAndStep(const QString& property, qreal newValue) const
+{
+    if(!hasPropertySteps(property) || !hasPropertyRange(property))
+        return newValue;
+    
+    // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)
+    const qreal step = (d->propertyRangeMax.value(property) - d->propertyRangeMin.value(property)) / d->propertySteps.value(property);
+    return qRound64(qBound(d->propertyRangeMin[property], newValue, d->propertyRangeMax[property]) / step) * step;
+}
+
+#include "metainfo.moc"
