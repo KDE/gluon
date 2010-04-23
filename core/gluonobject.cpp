@@ -20,6 +20,7 @@
 #include "gluonobjectprivate.h"
 #include "debughelper.h"
 #include "gluonvarianttypes.h"
+#include "metainfo.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QPointF>
@@ -747,6 +748,22 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             break;
         }
     }
+}
+
+MetaInfo*
+GluonObject::metaInfo()
+{
+    if(!d->metaInfo)
+        d->metaInfo = new MetaInfo(this);
+    return d->metaInfo;
+}
+
+bool
+GluonObject::hasMetaInfo() const
+{
+    if(d->metaInfo)
+        return true;
+    return false;
 }
 
 #include "gluonobject.moc"

@@ -26,16 +26,18 @@
 namespace GluonCore
 {
     class GluonObject;
+    class MetaInfo;
 
     class GluonObjectPrivate : public QSharedData
     {
         public:
             GluonObjectPrivate();
             GluonObjectPrivate(const GluonObjectPrivate &other);
-            ~GluonObjectPrivate() {};
+            ~GluonObjectPrivate();
 
             QString name;
             GluonObject *gameProject;
+            MetaInfo* metaInfo;
     };
 }
 
