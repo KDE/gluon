@@ -94,12 +94,15 @@ ProjectModel::data(const QModelIndex& index, int role) const
     if (role == Qt::DecorationRole)
     {
         GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(static_cast<QObject*>(index.internalPointer()));
-        QVariant filename = gobj->property("file");
-        if(filename.isValid()){
-            QString name = filename.value<QString>();
-            return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-        }else{
-            return KIcon("text-x-generic");
+        if(gobj)
+        {
+            QVariant filename = gobj->property("file");
+            if(filename.isValid()){
+                QString name = filename.value<QString>();
+                return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
+            }else{
+                return KIcon("text-x-generic");
+            }
         }
     }
 
