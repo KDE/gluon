@@ -257,7 +257,8 @@ namespace GluonInput
 			
 			enum RelAbs
 			{
-				Misc = 0,
+				HWHEEL = -1, //I do not know how HID is handling this
+				MISC = 0,
 				X_REL = 48,
 				Y_REL = 49,
 				Z_REL = 50,
@@ -267,15 +268,15 @@ namespace GluonInput
 				ROTATION_X_AXIS,
 				ROTATION_Y_AXIS,
 				ROTATION_Z_AXIS,
-				Dial = 55,
-				Wheel,
-				Hat_Switch,
-				XTilt = 61,
-				YTilt,
-				Rudder = 186,
-				Throttle,
-				Gas = 196,
-				Brake
+				DIAL = 55,
+				WHEEL_REL,
+				HAT_SWITCH,
+				XTILT = 61,
+				YTILT,
+				RUDDER = 186,
+				THROTTLE,
+				GAS = 196,
+				BRAKE
 			};	 
 			
 			enum MouseButton
