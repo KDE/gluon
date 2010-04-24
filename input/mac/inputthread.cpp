@@ -275,22 +275,6 @@ void InputThread::sendEvent(InputEvent* event)
 	QCoreApplication::processEvents();
 }
 
-void InputThread::enable()
-{
-	if(!this->isRunning())
-	{
-		this->start();
-	}
-}
-
-void InputThread::disable()
-{
-	if(this->isRunning())
-	{
-		this->stop();
-	}
-}
-
 int InputThread::getJoystickXAxis()
 {
 	return d->xAbsUsage;

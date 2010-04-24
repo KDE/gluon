@@ -41,7 +41,7 @@ DetectMac::~DetectMac()
 	CFRelease(d->devices);
 }
 
-void DetectMac::searchDevice()
+void DetectMac::detectDevices()
 {
 	qDebug() << "Checking if deviceManager exists";
 	if(d->deviceManager == NULL)
@@ -188,22 +188,13 @@ void DetectMac::clear()
 	d->m_unknownList.clear();
 }
 
-void DetectMac::enableAll()
+void DetectMac::setAllEnabled(bool enable)
 {
-	qDebug() << "Enabling all devices";
 	foreach(InputDevice *input, this->getInputList())
 	{
-		input->enable();
+		input->setEnabled(enable);
 	}
-}
-
-void DetectMac::disableAll()
-{
-	foreach(InputDevice *input, this->getInputList()) 
-	{
-		input->disable();
-	}
-}   
+}  
 
 void DetectMac::createDevices(const void *value, void *context)
 {
