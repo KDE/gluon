@@ -66,6 +66,7 @@ install(
     FILES
     debughelper.h
     gdlhandler.h
+    metainfo.h
     gluonobject.h
     gluonobjectfactory.h
     gluonobjectprivate.h
