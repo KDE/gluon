@@ -49,7 +49,7 @@ Component::~Component()
 QVariant
 Component::toVariant(GluonCore::GluonObject* wrapThis)
 {
-    if (this->metaObject()->className() != "GluonCore::Component")
+    if (strcmp(this->metaObject()->className(), "GluonCore::Component") != 0)
         debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
     return QVariant::fromValue<GluonEngine::Component*>(qobject_cast<GluonEngine::Component*>(wrapThis));
 }
