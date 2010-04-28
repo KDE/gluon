@@ -1,5 +1,10 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -27,8 +32,15 @@ namespace GluonPlayer
     class PlasmaApplet : Plasma::GLApplet
     {
         Q_OBJECT
-    private:
+    public:
         PlasmaApplet(QObject *parent, const QVariantList &args);
+        void init();
+
+    private:
+        QString m_gameFileName;
     };
 }
+
+K_EXPORT_PLASMA_APPLET(gluonplayer, GluonPlayer::PlasmaApplet)
+
 #endif // PLASMAAPPLET_H
