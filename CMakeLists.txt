@@ -11,7 +11,7 @@ option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" ON)
 option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
-option(INSTALL_CMAKE_FILES "Install the FindGluon*.cmake files into the CMake root" OFF)
+option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
@@ -71,7 +71,7 @@ message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "Install the FindGluon*.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
+message(STATUS "Install the *.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
 message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}")
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
 message(STATUS "Build Gluon Input Library (BUILD_GLUON_INPUT): ${BUILD_GLUON_INPUT}")
@@ -102,7 +102,10 @@ if(INSTALL_CMAKE_FILES)
         core/cmake/FindGluon.cmake
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
+        audio/cmake/FindOggVorbis.cmake
+        audio/cmake/FindSndFile.cmake
         graphics/cmake/FindGluonGraphics.cmake
+        graphics/cmake/FindGLEW.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
         creator/lib/cmake/FindGluonCreator.cmake

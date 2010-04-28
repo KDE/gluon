@@ -88,12 +88,3 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
     COMPONENT Devel
 )
-
-install(
-    FILES
-    cmake/FindGluonAudio.cmake
-    cmake/FindOggVorbis.cmake
-    cmake/FindSndFile.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
-    COMPONENT Devel
-)

@@ -74,11 +74,3 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
     COMPONENT Devel
 )
-
-install(
-    FILES
-    cmake/FindGluon.cmake
-    cmake/FindGluonCore.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
-    COMPONENT Devel
-)

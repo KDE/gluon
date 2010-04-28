@@ -129,11 +129,9 @@ meshes/icospheremesh.h
 meshes/uvspheremesh.h
 meshes/cylindremesh.h
 meshes/spritemesh.h
-shaders/lightshader.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/meshes
 COMPONENT Devel
 )
-
 
 install(
 FILES
@@ -143,15 +141,3 @@ shaders/mosaicshader.h
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/shaders
 COMPONENT Devel
 )
-
-
-
-
-install(
-FILES
-cmake/FindGluonGraphics.cmake
-cmake/FindGLEW.cmake
-DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
-COMPONENT Devel
-)
-
