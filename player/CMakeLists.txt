@@ -7,7 +7,8 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonGraphics REQUIRED)
 endif()
 
-include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
+                    ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(gluonplayer_SRCS
     main.cpp
@@ -19,3 +20,5 @@ add_executable(gluonplayer ${gluonplayer_SRCS})
 target_link_libraries(gluonplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS})
 
 install(TARGETS gluonplayer DESTINATION ${BIN_INSTALL_DIR})
+
+add_subdirectory(plasmoid)

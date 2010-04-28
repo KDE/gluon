@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2009 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,16 +16,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUON_CORE_GLUON_VERSION_H
-#define GLUON_CORE_GLUON_VERSION_H
 
-#define GLUON_PLATFORM_NAME     "Gluon Development Platform"
+#include "plasmaapplet.h"
 
-#define GLUON_VERSION_MAJOR     0
-#define GLUON_VERSION_MINOR     71
-#define GLUON_VERSION_PATCH     0
-#define GLUON_VERSION_NAME      "Electron"
+using namespace GluonPlayer;
 
-#define GLUON_VERSION_STRING    "0.71.0 (Electron)"
+PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLApplet(parent, args)
+{
 
-#endif //GLUON_CORE_GLUON_VERSION_H
+}
+
+
+#include "plasmaapplet.moc"
