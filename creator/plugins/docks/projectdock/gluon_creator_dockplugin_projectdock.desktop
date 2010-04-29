@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=Project Dock
+Name[x-test]=xxProject Dockxx
 Comment=Provides a Project browser dock plugin.
+Comment[x-test]=xxProvides a Project browser dock plugin.xx
 Icon=gluon
 
 Type=Service

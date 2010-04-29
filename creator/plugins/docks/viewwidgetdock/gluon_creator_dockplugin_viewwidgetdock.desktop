@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=View Dock
+Name[x-test]=xxView Dockxx
 Comment=Provides a view of the current scene
+Comment[x-test]=xxProvides a view of the current scenexx
 Icon=gluon
 
 Type=Service

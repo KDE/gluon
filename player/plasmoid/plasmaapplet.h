@@ -1,5 +1,10 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,15 +25,52 @@
 #ifndef PLASMAAPPLET_H
 #define PLASMAAPPLET_H
 
+#include <GL/glew.h>
 #include <Plasma/GLApplet>
+
+namespace GluonEngine
+{
+    class GameProject;
+}
+
+namespace GluonGraphics
+{
+    class Camera;
+}
 
 namespace GluonPlayer
 {    
-    class PlasmaApplet : Plasma::GLApplet
+    class PlasmaApplet : public Plasma::GLApplet
     {
         Q_OBJECT
-    private:
+
+    public:
         PlasmaApplet(QObject *parent, const QVariantList &args);
+        virtual ~PlasmaApplet();
+        void init();
+        virtual void paintGLInterface (QPainter *painter, const QStyleOptionGraphicsItem *option);
+
+    private:
+        QString m_gameFileName;
+        GluonEngine::GameProject *m_project;
+        GluonGraphics::Camera *m_camera;
+        int m_viewportWidth;
+        int m_viewportHeight;
+
+        void initGL();
+        void render();
+
+    protected:
+        void resizeEvent(QGraphicsSceneResizeEvent *event);
+
+    protected slots:
+        void openProject();
+        void doPaint();
+        void startGame();
+        void setCamera(GluonGraphics::Camera* camera);
     };
 }
+
+K_EXPORT_PLASMA_APPLET(gluonplayer, GluonPlayer::PlasmaApplet)
+
 #endif // PLASMAAPPLET_H
