@@ -25,19 +25,49 @@
 #ifndef PLASMAAPPLET_H
 #define PLASMAAPPLET_H
 
+#include <GL/glew.h>
 #include <Plasma/GLApplet>
+
+namespace GluonEngine
+{
+    class GameProject;
+}
+
+namespace GluonGraphics
+{
+    class Camera;
+}
 
 namespace GluonPlayer
 {    
-    class PlasmaApplet : Plasma::GLApplet
+    class PlasmaApplet : public Plasma::GLApplet
     {
         Q_OBJECT
+
     public:
         PlasmaApplet(QObject *parent, const QVariantList &args);
+        virtual ~PlasmaApplet();
         void init();
+        virtual void paintGLInterface (QPainter *painter, const QStyleOptionGraphicsItem *option);
 
     private:
         QString m_gameFileName;
+        GluonEngine::GameProject *m_project;
+        GluonGraphics::Camera *m_camera;
+        int m_viewportWidth;
+        int m_viewportHeight;
+
+        void initGL();
+        void render();
+
+    protected:
+        void resizeEvent(QGraphicsSceneResizeEvent *event);
+
+    protected slots:
+        void openProject();
+        void doPaint();
+        void startGame();
+        void setCamera(GluonGraphics::Camera* camera);
     };
 }
 
