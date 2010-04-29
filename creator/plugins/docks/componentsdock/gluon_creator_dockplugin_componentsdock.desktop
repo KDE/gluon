@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=Components Dock
+Name[x-test]=xxComponents Dockxx
 Comment=Provides a list with components in a dock.
+Comment[x-test]=xxProvides a list with components in a dock.xx
 Icon=gluon
 
 Type=Service

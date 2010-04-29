@@ -1,9 +1,11 @@
 [Desktop Entry]
 Name=Gluon Player Plasmoid
+Name[x-test]=xxGluon Player Plasmoidxx
 Comment=Gluon Player Plasmoid
+Comment[x-test]=xxGluon Player Plasmoidxx
 Type=Service
 ServiceTypes=Plasma/Applet
- 
+
 X-KDE-Library=plasma_applet_gluonplayer
 X-KDE-PluginInfo-Author=Shantanu Tushar Jha
 X-KDE-PluginInfo-Email=jhahoneyk@gmail.com

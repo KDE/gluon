@@ -74,9 +74,3 @@ install(FILES
     DESTINATION ${SERVICETYPES_INSTALL_DIR}
     COMPONENT Devel
 )
-
-install(FILES
-    cmake/FindGluonCreator.cmake
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/cmake
-    COMPONENT Devel
-)
