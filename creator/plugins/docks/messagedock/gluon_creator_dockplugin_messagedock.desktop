@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=Message Dock
+Name[x-test]=xxMessage Dockxx
 Comment=Provides a Message browser dock plugin.
+Comment[x-test]=xxProvides a Message browser dock plugin.xx
 Icon=gluon
 
 Type=Service

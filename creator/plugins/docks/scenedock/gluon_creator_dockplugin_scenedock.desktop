@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=Scene Dock
+Name[x-test]=xxScene Dockxx
 Comment=Provides a Scene browser dock plugin.
+Comment[x-test]=xxProvides a Scene browser dock plugin.xx
 Icon=gluon
 
 Type=Service
