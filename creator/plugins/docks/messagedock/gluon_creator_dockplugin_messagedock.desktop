@@ -2,8 +2,16 @@
 Encoding=UTF-8
 
 Name=Message Dock
+Name[de]=Nachrichten-Anzeige
+Name[pt]=Área de Mensagens
+Name[sv]=Meddelandepanel
+Name[uk]=Панель повідомлень
 Name[x-test]=xxMessage Dockxx
 Comment=Provides a Message browser dock plugin.
+Comment[de]=Ein Modul zum Anzeigen von Nachrichten.
+Comment[pt]=Oferece um 'plugin' para acoplar os navegadores de mensagens.
+Comment[sv]=Tillhandahåller ett insticksprogram för meddelandebläddring.
+Comment[uk]=Додаток панелі перегляду повідомлень.
 Comment[x-test]=xxProvides a Message browser dock plugin.xx
 Icon=gluon
 

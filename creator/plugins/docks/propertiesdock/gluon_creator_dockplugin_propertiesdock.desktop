@@ -2,8 +2,16 @@
 Encoding=UTF-8
 
 Name=Properties Dock
+Name[de]=Eigenschaften-Anzeige
+Name[pt]=Área de Propriedades
+Name[sv]=Egenskapspanel
+Name[uk]=Панель властивостей
 Name[x-test]=xxProperties Dockxx
 Comment=Provides a Properties editor dock plugin.
+Comment[de]=Eine Anzeigemodul zur Bearbeitung der Eigenschaften.
+Comment[pt]=Oferece um 'plugin' de edição de propriedades.
+Comment[sv]=Tillhandahåller ett insticksprogram för egenskapsredigering.
+Comment[uk]=Додаток панелі редактора властивостей.
 Comment[x-test]=xxProvides a Properties editor dock plugin.xx
 Icon=gluon
 
