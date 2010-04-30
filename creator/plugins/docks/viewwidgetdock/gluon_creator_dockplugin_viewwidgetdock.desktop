@@ -2,8 +2,16 @@
 Encoding=UTF-8
 
 Name=View Dock
+Name[de]=Ansicht-Anzeige
+Name[pt]=Área de Vistas
+Name[sv]=Vypanel
+Name[uk]=Додаток перегляду
 Name[x-test]=xxView Dockxx
 Comment=Provides a view of the current scene
+Comment[de]=Eine Anzeige der aktuellen Szene.
+Comment[pt]=Oferece uma vista sobre a cena actual
+Comment[sv]=Tillhandahåller en vy av aktuell scen.
+Comment[uk]=Панель перегляду стану поточного ігрового поля.
 Comment[x-test]=xxProvides a view of the current scenexx
 Icon=gluon
 

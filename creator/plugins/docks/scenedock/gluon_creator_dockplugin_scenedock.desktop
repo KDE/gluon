@@ -2,8 +2,16 @@
 Encoding=UTF-8
 
 Name=Scene Dock
+Name[de]=Szenen-Anzeige
+Name[pt]=Área de Cenas
+Name[sv]=Scenpanel
+Name[uk]=Панель ігрового поля
 Name[x-test]=xxScene Dockxx
 Comment=Provides a Scene browser dock plugin.
+Comment[de]=Eine Anzeigemodul der Szenen.
+Comment[pt]=Oferece um 'plugin' de navegação pelas cenas.
+Comment[sv]=Tillhandahåller ett insticksprogram för scenbläddring.
+Comment[uk]=Додаток панелі перегляду ігрового поля.
 Comment[x-test]=xxProvides a Scene browser dock plugin.xx
 Icon=gluon
 
