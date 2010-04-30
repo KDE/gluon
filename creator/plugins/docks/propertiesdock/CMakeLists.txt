@@ -5,7 +5,6 @@ set(propertiesdock_SRCS
 
     propertywidgetitems/boolpropertywidgetitem.cpp
     propertywidgetitems/textpropertywidgetitem.cpp
-    propertywidgetitems/floatpropertywidgetitem.cpp
     propertywidgetitems/intpropertywidgetitem.cpp
     propertywidgetitems/vectorpropertywidgetitem.cpp
     propertywidgetitems/qfontpropertywidgetitem.cpp

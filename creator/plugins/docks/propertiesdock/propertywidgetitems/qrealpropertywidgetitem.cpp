@@ -43,6 +43,7 @@ QRealPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
     supportedTypes.append("qreal");
+    supportedTypes.append("float");
     return supportedTypes;
 }
 
