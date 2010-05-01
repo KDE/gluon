@@ -51,11 +51,11 @@ namespace GluonPlayer
         virtual void paintGLInterface (QPainter *painter, const QStyleOptionGraphicsItem *option);
 
     private:
+        int m_viewportWidth;
+        int m_viewportHeight;
         QString m_gameFileName;
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
-        int m_viewportWidth;
-        int m_viewportHeight;
 
         void initGL();
         void render();

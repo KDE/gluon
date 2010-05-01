@@ -39,7 +39,7 @@ using namespace GluonPlayer;
 using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLApplet(parent, args),
-                            m_viewportHeight(0), m_viewportWidth(0), m_camera(0), m_project(0)
+                            m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0)
 {
 }
 
@@ -56,15 +56,14 @@ void PlasmaApplet::init()
 
 void PlasmaApplet::openProject()
 {
+    setBusy(true);
     m_gameFileName = QFileDialog::getOpenFileName(0, tr("Please select a project"),
                                                     QString(), tr("Gluon Project Files (*.gluon)"));
-
     if (m_gameFileName.isEmpty()) {
         return;
     }
 
     initGL();
-
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project = new GluonEngine::GameProject();
@@ -73,17 +72,18 @@ void PlasmaApplet::openProject()
     GluonEngine::Game::instance()->setCurrentScene(m_project->entryPoint());
 
     connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), this, SLOT(doPaint()));
-
     QTimer::singleShot(1000, this, SLOT(startGame()));
 }
 
 void PlasmaApplet::doPaint()
 {
+    makeCurrent();
     update();
 }
 
 void PlasmaApplet::startGame()
 {
+    setBusy(false);
     GluonEngine::Game::instance()->runGame();
 }
 
@@ -94,13 +94,11 @@ void PlasmaApplet::initGL()
             SLOT(setCamera(GluonGraphics::Camera*)));
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
-
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glEnable(GL_SCISSOR_TEST);
     glEnable(GL_ALPHA_TEST);
-
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
     glAlphaFunc(GL_GREATER, 0.01);
 
@@ -112,12 +110,10 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_viewportHeight = event->newSize().height();
 
     if (m_camera) {
-        m_camera->setViewport(0, 0, event->newSize().width(), event->newSize().height());
+        m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
         m_camera->applyViewport();
         m_camera->applyOrtho();
     }
-
-    glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 
@@ -128,25 +124,6 @@ void PlasmaApplet::setCamera(Camera* camera)
 
 void PlasmaApplet::render()
 {
-    //Render the axes, just for troubleshooting, will be removed later
-    glBegin(GL_LINES);
-        glColor3f(0, 1, 0);
-        glVertex3f(0, 0, 0);
-        glVertex3f(0, 5, 0);
-        glEnd() ;
-
-        glBegin(GL_LINES);
-        glColor3f(1, 0, 0);
-        glVertex3f(0, 0, 0);
-        glVertex3f(5, 0, 0);
-        glEnd();
-
-        glBegin(GL_LINES);
-        glColor3f(0, 0, 1);
-        glVertex3f(0, 0, 0);
-        glVertex3f(0, 0, 5);
-    glEnd();
-
     Engine::instance()->sortItems();
     QList<Item*> items = Engine::instance()->items();
     foreach(Item *it, items) {
@@ -160,12 +137,9 @@ void PlasmaApplet::paintGLInterface(QPainter* painter, const QStyleOptionGraphic
     Q_UNUSED(option);
 
     glScissor(0, 0, 400, 400);
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
     glClearColor(0.0, 0.0, 0.0, 1.0);
-
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (m_camera) {
@@ -173,9 +147,7 @@ void PlasmaApplet::paintGLInterface(QPainter* painter, const QStyleOptionGraphic
     }
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-
     render();
-
     glPopAttrib();
 }
 
