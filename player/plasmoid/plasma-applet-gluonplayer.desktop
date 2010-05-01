@@ -1,7 +1,15 @@
 [Desktop Entry]
 Name=Gluon Player Plasmoid
+Name[de]=Gluon-Player-Miniprogramm
+Name[pt]=Plasmóide de Leitura do Gluon
+Name[sv]=Gluon spelarplasmoid
+Name[uk]=Плазмоїд програвача Gluon
 Name[x-test]=xxGluon Player Plasmoidxx
 Comment=Gluon Player Plasmoid
+Comment[de]=Gluon-Player-Miniprogramm
+Comment[pt]=Plasmóide de Leitura do Gluon
+Comment[sv]=Gluon spelarplasmoid
+Comment[uk]=Плазмоїд програвача Gluon
 Comment[x-test]=xxGluon Player Plasmoidxx
 Type=Service
 ServiceTypes=Plasma/Applet

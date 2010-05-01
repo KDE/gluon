@@ -2,8 +2,16 @@
 Encoding=UTF-8
 
 Name=Project Dock
+Name[de]=Projekt-Anzeige
+Name[pt]=Área de Projectos
+Name[sv]=Projektpanel
+Name[uk]=Панель проекту
 Name[x-test]=xxProject Dockxx
 Comment=Provides a Project browser dock plugin.
+Comment[de]=Ein Anzeigemodul zur Projektverwaltung.
+Comment[pt]=Oferece um 'plugin' de navegação pelos projectos.
+Comment[sv]=Tillhandahåller ett insticksprogram för projektbläddring.
+Comment[uk]=Додаток панелі перегляду проекту.
 Comment[x-test]=xxProvides a Project browser dock plugin.xx
 Icon=gluon
 
