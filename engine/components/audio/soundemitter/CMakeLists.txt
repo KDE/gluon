@@ -17,6 +17,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_soundemitter GluonEngine GluonAudio gluon_asset_sound)
 endif()
 
+set_target_properties(gluon_component_soundemitter PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_soundemitter GluonEngine ${GLUON_AUDIO_LIBS} gluon_asset_sound)
 
 install(

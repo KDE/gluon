@@ -17,6 +17,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_textrenderer GluonEngine GluonGraphics)
 endif()
 
+set_target_properties(gluon_component_textrenderer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_textrenderer GluonEngine ${GLUON_GRAPHICS_LIBS})
 
 install(
