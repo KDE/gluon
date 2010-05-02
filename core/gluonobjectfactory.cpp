@@ -20,6 +20,7 @@
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
 #include "debughelper.h"
+#include "gluon_version.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
@@ -198,11 +199,16 @@ GluonObjectFactory::loadPlugins()
         pluginDirs.append(pluginDir);
 
     DEBUG_TEXT(QString("Number of plugin locations: %1").arg(pluginDirs.count()));
-    foreach(const QDir &theDir, pluginDirs)
+    foreach(QDir theDir, pluginDirs)
     {
         DEBUG_TEXT(QString("Looking for pluggable components in %1").arg(theDir.absolutePath()));
         DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
-
+        
+        #ifdef Q_WS_X11
+        //Only attempt to load our current version. This makes it possible to have different versions
+        //of the plugins in the plugin dir.
+        theDir.setNameFilters(QStringList() << QString("*.so.%1.%2.%3").arg(GLUON_VERSION_MAJOR).arg(GLUON_VERSION_MINOR).arg(GLUON_VERSION_PATCH));
+        #endif
         foreach(const QString &fileName, theDir.entryList(QDir::Files))
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
