@@ -12,6 +12,7 @@ option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
+option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
@@ -64,7 +65,9 @@ endif(KDE4_FOUND AND WITH_KDE)
 ##### Gluon Player #####
 # This currently does not require KDE, so we can safely put it down here
 if(BUILD_GLUON_PLAYER)
-	add_subdirectory(player)
+    add_subdirectory(player)
+else(BUILD_GLUON_PLAYER)
+    set(INSTALL_EXAMPLES OFF)
 endif(BUILD_GLUON_PLAYER)
 
 message(STATUS)
@@ -72,6 +75,7 @@ message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
 message(STATUS "Install Prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Install the *.cmake files into CMake root (INSTALL_CMAKE_FILES): ${INSTALL_CMAKE_FILES}")
+message(STATUS "Install the game examples for Gluon Player (INSTALL_EXAMPLES): ${INSTALL_EXAMPLES}")
 message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}")
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
 message(STATUS "Build Gluon Input Library (BUILD_GLUON_INPUT): ${BUILD_GLUON_INPUT}")

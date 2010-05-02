@@ -22,3 +22,7 @@ target_link_libraries(gluonplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS})
 install(TARGETS gluonplayer DESTINATION ${BIN_INSTALL_DIR})
 
 add_subdirectory(plasmoid)
+
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
