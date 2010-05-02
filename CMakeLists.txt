@@ -47,20 +47,20 @@ if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
 endif()
 
-#Gluon Applications - Currently dependant on KDE Development Platform
-find_package(KDE4)
-if(KDE4_FOUND AND WITH_KDE)
-    ##### Gluon Creator ####
-    if(BUILD_GLUON_CREATOR)
-       add_subdirectory(creator)
-    endif(BUILD_GLUON_CREATOR)
-else(KDE4_FOUND AND WITH_KDE)
-    if(WITH_KDE)
-        message(WARNING "WITH_KDE is enabled but KDE libraries are not found - not building KDE-dependant applications")
-        set(WITH_KDE OFF)
-    endif(WITH_KDE)
-    set(BUILD_GLUON_CREATOR OFF)
-endif(KDE4_FOUND AND WITH_KDE)
+###### Gluon Creator ######
+# Dependant on KDE Development Platform
+#
+if(BUILD_GLUON_CREATOR)
+    find_package(KDE4)
+    if(KDE4_FOUND AND WITH_KDE)
+        add_subdirectory(creator)
+    else(KDE4_FOUND AND WITH_KDE)
+        if(WITH_KDE)
+            message(WARNING "WITH_KDE is enabled but KDE libraries are not found - not building Gluon Creator")
+        endif(WITH_KDE)
+        set(BUILD_GLUON_CREATOR OFF)
+    endif(KDE4_FOUND AND WITH_KDE)
+endif(BUILD_GLUON_CREATOR)
 
 ##### Gluon Player #####
 # This currently does not require KDE, so we can safely put it down here

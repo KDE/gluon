@@ -1,15 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonPlasmaApplet)
-    find_package(GluonCore REQUIRED)
-    find_package(GluonEngine REQUIRED)
-    find_package(GluonGraphics REQUIRED)
-endif()
-
-include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
-                    ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                    ${KDE4_INCLUDES})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(gluonplasmaapplet_SRCS
     plasmaapplet.cpp

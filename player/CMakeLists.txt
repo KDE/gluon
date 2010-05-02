@@ -10,19 +10,18 @@ endif()
 include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
                     ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(gluonplayer_SRCS
-    main.cpp
-    mainwindow.cpp
-)
+add_subdirectory(qt)
 
-qt4_automoc(${gluonplayer_SRCS})
-add_executable(gluonplayer ${gluonplayer_SRCS})
-target_link_libraries(gluonplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS})
-
-install(TARGETS gluonplayer DESTINATION ${BIN_INSTALL_DIR})
-
-add_subdirectory(plasmoid)
+if(KDE4_FOUND AND WITH_KDE)
+    include_directories(${KDE4_INCLUDES})
+    add_subdirectory(plasmoid)
+else(KDE4_FOUND AND WITH_KDE)
+    if(WITH_KDE)
+        message(WARNING "WITH_KDE is enabled but KDE libraries are not found - not building KDE-dependant Players")
+    endif(WITH_KDE)
+endif(KDE4_FOUND AND WITH_KDE)
 
 if(INSTALL_EXAMPLES)
-    add_subdirectory(examples)
+    install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games/invaders)
+    install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games/pong)
 endif()
