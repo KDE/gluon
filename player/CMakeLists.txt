@@ -22,6 +22,6 @@ else(KDE4_FOUND AND WITH_KDE)
 endif(KDE4_FOUND AND WITH_KDE)
 
 if(INSTALL_EXAMPLES)
-    install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games/invaders)
-    install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games/pong)
+    install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
+    install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
 endif()
