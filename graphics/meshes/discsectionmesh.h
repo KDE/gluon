@@ -31,8 +31,8 @@ namespace GluonGraphics
     {
         public:
             DiscSectionMesh(QObject * parent = 0);
-            DiscSectionMesh(QVector3D position, float radius, uint nbPoints, float degrees, QColor color, QObject * parent = 0);
-            void setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, QColor color);
+            DiscSectionMesh(QVector3D position, float radius, uint nbPoints, float degrees, float startingPoint, QColor color, QObject* parent = 0);
+            void setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float startingPoint, QColor color);
     };
 }
 #endif

@@ -24,6 +24,8 @@
 #include "engine/gameobject.h"
 #include "engine/asset.h"
 #include <QMimeData>
+#include <cmath>
+#include <sys/stat.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, DiscSectionRendererComponent)
 
@@ -40,6 +42,7 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
             nbPoints = 3;
             radius = 0.0f;
             degrees  = 90.0f;
+            startingPoint = M_PI / 2.0f;
             color.setRgb(255, 255, 255);
         }
 
@@ -51,6 +54,7 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
         uint nbPoints;
         float radius;
         float degrees;
+        float startingPoint;
         QColor color;
 };
 
@@ -76,7 +80,7 @@ void DiscSectionRendererComponent::initialize()
 {
     if(!d->item)
     {
-        d->mesh = new GluonGraphics::DiscSectionMesh(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->color,this);
+        d->mesh = new GluonGraphics::DiscSectionMesh(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->startingPoint,d->color,this);
         d->item = new GluonGraphics::Item(d->mesh, this);
         d->item->setColor(d->color);
     }
@@ -127,7 +131,7 @@ void DiscSectionRendererComponent::setRadius(float newRadius)
 {
     d->radius = newRadius;
     if(this->gameObject())
-        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->color);
+        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->startingPoint,d->color);
 }
 
 uint DiscSectionRendererComponent::nbPoints()
@@ -139,13 +143,13 @@ void DiscSectionRendererComponent::setNbPoints(uint newNbPoints)
 {
     d->nbPoints = newNbPoints;
     if(this->gameObject())
-        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->color);
+        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->startingPoint, d->color);
 }
 
-void DiscSectionRendererComponent::setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, QColor color)
+void DiscSectionRendererComponent::setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float startingPoint,QColor color)
 {
     if(d->mesh)
-        d->mesh->setDiscSection(position, radius, nbPoints, degrees, color);
+        d->mesh->setDiscSection(position, radius, nbPoints, degrees, startingPoint, color);
 }
 
 float DiscSectionRendererComponent::degrees()
@@ -169,7 +173,7 @@ void DiscSectionRendererComponent::setDegrees(float newDegrees)
     }
     
     if(this->gameObject())
-        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->color);
+        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->startingPoint, d->color);
 }
 
 void DiscSectionRendererComponent::setColor(const QColor& color)
@@ -207,6 +211,32 @@ void DiscSectionRendererComponent::setTexture(Asset* asset)
             d->mesh->setTexture(asset->data()->imageData().value<QImage>());
         }
     }
+}
+
+float DiscSectionRendererComponent::startingPoint()
+{
+    return d->startingPoint * (180.0f/M_PI);
+}
+
+void DiscSectionRendererComponent::setStartingPoint(float newStartingPoint)
+{
+    if(newStartingPoint > 359.9f)
+    {
+       newStartingPoint = 359.9f;
+    }
+    else if(newStartingPoint == 0)
+    {
+        newStartingPoint = 1;
+    }
+    else
+    {
+        newStartingPoint = newStartingPoint;
+    }
+    
+    d->startingPoint = newStartingPoint * (M_PI/180.0f);
+    
+    if(this->gameObject())
+        this->setDiscSection(this->gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->startingPoint, d->color);
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_discsectionrenderer, GluonEngine::DiscSectionRendererComponent);

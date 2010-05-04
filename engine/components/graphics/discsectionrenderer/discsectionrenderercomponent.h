@@ -33,6 +33,7 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::DiscSectionRendererComponent)
             Q_PROPERTY(float radius READ radius WRITE setRadius)
             Q_PROPERTY(uint nbPoints READ nbPoints WRITE setNbPoints)
+            Q_PROPERTY(float startingPoint READ startingPoint WRITE setStartingPoint)
             Q_PROPERTY(float degrees READ degrees WRITE setDegrees)
              Q_PROPERTY(QColor color READ color WRITE setColor)
             Q_PROPERTY(GluonEngine::Asset* texture READ texture WRITE setTexture)
@@ -57,6 +58,9 @@ namespace GluonEngine
             
             virtual QColor color();
             virtual Asset* texture();
+            
+             virtual float startingPoint();
+            virtual void setStartingPoint(float newStartingPoint);
 
         public slots:
             virtual void setColor(const QColor& color);
@@ -64,7 +68,7 @@ namespace GluonEngine
             virtual void setTexture(Asset* asset);
             
         private:
-            void setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, QColor color);
+            void setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float startingPoint,QColor color);
             
             class DiscSectionRendererComponentPrivate;
             DiscSectionRendererComponentPrivate * const d;
