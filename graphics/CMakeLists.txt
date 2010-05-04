@@ -51,6 +51,7 @@ textitem.cpp
     meshes/gridmesh.cpp
     meshes/conemesh.cpp
     meshes/discmesh.cpp
+    meshes/discsectionmesh.cpp
     meshes/icospheremesh.cpp
     meshes/uvspheremesh.cpp
     meshes/cylindremesh.cpp
@@ -125,6 +126,7 @@ meshes/cubemesh.h
 meshes/gridmesh.h
 meshes/conemesh.h
 meshes/discmesh.h
+meshes/discsectionmesh.h
 meshes/icospheremesh.h
 meshes/uvspheremesh.h
 meshes/cylindremesh.h

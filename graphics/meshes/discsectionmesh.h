@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,30 +17,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#ifndef DISCSECTIONMESH_H
+#define DISCSECTIONMESH_H
 
-#ifndef GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
-#define GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
+#include "../gluon_graphics_export.h"
+#include "../mesh.h"
 
-#include "widgets/propertywidgetitem.h"
+class QVector3D;
 
-namespace GluonCreator
+namespace GluonGraphics
 {
-    class IntPropertyWidgetItem : public PropertyWidgetItem
+    class GLUON_GRAPHICS_EXPORT DiscSectionMesh: public Mesh
     {
-            Q_OBJECT
         public:
-            explicit IntPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-            ~IntPropertyWidgetItem();
-
-            virtual QList<QString> supportedDataTypes() const;
-            virtual PropertyWidgetItem* instantiate();
-
-        public slots:
-            void setEditProperty(const QString& propertyName);
-            void setEditValue(const QVariant& value);
-            void intValueChanged(int value);
-            void uintValueChanged(int value);
+            DiscSectionMesh(QObject * parent = 0);
+            DiscSectionMesh(QVector3D position, float radius, uint nbPoints, float degrees, QColor color, QObject * parent = 0);
+            void setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, QColor color);
     };
 }
-
-#endif // GLUON_CREATOR_INTPROPERTYWIDGET_H
+#endif

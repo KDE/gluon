@@ -9,7 +9,7 @@ if(BUILD_GRAPHICS_COMPONENTS)
     add_subdirectory(graphics/spriterenderer)
     add_subdirectory(graphics/textrenderer)
     add_subdirectory(graphics/cameracontroller)
-
+    add_subdirectory(graphics/discsectionrenderer)
 endif()
 if(BUILD_INPUT_COMPONENTS)
     add_subdirectory(input/keyboardinput)

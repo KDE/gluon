@@ -22,6 +22,7 @@
 #include "floatpropertywidgetitem.h"
 
 #include <QtGui/QDoubleSpinBox>
+#include "cfloat"
 
 REGISTER_PROPERTYWIDGETITEM(GluonCreator, FloatPropertyWidgetItem)
 
@@ -31,6 +32,7 @@ FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlag
         : PropertyWidgetItem(parent, f)
 {
     QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
+    spinBox->setMaximum(DBL_MAX);
     setEditWidget(spinBox);
     connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(floatValueChanged(double)));
 }

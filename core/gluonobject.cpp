@@ -473,6 +473,10 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
     {
         value = theValue.toInt();
     }
+    else if (theTypeName == "uint")
+    {
+        value = theValue.toUInt();
+    }
     else if (theTypeName == "file" || theTypeName == "url")
     {
         //DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
@@ -606,6 +610,10 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Int:
             if (theValue.toInt() != 0)
                 value = QString("int(%1)").arg(theValue.toInt());
+            break;
+        case QVariant::UInt:
+            if (theValue.toUInt() != 0)
+                value = QString("uint(%1)").arg(theValue.toUInt());
             break;
         case QVariant::Size:
         case QVariant::SizeF:
