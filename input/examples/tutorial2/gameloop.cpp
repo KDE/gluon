@@ -50,6 +50,7 @@ void GameLoop::gameLoop()
     qDebug() << "starting gameloop";
     while (true)
     {
+		QCoreApplication::processEvents();
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip)
         {

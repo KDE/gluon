@@ -58,8 +58,6 @@ set(GluonInput_SRCS_MAC
     mac/detectmac.cpp
 	mac/detectmacprivate.cpp
 	mac/gluonbuttons.cpp
-	mac/inputevent.cpp
-	mac/inputeventprivate.cpp
 )
 
 set(GluonInput_HEADERS_MAC

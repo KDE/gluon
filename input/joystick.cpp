@@ -33,17 +33,19 @@ int Joystick::axisX() const
     #ifdef __GNUC__
     #warning fix the joystick thing, when I have a joystick to test with
     #endif
-    //	return absAxisValue(this->inputThread()->getJoystickXAxis());
+    return -1;
 }
 
 int Joystick::axisY()const
 {
 //	return absAxisValue(this->inputThread()->getJoystickYAxis());
+	return -1;
 }
 
 int Joystick::axisZ() const
 {
 //	return absAxisValue(this->inputThread()->getJoystickZAxis());
+	return -1;
 }
 
 void Joystick::joystickMoved(int axis, int distance)

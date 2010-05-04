@@ -36,7 +36,6 @@ namespace GluonInput
 {
 
     class InputThreadPrivate;
-	class InputEvent;
 
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
@@ -44,8 +43,8 @@ namespace GluonInput
         public:
             explicit InputThread(IOHIDDeviceRef pDevice ,QObject* parent = 0);
             ~InputThread();
-
-            static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
+		
+			static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
 
             int getJoystickXAxis();
             int getJoystickYAxis();
@@ -80,9 +79,7 @@ namespace GluonInput
 			void buttonStateChanged(int button, int value);
 
         private:
-			bool event(QEvent * event);
             void readInformation();
-			void sendEvent(InputEvent* event);
 
             QSharedDataPointer<InputThreadPrivate> d;
     };

@@ -18,14 +18,12 @@
  */
 #include "inputthread.h"
 
-#include <QtCore/QEvent>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
 #include "inputthreadprivate.h"
 #include "inputbuffer.h"
-#include "inputevent.h"
 
 using namespace GluonInput;
 
@@ -34,18 +32,23 @@ InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 {
 	d = new InputThreadPrivate();
 	d->device = pDevice;
-	IOHIDDeviceOpen(pDevice,kIOHIDOptionsTypeNone);
-	IOHIDDeviceScheduleWithRunLoop( pDevice, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
-	IOHIDDeviceRegisterInputValueCallback(pDevice, deviceReport, this);
+	IOHIDDeviceOpen(d->device, kIOHIDOptionsTypeNone);
+	
+	IOHIDDeviceScheduleWithRunLoop( d->device, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
+	IOHIDDeviceRegisterInputValueCallback(d->device, deviceReport, this);
 
 	d->error = false;
 	d->msgError.clear();
 	d->deviceName = "Unknown";
+	
 	this->readInformation();
 }
 
 InputThread::~InputThread()
 {
+	IOHIDDeviceRegisterInputValueCallback(d->device, NULL, this);
+	IOHIDDeviceUnscheduleFromRunLoop(d->device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
+	
 	IOHIDDeviceClose(d->device, kIOHIDOptionsTypeNone);
 	CFRelease(d->device);
 }
@@ -206,9 +209,6 @@ void InputThread::readInformation()
 		case GluonInput::TabletDevice:
 			d->deviceType = GluonInput::TabletDevice;
 			break;
-		/*case GluonInput::TouchpadDevice:
-			d->m_deviceType = GluonInput::TouchpadDevice;
-			break;*/
 		default:
 			d->deviceType = GluonInput::UnknownDevice;
 			break;
@@ -217,25 +217,23 @@ void InputThread::readInformation()
 
 void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef)
 {
-	qDebug() <<"getting report";
 	IOHIDDeviceRef deviceRef = (IOHIDDeviceRef) inSender;
 	InputThread * currentThread = (InputThread* ) inContext;
 	if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
 	{
 		IOHIDElementRef elementRef = IOHIDValueGetElement(inIOHIDValueRef);
-
+		
 		int usagePage = IOHIDElementGetUsagePage( elementRef );
 		int usage = IOHIDElementGetUsage( elementRef );
 		int value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
-
+		
 		if(usagePage == kHIDPage_GenericDesktop || usagePage == kHIDPage_KeyboardOrKeypad || usagePage == kHIDPage_Button)
 		{
 			if(usagePage == kHIDPage_GenericDesktop && usage == 60)
 				return;
 			else if(usagePage == kHIDPage_KeyboardOrKeypad && (usage <= 3 || usage > 231))
 				return;
-
-			QEvent::Type eventType;
+			
 			switch (currentThread->deviceType())
 			{
 				case GluonInput::MouseDevice:
@@ -243,7 +241,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-						eventType = QEvent::Type(InputEvent::RelativeAxis);
+						emit currentThread->relAxisMoved(usage, value);
 					}
 					break;
 				case GluonInput::JoystickDevice:
@@ -251,28 +249,16 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-
-						eventType = QEvent::Type(InputEvent::AbsoluteAxis);
+						
+						currentThread->absAxisMoved(usage, value);
 					}
 					break;
 				default:
-					eventType = QEvent::Type(InputEvent::Button);
+					currentThread->buttonStateChanged(usage, value);
 					break;
 			}
-
-			printf("omg");
-			InputEvent * event = new InputEvent(usage, value, eventType);
-			currentThread->sendEvent(event);
-			/*QCoreApplication::postEvent(currentThread, event);
-			QCoreApplication::processEvents();*/
-		 }
+		}
 	}
-}
-void InputThread::sendEvent(InputEvent* event)
-{
-	qDebug() <<"sddsfsd";
-	QCoreApplication::postEvent(this, event);
-	QCoreApplication::processEvents();
 }
 
 int InputThread::getJoystickXAxis()
@@ -363,13 +349,6 @@ bool InputThread::error()
 QString InputThread::msgError()
 {
 	return d->msgError;
-}
-
-bool InputThread::event(QEvent * event)
-{
-	qDebug() <<"wwaaargg";
-
-	return QObject::event(event);
 }
 
 #include "inputthread.moc"
