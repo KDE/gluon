@@ -25,7 +25,7 @@
 #include "engine/asset.h"
 #include <QMimeData>
 #include <cmath>
-#include <sys/stat.h>
+//#include <sys/stat.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, DiscSectionRendererComponent)
 
@@ -40,7 +40,7 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
             mesh = 0;
             texture = 0;
             nbPoints = 3;
-            radius = 0.0f;
+            radius = 5.0f;
             degrees  = 90.0f;
             arcCenter = M_PI / 2.0f;
             color.setRgb(255, 255, 255);

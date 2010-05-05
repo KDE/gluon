@@ -23,16 +23,19 @@
 #include "../gluon_graphics_export.h"
 #include "../mesh.h"
 
+class QColor;
+class QVector3D;
+
 namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT DiscMesh: public Mesh
     {
         public:
             DiscMesh(QObject * parent = 0);
-            DiscMesh(float radius, unsigned int nbPoints, QObject * parent = 0);
-            void setDisc(float radius, unsigned int nbPoints);
+            DiscMesh(QVector3D position, float radius, int nbPoints, QColor color, QObject* parent = 0);
+            void setDisc(QVector3D position, float radius, int nbPoints, QColor color);
         private:
-            unsigned int m_nbPoints;
+            uint m_nbPoints;
             float m_radius;
 
     };

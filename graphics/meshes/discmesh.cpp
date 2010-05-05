@@ -19,29 +19,27 @@
 
 #include "discmesh.h"
 #include <cmath>
+#include <QtGui/QVector3D>
 namespace GluonGraphics
 {
     DiscMesh::DiscMesh(QObject * parent)
             : Mesh(parent)
     {
-
-        setDisc(1, 10);
     }
-    DiscMesh::DiscMesh(float radius, unsigned int nbPoints, QObject *parent)
+    DiscMesh::DiscMesh(QVector3D position, float radius, int nbPoints, QColor color, QObject* parent)
             : Mesh(parent)
     {
 
-        setDisc(radius, nbPoints);
+        setDisc(position, radius, nbPoints, color);
     }
 
-    void DiscMesh::setDisc(float radius, unsigned int nbPoints)
+    void DiscMesh::setDisc(QVector3D position, float radius, int nbPoints, QColor color)
     {
-
         clear();
         setGLMode(GL_POLYGON);
         if (nbPoints < 3)
         {
-            return;
+            nbPoints = 3;
         }
 
         float step = M_PI * 2 / (float)nbPoints;
@@ -50,7 +48,7 @@ namespace GluonGraphics
         {
             float x = cos(i) ;
             float y = sin(i)  ;
-            addVertex(Vertex(x*radius, y*radius, Qt::white, QVector2D(x, y)));
+            addVertex(Vertex(x*radius, y*radius, color, QVector2D(x, y)));
         }
     }
 }
