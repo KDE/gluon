@@ -35,7 +35,6 @@ InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 	IOHIDDeviceOpen(d->device, kIOHIDOptionsTypeNone);
 	
 	IOHIDDeviceScheduleWithRunLoop( d->device, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
-	IOHIDDeviceRegisterInputValueCallback(d->device, deviceReport, this);
 
 	d->error = false;
 	d->msgError.clear();
@@ -46,7 +45,6 @@ InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 
 InputThread::~InputThread()
 {
-	IOHIDDeviceRegisterInputValueCallback(d->device, NULL, this);
 	IOHIDDeviceUnscheduleFromRunLoop(d->device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 	
 	IOHIDDeviceClose(d->device, kIOHIDOptionsTypeNone);
@@ -278,11 +276,13 @@ int InputThread::getJoystickZAxis()
 
 void InputThread::run()
 {
+	IOHIDDeviceRegisterInputValueCallback(d->device, deviceReport, this);
 	this->exec();
 }
 
 void InputThread::stop()
 {
+	IOHIDDeviceRegisterInputValueCallback(d->device, NULL, this);
 	this->quit();
 }
 
