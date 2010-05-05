@@ -34,7 +34,7 @@ DiscSectionMesh::DiscSectionMesh(QVector3D position, float radius, uint nbPoints
     setDiscSection(position, radius, nbPoints, degrees, startingPoint, color);
 }
 
-void DiscSectionMesh::setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float startingPoint, QColor color)
+void DiscSectionMesh::setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color)
 {
     clear();
     setGLMode(GL_POLYGON);
@@ -44,14 +44,14 @@ void DiscSectionMesh::setDiscSection(QVector3D position, float radius, uint nbPo
     }
     
     float step = (M_PI / ((float)nbPoints * 180.0f)) * (degrees/2.0f);
-    addVertex(Vertex(position.x(), position.y(), color, QVector2D(cos(startingPoint), sin(startingPoint))));
-    for (float i = 0, d = startingPoint; i < nbPoints; i++, d += step)
+    addVertex(Vertex(position.x(), position.y(), color, QVector2D(cos(arcCenter), sin(arcCenter))));
+    for (float i = 0, d = arcCenter; i < nbPoints; i++, d += step)
     {
         float x = cos(d);
         float y = sin(d);
         addVertex(Vertex(x*radius, y*radius, color, QVector2D(x, y)));
     }
-    for (float i = nbPoints, d = startingPoint; i > 0; i--, d -= step)
+    for (float i = nbPoints, d = arcCenter; i > 0; i--, d -= step)
     {
         float x = cos(d);
         float y = sin(d);
