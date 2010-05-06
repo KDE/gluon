@@ -48,6 +48,7 @@ namespace GluonCreator
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
             GluonEngine::Asset* createNewAsset(const QString& fileName);
+            QString humanifyClassName(const QString& fixThis) const;
 
         signals:
             void newObject(GluonCore::GluonObject*);

@@ -28,6 +28,7 @@
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
 #include <QMimeData>
+#include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, SoundEmitterComponent)
 
@@ -38,6 +39,8 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
     public:
         SoundEmitterComponentPrivate()
             : radius(10000.0f)
+            , volume(1.0f)
+            , pitch(1.0f)
             , asset(0)
             , sound(0)
             , buffer(0)
@@ -50,6 +53,8 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
         GluonAudio::Sound *sound;
         GluonAudio::Buffer *buffer;
         float radius;
+        float volume;
+        float pitch;
         bool loop;
         bool autoPlay;
 };
@@ -58,7 +63,7 @@ SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
         : Component(parent), 
         d(new SoundEmitterComponentPrivate)
 {
-
+    metaInfo()->setPropertyRange("pitch", 0.5, 2.0);
 }
 
 SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
@@ -126,16 +131,12 @@ SoundEmitterComponent::start()
     d->sound->load(d->buffer);
     d->sound->setPosition(gameObject()->position());
     d->sound->setRadius(d->radius);
-    
-    if(d->loop)
-    {
-        d->sound->setLoop(true);
-        d->sound->play();
-    }
+    d->sound->setVolume(d->volume);
+    d->sound->setPitch(d->pitch);
+    d->sound->setLoop(d->loop);
+
     if(d->autoPlay)
-    {
         d->sound->play();
-    }
 }
 
 void
@@ -176,6 +177,34 @@ SoundEmitterComponent::setRadius(float radius)
     if(d->sound)
         d->sound->setRadius(radius);
     d->radius = radius;
+}
+
+float
+SoundEmitterComponent::volume() const
+{
+    return d->volume;
+}
+
+void
+SoundEmitterComponent::setVolume(float volume)
+{
+    d->volume = volume;
+    if(d->sound)
+        d->sound->setVolume(volume);
+}
+
+float
+SoundEmitterComponent::pitch() const
+{
+    return d->pitch;
+}
+
+void
+SoundEmitterComponent::setPitch(float pitch)
+{
+    d->pitch = pitch;
+    if(d->sound)
+        d->sound->setPitch(pitch);
 }
 
 bool

@@ -46,7 +46,7 @@ QList< QString >
 FloatPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
-    supportedTypes.append("float");
+    //supportedTypes.append("float");
     return supportedTypes;
 }
 
@@ -54,6 +54,11 @@ PropertyWidgetItem*
 FloatPropertyWidgetItem::instantiate()
 {
     return new FloatPropertyWidgetItem();
+}
+
+void FloatPropertyWidgetItem::setEditProperty(const QString& value)
+{
+    GluonCreator::PropertyWidgetItem::setEditProperty(value);
 }
 
 void
