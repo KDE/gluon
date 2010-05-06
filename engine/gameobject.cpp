@@ -307,6 +307,7 @@ GameObject::addComponent(Component * addThis)
             d->components.append(addThis);
             addThis->setParent(this);
             addThis->setGameObject(this);
+            addThis->setName(addThis->name());
         }
     }
     else

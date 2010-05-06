@@ -21,6 +21,7 @@
 #include "gluonobject.h"
 #include "gluonobjectfactory.h"
 #include "debughelper.h"
+#include "metainfo.h"
 
 #include <QtCore/QStringList>
 
@@ -29,11 +30,17 @@ using namespace GluonCore;
 GluonObjectPrivate::GluonObjectPrivate()
 {
     gameProject = 0;
+    metaInfo = 0;
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)
         : QSharedData(other)
         , name(other.name)
         , gameProject(other.gameProject)
+        , metaInfo(other.metaInfo)
+{
+}
+
+GluonCore::GluonObjectPrivate::~GluonObjectPrivate()
 {
 }
