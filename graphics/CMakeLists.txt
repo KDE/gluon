@@ -70,7 +70,7 @@ qt4_add_resources( GluonGraphics_RC_SRCS ${GluonGraphics_RESOURCES})
 qt4_automoc(${GluonGraphics_SRCS})
 add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_RC_SRCS})
 
-set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
 
 if(GLUON_BUILD_ALL)
 add_dependencies(GluonGraphics GluonCore)

@@ -63,7 +63,7 @@ set(GluonEngine_SRCS
 qt4_automoc(${GluonEngine_SRCS})
 add_library(GluonEngine SHARED ${GluonEngine_SRCS})
 
-set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
 
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)

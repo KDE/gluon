@@ -24,7 +24,7 @@ set(libGluonCreator_SRCS
 
 qt4_automoc(${libGluonCreator_SRCS})
 kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
-set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL "MAKE_GLUONCREATOR" PREFIX "")
+set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
 if(GLUON_BUILD_ALL)
     add_dependencies(libGluonCreator GluonEngine)
 endif()

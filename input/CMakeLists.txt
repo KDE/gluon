@@ -134,7 +134,7 @@ else()
     add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_COMMON})
 endif()
 
-set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_INPUT_LIB)
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()
