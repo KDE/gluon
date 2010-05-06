@@ -10,6 +10,27 @@ endif()
 include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
                     ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
+set(libGluonPlayer_SRCS
+    models/gamesmodel.cpp
+)
+
+qt4_automoc(${libGluonPlayer_SRCS})
+
+add_library(libGluonPlayer SHARED ${libGluonPlayer_SRCS})
+
+target_link_libraries(
+    libGluonPlayer
+    ${GLUON_CORE_LIBS}
+)
+
+set(GLUON_PLAYER_LIBS
+   libGluonPlayer
+   ${GLUON_CORE_LIBS}
+   CACHE PATHS "Libraries required for Gluon Player"
+)
+
+install(TARGETS libGluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+
 add_subdirectory(qt)
 
 if(KDE4_FOUND AND WITH_KDE)

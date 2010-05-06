@@ -39,7 +39,8 @@ namespace GluonGraphics
 }
 
 namespace GluonPlayer
-{    
+{
+    class GamesModel;
     class PlasmaApplet : public Plasma::GLApplet
     {
         Q_OBJECT
@@ -56,6 +57,7 @@ namespace GluonPlayer
         QString m_gameFileName;
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
+        GamesModel *m_model;
 
         void initGL();
         void render();
