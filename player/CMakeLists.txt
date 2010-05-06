@@ -16,20 +16,22 @@ set(libGluonPlayer_SRCS
 
 qt4_automoc(${libGluonPlayer_SRCS})
 
-add_library(libGluonPlayer SHARED ${libGluonPlayer_SRCS})
+add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
+
+set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB)
 
 target_link_libraries(
-    libGluonPlayer
+    GluonPlayer
     ${GLUON_CORE_LIBS}
 )
 
 set(GLUON_PLAYER_LIBS
-   libGluonPlayer
+   GluonPlayer
    ${GLUON_CORE_LIBS}
    CACHE PATHS "Libraries required for Gluon Player"
 )
-
-install(TARGETS libGluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+message(STATUS ${GLUON_PLAYER_LIBS})
+install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(qt)
 
