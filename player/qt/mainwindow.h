@@ -34,10 +34,10 @@ namespace GluonPlayer
             virtual void closeEvent(QCloseEvent* event);
 
         public slots:
-            void openProject(const QString& fileName);
+            void openProject(const QString& fileName = QString());
             void updateTitle();
             void activated(QModelIndex index);
-    void openClicked(bool);
+            void openClicked(bool);
 
         private:
             class MainWindowPrivate;

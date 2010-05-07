@@ -34,6 +34,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
 #include <QLabel>
+#include <QTimer>
 
 using namespace GluonPlayer;
 
@@ -46,6 +47,7 @@ class MainWindow::MainWindowPrivate
         QAbstractItemModel *model;
 
         QString title;
+        QString fileName;
 };
 
 GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::WindowFlags flags)
@@ -53,27 +55,38 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
 {
     d = new MainWindowPrivate;
 
-    QWidget *base = new QWidget(this);
-    QVBoxLayout *layout = new QVBoxLayout();
-    base->setLayout(layout);
-    setCentralWidget(base);
+    if(argc > 1)
+    {
+        d->fileName = argv[1];
+        QTimer *timer = new QTimer(this);
+        timer->setSingleShot(true);
+        connect(timer, SIGNAL(timeout()), this, SLOT(openProject()));
+        timer->start();
+    }
+    else
+    {
+        QWidget *base = new QWidget(this);
+        QVBoxLayout *layout = new QVBoxLayout();
+        base->setLayout(layout);
+        setCentralWidget(base);
 
-    QLabel *header = new QLabel(tr("Please select a Project"), base);
-    header->setAlignment(Qt::AlignCenter);
-    QFont font;
-    font.setBold(true);
-    header->setFont(font);
-    layout->addWidget(header);
+        QLabel *header = new QLabel(tr("Please select a Project"), base);
+        header->setAlignment(Qt::AlignCenter);
+        QFont font;
+        font.setBold(true);
+        header->setFont(font);
+        layout->addWidget(header);
 
-    QListView *view = new QListView(base);
-    layout->addWidget(view);
-    d->model = new GamesModel(view);
-    view->setModel(d->model);
-    connect(view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
+        QListView *view = new QListView(base);
+        layout->addWidget(view);
+        d->model = new GamesModel(view);
+        view->setModel(d->model);
+        connect(view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
-    QPushButton *button = new QPushButton(tr("Open other project..."), base);
-    layout->addWidget(button);
-    connect(button, SIGNAL(clicked(bool)), this, SLOT(openClicked(bool)));
+        QPushButton *button = new QPushButton(tr("Open other project..."), base);
+        layout->addWidget(button);
+        connect(button, SIGNAL(clicked(bool)), this, SLOT(openClicked(bool)));
+    }
 }
 
 void MainWindow::activated(QModelIndex index)
@@ -95,12 +108,16 @@ void MainWindow::openClicked(bool toggled)
 
 void MainWindow::openProject(const QString& fileName)
 {
+    QString file = fileName;
+    if(file.isEmpty())
+        file = d->fileName;
+    
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile(QUrl(fileName));
+    d->project->loadFromFile(QUrl(file));
 
-    setWindowFilePath(fileName);
+    setWindowFilePath(file);
     d->title = windowTitle();
 
     GluonEngine::Game::instance()->setGameProject(d->project);
