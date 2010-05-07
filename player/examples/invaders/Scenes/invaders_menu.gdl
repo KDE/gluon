@@ -25,7 +25,7 @@
             sound GluonEngine::Asset(Invaders/The Whip Theme Extended Version.ogg)
             radius float(99.99)
             loop bool(true)
-            autoPlay bool(false)
+            autoPlay bool(true)
         }
     }
     { GluonEngine::GameObject(Icon)
