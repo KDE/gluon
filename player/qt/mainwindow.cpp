@@ -18,16 +18,19 @@
  */
 
 #include "mainwindow.h"
-#include <QFileDialog>
-#include <QLabel>
-#include <QTimer>
+
+#include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
-#include <graphics/glwidget.h>
 #include <engine/scene.h>
-#include <fpscounter.h>
-#include <QStatusBar>
-#include <QApplication>
+#include <graphics/glwidget.h>
+#include <graphics/fpscounter.h>
+#include <player/models/gamesmodel.h>
+
+#include <QtGui/QFileDialog>
+#include <QtGui/QStatusBar>
+#include <QtGui/QApplication>
+#include <QtGui/QListView>
 
 using namespace GluonPlayer;
 
@@ -40,7 +43,6 @@ class MainWindow::MainWindowPrivate
 
         GluonGraphics::GLWidget *widget;
 
-        QLabel *label;
         QString title;
 };
 
@@ -54,32 +56,19 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
         d->fileName = argv[1];
     }
 
-    d->label = new QLabel(tr("Please select a project"));
-    d->label->setAlignment(Qt::AlignCenter);
-    setCentralWidget(d->label);
-
-    QTimer* timer = new QTimer(this);
-    timer->setSingleShot(true);
-    timer->setInterval(10);
-
-    connect(timer, SIGNAL(timeout()), SLOT(openProject()));
-    timer->start();
+    QListView *view = new QListView();
+    view->setModel(new GamesModel(view));
+    setCentralWidget(view);
 }
 
-void MainWindow::openProject()
+void MainWindow::openProject(const QString& fileName)
 {
-    if (d->fileName.isEmpty())
-    {
-        d->fileName = QFileDialog::getOpenFileName(this, tr("Please select a project"), QString(), tr("Gluon Project Files (*.gluon)"));
-    }
-
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    d->label->setText(tr("Loading..."));
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile(QUrl(d->fileName));
+    d->project->loadFromFile(QUrl(fileName));
 
-    setWindowFilePath(d->fileName);
+    setWindowFilePath(fileName);
     d->title = windowTitle();
 
     GluonEngine::Game::instance()->setGameProject(d->project);

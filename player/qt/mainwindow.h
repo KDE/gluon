@@ -32,7 +32,7 @@ namespace GluonPlayer
             virtual void closeEvent(QCloseEvent* event);
 
         public slots:
-            void openProject();
+            void openProject(const QString& fileName);
             void updateTitle();
 
         private:
