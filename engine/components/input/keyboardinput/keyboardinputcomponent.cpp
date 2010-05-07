@@ -23,6 +23,7 @@
 #include "input/inputmanager.h"
 
 #include <QtCore/QEvent>
+#include <QtCore/QDebug>
 
 #include <core/debughelper.h>
 

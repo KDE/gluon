@@ -239,7 +239,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-						emit currentThread->relAxisMoved(usage, value);
+		 				emit currentThread->relAxisMoved(usage, value);
 					}
 					break;
 				case GluonInput::JoystickDevice:
