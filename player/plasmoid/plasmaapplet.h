@@ -41,6 +41,8 @@ namespace GluonGraphics
 namespace GluonPlayer
 {
     class GamesModel;
+    class OverlayToolBox;
+
     class PlasmaApplet : public Plasma::GLApplet
     {
         Q_OBJECT
@@ -58,6 +60,7 @@ namespace GluonPlayer
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
         GamesModel *m_gamesModel;
+        OverlayToolBox *m_overlay;
 
         void initGL();
         void render();
@@ -67,6 +70,7 @@ namespace GluonPlayer
 
     protected slots:
         void openProject();
+        void setProject();
         void doPaint();
         void startGame();
         void setCamera(GluonGraphics::Camera* camera);

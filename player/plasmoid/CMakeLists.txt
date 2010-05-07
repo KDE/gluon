@@ -9,6 +9,7 @@ include_directories(
 
 set(gluonplasmaapplet_SRCS
     plasmaapplet.cpp
+    overlaytoolbox.cpp
 )
 
 kde4_add_plugin(plasma_applet_gluonplayer ${gluonplasmaapplet_SRCS})

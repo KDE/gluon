@@ -31,15 +31,17 @@ GamesModel::GamesModel(QObject* parent): QAbstractTableModel(parent)
 
 QVariant GamesModel::data(const QModelIndex& index, int role) const
 {
-    QString gameDirName = m_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).at(index.row());
-    QDir gameDir = m_dir;
-    gameDir.cd(gameDirName);
-    QStringList gluonProjectFiles = gameDir.entryList(QStringList("*.gluon"));
+    if (role == Qt::DisplayRole) {
+        QString gameDirName = m_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).at(index.row());
+        QDir gameDir = m_dir;
+        gameDir.cd(gameDirName);
+        QStringList gluonProjectFiles = gameDir.entryList(QStringList("*.gluon"));
 
-    if (!gluonProjectFiles.isEmpty()) {
-        return gameDir.absoluteFilePath(gluonProjectFiles.at(0));
-    } else {
-        return QVariant();
+        if (!gluonProjectFiles.isEmpty()) {
+            return gameDir.absoluteFilePath(gluonProjectFiles.at(0));
+        } else {
+            return QVariant();
+        }
     }
 }
 
@@ -60,4 +62,3 @@ QVariant GamesModel::headerData(int section, Qt::Orientation orientation, int ro
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
-
