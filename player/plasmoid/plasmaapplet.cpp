@@ -74,8 +74,8 @@ void PlasmaApplet::setProject()
 {
     KAction *option = qobject_cast<KAction*>(sender());
     m_gameFileName = option->text();
-    qDebug() << m_gameFileName;
-    //openProject();    //This crashes right now, trying to fix
+    m_overlay->hide();
+    openProject();
 }
 
 void PlasmaApplet::openProject()
@@ -84,7 +84,6 @@ void PlasmaApplet::openProject()
         return;
     }
 
-    delete m_overlay;
     setBusy(true);
 
     initGL();
