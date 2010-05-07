@@ -27,9 +27,10 @@
 #include "gluon_core_export.h"
 
 //#ifndef QT_NO_DEBUG
-#    define DEBUG_FUNC_NAME GluonCore::DbgHelper dbgHelper(Q_FUNC_INFO);
-#    define DEBUG_BLOCK GluonCore::DbgHelper dbgHelper;
-#    define DEBUG_TEXT(X) dbgHelper.addText(X);
+#   define DEBUG_FUNC_NAME GluonCore::DbgHelper dbgHelper(Q_FUNC_INFO);
+#   define DEBUG_BLOCK GluonCore::DbgHelper dbgHelper;
+#   define DEBUG_TEXT(X) dbgHelper.addText(X);
+#   define DEBUG_TEXT2(X, Y) dbgHelper.addText(QString(X).arg(Y));
 //#else
 //#    define DEBUG_FUNC_NAME
 //#    define DEBUG_BLOCK
