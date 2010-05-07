@@ -43,6 +43,8 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
             return QVariant();
         }
     }
+
+    return QVariant();
 }
 
 int GamesModel::columnCount(const QModelIndex& parent) const
