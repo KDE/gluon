@@ -141,7 +141,7 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
         setEnabled(theObject->property("enabled").value<bool>());
     if(!theObject->property("expanded").isNull())
         setExpanded(theObject->property("expanded").value<bool>());
-    connect(this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)));
+    connect(this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)));
 
     PropertyWidgetItem *nameWidget = PropertyWidgetItemFactory::instance()->create(theObject, "QString", parentWidget());
     nameWidget->setEditObject(theObject);

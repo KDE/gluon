@@ -40,6 +40,7 @@ set(GLUON_CORE_INCLUDES
 set(GluonCore_SRCS
     debughelper.cpp
     gdlhandler.cpp
+    metainfo.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
     gluonobjectprivate.cpp
@@ -48,6 +49,7 @@ set(GluonCore_SRCS
 set(GluonCore_HEADERS
 	debughelper.h
     gdlhandler.h
+    metainfo.h
     gluonobject.h
     gluonobjectfactory.h
     gluonobjectprivate.h
@@ -74,7 +76,7 @@ set(GLUON_CORE_LIBS
     CACHE PATHS "Libraries required for Gluon Core"
 )
 
-set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CORE_LIB)
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework

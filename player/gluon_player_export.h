@@ -1,6 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +18,23 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUON_CORE_GLUONOBJECTPRIVATE_H
-#define GLUON_CORE_GLUONOBJECTPRIVATE_H
 
-#include <QtCore/QSharedData>
-#include <QtCore/QString>
-#include <QtCore/QHash>
+#ifndef GLUON_PLAYER_EXPORT_H
+#define GLUON_PLAYER_EXPORT_H
 
-namespace GluonCore
-{
-    class GluonObject;
-    class MetaInfo;
+#include <QtCore/qglobal.h>
 
-    class GluonObjectPrivate : public QSharedData
-    {
-        public:
-            GluonObjectPrivate();
-            GluonObjectPrivate(const GluonObjectPrivate &other);
-            ~GluonObjectPrivate();
+#ifndef GLUON_PLAYER_EXPORT
+#if defined(MAKE_GLUON_PLAYER_LIB)
+#  define GLUON_PLAYER_EXPORT Q_DECL_EXPORT
+#else
+#  define GLUON_PLAYER_EXPORT Q_DECL_IMPORT
+#endif
+#endif
 
-            QString name;
-            GluonObject *gameProject;
-            MetaInfo* metaInfo;
-    };
-}
+# ifndef GLUON_PLAYER_EXPORT_DEPRECATED
+#  define GLUON_PLAYER_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUON_PLAYER_EXPORT
+# endif
 
-#endif  // GLUON_CORE_GLUONOBJECTPRIVATE_H
+
+#endif // GLUON_PLAYER_EXPORT_H

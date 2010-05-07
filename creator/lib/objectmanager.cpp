@@ -19,7 +19,9 @@
 
 #include "objectmanager.h"
 
-#include <KLocalizedString>
+#include "selectionmanager.h"
+#include "newobjectcommand.h"
+#include "historymanager.h"
 
 #include <core/debughelper.h>
 #include <engine/gameproject.h>
@@ -28,17 +30,44 @@
 #include <engine/game.h>
 #include <engine/component.h>
 
-#include "selectionmanager.h"
-#include "newobjectcommand.h"
-#include "historymanager.h"
-
-#include <KMimeType>
-#include <QFileInfo>
-#include <QDir>
+#include <KDE/KLocalizedString>
+#include <KDE/KMimeType>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
+#include <QtCore/QStringBuilder>
 
 using namespace GluonCreator;
 
 template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
+
+QString
+ObjectManager::humanifyClassName(const QString& fixThis) const
+{
+    QString fixedString;
+    const QString classname = fixThis.right(fixThis.length() - fixThis.lastIndexOf(':') - 1);
+    const int length = classname.size();
+    for(int i = 0; i < length; ++i)
+    {
+        const QChar current = classname.at(i);
+        if(i == 0)
+        {
+            // Always upper-case the first word, whether it is or not...
+            fixedString = current.toUpper();
+        }
+        else
+        {
+            if(current.isUpper())
+            {
+                fixedString = fixedString % ' ' % current;
+            }
+            else
+            {
+                fixedString = fixedString % current;
+            }
+        }
+    }
+    return fixedString;
+}
 
 GluonEngine::Asset* ObjectManager::createNewAsset(const QString &fileName)
 {
@@ -78,6 +107,8 @@ GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, G
     GluonCore::GluonObject* newObj = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(type);
     if (newObj)
     {
+        newObj->setName(humanifyClassName(newObj->metaObject()->className()));
+
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(newObj);
         parent->addComponent(comp);
 
@@ -97,7 +128,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 {
     DEBUG_FUNC_NAME
     GluonEngine::GameObject *newObj = new GluonEngine::GameObject();
-    newObj->setName(i18n("New Object %1", m_objectId++));
+    newObj->setName(humanifyClassName(newObj->metaObject()->className()));
     DEBUG_TEXT(QString("Creating object: %1").arg(newObj->name()));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
@@ -127,7 +158,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 GluonEngine::Scene* ObjectManager::createNewScene()
 {
     GluonEngine::Scene *newScn = new GluonEngine::Scene();
-    newScn->setName(i18n("New Scene %1", m_sceneId++));
+    newScn->setName(i18n("New Scene"));
     newScn->setGameProject(GluonEngine::Game::instance()->gameProject());
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
 

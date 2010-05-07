@@ -19,8 +19,11 @@
 #include "qrealpropertywidgetitem.h"
 
 #include <QtGui/QDoubleSpinBox>
+#include <knuminput.h>
 
 #include <cfloat>
+#include <core/gluonobject.h>
+#include <core/metainfo.h>
 
 REGISTER_PROPERTYWIDGETITEM(GluonCreator, QRealPropertyWidgetItem)
 
@@ -29,9 +32,6 @@ using namespace GluonCreator;
 QRealPropertyWidgetItem::QRealPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
         : PropertyWidgetItem(parent, f)
 {
-	QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
-    setEditWidget(spinBox);
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(qrealValueChanged(double)));
 }
 
 QRealPropertyWidgetItem::~QRealPropertyWidgetItem()
@@ -43,6 +43,7 @@ QRealPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
     supportedTypes.append("qreal");
+    supportedTypes.append("float");
     return supportedTypes;
 }
 
@@ -50,6 +51,39 @@ PropertyWidgetItem*
 QRealPropertyWidgetItem::instantiate()
 {
     return new QRealPropertyWidgetItem();
+}
+
+void
+QRealPropertyWidgetItem::setEditProperty(const QString& value)
+{
+    // Clean up any possible leftovers
+    delete(editWidget());
+
+    GluonCore::GluonObject* theObject = qobject_cast<GluonCore::GluonObject*>(editObject());
+    bool noPropertyRange = true;;
+    if(theObject)
+    {
+        if(theObject->hasMetaInfo())
+        {
+            if(theObject->metaInfo()->hasPropertyRange(value))
+            {
+                noPropertyRange = false;
+                KDoubleNumInput* editor = new KDoubleNumInput(this);
+                editor->setRange(theObject->metaInfo()->propertyRangeMin(value), theObject->metaInfo()->propertyRangeMax(value));
+                setEditWidget(editor);
+            }
+        }
+    }
+
+    if(noPropertyRange)
+    {
+        QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
+        setEditWidget(spinBox);
+
+    }
+
+    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(qrealValueChanged(double)));
+    GluonCreator::PropertyWidgetItem::setEditProperty(value);
 }
 
 void

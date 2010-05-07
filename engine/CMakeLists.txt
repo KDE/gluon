@@ -83,7 +83,7 @@ else()
 	add_library(GluonEngine SHARED ${GluonEngine_SRCS})
 endif()
 
-set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework

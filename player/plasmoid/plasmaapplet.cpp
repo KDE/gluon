@@ -30,6 +30,7 @@
 #include <engine/scene.h>
 #include <graphics/item.h>
 #include <graphics/camera.h>
+#include <models/gamesmodel.h>
 
 #include <QFileDialog>
 #include <QTimer>
@@ -51,6 +52,8 @@ PlasmaApplet::~PlasmaApplet()
 
 void PlasmaApplet::init()
 {
+    m_model = new GamesModel(this);
+    qDebug() << m_model->rowCount();
     QTimer::singleShot(1000, this, SLOT(openProject()));
 }
 

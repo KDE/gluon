@@ -112,7 +112,7 @@ else()
 	add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_RC_SRCS})
 endif()
 
-set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework

@@ -184,13 +184,16 @@ GluonObjectFactory::loadPlugins()
             if (pluginDir.cd("../lib"))
                 pluginDirs.append(pluginDir);
 
+            pluginDir.cd(QCoreApplication::applicationDirPath());
             if (pluginDir.cd("../lib64"))
                 pluginDirs.append(pluginDir);
 
+            pluginDir.cd(QCoreApplication::applicationDirPath());
             if (pluginDir.cd("../lib/gluon"))
                 pluginDirs.append(pluginDir);
 
-            if (pluginDir.cd("../../lib64/gluon"))
+            pluginDir.cd(QCoreApplication::applicationDirPath());
+            if (pluginDir.cd("../lib64/gluon"))
                 pluginDirs.append(pluginDir);
         }
     }

@@ -37,7 +37,8 @@ namespace GluonCreator
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
+            virtual void setEditProperty(const QString& value);
+            virtual void setEditValue(const QVariant& value);
             void floatValueChanged(double value);
     };
 }
