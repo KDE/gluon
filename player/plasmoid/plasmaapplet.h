@@ -57,7 +57,7 @@ namespace GluonPlayer
         QString m_gameFileName;
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
-        GamesModel *m_model;
+        GamesModel *m_gamesModel;
 
         void initGL();
         void render();

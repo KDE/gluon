@@ -46,22 +46,26 @@ PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLApplet(
 
 PlasmaApplet::~PlasmaApplet()
 {
+    if (m_gameFileName.isEmpty()) {
+        return;
+    }
     GluonEngine::Game::instance()->stopGame();
     GluonEngine::Game::instance()->cleanupAll();
 }
 
 void PlasmaApplet::init()
 {
-    m_model = new GamesModel(this);
-    qDebug() << m_model->rowCount();
+    m_gamesModel = new GamesModel(this);
+    qDebug() << m_gamesModel->data(m_gamesModel->index(0, 0)).toString();
     QTimer::singleShot(1000, this, SLOT(openProject()));
 }
 
 void PlasmaApplet::openProject()
 {
     setBusy(true);
-    m_gameFileName = QFileDialog::getOpenFileName(0, tr("Please select a project"),
-                                                    QString(), tr("Gluon Project Files (*.gluon)"));
+    /*m_gameFileName = QFileDialog::getOpenFileName(0, tr("Please select a project"),
+                                                    QString(), tr("Gluon Project Files (*.gluon)"));*/
+    m_gameFileName = m_gamesModel->data(m_gamesModel->index(0, 0)).toString();
     if (m_gameFileName.isEmpty()) {
         return;
     }
