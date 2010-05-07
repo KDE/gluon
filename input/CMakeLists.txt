@@ -125,7 +125,7 @@ qt4_automoc(${GluonInput_SRCS_COMMON})
 
 if(APPLE)
     qt4_automoc(${GluonInput_SRCS_MAC})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON})
+    add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON} ${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC})
 elseif(WIN32)
     qt4_automoc(${GluonInput_SRCS_WIN})
     add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_COMMON})
@@ -135,6 +135,25 @@ else()
 endif()
 
 set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+
+if(APPLE)
+	#hack for being able to set headers as public in a osx framework
+	list(APPEND ${GluonInput_HEADERS_COMMON}
+		GluonInput_HEADERS_COMMON
+	)
+	list(APPEND ${GluonInput_HEADERS_MAC}
+		GluonInput_HEADERS_MAC
+	)
+	
+	set_target_properties(GluonInput PROPERTIES FRAMEWORK TRUE)
+	set_target_properties(GluonInput PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+	set_target_properties(GluonInput PROPERTIES PUBLIC_HEADER "${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC}")
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER input)
+	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endif()
+
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()

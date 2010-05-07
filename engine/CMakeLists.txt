@@ -60,10 +60,46 @@ set(GluonEngine_SRCS
     gameprivate.cpp
 )
 
+set(GluonEngine_HEADERS
+	  asset.h
+    component.h
+    gameobject.h
+    gameproject.h
+    prefab.h
+    savable.h
+    scene.h
+    filelocation.h
+
+    gluon_engine_export.h
+    gluon_engine_metatypes.h
+    game.h
+)
+
 qt4_automoc(${GluonEngine_SRCS})
-add_library(GluonEngine SHARED ${GluonEngine_SRCS})
+
+if(APPLE)
+	add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
+else()
+	add_library(GluonEngine SHARED ${GluonEngine_SRCS})
+endif()
 
 set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+
+if(APPLE)
+	#hack for being able to set headers as public in a osx framework
+	list(APPEND GluonEngine_HEADERS
+	${GluonEngine_HEADERS}
+	)
+	
+	set_target_properties(GluonEngine PROPERTIES FRAMEWORK TRUE)
+	set_target_properties(GluonEngine PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+	set_target_properties(GluonEngine PROPERTIES PUBLIC_HEADER "${GluonEngine_HEADERS}")
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER engine)
+	set(MACOSX_FRAMEWORK_IDENTIFIER GluonEngine)
+	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endif()
 
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)
@@ -81,19 +117,7 @@ install(TARGETS GluonEngine DESTINATION ${LIB_INSTALL_DIR})
 
 install(
     FILES
-    asset.h
-    component.h
-    gameobject.h
-    gameproject.h
-    prefab.h
-    savable.h
-    scene.h
-    filelocation.h
-
-    gluon_engine_export.h
-    gluon_engine_metatypes.h
-    game.h
-
+    ${GluonEngine_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
     COMPONENT Devel
 )

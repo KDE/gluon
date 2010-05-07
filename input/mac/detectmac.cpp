@@ -38,7 +38,7 @@ DetectMac::DetectMac(QObject * parent)
 DetectMac::~DetectMac()
 {
 	CFRelease(d->deviceManager);
-	CFRelease(d->devices);
+	//CFRelease(d->devices);
 }
 
 void DetectMac::detectDevices()

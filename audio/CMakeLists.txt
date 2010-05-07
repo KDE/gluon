@@ -46,8 +46,24 @@ set(GluonAudio_SRCS
     device_p.cpp
 )
 
+set(GluonAudio_HEADERS
+buffer.h
+    engine.h
+    soundreader.h
+    sound.h
+    music.h
+    capture.h
+    gluon_audio_export.h
+)
+
+
 qt4_automoc(${GluonAudio_SRCS})
-add_library(GluonAudio SHARED ${GluonAudio_SRCS})
+
+if(APPLE)
+	add_library(GluonAudio SHARED ${GluonAudio_SRCS} ${GluonAudio_HEADERS})
+else()
+	add_library(GluonAudio SHARED ${GluonAudio_SRCS})
+endif()
 
 if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
@@ -74,17 +90,26 @@ set(GLUON_AUDIO_LIBS
 
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 
+if(APPLE)
+	#hack for being able to set headers as public in a osx framework
+	list(APPEND GluonAudio_HEADERS
+		${GluonAudio_HEADERS}
+	)
+
+	set_target_properties(GluonAudio PROPERTIES FRAMEWORK TRUE)
+	set_target_properties(GluonAudio PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+	set_target_properties(GluonAudio PROPERTIES PUBLIC_HEADER "${GluonAudio_HEADERS}")
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER audio)
+	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endif()
+
 install(TARGETS GluonAudio DESTINATION ${LIB_INSTALL_DIR})
 
 install(
     FILES
-    buffer.h
-    engine.h
-    soundreader.h
-    sound.h
-    music.h
-    capture.h
-    gluon_audio_export.h
+    ${GluonAudio_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
     COMPONENT Devel
 )
