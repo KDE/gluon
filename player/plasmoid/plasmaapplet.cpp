@@ -39,7 +39,7 @@
 using namespace GluonPlayer;
 using namespace GluonGraphics;
 
-PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLApplet(parent, args),
+PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOApplet(parent, args),
                             m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0)
 {
 }

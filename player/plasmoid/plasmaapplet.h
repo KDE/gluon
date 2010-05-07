@@ -26,7 +26,7 @@
 #define PLASMAAPPLET_H
 
 #include <GL/glew.h>
-#include <Plasma/GLApplet>
+#include "glfboapplet.h"
 
 namespace GluonEngine
 {
@@ -41,7 +41,7 @@ namespace GluonGraphics
 namespace GluonPlayer
 {
     class GamesModel;
-    class PlasmaApplet : public Plasma::GLApplet
+    class PlasmaApplet : public GLFBOApplet
     {
         Q_OBJECT
 

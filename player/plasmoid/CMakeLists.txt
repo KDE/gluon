@@ -8,6 +8,7 @@ include_directories(
 )
 
 set(gluonplasmaapplet_SRCS
+    glfboapplet.cpp
     plasmaapplet.cpp
 )
 
