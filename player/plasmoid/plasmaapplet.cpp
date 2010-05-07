@@ -43,8 +43,12 @@ using namespace GluonPlayer;
 using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLApplet(parent, args),
-                            m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0)
+                            m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
+                            m_overlay(0)
 {
+    setHasConfigurationInterface(true);
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
+    resize(500, 500);
 }
 
 PlasmaApplet::~PlasmaApplet()
@@ -131,7 +135,10 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     m_viewportWidth = event->newSize().width();
     m_viewportHeight = event->newSize().height();
-    m_overlay->setGeometry(geometry());
+    
+    if (m_overlay) {
+        m_overlay->setGeometry(geometry());
+    }
 
     if (m_camera) {
         m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
