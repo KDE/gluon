@@ -25,7 +25,6 @@ using namespace GluonInput;
 
 Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
 {
-  qDebug() <<"creating mouse";
 	d = new MousePrivate();
 	d->originalPosition = d->position = QPoint(0, 0);
 	d->sensibility = 1;

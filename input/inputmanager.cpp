@@ -53,29 +53,24 @@ InputManager::~InputManager()
 
 void InputManager::init()
 {
-	qDebug() << "Setting parent";
 	QObject *parent = QCoreApplication::instance();
 	if (!parent) {
 		qDebug() << "No QCoreApplication instance found, the InputManager instance may be leaked when leaving";
 	}
 
 #ifdef Q_WS_X11
-	qDebug() << "Creating instance: Linux";
 	d->m_instance = new DetectLinux(parent);
 #endif
 
 #ifdef Q_WS_MAC
-	qDebug() << "Creating instance: Mac";
 	d->m_instance = new DetectMac(parent);
 #endif
 
 #ifdef Q_WS_WIN
-	qDebug() << "Creating instance: Win";
 	d->m_instance = new DetectWin(parent);
 #endif
 	if(d->m_instance)
 	{
-		qDebug() << "Instance created, searching devices";
 		d->m_instance->detectDevices();
 	}
 	else

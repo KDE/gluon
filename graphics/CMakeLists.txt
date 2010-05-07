@@ -62,15 +62,87 @@ textitem.cpp
     shaders/mosaicshader.cpp
 )
 
+set(GluonGraphics_HEADERS
+	gluon_graphics_export.h
+	camera.h
+	glwidget.h
+	fpscounter.h
+	textrenderer.h
+	vertex.h
+	texture.h
+	glpainter.h
+	item.h
+	itemlist.h
+	engine.h
+	transform.h
+	mesh.h
+	widgetproxy.h
+	textitem.h
+)
+
+set( GluonGraphics_Meshes_HEADERS
+	meshes/polygonmesh.h
+	meshes/cubemesh.h
+	meshes/gridmesh.h
+	meshes/conemesh.h
+	meshes/discmesh.h
+	meshes/discsectionmesh.h
+	meshes/icospheremesh.h
+	meshes/uvspheremesh.h
+	meshes/cylindremesh.h
+	meshes/spritemesh.h
+)
+
+set(GluonGraphics_Shaders_HEADERS
+	shaders/lightshader.h
+	shaders/posterizeshader.h
+	shaders/mosaicshader.h
+)
+
 set(GluonGraphics_RESOURCES
 shaders/GLSL/shaders.qrc
 )
 
 qt4_add_resources( GluonGraphics_RC_SRCS ${GluonGraphics_RESOURCES})
 qt4_automoc(${GluonGraphics_SRCS})
-add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_RC_SRCS})
+
+if(APPLE)
+	add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_RC_SRCS} ${GluonGraphics_HEADERS} ${GluonGraphics_Meshes_HEADERS} ${GluonGraphics_Shaders_HEADERS})
+else()
+	add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_RC_SRCS})
+endif()
 
 set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
+
+if(APPLE)
+	#hack for being able to set headers as public in a osx framework
+	list(APPEND GluonGraphics_HEADERS
+		${GluonGraphics_HEADERS} 
+	)
+	
+	list(APPEND GluonGraphics_Meshes_HEADERS
+		${GluonGraphics_Meshes_HEADERS} 
+	)
+	
+	list(APPEND GluonGraphics_Shaders_HEADERS
+		${GluonGraphics_Shaders_HEADERS}
+	)
+	
+	set_target_properties(GluonGraphics PROPERTIES FRAMEWORK TRUE)
+	set_target_properties(GluonGraphics PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+	set_target_properties(GluonGraphics PROPERTIES PUBLIC_HEADER "${GluonGraphics_HEADERS}")
+	set_target_properties(GluonGraphics PROPERTIES RESOURCE "${GluonGraphics_RESOURCES}")
+	add_custom_command(TARGET GluonGraphics POST_BUILD
+      COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes
+	  COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/meshes/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes/
+      COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders
+      COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders/	
+	)
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER graphics)
+	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endif()
 
 if(GLUON_BUILD_ALL)
 add_dependencies(GluonGraphics GluonCore)
@@ -99,47 +171,21 @@ install(TARGETS GluonGraphics DESTINATION ${LIB_INSTALL_DIR})
 
 install(
 FILES
-gluon_graphics_export.h
-camera.h
-glwidget.h
-fpscounter.h
-textrenderer.h
-vertex.h
-texture.h
-glpainter.h
-item.h
-itemlist.h
-engine.h
-transform.h
-mesh.h
-widgetproxy.h
-textitem.h
-
+${GluonGraphics_HEADERS}
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
 COMPONENT Devel
 )
 
 install(
 FILES
-meshes/polygonmesh.h
-meshes/cubemesh.h
-meshes/gridmesh.h
-meshes/conemesh.h
-meshes/discmesh.h
-meshes/discsectionmesh.h
-meshes/icospheremesh.h
-meshes/uvspheremesh.h
-meshes/cylindremesh.h
-meshes/spritemesh.h
+${GluonGraphics_Meshes_HEADERS}
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/meshes
 COMPONENT Devel
 )
 
 install(
 FILES
-shaders/lightshader.h
-shaders/posterizeshader.h
-shaders/mosaicshader.h
+${GluonGraphics_Shaders_HEADERS}
 DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/shaders
 COMPONENT Devel
 )

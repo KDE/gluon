@@ -27,6 +27,8 @@
 #include <QtGui/QApplication>
 #include <QVariant>
 
+#include <QtCore/QDebug>
+
 using namespace GluonCore;
 
 template<> GLUON_CORE_EXPORT GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
@@ -153,11 +155,9 @@ GluonObjectFactory::loadPlugins()
     if (pluginDir.dirName() == "MacOS")
     {
         pluginDir.cdUp();
-        pluginDir.cdUp();
-        pluginDir.cdUp();
     }
 #endif
-    if (pluginDir.cd("plugins"))
+    if (pluginDir.cd("PlugIns"))
         pluginDirs.append(pluginDir);
 
     if (pluginDir.cd("/usr/lib"))
