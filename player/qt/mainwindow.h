@@ -22,6 +22,8 @@
 
 #include <QtGui/QMainWindow>
 
+class QModelIndex;
+
 namespace GluonPlayer
 {
     class MainWindow : public QMainWindow
@@ -34,6 +36,8 @@ namespace GluonPlayer
         public slots:
             void openProject(const QString& fileName);
             void updateTitle();
+            void activated(QModelIndex index);
+    void openClicked(bool);
 
         private:
             class MainWindowPrivate;

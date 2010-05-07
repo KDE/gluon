@@ -31,17 +31,19 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QApplication>
 #include <QtGui/QListView>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QPushButton>
+#include <QLabel>
 
 using namespace GluonPlayer;
 
 class MainWindow::MainWindowPrivate
 {
     public:
-        QString fileName;
-
         GluonEngine::GameProject *project;
-
         GluonGraphics::GLWidget *widget;
+
+        QAbstractItemModel *model;
 
         QString title;
 };
@@ -51,14 +53,44 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
 {
     d = new MainWindowPrivate;
 
-    if (argc > 1)
-    {
-        d->fileName = argv[1];
-    }
+    QWidget *base = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout();
+    base->setLayout(layout);
+    setCentralWidget(base);
 
-    QListView *view = new QListView();
-    view->setModel(new GamesModel(view));
-    setCentralWidget(view);
+    QLabel *header = new QLabel(tr("Please select a Project"), base);
+    header->setAlignment(Qt::AlignCenter);
+    QFont font;
+    font.setBold(true);
+    header->setFont(font);
+    layout->addWidget(header);
+
+    QListView *view = new QListView(base);
+    layout->addWidget(view);
+    d->model = new GamesModel(view);
+    view->setModel(d->model);
+    connect(view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
+
+    QPushButton *button = new QPushButton(tr("Open other project..."), base);
+    layout->addWidget(button);
+    connect(button, SIGNAL(clicked(bool)), this, SLOT(openClicked(bool)));
+}
+
+void MainWindow::activated(QModelIndex index)
+{
+    if(index.isValid())
+    {
+        openProject(d->model->data(index).toString());
+    }
+}
+
+void MainWindow::openClicked(bool toggled)
+{
+    Q_UNUSED(toggled)
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a Project"), QString(), QString("*.gluon|Gluon Project Files"));
+    if(!fileName.isEmpty())
+        openProject(fileName);
 }
 
 void MainWindow::openProject(const QString& fileName)
