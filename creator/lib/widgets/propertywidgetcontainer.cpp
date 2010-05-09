@@ -287,7 +287,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
         editWidget->setEditObject(object);
         editWidget->setEditProperty(thePropName);
         
-        addPropertyItem(metaProperty.name(), editWidget);
+        addPropertyItem(thePropName, editWidget);
     }
 }
 
