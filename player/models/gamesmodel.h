@@ -27,7 +27,7 @@
 
 namespace GluonPlayer
 {
-    class GamesModel : public QAbstractTableModel
+    class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
     {
    public:
         GamesModel(QObject* parent = 0);
