@@ -23,7 +23,7 @@
  */
 
 #include "plasmaapplet.h"
-#include "overlaytoolbox.h"
+#include "gamesview.h"
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -44,7 +44,7 @@ using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOApplet(parent, args),
                             m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
-                            m_overlay(0)
+                                 m_gamesView(0)
 {
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
@@ -63,22 +63,16 @@ PlasmaApplet::~PlasmaApplet()
 void PlasmaApplet::init()
 {
     m_gamesModel = new GamesModel(this);
-    m_overlay = new OverlayToolBox("Select a game", this);
-    m_overlay->setGeometry(geometry());
-    
-    for (int i=0; i<m_gamesModel->rowCount(); i++) {
-        QString gameName = m_gamesModel->data(m_gamesModel->index(i, 0)).toString();
-        KAction *option = new KAction(KIcon("gluon_creator"), gameName, m_overlay);
-        connect(option, SIGNAL(triggered()), this, SLOT(setProject()));
-        m_overlay->addTool(option);
-    }
+    m_gamesView = new GamesView(this);
+    m_gamesView->setModel(m_gamesModel);
+    m_gamesView->setGeometry(geometry());
+    connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
 }
 
-void PlasmaApplet::setProject()
+void PlasmaApplet::setProject(const QModelIndex &index)
 {
-    KAction *option = qobject_cast<KAction*>(sender());
-    m_gameFileName = option->text();
-    m_overlay->hide();
+    m_gameFileName = index.data().toString();
+    m_gamesView->hide();
     openProject();
 }
 
@@ -136,8 +130,8 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_viewportWidth = event->newSize().width();
     m_viewportHeight = event->newSize().height();
     
-    if (m_overlay) {
-        m_overlay->setGeometry(geometry());
+    if (m_gamesView) {
+        m_gamesView->setGeometry(geometry());
     }
 
     if (m_camera) {

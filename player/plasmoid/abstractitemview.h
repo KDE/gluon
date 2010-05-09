@@ -22,6 +22,8 @@
 
 #include <QGraphicsWidget>
 
+#include <Plasma/FrameSvg>
+
 class QAbstractItemModel;
 class QModelIndex;
 
@@ -37,16 +39,17 @@ namespace GluonPlayer
         virtual void setModel(QAbstractItemModel *model);
         QAbstractItemModel *model() const;
     protected:
-        virtual void keyPressEvent(QKeyEvent* event);
-        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+        virtual void keyPressEvent(QKeyEvent *event);
+        virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
         virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                QWidget *widget = 0);
+        void resizeEvent(QGraphicsSceneResizeEvent *event);
         
         QAbstractItemModel *m_model;
-
-    protected slots:
-        virtual void rowsInserted(const QModelIndex &parent, int first, int last) = 0;
+        Plasma::FrameSvg m_background;
     };
 
 }

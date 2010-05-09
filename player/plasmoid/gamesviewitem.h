@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_VIEWITEM_H
-#define GLUONPLAYER_VIEWITEM_H
+#ifndef GLUONPLAYER_GAMESVIEWITEM_H
+#define GLUONPLAYER_GAMESVIEWITEM_H
 
 #include <QGraphicsWidget>
 #include <QModelIndex>
@@ -30,12 +30,12 @@ class QWidget;
 
 namespace GluonPlayer
 {
-    class ViewItem : public QGraphicsWidget
+    class GamesViewItem : public QGraphicsWidget
     {
     Q_OBJECT
 
     public:
-        ViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
         
         virtual void setModelIndex(const QModelIndex &index);
         QModelIndex modelIndex() const;
@@ -46,10 +46,13 @@ namespace GluonPlayer
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
+    protected slots:
+        void iconClicked();
+
     signals:
-        void activated(QModelIndex);
+        void activated(const QModelIndex &index);
     };
 
 }
 
-#endif // GLUONPLAYER_VIEWITEM_H
+#endif // GLUONPLAYER_GAMESVIEWITEM_H

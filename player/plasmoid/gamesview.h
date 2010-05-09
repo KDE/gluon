@@ -23,6 +23,7 @@
 #include "abstractitemview.h"
 
 class QGraphicsLinearLayout;
+class QAbstractItemModel;
 
 namespace GluonPlayer
 {
@@ -32,11 +33,13 @@ namespace GluonPlayer
 
     public:
         GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual void setModel(QAbstractItemModel *model);
 
     protected:
-        virtual void rowsInserted(const QModelIndex &parent, int first, int last);
-        
         QGraphicsLinearLayout *m_layout;
+
+    signals:
+        void gameSelected(const QModelIndex &index);
     };
 
 }

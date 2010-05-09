@@ -28,6 +28,8 @@
 #include <GL/glew.h>
 #include "glfboapplet.h"
 
+#include <QModelIndex>
+
 namespace GluonEngine
 {
     class GameProject;
@@ -41,7 +43,7 @@ namespace GluonGraphics
 namespace GluonPlayer
 {
     class GamesModel;
-    class OverlayToolBox;
+    class GamesView;
 
     class PlasmaApplet : public GLFBOApplet
     {
@@ -60,7 +62,7 @@ namespace GluonPlayer
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
         GamesModel *m_gamesModel;
-        OverlayToolBox *m_overlay;
+        GamesView *m_gamesView;
 
         void initGL();
         void render();
@@ -70,7 +72,7 @@ namespace GluonPlayer
 
     protected slots:
         void openProject();
-        void setProject();
+        void setProject(const QModelIndex &index);
         void doPaint();
         void startGame();
         void setCamera(GluonGraphics::Camera* camera);

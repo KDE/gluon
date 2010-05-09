@@ -20,12 +20,17 @@
 #include "abstractitemview.h"
 
 #include <QAbstractItemModel>
+#include <QPainter>
+#include <KDebug>
+#include <QGraphicsSceneEvent>
 
 using namespace GluonPlayer;
 
 AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : QGraphicsWidget(parent, wFlags), m_model(0)
 {
+    m_background.setImagePath("widgets/translucentbackground");
+    m_background.setEnabledBorders(Plasma::FrameSvg::AllBorders);
 }
 
 QAbstractItemModel* AbstractItemView::model() const
@@ -36,9 +41,6 @@ QAbstractItemModel* AbstractItemView::model() const
 void AbstractItemView::setModel(QAbstractItemModel* model)
 {
     m_model = model;
-    
-    connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), 
-            SLOT(rowsInserted(QModelIndex,int,int)));
 }
 
 void AbstractItemView::keyPressEvent(QKeyEvent* event)
@@ -66,11 +68,16 @@ void AbstractItemView::wheelEvent(QGraphicsSceneWheelEvent* event)
     QGraphicsItem::wheelEvent(event);
 }
 
-void AbstractItemView::rowsInserted(const QModelIndex& parent, int first, int last)
+void AbstractItemView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(parent);
-    Q_UNUSED(first);
-    Q_UNUSED(last);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+    m_background.paintFrame(painter);
+}
+
+void AbstractItemView::resizeEvent(QGraphicsSceneResizeEvent* event)
+{
+    m_background.resizeFrame(event->newSize());
 }
 
 #include "abstractitemview.moc"

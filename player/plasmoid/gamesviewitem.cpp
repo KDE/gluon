@@ -17,45 +17,54 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "viewitem.h"
+#include "gamesviewitem.h"
 
 #include <QModelIndex>
 #include <QGraphicsSceneMouseEvent>
-#include <qpainter.h>
+#include <QPainter>
+
+#include <KIcon>
+#include <Plasma/IconWidget>
 
 using namespace GluonPlayer;
 
-ViewItem::ViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+GamesViewItem::GamesViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : QGraphicsWidget(parent, wFlags)
 {
-
 }
 
-void ViewItem::setModelIndex(const QModelIndex &index)
+void GamesViewItem::setModelIndex(const QModelIndex &index)
 {
     m_index = index;
+
+    Plasma::IconWidget *item = new Plasma::IconWidget(KIcon("gluon_creator"), 
+           index.data().toString(), this);
+    item->setDrawBackground(true);
+    item->setOrientation(Qt::Horizontal);
+    item->setGeometry(geometry());
+    connect(item, SIGNAL(activated()), SLOT(iconClicked()));
 }
 
 
-QModelIndex ViewItem::modelIndex() const
+QModelIndex GamesViewItem::modelIndex() const
 {
     return m_index;
 }
 
-void ViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (m_index.isValid()) {
-        emit(activated(m_index));
-    }
     QGraphicsItem::mousePressEvent(event);
 }
 
-void ViewItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void GamesViewItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-
-    painter->drawText(boundingRect(), Qt::AlignLeft, m_index.data().toString());
 }
 
-#include "viewitem.moc"
+void GamesViewItem::iconClicked()
+{
+    emit activated(m_index);
+}
+
+#include "gamesviewitem.moc"
