@@ -51,17 +51,6 @@ QModelIndex GamesViewItem::modelIndex() const
     return m_index;
 }
 
-void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void GamesViewItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-}
-
 void GamesViewItem::iconClicked()
 {
     emit activated(m_index);

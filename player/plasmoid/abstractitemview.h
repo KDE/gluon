@@ -40,9 +40,6 @@ namespace GluonPlayer
         QAbstractItemModel *model() const;
     protected:
         virtual void keyPressEvent(QKeyEvent *event);
-        virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
         virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 QWidget *widget = 0);

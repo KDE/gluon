@@ -48,21 +48,6 @@ void AbstractItemView::keyPressEvent(QKeyEvent* event)
     QGraphicsItem::keyPressEvent(event);
 }
 
-void AbstractItemView::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void AbstractItemView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsItem::mouseMoveEvent(event);
-}
-
-void AbstractItemView::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsItem::mouseReleaseEvent(event);
-}
-
 void AbstractItemView::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     QGraphicsItem::wheelEvent(event);
