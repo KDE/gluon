@@ -8,6 +8,9 @@ include_directories(
 )
 
 set(gluonplasmaapplet_SRCS
+    viewitem.cpp
+    gamesview.cpp
+    abstractitemview.cpp
     glfboapplet.cpp
     plasmaapplet.cpp
     overlaytoolbox.cpp
