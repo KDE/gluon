@@ -30,7 +30,6 @@ GamesView::GamesView(QGraphicsItem* parent, Qt::WindowFlags wFlags): AbstractIte
 {
     m_layout = new QGraphicsLinearLayout(Qt::Vertical);
     setLayout(m_layout);
-    update();
 }
 
 void GamesView::setModel(QAbstractItemModel* model)

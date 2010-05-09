@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) <year> <author> <email@example.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -42,9 +42,6 @@ namespace GluonPlayer
 
     protected:
         QModelIndex m_index;
-
-        void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     protected slots:
         void iconClicked();
