@@ -46,7 +46,6 @@ void GamesViewItem::setModelIndex(const QModelIndex &index)
     m_iconWidget->setDrawBackground(true);
     m_iconWidget->setOrientation(Qt::Horizontal);
     m_iconWidget->setGeometry(geometry());
-    m_iconWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     
     layout->addItem(m_iconWidget, 0, 0);
     setLayout(layout);

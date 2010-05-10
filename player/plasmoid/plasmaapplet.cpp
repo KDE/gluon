@@ -36,6 +36,7 @@
 #include <QFileDialog>
 #include <QTimer>
 #include <QGraphicsSceneResizeEvent>
+#include <QGraphicsLinearLayout>
 
 #include <KAction>
 
@@ -48,6 +49,7 @@ PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOAppl
 {
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
+    setBackgroundHints(Plasma::Applet::NoBackground);
     resize(500, 500);
 }
 
@@ -67,6 +69,10 @@ void PlasmaApplet::init()
     m_gamesView->setModel(m_gamesModel);
     m_gamesView->setGeometry(geometry());
     connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
+    layout->addItem(m_gamesView);
+    setLayout(layout);
 }
 
 void PlasmaApplet::setProject(const QModelIndex &index)
@@ -129,10 +135,6 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     m_viewportWidth = event->newSize().width();
     m_viewportHeight = event->newSize().height();
-    
-    if (m_gamesView) {
-        m_gamesView->setGeometry(geometry());
-    }
 
     if (m_camera) {
         m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
@@ -140,7 +142,6 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
         m_camera->applyOrtho();
     }
 }
-
 
 void PlasmaApplet::setCamera(Camera* camera)
 {
