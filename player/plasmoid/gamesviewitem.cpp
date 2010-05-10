@@ -22,6 +22,7 @@
 #include <QModelIndex>
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
+#include <QGraphicsGridLayout>
 
 #include <KIcon>
 #include <Plasma/IconWidget>
@@ -29,20 +30,28 @@
 using namespace GluonPlayer;
 
 GamesViewItem::GamesViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : QGraphicsWidget(parent, wFlags)
+    : QGraphicsWidget(parent, wFlags), m_iconWidget(0)
 {
+
 }
 
 void GamesViewItem::setModelIndex(const QModelIndex &index)
 {
     m_index = index;
 
-    Plasma::IconWidget *item = new Plasma::IconWidget(KIcon("gluon_creator"), 
+    QGraphicsGridLayout *layout = new QGraphicsGridLayout();
+    
+    m_iconWidget = new Plasma::IconWidget(KIcon("gluon_creator"), 
            index.data().toString(), this);
-    item->setDrawBackground(true);
-    item->setOrientation(Qt::Horizontal);
-    item->setGeometry(geometry());
-    connect(item, SIGNAL(activated()), SLOT(iconClicked()));
+    m_iconWidget->setDrawBackground(true);
+    m_iconWidget->setOrientation(Qt::Horizontal);
+    m_iconWidget->setGeometry(geometry());
+    m_iconWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    
+    layout->addItem(m_iconWidget, 0, 0);
+    setLayout(layout);
+
+    connect(m_iconWidget, SIGNAL(activated()), SLOT(iconClicked()));
 }
 
 

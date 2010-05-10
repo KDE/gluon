@@ -28,6 +28,11 @@ class QPainter;
 class QStyleOptionGraphicsItem;
 class QWidget;
 
+namespace Plasma
+{
+    class IconWidget;
+}
+
 namespace GluonPlayer
 {
     class GamesViewItem : public QGraphicsWidget
@@ -42,6 +47,7 @@ namespace GluonPlayer
 
     protected:
         QModelIndex m_index;
+        Plasma::IconWidget *m_iconWidget;
 
     protected slots:
         void iconClicked();
