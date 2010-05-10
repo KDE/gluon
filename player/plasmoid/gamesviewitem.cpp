@@ -18,6 +18,7 @@
  */
 
 #include "gamesviewitem.h"
+#include "models/gamesmodel.h"
 
 #include <QModelIndex>
 #include <QGraphicsSceneMouseEvent>
@@ -42,10 +43,10 @@ void GamesViewItem::setModelIndex(const QModelIndex &index)
     QGraphicsGridLayout *layout = new QGraphicsGridLayout();
     
     m_iconWidget = new Plasma::IconWidget(KIcon("gluon_creator"), 
-           index.data().toString(), this);
+           index.sibling(index.row(), GamesModel::Description).data().toString(), this);
     m_iconWidget->setDrawBackground(true);
     m_iconWidget->setOrientation(Qt::Horizontal);
-    m_iconWidget->setGeometry(geometry());
+    m_iconWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     
     layout->addItem(m_iconWidget, 0, 0);
     setLayout(layout);

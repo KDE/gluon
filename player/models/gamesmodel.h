@@ -35,6 +35,8 @@ namespace GluonPlayer
         virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
         virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
         virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+
+        enum Column { Path, Description };
     private:
         QDir m_dir;
     };

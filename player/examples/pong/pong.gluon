@@ -1,5 +1,6 @@
 { GluonEngine::GameProject(pong)
     filename url(/home/schutz/programmation/gluon/player/examples/pong/pong.gluon)
+    description string(Pong Game)
     { GluonEngine::Scene(scene1)
         file url(Scenes/test scene1.gdl)
     }

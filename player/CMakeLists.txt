@@ -22,7 +22,7 @@ set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOV
 
 target_link_libraries(
     GluonPlayer
-    ${GLUON_CORE_LIBS}
+    ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
 )
 
 set(GLUON_PLAYER_LIBS

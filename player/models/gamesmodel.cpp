@@ -18,9 +18,11 @@
  */
 
 #include "gamesmodel.h"
+#include <engine/gameproject.h>
 
 #include <QDir>
 #include <QCoreApplication>
+#include <QDebug>
 
 using namespace GluonPlayer;
 
@@ -38,7 +40,13 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
         QStringList gluonProjectFiles = gameDir.entryList(QStringList("*.gluon"));
 
         if (!gluonProjectFiles.isEmpty()) {
-            return gameDir.absoluteFilePath(gluonProjectFiles.at(0));
+            if (index.column() == Path) {
+                return gameDir.absoluteFilePath(gluonProjectFiles.at(0));
+            } else if (index.column() == Description) {
+                GluonEngine::GameProject project;
+                project.loadFromFile(gameDir.absoluteFilePath(gluonProjectFiles.at(0)));
+                return project.description();
+            }
         } else {
             return QVariant();
         }
@@ -50,7 +58,7 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
 int GamesModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
-    return 1;   //Later we will add more columns for more details about each game
+    return 2;   //Later we will add more columns for more details about each game
 }
 
 int GamesModel::rowCount(const QModelIndex& parent) const
