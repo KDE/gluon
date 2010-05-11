@@ -21,16 +21,32 @@
 
 #include <QAbstractItemModel>
 #include <QPainter>
-#include <KDebug>
 #include <QGraphicsSceneEvent>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
+
+#include <Plasma/FrameSvg>
+#include <Plasma/ScrollWidget>
 
 using namespace GluonPlayer;
 
 AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : QGraphicsWidget(parent, wFlags), m_model(0)
 {
-    m_background.setImagePath("widgets/translucentbackground");
-    m_background.setEnabledBorders(Plasma::FrameSvg::AllBorders);
+    m_background = new Plasma::FrameSvg(this);
+    m_background->setImagePath("widgets/translucentbackground");
+    m_background->setEnabledBorders(Plasma::FrameSvg::AllBorders);
+
+    m_scrollWidget = new Plasma::ScrollWidget(this);
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
+    layout->addItem(m_scrollWidget);
+    setLayout(layout);
+
+    m_contentWidget = new QGraphicsWidget(this);
+    m_contentLayout = new QGraphicsGridLayout();
+    m_contentWidget->setLayout(m_contentLayout);
+
+    m_scrollWidget->setWidget(m_contentWidget);
 }
 
 QAbstractItemModel* AbstractItemView::model() const
@@ -57,12 +73,12 @@ void AbstractItemView::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    m_background.paintFrame(painter);
+    m_background->paintFrame(painter);
 }
 
 void AbstractItemView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
-    m_background.resizeFrame(event->newSize());
+    m_background->resizeFrame(event->newSize());
 }
 
 #include "abstractitemview.moc"

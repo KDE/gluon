@@ -37,6 +37,7 @@ namespace GluonPlayer
 
     protected:
         QGraphicsLinearLayout *m_layout;
+        
 
     signals:
         void gameSelected(const QModelIndex &index);

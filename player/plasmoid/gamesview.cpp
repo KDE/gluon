@@ -21,15 +21,13 @@
 #include "gamesviewitem.h"
 
 #include <QModelIndex>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 #include <KDebug>
 
 using namespace GluonPlayer;
 
 GamesView::GamesView(QGraphicsItem* parent, Qt::WindowFlags wFlags): AbstractItemView(parent, wFlags)
 {
-    m_layout = new QGraphicsLinearLayout(Qt::Vertical);
-    setLayout(m_layout);
 }
 
 void GamesView::setModel(QAbstractItemModel* model)
@@ -40,7 +38,7 @@ void GamesView::setModel(QAbstractItemModel* model)
         GamesViewItem *item = new GamesViewItem(this);
         item->setModelIndex(m_model->index(i, 0));
         connect(item, SIGNAL(activated(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
-        m_layout->addItem(item);
+        m_contentLayout->addItem(item, i, 0);
     }
 }
 

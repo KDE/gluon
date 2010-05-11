@@ -22,10 +22,16 @@
 
 #include <QGraphicsWidget>
 
-#include <Plasma/FrameSvg>
-
 class QAbstractItemModel;
 class QModelIndex;
+class QGraphicsLinearLayout;
+class QGraphicsGridLayout;
+
+namespace Plasma
+{
+    class FrameSvg;
+    class ScrollWidget;
+}
 
 namespace GluonPlayer
 {
@@ -46,7 +52,10 @@ namespace GluonPlayer
         void resizeEvent(QGraphicsSceneResizeEvent *event);
         
         QAbstractItemModel *m_model;
-        Plasma::FrameSvg m_background;
+        QGraphicsGridLayout *m_contentLayout;
+        QGraphicsWidget *m_contentWidget;
+        Plasma::FrameSvg *m_background;
+        Plasma::ScrollWidget *m_scrollWidget;
     };
 
 }
