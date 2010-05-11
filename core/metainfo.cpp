@@ -91,6 +91,7 @@ MetaInfo::applyRange(const QString& property, qreal newValue) const
     if(!hasPropertyRange(property))
         return newValue;
     qBound(d->propertyRangeMin[property], newValue, d->propertyRangeMax[property]);
+    return 0;
 }
 
 void
