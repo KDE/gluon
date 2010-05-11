@@ -32,7 +32,8 @@
 using namespace GluonPlayer;
 
 GamesViewItem::GamesViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : QGraphicsWidget(parent, wFlags), m_preview(0), m_gameName(0), m_gameStats(0), m_layout(0)
+    : QGraphicsWidget(parent, wFlags), m_preview(0), m_gameName(0), m_gameDescription(0),
+          m_playButton(0), m_layout(0)
 {
 
 }
@@ -53,17 +54,23 @@ void GamesViewItem::layoutWidgets()
     m_preview->setContentsMargins(0, 0, 0, 0);
     m_preview->setAcceptedMouseButtons(Qt::NoButton);
     m_preview->setFocusPolicy(Qt::NoFocus);
-    m_preview->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+    m_preview->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     
     m_gameName = new Plasma::Label(this);
-    m_gameName->setText(m_index.sibling(m_index.row(), GamesModel::Description).data().toString());
+    m_gameName->setText(m_index.sibling(m_index.row(), GamesModel::NameColumn).data().toString());
     
-    m_gameStats = new Plasma::Label(this);
-    m_gameStats->setText(m_index.data().toString());
+    m_gameDescription = new Plasma::Label(this);
+    m_gameDescription->setText(m_index.sibling(m_index.row(), GamesModel::DescriptionColumn).data().toString());
+    
+    m_playButton = new Plasma::IconWidget(this);
+    m_playButton->setIcon(KIcon("media-playback-start"));
+    m_playButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    connect(m_playButton, SIGNAL(activated()), SLOT(playGameActivated()));
     
     m_layout->addItem(m_preview, 0, 0, 2, 1);
     m_layout->addItem(m_gameName, 0, 1);
-    m_layout->addItem(m_gameStats, 1, 1);
+    m_layout->addItem(m_gameDescription, 1, 1);
+    m_layout->addItem(m_playButton, 0, 2, 2, 1);
     setLayout(m_layout);
 }
 
@@ -72,10 +79,9 @@ QModelIndex GamesViewItem::modelIndex() const
     return m_index;
 }
 
-void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void GamesViewItem::playGameActivated()
 {
     emit activated(m_index);
-    QGraphicsItem::mousePressEvent(event);
 }
 
 #include "gamesviewitem.moc"

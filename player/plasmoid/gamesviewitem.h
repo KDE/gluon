@@ -51,11 +51,14 @@ namespace GluonPlayer
         QModelIndex m_index;
         Plasma::IconWidget *m_preview;
         Plasma::Label *m_gameName;
-        Plasma::Label *m_gameStats;
+        Plasma::Label *m_gameDescription;
+        Plasma::IconWidget *m_playButton;
         QGraphicsGridLayout *m_layout;
 
         void layoutWidgets();
-        void mousePressEvent (QGraphicsSceneMouseEvent *event);
+
+    protected slots:
+        void playGameActivated();
 
     signals:
         void activated(const QModelIndex &index);

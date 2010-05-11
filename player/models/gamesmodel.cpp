@@ -38,14 +38,22 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
         QDir gameDir = m_dir;
         gameDir.cd(gameDirName);
         QStringList gluonProjectFiles = gameDir.entryList(QStringList("*.gluon"));
+        QString projectFileName = gameDir.absoluteFilePath(gluonProjectFiles.at(0));
 
         if (!gluonProjectFiles.isEmpty()) {
-            if (index.column() == Path) {
-                return gameDir.absoluteFilePath(gluonProjectFiles.at(0));
-            } else if (index.column() == Description) {
+            if (index.column() == PathColumn) {
+                return projectFileName;
+            } else {
                 GluonEngine::GameProject project;
-                project.loadFromFile(gameDir.absoluteFilePath(gluonProjectFiles.at(0)));
-                return project.description();
+                project.loadFromFile(projectFileName);
+                switch (index.column()) {
+                case NameColumn:
+                    return project.name();
+                    break;
+                case DescriptionColumn:
+                    return project.description();
+                    break;
+                }
             }
         } else {
             return QVariant();
@@ -58,7 +66,7 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
 int GamesModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
-    return 2;   //Later we will add more columns for more details about each game
+    return 3;
 }
 
 int GamesModel::rowCount(const QModelIndex& parent) const
