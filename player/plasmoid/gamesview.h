@@ -25,6 +25,11 @@
 class QGraphicsLinearLayout;
 class QAbstractItemModel;
 
+namespace Plasma
+{
+    class ItemBackground;
+}
+
 namespace GluonPlayer
 {
     class GamesView : public AbstractItemView
@@ -37,7 +42,9 @@ namespace GluonPlayer
 
     protected:
         QGraphicsLinearLayout *m_layout;
-        
+        Plasma::ItemBackground *m_itemBackground;
+
+        bool eventFilter(QObject *obj, QEvent *event);
 
     signals:
         void gameSelected(const QModelIndex &index);

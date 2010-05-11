@@ -23,11 +23,13 @@
 #include <QModelIndex>
 #include <QGraphicsGridLayout>
 #include <KDebug>
+#include <Plasma/ItemBackground>
 
 using namespace GluonPlayer;
 
 GamesView::GamesView(QGraphicsItem* parent, Qt::WindowFlags wFlags): AbstractItemView(parent, wFlags)
 {
+    m_itemBackground = new Plasma::ItemBackground(this);
 }
 
 void GamesView::setModel(QAbstractItemModel* model)
@@ -37,9 +39,21 @@ void GamesView::setModel(QAbstractItemModel* model)
     for (int i=0; i<m_model->rowCount(); i++) {
         GamesViewItem *item = new GamesViewItem(this);
         item->setModelIndex(m_model->index(i, 0));
+        item->setAcceptHoverEvents(true);
+        item->installEventFilter(this);
         connect(item, SIGNAL(activated(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
         m_contentLayout->addItem(item, i, 0);
     }
+}
+
+bool GamesView::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::GraphicsSceneHoverEnter) {
+        QGraphicsItem *item = qobject_cast<QGraphicsItem*>(obj);
+        m_itemBackground->setTargetItem(item);
+    }
+
+    return QObject::eventFilter(obj, event);
 }
 
 #include "gamesview.moc"

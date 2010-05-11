@@ -38,9 +38,11 @@ AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags
     m_background->setEnabledBorders(Plasma::FrameSvg::AllBorders);
 
     m_scrollWidget = new Plasma::ScrollWidget(this);
+    m_scrollWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_scrollWidget);
     setLayout(layout);
+    setContentsMargins(10, 10, 10, 10);
 
     m_contentWidget = new QGraphicsWidget(this);
     m_contentLayout = new QGraphicsGridLayout();

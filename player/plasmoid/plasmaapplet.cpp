@@ -50,6 +50,7 @@ PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOAppl
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setBackgroundHints(Plasma::Applet::NoBackground);
+    setMinimumSize(200, 200);
     resize(500, 500);
 }
 

@@ -23,6 +23,7 @@
 #include <QGraphicsWidget>
 #include <QModelIndex>
 
+class QGraphicsGridLayout;
 class QGraphicsSceneMouseEvent;
 class QPainter;
 class QStyleOptionGraphicsItem;
@@ -31,6 +32,7 @@ class QWidget;
 namespace Plasma
 {
     class IconWidget;
+    class Label;
 }
 
 namespace GluonPlayer
@@ -47,10 +49,13 @@ namespace GluonPlayer
 
     protected:
         QModelIndex m_index;
-        Plasma::IconWidget *m_iconWidget;
+        Plasma::IconWidget *m_preview;
+        Plasma::Label *m_gameName;
+        Plasma::Label *m_gameStats;
+        QGraphicsGridLayout *m_layout;
 
-    protected slots:
-        void iconClicked();
+        void layoutWidgets();
+        void mousePressEvent (QGraphicsSceneMouseEvent *event);
 
     signals:
         void activated(const QModelIndex &index);
