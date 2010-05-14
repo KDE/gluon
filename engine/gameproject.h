@@ -53,7 +53,7 @@ namespace GluonEngine
 
             Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
 
-            Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
+            //Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:
             GameProject(QObject * parent = 0);
