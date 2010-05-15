@@ -50,13 +50,13 @@ PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QW
     const QMetaObject * mo = object->metaObject();
     if (mo)
     {
-        if (mo->enumeratorCount() > 0)
-        {
-            for (int i = 0; i < mo->enumeratorCount(); ++i)
-            {
-                DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
-            }
-        }
+//         if (mo->enumeratorCount() > 0)
+//         {
+//             for (int i = 0; i < mo->enumeratorCount(); ++i)
+//             {
+//                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
+//             }
+//         }
         if (mo->indexOfEnumerator(type.toUtf8()) > -1)
         {
             return new EnumPropertyWidgetItem(type, parent);

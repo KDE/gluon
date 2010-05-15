@@ -52,9 +52,12 @@ namespace GluonCreator
                 if (enumIndex > -1)
                     metaEnum = mo->enumerator(enumIndex);
                 else
+                {
+                    DEBUG_TEXT(QString("The enumerator %1 was not found! Maybe you forgot to declare it in the class?").arg(typeName));
                     metaEnum = QMetaEnum();
+                }
 
-                DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
+                //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
                 for (int i = 0; i < metaEnum.keyCount(); ++i)
                 {
                     comboBox->addItem(QString(metaEnum.key(i)), QVariant(i));
