@@ -42,7 +42,7 @@ AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_scrollWidget);
     setLayout(layout);
-    setContentsMargins(10, 10, 10, 10);
+    setContentsMargins(10, 15, 10, 15);
 
     m_contentWidget = new QGraphicsWidget(this);
     m_contentLayout = new QGraphicsGridLayout();
