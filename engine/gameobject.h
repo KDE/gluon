@@ -111,8 +111,8 @@ namespace GluonEngine
             Q_INVOKABLE Component * findComponentInChildrenByType(const QString &typeName) const;
             Q_INVOKABLE QList<Component *> findComponentsInChildren(const QString &name) const;
             Q_INVOKABLE QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
-            void addComponent(Component * addThis);
-            bool removeComponent(Component * removeThis);
+            Q_INVOKABLE void addComponent(Component * addThis);
+            Q_INVOKABLE bool removeComponent(Component * removeThis);
 
             // ----------------------------------------------------------------
             // GameObject tree management
