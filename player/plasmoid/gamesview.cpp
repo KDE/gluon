@@ -22,8 +22,10 @@
 
 #include <QModelIndex>
 #include <QGraphicsGridLayout>
+
 #include <KDebug>
 #include <Plasma/ItemBackground>
+#include <Plasma/TabBar>
 
 using namespace GluonPlayer;
 

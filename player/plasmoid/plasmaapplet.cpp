@@ -23,6 +23,7 @@
  */
 
 #include "plasmaapplet.h"
+#include "gamesoverlay.h"
 #include "gamesview.h"
 
 #include <engine/game.h>
@@ -45,7 +46,7 @@ using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOApplet(parent, args),
                             m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
-                                 m_gamesView(0)
+                                 m_gamesOverlay(0)
 {
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
@@ -66,20 +67,20 @@ PlasmaApplet::~PlasmaApplet()
 void PlasmaApplet::init()
 {
     m_gamesModel = new GamesModel(this);
-    m_gamesView = new GamesView(this);
-    m_gamesView->setModel(m_gamesModel);
-    m_gamesView->setGeometry(geometry());
-    connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+    m_gamesOverlay = new GamesOverlay(this);
+    m_gamesOverlay->gamesView()->setModel(m_gamesModel);
+    m_gamesOverlay->setGeometry(geometry());
+    connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
 
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
-    layout->addItem(m_gamesView);
+    layout->addItem(m_gamesOverlay);
     setLayout(layout);
 }
 
 void PlasmaApplet::setProject(const QModelIndex &index)
 {
     m_gameFileName = index.data().toString();
-    m_gamesView->hide();
+    m_gamesOverlay->hide();
     openProject();
 }
 

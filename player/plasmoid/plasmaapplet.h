@@ -43,7 +43,7 @@ namespace GluonGraphics
 namespace GluonPlayer
 {
     class GamesModel;
-    class GamesView;
+    class GamesOverlay;
 
     class PlasmaApplet : public GLFBOApplet
     {
@@ -62,7 +62,7 @@ namespace GluonPlayer
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
         GamesModel *m_gamesModel;
-        GamesView *m_gamesView;
+        GamesOverlay *m_gamesOverlay;
 
         void initGL();
         void render();
