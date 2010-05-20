@@ -18,7 +18,7 @@
  */
 
 #include "gamesoverlay.h"
-#include "gamesview.h"
+#include "views/gamesview.h"
 
 #include <QGraphicsLinearLayout>
 
@@ -33,6 +33,7 @@ GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 {
     m_tabBar = new Plasma::TabBar(this);
     m_gamesView = new GamesView(this);
+    connect(m_gamesView, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
     connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
     m_tabBar->addTab(KIcon("applications-games"), "Installed", m_gamesView);
 

@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "abstractitemview.h"
+#include "overlay.h"
 
 #include <QAbstractItemModel>
 #include <QPainter>
@@ -30,8 +30,8 @@
 
 using namespace GluonPlayer;
 
-AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : QGraphicsWidget(parent, wFlags), m_model(0)
+Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+    : QGraphicsWidget(parent, wFlags)
 {
     m_background = new Plasma::FrameSvg(this);
     m_background->setImagePath("widgets/translucentbackground");
@@ -51,36 +51,26 @@ AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags
     m_scrollWidget->setWidget(m_contentWidget);
 }
 
-QAbstractItemModel* AbstractItemView::model() const
-{
-    return m_model;
-}
-
-void AbstractItemView::setModel(QAbstractItemModel* model)
-{
-    m_model = model;
-}
-
-void AbstractItemView::keyPressEvent(QKeyEvent* event)
+void Overlay::keyPressEvent(QKeyEvent* event)
 {
     QGraphicsItem::keyPressEvent(event);
 }
 
-void AbstractItemView::wheelEvent(QGraphicsSceneWheelEvent* event)
+void Overlay::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     QGraphicsItem::wheelEvent(event);
 }
 
-void AbstractItemView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void Overlay::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     m_background->paintFrame(painter);
 }
 
-void AbstractItemView::resizeEvent(QGraphicsSceneResizeEvent* event)
+void Overlay::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     m_background->resizeFrame(event->newSize());
 }
 
-#include "abstractitemview.moc"
+#include "overlay.moc"

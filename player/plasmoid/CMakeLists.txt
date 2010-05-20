@@ -8,13 +8,16 @@ include_directories(
 )
 
 set(gluonplasmaapplet_SRCS
+    views/achievementsview.cpp
+    views/highscoresview.cpp
+    overlay.cpp
+    gamedetailsoverlay.cpp
     gamesoverlay.cpp
-    gamesviewitem.cpp
-    gamesview.cpp
-    abstractitemview.cpp
+    views/gamesviewitem.cpp
+    views/gamesview.cpp
+    views/abstractitemview.cpp
     glfboapplet.cpp
     plasmaapplet.cpp
-    overlaytoolbox.cpp
 )
 
 kde4_add_plugin(plasma_applet_gluonplayer ${gluonplasmaapplet_SRCS})

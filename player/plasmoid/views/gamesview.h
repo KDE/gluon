@@ -17,32 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESOVERLAY_H
-#define GLUONPLAYER_GAMESOVERLAY_H
+#ifndef GLUONPLAYER_GAMESVIEW_H
+#define GLUONPLAYER_GAMESVIEW_H
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+#include "abstractitemview.h"
+
+class QGraphicsLinearLayout;
+class QAbstractItemModel;
 
 namespace Plasma
 {
-    class TabBar;
-};
+    class ItemBackground;
+}
 
 namespace GluonPlayer
 {
-    class GamesView;
-
-    class GamesOverlay : public QGraphicsWidget
+    class GamesView : public AbstractItemView
     {
     Q_OBJECT
 
     public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
+        GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual void setModel(QAbstractItemModel *model);
 
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
+    protected:
+        QGraphicsLinearLayout *m_layout;
+        Plasma::ItemBackground *m_itemBackground;
+
+        bool eventFilter(QObject *obj, QEvent *event);
 
     signals:
         void gameToPlaySelected(const QModelIndex &index);
@@ -51,4 +53,4 @@ namespace GluonPlayer
 
 }
 
-#endif // GLUONPLAYER_GAMESOVERLAY_H
+#endif // GLUONPLAYER_GAMESVIEW_H

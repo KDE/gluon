@@ -17,38 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESOVERLAY_H
-#define GLUONPLAYER_GAMESOVERLAY_H
+#include "highscoresview.h"
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+using namespace GluonPlayer;
 
-namespace Plasma
+HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+    : AbstractItemView(parent, wFlags)
 {
-    class TabBar;
-};
-
-namespace GluonPlayer
-{
-    class GamesView;
-
-    class GamesOverlay : public QGraphicsWidget
-    {
-    Q_OBJECT
-
-    public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
-
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
-
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
-    };
 
 }
-
-#endif // GLUONPLAYER_GAMESOVERLAY_H

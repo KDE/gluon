@@ -17,32 +17,49 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESOVERLAY_H
-#define GLUONPLAYER_GAMESOVERLAY_H
+#ifndef GLUONPLAYER_GAMESVIEWITEM_H
+#define GLUONPLAYER_GAMESVIEWITEM_H
 
 #include <QGraphicsWidget>
 #include <QModelIndex>
 
+class QGraphicsGridLayout;
+class QGraphicsSceneMouseEvent;
+class QPainter;
+class QStyleOptionGraphicsItem;
+class QWidget;
+
 namespace Plasma
 {
-    class TabBar;
-};
+    class IconWidget;
+    class Label;
+}
 
 namespace GluonPlayer
 {
-    class GamesView;
-
-    class GamesOverlay : public QGraphicsWidget
+    class GamesViewItem : public QGraphicsWidget
     {
     Q_OBJECT
 
     public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
+        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        
+        virtual void setModelIndex(const QModelIndex &index);
+        QModelIndex modelIndex() const;
 
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
+    protected:
+        QModelIndex m_index;
+        Plasma::IconWidget *m_preview;
+        Plasma::Label *m_gameName;
+        Plasma::Label *m_gameDescription;
+        Plasma::IconWidget *m_playButton;
+        QGraphicsGridLayout *m_layout;
+
+        void layoutWidgets();
+        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
+    protected slots:
+        void playGameActivated();
 
     signals:
         void gameToPlaySelected(const QModelIndex &index);
@@ -51,4 +68,4 @@ namespace GluonPlayer
 
 }
 
-#endif // GLUONPLAYER_GAMESOVERLAY_H
+#endif // GLUONPLAYER_GAMESVIEWITEM_H

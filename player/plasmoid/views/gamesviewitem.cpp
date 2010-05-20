@@ -81,7 +81,13 @@ QModelIndex GamesViewItem::modelIndex() const
 
 void GamesViewItem::playGameActivated()
 {
-    emit activated(m_index);
+    emit gameToPlaySelected(m_index);
 }
+
+void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    emit gameSelected(m_index);
+}
+
 
 #include "gamesviewitem.moc"

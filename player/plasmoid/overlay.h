@@ -17,53 +17,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESVIEWITEM_H
-#define GLUONPLAYER_GAMESVIEWITEM_H
+#ifndef GLUONPLAYER_OVERLAY_H
+#define GLUONPLAYER_OVERLAY_H
 
 #include <QGraphicsWidget>
-#include <QModelIndex>
 
+class QGraphicsLinearLayout;
 class QGraphicsGridLayout;
-class QGraphicsSceneMouseEvent;
-class QPainter;
-class QStyleOptionGraphicsItem;
-class QWidget;
 
 namespace Plasma
 {
-    class IconWidget;
-    class Label;
+    class FrameSvg;
+    class ScrollWidget;
 }
 
 namespace GluonPlayer
 {
-    class GamesViewItem : public QGraphicsWidget
+    class Overlay : public QGraphicsWidget
     {
     Q_OBJECT
 
     public:
-        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        
-        virtual void setModelIndex(const QModelIndex &index);
-        QModelIndex modelIndex() const;
+        Overlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
     protected:
-        QModelIndex m_index;
-        Plasma::IconWidget *m_preview;
-        Plasma::Label *m_gameName;
-        Plasma::Label *m_gameDescription;
-        Plasma::IconWidget *m_playButton;
-        QGraphicsGridLayout *m_layout;
-
-        void layoutWidgets();
-
-    protected slots:
-        void playGameActivated();
-
-    signals:
-        void activated(const QModelIndex &index);
+        virtual void keyPressEvent(QKeyEvent *event);
+        virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                QWidget *widget = 0);
+        void resizeEvent(QGraphicsSceneResizeEvent *event);
+        
+        QGraphicsGridLayout *m_contentLayout;
+        QGraphicsWidget *m_contentWidget;
+        Plasma::FrameSvg *m_background;
+        Plasma::ScrollWidget *m_scrollWidget;
     };
 
 }
 
-#endif // GLUONPLAYER_GAMESVIEWITEM_H
+#endif // GLUONPLAYER_OVERLAY_H

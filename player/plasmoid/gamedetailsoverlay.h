@@ -17,38 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESOVERLAY_H
-#define GLUONPLAYER_GAMESOVERLAY_H
+#ifndef GLUONPLAYER_GAMEDETAILSOVERLAY_H
+#define GLUONPLAYER_GAMEDETAILSOVERLAY_H
 
 #include <QGraphicsWidget>
-#include <QModelIndex>
+#include "overlay.h"
 
 namespace Plasma
 {
     class TabBar;
-};
+}
 
 namespace GluonPlayer
 {
-    class GamesView;
 
-    class GamesOverlay : public QGraphicsWidget
+    class HighScoresView;
+
+    class GameDetailsOverlay : public Overlay
     {
     Q_OBJECT
 
     public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
+        GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
     private:
         Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
-
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
+        HighScoresView *m_highScoresView;
     };
 
 }
 
-#endif // GLUONPLAYER_GAMESOVERLAY_H
+#endif // GLUONPLAYER_GAMEDETAILSOVERLAY_H

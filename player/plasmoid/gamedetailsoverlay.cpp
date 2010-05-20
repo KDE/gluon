@@ -17,38 +17,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESOVERLAY_H
-#define GLUONPLAYER_GAMESOVERLAY_H
+#include "gamedetailsoverlay.h"
+#include "views/highscoresview.h"
+#include "views/achievementsview.h"
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+#include <QGraphicsLinearLayout>
 
-namespace Plasma
+#include <Plasma/TabBar>
+#include <KIcon>
+
+using namespace GluonPlayer;
+
+GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+    : Overlay(parent, wFlags)
 {
-    class TabBar;
-};
+    m_tabBar = new Plasma::TabBar(this);
 
-namespace GluonPlayer
-{
-    class GamesView;
+    m_tabBar->addTab(KIcon("games-highscores"), "High Scores", new HighScoresView(this));
+    m_tabBar->addTab(KIcon("games-endturn"), "Achievements", new AchievementsView(this));
 
-    class GamesOverlay : public QGraphicsWidget
-    {
-    Q_OBJECT
-
-    public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
-
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
-
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
-    };
-
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Horizontal);
+    layout->addItem(m_tabBar);
+    setLayout(layout);
 }
-
-#endif // GLUONPLAYER_GAMESOVERLAY_H

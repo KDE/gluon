@@ -24,7 +24,8 @@
 
 #include "plasmaapplet.h"
 #include "gamesoverlay.h"
-#include "gamesview.h"
+#include "views/gamesview.h"
+#include "gamedetailsoverlay.h"
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -70,11 +71,12 @@ void PlasmaApplet::init()
     m_gamesOverlay = new GamesOverlay(this);
     m_gamesOverlay->gamesView()->setModel(m_gamesModel);
     m_gamesOverlay->setGeometry(geometry());
-    connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+    connect(m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+    connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)));
 
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
-    layout->addItem(m_gamesOverlay);
-    setLayout(layout);
+    m_layout = new QGraphicsLinearLayout(Qt::Vertical);
+    m_layout->addItem(m_gamesOverlay);
+    setLayout(m_layout);
 }
 
 void PlasmaApplet::setProject(const QModelIndex &index)
@@ -143,6 +145,15 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
         m_camera->applyViewport();
         m_camera->applyOrtho();
     }
+}
+
+void PlasmaApplet::showGameDetails(const QModelIndex& index)
+{
+    m_gameDetailsOverlay = new GameDetailsOverlay(this);
+    m_gamesOverlay->hide();
+    m_layout->removeItem(m_gamesOverlay);
+    m_layout->addItem(m_gameDetailsOverlay);
+    m_gameDetailsOverlay->show();
 }
 
 void PlasmaApplet::setCamera(Camera* camera)
