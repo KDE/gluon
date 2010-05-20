@@ -21,7 +21,7 @@
 
 using namespace GluonPlayer;
 
-GluonPlayer::AchievementsView::AchievementsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+AchievementsView::AchievementsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 {
 
 }
