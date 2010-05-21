@@ -87,6 +87,7 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
         layout->addWidget(button);
         connect(button, SIGNAL(clicked(bool)), this, SLOT(openClicked(bool)));
     }
+    resize(500, 500);
 }
 
 void MainWindow::activated(QModelIndex index)
