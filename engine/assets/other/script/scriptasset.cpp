@@ -62,6 +62,14 @@ void ScriptAsset::load()
     }
 }
 
+const QList< AssetTemplate >
+ScriptAsset::templates() const
+{
+    QList<AssetTemplate> templates;
+    templates.append(AssetTemplate("Script", "script_template.js"));
+    return templates;
+}
+
 Q_EXPORT_PLUGIN2(gluon_asset_script, GluonEngine::ScriptAsset)
 
 #include "scriptasset.moc"

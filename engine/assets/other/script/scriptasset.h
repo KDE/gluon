@@ -37,6 +37,7 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
             virtual void load();
+            virtual const QList<AssetTemplate> templates() const;
 
         private:
             class ScriptAssetPrivate;

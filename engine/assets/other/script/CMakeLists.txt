@@ -22,3 +22,10 @@ install(
     DESTINATION
     ${LIB_INSTALL_DIR}/gluon
 )
+
+install(
+    FILES
+    script_template.js
+    DESTINATION
+    ${SHARE_INSTALL_DIR}/gluon/templates/qtscript
+)
