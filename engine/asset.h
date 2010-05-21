@@ -34,6 +34,20 @@ class QMimeData;
 namespace GluonEngine
 {
     class AssetPrivate;
+    
+    struct GLUON_ENGINE_EXPORT AssetTemplate
+    {
+        public:
+            /**
+            * The name which the newly created asset object will be given
+            */
+            QString name;
+            /**
+            * The filename of the template, as found inside the template dir for
+            * this asset (for example /usr/share/gluon/template/assetclassname/filename)
+            */
+            QString filename;
+    };
 
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
@@ -49,6 +63,13 @@ namespace GluonEngine
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
+
+            /**
+             * The templates provided by the asset. The default
+             * implementation returns no templates, as many assets will not
+             * be able to provide templates.
+             */
+            virtual const QList<AssetTemplate> templates();
 
             virtual const QMimeData* data() const;
 
