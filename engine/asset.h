@@ -38,6 +38,11 @@ namespace GluonEngine
     struct GLUON_ENGINE_EXPORT AssetTemplate
     {
         public:
+            AssetTemplate(QString name, QString filename)
+                : name(name)
+                , filename(filename)
+            { }
+
             /**
             * The name which the newly created asset object will be given
             */
@@ -69,7 +74,7 @@ namespace GluonEngine
              * implementation returns no templates, as many assets will not
              * be able to provide templates.
              */
-            virtual const QList<AssetTemplate> templates();
+            virtual const QList<AssetTemplate> templates() const;
 
             virtual const QMimeData* data() const;
 

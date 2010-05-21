@@ -93,7 +93,7 @@ Asset::data() const
 }
 
 const QList< AssetTemplate >
-Asset::templates()
+Asset::templates() const
 {
     QList<AssetTemplate> templates;
     return templates;
