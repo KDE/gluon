@@ -28,6 +28,8 @@ set(INCLUDE_INSTALL_DIR     ${CMAKE_INSTALL_PREFIX}/include             CACHE PA
 set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
 set(SHARE_INSTALL_DIR       ${CMAKE_INSTALL_PREFIX}/share               CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
 
+configure_file(gluon_global.h.in gluon_global.h)
+
 include_directories(${QT_INCLUDES})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -56,8 +58,9 @@ set(GluonCore_HEADERS
     singleton.h
     gluon_core_export.h
 	gluonvarianttypes.h
+	
+	${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
-
 
 qt4_automoc(${GluonCore_SRCS})
 

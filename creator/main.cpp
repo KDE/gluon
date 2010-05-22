@@ -23,7 +23,7 @@
 #include <KAboutData>
 #include <KCmdLineArgs>
 
-#include <core/gluon_version.h>
+#include "core/gluon_global.h"
 
 //#include <core/gluon_core_metatypes.h>
 #include <engine/gluon_engine_metatypes.h>
@@ -31,12 +31,12 @@
 int main(int argc, char **argv)
 {
     KAboutData aboutData("gluoncreator", NULL,
-                         ki18n("Gluon Creator"), GLUON_VERSION_STRING,
+                         ki18n("Gluon Creator"), GLUON_VERSION_STRING.toUtf8(),
                          ki18n((QString("A game creation tool.\nUsing %1 Version %2").arg(GLUON_PLATFORM_NAME).arg(GLUON_VERSION_STRING)).toUtf8()),
                          KAboutData::License_LGPL_V2,
                          ki18n("Copyright 2009-2010 by multiple contributors."),
                          KLocalizedString(),
-                         "http://gluon.tuxfamily.org"
+                         "http://gluon.gamingfreedom.org"
                         );
     aboutData.setProgramIconName("gluon_creator");
     aboutData.addAuthor(ki18n("Arjen Hiemstra"), ki18n("Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator"), "");
