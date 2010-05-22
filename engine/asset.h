@@ -35,13 +35,17 @@ namespace GluonEngine
 {
     class AssetPrivate;
     
-    struct GLUON_ENGINE_EXPORT AssetTemplate
+    class GLUON_ENGINE_EXPORT AssetTemplate : public QObject
     {
+        Q_OBJECT
         public:
-            AssetTemplate(QString name, QString filename)
-                : name(name)
+            AssetTemplate(QString name, QString filename, QObject *parent = 0)
+                : QObject(parent)
+                , name(name)
                 , filename(filename)
             { }
+            ~AssetTemplate() {};
+            
 
             /**
             * The name which the newly created asset object will be given
@@ -74,7 +78,7 @@ namespace GluonEngine
              * implementation returns no templates, as many assets will not
              * be able to provide templates.
              */
-            virtual const QList<AssetTemplate> templates() const;
+            virtual const QList<AssetTemplate*> templates() const;
 
             virtual const QMimeData* data() const;
 

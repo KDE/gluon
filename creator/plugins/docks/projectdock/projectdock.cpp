@@ -23,6 +23,7 @@
 #include "engine/game.h"
 #include "engine/gameobject.h"
 #include "engine/scene.h"
+#include "engine/asset.h"
 #include "models/projectmodel.h"
 #include "engine/gameproject.h"
 
@@ -46,6 +47,19 @@ class ProjectDock::ProjectDockPrivate
         {
             q = parent;
             view = 0;
+            const GluonEngine::Asset* theItem;
+            const QHash<QString, GluonCore::GluonObject*> types = GluonCore::GluonObjectFactory::instance()->objectTypes();
+            QHash<QString, GluonCore::GluonObject*>::const_iterator i;
+            for(i = types.constBegin(); i != types.constEnd(); ++i)
+            {
+                theItem = qobject_cast<const GluonEngine::Asset*>(i.value());
+                if(theItem)
+                {
+                    QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
+                    for(int j = 0; j < templates.length(); ++j)
+                        assetTemplates.append(templates[j]);
+                }
+            }
         }
         ProjectDock * q;
         ProjectModel* model;
@@ -54,6 +68,7 @@ class ProjectDock::ProjectDockPrivate
         QModelIndex currentContextIndex;
         QList<QAction*> menuForObject(QModelIndex index);
         QList<QAction*> currentContextMenu;
+        QList<GluonEngine::AssetTemplate*> assetTemplates;
 };
 
 QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex index)
@@ -79,6 +94,14 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 action = new QAction("New Folder...", this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
                 menuItems.append(action);
+                
+                // Run through all the templates and add an action for each...
+                foreach(const GluonEngine::AssetTemplate* item, assetTemplates)
+                {
+                    action = new QAction(i18n("New %1").arg(item->name), this->q);
+                    connect(action, SIGNAL(triggered()), q, SLOT(newAssetTriggered()));
+                    menuItems.append(action);
+                }
             }
             action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
             connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
@@ -216,3 +239,7 @@ void ProjectDock::newSubMenuTriggered()
     }
 }
 
+void GluonCreator::ProjectDock::newAssetTriggered()
+{
+    QMessageBox::about(this, "BLAB!", "argleblarghl");
+}

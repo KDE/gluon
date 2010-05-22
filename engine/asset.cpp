@@ -92,10 +92,10 @@ Asset::data() const
     return d->mime;
 }
 
-const QList< AssetTemplate >
+const QList< AssetTemplate* >
 Asset::templates() const
 {
-    QList<AssetTemplate> templates;
+    QList<AssetTemplate*> templates;
     return templates;
 }
 
