@@ -134,11 +134,12 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->view->setHeaderHidden(true);
     d->view->setAcceptDrops(true);
     d->view->setContextMenuPolicy(Qt::CustomContextMenu);
+    d->view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(d->view, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenuRequested(const QPoint&)));
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
     connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), d->model, SLOT(setProject(GluonEngine::GameProject*)));
-    connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
+    connect(d->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
     setWidget(d->view);
 }
@@ -165,6 +166,7 @@ void ProjectDock::setSelection(GluonCore::GluonObject* obj)
 
 void ProjectDock::activated(QModelIndex index)
 {
+    DEBUG_FUNC_NAME
     if (!index.isValid())
     {
         return;
@@ -190,11 +192,15 @@ void ProjectDock::activated(QModelIndex index)
     }
     else if(asset)
     {
-        QString filename = KUrl(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).canonicalPath() + '/' + asset->file().toLocalFile()).toLocalFile();
+        DEBUG_TEXT("Asset")
+        QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
+	DEBUG_TEXT2("Filename: %1", filename)
         if(QFile::exists(filename))
         {
+	    DEBUG_TEXT("Opening asset")
             KRun* runner = new KRun(filename, this);
             Q_UNUSED(runner);
+	    //KRun::run("xdg-open %u", KUrl::List() << filename, parentWidget());
         }
     }
 }

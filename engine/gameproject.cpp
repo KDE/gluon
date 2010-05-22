@@ -23,6 +23,7 @@
 
 #include <core/gdlhandler.h>
 #include <core/debughelper.h>
+#include "scene.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
@@ -32,7 +33,6 @@
 #include <QMetaClassInfo>
 
 REGISTER_OBJECTTYPE(GluonEngine, GameProject)
-Q_DECLARE_METATYPE(GluonEngine::Scene*);
 
 using namespace GluonEngine;
 
@@ -41,13 +41,18 @@ GameProject::GameProject(QObject * parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
+    
+    QVariant somethingEmpty;
+    GluonObject *theObject = d->entryPoint;
+    somethingEmpty.setValue<GluonCore::GluonObject*>(theObject);
+    setProperty("entryPoint", somethingEmpty);
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
         : GluonObject(parent)
         , d(other.d)
 {
-
+    setProperty("entryPoint", other.property("entryPoint"));
 }
 
 GameProject::~GameProject()
@@ -239,13 +244,18 @@ GameProject::setFilename(QUrl newFilename)
 Scene *
 GameProject::entryPoint() const
 {
-    return d->entryPoint;
+   // return d->entryPoint;
+    return qobject_cast<Scene*>(property("entryPoint").value<GluonCore::GluonObject*>());
 }
 
 void
 GameProject::setEntryPoint(Scene * newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
+    
+    QVariant theNewValue;
+    theNewValue.setValue<GluonCore::GluonObject*>(newEntryPoint);
+    setProperty("entryPoint", theNewValue);
 }
 
 #include "gameproject.moc"
