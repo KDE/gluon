@@ -233,4 +233,16 @@ GluonObjectFactory::loadPlugins()
     }
 }
 
+const QString
+GluonObjectFactory::libraryInstallPath()
+{
+    return QString(INSTALL_PREFIX);
+}
+
+const QString
+GluonObjectFactory::dataInstallPath()
+{
+    return QString(DATA_INSTALL_PREFIX);
+}
+
 #include "gluonobjectfactory.moc"

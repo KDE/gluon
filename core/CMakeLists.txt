@@ -32,6 +32,9 @@ include_directories(${QT_INCLUDES})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+add_definitions(-DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+add_definitions(-DDATA_INSTALL_PREFIX="${SHARE_INSTALL_DIR}")
+
 set(GLUON_CORE_INCLUDES
     ${QT_INCLUDES}
     CACHE PATHS "Includes required for Gluon Core"

@@ -56,6 +56,9 @@ namespace GluonCore
             QStringList objectMimeTypes() const;
             QHash<QString, GluonObject*> objectTypes() const;
             const QHash<QString, int> objectTypeIDs() const;
+            
+            static const QString libraryInstallPath();
+            static const QString dataInstallPath();
         private:
             QHash<QString, GluonObject*> m_objectTypes;
             QHash<QString, QString> m_mimeTypes;
