@@ -39,10 +39,11 @@ namespace GluonEngine
     {
         Q_OBJECT
         public:
-            AssetTemplate(QString name, QString filename, QObject *parent = 0)
+            AssetTemplate(QString name, QString filename, QString pluginname, QObject *parent = 0)
                 : QObject(parent)
                 , name(name)
                 , filename(filename)
+                , pluginname(pluginname)
             { }
             ~AssetTemplate() {};
             
@@ -56,6 +57,10 @@ namespace GluonEngine
             * this asset (for example /usr/share/gluon/template/assetclassname/filename)
             */
             QString filename;
+            /**
+             * The name of the plugin (that is, the subdir inside which the template file is found)
+             */
+            QString pluginname;
     };
 
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
@@ -78,7 +83,7 @@ namespace GluonEngine
              * implementation returns no templates, as many assets will not
              * be able to provide templates.
              */
-            virtual const QList<AssetTemplate*> templates() const;
+            virtual const QList<AssetTemplate*> templates();
 
             virtual const QMimeData* data() const;
 

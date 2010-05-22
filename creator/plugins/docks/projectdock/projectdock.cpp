@@ -47,15 +47,15 @@ class ProjectDock::ProjectDockPrivate
         {
             q = parent;
             view = 0;
-            const GluonEngine::Asset* theItem;
+            GluonEngine::Asset* theItem;
             const QHash<QString, GluonCore::GluonObject*> types = GluonCore::GluonObjectFactory::instance()->objectTypes();
             QHash<QString, GluonCore::GluonObject*>::const_iterator i;
             for(i = types.constBegin(); i != types.constEnd(); ++i)
             {
-                theItem = qobject_cast<const GluonEngine::Asset*>(i.value());
+                theItem = qobject_cast<GluonEngine::Asset*>(i.value());
                 if(theItem)
                 {
-                    QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
+                    const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
                     for(int j = 0; j < templates.length(); ++j)
                         assetTemplates.append(templates[j]);
                 }
@@ -99,10 +99,17 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 foreach(const GluonEngine::AssetTemplate* item, assetTemplates)
                 {
                     action = new QAction(i18n("New %1").arg(item->name), this->q);
+                    action->setProperty("newAssetPluginname", item->pluginname);
+                    action->setProperty("newAssetFilename", item->filename);
                     connect(action, SIGNAL(triggered()), q, SLOT(newAssetTriggered()));
                     menuItems.append(action);
                 }
             }
+            
+            action = new QAction(this->q);
+            action->setSeparator(true);
+            menuItems.append(action);
+
             action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
             connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
             menuItems.append(action);
@@ -228,11 +235,9 @@ void ProjectDock::deleteActionTriggered()
 
 void ProjectDock::newSubMenuTriggered()
 {
-    DEBUG_FUNC_NAME
     if (d->currentContextIndex.isValid())
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
-        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(object->fullyQualifiedName()));
         QString theName(KInputDialog::getText(i18n("Enter Name"), i18n("Please enter the name of the new folder in the text box below:"), i18n("New Folder"), 0, this));
         if (!theName.isEmpty())
             new GluonCore::GluonObject(theName, object);
@@ -241,5 +246,13 @@ void ProjectDock::newSubMenuTriggered()
 
 void GluonCreator::ProjectDock::newAssetTriggered()
 {
-    QMessageBox::about(this, "BLAB!", "argleblarghl");
+    if (d->currentContextIndex.isValid())
+    {
+        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        QAction* menuItem = qobject_cast< QAction* >(QObject::sender());
+        if(menuItem)
+        {
+            QMessageBox::about(this, "BLAB!", QString("%1 argleblarghl %2").arg(menuItem->property("newAssetPluginname").value<QString>()).arg(menuItem->property("newAssetFilename").value<QString>()));
+        }
+    }
 }

@@ -63,10 +63,10 @@ void ScriptAsset::load()
 }
 
 const QList< AssetTemplate* >
-ScriptAsset::templates() const
+ScriptAsset::templates()
 {
     QList<AssetTemplate*> templates;
-    templates.append(new AssetTemplate("Script", "script_template.js"));
+    templates.append(new AssetTemplate("Script", "script_template.js", "qtscript", this));
     return templates;
 }
 
