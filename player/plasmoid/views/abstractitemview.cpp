@@ -17,39 +17,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESVIEW_H
-#define GLUONPLAYER_GAMESVIEW_H
-
 #include "abstractitemview.h"
 
-class QGraphicsLinearLayout;
-class QAbstractItemModel;
+#include <QAbstractItemModel>
+#include <QPainter>
+#include <QGraphicsSceneEvent>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 
-namespace Plasma
+#include <Plasma/FrameSvg>
+#include <Plasma/ScrollWidget>
+
+using namespace GluonPlayer;
+
+AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+    : Overlay(parent, wFlags), m_model(0)
 {
-    class ItemBackground;
-}
-
-namespace GluonPlayer
-{
-    class GamesView : public AbstractItemView
-    {
-    Q_OBJECT
-
-    public:
-        GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual void setModel(QAbstractItemModel *model);
-
-    protected:
-        QGraphicsLinearLayout *m_layout;
-        Plasma::ItemBackground *m_itemBackground;
-
-        bool eventFilter(QObject *obj, QEvent *event);
-
-    signals:
-        void gameSelected(const QModelIndex &index);
-    };
 
 }
 
-#endif // GLUONPLAYER_GAMESVIEW_H
+QAbstractItemModel* AbstractItemView::model() const
+{
+    return m_model;
+}
+
+void AbstractItemView::setModel(QAbstractItemModel* model)
+{
+    m_model = model;
+}
+
+#include "abstractitemview.moc"

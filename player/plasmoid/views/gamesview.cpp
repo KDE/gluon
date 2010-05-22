@@ -22,8 +22,10 @@
 
 #include <QModelIndex>
 #include <QGraphicsGridLayout>
+
 #include <KDebug>
 #include <Plasma/ItemBackground>
+#include <Plasma/TabBar>
 
 using namespace GluonPlayer;
 
@@ -41,7 +43,8 @@ void GamesView::setModel(QAbstractItemModel* model)
         item->setModelIndex(m_model->index(i, 0));
         item->setAcceptHoverEvents(true);
         item->installEventFilter(this);
-        connect(item, SIGNAL(activated(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
+        connect(item, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
+        connect(item, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
         m_contentLayout->addItem(item, i, 0);
     }
 }

@@ -23,7 +23,9 @@
  */
 
 #include "plasmaapplet.h"
-#include "gamesview.h"
+#include "gamesoverlay.h"
+#include "views/gamesview.h"
+#include "gamedetailsoverlay.h"
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -45,7 +47,7 @@ using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args): GLFBOApplet(parent, args),
                             m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
-                                 m_gamesView(0)
+                                 m_gamesOverlay(0)
 {
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
@@ -66,20 +68,21 @@ PlasmaApplet::~PlasmaApplet()
 void PlasmaApplet::init()
 {
     m_gamesModel = new GamesModel(this);
-    m_gamesView = new GamesView(this);
-    m_gamesView->setModel(m_gamesModel);
-    m_gamesView->setGeometry(geometry());
-    connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+    m_gamesOverlay = new GamesOverlay(this);
+    m_gamesOverlay->gamesView()->setModel(m_gamesModel);
+    m_gamesOverlay->setGeometry(geometry());
+    connect(m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+    connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)));
 
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
-    layout->addItem(m_gamesView);
-    setLayout(layout);
+    m_layout = new QGraphicsLinearLayout(Qt::Vertical);
+    m_layout->addItem(m_gamesOverlay);
+    setLayout(m_layout);
 }
 
 void PlasmaApplet::setProject(const QModelIndex &index)
 {
     m_gameFileName = index.data().toString();
-    m_gamesView->hide();
+    m_gamesOverlay->hide();
     openProject();
 }
 
@@ -142,6 +145,15 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
         m_camera->applyViewport();
         m_camera->applyOrtho();
     }
+}
+
+void PlasmaApplet::showGameDetails(const QModelIndex& index)
+{
+    m_gameDetailsOverlay = new GameDetailsOverlay(this);
+    m_gamesOverlay->hide();
+    m_layout->removeItem(m_gamesOverlay);
+    m_layout->addItem(m_gameDetailsOverlay);
+    m_gameDetailsOverlay->show();
 }
 
 void PlasmaApplet::setCamera(Camera* camera)

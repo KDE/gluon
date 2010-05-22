@@ -30,6 +30,8 @@
 
 #include <QModelIndex>
 
+class QGraphicsLinearLayout;
+
 namespace GluonEngine
 {
     class GameProject;
@@ -43,7 +45,8 @@ namespace GluonGraphics
 namespace GluonPlayer
 {
     class GamesModel;
-    class GamesView;
+    class GamesOverlay;
+    class GameDetailsOverlay;
 
     class PlasmaApplet : public GLFBOApplet
     {
@@ -62,7 +65,9 @@ namespace GluonPlayer
         GluonEngine::GameProject *m_project;
         GluonGraphics::Camera *m_camera;
         GamesModel *m_gamesModel;
-        GamesView *m_gamesView;
+        GamesOverlay *m_gamesOverlay;
+        GameDetailsOverlay *m_gameDetailsOverlay;
+        QGraphicsLinearLayout *m_layout;
 
         void initGL();
         void render();
@@ -75,6 +80,7 @@ namespace GluonPlayer
         void setProject(const QModelIndex &index);
         void doPaint();
         void startGame();
+        void showGameDetails(const QModelIndex &index);
         void setCamera(GluonGraphics::Camera* camera);
     };
 }

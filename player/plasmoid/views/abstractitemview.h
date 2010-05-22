@@ -21,6 +21,7 @@
 #define GLUONPLAYER_ABSTRACTITEMVIEW_H
 
 #include <QGraphicsWidget>
+#include "overlay.h"
 
 class QAbstractItemModel;
 class QModelIndex;
@@ -35,7 +36,7 @@ namespace Plasma
 
 namespace GluonPlayer
 {
-    class AbstractItemView : public QGraphicsWidget
+    class AbstractItemView : public Overlay
     {
     Q_OBJECT
 
@@ -45,17 +46,7 @@ namespace GluonPlayer
         virtual void setModel(QAbstractItemModel *model);
         QAbstractItemModel *model() const;
     protected:
-        virtual void keyPressEvent(QKeyEvent *event);
-        virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                QWidget *widget = 0);
-        void resizeEvent(QGraphicsSceneResizeEvent *event);
-        
         QAbstractItemModel *m_model;
-        QGraphicsGridLayout *m_contentLayout;
-        QGraphicsWidget *m_contentWidget;
-        Plasma::FrameSvg *m_background;
-        Plasma::ScrollWidget *m_scrollWidget;
     };
 
 }
