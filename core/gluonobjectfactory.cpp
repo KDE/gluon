@@ -20,7 +20,7 @@
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
 #include "debughelper.h"
-#include "gluon_version.h"
+#include "gluon_global.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
