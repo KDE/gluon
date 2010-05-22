@@ -37,6 +37,10 @@
 #include <QFile>
 #include <QFileInfo>
 #include <KRun>
+#include <historymanager.h>
+#include <newobjectcommand.h>
+#include <QDir>
+#include <KStandardDirs>
 
 using namespace GluonCreator;
 
@@ -99,6 +103,8 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 foreach(const GluonEngine::AssetTemplate* item, assetTemplates)
                 {
                     action = new QAction(i18n("New %1").arg(item->name), this->q);
+                    action->setProperty("newAssetClassname", QString(item->parent()->metaObject()->className()));
+                    action->setProperty("newAssetName", item->name);
                     action->setProperty("newAssetPluginname", item->pluginname);
                     action->setProperty("newAssetFilename", item->filename);
                     connect(action, SIGNAL(triggered()), q, SLOT(newAssetTriggered()));
@@ -252,13 +258,40 @@ void ProjectDock::newSubMenuTriggered()
 
 void GluonCreator::ProjectDock::newAssetTriggered()
 {
+    DEBUG_BLOCK
     if (d->currentContextIndex.isValid())
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         QAction* menuItem = qobject_cast< QAction* >(QObject::sender());
         if(menuItem)
         {
-            QMessageBox::about(this, "BLAB!", QString("%1 argleblarghl %2").arg(menuItem->property("newAssetPluginname").value<QString>()).arg(menuItem->property("newAssetFilename").value<QString>()));
+            GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(menuItem->property("newAssetClassname").toString());
+            GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >(newChild);
+            if(newAsset)
+            {
+                newAsset->setName(menuItem->property("newAssetName").toString());
+                object->addChild(newAsset);
+
+                QString templateFilename = QString("gluon/templates/%1/%2").arg(menuItem->property("newAssetPluginname").toString()).arg(menuItem->property("newAssetFilename").toString());
+                QString fileName = GluonCore::GluonObjectFactory::dataInstallPath() + '/' + templateFilename; //KStandardDirs::locate("data", templateFilename);
+                if(fileName.isEmpty())
+                {
+                    DEBUG_TEXT("Failed at finding the template file!");
+                    return;
+                }
+
+                if (!QDir::current().exists("Assets"))
+                    QDir::current().mkdir("Assets");
+
+                QFileInfo info(fileName);
+                QUrl newLocation(QString("Assets/%1.%2").arg(newAsset->fullyQualifiedFileName()).arg(info.completeSuffix()));
+                DEBUG_TEXT(QString("New asset created, copying template from %1 to %2").arg(fileName).arg(newLocation.toLocalFile()));
+                QFile(fileName).copy(newLocation.toLocalFile());
+                newAsset->setFile(newLocation);
+                newAsset->load();
+
+                //HistoryManager::instance()->addCommand(new NewObjectCommand(newAsset));
+            }
         }
     }
 }
