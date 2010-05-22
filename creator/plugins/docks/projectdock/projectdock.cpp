@@ -20,6 +20,7 @@
 #include "projectdock.h"
 
 #include "core/debughelper.h"
+#include "core/gluon_global.h"
 #include "engine/game.h"
 #include "engine/gameobject.h"
 #include "engine/scene.h"
@@ -273,7 +274,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
                 object->addChild(newAsset);
 
                 QString templateFilename = QString("gluon/templates/%1/%2").arg(menuItem->property("newAssetPluginname").toString()).arg(menuItem->property("newAssetFilename").toString());
-                QString fileName = GluonCore::GluonObjectFactory::dataInstallPath() + '/' + templateFilename; //KStandardDirs::locate("data", templateFilename);
+                QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;
                 if(fileName.isEmpty())
                 {
                     DEBUG_TEXT("Failed at finding the template file!");
@@ -285,8 +286,8 @@ void GluonCreator::ProjectDock::newAssetTriggered()
 
                 QFileInfo info(fileName);
                 QUrl newLocation(QString("Assets/%1.%2").arg(newAsset->fullyQualifiedFileName()).arg(info.completeSuffix()));
-                DEBUG_TEXT(QString("New asset created, copying template from %1 to %2").arg(fileName).arg(newLocation.toLocalFile()));
                 QFile(fileName).copy(newLocation.toLocalFile());
+
                 newAsset->setFile(newLocation);
                 newAsset->load();
 
