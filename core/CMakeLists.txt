@@ -79,19 +79,24 @@ set(GLUON_CORE_LIBS
 set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CORE_LIB)
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonCore_HEADERS
-		${GluonCore_HEADERS}
-	)
 	
 	set_target_properties(GluonCore PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonCore PROPERTIES PUBLIC_HEADER "${GluonCore_HEADERS}")
 	
-	set(MACOSX_FRAMEWORK_IDENTIFIER core)
+	add_custom_command(TARGET GluonCore POST_BUILD
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonCore.framework/Headers/core/
+		COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonCore.framework/Headers/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonCore.framework/Headers/core/
+	)
+
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER GluonCore)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endif()
+	
+	install(TARGETS GluonCore DESTINATION ${MAC_FRAMEWORK_PATH})
+	
+else()
 
 install(TARGETS GluonCore DESTINATION ${LIB_INSTALL_DIR})
 
@@ -101,3 +106,5 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
     COMPONENT Devel
 )
+
+endif()

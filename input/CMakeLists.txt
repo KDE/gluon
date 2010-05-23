@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 2.6)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonInput)
-    find_package(GluonCore REQUIRED)
+	if(APPLE)
+		find_package(Qt4 4.6 REQUIRED)
+	
+		find_library(GluonCore NAMES GluonCore)
+		message("-- Found GluonCore:" ${GluonCore})
+	else()
+		find_package(GluonCore REQUIRED)
+	endif()
 endif()
 
 include_directories(
@@ -136,20 +143,17 @@ endif()
 
 set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_INPUT_LIB)
 
-if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND ${GluonInput_HEADERS_COMMON}
-		GluonInput_HEADERS_COMMON
-	)
-	list(APPEND ${GluonInput_HEADERS_MAC}
-		GluonInput_HEADERS_MAC
-	)
-	
+if(APPLE)	
 	set_target_properties(GluonInput PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonInput PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonInput PROPERTIES PUBLIC_HEADER "${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC}")
 	
-	set(MACOSX_FRAMEWORK_IDENTIFIER input)
+	add_custom_command(TARGET GluonInput POST_BUILD
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonInput.framework/Headers/input/
+		COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonInput.framework/Headers/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonInput.framework/Headers/input/
+	)
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER GluonInput)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
@@ -183,17 +187,11 @@ elseif(WIN32)
 else()
 endif()
 
-install(TARGETS GluonInput DESTINATION ${LIB_INSTALL_DIR})
-
 if(APPLE)
-    install(
-        FILES
-        ${GluonInput_HEADERS_MAC}
-        ${GluonInput_HEADERS_COMMON}
-        DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
-    )
+    install(TARGETS GluonInput DESTINATION ${MAC_FRAMEWORK_PATH})
 elseif(WIN32)
+	install(TARGETS GluonInput DESTINATION ${LIB_INSTALL_DIR})
+	
     install(
         FILES
         ${GluonInput_HEADERS_WIN}
@@ -202,6 +200,8 @@ elseif(WIN32)
         COMPONENT Devel
     )
 else()
+	install(TARGETS GluonInput DESTINATION ${LIB_INSTALL_DIR})
+	
     install(
         FILES
         ${GluonInput_HEADERS_LINUX}

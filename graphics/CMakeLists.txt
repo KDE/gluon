@@ -1,8 +1,15 @@
 cmake_minimum_required(VERSION 2.6)
 
 if(NOT GLUON_BUILD_ALL)
-project(GluonGraphics)
-find_package(GluonCore REQUIRED)
+	project(GluonGraphics)
+	if(APPLE)
+		find_package(Qt4 4.6 REQUIRED)
+	
+		find_library(GluonCore NAMES GluonCore)
+		message("-- Found GluonCore:" ${GluonCore})
+	else()
+		find_package(GluonCore REQUIRED)
+	endif()
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -114,32 +121,22 @@ endif()
 
 set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
 
-if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonGraphics_HEADERS
-		${GluonGraphics_HEADERS} 
-	)
-	
-	list(APPEND GluonGraphics_Meshes_HEADERS
-		${GluonGraphics_Meshes_HEADERS} 
-	)
-	
-	list(APPEND GluonGraphics_Shaders_HEADERS
-		${GluonGraphics_Shaders_HEADERS}
-	)
-	
+if(APPLE)	
 	set_target_properties(GluonGraphics PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonGraphics PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonGraphics PROPERTIES PUBLIC_HEADER "${GluonGraphics_HEADERS}")
 	set_target_properties(GluonGraphics PROPERTIES RESOURCE "${GluonGraphics_RESOURCES}")
+	
 	add_custom_command(TARGET GluonGraphics POST_BUILD
-      COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes
-	  COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/meshes/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes/
-      COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders
-      COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders/	
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/graphics/
+		COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/graphics/
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes
+		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/meshes/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/meshes/
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders
+		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders/
 	)
 	
-	set(MACOSX_FRAMEWORK_IDENTIFIER graphics)
+	set(MACOSX_FRAMEWORK_IDENTIFIER GluonGraphics)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
@@ -167,25 +164,29 @@ ${GLUON_CORE_LIBS}
           CACHE PATHS "Libraries required for Gluon Graphics"
           )
 
-install(TARGETS GluonGraphics DESTINATION ${LIB_INSTALL_DIR})
+if(APPLE)
+	install(TARGETS GluonGraphics DESTINATION ${MAC_FRAMEWORK_PATH})
+else()
+	install(TARGETS GluonGraphics DESTINATION ${LIB_INSTALL_DIR})
 
-install(
-FILES
-${GluonGraphics_HEADERS}
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
-COMPONENT Devel
-)
+	install(
+	FILES
+	${GluonGraphics_HEADERS}
+	DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
+	COMPONENT Devel
+	)
 
-install(
-FILES
-${GluonGraphics_Meshes_HEADERS}
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/meshes
-COMPONENT Devel
-)
+	install(
+	FILES
+	${GluonGraphics_Meshes_HEADERS}
+	DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/meshes
+	COMPONENT Devel
+	)
 
-install(
-FILES
-${GluonGraphics_Shaders_HEADERS}
-DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/shaders
-COMPONENT Devel
-)
+	install(
+	FILES
+	${GluonGraphics_Shaders_HEADERS}
+	DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/shaders
+	COMPONENT Devel
+	)
+endif()

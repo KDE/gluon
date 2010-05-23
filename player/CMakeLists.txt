@@ -2,9 +2,22 @@ cmake_minimum_required(VERSION 2.6)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonPlayer)
-    find_package(GluonCore REQUIRED)
-    find_package(GluonEngine REQUIRED)
-    find_package(GluonGraphics REQUIRED)
+	if(APPLE)
+		find_package(Qt4 4.6 REQUIRED)
+		
+		find_library(GluonCore NAMES GluonCore)
+		message("-- Found GluonCore:" ${GluonCore})
+		
+		find_library(GluonEngine NAMES GluonEngine)
+		message("-- Found GluonEngine:" ${GluonEngine})
+		
+		find_library(GluonGraphics NAMES GluonGraphics)
+		message("-- Found GluonGraphics:" ${GluonGraphics})
+	else()	
+		find_package(GluonCore REQUIRED)
+		find_package(GluonEngine REQUIRED)
+		find_package(GluonGraphics REQUIRED)
+	endif()
 endif()
 
 include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
@@ -31,7 +44,12 @@ set(GLUON_PLAYER_LIBS
    CACHE PATHS "Libraries required for Gluon Player"
 )
 message(STATUS ${GLUON_PLAYER_LIBS})
-install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+
+if(NOT APPLE)
+
+	install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+
+endif()
 
 add_subdirectory(qt)
 
@@ -44,7 +62,7 @@ else(KDE4_FOUND AND WITH_KDE)
     endif(WITH_KDE)
 endif(KDE4_FOUND AND WITH_KDE)
 
-if(INSTALL_EXAMPLES)
+if(INSTALL_EXAMPLES AND NOT APPLE)
     install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
     install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
 endif()

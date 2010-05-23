@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 2.6)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonAudio)
-    find_package(GluonCore REQUIRED)
+	if(APPLE)
+		find_package(Qt4 4.6 REQUIRED)
+	
+		find_library(GluonCore NAMES GluonCore)
+		message("-- Found GluonCore:" ${GluonCore})
+	else()
+		find_package(GluonCore REQUIRED)
+	endif()
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -91,25 +98,28 @@ set(GLUON_AUDIO_LIBS
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_AUDIO_LIB)
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonAudio_HEADERS
-		${GluonAudio_HEADERS}
-	)
-
 	set_target_properties(GluonAudio PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonAudio PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonAudio PROPERTIES PUBLIC_HEADER "${GluonAudio_HEADERS}")
 	
-	set(MACOSX_FRAMEWORK_IDENTIFIER audio)
+	add_custom_command(TARGET GluonAudio POST_BUILD
+		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonAudio.framework/Headers/audio/
+		COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonAudio.framework/Headers/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonAudio.framework/Headers/audio/
+	)
+	
+	set(MACOSX_FRAMEWORK_IDENTIFIER GluonAudio)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+	
+	install(TARGETS GluonAudio DESTINATION ${MAC_FRAMEWORK_PATH})
+else()
+
+	install(TARGETS GluonAudio DESTINATION ${LIB_INSTALL_DIR})
+
+	install(
+		FILES
+		${GluonAudio_HEADERS}
+		DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
+		COMPONENT Devel
+	)
 endif()
-
-install(TARGETS GluonAudio DESTINATION ${LIB_INSTALL_DIR})
-
-install(
-    FILES
-    ${GluonAudio_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
-    COMPONENT Devel
-)

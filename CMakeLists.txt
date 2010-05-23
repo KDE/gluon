@@ -14,6 +14,11 @@ option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
+if(APPLE)
+	set(MAC_APPLICATIONS_PATH "/Applications")
+	set(MAC_FRAMEWORK_PATH "/Library/Frameworks")
+endif()
+
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
@@ -100,21 +105,23 @@ message(STATUS "To change any of these options, override them using -D{OPTION_NA
 message(STATUS "To build and install Gluon, run \"make\" and \"make install\"")
 message(STATUS)
 
-if(INSTALL_CMAKE_FILES)
-    install(
-        FILES
-        core/cmake/FindGluon.cmake
-        core/cmake/FindGluonCore.cmake
-        audio/cmake/FindGluonAudio.cmake
-        audio/cmake/FindOggVorbis.cmake
-        audio/cmake/FindSndFile.cmake
-        graphics/cmake/FindGluonGraphics.cmake
-        graphics/cmake/FindGLEW.cmake
-        input/cmake/FindGluonInput.cmake
-        engine/cmake/FindGluonEngine.cmake
-        creator/lib/cmake/FindGluonCreator.cmake
-        DESTINATION
-        ${CMAKE_ROOT}/Modules
-        OPTIONAL
-    )
+if(NOT APPLE)
+	if(INSTALL_CMAKE_FILES)
+		install(
+			FILES
+			core/cmake/FindGluon.cmake
+			core/cmake/FindGluonCore.cmake
+			audio/cmake/FindGluonAudio.cmake
+			audio/cmake/FindOggVorbis.cmake
+			audio/cmake/FindSndFile.cmake
+			graphics/cmake/FindGluonGraphics.cmake
+			graphics/cmake/FindGLEW.cmake
+			input/cmake/FindGluonInput.cmake
+			engine/cmake/FindGluonEngine.cmake
+			creator/lib/cmake/FindGluonCreator.cmake
+			DESTINATION
+			${CMAKE_ROOT}/Modules
+			OPTIONAL
+		)
+	endif()
 endif()

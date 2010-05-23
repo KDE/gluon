@@ -1,7 +1,14 @@
 cmake_minimum_required(VERSION 2.6)
 
 if(NOT GLUON_BUILD_ALL)
-    find_package(GluonAudio REQUIRED)
+    if(APPLE)
+		find_package(Qt4 4.6 REQUIRED)
+		
+		find_library(GluonAudio NAMES GluonAudio)
+		message("-- Found GluonAudio:" ${GluonAudio})
+	else()
+		find_package(GluonAudio REQUIRED)
+	endif()
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_AUDIO_INCLUDES})
