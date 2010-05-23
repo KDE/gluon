@@ -22,6 +22,7 @@
 
 #define GLUON_INSTALL_PREFIX    QString("${CMAKE_INSTALL_PREFIX}")
 #define GLUON_SHARE_INSTALL_DIR QString("${SHARE_INSTALL_DIR}")
+#define GLUON_LIB_INSTALL_DIR   QString("${LIB_INSTALL_DIR}")
 
 #define GLUON_VERSION_MAJOR     ${GLUON_VERSION_MAJOR}
 #define GLUON_VERSION_MINOR     ${GLUON_VERSION_MINOR}
@@ -46,6 +47,11 @@ namespace GluonCore
             static QString dataDirectory()
             {
                 return GLUON_SHARE_INSTALL_DIR;
+            }
+
+            static QString libDirectory()
+            {
+                return GLUON_LIB_INSTALL_DIR;
             }
 
             static QString versionString()
