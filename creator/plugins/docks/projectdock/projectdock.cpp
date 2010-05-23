@@ -20,9 +20,11 @@
 #include "projectdock.h"
 
 #include "core/debughelper.h"
+#include "core/gluon_global.h"
 #include "engine/game.h"
 #include "engine/gameobject.h"
 #include "engine/scene.h"
+#include "engine/asset.h"
 #include "models/projectmodel.h"
 #include "engine/gameproject.h"
 
@@ -36,6 +38,10 @@
 #include <QFile>
 #include <QFileInfo>
 #include <KRun>
+#include <historymanager.h>
+#include <newobjectcommand.h>
+#include <QDir>
+#include <KStandardDirs>
 
 using namespace GluonCreator;
 
@@ -46,6 +52,19 @@ class ProjectDock::ProjectDockPrivate
         {
             q = parent;
             view = 0;
+            GluonEngine::Asset* theItem;
+            const QHash<QString, GluonCore::GluonObject*> types = GluonCore::GluonObjectFactory::instance()->objectTypes();
+            QHash<QString, GluonCore::GluonObject*>::const_iterator i;
+            for(i = types.constBegin(); i != types.constEnd(); ++i)
+            {
+                theItem = qobject_cast<GluonEngine::Asset*>(i.value());
+                if(theItem)
+                {
+                    const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
+                    for(int j = 0; j < templates.length(); ++j)
+                        assetTemplates.append(templates[j]);
+                }
+            }
         }
         ProjectDock * q;
         ProjectModel* model;
@@ -54,6 +73,7 @@ class ProjectDock::ProjectDockPrivate
         QModelIndex currentContextIndex;
         QList<QAction*> menuForObject(QModelIndex index);
         QList<QAction*> currentContextMenu;
+        QList<GluonEngine::AssetTemplate*> assetTemplates;
 };
 
 QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex index)
@@ -79,7 +99,24 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 action = new QAction("New Folder...", this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
                 menuItems.append(action);
+                
+                // Run through all the templates and add an action for each...
+                foreach(const GluonEngine::AssetTemplate* item, assetTemplates)
+                {
+                    action = new QAction(i18n("New %1").arg(item->name), this->q);
+                    action->setProperty("newAssetClassname", QString(item->parent()->metaObject()->className()));
+                    action->setProperty("newAssetName", item->name);
+                    action->setProperty("newAssetPluginname", item->pluginname);
+                    action->setProperty("newAssetFilename", item->filename);
+                    connect(action, SIGNAL(triggered()), q, SLOT(newAssetTriggered()));
+                    menuItems.append(action);
+                }
             }
+            
+            action = new QAction(this->q);
+            action->setSeparator(true);
+            menuItems.append(action);
+
             action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
             connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
             menuItems.append(action);
@@ -211,14 +248,51 @@ void ProjectDock::deleteActionTriggered()
 
 void ProjectDock::newSubMenuTriggered()
 {
-    DEBUG_FUNC_NAME
     if (d->currentContextIndex.isValid())
     {
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
-        DEBUG_TEXT(QString("Requested a new submenu under %1").arg(object->fullyQualifiedName()));
         QString theName(KInputDialog::getText(i18n("Enter Name"), i18n("Please enter the name of the new folder in the text box below:"), i18n("New Folder"), 0, this));
         if (!theName.isEmpty())
             new GluonCore::GluonObject(theName, object);
     }
 }
 
+void GluonCreator::ProjectDock::newAssetTriggered()
+{
+    DEBUG_BLOCK
+    if (d->currentContextIndex.isValid())
+    {
+        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        QAction* menuItem = qobject_cast< QAction* >(QObject::sender());
+        if(menuItem)
+        {
+            GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(menuItem->property("newAssetClassname").toString());
+            GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >(newChild);
+            if(newAsset)
+            {
+                newAsset->setName(menuItem->property("newAssetName").toString());
+                object->addChild(newAsset);
+
+                QString templateFilename = QString("gluon/templates/%1/%2").arg(menuItem->property("newAssetPluginname").toString()).arg(menuItem->property("newAssetFilename").toString());
+                QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;
+                if(fileName.isEmpty())
+                {
+                    DEBUG_TEXT("Failed at finding the template file!");
+                    return;
+                }
+
+                if (!QDir::current().exists("Assets"))
+                    QDir::current().mkdir("Assets");
+
+                QFileInfo info(fileName);
+                QUrl newLocation(QString("Assets/%1.%2").arg(newAsset->fullyQualifiedFileName()).arg(info.completeSuffix()));
+                QFile(fileName).copy(newLocation.toLocalFile());
+
+                newAsset->setFile(newLocation);
+                newAsset->load();
+
+                //HistoryManager::instance()->addCommand(new NewObjectCommand(newAsset));
+            }
+        }
+    }
+}

@@ -17,41 +17,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_PROJECTDOCK_H
-#define GLUON_CREATOR_PROJECTDOCK_H
+#ifndef GLUON_CORE_GLOBAL_H
+#define GLUON_CORE_GLOBAL_H
 
-#include <QModelIndex>
+#define GLUON_INSTALL_PREFIX    QString("${CMAKE_INSTALL_PREFIX}")
+#define GLUON_SHARE_INSTALL_DIR QString("${SHARE_INSTALL_DIR}")
 
-#include <widgets/dock.h>
+#define GLUON_VERSION_MAJOR     ${GLUON_VERSION_MAJOR}
+#define GLUON_VERSION_MINOR     ${GLUON_VERSION_MINOR}
+#define GLUON_VERSION_PATCH     ${GLUON_VERSION_PATCH}
+#define GLUON_VERSION_NAME      QString("${GLUON_VERSION_NAME}")
+#define GLUON_VERSION_STRING	QString("${GLUON_VERSION_STRING}")
 
-namespace GluonCreator
+#define GLUON_PLATFORM_NAME     "Gluon Development Platform"
+
+#include <QtCore/QString>
+
+namespace GluonCore
 {
-
-    class ProjectDock : public Dock
+    class Global
     {
-            Q_OBJECT
         public:
-            explicit ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-            ~ProjectDock();
+            static QString installPrefix()
+            {
+                return GLUON_INSTALL_PREFIX;
+            }
 
-            QAbstractItemModel* model();
-            QAbstractItemView* view();
+            static QString dataDirectory()
+            {
+                return GLUON_SHARE_INSTALL_DIR;
+            }
 
-        public slots:
-            void setSelection(GluonCore::GluonObject* obj = 0);
-            void activated(QModelIndex index);
-            void showContextMenuRequested(const QPoint& pos);
-
-            void contextMenuHiding();
-            void newSubMenuTriggered();
-            void newAssetTriggered();
-            void deleteActionTriggered();
-
-        private:
-            class ProjectDockPrivate;
-            ProjectDockPrivate* d;
+            static QString versionString()
+            {
+                return GLUON_VERSION_STRING;
+            }
     };
-
 }
 
-#endif // GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#endif
