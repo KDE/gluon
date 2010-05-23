@@ -61,8 +61,12 @@ class ProjectDock::ProjectDockPrivate
                 if(theItem)
                 {
                     const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
+                    GluonEngine::AssetTemplate* templ;
                     for(int j = 0; j < templates.length(); ++j)
-                        assetTemplates.append(templates[j]);
+                    {
+                        templ = new GluonEngine::AssetTemplate(templates[j]->name, templates[j]->filename, templates[j]->pluginname, templates[j]->parent());
+                        assetTemplates.append(templ);
+                    }
                 }
             }
         }
