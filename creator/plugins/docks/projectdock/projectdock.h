@@ -44,6 +44,7 @@ namespace GluonCreator
 
             void contextMenuHiding();
             void newSubMenuTriggered();
+            void newAssetTriggered();
             void deleteActionTriggered();
 
         private:

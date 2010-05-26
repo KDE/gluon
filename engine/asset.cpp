@@ -34,6 +34,7 @@ class GluonEngine::AssetPrivate
         AssetPrivate()
         {
             loaded = false;
+            mime = 0;
         }
 
         QUrl file;
@@ -54,7 +55,8 @@ Asset::~Asset()
     delete d;
 }
 
-void Asset::setName(const QString& newName)
+void
+Asset::setName(const QString& newName)
 {
     QString oldName(name());
 
@@ -71,28 +73,40 @@ void Asset::setName(const QString& newName)
     }
 }
 
-void Asset::setFile(const QUrl &newFile)
+void
+Asset::setFile(const QUrl &newFile)
 {
     d->file = newFile;
     emit dataChanged();
 }
 
-QUrl Asset::file() const
+QUrl
+Asset::file() const
 {
     return d->file;
 }
 
-const QMimeData* Asset::data() const
+const QMimeData*
+Asset::data() const
 {
     return d->mime;
 }
 
-bool Asset::isLoaded() const
+const QList< AssetTemplate* >
+Asset::templates()
+{
+    QList<AssetTemplate*> templates;
+    return templates;
+}
+
+bool
+Asset::isLoaded() const
 {
     return d->loaded;
 }
 
-void Asset::load()
+void
+Asset::load()
 {
     d->loaded = true;
 }
@@ -106,12 +120,14 @@ Asset::childrenToGDL(int indentLevel) const
     return QString();
 }
 
-QMimeData* Asset::mimeData() const
+QMimeData*
+Asset::mimeData() const
 {
     return d->mime;
 }
 
-void Asset::setLoaded(bool loaded)
+void
+Asset::setLoaded(bool loaded)
 {
     d->loaded = loaded;
 }

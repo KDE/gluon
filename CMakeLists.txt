@@ -24,7 +24,7 @@ endif()
 
 add_definitions(-DEIGEN_DONT_ALIGN -DEIGEN_DONT_VECTORIZE)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 ##### Gluon Libraries #####
 
