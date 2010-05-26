@@ -33,6 +33,7 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
     m_tabBar = new Plasma::TabBar(this);
 
     m_backButton = new Plasma::IconWidget(KIcon("go-previous-view"), "Back", this);
+    m_backButton->setOrientation(Qt::Horizontal);
     m_backButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_backButton, SIGNAL(activated()), SIGNAL(back()));
 

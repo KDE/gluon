@@ -18,6 +18,7 @@
  */
 
 #include "gamesmodel.h"
+#include <core/gluon_global.h>
 #include <engine/gameproject.h>
 
 #include <QDir>
@@ -28,7 +29,7 @@ using namespace GluonPlayer;
 
 GamesModel::GamesModel(QObject* parent): QAbstractTableModel(parent)
 {
-    m_dir.cd(QCoreApplication::applicationDirPath() + "/../share/gluon/games");
+    m_dir.cd(GluonCore::Global::dataDirectory() + "/gluon/games");
 }
 
 QVariant GamesModel::data(const QModelIndex& index, int role) const
