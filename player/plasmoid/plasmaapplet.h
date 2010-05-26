@@ -81,6 +81,7 @@ namespace GluonPlayer
         void setProject(const QModelIndex &index);
         void doPaint();
         void startGame();
+        void showGames();
         void showGameDetails(const QModelIndex &index);
         void setCamera(GluonGraphics::Camera* camera);
     };

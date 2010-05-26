@@ -26,9 +26,11 @@
 namespace Plasma
 {
     class TabBar;
+    class IconWidget;
 }
 
 class HighScoresView;
+class AchievementsView;
 
 class GameDetailsOverlay : public Overlay
 {
@@ -38,8 +40,14 @@ public:
     GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
 private:
+    Plasma::IconWidget *m_backButton;
     Plasma::TabBar *m_tabBar;
     HighScoresView *m_highScoresView;
+    AchievementsView *m_achievementsView;
+    
+
+signals:
+    void back();
 };
 
 #endif // GAMEDETAILSOVERLAY_H

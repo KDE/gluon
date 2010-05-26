@@ -24,6 +24,7 @@
 #include <QGraphicsLinearLayout>
 
 #include <Plasma/TabBar>
+#include <Plasma/IconWidget>
 #include <KIcon>
 
 GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
@@ -31,10 +32,18 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
 {
     m_tabBar = new Plasma::TabBar(this);
 
-    m_tabBar->addTab(KIcon("games-highscores"), "High Scores", new HighScoresView(this));
-    m_tabBar->addTab(KIcon("games-endturn"), "Achievements", new AchievementsView(this));
+    m_backButton = new Plasma::IconWidget(KIcon("go-previous-view"), "Back", this);
+    m_backButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(m_backButton, SIGNAL(activated()), SIGNAL(back()));
 
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Horizontal);
+    m_highScoresView = new HighScoresView(this);
+    m_achievementsView = new AchievementsView(this);
+
+    m_tabBar->addTab(KIcon("games-highscores"), "High Scores", m_highScoresView);
+    m_tabBar->addTab(KIcon("games-endturn"), "Achievements", m_achievementsView);
+
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
+    layout->addItem(m_backButton);
     layout->addItem(m_tabBar);
     setLayout(layout);
 }
