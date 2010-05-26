@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OVERLAY_H
-#define GLUONPLAYER_OVERLAY_H
+#ifndef OVERLAY_H
+#define OVERLAY_H
 
 #include <QGraphicsWidget>
 
@@ -31,28 +31,24 @@ namespace Plasma
     class ScrollWidget;
 }
 
-namespace GluonPlayer
+class Overlay : public QGraphicsWidget
 {
-    class Overlay : public QGraphicsWidget
-    {
-    Q_OBJECT
+Q_OBJECT
 
-    public:
-        Overlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+public:
+    Overlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
-    protected:
-        virtual void keyPressEvent(QKeyEvent *event);
-        virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                QWidget *widget = 0);
-        void resizeEvent(QGraphicsSceneResizeEvent *event);
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+            QWidget *widget = 0);
+    void resizeEvent(QGraphicsSceneResizeEvent *event);
         
-        QGraphicsGridLayout *m_contentLayout;
-        QGraphicsWidget *m_contentWidget;
-        Plasma::FrameSvg *m_background;
-        Plasma::ScrollWidget *m_scrollWidget;
-    };
+    QGraphicsGridLayout *m_contentLayout;
+    QGraphicsWidget *m_contentWidget;
+    Plasma::FrameSvg *m_background;
+    Plasma::ScrollWidget *m_scrollWidget;
+};
 
-}
-
-#endif // GLUONPLAYER_OVERLAY_H
+#endif // OVERLAY_H

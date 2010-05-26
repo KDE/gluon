@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEDETAILSOVERLAY_H
-#define GLUONPLAYER_GAMEDETAILSOVERLAY_H
+#ifndef GAMEDETAILSOVERLAY_H
+#define GAMEDETAILSOVERLAY_H
 
 #include <QGraphicsWidget>
 #include "overlay.h"
@@ -28,23 +28,18 @@ namespace Plasma
     class TabBar;
 }
 
-namespace GluonPlayer
+class HighScoresView;
+
+class GameDetailsOverlay : public Overlay
 {
+Q_OBJECT
 
-    class HighScoresView;
+public:
+    GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
-    class GameDetailsOverlay : public Overlay
-    {
-    Q_OBJECT
+private:
+    Plasma::TabBar *m_tabBar;
+    HighScoresView *m_highScoresView;
+};
 
-    public:
-        GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-
-    private:
-        Plasma::TabBar *m_tabBar;
-        HighScoresView *m_highScoresView;
-    };
-
-}
-
-#endif // GLUONPLAYER_GAMEDETAILSOVERLAY_H
+#endif // GAMEDETAILSOVERLAY_H

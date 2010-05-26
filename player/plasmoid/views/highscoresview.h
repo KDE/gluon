@@ -17,20 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_HIGHSCORESVIEW_H
-#define GLUONPLAYER_HIGHSCORESVIEW_H
+#ifndef HIGHSCORESVIEW_H
+#define HIGHSCORESVIEW_H
 
 #include "abstractitemview.h"
 
-namespace GluonPlayer
+class HighScoresView : public AbstractItemView
 {
+public:
+    HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+};
 
-    class HighScoresView : public AbstractItemView
-    {
-    public:
-        HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-    };
-
-}
-
-#endif // GLUONPLAYER_HIGHSCORESVIEW_H
+#endif // HIGHSCORESVIEW_H

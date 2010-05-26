@@ -42,11 +42,12 @@ namespace GluonGraphics
     class Camera;
 }
 
+class GamesOverlay;
+class GameDetailsOverlay;
+
 namespace GluonPlayer
 {
     class GamesModel;
-    class GamesOverlay;
-    class GameDetailsOverlay;
 
     class PlasmaApplet : public GLFBOApplet
     {

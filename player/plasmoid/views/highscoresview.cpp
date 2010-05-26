@@ -19,8 +19,6 @@
 
 #include "highscoresview.h"
 
-using namespace GluonPlayer;
-
 HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : AbstractItemView(parent, wFlags)
 {

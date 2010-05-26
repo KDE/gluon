@@ -28,8 +28,6 @@
 #include <Plasma/FrameSvg>
 #include <Plasma/ScrollWidget>
 
-using namespace GluonPlayer;
-
 Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : QGraphicsWidget(parent, wFlags)
 {

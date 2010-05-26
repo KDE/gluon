@@ -19,8 +19,6 @@
 
 #include "achievementsview.h"
 
-using namespace GluonPlayer;
-
 AchievementsView::AchievementsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 {
 

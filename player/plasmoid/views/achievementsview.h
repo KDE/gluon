@@ -17,20 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ACHIEVEMENTSVIEW_H
-#define GLUONPLAYER_ACHIEVEMENTSVIEW_H
+#ifndef ACHIEVEMENTSVIEW_H
+#define ACHIEVEMENTSVIEW_H
 
 #include "abstractitemview.h"
 
-namespace GluonPlayer
+class AchievementsView : public AbstractItemView
 {
+public:
+    AchievementsView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+};
 
-    class AchievementsView : public AbstractItemView
-    {
-    public:
-        AchievementsView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-    };
-
-}
-
-#endif // GLUONPLAYER_ACHIEVEMENTSVIEW_H
+#endif // ACHIEVEMENTSVIEW_H

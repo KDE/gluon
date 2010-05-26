@@ -26,8 +26,6 @@
 #include <Plasma/TabBar>
 #include <KIcon>
 
-using namespace GluonPlayer;
-
 GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : Overlay(parent, wFlags)
 {

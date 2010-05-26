@@ -27,8 +27,6 @@
 #include <Plasma/ItemBackground>
 #include <Plasma/TabBar>
 
-using namespace GluonPlayer;
-
 GamesView::GamesView(QGraphicsItem* parent, Qt::WindowFlags wFlags): AbstractItemView(parent, wFlags)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
@@ -36,7 +34,7 @@ GamesView::GamesView(QGraphicsItem* parent, Qt::WindowFlags wFlags): AbstractIte
 
 void GamesView::setModel(QAbstractItemModel* model)
 {
-    GluonPlayer::AbstractItemView::setModel(model);
+    AbstractItemView::setModel(model);
 
     for (int i=0; i<m_model->rowCount(); i++) {
         GamesViewItem *item = new GamesViewItem(this);
