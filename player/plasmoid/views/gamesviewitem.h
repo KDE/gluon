@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESVIEWITEM_H
-#define GLUONPLAYER_GAMESVIEWITEM_H
+#ifndef GAMESVIEWITEM_H
+#define GAMESVIEWITEM_H
 
 #include <QGraphicsWidget>
 #include <QModelIndex>
@@ -35,37 +35,36 @@ namespace Plasma
     class Label;
 }
 
-namespace GluonPlayer
+
+
+class GamesViewItem : public QGraphicsWidget
 {
-    class GamesViewItem : public QGraphicsWidget
-    {
-    Q_OBJECT
+Q_OBJECT
 
-    public:
-        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        
-        virtual void setModelIndex(const QModelIndex &index);
-        QModelIndex modelIndex() const;
+public:
+    GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+    
+    virtual void setModelIndex(const QModelIndex &index);
+    QModelIndex modelIndex() const;
 
-    protected:
-        QModelIndex m_index;
-        Plasma::IconWidget *m_preview;
-        Plasma::Label *m_gameName;
-        Plasma::Label *m_gameDescription;
-        Plasma::IconWidget *m_playButton;
-        QGraphicsGridLayout *m_layout;
+protected:
+    QModelIndex m_index;
+    Plasma::IconWidget *m_preview;
+    Plasma::Label *m_gameName;
+    Plasma::Label *m_gameDescription;
+    Plasma::IconWidget *m_playButton;
+    QGraphicsGridLayout *m_layout;
 
-        void layoutWidgets();
-        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    void layoutWidgets();
+    void setToolTips();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
-    protected slots:
-        void playGameActivated();
+protected slots:
+    void playGameActivated();
 
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
-    };
+signals:
+    void gameToPlaySelected(const QModelIndex &index);
+    void gameSelected(const QModelIndex &index);
+};
 
-}
-
-#endif // GLUONPLAYER_GAMESVIEWITEM_H
+#endif // GAMESVIEWITEM_H

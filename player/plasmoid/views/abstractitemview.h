@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ABSTRACTITEMVIEW_H
-#define GLUONPLAYER_ABSTRACTITEMVIEW_H
+#ifndef ABSTRACTITEMVIEW_H
+#define ABSTRACTITEMVIEW_H
 
 #include <QGraphicsWidget>
 #include "overlay.h"
@@ -34,21 +34,17 @@ namespace Plasma
     class ScrollWidget;
 }
 
-namespace GluonPlayer
+class AbstractItemView : public Overlay
 {
-    class AbstractItemView : public Overlay
-    {
-    Q_OBJECT
+Q_OBJECT
 
-    public:
-        AbstractItemView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+public:
+    AbstractItemView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
         
-        virtual void setModel(QAbstractItemModel *model);
-        QAbstractItemModel *model() const;
-    protected:
-        QAbstractItemModel *m_model;
-    };
+    virtual void setModel(QAbstractItemModel *model);
+    QAbstractItemModel *model() const;
+protected:
+    QAbstractItemModel *m_model;
+};
 
-}
-
-#endif // GLUONPLAYER_ABSTRACTITEMVIEW_H
+#endif // ABSTRACTITEMVIEW_H

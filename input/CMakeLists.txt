@@ -111,6 +111,7 @@ set(GluonInput_SRCS_COMMON
     detect.cpp
 	inputbuffer.cpp
 	inputbufferprivate.cpp
+	gluonbuttonmapper.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
@@ -125,6 +126,7 @@ set(GluonInput_HEADERS_COMMON
 	detect.h
 	absval.h
 	inputbuffer.h
+	gluonbuttonmapper.h
 )
 ###############common source and headers###################
 

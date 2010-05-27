@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESVIEW_H
-#define GLUONPLAYER_GAMESVIEW_H
+#ifndef GAMESVIEW_H
+#define GAMESVIEW_H
 
 #include "abstractitemview.h"
 
@@ -30,27 +30,24 @@ namespace Plasma
     class ItemBackground;
 }
 
-namespace GluonPlayer
+
+class GamesView : public AbstractItemView
 {
-    class GamesView : public AbstractItemView
-    {
-    Q_OBJECT
+Q_OBJECT
 
-    public:
-        GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual void setModel(QAbstractItemModel *model);
+public:
+    GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+    virtual void setModel(QAbstractItemModel *model);
 
-    protected:
-        QGraphicsLinearLayout *m_layout;
-        Plasma::ItemBackground *m_itemBackground;
+protected:
+    QGraphicsLinearLayout *m_layout;
+    Plasma::ItemBackground *m_itemBackground;
 
-        bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
-    };
+signals:
+    void gameToPlaySelected(const QModelIndex &index);
+    void gameSelected(const QModelIndex &index);
+};
 
-}
-
-#endif // GLUONPLAYER_GAMESVIEW_H
+#endif // GAMESVIEW_H

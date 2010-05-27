@@ -26,8 +26,6 @@
 #include <Plasma/Label>
 #include <KIcon>
 
-using namespace GluonPlayer;
-
 GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     :QGraphicsWidget(parent, wFlags)
 {

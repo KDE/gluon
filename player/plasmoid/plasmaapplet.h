@@ -42,11 +42,12 @@ namespace GluonGraphics
     class Camera;
 }
 
+class GamesOverlay;
+class GameDetailsOverlay;
+
 namespace GluonPlayer
 {
     class GamesModel;
-    class GamesOverlay;
-    class GameDetailsOverlay;
 
     class PlasmaApplet : public GLFBOApplet
     {
@@ -80,6 +81,7 @@ namespace GluonPlayer
         void setProject(const QModelIndex &index);
         void doPaint();
         void startGame();
+        void showGames();
         void showGameDetails(const QModelIndex &index);
         void setCamera(GluonGraphics::Camera* camera);
     };

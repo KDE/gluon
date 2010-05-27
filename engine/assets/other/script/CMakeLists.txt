@@ -27,5 +27,5 @@ install(
     FILES
     script_template.js
     DESTINATION
-    ${DATA_INSTALL_DIR}/gluon/templates/qtscript
+    ${SHARE_INSTALL_DIR}/gluon/templates/qtscript
 )
