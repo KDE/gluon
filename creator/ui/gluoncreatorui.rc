@@ -31,10 +31,8 @@
     <Menu name="settings">
         <Menu name="docks">
             <text>&amp;Docks</text>
-            <Action name="lockLayout" />
-            <Separator />
         </Menu>
-        
+        <Action name="lockLayout" />
     </Menu>
 
     <Menu name="help">

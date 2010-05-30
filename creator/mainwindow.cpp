@@ -84,6 +84,7 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     connect(m_projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
     
     DockManager::instance()->setDocksEnabled(false);
+    DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
     
     if(centralWidget())
         centralWidget()->setEnabled(false);
@@ -106,6 +107,8 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 MainWindow::~MainWindow()
 {
     m_recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
+    GluonCreator::Settings::setLockLayout(actionCollection()->action("lockLayout")->isChecked());
+    GluonCreator::Settings::self()->writeConfig();
     GluonEngine::Game::instance()->stopGame();
 }
 
@@ -224,10 +227,10 @@ void MainWindow::setupActions()
     chooseEntryPoint->setEnabled(false);
     connect(chooseEntryPoint, SIGNAL(triggered(bool)), SLOT(chooseEntryPoint()));
 
-    KAction *lockLayout = new KAction(i18n("Lock layout"), actionCollection());
+    KAction *lockLayout = new KAction(KIcon("object-locked"), i18n("Lock layout"), actionCollection());
     actionCollection()->addAction("lockLayout", lockLayout);
     lockLayout->setCheckable(true);
-    lockLayout->setChecked(false);
+    lockLayout->setChecked(GluonCreator::Settings::lockLayout());
     connect(lockLayout, SIGNAL(triggered(bool)), DockManager::instance(), SLOT(setDocksLocked(bool)));
 }
 
