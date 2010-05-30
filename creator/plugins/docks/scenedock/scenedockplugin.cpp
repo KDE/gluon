@@ -22,6 +22,7 @@
 #include <KLocalizedString>
 
 #include "scenedock.h"
+#include <dockmanager.h>
 
 using namespace GluonCreator;
 
@@ -40,7 +41,9 @@ SceneDockPlugin::~SceneDockPlugin()
 
 QDockWidget* SceneDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new SceneDock(i18n("Scene"), parent);
+    SceneDock *dock = new SceneDock(i18n("Scene"), parent);
+    DockManager::instance()->addDock(dock, Qt::RightDockWidgetArea, Qt::Vertical);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(SceneDockPlugin)

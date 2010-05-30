@@ -23,6 +23,7 @@
 
 #include <gluoncreator_macros.h>
 #include <KLocalizedString>
+#include <dockmanager.h>
 
 using namespace GluonCreator;
 
@@ -38,7 +39,9 @@ MessageDockPlugin::~MessageDockPlugin()
 
 QDockWidget* MessageDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new MessageDock(i18n("Messages"), parent);
+    MessageDock *dock = new MessageDock(i18n("Messages"), parent);
+    DockManager::instance()->addDock(dock, Qt::BottomDockWidgetArea, Qt::Horizontal);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(MessageDockPlugin)

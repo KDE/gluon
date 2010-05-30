@@ -37,7 +37,10 @@ ViewWidgetDockPlugin::~ViewWidgetDockPlugin()
 
 QDockWidget* ViewWidgetDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new ViewWidgetDock(i18n("View"), parent);
+    ViewWidgetDock *dock = new ViewWidgetDock(i18n("View"), parent);
+    parent->setCentralWidget(dock);
+    dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(ViewWidgetDockPlugin)

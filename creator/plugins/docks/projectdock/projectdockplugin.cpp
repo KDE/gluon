@@ -20,6 +20,7 @@
 #include "projectdockplugin.h"
 #include <KLocalizedString>
 #include "projectdock.h"
+#include <dockmanager.h>
 
 using namespace GluonCreator;
 
@@ -35,7 +36,9 @@ ProjectDockPlugin::~ProjectDockPlugin()
 
 QDockWidget* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new ProjectDock(i18n("Project"), parent);
+    ProjectDock *dock = new ProjectDock(i18n("Project"), parent);
+    DockManager::instance()->addDock(dock, Qt::LeftDockWidgetArea, Qt::Vertical);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(ProjectDockPlugin)

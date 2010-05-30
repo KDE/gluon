@@ -18,6 +18,7 @@
  */
 
 #include "dockplugin.h"
+#include "dockmanager.h"
 #include "core/debughelper.h"
 
 #include <QtGui/QDockWidget>
@@ -44,37 +45,6 @@ void DockPlugin::load(KXmlGuiWindow *mainWindow)
 
     m_dock = createDock(mainWindow);
 
-    // This is pretty ugly stuff, but the layouting system for docks in Qt is sort of odd anyway...
-    // So, string matching hackery it is for now ;)
-    Qt::DockWidgetArea theArea = Qt::AllDockWidgetAreas;
-    QString theClassName(metaObject()->className());
-    if(theClassName == "GluonCreator::ViewWidgetDockPlugin")
-    {
-        mainWindow->setCentralWidget(m_dock);
-        m_dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    }
-    else
-    {
-        if(theClassName == "GluonCreator::ProjectDockPlugin" || theClassName == "GluonCreator::ComponentsDockPlugin")
-        {
-            theArea = Qt::LeftDockWidgetArea;
-        }
-        else if(theClassName == "GluonCreator::SceneDockPlugin" || theClassName == "GluonCreator::PropertiesDockPlugin")
-        {
-            theArea = Qt::RightDockWidgetArea;
-        }
-        else if(theClassName == "GluonCreator::MessageDockPlugin")
-        {
-            theArea = Qt::BottomDockWidgetArea;
-        }
-        else
-        {
-            theArea = Qt::BottomDockWidgetArea;
-        }
-        mainWindow->addDockWidget(theArea, m_dock);
-    }
-    // End horrible hackery ;)
-
     actionCollection()->addAction(QString("show%1Action").arg(m_dock->objectName()), m_dock->toggleViewAction());
 
     QString xml = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">").arg(m_dock->objectName());
@@ -85,7 +55,8 @@ void DockPlugin::load(KXmlGuiWindow *mainWindow)
 
 void DockPlugin::unload(KXmlGuiWindow* mainWindow)
 {
-    mainWindow->removeDockWidget(m_dock);
+    Q_UNUSED(mainWindow);
+    DockManager::instance()->removeDock(m_dock);
     actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));
     parentClient()->removeChildClient(this);
 }

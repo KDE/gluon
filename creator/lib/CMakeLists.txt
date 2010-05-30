@@ -2,6 +2,7 @@
 set(libGluonCreator_SRCS
     plugin.cpp
     dockplugin.cpp
+    dockmanager.cpp
     pluginmanager.cpp
     objectmanager.cpp
     historymanager.cpp
@@ -45,6 +46,7 @@ install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
 install(FILES
     plugin.h
     dockplugin.h
+    dockmanager.h
     pluginmanager.h
     historymanager.h
     selectionmanager.h

@@ -22,6 +22,7 @@
 
 #include <gluoncreator_macros.h>
 #include <KLocalizedString>
+#include <dockmanager.h>
 
 using namespace GluonCreator;
 
@@ -37,7 +38,9 @@ ComponentsDockPlugin::~ComponentsDockPlugin()
 
 QDockWidget* ComponentsDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new ComponentsDock(i18n("Components"), parent);
+    ComponentsDock *dock = new ComponentsDock(i18n("Components"), parent);
+    DockManager::instance()->addDock(dock, Qt::LeftDockWidgetArea, Qt::Vertical);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(ComponentsDockPlugin)
