@@ -383,9 +383,3 @@ void GluonCreator::MainWindow::projectDialogClosed()
     if(centralWidget())
         centralWidget()->setEnabled(true);
 }
-
-void GluonCreator::MainWindow::addDock(QDockWidget* dockWidget, Qt::DockWidgetArea area)
-{
-    m_dockWidgets.insert(dockWidget->objectName(), dockWidget);
-    addDockWidget(area, dockWidget);
-}
