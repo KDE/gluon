@@ -20,16 +20,15 @@
 #ifndef GLUON_CREATOR_DOCKPLUGIN_H
 #define GLUON_CREATOR_DOCKPLUGIN_H
 
-#include <KDE/KXmlGuiWindow>
-
 #include "plugin.h"
 
 class KAction;
+class KXmlGuiWindow;
+
 namespace GluonCreator
 {
     class Dock;
-    class MainWindow;
-
+    
     class GLUONCREATOR_EXPORT DockPlugin : public Plugin
     {
             Q_OBJECT
@@ -37,8 +36,8 @@ namespace GluonCreator
             DockPlugin(QObject* parent, const QList<QVariant>& params);
             virtual ~DockPlugin();
 
-            virtual void load(MainWindow* mainWindow);
-            virtual void unload(MainWindow* mainWindow);
+            virtual void load(KXmlGuiWindow *mainWindow);
+            virtual void unload(KXmlGuiWindow *mainWindow);
 
         protected:
             virtual Dock* createDock(KXmlGuiWindow* parent) = 0;

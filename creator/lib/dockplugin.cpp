@@ -18,13 +18,13 @@
  */
 
 #include "dockplugin.h"
-#include "widgets/dock.h"
-#include <KXmlGuiWindow>
-#include <KActionCollection>
-#include <KStandardDirs>
-#include <KDebug>
 #include "core/debughelper.h"
-#include "../mainwindow.h"
+#include "widgets/dock.h"
+
+#include <KDE/KXmlGuiWindow>
+#include <KDE/KActionCollection>
+#include <KDE/KStandardDirs>
+#include <KDE/KDebug>
 
 using namespace GluonCreator;
 
@@ -39,7 +39,7 @@ DockPlugin::~DockPlugin()
 }
 
 
-void DockPlugin::load(MainWindow* mainWindow)
+void DockPlugin::load(KXmlGuiWindow *mainWindow)
 {
     mainWindow->insertChildClient(this);
 
@@ -72,7 +72,7 @@ void DockPlugin::load(MainWindow* mainWindow)
         {
             theArea = Qt::BottomDockWidgetArea;
         }
-        mainWindow->addDock(m_dock, theArea);
+        mainWindow->addDockWidget(theArea, m_dock);
     }
     // End horrible hackery ;)
 
@@ -84,7 +84,7 @@ void DockPlugin::load(MainWindow* mainWindow)
     setXML(xml);
 }
 
-void DockPlugin::unload(MainWindow* mainWindow)
+void DockPlugin::unload(KXmlGuiWindow* mainWindow)
 {
     mainWindow->removeDockWidget(m_dock);
     actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));
