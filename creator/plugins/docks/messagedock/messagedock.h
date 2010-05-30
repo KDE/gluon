@@ -20,22 +20,18 @@
 #ifndef GLUON_CREATOR_MESSAGEDOCK_H
 #define GLUON_CREATOR_MESSAGEDOCK_H
 
-#include <widgets/dock.h>
+#include <QtGui/QDockWidget>
 
 namespace GluonCreator
 {
-    class MessageDock : public Dock
+    class MessageDock : public QDockWidget
     {
         Q_OBJECT
         public:
             explicit MessageDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~MessageDock();
 
-            QAbstractItemModel* model();
-            QAbstractItemView* view();
-
         public slots:
-            void setSelection(GluonCore::GluonObject* obj = 0);
             void showDebug(const QString& debugText);
 
         private:

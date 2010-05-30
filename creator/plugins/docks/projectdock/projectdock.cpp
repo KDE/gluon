@@ -133,11 +133,10 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
 
 
 
-ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags), d(new ProjectDockPrivate(this))
 {
     setObjectName("ProjectDock");
-
-    d = new ProjectDockPrivate(this);
 
     d->model = new ProjectModel(this);
     d->view = new QTreeView(this);
@@ -158,21 +157,6 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
 ProjectDock::~ProjectDock()
 {
     delete d;
-}
-
-QAbstractItemModel* ProjectDock::model()
-{
-    return d->model;
-}
-
-QAbstractItemView* ProjectDock::view()
-{
-    return d->view;
-}
-
-void ProjectDock::setSelection(GluonCore::GluonObject* obj)
-{
-    Q_UNUSED(obj)
 }
 
 void ProjectDock::activated(QModelIndex index)

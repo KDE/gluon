@@ -12,7 +12,6 @@ set(libGluonCreator_SRCS
     models/projectmodel.cpp
     models/scenemodel.cpp
 
-    widgets/dock.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
     widgets/propertywidgetitem.cpp
@@ -63,7 +62,6 @@ install(FILES
 )
 
 install(FILES
-    widgets/dock.h
     widgets/propertywidget.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/widgets
     COMPONENT Devel

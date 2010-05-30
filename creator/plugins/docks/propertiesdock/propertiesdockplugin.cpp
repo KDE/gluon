@@ -34,7 +34,7 @@ PropertiesDockPlugin::~PropertiesDockPlugin()
 
 }
 
-Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new PropertiesDock(i18n("Properties"), parent);
 }

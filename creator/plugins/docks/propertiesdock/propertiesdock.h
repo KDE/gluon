@@ -20,9 +20,9 @@
 #ifndef GLUON_CREATOR_PROPERTIESDOCK_H
 #define GLUON_CREATOR_PROPERTIESDOCK_H
 
-#include <widgets/dock.h>
-
 #include <selectionmanager.h>
+
+#include <QtGui/QDockWidget>
 
 namespace GluonEngine
 {
@@ -31,26 +31,21 @@ namespace GluonEngine
 
 namespace GluonCreator
 {
-
-    class PropertiesDock : public Dock
+    class PropertiesDock : public QDockWidget
     {
             Q_OBJECT
         public:
             explicit PropertiesDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~PropertiesDock();
 
-            QAbstractItemView* view();
-            QAbstractItemModel* model();
-
         public slots:
-            void setSelection(GluonCore::GluonObject* obj = 0);
             void selectionChanged(SelectionManager::SelectionList selection);
             void newComponent(GluonEngine::Component* comp);
             void propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue);
 
         private:
             class PropertiesDockPrivate;
-            PropertiesDockPrivate *d;
+            PropertiesDockPrivate * const d;
     };
 
 }

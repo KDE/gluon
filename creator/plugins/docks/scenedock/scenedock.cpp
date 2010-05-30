@@ -50,7 +50,8 @@ class SceneDock::SceneDockPrivate
 };
 
 
-SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags)
 {
     setObjectName("SceneDock");
 
@@ -98,22 +99,6 @@ void SceneDock::setupActions()
     d->view->addAction(newGameObject);
     connect(newGameObject, SIGNAL(triggered(bool)), SLOT(newGameObjectAction()));
 }
-
-void SceneDock::setSelection(GluonCore::GluonObject* obj)
-{
-    Q_UNUSED(obj)
-}
-
-QAbstractItemView* SceneDock::view()
-{
-    return d->view;
-}
-
-QAbstractItemModel* SceneDock::model()
-{
-    return d->model;
-}
-
 
 void SceneDock::selectionChanged(QItemSelection selected, QItemSelection deselected)
 {

@@ -38,7 +38,7 @@ SceneDockPlugin::~SceneDockPlugin()
 
 }
 
-Dock* SceneDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* SceneDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new SceneDock(i18n("Scene"), parent);
 }

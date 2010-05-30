@@ -33,7 +33,7 @@ ProjectDockPlugin::~ProjectDockPlugin()
 
 }
 
-Dock* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* ProjectDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new ProjectDock(i18n("Project"), parent);
 }

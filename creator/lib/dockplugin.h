@@ -22,12 +22,11 @@
 
 #include "plugin.h"
 
-class KAction;
+class QDockWidget;
 class KXmlGuiWindow;
 
 namespace GluonCreator
 {
-    class Dock;
     
     class GLUONCREATOR_EXPORT DockPlugin : public Plugin
     {
@@ -40,9 +39,9 @@ namespace GluonCreator
             virtual void unload(KXmlGuiWindow *mainWindow);
 
         protected:
-            virtual Dock* createDock(KXmlGuiWindow* parent) = 0;
+            virtual QDockWidget* createDock(KXmlGuiWindow* parent) = 0;
 
-            Dock* m_dock;
+            QDockWidget* m_dock;
     };
 
 }

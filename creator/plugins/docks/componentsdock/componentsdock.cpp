@@ -43,7 +43,8 @@ class ComponentsDock::ComponentsDockPrivate
         ComponentModel *model;
 };
 
-ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags)
 {
     DEBUG_FUNC_NAME
     setObjectName("ComponentsDock");
@@ -76,19 +77,3 @@ ComponentsDock::~ComponentsDock()
 {
     delete d;
 }
-
-void ComponentsDock::setSelection(GluonCore::GluonObject* obj)
-{
-    Q_UNUSED(obj);
-}
-
-QAbstractItemView* ComponentsDock::view()
-{
-    return d->view;
-}
-
-QAbstractItemModel* ComponentsDock::model()
-{
-    return d->view->model();
-}
-

@@ -20,20 +20,16 @@
 #ifndef GLUON_CREATOR_COMPONENTSDOCK_H
 #define GLUON_CREATOR_COMPONENTSDOCK_H
 
-#include "widgets/dock.h"
+#include <QtGui/QDockWidget>
 
 namespace GluonCreator
 {
 
-    class ComponentsDock : public Dock
+    class ComponentsDock : public QDockWidget
     {
         public:
             explicit ComponentsDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ComponentsDock();
-
-            void setSelection(GluonCore::GluonObject* obj = 0);
-            QAbstractItemView* view();
-            QAbstractItemModel* model();
 
         private:
             class ComponentsDockPrivate;

@@ -35,7 +35,7 @@ ViewWidgetDockPlugin::~ViewWidgetDockPlugin()
 
 }
 
-Dock* ViewWidgetDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* ViewWidgetDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new ViewWidgetDock(i18n("View"), parent);
 }

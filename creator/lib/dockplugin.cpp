@@ -19,12 +19,11 @@
 
 #include "dockplugin.h"
 #include "core/debughelper.h"
-#include "widgets/dock.h"
 
+#include <QtGui/QDockWidget>
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KActionCollection>
 #include <KDE/KStandardDirs>
-#include <KDE/KDebug>
 
 using namespace GluonCreator;
 

@@ -38,7 +38,7 @@ class MessageDock::MessageDockPrivate
 };
 
 MessageDock::MessageDock(const QString& title, QWidget* parent, Qt::WindowFlags flags) 
-    : Dock(title, parent, flags),
+    : QDockWidget(title, parent, flags), 
     d(new MessageDockPrivate)
 {
     setObjectName("MessageDock");
@@ -60,22 +60,6 @@ void MessageDock::showDebug(const QString& debugText)
 MessageDock::~MessageDock()
 {
     delete d;
-}
-
-QAbstractItemModel* MessageDock::model()
-{
-    //return d->model;
-    return 0;
-}
-
-QAbstractItemView* MessageDock::view()
-{
-    return d->view;
-}
-
-void MessageDock::setSelection(GluonCore::GluonObject* obj)
-{
-    Q_UNUSED(obj)
 }
 
 #include "messagedock.moc"

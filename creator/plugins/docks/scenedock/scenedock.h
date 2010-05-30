@@ -22,8 +22,7 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QItemSelection>
-
-#include <widgets/dock.h>
+#include <QtGui/QDockWidget>
 
 namespace GluonEngine
 {
@@ -33,8 +32,7 @@ namespace GluonEngine
 
 namespace GluonCreator
 {
-
-    class SceneDock : public Dock
+    class SceneDock : public QDockWidget
     {
             Q_OBJECT
         public:
@@ -42,11 +40,7 @@ namespace GluonCreator
             ~SceneDock();
             void setupActions();
 
-            virtual QAbstractItemView* view();
-            virtual QAbstractItemModel* model();
-
         public slots:
-            virtual void setSelection(GluonCore::GluonObject* obj = 0);
             void selectionChanged(QItemSelection selected, QItemSelection deselected);
             void sceneChanged(GluonEngine::Scene*);
 

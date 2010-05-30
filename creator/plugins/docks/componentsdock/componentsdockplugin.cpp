@@ -35,7 +35,7 @@ ComponentsDockPlugin::~ComponentsDockPlugin()
 
 }
 
-Dock* ComponentsDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* ComponentsDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new ComponentsDock(i18n("Components"), parent);
 }

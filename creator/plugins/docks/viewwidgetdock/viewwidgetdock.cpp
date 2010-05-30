@@ -39,9 +39,9 @@ class ViewWidgetDock::ViewWidgetDockPrivate
         GluonGraphics::GLWidget *view;
 };
 
-ViewWidgetDock::ViewWidgetDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+ViewWidgetDock::ViewWidgetDock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags)
 {
-    DEBUG_FUNC_NAME
     setObjectName("ViewWidgetDock");
 
     d = new ViewWidgetDockPrivate();
@@ -55,20 +55,5 @@ ViewWidgetDock::ViewWidgetDock(const QString& title, QWidget* parent, Qt::Window
 ViewWidgetDock::~ViewWidgetDock()
 {
     delete d;
-}
-
-void ViewWidgetDock::setSelection(GluonCore::GluonObject* obj)
-{
-    Q_UNUSED(obj);
-}
-
-QAbstractItemView* ViewWidgetDock::view()
-{
-    return 0;
-}
-
-QAbstractItemModel* ViewWidgetDock::model()
-{
-    return 0;
 }
 

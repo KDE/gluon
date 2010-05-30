@@ -33,7 +33,7 @@ namespace GluonCreator
             ~ComponentsDockPlugin();
 
         protected:
-            Dock* createDock(KXmlGuiWindow* parent);
+            QDockWidget* createDock(KXmlGuiWindow* parent);
     };
 
 }

@@ -36,7 +36,7 @@ MessageDockPlugin::~MessageDockPlugin()
 
 }
 
-Dock* MessageDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* MessageDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     return new MessageDock(i18n("Messages"), parent);
 }
