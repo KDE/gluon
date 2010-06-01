@@ -3,6 +3,7 @@ Encoding=UTF-8
 
 Name=Project Dock
 Name[de]=Projekt-Anzeige
+Name[en_GB]=Project Dock
 Name[es]=Anclaje de proyectos
 Name[nds]=Projekten-Andocker
 Name[pt]=Área de Projectos
@@ -12,6 +13,7 @@ Name[uk]=Панель проекту
 Name[x-test]=xxProject Dockxx
 Comment=Provides a Project browser dock plugin.
 Comment[de]=Ein Anzeigemodul zur Projektverwaltung.
+Comment[en_GB]=Provides a Project browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje de proyectos.
 Comment[nds]=Stellt en Projektkieker as Andockmoduul praat.
 Comment[pt]=Oferece um 'plugin' de navegação pelos projectos.

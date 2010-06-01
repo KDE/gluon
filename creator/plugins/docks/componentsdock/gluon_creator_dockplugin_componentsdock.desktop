@@ -3,6 +3,7 @@ Encoding=UTF-8
 
 Name=Components Dock
 Name[de]=Komponenten-Ansicht
+Name[en_GB]=Components Dock
 Name[es]=Anclaje de componentes
 Name[nds]=Komponenten-Andocker
 Name[pt]=Área de Componentes
@@ -12,6 +13,7 @@ Name[uk]=Панель компонентів
 Name[x-test]=xxComponents Dockxx
 Comment=Provides a list with components in a dock.
 Comment[de]=Eine Liste der Komponenten in einer Anzeige.
+Comment[en_GB]=Provides a list with components in a dock.
 Comment[es]=Proporciona una lista con los componentes de un anclaje.
 Comment[nds]=Stellt en Komponentlist as Andockmoduul praat.
 Comment[pt]=Oferece uma lista com os componentes acoplados.

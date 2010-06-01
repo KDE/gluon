@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Gluon Creator Plugin
 Name[de]=Gluon-Creator-Modul
+Name[en_GB]=Gluon Creator Plugin
 Name[es]=Complemento de Gluon Creator
 Name[nds]=Gluon-Makermoduul
 Name[pt]='Plugin' do Criador do Gluon
@@ -10,6 +11,7 @@ Name[uk]=Додаток до Gluon Creator
 Name[x-test]=xxGluon Creator Pluginxx
 Comment=The type used for Gluon Creator plugins
 Comment[de]=Die zu verwendete Art der Gluon-Creator-Module.
+Comment[en_GB]=The type used for Gluon Creator plugins
 Comment[es]=Tipo usado para los complementos de Gluon Creator
 Comment[nds]=De Andockertyp för Gluon-Makermodulen
 Comment[pt]=O tipo usado para os 'plugins' do criador do Gluon

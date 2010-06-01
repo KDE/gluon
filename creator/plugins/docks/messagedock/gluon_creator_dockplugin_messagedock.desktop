@@ -3,6 +3,7 @@ Encoding=UTF-8
 
 Name=Message Dock
 Name[de]=Nachrichten-Anzeige
+Name[en_GB]=Message Dock
 Name[es]=Anclaje de mensajes
 Name[nds]=Bescheden-Andocker
 Name[pt]=Área de Mensagens
@@ -12,6 +13,7 @@ Name[uk]=Панель повідомлень
 Name[x-test]=xxMessage Dockxx
 Comment=Provides a Message browser dock plugin.
 Comment[de]=Ein Modul zum Anzeigen von Nachrichten.
+Comment[en_GB]=Provides a Message browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje de mensajes.
 Comment[nds]=Stellt en Beschedenkieker as Andockmoduul praat.
 Comment[pt]=Oferece um 'plugin' para acoplar os navegadores de mensagens.
