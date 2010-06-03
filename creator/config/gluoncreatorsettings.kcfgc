@@ -3,5 +3,5 @@ File=gluoncreatorsettings.kcfg
 ClassName=Settings
 NameSpace=GluonCreator
 Singleton=true
-Mutators=
+Mutators=true
 # will create the necessary code for setting those variables

@@ -20,25 +20,20 @@
 #ifndef GLUON_CREATOR_PROJECTDOCK_H
 #define GLUON_CREATOR_PROJECTDOCK_H
 
-#include <QModelIndex>
-
-#include <widgets/dock.h>
+#include <QtCore/QModelIndex>
+#include <QtGui/QDockWidget>
 
 namespace GluonCreator
 {
 
-    class ProjectDock : public Dock
+    class ProjectDock : public QDockWidget
     {
             Q_OBJECT
         public:
             explicit ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ProjectDock();
 
-            QAbstractItemModel* model();
-            QAbstractItemView* view();
-
         public slots:
-            void setSelection(GluonCore::GluonObject* obj = 0);
             void activated(QModelIndex index);
             void showContextMenuRequested(const QPoint& pos);
 
@@ -49,7 +44,7 @@ namespace GluonCreator
 
         private:
             class ProjectDockPrivate;
-            ProjectDockPrivate* d;
+            ProjectDockPrivate * const d;
     };
 
 }

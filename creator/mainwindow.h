@@ -38,7 +38,6 @@ namespace GluonCreator
             ~MainWindow();
 
             virtual bool queryClose();
-            virtual void addDock(QDockWidget *dockWidget, Qt::DockWidgetArea area);
 
         public slots:
             void openProject(KUrl url);
@@ -67,7 +66,6 @@ namespace GluonCreator
             QString m_fileName;
             KRecentFilesAction* m_recentFiles;
             ProjectSelectionDialog *m_projectDialog;
-            QHash<QString, QDockWidget*> m_dockWidgets;
     };
 }
 

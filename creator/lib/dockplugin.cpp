@@ -18,13 +18,13 @@
  */
 
 #include "dockplugin.h"
-#include "widgets/dock.h"
-#include <KXmlGuiWindow>
-#include <KActionCollection>
-#include <KStandardDirs>
-#include <KDebug>
+#include "dockmanager.h"
 #include "core/debughelper.h"
-#include "../mainwindow.h"
+
+#include <QtGui/QDockWidget>
+#include <KDE/KXmlGuiWindow>
+#include <KDE/KActionCollection>
+#include <KDE/KStandardDirs>
 
 using namespace GluonCreator;
 
@@ -39,42 +39,11 @@ DockPlugin::~DockPlugin()
 }
 
 
-void DockPlugin::load(MainWindow* mainWindow)
+void DockPlugin::load(KXmlGuiWindow *mainWindow)
 {
     mainWindow->insertChildClient(this);
 
     m_dock = createDock(mainWindow);
-
-    // This is pretty ugly stuff, but the layouting system for docks in Qt is sort of odd anyway...
-    // So, string matching hackery it is for now ;)
-    Qt::DockWidgetArea theArea = Qt::AllDockWidgetAreas;
-    QString theClassName(metaObject()->className());
-    if(theClassName == "GluonCreator::ViewWidgetDockPlugin")
-    {
-        mainWindow->setCentralWidget(m_dock);
-        m_dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    }
-    else
-    {
-        if(theClassName == "GluonCreator::ProjectDockPlugin" || theClassName == "GluonCreator::ComponentsDockPlugin")
-        {
-            theArea = Qt::LeftDockWidgetArea;
-        }
-        else if(theClassName == "GluonCreator::SceneDockPlugin" || theClassName == "GluonCreator::PropertiesDockPlugin")
-        {
-            theArea = Qt::RightDockWidgetArea;
-        }
-        else if(theClassName == "GluonCreator::MessageDockPlugin")
-        {
-            theArea = Qt::BottomDockWidgetArea;
-        }
-        else
-        {
-            theArea = Qt::BottomDockWidgetArea;
-        }
-        mainWindow->addDock(m_dock, theArea);
-    }
-    // End horrible hackery ;)
 
     actionCollection()->addAction(QString("show%1Action").arg(m_dock->objectName()), m_dock->toggleViewAction());
 
@@ -84,9 +53,10 @@ void DockPlugin::load(MainWindow* mainWindow)
     setXML(xml);
 }
 
-void DockPlugin::unload(MainWindow* mainWindow)
+void DockPlugin::unload(KXmlGuiWindow* mainWindow)
 {
-    mainWindow->removeDockWidget(m_dock);
+    Q_UNUSED(mainWindow);
+    DockManager::instance()->removeDock(m_dock);
     actionCollection()->removeAction(actionCollection()->action(QString("show%1Action").arg(m_dock->objectName())));
     parentClient()->removeChildClient(this);
 }

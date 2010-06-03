@@ -2,6 +2,7 @@
 set(libGluonCreator_SRCS
     plugin.cpp
     dockplugin.cpp
+    dockmanager.cpp
     pluginmanager.cpp
     objectmanager.cpp
     historymanager.cpp
@@ -12,7 +13,6 @@ set(libGluonCreator_SRCS
     models/projectmodel.cpp
     models/scenemodel.cpp
 
-    widgets/dock.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
     widgets/propertywidgetitem.cpp
@@ -46,6 +46,7 @@ install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
 install(FILES
     plugin.h
     dockplugin.h
+    dockmanager.h
     pluginmanager.h
     historymanager.h
     selectionmanager.h
@@ -63,7 +64,6 @@ install(FILES
 )
 
 install(FILES
-    widgets/dock.h
     widgets/propertywidget.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/widgets
     COMPONENT Devel

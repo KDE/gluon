@@ -246,7 +246,6 @@ ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row
 
     if (data->hasUrls())
     {
-        GluonCore::GluonObject *gobj = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
         foreach(const QUrl& theUrl, data->urls())
         {
             ObjectManager::instance()->createNewAsset(theUrl.toLocalFile());

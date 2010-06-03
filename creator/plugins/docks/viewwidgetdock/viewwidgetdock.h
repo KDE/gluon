@@ -20,20 +20,16 @@
 #ifndef GLUON_CREATOR_VIEWWIDGETDOCK_H
 #define GLUON_CREATOR_VIEWWIDGETDOCK_H
 
-#include "widgets/dock.h"
+#include <QtGui/QDockWidget>
 
 namespace GluonCreator
 {
 
-    class ViewWidgetDock : public Dock
+    class ViewWidgetDock : public QDockWidget
     {
         public:
             explicit ViewWidgetDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
             ~ViewWidgetDock();
-
-            void setSelection(GluonCore::GluonObject* obj = 0);
-            QAbstractItemView* view();
-            QAbstractItemModel* model();
 
         private:
             class ViewWidgetDockPrivate;

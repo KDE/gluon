@@ -3,6 +3,7 @@ Encoding=UTF-8
 
 Name=Scene Dock
 Name[de]=Szenen-Anzeige
+Name[en_GB]=Scene Dock
 Name[es]=Anclaje de escena
 Name[nds]=Szenen-Andocker
 Name[pt]=Área de Cenas
@@ -12,6 +13,7 @@ Name[uk]=Панель сцени
 Name[x-test]=xxScene Dockxx
 Comment=Provides a Scene browser dock plugin.
 Comment[de]=Eine Anzeigemodul der Szenen.
+Comment[en_GB]=Provides a Scene browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje para el buscador de escenas
 Comment[nds]=Stellt en Szenenkieker as Andockmoduul praat.
 Comment[pt]=Oferece um 'plugin' de navegação pelas cenas.

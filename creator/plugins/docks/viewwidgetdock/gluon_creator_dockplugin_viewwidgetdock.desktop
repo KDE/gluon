@@ -3,6 +3,7 @@ Encoding=UTF-8
 
 Name=View Dock
 Name[de]=Ansicht-Anzeige
+Name[en_GB]=View Dock
 Name[es]=Anclaje de vistas
 Name[nds]=Ansichten-Andocker
 Name[pt]=Área de Vistas
@@ -12,6 +13,7 @@ Name[uk]=Додаток перегляду
 Name[x-test]=xxView Dockxx
 Comment=Provides a view of the current scene
 Comment[de]=Eine Anzeige der aktuellen Szene.
+Comment[en_GB]=Provides a view of the current scene
 Comment[es]=Proporciona una vista de la escena actual
 Comment[nds]=Wiest en Ansicht vun de aktuelle Szeen praat.
 Comment[pt]=Oferece uma vista sobre a cena actual

@@ -33,7 +33,7 @@ namespace GluonCreator
             ~SceneDockPlugin();
 
         protected:
-            Dock* createDock(KXmlGuiWindow* parent);
+            virtual QDockWidget* createDock(KXmlGuiWindow* parent);
     };
 
 }

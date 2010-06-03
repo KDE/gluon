@@ -38,12 +38,11 @@ class PropertiesDock::PropertiesDockPrivate
         PropertyWidget *widget;
 };
 
-PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::WindowFlags flags): Dock(title, parent, flags)
+PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+    : QDockWidget(title, parent, flags), d(new PropertiesDockPrivate)
 {
     setObjectName("PropertiesDock");
-
-    d = new PropertiesDockPrivate;
-
+    
     d->widget = new PropertyWidget(this);
     setWidget(d->widget);
 
@@ -55,28 +54,12 @@ PropertiesDock::PropertiesDock(const QString& title, QWidget* parent, Qt::Window
 PropertiesDock::~PropertiesDock()
 {
     delete d;
-    d = 0;
-}
-
-void PropertiesDock::setSelection(GluonCore::GluonObject* obj)
-{
-    d->widget->setObject(obj);
-}
-
-QAbstractItemView* PropertiesDock::view()
-{
-    return 0;
-}
-
-QAbstractItemModel* PropertiesDock::model()
-{
-    return 0;
 }
 
 void PropertiesDock::selectionChanged(SelectionManager::SelectionList selection)
 {
     if (!selection.empty())
-        setSelection(selection.at(0));
+        d->widget->setObject(selection.at(0));
 }
 
 void PropertiesDock::newComponent(GluonEngine::Component* comp)

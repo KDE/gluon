@@ -20,6 +20,7 @@
 #include "propertiesdockplugin.h"
 #include "propertiesdock.h"
 #include <KLocalizedString>
+#include <dockmanager.h>
 
 using namespace GluonCreator;
 
@@ -34,9 +35,11 @@ PropertiesDockPlugin::~PropertiesDockPlugin()
 
 }
 
-Dock* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
+QDockWidget* PropertiesDockPlugin::createDock(KXmlGuiWindow* parent)
 {
-    return new PropertiesDock(i18n("Properties"), parent);
+    PropertiesDock *dock = new PropertiesDock(i18n("Properties"), parent);
+    DockManager::instance()->addDock(dock, Qt::RightDockWidgetArea, Qt::Vertical);
+    return dock;
 }
 
 GLUON_CREATOR_PLUGIN_EXPORT(PropertiesDockPlugin)

@@ -19,6 +19,8 @@
 
 #include "mainwindow.h"
 
+#include <QDockWidget>
+
 #include <KFileDialog>
 #include <KStandardAction>
 #include <KActionCollection>
@@ -41,11 +43,11 @@
 #include "lib/pluginmanager.h"
 #include "lib/objectmanager.h"
 #include "lib/historymanager.h"
+#include "lib/selectionmanager.h"
+#include "lib/dockmanager.h"
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
-#include "lib/selectionmanager.h"
-#include <QDockWidget>
 
 using namespace GluonCreator;
 
@@ -59,6 +61,8 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     ObjectManager::instance()->setParent(this);
     HistoryManager::instance()->setParent(this);
     SelectionManager::instance()->setParent(this);
+    DockManager::instance()->setParent(this);
+    DockManager::instance()->setMainWindow(this);
 
     //setupGame();
 
@@ -73,18 +77,14 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     PluginManager::instance()->loadPlugins();
 
     setupActions();
-    
     setupGUI();
     
     m_projectDialog = new ProjectSelectionDialog(this);
     m_projectDialog->setModal(true);
     connect(m_projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
     
-    QList<QDockWidget*> docks = m_dockWidgets.values();
-    foreach(QDockWidget* dock, docks)
-    {
-        dock->setEnabled(false);
-    }
+    DockManager::instance()->setDocksEnabled(false);
+    DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
     
     if(centralWidget())
         centralWidget()->setEnabled(false);
@@ -107,6 +107,8 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 MainWindow::~MainWindow()
 {
     m_recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
+    GluonCreator::Settings::setLockLayout(actionCollection()->action("lockLayout")->isChecked());
+    GluonCreator::Settings::self()->writeConfig();
     GluonEngine::Game::instance()->stopGame();
 }
 
@@ -224,6 +226,12 @@ void MainWindow::setupActions()
     actionCollection()->addAction("chooseEntryPoint", chooseEntryPoint);
     chooseEntryPoint->setEnabled(false);
     connect(chooseEntryPoint, SIGNAL(triggered(bool)), SLOT(chooseEntryPoint()));
+
+    KAction *lockLayout = new KAction(KIcon("object-locked"), i18n("Lock layout"), actionCollection());
+    actionCollection()->addAction("lockLayout", lockLayout);
+    lockLayout->setCheckable(true);
+    lockLayout->setChecked(GluonCreator::Settings::lockLayout());
+    connect(lockLayout, SIGNAL(triggered(bool)), DockManager::instance(), SLOT(setDocksLocked(bool)));
 }
 
 void MainWindow::showPreferences()
@@ -373,18 +381,8 @@ void GluonCreator::MainWindow::projectDialogClosed()
     actionCollection()->action("addAsset")->setEnabled(true);
     actionCollection()->action("chooseEntryPoint")->setEnabled(true);
     
-    QList<QDockWidget*> docks = m_dockWidgets.values();
-    foreach(QDockWidget* dock, docks)
-    {
-        dock->setEnabled(true);
-    }
+    DockManager::instance()->setDocksEnabled(true);
     
     if(centralWidget())
         centralWidget()->setEnabled(true);
-}
-
-void GluonCreator::MainWindow::addDock(QDockWidget* dockWidget, Qt::DockWidgetArea area)
-{
-    m_dockWidgets.insert(dockWidget->objectName(), dockWidget);
-    addDockWidget(area, dockWidget);
 }
