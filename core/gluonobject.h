@@ -122,6 +122,8 @@ namespace GluonCore
             /**
             * QObject hierarchy helper functions.
             */
+            Q_INVOKABLE GluonObject* findItemByName(QString qualifiedName);
+            Q_INVOKABLE virtual GluonObject* root();
             virtual void addChild(GluonObject *child);
             virtual bool removeChild(GluonObject *child);
             virtual GluonObject * child(int index) const;

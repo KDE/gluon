@@ -59,17 +59,6 @@ GameProject::~GameProject()
 {
 }
 
-GluonCore::GluonObject *
-GameProject::findItemByName(QString qualifiedName)
-{
-    DEBUG_FUNC_NAME
-    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));
-    QStringList names = qualifiedName.split('/');
-    if (names.at(0) == name())
-        names.removeFirst();
-    return GluonObject::findItemByNameInObject(names, this);
-}
-
 bool
 GameProject::saveToFile() const
 {

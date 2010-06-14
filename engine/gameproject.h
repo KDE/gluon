@@ -60,8 +60,6 @@ namespace GluonEngine
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
 
-            GluonObject * findItemByName(QString qualifiedName);
-
             bool saveToFile() const;
             bool loadFromFile();
             bool loadFromFile(QUrl filename);
