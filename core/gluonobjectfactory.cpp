@@ -94,7 +94,7 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     if (m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
         return m_objectTypes[fullObjectTypeName]->instantiate();
 
-    DEBUG_TEXT(QString("Object type name not found in factory!"));
+    DEBUG_TEXT(QString("Object type named %1 not found in factory!").arg(objectTypeName));
 
     return 0;
 }

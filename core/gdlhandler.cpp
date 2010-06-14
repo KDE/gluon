@@ -49,7 +49,7 @@ GDLHandler::instantiateObject(QString className)
 GluonObject *
 GDLHandler::createObject(QStringList objectStringList, QObject * parent)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_BLOCK
     GluonObject * createdObject = 0;
     int index = 0;
     QString currentPropertyName;
@@ -61,7 +61,7 @@ GDLHandler::createObject(QStringList objectStringList, QObject * parent)
                 // Object type
                 createdObject = instantiateObject(item);
                 createdObject->setParent(parent);
-                DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
+                //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
                 break;
             case 1:
                 // Object name

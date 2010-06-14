@@ -141,13 +141,11 @@ GluonObject::sanitize()
     const QObjectList &children = this->children();
     foreach(QObject * child, children)
     {
+        // The way assets handle their data will often cause the existence of children
+        // which are not GluonObjects, and we should of course be handling that
         if (qobject_cast<GluonObject*>(child))
         {
             qobject_cast<GluonObject*>(child)->sanitize();
-        }
-        else
-        {
-            DEBUG_TEXT(QString("Child found which is not a GluonObject!"));
         }
     }
 
@@ -327,8 +325,8 @@ GluonObject::fullyQualifiedFileName() const
 GluonCore::GluonObject *
 GluonObject::findItemByName(QString qualifiedName)
 {
-    DEBUG_FUNC_NAME
-    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));
+    /*DEBUG_BLOCK
+    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));*/
     QStringList names = qualifiedName.split('/');
     if (names.at(0) == name())
         names.removeFirst();
@@ -568,7 +566,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
     if (!setProperty(propertyName.toUtf8(), value))
     {
-        DEBUG_TEXT(QString("Failed to set or set dynamic property %1 to %2").arg(propertyName, propertyValue));
+        DEBUG_TEXT(QString("Failed to set dynamic property %1 to %2").arg(propertyName, propertyValue));
     }
     else
     {
