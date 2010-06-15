@@ -280,7 +280,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
         QString thePropName(propName);
         // Don't show the expanded dynamic property - we make this one dynamic because
         // we don't want to pollute the API with this arguably very meta information
-        if(thePropName == QString("expanded") || thePropName == QString("enabled"))
+        if(thePropName == QString("description") || thePropName == QString("expanded") || thePropName == QString("enabled"))
             continue;
         
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), parent->parentWidget());
