@@ -22,6 +22,7 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QDockWidget>
+#include <QtGui/QItemSelection>
 
 namespace GluonCreator
 {
@@ -35,6 +36,7 @@ namespace GluonCreator
 
         public slots:
             void activated(QModelIndex index);
+            void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
             void showContextMenuRequested(const QPoint& pos);
 
             void contextMenuHiding();
