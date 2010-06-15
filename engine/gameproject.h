@@ -79,8 +79,8 @@ namespace GluonEngine
             QUrl filename() const;
             void setFilename(QUrl newFilename);
 
-            Scene *entryPoint() const;
-            void setEntryPoint(Scene *newEntryPoint);
+            Scene* entryPoint() const;
+            void setEntryPoint(Scene* newEntryPoint);
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

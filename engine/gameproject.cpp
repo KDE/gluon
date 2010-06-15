@@ -41,18 +41,12 @@ GameProject::GameProject(QObject * parent)
 {
     d = new GameProjectPrivate;
     setGameProject(this);
-    
-//     QVariant somethingEmpty;
-//     GluonObject *theObject = d->entryPoint;
-//     somethingEmpty.setValue<GluonCore::GluonObject*>(theObject);
-//     setProperty("entryPoint", somethingEmpty);
 }
 
 GameProject::GameProject(const GameProject &other, QObject * parent)
         : GluonObject(parent)
         , d(other.d)
 {
-    //setProperty("entryPoint", other.property("entryPoint"));
 }
 
 GameProject::~GameProject()
@@ -230,21 +224,16 @@ GameProject::setFilename(QUrl newFilename)
     d->filename = newFilename;
 }
 
-Scene *
+Scene*
 GameProject::entryPoint() const
 {
     return d->entryPoint;
-    //return qobject_cast<Scene*>(property("entryPoint").value<GluonCore::GluonObject*>());
 }
 
 void
-GameProject::setEntryPoint(Scene * newEntryPoint)
+GameProject::setEntryPoint(Scene* newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
-    
-//     QVariant theNewValue;
-//     theNewValue.setValue<GluonCore::GluonObject*>(newEntryPoint);
-//     setProperty("entryPoint", theNewValue);
 }
 
 #include "gameproject.moc"
