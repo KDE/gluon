@@ -1,0 +1,101 @@
+include_directories(
+    ${KDE4_INCLUDES}
+    ${QT_INCLUDES}
+    ${KROSS_INCLUDES}
+    Core/
+    Actions/
+    GraphicsItem/
+    Interface/
+    Models/
+)
+
+#Build Tests if KDE_TEST is on
+if(KDE4_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(Tests)
+endif(KDE4_BUILD_TESTS)
+
+# Preparando a biblioteca padr?o.
+
+set( rocs_core_SRCS
+  Core/graph.cpp
+  Core/edge.cpp
+  Core/graphDocument.cpp
+  Core/node.cpp
+  Core/DynamicPropertiesList.cpp
+  Core/threadDocument.cpp
+)
+
+
+###################### Outros SRCS ############################
+set ( rocs_actions_SRCS
+  Actions/AbstractAction.cpp
+  Actions/AddNode.cpp
+  Actions/AddEdge.cpp
+  Actions/MoveNode.cpp
+  Actions/Select.cpp
+  Actions/DeleteAction.cpp
+  Actions/AlignAction.cpp
+)
+
+set ( rocs_graphcisitem_SRCS
+  GraphicsItem/NodeItem.cpp
+  GraphicsItem/OrientedEdgeItem.cpp
+)
+
+set( rocs_interface_SRCS
+  Interface/MainWindow.cpp
+  Interface/GraphScene.cpp
+  Interface/GraphVisualEditor.cpp
+  Interface/GraphPropertiesWidget.cpp
+  Interface/NodePropertiesWidget.cpp
+  Interface/edgepropertieswidget.cpp
+)
+
+set( rocs_models_SRCS
+  Models/model_GraphDocument.cpp
+  Models/model_GraphLayers.cpp
+  Models/model_GraphProperties.cpp
+)
+
+
+set(rocs_SRCS
+  Main.cpp
+  ${rocs_actions_SRCS}
+  ${rocs_core_SRCS}
+  ${rocs_graphcisitem_SRCS}
+  ${rocs_interface_SRCS}
+  ${rocs_models_SRCS}
+)
+
+kde4_add_ui_files(
+	rocs_SRCS
+	Interface/GraphPropertiesWidget.ui
+	Interface/NodePropertiesWidget.ui
+	Interface/EdgePropertiesWidget.ui
+	Interface/AddMultiNodes.ui
+)
+
+set (QT_USE_QTSCRIPT true)
+
+set(rocs_KCFGS settings.kcfgc)
+
+kde4_add_kcfg_files(rocs_SRCS ${rocs_KCFGS} )
+kde4_add_executable(rocs ${rocs_SRCS} ${rocs_RCC_SRCS})
+
+target_link_libraries(rocs
+  ${KDE4_KDEUI_LIBS}
+  ${KDE4_KROSSUI_LIBS}
+  ${KDE4_KIO_LIBS}
+  ${KDE4_KTEXTEDITOR_LIBS}
+  ${QT_QTSCRIPT_LIBRARY}
+  ${QT_QTSCRIPTTOOLS_LIBRARY}
+)
+
+################## INSTALLS ##########################
+
+install( TARGETS rocs  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+install( FILES rocs.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( FILES rocsui.rc DESTINATION ${DATA_INSTALL_DIR}/rocs  )
+install( FILES rocs.kcfg DESTINATION  ${KCFG_INSTALL_DIR} )
