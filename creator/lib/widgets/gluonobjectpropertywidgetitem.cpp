@@ -169,6 +169,7 @@ GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
     if(theObject)
     {
         d->currentValue->setText(theObject->name());
+        d->currentValue->setToolTip(theObject->fullyQualifiedName());
         d->currentValue->setDisabled(false);
     }
     else
