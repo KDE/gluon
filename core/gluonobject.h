@@ -34,7 +34,8 @@ Q_DECLARE_METATYPE(QList<QUrl>)
 
 #define GLUON_OBJECT(CLASSNAME)\
     public:\
-    virtual GluonCore::GluonObject *instantiate();\
+    virtual GluonCore::GluonObject* instantiate();\
+    virtual GluonCore::GluonObject* fromVariant(const QVariant &wrappedObject);\
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
     private:
 

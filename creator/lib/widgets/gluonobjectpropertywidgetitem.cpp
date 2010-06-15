@@ -17,6 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "gluonobjectpropertywidgetitem.h"
+#include "core/debughelper.h"
 #include "engine/game.h"
 #include "engine/scene.h"
 #include "engine/gameobject.h"
@@ -25,7 +26,7 @@
 
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KInputDialog>
@@ -42,7 +43,7 @@ namespace GluonCreator
             };
 
             QLabel * currentValue;
-            QPushButton * browseButton;
+            QToolButton * browseButton;
             QString typeName;
 
             static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
@@ -81,7 +82,7 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &type
     d->currentValue->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     base->addWidget(d->currentValue);
 
-    d->browseButton = new QPushButton(this);
+    d->browseButton = new QToolButton(this);
     d->browseButton->setText("...");
     connect(d->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
     base->addWidget(d->browseButton);
@@ -163,15 +164,33 @@ void
 GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     PropertyWidgetItem::setEditValue(value);
+
+    GluonCore::GluonObject* theObject = GluonCore::GluonObjectFactory::instance()->wrappedObject(value);
+    if(theObject)
+    {
+        d->currentValue->setText(theObject->name());
+        d->currentValue->setDisabled(false);
+    }
+    else
+    {
+        d->currentValue->setText(i18n("(no object selected)"));
+        d->currentValue->setDisabled(true);
+    }
 }
 
 void
 GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value)
 {
     if (value)
+    {
         d->currentValue->setText(value->name());
+        d->currentValue->setDisabled(false);
+    }
     else
-        d->currentValue->setText("");
+    {
+        d->currentValue->setText(i18n("(no object selected)"));
+        d->currentValue->setDisabled(true);
+    }
 
     QVariant oldValue = editObject()->property(editProperty().toUtf8());
     QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject(oldValue, value);

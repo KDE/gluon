@@ -140,6 +140,22 @@ GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
     return QVariant();
 }
 
+GluonObject*
+GluonObjectFactory::wrappedObject(const QVariant& wrappedObject)
+{
+    QString type(wrappedObject.typeName());
+    QString typeName = type;
+    if (type.endsWith('*'))
+        typeName = type.left(type.length() - 1);
+    
+    if (m_objectTypes.contains(typeName))
+    {
+        return m_objectTypes[typeName]->fromVariant(wrappedObject);
+    }
+
+    return 0;
+}
+
 void
 GluonObjectFactory::loadPlugins()
 {
