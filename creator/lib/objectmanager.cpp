@@ -41,10 +41,12 @@ using namespace GluonCreator;
 template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
 
 QString
-ObjectManager::humanifyClassName(const QString& fixThis) const
+ObjectManager::humanifyClassName(const QString& fixThis, bool justRemoveNamespace) const
 {
     QString fixedString;
     const QString classname = fixThis.right(fixThis.length() - fixThis.lastIndexOf(':') - 1);
+    if(justRemoveNamespace)
+        return classname;
     const int length = classname.size();
     for(int i = 0; i < length; ++i)
     {
@@ -107,7 +109,7 @@ GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, G
     GluonCore::GluonObject* newObj = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(type);
     if (newObj)
     {
-        newObj->setName(humanifyClassName(newObj->metaObject()->className()));
+        newObj->setName(humanifyClassName(newObj->metaObject()->className(), true));
 
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(newObj);
         parent->addComponent(comp);
@@ -128,7 +130,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 {
     DEBUG_FUNC_NAME
     GluonEngine::GameObject *newObj = new GluonEngine::GameObject();
-    newObj->setName(humanifyClassName(newObj->metaObject()->className()));
+    newObj->setName(humanifyClassName(newObj->metaObject()->className(), false));
     DEBUG_TEXT(QString("Creating object: %1").arg(newObj->name()));
 
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
@@ -158,7 +160,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 GluonEngine::Scene* ObjectManager::createNewScene()
 {
     GluonEngine::Scene *newScn = new GluonEngine::Scene();
-    newScn->setName(i18n("New Scene"));
+    newScn->setName(i18n("NewScene"));
     newScn->setGameProject(GluonEngine::Game::instance()->gameProject());
     GluonEngine::Game::instance()->gameProject()->addChild(newScn);
 
