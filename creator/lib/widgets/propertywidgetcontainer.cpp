@@ -28,6 +28,9 @@
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
 #include <KIcon>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <selectionmanager.h>
 
 namespace GluonCreator {
 class PropertyWidgetContainer::PropertyWidgetContainerPrivate
@@ -143,6 +146,7 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
         setExpanded(theObject->property("expanded").value<bool>());
     connect(this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)));
 
+    // Manually add the name and description widgets, as we wish to handle those a little differently
     PropertyWidgetItem *nameWidget = PropertyWidgetItemFactory::instance()->create(theObject, "QString", parentWidget());
     nameWidget->setEditObject(theObject);
     nameWidget->setEditProperty("name");
@@ -157,7 +161,60 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
     separator->setFrameShape(QFrame::HLine);
     d->containerLayout->addWidget(separator, d->containerLayout->rowCount(), 0, 1, 2);
     
+    // Set up us the menu...
+    if(classname != QString("GameObject"))
+    {
+        // Don't show moving up and down stuff for the GameObject
+        QAction* upAction = new QAction(this);
+        upAction->setText(i18n("Move Up"));
+        connect(upAction, SIGNAL(triggered(bool)), this, SLOT(upTriggered()));
+        d->menu->addAction(upAction);
+        QAction* downAction = new QAction(this);
+        downAction->setText(i18n("Move Down"));
+        connect(downAction, SIGNAL(triggered(bool)), this, SLOT(downTriggered()));
+        d->menu->addAction(downAction);
+        QAction* sepAction = new QAction(this);
+        sepAction->setSeparator(true);
+        d->menu->addAction(sepAction);
+    }
+    if(classname != QString("GameProject"))
+    {
+        QAction* delAction = new QAction(this);
+        delAction->setText(i18n("Delete"));
+        connect(delAction, SIGNAL(triggered(bool)), this, SLOT(delTriggered()));
+        d->menu->addAction(delAction);
+    }
+    
     d->appendMetaObject(theObject);
+}
+
+void
+PropertyWidgetContainer::upTriggered()
+{
+    
+}
+
+void
+PropertyWidgetContainer::downTriggered()
+{
+
+}
+
+void
+PropertyWidgetContainer::delTriggered()
+{
+    if( KMessageBox::questionYesNo(this, i18n("Are you sure you wish to delete the item %1?").arg(d->object->fullyQualifiedName()), i18n("Delete Item?")) == KMessageBox::Yes)
+    {
+        GluonCore::GluonObject* theParent = qobject_cast<GluonCore::GluonObject*>(d->object->parent());
+        if(theParent)
+            theParent->removeChild(d->object);
+        d->object->deleteLater();
+        
+        // Cause the property dock to update its view
+        SelectionManager::SelectionList list;
+        list.append(theParent);
+        SelectionManager::instance()->setSelection(list);
+    }
 }
 
 bool
