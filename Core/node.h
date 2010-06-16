@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QList>
 #include <QString>
+#include <QPixmap>
 
 #include "rocslib_export.h"
 #include "edge.h"
@@ -42,6 +43,7 @@ class  ROCSLIB_EXPORT Node : public QObject {
     Q_PROPERTY(bool begin READ begin WRITE setBegin)
     Q_PROPERTY(bool end READ end WRITE setEnd)
     Q_PROPERTY(QVariant value READ value WRITE setValue)
+    Q_PROPERTY(QPixmap image READ image WRITE setImage)
     Q_PROPERTY(QString iconPackage READ iconPackage WRITE setIconPackage)
     Q_PROPERTY(QString icon READ icon WRITE setIcon)
     
@@ -58,6 +60,7 @@ public:
     void startChange();
     void endChange();
     bool showName();
+    bool showImage();
     bool showValue();
 
     Graph *graph(){ return _graph; }
@@ -88,11 +91,14 @@ public  slots:
     void setValue(const QVariant v);
     void setValue(const QString& s);
     const QVariant value() const;
+    const QPixmap& image() const;
+    void setImage(const QPixmap& p);
     void setIcon(const QString& s);
     const QString& icon() const;
     const QString& iconPackage() const;
     void setIconPackage(const QString& s);
     void hideName(bool b);
+    void hideImage(bool b);
     void hideValue(bool b);
     /** Add a property to this node
     * @param property Name of property
@@ -123,6 +129,7 @@ private:
     bool _changing;
     bool _showName;
     bool _showValue;
+    bool _showImage;
     
     Graph *_graph;
     
@@ -132,6 +139,7 @@ private:
     QString _icon;
     
     QVariant _value;
+    QPixmap _image;
 
 signals:
     void removed();

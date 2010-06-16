@@ -14,6 +14,7 @@ NodeItem::NodeItem(Node* n) : QGraphicsSvgItem(0){
     _node = n;
     _name = 0;
     _value = 0;
+    _image = new QGraphicsPixmapItem(QPixmap(0,0),this);
     _originalWidth = _node->width();
     _iconPackage = _node->iconPackage();
     _colorizer = new QGraphicsColorizeEffect(this);
@@ -37,6 +38,7 @@ void NodeItem::setupNode(){
     updateColor();
     updateSize();
     updatePos();
+    updateImage();
     update();
 }
 
@@ -101,4 +103,14 @@ void NodeItem::updateValue(){
    }
    _value->setVisible(_node->showValue());
    _value->setPos(0, 100);
+}
+
+void NodeItem::updateImage(){
+  if(_image->pixmap().isNull()){
+    _image->setPixmap(_node->image());
+  }else if(!(_image->pixmap() = _node->image())){
+    _image->setPixmap(_node->image());
+  }
+  _image->setVisible(_node->showImage());
+  _image->setPos(0,125);
 }

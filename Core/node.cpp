@@ -34,11 +34,14 @@ Node::Node(Graph *parent) : QObject(parent) {
     _width = 0.5;
     _showName = true;
     _showValue = true;
+    _showImage = true;
     _begin = false;
     _end = false;
     _color = _graph->nodeDefaultColor();
     _changing = false;
     _value = 0;
+    _image = QPixmap(100,100);
+    _image.fill();
     _icon = "rocs_default";
     _iconpackage = KGlobal::dirs()->locate("appdata", "iconpacks/default.svg");
     kDebug() << "Node successfully created" << _iconpackage;
@@ -64,6 +67,15 @@ bool Node::showName() {
 
 bool Node::showValue() {
     return _showValue;
+}
+
+bool Node::showImage() {
+  return _showImage;
+}
+
+void Node::hideImage(bool b) {
+  _showImage = b;
+  emit changed();
 }
 
 void Node::hideName(bool b) {
@@ -241,6 +253,17 @@ void Node::setColor(const QString& s) {
 
 const QString& Node::color() const {
     return _color;
+}
+
+void Node::setImage(const QPixmap& p){
+  _image=p;
+  if (! _changing) {
+    emit changed();
+  }
+}
+
+const QPixmap& Node::image() const {
+  return _image;
 }
 
 void Node::setName(const QString& s) {

@@ -64,6 +64,7 @@ void NodePropertiesWidget::reflectAttributes(){
    updateAutomateAttributes(qobject_cast< Graph* >(_node->parent())->automate());
    _propertyName->setText("");
    _propertyValue->setText("");
+   _image->setPixmap(_node->image());
    _isPropertyGlobal->setCheckState(Qt::Unchecked);
    if (( _svgFile == _node->iconPackage()) && (_images->count() != 0)){
       kDebug() << _svgFile << "already set, and images combo box is not empty";

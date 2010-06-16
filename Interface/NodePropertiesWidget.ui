@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>366</height>
+    <width>522</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,13 +49,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4" rowspan="4">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="5">
     <widget class="QLabel" name="label_3">
      <property name="sizePolicy">
@@ -75,7 +68,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="6" colspan="3">
+   <item row="0" column="7" colspan="5">
     <widget class="QSpinBox" name="_x">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -136,7 +129,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="6" colspan="3">
+   <item row="1" column="7" colspan="5">
     <widget class="QSpinBox" name="_y">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -162,13 +155,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
-    <widget class="KColorCombo" name="_color">
-     <property name="toolTip">
-      <string>Node color</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_5">
      <property name="toolTip">
@@ -183,56 +169,29 @@
     </widget>
    </item>
    <item row="3" column="1" colspan="2">
-    <widget class="KDoubleNumInput" name="_width">
+    <widget class="KDoubleNumInput" name="_width" native="true">
      <property name="toolTip">
       <string>Node size</string>
      </property>
-     <property name="minimum">
+     <property name="minimum" stdset="0">
       <double>0.500000000000000</double>
      </property>
-     <property name="singleStep">
+     <property name="singleStep" stdset="0">
       <double>0.250000000000000</double>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="9">
-    <widget class="QTableView" name="_propertiesTable"/>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Name</string>
+   <item row="6" column="0" colspan="12">
+    <widget class="QTableView" name="_propertiesTable">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="7" column="2">
-    <widget class="QLabel" name="label_8">
-     <property name="text">
-      <string>Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="7">
-    <widget class="QLabel" name="label_9">
-     <property name="text">
-      <string>Global</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="KLineEdit" name="_propertyName"/>
-   </item>
-   <item row="8" column="2" colspan="5">
-    <widget class="KLineEdit" name="_propertyValue"/>
-   </item>
-   <item row="8" column="7">
-    <widget class="QCheckBox" name="_isPropertyGlobal">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="8">
+   <item row="15" column="11">
     <widget class="KPushButton" name="_addProperty">
      <property name="text">
       <string>add</string>
@@ -246,10 +205,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="6" colspan="3">
+   <item row="2" column="7" colspan="5">
     <widget class="KComboBox" name="_images"/>
    </item>
-   <item row="3" column="7" colspan="2">
+   <item row="3" column="8" colspan="4">
     <widget class="QCheckBox" name="_begin">
      <property name="text">
       <string>Begin</string>
@@ -266,6 +225,98 @@
      </property>
      <property name="text">
       <string>End</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="KColorCombo" name="_color">
+     <property name="toolTip">
+      <string>Node color</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0" colspan="4">
+    <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0">
+     <item row="2" column="1">
+      <widget class="KLineEdit" name="_propertyValue">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KLineEdit" name="_propertyName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QCheckBox" name="_isPropertyGlobal">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Global</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="4" rowspan="4">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="9">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Preview</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="9">
+    <widget class="QLabel" name="_image">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -307,9 +358,6 @@
   <tabstop>_x</tabstop>
   <tabstop>_y</tabstop>
   <tabstop>_propertiesTable</tabstop>
-  <tabstop>_propertyName</tabstop>
-  <tabstop>_propertyValue</tabstop>
-  <tabstop>_isPropertyGlobal</tabstop>
   <tabstop>_addProperty</tabstop>
  </tabstops>
  <resources/>

@@ -7,10 +7,12 @@
 #include <QPropertyAnimation>
 #include <QSvgRenderer>
 #include <QGraphicsTextItem>
+#include <QGraphicsPixmapItem>
 #include <QGraphicsColorizeEffect>
 #include <QMap>
 #include <QString>
 #include <QFont>
+#include <QPixmap>
 #include "node.h"
 
 class NodeItem : public QGraphicsSvgItem{
@@ -33,12 +35,14 @@ class NodeItem : public QGraphicsSvgItem{
     void updateColor();
     void updatePos();
     void updateSize();
+    void updateImage();
   private:
     Node *_node;
     QString _iconPackage;
     QString _element;
     QGraphicsSimpleTextItem *_name;
     QGraphicsSimpleTextItem *_value;
+    QGraphicsPixmapItem *_image;
     QGraphicsColorizeEffect *_colorizer;
     QFont _font;
 };
