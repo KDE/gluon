@@ -18,10 +18,10 @@
  */
 
 #include "componentsdock.h"
+#include "componentslistmodelsortproxy.h"
 #include "models/componentmodel.h"
 
-#include <QtGui/QListWidget>
-#include <QtGui/QStringListModel>
+#include <KCategorizedView>
 #include <KDebug>
 
 #include <core/gluonobjectfactory.h>
@@ -35,11 +35,13 @@ class ComponentsDock::ComponentsDockPrivate
 {
     public:
         ComponentsDockPrivate()
-        {
-            view = 0;
-        };
+            : view(0)
+            , sortModel(0)
+            , model(0)
+        { };
 
-        QListView *view;
+        KCategorizedView *view;
+        ComponentsListModelSortProxy *sortModel;
         ComponentModel *model;
 };
 
@@ -51,24 +53,17 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 
     d = new ComponentsDockPrivate();
 
-    d->view = new QListView(this);
+    d->view = new KCategorizedView(this);
     d->view->setSelectionMode(QAbstractItemView::SingleSelection);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(false);
     d->view->setDropIndicatorShown(false);
 
-    QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
-    QStringList list;
-    foreach(GluonCore::GluonObject* obj, objectTypes)
-    {
-        if (obj->inherits("GluonEngine::Component"))
-        {
-            list << obj->metaObject()->className();
-        }
-    }
     d->model = new ComponentModel(this);
-    d->model->setStringList(list);
-    d->view->setModel(d->model);
+    d->sortModel = new ComponentsListModelSortProxy(this);
+    d->sortModel->setSourceModel(d->model);
+    d->sortModel->setCategorizedModel(true);
+    d->view->setModel(d->sortModel);
 
     setWidget(d->view);
 }

@@ -18,20 +18,41 @@
  */
 
 #include "componentmodel.h"
+#include "core/gluonobject.h"
+#include "creator/lib/objectmanager.h"
 
 #include <QtCore/QMimeData>
+#include <KLocalizedString>
 
 using namespace GluonCreator;
 
 class ComponentModel::ComponentModelPrivate
 {
     public:
+        ComponentModelPrivate()
+        {};
 
+        QHash<int, QString> names;
+        QHash<int, QString> categories;
 };
 
 ComponentModel::ComponentModel(QObject* parent)
-        : QStringListModel(parent), d(new ComponentModelPrivate)
+    : QAbstractListModel(parent)
+    , d(new ComponentModelPrivate)
 {
+    QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
+    QStringList list;
+    int i = 0;
+    foreach(GluonCore::GluonObject* obj, objectTypes)
+    {
+        if (obj->inherits("GluonEngine::Component"))
+        {
+            QString name(obj->metaObject()->className());
+            d->names.insert(i, ObjectManager::instance()->humanifyClassName(name));
+            d->categories.insert(i, name.right(name.length() - name.lastIndexOf("::") - 1).replace("::", "/"));
+            ++i;
+        }
+    }
 }
 
 ComponentModel::~ComponentModel()
@@ -39,10 +60,58 @@ ComponentModel::~ComponentModel()
     delete d;
 }
 
+QVariant
+ComponentModel::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.row() >= d->names.count())
+        return QVariant();
+
+    if(role == Qt::DisplayRole)
+    {
+        switch(index.column())
+        {
+            case 1:
+                return d->categories[index.row()];
+                break;
+            case 0:
+            default:
+                return d->names[index.row()];
+                break;
+        }
+    }
+    return QVariant();
+}
+
+QVariant
+ComponentModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role != Qt::DisplayRole)
+        return QVariant();
+    
+    if (orientation == Qt::Horizontal)
+    {
+        switch(section)
+        {
+            case 1:
+                return i18n("Category");
+                break;
+            case 0:
+            default:
+                return i18n("Component");
+                break;
+        }
+    }
+    else
+        return QString("Row %1").arg(section);
+}
+
 Qt::ItemFlags
 ComponentModel::flags(const QModelIndex &index) const
 {
-    Qt::ItemFlags defaultFlags = QStringListModel::flags(index);
+    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
 
     if (index.isValid())
         return Qt::ItemIsDragEnabled | defaultFlags;
@@ -79,4 +148,11 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
     mimeData->setData("application/gluon.text.componentclass", encodedData);
     return mimeData;
 }
+int ComponentModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+    return d->names.count();
+}
 
+#include "componentmodel.moc"

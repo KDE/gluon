@@ -19,22 +19,26 @@
 #ifndef GLUON_CREATOR_COMPONENTMODEL_H
 #define GLUON_CREATOR_COMPONENTMODEL_H
 
-#include <QtGui/QStringListModel>
 #include "gluoncreator_macros.h"
+#include <QtCore/QAbstractListModel>
 
 namespace GluonCreator
 {
-
-    class GLUONCREATOR_EXPORT ComponentModel : public QStringListModel
+    class GLUONCREATOR_EXPORT ComponentModel : public QAbstractListModel
     {
-            Q_OBJECT
+        Q_OBJECT
         public:
             ComponentModel(QObject * parent = 0);
             ~ComponentModel();
-
+            
+            virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+            virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+            
             virtual Qt::ItemFlags flags(const QModelIndex &index) const;
             virtual QStringList mimeTypes() const;
             virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
+            
+            virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
         private:
             class ComponentModelPrivate;
