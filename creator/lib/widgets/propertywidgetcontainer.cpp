@@ -22,7 +22,6 @@
 #include <QtGui/QBoxLayout>
 #include <QtGui/QToolButton>
 #include <QtGui/QCheckBox>
-#include <QtGui/QLabel>
 #include <QtGui/QMenu>
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
@@ -30,6 +29,7 @@
 #include <KIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <ksqueezedtextlabel.h>
 #include <selectionmanager.h>
 
 namespace GluonCreator {
@@ -82,14 +82,24 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
             containerWidget = new QWidget(parent);
             containerLayout = new QGridLayout();
             containerLayout->setSpacing(0);
-            containerLayout->setContentsMargins(0, 0, 0, 0);
+            containerLayout->setContentsMargins(2, 0, 0, 0);
             containerWidget->setLayout(containerLayout);
+            containerLayout->setColumnStretch(0, 1);
+            containerLayout->setColumnStretch(1, 3);
             parent->layout()->addWidget(containerWidget);
         }
         ~PropertyWidgetContainerPrivate()
         {
         }
         
+        /**
+         * Sanitize the name according to the camelCasing
+         * - Make first letter upper case
+         * - Split at upper-case letters
+         * - Add space between those indicated words
+         * @par fixThis A string which needs fixing
+         * @return The fixified string
+         */
         QString humanifyString(QString fixThis);
         
         PropertyWidgetContainer* parent;
@@ -352,15 +362,13 @@ void
 PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem(QString name, PropertyWidgetItem* item)
 {
     
-    QLabel* nameLabel = new QLabel(parent);
-    nameLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    // Sanitize the name according to the camelCasing
-    // - Make first letter upper case
-    // - Split at upper-case letters
-    // - Add space between those indicated words
+    KSqueezedTextLabel* nameLabel = new KSqueezedTextLabel(parent);
+    nameLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    nameLabel->setTextElideMode(Qt::ElideRight);
     nameLabel->setText(humanifyString(name));
+    nameLabel->setToolTip(nameLabel->fullText());
     
-    item->setMinimumWidth(250);
+    item->setMinimumWidth(150);
     item->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     // Yeah, looks a bit funny, but this makes it possible to connect to either the pwi container... or the pwi view ;)
     connect(item, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
