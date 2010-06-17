@@ -24,6 +24,8 @@
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/The Whip Theme Extended Version.ogg)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(true)
             autoPlay bool(true)
         }

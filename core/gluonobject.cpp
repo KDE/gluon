@@ -641,20 +641,12 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             }
             break;
         default:
-            if (theValue.canConvert<GluonCore::GluonObject*>())
-            {
-                GluonObject* theObject = theValue.value<GluonObject*>();
-                if (theObject)
-                    value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
-                else
-                {
-                    value = QString("Gluon::GluonObject()");
-                    DEBUG_TEXT(QString("Invalid object reference!"));
-                }
-            }
+            GluonObject* theObject = GluonObjectFactory::instance()->wrappedObject(theValue);
+            if (theObject)
+                value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
             else
             {
-                DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
+                DEBUG_TEXT(QString("Property %1 is of an unrecognised type %2").arg(propertyName).arg(theValue.typeName()));
                 value = theValue.toString();
             }
             break;
