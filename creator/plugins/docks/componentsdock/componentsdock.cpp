@@ -20,8 +20,12 @@
 #include "componentsdock.h"
 #include "componentslistmodelsortproxy.h"
 #include "models/componentmodel.h"
+#include "modeltest.h"
+
+#include <QtGui/QTreeWidget>
 
 #include <KCategorizedView>
+#include <KCategoryDrawer>
 #include <KDebug>
 
 #include <core/gluonobjectfactory.h>
@@ -54,6 +58,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     d = new ComponentsDockPrivate();
 
     d->view = new KCategorizedView(this);
+//    d->view = new QListView(this);
     d->view->setSelectionMode(QAbstractItemView::SingleSelection);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(false);
@@ -64,6 +69,11 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     d->sortModel->setSourceModel(d->model);
     d->sortModel->setCategorizedModel(true);
     d->view->setModel(d->sortModel);
+
+//     KCategoryDrawerV2* drawer = new KCategoryDrawerV2(d->view);
+//     d->view->setCategoryDrawer(drawer);
+
+//     new ModelTest(d->model, this);
 
     setWidget(d->view);
 }

@@ -20,6 +20,9 @@
 
 #include "componentslistmodelsortproxy.h"
 #include "models/componentmodel.h"
+#include "core/debughelper.h"
+
+#include <QtCore/QMimeData>
 
 using namespace GluonCreator;
 
@@ -31,29 +34,112 @@ ComponentsListModelSortProxy::ComponentsListModelSortProxy(QObject* parent)
 ComponentsListModelSortProxy::~ComponentsListModelSortProxy()
 {
 }
-
+/*
 QVariant
 ComponentsListModelSortProxy::data(const QModelIndex& index, int role) const
 {
-    if(role == CategoryDisplayRole)
+    DEBUG_BLOCK
+    if(!index.isValid())
+        return QVariant();
+    
+    if(role == KCategorizedSortFilterProxyModel::CategoryDisplayRole || role == KCategorizedSortFilterProxyModel::CategorySortRole)
     {
-        return sourceModel()->data(sourceModel()->index(index.row(), 1, index.parent()), Qt::DisplayRole);
+        DEBUG_TEXT(QString("Fetching category data"));
+        return sourceModel()->data(createIndex(index.row(), 1, 0), Qt::DisplayRole);
     }
     return sourceModel()->data(index, role);
+}
+
+QVariant
+ComponentsListModelSortProxy::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    return sourceModel()->headerData(section, orientation, role);
+}
+
+QModelIndex
+ComponentsListModelSortProxy::index(int row, int column, const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return QModelIndex();
+    if(row < 0 || column < 0)
+        return QModelIndex();
+    if(row >= sourceModel()->rowCount() ||column >= sourceModel()->columnCount())
+        return QModelIndex();
+    
+//    QModelIndex idx = sourceModel()->index(row, column, parent);
+//    return createIndex(idx.row(), idx.column(), (quint32)idx.internalId());
+    return createIndex(row, column, 0);
+}
+
+QModelIndex
+ComponentsListModelSortProxy::parent(const QModelIndex& index) const
+{
+    QModelIndex idx = sourceModel()->parent(index);
+    if(idx.isValid())
+        return createIndex(idx.row(), idx.column(), 0);
+    return QModelIndex();
+}
+
+Qt::ItemFlags
+ComponentsListModelSortProxy::flags(const QModelIndex& index) const
+{
+    return sourceModel()->flags(index);
+}
+
+QMimeData*
+ComponentsListModelSortProxy::mimeData(const QModelIndexList& indexes) const
+{
+    return sourceModel()->mimeData(indexes);
+}
+
+QStringList
+ComponentsListModelSortProxy::mimeTypes() const
+{
+    return sourceModel()->mimeTypes();
+}
+
+int ComponentsListModelSortProxy::columnCount(const QModelIndex& parent) const
+{
+    return sourceModel()->columnCount(parent);
+}
+
+int ComponentsListModelSortProxy::rowCount(const QModelIndex& parent) const
+{
+    return sourceModel()->rowCount(parent);
+}
+
+bool
+ComponentsListModelSortProxy::hasChildren(const QModelIndex& index) const
+{
+    return sourceModel()->rowCount(index);
+}*/
+
+bool
+ComponentsListModelSortProxy::lessThan(const QModelIndex& left, const QModelIndex& right) const
+{
+    QVariant lData = sourceModel()->data(left);
+    QVariant rData = sourceModel()->data(right);
+    return lData.toString() < rData.toString();
 }
 
 bool
 ComponentsListModelSortProxy::subSortLessThan(const QModelIndex& left, const QModelIndex& right) const
 {
-    return sourceModel()->data(left, Qt::DisplayRole).toString() < sourceModel()->data(right, Qt::DisplayRole).toString();
+    QVariant lData = sourceModel()->data(left);
+    QVariant rData = sourceModel()->data(right);
+    return lData.toString() < rData.toString();
 }
 
 int
 ComponentsListModelSortProxy::compareCategories(const QModelIndex& left, const QModelIndex& right) const
 {
-    return
-        sourceModel()->data(sourceModel()->index(left.row(), 1, left.parent()), Qt::DisplayRole).toString() <
-        sourceModel()->data(sourceModel()->index(right.row(), 1, right.parent()), Qt::DisplayRole).toString();
+    if(left.isValid() && right.isValid() && isCategorizedModel())
+    {
+        return
+            sourceModel()->data(sourceModel()->index(left.row(), 1, left.parent()), Qt::DisplayRole).toString() <
+            sourceModel()->data(sourceModel()->index(right.row(), 1, right.parent()), Qt::DisplayRole).toString();
+    }
+    return KCategorizedSortFilterProxyModel::lessThan( left, right );
 }
 
 #include "componentslistmodelsortproxy.moc"

@@ -23,6 +23,27 @@
 
 #include <QtCore/QMimeData>
 #include <KLocalizedString>
+#include <KCategorizedSortFilterProxyModel>
+
+namespace GluonCreator
+{
+    struct ComponentModelItem
+    {
+        public:
+            explicit ComponentModelItem() {};
+            explicit ComponentModelItem(const ComponentModelItem& other)
+                : name(other.name)
+                , category(other.category)
+                , className(other.className)
+            {};
+            ~ComponentModelItem() {};
+            
+            QString name;
+            QString category;
+            QString className;
+    };
+}
+Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
 
 using namespace GluonCreator;
 
@@ -32,8 +53,7 @@ class ComponentModel::ComponentModelPrivate
         ComponentModelPrivate()
         {};
 
-        QHash<int, QString> names;
-        QHash<int, QString> categories;
+        QList<ComponentModelItem> items;
 };
 
 ComponentModel::ComponentModel(QObject* parent)
@@ -48,8 +68,13 @@ ComponentModel::ComponentModel(QObject* parent)
         if (obj->inherits("GluonEngine::Component"))
         {
             QString name(obj->metaObject()->className());
-            d->names.insert(i, ObjectManager::instance()->humanifyClassName(name));
-            d->categories.insert(i, name.right(name.length() - name.lastIndexOf("::") - 1).replace("::", "/"));
+            
+            ComponentModelItem item;
+            item.name = ObjectManager::instance()->humanifyClassName(name);
+            item.category = name.left(name.lastIndexOf("::")).replace("::", "/");
+            item.className = name;
+            d->items.append(item);
+            
             ++i;
         }
     }
@@ -66,23 +91,39 @@ ComponentModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= d->names.count())
+    if (index.row() >= d->items.count())
         return QVariant();
-
-    if(role == Qt::DisplayRole)
+    
+    const ComponentModelItem &item = d->items[index.row()];
+    
+    switch(role)
     {
-        switch(index.column())
-        {
-            case 1:
-                return d->categories[index.row()];
-                break;
-            case 0:
-            default:
-                return d->names[index.row()];
-                break;
-        }
+        case KCategorizedSortFilterProxyModel::CategoryDisplayRole:
+        case KCategorizedSortFilterProxyModel::CategorySortRole:
+            return item.category;
+            break;
+        case Qt::ToolTipRole:
+            return item.category;
+            break;
+        case Qt::DisplayRole:
+            switch(index.column())
+            {
+                case 2:
+                    return item.className;
+                    break;
+                case 1:
+                    return item.category;
+                    break;
+                case 0:
+                default:
+                    return item.name;
+                    break;
+            }
+            break;
+        default:
+            return QVariant();
+            break;
     }
-    return QVariant();
 }
 
 QVariant
@@ -95,6 +136,9 @@ ComponentModel::headerData(int section, Qt::Orientation orientation, int role) c
     {
         switch(section)
         {
+            case 2:
+                return i18n("Class Name");
+                break;
             case 1:
                 return i18n("Category");
                 break;
@@ -108,15 +152,26 @@ ComponentModel::headerData(int section, Qt::Orientation orientation, int role) c
         return QString("Row %1").arg(section);
 }
 
+QModelIndex
+ComponentModel::index(int row, int column, const QModelIndex& parent) const
+{
+    if(!hasIndex(row, column, parent))
+        return QModelIndex();
+
+    if(parent.isValid())
+        return QModelIndex();
+    
+    return createIndex(row, column, &d->items[row]);
+}
+
 Qt::ItemFlags
 ComponentModel::flags(const QModelIndex &index) const
 {
-    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
-
+    //Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
     if (index.isValid())
-        return Qt::ItemIsDragEnabled | defaultFlags;
+        return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
-        return defaultFlags;
+        return 0;
 }
 
 QStringList
@@ -140,7 +195,7 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
     {
         if (index.isValid())
         {
-            QString text = data(index, Qt::DisplayRole).toString();
+            QString text = data(createIndex(index.row(), 2, 0), Qt::DisplayRole).toString();
             stream << text;
         }
     }
@@ -152,7 +207,7 @@ int ComponentModel::rowCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
-    return d->names.count();
+    return d->items.count();
 }
 
 #include "componentmodel.moc"

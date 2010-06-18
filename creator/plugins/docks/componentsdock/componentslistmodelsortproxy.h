@@ -32,7 +32,20 @@ namespace GluonCreator
             ComponentsListModelSortProxy(QObject *parent = 0);
             virtual ~ComponentsListModelSortProxy();
 
-            virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+//             virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+//             virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+//             
+//             virtual QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
+//             virtual QModelIndex parent( const QModelIndex &index ) const;
+//             virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+//             virtual QStringList mimeTypes() const;
+//             virtual QMimeData* mimeData(const QModelIndexList& indexes) const;
+//             
+//             virtual int columnCount(const QModelIndex &parent) const;
+//             virtual int rowCount(const QModelIndex &parent) const;
+//             virtual bool hasChildren(const QModelIndex &index) const;
+            
+            virtual bool lessThan( const QModelIndex &left, const QModelIndex &right ) const;
         protected:
             virtual bool subSortLessThan(const QModelIndex& left, const QModelIndex& right) const;
             virtual int compareCategories(const QModelIndex& left, const QModelIndex& right) const;
