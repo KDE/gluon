@@ -72,7 +72,7 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 
 //     KCategoryDrawerV2* drawer = new KCategoryDrawerV2(d->view);
 //     d->view->setCategoryDrawer(drawer);
-
+// 
 //     new ModelTest(d->model, this);
 
     setWidget(d->view);

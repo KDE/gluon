@@ -54,6 +54,7 @@ class ComponentModel::ComponentModelPrivate
         {};
 
         QList<ComponentModelItem> items;
+        QList<QString> categories;
 };
 
 ComponentModel::ComponentModel(QObject* parent)
@@ -75,6 +76,9 @@ ComponentModel::ComponentModel(QObject* parent)
             item.className = name;
             d->items.append(item);
             
+            if(!d->categories.contains(item.category))
+                d->categories.append(item.category);
+            
             ++i;
         }
     }
@@ -90,33 +94,33 @@ ComponentModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-
-    if (index.row() >= d->items.count())
-        return QVariant();
     
-    const ComponentModelItem &item = d->items[index.row()];
+    const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
+    
+    if(!item)
+        return QVariant();
     
     switch(role)
     {
         case KCategorizedSortFilterProxyModel::CategoryDisplayRole:
         case KCategorizedSortFilterProxyModel::CategorySortRole:
-            return item.category;
+            return item->category;
             break;
         case Qt::ToolTipRole:
-            return item.category;
+            return item->category;
             break;
         case Qt::DisplayRole:
             switch(index.column())
             {
                 case 2:
-                    return item.className;
+                    return item->className;
                     break;
                 case 1:
-                    return item.category;
+                    return item->category;
                     break;
                 case 0:
                 default:
-                    return item.name;
+                    return item->name;
                     break;
             }
             break;
