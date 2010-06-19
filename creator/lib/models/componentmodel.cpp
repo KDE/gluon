@@ -23,15 +23,14 @@
 
 #include <QtCore/QMimeData>
 #include <KLocalizedString>
-#include <KCategorizedSortFilterProxyModel>
 
 namespace GluonCreator
 {
     struct ComponentModelItem
     {
         public:
-            explicit ComponentModelItem() {};
-            explicit ComponentModelItem(const ComponentModelItem& other)
+            ComponentModelItem() {};
+            ComponentModelItem(const ComponentModelItem& other)
                 : name(other.name)
                 , category(other.category)
                 , className(other.className)
@@ -42,8 +41,25 @@ namespace GluonCreator
             QString category;
             QString className;
     };
+    struct ComponentModelCategory
+    {
+        public:
+            ComponentModelCategory() {};
+            ComponentModelCategory(const QString& name)
+                :name(name)
+            {};
+            ComponentModelCategory(const ComponentModelCategory& other)
+                : name(other.name)
+                , items(other.items)
+            {};
+            ~ComponentModelCategory() {};
+            
+            QString name;
+            QList<ComponentModelItem> items;
+    };
 }
 Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
+Q_DECLARE_METATYPE(GluonCreator::ComponentModelCategory);
 
 using namespace GluonCreator;
 
@@ -53,12 +69,12 @@ class ComponentModel::ComponentModelPrivate
         ComponentModelPrivate()
         {};
 
-        QList<ComponentModelItem> items;
-        QList<QString> categories;
+        QHash<QString, ComponentModelCategory> categories;
+        QHash<int, QString> categoryIndexes;
 };
 
 ComponentModel::ComponentModel(QObject* parent)
-    : QAbstractListModel(parent)
+    : QAbstractItemModel(parent)
     , d(new ComponentModelPrivate)
 {
     QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
@@ -74,10 +90,12 @@ ComponentModel::ComponentModel(QObject* parent)
             item.name = ObjectManager::instance()->humanifyClassName(name);
             item.category = name.left(name.lastIndexOf("::")).replace("::", "/");
             item.className = name;
-            d->items.append(item);
             
             if(!d->categories.contains(item.category))
-                d->categories.append(item.category);
+                d->categories.insert(item.category, ComponentModelCategory(item.category));
+            
+            d->categories[item.category].items.append(item);
+            d->categoryIndexes.insert(i, item.category);
             
             ++i;
         }
@@ -97,36 +115,56 @@ ComponentModel::data(const QModelIndex& index, int role) const
     
     const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
     
-    if(!item)
-        return QVariant();
-    
-    switch(role)
+    if(item)
     {
-        case KCategorizedSortFilterProxyModel::CategoryDisplayRole:
-        case KCategorizedSortFilterProxyModel::CategorySortRole:
-            return item->category;
-            break;
-        case Qt::ToolTipRole:
-            return item->category;
-            break;
-        case Qt::DisplayRole:
-            switch(index.column())
+        switch(role)
+        {
+            case Qt::ToolTipRole:
+                return item->category;
+                break;
+            case Qt::DisplayRole:
+                switch(index.column())
+                {
+                    case 2:
+                        return item->className;
+                        break;
+                    case 1:
+                        return item->category;
+                        break;
+                    case 0:
+                    default:
+                        return item->name;
+                        break;
+                }
+                break;
+            default:
+                return QVariant();
+                break;
+        }
+    }
+    else
+    {
+        const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(index.internalPointer());
+        if(category)
+        {
+            switch(role)
             {
-                case 2:
-                    return item->className;
+                case Qt::DisplayRole:
+                    switch(index.column())
+                    {
+                        case 0:
+                        default:
+                            return item->name;
+                            break;
+                    }
                     break;
-                case 1:
-                    return item->category;
-                    break;
-                case 0:
                 default:
-                    return item->name;
+                    return QVariant();
                     break;
             }
-            break;
-        default:
+        }
+        else
             return QVariant();
-            break;
     }
 }
 
@@ -163,9 +201,36 @@ ComponentModel::index(int row, int column, const QModelIndex& parent) const
         return QModelIndex();
 
     if(parent.isValid())
+        return createIndex(row, column, &d->categories[d->categoryIndexes[row]]);
+
+    const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(parent.internalPointer());
+    if(category)
+    {
+        return createIndex(row, column, &d->categories[category->name].items[row]);
+    }
+
+    return QModelIndex();
+}
+
+QModelIndex
+ComponentModel::parent(const QModelIndex& child) const
+{
+    if(!child.isValid())
         return QModelIndex();
     
-    return createIndex(row, column, &d->items[row]);
+    const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(child.internalPointer());
+    if(category)
+    {
+        return QModelIndex();
+    }
+    
+    const ComponentModelItem* item = static_cast<ComponentModelItem*>(child.internalPointer());
+    if(item)
+    {
+        return createIndex(d->categoryIndexes.key(item->category), 0, &d->categories[item->category]);
+    }
+    
+    return QModelIndex();
 }
 
 Qt::ItemFlags
@@ -199,19 +264,38 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
     {
         if (index.isValid())
         {
-            QString text = data(createIndex(index.row(), 2, 0), Qt::DisplayRole).toString();
-            stream << text;
+            const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
+            if(item)
+            {
+                QString text = item->className;
+                stream << text;
+            }
         }
     }
 
     mimeData->setData("application/gluon.text.componentclass", encodedData);
     return mimeData;
 }
-int ComponentModel::rowCount(const QModelIndex& parent) const
+
+int
+ComponentModel::rowCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
-        return 0;
-    return d->items.count();
+    {
+        const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(parent.internalPointer());
+        if(category)
+            return d->categories[category->name].items.count();
+        else
+            return 0;
+    }
+    return d->categories.count();
+}
+
+int
+ComponentModel::columnCount(const QModelIndex& parent) const
+{
+    Q_UNUSED(parent);
+    return 1;
 }
 
 #include "componentmodel.moc"
