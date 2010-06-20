@@ -18,7 +18,6 @@
  */
 
 #include "componentsdock.h"
-#include "componentslistmodelsortproxy.h"
 #include "models/componentmodel.h"
 #include "modeltest.h"
 
@@ -38,12 +37,10 @@ class ComponentsDock::ComponentsDockPrivate
     public:
         ComponentsDockPrivate()
             : view(0)
-            , sortModel(0)
             , model(0)
         { };
 
         QTreeView *view;
-        ComponentsListModelSortProxy *sortModel;
         ComponentModel *model;
 };
 
