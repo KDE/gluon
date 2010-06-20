@@ -19,6 +19,7 @@
 
 #include "componentmodel.h"
 #include "core/gluonobject.h"
+#include "core/debughelper.h"
 #include "creator/lib/objectmanager.h"
 
 #include <QtCore/QMimeData>
@@ -29,37 +30,33 @@ namespace GluonCreator
     struct ComponentModelItem
     {
         public:
-            ComponentModelItem() {};
+            ComponentModelItem()
+                : parent(0)
+            {};
             ComponentModelItem(const ComponentModelItem& other)
                 : name(other.name)
-                , category(other.category)
                 , className(other.className)
-            {};
-            ~ComponentModelItem() {};
+            {}
+            ~ComponentModelItem()
+            {
+                qDeleteAll(items);
+            }
+            int row()
+            {
+                if(parent)
+                    return parent->items.indexOf(this);
+                return -1;
+            }
             
             QString name;
-            QString category;
             QString className;
-    };
-    struct ComponentModelCategory
-    {
-        public:
-            ComponentModelCategory() {};
-            ComponentModelCategory(const QString& name)
-                :name(name)
-            {};
-            ComponentModelCategory(const ComponentModelCategory& other)
-                : name(other.name)
-                , items(other.items)
-            {};
-            ~ComponentModelCategory() {};
             
-            QString name;
-            QList<ComponentModelItem> items;
+            ComponentModelItem* parent;
+            QList<ComponentModelItem*> items;
+            QHash<QString, int> itemNames;
     };
 }
-Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
-Q_DECLARE_METATYPE(GluonCreator::ComponentModelCategory);
+//Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
 
 using namespace GluonCreator;
 
@@ -67,10 +64,10 @@ class ComponentModel::ComponentModelPrivate
 {
     public:
         ComponentModelPrivate()
-        {};
+            : root(new ComponentModelItem())
+        {}
 
-        QHash<QString, ComponentModelCategory> categories;
-        QHash<int, QString> categoryIndexes;
+        ComponentModelItem* root;
 };
 
 ComponentModel::ComponentModel(QObject* parent)
@@ -78,7 +75,6 @@ ComponentModel::ComponentModel(QObject* parent)
     , d(new ComponentModelPrivate)
 {
     QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
-    QStringList list;
     int i = 0;
     foreach(GluonCore::GluonObject* obj, objectTypes)
     {
@@ -86,18 +82,25 @@ ComponentModel::ComponentModel(QObject* parent)
         {
             QString name(obj->metaObject()->className());
             
-            ComponentModelItem item;
-            item.name = ObjectManager::instance()->humanifyClassName(name);
-            item.category = name.left(name.lastIndexOf("::")).replace("::", "/");
-            item.className = name;
+            ComponentModelItem *item = new ComponentModelItem();
+            item->name = ObjectManager::instance()->humanifyClassName(name);
+            item->className = name;
             
-            if(!d->categories.contains(item.category))
-                d->categories.insert(item.category, ComponentModelCategory(item.category));
+            // Ensure the category exists before attempting to insert anything into it... ;)
+            QString category = name.left(name.lastIndexOf("::")).replace("::", "/");
+            if(!d->root->itemNames.contains(category))
+            {
+                ComponentModelItem* categoryItem = new ComponentModelItem();
+                categoryItem->name = category;
+                categoryItem->parent = d->root;
+                d->root->items.append(categoryItem);
+                d->root->itemNames.insert(category, i);
+                ++i;
+            }
             
-            d->categories[item.category].items.append(item);
-            d->categoryIndexes.insert(i, item.category);
-            
-            ++i;
+            item->parent = d->root->items[ d->root->itemNames[category] ];
+            d->root->items[ d->root->itemNames[category] ]->itemNames.insert(item->name, d->root->items[ d->root->itemNames[category] ]->items.count());
+            d->root->items[ d->root->itemNames[category] ]->items.append(item);
         }
     }
 }
@@ -115,57 +118,37 @@ ComponentModel::data(const QModelIndex& index, int role) const
     
     const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
     
-    if(item)
+    switch(role)
     {
-        switch(role)
-        {
-            case Qt::ToolTipRole:
-                return item->category;
-                break;
-            case Qt::DisplayRole:
-                switch(index.column())
-                {
-                    case 2:
-                        return item->className;
-                        break;
-                    case 1:
-                        return item->category;
-                        break;
-                    case 0:
-                    default:
-                        return item->name;
-                        break;
-                }
-                break;
-            default:
+        case Qt::ToolTipRole:
+            if(item->parent)
+                return item->parent->name;
+            else
                 return QVariant();
-                break;
-        }
-    }
-    else
-    {
-        const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(index.internalPointer());
-        if(category)
-        {
-            switch(role)
+            break;
+        case Qt::DisplayRole:
+            switch(index.column())
             {
-                case Qt::DisplayRole:
-                    switch(index.column())
-                    {
-                        case 0:
-                        default:
-                            return item->name;
-                            break;
-                    }
+                case 2:
+                    return item->className;
                     break;
+                case 1:
+                    if(item->parent)
+                        return item->parent->name;
+                    else
+                        return QString();
+                    break;
+                case 0:
                 default:
-                    return QVariant();
+                    return item->name;
                     break;
             }
-        }
-        else
+            break;
+        default:
             return QVariant();
+            break;
     }
+    return QVariant();
 }
 
 QVariant
@@ -197,50 +180,46 @@ ComponentModel::headerData(int section, Qt::Orientation orientation, int role) c
 QModelIndex
 ComponentModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if(!hasIndex(row, column, parent))
+    if (!hasIndex(row, column, parent))
         return QModelIndex();
-
-    if(parent.isValid())
-        return createIndex(row, column, &d->categories[d->categoryIndexes[row]]);
-
-    const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(parent.internalPointer());
-    if(category)
-    {
-        return createIndex(row, column, &d->categories[category->name].items[row]);
-    }
-
-    return QModelIndex();
+    
+    ComponentModelItem *parentItem;
+    
+    if (!parent.isValid())
+        parentItem = d->root;
+    else
+        parentItem = static_cast<ComponentModelItem*>(parent.internalPointer());
+    
+    ComponentModelItem *childItem = parentItem->items[row];
+    if (childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
 }
 
 QModelIndex
 ComponentModel::parent(const QModelIndex& child) const
 {
-    if(!child.isValid())
+    if (!child.isValid())
         return QModelIndex();
     
-    const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(child.internalPointer());
-    if(category)
-    {
+    ComponentModelItem *childItem = static_cast<ComponentModelItem*>(child.internalPointer());
+    ComponentModelItem *parentItem = childItem->parent;
+
+    if (parentItem == d->root)
         return QModelIndex();
-    }
     
-    const ComponentModelItem* item = static_cast<ComponentModelItem*>(child.internalPointer());
-    if(item)
-    {
-        return createIndex(d->categoryIndexes.key(item->category), 0, &d->categories[item->category]);
-    }
-    
-    return QModelIndex();
+    return createIndex(parentItem->row(), 0, parentItem);
 }
 
 Qt::ItemFlags
 ComponentModel::flags(const QModelIndex &index) const
 {
-    //Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
     if (index.isValid())
-        return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
     else
-        return 0;
+        return defaultFlags;
 }
 
 QStringList
@@ -280,15 +259,16 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
 int
 ComponentModel::rowCount(const QModelIndex& parent) const
 {
-    if(parent.isValid())
-    {
-        const ComponentModelCategory* category = static_cast<ComponentModelCategory*>(parent.internalPointer());
-        if(category)
-            return d->categories[category->name].items.count();
-        else
-            return 0;
-    }
-    return d->categories.count();
+    if (parent.column() > 0)
+        return 0;
+    
+    ComponentModelItem* parentItem;
+    if (!parent.isValid())
+        parentItem = d->root;
+    else
+        parentItem = static_cast<ComponentModelItem*>(parent.internalPointer());
+    
+    return parentItem->items.count();
 }
 
 int

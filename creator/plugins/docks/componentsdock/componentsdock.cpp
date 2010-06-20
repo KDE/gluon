@@ -71,12 +71,12 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 //     d->sortModel = new ComponentsListModelSortProxy(this);
 //     d->sortModel->setSourceModel(d->model);
 //     d->sortModel->setCategorizedModel(true);
-    d->view->setModel(d->sortModel);
+    d->view->setModel(d->model);
 
 //     KCategoryDrawerV2* drawer = new KCategoryDrawerV2(d->view);
 //     d->view->setCategoryDrawer(drawer);
 // 
-//     new ModelTest(d->model, this);
+    new ModelTest(d->model, this);
 
     setWidget(d->view);
 }
