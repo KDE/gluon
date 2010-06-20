@@ -217,7 +217,12 @@ ComponentModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
     if (index.isValid())
+    {
+        ComponentModelItem *item = static_cast<ComponentModelItem*>(index.internalPointer());
+        if(item->className.isEmpty())
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
         return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
+    }
     else
         return defaultFlags;
 }

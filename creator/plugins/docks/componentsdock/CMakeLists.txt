@@ -1,7 +1,6 @@
 set(componentsdock_SRCS
 componentsdock.cpp
 componentsdockplugin.cpp
-componentslistmodelsortproxy.cpp
 modeltest.cpp
 )
 

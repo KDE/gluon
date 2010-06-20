@@ -24,8 +24,6 @@
 
 #include <QtGui/QTreeView>
 
-// #include <KCategorizedView>
-// #include <KCategoryDrawer>
 #include <KDebug>
 
 #include <core/gluonobjectfactory.h>
@@ -57,25 +55,19 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 
     d = new ComponentsDockPrivate();
 
-//     d->view = new KCategorizedView(this);
-//    d->view = new QListView(this);
     d->view = new QTreeView(this);
     d->view->setSelectionMode(QAbstractItemView::SingleSelection);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(false);
     d->view->setDropIndicatorShown(false);
     d->view->setHeaderHidden(true);
-    //d->view->setIndentation(0);
+    d->view->setIndentation(0);
+    d->view->setRootIsDecorated(false);
 
     d->model = new ComponentModel(this);
-//     d->sortModel = new ComponentsListModelSortProxy(this);
-//     d->sortModel->setSourceModel(d->model);
-//     d->sortModel->setCategorizedModel(true);
     d->view->setModel(d->model);
+    d->view->expandAll();
 
-//     KCategoryDrawerV2* drawer = new KCategoryDrawerV2(d->view);
-//     d->view->setCategoryDrawer(drawer);
-// 
     new ModelTest(d->model, this);
 
     setWidget(d->view);
