@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -60,6 +61,13 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
     d->view->setHeaderHidden(true);
     d->view->setIndentation(0);
     d->view->setRootIsDecorated(false);
+    QString style("QTreeView::item:has-children {"
+                    "color: palette(button-text);"
+                    "background-color: palette(button);"
+                    "border: 1px solid palette(dark);"
+                    "border-radius: 2px;"
+                    "}");
+    d->view->setStyleSheet(style);
 
     d->model = new ComponentModel(this);
     d->view->setModel(d->model);
