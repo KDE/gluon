@@ -26,7 +26,7 @@
 #include <QColor>
 
 Graph::Graph(GraphDocument *parent) : QObject(parent) {
-    _directed = false;
+    _directed = true;
     _automate = false;
     _readOnly = false;
     _document = parent;

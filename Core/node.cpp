@@ -42,6 +42,7 @@ Node::Node(Graph *parent) : QObject(parent) {
     _value = 0;
     _image = QPixmap(100,100);
     _image.fill();
+    _maxEdges = 1;
     _icon = "rocs_default";
     _iconpackage = KGlobal::dirs()->locate("appdata", "iconpacks/default.svg");
     kDebug() << "Node successfully created" << _iconpackage;
@@ -253,6 +254,17 @@ void Node::setColor(const QString& s) {
 
 const QString& Node::color() const {
     return _color;
+}
+
+void Node::setMaxEdges(const int& m){
+  _maxEdges=m;
+  if(! _changing) {
+    emit changed();
+  }
+}
+
+const int& Node::maxEdges() const {
+  return _maxEdges;
 }
 
 void Node::setImage(const QPixmap& p){
