@@ -25,6 +25,7 @@
 
 #include <QtCore/QMimeData>
 #include <KLocalizedString>
+#include <engine/component.h>
 
 namespace GluonCreator
 {
@@ -79,16 +80,17 @@ ComponentModel::ComponentModel(QObject* parent)
     int i = 0;
     foreach(GluonCore::GluonObject* obj, objectTypes)
     {
-        if (obj->inherits("GluonEngine::Component"))
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(obj);
+        if(comp)
         {
             QString name(obj->metaObject()->className());
-            
+        
             ComponentModelItem *item = new ComponentModelItem();
             item->name = ObjectManager::instance()->humanifyClassName(name);
             item->className = name;
             
             // Ensure the category exists before attempting to insert anything into it... ;)
-            QString category = name.left(name.lastIndexOf("::")).replace("::", "/");
+            QString category = comp->category();
             if(!d->root->itemNames.contains(category))
             {
                 ComponentModelItem* categoryItem = new ComponentModelItem();

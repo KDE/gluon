@@ -69,6 +69,12 @@ CameraControllerComponent::~CameraControllerComponent()
     delete d;
 }
 
+QString
+CameraControllerComponent::category() const
+{
+    return QString("Graphics");
+}
+
 void CameraControllerComponent::initialize()
 {
     if (!d->camera)

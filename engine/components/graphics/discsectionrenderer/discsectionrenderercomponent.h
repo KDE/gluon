@@ -43,6 +43,7 @@ namespace GluonEngine
             DiscSectionRendererComponent(QObject* parent = 0);
             DiscSectionRendererComponent(const DiscSectionRendererComponent& other);
             virtual ~DiscSectionRendererComponent();
+            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();

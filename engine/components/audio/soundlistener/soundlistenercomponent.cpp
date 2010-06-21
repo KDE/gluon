@@ -39,6 +39,12 @@ SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &oth
 {
 }
 
+QString
+SoundListenerComponent::category() const
+{
+    return QString("Audio");
+}
+
 void
 SoundListenerComponent::start()
 {

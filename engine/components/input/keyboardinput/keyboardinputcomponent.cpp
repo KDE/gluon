@@ -43,6 +43,12 @@ KeyboardInputComponent::KeyboardInputComponent(QObject* parent)
     m_keyboard = 0;
 }
 
+QString
+KeyboardInputComponent::category() const
+{
+    return QString("Input");
+}
+
 void KeyboardInputComponent::initialize()
 {
     if(!m_keyboard)

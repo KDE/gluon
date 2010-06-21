@@ -41,6 +41,7 @@ namespace GluonEngine
             DiscRendererComponent(QObject* parent = 0);
             DiscRendererComponent(const DiscRendererComponent& other);
             virtual ~DiscRendererComponent();
+            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();

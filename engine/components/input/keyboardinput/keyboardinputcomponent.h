@@ -415,6 +415,7 @@ namespace GluonEngine
             };
 
             KeyboardInputComponent(QObject * parent = 0);
+            virtual QString category() const;
 
             //  True on any frame between getActionStarted and
             //  getActionStopped, inclusive of those two frames
