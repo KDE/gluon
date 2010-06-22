@@ -44,7 +44,8 @@ class  ROCSLIB_EXPORT Node : public QObject {
     Q_PROPERTY(bool end READ end WRITE setEnd)
     Q_PROPERTY(QVariant value READ value WRITE setValue)
     Q_PROPERTY(QPixmap image READ image WRITE setImage)
-    Q_PROPERTY(int maxEdges READ maxEdges WRITE setMaxEdges)
+    Q_PROPERTY(int maxInEdges READ maxInEdges WRITE setMaxInEdges)
+    Q_PROPERTY(int maxOutEdges READ maxOutEdges WRITE setMaxOutEdges)
     Q_PROPERTY(QString iconPackage READ iconPackage WRITE setIconPackage)
     Q_PROPERTY(QString icon READ icon WRITE setIcon)
     
@@ -94,8 +95,10 @@ public  slots:
     const QVariant value() const;
     const QPixmap& image() const;
     void setImage(const QPixmap& p);
-    void setMaxEdges(const int& m);
-    const int& maxEdges() const;
+    void setMaxInEdges(const int& m);
+    const int& maxInEdges() const;
+    void setMaxOutEdges(const int& m);
+    const int& maxOutEdges() const;
     void setIcon(const QString& s);
     const QString& icon() const;
     const QString& iconPackage() const;
@@ -143,7 +146,8 @@ private:
     
     QVariant _value;
     QPixmap _image;
-    int _maxEdges;
+    int _maxInEdges;
+    int _maxOutEdges;
 
 signals:
     void removed();
