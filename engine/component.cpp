@@ -46,6 +46,12 @@ Component::~Component()
 {
 }
 
+QString
+Component::category() const
+{
+    return QString("Uncategorised");
+}
+
 QVariant
 Component::toVariant(GluonCore::GluonObject* wrapThis)
 {

@@ -49,6 +49,7 @@ namespace GluonCore
              */
             QVariant wrapObject(const QVariant &original, GluonObject* newValue);
             QVariant wrapObject(const QString &type, GluonObject* newValue);
+            GluonObject* wrappedObject(const QVariant &wrappedObject);
 
             void loadPlugins();
 
@@ -83,6 +84,11 @@ class GLUON_CORE_EXPORT GluonObjectRegistration
     NAMESPACE::NEWOBJECTTYPE::instantiate()\
     {\
         return new NAMESPACE :: NEWOBJECTTYPE();\
+    }\
+    GluonCore::GluonObject * \
+    NAMESPACE::NEWOBJECTTYPE::fromVariant(const QVariant &wrappedObject) \
+    {\
+        return wrappedObject.value< NAMESPACE :: NEWOBJECTTYPE* >();\
     }\
     QVariant \
     NAMESPACE::NEWOBJECTTYPE::toVariant(GluonCore::GluonObject *wrapThis)\

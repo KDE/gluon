@@ -51,6 +51,7 @@ namespace GluonEngine
              * Destructor.
              */
             ~SphereCollisionComponent();
+            virtual QString category() const;
         
             /**
              * Update method.

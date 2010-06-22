@@ -51,6 +51,12 @@ SphereCollisionComponent::~SphereCollisionComponent()
     delete d;
 }
 
+QString
+SphereCollisionComponent::category() const
+{
+    return QString("Physics");
+}
+
 void SphereCollisionComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)

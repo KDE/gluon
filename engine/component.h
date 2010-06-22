@@ -67,7 +67,13 @@ namespace GluonEngine
             Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
-
+            
+            /**
+            * Return the category of the component. Meta-data used for filtering
+            * and sorting components
+            */
+            virtual QString category() const;
+            
             /**
             * If you wish to be able to use your objects as properties, make sure
             * to implement this function to return a QVariant which is of the type

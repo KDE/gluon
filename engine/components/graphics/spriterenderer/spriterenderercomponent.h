@@ -40,6 +40,7 @@ namespace GluonEngine
             SpriteRendererComponent(QObject* parent = 0);
             SpriteRendererComponent(const SpriteRendererComponent& other);
             virtual ~SpriteRendererComponent();
+            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();

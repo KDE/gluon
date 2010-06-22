@@ -26,10 +26,10 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
+#include "scene.h"
 
 namespace GluonEngine
 {
-    class Scene;
     class GameProjectPrivate;
 
     /**
@@ -53,14 +53,12 @@ namespace GluonEngine
 
             Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
 
-            //Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
+            Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:
             GameProject(QObject * parent = 0);
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
-
-            GluonObject * findItemByName(QString qualifiedName);
 
             bool saveToFile() const;
             bool loadFromFile();
@@ -81,8 +79,8 @@ namespace GluonEngine
             QUrl filename() const;
             void setFilename(QUrl newFilename);
 
-            Scene *entryPoint() const;
-            void setEntryPoint(Scene *newEntryPoint);
+            Scene* entryPoint() const;
+            void setEntryPoint(Scene* newEntryPoint);
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

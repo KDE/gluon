@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,38 +17,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_PROJECTDOCK_H
-#define GLUON_CREATOR_PROJECTDOCK_H
+#ifndef GLUONCREATOR_QURLPROPERTYWIDGETITEM_H
+#define GLUONCREATOR_QURLPROPERTYWIDGETITEM_H
 
-#include <QtCore/QModelIndex>
-#include <QtGui/QDockWidget>
-#include <QtGui/QItemSelection>
+#include "widgets/propertywidgetitem.h"
 
 namespace GluonCreator
 {
-
-    class ProjectDock : public QDockWidget
+    class QUrlPropertyWidgetItem : public PropertyWidgetItem
     {
             Q_OBJECT
         public:
-            explicit ProjectDock(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-            ~ProjectDock();
+            explicit QUrlPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            ~QUrlPropertyWidgetItem();
+
+            virtual GluonCreator::PropertyWidgetItem* instantiate();
+            virtual QList< QString > supportedDataTypes() const;
 
         public slots:
-            void activated(QModelIndex index);
-            void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
-            void showContextMenuRequested(const QPoint& pos);
-
-            void contextMenuHiding();
-            void newSubMenuTriggered();
-            void newAssetTriggered();
-            void deleteActionTriggered();
-
-        private:
-            class ProjectDockPrivate;
-            ProjectDockPrivate * const d;
+            virtual void setEditValue(const QVariant& value);
+            void urlValueChanged();
     };
-
 }
 
-#endif // GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#endif // GLUONCREATOR_QURLPROPERTYWIDGETITEM_H

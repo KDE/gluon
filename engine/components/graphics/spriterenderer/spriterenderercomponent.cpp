@@ -73,6 +73,12 @@ SpriteRendererComponent::~SpriteRendererComponent()
     delete d;
 }
 
+QString
+SpriteRendererComponent::category() const
+{
+    return QString("Graphics Rendering");
+}
+
 void 
 SpriteRendererComponent::initialize()
 {

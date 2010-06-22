@@ -70,6 +70,12 @@ DiscRendererComponent::~DiscRendererComponent()
     delete d;
 }
 
+QString
+DiscRendererComponent::category() const
+{
+    return QString("Graphics Rendering");
+}
+
 void DiscRendererComponent::initialize()
 {
     if(!d->item)

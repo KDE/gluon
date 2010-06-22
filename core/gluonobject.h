@@ -34,7 +34,8 @@ Q_DECLARE_METATYPE(QList<QUrl>)
 
 #define GLUON_OBJECT(CLASSNAME)\
     public:\
-    virtual GluonCore::GluonObject *instantiate();\
+    virtual GluonCore::GluonObject* instantiate();\
+    virtual GluonCore::GluonObject* fromVariant(const QVariant &wrappedObject);\
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
     private:
 
@@ -122,6 +123,8 @@ namespace GluonCore
             /**
             * QObject hierarchy helper functions.
             */
+            Q_INVOKABLE GluonObject* findItemByName(QString qualifiedName);
+            Q_INVOKABLE virtual GluonObject* root();
             virtual void addChild(GluonObject *child);
             virtual bool removeChild(GluonObject *child);
             virtual GluonObject * child(int index) const;

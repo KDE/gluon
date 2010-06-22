@@ -40,6 +40,8 @@ using namespace GluonCreator;
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
+#include <engine/asset.h>
+#include <engine/scene.h>
 
 class PropertyWidget::PropertyWidgetPrivate
 {
@@ -83,7 +85,15 @@ void PropertyWidget::setObject(GluonCore::GluonObject * object)
         appendObject(object, true);
         for (int i = 0; i < object->children().count(); i++)
         {
-            appendObject(object->child(i));
+            GluonCore::GluonObject* theChild = object->child(i);
+            if(theChild)
+            {
+                if(qobject_cast<GluonEngine::Asset*>(theChild))
+                    continue;
+                if(qobject_cast<GluonEngine::Scene*>(theChild))
+                    continue;
+                appendObject(theChild);
+            }
         }
         d->layout->addStretch();
 

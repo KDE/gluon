@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,9 +20,10 @@
 
 #include "componentsdock.h"
 #include "models/componentmodel.h"
+#include "modeltest.h"
 
-#include <QtGui/QListWidget>
-#include <QtGui/QStringListModel>
+#include <QtGui/QTreeView>
+
 #include <KDebug>
 
 #include <core/gluonobjectfactory.h>
@@ -35,11 +37,11 @@ class ComponentsDock::ComponentsDockPrivate
 {
     public:
         ComponentsDockPrivate()
-        {
-            view = 0;
-        };
+            : view(0)
+            , model(0)
+        { };
 
-        QListView *view;
+        QTreeView *view;
         ComponentModel *model;
 };
 
@@ -51,24 +53,27 @@ ComponentsDock::ComponentsDock(const QString& title, QWidget* parent, Qt::Window
 
     d = new ComponentsDockPrivate();
 
-    d->view = new QListView(this);
+    d->view = new QTreeView(this);
     d->view->setSelectionMode(QAbstractItemView::SingleSelection);
     d->view->setDragEnabled(true);
     d->view->setAcceptDrops(false);
     d->view->setDropIndicatorShown(false);
+    d->view->setHeaderHidden(true);
+    d->view->setIndentation(0);
+    d->view->setRootIsDecorated(false);
+    QString style("QTreeView::item:has-children {"
+                    "color: palette(button-text);"
+                    "background-color: palette(button);"
+                    "border: 1px solid palette(dark);"
+                    "border-radius: 2px;"
+                    "}");
+    d->view->setStyleSheet(style);
 
-    QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
-    QStringList list;
-    foreach(GluonCore::GluonObject* obj, objectTypes)
-    {
-        if (obj->inherits("GluonEngine::Component"))
-        {
-            list << obj->metaObject()->className();
-        }
-    }
     d->model = new ComponentModel(this);
-    d->model->setStringList(list);
     d->view->setModel(d->model);
+    d->view->expandAll();
+
+    new ModelTest(d->model, this);
 
     setWidget(d->view);
 }

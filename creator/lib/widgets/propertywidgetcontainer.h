@@ -58,6 +58,11 @@ namespace GluonCreator
         Q_SIGNALS:
             void propertyChanged(QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue);
             
+        public Q_SLOTS:
+            void upTriggered();
+            void downTriggered();
+            void delTriggered();
+            
         private:
             class PropertyWidgetContainerPrivate;
             PropertyWidgetContainerPrivate* d;

@@ -72,10 +72,13 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
-    if (d->image->load(file().toLocalFile()))
+    if (!file().isEmpty())
     {
-        mimeData()->setImageData(*d->image);
-        setLoaded(true);
+        if (d->image->load(file().toLocalFile()))
+        {
+            mimeData()->setImageData(*d->image);
+            setLoaded(true);
+        }
     }
     else
     {

@@ -141,13 +141,11 @@ GluonObject::sanitize()
     const QObjectList &children = this->children();
     foreach(QObject * child, children)
     {
+        // The way assets handle their data will often cause the existence of children
+        // which are not GluonObjects, and we should of course be handling that
         if (qobject_cast<GluonObject*>(child))
         {
             qobject_cast<GluonObject*>(child)->sanitize();
-        }
-        else
-        {
-            DEBUG_TEXT(QString("Child found which is not a GluonObject!"));
         }
     }
 
@@ -167,75 +165,61 @@ GluonObject::sanitize()
         }
     }
 
-    if (!gameProject())
-    {
-        DEBUG_TEXT(QString("GameProject is null, we must thus fail at sanitizing"))
-    }
-
     // Run through all properties, check whether they are set to the correct
     // value. If they should be pointing to something, make them!
     // (e.g. GameObject(Projectname.Something))
-    // This step is only possible if a gameProject is available. Otherwise
-    // you will be unable to find the other objects!
-    if (gameProject())
+    QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
+
+    const QMetaObject *metaobject = this->metaObject();
+    if (metaobject == NULL)
+        return;
+    int count = metaobject->propertyCount();
+    for (int i = 0; i < count; ++i)
     {
-        QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
+        QMetaProperty metaproperty = metaobject->property(i);
 
-        const QMetaObject *metaobject = this->metaObject();
-        if (metaobject == NULL)
-            return;
-        int count = metaobject->propertyCount();
-        for (int i = 0; i < count; ++i)
-        {
-            QMetaProperty metaproperty = metaobject->property(i);
+        // This is really only relevant if the property value is a string.
+        // If it is not, what happens below is irrelevant
+        if (metaproperty.type() != QVariant::String)
+            continue;
 
-            // This is really only relevant if the property value is a string.
-            // If it is not, what happens below is irrelevant
-            if (metaproperty.type() != QVariant::String)
-                continue;
+        const QString theName(metaproperty.name());
+        if (theName == "objectName" || theName == "name")
+            continue;
 
-            const QString theName(metaproperty.name());
-            if (theName == "objectName" || theName == "name")
-                continue;
+        QString theValue(metaproperty.read(this).toString());
 
-            QString theValue(metaproperty.read(this).toString());
+        // If we haven't got a reference, don't bother to look
+        if (!theValue.endsWith(')'))
+            continue;
 
-            // If we haven't got a reference, don't bother to look
-            if (!theValue.endsWith(')'))
-                continue;
+        //DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
 
-            //DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
-
-            sanitizeReference(theName, theValue);
-        }
-
-        // Then get all the dynamic ones (in case any such exist)
-        QList<QByteArray> propertyNames = dynamicPropertyNames();
-        foreach(const QByteArray &propName, propertyNames)
-        {
-            const QString theName(propName);
-            if (theName == "objectName" || theName == "name")
-                continue;
-
-            // This is really only relevant if the property value is a string.
-            // If it is not, what happens below is irrelevant
-            if (property(propName).type() != QVariant::String)
-                continue;
-
-            QString theValue(property(propName).toString());
-
-            // If we haven't got a reference, don't bother to look
-            if (!theValue.endsWith(')'))
-                continue;
-
-            //DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
-
-            sanitizeReference(theName, theValue);
-        }
+        sanitizeReference(theName, theValue);
     }
-    else
+
+    // Then get all the dynamic ones (in case any such exist)
+    QList<QByteArray> propertyNames = dynamicPropertyNames();
+    foreach(const QByteArray &propName, propertyNames)
     {
-        DEBUG_TEXT(QString("Missing a GameProject so reference properties cannot be sanitized"));
+        const QString theName(propName);
+        if (theName == "objectName" || theName == "name")
+            continue;
+
+        // This is really only relevant if the property value is a string.
+        // If it is not, what happens below is irrelevant
+        if (property(propName).type() != QVariant::String)
+            continue;
+
+        QString theValue(property(propName).toString());
+
+        // If we haven't got a reference, don't bother to look
+        if (!theValue.endsWith(')'))
+            continue;
+
+        //DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
+
+        sanitizeReference(theName, theValue);
     }
 }
 
@@ -336,6 +320,25 @@ GluonObject::fullyQualifiedFileName() const
         qualifiedName.append('.' + ext);
 
     return qualifiedName;
+}
+
+GluonCore::GluonObject *
+GluonObject::findItemByName(QString qualifiedName)
+{
+    /*DEBUG_BLOCK
+    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));*/
+    QStringList names = qualifiedName.split('/');
+    if (names.at(0) == name())
+        names.removeFirst();
+    return findItemByNameInObject(names, this);
+}
+
+GluonObject*
+GluonObject::root()
+{
+    if(qobject_cast<GluonObject*>(parent()))
+        return qobject_cast<GluonObject*>(parent())->root();
+    return this;
 }
 
 void GluonObject::addChild(GluonObject* child)
@@ -563,7 +566,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
     if (!setProperty(propertyName.toUtf8(), value))
     {
-        DEBUG_TEXT(QString("Failed to set or set dynamic property %1 to %2").arg(propertyName, propertyValue));
+        DEBUG_TEXT(QString("Failed to set dynamic property %1 to %2").arg(propertyName, propertyValue));
     }
     else
     {
@@ -638,20 +641,12 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
             }
             break;
         default:
-            if (theValue.canConvert<GluonCore::GluonObject*>())
-            {
-                GluonObject* theObject = theValue.value<GluonObject*>();
-                if (theObject)
-                    value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
-                else
-                {
-                    value = QString("Gluon::GluonObject()");
-                    DEBUG_TEXT(QString("Invalid object reference!"));
-                }
-            }
+            GluonObject* theObject = GluonObjectFactory::instance()->wrappedObject(theValue);
+            if (theObject)
+                value = QString("%1(%2)").arg(theObject->metaObject()->className()).arg(theObject->fullyQualifiedName());
             else
             {
-                DEBUG_TEXT(QString("Property %1 is of an unrecognised type").arg(propertyName));
+                DEBUG_TEXT(QString("Property %1 is of an unrecognised type %2").arg(propertyName).arg(theValue.typeName()));
                 value = theValue.toString();
             }
             break;
@@ -683,10 +678,13 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
     //DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
     foreach(QObject * child, object->children())
     {
-        if (qobject_cast<GluonObject*>(child)->name() == lookingFor)
+        if (qobject_cast<GluonObject*>(child))
         {
-            foundChild = qobject_cast<GluonObject*>(child);
-            break;
+            if (qobject_cast<GluonObject*>(child)->name() == lookingFor)
+            {
+                foundChild = qobject_cast<GluonObject*>(child);
+                break;
+            }
         }
     }
 
@@ -735,11 +733,7 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             QString theReferencedName = propValue.mid(name.length() + 1, propValue.length() - (name.length() + 2));
             QVariant theReferencedObject;
 
-            QStringList nameParts = theReferencedName.split('/');
-            if (nameParts.at(0) == gameProject()->name())
-                nameParts.removeFirst();
-
-            GluonObject * theObject = GluonObject::findItemByNameInObject(nameParts, gameProject());
+            GluonObject * theObject = root()->findItemByName(theReferencedName);
 
             QMetaProperty property = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
             theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);

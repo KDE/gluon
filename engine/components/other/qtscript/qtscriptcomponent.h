@@ -43,6 +43,7 @@ namespace GluonEngine
             QtScriptComponent(QObject* parent = 0);
             QtScriptComponent(const QtScriptComponent& other);
             virtual ~QtScriptComponent();
+            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();

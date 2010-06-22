@@ -94,7 +94,7 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
     if (m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
         return m_objectTypes[fullObjectTypeName]->instantiate();
 
-    DEBUG_TEXT(QString("Object type name not found in factory!"));
+    DEBUG_TEXT(QString("Object type named %1 not found in factory!").arg(objectTypeName));
 
     return 0;
 }
@@ -138,6 +138,22 @@ GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
     DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
 
     return QVariant();
+}
+
+GluonObject*
+GluonObjectFactory::wrappedObject(const QVariant& wrappedObject)
+{
+    QString type(wrappedObject.typeName());
+    QString typeName = type;
+    if (type.endsWith('*'))
+        typeName = type.left(type.length() - 1);
+    
+    if (m_objectTypes.contains(typeName))
+    {
+        return m_objectTypes[typeName]->fromVariant(wrappedObject);
+    }
+
+    return 0;
 }
 
 void

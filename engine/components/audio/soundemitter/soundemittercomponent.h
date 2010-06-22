@@ -46,6 +46,7 @@ namespace GluonEngine
             SoundEmitterComponent(QObject *parent = 0);
             SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other);
             ~SoundEmitterComponent();
+            virtual QString category() const;
 
             Asset *sound();
             

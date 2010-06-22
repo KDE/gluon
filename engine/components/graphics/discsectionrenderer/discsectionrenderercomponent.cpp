@@ -76,6 +76,12 @@ DiscSectionRendererComponent::~DiscSectionRendererComponent()
     delete d;
 }
 
+QString
+DiscSectionRendererComponent::category() const
+{
+    return QString("Graphics Rendering");
+}
+
 void DiscSectionRendererComponent::initialize()
 {
     if(!d->item)

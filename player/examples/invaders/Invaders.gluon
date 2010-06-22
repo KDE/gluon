@@ -1,6 +1,7 @@
 { GluonEngine::GameProject(Invaders)
-    filename url(/home/kim/gluon/player/examples/invaders/Invaders.gluon)
     description string(Invaders Game)
+    filename url(/home/leinir/Documents/Uni/msc/gluon/player/examples/invaders/Invaders.gluon)
+    entryPoint GluonEngine::Scene(Invaders/Game)
     { GluonEngine::Scene(Menu)
         file url(Scenes/invaders_menu.gdl)
     }

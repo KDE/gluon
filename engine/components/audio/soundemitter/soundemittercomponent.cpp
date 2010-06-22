@@ -79,6 +79,12 @@ SoundEmitterComponent::~SoundEmitterComponent()
     delete d;
 }
 
+QString
+SoundEmitterComponent::category() const
+{
+    return QString("Audio");
+}
+
 void
 SoundEmitterComponent::play()
 {

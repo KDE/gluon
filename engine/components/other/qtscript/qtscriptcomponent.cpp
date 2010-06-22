@@ -73,6 +73,12 @@ QtScriptComponent::~QtScriptComponent()
     delete d;
 }
 
+QString
+QtScriptComponent::category() const
+{
+    return QString("Other");
+}
+
 void QtScriptComponent::initialize()
 {
     if (!d->script) return;

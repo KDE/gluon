@@ -3,6 +3,7 @@ set(propertiesdock_SRCS
     propertiesdockplugin.cpp
     propertychangedcommand.cpp
 
+    propertywidgetitems/qurlpropertywidgetitem.cpp
     propertywidgetitems/boolpropertywidgetitem.cpp
     propertywidgetitems/textpropertywidgetitem.cpp
     propertywidgetitems/intpropertywidgetitem.cpp

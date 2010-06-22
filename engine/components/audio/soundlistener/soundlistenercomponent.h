@@ -40,6 +40,7 @@ namespace GluonEngine
         public:
             SoundListenerComponent(QObject *parent = 0);
             SoundListenerComponent(const SoundListenerComponent &other);
+            virtual QString category() const;
 
             virtual void start();
             virtual void draw(int timeLapse = 0);

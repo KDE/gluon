@@ -40,6 +40,7 @@ namespace GluonEngine
             CameraControllerComponent(QObject* parent = 0);
             CameraControllerComponent(const CameraControllerComponent& other);
             virtual ~CameraControllerComponent();
+            virtual QString category() const;
             
             virtual void initialize();
             virtual void start();

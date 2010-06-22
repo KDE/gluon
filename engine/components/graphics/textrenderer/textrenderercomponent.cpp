@@ -55,6 +55,12 @@ TextRendererComponent::~TextRendererComponent()
 }
 
 QString
+TextRendererComponent::category() const
+{
+    return QString("Graphics Rendering");
+}
+
+QString
 TextRendererComponent::text() const
 {
     return d->text;

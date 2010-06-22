@@ -55,7 +55,7 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::
     layout->setSpacing(0);
     base->setLayout(layout);
 
-    QHBoxLayout* vectorLayout = new QHBoxLayout(this);
+    QHBoxLayout* vectorLayout = new QHBoxLayout();
     layout->addLayout(vectorLayout);
 
     d->x = new QDoubleSpinBox(this);

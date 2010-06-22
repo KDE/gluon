@@ -39,6 +39,7 @@ namespace GluonEngine
         public:
             TextRendererComponent(QObject* parent = 0);
             ~TextRendererComponent();
+            virtual QString category() const;
             
             virtual QString text() const;
             virtual QFont font() const;

@@ -27,6 +27,7 @@
 #include "engine/asset.h"
 #include "models/projectmodel.h"
 #include "engine/gameproject.h"
+#include "creator/lib/selectionmanager.h"
 
 #include <QtGui/QTreeView>
 #include <QtGui/QMenu>
@@ -137,6 +138,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     setObjectName("ProjectDock");
 
     d->model = new ProjectModel(this);
+    
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
     d->view->setHeaderHidden(true);
@@ -144,6 +146,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->view->setContextMenuPolicy(Qt::CustomContextMenu);
     d->view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(d->view, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenuRequested(const QPoint&)));
+    connect(d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
     connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), d->model, SLOT(setProject(GluonEngine::GameProject*)));
@@ -187,15 +190,32 @@ void ProjectDock::activated(QModelIndex index)
     {
         DEBUG_TEXT("Asset")
         QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
-	DEBUG_TEXT2("Filename: %1", filename)
+        DEBUG_TEXT2("Filename: %1", filename)
         if(QFile::exists(filename))
         {
-	    DEBUG_TEXT("Opening asset")
+            DEBUG_TEXT("Opening asset")
             KRun* runner = new KRun(filename, this);
             Q_UNUSED(runner);
-	    //KRun::run("xdg-open %u", KUrl::List() << filename, parentWidget());
+            //KRun::run("xdg-open %u", KUrl::List() << filename, parentWidget());
         }
     }
+}
+
+void ProjectDock::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+    Q_UNUSED(deselected)
+    DEBUG_FUNC_NAME
+    
+    SelectionManager::SelectionList selection;
+    foreach(const QItemSelectionRange &range, selected)
+    {
+        foreach(const QModelIndex &index, range.indexes())
+        {
+            GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>(index.internalPointer());
+            selection.append(obj);
+        }
+    }
+    SelectionManager::instance()->setSelection(selection);
 }
 
 void ProjectDock::showContextMenuRequested(const QPoint& pos)

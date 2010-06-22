@@ -63,12 +63,16 @@ Asset::setName(const QString& newName)
     GluonCore::GluonObject::setName(newName);
 
     // Rename the underlying file, if one exists...
-    if (QDir::current().exists(d->file.toLocalFile()) && !d->file.isEmpty())
+    if(!d->file.isEmpty())
     {
-        QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
-        if (QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile()))
+        // If we use QDir::current(), .exists will throw debug crap... this works around that particular annoyance
+        if (QDir(QDir::currentPath()).exists(d->file.toLocalFile()))
         {
-            setFile(newFile);
+            QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
+            if (QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile()))
+            {
+                setFile(newFile);
+            }
         }
     }
 }
