@@ -221,6 +221,18 @@ void Node::setY(int y) {
     }
 }
 
+bool Node::inEdgesCapacityReached() const {
+  if ( maxInEdges() == -1 ) return false;
+  if ( maxInEdges() <  in_edges().count() + 1 ) return true;
+  return false;
+}
+
+bool Node::outEdgesCapacityReached() const {
+  if ( maxOutEdges() == -1 ) return false;
+  if ( maxOutEdges() <  out_edges().count() + 1 ) return true;
+  return false;
+}
+
 void Node::setWidth(qreal w) {
     _width = w;
     if (! _changing) {

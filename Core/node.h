@@ -64,6 +64,8 @@ public:
     bool showName();
     bool showImage();
     bool showValue();
+    bool inEdgesCapacityReached() const;
+    bool outEdgesCapacityReached() const;
 
     Graph *graph(){ return _graph; }
 
