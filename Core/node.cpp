@@ -268,7 +268,7 @@ const int& Node::maxInEdges() const {
   return _maxInEdges;
 }
 
-void Node::setOutMaxEdges(const int& m){
+void Node::setMaxOutEdges(const int& m){
   _maxOutEdges=m;
   if(! _changing) {
     emit changed();

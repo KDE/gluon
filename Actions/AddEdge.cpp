@@ -57,8 +57,8 @@ void AddEdgeAction::executePress(QPointF pos) {
         _working = false;
         return;
     }
-     kWarning() << _nodeFrom->node()->edges(_nodeFrom->node()).count();
-    if (_nodeFrom->node()->maxOutEdges() <  _nodeFrom->node()->edges(_nodeFrom->node()).count()+1 && _nodeFrom->node()->maxOutEdges() != -1) {
+     kWarning() << _nodeFrom->node()->out_edges().count();
+    if (_nodeFrom->node()->maxOutEdges() <  _nodeFrom->node()->out_edges().count()+1 && _nodeFrom->node()->maxOutEdges() != -1) {
       _working = false;
       return;
     }
