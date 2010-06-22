@@ -57,7 +57,6 @@ void AddEdgeAction::executePress(QPointF pos) {
         _working = false;
         return;
     }
-     kWarning() << _nodeFrom->node()->out_edges().count();
     if (_nodeFrom->node()->maxOutEdges() <  _nodeFrom->node()->out_edges().count()+1 && _nodeFrom->node()->maxOutEdges() != -1) {
       _working = false;
       return;
@@ -89,8 +88,14 @@ void AddEdgeAction::executeRelease(QPointF pos) {
 
     _nodeTo = qgraphicsitem_cast<NodeItem*>(_graphScene->itemAt(pos));
     if (  _nodeTo ) {
-        emit addEdge( _nodeFrom->node(),  _nodeTo->node() );
+      if (_nodeFrom->node()->maxInEdges() <  _nodeFrom->node()->in_edges().count()+1 && _nodeFrom->node()->maxInEdges() != -1) {
+      _working = false;
+      return;
+    }else{  
+      emit addEdge( _nodeFrom->node(),  _nodeTo->node() );
     }
+    }
+    
 
     _nodeFrom = 0;
     _nodeTo = 0;
