@@ -22,6 +22,10 @@
 #include "node.h"
 #include "graphDocument.h"
 #include "DynamicPropertiesList.h"
+#include <QListIterator>
+#include <QByteArray>
+#include <QStringList>
+#include <QInputDialog>
 #include <KDebug>
 #include <QColor>
 
@@ -114,10 +118,27 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     }
 
     Edge *e  = new Edge(this, from, to);
+    assignEdgeAction(from, e);
     _edges.append( e );
     emit edgeCreated(e);
     connect (e, SIGNAL(changed()), this, SIGNAL(changed()));
     return e;
+}
+
+void Graph::assignEdgeAction(Node *from,Edge *edge){
+  QListIterator<QByteArray> plist = from->dynamicPropertyNames();
+  QStringList middleman;
+  bool okPressed;
+  while (plist.hasNext()){
+    middleman << QString(plist.next().data());
+  }
+  QString selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
+  if (!okPressed){
+    edge->setValue(middleman.first());
+    edge->setName("Iamsadyouhitcancel"+edge->name());
+  }else{
+    edge->setValue(selectedProperty);
+  }
 }
 
 Edge* Graph::addEdge(const QString& name_from, const QString& name_to) {
