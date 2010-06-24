@@ -129,10 +129,17 @@ void Graph::assignEdgeAction(Node *from,Edge *edge){
   QListIterator<QByteArray> plist = from->dynamicPropertyNames();
   QStringList middleman;
   bool okPressed;
+  QString selectedProperty;
+  if (!plist.hasNext()){
+    middleman << "";
+    selectedProperty = "";
+    okPressed=true;
+  }else{
   while (plist.hasNext()){
     middleman << QString(plist.next().data());
   }
-  QString selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
+  selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
+  }
   if (!okPressed){
     edge->setValue(middleman.first());
     edge->setName("Iamsadyouhitcancel"+edge->name());
