@@ -30,7 +30,7 @@
 #include "edge.h"
 
 #include "AlignAction.h"
-#include "settings.h"
+//#include "settings.h"
 
 #include <QVBoxLayout>
 #include <QGraphicsItem>

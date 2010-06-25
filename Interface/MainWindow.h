@@ -26,7 +26,7 @@
 
 class KPushButton;
 class GraphVisualEditor;
-class KActionCollection;
+//class KActionCollection;
 class GraphDocument;
 class Graph;
 class GraphScene;
@@ -37,7 +37,7 @@ class CodeEditor;
 
 #include <QWaitCondition>
 
-class MainWindow : public KXmlGuiWindow {
+class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
@@ -61,7 +61,7 @@ public slots:
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
-    KActionCollection *_paletteActions; //! the pallete actions, move, add, etc.
+    //KActionCollection *_paletteActions; //! the pallete actions, move, add, etc.
     GraphDocument *_tDocument;
     Graph *_graph;
     bool _idle;

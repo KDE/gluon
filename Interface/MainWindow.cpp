@@ -54,17 +54,17 @@
 #include <QActionGroup>
 #include <KPushButton>
 
-MainWindow::MainWindow() :  KXmlGuiWindow()
+MainWindow::MainWindow() :  QWidget()
 {
     _tDocument = new    GraphDocument("Untitled");
     
     setupWidgets();
-    setupActions();
-    setupGUI();
+    //setupActions();
+    //setupGUI();
 
-    setActiveGraphDocument ( _tDocument );
-    _graph = _tDocument->addGraph();
-    setActiveGraph(_graph);
+   setActiveGraphDocument ( _tDocument );
+   _graph = _tDocument->addGraph();
+   setActiveGraph(_graph);
 }
 
 GraphDocument *MainWindow::activeDocument() const{
@@ -74,10 +74,10 @@ GraphDocument *MainWindow::activeDocument() const{
 void MainWindow::setupWidgets()
 {
     _graphVisualEditor = new GraphVisualEditor ( this );
-    setCentralWidget ( _graphVisualEditor );
+    //setCentralWidget ( _graphVisualEditor );
 }
 
-void MainWindow::setupActions()
+/*void MainWindow::setupActions()
 {
     GraphScene *gc = _graphVisualEditor->scene();
     KActionCollection *ac = actionCollection();
@@ -96,26 +96,26 @@ void MainWindow::setupActions()
     ac->addAction ( "align-vleft",  new AlignAction ( i18n ( "Align on the left" ),  AlignAction::Left,   _graphVisualEditor ) );
     ac->addAction ( "align-vcenter",new AlignAction ( i18n ( "Align on the center" ),AlignAction::VCenter,_graphVisualEditor ) );
     ac->addAction ( "align-vright", new AlignAction ( i18n ( "Align on the right" ), AlignAction::Right,  _graphVisualEditor ) );
-}
+}*/
 
 void MainWindow::setActiveGraphDocument ( GraphDocument* d )
 {
-    foreach ( QAction *action, actionCollection()->actions() ){
+    /*foreach ( QAction *action, actionCollection()->actions() ){
         if ( AbstractAction *absAction = qobject_cast<AbstractAction*> ( action ) ){
             absAction->setActiveGraphDocument ( d );
         }
-    }
+    }*/
 
     _graphVisualEditor->setActiveGraphDocument ( d );
 }
 
 void MainWindow::setActiveGraph ( Graph *g )
 {
-    foreach ( QAction *action, actionCollection()->actions() )
+    /*foreach ( QAction *action, actionCollection()->actions() )
     {
         if ( AbstractAction *absAction = qobject_cast<AbstractAction*> ( action ) )
             absAction->setActiveGraph ( g );
-    }
+    }*/
     _graphVisualEditor->setActiveGraph ( g );
 }
 

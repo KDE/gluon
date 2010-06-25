@@ -1,5 +1,17 @@
+project(GluonCreatorCodePlugin)
+
+cmake_minimum_required(VERSION 2.6.0)
+set(KDE_MIN_VERSION "4.3")
+
+find_package(GluonCreator REQUIRED)
+find_package(KDE4 REQUIRED)
+include(KDE4Defaults)
+
+add_subdirectory(graphics)
+
 include_directories(
     ${KDE4_INCLUDES}
+    ${GLUON_CREATOR_INCLUDES}
     ${QT_INCLUDES}
     ${KROSS_INCLUDES}
     Core/
@@ -60,7 +72,8 @@ set( rocs_models_SRCS
 
 
 set(rocs_SRCS
-  Main.cpp
+  codewidgetdockplugin.cpp
+  codewidgetdock.cpp
   ${rocs_actions_SRCS}
   ${rocs_core_SRCS}
   ${rocs_graphcisitem_SRCS}
@@ -78,24 +91,23 @@ kde4_add_ui_files(
 
 set (QT_USE_QTSCRIPT true)
 
-set(rocs_KCFGS settings.kcfgc)
 
-kde4_add_kcfg_files(rocs_SRCS ${rocs_KCFGS} )
-kde4_add_executable(rocs ${rocs_SRCS} ${rocs_RCC_SRCS})
+kde4_add_plugin(gluon_creator_dockplugin_codewidgetdock ${rocs_SRCS} ${rocs_RCC_SRCS})
 
-target_link_libraries(rocs
+target_link_libraries(gluon_creator_dockplugin_codewidgetdock
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KROSSUI_LIBS}
   ${KDE4_KIO_LIBS}
   ${KDE4_KTEXTEDITOR_LIBS}
   ${QT_QTSCRIPT_LIBRARY}
   ${QT_QTSCRIPTTOOLS_LIBRARY}
+  ${GLUON_CREATOR_LIBS}
 )
 
 ################## INSTALLS ##########################
 
-install( TARGETS rocs  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install( TARGETS gluon_creator_dockplugin_codewidgetdock  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-install( FILES rocs.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES rocsui.rc DESTINATION ${DATA_INSTALL_DIR}/rocs  )
-install( FILES rocs.kcfg DESTINATION  ${KCFG_INSTALL_DIR} )
+install( FILES gluon_creator_dockplugin_codewidgetdock.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+
+
