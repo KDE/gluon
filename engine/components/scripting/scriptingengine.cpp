@@ -42,8 +42,15 @@ namespace GluonEngine
             QScriptEngine* engine;
 //             QScriptEngineDebugger* debugger;
 
+            // A QString with the name of the class represented by a ScriptAsset
+            QHash<const ScriptingAsset*, QString> classNames;
             // A QScriptValue per instance of a script, the key being a pointer to the scripted component using it
-            QHash<ScriptingComponent*, QScriptValue> scriptInstances;
+            QHash<const ScriptingComponent*, QScriptValue> scriptInstances;
+
+            // Contains the full code of all scripts including class wrapping
+            // We are going to have a problem with debugging... bugger :P
+            QString script;
+            void buildScript();
     };
 }
 
@@ -62,39 +69,86 @@ ScriptingEngine::~ScriptingEngine()
     delete(d);
 }
 
-bool
-ScriptingEngine::registerAsset(ScriptingAsset* asset)
+QScriptSyntaxCheckResult
+ScriptingEngine::registerAsset(const ScriptingAsset* asset)
 {
+    // Why can't i create my own QScriptSyntaxCheckResult instances and set the values?!
+
+    // Gah, this is really dumb... 
+    if(!asset)
+        return d->engine->checkSyntax(QString(')'));
+    // This is even dumberer...
+    if(d->classNames.contains(asset))
+        return d->engine->checkSyntax(QString('}'));
+    
+    // Check the script for syntax
+    QScriptSyntaxCheckResult result = d->engine->checkSyntax(asset->data()->text());
+    if(result.state() == QScriptSyntaxCheckResult::Valid)
+    {
+        // Fix up the asset's name so as to be useable as a class name
+        QString className(asset->fullyQualifiedName().replace(' ', QString()).replace('/', '_'));
+        // Add that to the classes listing
+        d->classNames.insert(asset, className);
+        // Build the new code
+        d->buildScript();
+    }
+    
+    return result;
+}
+
+void
+ScriptingEngine::Private::buildScript()
+{
+    script.clear();
+    
+    QHash<const ScriptingAsset*, QString>::const_iterator i;
+    for(i = classNames.constBegin(); i != classNames.constEnd(); ++i)
+    {
+        // Build the bit of script to add
+        script.append(QString("function %2() {\n%1}\n").arg(i.key()->data()->text()).arg(i.value()));
+        /// \TODO Add all those lines to the reverse map...
+    }
 }
 
 bool
-ScriptingEngine::unregisterAsset(ScriptingAsset* asset)
+ScriptingEngine::unregisterAsset(const ScriptingAsset* asset) const
 {
     
 }
 
 bool
-ScriptingEngine::isRegistered(ScriptingAsset* asset)
+ScriptingEngine::isRegistered(const ScriptingAsset* asset) const
 {
-
+    return d->classNames.contains(asset);
 }
 
 QScriptValue
-ScriptingEngine::instantiateClass(ScriptingAsset* asset) const
+ScriptingEngine::instantiateClass(const ScriptingAsset* asset) const
 {
+    // Ensure the asset exists...
+    if(d->classNames.contains(asset))
+        return QScriptValue(d->engine, QString("new %1").arg(d->classNames.value(asset)));
+    // If we've got this far, that means we should be returning an invalid QScriptValue
+    return QScriptValue();
+}
 
+QScriptValue
+ScriptingEngine::instantiateClass(const QString& className) const
+{
+    return QScriptValue(d->engine, QString("new %1").arg(className));
 }
 
 QString
-ScriptingEngine::className(ScriptingAsset* asset) const
+ScriptingEngine::className(const ScriptingAsset* asset) const
 {
-
+    return d->classNames.value(asset);
 }
 
 QScriptEngine*
 ScriptingEngine::scriptEngine() const
 {
-
+    return instance()->d->engine;
 }
+
 
 #include "scriptingengine.moc"

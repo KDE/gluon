@@ -24,6 +24,7 @@
 
 #include <core/singleton.h>
 #include <QScriptValue>
+#include <QScriptEngine>
 
 namespace GluonEngine
 {
@@ -36,33 +37,39 @@ namespace GluonEngine
             /**
              * Register the passed asset with the engine, thus allowing people to instantiate the classes it represents
              * @param   asset   The asset to be registered
-             * @return True if the asset was registered. False is returned if the asset is already registered, or if the asset was not valid
+             * @return The check result returned by the engine upon checking the syntax of the script
              */
-            bool registerAsset(ScriptingAsset* asset);
+            QScriptSyntaxCheckResult registerAsset(const GluonEngine::ScriptingAsset* asset);
             /**
              * Unregister the passed asset with the engine
              * @param   asset   The asset to unregister
              * @return  True if the asset was successfully unregistered. False is returned when the asset is not registered, or if the passed asset was not valid
              */
-            bool unregisterAsset(ScriptingAsset* asset);
+            bool unregisterAsset(const GluonEngine::ScriptingAsset* asset) const;
             /**
              * Check whether an asset is registered with the engine.
              * @param   asset   The asset to check on
              * @return True if asset is registered with the engine, false if not
              */
-            bool isRegistered(ScriptingAsset* asset);
+            bool isRegistered(const GluonEngine::ScriptingAsset* asset) const;
             
             /**
              * Get the class name for the class represented by the passed asset
              * @return A string containing the class name of a specified asset
              */
-            QString className(ScriptingAsset* asset) const;
+            QString className(const GluonEngine::ScriptingAsset* asset) const;
             /**
              * Return a QtScript instance of the class represented by the passed asset
              * @param   asset   The asset representing the class you wish to get an instance of
              * @return An instance of the class, or an invalid QScriptValue if the asset did not represent a valid class
              */
-            QScriptValue instantiateClass(ScriptingAsset* asset) const;
+            QScriptValue instantiateClass(const GluonEngine::ScriptingAsset* asset) const;
+            /**
+             * Return a QtScript instance of the class named className
+             * @param   className   The name of the class you wish to instantiate an instance of
+             * @return  An instance of the class, or an invalid QScriptValue if there is no class registered with the passed name
+             */
+            QScriptValue instantiateClass(const QString& className) const;
             
             QScriptEngine* scriptEngine() const;
 

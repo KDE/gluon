@@ -22,6 +22,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
 #include "scriptingengine.h"
+#include <KDE/KLocalizedString>
 
 REGISTER_OBJECTTYPE(GluonEngine, ScriptingAsset);
 
@@ -64,13 +65,20 @@ void
 ScriptingAsset::load()
 {
     ScriptingEngine::instance()->unregisterAsset(this);
+
     QFile script(file().path());
     if (script.open(QIODevice::ReadOnly))
     {
         d->script = script.readAll();
         mimeData()->setText(d->script);
     }
-    ScriptingEngine::instance()->registerAsset(this);
+    // Don't attempt to do anything if the script is empty
+    if(d->script.isEmpty())
+        return;
+
+    QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
+    if(result.state() != QScriptSyntaxCheckResult::Valid)
+        debug(i18n("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
 }
 
 QString

@@ -37,7 +37,6 @@ ScriptingComponent::ScriptingComponent(const ScriptingComponent& other)
 
 ScriptingComponent::~ScriptingComponent()
 {
-    delete(d);
 }
 
 QString
