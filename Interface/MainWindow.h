@@ -21,12 +21,13 @@
 #ifndef SUI_MAINWINDOW_H
 #define SUI_MAINWINDOW_H
 
-#include <KXmlGuiWindow>
+//#include <KXmlGuiWindow>
 #include <kmessagebox.h>
+#include <KToolBar>
 
 class KPushButton;
 class GraphVisualEditor;
-//class KActionCollection;
+class KActionCollection;
 class GraphDocument;
 class Graph;
 class GraphScene;
@@ -61,6 +62,8 @@ public slots:
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
+    KToolBar* _actionButtons;
+    KActionCollection *ac;
     //KActionCollection *_paletteActions; //! the pallete actions, move, add, etc.
     GraphDocument *_tDocument;
     Graph *_graph;

@@ -25,7 +25,7 @@
 #include <KActionCollection>
 #include <KIcon>
 #include <KDebug>
-#include <KApplication>
+//#include <KApplication>
 #include <klocalizedstring.h>
 
 // UI RELATED INCLUDES
@@ -51,7 +51,8 @@
 
 // backends
 #include <kstandarddirs.h>
-#include <QActionGroup>
+//#include <QActionGroup>
+#include <QAction>
 #include <KPushButton>
 
 MainWindow::MainWindow() :  QWidget()
@@ -59,7 +60,7 @@ MainWindow::MainWindow() :  QWidget()
     _tDocument = new    GraphDocument("Untitled");
     
     setupWidgets();
-    //setupActions();
+    setupActions();
     //setupGUI();
 
    setActiveGraphDocument ( _tDocument );
@@ -74,18 +75,22 @@ GraphDocument *MainWindow::activeDocument() const{
 void MainWindow::setupWidgets()
 {
     _graphVisualEditor = new GraphVisualEditor ( this );
-    //setCentralWidget ( _graphVisualEditor );
+    _actionButtons = new KToolBar(_graphVisualEditor,false);
 }
 
-/*void MainWindow::setupActions()
+void MainWindow::setupActions()
 {
     GraphScene *gc = _graphVisualEditor->scene();
-    KActionCollection *ac = actionCollection();
-    QActionGroup *g = new QActionGroup ( this );
-
-    g->addAction ( ac->addAction ( "move_node", new MoveNodeAction(gc, this )));
-    g->addAction ( ac->addAction ( "add_node", new AddNodeAction ( gc, this )));
-    g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this )));
+    ac=new KActionCollection(this);
+    //QActionGroup *g = new QActionGroup ( this );
+    _actionButtons->addAction(ac->addAction("add_node",new AddNodeAction(gc,this)));
+    _actionButtons->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this)));
+     
+     
+    
+    //g->addAction ( ac->addAction ( "move_node", new MoveNodeAction(gc, this )));
+    //g->addAction ( ac->addAction ( "add_node", new AddNodeAction ( gc, this )));
+   /* g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this )));
     g->addAction ( ac->addAction ( "select", new SelectAction ( gc, this )));
     g->addAction ( ac->addAction ( "delete", new DeleteAction ( gc, this )));
     actionCollection()->action ( "move_node" )->toggle();
@@ -96,26 +101,27 @@ void MainWindow::setupWidgets()
     ac->addAction ( "align-vleft",  new AlignAction ( i18n ( "Align on the left" ),  AlignAction::Left,   _graphVisualEditor ) );
     ac->addAction ( "align-vcenter",new AlignAction ( i18n ( "Align on the center" ),AlignAction::VCenter,_graphVisualEditor ) );
     ac->addAction ( "align-vright", new AlignAction ( i18n ( "Align on the right" ), AlignAction::Right,  _graphVisualEditor ) );
-}*/
+    */
+}
 
 void MainWindow::setActiveGraphDocument ( GraphDocument* d )
 {
-    /*foreach ( QAction *action, actionCollection()->actions() ){
+    foreach ( QAction *action, ac->actions() ){
         if ( AbstractAction *absAction = qobject_cast<AbstractAction*> ( action ) ){
             absAction->setActiveGraphDocument ( d );
         }
-    }*/
+    }
 
     _graphVisualEditor->setActiveGraphDocument ( d );
 }
 
 void MainWindow::setActiveGraph ( Graph *g )
 {
-    /*foreach ( QAction *action, actionCollection()->actions() )
+    foreach ( QAction *action, ac->actions() )
     {
         if ( AbstractAction *absAction = qobject_cast<AbstractAction*> ( action ) )
             absAction->setActiveGraph ( g );
-    }*/
+    }
     _graphVisualEditor->setActiveGraph ( g );
 }
 

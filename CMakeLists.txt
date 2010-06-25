@@ -106,8 +106,8 @@ target_link_libraries(gluon_creator_dockplugin_codewidgetdock
 
 ################## INSTALLS ##########################
 
-install( TARGETS gluon_creator_dockplugin_codewidgetdock  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install( TARGETS gluon_creator_dockplugin_codewidgetdock  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
-install( FILES gluon_creator_dockplugin_codewidgetdock.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( FILES gluon_creator_dockplugin_codewidgetdock.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 
 
