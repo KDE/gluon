@@ -78,6 +78,12 @@ namespace GluonCore
 
             virtual QString name() const;
             virtual void setName(const QString &newName);
+            /**
+             * The fully qualified name of the object, from the root and upwards.
+             * The object name separator is / which means that an object named
+             * AnObject which is child of the top level object AnotherObject is:
+             * AnotherObject/AnObject
+             */
             QString fullyQualifiedName() const;
             QString fullyQualifiedFileName() const;
 
