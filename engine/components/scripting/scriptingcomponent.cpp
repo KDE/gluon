@@ -45,6 +45,16 @@ ScriptingComponent::category() const
     return QString("Other");
 }
 
+ScriptingAsset* ScriptingComponent::script() const
+{
+
+}
+
+void ScriptingComponent::setScript(const GluonEngine::ScriptingAsset* newAsset)
+{
+
+}
+
 void ScriptingComponent::initialize()
 {
     GluonEngine::Component::initialize();
