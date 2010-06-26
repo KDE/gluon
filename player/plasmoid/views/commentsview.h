@@ -17,38 +17,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#ifndef COMMENTSVIEW_H
+#define COMMENTSVIEW_H
 
-#include <QGraphicsWidget>
-#include "overlay.h"
+#include "abstractitemview.h"
 
-namespace Plasma
+class QTreeView;
+
+namespace GluonPlayer
 {
-    class TabBar;
-    class IconWidget;
+    class CommentsModel;
 }
 
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+class CommentsView : public AbstractItemView
 {
-Q_OBJECT
+    public:
+        CommentsView (QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual ~CommentsView();
 
-public:
-    GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-
-private:
-    Plasma::IconWidget *m_backButton;
-    Plasma::TabBar *m_tabBar;
-    HighScoresView *m_highScoresView;
-    AchievementsView *m_achievementsView;
-    CommentsView *m_commentsView;
-
-signals:
-    void back();
+    private:
+        QTreeView *m_treeView;
+        GluonPlayer::CommentsModel *m_model;
 };
 
-#endif // GAMEDETAILSOVERLAY_H
+#endif // COMMENTSVIEW_H

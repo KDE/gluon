@@ -33,11 +33,11 @@ GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     m_gamesView = new GamesView(this);
     connect(m_gamesView, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
     connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
-    m_tabBar->addTab(KIcon("applications-games"), "Installed", m_gamesView);
+    m_tabBar->addTab(KIcon("applications-games"), i18n("Installed"), m_gamesView);
 
     Plasma::Label *m_tempLabel = new Plasma::Label(this);
-    m_tempLabel->setText("Coming Soon!");
-    m_tabBar->addTab(KIcon("get-hot-new-stuff"), "Available", m_tempLabel);
+    m_tempLabel->setText(i18n("Coming Soon!"));
+    m_tabBar->addTab(KIcon("get-hot-new-stuff"), i18n("Available"), m_tempLabel);
 
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_tabBar);

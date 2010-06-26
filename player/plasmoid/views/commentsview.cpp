@@ -17,38 +17,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#include "commentsview.h"
+#include "models/commentsmodel.h"
 
-#include <QGraphicsWidget>
-#include "overlay.h"
+#include <QTreeView>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsProxyWidget>
 
-namespace Plasma
+CommentsView::CommentsView (QGraphicsItem* parent, Qt::WindowFlags wFlags) : AbstractItemView (parent, wFlags)
 {
-    class TabBar;
-    class IconWidget;
+    m_model = new GluonPlayer::CommentsModel(this);
+    m_treeView = new QTreeView();
+    m_treeView->setModel(m_model);
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(this);
+    QGraphicsProxyWidget *widget = new QGraphicsProxyWidget(this);
+    widget->setWidget(m_treeView);
+    layout->addItem(widget);
+    setLayout(layout);
 }
 
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+CommentsView::~CommentsView()
 {
-Q_OBJECT
-
-public:
-    GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-
-private:
-    Plasma::IconWidget *m_backButton;
-    Plasma::TabBar *m_tabBar;
-    HighScoresView *m_highScoresView;
-    AchievementsView *m_achievementsView;
-    CommentsView *m_commentsView;
-
-signals:
-    void back();
-};
-
-#endif // GAMEDETAILSOVERLAY_H
+    delete m_treeView;
+}
