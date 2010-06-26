@@ -56,9 +56,8 @@ QVariant CommentsModel::data (const QModelIndex& index, int role) const
     if (role == Qt::DisplayRole) {
         GluonObject *node;
         node = static_cast<GluonObject*>(index.internalPointer());
-        
-        //TODO: The format is not proper -Shaan7
-        return node->getStringFromProperty(columnName(Column(index.column())), "$").remove(0, 1);
+
+        return node->property(columnName(Column(index.column())).toUtf8());
     }
     return QVariant();
 }
