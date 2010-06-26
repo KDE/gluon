@@ -22,7 +22,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
 #include "scriptingengine.h"
-#include <KDE/KLocalizedString>
 
 REGISTER_OBJECTTYPE(GluonEngine, ScriptingAsset);
 
@@ -78,7 +77,7 @@ ScriptingAsset::load()
 
     QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
     if(result.state() != QScriptSyntaxCheckResult::Valid)
-        debug(i18n("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
+        debug(tr("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
 }
 
 QString
