@@ -81,7 +81,7 @@ void GamesViewItem::setToolTips()
     Plasma::ToolTipContent data;
     data.setImage(m_preview->icon());
     data.setMainText(m_gameName->text());
-    data.setSubText("Click here to Start the game");
+    data.setSubText(i18n("Click here to Start the game"));
     Plasma::ToolTipManager::self()->setContent(m_playButton, data);
 }
 

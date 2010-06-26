@@ -20,6 +20,7 @@
 #include "gamedetailsoverlay.h"
 #include "views/highscoresview.h"
 #include "views/achievementsview.h"
+#include "views/commentsview.h"
 
 #include <QGraphicsLinearLayout>
 
@@ -32,16 +33,18 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
 {
     m_tabBar = new Plasma::TabBar(this);
 
-    m_backButton = new Plasma::IconWidget(KIcon("go-previous-view"), "Back", this);
+    m_backButton = new Plasma::IconWidget(KIcon("go-previous-view"), i18n("Back"), this);
     m_backButton->setOrientation(Qt::Horizontal);
     m_backButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_backButton, SIGNAL(activated()), SIGNAL(back()));
 
     m_highScoresView = new HighScoresView(this);
     m_achievementsView = new AchievementsView(this);
+    m_commentsView = new CommentsView(this);
 
-    m_tabBar->addTab(KIcon("games-highscores"), "High Scores", m_highScoresView);
-    m_tabBar->addTab(KIcon("games-endturn"), "Achievements", m_achievementsView);
+    m_tabBar->addTab(KIcon("games-highscores"), i18n("High Scores"), m_highScoresView);
+    m_tabBar->addTab(KIcon("games-endturn"), i18n("Achievements"), m_achievementsView);
+    m_tabBar->addTab(KIcon ("text-plain"), i18n("Comments"), m_commentsView);
 
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_backButton);

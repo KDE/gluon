@@ -24,6 +24,7 @@ include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
                     ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(libGluonPlayer_SRCS
+    models/commentsmodel.cpp
     models/gamesmodel.cpp
 )
 
