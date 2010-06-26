@@ -22,5 +22,4 @@
 HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     : AbstractItemView(parent, wFlags)
 {
-
 }

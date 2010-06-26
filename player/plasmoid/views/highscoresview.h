@@ -24,8 +24,8 @@
 
 class HighScoresView : public AbstractItemView
 {
-public:
-    HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+    public:
+        HighScoresView (QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 };
 
 #endif // HIGHSCORESVIEW_H
