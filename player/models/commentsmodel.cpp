@@ -30,19 +30,19 @@ CommentsModel::CommentsModel (QObject* parent) : QAbstractItemModel (parent)
 
     //Some dummy comments, we gotta check it, right? ;)
     GluonObject *comment = new GluonObject("This is a comment");
-    comment->setPropertyFromString(columnName(AuthorColumn), "string(Shantanu)");
-    comment->setPropertyFromString(columnName(TitleColumn), "string(Nice comment!)");
-    comment->setPropertyFromString(columnName(BodyColumn), "string(This is the body of the comment)");
-    comment->setPropertyFromString(columnName(DateTimeColumn), "string(Date Time)");
-    comment->setPropertyFromString(columnName(RatingColumn), "int(5)");
+    comment->setProperty(columnName(AuthorColumn).toUtf8(), "Shantanu");
+    comment->setProperty(columnName(TitleColumn).toUtf8(), "Nice comment!");
+    comment->setProperty(columnName(BodyColumn).toUtf8(), "This is the body of the comment");
+    comment->setProperty(columnName(DateTimeColumn).toUtf8(), "Date Time");
+    comment->setProperty(columnName(RatingColumn).toUtf8(), "5");
     rootNode->addChild(comment);
     
     GluonObject *comment2 = new GluonObject("This comment2");
-    comment2->setPropertyFromString(columnName(AuthorColumn), "string(Leinir)");
-    comment2->setPropertyFromString(columnName(TitleColumn), "string(Bad comment!)");
-    comment2->setPropertyFromString(columnName(BodyColumn), "string(I'm happy)");
-    comment2->setPropertyFromString(columnName(DateTimeColumn), "string(Bate gime)");
-    comment2->setPropertyFromString(columnName(RatingColumn), "int(10)");
+    comment2->setProperty(columnName(AuthorColumn).toUtf8(), "Leinir");
+    comment2->setProperty(columnName(TitleColumn).toUtf8(), "Bad comment!");
+    comment2->setProperty(columnName(BodyColumn).toUtf8(), "I'm happy");
+    comment2->setProperty(columnName(DateTimeColumn).toUtf8(), "Bate gime");
+    comment2->setProperty(columnName(RatingColumn).toUtf8(), 10);
     comment->addChild(comment2);
 }
 
