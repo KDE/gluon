@@ -34,7 +34,7 @@ MoveNodeAction::MoveNodeAction(GraphScene *scene, QObject *parent)
         : AbstractAction(scene, parent) {
     setText(i18n ( "Move Node" ));
     setToolTip ( i18n ( "Moves a node around the drawing area." ) );
-    setIcon ( KIcon ( "pointer" ) );
+    setIcon ( KIcon ( "arrow" ) );
     _movableNode = 0;
     _name = "move";
 }

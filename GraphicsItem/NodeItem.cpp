@@ -108,7 +108,7 @@ void NodeItem::updateValue(){
 void NodeItem::updateImage(){
   if(_image->pixmap().isNull()){
     _image->setPixmap(_node->image());
-  }else if(!(_image->pixmap() = _node->image())){
+  }else if(!(_image->pixmap().toImage() == _node->image().toImage())){
     _image->setPixmap(_node->image());
   }
   _image->setVisible(_node->showImage());

@@ -51,7 +51,7 @@
 
 // backends
 #include <kstandarddirs.h>
-//#include <QActionGroup>
+#include <QActionGroup>
 #include <QAction>
 #include <KPushButton>
 
@@ -74,23 +74,24 @@ GraphDocument *MainWindow::activeDocument() const{
 
 void MainWindow::setupWidgets()
 {
+    _layout = new QVBoxLayout(this);
     _graphVisualEditor = new GraphVisualEditor ( this );
     _actionButtons = new KToolBar(_graphVisualEditor,false);
+    _layout->addWidget(_actionButtons);
+    _layout->addWidget(_graphVisualEditor);
 }
 
 void MainWindow::setupActions()
 {
     GraphScene *gc = _graphVisualEditor->scene();
     ac=new KActionCollection(this);
-    //QActionGroup *g = new QActionGroup ( this );
-    _actionButtons->addAction(ac->addAction("add_node",new AddNodeAction(gc,this)));
-    _actionButtons->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this)));
-     
-     
+    QActionGroup *g = new QActionGroup ( this );
+    _actionButtons->addAction(g->addAction(ac->addAction("add_node",new AddNodeAction(gc,this))));
+    _actionButtons->addAction(g->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this))));
+    _actionButtons->addAction(g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this ))));
+    ac->action("add_node")->trigger();
     
-    //g->addAction ( ac->addAction ( "move_node", new MoveNodeAction(gc, this )));
-    //g->addAction ( ac->addAction ( "add_node", new AddNodeAction ( gc, this )));
-   /* g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this )));
+/*
     g->addAction ( ac->addAction ( "select", new SelectAction ( gc, this )));
     g->addAction ( ac->addAction ( "delete", new DeleteAction ( gc, this )));
     actionCollection()->action ( "move_node" )->toggle();

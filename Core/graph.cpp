@@ -115,6 +115,8 @@ Edge* Graph::addEdge(Node* from,Node* to) {
         return 0;
     } else if(from->outEdgesCapacityReached() || to->inEdgesCapacityReached()){
 	return 0;
+    }else if((from==to)&&(from->selfEdgesCapacityReached())){
+	return 0;
     }
 
     Edge *e  = new Edge(this, from, to);

@@ -24,6 +24,7 @@
 //#include <KXmlGuiWindow>
 #include <kmessagebox.h>
 #include <KToolBar>
+#include <QVBoxLayout>
 
 class KPushButton;
 class GraphVisualEditor;
@@ -63,6 +64,7 @@ public slots:
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
     KToolBar* _actionButtons;
+    QVBoxLayout* _layout;
     KActionCollection *ac;
     //KActionCollection *_paletteActions; //! the pallete actions, move, add, etc.
     GraphDocument *_tDocument;

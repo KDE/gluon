@@ -44,6 +44,7 @@ Node::Node(Graph *parent) : QObject(parent) {
     _image.fill();
     _maxInEdges = 1;
     _maxOutEdges = 1;
+    _maxSelfEdges = 0;
     _icon = "rocs_default";
     _iconpackage = KGlobal::dirs()->locate("data", "iconpacks/default.svg");
     kDebug() << "Node successfully created" << _iconpackage;
@@ -233,6 +234,13 @@ bool Node::outEdgesCapacityReached() const {
   return false;
 }
 
+bool Node::selfEdgesCapacityReached() const {
+  if ( maxSelfEdges() == -1 ) return false;
+  if ( maxSelfEdges() <  self_edges().count() + 1 ) return true;
+  return false;
+}
+
+
 void Node::setWidth(qreal w) {
     _width = w;
     if (! _changing) {
@@ -282,6 +290,17 @@ const int& Node::maxInEdges() const {
 
 void Node::setMaxOutEdges(const int& m){
   _maxOutEdges=m;
+  if(! _changing) {
+    emit changed();
+  }
+}
+
+const int& Node::maxSelfEdges() const {
+  return _maxSelfEdges;
+}
+
+void Node::setMaxSelfEdges(const int& m){
+  _maxSelfEdges=m;
   if(! _changing) {
     emit changed();
   }
