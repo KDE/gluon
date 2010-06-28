@@ -3849,6 +3849,44 @@
          type="saturate"
          values="0" />
     </filter>
+    <inkscape:perspective
+       id="perspective2975"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2692"
+       id="linearGradient2775"
+       x1="218.73756"
+       y1="-133.01044"
+       x2="340.95587"
+       y2="-133.01044"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-77.339,-49.7909)" />
+    <linearGradient
+       id="linearGradient2692">
+      <stop
+         id="stop2694"
+         offset="0"
+         style="stop-color: rgb(0, 133, 226); stop-opacity: 1;" />
+      <stop
+         id="stop2696"
+         offset="1"
+         style="stop-color: rgb(33, 90, 108); stop-opacity: 1;" />
+    </linearGradient>
+    <linearGradient
+       y2="-133.01044"
+       x2="340.95587"
+       y1="-133.01044"
+       x1="218.73756"
+       gradientTransform="matrix(0.46727573,0,0,0.46727573,398.74021,303.60736)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2984"
+       xlink:href="#linearGradient2692"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -3863,10 +3901,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="746"
+     inkscape:window-width="1680"
+     inkscape:window-height="950"
      inkscape:window-x="-4"
-     inkscape:window-y="-3"
+     inkscape:window-y="26"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -6817,5 +6855,14 @@
          id="rect4725"
          style="color:#000000;fill:#eeeeec;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;marker:none;visibility:visible;display:inline;overflow:visible" />
     </g>
+    <rect
+       style="fill:url(#linearGradient2984);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.46727589px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rocs_if"
+       width="56.642467"
+       height="56.642467"
+       x="501.18475"
+       y="213.1335"
+       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
+       inkscape:label="Decision" />
   </g>
 </svg>

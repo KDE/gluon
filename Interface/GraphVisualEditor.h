@@ -22,6 +22,9 @@
 
 #include <QWidget>
 #include <QString>
+#include <QCursor>
+#include <KIcon>
+#include <QTime>
 #include "AlignAction.h"
 
 class GraphDocument;
@@ -57,6 +60,7 @@ public slots:
 
     void setActiveGraphDocument(GraphDocument *graphDocument);
     QList<NodeItem*> selectedNodes() const;
+    void displaySadnessSlot();
 
 private:
     void setupWidgets();
@@ -80,6 +84,7 @@ private:
     qreal _rightNode;
 
     QGraphicsView *_graphicsView;
+    QTime _time;
 
 };
 

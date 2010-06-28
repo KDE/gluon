@@ -94,10 +94,20 @@ void GraphVisualEditor::drawGraphOnScene( Graph */*g*/) {}
 void GraphVisualEditor::setActiveGraph( Graph *g) {
     _graph = g;
     _scene->setActiveGraph(g);
+    connect(_graph,SIGNAL(displaySadness()),this,SLOT(displaySadnessSlot()));
 }
 
 GraphScene* GraphVisualEditor::scene() const {
     return _scene;
+}
+
+void GraphVisualEditor::displaySadnessSlot(){
+  _graphicsView->setCursor(QCursor(KIcon("face-sad").pixmap(32,32)));
+  _time=QTime::currentTime().addSecs(1);
+  while (_time>QTime::currentTime()){
+    //do nothing
+  }
+  _graphicsView->setCursor(Qt::ArrowCursor);
 }
 
 QList<NodeItem*> GraphVisualEditor::selectedNodes() const {

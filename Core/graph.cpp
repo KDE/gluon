@@ -114,8 +114,10 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     } else if ((_nodes.indexOf(from) == -1) || (_nodes.indexOf(to) == -1)) {
         return 0;
     } else if(from->outEdgesCapacityReached() || to->inEdgesCapacityReached()){
+	emit displaySadness();
 	return 0;
     }else if((from==to)&&(from->selfEdgesCapacityReached())){
+	emit displaySadness();
 	return 0;
     }
 
@@ -149,6 +151,7 @@ void Graph::assignEdgeAction(Node *from,Edge *edge){
     edge->setValue(selectedProperty);
   }
 }
+
 
 Edge* Graph::addEdge(const QString& name_from, const QString& name_to) {
     if (_readOnly) return 0;

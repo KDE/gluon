@@ -262,6 +262,7 @@ public  slots:
 
     /*! remove this graph from the document. */
     void remove();
+    
 
 signals:
     void nodeCreated(Node *n);
@@ -270,6 +271,7 @@ signals:
     void changed();
     void orientedChanged(bool b);
     void automateChanged(bool b);
+    void displaySadness();
 
 private:
     bool _directed;
