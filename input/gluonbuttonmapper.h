@@ -16,16 +16,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef CUSTOMINPUT_H
-#define CUSTOMINPUT_H
+#ifndef GLUONBUTTONMAPPER_H
+#define GLUONBUTTONMAPPER_H
 
 #include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QPair>
 #include <QtCore/QSharedData>
 
 #include "gluon_input_export.h"
 #include "gluondevices.h"
+#include "gluon_input_export.h"
+#include "core/singleton.h"
+#include "gluonmacbuttons.h"
 
 namespace GluonInput
 {
@@ -33,26 +34,23 @@ namespace GluonInput
     class InputEvent;
     class GluonButtonMapperPrivate;
 
-    class GLUON_INPUT_EXPORT GluonButtonMapper : public QObject
+    class GLUON_INPUT_EXPORT GluonButtonMapper :public GluonCore::Singleton<GluonButtonMapper>
     {
-            Q_OBJECT
+            Q_OBJECT		
         public:
-            GluonButtonMapper(QObject * parent = 0);
-            ~GluonButtonMapper();
+            GluonButtonMapper();
 
-            void setButton(const QString &name, InputDevice* input, int keyCode);
-            void setButton(const QString &name);
-            void remButton(const QString &name);
-            void setAbsAxis(const QString &name, InputDevice * input, int axis);
-            void setRelAxis(const QString &name, InputDevice* input, int axis);
-            void remAbsAxis(const QString &name);
-            void remRelAxis(const QString &name);
-
-            QStringList buttonNameList();
-            QStringList absAxisNameList();
-            QStringList relAxisNameList();
-
+            void setButtonMapping(const KeyboardButton button, const QString &name);
+            void removeButtonMapping(const KeyboardButton button, const QString &name);
+            void setAbsAxisMapping(const QString &name, InputDevice * input, int axis);
+            void setRelAxisMapping(const QString &name, InputDevice* input, int axis);
+            void removeAbsAxisMapping(const KeyboardButton,const QString name);
+            void removeRelAxisMapping(const ,const QString name);
+			
+			QString buttonName(DeviceFlag deviceType , int code);
+			QString axisName(DeviceFlag deviceType, int code);
         private:
+            ~GluonButtonMapper();
             QSharedDataPointer<GluonButtonMapperPrivate> d;
     };
 }

@@ -27,9 +27,11 @@ endif()
 set_target_properties(gluon_component_textrenderer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_textrenderer GluonEngine ${GLUON_GRAPHICS_LIBS})
 
-install(
-    TARGETS
-    gluon_component_textrenderer
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
+if(NOT APPLE AND NOT WIN32)
+	install(
+		TARGETS
+		gluon_component_textrenderer
+		DESTINATION
+		${LIB_INSTALL_DIR}/gluon
+	)
+endif()

@@ -16,16 +16,18 @@ endif()
 set_target_properties(gluon_asset_script PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_asset_script GluonEngine)
 
-install(
-    TARGETS
-    gluon_asset_script
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
+if(NOT APPLE AND NOT WIN32)
+	install(
+		TARGETS
+		gluon_asset_script
+		DESTINATION
+		${LIB_INSTALL_DIR}/gluon
+	)
 
-install(
-    FILES
-    script_template.js
-    DESTINATION
-    ${SHARE_INSTALL_DIR}/gluon/templates/qtscript
-)
+	install(
+		FILES
+		script_template.js
+		DESTINATION
+		${SHARE_INSTALL_DIR}/gluon/templates/qtscript
+	)
+endif()

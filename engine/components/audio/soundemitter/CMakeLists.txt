@@ -27,9 +27,11 @@ endif()
 set_target_properties(gluon_component_soundemitter PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_soundemitter GluonEngine ${GLUON_AUDIO_LIBS} gluon_asset_sound)
 
-install(
-    TARGETS
-    gluon_component_soundemitter
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
+if(NOT APPLE AND NOT WIN32)
+	install(
+		TARGETS
+		gluon_component_soundemitter
+		DESTINATION
+		${LIB_INSTALL_DIR}/gluon
+	)
+endif()

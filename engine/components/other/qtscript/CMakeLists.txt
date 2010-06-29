@@ -23,9 +23,11 @@ endif()
 set_target_properties(gluon_component_qtscript PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_qtscript GluonEngine ${QT_QTSCRIPT_LIBRARY})
 
-install(
-    TARGETS
-    gluon_component_qtscript
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
+if(NOT APPLE AND NOT WIN32)
+	install(
+		TARGETS
+		gluon_component_qtscript
+		DESTINATION
+		${LIB_INSTALL_DIR}/gluon
+	)
+endif()

@@ -104,14 +104,13 @@ set(GluonInput_SRCS_COMMON
 	keyboardprivate.cpp
     joystick.cpp
 	joystickprivate.cpp
-    custominput.cpp
-	custominputprivate.cpp
     inputmanager.cpp
 	inputmanagerprivate.cpp
     detect.cpp
 	inputbuffer.cpp
 	inputbufferprivate.cpp
 	gluonbuttonmapper.cpp
+	gluonbuttonmapperprivate.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
@@ -122,7 +121,6 @@ set(GluonInput_HEADERS_COMMON
     tablet.h
     keyboard.h
     joystick.h
-    custominput.h
 	detect.h
 	absval.h
 	inputbuffer.h

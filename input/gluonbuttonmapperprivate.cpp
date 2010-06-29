@@ -25,9 +25,8 @@ GluonButtonMapperPrivate::GluonButtonMapperPrivate()
 }
 GluonButtonMapperPrivate::GluonButtonMapperPrivate(GluonButtonMapperPrivate &other)
         : QSharedData(other),
-        m_buttons(other.m_buttons),
-        m_absAxis(other.m_absAxis),
-        m_relAxis(other.m_relAxis)
+		m_deviceMapping(other.m_deviceMapping),
+		m_buttonMapping(other.m_buttonMapping)
 {
 }
 

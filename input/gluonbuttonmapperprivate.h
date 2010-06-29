@@ -16,8 +16,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef CUSTOMINPUTPRIVATE_H
-#define CUSTOMINPUTPRIVATE_H
+#ifndef GLUONBUTTONMAPPERPRIVATE_H
+#define GLUONBUTTONMAPPERPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QHash>
@@ -34,7 +34,7 @@ namespace GluonInput
             ~GluonButtonMapperPrivate();
 		
 			QHash<int, int> m_deviceMapping;
-			QHash<int, QString > m_deviceMapping;
+			QHash<int, QString > m_buttonMapping;
     };
 
 }
