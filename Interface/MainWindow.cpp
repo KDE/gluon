@@ -79,6 +79,8 @@ void MainWindow::setupWidgets()
     _graphVisualEditor = new GraphVisualEditor ( this );
     _actionButtons = new KToolBar(_graphVisualEditor,false);
     _widgetType = new KComboBox(_actionButtons);
+    _widgetType->addItem("if");
+    _widgetType->addItem("method");
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
 }
