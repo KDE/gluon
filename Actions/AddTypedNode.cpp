@@ -33,6 +33,7 @@ AddTypedNodeAction::AddTypedNodeAction(GraphScene *scene, QObject *parent)
     setToolTip ( i18n ( "Creates a new node of selected type at the click position on the drawing area." ) );
     setIcon ( KIcon ( "rocsaddnode" ) );
     _name = "add-typed-node";
+    _type = 0;
 }
 
 AddTypedNodeAction::~AddTypedNodeAction() {
@@ -52,7 +53,11 @@ void AddTypedNodeAction::executePress(QPointF pos) {
     else if (pos.y() > _graphDocument->height()) return;
 
     qDebug() << "Emitindo o addnode";
-    emit addNode(i18n("untitled"), QPointF(pos.x(), pos.y()),"method");
+    emit addNode(i18n("untitled"), QPointF(pos.x(), pos.y()),_type);
+}
+
+void AddTypedNodeAction::widgetTypeChanged(QString type){
+  _type=type;
 }
 
 void AddTypedNodeAction::setActiveGraph(Graph* graph){

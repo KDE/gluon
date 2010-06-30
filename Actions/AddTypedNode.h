@@ -56,8 +56,13 @@ public slots:
     */
     void executePress(QPointF pos);
     
+    void widgetTypeChanged(QString type);
+    
   signals:
     void addNode(QString name, QPointF pos, QString type);
+    
+  protected:
+    QString _type;
 };
 
 #endif
