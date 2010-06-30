@@ -124,7 +124,7 @@ Edge* Graph::addEdge(Node* from,Node* to) {
 	emit displaySadness();
 	return 0;
     }else if((from==to)&&(from->selfEdgesCapacityReached())){
-	emit displaySadness();
+	emit iAmDisapoint();
 	return 0;
     }
 
