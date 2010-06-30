@@ -121,7 +121,7 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     } else if ((_nodes.indexOf(from) == -1) || (_nodes.indexOf(to) == -1)) {
         return 0;
     } else if(from->outEdgesCapacityReached() || to->inEdgesCapacityReached()){
-	emit displaySadness();
+	emit iAmDisappoint();
 	return 0;
     }else if((from==to)&&(from->selfEdgesCapacityReached())){
 	emit iAmDisappoint();
