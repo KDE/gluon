@@ -34,7 +34,7 @@ Node::Node(Graph *parent) : QObject(parent) {
     _width = 0.5;
     _showName = true;
     _showValue = true;
-    _showImage = true;
+    _showImage = false;
     _begin = false;
     _end = false;
     _color = _graph->nodeDefaultColor();
