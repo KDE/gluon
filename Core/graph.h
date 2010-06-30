@@ -278,7 +278,7 @@ signals:
     void changed();
     void orientedChanged(bool b);
     void automateChanged(bool b);
-    void iAmDisapoint();
+    void iAmDisappoint();
 
 private:
     bool _directed;
