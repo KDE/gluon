@@ -33,7 +33,7 @@ AddTypedNodeAction::AddTypedNodeAction(GraphScene *scene, QObject *parent)
     setToolTip ( i18n ( "Creates a new node of selected type at the click position on the drawing area." ) );
     setIcon ( KIcon ( "rocsaddnode" ) );
     _name = "add-typed-node";
-    _type = 0;
+    _type = "";
 }
 
 AddTypedNodeAction::~AddTypedNodeAction() {
