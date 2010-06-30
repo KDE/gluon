@@ -95,6 +95,7 @@ void MainWindow::setupActions()
     _actionButtons->addAction(g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this ))));
     _widgetTypeBar=_actionButtons->addWidget(_widgetType);
     _widgetTypeBar->setVisible(false);
+    qobject_cast<AddTypedNodeAction*>(ac->action("add_typed_node"))->widgetTypeChanged(_widgetType->currentText());
     connect(ac->action("add_typed_node"),SIGNAL(changed()),this,SLOT(toggleWidgetTypeShown()));
     connect(_widgetType,SIGNAL(currentIndexChanged(QString)),ac->action("add_typed_node"),SLOT(widgetTypeChanged(QString)));
     ac->action("move_node")->trigger();

@@ -105,6 +105,7 @@ void Graph::addNode(QString name, QPointF pos, QString type){
     Node *node = addNode(name);
     node->setPos(pos.x(), pos.y());
     //change properties based on type here
+    node->setName(type);
 }
 
 Edge* Graph::addEdge(Node* from,Node* to) {
