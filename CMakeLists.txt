@@ -43,6 +43,7 @@ set( rocs_core_SRCS
 set ( rocs_actions_SRCS
   Actions/AbstractAction.cpp
   Actions/AddNode.cpp
+  Actions/AddTypedNode.cpp
   Actions/AddEdge.cpp
   Actions/MoveNode.cpp
   Actions/Select.cpp

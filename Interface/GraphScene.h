@@ -49,6 +49,7 @@ public:
 
     void setHideEdges(bool h);
     bool hideEdges();
+    QAction* action();
     void updateAfter(QGraphicsItem *item);
     bool fade() const{ return _fade; }
     void fade(bool b){ _fade = b; }

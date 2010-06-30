@@ -43,6 +43,7 @@
 // Action Related Includes
 #include "AbstractAction.h"
 #include "AddNode.h"
+#include "AddTypedNode.h"
 #include "AddEdge.h"
 #include "MoveNode.h"
 #include "Select.h"
@@ -77,6 +78,7 @@ void MainWindow::setupWidgets()
     _layout = new QVBoxLayout(this);
     _graphVisualEditor = new GraphVisualEditor ( this );
     _actionButtons = new KToolBar(_graphVisualEditor,false);
+    _widgetType = new KComboBox(_actionButtons);
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
 }
@@ -86,10 +88,13 @@ void MainWindow::setupActions()
     GraphScene *gc = _graphVisualEditor->scene();
     ac=new KActionCollection(this);
     QActionGroup *g = new QActionGroup ( this );
-    _actionButtons->addAction(g->addAction(ac->addAction("add_node",new AddNodeAction(gc,this))));
+    _actionButtons->addAction(g->addAction(ac->addAction("add_typed_node",new AddTypedNodeAction(gc,this))));
     _actionButtons->addAction(g->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this))));
     _actionButtons->addAction(g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this ))));
-    ac->action("add_node")->trigger();
+    _widgetTypeBar=_actionButtons->addWidget(_widgetType);
+    _widgetTypeBar->setVisible(false);
+    connect(ac->action("add_typed_node"),SIGNAL(changed()),this,SLOT(toggleWidgetTypeShown()));
+    ac->action("move_node")->trigger();
     
 /*
     g->addAction ( ac->addAction ( "select", new SelectAction ( gc, this )));
@@ -103,6 +108,14 @@ void MainWindow::setupActions()
     ac->addAction ( "align-vcenter",new AlignAction ( i18n ( "Align on the center" ),AlignAction::VCenter,_graphVisualEditor ) );
     ac->addAction ( "align-vright", new AlignAction ( i18n ( "Align on the right" ), AlignAction::Right,  _graphVisualEditor ) );
     */
+}
+
+void MainWindow::toggleWidgetTypeShown(){
+  if(_widgetTypeBar->isVisible()){
+    _widgetTypeBar->setVisible(false);
+  }else{
+    _widgetTypeBar->setVisible(true);
+  }
 }
 
 void MainWindow::setActiveGraphDocument ( GraphDocument* d )

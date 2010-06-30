@@ -24,6 +24,8 @@
 //#include <KXmlGuiWindow>
 #include <kmessagebox.h>
 #include <KToolBar>
+#include <KComboBox>
+#include <QAction>
 #include <QVBoxLayout>
 
 class KPushButton;
@@ -60,10 +62,13 @@ private: // Methods
 public slots:
     void setActiveGraphDocument(GraphDocument *d);
     void setActiveGraph(Graph *g);
+    void toggleWidgetTypeShown();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
     KToolBar* _actionButtons;
+    KComboBox* _widgetType;
+    QAction* _widgetTypeBar;
     QVBoxLayout* _layout;
     KActionCollection *ac;
     //KActionCollection *_paletteActions; //! the pallete actions, move, add, etc.
