@@ -106,6 +106,13 @@ void Graph::addNode(QString name, QPointF pos, QString type){
     node->setPos(pos.x(), pos.y());
     //change properties based on type here
     node->setName(type);
+    node->hideValue(false);
+    if(type=="if"){
+      node->setMaxOutEdges(2);
+      node->setIcon("rocs_if");
+      node->addDynamicProperty("true",0);
+      node->addDynamicProperty("false",0);
+    }
 }
 
 Edge* Graph::addEdge(Node* from,Node* to) {
