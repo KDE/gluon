@@ -142,6 +142,7 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     }
     _edges.append( e );
     emit edgeCreated(e);
+    e->emitChangedSignal();
     connect (e, SIGNAL(changed()), this, SIGNAL(changed()));
     return e;
 }
