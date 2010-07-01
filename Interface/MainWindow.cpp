@@ -93,6 +93,7 @@ void MainWindow::setupActions()
     _actionButtons->addAction(g->addAction(ac->addAction("add_typed_node",new AddTypedNodeAction(gc,this))));
     _actionButtons->addAction(g->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this))));
     _actionButtons->addAction(g->addAction ( ac->addAction ( "add_edge", new AddEdgeAction ( gc, this ))));
+    _actionButtons->addAction(g->addAction ( ac->addAction ( "delete_action", new DeleteAction ( gc, this ))));
     _widgetTypeBar=_actionButtons->addWidget(_widgetType);
     _widgetTypeBar->setVisible(false);
     qobject_cast<AddTypedNodeAction*>(ac->action("add_typed_node"))->widgetTypeChanged(_widgetType->currentText());

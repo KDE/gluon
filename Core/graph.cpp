@@ -136,33 +136,48 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     }
 
     Edge *e  = new Edge(this, from, to);
-    assignEdgeAction(from, e);
+    if(!assignEdgeAction(from, e)){
+      delete e;
+      return 0;
+    }
     _edges.append( e );
     emit edgeCreated(e);
     connect (e, SIGNAL(changed()), this, SIGNAL(changed()));
     return e;
 }
 
-void Graph::assignEdgeAction(Node *from,Edge *edge){
+bool Graph::assignEdgeAction(Node *from,Edge *edge){
   QListIterator<QByteArray> plist = from->dynamicPropertyNames();
+  QListIterator<Edge*> elist = from->out_edges();
   QStringList middleman;
+  QString temp;
+  bool safe;
   bool okPressed;
   QString selectedProperty;
   if (!plist.hasNext()){
-    middleman << "";
-    selectedProperty = "";
-    okPressed=true;
+    iAmDisappoint();
+    return false;
   }else{
   while (plist.hasNext()){
-    middleman << QString(plist.next().data());
+    safe=true;
+    temp = QString(plist.next().data());
+    while (elist.hasNext()){
+      if(elist.next()->value()==temp){
+	safe=false;
+      }
+    }
+    elist.toFront();
+    if(safe){
+      middleman << temp;
+    }
   }
   selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
   }
   if (!okPressed){
-    edge->setValue(middleman.first());
-    edge->setName("Iamsadyouhitcancel"+edge->name());
+    return false;
   }else{
     edge->setValue(selectedProperty);
+    return true;
   }
 }
 

@@ -306,7 +306,7 @@ private:
     bool _edgeValuesVisible;
     
     //might want to change to bool to at least relay back success or not
-    void assignEdgeAction(Node *from, Edge *edge);
+    bool assignEdgeAction(Node *from, Edge *edge);
 
 };
 
