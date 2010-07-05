@@ -129,6 +129,7 @@ namespace GluonGraphics
             void setPosition(float x, float y, float z);
             
             void setOrientation(const QQuaternion &orient);
+
             
             void setVisibleArea(const QSizeF& area);
 
