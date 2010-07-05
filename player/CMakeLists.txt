@@ -31,7 +31,6 @@ set(GLUON_PLAYER_LIBS
    ${GLUON_CORE_LIBS}
    CACHE PATHS "Libraries required for Gluon Player"
 )
-message(STATUS ${GLUON_PLAYER_LIBS})
 install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(qt)
