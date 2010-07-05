@@ -22,6 +22,7 @@
 
 #include <QtCore/QSharedData>
 #include "scriptingcomponent.h"
+#include <QScriptValue>
 
 namespace GluonEngine
 {
@@ -31,6 +32,16 @@ namespace GluonEngine
             ScriptingComponentPrivate();
             ScriptingComponentPrivate(const ScriptingComponentPrivate& other);
             ~ScriptingComponentPrivate();
+            
+            ScriptingAsset* scriptingAsset;
+            
+            QScriptValue scriptObject;
+            QScriptValue initializeFunction;
+            QScriptValue startFunction;
+            QScriptValue updateFunction;
+            QScriptValue drawFunction;
+            QScriptValue stopFunction;
+            QScriptValue cleanupFunction;
     };
 }
 

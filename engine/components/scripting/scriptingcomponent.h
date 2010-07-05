@@ -47,7 +47,8 @@ namespace GluonEngine
             
             ScriptingAsset* script() const;
         public Q_SLOTS:
-            void setScript(const ScriptingAsset* newAsset);
+            void setScript(GluonEngine::ScriptingAsset* newAsset);
+            void scriptAssetUpdated();
             
         private:
             class ScriptingComponentPrivate;
