@@ -96,7 +96,9 @@ void ScriptingComponent::initialize()
         d->initializeFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::initialize();
 }
@@ -108,7 +110,9 @@ void ScriptingComponent::start()
         d->startFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::start();
 }
@@ -120,7 +124,9 @@ void ScriptingComponent::update(int elapsedMilliseconds)
         d->updateFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::update(elapsedMilliseconds);
 }
@@ -132,7 +138,9 @@ void ScriptingComponent::draw(int timeLapse)
         d->drawFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::draw();
 }
@@ -144,7 +152,9 @@ void ScriptingComponent::stop()
         d->stopFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::stop();
 }
@@ -156,7 +166,9 @@ void ScriptingComponent::cleanup()
         d->cleanupFunction.call(QScriptValue());
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
-            debug(QString("%1: %2").arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString()).arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
+            debug(QString("%1: %2")
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString())
+                .arg(ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join(" ")));
     }
     GluonEngine::Component::cleanup();
 }
