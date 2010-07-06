@@ -28,18 +28,9 @@
 #include <kparts/genericfactory.h>
 #include <KDE/KUrl>
 #include <QtCore/QThread>
+#include <QTimer>
 
 using namespace GluonCreator;
-
-class GluonViewerPart::GameRunner : public QThread
-{
-    public:
-        GameRunner(QObject* parent = 0) : QThread(parent) { }
-        virtual void run()
-        {
-            GluonEngine::Game::instance()->runGame();
-        }
-};
 
 class GluonViewerPart::GluonViewerPartPrivate
 {
@@ -47,7 +38,7 @@ class GluonViewerPart::GluonViewerPartPrivate
         GluonGraphics::GLWidget *widget;
         GluonEngine::GameProject *project;
 
-        GameRunner *runner;
+        QTimer *timer;
 };
 
 GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& )
@@ -64,8 +55,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* p
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
 {
-    if(d->runner->isRunning())
-        d->runner->exit();
+    GluonEngine::Game::instance()->stopGame();
     delete d;
 }
 
@@ -79,10 +69,19 @@ bool GluonCreator::GluonViewerPart::openFile()
     GluonEngine::Game::instance()->setGameProject(d->project);
     GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
 
-    d->runner = new GameRunner(this);
-    d->runner->start();
+    d->timer = new QTimer();
+    d->timer->setSingleShot(true);
+    connect(d->timer, SIGNAL(timeout()), SLOT(startGame()));
+    d->timer->start();
 
     return true;
+}
+
+void GluonViewerPart::startGame()
+{
+    d->timer->deleteLater();
+    d->timer = 0;
+    GluonEngine::Game::instance()->runGame();
 }
 
 K_PLUGIN_FACTORY(GluonViewerPartFactory, registerPlugin<GluonViewerPart>();)

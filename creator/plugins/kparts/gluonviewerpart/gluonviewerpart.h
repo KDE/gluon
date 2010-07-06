@@ -40,6 +40,8 @@ namespace GluonCreator
             
             class GluonViewerPartPrivate;
             GluonViewerPartPrivate * const d;
+public slots:
+    void startGame();
     };
 }
     
