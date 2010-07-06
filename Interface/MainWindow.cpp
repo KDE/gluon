@@ -80,7 +80,12 @@ void MainWindow::setupWidgets()
     _actionButtons = new KToolBar(_graphVisualEditor,false);
     _widgetType = new KComboBox(_actionButtons);
     _widgetType->addItem("if");
-    _widgetType->addItem("method");
+    _widgetType->addItem("initialize");
+    _widgetType->addItem("start");
+    _widgetType->addItem("update");
+    _widgetType->addItem("draw");
+    _widgetType->addItem("stop");
+    _widgetType->addItem("cleanup");
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
 }
