@@ -17,11 +17,11 @@ if(Gluon_FIND_REQUIRED)
     set(_gluonReq "REQUIRED")
 endif(Gluon_FIND_REQUIRED)
 
-find_package(GluonCore _gluonReq)
-find_package(GluonAudio _gluonReq)
-find_package(GluonInput _gluonReq)
-find_package(GluonGraphics _gluonReq)
-find_package(GluonEngine _gluonReq)
+find_package(GluonCore ${_gluonReq})
+find_package(GluonAudio ${_gluonReq})
+find_package(GluonInput ${_gluonReq})
+find_package(GluonGraphics ${_gluonReq})
+find_package(GluonEngine ${_gluonReq})
 
 set(GLUON_INCLUDES
     ${GLUON_CORE_INCLUDES}
