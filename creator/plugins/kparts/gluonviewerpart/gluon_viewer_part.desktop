@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Project Viewer Component
+Name[x-test]=xxGluon Project Viewer Componentxx
 MimeType=text/x-gluon-project;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=gluon_viewer_part
