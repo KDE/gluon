@@ -1,0 +1,16 @@
+{ GluonCore::GluonObject(Comments)
+    { GluonCore::GluonObject(This is a comment)
+        Author string(Shantanu)
+        Title string(Nice comment!)
+        Body string(This is the body of the comment)
+        DateTime string(Date Time)
+        Rating string(5)
+        { GluonCore::GluonObject(This comment2)
+            Author string(Leinir)
+            Title string(Bad comment!)
+            Body string(I'm happy)
+            DateTime string(Bate gime)
+            Rating int(10)
+        }
+    }
+}

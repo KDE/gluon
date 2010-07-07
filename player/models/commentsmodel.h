@@ -22,9 +22,15 @@
 
 #include <QAbstractItemModel>
 #include <QStringList>
+#include <attica/providermanager.h>
+#include <attica/provider.h>
 
 #include "gluon_player_export.h"
 
+namespace Attica
+{
+    class BaseJob;
+}
 namespace GluonCore
 {
     class GluonObject;
@@ -35,6 +41,7 @@ namespace GluonPlayer
 
     class GLUON_PLAYER_EXPORT CommentsModel : public QAbstractItemModel
     {
+    Q_OBJECT
 
     public:
         enum Column { AuthorColumn, TitleColumn, BodyColumn, DateTimeColumn, RatingColumn };
@@ -47,12 +54,19 @@ namespace GluonPlayer
         virtual QModelIndex parent (const QModelIndex& child) const;
         virtual QModelIndex index (int row, int column, const QModelIndex& parent = QModelIndex()) const;
         virtual QVariant headerData (int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+        virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+        virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
         QString columnName(const Column col) const;
 
     private:
         GluonCore::GluonObject *rootNode;
         QStringList m_columnNames;
+        Attica::ProviderManager m_manager;
+        Attica::Provider m_provider;
+        
+        void loadData();
+        void saveData();
     };
 
 }
