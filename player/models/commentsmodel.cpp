@@ -45,21 +45,19 @@ void CommentsModel::loadData()
     gluonDir.cd(".gluon");
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
-    QFile *dataFile = new QFile(filename);
-    if (!dataFile->open(QIODevice::ReadOnly))
+    QFile dataFile(filename);
+    if (!dataFile.open(QIODevice::ReadOnly))
         qDebug() << "Cannot open the comments file";
 
-    QTextStream commentReader(dataFile);
+    QTextStream commentReader(&dataFile);
     QString fileContents = commentReader.readAll();
-    dataFile->close();
+    dataFile.close();
 
     if (fileContents.isEmpty())
         qDebug() << "Something is wrong with the comments file";
     
     QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
     rootNode = comments.at(0);
-
-    delete dataFile;
 }
 
 void CommentsModel::saveData()
@@ -69,17 +67,15 @@ void CommentsModel::saveData()
     gluonDir.cd(".gluon");
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
-    QFile *dataFile = new QFile(filename);
-    if (!dataFile->open(QIODevice::WriteOnly))
+    QFile dataFile(filename);
+    if (!dataFile.open(QIODevice::WriteOnly))
         qDebug() << "Cannot open the comments file";
 
     QList<const GluonObject*> comments;
     comments.append(rootNode);
-    QTextStream dataWriter(dataFile);
+    QTextStream dataWriter(&dataFile);
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(comments);
-    dataFile->close();
-
-    delete dataFile;
+    dataFile.close();
 }
 
 CommentsModel::~CommentsModel()
