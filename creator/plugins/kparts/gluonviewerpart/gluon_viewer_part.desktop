@@ -1,5 +1,8 @@
 [Desktop Entry]
 Name=Gluon Project Viewer Component
+Name[pt]=Componente de Visualização de Projectos do Gluon
+Name[sv]=Gluon-projektvisningskomponent
+Name[uk]=Компонент перегляду проектів Gluon
 Name[x-test]=xxGluon Project Viewer Componentxx
 MimeType=text/x-gluon-project;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart
