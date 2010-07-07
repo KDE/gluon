@@ -76,14 +76,14 @@ ComponentModel::ComponentModel(QObject* parent)
     : QAbstractItemModel(parent)
     , d(new ComponentModelPrivate)
 {
-    QHash<QString, GluonCore::GluonObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
+    QHash<QString, const QMetaObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
     int i = 0;
-    foreach(GluonCore::GluonObject* obj, objectTypes)
+    foreach(const QMetaObject* obj, objectTypes)
     {
-        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(obj);
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(obj->newInstance());
         if(comp)
         {
-            QString name(obj->metaObject()->className());
+            QString name(obj->className());
         
             ComponentModelItem *item = new ComponentModelItem();
             item->name = ObjectManager::instance()->humanifyClassName(name);

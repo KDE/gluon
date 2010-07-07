@@ -54,11 +54,11 @@ class ProjectDock::ProjectDockPrivate
             q = parent;
             view = 0;
             GluonEngine::Asset* theItem;
-            const QHash<QString, GluonCore::GluonObject*> types = GluonCore::GluonObjectFactory::instance()->objectTypes();
-            QHash<QString, GluonCore::GluonObject*>::const_iterator i;
+            const QHash<QString, const QMetaObject*> types = GluonCore::GluonObjectFactory::instance()->objectTypes();
+            QHash<QString, const QMetaObject*>::const_iterator i;
             for(i = types.constBegin(); i != types.constEnd(); ++i)
             {
-                theItem = qobject_cast<GluonEngine::Asset*>(i.value());
+                theItem = qobject_cast<GluonEngine::Asset*>(i.value()->newInstance());
                 if(theItem)
                 {
                     const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();

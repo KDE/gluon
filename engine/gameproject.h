@@ -56,7 +56,7 @@ namespace GluonEngine
             Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:
-            GameProject(QObject * parent = 0);
+            Q_INVOKABLE GameProject(QObject * parent = 0);
             GameProject(const GameProject &other, QObject * parent = 0);
             ~GameProject();
 

@@ -70,7 +70,7 @@ namespace GluonEngine
             Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
-            Asset(QObject *parent = 0);
+            Q_INVOKABLE Asset(QObject *parent = 0);
             ~Asset();
 
             virtual void setName(const QString &newName);
