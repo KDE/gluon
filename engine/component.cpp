@@ -55,17 +55,25 @@ Component::category() const
 QVariant
 Component::toVariant(GluonCore::GluonObject* wrapThis)
 {
-    if (strcmp(this->metaObject()->className(), "GluonCore::Component") != 0)
-        debug(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(this->metaObject()->className()));
+    if (strcmp(staticMetaObject.className(), "GluonCore::Component") != 0)
+    {
+        DEBUG_BLOCK
+        DEBUG_TEXT(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(staticMetaObject.className()));
+    }
     return QVariant::fromValue<GluonEngine::Component*>(qobject_cast<GluonEngine::Component*>(wrapThis));
 }
 
 void
 Component::update(int elapsedMilliseconds)
 {
-    Q_UNUSED(elapsedMilliseconds)
+    Q_UNUSED(elapsedMilliseconds);
 }
 
+void
+Component::draw(int timeLapse)
+{
+    Q_UNUSED(timeLapse);
+}
 
 void
 Component::sanitize()

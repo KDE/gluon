@@ -52,7 +52,7 @@ namespace GluonEngine
                 TS_WORLD,
             };
 
-            GameObject(QObject * parent = 0);
+            Q_INVOKABLE GameObject(QObject * parent = 0);
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
 

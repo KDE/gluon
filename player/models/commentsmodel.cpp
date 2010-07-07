@@ -18,7 +18,14 @@
  */
 
 #include "commentsmodel.h"
+#include <QDebug>
+#include <QFile>
+#include <QDir>
 #include <core/gluonobject.h>
+#include <attica/person.h>
+#include <attica/itemjob.h>
+#include <core/gdlhandler.h>
+#include <core/gluon_global.h>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -28,32 +35,62 @@ CommentsModel::CommentsModel (QObject* parent) : QAbstractItemModel (parent)
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
 
-    //Some dummy comments, we gotta check it, right? ;)
-    GluonObject *comment = new GluonObject("This is a comment");
-    comment->setProperty(columnName(AuthorColumn).toUtf8(), "Shantanu");
-    comment->setProperty(columnName(TitleColumn).toUtf8(), "Nice comment!");
-    comment->setProperty(columnName(BodyColumn).toUtf8(), "This is the body of the comment");
-    comment->setProperty(columnName(DateTimeColumn).toUtf8(), "Date Time");
-    comment->setProperty(columnName(RatingColumn).toUtf8(), "5");
-    rootNode->addChild(comment);
+    loadData();
+}
+
+void CommentsModel::loadData()
+{
+    QDir gluonDir = QDir::home();
+    gluonDir.mkdir(".gluon");
+    gluonDir.cd(".gluon");
+    QString filename = gluonDir.absoluteFilePath("comments.gdl");
+
+    QFile *dataFile = new QFile(filename);
+    if (!dataFile->open(QIODevice::ReadOnly))
+        qDebug() << "Cannot open the comments file";
+
+    QTextStream commentReader(dataFile);
+    QString fileContents = commentReader.readAll();
+    dataFile->close();
+
+    if (fileContents.isEmpty())
+        qDebug() << "Something is wrong with the comments file";
     
-    GluonObject *comment2 = new GluonObject("This comment2");
-    comment2->setProperty(columnName(AuthorColumn).toUtf8(), "Leinir");
-    comment2->setProperty(columnName(TitleColumn).toUtf8(), "Bad comment!");
-    comment2->setProperty(columnName(BodyColumn).toUtf8(), "I'm happy");
-    comment2->setProperty(columnName(DateTimeColumn).toUtf8(), "Bate gime");
-    comment2->setProperty(columnName(RatingColumn).toUtf8(), 10);
-    comment->addChild(comment2);
+    QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
+    rootNode = comments.at(0);
+
+    delete dataFile;
+}
+
+void CommentsModel::saveData()
+{
+    QDir gluonDir = QDir::home();
+    gluonDir.mkdir(".gluon");
+    gluonDir.cd(".gluon");
+    QString filename = gluonDir.absoluteFilePath("comments.gdl");
+
+    QFile *dataFile = new QFile(filename);
+    if (!dataFile->open(QIODevice::WriteOnly))
+        qDebug() << "Cannot open the comments file";
+
+    QList<const GluonObject*> comments;
+    comments.append(rootNode);
+    QTextStream dataWriter(dataFile);
+    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(comments);
+    dataFile->close();
+
+    delete dataFile;
 }
 
 CommentsModel::~CommentsModel()
 {
+    saveData();
     delete rootNode;
 }
 
 QVariant CommentsModel::data (const QModelIndex& index, int role) const
 {
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         GluonObject *node;
         node = static_cast<GluonObject*>(index.internalPointer());
 
@@ -126,8 +163,31 @@ QVariant CommentsModel::headerData (int section, Qt::Orientation orientation, in
      return QVariant();
 }
 
+Qt::ItemFlags CommentsModel::flags (const QModelIndex& index) const
+{
+     if (!index.isValid())
+         return Qt::ItemIsEnabled;
+
+     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool CommentsModel::setData (const QModelIndex& index, const QVariant& value, int role)
+{
+    if (index.isValid() && role == Qt::EditRole) {
+        GluonObject *node;
+        node = static_cast<GluonObject*>(index.internalPointer());
+
+        return node->setProperty(columnName(Column(index.column())).toUtf8(), value);
+        emit dataChanged(index, index);
+        return true;
+    }
+
+    return false;
+}
+
 QString CommentsModel::columnName (const Column col) const
 {
     return m_columnNames.at(col);
 }
 
+#include "commentsmodel.moc"

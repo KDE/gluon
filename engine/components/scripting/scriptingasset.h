@@ -29,7 +29,7 @@ namespace GluonEngine
         Q_OBJECT
         GLUON_OBJECT(GluonEngine::ScriptingAsset)
         public:
-            ScriptingAsset(QObject* parent = 0);
+            Q_INVOKABLE ScriptingAsset(QObject* parent = 0);
             virtual ~ScriptingAsset();
 
             virtual const QStringList supportedMimeTypes() const;

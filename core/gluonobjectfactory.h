@@ -25,6 +25,7 @@
 
 #include "singleton.h"
 #include "gluon_core_export.h"
+#include "debughelper.h"
 
 namespace GluonCore
 {
@@ -35,7 +36,30 @@ namespace GluonCore
             Q_OBJECT
 
         public:
-            void registerObjectType(GluonObject * newObjectType, int typeID);
+            template<class T>
+            void registerObjectType()
+            {
+                DEBUG_BLOCK
+                
+                int typeID = qRegisterMetaType<T*>(T::staticMetaObject.className() + '*');
+                DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(T::staticMetaObject.className()).arg(typeID));
+                
+                m_objectTypes[T::staticMetaObject.className()] = &(T::staticMetaObject);
+                m_objectTypeIDs[T::staticMetaObject.className()] = typeID;
+                
+                // Yeah, i'd like to do this using a virtual static function, but those don't exist in C++ :P
+                T object;
+                QString mimetypenames;
+                foreach(const QString &mimetype, object.supportedMimeTypes())
+                {
+                    mimetypenames.append(' ' + mimetype);
+                    m_mimeTypes[mimetype] = T::staticMetaObject.className();
+                }
+                if(mimetypenames.length() > 0)
+                {
+                    DEBUG_TEXT(QString("Added mimetypes %1 to the index").arg(mimetypenames));
+                }
+            };
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
             GluonObject * instantiateObjectByMimetype(const QString& objectMimeType);
 
@@ -55,10 +79,11 @@ namespace GluonCore
 
             QStringList objectTypeNames() const;
             QStringList objectMimeTypes() const;
-            QHash<QString, GluonObject*> objectTypes() const;
+            QHash<QString, const QMetaObject*> objectTypes() const;
             const QHash<QString, int> objectTypeIDs() const;
+            
         private:
-            QHash<QString, GluonObject*> m_objectTypes;
+            QHash<QString, const QMetaObject*> m_objectTypes;
             QHash<QString, QString> m_mimeTypes;
             QHash<QString, int> m_objectTypeIDs;
     };
@@ -68,18 +93,14 @@ template<class T>
 class GLUON_CORE_EXPORT GluonObjectRegistration
 {
     public:
-        GluonObjectRegistration(T* newObjectType)
+        GluonObjectRegistration()
         {
-            if (newObjectType->metaObject())
-            {
-                int typeID = qRegisterMetaType<T*>(newObjectType->metaObject()->className() + '*');
-                GluonCore::GluonObjectFactory::instance()->registerObjectType(newObjectType, typeID);
-            }
+            GluonCore::GluonObjectFactory::instance()->registerObjectType<T>();
         }
 };
 
 #define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
-    namespace NAMESPACE { GluonObjectRegistration<NEWOBJECTTYPE> NEWOBJECTTYPE ## _GluonObjectRegistration_(new NEWOBJECTTYPE()); }\
+    GluonObjectRegistration<NAMESPACE :: NEWOBJECTTYPE> NAMESPACE ## NEWOBJECTTYPE ## _GluonObjectRegistration;\
     GluonCore::GluonObject * \
     NAMESPACE::NEWOBJECTTYPE::instantiate()\
     {\

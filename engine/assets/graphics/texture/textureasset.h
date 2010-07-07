@@ -32,7 +32,7 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::TextureAsset)
 
         public:
-            TextureAsset(QObject *parent = 0);
+            Q_INVOKABLE TextureAsset(QObject *parent = 0);
             ~TextureAsset();
 
             void load();

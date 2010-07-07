@@ -37,7 +37,7 @@ namespace GluonEngine
             Q_INTERFACES(GluonEngine::Component)
 
         public:
-            CameraControllerComponent(QObject* parent = 0);
+            Q_INVOKABLE CameraControllerComponent(QObject* parent = 0);
             CameraControllerComponent(const CameraControllerComponent& other);
             virtual ~CameraControllerComponent();
             virtual QString category() const;

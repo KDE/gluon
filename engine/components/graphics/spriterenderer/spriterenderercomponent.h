@@ -37,7 +37,7 @@ namespace GluonEngine
             Q_INTERFACES(GluonEngine::Component)
 
         public:
-            SpriteRendererComponent(QObject* parent = 0);
+            Q_INVOKABLE SpriteRendererComponent(QObject* parent = 0);
             SpriteRendererComponent(const SpriteRendererComponent& other);
             virtual ~SpriteRendererComponent();
             virtual QString category() const;
