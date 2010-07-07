@@ -107,6 +107,7 @@ void Graph::addNode(QString name, QPointF pos, QString type){
     //change properties based on type here
     node->setName(type);
     node->hideValue(false);
+    node->setWidth(0.5);
     if(type=="if"){
       node->setMaxOutEdges(2);
       node->setIcon("rocs_if");
