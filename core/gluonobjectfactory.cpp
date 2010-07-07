@@ -114,7 +114,10 @@ GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
     }
 
     if (m_objectTypes.contains(type))
-        return qobject_cast<GluonObject*>(m_objectTypes.value(type)->newInstance())->toVariant(newValue);
+    {
+        QScopedPointer<GluonObject> obj(instantiateObjectByName(type);
+        return obj->toVariant(newValue);
+    }
 
     DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(type));
 
@@ -131,8 +134,8 @@ GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
 
     if (m_objectTypes.contains(typeName))
     {
-        DEBUG_TEXT2("Type %1 found", typeName);
-        return instantiateObjectByName(typeName)->toVariant(newValue);
+        QScopedPointer<GluonObject> obj(instantiateObjectByName(typeName);
+        return obj->toVariant(newValue);
     }
 
     DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
@@ -153,6 +156,8 @@ GluonObjectFactory::wrappedObject(const QVariant& wrappedObject)
         QScopedPointer<GluonObject> obj(instantiateObjectByName(typeName));
         return obj->fromVariant(wrappedObject);
     }
+
+    DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
 
     return 0;
 }
