@@ -37,7 +37,7 @@ namespace GluonEngine
             Q_INTERFACES(GluonEngine::Component)
 
         public:
-            TextRendererComponent(QObject* parent = 0);
+            Q_INVOKABLE TextRendererComponent(QObject* parent = 0);
             ~TextRendererComponent();
             virtual QString category() const;
             

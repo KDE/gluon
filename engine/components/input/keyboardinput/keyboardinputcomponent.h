@@ -414,7 +414,7 @@ namespace GluonEngine
                 FN_B
             };
 
-            KeyboardInputComponent(QObject * parent = 0);
+            Q_INVOKABLE KeyboardInputComponent(QObject * parent = 0);
             virtual QString category() const;
 
             //  True on any frame between getActionStarted and

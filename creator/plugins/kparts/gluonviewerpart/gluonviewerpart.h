@@ -1,4 +1,5 @@
-/******************************************************************************
+/*
+*****************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -6,47 +7,42 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
 
-#ifndef GLUONENGINE_SCRIPTASSET_H
-#define GLUONENGINE_SCRIPTASSET_H
+#ifndef GLUONVIEWERPART_H
+#define GLUONVIEWERPART_H
 
-#include <engine/gluon_engine_export.h>
-#include <engine/asset.h>
+#include <KDE/KParts/ReadOnlyPart>
 
-namespace GluonEngine
+namespace GluonCreator
 {
-    class GLUON_ENGINE_EXPORT ScriptAsset : public GluonEngine::Asset
+    class GluonViewerPart : public KParts::ReadOnlyPart
     {
-            Q_OBJECT
-            Q_INTERFACES(GluonEngine::Asset)
-            GLUON_OBJECT(GluonEngine::ScriptAsset)
-
+        Q_OBJECT
         public:
-            Q_INVOKABLE ScriptAsset(QObject* parent = 0);
-            ~ScriptAsset();
+            GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList&);
+            virtual ~GluonViewerPart();
 
-            virtual const QStringList supportedMimeTypes() const;
-            virtual void load();
-            virtual const QList<AssetTemplate*> templates();
+        protected:
+            virtual bool openFile();
 
         private:
-            class ScriptAssetPrivate;
-            ScriptAssetPrivate* d;
+            class GameRunner;;
+            
+            class GluonViewerPartPrivate;
+            GluonViewerPartPrivate * const d;
+public slots:
+    void startGame();
     };
-
 }
-
-Q_DECLARE_METATYPE(GluonEngine::ScriptAsset)
-Q_DECLARE_METATYPE(GluonEngine::ScriptAsset*)
-
-#endif // GLUONENGINE_SCRIPTASSET_H
+    
+#endif // GLUONVIEWERPART_H

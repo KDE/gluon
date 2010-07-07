@@ -22,11 +22,19 @@
 using namespace GluonEngine;
 
 ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate()
+    : scriptingAsset(0)
 {
 }
 
 ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate(const GluonEngine::ScriptingComponent::ScriptingComponentPrivate& other)
     : QSharedData(other)
+    , scriptingAsset(other.scriptingAsset)
+    , initializeFunction(other.initializeFunction)
+    , startFunction(other.startFunction)
+    , updateFunction(other.updateFunction)
+    , drawFunction(other.drawFunction)
+    , stopFunction(other.stopFunction)
+    , cleanupFunction(other.cleanupFunction)
 {
 }
 

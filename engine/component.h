@@ -64,7 +64,7 @@ namespace GluonEngine
             // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
 
         public:
-            Component(QObject * parent = 0);
+            Q_INVOKABLE Component(QObject * parent = 0);
             Component(const Component &other, QObject * parent = 0);
             ~Component();
             
@@ -79,7 +79,7 @@ namespace GluonEngine
             * to implement this function to return a QVariant which is of the type
             * of your class.
             */
-            virtual QVariant toVariant(GluonObject * wrapThis);
+             virtual QVariant toVariant(GluonObject * wrapThis);
             
             /**
              * The initialize function is called whenever an initialized object
@@ -115,10 +115,8 @@ namespace GluonEngine
              * @param timeLapse The number of milliseconds passed since the last update
              * @see Game::runGame, update
              */
-            virtual void draw(int timeLapse = 0)
-            {
-                Q_UNUSED(timeLapse)
-            };
+            virtual void draw(int timeLapse = 0);
+
             /**
              * The stop function is run once when the gameloop is stopped.
              * Use it for removing temporary data between runs. Reimplement

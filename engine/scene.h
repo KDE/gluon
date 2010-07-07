@@ -35,7 +35,7 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::Scene);
 
         public:
-            Scene(QObject * parent = 0);
+            Q_INVOKABLE Scene(QObject * parent = 0);
             ~Scene();
 
             virtual void setFile(const QUrl &newFile);

@@ -38,14 +38,14 @@ GluonObjectFactory::objectTypeNames() const
 {
     QStringList theNames;
 
-    QHash<QString, GluonObject*>::const_iterator i;
+    QHash<QString, const QMetaObject*>::const_iterator i;
     for (i = m_objectTypes.constBegin(); i != m_objectTypes.constEnd(); ++i)
         theNames << i.key();
 
     return theNames;
 }
 
-QHash< QString, GluonObject* >
+QHash< QString, const QMetaObject* >
 GluonObjectFactory::objectTypes() const
 {
     return m_objectTypes;
@@ -63,26 +63,6 @@ GluonObjectFactory::objectMimeTypes() const
     return m_mimeTypes.keys();
 }
 
-void
-GluonObjectFactory::registerObjectType(GluonObject * newObjectType, int typeID)
-{
-    DEBUG_BLOCK
-    if (newObjectType)
-    {
-        DEBUG_TEXT(QString("Registering object type %1 with typeID %2").arg(newObjectType->metaObject()->className()).arg(typeID));
-        m_objectTypes[newObjectType->metaObject()->className()] = newObjectType;
-        m_objectTypeIDs[newObjectType->metaObject()->className()] = typeID;
-
-        foreach(const QString &mimetype, newObjectType->supportedMimeTypes())
-        {
-            DEBUG_TEXT(QString("Adding mimetype %1 to the index").arg(mimetype));
-            m_mimeTypes[mimetype] = newObjectType->metaObject()->className();
-        }
-    }
-    else
-        DEBUG_TEXT(QString("Attempted to register a NULL object type"));
-}
-
 GluonObject *
 GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
 {
@@ -92,7 +72,23 @@ GluonObjectFactory::instantiateObjectByName(const QString& objectTypeName)
         fullObjectTypeName = QString("Gluon::") + fullObjectTypeName;
 
     if (m_objectTypes.keys().indexOf(fullObjectTypeName) > -1)
-        return m_objectTypes[fullObjectTypeName]->instantiate();
+    {
+        const QMetaObject *meta = m_objectTypes.value( objectTypeName );
+        if(meta)
+        {
+            GluonObject* obj = qobject_cast<GluonObject*>(meta->newInstance());
+            if(obj)
+            {
+//                DEBUG_TEXT2("Instantiated object of type %1", obj->metaObject()->className());
+                return obj;
+            }
+            else
+            {
+                DEBUG_TEXT2("If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName);
+                return 0;
+            }
+        }
+    }
 
     DEBUG_TEXT(QString("Object type named %1 not found in factory!").arg(objectTypeName));
 
@@ -108,6 +104,7 @@ GluonObjectFactory::instantiateObjectByMimetype(const QString& objectMimeType)
 QVariant
 GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
 {
+    DEBUG_BLOCK
     QString type = original.typeName();
 
     if (type.endsWith('*'))
@@ -117,7 +114,12 @@ GluonObjectFactory::wrapObject(const QVariant& original, GluonObject* newValue)
     }
 
     if (m_objectTypes.contains(type))
-        return m_objectTypes[type]->toVariant(newValue);
+    {
+        QScopedPointer<GluonObject> obj(instantiateObjectByName(type);
+        return obj->toVariant(newValue);
+    }
+
+    DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(type));
 
     return QVariant();
 }
@@ -132,7 +134,8 @@ GluonObjectFactory::wrapObject(const QString& type, GluonObject* newValue)
 
     if (m_objectTypes.contains(typeName))
     {
-        return m_objectTypes[typeName]->toVariant(newValue);
+        QScopedPointer<GluonObject> obj(instantiateObjectByName(typeName);
+        return obj->toVariant(newValue);
     }
 
     DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
@@ -150,8 +153,11 @@ GluonObjectFactory::wrappedObject(const QVariant& wrappedObject)
     
     if (m_objectTypes.contains(typeName))
     {
-        return m_objectTypes[typeName]->fromVariant(wrappedObject);
+        QScopedPointer<GluonObject> obj(instantiateObjectByName(typeName));
+        return obj->fromVariant(wrappedObject);
     }
+
+    DEBUG_TEXT(QString("Warning: Type %1 not found.").arg(typeName));
 
     return 0;
 }
@@ -189,13 +195,14 @@ GluonObjectFactory::loadPlugins()
     foreach(QDir theDir, pluginDirs)
     {
         DEBUG_TEXT(QString("Looking for pluggable components in %1").arg(theDir.absolutePath()));
-        DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
         
         #ifdef Q_WS_X11
         //Only attempt to load our current version. This makes it possible to have different versions
         //of the plugins in the plugin dir.
         theDir.setNameFilters(QStringList() << QString("*.so.%1.%2.%3").arg(GLUON_VERSION_MAJOR).arg(GLUON_VERSION_MINOR).arg(GLUON_VERSION_PATCH));
         #endif
+        
+        DEBUG_TEXT(QString("Found %1 potential plugins. Attempting to load...").arg(theDir.count() - 2));
         foreach(const QString &fileName, theDir.entryList(QDir::Files))
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
@@ -215,6 +222,8 @@ GluonObjectFactory::loadPlugins()
             }
         }
     }
+    
+    DEBUG_TEXT2("Total number of objects in factory after loading: %1", m_objectTypes.count());
 }
 
 #include "gluonobjectfactory.moc"
