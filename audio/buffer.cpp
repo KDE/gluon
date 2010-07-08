@@ -23,7 +23,7 @@
 
 using namespace GluonAudio;
 
-class Buffer::BufferPrivate : public QSharedData
+class Buffer::BufferPrivate
 {
     public:
         BufferPrivate() { buffer = 0; shared = false; }

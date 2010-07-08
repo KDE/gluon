@@ -55,7 +55,7 @@ namespace GluonAudio
 
         private:
             class BufferPrivate;
-            QSharedDataPointer<BufferPrivate> d;
+            BufferPrivate * const d;
     };
 }
 
