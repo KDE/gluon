@@ -1,124 +1,67 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef KCLDETECTWIN_H
-#define KCLDETECTWIN_H
+#ifndef DETECTLINUX_H
+#define DETECTLINUX_H
 
-#include "kclcode.h"
-#include "kclinput.h"
-#include "kcljoystick.h"
-#include "kclkeyboard.h"
-#include "kclmouse.h"
-#include "kcltablet.h"
+#include "inputdevice.h"
+#include "joystick.h"
+#include "keyboard.h"
+#include "mouse.h"
+#include "tablet.h"
+#include "detect.h"
 
-#include <QObject>
-#include <QList>
+#include <QtCore/QObject>
+#include <QtCore/QList>
+#include <QtCore/QSharedData>
 
-class KCL_EXPORT KCLDetectWin : public QObject
+namespace GluonInput
 {
-        Q_OBJECT
+    class GLUON_INPUT_EXPORT DetectWin : public Detect
+    {
+        public:
+            DetectWin(QObject * parent);
+            ~DetectWin();
 
-    private:
-        KCLDetectWin(QObject * parent);
-        ~KCLDetectWin();
+            void detectDevices();
+            void setAllEnabled(bool enable);
 
-    public:
-        void searchDevice();
+            QList<InputDevice *> getInputList();
+            QList<Keyboard *> getKeyboardList();
+            QList<Mouse *> getMouseList();
+            QList<Joystick *> getJoystickList();
+            QList<Tablet *> getTabletList();
+            QList<InputDevice *> getUnknownDeviceList();
 
-        QList<KCLInput *> getInputList()
-        {
-            return m_inputList;
-        }
+            void addInput(InputDevice *i);
+            void addKeyboard(InputDevice *i);
+            void addMouse(InputDevice *i);
+            void addJoystick(InputDevice *i);
+            void addTablet(InputDevice *i);
+            void addUnknown(InputDevice *i);
 
-        QList<KCLKeyBoard *> getKeyboardList()
-        {
-            return m_keyboardList;
-        }
+            void clear();
 
-        QList<KCLMouse *> getMouseList()
-        {
-            return m_mouseList;
-        }
-
-        QList<KCLJoystick *> getJoystickList()
-        {
-            return m_joystickList;
-        }
-
-        QList<KCLTablet *> getTabletList()
-        {
-            return m_tabletList;
-        }
-
-        QList<KCLInput *> getUnknownDeviceList()
-        {
-            return m_unknownList;
-        }
-
-
-        void addInput(KCLInput *i)
-        {
-            m_inputList.append(i);
-        }
-
-        void addKeyboard(KCLInput *i)
-        {
-            KCLKeyBoard * keybd = new KCLKeyBoard(i->devicePath());
-            keybd->setEnable();
-            m_keyboardList.append(keybd);
-        }
-
-        void addMouse(KCLInput *i)
-        {
-            KCLMouse * mouse = new KCLMouse(i->devicePath());
-            mouse->setEnable();
-            m_mouseList.append(mouse);
-        }
-
-        void addJoystick(KCLInput *i)
-        {
-            KCLJoystick * joy = new KCLJoystick(i->devicePath());
-            joy->setEnable();
-            m_joystickList.append(joy);
-
-        }
-
-        void addTablet(KCLInput *i)
-        {
-            KCLTablet * tablet = new KCLTablet(i->devicePath());
-            tablet->setEnable();
-            m_tabletList.append(tablet);
-        }
-
-        void addUnknown(KCLInput *i)
-        {
-            m_unknownList.append(i);
-        }
-
-        void clear();
-
-    private:
-        QList<KCLInput *> m_inputList;
-        QList<KCLKeyBoard *> m_keyboardList;
-        QList<KCLMouse *> m_mouseList;
-        QList<KCLJoystick *> m_joystickList;
-        QList<KCLTablet *> m_tabletList;
-        QList<KCLInput *> m_unknownList;
-};
-
+        private:
+            class DetectWinPrivate;
+            DetectWinPrivate * const d;
+    };
+}
 #endif
