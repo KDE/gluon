@@ -30,6 +30,7 @@
 namespace GluonCore
 {
     class GluonObject;
+	class GluonObjectFactory;
 
     class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
@@ -90,7 +91,7 @@ namespace GluonCore
 }
 
 template<class T>
-class GLUON_CORE_EXPORT GluonObjectRegistration
+class GluonObjectRegistration
 {
     public:
         GluonObjectRegistration()
