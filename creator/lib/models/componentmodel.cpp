@@ -286,4 +286,4 @@ ComponentModel::columnCount(const QModelIndex& parent) const
     return 1;
 }
 
-#include "componentmodel.moc"
+//#include "componentmodel.moc"

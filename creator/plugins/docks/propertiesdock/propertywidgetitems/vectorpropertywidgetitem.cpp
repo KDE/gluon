@@ -120,4 +120,4 @@ void VectorPropertyWidgetItem::zValueChanged(double value)
     PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
 }
 
-#include "vectorpropertywidgetitem.moc"
+// #include "vectorpropertywidgetitem.moc"

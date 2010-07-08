@@ -32,7 +32,7 @@ class DockManager::DockManagerPrivate
         KXmlGuiWindow *mainWindow;
 };
 
-template<> GLUONCREATOR_EXPORT DockManager* GluonCore::Singleton<DockManager>::m_instance = 0;
+template<> GLUON_CREATOR_VISIBILITY DockManager* GluonCore::Singleton<DockManager>::m_instance = 0;
 
 void DockManager::addDock(QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient)
 {
@@ -96,4 +96,4 @@ DockManager::~DockManager()
     delete d;
 }
 
-#include "dockmanager.moc"
+//#include "dockmanager.moc"

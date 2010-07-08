@@ -114,4 +114,4 @@ PropertyWidgetItem::valueChanged(QVariant value)
     emit propertyChanged(d->editedObject, d->propertyName, oldValue, value);
 }
 
-#include "propertywidgetitem.moc"
+//#include "propertywidgetitem.moc"

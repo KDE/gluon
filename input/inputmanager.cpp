@@ -39,7 +39,7 @@
 
 using namespace GluonInput;
 
-template<> GLUON_INPUT_EXPORT InputManager *GluonCore::Singleton<InputManager>::m_instance = 0;
+template<> InputManager *GluonCore::Singleton<InputManager>::m_instance = 0;
 
 InputManager::InputManager()
 {

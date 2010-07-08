@@ -127,4 +127,4 @@ void QuaternionPropertyWidgetItem::valueChanged(double value)
     PropertyWidgetItem::valueChanged(d->value);
 }
 
-#include "quaternionpropertywidgetitem.moc"
+// #include "quaternionpropertywidgetitem.moc"

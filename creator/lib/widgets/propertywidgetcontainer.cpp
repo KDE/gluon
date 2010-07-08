@@ -408,4 +408,4 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString(QString 
     return fixedString;
 }
 
-#include "propertywidgetcontainer.moc"
+//#include "propertywidgetcontainer.moc"

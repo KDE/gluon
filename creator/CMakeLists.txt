@@ -7,9 +7,14 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonEngine REQUIRED)
 endif()
 
-include_directories(${KDE4_INCLUDES} ${GLUON_CORE_INCLUDES} ${GLUON_ENGINE_INCLUDES})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${KDE4_INCLUDES}
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES})
 
-include(KDE4Defaults)
+#include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 

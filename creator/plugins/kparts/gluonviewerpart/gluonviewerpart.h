@@ -29,7 +29,7 @@ namespace GluonCreator
     {
         Q_OBJECT
         public:
-            GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList&);
+            GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
             virtual ~GluonViewerPart();
 
         protected:

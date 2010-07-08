@@ -120,4 +120,4 @@ void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
     d->layout->addWidget(new PropertyWidgetContainer(obj, this));
 }
 
-#include "propertywidget.moc"
+//#include "propertywidget.moc"

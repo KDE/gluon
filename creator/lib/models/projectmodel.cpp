@@ -301,4 +301,4 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
 }
 
 
-#include "projectmodel.moc"
+//#include "projectmodel.moc"

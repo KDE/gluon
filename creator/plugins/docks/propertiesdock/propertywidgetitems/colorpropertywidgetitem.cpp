@@ -79,4 +79,4 @@ ColorPropertyWidgetItem::colorValuechanged(const QColor& value)
     PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(value));
 }
 
-#include "colorpropertywidgetitem.moc"
+// #include "colorpropertywidgetitem.moc"

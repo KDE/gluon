@@ -1,54 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="10" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="11" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 
-<MenuBar>
-    <Menu name="file">
+    <MenuBar>
+        <Menu name="file">
 
-    </Menu>
-    
-    <Menu name="edit">
-    </Menu>
-    
-    <Menu name="project">
-        <text>&amp;Project</text>
-        <Action name="chooseEntryPoint" />
-        <Action name="newScene" />
-        <Action name="addAsset" />
-    </Menu>
-    
-    <Menu name="scene">
-        <text>&amp;Scene</text>
-        <Action name="newObject" />
-    </Menu>
-
-    <Menu name="tools">
-        <text>&amp;Tools</text>
-    </Menu>
-
-    <Menu name="settings">
-        <Menu name="docks">
-            <text>&amp;Docks</text>
         </Menu>
-        <Action name="lockLayout" />
-    </Menu>
 
-    <Menu name="help">
-    </Menu>
-</MenuBar>
+        <Menu name="edit">
+            <Separator />
+            <Merge />
+        </Menu>
 
-<ToolBar name="mainToolBar">
-    <text>Main Toolbar</text>
-    <Action name="edit_undo" />
-    <Action name="edit_redo" />
-    <Separator />
-    <Action name="newObject" />
-    <Action name="newScene" />
-    <Separator />
-    <Action name="playPauseGame" />
-    <Action name="stopGame" />
-</ToolBar>
+        <Menu name="project">
+            <text>&amp;Project</text>
+            <Action name="chooseEntryPoint" />
+            <Action name="newScene" />
+            <Action name="addAsset" />
+        </Menu>
 
+        <Menu name="scene">
+            <text>&amp;Scene</text>
+            <Action name="newObject" />
+        </Menu>
+
+        <Menu name="tools">
+            <text>&amp;Tools</text>
+        </Menu>
+
+        <Menu name="settings">
+            <Menu name="docks">
+                <text>&amp;Docks</text>
+            </Menu>
+            <Action name="lockLayout" />
+        </Menu>
+
+        <Menu name="help">
+        </Menu>
+    </MenuBar>
+
+    <ToolBar name="mainToolBar">
+        <text>Main Toolbar</text>
+        <Action name="edit_undo" />
+        <Action name="edit_redo" />
+        <Separator />
+        <Action name="newObject" />
+        <Action name="newScene" />
+        <Separator />
+        <Action name="playPauseGame" />
+        <Action name="stopGame" />
+    </ToolBar>
+
+   <ToolBar name="partToolBar">
+       <text>Optional Actions</text>
+       <Merge />
+   </ToolBar>
 </gui>

@@ -108,4 +108,4 @@ QSizeFPropertyWidgetItem::widthValueChanged(double value)
     PropertyWidgetItem::valueChanged(QVariant(d->value));
 }
 
-#include "qsizefpropertywidgetitem.moc"
+// #include "qsizefpropertywidgetitem.moc"

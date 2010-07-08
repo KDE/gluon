@@ -39,18 +39,28 @@ class GluonViewerPart::GluonViewerPartPrivate
         GluonEngine::GameProject *project;
 
         QTimer *timer;
+
+        bool autoplay;
 };
 
-GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& )
+GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : ReadOnlyPart(parent),
       d(new GluonViewerPartPrivate)
 {
     Q_UNUSED(parentWidget)
-    
+
+    d->autoplay = true;
     d->widget = new GluonGraphics::GLWidget();
     setWidget(d->widget);
 
     connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
+
+    foreach(const QVariant& arg, args)
+    {
+        QString keyValue = arg.toString();
+        if(keyValue == "autoplay=false")
+            d->autoplay = false;
+    }
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
@@ -69,22 +79,28 @@ bool GluonCreator::GluonViewerPart::openFile()
     GluonEngine::Game::instance()->setGameProject(d->project);
     GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
 
-    d->timer = new QTimer();
-    d->timer->setSingleShot(true);
-    connect(d->timer, SIGNAL(timeout()), SLOT(startGame()));
-    d->timer->start();
+    if(d->autoplay)
+    {
+        d->timer = new QTimer();
+        d->timer->setSingleShot(true);
+        connect(d->timer, SIGNAL(timeout()), SLOT(startGame()));
+        d->timer->start();
+    }
 
     return true;
 }
 
 void GluonViewerPart::startGame()
 {
-    d->timer->deleteLater();
-    d->timer = 0;
+    if(d->timer)
+    {
+        d->timer->deleteLater();
+        d->timer = 0;
+    }
     GluonEngine::Game::instance()->runGame();
 }
 
 K_PLUGIN_FACTORY(GluonViewerPartFactory, registerPlugin<GluonViewerPart>();)
 K_EXPORT_PLUGIN(GluonViewerPartFactory("GluonViewerPart","GluonViewerPart"))
 
-#include "gluonviewerpart.moc"
+// #include "gluonviewerpart.moc"

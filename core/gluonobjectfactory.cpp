@@ -31,7 +31,7 @@
 
 using namespace GluonCore;
 
-template<> GLUON_CORE_EXPORT GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
+template<> GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
 
 QStringList
 GluonObjectFactory::objectTypeNames() const

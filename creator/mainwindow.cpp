@@ -19,13 +19,12 @@
 
 #include "mainwindow.h"
 
-#include <QDockWidget>
+#include <QtCore/QVariantList>
 
 #include <KFileDialog>
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KAction>
-#include <KDebug>
 #include <KStatusBar>
 #include <KMessageBox>
 #include <KConfigDialog>
@@ -33,6 +32,9 @@
 #include <KPluginSelector>
 #include <KRun>
 #include <KRecentFilesAction>
+#include <KDE/KTabWidget>
+#include <KDE/KToolBar>
+#include <KDE/KRichTextEdit>
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -48,6 +50,7 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
+#include <QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -58,6 +61,8 @@ class MainWindow::MainWindowPrivate
         QString fileName;
         KRecentFilesAction* recentFiles;
         ProjectSelectionDialog *projectDialog;
+
+        KParts::ReadOnlyPart *viewPart;
 };
 
 MainWindow::MainWindow(const QString& fileName)
@@ -97,8 +102,29 @@ MainWindow::MainWindow(const QString& fileName)
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
     
-    if(centralWidget())
-        centralWidget()->setEnabled(false);
+    //if(centralWidget())
+    //    centralWidget()->setEnabled(false);
+
+    
+
+    KTabWidget *tab = new KTabWidget(this);
+    tab->setCloseButtonEnabled(true);
+    tab->setDocumentMode(true);
+    tab->setMovable(true);
+    //tab->addTab(new QWidget(), i18nc("View Game Tab", "View"));
+
+    KService::Ptr viewerService = KService::serviceByDesktopName("gluon_viewer_part");
+    if(viewerService)
+    {
+        d->viewPart = viewerService->createInstance<KParts::ReadOnlyPart>(0, QVariantList() << QString("autoplay=false"));
+        if(d->viewPart)
+        {
+            tab->addTab(d->viewPart->widget(), i18nc("View Game Tab", "View"));
+        }
+    }
+    
+    tab->addTab(new QWidget(), i18nc("Edit Game Tab", "Edit"));
+    setCentralWidget(tab);
 
     if (!fileName.isEmpty())
     {
@@ -132,21 +158,32 @@ void MainWindow::openProject(const QString &fileName)
     statusBar()->showMessage(i18n("Opening project..."));
     if (!fileName.isEmpty() && QFile::exists(fileName))
     {
-        GluonEngine::GameProject* project = new GluonEngine::GameProject();
-        project->loadFromFile(QUrl(fileName));
-
-        GluonEngine::Game::instance()->setGameProject(project);
+        d->viewPart->openUrl(KUrl(fileName));
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
 
         d->fileName = fileName;
 
         d->recentFiles->addUrl(KUrl(fileName));
+
+        actionCollection()->action(KStandardAction::name(KStandardAction::Save))->setEnabled(true);
+        actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs))->setEnabled(true);
+        actionCollection()->action("newObject")->setEnabled(true);
+        actionCollection()->action("newScene")->setEnabled(true);
+        actionCollection()->action("playPauseGame")->setEnabled(true);
+        actionCollection()->action("addAsset")->setEnabled(true);
+        actionCollection()->action("chooseEntryPoint")->setEnabled(true);
+
+        DockManager::instance()->setDocksEnabled(true);
+
+        if(centralWidget())
+            centralWidget()->setEnabled(true);
+
+        statusBar()->showMessage(i18n("Project successfully opened"));
+        setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
+        HistoryManager::instance()->clear();
+        connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
     }
-    statusBar()->showMessage(i18n("Project successfully opened"));
-    setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
-    HistoryManager::instance()->clear();
-    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
 }
 
 void MainWindow::saveProject()
@@ -383,16 +420,5 @@ void GluonCreator::MainWindow::projectDialogClosed()
 {
     openProject(d->projectDialog->fileName());
     
-    actionCollection()->action(KStandardAction::name(KStandardAction::Save))->setEnabled(true);
-    actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs))->setEnabled(true);
-    actionCollection()->action("newObject")->setEnabled(true);
-    actionCollection()->action("newScene")->setEnabled(true);
-    actionCollection()->action("playPauseGame")->setEnabled(true);
-    actionCollection()->action("addAsset")->setEnabled(true);
-    actionCollection()->action("chooseEntryPoint")->setEnabled(true);
-    
-    DockManager::instance()->setDocksEnabled(true);
-    
-    if(centralWidget())
-        centralWidget()->setEnabled(true);
+
 }

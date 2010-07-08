@@ -61,4 +61,4 @@ void DockPlugin::unload(KXmlGuiWindow* mainWindow)
     parentClient()->removeChildClient(this);
 }
 
-#include "dockplugin.moc"
+//#include "dockplugin.moc"

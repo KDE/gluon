@@ -66,4 +66,4 @@ void QFontPropertyWidgetItem::fontChanged(const QFont& value)
 }
 
 
-#include "qfontpropertywidgetitem.moc"
+// #include "qfontpropertywidgetitem.moc"

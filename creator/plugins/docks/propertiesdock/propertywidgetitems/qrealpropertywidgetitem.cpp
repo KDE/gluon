@@ -99,4 +99,4 @@ QRealPropertyWidgetItem::qrealValueChanged(double value)
     PropertyWidgetItem::valueChanged(QVariant(value));
 }
 
-#include "qrealpropertywidgetitem.moc"
+// #include "qrealpropertywidgetitem.moc"

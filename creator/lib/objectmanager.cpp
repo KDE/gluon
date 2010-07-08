@@ -38,7 +38,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUONCREATOR_EXPORT ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
+template<> GLUON_CREATOR_VISIBILITY ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
 
 QString
 ObjectManager::humanifyClassName(const QString& fixThis, bool justRemoveNamespace) const
@@ -182,4 +182,4 @@ ObjectManager::~ObjectManager()
 
 }
 
-#include "objectmanager.moc"
+//#include "objectmanager.moc"
