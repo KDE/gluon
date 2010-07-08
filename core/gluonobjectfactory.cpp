@@ -172,7 +172,7 @@ GluonObjectFactory::loadPlugins()
     QDir pluginDir(QApplication::applicationDirPath());
 
 #if defined(Q_OS_WIN)
-    if (pluginDir.dirName().tolower() == "debug" || pluginDir.dirName().tolower() == "release")
+    if (pluginDir.dirName().toLower() == "debug" || pluginDir.dirName().toLower() == "release")
         pluginDir.cdUp();
 #elif defined(Q_OS_MAC)
     if (pluginDir.dirName() == "MacOS")
