@@ -45,7 +45,7 @@ Node::Node(Graph *parent) : QObject(parent) {
     _maxInEdges = 1;
     _maxOutEdges = 1;
     _maxSelfEdges = 0;
-    _icon = "rocs_default";
+    _icon = "rocs_method";
     _iconpackage = KGlobal::dirs()->locate("data", "iconpacks/default.svg");
     kDebug() << "Node successfully created" << _iconpackage;
 }

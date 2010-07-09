@@ -3887,6 +3887,44 @@
        id="linearGradient2984"
        xlink:href="#linearGradient2692"
        inkscape:collect="always" />
+    <inkscape:perspective
+       id="perspective2975-1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2692-9"
+       id="linearGradient2767"
+       x1="25.763966"
+       y1="106.8594"
+       x2="147.98227"
+       y2="106.8594"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-142.276,-153.9248)" />
+    <linearGradient
+       id="linearGradient2692-9">
+      <stop
+         id="stop2694-4"
+         offset="0"
+         style="stop-color: rgb(0, 133, 226); stop-opacity: 1;" />
+      <stop
+         id="stop2696-7"
+         offset="1"
+         style="stop-color: rgb(33, 90, 108); stop-opacity: 1;" />
+    </linearGradient>
+    <linearGradient
+       y2="106.8594"
+       x2="147.98227"
+       y1="106.8594"
+       x1="25.763966"
+       gradientTransform="matrix(0.60787043,0,0,0.60787043,348.56757,416.29432)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2984-8"
+       xlink:href="#linearGradient2692-9"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -3896,7 +3934,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.50077816"
-     inkscape:cx="372.04724"
+     inkscape:cx="30.578674"
      inkscape:cy="496.59466"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -6864,5 +6902,21 @@
        y="213.1335"
        transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
        inkscape:label="Decision" />
+    <rect
+       style="fill:url(#linearGradient2984-8);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.6078704px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rocs_method"
+       width="73.685028"
+       height="73.685028"
+       x="364.53281"
+       y="444.40851"
+       inkscape:label="Process" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="rocs_connector"
+       width="15.975138"
+       height="17.972031"
+       x="495.22928"
+       y="467.27277"
+       inkscape:label="#rect4007" />
   </g>
 </svg>

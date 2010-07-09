@@ -111,8 +111,9 @@ void Graph::addNode(QString name, QPointF pos, QString type){
     if(type=="if"){
       node->setMaxOutEdges(2);
       node->setIcon("rocs_if");
-      node->addDynamicProperty("true",0);
-      node->addDynamicProperty("false",0);
+      node->addDynamicProperty("true","out");
+      node->addDynamicProperty("false","out");
+      node->addDynamicProperty("start","in");
     }
 }
 

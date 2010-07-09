@@ -33,6 +33,7 @@ NodeItem::NodeItem(Node* n) : QGraphicsSvgItem(0){
 void NodeItem::setupNode(){
     updateRenderer();
     updateIcon();
+    updateConnectors();
     updateName();
     updateValue();
     updateColor();
@@ -40,6 +41,62 @@ void NodeItem::setupNode(){
     updatePos();
     updateImage();
     update();
+}
+
+//this beast needs some taming
+void NodeItem::updateConnectors(){
+  QListIterator<QByteArray> plist = _node->dynamicPropertyNames();
+  rdown=0;
+  ldown=0;
+  QRectF bound = boundingRect();
+  QGraphicsSvgItem* tSvg;
+  QGraphicsSimpleTextItem* tText;
+  if((_connectors.count()==0 && _connectorLabels.count()==0)||(_node->dynamicPropertyNames().count()!=previousCount)){
+  _connectorLabels.clear();
+  _connectors.clear();
+    if (!plist.hasNext()){
+    return;
+  }else{
+    while (plist.hasNext()){
+      const char* temp= plist.next().data();
+      if(_node->property(temp)=="in"){
+	tSvg = new QGraphicsSvgItem(KGlobal::dirs()->locate("data", "iconpacks/default.svg"),this);
+	tSvg->setElementId("rocs_connector");
+	tText = new QGraphicsSimpleTextItem(QString(temp),this);
+	tText->setFont(_font);
+	if(_node->name()=="if"){
+	    tSvg->setPos((bound.height()/2)-7.95,0);
+	    tText->setPos((bound.height()/2)-7.95,-40);
+	}else{
+	    tSvg->setPos(bound.left(),ldown);
+	    tText->setPos(bound.left()-(tText->boundingRect().width()+20),ldown);
+	    ldown+=50; 
+	}
+      }else if(_node->property(temp)=="out"){
+	tSvg = new QGraphicsSvgItem(KGlobal::dirs()->locate("data", "iconpacks/default.svg"),this);
+	tSvg->setElementId("rocs_connector");
+	tText = new QGraphicsSimpleTextItem(QString(temp),this);
+	tText->setFont(_font);
+	if(_node->name()=="if"){
+	if(QString(temp)=="true"){
+	tSvg->setPos(bound.left()-7.95,(bound.width()/2)-8.25);
+	tText->setPos(bound.left()-(tText->boundingRect().width()+20),(bound.width()/2)-8.25);}
+	else if(QString(temp)=="false"){
+	tSvg->setPos(bound.right()-7.95,(bound.width()/2)-8.25);
+	tText->setPos(bound.right()+20,(bound.width()/2)-8.25);
+	}
+	}else{
+	tSvg->setPos(bound.right()-tSvg->boundingRect().width(),rdown);
+	tText->setPos(bound.right()+(20-tSvg->boundingRect().width()),rdown);
+	rdown+=50;
+	}
+      }
+      _connectors.append(tSvg);
+      _connectorLabels.append(tText);
+      previousCount=_node->dynamicPropertyNames().count();
+    }
+  }
+  }
 }
 
 void NodeItem::updatePos(){

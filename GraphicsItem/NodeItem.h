@@ -10,6 +10,9 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsColorizeEffect>
 #include <QMap>
+#include <QList>
+#include <QListIterator>
+#include <QByteArray>
 #include <QString>
 #include <QFont>
 #include <QPixmap>
@@ -35,6 +38,7 @@ class NodeItem : public QGraphicsSvgItem{
     void updateColor();
     void updatePos();
     void updateSize();
+    void updateConnectors();
     void updateImage();
   private:
     Node *_node;
@@ -43,8 +47,13 @@ class NodeItem : public QGraphicsSvgItem{
     QGraphicsSimpleTextItem *_name;
     QGraphicsSimpleTextItem *_value;
     QGraphicsPixmapItem *_image;
+    QList<QGraphicsSvgItem*> _connectors;
+    QList<QGraphicsSimpleTextItem*> _connectorLabels;
     QGraphicsColorizeEffect *_colorizer;
     QFont _font;
+    int ldown;
+    int rdown;
+    int previousCount;
 };
 
 #include "node.h"
