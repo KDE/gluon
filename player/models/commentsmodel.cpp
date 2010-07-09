@@ -30,6 +30,8 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
+static const char serviceURI[] = "gamingfreedom.org";
+
 CommentsModel::CommentsModel (QObject* parent) : QAbstractItemModel (parent)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
@@ -41,8 +43,8 @@ CommentsModel::CommentsModel (QObject* parent) : QAbstractItemModel (parent)
 void CommentsModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkdir(".gluon");
-    gluonDir.cd(".gluon");
+    gluonDir.mkdir(".gluon/" + QString(serviceURI));
+    gluonDir.cd(".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
     QFile dataFile(filename);
@@ -63,8 +65,8 @@ void CommentsModel::loadData()
 void CommentsModel::saveData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkdir(".gluon");
-    gluonDir.cd(".gluon");
+    gluonDir.mkpath (".gluon/" + QString(serviceURI));
+    gluonDir.cd(".gluon" ".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
     QFile dataFile(filename);

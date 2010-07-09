@@ -39,7 +39,7 @@ set(GLUON_PLAYER_LIBS
    CACHE PATHS "Libraries required for Gluon Player"
 )
 install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
-install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon)
+install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
 
 add_subdirectory(qt)
 
