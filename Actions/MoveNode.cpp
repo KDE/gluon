@@ -37,6 +37,7 @@ MoveNodeAction::MoveNodeAction(GraphScene *scene, QObject *parent)
     setIcon ( KIcon ( "arrow" ) );
     _movableNode = 0;
     _name = "move";
+    _graphScene=scene;
 }
 
 MoveNodeAction::~MoveNodeAction() {
@@ -47,17 +48,30 @@ void MoveNodeAction::executePress(QPointF pos) {
     if (_graph == 0) {
         return;
     }
+    if (_graph->readOnly()) return;
     _movableNode = qgraphicsitem_cast<NodeItem*>(_graphScene->itemAt(pos));
-    if (!_movableNode ) return;
-
+    if (!_movableNode) return;
+    _svgFrom = _movableNode->getCurrentConnector();
     _node = _movableNode->node();
-    _graph = qobject_cast<Graph*>(_node->parent());
+    if(_svgFrom != 0){
+      _startPos = QPointF(_movableNode->node()->x(), _movableNode->node()->y());
+    }
+    connect(this, SIGNAL(addEdge(Node*,Node*)), _graph, SLOT(addEdge(Node*,Node*)));
 }
 
 void MoveNodeAction::executeMove(QPointF pos) {
     if ( ! _movableNode ) {
         return;
     }
+    if(_svgFrom != 0){
+      if ( !_tmpLine ) {
+        _tmpLine = new QGraphicsLineItem( _startPos.x(), _startPos.y(), pos.x(), pos.y());
+        _graphScene->addItem(_tmpLine);
+    }
+    else {
+        _tmpLine->setLine(_startPos.x(), _startPos.y(), pos.x(), pos.y());
+    }
+    }else{
     if ((pos.x() < 0) || (pos.x() > _graphDocument->width())) {
         if (( pos.y() > 0) && (pos.y() < _graphDocument->height())) {
             _node -> setY(pos.y());
@@ -71,15 +85,29 @@ void MoveNodeAction::executeMove(QPointF pos) {
     else {
         _node -> setPos(pos.x(), pos.y());
     }
+    }
 }
 
 void MoveNodeAction::executeRelease(QPointF pos) {
     if ( !_movableNode ) {
         return;
     }
+    if(_svgFrom != 0){
+    if ( _tmpLine ) {
+        delete _tmpLine;
+        _tmpLine = 0;
+    }
+    _nodeTo = qgraphicsitem_cast<NodeItem*>(_graphScene->itemAt(pos));
+    _svgAt = _nodeTo->getCurrentConnector();
+    if (  _nodeTo ) {
+      if(_svgAt != 0 && _svgFrom != 0){
+      emit addEdge( _movableNode->node(),  _nodeTo->node() );
+      }
+    }}else{
     if (!((pos.x() < 0) || (pos.y() < 0) || (pos.x() > _graphDocument->width())|| (pos.y() > _graphDocument->height()))) {
         _node -> setY(pos.y());
         _node -> setX(pos.x());
-    }
+    }}
     _movableNode = 0;
+    disconnect(this, 0, _graph, 0);
 }

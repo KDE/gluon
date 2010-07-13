@@ -22,7 +22,10 @@
 #define MOVENODE_H
 
 #include "AbstractAction.h"
-
+#include <QObject>
+#include <QPointF>
+class QGraphicsLineItem;
+class QGraphicsSvgItem;
 class QObject;
 class NodeItem;
 class Node;
@@ -64,6 +67,9 @@ public slots:
     \param pos the position of the cursor.
     */
     void executeRelease(QPointF pos);
+    
+      signals:
+    void addEdge(Node *from, Node *to);
 
 protected:
     /*! the node that will be moved on screen */
@@ -75,9 +81,26 @@ protected:
 
     /*! the parent graph of the node. */
     Graph *_g;
+    
+    GraphScene *_graphScene;
 
     /*! the QGraphicsView. */
     QGraphicsView *_view;
+    
+    /*! the point of the first click while adding a new edge */
+    QPointF _startPos;
+    
+    /*! a temporary line that will connect the two Nodes. */
+    QGraphicsLineItem *_tmpLine;
+    
+    /*! pointer to the node that suffered the mouse-release-click */
+    NodeItem *_nodeTo;
+    
+    /*! pointer to the SVG Item that suffered the mouse-release-click */
+    QGraphicsSvgItem *_svgAt;
+        
+    /*! pointer to the SVG Item that suffered the mouse-pressed-click */
+    QGraphicsSvgItem *_svgFrom;
 };
 
 #endif

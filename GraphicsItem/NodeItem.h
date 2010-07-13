@@ -16,7 +16,10 @@
 #include <QString>
 #include <QFont>
 #include <QPixmap>
+#include <QGraphicsItem>
+#include <QEvent>
 #include "node.h"
+
 
 class NodeItem : public QGraphicsSvgItem{
   Q_OBJECT
@@ -28,6 +31,9 @@ class NodeItem : public QGraphicsSvgItem{
 
     Node* node() const { return _node; }
     static QMap<QString, QSvgRenderer*> _renders;
+    QList<QGraphicsSvgItem*> connectors();
+    QGraphicsSvgItem* getCurrentConnector();
+    void voidCurrentConnector();
     
   private slots:
     void setupNode();
@@ -54,6 +60,8 @@ class NodeItem : public QGraphicsSvgItem{
     int ldown;
     int rdown;
     int previousCount;
+    bool eventFilter(QObject*,QEvent*);
+    QGraphicsSvgItem* _currentConnector;
 };
 
 #include "node.h"
