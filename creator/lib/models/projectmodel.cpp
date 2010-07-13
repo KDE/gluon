@@ -103,7 +103,16 @@ ProjectModel::data(const QModelIndex& index, int role) const
                 return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
             }
             else
-                return KIcon("text-x-generic");
+            {
+                QString classname(gobj->metaObject()->className());
+                if(classname == QLatin1String("GluonCore::GluonObject"))
+                {
+                    // In this case we're dealing with something which is a "folder"... show it as such
+                    return KIcon("folder");
+                }
+                else
+                    return KIcon("text-x-generic");
+            }
         }
     }
 
