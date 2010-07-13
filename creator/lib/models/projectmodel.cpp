@@ -314,11 +314,14 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     DEBUG_FUNC_NAME
     if (!parent.isValid())
         return false;
+    
+   if(count < 1)
+       return false;
 
     GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
     DEBUG_TEXT("Object removal begins...");
 
-    beginRemoveRows(parent, row, row + count);
+    beginRemoveRows(parent, row, row + count - 1);
     for (int i = row; i < row + count; ++i)
     {
         DEBUG_TEXT(QString("Removing child at row %1").arg(i));
