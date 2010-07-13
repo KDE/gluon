@@ -44,13 +44,13 @@ void NodeItem::setupNode() {
     update();
 }
 
-QList<QGraphicsSvgItem*> NodeItem::connectors() {
+QHash<QString,QGraphicsSvgItem*> NodeItem::connectors() {
     return _connectors;
 }
 
 bool NodeItem::eventFilter(QObject *object, QEvent *event) {
     if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::MouseButtonRelease) {
-        _currentConnector = qgraphicsitem_cast<QGraphicsSvgItem*>(qobject_cast<QGraphicsItem*>(object));
+	_currentConnector = qobject_cast<QGraphicsSvgItem*>(object);
         return true;
     }
     else {
@@ -74,15 +74,13 @@ void NodeItem::updateConnectors() {
     QRectF bound = boundingRect();
     QGraphicsSvgItem* tSvg;
     QGraphicsSimpleTextItem* tText;
-    if ((_connectors.count()==0 && _connectorLabels.count()==0)||(_node->dynamicPropertyNames().count()!=previousCount)) {
-        _connectorLabels.clear();
-        _connectors.clear();
+    if (_connectors.count()==0 ||(_node->dynamicPropertyNames().count()!=previousCount)) {
         if (!plist.hasNext()) {
             return;
         } else {
             while (plist.hasNext()) {
                 const char* temp= plist.next().data();
-                if (_node->property(temp)=="in") {
+		if (_node->property(temp)=="in" && !_connectors.contains(QString(temp))) {
                     tSvg = new QGraphicsSvgItem(KGlobal::dirs()->locate("data", "iconpacks/default.svg"),this);
                     tSvg->setElementId("rocs_connector");
                     tText = new QGraphicsSimpleTextItem(QString(temp),this);
@@ -95,7 +93,9 @@ void NodeItem::updateConnectors() {
                         tText->setPos(bound.left()-(tText->boundingRect().width()+20),ldown);
                         ldown+=50;
                     }
-                } else if (_node->property(temp)=="out") {
+                    tSvg->installEventFilter(this);
+		    _connectors[tText->text()]=tSvg;
+		} else if (_node->property(temp)=="out" && !_connectors.contains(QString(temp))) {
                     tSvg = new QGraphicsSvgItem(KGlobal::dirs()->locate("data", "iconpacks/default.svg"),this);
                     tSvg->setElementId("rocs_connector");
                     tText = new QGraphicsSimpleTextItem(QString(temp),this);
@@ -114,12 +114,11 @@ void NodeItem::updateConnectors() {
                         tText->setPos(bound.right()+(20-tSvg->boundingRect().width()),rdown);
                         rdown+=50;
                     }
+                    tSvg->installEventFilter(this);
+		    _connectors[tText->text()]=tSvg;
                 }
-                tSvg->installEventFilter(this);
-                _connectors.append(tSvg);
-                _connectorLabels.append(tText);
-                previousCount=_node->dynamicPropertyNames().count();
             }
+            previousCount=_node->dynamicPropertyNames().count();
         }
     }
 }

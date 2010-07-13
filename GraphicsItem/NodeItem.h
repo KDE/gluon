@@ -11,6 +11,7 @@
 #include <QGraphicsColorizeEffect>
 #include <QMap>
 #include <QList>
+#include <QHash>
 #include <QListIterator>
 #include <QByteArray>
 #include <QString>
@@ -31,7 +32,7 @@ class NodeItem : public QGraphicsSvgItem{
 
     Node* node() const { return _node; }
     static QMap<QString, QSvgRenderer*> _renders;
-    QList<QGraphicsSvgItem*> connectors();
+    QHash<QString,QGraphicsSvgItem*> connectors();
     QGraphicsSvgItem* getCurrentConnector();
     void voidCurrentConnector();
   public slots:
@@ -53,8 +54,7 @@ class NodeItem : public QGraphicsSvgItem{
     QGraphicsSimpleTextItem *_name;
     QGraphicsSimpleTextItem *_value;
     QGraphicsPixmapItem *_image;
-    QList<QGraphicsSvgItem*> _connectors;
-    QList<QGraphicsSimpleTextItem*> _connectorLabels;
+    QHash<QString,QGraphicsSvgItem*> _connectors;
     QGraphicsColorizeEffect *_colorizer;
     QFont _font;
     int ldown;
