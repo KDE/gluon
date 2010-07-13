@@ -97,12 +97,13 @@ ProjectModel::data(const QModelIndex& index, int role) const
         if(gobj)
         {
             QVariant filename = gobj->property("file");
-            if(filename.isValid()){
+            if(filename.isValid())
+            {
                 QString name = filename.value<QString>();
                 return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-            }else{
-                return KIcon("text-x-generic");
             }
+            else
+                return KIcon("text-x-generic");
         }
     }
 
@@ -126,18 +127,32 @@ ProjectModel::columnCount(const QModelIndex& parent) const
 int
 ProjectModel::rowCount(const QModelIndex& parent) const
 {
-    QObject *parentItem;
     if (parent.column() > 0)
         return 0;
 
-    if (!parent.isValid())
-        parentItem = d->root;
-    else
+    QObject *parentItem = d->root;
+    if (parent.isValid())
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
     if (parentItem)
-        if (!qobject_cast<GluonEngine::Scene*>(parentItem))
+    {
+        if (qobject_cast<GluonCore::GluonObject*>(parentItem))
+        {
+            if (qobject_cast<GluonEngine::Scene*>(parentItem))
+                return 0;
+            
+            int childCount = 0;
+            const QObjectList allChildren = parentItem->children();
+            foreach(const QObject* child, allChildren)
+            {
+                if(qobject_cast<const GluonCore::GluonObject* >(child))
+                    ++childCount;
+            }
+            return childCount;
+        }
+        else
             return parentItem->children().count();
+    }
 
     return 0;
 }
@@ -147,14 +162,27 @@ ProjectModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-
+    
     QObject *childItem = static_cast<QObject*>(child.internalPointer());
     QObject *parentItem = childItem->parent();
-
+    
     if (parentItem == d->root)
         return QModelIndex();
-
-    return createIndex(parentItem->children().indexOf(childItem), 0, parentItem);
+    
+    QObject *grandParent = parentItem->parent();
+    if(grandParent)
+    {
+        int childCount = -1;
+        const QObjectList allChildren = grandParent->children();
+        foreach(const QObject* grandChild, allChildren)
+        {
+            if(qobject_cast<const GluonCore::GluonObject* >(grandChild))
+                ++childCount;
+            if(grandChild == parentItem)
+                return createIndex(childCount, 0, parentItem);
+        }
+    }
+    return createIndex(-1, 0, grandParent);
 }
 
 QModelIndex
@@ -162,19 +190,22 @@ ProjectModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-
-    QObject *parentItem;
-
-    if (!parent.isValid())
-        parentItem = d->root;
-    else
+    
+    QObject *parentItem = d->root;
+    if (parent.isValid())
         parentItem = static_cast<QObject*>(parent.internalPointer());
+    
+    int childCount = -1;
+    const QObjectList allChildren = parentItem->children();
+    foreach(const QObject* child, allChildren)
+    {
+        if(qobject_cast<const GluonCore::GluonObject*>(child))
+            ++childCount;
+        if(childCount == row)
+            return createIndex(row, column, const_cast<QObject*>(child));
+    }
 
-    QObject *childItem = parentItem->children().at(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-    else
-        return QModelIndex();
+    return QModelIndex();
 }
 
 QVariant
@@ -212,7 +243,7 @@ ProjectModel::flags(const QModelIndex& index) const
     }
     else
     {
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled;
+        return Qt::ItemIsDropEnabled;
     }
 }
 

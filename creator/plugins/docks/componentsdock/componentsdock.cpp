@@ -20,7 +20,7 @@
 
 #include "componentsdock.h"
 #include "models/componentmodel.h"
-#include "modeltest.h"
+#include "models/modeltest.h"
 
 #include <QtGui/QTreeView>
 

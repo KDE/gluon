@@ -26,6 +26,7 @@
 #include "engine/scene.h"
 #include "engine/asset.h"
 #include "models/projectmodel.h"
+#include "models/modeltest.h"
 #include "engine/gameproject.h"
 #include "creator/lib/selectionmanager.h"
 
@@ -138,6 +139,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     setObjectName("ProjectDock");
 
     d->model = new ProjectModel(this);
+    new ModelTest(d->model, this);
     
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
@@ -265,17 +267,20 @@ void ProjectDock::newSubMenuTriggered()
 
 void GluonCreator::ProjectDock::newAssetTriggered()
 {
-    DEBUG_BLOCK
+    DEBUG_FUNC_NAME
     if (d->currentContextIndex.isValid())
     {
+        DEBUG_TEXT("Index is valid");
         GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         QAction* menuItem = qobject_cast< QAction* >(QObject::sender());
         if(menuItem)
         {
+            DEBUG_TEXT("Menu item exists");
             GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName(menuItem->property("newAssetClassname").toString());
             GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >(newChild);
             if(newAsset)
             {
+                DEBUG_TEXT("Asset was created");
                 newAsset->setName(menuItem->property("newAssetName").toString());
                 object->addChild(newAsset);
 

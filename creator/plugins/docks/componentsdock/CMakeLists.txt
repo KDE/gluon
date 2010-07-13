@@ -1,7 +1,6 @@
 set(componentsdock_SRCS
 componentsdock.cpp
 componentsdockplugin.cpp
-modeltest.cpp
 )
 
 kde4_add_plugin(gluon_creator_dockplugin_componentsdock ${componentsdock_SRCS})
