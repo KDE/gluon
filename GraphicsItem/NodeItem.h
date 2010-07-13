@@ -34,9 +34,9 @@ class NodeItem : public QGraphicsSvgItem{
     QList<QGraphicsSvgItem*> connectors();
     QGraphicsSvgItem* getCurrentConnector();
     void voidCurrentConnector();
-    
-  private slots:
+  public slots:
     void setupNode();
+  private slots:
     void updateRenderer();
     void updateIcon();
     void updateName();

@@ -115,6 +115,8 @@ void Graph::addNode(QString name, QPointF pos, QString type){
       node->addDynamicProperty("false","out");
       node->addDynamicProperty("start","in");
     }
+    connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
+    emit forceUpdate();
 }
 
 Edge* Graph::addEdge(Node* from,Node* to) {
@@ -138,10 +140,10 @@ Edge* Graph::addEdge(Node* from,Node* to) {
     }
 
     Edge *e  = new Edge(this, from, to);
-    if(!assignEdgeAction(from, e)){
+    /*if(!assignEdgeAction(from, e)){
       delete e;
       return 0;
-    }
+    }*/
     _edges.append( e );
     emit edgeCreated(e);
     e->emitChangedSignal();
