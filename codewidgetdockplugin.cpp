@@ -22,6 +22,7 @@
 
 
 #include <gluon/creator/gluoncreator_macros.h>
+#include <gluon/creator/dockmanager.h>
 #include <KLocalizedString>
 
 using namespace GluonCreator;
@@ -39,8 +40,9 @@ CodeWidgetDockPlugin::~CodeWidgetDockPlugin()
 QDockWidget* CodeWidgetDockPlugin::createDock(KXmlGuiWindow* parent)
 {
     CodeWidgetDock *dock = new CodeWidgetDock(i18n("Code Editor"), parent);
-    parent->setCentralWidget(dock);
-    dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    //parent->setCentralWidget(dock);
+    //dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    DockManager::instance()->addDock(dock, Qt::TopDockWidgetArea, Qt::Vertical);
     return dock;
 }
 
