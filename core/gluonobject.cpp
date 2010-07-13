@@ -314,7 +314,8 @@ GluonObject::fullyQualifiedFileName() const
     }
 
     //Filter out invalid characters for filenames
-    qualifiedName.replace('/', '_').replace('\\', '_').replace(':', '_').replace(',', '_').replace('.', '_').replace('*', '_');
+    QRegExp rx("[\\/\\\\\\:\\.,\\* ]");
+    qualifiedName.replace(rx, "_");
     if(!ext.isEmpty())
         qualifiedName.append('.' + ext);
 
