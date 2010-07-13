@@ -279,6 +279,7 @@ signals:
     void orientedChanged(bool b);
     void automateChanged(bool b);
     void iAmDisappoint();
+    void forceUpdate();
 
 private:
     bool _directed;
