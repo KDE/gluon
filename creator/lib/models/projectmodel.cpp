@@ -334,5 +334,19 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
+void ProjectModel::addChild(QObject* newChild, QModelIndex& parent)
+{
+    if(parent.isValid())
+    {
+        GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+        
+        int rcount = rowCount(parent);
+        beginInsertRows(parent, rcount, rcount);
+        
+        parentObject->addChild(qobject_cast<GluonCore::GluonObject*>(newChild));
+        
+        endInsertRows();
+    }
+}
 
 //#include "projectmodel.moc"
