@@ -44,17 +44,26 @@ class TextureAsset::TextureAssetPrivate
         }
 
         QImage *image;
+        QPixmap icon;
 };
 
-TextureAsset::TextureAsset(QObject *parent) :
-        Asset(parent)
+TextureAsset::TextureAsset(QObject *parent)
+    : Asset(parent)
+    , d(new TextureAssetPrivate)
 {
-    d = new TextureAssetPrivate;
 }
 
 TextureAsset::~TextureAsset()
 {
     delete d;
+}
+
+QIcon TextureAsset::icon() const
+{
+    if(d->icon.isNull())
+        return GluonEngine::Asset::icon();
+    
+    return QIcon(d->icon);
 }
 
 const QStringList TextureAsset::supportedMimeTypes() const
@@ -77,6 +86,7 @@ void TextureAsset::load()
         if (d->image->load(file().toLocalFile()))
         {
             mimeData()->setImageData(*d->image);
+            d->icon = QPixmap::fromImage(d->image->scaled(QSize(128, 128), Qt::KeepAspectRatio));
             setLoaded(true);
         }
     }

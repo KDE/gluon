@@ -35,6 +35,8 @@ namespace GluonEngine
             Q_INVOKABLE TextureAsset(QObject *parent = 0);
             ~TextureAsset();
 
+            virtual QIcon icon() const;
+
             void load();
 
             virtual const QStringList supportedMimeTypes() const;
