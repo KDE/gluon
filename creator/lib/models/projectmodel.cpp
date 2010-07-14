@@ -97,12 +97,31 @@ ProjectModel::data(const QModelIndex& index, int role) const
         if(gobj)
         {
             QVariant filename = gobj->property("file");
-            if(filename.isValid()){
-                QString name = filename.value<QString>();
-                return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-            }else{
-                return KIcon("text-x-generic");
-            }
+                QString classname(gobj->metaObject()->className());
+                if(classname == QLatin1String("GluonCore::GluonObject"))
+                {
+                    // In this case we're dealing with something which is a "folder"... show it as such
+                    return KIcon("folder");
+                }
+                if(qobject_cast<GluonEngine::Asset*>(gobj))
+                {
+                    QIcon icon = qobject_cast<GluonEngine::Asset*>(gobj)->icon();
+                    if(icon.isNull())
+                    {
+                        if(filename.isValid())
+                        {
+                            // If the asset doesn't provide an icon itself, but we do have a filename
+                            // Get the icon for the mimetype of that url
+                            QString name = filename.value<QString>();
+                            return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
+                        }
+                        else
+                            return KIcon("unknown");
+                    }
+                    return icon;
+                }
+                else
+                    return KIcon("text-x-generic");
         }
     }
 
@@ -126,18 +145,32 @@ ProjectModel::columnCount(const QModelIndex& parent) const
 int
 ProjectModel::rowCount(const QModelIndex& parent) const
 {
-    QObject *parentItem;
     if (parent.column() > 0)
         return 0;
 
-    if (!parent.isValid())
-        parentItem = d->root;
-    else
+    QObject *parentItem = d->root;
+    if (parent.isValid())
         parentItem = static_cast<QObject*>(parent.internalPointer());
 
     if (parentItem)
-        if (!qobject_cast<GluonEngine::Scene*>(parentItem))
+    {
+        if (qobject_cast<GluonCore::GluonObject*>(parentItem))
+        {
+            if (qobject_cast<GluonEngine::Scene*>(parentItem))
+                return 0;
+            
+            int childCount = 0;
+            const QObjectList allChildren = parentItem->children();
+            foreach(const QObject* child, allChildren)
+            {
+                if(qobject_cast<const GluonCore::GluonObject* >(child))
+                    ++childCount;
+            }
+            return childCount;
+        }
+        else
             return parentItem->children().count();
+    }
 
     return 0;
 }
@@ -147,14 +180,27 @@ ProjectModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-
+    
     QObject *childItem = static_cast<QObject*>(child.internalPointer());
     QObject *parentItem = childItem->parent();
-
+    
     if (parentItem == d->root)
         return QModelIndex();
-
-    return createIndex(parentItem->children().indexOf(childItem), 0, parentItem);
+    
+    QObject *grandParent = parentItem->parent();
+    if(grandParent)
+    {
+        int childCount = -1;
+        const QObjectList allChildren = grandParent->children();
+        foreach(const QObject* grandChild, allChildren)
+        {
+            if(qobject_cast<const GluonCore::GluonObject* >(grandChild))
+                ++childCount;
+            if(grandChild == parentItem)
+                return createIndex(childCount, 0, parentItem);
+        }
+    }
+    return createIndex(-1, 0, grandParent);
 }
 
 QModelIndex
@@ -162,19 +208,22 @@ ProjectModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-
-    QObject *parentItem;
-
-    if (!parent.isValid())
-        parentItem = d->root;
-    else
+    
+    QObject *parentItem = d->root;
+    if (parent.isValid())
         parentItem = static_cast<QObject*>(parent.internalPointer());
+    
+    int childCount = -1;
+    const QObjectList allChildren = parentItem->children();
+    foreach(const QObject* child, allChildren)
+    {
+        if(qobject_cast<const GluonCore::GluonObject*>(child))
+            ++childCount;
+        if(childCount == row)
+            return createIndex(row, column, const_cast<QObject*>(child));
+    }
 
-    QObject *childItem = parentItem->children().at(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-    else
-        return QModelIndex();
+    return QModelIndex();
 }
 
 QVariant
@@ -212,7 +261,7 @@ ProjectModel::flags(const QModelIndex& index) const
     }
     else
     {
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsDropEnabled;
+        return Qt::ItemIsDropEnabled;
     }
 }
 
@@ -283,11 +332,14 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     DEBUG_FUNC_NAME
     if (!parent.isValid())
         return false;
+    
+   if(count < 1)
+       return false;
 
     GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
     DEBUG_TEXT("Object removal begins...");
 
-    beginRemoveRows(parent, row, row + count);
+    beginRemoveRows(parent, row, row + count - 1);
     for (int i = row; i < row + count; ++i)
     {
         DEBUG_TEXT(QString("Removing child at row %1").arg(i));
@@ -300,5 +352,19 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
+void ProjectModel::addChild(QObject* newChild, QModelIndex& parent)
+{
+    if(parent.isValid())
+    {
+        GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+        
+        int rcount = rowCount(parent);
+        beginInsertRows(parent, rcount, rcount);
+        
+        parentObject->addChild(qobject_cast<GluonCore::GluonObject*>(newChild));
+        
+        endInsertRows();
+    }
+}
 
 //#include "projectmodel.moc"

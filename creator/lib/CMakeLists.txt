@@ -13,6 +13,7 @@ set(libGluonCreator_SRCS
     models/componentmodel.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
+    models/modeltest.cpp
 
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
