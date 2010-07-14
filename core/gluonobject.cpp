@@ -307,9 +307,9 @@ GluonObject::fullyQualifiedFileName() const
 {
     QString qualifiedName = fullyQualifiedName();
     QString ext;
-    if(qualifiedName.indexOf('.') != -1)
+    if(qualifiedName.contains('.'))
     {
-        ext = qualifiedName.right(qualifiedName.lastIndexOf('.')).toLower();
+        ext = qualifiedName.section('.', -1).toLower();
         qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
     }
 

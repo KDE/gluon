@@ -90,6 +90,12 @@ Asset::file() const
     return d->file;
 }
 
+QIcon
+Asset::icon() const
+{
+    return QIcon();
+}
+
 const QMimeData*
 Asset::data() const
 {

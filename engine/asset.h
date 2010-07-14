@@ -28,6 +28,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
 #include <QtPlugin>
+#include <QIcon>
 
 class QMimeData;
 
@@ -77,6 +78,12 @@ namespace GluonEngine
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
+            
+            /**
+             * An icon to represent the asset. Think of it as a thumbnail representation
+             * of the contents of the asset. The default implementation returns a null icon
+             */
+            virtual QIcon icon() const;
 
             /**
              * The templates provided by the asset. The default

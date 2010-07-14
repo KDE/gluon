@@ -258,10 +258,12 @@ void ProjectDock::newSubMenuTriggered()
 {
     if (d->currentContextIndex.isValid())
     {
-        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        //GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         QString theName(KInputDialog::getText(i18n("Enter Name"), i18n("Please enter the name of the new folder in the text box below:"), i18n("New Folder"), 0, this));
         if (!theName.isEmpty())
-            new GluonCore::GluonObject(theName, object);
+        {
+            d->model->addChild(new GluonCore::GluonObject(theName), d->currentContextIndex);
+        }
     }
 }
 
@@ -271,7 +273,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
     if (d->currentContextIndex.isValid())
     {
         DEBUG_TEXT("Index is valid");
-        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+        //GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
         QAction* menuItem = qobject_cast< QAction* >(QObject::sender());
         if(menuItem)
         {
@@ -281,8 +283,9 @@ void GluonCreator::ProjectDock::newAssetTriggered()
             if(newAsset)
             {
                 DEBUG_TEXT("Asset was created");
+                d->model->addChild(newAsset, d->currentContextIndex);
+
                 newAsset->setName(menuItem->property("newAssetName").toString());
-                object->addChild(newAsset);
 
                 QString templateFilename = QString("gluon/templates/%1/%2").arg(menuItem->property("newAssetPluginname").toString()).arg(menuItem->property("newAssetFilename").toString());
                 QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;

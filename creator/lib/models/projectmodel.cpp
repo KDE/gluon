@@ -97,13 +97,31 @@ ProjectModel::data(const QModelIndex& index, int role) const
         if(gobj)
         {
             QVariant filename = gobj->property("file");
-            if(filename.isValid())
-            {
-                QString name = filename.value<QString>();
-                return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-            }
-            else
-                return KIcon("text-x-generic");
+                QString classname(gobj->metaObject()->className());
+                if(classname == QLatin1String("GluonCore::GluonObject"))
+                {
+                    // In this case we're dealing with something which is a "folder"... show it as such
+                    return KIcon("folder");
+                }
+                if(qobject_cast<GluonEngine::Asset*>(gobj))
+                {
+                    QIcon icon = qobject_cast<GluonEngine::Asset*>(gobj)->icon();
+                    if(icon.isNull())
+                    {
+                        if(filename.isValid())
+                        {
+                            // If the asset doesn't provide an icon itself, but we do have a filename
+                            // Get the icon for the mimetype of that url
+                            QString name = filename.value<QString>();
+                            return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
+                        }
+                        else
+                            return KIcon("unknown");
+                    }
+                    return icon;
+                }
+                else
+                    return KIcon("text-x-generic");
         }
     }
 
@@ -314,11 +332,14 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     DEBUG_FUNC_NAME
     if (!parent.isValid())
         return false;
+    
+   if(count < 1)
+       return false;
 
     GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
     DEBUG_TEXT("Object removal begins...");
 
-    beginRemoveRows(parent, row, row + count);
+    beginRemoveRows(parent, row, row + count - 1);
     for (int i = row; i < row + count; ++i)
     {
         DEBUG_TEXT(QString("Removing child at row %1").arg(i));
@@ -331,5 +352,19 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
+void ProjectModel::addChild(QObject* newChild, QModelIndex& parent)
+{
+    if(parent.isValid())
+    {
+        GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+        
+        int rcount = rowCount(parent);
+        beginInsertRows(parent, rcount, rcount);
+        
+        parentObject->addChild(qobject_cast<GluonCore::GluonObject*>(newChild));
+        
+        endInsertRows();
+    }
+}
 
 //#include "projectmodel.moc"
