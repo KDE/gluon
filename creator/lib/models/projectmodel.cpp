@@ -97,22 +97,31 @@ ProjectModel::data(const QModelIndex& index, int role) const
         if(gobj)
         {
             QVariant filename = gobj->property("file");
-            if(filename.isValid())
-            {
-                QString name = filename.value<QString>();
-                return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-            }
-            else
-            {
                 QString classname(gobj->metaObject()->className());
                 if(classname == QLatin1String("GluonCore::GluonObject"))
                 {
                     // In this case we're dealing with something which is a "folder"... show it as such
                     return KIcon("folder");
                 }
+                if(qobject_cast<GluonEngine::Asset*>(gobj))
+                {
+                    QIcon icon = qobject_cast<GluonEngine::Asset*>(gobj)->icon();
+                    if(icon.isNull())
+                    {
+                        if(filename.isValid())
+                        {
+                            // If the asset doesn't provide an icon itself, but we do have a filename
+                            // Get the icon for the mimetype of that url
+                            QString name = filename.value<QString>();
+                            return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
+                        }
+                        else
+                            return KIcon("unknown");
+                    }
+                    return icon;
+                }
                 else
                     return KIcon("text-x-generic");
-            }
         }
     }
 
