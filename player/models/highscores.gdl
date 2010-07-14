@@ -1,0 +1,14 @@
+{ GluonCore::GluonObject(HighScores)
+    { GluonCore::GluonObject(Shantanu)
+        HighScore int(2000)
+        Level int(10)
+    }
+    { GluonCore::GluonObject(Arjen)
+        HighScore int(1000)
+        Level int(1)
+    }
+    { GluonCore::GluonObject(Leinir)
+        HighScore int(500)
+        Level int(2)
+    }
+}

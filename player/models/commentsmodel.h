@@ -31,6 +31,7 @@ namespace Attica
 {
     class BaseJob;
 }
+
 namespace GluonCore
 {
     class GluonObject;

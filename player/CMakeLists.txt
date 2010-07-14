@@ -16,6 +16,7 @@ include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
                     ${ATTICA_INCLUDE_DIRS})
 
 set(libGluonPlayer_SRCS
+    models/highscoresmodel.cpp
     models/commentsmodel.cpp
     models/gamesmodel.cpp
 )
@@ -40,6 +41,7 @@ set(GLUON_PLAYER_LIBS
 )
 install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
+install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
 
 add_subdirectory(qt)
 

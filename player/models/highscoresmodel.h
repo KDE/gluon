@@ -17,30 +17,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESMODEL_H
-#define GLUONPLAYER_GAMESMODEL_H
+#ifndef GLUONPLAYER_HIGHSCORESMODEL_H
+#define GLUONPLAYER_HIGHSCORESMODEL_H
 
 #include <QAbstractTableModel>
-#include <QDir>
 
 #include "gluon_player_export.h"
 
+namespace GluonCore
+{
+    class GluonObject;
+};
+
 namespace GluonPlayer
 {
-    class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
+    class GLUON_PLAYER_EXPORT HighScoresModel : public QAbstractTableModel
     {
+            Q_OBJECT
+
         public:
-            GamesModel (QObject* parent = 0);
+            HighScoresModel (QObject* parent = 0);
+            virtual ~HighScoresModel();
             virtual QVariant data (const QModelIndex& index, int role = Qt::DisplayRole) const;
             virtual int columnCount (const QModelIndex& parent = QModelIndex()) const;
             virtual int rowCount (const QModelIndex& parent = QModelIndex()) const;
             virtual QVariant headerData (int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-            enum Column { PathColumn, NameColumn, DescriptionColumn };
+            enum Column { NameColumn, HighScoreColumn , LevelColumn };
+
         private:
-            QDir m_dir;
+            void loadData();
+            void saveData();
+
+            GluonCore::GluonObject *rootNode;
     };
 
 }
 
-#endif // GLUONPLAYER_GAMESMODEL_H
+#endif // GLUONPLAYER_HIGHSCORESMODEL_H

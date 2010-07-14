@@ -18,8 +18,25 @@
  */
 
 #include "highscoresview.h"
+#include <models/highscoresmodel.h>
+#include <qtableview.h>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsProxyWidget>
 
 HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : AbstractItemView(parent, wFlags)
+    : AbstractItemView(parent, wFlags), m_model(0)
 {
+    m_model = new GluonPlayer::HighScoresModel(this);
+    m_view = new QTableView();
+    m_view->setModel(m_model);
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(this);
+    QGraphicsProxyWidget *widget = new QGraphicsProxyWidget(this);
+    widget->setWidget(m_view);
+    layout->addItem(widget);
+    setLayout(layout);
+}
+
+HighScoresView::~HighScoresView()
+{
+    delete m_view;
 }
