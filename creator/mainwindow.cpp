@@ -57,6 +57,8 @@ using namespace GluonCreator;
 class MainWindow::MainWindowPrivate
 {
     public:
+        MainWindowPrivate() { viewPart = 0; }
+        
         bool modified;
         QString fileName;
         KRecentFilesAction* recentFiles;
@@ -105,13 +107,11 @@ MainWindow::MainWindow(const QString& fileName)
     //if(centralWidget())
     //    centralWidget()->setEnabled(false);
 
-    
-
     KTabWidget *tab = new KTabWidget(this);
     tab->setCloseButtonEnabled(true);
     tab->setDocumentMode(true);
     tab->setMovable(true);
-    //tab->addTab(new QWidget(), i18nc("View Game Tab", "View"));
+    tab->setEnabled(false);
 
     KService::Ptr viewerService = KService::serviceByDesktopName("gluon_viewer_part");
     if(viewerService)
@@ -122,7 +122,12 @@ MainWindow::MainWindow(const QString& fileName)
             tab->addTab(d->viewPart->widget(), i18nc("View Game Tab", "View"));
         }
     }
-    
+
+    if(!d->viewPart)
+    {
+        KMessageBox::error(this, "Could not load the Viewer part. Is it installed correctly?");
+    }
+
     tab->addTab(new QWidget(), i18nc("Edit Game Tab", "Edit"));
     setCentralWidget(tab);
 
@@ -156,7 +161,7 @@ void MainWindow::openProject(KUrl url)
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
-    if (!fileName.isEmpty() && QFile::exists(fileName))
+    if (!fileName.isEmpty() && QFile::exists(fileName) && d->viewPart)
     {
         d->viewPart->openUrl(KUrl(fileName));
         GluonEngine::Game::instance()->initializeAll();
