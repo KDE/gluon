@@ -17,7 +17,6 @@ NodeItem::NodeItem(Node* n) : QGraphicsSvgItem(0) {
     _image = new QGraphicsPixmapItem(QPixmap(0,0),this);
     _originalWidth = _node->width();
     _iconPackage = _node->iconPackage();
-    _currentConnector = 0;
     _colorizer = new QGraphicsColorizeEffect(this);
     _font = QFont("Helvetica [Cronyx]", 18);
 
@@ -48,23 +47,6 @@ QHash<QString,QGraphicsSvgItem*> NodeItem::connectors() {
     return _connectors;
 }
 
-bool NodeItem::eventFilter(QObject *object, QEvent *event) {
-    if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::MouseButtonRelease) {
-	_currentConnector = qobject_cast<QGraphicsSvgItem*>(object);
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-QGraphicsSvgItem* NodeItem::getCurrentConnector() {
-    return _currentConnector;
-}
-
-void NodeItem::voidCurrentConnector() {
-    _currentConnector=0;
-}
 
 //this beast needs some taming
 void NodeItem::updateConnectors() {
@@ -93,7 +75,6 @@ void NodeItem::updateConnectors() {
                         tText->setPos(bound.left()-(tText->boundingRect().width()+20),ldown);
                         ldown+=50;
                     }
-                    tSvg->installEventFilter(this);
 		    _connectors[tText->text()]=tSvg;
 		} else if (_node->property(temp)=="out" && !_connectors.contains(QString(temp))) {
                     tSvg = new QGraphicsSvgItem(KGlobal::dirs()->locate("data", "iconpacks/default.svg"),this);
@@ -114,7 +95,6 @@ void NodeItem::updateConnectors() {
                         tText->setPos(bound.right()+(20-tSvg->boundingRect().width()),rdown);
                         rdown+=50;
                     }
-                    tSvg->installEventFilter(this);
 		    _connectors[tText->text()]=tSvg;
                 }
             }

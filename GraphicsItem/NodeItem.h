@@ -26,15 +26,13 @@ class NodeItem : public QGraphicsSvgItem{
   Q_OBJECT
     qreal _originalWidth;
     qreal _width;
-
   public:
     NodeItem(Node *n);
-
+    enum { Type = 65578 };
     Node* node() const { return _node; }
     static QMap<QString, QSvgRenderer*> _renders;
     QHash<QString,QGraphicsSvgItem*> connectors();
-    QGraphicsSvgItem* getCurrentConnector();
-    void voidCurrentConnector();
+    int type() const {return Type;}
   public slots:
     void setupNode();
   private slots:
@@ -60,8 +58,6 @@ class NodeItem : public QGraphicsSvgItem{
     int ldown;
     int rdown;
     int previousCount;
-    bool eventFilter(QObject*,QEvent*);
-    QGraphicsSvgItem* _currentConnector;
 };
 
 #include "node.h"

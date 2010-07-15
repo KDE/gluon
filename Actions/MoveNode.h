@@ -26,6 +26,7 @@
 #include <QPointF>
 class QGraphicsLineItem;
 class QGraphicsSvgItem;
+class QGraphicsItem;
 class QObject;
 class NodeItem;
 class Node;
@@ -101,6 +102,9 @@ protected:
         
     /*! pointer to the SVG Item that suffered the mouse-pressed-click */
     QGraphicsSvgItem *_svgFrom;
+    
+    /*! List of Graphics items at mouse position */
+    QList<QGraphicsItem*> _itemsUnderCursor;
 };
 
 #endif
