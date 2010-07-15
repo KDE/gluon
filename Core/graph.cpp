@@ -119,7 +119,7 @@ void Graph::addNode(QString name, QPointF pos, QString type){
     emit forceUpdate();
 }
 
-Edge* Graph::addEdge(Node* from,Node* to) {
+Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo) {
     if (_readOnly) return 0;
 
     if ( from == 0 || to == 0 ) {      return 0;   }
@@ -139,7 +139,7 @@ Edge* Graph::addEdge(Node* from,Node* to) {
 	return 0;
     }
 
-    Edge *e  = new Edge(this, from, to);
+    Edge *e  = new Edge(this, from, to, cFrom, cTo);
     /*if(!assignEdgeAction(from, e)){
       delete e;
       return 0;
@@ -187,7 +187,7 @@ bool Graph::assignEdgeAction(Node *from,Edge *edge){
 }
 
 
-Edge* Graph::addEdge(const QString& name_from, const QString& name_to) {
+/*Edge* Graph::addEdge(const QString& name_from, const QString& name_to) {
     if (_readOnly) return 0;
     Node *from = 0;
     Node *to   = 0;
@@ -209,7 +209,7 @@ Edge* Graph::addEdge(const QString& name_from, const QString& name_to) {
     }
 
     return addEdge(from, to);
-}
+}*/
 
 bool Graph::directed() const {
     return _directed;

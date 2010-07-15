@@ -123,7 +123,7 @@ public  slots:
     */
     void removeDynamicProperty(QString property);
     
-    Edge* addEdge(Node* to);
+    //Edge* addEdge(Node* to);
     
 private:
     EdgeList _in_edges;

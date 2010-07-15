@@ -98,11 +98,11 @@ QPainterPath OrientedEdgeItem::createLoop(QPointF pos) const {
 }
 
 QPainterPath OrientedEdgeItem::createCurves() const {
-    QPointF Pos1(_edge->from()->x(), _edge->from()->y());
+    QPointF Pos1=_edge->connectorFrom()->parentItem()->mapToScene(_edge->connectorFrom()->x()+(_edge->connectorFrom()->boundingRect().width()/2),_edge->connectorFrom()->y()+(_edge->connectorFrom()->boundingRect().height()/2));
 
     if ( _loop ) return createLoop(Pos1);
 
-    QPointF Pos2(_edge->to()->x(), _edge->to()->y());
+    QPointF Pos2=_edge->connectorTo()->parentItem()->mapToScene(_edge->connectorTo()->x()+(_edge->connectorTo()->boundingRect().width()/2),_edge->connectorTo()->y()+(_edge->connectorTo()->boundingRect().height()/2));
     QPolygonF arrow = createArrow(Pos1,  Pos2);
 
     if (Pos1.x() > Pos2.x()) {
@@ -172,7 +172,7 @@ void OrientedEdgeItem::updatePos() {
     if (gScene->hideEdges()) {
         gScene->updateAfter(this);
     }
-    QLine q(_edge->from()->x(), _edge->from()->y(),    _edge->to()->x(),  _edge->to()->y());
+    QLine q(_edge->connectorFrom()->parentItem()->mapToScene(_edge->connectorFrom()->x()+(_edge->connectorFrom()->boundingRect().width()/2),_edge->connectorFrom()->y()+(_edge->connectorFrom()->boundingRect().height()/2)).toPoint(),  _edge->connectorTo()->parentItem()->mapToScene(_edge->connectorTo()->x()+(_edge->connectorTo()->boundingRect().width()/2),_edge->connectorTo()->y()+(_edge->connectorTo()->boundingRect().height()/2)).toPoint());
     qreal size = sqrt( pow(q.dx(), 2) + pow(q.dy(), 2));
     if (_edge->from() != _edge->to() && size < 20  ) {
         setPath(QPainterPath());

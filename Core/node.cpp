@@ -165,9 +165,9 @@ EdgeList Node::self_edges() const {
     return _self_edges;
 }
 
-Edge* Node::addEdge(Node* to) {
+/*Edge* Node::addEdge(Node* to) {
     return _graph->addEdge(this, to);
-}
+}*/
 
 void Node::removeEdge(Edge *e, int edgeList) {
     switch (edgeList) {

@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QtScript>
 #include <QString>
+#include <QGraphicsSvgItem>
 
 #include "rocslib_export.h"
 
@@ -63,7 +64,7 @@ public:
     \p parent a Graph
     \p from the first node
     \p to the second node */
-    Edge(Graph *parent, Node *from, Node *to);
+    Edge(Graph *parent, Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo);
 
     /*! default destructor */
     ~Edge();
@@ -110,6 +111,20 @@ public  slots:
     */
     Node* to() const {
         return _to;
+    }
+    
+    /*! return connector edges is from
+      \return QGraphicsSvgItem of connector
+    */
+    QGraphicsSvgItem* connectorFrom() const {
+      return _cFrom;
+    }
+    
+    /*! return connector edges is to
+      \return QGraphicsSvgItem of connector
+    */
+    QGraphicsSvgItem* connectorTo() const {
+      return _cTo;
     }
 
     /*! return the value of this edge
@@ -195,6 +210,12 @@ private:
 
     /*! the second node connected with this edge */
     Node *_to;
+    
+    /*! the first connector connected with this edge */
+    QGraphicsSvgItem *_cFrom;
+
+    /*! the second connector connected with this edge */
+    QGraphicsSvgItem *_cTo;
 
     /*! the intex relative to the connected nodes if the graph is multi-edge-oriented. */
     int _relativeIndex;

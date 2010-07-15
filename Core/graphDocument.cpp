@@ -262,8 +262,8 @@ void GraphDocument::loadFromInternalFormat(const QString& filename) {
             QString nameFrom = eName.section("->", 0,0);
             QString nameTo = eName.section("->", 1,1);
 
-            tmpObject = tmpGraph->addEdge(tmpGraph->nodes()[nameFrom.toInt()], tmpGraph->nodes()[nameTo.toInt()]);
-            kDebug() << "Edge Created";
+            //tmpObject = tmpGraph->addEdge(tmpGraph->nodes()[nameFrom.toInt()], tmpGraph->nodes()[nameTo.toInt()]);
+            //kDebug() << "Edge Created";
         }
         else if (str.startsWith("[Group")) {
             /*QString gName = str.section(" ",1,1);

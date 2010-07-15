@@ -24,10 +24,11 @@
 #include "DynamicPropertiesList.h"
 #include <KDebug>
 
-Edge::Edge(Graph *parent, Node *from, Node *to) :
+Edge::Edge(Graph *parent, Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo) :
         QObject(parent),
         _from(from),
         _to(to)
+        
 {
   _graph = parent;
     _color =_graph->edgeDefaultColor();
@@ -49,6 +50,8 @@ Edge::Edge(Graph *parent, Node *from, Node *to) :
     _showValue = true;
     _style = "solid";
     _width = 1;
+    _cFrom = cFrom;
+    _cTo = cTo;
 }
 
 Edge::~Edge() {

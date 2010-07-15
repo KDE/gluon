@@ -70,7 +70,7 @@ public slots:
     void executeRelease(QPointF pos);
     
       signals:
-    void addEdge(Node *from, Node *to);
+    void addEdge(Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo);
 
 protected:
     /*! the node that will be moved on screen */

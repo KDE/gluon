@@ -129,16 +129,18 @@ public  slots:
     /*! creates a new edge
     \p from the 'from' node.
     \p to the 'to' node.
+    \p cFrom the from connector
+    \p cTo the to connector
     \return the newly created edge.
     */
-    Edge* addEdge(Node* from, Node* to);
+    Edge* addEdge(Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo);
 
     /*! creates a new edge
     \p name_from the name of the node that will be used as 'from'
     \p name_to the name of the node that will be used as 'to'
     \return the newly created edge.
     */
-    Edge* addEdge(const QString& name_from, const QString& name_to);
+    //Edge* addEdge(const QString& name_from, const QString& name_to);
 
     /*! returns a node
     \p name the name of the node to be returned.

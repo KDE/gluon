@@ -77,7 +77,7 @@ void MoveNodeAction::executePress(QPointF pos) {
     if(_svgFrom != 0){
       _startPos = QPointF(_svgFrom->parentItem()->mapToScene(_svgFrom->x()+(_svgFrom->boundingRect().width()/2),_svgFrom->y()+(_svgFrom->boundingRect().height()/2)));
     }
-    connect(this, SIGNAL(addEdge(Node*,Node*)), _graph, SLOT(addEdge(Node*,Node*)));
+    connect(this, SIGNAL(addEdge(Node*,Node*, QGraphicsSvgItem*, QGraphicsSvgItem*)), _graph, SLOT(addEdge(Node*,Node*,QGraphicsSvgItem*, QGraphicsSvgItem*)));
 }
 
 void MoveNodeAction::executeMove(QPointF pos) {
@@ -123,7 +123,7 @@ void MoveNodeAction::executeRelease(QPointF pos) {
       else if(item->type()==13) _svgAt=qgraphicsitem_cast<QGraphicsSvgItem*>(item);
     }
       if(_svgAt != 0 && _svgFrom != 0){
-      emit addEdge( qgraphicsitem_cast<NodeItem*>(_svgFrom->parentItem())->node(),  qgraphicsitem_cast<NodeItem*>(_svgAt->parentItem())->node() );
+      emit addEdge( qgraphicsitem_cast<NodeItem*>(_svgFrom->parentItem())->node(),  qgraphicsitem_cast<NodeItem*>(_svgAt->parentItem())->node() , _svgFrom, _svgAt);
       }
         _node->setPos(_node->x(),_node->y());
     }else{
