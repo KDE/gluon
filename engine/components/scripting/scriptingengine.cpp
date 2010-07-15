@@ -31,10 +31,14 @@ namespace GluonEngine
         public:
             Private()
             {
+                DEBUG_FUNC_NAME
+                DEBUG_TEXT2("Available extensions: %1", engine->availableExtensions().join(", "));
                 engine = new QScriptEngine();
                 engine->importExtension("jsmoke.qtcore");
                 engine->importExtension("jsmoke.qtgui");
                 engine->importExtension("jsmoke.qtopengl");
+                
+                DEBUG_TEXT2("Imported extensions: %1", engine->importedExtensions().join(", "));
 
                 QScriptValue extensionObject = engine->globalObject();
             }
@@ -113,7 +117,7 @@ ScriptingEngine::Private::buildScript()
     {
         // Build the bit of script to add
         QString tmpScript = QString("function %2(){\n%1}\n").arg(i.key()->data()->text()).arg(i.value());
-        scriptInstances.insert(i.key(), engine->evaluate(tmpScript, i.key()->file().toLocalFile()));
+        scriptInstances.insert(i.key(), engine->evaluate(tmpScript, i.key()->file().toLocalFile(), 0));
         /// \TODO Add all those lines to the reverse map...
     }
 }
