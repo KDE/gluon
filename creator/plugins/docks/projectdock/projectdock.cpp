@@ -44,6 +44,9 @@
 #include <newobjectcommand.h>
 #include <QDir>
 #include <KStandardDirs>
+#include <QVBoxLayout>
+#include <KToolBar>
+#include <objectmanager.h>
 
 using namespace GluonCreator;
 
@@ -73,6 +76,7 @@ class ProjectDock::ProjectDockPrivate
         ProjectDock * q;
         ProjectModel* model;
         QTreeView* view;
+        KToolBar *toolBar;
 
         QModelIndex currentContextIndex;
         QList<QAction*> menuForObject(QModelIndex index);
@@ -151,10 +155,23 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     connect(d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
     d->model->setProject(GluonEngine::Game::instance()->gameProject());
-    connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), d->model, SLOT(setProject(GluonEngine::GameProject*)));
+    connect(GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), SLOT(currentProjectChanged(GluonEngine::GameProject*)));
     connect(d->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(activated(QModelIndex)));
 
-    setWidget(d->view);
+    QWidget *widget = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout();
+    widget->setLayout(layout);
+
+    d->toolBar = new KToolBar(widget);
+    d->toolBar->setIconDimensions(16);
+    QAction* action = d->toolBar->addAction(KIcon("document-new"), i18n("New Scene"));
+    connect(action, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
+    action = d->toolBar->addAction(KIcon("edit-delete"), i18nc("Delete selected object form project", "Delete"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(deleteActionTriggered()));
+    layout->addWidget(d->toolBar);
+    layout->addWidget(d->view);
+    
+    setWidget(widget);
 }
 
 ProjectDock::~ProjectDock()
@@ -220,6 +237,14 @@ void ProjectDock::selectionChanged(const QItemSelection& selected, const QItemSe
     SelectionManager::instance()->setSelection(selection);
 }
 
+void ProjectDock::currentProjectChanged(GluonEngine::GameProject* project)
+{
+    d->model->setProject(project);
+
+    if(!d->toolBar->isEnabled())
+        d->toolBar->setEnabled(true);
+}
+
 void ProjectDock::showContextMenuRequested(const QPoint& pos)
 {
     QModelIndex index = d->view->indexAt(pos);
@@ -241,16 +266,23 @@ void ProjectDock::contextMenuHiding()
 void ProjectDock::deleteActionTriggered()
 {
     DEBUG_FUNC_NAME
-    if (d->currentContextIndex.isValid())
+    
+    if (!d->currentContextIndex.isValid())
+        d->currentContextIndex = d->view->selectionModel()->currentIndex();
+
+    if(!d->currentContextIndex.isValid())
+        return;
+
+    
+    GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
+    DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
+    if (KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
     {
-        GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
-        DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
-        if (KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
-        {
-            d->view->selectionModel()->select(d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect);
-            d->view->collapse(d->currentContextIndex.parent());
-            d->model->removeRows(d->currentContextIndex.row(), 1, d->currentContextIndex.parent());
-        }
+        d->view->selectionModel()->select(d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect);
+        //d->view->collapse(d->currentContextIndex.parent());
+        d->model->removeRows(d->currentContextIndex.row(), 1, d->currentContextIndex.parent());
+
+        d->currentContextIndex = QModelIndex();
     }
 }
 
