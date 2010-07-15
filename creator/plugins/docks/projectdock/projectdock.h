@@ -24,6 +24,11 @@
 #include <QtGui/QDockWidget>
 #include <QtGui/QItemSelection>
 
+namespace GluonEngine
+{
+    class GameProject;
+}
+
 namespace GluonCreator
 {
 
@@ -38,6 +43,7 @@ namespace GluonCreator
             void activated(QModelIndex index);
             void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
             void showContextMenuRequested(const QPoint& pos);
+            void currentProjectChanged(GluonEngine::GameProject *project);
 
             void contextMenuHiding();
             void newSubMenuTriggered();
