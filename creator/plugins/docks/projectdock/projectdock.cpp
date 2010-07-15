@@ -127,7 +127,7 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 action->setSeparator(true);
                 menuItems.append(action);
 
-                action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
+                action = new QAction(KIcon("edit-delete"), i18n("Delete \"%1\"...", object->name()), this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
                 menuItems.append(action);
             }
