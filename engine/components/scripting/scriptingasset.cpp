@@ -46,6 +46,7 @@ ScriptingAsset::ScriptingAsset(QObject* parent)
 
 ScriptingAsset::~ScriptingAsset()
 {
+    ScriptingEngine::instance()->unregisterAsset(this);
     delete(d);
 }
 
@@ -61,11 +62,13 @@ ScriptingAsset::supportedMimeTypes() const
 }
 
 void
-ScriptingAsset::load()
+ScriptingAsset::setFile(const QUrl &newFile)
 {
+    DEBUG_FUNC_NAME
+    
     ScriptingEngine::instance()->unregisterAsset(this);
 
-    QFile script(file().path());
+    QFile script(newFile.path());
     if (script.open(QIODevice::ReadOnly))
     {
         d->script = script.readAll();
@@ -78,6 +81,8 @@ ScriptingAsset::load()
     QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
     if(result.state() != QScriptSyntaxCheckResult::Valid)
         debug(tr("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
+    
+    GluonEngine::Asset::setFile(newFile);
 }
 
 QString
