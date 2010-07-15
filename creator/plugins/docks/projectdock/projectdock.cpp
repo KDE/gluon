@@ -120,14 +120,17 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                     menuItems.append(action);
                 }
             }
-            
-            action = new QAction(this->q);
-            action->setSeparator(true);
-            menuItems.append(action);
 
-            action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
-            connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
-            menuItems.append(action);
+            if(!object->inherits("GluonEngine::GameProject"))
+            {
+                action = new QAction(this->q);
+                action->setSeparator(true);
+                menuItems.append(action);
+
+                action = new QAction(QString("Delete \"%1\"...").arg(object->name()), this->q);
+                connect(action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()));
+                menuItems.append(action);
+            }
         }
     }
     currentContextMenu = QList<QAction*>(menuItems);
@@ -248,13 +251,13 @@ void ProjectDock::currentProjectChanged(GluonEngine::GameProject* project)
 void ProjectDock::showContextMenuRequested(const QPoint& pos)
 {
     QModelIndex index = d->view->indexAt(pos);
-    if (index.isValid())
-    {
-        QMenu menu(static_cast<GluonCore::GluonObject*>(index.internalPointer())->name(), this);
-        menu.addActions(d->menuForObject(index));
-        menu.exec(d->view->mapToGlobal(pos));
-        connect(&menu, SIGNAL(aboutToHide()), this, SLOT(contextMenuHiding()));
-    }
+    if (!index.isValid())
+        index = d->model->index(0,0);
+
+    QMenu menu(static_cast<GluonCore::GluonObject*>(index.internalPointer())->name(), this);
+    menu.addActions(d->menuForObject(index));
+    menu.exec(d->view->mapToGlobal(pos));
+    connect(&menu, SIGNAL(aboutToHide()), this, SLOT(contextMenuHiding()));
 }
 
 void ProjectDock::contextMenuHiding()
