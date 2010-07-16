@@ -89,6 +89,8 @@ void MoveNodeAction::executeMove(QPointF pos) {
     else {
 	_tmpLine->setLine(_startPos.x(), _startPos.y(), pos.x(), pos.y());
     }
+        _node->setPos(_node->x()+1,_node->y());
+	_node->setPos(_node->x()-1,_node->y());
     }else{
           if ( ! _movableNode ) {
         return;
@@ -125,7 +127,6 @@ void MoveNodeAction::executeRelease(QPointF pos) {
       if(_svgAt != 0 && _svgFrom != 0){
       emit addEdge( qgraphicsitem_cast<NodeItem*>(_svgFrom->parentItem())->node(),  qgraphicsitem_cast<NodeItem*>(_svgAt->parentItem())->node() , _svgFrom, _svgAt);
       }
-        _node->setPos(_node->x(),_node->y());
     }else{
       if ( !_movableNode ){
 	return;
