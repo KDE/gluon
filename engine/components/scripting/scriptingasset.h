@@ -33,7 +33,7 @@ namespace GluonEngine
             virtual ~ScriptingAsset();
 
             virtual const QStringList supportedMimeTypes() const;
-            virtual void load();
+            virtual void setFile(const QUrl &newFile);
             
             virtual QString className() const;
         private:

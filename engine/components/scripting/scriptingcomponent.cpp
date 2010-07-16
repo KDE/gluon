@@ -23,6 +23,8 @@
 
 #include "game.h"
 #include "gameobject.h"
+#include <qscriptclass.h>
+#include <qscriptvalueiterator.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, ScriptingComponent)
 
@@ -59,19 +61,22 @@ void ScriptingComponent::setScript(GluonEngine::ScriptingAsset* newAsset)
     d->scriptingAsset = newAsset;
     connect(newAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
     d->scriptObject = ScriptingEngine::instance()->instantiateClass(newAsset);
-
+    
     // Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot
     // Technically it could be done by object hierarchy, but consistency is a Good Thing(TM)
-    QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater;
+    QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+    
+    QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject(this, ownership, wrapOptions);
     d->scriptObject.setProperty("Component", component);
 
-    QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject(gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject(gameObject(), ownership, wrapOptions);
     d->scriptObject.setProperty("GameObject", gameObj);
     
-    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject(root()->parent(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject(root()->parent(), ownership, wrapOptions);
     d->scriptObject.setProperty("Scene", sceneObj);
     
-    QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject(GluonEngine::Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject(GluonEngine::Game::instance(), ownership, wrapOptions);
     d->scriptObject.setProperty("Game", game);
     
     // Lastly, get the functions out so they're easy to call
@@ -93,7 +98,7 @@ void ScriptingComponent::initialize()
 {
     if (d->initializeFunction.isFunction())
     {
-        d->initializeFunction.call(QScriptValue());
+        d->initializeFunction.call(d->scriptObject);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
@@ -107,7 +112,7 @@ void ScriptingComponent::start()
 {
     if (d->startFunction.isFunction())
     {
-        d->startFunction.call(QScriptValue());
+        d->startFunction.call(d->scriptObject);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
@@ -121,7 +126,7 @@ void ScriptingComponent::update(int elapsedMilliseconds)
 {
     if (d->updateFunction.isFunction())
     {
-        d->updateFunction.call(QScriptValue());
+        d->updateFunction.call(d->scriptObject, QScriptValueList() << elapsedMilliseconds);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
@@ -135,7 +140,7 @@ void ScriptingComponent::draw(int timeLapse)
 {
     if (d->drawFunction.isFunction())
     {
-        d->drawFunction.call(QScriptValue());
+        d->drawFunction.call(d->scriptObject, QScriptValueList() << timeLapse);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
@@ -149,7 +154,7 @@ void ScriptingComponent::stop()
 {
     if (d->stopFunction.isFunction())
     {
-        d->stopFunction.call(QScriptValue());
+        d->stopFunction.call(d->scriptObject);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
@@ -163,7 +168,7 @@ void ScriptingComponent::cleanup()
 {
     if (d->cleanupFunction.isFunction())
     {
-        d->cleanupFunction.call(QScriptValue());
+        d->cleanupFunction.call(d->scriptObject);
         if (ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid())
             // This needs to be mapped...
             debug(QString("%1: %2")
