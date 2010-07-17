@@ -29,115 +29,96 @@ using namespace GluonPlayer;
 
 class GLFBOApplet::GLFBOAppletPrivate
 {
-public:
-    GLFBOAppletPrivate()
-    {
-        init();
-    }
-    ~GLFBOAppletPrivate()
-    {
-        delete fbo;
-        delete pbuf;
-        delete dummy;
-    }
-    void init()
-    {
-        dummy = new QGLWidget((QWidget *) 0);
-        dummy->makeCurrent();
-
-        if(QGLFramebufferObject::hasOpenGLFramebufferObjects())
-        {
-            fbo = new QGLFramebufferObject(256, 256, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, GL_RGBA);
-
-            if(!fbo->isValid())
-                fbo = new QGLFramebufferObject(256, 256, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, GL_RGB);
-            
-            pbuf = 0;
+    public:
+        GLFBOAppletPrivate() {
+            init();
         }
-        else
-        {
-            qDebug() << "Notice: FBO's not available, falling back to pbuffer's";
-            fbo = 0;
-            QGLFormat format = QGLFormat::defaultFormat();
-            //format.setSampleBuffers(true);
-            //format.setAlphaBufferSize(8);
-            //dummy size construction
-            pbuf = new QGLPixelBuffer(300, 300, format, dummy);
-            if (pbuf->isValid()) {
-                pbuf->makeCurrent();
+        ~GLFBOAppletPrivate() {
+            delete fbo;
+            delete pbuf;
+            delete dummy;
+        }
+        void init() {
+            dummy = new QGLWidget((QWidget *) 0);
+            dummy->makeCurrent();
+
+            if (QGLFramebufferObject::hasOpenGLFramebufferObjects()) {
+                fbo = new QGLFramebufferObject(256, 256, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, GL_RGBA);
+
+                if (!fbo->isValid())
+                    fbo = new QGLFramebufferObject(256, 256, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, GL_RGB);
+
+                pbuf = 0;
+            } else {
+                qDebug() << "Notice: FBO's not available, falling back to pbuffer's";
+                fbo = 0;
+                QGLFormat format = QGLFormat::defaultFormat();
+                //format.setSampleBuffers(true);
+                //format.setAlphaBufferSize(8);
+                //dummy size construction
+                pbuf = new QGLPixelBuffer(300, 300, format, dummy);
+                if (pbuf->isValid()) {
+                    pbuf->makeCurrent();
+                }
+            }
+            width = 300;
+            height = 300;
+        }
+        void updateGlSize(const QSize &size) {
+            if (size.width() > width || size.height() > height) {
+                if (fbo) {
+                    GLenum intFormat = fbo->format().internalTextureFormat();
+                    delete fbo;
+                    fbo = new QGLFramebufferObject(size, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, intFormat);
+                } else {
+                    QGLFormat format = pbuf->format();
+                    delete pbuf;
+                    pbuf = new QGLPixelBuffer(size, format, dummy);
+                }
+                width = size.width();
+                height = size.height();
             }
         }
-        width = 300;
-        height = 300;
-    }
-    void updateGlSize(const QSize &size)
-    {
-        if (size.width() > width || size.height() > height)
-        {
-            if(fbo)
-            {
-                GLenum intFormat = fbo->format().internalTextureFormat();
-                delete fbo;
-                fbo = new QGLFramebufferObject(size, QGLFramebufferObject::CombinedDepthStencil, GL_TEXTURE_2D, intFormat);
-            }
-            else
-            {
-                QGLFormat format = pbuf->format();
-                delete pbuf;
-                pbuf = new QGLPixelBuffer(size, format, dummy);
-            }
-            width = size.width();
-            height = size.height();
-        }
-    }
 
-public:
-    QGLFramebufferObject *fbo;
-    QGLPixelBuffer *pbuf;
-    QGLWidget      *dummy;
-    float   width;
-    float   height;
+    public:
+        QGLFramebufferObject *fbo;
+        QGLPixelBuffer *pbuf;
+        QGLWidget      *dummy;
+        float   width;
+        float   height;
 };
 
 GLFBOApplet::GLFBOApplet(QGraphicsItem *parent,
-                   const QString &serviceId,
-                   int appletId)
-    : Plasma::Applet(parent, serviceId, appletId),
-      d(new GLFBOAppletPrivate)
+                         const QString &serviceId,
+                         int appletId)
+        : Plasma::Applet(parent, serviceId, appletId),
+        d(new GLFBOAppletPrivate)
 {
-    if(d->fbo)
-    {
-        if(!d->fbo->isValid())
-        {
+    if (d->fbo) {
+        if (!d->fbo->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
-    }
-    else
-    {
+    } else {
         if (!d->dummy->isValid() ||
-            !QGLPixelBuffer::hasOpenGLPbuffers() ||
-            !d->pbuf->isValid()) {
+                !QGLPixelBuffer::hasOpenGLPbuffers() ||
+                !d->pbuf->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     }
 }
 
 GLFBOApplet::GLFBOApplet(QObject *parent, const QVariantList &args)
-    : Applet(parent, args),
-      d(new GLFBOAppletPrivate)
+        : Applet(parent, args),
+        d(new GLFBOAppletPrivate)
 {
-    if(d->fbo)
-    {
-        if(!d->fbo->isValid())
-        {
+    if (d->fbo) {
+        if (!d->fbo->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
-    }
-    else
-    {
+    } else {
         if (!d->dummy->isValid() ||
-            !QGLPixelBuffer::hasOpenGLPbuffers() ||
-            !d->pbuf->isValid()) {
+                !QGLPixelBuffer::hasOpenGLPbuffers() ||
+                !d->pbuf->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     }
@@ -164,31 +145,31 @@ void GLFBOApplet::deleteTexture(GLuint textureId)
 }
 
 void GLFBOApplet::paintGLInterface(QPainter *painter,
-                                const QStyleOptionGraphicsItem *option)
+                                   const QStyleOptionGraphicsItem *option)
 {
     Q_UNUSED(painter)
     Q_UNUSED(option)
 }
 
 static inline QPainterPath headerPath(const QRectF &r, int roundness,
-                                      int headerHeight=10)
+                                      int headerHeight = 10)
 {
     QPainterPath path;
     int xRnd = roundness;
     int yRnd = roundness;
     if (r.width() > r.height()) {
-        xRnd = int(roundness * r.height() / r.width());
+        xRnd = int (roundness * r.height() / r.width());
     } else {
-        yRnd = int(roundness * r.width() / r.height());
+        yRnd = int (roundness * r.width() / r.height());
     }
 
-    if(xRnd >= 100) {                        // fix ranges
+    if (xRnd >= 100) {                       // fix ranges
         xRnd = 99;
     }
-    if(yRnd >= 100) {
+    if (yRnd >= 100) {
         yRnd = 99;
     }
-    if(xRnd <= 0 || yRnd <= 0) {             // add normal rectangle
+    if (xRnd <= 0 || yRnd <= 0) {            // add normal rectangle
         path.addRect(r);
         return path;
     }
@@ -228,12 +209,11 @@ static inline QPainterPath headerPath(const QRectF &r, int roundness,
 }
 
 void GLFBOApplet::paintInterface(QPainter *painter,
-                              const QStyleOptionGraphicsItem *option,
-                              const QRect &contentsRect)
+                                 const QStyleOptionGraphicsItem *option,
+                                 const QRect &contentsRect)
 {
     Q_UNUSED(contentsRect)
-    if(d->fbo)
-    {
+    if (d->fbo) {
         d->dummy->makeCurrent();
         d->fbo->bind();
 
@@ -249,12 +229,10 @@ void GLFBOApplet::paintInterface(QPainter *painter,
 
         QImage image = d->fbo->toImage();
         painter->drawImage(0, 0, image);
-    }
-    else
-    {
+    } else {
         Q_ASSERT(d->pbuf);
         if ((!d->dummy->isValid() ||
-            !d->pbuf->isValid())) {
+                !d->pbuf->isValid())) {
             if (!hasFailedToLaunch()) {
                 setFailedToLaunch(true, i18n("Your machine does not support Gluon's OpenGL widget."));
             }

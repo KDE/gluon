@@ -18,25 +18,50 @@
  */
 
 #include "commentsview.h"
-#include "models/commentsmodel.h"
+#include "commentsviewitem.h"
+
+#include <Plasma/ItemBackground>
 
 #include <QTreeView>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 #include <QGraphicsProxyWidget>
 
-CommentsView::CommentsView (QGraphicsItem* parent, Qt::WindowFlags wFlags) : AbstractItemView (parent, wFlags)
+CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags) : AbstractItemView(parent, wFlags)
 {
-    m_model = new GluonPlayer::CommentsModel(this);
-    m_treeView = new QTreeView();
-    m_treeView->setModel(m_model);
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(this);
-    QGraphicsProxyWidget *widget = new QGraphicsProxyWidget(this);
-    widget->setWidget(m_treeView);
-    layout->addItem(widget);
-    setLayout(layout);
+    m_itemBackground = new Plasma::ItemBackground(this);
 }
 
-CommentsView::~CommentsView()
+void CommentsView::setModel(QAbstractItemModel* model)
 {
-    delete m_treeView;
+    AbstractItemView::setModel(model);
+
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        addComment(m_model->index(i, 0), 0);
+    }
+}
+
+void CommentsView::addComment(const QModelIndex &index, int depth)
+{
+    CommentsViewItem *item = new CommentsViewItem(this);
+    item->setContentsMargins(depth*50, 0, 0, 0);
+    item->setModelIndex(index);
+    item->setAcceptHoverEvents(true);
+    item->installEventFilter(this);
+    m_contentLayout->addItem(item, m_contentLayout->rowCount(), 0);
+
+    if (m_model->hasChildren(index)) {   //There are one or more children
+        for (int i = 0; i < m_model->rowCount(index); i++) {
+            addComment(index.child(i, 0), depth + 1);
+        }
+    }
+}
+
+bool CommentsView::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::GraphicsSceneHoverEnter) {
+        QGraphicsItem *item = qobject_cast<QGraphicsItem*> (obj);
+        m_itemBackground->setTargetItem(item);
+    }
+
+    return QObject::eventFilter(obj, event);
 }

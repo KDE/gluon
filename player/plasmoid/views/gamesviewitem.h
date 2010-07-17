@@ -35,36 +35,34 @@ namespace Plasma
     class Label;
 }
 
-
-
 class GamesViewItem : public QGraphicsWidget
 {
-Q_OBJECT
+        Q_OBJECT
 
-public:
-    GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-    
-    virtual void setModelIndex(const QModelIndex &index);
-    QModelIndex modelIndex() const;
+    public:
+        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
-protected:
-    QModelIndex m_index;
-    Plasma::IconWidget *m_preview;
-    Plasma::Label *m_gameName;
-    Plasma::Label *m_gameDescription;
-    Plasma::IconWidget *m_playButton;
-    QGraphicsGridLayout *m_layout;
+        virtual void setModelIndex(const QModelIndex &index);
+        QModelIndex modelIndex() const;
 
-    void layoutWidgets();
-    void setToolTips();
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    protected:
+        QModelIndex m_index;
+        Plasma::IconWidget *m_preview;
+        Plasma::Label *m_gameName;
+        Plasma::Label *m_gameDescription;
+        Plasma::IconWidget *m_playButton;
+        QGraphicsGridLayout *m_layout;
 
-protected slots:
-    void playGameActivated();
+        void layoutWidgets();
+        void setToolTips();
+        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
-signals:
-    void gameToPlaySelected(const QModelIndex &index);
-    void gameSelected(const QModelIndex &index);
+    protected slots:
+        void playGameActivated();
+
+    signals:
+        void gameToPlaySelected(const QModelIndex &index);
+        void gameSelected(const QModelIndex &index);
 };
 
 #endif // GAMESVIEWITEM_H

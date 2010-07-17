@@ -43,6 +43,7 @@ public:
         
     virtual void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
+
 protected:
     QAbstractItemModel *m_model;
 };

@@ -24,20 +24,27 @@
 
 class QTreeView;
 
-namespace GluonPlayer
+namespace Plasma
 {
-    class CommentsModel;
+    class ItemBackground;
 }
 
 class CommentsView : public AbstractItemView
 {
+        Q_OBJECT
+
     public:
-        CommentsView (QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual ~CommentsView();
+        CommentsView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual void setModel(QAbstractItemModel* model);
+
+    protected:
+        Plasma::ItemBackground *m_itemBackground;
+
+        bool eventFilter(QObject *obj, QEvent *event);
+        void addComment(const QModelIndex &index, int depth);
 
     private:
         QTreeView *m_treeView;
-        GluonPlayer::CommentsModel *m_model;
 };
 
 #endif // COMMENTSVIEW_H

@@ -8,6 +8,7 @@ include_directories(
 )
 
 set(gluonplasmaapplet_SRCS
+    views/commentsviewitem.cpp
     views/commentsview.cpp
     views/achievementsview.cpp
     views/highscoresview.cpp

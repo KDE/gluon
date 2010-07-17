@@ -32,7 +32,7 @@ namespace GluonPlayer
 class HighScoresView : public AbstractItemView
 {
     public:
-        HighScoresView (QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
         virtual ~HighScoresView();
 
     private:

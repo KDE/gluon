@@ -21,6 +21,7 @@
 #include "views/highscoresview.h"
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
+#include "models/commentsmodel.h"
 
 #include <QGraphicsLinearLayout>
 
@@ -29,7 +30,7 @@
 #include <KIcon>
 
 GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : Overlay(parent, wFlags)
+        : Overlay(parent, wFlags)
 {
     m_tabBar = new Plasma::TabBar(this);
 
@@ -41,10 +42,11 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
     m_highScoresView = new HighScoresView(this);
     m_achievementsView = new AchievementsView(this);
     m_commentsView = new CommentsView(this);
+    m_commentsView->setModel(new GluonPlayer::CommentsModel());
 
     m_tabBar->addTab(KIcon("games-highscores"), i18n("High Scores"), m_highScoresView);
     m_tabBar->addTab(KIcon("games-endturn"), i18n("Achievements"), m_achievementsView);
-    m_tabBar->addTab(KIcon ("text-plain"), i18n("Comments"), m_commentsView);
+    m_tabBar->addTab(KIcon("text-plain"), i18n("Comments"), m_commentsView);
 
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_backButton);

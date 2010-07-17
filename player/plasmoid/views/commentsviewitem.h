@@ -17,34 +17,47 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMESOVERLAY_H
-#define GAMESOVERLAY_H
+#ifndef COMMENTSVIEWITEM_H
+#define COMMENTSVIEWITEM_H
 
 #include <QGraphicsWidget>
 #include <QModelIndex>
 
+class QGraphicsGridLayout;
+class QGraphicsSceneMouseEvent;
+class QPainter;
+class QStyleOptionGraphicsItem;
+class QWidget;
+
 namespace Plasma
 {
-    class TabBar;
-};
+    class IconWidget;
+    class Label;
+}
 
-class GamesView;
-
-class GamesOverlay : public QGraphicsWidget
+class CommentsViewItem : public QGraphicsWidget
 {
         Q_OBJECT
 
     public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
+        CommentsViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual ~CommentsViewItem();
 
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
+        virtual void setModelIndex(const QModelIndex &index);
+        QModelIndex modelIndex() const;
 
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
+    protected:
+        QModelIndex m_index;
+        Plasma::IconWidget *m_author;
+        Plasma::Label *m_title;
+        Plasma::Label *m_body;
+        Plasma::Label *m_dateTime;
+        Plasma::Label *m_rating;    //TODO Use a stars widget
+        QGraphicsGridLayout *m_layout;
+
+        void layoutWidgets();
+        void setToolTips();
+
 };
 
-#endif // GAMESOVERLAY_H
+#endif // COMMENTSVIEWITEM_H

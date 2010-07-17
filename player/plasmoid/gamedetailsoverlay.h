@@ -35,20 +35,20 @@ class CommentsView;
 
 class GameDetailsOverlay : public Overlay
 {
-Q_OBJECT
+        Q_OBJECT
 
-public:
-    GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+    public:
+        GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
-private:
-    Plasma::IconWidget *m_backButton;
-    Plasma::TabBar *m_tabBar;
-    HighScoresView *m_highScoresView;
-    AchievementsView *m_achievementsView;
-    CommentsView *m_commentsView;
+    private:
+        Plasma::IconWidget *m_backButton;
+        Plasma::TabBar *m_tabBar;
+        HighScoresView *m_highScoresView;
+        AchievementsView *m_achievementsView;
+        CommentsView *m_commentsView;
 
-signals:
-    void back();
+    signals:
+        void back();
 };
 
 #endif // GAMEDETAILSOVERLAY_H
