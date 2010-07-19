@@ -20,9 +20,11 @@
 #include "graph.h"
 #include "edge.h"
 #include "node.h"
+#include "NodeItem.h"
 #include "graphDocument.h"
 #include "DynamicPropertiesList.h"
 #include <QListIterator>
+#include <QHashIterator>
 #include <QByteArray>
 #include <QStringList>
 #include <QInputDialog>
@@ -59,8 +61,8 @@ GraphDocument *Graph::document() const {
 }
 
 void Graph::remove() {
-  _document->removeOne(this);
-  delete this;
+    _document->removeOne(this);
+    delete this;
 }
 
 QList<Node*> Graph::nodes() const {
@@ -71,14 +73,14 @@ QList<Edge*> Graph::edges() const {
     return _edges;
 }
 
-void Graph::setNodesColor(QString c){
-  kDebug() << "Entrou no setNodesColor, com a cor " << c;
-  foreach(Node *n, _nodes) {
+void Graph::setNodesColor(QString c) {
+    kDebug() << "Entrou no setNodesColor, com a cor " << c;
+    foreach(Node *n, _nodes) {
         n->setColor(c);
     }
 }
 
-void Graph::setEdgesColor(QString c){
+void Graph::setEdgesColor(QString c) {
     kDebug() << "Entrou no setEdgesColor, com a cor " << c;
     foreach(Edge *e, _edges) {
         e->setColor(c);
@@ -96,24 +98,24 @@ Node* Graph::addNode(QString name) {
     return n;
 }
 
-void Graph::addNode(QString name, QPointF pos){
+void Graph::addNode(QString name, QPointF pos) {
     Node *node = addNode(name);
     node->setPos(pos.x(), pos.y());
 }
 
-void Graph::addNode(QString name, QPointF pos, QString type){
+void Graph::addNode(QString name, QPointF pos, QString type) {
     Node *node = addNode(name);
     node->setPos(pos.x(), pos.y());
     //change properties based on type here
     node->setName(type);
     node->hideValue(false);
     node->setWidth(0.5);
-    if(type=="if"){
-      node->setMaxOutEdges(2);
-      node->setIcon("rocs_if");
-      node->addDynamicProperty("true","out");
-      node->addDynamicProperty("false","out");
-      node->addDynamicProperty("start","in");
+    if (type=="if") {
+        node->setMaxOutEdges(2);
+        node->setIcon("rocs_if");
+        node->addDynamicProperty("true","out");
+        node->addDynamicProperty("false","out");
+        node->addDynamicProperty("start","in");
     }
     connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
     emit forceUpdate();
@@ -122,7 +124,9 @@ void Graph::addNode(QString name, QPointF pos, QString type){
 Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo) {
     if (_readOnly) return 0;
 
-    if ( from == 0 || to == 0 ) {      return 0;   }
+    if ( from == 0 || to == 0 ) {
+        return 0;
+    }
 
 
     if ( ( from == to) && ( !_directed ) ) {
@@ -131,12 +135,15 @@ Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgI
         return 0;
     } else if ((_nodes.indexOf(from) == -1) || (_nodes.indexOf(to) == -1)) {
         return 0;
-    } else if(from->outEdgesCapacityReached() || to->inEdgesCapacityReached()){
-	emit iAmDisappoint();
-	return 0;
-    }else if((from==to)&&(from->selfEdgesCapacityReached())){
-	emit iAmDisappoint();
-	return 0;
+    } else if (from->outEdgesCapacityReached() || to->inEdgesCapacityReached()) {
+        emit iAmDisappoint();
+        return 0;
+    } else if (!connectionIsValid(true,cFrom) || !connectionIsValid(false,cTo)) {
+        emit iAmDisappoint();
+        return 0;
+    } else if ((from==to)&&(from->selfEdgesCapacityReached())) {
+        emit iAmDisappoint();
+        return 0;
     }
 
     Edge *e  = new Edge(this, from, to, cFrom, cTo);
@@ -151,39 +158,77 @@ Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgI
     return e;
 }
 
-bool Graph::assignEdgeAction(Node *from,Edge *edge){
-  QListIterator<QByteArray> plist = from->dynamicPropertyNames();
-  QListIterator<Edge*> elist = from->out_edges();
-  QStringList middleman;
-  QString temp;
-  bool safe;
-  bool okPressed;
-  QString selectedProperty;
-  if (!plist.hasNext()){
-    iAmDisappoint();
-    return false;
-  }else{
-  while (plist.hasNext()){
-    safe=true;
-    temp = QString(plist.next().data());
-    while (elist.hasNext()){
-      if(elist.next()->value()==temp){
-	safe=false;
-      }
+bool Graph::connectionIsValid(bool direction,QGraphicsSvgItem* svg) {
+    foreach(Edge* e,_edges) {
+        QHashIterator<QString,QGraphicsSvgItem*> iterator(qgraphicsitem_cast<NodeItem*>(svg->parentItem())->connectors());
+        QString key;
+        QListIterator<QByteArray> plist = qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->dynamicPropertyNames();
+        if (direction==true) {
+            if (e->connectorFrom()==svg) {
+                return false;
+            }
+            while (iterator.hasNext()) {
+                if (iterator.next().value()==svg) {
+                    key=iterator.key();
+                    while (plist.hasNext()) {
+                        if (plist.next()==key) {
+                            if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="in") return false;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (e->connectorTo()==svg) {
+                return false;
+            }
+            while (iterator.hasNext()) {
+                if (iterator.next().value()==svg) {
+                    key=iterator.key();
+                    while (plist.hasNext()) {
+                        if (plist.next()==key) {
+                            if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="out") return false;
+                        }
+                    }
+                }
+            }
+        }
     }
-    elist.toFront();
-    if(safe){
-      middleman << temp;
-    }
-  }
-  selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
-  }
-  if (!okPressed){
-    return false;
-  }else{
-    edge->setValue(selectedProperty);
     return true;
-  }
+}
+
+bool Graph::assignEdgeAction(Node *from,Edge *edge) {
+    QListIterator<QByteArray> plist = from->dynamicPropertyNames();
+    QListIterator<Edge*> elist = from->out_edges();
+    QStringList middleman;
+    QString temp;
+    bool safe;
+    bool okPressed;
+    QString selectedProperty;
+    if (!plist.hasNext()) {
+        iAmDisappoint();
+        return false;
+    } else {
+        while (plist.hasNext()) {
+            safe=true;
+            temp = QString(plist.next().data());
+            while (elist.hasNext()) {
+                if (elist.next()->value()==temp) {
+                    safe=false;
+                }
+            }
+            elist.toFront();
+            if (safe) {
+                middleman << temp;
+            }
+        }
+        selectedProperty = QInputDialog::getItem(0,"Select Action to Associate to:","Select Action:",middleman,0,false,&okPressed);
+    }
+    if (!okPressed) {
+        return false;
+    } else {
+        edge->setValue(selectedProperty);
+        return true;
+    }
 }
 
 
@@ -237,10 +282,10 @@ void Graph::remove(Edge *e) {
 }
 
 void Graph::setDirected(bool directed) {
-    
+
     foreach(Node *n1, _nodes) {
         foreach(Node *n2, n1->adjacent_nodes()) {
-	    // do not permit loop nodes while changing graph's state.
+            // do not permit loop nodes while changing graph's state.
             if ( (n1->edges(n2).size() == 1) && (n1 != n2) ) {
                 continue;
             }
@@ -251,12 +296,12 @@ void Graph::setDirected(bool directed) {
             }
 
             foreach(Edge *e, listEdges) {
-	      remove(e);
+                remove(e);
             }
         }
     }
-    foreach(Edge *e, _edges){
-      e->emitChangedSignal(); // dummy updater.
+    foreach(Edge *e, _edges) {
+        e->emitChangedSignal(); // dummy updater.
     }
     _directed = directed;
     emit complexityChanged(directed);
@@ -278,13 +323,13 @@ void Graph::calcRelativeCenter() {
       }
       */
     /// this will be here till I find a better way to calculate a *relative* center of the graph, and not the center of the document.
-    if (parent() != 0){
-	GraphDocument *gd = qobject_cast<GraphDocument*>(parent());
-	_relativeCenter.setY(gd->height()/2);
-	_relativeCenter.setX(gd->width()/2);
-    }else{
+    if (parent() != 0) {
+        GraphDocument *gd = qobject_cast<GraphDocument*>(parent());
+        _relativeCenter.setY(gd->height()/2);
+        _relativeCenter.setX(gd->width()/2);
+    } else {
         _relativeCenter.setY(0);
-	_relativeCenter.setX(0);
+        _relativeCenter.setX(0);
     }
 }
 
@@ -300,20 +345,20 @@ void Graph::setName(const QString& s) {
 }
 
 bool Graph::setBegin(Node* n) {
-  if (!n){
-    _begin = 0;
-    return false;
-  }
+    if (!n) {
+        _begin = 0;
+        return false;
+    }
 
-  if (!_begin){
-      _begin = n;
-      return true;
-  }else if( _begin == n){
-    return false;
-  }
+    if (!_begin) {
+        _begin = n;
+        return true;
+    } else if ( _begin == n) {
+        return false;
+    }
 
-   _begin->setBegin(false);
-   _begin = n;
+    _begin->setBegin(false);
+    _begin = n;
     return true;
 }
 
@@ -354,80 +399,80 @@ bool Graph::automate() {
     return _automate;
 }
 
-void Graph::addDynamicProperty(QString property, QVariant value){
+void Graph::addDynamicProperty(QString property, QVariant value) {
     this->setProperty(property.toUtf8(), value);
-    if (value.isValid()){
-      DynamicPropertiesList::New()->addProperty(this, property);
+    if (value.isValid()) {
+        DynamicPropertiesList::New()->addProperty(this, property);
     }
 }
 
-void Graph::removeDynamicProperty(QString property){
+void Graph::removeDynamicProperty(QString property) {
     this->addDynamicProperty(property, QVariant::Invalid);
     DynamicPropertiesList::New()->removeProperty(this, property);
 }
 
-void Graph::addNodesDynamicProperty(QString property, QVariant value){
-    foreach(Node *n, _nodes){
-      n->addDynamicProperty(property, value);
+void Graph::addNodesDynamicProperty(QString property, QVariant value) {
+    foreach(Node *n, _nodes) {
+        n->addDynamicProperty(property, value);
     }
 }
 
-void Graph::addEdgesDynamicProperty(QString property, QVariant value){
-    foreach(Edge *e, _edges){
-      e->addDynamicProperty(property, value);
+void Graph::addEdgesDynamicProperty(QString property, QVariant value) {
+    foreach(Edge *e, _edges) {
+        e->addDynamicProperty(property, value);
     }
 }
 
-void Graph::removeNodesDynamicProperty(QString property){
-  foreach(Node *n, _nodes){
-    n->removeDynamicProperty(property);
-  }
+void Graph::removeNodesDynamicProperty(QString property) {
+    foreach(Node *n, _nodes) {
+        n->removeDynamicProperty(property);
+    }
 }
-void Graph::removeEdgesDynamicProperty(QString property){
-  foreach(Edge *e, _edges){
-    e->removeDynamicProperty(property);
-  }
-}
-
-void Graph::setNodeNameVisibility(bool b){
-  _nodeNamesVisible = b;
-  foreach(Node *n, _nodes){
-    n->hideName(b);
-  }
+void Graph::removeEdgesDynamicProperty(QString property) {
+    foreach(Edge *e, _edges) {
+        e->removeDynamicProperty(property);
+    }
 }
 
-bool Graph::nodeNameVisibility(){
-  return _nodeNamesVisible;
+void Graph::setNodeNameVisibility(bool b) {
+    _nodeNamesVisible = b;
+    foreach(Node *n, _nodes) {
+        n->hideName(b);
+    }
 }
 
-void Graph::setEdgeNameVisibility(bool b){
-  _edgeNamesVisible = b;
-  foreach(Edge *n, _edges){
-    n->hideName(b);
-  }
+bool Graph::nodeNameVisibility() {
+    return _nodeNamesVisible;
 }
 
-bool Graph::edgeNameVisibility(){
-  return _edgeNamesVisible;
+void Graph::setEdgeNameVisibility(bool b) {
+    _edgeNamesVisible = b;
+    foreach(Edge *n, _edges) {
+        n->hideName(b);
+    }
 }
 
-void Graph::setNodeValueVisibility(bool b){
-  _nodeValuesVisible = b;
-  foreach(Node *n, _nodes){
-    n->hideValue(b);
-  }
-}
-bool Graph::nodeValueVisibility(){
-  return _nodeValuesVisible;
+bool Graph::edgeNameVisibility() {
+    return _edgeNamesVisible;
 }
 
-void Graph::setEdgeValueVisibility(bool b){
-  _edgeValuesVisible = b;
-  foreach(Edge *n, _edges){
-    n->hideValue(b);
-  }
+void Graph::setNodeValueVisibility(bool b) {
+    _nodeValuesVisible = b;
+    foreach(Node *n, _nodes) {
+        n->hideValue(b);
+    }
+}
+bool Graph::nodeValueVisibility() {
+    return _nodeValuesVisible;
 }
 
-bool Graph::edgeValueVisibility(){
-  return _edgeValuesVisible;
+void Graph::setEdgeValueVisibility(bool b) {
+    _edgeValuesVisible = b;
+    foreach(Edge *n, _edges) {
+        n->hideValue(b);
+    }
+}
+
+bool Graph::edgeValueVisibility() {
+    return _edgeValuesVisible;
 }

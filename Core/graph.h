@@ -31,7 +31,6 @@
 
 class GraphDocument;
 
-
 /*! \brief this class acts as a container for nodes and edges.
   this class has all the edges and nodes, plus a few extra funcionalities
   to help programming with it on the programming backend. */
@@ -308,8 +307,8 @@ private:
     bool _nodeValuesVisible;
     bool _edgeValuesVisible;
     
-    //might want to change to bool to at least relay back success or not
     bool assignEdgeAction(Node *from, Edge *edge);
+    bool connectionIsValid(bool direction,QGraphicsSvgItem* svg);
 
 };
 

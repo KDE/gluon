@@ -26,7 +26,6 @@
 #include "graphDocument.h"
 #include "NodeItem.h"
 #include "OrientedEdgeItem.h"
-#include "NodeItem.h"
 #include <KLocale>
 #include <QGraphicsView>
 #include <QList>
