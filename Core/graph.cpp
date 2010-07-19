@@ -117,6 +117,13 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
         node->addDynamicProperty("false","out");
         node->addDynamicProperty("start","in");
     }
+    else{
+      node->setMaxOutEdges(1);
+      node->setMaxInEdges(1);
+      node->setIcon("rocs_method");
+      node->addDynamicProperty("in","in");
+      node->addDynamicProperty("out","out");
+    }
     connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
     emit forceUpdate();
 }
