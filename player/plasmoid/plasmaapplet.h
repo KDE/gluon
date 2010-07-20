@@ -11,12 +11,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -51,39 +51,39 @@ namespace GluonPlayer
 
     class PlasmaApplet : public GLFBOApplet
     {
-        Q_OBJECT
+            Q_OBJECT
 
-    public:
-        PlasmaApplet(QObject *parent, const QVariantList &args);
-        virtual ~PlasmaApplet();
-        void init();
-        virtual void paintGLInterface (QPainter *painter, const QStyleOptionGraphicsItem *option);
+        public:
+            PlasmaApplet(QObject *parent, const QVariantList &args);
+            virtual ~PlasmaApplet();
+            void init();
+            virtual void paintGLInterface(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
-    private:
-        int m_viewportWidth;
-        int m_viewportHeight;
-        QString m_gameFileName;
-        GluonEngine::GameProject *m_project;
-        GluonGraphics::Camera *m_camera;
-        GamesModel *m_gamesModel;
-        GamesOverlay *m_gamesOverlay;
-        GameDetailsOverlay *m_gameDetailsOverlay;
-        QGraphicsLinearLayout *m_layout;
+        private:
+            int m_viewportWidth;
+            int m_viewportHeight;
+            QString m_gameFileName;
+            GluonEngine::GameProject *m_project;
+            GluonGraphics::Camera *m_camera;
+            GamesModel *m_gamesModel;
+            GamesOverlay *m_gamesOverlay;
+            GameDetailsOverlay *m_gameDetailsOverlay;
+            QGraphicsLinearLayout *m_layout;
 
-        void initGL();
-        void render();
+            void initGL();
+            void render();
 
-    protected:
-        void resizeEvent(QGraphicsSceneResizeEvent *event);
+        protected:
+            void resizeEvent(QGraphicsSceneResizeEvent *event);
 
-    protected slots:
-        void openProject();
-        void setProject(const QModelIndex &index);
-        void doPaint();
-        void startGame();
-        void showGames();
-        void showGameDetails(const QModelIndex &index);
-        void setCamera(GluonGraphics::Camera* camera);
+        protected slots:
+            void openProject();
+            void setProject(const QModelIndex &index);
+            void doPaint();
+            void startGame();
+            void showGames();
+            void showGameDetails(const QModelIndex &index);
+            void setCamera(GluonGraphics::Camera* camera);
     };
 }
 

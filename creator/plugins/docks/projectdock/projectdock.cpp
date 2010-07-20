@@ -104,8 +104,12 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
             }
             else
             {
-                action = new QAction("New Folder...", this->q);
+                action = new QAction(KIcon("folder"), "New Folder...", this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
+                menuItems.append(action);
+
+                action = new QAction(KIcon("document-new"), "New Scene", this->q);
+                connect(action, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
                 menuItems.append(action);
                 
                 // Run through all the templates and add an action for each...
@@ -169,7 +173,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     d->toolBar->setIconDimensions(16);
     QAction* action = d->toolBar->addAction(KIcon("document-new"), i18n("New Scene"));
     connect(action, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
-    action = d->toolBar->addAction(KIcon("edit-delete"), i18nc("Delete selected object form project", "Delete"));
+    action = d->toolBar->addAction(KIcon("edit-delete"), i18nc("Delete selected object from project", "Delete"));
     connect(action, SIGNAL(triggered(bool)), SLOT(deleteActionTriggered()));
     layout->addWidget(d->toolBar);
     layout->addWidget(d->view);
@@ -279,7 +283,7 @@ void ProjectDock::deleteActionTriggered()
     
     GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
     DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
-    if (KMessageBox::questionYesNo(this, tr("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), tr("Really Delete?")) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), i18n("Really Delete?")) == KMessageBox::Yes)
     {
         d->view->selectionModel()->select(d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect);
         //d->view->collapse(d->currentContextIndex.parent());

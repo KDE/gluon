@@ -32,7 +32,7 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-CommentsModel::CommentsModel (QObject* parent) : QAbstractItemModel (parent)
+CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
@@ -57,7 +57,7 @@ void CommentsModel::loadData()
 
     if (fileContents.isEmpty())
         qDebug() << "Something is wrong with the comments file";
-    
+
     QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
     rootNode = comments.at(0);
 }
@@ -65,7 +65,7 @@ void CommentsModel::loadData()
 void CommentsModel::saveData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath (".gluon/" + QString(serviceURI));
+    gluonDir.mkpath(".gluon/" + QString(serviceURI));
     gluonDir.cd(".gluon" ".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
@@ -86,7 +86,7 @@ CommentsModel::~CommentsModel()
     delete rootNode;
 }
 
-QVariant CommentsModel::data (const QModelIndex& index, int role) const
+QVariant CommentsModel::data(const QModelIndex& index, int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         GluonObject *node;
@@ -97,79 +97,79 @@ QVariant CommentsModel::data (const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int CommentsModel::columnCount (const QModelIndex& parent) const
+int CommentsModel::columnCount(const QModelIndex& parent) const
 {
     return 5;
 }
 
-int CommentsModel::rowCount (const QModelIndex& parent) const
+int CommentsModel::rowCount(const QModelIndex& parent) const
 {
     GluonObject *parentItem;
-     if (parent.column() > 0)
-         return 0;
+    if (parent.column() > 0)
+        return 0;
 
-     if (!parent.isValid())
-         parentItem = rootNode;
-     else
-         parentItem = static_cast<GluonObject*>(parent.internalPointer());
+    if (!parent.isValid())
+        parentItem = rootNode;
+    else
+        parentItem = static_cast<GluonObject*>(parent.internalPointer());
 
-     return parentItem->children().count();
+    return parentItem->children().count();
 }
 
-QModelIndex CommentsModel::parent (const QModelIndex& child) const
+QModelIndex CommentsModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
 
     GluonObject *childItem = static_cast<GluonObject*>(child.internalPointer());
-    GluonObject *parentItem = qobject_cast<GluonObject*>(childItem->parent());
+    GluonObject *parentItem = qobject_cast<GluonObject*> (childItem->parent());
 
     if (parentItem == rootNode)
         return QModelIndex();
 
-    GluonObject *grandParentItem = qobject_cast<GluonObject*>(parentItem->parent());
+    GluonObject *grandParentItem = qobject_cast<GluonObject*> (parentItem->parent());
     if (!grandParentItem)
         return QModelIndex();
-    
-     return createIndex(grandParentItem->children().indexOf(parentItem), 0, parentItem);
+
+    return createIndex(grandParentItem->children().indexOf(parentItem), 0, parentItem);
 }
 
-QModelIndex CommentsModel::index (int row, int column, const QModelIndex& parent) const
+QModelIndex CommentsModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
-         return QModelIndex();
+        return QModelIndex();
 
-     GluonObject *parentItem;
+    GluonObject *parentItem;
 
-     if (!parent.isValid())
-         parentItem = rootNode;
-     else
-         parentItem = static_cast<GluonObject*>(parent.internalPointer());
+    if (!parent.isValid())
+        parentItem = rootNode;
+    else
+        parentItem = static_cast<GluonObject*>(parent.internalPointer());
 
-     GluonObject *childItem = parentItem->child(row);
-     if (childItem)
-         return createIndex(row, column, childItem);
-     else
-         return QModelIndex();
+    GluonObject *childItem = parentItem->child(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
 }
 
-QVariant CommentsModel::headerData (int section, Qt::Orientation orientation, int role) const
+QVariant CommentsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-         return columnName(Column(section));
+        return columnName(Column(section));
 
-     return QVariant();
+    return QVariant();
 }
 
-Qt::ItemFlags CommentsModel::flags (const QModelIndex& index) const
+Qt::ItemFlags CommentsModel::flags(const QModelIndex& index) const
 {
-     if (!index.isValid())
-         return Qt::ItemIsEnabled;
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
 
-     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool CommentsModel::setData (const QModelIndex& index, const QVariant& value, int role)
+bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
         GluonObject *node;
@@ -183,7 +183,7 @@ bool CommentsModel::setData (const QModelIndex& index, const QVariant& value, in
     return false;
 }
 
-QString CommentsModel::columnName (const Column col) const
+QString CommentsModel::columnName(const Column col) const
 {
     return m_columnNames.at(col);
 }

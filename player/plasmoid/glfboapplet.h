@@ -31,7 +31,7 @@ namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT GLFBOApplet : public Plasma::Applet
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             /**
@@ -42,8 +42,8 @@ namespace GluonPlayer
             *      instances of the same Applet type
             */
             GLFBOApplet(QGraphicsItem *parent,
-                    const QString &serviceId,
-                    int appletId);
+                        const QString &serviceId,
+                        int appletId);
 
             /**
             * This constructor is to be used with the plugin loading systems
@@ -68,9 +68,9 @@ namespace GluonPlayer
             * using OpenGL api directly is supported.
             */
             virtual void paintGLInterface(QPainter *painter,
-                                        const QStyleOptionGraphicsItem *option);
+                                          const QStyleOptionGraphicsItem *option);
             void makeCurrent();
-            
+
         private:
             virtual void paintInterface(QPainter *painter,
                                         const QStyleOptionGraphicsItem *option,

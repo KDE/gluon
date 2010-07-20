@@ -24,7 +24,7 @@
 #include <QGraphicsProxyWidget>
 
 HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : AbstractItemView(parent, wFlags), m_model(0)
+        : AbstractItemView(parent, wFlags), m_model(0)
 {
     m_model = new GluonPlayer::HighScoresModel(this);
     m_view = new QTableView();
