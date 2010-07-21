@@ -35,6 +35,40 @@ namespace GluonCore
      * This singleton class provides functionality for serializing and deserializing
      * GluonObject instances to and from the GDL object definition language.
      * 
+     * A generalized use scenario for GDLHandler is loading a gdl file from disk and
+     * deserializing it into GluonObject instances, do a change to some object in
+     * the hierarchy and then save it back into a file. The following function will
+     * do that:
+     * 
+     * \code
+bool fiddleWithObjects(QString filename)
+{
+    QFile projectFile(QFileInfo(filename().toLocalFile()).fileName());
+    if (!projectFile.open(QIODevice::ReadWrite))
+        return false;
+    
+    QTextStream projectReader(&projectFile);
+    QString fileContents = projectReader.readAll();
+    
+    if (fileContents.isEmpty())
+        return false;
+    
+    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL(fileContents, this->parent());
+    
+    foreach(GluonObject* obj, objectList)
+    {
+        obj->setName(QString("%1 %2").arg(obj->name()).arg("changed"));
+    }
+    
+    QString serializedData = GluonCore::GDLHandler::instance()->serializeGDL();
+    QTextStream out(&projectFile);
+    out << serializedData;
+    projectFile.close();
+    
+    return true;
+}
+\endcode
+     * 
      * <b>The Gluon Definition Language</b>
      *
      * The Gluon Definition Language, or GDL, is a very simple, hierarchical object
@@ -49,7 +83,7 @@ namespace GluonCore
         PropertyName DataTypeName(Value)
     }
 }
-     * \endverbatim
+\endverbatim
      * 
      * The above sample represents two nested objects of the type ClassName, both named
      * ObjectName. The fully qualified name for the objects respectively are ObjectName
@@ -70,7 +104,7 @@ namespace GluonCore
     { GluonObject(AChildObject)
     }
 }
-     * \endverbatim
+\endverbatim
      * 
      * The property reference on the AnotherObject object is then a reference to the object
      * with the fully qualified name AnObject.AChildObject. Also shown here is the the fact
