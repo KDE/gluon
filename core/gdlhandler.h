@@ -66,8 +66,7 @@ bool fiddleWithObjects(QString filename)
     projectFile.close();
     
     return true;
-}
-\endcode
+}\endcode
      * 
      * <b>The Gluon Definition Language</b>
      *
@@ -119,7 +118,24 @@ bool fiddleWithObjects(QString filename)
             Q_OBJECT
 
         public:
+            /**
+             * Deserialise a GDL string representation into their GluonObject counterpart
+             * 
+             * \note Please be aware that in the case of an incorrect GDL string, you will not be given
+             * a correct list of GluonObjects. That is, the function does not currently degrade gracefully.
+             * As such, please ensure the data is acceptable upon return.
+             * 
+             * @param   parseThis   The GDL string that you wish to parse into GluonObject instances
+             * @param   parent      The QObject you wish the objects to be parented to
+             * @return  A list of generated GluonObject instances
+             */
             QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
+            
+            /**
+             * Serialize a list of GluonObject instances into a GDL representation
+             * @param   serializeThis   The list of GluonObject instances you wish to serialize
+             * @return  The serialized objects
+             */
             QString serializeGDL(QList<const GluonObject *> serializeThis);
 
         private:
