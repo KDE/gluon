@@ -32,6 +32,27 @@
 
 Q_DECLARE_METATYPE(QList<QUrl>)
 
+/**
+ * Please insert this macro into the definition of your class when implementing a
+ * GluonObject subclass. The following is the code as found in GluonObject itself:
+\code
+class GLUON_CORE_EXPORT GluonObject : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+    GLUON_OBJECT(GluonCore::GluonObject);
+    
+    public:
+        Q_INVOKABLE GluonObject(QObject * parent = 0);
+\endcode
+ *
+ * \note Please make sure that you also add two Q_DECLARE_METATYPE declarations at
+ * the end of your header as seen below (also a sample from GluonObject):
+\code
+Q_DECLARE_METATYPE(GluonCore::GluonObject)
+Q_DECLARE_METATYPE(GluonCore::GluonObject*)
+\endcode
+ */
 #define GLUON_OBJECT(CLASSNAME)\
     public:\
     virtual GluonCore::GluonObject* instantiate();\

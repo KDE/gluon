@@ -32,6 +32,13 @@ namespace GluonCore
     class GluonObject;
 	class GluonObjectFactory;
 
+    /**
+     * \brief Create and manipulate GluonObjects by reference and name
+     * 
+     * The GluonObjectFactory provides functionality not just for creating objects,
+     * but also assists in extending QVariant with functionality for handling objects
+     * with inherited classes.
+     */
     class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
             Q_OBJECT
@@ -61,26 +68,80 @@ namespace GluonCore
                     DEBUG_TEXT(QString("Added mimetypes %1 to the index").arg(mimetypenames));
                 }
             };
+            
+            /**
+             * Create a new object with the class name indicated by the passed string
+             * 
+             * @param   objectTypeName  The name of the class you want an instance of
+             * @return  An object of the appropriate type, or null if no such class was found in the factory
+             */
             GluonObject * instantiateObjectByName(const QString& objectTypeName);
+            /**
+             * Create a new object which is capable of handling the passed mime type
+             * 
+             * @param   objectMimeType  The string representation of the mimetype you wish to be able to handle
+             * @return  An object of the appropriate type, or null if there is no suitable class in the factory
+             */
             GluonObject * instantiateObjectByMimetype(const QString& objectMimeType);
 
             /**
-             * This somewhat odd looking function is the final product of a long winded
-             * mission to try and wrap objects in a suitable QVariant, so as to
-             * not get the wrong type when getting it back from the property view
+             * Wrap the passed GluonObject in a QVariant of the same type as the
+             * passed QVariant. This enables a property to retain its type when
+             * changing its value along a class inheritance chain.
+             * 
              * @param original The original value of the property
              * @param newValue The new value of the reference property
              * @return The object wrapped in a suitably typed QVariant
              */
             QVariant wrapObject(const QVariant &original, GluonObject* newValue);
+            /**
+             * Wrap the passed GluonObject in a QVariant of the named type. This
+             * enables a property to retain its type when changing its value along
+             * a class inheritance chain.
+             * 
+             * @param   type        The name of the type the QVariant should be
+             * @param   newValue    The object you wish to have wrapped in a QVariant of the specified type
+             * @return  The appropriate QVariant, or an invalid QVariant if the type was not found in the factory
+             */
             QVariant wrapObject(const QString &type, GluonObject* newValue);
+            /**
+             * Get the GluonObject wrapped inside the passed QVariant
+             * 
+             * @param   wrappedObject   A GluonObject wrapped inside a QVariant
+             * @return  The GluonObject wrapped by the QVariant, or null if there is no valid GluonObject inside it
+             */
             GluonObject* wrappedObject(const QVariant &wrappedObject);
 
+            /**
+             * Request a reload of the factory's plugins
+             */
             void loadPlugins();
 
+            /**
+             * A list of all the names of the classes in the factory
+             * 
+             * @return The list of all the classes the factory can accept
+             */
             QStringList objectTypeNames() const;
+            /**
+             * A list of all the mimetypes supported by the factory
+             * 
+             * @return  The list of all supported mimetypes
+             */
             QStringList objectMimeTypes() const;
+            /**
+             * A hash containing all the metaobjects of all the classes in the factory.
+             * The key is the class name, and the value is the metaobject.
+             * 
+             * @return  The hash as described
+             */
             QHash<QString, const QMetaObject*> objectTypes() const;
+            /**
+             * A hash containing the QMetaType object IDs for all the classes registered in
+             * the factory. The key is the class name, and the value is the ID
+             * 
+             * @return  The hash as described
+             */
             const QHash<QString, int> objectTypeIDs() const;
             
         private:
@@ -90,6 +151,10 @@ namespace GluonCore
     };
 }
 
+/**
+ * \brief Convenience - do not use directly
+ * A convenience class used for object registration, which should not be used directly
+ */
 template<class T>
 class GluonObjectRegistration
 {
@@ -100,6 +165,27 @@ class GluonObjectRegistration
         }
 };
 
+/**
+ * Use this macro to register a class with the GluonObjectFactory.
+ * It adds a number of functions used by GluonObjectFactory, so please note that you should not
+ * be adding functions with the following signatures to your class:
+ * 
+ * GluonCore::GluonObject *instantiate();
+ * 
+ * GluonCore::GluonObject *fromVariant(const QVariant &wrappedObject);
+ * 
+ * QVariant toVariant(GluonCore::GluonObject *wrapThis);
+ * 
+ * Please make sure to insert this macro at the very top of the file containing your
+ * implementation. As an example, the following is the code used to register GluonObject
+ * itself into the factory:
+ * 
+\code
+REGISTER_OBJECTTYPE(GluonCore, GluonObject);
+\endcode
+ *
+ * @see GLUON_OBJECT
+ */
 #define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
     GluonObjectRegistration<NAMESPACE :: NEWOBJECTTYPE> NAMESPACE ## NEWOBJECTTYPE ## _GluonObjectRegistration;\
     GluonCore::GluonObject * \
