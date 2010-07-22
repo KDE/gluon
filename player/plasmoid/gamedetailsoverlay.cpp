@@ -42,7 +42,8 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
     m_highScoresView = new HighScoresView(this);
     m_achievementsView = new AchievementsView(this);
     m_commentsView = new CommentsView(this);
-    m_commentsView->setModel(new GluonPlayer::CommentsModel());
+    m_commentsModel = new GluonPlayer::CommentsModel();
+    m_commentsView->setModel(m_commentsModel);
 
     m_tabBar->addTab(KIcon("games-highscores"), i18n("High Scores"), m_highScoresView);
     m_tabBar->addTab(KIcon("games-endturn"), i18n("Achievements"), m_achievementsView);
@@ -52,4 +53,9 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
     layout->addItem(m_backButton);
     layout->addItem(m_tabBar);
     setLayout(layout);
+}
+
+GameDetailsOverlay::~GameDetailsOverlay()
+{
+    delete m_commentsModel;
 }

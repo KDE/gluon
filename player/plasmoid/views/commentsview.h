@@ -22,6 +22,7 @@
 
 #include "abstractitemview.h"
 
+class CommentsViewItem;
 class QTreeView;
 
 namespace Plasma
@@ -41,10 +42,13 @@ class CommentsView : public AbstractItemView
         Plasma::ItemBackground *m_itemBackground;
 
         bool eventFilter(QObject *obj, QEvent *event);
-        void addComment(const QModelIndex &index, int depth);
+        CommentsViewItem* addComment(const QModelIndex& index, int depth);
 
     private:
         QTreeView *m_treeView;
+
+    protected slots:
+        void showReply();
 };
 
 #endif // COMMENTSVIEW_H

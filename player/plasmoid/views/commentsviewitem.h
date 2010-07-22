@@ -28,6 +28,7 @@ class QGraphicsSceneMouseEvent;
 class QPainter;
 class QStyleOptionGraphicsItem;
 class QWidget;
+class QGraphicsSceneHoverEvent;
 
 namespace Plasma
 {
@@ -45,6 +46,8 @@ class CommentsViewItem : public QGraphicsWidget
 
         virtual void setModelIndex(const QModelIndex &index);
         QModelIndex modelIndex() const;
+        int depth();
+        void setDepth(int newDepth);
 
     protected:
         QModelIndex m_index;
@@ -53,10 +56,18 @@ class CommentsViewItem : public QGraphicsWidget
         Plasma::Label *m_body;
         Plasma::Label *m_dateTime;
         Plasma::Label *m_rating;    //TODO Use a stars widget
+        Plasma::IconWidget *m_replyButton;
         QGraphicsGridLayout *m_layout;
+        int m_depth;
+
+        void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+        void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
         void layoutWidgets();
         void setToolTips();
+
+    signals:
+        void replyClicked();
 
 };
 
