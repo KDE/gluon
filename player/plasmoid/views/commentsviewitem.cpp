@@ -50,7 +50,7 @@ int CommentsViewItem::depth()
 
 void CommentsViewItem::setDepth(int newDepth)
 {
-    m_depth = newDepth();
+    m_depth = newDepth;
     setContentsMargins(m_depth*10, 0, 0, 0);
 }
 
