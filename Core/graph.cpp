@@ -25,6 +25,7 @@
 #include "DynamicPropertiesList.h"
 #include <QListIterator>
 #include <QHashIterator>
+#include <QMapIterator>
 #include <QByteArray>
 #include <QStringList>
 #include <QInputDialog>
@@ -36,6 +37,7 @@ Graph::Graph(GraphDocument *parent) : QObject(parent) {
     _automate = false;
     _readOnly = false;
     _document = parent;
+    _listbox = 0;
     _begin = 0;
     calcRelativeCenter();
     _nodeDefaultColor = "blue";
@@ -87,6 +89,10 @@ void Graph::setEdgesColor(QString c) {
     }
 }
 
+void Graph::setKCB(KComboBox *list){
+  _listbox = list;
+}
+
 Node* Graph::addNode(QString name) {
     if (_readOnly) return 0;
 
@@ -105,24 +111,24 @@ void Graph::addNode(QString name, QPointF pos) {
 
 void Graph::addNode(QString name, QPointF pos, QString type) {
     Node *node = addNode(name);
+    QString key;
     node->setPos(pos.x(), pos.y());
     //change properties based on type here
     node->setName(type);
     node->hideValue(false);
     node->setWidth(0.5);
-    if (type=="if") {
-        node->setMaxOutEdges(2);
-        node->setIcon("rocs_if");
-        node->addDynamicProperty("true","out");
-        node->addDynamicProperty("false","out");
-        node->addDynamicProperty("start","in");
+    if(_listbox==0) {
+      emit iAmDisappoint();
+      return;
     }
-    else{
-      node->setMaxOutEdges(1);
-      node->setMaxInEdges(1);
-      node->setIcon("rocs_method");
-      node->addDynamicProperty("in","in");
-      node->addDynamicProperty("out","out");
+    QMap<QString,QVariant> nodelist = _listbox->itemData(_listbox->currentIndex()).toMap();
+    node->setIcon(nodelist["nodetypesvg"].toString());
+    QMapIterator<QString,QVariant> i(nodelist);
+    while(i.hasNext()){
+      key=i.next().key();
+      if(key!="nodetypesvg"){
+	node->addDynamicProperty(key,nodelist[key]);
+      }
     }
     connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
     emit forceUpdate();

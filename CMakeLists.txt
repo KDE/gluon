@@ -111,4 +111,6 @@ install( TARGETS gluon_creator_dockplugin_codewidgetdock  DESTINATION ${PLUGIN_I
 
 install( FILES gluon_creator_dockplugin_codewidgetdock.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 
+install (FILES nodetypes.gdl DESTINATION ${DATA_INSTALL_DIR} )
+
 

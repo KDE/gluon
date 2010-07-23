@@ -1,0 +1,13 @@
+{ GluonObject(root)
+{ NodeType(if) 
+true string(out)
+ false string(out)
+ input string(in)
+ nodetypesvg string(rocs_if)
+ }
+{ NodeType(others)
+ in string(in)
+ out string(out)
+ nodetypesvg string(rocs_method)
+ }
+}

@@ -54,7 +54,12 @@
 #include <kstandarddirs.h>
 #include <QActionGroup>
 #include <QAction>
+#include <QList>
+#include <QFile>
+#include <QTextStream>
 #include <KPushButton>
+#include <core/gluonobject.h>
+#include <core/gdlhandler.h>
 
 MainWindow::MainWindow() :  QWidget()
 {
@@ -67,6 +72,7 @@ MainWindow::MainWindow() :  QWidget()
    setActiveGraphDocument ( _tDocument );
    _graph = _tDocument->addGraph();
    setActiveGraph(_graph);
+   _graph->setKCB(_widgetType);
 }
 
 GraphDocument *MainWindow::activeDocument() const{
@@ -79,15 +85,28 @@ void MainWindow::setupWidgets()
     _graphVisualEditor = new GraphVisualEditor ( this );
     _actionButtons = new KToolBar(_graphVisualEditor,false);
     _widgetType = new KComboBox(_actionButtons);
-    _widgetType->addItem("if");
-    _widgetType->addItem("initialize");
-    _widgetType->addItem("start");
-    _widgetType->addItem("update");
-    _widgetType->addItem("draw");
-    _widgetType->addItem("stop");
-    _widgetType->addItem("cleanup");
+    addCustomTypes(_widgetType);
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
+}
+
+void MainWindow::addCustomTypes(KComboBox* bigList)
+{
+    QFile nodefile(KGlobal::dirs()->locate("data", "nodetypes.gdl"));
+    if (!nodefile.open(QIODevice::ReadOnly)) return;
+    QTextStream noderead(&nodefile);
+    QString nodetext = noderead.readAll();
+    if (nodetext.isEmpty()) return;
+    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL(nodetext,this->parent());
+    QMap<QString,QVariant> propertlist;
+    foreach(QObject* n, noderootlist.first()->children()){
+      propertlist.clear();
+      foreach(QByteArray ba, n->dynamicPropertyNames()){
+	propertlist.insert(QString(ba.data()),n->property(ba.data()));
+      }
+      bigList->addItem(qobject_cast<GluonCore::GluonObject*>(n)->name(),propertlist);
+    }
+    nodefile.close();
 }
 
 void MainWindow::setupActions()

@@ -58,6 +58,7 @@ private: // Methods
     void setupWidgets(); // Setup all the widgets.
     void setupActions(); // Setup all the actions.
     void startThreadDocument();
+    void addCustomTypes(KComboBox* bigList);
   
 public slots:
     void setActiveGraphDocument(GraphDocument *d);

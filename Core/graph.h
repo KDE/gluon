@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QList>
 #include <QString>
+#include <KComboBox>
 
 #include <klocalizedstring.h>
 #include "rocslib_export.h"
@@ -77,6 +78,7 @@ public:
 
     void readOnly( bool r) { _readOnly = r; }
     bool readOnly() const { return _readOnly; }
+    void setKCB(KComboBox *list);
 
 public  slots:
     /*! sets the name of the graph.
@@ -301,6 +303,7 @@ private:
     bool _automate;
     GraphDocument *_document;
     bool _readOnly;
+    KComboBox *_listbox;
 
     bool _nodeNamesVisible;
     bool _edgeNamesVisible;
