@@ -117,7 +117,7 @@ bool fiddleWithObjects(QString filename)
      * 
      * Data types supported by GDL outside of the classes registered in GluonObjectFactory are:
      * 
-     * - string(value) where value is any string
+     * - string(value) where value is any string (no quotation marks required)
      * - bool(value) where value is the string literal true or false
      * - float(value) where value is any floating point number
      * - vector3d(value;value;value) where value is any floating point number
