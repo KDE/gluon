@@ -138,8 +138,8 @@ YourClassName::~YourClassName()
              * The local name of the object. Setting the name will sanitize it according to
              * the following rules:
              * 
-             * * Names cannot contain the / symbol
-             * * Two objects on the same parent cannot have the same name
+             *   - Names cannot contain the / symbol
+             *   - Two objects on the same parent cannot have the same name
              * 
              * To ensure the second rule, numbers are added until such time that the name becomes
              * unique (setting name would result in first attempting "name", then "name 1", then
