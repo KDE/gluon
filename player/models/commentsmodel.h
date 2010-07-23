@@ -42,32 +42,33 @@ namespace GluonPlayer
 
     class GLUON_PLAYER_EXPORT CommentsModel : public QAbstractItemModel
     {
-    Q_OBJECT
+            Q_OBJECT
 
-    public:
-        enum Column { AuthorColumn, TitleColumn, BodyColumn, DateTimeColumn, RatingColumn };
+        public:
+            enum Column { AuthorColumn, TitleColumn, BodyColumn, DateTimeColumn, RatingColumn };
 
-        CommentsModel(QObject* parent = 0);
-        virtual ~CommentsModel();
-        virtual QVariant data (const QModelIndex& index, int role = Qt::DisplayRole) const;
-        virtual int columnCount (const QModelIndex& parent = QModelIndex()) const;
-        virtual int rowCount (const QModelIndex& parent = QModelIndex()) const;
-        virtual QModelIndex parent (const QModelIndex& child) const;
-        virtual QModelIndex index (int row, int column, const QModelIndex& parent = QModelIndex()) const;
-        virtual QVariant headerData (int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-        virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-        virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+            CommentsModel(QObject* parent = 0);
+            virtual ~CommentsModel();
+            virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+            virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+            virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+            virtual QModelIndex parent(const QModelIndex& child) const;
+            virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+            virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+            virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+            virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+            virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
-        QString columnName(const Column col) const;
+            QString columnName(const Column col) const;
 
-    private:
-        GluonCore::GluonObject *rootNode;
-        QStringList m_columnNames;
-        Attica::ProviderManager m_manager;
-        Attica::Provider m_provider;
-        
-        void loadData();
-        void saveData();
+        private:
+            GluonCore::GluonObject *rootNode;
+            QStringList m_columnNames;
+            Attica::ProviderManager m_manager;
+            Attica::Provider m_provider;
+
+            void loadData();
+            void saveData();
     };
 
 }

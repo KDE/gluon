@@ -64,9 +64,10 @@ void CommentsModel::loadData()
 
 void CommentsModel::saveData()
 {
+    qDebug() << "Saving Data";
     QDir gluonDir = QDir::home();
     gluonDir.mkpath(".gluon/" + QString(serviceURI));
-    gluonDir.cd(".gluon" ".gluon/" + QString(serviceURI));
+    gluonDir.cd(".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
     QFile dataFile(filename);
@@ -78,6 +79,7 @@ void CommentsModel::saveData()
     QTextStream dataWriter(&dataFile);
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(comments);
     dataFile.close();
+    qDebug() << "Saved";
 }
 
 CommentsModel::~CommentsModel()
@@ -175,12 +177,34 @@ bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int
         GluonObject *node;
         node = static_cast<GluonObject*>(index.internalPointer());
 
-        return node->setProperty(columnName(Column(index.column())).toUtf8(), value);
+        node->setProperty(columnName(Column(index.column())).toUtf8(), value);
         emit dataChanged(index, index);
         return true;
     }
 
     return false;
+}
+
+bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
+{
+    if (count!=1) { //Don't support more than one row at a time
+        qDebug() << "Can insert only one comment at a time";
+        return false;
+    }
+    if (row != rowCount(parent)) {
+        qDebug() << "Can only add a comment to the end of existing comments";
+        return false;
+    }
+
+    beginInsertRows(parent, row, row);
+    GluonObject *parentNode;
+    parentNode = static_cast<GluonObject*>(parent.internalPointer());
+        
+    GluonObject *newNode = new GluonObject("Comment", parentNode);
+    parentNode->addChild(newNode);
+    endInsertRows();
+
+    return true;
 }
 
 QString CommentsModel::columnName(const Column col) const

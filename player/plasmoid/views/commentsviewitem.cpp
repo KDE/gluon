@@ -18,6 +18,7 @@
  */
 
 #include "commentsviewitem.h"
+#include <KIcon>
 #include <Plasma/IconWidget>
 #include <models/commentsmodel.h>
 #include <Plasma/Label>
@@ -25,9 +26,9 @@
 
 CommentsViewItem::CommentsViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : QGraphicsWidget(parent, wFlags), m_author(0), m_title(0), m_body(0), m_dateTime(0),
-        m_rating(0), m_layout(0)
+        m_rating(0), m_replyButton(0), m_layout(0), m_depth(0)
 {
-
+    setOwnedByLayout(false);
 }
 
 void CommentsViewItem::setModelIndex(const QModelIndex& index)
@@ -41,6 +42,34 @@ QModelIndex CommentsViewItem::modelIndex() const
 {
     return m_index;
 }
+
+int CommentsViewItem::depth()
+{
+    return m_depth;
+}
+
+void CommentsViewItem::setDepth(int newDepth)
+{
+    m_depth = newDepth;
+    setContentsMargins(m_depth*10, 0, 0, 0);
+}
+
+void CommentsViewItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+    if (m_replyButton) {
+        m_replyButton->setVisible(true);
+    }
+    QGraphicsItem::hoverEnterEvent(event);
+}
+
+void CommentsViewItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+    if (m_replyButton) {
+        m_replyButton->setVisible(false);
+    }
+    QGraphicsWidget::hoverLeaveEvent(event);
+}
+
 
 void CommentsViewItem::layoutWidgets()
 {
@@ -61,11 +90,17 @@ void CommentsViewItem::layoutWidgets()
     m_rating = new Plasma::Label(this);
     m_rating->setText(m_index.sibling(m_index.row(), GluonPlayer::CommentsModel::RatingColumn).data().toString());
 
+    m_replyButton = new Plasma::IconWidget(this);
+    m_replyButton->setVisible(false);
+    m_replyButton->setIcon(KIcon("edit-undo"));
+    connect(m_replyButton, SIGNAL(activated()), this, SIGNAL(replyClicked()));
+
     m_layout->addItem(m_author, 0, 0);
     m_layout->addItem(m_title, 0, 1);
     m_layout->addItem(m_body, 1, 0, 1, 2);
     m_layout->addItem(m_dateTime, 2, 0);
     m_layout->addItem(m_rating, 2, 1);
+    m_layout->addItem(m_replyButton, 2, 2);
 
     setLayout(m_layout);
 }
