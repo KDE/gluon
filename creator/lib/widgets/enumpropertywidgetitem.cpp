@@ -120,4 +120,4 @@ EnumPropertyWidgetItem::indexChanged(int newIndex)
     GluonCreator::PropertyWidgetItem::valueChanged( QVariant(newIndex) );
 }
 
-#include "enumpropertywidgetitem.moc"
+// #include "enumpropertywidgetitem.moc"

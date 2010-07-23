@@ -34,7 +34,7 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::Prefab);
 
         public:
-            Prefab(QObject * parent = 0);
+            Q_INVOKABLE Prefab(QObject * parent = 0);
             Prefab(const Prefab &other, QObject * parent = 0);
             ~Prefab();
 

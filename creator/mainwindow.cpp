@@ -19,13 +19,12 @@
 
 #include "mainwindow.h"
 
-#include <QDockWidget>
+#include <QtCore/QVariantList>
 
 #include <KFileDialog>
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KAction>
-#include <KDebug>
 #include <KStatusBar>
 #include <KMessageBox>
 #include <KConfigDialog>
@@ -33,6 +32,9 @@
 #include <KPluginSelector>
 #include <KRun>
 #include <KRecentFilesAction>
+#include <KDE/KTabWidget>
+#include <KDE/KToolBar>
+#include <KDE/KRichTextEdit>
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -48,12 +50,28 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
+#include <QVBoxLayout>
 
 using namespace GluonCreator;
 
-MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
+class MainWindow::MainWindowPrivate
 {
-    m_modified = false;
+    public:
+        MainWindowPrivate() { viewPart = 0; }
+        
+        bool modified;
+        QString fileName;
+        KRecentFilesAction* recentFiles;
+        ProjectSelectionDialog *projectDialog;
+
+        KParts::ReadOnlyPart *viewPart;
+};
+
+MainWindow::MainWindow(const QString& fileName)
+    : KParts::MainWindow(),
+      d(new MainWindowPrivate)
+{
+    d->modified = false;
     
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -79,15 +97,39 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     setupActions();
     setupGUI();
     
-    m_projectDialog = new ProjectSelectionDialog(this);
-    m_projectDialog->setModal(true);
-    connect(m_projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
+    d->projectDialog = new ProjectSelectionDialog(this);
+    d->projectDialog->setModal(true);
+    connect(d->projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
     
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
     
-    if(centralWidget())
-        centralWidget()->setEnabled(false);
+    //if(centralWidget())
+    //    centralWidget()->setEnabled(false);
+
+    KTabWidget *tab = new KTabWidget(this);
+    tab->setCloseButtonEnabled(true);
+    tab->setDocumentMode(true);
+    tab->setMovable(true);
+    tab->setEnabled(false);
+
+    KService::Ptr viewerService = KService::serviceByDesktopName("gluon_viewer_part");
+    if(viewerService)
+    {
+        d->viewPart = viewerService->createInstance<KParts::ReadOnlyPart>(0, QVariantList() << QString("autoplay=false"));
+        if(d->viewPart)
+        {
+            tab->addTab(d->viewPart->widget(), i18nc("View Game Tab", "View"));
+        }
+    }
+
+    if(!d->viewPart)
+    {
+        KMessageBox::error(this, "Could not load the Viewer part. Is it installed correctly?");
+    }
+
+    tab->addTab(new QWidget(), i18nc("Edit Game Tab", "Edit"));
+    setCentralWidget(tab);
 
     if (!fileName.isEmpty())
     {
@@ -97,7 +139,6 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
     {
         //Show new project dialog.
         QTimer *timer = new QTimer(this);
-        timer->setInterval(200);
         timer->setSingleShot(true);
         connect(timer, SIGNAL(timeout()), SLOT(showNewProjectDialog()));
         timer->start();
@@ -106,7 +147,7 @@ MainWindow::MainWindow(const QString& fileName) : KXmlGuiWindow()
 
 MainWindow::~MainWindow()
 {
-    m_recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
+    d->recentFiles->saveEntries(KGlobal::config()->group("Recent Files"));
     GluonCreator::Settings::setLockLayout(actionCollection()->action("lockLayout")->isChecked());
     GluonCreator::Settings::self()->writeConfig();
     GluonEngine::Game::instance()->stopGame();
@@ -120,28 +161,39 @@ void MainWindow::openProject(KUrl url)
 void MainWindow::openProject(const QString &fileName)
 {
     statusBar()->showMessage(i18n("Opening project..."));
-    if (!fileName.isEmpty() && QFile::exists(fileName))
+    if (!fileName.isEmpty() && QFile::exists(fileName) && d->viewPart)
     {
-        GluonEngine::GameProject* project = new GluonEngine::GameProject();
-        project->loadFromFile(QUrl(fileName));
-
-        GluonEngine::Game::instance()->setGameProject(project);
+        d->viewPart->openUrl(KUrl(fileName));
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
 
-        m_fileName = fileName;
+        d->fileName = fileName;
 
-        m_recentFiles->addUrl(KUrl(fileName));
+        d->recentFiles->addUrl(KUrl(fileName));
+
+        actionCollection()->action(KStandardAction::name(KStandardAction::Save))->setEnabled(true);
+        actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs))->setEnabled(true);
+        actionCollection()->action("newObject")->setEnabled(true);
+        actionCollection()->action("newScene")->setEnabled(true);
+        actionCollection()->action("playPauseGame")->setEnabled(true);
+        actionCollection()->action("addAsset")->setEnabled(true);
+        actionCollection()->action("chooseEntryPoint")->setEnabled(true);
+
+        DockManager::instance()->setDocksEnabled(true);
+
+        if(centralWidget())
+            centralWidget()->setEnabled(true);
+
+        statusBar()->showMessage(i18n("Project successfully opened"));
+        setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
+        HistoryManager::instance()->clear();
+        connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
     }
-    statusBar()->showMessage(i18n("Project successfully opened"));
-    setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
-    HistoryManager::instance()->clear();
-    connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
 }
 
 void MainWindow::saveProject()
 {
-    saveProject(m_fileName);
+    saveProject(d->fileName);
 }
 
 void MainWindow::saveProject(const QString &fileName)
@@ -160,7 +212,7 @@ void MainWindow::saveProject(const QString &fileName)
         setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
         HistoryManager::instance()->setClean();
 
-        m_recentFiles->addUrl(KUrl(fileName));
+        d->recentFiles->addUrl(KUrl(fileName));
     }
     else
     {
@@ -170,8 +222,8 @@ void MainWindow::saveProject(const QString &fileName)
 
 void MainWindow::saveProjectAs()
 {
-    m_fileName = KFileDialog::getSaveFileName(KUrl(), i18n("*.gluon|Gluon Project Files"));
-    if (!m_fileName.isEmpty()) saveProject();
+    d->fileName = KFileDialog::getSaveFileName(KUrl(), i18n("*.gluon|Gluon Project Files"));
+    if (!d->fileName.isEmpty()) saveProject();
 }
 
 void MainWindow::setupActions()
@@ -193,8 +245,8 @@ void MainWindow::setupActions()
 
     connect(HistoryManager::instance(), SIGNAL(cleanChanged(bool)), SLOT(cleanChanged(bool)));
 
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(openProject(KUrl)), actionCollection());
-    m_recentFiles->loadEntries(KGlobal::config()->group("Recent Files"));
+    d->recentFiles = KStandardAction::openRecent(this, SLOT(openProject(KUrl)), actionCollection());
+    d->recentFiles->loadEntries(KGlobal::config()->group("Recent Files"));
 
     KAction* newObject = new KAction(KIcon("document-new"), i18n("New Object"), actionCollection());
     actionCollection()->addAction("newObject", newObject);
@@ -278,7 +330,7 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setChecked(false);
             actionCollection()->action("stopGame")->setEnabled(false);
             
-            openProject(m_fileName);
+            openProject(d->fileName);
             
             DEBUG_BLOCK;
             DEBUG_TEXT(currentSceneName);
@@ -302,23 +354,23 @@ void MainWindow::historyChanged()
 {
     GluonEngine::Game::instance()->drawAll();
     GluonEngine::Game::instance()->currentScene()->savableDirty = true;
-    m_modified = true;
+    d->modified = true;
 
-    setCaption(i18n("%1 [modified]", m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+    setCaption(i18n("%1 [modified]", d->fileName.isEmpty() ? i18n("New Project") : d->fileName.section('/', -1)));
 }
 
 void MainWindow::cleanChanged(bool clean)
 {
     if (clean)
     {
-        m_modified = false;
-        setCaption(i18n("%1", m_fileName.isEmpty() ? i18n("New Project") : m_fileName.section('/', -1)));
+        d->modified = false;
+        setCaption(i18n("%1", d->fileName.isEmpty() ? i18n("New Project") : d->fileName.section('/', -1)));
     }
 }
 
 bool MainWindow::queryClose()
 {
-    if (m_modified)
+    if (d->modified)
     {
         int code = KMessageBox::questionYesNoCancel(this, i18n("The project has been changed. Do you want to save before closing?"), i18n("Save Before Closing?"),
                                                     KStandardGuiItem::save(), KStandardGuiItem::dontSave());
@@ -359,30 +411,19 @@ void MainWindow::chooseEntryPoint()
 
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
-    m_projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_NEW);
-    m_projectDialog->show();
+    d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_NEW);
+    d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::showOpenProjectDialog()
 {
-    m_projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_OPEN);
-    m_projectDialog->show();
+    d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_OPEN);
+    d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::projectDialogClosed()
 {
-    openProject(m_projectDialog->fileName());
+    openProject(d->projectDialog->fileName());
     
-    actionCollection()->action(KStandardAction::name(KStandardAction::Save))->setEnabled(true);
-    actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs))->setEnabled(true);
-    actionCollection()->action("newObject")->setEnabled(true);
-    actionCollection()->action("newScene")->setEnabled(true);
-    actionCollection()->action("playPauseGame")->setEnabled(true);
-    actionCollection()->action("addAsset")->setEnabled(true);
-    actionCollection()->action("chooseEntryPoint")->setEnabled(true);
-    
-    DockManager::instance()->setDocksEnabled(true);
-    
-    if(centralWidget())
-        centralWidget()->setEnabled(true);
+
 }

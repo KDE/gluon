@@ -37,6 +37,14 @@
 #  define GLUONCREATOR_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUONCREATOR_EXPORT
 #endif
 
+#ifndef GLUON_CREATOR_VISIBILITY
+#   ifdef _MSC_VER
+#       define GLUON_CREATOR_VISIBILITY
+#   else
+#       define GLUON_CREATOR_VISIBILITY __attribute__((visibility ("default")))
+#   endif
+#endif
+
 #ifndef GLUON_CREATOR_PLUGIN_EXPORT
 #   define GLUON_CREATOR_PLUGIN_EXPORT( c ) \
     K_PLUGIN_FACTORY( GluonCreatorPluginFactory, registerPlugin< c >(); ) \

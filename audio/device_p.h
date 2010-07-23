@@ -28,6 +28,10 @@
 #ifdef Q_WS_MAC
 #include <OpenAL/alc.h>
 #endif
+#ifdef Q_WS_WIN
+#include <AL/alc.h>
+#endif
+
 
 namespace GluonAudio
 {

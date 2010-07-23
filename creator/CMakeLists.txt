@@ -7,9 +7,14 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonEngine REQUIRED)
 endif()
 
-include_directories(${KDE4_INCLUDES} ${GLUON_CORE_INCLUDES} ${GLUON_ENGINE_INCLUDES})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${KDE4_INCLUDES}
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES})
 
-include(KDE4Defaults)
+#include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
@@ -17,7 +22,7 @@ add_subdirectory(lib)
 add_subdirectory(plugins)
 add_subdirectory(icons)
 
-set(gluoncreator_SRCS 
+set(gluoncreator_SRCS
     main.cpp
     mainwindow.cpp
 
@@ -36,3 +41,9 @@ install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
 install(FILES config/gluoncreatorsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install(FILES gluon-creator.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+
+find_package(SharedMimeInfo)
+if(SHARED_MIME_INFO_FOUND)
+    install(FILES x-gluon-mimetypes.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
+    update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+endif()

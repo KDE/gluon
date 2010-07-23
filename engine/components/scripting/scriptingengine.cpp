@@ -31,10 +31,14 @@ namespace GluonEngine
         public:
             Private()
             {
+                DEBUG_FUNC_NAME
+                DEBUG_TEXT2("Available extensions: %1", engine->availableExtensions().join(", "));
                 engine = new QScriptEngine();
                 engine->importExtension("jsmoke.qtcore");
                 engine->importExtension("jsmoke.qtgui");
                 engine->importExtension("jsmoke.qtopengl");
+                
+                DEBUG_TEXT2("Imported extensions: %1", engine->importedExtensions().join(", "));
 
                 QScriptValue extensionObject = engine->globalObject();
             }
@@ -44,8 +48,8 @@ namespace GluonEngine
 
             // A QString with the name of the class represented by a ScriptAsset
             QHash<const ScriptingAsset*, QString> classNames;
-            // A QScriptValue per instance of a script, the key being a pointer to the scripted component using it
-            QHash<const ScriptingComponent*, QScriptValue> scriptInstances;
+            // A QScriptValue per script class definition
+            QHash<const ScriptingAsset*, QScriptValue> scriptInstances;
 
             // Contains the full code of all scripts including class wrapping
             // We are going to have a problem with debugging... bugger :P
@@ -72,14 +76,21 @@ ScriptingEngine::~ScriptingEngine()
 QScriptSyntaxCheckResult
 ScriptingEngine::registerAsset(const ScriptingAsset* asset)
 {
+    DEBUG_BLOCK
     // Why can't i create my own QScriptSyntaxCheckResult instances and set the values?!
 
     // Gah, this is really dumb... 
     if(!asset)
+    {
+        DEBUG_TEXT("Asset is empty");
         return d->engine->checkSyntax(QString(')'));
+    }
     // This is even dumberer...
     if(d->classNames.contains(asset))
+    {
+        DEBUG_TEXT("Asset is already registered");
         return d->engine->checkSyntax(QString('}'));
+    }
     
     // Check the script for syntax
     QScriptSyntaxCheckResult result = d->engine->checkSyntax(asset->data()->text());
@@ -105,7 +116,8 @@ ScriptingEngine::Private::buildScript()
     for(i = classNames.constBegin(); i != classNames.constEnd(); ++i)
     {
         // Build the bit of script to add
-        script.append(QString("function %2() {\n%1}\n").arg(i.key()->data()->text()).arg(i.value()));
+        QString tmpScript = QString("function %2(){\n%1}\n").arg(i.key()->data()->text()).arg(i.value());
+        scriptInstances.insert(i.key(), engine->evaluate(tmpScript, i.key()->file().toLocalFile(), 0));
         /// \TODO Add all those lines to the reverse map...
     }
 }
@@ -113,7 +125,16 @@ ScriptingEngine::Private::buildScript()
 bool
 ScriptingEngine::unregisterAsset(const ScriptingAsset* asset) const
 {
+    if(!asset)
+        return false;
+    if(!d->classNames.contains(asset))
+        return false;
     
+    d->classNames.remove(asset);
+    d->scriptInstances.remove(asset);
+    d->buildScript();
+    
+    return true;
 }
 
 bool
@@ -125,9 +146,21 @@ ScriptingEngine::isRegistered(const ScriptingAsset* asset) const
 QScriptValue
 ScriptingEngine::instantiateClass(const ScriptingAsset* asset) const
 {
+    DEBUG_BLOCK
     // Ensure the asset exists...
-    if(d->classNames.contains(asset))
-        return QScriptValue(d->engine, QString("new %1").arg(d->classNames.value(asset)));
+    if(d->scriptInstances.contains(asset))
+    {
+        //QScriptValue val = d->scriptInstances[asset].construct();
+        QScriptValue val = d->engine->globalObject().property(d->classNames[asset]);
+        
+        QScriptValue instance = val.construct();
+        if(d->engine->hasUncaughtException())
+        {
+            DEBUG_TEXT2("Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join(" --> "));
+        }
+        
+        return instance;
+    }
     // If we've got this far, that means we should be returning an invalid QScriptValue
     return QScriptValue();
 }

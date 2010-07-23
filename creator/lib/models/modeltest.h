@@ -28,7 +28,9 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QStack>
 
-class ModelTest : public QObject
+#include "gluoncreator_macros.h"
+
+class GLUONCREATOR_EXPORT ModelTest : public QObject
 {
     Q_OBJECT
 

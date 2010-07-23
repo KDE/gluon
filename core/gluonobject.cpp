@@ -307,9 +307,9 @@ GluonObject::fullyQualifiedFileName() const
 {
     QString qualifiedName = fullyQualifiedName();
     QString ext;
-    if(qualifiedName.indexOf('.') != -1)
+    if(qualifiedName.contains('.'))
     {
-        ext = qualifiedName.right(qualifiedName.lastIndexOf('.')).toLower();
+        ext = qualifiedName.section('.', -1).toLower();
         qualifiedName = qualifiedName.left(qualifiedName.lastIndexOf('.')).toLower();
     }
 
@@ -562,6 +562,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
         setProperty((propertyName + "_sanitizable").toUtf8(), value);
 
         DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
+        return;
     }
 
     if (!setProperty(propertyName.toUtf8(), value))
@@ -736,17 +737,19 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
             GluonObject * theObject = root()->findItemByName(theReferencedName);
 
             QMetaProperty property = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
+            //DEBUG_TEXT(QString("Attempting to wrap object of type %1 in a QVariant of type %2").arg(theObject->metaObject()->className()).arg(property.typeName()));
             theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);
-            //DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
-
-            if (!setProperty(propertyName.toUtf8(), theReferencedObject))
+            DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
+            
+            setProperty(propertyName.toUtf8(), theReferencedObject);
+/*            if (!)
             {
                 DEBUG_TEXT(QString("Failed to set the property %1 to %2").arg(propertyName, propValue));
             }
             else
             {
                 //DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(propertyName, theReferencedName, name, theObject->metaObject()->className()));
-            }
+            }*/
             break;
         }
     }

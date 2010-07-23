@@ -27,7 +27,7 @@
 
 using namespace GluonPlayer;
 
-GamesModel::GamesModel(QObject* parent): QAbstractTableModel(parent)
+GamesModel::GamesModel(QObject* parent) : QAbstractTableModel(parent)
 {
 #ifdef Q_WS_X11
         m_dir.cd(GluonCore::Global::dataDirectory() + "/gluon/games");

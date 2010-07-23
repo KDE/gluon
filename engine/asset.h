@@ -28,6 +28,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
 #include <QtPlugin>
+#include <QIcon>
 
 class QMimeData;
 
@@ -70,13 +71,19 @@ namespace GluonEngine
             Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
-            Asset(QObject *parent = 0);
+            Q_INVOKABLE Asset(QObject *parent = 0);
             ~Asset();
 
             virtual void setName(const QString &newName);
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
+            
+            /**
+             * An icon to represent the asset. Think of it as a thumbnail representation
+             * of the contents of the asset. The default implementation returns a null icon
+             */
+            virtual QIcon icon() const;
 
             /**
              * The templates provided by the asset. The default

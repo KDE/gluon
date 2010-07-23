@@ -76,7 +76,7 @@ QtScriptComponent::~QtScriptComponent()
 QString
 QtScriptComponent::category() const
 {
-    return QString("Other");
+    return QString("Game Logic");
 }
 
 void QtScriptComponent::initialize()

@@ -20,8 +20,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <KXmlGuiWindow>
-#include <KUrl>
+#include <KDE/KParts/MainWindow>
+#include <KDE/KUrl>
 
 #include "dialogs/projectselectiondialog.h"
 
@@ -30,7 +30,7 @@ namespace GluonCreator
 {
     class Plugin;
 
-    class MainWindow : public KXmlGuiWindow
+    class MainWindow : public KParts::MainWindow
     {
             Q_OBJECT
         public:
@@ -62,10 +62,8 @@ namespace GluonCreator
         private:
             void setupActions();
 
-            bool m_modified;
-            QString m_fileName;
-            KRecentFilesAction* m_recentFiles;
-            ProjectSelectionDialog *m_projectDialog;
+            class MainWindowPrivate;
+            MainWindowPrivate * const d;
     };
 }
 

@@ -27,7 +27,7 @@
 #include <KIcon>
 
 GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    :QGraphicsWidget(parent, wFlags)
+        : QGraphicsWidget(parent, wFlags)
 {
     m_tabBar = new Plasma::TabBar(this);
     m_gamesView = new GamesView(this);

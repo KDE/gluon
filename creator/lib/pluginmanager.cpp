@@ -27,7 +27,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUONCREATOR_EXPORT PluginManager* GluonCore::Singleton<PluginManager>::m_instance = 0;
+template<> GLUON_CREATOR_VISIBILITY PluginManager* GluonCore::Singleton<PluginManager>::m_instance = 0;
 
 class PluginManager::PluginManagerPrivate
 {
@@ -108,4 +108,4 @@ PluginManager::~PluginManager()
      return d->loadedPlugins;
  }
 
-#include "pluginmanager.moc"
+//#include "pluginmanager.moc"

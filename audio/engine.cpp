@@ -30,7 +30,7 @@
 
 using namespace GluonAudio;
 
-template<> GLUON_AUDIO_EXPORT Engine *GluonCore::Singleton<Engine>::m_instance = 0;
+template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 
 Engine::Engine()
 {

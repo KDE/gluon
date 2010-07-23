@@ -46,7 +46,7 @@ namespace GluonEngine
             /**
              * Constructor.
              */
-            SphereCollisionComponent(QObject* parent = 0);
+            Q_INVOKABLE SphereCollisionComponent(QObject* parent = 0);
             /**
              * Destructor.
              */

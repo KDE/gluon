@@ -38,7 +38,7 @@ namespace GluonEngine
             Q_INTERFACES(GluonEngine::Component)
 
         public:
-            SoundListenerComponent(QObject *parent = 0);
+            Q_INVOKABLE SoundListenerComponent(QObject *parent = 0);
             SoundListenerComponent(const SoundListenerComponent &other);
             virtual QString category() const;
 

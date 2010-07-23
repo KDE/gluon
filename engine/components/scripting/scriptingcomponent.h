@@ -32,7 +32,7 @@ namespace GluonEngine
         GLUON_OBJECT(GluonEngine::Scriptingcomponent)
         Q_PROPERTY(GluonEngine::ScriptingAsset* script READ script WRITE setScript)
         public:
-            ScriptingComponent(QObject* parent = 0);
+            Q_INVOKABLE ScriptingComponent(QObject* parent = 0);
             ScriptingComponent(const ScriptingComponent& other);
             virtual ~ScriptingComponent();
             
@@ -47,7 +47,8 @@ namespace GluonEngine
             
             ScriptingAsset* script() const;
         public Q_SLOTS:
-            void setScript(const ScriptingAsset* newAsset);
+            void setScript(GluonEngine::ScriptingAsset* newAsset);
+            void scriptAssetUpdated();
             
         private:
             class ScriptingComponentPrivate;

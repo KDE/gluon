@@ -33,7 +33,7 @@
 
 using namespace GluonEngine;
 
-template<> GLUON_ENGINE_EXPORT Game *GluonCore::Singleton<Game>::m_instance = 0;
+template<> Game *GluonCore::Singleton<Game>::m_instance = 0;
 
 Game::Game(QObject * parent)
 {

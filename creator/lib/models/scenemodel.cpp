@@ -332,5 +332,5 @@ int SceneModel::SceneModelPrivate::rowIndex(GluonEngine::GameObject* object) con
 }
 
 
-#include "scenemodel.moc"
+//#include "scenemodel.moc"
 

@@ -26,7 +26,7 @@
 
 using namespace GluonCore;
 
-template<> GLUON_CORE_EXPORT GDLHandler *Singleton<GDLHandler>::m_instance = 0;
+template<> GDLHandler *Singleton<GDLHandler>::m_instance = 0;
 
 GDLHandler::GDLHandler()
 {

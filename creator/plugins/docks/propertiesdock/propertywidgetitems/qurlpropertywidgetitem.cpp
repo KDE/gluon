@@ -64,5 +64,3 @@ QUrlPropertyWidgetItem::urlValueChanged()
 {
     PropertyWidgetItem::valueChanged(QVariant(QUrl(editWidget()->property("text").toString())));
 }
-
-#include "qurlpropertywidgetitem.moc"

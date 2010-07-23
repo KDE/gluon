@@ -91,4 +91,4 @@ void IntPropertyWidgetItem::setEditProperty(const QString& propertyName)
 }
 
 
-#include "intpropertywidgetitem.moc"
+// #include "intpropertywidgetitem.moc"

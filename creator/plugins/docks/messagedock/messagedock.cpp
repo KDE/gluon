@@ -61,5 +61,3 @@ MessageDock::~MessageDock()
 {
     delete d;
 }
-
-#include "messagedock.moc"

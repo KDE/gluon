@@ -60,18 +60,17 @@ GameProject::saveToFile() const
     GameProjectPrivate::saveChildren(this);
 
     // Eventually, save self
-    QFile *projectFile = new QFile(filename().toLocalFile());
-    if (!projectFile->open(QIODevice::WriteOnly))
+    QFile projectFile(filename().toLocalFile());
+    if (!projectFile.open(QIODevice::WriteOnly))
         return false;
 
     QList<const GluonObject*> thisProject;
     thisProject.append(this);
 
-    QTextStream projectWriter(projectFile);
+    QTextStream projectWriter(&projectFile);
     projectWriter << GluonCore::GDLHandler::instance()->serializeGDL(thisProject);
-    projectFile->close();
+    projectFile.close();
 
-    delete(projectFile);
     return true;
 }
 
@@ -86,13 +85,13 @@ GameProject::loadFromFile()
     setFilename(filename().toLocalFile());
 
     DEBUG_TEXT(QString("Loading project from %1").arg(QFileInfo(filename().toLocalFile()).fileName()));
-    QFile *projectFile = new QFile(QFileInfo(filename().toLocalFile()).fileName());
-    if (!projectFile->open(QIODevice::ReadOnly))
+    QFile projectFile(QFileInfo(filename().toLocalFile()).fileName());
+    if (!projectFile.open(QIODevice::ReadOnly))
         return false;
 
-    QTextStream projectReader(projectFile);
+    QTextStream projectReader(&projectFile);
     QString fileContents = projectReader.readAll();
-    projectFile->close();
+    projectFile.close();
 
     if (fileContents.isEmpty())
         return false;
@@ -165,7 +164,6 @@ GameProject::loadFromFile()
             return false;
     }
 
-    delete(projectFile);
     return true;
 }
 

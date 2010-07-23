@@ -22,10 +22,22 @@
 
 #include "abstractitemview.h"
 
+class QTableView;
+
+namespace GluonPlayer
+{
+    class HighScoresModel;
+}
+
 class HighScoresView : public AbstractItemView
 {
     public:
-        HighScoresView (QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual ~HighScoresView();
+
+    private:
+        QTableView *m_view;
+        GluonPlayer::HighScoresModel *m_model;
 };
 
 #endif // HIGHSCORESVIEW_H

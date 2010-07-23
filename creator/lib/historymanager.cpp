@@ -26,7 +26,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUONCREATOR_EXPORT HistoryManager* GluonCore::Singleton<HistoryManager>::m_instance = 0;
+template<> GLUON_CREATOR_VISIBILITY HistoryManager* GluonCore::Singleton<HistoryManager>::m_instance = 0;
 
 class HistoryManager::HistoryManagerPrivate
 {
@@ -83,4 +83,4 @@ HistoryManager::~HistoryManager()
     delete d;
 }
 
-#include "historymanager.moc"
+//#include "historymanager.moc"

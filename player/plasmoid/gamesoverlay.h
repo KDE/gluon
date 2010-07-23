@@ -32,19 +32,19 @@ class GamesView;
 
 class GamesOverlay : public QGraphicsWidget
 {
-Q_OBJECT
+        Q_OBJECT
 
-public:
-    GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-    GamesView *gamesView();
+    public:
+        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        GamesView *gamesView();
 
-private:
-    Plasma::TabBar *m_tabBar;
-    GamesView *m_gamesView;
+    private:
+        Plasma::TabBar *m_tabBar;
+        GamesView *m_gamesView;
 
-signals:
-    void gameToPlaySelected(const QModelIndex &index);
-    void gameSelected(const QModelIndex &index);
+    signals:
+        void gameToPlaySelected(const QModelIndex &index);
+        void gameSelected(const QModelIndex &index);
 };
 
 #endif // GAMESOVERLAY_H

@@ -31,7 +31,7 @@ class SelectionManager::SelectionManagerPrivate
         SelectionList selection;
 };
 
-template<> GLUONCREATOR_EXPORT SelectionManager* GluonCore::Singleton<SelectionManager>::m_instance = 0;
+template<> GLUON_CREATOR_VISIBILITY SelectionManager* GluonCore::Singleton<SelectionManager>::m_instance = 0;
 
 SelectionManager::SelectionManager() :  d(new SelectionManagerPrivate)
 {
@@ -54,4 +54,4 @@ void SelectionManager::setSelection(const SelectionManager::SelectionList& selec
     emit selectionChanged(selection);
 }
 
-#include "selectionmanager.moc"
+//#include "selectionmanager.moc"

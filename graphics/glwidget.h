@@ -24,7 +24,7 @@
 #ifndef GLUON_GRAPHICS_GLWIDGET_H
 #define GLUON_GRAPHICS_GLWIDGET_H
 
-#include <glew.h>
+#include <GL/glew.h>
 
 #include <QtOpenGL/QGLWidget>
 #include <QtCore/QList>

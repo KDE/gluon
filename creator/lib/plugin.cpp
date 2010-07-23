@@ -31,4 +31,4 @@ Plugin::~Plugin()
 
 }
 
-#include "plugin.moc"
+//#include "plugin.moc"

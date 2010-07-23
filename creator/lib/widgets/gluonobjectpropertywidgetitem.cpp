@@ -198,4 +198,4 @@ GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value
     PropertyWidgetItem::valueChanged(newValue);
 }
 
-#include "gluonobjectpropertywidgetitem.moc"
+// #include "gluonobjectpropertywidgetitem.moc"

@@ -29,7 +29,7 @@
 #include <Plasma/ScrollWidget>
 
 Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : QGraphicsWidget(parent, wFlags)
+        : QGraphicsWidget(parent, wFlags)
 {
     m_background = new Plasma::FrameSvg(this);
     m_background->setImagePath("widgets/translucentbackground");
