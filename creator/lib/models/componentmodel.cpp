@@ -76,6 +76,8 @@ ComponentModel::ComponentModel(QObject* parent)
     : QAbstractItemModel(parent)
     , d(new ComponentModelPrivate)
 {
+    DEBUG_BLOCK
+    
     QHash<QString, const QMetaObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
     int i = 0;
     foreach(const QMetaObject* obj, objectTypes)
@@ -83,6 +85,7 @@ ComponentModel::ComponentModel(QObject* parent)
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(obj->newInstance());
         if(comp)
         {
+            DEBUG_TEXT2("%1 is a Component", obj->className());
             QString name(obj->className());
         
             ComponentModelItem *item = new ComponentModelItem();
@@ -104,6 +107,10 @@ ComponentModel::ComponentModel(QObject* parent)
             item->parent = d->root->items[ d->root->itemNames[category] ];
             d->root->items[ d->root->itemNames[category] ]->itemNames.insert(item->name, d->root->items[ d->root->itemNames[category] ]->items.count());
             d->root->items[ d->root->itemNames[category] ]->items.append(item);
+        }
+        else
+        {
+            DEBUG_TEXT2("%1 is NOT a Component", obj->className());
         }
     }
 }

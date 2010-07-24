@@ -94,6 +94,11 @@ void ScriptingComponent::scriptAssetUpdated()
     setScript(this->script());
 }
 
+QScriptValue ScriptingComponent::scriptObject()
+{
+    return d->scriptObject;
+}
+
 void ScriptingComponent::initialize()
 {
     if (d->initializeFunction.isFunction())

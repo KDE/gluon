@@ -21,6 +21,5 @@ endif()
 if(BUILD_OTHER_COMPONENTS)
     add_subdirectory(other/qtscript)
     add_subdirectory(other/spherecollision)
+    add_subdirectory(scripting)
 endif()
-
-add_subdirectory(scripting)

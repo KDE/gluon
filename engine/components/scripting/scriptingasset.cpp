@@ -85,6 +85,14 @@ ScriptingAsset::setFile(const QUrl &newFile)
     GluonEngine::Asset::setFile(newFile);
 }
 
+const QList< AssetTemplate* >
+ScriptingAsset::templates()
+{
+    QList<AssetTemplate*> templates;
+    templates.append(new AssetTemplate("Scripted Logic", "scripting_template.js", "scripting", this));
+    return templates;
+}
+
 QString
 ScriptingAsset::className() const
 {

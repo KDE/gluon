@@ -23,6 +23,11 @@
 #include <QGraphicsWidget>
 #include "overlay.h"
 
+namespace GluonPlayer
+{
+    class CommentsModel;
+}
+
 namespace Plasma
 {
     class TabBar;
@@ -39,6 +44,7 @@ class GameDetailsOverlay : public Overlay
 
     public:
         GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual ~GameDetailsOverlay();
 
     private:
         Plasma::IconWidget *m_backButton;
@@ -46,6 +52,7 @@ class GameDetailsOverlay : public Overlay
         HighScoresView *m_highScoresView;
         AchievementsView *m_achievementsView;
         CommentsView *m_commentsView;
+        GluonPlayer::CommentsModel *m_commentsModel;
 
     signals:
         void back();

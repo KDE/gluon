@@ -24,6 +24,7 @@
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
 
+void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 namespace GluonEngine
 {
     class ScriptingEngine::Private
@@ -41,6 +42,7 @@ namespace GluonEngine
                 DEBUG_TEXT2("Imported extensions: %1", engine->importedExtensions().join(", "));
 
                 QScriptValue extensionObject = engine->globalObject();
+                qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
             }
 
             QScriptEngine* engine;
@@ -168,7 +170,16 @@ ScriptingEngine::instantiateClass(const ScriptingAsset* asset) const
 QScriptValue
 ScriptingEngine::instantiateClass(const QString& className) const
 {
-    return QScriptValue(d->engine, QString("new %1").arg(className));
+    DEBUG_BLOCK
+    QScriptValue val = d->engine->globalObject().property(className);
+    
+    QScriptValue instance = val.construct();
+    if(d->engine->hasUncaughtException())
+    {
+        DEBUG_TEXT2("Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join(" --> "));
+    }
+    
+    return instance;
 }
 
 QString
