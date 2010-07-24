@@ -48,6 +48,7 @@ namespace GluonCreator
             void browseForItems();
             void setEditValue(const QVariant& value);
             void objectValueChanged(GluonCore::GluonObject * value);
+            void editAsset();
 
         private:
             GluonObjectPWIPrivate * d;
