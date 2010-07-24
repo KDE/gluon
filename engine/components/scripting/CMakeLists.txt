@@ -33,3 +33,9 @@ install(
     ${LIB_INSTALL_DIR}/gluon
 )
 
+install(
+    FILES
+    scripting_template.js
+    DESTINATION
+    ${SHARE_INSTALL_DIR}/gluon/templates/scripting
+)
