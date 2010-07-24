@@ -47,6 +47,7 @@
 #include "lib/historymanager.h"
 #include "lib/selectionmanager.h"
 #include "lib/dockmanager.h"
+#include "lib/filemanager.h"
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
@@ -80,12 +81,10 @@ MainWindow::MainWindow(const QString& fileName)
     HistoryManager::instance()->setParent(this);
     SelectionManager::instance()->setParent(this);
     DockManager::instance()->setParent(this);
+    FileManager::instance()->setParent(this);
     DockManager::instance()->setMainWindow(this);
 
-    //setupGame();
-
     setDockNestingEnabled(true);
-    //setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::North);
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
@@ -103,9 +102,6 @@ MainWindow::MainWindow(const QString& fileName)
     
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
-    
-    //if(centralWidget())
-    //    centralWidget()->setEnabled(false);
 
     KTabWidget *tab = new KTabWidget(this);
     tab->setCloseButtonEnabled(true);
@@ -119,6 +115,7 @@ MainWindow::MainWindow(const QString& fileName)
         d->viewPart = viewerService->createInstance<KParts::ReadOnlyPart>(0, QVariantList() << QString("autoplay=false"));
         if(d->viewPart)
         {
+            d->viewPart->widget()->setObjectName("gluon_viewer_part");
             tab->addTab(d->viewPart->widget(), i18nc("View Game Tab", "View"));
         }
     }
@@ -130,6 +127,8 @@ MainWindow::MainWindow(const QString& fileName)
 
     tab->addTab(new QWidget(), i18nc("Edit Game Tab", "Edit"));
     setCentralWidget(tab);
+
+    FileManager::instance()->setTabWidget(tab);
 
     if (!fileName.isEmpty())
     {
