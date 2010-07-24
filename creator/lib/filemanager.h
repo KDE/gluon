@@ -47,7 +47,7 @@ namespace GluonCreator
             void closeTab( QWidget* widget );
 
         private:
-            friend class Singleton<FileManager>;
+            friend class GluonCore::Singleton<FileManager>;
             
             FileManager();
             ~FileManager();
