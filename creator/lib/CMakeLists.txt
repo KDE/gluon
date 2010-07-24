@@ -9,6 +9,7 @@ set(libGluonCreator_SRCS
     historymanager.cpp
     selectionmanager.cpp
     newobjectcommand.cpp
+    filemanager.cpp
 
     models/componentmodel.cpp
     models/projectmodel.cpp
@@ -31,7 +32,13 @@ if(GLUON_BUILD_ALL)
     add_dependencies(libGluonCreator GluonEngine)
 endif()
 
-target_link_libraries(libGluonCreator ${GLUON_ENGINE_LIBS} ${KDE4_KDEUI_LIBS})
+target_link_libraries(libGluonCreator
+                      ${GLUON_ENGINE_LIBS}
+                      ${KDE4_KDECORE_LIBS}
+                      ${KDE4_KDEUI_LIBS}
+                      ${KDE4_KIO_LIBS}
+                      ${KDE4_KPARTS_LIBS}
+                      )
 
 set(GLUON_CREATOR_LIBS
     libGluonCreator
