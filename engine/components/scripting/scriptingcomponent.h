@@ -24,6 +24,7 @@
 
 #include <engine/component.h>
 
+class QScriptValue;
 namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT ScriptingComponent : public GluonEngine::Component
@@ -49,6 +50,8 @@ namespace GluonEngine
         public Q_SLOTS:
             void setScript(GluonEngine::ScriptingAsset* newAsset);
             void scriptAssetUpdated();
+            
+            QScriptValue scriptObject();
             
         private:
             class ScriptingComponentPrivate;
