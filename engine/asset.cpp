@@ -90,6 +90,17 @@ Asset::file() const
     return d->file;
 }
 
+QString
+Asset::absolutePath() const
+{
+    QString filePath = d->file.toLocalFile();
+    QString projectPath = gameProject()->property("filename").toUrl().toLocalFile();
+
+    projectPath = projectPath.left(projectPath.lastIndexOf('/'));
+
+    return projectPath + '/' + filePath;
+}
+
 QIcon
 Asset::icon() const
 {

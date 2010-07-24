@@ -78,6 +78,15 @@ namespace GluonEngine
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
+
+            /**
+             * Return the absolute path of this asset's file.
+             *
+             * Note that this should never be called from a script.
+             *
+             * @return The absolute path of this asset's file.
+             */
+            virtual QString absolutePath() const;
             
             /**
              * An icon to represent the asset. Think of it as a thumbnail representation
