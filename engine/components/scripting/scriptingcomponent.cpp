@@ -23,6 +23,7 @@
 
 #include "game.h"
 #include "gameobject.h"
+#include "scene.h"
 #include <qscriptclass.h>
 #include <qscriptvalueiterator.h>
 
@@ -73,7 +74,7 @@ void ScriptingComponent::setScript(GluonEngine::ScriptingAsset* newAsset)
     QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject(gameObject(), ownership, wrapOptions);
     d->scriptObject.setProperty("GameObject", gameObj);
     
-    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject(root()->parent(), ownership, wrapOptions);
+    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject(gameObject()->scene(), ownership, wrapOptions);
     d->scriptObject.setProperty("Scene", sceneObj);
     
     QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject(GluonEngine::Game::instance(), ownership, wrapOptions);
