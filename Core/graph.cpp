@@ -89,8 +89,8 @@ void Graph::setEdgesColor(QString c) {
     }
 }
 
-void Graph::setKCB(KComboBox *list){
-  _listbox = list;
+void Graph::setKCB(KComboBox *list) {
+    _listbox = list;
 }
 
 Node* Graph::addNode(QString name) {
@@ -117,18 +117,21 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
     node->setName(type);
     node->hideValue(false);
     node->setWidth(0.5);
-    if(_listbox==0) {
-      emit iAmDisappoint();
-      return;
+    if (_listbox==0) {
+        emit iAmDisappoint();
+        return;
+    }
+    if (type=="if") {
+        node->setValue(QVariant("true"));
     }
     QMap<QString,QVariant> nodelist = _listbox->itemData(_listbox->currentIndex()).toMap();
     node->setIcon(nodelist["nodetypesvg"].toString());
     QMapIterator<QString,QVariant> i(nodelist);
-    while(i.hasNext()){
-      key=i.next().key();
-      if(key!="nodetypesvg"){
-	node->addDynamicProperty(key,nodelist[key]);
-      }
+    while (i.hasNext()) {
+        key=i.next().key();
+        if (key!="nodetypesvg") {
+            node->addDynamicProperty(key,nodelist[key]);
+        }
     }
     connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
     emit forceUpdate();
@@ -172,35 +175,39 @@ Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgI
 }
 
 bool Graph::connectionIsValid(bool direction,QGraphicsSvgItem* svg) {
+    QHashIterator<QString,QGraphicsSvgItem*> iterator(qgraphicsitem_cast<NodeItem*>(svg->parentItem())->connectors());
+    QString key;
+    QListIterator<QByteArray> plist = qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->dynamicPropertyNames();
+    //direction: true=check from this node, false=check to this node
     foreach(Edge* e,_edges) {
-        QHashIterator<QString,QGraphicsSvgItem*> iterator(qgraphicsitem_cast<NodeItem*>(svg->parentItem())->connectors());
-        QString key;
-        QListIterator<QByteArray> plist = qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->dynamicPropertyNames();
         if (direction==true) {
             if (e->connectorFrom()==svg) {
                 return false;
-            }
-            while (iterator.hasNext()) {
-                if (iterator.next().value()==svg) {
-                    key=iterator.key();
-                    while (plist.hasNext()) {
-                        if (plist.next()==key) {
-                            if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="in") return false;
-                        }
-                    }
-                }
             }
         } else {
             if (e->connectorTo()==svg) {
                 return false;
             }
-            while (iterator.hasNext()) {
-                if (iterator.next().value()==svg) {
-                    key=iterator.key();
-                    while (plist.hasNext()) {
-                        if (plist.next()==key) {
-                            if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="out") return false;
-                        }
+        }
+    }
+    if (direction==true) {
+        while (iterator.hasNext()) {
+            if (iterator.next().value()==svg) {
+                key=iterator.key();
+                while (plist.hasNext()) {
+                    if (plist.next()==key) {
+                        if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="in") return false;
+                    }
+                }
+            }
+        }
+    } else {
+        while (iterator.hasNext()) {
+            if (iterator.next().value()==svg) {
+                key=iterator.key();
+                while (plist.hasNext()) {
+                    if (plist.next()==key) {
+                        if (qgraphicsitem_cast<NodeItem*>(svg->parentItem())->node()->property(key.toUtf8().data())=="out") return false;
                     }
                 }
             }
