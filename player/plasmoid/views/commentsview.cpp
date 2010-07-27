@@ -24,12 +24,12 @@
 
 #include <QDebug>
 #include <QTreeView>
-#include <QGraphicsGridLayout>
+#include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
 #include <models/commentsmodel.h>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : AbstractItemView(parent, wFlags)
+        : AbstractItemView(parent, wFlags), m_rootWidget(0)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
 }
@@ -38,24 +38,33 @@ void CommentsView::setModel(QAbstractItemModel* model)
 {
     AbstractItemView::setModel(model);
 
+    m_rootWidget = new QGraphicsWidget(this);
     for (int i = 0; i < m_model->rowCount(); i++) {
-        addComment(m_model->index(i, 0), 0);
+        addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
+
+    connect(model, SIGNAL(rowsInserted(QModelIndex, int, int)),
+            this, SLOT(reactToCommentsInserted(QModelIndex, int, int)));
+    connect(model, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
+            this, SLOT(updateComments(QModelIndex, QModelIndex)));
 }
 
-CommentsViewItem *CommentsView::addComment(const QModelIndex &index, int depth)
+CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth)
 {
-    CommentsViewItem *item = new CommentsViewItem(this);
+    CommentsViewItem *item = new CommentsViewItem(parent);
+    item->setParent(parent);
     item->setDepth(depth);
     item->setModelIndex(index);
+    m_commentFromIndex[index] = item;
     item->setAcceptHoverEvents(true);
     item->installEventFilter(this);
     connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
-    m_contentLayout->addItem(item, m_contentLayout->rowCount(), 0);
+    item->setRowInLayout(m_contentLayout->count());
+    m_contentLayout->addItem(item);
 
     if (m_model->hasChildren(index)) {   //There are one or more children
         for (int i = 0; i < m_model->rowCount(index); i++) {
-            addComment(index.child(i, 0), depth + 1);
+            addComment(index.child(i, 0), item, depth + 1);
         }
     }
 
@@ -92,4 +101,37 @@ void CommentsView::showReply()
                      "NDateTime");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
+}
+
+void CommentsView::reactToCommentsInserted(const QModelIndex& parent, int start, int end)
+{
+    CommentsViewItem *parentComment = m_commentFromIndex[parent];
+    QModelIndex index = parent.child(start, 0);
+    CommentsViewItem *item = new CommentsViewItem(parentComment);
+    item->setParent(parentComment);
+    item->setDepth(parentComment->depth() + 1);
+    m_commentFromIndex[index] = item;
+    item->setAcceptHoverEvents(true);
+    item->installEventFilter(this);
+    connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
+    item->setRowInLayout(parentComment->rowInLayout() + 1);
+    m_contentLayout->insertItem(item->rowInLayout(), item);
+}
+
+void CommentsView::updateComments(const QModelIndex& topLeft, const QModelIndex& bottomRight)
+{
+    /*Updation occurs only at a new comment,
+    Existing comments can't be edited.
+
+    Each cell updation calls this function once,
+    but we want to set the model index only when
+    all columns are updated (inserted)*/
+
+    if (bottomRight.column() < GluonPlayer::CommentsModel::RatingColumn)
+        return;
+
+    CommentsViewItem *commentItem = m_commentFromIndex[topLeft.sibling(topLeft.row(), 0)];
+    if (commentItem) {
+        commentItem->setModelIndex(topLeft.sibling(topLeft.row(), 0));
+    }
 }

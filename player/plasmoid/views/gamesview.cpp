@@ -21,7 +21,7 @@
 #include "gamesviewitem.h"
 
 #include <QModelIndex>
-#include <QGraphicsGridLayout>
+#include <QGraphicsLinearLayout>
 
 #include <KDebug>
 #include <Plasma/ItemBackground>
@@ -43,7 +43,7 @@ void GamesView::setModel(QAbstractItemModel* model)
         item->installEventFilter(this);
         connect(item, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
         connect(item, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
-        m_contentLayout->addItem(item, i, 0);
+        m_contentLayout->addItem(item);
     }
 }
 
