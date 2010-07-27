@@ -115,6 +115,8 @@ void CommentsView::reactToCommentsInserted(const QModelIndex& parent, int start,
     item->installEventFilter(this);
     connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
     item->setRowInLayout(parentComment->rowInLayout() + 1);
+
+    //FIXME: This isn't perfect, gotta fix this next
     m_contentLayout->insertItem(item->rowInLayout(), item);
 }
 
