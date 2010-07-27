@@ -30,6 +30,8 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KInputDialog>
+#include <QPushButton>
+#include <filemanager.h>
 
 namespace GluonCreator
 {
@@ -39,11 +41,11 @@ namespace GluonCreator
             GluonObjectPWIPrivate()
             {
                 currentValue = 0;
-                browseButton = 0;
+                //browseButton = 0;
             };
 
-            QLabel * currentValue;
-            QToolButton * browseButton;
+            QPushButton * currentValue;
+            QToolButton * editButton;
             QString typeName;
 
             static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
@@ -78,14 +80,17 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &type
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
 
-    d->currentValue = new QLabel(this);
+    d->currentValue = new QPushButton(this);
     d->currentValue->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     base->addWidget(d->currentValue);
+    connect(d->currentValue, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
 
-    d->browseButton = new QToolButton(this);
-    d->browseButton->setText("...");
-    connect(d->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
-    base->addWidget(d->browseButton);
+    d->editButton = new QToolButton(this);
+    d->editButton->setIcon(KIcon("document-edit"));
+    d->editButton->setText(i18nc("Edit/preview currently selected object", "Edit"));
+    d->editButton->setToolTip(i18n("Edit/preview currently selected object"));
+    base->addWidget(d->editButton);
+    connect(d->editButton, SIGNAL(clicked(bool)), SLOT( openInEditor()));
 
     QWidget * local = new QWidget(parent);
     local->setLayout(base);
@@ -160,6 +165,16 @@ GluonObjectPropertyWidgetItem::browseForItems()
     }
 }
 
+void GluonObjectPropertyWidgetItem::openInEditor()
+{
+    GluonEngine::Asset * theObject = qobject_cast<GluonEngine::Asset*>(GluonCore::GluonObjectFactory::instance()->wrappedObject(editObject()->property(editProperty().toUtf8())));
+
+    if(theObject)
+    {
+        FileManager::instance()->openAsset(theObject);
+    }
+}
+
 void
 GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
 {
@@ -170,12 +185,12 @@ GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
     {
         d->currentValue->setText(theObject->name());
         d->currentValue->setToolTip(theObject->fullyQualifiedName());
-        d->currentValue->setDisabled(false);
+        //d->currentValue->setDisabled(false);
     }
     else
     {
         d->currentValue->setText(i18n("(no object selected)"));
-        d->currentValue->setDisabled(true);
+        //d->currentValue->setDisabled(true);
     }
 }
 
@@ -185,12 +200,12 @@ GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value
     if (value)
     {
         d->currentValue->setText(value->name());
-        d->currentValue->setDisabled(false);
+        //d->currentValue->setDisabled(false);
     }
     else
     {
         d->currentValue->setText(i18n("(no object selected)"));
-        d->currentValue->setDisabled(true);
+        //d->currentValue->setDisabled(true);
     }
 
     QVariant oldValue = editObject()->property(editProperty().toUtf8());

@@ -47,6 +47,7 @@
 #include <QVBoxLayout>
 #include <KToolBar>
 #include <objectmanager.h>
+#include <filemanager.h>
 
 using namespace GluonCreator;
 
@@ -214,16 +215,19 @@ void ProjectDock::activated(QModelIndex index)
     }
     else if(asset)
     {
-        DEBUG_TEXT("Asset")
-        QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
-        DEBUG_TEXT2("Filename: %1", filename)
+        //DEBUG_TEXT("Asset")
+        FileManager::instance()->openAsset(asset);
+        
+        /*QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
+        //DEBUG_TEXT2("Filename: %1", filename)
         if(QFile::exists(filename))
         {
-            DEBUG_TEXT("Opening asset")
-            KRun* runner = new KRun(filename, this);
-            Q_UNUSED(runner);
+            
+            //DEBUG_TEXT("Opening asset")
+            //KRun* runner = new KRun(filename, this);
+            //Q_UNUSED(runner);
             //KRun::run("xdg-open %u", KUrl::List() << filename, parentWidget());
-        }
+        }*/
     }
 }
 

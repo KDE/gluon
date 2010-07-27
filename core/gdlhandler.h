@@ -112,6 +112,24 @@ bool fiddleWithObjects(QString filename)
      * Finally, this example also shows how GDL can have multiple root nodes in the same
      * file. For these references to work correctly, it is vital that all the objects
      * have the same object parent (that is, the parent passed in the parseGDL function).
+     * 
+     * <b>Data types</b>
+     * 
+     * Data types supported by GDL outside of the classes registered in GluonObjectFactory are:
+     * 
+     * - string(value) where value is any string (no quotation marks required)
+     * - bool(value) where value is the string literal true or false
+     * - float(value) where value is any floating point number
+     * - vector3d(value;value;value) where value is any floating point number
+     * - quaternion(value;value;value;value) where value is any floating point number
+     * - int(value) where value is any integer value
+     * - uint(value) where value is any unsigned integer value
+     * - size2d(value;value) where value is any floating point value
+     * - vector2d(value;value) where value is any floating point value
+     * - rgba(value;value;value;value) where value is a number between 0 and 255 inclucive
+     * - file(value) where value is a valid filename ( see also GluonEngine::Asset:file )
+     * - url(value) where value is a valid URL
+     * 
      */
     class GLUON_CORE_EXPORT GDLHandler : public Singleton<GDLHandler>
     {
