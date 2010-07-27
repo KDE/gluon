@@ -61,6 +61,7 @@
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 
+
 MainWindow::MainWindow() :  QWidget()
 {
     _tDocument = new    GraphDocument("Untitled");
@@ -73,10 +74,28 @@ MainWindow::MainWindow() :  QWidget()
    _graph = _tDocument->addGraph();
    setActiveGraph(_graph);
    _graph->setKCB(_widgetType);
+   connect(GluonEngine::Game::instance(),SIGNAL(currentSceneChanged(GluonEngine::Scene*)),this,SLOT(readTheScene()));
 }
 
 GraphDocument *MainWindow::activeDocument() const{
     return _tDocument;
+}
+
+void MainWindow::eatChildren(GluonEngine::GameObject *trap){ 
+    //clear scene representation here
+    int i=trap->childCount();
+    while (i>0) {       
+        //add object representation here
+        if (trap->childGameObject(i-1)->childCount()>0) {
+            eatChildren(trap->childGameObject(i-1));
+        }          
+        i--;
+    }
+}
+
+void MainWindow::readTheScene()
+{
+    eatChildren(GluonEngine::Game::instance()->currentScene()->sceneContents());
 }
 
 void MainWindow::setupWidgets()

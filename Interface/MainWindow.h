@@ -27,6 +27,9 @@
 #include <KComboBox>
 #include <QAction>
 #include <QVBoxLayout>
+#include <engine/gameobject.h>
+#include <engine/game.h>
+#include <engine/scene.h>
 
 class KPushButton;
 class GraphVisualEditor;
@@ -59,11 +62,13 @@ private: // Methods
     void setupActions(); // Setup all the actions.
     void startThreadDocument();
     void addCustomTypes(KComboBox* bigList);
+    void eatChildren(GluonEngine::GameObject *trap);
   
 public slots:
     void setActiveGraphDocument(GraphDocument *d);
     void setActiveGraph(Graph *g);
     void toggleWidgetTypeShown();
+    void readTheScene();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
