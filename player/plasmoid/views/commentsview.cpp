@@ -42,11 +42,6 @@ void CommentsView::setModel(QAbstractItemModel* model)
     for (int i = 0; i < m_model->rowCount(); i++) {
         addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
-
-    connect(model, SIGNAL(rowsInserted(QModelIndex, int, int)),
-            this, SLOT(reactToCommentsInserted(QModelIndex, int, int)));
-    connect(model, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
-            this, SLOT(updateComments(QModelIndex, QModelIndex)));
 }
 
 CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth)
@@ -55,7 +50,6 @@ CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWi
     item->setParent(parent);
     item->setDepth(depth);
     item->setModelIndex(index);
-    m_commentFromIndex[index] = item;
     item->setAcceptHoverEvents(true);
     item->installEventFilter(this);
     connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
@@ -101,39 +95,17 @@ void CommentsView::showReply()
                      "NDateTime");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
-}
 
-void CommentsView::reactToCommentsInserted(const QModelIndex& parent, int start, int end)
-{
-    CommentsViewItem *parentComment = m_commentFromIndex[parent];
-    QModelIndex index = parent.child(start, 0);
-    CommentsViewItem *item = new CommentsViewItem(parentComment);
-    item->setParent(parentComment);
-    item->setDepth(parentComment->depth() + 1);
-    m_commentFromIndex[index] = item;
-    item->setAcceptHoverEvents(true);
-    item->installEventFilter(this);
-    connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
-    item->setRowInLayout(parentComment->rowInLayout() + 1);
+    CommentsViewItem *toDelete;
 
-    //FIXME: This isn't perfect, gotta fix this next
-    m_contentLayout->insertItem(item->rowInLayout(), item);
-}
+    while (m_contentLayout->count() > 0) {
+        toDelete = dynamic_cast<CommentsViewItem*>(m_contentLayout->itemAt(0));
+        m_contentLayout->removeAt(0);
+        toDelete->deleteLater();
+        m_contentLayout->invalidate();
+    }
 
-void CommentsView::updateComments(const QModelIndex& topLeft, const QModelIndex& bottomRight)
-{
-    /*Updation occurs only at a new comment,
-    Existing comments can't be edited.
-
-    Each cell updation calls this function once,
-    but we want to set the model index only when
-    all columns are updated (inserted)*/
-
-    if (bottomRight.column() < GluonPlayer::CommentsModel::RatingColumn)
-        return;
-
-    CommentsViewItem *commentItem = m_commentFromIndex[topLeft.sibling(topLeft.row(), 0)];
-    if (commentItem) {
-        commentItem->setModelIndex(topLeft.sibling(topLeft.row(), 0));
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
 }

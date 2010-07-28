@@ -21,7 +21,7 @@
 #define COMMENTSVIEW_H
 
 #include "abstractitemview.h"
-#include <QHash>
+#include <QMultiHash>
 #include <QPersistentModelIndex>
 
 class QGraphicsLinearLayout;
@@ -48,15 +48,10 @@ class CommentsView : public AbstractItemView
 
     private:
         QGraphicsWidget *m_rootWidget;
-        QHash<QPersistentModelIndex, CommentsViewItem*> m_commentFromIndex;
         QGraphicsLinearLayout *m_layout;
 
     protected slots:
         void showReply();
-
-    public slots:
-        void reactToCommentsInserted(const QModelIndex &parent, int start, int end);
-        void updateComments(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 };
 
 #endif // COMMENTSVIEW_H
