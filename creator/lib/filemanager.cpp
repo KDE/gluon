@@ -57,14 +57,22 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if(!asset)
         return;
 
-    if(d->parts.contains(asset->name()))
+    openFile(asset->absolutePath(), asset->name());
+}
+
+void FileManager::openFile( const QString& fileName, const QString& name )
+{
+    if(fileName.isEmpty())
+        return;
+    
+    QString tabName = name.isEmpty() ? KUrl(fileName).fileName() : name;
+    if(d->parts.contains(tabName))
     {
-        d->tabWidget->setCurrentIndex(d->tabs.value(asset->name()));
+        d->tabWidget->setCurrentIndex(d->tabs.value(tabName));
         return;
     }
 
-    QString file = asset->absolutePath();
-    KMimeType::Ptr mime = KMimeType::findByPath(file);
+    KMimeType::Ptr mime = KMimeType::findByPath(fileName);
 
     //Find a read-write kpart
     KParts::ReadOnlyPart *part = 0;
@@ -88,22 +96,23 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
             part = parts.first()->createInstance<KParts::ReadOnlyPart>( qobject_cast<QObject*>( d->tabWidget ) );
         }
     }
-    
+
     if(part)
     {
         //Add the part if it is found
-        KUrl url(file);
+        KUrl url(fileName);
         part->openUrl(url);
-        d->parts.insert(asset->name(), part);    
-        addTab(part->widget(), asset->name());
+        d->parts.insert(tabName, part);
+        addTab(part->widget(), tabName);
 
         return;
     }
 
     //Nope, there really is no part that can be used.
     //So instead, just open it in an external application.
-    KRun* runner = new KRun(KUrl(file), d->tabWidget);
+    KRun* runner = new KRun(KUrl(fileName), d->tabWidget);
     Q_UNUSED(runner);
+
 }
 
 void FileManager::setTabWidget( KTabWidget* widget )

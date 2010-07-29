@@ -40,6 +40,7 @@ namespace GluonCreator
 
         public Q_SLOTS:
             void openAsset( GluonEngine::Asset* asset );
+            void openFile( const QString& file, const QString& name = QString());
 
             void setTabWidget(KTabWidget *widget);
 
