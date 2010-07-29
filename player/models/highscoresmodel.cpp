@@ -68,9 +68,7 @@ int HighScoresModel::columnCount(const QModelIndex& parent) const
 
 int HighScoresModel::rowCount(const QModelIndex& parent) const
 {
-    if (rootNode) {
-        return rootNode->children().count();
-    }
+    return rootNode->children().count();
 }
 
 QVariant HighScoresModel::headerData(int section, Qt::Orientation orientation, int role) const

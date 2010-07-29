@@ -23,7 +23,6 @@
 #include <QGraphicsWidget>
 
 class QGraphicsLinearLayout;
-class QGraphicsGridLayout;
 
 namespace Plasma
 {
@@ -45,7 +44,7 @@ class Overlay : public QGraphicsWidget
                    QWidget *widget = 0);
         void resizeEvent(QGraphicsSceneResizeEvent *event);
 
-        QGraphicsGridLayout *m_contentLayout;
+        QGraphicsLinearLayout *m_contentLayout;
         QGraphicsWidget *m_contentWidget;
         Plasma::FrameSvg *m_background;
         Plasma::ScrollWidget *m_scrollWidget;

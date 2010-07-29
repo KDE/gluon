@@ -23,6 +23,7 @@
 #include "component.h"
 #include "core/debughelper.h"
 #include "game.h"
+#include "scene.h"
 
 REGISTER_OBJECTTYPE(GluonEngine, GameObject)
 
@@ -325,6 +326,22 @@ GameObject::removeComponent(Component * removeThis)
 
 // ----------------------------------------------------------------
 // GameObject tree management
+
+Scene *GameObject::scene() const
+{
+    Scene* foundScene = 0;
+    GluonObject* parent = qobject_cast<GluonObject*>(this->parent());
+    while(qobject_cast<GameObject*>(parent))
+    {
+        if(qobject_cast<Scene*>(parent->parent()))
+        {
+            foundScene = qobject_cast<Scene*>(parent->parent());
+            break;
+        }
+        parent = qobject_cast<GluonObject*>(parent->parent());
+    }
+    return foundScene;
+}
 
 GameObject *
 GameObject::childGameObject(int index) const

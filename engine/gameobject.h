@@ -31,6 +31,9 @@
 
 namespace GluonEngine
 {
+
+class Scene;
+
     class GameObjectPrivate;
     class Component;
 
@@ -117,6 +120,17 @@ namespace GluonEngine
             // ----------------------------------------------------------------
             // GameObject tree management
 
+            /**
+             * Get the Scene this GameObject is contained within. This will return null in three
+             * possible instances:
+             * 
+             * - The GameObject is stored as part of a Prefab
+             * - The GameObject is in an unparented tree (such as in-game created items)
+             * - The GameObject is in the middle of a move (should be very rare)
+             * 
+             * @return  The Scene this GameObject belongs to, or null if it is not contained within a scene
+             */
+            Scene *scene() const;
             GameObject * childGameObject(int index) const;
             GameObject * childGameObject(const QString &name) const;
             void addChild(GluonCore::GluonObject * child);

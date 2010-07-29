@@ -21,7 +21,7 @@
 #define COMMENTSVIEWITEM_H
 
 #include <QGraphicsWidget>
-#include <QModelIndex>
+#include <QPersistentModelIndex>
 
 class QGraphicsGridLayout;
 class QGraphicsSceneMouseEvent;
@@ -48,9 +48,11 @@ class CommentsViewItem : public QGraphicsWidget
         QModelIndex modelIndex() const;
         int depth();
         void setDepth(int newDepth);
+        int rowInLayout();
+        void setRowInLayout(int row);
 
     protected:
-        QModelIndex m_index;
+        QPersistentModelIndex m_index;
         Plasma::IconWidget *m_author;
         Plasma::Label *m_title;
         Plasma::Label *m_body;
@@ -59,6 +61,7 @@ class CommentsViewItem : public QGraphicsWidget
         Plasma::IconWidget *m_replyButton;
         QGraphicsGridLayout *m_layout;
         int m_depth;
+        int m_rowInLayout;
 
         void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);

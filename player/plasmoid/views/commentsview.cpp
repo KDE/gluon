@@ -24,12 +24,12 @@
 
 #include <QDebug>
 #include <QTreeView>
-#include <QGraphicsGridLayout>
+#include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
 #include <models/commentsmodel.h>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : AbstractItemView(parent, wFlags)
+        : AbstractItemView(parent, wFlags), m_rootWidget(0)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
 }
@@ -38,24 +38,27 @@ void CommentsView::setModel(QAbstractItemModel* model)
 {
     AbstractItemView::setModel(model);
 
+    m_rootWidget = new QGraphicsWidget(this);
     for (int i = 0; i < m_model->rowCount(); i++) {
-        addComment(m_model->index(i, 0), 0);
+        addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
 }
 
-CommentsViewItem *CommentsView::addComment(const QModelIndex &index, int depth)
+CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth)
 {
-    CommentsViewItem *item = new CommentsViewItem(this);
+    CommentsViewItem *item = new CommentsViewItem(parent);
+    item->setParent(parent);
     item->setDepth(depth);
     item->setModelIndex(index);
     item->setAcceptHoverEvents(true);
     item->installEventFilter(this);
     connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
-    m_contentLayout->addItem(item, m_contentLayout->rowCount(), 0);
+    item->setRowInLayout(m_contentLayout->count());
+    m_contentLayout->addItem(item);
 
     if (m_model->hasChildren(index)) {   //There are one or more children
         for (int i = 0; i < m_model->rowCount(index); i++) {
-            addComment(index.child(i, 0), depth + 1);
+            addComment(index.child(i, 0), item, depth + 1);
         }
     }
 
@@ -92,4 +95,17 @@ void CommentsView::showReply()
                      "NDateTime");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
+
+    CommentsViewItem *toDelete;
+
+    while (m_contentLayout->count() > 0) {
+        toDelete = dynamic_cast<CommentsViewItem*>(m_contentLayout->itemAt(0));
+        m_contentLayout->removeAt(0);
+        toDelete->deleteLater();
+        m_contentLayout->invalidate();
+    }
+
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        addComment(m_model->index(i, 0), m_rootWidget, 0);
+    }
 }
