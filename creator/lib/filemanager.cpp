@@ -33,6 +33,8 @@
 
 #include <core/debughelper.h>
 #include <engine/asset.h>
+#include <KActionCollection>
+#include <qactiongroup.h>
 
 using namespace GluonCreator;
 
@@ -112,8 +114,34 @@ void FileManager::openFile( const QString& fileName, const QString& name )
         part->openUrl(url);
         d->parts.insert(tabName, part);
         d->partManager->addPart(part, false);
-        addTab(part->widget(), tabName);
-        part->widget()->show();
+        
+        KToolBar* toolBar = addTab(part->widget(), tabName);
+        
+        QDomNodeList actions;
+        QDomNodeList toolBars = part->domDocument().elementsByTagName("ToolBar");
+
+        //Slight workaround to handle KatePart
+        if(toolBars.count() == 0 && part->childClients().count() > 0)
+            toolBars = part->childClients().at(0)->domDocument().elementsByTagName("ToolBar");
+        
+        int i = -1;
+        while(++i < toolBars.count())
+        {
+            if(toolBars.at(i).attributes().namedItem("name").nodeValue() == "mainToolBar")
+            {
+                actions = toolBars.at(i).childNodes();
+            }
+        }
+
+        DEBUG_BLOCK
+        i = -1;
+        while(++i < actions.count())
+        {
+            if(actions.at(i).nodeName() == "Action")
+            {
+                toolBar->addAction(part->action(actions.at(i).attributes().namedItem("name").nodeValue().toUtf8()));
+            }
+        }
 
         return;
     }
@@ -136,8 +164,14 @@ void FileManager::setTabWidget( KTabWidget* widget )
 
 void FileManager::closeTab( QWidget* widget )
 {
-    if(widget->objectName() == "gluon_viewer_part" || widget->objectName() == "gluon_editor_part")
-        return;
+    /*if(widget->objectName() == "gluon_viewer_part" || widget->objectName() == "gluon_editor_part")
+        return;*/
+
+    int tab = d->tabWidget->indexOf(widget);
+    QString partName = d->tabs.key(tab);
+
+    d->parts.remove(partName);
+    d->tabs.remove(partName);
     
     widget->deleteLater();
 }
@@ -159,21 +193,24 @@ FileManager::~FileManager()
     delete d;
 }
 
-void FileManager::addTab( QWidget* widget, const QString& name )
+KToolBar* FileManager::addTab( QWidget* widget, const QString& name )
 {
-    if(widget)
-    {
-        QWidget *base = new QWidget();
-        base->setObjectName(name);
-        QVBoxLayout *layout = new QVBoxLayout();
-        base->setLayout(layout);
+    Q_ASSERT(widget);
+    
+    QWidget *base = new QWidget();
+    base->setObjectName(name);
+    QVBoxLayout *layout = new QVBoxLayout();
+    base->setLayout(layout);
 
-        layout->addWidget(new KToolBar(base));
-        layout->addWidget(widget);
-        
-        int id = d->tabWidget->addTab(base, name);
-        d->tabs.insert(name, id);
-        d->tabWidget->setCurrentIndex(id);
-    }
+    KToolBar* toolBar = new KToolBar(base);
+    toolBar->setIconDimensions(16);
+    layout->addWidget(toolBar);
+    layout->addWidget(widget);
+
+    int id = d->tabWidget->addTab(base, name);
+    d->tabs.insert(name, id);
+    d->tabWidget->setCurrentIndex(id);
+
+    return toolBar;
 }
 

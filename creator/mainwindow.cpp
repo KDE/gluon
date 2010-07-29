@@ -106,7 +106,6 @@ MainWindow::MainWindow(const QString& fileName)
 
     KTabWidget *tab = new KTabWidget(this);
     tab->setCloseButtonEnabled(true);
-    tab->setDocumentMode(true);
     tab->setMovable(true);
     tab->setEnabled(false);
 
