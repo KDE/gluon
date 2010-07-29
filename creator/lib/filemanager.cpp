@@ -57,6 +57,12 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if(!asset)
         return;
 
+    if(d->parts.contains(asset->name()))
+    {
+        d->tabWidget->setCurrentIndex(d->tabs.value(asset->name()));
+        return;
+    }
+
     QString file = asset->absolutePath();
     KMimeType::Ptr mime = KMimeType::findByPath(file);
 
@@ -88,6 +94,7 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
         //Add the part if it is found
         KUrl url(file);
         part->openUrl(url);
+        d->parts.insert(asset->name(), part);    
         addTab(part->widget(), asset->name());
 
         return;
@@ -137,6 +144,7 @@ void FileManager::addTab( QWidget* widget, const QString& name )
         layout->addWidget(widget);
         
         int id = d->tabWidget->addTab(base, name);
+        d->tabs.insert(name, id);
         d->tabWidget->setCurrentIndex(id);
     }
 }
