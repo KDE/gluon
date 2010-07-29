@@ -39,7 +39,12 @@ class FileManager::FileManagerPrivate
 {
     public:
         KTabWidget *tabWidget;
+
+        KToolBar *mainToolBar;
+        KParts::PartManager *partManager;
         
+        QHash<QString, KParts::ReadOnlyPart*> parts;
+        QHash<QString, int> tabs;
 };
 
 KTabWidget* FileManager::tabWidget()
@@ -56,41 +61,36 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     KMimeType::Ptr mime = KMimeType::findByPath(file);
 
     //Find a read-write kpart
+    KParts::ReadOnlyPart *part = 0;
     KService::List parts = KMimeTypeTrader::self()->query(mime->name(), "KParts/ReadWritePart");
     if(parts.count() > 0)
     {
-        KParts::ReadWritePart *part = parts.first()->createInstance<KParts::ReadWritePart>( qobject_cast<QObject*>( d->tabWidget ) );
-        if(part)
-        {
-            //Add the part if it is found]
-            KUrl url(file);
-            part->openUrl(url);
-            addTab(part->widget(), asset->name());
+        part = parts.first()->createInstance<KParts::ReadWritePart>( qobject_cast<QObject*>( d->tabWidget ) );
+    }
+    else
+    {
+        //Apparently, there was no read/write part that could be instantiated, so try to find a read-only part
+        parts = KMimeTypeTrader::self()->query(mime->name(), "KParts/ReadOnlyPart");
+        //Nasty, nasty, nasty
+        //Hack to force embed dragonplayer_part when trying to open an audio file, as that is not
+        //by default associated with audio files...
+        if(mime->name().contains("audio") && parts.count() == 0)
+            parts.prepend(KService::serviceByDesktopPath("dragonplayer_part.desktop"));
 
-            return;
+        if(parts.count() > 0)
+        {
+            part = parts.first()->createInstance<KParts::ReadOnlyPart>( qobject_cast<QObject*>( d->tabWidget ) );
         }
     }
-
-    //Apparently, there was no read/write part that could be instantiated, so try to find a read-only part
-    parts = KMimeTypeTrader::self()->query(mime->name(), "KParts/ReadOnlyPart");
-    //Nasty, nasty, nasty
-    //Hack to force embed dragonplayer_part when trying to open an audio file, as that is not
-    //by default associated with audio files...
-    if(mime->name().contains("audio"))
-        parts.prepend(KService::serviceByDesktopPath("dragonplayer_part.desktop"));
     
-    if(parts.count() > 0)
+    if(part)
     {
-        KParts::ReadOnlyPart *part = parts.first()->createInstance<KParts::ReadOnlyPart>( qobject_cast<QObject*>( d->tabWidget ) );
-        if(part)
-        {
-            //Add the part if it is found
-            KUrl url(file);
-            part->openUrl(url);
-            addTab(part->widget(), asset->name());
+        //Add the part if it is found
+        KUrl url(file);
+        part->openUrl(url);
+        addTab(part->widget(), asset->name());
 
-            return;
-        }
+        return;
     }
 
     //Nope, there really is no part that can be used.
