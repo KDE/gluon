@@ -23,6 +23,11 @@
 #include <core/singleton.h>
 #include "gluoncreator_macros.h"
 
+namespace KParts
+{
+    class PartManager;
+}
+
 namespace GluonEngine
 {
     class Asset;
@@ -37,12 +42,14 @@ namespace GluonCreator
         Q_OBJECT
         public:
             KTabWidget * tabWidget();
+            KParts::PartManager * partManager();
 
         public Q_SLOTS:
             void openAsset( GluonEngine::Asset* asset );
             void openFile( const QString& file, const QString& name = QString());
 
             void setTabWidget(KTabWidget *widget);
+    void tabChanged(int index);
 
         private Q_SLOTS:
             void closeTab( QWidget* widget );

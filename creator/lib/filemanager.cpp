@@ -19,16 +19,19 @@
 
 #include "filemanager.h"
 
-#include <KDE/KTabWidget>
-#include <KDE/KService>
-#include <KDE/KMimeTypeTrader>
-#include <KDE/KParts/ReadWritePart>
+#include <QtGui/QVBoxLayout>
+
 #include <KDE/KMimeType>
+#include <KDE/KMimeTypeTrader>
+#include <KDE/KRun>
+#include <KDE/KService>
+#include <KDE/KTabWidget>
+#include <KDE/KToolBar>
+
+#include <KDE/KParts/ReadWritePart>
+#include <KDE/KParts/PartManager>
 
 #include <core/debughelper.h>
-#include <KRun>
-#include <QVBoxLayout>
-#include <KToolBar>
 #include <engine/asset.h>
 
 using namespace GluonCreator;
@@ -50,6 +53,11 @@ class FileManager::FileManagerPrivate
 KTabWidget* FileManager::tabWidget()
 {
     return d->tabWidget;
+}
+
+KParts::PartManager* FileManager::partManager()
+{
+    return d->partManager;
 }
 
 void FileManager::openAsset( GluonEngine::Asset* asset )
@@ -103,7 +111,9 @@ void FileManager::openFile( const QString& fileName, const QString& name )
         KUrl url(fileName);
         part->openUrl(url);
         d->parts.insert(tabName, part);
+        d->partManager->addPart(part, false);
         addTab(part->widget(), tabName);
+        part->widget()->show();
 
         return;
     }
@@ -119,6 +129,9 @@ void FileManager::setTabWidget( KTabWidget* widget )
 {
     d->tabWidget = widget;
     connect(d->tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(closeTab(QWidget*)));
+    connect(d->tabWidget, SIGNAL(currentChanged(int)), SLOT(tabChanged(int)));
+
+    d->partManager = new KParts::PartManager(d->tabWidget);
 }
 
 void FileManager::closeTab( QWidget* widget )
@@ -127,6 +140,12 @@ void FileManager::closeTab( QWidget* widget )
         return;
     
     widget->deleteLater();
+}
+
+void FileManager::tabChanged( int index )
+{
+    QString partName = d->tabs.key(index);
+    d->partManager->setActivePart(d->parts.value(partName));
 }
 
 FileManager::FileManager()
