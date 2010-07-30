@@ -109,12 +109,10 @@ void Graph::addNode(QString name, QPointF pos) {
     node->setPos(pos.x(), pos.y());
 }
 
-void Graph::addNode(QString name, QPointF pos, QString type) {
-    Node *node = addNode(name);
+void Graph::addNode(QString name, QString type) {
+  Node *node = addNode(name);
     QString key;
-    node->setPos(pos.x(), pos.y());
-    //change properties based on type here
-    node->setName(type);
+    node->setName(name);
     node->hideValue(false);
     node->setWidth(0.5);
     if (_listbox==0) {
@@ -124,7 +122,44 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
     if (type=="if") {
         node->setValue(QVariant("true"));
     }
-    QMap<QString,QVariant> nodelist = _listbox->itemData(_listbox->currentIndex()).toMap();
+    QMap<QString,QVariant> nodelist;
+    if(_listbox->isVisible()){
+      nodelist = _listbox->itemData(_listbox->currentIndex()).toMap();
+    }else {
+      nodelist = _listbox->itemData(_listbox->findText(type)).toMap();
+    }
+    node->setIcon(nodelist["nodetypesvg"].toString());
+    QMapIterator<QString,QVariant> i(nodelist);
+    while (i.hasNext()) {
+        key=i.next().key();
+        if (key!="nodetypesvg") {
+            node->addDynamicProperty(key,nodelist[key]);
+        }
+    }
+    connect(this,SIGNAL(forceUpdate()),node,SIGNAL(changed()));
+    emit forceUpdate();
+}
+
+void Graph::addNode(QString name, QPointF pos, QString type) {
+    Node *node = addNode(name);
+    QString key;
+    node->setPos(pos.x(), pos.y());
+    node->setName(name);
+    node->hideValue(false);
+    node->setWidth(0.5);
+    if (_listbox==0) {
+        emit iAmDisappoint();
+        return;
+    }
+    if (type=="if") {
+        node->setValue(QVariant("true"));
+    }
+    QMap<QString,QVariant> nodelist;
+    if(_listbox->isVisible()){
+      nodelist = _listbox->itemData(_listbox->currentIndex()).toMap();
+    }else {
+      nodelist = _listbox->itemData(_listbox->findText(type)).toMap();
+    }
     node->setIcon(nodelist["nodetypesvg"].toString());
     QMapIterator<QString,QVariant> i(nodelist);
     while (i.hasNext()) {

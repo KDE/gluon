@@ -246,6 +246,12 @@ public  slots:
     */
     void addNode(QString name, QPointF point, QString type);
 
+    /** adds a node of type into graph
+    * @param name the name of the node,
+    * @param type the type of node created.
+    */
+    void addNode(QString name, QString type);
+    
     /** sets all nodes for this color.
     * @param color the color that each node will have.
     */

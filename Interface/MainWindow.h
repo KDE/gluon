@@ -29,6 +29,7 @@
 #include <QVBoxLayout>
 #include <engine/gameobject.h>
 #include <engine/game.h>
+#include <engine/gameproject.h>
 #include <engine/scene.h>
 
 class KPushButton;

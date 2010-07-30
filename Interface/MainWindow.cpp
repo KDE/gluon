@@ -60,6 +60,7 @@
 #include <KPushButton>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
+#include <QtCore/QDir>
 
 
 MainWindow::MainWindow() :  QWidget()
@@ -82,10 +83,9 @@ GraphDocument *MainWindow::activeDocument() const{
 }
 
 void MainWindow::eatChildren(GluonEngine::GameObject *trap){ 
-    //clear scene representation here
     int i=trap->childCount();
     while (i>0) {       
-        //add object representation here
+        _graph->addNode(trap->childGameObject(i-1)->name(),QPointF(100,100),"others");
         if (trap->childGameObject(i-1)->childCount()>0) {
             eatChildren(trap->childGameObject(i-1));
         }          
@@ -95,7 +95,20 @@ void MainWindow::eatChildren(GluonEngine::GameObject *trap){
 
 void MainWindow::readTheScene()
 {
-    eatChildren(GluonEngine::Game::instance()->currentScene()->sceneContents());
+      QDir path = QDir(QDir(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).absolutePath()+"Assets");
+      foreach(Edge* e,_graph->edges()){
+	delete e;
+      }
+      foreach(Node* n,_graph->nodes()){
+	delete n;
+      }
+      if(path.exists() && QDir(path.absolutePath()+"visualnodes.gdl").exists())
+      {  
+	//read gdl here
+      }
+      else{
+	eatChildren(GluonEngine::Game::instance()->currentScene()->sceneContents());
+      }
 }
 
 void MainWindow::setupWidgets()
