@@ -37,11 +37,12 @@ namespace GluonEngine
     class ComponentPrivate;
 
     /**
-     * @class Gluon::Component component.h <Component>
+     * \brief Adds functionality to GameObjects, is the final level in the GameObject hierarchy
+     * 
      * Component is a class which defines the required functionality for
      * implementing components for use with Gluon. A component is the place
      * where the vast majority of logic found in GluonEngine games exist. The six
-     * most important functions for users are the virtual initialize, start(),
+     * most important functions for users are the virtual initialize(), start(),
      * update(), draw(), stop() and cleanup() functions. This class is the final
      * step in the GameObject hierarchy.
      *
@@ -50,7 +51,7 @@ namespace GluonEngine
      * accessing gameObject() (for example finding other Components and such)
      *
      * Implementation checklist:
-     * - Inherit from Gluon::Component
+     * - Inherit from GluonEngine::Component
      * - Add the GLUON_OBJECT macro to your class' header
      * - Implement using QSharedData since GameObjects can be duplicated
      *   and the Components attached to it get duplicated along with it
