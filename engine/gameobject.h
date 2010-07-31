@@ -37,15 +37,64 @@ class Scene;
     class GameObjectPrivate;
     class Component;
 
+    /**
+     * \brief Represents the scene tree, third level of the GameObject hierarchy
+     * 
+     * A GameObject is in essense just a translation object, meaning that it has a
+     * position, a rotation and an orientation in 3D space. However, it also importantly
+     * includes simple logic for attaching other bits of logic, as represented by the
+     * Component class, which then attach more functionality to the GameObject.
+     * 
+     * It is the third level of the GameObject hierarchy, and it can be seen as the
+     * structure which makes up a scene tree (see also the Scene documentation).
+     * 
+     * During the course of a game being played, the lifetime of a GameObject is like so:
+     * 
+     * # GameObject is constructed on Scene load, and initialize() is called
+     * # start() is called when game is started, or the current scene changes to the one containing this GameObject
+     * # update() and draw() are called consecutively, at staggered intervals depending on which gameloop is used
+     * # stop() is called when the game is stopped, or the current scene changes away
+     * # cleanup() is called when the GameObject is destroyed
+     */
     class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::GameObject);
+            /**
+             * A little piece of text explaining what this GameObject is supposed
+             * to do. Consider this a place for putting in documentation on what
+             * a specific GameObject is used for in the game. Many books have been
+             * written about the value of documentation, and so here shall just be
+             * said: Use it. Documentation is good for your sanity when you return
+             * to your work only a few days after first making it.
+             */
             Q_PROPERTY(QString description READ description WRITE setDescription)
+            /**
+             * This decides whether the GameObject and its children are included
+             * in the update and draw calls. This allows you to construct objects
+             * in a game which do not get updated - you may wish to keep objects
+             * around which are temoprarily not used, as destroying and re-creating
+             * objects is more expensive than disabling and enabling them.
+             */
             Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
+            /**
+             * The object position relative to its parent. If this is a top level
+             * object in a scene, this is relative to the world origin (0, 0, 0)
+             */
             Q_PROPERTY(QVector3D position READ position WRITE setPosition)
+            /**
+             * The scale of the object, relative to its parent object. If this is a
+             * top level object in a scene, this is relative to the scale 1, 1, 1
+             */
             Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
+            /**
+             * The orientation of the object in the world (the rotation of the object
+             * and the axis around which it is rotated, represented by a Quaternion),
+             * relative to its parent. If this is a top level object in the world, it
+             * is relative to a rotation of 0 around the Z axis (the axis pointing out
+             * of the screen). This is also the default for all object.
+             */
             Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
 
         public:
@@ -59,6 +108,12 @@ class Scene;
             GameObject(const GameObject &other, QObject * parent = 0);
             ~GameObject();
 
+            /**
+             * Function used on instantiation to fix the parent/child relationship.
+             * Used specifically by GDLHandler in the parseGDL() function. If you do
+             * not work on GDLHandler, it is unlikely you will need this function.
+             * @see GDLHandler::parseGDL
+             */
             void sanitize();
             
             /**
@@ -95,14 +150,23 @@ class Scene;
             Q_INVOKABLE void cleanup();
             
             /**
-             * Destroy the object.
+             * Destroy the object. The object will continue existing until just before
+             * the next update call.
              */
             Q_INVOKABLE void destroy();
             
             /**
-             * Run a command on all the components in this GameObject
+             * Run a command on all the components in this GameObject.
+             * 
+             * @param   functionName    The name of the function you wish to call
              */
             void runCommand(const QString &functionName);
+            /**
+             * Run a command on all the components in this GameObject and all the 
+             * children of the GameObject.
+             * 
+             * @param   functionName    The name of the function you wish to call
+             */
             void runCommandInChildren(const QString &functionName);
 
             // ----------------------------------------------------------------

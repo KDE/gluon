@@ -36,23 +36,50 @@ namespace GluonEngine
      * The GameProject class describes and contains a complete game project,
      * and all the meta information that goes with it, making it into a
      * complete game (minus engine, which is Gluon::Game and all the
-     * Gluon::Component subclasses).
+     * Gluon::Component subclasses). As such it is the top level of the
+     * GameObject hierarchy.
      *
      * The project's children (all assets, gameobjects and prefabs in the
      * project) are all found in the QObject hierarchy - they are simply
-     * anchored by the QObject parent/child system
+     * anchored by the QObject parent/child system.
+     * 
+     * \note To find out which is the current scene in a game, use Game::currentScene
      */
     class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
             Q_OBJECT;
             GLUON_OBJECT(GluonCore::GameProject);
 
+            /**
+             * A long description of the game. This can contain any string data, but
+             * you should attempt to use simplified HTML syntax for markup.
+             * 
+             * \note This should be extended when we have more knowledge about where this will be used (GamingFreedom.org and clients)
+             */
             Q_PROPERTY(QString description READ description WRITE setDescription)
+            /**
+             * This will likely be the GamingFreedom.org page, but other pages might be
+             * needed as well, for commercial or other ventures who have their own websites:
+             * So, full URL to the homepage of the game.
+             */
             Q_PROPERTY(QUrl homepage READ homepage WRITE setHomepage)
+            /**
+             * A list of URLs for images, videos and other various interesting media (for
+             * screenshots, gameplay videos, promo trailers, documentation PDFs...)
+             */
             Q_PROPERTY(QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo)
 
+            /**
+             * The filename of the GameProject, meaning the name of the project file on
+             * disk, relative to the project directory.
+             */
             Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
 
+            /**
+             * The Scene in which the game should begin. This is likely going to be an intro
+             * scene or a menu but can also be directly into gameplay by pointing to a scene
+             * which contains the game.
+             */
             Q_PROPERTY(GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint)
 
         public:

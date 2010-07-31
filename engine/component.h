@@ -40,26 +40,36 @@ namespace GluonEngine
      * @class Gluon::Component component.h <Component>
      * Component is a class which defines the required functionality for
      * implementing components for use with Gluon. A component is the place
-     * where the vast majority of logic found in Gluon games exist. The three
-     * most important functions for users are the virtual Start(), Update() and
-     * Draw() functions
+     * where the vast majority of logic found in GluonEngine games exist. The six
+     * most important functions for users are the virtual initialize, start(),
+     * update(), draw(), stop() and cleanup() functions. This class is the final
+     * step in the GameObject hierarchy.
      *
      * Since a component is attached to exactly one GameObject, the position in
      * the world and anything else related to the GameObject can be found by
      * accessing gameObject() (for example finding other Components and such)
      *
      * Implementation checklist:
-     * * Inherit from Gluon::Component
-     * * Add the GLUON_OBJECT macro to your class' header
-     * * Implement using QSharedData since GameObjects can be duplicated
+     * - Inherit from Gluon::Component
+     * - Add the GLUON_OBJECT macro to your class' header
+     * - Implement using QSharedData since GameObjects can be duplicated
      *   and the Components attached to it get duplicated along with it
      *   http://doc.trolltech.com/qshareddata.html
-     * * Expose any properties visible in the editor through Q_PROPERTY
+     * - Expose any properties to be visible in the editor through Q_PROPERTY
      */
     class GLUON_ENGINE_EXPORT Component : public GluonCore::GluonObject
     {
             Q_OBJECT
+            /**
+             * The description of the Component instance. An arbitrary value
+             * used to tell other members of the game development team what the
+             * Component is used for.
+             */
             Q_PROPERTY(QString description READ description WRITE setDescription)
+            /**
+             * Whether or not the Component is enabled for use by the
+             * GameObject it is contained within.
+             */
             Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
             // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
 
@@ -185,6 +195,14 @@ namespace GluonEngine
              */
             void sanitize();
 
+            /**
+             * Adapted function which special cases access to properties with the
+             * type GluonEngine::Asset* - used by GDLHandler.
+             * 
+             * @param   propertyName    The name of the property you wish to get in GDL property string form
+             * @param   indentChars     The characters used for indenting the string
+             * @return  The GDL representation of the property
+             */
             virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
 
         private:
