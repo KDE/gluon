@@ -77,6 +77,9 @@ void ScriptingComponent::setScript(GluonEngine::ScriptingAsset* newAsset)
     QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject(gameObject()->scene(), ownership, wrapOptions);
     d->scriptObject.setProperty("Scene", sceneObj);
     
+    QScriptValue gameProjectObj = ScriptingEngine::instance()->scriptEngine()->newQObject(GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions);
+    d->scriptObject.setProperty("GameProject", gameProjectObj);
+    
     QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject(GluonEngine::Game::instance(), ownership, wrapOptions);
     d->scriptObject.setProperty("Game", game);
     
