@@ -57,7 +57,7 @@
  * - <b>this.GameProject</b> The GameProject which represents the current game
  * - <b>this.Scene</b> The scene which this script's GameObject is tied to
  * - <b>this.GameObject</b> The GameObject this script's ScriptingComponent is tied to
- * - <b>this.Component</b> The ScriptingComponent this script is tied to
+ * - <b>this.Component</b> The ScriptingComponent this script instance is tied to
  * 
  * - special objects
  * - how to access objects by name, index...
