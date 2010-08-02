@@ -83,9 +83,10 @@ GraphDocument *MainWindow::activeDocument() const{
 }
 
 void MainWindow::eatChildren(GluonEngine::GameObject *trap){ 
+    qsrand(trap->childCount());
     int i=trap->childCount();
     while (i>0) {       
-        _graph->addNode(trap->childGameObject(i-1)->name(),QPointF(100,100),"others");
+        _graph->addNode(trap->childGameObject(i-1)->name(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
         if (trap->childGameObject(i-1)->childCount()>0) {
             eatChildren(trap->childGameObject(i-1));
         }          
@@ -97,10 +98,10 @@ void MainWindow::readTheScene()
 {
       QDir path = QDir(QDir(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).absolutePath()+"Assets");
       foreach(Edge* e,_graph->edges()){
-	delete e;
+	e->remove();
       }
       foreach(Node* n,_graph->nodes()){
-	delete n;
+	n->remove();
       }
       if(path.exists() && QDir(path.absolutePath()+"visualnodes.gdl").exists())
       {  
