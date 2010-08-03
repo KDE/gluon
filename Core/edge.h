@@ -203,6 +203,10 @@ public  slots:
     bool showValue();
     void hideName(bool b);
     void hideValue(bool b);
+    QString fromConnector();
+    QString toConnector();
+    QString toNode();
+    QString fromNode();
     
 private:
     /*! the first node connected with this edge */

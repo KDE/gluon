@@ -70,6 +70,7 @@ public slots:
     void setActiveGraph(Graph *g);
     void toggleWidgetTypeShown();
     void readTheScene();
+    void saveStateGDL();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
@@ -82,6 +83,7 @@ private:
     GraphDocument *_tDocument;
     Graph *_graph;
     bool _idle;
+    QString _lastProject;
 };
 
 #endif

@@ -115,6 +115,7 @@ void Graph::addNode(QString name, QString type) {
     node->setName(name);
     node->hideValue(false);
     node->setWidth(0.5);
+    node->setType(type);
     if (_listbox==0) {
         emit iAmDisappoint();
         return;

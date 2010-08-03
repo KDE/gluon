@@ -20,6 +20,7 @@
 
 #include "edge.h"
 #include "node.h"
+#include "NodeItem.h"
 #include "graph.h"
 #include "DynamicPropertiesList.h"
 #include <KDebug>
@@ -69,6 +70,26 @@ Edge::~Edge() {
 
 void Edge::remove() {
     _graph->remove(this);
+}
+
+QString Edge::fromConnector()
+{
+    return qobject_cast<NodeItem*>(this->parent())->connectors().key(_cFrom);
+}
+
+QString Edge::toConnector()
+{
+    return qobject_cast<NodeItem*>(this->parent())->connectors().key(_cTo);
+}
+
+QString Edge::fromNode()
+{
+    return _from->name();
+}
+
+QString Edge::toNode()
+{
+    return _to->name();
 }
 
 

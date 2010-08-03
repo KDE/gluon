@@ -112,6 +112,8 @@ public  slots:
     void hideName(bool b);
     void hideImage(bool b);
     void hideValue(bool b);
+    void setType(QString type);
+    QString type();
     /** Add a property to this node
     * @param property Name of property
     * @param value Value of the property. arg2 shoud be different of QVariant::Invalid.
@@ -155,6 +157,7 @@ private:
     int _maxInEdges;
     int _maxOutEdges;
     int _maxSelfEdges;
+    QString _type;
 
 signals:
     void removed();
