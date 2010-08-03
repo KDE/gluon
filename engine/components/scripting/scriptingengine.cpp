@@ -24,6 +24,7 @@
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
 
+void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 namespace GluonEngine
 {
     class ScriptingEngine::Private
@@ -41,6 +42,7 @@ namespace GluonEngine
                 DEBUG_TEXT2("Imported extensions: %1", engine->importedExtensions().join(", "));
 
                 QScriptValue extensionObject = engine->globalObject();
+                qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
             }
 
             QScriptEngine* engine;

@@ -23,6 +23,8 @@
 
 #include "gluon_engine_export.h"
 
+#include "gameproject.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QThread>
@@ -34,7 +36,6 @@ namespace GluonEngine
     class GameObject;
     class Scene;
     class GamePrivate;
-    class GameProject;
 
     class I : public QThread
     {
@@ -56,9 +57,14 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
             Q_OBJECT
+            /**
+             * The Scene which is currently being handled by the game loop
+             */
             Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
-            //TODO Fix this once moc doesn't choke on namespaces anymore
-            //Q_PROPERTY(GluonCore::GameProject* gameProject READ gameProject WRITE setGameProject)
+            /**
+             * The GameProject containing the game which is currently being played
+             */
+            Q_PROPERTY(GluonEngine::GameProject* gameProject READ gameProject WRITE setGameProject)
 
         public:
             int getCurrentTick();

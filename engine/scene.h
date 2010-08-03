@@ -29,6 +29,18 @@ namespace GluonEngine
     class GameObject;
     class ScenePrivate;
 
+    /**
+     * \brief The second level in the GameObject hierarchy
+     * 
+     * The representation of scenes in a game as found in GluonEngine based games.
+     * It is simply an Asset which provides a tree of GameObjects and Components which
+     * comprise a scene in the game. Examples of what would be a scene are things
+     * such as an intro, a menu, a level in a game. An example of something you would
+     * not normally use a Scene for is an in-game menu; for this you would use a
+     * Prefab.
+     * 
+     * \note To get the current scene in a game, see the Game::currentScene property
+     */
     class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonEngine::Savable
     {
             Q_OBJECT
@@ -38,12 +50,37 @@ namespace GluonEngine
             Q_INVOKABLE Scene(QObject * parent = 0);
             ~Scene();
 
+            /**
+             * Set the file for this scene, extending with support for checking for dirtiness
+             * (that is, to ensure data is not lost upon resetting the scene's filename)
+             * 
+             * @param   newFile     The new file for the scene
+             */
             virtual void setFile(const QUrl &newFile);
+            /**
+             * Set the new name of the scene.
+             * 
+             * @param   newName     The new name to be set for the scene
+             */
             virtual void setName(const QString& newName);
+            
+            /**
+             * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
+             */
             virtual void resetScene();
 
+            /**
+             * Return a GDL representation of the scene's contents (that is, the GluonObject
+             * hierarchy which makes up the scene tree)
+             * 
+             * @return  A GDL representation of the scene tree
+             */
             virtual QString contentsToGDL();
 
+            /**
+             * Return a reference to the scene tree itself (meaning the GluonObject hierarchy
+             * which makes up the scene)
+             */
             GameObject* sceneContents();
 
         private:

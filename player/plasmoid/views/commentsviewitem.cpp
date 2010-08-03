@@ -40,7 +40,8 @@ void CommentsViewItem::setModelIndex(const QModelIndex& index)
 
 QModelIndex CommentsViewItem::modelIndex() const
 {
-    return m_index;
+    //Convert Persistent to normal model index and return
+    return m_index.sibling(m_index.row(), m_index.column());
 }
 
 int CommentsViewItem::depth()
@@ -51,7 +52,17 @@ int CommentsViewItem::depth()
 void CommentsViewItem::setDepth(int newDepth)
 {
     m_depth = newDepth;
-    setContentsMargins(m_depth*10, 0, 0, 0);
+    setContentsMargins(m_depth*20, 0, 0, 0);
+}
+
+int CommentsViewItem::rowInLayout()
+{
+    return m_rowInLayout;
+}
+
+void CommentsViewItem::setRowInLayout(int row)
+{
+    m_rowInLayout = row;
 }
 
 void CommentsViewItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)

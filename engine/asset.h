@@ -36,6 +36,14 @@ namespace GluonEngine
 {
     class AssetPrivate;
     
+    /**
+     * \brief Representation of a template for a specific GluonEngine::Asset
+     *
+     * A simple data container class for template information for GluonEngine::Asset
+     * 
+     * Note: To see which Asset the template is refering to, the parent() function
+     * will be pointing to an instance of that class.
+     */
     class GLUON_ENGINE_EXPORT AssetTemplate : public QObject
     {
         Q_OBJECT
@@ -64,20 +72,52 @@ namespace GluonEngine
             QString pluginname;
     };
 
+    /**
+     * \brief The base class on which all Asset handlers are constructed
+     * 
+     * The Asset class is a fat interface used to allow file access to GluonEngine based
+     * games without allowing direct access to the file system.
+     */
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::Asset);
+            /**
+             * The file name of the represented file, relative to the GameProject's position
+             * on the file system. Importantly, this cannot contain parent definitions (meaning
+             * no .. in the path string), and as this essentially sandboxes GluonEngine based
+             * games.
+             */
             Q_PROPERTY(QUrl file READ file WRITE setFile)
 
         public:
             Q_INVOKABLE Asset(QObject *parent = 0);
             ~Asset();
 
+            /**
+             * An extension on the GluonCore::GluonObject::setName function which changes the
+             * file name of the Asset when setting a new name for the Asset.
+             * 
+             * \note As always, be aware that the requested name is not always the name which
+             * is set, as two objects with the same parent cannot have the same name.
+             * 
+             * @param   newName The requested new name for the asset
+             * 
+             * @see file, GluonCore::GluonObject::name
+             */
             virtual void setName(const QString &newName);
 
             virtual void setFile(const QUrl &newFile);
             virtual QUrl file() const;
+
+            /**
+             * Return the absolute path of this asset's file.
+             *
+             * Note that this should never be called from a script.
+             *
+             * @return The absolute path of this asset's file.
+             */
+            virtual QString absolutePath() const;
             
             /**
              * An icon to represent the asset. Think of it as a thumbnail representation
@@ -92,6 +132,13 @@ namespace GluonEngine
              */
             virtual const QList<AssetTemplate*> templates();
 
+            /**
+             * This function should return a QMimeType containing the data the asset
+             * represents. This is done to avoid having varying methods of accessing
+             * the data represented by various assets. If more than one data accessor
+             * function is needed, more can of course be constructed, but data() should
+             * always return the primary data for the asset.
+             */
             virtual const QMimeData* data() const;
 
             /**
@@ -101,12 +148,21 @@ namespace GluonEngine
              */
             virtual QString childrenToGDL(int indentLevel = 0) const;
 
+            /**
+             * Convenience function to test whether the file has been loaded or not.
+             */
             virtual bool isLoaded() const;
 
         public slots:
             virtual void load();
 
         Q_SIGNALS:
+            /**
+             * This signal is fired when ever the data represented by the Asset instance
+             * changes, and should be an indication that the data should be updated.
+             * 
+             * @see data()
+             */
             void dataChanged();
 
         protected:

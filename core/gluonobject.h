@@ -74,6 +74,62 @@ namespace GluonCore
      * It further extends QObject with extra functionality to help with certain specifics
      * for properties, that Qt's properties do not support, such as value borders and
      * steps for numerical values.
+     * 
+     * <b>Subclassing</b>
+     * 
+     * When implementing GluonObject subclasses in C++, please remember the following
+     * items in your code:
+     * 
+     * Definition (yourclassname.h):
+\code
+#include <gluonobject.h>
+
+namespace YourNamespace
+{
+    class YourClassName : public GluonCore::GluonObject
+    {
+        Q_OBJECT
+        GLUON_OBJECT(YourNamespace::YourClassName);
+        
+        public:
+            Q_INVOKABLE YourClassName(QObject *parent = 0);
+            virtual ~YourClassName();
+            
+            // More functions here...
+            
+        private:
+            
+    }
+}
+
+Q_DECLARE_METATYPE(YourNamespace::YourClassName);
+Q_DECLARE_METATYPE(YourNamespace::YourClassName*);
+\endcode
+     *
+     * Implementation (yourclassname.cpp):
+\code
+#include "yourclassname.h"
+
+REGISTER_OBJECT_TYPE(YourNamespace, YourClassName);
+
+using YourNamespace;
+
+YourClassName::YourClassName(QObject *parent)
+    : GluonObject(parent)
+{
+}
+
+YourClassName::~YourClassName()
+{
+}
+
+// further implementation here...
+
+#include "yourclassname.moc"
+\endcode
+     * 
+     * Please also ensure that all public functions are slots, as this will enable their
+     * access from the QtScript based game code in GluonEngine based games.
      */
     class GLUON_CORE_EXPORT GluonObject : public QObject
     {
@@ -82,8 +138,8 @@ namespace GluonCore
              * The local name of the object. Setting the name will sanitize it according to
              * the following rules:
              * 
-             * * Names cannot contain the / symbol
-             * * Two objects on the same parent cannot have the same name
+             *   - Names cannot contain the / symbol
+             *   - Two objects on the same parent cannot have the same name
              * 
              * To ensure the second rule, numbers are added until such time that the name becomes
              * unique (setting name would result in first attempting "name", then "name 1", then

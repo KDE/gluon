@@ -22,14 +22,15 @@
 
 #include "scriptingasset.h"
 
-#include "engine/component.h"
+#include <engine/component.h>
 
+class QScriptValue;
 namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT ScriptingComponent : public GluonEngine::Component
     {
         Q_OBJECT
-        GLUON_OBJECT(GluonEngine::Scriptingcomponent)
+        GLUON_OBJECT(GluonEngine::ScriptingComponent)
         Q_PROPERTY(GluonEngine::ScriptingAsset* script READ script WRITE setScript)
         public:
             Q_INVOKABLE ScriptingComponent(QObject* parent = 0);
@@ -49,6 +50,8 @@ namespace GluonEngine
         public Q_SLOTS:
             void setScript(GluonEngine::ScriptingAsset* newAsset);
             void scriptAssetUpdated();
+            
+            QScriptValue scriptObject();
             
         private:
             class ScriptingComponentPrivate;

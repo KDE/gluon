@@ -29,7 +29,7 @@ GameObjectPrivate::GameObjectPrivate()
     enabled = true;
     position = QVector3D();
     scale = QVector3D(1, 1, 1);
-    orientation = QQuaternion(1, 0, 0, 0);
+    orientation = QQuaternion(0, 0, 0, 1);
 
     transform = QMatrix4x4();
     transformInvalidated = true;

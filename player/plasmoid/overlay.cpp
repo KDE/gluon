@@ -43,7 +43,7 @@ Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     setContentsMargins(10, 15, 10, 15);
 
     m_contentWidget = new QGraphicsWidget(this);
-    m_contentLayout = new QGraphicsGridLayout();
+    m_contentLayout = new QGraphicsLinearLayout(Qt::Vertical);
     m_contentWidget->setLayout(m_contentLayout);
 
     m_scrollWidget->setWidget(m_contentWidget);
