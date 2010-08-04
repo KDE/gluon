@@ -71,6 +71,7 @@ public slots:
     void toggleWidgetTypeShown();
     void readTheScene();
     void saveStateGDL();
+    void loadStateGDL();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.

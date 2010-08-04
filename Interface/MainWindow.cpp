@@ -108,10 +108,6 @@ void MainWindow::saveStateGDL(){
     node->setProperty("NodeType",n->type());
     node->setProperty("Nodex",n->x());
     node->setProperty("Nodey",n->y());
-    foreach(QByteArray ba, n->dynamicPropertyNames()){
-      const char* temp = ba.data();
-      node->setProperty(temp,n->property(temp));
-    }
   }
   foreach(Edge* e, _graph->edges()){
     GluonCore::GluonObject *edge = new GluonCore::GluonObject(e->name(),edgelist);
@@ -128,6 +124,22 @@ void MainWindow::saveStateGDL(){
   stateFile.close();
 }
 
+void MainWindow::loadStateGDL(){
+  QFile stateFile(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).dir().absolutePath()+"/Assets/visualnodes.gdl");
+  if (!stateFile.open(QIODevice::ReadOnly)) return;
+  QTextStream stateread(&stateFile);
+  QString statetext = stateread.readAll();
+  if (statetext.isEmpty()) return;
+  QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL(statetext,this->parent());
+  foreach(QObject* n, rootlist.first()->children()){
+    _graph->addNode(n->objectName(),QPoint(n->property("Nodex").toInt(),n->property("Nodey").toInt()),n->property("NodeType").toString());
+    }
+    foreach(QObject* e,rootlist.last()->children()){
+      _graph->addEdge(_graph->node(e->property("fromNode").toString()),_graph->node(e->property("toNode").toString()),qobject_cast<NodeItem*>(_graph->node(e->property("fromNode").toString())->nodeItem())->connectors().value(e->property("fromConnector").toString()),qobject_cast<NodeItem*>(_graph->node(e->property("toNode").toString())->nodeItem())->connectors().value(e->property("toConnector").toString()));
+    }
+    stateFile.close();
+}
+
 void MainWindow::readTheScene()
 {
       QDir path = QDir(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).dir().absolutePath()+"/Assets");
@@ -140,7 +152,7 @@ void MainWindow::readTheScene()
       }
       if(path.exists() && QFileInfo(path.absolutePath()+"/visualnodes.gdl").exists())
       {  
-	//read gdl here
+	loadStateGDL();
       }
       else{
 	eatChildren(GluonEngine::Game::instance()->currentScene()->sceneContents());

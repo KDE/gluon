@@ -82,8 +82,6 @@ public:
     /*! remove this node from the graph */
     void remove();
 
-    void emitChangedSignal(){ emit changed(); }
-
     Graph *graph(){return _graph; }
 #ifdef USING_QTSCRIPT
     /*! if the qtscript is enabled for this rocs,

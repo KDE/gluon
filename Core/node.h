@@ -27,6 +27,7 @@
 
 #include "rocslib_export.h"
 #include "edge.h"
+#include <QGraphicsSvgItem>
 
 class Node;
 
@@ -114,6 +115,8 @@ public  slots:
     void hideValue(bool b);
     void setType(QString type);
     QString type();
+    QGraphicsSvgItem* nodeItem();
+    void setNodeItem(QGraphicsSvgItem* ni);
     /** Add a property to this node
     * @param property Name of property
     * @param value Value of the property. arg2 shoud be different of QVariant::Invalid.
@@ -158,6 +161,7 @@ private:
     int _maxOutEdges;
     int _maxSelfEdges;
     QString _type;
+    QGraphicsSvgItem* _nitem;
 
 signals:
     void removed();

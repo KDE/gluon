@@ -12,6 +12,7 @@ QMap<QString, QSvgRenderer*> NodeItem::_renders;
 
 NodeItem::NodeItem(Node* n) : QGraphicsSvgItem(0) {
     _node = n;
+    n->setNodeItem(qobject_cast<QGraphicsSvgItem*>(this));
     _name = 0;
     _value = 0;
     _image = new QGraphicsPixmapItem(QPixmap(0,0),this);

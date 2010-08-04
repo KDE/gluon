@@ -148,6 +148,7 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
     node->setName(name);
     node->hideValue(false);
     node->setWidth(0.5);
+    node->setType(type);
     if (_listbox==0) {
         emit iAmDisappoint();
         return;
@@ -205,8 +206,8 @@ Edge* Graph::addEdge(Node* from,Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgI
     }*/
     _edges.append( e );
     emit edgeCreated(e);
-    e->emitChangedSignal();
     connect (e, SIGNAL(changed()), this, SIGNAL(changed()));
+    emit forceUpdate();
     return e;
 }
 
@@ -330,11 +331,13 @@ Node* Graph::node(const QString& name) {
 void Graph::remove(Node *n) {
     _nodes.removeOne( n  );
     n->deleteLater();
+    emit forceUpdate();
 }
 
 void Graph::remove(Edge *e) {
     _edges.removeOne( e );
     delete e;
+    emit forceUpdate();
 }
 
 void Graph::setDirected(bool directed) {
@@ -356,9 +359,7 @@ void Graph::setDirected(bool directed) {
             }
         }
     }
-    foreach(Edge *e, _edges) {
-        e->emitChangedSignal(); // dummy updater.
-    }
+    emit forceUpdate();
     _directed = directed;
     emit complexityChanged(directed);
     return;
