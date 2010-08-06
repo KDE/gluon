@@ -40,6 +40,8 @@ DeleteObjectCommand::DeleteObjectCommand(GluonEngine::GameObject *object, GluonE
 {
     d->object = object;
     d->parent = parent;
+
+    setText("GluonCreator::DeleteObjectCommand");
 }
 
 DeleteObjectCommand::~DeleteObjectCommand()

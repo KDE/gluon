@@ -37,6 +37,12 @@ NewObjectCommand::NewObjectCommand(GluonCore::GluonObject* newObject) : d(new Ne
     d->object = newObject;
     d->parent = qobject_cast<GluonCore::GluonObject*>(newObject->parent());
     d->applied = true;
+
+    setText("GluonCreator::NewObjectCommand");
+    
+    #ifdef __GNUC__
+    #warning Refactor the undo code slighlty to use a common base class "GluonCreator::BaseUndoCommand". This will allow us to add more data to those objects.
+    #endif
 }
 
 NewObjectCommand::~NewObjectCommand()

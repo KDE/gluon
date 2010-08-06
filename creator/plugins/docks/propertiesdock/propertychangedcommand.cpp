@@ -39,6 +39,8 @@ PropertyChangedCommand::PropertyChangedCommand(QObject* object, QString property
     d->property = property;
     d->oldValue = oldValue;
     d->newValue = newValue;
+
+    setText("GluonCreator::PropertyChangedCommand");
 }
 
 void PropertyChangedCommand::undo()
