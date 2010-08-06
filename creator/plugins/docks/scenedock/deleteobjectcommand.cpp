@@ -50,7 +50,7 @@ DeleteObjectCommand::~DeleteObjectCommand()
     delete d;
 }
 
-GluonEngine::GameObject* DeleteObjectCommand::lastObject()
+GluonEngine::GameObject* DeleteObjectCommand::associatedObject() const
 {
     return d->object;
 }

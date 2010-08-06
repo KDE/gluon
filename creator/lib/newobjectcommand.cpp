@@ -47,7 +47,7 @@ NewObjectCommand::~NewObjectCommand()
     delete d;
 }
 
-GluonCore::GluonObject* NewObjectCommand::lastObject()
+GluonCore::GluonObject* NewObjectCommand::associatedObject() const
 {
     return d->object;
 }

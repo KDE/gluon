@@ -37,7 +37,7 @@ namespace GluonCreator
             
             virtual void undo();
             virtual void redo();
-	    GluonEngine::GameObject* lastObject();
+	    GluonEngine::GameObject* associatedObject() const;
             
         private:
             class DeleteObjectCommandPrivate;
