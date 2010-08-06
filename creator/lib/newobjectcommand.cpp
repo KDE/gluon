@@ -47,6 +47,10 @@ NewObjectCommand::~NewObjectCommand()
     delete d;
 }
 
+GluonCore::GluonObject* NewObjectCommand::lastObject()
+{
+    return d->object;
+}
 void
 NewObjectCommand::undo()
 {

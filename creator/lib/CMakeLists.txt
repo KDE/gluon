@@ -44,9 +44,9 @@ set(GLUON_CREATOR_LIBS
     libGluonCreator
     ${GLUON_ENGINE_LIBS}
     ${KDE4_KDECORE_LIBS}
-    ${KDE4_KUTILS_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}
+    ${KDE4_KPARTS_LIBS}
     CACHE PATHS "Libraries required for Gluon Creator"
 )
 
@@ -58,6 +58,8 @@ install(FILES
     dockmanager.h
     pluginmanager.h
     historymanager.h
+    newobjectcommand.h
+    objectmanager.h
     selectionmanager.h
     gluoncreator_macros.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator

@@ -50,6 +50,11 @@ DeleteObjectCommand::~DeleteObjectCommand()
     delete d;
 }
 
+GluonEngine::GameObject* DeleteObjectCommand::lastObject()
+{
+    return d->object;
+}
+
 void DeleteObjectCommand::undo()
 {
     if(d->parent)
