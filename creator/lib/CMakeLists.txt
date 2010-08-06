@@ -58,6 +58,8 @@ install(FILES
     dockmanager.h
     pluginmanager.h
     historymanager.h
+    newobjectcommand.h
+    objectmanager.h
     selectionmanager.h
     gluoncreator_macros.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator
