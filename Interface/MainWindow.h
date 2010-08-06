@@ -84,7 +84,7 @@ private:
     GraphDocument *_tDocument;
     Graph *_graph;
     bool _idle;
-    QString _lastProject;
+    QString _lastScene;
 };
 
 #endif
