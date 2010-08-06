@@ -37,6 +37,7 @@ namespace GluonCreator
 
             virtual void undo();
             virtual void redo();
+	    GluonCore::GluonObject* lastObject();
 
         private:
             class NewObjectCommandPrivate;
