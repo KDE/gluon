@@ -186,7 +186,7 @@ void MainWindow::openProject(const QString &fileName)
         statusBar()->showMessage(i18n("Project successfully opened"));
         setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
         HistoryManager::instance()->clear();
-        connect(HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()));
+        connect(HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged()));
     }
 }
 
