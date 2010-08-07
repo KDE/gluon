@@ -1,0 +1,10 @@
+{ GluonEngine::GameProject(Apocalypse)
+    filename url(/home/ahiemstra/Projects/KDE/Gluon/gluon-git/player/examples/apocalypse/Apocalypse.gluon)
+    entryPoint GluonEngine::Scene(Apocalypse/Level 1)
+    { GluonEngine::Scene(Level 1)
+        file url(Scenes/Apocalypse_New_Scene.gdl)
+    }
+    { GluonEngine::ScriptAsset(crosshair_script)
+        file url(Assets/Apocalypse_Script.js)
+    }
+}
