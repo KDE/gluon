@@ -19,7 +19,7 @@
 
 #ifndef GLUONCREATOR_NEWOBJECTCOMMAND_H
 #define GLUONCREATOR_NEWOBJECTCOMMAND_H
-
+#include <creator/lib/gluoncreator_macros.h>
 #include <QtGui/QUndoCommand>
 
 namespace GluonCore
@@ -29,7 +29,7 @@ namespace GluonCore
 
 namespace GluonCreator
 {
-    class NewObjectCommand : public QUndoCommand
+  class GLUONCREATOR_EXPORT NewObjectCommand : public QUndoCommand
     {
         public:
             NewObjectCommand(GluonCore::GluonObject* newObject);

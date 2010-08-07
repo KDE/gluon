@@ -19,14 +19,14 @@
 
 #ifndef PROPERTYCHANGEDCOMMAND_H
 #define PROPERTYCHANGEDCOMMAND_H
-
+#include <creator/lib/gluoncreator_macros.h>
 #include <QtGui/QUndoStack>
 
 class QVariant;
 
 namespace GluonCreator
 {
-    class PropertyChangedCommand : public QUndoCommand
+  class GLUONCREATOR_EXPORT PropertyChangedCommand : public QUndoCommand
     {
         public:
             PropertyChangedCommand(QObject* object, QString property, QVariant oldValue, QVariant newValue);
