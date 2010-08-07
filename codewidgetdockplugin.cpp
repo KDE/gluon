@@ -21,8 +21,8 @@
 #include "codewidgetdock.h"
 
 
-#include <gluon/creator/gluoncreator_macros.h>
-#include <gluon/creator/dockmanager.h>
+#include <gluon/creator/lib/gluoncreator_macros.h>
+#include <gluon/creator/lib/dockmanager.h>
 #include <KLocalizedString>
 
 using namespace GluonCreator;

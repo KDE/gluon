@@ -52,14 +52,14 @@
 
 // backends
 #include <kstandarddirs.h>
-#include <QActionGroup>
-#include <QAction>
-#include <QList>
-#include <QFile>
-#include <QTextStream>
+#include <QtGui/QActionGroup>
+#include <QtCore/QList>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 #include <KPushButton>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
+#include <creator/lib/abstractundocommand.h>
 #include <QtCore/QDir>
 
 
@@ -78,6 +78,7 @@ MainWindow::MainWindow() :  QWidget()
    _lastScene = "";
    connect(GluonEngine::Game::instance(),SIGNAL(currentSceneChanged(GluonEngine::Scene*)),this,SLOT(readTheScene()));
    connect(_graph,SIGNAL(changed()),this,SLOT(saveStateGDL()));
+   connect(GluonCreator::HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(updateNodesFromModel(const QUndoCommand* )));
 }
 
 GraphDocument *MainWindow::activeDocument() const{
@@ -93,6 +94,15 @@ void MainWindow::eatChildren(GluonEngine::GameObject *trap){
             eatChildren(trap->childGameObject(i-1));
         }          
         i--;
+    }
+}
+
+void MainWindow::updateNodesFromModel(const QUndoCommand* cmd)
+{
+    if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd) != NULL && dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandName()=="NewObjectCommand"){
+      _graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
+    }else if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd) != NULL && dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandName()=="DeleteObjectCommand"){
+      _graph->remove(_graph->node(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName()));
     }
 }
 

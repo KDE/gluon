@@ -25,12 +25,14 @@
 #include <kmessagebox.h>
 #include <KToolBar>
 #include <KComboBox>
-#include <QAction>
-#include <QVBoxLayout>
+#include <QtGui/QAction>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QUndoCommand>
 #include <engine/gameobject.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+#include <creator/lib/historymanager.h>
 
 class KPushButton;
 class GraphVisualEditor;
@@ -43,7 +45,7 @@ class MoveNodeAction;
 class TabWidget;
 class CodeEditor;
 
-#include <QWaitCondition>
+#include <QtCore/QWaitCondition>
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -72,6 +74,7 @@ public slots:
     void readTheScene();
     void saveStateGDL();
     void loadStateGDL();
+    void updateNodesFromModel(const QUndoCommand* cmd);
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
