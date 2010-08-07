@@ -1,6 +1,6 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(libGluonCreator_SRCS
+set(libGluonCreator_SRCS 
     plugin.cpp
     dockplugin.cpp
     dockmanager.cpp
@@ -10,6 +10,7 @@ set(libGluonCreator_SRCS
     selectionmanager.cpp
     newobjectcommand.cpp
     filemanager.cpp
+    abstractundocommand.cpp
 
     models/componentmodel.cpp
     models/projectmodel.cpp
@@ -58,10 +59,10 @@ install(FILES
     dockmanager.h
     pluginmanager.h
     historymanager.h
-    newobjectcommand.h
     objectmanager.h
     selectionmanager.h
     gluoncreator_macros.h
+    abstractundocommand.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
     COMPONENT Devel
 )
