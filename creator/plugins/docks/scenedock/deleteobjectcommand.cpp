@@ -36,12 +36,13 @@ class DeleteObjectCommand::DeleteObjectCommandPrivate
 };
 
 DeleteObjectCommand::DeleteObjectCommand(GluonEngine::GameObject *object, GluonEngine::GameObject *parent)
-    : QUndoCommand(), d(new DeleteObjectCommandPrivate)
+    : d(new DeleteObjectCommandPrivate)
 {
     d->object = object;
     d->parent = parent;
 
-    setText("GluonCreator::DeleteObjectCommand");
+    setObject(object);
+    setCommandName("DeleteObjectCommand");
 }
 
 DeleteObjectCommand::~DeleteObjectCommand()
@@ -50,11 +51,6 @@ DeleteObjectCommand::~DeleteObjectCommand()
         delete d->object;
     
     delete d;
-}
-
-GluonEngine::GameObject* DeleteObjectCommand::associatedObject() const
-{
-    return d->object;
 }
 
 void DeleteObjectCommand::undo()

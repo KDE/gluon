@@ -20,16 +20,16 @@
 #ifndef PROPERTYCHANGEDCOMMAND_H
 #define PROPERTYCHANGEDCOMMAND_H
 
-#include <QtGui/QUndoStack>
+#include "abstractundocommand.h"
 
 class QVariant;
 
 namespace GluonCreator
 {
-    class PropertyChangedCommand : public QUndoCommand
+    class PropertyChangedCommand : public AbstractUndoCommand
     {
         public:
-            PropertyChangedCommand(QObject* object, QString property, QVariant oldValue, QVariant newValue);
+            PropertyChangedCommand(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue);
 
             virtual void undo();
             virtual void redo();

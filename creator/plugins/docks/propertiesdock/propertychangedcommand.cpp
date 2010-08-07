@@ -21,35 +21,36 @@
 
 #include <QtCore/QVariant>
 
+#include <core/gluonobject.h>
+
 using namespace GluonCreator;
 
 class PropertyChangedCommand::PropertyChangedCommandPrivate
 {
     public:
-        QObject* object;
         QString property;
         QVariant oldValue;
         QVariant newValue;
 };
 
-PropertyChangedCommand::PropertyChangedCommand(QObject* object, QString property, QVariant oldValue, QVariant newValue)
+PropertyChangedCommand::PropertyChangedCommand(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue)
 {
     d = new PropertyChangedCommandPrivate;
-    d->object = object;
+    setObject(object);
     d->property = property;
     d->oldValue = oldValue;
     d->newValue = newValue;
 
-    setText("GluonCreator::PropertyChangedCommand");
+    setCommandName("PropertyChangedCommand");
 }
 
 void PropertyChangedCommand::undo()
 {
-    d->object->setProperty(d->property.toUtf8(), d->oldValue);
+    object()->setProperty(d->property.toUtf8(), d->oldValue);
 }
 
 void PropertyChangedCommand::redo()
 {
-    d->object->setProperty(d->property.toUtf8(), d->newValue);
+    object()->setProperty(d->property.toUtf8(), d->newValue);
 }
 

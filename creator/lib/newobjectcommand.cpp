@@ -27,51 +27,42 @@ using namespace GluonCreator;
 class NewObjectCommand::NewObjectCommandPrivate
 {
     public:
-        GluonCore::GluonObject *object;
         GluonCore::GluonObject *parent;
         bool applied;
 };
 
 NewObjectCommand::NewObjectCommand(GluonCore::GluonObject* newObject) : d(new NewObjectCommandPrivate)
 {
-    d->object = newObject;
+    setObject(newObject);
     d->parent = qobject_cast<GluonCore::GluonObject*>(newObject->parent());
     d->applied = true;
 
-    setText("GluonCreator::NewObjectCommand");
-    
-    #ifdef __GNUC__
-    #warning Refactor the undo code slighlty to use a common base class "GluonCreator::BaseUndoCommand". This will allow us to add more data to those objects.
-    #endif
+    setCommandName("NewObjectCommand");
 }
 
 NewObjectCommand::~NewObjectCommand()
 {
     if (!d->applied)
-        delete d->object;
+        delete object();
     
     delete d;
 }
 
-GluonCore::GluonObject* NewObjectCommand::associatedObject() const
-{
-    return d->object;
-}
 void
 NewObjectCommand::undo()
 {
     d->applied = false;
-    if(d->parent->children().indexOf(d->object) != -1)
-        d->parent->removeChild(d->object);
+    if(d->parent->children().indexOf(object()) != -1)
+        d->parent->removeChild(object());
 
-    GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(d->object);
+    GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(object());
     if (obj)
     {
         if(obj->parentGameObject()->childIndex(obj) != -1)
             obj->parentGameObject()->removeChild(obj);
     }
 
-    GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(d->object);
+    GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(object());
     if (comp)
         comp->gameObject()->removeComponent(comp);
 }
@@ -80,14 +71,14 @@ void
 NewObjectCommand::redo()
 {
     d->applied = true;
-    d->object->setParent(d->parent);
+    object()->setParent(d->parent);
 
     GluonEngine::GameObject *gobjParent = qobject_cast< GluonEngine::GameObject* >(d->parent);
-    GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(d->object);
+    GluonEngine::GameObject *obj = qobject_cast<GluonEngine::GameObject*>(object());
     if (obj && gobjParent)
         gobjParent->addChild(obj);
 
-    GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(d->object);
+    GluonEngine::Component *comp = qobject_cast<GluonEngine::Component*>(object());
     if (comp && gobjParent)
         gobjParent->addComponent(comp);
 

@@ -72,7 +72,10 @@ void PropertiesDock::newComponent(GluonEngine::Component* comp)
 
 void PropertiesDock::propertyChanged(QObject* object, QString property, QVariant oldValue, QVariant newValue)
 {
-    HistoryManager::instance()->addCommand(new PropertyChangedCommand(object, property, oldValue, newValue));
+    GluonCore::GluonObject * obj = qobject_cast<GluonCore::GluonObject*>(object);
+    
+    if(obj)
+        HistoryManager::instance()->addCommand(new PropertyChangedCommand(obj, property, oldValue, newValue));
 }
 
 
