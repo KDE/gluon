@@ -19,14 +19,15 @@
 
 #include "commentsview.h"
 #include "commentsviewitem.h"
+#include <models/commentsmodel.h>
 
 #include <Plasma/ItemBackground>
+#include <Plasma/LineEdit>
 
 #include <QDebug>
 #include <QTreeView>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
-#include <models/commentsmodel.h>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : AbstractItemView(parent, wFlags), m_rootWidget(0)
@@ -85,6 +86,7 @@ void CommentsView::showReply()
         return;
     }
 
+    //TODO: Ask the user for the data
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::AuthorColumn, parentIndex),
                      "New Author");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::TitleColumn, parentIndex),
@@ -98,14 +100,14 @@ void CommentsView::showReply()
 
     CommentsViewItem *toDelete;
 
-    while (m_contentLayout->count() > 0) {
+    //TODO: Make the comments view paged
+    while (m_contentLayout->count() > 0) {  //Remove existing comments from GUI
         toDelete = dynamic_cast<CommentsViewItem*>(m_contentLayout->itemAt(0));
         m_contentLayout->removeAt(0);
         toDelete->deleteLater();
-        m_contentLayout->invalidate();
     }
 
-    for (int i = 0; i < m_model->rowCount(); i++) {
+    for (int i = 0; i < m_model->rowCount(); i++) { //Reload comments
         addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
 }

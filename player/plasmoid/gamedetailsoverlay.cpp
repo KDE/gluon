@@ -22,6 +22,7 @@
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
 #include "models/commentsmodel.h"
+#include "models/highscoresmodel.h"
 
 #include <QGraphicsLinearLayout>
 
@@ -39,10 +40,14 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
     m_backButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_backButton, SIGNAL(activated()), SIGNAL(back()));
 
+    m_highScoresModel = new GluonPlayer::HighScoresModel();
     m_highScoresView = new HighScoresView(this);
+    m_highScoresView->setModel(m_highScoresModel);
+
     m_achievementsView = new AchievementsView(this);
-    m_commentsView = new CommentsView(this);
+
     m_commentsModel = new GluonPlayer::CommentsModel();
+    m_commentsView = new CommentsView(this);
     m_commentsView->setModel(m_commentsModel);
 
     m_tabBar->addTab(KIcon("games-highscores"), i18n("High Scores"), m_highScoresView);
@@ -58,4 +63,5 @@ GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wF
 GameDetailsOverlay::~GameDetailsOverlay()
 {
     delete m_commentsModel;
+    delete m_highScoresModel;
 }

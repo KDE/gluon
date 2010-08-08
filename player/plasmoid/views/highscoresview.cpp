@@ -18,25 +18,42 @@
  */
 
 #include "highscoresview.h"
+#include "highscoresviewitem.h"
 #include <models/highscoresmodel.h>
-#include <qtableview.h>
+
+#include <Plasma/ItemBackground>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
 
 HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : AbstractItemView(parent, wFlags), m_model(0)
 {
-    m_model = new GluonPlayer::HighScoresModel(this);
-    m_view = new QTableView();
-    m_view->setModel(m_model);
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(this);
-    QGraphicsProxyWidget *widget = new QGraphicsProxyWidget(this);
-    widget->setWidget(m_view);
-    layout->addItem(widget);
-    setLayout(layout);
+    m_itemBackground = new Plasma::ItemBackground(this);
 }
 
 HighScoresView::~HighScoresView()
 {
-    delete m_view;
+}
+
+void HighScoresView::setModel(QAbstractItemModel* model)
+{
+    AbstractItemView::setModel(model);
+
+    for (int i = 0; i < model->rowCount(); i++) {
+        HighScoresViewItem *item = new HighScoresViewItem(this);
+        item->setModelIndex(model->index(i, 0));
+        item->setAcceptHoverEvents(true);
+        item->installEventFilter(this);
+        m_contentLayout->addItem(item);
+    }
+}
+
+bool HighScoresView::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::GraphicsSceneHoverEnter) {
+        QGraphicsItem *item = qobject_cast<QGraphicsItem*> (obj);
+        m_itemBackground->setTargetItem(item);
+    }
+
+    return QObject::eventFilter(obj, event);
 }

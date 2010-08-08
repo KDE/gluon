@@ -17,47 +17,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#ifndef HIGHSCORESVIEWITEM_H
+#define HIGHSCORESVIEWITEM_H
 
 #include <QGraphicsWidget>
-#include "overlay.h"
+#include <QModelIndex>
 
-namespace GluonPlayer
-{
-    class CommentsModel;
-    class HighScoresModel;
-}
+class QGraphicsLinearLayout;
 
 namespace Plasma
 {
-    class TabBar;
     class IconWidget;
+    class Label;
 }
 
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+class HighScoresViewItem : public QGraphicsWidget
 {
-        Q_OBJECT
-
     public:
-        GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual ~GameDetailsOverlay();
+        HighScoresViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual ~HighScoresViewItem();
+
+        virtual void setModelIndex(const QModelIndex &index);
+        QModelIndex modelIndex() const;
 
     private:
-        Plasma::IconWidget *m_backButton;
-        Plasma::TabBar *m_tabBar;
-        HighScoresView *m_highScoresView;
-        AchievementsView *m_achievementsView;
-        CommentsView *m_commentsView;
-        GluonPlayer::CommentsModel *m_commentsModel;
-        GluonPlayer::HighScoresModel *m_highScoresModel;
+        QModelIndex m_index;
+        Plasma::IconWidget *m_playerName;
+        Plasma::Label *m_score;
+        Plasma::Label *m_level;
 
-    signals:
-        void back();
+    protected:
+        QGraphicsLinearLayout *m_layout;
+
+        void layoutWidgets();
 };
 
-#endif // GAMEDETAILSOVERLAY_H
+#endif // HIGHSCORESVIEWITEM_H
+
