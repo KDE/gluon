@@ -46,11 +46,13 @@ PropertyChangedCommand::PropertyChangedCommand(GluonCore::GluonObject* object, Q
 
 void PropertyChangedCommand::undo()
 {
+    setCommandDirection("undo");
     object()->setProperty(d->property.toUtf8(), d->oldValue);
 }
 
 void PropertyChangedCommand::redo()
 {
+    setCommandDirection("redo");
     object()->setProperty(d->property.toUtf8(), d->newValue);
 }
 

@@ -55,6 +55,7 @@ DeleteObjectCommand::~DeleteObjectCommand()
 
 void DeleteObjectCommand::undo()
 {
+    setCommandDirection("undo");
     if(d->parent)
     {
         if(d->parent->childIndex(d->object) == -1)
@@ -66,6 +67,7 @@ void DeleteObjectCommand::undo()
 
 void DeleteObjectCommand::redo()
 {
+    setCommandDirection("redo");
     if(d->parent)
     {
         if(d->parent->childIndex(d->object) != -1)

@@ -43,10 +43,12 @@ namespace GluonCreator {
 
             GluonCore::GluonObject * object() const;
             QString commandName() const;
+	    QString commandDirection() const;
 
         protected:
             void setObject(GluonCore::GluonObject* obj);
             void setCommandName(const QString& name);
+	    void setCommandDirection(const QString& direction);
 
         private:
             class AbstractUndoCommandPrivate;

@@ -51,15 +51,15 @@ void HistoryManager::addCommand(QUndoCommand* command)
 
 void HistoryManager::redo()
 {
-    const QUndoCommand* command = d->stack->command(d->stack->index());
     d->stack->redo();
+    const QUndoCommand* command = d->stack->command(d->stack->index()-1);
     emit historyChanged(command);
 }
 
 void HistoryManager::undo()
 {
-    const QUndoCommand* command = d->stack->command(d->stack->index());
     d->stack->undo();
+    const QUndoCommand* command = d->stack->command(d->stack->index());
     emit historyChanged(command);
 }
 

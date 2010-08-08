@@ -51,6 +51,7 @@ NewObjectCommand::~NewObjectCommand()
 void
 NewObjectCommand::undo()
 {
+    setCommandDirection("undo");
     d->applied = false;
     if(d->parent->children().indexOf(object()) != -1)
         d->parent->removeChild(object());
@@ -70,6 +71,7 @@ NewObjectCommand::undo()
 void
 NewObjectCommand::redo()
 {
+    setCommandDirection("redo");
     d->applied = true;
     object()->setParent(d->parent);
 

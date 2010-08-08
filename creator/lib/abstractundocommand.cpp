@@ -26,6 +26,7 @@ class AbstractUndoCommand::AbstractUndoCommandPrivate
     public:
         GluonCore::GluonObject * object;
         QString commandName;
+	QString commandDirection;
 };
 
 AbstractUndoCommand::AbstractUndoCommand(QUndoCommand* parent)
@@ -49,6 +50,12 @@ AbstractUndoCommand::commandName() const
     return d->commandName;
 }
 
+QString
+AbstractUndoCommand::commandDirection() const
+{
+    return d->commandDirection;
+}
+
 GluonCore::GluonObject*
 AbstractUndoCommand::object() const
 {
@@ -59,6 +66,12 @@ void
 AbstractUndoCommand::setCommandName(const QString& name)
 {
     d->commandName = name;
+}
+
+void
+AbstractUndoCommand::setCommandDirection(const QString& direction)
+{
+    d->commandDirection = direction;
 }
 
 void
