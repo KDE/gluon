@@ -76,7 +76,7 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
         m_actionStarted = false;
 
     if(m_actionStopped)
-        m_actionStopped = true;
+        m_actionStopped = false;
 
     if(m_keyboard && m_keyboard->buttonPressed(m_keyCode))
     {

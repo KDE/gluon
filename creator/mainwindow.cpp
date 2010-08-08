@@ -52,6 +52,7 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 #include <QVBoxLayout>
+#include <KParts/PartManager>
 
 using namespace GluonCreator;
 
@@ -105,7 +106,6 @@ MainWindow::MainWindow(const QString& fileName)
 
     KTabWidget *tab = new KTabWidget(this);
     tab->setCloseButtonEnabled(true);
-    tab->setDocumentMode(true);
     tab->setMovable(true);
     tab->setEnabled(false);
 
@@ -129,6 +129,7 @@ MainWindow::MainWindow(const QString& fileName)
     setCentralWidget(tab);
 
     FileManager::instance()->setTabWidget(tab);
+    connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(createGUI(KParts::Part*)));
 
     if (!fileName.isEmpty())
     {

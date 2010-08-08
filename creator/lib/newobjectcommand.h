@@ -20,16 +20,11 @@
 #ifndef GLUONCREATOR_NEWOBJECTCOMMAND_H
 #define GLUONCREATOR_NEWOBJECTCOMMAND_H
 
-#include <QtGui/QUndoCommand>
-
-namespace GluonCore
-{
-    class GluonObject;
-}
+#include "abstractundocommand.h"
 
 namespace GluonCreator
 {
-    class NewObjectCommand : public QUndoCommand
+    class NewObjectCommand : public AbstractUndoCommand
     {
         public:
             NewObjectCommand(GluonCore::GluonObject* newObject);
@@ -37,7 +32,6 @@ namespace GluonCreator
 
             virtual void undo();
             virtual void redo();
-	    GluonCore::GluonObject* lastObject();
 
         private:
             class NewObjectCommandPrivate;
