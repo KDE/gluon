@@ -138,6 +138,19 @@ void MainWindow::deleteThisSceneObject(QString objectName)
   }
 }
 
+void MainWindow::exportCode(bool checked)
+{
+    if(GluonEngine::Game::instance()->gameProject()->findItemByName("vn-"+GluonEngine::Game::instance()->currentScene()->name()) != NULL) 
+    {
+	GluonEngine::Asset* script = GluonCreator::ObjectManager::instance()->createNewAsset("vn-"+GluonEngine::Game::instance()->currentScene()->name()+".js");
+	QFile codeFile(script->file().toLocalFile());
+	if (!codeFile.open(QIODevice::WriteOnly)) return;
+	QTextStream filewrite(&codeFile);
+	//write code here
+	codeFile.close();
+    }
+}
+
 void MainWindow::saveStateGDL(){
   QFile stateFile(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).dir().absolutePath()+"/Assets/visualnodes-"+GluonEngine::Game::instance()->currentScene()->name()+".gdl");
   QList<const GluonCore::GluonObject*> objects;
@@ -208,6 +221,9 @@ void MainWindow::setupWidgets()
     _graphVisualEditor = new GraphVisualEditor ( this );
     _actionButtons = new KToolBar(_graphVisualEditor,false);
     _widgetType = new KComboBox(_actionButtons);
+    _exportCode = new KPushButton(_actionButtons);
+    _exportCode->setText("Export Code");
+    _exportCode->setIcon(KIcon("arrow-up-double"));
     addCustomTypes(_widgetType);
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
@@ -238,14 +254,16 @@ void MainWindow::setupActions()
     ac=new KActionCollection(this);
     QActionGroup *g = new QActionGroup ( this );
     _actionButtons->addAction(g->addAction(ac->addAction("add_typed_node",new AddTypedNodeAction(gc,this))));
+    _widgetTypeBar=_actionButtons->addWidget(_widgetType);
     _actionButtons->addAction(g->addAction(ac->addAction("move_node",new MoveNodeAction(gc,this))));
     _actionButtons->addAction(g->addAction ( ac->addAction ( "delete_action", new DeleteAction ( gc, this ))));
-    _widgetTypeBar=_actionButtons->addWidget(_widgetType);
+    _actionButtons->addWidget(_exportCode);
     _widgetTypeBar->setVisible(false);
     qobject_cast<AddTypedNodeAction*>(ac->action("add_typed_node"))->widgetTypeChanged(_widgetType->currentText());
     connect(ac->action("add_typed_node"),SIGNAL(changed()),this,SLOT(toggleWidgetTypeShown()));
     connect(ac->action("delete_action"),SIGNAL(deleteSceneItem(QString)),this,SLOT(deleteThisSceneObject(QString)));
     connect(_widgetType,SIGNAL(currentIndexChanged(QString)),ac->action("add_typed_node"),SLOT(widgetTypeChanged(QString)));
+    connect(_exportCode,SIGNAL(clicked(bool)),this,SLOT(exportCode(bool)));
     ac->action("move_node")->trigger();
     
 /*

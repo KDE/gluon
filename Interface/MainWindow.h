@@ -77,11 +77,13 @@ public slots:
     void updateNodesFromModel(const QUndoCommand* cmd);
     void deleteThisSceneObject(QString objectName);
     void markAsGameObject();
+    void exportCode(bool checked);
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
     KToolBar* _actionButtons;
     KComboBox* _widgetType;
+    KPushButton* _exportCode;
     QAction* _widgetTypeBar;
     QVBoxLayout* _layout;
     KActionCollection *ac;
