@@ -26,6 +26,7 @@
 /*! this class defines the delete button on the pallete. */
 class DeleteAction : public AbstractAction
 {
+  Q_OBJECT
 public:
     /*! default constructor
     \p scene the graph scene
@@ -42,6 +43,8 @@ public:
     \p keyEvent the key to be processed.
     */
     void executeKeyRelease(QKeyEvent* keyEvent);
+  signals:
+    void deleteSceneItem(QString);
 };
 
 #endif // DELETEACTION_H
