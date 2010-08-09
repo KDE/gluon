@@ -1,7 +1,6 @@
 set(scenedock_SRCS
     scenedock.cpp
     scenedockplugin.cpp
-    deleteobjectcommand.cpp
 )
 
 kde4_add_plugin(gluon_creator_dockplugin_scenedock ${scenedock_SRCS})

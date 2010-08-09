@@ -33,7 +33,6 @@
 #include <KLocalizedString>
 #include <QMenu>
 #include <historymanager.h>
-#include "deleteobjectcommand.h"
 #include <objectmanager.h>
 
 using namespace GluonCreator;
@@ -141,7 +140,7 @@ void SceneDock::deleteSelection()
                 GluonEngine::GameObject *obj = static_cast<GluonEngine::GameObject*>(index.internalPointer());
                 if(obj && obj->parentGameObject())
                 {
-                    HistoryManager::instance()->addCommand(new DeleteObjectCommand(obj, obj->parentGameObject()));
+                    ObjectManager::instance()->deleteGameObject(obj);
                 }
             }
             

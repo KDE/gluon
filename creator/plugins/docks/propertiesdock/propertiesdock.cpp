@@ -19,7 +19,6 @@
 
 #include "propertiesdock.h"
 
-#include "propertychangedcommand.h"
 
 #include <widgets/propertywidget.h>
 #include <engine/game.h>
@@ -75,7 +74,7 @@ void PropertiesDock::propertyChanged(QObject* object, QString property, QVariant
     GluonCore::GluonObject * obj = qobject_cast<GluonCore::GluonObject*>(object);
     
     if(obj)
-        HistoryManager::instance()->addCommand(new PropertyChangedCommand(obj, property, oldValue, newValue));
+	ObjectManager::instance()->changeProperty(obj,property,oldValue,newValue);
 }
 
 

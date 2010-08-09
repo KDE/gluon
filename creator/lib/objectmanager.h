@@ -48,6 +48,8 @@ namespace GluonCreator
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
             GluonEngine::Asset* createNewAsset(const QString& fileName);
+	    void deleteGameObject(GluonEngine::GameObject* object);
+	    void changeProperty(GluonCore::GluonObject* object,QString& property, QVariant& oldValue, QVariant& newValue);
             QString humanifyClassName(const QString& fixThis, bool justRemoveNamespace = false) const;
 
         signals:

@@ -8,9 +8,11 @@ set(libGluonCreator_SRCS
     objectmanager.cpp
     historymanager.cpp
     selectionmanager.cpp
-    newobjectcommand.cpp
     filemanager.cpp
     abstractundocommand.cpp
+    newobjectcommand.cpp
+    deleteobjectcommand.cpp
+    propertychangedcommand.cpp
 
     models/componentmodel.cpp
     models/projectmodel.cpp
@@ -63,6 +65,9 @@ install(FILES
     selectionmanager.h
     gluoncreator_macros.h
     abstractundocommand.h
+    newobjectcommand.h
+    deleteobjectcommand.h
+    propertychangedcommand.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
     COMPONENT Devel
 )
