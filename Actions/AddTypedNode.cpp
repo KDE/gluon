@@ -53,7 +53,8 @@ void AddTypedNodeAction::executePress(QPointF pos) {
     else if (pos.y() > _graphDocument->height()) return;
 
     qDebug() << "Emitindo o addnode";
-    emit addNode(i18n("untitled"), QPointF(pos.x(), pos.y()),_type);
+    if(_type!="base" && _type!= "others"){ emit addNode(i18n("untitled"), QPointF(pos.x(), pos.y()),_type);}
+    else {emit iAmDisappoint();}
 }
 
 void AddTypedNodeAction::widgetTypeChanged(QString type){
@@ -64,5 +65,6 @@ void AddTypedNodeAction::setActiveGraph(Graph* graph){
     if (_graph) disconnect(this, 0, _graph, 0);
     _graph = graph;
     connect(this, SIGNAL(addNode(QString,QPointF,QString)), _graph, SLOT(addNode(QString,QPointF,QString)));
+    connect(this,SIGNAL(iAmDisappoint()),_graph,SIGNAL(iAmDisappoint()));
 }
 

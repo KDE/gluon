@@ -10,4 +10,8 @@ true string(out)
  out string(out)
  nodetypesvg string(rocs_method)
  }
+{ NodeType(base)
+execute string(in)
+nodetypesvg string(rocs_base)
+}
 }

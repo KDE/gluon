@@ -60,6 +60,7 @@ public slots:
     
   signals:
     void addNode(QString name, QPointF pos, QString type);
+    void iAmDisappoint();
     
   protected:
     QString _type;

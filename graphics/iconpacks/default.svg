@@ -3925,6 +3925,15 @@
        id="linearGradient2984-8"
        xlink:href="#linearGradient2692-9"
        inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#aigrd3-7"
+       id="linearGradient4787"
+       x1="326.96301"
+       y1="443.31006"
+       x2="403.89954"
+       y2="443.31006"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -6918,5 +6927,22 @@
        x="495.22928"
        y="467.27277"
        inkscape:label="#rect4007" />
+    <path
+       sodipodi:type="star"
+       style="fill:url(#linearGradient4787);fill-opacity:1.0;stroke:none"
+       id="rocs_base"
+       sodipodi:sides="3"
+       sodipodi:cx="365.43127"
+       sodipodi:cy="443.31006"
+       sodipodi:r1="37.677288"
+       sodipodi:r2="37.677288"
+       sodipodi:arg1="1.012197"
+       sodipodi:arg2="2.0593946"
+       inkscape:flatsided="false"
+       inkscape:rounded="0.7"
+       inkscape:randomized="0"
+       d="m 385.4002,475.26033 c -22.3652,13.97825 -14.3661,13.69816 -37.65422,1.31846 -23.28811,-12.3797 -19.046,-5.59233 -19.96892,-31.95027 -0.92292,-26.35795 -4.6799,-19.29049 17.68529,-33.26874 22.3652,-13.97824 14.3661,-13.69816 37.65421,-1.31845 23.28812,12.3797 19.04601,5.59232 19.96893,31.95027 0.92292,26.35795 4.6799,19.29049 -17.68529,33.26873 z"
+       transform="matrix(1,0,0,0.92951743,273.57423,-145.47933)"
+       inkscape:label="#path4024" />
   </g>
 </svg>

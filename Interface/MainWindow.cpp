@@ -75,12 +75,10 @@ MainWindow::MainWindow() :  QWidget()
    setActiveGraphDocument ( _tDocument );
    _graph = _tDocument->addGraph();
    setActiveGraph(_graph);
-   _graph->setKCB(_widgetType);
    _lastScene = "";
    _skipNextUpdate = false;
    _isGameObject = false;
    connect(GluonEngine::Game::instance(),SIGNAL(currentSceneChanged(GluonEngine::Scene*)),this,SLOT(readTheScene()));
-   connect(_graph,SIGNAL(changed()),this,SLOT(saveStateGDL()));
    connect(GluonCreator::HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(updateNodesFromModel(const QUndoCommand* )));
    connect(GluonCreator::ObjectManager::instance(),SIGNAL(newGameObject(GluonEngine::GameObject*)),this, SLOT(markAsGameObject()));
 }
@@ -93,7 +91,7 @@ void MainWindow::eatChildren(GluonEngine::GameObject *trap){
     qsrand(trap->childCount());
     int i=trap->childCount();
     while (i>0) {       
-        _graph->addNode(trap->childGameObject(i-1)->name(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
+        _graph->addNode(trap->childGameObject(i-1)->name(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"base");
         if (trap->childGameObject(i-1)->childCount()>0) {
             eatChildren(trap->childGameObject(i-1));
         }          
@@ -111,7 +109,7 @@ void MainWindow::updateNodesFromModel(const QUndoCommand* cmd)
   if(_skipNextUpdate == false){
   if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd) != NULL && dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandName()=="NewObjectCommand" && _isGameObject){
     if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandDirection()=="redo"){
-	_graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
+	_graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"base");
       }
       else{
 	_graph->remove(_graph->node(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName()));
@@ -121,7 +119,7 @@ void MainWindow::updateNodesFromModel(const QUndoCommand* cmd)
 	_graph->remove(_graph->node(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName()));
       }
       else{
-	_graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
+	_graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"base");
       }
     }
   }
@@ -140,14 +138,15 @@ void MainWindow::deleteThisSceneObject(QString objectName)
 
 void MainWindow::exportCode(bool checked)
 {
-    if(GluonEngine::Game::instance()->gameProject()->findItemByName("vn-"+GluonEngine::Game::instance()->currentScene()->name()) != NULL) 
+    if(GluonEngine::Game::instance()->gameProject()->findItemByName("vn-"+GluonEngine::Game::instance()->currentScene()->name()) == NULL) 
     {
-	GluonEngine::Asset* script = GluonCreator::ObjectManager::instance()->createNewAsset("vn-"+GluonEngine::Game::instance()->currentScene()->name()+".js");
+	/*GluonEngine::Asset* script = GluonCreator::ObjectManager::instance()->createNewAsset("vn-"+GluonEngine::Game::instance()->currentScene()->name()+".js");
 	QFile codeFile(script->file().toLocalFile());
 	if (!codeFile.open(QIODevice::WriteOnly)) return;
 	QTextStream filewrite(&codeFile);
 	//write code here
-	codeFile.close();
+	codeFile.close();*/
+	//nothing to see here...at least till it works.
     }
 }
 
@@ -224,6 +223,7 @@ void MainWindow::setupWidgets()
     _exportCode = new KPushButton(_actionButtons);
     _exportCode->setText("Export Code");
     _exportCode->setIcon(KIcon("arrow-up-double"));
+    _exportCode->setEnabled(false);
     addCustomTypes(_widgetType);
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
@@ -265,19 +265,6 @@ void MainWindow::setupActions()
     connect(_widgetType,SIGNAL(currentIndexChanged(QString)),ac->action("add_typed_node"),SLOT(widgetTypeChanged(QString)));
     connect(_exportCode,SIGNAL(clicked(bool)),this,SLOT(exportCode(bool)));
     ac->action("move_node")->trigger();
-    
-/*
-    g->addAction ( ac->addAction ( "select", new SelectAction ( gc, this )));
-    g->addAction ( ac->addAction ( "delete", new DeleteAction ( gc, this )));
-    actionCollection()->action ( "move_node" )->toggle();
-   
-    ac->addAction ( "align-hbottom",new AlignAction ( i18n ( "Align on the base" ),  AlignAction::Bottom, _graphVisualEditor ) );
-    ac->addAction ( "align-hcenter",new AlignAction ( i18n ( "Align on the center" ),AlignAction::HCenter,_graphVisualEditor ) );
-    ac->addAction ( "align-htop",   new AlignAction ( i18n ( "Align on the top" ),   AlignAction::Top,    _graphVisualEditor ) );
-    ac->addAction ( "align-vleft",  new AlignAction ( i18n ( "Align on the left" ),  AlignAction::Left,   _graphVisualEditor ) );
-    ac->addAction ( "align-vcenter",new AlignAction ( i18n ( "Align on the center" ),AlignAction::VCenter,_graphVisualEditor ) );
-    ac->addAction ( "align-vright", new AlignAction ( i18n ( "Align on the right" ), AlignAction::Right,  _graphVisualEditor ) );
-    */
 }
 
 void MainWindow::toggleWidgetTypeShown(){
@@ -301,12 +288,16 @@ void MainWindow::setActiveGraphDocument ( GraphDocument* d )
 
 void MainWindow::setActiveGraph ( Graph *g )
 {
+    disconnect(SIGNAL(saveStateGDL()));
     foreach ( QAction *action, ac->actions() )
     {
         if ( AbstractAction *absAction = qobject_cast<AbstractAction*> ( action ) )
             absAction->setActiveGraph ( g );
     }
     _graphVisualEditor->setActiveGraph ( g );
+    _graph = g;
+    g->setKCB(_widgetType);
+    connect(g,SIGNAL(changed()),this,SLOT(saveStateGDL()));
 }
 
 Graph* MainWindow::graph() const

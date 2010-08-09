@@ -78,6 +78,8 @@ public slots:
     void deleteThisSceneObject(QString objectName);
     void markAsGameObject();
     void exportCode(bool checked);
+  signals:
+    void sendDisappoint();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
