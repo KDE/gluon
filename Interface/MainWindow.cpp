@@ -78,9 +78,11 @@ MainWindow::MainWindow() :  QWidget()
    _graph->setKCB(_widgetType);
    _lastScene = "";
    _skipNextUpdate = false;
+   _isGameObject = false;
    connect(GluonEngine::Game::instance(),SIGNAL(currentSceneChanged(GluonEngine::Scene*)),this,SLOT(readTheScene()));
    connect(_graph,SIGNAL(changed()),this,SLOT(saveStateGDL()));
    connect(GluonCreator::HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(updateNodesFromModel(const QUndoCommand* )));
+   connect(GluonCreator::ObjectManager::instance(),SIGNAL(newGameObject(GluonEngine::GameObject*)),this, SLOT(markAsGameObject()));
 }
 
 GraphDocument *MainWindow::activeDocument() const{
@@ -99,10 +101,15 @@ void MainWindow::eatChildren(GluonEngine::GameObject *trap){
     }
 }
 
+void MainWindow::markAsGameObject()
+{
+    _isGameObject = true;
+}
+
 void MainWindow::updateNodesFromModel(const QUndoCommand* cmd)
 {
   if(_skipNextUpdate == false){
-  if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd) != NULL && dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandName()=="NewObjectCommand"){
+  if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd) != NULL && dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandName()=="NewObjectCommand" && _isGameObject){
     if(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->commandDirection()=="redo"){
 	_graph->addNode(dynamic_cast<const GluonCreator::AbstractUndoCommand*>(cmd)->object()->objectName(),QPointF(((double(qrand())/RAND_MAX)*_graph->document()->width())+10,((double(qrand())/RAND_MAX)*_graph->document()->height())+10),"others");
       }
@@ -119,6 +126,7 @@ void MainWindow::updateNodesFromModel(const QUndoCommand* cmd)
     }
   }
     _skipNextUpdate = false;
+    _isGameObject = false;
 }
 
 void MainWindow::deleteThisSceneObject(QString objectName)

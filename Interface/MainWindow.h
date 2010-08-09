@@ -76,6 +76,7 @@ public slots:
     void loadStateGDL();
     void updateNodesFromModel(const QUndoCommand* cmd);
     void deleteThisSceneObject(QString objectName);
+    void markAsGameObject();
       
 private:
     GraphVisualEditor* _graphVisualEditor; //! Area where the graph will be editted.
@@ -90,6 +91,7 @@ private:
     bool _idle;
     QString _lastScene;
     bool _skipNextUpdate;
+    bool _isGameObject;
 };
 
 #endif
