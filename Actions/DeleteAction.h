@@ -44,7 +44,7 @@ public:
     */
     void executeKeyRelease(QKeyEvent* keyEvent);
   signals:
-    void deleteSceneItem(QString);
+    void deleteSceneItem(QString,QString);
 };
 
 #endif // DELETEACTION_H

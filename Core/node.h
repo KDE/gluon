@@ -97,6 +97,8 @@ public  slots:
     void setEnd(bool end = true);
     void setValue(const QVariant v);
     void setValue(const QString& s);
+    void setValueHeader(const QString& s){_valueHeader = s;}
+    const QString valueHeader(){return _valueHeader;}
     const QVariant value() const;
     const QPixmap& image() const;
     void setImage(const QPixmap& p);
@@ -162,6 +164,7 @@ private:
     int _maxSelfEdges;
     QString _type;
     QGraphicsSvgItem* _nitem;
+    QString _valueHeader;
 
 signals:
     void removed();

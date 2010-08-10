@@ -40,6 +40,7 @@ Node::Node(Graph *parent) : QObject(parent) {
     _color = _graph->nodeDefaultColor();
     _changing = false;
     _value = 0;
+    _valueHeader = "Value";
     _image = QPixmap(100,100);
     _image.fill();
     _maxInEdges = 1;

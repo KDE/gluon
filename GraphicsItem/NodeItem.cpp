@@ -162,7 +162,7 @@ void NodeItem::updateValue() {
         _value = new QGraphicsSimpleTextItem(i18n("Value: %1").arg(_node->value().toString()), this);
         _value->setFont(_font);
     } else if (_value->text() != _node->value().toString()) {
-        _value ->setText(i18n("Value: %1").arg(_node->value().toString()));
+        _value ->setText(i18n(QString(_node->valueHeader()+": %1").toUtf8().data()).arg(_node->value().toString()));
     }
     _value->setVisible(_node->showValue());
     _value->setPos(0, 100);

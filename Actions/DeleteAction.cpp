@@ -41,7 +41,7 @@ void DeleteAction::executePress(QPointF pos)
     QGraphicsItem * item = _graphScene->itemAt(pos);
     if ( NodeItem *n  = qgraphicsitem_cast<NodeItem*>(item) ) {
         qDebug() << "Trying to remove node. NodeItem: " << n->objectName() ;
-        emit deleteSceneItem(n->node()->name());
+        emit deleteSceneItem(n->node()->name(),n->node()->property("parentObject").toString());
 	n->node()->remove();
     }
     else if ( OrientedEdgeItem *e = qgraphicsitem_cast<OrientedEdgeItem*>(item) ) {

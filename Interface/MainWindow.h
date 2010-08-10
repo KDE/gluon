@@ -29,6 +29,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QUndoCommand>
 #include <engine/gameobject.h>
+#include <engine/component.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
@@ -63,6 +64,7 @@ public:
 private: // Methods
     void setupWidgets(); // Setup all the widgets.
     void setupActions(); // Setup all the actions.
+    void setupLists(); //Setup all them lists.
     void startThreadDocument();
     void addCustomTypes(KComboBox* bigList);
     void eatChildren(GluonEngine::GameObject *trap);
@@ -75,8 +77,9 @@ public slots:
     void saveStateGDL();
     void loadStateGDL();
     void updateNodesFromModel(const QUndoCommand* cmd);
-    void deleteThisSceneObject(QString objectName);
+    void deleteThisSceneObject(QString objectName, QString objectParent);
     void markAsGameObject();
+    void markAsGameComponent();
     void exportCode(bool checked);
   signals:
     void sendDisappoint();
@@ -96,7 +99,10 @@ private:
     QString _lastScene;
     bool _skipNextUpdate;
     bool _isGameObject;
+    bool _isGameComponent;
     bool _skipSaving;
+    QList<QString> _objectTypes;
+
 };
 
 #endif
