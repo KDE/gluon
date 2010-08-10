@@ -151,6 +151,7 @@ void MainWindow::exportCode(bool checked)
 }
 
 void MainWindow::saveStateGDL(){
+  if(!_skipSaving){
   QFile stateFile(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).dir().absolutePath()+"/Assets/visualnodes-"+GluonEngine::Game::instance()->currentScene()->name()+".gdl");
   QList<const GluonCore::GluonObject*> objects;
   GluonCore::GluonObject *nodelist = new GluonCore::GluonObject("Nodes");
@@ -176,6 +177,7 @@ void MainWindow::saveStateGDL(){
   QTextStream filewrite(&stateFile);
   filewrite<<GluonCore::GDLHandler::instance()->serializeGDL(objects);
   stateFile.close();
+  }
 }
 
 void MainWindow::loadStateGDL(){
@@ -198,12 +200,14 @@ void MainWindow::readTheScene()
 {
       QDir path = QDir(QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile()).dir().absolutePath()+"/Assets");
       if(GluonEngine::Game::instance()->currentScene()->name()==_lastScene) return;
+      _skipSaving=true;
       foreach(Edge* e,_graph->edges()){
 	e->remove();
       }
       foreach(Node* n,_graph->nodes()){
 	n->remove();
       }
+       _skipSaving=false;
       if(path.exists() && QFileInfo(path.absolutePath()+"/visualnodes-"+GluonEngine::Game::instance()->currentScene()->name()+".gdl").exists())
       {  
 	loadStateGDL();

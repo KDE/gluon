@@ -96,6 +96,7 @@ private:
     QString _lastScene;
     bool _skipNextUpdate;
     bool _isGameObject;
+    bool _skipSaving;
 };
 
 #endif
