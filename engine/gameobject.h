@@ -174,6 +174,7 @@ class Scene;
 
             Q_INVOKABLE Component * findComponent(const QString &name) const;
             Q_INVOKABLE Component * findComponentByType(const QString &typeName) const;
+	    Q_INVOKABLE QList<Component *> findComponentsByType(const QString &typeName) const;
             Q_INVOKABLE Component * findComponentInChildren(const QString &name) const;
             Q_INVOKABLE Component * findComponentInChildrenByType(const QString &typeName) const;
             Q_INVOKABLE QList<Component *> findComponentsInChildren(const QString &name) const;
