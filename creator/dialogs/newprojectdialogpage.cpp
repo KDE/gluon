@@ -96,12 +96,16 @@ QString GluonCreator::NewProjectDialogPage::fileName()
     camera->setName(i18n("Camera"));
     camera->setPosition(0.f, 0.f, 50.f);
     root->sceneContents()->addChild(camera);
-    camera->addComponent(qobject_cast<GluonEngine::Component*>(GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::CameraControllerComponent")));
+    GluonCore::GluonObject* cam =GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::CameraControllerComponent");
+    cam->setName("CameraController");
+    camera->addComponent(qobject_cast<GluonEngine::Component*>(cam));
     
     GluonEngine::GameObject* sprite = new GluonEngine::GameObject(root);
     sprite->setName(i18n("Sprite"));
     root->sceneContents()->addChild(sprite);
-    sprite->addComponent(qobject_cast<GluonEngine::Component*>(GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::SpriteRendererComponent")));
+    GluonCore::GluonObject* comp =GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::SpriteRendererComponent");
+    comp->setName("SpriteRenderer");
+    sprite->addComponent(qobject_cast<GluonEngine::Component*>(comp));
     
     
     KUrl location = d->location->url();
