@@ -17,26 +17,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_NEWOBJECTCOMMAND_H
-#define GLUONCREATOR_NEWOBJECTCOMMAND_H
+#ifndef PROPERTYCHANGEDCOMMAND_H
+#define PROPERTYCHANGEDCOMMAND_H
 
 #include "abstractundocommand.h"
 
+class QVariant;
+
 namespace GluonCreator
 {
-    class NewObjectCommand : public AbstractUndoCommand
+    class PropertyChangedCommand : public AbstractUndoCommand
     {
         public:
-            NewObjectCommand(GluonCore::GluonObject* newObject);
-            ~NewObjectCommand();
+            PropertyChangedCommand(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue);
 
             virtual void undo();
             virtual void redo();
 
         private:
-            class NewObjectCommandPrivate;
-            NewObjectCommandPrivate * const d;
+            class PropertyChangedCommandPrivate;
+            PropertyChangedCommandPrivate *d;
     };
 }
 
-#endif // GLUONCREATOR_NEWOBJECTCOMMAND_H
+#endif // PROPERTYCHANGEDCOMMAND_H

@@ -1,6 +1,6 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(libGluonCreator_SRCS
+set(libGluonCreator_SRCS 
     plugin.cpp
     dockplugin.cpp
     dockmanager.cpp
@@ -8,8 +8,11 @@ set(libGluonCreator_SRCS
     objectmanager.cpp
     historymanager.cpp
     selectionmanager.cpp
-    newobjectcommand.cpp
     filemanager.cpp
+    abstractundocommand.cpp
+    newobjectcommand.cpp
+    deleteobjectcommand.cpp
+    propertychangedcommand.cpp
 
     models/componentmodel.cpp
     models/projectmodel.cpp
@@ -44,9 +47,9 @@ set(GLUON_CREATOR_LIBS
     libGluonCreator
     ${GLUON_ENGINE_LIBS}
     ${KDE4_KDECORE_LIBS}
-    ${KDE4_KUTILS_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}
+    ${KDE4_KPARTS_LIBS}
     CACHE PATHS "Libraries required for Gluon Creator"
 )
 
@@ -58,9 +61,14 @@ install(FILES
     dockmanager.h
     pluginmanager.h
     historymanager.h
+    objectmanager.h
     selectionmanager.h
     gluoncreator_macros.h
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator
+    abstractundocommand.h
+    newobjectcommand.h
+    deleteobjectcommand.h
+    propertychangedcommand.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
     COMPONENT Devel
 )
 
@@ -68,13 +76,13 @@ install(FILES
     models/componentmodel.h
     models/projectmodel.h
     models/scenemodel.h
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/models
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/models
     COMPONENT Devel
 )
 
 install(FILES
     widgets/propertywidget.h
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/widgets
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/widgets
     COMPONENT Devel
 )
 

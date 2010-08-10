@@ -29,15 +29,25 @@ namespace GluonPlayer
     class HighScoresModel;
 }
 
+namespace Plasma
+{
+    class ItemBackground;
+}
+
 class HighScoresView : public AbstractItemView
 {
     public:
         HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        virtual void setModel(QAbstractItemModel *model);
         virtual ~HighScoresView();
 
     private:
-        QTableView *m_view;
         GluonPlayer::HighScoresModel *m_model;
+
+    protected:
+        Plasma::ItemBackground *m_itemBackground;
+
+        bool eventFilter(QObject *obj, QEvent *event);
 };
 
 #endif // HIGHSCORESVIEW_H

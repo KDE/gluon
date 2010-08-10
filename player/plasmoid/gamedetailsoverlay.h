@@ -26,6 +26,7 @@
 namespace GluonPlayer
 {
     class CommentsModel;
+    class HighScoresModel;
 }
 
 namespace Plasma
@@ -53,6 +54,7 @@ class GameDetailsOverlay : public Overlay
         AchievementsView *m_achievementsView;
         CommentsView *m_commentsView;
         GluonPlayer::CommentsModel *m_commentsModel;
+        GluonPlayer::HighScoresModel *m_highScoresModel;
 
     signals:
         void back();

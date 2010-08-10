@@ -20,7 +20,7 @@
 #ifndef GLUONCREATOR_DELETEOBJECTCOMMAND_H
 #define GLUONCREATOR_DELETEOBJECTCOMMAND_H
 
-#include <QtGui/QUndoStack>
+#include "abstractundocommand.h"
 
 namespace GluonEngine
 {
@@ -29,7 +29,7 @@ namespace GluonEngine
 
 namespace GluonCreator 
 {
-    class DeleteObjectCommand : public QUndoCommand
+    class DeleteObjectCommand : public AbstractUndoCommand
     {
         public:
             DeleteObjectCommand(GluonEngine::GameObject* object, GluonEngine::GameObject* parent);

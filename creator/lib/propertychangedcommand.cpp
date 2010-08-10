@@ -17,27 +17,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef PROPERTYCHANGEDCOMMAND_H
-#define PROPERTYCHANGEDCOMMAND_H
+#include "propertychangedcommand.h"
 
-#include <QtGui/QUndoStack>
+#include <QtCore/QVariant>
 
-class QVariant;
+#include <core/gluonobject.h>
 
-namespace GluonCreator
+using namespace GluonCreator;
+
+class PropertyChangedCommand::PropertyChangedCommandPrivate
 {
-    class PropertyChangedCommand : public QUndoCommand
-    {
-        public:
-            PropertyChangedCommand(QObject* object, QString property, QVariant oldValue, QVariant newValue);
+    public:
+        QString property;
+        QVariant oldValue;
+        QVariant newValue;
+};
 
-            virtual void undo();
-            virtual void redo();
+PropertyChangedCommand::PropertyChangedCommand(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue)
+{
+    d = new PropertyChangedCommandPrivate;
+    setObject(object);
+    d->property = property;
+    d->oldValue = oldValue;
+    d->newValue = newValue;
 
-        private:
-            class PropertyChangedCommandPrivate;
-            PropertyChangedCommandPrivate *d;
-    };
+    setCommandName("PropertyChangedCommand");
 }
 
-#endif // PROPERTYCHANGEDCOMMAND_H
+void PropertyChangedCommand::undo()
+{
+    setCommandDirection("undo");
+    object()->setProperty(d->property.toUtf8(), d->oldValue);
+}
+
+void PropertyChangedCommand::redo()
+{
+    setCommandDirection("redo");
+    object()->setProperty(d->property.toUtf8(), d->newValue);
+}
+

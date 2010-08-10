@@ -46,19 +46,21 @@ class HistoryManager::HistoryManagerPrivate
 void HistoryManager::addCommand(QUndoCommand* command)
 {
     d->stack->push(command);
-    emit historyChanged();
+    emit historyChanged(command);
 }
 
 void HistoryManager::redo()
 {
     d->stack->redo();
-    emit historyChanged();
+    const QUndoCommand* command = d->stack->command(d->stack->index()-1);
+    emit historyChanged(command);
 }
 
 void HistoryManager::undo()
 {
     d->stack->undo();
-    emit historyChanged();
+    const QUndoCommand* command = d->stack->command(d->stack->index());
+    emit historyChanged(command);
 }
 
 void HistoryManager::clear()

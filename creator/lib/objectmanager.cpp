@@ -21,6 +21,8 @@
 
 #include "selectionmanager.h"
 #include "newobjectcommand.h"
+#include "deleteobjectcommand.h"
+#include "propertychangedcommand.h"
 #include "historymanager.h"
 
 #include <core/debughelper.h>
@@ -101,6 +103,16 @@ GluonEngine::Asset* ObjectManager::createNewAsset(const QString &fileName)
     }
     
     return 0;
+}
+
+void ObjectManager::deleteGameObject(GluonEngine::GameObject* object)
+{
+    HistoryManager::instance()->addCommand(new DeleteObjectCommand(object,object->parentGameObject()));
+}
+
+void ObjectManager::changeProperty(GluonCore::GluonObject* object,QString& property, QVariant& oldValue, QVariant& newValue)
+{
+    HistoryManager::instance()->addCommand(new PropertyChangedCommand(object, property, oldValue, newValue));
 }
 
 GluonEngine::Component* ObjectManager::createNewComponent(const QString& type, GluonEngine::GameObject* parent)

@@ -36,10 +36,13 @@ class DeleteObjectCommand::DeleteObjectCommandPrivate
 };
 
 DeleteObjectCommand::DeleteObjectCommand(GluonEngine::GameObject *object, GluonEngine::GameObject *parent)
-    : QUndoCommand(), d(new DeleteObjectCommandPrivate)
+    : d(new DeleteObjectCommandPrivate)
 {
     d->object = object;
     d->parent = parent;
+
+    setObject(object);
+    setCommandName("DeleteObjectCommand");
 }
 
 DeleteObjectCommand::~DeleteObjectCommand()
@@ -52,6 +55,7 @@ DeleteObjectCommand::~DeleteObjectCommand()
 
 void DeleteObjectCommand::undo()
 {
+    setCommandDirection("undo");
     if(d->parent)
     {
         if(d->parent->childIndex(d->object) == -1)
@@ -63,6 +67,7 @@ void DeleteObjectCommand::undo()
 
 void DeleteObjectCommand::redo()
 {
+    setCommandDirection("redo");
     if(d->parent)
     {
         if(d->parent->childIndex(d->object) != -1)

@@ -58,6 +58,7 @@ class CommentsViewItem : public QGraphicsWidget
         Plasma::Label *m_body;
         Plasma::Label *m_dateTime;
         Plasma::Label *m_rating;    //TODO Use a stars widget
+
         Plasma::IconWidget *m_replyButton;
         QGraphicsGridLayout *m_layout;
         int m_depth;
@@ -71,7 +72,6 @@ class CommentsViewItem : public QGraphicsWidget
 
     signals:
         void replyClicked();
-
 };
 
 #endif // COMMENTSVIEWITEM_H

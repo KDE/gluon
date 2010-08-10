@@ -23,12 +23,18 @@
 #include <core/singleton.h>
 #include "gluoncreator_macros.h"
 
+class KToolBar;
+class KTabWidget;
+
+namespace KParts
+{
+    class PartManager;
+}
+
 namespace GluonEngine
 {
     class Asset;
 }
-
-class KTabWidget;
 
 namespace GluonCreator
 {
@@ -37,11 +43,14 @@ namespace GluonCreator
         Q_OBJECT
         public:
             KTabWidget * tabWidget();
+            KParts::PartManager * partManager();
 
         public Q_SLOTS:
             void openAsset( GluonEngine::Asset* asset );
+            void openFile( const QString& file, const QString& name = QString());
 
             void setTabWidget(KTabWidget *widget);
+    void tabChanged(int index);
 
         private Q_SLOTS:
             void closeTab( QWidget* widget );
@@ -53,7 +62,7 @@ namespace GluonCreator
             ~FileManager();
             Q_DISABLE_COPY(FileManager)
 
-            void addTab( QWidget* widget, const QString& name );
+            KToolBar* addTab( QWidget* widget, const QString& name );
 
             class FileManagerPrivate;
             FileManagerPrivate * const d;
