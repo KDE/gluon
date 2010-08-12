@@ -124,6 +124,7 @@ void Graph::addNode(QString name, QString type) {
         node->setValue(QVariant("true"));
 	node->hideValue(true);
 	node->setValueHeader("Test");
+	node->setMaxOutEdges(2);
     }
     QMap<QString,QVariant> nodelist;
     if(_listbox->isVisible()){
@@ -159,6 +160,7 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
         node->setValue(QVariant("true"));
 	node->hideValue(true);
 	node->setValueHeader("Test");
+	node->setMaxOutEdges(2);
     }
     QMap<QString,QVariant> nodelist;
     if(_listbox->isVisible()){

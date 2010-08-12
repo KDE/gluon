@@ -28,6 +28,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QUndoCommand>
+#include <QtCore/QTextStream>
 #include <engine/gameobject.h>
 #include <engine/component.h>
 #include <engine/game.h>
@@ -83,6 +84,7 @@ public slots:
     void exportCode(bool checked);
     GluonCore::GluonObject* surfNodesIntoTree();
     void traceNodeGen(GluonCore::GluonObject* n);
+    void exportFromThisNode(GluonCore::GluonObject* o,QTextStream* file);
   signals:
     void sendDisappoint();
       

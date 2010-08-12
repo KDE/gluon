@@ -67,8 +67,8 @@ void GraphScene::setActiveGraph(Graph *g) {
     connect(this, SIGNAL(forceUpdate()),_graph,SIGNAL(forceUpdate()));
 }
 
-QAction* GraphScene::action(){
-  return _action;
+QAction* GraphScene::action() {
+    return _action;
 }
 
 void GraphScene::updateAfter(QGraphicsItem *item) {
@@ -78,10 +78,10 @@ void GraphScene::updateAfter(QGraphicsItem *item) {
 
 void GraphScene::hideGraph(Graph* g, bool visibility)
 {
-  QList<QGraphicsItem*> list = _hashGraphs.values(g);
-  foreach(QGraphicsItem *i, list){
-    i->setVisible(visibility);
-  }
+    QList<QGraphicsItem*> list = _hashGraphs.values(g);
+    foreach(QGraphicsItem *i, list) {
+        i->setVisible(visibility);
+    }
 }
 
 
@@ -94,7 +94,7 @@ void GraphScene::setActiveGraphDocument(GraphDocument *gd) {
     if (gd == 0) {
         return;
     }
-    
+
     setSceneRect(QRectF(0,0, gd->width(), gd->height() ));
     QGraphicsRectItem *n = new QGraphicsRectItem(0,0, gd->width(), gd->height());
     n->setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -112,23 +112,23 @@ void GraphScene::setActiveGraphDocument(GraphDocument *gd) {
     connect( _graphDocument, SIGNAL(graphCreated(Graph*)), this, SLOT(connectGraphSignals(Graph*)));
     kDebug() << "Graph Document Set" << _graphDocument -> name();
 }
-void GraphScene::createItems(){
+void GraphScene::createItems() {
     kDebug() << "Creating the graph items.";
     int size = _graphDocument->size();
     for (int i = 0; i < size; i++) {
         Graph *g = _graphDocument->at(i);
         kDebug() << "Creating " << g->nodes().size() << "nodes";
-        for(int n = 0; n < g->nodes().size(); n++){
+        for (int n = 0; n < g->nodes().size(); n++) {
             createNode( g->nodes()[n] );
         }
         kDebug() << "Creating" << g->edges().size() << "edges";
-        for( int v = 0; v < g->edges().size(); v++){
+        for ( int v = 0; v < g->edges().size(); v++) {
             createEdge( g->edges()[v]);
         }
     }
 }
 
-void GraphScene::connectGraphSignals(Graph *g){
+void GraphScene::connectGraphSignals(Graph *g) {
     connect( g, SIGNAL(nodeCreated(Node*)), this, SLOT(createNode(Node*)));
     connect( g, SIGNAL(edgeCreated(Edge*)), this, SLOT(createEdge(Edge*)));
 }
@@ -149,23 +149,23 @@ QGraphicsItem *GraphScene::createEdge(Edge *e) {
     return edgeItem;
 }
 
-void GraphScene::mouseDoubleClickEvent (QGraphicsSceneMouseEvent * mouseEvent){
-  mouseEvent->accept();
+void GraphScene::mouseDoubleClickEvent (QGraphicsSceneMouseEvent * mouseEvent) {
+    mouseEvent->accept();
 }
 
 void GraphScene::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) {
     kDebug() << "Entering on Whell Event";
     NodeItem *nitem = qgraphicsitem_cast<NodeItem*>(itemAt(wheelEvent->scenePos()));
     if (!nitem) {
-	kDebug() << "No Node Item to Spand";
+        kDebug() << "No Node Item to Spand";
         wheelEvent->ignore();
         return;
     }
-    
+
     Node *movableNode = nitem->node();
     int numDegrees = wheelEvent->delta();
     if (wheelEvent->orientation() == Qt::Vertical) {
-	kDebug() << "Upgrading node size";
+        kDebug() << "Upgrading node size";
         if (numDegrees > 0)
         {
             movableNode->setWidth(movableNode->width()+0.25);
@@ -192,40 +192,40 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
         Node *movableNode = nitem->node();
         movableNode->setWidth(1);
     }
-    else if( mouseEvent->button() == Qt::RightButton){
-    QListIterator<QGraphicsItem*>  list(items(mouseEvent->scenePos()));
-    NodeItem *nItem;
-    while (list.hasNext()){
-      QGraphicsItem* item=list.next();
-      if(item->type()==65578) nItem=qgraphicsitem_cast<NodeItem*>(item);
-    }
-	if (nItem && nItem->node()->type()=="if"){
-	    //eew yuck, popup windows!
-	    bool ok;
-	    QString response = QInputDialog::getText(qobject_cast<QWidget*>(_parent), "Change If Test","New If Test:", QLineEdit::Normal,nItem->node()->value().toString(), &ok);
-	    if(ok && !response.isEmpty()){
-	      nItem->node()->setValue(response);
-	      emit forceUpdate();
-	    }
-	}
-	/* QGraphicsItem *i = itemAt(mouseEvent->scenePos());
-        if (NodeItem *nItem = qgraphicsitem_cast<NodeItem*>(i)){
-            _nodePropertiesWidget->setNode(nItem, mouseEvent->screenPos());
+    else if ( mouseEvent->button() == Qt::RightButton) {
+        QListIterator<QGraphicsItem*>  list(items(mouseEvent->scenePos()));
+        NodeItem *nItem;
+        while (list.hasNext()) {
+            QGraphicsItem* item=list.next();
+            if (item->type()==65578) nItem=qgraphicsitem_cast<NodeItem*>(item);
         }
-        else if (OrientedEdgeItem *eItem = qgraphicsitem_cast<OrientedEdgeItem*>(i)){
-            _edgePropertiesWidget->setEdge(eItem->edge(), mouseEvent->screenPos());
-        }*/
-    }else if( mouseEvent -> button() == Qt::LeftButton){
+        if (nItem && nItem->node()->type()=="if") {
+            //eew yuck, popup windows!
+            bool ok;
+            QString response = QInputDialog::getText(qobject_cast<QWidget*>(_parent), "Change If Test","New If Test:", QLineEdit::Normal,nItem->node()->value().toString(), &ok);
+            if (ok && !response.isEmpty()) {
+                nItem->node()->setValue(response);
+                emit forceUpdate();
+            }
+        }
+        /* QGraphicsItem *i = itemAt(mouseEvent->scenePos());
+            if (NodeItem *nItem = qgraphicsitem_cast<NodeItem*>(i)){
+                _nodePropertiesWidget->setNode(nItem, mouseEvent->screenPos());
+            }
+            else if (OrientedEdgeItem *eItem = qgraphicsitem_cast<OrientedEdgeItem*>(i)){
+                _edgePropertiesWidget->setEdge(eItem->edge(), mouseEvent->screenPos());
+            }*/
+    } else if ( mouseEvent -> button() == Qt::LeftButton) {
         qDebug() << "Executando a ação";
         _action->executePress(mouseEvent->scenePos());
     }
 }
 
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
-     qDebug() << "Entrou no release Action";
-     if (mouseEvent->button() == Qt::LeftButton){
+    qDebug() << "Entrou no release Action";
+    if (mouseEvent->button() == Qt::LeftButton) {
         _action->executeRelease(mouseEvent->scenePos());
-     }
+    }
 }
 
 void GraphScene::keyPressEvent(QKeyEvent *) {
@@ -244,7 +244,7 @@ void GraphScene::updateGraph(Graph *g) {
     kDebug() << "Creating" << g->nodes().size() << "edges";
     QList<Edge*> edges = g->edges();
     foreach(Edge *e, edges) {
-       e->setName(e->name()); // just a dummy update trigger.
+        e->setName(e->name()); // just a dummy update trigger.
     }
 }
 
@@ -253,13 +253,13 @@ void GraphScene::updateDocument() {
         kDebug() << "Graph Document is null. Please hit the developer.";
         return;
     }
-    
+
     clear();
     kDebug() << "Graph Document Size: " << _graphDocument->size();
     int size = _graphDocument->size();
 
     for (int i = 0; i < size; i++) {
         updateGraph( _graphDocument->at(i) );
-	kDebug() << "updated Graph at " << i;
+        kDebug() << "updated Graph at " << i;
     }
 }

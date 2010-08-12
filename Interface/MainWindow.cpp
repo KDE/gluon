@@ -55,7 +55,6 @@
 #include <QtGui/QActionGroup>
 #include <QtCore/QList>
 #include <QtCore/QFile>
-#include <QtCore/QTextStream>
 #include <KPushButton>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
@@ -118,22 +117,22 @@ GluonCore::GluonObject* MainWindow::surfNodesIntoTree()
     GluonCore::GluonObject *nodelist = new GluonCore::GluonObject("plantaseedgrowatree");
     foreach(Edge* e, _graph->edges())
     {
-      if(_graph->node(e->fromNode())->in_edges().count()<1){
-	GluonCore::GluonObject *node = new GluonCore::GluonObject(e->fromNode(),nodelist);
-	traceNodeGen(node);
-      }
-	
+        if (_graph->node(e->fromNode())->in_edges().count()<1) {
+            GluonCore::GluonObject *node = new GluonCore::GluonObject(e->fromNode(),nodelist);
+            traceNodeGen(node);
+        }
+
     }
-    
+    return nodelist;
 }
 
 void MainWindow::traceNodeGen(GluonCore::GluonObject* n)
 {
-	foreach(Edge* e,_graph->node(n->objectName())->out_edges() )
-	{
-	    GluonCore::GluonObject *node = new GluonCore::GluonObject(e->fromNode(),n);
-	    traceNodeGen(node);
-	}
+    foreach(Edge* e,_graph->node(n->objectName())->out_edges() )
+    {
+        GluonCore::GluonObject *node = new GluonCore::GluonObject(e->toNode(),n);
+        traceNodeGen(node);
+    }
 }
 
 void MainWindow::markAsGameObject()
@@ -205,9 +204,47 @@ void MainWindow::deleteThisSceneObject(QString objectName, QString objectParent 
     if (parent->child(objectName) != NULL)
     {
         _skipNextUpdate=true;
-        kWarning()<< parent->objectName();
         if (qobject_cast<GluonEngine::GameObject*>(parent->findItemByName(objectName)) != NULL) GluonCreator::ObjectManager::instance()->deleteGameObject(qobject_cast<GluonEngine::GameObject*>(parent->findItemByName(objectName)));
         if (qobject_cast<GluonEngine::Component*>(parent->findItemByName(objectName)) !=NULL) parent->removeChild(parent->findItemByName(objectName));
+    }
+}
+
+void MainWindow::exportFromThisNode(GluonCore::GluonObject* o,QTextStream* file)
+{
+    if (_graph->node(o->objectName())->type()=="if")
+    {
+        *file<<"if("+_graph->node(o->objectName())->value().toString()+")\n{\n";
+        foreach(Edge* e,_graph->node(o->objectName())->out_edges())
+        {
+            if (e->fromConnector()=="true") {
+                foreach(QObject* obj,o->children()) {
+                    if (e->toNode()==qobject_cast<GluonCore::GluonObject*>(obj)->objectName())  exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(obj),file);
+                }
+            }
+            else if (e->fromConnector()=="false") {
+                *file<<"}\n else{\n";
+		foreach(QObject* obj,o->children()) {
+                    if (e->toNode()==qobject_cast<GluonCore::GluonObject*>(obj)->objectName())  exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(obj),file);
+                }
+            }
+        }
+        *file<<"}\n";
+    }
+    //this section really needs to rely on a list of components and thier functions in order to make proper javascript entry points.
+    else if (_graph->node(o->objectName())->type()=="base")
+    {
+        *file<<"function "+o->objectName()+"start()\n{\n";
+        foreach(QObject* obj,o->children()) {
+            if (_graph->node(o->objectName())->out_edges().first()->toNode()==qobject_cast<GluonCore::GluonObject*>(obj)->objectName())  exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(obj),file);
+        }
+        *file<<"}\n";
+    }
+    else
+    {
+        *file<<o->objectName()+"();\n";
+        foreach(QObject* obj,o->children()) {
+            if (_graph->node(o->objectName())->out_edges().first()->toNode()==qobject_cast<GluonCore::GluonObject*>(obj)->objectName())  exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(obj),file);
+        }
     }
 }
 
@@ -215,13 +252,31 @@ void MainWindow::exportCode(bool checked)
 {
     if (GluonEngine::Game::instance()->gameProject()->findItemByName("vn-"+GluonEngine::Game::instance()->currentScene()->name()) == NULL)
     {
-        /*GluonEngine::Asset* script = GluonCreator::ObjectManager::instance()->createNewAsset("vn-"+GluonEngine::Game::instance()->currentScene()->name()+".js");
-        QFile codeFile(script->file().toLocalFile());
+	GluonEngine::Asset* script = new GluonEngine::Asset();
+	script->setName("vn-"+GluonEngine::Game::instance()->currentScene()->name());
+	script->setFile(QUrl("Assets/"+script->name()+".js"));
+	GluonEngine::Game::instance()->gameProject()->addChild(script);
+	QFile codeFile(script->file().toLocalFile());
         if (!codeFile.open(QIODevice::WriteOnly)) return;
         QTextStream filewrite(&codeFile);
-        //write code here
-        codeFile.close();*/
-        //nothing to see here...at least till it works.
+        foreach(QObject* o,surfNodesIntoTree()->children())
+        {
+        exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(o),&filewrite);
+        }
+        codeFile.close();
+    }
+    else
+    {
+	GluonEngine::Asset* scriptE = GluonEngine::Game::instance()->gameProject()->findChild<GluonEngine::Asset*>("vn-"+GluonEngine::Game::instance()->currentScene()->name());
+	if(!scriptE) return;
+	QFile codeFileE(scriptE->file().toLocalFile());
+        if (!codeFileE.open(QIODevice::WriteOnly)) return;
+        QTextStream filewriteE(&codeFileE);
+        foreach(QObject* o,surfNodesIntoTree()->children())
+        {
+        exportFromThisNode(qobject_cast<GluonCore::GluonObject*>(o),&filewriteE);
+        }
+        codeFileE.close();
     }
 }
 
@@ -309,7 +364,7 @@ void MainWindow::setupWidgets()
     _exportCode = new KPushButton(_actionButtons);
     _exportCode->setText("Export Code");
     _exportCode->setIcon(KIcon("arrow-up-double"));
-    _exportCode->setEnabled(false);
+    //_exportCode->setEnabled(false);
     addCustomTypes(_widgetType);
     _layout->addWidget(_actionButtons);
     _layout->addWidget(_graphVisualEditor);
