@@ -81,6 +81,8 @@ public slots:
     void markAsGameObject();
     void markAsGameComponent();
     void exportCode(bool checked);
+    GluonCore::GluonObject* surfNodesIntoTree();
+    void traceNodeGen(GluonCore::GluonObject* n);
   signals:
     void sendDisappoint();
       

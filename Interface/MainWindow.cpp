@@ -113,6 +113,29 @@ void MainWindow::eatChildren(GluonEngine::GameObject *trap) {
     }
 }
 
+GluonCore::GluonObject* MainWindow::surfNodesIntoTree()
+{
+    GluonCore::GluonObject *nodelist = new GluonCore::GluonObject("plantaseedgrowatree");
+    foreach(Edge* e, _graph->edges())
+    {
+      if(_graph->node(e->fromNode())->in_edges().count()<1){
+	GluonCore::GluonObject *node = new GluonCore::GluonObject(e->fromNode(),nodelist);
+	traceNodeGen(node);
+      }
+	
+    }
+    
+}
+
+void MainWindow::traceNodeGen(GluonCore::GluonObject* n)
+{
+	foreach(Edge* e,_graph->node(n->objectName())->out_edges() )
+	{
+	    GluonCore::GluonObject *node = new GluonCore::GluonObject(e->fromNode(),n);
+	    traceNodeGen(node);
+	}
+}
+
 void MainWindow::markAsGameObject()
 {
     _isGameObject = true;
