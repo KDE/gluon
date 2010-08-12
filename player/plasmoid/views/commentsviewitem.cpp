@@ -28,7 +28,7 @@ CommentsViewItem::CommentsViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags
         : QGraphicsWidget(parent, wFlags), m_author(0), m_title(0), m_body(0), m_dateTime(0),
         m_rating(0), m_replyButton(0), m_layout(0), m_depth(0)
 {
-    setOwnedByLayout(false);
+    //setOwnedByLayout(false);
 }
 
 void CommentsViewItem::setModelIndex(const QModelIndex& index)
@@ -91,6 +91,7 @@ void CommentsViewItem::layoutWidgets()
 
     m_title = new Plasma::Label(this);
     m_title->setText(m_index.sibling(m_index.row(), GluonPlayer::CommentsModel::TitleColumn).data().toString());
+    m_title->setAlignment(Qt::AlignRight);
 
     m_body = new Plasma::Label(this);
     m_body->setText(m_index.sibling(m_index.row(), GluonPlayer::CommentsModel::BodyColumn).data().toString());
@@ -106,8 +107,8 @@ void CommentsViewItem::layoutWidgets()
     m_replyButton->setIcon(KIcon("edit-undo"));
     connect(m_replyButton, SIGNAL(activated()), this, SIGNAL(replyClicked()));
 
-    m_layout->addItem(m_author, 0, 0);
-    m_layout->addItem(m_title, 0, 1);
+    m_layout->addItem(m_title, 0, 0);
+    m_layout->addItem(m_author, 0, 1);
     m_layout->addItem(m_body, 1, 0, 1, 2);
     m_layout->addItem(m_dateTime, 2, 0);
     m_layout->addItem(m_rating, 2, 1);

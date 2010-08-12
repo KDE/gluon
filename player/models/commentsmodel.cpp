@@ -22,8 +22,8 @@
 #include <QFile>
 #include <QDir>
 #include <core/gluonobject.h>
-#include <attica/person.h>
-#include <attica/itemjob.h>
+#include <attica/comment.h>
+#include <attica/listjob.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
 
@@ -38,7 +38,71 @@ CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
     rootNode = new GluonObject("Comment");
 
     loadData();
+    updateData();
 }
+
+void CommentsModel::updateData()
+{
+    connect(&m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()));
+    m_manager.loadDefaultProviders();
+}
+
+void CommentsModel::providersUpdated()
+{
+    if (!m_manager.providers().isEmpty()) {
+        m_provider = m_manager.providerByUrl(QUrl("https://api.opendesktop.org/v1/"));
+        if (!m_provider.isValid()) {
+            qDebug() << "Could not find opendesktop.org provider.";
+            return;
+        }
+
+        Attica::ListJob<Attica::Comment>* job = m_provider.requestComments(Attica::Comment::ContentComment,
+                                                "128637", "0", 0, 100);
+        connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
+        job->start();
+    } else {
+        qDebug() << "No providers found.";
+    }
+}
+
+void CommentsModel::processFetchedComments(Attica::BaseJob* job)
+{
+    qDebug() << "GOT COMMENTS";
+
+    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
+    if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
+
+        if (rootNode) {
+            qDeleteAll(rootNode->children());
+        }
+
+        for (int i = 0; i < commentsJob->itemList().count(); ++i) {
+            Attica::Comment p(commentsJob->itemList().at(i));
+            addComment(p, rootNode);
+        }
+
+        reset();
+    } else {
+        qDebug() << "Could not fetch information";
+    }
+}
+
+GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* parent)
+{
+    GluonObject *newComment = new GluonObject("Comment", parent);
+    newComment->setProperty("Author", comment.user());
+    newComment->setProperty("Title", comment.subject());
+    newComment->setProperty("Body", comment.text());
+    newComment->setProperty("DateTime", comment.date());
+    newComment->setProperty("Rating", comment.score());
+
+    for (int i = 0; i < comment.childCount(); i++) {
+        addComment(comment.children().at(0), newComment);
+    }
+
+    return newComment;
+}
+
 
 void CommentsModel::loadData()
 {
@@ -187,7 +251,7 @@ bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int
 
 bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
 {
-    if (count!=1) { //Don't support more than one row at a time
+    if (count != 1) { //Don't support more than one row at a time
         qDebug() << "Can insert only one comment at a time";
         return false;
     }
@@ -199,7 +263,7 @@ bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
     beginInsertRows(parent, row, row);
     GluonObject *parentNode;
     parentNode = static_cast<GluonObject*>(parent.internalPointer());
-        
+
     GluonObject *newNode = new GluonObject("Comment", parentNode);
     parentNode->addChild(newNode);
     endInsertRows();

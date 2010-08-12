@@ -67,8 +67,15 @@ namespace GluonPlayer
             Attica::ProviderManager m_manager;
             Attica::Provider m_provider;
 
+            void updateData();
             void loadData();
             void saveData();
+
+            GluonCore::GluonObject *addComment(Attica::Comment comment, GluonCore::GluonObject *parent);
+
+        private slots:
+            void providersUpdated();
+            void processFetchedComments(Attica::BaseJob*);
     };
 
 }

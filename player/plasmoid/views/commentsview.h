@@ -52,6 +52,7 @@ class CommentsView : public AbstractItemView
 
     protected slots:
         void showReply();
+        void reloadComments();
 };
 
 #endif // COMMENTSVIEW_H
