@@ -122,6 +122,8 @@ void Graph::addNode(QString name, QString type) {
     }
     if (type=="if") {
         node->setValue(QVariant("true"));
+	node->hideValue(true);
+	node->setValueHeader("Test");
     }
     QMap<QString,QVariant> nodelist;
     if(_listbox->isVisible()){
@@ -155,6 +157,8 @@ void Graph::addNode(QString name, QPointF pos, QString type) {
     }
     if (type=="if") {
         node->setValue(QVariant("true"));
+	node->hideValue(true);
+	node->setValueHeader("Test");
     }
     QMap<QString,QVariant> nodelist;
     if(_listbox->isVisible()){

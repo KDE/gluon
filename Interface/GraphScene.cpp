@@ -29,6 +29,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneWheelEvent>
 #include <QKeyEvent>
+#include <QtGui/QInputDialog>
+#include <QtGui/QLineEdit>
 #include <KDebug>
 #include "node.h"
 #include "graph.h"
@@ -42,6 +44,7 @@ GraphScene::GraphScene(QObject *parent) : QGraphicsScene(parent) {
     _nodePropertiesWidget = new NodePropertiesWidget(0);
     _edgePropertiesWidget = new EdgePropertiesWidget(0);
     _action = 0;
+    _parent = parent;
 }
 
 bool GraphScene::hideEdges() {
@@ -60,6 +63,8 @@ void GraphScene::setHideEdges(bool h) {
 void GraphScene::setActiveGraph(Graph *g) {
     kDebug() << "Active Graph Set";
     _graph = g;
+    disconnect(SIGNAL(forceUpdate()));
+    connect(this, SIGNAL(forceUpdate()),_graph,SIGNAL(forceUpdate()));
 }
 
 QAction* GraphScene::action(){
@@ -188,7 +193,22 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
         movableNode->setWidth(1);
     }
     else if( mouseEvent->button() == Qt::RightButton){
-       /* QGraphicsItem *i = itemAt(mouseEvent->scenePos());
+    QListIterator<QGraphicsItem*>  list(items(mouseEvent->scenePos()));
+    NodeItem *nItem;
+    while (list.hasNext()){
+      QGraphicsItem* item=list.next();
+      if(item->type()==65578) nItem=qgraphicsitem_cast<NodeItem*>(item);
+    }
+	if (nItem && nItem->node()->type()=="if"){
+	    //eew yuck, popup windows!
+	    bool ok;
+	    QString response = QInputDialog::getText(qobject_cast<QWidget*>(_parent), "Change If Test","New If Test:", QLineEdit::Normal,nItem->node()->value().toString(), &ok);
+	    if(ok && !response.isEmpty()){
+	      nItem->node()->setValue(response);
+	      emit forceUpdate();
+	    }
+	}
+	/* QGraphicsItem *i = itemAt(mouseEvent->scenePos());
         if (NodeItem *nItem = qgraphicsitem_cast<NodeItem*>(i)){
             _nodePropertiesWidget->setNode(nItem, mouseEvent->screenPos());
         }

@@ -60,6 +60,8 @@ public slots:
     QGraphicsItem* createEdge( Edge *e);
     void connectGraphSignals(Graph *g);
     void createItems();
+  signals:
+    void forceUpdate();
     
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
@@ -79,6 +81,7 @@ private:
     NodePropertiesWidget *_nodePropertiesWidget;
     EdgePropertiesWidget *_edgePropertiesWidget;
     bool _fade;
+    QObject* _parent;
 };
 
 #endif
