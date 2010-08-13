@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,12 +20,13 @@
 #ifndef GLUONPLAYER_COMMENTSMODEL_H
 #define GLUONPLAYER_COMMENTSMODEL_H
 
-#include <QAbstractItemModel>
-#include <QStringList>
 #include <attica/providermanager.h>
 #include <attica/provider.h>
-
 #include "gluon_player_export.h"
+
+#include <QAbstractItemModel>
+#include <QStringList>
+
 
 namespace Attica
 {

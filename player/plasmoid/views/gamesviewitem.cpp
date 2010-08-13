@@ -97,6 +97,7 @@ void GamesViewItem::playGameActivated()
 
 void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    Q_UNUSED(event);
     emit gameSelected(m_index);
 }
 

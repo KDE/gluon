@@ -20,8 +20,9 @@
 #ifndef GAMEDETAILSOVERLAY_H
 #define GAMEDETAILSOVERLAY_H
 
-#include <QGraphicsWidget>
 #include "overlay.h"
+
+#include <QGraphicsWidget>
 
 namespace GluonPlayer
 {

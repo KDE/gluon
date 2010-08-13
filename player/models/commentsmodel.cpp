@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,14 +18,16 @@
  */
 
 #include "commentsmodel.h"
+#include <core/gluonobject.h>
+#include <core/gdlhandler.h>
+#include <core/gluon_global.h>
+
+#include <attica/comment.h>
+#include <attica/listjob.h>
+
 #include <QDebug>
 #include <QFile>
 #include <QDir>
-#include <core/gluonobject.h>
-#include <attica/comment.h>
-#include <attica/listjob.h>
-#include <core/gdlhandler.h>
-#include <core/gluon_global.h>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -37,8 +39,8 @@ CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
 
-    loadData();
-    updateData();
+    loadData();     //Load comments stored locally
+    updateData();   //Fetch latest comments from the web service
 }
 
 void CommentsModel::updateData()
@@ -56,6 +58,9 @@ void CommentsModel::providersUpdated()
             return;
         }
 
+        //TODO: 128637 is the ID for Invaders, make it work for other games as well
+        //      when we have more games
+
         Attica::ListJob<Attica::Comment>* job = m_provider.requestComments(Attica::Comment::ContentComment,
                                                 "128637", "0", 0, 100);
         connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
@@ -67,10 +72,12 @@ void CommentsModel::providersUpdated()
 
 void CommentsModel::processFetchedComments(Attica::BaseJob* job)
 {
-    qDebug() << "GOT COMMENTS";
+    qDebug() << "Comments Successfully Fetched from the server";
 
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
     if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
+        //No error, try to remove exising comments (if any)
+        //and add new comments
 
         if (rootNode) {
             qDeleteAll(rootNode->children());
@@ -81,7 +88,7 @@ void CommentsModel::processFetchedComments(Attica::BaseJob* job)
             addComment(p, rootNode);
         }
 
-        reset();
+        reset();    //Reset the model to notify views to reload comments
     } else {
         qDebug() << "Could not fetch information";
     }
@@ -148,7 +155,7 @@ void CommentsModel::saveData()
 
 CommentsModel::~CommentsModel()
 {
-    saveData();
+    saveData();     //Save data before exiting
     delete rootNode;
 }
 
@@ -165,6 +172,7 @@ QVariant CommentsModel::data(const QModelIndex& index, int role) const
 
 int CommentsModel::columnCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent);
     return 5;
 }
 

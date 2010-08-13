@@ -24,11 +24,11 @@
 #include "models/commentsmodel.h"
 #include "models/highscoresmodel.h"
 
-#include <QGraphicsLinearLayout>
-
 #include <Plasma/TabBar>
 #include <Plasma/IconWidget>
 #include <KIcon>
+
+#include <QGraphicsLinearLayout>
 
 GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : Overlay(parent, wFlags)

@@ -5,7 +5,7 @@
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- * Copyright (c) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (c) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,12 +35,12 @@
 #include <graphics/camera.h>
 #include <models/gamesmodel.h>
 
+#include <KAction>
+
 #include <QFileDialog>
 #include <QTimer>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsLinearLayout>
-
-#include <KAction>
 
 using namespace GluonPlayer;
 using namespace GluonGraphics;
@@ -164,6 +164,7 @@ void PlasmaApplet::showGames()
 
 void PlasmaApplet::showGameDetails(const QModelIndex& index)
 {
+    //TODO: the game details should be according to the game selected
     m_gameDetailsOverlay = new GameDetailsOverlay(this);
     m_gamesOverlay->hide();
     m_layout->removeItem(m_gamesOverlay);
