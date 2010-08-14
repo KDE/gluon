@@ -26,3 +26,5 @@ install(
     DESTINATION
     ${LIB_INSTALL_DIR}/gluon
 )
+
+message("do not install this but add it to the player and creator")

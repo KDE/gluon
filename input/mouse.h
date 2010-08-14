@@ -46,7 +46,7 @@ namespace GluonInput
             double sensibility()const;
 
       private slots:
-	  void mouseMoved(int axis, int distance);
+		void mouseMoved(int axis, int distance);
 
         private:
             QSharedDataPointer<MousePrivate> d;

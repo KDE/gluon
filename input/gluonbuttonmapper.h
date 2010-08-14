@@ -26,7 +26,7 @@
 #include "gluondevices.h"
 #include "gluon_input_export.h"
 #include "core/singleton.h"
-#include "gluonmacbuttons.h"
+#include "gluonbuttons.h"
 
 namespace GluonInput
 {
@@ -36,19 +36,18 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT GluonButtonMapper :public GluonCore::Singleton<GluonButtonMapper>
     {
-            Q_OBJECT		
-        public:
+            Q_OBJECT
+		public:
+		
             GluonButtonMapper();
 
-            void setButtonMapping(const KeyboardButton button, const QString &name);
-            void removeButtonMapping(const KeyboardButton button, const QString &name);
+            void setButtonMapping( const QString &name);
+            void removeButtonMapping( const QString &name);
             void setAbsAxisMapping(const QString &name, InputDevice * input, int axis);
             void setRelAxisMapping(const QString &name, InputDevice* input, int axis);
-            void removeAbsAxisMapping(const KeyboardButton,const QString name);
-            void removeRelAxisMapping(const ,const QString name);
+            void removeAbsAxisMapping(const QString name);
+            void removeRelAxisMapping(const QString name);
 			
-			QString buttonName(DeviceFlag deviceType , int code);
-			QString axisName(DeviceFlag deviceType, int code);
         private:
             ~GluonButtonMapper();
             QSharedDataPointer<GluonButtonMapperPrivate> d;

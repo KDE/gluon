@@ -64,13 +64,13 @@ set(GluonInput_SRCS_MAC
 	mac/inputthreadprivate.cpp
     mac/detectmac.cpp
 	mac/detectmacprivate.cpp
-	mac/gluonbuttons.cpp
+	mac/gluonhardwarebuttons.cpp
 )
 
 set(GluonInput_HEADERS_MAC
-    mac/detectmac.h
-	mac/inputthread.h
-    mac/gluonbuttons.h
+    #mac/detectmac.h
+	#mac/inputthread.h
+    #mac/gluonhardwarebuttons.h
 	mac/gluondevices.h
 )
 ###############mac source and headers###################
@@ -85,9 +85,9 @@ set(GluonInput_SRCS_LINUX
 )
 
 set(GluonInput_HEADERS_LINUX
-	linux/inputthread.h
-    linux/detectlinux.h
-    linux/gluonbuttons.h
+	#linux/inputthread.h
+    #linux/detectlinux.h
+    #linux/gluonbuttons.h
 	linux/gluondevices.h
 )
 ###############linux source and headers###################
@@ -111,6 +111,7 @@ set(GluonInput_SRCS_COMMON
 	inputbufferprivate.cpp
 	gluonbuttonmapper.cpp
 	gluonbuttonmapperprivate.cpp
+	gluonbuttons.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
@@ -125,6 +126,7 @@ set(GluonInput_HEADERS_COMMON
 	absval.h
 	inputbuffer.h
 	gluonbuttonmapper.h
+	gluonbuttons.h
 )
 ###############common source and headers###################
 

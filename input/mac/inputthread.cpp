@@ -24,6 +24,7 @@
 
 #include "inputthreadprivate.h"
 #include "inputbuffer.h"
+#include "gluonhardwarebuttons.h"
 
 using namespace GluonInput;
 
@@ -239,7 +240,8 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-		 				emit currentThread->relAxisMoved(usage, value);
+						
+		 				emit currentThread->relAxisMoved(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
 					}
 					break;
 				case GluonInput::JoystickDevice:
@@ -248,11 +250,11 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 						if(value == 0)
 							return;
 						
-						currentThread->absAxisMoved(usage, value);
+						emit currentThread->absAxisMoved(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
 					}
 					break;
 				default:
-					currentThread->buttonStateChanged(usage, value);
+					emit currentThread->buttonStateChanged(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
 					break;
 			}
 		}

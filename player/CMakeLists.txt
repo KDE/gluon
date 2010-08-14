@@ -58,8 +58,9 @@ if(NOT APPLE)
 	install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 	install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
 	install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-	#fix this for mac os x also
 endif()
+
+message(fix the highscores and comments for mac os x also)
 
 add_subdirectory(qt)
 

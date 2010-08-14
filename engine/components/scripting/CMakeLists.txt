@@ -41,3 +41,5 @@ if(NOT APPLE AND NOT WIN32)
 		    ${SHARE_INSTALL_DIR}/gluon/templates/scripting
 	)
 endif()
+
+message(fix the scripting component for adding it to the mac build stuff)

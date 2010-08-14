@@ -37,45 +37,4 @@ GluonButtonMapper::~GluonButtonMapper()
 {
 }
 
-
-QString GluonButtonMapper::buttonName(DeviceFlag deviceType, int code)
-{
-	QString value = "";
-	switch (deviceType)
-	{
-		case KeyboardDevice:
-			value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardButton")).valueToKey(code);
-			return value != "" ? value : "Reserved";
-			break;
-		case MouseDevice:
-			value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("MouseButton")).valueToKey(code);
-			return value != "" ? value : "Unknown";
-			break;
-		case JoystickDevice:
-			value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("JoystickButton")).valueToKey(code);
-			return value != "" ? value : "Unknown";
-			break;
-		default:
-			return "Unknown";
-	}
-}
-
-QString GluonButtonMapper::axisName(DeviceFlag deviceType,int code)
-{
-	QString value = "";
-	switch (deviceType)
-	{
-		case MouseDevice:
-			value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
-			return value != "" ? value : "Unknown";
-			break;
-		case JoystickDevice:
-			value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
-			return value != "" ? value : "Unknown";
-			break;
-		default:
-			return "Unknown";
-	}
-}
-
 #include "gluonbuttonmapper.moc"
