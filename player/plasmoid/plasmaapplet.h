@@ -5,7 +5,7 @@
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- * Copyright (c) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (c) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

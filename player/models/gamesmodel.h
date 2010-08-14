@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
 #ifndef GLUONPLAYER_GAMESMODEL_H
 #define GLUONPLAYER_GAMESMODEL_H
 
+#include "gluon_player_export.h"
+
 #include <QAbstractTableModel>
 #include <QDir>
-
-#include "gluon_player_export.h"
 
 namespace GluonPlayer
 {

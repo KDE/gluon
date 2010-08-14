@@ -38,6 +38,7 @@ CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 void CommentsView::setModel(QAbstractItemModel* model)
 {
     AbstractItemView::setModel(model);
+    connect(model, SIGNAL(modelReset()), SLOT(reloadComments()));
 
     m_rootWidget = new QGraphicsWidget(this);
     for (int i = 0; i < m_model->rowCount(); i++) {
@@ -98,8 +99,12 @@ void CommentsView::showReply()
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
 
-    CommentsViewItem *toDelete;
+    reloadComments();
+}
 
+void CommentsView::reloadComments()
+{
+    CommentsViewItem *toDelete;
     //TODO: Make the comments view paged
     while (m_contentLayout->count() > 0) {  //Remove existing comments from GUI
         toDelete = dynamic_cast<CommentsViewItem*>(m_contentLayout->itemAt(0));

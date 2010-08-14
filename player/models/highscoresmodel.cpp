@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -68,6 +68,7 @@ int HighScoresModel::columnCount(const QModelIndex& parent) const
 
 int HighScoresModel::rowCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent);
     return rootNode->children().count();
 }
 
@@ -98,15 +99,19 @@ void HighScoresModel::loadData()
     QString filename = gluonDir.absoluteFilePath("highscores.gdl");
 
     QFile dataFile(filename);
-    if (!dataFile.open(QIODevice::ReadOnly))
+    if (!dataFile.open(QIODevice::ReadOnly)) {
         qDebug() << "Cannot open the high scores file";
+        return;
+    }
 
     QTextStream highScoresReader(&dataFile);
     QString fileContents = highScoresReader.readAll();
     dataFile.close();
 
-    if (fileContents.isEmpty())
+    if (fileContents.isEmpty()) {
         qDebug() << "Something is wrong with the high scores file";
+        return;
+    }
 
     QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
     rootNode = highScores.at(0);
@@ -120,8 +125,10 @@ void HighScoresModel::saveData()
     QString filename = gluonDir.absoluteFilePath("highscores.gdl");
 
     QFile dataFile(filename);
-    if (!dataFile.open(QIODevice::WriteOnly))
+    if (!dataFile.open(QIODevice::WriteOnly)) {
         qDebug() << "Cannot open the high scores file";
+        return;
+    }
 
     QList<const GluonObject*> highScores;
     highScores.append(rootNode);

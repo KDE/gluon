@@ -19,14 +19,15 @@
 
 #include "overlay.h"
 
+#include <Plasma/FrameSvg>
+#include <Plasma/ScrollWidget>
+
 #include <QAbstractItemModel>
 #include <QPainter>
 #include <QGraphicsSceneEvent>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 
-#include <Plasma/FrameSvg>
-#include <Plasma/ScrollWidget>
 
 Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : QGraphicsWidget(parent, wFlags)

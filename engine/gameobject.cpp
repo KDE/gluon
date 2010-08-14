@@ -236,6 +236,25 @@ GameObject::findComponentByType(const QString &typeName) const
     return found;
 }
 
+QList<Component *>
+GameObject::findComponentsByType(const QString &typeName) const
+{
+  QList<Component *> found;
+  const QMetaObject * metaObject;
+  foreach(Component * component, d->components)
+  {
+    metaObject = component->metaObject();
+    if (metaObject)
+    {
+      if (metaObject->className() == typeName)
+      {
+	found.append(component);
+      }
+    }
+  }
+  return found;
+}
+
 Component *
 GameObject::findComponentInChildren(const QString &name) const
 {

@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,14 +18,16 @@
  */
 
 #include "commentsmodel.h"
+#include <core/gluonobject.h>
+#include <core/gdlhandler.h>
+#include <core/gluon_global.h>
+
+#include <attica/comment.h>
+#include <attica/listjob.h>
+
 #include <QDebug>
 #include <QFile>
 #include <QDir>
-#include <core/gluonobject.h>
-#include <attica/person.h>
-#include <attica/itemjob.h>
-#include <core/gdlhandler.h>
-#include <core/gluon_global.h>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -37,8 +39,77 @@ CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
 
-    loadData();
+    loadData();     //Load comments stored locally
+    updateData();   //Fetch latest comments from the web service
 }
+
+void CommentsModel::updateData()
+{
+    connect(&m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()));
+    m_manager.loadDefaultProviders();
+}
+
+void CommentsModel::providersUpdated()
+{
+    if (!m_manager.providers().isEmpty()) {
+        m_provider = m_manager.providerByUrl(QUrl("https://api.opendesktop.org/v1/"));
+        if (!m_provider.isValid()) {
+            qDebug() << "Could not find opendesktop.org provider.";
+            return;
+        }
+
+        //TODO: 128637 is the ID for Invaders, make it work for other games as well
+        //      when we have more games
+
+        Attica::ListJob<Attica::Comment>* job = m_provider.requestComments(Attica::Comment::ContentComment,
+                                                "128637", "0", 0, 100);
+        connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
+        job->start();
+    } else {
+        qDebug() << "No providers found.";
+    }
+}
+
+void CommentsModel::processFetchedComments(Attica::BaseJob* job)
+{
+    qDebug() << "Comments Successfully Fetched from the server";
+
+    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
+    if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
+        //No error, try to remove exising comments (if any)
+        //and add new comments
+
+        if (rootNode) {
+            qDeleteAll(rootNode->children());
+        }
+
+        for (int i = 0; i < commentsJob->itemList().count(); ++i) {
+            Attica::Comment p(commentsJob->itemList().at(i));
+            addComment(p, rootNode);
+        }
+
+        reset();    //Reset the model to notify views to reload comments
+    } else {
+        qDebug() << "Could not fetch information";
+    }
+}
+
+GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* parent)
+{
+    GluonObject *newComment = new GluonObject("Comment", parent);
+    newComment->setProperty("Author", comment.user());
+    newComment->setProperty("Title", comment.subject());
+    newComment->setProperty("Body", comment.text());
+    newComment->setProperty("DateTime", comment.date());
+    newComment->setProperty("Rating", comment.score());
+
+    for (int i = 0; i < comment.childCount(); i++) {
+        addComment(comment.children().at(0), newComment);
+    }
+
+    return newComment;
+}
+
 
 void CommentsModel::loadData()
 {
@@ -84,7 +155,7 @@ void CommentsModel::saveData()
 
 CommentsModel::~CommentsModel()
 {
-    saveData();
+    saveData();     //Save data before exiting
     delete rootNode;
 }
 
@@ -101,6 +172,7 @@ QVariant CommentsModel::data(const QModelIndex& index, int role) const
 
 int CommentsModel::columnCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent);
     return 5;
 }
 
@@ -187,7 +259,7 @@ bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int
 
 bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
 {
-    if (count!=1) { //Don't support more than one row at a time
+    if (count != 1) { //Don't support more than one row at a time
         qDebug() << "Can insert only one comment at a time";
         return false;
     }
@@ -199,7 +271,7 @@ bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
     beginInsertRows(parent, row, row);
     GluonObject *parentNode;
     parentNode = static_cast<GluonObject*>(parent.internalPointer());
-        
+
     GluonObject *newNode = new GluonObject("Comment", parentNode);
     parentNode->addChild(newNode);
     endInsertRows();
