@@ -45,7 +45,11 @@ class MouseInputComponent::MouseInputComponentPrivate
         int lastX;
         int lastY;
         int lastZ;
+        
+        static const int mouseButtonOffset;
 };
+
+const int MouseInputComponent::MouseInputComponentPrivate::mouseButtonOffset = 271;
 
 MouseInputComponent::MouseInputComponent(QObject* parent)
         : Component(parent),
@@ -103,7 +107,7 @@ MouseInputComponent::update(int elapsedMilliseconds)
     if(d->actionStopped)
         d->actionStopped = false;
 
-    if(d->mouse && d->mouse->buttonPressed(d->mouseButton))
+    if(d->mouse && d->mouseButton && d->mouse->buttonPressed(d->mouseButton + d->mouseButtonOffset))
     {
         
         if(!d->actionHeld)
