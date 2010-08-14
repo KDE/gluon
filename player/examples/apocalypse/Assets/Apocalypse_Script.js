@@ -12,7 +12,7 @@ function update(time)
     var x = GameObject.Mouse_Left.xAxis() / Component.mouseSpeed;
     var y = GameObject.Mouse_Left.yAxis() / Component.mouseSpeed;
   
-    GameObject.setPosition(-x, y, 0);
+    GameObject.setPosition(x, y, 0);
     
     if(GameObject.Mouse_Left.isActionHeld())
     {
