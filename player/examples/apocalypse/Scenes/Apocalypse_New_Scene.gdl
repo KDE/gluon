@@ -7,13 +7,13 @@
         enabled bool(true)
         position vector3d(0;0;50)
         scale vector3d(1;1;1)
-        orientation quaternion(0;0;1;0)
+        orientation quaternion(0;0;0;1)
         { GluonEngine::CameraControllerComponent(GluonObject)
             enabled bool(true)
             active bool(true)
             visibleArea size2d(100;100)
             nearPlane float(1)
-            farPlane float(100)
+            farPlane float(99.99)
         }
     }
     { GluonEngine::GameObject(Sprite)
@@ -33,6 +33,14 @@
         { GluonEngine::MouseInputComponent(Mouse_Left)
             enabled bool(true)
             mouseButton int(1)
+        }
+        { GluonEngine::MouseInputComponent(Mouse_Right)
+            enabled bool(true)
+            mouseButton int(2)
+        }
+        { GluonEngine::MouseInputComponent(Mouse_Middle)
+            enabled bool(true)
+            mouseButton int(3)
         }
     }
 }

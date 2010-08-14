@@ -1,5 +1,6 @@
 function initialize()
 {
+    Component.mouseSpeed = Component.mouseSpeed || 10;
 }
 
 function start()
@@ -8,16 +9,22 @@ function start()
 
 function update(time)
 {
-    //GameObject.debug("Mouse X: " + GameObject.Mouse_Left.xAxis());
-    //GameObject.debug("Mouse Y: " + GameObject.Mouse_Left.yAxis());
-    var x = (GameObject.Mouse_Left.xAxis() / 1920) * -150;
-    var y = (GameObject.Mouse_Left.yAxis() / 1200) * 150;
+    var x = GameObject.Mouse_Left.xAxis() / Component.mouseSpeed;
+    var y = GameObject.Mouse_Left.yAxis() / Component.mouseSpeed;
   
-    GameObject.setPosition(x, y, 0);
+    GameObject.setPosition(-x, y, 0);
     
     if(GameObject.Mouse_Left.isActionHeld())
     {
-	GameObject.SpriteRenderer.setColor(255.0, 0.0, 0.0);
+	GameObject.SpriteRenderer.setColor(255, 0, 0);
+    }
+    else if(GameObject.Mouse_Right.isActionHeld())
+    {
+	GameObject.SpriteRenderer.setColor(0, 255, 0);
+    }
+    else if(GameObject.Mouse_Middle.isActionHeld())
+    {
+	GameObject.SpriteRenderer.setColor(0, 0, 255);
     }
     else
     {
