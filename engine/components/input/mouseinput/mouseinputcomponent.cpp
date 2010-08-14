@@ -75,12 +75,6 @@ void MouseInputComponent::initialize()
     if(!d->mouse)
     {
         d->mouse = GluonInput::InputManager::instance()->mouse();
-        DEBUG_BLOCK
-        QList<int> buttons = d->mouse->buttonCapabilities();
-        foreach(int button, buttons)
-        {
-            DEBUG_TEXT2("Button: %1", d->mouse->buttonName(button))
-        }
     }
 }
 
