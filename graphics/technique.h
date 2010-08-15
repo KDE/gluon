@@ -35,6 +35,8 @@ namespace GluonGraphics
      * of MaterialElement items which correspond to single
      * elements of a shader. The technique class bundles
      * these elements and builds a shader out of this tree.
+     *
+     * \ingroup Gluon Graphics
      */
     class GLUON_GRAPHICS_EXPORT Technique : public GluonCore::GluonObject
     {

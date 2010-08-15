@@ -26,121 +26,19 @@
 #define GLUON_GRAPHICS_TEXTURE_H
 
 #include "gluon_graphics_export.h"
+#include <QtCore/QObject>
 
-#ifdef Q_WS_WIN
-#include <windows.h>
-#endif
-#ifndef Q_WS_MAC
-#include <GL/gl.h>
-#else
-#include <OpenGL/gl.h>
-#endif
-
-#include <QtGui/QPixmap>
-#include <QtGui/QImage>
-
-/**
- * \defgroup KGL KGL
- */
-//@{
 namespace GluonGraphics
 {
-    class GLUON_GRAPHICS_EXPORT Texture
+    class GLUON_GRAPHICS_EXPORT Texture : public QObject
     {
         public:
-            Texture();
-            Texture(const QString& fileName);
-            Texture(const QImage &img);
-            Texture(const QPixmap &pix);
-            void setGLTexture(const GLuint& t)
-            {
-                glDeleteTextures(1, &m_texture);
-                m_texture = t;
-            }
-            ~Texture();
-            void bind();
-            void unBind();
-            void load(const QImage &img, int width = 0, int height = 0);
-            void setFilter(GLenum filter);
-            void setWrapMode(GLenum coordinate, GLenum mode);
-            static int maxSize();
-            int size()
-            {
-                return m_dim.width() * m_dim.height();
-            }
-
-            GLuint glId()const
-            {
-                return m_texture;
-            }
-
-            QImage image() const
-            {
-                return m_img;
-            }
-
-            QSizeF dim() const
-            {
-                return m_dim;
-            }
-
-            void setTranslate(const QPointF &t)
-            {
-                m_translate = t;
-            }
-
-            void setRotate(float r)
-            {
-                m_rotate = r;
-            }
-
-            void setScale(const QPointF &s)
-            {
-                m_scale = s;
-            }
-
-            void setScale(float x, float y)
-            {
-                setScale(QPointF(x, y));
-            }
-
-            void translate(const QPointF &t)
-            {
-                m_translate += t;
-            }
-
-            void translate(float x, float y)
-            {
-                translate(QPointF(x, y));
-            }
-
-            void rotate(float r)
-            {
-                m_rotate += r;
-            }
-
-            void scale(const QPointF &s)
-            {
-                m_scale += s;
-            }
-            void scale(int x, int y)
-            {
-                scale(QPointF(x, y));
-            }
-
-            void updateTransform();
-
-        protected:
-            void init();
+            explicit Texture(QObject* parent = 0);
+            
         private:
-            GLuint m_texture;
-            GLenum m_filter;
-            QSizeF m_dim;
-            QImage m_img;
-            QPointF m_translate;
-            float m_rotate;
-            QPointF m_scale;
+            class TexturePrivate;
+            TexturePrivate * const d;
     };
-}//namespace
-//@}
+}
+
 #endif // GLUON_GRAPHICS_TEXTURE_H

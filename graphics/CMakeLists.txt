@@ -29,7 +29,12 @@ ${CMAKE_CURRENT_SOURCE_DIR}
         CACHE PATHS "Includes required for Gluon Graphics"
         )
 
-set(GluonGraphics_SRCS
+set(GluonGraphics_SRCS 
+    #new files
+    material.cpp
+    technique.cpp
+
+#old
 camera.cpp
 glwidget.cpp
 fpscounter.cpp

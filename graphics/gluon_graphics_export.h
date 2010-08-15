@@ -19,8 +19,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUON_GRAPHICS_EXPORT_H
-#define GLUON_GRAPHICS_EXPORT_H
+#ifndef GLUONGRAPHICS_EXPORT_H
+#define GLUONGRAPHICS_EXPORT_H
 
 #include <QtCore/qglobal.h>
 
@@ -36,4 +36,4 @@
 #define GLUON_GRAPHICS_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUON_GRAPHICS_EXPORT
 #endif
 
-#endif // GLUON_GRAPHICS_EXPORT_H
+#endif // GLUONGRAPHICS_EXPORT_H
