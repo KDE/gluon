@@ -37,6 +37,7 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
+        Q_OBJECT
         public:
             Mesh(QObject * parent = 0);
 

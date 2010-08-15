@@ -31,6 +31,7 @@ namespace GluonGraphics
     {
         public:
             Vertex();
+            virtual ~Vertex();
 
         private:
             class VertexPrivate;

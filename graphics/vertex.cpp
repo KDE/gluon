@@ -23,75 +23,16 @@
 #include "vertex.h"
 #include <QtCore/QDebug>
 
-namespace GluonGraphics
+using namespace GluonGraphics;
+
+class Vertex::VertexPrivate
+{
+    public:
+        
+};
+
+Vertex::Vertex()
+    : d(new VertexPrivate)
 {
 
-    Vertex::Vertex()
-    {
-        m_x = 0;
-        m_y = 0;
-        m_z = 0;
-        m_r = 1;
-        m_g = 1;
-        m_b = 1;
-        m_a = 1;
-        m_tx = 0;
-        m_ty = 0;
-    }
-
-    Vertex::Vertex(const QVector2D &p, const QColor &c, const QVector2D &t)
-    {
-        m_x = p.x();
-        m_y = p.y();
-        m_z = 0;
-        m_r = c.redF();
-        m_g = c.greenF();
-        m_b = c.blueF();
-        m_a = c.alphaF();
-        m_tx = t.x();
-        m_ty = t.y();
-    }
-    Vertex::Vertex(const QVector3D &p, const QColor &c, const QVector2D &t)
-    {
-        m_x = p.x();
-        m_y = p.y();
-        m_z = p.z();
-        m_r = c.redF();
-        m_g = c.greenF();
-        m_b = c.blueF();
-        m_a = c.alphaF();
-        m_tx = t.x();
-        m_ty = t.y();
-    }
-    Vertex::Vertex(float x, float y, const QColor &c, const QVector2D &t)
-    {
-        m_x = x;
-        m_y = y;
-        m_z = 0;
-        m_r = c.redF();
-        m_g = c.greenF();
-        m_b = c.blueF();
-        m_a = c.alphaF();
-        m_tx = t.x();
-        m_ty = t.y();
-    }
-    Vertex::Vertex(float x, float y, float z, const QColor &c, const QVector2D &t)
-    {
-        m_x = x;
-        m_y = y;
-        m_z = z;
-        m_r = c.redF();
-        m_g = c.greenF();
-        m_b = c.blueF();
-        m_a = c.alphaF();
-        m_tx = t.x();
-        m_ty = t.y();
-    }
-
-//=========================================
-
-    VertexList::VertexList()
-            : QVector <Vertex>()
-    {
-    }
 }
