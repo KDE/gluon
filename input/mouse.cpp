@@ -72,7 +72,7 @@ void Mouse::mouseMoved(int axis, int distance)
 			break;
 			
 		case GluonButtons::Y_REL:
-			d->position.setY(d->position.y() + distance);
+			d->position.setY(d->position.y() - distance);
 			break;
 		case GluonButtons::HWHEEL:
 			d->hWheelPos = distance;

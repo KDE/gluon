@@ -24,6 +24,8 @@
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/Harmful or Fatal.ogg)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(true)
             autoPlay bool(true)
         }
@@ -78,11 +80,11 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
-            keyCode int(30)
+            keyCode int(105)
         }
         { GluonEngine::KeyboardInputComponent(Key_Right)
             enabled bool(true)
-            keyCode int(32)
+            keyCode int(106)
         }
         { GluonEngine::KeyboardInputComponent(Key_Up)
             enabled bool(true)
@@ -99,6 +101,8 @@
         { GluonEngine::SoundEmitterComponent(FireSound)
             enabled bool(true)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(false)
             autoPlay bool(false)
         }
@@ -110,6 +114,8 @@
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/quiet-explosion.ogg)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(false)
             autoPlay bool(false)
         }
@@ -142,6 +148,8 @@
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/quiet-explosion.ogg)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(false)
             autoPlay bool(false)
         }
@@ -170,6 +178,8 @@
             enabled bool(true)
             sound GluonEngine::Asset(Invaders/laser-pew.ogg)
             radius float(99.99)
+            volume float(1)
+            pitch float(1)
             loop bool(false)
             autoPlay bool(true)
         }
