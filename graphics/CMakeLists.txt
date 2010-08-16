@@ -29,10 +29,12 @@ set(GLUON_GRAPHICS_INCLUDES
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 
-set(GluonGraphics_SRCS 
-    
+set(GluonGraphics_SRCS
+    frustrum.cpp
     material.cpp
+    materialinstance.cpp
     technique.cpp
+    materialelement.cpp
     camera.cpp
     renderwidget.cpp
     vertex.cpp
