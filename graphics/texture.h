@@ -32,8 +32,10 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT Texture : public QObject
     {
+        Q_OBJECT
         public:
             explicit Texture(QObject* parent = 0);
+            virtual ~Texture();
             
         private:
             class TexturePrivate;
