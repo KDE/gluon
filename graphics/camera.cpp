@@ -43,7 +43,7 @@ Camera::Camera()
 
 Camera::~Camera()
 {
-    
+    delete d;
 }
 
 #include "camera.moc"
