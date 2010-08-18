@@ -22,63 +22,6 @@ if(NOT GLUON_BUILD_ALL)
 	endif()
 endif()
 
-<<<<<<< HEAD
-find_package(LibAttica REQUIRED)
-
-include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
-                    ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                    ${ATTICA_INCLUDE_DIRS})
-
-set(libGluonPlayer_SRCS
-    models/highscoresmodel.cpp
-    models/commentsmodel.cpp
-    models/gamesmodel.cpp
-)
-
-qt4_automoc(${libGluonPlayer_SRCS})
-
-add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
-
-set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING}
-    SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB)
-
-target_link_libraries(
-    GluonPlayer
-    ${LIBATTICA_LIBRARIES}
-    ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
-)
-
-set(GLUON_PLAYER_LIBS
-   GluonPlayer
-   ${GLUON_CORE_LIBS}
-   CACHE PATHS "Libraries required for Gluon Player"
-)
-
-if(NOT APPLE)
-
-	install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
-	install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-	install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-endif()
-
-message(fix the highscores and comments for mac os x also)
-
-add_subdirectory(qt)
-
-if(KDE4_FOUND AND WITH_KDE)
-    include_directories(${KDE4_INCLUDES})
-    add_subdirectory(plasmoid)
-else(KDE4_FOUND AND WITH_KDE)
-    if(WITH_KDE)
-        message(WARNING "WITH_KDE is enabled but KDE libraries are not found - not building KDE-dependant Players")
-    endif(WITH_KDE)
-endif(KDE4_FOUND AND WITH_KDE)
-
-if(INSTALL_EXAMPLES AND NOT APPLE)
-    install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-    install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-endif()
-=======
 set(LIBATTICA_MIN_VERSION 0.2.0)
 find_package(LibAttica)
 
@@ -111,9 +54,14 @@ if(LIBATTICA_FOUND)
         ${GLUON_CORE_LIBS}
         CACHE PATHS "Libraries required for Gluon Player"
     )
-    install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
-    install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-    install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
+
+    if(NOT APPLE)
+	install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+	install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
+	install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
+    endif()
+
+   message("fix this for mac")
     
     add_subdirectory(qt)
     
@@ -135,4 +83,3 @@ else(LIBATTICA_FOUND)
     message(WARNING "LibAttica not found or too old a version was found. Not building player.")
     set(BUILD_GLUON_PLAYER OFF) 
 endif(LIBATTICA_FOUND)
->>>>>>> e95d0a5cd085760180278c1e1e114bfb03368269
