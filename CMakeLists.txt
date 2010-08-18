@@ -27,8 +27,6 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
     set(INSTALL_CMAKE_FILES ON)
 endif()
 
-add_definitions(-DEIGEN_DONT_ALIGN -DEIGEN_DONT_VECTORIZE)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 ##### Gluon Libraries #####
@@ -68,7 +66,7 @@ if(BUILD_GLUON_CREATOR)
 endif(BUILD_GLUON_CREATOR)
 
 ##### Gluon Player #####
-# This currently does not require KDE, so we can safely put it down here
+# Does its own check for KDE, as it has parts that rely on KDE and other parts that do not. 
 if(BUILD_GLUON_PLAYER)
     add_subdirectory(player)
 else(BUILD_GLUON_PLAYER)
@@ -98,7 +96,7 @@ if(BUILD_GLUON_ENGINE)
     message(STATUS "    Build other Components (BUILD_OTHER_COMPONENTS): ${BUILD_OTHER_COMPONENTS}")
     message(STATUS "    Build other Assets (BUILD_OTHER_ASSETS): ${BUILD_OTHER_ASSETS}")
 endif()
-message(STATUS "Build Gluon Player Application (BUILD_GLUON_PLAYER): ${BUILD_GLUON_PLAYER}")
+message(STATUS "Build Gluon Player Library and Applications (BUILD_GLUON_PLAYER): ${BUILD_GLUON_PLAYER}")
 message(STATUS "Build Gluon Creator Application (BUILD_GLUON_CREATOR): ${BUILD_GLUON_CREATOR}")
 message(STATUS "")
 message(STATUS "To change any of these options, override them using -D{OPTION_NAME} on the commandline.")
