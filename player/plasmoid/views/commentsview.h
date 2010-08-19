@@ -30,6 +30,7 @@ class CommentsViewItem;
 namespace Plasma
 {
     class ItemBackground;
+    class Frame;
 }
 
 class CommentsView : public AbstractItemView
@@ -48,11 +49,18 @@ class CommentsView : public AbstractItemView
 
     private:
         QGraphicsWidget *m_rootWidget;
-        QGraphicsLinearLayout *m_layout;
+        QGraphicsLinearLayout *m_commentsLayout;
+        Plasma::Frame *m_commentsFrame;
 
     protected slots:
         void showReply();
+        void removeComments();
+        void loadComments();
         void reloadComments();
+        void addNewUserComment(QModelIndex parentIndex, QString title, QString body);
+        void cancelNewComment();
+        void hideComments();
+        void showComments();
 };
 
 #endif // COMMENTSVIEW_H

@@ -28,6 +28,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
+#include <QDebug>
 
 using namespace GluonCore;
 using namespace GluonPlayer;

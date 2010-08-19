@@ -20,19 +20,26 @@
 #include "commentsview.h"
 #include "commentsviewitem.h"
 #include <models/commentsmodel.h>
+#include "newcommentform.h"
 
 #include <Plasma/ItemBackground>
 #include <Plasma/LineEdit>
+#include <Plasma/Frame>
 
 #include <QDebug>
 #include <QTreeView>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
+#include <Plasma/ScrollWidget>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : AbstractItemView(parent, wFlags), m_rootWidget(0)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
+    m_commentsFrame = new Plasma::Frame(this);
+    m_commentsLayout = new QGraphicsLinearLayout(Qt::Vertical, m_commentsFrame);
+    m_commentsFrame->setLayout(m_commentsLayout);
+    m_contentLayout->addItem(m_commentsFrame);
 }
 
 void CommentsView::setModel(QAbstractItemModel* model)
@@ -40,7 +47,7 @@ void CommentsView::setModel(QAbstractItemModel* model)
     AbstractItemView::setModel(model);
     connect(model, SIGNAL(modelReset()), SLOT(reloadComments()));
 
-    m_rootWidget = new QGraphicsWidget(this);
+    m_rootWidget = new QGraphicsWidget(m_commentsFrame);
     for (int i = 0; i < m_model->rowCount(); i++) {
         addComment(m_model->index(i, 0), m_rootWidget, 0);
     }
@@ -55,8 +62,8 @@ CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWi
     item->setAcceptHoverEvents(true);
     item->installEventFilter(this);
     connect(item, SIGNAL(replyClicked()), this, SLOT(showReply()));
-    item->setRowInLayout(m_contentLayout->count());
-    m_contentLayout->addItem(item);
+    item->setRowInLayout(m_commentsLayout->count());
+    m_commentsLayout->addItem(item);
 
     if (m_model->hasChildren(index)) {   //There are one or more children
         for (int i = 0; i < m_model->rowCount(index); i++) {
@@ -79,8 +86,42 @@ bool CommentsView::eventFilter(QObject* obj, QEvent* event)
 
 void CommentsView::showReply()
 {
-    CommentsViewItem *item = qobject_cast<CommentsViewItem*>(sender());
-    QModelIndex parentIndex = item->modelIndex();
+    //hideComments();
+    NewCommentForm *form = new NewCommentForm(this);
+    form->setParentIndex(qobject_cast<CommentsViewItem*>(sender())->modelIndex());
+    m_contentLayout->insertItem(0, form);
+    form->installEventFilter(this);
+    connect(form, SIGNAL(accepted(QModelIndex, QString,QString)),
+            SLOT(addNewUserComment(QModelIndex, QString,QString)));
+    connect(form, SIGNAL(canceled()), SLOT(cancelNewComment()));
+}
+
+void CommentsView::removeComments()
+{
+    CommentsViewItem *toDelete;
+    //TODO: Make the comments view paged
+    while (m_commentsLayout->count() > 0) {  //Remove existing comments from GUI
+        toDelete = dynamic_cast<CommentsViewItem*>(m_commentsLayout->itemAt(0));
+        m_commentsLayout->removeAt(0);
+        toDelete->deleteLater();
+    }
+}
+
+void CommentsView::loadComments()
+{
+    for (int i = 0; i < m_model->rowCount(); i++) { //Reload comments
+        addComment(m_model->index(i, 0), m_rootWidget, 0);
+    }
+}
+
+void CommentsView::reloadComments()
+{
+    removeComments();
+    loadComments();
+}
+
+void CommentsView::addNewUserComment(QModelIndex parentIndex, QString title, QString body)
+{
     int row = m_model->rowCount(parentIndex);
     if (!m_model->insertRow(row, parentIndex)) {
         qDebug() << "Can't insert new comment";
@@ -91,28 +132,30 @@ void CommentsView::showReply()
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::AuthorColumn, parentIndex),
                      "New Author");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::TitleColumn, parentIndex),
-                     "New Title");
+                     title);
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::BodyColumn, parentIndex),
-                     "New Body");
+                     body);
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::DateTimeColumn, parentIndex),
                      "NDateTime");
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
 
     reloadComments();
+    sender()->deleteLater();
 }
 
-void CommentsView::reloadComments()
+void CommentsView::cancelNewComment()
 {
-    CommentsViewItem *toDelete;
-    //TODO: Make the comments view paged
-    while (m_contentLayout->count() > 0) {  //Remove existing comments from GUI
-        toDelete = dynamic_cast<CommentsViewItem*>(m_contentLayout->itemAt(0));
-        m_contentLayout->removeAt(0);
-        toDelete->deleteLater();
-    }
+    sender()->deleteLater();
+    showComments();
+}
 
-    for (int i = 0; i < m_model->rowCount(); i++) { //Reload comments
-        addComment(m_model->index(i, 0), m_rootWidget, 0);
-    }
+void CommentsView::hideComments()
+{
+    m_commentsFrame->hide();
+}
+
+void CommentsView::showComments()
+{
+    m_commentsFrame->show();
 }
