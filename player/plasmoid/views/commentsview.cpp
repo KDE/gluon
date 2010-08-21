@@ -86,11 +86,13 @@ bool CommentsView::eventFilter(QObject* obj, QEvent* event)
 
 void CommentsView::showReply()
 {
-    //hideComments();
+    CommentsViewItem *parentItem = qobject_cast<CommentsViewItem*>(sender());
+
+    hideComments();
     NewCommentForm *form = new NewCommentForm(this);
-    form->setParentIndex(qobject_cast<CommentsViewItem*>(sender())->modelIndex());
-    m_contentLayout->insertItem(0, form);
-    form->installEventFilter(this);
+    m_contentLayout->addItem(form);
+    form->setParentIndex(parentItem->modelIndex());
+
     connect(form, SIGNAL(accepted(QModelIndex, QString,QString)),
             SLOT(addNewUserComment(QModelIndex, QString,QString)));
     connect(form, SIGNAL(canceled()), SLOT(cancelNewComment()));
@@ -140,8 +142,9 @@ void CommentsView::addNewUserComment(QModelIndex parentIndex, QString title, QSt
     m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
                      "5");
 
-    reloadComments();
     sender()->deleteLater();
+    reloadComments();
+    showComments();
 }
 
 void CommentsView::cancelNewComment()
@@ -153,9 +156,11 @@ void CommentsView::cancelNewComment()
 void CommentsView::hideComments()
 {
     m_commentsFrame->hide();
+    m_contentLayout->removeItem(m_commentsFrame);
 }
 
 void CommentsView::showComments()
 {
+    m_contentLayout->addItem(m_commentsFrame);
     m_commentsFrame->show();
 }
