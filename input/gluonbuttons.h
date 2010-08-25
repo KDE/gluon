@@ -12,7 +12,7 @@ class QString;
 
 namespace GluonInput 
 {
-	class GLUON_INPUT_EXPORT GluonButtons :public GluonCore::Singleton<GluonButtons>
+	class GLUON_INPUT_EXPORT GluonButtons : public GluonCore::Singleton<GluonButtons>
 	{
 		Q_OBJECT
 		Q_ENUMS(KeyboardButton)

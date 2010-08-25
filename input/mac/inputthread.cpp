@@ -112,76 +112,11 @@ void InputThread::readInformation()
 	{
 		d->version = -1;
 	}
-
-	d->buttonCapabilities.clear();
-	d->absAxisCapabilities.clear();
-	d->relAxisCapabilities.clear();
-	d->absAxisInfos.clear();
-
-	CFArrayRef elements = IOHIDDeviceCopyMatchingElements(d->device, NULL, kIOHIDOptionsTypeNone);
-
-	if(elements)
-	{
-		for(int i = 0; i < CFArrayGetCount(elements); i++)
-		{
-			IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elements,(CFIndex)i);
-			if(CFGetTypeID(elementRef) == IOHIDElementGetTypeID())
-			{
-				int usagePage = IOHIDElementGetUsagePage( elementRef );
-				int usage = IOHIDElementGetUsage( elementRef );
-
-				if(usagePage == kHIDPage_Button)
-				{
-					d->buttonCapabilities.append(usage);
-				}
-				else if(usagePage == kHIDPage_KeyboardOrKeypad)
-				{
-					if(usage > 3 && usage <= 231 && !d->buttonCapabilities.contains(usage))
-						d->buttonCapabilities.append(usage);
-				}
-				else if (usagePage == kHIDPage_GenericDesktop)
-				{
-					if(usage <= 47 || usage == 60)
-						continue;
-
-					if(IOHIDElementIsRelative(elementRef))
-					{
-						d->relAxisCapabilities.append(usage);
-					}
-					else
-					{
-						d->absAxisCapabilities.append(usage);
-						AbsVal val(0,0,0,0);
-						val.max = (int)IOHIDElementGetLogicalMax(elementRef);
-						val.min = (int)IOHIDElementGetLogicalMin(elementRef);
-						IOHIDValueRef valRef = NULL;
-						IOHIDDeviceGetValue(d->device, elementRef, &valRef);
-						val.value = IOHIDValueGetIntegerValue(valRef);
-						d->absAxisInfos[usage] = val;
-						if(usage == kHIDUsage_GD_X)
-						{
-							d->xAbsUsage = usage;
-						}
-						else if (usage == kHIDUsage_GD_Y)
-						{
-							d->yAbsUsage = usage;
-						}
-						else if(usage == kHIDUsage_GD_Z)
-						{
-							d->zAbsUsage = usage;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	CFRelease(elements);
-
+	
 	int deviceUsage = NULL;
-
+	
 	type = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDPrimaryUsageKey));
-
+	
 	if(type)
 	{
 		CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
@@ -193,7 +128,7 @@ void InputThread::readInformation()
 		CFNumberGetValue((CFNumberRef) type, kCFNumberSInt32Type, &deviceUsage);
 		CFRelease(type);
 	}
-
+	
 	switch (deviceUsage)
 	{
 		case GluonInput::KeyboardDevice:
@@ -212,6 +147,71 @@ void InputThread::readInformation()
 			d->deviceType = GluonInput::UnknownDevice;
 			break;
 	}
+
+	d->buttonCapabilities.clear();
+	d->absAxisCapabilities.clear();
+	d->relAxisCapabilities.clear();
+	d->absAxisInfos.clear();
+
+	CFArrayRef elements = IOHIDDeviceCopyMatchingElements(d->device, NULL, kIOHIDOptionsTypeNone);
+
+	if(elements)
+	{
+		for(int i = 0; i < CFArrayGetCount(elements); i++)
+		{
+			IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elements,(CFIndex)i);
+			if(CFGetTypeID(elementRef) == IOHIDElementGetTypeID())
+			{
+				int usagePage = IOHIDElementGetUsagePage( elementRef );
+				int usage = IOHIDElementGetUsage( elementRef );
+				
+				if(usagePage == kHIDPage_Button)
+				{
+					d->buttonCapabilities.append(GluonHardwareButtons::instance()->hardwareButtonsToGluonButtons(d->deviceType, usage));
+				}
+				else if(usagePage == kHIDPage_KeyboardOrKeypad)
+				{
+					if(usage > 3 && usage <= 231 && !d->buttonCapabilities.contains(usage))
+						d->buttonCapabilities.append(GluonHardwareButtons::instance()->hardwareButtonsToGluonButtons(d->deviceType, usage));
+				}
+				else if (usagePage == kHIDPage_GenericDesktop)
+				{
+					if(usage <= 47 || usage == 60)
+						continue;
+
+					if(IOHIDElementIsRelative(elementRef))
+					{
+						d->relAxisCapabilities.append(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage));
+					}
+					else
+					{
+						d->absAxisCapabilities.append(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage));
+						AbsVal val(0,0,0,0);
+						val.max = (int)IOHIDElementGetLogicalMax(elementRef);
+						val.min = (int)IOHIDElementGetLogicalMin(elementRef);
+						IOHIDValueRef valRef = NULL;
+						IOHIDDeviceGetValue(d->device, elementRef, &valRef);
+						val.value = IOHIDValueGetIntegerValue(valRef);
+						d->absAxisInfos[GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage)] = val;
+						if(usage == kHIDUsage_GD_X)
+						{
+							d->xAbsUsage = GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage);
+						}
+						else if (usage == kHIDUsage_GD_Y)
+						{
+							d->yAbsUsage = GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage);
+						}
+						else if(usage == kHIDUsage_GD_Z)
+						{
+							d->zAbsUsage = GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	CFRelease(elements);
 }
 
 void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef)
@@ -241,7 +241,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 						if(value == 0)
 							return;
 						
-		 				emit currentThread->relAxisMoved(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
+		 				emit currentThread->relAxisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(currentThread->deviceType() ,usage), value);
 					}
 					break;
 				case GluonInput::JoystickDevice:
@@ -250,11 +250,11 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 						if(value == 0)
 							return;
 						
-						emit currentThread->absAxisMoved(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
+						emit currentThread->absAxisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(currentThread->deviceType() ,usage), value);
 					}
 					break;
 				default:
-					emit currentThread->buttonStateChanged(GluonHardwareButtons::instance()->hardwareToGluon(currentThread->deviceType() ,usage), value);
+					emit currentThread->buttonStateChanged(GluonHardwareButtons::instance()->hardwareButtonsToGluonButtons(currentThread->deviceType() ,usage), value);
 					break;
 			}
 		}

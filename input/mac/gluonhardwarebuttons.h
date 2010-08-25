@@ -20,6 +20,7 @@
 #define GLUONHARDWAREBUTTONS_H
 
 #include <QtCore/QObject>
+#include <QtCore/QSharedDataPointer>
 #include <QtCore/QHash>
 
 #include "gluon_input_export.h"
@@ -28,6 +29,8 @@
 
 namespace GluonInput 
 {
+	class GluonHardwareButtonsPrivate;
+	
 	class GLUON_INPUT_EXPORT GluonHardwareButtons :public GluonCore::Singleton<GluonHardwareButtons>
     {
 		Q_OBJECT
@@ -316,15 +319,14 @@ namespace GluonInput
 		
 			GluonHardwareButtons();
 	
-			int hardwareToGluon(DeviceFlag deviceType, int code);
+			int hardwareButtonsToGluonButtons(DeviceFlag deviceType, int code);
+			int hardwareMovementToGluonMovement(DeviceFlag deviceType, int code);
 		
 		private:
+			QHash<int, int> initMapping(const char * enumName);
 			~GluonHardwareButtons();
 		
-			QHash<int, int> keyboardMapping;
-			QHash<int, int> mouseButtonMapping;
-			QHash<int, int> joystickButtonMapping;
-
+			QSharedDataPointer<GluonHardwareButtonsPrivate> d;
 		
     };
 }

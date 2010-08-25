@@ -24,7 +24,6 @@
 
 #include "gluon_input_export.h"
 #include "gluondevices.h"
-#include "gluon_input_export.h"
 #include "core/singleton.h"
 #include "gluonbuttons.h"
 

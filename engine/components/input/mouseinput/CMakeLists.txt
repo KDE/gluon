@@ -20,11 +20,13 @@ endif()
 set_target_properties(gluon_component_mouseinput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
 target_link_libraries(gluon_component_mouseinput GluonEngine ${GLUON_INPUT_LIBS})
 
-install(
-    TARGETS
-    gluon_component_mouseinput
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
+if(NOT APPLE)
+	install(
+		TARGETS
+		gluon_component_mouseinput
+		DESTINATION
+		${LIB_INSTALL_DIR}/gluon
+	)
+endif()
 
 message("do not install this but add it to the player and creator")
