@@ -19,57 +19,27 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef Item_H
-#define Item_H
 
-#include "transform.h"
-#include "mesh.h"
-#include "glpainter.h"
-#include "texture.h"
+#ifndef GLUONGRAPHICS_ITEM_H
+#define GLUONGRAPHICS_ITEM_H
+
 #include "gluon_graphics_export.h"
-#include <QGLShaderProgram>
+
+#include <QtCore/QObject>
+
 namespace GluonGraphics
 {
-    class Engine;
-    class GLUON_GRAPHICS_EXPORT Item : public Transform
+    class GLUON_GRAPHICS_EXPORT Item : public QObject
     {
-
+        Q_OBJECT
         public:
             Item(QObject * parent = 0);
-            explicit Item(Mesh * mesh, QObject* parent = 0);
             ~Item();
 
-            virtual void paintGL();
-            void setColor(const QColor& col);
-            void setAlpha(const float& alpha);
-            void setTexture(Texture * texture);
-            void setTexture(const QPixmap& pix);
-            void setTexture(const QImage& img);
-            void setTexture(const QString& path);
-            void setShader(QGLShaderProgram* program);
-            void removeShader();
-            void setMesh(Mesh * mesh)
-            {
-                m_mesh = mesh;
-            }
-            const QColor& color();
-            const float& alpha();
-            Mesh * mesh()
-            {
-                return m_mesh;
-            }
-        protected:
-            void init();
-            void drawMesh();
-
         private:
-            Mesh * m_mesh;
-            QGLShaderProgram *mProgram;
-
-
-
-
+            class ItemPrivate;
+            ItemPrivate * const d;
     };
 
 }
-#endif // Item_H
+#endif // GLUONGRAPHICS_ITEM_H

@@ -1,6 +1,10 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,38 +21,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "discmesh.h"
-#include <cmath>
-#include <QtGui/QVector3D>
+#ifndef GLUONGRAPHICS_RENDERWIDGET_H
+#define GLUONGRAPHICS_RENDERWIDGET_H
+
+#include "gluon_graphics_export.h"
+
+#include <QtOpenGL/QGLWidget>
+
 namespace GluonGraphics
 {
-    DiscMesh::DiscMesh(QObject * parent)
-            : Mesh(parent)
+    class GLUON_GRAPHICS_EXPORT RenderWidget : public QGLWidget
     {
-    }
-    DiscMesh::DiscMesh(QVector3D position, float radius, int nbPoints, QColor color, QObject* parent)
-            : Mesh(parent)
-    {
+            Q_OBJECT
+        public:
+            explicit RenderWidget(QWidget* parent = 0, const QGLWidget* shareWidget = 0, Qt::WindowFlags f = 0);
 
-        setDisc(position, radius, nbPoints, color);
-    }
+            virtual ~RenderWidget();
 
-    void DiscMesh::setDisc(QVector3D position, float radius, int nbPoints, QColor color)
-    {
-        clear();
-        setGLMode(GL_POLYGON);
-        if (nbPoints < 3)
-        {
-            nbPoints = 3;
-        }
-
-        float step = M_PI * 2 / (float)nbPoints;
-
-        for (float i = 0; i < M_PI*2; i += step)
-        {
-            float x = cos(i) ;
-            float y = sin(i)  ;
-            addVertex(Vertex(x*radius, y*radius, color, QVector2D(x, y)));
-        }
-    }
+        private:
+            class RenderWidgetPrivate;
+            RenderWidgetPrivate * const d;
+    };
 }
+
+
+#endif // GLUON_GRAPHICS_RENDERWIDGET_H

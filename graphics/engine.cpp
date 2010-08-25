@@ -34,114 +34,15 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 class Engine::EnginePrivate
 {
     public:
-        EnginePrivate()
-        {
-            activeCamera = 0;
-        }
-
-        QList<Item*> items;
-        
-        Camera* activeCamera;
 };
 
-Engine::Engine()
+Engine::Engine() : d(new EnginePrivate())
 {
-    d = new EnginePrivate();
 }
 
 Engine::~Engine()
 {
     delete d;
-}
-
-void Engine::addItem(Item* item)
-{
-    d->items.append(item);
-    item->setParent(this);
-}
-
-void Engine::addItems(const QList<Item*> &items)
-{
-    foreach(Item* item, items)
-    {
-        addItem(item);
-    }
-}
-
-bool Engine::removeItem(Item* item)
-{
-    if (item != NULL)
-        return d->items.removeOne(item);
-    else return false;
-}
-
-bool Engine::removeItems(const QList<Item*> &items)
-{
-    bool retVal = true;
-    foreach(Item* item , items)
-    {
-        if (!removeItem(item))
-            retVal = false;
-    }
-    return retVal;
-}
-
-bool Engine::eraseItem(Item* item)
-{
-    if (removeItem(item))
-    {
-        delete item;
-        return true;
-    }
-    else return false;
-}
-
-Item *Engine::itemAt(int id) const
-{
-    return d->items.at(id);
-}
-
-bool Engine::eraseItems(const QList<Item*> &items)
-{
-    bool retVal = true;
-    foreach(Item* item, items)
-    {
-        if (!eraseItem(item))
-            retVal = false;
-    }
-    return retVal;
-}
-
-int Engine::itemsCount() const
-{
-    return d->items.size();
-}
-
-QList<Item*> Engine::items() const
-{
-    return d->items;
-}
-
-Camera* Engine::activeCamera()
-{
-    return d->activeCamera;
-}
-
-void Engine::setActiveCamera(Camera* camera)
-{
-    d->activeCamera = camera;
-
-    emit activeCameraChanged(camera);
-}
-
-void Engine::sortItems()
-{
-    qStableSort(d->items.begin(), d->items.end(), Engine::compareDepth);
-}
-
-bool Engine::compareDepth(const GluonGraphics::Item* left, const GluonGraphics::Item* right)
-{
-    return left->position().z() < right->position().z();
 }
 
 #include "engine.moc"

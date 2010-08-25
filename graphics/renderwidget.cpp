@@ -1,6 +1,10 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,32 +21,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "polygonmesh.h"
-namespace GluonGraphics
+#include "renderwidget.h"
+
+#include <core/debughelper.h>
+
+using namespace GluonGraphics;
+
+class RenderWidget::RenderWidgetPrivate
 {
-    PolygonMesh::PolygonMesh(QObject * parent)
-            : Mesh(parent)
-    {
-        m_polygon = QPolygonF();
-    }
-    PolygonMesh::PolygonMesh(const QPolygonF& polygon, QObject * parent)
-            : Mesh(parent)
-    {
-        setPolygon(polygon);
-    }
-    PolygonMesh::PolygonMesh(const QRectF& rect, QObject * parent)
-            : Mesh(parent)
-    {
-        setPolygon(QPolygonF(rect));
-    }
-    void PolygonMesh::setPolygon(const QPolygonF &polygon)
-    {
-        clear();
-        m_polygon = polygon;
-        foreach(const QPointF &p, m_polygon)
-        {
-            QVector2D textureCoord(p.x(), p.y());
-            addVertex(Vertex(p.x(), p.y(), Qt::white, textureCoord));
-        }
-    }
+    public:
+};
+
+RenderWidget::RenderWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f) :
+        QGLWidget(parent, shareWidget, f),
+        d(new RenderWidgetPrivate)
+{
+    
 }
+
+#include "renderwidget.moc"
