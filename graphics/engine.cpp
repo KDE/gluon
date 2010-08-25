@@ -21,10 +21,11 @@
  */
 
 #include "engine.h"
-#include "camera.h"
 
 #include <QtCore/QDebug>
+#include <QtOpenGL/QGLFramebufferObject>
 
+#include "camera.h"
 #include "item.h"
 
 using namespace GluonGraphics;
@@ -34,14 +35,34 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 class Engine::EnginePrivate
 {
     public:
+        QGLFramebufferObject * fbo;
+        QVector<Item*> items;
 };
+
+void Engine::render()
+{
+    d->fbo->bind();
+
+    QVectorIterator<Item*> itr = d->items;
+    while(itr.hasNext())
+    {
+        itr.next()->render();
+    }
+
+    d->fbo->release();
+
+    //d->fbo->
+    
+}
 
 Engine::Engine() : d(new EnginePrivate())
 {
+    d->fbo = new QGLFramebufferObject();
 }
 
 Engine::~Engine()
 {
+    delete d->fbo;
     delete d;
 }
 

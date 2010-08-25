@@ -38,6 +38,7 @@ namespace GluonGraphics
 
         private:
             class ItemPrivate;
+    void render();
             ItemPrivate * const d;
     };
 

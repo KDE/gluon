@@ -30,6 +30,9 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
+        public Q_SLOTS:
+            void render();
+            
         private:
             friend class GluonCore::Singleton<Engine>;
 
