@@ -51,6 +51,7 @@ class CommentsView : public AbstractItemView
         QGraphicsWidget *m_rootWidget;
         QGraphicsLinearLayout *m_commentsLayout;
         Plasma::Frame *m_commentsFrame;
+        bool m_isOnline;
 
     protected slots:
         void showReply();

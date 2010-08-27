@@ -25,15 +25,15 @@
 #include <Plasma/ItemBackground>
 #include <Plasma/LineEdit>
 #include <Plasma/Frame>
+#include <Plasma/ScrollWidget>
 
-#include <QDebug>
 #include <QTreeView>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
-#include <Plasma/ScrollWidget>
+#include <QDebug>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : AbstractItemView(parent, wFlags), m_rootWidget(0)
+        : AbstractItemView(parent, wFlags), m_rootWidget(0), m_isOnline(false)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
     m_commentsFrame = new Plasma::Frame(this);
@@ -56,6 +56,7 @@ void CommentsView::setModel(QAbstractItemModel* model)
 CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth)
 {
     CommentsViewItem *item = new CommentsViewItem(parent);
+    item->setReplyEnabled(qobject_cast<GluonPlayer::CommentsModel*>(m_model)->isOnline());
     item->setParent(parent);
     item->setDepth(depth);
     item->setModelIndex(index);

@@ -28,14 +28,14 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
-#include <QDebug>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
+CommentsModel::CommentsModel(QObject* parent)
+    : QAbstractItemModel(parent), m_isOnline(false)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
@@ -89,6 +89,7 @@ void CommentsModel::processFetchedComments(Attica::BaseJob* job)
             addComment(p, rootNode);
         }
 
+        m_isOnline = true;
         reset();    //Reset the model to notify views to reload comments
     } else {
         qDebug() << "Could not fetch information";
@@ -101,7 +102,7 @@ GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* par
     newComment->setProperty("Author", comment.user());
     newComment->setProperty("Title", comment.subject());
     newComment->setProperty("Body", comment.text());
-    newComment->setProperty("DateTime", comment.date());
+    newComment->setProperty("DateTime", comment.date().toString());
     newComment->setProperty("Rating", comment.score());
 
     for (int i = 0; i < comment.childCount(); i++) {
@@ -283,6 +284,11 @@ bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
 QString CommentsModel::columnName(const Column col) const
 {
     return m_columnNames.at(col);
+}
+
+bool CommentsModel::isOnline()
+{
+    return m_isOnline;
 }
 
 #include "commentsmodel.moc"

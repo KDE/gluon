@@ -61,12 +61,14 @@ namespace GluonPlayer
             virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
             QString columnName(const Column col) const;
+            bool isOnline();
 
         private:
             GluonCore::GluonObject *rootNode;
             QStringList m_columnNames;
             Attica::ProviderManager m_manager;
             Attica::Provider m_provider;
+            bool m_isOnline;
 
             void updateData();
             void loadData();
