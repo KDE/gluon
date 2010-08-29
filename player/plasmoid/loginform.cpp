@@ -27,7 +27,7 @@
 
 #include <QGraphicsLinearLayout>
 
-LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(parent, wFlags)
 {
     m_usernameEdit = new Plasma::LineEdit(this);
     m_usernameEdit->nativeWidget()->setClickMessage(i18n("Username"));
