@@ -19,6 +19,7 @@
 
 #include "gamesoverlay.h"
 #include "views/gamesview.h"
+#include "loginform.h"
 
 #include <QGraphicsLinearLayout>
 
@@ -31,6 +32,7 @@ GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 {
     m_tabBar = new Plasma::TabBar(this);
     m_gamesView = new GamesView(this);
+    m_loginForm = new LoginForm(this);
 
     connect(m_gamesView, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
     connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
@@ -39,6 +41,8 @@ GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
     Plasma::Label *m_tempLabel = new Plasma::Label(this);
     m_tempLabel->setText(i18n("Coming Soon!"));
     m_tabBar->addTab(KIcon("get-hot-new-stuff"), i18n("Available"), m_tempLabel);
+
+    m_tabBar->addTab(KIcon("network-connect"), i18n("Login"), m_loginForm);
 
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_tabBar);

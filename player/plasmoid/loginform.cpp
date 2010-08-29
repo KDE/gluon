@@ -17,36 +17,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMESOVERLAY_H
-#define GAMESOVERLAY_H
+#include "loginform.h"
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+#include <attica/provider.h>
+#include <Plasma/LineEdit>
+#include <Plasma/PushButton>
+#include <KLineEdit>
+#include <KLocalizedString>     //FIXME: Why is this required?
 
-namespace Plasma
+#include <QGraphicsLinearLayout>
+
+LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(parent, wFlags)
 {
-    class TabBar;
-};
+    m_usernameEdit = new Plasma::LineEdit(this);
+    m_usernameEdit->nativeWidget()->setClickMessage(i18n("Username"));
+    m_passwordEdit = new Plasma::LineEdit(this);
+    m_passwordEdit->nativeWidget()->setClickMessage(i18n("Password"));
+    m_loginButton = new Plasma::PushButton(this);
+    m_loginButton->setIcon(KIcon("network-connect"));
+    m_loginButton->setText(i18n("Login"));
 
-class GamesView;
-class LoginForm;
+    m_contentLayout->addItem(m_usernameEdit);
+    m_contentLayout->addItem(m_passwordEdit);
+    m_contentLayout->addItem(m_loginButton);
 
-class GamesOverlay : public QGraphicsWidget
-{
-        Q_OBJECT
+}
 
-    public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
-
-    private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
-        LoginForm *m_loginForm;
-
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
-};
-
-#endif // GAMESOVERLAY_H
+#include "loginform.moc"
