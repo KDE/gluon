@@ -12,7 +12,6 @@ option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
-option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" ON)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
 if(APPLE)
@@ -25,9 +24,14 @@ set(GLUON_BUILD_ALL TRUE
 )
 
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
+    option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" ON)
 else()
-    set(INSTALL_CMAKE_FILES OFF)
+    option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
+
+set(GLUON_BUILD_ALL TRUE
+    CACHE INTERNAL "Build all of Gluon"
+)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
