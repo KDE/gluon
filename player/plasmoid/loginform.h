@@ -21,6 +21,8 @@
 #define LOGINFORM_H
 
 #include "overlay.h"
+#include <attica/providermanager.h>
+#include <attica/provider.h>
 
 namespace Plasma
 {
@@ -39,10 +41,17 @@ class LoginForm : public Overlay
         Plasma::LineEdit *m_usernameEdit;
         Plasma::LineEdit *m_passwordEdit;
         Plasma::PushButton *m_loginButton;
+        Attica::ProviderManager m_manager;
+        Attica::Provider m_provider;
+
+    protected slots:
+        void doLogin();
+        void processProviders();
 
     signals:
         void loginDone();
-        void loginCanceled();
+        void isBusy(bool busy);
+        void
 };
 
 #endif // LOGINFORM_H

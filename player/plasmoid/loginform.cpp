@@ -26,6 +26,7 @@
 #include <KLocalizedString>     //FIXME: Why is this required?
 
 #include <QGraphicsLinearLayout>
+#include <QDebug>
 
 LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(parent, wFlags)
 {
@@ -33,6 +34,7 @@ LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(pa
     m_usernameEdit->nativeWidget()->setClickMessage(i18n("Username"));
     m_passwordEdit = new Plasma::LineEdit(this);
     m_passwordEdit->nativeWidget()->setClickMessage(i18n("Password"));
+    m_passwordEdit->nativeWidget()->setPasswordMode(true);
     m_loginButton = new Plasma::PushButton(this);
     m_loginButton->setIcon(KIcon("network-connect"));
     m_loginButton->setText(i18n("Login"));
@@ -41,6 +43,34 @@ LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(pa
     m_contentLayout->addItem(m_passwordEdit);
     m_contentLayout->addItem(m_loginButton);
 
+    connect(m_loginButton, SIGNAL(clicked()), SLOT(doLogin()));
+    connect(&m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(processProviders()));
+    m_manager.loadDefaultProviders();
+
+    emit isBusy();
+}
+
+void LoginForm::doLogin()
+{
+    if (m_usernameEdit->text().isEmpty() || m_passwordEdit->text().isEmpty()) {
+        return;
+    }
+}
+
+void LoginForm::processProviders()
+{
+    if (!m_manager.providers().isEmpty()) {
+        m_provider = m_manager.providerByUrl(QUrl("https://api.opendesktop.org/v1/"));
+        if (!m_provider.isValid()) {
+            qDebug() << "Could not find opendesktop.org provider.";
+            return;
+        }
+
+        m_provider.saveCredentials(m_usernameEdit->text(), m_passwordEdit->text());
+        qDebug() << "Done";
+    } else {
+        qDebug() << "No providers found.";
+    }
 }
 
 #include "loginform.moc"
