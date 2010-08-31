@@ -27,6 +27,9 @@
 
 #include "camera.h"
 #include "item.h"
+#include <QCoreApplication>
+#include <QApplication>
+#include "materialinstance.h"
 
 using namespace GluonGraphics;
 
@@ -37,27 +40,36 @@ class Engine::EnginePrivate
     public:
         QGLFramebufferObject * fbo;
         QVector<Item*> items;
+        MaterialInstance * fboShader;
 };
 
-void Engine::render()
+void
+Engine::render()
 {
+    //Bind the framebuffer object so we render to it.
     d->fbo->bind();
 
+    //Walk through all items, rendering them as we go
     QVectorIterator<Item*> itr = d->items;
     while(itr.hasNext())
     {
         itr.next()->render();
     }
 
+    //Unbind the FBO, making us stop rendering to it.
     d->fbo->release();
 
-    //d->fbo->
+    //Render a full screen quad with the FBO data.
     
+    /*d->fboShader->bind();
+    glDrawArrays(GL_TRIANGLES, );
+    d->fboShader->release();*/
 }
 
-Engine::Engine() : d(new EnginePrivate())
+Engine::Engine()
+    : d(new EnginePrivate())
 {
-    d->fbo = new QGLFramebufferObject();
+    d->fbo = new QGLFramebufferObject(2048, 2048);
 }
 
 Engine::~Engine()

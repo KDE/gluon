@@ -40,6 +40,9 @@ namespace GluonGraphics
         Q_OBJECT
         public:
             Mesh(QObject * parent = 0);
+            virtual ~Mesh();
+
+            virtual void renderAt(const QMatrix4x4& transform);
 
         private:
             class MeshPrivate;

@@ -25,14 +25,55 @@
 
 namespace GluonGraphics
 {
+    class Material;
+    
+    /**
+     * \brief Set of values that define the parameters of a Material.
+     *
+     * The MaterialInstance class enables the rendering of a Material.
+     * It defines all the necessary parameters that the material needs
+     * to be rendered correctly. These parameters should be defined as
+     * dynamic properties.
+     */
     class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
     {
         Q_OBJECT
         GLUON_OBJECT(MaterialInstance)
 
         public:
+            /**
+             * Constructor.
+             *
+             * Creates an unassigned MaterialInstance. It is recommended
+             * to use Material::createInstance instead.
+             *
+             * \see Material::createInstance
+             */
             MaterialInstance(QObject* parent = 0);
+
+            /**
+             * Destructor.
+             */
             virtual ~MaterialInstance();
+
+            /**
+             * Bind the MaterialInstance for rendering.
+             *
+             * This will switch the current OpenGL state to use the
+             * shader from the Material and set the appropriate
+             * parameters on this shader.
+             */
+            virtual void bind();
+
+            /**
+             * Release the MaterialInstance from rendering.
+             */
+            virtual void release();
+
+            /**
+             * \return The material this MaterialInstance is an instance of.
+             */
+            Material * instanceOf();
 
         private:
             class MaterialInstancePrivate;

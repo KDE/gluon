@@ -24,6 +24,7 @@ using namespace GluonGraphics;
 class MaterialInstance::MaterialInstancePrivate
 {
     public:
+        Material * material;
 };
 
 MaterialInstance::MaterialInstance(QObject* parent)
@@ -38,4 +39,22 @@ MaterialInstance::~MaterialInstance()
     delete d;
 }
 
-#include "materialelement.moc"
+void
+MaterialInstance::bind()
+{
+    
+}
+
+void
+MaterialInstance::release()
+{
+
+}
+
+Material*
+MaterialInstance::instanceOf()
+{
+    return d->material;
+}
+
+#include "materialinstance.moc"

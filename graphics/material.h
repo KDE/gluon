@@ -25,6 +25,7 @@
 
 namespace GluonGraphics
 {
+    class MaterialInstance;
     class Technique;
 
     /**
@@ -37,9 +38,9 @@ namespace GluonGraphics
     * Materials cannot be directly rendered. Instead, you will need a
     * MaterialInstance of the Material to render it. This is because
     * the Material class is more like a code-generation tool. It
-    * generates shader code at runtime, which the material instance
-    * uses to create a shader program from and set all the needed
-    * parameters for.
+    * generates shader code at runtime and compiles it into an OpenGL
+    * shader. The MaterialInstance then defines the values for the
+    * shader's uniform and attribute values.
     *
     * MaterialInstances also control which technique is used to render
     * the material. In addition, each material has a default technqiue
@@ -67,17 +68,17 @@ namespace GluonGraphics
             /**
              * Build the shader.
              *
-             * This builds the shader code for this material.
+             * This processes the selected technique and generates
+             * the shader code. Once done, it then compiles the
+             * generated GLSL shader. If the shader compiles
+             * correctly, the appropriate parameters will be retrieved
+             * and can then be set.
              *
              * \param technique The name of the technique to use
-             * for the build process.
-             *
-             * \return A QString-QString hash containing shader
-             * code identified by the phase they are meant for.
-             * E.g.: "vertex" for vertex shaders and "fragment" for
-             * fragment shaders.
+             * for the build process. Passing an empty string means
+             * it will use the default technique.
              */
-            QHash<QString, QString> build(const QString& name);
+            void build(const QString& name = QString());
 
             /**
              * Retrieve a technique by name.
@@ -85,20 +86,10 @@ namespace GluonGraphics
              * \param name The name of the technique to retrieve.
              *
              * \return The technique with the name "name" or
-             * 0 if it was not found.
+             * 0 if it was not found. Passing an empty string
+             * will return the default technique.
              */
-            Technique* technique(const QString& name) const;
-
-            /**
-             * Retrieve the default technique.
-             *
-             * The default technique is the technique the
-             * material will use when no active technique
-             * has been set.
-             *
-             * \return The default technique.
-             */
-            Technique* defaultTechnique() const;
+            Technique* technique(const QString& name = QString()) const;
 
             /**
              * Add a technique to the material.
@@ -129,6 +120,19 @@ namespace GluonGraphics
              * \see defaultTechnique
              */
             void setDefaultTechnique(const QString& name);
+
+            /**
+             * Create a MaterialInstance object for this material.
+             *
+             * This will create a MaterialInstance object with all
+             * the parameters of this material set as properties on
+             * the object.
+             *
+             * \return The MaterialInstance object just created.
+             *
+             * \see MaterialInstance
+             */
+            MaterialInstance * createInstance();
 
         private:
             class MaterialPrivate;

@@ -34,11 +34,12 @@ namespace GluonGraphics
         Q_OBJECT
         public:
             Item(QObject * parent = 0);
-            ~Item();
+            virtual ~Item();
+
+            virtual void render();
 
         private:
             class ItemPrivate;
-    void render();
             ItemPrivate * const d;
     };
 

@@ -22,14 +22,17 @@
 
 #include "item.h"
 
+#include <QtGui/QMatrix4x4>
 #include <core/debughelper.h>
+#include "mesh.h"
 
 using namespace GluonGraphics;
 
 class Item::ItemPrivate
 {
     public:
-        
+        Mesh * mesh;
+        QMatrix4x4 transform;
 };
 
 Item::Item(QObject * parent)
@@ -37,4 +40,15 @@ Item::Item(QObject * parent)
           d(new ItemPrivate)
 {
     
+}
+
+Item::~Item()
+{
+    delete d;
+}
+
+void
+Item::render()
+{
+    d->mesh->renderAt(d->transform);
 }

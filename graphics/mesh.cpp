@@ -21,12 +21,14 @@
  */
 
 #include "mesh.h"
+#include "materialinstance.h"
 
 using namespace GluonGraphics;
 
 class Mesh::MeshPrivate
 {
     public:
+        MaterialInstance * material;
 };
 
 Mesh::Mesh(QObject * parent)
@@ -34,5 +36,18 @@ Mesh::Mesh(QObject * parent)
       d(new MeshPrivate)
 {
 }
+
+Mesh::~Mesh()
+{
+    delete d;
+}
+
+void Mesh::renderAt(const QMatrix4x4& transform)
+{
+    d->material->bind();
+    //glDrawArray(GL_TRIANGLES, );
+    d->material->release();
+}
+
 
 #include "mesh.moc"
