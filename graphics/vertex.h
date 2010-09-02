@@ -25,14 +25,27 @@
 
 #include "gluon_graphics_export.h"
 
+class QString;
+class QVariant;
+
 namespace GluonGraphics
 {
+    /**
+     * \brief
+     *
+     */
     class GLUON_GRAPHICS_EXPORT Vertex
     {
         public:
+            
             Vertex();
             virtual ~Vertex();
 
+            QVariant attribute(const QString& name) const;
+
+            void setAttribute(const QString& name, const QVariant& value);
+            
+            
         private:
             class VertexPrivate;
             VertexPrivate * const d;
