@@ -30,7 +30,8 @@ set(GLUON_GRAPHICS_INCLUDES
 )
 
 set(GluonGraphics_SRCS
-    frustrum.cpp
+    math.cpp
+    frustum.cpp
     material.cpp
     materialinstance.cpp
     technique.cpp
@@ -53,6 +54,8 @@ set(GluonGraphics_HEADERS
     item.h
     engine.h
     mesh.h
+    math.h
+    frustum.h
 )
 
 qt4_automoc(${GluonGraphics_SRCS})
@@ -68,9 +71,9 @@ set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} S
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework
 	list(APPEND GluonGraphics_HEADERS
-		${GluonGraphics_HEADERS} 
+		${GluonGraphics_HEADERS}
 	)
-	
+
 	set_target_properties(GluonGraphics PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonGraphics PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonGraphics PROPERTIES PUBLIC_HEADER "${GluonGraphics_HEADERS}")
@@ -80,7 +83,7 @@ if(APPLE)
       #COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders
       #COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonGraphics.framework/Headers/shaders/
 	#)
-	
+
 	set(MACOSX_FRAMEWORK_IDENTIFIER graphics)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
