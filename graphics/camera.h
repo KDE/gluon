@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,16 +28,33 @@
 
 #include "gluon_graphics_export.h"
 
+class QMatrix4x4;
 namespace GluonGraphics
 {
+    class Frustum;
 
+    /**
+     * \brief A view point and volume.
+     *
+     * The camera class describes a view point and view
+     * volume (a.k.a. frustrum). These are used to determine
+     * what to render and where to render it.
+     */
     class GLUON_GRAPHICS_EXPORT Camera : public QObject
     {
         Q_OBJECT
 
         public:
-            Camera();
+            explicit Camera( QObject* parent = 0 );
+            explicit Camera( Frustum* frustum, QObject* parent = 0 );
             virtual ~Camera();
+
+            QMatrix4x4 viewMatrix();
+            Frustum* frustum();
+
+        public Q_SLOTS:
+            void setViewMatrix(const QMatrix4x4& matrix);
+            void setFrustrum( Frustum* frustum);
 
         private:
             class CameraPrivate;

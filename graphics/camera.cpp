@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -27,23 +27,59 @@
 #include <glew.h>
 
 #include <core/debughelper.h>
+#include "frustum.h"
 
 using namespace GluonGraphics;
 
 class Camera::CameraPrivate
 {
     public:
+        Frustum* frustum;
+        QMatrix4x4 viewMatrix;
 };
 
-Camera::Camera()
-    : d(new CameraPrivate)
+Camera::Camera( QObject* parent )
+    : QObject( parent ),
+      d(new CameraPrivate)
 {
-    
+    d->frustum = new Frustum;
+}
+
+Camera::Camera( Frustum* frustum, QObject* parent )
+    : QObject( parent ),
+      d(new CameraPrivate)
+{
+    d->frustum = frustum;
 }
 
 Camera::~Camera()
 {
     delete d;
 }
+
+Frustum*
+Camera::frustum()
+{
+    return d->frustum;
+}
+
+QMatrix4x4
+Camera::viewMatrix()
+{
+    return d->viewMatrix;
+}
+
+void
+Camera::setFrustrum( Frustum * frustum )
+{
+    d->frustum = frustum;
+}
+
+void
+Camera::setViewMatrix( const QMatrix4x4& matrix )
+{
+    d->viewMatrix = matrix;
+}
+
 
 #include "camera.moc"
