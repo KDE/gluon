@@ -9,12 +9,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -23,8 +23,14 @@
 #include "item.h"
 
 #include <QtGui/QMatrix4x4>
+
 #include <core/debughelper.h>
+
 #include "mesh.h"
+#include "camera.h"
+#include "frustum.h"
+#include "engine.h"
+#include "math.h"
 
 using namespace GluonGraphics;
 
@@ -39,7 +45,7 @@ Item::Item(QObject * parent)
         : QObject(parent),
           d(new ItemPrivate)
 {
-    
+
 }
 
 Item::~Item()
@@ -47,8 +53,43 @@ Item::~Item()
     delete d;
 }
 
+Mesh*
+Item::mesh()
+{
+    return d->mesh;
+}
+
+QMatrix4x4
+Item::transform()
+{
+    return d->transform;
+}
+
+
 void
 Item::render()
 {
-    d->mesh->renderAt(d->transform);
+    Camera* activeCam = Engine::instance()->activeCamera();
+
+    #ifdef __GNUC__
+    #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
+    #endif
+
+    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(activeCam->frustum()->projectionMatrix(), activeCam->viewMatrix(), d->transform);
+
+    d->mesh->render(modelViewProj);
 }
+
+void
+Item::setTransform( const QMatrix4x4 transform )
+{
+    d->transform = transform;
+}
+
+void
+Item::setMesh( Mesh* mesh )
+{
+    d->mesh = mesh;
+}
+
+#include "item.moc"
