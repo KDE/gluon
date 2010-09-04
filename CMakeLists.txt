@@ -155,4 +155,21 @@ if(INSTALL_CMAKE_FILES)
         ${CMAKE_ROOT}/Modules
         OPTIONAL
     )
+else()
+    install(
+        FILES
+        core/cmake/FindGluon.cmake
+        core/cmake/FindGluonCore.cmake
+        audio/cmake/FindGluonAudio.cmake
+        audio/cmake/FindOggVorbis.cmake
+        audio/cmake/FindSndFile.cmake
+        graphics/cmake/FindGluonGraphics.cmake
+        graphics/cmake/FindGLEW.cmake
+        input/cmake/FindGluonInput.cmake
+        engine/cmake/FindGluonEngine.cmake
+        creator/lib/cmake/FindGluonCreator.cmake
+        DESTINATION
+        ${SHARE_INSTALL_DIR}/gluon/cmake
+        OPTIONAL
+    )
 endif()
