@@ -20,20 +20,94 @@
 #ifndef GLUONGRAPHICS_FRUSTUM_H
 #define GLUONGRAPHICS_FRUSTUM_H
 
-#include <QObject>
+#include "gluon_graphics_export.h"
 
+class QMatrix4x4;
+class QVector3D;
+class QRectF;
 
 namespace GluonGraphics
 {
-    class Frustrum : public QObject
+    /**
+     * \brief Describes a geometrical frustum for projection calculations.
+     *
+     * A frustum is essentially a pyramid with the top removed. It is
+     * used for projection calculations and a technqiue called frustum
+     * culling.
+     *
+     * \todo Expand this description and its use.
+     */
+    class GLUON_GRAPHICS_EXPORT Frustum
     {
         public:
-            explicit Frustrum(QObject* parent = 0);
-            virtual ~Frustrum();
+            /**
+             * Constructor.
+             *
+             * Creates an identity frustrum.
+             */
+            Frustum();
+
+            /**
+             * Destructor.
+             */
+            virtual ~Frustum();
+
+            Frustum(const Frustum& other);
+
+            Frustum& operator=(const Frustum& other);
+
+            /**
+             * Retrieve the projection matrix.
+             *
+             * \return The projection matrix of this frustum.
+             */
+            QMatrix4x4 projectionMatrix();
+
+            /**
+             * Check whether a point falls within the frustum.
+             *
+             * \param point The point to check whether it is inside the
+             * frustrum.
+             *
+             * \return True if the point is inside, false if outside.
+             */
+            bool containsPoint(const QVector3D& point);
+
+            /**
+             * Check whether a sphere falls within the frustum.
+             *
+             * \param point The centre point of the sphere that needs to be
+             * checked.
+             * \param radius The radius of the sphere to check.
+             *
+             * \return True if the sphere is inside or intersects the
+             * frustrum. False if not.
+             */
+            bool containsSphere(const QVector3D& point, float radius);
+
+            /**
+             * Set this frustum to use an orthographic projection.
+             *
+             * \param view Rectangle containing the position and dimensions
+             * of the near (view) plane.
+             * \param near The distance to the near plane.
+             * \param far The distance to the far plane. Should be > near .
+             */
+            void setOrthographic(const QRectF& view, float near, float far);
+
+            /**
+             * Set this frustum to use a perspective projection.
+             *
+             * \param fov The field of view, in radians.
+             * \param aspect Aspect ratio of the frustrum.
+             * \param near Distance to the near plane.
+             * \param far Distance to the far plane.
+             */
+            void setPerspective( float fov, float aspect, float near, float far);
 
         private:
-            class FrustrumPrivate;
-            FrustrumPrivate * const d;
+            class FrustumPrivate;
+            FrustumPrivate * const d;
     };
 
 }

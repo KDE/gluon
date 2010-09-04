@@ -17,23 +17,76 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "frustrum.h"
+#include "frustum.h"
+
+#include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 
-class Frustrum::FrustrumPrivate
+class Frustum::FrustumPrivate
 {
     public:
+        FrustumPrivate() { }
+        FrustumPrivate( const FrustumPrivate& other )
+            : matrix(other.matrix)
+        {
+
+        }
+
+        QMatrix4x4 matrix;
 };
 
-Frustrum::Frustrum(QObject* parent)
-    : QObject(parent),
-      d(new FrustrumPrivate)
+Frustum::Frustum()
+    : d(new FrustumPrivate)
 {
 
 }
 
-Frustrum::~Frustrum()
+Frustum::Frustum( const GluonGraphics::Frustum& other )
+    : d(other.d)
+{
+
+}
+
+Frustum& Frustum::operator=( const GluonGraphics::Frustum & other )
+{
+    d->matrix = other.d->matrix;
+
+    return *this;
+}
+
+
+Frustum::~Frustum()
 {
     delete d;
+}
+
+QMatrix4x4
+Frustum::projectionMatrix()
+{
+    return d->matrix;
+}
+
+bool
+Frustum::containsPoint( const QVector3D& point )
+{
+
+}
+
+bool
+Frustum::containsSphere( const QVector3D& point, float radius )
+{
+
+}
+
+void
+Frustum::setOrthographic( const QRectF& view, float near, float far )
+{
+    d->matrix.ortho(view.left(), view.right(), view.bottom(), view.top(), near, far);
+}
+
+void
+Frustum::setPerspective( float fov, float aspect, float near, float far )
+{
+    d->matrix.perspective(fov, aspect, near, far);
 }
