@@ -9,12 +9,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -22,6 +22,9 @@
 
 #include "mesh.h"
 #include "materialinstance.h"
+
+#include <QtGui/QMatrix4x4>
+#include "math.h"
 
 using namespace GluonGraphics;
 
@@ -42,11 +45,21 @@ Mesh::~Mesh()
     delete d;
 }
 
-void Mesh::renderAt(const QMatrix4x4& transform)
+void Mesh::render( const QMatrix4x4& modelViewProj )
 {
-    d->material->bind();
+    //d->material->bind();
     //glDrawArray(GL_TRIANGLES, );
-    d->material->release();
+    //d->material->release();
+
+    float glMatrix[16];
+    Math::qmatrixToGLMatrix(modelViewProj, glMatrix);
+
+    glPushMatrix();
+    glLoadMatrixf(glMatrix);
+
+    glBegin(GL_POINTS);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+    glEnd();
 }
 
 
