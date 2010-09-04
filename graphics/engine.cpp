@@ -9,12 +9,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -22,14 +22,14 @@
 
 #include "engine.h"
 
-#include <QtCore/QDebug>
+#include <QtCore/QMutex>
 #include <QtOpenGL/QGLFramebufferObject>
 
 #include "camera.h"
 #include "item.h"
-#include <QCoreApplication>
-#include <QApplication>
+#include "material.h"
 #include "materialinstance.h"
+#include "mesh.h"
 
 using namespace GluonGraphics;
 
@@ -38,38 +38,135 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 class Engine::EnginePrivate
 {
     public:
+        EnginePrivate() : fbo(0), fboShader(0), camera(0) { }
+
+        template <typename T>
+        T* createObject( const QString& type, const QString& name, bool lock = true);
+
         QGLFramebufferObject * fbo;
-        QVector<Item*> items;
         MaterialInstance * fboShader;
+
+        Camera* camera;
+
+        QVector<Item*> items;
+        QHash<QString, QObject*> objects;
+
+        QMutex mutex;
+
 };
+
+template <typename T>
+T*
+Engine::EnginePrivate::createObject( const QString& type, const QString& name, bool lock )
+{
+    T * newObject;
+    QString typeName = QString("%1/%2").arg(type, name);
+    if(lock)
+        mutex.lock();
+
+    if(!objects.contains(typeName))
+    {
+        newObject = new T;
+        objects.insert(typeName, newObject);
+    }
+    else
+    {
+        newObject = qobject_cast<T*>(objects.value(typeName));
+    }
+
+    if(lock)
+        mutex.unlock();
+
+    return newObject;
+}
+
+
+Item*
+Engine::createItem( const QString& mesh)
+{
+    d->mutex.lock();
+
+    Item * newItem = new Item(this);
+    newItem->setMesh(d->createObject<Mesh>("Mesh", mesh, false));
+    d->items << newItem;
+
+    d->mutex.unlock();
+    return newItem;
+}
+
+Material*
+Engine::createMaterial(const QString &name)
+{
+    Material * newMaterial = d->createObject<Material>("Material", name);
+    newMaterial->setName(name);
+    return newMaterial;
+}
+
+Mesh*
+Engine::createMesh(const QString& name)
+{
+    return d->createObject<Mesh>("Mesh", name);
+}
+
+Texture*
+Engine::createTexture(const QString& name)
+{
+    return d->createObject<Texture>("Texture", name);
+}
+
+Camera* Engine::activeCamera()
+{
+    return d->camera;
+}
 
 void
 Engine::render()
 {
+    d->mutex.lock();
+
     //Bind the framebuffer object so we render to it.
-    d->fbo->bind();
+    //d->fbo->bind();
 
     //Walk through all items, rendering them as we go
-    QVectorIterator<Item*> itr = d->items;
-    while(itr.hasNext())
+    const int size = d->items.size();
+    for(int i = 0; i < size; ++i)
     {
-        itr.next()->render();
+        d->items.at(i)->render();
     }
 
     //Unbind the FBO, making us stop rendering to it.
-    d->fbo->release();
+    //d->fbo->release();
 
     //Render a full screen quad with the FBO data.
-    
-    /*d->fboShader->bind();
-    glDrawArrays(GL_TRIANGLES, );
-    d->fboShader->release();*/
+    //d->fboShader->bind();
+    //glDrawArrays(GL_TRIANGLES, );
+    //d->fboShader->release();
+
+    d->mutex.unlock();
+}
+
+void
+Engine::setFramebufferSize( int width, int height )
+{
+    d->mutex.lock();
+
+    delete d->fbo;
+    d->fbo = new QGLFramebufferObject(width, height, QGLFramebufferObject::Depth);
+
+    d->mutex.unlock();
+}
+
+void Engine::setActiveCamera( Camera* camera )
+{
+    d->mutex.lock();
+    d->camera = camera;
+    d->mutex.unlock();
+    emit activeCameraChanged(camera);
 }
 
 Engine::Engine()
     : d(new EnginePrivate())
 {
-    d->fbo = new QGLFramebufferObject(2048, 2048);
 }
 
 Engine::~Engine()
