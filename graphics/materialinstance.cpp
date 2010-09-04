@@ -19,6 +19,8 @@
 
 #include "materialinstance.h"
 
+REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)
+
 using namespace GluonGraphics;
 
 class MaterialInstance::MaterialInstancePrivate
@@ -42,7 +44,7 @@ MaterialInstance::~MaterialInstance()
 void
 MaterialInstance::bind()
 {
-    
+
 }
 
 void

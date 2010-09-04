@@ -26,7 +26,7 @@
 namespace GluonGraphics
 {
     class Material;
-    
+
     /**
      * \brief Set of values that define the parameters of a Material.
      *
@@ -81,5 +81,8 @@ namespace GluonGraphics
     };
 
 }
+
+Q_DECLARE_METATYPE(GluonGraphics::MaterialInstance);
+Q_DECLARE_METATYPE(GluonGraphics::MaterialInstance*);
 
 #endif // GLUONGRAPHICS_MATERIALINSTANCE_H

@@ -18,6 +18,7 @@
  */
 
 #include "material.h"
+#include "technique.h"
 
 REGISTER_OBJECTTYPE(GluonGraphics, Material)
 
@@ -26,7 +27,7 @@ using namespace GluonGraphics;
 class Material::MaterialPrivate
 {
     public:
-        
+        QHash<QString, Technique*> techniques;
 };
 
 Material::Material(QObject* parent)
@@ -41,27 +42,26 @@ Material::~Material()
     delete d;
 }
 
-Technique* Material::technique(const QString& name) const
+Technique*
+Material::technique(const QString& name) const
 {
 
 }
 
-Technique* Material::defaultTechnique() const
+void
+Material::addTechnique(Technique* technique)
 {
 
 }
 
-void Material::addTechnique(Technique* technique)
+void
+Material::removeTechnique(const QString& name)
 {
 
 }
 
-void Material::removeTechnique(const QString& name)
-{
-
-}
-
-void Material::setDefaultTechnique(const QString& name)
+void
+Material::setDefaultTechnique(const QString& name)
 {
 
 }
