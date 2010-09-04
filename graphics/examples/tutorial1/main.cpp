@@ -9,47 +9,47 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 #include <QApplication>
-#include <gluon/graphics/glwidget.h>
+#include <QtGui/QMatrix4x4>
+
+#include <gluon/graphics/renderwidget.h>
 #include <gluon/graphics/engine.h>
 #include <gluon/graphics/camera.h>
 #include <gluon/graphics/item.h>
-#include <gluon/graphics/meshes/polygonmesh.h>
+#include <gluon/graphics/frustum.h>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //Create an Engine. This class contains all items that will be shown in the view.
-    // to add item, call : addItem(KGLItem *) or addItems(KGLItemList *)
-//    GluonGraphics::Engine * engine = new GluonGraphics::Engine;
 
-    //this is the view widget . It's a QGLWidget child. Call KGLView::setEngine(KGLEngine *) to attach the engine to the view.
-    // YOu can set the engine directly from the constructor
-    GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
+    //Create a widget to render the graphics on.
+    GluonGraphics::RenderWidget * widget = new GluonGraphics::RenderWidget();
 
+    //Create a camera to view the scene from.
     GluonGraphics::Camera* cam = new GluonGraphics::Camera();
+
+    //Temporary hack, to be removed.
+    cam->frustum()->setOrthographic(QRectF(-5, 5, 10, 10), -5.f, 5.f);
+
+    //Activate the new camera
     GluonGraphics::Engine::instance()->setActiveCamera(cam);
 
-    GluonGraphics::PolygonMesh * mesh = new GluonGraphics::PolygonMesh(QRectF(0, 0, 5, 5));
-    GluonGraphics::Item * item = new GluonGraphics::Item(mesh);
+    //Create an item to display
+    GluonGraphics::Item * item = GluonGraphics::Engine::instance()->createItem("default");
 
-
-    item->setRotation(45);
-    item->setColor(Qt::green);
-    item->updateTransform();
-
-    view->show();
+    //Show us the widget
+    widget->show();
 
     return app.exec();
 
