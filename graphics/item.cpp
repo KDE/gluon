@@ -45,7 +45,6 @@ Item::Item(QObject * parent)
         : QObject(parent),
           d(new ItemPrivate)
 {
-
 }
 
 Item::~Item()
@@ -75,7 +74,7 @@ Item::render()
     #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
     #endif
 
-    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(activeCam->frustum()->projectionMatrix(), activeCam->viewMatrix(), d->transform);
+    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustum()->projectionMatrix());
 
     d->mesh->render(modelViewProj);
 }
