@@ -25,16 +25,12 @@
 
 #include "gluon_graphics_export.h"
 
-#include <QObject>
-#include <QVector>
-#include <QVector3D>
-#include <QPolygonF>
-#include <QGLWidget>
-#include "vertex.h"
-#include "texture.h"
+#include <QtCore/QObject>
 
+class QMatrix4x4;
 namespace GluonGraphics
 {
+    class MaterialInstance;
     /**
      * \brief A collection of vertices that combine to an object.
      *
@@ -49,12 +45,21 @@ namespace GluonGraphics
             virtual ~Mesh();
 
             /**
+             * Load the data for this mesh.
+             *
+             * \param filename The name of the file to load.
+             */
+            virtual void load(const QString& filename);
+
+            /**
              * Render this mesh to the screen.
              *
              * \param modelViewProj The model-view-projection matrix
              * to use when rendering this mesh.
              */
             virtual void render(const QMatrix4x4& modelViewProj);
+
+            void setMaterial(MaterialInstance * material);
 
         private:
             class MeshPrivate;
