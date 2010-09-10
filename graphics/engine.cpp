@@ -30,6 +30,7 @@
 #include "material.h"
 #include "materialinstance.h"
 #include "mesh.h"
+#include "texture.h"
 
 using namespace GluonGraphics;
 
@@ -92,6 +93,17 @@ Engine::createItem( const QString& mesh)
 
     d->mutex.unlock();
     return newItem;
+}
+
+void
+Engine::destroyItem( Item* item )
+{
+    d->mutex.lock();
+
+    d->items.remove(d->items.indexOf(item));
+    delete item;
+
+    d->mutex.unlock();
 }
 
 Material*

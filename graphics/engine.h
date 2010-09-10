@@ -57,6 +57,9 @@ namespace GluonGraphics
             /**
              * Create an Item.
              *
+             * The item will be put into the internal registry of items and
+             * should be removed by calling destroyItem().
+             *
              * \see GluonGraphics::Item
              *
              * \param mesh The name of the mesh to attach to the new item.
@@ -65,6 +68,16 @@ namespace GluonGraphics
              * \return The item just created.
              */
             Item * createItem(const QString& mesh);
+
+            /**
+             * Destroy an item.
+             *
+             * This will remove the item from the internal registry and then
+             * delete it.
+             *
+             * \param item The item to destroy.
+             */
+            void destroyItem(Item* item);
 
             /**
              * Create a Material.
