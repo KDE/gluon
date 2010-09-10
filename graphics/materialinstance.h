@@ -49,7 +49,8 @@ namespace GluonGraphics
              *
              * \see Material::createInstance
              */
-            MaterialInstance(QObject* parent = 0);
+            explicit MaterialInstance(QObject* parent = 0);
+            explicit MaterialInstance(Material * instanceOf);
 
             /**
              * Destructor.
@@ -74,6 +75,12 @@ namespace GluonGraphics
              * \return The material this MaterialInstance is an instance of.
              */
             Material * instanceOf();
+
+            int parameterLocation(const QString& param);
+            int attributeLocation(const QString& attrib);
+
+            void setParameter(const QString& param, const QVariant& value);
+            void setModelViewProjectionMatrix( QMatrix4x4 mvp );
 
         private:
             class MaterialInstancePrivate;
