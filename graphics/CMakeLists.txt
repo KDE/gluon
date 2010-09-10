@@ -10,6 +10,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
+add_definitions(-DGL_GLEXT_PROTOTYPES)
+
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -56,6 +58,10 @@ set(GluonGraphics_HEADERS
     mesh.h
     math.h
     frustum.h
+    material.h
+    materialinstance.h
+    technique.h
+    materialelement.h
 )
 
 qt4_automoc(${GluonGraphics_SRCS})
