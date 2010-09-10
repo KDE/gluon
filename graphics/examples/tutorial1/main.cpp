@@ -28,6 +28,9 @@
 #include <gluon/graphics/camera.h>
 #include <gluon/graphics/item.h>
 #include <gluon/graphics/frustum.h>
+#include <gluon/graphics/material.h>
+#include <gluon/graphics/mesh.h>
+#include <QTimer>
 
 int main(int argc, char *argv[])
 {
@@ -35,21 +38,35 @@ int main(int argc, char *argv[])
 
     //Create a widget to render the graphics on.
     GluonGraphics::RenderWidget * widget = new GluonGraphics::RenderWidget();
+    widget->show();
 
     //Create a camera to view the scene from.
     GluonGraphics::Camera* cam = new GluonGraphics::Camera();
 
-    //Temporary hack, to be removed.
-    cam->frustum()->setOrthographic(QRectF(-5, 5, 10, 10), -5.f, 5.f);
+    //Set the viewport
+    cam->frustum()->setOrthographic(-5.f, 5.f, -5.f, 5.f, -5.f, 5.f);
 
     //Activate the new camera
     GluonGraphics::Engine::instance()->setActiveCamera(cam);
 
     //Create an item to display
     GluonGraphics::Item * item = GluonGraphics::Engine::instance()->createItem("default");
+    QMatrix4x4 mat;
+    mat.translate(-1.5f, 0.f);
+    item->setTransform(mat);
+    item->mesh()->load(QString());
+    GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
+    material->build();
+    item->mesh()->setMaterial(material->createInstance());
 
-    //Show us the widget
-    widget->show();
+    item = GluonGraphics::Engine::instance()->createItem("default");
+    mat.translate(3.0f, 0.f);
+    item->setTransform(mat);
+
+    QTimer timer;
+    timer.setInterval(0);
+    QObject::connect(&timer, SIGNAL(timeout()), widget, SLOT(updateGL()));
+    timer.start();
 
     return app.exec();
 
