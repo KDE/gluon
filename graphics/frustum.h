@@ -24,7 +24,6 @@
 
 class QMatrix4x4;
 class QVector3D;
-class QRectF;
 
 namespace GluonGraphics
 {
@@ -93,7 +92,7 @@ namespace GluonGraphics
              * \param near The distance to the near plane.
              * \param far The distance to the far plane. Should be > near .
              */
-            void setOrthographic(const QRectF& view, float near, float far);
+            void setOrthographic(float left, float right, float bottom, float top, float near, float far);
 
             /**
              * Set this frustum to use a perspective projection.

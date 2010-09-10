@@ -39,7 +39,7 @@ class Frustum::FrustumPrivate
 Frustum::Frustum()
     : d(new FrustumPrivate)
 {
-
+    d->matrix.ortho(-1, 1, -1, 1, -1, 1);
 }
 
 Frustum::Frustum( const GluonGraphics::Frustum& other )
@@ -80,9 +80,9 @@ Frustum::containsSphere( const QVector3D& point, float radius )
 }
 
 void
-Frustum::setOrthographic( const QRectF& view, float near, float far )
+Frustum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
-    d->matrix.ortho(view.left(), view.right(), view.bottom(), view.top(), near, far);
+    d->matrix.ortho(left, right, bottom, top, near, far);
 }
 
 void
