@@ -45,14 +45,14 @@ namespace GluonGraphics
     * MaterialInstances also control which technique is used to render
     * the material. In addition, each material has a default technqiue
     * which will be used if no override has been given.
-    * 
+    *
     * \see MaterialInstance
     */
     class GLUON_GRAPHICS_EXPORT Material : public GluonCore::GluonObject
     {
         Q_OBJECT
         GLUON_OBJECT(Material)
-                
+
         public:
             /**
              * Constructor.
@@ -93,7 +93,7 @@ namespace GluonGraphics
 
             /**
              * Add a technique to the material.
-             * 
+             *
              * Note that this will reparent the technique
              * to this material.
              *
@@ -133,6 +133,14 @@ namespace GluonGraphics
              * \see MaterialInstance
              */
             MaterialInstance * createInstance();
+
+            /**
+             * Retrieve the internal OpenGL Program identifier.
+             *
+             * \return The OpenGL identifier for the program or
+             * 0 if build was not yet called.
+             */
+            uint glProgram();
 
         private:
             class MaterialPrivate;
