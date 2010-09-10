@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -21,8 +21,12 @@
 
 #include <core/debughelper.h>
 #include <graphics/camera.h>
-#include <engine/gameobject.h>
 #include <graphics/engine.h>
+#include <graphics/frustum.h>
+#include <engine/gameobject.h>
+
+#include <QtCore/QSizeF>
+#include <QtGui/QMatrix4x4>
 
 REGISTER_OBJECTTYPE(GluonEngine, CameraControllerComponent)
 
@@ -42,6 +46,7 @@ class CameraControllerComponent::CameraControllerComponentPrivate
 
         GluonGraphics::Camera *camera;
         bool active;
+
         QSizeF visibleArea;
         float nearPlane;
         float farPlane;
@@ -51,11 +56,11 @@ class CameraControllerComponent::CameraControllerComponentPrivate
 
 GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
 
-CameraControllerComponent::CameraControllerComponent(QObject* parent) 
+CameraControllerComponent::CameraControllerComponent(QObject* parent)
     : Component(parent),
     d(new CameraControllerComponentPrivate)
 {
-    
+
 }
 
 CameraControllerComponent::CameraControllerComponent(const CameraControllerComponent& other)
@@ -79,34 +84,36 @@ void CameraControllerComponent::initialize()
 {
     if (!d->camera)
         d->camera = new GluonGraphics::Camera();
-    
+
     if (d->active)
     {
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }
-    
-    d->camera->setVisibleArea(d->visibleArea);
-    d->camera->setDepthRange(d->nearPlane, d->farPlane);
+
+    d->camera->frustum()->setOrthographic(-50, 50, -50, 50, -50, 50);
+    //d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
+    //d->camera->setVisibleArea(d->visibleArea);
+    //d->camera->setDepthRange(d->nearPlane, d->farPlane);
 }
 
 void CameraControllerComponent::start()
 {
-    
+
 }
 
 void CameraControllerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
-    
-    if (d->camera)
-        d->camera->setModelviewMatrix(gameObject()->transform().inverted());
+
+//     if (d->camera)
+//         d->camera->setViewMatrix(gameObject()->transform().inverted());
 }
 
 void CameraControllerComponent::cleanup()
 {
     CameraControllerComponentPrivate::activeCamera = 0;
     GluonGraphics::Engine::instance()->setActiveCamera(0);
-    
+
     delete d->camera;
     d->camera = 0;
 }
@@ -129,9 +136,9 @@ void CameraControllerComponent::setActive(bool active)
 void CameraControllerComponent::setVisibleArea(const QSizeF& area)
 {
     d->visibleArea = area;
-    
+
     if(d->camera)
-        d->camera->setVisibleArea(d->visibleArea);
+        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
 }
 
 QSizeF CameraControllerComponent::visibleArea()
@@ -152,17 +159,17 @@ float CameraControllerComponent::farPlane()
 void CameraControllerComponent::setNearPlane(float near)
 {
     d->nearPlane = near;
-    
+
     if(d->camera)
-        d->camera->setDepthRange(d->nearPlane, d->farPlane);
+        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
 }
 
 void CameraControllerComponent::setFarPlane(float far)
 {
     d->farPlane = far;
-    
+
     if(d->camera)
-        d->camera->setDepthRange(d->nearPlane, d->farPlane);
+        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_cameracontroller, GluonEngine::CameraControllerComponent);
