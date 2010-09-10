@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -23,8 +23,7 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
-#include <graphics/glwidget.h>
-#include <graphics/fpscounter.h>
+#include <graphics/renderwidget.h>
 #include <player/models/gamesmodel.h>
 
 #include <QtGui/QFileDialog>
@@ -42,26 +41,28 @@ class MainWindow::MainWindowPrivate
 {
     public:
         GluonEngine::GameProject *project;
-        GluonGraphics::GLWidget *widget;
+        GluonGraphics::RenderWidget *widget;
 
         QAbstractItemModel *model;
 
         QString title;
         QString fileName;
+
+        int msecElapsed;
+        int frameCount;
 };
 
 GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::WindowFlags flags)
         : QMainWindow(parent, flags)
 {
     d = new MainWindowPrivate;
+    d->msecElapsed = 0;
+    d->frameCount = 0;
 
     if(argc > 1)
     {
         d->fileName = argv[1];
-        QTimer *timer = new QTimer(this);
-        timer->setSingleShot(true);
-        connect(timer, SIGNAL(timeout()), this, SLOT(openProject()));
-        timer->start();
+        QTimer::singleShot(0, this, SLOT(openProject()));
     }
     else
     {
@@ -112,22 +113,30 @@ void MainWindow::openProject(const QString& fileName)
     QString file = fileName;
     if(file.isEmpty())
         file = d->fileName;
-    
+
+    d->widget = new GluonGraphics::RenderWidget(this);
+    setCentralWidget(d->widget);
+    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
+    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(countFrames(int)));
+    connect(GluonEngine::Game::instance(), SIGNAL(updated(int)), SLOT(updateTitle(int)));
+
+    QTimer::singleShot(100, this, SLOT(startGame()));
+
+    d->fileName = file;
+}
+
+void MainWindow::startGame()
+{
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile(QUrl(file));
+    d->project->loadFromFile(QUrl(d->fileName));
 
-    setWindowFilePath(file);
+    setWindowFilePath(d->fileName);
     d->title = windowTitle();
 
     GluonEngine::Game::instance()->setGameProject(d->project);
     GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
-
-    d->widget = new GluonGraphics::GLWidget(this);
-    setCentralWidget(d->widget);
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(updateTitle()));
 
     GluonEngine::Game::instance()->runGame();
 }
@@ -138,11 +147,24 @@ void MainWindow::closeEvent(QCloseEvent* event)
     QWidget::closeEvent(event);
 }
 
-void MainWindow::updateTitle()
+void MainWindow::updateTitle(int msec)
 {
-    QString fps = d->widget->fpsCounter()->fpsString();
+    d->msecElapsed += msec;
+
+    static int fps = 0;
+    if(d->msecElapsed > 1000)
+    {
+        fps = d->frameCount;
+        d->frameCount = 0;
+        d->msecElapsed = 0;
+    }
 
     setWindowTitle(d->title + QString(" (%1 FPS)").arg(fps));
+}
+
+void MainWindow::countFrames( int time )
+{
+    d->frameCount++;
 }
 
 #include "mainwindow.moc"

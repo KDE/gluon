@@ -29,10 +29,10 @@
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
-#include <graphics/glwidget.h>
 #include <engine/scene.h>
 #include <graphics/item.h>
 #include <graphics/camera.h>
+#include <graphics/engine.h>
 #include <models/gamesmodel.h>
 
 #include <KAction>
@@ -123,10 +123,7 @@ void PlasmaApplet::initGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glEnable(GL_SCISSOR_TEST);
-    glEnable(GL_ALPHA_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glAlphaFunc(GL_GREATER, 0.01);
-
 }
 
 void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
@@ -134,11 +131,7 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_viewportWidth = event->newSize().width();
     m_viewportHeight = event->newSize().height();
 
-    if (m_camera) {
-        m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
-        m_camera->applyViewport();
-        m_camera->applyOrtho();
-    }
+    glViewport(0, 0, m_viewportWidth, m_viewportHeight);
 }
 
 void PlasmaApplet::showGames()
@@ -180,11 +173,7 @@ void PlasmaApplet::setCamera(Camera* camera)
 
 void PlasmaApplet::render()
 {
-    Engine::instance()->sortItems();
-    QList<Item*> items = Engine::instance()->items();
-    foreach(Item *it, items) {
-        it->paintGL();
-    }
+    Engine::instance()->render();
 }
 
 void PlasmaApplet::paintGLInterface(QPainter* painter, const QStyleOptionGraphicsItem* option)
@@ -198,13 +187,7 @@ void PlasmaApplet::paintGLInterface(QPainter* painter, const QStyleOptionGraphic
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (m_camera) {
-        m_camera->applyView();
-    }
-
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    render();
-    glPopAttrib();
+    Engine::instance()->render();
 }
 
 #include "plasmaapplet.moc"
