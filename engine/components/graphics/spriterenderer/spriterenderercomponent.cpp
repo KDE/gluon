@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -19,16 +19,18 @@
 
 #include "spriterenderercomponent.h"
 
-#include <graphics/item.h>
-#include <gameobject.h>
 #include <core/debughelper.h>
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/mesh.h>
+#include <engine/gameobject.h>
 
 #include <iostream>
 #include <asset.h>
 #include <QMimeData>
 
-#include <graphics/meshes/polygonmesh.h>
-#include <graphics/meshes/spritemesh.h>
+#include <QtGui/QMatrix4x4>
+#include <gluon/graphics/material.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
@@ -40,14 +42,13 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         SpriteRendererComponentPrivate()
         {
             item = 0;
-            mesh = 0;
             texture = 0;
             size = QSizeF(1.0f, 1.0f);
             color.setRgb(255, 255, 255);
         }
 
         GluonGraphics::Item *item;
-        GluonGraphics::SpriteMesh *mesh;
+        //GluonGraphics::SpriteMesh *mesh;
 
         GluonEngine::Asset* texture;
 
@@ -55,11 +56,11 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         QSizeF size;
 };
 
-SpriteRendererComponent::SpriteRendererComponent(QObject* parent) 
+SpriteRendererComponent::SpriteRendererComponent(QObject* parent)
     : Component(parent),
     d(new SpriteRendererComponentPrivate)
 {
-    
+
 }
 
 SpriteRendererComponent::SpriteRendererComponent(const SpriteRendererComponent& other)
@@ -79,14 +80,16 @@ SpriteRendererComponent::category() const
     return QString("Graphics Rendering");
 }
 
-void 
+void
 SpriteRendererComponent::initialize()
 {
     if(!d->item)
     {
-        d->mesh = new GluonGraphics::SpriteMesh(d->size, this);
-        d->item = new GluonGraphics::Item(d->mesh, this);
-        d->item->setColor(d->color);
+        d->item = GluonGraphics::Engine::instance()->createItem("default");
+        d->item->mesh()->load(QString());
+        GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
+        material->build();
+        d->item->mesh()->setMaterial(material->createInstance());
     }
 
     if (d->texture)
@@ -97,12 +100,12 @@ SpriteRendererComponent::initialize()
         const QMimeData* data = d->texture->data();
         if (data->hasImage())
         {
-            d->mesh->setTexture(data->imageData().value<QImage>());
+            //d->mesh->setTexture(data->imageData().value<QImage>());
         }
     }
 }
 
-void 
+void
 SpriteRendererComponent::start()
 {
 }
@@ -113,7 +116,7 @@ void SpriteRendererComponent::draw(int timeLapse)
 
     if (d->item)
     {
-        d->item->setMatrix(gameObject()->transform());
+        d->item->setTransform(gameObject()->transform());
     }
 }
 
@@ -121,9 +124,9 @@ void SpriteRendererComponent::cleanup()
 {
     if (d->item)
     {
-        delete d->item;
+        GluonGraphics::Engine::instance()->destroyItem(d->item);
         d->item = 0;
-        d->mesh = 0;
+        //d->mesh = 0;
     }
 }
 
@@ -131,10 +134,10 @@ void SpriteRendererComponent::setSize(const QSizeF &size)
 {
     d->size = size;
 
-    if (d->mesh)
-    {
-        d->mesh->setSize(size);
-    }
+    //if (d->mesh)
+    //{
+        //d->mesh->setSize(size);
+    //}
 }
 
 QSizeF SpriteRendererComponent::size()
@@ -144,11 +147,11 @@ QSizeF SpriteRendererComponent::size()
 
 void SpriteRendererComponent::setColor(const QColor& color)
 {
-    d->color = color;
+    /*d->color = color;
     if (d->mesh)
     {
         d->mesh->setColor(color);
-    }
+    }*/
 }
 
 void SpriteRendererComponent::setColor(int r, int g, int b, int a)
@@ -172,10 +175,10 @@ void SpriteRendererComponent::setTexture(Asset* asset)
 
     if (asset)
     {
-        if (d->mesh && asset->isLoaded())
+        /*if (d->mesh && asset->isLoaded())
         {
             d->mesh->setTexture(asset->data()->imageData().value<QImage>());
-        }
+        }*/
     }
 }
 
