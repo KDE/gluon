@@ -149,9 +149,9 @@ void InputThread::readInformation()
 	}
 
 	d->buttonCapabilities.clear();
-	d->absAxisCapabilities.clear();
-	d->relAxisCapabilities.clear();
-	d->absAxisInfos.clear();
+	//d->absAxisCapabilities.clear();
+	d->axisCapabilities.clear();
+	d->axisInfos.clear();
 
 	CFArrayRef elements = IOHIDDeviceCopyMatchingElements(d->device, NULL, kIOHIDOptionsTypeNone);
 
@@ -178,8 +178,22 @@ void InputThread::readInformation()
 				{
 					if(usage <= 47 || usage == 60)
 						continue;
+					
+					int value = GluonHardwareButtons::instance()->hardwareMovementToGluonAxis(d->deviceType, usage);
+					if(!IOHIDElementIsRelative(elementRef))
+					{
+						AbsVal val(0,0,0,0);
+						val.max = (int)IOHIDElementGetLogicalMax(elementRef);
+						val.min = (int)IOHIDElementGetLogicalMin(elementRef);
+						IOHIDValueRef valRef = NULL;
+						IOHIDDeviceGetValue(d->device, elementRef, &valRef);
+						val.value = IOHIDValueGetIntegerValue(valRef);
+						d->axisInfos.insert(value, val);
+					}
+					
+					d->axisCapabilities.append(value);
 
-					if(IOHIDElementIsRelative(elementRef))
+/*					if(IOHIDElementIsRelative(elementRef))
 					{
 						d->relAxisCapabilities.append(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage));
 					}
@@ -205,7 +219,7 @@ void InputThread::readInformation()
 						{
 							d->zAbsUsage = GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(d->deviceType, usage);
 						}
-					}
+					}*/
 				}
 			}
 		}
@@ -236,21 +250,13 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 			switch (currentThread->deviceType())
 			{
 				case GluonInput::MouseDevice:
-					if(usagePage == kHIDPage_GenericDesktop)
-					{
-						if(value == 0)
-							return;
-						
-		 				emit currentThread->relAxisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(currentThread->deviceType() ,usage), value);
-					}
-					break;
 				case GluonInput::JoystickDevice:
 					if(usagePage == kHIDPage_GenericDesktop)
 					{
 						if(value == 0)
 							return;
 						
-						emit currentThread->absAxisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonMovement(currentThread->deviceType() ,usage), value);
+		 				emit currentThread->axisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonAxis(currentThread->deviceType() ,usage), value);
 					}
 					break;
 				default:
@@ -259,21 +265,6 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 			}
 		}
 	}
-}
-
-int InputThread::getJoystickXAxis()
-{
-	return d->xAbsUsage;
-}
-
-int InputThread::getJoystickYAxis()
-{
-	return d->yAbsUsage;
-}
-
-int InputThread::getJoystickZAxis()
-{
-	return d->zAbsUsage;
 }
 
 void InputThread::run()
@@ -313,19 +304,19 @@ QList<int> InputThread::buttonCapabilities()const
 	return d->buttonCapabilities;
 }
 
-QList<int> InputThread::absAxisCapabilities()const
+/*QList<int> InputThread::absAxisCapabilities()const
 {
 	return d->absAxisCapabilities;
-}
+}*/
 
-QList<int> InputThread::relAxisCapabilities()const
+QList<int> InputThread::axisCapabilities()const
 {
-	return d->relAxisCapabilities;
+	return d->axisCapabilities;
 }
 
 AbsVal InputThread::axisInfo(int axisCode) const
 {
-	return d->absAxisInfos[axisCode];
+	return d->axisInfos.value(axisCode);
 }
 
 const QString InputThread::deviceName() const

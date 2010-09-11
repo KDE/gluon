@@ -25,7 +25,7 @@ Joystick::Joystick(InputThread * inputThread, QObject * parent) : InputDevice(in
 {
 	d = new JoystickPrivate();
 
-	connect(inputThread, SIGNAL(absAxisMoved(int, int)), this, SLOT(joystickMoved(int, int)), Qt::DirectConnection);
+	connect(inputThread, SIGNAL(axisMoved(int, int)), this, SLOT(axisMoved(int, int)), Qt::DirectConnection);
 }
 
 int Joystick::axisX() const
@@ -48,7 +48,7 @@ int Joystick::axisZ() const
 	return -1;
 }
 
-void Joystick::joystickMoved(int axis, int distance)
+void Joystick::AxisMoved(int axis, int distance)
 {
 
 }

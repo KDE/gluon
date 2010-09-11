@@ -125,8 +125,8 @@ set(GluonInput_HEADERS_COMMON
 	detect.h
 	absval.h
 	inputbuffer.h
-	gluonbuttons.h
 	gluonbuttonmapper.h
+	gluonbuttons.h
 )
 ###############common source and headers###################
 

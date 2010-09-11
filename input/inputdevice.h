@@ -53,11 +53,13 @@ namespace GluonInput
             GluonInput::DeviceFlag deviceType()const;
 
             QList<int> buttonCapabilities()const;
-            QList<int> absAxisCapabilities()const;
-            QList<int> relAxisCapabilities()const;
-            AbsVal axisInfo(int axisCode)const;
+            //QList<int> absAxisCapabilities()const;
+            //QList<int> relAxisCapabilities()const;
 			bool buttonPressed(int code) const;
 			QString buttonName(int code) const;
+		
+			QList<int> axisCapabilities() const;
+			AbsVal axisInfo(int axisCode) const;
 			QString axisName(int code) const;
 
             bool error()const;

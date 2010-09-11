@@ -35,10 +35,10 @@ namespace GluonInput
     {
 		Q_OBJECT
 		Q_ENUMS(KeyboardButton)
-		Q_ENUMS(MouseMovement)
+		Q_ENUMS(MouseAxis)
 		Q_ENUMS(MouseButton)
 		Q_ENUMS(JoystickButton)
-		Q_ENUMS(JoystickMovement)
+		Q_ENUMS(JoystickAxis)
 		public:
 			enum KeyboardButton
 			{
@@ -261,14 +261,14 @@ namespace GluonInput
 		
 	
 
-			enum MouseMovement
+			enum MouseAxis
 			{
-				HWHEEL = -1, //I do not know how HID is handling this
+				MOUSE_HWHEEL = -1, //I do not know how HID is handling this
 				MOUSE_MISC = 0,
-				X_REL = 48,
-				Y_REL = 49,
-				Z_REL = 50,
-				WHEEL_REL = 56,
+				MOUSE_X = 48,
+				MOUSE_Y = 49,
+				MOUSE_Z = 50,
+				MOUSE_WHEEL = 56,
 			};
 			
 			enum MouseButton
@@ -285,23 +285,23 @@ namespace GluonInput
 		
 	
 		
-			enum JoystickMovement
+			enum JoystickAxis
 			{
 				JOYSTICK_MISC = 0,
-				X_ABS = 48,
-				Y_ABS = 49,
-				Z_ABS = 50,
-				ROTATION_X_AXIS,
-				ROTATION_Y_AXIS,
-				ROTATION_Z_AXIS,
-				DIAL = 55,
-				HAT_SWITCH = 57,
-				XTILT = 61,
-				YTILT,
-				RUDDER = 186,
-				THROTTLE,
-				GAS = 196,
-				BRAKE
+				JOYSTICK_X = 48,
+				JOYSTICK_Y = 49,
+				JOYSTICK_Z = 50,
+				JOYSTICK_ROTATION_X_AXIS,
+				JOYSTICK_ROTATION_Y_AXIS,
+				JOYSTICK_ROTATION_Z_AXIS,
+				JOYSTICK_DIAL = 55,
+				JOYSTICK_HAT_SWITCH = 57,
+				JOYSTICK_XTILT = 61,
+				JOYSTICK_YTILT,
+				JOYSTICK_RUDDER = 186,
+				JOYSTICK_THROTTLE,
+				JOYSTICK_GAS = 196,
+				JOYSTICK_BRAKE
 			};
 			
 			enum JoystickButton
@@ -320,7 +320,7 @@ namespace GluonInput
 			GluonHardwareButtons();
 	
 			int hardwareButtonsToGluonButtons(DeviceFlag deviceType, int code);
-			int hardwareMovementToGluonMovement(DeviceFlag deviceType, int code);
+			int hardwareMovementToGluonAxis(DeviceFlag deviceType, int code);
 		
 		private:
 			QHash<int, int> initMapping(const char * enumName);

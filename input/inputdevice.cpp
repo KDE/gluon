@@ -92,15 +92,15 @@ QList<int> InputDevice::buttonCapabilities()const
 	return d->inputThread->buttonCapabilities();
 }
 
-QList<int> InputDevice::absAxisCapabilities()const
+QList<int> InputDevice::axisCapabilities() const
 {
-	return d->inputThread->absAxisCapabilities();
+	return d->inputThread->axisCapabilities();
 }
 
-QList<int> InputDevice::relAxisCapabilities()const
+/*QList<int> InputDevice::relAxisCapabilities()const
 {
 	return d->inputThread->relAxisCapabilities();
-}
+}*/
 
 AbsVal InputDevice::axisInfo(int axisCode)const
 {

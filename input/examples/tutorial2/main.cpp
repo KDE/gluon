@@ -24,6 +24,7 @@
 #include <QtGui/QApplication>
 
 #include "input/keyboard.h"
+#include "input/mouse.h"
 #include "input/inputmanager.h"
 
 using namespace std;
@@ -35,11 +36,12 @@ int main(int argc, char *argv[])
 
 	if(InputManager::instance()->keyboardList().count() > 0)
 	{
-	  qDebug() <<"creating test gameloop";
-	  Keyboard * keyboard = InputManager::instance()->keyboard();
-	  keyboard->setEnabled(true);
-	  GameLoop * gameLoop = new GameLoop(keyboard);
-	  gameLoop->run();
+		qDebug() <<"creating test gameloop";
+		Keyboard * keyboard = InputManager::instance()->keyboard();
+		Mouse * mouse = InputManager::instance()->mouse();
+		keyboard->setEnabled(true);
+		GameLoop * gameLoop = new GameLoop(keyboard, mouse);
+		gameLoop->run();
 	}
 
 	qDebug() << "starting event loop";

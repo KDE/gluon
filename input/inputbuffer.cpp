@@ -37,43 +37,15 @@ InputBuffer::~InputBuffer()
 
 bool InputBuffer::buttonState(int button)
 {	
-	bool returnBool = false;
-	
-	if(!d->buttonState.contains(button))
-	   d->buttonState[button] = false;
-	
-	if(d->buttonState[button])
-	{
-		returnBool = d->buttonState[button];
-		d->buttonState[button] = false;
-	}
-	
-	/*if(d->buttonState[button].count() > 0)
-	{
-	  returnBool = d->buttonState[button].dequeue();
-	  d->buttonState[button].clear();
-	}
-	else if(d->buttonState[button].count() > 0)
-	{
-	  returnBool = d->buttonState[button].head();
-	}*/
-	
-	return returnBool; 
+	return d->buttonState[button];
 }
 
 void InputBuffer::setButtonState(int button, bool pressed)
-{
-	if(pressed)
-		d->buttonState[button] = pressed;
-	
-	  /*if(pressed && d->buttonState[button].isEmpty())
+{	
+	  if(d->buttonState[button] != pressed)
 	  {
-	    d->buttonState[button].enqueue(pressed);
+		  d->buttonState[button] = pressed;
 	  }
-	  else if(!pressed && d->buttonState[button].count() == 1)
-	  {
-	    d->buttonState[button].enqueue(pressed);
-	  }*/
 }
 
 #include "inputbuffer.moc"

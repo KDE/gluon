@@ -20,7 +20,7 @@
 * Boston, MA 02110-1301, USA.
 */
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 #include "input/inputmanager.h"
 
@@ -63,11 +63,13 @@ int main(int argc, char *argv[])
         foreach(int buttonCode, input->buttonCapabilities())
         qDebug() << "BUTTON : " << buttonCode << "->" << input->buttonName(buttonCode);
 
-        foreach(int axis, input->absAxisCapabilities())
+		foreach(int axis, input->axisCapabilities())
+        qDebug() << "AXIS " << axis << "->" << input->axisName(axis);
+        /*foreach(int axis, input->absAxisCapabilities())
         qDebug() << "ABSOLUTE AXIS " << axis << "->" << input->axisName(axis);
 
         foreach(int axis, input->relAxisCapabilities())
-        qDebug() << "RELATIVE AXIS " << axis << "->" << input->axisName(axis);
+        qDebug() << "RELATIVE AXIS " << axis << "->" << input->axisName(axis);*/
 
 
 

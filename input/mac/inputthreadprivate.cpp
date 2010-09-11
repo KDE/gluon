@@ -35,12 +35,9 @@ InputThreadPrivate::InputThreadPrivate(InputThreadPrivate &other)
         error(other.error),
         deviceType(other.deviceType),
         buttonCapabilities(other.buttonCapabilities),
-        relAxisCapabilities(other.relAxisCapabilities),
-        absAxisCapabilities(other.absAxisCapabilities),
-        absAxisInfos(other.absAxisInfos),
-        xAbsUsage(other.xAbsUsage),
-        yAbsUsage(other.yAbsUsage),
-        zAbsUsage(other.zAbsUsage),
+//        relAxisCapabilities(other.relAxisCapabilities),
+        axisCapabilities(other.axisCapabilities),
+        axisInfos(other.axisInfos),
         device(other.device)
 {
 }

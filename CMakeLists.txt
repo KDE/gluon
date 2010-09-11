@@ -79,7 +79,7 @@ endif(BUILD_GLUON_CREATOR)
 ###### Gluon Player ######
 # Checks must be done here because it does its own checks only when cmake was not called here ... 
 if(BUILD_GLUON_PLAYER)
-    set(LIBATTICA_MIN_VERSION 0.2.0)
+    set(LIBATTICA_MIN_VERSION 0.1.90)
     find_package(LibAttica)
     if(LIBATTICA_FOUND)
         add_subdirectory(player)

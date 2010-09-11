@@ -10,9 +10,9 @@ GluonHardwareButtonsPrivate::GluonHardwareButtonsPrivate(GluonHardwareButtonsPri
 	QSharedData(other)
 	, keyboardButtonMapping(other.keyboardButtonMapping)
 	, mouseButtonMapping(other.mouseButtonMapping)
-	, mouseMovementMapping(other.mouseMovementMapping)
+	, mouseAxisMapping(other.mouseAxisMapping)
 	, joystickButtonMapping(other.joystickButtonMapping)
-	, joystickMovementMapping(other.joystickMovementMapping)
+	, joystickAxisMapping(other.joystickAxisMapping)
 																								
 {
 }

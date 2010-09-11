@@ -35,8 +35,8 @@ GluonHardwareButtons::GluonHardwareButtons()
 	
 	d->keyboardButtonMapping = this->initMapping("KeyboardButton");
 	d->joystickButtonMapping = this->initMapping("JoystickButton");
-	d->joystickMovementMapping = this->initMapping("JoystickMovement");
-	d->mouseMovementMapping = this->initMapping("MouseMovement");
+	d->joystickAxisMapping = this->initMapping("JoystickAxis");
+	d->mouseAxisMapping = this->initMapping("MouseAxis");
 	d->mouseButtonMapping = this->initMapping("MouseButton");
 	
 }
@@ -61,7 +61,7 @@ QHash<int, int> GluonHardwareButtons::initMapping(const char * enumName)
 			int gluonButtonVal = gluonButtonsEnum.keyToValue(gluonHardwareEnum.key(i));
 			if(gluonButtonVal > -1)
 			{
-				mapping.insert(gluonButtonVal, gluonHardwareEnum.keyToValue(gluonHardwareEnum.key(i)));
+				mapping.insert(gluonHardwareEnum.keyToValue(gluonHardwareEnum.key(i)), gluonButtonVal);
 			}
 		}
 	}
@@ -84,14 +84,14 @@ int GluonHardwareButtons::hardwareButtonsToGluonButtons(DeviceFlag deviceType, i
 	}
 }
 
-int GluonHardwareButtons::hardwareMovementToGluonMovement(DeviceFlag deviceType, int code)
+int GluonHardwareButtons::hardwareMovementToGluonAxis(DeviceFlag deviceType, int code)
 {
 	switch (deviceType)
 	{
 		case MouseDevice:
-			return d->mouseMovementMapping.contains(code) ? d->mouseMovementMapping.value(code) : -1;
+			return d->mouseAxisMapping.contains(code) ? d->mouseAxisMapping.value(code) : -1;
 		case JoystickDevice:
-			return d->joystickMovementMapping.contains(code) ? d->joystickMovementMapping.value(code) : -1;
+			return d->joystickAxisMapping.contains(code) ? d->joystickAxisMapping.value(code) : -1;
 		default:
 			return -1;
 	}	

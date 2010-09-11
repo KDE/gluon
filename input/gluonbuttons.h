@@ -16,9 +16,9 @@ namespace GluonInput
 	{
 		Q_OBJECT
 		Q_ENUMS(KeyboardButton)
-		Q_ENUMS(MouseMovement)
+		Q_ENUMS(MouseAxis)
 		Q_ENUMS(MouseButton)
-		Q_ENUMS(JoystickMovement)
+		Q_ENUMS(JoystickAxis)
 		Q_ENUMS(JoystickButton)
 		public:
 			enum KeyboardButton
@@ -240,31 +240,31 @@ namespace GluonInput
 				RIGHT_GUI
 			};
 		
-			enum MouseMovement
+			enum MouseAxis
 			{
-				X_REL,
-				Y_REL,
-				Z_REL,
-				WHEEL_REL,
-				HWHEEL
+				MOUSE_X,
+				MOUSE_Y,
+				MOUSE_Z,
+				MOUSE_WHEEL,
+				MOUSE_HWHEEL
 			};
 		
-			enum JoystickMovement
+			enum JoystickAxis
 			{
-				X_ABS,
-				Y_ABS,
-				Z_ABS,
-				ROTATION_X_AXIS,
-				ROTATION_Y_AXIS,
-				ROTATION_Z_AXIS,
-				DIAL,
-				HAT_SWITCH,
-				XTILT,
-				YTILT,
-				RUDDER,
-				THROTTLE,
-				GAS,
-				BRAKE
+				Joystick_X,
+				Joystick_Y,
+				Joystick_Z,
+				Joystick_ROTATION_X_AXIS,
+				Joystick_ROTATION_Y_AXIS,
+				Joystick_ROTATION_Z_AXIS,
+				Joystick_DIAL,
+				Joystick_HAT_SWITCH,
+				Joystick_XTILT,
+				Joystick_YTILT,
+				Joystick_RUDDER,
+				Joystick_THROTTLE,
+				Joystick_GAS,
+				Joystick_BRAKE
 			};
 			
 			enum MouseButton

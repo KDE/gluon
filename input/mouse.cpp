@@ -30,7 +30,7 @@ Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThr
 	d->sensibility = 1;
 	
 	
-	connect(inputThread, SIGNAL(relAxisMoved(int, int)), this, SLOT(mouseMoved(int, int)), Qt::DirectConnection);
+	connect(inputThread, SIGNAL(axisMoved(int, int)), this, SLOT(axisMoved(int, int)), Qt::DirectConnection);
 }
 
 QPoint Mouse::position()
@@ -63,25 +63,24 @@ double Mouse::sensibility()const
 	return d->sensibility;
 }
 
-void Mouse::mouseMoved(int axis, int distance)
+void Mouse::axisMoved(int axis, int distance)
 {
 	switch(axis)
 	{
-		case GluonButtons::X_REL:
+		case GluonButtons::MOUSE_X:
 			d->position.setX(d->position.x() + distance);
 			break;
 			
-		case GluonButtons::Y_REL:
+		case GluonButtons::MOUSE_Y:
 			d->position.setY(d->position.y() - distance);
 			break;
-		case GluonButtons::HWHEEL:
+		case GluonButtons::MOUSE_HWHEEL:
 			d->hWheelPos = distance;
 			break;
-		case GluonButtons::WHEEL_REL:
+		case GluonButtons::MOUSE_WHEEL:
 			d->wheelPos = distance;
 			break;
 	}
 }
-
 
 #include "mouse.moc"

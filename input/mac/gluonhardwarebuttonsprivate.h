@@ -15,9 +15,9 @@ namespace GluonInput
 			
 			QHash<int, int> keyboardButtonMapping;
 			QHash<int, int> mouseButtonMapping;
-			QHash<int, int> mouseMovementMapping;
+			QHash<int, int> mouseAxisMapping;
 			QHash<int, int> joystickButtonMapping;
-			QHash<int, int> joystickMovementMapping;
+			QHash<int, int> joystickAxisMapping;
 	};
 }
 

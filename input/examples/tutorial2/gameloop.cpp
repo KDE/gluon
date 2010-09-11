@@ -26,9 +26,10 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(Keyboard * keyb)
+GameLoop::GameLoop(Keyboard * keyb, Mouse * m)
 {
     this->keyboard = keyb;
+	this->mouse = m;
     connect(this, SIGNAL(startGameLoop()), this, SLOT(gameLoop()), Qt::QueuedConnection);
 }
 
@@ -54,18 +55,25 @@ void GameLoop::gameLoop()
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip)
         {
-	    foreach(int button, keyboard->buttonCapabilities())
-	    {
-		if(keyboard->buttonPressed(button))
-		   qDebug() << keyboard->buttonName(button) << " is pressed ";
+			foreach(int button, keyboard->buttonCapabilities())
+			{
+				if(keyboard->buttonPressed(button))
+				   qDebug() << keyboard->buttonName(button) << " is pressed ";
 
-	    }
+			}
 
-            nextTick += millisecondsPerUpdate;
-            loops++;
-        }
+				nextTick += millisecondsPerUpdate;
+				loops++;
+			
+			foreach(int button, mouse->buttonCapabilities())
+			{
+				if(mouse->buttonPressed(button))
+					qDebug() << keyboard->buttonName(button) << " is pressed ";
+				
+			}
+		}
 
-        timeLapse = (timer.elapsed() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
+			timeLapse = (timer.elapsed() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
     }
 }
 

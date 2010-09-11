@@ -39,7 +39,7 @@ namespace GluonInput
             int axisZ() const;
 
 	private slots:
-	    void joystickMoved(int axis, int distance);
+	    void AxisMoved(int axis, int distance);
 
         private:
             QSharedDataPointer<JoystickPrivate> d;

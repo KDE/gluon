@@ -21,6 +21,7 @@
 
 #include <QtCore/QObject>
 #include "input/keyboard.h"
+#include "input/mouse.h"
 
 using namespace GluonInput;
 
@@ -28,7 +29,7 @@ class GameLoop : public QObject
 {
   Q_OBJECT
   public:
-    GameLoop(Keyboard * keyb);
+    GameLoop(Keyboard * keyb, Mouse * m);
     void run();
     
   signals:
@@ -39,6 +40,7 @@ class GameLoop : public QObject
     
   private:
     Keyboard * keyboard;
+	Mouse * mouse;
 };
 
 #endif // GAMELOOP_H

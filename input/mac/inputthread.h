@@ -46,10 +46,6 @@ namespace GluonInput
 		
 			static void deviceReport(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef);
 
-            int getJoystickXAxis();
-            int getJoystickYAxis();
-            int getJoystickZAxis();
-
             void run();
             void stop();
 
@@ -59,9 +55,10 @@ namespace GluonInput
             int bustype()const;
 
             QList<int> buttonCapabilities()const;
-            QList<int> absAxisCapabilities()const;
-            QList<int> relAxisCapabilities()const;
+            //QList<int> absAxisCapabilities()const;
+            //QList<int> relAxisCapabilities()const;
             AbsVal axisInfo(int axisCode)const;
+            QList<int> axisCapabilities()const;
 
             const QString deviceName() const;
             GluonInput::DeviceFlag deviceType()const;
@@ -74,8 +71,7 @@ namespace GluonInput
             QObject * getParent();
 
 		signals:
-			void relAxisMoved(int axis, int distance);
-			void absAxisMoved(int axis, int distance);
+			void axisMoved(int axis, int distance);
 			void buttonStateChanged(int button, int value);
 
         private:

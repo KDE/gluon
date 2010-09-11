@@ -20,7 +20,7 @@
 #define INPUTTHREADPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QtCore/QMap>
+#include <QtCore/QHash>
 #include <QtCore/QList>
 #include <QtCore/QString>
 
@@ -53,13 +53,11 @@ namespace GluonInput
             GluonInput::DeviceFlag deviceType;
 
             QList<int> buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
-            QList<int> relAxisCapabilities; // list of rel Axis capability..
-            QList<int> absAxisCapabilities; // list of abs Axis capabilty
-            QMap<int, AbsVal> absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
-
-            int xAbsUsage;
-            int yAbsUsage;
-            int zAbsUsage;
+            //QList<int> relAxisCapabilities; // list of rel Axis capability..
+            //QList<int> absAxisCapabilities; // list of abs Axis capabilty
+            //QMap<int, AbsVal> absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
+			QHash<int, AbsVal> axisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
+			QList<int> axisCapabilities;
 
             IOHIDDeviceRef device;
     };
