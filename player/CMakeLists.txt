@@ -54,8 +54,8 @@ if(LIBATTICA_FOUND)
         CACHE PATHS "Libraries required for Gluon Player"
     )
     install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
-    install(FILES models/comments.gdl DESTINATION ${SHARE_INSTALL_DIR}/gluon/gamingfreedom.org)
-    install(FILES models/highscores.gdl DESTINATION ${SHARE_INSTALL_DIR}/gluon/gamingfreedom.org)
+    install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
+    install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
     
     add_subdirectory(qt)
     
