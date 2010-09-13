@@ -1,2 +1,2 @@
 #! /usr/bin/env bash
-$XGETTEXT *.cpp -o $podir/plasma_applet_gluonplayer.pot
+$XGETTEXT `find . -name "*.cpp"` -o $podir/plasma_applet_gluonplayer.pot
