@@ -33,6 +33,8 @@ if(LIBATTICA_FOUND)
         models/highscoresmodel.cpp
         models/commentsmodel.cpp
         models/gamesmodel.cpp
+        lib/authentication.cpp
+        lib/atticamanager.cpp
     )
 
     qt4_automoc(${libGluonPlayer_SRCS})

@@ -51,7 +51,6 @@ class LoginForm : public Overlay
     signals:
         void loginDone();
         void isBusy(bool busy);
-        void
 };
 
 #endif // LOGINFORM_H

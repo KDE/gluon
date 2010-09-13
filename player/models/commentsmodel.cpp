@@ -18,6 +18,7 @@
  */
 
 #include "commentsmodel.h"
+#include <player/lib/atticamanager.h>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
@@ -46,19 +47,17 @@ CommentsModel::CommentsModel(QObject* parent)
 
 void CommentsModel::updateData()
 {
-    connect(&m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()));
-    m_manager.loadDefaultProviders();
+    if (AtticaManager::instance()->isProviderValid()) {
+        providersUpdated();
+    } else {
+        connect(AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(providersUpdated()));
+    }
 }
 
 void CommentsModel::providersUpdated()
 {
-    if (!m_manager.providers().isEmpty()) {
-        m_provider = m_manager.providerByUrl(QUrl("https://api.opendesktop.org/v1/"));
-        if (!m_provider.isValid()) {
-            qDebug() << "Could not find opendesktop.org provider.";
-            return;
-        }
-
+    if (AtticaManager::instance()->isProviderValid()) {
+        m_provider = AtticaManager::instance()->provider();
         //TODO: 128637 is the ID for Invaders, make it work for other games as well
         //      when we have more games
 
