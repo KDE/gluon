@@ -54,8 +54,7 @@ namespace GluonInput
             GluonInput::DeviceFlag m_deviceType;
 
             QList<int> m_buttonCapabilities; // list of button capability. BTN_ESC, BTN_F1 etc....
-            QList<int> m_relAxisCapabilities; // list of rel Axis capability..
-            QList<int> m_absAxisCapabilities; // list of abs Axis capabilty
+            QList<int> m_axisCapabilities; // list of rel Axis capability..
             QMap<int, AbsVal> m_absAxisInfos; // each Absolute Axis has a sub info called AbsVal. [ABS_RX] = AbsVal.
     };
 }

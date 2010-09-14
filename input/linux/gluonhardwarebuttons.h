@@ -1,6 +1,5 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -17,10 +16,12 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUONBUTTONS_H
-#define GLUONBUTTONS_H
+#ifndef GLUONHARDWAREBUTTONS_H
+#define GLUONHARDWAREBUTTONS_H
 
 #include <QtCore/QObject>
+#include <QtCore/QSharedDataPointer>
+#include <QtCore/QHash>
 
 #include "gluon_input_export.h"
 #include "core/singleton.h"
@@ -28,16 +29,19 @@
 
 namespace GluonInput 
 {
-    class GLUON_INPUT_EXPORT GluonButtons :public GluonCore::Singleton<GluonButtons>
+	class GluonHardwareButtonsPrivate;
+	
+	class GLUON_INPUT_EXPORT GluonHardwareButtons :public GluonCore::Singleton<GluonHardwareButtons>
     {
 		Q_OBJECT
-		Q_ENUMS(Button)
-		Q_ENUMS(Absolute)
-		Q_ENUMS(Relative)
-		
-	    public:			
-		      enum Button
-		      {
+		Q_ENUMS(KeyboardButton)
+		Q_ENUMS(MouseAxis)
+		Q_ENUMS(MouseButton)
+		Q_ENUMS(JoystickButton)
+		Q_ENUMS(JoystickAxis)
+		public:
+			enum KeyboardButton
+			{
 				ESC = 1,
 				ONE,
 				TWO,
@@ -65,8 +69,8 @@ namespace GluonInput
 				P,
 				LEFT_BRACKET, 
 				RIGHT_BRACKET, 
-				ENTER, 
-				LEFT_CONTROL,
+				RETURN, 
+				LEFT_CTRL,
 				A, 
 				S, 
 				D, 
@@ -158,8 +162,8 @@ namespace GluonInput
 				HANGUEL,
 				HANJA,
 				YEN,
-				LEFT_META,
-				RIGHT_META,
+				LEFT_GUI,
+				RIGHT_GUI,
 				COMPOSE,
 				STOP,
 				AGAIN,
@@ -256,52 +260,6 @@ namespace GluonInput
 				KB_ILLUM_TOGGLE,
 				KB_ILLUM_DOWN,
 				KB_ILLUM_UP,
-				BUTTON_ZERO = 256,
-				BUTTON_ONE,
-				BUTTON_TWO,
-				BUTTON_THREE,
-				BUTTON_FOUR,
-				BUTTON_FIVE,
-				BUTTON_SIX,
-				BUTTON_SEVEN,
-				BUTTON_EIGHT,
-				BUTTON_NINE,
-				MOUSE_LEFT_BUTTON = 272,
-				MOUSE_RIGHT_BUTTON,
-				MOUSE_MIDDLE_BUTTON,
-				MOUSE_BUTTON_FOUR,
-				MOUSE_BUTTON_FIVE,
-				MOUSE_BUTTON_SIX,
-				MOUSE_BUTTON_SEVEN,
-				MOUSE_BUTTON_EIGHT,
-				TRIGGER = 288,
-				THUMB_BUTTON_ONE,
-				THUMB_BUTTON_TWO,
-				TOP_BUTTON_ONE,
-				TOP_BUTTON_TWO,
-				PINKIE_BUTTON,
-				BASE_BUTTON_ONE,
-				BASE_BUTTON_TWO,
-				BASE_BUTTON_THREE,
-				BASE_BUTTON_FOUR,
-				BASE_BUTTON_FIVE,
-				BASE_BUTTON_SIX,
-				BUTTON_DEAD = 303,
-				BUTTON_A,
-				BUTTON_B,
-				BUTTON_C,
-				BUTTON_X,
-				BUTTON_Y,
-				BUTTON_Z,
-				BUTTON_TL_ONE,
-				BUTTON_TR_ONE,
-				BUTTON_TL_TWO,
-				BUTTON_TR_TWO,
-				BUTTON_SELECT,
-				BUTTON_START,
-				BUTTON_MODE,
-				BUTTON_THUMB_LEFT,
-				BUTTON_THUMB_RIGHT,
 				TOOL_PEN = 320,
 				TOOL_RUBBER,
 				TOOL_BRUSH,
@@ -408,54 +366,113 @@ namespace GluonInput
 				FN_B
 			};
 
-			enum Relative
+			
+			enum MouseAxis
 			{
-				X_REL = 0,
-				Y_REL,
-				Z_REL,
-				HWHEEL = 6,
-				DIAL,
-				WHEEL_REL,
-				MISC_REL
+				MOUSE_X = 0,
+				MOUSE_Y,
+				MOUSE_Z,
+				MOUSE_HWHEEL = 6,
+				//MOUSE_DIAL,
+				MOUSE_WHEEL = 8,
+				MOUSE_MISC
 			};
 			
-			enum Absolute
+			enum MouseButton
 			{
-				X_ABS= 0, 
-				Y_ABS, 
-				Z_ABS,
-				Rx, 
-				Ry,
-				Rz, 
-				THROTTLE, 
-				RUDDER,
-				WHEEL_ABS,
-				GAS, 
-				BRAKE, 
-				HAT_ZERO_X = 16,
-				HAT_ZERO_Y,
-				HAT_ONE_X,
-				HAT_ONE_Y,
-				HAT_TWO_X,
-				HAT_TWO_Y,
-				HAT_THREE_X,
-				HAT_THREE_Y,
-				PRESSURE,
-				DISTANCE,
-				X_TILT,
-				Y_TILT,
-				TOOLWIDTH,
-				VOLUME = 32,
-				MISC_ABS = 40
+				MOUSE_LEFT_BUTTON = 272,
+				MOUSE_RIGHT_BUTTON,
+				MOUSE_MIDDLE_BUTTON,
+				MOUSE_BUTTON_FOUR,
+				MOUSE_BUTTON_FIVE,
+				MOUSE_BUTTON_SIX,
+				MOUSE_BUTTON_SEVEN,
+				MOUSE_BUTTON_EIGHT,
 			};
 			
-		        GluonButtons();
+			enum JoystickButton
+			{
+				BUTTON_ZERO = 256,
+				BUTTON_ONE,
+				BUTTON_TWO,
+				BUTTON_THREE,
+				BUTTON_FOUR,
+				BUTTON_FIVE,
+				BUTTON_SIX,
+				BUTTON_SEVEN,
+				BUTTON_EIGHT,
+				BUTTON_NINE,
+				TRIGGER = 288,
+				THUMB_BUTTON_ONE,
+				THUMB_BUTTON_TWO,
+				TOP_BUTTON_ONE,
+				TOP_BUTTON_TWO,
+				PINKIE_BUTTON,
+				BASE_BUTTON_ONE,
+				BASE_BUTTON_TWO,
+				BASE_BUTTON_THREE,
+				BASE_BUTTON_FOUR,
+				BASE_BUTTON_FIVE,
+				BASE_BUTTON_SIX,
+				BUTTON_DEAD = 303,
+				BUTTON_A,
+				BUTTON_B,
+				BUTTON_C,
+				BUTTON_X,
+				BUTTON_Y,
+				BUTTON_Z,
+				BUTTON_TL_ONE,
+				BUTTON_TR_ONE,
+				BUTTON_TL_TWO,
+				BUTTON_TR_TWO,
+				BUTTON_SELECT,
+				BUTTON_START,
+				BUTTON_MODE,
+				BUTTON_THUMB_LEFT,
+				BUTTON_THUMB_RIGHT,
+			};
+			  
+			enum JoystickAxis
+			{
+				JOYSTICK_X,
+				JOYSTICK_Y,
+				JOYSTICK_Z,
+				JOYSTICK_ROTATION_X_AXIS,
+				JOYSTICK_ROTATION_Y_AXIS,
+				JOYSTICK_ROTATION_Z_AXIS,
+				JOYSTICK_THROTTLE,
+				JOYSTICK_RUDDER,
+				JOYSTICK_WHEEL,
+				JOYSTICK_GAS,
+				JOYSTICK_BRAKE,
+				JOYSTICK_DIAL,
+				JOYSTICK_HAT_ZERO_X = 16,
+				JOYSTICK_HAT_ZERO_Y,
+				JOYSTICK_HAT_ONE_X,
+				JOYSTICK_HAT_ONE_Y,
+				JOYSTICK_HAT_TWO_X,
+				JOYSTICK_HAT_TWO_Y,
+				JOYSTICK_HAT_THREE_X,
+				JOYSTICK_HAT_THREE_Y,
+				JOYSTICK_PRESSURE,
+				JOYSTICK_DISTANCE,
+				JOYSTICK_XTILT,
+				JOYSTICK_YTILT,
+				//TOOLWIDTH,
+				//VOLUME = 32,
+				JOYSTICK_MISC = 40
+			};
+		
+			GluonHardwareButtons();
 	
-			QString buttonName(DeviceFlag deviceType , int code);
-			QString axisName(DeviceFlag deviceType, int code);
+			int hardwareButtonsToGluonButtons(DeviceFlag deviceType, int code);
+			int hardwareMovementToGluonAxis(DeviceFlag deviceType, int code);
 		
 		private:
-			~GluonButtons();
+			QHash<int, int> initMapping(const char * enumName);
+			~GluonHardwareButtons();
+		
+			QSharedDataPointer<GluonHardwareButtonsPrivate> d;
 		
     };
 }

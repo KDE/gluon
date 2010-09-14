@@ -62,14 +62,14 @@ set(GluonInput_HEADERS_WIN )
 set(GluonInput_SRCS_MAC
 	mac/inputthread.cpp
 	mac/inputthreadprivate.cpp
-    mac/detectmac.cpp
+	mac/detectmac.cpp
 	mac/detectmacprivate.cpp
 	mac/gluonhardwarebuttons.cpp
 	mac/gluonhardwarebuttonsprivate.cpp
 )
 
 set(GluonInput_HEADERS_MAC
-    mac/detectmac.h
+	mac/detectmac.h
 	mac/inputthread.h
     #mac/gluonhardwarebuttons.h
 	mac/gluondevices.h
@@ -80,33 +80,34 @@ set(GluonInput_HEADERS_MAC
 set(GluonInput_SRCS_LINUX
 	linux/inputthread.cpp
 	linux/inputthreadprivate.cpp
-    linux/detectlinux.cpp
+	linux/detectlinux.cpp
 	linux/detectlinuxprivate.cpp
-	linux/gluonbuttons.cpp
+	linux/gluonhardwarebuttons.cpp
+	linux/gluonhardwarebuttonsprivate.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
 	linux/inputthread.h
-    linux/detectlinux.h
+	linux/detectlinux.h
 	linux/gluondevices.h
 )
 ###############linux source and headers###################
 
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
-    inputdevice.cpp
+	inputdevice.cpp
 	inputdeviceprivate.cpp
-    mouse.cpp
+	mouse.cpp
 	mouseprivate.cpp
-    tablet.cpp
+	tablet.cpp
 	tabletprivate.cpp
-    keyboard.cpp
+	keyboard.cpp
 	keyboardprivate.cpp
-    joystick.cpp
+	joystick.cpp
 	joystickprivate.cpp
-    inputmanager.cpp
+	inputmanager.cpp
 	inputmanagerprivate.cpp
-    detect.cpp
+	detect.cpp
 	inputbuffer.cpp
 	inputbufferprivate.cpp
 	gluonbuttonmapper.cpp

@@ -41,8 +41,7 @@ InputThreadPrivate::InputThreadPrivate(InputThreadPrivate &other)
         m_error(other.m_error),
         m_deviceType(other.m_deviceType),
         m_buttonCapabilities(other.m_buttonCapabilities),
-        m_relAxisCapabilities(other.m_relAxisCapabilities),
-        m_absAxisCapabilities(other.m_absAxisCapabilities),
+        m_axisCapabilities(other.m_axisCapabilities),
         m_absAxisInfos(other.m_absAxisInfos)
 {
 }

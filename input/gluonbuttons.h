@@ -251,20 +251,20 @@ namespace GluonInput
 		
 			enum JoystickAxis
 			{
-				Joystick_X,
-				Joystick_Y,
-				Joystick_Z,
-				Joystick_ROTATION_X_AXIS,
-				Joystick_ROTATION_Y_AXIS,
-				Joystick_ROTATION_Z_AXIS,
-				Joystick_DIAL,
-				Joystick_HAT_SWITCH,
-				Joystick_XTILT,
-				Joystick_YTILT,
-				Joystick_RUDDER,
-				Joystick_THROTTLE,
-				Joystick_GAS,
-				Joystick_BRAKE
+				JOYSTICK_X,
+				JOYSTICK_Y,
+				JOYSTICK_Z,
+				JOYSTICK_ROTATION_X_AXIS,
+				JOYSTICK_ROTATION_Y_AXIS,
+				JOYSTICK_ROTATION_Z_AXIS,
+				JOYSTICK_DIAL,
+				JOYSTICK_HAT_SWITCH,
+				JOYSTICK_XTILT,
+				JOYSTICK_YTILT,
+				JOYSTICK_RUDDER,
+				JOYSTICK_THROTTLE,
+				JOYSTICK_GAS,
+				JOYSTICK_BRAKE
 			};
 			
 			enum MouseButton

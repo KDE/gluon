@@ -20,6 +20,7 @@
 #include "inputthread.h"
 #include "absval.h"
 #include "inputthreadprivate.h"
+#include "gluonhardwarebuttons.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
@@ -68,13 +69,11 @@ void InputThread::run()
 			switch(eventType)
 			{
 				case GluonInput::Button:
-					emit this->buttonStateChanged(ev.code, ev.value);
+					emit this->buttonStateChanged(GluonHardwareButtons::instance()->hardwareButtonsToGluonButtons(this->deviceType(), ev.code ), ev.value);
 					break;
 				case GluonInput::RelativeAxis:
-					emit this->relAxisMoved(ev.code, ev.value);
-					break;
 				case GluonInput::AbsoluteAxis:
-					emit this->absAxisMoved(ev.code, ev.value);
+					emit this->axisMoved(GluonHardwareButtons::instance()->hardwareMovementToGluonAxis(this->deviceType(), ev.code ), ev.value);
 					break;
 			}
 		}
@@ -145,7 +144,12 @@ void InputThread::readInformation()
 	ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
 	d->m_buttonCapabilities.clear();
+	d->m_axisCapabilities.clear();
 	d->m_absAxisInfos.clear();
+	
+	QList<int> buttons;
+	QList<int> absCap;
+	QList<int> relCap;
 
 	for (int i = 0; i < EV_MAX; i++)
 	{
@@ -163,55 +167,27 @@ void InputThread::readInformation()
 				{
 					if (i == EV_KEY)
 					{
-						d->m_buttonCapabilities.append(j);
+						buttons.append(j);
 					}
-
-					if (i == EV_REL)
+					else if(i == EV_ABS )
 					{
-						d->m_relAxisCapabilities.append(j);
+						absCap.append(j);
 					}
-
-					if (i == EV_ABS)
+					else if(i == EV_REL)
 					{
-						ioctl(d->m_fd, EVIOCGABS(j), abs);
-						AbsVal cabs(0, 0, 0, 0);
-						for (int k = 0; k < 5; k++)
-						{
-							if ((k < 3) || abs[k])
-							{
-								switch (k)
-								{
-									case 0:
-										cabs.value = abs[k];
-										break;
-									case 1:
-										cabs.min = abs[k];
-										break;
-									case 2:
-										cabs.max = abs[k];
-										break;
-									case 3:
-										cabs.fuzz = abs[k];
-										break;
-									case 4:
-										cabs.flat = abs[k];
-										break;
-								}
-							}
-						}
-						d->m_absAxisCapabilities.append(j);
-						d->m_absAxisInfos[j] = cabs;
+						relCap.append(j);
 					}
 				}
 			}
 		}
 	}
-
+	
+	
 	//===============Find Force feedback ?? ===============
 
 	d->m_deviceType = GluonInput::UnknownDevice;
 
-	if (d->m_buttonCapabilities.contains(BTN_STYLUS))
+	/*if (buttons.contains(BTN_STYLUS))
 	{
 		d->m_deviceType  = GluonInput::TabletDevice;
 	}
@@ -220,37 +196,68 @@ void InputThread::readInformation()
 			|| d->m_buttonCapabilities.contains(ABS_PRESSURE))
 	{
 		d->m_deviceType  = GluonInput::MouseDevice;
-	}
+	}*/
 
-	if (d->m_buttonCapabilities.contains(BTN_TRIGGER))
+	if (buttons.contains(GluonHardwareButtons::TRIGGER))
 	{
 		d->m_deviceType  = GluonInput::JoystickDevice;
 	}
 
-	if (d->m_buttonCapabilities.contains(BTN_MOUSE))
+	if (buttons.contains(GluonHardwareButtons::MOUSE_LEFT_BUTTON))
 	{
 		d->m_deviceType  = GluonInput::MouseDevice;
 	}
 
-	if (d->m_buttonCapabilities.contains(KEY_ESC))
+	if (buttons.contains(GluonHardwareButtons::ESC))
 	{
 		d->m_deviceType  = GluonInput::KeyboardDevice;
 	}
-}
-
-int InputThread::getJoystickXAxis()
-{
-	return ABS_X;
-}
-
-int InputThread::getJoystickYAxis()
-{
-	return ABS_Y;
-}
-
-int InputThread::getJoystickZAxis()
-{
-	return ABS_Z;
+	
+	
+	foreach(int b, buttons)
+	{
+		d->m_buttonCapabilities.append(GluonHardwareButtons::instance()->hardwareButtonsToGluonButtons(this->deviceType(), b));
+	}
+	
+	foreach(int r, relCap)
+		d->m_axisCapabilities.append(GluonHardwareButtons::instance()->hardwareMovementToGluonAxis(this->deviceType(), r));
+	
+	foreach(int a, absCap)
+	{
+		
+		int j_map = GluonHardwareButtons::instance()->hardwareMovementToGluonAxis(this->deviceType(), a);
+		d->m_axisCapabilities.append(j_map);
+	 
+		ioctl(d->m_fd, EVIOCGABS(a), abs);
+		AbsVal cabs(0, 0, 0, 0);
+		for (int k = 0; k < 5; k++)
+		{
+			if ((k < 3) || abs[k])
+			{
+				switch (k)
+				{
+					case 0:
+						cabs.value = abs[k];
+						break;
+					case 1:
+						cabs.min = abs[k];
+						break;
+					case 2:
+						cabs.max = abs[k];
+						break;
+					case 3:
+						cabs.fuzz = abs[k];
+						break;
+					case 4:
+						cabs.flat = abs[k];
+						break;
+				}
+			}
+		}
+		d->m_absAxisInfos[j_map] = cabs;
+	}
+	
+						
 }
 
 void InputThread::stop()
@@ -283,14 +290,9 @@ QList<int> InputThread::buttonCapabilities()const
 	return d->m_buttonCapabilities;
 }
 
-QList<int> InputThread::absAxisCapabilities()const
+QList<int> InputThread::axisCapabilities()const
 {
-	return d->m_absAxisCapabilities;
-}
-
-QList<int> InputThread::relAxisCapabilities()const
-{
-	return d->m_relAxisCapabilities;
+	return d->m_axisCapabilities;
 }
 
 AbsVal InputThread::axisInfo(int axisCode) const
