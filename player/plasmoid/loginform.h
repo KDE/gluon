@@ -28,6 +28,8 @@ namespace Plasma
 {
     class LineEdit;
     class PushButton;
+    class Label;
+    class BusyWidget;
 }
 
 class LoginForm : public Overlay
@@ -41,16 +43,15 @@ class LoginForm : public Overlay
         Plasma::LineEdit *m_usernameEdit;
         Plasma::LineEdit *m_passwordEdit;
         Plasma::PushButton *m_loginButton;
+        Plasma::BusyWidget *m_busyWidget;
+        Plasma::Label *m_usernameLabel;
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 
     protected slots:
         void doLogin();
-        void processProviders();
-
-    signals:
         void loginDone();
-        void isBusy(bool busy);
+        void loginFailed();
 };
 
 #endif // LOGINFORM_H

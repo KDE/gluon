@@ -23,6 +23,8 @@
 #include <attica/provider.h>
 #include <Plasma/LineEdit>
 #include <Plasma/PushButton>
+#include <Plasma/Label>
+#include <Plasma/BusyWidget>
 #include <KLineEdit>
 #include <KLocalizedString>     //FIXME: Why is this required?
 
@@ -40,13 +42,23 @@ LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(pa
     m_loginButton->setIcon(KIcon("network-connect"));
     m_loginButton->setText(i18n("Login"));
 
+    m_busyWidget = new Plasma::BusyWidget(this);
+    m_busyWidget->hide();
+    m_usernameLabel = new Plasma::Label(this);
+    m_usernameLabel->setText(i18n("Not Logged In"));
+
+    QGraphicsLinearLayout *layout1 = new QGraphicsLinearLayout(m_contentLayout);
+    layout1->addItem(m_busyWidget);
+    layout1->addItem(m_usernameLabel);
+
+    m_contentLayout->addItem(layout1);
     m_contentLayout->addItem(m_usernameEdit);
     m_contentLayout->addItem(m_passwordEdit);
     m_contentLayout->addItem(m_loginButton);
 
-    connect(m_loginButton, SIGNAL(clickedl()), SLOT(doLogin()));
-
-    emit isBusy(true);
+    connect(m_loginButton, SIGNAL(clicked()), SLOT(doLogin()));
+    connect(GluonPlayer::Authentication::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
+    connect(GluonPlayer::Authentication::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()));
 }
 
 void LoginForm::doLogin()
@@ -55,11 +67,25 @@ void LoginForm::doLogin()
         return;
     }
 
-    GluonPlayer::Authentication::instance()->setCredentials(m_usernameEdit->text(), m_passwordEdit->text());
+    m_loginButton->setEnabled(false);
+    m_busyWidget->show();
+    m_usernameLabel->setText(i18n("Logging in"));
+    GluonPlayer::Authentication::instance()->login(m_usernameEdit->text(), m_passwordEdit->text());
 }
 
-void LoginForm::processProviders()
+void LoginForm::loginDone()
 {
+    m_busyWidget->hide();
+    m_usernameLabel->setText(
+        i18nc("Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username()));
+    m_loginButton->setEnabled(true);
+}
+
+void LoginForm::loginFailed()
+{
+    m_busyWidget->hide();
+    m_usernameLabel->setText(i18n("Login Failed"));
+    m_loginButton->setEnabled(true);
 }
 
 #include "loginform.moc"
