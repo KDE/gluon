@@ -19,7 +19,7 @@
 */
 
 #include "gluonviewerpart.h"
-#include <graphics/glwidget.h>
+#include <graphics/renderwidget.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
@@ -35,10 +35,8 @@ using namespace GluonCreator;
 class GluonViewerPart::GluonViewerPartPrivate
 {
     public:
-        GluonGraphics::GLWidget *widget;
+        GluonGraphics::RenderWidget *widget;
         GluonEngine::GameProject *project;
-
-        QTimer *timer;
 
         bool autoplay;
 };
@@ -50,7 +48,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* p
     Q_UNUSED(parentWidget)
 
     d->autoplay = true;
-    d->widget = new GluonGraphics::GLWidget();
+    d->widget = new GluonGraphics::RenderWidget();
     setWidget(d->widget);
 
     connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
@@ -81,10 +79,7 @@ bool GluonCreator::GluonViewerPart::openFile()
 
     if(d->autoplay)
     {
-        d->timer = new QTimer();
-        d->timer->setSingleShot(true);
-        connect(d->timer, SIGNAL(timeout()), SLOT(startGame()));
-        d->timer->start();
+        QTimer::singleShot(100, this, SLOT(startGame()));
     }
 
     return true;
@@ -92,11 +87,6 @@ bool GluonCreator::GluonViewerPart::openFile()
 
 void GluonViewerPart::startGame()
 {
-    if(d->timer)
-    {
-        d->timer->deleteLater();
-        d->timer = 0;
-    }
     GluonEngine::Game::instance()->runGame();
 }
 

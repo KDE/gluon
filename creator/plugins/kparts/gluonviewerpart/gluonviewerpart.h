@@ -32,17 +32,16 @@ namespace GluonCreator
             GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
             virtual ~GluonViewerPart();
 
+        public slots:
+            void startGame();
+
         protected:
             virtual bool openFile();
 
         private:
-            class GameRunner;;
-            
             class GluonViewerPartPrivate;
             GluonViewerPartPrivate * const d;
-public slots:
-    void startGame();
     };
 }
-    
+
 #endif // GLUONVIEWERPART_H
