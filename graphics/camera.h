@@ -45,15 +45,57 @@ namespace GluonGraphics
         Q_OBJECT
 
         public:
+            /**
+             * Contrstructor.
+             *
+             * Creates a camera with a default frustum.
+             *
+             * \param parent The parent QObject.
+             */
             explicit Camera( QObject* parent = 0 );
+
+            /**
+             * Constructor.
+             *
+             * \param frustum The frustum to use for this camera.
+             * \param parent The parent QObject.
+             */
             explicit Camera( Frustum* frustum, QObject* parent = 0 );
+
+            /**
+             * Destructor.
+             */
             virtual ~Camera();
 
+            /**
+             * Retrieve the view matrix from this camera.
+             *
+             * The view matrix is the position and rotation of the
+             * "eye". This determines from where the scene is viewed.
+             *
+             * \return The view matrix.
+             */
             QMatrix4x4 viewMatrix();
+
+            /**
+             * Retrieve the frustum used by this camera.
+             *
+             * \return The frustum used.
+             */
             Frustum* frustum();
 
         public Q_SLOTS:
+            /**
+             * Set the view matrix to use.
+             *
+             * \param matrix The matrix to use.
+             */
             void setViewMatrix(const QMatrix4x4& matrix);
+            /**
+             * Set the frustum to use.
+             *
+             * \param frustum The frustum to use.
+             */
             void setFrustrum( Frustum* frustum);
 
         private:
