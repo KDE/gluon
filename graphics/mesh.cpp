@@ -27,6 +27,8 @@
 #include <GL/glext.h>
 
 #include <QtGui/QMatrix4x4>
+#include <QtGui/QColor>
+
 #include "math.h"
 
 using namespace GluonGraphics;
@@ -58,46 +60,41 @@ Mesh::~Mesh()
 void
 Mesh::load( const QString& filename )
 {
-    if(d->buffer)
+    if(isLoaded())
         return;
+    
+    #ifdef __GNUC__
+    #warning Todo: Move vertex buffer related stuff to a VertexBuffer class.
+    #endif
 
-    float vertices[] = {
-        -1.f, -1.f, 0.f,
-        -1.f,  1.f, 0.f,
-         1.f,  1.f, 0.f,
+    QVector<float> vertices;
+    vertices << -1.f << -1.f << 0.f;
+    vertices << -1.f <<  1.f << 0.f;
+    vertices <<  1.f <<  1.f << 0.f;
 
-        -1.f, -1.f, 0.f,
-         1.f,  1.f, 0.f,
-         1.f, -1.f, 0.f,
-    };
-    float colors[] = {
-        1.f, 0.f, 0.f, 1.f,
-        0.f, 1.f, 0.f, 1.f,
-        0.f, 0.f, 1.f, 1.f,
+    vertices << -1.f << -1.f << 0.f;
+    vertices <<  1.f <<  1.f << 0.f;
+    vertices <<  1.f << -1.f << 0.f;
 
-        1.f, 0.f, 0.f, 1.f,
-        0.f, 0.f, 1.f, 1.f,
-        1.f, 1.f, 0.f, 1.f,
-    };
-    float uvs[] = {
-        0.f, 0.f,
-        0.f, 1.f,
-        1.f, 1.f,
+    QVector<float> colors;
+    colors << 1.f << 1.f << 1.f << 1.f;
+    colors << 1.f << 1.f << 1.f << 1.f;
+    colors << 1.f << 1.f << 1.f << 1.f;
 
-        0.f, 0.f,
-        1.f, 1.f,
-        1.f, 0.f,
-    };
+    colors << 1.f << 1.f << 1.f << 1.f;
+    colors << 1.f << 1.f << 1.f << 1.f;
+    colors << 1.f << 1.f << 1.f << 1.f;
 
-    glGenBuffers(1, &d->buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(colors) + sizeof(uvs), 0, GL_STATIC_DRAW);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-    d->colorOffset = sizeof(vertices);
-    glBufferSubData(GL_ARRAY_BUFFER, d->colorOffset, sizeof(colors), colors);
-    d->uvOffset = d->colorOffset + sizeof(colors);
-    glBufferSubData(GL_ARRAY_BUFFER, d->uvOffset, sizeof(uvs), uvs);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    QVector<float> uvs;
+    uvs << 0.f << 0.f;
+    uvs << 0.f << 1.f;
+    uvs << 1.f << 1.f;
+
+    uvs << 0.f << 0.f;
+    uvs << 1.f << 1.f;
+    uvs << 1.f << 0.f;
+
+    createBuffer(vertices, colors, uvs);
 }
 
 void
@@ -105,6 +102,47 @@ Mesh::render( const QMatrix4x4& modelViewProj )
 {
     d->material->bind();
     d->material->setModelViewProjectionMatrix(modelViewProj);
+
+    renderBuffer(GL_TRIANGLES, modelViewProj, 6);
+
+    d->material->release();
+}
+
+MaterialInstance*
+Mesh::materialInstance()
+{
+    return d->material;
+}
+
+void
+Mesh::setMaterial( MaterialInstance* material )
+{
+    d->material = material;
+}
+
+bool
+Mesh::isLoaded()
+{
+    return d->buffer != 0;
+}
+
+void
+Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors, const QVector<float>& uvs )
+{
+    glGenBuffers(1, &d->buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
+    glBufferData(GL_ARRAY_BUFFER, (vertices.size() * 4) + (colors.size() * 4) + (uvs.size() * 4), 0, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * 4, vertices.data());
+    d->colorOffset = vertices.size() * 4;
+    glBufferSubData(GL_ARRAY_BUFFER, d->colorOffset, colors.size() * 4, colors.data());
+    d->uvOffset = d->colorOffset + colors.size() * 4;
+    glBufferSubData(GL_ARRAY_BUFFER, d->uvOffset, uvs.size() * 4, uvs.data());
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void
+Mesh::renderBuffer( uint mode, const QMatrix4x4& mvp, int count)
+{
     glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
     glVertexAttribPointer(d->material->attributeLocation("vertex"), 3, GL_FLOAT, 0, 0, 0);
     glVertexAttribPointer(d->material->attributeLocation("color"), 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
@@ -114,19 +152,12 @@ Mesh::render( const QMatrix4x4& modelViewProj )
     glEnableVertexAttribArray(d->material->attributeLocation("color"));
     glEnableVertexAttribArray(d->material->attributeLocation("uv0"));
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(mode, 0, count);
 
     glDisableVertexAttribArray(d->material->attributeLocation("vertex"));
     glDisableVertexAttribArray(d->material->attributeLocation("color"));
     glDisableVertexAttribArray(d->material->attributeLocation("uv0"));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    d->material->release();
-}
-
-void
-Mesh::setMaterial( MaterialInstance* material )
-{
-    d->material = material;
 }
 
 #include "mesh.moc"
