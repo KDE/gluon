@@ -59,6 +59,7 @@ void Material::build( const QString& name )
 
     const char* vertShaderSource = "\
 uniform mat4 modelViewProj;\
+\
 attribute vec3 vertex;\
 attribute vec4 color;\
 attribute vec2 uv0;\
@@ -75,12 +76,14 @@ void main()\
 ";
 
     const char* fragShaderSource = "\
+uniform vec4 materialColor;\
+\
 varying vec4 out_color;\
 varying vec2 out_uv0;\
 \
 void main()\
 {\
-    gl_FragColor = out_color;\
+    gl_FragColor = out_color * materialColor;\
 }\
 ";
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
@@ -133,7 +136,9 @@ Material::glProgram()
 MaterialInstance*
 Material::createInstance()
 {
-    return new MaterialInstance(this);
+    MaterialInstance* instance = new MaterialInstance(this);
+    instance->setMaterial(this);
+    return instance;
 }
 
 #include "material.moc"
