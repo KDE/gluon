@@ -29,8 +29,10 @@
 #include <gluon/graphics/item.h>
 #include <gluon/graphics/frustum.h>
 #include <gluon/graphics/material.h>
+#include <gluon/graphics/materialinstance.h>
 #include <gluon/graphics/mesh.h>
 #include <QTimer>
+
 
 int main(int argc, char *argv[])
 {
@@ -51,22 +53,20 @@ int main(int argc, char *argv[])
 
     //Create an item to display
     GluonGraphics::Item * item = GluonGraphics::Engine::instance()->createItem("default");
-    QMatrix4x4 mat;
-    mat.translate(-1.5f, 0.f);
-    item->setTransform(mat);
     item->mesh()->load(QString());
-    GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
-    material->build();
-    item->mesh()->setMaterial(material->createInstance());
+    item->mesh()->setMaterial(GluonGraphics::Engine::instance()->createMaterial("default")->createInstance());
+    item->mesh()->materialInstance()->material()->build();
+    item->mesh()->materialInstance()->setUniform("materialColor", Qt::blue);
+
+    QMatrix4x4 mat;
+    mat.translate(-1.5f, -1.5f);
+    item->setTransform(mat);
 
     item = GluonGraphics::Engine::instance()->createItem("default");
-    mat.translate(3.0f, 0.f);
+    mat.translate(3.f, 3.f);
     item->setTransform(mat);
 
-    QTimer timer;
-    timer.setInterval(0);
-    QObject::connect(&timer, SIGNAL(timeout()), widget, SLOT(updateGL()));
-    timer.start();
+    QTimer::singleShot(0, widget, SLOT(updateGL()));
 
     return app.exec();
 
