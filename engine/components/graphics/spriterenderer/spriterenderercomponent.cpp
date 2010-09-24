@@ -22,15 +22,16 @@
 #include <core/debughelper.h>
 #include <graphics/item.h>
 #include <graphics/engine.h>
-#include <graphics/mesh.h>
+#include <graphics/material.h>
+#include <graphics/spritemesh.h>
+#include <graphics/materialinstance.h>
 #include <engine/gameobject.h>
+#include <engine/asset.h>
 
-#include <iostream>
-#include <asset.h>
-#include <QMimeData>
-
+#include <QtCore/QMimeData>
+#include <QtCore/QVariant>
 #include <QtGui/QMatrix4x4>
-#include <gluon/graphics/material.h>
+#include <QtGui/QColor>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
@@ -85,11 +86,19 @@ SpriteRendererComponent::initialize()
 {
     if(!d->item)
     {
+        if(!GluonGraphics::Engine::instance()->hasMesh("default"))
+        {
+            GluonGraphics::Mesh* sprite = new GluonGraphics::Mesh(GluonGraphics::Engine::instance());
+            sprite->load(QString());
+            GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
+            material->build();
+            sprite->setMaterial(material->createInstance());
+            GluonGraphics::Engine::instance()->addMesh("default", sprite);
+        }
+
         d->item = GluonGraphics::Engine::instance()->createItem("default");
-        d->item->mesh()->load(QString());
-        GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
-        material->build();
-        d->item->mesh()->setMaterial(material->createInstance());
+        d->item->mesh()->setMaterial(GluonGraphics::Engine::instance()->material("default")->createInstance());
+        d->item->mesh()->materialInstance()->setUniform("materialColor", d->color);
     }
 
     if (d->texture)
@@ -116,7 +125,9 @@ void SpriteRendererComponent::draw(int timeLapse)
 
     if (d->item)
     {
-        d->item->setTransform(gameObject()->transform());
+        QMatrix4x4 transform = gameObject()->transform();
+        transform.scale(d->size.width(), d->size.height());
+        d->item->setTransform(transform);
     }
 }
 
@@ -133,11 +144,6 @@ void SpriteRendererComponent::cleanup()
 void SpriteRendererComponent::setSize(const QSizeF &size)
 {
     d->size = size;
-
-    //if (d->mesh)
-    //{
-        //d->mesh->setSize(size);
-    //}
 }
 
 QSizeF SpriteRendererComponent::size()
@@ -147,11 +153,11 @@ QSizeF SpriteRendererComponent::size()
 
 void SpriteRendererComponent::setColor(const QColor& color)
 {
-    /*d->color = color;
-    if (d->mesh)
+    d->color = color;
+    if (d->item)
     {
-        d->mesh->setColor(color);
-    }*/
+        d->item->mesh()->materialInstance()->setUniform("materialColor", color);
+    }
 }
 
 void SpriteRendererComponent::setColor(int r, int g, int b, int a)
