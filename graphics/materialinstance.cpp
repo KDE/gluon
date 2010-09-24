@@ -23,9 +23,13 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "math.h"
-#include <gluon/graphics/engine.h>
+#include "engine.h"
 #include "camera.h"
 #include "frustum.h"
+
+#include <QtCore/QVariant>
+#include <QtGui/QVector2D>
+#include <QtGui/QColor>
 
 REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)
 
@@ -34,10 +38,16 @@ using namespace GluonGraphics;
 class MaterialInstance::MaterialInstancePrivate
 {
     public:
+        MaterialInstancePrivate() { bound = false; }
+
         Material * material;
 
-        QHash<QString, int> parameterLocations;
+        QHash<QString, int> uniformLocations;
         QHash<QString, int> attributeLocations;
+
+        QHash<QString, QVariant> parameterValues;
+
+        bool bound;
 };
 
 MaterialInstance::MaterialInstance(QObject* parent)
@@ -45,13 +55,6 @@ MaterialInstance::MaterialInstance(QObject* parent)
       d(new MaterialInstancePrivate)
 {
 
-}
-
-MaterialInstance::MaterialInstance( Material* instanceOf )
-    : GluonObject( instanceOf ),
-      d(new MaterialInstancePrivate)
-{
-    d->material = instanceOf;
 }
 
 MaterialInstance::~MaterialInstance()
@@ -63,18 +66,31 @@ void
 MaterialInstance::bind()
 {
     glUseProgram(d->material->glProgram());
+    d->bound = true;
+
+    for(QHash<QString, QVariant>::iterator itr = d->parameterValues.begin(); itr != d->parameterValues.end(); ++itr)
+    {
+        setGLUniform(itr.key(), itr.value());
+    }
 }
 
 void
 MaterialInstance::release()
 {
     glUseProgram(0);
+    d->bound = false;
 }
 
 Material*
-MaterialInstance::instanceOf()
+MaterialInstance::material()
 {
     return d->material;
+}
+
+void
+MaterialInstance::setMaterial( Material* material )
+{
+    d->material = material;
 }
 
 int MaterialInstance::attributeLocation( const QString& attrib )
@@ -91,39 +107,81 @@ int MaterialInstance::attributeLocation( const QString& attrib )
     return loc;
 }
 
-int MaterialInstance::parameterLocation( const QString& param)
+int MaterialInstance::uniformLocation( const QString& name)
 {
-    if(d->parameterLocations.contains(param))
-        return d->parameterLocations.value(param);
+    if(d->uniformLocations.contains(name))
+        return d->uniformLocations.value(name);
 
-    int loc = glGetUniformLocation(d->material->glProgram(), param.toUtf8().constData());
+    int loc = glGetUniformLocation(d->material->glProgram(), name.toUtf8().constData());
     if(loc != -1)
     {
-        d->parameterLocations.insert(param, loc);
+        d->uniformLocations.insert(name, loc);
     }
 
     return loc;
 }
 
-void MaterialInstance::setParameter( const QString& param, const QVariant& value )
+void MaterialInstance::setUniform( const QString& name, const QVariant& value )
 {
-    int loc = parameterLocation(param);
-
-    int size;
-    GLenum type;
-    glGetActiveUniform(d->material->glProgram(), loc, 0, NULL, &size, &type, NULL);
-
+    if(!d->bound)
+    {
+        d->parameterValues.insert(name, value);
+    }
+    else
+    {
+        setGLUniform(name, value);
+    }
 }
 
 void
 MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
 {
-    int loc = parameterLocation("modelViewProj");
+    int loc = uniformLocation("modelViewProj");
 
     float glMatrix[16];
     Math::qmatrixToGLMatrix(mvp, glMatrix);
     glUniformMatrix4fv(loc, 1, false, glMatrix);
 }
 
+void
+MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
+{
+    switch(value.type())
+    {
+        case QVariant::Int:
+            glUniform1i( uniformLocation(name), value.toInt());
+            break;
+        case QVariant::Double:
+            glUniform1f( uniformLocation(name), value.toDouble());
+            break;
+        case QVariant::Color:
+        {
+            QColor color = value.value<QColor>();
+            glUniform4f( uniformLocation(name), color.red() / 255.f, color.green() / 255.f, color.blue() / 255.f, color.alpha() / 255.f);
+            break;
+        }
+        case QVariant::Vector2D:
+        {
+            QVector2D vector = value.value<QVector2D>();
+            glUniform2f( uniformLocation(name), vector.x(), vector.y());
+            break;
+        }
+        case QVariant::Vector3D:
+        {
+            QVector3D vector = value.value<QVector3D>();
+            glUniform3f( uniformLocation(name), vector.x(), vector.y(), vector.z());
+            break;
+        }
+        case QVariant::Vector4D:
+        {
+            QVector4D vector = value.value<QVector4D>();
+            glUniform4f( uniformLocation(name), vector.x(), vector.y(), vector.z(), vector.w());
+            break;
+        }
+    }
+    int error = glGetError();
+    if(error != GL_NO_ERROR)
+        debug(QString("An OpenGL error has occured. GL Error code is: %1").arg(error));
+}
 
 #include "materialinstance.moc"

@@ -50,7 +50,6 @@ namespace GluonGraphics
              * \see Material::createInstance
              */
             explicit MaterialInstance(QObject* parent = 0);
-            explicit MaterialInstance(Material * instanceOf);
 
             /**
              * Destructor.
@@ -72,15 +71,79 @@ namespace GluonGraphics
             virtual void release();
 
             /**
-             * \return The material this MaterialInstance is an instance of.
+             * Retrieve the material used by this material instance.
+             *
+             * \return The material this material instance uses.
              */
-            Material * instanceOf();
+            Material * material();
 
-            int parameterLocation(const QString& param);
+            /**
+             * Set the material this material instance uses.
+             *
+             * \param material The material to use.
+             */
+            void setMaterial(Material * material);
+
+            /**
+             * Retrieve the location of a uniform variable from the underlying
+             * shader program.
+             *
+             * \param name The name of the uniform to retrieve the location for,
+             *
+             * \return The location of the uniform variable.
+             */
+            int uniformLocation(const QString& name);
+
+            /**
+             * Retrieve the location of a uniform variable from the underlying
+             * shader program.
+             *
+             * \param name The name of the uniform to retrieve the location for,
+             *
+             * \return The location of the uniform variable.
+             */
             int attributeLocation(const QString& attrib);
 
-            void setParameter(const QString& param, const QVariant& value);
+            /**
+             * Set the value of a Uniform parameter.
+             * If this instance is not currently bound, the value will be cached
+             * and set during the next call to bind().
+             *
+             * \note It is assumed that the value passed to this function is of
+             * the correct type.
+             *
+             * \param name The name of the uniform to set the value of.
+             * \param value The value to set the uniform to.
+             */
+            void setUniform(const QString& name, const QVariant& value);
+
+            /**
+             * Sets the modelViewProj uniform variable.
+             * The modelViewProj uniform contains the model-view-projection
+             * matrix, which is the matrix determining where to render the
+             * current model. This specific uniform should always be available.
+             *
+             * \note It is assumed that the material is bound when this method
+             * is called.
+             *
+             * \param mvp The model-view-projection matrix to set the uniform to.
+             */
             void setModelViewProjectionMatrix( QMatrix4x4 mvp );
+
+        protected:
+            /**
+             * Set the actual uniform variable.
+             * This method determines the type of the variant passed in
+             * as value and then proceeds to set the uniform to this
+             * value.
+             *
+             * \note It is assumed that the material is bound when this
+             * method is called.
+             *
+             * \param name The name of the uniform to set the value of.
+             * \param value The value to set the uniform to.
+             */
+            void setGLUniform(const QString& name, const QVariant& value);
 
         private:
             class MaterialInstancePrivate;
