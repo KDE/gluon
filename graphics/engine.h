@@ -60,8 +60,6 @@ namespace GluonGraphics
              * The item will be put into the internal registry of items and
              * should be removed by calling destroyItem().
              *
-             * \see GluonGraphics::Item
-             *
              * \param mesh The name of the mesh to attach to the new item.
              * If this mesh does not exist yet it will be created.
              *
@@ -82,8 +80,6 @@ namespace GluonGraphics
             /**
              * Create a Material.
              *
-             * \see GluonGraphics::Material
-             *
              * \param name The name of the material to create.
              *
              * \return A new material with name as name or an existing
@@ -92,9 +88,15 @@ namespace GluonGraphics
             Material * createMaterial(const QString& name);
 
             /**
-             * Create a Mesh.
+             * Retrieve a registered material.
              *
-             * \see GluonGraphics::Mesh
+             * \param name The name of the material to retrieve.
+             *
+             * \return The material requested or 0 if not found.
+             */
+            Material * material(const QString& name);
+            /**
+             * Create a Mesh.
              *
              * \param name The name of the mesh to create.
              *
@@ -102,6 +104,27 @@ namespace GluonGraphics
              * mesh if name is equal to an existing mesh.
              */
             Mesh * createMesh(const QString& name);
+
+            /**
+             * Check whether a mesh is registered.
+             *
+             * \param name The name of the mesh to check for.
+             *
+             * \return True if the mesh is registered, false if not.
+             */
+            bool hasMesh(const QString& name);
+
+            /**
+             * Add a mesh to the registry.
+             *
+             * \param name The name used to identify the mesh.
+             * \param mesh The mesh to add.
+             *
+             * \return True if successful, false if not. False is also
+             * returned when a mesh with the same name is already registered.
+             *
+             */
+            bool addMesh(const QString& name, Mesh* mesh);
 
             /**
              * Create a Texture.

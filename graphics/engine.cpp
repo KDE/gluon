@@ -114,10 +114,45 @@ Engine::createMaterial(const QString &name)
     return newMaterial;
 }
 
+Material*
+Engine::material( const QString& name )
+{
+    QString typeName = QString("Material/%1").arg(name);
+    QMutexLocker locker(&d->mutex);
+
+    if(d->objects.contains(typeName))
+        return qobject_cast<Material*>(d->objects.value(typeName));
+
+    return 0;
+}
+
 Mesh*
 Engine::createMesh(const QString& name)
 {
     return d->createObject<Mesh>("Mesh", name);
+}
+
+bool
+Engine::addMesh( const QString& name, Mesh* mesh )
+{
+    QString typeName = QString("Mesh/%1").arg(name);
+    QMutexLocker locker(&d->mutex);
+
+    if(!d->objects.contains(typeName))
+    {
+        d->objects.insert(typeName, mesh);
+        return true;
+    }
+
+    return false;
+}
+
+bool Engine::hasMesh( const QString& name )
+{
+    QString typeName = QString("Mesh/%1").arg(name);
+    QMutexLocker locker(&d->mutex);
+
+    return d->objects.contains(typeName);
 }
 
 Texture*
