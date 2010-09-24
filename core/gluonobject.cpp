@@ -428,7 +428,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
     {
         QMetaProperty metaproperty = metaobject->property(i);
         const QString theName(metaproperty.name());
-        if (theName == "objectName" || theName == "name")
+        if (theName == "objectName" || theName == "name" || !metaproperty.isWritable())
             continue;
         serializedObject += this->getStringFromProperty(theName, indentChars);
     }

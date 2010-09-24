@@ -73,7 +73,7 @@ namespace GluonEngine
              * The filename of the GameProject, meaning the name of the project file on
              * disk, relative to the project directory.
              */
-            Q_PROPERTY(QUrl filename READ filename WRITE setFilename)
+            Q_PROPERTY(QUrl filename READ filename)
 
             /**
              * The Scene in which the game should begin. This is likely going to be an intro

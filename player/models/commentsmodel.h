@@ -61,12 +61,13 @@ namespace GluonPlayer
             virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
             QString columnName(const Column col) const;
+            bool isOnline();
+            void addComment(const QModelIndex& parentIndex, const QString& subject, const QString& message);
 
         private:
             GluonCore::GluonObject *rootNode;
             QStringList m_columnNames;
-            Attica::ProviderManager m_manager;
-            Attica::Provider m_provider;
+            bool m_isOnline;
 
             void updateData();
             void loadData();
@@ -77,6 +78,10 @@ namespace GluonPlayer
         private slots:
             void providersUpdated();
             void processFetchedComments(Attica::BaseJob*);
+            void addCommentFinished(Attica::BaseJob* job);
+
+        signals:
+            void addCommentFailed();
     };
 
 }

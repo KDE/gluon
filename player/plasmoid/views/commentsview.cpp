@@ -25,15 +25,15 @@
 #include <Plasma/ItemBackground>
 #include <Plasma/LineEdit>
 #include <Plasma/Frame>
+#include <Plasma/ScrollWidget>
 
-#include <QDebug>
 #include <QTreeView>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
-#include <Plasma/ScrollWidget>
+#include <QDebug>
 
 CommentsView::CommentsView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : AbstractItemView(parent, wFlags), m_rootWidget(0)
+        : AbstractItemView(parent, wFlags), m_rootWidget(0), m_isOnline(false)
 {
     m_itemBackground = new Plasma::ItemBackground(this);
     m_commentsFrame = new Plasma::Frame(this);
@@ -56,6 +56,7 @@ void CommentsView::setModel(QAbstractItemModel* model)
 CommentsViewItem* CommentsView::addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth)
 {
     CommentsViewItem *item = new CommentsViewItem(parent);
+    item->setReplyEnabled(qobject_cast<GluonPlayer::CommentsModel*>(m_model)->isOnline());
     item->setParent(parent);
     item->setDepth(depth);
     item->setModelIndex(index);
@@ -118,33 +119,18 @@ void CommentsView::loadComments()
 
 void CommentsView::reloadComments()
 {
+    hideComments();
     removeComments();
     loadComments();
+    showComments();
 }
 
 void CommentsView::addNewUserComment(QModelIndex parentIndex, QString title, QString body)
 {
-    int row = m_model->rowCount(parentIndex);
-    if (!m_model->insertRow(row, parentIndex)) {
-        qDebug() << "Can't insert new comment";
-        return;
-    }
-
-    //TODO: Ask the user for the data
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::AuthorColumn, parentIndex),
-                     "New Author");
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::TitleColumn, parentIndex),
-                     title);
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::BodyColumn, parentIndex),
-                     body);
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::DateTimeColumn, parentIndex),
-                     "NDateTime");
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
-                     "5");
-
+    GluonPlayer::CommentsModel *model = static_cast<GluonPlayer::CommentsModel*>(m_model);
+    model->addComment(parentIndex, title, body);
+    connect(model, SIGNAL(addCommentFailed()), SLOT(showComments()));
     sender()->deleteLater();
-    reloadComments();
-    showComments();
 }
 
 void CommentsView::cancelNewComment()

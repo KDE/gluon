@@ -17,36 +17,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMESOVERLAY_H
-#define GAMESOVERLAY_H
+#ifndef LOGINFORM_H
+#define LOGINFORM_H
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+#include "overlay.h"
+#include <attica/providermanager.h>
+#include <attica/provider.h>
 
 namespace Plasma
 {
-    class TabBar;
-};
+    class LineEdit;
+    class PushButton;
+    class Label;
+    class BusyWidget;
+}
 
-class GamesView;
-class LoginForm;
-
-class GamesOverlay : public QGraphicsWidget
+class LoginForm : public Overlay
 {
-        Q_OBJECT
+    Q_OBJECT
 
     public:
-        GamesOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        GamesView *gamesView();
+        LoginForm(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
 
     private:
-        Plasma::TabBar *m_tabBar;
-        GamesView *m_gamesView;
-        LoginForm *m_loginForm;
+        Plasma::LineEdit *m_usernameEdit;
+        Plasma::LineEdit *m_passwordEdit;
+        Plasma::PushButton *m_loginButton;
+        Plasma::BusyWidget *m_busyWidget;
+        Plasma::Label *m_usernameLabel;
+        Attica::ProviderManager m_manager;
+        Attica::Provider m_provider;
 
-    signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
+    protected slots:
+        void doLogin();
+        void loginDone();
+        void loginFailed();
 };
 
-#endif // GAMESOVERLAY_H
+#endif // LOGINFORM_H

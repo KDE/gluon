@@ -99,17 +99,17 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
             QAction * action;
             if (object->inherits("GluonEngine::Asset"))
             {
-                action = new QAction("Asset actions go here", this->q);
+                action = new QAction(i18n("Asset actions go here"), this->q);
                 action->setEnabled(false);
                 menuItems.append(action);
             }
             else
             {
-                action = new QAction(KIcon("folder"), "New Folder...", this->q);
+                action = new QAction(KIcon("folder"), i18n("New Folder..."), this->q);
                 connect(action, SIGNAL(triggered()), q, SLOT(newSubMenuTriggered()));
                 menuItems.append(action);
 
-                action = new QAction(KIcon("document-new"), "New Scene", this->q);
+                action = new QAction(KIcon("document-new"), i18n("New Scene"), this->q);
                 connect(action, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
                 menuItems.append(action);
                 

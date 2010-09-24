@@ -18,6 +18,7 @@
  */
 
 #include "commentsmodel.h"
+#include <player/lib/atticamanager.h>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
@@ -28,14 +29,14 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
-#include <QDebug>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
+CommentsModel::CommentsModel(QObject* parent)
+    : QAbstractItemModel(parent), m_isOnline(false)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
     rootNode = new GluonObject("Comment");
@@ -46,23 +47,21 @@ CommentsModel::CommentsModel(QObject* parent) : QAbstractItemModel(parent)
 
 void CommentsModel::updateData()
 {
-    connect(&m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()));
-    m_manager.loadDefaultProviders();
+    if (AtticaManager::instance()->isProviderValid()) {
+        providersUpdated();
+    } else {
+        connect(AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(providersUpdated()));
+    }
 }
 
 void CommentsModel::providersUpdated()
 {
-    if (!m_manager.providers().isEmpty()) {
-        m_provider = m_manager.providerByUrl(QUrl("https://api.opendesktop.org/v1/"));
-        if (!m_provider.isValid()) {
-            qDebug() << "Could not find opendesktop.org provider.";
-            return;
-        }
-
+    if (AtticaManager::instance()->isProviderValid()) {
         //TODO: 128637 is the ID for Invaders, make it work for other games as well
         //      when we have more games
 
-        Attica::ListJob<Attica::Comment>* job = m_provider.requestComments(Attica::Comment::ContentComment,
+        Attica::ListJob<Attica::Comment>* job = 
+          AtticaManager::instance()->provider().requestComments(Attica::Comment::ContentComment,
                                                 "128637", "0", 0, 100);
         connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
         job->start();
@@ -89,23 +88,34 @@ void CommentsModel::processFetchedComments(Attica::BaseJob* job)
             addComment(p, rootNode);
         }
 
+        m_isOnline = true;
         reset();    //Reset the model to notify views to reload comments
     } else {
         qDebug() << "Could not fetch information";
     }
 }
 
+void CommentsModel::addCommentFinished (Attica::BaseJob* job)
+{
+     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
+     if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
+          updateData();
+     } else {
+          emit addCommentFailed();
+     }
+}
+
 GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* parent)
 {
-    GluonObject *newComment = new GluonObject("Comment", parent);
+    GluonObject *newComment = new GluonObject(comment.id(), parent);
     newComment->setProperty("Author", comment.user());
     newComment->setProperty("Title", comment.subject());
     newComment->setProperty("Body", comment.text());
-    newComment->setProperty("DateTime", comment.date());
+    newComment->setProperty("DateTime", comment.date().toString());
     newComment->setProperty("Rating", comment.score());
 
     for (int i = 0; i < comment.childCount(); i++) {
-        addComment(comment.children().at(0), newComment);
+        addComment(comment.children().at(i), newComment);
     }
 
     return newComment;
@@ -284,5 +294,22 @@ QString CommentsModel::columnName(const Column col) const
 {
     return m_columnNames.at(col);
 }
+
+bool CommentsModel::isOnline()
+{
+    return m_isOnline;
+}
+
+void CommentsModel::addComment (const QModelIndex& parentIndex, const QString& subject, const QString& message)
+{
+     GluonObject *parentNode = static_cast<GluonObject*>(parentIndex.internalPointer());
+     Attica::ItemPostJob<Attica::Comment> *job = 
+          AtticaManager::instance()->provider().addNewComment(Attica::Comment::ContentComment,
+                                                              "128637", "0", parentNode->name(), subject,
+                                                              message);
+     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addCommentFinished(Attica::BaseJob*)));
+     job->start();
+}
+
 
 #include "commentsmodel.moc"

@@ -50,6 +50,8 @@ class CommentsViewItem : public QGraphicsWidget
         void setDepth(int newDepth);
         int rowInLayout();
         void setRowInLayout(int row);
+        bool replyEnabled();
+        void setReplyEnabled(bool enabled);
 
     protected:
         QPersistentModelIndex m_index;
@@ -69,6 +71,9 @@ class CommentsViewItem : public QGraphicsWidget
 
         void layoutWidgets();
         void setToolTips();
+
+    private:
+        bool m_replyEnabled;
 
     signals:
         void replyClicked();

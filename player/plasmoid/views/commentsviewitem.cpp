@@ -26,7 +26,7 @@
 
 CommentsViewItem::CommentsViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
         : QGraphicsWidget(parent, wFlags), m_author(0), m_title(0), m_body(0), m_dateTime(0),
-        m_rating(0), m_replyButton(0), m_layout(0), m_depth(0)
+        m_rating(0), m_replyButton(0), m_layout(0), m_depth(0), m_replyEnabled(false)
 {
     //setOwnedByLayout(false);
 }
@@ -65,9 +65,19 @@ void CommentsViewItem::setRowInLayout(int row)
     m_rowInLayout = row;
 }
 
+bool CommentsViewItem::replyEnabled()
+{
+    return m_replyEnabled;
+}
+
+void CommentsViewItem::setReplyEnabled(bool enabled)
+{
+    m_replyEnabled = enabled;
+}
+
 void CommentsViewItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-    if (m_replyButton) {
+    if (m_replyButton && m_replyEnabled) {
         m_replyButton->setVisible(true);
     }
     QGraphicsItem::hoverEnterEvent(event);
@@ -75,7 +85,7 @@ void CommentsViewItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 
 void CommentsViewItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-    if (m_replyButton) {
+    if (m_replyButton && m_replyEnabled) {
         m_replyButton->setVisible(false);
     }
     QGraphicsWidget::hoverLeaveEvent(event);

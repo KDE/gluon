@@ -22,6 +22,7 @@ set(gluonplasmaapplet_SRCS
     views/abstractitemview.cpp
     glfboapplet.cpp
     plasmaapplet.cpp
+    loginform.cpp
 )
 
 kde4_add_plugin(plasma_applet_gluonplayer ${gluonplasmaapplet_SRCS})

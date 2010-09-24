@@ -9,7 +9,7 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
     find_package(GluonEngine REQUIRED)
     find_package(GluonGraphics REQUIRED)
-    set(LIBATTICA_MIN_VERSION 0.2.0)
+    set(LIBATTICA_MIN_VERSION 0.1.90)
     find_package(LibAttica)
     if(LIBATTICA_FOUND)
         if(BUILD_PLASMOID)
@@ -33,6 +33,8 @@ if(LIBATTICA_FOUND)
         models/highscoresmodel.cpp
         models/commentsmodel.cpp
         models/gamesmodel.cpp
+        lib/authentication.cpp
+        lib/atticamanager.cpp
     )
 
     qt4_automoc(${libGluonPlayer_SRCS})

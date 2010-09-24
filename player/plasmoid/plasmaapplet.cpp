@@ -58,6 +58,7 @@ PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args) : GLFBOApp
 
 PlasmaApplet::~PlasmaApplet()
 {
+    kDebug() << "QUIT";
     if (m_gameFileName.isEmpty()) {
         return;
     }
