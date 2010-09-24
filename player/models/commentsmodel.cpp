@@ -57,11 +57,11 @@ void CommentsModel::updateData()
 void CommentsModel::providersUpdated()
 {
     if (AtticaManager::instance()->isProviderValid()) {
-        m_provider = AtticaManager::instance()->provider();
         //TODO: 128637 is the ID for Invaders, make it work for other games as well
         //      when we have more games
 
-        Attica::ListJob<Attica::Comment>* job = m_provider.requestComments(Attica::Comment::ContentComment,
+        Attica::ListJob<Attica::Comment>* job = 
+          AtticaManager::instance()->provider().requestComments(Attica::Comment::ContentComment,
                                                 "128637", "0", 0, 100);
         connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
         job->start();
@@ -95,9 +95,19 @@ void CommentsModel::processFetchedComments(Attica::BaseJob* job)
     }
 }
 
+void CommentsModel::addCommentFinished (Attica::BaseJob* job)
+{
+     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
+     if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
+          updateData();
+     } else {
+          emit addCommentFailed();
+     }
+}
+
 GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* parent)
 {
-    GluonObject *newComment = new GluonObject("Comment", parent);
+    GluonObject *newComment = new GluonObject(comment.id(), parent);
     newComment->setProperty("Author", comment.user());
     newComment->setProperty("Title", comment.subject());
     newComment->setProperty("Body", comment.text());
@@ -105,7 +115,7 @@ GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* par
     newComment->setProperty("Rating", comment.score());
 
     for (int i = 0; i < comment.childCount(); i++) {
-        addComment(comment.children().at(0), newComment);
+        addComment(comment.children().at(i), newComment);
     }
 
     return newComment;
@@ -289,5 +299,17 @@ bool CommentsModel::isOnline()
 {
     return m_isOnline;
 }
+
+void CommentsModel::addComment (const QModelIndex& parentIndex, const QString& subject, const QString& message)
+{
+     GluonObject *parentNode = static_cast<GluonObject*>(parentIndex.internalPointer());
+     Attica::ItemPostJob<Attica::Comment> *job = 
+          AtticaManager::instance()->provider().addNewComment(Attica::Comment::ContentComment,
+                                                              "128637", "0", parentNode->name(), subject,
+                                                              message);
+     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addCommentFinished(Attica::BaseJob*)));
+     job->start();
+}
+
 
 #include "commentsmodel.moc"

@@ -119,33 +119,18 @@ void CommentsView::loadComments()
 
 void CommentsView::reloadComments()
 {
+    hideComments();
     removeComments();
     loadComments();
+    showComments();
 }
 
 void CommentsView::addNewUserComment(QModelIndex parentIndex, QString title, QString body)
 {
-    int row = m_model->rowCount(parentIndex);
-    if (!m_model->insertRow(row, parentIndex)) {
-        qDebug() << "Can't insert new comment";
-        return;
-    }
-
-    //TODO: Ask the user for the data
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::AuthorColumn, parentIndex),
-                     "New Author");
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::TitleColumn, parentIndex),
-                     title);
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::BodyColumn, parentIndex),
-                     body);
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::DateTimeColumn, parentIndex),
-                     "NDateTime");
-    m_model->setData(m_model->index(row, GluonPlayer::CommentsModel::RatingColumn, parentIndex),
-                     "5");
-
+    GluonPlayer::CommentsModel *model = static_cast<GluonPlayer::CommentsModel*>(m_model);
+    model->addComment(parentIndex, title, body);
+    connect(model, SIGNAL(addCommentFailed()), SLOT(showComments()));
     sender()->deleteLater();
-    reloadComments();
-    showComments();
 }
 
 void CommentsView::cancelNewComment()
