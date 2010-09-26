@@ -114,8 +114,8 @@ GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* par
     newComment->setProperty("DateTime", comment.date().toString());
     newComment->setProperty("Rating", comment.score());
 
-    for (int i = 0; i < comment.childCount(); i++) {
-        addComment(comment.children().at(i), newComment);
+    foreach (Attica::Comment child, comment.children()) {
+        addComment(child, newComment);
     }
 
     return newComment;
@@ -300,7 +300,7 @@ bool CommentsModel::isOnline()
     return m_isOnline;
 }
 
-void CommentsModel::addComment (const QModelIndex& parentIndex, const QString& subject, const QString& message)
+void CommentsModel::uploadComment (const QModelIndex& parentIndex, const QString& subject, const QString& message)
 {
      GluonObject *parentNode = static_cast<GluonObject*>(parentIndex.internalPointer());
      Attica::ItemPostJob<Attica::Comment> *job = 

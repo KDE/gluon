@@ -62,7 +62,7 @@ namespace GluonPlayer
 
             QString columnName(const Column col) const;
             bool isOnline();
-            void addComment(const QModelIndex& parentIndex, const QString& subject, const QString& message);
+            void uploadComment(const QModelIndex& parentIndex, const QString& subject, const QString& message);
 
         private:
             GluonCore::GluonObject *rootNode;
