@@ -417,14 +417,14 @@ void MainWindow::chooseEntryPoint()
 
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
-    //d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_NEW);
-    //d->projectDialog->show();
+    d->projectDialog->setPage(ProjectSelectionDialog::NewProjectPage);
+    d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::showOpenProjectDialog()
 {
-    //d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_OPEN);
-    //d->projectDialog->show();
+    d->projectDialog->setPage(ProjectSelectionDialog::OpenProjectPage);
+    d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::projectDialogClosed()
