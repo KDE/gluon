@@ -30,6 +30,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QVector2D>
 #include <QtGui/QColor>
+#include "texture.h"
 
 REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)
 
@@ -45,7 +46,9 @@ class MaterialInstance::MaterialInstancePrivate
         QHash<QString, int> uniformLocations;
         QHash<QString, int> attributeLocations;
 
-        QHash<QString, QVariant> parameterValues;
+        QHash<QString, QVariant> uniformValues;
+
+        QHash<uint, Texture*> textures;
 
         bool bound;
 };
@@ -54,7 +57,6 @@ MaterialInstance::MaterialInstance(QObject* parent)
     : GluonObject(parent),
       d(new MaterialInstancePrivate)
 {
-
 }
 
 MaterialInstance::~MaterialInstance()
@@ -68,9 +70,14 @@ MaterialInstance::bind()
     glUseProgram(d->material->glProgram());
     d->bound = true;
 
-    for(QHash<QString, QVariant>::iterator itr = d->parameterValues.begin(); itr != d->parameterValues.end(); ++itr)
+    for(QHash<uint, Texture*>::iterator titr = d->textures.begin(); titr != d->textures.end(); ++titr)
     {
-        setGLUniform(itr.key(), itr.value());
+        bindTexture(titr.key(), titr.value());
+    }
+
+    for(QHash<QString, QVariant>::iterator uitr = d->uniformValues.begin(); uitr != d->uniformValues.end(); ++uitr)
+    {
+        setGLUniform(uitr.key(), uitr.value());
     }
 }
 
@@ -123,11 +130,8 @@ int MaterialInstance::uniformLocation( const QString& name)
 
 void MaterialInstance::setUniform( const QString& name, const QVariant& value )
 {
-    if(!d->bound)
-    {
-        d->parameterValues.insert(name, value);
-    }
-    else
+    d->uniformValues.insert(name, value);
+    if(d->bound)
     {
         setGLUniform(name, value);
     }
@@ -144,10 +148,24 @@ MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
 }
 
 void
+MaterialInstance::setTexture( uint id, Texture* texture, const QString& uniform )
+{
+    d->textures.insert(id, texture);
+    d->uniformValues.insert(uniform, id);
+
+    if(d->bound)
+    {
+        bindTexture(id, texture);
+        setGLUniform(uniform, id);
+    }
+}
+
+void
 MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 {
     switch(value.type())
     {
+        case QVariant::UInt:
         case QVariant::Int:
             glUniform1i( uniformLocation(name), value.toInt());
             break;
@@ -179,9 +197,17 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             break;
         }
     }
-    int error = glGetError();
-    if(error != GL_NO_ERROR)
-        debug(QString("An OpenGL error has occured. GL Error code is: %1").arg(error));
+//     int error = glGetError();
+//     if(error != GL_NO_ERROR)
+//         debug(QString("An OpenGL error has occured. GL Error code is: %1").arg(error));
 }
+
+void
+MaterialInstance::bindTexture( uint id, Texture* tex )
+{
+    glActiveTexture(GL_TEXTURE0 + id);
+    glBindTexture(GL_TEXTURE_2D, tex->glTexture());
+}
+
 
 #include "materialinstance.moc"

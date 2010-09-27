@@ -25,6 +25,8 @@
 
 namespace GluonGraphics
 {
+
+    class Texture;
     class Material;
 
     /**
@@ -130,6 +132,8 @@ namespace GluonGraphics
              */
             void setModelViewProjectionMatrix( QMatrix4x4 mvp );
 
+            void setTexture(uint id, Texture* texture, const QString& uniform);
+
         protected:
             /**
              * Set the actual uniform variable.
@@ -144,6 +148,8 @@ namespace GluonGraphics
              * \param value The value to set the uniform to.
              */
             void setGLUniform(const QString& name, const QVariant& value);
+
+            void bindTexture( uint id, GluonGraphics::Texture* tex);
 
         private:
             class MaterialInstancePrivate;

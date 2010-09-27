@@ -66,6 +66,19 @@ namespace GluonGraphics
             virtual ~Material();
 
             /**
+             * Load a material definition from a file.
+             *
+             * The url passed should point to a GDL file describing
+             * the material. See GluonCore::GluonObject for more
+             * information about GDL.
+             *
+             * \param url The url of the file to load.
+             *
+             * \return True if successful, false if not.
+             */
+            bool load(const QUrl& url);
+
+            /**
              * Build the shader.
              *
              * This processes the selected technique and generates

@@ -21,6 +21,8 @@
 #include "materialinstance.h"
 #include "technique.h"
 
+#include <QDebug>
+
 #include <GL/gl.h>
 #include <GL/glext.h>
 
@@ -52,6 +54,12 @@ Material::~Material()
     delete d;
 }
 
+bool Material::load( const QUrl& url )
+{
+    //Todo: Implement
+    return true;
+}
+
 void Material::build( const QString& name )
 {
     if(d->glProgram)
@@ -76,6 +84,7 @@ void main()\
 ";
 
     const char* fragShaderSource = "\
+uniform sampler2D tex;\
 uniform vec4 materialColor;\
 \
 varying vec4 out_color;\
@@ -83,7 +92,9 @@ varying vec2 out_uv0;\
 \
 void main()\
 {\
-    gl_FragColor = out_color * materialColor;\
+    vec4 texColor = texture2D(tex, out_uv0);\
+    vec4 color = out_color * materialColor * texColor;\
+    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a);\
 }\
 ";
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
