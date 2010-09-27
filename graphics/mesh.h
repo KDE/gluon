@@ -79,7 +79,7 @@ namespace GluonGraphics
              *
              * \param material The material instance to use.
              */
-            void setMaterial(MaterialInstance * material);
+            void setMaterialInstance(MaterialInstance * material);
 
         protected:
             /**

@@ -62,7 +62,7 @@ Mesh::load( const QString& filename )
 {
     if(isLoaded())
         return;
-    
+
     #ifdef __GNUC__
     #warning Todo: Move vertex buffer related stuff to a VertexBuffer class.
     #endif
@@ -115,7 +115,7 @@ Mesh::materialInstance()
 }
 
 void
-Mesh::setMaterial( MaterialInstance* material )
+Mesh::setMaterialInstance( MaterialInstance* material )
 {
     d->material = material;
 }
@@ -143,6 +143,9 @@ Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors
 void
 Mesh::renderBuffer( uint mode, const QMatrix4x4& mvp, int count)
 {
+    if(d->buffer == 0)
+        return;
+
     glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
     glVertexAttribPointer(d->material->attributeLocation("vertex"), 3, GL_FLOAT, 0, 0, 0);
     glVertexAttribPointer(d->material->attributeLocation("color"), 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
