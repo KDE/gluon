@@ -39,6 +39,7 @@ class Item::ItemPrivate
     public:
         Mesh * mesh;
         QMatrix4x4 transform;
+        MaterialInstance* materialInstance;
 };
 
 Item::Item(QObject * parent)
@@ -64,6 +65,11 @@ Item::transform()
     return d->transform;
 }
 
+MaterialInstance*
+Item::materialInstance()
+{
+    return d->materialInstance;
+}
 
 void
 Item::render()
@@ -76,6 +82,7 @@ Item::render()
 
     QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustum()->projectionMatrix());
 
+    d->mesh->setMaterialInstance(d->materialInstance);
     d->mesh->render(modelViewProj);
 }
 
@@ -90,5 +97,12 @@ Item::setMesh( Mesh* mesh )
 {
     d->mesh = mesh;
 }
+
+MaterialInstance*
+Item::setMaterialInstance(MaterialInstance * instance)
+{
+    d->materialInstance = instance;
+}
+
 
 #include "item.moc"

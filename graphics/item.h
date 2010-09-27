@@ -30,6 +30,9 @@
 class QMatrix4x4;
 namespace GluonGraphics
 {
+
+class MaterialInstance;
+
     class Mesh;
 
     /**
@@ -63,6 +66,8 @@ namespace GluonGraphics
              */
             Mesh* mesh();
 
+            MaterialInstance* materialInstance();
+
         public Q_SLOTS:
             /**
              * Render the item to screen.
@@ -82,6 +87,8 @@ namespace GluonGraphics
              * \param mesh The mesh to use.
              */
             void setMesh(Mesh* mesh);
+
+            MaterialInstance* setMaterialInstance( GluonGraphics::MaterialInstance* instance);
 
         private:
             class ItemPrivate;
