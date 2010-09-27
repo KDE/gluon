@@ -37,6 +37,7 @@ using namespace GluonGraphics;
 class Item::ItemPrivate
 {
     public:
+        ItemPrivate() { materialInstance = 0; }
         Mesh * mesh;
         QMatrix4x4 transform;
         MaterialInstance* materialInstance;
@@ -82,7 +83,8 @@ Item::render()
 
     QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustum()->projectionMatrix());
 
-    d->mesh->setMaterialInstance(d->materialInstance);
+    if(d->materialInstance)
+        d->mesh->setMaterialInstance(d->materialInstance);
     d->mesh->render(modelViewProj);
 }
 
