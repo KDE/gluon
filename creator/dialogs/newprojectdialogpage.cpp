@@ -111,14 +111,19 @@ QString NewProjectDialogPage::createProject() const
     camera->setPosition(0.0f, 0.0f, 50.0f);
     root->sceneContents()->addChild(camera);
 
-    GluonEngine::GameObject* sprite = new GluonEngine::GameObject(root);
-    sprite->setName(i18n("Sprite"));
-    root->sceneContents()->addChild(sprite);
-
     GluonCore::GluonObject* cameraController =
         GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::CameraControllerComponent");
     cameraController->setName("CameraController");
     camera->addComponent(qobject_cast<GluonEngine::Component*>(camera));
+
+    GluonEngine::GameObject* sprite = new GluonEngine::GameObject(root);
+    sprite->setName(i18n("Sprite"));
+    root->sceneContents()->addChild(sprite);
+
+    GluonCore::GluonObject* spriteComponent =
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::SpriteRendererComponent");
+    spriteComponent->setName("SpriteRenderer");
+    sprite->addComponent(qobject_cast<GluonEngine::Component*>(spriteComponent));
 
     KUrl location = d->location->url();
     QString projectFileName = project->fullyQualifiedFileName();
