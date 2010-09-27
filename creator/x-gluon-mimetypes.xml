@@ -10,4 +10,9 @@
         <glob pattern="*.gdl" />
         <comment>Gluon Scene</comment>
     </mime-type>
+    <mime-type type="application/x-gluon-material">
+        <sub-class-of type="text/generic"/>
+        <glob pattern="*.gml" />
+        <comment>Gluon Material</comment>
+    </mime-type>
 </mime-info>
