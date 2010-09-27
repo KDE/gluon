@@ -32,6 +32,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
+#include <texture.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
@@ -49,8 +50,6 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         }
 
         GluonGraphics::Item *item;
-        //GluonGraphics::SpriteMesh *mesh;
-
         GluonEngine::Asset* texture;
 
         QColor color;
@@ -86,19 +85,10 @@ SpriteRendererComponent::initialize()
 {
     if(!d->item)
     {
-        if(!GluonGraphics::Engine::instance()->hasMesh("default"))
-        {
-            GluonGraphics::Mesh* sprite = new GluonGraphics::Mesh(GluonGraphics::Engine::instance());
-            sprite->load(QString());
-            GluonGraphics::Material * material = GluonGraphics::Engine::instance()->createMaterial("default");
-            material->build();
-            sprite->setMaterial(material->createInstance());
-            GluonGraphics::Engine::instance()->addMesh("default", sprite);
-        }
-
         d->item = GluonGraphics::Engine::instance()->createItem("default");
-        d->item->mesh()->setMaterial(GluonGraphics::Engine::instance()->material("default")->createInstance());
-        d->item->mesh()->materialInstance()->setUniform("materialColor", d->color);
+        d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->createInstance());
+        d->item->materialInstance()->setUniform("materialColor", d->color);
+        d->item->materialInstance()->setTexture(0, GluonGraphics::Engine::instance()->texture("default"), "tex");
     }
 
     if (d->texture)
@@ -107,9 +97,11 @@ SpriteRendererComponent::initialize()
             d->texture->load();
 
         const QMimeData* data = d->texture->data();
-        if (data->hasImage())
+        if(data->hasText())
         {
-            //d->mesh->setTexture(data->imageData().value<QImage>());
+            GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(data->text());
+            if(texture)
+                d->item->materialInstance()->setTexture(0, texture, "tex");
         }
     }
 }
@@ -126,7 +118,7 @@ void SpriteRendererComponent::draw(int timeLapse)
     if (d->item)
     {
         QMatrix4x4 transform = gameObject()->transform();
-        transform.scale(d->size.width(), d->size.height());
+        transform.scale(d->size.width()/2, d->size.height()/2);
         d->item->setTransform(transform);
     }
 }
