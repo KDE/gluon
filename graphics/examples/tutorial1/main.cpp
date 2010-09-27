@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
 
     //Create a widget to render the graphics on.
     GluonGraphics::RenderWidget * widget = new GluonGraphics::RenderWidget();
-    widget->show();
 
     //Create a camera to view the scene from.
     GluonGraphics::Camera* cam = new GluonGraphics::Camera();
@@ -53,10 +52,6 @@ int main(int argc, char *argv[])
 
     //Create an item to display
     GluonGraphics::Item * item = GluonGraphics::Engine::instance()->createItem("default");
-    item->mesh()->load(QString());
-    item->mesh()->setMaterial(GluonGraphics::Engine::instance()->createMaterial("default")->createInstance());
-    item->mesh()->materialInstance()->material()->build();
-    item->mesh()->materialInstance()->setUniform("materialColor", Qt::blue);
 
     QMatrix4x4 mat;
     mat.translate(-1.5f, -1.5f);
@@ -68,6 +63,7 @@ int main(int argc, char *argv[])
 
     QTimer::singleShot(0, widget, SLOT(updateGL()));
 
+    widget->show();
     return app.exec();
 
 }
