@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -26,6 +26,7 @@
 
 #include <core/debughelper.h>
 #include <graphics/texture.h>
+#include <graphics/engine.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
 
@@ -36,33 +37,34 @@ class TextureAsset::TextureAssetPrivate
     public:
         TextureAssetPrivate()
         {
-            image = new QImage;
+
         }
         ~TextureAssetPrivate()
         {
-            delete image;
+
         }
 
-        QImage *image;
         QPixmap icon;
+        GluonGraphics::Texture* texture;
 };
 
 TextureAsset::TextureAsset(QObject *parent)
     : Asset(parent)
     , d(new TextureAssetPrivate)
 {
+    d->texture = GluonGraphics::Engine::instance()->createTexture(name());
 }
 
 TextureAsset::~TextureAsset()
 {
-    delete d;
+    GluonGraphics::Engine::instance()->destroyTexture(name());
 }
 
 QIcon TextureAsset::icon() const
 {
     if(d->icon.isNull())
         return GluonEngine::Asset::icon();
-    
+
     return QIcon(d->icon);
 }
 
@@ -83,18 +85,23 @@ void TextureAsset::load()
 {
     if (!file().isEmpty())
     {
-        if (d->image->load(file().toLocalFile()))
+        if (d->texture->load(file()))
         {
-            mimeData()->setImageData(*d->image);
-            d->icon = QPixmap::fromImage(d->image->scaled(QSize(128, 128), Qt::KeepAspectRatio));
+            mimeData()->setText(name());
+            //d->icon = QPixmap::fromImage(d->texture->scaled(QSize(128, 128), Qt::KeepAspectRatio));
             setLoaded(true);
+            return;
         }
     }
-    else
-    {
-        DEBUG_BLOCK
-        DEBUG_TEXT("Error loading texture!");
-    }
+
+    debug("Error loading texture: %1", name());
+}
+
+void TextureAsset::setName( const QString& newName )
+{
+    GluonGraphics::Engine::instance()->removeTexture(name());
+    GluonGraphics::Engine::instance()->addTexture(newName, d->texture);
+    GluonEngine::Asset::setName( newName );
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)
