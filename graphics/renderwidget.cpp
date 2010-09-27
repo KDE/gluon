@@ -44,7 +44,6 @@ RenderWidget::RenderWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::Wi
 
 RenderWidget::~RenderWidget()
 {
-
 }
 
 void RenderWidget::initializeGL()
@@ -52,6 +51,8 @@ void RenderWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glPointSize(32);
+
+    Engine::instance()->initialize();
 }
 
 void RenderWidget::paintGL()
