@@ -19,6 +19,8 @@
 
 #include "math.h"
 
+#include <QtGui/QImage>
+
 using namespace GluonGraphics;
 
 void
@@ -36,6 +38,26 @@ QMatrix4x4
 Math::calculateModelViewProj( const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection )
 {
     return projection * (view * model);
+}
+
+void
+Math::qImageToGL( const QImage& image, uchar* out )
+{
+    int w = image.width();
+    int h = image.height();
+    int i = 0;
+
+    for(int r = 0; r < h; ++r)
+    {
+        for(int c = 0; c < w; ++c)
+        {
+            QRgb pixel = image.pixel(c, r);
+            out[i++] = qRed(pixel);
+            out[i++] = qGreen(pixel);
+            out[i++] = qBlue(pixel);
+            out[i++] = qAlpha(pixel);
+        }
+    }
 }
 
 const QVector3D Math::VECTOR_UNIT_X = QVector3D(1.f, 0.f, 0.f);

@@ -41,6 +41,9 @@ namespace GluonGraphics
              * which can be used by OpenGL's matrix functions, most
              * notably glUniformMatrix4fv.
              *
+             * Note that this method is mostly a workaround for stuff lacking
+             * from Qt.
+             *
              * \param matrix The QMatrix to convert.
              * \param out An array of 16 floats into which the converted
              * matrix will be copied.
@@ -58,6 +61,21 @@ namespace GluonGraphics
              * \param projection The projection matrix.
              */
             static QMatrix4x4 calculateModelViewProj(const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection);
+
+            /**
+             * Convert a QImage to an array of unsigned chars.
+             *
+             * This method will convert a 32 bits ARGB QImage to
+             * an RGBA array of unsigned chars.
+             *
+             * Note that this method is mostly a workaround for stuff lacking
+             * from Qt.
+             *
+             * \param image The image to convert.
+             * \param out An array of unsigned chars to which the data needs to
+             * be copied.
+             */
+            static void qImageToGL(const QImage& image, uchar* out);
 
             /**
              * X-axis unit vector, (1, 0, 0).
