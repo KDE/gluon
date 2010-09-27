@@ -26,12 +26,16 @@ namespace GluonCreator
 {
     class RecentProjectsDialogPage : public KPageWidgetItem
     {
+            Q_OBJECT
         public:
             RecentProjectsDialogPage();
             virtual ~RecentProjectsDialogPage();
             
             QString fileName();
-        
+        Q_SIGNALS:
+            void projectRequested(const QString& name);
+        private:
+            Q_PRIVATE_SLOT(d, void projectDoubleClicked(const QModelIndex& index))
         private:
             class RecentProjectsDialogPagePrivate;
             RecentProjectsDialogPagePrivate * const d;

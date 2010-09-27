@@ -55,6 +55,8 @@ ProjectSelectionDialog::ProjectSelectionDialog(QWidget* parent, Qt::WFlags flags
     addPage(d->newPage);
     
     d->recentPage = new RecentProjectsDialogPage();
+    connect(d->recentPage, SIGNAL(projectRequested(QString)),
+            SLOT(slotProjectRequested(QString)));
     addPage(d->recentPage);
     
     d->openPage = new OpenProjectDialogPage();
@@ -124,4 +126,10 @@ void ProjectSelectionDialog::setPage(ProjectSelectionDialog::ProjectPage page)
             setCurrentPage(d->recentPage);
             break;
     }
+}
+
+void ProjectSelectionDialog::slotProjectRequested(const QString& project)
+{
+    d->fileName = project;
+    slotButtonClicked(Ok);
 }

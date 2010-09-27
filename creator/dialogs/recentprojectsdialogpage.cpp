@@ -34,17 +34,33 @@ using namespace GluonCreator;
 class RecentProjectsDialogPage::RecentProjectsDialogPagePrivate
 {
     public:
+        RecentProjectsDialogPagePrivate(RecentProjectsDialogPage* qq)
+            : widget(0),
+            q(qq)
+        {
+        }
+    public:
         QListWidget *widget;
+    public:
+        void projectDoubleClicked(const QModelIndex& index)
+        {
+            QListWidgetItem* project = static_cast<QListWidgetItem*>(index.internalPointer());
+            emit q->projectRequested(project->data(Qt::UserRole).toString());
+        }
+    private:
+        RecentProjectsDialogPage* q;
 };
 
 GluonCreator::RecentProjectsDialogPage::RecentProjectsDialogPage()
     : KPageWidgetItem(new QWidget(), i18n("Recent Projects")),
-    d(new RecentProjectsDialogPagePrivate)
+    d(new RecentProjectsDialogPagePrivate(this))
 {
     setHeader(i18n("Recent Projects"));
     setIcon(KIcon("document-open-recent"));
     
     d->widget = new QListWidget(widget());
+    connect(d->widget, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(projectDoubleClicked(QModelIndex)));
     
     QVBoxLayout *layout = new QVBoxLayout(widget());
     widget()->setLayout(layout);
@@ -76,3 +92,5 @@ QString RecentProjectsDialogPage::fileName()
 {
     return d->widget->selectedItems().at(0)->data(Qt::UserRole).toString();
 }
+
+#include "creator/dialogs/recentprojectsdialogpage.moc"

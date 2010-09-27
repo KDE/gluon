@@ -26,6 +26,7 @@ namespace GluonCreator
 {
     class ProjectSelectionDialog : public KPageDialog
     {
+            Q_OBJECT
         public:
             enum ProjectPage
             {
@@ -44,6 +45,9 @@ namespace GluonCreator
             
         protected Q_SLOTS:
             virtual void slotButtonClicked(int button);
+
+        private Q_SLOTS:
+            void slotProjectRequested(const QString& project);
             
         private:
             class ProjectSelectionDialogPrivate;
