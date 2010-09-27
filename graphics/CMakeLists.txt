@@ -123,3 +123,9 @@ install(FILES
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT Devel
 )
+
+install(
+    FILES
+    default.png
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
+)
