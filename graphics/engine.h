@@ -55,6 +55,16 @@ namespace GluonGraphics
         Q_OBJECT
         public:
             /**
+             * Initialize the defaults.
+             *
+             * This will create a "default" material, mesh and texture to
+             * be used as default.
+             *
+             * It should be called during the OpenGL initialization phase.
+             */
+            void initialize();
+
+            /**
              * Create an Item.
              *
              * The item will be put into the internal registry of items and
@@ -88,6 +98,26 @@ namespace GluonGraphics
             Material * createMaterial(const QString& name);
 
             /**
+             * Destroy a material.
+             *
+             * The material will be removed and then deleted.
+             * Note that if the material is not registered the call
+             * is silently ignored.
+             *
+             * \param name The name of the material to destroy.
+             */
+            void destroyMaterial(const QString& name);
+
+            /**
+             * Check whether a material is registered.
+             *
+             * \param name The name of the material to check for.
+             *
+             * \return True if the material is registered, false if not.
+             */
+            bool hasMaterial(const QString& name);
+
+            /**
              * Retrieve a registered material.
              *
              * \param name The name of the material to retrieve.
@@ -95,6 +125,29 @@ namespace GluonGraphics
              * \return The material requested or 0 if not found.
              */
             Material * material(const QString& name);
+
+            /**
+             * Add a material to the registry.
+             *
+             * \param name The name used to identify the material.
+             * \param material The material to add.
+             *
+             * \return True if successful, false if not. False is also
+             * returned when a material with the same name is already
+             * registered.
+             *
+             */
+            bool addMaterial(const QString& name, Material* material);
+
+            /**
+             * Remove a material from the registry.
+             *
+             * The material will be removed but not deleted.
+             *
+             * \param name The name of the material to remove.
+             */
+            void removeMaterial(const QString& name);
+
             /**
              * Create a Mesh.
              *
@@ -106,6 +159,17 @@ namespace GluonGraphics
             Mesh * createMesh(const QString& name);
 
             /**
+             * Destroy a mesh.
+             *
+             * The mesh will be removed and then deleted.
+             * Note that if the mesh is not registered the call
+             * is silently ignored.
+             *
+             * \param name The name of the mesh to destroy.
+             */
+            void destroyMesh(const QString& name);
+
+            /**
              * Check whether a mesh is registered.
              *
              * \param name The name of the mesh to check for.
@@ -113,6 +177,15 @@ namespace GluonGraphics
              * \return True if the mesh is registered, false if not.
              */
             bool hasMesh(const QString& name);
+
+            /**
+             * Retrieve a registered mesh.
+             *
+             * \param name The name of the mesh to retrieve.
+             *
+             * \return The mesh requested or 0 if not found.
+             */
+            Mesh* mesh(const QString& name);
 
             /**
              * Add a mesh to the registry.
@@ -127,6 +200,15 @@ namespace GluonGraphics
             bool addMesh(const QString& name, Mesh* mesh);
 
             /**
+             * Remove a mesh from the registry.
+             *
+             * The mesh will be removed but not deleted.
+             *
+             * \param name The name of the mesh to remove.
+             */
+            void removeMesh(const QString& name);
+
+            /**
              * Create a Texture.
              *
              * \see GluonGraphics::Texture
@@ -137,6 +219,57 @@ namespace GluonGraphics
              * texture if name is equal to an existing texture.
              */
             Texture* createTexture(const QString& name);
+
+            /**
+             * Destroy a texture.
+             *
+             * The texture will be removed and then deleted.
+             * Note that if the texture is not registered the call
+             * is silently ignored.
+             *
+             * \param name The name of the texture to destroy.
+             */
+            void destroyTexture( const QString& name );
+
+            /**
+             * Check whether a texture is registered.
+             *
+             * \param name The name of the texture to check for.
+             *
+             * \return True if the texture is registered, false if not.
+             */
+            bool hasTexture( const QString& name);
+
+            /**
+             * Retrieve a registered texture.
+             *
+             * \param name The name of the texture to retrieve.
+             *
+             * \return The texture requested or 0 if not found.
+             */
+            Texture* texture(const QString& name);
+
+            /**
+             * Add a texture to the registry.
+             *
+             * \param name The name used to identify the texture.
+             * \param texture The texture to add.
+             *
+             * \return True if successful, false if not. False is also
+             * returned when a texture with the same name is already
+             * registered.
+             *
+             */
+            bool addTexture( const QString& name, Texture* texture );
+
+            /**
+             * Remove a texture from the registry.
+             *
+             * The texture will be removed but not deleted.
+             *
+             * \param name The name of the texture to remove.
+             */
+            void removeTexture( const QString& name );
 
             /**
              * Retrieve the current active camera.
