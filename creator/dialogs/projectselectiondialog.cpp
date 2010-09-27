@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,34 +34,50 @@ using namespace GluonCreator;
 class ProjectSelectionDialog::ProjectSelectionDialogPrivate
 {
     public:
-        ProjectSelectionDialogPrivate() { }
-        
-        NewProjectDialogPage *newPage;
-        RecentProjectsDialogPage *recentPage;
-        OpenProjectDialogPage *openPage;
-        
+        explicit ProjectSelectionDialogPrivate(ProjectSelectionDialog* qq)
+            : q(qq)
+        {
+            pages.clear();
+        }
+
+        void okClicked()
+        {
+            if (pages.key(q->currentPage()) == ProjectSelectionDialog::NewProjectPage)
+            {
+                NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>(q->currentPage());
+                if (page) {
+                    fileName = page->createProject();
+                }
+            }
+        }
+
+        void projectRequested(const QString& project)
+        {
+            fileName = project;
+            q->accept();
+        }
+    public:
+        QHash<ProjectPage, KPageWidgetItem*> pages;
         QString fileName;
+    private:
+        ProjectSelectionDialog* q;
 };
 
 ProjectSelectionDialog::ProjectSelectionDialog(QWidget* parent, Qt::WFlags flags)
     : KPageDialog(parent, flags),
-    d(new ProjectSelectionDialogPrivate)
+    d(new ProjectSelectionDialogPrivate(this))
 {
     setFaceType(List);
-    setButtons(KDialog::Ok | KDialog::Close);
-    
+    setButtons(Ok | Close);
+
+    addPage(new NewProjectDialogPage, NewProjectPage);
+    addPage(new RecentProjectsDialogPage, RecentProjectPage);
+    addPage(new OpenProjectDialogPage, OpenProjectPage);
+
     restoreDialogSize(KGlobal::config()->group("ProjectSelectionDialog"));
 
-    d->newPage = new NewProjectDialogPage();
-    addPage(d->newPage);
-    
-    d->recentPage = new RecentProjectsDialogPage();
-    connect(d->recentPage, SIGNAL(projectRequested(QString)),
-            SLOT(slotProjectRequested(QString)));
-    addPage(d->recentPage);
-    
-    d->openPage = new OpenProjectDialogPage();
-    addPage(d->openPage);
+    connect(this, SIGNAL(okClicked()),
+            SLOT(okClicked()));
 }
 
 ProjectSelectionDialog::~ProjectSelectionDialog()
@@ -70,66 +87,42 @@ ProjectSelectionDialog::~ProjectSelectionDialog()
     delete d;
 }
 
-QString ProjectSelectionDialog::fileName()
+void ProjectSelectionDialog::addPage(KPageWidgetItem* item, ProjectSelectionDialog::ProjectPage page)
+{
+    DEBUG_FUNC_NAME
+    switch (page)
+    {
+        case NewProjectPage:
+            DEBUG_TEXT("New");
+            break;
+        case OpenProjectPage: {
+            DEBUG_TEXT("Open");
+            connect(item, SIGNAL(projectRequested(QString)),
+                    SLOT(projectRequested(QString)));
+            break;
+        }
+        case RecentProjectPage:
+            DEBUG_TEXT("Recent");
+            connect(item, SIGNAL(projectRequested(QString)),
+                    SLOT(projectRequested(QString)));
+            break;
+        default:
+            DEBUG_TEXT("Unknown Project Page");
+            break;
+    };
+
+    d->pages.insert(page, item);
+    KPageDialog::addPage(item);
+}
+
+QString ProjectSelectionDialog::fileName() const
 {
     return d->fileName;
 }
 
-void ProjectSelectionDialog::slotButtonClicked(int button)
-{
-    DEBUG_FUNC_NAME
-    if(button == KDialog::Ok)
-    {
-        if(currentPage() == d->newPage)
-	{
-	    DEBUG_TEXT("New");
-            d->fileName = d->newPage->fileName();
-	}
-        else if(currentPage() == d->recentPage)
-	{
-	    DEBUG_TEXT("Recent");
-            d->fileName = d->recentPage->fileName();
-	}
-        else if(currentPage() == d->openPage)
-	{
-	    DEBUG_TEXT("Open");
-            d->fileName = d->openPage->fileName();
-	}
-	DEBUG_TEXT(d->fileName);
-    
-        if(d->fileName.isEmpty())
-        {
-            return;
-        }
-        else
-        {
-            KDialog::slotButtonClicked(button);
-        }
-    }
-    else
-    {
-        KDialog::slotButtonClicked(button);
-    }
-}
-
 void ProjectSelectionDialog::setPage(ProjectSelectionDialog::ProjectPage page)
 {
-    switch(page)
-    {
-        case PROJECTPAGE_NEW:
-            setCurrentPage(d->newPage);
-            break;
-        case PROJECTPAGE_OPEN:
-            setCurrentPage(d->openPage);
-            break;
-        case PROJECTPAGE_RECENT:
-            setCurrentPage(d->recentPage);
-            break;
-    }
+    setCurrentPage(d->pages[page]);
 }
 
-void ProjectSelectionDialog::slotProjectRequested(const QString& project)
-{
-    d->fileName = project;
-    slotButtonClicked(Ok);
-}
+#include "creator/dialogs/projectselectiondialog.moc"

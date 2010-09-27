@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,9 +23,10 @@
 #include <QtGui/QWidget>
 #include <QtGui/QVBoxLayout>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KIcon>
+#include <KDE/KFile>
 #include <KDE/KFileWidget>
+#include <KDE/KIcon>
+#include <KDE/KLocale>
 
 #include <core/debughelper.h>
 
@@ -33,36 +35,46 @@ using namespace GluonCreator;
 class OpenProjectDialogPage::OpenProjectDialogPagePrivate
 {
     public:
-        KFileWidget *fileWidget;
+        explicit OpenProjectDialogPagePrivate(OpenProjectDialogPage* qq)
+            : fileWidget(0),
+            q(qq)
+        {
+        }
+
+        void projectSelected(const KUrl& url)
+        {
+            fileWidget->accept();
+            emit q->projectRequested(url.url().remove("file://"));
+        }
+    public:
+        KFileWidget* fileWidget;
+    private:
+        OpenProjectDialogPage* q;
 };
 
-GluonCreator::OpenProjectDialogPage::OpenProjectDialogPage()
+OpenProjectDialogPage::OpenProjectDialogPage()
     : KPageWidgetItem(new QWidget(), i18n("Open Project")),
-    d(new OpenProjectDialogPagePrivate)
+    d(new OpenProjectDialogPagePrivate(this))
 {
-    setHeader(i18n("Open Project"));
     setIcon(KIcon("document-open"));
-    
+
     d->fileWidget = new KFileWidget(KUrl("kfiledialog:///OpenDialog"), widget());
+    connect(d->fileWidget, SIGNAL(fileHighlighted(KUrl)),
+            SLOT(projectSelected(KUrl)));
+
     d->fileWidget->setOperationMode(KFileWidget::Opening);
-    d->fileWidget->setFilter(i18n("*.gluon|Gluon Project Files"));
+    d->fileWidget->setFilter("*.gluon|Gluon Project Files");
+    d->fileWidget->setMode(KFile::File | KFile::ExistingOnly);
     d->fileWidget->setLocationLabel(i18n("Project"));
 
-    QVBoxLayout *layout = new QVBoxLayout();
+    QVBoxLayout* layout = new QVBoxLayout;
     widget()->setLayout(layout);
-    
     layout->addWidget(d->fileWidget);
 }
 
-GluonCreator::OpenProjectDialogPage::~OpenProjectDialogPage()
+OpenProjectDialogPage::~OpenProjectDialogPage()
 {
     delete d;
 }
 
-QString GluonCreator::OpenProjectDialogPage::fileName()
-{
-    d->fileWidget->accept();
-    return d->fileWidget->selectedFile();
-}
-
-#include "openprojectdialogpage.moc"
+#include "creator/dialogs/openprojectdialogpage.moc"
