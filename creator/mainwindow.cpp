@@ -96,6 +96,10 @@ MainWindow::MainWindow(const QString& fileName)
 
     setupActions();
     setupGUI();
+
+    d->projectDialog = new ProjectSelectionDialog(this);
+    d->projectDialog->setModal(true);
+    connect(d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogClosed()));
     
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
@@ -129,16 +133,7 @@ MainWindow::MainWindow(const QString& fileName)
 
     if (fileName.isEmpty())
     {
-        d->projectDialog = new ProjectSelectionDialog(this);
-        switch (d->projectDialog->exec())
-        {
-            case QDialog::Accepted:
-            {
-                QString fileName = d->projectDialog->fileName();
-                openProject(fileName);
-                break;
-            }
-        }
+        showNewProjectDialog();
     }
     else
     {
@@ -429,5 +424,5 @@ void GluonCreator::MainWindow::showOpenProjectDialog()
 
 void GluonCreator::MainWindow::projectDialogClosed()
 {
-    //openProject(d->projectDialog->fileName());
+    openProject(d->projectDialog->fileName());
 }
