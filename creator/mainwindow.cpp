@@ -96,10 +96,10 @@ MainWindow::MainWindow(const QString& fileName)
 
     setupActions();
     setupGUI();
-    
+
     d->projectDialog = new ProjectSelectionDialog(this);
     d->projectDialog->setModal(true);
-    connect(d->projectDialog, SIGNAL(okClicked()), SLOT(projectDialogClosed()));
+    connect(d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogClosed()));
     
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
@@ -131,17 +131,13 @@ MainWindow::MainWindow(const QString& fileName)
     FileManager::instance()->setTabWidget(tab);
     connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(createGUI(KParts::Part*)));
 
-    if (!fileName.isEmpty())
+    if (fileName.isEmpty())
     {
-        openProject(fileName);
+        showNewProjectDialog();
     }
     else
     {
-        //Show new project dialog.
-        QTimer *timer = new QTimer(this);
-        timer->setSingleShot(true);
-        connect(timer, SIGNAL(timeout()), SLOT(showNewProjectDialog()));
-        timer->start();
+        openProject(fileName);
     }
 }
 
@@ -160,9 +156,10 @@ void MainWindow::openProject(KUrl url)
 
 void MainWindow::openProject(const QString &fileName)
 {
-    statusBar()->showMessage(i18n("Opening project..."));
     if (!fileName.isEmpty() && QFile::exists(fileName) && d->viewPart)
     {
+        statusBar()->showMessage(i18n("Opening project..."));
+
         d->viewPart->openUrl(KUrl(fileName));
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -188,6 +185,10 @@ void MainWindow::openProject(const QString &fileName)
         setCaption(i18n("%1 - Gluon Creator", fileName.section('/', -1)));
         HistoryManager::instance()->clear();
         connect(HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged()));
+    }
+    else
+    {
+        statusBar()->showMessage(i18n("Unable to open project file..."));
     }
 }
 
@@ -411,19 +412,17 @@ void MainWindow::chooseEntryPoint()
 
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
-    d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_NEW);
+    d->projectDialog->setPage(ProjectSelectionDialog::NewProjectPage);
     d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::showOpenProjectDialog()
 {
-    d->projectDialog->setPage(ProjectSelectionDialog::PROJECTPAGE_OPEN);
+    d->projectDialog->setPage(ProjectSelectionDialog::OpenProjectPage);
     d->projectDialog->show();
 }
 
 void GluonCreator::MainWindow::projectDialogClosed()
 {
     openProject(d->projectDialog->fileName());
-    
-
 }

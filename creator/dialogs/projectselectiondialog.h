@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,28 +27,27 @@ namespace GluonCreator
 {
     class ProjectSelectionDialog : public KPageDialog
     {
+        Q_OBJECT
         public:
             enum ProjectPage
             {
-                PROJECTPAGE_NEW,
-                PROJECTPAGE_RECENT,
-                PROJECTPAGE_OPEN
+                NewProjectPage,
+                RecentProjectPage,
+                OpenProjectPage
             };
-            
-            explicit ProjectSelectionDialog(QWidget* parent = 0, Qt::WFlags flags = 0);
-            virtual ~ProjectSelectionDialog();
-            
-            QString fileName();
-            
+
+            explicit ProjectSelectionDialog(QWidget* parent = 0, Qt::WFlags = 0);
+            ~ProjectSelectionDialog();
+            void addPage(KPageWidgetItem* item, ProjectPage page);
+            QString fileName() const;
         public Q_SLOTS:
             void setPage(ProjectPage page);
-            
-        protected Q_SLOTS:
-            virtual void slotButtonClicked(int button);
-            
+        private:
+            Q_PRIVATE_SLOT(d, void okClicked())
+            Q_PRIVATE_SLOT(d, void projectRequested(const QString& project))
         private:
             class ProjectSelectionDialogPrivate;
-            ProjectSelectionDialogPrivate * const d;            
+            ProjectSelectionDialogPrivate* const d;
     };
 }
 

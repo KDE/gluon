@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,15 +27,17 @@ namespace GluonCreator
 {
     class RecentProjectsDialogPage : public KPageWidgetItem
     {
+        Q_OBJECT
         public:
             RecentProjectsDialogPage();
-            virtual ~RecentProjectsDialogPage();
-            
-            QString fileName();
-        
+            ~RecentProjectsDialogPage();
+        Q_SIGNALS:
+            void projectRequested(const QString& url);
+        private:
+            Q_PRIVATE_SLOT(d, void projectDoubleClicked(const QModelIndex& index))
         private:
             class RecentProjectsDialogPagePrivate;
-            RecentProjectsDialogPagePrivate * const d;
+            RecentProjectsDialogPagePrivate* const d;
     };
 }
 
