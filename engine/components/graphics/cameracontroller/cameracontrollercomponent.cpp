@@ -90,7 +90,7 @@ void CameraControllerComponent::initialize()
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }
 
-    d->camera->frustum()->setOrthographic(-50, 50, -50, 50, -50, 50);
+    //d->camera->frustum()->setOrthographic(-50, 50, -50, 50, -50, 50);
     //d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
     //d->camera->setVisibleArea(d->visibleArea);
     //d->camera->setDepthRange(d->nearPlane, d->farPlane);
@@ -105,8 +105,8 @@ void CameraControllerComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-//     if (d->camera)
-//         d->camera->setViewMatrix(gameObject()->transform().inverted());
+    if (d->camera)
+        d->camera->setViewMatrix(gameObject()->transform().inverted());
 }
 
 void CameraControllerComponent::cleanup()
