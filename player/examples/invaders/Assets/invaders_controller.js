@@ -15,13 +15,13 @@ function start()
         {
             var newEnemy = Game.clone(enemy);
             
-            newEnemy.setPosition(x, y, -2);
+            newEnemy.setPosition(x, y);
             newEnemy.enabled = true;
         }
     }
     
     var player = Game.clone(Game.getFromScene("Player"));
-    player.setPosition(0, -50, -1);
+    player.setPosition(0, -50);
     player.enabled = true;
 }
 
@@ -30,13 +30,13 @@ function update(time)
     if(Game.enemies <= 0)
     {
         //Win
-        Game.getFromScene("GameWon").setPosition(0, 0, -10);
+        Game.getFromScene("GameWon").setPosition(0, 0);
         Component.paused = true;
     }
     else if(Game.lives <= 0)
     {
         //Game over
-        Game.getFromScene("GameOver").setPosition(0, 0, -10);
+        Game.getFromScene("GameOver").setPosition(0, 0);
         Component.paused = true;
     }
     
