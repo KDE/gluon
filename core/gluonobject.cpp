@@ -241,6 +241,14 @@ void
 GluonObject::setGameProject(GluonObject * newGameProject)
 {
     d->gameProject = newGameProject;
+
+    const QObjectList& allChildren = children();
+    foreach(QObject* child, allChildren)
+    {
+        GluonObject* gobj = qobject_cast<GluonObject*>(child);
+        if(gobj)
+            gobj->setGameProject(newGameProject);
+    }
 }
 
 QString
