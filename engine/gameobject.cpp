@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -68,7 +68,7 @@ GameObject::sanitize()
     GluonObject::sanitize();
 }
 
-void 
+void
 GameObject::initialize()
 {
     const int componentCount = d->components.count();
@@ -101,7 +101,7 @@ GameObject::update(int elapsedMilliseconds)
 {
     if(!d->enabled)
         return;
-    
+
     //Remove all objects that were marked to destroy last update
     const int deleteCount = d->objectsToDelete.count();
     int i = 0;
@@ -112,11 +112,11 @@ GameObject::update(int elapsedMilliseconds)
         removeChild(obj);
         obj->stop();
         obj->cleanup();
-        delete obj;        
+        delete obj;
     }
-    
+
     d->objectsToDelete.clear();
-    
+
     //Update all components
     const int componentCount = d->components.count();
     for(i = 0; i < componentCount; ++i)
@@ -134,7 +134,7 @@ GameObject::draw(int timeLapse)
 {
     if(!d->enabled)
         return;
-    
+
     const int componentCount = d->components.count();
     int i = 0;
     for(; i < componentCount; ++i)
@@ -159,7 +159,7 @@ void GameObject::stop()
         d->children.at(i)->stop();
 }
 
-void 
+void
 GameObject::cleanup()
 {
     const int componentCount = d->components.count();
@@ -534,6 +534,11 @@ void GameObject::setPosition(float x, float y, float z)
     setPosition(QVector3D(x, y, z));
 }
 
+void GameObject::setPosition(float x, float y)
+{
+    setPosition(QVector3D(x, y, d->position.z()));
+}
+
 void
 GameObject::translate(const QVector3D& translation, GameObject::TransformSpace ts)
 {
@@ -558,6 +563,12 @@ void
 GameObject::translate(float x, float y, float z, GameObject::TransformSpace ts)
 {
     translate(QVector3D(x, y, z), ts);
+}
+
+void
+GameObject::translate(float x, float y, GameObject::TransformSpace ts)
+{
+    translate(QVector3D(x, y, 0), ts);
 }
 
 //// Scaling ////
@@ -712,7 +723,7 @@ GameObject::postCloneSanitize()
         initialize();
         start();
     }
-    
+
     GluonCore::GluonObject::postCloneSanitize();
 }
 

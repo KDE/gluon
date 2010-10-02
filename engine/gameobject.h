@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -39,17 +39,17 @@ class Scene;
 
     /**
      * \brief Represents the scene tree, third level of the GameObject hierarchy
-     * 
+     *
      * A GameObject is in essense just a translation object, meaning that it has a
      * position, a rotation and an orientation in 3D space. However, it also importantly
      * includes simple logic for attaching other bits of logic, as represented by the
      * Component class, which then attach more functionality to the GameObject.
-     * 
+     *
      * It is the third level of the GameObject hierarchy, and it can be seen as the
      * structure which makes up a scene tree (see also the Scene documentation).
-     * 
+     *
      * During the course of a game being played, the lifetime of a GameObject is like so:
-     * 
+     *
      * # GameObject is constructed on Scene load, and initialize() is called
      * # start() is called when game is started, or the current scene changes to the one containing this GameObject
      * # update() and draw() are called consecutively, at staggered intervals depending on which gameloop is used
@@ -115,7 +115,7 @@ class Scene;
              * @see GDLHandler::parseGDL
              */
             void sanitize();
-            
+
             /**
              * Initialize to a workable state
              */
@@ -148,23 +148,23 @@ class Scene;
              * The object has served its purpose. Clean up.
              */
             Q_INVOKABLE void cleanup();
-            
+
             /**
              * Destroy the object. The object will continue existing until just before
              * the next update call.
              */
             Q_INVOKABLE void destroy();
-            
+
             /**
              * Run a command on all the components in this GameObject.
-             * 
+             *
              * @param   functionName    The name of the function you wish to call
              */
             void runCommand(const QString &functionName);
             /**
-             * Run a command on all the components in this GameObject and all the 
+             * Run a command on all the components in this GameObject and all the
              * children of the GameObject.
-             * 
+             *
              * @param   functionName    The name of the function you wish to call
              */
             void runCommandInChildren(const QString &functionName);
@@ -188,11 +188,11 @@ class Scene;
             /**
              * Get the Scene this GameObject is contained within. This will return null in three
              * possible instances:
-             * 
+             *
              * - The GameObject is stored as part of a Prefab
              * - The GameObject is in an unparented tree (such as in-game created items)
              * - The GameObject is in the middle of a move (should be very rare)
-             * 
+             *
              * @return  The Scene this GameObject belongs to, or null if it is not contained within a scene
              */
             Scene *scene() const;
@@ -216,7 +216,7 @@ class Scene;
 
             Q_INVOKABLE bool enabled() const;
             Q_INVOKABLE void setEnabled(bool newEnabled);
-            
+
             Q_INVOKABLE QVector3D position() const;
             Q_INVOKABLE QVector3D worldPosition() const;
 
@@ -252,6 +252,18 @@ class Scene;
              * @param z The Z-axis component of the new position of the object
              */
             void setPosition(float x, float y, float z);
+
+            /**
+             * Set the position of the object. This will not change the z-
+             * position.
+             *
+             * @see setPosition(const QVector3D& newPosition)
+             *
+             * @param x The X-axis component of the new position of the object
+             * @param y The Y-axis component of the new position of the object
+             */
+            void setPosition(float x, float y);
+
             /**
              * Translate the object relative to its current position.
              * This moves the object so that its new position will be equal to
@@ -272,8 +284,21 @@ class Scene;
              * @param x The X-axis component of the translation
              * @param y The Y-axis component of the translation
              * @param z The Z-axis component of the translation
+             * @param ts The transform space to use.
              */
             void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+
+            /**
+             * Translate the object relative to its current position. This will
+             * not change the z-position.
+             *
+             * @see translate(const QVector3D& translation)
+             *
+             * @param x The X-axis component of the translation
+             * @param y The Y-axis component of the translation
+             * @param ts The transform space to use.
+             */
+            void translate(float x, float y, TransformSpace ts = TS_LOCAL);
 
             /**
              * Set the object's scale
@@ -294,7 +319,7 @@ class Scene;
             void setOrientation(const QQuaternion& newOrientation);
             void orient(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
             void rotate(float angle, const QVector3D &axis, TransformSpace ts = TS_LOCAL);
-            
+
             void updateTransform();
             void invalidateTransform();
             void removeLater(GluonEngine::GameObject* remove);
