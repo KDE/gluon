@@ -67,12 +67,6 @@ bool Texture::load( const QUrl& url )
     QImage image;
     image.load(url.toLocalFile());
 
-    if(image.format() != QImage::Format_ARGB32)
-    {
-        image = image.convertToFormat(QImage::Format_ARGB32);
-    }
-
-
     QGLContext* context = const_cast<QGLContext*>(QGLContext::currentContext());
     d->glTexture = context->bindTexture(image);
 
