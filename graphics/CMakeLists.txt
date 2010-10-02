@@ -33,7 +33,7 @@ set(GLUON_GRAPHICS_INCLUDES
 
 set(GluonGraphics_SRCS
     math.cpp
-    frustum.cpp
+    frustrum.cpp
     material.cpp
     materialinstance.cpp
     technique.cpp
@@ -57,7 +57,7 @@ set(GluonGraphics_HEADERS
     engine.h
     mesh.h
     math.h
-    frustum.h
+    frustrum.h
     material.h
     materialinstance.h
     technique.h
