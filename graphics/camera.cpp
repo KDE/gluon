@@ -34,7 +34,7 @@ using namespace GluonGraphics;
 class Camera::CameraPrivate
 {
     public:
-        Frustum* frustum;
+        Frustrum* frustrum;
         QMatrix4x4 viewMatrix;
 };
 
@@ -42,14 +42,14 @@ Camera::Camera( QObject* parent )
     : QObject( parent ),
       d(new CameraPrivate)
 {
-    d->frustum = new Frustum;
+    d->frustrum = new Frustrum;
 }
 
-Camera::Camera( Frustum* frustum, QObject* parent )
+Camera::Camera( Frustrum* frustum, QObject* parent )
     : QObject( parent ),
       d(new CameraPrivate)
 {
-    d->frustum = frustum;
+    d->frustrum = frustum;
 }
 
 Camera::~Camera()
@@ -57,10 +57,10 @@ Camera::~Camera()
     delete d;
 }
 
-Frustum*
-Camera::frustum()
+Frustrum*
+Camera::frustrum()
 {
-    return d->frustum;
+    return d->frustrum;
 }
 
 QMatrix4x4
@@ -70,9 +70,9 @@ Camera::viewMatrix()
 }
 
 void
-Camera::setFrustrum( Frustum * frustum )
+Camera::setFrustrum( Frustrum * frustrum )
 {
-    d->frustum = frustum;
+    d->frustrum = frustrum;
 }
 
 void

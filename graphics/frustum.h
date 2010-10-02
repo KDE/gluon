@@ -36,7 +36,7 @@ namespace GluonGraphics
      *
      * \todo Expand this description and its use.
      */
-    class GLUON_GRAPHICS_EXPORT Frustum
+    class GLUON_GRAPHICS_EXPORT Frustrum
     {
         public:
             /**
@@ -44,16 +44,16 @@ namespace GluonGraphics
              *
              * Creates an identity frustrum.
              */
-            Frustum();
+            Frustrum();
 
             /**
              * Destructor.
              */
-            virtual ~Frustum();
+            virtual ~Frustrum();
 
-            Frustum(const Frustum& other);
+            Frustrum(const Frustrum& other);
 
-            Frustum& operator=(const Frustum& other);
+            Frustrum& operator=(const Frustrum& other);
 
             /**
              * Retrieve the projection matrix.
@@ -105,8 +105,8 @@ namespace GluonGraphics
             void setPerspective( float fov, float aspect, float near, float far);
 
         private:
-            class FrustumPrivate;
-            FrustumPrivate * const d;
+            class FrustrumPrivate;
+            FrustrumPrivate * const d;
     };
 
 }

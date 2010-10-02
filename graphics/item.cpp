@@ -81,7 +81,7 @@ Item::render()
     #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
     #endif
 
-    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustum()->projectionMatrix());
+    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix());
 
     if(d->materialInstance)
         d->mesh->setMaterialInstance(d->materialInstance);

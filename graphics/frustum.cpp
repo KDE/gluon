@@ -23,11 +23,11 @@
 
 using namespace GluonGraphics;
 
-class Frustum::FrustumPrivate
+class Frustrum::FrustrumPrivate
 {
     public:
-        FrustumPrivate() { }
-        FrustumPrivate( const FrustumPrivate& other )
+        FrustrumPrivate() { }
+        FrustrumPrivate( const FrustrumPrivate& other )
             : matrix(other.matrix)
         {
 
@@ -36,19 +36,19 @@ class Frustum::FrustumPrivate
         QMatrix4x4 matrix;
 };
 
-Frustum::Frustum()
-    : d(new FrustumPrivate)
+Frustrum::Frustrum()
+    : d(new FrustrumPrivate)
 {
     d->matrix.ortho(-1, 1, -1, 1, -1, 1);
 }
 
-Frustum::Frustum( const GluonGraphics::Frustum& other )
+Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
     : d(other.d)
 {
 
 }
 
-Frustum& Frustum::operator=( const GluonGraphics::Frustum & other )
+Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum & other )
 {
     d->matrix = other.d->matrix;
 
@@ -56,37 +56,37 @@ Frustum& Frustum::operator=( const GluonGraphics::Frustum & other )
 }
 
 
-Frustum::~Frustum()
+Frustrum::~Frustrum()
 {
     delete d;
 }
 
 QMatrix4x4
-Frustum::projectionMatrix()
+Frustrum::projectionMatrix()
 {
     return d->matrix;
 }
 
 bool
-Frustum::containsPoint( const QVector3D& point )
+Frustrum::containsPoint( const QVector3D& point )
 {
 
 }
 
 bool
-Frustum::containsSphere( const QVector3D& point, float radius )
+Frustrum::containsSphere( const QVector3D& point, float radius )
 {
 
 }
 
 void
-Frustum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
+Frustrum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
     d->matrix.ortho(left, right, bottom, top, near, far);
 }
 
 void
-Frustum::setPerspective( float fov, float aspect, float near, float far )
+Frustrum::setPerspective( float fov, float aspect, float near, float far )
 {
     d->matrix.perspective(fov, aspect, near, far);
 }

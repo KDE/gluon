@@ -31,7 +31,7 @@
 class QMatrix4x4;
 namespace GluonGraphics
 {
-    class Frustum;
+    class Frustrum;
 
     /**
      * \brief A view point and volume.
@@ -60,7 +60,7 @@ namespace GluonGraphics
              * \param frustum The frustum to use for this camera.
              * \param parent The parent QObject.
              */
-            explicit Camera( Frustum* frustum, QObject* parent = 0 );
+            explicit Camera( Frustrum* frustum, QObject* parent = 0 );
 
             /**
              * Destructor.
@@ -82,7 +82,7 @@ namespace GluonGraphics
              *
              * \return The frustum used.
              */
-            Frustum* frustum();
+            Frustrum* frustrum();
 
         public Q_SLOTS:
             /**
@@ -96,7 +96,7 @@ namespace GluonGraphics
              *
              * \param frustum The frustum to use.
              */
-            void setFrustrum( Frustum* frustum);
+            void setFrustrum( GluonGraphics::Frustrum* frustrum);
 
         private:
             class CameraPrivate;
