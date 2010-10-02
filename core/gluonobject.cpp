@@ -576,19 +576,10 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 
         //Set a sanitizable property
         setProperty((propertyName + "_sanitizable").toUtf8(), value);
-
-        DEBUG_TEXT(QString("Falling through - unhandled type %2 for property %1").arg(propertyName).arg(theTypeName));
         return;
     }
 
-    if (!setProperty(propertyName.toUtf8(), value))
-    {
-        DEBUG_TEXT(QString("Failed to set dynamic property %1 to %2").arg(propertyName, propertyValue));
-    }
-    else
-    {
-        //DEBUG_TEXT(QString("Setting property %1 of type %2 to value %3 - QVariant type %4 (%5) - parsed value %6").arg(propertyName, theTypeName, theValue, value.typeName()).arg(value.type()).arg(propertyValue));
-    }
+    setProperty(propertyName.toUtf8(), value);
 }
 
 QString
@@ -730,8 +721,6 @@ GluonObject::findItemByNameInObject(QStringList qualifiedName, GluonObject* obje
 void
 GluonObject::sanitizeReference(const QString& propName, const QString& propValue)
 {
-    //DEBUG_FUNC_NAME
-    DEBUG_BLOCK
     QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
     // Yes, i know this is O(n*m) but it does not happen during gameplay
     foreach(const QString &name, objectTypeNames)
@@ -752,20 +741,16 @@ GluonObject::sanitizeReference(const QString& propName, const QString& propValue
 
             GluonObject * theObject = root()->findItemByName(theReferencedName);
 
+            if(!theObject)
+            {
+                debug( QString("Warning: Invalid reference for property %1 on object %2").arg(propertyName, this->name()) );
+                return;
+            }
+
             QMetaProperty property = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
-            //DEBUG_TEXT(QString("Attempting to wrap object of type %1 in a QVariant of type %2").arg(theObject->metaObject()->className()).arg(property.typeName()));
             theReferencedObject = GluonObjectFactory::instance()->wrapObject(QString(property.typeName()), theObject);
-            DEBUG_TEXT(QString("Wrapped object %1 in QVariant with type %2").arg(theObject->name(), theReferencedObject.typeName()));
 
             setProperty(propertyName.toUtf8(), theReferencedObject);
-/*            if (!)
-            {
-                DEBUG_TEXT(QString("Failed to set the property %1 to %2").arg(propertyName, propValue));
-            }
-            else
-            {
-                //DEBUG_TEXT(QString("Set the property %1 to reference the object %2 of type %3 (classname %4)").arg(propertyName, theReferencedName, name, theObject->metaObject()->className()));
-            }*/
             break;
         }
     }
