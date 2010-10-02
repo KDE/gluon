@@ -1,65 +1,76 @@
 { GluonEngine::GameProject(Invaders)
     description string(Invaders Game)
-    filename url(/home/ahiemstra/Projects/KDE/Gluon/gluon-git/player/examples/invaders/Invaders.gluon)
-    entryPoint GluonEngine::Scene(Invaders/Game)
-    { GluonEngine::Scene(Menu)
-        file url(Scenes/invaders_menu.gdl)
+    entryPoint GluonEngine::Scene(Invaders/Scenes/Menu)
+    { GluonCore::GluonObject(Scenes)
+        { GluonEngine::Scene(Menu)
+            file url(Scenes/invaders_menu.gdl)
+        }
+        { GluonEngine::Scene(Game)
+            file url(Scenes/invaders_game.gdl)
+        }
     }
-    { GluonEngine::Scene(Game)
-        file url(Scenes/invaders_game.gdl)
+    { GluonCore::GluonObject(Assets)
+        { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptAsset(bullet.js)
+                file url(Assets/invaders_bullet.js)
+            }
+            { GluonEngine::ScriptAsset(controller.js)
+                file url(Assets/invaders_controller.js)
+            }
+            { GluonEngine::ScriptAsset(enemy.js)
+                file url(Assets/invaders_enemy.js)
+            }
+            { GluonEngine::ScriptAsset(menu.js)
+                file url(Assets/invaders_menu.js)
+            }
+            { GluonEngine::ScriptAsset(player.js)
+                file url(Assets/invaders_player.js)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(The Whip Theme Extended Version.ogg)
+                file url(Assets/invaders_the_whip_theme_extended_version.ogg)
+            }
+            { GluonEngine::SoundAsset(Harmful or Fatal.ogg)
+                file url(Assets/invaders_harmful_or_fatal.ogg)
+            }
+            { GluonEngine::SoundAsset(laser-pew.ogg)
+                file url(Assets/invaders_laser-pew.ogg)
+            }
+            { GluonEngine::SoundAsset(quiet-explosion.ogg)
+                file url(Assets/invaders_quiet-explosion.ogg)
+            }
+        }
+        { GluonCore::GluonObject(Textures)
+            { GluonEngine::TextureAsset(alien.png)
+                file url(Assets/invaders_alien.png)
+            }
+            { GluonEngine::TextureAsset(background.png)
+                file url(Assets/invaders_background.png)
+            }
+            { GluonEngine::TextureAsset(gluon.invaders.128.png)
+                file url(Assets/invaders_gluon_invaders_128.png)
+            }
+            { GluonEngine::TextureAsset(menu-text.png)
+                file url(Assets/invaders_menu-text.png)
+            }
+            { GluonEngine::TextureAsset(spaceship-reflection.png)
+                file url(Assets/invaders_spaceship-reflection.png)
+            }
+            { GluonEngine::TextureAsset(spaceship.png)
+                file url(Assets/invaders_spaceship.png)
+            }
+            { GluonEngine::TextureAsset(gameover.png)
+                file url(Assets/invaders_gameover.png)
+            }
+            { GluonEngine::TextureAsset(play.png)
+                file url(Assets/invaders_play.png)
+            }
+            { GluonEngine::TextureAsset(win.png)
+                file url(Assets/invaders_win.png)
+            }
+        }
     }
-    { GluonEngine::TextureAsset(alien.png)
-        file url(Assets/invaders_alien.png)
-    }
-    { GluonEngine::TextureAsset(background.png)
-        file url(Assets/invaders_background.png)
-    }
-    { GluonEngine::ScriptAsset(enemy.js)
-        file url(Assets/invaders_enemy.js)
-    }
-    { GluonEngine::TextureAsset(gluon.invaders.128.png)
-        file url(Assets/invaders_gluon_invaders_128.png)
-    }
-    { GluonEngine::TextureAsset(menu-text.png)
-        file url(Assets/invaders_menu-text.png)
-    }
-    { GluonEngine::ScriptAsset(menu.js)
-        file url(Assets/invaders_menu.js)
-    }
-    { GluonEngine::ScriptAsset(player.js)
-        file url(Assets/invaders_player.js)
-    }
-    { GluonEngine::TextureAsset(spaceship-reflection.png)
-        file url(Assets/invaders_spaceship-reflection.png)
-    }
-    { GluonEngine::TextureAsset(spaceship.png)
-        file url(Assets/invaders_spaceship.png)
-    }
-    { GluonEngine::SoundAsset(The Whip Theme Extended Version.ogg)
-        file url(Assets/invaders_the_whip_theme_extended_version.ogg)
-    }
-    { GluonEngine::SoundAsset(Harmful or Fatal.ogg)
-        file url(Assets/invaders_harmful_or_fatal.ogg)
-    }
-    { GluonEngine::ScriptAsset(bullet.js)
-        file url(Assets/invaders_bullet.js)
-    }
-    { GluonEngine::ScriptAsset(controller.js)
-        file url(Assets/invaders_controller.js)
-    }
-    { GluonEngine::SoundAsset(laser-pew.ogg)
-        file url(Assets/invaders_laser-pew.ogg)
-    }
-    { GluonEngine::SoundAsset(quiet-explosion.ogg)
-        file url(Assets/invaders_quiet-explosion.ogg)
-    }
-    { GluonEngine::TextureAsset(gameover.png)
-        file url(Assets/invaders_gameover.png)
-    }
-    { GluonEngine::TextureAsset(play.png)
-        file url(Assets/invaders_play.png)
-    }
-    { GluonEngine::TextureAsset(win.png)
-        file url(Assets/invaders_win.png)
+    { GluonCore::GluonObject(Prefabs)
     }
 }

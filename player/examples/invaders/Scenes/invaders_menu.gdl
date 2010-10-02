@@ -22,7 +22,7 @@
         }
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
             enabled bool(true)
-            sound GluonEngine::Asset(Invaders/The Whip Theme Extended Version.ogg)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/The Whip Theme Extended Version.ogg)
             radius float(99.99)
             volume float(1)
             pitch float(1)
@@ -39,7 +39,7 @@
             enabled bool(true)
             size size2d(30;30)
             color rgba(255;255;255;255)
-            texture GluonEngine::Asset(Invaders/gluon.invaders.128.png)
+            texture GluonEngine::Asset(Invaders/Assets/Textures/gluon.invaders.128.png)
         }
     }
     { GluonEngine::GameObject(Text)
@@ -51,11 +51,11 @@
             enabled bool(true)
             size size2d(40;5)
             color rgba(152;152;152;255)
-            texture GluonEngine::Asset(Invaders/play.png)
+            texture GluonEngine::Asset(Invaders/Assets/Textures/play.png)
         }
         { GluonEngine::QtScriptComponent(GluonObject)
             enabled bool(true)
-            script GluonEngine::Asset(Invaders/menu.js)
+            script GluonEngine::Asset(Invaders/Assets/Scripts/menu.js)
         }
         { GluonEngine::KeyboardInputComponent(Key_Space)
             enabled bool(true)
