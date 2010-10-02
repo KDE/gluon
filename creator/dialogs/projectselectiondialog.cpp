@@ -45,10 +45,17 @@ class ProjectSelectionDialog::ProjectSelectionDialogPrivate
             if (pages.key(q->currentPage()) == ProjectSelectionDialog::NewProjectPage)
             {
                 NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>(q->currentPage());
-                if (page) {
+                if (page)
                     fileName = page->createProject();
-                }
             }
+
+            if (pages.key(q->currentPage()) == ProjectSelectionDialog::RecentProjectPage)
+            {
+                RecentProjectsDialogPage* page = static_cast<RecentProjectsDialogPage*>(q->currentPage());
+                if (page)
+                    fileName = page->selectedItem();
+            }
+
         }
 
         void projectRequested(const QString& project)

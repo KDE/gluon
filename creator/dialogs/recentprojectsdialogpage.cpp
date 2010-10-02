@@ -30,6 +30,8 @@
 #include <KDE/KConfig>
 #include <KDE/KConfigGroup>
 
+#include <core/debughelper.h>
+
 using namespace GluonCreator;
 
 class RecentProjectsDialogPage::RecentProjectsDialogPagePrivate
@@ -86,6 +88,14 @@ RecentProjectsDialogPage::RecentProjectsDialogPage()
 RecentProjectsDialogPage::~RecentProjectsDialogPage()
 {
     delete d;
+}
+
+QString RecentProjectsDialogPage::selectedItem() const
+{
+    QListWidgetItem* item = d->widget->currentItem();
+    if (item)
+        return item->data(Qt::UserRole).toString();
+    return QString();
 }
 
 #include "creator/dialogs/recentprojectsdialogpage.moc"
