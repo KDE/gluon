@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -112,7 +112,7 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
                 action = new QAction(KIcon("document-new"), i18n("New Scene"), this->q);
                 connect(action, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()));
                 menuItems.append(action);
-                
+
                 // Run through all the templates and add an action for each...
                 foreach(const GluonEngine::AssetTemplate* item, assetTemplates)
                 {
@@ -152,7 +152,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
 
     d->model = new ProjectModel(this);
     new ModelTest(d->model, this);
-    
+
     d->view = new QTreeView(this);
     d->view->setModel(d->model);
     d->view->setHeaderHidden(true);
@@ -178,7 +178,7 @@ ProjectDock::ProjectDock(const QString& title, QWidget* parent, Qt::WindowFlags 
     connect(action, SIGNAL(triggered(bool)), SLOT(deleteActionTriggered()));
     layout->addWidget(d->toolBar);
     layout->addWidget(d->view);
-    
+
     setWidget(widget);
 }
 
@@ -217,12 +217,12 @@ void ProjectDock::activated(QModelIndex index)
     {
         //DEBUG_TEXT("Asset")
         FileManager::instance()->openAsset(asset);
-        
+
         /*QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
         //DEBUG_TEXT2("Filename: %1", filename)
         if(QFile::exists(filename))
         {
-            
+
             //DEBUG_TEXT("Opening asset")
             //KRun* runner = new KRun(filename, this);
             //Q_UNUSED(runner);
@@ -235,7 +235,7 @@ void ProjectDock::selectionChanged(const QItemSelection& selected, const QItemSe
 {
     Q_UNUSED(deselected)
     DEBUG_FUNC_NAME
-    
+
     SelectionManager::SelectionList selection;
     foreach(const QItemSelectionRange &range, selected)
     {
@@ -254,6 +254,8 @@ void ProjectDock::currentProjectChanged(GluonEngine::GameProject* project)
 
     if(!d->toolBar->isEnabled())
         d->toolBar->setEnabled(true);
+
+    d->view->expandAll();
 }
 
 void ProjectDock::showContextMenuRequested(const QPoint& pos)
@@ -277,14 +279,14 @@ void ProjectDock::contextMenuHiding()
 void ProjectDock::deleteActionTriggered()
 {
     DEBUG_FUNC_NAME
-    
+
     if (!d->currentContextIndex.isValid())
         d->currentContextIndex = d->view->selectionModel()->currentIndex();
 
     if(!d->currentContextIndex.isValid())
         return;
 
-    
+
     GluonCore::GluonObject * object = static_cast<GluonCore::GluonObject*>(d->currentContextIndex.internalPointer());
     DEBUG_TEXT(QString("Requested deletion of %1").arg(object->fullyQualifiedName()));
     if (KMessageBox::questionYesNo(this, i18n("Please confirm that you wish to delete the object %1. This will delete both this item and all its children!").arg(object->name()), i18n("Really Delete?")) == KMessageBox::Yes)

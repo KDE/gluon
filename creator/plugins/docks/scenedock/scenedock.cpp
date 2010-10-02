@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -62,7 +62,7 @@ SceneDock::SceneDock(const QString& title, QWidget* parent, Qt::WindowFlags flag
 
     if(GluonEngine::Game::instance()->currentScene())
         d->model->setRootGameObject(GluonEngine::Game::instance()->currentScene()->sceneContents());
-    
+
     connect(GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)));
     connect(GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()));
 
@@ -122,9 +122,8 @@ void SceneDock::sceneChanged(GluonEngine::Scene* obj)
     if (obj)
     {
         d->model->setRootGameObject(obj->sceneContents());
-        SelectionManager::SelectionList selection;
-        selection.append(obj->sceneContents());
-        SelectionManager::instance()->setSelection(selection);
+        SelectionManager::instance()->clearSelection();
+        d->view->expandAll();
     }
 }
 
@@ -143,7 +142,7 @@ void SceneDock::deleteSelection()
                     ObjectManager::instance()->deleteGameObject(obj);
                 }
             }
-            
+
             d->view->reset();
             SelectionManager::instance()->setSelection(SelectionManager::SelectionList());
         }
