@@ -94,7 +94,7 @@ void main()\
 {\
     vec4 texColor = texture2D(tex, out_uv0);\
     vec4 color = out_color * materialColor * texColor;\
-    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a);\
+    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
 }\
 ";
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
