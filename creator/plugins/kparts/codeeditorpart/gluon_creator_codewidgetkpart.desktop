@@ -1,0 +1,21 @@
+[Desktop Entry]
+Encoding=UTF-8
+
+Name=Code Editor
+Comment=Provides a code editor for Gluon Creator
+Icon=gluon
+
+Type=Service
+MimeType=application/javascript
+X-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
+
+X-KDE-Library=gluon_creator_codewidgetkpart
+X-KDE-PluginInfo-Author=Kevin Whitaker
+X-KDE-PluginInfo-Email=eyecreate@gmail.com
+X-KDE-PluginInfo-Name=gluon_creator_dockplugin_codewidgetdock
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=dock
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true
