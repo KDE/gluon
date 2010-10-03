@@ -29,6 +29,8 @@
 #include <KDE/KUrl>
 #include <QtCore/QThread>
 #include <QTimer>
+#include <KActionCollection>
+#include <kaction.h>
 
 using namespace GluonCreator;
 
@@ -47,6 +49,9 @@ GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* p
 {
     Q_UNUSED(parentWidget)
 
+    KComponentData data("gluonviewerpart", "gluoncreator");
+    setComponentData(data);
+
     d->autoplay = true;
     d->widget = new GluonGraphics::RenderWidget();
     setWidget(d->widget);
@@ -59,6 +64,30 @@ GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* p
         if(keyValue == "autoplay=false")
             d->autoplay = false;
     }
+
+    QActionGroup* group = new QActionGroup(actionCollection());
+    group->setExclusive(true);
+
+    KAction* solid = new KAction(KIcon("draw-polyline"), i18n("Solid"), actionCollection());
+    solid->setCheckable(true);
+    solid->setChecked(true);
+    connect(solid, SIGNAL(triggered(bool)), this, SLOT(setSolid()));
+    group->addAction(solid);
+    actionCollection()->addAction("toggleSolidAction", solid);
+
+    KAction* wire = new KAction(KIcon("draw-line"), i18n("Wireframe"), actionCollection());
+    wire->setCheckable(true);
+    connect(wire, SIGNAL(triggered(bool)), this, SLOT(setWireframe()));
+    group->addAction(wire);
+    actionCollection()->addAction("toggleWireframeAction", wire);
+
+    KAction* points = new KAction(KIcon("edit-node"), i18n("Points"), actionCollection());
+    points->setCheckable(true);
+    connect(points, SIGNAL(triggered(bool)), this, SLOT(setPoints()));
+    group->addAction(points);
+    actionCollection()->addAction("togglePointsAction", points);
+
+    setXMLFile("gluonviewerpartui.rc");
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
@@ -88,6 +117,21 @@ bool GluonCreator::GluonViewerPart::openFile()
 void GluonViewerPart::startGame()
 {
     GluonEngine::Game::instance()->runGame();
+}
+
+void GluonViewerPart::setSolid()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void GluonViewerPart::setWireframe()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+}
+
+void GluonViewerPart::setPoints()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 }
 
 K_PLUGIN_FACTORY(GluonViewerPartFactory, registerPlugin<GluonViewerPart>();)

@@ -35,6 +35,10 @@ namespace GluonCreator
         public slots:
             void startGame();
 
+            void setSolid();
+            void setWireframe();
+            void setPoints();
+
         protected:
             virtual bool openFile();
 
