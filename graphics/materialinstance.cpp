@@ -22,14 +22,13 @@
 
 #include <GL/gl.h>
 #include <GL/glext.h>
-#include "math.h"
-#include "engine.h"
-#include "camera.h"
-#include "frustum.h"
 
 #include <QtCore/QVariant>
 #include <QtGui/QVector2D>
 #include <QtGui/QColor>
+
+#include "math.h"
+#include "engine.h"
 #include "texture.h"
 
 REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)

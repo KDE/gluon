@@ -26,7 +26,7 @@
 #include <core/debughelper.h>
 #include "engine.h"
 #include "camera.h"
-#include "frustum.h"
+#include "frustrum.h"
 
 using namespace GluonGraphics;
 

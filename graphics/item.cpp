@@ -28,7 +28,7 @@
 
 #include "mesh.h"
 #include "camera.h"
-#include "frustum.h"
+#include "frustrum.h"
 #include "engine.h"
 #include "math.h"
 

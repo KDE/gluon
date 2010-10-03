@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "frustum.h"
+#include "frustrum.h"
 
 #include <QtGui/QMatrix4x4>
 
@@ -39,7 +39,7 @@ class Frustrum::FrustrumPrivate
 Frustrum::Frustrum()
     : d(new FrustrumPrivate)
 {
-    d->matrix.ortho(-1, 1, -1, 1, -1, 1);
+    d->matrix.ortho(-50, 50, -50, 50, 1, 100);
 }
 
 Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
@@ -82,11 +82,13 @@ Frustrum::containsSphere( const QVector3D& point, float radius )
 void
 Frustrum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
+    d->matrix.setToIdentity();
     d->matrix.ortho(left, right, bottom, top, near, far);
 }
 
 void
 Frustrum::setPerspective( float fov, float aspect, float near, float far )
 {
+    d->matrix.setToIdentity();
     d->matrix.perspective(fov, aspect, near, far);
 }
