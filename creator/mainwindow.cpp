@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -60,7 +60,7 @@ class MainWindow::MainWindowPrivate
 {
     public:
         MainWindowPrivate() { viewPart = 0; }
-        
+
         bool modified;
         QString fileName;
         KRecentFilesAction* recentFiles;
@@ -74,7 +74,7 @@ MainWindow::MainWindow(const QString& fileName)
       d(new MainWindowPrivate)
 {
     d->modified = false;
-    
+
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     PluginManager::instance()->setParent(this);
@@ -90,7 +90,7 @@ MainWindow::MainWindow(const QString& fileName)
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-    
+
     PluginManager::instance()->setMainWindow(this);
     PluginManager::instance()->loadPlugins();
 
@@ -100,7 +100,7 @@ MainWindow::MainWindow(const QString& fileName)
     d->projectDialog = new ProjectSelectionDialog(this);
     d->projectDialog->setModal(true);
     connect(d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogClosed()));
-    
+
     DockManager::instance()->setDocksEnabled(false);
     DockManager::instance()->setDocksLocked(GluonCreator::Settings::lockLayout());
 
@@ -130,6 +130,7 @@ MainWindow::MainWindow(const QString& fileName)
 
     FileManager::instance()->setTabWidget(tab);
     connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(createGUI(KParts::Part*)));
+    FileManager::instance()->partManager()->addPart(d->viewPart);
 
     if (fileName.isEmpty())
     {
@@ -269,12 +270,12 @@ void MainWindow::setupActions()
     actionCollection()->addAction("stopGame", stop);
     stop->setEnabled(false);
     connect(stop, SIGNAL(triggered(bool)), SLOT(stopGame()));
-    
+
     KAction *addAsset = new KAction(KIcon("document-new"), i18n("Add Assets..."), actionCollection());
     actionCollection()->addAction("addAsset", addAsset);
     addAsset->setEnabled(false);
     connect(addAsset, SIGNAL(triggered(bool)), SLOT(addAsset()));
-    
+
     KAction* chooseEntryPoint = new KAction(KIcon("media-playback-start"), i18n("Set current scene as entry point"), actionCollection());
     actionCollection()->addAction("chooseEntryPoint", chooseEntryPoint);
     chooseEntryPoint->setEnabled(false);
@@ -313,7 +314,7 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setIcon(KIcon("media-playback-pause"));
             actionCollection()->action("playPauseGame")->setText(i18n("Pause Game"));
             actionCollection()->action("stopGame")->setEnabled(true);
-            
+
             QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
             saveProject();
 
@@ -330,9 +331,9 @@ void MainWindow::playPauseGame(bool checked)
             actionCollection()->action("playPauseGame")->setText(i18n("Play Game"));
             actionCollection()->action("playPauseGame")->setChecked(false);
             actionCollection()->action("stopGame")->setEnabled(false);
-            
+
             openProject(d->fileName);
-            
+
             DEBUG_BLOCK;
             DEBUG_TEXT(currentSceneName);
             GluonEngine::Game::instance()->setCurrentScene(currentSceneName);
@@ -392,7 +393,7 @@ bool MainWindow::queryClose()
 void MainWindow::addAsset()
 {
     QStringList assets = KFileDialog::getOpenFileNames();
-    
+
     foreach(const QString &asset, assets)
     {
         ObjectManager::instance()->createNewAsset(asset);
