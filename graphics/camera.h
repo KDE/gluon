@@ -28,6 +28,7 @@
 
 #include "gluon_graphics_export.h"
 
+class QSizeF;
 class QMatrix4x4;
 namespace GluonGraphics
 {
@@ -97,6 +98,11 @@ namespace GluonGraphics
              * \param frustum The frustum to use.
              */
             void setFrustrum( GluonGraphics::Frustrum* frustrum);
+
+            /**
+             *
+             */
+            void setVisibleArea( const QSizeF& area, float near, float far);
 
         private:
             class CameraPrivate;

@@ -22,7 +22,7 @@
 #include <core/debughelper.h>
 #include <graphics/camera.h>
 #include <graphics/engine.h>
-#include <graphics/frustum.h>
+#include <graphics/frustrum.h>
 #include <engine/gameobject.h>
 
 #include <QtCore/QSizeF>
@@ -90,6 +90,7 @@ void CameraControllerComponent::initialize()
         GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
     }
 
+    d->camera->setVisibleArea(d->visibleArea, d->nearPlane, d->farPlane);
     //d->camera->frustum()->setOrthographic(-50, 50, -50, 50, -50, 50);
     //d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
     //d->camera->setVisibleArea(d->visibleArea);
@@ -138,7 +139,7 @@ void CameraControllerComponent::setVisibleArea(const QSizeF& area)
     d->visibleArea = area;
 
     if(d->camera)
-        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
+        d->camera->setVisibleArea(d->visibleArea, d->nearPlane, d->farPlane);
 }
 
 QSizeF CameraControllerComponent::visibleArea()
@@ -161,7 +162,7 @@ void CameraControllerComponent::setNearPlane(float near)
     d->nearPlane = near;
 
     if(d->camera)
-        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
+        d->camera->setVisibleArea(d->visibleArea, d->nearPlane, d->farPlane);
 }
 
 void CameraControllerComponent::setFarPlane(float far)
@@ -169,7 +170,7 @@ void CameraControllerComponent::setFarPlane(float far)
     d->farPlane = far;
 
     if(d->camera)
-        d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
+        d->camera->setVisibleArea(d->visibleArea, d->nearPlane, d->farPlane);
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_cameracontroller, GluonEngine::CameraControllerComponent);
