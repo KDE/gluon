@@ -57,7 +57,7 @@ TextureAsset::TextureAsset(QObject *parent)
 
 TextureAsset::~TextureAsset()
 {
-    GluonGraphics::Engine::instance()->destroyTexture(name());
+    d->texture = 0;
 }
 
 QIcon TextureAsset::icon() const
