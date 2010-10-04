@@ -98,9 +98,9 @@ Mesh::load( const QString& filename )
 }
 
 void
-Mesh::render()
+Mesh::render( MaterialInstance* material )
 {
-    renderBuffer(GL_TRIANGLES,  6);
+    renderBuffer(GL_TRIANGLES, 6, material);
 }
 
 bool
@@ -124,25 +124,25 @@ Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors
 }
 
 void
-Mesh::renderBuffer( uint mode, int count)
+Mesh::renderBuffer( uint mode, int count, MaterialInstance* material)
 {
     if(d->buffer == 0)
         return;
 
     glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
-    glVertexAttribPointer(d->material->attributeLocation("vertex"), 3, GL_FLOAT, 0, 0, 0);
-    glVertexAttribPointer(d->material->attributeLocation("color"), 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
-    glVertexAttribPointer(d->material->attributeLocation("uv0"), 2, GL_FLOAT, 0, 0, (void*)(d->uvOffset) );
+    glVertexAttribPointer(material->attributeLocation("vertex"), 3, GL_FLOAT, 0, 0, 0);
+    glVertexAttribPointer(material->attributeLocation("color"), 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
+    glVertexAttribPointer(material->attributeLocation("uv0"), 2, GL_FLOAT, 0, 0, (void*)(d->uvOffset) );
 
-    glEnableVertexAttribArray(d->material->attributeLocation("vertex"));
-    glEnableVertexAttribArray(d->material->attributeLocation("color"));
-    glEnableVertexAttribArray(d->material->attributeLocation("uv0"));
+    glEnableVertexAttribArray(material->attributeLocation("vertex"));
+    glEnableVertexAttribArray(material->attributeLocation("color"));
+    glEnableVertexAttribArray(material->attributeLocation("uv0"));
 
     glDrawArrays(mode, 0, count);
 
-    glDisableVertexAttribArray(d->material->attributeLocation("vertex"));
-    glDisableVertexAttribArray(d->material->attributeLocation("color"));
-    glDisableVertexAttribArray(d->material->attributeLocation("uv0"));
+    glDisableVertexAttribArray(material->attributeLocation("vertex"));
+    glDisableVertexAttribArray(material->attributeLocation("color"));
+    glDisableVertexAttribArray(material->attributeLocation("uv0"));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

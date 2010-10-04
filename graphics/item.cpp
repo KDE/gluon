@@ -88,7 +88,7 @@ Item::render()
 
     d->materialInstance->bind();
     d->materialInstance->setModelViewProjectionMatrix(modelViewProj);
-    d->mesh->render();
+    d->mesh->render(d->materialInstance);
     d->materialInstance->release();
 }
 

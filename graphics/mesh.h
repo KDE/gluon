@@ -60,10 +60,11 @@ namespace GluonGraphics
             /**
              * Render this mesh to the screen.
              *
-             * \param modelViewProj The model-view-projection matrix
-             * to use when rendering this mesh.
+             * \param material The material used to render the mesh. This
+             * is only used to determine vertex attribute locations in the
+             * program.
              */
-            virtual void render();
+            virtual void render( MaterialInstance* material );
 
         protected:
             /**
@@ -80,10 +81,10 @@ namespace GluonGraphics
              * Render the local OpenGL buffer.
              *
              * \param mode The OpenGL mode to use, for example GL_TRIAGLES.
-             * \param mvp The model-view-projection to use for rendering.
              * \param count The number of vertices to render.
+             * \param material The material to get attribute locations from.
              */
-            virtual void renderBuffer( uint mode, int count);
+            virtual void renderBuffer( uint mode, int count, GluonGraphics::MaterialInstance* material);
 
         private:
             class MeshPrivate;
