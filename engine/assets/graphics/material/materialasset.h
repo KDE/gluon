@@ -45,6 +45,10 @@ namespace GluonEngine
 
             virtual void setName( const QString& newName );
 
+            virtual QString childrenToGDL( int indentLevel = 0 ) const;
+
+            virtual void sanitize();
+
         private:
             class MaterialAssetPrivate;
             MaterialAssetPrivate *d;

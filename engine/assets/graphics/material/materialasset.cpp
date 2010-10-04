@@ -24,6 +24,7 @@
 
 #include <core/debughelper.h>
 #include <graphics/material.h>
+#include <graphics/materialinstance.h>
 #include <graphics/engine.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, MaterialAsset)
@@ -49,12 +50,11 @@ MaterialAsset::MaterialAsset(QObject *parent)
     : Asset(parent)
     , d(new MaterialAssetPrivate)
 {
-    GluonGraphics::Engine::instance()->createMaterial(name());
+    d->material = GluonGraphics::Engine::instance()->createMaterial(name());
 }
 
 MaterialAsset::~MaterialAsset()
 {
-    GluonGraphics::Engine::instance()->destroyMaterial(name());
     delete d;
 }
 
@@ -103,6 +103,24 @@ void MaterialAsset::setName( const QString& newName )
     GluonGraphics::Engine::instance()->removeMaterial(name());
     GluonGraphics::Engine::instance()->addMaterial(newName, d->material);
     GluonEngine::Asset::setName( newName );
+}
+
+QString MaterialAsset::childrenToGDL( int indentLevel ) const
+{
+    return GluonObject::childrenToGDL(indentLevel);
+}
+
+void MaterialAsset::sanitize()
+{
+    GluonCore::GluonObject::sanitize();
+
+    QObjectList allChildren = children();
+    foreach(QObject* child, allChildren)
+    {
+        GluonGraphics::MaterialInstance* instance = qobject_cast< GluonGraphics::MaterialInstance* >(child);
+        if(instance)
+            instance->setMaterial(d->material);
+    }
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_material, GluonEngine::MaterialAsset)
