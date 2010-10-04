@@ -12,7 +12,7 @@ var invincibleTime = 254;
 
 function initialize() 
 {
-	controller = Game.getFromScene("Background").ControllerScript;
+    controller = Game.getFromScene("Background").ControllerScript;
     bullet = Game.getFromScene("Bullet");
     deathAnimTimeRemaining = deathAnimTime;
 }
@@ -74,16 +74,16 @@ function update(time)
         
         if(invincibleTime > 0)
         {
-            GameObject.SpriteRenderer.setColor(new QColor(255, redness, redness));
+            GameObject.SpriteRenderer.material.materialColor = new QColor(255, redness, redness);
             redness += 2;
             invincibleTime -= 2;
         } 
         
-        if(GameObject.Collider.isColliding())
+        if(GameObject.BulletCollider.isColliding() || GameObject.EnemyCollider.isColliding())
         {
             if(invincibleTime <= 0)
             {
-                GameObject.SpriteRenderer.setColor(new QColor(255, 0, 0));
+                GameObject.SpriteRenderer.material.materialColor = new QColor(255, 0, 0);
                 Game.lives--;
                 GameObject.Kapow.play();
                 alive = false;
@@ -95,9 +95,9 @@ function update(time)
         var scaleVal = 1 + (deathAnimTimeRemaining / deathAnimTime);
         GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
         
-        var color = GameObject.SpriteRenderer.color;
+        var color = GameObject.SpriteRenderer.material.materialColor;
         color.setAlpha(255 * (scaleVal - 1));
-        GameObject.SpriteRenderer.setColor(color);
+        GameObject.SpriteRenderer.material.materialColor = color;
         
         deathAnimTimeRemaining = deathAnimTimeRemaining - time;
 

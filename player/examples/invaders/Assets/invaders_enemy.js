@@ -10,8 +10,9 @@ var deathAnimTimeRemaining = 0;
 
 function start() {
 	controller = Game.getFromScene("Background").ControllerScript;
-    bullet = Game.getFromScene("Bullet");
+	bullet = Game.getFromScene("Bullet");
 	deathAnimTimeRemaining = deathAnimTime;
+	
 }
 
 function update(time) {
@@ -32,16 +33,17 @@ function update(time) {
 		if(GameObject.BulletCollider.isColliding() || GameObject.PlayerCollider.isColliding())
 		{
 			alive = false;
+			GameObject.SpriteRenderer.setMaterial("Invaders/Assets/Material/Enemy_Fade");
 			GameObject.Kapow.play();
 			Game.enemies--;
 		}
 		
-		if(Math.random() < bulletChance)
+		if(Game.random() < bulletChance)
 		{
 			var newBullet = Game.clone(bullet);
 			newBullet.position = GameObject.position;
 			newBullet.enabled = true;
-			newBullet.Collider.collisionGroup = 0;
+			newBullet.Collider.collisionGroup = 2;
 			newBullet.rotate(180, new QVector3D(0, 0, 1));
 		}
 	}
@@ -50,9 +52,9 @@ function update(time) {
 		var scaleVal = 1 + (deathAnimTimeRemaining / deathAnimTime);
 		GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
 		
-		var color = GameObject.SpriteRenderer.color;
+		var color = GameObject.SpriteRenderer.material.materialColor;
 		color.setAlpha(255 * (scaleVal - 1));
-		GameObject.SpriteRenderer.setColor(color);
+		GameObject.SpriteRenderer.material.materialColor = color;
 		
 		deathAnimTimeRemaining = deathAnimTimeRemaining - time;
 

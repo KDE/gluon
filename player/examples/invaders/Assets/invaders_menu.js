@@ -12,7 +12,7 @@ function start() {
 
 function update() {
   if(GameObject.Key_Space.isActionHeld()) {
-    Game.setCurrentScene("Invaders/Game");
+    Game.setCurrentScene("Invaders/Scenes/Game");
   }
 
   GameObject.setPosition(xpos, ypos, 1);
@@ -27,7 +27,7 @@ function update() {
     xpos_increment = -xpos_increment;
   }
 
-  GameObject.SpriteRenderer.setColor(color, color, color, 255);
+  GameObject.SpriteRenderer.material.materialColor = new QColor(color, color, color, 255);
 
   color += color_increment;
   if(color <= 50 || color >= 250) {

@@ -38,8 +38,8 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(30;30)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Icon)
             color rgba(255;255;255;255)
-            texture GluonEngine::Asset(Invaders/Assets/Textures/gluon.invaders.128.png)
         }
     }
     { GluonEngine::GameObject(Text)
@@ -50,8 +50,8 @@
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(40;5)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Menu Text)
             color rgba(152;152;152;255)
-            texture GluonEngine::Asset(Invaders/Assets/Textures/play.png)
         }
         { GluonEngine::QtScriptComponent(GluonObject)
             enabled bool(true)
