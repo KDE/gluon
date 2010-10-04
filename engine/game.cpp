@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -31,6 +31,9 @@
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
 
+#include <cstdlib>
+#include <ctime>
+
 using namespace GluonEngine;
 
 template<> Game *GluonCore::Singleton<Game>::m_instance = 0;
@@ -39,6 +42,8 @@ Game::Game(QObject * parent)
 {
     Q_UNUSED(parent);
     d = new GamePrivate;
+
+    srand(std::time(NULL));
 }
 
 Game::~Game()
@@ -72,7 +77,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     d->time.start();
 
     d->gameRunning = true;
-    
+
     initializeAll();
     // First allow everybody to initialize themselves properly
     startAll();
@@ -80,17 +85,17 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
     {
         // Don't block everything...
         QCoreApplication::processEvents();
-        
+
         if(d->resetScene)
         {
             stopAll();
             cleanupAll();
-            
+
             d->currentScene->resetScene();
-            
+
             initializeAll();
             startAll();
-            
+
             d->resetScene = false;
             emit currentSceneChanged(d->currentScene);
         }
@@ -112,7 +117,7 @@ Game::runGameFixedUpdate(int updatesPerSecond, int maxFrameSkip)
         drawAll(timeLapse);
     }
     stopAll();
-    
+
     cleanupAll();
 }
 
@@ -166,7 +171,7 @@ Game::runGameFixedTimestep(int framesPerSecond)
         }
     }
     stopAll();
-    
+
     cleanupAll();
 }
 
@@ -225,6 +230,11 @@ void Game::cleanupAll()
     d->currentScene->sceneContents()->cleanup();
 }
 
+float Game::random()
+{
+    return rand() / float(RAND_MAX);
+}
+
 /******************************************************************************
  * Property Getter-setters
  *****************************************************************************/
@@ -253,27 +263,27 @@ Game::setCurrentScene(Scene * newCurrentScene)
         stopAll();
         cleanupAll();
     }
-    
+
     QList<const GluonCore::GluonObject*> objects = d->listAllChildren(d->currentScene);
     foreach(const GluonCore::GluonObject* child, objects)
     {
         disconnect(child, SIGNAL(showDebug(const QString&)), this, SIGNAL(showDebug(const QString&)));
     }
-    
+
     d->currentScene = newCurrentScene;
-    
+
     if(d->gameRunning)
     {
         initializeAll();
         startAll();
     }
-    
+
     objects = d->listAllChildren(newCurrentScene->sceneContents());
     foreach(const GluonCore::GluonObject* child, objects)
     {
         connect(child, SIGNAL(showDebug(const QString&)), this, SIGNAL(showDebug(const QString&)));
     }
-    
+
     emit currentSceneChanged(newCurrentScene);
 }
 
@@ -362,7 +372,7 @@ GameObject* Game::clone(GameObject* obj)
         }
         return objClone;
     }
-    
+
     return 0;
 }
 
