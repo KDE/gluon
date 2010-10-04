@@ -34,8 +34,9 @@ namespace GluonGraphics
      *
      * The MaterialInstance class enables the rendering of a Material.
      * It defines all the necessary parameters that the material needs
-     * to be rendered correctly. These parameters should be defined as
-     * dynamic properties.
+     * to be rendered correctly. It does this by looking at its own
+     * dynamic properties during a call to bind() and setting all uniform
+     * variables related to those properties.
      */
     class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
     {
@@ -51,7 +52,7 @@ namespace GluonGraphics
              *
              * \see Material::createInstance
              */
-            explicit MaterialInstance(QObject* parent = 0);
+            Q_INVOKABLE explicit MaterialInstance(QObject* parent = 0);
 
             /**
              * Destructor.
@@ -107,19 +108,6 @@ namespace GluonGraphics
             int attributeLocation(const QString& attrib);
 
             /**
-             * Set the value of a Uniform parameter.
-             * If this instance is not currently bound, the value will be cached
-             * and set during the next call to bind().
-             *
-             * \note It is assumed that the value passed to this function is of
-             * the correct type.
-             *
-             * \param name The name of the uniform to set the value of.
-             * \param value The value to set the uniform to.
-             */
-            void setUniform(const QString& name, const QVariant& value);
-
-            /**
              * Sets the modelViewProj uniform variable.
              * The modelViewProj uniform contains the model-view-projection
              * matrix, which is the matrix determining where to render the
@@ -131,8 +119,6 @@ namespace GluonGraphics
              * \param mvp The model-view-projection matrix to set the uniform to.
              */
             void setModelViewProjectionMatrix( QMatrix4x4 mvp );
-
-            void setTexture(uint id, Texture* texture, const QString& uniform);
 
         protected:
             /**
@@ -149,7 +135,14 @@ namespace GluonGraphics
              */
             void setGLUniform(const QString& name, const QVariant& value);
 
-            void bindTexture( uint id, GluonGraphics::Texture* tex);
+            /**
+             * Bind a texture to a uniform variable.
+             *
+             * \param name The name of the uniform. It is expected to be in the
+             * form "textureX" where X is the number of the texture unit to use.
+             * \param tex The texture to bind.
+             */
+            void bindTexture( const QString& name, GluonGraphics::Texture* tex);
 
         private:
             class MaterialInstancePrivate;

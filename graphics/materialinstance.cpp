@@ -66,17 +66,16 @@ MaterialInstance::~MaterialInstance()
 void
 MaterialInstance::bind()
 {
+    if(!d->material)
+        return;
+
     glUseProgram(d->material->glProgram());
     d->bound = true;
 
-    for(QHash<uint, Texture*>::iterator titr = d->textures.begin(); titr != d->textures.end(); ++titr)
+    QList<QByteArray> properties = dynamicPropertyNames();
+    foreach(QByteArray prop, properties)
     {
-        bindTexture(titr.key(), titr.value());
-    }
-
-    for(QHash<QString, QVariant>::iterator uitr = d->uniformValues.begin(); uitr != d->uniformValues.end(); ++uitr)
-    {
-        setGLUniform(uitr.key(), uitr.value());
+        setGLUniform(prop, property(prop));
     }
 }
 
@@ -127,15 +126,6 @@ int MaterialInstance::uniformLocation( const QString& name)
     return loc;
 }
 
-void MaterialInstance::setUniform( const QString& name, const QVariant& value )
-{
-    d->uniformValues.insert(name, value);
-    if(d->bound)
-    {
-        setGLUniform(name, value);
-    }
-}
-
 void
 MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
 {
@@ -144,19 +134,6 @@ MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
     float glMatrix[16];
     Math::qmatrixToGLMatrix(mvp, glMatrix);
     glUniformMatrix4fv(loc, 1, false, glMatrix);
-}
-
-void
-MaterialInstance::setTexture( uint id, Texture* texture, const QString& uniform )
-{
-    d->textures.insert(id, texture);
-    d->uniformValues.insert(uniform, id);
-
-    if(d->bound)
-    {
-        bindTexture(id, texture);
-        setGLUniform(uniform, id);
-    }
 }
 
 void
@@ -195,17 +172,41 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             glUniform4f( uniformLocation(name), vector.x(), vector.y(), vector.z(), vector.w());
             break;
         }
+        case QVariant::String:
+        {
+            if(name.contains("texture"))
+            {
+                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(value.toString());
+                bindTexture(name, texture);
+            }
+            break;
+        }
+        case QVariant::UserType:
+        {
+            GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject(value);
+            if(obj && name.contains("texture"))
+            {
+                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(obj->name());
+
+                bindTexture(name, texture);
+            }
+            break;
+        }
     }
-//     int error = glGetError();
-//     if(error != GL_NO_ERROR)
-//         debug(QString("An OpenGL error has occured. GL Error code is: %1").arg(error));
 }
 
 void
-MaterialInstance::bindTexture( uint id, Texture* tex )
+MaterialInstance::bindTexture( const QString& name, Texture* tex )
 {
+    if(!tex)
+        return;
+
+    QString uniName = name;
+    int id = uniName.replace("texture", "").toInt();
+
     glActiveTexture(GL_TEXTURE0 + id);
     glBindTexture(GL_TEXTURE_2D, tex->glTexture());
+    glUniform1i( uniformLocation(name), id);
 }
 
 
