@@ -23,6 +23,11 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
+namespace GluonGraphics
+{
+    class MaterialInstance;
+}
+
 namespace GluonEngine
 {
     class Asset;
@@ -32,8 +37,7 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT(GluonEngine::SpriteRendererComponent)
             Q_PROPERTY(QSizeF size READ size WRITE setSize)
-            Q_PROPERTY(QColor color READ color WRITE setColor)
-            Q_PROPERTY(GluonEngine::Asset* texture READ texture WRITE setTexture)
+            Q_PROPERTY(GluonGraphics::MaterialInstance* material READ material WRITE setMaterial)
             Q_INTERFACES(GluonEngine::Component)
 
         public:
@@ -48,14 +52,12 @@ namespace GluonEngine
             virtual void cleanup();
 
             virtual QSizeF size();
-            virtual QColor color();
-            virtual Asset* texture();
+            virtual GluonGraphics::MaterialInstance* material();
 
         public slots:
             virtual void setSize(const QSizeF& size);
-            virtual void setColor(const QColor& color);
-            virtual void setColor(int r, int g, int b, int a = 255);
-            virtual void setTexture(Asset* asset);
+            virtual void setMaterial(GluonGraphics::MaterialInstance* material);
+            virtual void setMaterial(const QString& path);
 
         private:
             class SpriteRendererComponentPrivate;

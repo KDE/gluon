@@ -33,6 +33,7 @@
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 #include <texture.h>
+#include <game.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, SpriteRendererComponent)
 
@@ -45,12 +46,14 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         {
             item = 0;
             texture = 0;
+            material = 0;
             size = QSizeF(1.0f, 1.0f);
             color.setRgb(255, 255, 255);
         }
 
         GluonGraphics::Item *item;
         GluonEngine::Asset* texture;
+        GluonGraphics::MaterialInstance* material;
 
         QColor color;
         QSizeF size;
@@ -86,23 +89,15 @@ SpriteRendererComponent::initialize()
     if(!d->item)
     {
         d->item = GluonGraphics::Engine::instance()->createItem("default");
-        d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->createInstance());
-        d->item->materialInstance()->setUniform("materialColor", d->color);
-        d->item->materialInstance()->setTexture(0, GluonGraphics::Engine::instance()->texture("default"), "tex");
     }
 
-    if (d->texture)
+    if (d->material)
     {
-        if (!d->texture->isLoaded())
-            d->texture->load();
-
-        const QMimeData* data = d->texture->data();
-        if(data->hasText())
-        {
-            GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(data->text());
-            if(texture)
-                d->item->materialInstance()->setTexture(0, texture, "tex");
-        }
+        d->material->material()->load(QUrl());
+        Asset* texture = gameProject()->findChild<Asset*>(d->material->property("texture0").toString());
+        if(texture)
+            texture->load();
+        d->item->setMaterialInstance(d->material);
     }
 }
 
@@ -129,7 +124,6 @@ void SpriteRendererComponent::cleanup()
     {
         GluonGraphics::Engine::instance()->destroyItem(d->item);
         d->item = 0;
-        //d->mesh = 0;
     }
 }
 
@@ -143,41 +137,28 @@ QSizeF SpriteRendererComponent::size()
     return d->size;
 }
 
-void SpriteRendererComponent::setColor(const QColor& color)
+GluonGraphics::MaterialInstance*
+SpriteRendererComponent::material()
 {
-    d->color = color;
-    if (d->item)
-    {
-        d->item->mesh()->materialInstance()->setUniform("materialColor", color);
-    }
+    return d->material;
 }
 
-void SpriteRendererComponent::setColor(int r, int g, int b, int a)
+void
+SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
-    setColor(QColor(r, g, b, a));
+    if(!material)
+        return;
+
+    d->material = material;
+
+    if(d->item)
+        d->item->setMaterialInstance(material);
 }
 
-QColor SpriteRendererComponent::color()
+void
+SpriteRendererComponent::setMaterial( const QString& path )
 {
-    return d->color;
-}
-
-Asset* SpriteRendererComponent::texture()
-{
-    return d->texture;
-}
-
-void SpriteRendererComponent::setTexture(Asset* asset)
-{
-    d->texture = asset;
-
-    if (asset)
-    {
-        /*if (d->mesh && asset->isLoaded())
-        {
-            d->mesh->setTexture(asset->data()->imageData().value<QImage>());
-        }*/
-    }
+    setMaterial(qobject_cast<GluonGraphics::MaterialInstance*>(Game::instance()->gameProject()->findItemByName(path)));
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent);
