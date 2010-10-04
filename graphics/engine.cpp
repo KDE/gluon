@@ -43,7 +43,7 @@ class Engine::EnginePrivate
         EnginePrivate() : fbo(0), fboShader(0), camera(0) { }
 
         template <typename T>
-        T* createObject( const QString& type, const QString& name, bool lock = true);
+        T* createObject( const QString& type, const QString& name);
 
         void destroyObject(const QString& type, const QString& name);
 
@@ -64,17 +64,18 @@ class Engine::EnginePrivate
         QVector<Item*> items;
         QHash<QString, QObject*> objects;
 
-        QMutex mutex;
+        QMutex objectMutex;
+        QMutex itemMutex;
 
 };
 
 template <typename T> T*
-Engine::EnginePrivate::createObject( const QString& type, const QString& name, bool lock )
+Engine::EnginePrivate::createObject( const QString& type, const QString& name )
 {
     T * newObject;
     QString typeName = QString("%1/%2").arg(type, name);
-    if(lock)
-        mutex.lock();
+
+    objectMutex.lock();
 
     if(!objects.contains(typeName))
     {
@@ -86,8 +87,7 @@ Engine::EnginePrivate::createObject( const QString& type, const QString& name, b
         newObject = qobject_cast<T*>(objects.value(typeName));
     }
 
-    if(lock)
-        mutex.unlock();
+    objectMutex.unlock();
 
     return newObject;
 }
@@ -96,7 +96,7 @@ void
 Engine::EnginePrivate::destroyObject( const QString& type, const QString& name )
 {
     QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&mutex);
+    QMutexLocker locker(&objectMutex);
 
     if(objects.contains(typeName))
     {
@@ -110,7 +110,6 @@ bool
 Engine::EnginePrivate::hasObject( const QString& type, const QString& name )
 {
     QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&mutex);
 
     return objects.contains(typeName);
 }
@@ -119,7 +118,6 @@ template <typename T> T*
 Engine::EnginePrivate::object( const QString& type, const QString& name )
 {
     QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&mutex);
 
     if(objects.contains(typeName))
         return qobject_cast<T*>(objects.value(typeName));
@@ -130,7 +128,7 @@ Engine::EnginePrivate::object( const QString& type, const QString& name )
 bool Engine::EnginePrivate::addObject( const QString& type, const QString& name, QObject* value )
 {
     QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&mutex);
+    QMutexLocker locker(&objectMutex);
 
     if(!objects.contains(typeName))
     {
@@ -144,7 +142,7 @@ bool Engine::EnginePrivate::addObject( const QString& type, const QString& name,
 void Engine::EnginePrivate::removeObject( const QString& type, const QString& name )
 {
     QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&mutex);
+    QMutexLocker locker(&objectMutex);
 
     if(objects.contains(typeName))
         objects.remove(typeName);
@@ -160,32 +158,30 @@ void Engine::initialize()
 
     Mesh* mesh = createMesh("default");
     mesh->load(QString());
-    mesh->setMaterialInstance(material->createInstance());
-    mesh->materialInstance()->setTexture(0, tex, "tex");
+    mesh->setMaterialInstance(material->instance("default"));
+    mesh->materialInstance()->setProperty("materialColor", Qt::white);
+    mesh->materialInstance()->setProperty("texture0", QString("default"));
 }
 
 Item*
 Engine::createItem( const QString& mesh)
 {
-    d->mutex.lock();
+    QMutexLocker locker(&d->itemMutex);
 
     Item * newItem = new Item(this);
-    newItem->setMesh(d->createObject<Mesh>("Mesh", mesh, false));
+    newItem->setMesh(d->createObject<Mesh>("Mesh", mesh));
     d->items << newItem;
 
-    d->mutex.unlock();
     return newItem;
 }
 
 void
 Engine::destroyItem( Item* item )
 {
-    d->mutex.lock();
+    QMutexLocker locker(&d->itemMutex);
 
     d->items.remove(d->items.indexOf(item));
     delete item;
-
-    d->mutex.unlock();
 }
 
 Material*
@@ -305,7 +301,7 @@ Engine::activeCamera()
 void
 Engine::render()
 {
-    d->mutex.lock();
+    d->objectMutex.lock();
 
     //Bind the framebuffer object so we render to it.
     //d->fbo->bind();
@@ -325,25 +321,25 @@ Engine::render()
     //glDrawArrays(GL_TRIANGLES, );
     //d->fboShader->release();
 
-    d->mutex.unlock();
+    d->objectMutex.unlock();
 }
 
 void
 Engine::setFramebufferSize( int width, int height )
 {
-    d->mutex.lock();
+    d->objectMutex.lock();
 
     delete d->fbo;
     d->fbo = new QGLFramebufferObject(width, height, QGLFramebufferObject::Depth);
 
-    d->mutex.unlock();
+    d->objectMutex.unlock();
 }
 
 void Engine::setActiveCamera( Camera* camera )
 {
-    d->mutex.lock();
+    d->objectMutex.lock();
     d->camera = camera;
-    d->mutex.unlock();
+    d->objectMutex.unlock();
     emit activeCameraChanged(camera);
 }
 
