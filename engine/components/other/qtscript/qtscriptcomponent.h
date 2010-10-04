@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -26,6 +26,11 @@
 
 class QScriptValue;
 class QScriptEngine;
+
+namespace GluonGraphics
+{
+    class MaterialInstance;
+}
 
 namespace GluonEngine
 {
@@ -69,10 +74,13 @@ Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent*)
 
 typedef GluonCore::GluonObject* pGluonObject;
 typedef GluonEngine::GameObject* pGameObject;
+typedef GluonGraphics::MaterialInstance* pMaterialInstance;
 
 QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue(QScriptEngine* engine, const pGluonObject& in);
 void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue(const QScriptValue& object, pGluonObject& out);
 QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue(QScriptEngine* engine, const pGameObject& in);
 void GLUON_ENGINE_EXPORT gameObjectFromScriptValue(const QScriptValue &object, GluonEngine::GameObject * &out);
+QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue(QScriptEngine* engine, const pMaterialInstance& in);
+void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue(const QScriptValue &object, pMaterialInstance &out);
 
 #endif // GLUON_ENGINE_QTSCRIPTCOMPONENT_H

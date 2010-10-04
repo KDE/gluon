@@ -31,6 +31,8 @@
 
 #include <core/gluonobject.h>
 
+#include <graphics/materialinstance.h>
+
 REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
 using namespace GluonEngine;
@@ -57,9 +59,10 @@ class QtScriptComponent::QtScriptComponentPrivate
 QtScriptComponent::QtScriptComponent(QObject* parent) : Component(parent)
 {
     d = new QtScriptComponentPrivate;
-    
+
     qScriptRegisterMetaType(&d->engine, gluonObjectToScriptValue, gluonObjectFromScriptValue);
     qScriptRegisterMetaType(&d->engine, gameObjectToScriptValue, gameObjectFromScriptValue);
+    qScriptRegisterMetaType(&d->engine, materialInstanceToScriptValue, materialInstanceFromScriptValue);
 }
 
 QtScriptComponent::QtScriptComponent(const QtScriptComponent& other)
@@ -105,7 +108,7 @@ void QtScriptComponent::initialize()
 
         d->updateFunc = d->engine.globalObject().property("update");
         d->drawFunc = d->engine.globalObject().property("draw");
-        
+
         QScriptValue initFunc = d->engine.globalObject().property("initialize");
         if (initFunc.isFunction())
         {
@@ -139,7 +142,7 @@ void QtScriptComponent::draw(int timeLapse)
         {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             d->drawFunc = QScriptValue();
-        }        
+        }
     }
 }
 
@@ -195,24 +198,35 @@ void QtScriptComponent::setScript(Asset* asset)
 }
 
 QScriptValue gluonObjectToScriptValue(QScriptEngine *engine, const pGluonObject &in)
-{ 
-    return engine->newQObject(in); 
+{
+    return engine->newQObject(in);
 }
 
 void gluonObjectFromScriptValue(const QScriptValue &object, pGluonObject &out)
-{ 
-    out = qobject_cast<GluonCore::GluonObject*>(object.toQObject()); 
+{
+    out = qobject_cast<GluonCore::GluonObject*>(object.toQObject());
 }
 
 QScriptValue gameObjectToScriptValue(QScriptEngine *engine, const pGameObject &in)
-{ 
-    return engine->newQObject(in); 
+{
+    return engine->newQObject(in);
 }
 
 void gameObjectFromScriptValue(const QScriptValue &object, pGameObject &out)
-{ 
-    out = qobject_cast<GameObject*>(object.toQObject()); 
+{
+    out = qobject_cast<GameObject*>(object.toQObject());
 }
+
+QScriptValue materialInstanceToScriptValue( QScriptEngine* engine, const pMaterialInstance& in )
+{
+    return engine->newQObject(in);
+}
+
+void materialInstanceFromScriptValue( const QScriptValue& object, pMaterialInstance& out )
+{
+    out = qobject_cast<pMaterialInstance>(object.toQObject());
+}
+
 
 Q_EXPORT_PLUGIN2(gluon_component_qtscript, GluonEngine::QtScriptComponent);
 

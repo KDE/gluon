@@ -4,7 +4,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GL
 
 set(qtscriptcomponent_SRCS
     qtscriptcomponent.cpp
-    
+
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QVector2D.cpp
     bindings/qtscript_QVector3D.cpp
@@ -21,7 +21,7 @@ if(GLUON_BUILD_ALL)
 endif()
 
 set_target_properties(gluon_component_qtscript PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
-target_link_libraries(gluon_component_qtscript GluonEngine ${QT_QTSCRIPT_LIBRARY})
+target_link_libraries(gluon_component_qtscript GluonEngine ${GLUON_GRAPHICS_LIBS} ${QT_QTSCRIPT_LIBRARY})
 
 install(
     TARGETS
