@@ -31,6 +31,8 @@
 #include "frustrum.h"
 #include "engine.h"
 #include "math.h"
+#include "materialinstance.h"
+#include "material.h"
 
 using namespace GluonGraphics;
 
@@ -47,6 +49,7 @@ Item::Item(QObject * parent)
         : QObject(parent),
           d(new ItemPrivate)
 {
+    d->materialInstance = Engine::instance()->material("default")->instance("default");
 }
 
 Item::~Item()
@@ -83,9 +86,12 @@ Item::render()
 
     QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix());
 
-    if(d->materialInstance)
-        d->mesh->setMaterialInstance(d->materialInstance);
+    d->materialInstance->bind();
+    d->materialInstance->setModelViewProjectionMatrix(modelViewProj);
     d->mesh->render(modelViewProj);
+    d->materialInstance->release();
+
+
 }
 
 void
