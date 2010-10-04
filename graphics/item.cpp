@@ -88,10 +88,8 @@ Item::render()
 
     d->materialInstance->bind();
     d->materialInstance->setModelViewProjectionMatrix(modelViewProj);
-    d->mesh->render(modelViewProj);
+    d->mesh->render();
     d->materialInstance->release();
-
-
 }
 
 void
@@ -106,7 +104,7 @@ Item::setMesh( Mesh* mesh )
     d->mesh = mesh;
 }
 
-MaterialInstance*
+void
 Item::setMaterialInstance(MaterialInstance * instance)
 {
     d->materialInstance = instance;
