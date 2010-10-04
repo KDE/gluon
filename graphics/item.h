@@ -66,6 +66,13 @@ class MaterialInstance;
              */
             Mesh* mesh();
 
+            /**
+             * Retrieve the material instance used by this item.
+             *
+             * \see GluonGraphics::MaterialInstance
+             *
+             * \return The material instance used by this item.
+             */
             MaterialInstance* materialInstance();
 
         public Q_SLOTS:
@@ -88,7 +95,13 @@ class MaterialInstance;
              */
             void setMesh(Mesh* mesh);
 
-            MaterialInstance* setMaterialInstance( GluonGraphics::MaterialInstance* instance);
+            /**
+             * Set the material instance that needs to be used by
+             * this item.
+             *
+             * \param material The material instance to use.
+             */
+            void setMaterialInstance(MaterialInstance * material);
 
         private:
             class ItemPrivate;
