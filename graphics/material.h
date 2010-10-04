@@ -141,11 +141,24 @@ namespace GluonGraphics
              * the parameters of this material set as properties on
              * the object.
              *
-             * \return The MaterialInstance object just created.
+             * \param name The name of the MaterialInstance to create.
+             *
+             * \return The MaterialInstance object just created. If the
+             * MaterialInstance already exists the existing object will
+             * be returned.
              *
              * \see MaterialInstance
              */
-            MaterialInstance * createInstance();
+            MaterialInstance * createInstance(const QString& name);
+
+            /**
+             * Retrieve an existing MaterialInstance.
+             *
+             * \param name The name of the MaterialInstance to retrieve.
+             *
+             * \return The named MaterialInstance or 0 if it was not found.
+             */
+            MaterialInstance * instance(const QString& name);
 
             /**
              * Retrieve the internal OpenGL Program identifier.

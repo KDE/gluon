@@ -40,13 +40,15 @@ class Material::MaterialPrivate
         uint vertShader;
         uint fragShader;
         uint glProgram;
+
+        QHash<QString, MaterialInstance*> instances;
 };
 
 Material::Material(QObject* parent)
     : GluonObject(parent),
       d(new MaterialPrivate)
 {
-
+    createInstance("default");
 }
 
 Material::~Material()
@@ -84,7 +86,7 @@ void main()\
 ";
 
     const char* fragShaderSource = "\
-uniform sampler2D tex;\
+uniform sampler2D texture0;\
 uniform vec4 materialColor;\
 \
 varying vec4 out_color;\
@@ -92,11 +94,15 @@ varying vec2 out_uv0;\
 \
 void main()\
 {\
-    vec4 texColor = texture2D(tex, out_uv0);\
+    vec4 texColor = texture2D(texture0, out_uv0);\
     vec4 color = out_color * materialColor * texColor;\
-    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
+    color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
+    if(color.a <= 0.0)\
+        discard;\
+    gl_FragColor = color;\
 }\
 ";
+
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(d->vertShader, 1, &vertShaderSource, NULL);
     glCompileShader(d->vertShader);
@@ -145,11 +151,30 @@ Material::glProgram()
 }
 
 MaterialInstance*
-Material::createInstance()
+Material::createInstance(const QString& name)
 {
-    MaterialInstance* instance = new MaterialInstance(this);
-    instance->setMaterial(this);
+    MaterialInstance* instance;
+    if(!d->instances.contains(name))
+    {
+        instance = new MaterialInstance(this);
+        instance->setMaterial(this);
+        d->instances.insert(name, instance);
+    }
+    else
+    {
+        instance = d->instances.value(name);
+    }
     return instance;
 }
+
+MaterialInstance*
+Material::instance( const QString& name )
+{
+    if(d->instances.contains(name))
+        return d->instances.value(name);
+
+    return 0;
+}
+
 
 #include "material.moc"
