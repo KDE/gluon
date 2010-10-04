@@ -98,26 +98,9 @@ Mesh::load( const QString& filename )
 }
 
 void
-Mesh::render( const QMatrix4x4& modelViewProj )
+Mesh::render()
 {
-    d->material->bind();
-    d->material->setModelViewProjectionMatrix(modelViewProj);
-
-    renderBuffer(GL_TRIANGLES, modelViewProj, 6);
-
-    d->material->release();
-}
-
-MaterialInstance*
-Mesh::materialInstance()
-{
-    return d->material;
-}
-
-void
-Mesh::setMaterialInstance( MaterialInstance* material )
-{
-    d->material = material;
+    renderBuffer(GL_TRIANGLES,  6);
 }
 
 bool
@@ -141,7 +124,7 @@ Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors
 }
 
 void
-Mesh::renderBuffer( uint mode, const QMatrix4x4& mvp, int count)
+Mesh::renderBuffer( uint mode, int count)
 {
     if(d->buffer == 0)
         return;

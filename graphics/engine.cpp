@@ -152,15 +152,14 @@ void Engine::initialize()
 {
     Material* material = createMaterial("default");
     material->build();
+    material->instance("default")->setProperty("materialColor", Qt::white);
+    material->instance("default")->setProperty("texture0", QString("default"));
 
     Texture* tex = createTexture("default");
     tex->load(QUrl(GluonCore::Global::dataDirectory() + "/gluon/defaults/default.png"));
 
     Mesh* mesh = createMesh("default");
     mesh->load(QString());
-    mesh->setMaterialInstance(material->instance("default"));
-    mesh->materialInstance()->setProperty("materialColor", Qt::white);
-    mesh->materialInstance()->setProperty("texture0", QString("default"));
 }
 
 Item*

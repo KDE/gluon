@@ -63,23 +63,7 @@ namespace GluonGraphics
              * \param modelViewProj The model-view-projection matrix
              * to use when rendering this mesh.
              */
-            virtual void render(const QMatrix4x4& modelViewProj);
-
-            /**
-             * Retrieve the material instance used by this mesh.
-             *
-             * \see GluonGraphics::MaterialInstance
-             *
-             * \return The material instance used by this mesh.
-             */
-            MaterialInstance* materialInstance();
-
-            /**
-             * Set the material instance used by this mesh.
-             *
-             * \param material The material instance to use.
-             */
-            void setMaterialInstance(MaterialInstance * material);
+            virtual void render();
 
         protected:
             /**
@@ -99,7 +83,7 @@ namespace GluonGraphics
              * \param mvp The model-view-projection to use for rendering.
              * \param count The number of vertices to render.
              */
-            virtual void renderBuffer( uint mode, const QMatrix4x4& mvp, int count);
+            virtual void renderBuffer( uint mode, int count);
 
         private:
             class MeshPrivate;
