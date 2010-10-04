@@ -215,26 +215,13 @@ void ProjectDock::activated(QModelIndex index)
     }
     else if(asset)
     {
-        //DEBUG_TEXT("Asset")
         FileManager::instance()->openAsset(asset);
-
-        /*QString filename = KUrl(GluonEngine::Game::instance()->gameProject()->filename()).directory(KUrl::AppendTrailingSlash) + asset->file().toLocalFile();
-        //DEBUG_TEXT2("Filename: %1", filename)
-        if(QFile::exists(filename))
-        {
-
-            //DEBUG_TEXT("Opening asset")
-            //KRun* runner = new KRun(filename, this);
-            //Q_UNUSED(runner);
-            //KRun::run("xdg-open %u", KUrl::List() << filename, parentWidget());
-        }*/
     }
 }
 
 void ProjectDock::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
     Q_UNUSED(deselected)
-    DEBUG_FUNC_NAME
 
     SelectionManager::SelectionList selection;
     foreach(const QItemSelectionRange &range, selected)
@@ -278,8 +265,7 @@ void ProjectDock::contextMenuHiding()
 
 void ProjectDock::deleteActionTriggered()
 {
-    DEBUG_FUNC_NAME
-
+    DEBUG_BLOCK
     if (!d->currentContextIndex.isValid())
         d->currentContextIndex = d->view->selectionModel()->currentIndex();
 
@@ -348,6 +334,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
                 QFile(fileName).copy(newLocation.toLocalFile());
 
                 newAsset->setFile(newLocation);
+                newAsset->setGameProject(GluonEngine::Game::instance()->gameProject());
                 newAsset->load();
 
                 //HistoryManager::instance()->addCommand(new NewObjectCommand(newAsset));
