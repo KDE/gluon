@@ -43,11 +43,16 @@ namespace GluonEngine
 
             virtual const QList< AssetTemplate* > templates();
 
+            virtual QList< QAction* > actions();
+
             virtual void setName( const QString& newName );
 
             virtual QString childrenToGDL( int indentLevel = 0 ) const;
 
             virtual void sanitize();
+
+        public Q_SLOTS:
+            void createInstance();
 
         private:
             class MaterialAssetPrivate;

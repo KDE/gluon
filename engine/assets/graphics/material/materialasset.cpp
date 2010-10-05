@@ -21,11 +21,13 @@
 
 #include <QtCore/QUrl>
 #include <QtCore/QMimeData>
+#include <QtGui/QAction>
 
 #include <core/debughelper.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
 #include <graphics/engine.h>
+#include <QDialog>
 
 REGISTER_OBJECTTYPE(GluonEngine, MaterialAsset)
 
@@ -44,6 +46,8 @@ class MaterialAsset::MaterialAssetPrivate
         QPixmap icon;
 
         GluonGraphics::Material* material;
+
+        QList<QAction*> actions;
 };
 
 MaterialAsset::MaterialAsset(QObject *parent)
@@ -51,6 +55,10 @@ MaterialAsset::MaterialAsset(QObject *parent)
     , d(new MaterialAssetPrivate)
 {
     d->material = GluonGraphics::Engine::instance()->createMaterial(name());
+
+    QAction* newInstance = new QAction("New instance", this);
+    connect(newInstance, SIGNAL(triggered(bool)), this, SLOT(createInstance()));
+    d->actions.append(newInstance);
 }
 
 MaterialAsset::~MaterialAsset()
@@ -98,6 +106,11 @@ MaterialAsset::templates()
     return templates;
 }
 
+QList< QAction* > MaterialAsset::actions()
+{
+    return d->actions;
+}
+
 void MaterialAsset::setName( const QString& newName )
 {
     GluonGraphics::Engine::instance()->removeMaterial(name());
@@ -121,6 +134,15 @@ void MaterialAsset::sanitize()
         if(instance)
             instance->setMaterial(d->material);
     }
+}
+
+void
+MaterialAsset::createInstance()
+{
+    GluonGraphics::MaterialInstance* instance = new GluonGraphics::MaterialInstance(this);
+    instance->setName("New Instance");
+    instance->setPropertiesFromMaterial();
+    instance->setMaterial(d->material);
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_material, GluonEngine::MaterialAsset)
