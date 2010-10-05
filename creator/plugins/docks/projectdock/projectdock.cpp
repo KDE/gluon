@@ -99,9 +99,16 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject(QModelIndex ind
             QAction * action;
             if (object->inherits("GluonEngine::Asset"))
             {
-                action = new QAction(i18n("Asset actions go here"), this->q);
-                action->setEnabled(false);
-                menuItems.append(action);
+                GluonEngine::Asset* asset = qobject_cast< GluonEngine::Asset* >(object);
+                if(asset)
+                {
+                    QList<QAction*> actions = asset->actions();
+                    foreach(QAction* action, actions)
+                    {
+                        connect(action, SIGNAL(triggered(bool)), model, SIGNAL(layoutChanged()));
+                    }
+                    menuItems.append(actions);
+                }
             }
             else
             {

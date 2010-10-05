@@ -30,6 +30,7 @@
 #include <QtPlugin>
 #include <QIcon>
 
+class QAction;
 class QMimeData;
 
 namespace GluonEngine
@@ -131,6 +132,14 @@ namespace GluonEngine
              * be able to provide templates.
              */
             virtual const QList<AssetTemplate*> templates();
+
+            /**
+             * Retrieve a list of actions relating to the current asset.
+             *
+             * \return A QList of QActions that can be shown in popup menus and
+             * other places.
+             */
+            virtual QList<QAction*> actions();
 
             /**
              * This function should return a QMimeType containing the data the asset

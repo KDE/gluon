@@ -23,6 +23,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
+#include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE(GluonEngine, Asset)
 
@@ -118,6 +119,15 @@ Asset::templates()
 {
     QList<AssetTemplate*> templates;
     return templates;
+}
+
+QList< QAction* >
+Asset::actions()
+{
+    QList<QAction*> actions;
+    actions.append(new QAction("No actions defined.", this));
+    actions.at(0)->setEnabled(false);
+    return actions;
 }
 
 bool
