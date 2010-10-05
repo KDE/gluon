@@ -120,6 +120,12 @@ namespace GluonGraphics
              */
             void setModelViewProjectionMatrix( QMatrix4x4 mvp );
 
+            /**
+             * Set local properties according to the information supplied by
+             * the material.
+             */
+            void setPropertiesFromMaterial();
+
         protected:
             /**
              * Set the actual uniform variable.

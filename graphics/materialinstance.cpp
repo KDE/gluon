@@ -137,6 +137,16 @@ MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
 }
 
 void
+MaterialInstance::setPropertiesFromMaterial()
+{
+    QHash<QString, QVariant> uniforms = d->material->uniformList();
+    for( QHash<QString, QVariant>::iterator pitr = uniforms.begin(); pitr != uniforms.end(); ++pitr )
+    {
+        setProperty(pitr.key().toUtf8(), pitr.value());
+    }
+}
+
+void
 MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 {
     switch(value.type())
@@ -208,6 +218,5 @@ MaterialInstance::bindTexture( const QString& name, Texture* tex )
     glBindTexture(GL_TEXTURE_2D, tex->glTexture());
     glUniform1i( uniformLocation(name), id);
 }
-
 
 #include "materialinstance.moc"

@@ -176,5 +176,13 @@ Material::instance( const QString& name )
     return 0;
 }
 
+QHash< QString, QVariant >
+Material::uniformList()
+{
+    QHash<QString, QVariant> uniforms;
+    uniforms.insert("materialColor", Qt::white);
+    uniforms.insert("texture0", "default");
+    return uniforms;
+}
 
 #include "material.moc"

@@ -168,6 +168,8 @@ namespace GluonGraphics
              */
             uint glProgram();
 
+            QHash<QString, QVariant> uniformList();
+
         private:
             class MaterialPrivate;
             MaterialPrivate * const d;
