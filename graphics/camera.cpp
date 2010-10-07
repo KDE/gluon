@@ -28,6 +28,8 @@
 
 #include <core/debughelper.h>
 #include "frustrum.h"
+#include "engine.h"
+#include "viewport.h"
 
 using namespace GluonGraphics;
 
@@ -79,16 +81,6 @@ void
 Camera::setViewMatrix( const QMatrix4x4& matrix )
 {
     d->viewMatrix = matrix;
-}
-
-void Camera::setVisibleArea( const QSizeF& area, float near, float far )
-{
-    float left = -(area.width() / 2);
-    float right = area.width() / 2;
-    float top = area.height() / 2;
-    float bottom = -(area.height() / 2);
-
-    d->frustrum->setOrthographic(left, right, bottom, top, near, far);
 }
 
 #include "camera.moc"
