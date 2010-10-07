@@ -25,13 +25,15 @@
 #include <QtCore/QMutex>
 #include <QtOpenGL/QGLFramebufferObject>
 
+#include <core/gluon_global.h>
+
 #include "camera.h"
 #include "item.h"
 #include "material.h"
 #include "materialinstance.h"
 #include "mesh.h"
 #include "texture.h"
-#include <core/gluon_global.h>
+#include "viewport.h"
 
 using namespace GluonGraphics;
 
@@ -60,6 +62,7 @@ class Engine::EnginePrivate
         MaterialInstance * fboShader;
 
         Camera* camera;
+        Viewport* viewport;
 
         QVector<Item*> items;
         QHash<QString, QObject*> objects;
@@ -297,6 +300,12 @@ Engine::activeCamera()
     return d->camera;
 }
 
+Viewport*
+Engine::currentViewport()
+{
+    return d->viewport;
+}
+
 void
 Engine::render()
 {
@@ -334,7 +343,8 @@ Engine::setFramebufferSize( int width, int height )
     d->objectMutex.unlock();
 }
 
-void Engine::setActiveCamera( Camera* camera )
+void
+Engine::setActiveCamera( Camera* camera )
 {
     d->objectMutex.lock();
     d->camera = camera;
@@ -342,9 +352,18 @@ void Engine::setActiveCamera( Camera* camera )
     emit activeCameraChanged(camera);
 }
 
+void
+Engine::setViewport( Viewport* viewport )
+{
+    d->objectMutex.lock();
+    d->viewport = viewport;
+    d->objectMutex.unlock();
+}
+
 Engine::Engine()
     : d(new EnginePrivate())
 {
+    d->viewport = new Viewport();
 }
 
 Engine::~Engine()

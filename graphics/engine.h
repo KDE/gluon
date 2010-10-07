@@ -33,6 +33,7 @@ namespace GluonGraphics
     class Material;
     class Item;
     class Texture;
+    class Viewport;
 
     /**
      * \brief Main entrypoint for working with Gluon Graphics.
@@ -279,6 +280,8 @@ namespace GluonGraphics
              */
             Camera* activeCamera();
 
+            Viewport* currentViewport();
+
         public Q_SLOTS:
             /**
              * Render the current scene.
@@ -312,6 +315,8 @@ namespace GluonGraphics
              * \param camera The camera to set as active camera.
              */
             void setActiveCamera(Camera* camera);
+
+            void setViewport(Viewport* viewport);
 
         Q_SIGNALS:
             /**

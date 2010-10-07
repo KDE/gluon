@@ -27,6 +27,7 @@
 #include "engine.h"
 #include "camera.h"
 #include "frustrum.h"
+#include "viewport.h"
 
 using namespace GluonGraphics;
 
@@ -66,8 +67,7 @@ void RenderWidget::paintGL()
 
 void RenderWidget::resizeGL( int w, int h )
 {
-    glViewport(0, 0, w, h);
-
+    Engine::instance()->currentViewport()->setSize(0, w, 0, h);
     Engine::instance()->setFramebufferSize(w, h);
 }
 
