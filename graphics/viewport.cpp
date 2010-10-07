@@ -38,10 +38,12 @@ class Viewport::ViewportPrivate
         float aspectRatio;
 };
 
-Viewport::Viewport() : d(new ViewportPrivate)
+Viewport::Viewport( QObject* parent )
+    : QObject( parent ),
+      d(new ViewportPrivate)
 {
-
 }
+
 
 Viewport::~Viewport()
 {
@@ -112,7 +114,13 @@ Viewport::setSize( float left, float width, float bottom, float height )
 
     d->aspectRatio = width/height;
 
-    glViewport(left, bottom, width, height);
+    update();
+}
+
+void
+Viewport::update()
+{
+    glViewport(d->left, d->bottom, d->width, d->height);
 
     if(Engine::instance()->activeCamera())
     {
@@ -120,9 +128,9 @@ Viewport::setSize( float left, float width, float bottom, float height )
 
         frustrum->updateFrustrum(d->aspectRatio);
 
-        float visibleWidth = float(width);
+        float visibleWidth = d->width;
         float actualWidth = 0;
-        float visibleHeight = float(height);
+        float visibleHeight = d->height;
         float actualHeight = 0;
         float widthDiff = 0;
         float heightDiff = 0;
@@ -143,5 +151,10 @@ Viewport::setSize( float left, float width, float bottom, float height )
 
         glScissor(widthDiff / 2, heightDiff / 2, actualWidth, actualHeight);
     }
+    else
+    {
+        glScissor(d->left, d->bottom, d->width, d->height);
+    }
 }
 
+#include "viewport.moc"
