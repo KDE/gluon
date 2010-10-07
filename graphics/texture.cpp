@@ -70,6 +70,10 @@ bool Texture::load( const QUrl& url )
     QGLContext* context = const_cast<QGLContext*>(QGLContext::currentContext());
     d->glTexture = context->bindTexture(image);
 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
+
     if(d->glTexture != 0)
         return true;
 
