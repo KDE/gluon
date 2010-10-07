@@ -31,6 +31,7 @@ namespace GluonCreator
         public:
             RecentProjectsDialogPage();
             ~RecentProjectsDialogPage();
+            QString selectedItem() const;
         Q_SIGNALS:
             void projectRequested(const QString& url);
         private:
