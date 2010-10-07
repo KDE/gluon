@@ -40,6 +40,7 @@ set(GluonGraphics_SRCS
     materialelement.cpp
     camera.cpp
     renderwidget.cpp
+    viewport.cpp
     vertex.cpp
     texture.cpp
     item.cpp
@@ -51,6 +52,7 @@ set(GluonGraphics_HEADERS
     gluon_graphics_export.h
     camera.h
     renderwidget.h
+    viewport.h
     vertex.h
     texture.h
     item.h

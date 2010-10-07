@@ -22,16 +22,18 @@
 
 #include "gluon_graphics_export.h"
 
+class QRectF;
+class QSizeF;
 class QMatrix4x4;
 class QVector3D;
 
 namespace GluonGraphics
 {
     /**
-     * \brief Describes a geometrical frustum for projection calculations.
+     * \brief Describes a geometrical frustrum for projection calculations.
      *
-     * A frustum is essentially a pyramid with the top removed. It is
-     * used for projection calculations and a technqiue called frustum
+     * A frustrum is essentially a pyramid with the top removed. It is
+     * used for projection calculations and a technqiue called frustrum
      * culling.
      *
      * \todo Expand this description and its use.
@@ -58,12 +60,12 @@ namespace GluonGraphics
             /**
              * Retrieve the projection matrix.
              *
-             * \return The projection matrix of this frustum.
+             * \return The projection matrix of this frustrum.
              */
             QMatrix4x4 projectionMatrix();
 
             /**
-             * Check whether a point falls within the frustum.
+             * Check whether a point falls within the frustrum.
              *
              * \param point The point to check whether it is inside the
              * frustrum.
@@ -73,7 +75,7 @@ namespace GluonGraphics
             bool containsPoint(const QVector3D& point);
 
             /**
-             * Check whether a sphere falls within the frustum.
+             * Check whether a sphere falls within the frustrum.
              *
              * \param point The centre point of the sphere that needs to be
              * checked.
@@ -85,17 +87,56 @@ namespace GluonGraphics
             bool containsSphere(const QVector3D& point, float radius);
 
             /**
-             * Set this frustum to use an orthographic projection.
+             * Retrieve the distance to the near plane of this frustrum.
              *
-             * \param view Rectangle containing the position and dimensions
-             * of the near (view) plane.
+             * \return The distrance to the near plane of this frustrum.
+             */
+            float nearPlane();
+
+            /**
+             * Retrieve the distance to the far plane of this frustrum.
+             *
+             * \return The distance to the far plane of this frustrum.
+             */
+            float farPlane();
+
+            /**
+             * Retrieve the view plane of this frustrum.
+             *
+             * The view plane is equal to the near plane.
+             *
+             * \return The view plane of this frustrum.
+             */
+            QRectF viewPlane();
+
+            /**
+             * Set this frustrum to use an orthographic projection.
+             *
+             * \param left The left coordinate of the view plane.
+             * \param right The right coordinate of the view plane.
+             * \param bottom The bottom coordinate of the view plane.
+             * \param top The top coordinate of the view plane.
              * \param near The distance to the near plane.
              * \param far The distance to the far plane. Should be > near .
              */
             void setOrthographic(float left, float right, float bottom, float top, float near, float far);
 
             /**
-             * Set this frustum to use a perspective projection.
+             * Set this frustrum to use an orthographic projection, adjusted
+             * for aspect ratio.
+             *
+             * Note that the view plane will always be centred on 0,0; that
+             * is, the view plane's left coordinate will be -(area.width / 2).
+             *
+             * \param area The area describing the width and height of the view plane.
+             * \param aspect The aspect ratio to adjust for.
+             * \param near The distance to the near plane.
+             * \param far The distance to the far plane.
+             */
+            void setOrthoAdjusted(const QSizeF& area, float aspect, float near, float far);
+
+            /**
+             * Set this frustrum to use a perspective projection.
              *
              * \param fov The field of view, in radians.
              * \param aspect Aspect ratio of the frustrum.
@@ -103,6 +144,13 @@ namespace GluonGraphics
              * \param far Distance to the far plane.
              */
             void setPerspective( float fov, float aspect, float near, float far);
+
+            /**
+             * Update the frustrum to account for a new aspect ratio.
+             *
+             * \param aspect The new aspect ratio to use.
+             */
+            void updateFrustrum(float aspect);
 
         private:
             class FrustrumPrivate;
