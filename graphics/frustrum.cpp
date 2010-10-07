@@ -143,7 +143,7 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
     d->nearPlane = near;
     d->farPlane = far;
 
-    d->viewPlane.setCoords( -(area.width()/2), area.height()/2, area.width()/2, -(area.height()/2) );
+    d->viewPlane.setCoords( -(area.width()/2), -(area.height()/2), area.width()/2, area.height()/2 );
 
     d->mode = FrustrumPrivate::FM_ADJUSTED_ORTHO;
 }

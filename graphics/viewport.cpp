@@ -119,25 +119,25 @@ Viewport::setSize( float left, float width, float bottom, float height )
         Frustrum* frustrum = Engine::instance()->activeCamera()->frustrum();
 
         frustrum->updateFrustrum(d->aspectRatio);
-        QRectF viewPlane = frustrum->viewPlane();
 
-        float visibleWidth = viewPlane.width();
+        float visibleWidth = float(width);
         float actualWidth = 0;
-        float visibleHeight = viewPlane.height();
+        float visibleHeight = float(height);
         float actualHeight = 0;
         float widthDiff = 0;
         float heightDiff = 0;
+        float aspect = frustrum->viewPlane().width() / frustrum->viewPlane().height();
 
         if(d->aspectRatio > 1)
         {
             actualHeight = visibleHeight;
-            actualWidth = visibleHeight * d->aspectRatio;
+            actualWidth = visibleHeight * aspect;
             widthDiff = visibleWidth - actualWidth;
         }
         else
         {
             actualWidth = visibleWidth;
-            actualHeight = visibleWidth * (1 / d->aspectRatio);
+            actualHeight = visibleWidth * (1 / aspect);
             heightDiff = visibleHeight - actualHeight;
         }
 

@@ -60,8 +60,9 @@ void RenderWidget::initializeGL()
 
 void RenderWidget::paintGL()
 {
+    glDisable(GL_SCISSOR_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    glEnable(GL_SCISSOR_TEST);
     Engine::instance()->render();
 }
 
