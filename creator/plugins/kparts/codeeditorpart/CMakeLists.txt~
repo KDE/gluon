@@ -1,9 +1,9 @@
-#project(GluonCreatorCodeKpart)
+project(GluonCreatorCodeKpart)
 
-#cmake_minimum_required(VERSION 2.6.0)
-#set(KDE_MIN_VERSION "4.3")
+cmake_minimum_required(VERSION 2.6.0)
+set(KDE_MIN_VERSION "4.3")
 
-#find_package(GluonCreator REQUIRED)
+find_package(GluonCreator REQUIRED)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 
