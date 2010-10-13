@@ -46,8 +46,8 @@ using namespace GluonPlayer;
 using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet(QObject* parent, const QVariantList& args) : GLFBOApplet(parent, args),
-        m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
-        m_gamesOverlay(0), m_gameDetailsOverlay(0)
+	m_viewportWidth(0), m_viewportHeight(0), m_project(0), m_camera(0),
+	m_gamesOverlay(0), m_gameDetailsOverlay(0)
 {
     setHasConfigurationInterface(true);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
@@ -60,7 +60,7 @@ PlasmaApplet::~PlasmaApplet()
 {
     kDebug() << "QUIT";
     if (m_gameFileName.isEmpty()) {
-        return;
+	return;
     }
     GluonEngine::Game::instance()->stopGame();
     GluonEngine::Game::instance()->cleanupAll();
@@ -84,7 +84,7 @@ void PlasmaApplet::setProject(const QModelIndex &index)
 void PlasmaApplet::openProject()
 {
     if (m_gameFileName.isEmpty()) {
-        return;
+	return;
     }
 
     setBusy(true);
@@ -117,7 +117,7 @@ void PlasmaApplet::initGL()
 {
     m_camera = Engine::instance()->activeCamera();
     connect(Engine::instance(), SIGNAL(activeCameraChanged(GluonGraphics::Camera*)),
-            SLOT(setCamera(GluonGraphics::Camera*)));
+	    SLOT(setCamera(GluonGraphics::Camera*)));
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glShadeModel(GL_SMOOTH);
@@ -136,27 +136,27 @@ void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_viewportHeight = event->newSize().height();
 
     if (m_camera) {
-        m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
-        m_camera->applyViewport();
-        m_camera->applyOrtho();
+	m_camera->setViewport(0, 0, m_viewportWidth, m_viewportHeight);
+	m_camera->applyViewport();
+	m_camera->applyOrtho();
     }
 }
 
 void PlasmaApplet::showGames()
 {
     if (!m_gamesOverlay) {
-        m_gamesOverlay = new GamesOverlay(this);
-        m_gamesOverlay->gamesView()->setModel(m_gamesModel);
-        m_gamesOverlay->setGeometry(geometry());
-        connect(m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)));
-        connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)));
+	m_gamesOverlay = new GamesOverlay(this);
+	m_gamesOverlay->gamesView()->setModel(m_gamesModel);
+	m_gamesOverlay->setGeometry(geometry());
+	connect(m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)));
+	connect(m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)));
     }
 
     if (m_gameDetailsOverlay) {
-        m_gameDetailsOverlay->hide();
-        m_layout->removeItem(m_gameDetailsOverlay);
-        m_gameDetailsOverlay->deleteLater();
-        m_gameDetailsOverlay = 0;
+	m_gameDetailsOverlay->hide();
+	m_layout->removeItem(m_gameDetailsOverlay);
+	m_gameDetailsOverlay->deleteLater();
+	m_gameDetailsOverlay = 0;
     }
 
     m_layout->addItem(m_gamesOverlay);
@@ -165,6 +165,8 @@ void PlasmaApplet::showGames()
 
 void PlasmaApplet::showGameDetails(const QModelIndex& index)
 {
+	Q_UNUSED(index);
+
     //TODO: the game details should be according to the game selected
     m_gameDetailsOverlay = new GameDetailsOverlay(this);
     m_gamesOverlay->hide();
@@ -184,7 +186,7 @@ void PlasmaApplet::render()
     Engine::instance()->sortItems();
     QList<Item*> items = Engine::instance()->items();
     foreach(Item *it, items) {
-        it->paintGL();
+	it->paintGL();
     }
 }
 
@@ -200,7 +202,7 @@ void PlasmaApplet::paintGLInterface(QPainter* painter, const QStyleOptionGraphic
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (m_camera) {
-        m_camera->applyView();
+	m_camera->applyView();
     }
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
