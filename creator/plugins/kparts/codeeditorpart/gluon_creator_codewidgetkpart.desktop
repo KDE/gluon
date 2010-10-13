@@ -6,7 +6,7 @@ Comment=Provides a code editor for Gluon Creator
 Icon=gluon
 
 Type=Service
-MimeType=application/javascript
+MimeType=application/javascript;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
 
 X-KDE-Library=gluon_creator_codewidgetkpart
