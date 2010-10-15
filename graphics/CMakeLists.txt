@@ -7,7 +7,16 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(OpenGL REQUIRED)
+set(OPENGL_FULL_INCLUDE_DIR "")
+find_package(OpenGL)
+
+if(NOT OPENGL_FOUND)
+    #try looking for GLES
+    find_package(OpenGLES)
+else()
+    set(OPENGL_FULL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR}/GL)
+    message(STATUS "Found OpenGL: ${OPENGL_FULL_INCLUDE_DIR}")
+endif()
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
@@ -17,14 +26,14 @@ include_directories(
 
     ${GLUON_CORE_INCLUDES}
 
-    ${OPENGL_INCLUDE_DIR}
+    ${OPENGL_FULL_INCLUDE_DIR}
 )
 
 set(GLUON_GRAPHICS_INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDES}
 
-    ${OPENGL_INCLUDE_DIR}
+    ${OPENGL_FULL_INCLUDE_DIR}
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 

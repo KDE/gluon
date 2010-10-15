@@ -20,8 +20,8 @@
 #include "materialinstance.h"
 #include "material.h"
 
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <gl.h>
+#include <glext.h>
 
 #include <QtCore/QVariant>
 #include <QtGui/QVector2D>

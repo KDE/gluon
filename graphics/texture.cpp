@@ -22,7 +22,7 @@
 
 #include "texture.h"
 
-#include <GL/gl.h>
+#include <gl.h>
 #include <QtCore/QUrl>
 #include <QtGui/QImage>
 #include <QtOpenGL/QGLContext>

@@ -5,6 +5,7 @@ add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${GLUON_GRAPHICS_INCLUDES}
 )
 
 set(gluonplasmaapplet_SRCS

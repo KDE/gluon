@@ -23,8 +23,8 @@
 #include "mesh.h"
 #include "materialinstance.h"
 
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <gl.h>
+#include <glext.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>

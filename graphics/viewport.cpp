@@ -23,7 +23,7 @@
 #include "camera.h"
 #include "frustrum.h"
 
-#include <GL/gl.h>
+#include <gl.h>
 #include <QRect>
 
 using namespace GluonGraphics;

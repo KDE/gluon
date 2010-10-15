@@ -23,8 +23,8 @@
 
 #include <QDebug>
 
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <gl.h>
+#include <glext.h>
 
 REGISTER_OBJECTTYPE(GluonGraphics, Material)
 
