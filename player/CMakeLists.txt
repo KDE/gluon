@@ -9,23 +9,24 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
     find_package(GluonEngine REQUIRED)
     find_package(GluonGraphics REQUIRED)
-    set(LIBATTICA_MIN_VERSION 0.1.90)
-    find_package(LibAttica)
-    if(LIBATTICA_FOUND)
-        if(BUILD_PLASMOID)
-            find_package(KDE4)
-            if(NOT KDE4_FOUND)
-                message(STATUS "BUILD_PLASMOID is enabled but KDE libraries are not found - not building the Plasmoid")
-            endif(NOT KDE4_FOUND)
-        endif(BUILD_PLASMOID)
-    else(LIBATTICA_FOUND)
-        message(STATUS "Could not find LibAttica or a too old version was found.")
-        message(STATUS "Building Player Qt Application and Plasmoid and installing game examples wer disabled.")
-    endif(LIBATTICA_FOUND)
 endif(NOT GLUON_BUILD_ALL)
 
+set(LIBATTICA_MIN_VERSION 0.1.90)
+find_package(LibAttica)
 if(LIBATTICA_FOUND)
-    include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES} 
+    if(BUILD_PLASMOID)
+        find_package(KDE4)
+        if(NOT KDE4_FOUND)
+            message(STATUS "BUILD_PLASMOID is enabled but KDE libraries are not found - not building the Plasmoid")
+        endif(NOT KDE4_FOUND)
+    endif(BUILD_PLASMOID)
+else(LIBATTICA_FOUND)
+    message(WARNING "Could not find LibAttica or a too old version was found.")
+    message(WARNING "Building libGluonPlayer without Attica support!")
+endif(LIBATTICA_FOUND)
+
+if(LIBATTICA_FOUND)
+    include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
                         ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
                         ${ATTICA_INCLUDE_DIRS})
 
@@ -36,14 +37,22 @@ if(LIBATTICA_FOUND)
         lib/authentication.cpp
         lib/atticamanager.cpp
     )
+else(LIBATTICA_FOUND)
+    include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
+                        ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+    set(libGluonPlayer_SRCS
+        models/gamesmodel.cpp
+    )
+endif(LIBATTICA_FOUND)
 
-    qt4_automoc(${libGluonPlayer_SRCS})
+qt4_automoc(${libGluonPlayer_SRCS})
 
-    add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
+add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
 
-    set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING}
-          SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB)
+set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING}
+    SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB)
 
+if(LIBATTICA_FOUND)
     target_link_libraries(
         GluonPlayer
         ${LIBATTICA_LIBRARIES}
@@ -52,23 +61,40 @@ if(LIBATTICA_FOUND)
 
     set(GLUON_PLAYER_LIBS
         GluonPlayer
+        ${LIBATTICA_LIBRARIES}
         ${GLUON_CORE_LIBS}
         CACHE PATHS "Libraries required for Gluon Player"
     )
-    install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+
     install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
     install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-    
-    add_subdirectory(qt)
-    
+
     if(BUILD_PLASMOID)
         include_directories(${KDE4_INCLUDES})
         add_subdirectory(plasmoid)
     endif(BUILD_PLASMOID)
+else(LIBATTICA_FOUND)
+    target_link_libraries(
+        GluonPlayer
+        ${LIBATTICA_LIBRARIES}
+        ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
+    )
 
-    if(INSTALL_EXAMPLES)
-        install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-        install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-    endif(INSTALL_EXAMPLES)
-
+    set(GLUON_PLAYER_LIBS
+        GluonPlayer
+        ${LIBATTICA_LIBRARIES}
+        ${GLUON_CORE_LIBS}
+        CACHE PATHS "Libraries required for Gluon Player"
+    )
 endif(LIBATTICA_FOUND)
+
+install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+
+add_subdirectory(qt)
+
+if(INSTALL_EXAMPLES)
+    install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
+    install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
+endif(INSTALL_EXAMPLES)
+
+
