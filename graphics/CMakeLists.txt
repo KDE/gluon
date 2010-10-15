@@ -7,15 +7,26 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(OPENGL_FULL_INCLUDE_DIR "")
+set(OPENGL_REAL_LIBS "")
+set(OPENGL_REAL_INCLUDE_DIR "")
 find_package(OpenGL)
 
 if(NOT OPENGL_FOUND)
     #try looking for GLES
     find_package(OpenGLES)
-else()
-    set(OPENGL_FULL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR}/GL)
-    message(STATUS "Found OpenGL: ${OPENGL_FULL_INCLUDE_DIR}")
+    if(OPENGLES_FOUND)
+        set(OPENGL_REAL_INCLUDE_DIR ${OPENGLES_INCLUDE_DIR})
+        set(OPENGL_REAL_LIBS ${OPENGLES_LIBRARIES})
+        message(STATUS "Found OpenGLES: ${OPENGL_REAL_INCLUDE_DIR}")
+    endif(OPENGLES_FOUND)
+else(NOT OPENGL_FOUND)
+    set(OPENGL_REAL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR}/GL)
+    set(OPENGL_REAL_LIBS ${OPENGL_gl_LIBRARY})
+    message(STATUS "Found OpenGL: ${OPENGL_REAL_INCLUDE_DIR}")
+endif(NOT OPENGL_FOUND)
+
+if(OPENGL_REAL_LIBS STREQUAL "" OR OPENGL_REAL_LIBS STREQUAL "")
+    message(FATAL_ERROR "Could NOT find OpenGL!")
 endif()
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
@@ -23,17 +34,14 @@ add_definitions(-DGL_GLEXT_PROTOTYPES)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-
     ${GLUON_CORE_INCLUDES}
-
-    ${OPENGL_FULL_INCLUDE_DIR}
+    ${OPENGL_REAL_INCLUDE_DIR}
 )
 
 set(GLUON_GRAPHICS_INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDES}
-
-    ${OPENGL_FULL_INCLUDE_DIR}
+    ${OPENGL_REAL_INCLUDE_DIR}
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 
@@ -111,14 +119,14 @@ target_link_libraries(
     GluonGraphics
     ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_gl_LIBRARY}
+    ${OPENGL_REAL_LIBS}
 )
 
 set(GLUON_GRAPHICS_LIBS
     GluonGraphics
     ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_gl_LIBRARY}
+    ${OPENGL_REAL_LIBS}
     CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
