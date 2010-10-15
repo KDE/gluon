@@ -2,7 +2,9 @@
 Encoding=UTF-8
 
 Name=Code Editor
+Name[x-test]=xxCode Editorxx
 Comment=Provides a code editor for Gluon Creator
+Comment[x-test]=xxProvides a code editor for Gluon Creatorxx
 Icon=gluon
 
 Type=Service
