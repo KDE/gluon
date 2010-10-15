@@ -25,7 +25,6 @@
 #ifndef PLASMAAPPLET_H
 #define PLASMAAPPLET_H
 
-#include <GL/glew.h>
 #include "glfboapplet.h"
 
 #include <QModelIndex>

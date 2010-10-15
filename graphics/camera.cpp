@@ -24,8 +24,6 @@
 #include "camera.h"
 #include <math.h>
 
-#include <glew.h>
-
 #include <core/debughelper.h>
 #include "frustrum.h"
 #include "engine.h"

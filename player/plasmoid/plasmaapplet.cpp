@@ -42,6 +42,8 @@
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsLinearLayout>
 
+#include <GL/gl.h>
+
 using namespace GluonPlayer;
 using namespace GluonGraphics;
 

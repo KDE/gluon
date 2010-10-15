@@ -8,7 +8,6 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
@@ -19,7 +18,6 @@ include_directories(
     ${GLUON_CORE_INCLUDES}
 
     ${OPENGL_INCLUDE_DIR}
-    ${GLEW_INCLUDE_DIR}
 )
 
 set(GLUON_GRAPHICS_INCLUDES
@@ -27,7 +25,6 @@ set(GLUON_GRAPHICS_INCLUDES
     ${GLUON_CORE_INCLUDES}
 
     ${OPENGL_INCLUDE_DIR}
-    ${GLEW_INCLUDE_DIR}
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 
@@ -106,7 +103,6 @@ target_link_libraries(
     ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
     ${OPENGL_gl_LIBRARY}
-    ${GLEW_LIBRARY}
 )
 
 set(GLUON_GRAPHICS_LIBS
@@ -114,7 +110,6 @@ set(GLUON_GRAPHICS_LIBS
     ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
     ${OPENGL_gl_LIBRARY}
-    ${GLEW_LIBRARY}
     CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
