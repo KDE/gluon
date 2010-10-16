@@ -76,13 +76,11 @@ if(LIBATTICA_FOUND)
 else(LIBATTICA_FOUND)
     target_link_libraries(
         GluonPlayer
-        ${LIBATTICA_LIBRARIES}
         ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
     )
 
     set(GLUON_PLAYER_LIBS
         GluonPlayer
-        ${LIBATTICA_LIBRARIES}
         ${GLUON_CORE_LIBS}
         CACHE PATHS "Libraries required for Gluon Player"
     )
