@@ -30,7 +30,7 @@ K_EXPORT_PLUGIN(CodeWidgetFactory("Code Editor","Code Editor") )
 CodeWidgetKpart::CodeWidgetKpart( QWidget *parentWidget, QObject *parent, const QVariantList& )
 : KParts::ReadWritePart(parent)
 {
-    KGlobal::locale()->insertCatalog("Code Editor");
+    KGlobal::locale()->insertCatalog("gluoncreator");
     setComponentData(CodeWidgetFactory::componentData());
     
     main = new MainWindow();
