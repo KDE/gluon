@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Gluon Player (Qt only)
+GenericName=Game Launcher
+Exec=gluon_qtplayer
+Icon=gluon-player
+Type=Application
+Categories=Qt;KDE;Game;
+Terminal=false

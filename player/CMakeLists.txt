@@ -92,6 +92,8 @@ install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(qt)
 
+add_subdirectory(icons)
+
 if(INSTALL_EXAMPLES)
     install(DIRECTORY examples/invaders DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
     install(DIRECTORY examples/pong DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
