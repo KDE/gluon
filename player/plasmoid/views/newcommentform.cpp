@@ -21,6 +21,7 @@
 
 #include <attica/provider.h>
 #include <KTextEdit>
+#include <KLineEdit>
 #include <Plasma/PushButton>
 #include <Plasma/LineEdit>
 #include <Plasma/TextEdit>
@@ -35,7 +36,7 @@ NewCommentForm::NewCommentForm(QGraphicsItem* parent, Qt::WindowFlags wFlags): Q
     layout2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     m_titleEdit = new Plasma::LineEdit(this);
-    m_titleEdit->setClickMessage(i18n("Subject"));
+    m_titleEdit->nativeWidget()->setClickMessage(i18n("Subject"));
 
     m_bodyEdit = new Plasma::TextEdit(this);
     m_bodyEdit->nativeWidget()->setClickMessage(i18n("Message"));
@@ -70,7 +71,7 @@ void NewCommentForm::setParentIndex(QModelIndex parentIndex)
 void NewCommentForm::validateAndSubmit()
 {
     if (m_titleEdit->text().isEmpty() || m_bodyEdit->text().isEmpty()) {
-        return;
+	return;
     }
     emit accepted(m_parentIndex, m_titleEdit->text(), m_bodyEdit->nativeWidget()->toPlainText());
 }
