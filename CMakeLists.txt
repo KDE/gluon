@@ -126,7 +126,7 @@ if(INSTALL_CMAKE_FILES)
         audio/cmake/FindOggVorbis.cmake
         audio/cmake/FindSndFile.cmake
         graphics/cmake/FindGluonGraphics.cmake
-        graphics/cmake/FindGLEW.cmake
+        graphics/cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
         creator/lib/cmake/FindGluonCreator.cmake
@@ -143,7 +143,7 @@ else()
         audio/cmake/FindOggVorbis.cmake
         audio/cmake/FindSndFile.cmake
         graphics/cmake/FindGluonGraphics.cmake
-        graphics/cmake/FindGLEW.cmake
+        graphics/cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
         creator/lib/cmake/FindGluonCreator.cmake
@@ -152,3 +152,16 @@ else()
         OPTIONAL
     )
 endif()
+
+#Packaging options
+set(CPACK_SET_DESTDIR ON)
+set(CPACK_GENERATOR "DEB;TGZ")
+set(CPACK_PACKAGE_NAME "Gluon")
+set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
+set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
+set(CPACK_PACKAGE_CONTACT "Arjen Hiemstra <ahiemstra@heimr.nl>")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute and play games")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
+include(InstallRequiredSystemLibraries)
+include(CPack)
