@@ -3,11 +3,13 @@ Encoding=UTF-8
 
 Name=Code Editor
 Name[pt]=Editor de Código
+Name[pt_BR]=Editor de código
 Name[sv]=Kodeditor
 Name[uk]=Редактор коду
 Name[x-test]=xxCode Editorxx
 Comment=Provides a code editor for Gluon Creator
 Comment[pt]=Oferece um editor de código para o Gluon
+Comment[pt_BR]=Fornece um editor de código para o criador do Gluon
 Comment[sv]=Tillhandahåller en kodeditor för Gluon Creator
 Comment[uk]=Забезпечує роботу редактора коду у Gluon Creator
 Comment[x-test]=xxProvides a code editor for Gluon Creatorxx
