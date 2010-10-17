@@ -23,8 +23,7 @@
 
 #include <QDebug>
 
-#include <gl.h>
-#include <glext.h>
+#include "glheaders.h"
 
 REGISTER_OBJECTTYPE(GluonGraphics, Material)
 
@@ -66,49 +65,67 @@ void Material::build( const QString& name )
 {
     if(d->glProgram)
          return;
-
-    const char* vertShaderSource = "\
-uniform mat4 modelViewProj;\
+    
+    QString vertShaderSource;
+    #ifndef GLUON_GRAPHICS_GLES
+    vertShaderSource += "\
+    #define highp  \
+    #define mediump   \
+    #define lowp  \
+";
+    #endif
+    vertShaderSource += "\
+uniform highp mat4 modelViewProj;\
 \
-attribute vec3 vertex;\
-attribute vec4 color;\
-attribute vec2 uv0;\
+attribute highp vec3 vertex;\
+attribute mediump vec4 color;\
+attribute mediump vec2 uv0;\
 \
-varying vec4 out_color;\
-varying vec2 out_uv0;\
+varying mediump vec4 out_color;\
+varying highp vec2 out_uv0;\
 \
 void main()\
 {\
-    gl_Position = vec4(vertex, 1.0f) * modelViewProj;\
+    gl_Position = vec4(vertex, 1.0) * modelViewProj;\
     out_color = color;\
     out_uv0 = uv0;\
 }\
 ";
+    const char* vertSrc = vertShaderSource.toUtf8().data();
 
-    const char* fragShaderSource = "\
+    QString fragShaderSource;
+    #ifndef GLUON_GRAPHICS_GLES
+    fragShaderSource += "\
+    #define highp  \
+    #define mediump  \
+    #define lowp  \
+";
+    #endif
+    fragShaderSource += "\
 uniform sampler2D texture0;\
-uniform vec4 materialColor;\
+uniform mediump vec4 materialColor;\
 \
-varying vec4 out_color;\
-varying vec2 out_uv0;\
+varying mediump vec4 out_color;\
+varying mediump vec2 out_uv0;\
 \
 void main()\
 {\
-    vec4 texColor = texture2D(texture0, out_uv0);\
-    vec4 color = out_color * materialColor * texColor;\
+    mediump vec4 texColor = texture2D(texture0, out_uv0);\
+    mediump vec4 color = out_color * materialColor * texColor;\
     color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
     if(color.a <= 0.0)\
         discard;\
     gl_FragColor = color;\
 }\
 ";
+    const char* fragSrc = fragShaderSource.toUtf8().data();
 
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(d->vertShader, 1, &vertShaderSource, NULL);
+    glShaderSource(d->vertShader, 1, &vertSrc, NULL);
     glCompileShader(d->vertShader);
 
     d->fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(d->fragShader, 1, &fragShaderSource, NULL);
+    glShaderSource(d->fragShader, 1, &fragSrc, NULL);
     glCompileShader(d->fragShader);
 
     d->glProgram = glCreateProgram();
