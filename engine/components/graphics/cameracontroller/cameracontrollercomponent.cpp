@@ -92,10 +92,6 @@ void CameraControllerComponent::initialize()
     }
 
     d->camera->frustrum()->setOrthoAdjusted(d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane);
-    //d->camera->frustum()->setOrthographic(-50, 50, -50, 50, -50, 50);
-    //d->camera->frustum()->setOrthographic(-d->visibleArea.width() / 2, d->visibleArea.width() / 2, -d->visibleArea.height() / 2, d->visibleArea.height() / 2, d->nearPlane, d->farPlane);
-    //d->camera->setVisibleArea(d->visibleArea);
-    //d->camera->setDepthRange(d->nearPlane, d->farPlane);
 }
 
 void CameraControllerComponent::start()
