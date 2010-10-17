@@ -27,7 +27,7 @@
 #include <gluon/graphics/engine.h>
 #include <gluon/graphics/camera.h>
 #include <gluon/graphics/item.h>
-#include <gluon/graphics/frustum.h>
+#include <gluon/graphics/frustrum.h>
 #include <gluon/graphics/material.h>
 #include <gluon/graphics/materialinstance.h>
 #include <gluon/graphics/mesh.h>
@@ -40,12 +40,13 @@ int main(int argc, char *argv[])
 
     //Create a widget to render the graphics on.
     GluonGraphics::RenderWidget * widget = new GluonGraphics::RenderWidget();
-
+    widget->show();
+    
     //Create a camera to view the scene from.
     GluonGraphics::Camera* cam = new GluonGraphics::Camera();
 
     //Set the viewport
-    cam->frustum()->setOrthographic(-5.f, 5.f, -5.f, 5.f, -5.f, 5.f);
+    cam->frustrum()->setOrthographic(-5.f, 5.f, -5.f, 5.f, -5.f, 5.f);
 
     //Activate the new camera
     GluonGraphics::Engine::instance()->setActiveCamera(cam);
@@ -62,8 +63,5 @@ int main(int argc, char *argv[])
     item->setTransform(mat);
 
     QTimer::singleShot(0, widget, SLOT(updateGL()));
-
-    widget->show();
     return app.exec();
-
 }
