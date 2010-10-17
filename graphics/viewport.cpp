@@ -23,7 +23,8 @@
 #include "camera.h"
 #include "frustrum.h"
 
-#include <gl.h>
+#include "glheaders.h"
+
 #include <QRect>
 
 using namespace GluonGraphics;
@@ -149,11 +150,11 @@ Viewport::update()
             heightDiff = visibleHeight - actualHeight;
         }
 
-        glScissor(widthDiff / 2, heightDiff / 2, actualWidth, actualHeight);
+        //glScissor(widthDiff / 2, heightDiff / 2, actualWidth, actualHeight);
     }
     else
     {
-        glScissor(d->left, d->bottom, d->width, d->height);
+        //glScissor(d->left, d->bottom, d->width, d->height);
     }
 }
 

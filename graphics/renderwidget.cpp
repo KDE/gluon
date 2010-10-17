@@ -28,6 +28,7 @@
 #include "camera.h"
 #include "frustrum.h"
 #include "viewport.h"
+#include "glheaders.h"
 
 using namespace GluonGraphics;
 
@@ -53,16 +54,15 @@ void RenderWidget::initializeGL()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glPointSize(32);
 
     Engine::instance()->initialize();
 }
 
 void RenderWidget::paintGL()
 {
-    glDisable(GL_SCISSOR_TEST);
+    //glDisable(GL_SCISSOR_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_SCISSOR_TEST);
+    //glEnable(GL_SCISSOR_TEST);
     Engine::instance()->render();
 }
 

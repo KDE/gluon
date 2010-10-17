@@ -20,9 +20,6 @@
 #include "materialinstance.h"
 #include "material.h"
 
-#include <gl.h>
-#include <glext.h>
-
 #include <QtCore/QVariant>
 #include <QtGui/QVector2D>
 #include <QtGui/QColor>
@@ -30,6 +27,7 @@
 #include "math.h"
 #include "engine.h"
 #include "texture.h"
+#include "glheaders.h"
 
 REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)
 

@@ -23,13 +23,11 @@
 #include "mesh.h"
 #include "materialinstance.h"
 
-#include <gl.h>
-#include <glext.h>
-
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 
 #include "math.h"
+#include "glheaders.h"
 
 using namespace GluonGraphics;
 

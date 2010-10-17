@@ -22,7 +22,8 @@
 
 #include "texture.h"
 
-#include <gl.h>
+#include "glheaders.h"
+
 #include <QtCore/QUrl>
 #include <QtGui/QImage>
 #include <QtOpenGL/QGLContext>
@@ -72,7 +73,9 @@ bool Texture::load( const QUrl& url )
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    #ifndef GLUON_GRAPHICS_GLES
     glTexParameterf(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
+    #endif
 
     if(d->glTexture != 0)
         return true;
