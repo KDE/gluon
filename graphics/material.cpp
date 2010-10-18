@@ -66,15 +66,26 @@ void Material::build( const QString& name )
     if(d->glProgram)
          return;
     
-    QString vertShaderSource;
     #ifndef GLUON_GRAPHICS_GLES
-    vertShaderSource += "\
-    #define highp  \
-    #define mediump   \
-    #define lowp  \
+    const char* vertShaderSource = "\
+uniform mat4 modelViewProj;\
+\
+attribute vec3 vertex;\
+attribute vec4 color;\
+attribute vec2 uv0;\
+\
+varying vec4 out_color;\
+varying vec2 out_uv0;\
+\
+void main()\
+{\
+    gl_Position = vec4(vertex, 1.0) * modelViewProj;\
+    out_color = color;\
+    out_uv0 = uv0;\
+}\
 ";
-    #endif
-    vertShaderSource += "\
+    #else
+    const char* vertShaderSource = "\
 uniform highp mat4 modelViewProj;\
 \
 attribute highp vec3 vertex;\
@@ -91,17 +102,28 @@ void main()\
     out_uv0 = uv0;\
 }\
 ";
-    const char* vertSrc = vertShaderSource.toUtf8().data();
-
-    QString fragShaderSource;
-    #ifndef GLUON_GRAPHICS_GLES
-    fragShaderSource += "\
-    #define highp  \
-    #define mediump  \
-    #define lowp  \
-";
     #endif
-    fragShaderSource += "\
+
+    #ifndef GLUON_GRAPHICS_GLES
+    const char* fragShaderSource = "\
+uniform sampler2D texture0;\
+uniform vec4 materialColor;\
+\
+varying vec4 out_color;\
+varying vec2 out_uv0;\
+\
+void main()\
+{\
+    vec4 texColor = texture2D(texture0, out_uv0);\
+    vec4 color = out_color * materialColor * texColor;\
+    color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
+    if(color.a <= 0.0)\
+        discard;\
+    gl_FragColor = color;\
+}\
+";
+    #else
+    const char* fragShaderSource = "\
 uniform sampler2D texture0;\
 uniform mediump vec4 materialColor;\
 \
@@ -118,20 +140,45 @@ void main()\
     gl_FragColor = color;\
 }\
 ";
-    const char* fragSrc = fragShaderSource.toUtf8().data();
+    #endif
 
     d->vertShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(d->vertShader, 1, &vertSrc, NULL);
+    glShaderSource(d->vertShader, 1, &vertShaderSource, NULL);
     glCompileShader(d->vertShader);
 
+    int status;
+    glGetShaderiv(d->vertShader, GL_COMPILE_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        char log[500];
+        glGetShaderInfoLog(d->vertShader, 500, NULL, log);
+        debug("An error occured when compiling a vertex shader:\n%1", QString(log));
+    }
+
     d->fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(d->fragShader, 1, &fragSrc, NULL);
+    glShaderSource(d->fragShader, 1, &fragShaderSource, NULL);
     glCompileShader(d->fragShader);
+
+    glGetShaderiv(d->fragShader, GL_COMPILE_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        char log[500];
+        glGetShaderInfoLog(d->fragShader, 500, NULL, log);
+        debug("An error occured when compiling a fragment shader:\n%1", QString(log));
+    }
 
     d->glProgram = glCreateProgram();
     glAttachShader(d->glProgram, d->vertShader);
     glAttachShader(d->glProgram, d->fragShader);
     glLinkProgram(d->glProgram);
+
+    glGetProgramiv(d->glProgram, GL_LINK_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        char log[500];
+        glGetProgramInfoLog(d->fragShader, 500, NULL, log);
+        debug("An error occured when linking a program:\n%1", QString(log));
+    }
 }
 
 Technique*
