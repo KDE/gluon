@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=Gluon Player (Qt only)
+Name[x-test]=xxGluon Player (Qt only)xx
 GenericName=Game Launcher
+GenericName[x-test]=xxGame Launcherxx
 Exec=gluon_qtplayer
 Icon=gluon-player
 Type=Application
