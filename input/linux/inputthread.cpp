@@ -45,8 +45,8 @@ using namespace GluonInput;
 
 InputThread::InputThread(const QString &devicePath, QObject *parent)
 		: QThread(parent)
+        , d(new InputThreadPrivate)
 {
-	d = new InputThreadPrivate();
 	d->m_devicePath = devicePath;
     openDevice(devicePath);
 }
