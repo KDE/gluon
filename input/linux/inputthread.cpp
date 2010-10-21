@@ -7,26 +7,27 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "inputthread.h"
 #include "absval.h"
 #include "inputthreadprivate.h"
+
+#include <core/debughelper.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QEvent>
-
-#include <core/debughelper.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -42,12 +43,12 @@
 
 using namespace GluonInput;
 
-InputThread::InputThread(const QString &devicePath, QObject * parent)
+InputThread::InputThread(const QString &devicePath, QObject *parent)
 		: QThread(parent)
 {
 	d = new InputThreadPrivate();
 	d->m_devicePath = devicePath;
-	openDevice(devicePath);
+    openDevice(devicePath);
 }
 
 InputThread::~InputThread()
@@ -83,10 +84,10 @@ void InputThread::run()
 
 bool InputThread::openDevice(const QString& devicePath)
 {
-	d->m_fd = -1;
-	if ((d->m_fd = open(devicePath.toUtf8(), O_RDONLY)) < 0)
-	{
-		qDebug() << "Could not read device " << devicePath;
+    if ((d->m_fd = open(devicePath.toUtf8(), O_RDONLY)) == -1) {
+        qDebug() << "Could not open device: " << devicePath;
+        d->m_error = true;
+        d->m_msgError += "Could not open the device\n";
 		return false;
 	}
 
@@ -104,24 +105,21 @@ void InputThread::readInformation()
 		return;
 	}*/
 
-	if(d->m_fd < 0)
-	{
+    if (d->m_fd == -1) {
 		qDebug() <<"device not open";
 		d->m_error = true;
 		d->m_msgError += "device is not open\n";
 		return;
 	}
 
-	if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) < 0)
-	{
+    if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) == -1) {
 		qDebug() << "Could not open device" << d->m_devicePath;
 		d->m_error = true;
 		d->m_msgError += "could not open the device \n";
 		return;
 	}
 
-	if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info))
-	{
+    if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info)) {
 		qDebug() << "Could not retrieve information of device" << d->m_devicePath;
 		d->m_msgError += "could not retrieve information of device\n";
 		d->m_error = true;
@@ -129,8 +127,7 @@ void InputThread::readInformation()
 	}
 
 	char name[256] = "Unknown";
-	if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) < 0)
-	{
+    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
 		qDebug() << "could not retrieve name of device" << d->m_devicePath;
 		d->m_msgError += "cannot retrieve name of device\n";
 		d->m_error = true;
@@ -147,40 +144,29 @@ void InputThread::readInformation()
 	d->m_buttonCapabilities.clear();
 	d->m_absAxisInfos.clear();
 
-	for (int i = 0; i < EV_MAX; i++)
-	{
-		if (test_bit(i, bit[0]))
-		{
-			if (!i)
-			{
+    for (int i = 0; i < EV_MAX; ++i) 	{
+        if (test_bit(i, bit[0])) {
+            if (!i) {
 				continue;
 			}
 
 			ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
-			for (int j = 0; j < KEY_MAX; j++)
-			{
-				if (test_bit(j, bit[i]))
-				{
-					if (i == EV_KEY)
-					{
+            for (int j = 0; j < KEY_MAX; ++j) {
+                if (test_bit(j, bit[i])) {
+                    if (i == EV_KEY) {
 						d->m_buttonCapabilities.append(j);
 					}
 
-					if (i == EV_REL)
-					{
+                    if (i == EV_REL) {
 						d->m_relAxisCapabilities.append(j);
 					}
 
-					if (i == EV_ABS)
-					{
+                    if (i == EV_ABS) {
 						ioctl(d->m_fd, EVIOCGABS(j), abs);
 						AbsVal cabs(0, 0, 0, 0);
-						for (int k = 0; k < 5; k++)
-						{
-							if ((k < 3) || abs[k])
-							{
-								switch (k)
-								{
+                        for (int k = 0; k < 5; ++k) {
+                            if ((k < 3) || abs[k]) 	{
+                                switch (k) {
 									case 0:
 										cabs.value = abs[k];
 										break;
@@ -211,29 +197,24 @@ void InputThread::readInformation()
 
 	d->m_deviceType = GluonInput::UnknownDevice;
 
-	if (d->m_buttonCapabilities.contains(BTN_STYLUS))
-	{
+    if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
 		d->m_deviceType  = GluonInput::TabletDevice;
 	}
 
 	if (d->m_buttonCapabilities.contains(BTN_STYLUS)
-			|| d->m_buttonCapabilities.contains(ABS_PRESSURE))
-	{
+            || d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
 		d->m_deviceType  = GluonInput::MouseDevice;
 	}
 
-	if (d->m_buttonCapabilities.contains(BTN_TRIGGER))
-	{
+    if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
 		d->m_deviceType  = GluonInput::JoystickDevice;
 	}
 
-	if (d->m_buttonCapabilities.contains(BTN_MOUSE))
-	{
+    if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
 		d->m_deviceType  = GluonInput::MouseDevice;
 	}
 
-	if (d->m_buttonCapabilities.contains(KEY_ESC))
-	{
+	if (d->m_buttonCapabilities.contains(KEY_ESC))	{
 		d->m_deviceType  = GluonInput::KeyboardDevice;
 	}
 }
@@ -255,7 +236,7 @@ int InputThread::getJoystickZAxis()
 
 void InputThread::stop()
 {
-	this->quit();
+    quit();
 }
 
 int InputThread::vendor()const
