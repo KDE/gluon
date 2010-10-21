@@ -23,14 +23,14 @@
 
 using namespace GluonInput;
 
-Mouse::Mouse(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
+Mouse::Mouse(InputThread *inputThread, QObject *parent)
+    : InputDevice(inputThread, parent)
+    , d(new MousePrivate)
 {
-	d = new MousePrivate();
 	d->originalPosition = d->position = QPoint(0, 0);
 	d->sensibility = 1;
 	
-	
-	connect(inputThread, SIGNAL(relAxisMoved(int, int)), this, SLOT(mouseMoved(int, int)), Qt::DirectConnection);
+    connect(inputThread, SIGNAL(relAxisMoved(int, int)), SLOT(mouseMoved(int, int)), Qt::DirectConnection);
 }
 
 QPoint Mouse::position()

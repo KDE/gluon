@@ -19,13 +19,13 @@
 #ifndef CUSTOMINPUT_H
 #define CUSTOMINPUT_H
 
+#include "gluon_input_export.h"
+#include "gluondevices.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QPair>
 #include <QtCore/QSharedData>
-
-#include "gluon_input_export.h"
-#include "gluondevices.h"
 
 namespace GluonInput
 {
@@ -37,14 +37,14 @@ namespace GluonInput
     {
             Q_OBJECT
         public:
-            CustomInput(QObject * parent = 0);
+            CustomInput(QObject *parent = 0);
             ~CustomInput();
 
-            void setButton(const QString &name, InputDevice* input, int keyCode);
+            void setButton(const QString &name, InputDevice *input, int keyCode);
             void setButton(const QString &name);
             void remButton(const QString &name);
-            void setAbsAxis(const QString &name, InputDevice * input, int axis);
-            void setRelAxis(const QString &name, InputDevice* input, int axis);
+            void setAbsAxis(const QString &name, InputDevice *input, int axis);
+            void setRelAxis(const QString &name, InputDevice *input, int axis);
             void remAbsAxis(const QString &name);
             void remRelAxis(const QString &name);
 

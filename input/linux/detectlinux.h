@@ -46,12 +46,12 @@ namespace GluonInput
             void detectDevices();
             void setAllEnabled(bool enable);
 
-            QList<InputDevice *> getInputList();
-            QList<Keyboard *> getKeyboardList();
-            QList<Mouse *> getMouseList();
-            QList<Joystick *> getJoystickList();
-            QList<Tablet *> getTabletList();
-            QList<InputDevice *> getUnknownDeviceList();
+            QList<InputDevice *> inputList();
+            QList<Keyboard *> keyboardList();
+            QList<Mouse *> mouseList();
+            QList<Joystick *> joystickList();
+            QList<Tablet *> tabletList();
+            QList<InputDevice *> unknownDeviceList();
 
             void addInput(InputDevice *i);
             void addKeyboard(InputDevice *i);

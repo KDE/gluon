@@ -82,7 +82,7 @@ void InputThread::run()
 	}
 }
 
-bool InputThread::openDevice(const QString& devicePath)
+bool InputThread::openDevice(const QString &devicePath)
 {
     if ((d->m_fd = open(devicePath.toUtf8(), O_RDONLY)) == -1) {
         qDebug() << "Could not open device: " << devicePath;
@@ -106,30 +106,32 @@ void InputThread::readInformation()
 	}*/
 
     if (d->m_fd == -1) {
-		qDebug() <<"device not open";
+        qDebug() << "Device is not open";
 		d->m_error = true;
-		d->m_msgError += "device is not open\n";
+        d->m_msgError = "Device is not open\n";
 		return;
 	}
 
     if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) == -1) {
 		qDebug() << "Could not open device" << d->m_devicePath;
 		d->m_error = true;
-		d->m_msgError += "could not open the device \n";
+        d->m_msgError = "Could not open the device \n";
 		return;
 	}
 
+    // Get the device ID
     if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info)) {
 		qDebug() << "Could not retrieve information of device" << d->m_devicePath;
-		d->m_msgError += "could not retrieve information of device\n";
+        d->m_msgError = "Could not retrieve information of device\n";
 		d->m_error = true;
 		return;
 	}
 
 	char name[256] = "Unknown";
-    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) < 0) {
-		qDebug() << "could not retrieve name of device" << d->m_devicePath;
-		d->m_msgError += "cannot retrieve name of device\n";
+    // Get the device name
+    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) == -1) {
+        qDebug() << "Could not retrieve name of device" << d->m_devicePath;
+        d->m_msgError = "Could not retrieve name of device\n";
 		d->m_error = true;
 		return;
 	}
@@ -139,6 +141,7 @@ void InputThread::readInformation()
 	unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 	int abs[5];
 	memset(bit, 0, sizeof(bit));
+    // Get event bits
 	ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
 	d->m_buttonCapabilities.clear();
@@ -150,6 +153,7 @@ void InputThread::readInformation()
 				continue;
 			}
 
+            // Get event bits
 			ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
             for (int j = 0; j < KEY_MAX; ++j) {
                 if (test_bit(j, bit[i])) {
@@ -162,10 +166,11 @@ void InputThread::readInformation()
 					}
 
                     if (i == EV_ABS) {
+                        // Get abs value/limits
 						ioctl(d->m_fd, EVIOCGABS(j), abs);
-						AbsVal cabs(0, 0, 0, 0);
+                        AbsVal cabs(0, 0, 0, 0);
                         for (int k = 0; k < 5; ++k) {
-                            if ((k < 3) || abs[k]) 	{
+                            if ((k < 3) || abs[k]) {
                                 switch (k) {
 									case 0:
 										cabs.value = abs[k];
@@ -291,7 +296,7 @@ GluonInput::DeviceFlag InputThread::deviceType()const
 
 bool InputThread::isEnabled() const
 {
-	return this->isRunning();
+    return isRunning();
 }
 
 bool InputThread::error()

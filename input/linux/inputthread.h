@@ -20,13 +20,14 @@
 #ifndef INPUTTHREAD_H
 #define INPUTTHREAD_H
 
+#include "gluonbuttons.h"
+#include "gluon_input_export.h"
+#include "absval.h"
+
 #include <QtCore/QThread>
 #include <QtCore/QMap>
 #include <QtCore/QSharedData>
 
-#include "gluonbuttons.h"
-#include "gluon_input_export.h"
-#include "absval.h"
 /**
  * \defgroup KCL KCL
  */
@@ -70,7 +71,7 @@ namespace GluonInput
             bool error();
             QString msgError();
 
-            QObject * getParent();
+            QObject *getParent();
 
 	    signals:
 			void relAxisMoved(int axis, int distance);

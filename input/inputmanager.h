@@ -19,10 +19,6 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QSharedData>
-
 #include "core/singleton.h"
 #include "gluon_input_export.h"
 
@@ -31,6 +27,10 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "tablet.h"
+
+#include <QtCore/QObject>
+#include <QtCore/QList>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {	

@@ -32,7 +32,7 @@ namespace GluonInput
     {
             Q_OBJECT
         public:
-            explicit Tablet(InputThread * inputThread, QObject * parent = 0);
+            explicit Tablet(InputThread *inputThread, QObject *parent = 0);
 
         private:
             QSharedDataPointer<TabletPrivate> d;

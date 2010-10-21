@@ -19,22 +19,22 @@
  */
 #include "detectlinux.h"
 
+#include "inputthread.h"
+#include "detectlinuxprivate.h"
+
+#include <core/debughelper.h>
+
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
-#include <core/debughelper.h>
-
-#include "inputthread.h"
-#include "detectlinuxprivate.h"
-
 using namespace GluonInput;
 
-DetectLinux::DetectLinux(QObject * parent)
+DetectLinux::DetectLinux(QObject *parent)
 		: Detect(parent)
+        , d(new DetectLinuxPrivate)
 {
-	d = new DetectLinuxPrivate();
 }
 
 DetectLinux::~DetectLinux()
@@ -56,11 +56,9 @@ void DetectLinux::detectDevices()
 	foreach(const QString &name, event.entryList(QDir::Files))
 	{
 		InputDevice *device = NULL;
-		InputThread* thread = new InputThread(path + name);
-		if (!thread->error())
-		{
-			switch (thread->deviceType())
-			{
+        InputThread *thread = new InputThread(path + name);
+        if (!thread->error()) {
+            switch (thread->deviceType()) {
 				case GluonInput::KeyboardDevice:
 					device = new Keyboard(thread);
 					detect->addKeyboard(device);
@@ -99,8 +97,7 @@ void DetectLinux::detectDevices()
 
 void DetectLinux::setAllEnabled(bool enable)
 {
-	foreach(InputDevice *input, this->getInputList())
-	{
+    foreach(InputDevice *input, inputList()) {
 		input->setEnabled(enable);
 	}
 }
@@ -122,25 +119,25 @@ void DetectLinux::addInput(InputDevice *i)
 
 void DetectLinux::addKeyboard(InputDevice *i)
 {
-	Keyboard * keybd = qobject_cast<Keyboard*>(i);
+    Keyboard *keybd = qobject_cast<Keyboard *>(i);
 	d->keyboardList.append(keybd);
 }
 
 void DetectLinux::addMouse(InputDevice *i)
 {
-	Mouse * mouse = (Mouse*)i;
+    Mouse *mouse = (Mouse *)i;
 	d->mouseList.append(mouse);
 }
 
 void DetectLinux::addJoystick(InputDevice *i)
 {
-	Joystick * joy = (Joystick*)i;
+    Joystick *joy = (Joystick *)i;
 	d->joystickList.append(joy);
 }
 
 void DetectLinux::addTablet(InputDevice *i)
 {
-	Tablet * tablet = (Tablet*)i;
+    Tablet *tablet = (Tablet *)i;
 	d->tabletList.append(tablet);
 }
 
@@ -149,32 +146,32 @@ void DetectLinux::addUnknown(InputDevice *i)
 	d->unknownList.append(i);
 }
 
-QList<InputDevice *> DetectLinux::getInputList()
+QList<InputDevice *> DetectLinux::inputList()
 {
 	return d->inputList;
 }
 
-QList<Keyboard *> DetectLinux::getKeyboardList()
+QList<Keyboard *> DetectLinux::keyboardList()
 {
 	return d->keyboardList;
 }
 
-QList<Mouse *> DetectLinux::getMouseList()
+QList<Mouse *> DetectLinux::mouseList()
 {
 	return d->mouseList;
 }
 
-QList<Joystick *> DetectLinux::getJoystickList()
+QList<Joystick *> DetectLinux::joystickList()
 {
 	return d->joystickList;
 }
 
-QList<Tablet *> DetectLinux::getTabletList()
+QList<Tablet *> DetectLinux::tabletList()
 {
 	return d->tabletList;
 }
 
-QList<InputDevice *> DetectLinux::getUnknownDeviceList()
+QList<InputDevice *> DetectLinux::unknownDeviceList()
 {
 	return d->unknownList;
 }

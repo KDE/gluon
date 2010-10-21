@@ -19,6 +19,9 @@
 #ifndef INPUTDEVICE_H
 #define INPUTDEVICE_H
 
+#include "inputthread.h"
+#include "gluondevices.h"
+
 #include <QtCore/QMap>
 #include <QtCore/QPair>
 #include <QtCore/QPoint>
@@ -26,9 +29,6 @@
 #include <QtCore/QEvent>
 #include <QtCore/QSharedData>
 #include <QtCore/QObject>
-
-#include "inputthread.h"
-#include "gluondevices.h"
 
 namespace GluonInput
 {
@@ -41,7 +41,7 @@ namespace GluonInput
 
         public:
             InputDevice();
-            explicit InputDevice(InputThread * inputThread, QObject * parent = 0);
+            explicit InputDevice(InputThread *inputThread, QObject *parent = 0);
             ~InputDevice();
 
             int vendor()const;
@@ -63,8 +63,8 @@ namespace GluonInput
             bool error()const;
 			QString msgError()const;
 
-            void setInputThread(InputThread * inputThread);
-            InputThread * inputThread() const;
+            void setInputThread(InputThread *inputThread);
+            InputThread *inputThread() const;
 
 			bool isEnabled() const;
             void setEnabled(bool enable);

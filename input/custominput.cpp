@@ -26,7 +26,7 @@
 
 using namespace GluonInput;
 
-CustomInput::CustomInput(QObject * parent)
+CustomInput::CustomInput(QObject *parent)
 		: QObject(parent)
 {
 	d = new CustomInputPrivate();
@@ -36,70 +36,64 @@ CustomInput::~CustomInput()
 {
 }
 
-void CustomInput::setButton(const QString &name, InputDevice* input, int keyCode)
+void CustomInput::setButton(const QString &name, InputDevice *input, int keyCode)
 {
-	if (!input->buttonCapabilities().contains(keyCode))
-	{
+    if (!input->buttonCapabilities().contains(keyCode)) {
 		qDebug() << "Cannot find keyCode for this input...";
 		return;
 	}
-	connect(input, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    connect(input, SIGNAL(eventSent(InputEvent *)), SLOT(inputEvent(InputEvent *)));
 	d->m_buttons.insert(name, qMakePair(input, keyCode));
 
 }
 
 void CustomInput::setButton(const QString &name)
 {
-	InputDevice * input = new InputDevice();
+    InputDevice *input = new InputDevice();
 	d->m_buttons.insert(name, qMakePair(input, 0));
 }
 
-void CustomInput::setAbsAxis(const QString &name, InputDevice * input, int axis)
+void CustomInput::setAbsAxis(const QString &name, InputDevice *input, int axis)
 {
-	if (!input->absAxisCapabilities().contains(axis))
-	{
+    if (!input->absAxisCapabilities().contains(axis)) {
 		qDebug() << "Cannot find keyCode for this input...";
 		return;
 	}
 	d->m_absAxis.insert(name, qMakePair(input, axis));
-	connect(input, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    connect(input, SIGNAL(eventSent(InputEvent *)), SLOT(inputEvent(InputEvent *)));
 }
 
-void CustomInput::setRelAxis(const QString &name, InputDevice* input, int axis)
+void CustomInput::setRelAxis(const QString &name, InputDevice *input, int axis)
 {
-	if (!input->relAxisCapabilities().contains(axis))
-	{
+    if (!input->relAxisCapabilities().contains(axis)) {
 		qDebug() << "Cannot find keyCode for this input...";
 		return;
 	}
 	d->m_absAxis.insert(name, qMakePair(input, axis));
-	connect(input, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    connect(input, SIGNAL(eventSent(InputEvent *)), SLOT(inputEvent(InputEvent *)));
 
 }
 
 void CustomInput::remButton(const QString &name)
 {
-	if (d->m_buttons.contains(name))
-	{
-		disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    if (d->m_buttons.contains(name)) {
+        disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent *)), this, SLOT(inputEvent(InputEvent *)));
 		d->m_buttons.remove(name);
 	}
 }
 
 void CustomInput::remAbsAxis(const QString &name)
 {
-	if (d->m_absAxis.contains(name))
-	{
-		disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    if (d->m_absAxis.contains(name)) {
+        disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent *)), this,  SLOT(inputEvent(InputEvent *)));
 		d->m_absAxis.remove(name);
 	}
 }
 
 void CustomInput::remRelAxis(const QString &name)
 {
-	if (d->m_relAxis.contains(name))
-	{
-		disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)));
+    if (d->m_relAxis.contains(name)) {
+        disconnect(d->m_buttons[name].first, SIGNAL(eventSent(InputEvent *)), this, SLOT(inputEvent(InputEvent *)));
 		d->m_relAxis.remove(name);
 	}
 }
@@ -215,9 +209,8 @@ int CustomInput::codeAt(const QString& name, GluonInput::InputTypeFlag type)
 QStringList CustomInput::buttonNameList()
 {
 	QStringList list;
-	QMapIterator  <QString, QPair<InputDevice*, int> >  i(d->m_buttons);
-	while (i.hasNext())
-	{
+    QMapIterator <QString, QPair<InputDevice *, int> >  i(d->m_buttons);
+    while (i.hasNext()) {
 		i.next();
 		list << i.key();
 	}
@@ -227,9 +220,8 @@ QStringList CustomInput::buttonNameList()
 QStringList CustomInput::absAxisNameList()
 {
 	QStringList list;
-	QMapIterator  <QString, QPair<InputDevice*, int> >  i(d->m_absAxis);
-	while (i.hasNext())
-	{
+    QMapIterator<QString, QPair<InputDevice *, int> >  i(d->m_absAxis);
+    while (i.hasNext()) {
 		i.next();
 		list << i.key();
 	}
@@ -239,9 +231,8 @@ QStringList CustomInput::absAxisNameList()
 QStringList CustomInput::relAxisNameList()
 {
 	QStringList list;
-	QMapIterator  <QString, QPair<InputDevice*, int> >  i(d->m_relAxis);
-	while (i.hasNext())
-	{
+    QMapIterator <QString, QPair<InputDevice *, int> >  i(d->m_relAxis);
+    while (i.hasNext()) {
 		i.next();
 		list << i.key();
 	}

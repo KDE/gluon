@@ -42,9 +42,9 @@ using namespace GluonInput;
 template<> InputManager *GluonCore::Singleton<InputManager>::m_instance = 0;
 
 InputManager::InputManager()
+    : d(new InputManagerPrivate)
 {
-	d = new InputManagerPrivate();
-	this->init();
+    init();
 }
 
 InputManager::~InputManager()
@@ -69,12 +69,11 @@ void InputManager::init()
 #ifdef Q_WS_WIN
 	d->m_instance = new DetectWin(parent);
 #endif
-	if(d->m_instance)
-	{
+    if(d->m_instance) {
 		d->m_instance->detectDevices();
-	}
-	else
+    }	else {
 		qDebug() << "Instance not created, fail!";
+    }
 }
 
 void InputManager::detectDevices()
@@ -94,100 +93,95 @@ unsigned int InputManager::deviceCount()
 
 unsigned int InputManager::keyboardCount()
 {
-	return d->m_instance->getKeyboardList().size();
+    return d->m_instance->keyboardList().size();
 }
 
 unsigned int InputManager::mouseCount()
 {
-	return d->m_instance->getMouseList().size();
+    return d->m_instance->mouseList().size();
 }
 
 unsigned int InputManager::joystickCount()
 {
-	return d->m_instance->getJoystickList().size();
+    return d->m_instance->joystickList().size();
 }
 
 unsigned int InputManager::tabletCount()
 {
-	return d->m_instance->getTabletList().size();
+    return d->m_instance->tabletList().size();
 }
 
 unsigned int InputManager::unknownDeviceCount()
 {
-	return d->m_instance->getUnknownDeviceList().size();
+    return d->m_instance->unknownDeviceList().size();
 }
 
-QList<Keyboard*> InputManager::keyboardList()
+QList<Keyboard *> InputManager::keyboardList()
 {
-	return d->m_instance->getKeyboardList();
+    return d->m_instance->keyboardList();
 }
 
-QList<Mouse*> InputManager::mouseList()
+QList<Mouse *> InputManager::mouseList()
 {
-	return d->m_instance->getMouseList();
+    return d->m_instance->mouseList();
 }
 
-QList<Joystick*> InputManager::joystickList()
+QList<Joystick *> InputManager::joystickList()
 {
-	return d->m_instance->getJoystickList();
+    return d->m_instance->joystickList();
 }
 
-QList<Tablet*> InputManager::tabletList()
+QList<Tablet *> InputManager::tabletList()
 {
-	return d->m_instance->getTabletList();
+    return d->m_instance->tabletList();
 }
 
-QList<InputDevice*> InputManager::unknownDeviceList()
+QList<InputDevice *> InputManager::unknownDeviceList()
 {
-	return d->m_instance->getUnknownDeviceList();
+    return d->m_instance->unknownDeviceList();
 }
 
 InputList InputManager::inputList()
 {
-	return d->m_instance->getInputList();
+    return d->m_instance->inputList();
 }
 
-Keyboard* InputManager::keyboard(int id)
+Keyboard *InputManager::keyboard(int id)
 {
-    if(d->m_instance->getKeyboardList().count() > 0)
-    {
-        return d->m_instance->getKeyboardList().at(id);
+    if (!d->m_instance->keyboardList().isEmpty()) {
+        return d->m_instance->keyboardList().at(id);
     }
     return 0;
 }
 
-Mouse* InputManager::mouse(int id)
+Mouse *InputManager::mouse(int id)
 {
-    if(d->m_instance->getMouseList().count() > 0)
-    {
-        return d->m_instance->getMouseList().at(id);
+    if (!d->m_instance->mouseList().isEmpty()) {
+        return d->m_instance->mouseList().at(id);
     }
     return 0;
 }
 
-Joystick* InputManager::joystick(int id)
+Joystick *InputManager::joystick(int id)
 {
-    if(d->m_instance->getJoystickList().count() > 0)
-    {
-        return d->m_instance->getJoystickList().at(id);
+    if (!d->m_instance->joystickList().isEmpty()) {
+        return d->m_instance->joystickList().at(id);
     }
     return 0;
 }
 
-Tablet* InputManager::tablet(int id)
+Tablet *InputManager::tablet(int id)
 {
-    if(d->m_instance->getTabletList().count() > 0)
-    {
-        return d->m_instance->getTabletList().at(id);
+    if (!d->m_instance->tabletList().isEmpty()) {
+        return d->m_instance->tabletList().at(id);
     }
     return 0;
 }
 
-InputDevice* InputManager::input(int id)
+InputDevice *InputManager::input(int id)
 {
-    if(d->m_instance->getInputList().count() > 0)
-    {
-        return d->m_instance->getInputList().at(id);
+    if (!d->m_instance->inputList().isEmpty()) {
+        return d->m_instance->inputList().at(id);
     }
     return 0;
 }

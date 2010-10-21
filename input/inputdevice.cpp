@@ -32,16 +32,16 @@
 
 using namespace GluonInput;
 
-InputDevice::InputDevice(InputThread * inputThread, QObject * parent)
+InputDevice::InputDevice(InputThread *inputThread, QObject *parent)
 	: QObject(parent)
+    , d(new InputDevicePrivate)
 {
-	d = new InputDevicePrivate();
 	d->inputThread = inputThread;
 	d->inputThread->setParent(this);	
 	d->inputBuffer = new InputBuffer();
 	d->inputBuffer->setParent(this);
 	
-	connect(inputThread, SIGNAL(buttonStateChanged(int, int)), this, SLOT(buttonStateChanged(int, int)), Qt::DirectConnection);
+    connect(inputThread, SIGNAL(buttonStateChanged(int, int)), SLOT(buttonStateChanged(int, int)), Qt::DirectConnection);
 }
 
 InputDevice::InputDevice()
@@ -124,12 +124,9 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled(bool enable)
 {
-  if(enable && !d->inputThread->isEnabled())
-  {
+  if (enable && !d->inputThread->isEnabled()) {
 	d->inputThread->start();
-  }
-  else if (!enable && d->inputThread->isEnabled())
-  {
+  } else if (!enable && d->inputThread->isEnabled()) {
 	d->inputThread->stop();
   }
 }
@@ -153,16 +150,15 @@ bool InputDevice::buttonPressed(int code) const
 
 QString InputDevice::buttonName(int code) const
 {
-	return GluonButtons::instance()->buttonName(this->deviceType(), code);
+    return GluonButtons::instance()->buttonName(deviceType(), code);
 }
 
 QString InputDevice::axisName(int code) const
 {
-	switch (this->deviceType())
-	{
+    switch (deviceType()) {
 		case MouseDevice:
 		case JoystickDevice:
-			return GluonButtons::instance()->axisName(this->deviceType(), code);
+            return GluonButtons::instance()->axisName(deviceType(), code);
 			break;
 		default:
 			return "Unknown";

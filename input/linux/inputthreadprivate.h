@@ -20,13 +20,13 @@
 #ifndef INPUTTHREADPRIVATE_H
 #define INPUTTHREADPRIVATE_H
 
+#include "gluonbuttons.h"
+#include "absval.h"
+
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QMap>
 #include <QtCore/QString>
-
-#include "gluonbuttons.h"
-#include "absval.h"
 
 namespace GluonInput
 {

@@ -21,11 +21,11 @@
 
 using namespace GluonInput;
 
-Joystick::Joystick(InputThread * inputThread, QObject * parent) : InputDevice(inputThread, parent)
+Joystick::Joystick(InputThread *inputThread, QObject *parent)
+    : InputDevice(inputThread, parent)
+    , d(new JoystickPrivate)
 {
-	d = new JoystickPrivate();
-
-	connect(inputThread, SIGNAL(absAxisMoved(int, int)), this, SLOT(joystickMoved(int, int)), Qt::DirectConnection);
+    connect(inputThread, SIGNAL(absAxisMoved(int, int)), SLOT(joystickMoved(int, int)), Qt::DirectConnection);
 }
 
 int Joystick::axisX() const

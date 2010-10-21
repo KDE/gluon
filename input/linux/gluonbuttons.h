@@ -20,11 +20,11 @@
 #ifndef GLUONBUTTONS_H
 #define GLUONBUTTONS_H
 
-#include <QtCore/QObject>
-
 #include "gluon_input_export.h"
 #include "core/singleton.h"
 #include "gluondevices.h"
+
+#include <QtCore/QObject>
 
 namespace GluonInput 
 {
