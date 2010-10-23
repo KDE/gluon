@@ -130,19 +130,19 @@ void DetectLinux::addKeyboard(InputDevice *i)
 
 void DetectLinux::addMouse(InputDevice *i)
 {
-    Mouse *mouse = (Mouse *)i;
+    Mouse *mouse = qobject_cast<Mouse *>(i);
     d->mouseList.append(mouse);
 }
 
 void DetectLinux::addJoystick(InputDevice *i)
 {
-    Joystick *joy = (Joystick *)i;
+    Joystick *joy = qobject_cast<Joystick *>(i);
     d->joystickList.append(joy);
 }
 
 void DetectLinux::addTouch(InputDevice *i)
 {
-    Touch *touch = (Touch *)i;
+    Touch *touch = qobject_cast<Touch *>(i);
     d->touchList.append(touch);
 }
 

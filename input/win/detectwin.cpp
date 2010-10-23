@@ -43,8 +43,8 @@ class DetectWin::DetectWinPrivate
 };
 
 DetectWin::DetectWin(QObject * parent)
-        : Detect(parent),
-          d(new DetectWinPrivate)
+        : Detect(parent)
+	, d(new DetectWinPrivate)
 {
 }
 
@@ -59,8 +59,7 @@ void DetectWin::detectDevices()
 
 void DetectWin::setAllEnabled(bool enable)
 {
-    foreach(InputDevice *input, this->getInputList())
-    {
+    foreach(InputDevice *input, inputList()) {
         input->setEnabled(enable);
     }
 }
@@ -82,25 +81,25 @@ void DetectWin::addInput(InputDevice *i)
 
 void DetectWin::addKeyboard(InputDevice *i)
 {
-    Keyboard * keybd = qobject_cast<Keyboard*>(i);
+    Keyboard *keybd = qobject_cast<Keyboard *>(i);
     d->keyboardList.append(keybd);
 }
 
 void DetectWin::addMouse(InputDevice *i)
 {
-    Mouse * mouse = (Mouse*)i;
+    Mouse *mouse = qobject_cast<Mouse *>(i);
     d->mouseList.append(mouse);
 }
 
 void DetectWin::addJoystick(InputDevice *i)
 {
-    Joystick * joy = (Joystick*)i;
+    Joystick *joy = qobject_cast<Joystick *>(i);
     d->joystickList.append(joy);
 }
 
 void DetectWin::addTouch(InputDevice *i)
 {
-    Touch *touch = (Touch *)i;
+    Touch *touch = qobject_cast<Touch *>(i);
     d->touchList.append(touch);
 }
 
@@ -109,32 +108,32 @@ void DetectWin::addUnknown(InputDevice *i)
     d->unknownList.append(i);
 }
 
-QList<InputDevice *> DetectWin::getInputList()
+QList<InputDevice *> DetectWin::inputList()
 {
     return d->inputList;
 }
 
-QList<Keyboard *> DetectWin::getKeyboardList()
+QList<Keyboard *> DetectWin::keyboardList()
 {
     return d->keyboardList;
 }
 
-QList<Mouse *> DetectWin::getMouseList()
+QList<Mouse *> DetectWin::mouseList()
 {
     return d->mouseList;
 }
 
-QList<Joystick *> DetectWin::getJoystickList()
+QList<Joystick *> DetectWin::joystickList()
 {
     return d->joystickList;
 }
 
-QList<Touch *> DetectWin::getTouchList()
+QList<Touch *> DetectWin::touchList()
 {
     return d->touchList;
 }
 
-QList<InputDevice *> DetectWin::getUnknownDeviceList()
+QList<InputDevice *> DetectWin::unknownDeviceList()
 {
     return d->unknownList;
 }
