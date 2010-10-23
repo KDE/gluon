@@ -259,17 +259,17 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 	}
 }
 
-int InputThread::getJoystickXAxis()
+int InputThread::joystickXAxis()
 {
 	return d->xAbsUsage;
 }
 
-int InputThread::getJoystickYAxis()
+int InputThread::joystickYAxis()
 {
 	return d->yAbsUsage;
 }
 
-int InputThread::getJoystickZAxis()
+int InputThread::joystickZAxis()
 {
 	return d->zAbsUsage;
 }

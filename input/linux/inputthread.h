@@ -48,9 +48,9 @@ namespace GluonInput
 
             const QString devicePath() const;
 
-            int getJoystickXAxis();
-            int getJoystickYAxis();
-            int getJoystickZAxis();
+            int joystickXAxis();
+            int joystickYAxis();
+            int joystickZAxis();
             void stop();
 
             int vendor()const;
@@ -71,7 +71,7 @@ namespace GluonInput
             bool error();
             QString msgError();
 
-            QObject *getParent();
+            QObject *parent();
 
 	    signals:
 			void relAxisMoved(int axis, int distance);

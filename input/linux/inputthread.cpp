@@ -224,17 +224,17 @@ void InputThread::readInformation()
 	}
 }
 
-int InputThread::getJoystickXAxis()
+int InputThread::joystickXAxis()
 {
 	return ABS_X;
 }
 
-int InputThread::getJoystickYAxis()
+int InputThread::joystickYAxis()
 {
 	return ABS_Y;
 }
 
-int InputThread::getJoystickZAxis()
+int InputThread::joystickZAxis()
 {
 	return ABS_Z;
 }
