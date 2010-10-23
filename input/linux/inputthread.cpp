@@ -203,7 +203,7 @@ void InputThread::readInformation()
 	d->m_deviceType = GluonInput::UnknownDevice;
 
     if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
-		d->m_deviceType  = GluonInput::TabletDevice;
+		d->m_deviceType  = GluonInput::TouchDevice;
 	}
 
 	if (d->m_buttonCapabilities.contains(BTN_STYLUS)

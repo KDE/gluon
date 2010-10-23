@@ -38,7 +38,7 @@ class DetectWin::DetectWinPrivate
         QList<Keyboard *> keyboardList;
         QList<Mouse *> mouseList;
         QList<Joystick *> joystickList;
-        QList<Tablet *> tabletList;
+        QList<Touch *> touchList;
         QList<InputDevice *> unknownList;
 };
 
@@ -71,7 +71,7 @@ void DetectWin::clear()
     d->keyboardList.clear();
     d->mouseList.clear();
     d->joystickList.clear();
-    d->tabletList.clear();
+    d->touchList.clear();
     d->unknownList.clear();
 }
 
@@ -98,10 +98,10 @@ void DetectWin::addJoystick(InputDevice *i)
     d->joystickList.append(joy);
 }
 
-void DetectWin::addTablet(InputDevice *i)
+void DetectWin::addTouch(InputDevice *i)
 {
-    Tablet * tablet = (Tablet*)i;
-    d->tabletList.append(tablet);
+    Touch *touch = (Touch *)i;
+    d->touchList.append(touch);
 }
 
 void DetectWin::addUnknown(InputDevice *i)
@@ -129,9 +129,9 @@ QList<Joystick *> DetectWin::getJoystickList()
     return d->joystickList;
 }
 
-QList<Tablet *> DetectWin::getTabletList()
+QList<Touch *> DetectWin::getTouchList()
 {
-    return d->tabletList;
+    return d->touchList;
 }
 
 QList<InputDevice *> DetectWin::getUnknownDeviceList()

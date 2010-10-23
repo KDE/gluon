@@ -84,9 +84,9 @@ void DetectLinux::detectDevices()
                 detect->addJoystick(device);
                 break;
 
-            case GluonInput::TabletDevice:
-                device = new Tablet(thread);
-                detect->addTablet(device);
+            case GluonInput::TouchDevice:
+                device = new Touch(thread);
+                detect->addTouch(device);
                 break;
 
             case GluonInput::UnknownDevice:
@@ -113,7 +113,7 @@ void DetectLinux::clear()
     d->keyboardList.clear();
     d->mouseList.clear();
     d->joystickList.clear();
-    d->tabletList.clear();
+    d->touchList.clear();
     d->unknownList.clear();
 }
 
@@ -140,10 +140,10 @@ void DetectLinux::addJoystick(InputDevice *i)
     d->joystickList.append(joy);
 }
 
-void DetectLinux::addTablet(InputDevice *i)
+void DetectLinux::addTouch(InputDevice *i)
 {
-    Tablet *tablet = (Tablet *)i;
-    d->tabletList.append(tablet);
+    Touch *touch = (Touch *)i;
+    d->touchList.append(touch);
 }
 
 void DetectLinux::addUnknown(InputDevice *i)
@@ -171,9 +171,9 @@ QList<Joystick *> DetectLinux::joystickList()
     return d->joystickList;
 }
 
-QList<Tablet *> DetectLinux::tabletList()
+QList<Touch *> DetectLinux::touchList()
 {
-    return d->tabletList;
+    return d->touchList;
 }
 
 QList<InputDevice *> DetectLinux::unknownDeviceList()

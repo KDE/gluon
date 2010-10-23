@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     qDebug() << "Number of keyboards available : "       << GluonInput::InputManager::instance()->keyboardCount();
     qDebug() << "Number of mice available : "          << GluonInput::InputManager::instance()->mouseCount();
     qDebug() << "Number of joysticks available : "       << GluonInput::InputManager::instance()->joystickCount();
-    qDebug() << "Number of tablets available : "         << GluonInput::InputManager::instance()->tabletCount();
+    qDebug() << "Number of touchs available : "         << GluonInput::InputManager::instance()->touchCount();
     qDebug() << "Number of unknown devices available : "  << GluonInput::InputManager::instance()->unknownDeviceCount();
 
     foreach(GluonInput::InputDevice * input, GluonInput::InputManager::instance()->inputList())
@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
             case GluonInput::JoystickDevice :
                 qDebug() << "this is a joystick";
                 break;
-            case GluonInput::TabletDevice :
-                qDebug() << "this is a tablet";
+            case GluonInput::TouchDevice :
+                qDebug() << "this is a touch";
                 break;
             case GluonInput::UnknownDevice:
                 qDebug() << "this is an unknown device";

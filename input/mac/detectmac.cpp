@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -47,7 +47,7 @@ void DetectMac::detectDevices()
 	{
 		d->deviceManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 	}
-	
+
 	CFMutableDictionaryRef dict;
 	CFMutableArrayRef matchingArray = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
 	//keyboard
@@ -71,84 +71,84 @@ void DetectMac::detectDevices()
 		CFArrayAppendValue(matchingArray, dict);
 		CFRelease(dict);
 	}
-	//digitizer / tablet
+	//digitizer / touch
 	dict = createMatchingDictionary(kHIDPage_Digitizer, kHIDUsage_Dig_Digitizer);
 	if(dict)
 	{
 		CFArrayAppendValue(matchingArray, dict);
 		CFRelease(dict);
-	}   
+	}
 	//touchpad
 	dict = createMatchingDictionary(kHIDPage_Digitizer, kHIDUsage_Dig_TouchPad);
 	if(dict)
 	{
 		CFArrayAppendValue(matchingArray, dict);
 		CFRelease(dict);
-	}   
-	
-	if ( CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID( ) ) 
+	}
+
+	if ( CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID( ) )
 	{
 		IOHIDManagerSetDeviceMatchingMultiple(d->deviceManager, matchingArray);
-		
+
 		if(IOHIDManagerOpen(d->deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess)
 		{
 			d->devices = IOHIDManagerCopyDevices(d->deviceManager);
-			
+
 			if(CFSetGetCount(d->devices) > 0)
-			{               
+			{
 				CFSetApplyFunction(d->devices, createDevices, this);
 			}
-		}        
+		}
 	}
 }
 
-QList<InputDevice *> DetectMac::getInputList() 
+QList<InputDevice *> DetectMac::getInputList()
 {
 	return d->m_inputList;
 }
 
-QList<Keyboard *> DetectMac::getKeyboardList() 
+QList<Keyboard *> DetectMac::getKeyboardList()
 {
 	return d->m_keyboardList;
 }
 
-QList<Mouse *> DetectMac::getMouseList() 
+QList<Mouse *> DetectMac::getMouseList()
 {
 	return d->m_mouseList;
 }
 
-QList<Joystick *> DetectMac::getJoystickList() 
+QList<Joystick *> DetectMac::getJoystickList()
 {
 	return d->m_joystickList;
 }
 
-QList<Tablet *> DetectMac::getTabletList() 
+QList<Touch *> DetectMac::getTouchList()
 {
-	return d->m_tabletList;
+	return d->m_touchList;
 }
 
-QList<InputDevice *> DetectMac::getUnknownDeviceList() 
+QList<InputDevice *> DetectMac::getUnknownDeviceList()
 {
 	return d->m_unknownList;
 }
 
 
-void DetectMac::addInput(InputDevice *i) 
+void DetectMac::addInput(InputDevice *i)
 {
 	d->m_inputList.append(i);
 }
 
 void DetectMac::addKeyboard(InputDevice *i)
 {
-	Keyboard * keybd = (Keyboard*) i;
+	Keyboard *keybd = (Keyboard *)i;
 	//keybd->setEnabled();
 	d->m_keyboardList.append(keybd);
 	d->m_inputList.append(i);
 }
 
-void DetectMac::addMouse(InputDevice *i) 
+void DetectMac::addMouse(InputDevice *i)
 {
-	Mouse * mouse = (Mouse*) i;
+	Mouse *mouse = (Mouse *)i;
 	//mouse->setEnabled();
 	d->m_mouseList.append(mouse);
 	d->m_inputList.append(i);
@@ -156,21 +156,21 @@ void DetectMac::addMouse(InputDevice *i)
 
 void DetectMac::addJoystick(InputDevice *i)
 {
-	Joystick * joy = (Joystick*) i;
+	Joystick *joy = (Joystick *)i;
 	//joy->setEnabled();
 	d->m_joystickList.append(joy);
 	d->m_inputList.append(i);
 }
 
-void DetectMac::addTablet(InputDevice *i) 
+void DetectMac::addTouch(InputDevice *i)
 {
-	Tablet * tablet = (Tablet*) i;
-	//tablet->setEnabled();
-	d->m_tabletList.append(tablet);
+	Touch *touch = (Touch *)i;
+	// touch->setEnabled();
+	d->m_touchList.append(touch);
 	d->m_inputList.append(i);
 }
 
-void DetectMac::addUnknown(InputDevice *i) 
+void DetectMac::addUnknown(InputDevice *i)
 {
 	d->m_unknownList.append(i);
 	d->m_inputList.append(i);
@@ -182,7 +182,7 @@ void DetectMac::clear()
 	d->m_keyboardList.clear();
 	d->m_mouseList.clear();
 	d->m_joystickList.clear();
-	d->m_tabletList.clear();
+	d->m_touchList.clear();
 	d->m_unknownList.clear();
 }
 
@@ -192,86 +192,86 @@ void DetectMac::setAllEnabled(bool enable)
 	{
 		input->setEnabled(enable);
 	}
-}  
+}
 
 void DetectMac::createDevices(const void *value, void *context)
 {
 	IOHIDDeviceRef device = (IOHIDDeviceRef) value;
 	DetectMac* detect = (DetectMac*) context;
-	
-	if ( CFGetTypeID( device ) == IOHIDDeviceGetTypeID( ) ) 
+
+	if ( CFGetTypeID( device ) == IOHIDDeviceGetTypeID( ) )
 	{
 		IOHIDDeviceOpen(device,kIOHIDOptionsTypeNone);
-		
+
 		int usagePage = NULL;
-		int usage = NULL; 
-		
+		int usage = NULL;
+
 		CFTypeRef type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDDeviceUsagePageKey ) );
-		
-		if ( type ) 
+
+		if ( type )
 		{
 			// if this is a number
-			if ( CFNumberGetTypeID() == CFGetTypeID( type ) ) 
+			if ( CFNumberGetTypeID() == CFGetTypeID( type ) )
 			{
 				// get it's value
 				CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &usagePage );
 			}
 			CFRelease(type);
 		}
-		
+
 		type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDDeviceUsageKey ) );
-		
-		if ( type ) 
+
+		if ( type )
 		{
 			// if this is a number
-			if ( CFNumberGetTypeID() == CFGetTypeID( type ) ) 
+			if ( CFNumberGetTypeID() == CFGetTypeID( type ) )
 			{
 				// get it's value
 				CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &usage );
 			}
 			CFRelease(type);
 		}
-		
+
 		if(!usage || !usagePage)
 		{
 			type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDPrimaryUsagePageKey ) );
-			
-			if ( type ) 
+
+			if ( type )
 			{
 				// if this is a number
-				if ( CFNumberGetTypeID() == CFGetTypeID( type ) ) 
+				if ( CFNumberGetTypeID() == CFGetTypeID( type ) )
 				{
 					// get it's value
 					CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &usagePage );
 				}
 				CFRelease(type);
 			}
-			
+
 			type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDPrimaryUsageKey ) );
 
-			if ( type ) 
+			if ( type )
 			{
 				// if this is a number
-				if ( CFNumberGetTypeID() == CFGetTypeID( type ) ) 
+				if ( CFNumberGetTypeID() == CFGetTypeID( type ) )
 				{
 					// get it's value
 					CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &usage );
 				}
 				CFRelease(type);
 			}
-			
+
 		}
-		
+
 		if(!usage || !usagePage)
 		{
 			usagePage = 0;
 		}
 
-		
+
 		InputDevice* inputDevice;
 		if(usagePage == kHIDPage_GenericDesktop)
 		{
-			switch (usage) 
+			switch (usage)
 			{
 				case GluonInput::KeyboardDevice:
 					inputDevice = new Keyboard(new InputThread(device));
@@ -293,13 +293,13 @@ void DetectMac::createDevices(const void *value, void *context)
 		}
 		else if(usagePage == kHIDPage_Digitizer)
 		{
-			switch (usage) 
+			switch (usage)
 			{
 				/*case GluonInput::TouchpadDevice:
 					break;*/
-				case GluonInput::TabletDevice:
-					inputDevice = new Tablet(new InputThread(device));
-					detect->addTablet(inputDevice);
+				case GluonInput::TouchDevice:
+					inputDevice = new Touch(new InputThread(device));
+					detect->addTouch(inputDevice);
 					break;
 				default:
 					inputDevice = new InputDevice(new InputThread(device));
@@ -324,7 +324,7 @@ CFMutableDictionaryRef DetectMac::createMatchingDictionary(UInt32 pUsagePage, UI
 		CFRelease(usage);
 		return matchDict;
 	}
-	else 
+	else
 	{
 		return NULL;
 	}

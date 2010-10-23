@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,7 +28,7 @@ namespace GluonInput
 {
 	class Joystick;
 	class Mouse;
-	class Tablet;
+	class Touch;
 	class Keyboard;
     class InputDevice;
 
@@ -46,14 +46,14 @@ namespace GluonInput
             virtual QList<Keyboard *> keyboardList() = 0;
             virtual QList<Mouse *> mouseList() = 0;
             virtual QList<Joystick *> joystickList() = 0;
-            virtual QList<Tablet *> tabletList() = 0;
+            virtual QList<Touch *> touchList() = 0;
             virtual QList<InputDevice *> unknownDeviceList() = 0;
 
             virtual void addInput(InputDevice *i) = 0;
             virtual void addKeyboard(InputDevice *i) = 0;
             virtual void addMouse(InputDevice *i) = 0;
             virtual void addJoystick(InputDevice *i) = 0;
-            virtual void addTablet(InputDevice *i) = 0;
+            virtual void addTouch(InputDevice *i) = 0;
             virtual void addUnknown(InputDevice *i) = 0;
             virtual void clear() = 0;
 	};

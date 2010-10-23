@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -33,20 +33,20 @@ InputThread::InputThread(IOHIDDeviceRef pDevice, QObject * parent)
 	d = new InputThreadPrivate();
 	d->device = pDevice;
 	IOHIDDeviceOpen(d->device, kIOHIDOptionsTypeNone);
-	
+
 	IOHIDDeviceScheduleWithRunLoop( d->device, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
 
 	d->error = false;
 	d->msgError.clear();
 	d->deviceName = "Unknown";
-	
+
 	this->readInformation();
 }
 
 InputThread::~InputThread()
 {
 	IOHIDDeviceUnscheduleFromRunLoop(d->device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
-	
+
 	IOHIDDeviceClose(d->device, kIOHIDOptionsTypeNone);
 	CFRelease(d->device);
 }
@@ -204,8 +204,8 @@ void InputThread::readInformation()
 		case GluonInput::JoystickDevice:
 			d->deviceType = GluonInput::JoystickDevice;
 			break;
-		case GluonInput::TabletDevice:
-			d->deviceType = GluonInput::TabletDevice;
+		case GluonInput::TouchDevice:
+			d->deviceType = GluonInput::TouchDevice;
 			break;
 		default:
 			d->deviceType = GluonInput::UnknownDevice;
@@ -220,18 +220,18 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 	if(inResult == kIOReturnSuccess && CFGetTypeID(deviceRef) == IOHIDDeviceGetTypeID())
 	{
 		IOHIDElementRef elementRef = IOHIDValueGetElement(inIOHIDValueRef);
-		
+
 		int usagePage = IOHIDElementGetUsagePage( elementRef );
 		int usage = IOHIDElementGetUsage( elementRef );
 		int value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
-		
+
 		if(usagePage == kHIDPage_GenericDesktop || usagePage == kHIDPage_KeyboardOrKeypad || usagePage == kHIDPage_Button)
 		{
 			if(usagePage == kHIDPage_GenericDesktop && usage == 60)
 				return;
 			else if(usagePage == kHIDPage_KeyboardOrKeypad && (usage <= 3 || usage > 231))
 				return;
-			
+
 			switch (currentThread->deviceType())
 			{
 				case GluonInput::MouseDevice:
@@ -247,7 +247,7 @@ void InputThread::deviceReport(void * inContext, IOReturn inResult, void * inSen
 					{
 						if(value == 0)
 							return;
-						
+
 						currentThread->absAxisMoved(usage, value);
 					}
 					break;
