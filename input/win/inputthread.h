@@ -32,13 +32,13 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
         public:
-            explicit InputThread(const QString& devicePath, QObject *parent = 0);
+            explicit InputThread(const QString &devicePath, QObject *parent = 0);
             ~InputThread();
             void run();
 
-            int getJoystickXAxis();
-            int getJoystickYAxis();
-            int getJoystickZAxis();
+            int joystickXAxis();
+            int joystickYAxis();
+            int joystickZAxis();
             void stop();
 
             int vendor()const;
@@ -59,11 +59,11 @@ namespace GluonInput
             bool error();
             QString msgError();
 
-            QObject * getParent();
+            QObject *parent();
 
         private:
             class InputThreadPrivate;
-            InputThreadPrivate * const d;
+            InputThreadPrivate *const d;
     };
 }
 
