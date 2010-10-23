@@ -61,17 +61,17 @@ void InputThread::run()
 {
 }
 
-int InputThread::getJoystickXAxis()
+int InputThread::joystickXAxis()
 {
     return 0;
 }
 
-int InputThread::getJoystickYAxis()
+int InputThread::joystickYAxis()
 {
     return 0;
 }
 
-int InputThread::getJoystickZAxis()
+int InputThread::joystickZAxis()
 {
     return 0;
 }

@@ -88,42 +88,42 @@ void DetectMac::detectDevices()
     if (CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID()) {
         IOHIDManagerSetDeviceMatchingMultiple(d->deviceManager, matchingArray);
 
-        if(IOHIDManagerOpen(d->deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
+        if (IOHIDManagerOpen(d->deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
             d->devices = IOHIDManagerCopyDevices(d->deviceManager);
 
-            if(CFSetGetCount(d->devices) > 0) {
+            if (CFSetGetCount(d->devices) > 0) {
                 CFSetApplyFunction(d->devices, createDevices, this);
             }
         }
     }
 }
 
-QList<InputDevice *> DetectMac::getInputList()
+QList<InputDevice *> DetectMac::inputList()
 {
     return d->m_inputList;
 }
 
-QList<Keyboard *> DetectMac::getKeyboardList()
+QList<Keyboard *> DetectMac::keyboardList()
 {
     return d->m_keyboardList;
 }
 
-QList<Mouse *> DetectMac::getMouseList()
+QList<Mouse *> DetectMac::mouseList()
 {
     return d->m_mouseList;
 }
 
-QList<Joystick *> DetectMac::getJoystickList()
+QList<Joystick *> DetectMac::joystickList()
 {
     return d->m_joystickList;
 }
 
-QList<Touch *> DetectMac::getTouchList()
+QList<Touch *> DetectMac::touchList()
 {
     return d->m_touchList;
 }
 
-QList<InputDevice *> DetectMac::getUnknownDeviceList()
+QList<InputDevice *> DetectMac::unknownDeviceList()
 {
     return d->m_unknownList;
 }
@@ -136,7 +136,7 @@ void DetectMac::addInput(InputDevice *i)
 
 void DetectMac::addKeyboard(InputDevice *i)
 {
-    Keyboard *keybd = (Keyboard *)i;
+    Keyboard *keybd = qobject_cast<Keyboard *>(i);
     //keybd->setEnabled();
     d->m_keyboardList.append(keybd);
     d->m_inputList.append(i);
@@ -144,7 +144,7 @@ void DetectMac::addKeyboard(InputDevice *i)
 
 void DetectMac::addMouse(InputDevice *i)
 {
-    Mouse *mouse = (Mouse *)i;
+    Mouse *mouse = qobject_cast<Mouse *>(i);
     //mouse->setEnabled();
     d->m_mouseList.append(mouse);
     d->m_inputList.append(i);
@@ -152,7 +152,7 @@ void DetectMac::addMouse(InputDevice *i)
 
 void DetectMac::addJoystick(InputDevice *i)
 {
-    Joystick *joy = (Joystick *)i;
+    Joystick *joy = qobject_cast<Joystick *>(i);
     //joy->setEnabled();
     d->m_joystickList.append(joy);
     d->m_inputList.append(i);
@@ -160,7 +160,7 @@ void DetectMac::addJoystick(InputDevice *i)
 
 void DetectMac::addTouch(InputDevice *i)
 {
-    Touch *touch = (Touch *)i;
+    Touch *touch = qobject_cast<Touch *>(i);
     // touch->setEnabled();
     d->m_touchList.append(touch);
     d->m_inputList.append(i);
@@ -184,17 +184,17 @@ void DetectMac::clear()
 
 void DetectMac::setAllEnabled(bool enable)
 {
-    foreach (InputDevice *input, getInputList()) {
+    foreach (InputDevice *input, inputList()) {
         input->setEnabled(enable);
     }
 }
 
 void DetectMac::createDevices(const void *value, void *context)
 {
-    IOHIDDeviceRef device = (IOHIDDeviceRef) value;
-    DetectMac* detect = (DetectMac*) context;
+    IOHIDDeviceRef device = (IOHIDDeviceRef)value;
+    DetectMac *detect = (DetectMac *) context;
 
-    if(CFGetTypeID(device) == IOHIDDeviceGetTypeID()) {
+    if (CFGetTypeID(device) == IOHIDDeviceGetTypeID()) {
         IOHIDDeviceOpen(device,kIOHIDOptionsTypeNone);
 
         int usagePage = NULL;
@@ -240,7 +240,7 @@ void DetectMac::createDevices(const void *value, void *context)
                 // if this is a number
                 if (CFNumberGetTypeID() == CFGetTypeID(type)) {
                     // get it's value
-                    CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &usage );
+                    CFNumberGetValue((CFNumberRef)type, kCFNumberSInt32Type, &usage);
                 }
                 CFRelease(type);
             }
@@ -250,7 +250,6 @@ void DetectMac::createDevices(const void *value, void *context)
         if (!usage || !usagePage) {
             usagePage = 0;
         }
-
 
         InputDevice *inputDevice;
         if (usagePage == kHIDPage_GenericDesktop) {
