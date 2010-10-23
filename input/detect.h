@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef DETECT_H
 #define DETECT_H
 
@@ -26,15 +27,15 @@
 
 namespace GluonInput
 {
-	class Joystick;
-	class Mouse;
-	class Touch;
-	class Keyboard;
+    class Joystick;
+    class Mouse;
+    class Touch;
+    class Keyboard;
     class InputDevice;
 
     class GLUON_INPUT_EXPORT Detect : public QObject
     {
-            Q_OBJECT
+        Q_OBJECT
 
         public:
             Detect(QObject *parent = 0);
@@ -56,6 +57,6 @@ namespace GluonInput
             virtual void addTouch(InputDevice *i) = 0;
             virtual void addUnknown(InputDevice *i) = 0;
             virtual void clear() = 0;
-	};
+    };
 }
 #endif

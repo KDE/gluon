@@ -21,11 +21,11 @@
 #ifndef INPUTTHREAD_H
 #define INPUTTHREAD_H
 
-#include <QtCore/QThread>
-
 #include "gluon_input_export.h"
 #include "gluonbuttons.h"
 #include "absval.h"
+
+#include <QtCore/QThread>
 
 namespace GluonInput
 {
@@ -41,18 +41,18 @@ namespace GluonInput
             int joystickZAxis();
             void stop();
 
-            int vendor()const;
-            int product()const;
-            int version()const;
-            int bustype()const;
+            int vendor() const;
+            int product() const;
+            int version() const;
+            int bustype() const;
 
-            QList<int> buttonCapabilities()const;
-            QList<int> absAxisCapabilities()const;
-            QList<int> relAxisCapabilities()const;
-            AbsVal axisInfo(int axisCode)const;
+            QList<int> buttonCapabilities() const;
+            QList<int> absAxisCapabilities() const;
+            QList<int> relAxisCapabilities() const;
+            AbsVal axisInfo(int axisCode) const;
 
             const QString deviceName() const;
-            GluonInput::DeviceFlag deviceType()const;
+            GluonInput::DeviceFlag deviceType() const;
 
             bool isEnabled() const;
 

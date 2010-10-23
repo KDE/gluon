@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -27,8 +27,8 @@
 using namespace GluonInput;
 
 InputBuffer::InputBuffer()
+    : d(new InputBufferPrivate())
 {
-	d = new InputBufferPrivate();
 }
 
 InputBuffer::~InputBuffer()
@@ -36,34 +36,28 @@ InputBuffer::~InputBuffer()
 }
 
 bool InputBuffer::buttonState(int button)
-{	
-	if(d->buttonState[button].isEmpty())
-	      return false;
-	
-	bool returnBool = false;
-	if(d->buttonState[button].count() > 1)
-	{
-	  returnBool = d->buttonState[button].dequeue();
-	  d->buttonState[button].clear();
-	}
-	else
-	{
-	  returnBool = d->buttonState[button].head();
-	}
-	
-	return returnBool; 
+{
+    if (d->buttonState[button].isEmpty())
+        return false;
+
+    bool returnBool = false;
+    if (d->buttonState[button].count() > 1) {
+        returnBool = d->buttonState[button].dequeue();
+        d->buttonState[button].clear();
+    } else {
+        returnBool = d->buttonState[button].head();
+    }
+
+    return returnBool;
 }
 
 void InputBuffer::setButtonState(int button, bool pressed)
 {
-	  if(pressed && d->buttonState[button].isEmpty())
-	  {
-	    d->buttonState[button].enqueue(pressed);
-	  }
-	  else if(!pressed && d->buttonState[button].count() == 1)
-	  {
-	    d->buttonState[button].enqueue(pressed);
-	  }
+    if (pressed && d->buttonState[button].isEmpty()) {
+        d->buttonState[button].enqueue(pressed);
+    } else if (!pressed && d->buttonState[button].count() == 1) {
+        d->buttonState[button].enqueue(pressed);
+    }
 }
 
 #include "inputbuffer.moc"

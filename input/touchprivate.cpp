@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "touchprivate.h"
 
 using namespace GluonInput;
@@ -25,6 +26,6 @@ TouchPrivate::TouchPrivate()
 }
 
 TouchPrivate::TouchPrivate(TouchPrivate &other)
-        : QSharedData(other)
+    : QSharedData(other)
 {
 }

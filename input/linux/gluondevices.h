@@ -22,6 +22,7 @@
 
 #include <QtCore/QFlags>
 #include <QtCore/QEvent>
+
 #include <linux/input.h>
 
 namespace GluonInput

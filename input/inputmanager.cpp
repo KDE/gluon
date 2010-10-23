@@ -18,10 +18,6 @@
  */
 #include "inputmanager.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtGui/QMessageBox>
-#include <QtCore/QDebug>
-
 #include "inputmanagerprivate.h"
 #include "gluondevices.h"
 
@@ -36,6 +32,10 @@
 #ifdef Q_WS_WIN
 #include "detectwin.h"
 #endif
+
+#include <QtCore/QCoreApplication>
+#include <QtGui/QMessageBox>
+#include <QtCore/QDebug>
 
 using namespace GluonInput;
 
@@ -53,42 +53,42 @@ InputManager::~InputManager()
 
 void InputManager::init()
 {
-	QObject *parent = QCoreApplication::instance();
-	if (!parent) {
-		qDebug() << "No QCoreApplication instance found, the InputManager instance may be leaked when leaving";
-	}
+    QObject *parent = QCoreApplication::instance();
+    if (!parent) {
+        qDebug() << "No QCoreApplication instance found, the InputManager instance may be leaked when leaving";
+    }
 
 #ifdef Q_WS_X11
-	d->m_instance = new DetectLinux(parent);
+    d->m_instance = new DetectLinux(parent);
 #endif
 
 #ifdef Q_WS_MAC
-	d->m_instance = new DetectMac(parent);
+    d->m_instance = new DetectMac(parent);
 #endif
 
 #ifdef Q_WS_WIN
-	d->m_instance = new DetectWin(parent);
+    d->m_instance = new DetectWin(parent);
 #endif
     if(d->m_instance) {
-		d->m_instance->detectDevices();
-    }	else {
-		qDebug() << "Instance not created, fail!";
+        d->m_instance->detectDevices();
+    } else {
+        qDebug() << "Instance not created, fail!";
     }
 }
 
 void InputManager::detectDevices()
 {
-	d->m_instance->detectDevices();
+    d->m_instance->detectDevices();
 }
 
 void InputManager::setAllEnabled(bool enable)
 {
-	d->m_instance->setAllEnabled(enable);
+    d->m_instance->setAllEnabled(enable);
 }
 
 unsigned int InputManager::deviceCount()
 {
-	return inputList().size();
+    return inputList().size();
 }
 
 unsigned int InputManager::keyboardCount()

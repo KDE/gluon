@@ -37,7 +37,7 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT DetectLinux : public Detect
     {
-            Q_OBJECT
+        Q_OBJECT
 
         public:
             DetectLinux(QObject *parent);

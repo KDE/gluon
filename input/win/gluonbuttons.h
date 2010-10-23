@@ -21,11 +21,11 @@
 #ifndef GLUONBUTTONS_H
 #define GLUONBUTTONS_H
 
-#include <QtCore/QObject>
-
 #include "gluon_input_export.h"
 #include "core/singleton.h"
 #include "gluondevices.h"
+
+#include <QtCore/QObject>
 
 namespace GluonInput
 {
@@ -36,8 +36,7 @@ namespace GluonInput
         Q_ENUMS(Relative)
 
         public:
-              enum Button
-              {
+              enum Button {
                 ESC = 1,
                 ONE,
                 TWO,
@@ -408,9 +407,8 @@ namespace GluonInput
                 FN_B
             };
 
-            enum Relative
-            {
-                X_REL = 0,
+            enum Relative {
+                X_REL,
                 Y_REL,
                 Z_REL,
                 HWHEEL = 6,
@@ -419,9 +417,8 @@ namespace GluonInput
                 MISC_REL
             };
 
-            enum Absolute
-            {
-                X_ABS= 0,
+            enum Absolute {
+                X_ABS,
                 Y_ABS,
                 Z_ABS,
                 Rx,
@@ -449,7 +446,7 @@ namespace GluonInput
                 MISC_ABS = 40
             };
 
-            QString buttonName(DeviceFlag deviceType , int code);
+            QString buttonName(DeviceFlag deviceType, int code);
             QString axisName(DeviceFlag deviceType, int code);
 
         private:

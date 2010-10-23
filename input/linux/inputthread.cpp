@@ -44,42 +44,39 @@
 using namespace GluonInput;
 
 InputThread::InputThread(const QString &devicePath, QObject *parent)
-		: QThread(parent)
-        , d(new InputThreadPrivate)
+    : QThread(parent)
+    , d(new InputThreadPrivate)
 {
-	d->m_devicePath = devicePath;
+    d->m_devicePath = devicePath;
     openDevice(devicePath);
 }
 
 InputThread::~InputThread()
 {
-	closeDevice();
+    closeDevice();
 }
 
 void InputThread::run()
 {
-	while (1)
-	{
-		struct input_event ev;
-		int rd = read(d->m_fd, &ev, sizeof(struct input_event));
-		if (rd >= (int) sizeof(struct input_event))
-		{
-			QEvent::Type eventType = QEvent::Type(QEvent::User + ev.type);
+    while (1) {
+        struct input_event ev;
+        int rd = read(d->m_fd, &ev, sizeof(struct input_event));
+        if (rd >= (int) sizeof(struct input_event)) {
+            QEvent::Type eventType = QEvent::Type(QEvent::User + ev.type);
 
-			switch(eventType)
-			{
-				case GluonInput::Button:
-					emit this->buttonStateChanged(ev.code, ev.value);
-					break;
-				case GluonInput::RelativeAxis:
-					emit this->relAxisMoved(ev.code, ev.value);
-					break;
-				case GluonInput::AbsoluteAxis:
-					emit this->absAxisMoved(ev.code, ev.value);
-					break;
-			}
-		}
-	}
+            switch (eventType) {
+            case GluonInput::Button:
+                emit this->buttonStateChanged(ev.code, ev.value);
+                break;
+            case GluonInput::RelativeAxis:
+                emit this->relAxisMoved(ev.code, ev.value);
+                break;
+            case GluonInput::AbsoluteAxis:
+                emit this->absAxisMoved(ev.code, ev.value);
+                break;
+            }
+        }
+    }
 }
 
 bool InputThread::openDevice(const QString &devicePath)
@@ -88,155 +85,155 @@ bool InputThread::openDevice(const QString &devicePath)
         qDebug() << "Could not open device: " << devicePath;
         d->m_error = true;
         d->m_msgError += "Could not open the device\n";
-		return false;
-	}
+        return false;
+    }
 
-	readInformation();
-	return true;
+    readInformation();
+    return true;
 }
 
 void InputThread::readInformation()
 {
-	/*if (!QFile::exists(d->m_devicePath))
-	{
-		qDebug() << "m_devicePath does not exist";
-		d->m_error = true;
-		d->m_msgError += "device url does not exist \n";
-		return;
-	}*/
+    /*if (!QFile::exists(d->m_devicePath))
+      {
+      qDebug() << "m_devicePath does not exist";
+      d->m_error = true;
+      d->m_msgError += "device url does not exist \n";
+      return;
+      }*/
 
     if (d->m_fd == -1) {
         qDebug() << "Device is not open";
-		d->m_error = true;
+        d->m_error = true;
         d->m_msgError = "Device is not open\n";
-		return;
-	}
+        return;
+    }
 
     if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) == -1) {
-		qDebug() << "Could not open device" << d->m_devicePath;
-		d->m_error = true;
+        qDebug() << "Could not open device" << d->m_devicePath;
+        d->m_error = true;
         d->m_msgError = "Could not open the device \n";
-		return;
-	}
+        return;
+    }
 
     // Get the device ID
     if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info)) {
-		qDebug() << "Could not retrieve information of device" << d->m_devicePath;
+        qDebug() << "Could not retrieve information of device" << d->m_devicePath;
         d->m_msgError = "Could not retrieve information of device\n";
-		d->m_error = true;
-		return;
-	}
+        d->m_error = true;
+        return;
+    }
 
-	char name[256] = "Unknown";
+    char name[256] = "Unknown";
     // Get the device name
     if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) == -1) {
         qDebug() << "Could not retrieve name of device" << d->m_devicePath;
         d->m_msgError = "Could not retrieve name of device\n";
-		d->m_error = true;
-		return;
-	}
-	d->m_deviceName = QString(name);
+        d->m_error = true;
+        return;
+    }
+    d->m_deviceName = QString(name);
 
-	///this next bit can be shared across platform
-	unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
-	int abs[5];
-	memset(bit, 0, sizeof(bit));
+    ///this next bit can be shared across platform
+    unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
+    int abs[5];
+    memset(bit, 0, sizeof(bit));
     // Get event bits
-	ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
+    ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
-	d->m_buttonCapabilities.clear();
-	d->m_absAxisInfos.clear();
+    d->m_buttonCapabilities.clear();
+    d->m_absAxisInfos.clear();
 
     for (int i = 0; i < EV_MAX; ++i) 	{
         if (test_bit(i, bit[0])) {
             if (!i) {
-				continue;
-			}
+                continue;
+            }
 
             // Get event bits
-			ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
+            ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
             for (int j = 0; j < KEY_MAX; ++j) {
                 if (test_bit(j, bit[i])) {
                     if (i == EV_KEY) {
-						d->m_buttonCapabilities.append(j);
-					}
+                        d->m_buttonCapabilities.append(j);
+                    }
 
                     if (i == EV_REL) {
-						d->m_relAxisCapabilities.append(j);
-					}
+                        d->m_relAxisCapabilities.append(j);
+                    }
 
                     if (i == EV_ABS) {
                         // Get abs value/limits
-						ioctl(d->m_fd, EVIOCGABS(j), abs);
+                        ioctl(d->m_fd, EVIOCGABS(j), abs);
                         AbsVal cabs(0, 0, 0, 0);
                         for (int k = 0; k < 5; ++k) {
                             if ((k < 3) || abs[k]) {
                                 switch (k) {
-									case 0:
-										cabs.value = abs[k];
-										break;
-									case 1:
-										cabs.min = abs[k];
-										break;
-									case 2:
-										cabs.max = abs[k];
-										break;
-									case 3:
-										cabs.fuzz = abs[k];
-										break;
-									case 4:
-										cabs.flat = abs[k];
-										break;
-								}
-							}
-						}
-						d->m_absAxisCapabilities.append(j);
-						d->m_absAxisInfos[j] = cabs;
-					}
-				}
-			}
-		}
-	}
+                                case 0:
+                                    cabs.value = abs[k];
+                                    break;
+                                case 1:
+                                    cabs.min = abs[k];
+                                    break;
+                                case 2:
+                                    cabs.max = abs[k];
+                                    break;
+                                case 3:
+                                    cabs.fuzz = abs[k];
+                                    break;
+                                case 4:
+                                    cabs.flat = abs[k];
+                                    break;
+                                }
+                            }
+                        }
+                        d->m_absAxisCapabilities.append(j);
+                        d->m_absAxisInfos[j] = cabs;
+                    }
+                }
+            }
+        }
+    }
 
-	//===============Find Force feedback ?? ===============
+    //===============Find Force feedback ?? ===============
 
-	d->m_deviceType = GluonInput::UnknownDevice;
+    d->m_deviceType = GluonInput::UnknownDevice;
 
     if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
-		d->m_deviceType  = GluonInput::TouchDevice;
-	}
+        d->m_deviceType  = GluonInput::TouchDevice;
+    }
 
-	if (d->m_buttonCapabilities.contains(BTN_STYLUS)
+    if (d->m_buttonCapabilities.contains(BTN_STYLUS)
             || d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
-		d->m_deviceType  = GluonInput::MouseDevice;
-	}
+        d->m_deviceType  = GluonInput::MouseDevice;
+    }
 
     if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
-		d->m_deviceType  = GluonInput::JoystickDevice;
-	}
+        d->m_deviceType  = GluonInput::JoystickDevice;
+    }
 
     if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
-		d->m_deviceType  = GluonInput::MouseDevice;
-	}
+        d->m_deviceType  = GluonInput::MouseDevice;
+    }
 
-	if (d->m_buttonCapabilities.contains(KEY_ESC))	{
-		d->m_deviceType  = GluonInput::KeyboardDevice;
-	}
+    if (d->m_buttonCapabilities.contains(KEY_ESC))	{
+        d->m_deviceType  = GluonInput::KeyboardDevice;
+    }
 }
 
 int InputThread::joystickXAxis()
 {
-	return ABS_X;
+    return ABS_X;
 }
 
 int InputThread::joystickYAxis()
 {
-	return ABS_Y;
+    return ABS_Y;
 }
 
 int InputThread::joystickZAxis()
 {
-	return ABS_Z;
+    return ABS_Z;
 }
 
 void InputThread::stop()
@@ -244,54 +241,54 @@ void InputThread::stop()
     quit();
 }
 
-int InputThread::vendor()const
+int InputThread::vendor() const
 {
-	return d->m_vendor;
+    return d->m_vendor;
 }
 
-int InputThread::product()const
+int InputThread::product() const
 {
-	return d->m_product;
+    return d->m_product;
 }
 
-int InputThread::version()const
+int InputThread::version() const
 {
-	return d->m_version;
+    return d->m_version;
 }
 
 int InputThread::bustype()const
 {
-	return d->m_bustype;
+    return d->m_bustype;
 }
 
-QList<int> InputThread::buttonCapabilities()const
+QList<int> InputThread::buttonCapabilities() const
 {
-	return d->m_buttonCapabilities;
+    return d->m_buttonCapabilities;
 }
 
-QList<int> InputThread::absAxisCapabilities()const
+QList<int> InputThread::absAxisCapabilities() const
 {
-	return d->m_absAxisCapabilities;
+    return d->m_absAxisCapabilities;
 }
 
-QList<int> InputThread::relAxisCapabilities()const
+QList<int> InputThread::relAxisCapabilities() const
 {
-	return d->m_relAxisCapabilities;
+    return d->m_relAxisCapabilities;
 }
 
 AbsVal InputThread::axisInfo(int axisCode) const
 {
-	return d->m_absAxisInfos[axisCode];
+    return d->m_absAxisInfos[axisCode];
 }
 
 const QString InputThread::deviceName() const
 {
-	return d->m_deviceName;
+    return d->m_deviceName;
 }
 
-GluonInput::DeviceFlag InputThread::deviceType()const
+GluonInput::DeviceFlag InputThread::deviceType() const
 {
-	return d->m_deviceType;
+    return d->m_deviceType;
 }
 
 bool InputThread::isEnabled() const
@@ -301,17 +298,17 @@ bool InputThread::isEnabled() const
 
 bool InputThread::error()
 {
-	return d->m_error;
+    return d->m_error;
 }
 
 QString InputThread::msgError()
 {
-	return d->m_msgError;
+    return d->m_msgError;
 }
 
 void InputThread::closeDevice()
 {
-	if (close(d->m_fd))
+    if (close(d->m_fd))
         qDebug() << "Could not close the device: " << d->m_devicePath << endl;
 }
 

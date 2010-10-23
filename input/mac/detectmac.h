@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef DETECTMAC_H
 #define DETECTMAC_H
 
@@ -40,10 +41,10 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT DetectMac : public Detect
     {
-            Q_OBJECT
+        Q_OBJECT
 
         public:
-            DetectMac(QObject * parent);
+            DetectMac(QObject *parent);
             ~DetectMac();
 
             void detectDevices();

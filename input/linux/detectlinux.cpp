@@ -57,7 +57,7 @@ void DetectLinux::detectDevices()
 
     inputFileInfoList = event.entryInfoList(QDir::Files);
     foreach (QFileInfo inputFileInfo, inputFileInfoList)
-            inputFiles.append(inputFileInfo.filePath());
+        inputFiles.append(inputFileInfo.filePath());
     inputFiles.append("/dev/input/ts");
     foreach (const QString &name, inputFiles) {
         InputDevice *device = NULL;

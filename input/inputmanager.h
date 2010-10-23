@@ -34,58 +34,50 @@
 
 namespace GluonInput
 {
-	typedef QList<InputDevice *> InputList;
+    typedef QList<InputDevice *> InputList;
     class InputManagerPrivate;
 
-	class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
-	{
-		Q_OBJECT
+    class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
+    {
+        Q_OBJECT
 
-		public:
-			InputManager();
-			void detectDevices();
-			void setAllEnabled(bool enable);
+        public:
+            InputManager();
+            void detectDevices();
+            void setAllEnabled(bool enable);
 
-			unsigned int deviceCount();
+            unsigned int deviceCount();
 
-			unsigned int keyboardCount();
+            unsigned int keyboardCount();
 
-			unsigned int mouseCount();
+            unsigned int mouseCount();
 
-			unsigned int joystickCount();
+            unsigned int joystickCount();
 
-			unsigned int touchCount();
+            unsigned int touchCount();
 
-			unsigned int unknownDeviceCount();
+            unsigned int unknownDeviceCount();
 
-			QList<Keyboard *> keyboardList();
+            QList<Keyboard *> keyboardList();
+            QList<Mouse *> mouseList();
+            QList<Joystick *> joystickList();
+            QList<Touch *> touchList();
+            QList <InputDevice *> unknownDeviceList();
 
-			QList<Mouse *> mouseList();
+            InputList inputList();
 
-			QList<Joystick *> joystickList();
+            Keyboard *keyboard(int id = 0);
+            Mouse *mouse(int id = 0);
+            Joystick *joystick(int id = 0);
+            Touch *touch(int id = 0);
+            InputDevice *input(int id = 0);
 
-			QList<Touch *> touchList();
+        private:
+            ~InputManager();
+            void init();
 
-			QList <InputDevice*> unknownDeviceList();
-
-			InputList inputList();
-
-			Keyboard *keyboard(int id = 0);
-
-			Mouse *mouse(int id = 0);
-
-			Joystick *joystick(int id = 0);
-
-			Touch *touch(int id = 0);
-
-			InputDevice *input(int id = 0);
-
-		private:
-			~InputManager();
-			void init();
-
-			QSharedDataPointer<InputManagerPrivate> d;
-	};
+            QSharedDataPointer<InputManagerPrivate> d;
+    };
 }
 
 #endif

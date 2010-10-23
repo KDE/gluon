@@ -25,26 +25,26 @@
 
 namespace GluonInput
 {
-	class InputDevice;
-	class Keyboard;
-	class Mouse;
-	class Joystick;
-	class Touch;
+    class InputDevice;
+    class Keyboard;
+    class Mouse;
+    class Joystick;
+    class Touch;
 
-	class DetectMacPrivate : public QSharedData
-	{
-		public:
-			DetectMacPrivate();
-			DetectMacPrivate(DetectMacPrivate &other);
+    class DetectMacPrivate : public QSharedData
+    {
+        public:
+            DetectMacPrivate();
+            DetectMacPrivate(DetectMacPrivate &other);
 
-			QList<InputDevice *> m_inputList;
-			QList<Keyboard *> m_keyboardList;
-			QList<Mouse *> m_mouseList;
-			QList<Joystick *> m_joystickList;
-			QList<Touch *> m_touchList;
-			QList<InputDevice *> m_unknownList;
-			IOHIDManagerRef deviceManager;
-			CFSetRef devices;
-	};
+            QList<InputDevice *> m_inputList;
+            QList<Keyboard *> m_keyboardList;
+            QList<Mouse *> m_mouseList;
+            QList<Joystick *> m_joystickList;
+            QList<Touch *> m_touchList;
+            QList<InputDevice *> m_unknownList;
+            IOHIDManagerRef deviceManager;
+            CFSetRef devices;
+    };
 }
 #endif

@@ -20,14 +20,14 @@
 
 #include "detectwin.h"
 
+#include "inputthread.h"
+
+#include <core/debughelper.h>
+
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
-
-#include <core/debughelper.h>
-
-#include "inputthread.h"
 
 using namespace GluonInput;
 
@@ -42,9 +42,9 @@ class DetectWin::DetectWinPrivate
         QList<InputDevice *> unknownList;
 };
 
-DetectWin::DetectWin(QObject * parent)
-        : Detect(parent)
-	, d(new DetectWinPrivate)
+DetectWin::DetectWin(QObject *parent)
+    : Detect(parent)
+    , d(new DetectWinPrivate)
 {
 }
 
@@ -54,7 +54,6 @@ DetectWin::~DetectWin()
 
 void DetectWin::detectDevices()
 {
-
 }
 
 void DetectWin::setAllEnabled(bool enable)
