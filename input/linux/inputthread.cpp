@@ -53,7 +53,7 @@ InputThread::InputThread(const QString &devicePath, QObject *parent)
 
 InputThread::~InputThread()
 {
-	close(d->m_fd);
+	closeDevice();
 }
 
 void InputThread::run()
@@ -311,7 +311,8 @@ QString InputThread::msgError()
 
 void InputThread::closeDevice()
 {
-	close(d->m_fd);
+	if (close(d->m_fd))
+        qDebug() << "Could not close the device: " << d->m_devicePath << endl;
 }
 
 #include "inputthread.moc"
