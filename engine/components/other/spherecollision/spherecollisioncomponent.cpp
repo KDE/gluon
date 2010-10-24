@@ -1,4 +1,4 @@
-/****************************************************************************** 
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -32,18 +32,25 @@ using namespace GluonEngine;
 class SphereCollisionComponent::SphereCollisionComponentPrivate
 {
     public:
-        SphereCollisionComponentPrivate() { collisionGroup = 0; radius = 1.0f; collides = 0; }
-        
+        SphereCollisionComponentPrivate() :
+            collisionGroup(0),
+            radius(1.0f),
+            collides(0)
+        {
+        }
+
         int collisionGroup;
         float radius;
         GameObject *collides;
+
+        int componentType;
 };
 
 SphereCollisionComponent::SphereCollisionComponent(QObject* parent)
     : Component(parent),
     d(new SphereCollisionComponentPrivate)
 {
-
+    d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent>();
 }
 
 SphereCollisionComponent::~SphereCollisionComponent()
@@ -57,54 +64,68 @@ SphereCollisionComponent::category() const
     return QString("Physics");
 }
 
+void SphereCollisionComponent::start()
+{
+}
+
 void SphereCollisionComponent::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)
-    
+
     d->collides = 0;
-    
-    //Retrieve a list of all the other CollisionComponents
-    QList<Component*> collisionComponents = Game::instance()->currentScene()->sceneContents()->findComponentsInChildrenByType("GluonEngine::SphereCollisionComponent");
-    
+
     //Our position
     QVector3D position = gameObject()->position();
     //Eliminate the Z-axis
     position.setZ(0);
     //Our radius, squared
     float radius = d->radius * d->radius;
-    
+
+    QObjectList objects = gameObject()->parentGameObject()->children();
     //Walk through the list
-    foreach(Component *component, collisionComponents)
+    foreach(QObject* object, objects)
     {
+        GameObject* obj = qobject_cast<GameObject*>(object);
+        if(!obj)
+            continue;
+
         //Get the correct type
-        SphereCollisionComponent *object = qobject_cast<SphereCollisionComponent*>(component);
-        
-        if(object && object != this)
+        Component* component = obj->findComponentByType(d->componentType);
+        if(!component)
+            continue;
+
+        SphereCollisionComponent* sphere = qobject_cast< SphereCollisionComponent* >(component);
+
+        if(sphere && sphere != this)
         {
             //See if we are in the same group
-            if(object->collisionGroup() == d->collisionGroup)
+            if(sphere->collisionGroup() == d->collisionGroup)
             {
                 //Get the object's position
-                QVector3D otherPosition = object->gameObject()->position();
+                QVector3D otherPosition = obj->position();
                 //Eliminate the Z axis
                 position.setZ(0);
-                
+
                 //Get the object's radius
-                float otherRadius = object->radius();
-                
+                float otherRadius = sphere->radius();
+
                 //Calculate the distance between our position and theirs
                 //Note that this is the squared distance to avoid a costly squareroot op
                 float dist = (otherPosition - position).lengthSquared();
-                
+
                 //If the distance between the two positions is smaller then the radius, we
                 //have a collision.
                 if(dist < (otherRadius + radius))
                 {
-                    d->collides = object->gameObject();
+                    d->collides = obj;
                 }
             }
         }
     }
+}
+
+void SphereCollisionComponent::stop()
+{
 }
 
 int SphereCollisionComponent::collisionGroup() const
