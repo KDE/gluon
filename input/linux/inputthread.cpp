@@ -48,7 +48,8 @@ InputThread::InputThread(const QString &devicePath, QObject *parent)
     , d(new InputThreadPrivate)
 {
     d->m_devicePath = devicePath;
-    openDevice(devicePath);
+    if (openDevice(devicePath))
+        readInformation();
 }
 
 InputThread::~InputThread()
@@ -88,31 +89,15 @@ bool InputThread::openDevice(const QString &devicePath)
         return false;
     }
 
-    readInformation();
     return true;
 }
 
 void InputThread::readInformation()
 {
-    /*if (!QFile::exists(d->m_devicePath))
-      {
-      qDebug() << "m_devicePath does not exist";
-      d->m_error = true;
-      d->m_msgError += "device url does not exist \n";
-      return;
-      }*/
-
     if (d->m_fd == -1) {
         qDebug() << "Device is not open";
         d->m_error = true;
         d->m_msgError = "Device is not open\n";
-        return;
-    }
-
-    if ((d->m_fd = open(d->m_devicePath.toUtf8(), O_RDONLY)) == -1) {
-        qDebug() << "Could not open device" << d->m_devicePath;
-        d->m_error = true;
-        d->m_msgError = "Could not open the device \n";
         return;
     }
 
@@ -124,71 +109,75 @@ void InputThread::readInformation()
         return;
     }
 
-    char name[256] = "Unknown";
+    char devname[256] = "Unknown";
     // Get the device name
-    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(name)), name) == -1) {
+    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(devname)), devname) == -1) {
         qDebug() << "Could not retrieve name of device" << d->m_devicePath;
         d->m_msgError = "Could not retrieve name of device\n";
         d->m_error = true;
         return;
     }
-    d->m_deviceName = QString(name);
+    d->m_deviceName = QString(devname);
 
     ///this next bit can be shared across platform
     unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
     int abs[5];
     memset(bit, 0, sizeof(bit));
-    // Get event bits
+    // Get the feature types here
     ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
 
     d->m_buttonCapabilities.clear();
     d->m_absAxisInfos.clear();
 
-    for (int i = 0; i < EV_MAX; ++i) 	{
+    for (int i = 0; i < EV_MAX; ++i) {
         if (test_bit(i, bit[0])) {
             if (!i) {
                 continue;
             }
 
-            // Get event bits
+            // Get the features of the desired feature type here
             ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
             for (int j = 0; j < KEY_MAX; ++j) {
                 if (test_bit(j, bit[i])) {
-                    if (i == EV_KEY) {
+                    switch (i) {
+                    case EV_KEY:
                         d->m_buttonCapabilities.append(j);
-                    }
-
-                    if (i == EV_REL) {
+                        break;
+                    case EV_REL:
                         d->m_relAxisCapabilities.append(j);
-                    }
-
-                    if (i == EV_ABS) {
+                        break;
+                    case EV_ABS:
+                        {
                         // Get abs value/limits
-                        ioctl(d->m_fd, EVIOCGABS(j), abs);
-                        AbsVal cabs(0, 0, 0, 0);
-                        for (int k = 0; k < 5; ++k) {
-                            if ((k < 3) || abs[k]) {
-                                switch (k) {
-                                case 0:
-                                    cabs.value = abs[k];
-                                    break;
-                                case 1:
-                                    cabs.min = abs[k];
-                                    break;
-                                case 2:
-                                    cabs.max = abs[k];
-                                    break;
-                                case 3:
-                                    cabs.fuzz = abs[k];
-                                    break;
-                                case 4:
-                                    cabs.flat = abs[k];
-                                    break;
+                            ioctl(d->m_fd, EVIOCGABS(j), abs);
+                            AbsVal cabs(0, 0, 0, 0);
+                            for (int k = 0; k < 5; ++k) {
+                                if ((k < 3) || abs[k]) {
+                                    switch (k) {
+                                    case 0:
+                                        cabs.value = abs[k];
+                                        break;
+                                    case 1:
+                                        cabs.min = abs[k];
+                                        break;
+                                    case 2:
+                                        cabs.max = abs[k];
+                                        break;
+                                    case 3:
+                                        cabs.fuzz = abs[k];
+                                        break;
+                                    case 4:
+                                        cabs.flat = abs[k];
+                                        break;
+                                    }
                                 }
                             }
+                            d->m_absAxisCapabilities.append(j);
+                            d->m_absAxisInfos[j] = cabs;
                         }
-                        d->m_absAxisCapabilities.append(j);
-                        d->m_absAxisInfos[j] = cabs;
+                        break;
+                    default:
+                        break;
                     }
                 }
             }
