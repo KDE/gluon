@@ -174,13 +174,29 @@ class Scene;
 
             Q_INVOKABLE Component * findComponent(const QString &name) const;
             Q_INVOKABLE Component * findComponentByType(const QString &typeName) const;
-	    Q_INVOKABLE QList<Component *> findComponentsByType(const QString &typeName) const;
+            Q_INVOKABLE Component * findComponentByType(int type) const;
+            Q_INVOKABLE QList<Component *> findComponentsByType(const QString &typeName) const;
+            Q_INVOKABLE QList<Component *> findComponentsByType( int type ) const;
             Q_INVOKABLE Component * findComponentInChildren(const QString &name) const;
             Q_INVOKABLE Component * findComponentInChildrenByType(const QString &typeName) const;
             Q_INVOKABLE QList<Component *> findComponentsInChildren(const QString &name) const;
             Q_INVOKABLE QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
             Q_INVOKABLE void addComponent(Component * addThis);
             Q_INVOKABLE bool removeComponent(Component * removeThis);
+            Q_INVOKABLE QList<Component*> components() const;
+
+//             template <typename T> T* findComponentByType() const
+//             {
+//                 T* found = 0;
+//                 QList<Component*> comps = components();
+//                 foreach(Component * component, comps)
+//                 {
+//                     found = qobject_cast<T*>(component);
+//                     if(found)
+//                         break;
+//                 }
+//                 return found;
+//             }
 
             // ----------------------------------------------------------------
             // GameObject tree management

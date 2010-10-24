@@ -205,6 +205,7 @@ Component *
 GameObject::findComponent(const QString &name) const
 {
     Component * found = 0;
+
     foreach(Component * component, d->components)
     {
         if (component->name() == name)
@@ -216,43 +217,45 @@ GameObject::findComponent(const QString &name) const
     return found;
 }
 
+// Component *
+// GameObject::findComponentByType(const QString &typeName) const
+// {
+//     if(d->componentTypes.find(typeName) != d->componentTypes.end())
+//         return d->componentTypes.value(typeName);
+//
+//     return 0;
+// }
+
 Component *
 GameObject::findComponentByType(const QString &typeName) const
 {
-    Component * found = 0;
-    const QMetaObject * metaObject;
-    foreach(Component * component, d->components)
-    {
-        metaObject = component->metaObject();
-        if (metaObject)
-        {
-            if (metaObject->className() == typeName)
-            {
-                found = component;
-                break;
-            }
-        }
-    }
-    return found;
+    int typeID = QMetaType::type(typeName.toAscii().data());
+    return findComponentByType(typeID);
+}
+
+Component*
+GameObject::findComponentByType( int type ) const
+{
+    if(d->componentTypes.find(type) != d->componentTypes.end())
+        return d->componentTypes.value(type);
+
+    return 0;
 }
 
 QList<Component *>
 GameObject::findComponentsByType(const QString &typeName) const
 {
-  QList<Component *> found;
-  const QMetaObject * metaObject;
-  foreach(Component * component, d->components)
-  {
-    metaObject = component->metaObject();
-    if (metaObject)
-    {
-      if (metaObject->className() == typeName)
-      {
-	found.append(component);
-      }
-    }
-  }
-  return found;
+    int typeID = QMetaType::type(typeName.toAscii().data());
+    return findComponentsByType(typeID);
+}
+
+QList< Component* >
+GameObject::findComponentsByType( int type ) const
+{
+    if(d->componentTypes.find(type) != d->componentTypes.end())
+        return d->componentTypes.values(type);
+
+    return QList< Component* >();
 }
 
 Component *
@@ -322,8 +325,10 @@ GameObject::addComponent(Component * addThis)
 {
     if (addThis)
     {
-        if (!d->components.contains(addThis))
+        int typeID = QMetaType::type(addThis->metaObject()->className());
+        if(d->componentTypes.constFind(typeID, addThis) == d->componentTypes.constEnd())
         {
+            d->componentTypes.insert(typeID, addThis);
             d->components.append(addThis);
             addThis->setParent(this);
             addThis->setGameObject(this);
@@ -340,7 +345,15 @@ GameObject::addComponent(Component * addThis)
 bool
 GameObject::removeComponent(Component * removeThis)
 {
+    int typeID = QMetaType::type(removeThis->metaObject()->className());
+    d->componentTypes.remove(typeID, removeThis);
     return d->components.removeOne(removeThis);
+}
+
+QList< Component* >
+GameObject::components() const
+{
+    return d->components;
 }
 
 // ----------------------------------------------------------------
@@ -713,6 +726,8 @@ GameObject::postCloneSanitize()
         {
             Component* comp = qobject_cast<Component*>(child);
             d->components.append(comp);
+            int typeID = QMetaType::type(comp->metaObject()->className());
+            d->componentTypes.insert(typeID, comp);
             comp->setParent(this);
             comp->setGameObject(this);
         }
