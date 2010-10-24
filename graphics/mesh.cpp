@@ -34,13 +34,17 @@ using namespace GluonGraphics;
 class Mesh::MeshPrivate
 {
     public:
-        MeshPrivate() { buffer = 0; }
+        MeshPrivate() { buffer = 0; vertexLoc = -1; colorLoc = -1; uvLoc = -1; }
 
         MaterialInstance * material;
 
         GLuint buffer;
         int colorOffset;
         int uvOffset;
+
+        int vertexLoc;
+        int colorLoc;
+        int uvLoc;
 };
 
 Mesh::Mesh(QObject * parent)
@@ -127,20 +131,29 @@ Mesh::renderBuffer( uint mode, int count, MaterialInstance* material)
     if(d->buffer == 0)
         return;
 
-    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
-    glVertexAttribPointer(material->attributeLocation("vertex"), 3, GL_FLOAT, 0, 0, 0);
-    glVertexAttribPointer(material->attributeLocation("color"), 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
-    glVertexAttribPointer(material->attributeLocation("uv0"), 2, GL_FLOAT, 0, 0, (void*)(d->uvOffset) );
+    if(d->vertexLoc == -1)
+        d->vertexLoc = material->attributeLocation("vertex");
 
-    glEnableVertexAttribArray(material->attributeLocation("vertex"));
-    glEnableVertexAttribArray(material->attributeLocation("color"));
-    glEnableVertexAttribArray(material->attributeLocation("uv0"));
+    if(d->colorLoc == -1)
+        d->colorLoc = material->attributeLocation("color");
+
+    if(d->uvLoc == -1)
+        d->uvLoc = material->attributeLocation("uv0");
+
+    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
+    glVertexAttribPointer(d->vertexLoc, 3, GL_FLOAT, 0, 0, 0);
+    glVertexAttribPointer(d->colorLoc, 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
+    glVertexAttribPointer(d->uvLoc, 2, GL_FLOAT, 0, 0, (void*)(d->uvOffset) );
+
+    glEnableVertexAttribArray(d->vertexLoc);
+    glEnableVertexAttribArray(d->colorLoc);
+    glEnableVertexAttribArray(d->uvLoc);
 
     glDrawArrays(mode, 0, count);
 
-    glDisableVertexAttribArray(material->attributeLocation("vertex"));
-    glDisableVertexAttribArray(material->attributeLocation("color"));
-    glDisableVertexAttribArray(material->attributeLocation("uv0"));
+    glDisableVertexAttribArray(d->vertexLoc);
+    glDisableVertexAttribArray(d->colorLoc);
+    glDisableVertexAttribArray(d->uvLoc);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
