@@ -91,8 +91,8 @@ set(GluonInput_SRCS_COMMON
 	inputdeviceprivate.cpp
     mouse.cpp
 	mouseprivate.cpp
-    tablet.cpp
-	tabletprivate.cpp
+    touch.cpp
+	touchprivate.cpp
     keyboard.cpp
 	keyboardprivate.cpp
     joystick.cpp
@@ -111,7 +111,7 @@ set(GluonInput_HEADERS_COMMON
     inputmanager.h
     inputdevice.h
     mouse.h
-    tablet.h
+    touch.h
     keyboard.h
     joystick.h
     custominput.h
@@ -144,11 +144,11 @@ if(APPLE)
 	list(APPEND ${GluonInput_HEADERS_MAC}
 		GluonInput_HEADERS_MAC
 	)
-	
+
 	set_target_properties(GluonInput PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonInput PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonInput PROPERTIES PUBLIC_HEADER "${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC}")
-	
+
 	set(MACOSX_FRAMEWORK_IDENTIFIER input)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})

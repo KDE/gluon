@@ -48,8 +48,8 @@ class InputThread::InputThreadPrivate
 };
 
 InputThread::InputThread(const QString &devicePath, QObject * parent)
-                : QThread(parent),
-                  d(new InputThreadPrivate)
+    : QThread(parent)
+    , d(new InputThreadPrivate)
 {
 }
 
@@ -59,60 +59,59 @@ InputThread::~InputThread()
 
 void InputThread::run()
 {
-
 }
 
-int InputThread::getJoystickXAxis()
+int InputThread::joystickXAxis()
 {
     return 0;
 }
 
-int InputThread::getJoystickYAxis()
+int InputThread::joystickYAxis()
 {
     return 0;
 }
 
-int InputThread::getJoystickZAxis()
+int InputThread::joystickZAxis()
 {
     return 0;
 }
 
 void InputThread::stop()
 {
-    this->quit();
+    quit();
 }
 
-int InputThread::vendor()const
+int InputThread::vendor() const
 {
     return d->vendor;
 }
 
-int InputThread::product()const
+int InputThread::product() const
 {
     return d->product;
 }
 
-int InputThread::version()const
+int InputThread::version() const
 {
     return d->version;
 }
 
-int InputThread::bustype()const
+int InputThread::bustype() const
 {
     return d->bustype;
 }
 
-QList<int> InputThread::buttonCapabilities()const
+QList<int> InputThread::buttonCapabilities() const
 {
     return d->buttonCapabilities;
 }
 
-QList<int> InputThread::absAxisCapabilities()const
+QList<int> InputThread::absAxisCapabilities() const
 {
     return d->absAxisCapabilities;
 }
 
-QList<int> InputThread::relAxisCapabilities()const
+QList<int> InputThread::relAxisCapabilities() const
 {
     return d->relAxisCapabilities;
 }
@@ -127,7 +126,7 @@ const QString InputThread::deviceName() const
     return d->deviceName;
 }
 
-GluonInput::DeviceFlag InputThread::deviceType()const
+GluonInput::DeviceFlag InputThread::deviceType() const
 {
     return d->deviceType;
 }

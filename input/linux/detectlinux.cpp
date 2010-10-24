@@ -57,7 +57,7 @@ void DetectLinux::detectDevices()
 
     inputFileInfoList = event.entryInfoList(QDir::Files);
     foreach (QFileInfo inputFileInfo, inputFileInfoList)
-            inputFiles.append(inputFileInfo.filePath());
+        inputFiles.append(inputFileInfo.filePath());
     inputFiles.append("/dev/input/ts");
     foreach (const QString &name, inputFiles) {
         InputDevice *device = NULL;
@@ -84,9 +84,9 @@ void DetectLinux::detectDevices()
                 detect->addJoystick(device);
                 break;
 
-            case GluonInput::TabletDevice:
-                device = new Tablet(thread);
-                detect->addTablet(device);
+            case GluonInput::TouchDevice:
+                device = new Touch(thread);
+                detect->addTouch(device);
                 break;
 
             case GluonInput::UnknownDevice:
@@ -113,7 +113,7 @@ void DetectLinux::clear()
     d->keyboardList.clear();
     d->mouseList.clear();
     d->joystickList.clear();
-    d->tabletList.clear();
+    d->touchList.clear();
     d->unknownList.clear();
 }
 
@@ -130,20 +130,20 @@ void DetectLinux::addKeyboard(InputDevice *i)
 
 void DetectLinux::addMouse(InputDevice *i)
 {
-    Mouse *mouse = (Mouse *)i;
+    Mouse *mouse = qobject_cast<Mouse *>(i);
     d->mouseList.append(mouse);
 }
 
 void DetectLinux::addJoystick(InputDevice *i)
 {
-    Joystick *joy = (Joystick *)i;
+    Joystick *joy = qobject_cast<Joystick *>(i);
     d->joystickList.append(joy);
 }
 
-void DetectLinux::addTablet(InputDevice *i)
+void DetectLinux::addTouch(InputDevice *i)
 {
-    Tablet *tablet = (Tablet *)i;
-    d->tabletList.append(tablet);
+    Touch *touch = qobject_cast<Touch *>(i);
+    d->touchList.append(touch);
 }
 
 void DetectLinux::addUnknown(InputDevice *i)
@@ -171,9 +171,9 @@ QList<Joystick *> DetectLinux::joystickList()
     return d->joystickList;
 }
 
-QList<Tablet *> DetectLinux::tabletList()
+QList<Touch *> DetectLinux::touchList()
 {
-    return d->tabletList;
+    return d->touchList;
 }
 
 QList<InputDevice *> DetectLinux::unknownDeviceList()

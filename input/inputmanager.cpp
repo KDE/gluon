@@ -6,21 +6,17 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "inputmanager.h"
-
-#include <QtCore/QCoreApplication>
-#include <QtGui/QMessageBox>
-#include <QtCore/QDebug>
 
 #include "inputmanagerprivate.h"
 #include "gluondevices.h"
@@ -36,6 +32,10 @@
 #ifdef Q_WS_WIN
 #include "detectwin.h"
 #endif
+
+#include <QtCore/QCoreApplication>
+#include <QtGui/QMessageBox>
+#include <QtCore/QDebug>
 
 using namespace GluonInput;
 
@@ -53,42 +53,42 @@ InputManager::~InputManager()
 
 void InputManager::init()
 {
-	QObject *parent = QCoreApplication::instance();
-	if (!parent) {
-		qDebug() << "No QCoreApplication instance found, the InputManager instance may be leaked when leaving";
-	}
+    QObject *parent = QCoreApplication::instance();
+    if (!parent) {
+        qDebug() << "No QCoreApplication instance found, the InputManager instance may be leaked when leaving";
+    }
 
 #ifdef Q_WS_X11
-	d->m_instance = new DetectLinux(parent);
+    d->m_instance = new DetectLinux(parent);
 #endif
 
 #ifdef Q_WS_MAC
-	d->m_instance = new DetectMac(parent);
+    d->m_instance = new DetectMac(parent);
 #endif
 
 #ifdef Q_WS_WIN
-	d->m_instance = new DetectWin(parent);
+    d->m_instance = new DetectWin(parent);
 #endif
     if(d->m_instance) {
-		d->m_instance->detectDevices();
-    }	else {
-		qDebug() << "Instance not created, fail!";
+        d->m_instance->detectDevices();
+    } else {
+        qDebug() << "Instance not created, fail!";
     }
 }
 
 void InputManager::detectDevices()
 {
-	d->m_instance->detectDevices();
+    d->m_instance->detectDevices();
 }
 
 void InputManager::setAllEnabled(bool enable)
 {
-	d->m_instance->setAllEnabled(enable);
+    d->m_instance->setAllEnabled(enable);
 }
 
 unsigned int InputManager::deviceCount()
 {
-	return inputList().size();
+    return inputList().size();
 }
 
 unsigned int InputManager::keyboardCount()
@@ -106,9 +106,9 @@ unsigned int InputManager::joystickCount()
     return d->m_instance->joystickList().size();
 }
 
-unsigned int InputManager::tabletCount()
+unsigned int InputManager::touchCount()
 {
-    return d->m_instance->tabletList().size();
+    return d->m_instance->touchList().size();
 }
 
 unsigned int InputManager::unknownDeviceCount()
@@ -131,9 +131,9 @@ QList<Joystick *> InputManager::joystickList()
     return d->m_instance->joystickList();
 }
 
-QList<Tablet *> InputManager::tabletList()
+QList<Touch *> InputManager::touchList()
 {
-    return d->m_instance->tabletList();
+    return d->m_instance->touchList();
 }
 
 QList<InputDevice *> InputManager::unknownDeviceList()
@@ -170,10 +170,10 @@ Joystick *InputManager::joystick(int id)
     return 0;
 }
 
-Tablet *InputManager::tablet(int id)
+Touch *InputManager::touch(int id)
 {
-    if (!d->m_instance->tabletList().isEmpty()) {
-        return d->m_instance->tabletList().at(id);
+    if (!d->m_instance->touchList().isEmpty()) {
+        return d->m_instance->touchList().at(id);
     }
     return 0;
 }

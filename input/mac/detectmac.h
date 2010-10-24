@@ -6,16 +6,17 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef DETECTMAC_H
 #define DETECTMAC_H
 
@@ -26,7 +27,7 @@
 #include "detect.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "tablet.h"
+#include "touch.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -40,28 +41,28 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT DetectMac : public Detect
     {
-            Q_OBJECT
+        Q_OBJECT
 
         public:
-            DetectMac(QObject * parent);
+            DetectMac(QObject *parent);
             ~DetectMac();
 
             void detectDevices();
             void setAllEnabled(bool enable);
 
 
-            QList<InputDevice *> getInputList();
-            QList<Keyboard *> getKeyboardList();
-            QList<Mouse *> getMouseList();
-            QList<Joystick *> getJoystickList();
-            QList<Tablet *> getTabletList();
-            QList<InputDevice *> getUnknownDeviceList();
+            QList<InputDevice *> inputList();
+            QList<Keyboard *> keyboardList();
+            QList<Mouse *> mouseList();
+            QList<Joystick *> joystickList();
+            QList<Touch *> touchList();
+            QList<InputDevice *> unknownDeviceList();
 
             void addInput(InputDevice *i);
             void addKeyboard(InputDevice *i);
             void addMouse(InputDevice *i);
             void addJoystick(InputDevice *i);
-            void addTablet(InputDevice *i);
+            void addTouch(InputDevice *i);
             void addUnknown(InputDevice *i);
             void clear();
 

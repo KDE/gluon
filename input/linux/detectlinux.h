@@ -24,7 +24,7 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "tablet.h"
+#include "touch.h"
 #include "detect.h"
 
 #include <QtCore/QObject>
@@ -37,7 +37,7 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT DetectLinux : public Detect
     {
-            Q_OBJECT
+        Q_OBJECT
 
         public:
             DetectLinux(QObject *parent);
@@ -50,14 +50,14 @@ namespace GluonInput
             QList<Keyboard *> keyboardList();
             QList<Mouse *> mouseList();
             QList<Joystick *> joystickList();
-            QList<Tablet *> tabletList();
+            QList<Touch *> touchList();
             QList<InputDevice *> unknownDeviceList();
 
             void addInput(InputDevice *i);
             void addKeyboard(InputDevice *i);
             void addMouse(InputDevice *i);
             void addJoystick(InputDevice *i);
-            void addTablet(InputDevice *i);
+            void addTouch(InputDevice *i);
             void addUnknown(InputDevice *i);
 
             void clear();

@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -26,66 +26,58 @@
 #include "mouse.h"
 #include "keyboard.h"
 #include "joystick.h"
-#include "tablet.h"
+#include "touch.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QSharedData>
 
 namespace GluonInput
-{	
-	typedef QList<InputDevice *> InputList;
+{
+    typedef QList<InputDevice *> InputList;
     class InputManagerPrivate;
 
-	class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
-	{
-		Q_OBJECT
+    class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
+    {
+        Q_OBJECT
 
-		public:
-			InputManager();
-			void detectDevices();
-			void setAllEnabled(bool enable);
+        public:
+            InputManager();
+            void detectDevices();
+            void setAllEnabled(bool enable);
 
-			unsigned int deviceCount();
+            unsigned int deviceCount();
 
-			unsigned int keyboardCount();
+            unsigned int keyboardCount();
 
-			unsigned int mouseCount();
+            unsigned int mouseCount();
 
-			unsigned int joystickCount();
+            unsigned int joystickCount();
 
-			unsigned int tabletCount();
+            unsigned int touchCount();
 
-			unsigned int unknownDeviceCount();
+            unsigned int unknownDeviceCount();
 
-			QList <Keyboard*> keyboardList();
+            QList<Keyboard *> keyboardList();
+            QList<Mouse *> mouseList();
+            QList<Joystick *> joystickList();
+            QList<Touch *> touchList();
+            QList <InputDevice *> unknownDeviceList();
 
-			QList <Mouse*> mouseList();
+            InputList inputList();
 
-			QList <Joystick*> joystickList();
+            Keyboard *keyboard(int id = 0);
+            Mouse *mouse(int id = 0);
+            Joystick *joystick(int id = 0);
+            Touch *touch(int id = 0);
+            InputDevice *input(int id = 0);
 
-			QList <Tablet*> tabletList();
+        private:
+            ~InputManager();
+            void init();
 
-			QList <InputDevice*> unknownDeviceList();
-
-			InputList inputList();
-
-			Keyboard* keyboard(int id = 0);
-
-			Mouse* mouse(int id = 0);
-
-			Joystick* joystick(int id = 0);
-
-			Tablet* tablet(int id = 0);
-
-			InputDevice* input(int id = 0);
-
-		private:
-			~InputManager();
-			void init();
-
-			QSharedDataPointer<InputManagerPrivate> d;
-	};
+            QSharedDataPointer<InputManagerPrivate> d;
+    };
 }
 
 #endif

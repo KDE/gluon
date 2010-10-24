@@ -20,14 +20,14 @@
 
 #include "detectwin.h"
 
+#include "inputthread.h"
+
+#include <core/debughelper.h>
+
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
-
-#include <core/debughelper.h>
-
-#include "inputthread.h"
 
 using namespace GluonInput;
 
@@ -38,13 +38,13 @@ class DetectWin::DetectWinPrivate
         QList<Keyboard *> keyboardList;
         QList<Mouse *> mouseList;
         QList<Joystick *> joystickList;
-        QList<Tablet *> tabletList;
+        QList<Touch *> touchList;
         QList<InputDevice *> unknownList;
 };
 
-DetectWin::DetectWin(QObject * parent)
-        : Detect(parent),
-          d(new DetectWinPrivate)
+DetectWin::DetectWin(QObject *parent)
+    : Detect(parent)
+    , d(new DetectWinPrivate)
 {
 }
 
@@ -54,13 +54,11 @@ DetectWin::~DetectWin()
 
 void DetectWin::detectDevices()
 {
-
 }
 
 void DetectWin::setAllEnabled(bool enable)
 {
-    foreach(InputDevice *input, this->getInputList())
-    {
+    foreach(InputDevice *input, inputList()) {
         input->setEnabled(enable);
     }
 }
@@ -71,7 +69,7 @@ void DetectWin::clear()
     d->keyboardList.clear();
     d->mouseList.clear();
     d->joystickList.clear();
-    d->tabletList.clear();
+    d->touchList.clear();
     d->unknownList.clear();
 }
 
@@ -82,26 +80,26 @@ void DetectWin::addInput(InputDevice *i)
 
 void DetectWin::addKeyboard(InputDevice *i)
 {
-    Keyboard * keybd = qobject_cast<Keyboard*>(i);
+    Keyboard *keybd = qobject_cast<Keyboard *>(i);
     d->keyboardList.append(keybd);
 }
 
 void DetectWin::addMouse(InputDevice *i)
 {
-    Mouse * mouse = (Mouse*)i;
+    Mouse *mouse = qobject_cast<Mouse *>(i);
     d->mouseList.append(mouse);
 }
 
 void DetectWin::addJoystick(InputDevice *i)
 {
-    Joystick * joy = (Joystick*)i;
+    Joystick *joy = qobject_cast<Joystick *>(i);
     d->joystickList.append(joy);
 }
 
-void DetectWin::addTablet(InputDevice *i)
+void DetectWin::addTouch(InputDevice *i)
 {
-    Tablet * tablet = (Tablet*)i;
-    d->tabletList.append(tablet);
+    Touch *touch = qobject_cast<Touch *>(i);
+    d->touchList.append(touch);
 }
 
 void DetectWin::addUnknown(InputDevice *i)
@@ -109,32 +107,32 @@ void DetectWin::addUnknown(InputDevice *i)
     d->unknownList.append(i);
 }
 
-QList<InputDevice *> DetectWin::getInputList()
+QList<InputDevice *> DetectWin::inputList()
 {
     return d->inputList;
 }
 
-QList<Keyboard *> DetectWin::getKeyboardList()
+QList<Keyboard *> DetectWin::keyboardList()
 {
     return d->keyboardList;
 }
 
-QList<Mouse *> DetectWin::getMouseList()
+QList<Mouse *> DetectWin::mouseList()
 {
     return d->mouseList;
 }
 
-QList<Joystick *> DetectWin::getJoystickList()
+QList<Joystick *> DetectWin::joystickList()
 {
     return d->joystickList;
 }
 
-QList<Tablet *> DetectWin::getTabletList()
+QList<Touch *> DetectWin::touchList()
 {
-    return d->tabletList;
+    return d->touchList;
 }
 
-QList<InputDevice *> DetectWin::getUnknownDeviceList()
+QList<InputDevice *> DetectWin::unknownDeviceList()
 {
     return d->unknownList;
 }

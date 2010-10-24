@@ -25,7 +25,7 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "tablet.h"
+#include "touch.h"
 #include "detect.h"
 
 #include <QtCore/QObject>
@@ -37,18 +37,18 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT DetectWin : public Detect
     {
         public:
-            DetectWin(QObject * parent);
+            DetectWin(QObject *parent);
             ~DetectWin();
 
             void detectDevices();
             void setAllEnabled(bool enable);
 
-            QList<InputDevice *> getInputList();
-            QList<Keyboard *> getKeyboardList();
-            QList<Mouse *> getMouseList();
-            QList<Joystick *> getJoystickList();
-            QList<Tablet *> getTabletList();
-            QList<InputDevice *> getUnknownDeviceList();
+            QList<InputDevice *> inputList();
+            QList<Keyboard *> keyboardList();
+            QList<Mouse *> mouseList();
+            QList<Joystick *> joystickList();
+            QList<Tablet *> touchList();
+            QList<InputDevice *> unknownDeviceList();
 
             void addInput(InputDevice *i);
             void addKeyboard(InputDevice *i);
@@ -61,7 +61,7 @@ namespace GluonInput
 
         private:
             class DetectWinPrivate;
-            DetectWinPrivate * const d;
+            DetectWinPrivate *const d;
     };
 }
 #endif

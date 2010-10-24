@@ -21,49 +21,49 @@
 #ifndef INPUTTHREAD_H
 #define INPUTTHREAD_H
 
-#include <QtCore/QThread>
-
 #include "gluon_input_export.h"
 #include "gluonbuttons.h"
 #include "absval.h"
+
+#include <QtCore/QThread>
 
 namespace GluonInput
 {
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
         public:
-            explicit InputThread(const QString& devicePath, QObject *parent = 0);
+            explicit InputThread(const QString &devicePath, QObject *parent = 0);
             ~InputThread();
             void run();
 
-            int getJoystickXAxis();
-            int getJoystickYAxis();
-            int getJoystickZAxis();
+            int joystickXAxis();
+            int joystickYAxis();
+            int joystickZAxis();
             void stop();
 
-            int vendor()const;
-            int product()const;
-            int version()const;
-            int bustype()const;
+            int vendor() const;
+            int product() const;
+            int version() const;
+            int bustype() const;
 
-            QList<int> buttonCapabilities()const;
-            QList<int> absAxisCapabilities()const;
-            QList<int> relAxisCapabilities()const;
-            AbsVal axisInfo(int axisCode)const;
+            QList<int> buttonCapabilities() const;
+            QList<int> absAxisCapabilities() const;
+            QList<int> relAxisCapabilities() const;
+            AbsVal axisInfo(int axisCode) const;
 
             const QString deviceName() const;
-            GluonInput::DeviceFlag deviceType()const;
+            GluonInput::DeviceFlag deviceType() const;
 
             bool isEnabled() const;
 
             bool error();
             QString msgError();
 
-            QObject * getParent();
+            QObject *parent();
 
         private:
             class InputThreadPrivate;
-            InputThreadPrivate * const d;
+            InputThreadPrivate *const d;
     };
 }
 

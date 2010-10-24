@@ -36,20 +36,19 @@ GluonButtons::~GluonButtons()
 
 QString GluonButtons::buttonName(DeviceFlag deviceType, int code)
 {
-    return this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("Button")).valueToKey(code);
+    return this->metaObject()->enumerator(metaObject()->indexOfEnumerator("Button")).valueToKey(code);
 }
 
-QString GluonButtons::axisName(DeviceFlag deviceType,int code)
+QString GluonButtons::axisName(DeviceFlag deviceType, int code)
 {
     QString value = "";
-    switch (deviceType)
-    {
+    switch (deviceType) {
         case MouseDevice:
-            value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("Relative")).valueToKey(code);
+            value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Relative")).valueToKey(code);
             return value != "" ? value : "Unknown";
             break;
         case JoystickDevice:
-            value = this->metaObject()->enumerator(this->metaObject()->indexOfEnumerator("Absolute")).valueToKey(code);
+            value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Absolute")).valueToKey(code);
             return value != "" ? value : "Unknown";
             break;
         default:

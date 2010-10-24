@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -26,20 +26,21 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(Keyboard * keyb)
+GameLoop::GameLoop(Keyboard *keyb)
 {
-    this->keyboard = keyb;
-    connect(this, SIGNAL(startGameLoop()), this, SLOT(gameLoop()), Qt::QueuedConnection);
+    keyboard = keyb;
+    connect(this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection);
 }
 
 void GameLoop::run()
 {
-  emit this->startGameLoop();
+    emit startGameLoop();
 }
 
 void GameLoop::gameLoop()
 {
-    int nextTick = 0, loops = 0;
+    int nextTick = 0;
+    int loops = 0;
     int timeLapse = 0;
     QTime timer;
     int updatesPerSecond = 25;
@@ -48,21 +49,18 @@ void GameLoop::gameLoop()
     timer.start();
 
     qDebug() << "starting gameloop";
-    while (true)
-    {
-		QCoreApplication::processEvents();
+    while (true) {
+        QCoreApplication::processEvents();
         loops = 0;
-        while (timer.elapsed() > nextTick && loops < maxFrameSkip)
-        {
-	    foreach(int button, keyboard->buttonCapabilities())
-	    {
-		if(keyboard->buttonPressed(button))
-		   qDebug() << keyboard->buttonName(button) << " is pressed ";
+        while (timer.elapsed() > nextTick && loops < maxFrameSkip) {
+            foreach(int button, keyboard->buttonCapabilities()) {
+                if(keyboard->buttonPressed(button))
+                    qDebug() << keyboard->buttonName(button) << " is pressed ";
 
-	    }
+            }
 
             nextTick += millisecondsPerUpdate;
-            loops++;
+            ++loops;
         }
 
         timeLapse = (timer.elapsed() + millisecondsPerUpdate - nextTick) / millisecondsPerUpdate;
