@@ -84,13 +84,13 @@ Frustrum::projectionMatrix()
 bool
 Frustrum::containsPoint( const QVector3D& point )
 {
-
+    return false;
 }
 
 bool
 Frustrum::containsSphere( const QVector3D& point, float radius )
 {
-
+    return false;
 }
 
 float Frustrum::nearPlane()

@@ -184,7 +184,7 @@ void main()\
 Technique*
 Material::technique(const QString& name) const
 {
-
+    return 0;
 }
 
 void
