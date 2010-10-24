@@ -42,7 +42,7 @@ namespace GluonInput
         Q_OBJECT
 
         public:
-            explicit InputThread(const QString& devicePath, QObject *parent = 0);
+            explicit InputThread(const QString &devicePath, QObject *parent = 0);
             ~InputThread();
             void run();
 

@@ -137,18 +137,28 @@ void InputThread::readInformation()
 
             // Get the features of the desired feature type here
             ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
-            for (int j = 0; j < KEY_MAX; ++j) {
-                if (test_bit(j, bit[i])) {
-                    switch (i) {
-                    case EV_KEY:
-                        d->m_buttonCapabilities.append(j);
-                        break;
-                    case EV_REL:
-                        d->m_relAxisCapabilities.append(j);
-                        break;
-                    case EV_ABS:
-                        {
-                        // Get abs value/limits
+            switch (i) {
+            case EV_KEY:
+                {
+                    for (int j = 0; j < KEY_MAX; ++j) {
+                        if (test_bit(j, bit[i]))
+                            d->m_buttonCapabilities.append(j);
+                    }
+                }
+                break;
+            case EV_REL:
+                {
+                    for (int j = 0; j < KEY_MAX; ++j) {
+                        if (test_bit(j, bit[i]))
+                            d->m_relAxisCapabilities.append(j);
+                    }
+                }
+                break;
+            case EV_ABS:
+                {
+                    for (int j = 0; j < ABS_MAX; ++j) {
+                        if (test_bit(j, bit[i])) {
+                            // Get abs value/limits
                             ioctl(d->m_fd, EVIOCGABS(j), abs);
                             AbsVal cabs(0, 0, 0, 0);
                             for (int k = 0; k < 5; ++k) {
@@ -175,11 +185,11 @@ void InputThread::readInformation()
                             d->m_absAxisCapabilities.append(j);
                             d->m_absAxisInfos[j] = cabs;
                         }
-                        break;
-                    default:
-                        break;
                     }
                 }
+                break;
+            default:
+                break;
             }
         }
     }
