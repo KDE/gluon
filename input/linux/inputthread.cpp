@@ -183,7 +183,7 @@ void InputThread::readInformation()
                                 }
                             }
                             d->m_absAxisCapabilities.append(j);
-                            d->m_absAxisInfos[j] = cabs;
+                            d->m_absAxisInfos.append(cabs);
                         }
                     }
                 }
