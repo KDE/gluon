@@ -17,9 +17,13 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            QString username();
-            void login(const QString& username, const QString& password);
+            void init();
+            bool isInitialized();
+            bool login(const QString& username, const QString& password);
             bool isLoggedIn();
+            bool hasCredentials();
+            QString username();
+            QString password();
 
         private:
             friend class GluonCore::Singleton<Authentication>;
@@ -27,16 +31,19 @@ namespace GluonPlayer
             ~Authentication();
             Q_DISABLE_COPY(Authentication)
 
+            bool m_initialized;
             bool m_loggedIn;
             QString m_username;
             QString m_password;
             Attica::PostJob *m_checkLoginJob;
 
         protected slots:
-            void checkAndPerformLogin();
-            void performLogin(Attica::BaseJob*);
+            void finishInit();
+            void checkLoginResult(Attica::BaseJob*);
 
         signals:
+            void initialized();
+            void initFailed();
             void loggedIn();
             void loginFailed();
     };

@@ -9,7 +9,7 @@ using namespace GluonPlayer;
 
 template<> GLUON_PLAYER_EXPORT Authentication *GluonCore::Singleton<Authentication>::m_instance = 0;
 
-Authentication::Authentication() : m_loggedIn(false)
+Authentication::Authentication() : m_initialized(false), m_loggedIn(false)
 {
 }
 
@@ -17,25 +17,42 @@ Authentication::~Authentication()
 {
 }
 
-QString Authentication::username()
+void Authentication::init()
 {
-    if (m_loggedIn) {
-        return m_username;
+    if (!AtticaManager::instance()->isProviderValid()) {
+        connect(AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(finishInit()));
+        connect(AtticaManager::instance(), SIGNAL(failedToFetchProvider()), SIGNAL(initFailed()));
     }
-    return QString();
 }
 
-void Authentication::login(const QString &username, const QString &password)
+bool Authentication::isInitialized()
+{
+    return m_initialized;
+}
+
+QString Authentication::username()
+{
+    return m_username;
+}
+
+QString Authentication::password()
+{
+    return m_password;
+}
+
+bool Authentication::login(const QString& username, const QString& password)
 {
     m_username = username;
     m_password = password;
 
     if (AtticaManager::instance()->isProviderValid()) {
-        checkAndPerformLogin();
-    } else {
-        connect(AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(checkAndPerformLogin()));
-        connect(AtticaManager::instance(), SIGNAL(failedToFetchProvider()), SIGNAL(loginFailed()));
+        m_checkLoginJob = AtticaManager::instance()->provider().checkLogin(m_username, m_password);
+        connect(m_checkLoginJob, SIGNAL(finished(Attica::BaseJob*)), SLOT(checkLoginResult(Attica::BaseJob*)));
+        m_checkLoginJob->start();
+        return true;
     }
+
+    return false;
 }
 
 bool Authentication::isLoggedIn()
@@ -43,14 +60,19 @@ bool Authentication::isLoggedIn()
     return m_loggedIn;
 }
 
-void Authentication::checkAndPerformLogin()
+bool Authentication::hasCredentials()
 {
-    m_checkLoginJob = AtticaManager::instance()->provider().checkLogin(m_username, m_password);
-    connect(m_checkLoginJob, SIGNAL(finished(Attica::BaseJob*)), SLOT(performLogin(Attica::BaseJob*)));
-    m_checkLoginJob->start();
+    return AtticaManager::instance()->provider().hasCredentials();
 }
 
-void Authentication::performLogin(Attica::BaseJob *baseJob)
+void Authentication::finishInit()
+{
+    AtticaManager::instance()->provider().loadCredentials(m_username, m_password);
+    m_initialized = true;
+    emit initialized();
+}
+
+void Authentication::checkLoginResult(Attica::BaseJob *baseJob)
 {
     Attica::PostJob *job = qobject_cast<Attica::PostJob*>(baseJob);
 

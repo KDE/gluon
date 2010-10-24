@@ -48,10 +48,15 @@ class LoginForm : public Overlay
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 
+        void initialize();
+
     protected slots:
         void doLogin();
         void loginDone();
         void loginFailed();
+        void initDone();
+        void initFailed();
+        void loadCredentials();
 };
 
 #endif // LOGINFORM_H

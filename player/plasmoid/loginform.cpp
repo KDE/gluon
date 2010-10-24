@@ -41,6 +41,7 @@ LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(pa
     m_loginButton = new Plasma::PushButton(this);
     m_loginButton->setIcon(KIcon("network-connect"));
     m_loginButton->setText(i18n("Login"));
+    m_loginButton->setEnabled(false);
 
     m_busyWidget = new Plasma::BusyWidget(this);
     m_busyWidget->hide();
@@ -57,8 +58,28 @@ LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(pa
     m_contentLayout->addItem(m_loginButton);
 
     connect(m_loginButton, SIGNAL(clicked()), SLOT(doLogin()));
+    connect(GluonPlayer::Authentication::instance(), SIGNAL(initialized()), SLOT(initDone()));
+    connect(GluonPlayer::Authentication::instance(), SIGNAL(initFailed()), SLOT(initFailed()));
     connect(GluonPlayer::Authentication::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
     connect(GluonPlayer::Authentication::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()));
+
+    initialize();
+}
+
+void LoginForm::initialize()
+{
+    GluonPlayer::Authentication::instance()->init();
+}
+
+void LoginForm::initDone()
+{
+    loadCredentials();
+    m_loginButton->setEnabled(true);
+}
+
+void LoginForm::initFailed()
+{
+    qDebug() << "SOMETHING DIDN'T WORK :(";
 }
 
 void LoginForm::doLogin()
@@ -86,6 +107,12 @@ void LoginForm::loginFailed()
     m_busyWidget->hide();
     m_usernameLabel->setText(i18n("Login Failed"));
     m_loginButton->setEnabled(true);
+}
+
+void LoginForm::loadCredentials()
+{
+    m_usernameEdit->setText(GluonPlayer::Authentication::instance()->username());
+    m_passwordEdit->setText(GluonPlayer::Authentication::instance()->password());
 }
 
 #include "loginform.moc"
