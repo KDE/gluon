@@ -19,7 +19,6 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include "core/singleton.h"
 #include "gluon_input_export.h"
 
 #include "inputdevice.h"
@@ -27,6 +26,8 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "touch.h"
+
+#include <core/singleton.h>
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
