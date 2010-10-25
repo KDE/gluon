@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -38,18 +38,17 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
     public:
         SoundEmitterComponentPrivate()
-            : radius(10000.0f)
-            , volume(1.0f)
-            , pitch(1.0f)
-            , asset(0)
+            : asset(0)
             , sound(0)
             , buffer(0)
+            , radius(10000.0f)
+            , volume(1.0f)
+            , pitch(1.0f)
             , loop(false)
             , autoPlay(false)
             {}
-        
+
         Asset *asset;
-        
         GluonAudio::Sound *sound;
         GluonAudio::Buffer *buffer;
         float radius;
@@ -60,7 +59,7 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
 };
 
 SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
-        : Component(parent), 
+        : Component(parent),
         d(new SoundEmitterComponentPrivate)
 {
     metaInfo()->setPropertyRange("pitch", 0.5, 2.0);
@@ -75,7 +74,7 @@ SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComp
 SoundEmitterComponent::~SoundEmitterComponent()
 {
     stop();
-    
+
     delete d;
 }
 
@@ -101,7 +100,7 @@ void
 SoundEmitterComponent::setSound(Asset* asset)
 {
     d->asset = asset;
-    
+
     if(d->sound && asset->data()->hasFormat("application/gluon-audio-buffer"))
     {
         d->sound->stop();
@@ -110,30 +109,30 @@ SoundEmitterComponent::setSound(Asset* asset)
     }
 }
 
-void 
+void
 SoundEmitterComponent::initialize()
 {
     if(!d->sound)
         d->sound = new GluonAudio::Sound();
-    
+
     if(!d->buffer)
         d->buffer = new GluonAudio::Buffer();
 }
 
 void
 SoundEmitterComponent::start()
-{    
+{
     if(d->asset)
     {
-        if(!d->asset->isLoaded()) 
+        if(!d->asset->isLoaded())
             d->asset->load();
-        
-        if(d->asset->data()->hasFormat("application/gluon-audio-buffer")) 
+
+        if(d->asset->data()->hasFormat("application/gluon-audio-buffer"))
         {
             d->buffer->setBuffer(d->asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
         }
     }
-    
+
     d->sound->load(d->buffer);
     d->sound->setPosition(gameObject()->position());
     d->sound->setRadius(d->radius);
@@ -153,7 +152,7 @@ SoundEmitterComponent::draw(int timeLapse)
       d->sound->setPosition(gameObject()->position());
 }
 
-void 
+void
 SoundEmitterComponent::stop()
 {
     if(d->sound)
@@ -162,11 +161,11 @@ SoundEmitterComponent::stop()
     }
 }
 
-void 
+void
 SoundEmitterComponent::cleanup()
 {
     delete d->sound;
-    
+
     d->sound = 0;
     d->buffer = 0;
 }
@@ -232,7 +231,7 @@ void
 SoundEmitterComponent::setLoop(bool loop)
 {
     d->loop = loop;
-    
+
     if(d->sound)
     {
         d->sound->setLoop(loop);

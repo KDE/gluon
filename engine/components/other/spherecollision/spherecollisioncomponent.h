@@ -1,4 +1,4 @@
-/****************************************************************************** 
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -23,14 +23,14 @@
 #include "gluon_engine_export.h"
 #include "component.h"
 
-namespace GluonEngine 
+namespace GluonEngine
 {
     /**
      * This class handles simple sphere-based collision.
      * Spherical collision is the most simple algorithm for collision
      * detection and thus also the fastest.
      *
-     * Collision components use simple integer-based grouping to 
+     * Collision components use simple integer-based grouping to
      * exclude/include other components to collide with.
      */
     class GLUON_ENGINE_EXPORT SphereCollisionComponent : public Component
@@ -38,10 +38,10 @@ namespace GluonEngine
         Q_OBJECT
         GLUON_OBJECT(GluonEngine::SphereCollisionComponent)
         Q_INTERFACES(GluonEngine::Component)
-        
+
         Q_PROPERTY(int collisionGroup READ collisionGroup WRITE setCollisionGroup)
         Q_PROPERTY(float radius READ radius WRITE setRadius)
-        
+
         public:
             /**
              * Constructor.
@@ -52,15 +52,15 @@ namespace GluonEngine
              */
             ~SphereCollisionComponent();
             virtual QString category() const;
-        
+
             /**
              * Update method.
              * This method does the actual collision calculation.
-             * 
+             *
              * @see Component::update();
              */
             virtual void update(int elapsedMilliseconds);
-            
+
             /**
              * The collision group this object belongs to.
              */
@@ -69,7 +69,7 @@ namespace GluonEngine
              * The radius of this object.
              */
             float radius() const;
-            
+
             /**
              * Is this object colliding with something?
              */
@@ -81,7 +81,7 @@ namespace GluonEngine
              * if there is no collision.
              */
             Q_INVOKABLE QObject* collidesWith() const;
-            
+
         public Q_SLOTS:
             /**
              * Set the group this object belongs to.
@@ -91,15 +91,15 @@ namespace GluonEngine
              * Set the radius of this object.
              */
             void setRadius(float radius);
-            
+
         /*Q_SIGNALS:
-            /**
+             *
              * Emitted when a collision occurs.
              *
              * @param comp The object this object collided with.
              */
         //    void collides(SphereCollisionComponent* comp);
-            
+
         private:
             class SphereCollisionComponentPrivate;
             SphereCollisionComponentPrivate * const d;

@@ -72,8 +72,8 @@ void
 GameObject::initialize()
 {
     const int componentCount = d->components.count();
-    int i = 0;
-    for(i; i < componentCount; ++i)
+    int i;
+    for(i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->initialize();
 
@@ -86,8 +86,8 @@ void
 GameObject::start()
 {
     const int componentCount = d->components.count();
-    int i = 0;
-    for(i; i < componentCount; ++i)
+    int i;
+    for(i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->start();
 
@@ -149,8 +149,8 @@ GameObject::draw(int timeLapse)
 void GameObject::stop()
 {
     const int componentCount = d->components.count();
-    int i = 0;
-    for(i; i < componentCount; ++i)
+    int i;
+    for(i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->stop();
 
@@ -163,8 +163,8 @@ void
 GameObject::cleanup()
 {
     const int componentCount = d->components.count();
-    int i = 0;
-    for(i; i < componentCount; ++i)
+    int i;
+    for(i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->cleanup();
 

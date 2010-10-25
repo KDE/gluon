@@ -288,7 +288,6 @@ GluonObject::setName(const QString &newName)
         {
             addedNumber++;
             nameIsOK = true;
-            int checker = 0;
             foreach(QObject* child, theChildren)
             {
                 GluonObject * theChild = qobject_cast<GluonObject*>(child);
@@ -606,7 +605,7 @@ GluonObject::getStringFromProperty(const QString &propertyName, const QString &i
         case QVariant::Bool:
             value = QString("bool(%1)").arg(theValue.toString());
             break;
-        case 135:
+        // case 135:
         case QVariant::Double:
             if (theValue.toDouble() != 0)
                 value = QString("float(%1)").arg(theValue.toDouble());

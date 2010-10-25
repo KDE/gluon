@@ -164,6 +164,7 @@ void MainWindow::updateTitle(int msec)
 
 void MainWindow::countFrames( int time )
 {
+    Q_UNUSED(time)
     d->frameCount++;
 }
 

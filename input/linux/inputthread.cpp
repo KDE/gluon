@@ -75,6 +75,8 @@ void InputThread::run()
             case GluonInput::AbsoluteAxis:
                 emit this->absAxisMoved(ev.code, ev.value);
                 break;
+            default:
+                break;
             }
         }
     }

@@ -42,12 +42,12 @@ Technique::~Technique()
 
 QHash< QString, QString > Technique::build()
 {
-
+    return QHash<QString, QString>();
 }
 
 GluonGraphics::Material* Technique::material()
 {
-
+    return 0;
 }
 
 #include "technique.moc"
