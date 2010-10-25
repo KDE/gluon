@@ -20,11 +20,9 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "input/inputmanager.h"
+#include <gluon/input/inputmanager.h>
 
 #include <QDebug>
-
-using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -39,16 +37,16 @@ int main(int argc, char *argv[])
         qDebug() << input->deviceName();
 
         switch (input->deviceType()) {
-        case GluonInput::KeyboardDevice :
+        case GluonInput::KeyboardDevice:
             qDebug() << "this is a keyboard";
             break;
-        case GluonInput::MouseDevice :
+        case GluonInput::MouseDevice:
             qDebug() << "this is a mouse";
             break;
-        case GluonInput::JoystickDevice :
+        case GluonInput::JoystickDevice:
             qDebug() << "this is a joystick";
             break;
-        case GluonInput::TouchDevice :
+        case GluonInput::TouchDevice:
             qDebug() << "this is a touch";
             break;
         case GluonInput::UnknownDevice:
@@ -70,5 +68,4 @@ int main(int argc, char *argv[])
 
         qDebug() << "===========================================================";
     }
-
 }

@@ -47,15 +47,10 @@ namespace GluonInput
             void setAllEnabled(bool enable);
 
             unsigned int deviceCount();
-
             unsigned int keyboardCount();
-
             unsigned int mouseCount();
-
             unsigned int joystickCount();
-
             unsigned int touchCount();
-
             unsigned int unknownDeviceCount();
 
             QList<Keyboard *> keyboardList();

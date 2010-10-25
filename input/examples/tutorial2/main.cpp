@@ -18,22 +18,21 @@
  */
 #include "gameloop.h"
 
-#include "input/keyboard.h"
-#include "input/inputmanager.h"
+#include <gluon/input/keyboard.h>
+#include <gluon/input/inputmanager.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 #include <QtGui/QApplication>
 
-using namespace std;
 using namespace GluonInput;
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    if(InputManager::instance()->keyboardList().count() > 0) {
+    if (InputManager::instance()->keyboardList().count() > 0) {
         qDebug() <<"creating test gameloop";
         Keyboard *keyboard = InputManager::instance()->keyboard();
         keyboard->setEnabled(true);
