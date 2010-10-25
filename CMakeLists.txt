@@ -26,7 +26,6 @@ set(GLUON_BUILD_ALL TRUE
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-
 ##### Gluon Libraries #####
 
 ####### Gluon Core ########
