@@ -36,25 +36,25 @@ namespace GluonAudio
             Q_OBJECT
 
         public:
-            Sound(QObject * parent = 0);
+            Sound(QObject *parent = 0);
             /**
             * This is the default constructor
             * @param soundFile the path of the file to play
             */
-            explicit Sound(const QString &soundFile, QObject * parent = 0);
+            explicit Sound(const QString &soundFile, QObject *parent = 0);
             /**
             * This is the default constructor
             * @param KALBuffer the buffer
             */
-            explicit Sound(Buffer *buffer, QObject * parent = 0);
+            explicit Sound(Buffer *buffer, QObject *parent = 0);
             /**
             * This is the default constructor
             * @param ALuint the buffer
             */
-            explicit Sound(ALuint buffer, QObject * parent = 0);
+            explicit Sound(ALuint buffer, QObject *parent = 0);
 
             void load(const QString &soundFile);
-            void load(Buffer * buffer);
+            void load(Buffer *buffer);
             void load(ALuint buffer);
 
             /**
@@ -65,12 +65,12 @@ namespace GluonAudio
             /**
             * @return the time since the sound started playing
             */
-            ALfloat elapsedTime()const ;
+            ALfloat elapsedTime() const ;
 
             /**
             * @return the sound status
             */
-            ALint status()const ;
+            ALint status() const ;
 
             bool isPlaying();
             bool isLooping();
@@ -79,7 +79,7 @@ namespace GluonAudio
             * @todo this function isn't defined!
             * @return the last error reported
             */
-            QString lastError()const ;
+            QString lastError() const ;
 
             /**
             * @return the coordinates of the sound postion
@@ -93,42 +93,42 @@ namespace GluonAudio
             * relative to the listener
             * @see setPosition, y, z
             */
-            ALfloat x()const ;
+            ALfloat x() const ;
 
             /**
             * @return the y coordinate of the sound position
             * relative to the listener
             * @see setPosition, x, z
             */
-            ALfloat y()const ;
+            ALfloat y() const ;
 
             /**
             * @return the z coordinate of the sound position
             * relative to the listener
             * @see setPosition, x, y
             */
-            ALfloat z()const ;
+            ALfloat z() const ;
 
             /**
             * @return the volume currently applied
             * @see setvolume
             */
-            ALfloat volume()const ;
+            ALfloat volume() const ;
 
             /**
             * @return the pitch currently applied
             * @see setPitch
             */
-            ALfloat pitch()const ;
+            ALfloat pitch() const ;
 
             /**
              *
              */
             ALfloat radius() const;
 
-            ALfloat duration()const ;
+            ALfloat duration() const ;
 
-            ALuint source()const ;
+            ALuint source() const ;
 
         public Q_SLOTS:
             /**
@@ -245,7 +245,7 @@ namespace GluonAudio
             Q_DISABLE_COPY(Sound)
 
             class SoundPrivate;
-            SoundPrivate * const d;
+            SoundPrivate *const d;
     };
 }
 

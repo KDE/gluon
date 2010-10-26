@@ -36,22 +36,17 @@ void Music::open(std::string path)
     if (!(oggFile = fopen(path.c_str(), "rb")))
         qDebug() << "Could not open Ogg file.";
 
-    if ((result = ov_open(oggFile, &oggStream, NULL, 0)) < 0)
-    {
+    if ((result = ov_open(oggFile, &oggStream, 0, 0)) < 0) {
         fclose(oggFile);
-
         qDebug() << "Could not open Ogg stream. ";
     }
 
     vorbisInfo = ov_info(&oggStream, -1);
     vorbisComment = ov_comment(&oggStream, -1);
 
-    if (vorbisInfo->channels == 1)
-    {
+    if (vorbisInfo->channels == 1) {
         format = AL_FORMAT_MONO16;
-    }
-    else
-    {
+    } else {
         format = AL_FORMAT_STEREO16;
     }
 
@@ -92,26 +87,22 @@ void Music::display()
     << "\n"
     << "vendor " << vorbisComment->vendor << "\n";
 
-    for (int i = 0; i < vorbisComment->comments; i++)
-    {
+    for (int i = 0; i < vorbisComment->comments; ++i) {
         qDebug() << "   " << vorbisComment->user_comments[i] << "\n";
     }
 }
 
 bool Music::playback()
 {
-    if (isPlaying())
-    {
+    if (isPlaying()) {
         return true;
     }
 
-    if (!stream(buffers[0]))
-    {
+    if (!stream(buffers[0])) {
         return false;
     }
 
-    if (!stream(buffers[1]))
-    {
+    if (!stream(buffers[1])) {
         return false;
     }
 
@@ -137,8 +128,7 @@ bool Music::update()
 
     alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
 
-    while (processed--)
-    {
+    while (--processed) {
         ALuint buffer;
 
         alSourceUnqueueBuffers(source, 1, &buffer);
@@ -160,29 +150,21 @@ bool Music::stream(ALuint buffer)
     int  section;
     int  result;
 
-    while (size < BUFFER_SIZE)
-    {
+    while (size < BUFFER_SIZE) {
         result = ov_read(&oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1, &section);
 
-        if (result > 0)
-        {
+        if (result > 0) {
             size += result;
-        }
-        else
-        {
-            if (result < 0)
-            {
+        } else {
+            if (result < 0) {
                 qDebug() << "errorString(result)";
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
     }
 
-    if (size == 0)
-    {
+    if (size == 0) {
         return false;
     }
 
@@ -198,8 +180,7 @@ void Music::empty()
 
     alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
-    while (queued--)
-    {
+    while (--queued) {
         ALuint buffer;
 
         alSourceUnqueueBuffers(source, 1, &buffer);
@@ -211,16 +192,14 @@ void Music::check()
 {
     int error = alGetError();
 
-    if (error != AL_NO_ERROR)
-    {
+    if (error != AL_NO_ERROR) {
         qDebug() << "OpenAL error was raised.";
     }
 }
 
 std::string Music::errorString(int code)
 {
-    switch (code)
-    {
+    switch (code) {
         case OV_EREAD:
             return std::string("Read from media.");
         case OV_ENOTVORBIS:
@@ -238,23 +217,17 @@ std::string Music::errorString(int code)
 
 void Music::run()
 {
-    this->open(m_fileName.toUtf8().data());
+    open(m_fileName.toUtf8().data());
     display();
-    if (!playback())
-    {
+    if (!playback()) {
         qDebug() << "Ogg refused to play.";
     }
 
-    while (update())
-    {
-        if (!isPlaying())
-        {
-            if (!playback())
-            {
+    while (update()) {
+        if (!isPlaying()) {
+            if (!playback()) {
                 qDebug() << "Ogg abruptly stopped.";
-            }
-            else
-            {
+            } else {
                 qDebug() << "Ogg stream was interrupted.\n";
             }
         }

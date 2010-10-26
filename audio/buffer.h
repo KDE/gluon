@@ -55,7 +55,7 @@ namespace GluonAudio
 
         private:
             class BufferPrivate;
-            BufferPrivate * const d;
+            BufferPrivate *const d;
     };
 }
 

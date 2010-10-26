@@ -20,11 +20,11 @@
 #ifndef GLUON_AUDIO_SOUNDREADER_H
 #define GLUON_AUDIO_SOUNDREADER_H
 
+#include "gluon_audio_export.h"
+
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <al.h>
-
-#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
@@ -33,7 +33,7 @@ namespace GluonAudio
     class GLUON_AUDIO_EXPORT SoundReader
     {
         public:
-            SoundReader(const QString& fileName);
+            SoundReader(const QString &fileName);
             ~SoundReader();
 
             QString format() const;
@@ -51,7 +51,7 @@ namespace GluonAudio
             Q_DISABLE_COPY(SoundReader)
 
             class SoundReaderPrivate;
-            SoundReaderPrivate * const d;
+            SoundReaderPrivate *const d;
 
     };
 }
