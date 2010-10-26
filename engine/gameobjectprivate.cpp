@@ -24,28 +24,27 @@
 using namespace GluonEngine;
 
 GameObjectPrivate::GameObjectPrivate()
+    : enabled(true)
+    , position(QVector3D())
+    , scale(QVector3D(1, 1, 1))
+    , orientation(QQuaternion(0, 0, 0, 1))
+    , transform(QMatrix4x4())
+    , transformInvalidated(true)
+    , parentGameObject(0)
 {
-    parentGameObject = 0;
-    enabled = true;
-    position = QVector3D();
-    scale = QVector3D(1, 1, 1);
-    orientation = QQuaternion(0, 0, 0, 1);
-
-    transform = QMatrix4x4();
-    transformInvalidated = true;
 }
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
-        : QSharedData(other)
-        , description(other.description)
-        , enabled(other.enabled)
-        , position(other.position)
-        , scale(other.scale)
-        , orientation(other.orientation)
-        , parentGameObject(other.parentGameObject)
+    : QSharedData(other)
+    , description(other.description)
+    , enabled(other.enabled)
+    , position(other.position)
+    , scale(other.scale)
+    , orientation(other.orientation)
+    , transform(QMatrix4x4())
+    , transformInvalidated(true)
+    , parentGameObject(other.parentGameObject)
 {
-    transform = QMatrix4x4();
-    transformInvalidated = true;
 }
 
 GameObjectPrivate::~GameObjectPrivate()
