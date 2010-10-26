@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -43,7 +43,7 @@ namespace GluonEngine
         public:
             enum MouseButton
             {
-                MOUSE_BUTTON_UNKNOWN = 0,
+                MOUSE_BUTTON_UNKNOWN,
                 MOUSE_BUTTON_LEFT,
                 MOUSE_BUTTON_RIGHT,
                 MOUSE_BUTTON_MIDDLE,
@@ -53,12 +53,12 @@ namespace GluonEngine
                 MOUSE_BUTTON_SEVEN,
                 MOUSE_BUTTON_EIGHT,
             };
-            
-            Q_INVOKABLE MouseInputComponent(QObject * parent = 0);
+
+            Q_INVOKABLE MouseInputComponent(QObject *parent = 0);
             virtual QString category() const;
 
-            //  True on any frame between getActionStarted and
-            //  getActionStopped, inclusive of those two frames
+            // True on any frame between getActionStarted and
+            // getActionStopped, inclusive of those two frames
             Q_INVOKABLE bool isActionHeld();
             // True on the frame when an action was begun (for example the
             // button represented by buttonName was pressed on a controller)
@@ -85,7 +85,7 @@ namespace GluonEngine
 
         private:
             class MouseInputComponentPrivate;
-            MouseInputComponentPrivate * const d;
+            MouseInputComponentPrivate *const d;
     };
 }
 
