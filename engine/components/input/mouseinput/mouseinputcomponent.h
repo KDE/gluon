@@ -19,8 +19,8 @@
  */
 
 
-#ifndef KEYBOARDINPUTCOMPONENT_H
-#define KEYBOARDINPUTCOMPONENT_H
+#ifndef MOUSEINPUTCOMPONENT_H
+#define MOUSEINPUTCOMPONENT_H
 
 #include "component.h"
 
@@ -92,4 +92,4 @@ namespace GluonEngine
 Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent)
 Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent*)
 
-#endif // KEYBOARDINPUTCOMPONENT_H
+#endif // MOUSEINPUTCOMPONENT_H
