@@ -19,16 +19,15 @@
 #ifndef GLUON_CORE_GLUONOBJECT_H
 #define GLUON_CORE_GLUONOBJECT_H
 
+#include "gluonobjectfactory.h"
+#include "gluon_core_export.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-
-#include "gluonobjectfactory.h"
-#include "gluon_core_export.h"
-
 
 Q_DECLARE_METATYPE(QList<QUrl>)
 
