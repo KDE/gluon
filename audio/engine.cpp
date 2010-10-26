@@ -34,8 +34,8 @@ template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
 
 Engine::Engine()
 {
-    m_context = NULL;
-    m_device = NULL;
+    m_context = 0;
+    m_device = 0;
     setDevice("");
 
     qDebug() << alGetError();
@@ -43,59 +43,48 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    alcMakeContextCurrent(NULL);
+    alcMakeContextCurrent(0);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
 }
 
 QStringList Engine::deviceList()
 {
-    if (!Device::isExtensionPresent("ALC_ENUMERATION_EXT"))
-    {
+    if (!Device::isExtensionPresent("ALC_ENUMERATION_EXT")) {
         return QStringList();
     }
 
-    if (Device::isExtensionPresent("ALC_ENUMERATE_ALL_EXT"))
-    {
+    if (Device::isExtensionPresent("ALC_ENUMERATE_ALL_EXT")) {
         return Device::contextOption(ALC_ALL_DEVICES_SPECIFIER);
-    }
-    else
-    {
+    } else {
         return Device::contextOption(ALC_DEVICE_SPECIFIER);
     }
 }
 
 bool Engine::setDevice(const QString &deviceName)
 {
-    if (m_device)
-    {
-        alcMakeContextCurrent(NULL);
+    if (m_device) {
+        alcMakeContextCurrent(0);
         alcDestroyContext(m_context);
     }
 
-    if (!deviceName.isEmpty())
-    {
+    if (!deviceName.isEmpty()) {
         m_device = alcOpenDevice(deviceName.toUtf8());
-    }
-    else
-    {
+    } else {
         m_device = alcOpenDevice(0);
     }
 
-    if (!m_device)
-    {
+    if (!m_device) {
         return false;
     }
 
     m_context = alcCreateContext(m_device, 0);
 
-    if (!m_context)
-    {
+    if (!m_context) {
         return false;
     }
 
-    if (!alcMakeContextCurrent(m_context))
-    {
+    if (!alcMakeContextCurrent(m_context)) {
         return false;
     }
 

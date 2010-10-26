@@ -19,16 +19,15 @@
 #ifndef GLUON_CORE_GLUONOBJECT_H
 #define GLUON_CORE_GLUONOBJECT_H
 
+#include "gluonobjectfactory.h"
+#include "gluon_core_export.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-
-#include "gluonobjectfactory.h"
-#include "gluon_core_export.h"
-
 
 Q_DECLARE_METATYPE(QList<QUrl>)
 
@@ -278,7 +277,7 @@ YourClassName::~YourClassName()
             virtual QString propertiesToGDL(int indentLevel = 0) const;
 
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
-            virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
+            virtual QString stringFromProperty(const QString& propertyName, const QString& indentChars) const;
 
             virtual void sanitize();
 

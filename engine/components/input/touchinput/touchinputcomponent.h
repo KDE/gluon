@@ -19,42 +19,35 @@
  */
 
 
-#ifndef MOUSEINPUTCOMPONENT_H
-#define MOUSEINPUTCOMPONENT_H
+#ifndef TOUCHINPUTCOMPONENT_H
+#define TOUCHINPUTCOMPONENT_H
 
 #include "component.h"
 
 #include "gluonbuttons.h"
 
 namespace GluonInput {
-    class Mouse;
+    class Touch;
 }
 
 namespace GluonEngine
 {
-    class MouseInputComponent : public Component
+    class TouchInputComponent : public Component
     {
             Q_OBJECT;
-            GLUON_OBJECT(GluonEngine::MouseInputComponent)
+            GLUON_OBJECT(GluonEngine::TouchInputComponent)
+            Q_PROPERTY(TouchName touchCode READ touchCode WRITE setTouchCode);
             Q_INTERFACES(GluonEngine::Component)
-            Q_PROPERTY(MouseButton mouseButton READ mouseButton WRITE setMouseButton)
-            Q_ENUMS(MouseButton)
+            Q_ENUMS(KeyName)
 
         public:
-            enum MouseButton
+            enum TouchName
             {
-                MOUSE_BUTTON_UNKNOWN,
-                MOUSE_BUTTON_LEFT,
-                MOUSE_BUTTON_RIGHT,
-                MOUSE_BUTTON_MIDDLE,
-                MOUSE_BUTTON_FOUR,
-                MOUSE_BUTTON_FIVE,
-                MOUSE_BUTTON_SIX,
-                MOUSE_BUTTON_SEVEN,
-                MOUSE_BUTTON_EIGHT,
+                UNKNOWN,
+                ONE,
             };
 
-            Q_INVOKABLE MouseInputComponent(QObject *parent = 0);
+            Q_INVOKABLE TouchInputComponent(QObject *parent = 0);
             virtual QString category() const;
 
             // True on any frame between getActionStarted and
@@ -72,24 +65,21 @@ namespace GluonEngine
             virtual void update(int elapsedMilliseconds);
             virtual void stop();
 
-            MouseButton mouseButton() const;
-            void setMouseButton(MouseButton button);
-
-            Q_INVOKABLE virtual int xAxis();
-            Q_INVOKABLE virtual int yAxis();
-            Q_INVOKABLE virtual int zAxis();
-
-            Q_INVOKABLE virtual int relativeXAxis();
-            Q_INVOKABLE virtual int relativeYAxis();
-            Q_INVOKABLE virtual int relativeZAxis();
+            TouchName touchCode() const;
+            void setTouchCode(TouchName newTouchCode);
 
         private:
-            class MouseInputComponentPrivate;
-            MouseInputComponentPrivate *const d;
+            bool m_actionHeld;
+            bool m_actionStarted;
+            bool m_actionStopped;
+
+            TouchName m_touchCode;
+
+            GluonInput::Touch *m_touch;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent)
-Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent*)
+Q_DECLARE_METATYPE(GluonEngine::TouchInputComponent)
+Q_DECLARE_METATYPE(GluonEngine::TouchInputComponent *)
 
-#endif // MOUSEINPUTCOMPONENT_H
+#endif // TOUCHINPUTCOMPONENT_H

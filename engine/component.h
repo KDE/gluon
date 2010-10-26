@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -38,7 +38,7 @@ namespace GluonEngine
 
     /**
      * \brief Adds functionality to GameObjects, is the final level in the GameObject hierarchy
-     * 
+     *
      * Component is a class which defines the required functionality for
      * implementing components for use with Gluon. A component is the place
      * where the vast majority of logic found in GluonEngine games exist. The six
@@ -75,23 +75,23 @@ namespace GluonEngine
             // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
 
         public:
-            Q_INVOKABLE Component(QObject * parent = 0);
-            Component(const Component &other, QObject * parent = 0);
+            Q_INVOKABLE Component(QObject *parent = 0);
+            Component(const Component &other, QObject *parent = 0);
             ~Component();
-            
+
             /**
             * Return the category of the component. Meta-data used for filtering
             * and sorting components
             */
             virtual QString category() const;
-            
+
             /**
             * If you wish to be able to use your objects as properties, make sure
             * to implement this function to return a QVariant which is of the type
             * of your class.
             */
-             virtual QVariant toVariant(GluonObject * wrapThis);
-            
+             virtual QVariant toVariant(GluonObject *wrapThis);
+
             /**
              * The initialize function is called whenever an initialized object
              * is needed. This includes scene changes.
@@ -135,12 +135,12 @@ namespace GluonEngine
              * between runs.
              */
             virtual void stop() {};
-            
+
             /**
              * The cleanup function is called whenever a n object is no longer
              * needed. This happens mostly during scene changes.
              */
-            virtual void cleanup() {} 
+            virtual void cleanup() {}
 
             /**
              * The description of the Component instance. An arbitrary value
@@ -199,12 +199,12 @@ namespace GluonEngine
             /**
              * Adapted function which special cases access to properties with the
              * type GluonEngine::Asset* - used by GDLHandler.
-             * 
+             *
              * @param   propertyName    The name of the property you wish to get in GDL property string form
              * @param   indentChars     The characters used for indenting the string
              * @return  The GDL representation of the property
              */
-            virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
+            virtual QString stringFromProperty(const QString &propertyName, const QString &indentChars) const;
 
         private:
             QSharedDataPointer<ComponentPrivate> d;
@@ -213,6 +213,6 @@ namespace GluonEngine
 
 Q_DECLARE_INTERFACE(GluonEngine::Component, "com.gluon.Component/1.0")
 Q_DECLARE_METATYPE(GluonEngine::Component)
-Q_DECLARE_METATYPE(GluonEngine::Component*)
+Q_DECLARE_METATYPE(GluonEngine::Component *)
 
 #endif  // GLUON_COMPONENT_H

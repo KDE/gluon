@@ -194,7 +194,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
     }
     else if ( mouseEvent->button() == Qt::RightButton) {
         QListIterator<QGraphicsItem*>  list(items(mouseEvent->scenePos()));
-        NodeItem *nItem;
+        NodeItem *nItem = 0;
         while (list.hasNext()) {
             QGraphicsItem* item=list.next();
             if (item->type()==65578) nItem=qgraphicsitem_cast<NodeItem*>(item);

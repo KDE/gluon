@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -23,22 +23,22 @@
 #include "gameobject.h"
 
 #include "core/debughelper.h"
+#include "asset.h"
 
 #include <QtCore/QString>
 #include <QtCore/QMetaProperty>
-#include "asset.h"
 
 using namespace GluonEngine;
 
-Component::Component(QObject * parent)
-        : GluonObject(parent)
+Component::Component(QObject *parent)
+    : GluonObject(parent)
+    , d(new ComponentPrivate)
 {
-    d = new ComponentPrivate;
 }
 
-Component::Component(const Component &other, QObject * parent)
-        : GluonObject(parent)
-        , d(other.d)
+Component::Component(const Component &other, QObject *parent)
+    : GluonObject(parent)
+    , d(other.d)
 {
 }
 
@@ -53,14 +53,13 @@ Component::category() const
 }
 
 QVariant
-Component::toVariant(GluonCore::GluonObject* wrapThis)
+Component::toVariant(GluonCore::GluonObject *wrapThis)
 {
-    if (strcmp(staticMetaObject.className(), "GluonCore::Component") != 0)
-    {
+    if (strcmp(staticMetaObject.className(), "GluonCore::Component")) {
         DEBUG_BLOCK
         DEBUG_TEXT(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(staticMetaObject.className()));
     }
-    return QVariant::fromValue<GluonEngine::Component*>(qobject_cast<GluonEngine::Component*>(wrapThis));
+    return QVariant::fromValue<GluonEngine::Component *>(qobject_cast<GluonEngine::Component *>(wrapThis));
 }
 
 void
@@ -78,15 +77,11 @@ Component::draw(int timeLapse)
 void
 Component::sanitize()
 {
-    if (this->parent())
-    {
-        if (this->parent()->metaObject())
-        {
-            if (QString::compare(this->parent()->metaObject()->className(), "GameObject"))
-            {
-                GameObject * theParent = qobject_cast<GameObject*>(this->parent());
-                if (theParent)
-                {
+    if (parent()) {
+        if (parent()->metaObject()) {
+            if (QString::compare(parent()->metaObject()->className(), "GameObject")) {
+                GameObject *theParent = qobject_cast<GameObject *>(parent());
+                if (theParent) {
                     theParent->addComponent(this);
                     d->gameObject = theParent;
                 }
@@ -129,25 +124,23 @@ Component::gameObject()
 }
 
 void
-Component::setGameObject(GameObject * newGameObject)
+Component::setGameObject(GameObject *newGameObject)
 {
     d->gameObject = newGameObject;
 }
 
 QString
-Component::getStringFromProperty(const QString& propertyName, const QString& indentChars) const
+Component::stringFromProperty(const QString &propertyName, const QString &indentChars) const
 {
     DEBUG_FUNC_NAME
     QMetaProperty prop = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
-    if(QString(prop.typeName()) == QString("GluonEngine::Asset*"))
-    {
-        GluonEngine::Asset* asset = prop.read(this).value<GluonEngine::Asset*>();
-        if(asset)
-        {
+    if(QString(prop.typeName()) == QString("GluonEngine::Asset*")) {
+        GluonEngine::Asset *asset = prop.read(this).value<GluonEngine::Asset *>();
+        if(asset) {
             return QString("\n%1%2 GluonEngine::Asset(%3)").arg(indentChars, propertyName, asset->fullyQualifiedName());
         }
     }
-    return GluonCore::GluonObject::getStringFromProperty(propertyName, indentChars);
+    return GluonCore::GluonObject::stringFromProperty(propertyName, indentChars);
 }
 
 #include "component.moc"

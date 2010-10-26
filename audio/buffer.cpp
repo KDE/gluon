@@ -35,7 +35,7 @@ class Buffer::BufferPrivate
 
 Buffer::BufferPrivate::~BufferPrivate()
 {
-    if(buffer && !shared)
+    if (buffer && !shared)
         alDeleteBuffers(1, &buffer);
 }
 
@@ -75,6 +75,7 @@ void Buffer::setBuffer(ALuint buffer, bool shared)
     d->buffer = buffer;
     d->shared = shared;
 }
+
 bool Buffer::isEmpty()const
 {
     return !d->buffer;
@@ -92,8 +93,7 @@ ALuint Buffer::buffer() const
 void Buffer::setBuffer(const QString &fileName)
 {
     SoundReader reader(fileName);
-    if (reader.canRead())
-    {
+    if (reader.canRead()) {
         d->buffer = reader.alBuffer();
     }
 }
@@ -118,5 +118,4 @@ ALfloat Buffer::duration() const
     //[14:42] <KittyCat> and samples/(float)frequency is the time is seconds
 
     return dur;
-
 }

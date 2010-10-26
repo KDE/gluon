@@ -22,9 +22,9 @@
 #ifndef GLUON_CORE_DEBUGHELPER_H
 #define GLUON_CORE_DEBUGHELPER_H
 
-#include <QtCore/QString>
-
 #include "gluon_core_export.h"
+
+#include <QtCore/QString>
 
 //#ifndef QT_NO_DEBUG
 #   define DEBUG_FUNC_NAME GluonCore::DbgHelper dbgHelper(Q_FUNC_INFO);

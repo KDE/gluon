@@ -19,11 +19,11 @@
 #ifndef GLUON_CORE_GDLHANDLER_H
 #define GLUON_CORE_GDLHANDLER_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
 #include "singleton.h"
 #include "gluon_core_export.h"
+
+#include <QtCore/QObject>
+#include <QtCore/QString>
 
 namespace GluonCore
 {
@@ -147,7 +147,7 @@ bool fiddleWithObjects(QString filename)
              * @param   parent      The QObject you wish the objects to be parented to
              * @return  A list of generated GluonObject instances
              */
-            QList<GluonObject *> parseGDL(const QString parseThis, QObject * parent);
+            QList<GluonObject *> parseGDL(const QString parseThis, QObject *parent);
             
             /**
              * Serialize a list of GluonObject instances into a GDL representation
@@ -164,7 +164,7 @@ bool fiddleWithObjects(QString filename)
             Q_DISABLE_COPY(GDLHandler);
 
             GluonObject * instantiateObject(QString className);
-            GluonObject * createObject(QStringList objectStringList, QObject * parent);
+            GluonObject * createObject(QStringList objectStringList, QObject *parent);
             /**
              * Returns a list of QStringLists, where each QStringList is:
              * Index 0: The type of the object

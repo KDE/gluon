@@ -70,10 +70,10 @@ namespace GluonAudio
             std::string errorString(int code);
 
         private:
-            FILE*           oggFile;
+            FILE *oggFile;
             OggVorbis_File  oggStream;
-            vorbis_info*    vorbisInfo;
-            vorbis_comment* vorbisComment;
+            vorbis_info *vorbisInfo;
+            vorbis_comment *vorbisComment;
 
             ALuint buffers[2];
             ALuint source;

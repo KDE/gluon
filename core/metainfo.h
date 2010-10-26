@@ -39,32 +39,32 @@ namespace GluonCore
              * @param min The minimum allowed value for the property
              * @param max The maximum allowed value for the property
              */
-            Q_INVOKABLE void setPropertyRange(const QString& property, qreal min, qreal max);
+            Q_INVOKABLE void setPropertyRange(const QString &property, qreal min, qreal max);
             /**
              * Whether a range has been set for the named property
              * @param property The name of the property to check
              * @return Whether a range has been set for the property
              */
-            Q_INVOKABLE bool hasPropertyRange(const QString& property) const;
+            Q_INVOKABLE bool hasPropertyRange(const QString &property) const;
             /**
              * The minimum value allowed for the property.
              * Note: If the property does not have a range set, this will return 0
              * @param property The name of the property to fetch the minimum value for
              * @return The miminum allowed value for the property
              */
-            Q_INVOKABLE qreal propertyRangeMin(const QString& property) const;
+            Q_INVOKABLE qreal propertyRangeMin(const QString &property) const;
             /**
             * The maximum value allowed for the property.
             * Note: If the property does not have a range set, this will return 0
             * @param property The name of the property to fetch the maximum value for
             * @return The maximum allowed value for the property
             */
-            Q_INVOKABLE qreal propertyRangeMax(const QString& property) const;
+            Q_INVOKABLE qreal propertyRangeMax(const QString &property) const;
             /**
              * Remove the range for the property
              * @param property The property to remove the range values for
              */
-            Q_INVOKABLE void removePropertyRange(const QString& property);
+            Q_INVOKABLE void removePropertyRange(const QString &property);
             /**
              * Cap the passed value to the range for the given property, if it is set. If
              * no range exists, the value is returned without change.
@@ -73,32 +73,32 @@ namespace GluonCore
              * @return The capped value
              * @see applyRangeAndStep() applyStep()
              */
-            Q_INVOKABLE qreal applyRange(const QString& property, qreal newValue) const;
+            Q_INVOKABLE qreal applyRange(const QString &property, qreal newValue) const;
 
             /**
              * Set the number of steps the property's range should be separated into.
              * @param property The property to set steps for
              * @param step The number of steps steps
              */
-            Q_INVOKABLE void setPropertySteps(const QString& property, quint32 steps);
+            Q_INVOKABLE void setPropertySteps(const QString &property, quint32 steps);
             /**
              * Whether a step has been set for the named property
              * @param property The name of the property to check
              * @return Whether a step value is defined
              */
-            Q_INVOKABLE bool hasPropertySteps(const QString& property) const;
+            Q_INVOKABLE bool hasPropertySteps(const QString &property) const;
             /**
              * The number of steps the property is separated into
              * If no value is set, this function will return 0
              * @param property The property in question
              * @return The number of steps for the named property
              */
-            Q_INVOKABLE quint32 propertySteps(const QString& property) const;
+            Q_INVOKABLE quint32 propertySteps(const QString &property) const;
             /**
              * Remove the step value set for the named property
              * @param property The property to remove the steps for
              */
-            Q_INVOKABLE void removePropertySteps(const QString& property);
+            Q_INVOKABLE void removePropertySteps(const QString &property);
             /**
              * Round off the given value to the nearest step for the named property
              * If no value has been set, the value will be returned with no change
@@ -107,7 +107,7 @@ namespace GluonCore
              * @return The adjusted value
              * @see applyRangeAndStep() applyRange()
              */
-            Q_INVOKABLE qreal applySteps(const QString& property, qreal newValue) const;
+            Q_INVOKABLE qreal applySteps(const QString &property, qreal newValue) const;
 
             /**
              * Cap the new value to the range for the given property, and round it off
@@ -118,10 +118,10 @@ namespace GluonCore
              * @return The adjusted value
              * @see applyRange() applyStep()
              */
-            Q_INVOKABLE qreal applyRangeAndStep(const QString& property, qreal newValue) const;
+            Q_INVOKABLE qreal applyRangeAndStep(const QString &property, qreal newValue) const;
         private:
             class MetaInfoPrivate;
-            MetaInfoPrivate* d;
+            MetaInfoPrivate *d;
     };
 }
 

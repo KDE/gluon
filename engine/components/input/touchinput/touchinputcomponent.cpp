@@ -18,7 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "keyboardinputcomponent.h"
+
+#include "touchinputcomponent.h"
 #include "input/inputmanager.h"
 
 #include <core/debughelper.h>
@@ -26,45 +27,40 @@
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
 
-REGISTER_OBJECTTYPE(GluonEngine, KeyboardInputComponent);
+REGISTER_OBJECTTYPE(GluonEngine, TouchInputComponent);
 
 using namespace GluonEngine;
 
-KeyboardInputComponent::KeyboardInputComponent(QObject *parent)
+TouchInputComponent::TouchInputComponent(QObject *parent)
     : Component(parent)
     , m_actionHeld(false)
     , m_actionStarted(false)
     , m_actionStopped(false)
-    , m_keyCode(KeyboardInputComponent::UNKNOWN)
-    , m_keyboard(0)
+    , m_touch(0)
 {
 }
 
-QString
-KeyboardInputComponent::category() const
+QString TouchInputComponent::category() const
 {
     return QString("Input");
 }
 
-void KeyboardInputComponent::initialize()
+void TouchInputComponent::initialize()
 {
-    if (!m_keyboard)
-        m_keyboard = GluonInput::InputManager::instance()->keyboard();
+    if (!m_touch)
+        m_touch = GluonInput::InputManager::instance()->touch();
 }
 
-void
-KeyboardInputComponent::start()
+void TouchInputComponent::start()
 {
-    if (m_keyboard) {
-        m_keyboard->setEnabled(true);
-    } else
-    {
-        debug("WARNING! No keyboard found!");
+    if (m_touch) {
+        m_touch->setEnabled(true);
+    } else {
+        debug("WARNING! No touch found!");
     }
 }
 
-void
-KeyboardInputComponent::update(int elapsedMilliseconds)
+void TouchInputComponent::update(int elapsedMilliseconds)
 {
     DEBUG_BLOCK
     if (m_actionStarted)
@@ -73,7 +69,7 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
     if (m_actionStopped)
         m_actionStopped = false;
 
-    if (m_keyboard && m_keyboard->buttonPressed(m_keyCode)) {
+    if (m_touch && m_touch->buttonPressed(m_touchCode)) {
         if (!m_actionHeld) {
             m_actionStarted = true;
             m_actionHeld = true;
@@ -86,10 +82,10 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
     }
 }
 
-void KeyboardInputComponent::stop()
+void TouchInputComponent::stop()
 {
-    if (m_keyboard) {
-        m_keyboard->setEnabled(false);
+    if (m_touch) {
+        m_touch->setEnabled(false);
     }
 
     m_actionStopped = false;
@@ -97,36 +93,32 @@ void KeyboardInputComponent::stop()
     m_actionHeld = false;
 }
 
-bool
-KeyboardInputComponent::isActionStarted()
+bool TouchInputComponent::isActionStarted()
 {
     return m_actionStarted;
 }
 
-bool
-KeyboardInputComponent::isActionHeld()
+bool TouchInputComponent::isActionHeld()
 {
     return m_actionHeld;
 }
 
-bool
-KeyboardInputComponent::isActionStopped()
+bool TouchInputComponent::isActionStopped()
 {
     return m_actionStopped;
 }
 
-KeyboardInputComponent::KeyName
-KeyboardInputComponent::keyCode() const
+TouchInputComponent::TouchName
+TouchInputComponent::touchCode() const
 {
-    return m_keyCode;
+    return m_touchCode;
 }
 
-void
-KeyboardInputComponent::setKeyCode(KeyboardInputComponent::KeyName newKeyCode)
+void TouchInputComponent::setTouchCode(TouchInputComponent::TouchName newTouchCode)
 {
-    m_keyCode = newKeyCode;
+    m_touchCode = newTouchCode;
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent);
+Q_EXPORT_PLUGIN2(gluon_component_touchinput, GluonEngine::TouchInputComponent);
 
-#include "keyboardinputcomponent.moc"
+#include "touchinputcomponent.moc"

@@ -200,6 +200,8 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             }
             break;
         }
+        default:
+        break;
     }
 }
 

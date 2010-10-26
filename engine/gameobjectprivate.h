@@ -53,7 +53,7 @@ namespace GluonEngine
             QMatrix4x4 transform;
             bool transformInvalidated;
 
-            GameObject * parentGameObject;
+            GameObject *parentGameObject;
             QList<GameObject *> children;
             QList<Component *> components;
             QMultiHash<int, Component*> componentTypes;

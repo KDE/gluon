@@ -33,37 +33,36 @@ class MetaInfo::MetaInfoPrivate
         QHash<QString, quint32> propertySteps;
 };
 
-MetaInfo::MetaInfo(GluonObject* parent)
+MetaInfo::MetaInfo(GluonObject *parent)
     : QObject(parent)
     , d(new MetaInfoPrivate())
 {
 }
 
-MetaInfo::MetaInfo(const GluonCore::MetaInfo& other)
+MetaInfo::MetaInfo(const GluonCore::MetaInfo &other)
 {
     delete(d);
 }
 
 MetaInfo::~MetaInfo()
 {
-
 }
 
 void
-MetaInfo::setPropertyRange(const QString& property, qreal min, qreal max)
+MetaInfo::setPropertyRange(const QString &property, qreal min, qreal max)
 {
     d->propertyRangeMin.insert(property, min);
     d->propertyRangeMax.insert(property, max);
 }
 
 bool
-MetaInfo::hasPropertyRange(const QString& property) const
+MetaInfo::hasPropertyRange(const QString &property) const
 {
     return d->propertyRangeMin.keys().contains(property);
 }
 
 qreal
-MetaInfo::propertyRangeMin(const QString& property) const
+MetaInfo::propertyRangeMin(const QString &property) const
 {
     // This will return 0 if we do not have a property range for this property
     // name - but anybody using it should have checked beforehand
@@ -71,7 +70,7 @@ MetaInfo::propertyRangeMin(const QString& property) const
 }
 
 qreal
-MetaInfo::propertyRangeMax(const QString& property) const
+MetaInfo::propertyRangeMax(const QString &property) const
 {
     // This will return 0 if we do not have a property range for this property
     // name - but anybody using it should have checked beforehand
@@ -79,35 +78,35 @@ MetaInfo::propertyRangeMax(const QString& property) const
 }
 
 void
-MetaInfo::removePropertyRange(const QString& property)
+MetaInfo::removePropertyRange(const QString &property)
 {
     d->propertyRangeMin.remove(property);
     d->propertyRangeMax.remove(property);
 }
 
 qreal
-MetaInfo::applyRange(const QString& property, qreal newValue) const
+MetaInfo::applyRange(const QString &property, qreal newValue) const
 {
-    if(!hasPropertyRange(property))
+    if (!hasPropertyRange(property))
         return newValue;
     qBound(d->propertyRangeMin[property], newValue, d->propertyRangeMax[property]);
     return 0;
 }
 
 void
-MetaInfo::setPropertySteps(const QString& property, quint32 steps)
+MetaInfo::setPropertySteps(const QString &property, quint32 steps)
 {
     d->propertySteps.insert(property, steps);
 }
 
 bool
-MetaInfo::hasPropertySteps(const QString& property) const
+MetaInfo::hasPropertySteps(const QString &property) const
 {
     return d->propertySteps.keys().contains(property);
 }
 
 quint32
-MetaInfo::propertySteps(const QString& property) const
+MetaInfo::propertySteps(const QString &property) const
 {
     // This will return 0 if we do not have a property step for this property
     // name - but anybody using it should have checked beforehand
@@ -115,26 +114,26 @@ MetaInfo::propertySteps(const QString& property) const
 }
 
 void
-MetaInfo::removePropertySteps(const QString& property)
+MetaInfo::removePropertySteps(const QString &property)
 {
     d->propertySteps.remove(property);
 }
 
 qreal
-MetaInfo::applySteps(const QString& property, qreal newValue) const
+MetaInfo::applySteps(const QString &property, qreal newValue) const
 {
-    if(!hasPropertySteps(property) || !hasPropertyRange(property))
+    if (!hasPropertySteps(property) || !hasPropertyRange(property))
         return newValue;
     
     // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)
     const qreal step = (d->propertyRangeMax.value(property) - d->propertyRangeMin.value(property)) / d->propertySteps.value(property);
-    return qRound64(newValue / step) * step;
+    return qRound64(newValue / step) *step;
 }
 
 qreal
-MetaInfo::applyRangeAndStep(const QString& property, qreal newValue) const
+MetaInfo::applyRangeAndStep(const QString &property, qreal newValue) const
 {
-    if(!hasPropertySteps(property) || !hasPropertyRange(property))
+    if (!hasPropertySteps(property) || !hasPropertyRange(property))
         return newValue;
     
     // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)

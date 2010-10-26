@@ -65,7 +65,7 @@ void Material::build( const QString& name )
 {
     if(d->glProgram)
          return;
-    
+
     #ifndef GLUON_GRAPHICS_GLES
     const char* vertShaderSource = "\
 uniform mat4 modelViewProj;\

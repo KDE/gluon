@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -93,7 +93,7 @@ namespace GluonEngine
                 V,
                 B,
                 N,
-                M, //50 
+                M, //50
                 COMMA,
                 PUNCTUATION,
                 SLASH,
@@ -427,11 +427,11 @@ namespace GluonEngine
                 FN_B
             };
 
-            Q_INVOKABLE KeyboardInputComponent(QObject * parent = 0);
+            Q_INVOKABLE KeyboardInputComponent(QObject *parent = 0);
             virtual QString category() const;
 
-            //  True on any frame between getActionStarted and
-            //  getActionStopped, inclusive of those two frames
+            // True on any frame between getActionStarted and
+            // getActionStopped, inclusive of those two frames
             Q_INVOKABLE bool isActionHeld();
             // True on the frame when an action was begun (for example the
             // button represented by buttonName was pressed on a controller)
@@ -460,6 +460,6 @@ namespace GluonEngine
 }
 
 Q_DECLARE_METATYPE(GluonEngine::KeyboardInputComponent)
-Q_DECLARE_METATYPE(GluonEngine::KeyboardInputComponent*)
+Q_DECLARE_METATYPE(GluonEngine::KeyboardInputComponent *)
 
 #endif // KEYBOARDINPUTCOMPONENT_H

@@ -97,7 +97,7 @@ namespace GluonEngine
             void setRadius(float radius);
 
         /*Q_SIGNALS:
-            /**
+             *
              * Emitted when a collision occurs.
              *
              * @param comp The object this object collided with.

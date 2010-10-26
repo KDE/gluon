@@ -44,15 +44,17 @@ QString GluonButtons::axisName(DeviceFlag deviceType,int code)
     switch (deviceType) {
     case MouseDevice:
         value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Relative")).valueToKey(code);
-        return value != "" ? value : "Unknown";
+        value != "" ? value : "Unknown";
         break;
     case JoystickDevice:
         value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Absolute")).valueToKey(code);
-        return value != "" ? value : "Unknown";
+        value != "" ? value : "Unknown";
         break;
     default:
-        return "Unknown";
+        value = "Unknown";
+        break;
     }
+    return value;
 }
 
 #include "gluonbuttons.moc"

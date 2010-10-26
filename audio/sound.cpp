@@ -64,7 +64,7 @@ class Sound::SoundPrivate
         ALfloat radius;
 };
 
-Sound::Sound(QObject * parent)
+Sound::Sound(QObject *parent)
         : QObject(parent)
         , d(new SoundPrivate)
 {
@@ -119,27 +119,25 @@ void Sound::setupSource()
 {
     alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
 
-    if (alGetError() != AL_NO_ERROR)
-    {
+    if (alGetError() != AL_NO_ERROR) {
         qDebug() << "Could not process sound while generating source:" << alGetError();
         return;
     }
 
-    if (!d->source)
-    {
+    if (!d->source) {
         qDebug() << "Could not process sound: generated source empty.";
         return;
     }
 }
 
-ALfloat Sound::elapsedTime()const
+ALfloat Sound::elapsedTime() const
 {
     ALfloat seconds = 0.f;
     alGetSourcef(d->source, AL_SEC_OFFSET, &seconds);
     return seconds;
 }
 
-ALint Sound::status()const
+ALint Sound::status() const
 {
     ALint status;
     alGetSourcei(d->source, AL_SOURCE_STATE, &status);
@@ -171,27 +169,27 @@ QVector3D Sound::position() const
     return d->position;
 }
 
-ALfloat Sound::x()const
+ALfloat Sound::x() const
 {
     return d->position.x();
 }
 
-ALfloat Sound::y()const
+ALfloat Sound::y() const
 {
     return d->position.y();
 }
 
-ALfloat Sound::z()const
+ALfloat Sound::z() const
 {
     return d->position.z();
 }
 
-ALfloat Sound::volume()const
+ALfloat Sound::volume() const
 {
     return d->volume;
 }
 
-ALfloat Sound::pitch()const
+ALfloat Sound::pitch() const
 {
     return d->pitch;
 }
@@ -204,14 +202,12 @@ ALfloat Sound::radius() const
 void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
 {
     QVector3D tempPosition(x, y, z);
-
     setPosition(tempPosition);
 }
 
 void Sound::setPosition(QVector3D position)
 {
     d->position = position;
-
     ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
     alSourcefv(d->source, AL_POSITION, sourcePosition);
 }
@@ -281,11 +277,11 @@ void Sound::setTimePosition(ALfloat time)
     alSourcef(d->source, AL_SEC_OFFSET, time);
 
 }
-ALfloat Sound::duration()const
+ALfloat Sound::duration() const
 {
     return d->buffer->duration();
 }
-ALuint  Sound::source()const
+ALuint  Sound::source() const
 {
     return d->source;
 }

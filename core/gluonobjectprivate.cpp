@@ -28,9 +28,9 @@
 using namespace GluonCore;
 
 GluonObjectPrivate::GluonObjectPrivate()
+    : gameProject(0)
+    , metaInfo(0)
 {
-    gameProject = 0;
-    metaInfo = 0;
 }
 
 GluonObjectPrivate::GluonObjectPrivate(const GluonObjectPrivate &other)

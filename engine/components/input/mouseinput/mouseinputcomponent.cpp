@@ -18,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #include "mouseinputcomponent.h"
 #include "input/inputmanager.h"
 
+#include <core/debughelper.h>
+
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
-
-#include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, MouseInputComponent);
 
@@ -40,20 +39,20 @@ class MouseInputComponent::MouseInputComponentPrivate
 
         MouseButton mouseButton;
 
-        GluonInput::Mouse* mouse;
+        GluonInput::Mouse *mouse;
 
         int lastX;
         int lastY;
         int lastZ;
-        
+
         static const int mouseButtonOffset;
 };
 
 const int MouseInputComponent::MouseInputComponentPrivate::mouseButtonOffset = 271;
 
-MouseInputComponent::MouseInputComponent(QObject* parent)
-        : Component(parent),
-          d(new MouseInputComponentPrivate)
+MouseInputComponent::MouseInputComponent(QObject *parent)
+        : Component(parent)
+        , d(new MouseInputComponentPrivate)
 {
     d->actionHeld = false;
     d->actionStarted = false;
@@ -72,21 +71,17 @@ MouseInputComponent::category() const
 
 void MouseInputComponent::initialize()
 {
-    if(!d->mouse)
-    {
+    if (!d->mouse) {
         d->mouse = GluonInput::InputManager::instance()->mouse();
     }
 }
 
 void
 MouseInputComponent::start()
-{    
-    if(d->mouse) 
-    {
+{
+    if (d->mouse) {
         d->mouse->setEnabled(true);
-    }
-    else
-    {
+    } else {
         debug("WARNING! No mouse found!");
     }
 }
@@ -95,25 +90,19 @@ void
 MouseInputComponent::update(int elapsedMilliseconds)
 {
     DEBUG_BLOCK
-    if(d->actionStarted)
+    if (d->actionStarted)
         d->actionStarted = false;
 
-    if(d->actionStopped)
+    if (d->actionStopped)
         d->actionStopped = false;
 
-    if(d->mouse && d->mouseButton && d->mouse->buttonPressed(d->mouseButton + d->mouseButtonOffset))
-    {
-        
-        if(!d->actionHeld)
-        {
+    if (d->mouse && d->mouseButton && d->mouse->buttonPressed(d->mouseButton + d->mouseButtonOffset)) {
+        if (!d->actionHeld) {
             d->actionStarted = true;
             d->actionHeld = true;
         }
-    }
-    else
-    {
-        if(d->actionHeld)
-        {
+    } else {
+        if (d->actionHeld) {
             d->actionStopped = true;
             d->actionHeld = false;
         }
@@ -126,7 +115,7 @@ MouseInputComponent::update(int elapsedMilliseconds)
 
 void MouseInputComponent::stop()
 {
-    if(d->mouse) {
+    if (d->mouse) {
         d->mouse->setEnabled(false);
     }
 

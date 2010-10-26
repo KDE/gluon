@@ -37,7 +37,7 @@ namespace GluonCore
 
             QString name;
             GluonObject *gameProject;
-            MetaInfo* metaInfo;
+            MetaInfo *metaInfo;
     };
 }
 

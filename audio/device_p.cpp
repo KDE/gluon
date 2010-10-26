@@ -40,20 +40,18 @@ Device::~Device()
 
 bool Device::isExtensionPresent(const QString &extension)
 {
-    return alcIsExtensionPresent(NULL, extension.toUtf8());
+    return alcIsExtensionPresent(0, extension.toUtf8());
 }
 
 QStringList Device::contextOption(int option)
 {
-    const ALCchar *alcList = alcGetString(NULL, option);
+    const ALCchar *alcList = alcGetString(0, option);
 
     // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
     // So we can't pass it directly to QStringList
     QStringList optionList;
-    if (alcList)
-    {
-        while (strlen(alcList) > 0)
-        {
+    if (alcList) {
+        while (strlen(alcList) > 0) {
             optionList << QString(alcList);
             alcList += strlen(alcList) + 1;
         }

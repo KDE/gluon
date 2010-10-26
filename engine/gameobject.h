@@ -21,13 +21,13 @@
 #ifndef GLUON_ENGINE_GAMEOBJECT_H
 #define GLUON_ENGINE_GAMEOBJECT_H
 
-#include <QtCore/QSharedData>
+#include "gluon_engine_export.h"
 
 #include <core/gluonobject.h>
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>
 
-#include "gluon_engine_export.h"
+#include <QtCore/QSharedData>
 
 namespace GluonEngine
 {
@@ -104,8 +104,8 @@ class Scene;
                 TS_WORLD,
             };
 
-            Q_INVOKABLE GameObject(QObject * parent = 0);
-            GameObject(const GameObject &other, QObject * parent = 0);
+            Q_INVOKABLE GameObject(QObject *parent = 0);
+            GameObject(const GameObject &other, QObject *parent = 0);
             ~GameObject();
 
             /**
@@ -185,19 +185,6 @@ class Scene;
             Q_INVOKABLE bool removeComponent(Component * removeThis);
             Q_INVOKABLE QList<Component*> components() const;
 
-//             template <typename T> T* findComponentByType() const
-//             {
-//                 T* found = 0;
-//                 QList<Component*> comps = components();
-//                 foreach(Component * component, comps)
-//                 {
-//                     found = qobject_cast<T*>(component);
-//                     if(found)
-//                         break;
-//                 }
-//                 return found;
-//             }
-
             // ----------------------------------------------------------------
             // GameObject tree management
 
@@ -212,17 +199,17 @@ class Scene;
              * @return  The Scene this GameObject belongs to, or null if it is not contained within a scene
              */
             Scene *scene() const;
-            GameObject * childGameObject(int index) const;
-            GameObject * childGameObject(const QString &name) const;
-            void addChild(GluonCore::GluonObject * child);
-            void addChild(GameObject * addThis);
-            void addChildAt(GameObject* child, int index);
-            bool removeChild(GluonObject * child);
-            bool removeChild(GameObject * removeThis);
+            GameObject *childGameObject(int index) const;
+            GameObject *childGameObject(const QString &name) const;
+            void addChild(GluonCore::GluonObject *child);
+            void addChild(GameObject *addThis);
+            void addChildAt(GameObject *child, int index);
+            bool removeChild(GluonObject *child);
+            bool removeChild(GameObject *removeThis);
             int childCount() const;
-            int childIndex(GameObject* child) const;
+            int childIndex(GameObject *child) const;
 
-            Q_INVOKABLE GameObject * parentGameObject();
+            Q_INVOKABLE GameObject *parentGameObject();
 
             // ----------------------------------------------------------------
             // Property getter-setters
@@ -246,7 +233,7 @@ class Scene;
             Q_INVOKABLE QMatrix4x4 transform() const;
 
         public slots:
-            void setParentGameObject(GameObject * newParent);
+            void setParentGameObject(GameObject *newParent);
 
             //Transformation
             /**
@@ -257,7 +244,7 @@ class Scene;
              *
              * @param newPosition The new position of the object
              */
-            void setPosition(const QVector3D& newPosition);
+            void setPosition(const QVector3D &newPosition);
             /**
              * Set the position of the object
              *
@@ -291,7 +278,7 @@ class Scene;
              * the object will move in local space, if transform space is TS_WORLD,
              * the object will move in world space.
              */
-            void translate(const QVector3D& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL);
+            void translate(const QVector3D &translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL);
             /**
              * Translate the object relative to its current position.
              *
@@ -332,7 +319,7 @@ class Scene;
              *
              * @param newOrientation The new orientation of the object
              */
-            void setOrientation(const QQuaternion& newOrientation);
+            void setOrientation(const QQuaternion &newOrientation);
             void orient(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
             void rotate(float angle, const QVector3D &axis, TransformSpace ts = TS_LOCAL);
 

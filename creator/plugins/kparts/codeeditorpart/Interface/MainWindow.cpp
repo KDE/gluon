@@ -250,6 +250,7 @@ void MainWindow::exportFromThisNode(GluonCore::GluonObject* o,QTextStream* file)
 
 void MainWindow::exportCode(bool checked)
 {
+    Q_UNUSED(checked)
     if (GluonEngine::Game::instance()->gameProject()->findItemByName("vn-"+GluonEngine::Game::instance()->currentScene()->name()) == NULL)
     {
 	GluonEngine::Asset* script = new GluonEngine::Asset();

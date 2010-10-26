@@ -20,10 +20,10 @@
 #ifndef GLUON_AUDIO_CAPTURE_H
 #define GLUON_AUDIO_CAPTURE_H
 
+#include "gluon_audio_export.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
-
-#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
@@ -46,7 +46,7 @@ namespace GluonAudio
             Q_DISABLE_COPY(Capture)
 
             class CapturePrivate;
-            CapturePrivate * const d;
+            CapturePrivate *const d;
     };
 }
 
