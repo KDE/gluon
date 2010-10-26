@@ -278,7 +278,7 @@ YourClassName::~YourClassName()
             virtual QString propertiesToGDL(int indentLevel = 0) const;
 
             virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
-            virtual QString getStringFromProperty(const QString& propertyName, const QString& indentChars) const;
+            virtual QString stringFromProperty(const QString& propertyName, const QString& indentChars) const;
 
             virtual void sanitize();
 

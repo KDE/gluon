@@ -56,7 +56,7 @@ GluonObject::GluonObject(const QString &name, QObject *parent)
 }
 
 GluonObject::GluonObject(const GluonCore::GluonObject &rt)
-    : d(new GluonObjectPrivate(*rd.d))
+    : d(new GluonObjectPrivate(*rt.d))
 {
 }
 
@@ -141,8 +141,7 @@ GluonObject::sanitize()
     DEBUG_BLOCK
 //    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
 
-    const QObjectList &children = children();
-    foreach (QObject *child, children) {
+    foreach (QObject *child, children()) {
         // The way assets handle their data will often cause the existence of children
         // which are not GluonObjects, and we should of course be handling that
         if (qobject_cast<GluonObject *>(child)) {
@@ -422,7 +421,7 @@ GluonObject::propertiesToGDL(int indentLevel) const
         const QString theName(metaproperty.name());
         if (theName == "objectName" || theName == "name" || !metaproperty.isWritable())
             continue;
-        serializedObject += this->getStringFromProperty(theName, indentChars);
+        serializedObject += stringFromProperty(theName, indentChars);
     }
 
     // Then get all the dynamic ones (in case any such exist)
@@ -530,7 +529,7 @@ GluonObject::setPropertyFromString(const QString &propertyName, const QString &p
 }
 
 QString
-GluonObject::getStringFromProperty(const QString &propertyName, const QString &indentChars) const
+GluonObject::stringFromProperty(const QString &propertyName, const QString &indentChars) const
 {
     DEBUG_BLOCK
     QString value;
@@ -657,17 +656,17 @@ GluonObject::sanitizeReference(const QString &propName, const QString &propValue
 {
     QStringList objectTypeNames = GluonObjectFactory::instance()->objectTypeNames();
     // Yes, i know this is O(n*m) but it does not happen during gameplay
-    foreach (const QString &name, objectTypeNames) {
+    foreach (const QString &typeName, objectTypeNames) {
         // Reset the value of this property to be a reference to GluonObjct
         // instance by that name, found in the project
-        if (propValue.startsWith(name + '(')) {
+        if (propValue.startsWith(typeName + '(')) {
             QString propertyName = propName;
             if (propertyName.contains("_sanitizable")) {
                 setProperty(propertyName.toUtf8(), QVariant());
                 propertyName = propertyName.left(propertyName.lastIndexOf("_sanitizable"));
             }
 
-            QString theReferencedName = propValue.mid(name.length() + 1, propValue.length() - (name.length() + 2));
+            QString theReferencedName = propValue.mid(typeName.length() + 1, propValue.length() - (typeName.length() + 2));
             QVariant theReferencedObject;
 
             GluonObject *theObject = root()->findItemByName(theReferencedName);

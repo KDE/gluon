@@ -140,7 +140,7 @@ Component::stringFromProperty(const QString &propertyName, const QString &indent
             return QString("\n%1%2 GluonEngine::Asset(%3)").arg(indentChars, propertyName, asset->fullyQualifiedName());
         }
     }
-    return GluonCore::GluonObject::getStringFromProperty(propertyName, indentChars);
+    return GluonCore::GluonObject::stringFromProperty(propertyName, indentChars);
 }
 
 #include "component.moc"
