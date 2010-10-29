@@ -322,7 +322,7 @@ class Scene;
 
             void updateTransform();
             void invalidateTransform();
-            void removeLater(GluonEngine::GameObject* remove);
+            void removeLater(GluonEngine::GameObject *remove);
 
         protected:
             /**
@@ -336,6 +336,6 @@ class Scene;
 }
 
 Q_DECLARE_METATYPE(GluonEngine::GameObject)
-Q_DECLARE_METATYPE(GluonEngine::GameObject*)
+Q_DECLARE_METATYPE(GluonEngine::GameObject *)
 
 #endif  // GLUON_ENGINE_GAMEOBJECT_H

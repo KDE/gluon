@@ -200,7 +200,7 @@ void InputThread::readInformation()
 
     d->m_deviceType = GluonInput::UnknownDevice;
 
-    if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
+    if (d->m_deviceName.contains("touchscreen", Qt::CaseInsensitive)) {
         d->m_deviceType  = GluonInput::TouchDevice;
     }
 

@@ -49,6 +49,7 @@ DetectLinux::~DetectLinux()
 
 void DetectLinux::detectDevices()
 {
+    qDebug() << "TP2";
     DetectLinux *detect = this;
     detect->clear();
     QDir event("/dev/input/by-path/");
@@ -58,7 +59,6 @@ void DetectLinux::detectDevices()
     inputFileInfoList = event.entryInfoList(QDir::Files);
     foreach (QFileInfo inputFileInfo, inputFileInfoList)
         inputFiles.append(inputFileInfo.filePath());
-    inputFiles.append("/dev/input/ts");
     foreach (const QString &name, inputFiles) {
         InputDevice *device = NULL;
         InputThread *thread = new InputThread(name);

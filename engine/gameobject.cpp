@@ -213,8 +213,7 @@ GameObject::findComponentByType(const QString &typeName) const
 {
     Component *found = 0;
     const QMetaObject *metaObject;
-    foreach(Component *component, d->components)
-    {
+    foreach (Component *component, d->components) {
         metaObject = component->metaObject();
         if (metaObject) {
             if (metaObject->className() == typeName) {
@@ -231,8 +230,7 @@ GameObject::findComponentsByType(const QString &typeName) const
 {
   QList<Component *> found;
   const QMetaObject *metaObject;
-  foreach(Component *component, d->components)
-  {
+  foreach (Component *component, d->components) {
     metaObject = component->metaObject();
     if (metaObject) {
         if (metaObject->className() == typeName) {
@@ -247,8 +245,7 @@ Component *
 GameObject::findComponentInChildren(const QString &name) const
 {
     Component *found = 0;
-    foreach(GameObject *child, d->children)
-    {
+    foreach (GameObject *child, d->children) {
         found = child->findComponent(name);
         if (found)
             break;
@@ -263,8 +260,7 @@ Component *
 GameObject::findComponentInChildrenByType(const QString &typeName) const
 {
     Component *found = 0;
-    foreach(GameObject *child, d->children)
-    {
+    foreach (GameObject *child, d->children) {
         found = child->findComponentByType(typeName);
         if (found)
             break;
@@ -280,8 +276,7 @@ GameObject::findComponentsInChildren(const QString &name) const
 {
     QList<Component *> found;
     Component *tempFound;
-    foreach(GameObject *child, d->children)
-    {
+    foreach (GameObject *child, d->children) {
         tempFound = child->findComponent(name);
         if (tempFound)
             found.append(tempFound);
@@ -295,8 +290,7 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 {
     QList<Component *> found;
     Component *tempFound;
-    foreach(GameObject *child, d->children)
-    {
+    foreach (GameObject *child, d->children) {
         tempFound = child->findComponentByType(typeName);
         if (tempFound)
             found.append(tempFound);
@@ -306,7 +300,7 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 }
 
 void
-GameObject::addComponent(Component * addThis)
+GameObject::addComponent(Component *addThis)
 {
     if (addThis) {
         if (!d->components.contains(addThis)) {
