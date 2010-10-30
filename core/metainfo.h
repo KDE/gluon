@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -29,8 +29,8 @@ namespace GluonCore
     {
         Q_OBJECT
         public:
-            MetaInfo(GluonObject* parent);
-            MetaInfo(const MetaInfo& other);
+            MetaInfo(GluonObject *parent);
+            MetaInfo(const MetaInfo &other);
             ~MetaInfo();
 
             /**
@@ -50,7 +50,7 @@ namespace GluonCore
              * The minimum value allowed for the property.
              * Note: If the property does not have a range set, this will return 0
              * @param property The name of the property to fetch the minimum value for
-             * @return The miminum allowed value for the property
+             * @return The minimum allowed value for the property
              */
             Q_INVOKABLE qreal propertyRangeMin(const QString &property) const;
             /**
@@ -120,8 +120,7 @@ namespace GluonCore
              */
             Q_INVOKABLE qreal applyRangeAndStep(const QString &property, qreal newValue) const;
         private:
-            class MetaInfoPrivate;
-            MetaInfoPrivate *d;
+            class MetaInfoPrivate *d;
     };
 }
 

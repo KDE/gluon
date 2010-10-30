@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -41,7 +41,7 @@ MetaInfo::MetaInfo(GluonObject *parent)
 
 MetaInfo::MetaInfo(const GluonCore::MetaInfo &other)
 {
-    delete(d);
+    delete d;
 }
 
 MetaInfo::~MetaInfo()
@@ -124,7 +124,7 @@ MetaInfo::applySteps(const QString &property, qreal newValue) const
 {
     if (!hasPropertySteps(property) || !hasPropertyRange(property))
         return newValue;
-    
+
     // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)
     const qreal step = (d->propertyRangeMax.value(property) - d->propertyRangeMin.value(property)) / d->propertySteps.value(property);
     return qRound64(newValue / step) *step;
@@ -135,7 +135,7 @@ MetaInfo::applyRangeAndStep(const QString &property, qreal newValue) const
 {
     if (!hasPropertySteps(property) || !hasPropertyRange(property))
         return newValue;
-    
+
     // Bit of help from Morten Justesen on this one, nice bit of mathematics ;)
     const qreal step = (d->propertyRangeMax.value(property) - d->propertyRangeMin.value(property)) / d->propertySteps.value(property);
     return qRound64(qBound(d->propertyRangeMin[property], newValue, d->propertyRangeMax[property]) / step) * step;
