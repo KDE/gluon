@@ -72,7 +72,7 @@ namespace GluonEngine
              * GameObject it is contained within.
              */
             Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
-            // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag'n'drop
+            // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag-and-drop
 
         public:
             Q_INVOKABLE Component(QObject *parent = 0);
@@ -108,7 +108,7 @@ namespace GluonEngine
              * updated. Implement this function in inherited classed to allow
              * for updates along with the rest of the GameObject hierarchy.
              * Note that this is only for updating the game logic - any drawing
-             * functionality should be put into te draw function.
+             * functionality should be put into the draw function.
              * @param elapsedMilliseconds The amount of time in milliseconds which has passed since the last update
              * @see Game::runGame, draw
              */
@@ -137,7 +137,7 @@ namespace GluonEngine
             virtual void stop() {};
 
             /**
-             * The cleanup function is called whenever a n object is no longer
+             * The cleanup function is called whenever an object is no longer
              * needed. This happens mostly during scene changes.
              */
             virtual void cleanup() {}

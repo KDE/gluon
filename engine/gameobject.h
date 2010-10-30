@@ -40,7 +40,7 @@ class Scene;
     /**
      * \brief Represents the scene tree, third level of the GameObject hierarchy
      *
-     * A GameObject is in essense just a translation object, meaning that it has a
+     * A GameObject is in essence just a translation object, meaning that it has a
      * position, a rotation and an orientation in 3D space. However, it also importantly
      * includes simple logic for attaching other bits of logic, as represented by the
      * Component class, which then attach more functionality to the GameObject.
@@ -117,7 +117,7 @@ class Scene;
             void sanitize();
 
             /**
-             * Initialize to a workable state
+             * Initialize to a functional state
              */
             Q_INVOKABLE void initialize();
             /**
@@ -134,7 +134,7 @@ class Scene;
             Q_INVOKABLE void update(int elapsedMilliseconds);
             /**
              * Draw the GameObject onto the scene
-             * By convention, this should not change GameObjects but only objects needed
+             * By convention, this should not change GameObjects, but rather, only objects needed
              * for correct operation.
              *
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
@@ -293,7 +293,7 @@ class Scene;
              * not change the z-position.
              *
              * @see translate(const QVector3D& translation)
-             *
+
              * @param x The X-axis component of the translation
              * @param y The Y-axis component of the translation
              * @param ts The transform space to use.
@@ -312,7 +312,7 @@ class Scene;
 
             /**
              * Set the object's orientation.
-             * Due to many reasons, orientation is handled by Quaternions,
+             * For many reasons, orientation is handled by Quaternions,
              *
              * @param newOrientation The new orientation of the object
              */
