@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -38,7 +38,7 @@ namespace GluonEngine
                 engine->importExtension("jsmoke.qtcore");
                 engine->importExtension("jsmoke.qtgui");
                 engine->importExtension("jsmoke.qtopengl");
-                
+
                 DEBUG_TEXT2("Imported extensions: %1", engine->importedExtensions().join(", "));
 
                 QScriptValue extensionObject = engine->globalObject();
@@ -72,7 +72,7 @@ ScriptingEngine::ScriptingEngine(QObject* parent)
 
 ScriptingEngine::~ScriptingEngine()
 {
-    delete(d);
+    delete d;
 }
 
 QScriptSyntaxCheckResult
@@ -81,7 +81,7 @@ ScriptingEngine::registerAsset(const ScriptingAsset* asset)
     DEBUG_BLOCK
     // Why can't i create my own QScriptSyntaxCheckResult instances and set the values?!
 
-    // Gah, this is really dumb... 
+    // Gah, this is really dumb...
     if(!asset)
     {
         DEBUG_TEXT("Asset is empty");
@@ -93,7 +93,7 @@ ScriptingEngine::registerAsset(const ScriptingAsset* asset)
         DEBUG_TEXT("Asset is already registered");
         return d->engine->checkSyntax(QString('}'));
     }
-    
+
     // Check the script for syntax
     QScriptSyntaxCheckResult result = d->engine->checkSyntax(asset->data()->text());
     if(result.state() == QScriptSyntaxCheckResult::Valid)
@@ -105,7 +105,7 @@ ScriptingEngine::registerAsset(const ScriptingAsset* asset)
         // Build the new code
         d->buildScript();
     }
-    
+
     return result;
 }
 
@@ -113,7 +113,7 @@ void
 ScriptingEngine::Private::buildScript()
 {
     script.clear();
-    
+
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for(i = classNames.constBegin(); i != classNames.constEnd(); ++i)
     {
@@ -131,11 +131,11 @@ ScriptingEngine::unregisterAsset(const ScriptingAsset* asset) const
         return false;
     if(!d->classNames.contains(asset))
         return false;
-    
+
     d->classNames.remove(asset);
     d->scriptInstances.remove(asset);
     d->buildScript();
-    
+
     return true;
 }
 
@@ -154,13 +154,13 @@ ScriptingEngine::instantiateClass(const ScriptingAsset* asset) const
     {
         //QScriptValue val = d->scriptInstances[asset].construct();
         QScriptValue val = d->engine->globalObject().property(d->classNames[asset]);
-        
+
         QScriptValue instance = val.construct();
         if(d->engine->hasUncaughtException())
         {
             DEBUG_TEXT2("Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join(" --> "));
         }
-        
+
         return instance;
     }
     // If we've got this far, that means we should be returning an invalid QScriptValue
@@ -172,13 +172,13 @@ ScriptingEngine::instantiateClass(const QString& className) const
 {
     DEBUG_BLOCK
     QScriptValue val = d->engine->globalObject().property(className);
-    
+
     QScriptValue instance = val.construct();
     if(d->engine->hasUncaughtException())
     {
         DEBUG_TEXT2("Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join(" --> "));
     }
-    
+
     return instance;
 }
 

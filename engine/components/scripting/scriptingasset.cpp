@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -31,7 +31,7 @@ namespace GluonEngine
     {
         public:
             Private() {};
-            
+
             QString script;
     };
 }
@@ -47,17 +47,17 @@ ScriptingAsset::ScriptingAsset(QObject* parent)
 ScriptingAsset::~ScriptingAsset()
 {
     ScriptingEngine::instance()->unregisterAsset(this);
-    delete(d);
+    delete d;
 }
 
 const QStringList
 ScriptingAsset::supportedMimeTypes() const
 {
     QStringList mime;
-    
+
     mime << "application/javascript";
     mime << "text/plain";
-    
+
     return mime;
 }
 
@@ -65,7 +65,7 @@ void
 ScriptingAsset::setFile(const QUrl &newFile)
 {
     DEBUG_FUNC_NAME
-    
+
     ScriptingEngine::instance()->unregisterAsset(this);
 
     QFile script(newFile.path());
@@ -81,7 +81,7 @@ ScriptingAsset::setFile(const QUrl &newFile)
     QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
     if(result.state() != QScriptSyntaxCheckResult::Valid)
         debug(tr("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
-    
+
     GluonEngine::Asset::setFile(newFile);
 }
 

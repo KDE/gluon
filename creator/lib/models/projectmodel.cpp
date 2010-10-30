@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -158,7 +158,7 @@ ProjectModel::rowCount(const QModelIndex& parent) const
         {
             if (qobject_cast<GluonEngine::Scene*>(parentItem))
                 return 0;
-            
+
             int childCount = 0;
             const QObjectList allChildren = parentItem->children();
             foreach(const QObject* child, allChildren)
@@ -180,13 +180,13 @@ ProjectModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
-    
+
     QObject *childItem = static_cast<QObject*>(child.internalPointer());
     QObject *parentItem = childItem->parent();
-    
+
     if (parentItem == d->root)
         return QModelIndex();
-    
+
     QObject *grandParent = parentItem->parent();
     if(grandParent)
     {
@@ -208,11 +208,11 @@ ProjectModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
-    
+
     QObject *parentItem = d->root;
     if (parent.isValid())
         parentItem = static_cast<QObject*>(parent.internalPointer());
-    
+
     int childCount = -1;
     const QObjectList allChildren = parentItem->children();
     foreach(const QObject* child, allChildren)
@@ -332,7 +332,7 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     DEBUG_FUNC_NAME
     if (!parent.isValid())
         return false;
-    
+
    if(count < 1)
        return false;
 
@@ -345,7 +345,7 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
         DEBUG_TEXT(QString("Removing child at row %1").arg(i));
         GluonCore::GluonObject * child = parentObject->child(row);
         if (parentObject->removeChild(child))
-            delete(child);
+            delete child;
     }
     endRemoveRows();
 
@@ -357,12 +357,12 @@ void ProjectModel::addChild(QObject* newChild, QModelIndex& parent)
     if(parent.isValid())
     {
         GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
-        
+
         int rcount = rowCount(parent);
         beginInsertRows(parent, rcount, rcount);
-        
+
         parentObject->addChild(qobject_cast<GluonCore::GluonObject*>(newChild));
-        
+
         endInsertRows();
     }
 }

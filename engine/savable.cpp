@@ -69,7 +69,7 @@ Savable::saveToFile(GluonCore::GluonObject *object)
     fileWriter << savableObject->contentsToGDL();
     savableFile->close();
 
-    delete(savableFile);
+    delete savableFile;
 
     // Remember to undirty yourself
     if (savableObject)
