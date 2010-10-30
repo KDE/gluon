@@ -28,7 +28,7 @@
 using namespace GluonEngine;
 
 FileLocation::FileLocation(GluonEngine::GameProject *parent, const QUrl &relativeUrl)
-    : d(newFileLocationPrivate)
+    : d(new FileLocationPrivate)
 {
     d->gameProject = parent;
     d->url = relativeUrl;

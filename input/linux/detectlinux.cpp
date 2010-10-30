@@ -66,27 +66,27 @@ void DetectLinux::detectDevices()
             switch (thread->deviceType()) {
             case GluonInput::KeyboardDevice:
                 device = new Keyboard(thread);
-                detect->addKeyboard(device);
+                detect->addKeyboard(static_cast<Keyboard *>(device));
                 break;
 
             case GluonInput::MouseDevice:
                 device = new Mouse(thread);
-                detect->addMouse(device);
+                detect->addMouse(static_cast<Mouse *>(device));
                 break;
 
             case GluonInput::TouchpadDevice:
                 device = new Mouse(thread);
-                detect->addMouse(device);
+                detect->addMouse(static_cast<Mouse *>(device));
                 break;
 
             case GluonInput::JoystickDevice:
                 device = new Joystick(thread);
-                detect->addJoystick(device);
+                detect->addJoystick(static_cast<Joystick *>(device));
                 break;
 
             case GluonInput::TouchDevice:
                 device = new Touch(thread);
-                detect->addTouch(device);
+                detect->addTouch(static_cast<Touch *>(device));
                 break;
 
             case GluonInput::UnknownDevice:
@@ -122,27 +122,23 @@ void DetectLinux::addInput(InputDevice *i)
     d->inputList.append(i);
 }
 
-void DetectLinux::addKeyboard(InputDevice *i)
+void DetectLinux::addKeyboard(Keyboard *keyboard)
 {
-    Keyboard *keybd = qobject_cast<Keyboard *>(i);
-    d->keyboardList.append(keybd);
+    d->keyboardList.append(keyboard);
 }
 
-void DetectLinux::addMouse(InputDevice *i)
+void DetectLinux::addMouse(Mouse *mouse)
 {
-    Mouse *mouse = qobject_cast<Mouse *>(i);
     d->mouseList.append(mouse);
 }
 
-void DetectLinux::addJoystick(InputDevice *i)
+void DetectLinux::addJoystick(Joystick *joystick)
 {
-    Joystick *joy = qobject_cast<Joystick *>(i);
-    d->joystickList.append(joy);
+    d->joystickList.append(joystick);
 }
 
-void DetectLinux::addTouch(InputDevice *i)
+void DetectLinux::addTouch(Touch *touch)
 {
-    Touch *touch = qobject_cast<Touch *>(i);
     d->touchList.append(touch);
 }
 
