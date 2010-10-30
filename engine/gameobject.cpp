@@ -68,12 +68,12 @@ GameObject::initialize()
 {
     const int componentCount = d->components.count();
     int i;
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->initialize();
 
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->initialize();
 }
 
@@ -82,26 +82,26 @@ GameObject::start()
 {
     const int componentCount = d->components.count();
     int i;
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->start();
 
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->start();
 }
 
 void
 GameObject::update(int elapsedMilliseconds)
 {
-    if(!d->enabled)
+    if (!d->enabled)
         return;
 
-    //Remove all objects that were marked to destroy last update
+    // Remove all objects that were marked to destroy last update
     const int deleteCount = d->objectsToDelete.count();
     int i = 0;
 
-    for(i = 0; i < deleteCount; ++i) {
+    for (i = 0; i < deleteCount; ++i) {
         GameObject *obj = d->objectsToDelete.at(i);
         removeChild(obj);
         obj->stop();
@@ -111,32 +111,32 @@ GameObject::update(int elapsedMilliseconds)
 
     d->objectsToDelete.clear();
 
-    //Update all components
+    // Update all components
     const int componentCount = d->components.count();
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->update(elapsedMilliseconds);
 
-    //Update all children
+    // Update all children
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->update(elapsedMilliseconds);
 }
 
 void
 GameObject::draw(int timeLapse)
 {
-    if(!d->enabled)
+    if (!d->enabled)
         return;
 
     const int componentCount = d->components.count();
     int i;
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->draw(timeLapse);
 
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->draw(timeLapse);
 }
 
@@ -144,12 +144,12 @@ void GameObject::stop()
 {
     const int componentCount = d->components.count();
     int i;
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->stop();
 
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->stop();
 }
 
@@ -158,12 +158,12 @@ GameObject::cleanup()
 {
     const int componentCount = d->components.count();
     int i;
-    for(i = 0; i < componentCount; ++i)
+    for (i = 0; i < componentCount; ++i)
         if (d->components.at(i)->enabled())
             d->components.at(i)->cleanup();
 
     const int childCount = d->children.count();
-    for(i = 0; i < childCount; ++i)
+    for (i = 0; i < childCount; ++i)
         d->children.at(i)->cleanup();
 }
 
@@ -189,7 +189,7 @@ void
 GameObject::runCommandInChildren(const QString &functionName)
 {
     foreach(GameObject *child, d->children)
-    child->runCommand(functionName);
+        child->runCommand(functionName);
 }
 
 // ----------------------------------------------------------------------------
@@ -326,14 +326,14 @@ GameObject::removeComponent(Component *removeThis)
 
 Scene *GameObject::scene() const
 {
-    Scene* foundScene = 0;
-    GluonObject *parent = qobject_cast<GluonObject *>(this->parent());
-    while (qobject_cast<GameObject *>(parent)) {
-        if(qobject_cast<Scene *>(parent->parent())) {
-            foundScene = qobject_cast<Scene *>(parent->parent());
+    Scene *foundScene = 0;
+    GluonObject *gluonParent = qobject_cast<GluonObject *>(parent());
+    while (qobject_cast<GameObject *>(gluonParent)) {
+        if(qobject_cast<Scene *>(gluonParent->parent())) {
+            foundScene = qobject_cast<Scene *>(gluonParent->parent());
             break;
         }
-        parent = qobject_cast<GluonObject *>(parent->parent());
+        gluonParent = qobject_cast<GluonObject *>(gluonParent->parent());
     }
     return foundScene;
 }
