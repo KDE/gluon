@@ -58,7 +58,7 @@ namespace GluonInput
             QList<Mouse *> mouseList();
             QList<Joystick *> joystickList();
             QList<Touch *> touchList();
-            QList <InputDevice *> unknownDeviceList();
+            QList<InputDevice *> unknownDeviceList();
 
             InputList inputList();
 
