@@ -217,7 +217,7 @@ void InputThread::readInformation()
         d->m_deviceType  = GluonInput::MouseDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(KEY_ESC))	{
+    if (d->m_buttonCapabilities.contains(KEY_ENTER))	{
         d->m_deviceType  = GluonInput::KeyboardDevice;
     }
 }
