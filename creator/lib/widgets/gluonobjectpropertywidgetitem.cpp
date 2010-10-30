@@ -73,7 +73,7 @@ using namespace GluonCreator;
 
 GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &typeName, QWidget *parent, Qt::WindowFlags f)
     : PropertyWidgetItem(parent, f)
-    , d(GluonObjectPWIPrivate)
+    , d(new GluonObjectPWIPrivate)
 {
     d->typeName = typeName;
 
@@ -112,7 +112,7 @@ GluonObjectPropertyWidgetItem::instantiate()
 QStringList
 GluonObjectPropertyWidgetItem::supportedDataTypes() const
 {
-    QList<QString> supportedTypes;
+    QStringList supportedTypes;
     return supportedTypes;
 }
 
