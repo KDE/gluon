@@ -99,7 +99,7 @@ GDLHandler::tokenizeObject(QString objectString)
     bool inPropertyName = false;
     bool inPropertyValue = false;
     bool inChild = false;
-    bool = childEnded = false;
+    bool childEnded = false;
 
     bool beingEscaped = false;
     int extraBracketCounter = 0;

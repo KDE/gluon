@@ -120,7 +120,8 @@ namespace GluonCore
              */
             Q_INVOKABLE qreal applyRangeAndStep(const QString &property, qreal newValue) const;
         private:
-            class MetaInfoPrivate *d;
+            class MetaInfoPrivate;
+            MetaInfoPrivate *d;
     };
 }
 
