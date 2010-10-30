@@ -33,7 +33,7 @@
 using namespace GluonInput;
 
 DetectLinux::DetectLinux(QObject *parent)
-: Detect(parent)
+    : Detect(parent)
     , d(new DetectLinuxPrivate)
 {
 }
@@ -49,7 +49,6 @@ DetectLinux::~DetectLinux()
 
 void DetectLinux::detectDevices()
 {
-    qDebug() << "TP2";
     DetectLinux *detect = this;
     detect->clear();
     QDir event("/dev/input/by-path/");
@@ -60,7 +59,7 @@ void DetectLinux::detectDevices()
     foreach (QFileInfo inputFileInfo, inputFileInfoList)
         inputFiles.append(inputFileInfo.filePath());
     foreach (const QString &name, inputFiles) {
-        InputDevice *device = NULL;
+        InputDevice *device = 0;
         InputThread *thread = new InputThread(name);
         if (!thread->error()) {
             switch (thread->deviceType()) {

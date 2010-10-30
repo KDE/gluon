@@ -22,8 +22,9 @@
 #define GLUONBUTTONS_H
 
 #include "gluon_input_export.h"
-#include "core/singleton.h"
 #include "gluondevices.h"
+
+#include <core/singleton.h>
 
 #include <QtCore/QObject>
 
