@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -31,23 +31,21 @@
 using namespace GluonEngine;
 
 bool
-Savable::saveToFile(GluonCore::GluonObject * object)
+Savable::saveToFile(GluonCore::GluonObject *object)
 {
     DEBUG_BLOCK
-    if (!object)
-    {
+    if (!object) {
         DEBUG_TEXT("Asset was NULL!");
         return false;
     }
-    Savable * savableObject = dynamic_cast<Savable*>(object);
-    if (!savableObject)
-    {
+
+    Savable *savableObject = dynamic_cast<Savable *>(object);
+    if (!savableObject) {
         DEBUG_TEXT("Attempted to save an object which does not inherit Savable!");
         return false;
     }
 
-    if (!savableObject->savableDirty)
-    {
+    if (!savableObject->savableDirty) {
         DEBUG_TEXT("Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?");
         return true;
     }
@@ -62,8 +60,7 @@ Savable::saveToFile(GluonCore::GluonObject * object)
 
     // Perform the save
     QFile *savableFile = new QFile(object->property("file").value<QUrl>().toLocalFile());
-    if (!savableFile->open(QIODevice::WriteOnly))
-    {
+    if (!savableFile->open(QIODevice::WriteOnly)) {
         DEBUG_TEXT(QString("Could not write to file %1").arg(object->property("file").value<QUrl>().toString()))
         return false;
     }
