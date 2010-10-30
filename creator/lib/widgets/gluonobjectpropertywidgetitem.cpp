@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "gluonobjectpropertywidgetitem.h"
 #include "core/debughelper.h"
 #include "engine/game.h"
@@ -24,14 +25,16 @@
 #include "engine/gameproject.h"
 #include "engine/gluon_engine_metatypes.h"
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QToolButton>
+#include <filemanager.h>
+
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KInputDialog>
+
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QToolButton>
 #include <QPushButton>
-#include <filemanager.h>
 
 namespace GluonCreator
 {
@@ -44,22 +47,20 @@ namespace GluonCreator
                 //browseButton = 0;
             };
 
-            QPushButton * currentValue;
-            QToolButton * editButton;
+            QPushButton *currentValue;
+            QToolButton *editButton;
             QString typeName;
 
-            static QList<const GluonCore::GluonObject*> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject* lookHere)
+            static QList<const GluonCore::GluonObject *> getChildrenOfType(const QString &typeName, const GluonCore::GluonObject *lookHere)
             {
-                QList<const GluonCore::GluonObject*> foundChildren;
+                QList<const GluonCore::GluonObject *> foundChildren;
 
-                if (lookHere)
-                {
-                    foreach(const QObject *child, lookHere->children())
-                    {
+                if (lookHere) {
+                    foreach (const QObject *child, lookHere->children()) {
                         if (child->inherits(typeName.toUtf8()))
                             foundChildren.append(qobject_cast<const GluonCore::GluonObject*>(child));
 
-                        foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject*>(child)));
+                        foundChildren.append(getChildrenOfType(typeName, qobject_cast<const GluonCore::GluonObject *>(child)));
                     }
                 }
 
@@ -70,20 +71,20 @@ namespace GluonCreator
 
 using namespace GluonCreator;
 
-GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &typeName, QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &typeName, QWidget *parent, Qt::WindowFlags f)
+    : PropertyWidgetItem(parent, f)
+    , d(GluonObjectPWIPrivate)
 {
-    d = new GluonObjectPWIPrivate;
     d->typeName = typeName;
 
-    QHBoxLayout * base = new QHBoxLayout;
+    QHBoxLayout *base = new QHBoxLayout;
     base->setSpacing(0);
     base->setContentsMargins(0, 0, 0, 0);
 
     d->currentValue = new QPushButton(this);
     d->currentValue->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     base->addWidget(d->currentValue);
-    connect(d->currentValue, SIGNAL(clicked(bool)), this, SLOT(browseForItems()));
+    connect(d->currentValue, SIGNAL(clicked(bool)), SLOT(browseForItems()));
 
     d->editButton = new QToolButton(this);
     d->editButton->setIcon(KIcon("document-edit"));
@@ -92,7 +93,7 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem(const QString &type
     base->addWidget(d->editButton);
     connect(d->editButton, SIGNAL(clicked(bool)), SLOT( openInEditor()));
 
-    QWidget * local = new QWidget(parent);
+    QWidget *local = new QWidget(parent);
     local->setLayout(base);
     layout()->addWidget(local);
 }
@@ -102,13 +103,13 @@ GluonObjectPropertyWidgetItem::~GluonObjectPropertyWidgetItem()
     delete d;
 }
 
-PropertyWidgetItem*
+PropertyWidgetItem *
 GluonObjectPropertyWidgetItem::instantiate()
 {
     return new GluonObjectPropertyWidgetItem(QString());
 }
 
-QList< QString >
+QStringList
 GluonObjectPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
@@ -116,7 +117,7 @@ GluonObjectPropertyWidgetItem::supportedDataTypes() const
 }
 
 void
-GluonObjectPropertyWidgetItem::setTypeName(const QString& typeName)
+GluonObjectPropertyWidgetItem::setTypeName(const QString &typeName)
 {
     d->typeName = typeName;
 }
@@ -130,15 +131,12 @@ GluonObjectPropertyWidgetItem::typeName() const
 void
 GluonObjectPropertyWidgetItem::browseForItems()
 {
-    QList<const GluonCore::GluonObject*> items = GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->gameProject());
+    QList<const GluonCore::GluonObject *> items = GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->gameProject());
     items.append(GluonObjectPWIPrivate::getChildrenOfType(d->typeName, GluonEngine::Game::instance()->currentScene()->sceneContents()));
 
-    if (items.count() == 0)
-    {
+    if (items.count() == 0) {
         KMessageBox::information(this, i18n("There are no items of the type %1 anywhere in this project. Please add some and try again.", d->typeName), i18n("No Items Found"));
-    }
-    else
-    {
+    } else {
         QString caption("");
         QString label("");
         QStringList nameList;
@@ -149,14 +147,11 @@ GluonObjectPropertyWidgetItem::browseForItems()
         nameList.append(item->fullyQualifiedName());
 
         QString chosen = KInputDialog::getItem(caption, label, nameList, 0, false, &ok, this);
-        if (ok)
-        {
-            GluonCore::GluonObject *chosenItem = NULL;
-            foreach(const GluonCore::GluonObject *testItem, items)
-            {
-                if (testItem->fullyQualifiedName() == chosen)
-                {
-                    chosenItem = const_cast<GluonCore::GluonObject*>(testItem);
+        if (ok) {
+            GluonCore::GluonObject *chosenItem = 0;
+            foreach (const GluonCore::GluonObject *testItem, items) {
+                if (testItem->fullyQualifiedName() == chosen) {
+                    chosenItem = const_cast<GluonCore::GluonObject *>(testItem);
                     break;
                 }
             }
@@ -167,43 +162,36 @@ GluonObjectPropertyWidgetItem::browseForItems()
 
 void GluonObjectPropertyWidgetItem::openInEditor()
 {
-    GluonEngine::Asset * theObject = qobject_cast<GluonEngine::Asset*>(GluonCore::GluonObjectFactory::instance()->wrappedObject(editObject()->property(editProperty().toUtf8())));
+    GluonEngine::Asset *theObject = qobject_cast<GluonEngine::Asset*>(GluonCore::GluonObjectFactory::instance()->wrappedObject(editObject()->property(editProperty().toUtf8())));
 
-    if(theObject)
-    {
+    if (theObject) {
         FileManager::instance()->openAsset(theObject);
     }
 }
 
 void
-GluonObjectPropertyWidgetItem::setEditValue(const QVariant& value)
+GluonObjectPropertyWidgetItem::setEditValue(const QVariant &value)
 {
     PropertyWidgetItem::setEditValue(value);
 
-    GluonCore::GluonObject* theObject = GluonCore::GluonObjectFactory::instance()->wrappedObject(value);
-    if(theObject)
-    {
+    GluonCore::GluonObject *theObject = GluonCore::GluonObjectFactory::instance()->wrappedObject(value);
+    if (theObject) {
         d->currentValue->setText(theObject->name());
         d->currentValue->setToolTip(theObject->fullyQualifiedName());
         //d->currentValue->setDisabled(false);
-    }
-    else
-    {
+    } else {
         d->currentValue->setText(i18n("(no object selected)"));
         //d->currentValue->setDisabled(true);
     }
 }
 
 void
-GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject * value)
+GluonObjectPropertyWidgetItem::objectValueChanged(GluonCore::GluonObject *value)
 {
-    if (value)
-    {
+    if (value) {
         d->currentValue->setText(value->name());
         //d->currentValue->setDisabled(false);
-    }
-    else
-    {
+    } else {
         d->currentValue->setText(i18n("(no object selected)"));
         //d->currentValue->setDisabled(true);
     }

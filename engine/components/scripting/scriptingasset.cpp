@@ -19,9 +19,10 @@
 
 #include "scriptingasset.h"
 
+#include "scriptingengine.h"
+
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
-#include "scriptingengine.h"
 
 REGISTER_OBJECTTYPE(GluonEngine, ScriptingAsset);
 
@@ -38,7 +39,7 @@ namespace GluonEngine
 
 using namespace GluonEngine;
 
-ScriptingAsset::ScriptingAsset(QObject* parent)
+ScriptingAsset::ScriptingAsset(QObject *parent)
     : Asset(parent)
     , d(new Private)
 {
@@ -69,26 +70,25 @@ ScriptingAsset::setFile(const QUrl &newFile)
     ScriptingEngine::instance()->unregisterAsset(this);
 
     QFile script(newFile.path());
-    if (script.open(QIODevice::ReadOnly))
-    {
+    if (script.open(QIODevice::ReadOnly)) {
         d->script = script.readAll();
         mimeData()->setText(d->script);
     }
     // Don't attempt to do anything if the script is empty
-    if(d->script.isEmpty())
+    if (d->script.isEmpty())
         return;
 
     QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
-    if(result.state() != QScriptSyntaxCheckResult::Valid)
-        debug(tr("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
+    if (result.state() != QScriptSyntaxCheckResult::Valid)
+        debug(tr("Script error %1 (%2,%3): %4").arg(fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
 
     GluonEngine::Asset::setFile(newFile);
 }
 
-const QList< AssetTemplate* >
+const QList<AssetTemplate *>
 ScriptingAsset::templates()
 {
-    QList<AssetTemplate*> templates;
+    QList<AssetTemplate *> templates;
     templates.append(new AssetTemplate("Scripted Logic", "scripting_template.js", "scripting", this));
     return templates;
 }
