@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Gluon Player (Qt only)
 Name[de]=Gluon-Player (Qt-Version)
+Name[es]=Gluon Player (sólo Qt)
 Name[fr]=Gluon Player (Qt uniquement)
 Name[pt]=Leitor do Gluon (apenas para Qt)
 Name[sv]=Gluon spelare (bara Qt)
@@ -8,6 +9,7 @@ Name[uk]=Програвач Gluon (лише Qt)
 Name[x-test]=xxGluon Player (Qt only)xx
 GenericName=Game Launcher
 GenericName[de]=Spielestarter
+GenericName[es]=Lanzador de juegos
 GenericName[fr]=Démarrage du jeu
 GenericName[pt]=Lançador do Jogo
 GenericName[sv]=Startprogram för spel

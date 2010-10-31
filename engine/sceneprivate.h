@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -32,17 +32,17 @@ namespace GluonEngine
     class ScenePrivate
     {
         public:
-            ScenePrivate(Scene* q);
+            ScenePrivate(Scene *q);
             ~ScenePrivate();
 
-            void loadContents(const QUrl& file);
+            void loadContents(const QUrl &file);
             void unloadContents();
-            void saveContents(const QUrl& file);
+            void saveContents(const QUrl &file);
 
-            GameObject* sceneContents;
+            GameObject *sceneContents;
             bool sceneContentsLoaded;
             bool sceneContentsStarted;
-            Scene* q;
+            Scene *q;
     };
 }
 

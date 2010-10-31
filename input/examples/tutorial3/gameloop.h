@@ -16,31 +16,31 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef QREALPROPERTYWIDGETITEM_H
-#define QREALPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
+#ifndef GAMELOOP_H
+#define GAMELOOP_H
 
-class QDoubleSpinBox;
+#include <gluon/input/inputmanager.h>
 
-namespace GluonCreator
+#include <QtCore/QObject>
+
+using namespace GluonInput;
+
+class GameLoop : public QObject
 {
-	class QRealPropertyWidgetItem : public PropertyWidgetItem
-	{
-		    Q_OBJECT
-        public:
-            explicit QRealPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
-            ~QRealPropertyWidgetItem();
+    Q_OBJECT
+    public:
+        GameLoop(QList<InputDevice *> inputList);
+        void run();
 
-            virtual QStringList supportedDataTypes() const;
-            virtual PropertyWidgetItem* instantiate();
+    signals:
+        void startGameLoop();
 
-        public slots:
-            virtual void setEditProperty(const QString& value);
-            virtual void setEditValue(const QVariant& value);
-            void qrealValueChanged(double value);
+    public slots:
+        void gameLoop();
 
-	};
-}
+    private:
+        QList<InputDevice *> m_inputList;
+};
 
-#endif
+#endif // GAMELOOP_H

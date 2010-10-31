@@ -31,7 +31,7 @@
 
 using namespace GluonEngine;
 
-ScenePrivate::ScenePrivate(Scene* q)
+ScenePrivate::ScenePrivate(Scene *q)
 {
     this->q = q;
 
@@ -54,32 +54,29 @@ ScenePrivate::unloadContents()
 }
 
 void
-ScenePrivate::loadContents(const QUrl& file)
+ScenePrivate::loadContents(const QUrl &file)
 {
     DEBUG_BLOCK
-    if (file.isEmpty())
-    {
+    if (file.isEmpty()) {
         sceneContentsLoaded = true;
         return;
     }
 
     QFile *sceneFile = new QFile(file.toLocalFile());
-    if (!sceneFile->exists())
-    {
+    if (!sceneFile->exists()) {
         DEBUG_TEXT(QString("File %1 does not exist, aborting scene load").arg(file.toLocalFile()));
         return;
     }
 
-    if (!sceneFile->open(QIODevice::ReadOnly))
-    {
+    if (!sceneFile->open(QIODevice::ReadOnly)) {
         DEBUG_TEXT(QString("Failed to load scene contents as %1 could not be opened for reading").arg(file.toLocalFile()))
         return;
     }
 
     QTextStream sceneReader(sceneFile);
-    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
+    QList<GluonCore::GluonObject *> theContents = GluonCore::GDLHandler::instance()->parseGDL(sceneReader.readAll(), q);
     sceneFile->close();
-    delete(sceneFile);
+    delete sceneFile;
 
     if (sceneContents)
         delete sceneContents;
@@ -87,7 +84,7 @@ ScenePrivate::loadContents(const QUrl& file)
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);*/
     if (theContents.count() > 0)
-        sceneContents = qobject_cast<GluonEngine::GameObject*>(theContents.at(0));
+        sceneContents = qobject_cast<GluonEngine::GameObject *>(theContents.at(0));
     if (!sceneContents)
         sceneContents = new GluonEngine::GameObject(q);
 
@@ -99,11 +96,10 @@ ScenePrivate::loadContents(const QUrl& file)
 }
 
 void
-ScenePrivate::saveContents(const QUrl& file)
+ScenePrivate::saveContents(const QUrl &file)
 {
-    QList<const GluonCore::GluonObject*> scene;
-    foreach(const QObject *item, sceneContents->children())
-    {
+    QList<const GluonCore::GluonObject *> scene;
+    foreach (const QObject *item, sceneContents->children()) {
         scene.append(qobject_cast<const GluonCore::GluonObject*>(item));
     }
 
@@ -115,6 +111,6 @@ ScenePrivate::saveContents(const QUrl& file)
     sceneWriter << GluonCore::GDLHandler::instance()->serializeGDL(scene);
     sceneWriter.flush();
     sceneFile->close();
-    delete(sceneFile);
+    delete sceneFile;
     q->savableDirty = false;
 }

@@ -59,18 +59,18 @@ void InputManager::init()
     }
 
 #ifdef Q_WS_X11
-    d->m_instance = new DetectLinux(parent);
+    d->m_detect = new DetectLinux(parent);
 #endif
 
 #ifdef Q_WS_MAC
-    d->m_instance = new DetectMac(parent);
+    d->m_detect = new DetectMac(parent);
 #endif
 
 #ifdef Q_WS_WIN
-    d->m_instance = new DetectWin(parent);
+    d->m_detect = new DetectWin(parent);
 #endif
-    if(d->m_instance) {
-        d->m_instance->detectDevices();
+    if(d->m_detect) {
+        d->m_detect->detectDevices();
     } else {
         qDebug() << "Instance not created, fail!";
     }
@@ -78,12 +78,12 @@ void InputManager::init()
 
 void InputManager::detectDevices()
 {
-    d->m_instance->detectDevices();
+    d->m_detect->detectDevices();
 }
 
 void InputManager::setAllEnabled(bool enable)
 {
-    d->m_instance->setAllEnabled(enable);
+    d->m_detect->setAllEnabled(enable);
 }
 
 unsigned int InputManager::deviceCount()
@@ -93,95 +93,95 @@ unsigned int InputManager::deviceCount()
 
 unsigned int InputManager::keyboardCount()
 {
-    return d->m_instance->keyboardList().size();
+    return d->m_detect->keyboardList().size();
 }
 
 unsigned int InputManager::mouseCount()
 {
-    return d->m_instance->mouseList().size();
+    return d->m_detect->mouseList().size();
 }
 
 unsigned int InputManager::joystickCount()
 {
-    return d->m_instance->joystickList().size();
+    return d->m_detect->joystickList().size();
 }
 
 unsigned int InputManager::touchCount()
 {
-    return d->m_instance->touchList().size();
+    return d->m_detect->touchList().size();
 }
 
 unsigned int InputManager::unknownDeviceCount()
 {
-    return d->m_instance->unknownDeviceList().size();
+    return d->m_detect->unknownDeviceList().size();
 }
 
 QList<Keyboard *> InputManager::keyboardList()
 {
-    return d->m_instance->keyboardList();
+    return d->m_detect->keyboardList();
 }
 
 QList<Mouse *> InputManager::mouseList()
 {
-    return d->m_instance->mouseList();
+    return d->m_detect->mouseList();
 }
 
 QList<Joystick *> InputManager::joystickList()
 {
-    return d->m_instance->joystickList();
+    return d->m_detect->joystickList();
 }
 
 QList<Touch *> InputManager::touchList()
 {
-    return d->m_instance->touchList();
+    return d->m_detect->touchList();
 }
 
 QList<InputDevice *> InputManager::unknownDeviceList()
 {
-    return d->m_instance->unknownDeviceList();
+    return d->m_detect->unknownDeviceList();
 }
 
 InputList InputManager::inputList()
 {
-    return d->m_instance->inputList();
+    return d->m_detect->inputList();
 }
 
 Keyboard *InputManager::keyboard(int id)
 {
-    if (!d->m_instance->keyboardList().isEmpty()) {
-        return d->m_instance->keyboardList().at(id);
+    if (!d->m_detect->keyboardList().isEmpty()) {
+        return d->m_detect->keyboardList().at(id);
     }
     return 0;
 }
 
 Mouse *InputManager::mouse(int id)
 {
-    if (!d->m_instance->mouseList().isEmpty()) {
-        return d->m_instance->mouseList().at(id);
+    if (!d->m_detect->mouseList().isEmpty()) {
+        return d->m_detect->mouseList().at(id);
     }
     return 0;
 }
 
 Joystick *InputManager::joystick(int id)
 {
-    if (!d->m_instance->joystickList().isEmpty()) {
-        return d->m_instance->joystickList().at(id);
+    if (!d->m_detect->joystickList().isEmpty()) {
+        return d->m_detect->joystickList().at(id);
     }
     return 0;
 }
 
 Touch *InputManager::touch(int id)
 {
-    if (!d->m_instance->touchList().isEmpty()) {
-        return d->m_instance->touchList().at(id);
+    if (!d->m_detect->touchList().isEmpty()) {
+        return d->m_detect->touchList().at(id);
     }
     return 0;
 }
 
 InputDevice *InputManager::input(int id)
 {
-    if (!d->m_instance->inputList().isEmpty()) {
-        return d->m_instance->inputList().at(id);
+    if (!d->m_detect->inputList().isEmpty()) {
+        return d->m_detect->inputList().at(id);
     }
     return 0;
 }

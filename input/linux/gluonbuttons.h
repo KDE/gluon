@@ -21,14 +21,15 @@
 #define GLUONBUTTONS_H
 
 #include "gluon_input_export.h"
-#include "core/singleton.h"
 #include "gluondevices.h"
+
+#include <core/singleton.h>
 
 #include <QtCore/QObject>
 
 namespace GluonInput
 {
-    class GLUON_INPUT_EXPORT GluonButtons :public GluonCore::Singleton<GluonButtons>
+    class GLUON_INPUT_EXPORT GluonButtons : public GluonCore::Singleton<GluonButtons>
     {
         Q_OBJECT
         Q_ENUMS(Button)
@@ -117,7 +118,8 @@ namespace GluonInput
                 KEYPAD_PLUS,
                 KEYPAD_ONE,
                 KEYPAD_TWO,
-                KEYPAD_THREE, KEYPAD_ZERO,
+                KEYPAD_THREE,
+                KEYPAD_ZERO,
                 KEYPAD_PUNCTUATION, /* 79 - 83 */
                 ZENKAKUHANKAKU = 85,
                 ONEZEROTWOND,
@@ -453,7 +455,6 @@ namespace GluonInput
 
         private:
             ~GluonButtons();
-
     };
 }
 

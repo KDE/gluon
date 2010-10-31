@@ -51,10 +51,10 @@ namespace GluonInput
             virtual QList<InputDevice *> unknownDeviceList() = 0;
 
             virtual void addInput(InputDevice *i) = 0;
-            virtual void addKeyboard(InputDevice *i) = 0;
-            virtual void addMouse(InputDevice *i) = 0;
-            virtual void addJoystick(InputDevice *i) = 0;
-            virtual void addTouch(InputDevice *i) = 0;
+            virtual void addKeyboard(Keyboard *keyboard) = 0;
+            virtual void addMouse(Mouse *mouse) = 0;
+            virtual void addJoystick(Joystick *joystick) = 0;
+            virtual void addTouch(Touch *touch) = 0;
             virtual void addUnknown(InputDevice *i) = 0;
             virtual void clear() = 0;
     };

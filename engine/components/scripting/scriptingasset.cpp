@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -19,9 +19,10 @@
 
 #include "scriptingasset.h"
 
+#include "scriptingengine.h"
+
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
-#include "scriptingengine.h"
 
 REGISTER_OBJECTTYPE(GluonEngine, ScriptingAsset);
 
@@ -31,14 +32,14 @@ namespace GluonEngine
     {
         public:
             Private() {};
-            
+
             QString script;
     };
 }
 
 using namespace GluonEngine;
 
-ScriptingAsset::ScriptingAsset(QObject* parent)
+ScriptingAsset::ScriptingAsset(QObject *parent)
     : Asset(parent)
     , d(new Private)
 {
@@ -47,17 +48,17 @@ ScriptingAsset::ScriptingAsset(QObject* parent)
 ScriptingAsset::~ScriptingAsset()
 {
     ScriptingEngine::instance()->unregisterAsset(this);
-    delete(d);
+    delete d;
 }
 
 const QStringList
 ScriptingAsset::supportedMimeTypes() const
 {
     QStringList mime;
-    
+
     mime << "application/javascript";
     mime << "text/plain";
-    
+
     return mime;
 }
 
@@ -65,30 +66,29 @@ void
 ScriptingAsset::setFile(const QUrl &newFile)
 {
     DEBUG_FUNC_NAME
-    
+
     ScriptingEngine::instance()->unregisterAsset(this);
 
     QFile script(newFile.path());
-    if (script.open(QIODevice::ReadOnly))
-    {
+    if (script.open(QIODevice::ReadOnly)) {
         d->script = script.readAll();
         mimeData()->setText(d->script);
     }
     // Don't attempt to do anything if the script is empty
-    if(d->script.isEmpty())
+    if (d->script.isEmpty())
         return;
 
     QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
-    if(result.state() != QScriptSyntaxCheckResult::Valid)
-        debug(tr("Script error %1 (%2,%3): %4").arg(this->fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
-    
+    if (result.state() != QScriptSyntaxCheckResult::Valid)
+        debug(tr("Script error %1 (%2,%3): %4").arg(fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
+
     GluonEngine::Asset::setFile(newFile);
 }
 
-const QList< AssetTemplate* >
+const QList<AssetTemplate *>
 ScriptingAsset::templates()
 {
-    QList<AssetTemplate*> templates;
+    QList<AssetTemplate *> templates;
     templates.append(new AssetTemplate("Scripted Logic", "scripting_template.js", "scripting", this));
     return templates;
 }

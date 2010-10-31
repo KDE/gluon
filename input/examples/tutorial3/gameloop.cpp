@@ -19,16 +19,13 @@
 
 #include "gameloop.h"
 
-#include "input/inputdevice.h"
-#include "input/keyboard.h"
-
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(Keyboard *keyb)
+GameLoop::GameLoop(QList<InputDevice *> inputList)
+    : m_inputList(inputList)
 {
-    keyboard = keyb;
     connect(this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection);
 }
 
@@ -52,10 +49,12 @@ void GameLoop::gameLoop()
         QCoreApplication::processEvents();
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip) {
-            foreach(int button, keyboard->buttonCapabilities()) {
-                if (keyboard->buttonPressed(button))
-                    qDebug() << keyboard->buttonName(button) << " is pressed ";
+            foreach (InputDevice *id, m_inputList) {
+                foreach(int button, id->buttonCapabilities()) {
+                    if (id->buttonPressed(button))
+                        qDebug() << id->buttonName(button) << " is pressed ";
 
+                }
             }
 
             nextTick += millisecondsPerUpdate;

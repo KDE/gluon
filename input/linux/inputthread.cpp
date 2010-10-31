@@ -200,7 +200,7 @@ void InputThread::readInformation()
 
     d->m_deviceType = GluonInput::UnknownDevice;
 
-    if (d->m_buttonCapabilities.contains(BTN_STYLUS)) {
+    if (d->m_buttonCapabilities.contains(BTN_TOUCH)) {
         d->m_deviceType  = GluonInput::TouchDevice;
     }
 
@@ -217,7 +217,7 @@ void InputThread::readInformation()
         d->m_deviceType  = GluonInput::MouseDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(KEY_ESC))	{
+    if (d->m_buttonCapabilities.contains(KEY_ENTER))	{
         d->m_deviceType  = GluonInput::KeyboardDevice;
     }
 }

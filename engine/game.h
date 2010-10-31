@@ -21,15 +21,15 @@
 #ifndef GLUON_ENGINE_GAME_H
 #define GLUON_ENGINE_GAME_H
 
+#include "gameproject.h"
+
 #include "gluon_engine_export.h"
 
-#include "gameproject.h"
+#include <core/singleton.h>
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 #include <QtCore/QThread>
-
-#include <core/singleton.h>
 
 namespace GluonEngine
 {
@@ -60,17 +60,17 @@ namespace GluonEngine
             /**
              * The Scene which is currently being handled by the game loop
              */
-            Q_PROPERTY(Scene* currentScene READ currentScene WRITE setCurrentScene)
+            Q_PROPERTY(Scene *currentScene READ currentScene WRITE setCurrentScene)
             /**
              * The GameProject containing the game which is currently being played
              */
-            Q_PROPERTY(GluonEngine::GameProject* gameProject READ gameProject WRITE setGameProject)
+            Q_PROPERTY(GluonEngine::GameProject *gameProject READ gameProject WRITE setGameProject)
 
         public:
             int getCurrentTick();
-            Scene * currentScene() const;
+            Scene *currentScene() const;
 
-            GluonEngine::GameProject * gameProject() const;
+            GluonEngine::GameProject *gameProject() const;
 
             Q_INVOKABLE bool isRunning() const;
             Q_INVOKABLE bool isPaused() const;
@@ -80,12 +80,12 @@ namespace GluonEngine
              *
              * @param name The name of the object
              */
-            Q_INVOKABLE GluonEngine::GameObject* getFromScene(const QString &name);
+            Q_INVOKABLE GluonEngine::GameObject *getFromScene(const QString &name);
 
-            Q_INVOKABLE GluonEngine::GameObject* clone(GluonEngine::GameObject *obj);
+            Q_INVOKABLE GluonEngine::GameObject *clone(GluonEngine::GameObject *obj);
 
             //TODO Implement
-            //Q_INVOKABLE GameObject* spawn(const QString& prefabName);
+            //Q_INVOKABLE GameObject *spawn(const QString& prefabName);
 
             /**
              * Generate a random number between 0 and 1.

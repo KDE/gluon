@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -21,9 +21,10 @@
 #include "gameproject.h"
 #include "gameprojectprivate.h"
 
+#include "scene.h"
+
 #include <core/gdlhandler.h>
 #include <core/debughelper.h>
-#include "scene.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
@@ -36,16 +37,16 @@ REGISTER_OBJECTTYPE(GluonEngine, GameProject)
 
 using namespace GluonEngine;
 
-GameProject::GameProject(QObject * parent)
-        : GluonObject(parent)
+GameProject::GameProject(QObject *parent)
+    : GluonObject(parent)
+    , d(new GameProjectPrivate)
 {
-    d = new GameProjectPrivate;
     setGameProject(this);
 }
 
-GameProject::GameProject(const GameProject &other, QObject * parent)
-        : GluonObject(parent)
-        , d(other.d)
+GameProject::GameProject(const GameProject &other, QObject *parent)
+    : GluonObject(parent)
+    , d(other.d)
 {
 }
 
@@ -64,7 +65,7 @@ GameProject::saveToFile() const
     if (!projectFile.open(QIODevice::WriteOnly))
         return false;
 
-    QList<const GluonObject*> thisProject;
+    QList<const GluonObject *> thisProject;
     thisProject.append(this);
 
     QTextStream projectWriter(&projectFile);
@@ -96,27 +97,23 @@ GameProject::loadFromFile()
     if (fileContents.isEmpty())
         return false;
 
-    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL(fileContents, this->parent());
-    if (objectList.count() > 0)
-    {
-        if (objectList[0]->metaObject())
-        {
+    QList<GluonObject *> objectList = GluonCore::GDLHandler::instance()->parseGDL(fileContents, parent());
+    if (objectList.count() > 0) {
+        if (objectList[0]->metaObject()) {
             // If the first object in the list is a GluonProject, then let's
             // adapt ourselves to represent that object...
-            if (objectList[0]->metaObject()->className() == this->metaObject()->className())
-            {
+            if (objectList[0]->metaObject()->className() == metaObject()->className()) {
                 DEBUG_TEXT("Project successfully parsed - applying to local instance");
-                GameProject* loadedProject = qobject_cast<GameProject*>(objectList[0]);
+                GameProject *loadedProject = qobject_cast<GameProject *>(objectList[0]);
 
                 // First things first - clean ourselves out, all the children
                 // and the media info list should be gone-ified
-                qDeleteAll(this->children());
+                qDeleteAll(children());
 
                 // Reassign all the children of the newly loaded project to
                 // ourselves...
-                foreach(QObject* child, loadedProject->children())
-                {
-                    GluonObject* theChild = qobject_cast<GluonObject*>(child);
+                foreach(QObject *child, loadedProject->children()) {
+                    GluonObject *theChild = qobject_cast<GluonObject *>(child);
                     theChild->setParent(this);
                     theChild->setGameProject(this);
                 }
@@ -127,8 +124,7 @@ GameProject::loadFromFile()
                 // Copy across all the properties
                 const QMetaObject *metaobject = loadedProject->metaObject();
                 int count = metaobject->propertyCount();
-                for (int i = 0; i < count; ++i)
-                {
+                for (int i = 0; i < count; ++i) {
                     QMetaProperty metaproperty = metaobject->property(i);
                     const QString theName(metaproperty.name());
                     if (theName == "objectName" || theName == "name")
@@ -138,13 +134,12 @@ GameProject::loadFromFile()
 
                 // Then get all the dynamic ones (in case any such exist)
                 QList<QByteArray> propertyNames = loadedProject->dynamicPropertyNames();
-                foreach(const QByteArray &propName, propertyNames)
-                {
+                foreach(const QByteArray &propName, propertyNames) {
                     setProperty(propName, loadedProject->property(propName));
                 }
 
                 // Sanitize me!
-                this->sanitize();
+                sanitize();
 
                 // Finally, get rid of the left-overs
                 qDeleteAll(objectList);
@@ -152,16 +147,15 @@ GameProject::loadFromFile()
                 DEBUG_TEXT("Project loading successful!");
             }
             // Otherwise it is not a GluonProject, and should fail!
-            else
-            {
+            else {
                 DEBUG_TEXT(QString("First object loaded is not a Gluon::GameProject."));
                 DEBUG_TEXT(QString("Type of loaded object:").arg(objectList[0]->metaObject()->className()));
                 DEBUG_TEXT(QString("Name of loaded object:").arg(objectList[0]->name()));
                 return false;
             }
-        }
-        else
+        } else {
             return false;
+        }
     }
 
     return true;
@@ -183,6 +177,7 @@ GameProject::description() const
 {
     return d->description;
 }
+
 void
 GameProject::setDescription(QString newDescription)
 {
@@ -216,20 +211,21 @@ GameProject::filename() const
 {
     return d->filename;
 }
+
 void
 GameProject::setFilename(QUrl newFilename)
 {
     d->filename = newFilename;
 }
 
-Scene*
+Scene *
 GameProject::entryPoint() const
 {
     return d->entryPoint;
 }
 
 void
-GameProject::setEntryPoint(Scene* newEntryPoint)
+GameProject::setEntryPoint(Scene *newEntryPoint)
 {
     d->entryPoint = newEntryPoint;
 }

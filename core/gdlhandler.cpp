@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -92,12 +92,14 @@ GDLHandler::tokenizeObject(QString objectString)
     QList<QStringList> tokenizedObject;
 
     bool inItem = false;
-
-    bool inObjectDefinition = false, inObjectName = false, inObjectType = false;
+    bool inObjectDefinition = false;
+    bool inObjectName = false;
+    bool inObjectType = false;
 
     bool inPropertyName = false;
     bool inPropertyValue = false;
-    bool inChild = false, childEnded = false;
+    bool inChild = false;
+    bool childEnded = false;
 
     bool beingEscaped = false;
     int extraBracketCounter = 0;
@@ -185,7 +187,7 @@ GDLHandler::tokenizeObject(QString objectString)
                             if (i->toLower() == '}') {
                                 --extraBracketCounter;
                                 if (extraBracketCounter == -1) {
-                                    // Now we're ready to look for more values, yay! ;)
+                                    // Ready to look for more values!
                                     extraBracketCounter = 0;
                                     childEnded = true;
                                     inPropertyName = true;
@@ -222,7 +224,7 @@ GDLHandler::tokenizeObject(QString objectString)
                     if (i->toLower() == '\\' && !beingEscaped) {
                         beingEscaped = true;
                     } else {
-                        // Read the value until the value ends, wooh! ;)
+                        // Read the value until the value ends!
                         currentString += i->unicode();
                         if (!beingEscaped && i->toLower() == ')') {
                             currentItem.append(currentString.trimmed());
@@ -272,7 +274,7 @@ GDLHandler::serializeGDL(QList<const GluonObject *> serializeThis)
 {
     QString serializedData;
 
-    foreach (const GluonObject* theObject, serializeThis)
+    foreach (const GluonObject *theObject, serializeThis)
         serializedData += theObject->toGDL();
 
     return serializedData;

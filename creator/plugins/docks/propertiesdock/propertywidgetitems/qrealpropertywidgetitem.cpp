@@ -6,31 +6,32 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "qrealpropertywidgetitem.h"
 
-#include <QtGui/QDoubleSpinBox>
-#include <knuminput.h>
+#include "qrealpropertywidgetitem.h"
 
 #include <cfloat>
 #include <core/gluonobject.h>
 #include <core/metainfo.h>
 
+#include <knuminput.h>
+
+#include <QtGui/QDoubleSpinBox>
 REGISTER_PROPERTYWIDGETITEM(GluonCreator, QRealPropertyWidgetItem)
 
 using namespace GluonCreator;
 
-QRealPropertyWidgetItem::QRealPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+QRealPropertyWidgetItem::QRealPropertyWidgetItem(QWidget *parent, Qt::WindowFlags f)
+    : PropertyWidgetItem(parent, f)
 {
 }
 
@@ -38,7 +39,7 @@ QRealPropertyWidgetItem::~QRealPropertyWidgetItem()
 {
 }
 
-QList< QString >
+QStringList
 QRealPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
@@ -48,36 +49,32 @@ QRealPropertyWidgetItem::supportedDataTypes() const
     return supportedTypes;
 }
 
-PropertyWidgetItem*
+PropertyWidgetItem *
 QRealPropertyWidgetItem::instantiate()
 {
     return new QRealPropertyWidgetItem();
 }
 
 void
-QRealPropertyWidgetItem::setEditProperty(const QString& value)
+QRealPropertyWidgetItem::setEditProperty(const QString &value)
 {
     // Clean up any possible leftovers
-    delete(editWidget());
+    delete editWidget();
 
-    GluonCore::GluonObject* theObject = qobject_cast<GluonCore::GluonObject*>(editObject());
+    GluonCore::GluonObject *theObject = qobject_cast<GluonCore::GluonObject *>(editObject());
     bool noPropertyRange = true;;
-    if(theObject)
-    {
-        if(theObject->hasMetaInfo())
-        {
-            if(theObject->metaInfo()->hasPropertyRange(value))
-            {
+    if (theObject) {
+        if (theObject->hasMetaInfo()) {
+            if (theObject->metaInfo()->hasPropertyRange(value)) {
                 noPropertyRange = false;
-                KDoubleNumInput* editor = new KDoubleNumInput(this);
+                KDoubleNumInput *editor = new KDoubleNumInput(this);
                 editor->setRange(theObject->metaInfo()->propertyRangeMin(value), theObject->metaInfo()->propertyRangeMax(value));
                 setEditWidget(editor);
             }
         }
     }
 
-    if(noPropertyRange)
-    {
+    if (noPropertyRange) {
         QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
         setEditWidget(spinBox);
 
@@ -88,7 +85,7 @@ QRealPropertyWidgetItem::setEditProperty(const QString& value)
 }
 
 void
-QRealPropertyWidgetItem::setEditValue(const QVariant& value)
+QRealPropertyWidgetItem::setEditValue(const QVariant &value)
 {
     editWidget()->setProperty("value", value);
 }

@@ -47,37 +47,37 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         {
             this->parent = parent;
             menu = new QMenu(parent);
-            
+
             // The widget used for the heading
             QFrame* titleWidget = new QFrame(parent);
             titleWidget->setFrameShape(QFrame::StyledPanel);
             titleWidget->setFrameShadow(QFrame::Raised);
             parent->layout()->addWidget(titleWidget);
-            
+
             QHBoxLayout* titleLayout = new QHBoxLayout();
             titleLayout->setSpacing(0);
             titleLayout->setContentsMargins(0, 0, 0, 0);
             titleWidget->setLayout(titleLayout);
-            
+
             expander = new QToolButton(titleWidget);
             expander->setAutoRaise(true);
             expander->setArrowType(Qt::DownArrow);
             connect(expander, SIGNAL(clicked(bool)), parent, SLOT(toggleExpanded()));
             titleLayout->addWidget(expander);
-            
+
             enabler = new QCheckBox(titleWidget);
             enabler->setText(title);
             enabler->setChecked(enabled);
             connect(enabler, SIGNAL(toggled(bool)), parent, SLOT(setEnabled(bool)));
             titleLayout->addWidget(enabler);
-            
+
             menuButton = new QToolButton(titleWidget);
             menuButton->setIcon(KIcon("preferences-other"));
             menuButton->setAutoRaise(true);
             menuButton->setPopupMode(QToolButton::InstantPopup);
             menuButton->setMenu(menu);
             titleLayout->addWidget(menuButton);
-            
+
             // The widget used for containing the children
             containerWidget = new QWidget(parent);
             containerLayout = new QGridLayout();
@@ -91,7 +91,7 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
         ~PropertyWidgetContainerPrivate()
         {
         }
-        
+
         /**
          * Sanitize the name according to the camelCasing
          * - Make first letter upper case
@@ -101,24 +101,24 @@ class PropertyWidgetContainer::PropertyWidgetContainerPrivate
          * @return The fixified string
          */
         QString humanifyString(QString fixThis);
-        
+
         PropertyWidgetContainer* parent;
         GluonCore::GluonObject* object;
         void appendMetaObject(QObject* object);
         void addPropertyItem(QString name, PropertyWidgetItem* item);
-        
+
         bool expanded;
         bool enabled;
         QString title;
-        
+
         QWidget* containerWidget;
         QGridLayout* containerLayout;
         QHash<QString, QWidget*> items;
-        
+
         QToolButton* expander;
         QCheckBox* enabler;
         QToolButton* menuButton;
-        
+
         QMenu* menu;
 }; }
 
@@ -132,14 +132,14 @@ PropertyWidgetContainer::PropertyWidgetContainer(GluonCore::GluonObject* theObje
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
-    
+
     d = new PropertyWidgetContainerPrivate(this);
     setObject(theObject);
 }
 
 PropertyWidgetContainer::~PropertyWidgetContainer()
 {
-    delete(d);
+    delete d;
 }
 
 void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
@@ -170,7 +170,7 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
     QFrame* separator = new QFrame(this);
     separator->setFrameShape(QFrame::HLine);
     d->containerLayout->addWidget(separator, d->containerLayout->rowCount(), 0, 1, 2);
-    
+
     // Set up us the menu...
     if(classname != QString("GameObject"))
     {
@@ -194,14 +194,14 @@ void PropertyWidgetContainer::setObject(GluonCore::GluonObject* theObject)
         connect(delAction, SIGNAL(triggered(bool)), this, SLOT(delTriggered()));
         d->menu->addAction(delAction);
     }
-    
+
     d->appendMetaObject(theObject);
 }
 
 void
 PropertyWidgetContainer::upTriggered()
 {
-    
+
 }
 
 void
@@ -219,7 +219,7 @@ PropertyWidgetContainer::delTriggered()
         if(theParent)
             theParent->removeChild(d->object);
         d->object->deleteLater();
-        
+
         // Cause the property dock to update its view
         SelectionManager::SelectionList list;
         list.append(theParent);
@@ -244,7 +244,7 @@ PropertyWidgetContainer::setExpanded(const bool& newExpanded)
         d->object->setProperty("expanded", false);
     else
         d->object->setProperty("expanded", QVariant());
-    
+
     if(newExpanded)
     {
         d->expander->setArrowType(Qt::DownArrow);
@@ -255,7 +255,7 @@ PropertyWidgetContainer::setExpanded(const bool& newExpanded)
     }
     // This should be animated - need to experiment with the animation framework for that to be pretty ;)
     d->containerWidget->setVisible(newExpanded);
-    
+
     emit propertyChanged(d->object, "expanded", oldExpanded, newExpanded);
 }
 
@@ -319,29 +319,29 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
 {
     QString propertyName, propertyDescription;
     QVariant propertyValue;
-    
+
     const QMetaObject *metaObject = object->metaObject();
     QMetaProperty metaProperty;
-    
+
     int count = metaObject->propertyCount();
     for (int i = 0; i < count; ++i)
     {
         metaProperty = metaObject->property(i);
-        
+
         // Guard against adding these, as we manually add them above, to ensure that they
         // are right at the top and have a little line under them and such... all pretty ;)
         // Also disregard enabled, as that is done by the checkbox above...
         propertyName = QString(metaProperty.name());
         if (propertyName == QString("objectName") || propertyName == QString("name") || propertyName == QString("description") || propertyName == QString("expanded") || propertyName == QString("enabled"))
             continue;
-        
+
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, metaProperty.typeName(), parent->parentWidget());
         editWidget->setEditObject(object);
         editWidget->setEditProperty(metaProperty.name());
-        
+
         addPropertyItem(metaProperty.name(), editWidget);
     }
-    
+
     foreach(const QByteArray &propName, object->dynamicPropertyNames())
     {
         QString thePropName(propName);
@@ -349,11 +349,11 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
         // we don't want to pollute the API with this arguably very meta information
         if(thePropName == QString("description") || thePropName == QString("expanded") || thePropName == QString("enabled"))
             continue;
-        
+
         PropertyWidgetItem *editWidget = PropertyWidgetItemFactory::instance()->create(object, object->property(propName).typeName(), parent->parentWidget());
         editWidget->setEditObject(object);
         editWidget->setEditProperty(thePropName);
-        
+
         addPropertyItem(thePropName, editWidget);
     }
 }
@@ -361,22 +361,22 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject(QObjec
 void
 PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem(QString name, PropertyWidgetItem* item)
 {
-    
+
     KSqueezedTextLabel* nameLabel = new KSqueezedTextLabel(parent);
     nameLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     nameLabel->setTextElideMode(Qt::ElideRight);
     nameLabel->setText(humanifyString(name));
     nameLabel->setToolTip(nameLabel->fullText());
-    
+
     item->setMinimumWidth(150);
     item->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     // Yeah, looks a bit funny, but this makes it possible to connect to either the pwi container... or the pwi view ;)
     connect(item, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)), parent, SIGNAL(propertyChanged(QObject*, QString, QVariant, QVariant)));
-    
+
     int row = containerLayout->rowCount();
     containerLayout->addWidget(nameLabel, row, 0);
     containerLayout->addWidget(item, row, 1);
-    
+
     items.insert(name, item);
 }
 

@@ -30,7 +30,7 @@ namespace GluonInput
             InputManagerPrivate();
             InputManagerPrivate(InputManagerPrivate &other);
 
-            Detect *m_instance;
+            Detect *m_detect;
     };
 }
 #endif

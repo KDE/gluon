@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -36,13 +36,13 @@ class QMimeData;
 namespace GluonEngine
 {
     class AssetPrivate;
-    
+
     /**
      * \brief Representation of a template for a specific GluonEngine::Asset
      *
      * A simple data container class for template information for GluonEngine::Asset
-     * 
-     * Note: To see which Asset the template is refering to, the parent() function
+     *
+     * Note: To see which Asset the template is referring to, the parent() function
      * will be pointing to an instance of that class.
      */
     class GLUON_ENGINE_EXPORT AssetTemplate : public QObject
@@ -56,14 +56,14 @@ namespace GluonEngine
                 , pluginname(pluginname)
             { }
             ~AssetTemplate() {};
-            
+
 
             /**
             * The name which the newly created asset object will be given
             */
             QString name;
             /**
-            * The filename of the template, as found inside the template dir for
+            * The filename of the template, as found inside the template directory for
             * this asset (for example /usr/share/gluon/template/assetclassname/filename)
             */
             QString filename;
@@ -75,7 +75,7 @@ namespace GluonEngine
 
     /**
      * \brief The base class on which all Asset handlers are constructed
-     * 
+     *
      * The Asset class is a fat interface used to allow file access to GluonEngine based
      * games without allowing direct access to the file system.
      */
@@ -98,12 +98,12 @@ namespace GluonEngine
             /**
              * An extension on the GluonCore::GluonObject::setName function which changes the
              * file name of the Asset when setting a new name for the Asset.
-             * 
+             *
              * \note As always, be aware that the requested name is not always the name which
              * is set, as two objects with the same parent cannot have the same name.
-             * 
+             *
              * @param   newName The requested new name for the asset
-             * 
+             *
              * @see file, GluonCore::GluonObject::name
              */
             virtual void setName(const QString &newName);
@@ -119,7 +119,7 @@ namespace GluonEngine
              * @return The absolute path of this asset's file.
              */
             virtual QString absolutePath() const;
-            
+
             /**
              * An icon to represent the asset. Think of it as a thumbnail representation
              * of the contents of the asset. The default implementation returns a null icon
@@ -136,7 +136,7 @@ namespace GluonEngine
             /**
              * Retrieve a list of actions relating to the current asset.
              *
-             * \return A QList of QActions that can be shown in popup menus and
+             * \return A QList of QActions that can be shown in pop-up menus and
              * other places.
              */
             virtual QList<QAction*> actions();
@@ -148,7 +148,7 @@ namespace GluonEngine
              * function is needed, more can of course be constructed, but data() should
              * always return the primary data for the asset.
              */
-            virtual const QMimeData* data() const;
+            virtual const QMimeData *data() const;
 
             /**
              * The specialization of toGDL on the Asset class does not recurse.
@@ -169,13 +169,13 @@ namespace GluonEngine
             /**
              * This signal is fired when ever the data represented by the Asset instance
              * changes, and should be an indication that the data should be updated.
-             * 
+             *
              * @see data()
              */
             void dataChanged();
 
         protected:
-            QMimeData* mimeData() const;
+            QMimeData *mimeData() const;
             void setLoaded(bool loaded);
 
         private:
@@ -185,6 +185,6 @@ namespace GluonEngine
 
 Q_DECLARE_INTERFACE(GluonEngine::Asset, "com.gluon.Asset/1.0")
 Q_DECLARE_METATYPE(GluonEngine::Asset)
-Q_DECLARE_METATYPE(GluonEngine::Asset*)
+Q_DECLARE_METATYPE(GluonEngine::Asset *)
 
 #endif  // GLUON_ASSET_H

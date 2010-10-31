@@ -7,18 +7,19 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 #include "asset.h"
+
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
@@ -40,13 +41,13 @@ class GluonEngine::AssetPrivate
 
         QUrl file;
         bool loaded;
-        QMimeData* mime;
+        QMimeData *mime;
 };
 
 Asset::Asset(QObject *parent)
-        : GluonObject(parent)
+    : GluonObject(parent)
+    , d(new AssetPrivate)
 {
-    d = new AssetPrivate;
     d->mime = new QMimeData;
 }
 
@@ -57,21 +58,18 @@ Asset::~Asset()
 }
 
 void
-Asset::setName(const QString& newName)
+Asset::setName(const QString &newName)
 {
     QString oldName(name());
 
     GluonCore::GluonObject::setName(newName);
 
     // Rename the underlying file, if one exists...
-    if(!d->file.isEmpty())
-    {
+    if(!d->file.isEmpty()) {
         // If we use QDir::current(), .exists will throw debug crap... this works around that particular annoyance
-        if (QDir(QDir::currentPath()).exists(d->file.toLocalFile()))
-        {
+        if (QDir(QDir::currentPath()).exists(d->file.toLocalFile())) {
             QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
-            if (QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile()))
-            {
+            if (QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile())) {
                 setFile(newFile);
             }
         }
@@ -108,20 +106,20 @@ Asset::icon() const
     return QIcon();
 }
 
-const QMimeData*
+const QMimeData *
 Asset::data() const
 {
     return d->mime;
 }
 
-const QList< AssetTemplate* >
+const QList<AssetTemplate *>
 Asset::templates()
 {
-    QList<AssetTemplate*> templates;
+    QList<AssetTemplate *> templates;
     return templates;
 }
 
-QList< QAction* >
+QList<QAction *>
 Asset::actions()
 {
     QList<QAction*> actions;
@@ -151,7 +149,7 @@ Asset::childrenToGDL(int indentLevel) const
     return QString();
 }
 
-QMimeData*
+QMimeData *
 Asset::mimeData() const
 {
     return d->mime;

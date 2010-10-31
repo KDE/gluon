@@ -26,6 +26,6 @@ InputManagerPrivate::InputManagerPrivate()
 
 InputManagerPrivate::InputManagerPrivate(InputManagerPrivate &other)
     : QSharedData(other),
-    m_instance(other.m_instance)
+    m_detect(other.m_detect)
 {
 }
