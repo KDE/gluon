@@ -79,6 +79,8 @@ void
 Item::render()
 {
     Camera* activeCam = Engine::instance()->activeCamera();
+    if(!activeCam)
+        return;
 
     #ifdef __GNUC__
     #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
