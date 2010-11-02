@@ -18,6 +18,7 @@
  */
 
 #include "loginform.h"
+
 #include <player/lib/authentication.h>
 
 #include <attica/provider.h>
@@ -31,21 +32,22 @@
 #include <QGraphicsLinearLayout>
 #include <QDebug>
 
-LoginForm::LoginForm(QGraphicsItem* parent, Qt::WindowFlags wFlags) : Overlay(parent, wFlags)
+LoginForm::LoginForm(QGraphicsItem *parent, Qt::WindowFlags wFlags)
+    : Overlay(parent, wFlags)
+    , m_usernameEdit(new Plasma::LineEdit(this))
+    , m_passwordEdit(new Plasma::LineEdit(this))
+    , m_loginButton(new Plasma::PushButton(this))
+    , m_busyWidget(new Plasma::BusyWidget(this))
+    , m_usernameLabel(new Plasma::Label(this))
 {
-    m_usernameEdit = new Plasma::LineEdit(this);
     m_usernameEdit->nativeWidget()->setClickMessage(i18n("Username"));
-    m_passwordEdit = new Plasma::LineEdit(this);
     m_passwordEdit->nativeWidget()->setClickMessage(i18n("Password"));
     m_passwordEdit->nativeWidget()->setPasswordMode(true);
-    m_loginButton = new Plasma::PushButton(this);
     m_loginButton->setIcon(KIcon("network-connect"));
     m_loginButton->setText(i18n("Login"));
     m_loginButton->setEnabled(false);
 
-    m_busyWidget = new Plasma::BusyWidget(this);
     m_busyWidget->hide();
-    m_usernameLabel = new Plasma::Label(this);
     m_usernameLabel->setText(i18n("Not Logged In"));
 
     QGraphicsLinearLayout *layout1 = new QGraphicsLinearLayout(m_contentLayout);

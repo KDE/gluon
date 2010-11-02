@@ -45,7 +45,7 @@ class GameDetailsOverlay : public Overlay
         Q_OBJECT
 
     public:
-        GameDetailsOverlay(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        GameDetailsOverlay(QGraphicsItem *parent = 0, Qt::WindowFlags wFlags = 0);
         virtual ~GameDetailsOverlay();
 
     private:

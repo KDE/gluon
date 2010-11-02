@@ -20,9 +20,10 @@
 #ifndef GLUONPLAYER_COMMENTSMODEL_H
 #define GLUONPLAYER_COMMENTSMODEL_H
 
+#include "gluon_player_export.h"
+
 #include <attica/providermanager.h>
 #include <attica/provider.h>
-#include "gluon_player_export.h"
 
 #include <QAbstractItemModel>
 #include <QStringList>
@@ -46,23 +47,29 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            enum Column { AuthorColumn, TitleColumn, BodyColumn, DateTimeColumn, RatingColumn };
+            enum Column { 
+		    AuthorColumn, 
+		    TitleColumn, 
+		    BodyColumn, 
+		    DateTimeColumn, 
+		    RatingColumn 
+	    };
 
-            CommentsModel(QObject* parent = 0);
+            CommentsModel(QObject *parent = 0);
             virtual ~CommentsModel();
             virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
             virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
             virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-            virtual QModelIndex parent(const QModelIndex& child) const;
-            virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+            virtual QModelIndex parent(const QModelIndex &child) const;
+            virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
             virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
             virtual Qt::ItemFlags flags(const QModelIndex &index) const;
             virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-            virtual bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
+            virtual bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
 
             QString columnName(const Column col) const;
             bool isOnline();
-            void uploadComment(const QModelIndex& parentIndex, const QString& subject, const QString& message);
+            void uploadComment(const QModelIndex &parentIndex, const QString &subject, const QString &message);
 
         private:
             GluonCore::GluonObject *rootNode;
@@ -77,13 +84,12 @@ namespace GluonPlayer
 
         private slots:
             void providersUpdated();
-            void processFetchedComments(Attica::BaseJob*);
-            void addCommentFinished(Attica::BaseJob* job);
+            void processFetchedComments(Attica::BaseJob *);
+            void addCommentFinished(Attica::BaseJob *job);
 
         signals:
             void addCommentFailed();
     };
-
 }
 
 #endif // GLUONPLAYER_COMMENTSMODEL_H

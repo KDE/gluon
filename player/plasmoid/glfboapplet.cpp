@@ -91,34 +91,32 @@ class GLFBOApplet::GLFBOAppletPrivate
 GLFBOApplet::GLFBOApplet(QGraphicsItem *parent,
                          const QString &serviceId,
                          int appletId)
-        : Plasma::Applet(parent, serviceId, appletId),
-        d(new GLFBOAppletPrivate)
+    : Plasma::Applet(parent, serviceId, appletId)
+    , d(new GLFBOAppletPrivate)
 {
     if (d->fbo) {
         if (!d->fbo->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     } else {
-        if (!d->dummy->isValid() ||
-                !QGLPixelBuffer::hasOpenGLPbuffers() ||
-                !d->pbuf->isValid()) {
+        if (!d->dummy->isValid() !QGLPixelBuffer::hasOpenGLPbuffers()
+                || !d->pbuf->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     }
 }
 
 GLFBOApplet::GLFBOApplet(QObject *parent, const QVariantList &args)
-        : Applet(parent, args),
-        d(new GLFBOAppletPrivate)
+    : Applet(parent, args)
+    , d(new GLFBOAppletPrivate)
 {
     if (d->fbo) {
         if (!d->fbo->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     } else {
-        if (!d->dummy->isValid() ||
-                !QGLPixelBuffer::hasOpenGLPbuffers() ||
-                !d->pbuf->isValid()) {
+        if (!d->dummy->isValid() || !QGLPixelBuffer::hasOpenGLPbuffers()
+                || !d->pbuf->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     }
@@ -231,8 +229,7 @@ void GLFBOApplet::paintInterface(QPainter *painter,
         painter->drawImage(0, 0, image);
     } else {
         Q_ASSERT(d->pbuf);
-        if ((!d->dummy->isValid() ||
-                !d->pbuf->isValid())) {
+        if ((!d->dummy->isValid() || !d->pbuf->isValid())) {
             if (!hasFailedToLaunch()) {
                 setFailedToLaunch(true, i18n("Your machine does not support Gluon's OpenGL widget."));
             }

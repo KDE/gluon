@@ -30,44 +30,43 @@
 
 
 Overlay::Overlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : QGraphicsWidget(parent, wFlags)
+    : QGraphicsWidget(parent, wFlags)
+    , m_contentLayout(new QGraphicsLinearLayout(Qt::Vertical))
+    , m_contentWidget(new QGraphicsWidget(this))
+    , m_background(new Plasma::FrameSvg(this))
+    , m_scrollWidget(new Plasma::ScrollWidget(this))
 {
-    m_background = new Plasma::FrameSvg(this);
     m_background->setImagePath("widgets/translucentbackground");
     m_background->setEnabledBorders(Plasma::FrameSvg::AllBorders);
 
-    m_scrollWidget = new Plasma::ScrollWidget(this);
     m_scrollWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
     layout->addItem(m_scrollWidget);
     setLayout(layout);
     setContentsMargins(10, 15, 10, 15);
 
-    m_contentWidget = new QGraphicsWidget(this);
-    m_contentLayout = new QGraphicsLinearLayout(Qt::Vertical);
     m_contentWidget->setLayout(m_contentLayout);
-
     m_scrollWidget->setWidget(m_contentWidget);
 }
 
-void Overlay::keyPressEvent(QKeyEvent* event)
+void Overlay::keyPressEvent(QKeyEvent *event)
 {
     QGraphicsItem::keyPressEvent(event);
 }
 
-void Overlay::wheelEvent(QGraphicsSceneWheelEvent* event)
+void Overlay::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     QGraphicsItem::wheelEvent(event);
 }
 
-void Overlay::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void Overlay::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     m_background->paintFrame(painter);
 }
 
-void Overlay::resizeEvent(QGraphicsSceneResizeEvent* event)
+void Overlay::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     m_background->resizeFrame(event->newSize());
 }

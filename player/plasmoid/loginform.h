@@ -21,6 +21,7 @@
 #define LOGINFORM_H
 
 #include "overlay.h"
+
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
@@ -37,7 +38,7 @@ class LoginForm : public Overlay
     Q_OBJECT
 
     public:
-        LoginForm(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        LoginForm(QGraphicsItem *parent = 0, Qt::WindowFlags wFlags = 0);
 
     private:
         Plasma::LineEdit *m_usernameEdit;
