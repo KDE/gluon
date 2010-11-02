@@ -27,7 +27,6 @@
 #include <Plasma/Label>
 #include <Plasma/BusyWidget>
 #include <KLineEdit>
-#include <KLocalizedString>     //FIXME: Why is this required?
 
 #include <QGraphicsLinearLayout>
 #include <QDebug>
