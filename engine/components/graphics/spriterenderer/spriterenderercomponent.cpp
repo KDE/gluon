@@ -136,8 +136,7 @@ SpriteRendererComponent::material()
     return d->material;
 }
 
-voidJ
-SpriteRendererComponent::setMaterial(GluonGraphics::MaterialInstance *material)
+void SpriteRendererComponent::setMaterial(GluonGraphics::MaterialInstance *material)
 {
     if (!material)
         return;
