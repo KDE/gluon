@@ -41,13 +41,13 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
 
-            virtual const QList< AssetTemplate* > templates();
+            virtual const QList<AssetTemplate *> templates();
 
-            virtual QList< QAction* > actions();
+            virtual QList<QAction *> actions();
 
-            virtual void setName( const QString& newName );
+            virtual void setName(const QString &newName);
 
-            virtual QString childrenToGDL( int indentLevel = 0 ) const;
+            virtual QString childrenToGDL(int indentLevel = 0) const;
 
             virtual void sanitize();
 
@@ -58,10 +58,9 @@ namespace GluonEngine
             class MaterialAssetPrivate;
             MaterialAssetPrivate *d;
     };
-
 }
 
 Q_DECLARE_METATYPE(GluonEngine::MaterialAsset)
-Q_DECLARE_METATYPE(GluonEngine::MaterialAsset*)
+Q_DECLARE_METATYPE(GluonEngine::MaterialAsset *)
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

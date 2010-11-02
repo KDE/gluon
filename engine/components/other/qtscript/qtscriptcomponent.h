@@ -42,11 +42,11 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::QtScriptComponent)
             Q_INTERFACES(GluonEngine::Component)
 
-            Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
+            Q_PROPERTY(GluonEngine::Asset *script READ script WRITE setScript)
 
         public:
-            Q_INVOKABLE QtScriptComponent(QObject* parent = 0);
-            QtScriptComponent(const QtScriptComponent& other);
+            Q_INVOKABLE QtScriptComponent(QObject *parent = 0);
+            QtScriptComponent(const QtScriptComponent &other);
             virtual ~QtScriptComponent();
             virtual QString category() const;
 
@@ -57,10 +57,10 @@ namespace GluonEngine
             virtual void stop();
             virtual void cleanup();
 
-            virtual Asset* script();
+            virtual Asset *script();
 
         public slots:
-            virtual void setScript(GluonEngine::Asset* asset);
+            virtual void setScript(GluonEngine::Asset *asset);
 
         private:
             class QtScriptComponentPrivate;
@@ -72,15 +72,15 @@ namespace GluonEngine
 Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent)
 Q_DECLARE_METATYPE(GluonEngine::QtScriptComponent*)
 
-typedef GluonCore::GluonObject* pGluonObject;
-typedef GluonEngine::GameObject* pGameObject;
-typedef GluonGraphics::MaterialInstance* pMaterialInstance;
+typedef GluonCore::GluonObject *pGluonObject;
+typedef GluonEngine::GameObject *pGameObject;
+typedef GluonGraphics::MaterialInstance *pMaterialInstance;
 
-QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue(QScriptEngine* engine, const pGluonObject& in);
-void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue(const QScriptValue& object, pGluonObject& out);
-QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue(QScriptEngine* engine, const pGameObject& in);
-void GLUON_ENGINE_EXPORT gameObjectFromScriptValue(const QScriptValue &object, GluonEngine::GameObject * &out);
-QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue(QScriptEngine* engine, const pMaterialInstance& in);
+QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue(QScriptEngine *engine, const pGluonObject &in);
+void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue(const QScriptValue &object, pGluonObject &out);
+QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue(QScriptEngine *engine, const pGameObject &in);
+void GLUON_ENGINE_EXPORT gameObjectFromScriptValue(const QScriptValue &object, GluonEngine::GameObject *&out);
+QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue(QScriptEngine *engine, const pMaterialInstance &in);
 void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue(const QScriptValue &object, pMaterialInstance &out);
 
 #endif // GLUON_ENGINE_QTSCRIPTCOMPONENT_H

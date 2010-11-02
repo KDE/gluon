@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -31,7 +31,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT SoundEmitterComponent : public Component
     {
             Q_OBJECT
-            Q_PROPERTY(GluonEngine::Asset* sound READ sound WRITE setSound)
+            Q_PROPERTY(GluonEngine::Asset *sound READ sound WRITE setSound)
             Q_PROPERTY(float radius READ radius WRITE setRadius)
             Q_PROPERTY(float volume READ volume WRITE setVolume)
             Q_PROPERTY(float pitch READ pitch WRITE setPitch)
@@ -49,7 +49,7 @@ namespace GluonEngine
             virtual QString category() const;
 
             Asset *sound();
-            
+
             virtual void initialize();
             virtual void start();
             virtual void draw(int timeLapse = 0);
@@ -71,15 +71,15 @@ namespace GluonEngine
             Q_INVOKABLE void setLoop(bool loop);
             Q_INVOKABLE void setSound(Asset *asset);
             Q_INVOKABLE void setAutoPlay(bool autoPlay);
-            
+
         private:
             class SoundEmitterComponentPrivate;
-            SoundEmitterComponentPrivate * const d;
+            SoundEmitterComponentPrivate *const d;
     };
 
 }
 
 Q_DECLARE_METATYPE(GluonEngine::SoundEmitterComponent)
-Q_DECLARE_METATYPE(GluonEngine::SoundEmitterComponent*)
+Q_DECLARE_METATYPE(GluonEngine::SoundEmitterComponent *)
 
 #endif // GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H

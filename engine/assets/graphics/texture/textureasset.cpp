@@ -19,14 +19,14 @@
 
 #include "textureasset.h"
 
+#include <core/debughelper.h>
+#include <graphics/texture.h>
+#include <graphics/engine.h>
+
 #include <QtCore/QUrl>
 #include <QtCore/QMimeData>
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
-
-#include <core/debughelper.h>
-#include <graphics/texture.h>
-#include <graphics/engine.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
 
@@ -35,17 +35,11 @@ using namespace GluonEngine;
 class TextureAsset::TextureAssetPrivate
 {
     public:
-        TextureAssetPrivate()
-        {
-
-        }
-        ~TextureAssetPrivate()
-        {
-
-        }
+        TextureAssetPrivate() {}
+        ~TextureAssetPrivate() {}
 
         QPixmap icon;
-        GluonGraphics::Texture* texture;
+        GluonGraphics::Texture *texture;
 };
 
 TextureAsset::TextureAsset(QObject *parent)
@@ -62,7 +56,7 @@ TextureAsset::~TextureAsset()
 
 QIcon TextureAsset::icon() const
 {
-    if(d->icon.isNull())
+    if (d->icon.isNull())
         return GluonEngine::Asset::icon();
 
     return QIcon(d->icon);
@@ -73,8 +67,7 @@ const QStringList TextureAsset::supportedMimeTypes() const
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
 
     QStringList supportedTypes;
-    foreach(const QByteArray &type, supported)
-    {
+    foreach (const QByteArray &type, supported) {
         supportedTypes << QString("image/%1").arg(QString(type));
     }
 
@@ -83,10 +76,8 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
-    if (!file().isEmpty())
-    {
-        if (d->texture->load(file()))
-        {
+    if (!file().isEmpty()) {
+        if (d->texture->load(file())) {
             mimeData()->setText(name());
             //d->icon = QPixmap::fromImage(d->texture->scaled(QSize(128, 128), Qt::KeepAspectRatio));
             setLoaded(true);
@@ -101,7 +92,7 @@ void TextureAsset::setName( const QString& newName )
 {
     GluonGraphics::Engine::instance()->removeTexture(name());
     GluonGraphics::Engine::instance()->addTexture(newName, d->texture);
-    GluonEngine::Asset::setName( newName );
+    GluonEngine::Asset::setName(newName);
 }
 
 Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)

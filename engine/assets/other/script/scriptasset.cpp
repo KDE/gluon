@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -32,9 +32,10 @@ class ScriptAsset::ScriptAssetPrivate
         QString script;
 };
 
-ScriptAsset::ScriptAsset(QObject* parent): Asset(parent)
+ScriptAsset::ScriptAsset(QObject *parent)
+    : Asset(parent)
+    , d(new ScriptAssetPrivate)
 {
-    d = new ScriptAssetPrivate;
 }
 
 ScriptAsset::~ScriptAsset()
@@ -55,17 +56,15 @@ const QStringList ScriptAsset::supportedMimeTypes() const
 void ScriptAsset::load()
 {
     QFile script(file().path());
-    if (script.open(QIODevice::ReadOnly))
-    {
+    if (script.open(QIODevice::ReadOnly)) {
         d->script = script.readAll();
         mimeData()->setText(d->script);
     }
 }
 
-const QList< AssetTemplate* >
-ScriptAsset::templates()
+const QList<AssetTemplate *> ScriptAsset::templates()
 {
-    QList<AssetTemplate*> templates;
+    QList<AssetTemplate *> templates;
     templates.append(new AssetTemplate("Script", "script_template.js", "qtscript", this));
     return templates;
 }

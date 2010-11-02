@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -20,10 +20,10 @@
 
 #include "soundasset.h"
 
-#include <QtCore/QMimeData>
-
 #include <core/debughelper.h>
 #include <audio/engine.h>
+
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE(GluonEngine, SoundAsset)
 
@@ -33,13 +33,13 @@ class SoundAsset::SoundAssetPrivate
 {
     public:
         SoundAssetPrivate() { buffer = 0; }
-        
+
         GluonAudio::Buffer *buffer;
 };
 
 SoundAsset::SoundAsset(QObject *parent)
-        : Asset(parent),
-        d(new SoundAssetPrivate)
+    : Asset(parent)
+    , d(new SoundAssetPrivate)
 {
 }
 
@@ -48,8 +48,7 @@ SoundAsset::~SoundAsset()
     delete d;
 }
 
-const QStringList
-SoundAsset::supportedMimeTypes() const
+const QStringList SoundAsset::supportedMimeTypes() const
 {
     QStringList list;
     list.append("audio/x-wav");
@@ -61,14 +60,11 @@ SoundAsset::supportedMimeTypes() const
 void SoundAsset::load()
 {
     d->buffer = new GluonAudio::Buffer(file().toLocalFile());
-    
-    if(!d->buffer->isEmpty()) 
-    {
+
+    if (!d->buffer->isEmpty()) {
         mimeData()->setData("application/gluon-audio-buffer", (QString("%1").arg(d->buffer->buffer())).toAscii());
         setLoaded(true);
-    }
-    else
-    {
+    } else {
         DEBUG_BLOCK
         DEBUG_TEXT("Error loading sound - Buffer is empty");
     }

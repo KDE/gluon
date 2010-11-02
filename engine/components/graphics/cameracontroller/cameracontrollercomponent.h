@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -37,11 +37,11 @@ namespace GluonEngine
             Q_INTERFACES(GluonEngine::Component)
 
         public:
-            Q_INVOKABLE CameraControllerComponent(QObject* parent = 0);
-            CameraControllerComponent(const CameraControllerComponent& other);
+            Q_INVOKABLE CameraControllerComponent(QObject *parent = 0);
+            CameraControllerComponent(const CameraControllerComponent &other);
             virtual ~CameraControllerComponent();
             virtual QString category() const;
-            
+
             virtual void initialize();
             virtual void start();
             virtual void draw(int timeLapse = 0);
@@ -51,7 +51,7 @@ namespace GluonEngine
             virtual QSizeF visibleArea();
             virtual float nearPlane();
             virtual float farPlane();
-            
+
         public slots:
             virtual void setActive(bool active);
             virtual void setVisibleArea(const QSizeF &area);
@@ -60,12 +60,12 @@ namespace GluonEngine
 
         private:
             class CameraControllerComponentPrivate;
-            CameraControllerComponentPrivate * const d;
+            CameraControllerComponentPrivate *const d;
     };
 
 }
 
 Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent)
-Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent*)
+Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent *)
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
