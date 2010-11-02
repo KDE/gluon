@@ -46,7 +46,7 @@ namespace GluonEngine
             /**
              * Constructor.
              */
-            Q_INVOKABLE SphereCollisionComponent(QObject* parent = 0);
+            Q_INVOKABLE SphereCollisionComponent(QObject *parent = 0);
             /**
              * Destructor.
              */
@@ -84,7 +84,7 @@ namespace GluonEngine
              * @return The object this object is colliding with or 0
              * if there is no collision.
              */
-            Q_INVOKABLE QObject* collidesWith() const;
+            Q_INVOKABLE QObject *collidesWith() const;
 
         public Q_SLOTS:
             /**
@@ -106,12 +106,12 @@ namespace GluonEngine
 
         private:
             class SphereCollisionComponentPrivate;
-            SphereCollisionComponentPrivate * const d;
+            SphereCollisionComponentPrivate *const d;
     };
 
 }
 
 Q_DECLARE_METATYPE(GluonEngine::SphereCollisionComponent)
-Q_DECLARE_METATYPE(GluonEngine::SphereCollisionComponent*)
+Q_DECLARE_METATYPE(GluonEngine::SphereCollisionComponent *)
 
 #endif // GLUONENGINE_SPHERECOLLISIONCOMPONENT_H

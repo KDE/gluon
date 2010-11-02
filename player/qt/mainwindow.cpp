@@ -52,20 +52,17 @@ class MainWindow::MainWindowPrivate
         int frameCount;
 };
 
-GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::WindowFlags flags)
-        : QMainWindow(parent, flags)
+GluonPlayer::MainWindow::MainWindow(int argc, char **argv, QWidget *parent, Qt::WindowFlags flags)
+    : QMainWindow(parent, flags)
+    , d(new MainWindowPrivate)
 {
-    d = new MainWindowPrivate;
     d->msecElapsed = 0;
     d->frameCount = 0;
 
-    if(argc > 1)
-    {
+    if (argc > 1) {
         d->fileName = argv[1];
         QTimer::singleShot(0, this, SLOT(openProject()));
-    }
-    else
-    {
+    } else {
         QWidget *base = new QWidget(this);
         QVBoxLayout *layout = new QVBoxLayout();
         base->setLayout(layout);
@@ -82,19 +79,18 @@ GluonPlayer::MainWindow::MainWindow(int argc, char** argv, QWidget* parent, Qt::
         layout->addWidget(view);
         d->model = new GamesModel(view);
         view->setModel(d->model);
-        connect(view, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
+        connect(view, SIGNAL(activated(QModelIndex)), SLOT(activated(QModelIndex)));
 
         QPushButton *button = new QPushButton(tr("Open other project..."), base);
         layout->addWidget(button);
-        connect(button, SIGNAL(clicked(bool)), this, SLOT(openClicked(bool)));
+        connect(button, SIGNAL(clicked(bool)), SLOT(openClicked(bool)));
     }
     resize(500, 500);
 }
 
 void MainWindow::activated(QModelIndex index)
 {
-    if(index.isValid())
-    {
+    if (index.isValid()) {
         openProject(d->model->data(index).toString());
     }
 }
@@ -104,14 +100,14 @@ void MainWindow::openClicked(bool toggled)
     Q_UNUSED(toggled)
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select a Project"), QString(), QString("*.gluon|Gluon Project Files"));
-    if(!fileName.isEmpty())
+    if (!fileName.isEmpty())
         openProject(fileName);
 }
 
-void MainWindow::openProject(const QString& fileName)
+void MainWindow::openProject(const QString &fileName)
 {
     QString file = fileName;
-    if(file.isEmpty())
+    if (file.isEmpty())
         file = d->fileName;
 
     d->widget = new GluonGraphics::RenderWidget(this);
@@ -141,7 +137,7 @@ void MainWindow::startGame()
     GluonEngine::Game::instance()->runGame();
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     GluonEngine::Game::instance()->stopGame();
     QWidget::closeEvent(event);
@@ -152,8 +148,7 @@ void MainWindow::updateTitle(int msec)
     d->msecElapsed += msec;
 
     static int fps = 0;
-    if(d->msecElapsed > 1000)
-    {
+    if (d->msecElapsed > 1000) {
         fps = d->frameCount;
         d->frameCount = 0;
         d->msecElapsed = 0;
@@ -162,7 +157,7 @@ void MainWindow::updateTitle(int msec)
     setWindowTitle(d->title + QString(" (%1 FPS)").arg(fps));
 }
 
-void MainWindow::countFrames( int time )
+void MainWindow::countFrames(int time)
 {
     Q_UNUSED(time)
     d->frameCount++;

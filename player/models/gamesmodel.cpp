@@ -18,6 +18,7 @@
  */
 
 #include "gamesmodel.h"
+
 #include <core/gluon_global.h>
 #include <engine/gameproject.h>
 
@@ -27,12 +28,13 @@
 
 using namespace GluonPlayer;
 
-GamesModel::GamesModel(QObject* parent) : QAbstractTableModel(parent)
+GamesModel::GamesModel(QObject *parent)
+    : QAbstractTableModel(parent)
 {
     m_dir.cd(GluonCore::Global::dataDirectory() + "/gluon/games");
 }
 
-QVariant GamesModel::data(const QModelIndex& index, int role) const
+QVariant GamesModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
         QString gameDirName = m_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).at(index.row());
@@ -64,13 +66,13 @@ QVariant GamesModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int GamesModel::columnCount(const QModelIndex& parent) const
+int GamesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 3;
 }
 
-int GamesModel::rowCount(const QModelIndex& parent) const
+int GamesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return m_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count();

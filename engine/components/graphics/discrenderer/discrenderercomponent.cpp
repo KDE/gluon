@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -22,8 +22,8 @@
 #include "graphics/item.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
+
 #include <QMimeData>
-//#include <sys/stat.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, DiscRendererComponent)
 
@@ -44,24 +44,23 @@ class DiscRendererComponent::DiscRendererComponentPrivate
 
         GluonGraphics::Item *item;
         GluonGraphics::DiscMesh *mesh;
-        
-        GluonEngine::Asset* texture;
+
+        GluonEngine::Asset *texture;
 
         uint nbPoints;
         float radius;
         QColor color;
 };
 
-DiscRendererComponent::DiscRendererComponent(QObject* parent) 
-    : Component(parent),
-    d(new DiscRendererComponentPrivate)
+DiscRendererComponent::DiscRendererComponent(QObject *parent)
+    : Component(parent)
+    , d(new DiscRendererComponentPrivate)
 {
-    
 }
 
 DiscRendererComponent::DiscRendererComponent(const DiscRendererComponent& other)
-    : Component(other),
-    d(other.d)
+    : Component(other)
+    , d(other.d)
 {
 }
 
@@ -78,21 +77,18 @@ DiscRendererComponent::category() const
 
 void DiscRendererComponent::initialize()
 {
-    if(!d->item)
-    {
-        d->mesh = new GluonGraphics::DiscMesh(this->gameObject()->position(), d->radius, d->nbPoints,d->color,this);
+    if (!d->item) {
+        d->mesh = new GluonGraphics::DiscMesh(this->gameObject()->position(), d->radius, d->nbPoints, d->color, this);
         d->item = new GluonGraphics::Item(d->mesh, this);
         d->item->setColor(d->color);
     }
 
-    if (d->texture)
-    {
+    if (d->texture) {
         if (!d->texture->isLoaded())
             d->texture->load();
 
-        const QMimeData* data = d->texture->data();
-        if (data->hasImage())
-        {
+        const QMimeData *data = d->texture->data();
+        if (data->hasImage()) {
             d->mesh->setTexture(data->imageData().value<QImage>());
         }
     }
@@ -106,16 +102,14 @@ void DiscRendererComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-    if (d->item)
-    {
+    if (d->item) {
         d->item->setMatrix(gameObject()->transform());
     }
 }
 
 void DiscRendererComponent::cleanup()
 {
-    if (d->item)
-    {
+    if (d->item) {
         delete d->item;
         d->item = 0;
         d->mesh = 0;
@@ -130,8 +124,8 @@ float DiscRendererComponent::radius()
 void DiscRendererComponent::setRadius(float newRadius)
 {
     d->radius = newRadius;
-    if(this->gameObject())
-        this->setDisc(this->gameObject()->position(), d->radius, d->nbPoints, d->color);
+    if (gameObject())
+        setDisc(gameObject()->position(), d->radius, d->nbPoints, d->color);
 }
 
 uint DiscRendererComponent::nbPoints()
@@ -142,21 +136,20 @@ uint DiscRendererComponent::nbPoints()
 void DiscRendererComponent::setNbPoints(uint newNbPoints)
 {
     d->nbPoints = newNbPoints;
-    if(this->gameObject())
-        this->setDisc(this->gameObject()->position(), d->radius, d->nbPoints, d->color);
+    if (gameObject())
+        setDisc(gameObject()->position(), d->radius, d->nbPoints, d->color);
 }
 
 void DiscRendererComponent::setDisc(QVector3D position, float radius, uint nbPoints, QColor color)
 {
-    if(d->mesh)
+    if (d->mesh)
         d->mesh->setDisc(position, radius, nbPoints, color);
 }
 
 void DiscRendererComponent::setColor(const QColor& color)
 {
     d->color = color;
-    if (d->mesh)
-    {
+    if (d->mesh) {
         d->mesh->setColor(color);
     }
 }
@@ -176,14 +169,12 @@ Asset* DiscRendererComponent::texture()
     return d->texture;
 }
 
-void DiscRendererComponent::setTexture(Asset* asset)
+void DiscRendererComponent::setTexture(Asset *asset)
 {
     d->texture = asset;
 
-    if (asset)
-    {
-        if (d->mesh && asset->isLoaded())
-        {
+    if (asset) {
+        if (d->mesh && asset->isLoaded()) {
             d->mesh->setTexture(asset->data()->imageData().value<QImage>());
         }
     }

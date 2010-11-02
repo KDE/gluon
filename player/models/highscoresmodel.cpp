@@ -18,6 +18,7 @@
  */
 
 #include "highscoresmodel.h"
+
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
@@ -31,8 +32,9 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-HighScoresModel::HighScoresModel(QObject* parent)
-        : QAbstractTableModel(parent), rootNode(0)
+HighScoresModel::HighScoresModel(QObject *parent)
+    : QAbstractTableModel(parent)
+    , rootNode(0)
 {
     loadData();
 }
@@ -42,7 +44,7 @@ HighScoresModel::~HighScoresModel()
     saveData();
 }
 
-QVariant HighScoresModel::data(const QModelIndex& index, int role) const
+QVariant HighScoresModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column()) {
@@ -60,13 +62,13 @@ QVariant HighScoresModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int HighScoresModel::columnCount(const QModelIndex& parent) const
+int HighScoresModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 3;
 }
 
-int HighScoresModel::rowCount(const QModelIndex& parent) const
+int HighScoresModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return rootNode->children().count();
@@ -113,7 +115,7 @@ void HighScoresModel::loadData()
         return;
     }
 
-    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
+    QList<GluonObject *> highScores = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
     rootNode = highScores.at(0);
 }
 
@@ -130,7 +132,7 @@ void HighScoresModel::saveData()
         return;
     }
 
-    QList<const GluonObject*> highScores;
+    QList<const GluonObject *> highScores;
     highScores.append(rootNode);
     QTextStream dataWriter(&dataFile);
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(highScores);

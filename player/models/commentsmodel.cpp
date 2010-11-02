@@ -35,14 +35,15 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-CommentsModel::CommentsModel(QObject* parent)
-    : QAbstractItemModel(parent), m_isOnline(false)
+CommentsModel::CommentsModel(QObject *parent)
+    : QAbstractItemModel(parent)
+    , rootNode(new GluonObject("Comment"))
+    , m_isOnline(false)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
-    rootNode = new GluonObject("Comment");
 
-    loadData();     //Load comments stored locally
-    updateData();   //Fetch latest comments from the web service
+    loadData();     // Load comments stored locally
+    updateData();   // Fetch latest comments from the web service
 }
 
 void CommentsModel::updateData()
@@ -60,21 +61,21 @@ void CommentsModel::providersUpdated()
 	//TODO: 128637 is the ID for Invaders, make it work for other games as well
 	//      when we have more games
 
-	Attica::ListJob<Attica::Comment>* job =
+	Attica::ListJob<Attica::Comment> *job =
 	  AtticaManager::instance()->provider().requestComments(Attica::Comment::ContentComment,
 						"128637", "0", 0, 100);
-	connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
+	connect(job, SIGNAL(finished(Attica::BaseJob *)), SLOT(processFetchedComments(Attica::BaseJob *)));
 	job->start();
     } else {
 	qDebug() << "No providers found.";
     }
 }
 
-void CommentsModel::processFetchedComments(Attica::BaseJob* job)
+void CommentsModel::processFetchedComments(Attica::BaseJob *job)
 {
     qDebug() << "Comments Successfully Fetched from the server";
 
-    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>(job);
+    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>(job);
     if (commentsJob->metadata().error() == Attica::Metadata::NoError) {
 	//No error, try to remove exising comments (if any)
 	//and add new comments
@@ -105,7 +106,7 @@ void CommentsModel::addCommentFinished (Attica::BaseJob* job)
      }
 }
 
-GluonObject* CommentsModel::addComment(Attica::Comment comment, GluonObject* parent)
+GluonObject *CommentsModel::addComment(Attica::Comment comment, GluonObject *parent)
 {
     GluonObject *newComment = new GluonObject(comment.id(), parent);
     newComment->setProperty("Author", comment.user());
@@ -156,7 +157,7 @@ void CommentsModel::saveData()
     if (!dataFile.open(QIODevice::WriteOnly))
 	qDebug() << "Cannot open the comments file";
 
-    QList<const GluonObject*> comments;
+    QList<const GluonObject *> comments;
     comments.append(rootNode);
     QTextStream dataWriter(&dataFile);
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(comments);
@@ -170,24 +171,24 @@ CommentsModel::~CommentsModel()
     delete rootNode;
 }
 
-QVariant CommentsModel::data(const QModelIndex& index, int role) const
+QVariant CommentsModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
 	GluonObject *node;
-	node = static_cast<GluonObject*>(index.internalPointer());
+	node = static_cast<GluonObject *>(index.internalPointer());
 
 	return node->property(columnName(Column(index.column())).toUtf8());
     }
     return QVariant();
 }
 
-int CommentsModel::columnCount(const QModelIndex& parent) const
+int CommentsModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 5;
 }
 
-int CommentsModel::rowCount(const QModelIndex& parent) const
+int CommentsModel::rowCount(const QModelIndex &parent) const
 {
     GluonObject *parentItem;
     if (parent.column() > 0)
@@ -196,30 +197,30 @@ int CommentsModel::rowCount(const QModelIndex& parent) const
     if (!parent.isValid())
 	parentItem = rootNode;
     else
-	parentItem = static_cast<GluonObject*>(parent.internalPointer());
+	parentItem = static_cast<GluonObject *>(parent.internalPointer());
 
     return parentItem->children().count();
 }
 
-QModelIndex CommentsModel::parent(const QModelIndex& child) const
+QModelIndex CommentsModel::parent(const QModelIndex &child) const
 {
     if (!child.isValid())
 	return QModelIndex();
 
-    GluonObject *childItem = static_cast<GluonObject*>(child.internalPointer());
-    GluonObject *parentItem = qobject_cast<GluonObject*> (childItem->parent());
+    GluonObject *childItem = static_cast<GluonObject *>(child.internalPointer());
+    GluonObject *parentItem = qobject_cast<GluonObject *> (childItem->parent());
 
     if (parentItem == rootNode)
 	return QModelIndex();
 
-    GluonObject *grandParentItem = qobject_cast<GluonObject*> (parentItem->parent());
+    GluonObject *grandParentItem = qobject_cast<GluonObject *>(parentItem->parent());
     if (!grandParentItem)
 	return QModelIndex();
 
     return createIndex(grandParentItem->children().indexOf(parentItem), 0, parentItem);
 }
 
-QModelIndex CommentsModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex CommentsModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))
 	return QModelIndex();
@@ -229,7 +230,7 @@ QModelIndex CommentsModel::index(int row, int column, const QModelIndex& parent)
     if (!parent.isValid())
 	parentItem = rootNode;
     else
-	parentItem = static_cast<GluonObject*>(parent.internalPointer());
+	parentItem = static_cast<GluonObject *>(parent.internalPointer());
 
     GluonObject *childItem = parentItem->child(row);
     if (childItem)
@@ -246,7 +247,7 @@ QVariant CommentsModel::headerData(int section, Qt::Orientation orientation, int
     return QVariant();
 }
 
-Qt::ItemFlags CommentsModel::flags(const QModelIndex& index) const
+Qt::ItemFlags CommentsModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
 	return Qt::ItemIsEnabled;
@@ -254,11 +255,11 @@ Qt::ItemFlags CommentsModel::flags(const QModelIndex& index) const
     return QAbstractItemModel::flags(index);
 }
 
-bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int role)
+bool CommentsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
 	GluonObject *node;
-	node = static_cast<GluonObject*>(index.internalPointer());
+	node = static_cast<GluonObject *>(index.internalPointer());
 
 	node->setProperty(columnName(Column(index.column())).toUtf8(), value);
 	emit dataChanged(index, index);
@@ -268,7 +269,7 @@ bool CommentsModel::setData(const QModelIndex& index, const QVariant& value, int
     return false;
 }
 
-bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
+bool CommentsModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (count != 1) { //Don't support more than one row at a time
 	qDebug() << "Can insert only one comment at a time";
@@ -281,7 +282,7 @@ bool CommentsModel::insertRows(int row, int count, const QModelIndex& parent)
 
     beginInsertRows(parent, row, row);
     GluonObject *parentNode;
-    parentNode = static_cast<GluonObject*>(parent.internalPointer());
+    parentNode = static_cast<GluonObject *>(parent.internalPointer());
 
     GluonObject *newNode = new GluonObject("Comment", parentNode);
     parentNode->addChild(newNode);
@@ -302,12 +303,12 @@ bool CommentsModel::isOnline()
 
 void CommentsModel::uploadComment (const QModelIndex& parentIndex, const QString& subject, const QString& message)
 {
-     GluonObject *parentNode = static_cast<GluonObject*>(parentIndex.internalPointer());
+     GluonObject *parentNode = static_cast<GluonObject *>(parentIndex.internalPointer());
      Attica::PostJob *job =
 	  AtticaManager::instance()->provider().addNewComment(Attica::Comment::ContentComment,
 							      "128637", "0", parentNode->name(), subject,
 							      message);
-     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addCommentFinished(Attica::BaseJob*)));
+     connect(job, SIGNAL(finished(Attica::BaseJob *)), SLOT(addCommentFinished(Attica::BaseJob *)));
      job->start();
 }
 

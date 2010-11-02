@@ -20,18 +20,17 @@
 
 #include "qtscriptcomponent.h"
 
-#include <QtScript/QScriptEngine>
-#include <QtCore/QDebug>
-
+#include <core/gluonobject.h>
+#include <graphics/materialinstance.h>
 #include <gameobject.h>
 #include <core/debughelper.h>
 #include <game.h>
 #include <engine/asset.h>
+
+#include <QtScript/QScriptEngine>
+#include <QtCore/QDebug>
 #include <QMimeData>
 
-#include <core/gluonobject.h>
-
-#include <graphics/materialinstance.h>
 
 REGISTER_OBJECTTYPE(GluonEngine, QtScriptComponent)
 
@@ -53,21 +52,21 @@ class QtScriptComponent::QtScriptComponentPrivate
         QScriptValue drawFunc;
         QScriptValue updateFunc;
 
-        GluonEngine::Asset* script;
+        GluonEngine::Asset *script;
 };
 
-QtScriptComponent::QtScriptComponent(QObject* parent) : Component(parent)
+QtScriptComponent::QtScriptComponent(QObject *parent)
+    : Component(parent)
+    , d(new QtScriptComponentPrivate)
 {
-    d = new QtScriptComponentPrivate;
-
     qScriptRegisterMetaType(&d->engine, gluonObjectToScriptValue, gluonObjectFromScriptValue);
     qScriptRegisterMetaType(&d->engine, gameObjectToScriptValue, gameObjectFromScriptValue);
     qScriptRegisterMetaType(&d->engine, materialInstanceToScriptValue, materialInstanceFromScriptValue);
 }
 
-QtScriptComponent::QtScriptComponent(const QtScriptComponent& other)
-        : Component(other),
-        d(other.d)
+QtScriptComponent::QtScriptComponent(const QtScriptComponent &other)
+    : Component(other)
+    , d(other.d)
 {
 }
 
@@ -76,23 +75,21 @@ QtScriptComponent::~QtScriptComponent()
     delete d;
 }
 
-QString
-QtScriptComponent::category() const
+QString QtScriptComponent::category() const
 {
     return QString("Game Logic");
 }
 
 void QtScriptComponent::initialize()
 {
-    if (!d->script) return;
+    if (!d->script)
+        return;
 
     d->script->load();
 
-    if (d->script->data()->hasText())
-    {
+    if (d->script->data()->hasText()) {
         d->engine.evaluate(d->script->data()->text(), gameObject()->name());
-        if (d->engine.uncaughtException().isValid())
-        {
+        if (d->engine.uncaughtException().isValid()) {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             return;
         }
@@ -110,8 +107,7 @@ void QtScriptComponent::initialize()
         d->drawFunc = d->engine.globalObject().property("draw");
 
         QScriptValue initFunc = d->engine.globalObject().property("initialize");
-        if (initFunc.isFunction())
-        {
+        if (initFunc.isFunction()) {
             initFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
                 debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
@@ -121,11 +117,9 @@ void QtScriptComponent::initialize()
 
 void QtScriptComponent::start()
 {
-    if(d->script)
-    {
+    if (d->script) {
         QScriptValue startFunc = d->engine.globalObject().property("start");
-        if (startFunc.isFunction())
-        {
+        if (startFunc.isFunction()) {
             startFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
                 debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
@@ -135,11 +129,9 @@ void QtScriptComponent::start()
 
 void QtScriptComponent::draw(int timeLapse)
 {
-    if(d->drawFunc.isFunction())
-    {
+    if (d->drawFunc.isFunction()) {
         d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
-        if (d->engine.uncaughtException().isValid())
-        {
+        if (d->engine.uncaughtException().isValid()) {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             d->drawFunc = QScriptValue();
         }
@@ -148,11 +140,9 @@ void QtScriptComponent::draw(int timeLapse)
 
 void QtScriptComponent::update(int elapsedMilliseconds)
 {
-    if(d->updateFunc.isFunction())
-    {
+    if (d->updateFunc.isFunction()) {
         d->updateFunc.call(QScriptValue(), QScriptValueList() << elapsedMilliseconds);
-        if (d->engine.uncaughtException().isValid())
-        {
+        if (d->engine.uncaughtException().isValid()) {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             d->updateFunc = QScriptValue();
         }
@@ -161,11 +151,9 @@ void QtScriptComponent::update(int elapsedMilliseconds)
 
 void QtScriptComponent::stop()
 {
-    if(d->script)
-    {
+    if (d->script) {
         QScriptValue stopFunc = d->engine.globalObject().property("stop");
-        if (stopFunc.isFunction())
-        {
+        if (stopFunc.isFunction()) {
             stopFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
                 debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
@@ -175,11 +163,9 @@ void QtScriptComponent::stop()
 
 void QtScriptComponent::cleanup()
 {
-    if(d->script)
-    {
+    if (d->script) {
         QScriptValue cleanupFunc = d->engine.globalObject().property("cleanup");
-        if (cleanupFunc.isFunction())
-        {
+        if (cleanupFunc.isFunction()) {
             cleanupFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
                 debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
@@ -214,19 +200,18 @@ QScriptValue gameObjectToScriptValue(QScriptEngine *engine, const pGameObject &i
 
 void gameObjectFromScriptValue(const QScriptValue &object, pGameObject &out)
 {
-    out = qobject_cast<GameObject*>(object.toQObject());
+    out = qobject_cast<GameObject *>(object.toQObject());
 }
 
-QScriptValue materialInstanceToScriptValue( QScriptEngine* engine, const pMaterialInstance& in )
+QScriptValue materialInstanceToScriptValue(QScriptEngine *engine, const pMaterialInstance &in)
 {
     return engine->newQObject(in);
 }
 
-void materialInstanceFromScriptValue( const QScriptValue& object, pMaterialInstance& out )
+void materialInstanceFromScriptValue(const QScriptValue &object, pMaterialInstance &out)
 {
     out = qobject_cast<pMaterialInstance>(object.toQObject());
 }
-
 
 Q_EXPORT_PLUGIN2(gluon_component_qtscript, GluonEngine::QtScriptComponent);
 

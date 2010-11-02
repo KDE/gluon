@@ -46,9 +46,9 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
         int componentType;
 };
 
-SphereCollisionComponent::SphereCollisionComponent(QObject* parent)
-    : Component(parent),
-    d(new SphereCollisionComponentPrivate)
+SphereCollisionComponent::SphereCollisionComponent(QObject *parent)
+    : Component(parent)
+    , d(new SphereCollisionComponentPrivate)
 {
     d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent>();
 }
@@ -58,8 +58,7 @@ SphereCollisionComponent::~SphereCollisionComponent()
     delete d;
 }
 
-QString
-SphereCollisionComponent::category() const
+QString SphereCollisionComponent::category() const
 {
     return QString("Physics");
 }

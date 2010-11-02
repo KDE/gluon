@@ -42,7 +42,7 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
 
-            virtual void setName( const QString& newName );
+            virtual void setName(const QString &newName);
 
         private:
             class TextureAssetPrivate;

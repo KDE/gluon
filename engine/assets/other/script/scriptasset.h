@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -32,21 +32,20 @@ namespace GluonEngine
             GLUON_OBJECT(GluonEngine::ScriptAsset)
 
         public:
-            Q_INVOKABLE ScriptAsset(QObject* parent = 0);
+            Q_INVOKABLE ScriptAsset(QObject *parent = 0);
             ~ScriptAsset();
 
             virtual const QStringList supportedMimeTypes() const;
             virtual void load();
-            virtual const QList<AssetTemplate*> templates();
+            virtual const QList<AssetTemplate *> templates();
 
         private:
             class ScriptAssetPrivate;
-            ScriptAssetPrivate* d;
+            ScriptAssetPrivate *d;
     };
-
 }
 
 Q_DECLARE_METATYPE(GluonEngine::ScriptAsset)
-Q_DECLARE_METATYPE(GluonEngine::ScriptAsset*)
+Q_DECLARE_METATYPE(GluonEngine::ScriptAsset *)
 
 #endif // GLUONENGINE_SCRIPTASSET_H

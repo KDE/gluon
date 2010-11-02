@@ -52,23 +52,23 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         }
 
         GluonGraphics::Item *item;
-        GluonEngine::Asset* texture;
-        GluonGraphics::MaterialInstance* material;
+        GluonEngine::Asset *texture;
+        GluonGraphics::MaterialInstance *material;
 
         QColor color;
         QSizeF size;
 };
 
-SpriteRendererComponent::SpriteRendererComponent(QObject* parent)
-    : Component(parent),
-    d(new SpriteRendererComponentPrivate)
+SpriteRendererComponent::SpriteRendererComponent(QObject *parent)
+    : Component(parent)
+    , d(new SpriteRendererComponentPrivate)
 {
 
 }
 
-SpriteRendererComponent::SpriteRendererComponent(const SpriteRendererComponent& other)
-    : Component(other),
-    d(other.d)
+SpriteRendererComponent::SpriteRendererComponent(const SpriteRendererComponent &other)
+    : Component(other)
+    , d(other.d)
 {
 }
 
@@ -77,32 +77,27 @@ SpriteRendererComponent::~SpriteRendererComponent()
     delete d;
 }
 
-QString
-SpriteRendererComponent::category() const
+QString SpriteRendererComponent::category() const
 {
     return QString("Graphics Rendering");
 }
 
-void
-SpriteRendererComponent::initialize()
+void SpriteRendererComponent::initialize()
 {
-    if(!d->item)
-    {
+    if (!d->item) {
         d->item = GluonGraphics::Engine::instance()->createItem("default");
     }
 
-    if (d->material)
-    {
+    if (d->material) {
         d->material->material()->load(QUrl());
-        Asset* texture = gameProject()->findChild<Asset*>(d->material->property("texture0").toString());
-        if(texture)
+        Asset *texture = gameProject()->findChild<Asset *>(d->material->property("texture0").toString());
+        if (texture)
             texture->load();
         d->item->setMaterialInstance(d->material);
     }
 }
 
-void
-SpriteRendererComponent::start()
+void SpriteRendererComponent::start()
 {
 }
 
@@ -110,8 +105,7 @@ void SpriteRendererComponent::draw(int timeLapse)
 {
     Q_UNUSED(timeLapse)
 
-    if (d->item)
-    {
+    if (d->item) {
         QMatrix4x4 transform = gameObject()->transform();
         transform.scale(d->size.width()/2, d->size.height()/2);
         d->item->setTransform(transform);
@@ -120,8 +114,7 @@ void SpriteRendererComponent::draw(int timeLapse)
 
 void SpriteRendererComponent::cleanup()
 {
-    if (d->item)
-    {
+    if (d->item) {
         GluonGraphics::Engine::instance()->destroyItem(d->item);
         d->item = 0;
     }
@@ -143,22 +136,20 @@ SpriteRendererComponent::material()
     return d->material;
 }
 
-void
-SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
+void SpriteRendererComponent::setMaterial(GluonGraphics::MaterialInstance *material)
 {
-    if(!material)
+    if (!material)
         return;
 
     d->material = material;
 
-    if(d->item)
+    if (d->item)
         d->item->setMaterialInstance(material);
 }
 
-void
-SpriteRendererComponent::setMaterial( const QString& path )
+void SpriteRendererComponent::setMaterial(const QString &path)
 {
-    setMaterial(qobject_cast<GluonGraphics::MaterialInstance*>(Game::instance()->gameProject()->findItemByName(path)));
+    setMaterial(qobject_cast<GluonGraphics::MaterialInstance *>(Game::instance()->gameProject()->findItemByName(path)));
 }
 
 Q_EXPORT_PLUGIN2(gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent);
