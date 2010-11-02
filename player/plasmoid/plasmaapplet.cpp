@@ -35,8 +35,6 @@
 #include <graphics/engine.h>
 #include <models/gamesmodel.h>
 
-#include <KAction>
-
 #include <QFileDialog>
 #include <QTimer>
 #include <QGraphicsSceneResizeEvent>
