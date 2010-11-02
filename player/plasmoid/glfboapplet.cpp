@@ -99,7 +99,7 @@ GLFBOApplet::GLFBOApplet(QGraphicsItem *parent,
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
     } else {
-        if (!d->dummy->isValid() !QGLPixelBuffer::hasOpenGLPbuffers()
+        if (!d->dummy->isValid() || !QGLPixelBuffer::hasOpenGLPbuffers()
                 || !d->pbuf->isValid()) {
             setFailedToLaunch(true, i18n("This system does not support Gluon's OpenGL widget."));
         }
