@@ -66,9 +66,6 @@ if(LIBATTICA_FOUND)
         CACHE PATHS "Libraries required for Gluon Player"
     )
 
-    install(FILES models/comments.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-    install(FILES models/highscores.gdl DESTINATION $ENV{HOME}/.gluon/gamingfreedom.org)
-
     if(BUILD_PLASMOID)
         include_directories(${KDE4_INCLUDES})
         add_subdirectory(plasmoid)
