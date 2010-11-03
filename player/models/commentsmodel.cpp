@@ -126,13 +126,26 @@ GluonObject *CommentsModel::addComment(Attica::Comment comment, GluonObject *par
 void CommentsModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkdir(".gluon/" + QString(serviceURI));
+    gluonDir.mkpath(".gluon/" + QString(serviceURI));
     gluonDir.cd(".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("comments.gdl");
 
     QFile dataFile(filename);
-    if (!dataFile.open(QIODevice::ReadOnly))
-	qDebug() << "Cannot open the comments file";
+    while (1) {
+        if (!dataFile.open(QIODevice::ReadOnly)) {
+            if (!QFile::exists(filename)) {
+                qDebug() << "Cannot find the file " << filename << ", creating new";
+                dataFile.close();
+                saveData();         //Create a blank file if it doesn't exist
+                continue;       //Try to open again
+            } else {
+                qDebug() << "Cannot open the file " << filename;
+                return;     //return from loadData()
+            }
+        } else {
+            break;      //File opened successfully
+        }
+    }
 
     QTextStream commentReader(&dataFile);
     QString fileContents = commentReader.readAll();
