@@ -35,8 +35,7 @@ GameObjectPrivate::GameObjectPrivate()
 }
 
 GameObjectPrivate::GameObjectPrivate(const GameObjectPrivate &other)
-    : QSharedData(other)
-    , description(other.description)
+    : description(other.description)
     , enabled(other.enabled)
     , position(other.position)
     , scale(other.scale)

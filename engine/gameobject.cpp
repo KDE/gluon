@@ -45,6 +45,7 @@ GameObject::GameObject(const GameObject &other, QObject *parent)
 
 GameObject::~GameObject()
 {
+    delete d;
 }
 
 void

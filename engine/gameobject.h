@@ -334,7 +334,7 @@ class Scene;
              */
             virtual void postCloneSanitize();
         private:
-            QSharedDataPointer<GameObjectPrivate> d;
+            GameObjectPrivate * const d;
     };
 }
 
