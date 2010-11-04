@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,6 +21,8 @@
 #ifndef GAMELOOP_H
 #define GAMELOOP_H
 
+#include "mainwindow.h"
+
 #include <gluon/input/inputmanager.h>
 
 #include <QtCore/QObject>
@@ -30,7 +33,7 @@ class GameLoop : public QObject
 {
     Q_OBJECT
     public:
-        GameLoop(QList<InputDevice *> inputList);
+        GameLoop(QList<InputDevice *> inputList, MainWindow *mv);
         void run();
 
     signals:
@@ -41,6 +44,7 @@ class GameLoop : public QObject
 
     private:
         QList<InputDevice *> m_inputList;
+        MainWindow *m_mainWindow;
 };
 
 #endif // GAMELOOP_H

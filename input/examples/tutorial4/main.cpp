@@ -36,22 +36,22 @@ int main(int argc, char *argv[])
     app.setApplicationName("Gluon Player");
     MainWindow window;
 
-    if (InputManager::instance()->inputList().count() > 0) {
-        qDebug() << "creating generic test game loop";
-        QList<InputDevice *> inputList = InputManager::instance()->inputList();
-        foreach(InputDevice *input, inputList) {
-            QObject::connect(window.inputEventTextEdit(), SIGNAL(buttonStateChanged(int code, int value)), input, SLOT(buttonStateChanged(int code, int value)));
-            input->setEnabled(true);
-        }
-        GameLoop *gameLoop = new GameLoop(inputList);
-        gameLoop->run();
-    }
-
 #if defined(Q_WS_S60)
     window.showMaximized();
 #else
     window.show();
 #endif
+
+    if (InputManager::instance()->inputList().count() > 0) {
+        qDebug() << "creating generic test game loop";
+        QList<InputDevice *> inputList = InputManager::instance()->inputList();
+        foreach(InputDevice *input, inputList) {
+            QObject::connect(window.inputEventTextEdit(), SIGNAL(buttonStateChanged(int, int)), input, SLOT(buttonStateChanged(int, int)));
+            input->setEnabled(true);
+        }
+        GameLoop *gameLoop = new GameLoop(inputList, &window);
+        gameLoop->run();
+    }
 
     qDebug() << "starting generic game event loop";
     app.exec();

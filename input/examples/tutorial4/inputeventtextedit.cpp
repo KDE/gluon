@@ -11,7 +11,6 @@ InputEventTextEdit::~InputEventTextEdit()
 
 void InputEventTextEdit::keyPressEvent(QKeyEvent *event)
 {
-    setText("HelloWorld\r\n");
     emit buttonStateChanged(event->nativeScanCode(), 1);
 }
 

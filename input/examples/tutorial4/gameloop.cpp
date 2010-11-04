@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,8 +24,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(QList<InputDevice *> inputList)
+GameLoop::GameLoop(QList<InputDevice *> inputList, MainWindow *mw)
     : m_inputList(inputList)
+    , m_mainWindow(mw)
 {
     connect(this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection);
 }
@@ -52,7 +54,7 @@ void GameLoop::gameLoop()
             foreach (InputDevice *id, m_inputList) {
                 foreach(int button, id->buttonCapabilities()) {
                     if (id->buttonPressed(button))
-                        qDebug() << id->buttonName(button) << " is pressed " << button;
+                        m_mainWindow->inputEventTextEdit()->append(id->buttonName(button) + " is pressed " + button);
 
                 }
             }
