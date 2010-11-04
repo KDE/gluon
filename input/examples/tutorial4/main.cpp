@@ -34,13 +34,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOrganizationName("KDE Gluon");
     app.setApplicationName("Gluon Player");
-    MainWindow window();
+    MainWindow window;
 
     if (InputManager::instance()->inputList().count() > 0) {
         qDebug() << "creating generic test game loop";
         QList<InputDevice *> inputList = InputManager::instance()->inputList();
-        foreach(InputDevice *input, inputList)
+        foreach(InputDevice *input, inputList) {
+            QObject::connect(window.inputEventTextEdit(), SIGNAL(buttonStateChanged(int code, int value)), input, SLOT(buttonStateChanged(int code, int value)));
             input->setEnabled(true);
+        }
         GameLoop *gameLoop = new GameLoop(inputList);
         gameLoop->run();
     }
@@ -50,7 +52,6 @@ int main(int argc, char *argv[])
 #else
     window.show();
 #endif
-
 
     qDebug() << "starting generic game event loop";
     app.exec();

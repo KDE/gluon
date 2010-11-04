@@ -1,16 +1,13 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags = 0)
+MainWindow::MainWindow(QMainWindow *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags)
 {
-    thread = new RenderThread();
     setupUi();
 
     createActions();
     createMenus();
     createStatusBar();
-
-    connect(thread, SIGNAL(finished()), this, SLOT(resetUi()));
 }
 
 MainWindow::~MainWindow()
@@ -31,7 +28,6 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::setupUi()
 {
-
     if (objectName().isEmpty())
         setObjectName(QString::fromUtf8("MainWindow"));
 
@@ -41,10 +37,11 @@ void MainWindow::setupUi()
     mainLayout = new QGridLayout(centralWidget);
     mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
 
-    textEdit = new QTextEdit(this);
-    textEdit->setObjectName(QString::fromUtf8("textEdit"));
+    m_inputEventTextEdit = new InputEventTextEdit();
+    m_inputEventTextEdit->setObjectName(QString::fromUtf8("textEdit"));
+    m_inputEventTextEdit->setReadOnly(true);
 
-    mainLayout->addWidget(textEdit, 0, 0);
+    mainLayout->addWidget(m_inputEventTextEdit, 0, 0);
     mainLayout->setRowStretch(0, 5);
     setLayout(mainLayout);
 
@@ -70,10 +67,8 @@ void MainWindow::setupUi()
 
 void MainWindow::retranslateUi()
 {
-    setwindowtitle(qapplication::translate("mainwindow", "mainwindow", 0,
-                                           qapplication::unicodeutf8));
-    editText->setText(QApplication::translate("textedit", "textedit", 0,
-                                                        QApplication::UnicodeUTF8));
+    setWindowTitle(QApplication::translate("mainwindow", "mainwindow", 0,
+                                           QApplication::UnicodeUTF8));
     return;
 }
 
@@ -121,3 +116,9 @@ void MainWindow::mAbout()
                                 "of the\n Gluon input subsystem."));
 }
 
+InputEventTextEdit *MainWindow::inputEventTextEdit()
+{
+    return m_inputEventTextEdit;
+}
+
+#include "mainwindow.moc"

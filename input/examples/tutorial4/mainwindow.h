@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "inputeventtextedit.h"
+
 #include <QApplication>
 #include <QMainWindow>
 #include <QTextEdit>
@@ -8,14 +10,17 @@
 #include <QAction>
 #include <QStatusBar>
 #include <QMenuBar>
+#include <QMessageBox>
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0,  Qt::WindowFlags flags = 0);
+    explicit MainWindow(QMainWindow *parent = 0,  Qt::WindowFlags flags = 0);
     virtual ~MainWindow();
+
+    InputEventTextEdit *inputEventTextEdit();
 
 private:
     void setupUi();
@@ -25,30 +30,26 @@ private:
     void createMenus();
     void createStatusBar();
 
+    void changeEvent(QEvent *event);
+
 private slots:
     void mAbout();
-    void resetUi();
 
 private:
-    // UI layout related direct widgets with parents
     QWidget *centralWidget;
     QGridLayout *mainLayout;
-    QTextEdit *textEdit;
+    InputEventTextEdit *m_inputEventTextEdit;
 
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
-    // File menu related action declarations
     QAction *quitAct;
 
-    // Help menu related action declarations
     QAction *aboutAct;
     QAction *aboutQtAct;
 
-    // Menubar entries
     QMenu   *fileMenu;
     QMenu   *helpMenu;
-
 };
 
 #endif // MAINWINDOW_H
