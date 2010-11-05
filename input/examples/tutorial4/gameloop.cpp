@@ -48,7 +48,8 @@ void GameLoop::gameLoop()
 
     qDebug() << "starting gameloop";
     while (true) {
-        QCoreApplication::processEvents();
+        // QCoreApplication::processEvents();
+        QCoreApplication::sendPostedEvents();
         loops = 0;
         while (timer.elapsed() > nextTick && loops < maxFrameSkip) {
             foreach (InputDevice *id, m_inputList) {

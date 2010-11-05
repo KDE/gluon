@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
             QObject::connect(window.inputEventTextEdit(), SIGNAL(buttonStateChanged(int, int)), input, SLOT(buttonStateChanged(int, int)));
             input->setEnabled(true);
         }
-        GameLoop *gameLoop = new GameLoop(inputList, &window);
-        gameLoop->run();
+/*         GameLoop *gameLoop = new GameLoop(inputList, &window); */
+        /* gameLoop->run(); */
     }
 
     qDebug() << "starting generic game event loop";

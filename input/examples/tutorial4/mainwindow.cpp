@@ -140,4 +140,9 @@ InputEventTextEdit *MainWindow::inputEventTextEdit()
     return m_inputEventTextEdit;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QApplication::instance()->exit(0);
+}
+
 #include "mainwindow.moc"

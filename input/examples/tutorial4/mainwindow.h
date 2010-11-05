@@ -40,6 +40,7 @@ public:
     virtual ~MainWindow();
 
     InputEventTextEdit *inputEventTextEdit();
+    virtual void closeEvent(QCloseEvent *event);
 
 private:
     void setupUi();

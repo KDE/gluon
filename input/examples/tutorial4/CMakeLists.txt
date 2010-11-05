@@ -9,7 +9,6 @@ include_directories(${CMAKE_BINARY_DIR})
 ########### next target ###############
 
 set(tutorial4_SRCS
-    gameloop.cpp
     main.cpp
     mainwindow.cpp
     inputeventtextedit.cpp

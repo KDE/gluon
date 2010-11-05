@@ -11,12 +11,12 @@ InputEventTextEdit::~InputEventTextEdit()
 
 void InputEventTextEdit::keyPressEvent(QKeyEvent *event)
 {
-    emit buttonStateChanged(event->nativeScanCode(), 1);
+    append(event->text() + " is pressed");
 }
 
 void InputEventTextEdit::keyReleaseEvent(QKeyEvent *event)
 {
-    emit buttonStateChanged(event->nativeScanCode(), 0);
+    append(event->text() + " is released");
 }
 
 void InputEventTextEdit::mousePressEvent(QMouseEvent *event)
