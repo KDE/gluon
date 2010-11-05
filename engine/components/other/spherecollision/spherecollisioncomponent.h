@@ -95,6 +95,8 @@ namespace GluonEngine
              * Set the radius of this object.
              */
             void setRadius(float radius);
+            void componentDestroyed( QObject* obj );
+            void addComponent( SphereCollisionComponent* comp );
 
         /*Q_SIGNALS:
              *

@@ -44,6 +44,9 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
         GameObject *collides;
 
         int componentType;
+        const char* typeName;
+
+        QVector<Component*> collisionComponents;
 };
 
 SphereCollisionComponent::SphereCollisionComponent(QObject *parent)
@@ -51,6 +54,7 @@ SphereCollisionComponent::SphereCollisionComponent(QObject *parent)
     , d(new SphereCollisionComponentPrivate)
 {
     d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent>();
+    d->typeName =  staticMetaObject.className();
 }
 
 SphereCollisionComponent::~SphereCollisionComponent()
@@ -65,6 +69,13 @@ QString SphereCollisionComponent::category() const
 
 void SphereCollisionComponent::start()
 {
+    d->collisionComponents = gameObject()->parentGameObject()->findComponentsInChildrenByType(d->componentType).toVector();
+
+    foreach(Component* component, d->collisionComponents)
+    {
+        connect(component, SIGNAL(destroyed(QObject*)), SLOT(componentDestroyed(QObject*)));
+        static_cast<SphereCollisionComponent*>(component)->addComponent(this);
+    }
 }
 
 void SphereCollisionComponent::update(int elapsedMilliseconds)
@@ -80,28 +91,25 @@ void SphereCollisionComponent::update(int elapsedMilliseconds)
     //Our radius, squared
     float radius = d->radius * d->radius;
 
-    QObjectList objects = gameObject()->parentGameObject()->children();
     //Walk through the list
-    foreach(QObject* object, objects)
+    const int componentCount = d->collisionComponents.count();
+    Component** data = d->collisionComponents.data();
+    for(int i = 0; i < componentCount; ++i)
     {
-        GameObject* obj = qobject_cast<GameObject*>(object);
-        if(!obj)
+        Component* component = data[i];
+
+        //Intentional pointer-to-pointer comparison. Way faster compared to string comparison.
+        if(component->metaObject()->className() != d->typeName)
             continue;
 
-        //Get the correct type
-        Component* component = obj->findComponentByType(d->componentType);
-        if(!component)
-            continue;
-
-        SphereCollisionComponent* sphere = qobject_cast< SphereCollisionComponent* >(component);
-
+        SphereCollisionComponent* sphere = static_cast< SphereCollisionComponent* >(component);
         if(sphere && sphere != this)
         {
             //See if we are in the same group
             if(sphere->collisionGroup() == d->collisionGroup)
             {
                 //Get the object's position
-                QVector3D otherPosition = obj->position();
+                QVector3D otherPosition = component->gameObject()->position();
                 //Eliminate the Z axis
                 position.setZ(0);
 
@@ -116,7 +124,7 @@ void SphereCollisionComponent::update(int elapsedMilliseconds)
                 //have a collision.
                 if(dist < (otherRadius + radius))
                 {
-                    d->collides = obj;
+                    d->collides = component->gameObject();
                 }
             }
         }
@@ -156,6 +164,29 @@ void SphereCollisionComponent::setRadius(float radius)
 {
     d->radius = radius;
 }
+
+void SphereCollisionComponent::componentDestroyed( QObject* obj )
+{
+    if(!obj)
+        return;
+
+    Component* comp = static_cast<Component*>(obj);
+    if(d->collisionComponents.contains(comp))
+        d->collisionComponents.remove(d->collisionComponents.indexOf(comp));
+}
+
+void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
+{
+    if(comp)
+    {
+        if(!d->collisionComponents.contains(comp))
+        {
+            d->collisionComponents.append(comp);
+            connect(comp, SIGNAL(destroyed(QObject*)), this, SLOT(componentDestroyed(QObject*)));
+        }
+    }
+}
+
 
 Q_EXPORT_PLUGIN2(gluon_component_spherecollision, GluonEngine::SphereCollisionComponent)
 
