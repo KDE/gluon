@@ -207,7 +207,7 @@ namespace GluonEngine
             virtual QString stringFromProperty(const QString &propertyName, const QString &indentChars) const;
 
         private:
-            QSharedDataPointer<ComponentPrivate> d;
+            ComponentPrivate * const d;
     };
 }
 
