@@ -27,6 +27,13 @@
 
 namespace GluonPlayer
 {
+    /**
+     *\brief Model which contains a list of the installed games
+     *
+     * This model can be used to obtain a list of all the installed games
+     * Use the different columns of the model to obtain required properties.
+     * 
+     */
     class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
     {
         public:

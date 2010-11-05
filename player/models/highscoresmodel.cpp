@@ -34,7 +34,7 @@ static const char serviceURI[] = "gamingfreedom.org";
 
 HighScoresModel::HighScoresModel(QObject *parent)
     : QAbstractTableModel(parent)
-    , rootNode(0)
+    , rootNode(new GluonObject("HighScores"))
 {
     loadData();
 }
@@ -96,14 +96,25 @@ QVariant HighScoresModel::headerData(int section, Qt::Orientation orientation, i
 void HighScoresModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkdir(".gluon/" + QString(serviceURI));
+    gluonDir.mkpath(".gluon/" + QString(serviceURI));
     gluonDir.cd(".gluon/" + QString(serviceURI));
     QString filename = gluonDir.absoluteFilePath("highscores.gdl");
 
     QFile dataFile(filename);
-    if (!dataFile.open(QIODevice::ReadOnly)) {
-        qDebug() << "Cannot open the high scores file";
-        return;
+    while (1) {
+        if (!dataFile.open(QIODevice::ReadOnly)) {
+            if (!QFile::exists(filename)) {
+                qDebug() << "Cannot find the file " << filename << ", creating new";
+                dataFile.close();
+                saveData();         //Create a blank file if it doesn't exist
+                continue;       //Try to open again
+            } else {
+                qDebug() << "Cannot open the file " << filename;
+                return;     //return from loadData()
+            }
+        } else {
+            break;      //File opened successfully
+        }
     }
 
     QTextStream highScoresReader(&dataFile);
@@ -121,6 +132,7 @@ void HighScoresModel::loadData()
 
 void HighScoresModel::saveData()
 {
+    qDebug() << "Saving high scores Data";
     QDir gluonDir = QDir::home();
     gluonDir.mkpath(".gluon/" + QString(serviceURI));
     gluonDir.cd(".gluon/" + QString(serviceURI));
@@ -137,6 +149,7 @@ void HighScoresModel::saveData()
     QTextStream dataWriter(&dataFile);
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(highScores);
     dataFile.close();
+    qDebug() << "Saved";
 }
 
 #include "highscoresmodel.moc"
