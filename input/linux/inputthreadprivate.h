@@ -41,11 +41,6 @@ namespace GluonInput
             struct input_event m_currentEvent;
             QString m_devicePath;
 
-            int m_vendor;
-            int m_product;
-            int m_version;
-            int m_bustype;
-
             QString m_deviceName;
             QString m_msgError;
 

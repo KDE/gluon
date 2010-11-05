@@ -53,10 +53,10 @@ namespace GluonInput
             int joystickZAxis();
             void stop();
 
-            int vendor()const;
-            int product()const;
-            int version()const;
-            int bustype()const;
+            int vendor() const;
+            int product() const;
+            int version() const;
+            int bustype() const;
 
             QList<int> buttonCapabilities() const;
             QList<int> absAxisCapabilities() const;
