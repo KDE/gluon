@@ -244,22 +244,22 @@ void InputThread::stop()
 
 int InputThread::vendor() const
 {
-    return d->m_vendor;
+    return d->m_device_info.vendor;
 }
 
 int InputThread::product() const
 {
-    return d->m_product;
+    return d->m_device_info.product;
 }
 
 int InputThread::version() const
 {
-    return d->m_version;
+    return d->m_device_info.version;
 }
 
 int InputThread::bustype()const
 {
-    return d->m_bustype;
+    return d->m_device_info.bustype;
 }
 
 QList<int> InputThread::buttonCapabilities() const
