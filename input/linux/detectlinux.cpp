@@ -52,13 +52,21 @@ void DetectLinux::detectDevices()
     DetectLinux *detect = this;
     detect->clear();
     QDir event("/dev/input/by-path/");
-    QStringList inputFiles;
+    QStringList readableInputFiles;
+    QStringList unreadableInputFiles;
+    QString file;
     QFileInfoList inputFileInfoList;
 
     inputFileInfoList = event.entryInfoList(QDir::Files);
-    foreach (QFileInfo inputFileInfo, inputFileInfoList)
-        inputFiles.append(inputFileInfo.filePath());
-    foreach (const QString &name, inputFiles) {
+    foreach (QFileInfo inputFileInfo, inputFileInfoList) {
+        file = inputFileInfo.filePath();
+        if (access(file.toUtf8(), R_OK) != -1)
+            readableInputFiles.append(file);
+        else
+            unreadableInputFiles.append(file);
+    }
+
+    foreach (const QString &name, readableInputFiles) {
         InputDevice *device = 0;
         InputThread *thread = new InputThread(name);
         if (!thread->error()) {
