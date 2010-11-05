@@ -302,6 +302,17 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
     return found;
 }
 
+QList< Component* >
+GameObject::findComponentsInChildrenByType( int type ) const
+{
+    QList<Component *> found;
+    foreach (GameObject *child, d->children) {
+        found.append(child->findComponentsByType(type));
+        found.append(child->findComponentsInChildrenByType(type));
+    }
+    return found;
+}
+
 void
 GameObject::addComponent(Component *addThis)
 {
