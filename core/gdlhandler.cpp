@@ -106,6 +106,7 @@ GDLHandler::tokenizeObject( QString objectString )
 
     bool inPropertyName = false;
     bool inPropertyValue = false;
+    bool multilineProperty = false;
     bool inChild = false;
     bool childEnded = false;
 
@@ -283,7 +284,12 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
                 else if( inPropertyValue )
                 {
-                    if( i->toLower() == '\\' && !beingEscaped )
+                    if( *i == '<' && *(i + 1) == '<' && *(i + 2) == '<'  )
+                    {
+                        multilineProperty = !multilineProperty;
+                        i = i + 2;
+                    }
+                    else if( i->toLower() == '\\' && !beingEscaped )
                     {
                         beingEscaped = true;
                     }
@@ -291,7 +297,7 @@ GDLHandler::tokenizeObject( QString objectString )
                     {
                         // Read the value until the value ends!
                         currentString += i->unicode();
-                        if( !beingEscaped && i->toLower() == ')' )
+                        if( !beingEscaped && !multilineProperty && i->toLower() == ')' )
                         {
                             currentItem.append( currentString.trimmed() );
                             currentString.clear();
