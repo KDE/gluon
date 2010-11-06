@@ -35,27 +35,27 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT Detect : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
-            Detect(QObject *parent = 0);
+            Detect( QObject* parent = 0 );
 
             virtual void detectDevices() = 0;
-            virtual void setAllEnabled(bool enable) = 0;
+            virtual void setAllEnabled( bool enable ) = 0;
 
-            virtual QList<InputDevice *> inputList() = 0;
-            virtual QList<Keyboard *> keyboardList() = 0;
-            virtual QList<Mouse *> mouseList() = 0;
-            virtual QList<Joystick *> joystickList() = 0;
-            virtual QList<Touch *> touchList() = 0;
-            virtual QList<InputDevice *> unknownDeviceList() = 0;
+            virtual QList<InputDevice*> inputList() = 0;
+            virtual QList<Keyboard*> keyboardList() = 0;
+            virtual QList<Mouse*> mouseList() = 0;
+            virtual QList<Joystick*> joystickList() = 0;
+            virtual QList<Touch*> touchList() = 0;
+            virtual QList<InputDevice*> unknownDeviceList() = 0;
 
-            virtual void addInput(InputDevice *i) = 0;
-            virtual void addKeyboard(Keyboard *keyboard) = 0;
-            virtual void addMouse(Mouse *mouse) = 0;
-            virtual void addJoystick(Joystick *joystick) = 0;
-            virtual void addTouch(Touch *touch) = 0;
-            virtual void addUnknown(InputDevice *i) = 0;
+            virtual void addInput( InputDevice* i ) = 0;
+            virtual void addKeyboard( Keyboard* keyboard ) = 0;
+            virtual void addMouse( Mouse* mouse ) = 0;
+            virtual void addJoystick( Joystick* joystick ) = 0;
+            virtual void addTouch( Touch* touch ) = 0;
+            virtual void addUnknown( InputDevice* i ) = 0;
             virtual void clear() = 0;
     };
 }

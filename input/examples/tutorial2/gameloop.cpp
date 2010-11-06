@@ -26,10 +26,10 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(Keyboard *keyb)
+GameLoop::GameLoop( Keyboard* keyb )
 {
     keyboard = keyb;
-    connect(this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection);
+    connect( this, SIGNAL( startGameLoop() ), SLOT( gameLoop() ), Qt::QueuedConnection );
 }
 
 void GameLoop::run()
@@ -48,13 +48,16 @@ void GameLoop::gameLoop()
     timer.start();
 
     qDebug() << "starting gameloop";
-    while (true) {
+    while( true )
+    {
         QCoreApplication::processEvents();
         loops = 0;
-        while (timer.elapsed() > nextTick && loops < maxFrameSkip) {
-            foreach(int button, keyboard->buttonCapabilities()) {
-                if (keyboard->buttonPressed(button))
-                    qDebug() << keyboard->buttonName(button) << " is pressed ";
+        while( timer.elapsed() > nextTick && loops < maxFrameSkip )
+        {
+            foreach( int button, keyboard->buttonCapabilities() )
+            {
+                if( keyboard->buttonPressed( button ) )
+                    qDebug() << keyboard->buttonName( button ) << " is pressed ";
 
             }
 

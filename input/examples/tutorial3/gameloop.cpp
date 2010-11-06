@@ -23,10 +23,10 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
-GameLoop::GameLoop(QList<InputDevice *> inputList)
-    : m_inputList(inputList)
+GameLoop::GameLoop( QList<InputDevice*> inputList )
+    : m_inputList( inputList )
 {
-    connect(this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection);
+    connect( this, SIGNAL( startGameLoop() ), SLOT( gameLoop() ), Qt::QueuedConnection );
 }
 
 void GameLoop::run()
@@ -45,14 +45,18 @@ void GameLoop::gameLoop()
     timer.start();
 
     qDebug() << "starting gameloop";
-    while (true) {
+    while( true )
+    {
         QCoreApplication::processEvents();
         loops = 0;
-        while (timer.elapsed() > nextTick && loops < maxFrameSkip) {
-            foreach (InputDevice *id, m_inputList) {
-                foreach(int button, id->buttonCapabilities()) {
-                    if (id->buttonPressed(button))
-                        qDebug() << id->buttonName(button) << " is pressed ";
+        while( timer.elapsed() > nextTick && loops < maxFrameSkip )
+        {
+            foreach( InputDevice * id, m_inputList )
+            {
+                foreach( int button, id->buttonCapabilities() )
+                {
+                    if( id->buttonPressed( button ) )
+                        qDebug() << id->buttonName( button ) << " is pressed ";
 
                 }
             }

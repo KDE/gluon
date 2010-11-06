@@ -26,7 +26,8 @@
 
 namespace GluonInput
 {
-    enum DeviceFlag {
+    enum DeviceFlag
+    {
         UnknownDevice = 0,
         KeyboardDevice = 1,
         MouseDevice = 1 << 1,
@@ -34,15 +35,16 @@ namespace GluonInput
         TouchDevice = 1 << 3,
         TouchpadDevice = 1 << 4
     };
-    Q_DECLARE_FLAGS(Devices, DeviceFlag)
+    Q_DECLARE_FLAGS( Devices, DeviceFlag )
 
-    enum InputTypeFlag {
-        Button = QEvent::Type(QEvent::User + 1),
-        RelativeAxis = QEvent::Type(QEvent::User + 2),
-        AbsoluteAxis = QEvent::Type(QEvent::User + 3)
+    enum InputTypeFlag
+    {
+        Button = QEvent::Type( QEvent::User + 1 ),
+        RelativeAxis = QEvent::Type( QEvent::User + 2 ),
+        AbsoluteAxis = QEvent::Type( QEvent::User + 3 )
     };
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(GluonInput::Devices);
+Q_DECLARE_OPERATORS_FOR_FLAGS( GluonInput::Devices );
 
 #endif

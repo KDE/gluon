@@ -28,7 +28,7 @@ namespace GluonInput
     {
         public:
             TouchPrivate();
-            TouchPrivate(TouchPrivate &other);
+            TouchPrivate( TouchPrivate& other );
     };
 }
 

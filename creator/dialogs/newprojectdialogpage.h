@@ -23,11 +23,11 @@
 
 #include <kpagewidgetmodel.h>
 
-namespace GluonCreator 
+namespace GluonCreator
 {
     class NewProjectDialogPage : public KPageWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             NewProjectDialogPage();
             ~NewProjectDialogPage();

@@ -39,12 +39,12 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT InputThread : public QThread
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit InputThread(IOHIDDeviceRef pDevice, QObject *parent = 0);
+            explicit InputThread( IOHIDDeviceRef pDevice, QObject* parent = 0 );
             ~InputThread();
 
-            static void deviceReport(void *inContext, IOReturn inResult, void *inSender, IOHIDValueRef inIOHIDValueRef);
+            static void deviceReport( void* inContext, IOReturn inResult, void* inSender, IOHIDValueRef inIOHIDValueRef );
 
             int joystickXAxis();
             int joystickYAxis();
@@ -61,7 +61,7 @@ namespace GluonInput
             QList<int> buttonCapabilities() const;
             QList<int> absAxisCapabilities() const;
             QList<int> relAxisCapabilities() const;
-            AbsVal axisInfo(int axisCode) const;
+            AbsVal axisInfo( int axisCode ) const;
 
             const QString deviceName() const;
             GluonInput::DeviceFlag deviceType() const;
@@ -71,12 +71,12 @@ namespace GluonInput
             bool error();
             QString msgError();
 
-            QObject *parent();
+            QObject* parent();
 
-signals:
-            void relAxisMoved(int axis, int distance);
-            void absAxisMoved(int axis, int distance);
-            void buttonStateChanged(int button, int value);
+        signals:
+            void relAxisMoved( int axis, int distance );
+            void absAxisMoved( int axis, int distance );
+            void buttonStateChanged( int button, int value );
 
         private:
             void readInformation();

@@ -23,7 +23,7 @@
 
 using namespace GluonInput;
 
-template<> GLUON_INPUT_EXPORT GluonButtons *GluonCore::Singleton<GluonButtons>::m_instance = 0;
+template<> GLUON_INPUT_EXPORT GluonButtons* GluonCore::Singleton<GluonButtons>::m_instance = 0;
 
 GluonButtons::GluonButtons()
 {
@@ -33,41 +33,43 @@ GluonButtons::~GluonButtons()
 {
 }
 
-QString GluonButtons::buttonName(DeviceFlag deviceType, int code)
+QString GluonButtons::buttonName( DeviceFlag deviceType, int code )
 {
     QString value = "";
-    switch (deviceType) {
-    case KeyboardDevice:
-        value = metaObject()->enumerator(this->metaObject()->indexOfEnumerator("KeyboardButton")).valueToKey(code);
-        return value != "" ? value : "Reserved";
-        break;
-    case MouseDevice:
-        value = metaObject()->enumerator(this->metaObject()->indexOfEnumerator("MouseButton")).valueToKey(code);
-        return value != "" ? value : "Unknown";
-        break;
-    case JoystickDevice:
-        value = metaObject()->enumerator(this->metaObject()->indexOfEnumerator("JoystickButton")).valueToKey(code);
-        return value != "" ? value : "Unknown";
-        break;
-    default:
-        return "Unknown";
+    switch( deviceType )
+    {
+        case KeyboardDevice:
+            value = metaObject()->enumerator( this->metaObject()->indexOfEnumerator( "KeyboardButton" ) ).valueToKey( code );
+            return value != "" ? value : "Reserved";
+            break;
+        case MouseDevice:
+            value = metaObject()->enumerator( this->metaObject()->indexOfEnumerator( "MouseButton" ) ).valueToKey( code );
+            return value != "" ? value : "Unknown";
+            break;
+        case JoystickDevice:
+            value = metaObject()->enumerator( this->metaObject()->indexOfEnumerator( "JoystickButton" ) ).valueToKey( code );
+            return value != "" ? value : "Unknown";
+            break;
+        default:
+            return "Unknown";
     }
 }
 
-QString GluonButtons::axisName(DeviceFlag deviceType, int code)
+QString GluonButtons::axisName( DeviceFlag deviceType, int code )
 {
     QString value = "";
-    switch (deviceType) {
-    case MouseDevice:
-        value = metaObject()->enumerator(metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
-        return value != "" ? value : "Unknown";
-        break;
-    case JoystickDevice:
-        value = metaObject()->enumerator(metaObject()->indexOfEnumerator("RelAbs")).valueToKey(code);
-        return value != "" ? value : "Unknown";
-        break;
-    default:
-        return "Unknown";
+    switch( deviceType )
+    {
+        case MouseDevice:
+            value = metaObject()->enumerator( metaObject()->indexOfEnumerator( "RelAbs" ) ).valueToKey( code );
+            return value != "" ? value : "Unknown";
+            break;
+        case JoystickDevice:
+            value = metaObject()->enumerator( metaObject()->indexOfEnumerator( "RelAbs" ) ).valueToKey( code );
+            return value != "" ? value : "Unknown";
+            break;
+        default:
+            return "Unknown";
     }
 }
 

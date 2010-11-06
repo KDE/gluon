@@ -30,15 +30,15 @@
 
 using namespace GluonEngine;
 
-Component::Component(QObject *parent)
-    : GluonObject(parent)
-    , d(new ComponentPrivate)
+Component::Component( QObject* parent )
+    : GluonObject( parent )
+    , d( new ComponentPrivate )
 {
 }
 
-Component::Component(const Component &other, QObject *parent)
-    : GluonObject(parent)
-    , d(other.d)
+Component::Component( const Component& other, QObject* parent )
+    : GluonObject( parent )
+    , d( other.d )
 {
 }
 
@@ -49,40 +49,45 @@ Component::~Component()
 QString
 Component::category() const
 {
-    return QString("Uncategorised");
+    return QString( "Uncategorised" );
 }
 
 QVariant
-Component::toVariant(GluonCore::GluonObject *wrapThis)
+Component::toVariant( GluonCore::GluonObject* wrapThis )
 {
-    if (strcmp(staticMetaObject.className(), "GluonCore::Component")) {
+    if( strcmp( staticMetaObject.className(), "GluonCore::Component" ) )
+    {
         DEBUG_BLOCK
-        DEBUG_TEXT(QString("Found attempt to use class without toVariant as property. Offending class: %1").arg(staticMetaObject.className()));
+        DEBUG_TEXT( QString( "Found attempt to use class without toVariant as property. Offending class: %1" ).arg( staticMetaObject.className() ) );
     }
-    return QVariant::fromValue<GluonEngine::Component *>(qobject_cast<GluonEngine::Component *>(wrapThis));
+    return QVariant::fromValue<GluonEngine::Component*>( qobject_cast<GluonEngine::Component*>( wrapThis ) );
 }
 
 void
-Component::update(int elapsedMilliseconds)
+Component::update( int elapsedMilliseconds )
 {
-    Q_UNUSED(elapsedMilliseconds);
+    Q_UNUSED( elapsedMilliseconds );
 }
 
 void
-Component::draw(int timeLapse)
+Component::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse);
+    Q_UNUSED( timeLapse );
 }
 
 void
 Component::sanitize()
 {
-    if (parent()) {
-        if (parent()->metaObject()) {
-            if (QString::compare(parent()->metaObject()->className(), "GameObject")) {
-                GameObject *theParent = qobject_cast<GameObject *>(parent());
-                if (theParent) {
-                    theParent->addComponent(this);
+    if( parent() )
+    {
+        if( parent()->metaObject() )
+        {
+            if( QString::compare( parent()->metaObject()->className(), "GameObject" ) )
+            {
+                GameObject* theParent = qobject_cast<GameObject*>( parent() );
+                if( theParent )
+                {
+                    theParent->addComponent( this );
                     d->gameObject = theParent;
                 }
             }
@@ -94,7 +99,7 @@ Component::sanitize()
 // Property getter-setters
 
 void
-Component::setDescription(const QString &newDescription)
+Component::setDescription( const QString& newDescription )
 {
     d->description = newDescription;
 }
@@ -106,7 +111,7 @@ Component::description() const
 }
 
 void
-Component::setEnabled(bool newEnabled)
+Component::setEnabled( bool newEnabled )
 {
     d->enabled = newEnabled;
 }
@@ -124,23 +129,25 @@ Component::gameObject()
 }
 
 void
-Component::setGameObject(GameObject *newGameObject)
+Component::setGameObject( GameObject* newGameObject )
 {
     d->gameObject = newGameObject;
 }
 
 QString
-Component::stringFromProperty(const QString &propertyName, const QString &indentChars) const
+Component::stringFromProperty( const QString& propertyName, const QString& indentChars ) const
 {
     DEBUG_FUNC_NAME
-    QMetaProperty prop = metaObject()->property(metaObject()->indexOfProperty(propertyName.toUtf8()));
-    if(QString(prop.typeName()) == QString("GluonEngine::Asset*")) {
-        GluonEngine::Asset *asset = prop.read(this).value<GluonEngine::Asset *>();
-        if(asset) {
-            return QString("\n%1%2 GluonEngine::Asset(%3)").arg(indentChars, propertyName, asset->fullyQualifiedName());
+    QMetaProperty prop = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
+    if( QString( prop.typeName() ) == QString( "GluonEngine::Asset*" ) )
+    {
+        GluonEngine::Asset* asset = prop.read( this ).value<GluonEngine::Asset*>();
+        if( asset )
+        {
+            return QString( "\n%1%2 GluonEngine::Asset(%3)" ).arg( indentChars, propertyName, asset->fullyQualifiedName() );
         }
     }
-    return GluonCore::GluonObject::stringFromProperty(propertyName, indentChars);
+    return GluonCore::GluonObject::stringFromProperty( propertyName, indentChars );
 }
 
 #include "component.moc"

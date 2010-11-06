@@ -28,11 +28,11 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT TextureAsset : public Asset
     {
             Q_OBJECT
-            Q_INTERFACES(GluonEngine::Asset)
-            GLUON_OBJECT(GluonEngine::TextureAsset)
+            Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::TextureAsset )
 
         public:
-            Q_INVOKABLE TextureAsset(QObject *parent = 0);
+            Q_INVOKABLE TextureAsset( QObject* parent = 0 );
             ~TextureAsset();
 
 
@@ -42,16 +42,16 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
 
-            virtual void setName(const QString &newName);
+            virtual void setName( const QString& newName );
 
         private:
             class TextureAssetPrivate;
-            TextureAssetPrivate *d;
+            TextureAssetPrivate* d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonEngine::TextureAsset)
-Q_DECLARE_METATYPE(GluonEngine::TextureAsset*)
+Q_DECLARE_METATYPE( GluonEngine::TextureAsset )
+Q_DECLARE_METATYPE( GluonEngine::TextureAsset* )
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

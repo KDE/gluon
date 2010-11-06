@@ -29,7 +29,7 @@ namespace GluonInput
     {
         public:
             MousePrivate();
-            MousePrivate(MousePrivate &other);
+            MousePrivate( MousePrivate& other );
 
             QPoint position;
             QPoint originalPosition;

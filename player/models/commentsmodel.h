@@ -50,39 +50,40 @@ namespace GluonPlayer
      * After this, the model tries to fetch comments from the online server,
      * and if successful, uses those comments.
      * Upon exit, the model saves the fetched comments (if any) to a local file.
-     * 
+     *
      */
     class GLUON_PLAYER_EXPORT CommentsModel : public QAbstractItemModel
     {
             Q_OBJECT
 
         public:
-            enum Column { 
-		    AuthorColumn, 
-		    TitleColumn, 
-		    BodyColumn, 
-		    DateTimeColumn, 
-		    RatingColumn 
-	    };
+            enum Column
+            {
+                AuthorColumn,
+                TitleColumn,
+                BodyColumn,
+                DateTimeColumn,
+                RatingColumn
+            };
 
-            CommentsModel(QObject *parent = 0);
+            CommentsModel( QObject* parent = 0 );
             virtual ~CommentsModel();
-            virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-            virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-            virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-            virtual QModelIndex parent(const QModelIndex &child) const;
-            virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-            virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-            virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-            virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-            virtual bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
+            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual QModelIndex parent( const QModelIndex& child ) const;
+            virtual QModelIndex index( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
+            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
+            virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
+            virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
             /**
              * returns the column name of a specific column as a string
              * @param   col     the required column
              * @return the column name as string
              */
-            QString columnName(const Column col) const;
+            QString columnName( const Column col ) const;
 
             /**
              * check if we are connected to the online service
@@ -99,10 +100,10 @@ namespace GluonPlayer
              * @param   subject         the subject (title) of the comment
              * @param   message         the message (body) of the comment
              */
-            void uploadComment(const QModelIndex &parentIndex, const QString &subject, const QString &message);
+            void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
         private:
-            GluonCore::GluonObject *rootNode;
+            GluonCore::GluonObject* rootNode;
             QStringList m_columnNames;
             bool m_isOnline;
 
@@ -110,12 +111,12 @@ namespace GluonPlayer
             void loadData();
             void saveData();
 
-            GluonCore::GluonObject *addComment(Attica::Comment comment, GluonCore::GluonObject *parent);
+            GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
 
         private slots:
             void providersUpdated();
-            void processFetchedComments(Attica::BaseJob *);
-            void addCommentFinished(Attica::BaseJob *job);
+            void processFetchedComments( Attica::BaseJob* );
+            void addCommentFinished( Attica::BaseJob* job );
 
         signals:
             /** signal which is emitted when the comment failed to be added

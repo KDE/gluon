@@ -31,7 +31,7 @@ class QMatrix4x4;
 namespace GluonGraphics
 {
 
-class MaterialInstance;
+    class MaterialInstance;
 
     class Mesh;
 
@@ -46,9 +46,9 @@ class MaterialInstance;
      */
     class GLUON_GRAPHICS_EXPORT Item : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            Item(QObject * parent = 0);
+            Item( QObject* parent = 0 );
             virtual ~Item();
 
             /**
@@ -86,14 +86,14 @@ class MaterialInstance;
              *
              * \param transform The new transformation to use.
              */
-            void setTransform(const QMatrix4x4 transform);
+            void setTransform( const QMatrix4x4 transform );
 
             /**
              * Set the mesh used by this item.
              *
              * \param mesh The mesh to use.
              */
-            void setMesh(Mesh* mesh);
+            void setMesh( Mesh* mesh );
 
             /**
              * Set the material instance that needs to be used by
@@ -101,11 +101,11 @@ class MaterialInstance;
              *
              * \param material The material instance to use.
              */
-            void setMaterialInstance(MaterialInstance * material);
+            void setMaterialInstance( MaterialInstance* material );
 
         private:
             class ItemPrivate;
-            ItemPrivate * const d;
+            ItemPrivate* const d;
     };
 
 }

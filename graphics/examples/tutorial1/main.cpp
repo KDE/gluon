@@ -34,34 +34,34 @@
 #include <QTimer>
 
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication app(argc, argv);
+    QApplication app( argc, argv );
 
     //Create a widget to render the graphics on.
-    GluonGraphics::RenderWidget * widget = new GluonGraphics::RenderWidget();
+    GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
     widget->show();
-    
+
     //Create a camera to view the scene from.
     GluonGraphics::Camera* cam = new GluonGraphics::Camera();
 
     //Set the viewport
-    cam->frustrum()->setOrthographic(-5.f, 5.f, -5.f, 5.f, -5.f, 5.f);
+    cam->frustrum()->setOrthographic( -5.f, 5.f, -5.f, 5.f, -5.f, 5.f );
 
     //Activate the new camera
-    GluonGraphics::Engine::instance()->setActiveCamera(cam);
+    GluonGraphics::Engine::instance()->setActiveCamera( cam );
 
     //Create an item to display
-    GluonGraphics::Item * item = GluonGraphics::Engine::instance()->createItem("default");
+    GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "default" );
 
     QMatrix4x4 mat;
-    mat.translate(-1.5f, -1.5f);
-    item->setTransform(mat);
+    mat.translate( -1.5f, -1.5f );
+    item->setTransform( mat );
 
-    item = GluonGraphics::Engine::instance()->createItem("default");
-    mat.translate(3.f, 3.f);
-    item->setTransform(mat);
+    item = GluonGraphics::Engine::instance()->createItem( "default" );
+    mat.translate( 3.f, 3.f );
+    item->setTransform( mat );
 
-    QTimer::singleShot(0, widget, SLOT(updateGL()));
+    QTimer::singleShot( 0, widget, SLOT( updateGL() ) );
     return app.exec();
 }

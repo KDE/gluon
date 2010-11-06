@@ -26,7 +26,8 @@
 
 #include "gluonbuttons.h"
 
-namespace GluonInput {
+namespace GluonInput
+{
     class Mouse;
 }
 
@@ -35,10 +36,10 @@ namespace GluonEngine
     class MouseInputComponent : public Component
     {
             Q_OBJECT;
-            GLUON_OBJECT(GluonEngine::MouseInputComponent)
-            Q_INTERFACES(GluonEngine::Component)
-            Q_PROPERTY(MouseButton mouseButton READ mouseButton WRITE setMouseButton)
-            Q_ENUMS(MouseButton)
+            GLUON_OBJECT( GluonEngine::MouseInputComponent )
+            Q_INTERFACES( GluonEngine::Component )
+            Q_PROPERTY( MouseButton mouseButton READ mouseButton WRITE setMouseButton )
+            Q_ENUMS( MouseButton )
 
         public:
             enum MouseButton
@@ -54,7 +55,7 @@ namespace GluonEngine
                 MOUSE_BUTTON_EIGHT,
             };
 
-            Q_INVOKABLE MouseInputComponent(QObject *parent = 0);
+            Q_INVOKABLE MouseInputComponent( QObject* parent = 0 );
             virtual QString category() const;
 
             // True on any frame between getActionStarted and
@@ -69,11 +70,11 @@ namespace GluonEngine
 
             virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
+            virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
             MouseButton mouseButton() const;
-            void setMouseButton(MouseButton button);
+            void setMouseButton( MouseButton button );
 
             Q_INVOKABLE virtual int xAxis();
             Q_INVOKABLE virtual int yAxis();
@@ -85,11 +86,11 @@ namespace GluonEngine
 
         private:
             class MouseInputComponentPrivate;
-            MouseInputComponentPrivate *const d;
+            MouseInputComponentPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent)
-Q_DECLARE_METATYPE(GluonEngine::MouseInputComponent*)
+Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent )
+Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent* )
 
 #endif // MOUSEINPUTCOMPONENT_H

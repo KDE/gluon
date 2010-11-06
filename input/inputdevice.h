@@ -36,12 +36,12 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT InputDevice : public QObject
     {
-        Q_OBJECT
-        Q_ENUMS(GluonInput::KeyboardButton)
+            Q_OBJECT
+            Q_ENUMS( GluonInput::KeyboardButton )
 
         public:
             InputDevice();
-            explicit InputDevice(InputThread *inputThread, QObject *parent = 0);
+            explicit InputDevice( InputThread* inputThread, QObject* parent = 0 );
             ~InputDevice();
 
             int vendor() const;
@@ -55,22 +55,22 @@ namespace GluonInput
             QList<int> buttonCapabilities() const;
             QList<int> absAxisCapabilities() const;
             QList<int> relAxisCapabilities() const;
-            AbsVal axisInfo(int axisCode) const;
-            bool buttonPressed(int code) const;
-            QString buttonName(int code) const;
-            QString axisName(int code) const;
+            AbsVal axisInfo( int axisCode ) const;
+            bool buttonPressed( int code ) const;
+            QString buttonName( int code ) const;
+            QString axisName( int code ) const;
 
             bool error() const;
             QString msgError() const;
 
-            void setInputThread(InputThread *inputThread);
-            InputThread *inputThread() const;
+            void setInputThread( InputThread* inputThread );
+            InputThread* inputThread() const;
 
             bool isEnabled() const;
-            void setEnabled(bool enable);
+            void setEnabled( bool enable );
 
         private slots:
-            void buttonStateChanged(int code, int value);
+            void buttonStateChanged( int code, int value );
 
         private:
 

@@ -31,13 +31,14 @@ namespace GluonInput
 {
     class GLUON_INPUT_EXPORT GluonButtons : public GluonCore::Singleton<GluonButtons>
     {
-        Q_OBJECT
-        Q_ENUMS(Button)
-        Q_ENUMS(Absolute)
-        Q_ENUMS(Relative)
+            Q_OBJECT
+            Q_ENUMS( Button )
+            Q_ENUMS( Absolute )
+            Q_ENUMS( Relative )
 
         public:
-            enum Button {
+            enum Button
+            {
                 ESC = 1,
                 ONE,
                 TWO,
@@ -409,7 +410,8 @@ namespace GluonInput
                 FN_B
             };
 
-            enum Relative {
+            enum Relative
+            {
                 X_REL,
                 Y_REL,
                 Z_REL,
@@ -419,7 +421,8 @@ namespace GluonInput
                 MISC_REL
             };
 
-            enum Absolute {
+            enum Absolute
+            {
                 X_ABS,
                 Y_ABS,
                 Z_ABS,
@@ -450,8 +453,8 @@ namespace GluonInput
 
             GluonButtons();
 
-            QString buttonName(DeviceFlag deviceType, int code);
-            QString axisName(DeviceFlag deviceType, int code);
+            QString buttonName( DeviceFlag deviceType, int code );
+            QString axisName( DeviceFlag deviceType, int code );
 
         private:
             ~GluonButtons();

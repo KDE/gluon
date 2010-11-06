@@ -30,29 +30,33 @@ class Edge;
 
 class GraphDocument;
 
-class ROCSLIB_EXPORT ThreadDocument : public QThread{
-  Q_OBJECT
+class ROCSLIB_EXPORT ThreadDocument : public QThread
+{
+        Q_OBJECT
 
-  public:
-    ThreadDocument(QWaitCondition &docCondition,QMutex &mutex, QObject *parent = 0);
-    virtual ~ThreadDocument();
-    GraphDocument *document() const {return _graphDocument;}
-    
-    /** release actual document and set the doc */
-    void setGraphDocument(GraphDocument * doc);
-   
-  public slots:
-    void run();
-    void createEmptyDocument();
-    void loadDocument(const QString& name = QString());
-    
-  private:
-    void releaseDocument();
-    
-    GraphDocument * _graphDocument;
-    QWaitCondition &_docCondition;    
-    QMutex &_mutex;
-    QString _documentName;
+    public:
+        ThreadDocument( QWaitCondition& docCondition, QMutex& mutex, QObject* parent = 0 );
+        virtual ~ThreadDocument();
+        GraphDocument* document() const
+        {
+            return _graphDocument;
+        }
+
+        /** release actual document and set the doc */
+        void setGraphDocument( GraphDocument* doc );
+
+    public slots:
+        void run();
+        void createEmptyDocument();
+        void loadDocument( const QString& name = QString() );
+
+    private:
+        void releaseDocument();
+
+        GraphDocument* _graphDocument;
+        QWaitCondition& _docCondition;
+        QMutex& _mutex;
+        QString _documentName;
 
 };
 

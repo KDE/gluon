@@ -34,7 +34,7 @@ namespace GluonInput
     {
         public:
             InputThreadPrivate();
-            InputThreadPrivate(InputThreadPrivate &other);
+            InputThreadPrivate( InputThreadPrivate& other );
 
             int m_fd;
             struct input_id m_device_info;

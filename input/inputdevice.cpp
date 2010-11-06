@@ -32,16 +32,16 @@
 
 using namespace GluonInput;
 
-InputDevice::InputDevice(InputThread *inputThread, QObject *parent)
-    : QObject(parent)
-    , d(new InputDevicePrivate)
+InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
+    : QObject( parent )
+    , d( new InputDevicePrivate )
 {
     d->inputThread = inputThread;
-    d->inputThread->setParent(this);
+    d->inputThread->setParent( this );
     d->inputBuffer = new InputBuffer();
-    d->inputBuffer->setParent(this);
+    d->inputBuffer->setParent( this );
 
-    connect(inputThread, SIGNAL(buttonStateChanged(int, int)), SLOT(buttonStateChanged(int, int)), Qt::DirectConnection);
+    connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
 }
 
 InputDevice::InputDevice()
@@ -50,7 +50,7 @@ InputDevice::InputDevice()
 
 InputDevice::~InputDevice()
 {
-    setEnabled(false);
+    setEnabled( false );
     delete d->inputThread;
     delete d->inputBuffer;
 
@@ -102,9 +102,9 @@ QList<int> InputDevice::relAxisCapabilities() const
     return d->inputThread->relAxisCapabilities();
 }
 
-AbsVal InputDevice::axisInfo(int axisCode) const
+AbsVal InputDevice::axisInfo( int axisCode ) const
 {
-    return d->inputThread->axisInfo(axisCode);
+    return d->inputThread->axisInfo( axisCode );
 }
 
 bool InputDevice::error() const
@@ -122,53 +122,57 @@ bool InputDevice::isEnabled() const
     return d->inputThread->isEnabled();
 }
 
-void InputDevice::setEnabled(bool enable)
+void InputDevice::setEnabled( bool enable )
 {
-    if (enable && !d->inputThread->isEnabled()) {
+    if( enable && !d->inputThread->isEnabled() )
+    {
         d->inputThread->start();
-    } else if (!enable && d->inputThread->isEnabled()) {
+    }
+    else if( !enable && d->inputThread->isEnabled() )
+    {
         d->inputThread->stop();
     }
 }
 
-void InputDevice::setInputThread(InputThread * inputThread)
+void InputDevice::setInputThread( InputThread* inputThread )
 {
     d->inputThread->stop();
     delete d->inputThread;
     d->inputThread = inputThread;
 }
 
-InputThread *InputDevice::inputThread() const
+InputThread* InputDevice::inputThread() const
 {
     return d->inputThread;
 }
 
-bool InputDevice::buttonPressed(int code) const
+bool InputDevice::buttonPressed( int code ) const
 {
-    return d->inputBuffer->buttonState(code);
+    return d->inputBuffer->buttonState( code );
 }
 
-QString InputDevice::buttonName(int code) const
+QString InputDevice::buttonName( int code ) const
 {
-    return GluonButtons::instance()->buttonName(deviceType(), code);
+    return GluonButtons::instance()->buttonName( deviceType(), code );
 }
 
-QString InputDevice::axisName(int code) const
+QString InputDevice::axisName( int code ) const
 {
-    switch (deviceType()) {
-    case MouseDevice:
-    case JoystickDevice:
-        return GluonButtons::instance()->axisName(deviceType(), code);
-        break;
-    default:
-        return "Unknown";
-        break;
+    switch( deviceType() )
+    {
+        case MouseDevice:
+        case JoystickDevice:
+            return GluonButtons::instance()->axisName( deviceType(), code );
+            break;
+        default:
+            return "Unknown";
+            break;
     }
 }
 
-void InputDevice::buttonStateChanged(int code, int value)
+void InputDevice::buttonStateChanged( int code, int value )
 {
-    d->inputBuffer->setButtonState(code, value);
+    d->inputBuffer->setButtonState( code, value );
 }
 
 #include "inputdevice.moc"

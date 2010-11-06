@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -44,26 +44,26 @@ namespace GluonCreator
     {
             Q_OBJECT
         public slots:
-            GluonEngine::Component* createNewComponent(const QString& type, GluonEngine::GameObject* parent);
+            GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
-            GluonEngine::Asset* createNewAsset(const QString& fileName);
-	    void deleteGameObject(GluonEngine::GameObject* object);
-	    void changeProperty(GluonCore::GluonObject* object,QString& property, QVariant& oldValue, QVariant& newValue);
-            QString humanifyClassName(const QString& fixThis, bool justRemoveNamespace = false) const;
+            GluonEngine::Asset* createNewAsset( const QString& fileName );
+            void deleteGameObject( GluonEngine::GameObject* object );
+            void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
+            QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
 
         signals:
-            void newObject(GluonCore::GluonObject*);
-            void newScene(GluonEngine::Scene*);
-            void newGameObject(GluonEngine::GameObject*);
-            void newComponent(GluonEngine::Component*);
+            void newObject( GluonCore::GluonObject* );
+            void newScene( GluonEngine::Scene* );
+            void newGameObject( GluonEngine::GameObject* );
+            void newComponent( GluonEngine::Component* );
 
         private:
             friend class GluonCore::Singleton<ObjectManager>;
 
             ObjectManager();
             ~ObjectManager();
-            Q_DISABLE_COPY(ObjectManager)
+            Q_DISABLE_COPY( ObjectManager )
 
             int m_objectId;
             int m_sceneId;

@@ -53,39 +53,39 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            PlasmaApplet(QObject *parent, const QVariantList &args);
+            PlasmaApplet( QObject* parent, const QVariantList& args );
             virtual ~PlasmaApplet();
             void init();
-            virtual void paintGLInterface(QPainter *painter, const QStyleOptionGraphicsItem *option);
+            virtual void paintGLInterface( QPainter* painter, const QStyleOptionGraphicsItem* option );
 
         private:
             int m_viewportWidth;
             int m_viewportHeight;
             QString m_gameFileName;
-            GluonEngine::GameProject *m_project;
-            GluonGraphics::Camera *m_camera;
-            GamesModel *m_gamesModel;
-            GamesOverlay *m_gamesOverlay;
-            GameDetailsOverlay *m_gameDetailsOverlay;
-            QGraphicsLinearLayout *m_layout;
+            GluonEngine::GameProject* m_project;
+            GluonGraphics::Camera* m_camera;
+            GamesModel* m_gamesModel;
+            GamesOverlay* m_gamesOverlay;
+            GameDetailsOverlay* m_gameDetailsOverlay;
+            QGraphicsLinearLayout* m_layout;
 
             void initGL();
             void render();
 
         protected:
-            void resizeEvent(QGraphicsSceneResizeEvent *event);
+            void resizeEvent( QGraphicsSceneResizeEvent* event );
 
         protected slots:
             void openProject();
-            void setProject(const QModelIndex &index);
+            void setProject( const QModelIndex& index );
             void doPaint();
             void startGame();
             void showGames();
-            void showGameDetails(const QModelIndex &index);
-            void setCamera(GluonGraphics::Camera *camera);
+            void showGameDetails( const QModelIndex& index );
+            void setCamera( GluonGraphics::Camera* camera );
     };
 }
 
-K_EXPORT_PLASMA_APPLET(gluonplayer, GluonPlayer::PlasmaApplet)
+K_EXPORT_PLASMA_APPLET( gluonplayer, GluonPlayer::PlasmaApplet )
 
 #endif // PLASMAAPPLET_H

@@ -34,20 +34,20 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT Mouse : public InputDevice
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
-            explicit Mouse(InputThread *inputThread, QObject *parent = 0);
+            explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
 
             QPoint position();
-            void setSensibility(double s);
-            void setOrigin(const QPoint p);
+            void setSensibility( double s );
+            void setOrigin( const QPoint p );
             int wheelPosition() const;
             int hWheelPosition()const;
             double sensibility()const;
 
         private slots:
-            void mouseMoved(int axis, int distance);
+            void mouseMoved( int axis, int distance );
 
         private:
             QSharedDataPointer<MousePrivate> d;

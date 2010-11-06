@@ -26,7 +26,8 @@
 
 #include "gluonbuttons.h"
 
-namespace GluonInput {
+namespace GluonInput
+{
     class Keyboard;
 }
 
@@ -35,10 +36,10 @@ namespace GluonEngine
     class KeyboardInputComponent : public Component
     {
             Q_OBJECT;
-            GLUON_OBJECT(GluonEngine::KeyboardInputComponent)
-            Q_PROPERTY(KeyName keyCode READ keyCode WRITE setKeyCode);
-            Q_INTERFACES(GluonEngine::Component)
-            Q_ENUMS(KeyName)
+            GLUON_OBJECT( GluonEngine::KeyboardInputComponent )
+            Q_PROPERTY( KeyName keyCode READ keyCode WRITE setKeyCode );
+            Q_INTERFACES( GluonEngine::Component )
+            Q_ENUMS( KeyName )
 
         public:
             enum KeyName
@@ -427,7 +428,7 @@ namespace GluonEngine
                 FN_B
             };
 
-            Q_INVOKABLE KeyboardInputComponent(QObject *parent = 0);
+            Q_INVOKABLE KeyboardInputComponent( QObject* parent = 0 );
             virtual QString category() const;
 
             // True on any frame between getActionStarted and
@@ -442,11 +443,11 @@ namespace GluonEngine
 
             virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
+            virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
             KeyName keyCode() const;
-            void setKeyCode(KeyName newKeyCode);
+            void setKeyCode( KeyName newKeyCode );
 
         private:
             bool m_actionHeld;
@@ -455,11 +456,11 @@ namespace GluonEngine
 
             KeyName m_keyCode;
 
-            GluonInput::Keyboard *m_keyboard;
+            GluonInput::Keyboard* m_keyboard;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::KeyboardInputComponent)
-Q_DECLARE_METATYPE(GluonEngine::KeyboardInputComponent *)
+Q_DECLARE_METATYPE( GluonEngine::KeyboardInputComponent )
+Q_DECLARE_METATYPE( GluonEngine::KeyboardInputComponent* )
 
 #endif // KEYBOARDINPUTCOMPONENT_H

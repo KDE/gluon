@@ -31,11 +31,11 @@ namespace GluonEngine
     class Prefab : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::Prefab);
+            GLUON_OBJECT( GluonEngine::Prefab );
 
         public:
-            Q_INVOKABLE Prefab(QObject *parent = 0);
-            Prefab(const Prefab &other, QObject *parent = 0);
+            Q_INVOKABLE Prefab( QObject* parent = 0 );
+            Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
         private:
@@ -43,7 +43,7 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::Prefab)
-Q_DECLARE_METATYPE(GluonEngine::Prefab*)
+Q_DECLARE_METATYPE( GluonEngine::Prefab )
+Q_DECLARE_METATYPE( GluonEngine::Prefab* )
 
 #endif  // GLUON_ENGINE_PREFAB_H

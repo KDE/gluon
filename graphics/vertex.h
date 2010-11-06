@@ -41,14 +41,14 @@ namespace GluonGraphics
             Vertex();
             ~Vertex();
 
-            QVariant attribute(const QString& name) const;
+            QVariant attribute( const QString& name ) const;
 
-            void setAttribute(const QString& name, const QVariant& value);
+            void setAttribute( const QString& name, const QVariant& value );
 
 
         private:
             class VertexPrivate;
-            VertexPrivate * const d;
+            VertexPrivate* const d;
     };
 
 } //namespace

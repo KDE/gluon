@@ -28,7 +28,7 @@ namespace GluonInput
     {
         public:
             JoystickPrivate();
-            JoystickPrivate(JoystickPrivate &other);
+            JoystickPrivate( JoystickPrivate& other );
     };
 }
 

@@ -35,16 +35,16 @@ using namespace GluonCreator;
 class OpenProjectDialogPage::OpenProjectDialogPagePrivate
 {
     public:
-        explicit OpenProjectDialogPagePrivate(OpenProjectDialogPage* qq)
-            : fileWidget(0),
-            q(qq)
+        explicit OpenProjectDialogPagePrivate( OpenProjectDialogPage* qq )
+            : fileWidget( 0 ),
+              q( qq )
         {
         }
 
-        void projectSelected(const KUrl& url)
+        void projectSelected( const KUrl& url )
         {
             fileWidget->accept();
-            emit q->projectRequested(url.url().remove("file://"));
+            emit q->projectRequested( url.url().remove( "file://" ) );
         }
     public:
         KFileWidget* fileWidget;
@@ -53,23 +53,23 @@ class OpenProjectDialogPage::OpenProjectDialogPagePrivate
 };
 
 OpenProjectDialogPage::OpenProjectDialogPage()
-    : KPageWidgetItem(new QWidget(), i18n("Open Project")),
-    d(new OpenProjectDialogPagePrivate(this))
+    : KPageWidgetItem( new QWidget(), i18n( "Open Project" ) ),
+      d( new OpenProjectDialogPagePrivate( this ) )
 {
-    setIcon(KIcon("document-open"));
+    setIcon( KIcon( "document-open" ) );
 
-    d->fileWidget = new KFileWidget(KUrl("kfiledialog:///OpenDialog"), widget());
-    connect(d->fileWidget, SIGNAL(fileHighlighted(KUrl)),
-            SLOT(projectSelected(KUrl)));
+    d->fileWidget = new KFileWidget( KUrl( "kfiledialog:///OpenDialog" ), widget() );
+    connect( d->fileWidget, SIGNAL( fileHighlighted( KUrl ) ),
+             SLOT( projectSelected( KUrl ) ) );
 
-    d->fileWidget->setOperationMode(KFileWidget::Opening);
-    d->fileWidget->setFilter("*.gluon|Gluon Project Files");
-    d->fileWidget->setMode(KFile::File | KFile::ExistingOnly);
-    d->fileWidget->setLocationLabel(i18n("Project"));
+    d->fileWidget->setOperationMode( KFileWidget::Opening );
+    d->fileWidget->setFilter( "*.gluon|Gluon Project Files" );
+    d->fileWidget->setMode( KFile::File | KFile::ExistingOnly );
+    d->fileWidget->setLocationLabel( i18n( "Project" ) );
 
     QVBoxLayout* layout = new QVBoxLayout;
-    widget()->setLayout(layout);
-    layout->addWidget(d->fileWidget);
+    widget()->setLayout( layout );
+    layout->addWidget( d->fileWidget );
 }
 
 OpenProjectDialogPage::~OpenProjectDialogPage()

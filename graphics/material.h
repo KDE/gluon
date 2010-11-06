@@ -50,8 +50,8 @@ namespace GluonGraphics
     */
     class GLUON_GRAPHICS_EXPORT Material : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(Material)
+            Q_OBJECT
+            GLUON_OBJECT( Material )
 
         public:
             /**
@@ -59,7 +59,7 @@ namespace GluonGraphics
              *
              * Constructs an empty material.
              */
-            Material(QObject* parent = 0);
+            Material( QObject* parent = 0 );
             /**
              * Destructor.
              */
@@ -76,7 +76,7 @@ namespace GluonGraphics
              *
              * \return True if successful, false if not.
              */
-            bool load(const QUrl& url);
+            bool load( const QUrl& url );
 
             /**
              * Build the shader.
@@ -91,7 +91,7 @@ namespace GluonGraphics
              * for the build process. Passing an empty string means
              * it will use the default technique.
              */
-            void build(const QString& name = QString());
+            void build( const QString& name = QString() );
 
             /**
              * Retrieve a technique by name.
@@ -102,7 +102,7 @@ namespace GluonGraphics
              * 0 if it was not found. Passing an empty string
              * will return the default technique.
              */
-            Technique* technique(const QString& name = QString()) const;
+            Technique* technique( const QString& name = QString() ) const;
 
             /**
              * Add a technique to the material.
@@ -112,7 +112,7 @@ namespace GluonGraphics
              *
              * \param technique The technique to add.
              */
-            void addTechnique(Technique* technique);
+            void addTechnique( Technique* technique );
 
             /**
              * Remove a technique from the material.
@@ -122,7 +122,7 @@ namespace GluonGraphics
              *
              * \param name The name of the technique to remove.
              */
-            void removeTechnique(const QString& name);
+            void removeTechnique( const QString& name );
 
             /**
              * Set the default technique.
@@ -132,7 +132,7 @@ namespace GluonGraphics
              *
              * \see defaultTechnique
              */
-            void setDefaultTechnique(const QString& name);
+            void setDefaultTechnique( const QString& name );
 
             /**
              * Create a MaterialInstance object for this material.
@@ -149,7 +149,7 @@ namespace GluonGraphics
              *
              * \see MaterialInstance
              */
-            MaterialInstance * createInstance(const QString& name);
+            MaterialInstance* createInstance( const QString& name );
 
             /**
              * Retrieve an existing MaterialInstance.
@@ -158,7 +158,7 @@ namespace GluonGraphics
              *
              * \return The named MaterialInstance or 0 if it was not found.
              */
-            MaterialInstance * instance(const QString& name);
+            MaterialInstance* instance( const QString& name );
 
             /**
              * Retrieve the internal OpenGL Program identifier.
@@ -172,11 +172,11 @@ namespace GluonGraphics
 
         private:
             class MaterialPrivate;
-            MaterialPrivate * const d;
+            MaterialPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonGraphics::Material);
-Q_DECLARE_METATYPE(GluonGraphics::Material*);
+Q_DECLARE_METATYPE( GluonGraphics::Material );
+Q_DECLARE_METATYPE( GluonGraphics::Material* );
 
 #endif // GLUONGRAPHICS_MATERIAL_H

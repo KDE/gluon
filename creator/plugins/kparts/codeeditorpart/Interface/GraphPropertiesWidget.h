@@ -32,37 +32,37 @@ class Edge;
 class MainWindow;
 class GraphPropertiesWidget : public KButtonGroup, public Ui::GraphPropertiesWidget
 {
-    Q_OBJECT
-public:
-    GraphPropertiesWidget (Graph *g, QWidget* parent = 0 );
-    QRadioButton *radio() const;
+        Q_OBJECT
+    public:
+        GraphPropertiesWidget( Graph* g, QWidget* parent = 0 );
+        QRadioButton* radio() const;
 
-    
-    
-private slots:
-    void on__graphEdgeColorApplyNow_clicked();
-    void on__graphNodeColorApplyNow_clicked();
-    void on__graphDelete_clicked();
-    void on__graphName_textChanged(const QString& s);
 
-    void on__activateGraph_toggled(bool b);
-    void on__graphVisible_toggled(bool b);
-    void setEdgeDefaultColor(QColor c);
-    void setNodeDefaultColor(QColor c);
-    
-  signals:
-    void updateNeeded();
-    void edgeColorsChanged(QString color);
-    void nodeColorsChanged(QString color);
-    
-    void edgeDefaultColorSetted(QString color);
-    void nodeDefaultColorSetted(QString color);
-    void addGraph(QString name);
-    void removeGraph();
-    
-  private:
-    Graph *_graph;
-    MainWindow *_mainWindow;
+
+    private slots:
+        void on__graphEdgeColorApplyNow_clicked();
+        void on__graphNodeColorApplyNow_clicked();
+        void on__graphDelete_clicked();
+        void on__graphName_textChanged( const QString& s );
+
+        void on__activateGraph_toggled( bool b );
+        void on__graphVisible_toggled( bool b );
+        void setEdgeDefaultColor( QColor c );
+        void setNodeDefaultColor( QColor c );
+
+    signals:
+        void updateNeeded();
+        void edgeColorsChanged( QString color );
+        void nodeColorsChanged( QString color );
+
+        void edgeDefaultColorSetted( QString color );
+        void nodeDefaultColorSetted( QString color );
+        void addGraph( QString name );
+        void removeGraph();
+
+    private:
+        Graph* _graph;
+        MainWindow* _mainWindow;
 
 };
 #endif

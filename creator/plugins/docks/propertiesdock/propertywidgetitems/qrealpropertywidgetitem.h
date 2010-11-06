@@ -25,22 +25,22 @@ class QDoubleSpinBox;
 
 namespace GluonCreator
 {
-	class QRealPropertyWidgetItem : public PropertyWidgetItem
-	{
-		    Q_OBJECT
+    class QRealPropertyWidgetItem : public PropertyWidgetItem
+    {
+            Q_OBJECT
         public:
-            explicit QRealPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QRealPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QRealPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            virtual void setEditProperty(const QString& value);
-            virtual void setEditValue(const QVariant& value);
-            void qrealValueChanged(double value);
+            virtual void setEditProperty( const QString& value );
+            virtual void setEditValue( const QVariant& value );
+            void qrealValueChanged( double value );
 
-	};
+    };
 }
 
 #endif

@@ -28,16 +28,17 @@ namespace GluonCore
     class Singleton : public QObject
     {
         public:
-            static T *instance()
+            static T* instance()
             {
-                if (!m_instance) {
+                if( !m_instance )
+                {
                     m_instance = new T;
                 }
                 return m_instance;
             }
 
         protected:
-            static T *m_instance;
+            static T* m_instance;
     };
 }
 

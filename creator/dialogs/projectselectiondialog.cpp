@@ -34,31 +34,31 @@ using namespace GluonCreator;
 class ProjectSelectionDialog::ProjectSelectionDialogPrivate
 {
     public:
-        explicit ProjectSelectionDialogPrivate(ProjectSelectionDialog* qq)
-            : q(qq)
+        explicit ProjectSelectionDialogPrivate( ProjectSelectionDialog* qq )
+            : q( qq )
         {
             pages.clear();
         }
 
         void okClicked()
         {
-            if (pages.key(q->currentPage()) == ProjectSelectionDialog::NewProjectPage)
+            if( pages.key( q->currentPage() ) == ProjectSelectionDialog::NewProjectPage )
             {
-                NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>(q->currentPage());
-                if (page)
+                NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>( q->currentPage() );
+                if( page )
                     fileName = page->createProject();
             }
 
-            if (pages.key(q->currentPage()) == ProjectSelectionDialog::RecentProjectPage)
+            if( pages.key( q->currentPage() ) == ProjectSelectionDialog::RecentProjectPage )
             {
-                RecentProjectsDialogPage* page = static_cast<RecentProjectsDialogPage*>(q->currentPage());
-                if (page)
+                RecentProjectsDialogPage* page = static_cast<RecentProjectsDialogPage*>( q->currentPage() );
+                if( page )
                     fileName = page->selectedItem();
             }
 
         }
 
-        void projectRequested(const QString& project)
+        void projectRequested( const QString& project )
         {
             fileName = project;
             q->accept();
@@ -70,56 +70,57 @@ class ProjectSelectionDialog::ProjectSelectionDialogPrivate
         ProjectSelectionDialog* q;
 };
 
-ProjectSelectionDialog::ProjectSelectionDialog(QWidget* parent, Qt::WFlags flags)
-    : KPageDialog(parent, flags),
-    d(new ProjectSelectionDialogPrivate(this))
+ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flags )
+    : KPageDialog( parent, flags ),
+      d( new ProjectSelectionDialogPrivate( this ) )
 {
-    setFaceType(List);
-    setButtons(Ok | Close);
+    setFaceType( List );
+    setButtons( Ok | Close );
 
-    addPage(new NewProjectDialogPage, NewProjectPage);
-    addPage(new RecentProjectsDialogPage, RecentProjectPage);
-    addPage(new OpenProjectDialogPage, OpenProjectPage);
+    addPage( new NewProjectDialogPage, NewProjectPage );
+    addPage( new RecentProjectsDialogPage, RecentProjectPage );
+    addPage( new OpenProjectDialogPage, OpenProjectPage );
 
-    restoreDialogSize(KGlobal::config()->group("ProjectSelectionDialog"));
+    restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
-    connect(this, SIGNAL(okClicked()),
-            SLOT(okClicked()));
+    connect( this, SIGNAL( okClicked() ),
+             SLOT( okClicked() ) );
 }
 
 ProjectSelectionDialog::~ProjectSelectionDialog()
 {
-    KConfigGroup group = KGlobal::config()->group("ProjectSelectionDialog");
-    saveDialogSize(group);
+    KConfigGroup group = KGlobal::config()->group( "ProjectSelectionDialog" );
+    saveDialogSize( group );
     delete d;
 }
 
-void ProjectSelectionDialog::addPage(KPageWidgetItem* item, ProjectSelectionDialog::ProjectPage page)
+void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDialog::ProjectPage page )
 {
     DEBUG_FUNC_NAME
-    switch (page)
+    switch( page )
     {
         case NewProjectPage:
-            DEBUG_TEXT("New");
+            DEBUG_TEXT( "New" );
             break;
-        case OpenProjectPage: {
-            DEBUG_TEXT("Open");
-            connect(item, SIGNAL(projectRequested(QString)),
-                    SLOT(projectRequested(QString)));
+        case OpenProjectPage:
+        {
+            DEBUG_TEXT( "Open" );
+            connect( item, SIGNAL( projectRequested( QString ) ),
+                     SLOT( projectRequested( QString ) ) );
             break;
         }
         case RecentProjectPage:
-            DEBUG_TEXT("Recent");
-            connect(item, SIGNAL(projectRequested(QString)),
-                    SLOT(projectRequested(QString)));
+            DEBUG_TEXT( "Recent" );
+            connect( item, SIGNAL( projectRequested( QString ) ),
+                     SLOT( projectRequested( QString ) ) );
             break;
         default:
-            DEBUG_TEXT("Unknown Project Page");
+            DEBUG_TEXT( "Unknown Project Page" );
             break;
     };
 
-    d->pages.insert(page, item);
-    KPageDialog::addPage(item);
+    d->pages.insert( page, item );
+    KPageDialog::addPage( item );
 }
 
 QString ProjectSelectionDialog::fileName() const
@@ -127,9 +128,9 @@ QString ProjectSelectionDialog::fileName() const
     return d->fileName;
 }
 
-void ProjectSelectionDialog::setPage(ProjectSelectionDialog::ProjectPage page)
+void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
 {
-    setCurrentPage(d->pages[page]);
+    setCurrentPage( d->pages[page] );
 }
 
 #include "creator/dialogs/projectselectiondialog.moc"

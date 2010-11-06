@@ -41,7 +41,7 @@ class Viewport::ViewportPrivate
 
 Viewport::Viewport( QObject* parent )
     : QObject( parent ),
-      d(new ViewportPrivate)
+      d( new ViewportPrivate )
 {
 }
 
@@ -84,25 +84,25 @@ Viewport::aspectRatio()
 void
 Viewport::setLeft( float left )
 {
-    setSize(left, d->width, d->bottom, d->height);
+    setSize( left, d->width, d->bottom, d->height );
 }
 
 void
 Viewport::setBottom( float bottom )
 {
-    setSize(d->left, d->width, bottom, d->height);
+    setSize( d->left, d->width, bottom, d->height );
 }
 
 void
 Viewport::setWidth( float width )
 {
-    setSize(d->left, width, d->bottom, d->height);
+    setSize( d->left, width, d->bottom, d->height );
 }
 
 void
 Viewport::setHeight( float height )
 {
-    setSize(d->left, d->width, d->bottom, height);
+    setSize( d->left, d->width, d->bottom, height );
 }
 
 void
@@ -113,7 +113,7 @@ Viewport::setSize( float left, float width, float bottom, float height )
     d->width = width;
     d->height = height;
 
-    d->aspectRatio = width/height;
+    d->aspectRatio = width / height;
 
     update();
 }
@@ -121,13 +121,13 @@ Viewport::setSize( float left, float width, float bottom, float height )
 void
 Viewport::update()
 {
-    glViewport(d->left, d->bottom, d->width, d->height);
+    glViewport( d->left, d->bottom, d->width, d->height );
 
-    if(Engine::instance()->activeCamera())
+    if( Engine::instance()->activeCamera() )
     {
         Frustrum* frustrum = Engine::instance()->activeCamera()->frustrum();
 
-        frustrum->updateFrustrum(d->aspectRatio);
+        frustrum->updateFrustrum( d->aspectRatio );
 
         float visibleWidth = d->width;
         float actualWidth = 0;
@@ -137,7 +137,7 @@ Viewport::update()
         float heightDiff = 0;
         float aspect = frustrum->viewPlane().width() / frustrum->viewPlane().height();
 
-        if(d->aspectRatio > 1)
+        if( d->aspectRatio > 1 )
         {
             actualHeight = visibleHeight;
             actualWidth = visibleHeight * aspect;
@@ -146,7 +146,7 @@ Viewport::update()
         else
         {
             actualWidth = visibleWidth;
-            actualHeight = visibleWidth * (1 / aspect);
+            actualHeight = visibleWidth * ( 1 / aspect );
             heightDiff = visibleHeight - actualHeight;
         }
 

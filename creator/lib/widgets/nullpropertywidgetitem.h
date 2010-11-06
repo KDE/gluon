@@ -29,14 +29,14 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit NullPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit NullPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~NullPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
+            void setEditValue( const QVariant& value );
     };
 
 }

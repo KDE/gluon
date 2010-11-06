@@ -23,16 +23,16 @@
 
 #include <KFontRequester>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, QFontPropertyWidgetItem);
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, QFontPropertyWidgetItem );
 
 using namespace GluonCreator;
 
-QFontPropertyWidgetItem::QFontPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+QFontPropertyWidgetItem::QFontPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
-    KFontRequester * theFontReq = new KFontRequester(this);
-    connect(theFontReq, SIGNAL(fontSelected(const QFont&)), this, SLOT(fontChanged(const QFont&)));
-    setEditWidget(theFontReq);
+    KFontRequester* theFontReq = new KFontRequester( this );
+    connect( theFontReq, SIGNAL( fontSelected( const QFont& ) ), this, SLOT( fontChanged( const QFont& ) ) );
+    setEditWidget( theFontReq );
 }
 
 QFontPropertyWidgetItem::~QFontPropertyWidgetItem()
@@ -43,7 +43,7 @@ QStringList
 QFontPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QFont");
+    supportedTypes.append( "QFont" );
     return supportedTypes;
 }
 
@@ -54,15 +54,15 @@ QFontPropertyWidgetItem::instantiate()
 }
 
 void
-QFontPropertyWidgetItem::setEditValue(const QVariant& value)
+QFontPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("font", value);
-    GluonCreator::PropertyWidgetItem::setEditValue(value);
+    editWidget()->setProperty( "font", value );
+    GluonCreator::PropertyWidgetItem::setEditValue( value );
 }
 
-void QFontPropertyWidgetItem::fontChanged(const QFont& value)
+void QFontPropertyWidgetItem::fontChanged( const QFont& value )
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
 
 

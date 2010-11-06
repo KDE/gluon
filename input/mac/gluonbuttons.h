@@ -30,14 +30,15 @@ namespace GluonInput
 {
     class GLUON_INPUT_EXPORT GluonButtons : public GluonCore::Singleton<GluonButtons>
     {
-        Q_OBJECT
-        Q_ENUMS(KeyboardButton)
-        Q_ENUMS(JoystickButton)
-        Q_ENUMS(MouseButton)
-        Q_ENUMS(RelAbs)
+            Q_OBJECT
+            Q_ENUMS( KeyboardButton )
+            Q_ENUMS( JoystickButton )
+            Q_ENUMS( MouseButton )
+            Q_ENUMS( RelAbs )
 
         public:
-            enum KeyboardButton {
+            enum KeyboardButton
+            {
                 A = 4,
                 B,
                 C,
@@ -245,7 +246,7 @@ namespace GluonInput
                 KEYPAD_OCTAL,
                 KEYPAD_DECIMAL,
                 KEYPAD_HEXADECIMAL,
-                LEFT_CTRL= 224,
+                LEFT_CTRL = 224,
                 LEFT_SHIFT,
                 LEFT_ALT,
                 LEFT_GUI,
@@ -255,7 +256,8 @@ namespace GluonInput
                 RIGHT_GUI
             };
 
-            enum RelAbs {
+            enum RelAbs
+            {
                 HWHEEL = -1, //I do not know how HID is handling this
                 MISC = 0,
                 X_REL = 48,
@@ -278,7 +280,8 @@ namespace GluonInput
                 BRAKE
             };
 
-            enum MouseButton {
+            enum MouseButton
+            {
                 MOUSE_LEFT_BUTTON = 1,
                 MOUSE_RIGHT_BUTTON,
                 MOUSE_MIDDLE_BUTTON,
@@ -289,7 +292,8 @@ namespace GluonInput
                 MOUSE_BUTTON_EIGHT,
             };
 
-            enum JoystickButton {
+            enum JoystickButton
+            {
                 BUTTON_ONE = 1,
                 BUTTON_TWO,
                 BUTTON_THREE,
@@ -303,8 +307,8 @@ namespace GluonInput
 
             GluonButtons();
 
-            QString buttonName(DeviceFlag deviceType, int code);
-            QString axisName(DeviceFlag deviceType, int code);
+            QString buttonName( DeviceFlag deviceType, int code );
+            QString axisName( DeviceFlag deviceType, int code );
 
         private:
             ~GluonButtons();

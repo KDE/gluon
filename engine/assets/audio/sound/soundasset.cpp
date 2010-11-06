@@ -25,21 +25,24 @@
 
 #include <QtCore/QMimeData>
 
-REGISTER_OBJECTTYPE(GluonEngine, SoundAsset)
+REGISTER_OBJECTTYPE( GluonEngine, SoundAsset )
 
 using namespace GluonEngine;
 
 class SoundAsset::SoundAssetPrivate
 {
     public:
-        SoundAssetPrivate() { buffer = 0; }
+        SoundAssetPrivate()
+        {
+            buffer = 0;
+        }
 
-        GluonAudio::Buffer *buffer;
+        GluonAudio::Buffer* buffer;
 };
 
-SoundAsset::SoundAsset(QObject *parent)
-    : Asset(parent)
-    , d(new SoundAssetPrivate)
+SoundAsset::SoundAsset( QObject* parent )
+    : Asset( parent )
+    , d( new SoundAssetPrivate )
 {
 }
 
@@ -51,25 +54,28 @@ SoundAsset::~SoundAsset()
 const QStringList SoundAsset::supportedMimeTypes() const
 {
     QStringList list;
-    list.append("audio/x-wav");
-    list.append("audio/x-vorbis+ogg");
-    list.append("application/x-ogg");
+    list.append( "audio/x-wav" );
+    list.append( "audio/x-vorbis+ogg" );
+    list.append( "application/x-ogg" );
     return list;
 }
 
 void SoundAsset::load()
 {
-    d->buffer = new GluonAudio::Buffer(file().toLocalFile());
+    d->buffer = new GluonAudio::Buffer( file().toLocalFile() );
 
-    if (!d->buffer->isEmpty()) {
-        mimeData()->setData("application/gluon-audio-buffer", (QString("%1").arg(d->buffer->buffer())).toAscii());
-        setLoaded(true);
-    } else {
+    if( !d->buffer->isEmpty() )
+    {
+        mimeData()->setData( "application/gluon-audio-buffer", ( QString( "%1" ).arg( d->buffer->buffer() ) ).toAscii() );
+        setLoaded( true );
+    }
+    else
+    {
         DEBUG_BLOCK
-        DEBUG_TEXT("Error loading sound - Buffer is empty");
+        DEBUG_TEXT( "Error loading sound - Buffer is empty" );
     }
 }
 
-Q_EXPORT_PLUGIN2(gluon_asset_sound, GluonEngine::SoundAsset)
+Q_EXPORT_PLUGIN2( gluon_asset_sound, GluonEngine::SoundAsset )
 
 #include "soundasset.moc"

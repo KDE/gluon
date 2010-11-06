@@ -25,12 +25,12 @@ MousePrivate::MousePrivate()
 {
 }
 
-MousePrivate::MousePrivate(MousePrivate &other)
-    : QSharedData(other)
-    , position(other.position)
-    , originalPosition(other.originalPosition)
-    , sensibility(other.sensibility)
-    , hWheelPos(other.hWheelPos)
-    , wheelPos(other.wheelPos)
+MousePrivate::MousePrivate( MousePrivate& other )
+    : QSharedData( other )
+    , position( other.position )
+    , originalPosition( other.originalPosition )
+    , sensibility( other.sensibility )
+    , hWheelPos( other.hWheelPos )
+    , wheelPos( other.wheelPos )
 {
 }

@@ -24,7 +24,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
 
-REGISTER_OBJECTTYPE(GluonEngine, ScriptingAsset);
+REGISTER_OBJECTTYPE( GluonEngine, ScriptingAsset );
 
 namespace GluonEngine
 {
@@ -39,15 +39,15 @@ namespace GluonEngine
 
 using namespace GluonEngine;
 
-ScriptingAsset::ScriptingAsset(QObject *parent)
-    : Asset(parent)
-    , d(new Private)
+ScriptingAsset::ScriptingAsset( QObject* parent )
+    : Asset( parent )
+    , d( new Private )
 {
 }
 
 ScriptingAsset::~ScriptingAsset()
 {
-    ScriptingEngine::instance()->unregisterAsset(this);
+    ScriptingEngine::instance()->unregisterAsset( this );
     delete d;
 }
 
@@ -63,42 +63,43 @@ ScriptingAsset::supportedMimeTypes() const
 }
 
 void
-ScriptingAsset::setFile(const QUrl &newFile)
+ScriptingAsset::setFile( const QUrl& newFile )
 {
     DEBUG_FUNC_NAME
 
-    ScriptingEngine::instance()->unregisterAsset(this);
+    ScriptingEngine::instance()->unregisterAsset( this );
 
-    QFile script(newFile.path());
-    if (script.open(QIODevice::ReadOnly)) {
+    QFile script( newFile.path() );
+    if( script.open( QIODevice::ReadOnly ) )
+    {
         d->script = script.readAll();
-        mimeData()->setText(d->script);
+        mimeData()->setText( d->script );
     }
     // Don't attempt to do anything if the script is empty
-    if (d->script.isEmpty())
+    if( d->script.isEmpty() )
         return;
 
-    QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset(this);
-    if (result.state() != QScriptSyntaxCheckResult::Valid)
-        debug(tr("Script error %1 (%2,%3): %4").arg(fullyQualifiedName()).arg(result.errorLineNumber()).arg(result.errorColumnNumber()).arg(result.errorMessage()));
+    QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset( this );
+    if( result.state() != QScriptSyntaxCheckResult::Valid )
+        debug( tr( "Script error %1 (%2,%3): %4" ).arg( fullyQualifiedName() ).arg( result.errorLineNumber() ).arg( result.errorColumnNumber() ).arg( result.errorMessage() ) );
 
-    GluonEngine::Asset::setFile(newFile);
+    GluonEngine::Asset::setFile( newFile );
 }
 
-const QList<AssetTemplate *>
+const QList<AssetTemplate*>
 ScriptingAsset::templates()
 {
-    QList<AssetTemplate *> templates;
-    templates.append(new AssetTemplate("Scripted Logic", "scripting_template.js", "scripting", this));
+    QList<AssetTemplate*> templates;
+    templates.append( new AssetTemplate( "Scripted Logic", "scripting_template.js", "scripting", this ) );
     return templates;
 }
 
 QString
 ScriptingAsset::className() const
 {
-    return ScriptingEngine::instance()->className(this);
+    return ScriptingEngine::instance()->className( this );
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_scripting, GluonEngine::ScriptingAsset)
+Q_EXPORT_PLUGIN2( gluon_component_scripting, GluonEngine::ScriptingAsset )
 
 #include "scriptingasset.moc"

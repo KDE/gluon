@@ -26,43 +26,44 @@
 
 #include "rocslib_export.h"
 
-enum DynamicPropertyType{
-      None,
-      Unique,
-      Multiple,
-      Global
+enum DynamicPropertyType
+{
+    None,
+    Unique,
+    Multiple,
+    Global
 };
 
 
 class ROCSLIB_EXPORT DynamicPropertiesList : public QObject
 {
-  Q_OBJECT
-  QMap< Graph*,  QMultiMap <QString, Node* > > _NodesProperties;
-  QMap< Graph*,  QMultiMap <QString, Edge* > > _EdgesProperties;
-  QMultiMap <QString, Graph*> _GraphProperties;
+        Q_OBJECT
+        QMap< Graph*,  QMultiMap <QString, Node* > > _NodesProperties;
+        QMap< Graph*,  QMultiMap <QString, Edge* > > _EdgesProperties;
+        QMultiMap <QString, Graph*> _GraphProperties;
 
-  static DynamicPropertiesList * self;
+        static DynamicPropertiesList* self;
 
-  DynamicPropertiesList(QObject* parent = 0);
+        DynamicPropertiesList( QObject* parent = 0 );
 
-public:
+    public:
 
-  static DynamicPropertiesList * New();
+        static DynamicPropertiesList* New();
 
-  void addProperty(QObject *obj, QString name);
-  void removeProperty(QObject *obj, QString name);
+        void addProperty( QObject* obj, QString name );
+        void removeProperty( QObject* obj, QString name );
 
-  /**Return type of property from obj*/
-  DynamicPropertyType type(QObject *obj, QString name);
-  /**Return textual type of property from obj*/
-  QString typeInText(QObject* obj, QString name);
+        /**Return type of property from obj*/
+        DynamicPropertyType type( QObject* obj, QString name );
+        /**Return textual type of property from obj*/
+        QString typeInText( QObject* obj, QString name );
 
-//   const QStringList properties (QObject * obj);
+        //   const QStringList properties (QObject * obj);
 
-  void clear(Graph * graph = 0);
+        void clear( Graph* graph = 0 );
 
-  /** Change property name in all objects from same graph of object.*/
-  void changePropertyName(QString name, QString newName, QObject* object);
+        /** Change property name in all objects from same graph of object.*/
+        void changePropertyName( QString name, QString newName, QObject* object );
 
 
 };

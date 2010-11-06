@@ -39,17 +39,20 @@ using namespace GluonGraphics;
 class Item::ItemPrivate
 {
     public:
-        ItemPrivate() { materialInstance = 0; }
-        Mesh * mesh;
+        ItemPrivate()
+        {
+            materialInstance = 0;
+        }
+        Mesh* mesh;
         QMatrix4x4 transform;
         MaterialInstance* materialInstance;
 };
 
-Item::Item(QObject * parent)
-        : QObject(parent),
-          d(new ItemPrivate)
+Item::Item( QObject* parent )
+    : QObject( parent ),
+      d( new ItemPrivate )
 {
-    d->materialInstance = Engine::instance()->material("default")->instance("default");
+    d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }
 
 Item::~Item()
@@ -79,18 +82,18 @@ void
 Item::render()
 {
     Camera* activeCam = Engine::instance()->activeCamera();
-    if(!activeCam)
+    if( !activeCam )
         return;
 
-    #ifdef __GNUC__
-    #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
-    #endif
+#ifdef __GNUC__
+#warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
+#endif
 
-    QMatrix4x4 modelViewProj = Math::calculateModelViewProj(d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix());
+    QMatrix4x4 modelViewProj = Math::calculateModelViewProj( d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix() );
 
     d->materialInstance->bind();
-    d->materialInstance->setModelViewProjectionMatrix(modelViewProj);
-    d->mesh->render(d->materialInstance);
+    d->materialInstance->setModelViewProjectionMatrix( modelViewProj );
+    d->mesh->render( d->materialInstance );
     d->materialInstance->release();
 }
 
@@ -107,7 +110,7 @@ Item::setMesh( Mesh* mesh )
 }
 
 void
-Item::setMaterialInstance(MaterialInstance * instance)
+Item::setMaterialInstance( MaterialInstance* instance )
 {
     d->materialInstance = instance;
 }

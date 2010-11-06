@@ -23,7 +23,7 @@
 
 using namespace GluonInput;
 
-template<> GLUON_INPUT_EXPORT GluonButtons *GluonCore::Singleton<GluonButtons>::m_instance = 0;
+template<> GLUON_INPUT_EXPORT GluonButtons* GluonCore::Singleton<GluonButtons>::m_instance = 0;
 
 GluonButtons::GluonButtons()
 {
@@ -33,26 +33,27 @@ GluonButtons::~GluonButtons()
 {
 }
 
-QString GluonButtons::buttonName(DeviceFlag deviceType, int code)
+QString GluonButtons::buttonName( DeviceFlag deviceType, int code )
 {
-    return metaObject()->enumerator(metaObject()->indexOfEnumerator("Button")).valueToKey(code);
+    return metaObject()->enumerator( metaObject()->indexOfEnumerator( "Button" ) ).valueToKey( code );
 }
 
-QString GluonButtons::axisName(DeviceFlag deviceType, int code)
+QString GluonButtons::axisName( DeviceFlag deviceType, int code )
 {
     QString value = "";
-    switch (deviceType) {
-    case MouseDevice:
-        value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Relative")).valueToKey(code);
-        value != "" ? value : "Unknown";
-        break;
-    case JoystickDevice:
-        value = metaObject()->enumerator(metaObject()->indexOfEnumerator("Absolute")).valueToKey(code);
-        value != "" ? value : "Unknown";
-        break;
-    default:
-        value = "Unknown";
-        break;
+    switch( deviceType )
+    {
+        case MouseDevice:
+            value = metaObject()->enumerator( metaObject()->indexOfEnumerator( "Relative" ) ).valueToKey( code );
+            value != "" ? value : "Unknown";
+            break;
+        case JoystickDevice:
+            value = metaObject()->enumerator( metaObject()->indexOfEnumerator( "Absolute" ) ).valueToKey( code );
+            value != "" ? value : "Unknown";
+            break;
+        default:
+            value = "Unknown";
+            break;
     }
     return value;
 }

@@ -26,7 +26,7 @@
 
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, ColorPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, ColorPropertyWidgetItem )
 
 using namespace GluonCreator;
 
@@ -35,16 +35,16 @@ class ColorPropertyWidgetItem::ColorPropertyWidgetItemPrivate
     public:
         ColorPropertyWidgetItemPrivate() { }
 
-        KColorButton * button;
+        KColorButton* button;
 };
 
-ColorPropertyWidgetItem::ColorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+ColorPropertyWidgetItem::ColorPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
     d = new ColorPropertyWidgetItemPrivate;
 
-    d->button = new KColorButton(this);
-    connect(d->button, SIGNAL(changed(const QColor&)), this, SLOT(colorValuechanged(const QColor&)));
-    setEditWidget(d->button);
+    d->button = new KColorButton( this );
+    connect( d->button, SIGNAL( changed( const QColor& ) ), this, SLOT( colorValuechanged( const QColor& ) ) );
+    setEditWidget( d->button );
 }
 
 ColorPropertyWidgetItem::~ColorPropertyWidgetItem()
@@ -56,7 +56,7 @@ QStringList
 ColorPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QColor");
+    supportedTypes.append( "QColor" );
     return supportedTypes;
 }
 
@@ -67,16 +67,16 @@ ColorPropertyWidgetItem::instantiate()
 }
 
 void
-ColorPropertyWidgetItem::setEditValue(const QVariant& value)
+ColorPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     QColor color = value.value<QColor>();
-    d->button->setColor(color);
+    d->button->setColor( color );
 }
 
 void
-ColorPropertyWidgetItem::colorValuechanged(const QColor& value)
+ColorPropertyWidgetItem::colorValuechanged( const QColor& value )
 {
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QColor>(value));
+    PropertyWidgetItem::valueChanged( QVariant::fromValue<QColor>( value ) );
 }
 
 // #include "colorpropertywidgetitem.moc"

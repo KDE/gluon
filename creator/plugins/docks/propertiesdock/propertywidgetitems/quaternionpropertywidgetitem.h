@@ -31,16 +31,16 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit QuaternionPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QuaternionPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QuaternionPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
-            void valueChanged(QVariant value);
-            void valueChanged(double value);
+            void setEditValue( const QVariant& value );
+            void valueChanged( QVariant value );
+            void valueChanged( double value );
 
         private:
             class QuaternionPropertyWidgetItemPrivate;

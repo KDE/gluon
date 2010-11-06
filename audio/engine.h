@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -44,9 +44,9 @@ namespace GluonAudio
             * @return true if the new device was successfuly set, false otherwise
             * @see deviceList, setCategory
             */
-            bool setDevice(const QString &deviceName);
+            bool setDevice( const QString& deviceName );
 
-            static ALCcontext *context()
+            static ALCcontext* context()
             {
                 return instance()->getAlContext();
             }
@@ -57,7 +57,7 @@ namespace GluonAudio
             }
 
             QVector3D listenerPosition();
-            void setListenerPosition(const QVector3D& position);
+            void setListenerPosition( const QVector3D& position );
 
 
             /**
@@ -71,16 +71,16 @@ namespace GluonAudio
                 delete instance();
             }
 
-            ALCdevice *getAlDevice()
+            ALCdevice* getAlDevice()
             {
                 return m_device;
             }
 
-            ALCcontext *getAlContext()
+            ALCcontext* getAlContext()
             {
                 return m_context;
             }
-            void alcList(const char* arg1);
+            void alcList( const char* arg1 );
 
         private:
             friend class GluonCore::Singleton<Engine>;
@@ -88,10 +88,10 @@ namespace GluonAudio
             Engine();
             ~Engine();
 
-            Q_DISABLE_COPY(Engine)
+            Q_DISABLE_COPY( Engine )
 
-            ALCcontext *m_context;
-            ALCdevice *m_device;
+            ALCcontext* m_context;
+            ALCdevice* m_device;
     };
 }
 

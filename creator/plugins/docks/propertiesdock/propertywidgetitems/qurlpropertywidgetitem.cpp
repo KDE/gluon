@@ -23,17 +23,17 @@
 #include <QtGui/QLayout>
 #include <KLineEdit>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, QUrlPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, QUrlPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-QUrlPropertyWidgetItem::QUrlPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+QUrlPropertyWidgetItem::QUrlPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
-    KLineEdit* input = new KLineEdit(this);
+    KLineEdit* input = new KLineEdit( this );
     //input->setInputMask("");
-    connect(input, SIGNAL(editingFinished()), this, SLOT(urlValueChanged()));
-    setEditWidget(input);
+    connect( input, SIGNAL( editingFinished() ), this, SLOT( urlValueChanged() ) );
+    setEditWidget( input );
 }
 
 QUrlPropertyWidgetItem::~QUrlPropertyWidgetItem()
@@ -49,18 +49,18 @@ QStringList
 QUrlPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QUrl");
+    supportedTypes.append( "QUrl" );
     return supportedTypes;
 }
 
 void
-QUrlPropertyWidgetItem::setEditValue(const QVariant& value)
+QUrlPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("text", value.value<QUrl>().toString());
+    editWidget()->setProperty( "text", value.value<QUrl>().toString() );
 }
 
 void
 QUrlPropertyWidgetItem::urlValueChanged()
 {
-    PropertyWidgetItem::valueChanged(QVariant(QUrl(editWidget()->property("text").toString())));
+    PropertyWidgetItem::valueChanged( QVariant( QUrl( editWidget()->property( "text" ).toString() ) ) );
 }

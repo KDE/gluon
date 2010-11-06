@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -35,7 +35,7 @@ namespace GluonCreator
         public:
 
         public Q_SLOTS:
-            void addCommand(QUndoCommand* command);
+            void addCommand( QUndoCommand* command );
 
             void undo();
             void redo();
@@ -44,21 +44,21 @@ namespace GluonCreator
             void setClean();
 
         Q_SIGNALS:
-            void historyChanged(const QUndoCommand* command);
+            void historyChanged( const QUndoCommand* command );
 
-            void canUndoChanged(bool);
-            void canRedoChanged(bool);
-            void cleanChanged(bool);
+            void canUndoChanged( bool );
+            void canRedoChanged( bool );
+            void cleanChanged( bool );
 
         private:
             friend class GluonCore::Singleton<HistoryManager>;
 
             HistoryManager();
             ~HistoryManager();
-            Q_DISABLE_COPY(HistoryManager)
+            Q_DISABLE_COPY( HistoryManager )
 
             class HistoryManagerPrivate;
-            HistoryManagerPrivate * const d;
+            HistoryManagerPrivate* const d;
     };
 }
 

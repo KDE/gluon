@@ -38,7 +38,7 @@ namespace GluonInput
 
         public:
             InputThreadPrivate();
-            InputThreadPrivate(InputThreadPrivate &other);
+            InputThreadPrivate( InputThreadPrivate& other );
 
             int vendor;
             int product;

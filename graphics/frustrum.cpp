@@ -26,9 +26,12 @@ using namespace GluonGraphics;
 class Frustrum::FrustrumPrivate
 {
     public:
-        FrustrumPrivate() { mode = FM_ORTHO; }
+        FrustrumPrivate()
+        {
+            mode = FM_ORTHO;
+        }
         FrustrumPrivate( const FrustrumPrivate& other )
-            : matrix(other.matrix)
+            : matrix( other.matrix )
         {
 
         }
@@ -51,18 +54,18 @@ class Frustrum::FrustrumPrivate
 };
 
 Frustrum::Frustrum()
-    : d(new FrustrumPrivate)
+    : d( new FrustrumPrivate )
 {
-    d->matrix.ortho(-50, 50, -50, 50, 1, 100);
+    d->matrix.ortho( -50, 50, -50, 50, 1, 100 );
 }
 
 Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
-    : d(other.d)
+    : d( other.d )
 {
 
 }
 
-Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum & other )
+Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum& other )
 {
     d->matrix = other.d->matrix;
 
@@ -112,12 +115,12 @@ void
 Frustrum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
     d->matrix.setToIdentity();
-    d->matrix.ortho(left, right, bottom, top, near, far);
+    d->matrix.ortho( left, right, bottom, top, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;
 
-    d->viewPlane.setCoords(left, top, right, bottom);
+    d->viewPlane.setCoords( left, top, right, bottom );
 
     d->mode = FrustrumPrivate::FM_ORTHO;
 }
@@ -128,22 +131,22 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
     float visibleWidth = area.width();
     float visibleHeight = area.height();
 
-    if(aspect > 1.f)
+    if( aspect > 1.f )
     {
         visibleWidth = visibleWidth * aspect;
     }
     else
     {
-        visibleHeight = visibleHeight * (1/aspect);
+        visibleHeight = visibleHeight * ( 1 / aspect );
     }
 
     d->matrix.setToIdentity();
-    d->matrix.ortho(-(visibleWidth/2), visibleWidth/2, -(visibleHeight/2), visibleHeight/2, near, far);
+    d->matrix.ortho( -( visibleWidth / 2 ), visibleWidth / 2, -( visibleHeight / 2 ), visibleHeight / 2, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;
 
-    d->viewPlane.setCoords( -(area.width()/2), -(area.height()/2), area.width()/2, area.height()/2 );
+    d->viewPlane.setCoords( -( area.width() / 2 ), -( area.height() / 2 ), area.width() / 2, area.height() / 2 );
 
     d->mode = FrustrumPrivate::FM_ADJUSTED_ORTHO;
 }
@@ -152,7 +155,7 @@ void
 Frustrum::setPerspective( float fov, float aspect, float near, float far )
 {
     d->matrix.setToIdentity();
-    d->matrix.perspective(fov, aspect, near, far);
+    d->matrix.perspective( fov, aspect, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;
@@ -165,15 +168,15 @@ Frustrum::setPerspective( float fov, float aspect, float near, float far )
 
 void Frustrum::updateFrustrum( float aspect )
 {
-    switch(d->mode)
+    switch( d->mode )
     {
         case FrustrumPrivate::FM_ORTHO:
             break;
         case FrustrumPrivate::FM_ADJUSTED_ORTHO:
-            setOrthoAdjusted(d->viewPlane.size(), aspect, d->nearPlane, d->farPlane);
+            setOrthoAdjusted( d->viewPlane.size(), aspect, d->nearPlane, d->farPlane );
             break;
         case FrustrumPrivate::FM_PERSPECTIVE:
-            setPerspective(d->fov, aspect, d->nearPlane, d->farPlane);
+            setPerspective( d->fov, aspect, d->nearPlane, d->farPlane );
             break;
     }
 }

@@ -30,20 +30,20 @@ namespace GluonPlayer
     {
             Q_OBJECT
         public:
-            MainWindow(int argc, char **argv, QWidget *parent = 0, Qt::WindowFlags flags = 0);
-            virtual void closeEvent(QCloseEvent *event);
+            MainWindow( int argc, char** argv, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            virtual void closeEvent( QCloseEvent* event );
 
         public slots:
-            void openProject(const QString &fileName = QString());
-            void updateTitle(int msec);
-            void activated(QModelIndex index);
-            void openClicked(bool);
+            void openProject( const QString& fileName = QString() );
+            void updateTitle( int msec );
+            void activated( QModelIndex index );
+            void openClicked( bool );
             void startGame();
-            void countFrames(int);
+            void countFrames( int );
 
         private:
             class MainWindowPrivate;
-            MainWindowPrivate *d;
+            MainWindowPrivate* d;
     };
 }
 

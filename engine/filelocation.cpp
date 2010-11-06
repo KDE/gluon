@@ -27,16 +27,16 @@
 
 using namespace GluonEngine;
 
-FileLocation::FileLocation(GluonEngine::GameProject *parent, const QUrl &relativeUrl)
-    : d(new FileLocationPrivate)
+FileLocation::FileLocation( GluonEngine::GameProject* parent, const QUrl& relativeUrl )
+    : d( new FileLocationPrivate )
 {
     d->gameProject = parent;
     d->url = relativeUrl;
 
 }
 
-FileLocation::FileLocation(const FileLocation &other)
-    : d(other.d)
+FileLocation::FileLocation( const FileLocation& other )
+    : d( other.d )
 {
 }
 
@@ -48,16 +48,16 @@ FileLocation::~FileLocation()
 QUrl
 FileLocation::location() const
 {
-    #ifdef __GNUC__
-    #warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
-    #endif
+#ifdef __GNUC__
+#warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
+#endif
 
     // Bah, this am not workey... needs more thinkings
     return d->url;
 
     // Don't attempt to use the gameProject if it doesn't exist yet - fall back
-    if (!d->gameProject)
+    if( !d->gameProject )
         return d->url;
 
-    return QUrl(QFileInfo(d->gameProject->filename().toLocalFile()).canonicalPath() + d->url.toLocalFile());
+    return QUrl( QFileInfo( d->gameProject->filename().toLocalFile() ).canonicalPath() + d->url.toLocalFile() );
 }

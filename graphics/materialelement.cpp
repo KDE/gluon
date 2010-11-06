@@ -19,19 +19,19 @@
 
 #include "materialelement.h"
 
-REGISTER_OBJECTTYPE(GluonGraphics, MaterialElement)
+REGISTER_OBJECTTYPE( GluonGraphics, MaterialElement )
 
 using namespace GluonGraphics;
 
 class MaterialElement::MaterialElementPrivate
 {
     public:
-        
+
 };
 
-MaterialElement::MaterialElement(QObject* parent)
-    : GluonObject(parent),
-      d(new MaterialElementPrivate)
+MaterialElement::MaterialElement( QObject* parent )
+    : GluonObject( parent ),
+      d( new MaterialElementPrivate )
 {
 
 }

@@ -32,7 +32,7 @@ namespace GluonGraphics
      */
     class Viewport : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit Viewport( QObject* parent = 0 );
             virtual ~Viewport();
@@ -44,18 +44,18 @@ namespace GluonGraphics
             float aspectRatio();
 
         public Q_SLOTS:
-            void setLeft(float left);
-            void setWidth(float width);
-            void setBottom(float bottom);
-            void setHeight(float height);
+            void setLeft( float left );
+            void setWidth( float width );
+            void setBottom( float bottom );
+            void setHeight( float height );
 
-            void setSize(float left, float width, float bottom, float height);
+            void setSize( float left, float width, float bottom, float height );
 
             void update();
 
         private:
             class ViewportPrivate;
-            ViewportPrivate * const d;
+            ViewportPrivate* const d;
     };
 
 }

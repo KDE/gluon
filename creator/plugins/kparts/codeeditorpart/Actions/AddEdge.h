@@ -34,56 +34,57 @@ class Node;
   it will place a new node on the QGraphicsView that holds all the items.
 */
 
-class AddEdgeAction : public AbstractAction {
-    Q_OBJECT
-public:
-    /*!
-      Default constructor
-      \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
-    */
+class AddEdgeAction : public AbstractAction
+{
+        Q_OBJECT
+    public:
+        /*!
+          Default constructor
+          \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
+        */
 
-    explicit AddEdgeAction(GraphScene *scene, QObject *parent = 0);
-    void setActiveGraph(Graph* graph);
-    /*!
-      Default Destructor
-    */
-    ~AddEdgeAction();
-public slots:
-    /*!
-      will be executed when the mouse press a button.
-      \param pos the position onscreen of the click.
-    */
-    void executePress(QPointF pos);
-    /*! will be executed when the mouse moves.
-      \param pos the current position of the cursor.
-    */
-    void executeMove(QPointF pos);
+        explicit AddEdgeAction( GraphScene* scene, QObject* parent = 0 );
+        void setActiveGraph( Graph* graph );
+        /*!
+          Default Destructor
+        */
+        ~AddEdgeAction();
+    public slots:
+        /*!
+          will be executed when the mouse press a button.
+          \param pos the position onscreen of the click.
+        */
+        void executePress( QPointF pos );
+        /*! will be executed when the mouse moves.
+          \param pos the current position of the cursor.
+        */
+        void executeMove( QPointF pos );
 
-    /*! will be executed when the mouse releases a click
-    \param pos the position of the cursor.
-    */
-    void executeRelease(QPointF pos);
+        /*! will be executed when the mouse releases a click
+        \param pos the position of the cursor.
+        */
+        void executeRelease( QPointF pos );
 
-private:
-    /*! pointer to the node that suffered the mouse-click */
-    NodeItem *_nodeFrom;
+    private:
+        /*! pointer to the node that suffered the mouse-click */
+        NodeItem* _nodeFrom;
 
-    /*! pointer to the node that suffered the mouse-release-click */
-    NodeItem *_nodeTo;
+        /*! pointer to the node that suffered the mouse-release-click */
+        NodeItem* _nodeTo;
 
-    /*! a temporary line that will connect the two Nodes. */
-    QGraphicsLineItem *_tmpLine;
+        /*! a temporary line that will connect the two Nodes. */
+        QGraphicsLineItem* _tmpLine;
 
-    /*! the point of the first click while adding a new edge */
-    QPointF _startPos;
+        /*! the point of the first click while adding a new edge */
+        QPointF _startPos;
 
-    /*! this boolean is true when we are actually adding a new edge,
-    false when we are not. */
-    bool _working;
-    
-  signals:
-    void addEdge(Node *from, Node *to);
-    
+        /*! this boolean is true when we are actually adding a new edge,
+        false when we are not. */
+        bool _working;
+
+    signals:
+        void addEdge( Node* from, Node* to );
+
 };
 
 #endif

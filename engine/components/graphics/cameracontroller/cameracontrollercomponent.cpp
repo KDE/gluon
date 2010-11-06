@@ -29,7 +29,7 @@
 #include <QtCore/QSizeF>
 #include <QtGui/QMatrix4x4>
 
-REGISTER_OBJECTTYPE(GluonEngine, CameraControllerComponent)
+REGISTER_OBJECTTYPE( GluonEngine, CameraControllerComponent )
 
 using namespace GluonEngine;
 
@@ -40,33 +40,33 @@ class CameraControllerComponent::CameraControllerComponentPrivate
         {
             camera = 0;
             active = true;
-            visibleArea = QSizeF(100.0f, 100.0f);
+            visibleArea = QSizeF( 100.0f, 100.0f );
             nearPlane = 1.0f;
             farPlane = 100.0f;
         }
 
-        GluonGraphics::Camera *camera;
+        GluonGraphics::Camera* camera;
         bool active;
 
         QSizeF visibleArea;
         float nearPlane;
         float farPlane;
 
-        static GluonGraphics::Camera *activeCamera;
+        static GluonGraphics::Camera* activeCamera;
 };
 
-GluonGraphics::Camera *CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
+GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
 
-CameraControllerComponent::CameraControllerComponent(QObject *parent)
-    : Component(parent)
-    , d(new CameraControllerComponentPrivate)
+CameraControllerComponent::CameraControllerComponent( QObject* parent )
+    : Component( parent )
+    , d( new CameraControllerComponentPrivate )
 {
 
 }
 
-CameraControllerComponent::CameraControllerComponent(const CameraControllerComponent& other)
-    : Component(other)
-    , d(other.d)
+CameraControllerComponent::CameraControllerComponent( const CameraControllerComponent& other )
+    : Component( other )
+    , d( other.d )
 {
 }
 
@@ -77,37 +77,38 @@ CameraControllerComponent::~CameraControllerComponent()
 
 QString CameraControllerComponent::category() const
 {
-    return QString("Graphics");
+    return QString( "Graphics" );
 }
 
 void CameraControllerComponent::initialize()
 {
-    if (!d->camera)
+    if( !d->camera )
         d->camera = new GluonGraphics::Camera();
 
-    if (d->active) {
-        GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
+    if( d->active )
+    {
+        GluonGraphics::Engine::instance()->setActiveCamera( d->camera );
     }
 
-    d->camera->frustrum()->setOrthoAdjusted(d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane);
+    d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
 }
 
 void CameraControllerComponent::start()
 {
 }
 
-void CameraControllerComponent::draw(int timeLapse)
+void CameraControllerComponent::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse)
+    Q_UNUSED( timeLapse )
 
-    if (d->camera)
-        d->camera->setViewMatrix(gameObject()->transform().inverted());
+    if( d->camera )
+        d->camera->setViewMatrix( gameObject()->transform().inverted() );
 }
 
 void CameraControllerComponent::cleanup()
 {
     CameraControllerComponentPrivate::activeCamera = 0;
-    GluonGraphics::Engine::instance()->setActiveCamera(0);
+    GluonGraphics::Engine::instance()->setActiveCamera( 0 );
 
     delete d->camera;
     d->camera = 0;
@@ -118,21 +119,22 @@ bool CameraControllerComponent::isActive()
     return d->active;
 }
 
-void CameraControllerComponent::setActive(bool active)
+void CameraControllerComponent::setActive( bool active )
 {
     d->active = active;
-    if (active && d->camera) {
+    if( active && d->camera )
+    {
         CameraControllerComponentPrivate::activeCamera = d->camera;
-        GluonGraphics::Engine::instance()->setActiveCamera(d->camera);
+        GluonGraphics::Engine::instance()->setActiveCamera( d->camera );
     }
 }
 
-void CameraControllerComponent::setVisibleArea(const QSizeF& area)
+void CameraControllerComponent::setVisibleArea( const QSizeF& area )
 {
     d->visibleArea = area;
 
-    if (d->camera)
-        d->camera->frustrum()->setOrthoAdjusted(d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane);
+    if( d->camera )
+        d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
 }
 
 QSizeF CameraControllerComponent::visibleArea()
@@ -150,22 +152,22 @@ float CameraControllerComponent::farPlane()
     return d->farPlane;
 }
 
-void CameraControllerComponent::setNearPlane(float near)
+void CameraControllerComponent::setNearPlane( float near )
 {
     d->nearPlane = near;
 
-    if (d->camera)
-        d->camera->frustrum()->setOrthoAdjusted(d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane);
+    if( d->camera )
+        d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
 }
 
-void CameraControllerComponent::setFarPlane(float far)
+void CameraControllerComponent::setFarPlane( float far )
 {
     d->farPlane = far;
 
-    if (d->camera)
-        d->camera->frustrum()->setOrthoAdjusted(d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane);
+    if( d->camera )
+        d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_cameracontroller, GluonEngine::CameraControllerComponent);
+Q_EXPORT_PLUGIN2( gluon_component_cameracontroller, GluonEngine::CameraControllerComponent );
 
 #include "cameracontrollercomponent.moc"

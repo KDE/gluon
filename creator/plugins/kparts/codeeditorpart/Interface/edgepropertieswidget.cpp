@@ -23,85 +23,102 @@
 #include "model_GraphProperties.h"
 #include <graph.h>
 
-EdgePropertiesWidget::EdgePropertiesWidget(QWidget *parent): QWidget(parent) {
-    setupUi(this);
+EdgePropertiesWidget::EdgePropertiesWidget( QWidget* parent ): QWidget( parent )
+{
+    setupUi( this );
     _edge = 0;
 }
 
-void EdgePropertiesWidget::setEdge(Edge *e, QPointF pos) {
-    if (_edge == e)
-      return;
+void EdgePropertiesWidget::setEdge( Edge* e, QPointF pos )
+{
+    if( _edge == e )
+        return;
 
-    if (_edge){
-      disconnectEdge();
+    if( _edge )
+    {
+        disconnectEdge();
     }
     _edge = e;
-    move(pos.x()+ 10,  pos.y() + 10);
+    move( pos.x() + 10,  pos.y() + 10 );
 
-    GraphPropertiesModel *model = new GraphPropertiesModel();
-    model->setDataSource(_edge);
+    GraphPropertiesModel* model = new GraphPropertiesModel();
+    model->setDataSource( _edge );
 
-    _propertiesTable->setModel(model);
+    _propertiesTable->setModel( model );
 
 
     show();
     activateWindow();
     raise();
 
-    connect(_edge,      SIGNAL(changed()),         this, SLOT(reflectAttributes()));
+    connect( _edge,      SIGNAL( changed() ),         this, SLOT( reflectAttributes() ) );
 
-    connect(_value,     SIGNAL(textChanged(QString)),   _edge, SLOT(setValue(QString)));
-    connect(_name,      SIGNAL(textChanged(QString)),   _edge, SLOT(setName(QString)));
-    connect(_width,     SIGNAL(valueChanged(double)),    _edge, SLOT(setWidth(double)));
-    connect(_showName,  SIGNAL(toggled(bool)),          _edge, SLOT(hideName(bool)));
-    connect(_showValue, SIGNAL(toggled(bool)),          _edge, SLOT(hideValue(bool)));
+    connect( _value,     SIGNAL( textChanged( QString ) ),   _edge, SLOT( setValue( QString ) ) );
+    connect( _name,      SIGNAL( textChanged( QString ) ),   _edge, SLOT( setName( QString ) ) );
+    connect( _width,     SIGNAL( valueChanged( double ) ),    _edge, SLOT( setWidth( double ) ) );
+    connect( _showName,  SIGNAL( toggled( bool ) ),          _edge, SLOT( hideName( bool ) ) );
+    connect( _showValue, SIGNAL( toggled( bool ) ),          _edge, SLOT( hideValue( bool ) ) );
 
     reflectAttributes();
 }
 
-void EdgePropertiesWidget::reflectAttributes(){
-   _name->setText(_edge->name());
-   _value->setText(_edge->value());
-   _color->setColor(_edge->color());
-   _width->setValue(_edge->width());
-   _propertyName->setText("");
-   _propertyValue->setText("");
-   _isPropertyGlobal->setCheckState(Qt::Unchecked);
+void EdgePropertiesWidget::reflectAttributes()
+{
+    _name->setText( _edge->name() );
+    _value->setText( _edge->value() );
+    _color->setColor( _edge->color() );
+    _width->setValue( _edge->width() );
+    _propertyName->setText( "" );
+    _propertyValue->setText( "" );
+    _isPropertyGlobal->setCheckState( Qt::Unchecked );
 }
 
-void EdgePropertiesWidget::on__color_activated(const QColor& c) {
-    _edge->setColor(c.name());
+void EdgePropertiesWidget::on__color_activated( const QColor& c )
+{
+    _edge->setColor( c.name() );
 }
 
-void EdgePropertiesWidget::on__style_activated(int index) {
-    switch(index){
-      case 0 : _edge->setStyle("solid");    break;
-      case 1 : _edge->setStyle("dash");     break;
-      case 2 : _edge->setStyle("dot");      break;
-      case 3 : _edge->setStyle("dash dot"); break;
+void EdgePropertiesWidget::on__style_activated( int index )
+{
+    switch( index )
+    {
+        case 0 :
+            _edge->setStyle( "solid" );
+            break;
+        case 1 :
+            _edge->setStyle( "dash" );
+            break;
+        case 2 :
+            _edge->setStyle( "dot" );
+            break;
+        case 3 :
+            _edge->setStyle( "dash dot" );
+            break;
     }
 }
 
-void EdgePropertiesWidget::on__addProperty_clicked(){
-//     if (_isPropertyGlobal->checkState() == Qt::Checked ){
-//       _edge->graph()->addEdgesDinamicProperty(_propertyName->text(),
-// 					      QVariant(_propertyValue->text()));
-//     }else{
-//       _edge->addDinamicProperty(_propertyName->text(),
-// 				QVariant(_propertyValue->text()));
-//     }
+void EdgePropertiesWidget::on__addProperty_clicked()
+{
+    //     if (_isPropertyGlobal->checkState() == Qt::Checked ){
+    //       _edge->graph()->addEdgesDinamicProperty(_propertyName->text(),
+    //                        QVariant(_propertyValue->text()));
+    //     }else{
+    //       _edge->addDinamicProperty(_propertyName->text(),
+    //              QVariant(_propertyValue->text()));
+    //     }
 
-    GraphPropertiesModel *model =  qobject_cast< GraphPropertiesModel*>(_propertiesTable->model());
-    model->addDynamicProperty(_propertyName->text(), QVariant(_propertyValue->text()),
-                              _edge,(_isPropertyGlobal->checkState() == Qt::Checked));
+    GraphPropertiesModel* model =  qobject_cast< GraphPropertiesModel*>( _propertiesTable->model() );
+    model->addDynamicProperty( _propertyName->text(), QVariant( _propertyValue->text() ),
+                               _edge, ( _isPropertyGlobal->checkState() == Qt::Checked ) );
 }
 
-void EdgePropertiesWidget::disconnectEdge(){
-   disconnect(_edge,      SIGNAL(changed()),         this, SLOT(reflectAttributes()));
+void EdgePropertiesWidget::disconnectEdge()
+{
+    disconnect( _edge,      SIGNAL( changed() ),         this, SLOT( reflectAttributes() ) );
 
-    disconnect(_value,     SIGNAL(textChanged(QString)),   _edge, SLOT(setValue(QString)));
-    disconnect(_name,      SIGNAL(textChanged(QString)),   _edge, SLOT(setName(QString)));
-    disconnect(_width,     SIGNAL(valueChanged(double)),    _edge, SLOT(setWidth(double)));
-    disconnect(_showName,  SIGNAL(toggled(bool)),          _edge, SLOT(hideName(bool)));
-    disconnect(_showValue, SIGNAL(toggled(bool)),          _edge, SLOT(hideValue(bool)));
+    disconnect( _value,     SIGNAL( textChanged( QString ) ),   _edge, SLOT( setValue( QString ) ) );
+    disconnect( _name,      SIGNAL( textChanged( QString ) ),   _edge, SLOT( setName( QString ) ) );
+    disconnect( _width,     SIGNAL( valueChanged( double ) ),    _edge, SLOT( setWidth( double ) ) );
+    disconnect( _showName,  SIGNAL( toggled( bool ) ),          _edge, SLOT( hideName( bool ) ) );
+    disconnect( _showValue, SIGNAL( toggled( bool ) ),          _edge, SLOT( hideValue( bool ) ) );
 }

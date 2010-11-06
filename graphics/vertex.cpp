@@ -34,7 +34,7 @@ class Vertex::VertexPrivate
 };
 
 Vertex::Vertex()
-    : d(new VertexPrivate)
+    : d( new VertexPrivate )
 {
 
 }

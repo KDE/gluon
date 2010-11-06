@@ -28,9 +28,9 @@ using namespace GluonInput;
 
 class GameLoop : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
-        GameLoop(Keyboard *keyb);
+        GameLoop( Keyboard* keyb );
         void run();
 
     signals:
@@ -40,7 +40,7 @@ class GameLoop : public QObject
         void gameLoop();
 
     private:
-        Keyboard *keyboard;
+        Keyboard* keyboard;
 };
 
 #endif // GAMELOOP_H

@@ -32,18 +32,19 @@ namespace GluonPlayer
      *
      * This model can be used to obtain a list of all the installed games
      * Use the different columns of the model to obtain required properties.
-     * 
+     *
      */
     class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
     {
         public:
-            GamesModel(QObject *parent = 0);
-            virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-            virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
-            virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-            virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+            GamesModel( QObject* parent = 0 );
+            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
-            enum Column {
+            enum Column
+            {
                 PathColumn,
                 NameColumn,
                 DescriptionColumn

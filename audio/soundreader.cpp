@@ -46,13 +46,14 @@ class SoundReader::SoundReaderPrivate
 
 #define BUFFER_SIZE 32768 // 32 KB buffers
 
-SoundReader::SoundReader(const QString& fileName)
-        : d(new SoundReaderPrivate)
+SoundReader::SoundReader( const QString& fileName )
+    : d( new SoundReaderPrivate )
 
 {
     d->fileName = fileName;
     d->error = false;
-    if (!QFile::exists(fileName)) {
+    if( !QFile::exists( fileName ) )
+    {
         qDebug() << "Could not find file" << fileName;
         d->error = true;
     }
@@ -65,31 +66,35 @@ SoundReader::~SoundReader()
 
 bool SoundReader::canRead() const
 {
-    return supportedSoundFormats().contains(format());
+    return supportedSoundFormats().contains( format() );
 }
 
 ALuint SoundReader::alBuffer()
 {
 
-    if (format() == "ogg") {
+    if( format() == "ogg" )
+    {
         return fromOgg();
     }
 
-    if (format() == "wav") {
+    if( format() == "wav" )
+    {
         return fromWav();
     }
 
     return 0;
 }
 
-Buffer *SoundReader::buffer()
+Buffer* SoundReader::buffer()
 {
-    if (format() == "ogg") {
-        return new Buffer(fromOgg());
+    if( format() == "ogg" )
+    {
+        return new Buffer( fromOgg() );
     }
 
-    if (format() == "wav") {
-        return new Buffer(fromWav());
+    if( format() == "wav" )
+    {
+        return new Buffer( fromWav() );
     }
     d->error = true;
     return new Buffer();
@@ -97,34 +102,37 @@ Buffer *SoundReader::buffer()
 
 QStringList SoundReader::supportedSoundFormats()
 {
-    return (QStringList() << "wav" << "ogg");
+    return ( QStringList() << "wav" << "ogg" );
 }
 
 ALuint SoundReader::fromWav()
 {
     SF_INFO fileInfos;
-    SNDFILE* file = sf_open(d->fileName.toUtf8(), SFM_READ, &fileInfos);
+    SNDFILE* file = sf_open( d->fileName.toUtf8(), SFM_READ, &fileInfos );
 
-    if (!file) {
-        qDebug() << "Could not load file:" << sf_strerror(file);
+    if( !file )
+    {
+        qDebug() << "Could not load file:" << sf_strerror( file );
         return 0;
     }
 
-    ALsizei samplesNumber  = static_cast<ALsizei>(fileInfos.channels *fileInfos.frames);
-    ALsizei samplesRate = static_cast<ALsizei>(fileInfos.samplerate);
+    ALsizei samplesNumber  = static_cast<ALsizei>( fileInfos.channels * fileInfos.frames );
+    ALsizei samplesRate = static_cast<ALsizei>( fileInfos.samplerate );
 
     // Reading signed 16 bits samples (most commonly used format)
-    std::vector<ALshort> samples(samplesNumber);
-    if (sf_read_short(file, &samples[0], samplesNumber) < samplesNumber) {
+    std::vector<ALshort> samples( samplesNumber );
+    if( sf_read_short( file, &samples[0], samplesNumber ) < samplesNumber )
+    {
         qDebug() << "Could not read the sound data";
         return 0;
     }
 
-    sf_close(file);
+    sf_close( file );
 
     // Determine file format from number of canals
     ALenum format;
-    switch (fileInfos.channels) {
+    switch( fileInfos.channels )
+    {
         case 1:
             format = AL_FORMAT_MONO16;
             break;
@@ -139,16 +147,18 @@ ALuint SoundReader::fromWav()
     alGetError();
     // creating openAL buffer and filling it with the samples we read
     ALuint buffer;
-    alGenBuffers(1, &buffer);
-    if(alGetError() != AL_NO_ERROR) {
+    alGenBuffers( 1, &buffer );
+    if( alGetError() != AL_NO_ERROR )
+    {
         qDebug() << "Error generating buffer.";
         return 0;
     }
 
-    alBufferData(buffer, format, &samples[0], samplesNumber * sizeof(ALushort), samplesRate);
+    alBufferData( buffer, format, &samples[0], samplesNumber * sizeof( ALushort ), samplesRate );
 
     int error = alGetError();
-    if (error != AL_NO_ERROR) {
+    if( error != AL_NO_ERROR )
+    {
         qDebug() << "Could not read the samples: " << error;
         return 0;
     }
@@ -165,32 +175,37 @@ ALuint SoundReader::fromOgg()
     int bitStream;
     long bytes;
     char array[BUFFER_SIZE];                // Local fixed size array
-    FILE *f;
+    FILE* f;
 
     // Open for binary reading
-    f = fopen(d->fileName.toUtf8(), "rb");
+    f = fopen( d->fileName.toUtf8(), "rb" );
 
-    if (f == 0) {
+    if( f == 0 )
+    {
         qDebug() << "Cannot open " << d->fileName << " for reading...";
         return 0;
     }
 
-    vorbis_info *pInfo;
+    vorbis_info* pInfo;
     OggVorbis_File oggFile;
 
     // Try opening the given file
-    if (ov_open(f, &oggFile, 0, 0)) {
+    if( ov_open( f, &oggFile, 0, 0 ) )
+    {
         qDebug() << "Error opening " << d->fileName << " for decoding...";
         return 0;
     }
 
     // Get some information about the OGG file
-    pInfo = ov_info(&oggFile, -1);
+    pInfo = ov_info( &oggFile, -1 );
 
     // Check the number of channels... always use 16-bit samples
-    if (pInfo->channels == 1) {
+    if( pInfo->channels == 1 )
+    {
         format = AL_FORMAT_MONO16;
-    } else {
+    }
+    else
+    {
         format = AL_FORMAT_STEREO16;
     }
 
@@ -198,36 +213,41 @@ ALuint SoundReader::fromOgg()
     freq = pInfo->rate;
 
     // Keep reading until all is read
-    do {
+    do
+    {
         // Read up to a buffer's worth of decoded sound data
-        bytes = ov_read(&oggFile, array, BUFFER_SIZE, endian, 2, 1, &bitStream);
+        bytes = ov_read( &oggFile, array, BUFFER_SIZE, endian, 2, 1, &bitStream );
 
-        if (bytes < 0) {
-            ov_clear(&oggFile);
+        if( bytes < 0 )
+        {
+            ov_clear( &oggFile );
             qDebug() << "Error decoding " << d->fileName << "..." ;
             return 0;
         }
 
         // Append to end of buffer
-        buffer.insert(buffer.end(), array, array + bytes);
-    } while (bytes > 0);
+        buffer.insert( buffer.end(), array, array + bytes );
+    }
+    while( bytes > 0 );
 
     // Clean up!
-    ov_clear(&oggFile);
+    ov_clear( &oggFile );
 
-// end of LoadOGG
+    // end of LoadOGG
     alGetError();
     ALuint albuffer;
-    alGenBuffers(1, &albuffer);
-    if(alGetError() != AL_NO_ERROR) {
+    alGenBuffers( 1, &albuffer );
+    if( alGetError() != AL_NO_ERROR )
+    {
         qDebug() << "Error generating buffer.";
         return 0;
     }
 
-    alBufferData(albuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
+    alBufferData( albuffer, format, &buffer[0], static_cast<ALsizei>( buffer.size() ), freq );
 
     int error = alGetError();
-    if (error != AL_NO_ERROR) {
+    if( error != AL_NO_ERROR )
+    {
         qDebug() << "Could not read the samples: " << error;
         return 0;
     }
@@ -269,6 +289,6 @@ QString SoundReader::fileName() const
 }
 QString SoundReader::format() const
 {
-    QFileInfo file(d->fileName);
+    QFileInfo file( d->fileName );
     return file.completeSuffix();
 }

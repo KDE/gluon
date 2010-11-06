@@ -32,11 +32,11 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT SoundAsset : public Asset
     {
             Q_OBJECT
-            Q_INTERFACES(GluonEngine::Asset)
-            GLUON_OBJECT(GluonEngine::SoundAsset)
+            Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::SoundAsset )
 
         public:
-            Q_INVOKABLE SoundAsset(QObject *parent = 0);
+            Q_INVOKABLE SoundAsset( QObject* parent = 0 );
             ~SoundAsset();
 
             virtual const QStringList supportedMimeTypes() const;
@@ -45,11 +45,11 @@ namespace GluonEngine
 
         private:
             class SoundAssetPrivate;
-            SoundAssetPrivate *const d;
+            SoundAssetPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::SoundAsset)
-Q_DECLARE_METATYPE(GluonEngine::SoundAsset*)
+Q_DECLARE_METATYPE( GluonEngine::SoundAsset )
+Q_DECLARE_METATYPE( GluonEngine::SoundAsset* )
 
 #endif // SOUNDASSET_H

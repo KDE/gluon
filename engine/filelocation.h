@@ -31,14 +31,14 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT FileLocation
     {
         public:
-            FileLocation(GluonEngine::GameProject *parent, const QUrl &relativeUrl);
-            FileLocation(const FileLocation &other);
+            FileLocation( GluonEngine::GameProject* parent, const QUrl& relativeUrl );
+            FileLocation( const FileLocation& other );
             ~FileLocation();
 
             QUrl location() const;
 
         private:
-            FileLocationPrivate *d;
+            FileLocationPrivate* d;
     };
 }
 

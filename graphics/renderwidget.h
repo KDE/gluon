@@ -34,7 +34,7 @@ namespace GluonGraphics
     {
             Q_OBJECT
         public:
-            explicit RenderWidget(QWidget* parent = 0, const QGLWidget* shareWidget = 0, Qt::WindowFlags f = 0);
+            explicit RenderWidget( QWidget* parent = 0, const QGLWidget* shareWidget = 0, Qt::WindowFlags f = 0 );
             virtual ~RenderWidget();
 
             virtual void initializeGL();
@@ -43,7 +43,7 @@ namespace GluonGraphics
 
         private:
             class RenderWidgetPrivate;
-            RenderWidgetPrivate * const d;
+            RenderWidgetPrivate* const d;
     };
 }
 

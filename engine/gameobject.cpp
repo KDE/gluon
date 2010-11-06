@@ -25,20 +25,20 @@
 #include "game.h"
 #include "scene.h"
 
-REGISTER_OBJECTTYPE(GluonEngine, GameObject)
+REGISTER_OBJECTTYPE( GluonEngine, GameObject )
 
 using namespace GluonEngine;
 
-GameObject::GameObject(QObject *parent)
-    : GluonObject(parent)
-    , d(new GameObjectPrivate)
+GameObject::GameObject( QObject* parent )
+    : GluonObject( parent )
+    , d( new GameObjectPrivate )
 {
     updateTransform();
 }
 
-GameObject::GameObject(const GameObject &other, QObject *parent)
-    : GluonObject(parent)
-    , d(other.d)
+GameObject::GameObject( const GameObject& other, QObject* parent )
+    : GluonObject( parent )
+    , d( other.d )
 {
     updateTransform();
 }
@@ -51,12 +51,16 @@ GameObject::~GameObject()
 void
 GameObject::sanitize()
 {
-    if (parent()) {
-        if (parent()->metaObject()) {
-            if (QString::compare(parent()->metaObject()->className(), "GameObject")) {
-                GameObject *theParent = qobject_cast<GameObject *>(parent());
-                if (theParent) {
-                    theParent->addChild(this);
+    if( parent() )
+    {
+        if( parent()->metaObject() )
+        {
+            if( QString::compare( parent()->metaObject()->className(), "GameObject" ) )
+            {
+                GameObject* theParent = qobject_cast<GameObject*>( parent() );
+                if( theParent )
+                {
+                    theParent->addChild( this );
                 }
             }
         }
@@ -69,13 +73,13 @@ GameObject::initialize()
 {
     const int componentCount = d->components.count();
     int i;
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->initialize();
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->initialize();
 
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->initialize();
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->initialize();
 }
 
 void
@@ -83,28 +87,29 @@ GameObject::start()
 {
     const int componentCount = d->components.count();
     int i;
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->start();
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->start();
 
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->start();
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->start();
 }
 
 void
-GameObject::update(int elapsedMilliseconds)
+GameObject::update( int elapsedMilliseconds )
 {
-    if (!d->enabled)
+    if( !d->enabled )
         return;
 
     // Remove all objects that were marked to destroy last update
     const int deleteCount = d->objectsToDelete.count();
     int i = 0;
 
-    for (i = 0; i < deleteCount; ++i) {
-        GameObject *obj = d->objectsToDelete.at(i);
-        removeChild(obj);
+    for( i = 0; i < deleteCount; ++i )
+    {
+        GameObject* obj = d->objectsToDelete.at( i );
+        removeChild( obj );
         obj->stop();
         obj->cleanup();
         delete obj;
@@ -114,44 +119,44 @@ GameObject::update(int elapsedMilliseconds)
 
     // Update all components
     const int componentCount = d->components.count();
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->update(elapsedMilliseconds);
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->update( elapsedMilliseconds );
 
     // Update all children
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->update(elapsedMilliseconds);
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->update( elapsedMilliseconds );
 }
 
 void
-GameObject::draw(int timeLapse)
+GameObject::draw( int timeLapse )
 {
-    if (!d->enabled)
+    if( !d->enabled )
         return;
 
     const int componentCount = d->components.count();
     int i;
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->draw(timeLapse);
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->draw( timeLapse );
 
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->draw(timeLapse);
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->draw( timeLapse );
 }
 
 void GameObject::stop()
 {
     const int componentCount = d->components.count();
     int i;
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->stop();
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->stop();
 
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->stop();
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->stop();
 }
 
 void
@@ -159,51 +164,51 @@ GameObject::cleanup()
 {
     const int componentCount = d->components.count();
     int i;
-    for (i = 0; i < componentCount; ++i)
-        if (d->components.at(i)->enabled())
-            d->components.at(i)->cleanup();
+    for( i = 0; i < componentCount; ++i )
+        if( d->components.at( i )->enabled() )
+            d->components.at( i )->cleanup();
 
     const int childCount = d->children.count();
-    for (i = 0; i < childCount; ++i)
-        d->children.at(i)->cleanup();
+    for( i = 0; i < childCount; ++i )
+        d->children.at( i )->cleanup();
 }
 
 void GameObject::destroy()
 {
-    parentGameObject()->removeLater(this);
+    parentGameObject()->removeLater( this );
 }
 
-void GameObject::removeLater(GameObject *remove)
+void GameObject::removeLater( GameObject* remove )
 {
-    d->objectsToDelete.append(remove);
-}
-
-void
-GameObject::runCommand(const QString &functionName)
-{
-    #ifdef __GNUC__
-    #warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
-    #endif
+    d->objectsToDelete.append( remove );
 }
 
 void
-GameObject::runCommandInChildren(const QString &functionName)
+GameObject::runCommand( const QString& functionName )
 {
-    foreach(GameObject *child, d->children)
-        child->runCommand(functionName);
+#ifdef __GNUC__
+#warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
+#endif
+}
+
+void
+GameObject::runCommandInChildren( const QString& functionName )
+{
+    foreach( GameObject * child, d->children )
+    child->runCommand( functionName );
 }
 
 // ----------------------------------------------------------------------------
 // Component management
 
 Component *
-GameObject::findComponent(const QString &name) const
+GameObject::findComponent( const QString& name ) const
 {
-    Component * found = 0;
+    Component* found = 0;
 
-    foreach(Component * component, d->components)
+    foreach( Component * component, d->components )
     {
-        if (component->name() == name)
+        if( component->name() == name )
         {
             found = component;
             break;
@@ -213,91 +218,95 @@ GameObject::findComponent(const QString &name) const
 }
 
 Component *
-GameObject::findComponentByType(const QString &typeName) const
+GameObject::findComponentByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type(typeName.toAscii().data());
-    return findComponentByType(typeID);
+    int typeID = QMetaType::type( typeName.toAscii().data() );
+    return findComponentByType( typeID );
 }
 
 Component*
 GameObject::findComponentByType( int type ) const
 {
-    if(d->componentTypes.find(type) != d->componentTypes.end())
-        return d->componentTypes.value(type);
+    if( d->componentTypes.find( type ) != d->componentTypes.end() )
+        return d->componentTypes.value( type );
 
     return 0;
 }
 
-QList<Component *>
-GameObject::findComponentsByType(const QString &typeName) const
+QList<Component*>
+GameObject::findComponentsByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type(typeName.toAscii().data());
-    return findComponentsByType(typeID);
+    int typeID = QMetaType::type( typeName.toAscii().data() );
+    return findComponentsByType( typeID );
 }
 
 QList< Component* >
 GameObject::findComponentsByType( int type ) const
 {
-    if(d->componentTypes.find(type) != d->componentTypes.end())
-        return d->componentTypes.values(type);
+    if( d->componentTypes.find( type ) != d->componentTypes.end() )
+        return d->componentTypes.values( type );
 
     return QList< Component* >();
 }
 
 Component *
-GameObject::findComponentInChildren(const QString &name) const
+GameObject::findComponentInChildren( const QString& name ) const
 {
-    Component *found = 0;
-    foreach (GameObject *child, d->children) {
-        found = child->findComponent(name);
-        if (found)
+    Component* found = 0;
+    foreach( GameObject * child, d->children )
+    {
+        found = child->findComponent( name );
+        if( found )
             break;
-        found = child->findComponentInChildren(name);
-        if (found)
+        found = child->findComponentInChildren( name );
+        if( found )
             break;
     }
     return found;
 }
 
 Component *
-GameObject::findComponentInChildrenByType(const QString &typeName) const
+GameObject::findComponentInChildrenByType( const QString& typeName ) const
 {
-    Component *found = 0;
-    foreach (GameObject *child, d->children) {
-        found = child->findComponentByType(typeName);
-        if (found)
+    Component* found = 0;
+    foreach( GameObject * child, d->children )
+    {
+        found = child->findComponentByType( typeName );
+        if( found )
             break;
-        found = child->findComponentInChildrenByType(typeName);
-        if (found)
+        found = child->findComponentInChildrenByType( typeName );
+        if( found )
             break;
     }
     return found;
 }
 
-QList<Component *>
-GameObject::findComponentsInChildren(const QString &name) const
+QList<Component*>
+GameObject::findComponentsInChildren( const QString& name ) const
 {
-    QList<Component *> found;
-    Component *tempFound;
-    foreach (GameObject *child, d->children) {
-        tempFound = child->findComponent(name);
-        if (tempFound)
-            found.append(tempFound);
-        found.append(child->findComponentInChildren(name));
+    QList<Component*> found;
+    Component* tempFound;
+    foreach( GameObject * child, d->children )
+    {
+        tempFound = child->findComponent( name );
+        if( tempFound )
+            found.append( tempFound );
+        found.append( child->findComponentInChildren( name ) );
     }
     return found;
 }
 
-QList<Component *>
-GameObject::findComponentsInChildrenByType(const QString &typeName) const
+QList<Component*>
+GameObject::findComponentsInChildrenByType( const QString& typeName ) const
 {
-    QList<Component *> found;
-    Component *tempFound;
-    foreach (GameObject *child, d->children) {
-        tempFound = child->findComponentByType(typeName);
-        if (tempFound)
-            found.append(tempFound);
-        found.append(child->findComponentsInChildrenByType(typeName));
+    QList<Component*> found;
+    Component* tempFound;
+    foreach( GameObject * child, d->children )
+    {
+        tempFound = child->findComponentByType( typeName );
+        if( tempFound )
+            found.append( tempFound );
+        found.append( child->findComponentsInChildrenByType( typeName ) );
     }
     return found;
 }
@@ -305,40 +314,43 @@ GameObject::findComponentsInChildrenByType(const QString &typeName) const
 QList< Component* >
 GameObject::findComponentsInChildrenByType( int type ) const
 {
-    QList<Component *> found;
-    foreach (GameObject *child, d->children) {
-        found.append(child->findComponentsByType(type));
-        found.append(child->findComponentsInChildrenByType(type));
+    QList<Component*> found;
+    foreach( GameObject * child, d->children )
+    {
+        found.append( child->findComponentsByType( type ) );
+        found.append( child->findComponentsInChildrenByType( type ) );
     }
     return found;
 }
 
 void
-GameObject::addComponent(Component *addThis)
+GameObject::addComponent( Component* addThis )
 {
-    if (addThis)
+    if( addThis )
     {
-        int typeID = QMetaType::type(addThis->metaObject()->className());
-        if(d->componentTypes.constFind(typeID, addThis) == d->componentTypes.constEnd())
+        int typeID = QMetaType::type( addThis->metaObject()->className() );
+        if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
         {
-            d->componentTypes.insert(typeID, addThis);
-            d->components.append(addThis);
-            addThis->setParent(this);
-            addThis->setGameObject(this);
-            addThis->setName(addThis->name());
+            d->componentTypes.insert( typeID, addThis );
+            d->components.append( addThis );
+            addThis->setParent( this );
+            addThis->setGameObject( this );
+            addThis->setName( addThis->name() );
         }
-    } else {
+    }
+    else
+    {
         DEBUG_BLOCK
-        DEBUG_TEXT("Attempting to add a null component");
+        DEBUG_TEXT( "Attempting to add a null component" );
     }
 }
 
 bool
-GameObject::removeComponent(Component *removeThis)
+GameObject::removeComponent( Component* removeThis )
 {
-    int typeID = QMetaType::type(removeThis->metaObject()->className());
-    d->componentTypes.remove(typeID, removeThis);
-    return d->components.removeOne(removeThis);
+    int typeID = QMetaType::type( removeThis->metaObject()->className() );
+    d->componentTypes.remove( typeID, removeThis );
+    return d->components.removeOne( removeThis );
 }
 
 QList< Component* >
@@ -350,32 +362,36 @@ GameObject::components() const
 // ----------------------------------------------------------------
 // GameObject tree management
 
-Scene *GameObject::scene() const
+Scene* GameObject::scene() const
 {
-    Scene *foundScene = 0;
-    GluonObject *gluonParent = qobject_cast<GluonObject *>(parent());
-    while (qobject_cast<GameObject *>(gluonParent)) {
-        if(qobject_cast<Scene *>(gluonParent->parent())) {
-            foundScene = qobject_cast<Scene *>(gluonParent->parent());
+    Scene* foundScene = 0;
+    GluonObject* gluonParent = qobject_cast<GluonObject*>( parent() );
+    while( qobject_cast<GameObject*>( gluonParent ) )
+    {
+        if( qobject_cast<Scene*>( gluonParent->parent() ) )
+        {
+            foundScene = qobject_cast<Scene*>( gluonParent->parent() );
             break;
         }
-        gluonParent = qobject_cast<GluonObject *>(gluonParent->parent());
+        gluonParent = qobject_cast<GluonObject*>( gluonParent->parent() );
     }
     return foundScene;
 }
 
 GameObject *
-GameObject::childGameObject(int index) const
+GameObject::childGameObject( int index ) const
 {
-    return d->children.at(index);
+    return d->children.at( index );
 }
 
 GameObject *
-GameObject::childGameObject(const QString &name) const
+GameObject::childGameObject( const QString& name ) const
 {
-    GameObject *found = 0;
-    foreach(GameObject *child, d->children) {
-        if (child->name() == name) {
+    GameObject* found = 0;
+    foreach( GameObject * child, d->children )
+    {
+        if( child->name() == name )
+        {
             found = child;
             break;
         }
@@ -383,58 +399,64 @@ GameObject::childGameObject(const QString &name) const
     return found;
 }
 
-void GameObject::addChild(GluonObject *child)
+void GameObject::addChild( GluonObject* child )
 {
-    if(qobject_cast<GameObject *>(child))
-        addChild(qobject_cast<GameObject *>(child));
+    if( qobject_cast<GameObject*>( child ) )
+        addChild( qobject_cast<GameObject*>( child ) );
     else
-        GluonCore::GluonObject::addChild(child);
+        GluonCore::GluonObject::addChild( child );
 }
 
 void
-GameObject::addChild(GameObject *addThis)
+GameObject::addChild( GameObject* addThis )
 {
-    if (!addThis) {
+    if( !addThis )
+    {
         DEBUG_BLOCK
-        DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject"));
-    } else if (!d->children.contains(addThis)) {
-        d->children.append(addThis);
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) );
+    }
+    else if( !d->children.contains( addThis ) )
+    {
+        d->children.append( addThis );
 
-        if (addThis->d->parentGameObject)
-            addThis->d->parentGameObject->removeChild(addThis);
+        if( addThis->d->parentGameObject )
+            addThis->d->parentGameObject->removeChild( addThis );
 
         addThis->d->parentGameObject = this;
-        GluonCore::GluonObject::addChild(addThis);
+        GluonCore::GluonObject::addChild( addThis );
     }
 }
 
 void
-GameObject::addChildAt(GameObject *addThis, int index)
+GameObject::addChildAt( GameObject* addThis, int index )
 {
-    if (!addThis || index >= d->children.count()) {
+    if( !addThis || index >= d->children.count() )
+    {
         DEBUG_BLOCK
-        DEBUG_TEXT(QString("Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range."));
-    } else if (!d->children.contains(addThis)) {
-        d->children.insert(index, addThis);
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) );
+    }
+    else if( !d->children.contains( addThis ) )
+    {
+        d->children.insert( index, addThis );
 
-        if (addThis->d->parentGameObject)
-            addThis->d->parentGameObject->removeChild(addThis);
+        if( addThis->d->parentGameObject )
+            addThis->d->parentGameObject->removeChild( addThis );
 
         addThis->d->parentGameObject = this;
-        GluonCore::GluonObject::addChild(addThis);
+        GluonCore::GluonObject::addChild( addThis );
     }
 }
 
 bool
-GameObject::removeChild(GameObject *removeThis)
+GameObject::removeChild( GameObject* removeThis )
 {
     removeThis->d->parentGameObject = 0;
-    return d->children.removeOne(removeThis);
+    return d->children.removeOne( removeThis );
 }
 
-bool GameObject::removeChild(GluonObject *child)
+bool GameObject::removeChild( GluonObject* child )
 {
-    return GluonObject::removeChild(child);
+    return GluonObject::removeChild( child );
 }
 
 int
@@ -444,25 +466,25 @@ GameObject::childCount() const
 }
 
 int
-GameObject::childIndex(GameObject *child) const
+GameObject::childIndex( GameObject* child ) const
 {
-    return d->children.indexOf(child);
+    return d->children.indexOf( child );
 }
 
 void
-GameObject::setParentGameObject(GameObject *newParent)
+GameObject::setParentGameObject( GameObject* newParent )
 {
     //Do nothing if the new parent is the same as the old one.
-    if (d->parentGameObject == newParent)
+    if( d->parentGameObject == newParent )
         return;
 
     // Clean up... We shouldn't be a child of more than one GameObject, or things will BLOW UP
-    if (d->parentGameObject)
-        d->parentGameObject->removeChild(this);
+    if( d->parentGameObject )
+        d->parentGameObject->removeChild( this );
 
     // We could potentially be setting ourselves as a top level GameObject... Don't die!
-    if (newParent)
-        newParent->addChild(this);
+    if( newParent )
+        newParent->addChild( this );
 
     d->parentGameObject = newParent;
 }
@@ -477,7 +499,7 @@ GameObject::parentGameObject()
 // Property getter-setters
 
 void
-GameObject::setDescription(const QString &newDescription)
+GameObject::setDescription( const QString& newDescription )
 {
     d->description = newDescription;
 }
@@ -495,7 +517,7 @@ GameObject::enabled() const
 }
 
 void
-GameObject::setEnabled(bool newEnabled)
+GameObject::setEnabled( bool newEnabled )
 {
     d->enabled = newEnabled;
 }
@@ -515,7 +537,7 @@ GameObject::worldPosition() const
 }
 
 void
-GameObject::setPosition(const QVector3D &newPosition)
+GameObject::setPosition( const QVector3D& newPosition )
 {
     d->position = newPosition;
 
@@ -523,43 +545,46 @@ GameObject::setPosition(const QVector3D &newPosition)
     updateTransform();
 }
 
-void GameObject::setPosition(float x, float y, float z)
+void GameObject::setPosition( float x, float y, float z )
 {
-    setPosition(QVector3D(x, y, z));
+    setPosition( QVector3D( x, y, z ) );
 }
 
-void GameObject::setPosition(float x, float y)
+void GameObject::setPosition( float x, float y )
 {
-    setPosition(QVector3D(x, y, d->position.z()));
+    setPosition( QVector3D( x, y, d->position.z() ) );
 }
 
 void
-GameObject::translate(const QVector3D& translation, GameObject::TransformSpace ts)
+GameObject::translate( const QVector3D& translation, GameObject::TransformSpace ts )
 {
-    if(ts == TS_LOCAL) {
-        QVector3D trans = d->orientation.rotatedVector(translation);
-        trans = trans *d->scale;
-        setPosition(position() + trans);
-    } else {
-        #ifdef __GNUC__
-        #warning This probably needs fixing to account for world scale/orientation
-        #endif
-        QVector3D trans = d->worldOrientation.rotatedVector(translation);
-        trans = trans *d->worldScale;
-        setPosition(position() + trans);
+    if( ts == TS_LOCAL )
+    {
+        QVector3D trans = d->orientation.rotatedVector( translation );
+        trans = trans * d->scale;
+        setPosition( position() + trans );
+    }
+    else
+    {
+#ifdef __GNUC__
+#warning This probably needs fixing to account for world scale/orientation
+#endif
+        QVector3D trans = d->worldOrientation.rotatedVector( translation );
+        trans = trans * d->worldScale;
+        setPosition( position() + trans );
     }
 }
 
 void
-GameObject::translate(float x, float y, float z, GameObject::TransformSpace ts)
+GameObject::translate( float x, float y, float z, GameObject::TransformSpace ts )
 {
-    translate(QVector3D(x, y, z), ts);
+    translate( QVector3D( x, y, z ), ts );
 }
 
 void
-GameObject::translate(float x, float y, GameObject::TransformSpace ts)
+GameObject::translate( float x, float y, GameObject::TransformSpace ts )
 {
-    translate(QVector3D(x, y, 0), ts);
+    translate( QVector3D( x, y, 0 ), ts );
 }
 
 //// Scaling ////
@@ -577,7 +602,7 @@ GameObject::worldScale() const
 }
 
 void
-GameObject::setScale(const QVector3D &newScale)
+GameObject::setScale( const QVector3D& newScale )
 {
     d->scale = newScale;
 
@@ -585,23 +610,26 @@ GameObject::setScale(const QVector3D &newScale)
     updateTransform();
 }
 
-void GameObject::setScale(float x, float y, float z)
+void GameObject::setScale( float x, float y, float z )
 {
-    setScale(QVector3D(x, y, z));
+    setScale( QVector3D( x, y, z ) );
 }
 
-void GameObject::scaleRelative(QVector3D scaling, GameObject::TransformSpace ts)
+void GameObject::scaleRelative( QVector3D scaling, GameObject::TransformSpace ts )
 {
-    if(ts == TS_LOCAL) {
-        setScale(scale() + scaling);
-    } else {
-        setScale((worldScale() + scaling) - scale());
+    if( ts == TS_LOCAL )
+    {
+        setScale( scale() + scaling );
+    }
+    else
+    {
+        setScale(( worldScale() + scaling ) - scale() );
     }
 }
 
-void GameObject::scaleRelative(float x, float y, float z, GameObject::TransformSpace ts)
+void GameObject::scaleRelative( float x, float y, float z, GameObject::TransformSpace ts )
 {
-    scaleRelative(QVector3D(x, y, z), ts);
+    scaleRelative( QVector3D( x, y, z ), ts );
 }
 
 //// Orientation ////
@@ -617,7 +645,7 @@ GameObject::worldOrientation() const
     return d->worldOrientation;
 }
 
-void GameObject::setOrientation(const QQuaternion& newOrientation)
+void GameObject::setOrientation( const QQuaternion& newOrientation )
 {
     d->orientation = newOrientation;
 
@@ -625,35 +653,41 @@ void GameObject::setOrientation(const QQuaternion& newOrientation)
     updateTransform();
 }
 
-void GameObject::orient(QQuaternion rotation, GameObject::TransformSpace ts)
+void GameObject::orient( QQuaternion rotation, GameObject::TransformSpace ts )
 {
-    if(ts == TS_LOCAL) {
-        setOrientation(orientation() * rotation);
-    } else {
+    if( ts == TS_LOCAL )
+    {
+        setOrientation( orientation() * rotation );
+    }
+    else
+    {
         //setOrientation((worldOrientation() * rotation) / orientation());
     }
 }
 
-void GameObject::rotate(float angle, const QVector3D& axis, GameObject::TransformSpace ts)
+void GameObject::rotate( float angle, const QVector3D& axis, GameObject::TransformSpace ts )
 {
-    QQuaternion orientation = QQuaternion::fromAxisAndAngle(axis, angle);
-    orient(orientation, ts);
+    QQuaternion orientation = QQuaternion::fromAxisAndAngle( axis, angle );
+    orient( orientation, ts );
 }
 
 void GameObject::updateTransform()
 
 {
-    if (!d->transformInvalidated)
+    if( !d->transformInvalidated )
         return;
 
-    GameObject *parent = parentGameObject();
+    GameObject* parent = parentGameObject();
 
-    if (parent) {
+    if( parent )
+    {
         //Calculate the new world position
-        d->worldPosition = parent->worldPosition() + parent->worldOrientation().rotatedVector(parent->worldScale() * d->position);
+        d->worldPosition = parent->worldPosition() + parent->worldOrientation().rotatedVector( parent->worldScale() * d->position );
         d->worldOrientation = parent->worldOrientation() * d->orientation;
         d->worldScale = parent->worldScale() * d->scale;
-    } else {
+    }
+    else
+    {
         //Apparently we do not have a parent, just set our local position to world then
         d->worldPosition = d->position;
         d->worldOrientation = d->orientation;
@@ -662,12 +696,13 @@ void GameObject::updateTransform()
 
     //Calculate the new transform matrix
     d->transform.setToIdentity();
-    d->transform.translate(d->worldPosition);
-    d->transform.rotate(d->worldOrientation);
-    d->transform.scale(d->worldScale);
+    d->transform.translate( d->worldPosition );
+    d->transform.rotate( d->worldOrientation );
+    d->transform.scale( d->worldScale );
 
     // Finally, update the child objects' position
-    foreach(GameObject *child, d->children) {
+    foreach( GameObject * child, d->children )
+    {
         child->invalidateTransform();
         child->updateTransform();
     }
@@ -689,18 +724,21 @@ GameObject::transform() const
 void
 GameObject::postCloneSanitize()
 {
-    foreach(QObject *child, children()) {
-        if (qobject_cast<Component *>(child)) {
-            Component* comp = qobject_cast<Component*>(child);
-            d->components.append(comp);
-            int typeID = QMetaType::type(comp->metaObject()->className());
-            d->componentTypes.insert(typeID, comp);
-            comp->setParent(this);
-            comp->setGameObject(this);
+    foreach( QObject * child, children() )
+    {
+        if( qobject_cast<Component*>( child ) )
+        {
+            Component* comp = qobject_cast<Component*>( child );
+            d->components.append( comp );
+            int typeID = QMetaType::type( comp->metaObject()->className() );
+            d->componentTypes.insert( typeID, comp );
+            comp->setParent( this );
+            comp->setGameObject( this );
         }
     }
 
-    if (Game::instance()->isRunning()) {
+    if( Game::instance()->isRunning() )
+    {
         initialize();
         start();
     }

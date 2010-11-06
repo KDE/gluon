@@ -66,17 +66,17 @@ namespace GluonEngine
              * used to tell other members of the game development team what the
              * Component is used for.
              */
-            Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY( QString description READ description WRITE setDescription )
             /**
              * Whether or not the Component is enabled for use by the
              * GameObject it is contained within.
              */
-            Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
+            Q_PROPERTY( bool enabled READ enabled WRITE setEnabled )
             // gameObject is deliberately not a Q_PROPERTY - it is not supposed to be exposed in the editor other than through drag-and-drop
 
         public:
-            Q_INVOKABLE Component(QObject *parent = 0);
-            Component(const Component &other, QObject *parent = 0);
+            Q_INVOKABLE Component( QObject* parent = 0 );
+            Component( const Component& other, QObject* parent = 0 );
             ~Component();
 
             /**
@@ -90,7 +90,7 @@ namespace GluonEngine
             * to implement this function to return a QVariant which is of the type
             * of your class.
             */
-             virtual QVariant toVariant(GluonObject *wrapThis);
+            virtual QVariant toVariant( GluonObject* wrapThis );
 
             /**
              * The initialize function is called whenever an initialized object
@@ -112,7 +112,7 @@ namespace GluonEngine
              * @param elapsedMilliseconds The amount of time in milliseconds which has passed since the last update
              * @see Game::runGame, draw
              */
-            virtual void update(int elapsedMilliseconds);
+            virtual void update( int elapsedMilliseconds );
             /**
              * The draw function is run every time the engine requests a redraw
              * of the screen. Avoid putting any game logic in this function.
@@ -126,7 +126,7 @@ namespace GluonEngine
              * @param timeLapse The number of milliseconds passed since the last update
              * @see Game::runGame, update
              */
-            virtual void draw(int timeLapse = 0);
+            virtual void draw( int timeLapse = 0 );
 
             /**
              * The stop function is run once when the gameloop is stopped.
@@ -154,7 +154,7 @@ namespace GluonEngine
              * Set the description of the Component
              * @param newDescription The new description
              */
-            void setDescription(const QString &newDescription);
+            void setDescription( const QString& newDescription );
 
             /**
              * Whether or not the Component is enabled for use by the
@@ -168,7 +168,7 @@ namespace GluonEngine
              * @param newEnabled The new value for the parameter
              * @see enabled
              */
-            void setEnabled(bool newEnabled);
+            void setEnabled( bool newEnabled );
 
             /**
              * Returns a pointer to the GameObject instance this instance of
@@ -179,14 +179,14 @@ namespace GluonEngine
              * @return A pointer to the GameObject instance this Component is attached to
              * @see setGameObject, GameObject
              */
-            GameObject *gameObject();
+            GameObject* gameObject();
             /**
              * Move this Component to another GameObject. Please note that this
              * will remove the Component from its current GameObject!
              * @param newGameObject The GameObject instance to move this Component onto
              * @see gameObject, GameObject
              */
-            void setGameObject(GameObject *newGameObject);
+            void setGameObject( GameObject* newGameObject );
 
             /**
              * Function used on instantiation to fix the parent/child relationship.
@@ -204,15 +204,15 @@ namespace GluonEngine
              * @param   indentChars     The characters used for indenting the string
              * @return  The GDL representation of the property
              */
-            virtual QString stringFromProperty(const QString &propertyName, const QString &indentChars) const;
+            virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
 
         private:
-            ComponentPrivate * const d;
+            ComponentPrivate* const d;
     };
 }
 
-Q_DECLARE_INTERFACE(GluonEngine::Component, "com.gluon.Component/1.0")
-Q_DECLARE_METATYPE(GluonEngine::Component)
-Q_DECLARE_METATYPE(GluonEngine::Component *)
+Q_DECLARE_INTERFACE( GluonEngine::Component, "com.gluon.Component/1.0" )
+Q_DECLARE_METATYPE( GluonEngine::Component )
+Q_DECLARE_METATYPE( GluonEngine::Component* )
 
 #endif  // GLUON_COMPONENT_H

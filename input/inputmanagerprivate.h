@@ -28,9 +28,9 @@ namespace GluonInput
     {
         public:
             InputManagerPrivate();
-            InputManagerPrivate(InputManagerPrivate &other);
+            InputManagerPrivate( InputManagerPrivate& other );
 
-            Detect *m_detect;
+            Detect* m_detect;
     };
 }
 #endif

@@ -23,58 +23,58 @@
 #include <audio/engine.h>
 #include <gameobject.h>
 
-REGISTER_OBJECTTYPE(GluonEngine, SoundListenerComponent)
+REGISTER_OBJECTTYPE( GluonEngine, SoundListenerComponent )
 
 using namespace GluonEngine;
 
-SoundListenerComponent *SoundListenerComponent::m_activeInstance = 0;
+SoundListenerComponent* SoundListenerComponent::m_activeInstance = 0;
 
-SoundListenerComponent::SoundListenerComponent(QObject *parent)
-    : Component(parent)
+SoundListenerComponent::SoundListenerComponent( QObject* parent )
+    : Component( parent )
 {
     GluonAudio::Engine::instance();
 }
 
-SoundListenerComponent::SoundListenerComponent(const SoundListenerComponent &other)
-    : Component(other)
+SoundListenerComponent::SoundListenerComponent( const SoundListenerComponent& other )
+    : Component( other )
 {
 }
 
 QString SoundListenerComponent::category() const
 {
-    return QString("Audio");
+    return QString( "Audio" );
 }
 
 void SoundListenerComponent::start()
 {
-    if (isActive())
-        GluonAudio::Engine::instance()->setListenerPosition(gameObject()->position());
+    if( isActive() )
+        GluonAudio::Engine::instance()->setListenerPosition( gameObject()->position() );
 }
 
-void SoundListenerComponent::draw(int timeLapse)
+void SoundListenerComponent::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse);
+    Q_UNUSED( timeLapse );
 
-    if (isActive())
-        GluonAudio::Engine::instance()->setListenerPosition(gameObject()->position());
+    if( isActive() )
+        GluonAudio::Engine::instance()->setListenerPosition( gameObject()->position() );
 }
 
-void SoundListenerComponent::setActive(bool active)
+void SoundListenerComponent::setActive( bool active )
 {
-    if (active)
+    if( active )
         m_activeInstance = this;
 }
 
-void SoundListenerComponent::setEffectsEnabled(bool enable)
+void SoundListenerComponent::setEffectsEnabled( bool enable )
 {
     m_effectsEnabled = enable;
 }
 
-SoundListenerComponent *SoundListenerComponent::activeInstance()
+SoundListenerComponent* SoundListenerComponent::activeInstance()
 {
     return m_activeInstance;
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_soundlistener, GluonEngine::SoundListenerComponent)
+Q_EXPORT_PLUGIN2( gluon_component_soundlistener, GluonEngine::SoundListenerComponent )
 
 #include "soundlistenercomponent.moc"

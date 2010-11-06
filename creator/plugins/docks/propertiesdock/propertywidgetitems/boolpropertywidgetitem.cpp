@@ -22,15 +22,15 @@
 
 #include <QtGui/QCheckBox>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, BoolPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, BoolPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-BoolPropertyWidgetItem::BoolPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+BoolPropertyWidgetItem::BoolPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
-    setEditWidget(new QCheckBox(this));
-    connect(editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)));
+    setEditWidget( new QCheckBox( this ) );
+    connect( editWidget(), SIGNAL( toggled( bool ) ), SLOT( toggled( bool ) ) );
 }
 
 BoolPropertyWidgetItem::~BoolPropertyWidgetItem()
@@ -42,7 +42,7 @@ QStringList
 BoolPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("bool");
+    supportedTypes.append( "bool" );
     return supportedTypes;
 }
 
@@ -53,15 +53,15 @@ BoolPropertyWidgetItem::instantiate()
 }
 
 void
-BoolPropertyWidgetItem::setEditValue(const QVariant& value)
+BoolPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("checked", value);
+    editWidget()->setProperty( "checked", value );
 }
 
 void
-BoolPropertyWidgetItem::toggled(bool checked)
+BoolPropertyWidgetItem::toggled( bool checked )
 {
-    PropertyWidgetItem::valueChanged(QVariant(checked));
+    PropertyWidgetItem::valueChanged( QVariant( checked ) );
 }
 
 //#include "boolpropertywidgetitem.moc"

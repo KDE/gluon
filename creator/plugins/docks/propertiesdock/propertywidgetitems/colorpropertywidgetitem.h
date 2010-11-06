@@ -31,15 +31,15 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit ColorPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit ColorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~ColorPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
-            void colorValuechanged(const QColor &value);
+            void setEditValue( const QVariant& value );
+            void colorValuechanged( const QColor& value );
 
         private:
             class ColorPropertyWidgetItemPrivate;

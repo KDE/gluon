@@ -30,15 +30,15 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit QFontPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QFontPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QFontPropertyWidgetItem();
 
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
         public slots:
-            virtual void setEditValue(const QVariant& value);
-            void fontChanged(const QFont& value);
+            virtual void setEditValue( const QVariant& value );
+            void fontChanged( const QFont& value );
     };
 }
 

@@ -28,16 +28,17 @@
 
 using namespace GluonInput;
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication app(argc, argv);
+    QApplication app( argc, argv );
 
-    if (InputManager::instance()->inputList().count() > 0) {
+    if( InputManager::instance()->inputList().count() > 0 )
+    {
         qDebug() << "creating generic test game loop";
-        QList<InputDevice *> inputList = InputManager::instance()->inputList();
-        foreach(InputDevice *input, inputList)
-            input->setEnabled(true);
-        GameLoop *gameLoop = new GameLoop(inputList);
+        QList<InputDevice*> inputList = InputManager::instance()->inputList();
+        foreach( InputDevice * input, inputList )
+        input->setEnabled( true );
+        GameLoop* gameLoop = new GameLoop( inputList );
         gameLoop->run();
     }
 

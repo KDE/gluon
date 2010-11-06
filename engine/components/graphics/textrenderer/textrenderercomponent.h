@@ -32,14 +32,14 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT TextRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::TextRendererComponent)
-            Q_PROPERTY(QString text READ text WRITE setText)
-            Q_PROPERTY(QFont font READ font WRITE setFont)
-            Q_PROPERTY(QColor color READ color WRITE setColor)
-            Q_INTERFACES(GluonEngine::Component)
+            GLUON_OBJECT( GluonEngine::TextRendererComponent )
+            Q_PROPERTY( QString text READ text WRITE setText )
+            Q_PROPERTY( QFont font READ font WRITE setFont )
+            Q_PROPERTY( QColor color READ color WRITE setColor )
+            Q_INTERFACES( GluonEngine::Component )
 
         public:
-            Q_INVOKABLE TextRendererComponent(QObject *parent = 0);
+            Q_INVOKABLE TextRendererComponent( QObject* parent = 0 );
             ~TextRendererComponent();
             virtual QString category() const;
 
@@ -49,21 +49,21 @@ namespace GluonEngine
 
             virtual void initialize();
             virtual void start();
-            virtual void draw(int timeLapse);
+            virtual void draw( int timeLapse );
             virtual void cleanup();
 
         public slots:
-            virtual void setText(const QString &text);
-            virtual void setFont(const QFont &font);
-            virtual void setColor(const QColor &color);
+            virtual void setText( const QString& text );
+            virtual void setFont( const QFont& font );
+            virtual void setColor( const QColor& color );
 
         private:
             class TextRendererComponentPrivate;
-            TextRendererComponentPrivate *const d;
+            TextRendererComponentPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::TextRendererComponent)
-Q_DECLARE_METATYPE(GluonEngine::TextRendererComponent *)
+Q_DECLARE_METATYPE( GluonEngine::TextRendererComponent )
+Q_DECLARE_METATYPE( GluonEngine::TextRendererComponent* )
 
 #endif // TEXTRENDERERCOMPONENT_H

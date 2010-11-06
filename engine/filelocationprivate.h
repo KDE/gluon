@@ -31,10 +31,10 @@ namespace GluonEngine
     {
         public:
             FileLocationPrivate();
-            FileLocationPrivate(const FileLocationPrivate &other);
+            FileLocationPrivate( const FileLocationPrivate& other );
             ~FileLocationPrivate();
 
-            GluonEngine::GameProject *gameProject;
+            GluonEngine::GameProject* gameProject;
             QUrl url;
     };
 }

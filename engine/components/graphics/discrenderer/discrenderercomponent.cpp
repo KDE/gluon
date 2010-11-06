@@ -25,7 +25,7 @@
 
 #include <QMimeData>
 
-REGISTER_OBJECTTYPE(GluonEngine, DiscRendererComponent)
+REGISTER_OBJECTTYPE( GluonEngine, DiscRendererComponent )
 
 using namespace GluonEngine;
 
@@ -39,28 +39,28 @@ class DiscRendererComponent::DiscRendererComponentPrivate
             texture = 0;
             nbPoints = 3;
             radius = 5.0f;
-            color.setRgb(255, 255, 255);
+            color.setRgb( 255, 255, 255 );
         }
 
-        GluonGraphics::Item *item;
-        GluonGraphics::DiscMesh *mesh;
+        GluonGraphics::Item* item;
+        GluonGraphics::DiscMesh* mesh;
 
-        GluonEngine::Asset *texture;
+        GluonEngine::Asset* texture;
 
         uint nbPoints;
         float radius;
         QColor color;
 };
 
-DiscRendererComponent::DiscRendererComponent(QObject *parent)
-    : Component(parent)
-    , d(new DiscRendererComponentPrivate)
+DiscRendererComponent::DiscRendererComponent( QObject* parent )
+    : Component( parent )
+    , d( new DiscRendererComponentPrivate )
 {
 }
 
-DiscRendererComponent::DiscRendererComponent(const DiscRendererComponent& other)
-    : Component(other)
-    , d(other.d)
+DiscRendererComponent::DiscRendererComponent( const DiscRendererComponent& other )
+    : Component( other )
+    , d( other.d )
 {
 }
 
@@ -72,24 +72,27 @@ DiscRendererComponent::~DiscRendererComponent()
 QString
 DiscRendererComponent::category() const
 {
-    return QString("Graphics Rendering");
+    return QString( "Graphics Rendering" );
 }
 
 void DiscRendererComponent::initialize()
 {
-    if (!d->item) {
-        d->mesh = new GluonGraphics::DiscMesh(this->gameObject()->position(), d->radius, d->nbPoints, d->color, this);
-        d->item = new GluonGraphics::Item(d->mesh, this);
-        d->item->setColor(d->color);
+    if( !d->item )
+    {
+        d->mesh = new GluonGraphics::DiscMesh( this->gameObject()->position(), d->radius, d->nbPoints, d->color, this );
+        d->item = new GluonGraphics::Item( d->mesh, this );
+        d->item->setColor( d->color );
     }
 
-    if (d->texture) {
-        if (!d->texture->isLoaded())
+    if( d->texture )
+    {
+        if( !d->texture->isLoaded() )
             d->texture->load();
 
-        const QMimeData *data = d->texture->data();
-        if (data->hasImage()) {
-            d->mesh->setTexture(data->imageData().value<QImage>());
+        const QMimeData* data = d->texture->data();
+        if( data->hasImage() )
+        {
+            d->mesh->setTexture( data->imageData().value<QImage>() );
         }
     }
 }
@@ -98,18 +101,20 @@ void DiscRendererComponent::start()
 {
 }
 
-void DiscRendererComponent::draw(int timeLapse)
+void DiscRendererComponent::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse)
+    Q_UNUSED( timeLapse )
 
-    if (d->item) {
-        d->item->setMatrix(gameObject()->transform());
+    if( d->item )
+    {
+        d->item->setMatrix( gameObject()->transform() );
     }
 }
 
 void DiscRendererComponent::cleanup()
 {
-    if (d->item) {
+    if( d->item )
+    {
         delete d->item;
         d->item = 0;
         d->mesh = 0;
@@ -121,11 +126,11 @@ float DiscRendererComponent::radius()
     return d->radius;
 }
 
-void DiscRendererComponent::setRadius(float newRadius)
+void DiscRendererComponent::setRadius( float newRadius )
 {
     d->radius = newRadius;
-    if (gameObject())
-        setDisc(gameObject()->position(), d->radius, d->nbPoints, d->color);
+    if( gameObject() )
+        setDisc( gameObject()->position(), d->radius, d->nbPoints, d->color );
 }
 
 uint DiscRendererComponent::nbPoints()
@@ -133,30 +138,31 @@ uint DiscRendererComponent::nbPoints()
     return d->nbPoints;
 }
 
-void DiscRendererComponent::setNbPoints(uint newNbPoints)
+void DiscRendererComponent::setNbPoints( uint newNbPoints )
 {
     d->nbPoints = newNbPoints;
-    if (gameObject())
-        setDisc(gameObject()->position(), d->radius, d->nbPoints, d->color);
+    if( gameObject() )
+        setDisc( gameObject()->position(), d->radius, d->nbPoints, d->color );
 }
 
-void DiscRendererComponent::setDisc(QVector3D position, float radius, uint nbPoints, QColor color)
+void DiscRendererComponent::setDisc( QVector3D position, float radius, uint nbPoints, QColor color )
 {
-    if (d->mesh)
-        d->mesh->setDisc(position, radius, nbPoints, color);
+    if( d->mesh )
+        d->mesh->setDisc( position, radius, nbPoints, color );
 }
 
-void DiscRendererComponent::setColor(const QColor& color)
+void DiscRendererComponent::setColor( const QColor& color )
 {
     d->color = color;
-    if (d->mesh) {
-        d->mesh->setColor(color);
+    if( d->mesh )
+    {
+        d->mesh->setColor( color );
     }
 }
 
-void DiscRendererComponent::setColor(int r, int g, int b, int a)
+void DiscRendererComponent::setColor( int r, int g, int b, int a )
 {
-    setColor(QColor(r, g, b, a));
+    setColor( QColor( r, g, b, a ) );
 }
 
 QColor DiscRendererComponent::color()
@@ -169,17 +175,19 @@ Asset* DiscRendererComponent::texture()
     return d->texture;
 }
 
-void DiscRendererComponent::setTexture(Asset *asset)
+void DiscRendererComponent::setTexture( Asset* asset )
 {
     d->texture = asset;
 
-    if (asset) {
-        if (d->mesh && asset->isLoaded()) {
-            d->mesh->setTexture(asset->data()->imageData().value<QImage>());
+    if( asset )
+    {
+        if( d->mesh && asset->isLoaded() )
+        {
+            d->mesh->setTexture( asset->data()->imageData().value<QImage>() );
         }
     }
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_discrenderer, GluonEngine::DiscRendererComponent);
+Q_EXPORT_PLUGIN2( gluon_component_discrenderer, GluonEngine::DiscRendererComponent );
 
 #include "discrenderercomponent.moc"

@@ -29,16 +29,19 @@
 #include "texture.h"
 #include "glheaders.h"
 
-REGISTER_OBJECTTYPE(GluonGraphics, MaterialInstance)
+REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
 
 using namespace GluonGraphics;
 
 class MaterialInstance::MaterialInstancePrivate
 {
     public:
-        MaterialInstancePrivate() { bound = false; }
+        MaterialInstancePrivate()
+        {
+            bound = false;
+        }
 
-        Material * material;
+        Material* material;
 
         QHash<QString, int> uniformLocations;
         QHash<QString, int> attributeLocations;
@@ -50,9 +53,9 @@ class MaterialInstance::MaterialInstancePrivate
         bool bound;
 };
 
-MaterialInstance::MaterialInstance(QObject* parent)
-    : GluonObject(parent),
-      d(new MaterialInstancePrivate)
+MaterialInstance::MaterialInstance( QObject* parent )
+    : GluonObject( parent ),
+      d( new MaterialInstancePrivate )
 {
 }
 
@@ -64,23 +67,23 @@ MaterialInstance::~MaterialInstance()
 void
 MaterialInstance::bind()
 {
-    if(!d->material)
+    if( !d->material )
         return;
 
-    glUseProgram(d->material->glProgram());
+    glUseProgram( d->material->glProgram() );
     d->bound = true;
 
     QList<QByteArray> properties = dynamicPropertyNames();
-    foreach(QByteArray prop, properties)
+    foreach( QByteArray prop, properties )
     {
-        setGLUniform(prop, property(prop));
+        setGLUniform( prop, property( prop ) );
     }
 }
 
 void
 MaterialInstance::release()
 {
-    glUseProgram(0);
+    glUseProgram( 0 );
     d->bound = false;
 }
 
@@ -98,27 +101,27 @@ MaterialInstance::setMaterial( Material* material )
 
 int MaterialInstance::attributeLocation( const QString& attrib )
 {
-    if(d->attributeLocations.contains(attrib))
-        return d->attributeLocations.value(attrib);
+    if( d->attributeLocations.contains( attrib ) )
+        return d->attributeLocations.value( attrib );
 
-    int loc = glGetAttribLocation(d->material->glProgram(), attrib.toUtf8().constData());
-    if(loc != -1)
+    int loc = glGetAttribLocation( d->material->glProgram(), attrib.toUtf8().constData() );
+    if( loc != -1 )
     {
-        d->attributeLocations.insert(attrib, loc);
+        d->attributeLocations.insert( attrib, loc );
     }
 
     return loc;
 }
 
-int MaterialInstance::uniformLocation( const QString& name)
+int MaterialInstance::uniformLocation( const QString& name )
 {
-    if(d->uniformLocations.contains(name))
-        return d->uniformLocations.value(name);
+    if( d->uniformLocations.contains( name ) )
+        return d->uniformLocations.value( name );
 
-    int loc = glGetUniformLocation(d->material->glProgram(), name.toUtf8().constData());
-    if(loc != -1)
+    int loc = glGetUniformLocation( d->material->glProgram(), name.toUtf8().constData() );
+    if( loc != -1 )
     {
-        d->uniformLocations.insert(name, loc);
+        d->uniformLocations.insert( name, loc );
     }
 
     return loc;
@@ -127,11 +130,11 @@ int MaterialInstance::uniformLocation( const QString& name)
 void
 MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
 {
-    int loc = uniformLocation("modelViewProj");
+    int loc = uniformLocation( "modelViewProj" );
 
     float glMatrix[16];
-    Math::qmatrixToGLMatrix(mvp, glMatrix);
-    glUniformMatrix4fv(loc, 1, false, glMatrix);
+    Math::qmatrixToGLMatrix( mvp, glMatrix );
+    glUniformMatrix4fv( loc, 1, false, glMatrix );
 }
 
 void
@@ -140,83 +143,83 @@ MaterialInstance::setPropertiesFromMaterial()
     QHash<QString, QVariant> uniforms = d->material->uniformList();
     for( QHash<QString, QVariant>::iterator pitr = uniforms.begin(); pitr != uniforms.end(); ++pitr )
     {
-        setProperty(pitr.key().toUtf8(), pitr.value());
+        setProperty( pitr.key().toUtf8(), pitr.value() );
     }
 }
 
 void
 MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 {
-    switch(value.type())
+    switch( value.type() )
     {
         case QVariant::UInt:
         case QVariant::Int:
-            glUniform1i( uniformLocation(name), value.toInt());
+            glUniform1i( uniformLocation( name ), value.toInt() );
             break;
         case QVariant::Double:
-            glUniform1f( uniformLocation(name), value.toDouble());
+            glUniform1f( uniformLocation( name ), value.toDouble() );
             break;
         case QVariant::Color:
         {
             QColor color = value.value<QColor>();
-            glUniform4f( uniformLocation(name), color.red() / 255.f, color.green() / 255.f, color.blue() / 255.f, color.alpha() / 255.f);
+            glUniform4f( uniformLocation( name ), color.red() / 255.f, color.green() / 255.f, color.blue() / 255.f, color.alpha() / 255.f );
             break;
         }
         case QVariant::Vector2D:
         {
             QVector2D vector = value.value<QVector2D>();
-            glUniform2f( uniformLocation(name), vector.x(), vector.y());
+            glUniform2f( uniformLocation( name ), vector.x(), vector.y() );
             break;
         }
         case QVariant::Vector3D:
         {
             QVector3D vector = value.value<QVector3D>();
-            glUniform3f( uniformLocation(name), vector.x(), vector.y(), vector.z());
+            glUniform3f( uniformLocation( name ), vector.x(), vector.y(), vector.z() );
             break;
         }
         case QVariant::Vector4D:
         {
             QVector4D vector = value.value<QVector4D>();
-            glUniform4f( uniformLocation(name), vector.x(), vector.y(), vector.z(), vector.w());
+            glUniform4f( uniformLocation( name ), vector.x(), vector.y(), vector.z(), vector.w() );
             break;
         }
         case QVariant::String:
         {
-            if(name.contains("texture"))
+            if( name.contains( "texture" ) )
             {
-                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(value.toString());
-                bindTexture(name, texture);
+                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture( value.toString() );
+                bindTexture( name, texture );
             }
             break;
         }
         case QVariant::UserType:
         {
-            GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject(value);
-            if(obj && name.contains("texture"))
+            GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
+            if( obj && name.contains( "texture" ) )
             {
-                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture(obj->name());
+                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture( obj->name() );
 
-                bindTexture(name, texture);
+                bindTexture( name, texture );
             }
             break;
         }
         default:
-        break;
+            break;
     }
 }
 
 void
 MaterialInstance::bindTexture( const QString& name, Texture* tex )
 {
-    if(!tex)
+    if( !tex )
         return;
 
     QString uniName = name;
-    int id = uniName.replace("texture", "").toInt();
+    int id = uniName.replace( "texture", "" ).toInt();
 
-    glActiveTexture(GL_TEXTURE0 + id);
-    glBindTexture(GL_TEXTURE_2D, tex->glTexture());
-    glUniform1i( uniformLocation(name), id);
+    glActiveTexture( GL_TEXTURE0 + id );
+    glBindTexture( GL_TEXTURE_2D, tex->glTexture() );
+    glUniform1i( uniformLocation( name ), id );
 }
 
 #include "materialinstance.moc"

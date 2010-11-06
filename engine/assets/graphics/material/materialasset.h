@@ -28,11 +28,11 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT MaterialAsset : public Asset
     {
             Q_OBJECT
-            Q_INTERFACES(GluonEngine::Asset)
-            GLUON_OBJECT(GluonEngine::MaterialAsset)
+            Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::MaterialAsset )
 
         public:
-            Q_INVOKABLE MaterialAsset(QObject *parent = 0);
+            Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
             ~MaterialAsset();
 
             virtual QIcon icon() const;
@@ -41,13 +41,13 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
 
-            virtual const QList<AssetTemplate *> templates();
+            virtual const QList<AssetTemplate*> templates();
 
-            virtual QList<QAction *> actions();
+            virtual QList<QAction*> actions();
 
-            virtual void setName(const QString &newName);
+            virtual void setName( const QString& newName );
 
-            virtual QString childrenToGDL(int indentLevel = 0) const;
+            virtual QString childrenToGDL( int indentLevel = 0 ) const;
 
             virtual void sanitize();
 
@@ -56,11 +56,11 @@ namespace GluonEngine
 
         private:
             class MaterialAssetPrivate;
-            MaterialAssetPrivate *d;
+            MaterialAssetPrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::MaterialAsset)
-Q_DECLARE_METATYPE(GluonEngine::MaterialAsset *)
+Q_DECLARE_METATYPE( GluonEngine::MaterialAsset )
+Q_DECLARE_METATYPE( GluonEngine::MaterialAsset* )
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

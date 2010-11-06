@@ -37,29 +37,29 @@
 
 using namespace GluonGraphics;
 
-template<> Engine *GluonCore::Singleton<Engine>::m_instance = 0;
+template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
 
 class Engine::EnginePrivate
 {
     public:
-        EnginePrivate() : fbo(0), fboShader(0), camera(0) { }
+        EnginePrivate() : fbo( 0 ), fboShader( 0 ), camera( 0 ) { }
 
         template <typename T>
-        T* createObject( const QString& type, const QString& name);
+        T* createObject( const QString& type, const QString& name );
 
-        void destroyObject(const QString& type, const QString& name);
+        void destroyObject( const QString& type, const QString& name );
 
         bool hasObject( const QString& type, const QString& name );
 
         template <typename T>
         T* object( const QString& type, const QString& name );
 
-        bool addObject(const QString& type, const QString& name, QObject* value);
+        bool addObject( const QString& type, const QString& name, QObject* value );
 
-        void removeObject(const QString& type, const QString& name);
+        void removeObject( const QString& type, const QString& name );
 
-        QGLFramebufferObject * fbo;
-        MaterialInstance * fboShader;
+        QGLFramebufferObject* fbo;
+        MaterialInstance* fboShader;
 
         Camera* camera;
         Viewport* viewport;
@@ -75,19 +75,19 @@ class Engine::EnginePrivate
 template <typename T> T*
 Engine::EnginePrivate::createObject( const QString& type, const QString& name )
 {
-    T * newObject;
-    QString typeName = QString("%1/%2").arg(type, name);
+    T* newObject;
+    QString typeName = QString( "%1/%2" ).arg( type, name );
 
     objectMutex.lock();
 
-    if(!objects.contains(typeName))
+    if( !objects.contains( typeName ) )
     {
         newObject = new T;
-        objects.insert(typeName, newObject);
+        objects.insert( typeName, newObject );
     }
     else
     {
-        newObject = qobject_cast<T*>(objects.value(typeName));
+        newObject = qobject_cast<T*>( objects.value( typeName ) );
     }
 
     objectMutex.unlock();
@@ -98,13 +98,13 @@ Engine::EnginePrivate::createObject( const QString& type, const QString& name )
 void
 Engine::EnginePrivate::destroyObject( const QString& type, const QString& name )
 {
-    QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&objectMutex);
+    QString typeName = QString( "%1/%2" ).arg( type, name );
+    QMutexLocker locker( &objectMutex );
 
-    if(objects.contains(typeName))
+    if( objects.contains( typeName ) )
     {
-        QObject* obj = objects.value(typeName);
-        objects.remove(typeName);
+        QObject* obj = objects.value( typeName );
+        objects.remove( typeName );
         delete obj;
     }
 }
@@ -112,30 +112,30 @@ Engine::EnginePrivate::destroyObject( const QString& type, const QString& name )
 bool
 Engine::EnginePrivate::hasObject( const QString& type, const QString& name )
 {
-    QString typeName = QString("%1/%2").arg(type, name);
+    QString typeName = QString( "%1/%2" ).arg( type, name );
 
-    return objects.contains(typeName);
+    return objects.contains( typeName );
 }
 
 template <typename T> T*
 Engine::EnginePrivate::object( const QString& type, const QString& name )
 {
-    QString typeName = QString("%1/%2").arg(type, name);
+    QString typeName = QString( "%1/%2" ).arg( type, name );
 
-    if(objects.contains(typeName))
-        return qobject_cast<T*>(objects.value(typeName));
+    if( objects.contains( typeName ) )
+        return qobject_cast<T*>( objects.value( typeName ) );
 
     return 0;
 }
 
 bool Engine::EnginePrivate::addObject( const QString& type, const QString& name, QObject* value )
 {
-    QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&objectMutex);
+    QString typeName = QString( "%1/%2" ).arg( type, name );
+    QMutexLocker locker( &objectMutex );
 
-    if(!objects.contains(typeName))
+    if( !objects.contains( typeName ) )
     {
-        objects.insert(typeName, value);
+        objects.insert( typeName, value );
         return true;
     }
 
@@ -144,34 +144,34 @@ bool Engine::EnginePrivate::addObject( const QString& type, const QString& name,
 
 void Engine::EnginePrivate::removeObject( const QString& type, const QString& name )
 {
-    QString typeName = QString("%1/%2").arg(type, name);
-    QMutexLocker locker(&objectMutex);
+    QString typeName = QString( "%1/%2" ).arg( type, name );
+    QMutexLocker locker( &objectMutex );
 
-    if(objects.contains(typeName))
-        objects.remove(typeName);
+    if( objects.contains( typeName ) )
+        objects.remove( typeName );
 }
 
 void Engine::initialize()
 {
-    Material* material = createMaterial("default");
+    Material* material = createMaterial( "default" );
     material->build();
-    material->instance("default")->setProperty("materialColor", Qt::white);
-    material->instance("default")->setProperty("texture0", QString("default"));
+    material->instance( "default" )->setProperty( "materialColor", Qt::white );
+    material->instance( "default" )->setProperty( "texture0", QString( "default" ) );
 
-    Texture* tex = createTexture("default");
-    tex->load(QUrl(GluonCore::Global::dataDirectory() + "/gluon/defaults/default.png"));
+    Texture* tex = createTexture( "default" );
+    tex->load( QUrl( GluonCore::Global::dataDirectory() + "/gluon/defaults/default.png" ) );
 
-    Mesh* mesh = createMesh("default");
-    mesh->load(QString());
+    Mesh* mesh = createMesh( "default" );
+    mesh->load( QString() );
 }
 
 Item*
-Engine::createItem( const QString& mesh)
+Engine::createItem( const QString& mesh )
 {
-    QMutexLocker locker(&d->itemMutex);
+    QMutexLocker locker( &d->itemMutex );
 
-    Item * newItem = new Item(this);
-    newItem->setMesh(d->createObject<Mesh>("Mesh", mesh));
+    Item* newItem = new Item( this );
+    newItem->setMesh( d->createObject<Mesh>( "Mesh", mesh ) );
     d->items << newItem;
 
     return newItem;
@@ -180,118 +180,118 @@ Engine::createItem( const QString& mesh)
 void
 Engine::destroyItem( Item* item )
 {
-    QMutexLocker locker(&d->itemMutex);
+    QMutexLocker locker( &d->itemMutex );
 
-    d->items.remove(d->items.indexOf(item));
+    d->items.remove( d->items.indexOf( item ) );
     delete item;
 }
 
 Material*
-Engine::createMaterial(const QString &name)
+Engine::createMaterial( const QString& name )
 {
-    Material * newMaterial = d->createObject<Material>("Material", name);
-    newMaterial->setName(name);
+    Material* newMaterial = d->createObject<Material>( "Material", name );
+    newMaterial->setName( name );
     return newMaterial;
 }
 
 void Engine::destroyMaterial( const QString& name )
 {
-    d->destroyObject("Material", name);
+    d->destroyObject( "Material", name );
 }
 
 bool Engine::hasMaterial( const QString& name )
 {
-    return d->hasObject("Material", name);
+    return d->hasObject( "Material", name );
 }
 
 Material*
 Engine::material( const QString& name )
 {
-    return d->object<Material>("Material", name);
+    return d->object<Material>( "Material", name );
 }
 
 bool
 Engine::addMaterial( const QString& name, Material* material )
 {
-    return d->addObject("Material", name, material);
+    return d->addObject( "Material", name, material );
 }
 
 void
 Engine::removeMaterial( const QString& name )
 {
-    d->removeObject("Material", name);
+    d->removeObject( "Material", name );
 }
 
 Mesh*
-Engine::createMesh(const QString& name)
+Engine::createMesh( const QString& name )
 {
-    return d->createObject<Mesh>("Mesh", name);
+    return d->createObject<Mesh>( "Mesh", name );
 }
 
 void
 Engine::destroyMesh( const QString& name )
 {
-    d->destroyObject("Mesh", name);
+    d->destroyObject( "Mesh", name );
 }
 
 bool
 Engine::hasMesh( const QString& name )
 {
-    return d->hasObject("Mesh", name);
+    return d->hasObject( "Mesh", name );
 }
 
 Mesh*
 Engine::mesh( const QString& name )
 {
-    return d->object<Mesh>("Mesh", name);
+    return d->object<Mesh>( "Mesh", name );
 }
 
 bool
 Engine::addMesh( const QString& name, Mesh* mesh )
 {
-    return d->addObject("Mesh", name, mesh);
+    return d->addObject( "Mesh", name, mesh );
 }
 
 void
 Engine::removeMesh( const QString& name )
 {
-    d->removeObject("Mesh", name);
+    d->removeObject( "Mesh", name );
 }
 
 Texture*
-Engine::createTexture(const QString& name)
+Engine::createTexture( const QString& name )
 {
-    return d->createObject<Texture>("Texture", name);
+    return d->createObject<Texture>( "Texture", name );
 }
 
 void
 Engine::destroyTexture( const QString& name )
 {
-    d->destroyObject("Texture", name);
+    d->destroyObject( "Texture", name );
 }
 
 bool
 Engine::hasTexture( const QString& name )
 {
-    return d->hasObject("Texture", name);
+    return d->hasObject( "Texture", name );
 }
 
 Texture*
 Engine::texture( const QString& name )
 {
-    return d->object<Texture>("Texture", name);
+    return d->object<Texture>( "Texture", name );
 }
 
 bool
 Engine::addTexture( const QString& name, Texture* texture )
 {
-    return d->addObject("Texture", name, texture);
+    return d->addObject( "Texture", name, texture );
 }
 
 void
 Engine::removeTexture( const QString& name )
 {
-    d->removeObject("Texture", name);
+    d->removeObject( "Texture", name );
 }
 
 Camera*
@@ -316,9 +316,9 @@ Engine::render()
 
     //Walk through all items, rendering them as we go
     const int size = d->items.size();
-    for(int i = 0; i < size; ++i)
+    for( int i = 0; i < size; ++i )
     {
-        d->items.at(i)->render();
+        d->items.at( i )->render();
     }
 
     //Unbind the FBO, making us stop rendering to it.
@@ -338,7 +338,7 @@ Engine::setFramebufferSize( int width, int height )
     d->objectMutex.lock();
 
     delete d->fbo;
-    d->fbo = new QGLFramebufferObject(width, height, QGLFramebufferObject::Depth);
+    d->fbo = new QGLFramebufferObject( width, height, QGLFramebufferObject::Depth );
 
     d->objectMutex.unlock();
 }
@@ -349,7 +349,7 @@ Engine::setActiveCamera( Camera* camera )
     d->objectMutex.lock();
     d->camera = camera;
     d->objectMutex.unlock();
-    emit activeCameraChanged(camera);
+    emit activeCameraChanged( camera );
 }
 
 void
@@ -361,10 +361,10 @@ Engine::setViewport( Viewport* viewport )
 }
 
 Engine::Engine()
-    : d(new EnginePrivate())
+    : d( new EnginePrivate() )
 {
     d->viewport = new Viewport();
-    connect(this, SIGNAL(activeCameraChanged(Camera*)), d->viewport, SLOT(update()));
+    connect( this, SIGNAL( activeCameraChanged( Camera* ) ), d->viewport, SLOT( update() ) );
 }
 
 Engine::~Engine()

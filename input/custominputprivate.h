@@ -32,12 +32,12 @@ namespace GluonInput
     {
         public:
             CustomInputPrivate();
-            CustomInputPrivate(CustomInputPrivate &other);
+            CustomInputPrivate( CustomInputPrivate& other );
             ~CustomInputPrivate();
 
-            QMap <QString, QPair<InputDevice *, int> > m_buttons;
-            QMap <QString, QPair<InputDevice *, int> > m_absAxis;
-            QMap <QString, QPair<InputDevice *, int> > m_relAxis;
+            QMap <QString, QPair<InputDevice*, int> > m_buttons;
+            QMap <QString, QPair<InputDevice*, int> > m_absAxis;
+            QMap <QString, QPair<InputDevice*, int> > m_relAxis;
     };
 
 }

@@ -53,7 +53,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             /**
              * Initialize the defaults.
@@ -76,7 +76,7 @@ namespace GluonGraphics
              *
              * \return The item just created.
              */
-            Item * createItem(const QString& mesh);
+            Item* createItem( const QString& mesh );
 
             /**
              * Destroy an item.
@@ -86,7 +86,7 @@ namespace GluonGraphics
              *
              * \param item The item to destroy.
              */
-            void destroyItem(Item* item);
+            void destroyItem( Item* item );
 
             /**
              * Create a Material.
@@ -96,7 +96,7 @@ namespace GluonGraphics
              * \return A new material with name as name or an existing
              * material if name is equal to an existing material.
              */
-            Material * createMaterial(const QString& name);
+            Material* createMaterial( const QString& name );
 
             /**
              * Destroy a material.
@@ -107,7 +107,7 @@ namespace GluonGraphics
              *
              * \param name The name of the material to destroy.
              */
-            void destroyMaterial(const QString& name);
+            void destroyMaterial( const QString& name );
 
             /**
              * Check whether a material is registered.
@@ -116,7 +116,7 @@ namespace GluonGraphics
              *
              * \return True if the material is registered, false if not.
              */
-            bool hasMaterial(const QString& name);
+            bool hasMaterial( const QString& name );
 
             /**
              * Retrieve a registered material.
@@ -125,7 +125,7 @@ namespace GluonGraphics
              *
              * \return The material requested or 0 if not found.
              */
-            Material * material(const QString& name);
+            Material* material( const QString& name );
 
             /**
              * Add a material to the registry.
@@ -138,7 +138,7 @@ namespace GluonGraphics
              * registered.
              *
              */
-            bool addMaterial(const QString& name, Material* material);
+            bool addMaterial( const QString& name, Material* material );
 
             /**
              * Remove a material from the registry.
@@ -147,7 +147,7 @@ namespace GluonGraphics
              *
              * \param name The name of the material to remove.
              */
-            void removeMaterial(const QString& name);
+            void removeMaterial( const QString& name );
 
             /**
              * Create a Mesh.
@@ -157,7 +157,7 @@ namespace GluonGraphics
              * \return A new mesh with name as name or an existing
              * mesh if name is equal to an existing mesh.
              */
-            Mesh * createMesh(const QString& name);
+            Mesh* createMesh( const QString& name );
 
             /**
              * Destroy a mesh.
@@ -168,7 +168,7 @@ namespace GluonGraphics
              *
              * \param name The name of the mesh to destroy.
              */
-            void destroyMesh(const QString& name);
+            void destroyMesh( const QString& name );
 
             /**
              * Check whether a mesh is registered.
@@ -177,7 +177,7 @@ namespace GluonGraphics
              *
              * \return True if the mesh is registered, false if not.
              */
-            bool hasMesh(const QString& name);
+            bool hasMesh( const QString& name );
 
             /**
              * Retrieve a registered mesh.
@@ -186,7 +186,7 @@ namespace GluonGraphics
              *
              * \return The mesh requested or 0 if not found.
              */
-            Mesh* mesh(const QString& name);
+            Mesh* mesh( const QString& name );
 
             /**
              * Add a mesh to the registry.
@@ -198,7 +198,7 @@ namespace GluonGraphics
              * returned when a mesh with the same name is already registered.
              *
              */
-            bool addMesh(const QString& name, Mesh* mesh);
+            bool addMesh( const QString& name, Mesh* mesh );
 
             /**
              * Remove a mesh from the registry.
@@ -207,7 +207,7 @@ namespace GluonGraphics
              *
              * \param name The name of the mesh to remove.
              */
-            void removeMesh(const QString& name);
+            void removeMesh( const QString& name );
 
             /**
              * Create a Texture.
@@ -219,7 +219,7 @@ namespace GluonGraphics
              * \return A new texture with name as name or an existing
              * texture if name is equal to an existing texture.
              */
-            Texture* createTexture(const QString& name);
+            Texture* createTexture( const QString& name );
 
             /**
              * Destroy a texture.
@@ -239,7 +239,7 @@ namespace GluonGraphics
              *
              * \return True if the texture is registered, false if not.
              */
-            bool hasTexture( const QString& name);
+            bool hasTexture( const QString& name );
 
             /**
              * Retrieve a registered texture.
@@ -248,7 +248,7 @@ namespace GluonGraphics
              *
              * \return The texture requested or 0 if not found.
              */
-            Texture* texture(const QString& name);
+            Texture* texture( const QString& name );
 
             /**
              * Add a texture to the registry.
@@ -305,7 +305,7 @@ namespace GluonGraphics
              * \param width The new width of the framebuffer.
              * \param height The new height of the framebuffer.
              */
-            void setFramebufferSize(int width, int height);
+            void setFramebufferSize( int width, int height );
 
             /**
              * Set the currently active camera.
@@ -314,25 +314,25 @@ namespace GluonGraphics
              *
              * \param camera The camera to set as active camera.
              */
-            void setActiveCamera(Camera* camera);
+            void setActiveCamera( Camera* camera );
 
-            void setViewport(Viewport* viewport);
+            void setViewport( Viewport* viewport );
 
         Q_SIGNALS:
             /**
              * Emitted whenever the active camera changes.
              */
-            void activeCameraChanged(Camera*);
+            void activeCameraChanged( Camera* );
 
         private:
             friend class GluonCore::Singleton<Engine>;
 
             Engine();
             ~Engine();
-            Q_DISABLE_COPY(Engine);
+            Q_DISABLE_COPY( Engine );
 
             class EnginePrivate;
-            EnginePrivate * const d;
+            EnginePrivate* const d;
     };
 } //namespace
 

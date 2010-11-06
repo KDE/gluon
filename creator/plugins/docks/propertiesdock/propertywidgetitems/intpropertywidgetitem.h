@@ -30,17 +30,17 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit IntPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit IntPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~IntPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditProperty(const QString& propertyName);
-            void setEditValue(const QVariant& value);
-            void intValueChanged(int value);
-            void uintValueChanged(int value);
+            void setEditProperty( const QString& propertyName );
+            void setEditValue( const QVariant& value );
+            void intValueChanged( int value );
+            void uintValueChanged( int value );
     };
 }
 

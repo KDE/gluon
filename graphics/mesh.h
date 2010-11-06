@@ -40,9 +40,9 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            Mesh(QObject * parent = 0);
+            Mesh( QObject* parent = 0 );
             virtual ~Mesh();
 
             /**
@@ -50,7 +50,7 @@ namespace GluonGraphics
              *
              * \param filename The name of the file to load.
              */
-            virtual void load(const QString& filename);
+            virtual void load( const QString& filename );
 
             /**
              * Has this mesh been loaded yet?
@@ -75,7 +75,7 @@ namespace GluonGraphics
              * \param colors The vertex colors to store in the buffer.
              * \param uvs The UV coordinate data to store in the buffer.
              */
-            virtual void createBuffer( const QVector< float >& vertices, const QVector< float >& colors, const QVector< float >& uvs);
+            virtual void createBuffer( const QVector< float >& vertices, const QVector< float >& colors, const QVector< float >& uvs );
 
             /**
              * Render the local OpenGL buffer.
@@ -84,11 +84,11 @@ namespace GluonGraphics
              * \param count The number of vertices to render.
              * \param material The material to get attribute locations from.
              */
-            virtual void renderBuffer( uint mode, int count, GluonGraphics::MaterialInstance* material);
+            virtual void renderBuffer( uint mode, int count, GluonGraphics::MaterialInstance* material );
 
         private:
             class MeshPrivate;
-            MeshPrivate * const d;
+            MeshPrivate* const d;
 
     };
 }//namespace

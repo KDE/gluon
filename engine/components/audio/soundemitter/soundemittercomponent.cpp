@@ -30,7 +30,7 @@
 #include <QtCore/QDebug>
 #include <QMimeData>
 
-REGISTER_OBJECTTYPE(GluonEngine, SoundEmitterComponent)
+REGISTER_OBJECTTYPE( GluonEngine, SoundEmitterComponent )
 
 using namespace GluonEngine;
 
@@ -38,19 +38,19 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
     public:
         SoundEmitterComponentPrivate()
-            : asset(0)
-            , sound(0)
-            , buffer(0)
-            , radius(10000.0f)
-            , volume(1.0f)
-            , pitch(1.0f)
-            , loop(false)
-            , autoPlay(false)
-            {}
+            : asset( 0 )
+            , sound( 0 )
+            , buffer( 0 )
+            , radius( 10000.0f )
+            , volume( 1.0f )
+            , pitch( 1.0f )
+            , loop( false )
+            , autoPlay( false )
+        {}
 
-        Asset *asset;
-        GluonAudio::Sound *sound;
-        GluonAudio::Buffer *buffer;
+        Asset* asset;
+        GluonAudio::Sound* sound;
+        GluonAudio::Buffer* buffer;
         float radius;
         float volume;
         float pitch;
@@ -58,16 +58,16 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
         bool autoPlay;
 };
 
-SoundEmitterComponent::SoundEmitterComponent(QObject *parent)
-    : Component(parent)
-    , d(new SoundEmitterComponentPrivate)
+SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
+    : Component( parent )
+    , d( new SoundEmitterComponentPrivate )
 {
-    metaInfo()->setPropertyRange("pitch", 0.5, 2.0);
+    metaInfo()->setPropertyRange( "pitch", 0.5, 2.0 );
 }
 
-SoundEmitterComponent::SoundEmitterComponent(const GluonEngine::SoundEmitterComponent &other)
-    : Component(other)
-    , d(other.d)
+SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterComponent& other )
+    : Component( other )
+    , d( other.d )
 {
 }
 
@@ -79,7 +79,7 @@ SoundEmitterComponent::~SoundEmitterComponent()
 
 QString SoundEmitterComponent::category() const
 {
-    return QString("Audio");
+    return QString( "Audio" );
 }
 
 void SoundEmitterComponent::play()
@@ -87,62 +87,66 @@ void SoundEmitterComponent::play()
     d->sound->play();
 }
 
-Asset *SoundEmitterComponent::sound()
+Asset* SoundEmitterComponent::sound()
 {
     return d->asset;
 }
 
-void SoundEmitterComponent::setSound(Asset *asset)
+void SoundEmitterComponent::setSound( Asset* asset )
 {
     d->asset = asset;
 
-    if (d->sound && asset->data()->hasFormat("application/gluon-audio-buffer")) {
+    if( d->sound && asset->data()->hasFormat( "application/gluon-audio-buffer" ) )
+    {
         d->sound->stop();
-        d->buffer->setBuffer(asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
-        d->sound->load(d->buffer);
+        d->buffer->setBuffer( asset->data()->data( "application/gluon-audio-buffer" ).toUInt(), true );
+        d->sound->load( d->buffer );
     }
 }
 
 void SoundEmitterComponent::initialize()
 {
-    if (!d->sound)
+    if( !d->sound )
         d->sound = new GluonAudio::Sound();
 
-    if (!d->buffer)
+    if( !d->buffer )
         d->buffer = new GluonAudio::Buffer();
 }
 
 void SoundEmitterComponent::start()
 {
-    if (d->asset) {
-        if (!d->asset->isLoaded()) d->asset->load();
+    if( d->asset )
+    {
+        if( !d->asset->isLoaded() ) d->asset->load();
 
-        if (d->asset->data()->hasFormat("application/gluon-audio-buffer")) {
-            d->buffer->setBuffer(d->asset->data()->data("application/gluon-audio-buffer").toUInt(), true);
+        if( d->asset->data()->hasFormat( "application/gluon-audio-buffer" ) )
+        {
+            d->buffer->setBuffer( d->asset->data()->data( "application/gluon-audio-buffer" ).toUInt(), true );
         }
     }
 
-    d->sound->load(d->buffer);
-    d->sound->setPosition(gameObject()->position());
-    d->sound->setRadius(d->radius);
-    d->sound->setVolume(d->volume);
-    d->sound->setPitch(d->pitch);
-    d->sound->setLoop(d->loop);
+    d->sound->load( d->buffer );
+    d->sound->setPosition( gameObject()->position() );
+    d->sound->setRadius( d->radius );
+    d->sound->setVolume( d->volume );
+    d->sound->setPitch( d->pitch );
+    d->sound->setLoop( d->loop );
 
-    if (d->autoPlay)
+    if( d->autoPlay )
         d->sound->play();
 }
 
-void SoundEmitterComponent::draw(int timeLapse)
+void SoundEmitterComponent::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse);
-    if (d->sound)
-      d->sound->setPosition(gameObject()->position());
+    Q_UNUSED( timeLapse );
+    if( d->sound )
+        d->sound->setPosition( gameObject()->position() );
 }
 
 void SoundEmitterComponent::stop()
 {
-    if (d->sound) {
+    if( d->sound )
+    {
         d->sound->stop();
     }
 }
@@ -160,10 +164,10 @@ float SoundEmitterComponent::radius() const
     return d->radius;
 }
 
-void SoundEmitterComponent::setRadius(float radius)
+void SoundEmitterComponent::setRadius( float radius )
 {
-    if (d->sound)
-        d->sound->setRadius(radius);
+    if( d->sound )
+        d->sound->setRadius( radius );
     d->radius = radius;
 }
 
@@ -172,11 +176,11 @@ float SoundEmitterComponent::volume() const
     return d->volume;
 }
 
-void SoundEmitterComponent::setVolume(float volume)
+void SoundEmitterComponent::setVolume( float volume )
 {
     d->volume = volume;
-    if (d->sound)
-        d->sound->setVolume(volume);
+    if( d->sound )
+        d->sound->setVolume( volume );
 }
 
 float SoundEmitterComponent::pitch() const
@@ -184,11 +188,11 @@ float SoundEmitterComponent::pitch() const
     return d->pitch;
 }
 
-void SoundEmitterComponent::setPitch(float pitch)
+void SoundEmitterComponent::setPitch( float pitch )
 {
     d->pitch = pitch;
-    if (d->sound)
-        d->sound->setPitch(pitch);
+    if( d->sound )
+        d->sound->setPitch( pitch );
 }
 
 bool SoundEmitterComponent::isLooping() const
@@ -198,21 +202,26 @@ bool SoundEmitterComponent::isLooping() const
 
 bool SoundEmitterComponent::isPlaying() const
 {
-    if (d->sound) {
+    if( d->sound )
+    {
         return d->sound->isPlaying();
     }
     return false;
 }
 
-void SoundEmitterComponent::setLoop(bool loop)
+void SoundEmitterComponent::setLoop( bool loop )
 {
     d->loop = loop;
 
-    if (d->sound) {
-        d->sound->setLoop(loop);
-        if (loop) {
+    if( d->sound )
+    {
+        d->sound->setLoop( loop );
+        if( loop )
+        {
             d->sound->play();
-        } else if (d->sound->isPlaying()) {
+        }
+        else if( d->sound->isPlaying() )
+        {
             d->sound->stop();
         }
     }
@@ -223,11 +232,11 @@ bool SoundEmitterComponent::autoPlay() const
     return d->autoPlay;
 }
 
-void SoundEmitterComponent::setAutoPlay(bool autoPlay)
+void SoundEmitterComponent::setAutoPlay( bool autoPlay )
 {
     d->autoPlay = autoPlay;
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_soundemitter, GluonEngine::SoundEmitterComponent)
+Q_EXPORT_PLUGIN2( gluon_component_soundemitter, GluonEngine::SoundEmitterComponent )
 
 #include "soundemittercomponent.moc"

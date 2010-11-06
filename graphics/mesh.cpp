@@ -34,9 +34,15 @@ using namespace GluonGraphics;
 class Mesh::MeshPrivate
 {
     public:
-        MeshPrivate() { buffer = 0; vertexLoc = -1; colorLoc = -1; uvLoc = -1; }
+        MeshPrivate()
+        {
+            buffer = 0;
+            vertexLoc = -1;
+            colorLoc = -1;
+            uvLoc = -1;
+        }
 
-        MaterialInstance * material;
+        MaterialInstance* material;
 
         GLuint buffer;
         int colorOffset;
@@ -47,9 +53,9 @@ class Mesh::MeshPrivate
         int uvLoc;
 };
 
-Mesh::Mesh(QObject * parent)
-    : QObject(parent),
-      d(new MeshPrivate)
+Mesh::Mesh( QObject* parent )
+    : QObject( parent ),
+      d( new MeshPrivate )
 {
 
 }
@@ -62,12 +68,12 @@ Mesh::~Mesh()
 void
 Mesh::load( const QString& filename )
 {
-    if(isLoaded())
+    if( isLoaded() )
         return;
 
-    #ifdef __GNUC__
-    #warning Todo: Move vertex buffer related stuff to a VertexBuffer class.
-    #endif
+#ifdef __GNUC__
+#warning Todo: Move vertex buffer related stuff to a VertexBuffer class.
+#endif
 
     QVector<float> vertices;
     vertices << -1.f << -1.f << 0.f;
@@ -96,13 +102,13 @@ Mesh::load( const QString& filename )
     uvs << 1.f << 1.f;
     uvs << 1.f << 0.f;
 
-    createBuffer(vertices, colors, uvs);
+    createBuffer( vertices, colors, uvs );
 }
 
 void
 Mesh::render( MaterialInstance* material )
 {
-    renderBuffer(GL_TRIANGLES, 6, material);
+    renderBuffer( GL_TRIANGLES, 6, material );
 }
 
 bool
@@ -114,47 +120,47 @@ Mesh::isLoaded()
 void
 Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors, const QVector<float>& uvs )
 {
-    glGenBuffers(1, &d->buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
-    glBufferData(GL_ARRAY_BUFFER, (vertices.size() * 4) + (colors.size() * 4) + (uvs.size() * 4), 0, GL_STATIC_DRAW);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * 4, vertices.data());
+    glGenBuffers( 1, &d->buffer );
+    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
+    glBufferData( GL_ARRAY_BUFFER, ( vertices.size() * 4 ) + ( colors.size() * 4 ) + ( uvs.size() * 4 ), 0, GL_STATIC_DRAW );
+    glBufferSubData( GL_ARRAY_BUFFER, 0, vertices.size() * 4, vertices.data() );
     d->colorOffset = vertices.size() * 4;
-    glBufferSubData(GL_ARRAY_BUFFER, d->colorOffset, colors.size() * 4, colors.data());
+    glBufferSubData( GL_ARRAY_BUFFER, d->colorOffset, colors.size() * 4, colors.data() );
     d->uvOffset = d->colorOffset + colors.size() * 4;
-    glBufferSubData(GL_ARRAY_BUFFER, d->uvOffset, uvs.size() * 4, uvs.data());
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBufferSubData( GL_ARRAY_BUFFER, d->uvOffset, uvs.size() * 4, uvs.data() );
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
 void
-Mesh::renderBuffer( uint mode, int count, MaterialInstance* material)
+Mesh::renderBuffer( uint mode, int count, MaterialInstance* material )
 {
-    if(d->buffer == 0)
+    if( d->buffer == 0 )
         return;
 
-    if(d->vertexLoc == -1)
-        d->vertexLoc = material->attributeLocation("vertex");
+    if( d->vertexLoc == -1 )
+        d->vertexLoc = material->attributeLocation( "vertex" );
 
-    if(d->colorLoc == -1)
-        d->colorLoc = material->attributeLocation("color");
+    if( d->colorLoc == -1 )
+        d->colorLoc = material->attributeLocation( "color" );
 
-    if(d->uvLoc == -1)
-        d->uvLoc = material->attributeLocation("uv0");
+    if( d->uvLoc == -1 )
+        d->uvLoc = material->attributeLocation( "uv0" );
 
-    glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
-    glVertexAttribPointer(d->vertexLoc, 3, GL_FLOAT, 0, 0, 0);
-    glVertexAttribPointer(d->colorLoc, 4, GL_FLOAT, 0, 0, (void*)(d->colorOffset) );
-    glVertexAttribPointer(d->uvLoc, 2, GL_FLOAT, 0, 0, (void*)(d->uvOffset) );
+    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
+    glVertexAttribPointer( d->vertexLoc, 3, GL_FLOAT, 0, 0, 0 );
+    glVertexAttribPointer( d->colorLoc, 4, GL_FLOAT, 0, 0, ( void* )( d->colorOffset ) );
+    glVertexAttribPointer( d->uvLoc, 2, GL_FLOAT, 0, 0, ( void* )( d->uvOffset ) );
 
-    glEnableVertexAttribArray(d->vertexLoc);
-    glEnableVertexAttribArray(d->colorLoc);
-    glEnableVertexAttribArray(d->uvLoc);
+    glEnableVertexAttribArray( d->vertexLoc );
+    glEnableVertexAttribArray( d->colorLoc );
+    glEnableVertexAttribArray( d->uvLoc );
 
-    glDrawArrays(mode, 0, count);
+    glDrawArrays( mode, 0, count );
 
-    glDisableVertexAttribArray(d->vertexLoc);
-    glDisableVertexAttribArray(d->colorLoc);
-    glDisableVertexAttribArray(d->uvLoc);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDisableVertexAttribArray( d->vertexLoc );
+    glDisableVertexAttribArray( d->colorLoc );
+    glDisableVertexAttribArray( d->uvLoc );
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
 #include "mesh.moc"

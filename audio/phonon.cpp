@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,21 +28,21 @@ class KALPhononPrivate
 {
     public:
         KALPhononPrivate() :
-                phononOutput(0),
-                parentheses(QRegExp::escape(" (") + ".*" + QRegExp::escape(")")) {}
+            phononOutput( 0 ),
+            parentheses( QRegExp::escape( " (" ) + ".*" + QRegExp::escape( ")" ) ) {}
 
         virtual ~KALPhononPrivate() {}
 
         QString alDevice;
-        Phonon::AudioOutput *phononOutput;
+        Phonon::AudioOutput* phononOutput;
         Phonon::Category category;
         QRegExp parentheses;
 
 };
 
-KALPhonon::KALPhonon(QObject *parent)
-        : QObject(parent),
-        d(new KALPhononPrivate)
+KALPhonon::KALPhonon( QObject* parent )
+    : QObject( parent ),
+      d( new KALPhononPrivate )
 {
 }
 
@@ -51,14 +51,14 @@ KALPhonon::~KALPhonon()
     delete d;
 }
 
-bool KALPhonon::setDevice(const Phonon::AudioOutputDevice &device)
+bool KALPhonon::setDevice( const Phonon::AudioOutputDevice& device )
 {
     // get the part of the device name that is common to Phonon and OpenAL
-    QString phononDevice = device.name().remove(d->parentheses);
+    QString phononDevice = device.name().remove( d->parentheses );
 
-    QStringList alDeviceList = KALEngine::deviceList().filter(phononDevice);
+    QStringList alDeviceList = KALEngine::deviceList().filter( phononDevice );
 
-    if (alDeviceList.isEmpty())
+    if( alDeviceList.isEmpty() )
     {
         qWarning() << "Could not find any OpenAL device that matches current Phonon device";
         return false;
@@ -66,42 +66,42 @@ bool KALPhonon::setDevice(const Phonon::AudioOutputDevice &device)
 
     d->alDevice = alDeviceList.first();
 
-    emit(deviceChanged(d->alDevice));
+    emit( deviceChanged( d->alDevice ) );
 
     return true;
 }
 
-bool KALPhonon::setCategory(Phonon::Category category)
+bool KALPhonon::setCategory( Phonon::Category category )
 {
     resetOutput();
 
     // An instance of QCoreApplication must be running to create a Phonon::AudioOutput
-    if (!QCoreApplication::instance())
+    if( !QCoreApplication::instance() )
     {
         qWarning() << "Could not get current Phonon device because QCoreApplication is not running";
         return false;
     }
 
-    d->phononOutput = new Phonon::AudioOutput(category, this);
-    if (!setDevice(d->phononOutput->outputDevice()))
+    d->phononOutput = new Phonon::AudioOutput( category, this );
+    if( !setDevice( d->phononOutput->outputDevice() ) )
     {
         return false;
     }
 
     d->category = category;
-    connect(d->phononOutput, SIGNAL(outputDeviceChanged(Phonon::AudioOutputDevice)), this, SLOT(setDevice(Phonon::AudioOutputDevice)));
+    connect( d->phononOutput, SIGNAL( outputDeviceChanged( Phonon::AudioOutputDevice ) ), this, SLOT( setDevice( Phonon::AudioOutputDevice ) ) );
 
     return true;
 }
 
 void KALPhonon::resetOutput()
 {
-    if (!d->phononOutput)
+    if( !d->phononOutput )
     {
         return;
     }
 
-    d->phononOutput->disconnect(this);
+    d->phononOutput->disconnect( this );
     d->phononOutput->deleteLater();
     d->phononOutput = 0;
 }

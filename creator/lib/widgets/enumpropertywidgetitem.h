@@ -29,19 +29,19 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit EnumPropertyWidgetItem(const QString &typeName, QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit EnumPropertyWidgetItem( const QString& typeName, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~EnumPropertyWidgetItem();
 
             virtual PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
         public slots:
-            virtual void setEditObject(QObject* editThis);
-            virtual void setEditValue(const QVariant& value);
-            virtual void indexChanged(int newIndex);
+            virtual void setEditObject( QObject* editThis );
+            virtual void setEditValue( const QVariant& value );
+            virtual void indexChanged( int newIndex );
 
         private:
-            EnumPWIPrivate * d;
+            EnumPWIPrivate* d;
     };
 }
 

@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -36,27 +36,27 @@ namespace GluonCreator
 
     class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
-        Q_OBJECT
-    public:
-        QList<KPluginInfo> pluginInfos() const;
-        QHash<QString, Plugin*> loadedPlugins();
-        
-    public Q_SLOTS:
-        void loadPlugins();
-        void setMainWindow(KXmlGuiWindow* window);
+            Q_OBJECT
+        public:
+            QList<KPluginInfo> pluginInfos() const;
+            QHash<QString, Plugin*> loadedPlugins();
 
-    Q_SIGNALS:
-        void pluginLoaded(Plugin * plugin);
+        public Q_SLOTS:
+            void loadPlugins();
+            void setMainWindow( KXmlGuiWindow* window );
 
-    private:
-        friend class GluonCore::Singleton<PluginManager>;
+        Q_SIGNALS:
+            void pluginLoaded( Plugin* plugin );
 
-        PluginManager();
-        ~PluginManager();
-        Q_DISABLE_COPY(PluginManager)
+        private:
+            friend class GluonCore::Singleton<PluginManager>;
 
-        class PluginManagerPrivate;
-        PluginManagerPrivate * const d;
+            PluginManager();
+            ~PluginManager();
+            Q_DISABLE_COPY( PluginManager )
+
+            class PluginManagerPrivate;
+            PluginManagerPrivate* const d;
     };
 }
 

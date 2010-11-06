@@ -27,9 +27,9 @@ namespace GluonCreator
 {
     class GluonViewerPart : public KParts::ReadOnlyPart
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
+            GluonViewerPart( QWidget* parentWidget, QObject* parent, const QVariantList& args );
             virtual ~GluonViewerPart();
 
         public slots:
@@ -44,7 +44,7 @@ namespace GluonCreator
 
         private:
             class GluonViewerPartPrivate;
-            GluonViewerPartPrivate * const d;
+            GluonViewerPartPrivate* const d;
     };
 }
 

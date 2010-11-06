@@ -37,31 +37,31 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT DetectWin : public Detect
     {
         public:
-            DetectWin(QObject *parent);
+            DetectWin( QObject* parent );
             ~DetectWin();
 
             void detectDevices();
-            void setAllEnabled(bool enable);
+            void setAllEnabled( bool enable );
 
-            QList<InputDevice *> inputList();
-            QList<Keyboard *> keyboardList();
-            QList<Mouse *> mouseList();
-            QList<Joystick *> joystickList();
-            QList<Touch *> touchList();
-            QList<InputDevice *> unknownDeviceList();
+            QList<InputDevice*> inputList();
+            QList<Keyboard*> keyboardList();
+            QList<Mouse*> mouseList();
+            QList<Joystick*> joystickList();
+            QList<Touch*> touchList();
+            QList<InputDevice*> unknownDeviceList();
 
-            void addInput(InputDevice *i);
-            void addKeyboard(InputDevice *i);
-            void addMouse(InputDevice *i);
-            void addJoystick(InputDevice *i);
-            void addTouch(InputDevice *i);
-            void addUnknown(InputDevice *i);
+            void addInput( InputDevice* i );
+            void addKeyboard( InputDevice* i );
+            void addMouse( InputDevice* i );
+            void addJoystick( InputDevice* i );
+            void addTouch( InputDevice* i );
+            void addUnknown( InputDevice* i );
 
             void clear();
 
         private:
             class DetectWinPrivate;
-            DetectWinPrivate *const d;
+            DetectWinPrivate* const d;
     };
 }
 #endif

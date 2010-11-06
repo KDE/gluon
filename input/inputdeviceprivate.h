@@ -35,8 +35,8 @@ namespace GluonInput
         public:
             InputDevicePrivate();
 
-            InputThread *inputThread;
-            InputBuffer *inputBuffer;
+            InputThread* inputThread;
+            InputBuffer* inputBuffer;
     };
 }
 

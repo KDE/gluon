@@ -30,9 +30,9 @@
 
 using namespace GluonCreator;
 
-NullPropertyWidgetItem::NullPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+NullPropertyWidgetItem::NullPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
-    setEditWidget(new QLabel(i18n("Unknown Type")));
+    setEditWidget( new QLabel( i18n( "Unknown Type" ) ) );
 }
 
 NullPropertyWidgetItem::~NullPropertyWidgetItem()
@@ -54,9 +54,9 @@ NullPropertyWidgetItem::instantiate()
 }
 
 void
-NullPropertyWidgetItem::setEditValue(const QVariant& value)
+NullPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("text", QString("Unknown: %1(%2)").arg(value.typeName()).arg(value.toString()));
+    editWidget()->setProperty( "text", QString( "Unknown: %1(%2)" ).arg( value.typeName() ).arg( value.toString() ) );
 }
 
 // #include "nullpropertywidgetitem.moc"

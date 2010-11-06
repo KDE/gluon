@@ -34,13 +34,13 @@ GameProjectPrivate::GameProjectPrivate()
     entryPoint = NULL;
 }
 
-GameProjectPrivate::GameProjectPrivate(const GameProjectPrivate &other)
-    : QSharedData(other)
-    , description(other.description)
-    , homepage(other.homepage)
-    , mediaInfo(other.mediaInfo)
-    , filename(other.filename)
-    , entryPoint(other.entryPoint)
+GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
+    : QSharedData( other )
+    , description( other.description )
+    , homepage( other.homepage )
+    , mediaInfo( other.mediaInfo )
+    , filename( other.filename )
+    , entryPoint( other.entryPoint )
 {
 }
 
@@ -49,25 +49,28 @@ GameProjectPrivate::~GameProjectPrivate()
 }
 
 bool
-GameProjectPrivate::saveChildren(const GluonCore::GluonObject *parent)
+GameProjectPrivate::saveChildren( const GluonCore::GluonObject* parent )
 {
     DEBUG_FUNC_NAME
-    if (!parent) {
-        DEBUG_TEXT(QString("Object child was null!"));
+    if( !parent )
+    {
+        DEBUG_TEXT( QString( "Object child was null!" ) );
         return false;
     }
 
-    for (int i = 0; i < parent->children().size(); ++i) {
-        GluonCore::GluonObject *child = parent->child(i);
+    for( int i = 0; i < parent->children().size(); ++i )
+    {
+        GluonCore::GluonObject* child = parent->child( i );
         // Inherits is slow, but at least it's going to be calling something that does
         // disk IO, so it's not the slowest thing there
-        if (child && child->inherits("GluonEngine::Savable")) {
-            DEBUG_TEXT(QString("Saving object named %1").arg(qobject_cast<const GluonCore::GluonObject *>(child)->name()));
-            Savable::saveToFile(qobject_cast<GluonCore::GluonObject*>(child));
+        if( child && child->inherits( "GluonEngine::Savable" ) )
+        {
+            DEBUG_TEXT( QString( "Saving object named %1" ).arg( qobject_cast<const GluonCore::GluonObject*>( child )->name() ) );
+            Savable::saveToFile( qobject_cast<GluonCore::GluonObject*>( child ) );
         }
 
         // Recurse!
-        saveChildren(qobject_cast<const GluonCore::GluonObject*>(child));
+        saveChildren( qobject_cast<const GluonCore::GluonObject*>( child ) );
     }
     return true;
 }

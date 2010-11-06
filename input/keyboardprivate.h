@@ -28,7 +28,7 @@ namespace GluonInput
     {
         public:
             KeyboardPrivate();
-            KeyboardPrivate(KeyboardPrivate &other);
+            KeyboardPrivate( KeyboardPrivate& other );
     };
 }
 

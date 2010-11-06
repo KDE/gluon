@@ -40,8 +40,8 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(MaterialInstance)
+            Q_OBJECT
+            GLUON_OBJECT( MaterialInstance )
 
         public:
             /**
@@ -52,7 +52,7 @@ namespace GluonGraphics
              *
              * \see Material::createInstance
              */
-            Q_INVOKABLE explicit MaterialInstance(QObject* parent = 0);
+            Q_INVOKABLE explicit MaterialInstance( QObject* parent = 0 );
 
             /**
              * Destructor.
@@ -78,14 +78,14 @@ namespace GluonGraphics
              *
              * \return The material this material instance uses.
              */
-            Material * material();
+            Material* material();
 
             /**
              * Set the material this material instance uses.
              *
              * \param material The material to use.
              */
-            void setMaterial(Material * material);
+            void setMaterial( Material* material );
 
             /**
              * Retrieve the location of a uniform variable from the underlying
@@ -95,7 +95,7 @@ namespace GluonGraphics
              *
              * \return The location of the uniform variable.
              */
-            int uniformLocation(const QString& name);
+            int uniformLocation( const QString& name );
 
             /**
              * Retrieve the location of a uniform variable from the underlying
@@ -105,7 +105,7 @@ namespace GluonGraphics
              *
              * \return The location of the uniform variable.
              */
-            int attributeLocation(const QString& attrib);
+            int attributeLocation( const QString& attrib );
 
             /**
              * Sets the modelViewProj uniform variable.
@@ -139,7 +139,7 @@ namespace GluonGraphics
              * \param name The name of the uniform to set the value of.
              * \param value The value to set the uniform to.
              */
-            void setGLUniform(const QString& name, const QVariant& value);
+            void setGLUniform( const QString& name, const QVariant& value );
 
             /**
              * Bind a texture to a uniform variable.
@@ -148,16 +148,16 @@ namespace GluonGraphics
              * form "textureX" where X is the number of the texture unit to use.
              * \param tex The texture to bind.
              */
-            void bindTexture( const QString& name, GluonGraphics::Texture* tex);
+            void bindTexture( const QString& name, GluonGraphics::Texture* tex );
 
         private:
             class MaterialInstancePrivate;
-            MaterialInstancePrivate * const d;
+            MaterialInstancePrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonGraphics::MaterialInstance);
-Q_DECLARE_METATYPE(GluonGraphics::MaterialInstance*);
+Q_DECLARE_METATYPE( GluonGraphics::MaterialInstance );
+Q_DECLARE_METATYPE( GluonGraphics::MaterialInstance* );
 
 #endif // GLUONGRAPHICS_MATERIALINSTANCE_H

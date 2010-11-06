@@ -37,17 +37,17 @@ namespace Plasma
 class HighScoresView : public AbstractItemView
 {
     public:
-        HighScoresView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual void setModel(QAbstractItemModel *model);
+        HighScoresView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual void setModel( QAbstractItemModel* model );
         virtual ~HighScoresView();
 
     private:
-        GluonPlayer::HighScoresModel *m_model;
+        GluonPlayer::HighScoresModel* m_model;
 
     protected:
-        Plasma::ItemBackground *m_itemBackground;
+        Plasma::ItemBackground* m_itemBackground;
 
-        bool eventFilter(QObject *obj, QEvent *event);
+        bool eventFilter( QObject* obj, QEvent* event );
 };
 
 #endif // HIGHSCORESVIEW_H

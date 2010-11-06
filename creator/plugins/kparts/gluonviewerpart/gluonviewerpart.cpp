@@ -37,57 +37,57 @@ using namespace GluonCreator;
 class GluonViewerPart::GluonViewerPartPrivate
 {
     public:
-        GluonGraphics::RenderWidget *widget;
-        GluonEngine::GameProject *project;
+        GluonGraphics::RenderWidget* widget;
+        GluonEngine::GameProject* project;
 
         bool autoplay;
 };
 
-GluonCreator::GluonViewerPart::GluonViewerPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
-    : ReadOnlyPart(parent),
-      d(new GluonViewerPartPrivate)
+GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* parent, const QVariantList& args )
+    : ReadOnlyPart( parent ),
+      d( new GluonViewerPartPrivate )
 {
-    Q_UNUSED(parentWidget)
+    Q_UNUSED( parentWidget )
 
-    KComponentData data("gluonviewerpart", "gluoncreator");
-    setComponentData(data);
+    KComponentData data( "gluonviewerpart", "gluoncreator" );
+    setComponentData( data );
 
     d->autoplay = true;
     d->widget = new GluonGraphics::RenderWidget();
-    setWidget(d->widget);
+    setWidget( d->widget );
 
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
 
-    foreach(const QVariant& arg, args)
+    foreach( const QVariant & arg, args )
     {
         QString keyValue = arg.toString();
-        if(keyValue == "autoplay=false")
+        if( keyValue == "autoplay=false" )
             d->autoplay = false;
     }
 
-    QActionGroup* group = new QActionGroup(actionCollection());
-    group->setExclusive(true);
+    QActionGroup* group = new QActionGroup( actionCollection() );
+    group->setExclusive( true );
 
-    KAction* solid = new KAction(KIcon("draw-polyline"), i18n("Solid"), actionCollection());
-    solid->setCheckable(true);
-    solid->setChecked(true);
-    connect(solid, SIGNAL(triggered(bool)), this, SLOT(setSolid()));
-    group->addAction(solid);
-    actionCollection()->addAction("toggleSolidAction", solid);
+    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18n( "Solid" ), actionCollection() );
+    solid->setCheckable( true );
+    solid->setChecked( true );
+    connect( solid, SIGNAL( triggered( bool ) ), this, SLOT( setSolid() ) );
+    group->addAction( solid );
+    actionCollection()->addAction( "toggleSolidAction", solid );
 
-    KAction* wire = new KAction(KIcon("draw-line"), i18n("Wireframe"), actionCollection());
-    wire->setCheckable(true);
-    connect(wire, SIGNAL(triggered(bool)), this, SLOT(setWireframe()));
-    group->addAction(wire);
-    actionCollection()->addAction("toggleWireframeAction", wire);
+    KAction* wire = new KAction( KIcon( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
+    wire->setCheckable( true );
+    connect( wire, SIGNAL( triggered( bool ) ), this, SLOT( setWireframe() ) );
+    group->addAction( wire );
+    actionCollection()->addAction( "toggleWireframeAction", wire );
 
-    KAction* points = new KAction(KIcon("edit-node"), i18n("Points"), actionCollection());
-    points->setCheckable(true);
-    connect(points, SIGNAL(triggered(bool)), this, SLOT(setPoints()));
-    group->addAction(points);
-    actionCollection()->addAction("togglePointsAction", points);
+    KAction* points = new KAction( KIcon( "edit-node" ), i18n( "Points" ), actionCollection() );
+    points->setCheckable( true );
+    connect( points, SIGNAL( triggered( bool ) ), this, SLOT( setPoints() ) );
+    group->addAction( points );
+    actionCollection()->addAction( "togglePointsAction", points );
 
-    setXMLFile("gluonviewerpartui.rc");
+    setXMLFile( "gluonviewerpartui.rc" );
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
@@ -101,14 +101,14 @@ bool GluonCreator::GluonViewerPart::openFile()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile(url());
+    d->project->loadFromFile( url() );
 
-    GluonEngine::Game::instance()->setGameProject(d->project);
-    GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
+    GluonEngine::Game::instance()->setGameProject( d->project );
+    GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
-    if(d->autoplay)
+    if( d->autoplay )
     {
-        QTimer::singleShot(100, this, SLOT(startGame()));
+        QTimer::singleShot( 100, this, SLOT( startGame() ) );
     }
 
     return true;
@@ -121,20 +121,20 @@ void GluonViewerPart::startGame()
 
 void GluonViewerPart::setSolid()
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 void GluonViewerPart::setWireframe()
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 void GluonViewerPart::setPoints()
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
 }
 
-K_PLUGIN_FACTORY(GluonViewerPartFactory, registerPlugin<GluonViewerPart>();)
-K_EXPORT_PLUGIN(GluonViewerPartFactory("GluonViewerPart","GluonViewerPart"))
+K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
+K_EXPORT_PLUGIN( GluonViewerPartFactory( "GluonViewerPart", "GluonViewerPart" ) )
 
 // #include "gluonviewerpart.moc"

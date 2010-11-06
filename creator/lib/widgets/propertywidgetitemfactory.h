@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -33,8 +33,8 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
     {
         public:
-            PropertyWidgetItem* create(const QObject *object, const QString& type, QWidget* parent);
-            void registerNewPIW(PropertyWidgetItem* newPIW);
+            PropertyWidgetItem* create( const QObject* object, const QString& type, QWidget* parent );
+            void registerNewPIW( PropertyWidgetItem* newPIW );
 
         private:
             friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
@@ -42,7 +42,7 @@ namespace GluonCreator
 
             PropertyWidgetItemFactory() { }
             ~PropertyWidgetItemFactory() { }
-            Q_DISABLE_COPY(PropertyWidgetItemFactory)
+            Q_DISABLE_COPY( PropertyWidgetItemFactory )
     };
 
 }
@@ -51,11 +51,11 @@ template<class T>
 class GLUONCREATOR_EXPORT PropertyWidgetItemRegistration
 {
     public:
-        PropertyWidgetItemRegistration(T* newPIW)
+        PropertyWidgetItemRegistration( T* newPIW )
         {
-            if (newPIW->metaObject())
+            if( newPIW->metaObject() )
             {
-                GluonCreator::PropertyWidgetItemFactory::instance()->registerNewPIW(newPIW);
+                GluonCreator::PropertyWidgetItemFactory::instance()->registerNewPIW( newPIW );
             }
         }
 };

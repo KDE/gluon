@@ -55,9 +55,9 @@ class ProjectModel::ProjectModelPrivate
         QStringList acceptedMimeTypes;
 };
 
-ProjectModel::ProjectModel(QObject* parent): QAbstractItemModel(parent), d(new ProjectModelPrivate)
+ProjectModel::ProjectModel( QObject* parent ): QAbstractItemModel( parent ), d( new ProjectModelPrivate )
 {
-    connect(HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SIGNAL(layoutChanged()));
+    connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SIGNAL( layoutChanged() ) );
 }
 
 ProjectModel::~ProjectModel()
@@ -73,62 +73,62 @@ ProjectModel::project()
 }
 
 void
-ProjectModel::setProject(GluonEngine::GameProject* project)
+ProjectModel::setProject( GluonEngine::GameProject* project )
 {
-    if(project)
+    if( project )
     {
-        d->root = new QObject(this);
+        d->root = new QObject( this );
         d->project = project;
-        project->setParent(d->root);
+        project->setParent( d->root );
 
         reset();
     }
 }
 
 QVariant
-ProjectModel::data(const QModelIndex& index, int role) const
+ProjectModel::data( const QModelIndex& index, int role ) const
 {
-    if (!index.isValid())
+    if( !index.isValid() )
         return QVariant();
 
-    if (role == Qt::DecorationRole)
+    if( role == Qt::DecorationRole )
     {
-        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(static_cast<QObject*>(index.internalPointer()));
-        if(gobj)
+        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>( static_cast<QObject*>( index.internalPointer() ) );
+        if( gobj )
         {
-            QVariant filename = gobj->property("file");
-                QString classname(gobj->metaObject()->className());
-                if(classname == QLatin1String("GluonCore::GluonObject"))
+            QVariant filename = gobj->property( "file" );
+            QString classname( gobj->metaObject()->className() );
+            if( classname == QLatin1String( "GluonCore::GluonObject" ) )
+            {
+                // In this case we're dealing with something which is a "folder"... show it as such
+                return KIcon( "folder" );
+            }
+            if( qobject_cast<GluonEngine::Asset*>( gobj ) )
+            {
+                QIcon icon = qobject_cast<GluonEngine::Asset*>( gobj )->icon();
+                if( icon.isNull() )
                 {
-                    // In this case we're dealing with something which is a "folder"... show it as such
-                    return KIcon("folder");
-                }
-                if(qobject_cast<GluonEngine::Asset*>(gobj))
-                {
-                    QIcon icon = qobject_cast<GluonEngine::Asset*>(gobj)->icon();
-                    if(icon.isNull())
+                    if( filename.isValid() )
                     {
-                        if(filename.isValid())
-                        {
-                            // If the asset doesn't provide an icon itself, but we do have a filename
-                            // Get the icon for the mimetype of that url
-                            QString name = filename.value<QString>();
-                            return KIcon(KMimeType::iconNameForUrl(KUrl(name)));
-                        }
-                        else
-                            return KIcon("unknown");
+                        // If the asset doesn't provide an icon itself, but we do have a filename
+                        // Get the icon for the mimetype of that url
+                        QString name = filename.value<QString>();
+                        return KIcon( KMimeType::iconNameForUrl( KUrl( name ) ) );
                     }
-                    return icon;
+                    else
+                        return KIcon( "unknown" );
                 }
-                else
-                    return KIcon("text-x-generic");
+                return icon;
+            }
+            else
+                return KIcon( "text-x-generic" );
         }
     }
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
+    if( role == Qt::DisplayRole || role == Qt::EditRole )
     {
-        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>(static_cast<QObject*>(index.internalPointer()));
-        if (gobj)
+        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>( static_cast<QObject*>( index.internalPointer() ) );
+        if( gobj )
             return gobj->name();
     }
 
@@ -136,34 +136,34 @@ ProjectModel::data(const QModelIndex& index, int role) const
 }
 
 int
-ProjectModel::columnCount(const QModelIndex& parent) const
+ProjectModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED(parent)
+    Q_UNUSED( parent )
     return 1;
 }
 
 int
-ProjectModel::rowCount(const QModelIndex& parent) const
+ProjectModel::rowCount( const QModelIndex& parent ) const
 {
-    if (parent.column() > 0)
+    if( parent.column() > 0 )
         return 0;
 
-    QObject *parentItem = d->root;
-    if (parent.isValid())
-        parentItem = static_cast<QObject*>(parent.internalPointer());
+    QObject* parentItem = d->root;
+    if( parent.isValid() )
+        parentItem = static_cast<QObject*>( parent.internalPointer() );
 
-    if (parentItem)
+    if( parentItem )
     {
-        if (qobject_cast<GluonCore::GluonObject*>(parentItem))
+        if( qobject_cast<GluonCore::GluonObject*>( parentItem ) )
         {
-            if (qobject_cast<GluonEngine::Scene*>(parentItem))
+            if( qobject_cast<GluonEngine::Scene*>( parentItem ) )
                 return 0;
 
             int childCount = 0;
             const QObjectList allChildren = parentItem->children();
-            foreach(const QObject* child, allChildren)
+            foreach( const QObject * child, allChildren )
             {
-                if(qobject_cast<const GluonCore::GluonObject* >(child))
+                if( qobject_cast<const GluonCore::GluonObject* >( child ) )
                     ++childCount;
             }
             return childCount;
@@ -176,62 +176,62 @@ ProjectModel::rowCount(const QModelIndex& parent) const
 }
 
 QModelIndex
-ProjectModel::parent(const QModelIndex& child) const
+ProjectModel::parent( const QModelIndex& child ) const
 {
-    if (!child.isValid())
+    if( !child.isValid() )
         return QModelIndex();
 
-    QObject *childItem = static_cast<QObject*>(child.internalPointer());
-    QObject *parentItem = childItem->parent();
+    QObject* childItem = static_cast<QObject*>( child.internalPointer() );
+    QObject* parentItem = childItem->parent();
 
-    if (parentItem == d->root)
+    if( parentItem == d->root )
         return QModelIndex();
 
-    QObject *grandParent = parentItem->parent();
-    if(grandParent)
+    QObject* grandParent = parentItem->parent();
+    if( grandParent )
     {
         int childCount = -1;
         const QObjectList allChildren = grandParent->children();
-        foreach(const QObject* grandChild, allChildren)
+        foreach( const QObject * grandChild, allChildren )
         {
-            if(qobject_cast<const GluonCore::GluonObject* >(grandChild))
+            if( qobject_cast<const GluonCore::GluonObject* >( grandChild ) )
                 ++childCount;
-            if(grandChild == parentItem)
-                return createIndex(childCount, 0, parentItem);
+            if( grandChild == parentItem )
+                return createIndex( childCount, 0, parentItem );
         }
     }
-    return createIndex(-1, 0, grandParent);
+    return createIndex( -1, 0, grandParent );
 }
 
 QModelIndex
-ProjectModel::index(int row, int column, const QModelIndex& parent) const
+ProjectModel::index( int row, int column, const QModelIndex& parent ) const
 {
-    if (!hasIndex(row, column, parent))
+    if( !hasIndex( row, column, parent ) )
         return QModelIndex();
 
-    QObject *parentItem = d->root;
-    if (parent.isValid())
-        parentItem = static_cast<QObject*>(parent.internalPointer());
+    QObject* parentItem = d->root;
+    if( parent.isValid() )
+        parentItem = static_cast<QObject*>( parent.internalPointer() );
 
     int childCount = -1;
     const QObjectList allChildren = parentItem->children();
-    foreach(const QObject* child, allChildren)
+    foreach( const QObject * child, allChildren )
     {
-        if(qobject_cast<const GluonCore::GluonObject*>(child))
+        if( qobject_cast<const GluonCore::GluonObject*>( child ) )
             ++childCount;
-        if(childCount == row)
-            return createIndex(row, column, const_cast<QObject*>(child));
+        if( childCount == row )
+            return createIndex( row, column, const_cast<QObject*>( child ) );
     }
 
     return QModelIndex();
 }
 
 QVariant
-ProjectModel::headerData(int section, Qt::Orientation orientation, int role) const
+ProjectModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
-    Q_UNUSED(section)
-    Q_UNUSED(orientation)
-    Q_UNUSED(role)
+    Q_UNUSED( section )
+    Q_UNUSED( orientation )
+    Q_UNUSED( role )
 
     return QVariant();
 }
@@ -243,20 +243,20 @@ ProjectModel::supportedDropActions() const
 }
 
 Qt::ItemFlags
-ProjectModel::flags(const QModelIndex& index) const
+ProjectModel::flags( const QModelIndex& index ) const
 {
-    if (index.isValid())
+    if( index.isValid() )
     {
-        QObject * obj = static_cast<QObject*>(index.internalPointer());
+        QObject* obj = static_cast<QObject*>( index.internalPointer() );
         //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
         // One does not simply drop Assets into Mord...other Assets!
-        if (obj->inherits("GluonEngine::Asset"))
+        if( obj->inherits( "GluonEngine::Asset" ) )
         {
-            return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+            return QAbstractItemModel::flags( index ) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
         else
         {
-            return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
+            return QAbstractItemModel::flags( index ) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
         }
     }
     else
@@ -268,15 +268,15 @@ ProjectModel::flags(const QModelIndex& index) const
 QStringList
 ProjectModel::mimeTypes() const
 {
-    if (d->acceptedMimeTypes.count() < 1)
+    if( d->acceptedMimeTypes.count() < 1 )
     {
         DEBUG_FUNC_NAME
-        d->acceptedMimeTypes.append("application/gluoncreator.projectmodel.gluonobject");
-        d->acceptedMimeTypes.append("text/uri-list");
-        d->acceptedMimeTypes.append(GluonCore::GluonObjectFactory::instance()->objectMimeTypes());
-        foreach(const QString &theName, d->acceptedMimeTypes)
+        d->acceptedMimeTypes.append( "application/gluoncreator.projectmodel.gluonobject" );
+        d->acceptedMimeTypes.append( "text/uri-list" );
+        d->acceptedMimeTypes.append( GluonCore::GluonObjectFactory::instance()->objectMimeTypes() );
+        foreach( const QString & theName, d->acceptedMimeTypes )
         {
-            DEBUG_TEXT(QString("%1").arg(theName));
+            DEBUG_TEXT( QString( "%1" ).arg( theName ) );
         }
     }
 
@@ -284,67 +284,67 @@ ProjectModel::mimeTypes() const
 }
 
 bool
-ProjectModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
+ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent )
 {
-    Q_UNUSED(row)
-    Q_UNUSED(column)
+    Q_UNUSED( row )
+    Q_UNUSED( column )
     DEBUG_FUNC_NAME
 
-    if (action == Qt::IgnoreAction)
+    if( action == Qt::IgnoreAction )
         return false;
 
-    if (data->hasUrls())
+    if( data->hasUrls() )
     {
-        foreach(const QUrl& theUrl, data->urls())
+        foreach( const QUrl & theUrl, data->urls() )
         {
-            ObjectManager::instance()->createNewAsset(theUrl.toLocalFile());
+            ObjectManager::instance()->createNewAsset( theUrl.toLocalFile() );
         }
     }
-    else if (data->hasFormat("application/gluoncreator.projectmodel.gluonobject"))
+    else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
     {
     }
     else
     {
     }
 
-    if (data->formats().length() < 1)
+    if( data->formats().length() < 1 )
         return false;
 
-    return QAbstractItemModel::dropMimeData(data, action, row, column, parent);
+    return QAbstractItemModel::dropMimeData( data, action, row, column, parent );
 }
 
 
 bool
-ProjectModel::setData(const QModelIndex& index, const QVariant& value, int role)
+ProjectModel::setData( const QModelIndex& index, const QVariant& value, int role )
 {
-    if (index.isValid() && role == Qt::EditRole)
+    if( index.isValid() && role == Qt::EditRole )
     {
-        static_cast<GluonCore::GluonObject*>(index.internalPointer())->setName(value.toString());
-        emit dataChanged(index, index);
+        static_cast<GluonCore::GluonObject*>( index.internalPointer() )->setName( value.toString() );
+        emit dataChanged( index, index );
         return true;
     }
     return false;
 }
 
 bool
-ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
+ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
 {
     DEBUG_FUNC_NAME
-    if (!parent.isValid())
+    if( !parent.isValid() )
         return false;
 
-   if(count < 1)
-       return false;
+    if( count < 1 )
+        return false;
 
-    GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
-    DEBUG_TEXT("Object removal begins...");
+    GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
+    DEBUG_TEXT( "Object removal begins..." );
 
-    beginRemoveRows(parent, row, row + count - 1);
-    for (int i = row; i < row + count; ++i)
+    beginRemoveRows( parent, row, row + count - 1 );
+    for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT(QString("Removing child at row %1").arg(i));
-        GluonCore::GluonObject * child = parentObject->child(row);
-        if (parentObject->removeChild(child))
+        DEBUG_TEXT( QString( "Removing child at row %1" ).arg( i ) );
+        GluonCore::GluonObject* child = parentObject->child( row );
+        if( parentObject->removeChild( child ) )
             delete child;
     }
     endRemoveRows();
@@ -352,16 +352,16 @@ ProjectModel::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
-void ProjectModel::addChild(QObject* newChild, QModelIndex& parent)
+void ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
 {
-    if(parent.isValid())
+    if( parent.isValid() )
     {
-        GluonCore::GluonObject * parentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+        GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
 
-        int rcount = rowCount(parent);
-        beginInsertRows(parent, rcount, rcount);
+        int rcount = rowCount( parent );
+        beginInsertRows( parent, rcount, rcount );
 
-        parentObject->addChild(qobject_cast<GluonCore::GluonObject*>(newChild));
+        parentObject->addChild( qobject_cast<GluonCore::GluonObject*>( newChild ) );
 
         endInsertRows();
     }

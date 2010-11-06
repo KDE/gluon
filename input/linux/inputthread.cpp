@@ -43,12 +43,12 @@
 
 using namespace GluonInput;
 
-InputThread::InputThread(const QString &devicePath, QObject *parent)
-    : QThread(parent)
-    , d(new InputThreadPrivate)
+InputThread::InputThread( const QString& devicePath, QObject* parent )
+    : QThread( parent )
+    , d( new InputThreadPrivate )
 {
     d->m_devicePath = devicePath;
-    if (openDevice(devicePath))
+    if( openDevice( devicePath ) )
         readInformation();
 }
 
@@ -59,32 +59,36 @@ InputThread::~InputThread()
 
 void InputThread::run()
 {
-    while (1) {
+    while( 1 )
+    {
         struct input_event ev;
-        int rd = read(d->m_fd, &ev, sizeof(struct input_event));
-        if (rd >= (int) sizeof(struct input_event)) {
-            QEvent::Type eventType = QEvent::Type(QEvent::User + ev.type);
+        int rd = read( d->m_fd, &ev, sizeof( struct input_event ) );
+        if( rd >= ( int ) sizeof( struct input_event ) )
+        {
+            QEvent::Type eventType = QEvent::Type( QEvent::User + ev.type );
 
-            switch (eventType) {
-            case GluonInput::Button:
-                emit this->buttonStateChanged(ev.code, ev.value);
-                break;
-            case GluonInput::RelativeAxis:
-                emit this->relAxisMoved(ev.code, ev.value);
-                break;
-            case GluonInput::AbsoluteAxis:
-                emit this->absAxisMoved(ev.code, ev.value);
-                break;
-            default:
-                break;
+            switch( eventType )
+            {
+                case GluonInput::Button:
+                    emit this->buttonStateChanged( ev.code, ev.value );
+                    break;
+                case GluonInput::RelativeAxis:
+                    emit this->relAxisMoved( ev.code, ev.value );
+                    break;
+                case GluonInput::AbsoluteAxis:
+                    emit this->absAxisMoved( ev.code, ev.value );
+                    break;
+                default:
+                    break;
             }
         }
     }
 }
 
-bool InputThread::openDevice(const QString &devicePath)
+bool InputThread::openDevice( const QString& devicePath )
 {
-    if ((d->m_fd = open(devicePath.toUtf8(), O_RDONLY)) == -1) {
+    if(( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 )
+    {
         qDebug() << "Could not open device: " << devicePath;
         d->m_error = true;
         d->m_msgError += "Could not open the device\n";
@@ -96,7 +100,8 @@ bool InputThread::openDevice(const QString &devicePath)
 
 void InputThread::readInformation()
 {
-    if (d->m_fd == -1) {
+    if( d->m_fd == -1 )
+    {
         qDebug() << "Device is not open";
         d->m_error = true;
         d->m_msgError = "Device is not open\n";
@@ -104,7 +109,8 @@ void InputThread::readInformation()
     }
 
     // Get the device ID
-    if (ioctl(d->m_fd, EVIOCGID, &d->m_device_info)) {
+    if( ioctl( d->m_fd, EVIOCGID, &d->m_device_info ) )
+    {
         qDebug() << "Could not retrieve information of device" << d->m_devicePath;
         d->m_msgError = "Could not retrieve information of device\n";
         d->m_error = true;
@@ -113,85 +119,97 @@ void InputThread::readInformation()
 
     char devname[256] = "Unknown";
     // Get the device name
-    if (ioctl(d->m_fd, EVIOCGNAME(sizeof(devname)), devname) == -1) {
+    if( ioctl( d->m_fd, EVIOCGNAME( sizeof( devname ) ), devname ) == -1 )
+    {
         qDebug() << "Could not retrieve name of device" << d->m_devicePath;
         d->m_msgError = "Could not retrieve name of device\n";
         d->m_error = true;
         return;
     }
-    d->m_deviceName = QString(devname);
+    d->m_deviceName = QString( devname );
 
     ///this next bit can be shared across platform
-    unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
+    unsigned long bit[EV_MAX][NBITS( KEY_MAX )];
     int abs[5];
-    memset(bit, 0, sizeof(bit));
+    memset( bit, 0, sizeof( bit ) );
     // Get the feature types here
-    ioctl(d->m_fd, EVIOCGBIT(0, EV_MAX), bit[0]);
+    ioctl( d->m_fd, EVIOCGBIT( 0, EV_MAX ), bit[0] );
 
     d->m_buttonCapabilities.clear();
     d->m_absAxisInfos.clear();
 
-    for (int i = 0; i < EV_MAX; ++i) {
-        if (test_bit(i, bit[0])) {
-            if (!i) {
+    for( int i = 0; i < EV_MAX; ++i )
+    {
+        if( test_bit( i, bit[0] ) )
+        {
+            if( !i )
+            {
                 continue;
             }
 
             // Get the features of the desired feature type here
-            ioctl(d->m_fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
-            switch (i) {
-            case EV_KEY:
+            ioctl( d->m_fd, EVIOCGBIT( i, KEY_MAX ), bit[i] );
+            switch( i )
+            {
+                case EV_KEY:
                 {
-                    for (int j = 0; j < KEY_MAX; ++j) {
-                        if (test_bit(j, bit[i]))
-                            d->m_buttonCapabilities.append(j);
+                    for( int j = 0; j < KEY_MAX; ++j )
+                    {
+                        if( test_bit( j, bit[i] ) )
+                            d->m_buttonCapabilities.append( j );
                     }
                 }
                 break;
-            case EV_REL:
+                case EV_REL:
                 {
-                    for (int j = 0; j < KEY_MAX; ++j) {
-                        if (test_bit(j, bit[i]))
-                            d->m_relAxisCapabilities.append(j);
+                    for( int j = 0; j < KEY_MAX; ++j )
+                    {
+                        if( test_bit( j, bit[i] ) )
+                            d->m_relAxisCapabilities.append( j );
                     }
                 }
                 break;
-            case EV_ABS:
+                case EV_ABS:
                 {
-                    for (int j = 0; j < ABS_MAX; ++j) {
-                        if (test_bit(j, bit[i])) {
+                    for( int j = 0; j < ABS_MAX; ++j )
+                    {
+                        if( test_bit( j, bit[i] ) )
+                        {
                             // Get abs value/limits
-                            ioctl(d->m_fd, EVIOCGABS(j), abs);
-                            AbsVal cabs(0, 0, 0, 0);
-                            for (int k = 0; k < 5; ++k) {
-                                if ((k < 3) || abs[k]) {
-                                    switch (k) {
-                                    case 0:
-                                        cabs.value = abs[k];
-                                        break;
-                                    case 1:
-                                        cabs.min = abs[k];
-                                        break;
-                                    case 2:
-                                        cabs.max = abs[k];
-                                        break;
-                                    case 3:
-                                        cabs.fuzz = abs[k];
-                                        break;
-                                    case 4:
-                                        cabs.flat = abs[k];
-                                        break;
+                            ioctl( d->m_fd, EVIOCGABS( j ), abs );
+                            AbsVal cabs( 0, 0, 0, 0 );
+                            for( int k = 0; k < 5; ++k )
+                            {
+                                if(( k < 3 ) || abs[k] )
+                                {
+                                    switch( k )
+                                    {
+                                        case 0:
+                                            cabs.value = abs[k];
+                                            break;
+                                        case 1:
+                                            cabs.min = abs[k];
+                                            break;
+                                        case 2:
+                                            cabs.max = abs[k];
+                                            break;
+                                        case 3:
+                                            cabs.fuzz = abs[k];
+                                            break;
+                                        case 4:
+                                            cabs.flat = abs[k];
+                                            break;
                                     }
                                 }
                             }
-                            d->m_absAxisCapabilities.append(j);
-                            d->m_absAxisInfos.append(cabs);
+                            d->m_absAxisCapabilities.append( j );
+                            d->m_absAxisInfos.append( cabs );
                         }
                     }
                 }
                 break;
-            default:
-                break;
+                default:
+                    break;
             }
         }
     }
@@ -200,24 +218,29 @@ void InputThread::readInformation()
 
     d->m_deviceType = GluonInput::UnknownDevice;
 
-    if (d->m_buttonCapabilities.contains(BTN_TOUCH)) {
+    if( d->m_buttonCapabilities.contains( BTN_TOUCH ) )
+    {
         d->m_deviceType  = GluonInput::TouchDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(BTN_STYLUS)
-            || d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
+    if( d->m_buttonCapabilities.contains( BTN_STYLUS )
+            || d->m_buttonCapabilities.contains( ABS_PRESSURE ) )
+    {
         d->m_deviceType  = GluonInput::MouseDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
+    if( d->m_buttonCapabilities.contains( BTN_TRIGGER ) )
+    {
         d->m_deviceType  = GluonInput::JoystickDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
+    if( d->m_buttonCapabilities.contains( BTN_MOUSE ) )
+    {
         d->m_deviceType  = GluonInput::MouseDevice;
     }
 
-    if (d->m_buttonCapabilities.contains(KEY_ENTER))	{
+    if( d->m_buttonCapabilities.contains( KEY_ENTER ) )
+    {
         d->m_deviceType  = GluonInput::KeyboardDevice;
     }
 }
@@ -277,7 +300,7 @@ QList<int> InputThread::relAxisCapabilities() const
     return d->m_relAxisCapabilities;
 }
 
-AbsVal InputThread::axisInfo(int axisCode) const
+AbsVal InputThread::axisInfo( int axisCode ) const
 {
     return d->m_absAxisInfos[axisCode];
 }
@@ -309,7 +332,7 @@ QString InputThread::msgError()
 
 void InputThread::closeDevice()
 {
-    if (close(d->m_fd))
+    if( close( d->m_fd ) )
         qDebug() << "Could not close the device: " << d->m_devicePath << endl;
 }
 

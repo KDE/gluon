@@ -36,31 +36,31 @@ namespace GluonCreator
             };
             ~EnumPWIPrivate() {};
 
-            KComboBox * comboBox;
-            QObject * editObject;
+            KComboBox* comboBox;
+            QObject* editObject;
             QString typeName;
             QMetaEnum metaEnum;
 
             void setupComboBox()
             {
                 DEBUG_BLOCK
-                if (!editObject)
+                if( !editObject )
                     return;
 
-                const QMetaObject * mo = editObject->metaObject();
-                int enumIndex = mo->indexOfEnumerator(typeName.toUtf8());
-                if (enumIndex > -1)
-                    metaEnum = mo->enumerator(enumIndex);
+                const QMetaObject* mo = editObject->metaObject();
+                int enumIndex = mo->indexOfEnumerator( typeName.toUtf8() );
+                if( enumIndex > -1 )
+                    metaEnum = mo->enumerator( enumIndex );
                 else
                 {
-                    DEBUG_TEXT(QString("The enumerator %1 was not found! Maybe you forgot to declare it in the class?").arg(typeName));
+                    DEBUG_TEXT( QString( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?" ).arg( typeName ) );
                     metaEnum = QMetaEnum();
                 }
 
                 //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
-                for (int i = 0; i < metaEnum.keyCount(); ++i)
+                for( int i = 0; i < metaEnum.keyCount(); ++i )
                 {
-                    comboBox->addItem(QString(metaEnum.key(i)), QVariant(i));
+                    comboBox->addItem( QString( metaEnum.key( i ) ), QVariant( i ) );
                 }
             }
     };
@@ -68,14 +68,14 @@ namespace GluonCreator
 
 using namespace GluonCreator;
 
-EnumPropertyWidgetItem::EnumPropertyWidgetItem(const QString& typeName, QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+EnumPropertyWidgetItem::EnumPropertyWidgetItem( const QString& typeName, QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
     d = new EnumPWIPrivate();
     d->typeName = typeName;
 
-    d->comboBox = new KComboBox(this);
-    layout()->addWidget(d->comboBox);
+    d->comboBox = new KComboBox( this );
+    layout()->addWidget( d->comboBox );
 }
 
 EnumPropertyWidgetItem::~EnumPropertyWidgetItem()
@@ -86,7 +86,7 @@ EnumPropertyWidgetItem::~EnumPropertyWidgetItem()
 PropertyWidgetItem*
 EnumPropertyWidgetItem::instantiate()
 {
-    return new EnumPropertyWidgetItem(QString());
+    return new EnumPropertyWidgetItem( QString() );
 }
 
 QStringList
@@ -97,27 +97,27 @@ EnumPropertyWidgetItem::supportedDataTypes() const
 }
 
 void
-EnumPropertyWidgetItem::setEditObject(QObject* editThis)
+EnumPropertyWidgetItem::setEditObject( QObject* editThis )
 {
-    GluonCreator::PropertyWidgetItem::setEditObject(editThis);
+    GluonCreator::PropertyWidgetItem::setEditObject( editThis );
     d->editObject = editThis;
     d->setupComboBox();
-    connect(d->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(indexChanged(int)));
+    connect( d->comboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged( int ) ) );
 }
 
 void
-EnumPropertyWidgetItem::setEditValue(const QVariant& value)
+EnumPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     int key = value.toInt();
-    d->comboBox->setCurrentIndex(d->comboBox->findData(QVariant(key)));
-    GluonCreator::PropertyWidgetItem::setEditValue(value);
+    d->comboBox->setCurrentIndex( d->comboBox->findData( QVariant( key ) ) );
+    GluonCreator::PropertyWidgetItem::setEditValue( value );
 }
 
 void
-EnumPropertyWidgetItem::indexChanged(int newIndex)
+EnumPropertyWidgetItem::indexChanged( int newIndex )
 {
-    d->editObject->setProperty(editProperty().toUtf8(), d->comboBox->itemData(newIndex));
-    GluonCreator::PropertyWidgetItem::valueChanged( QVariant(newIndex) );
+    d->editObject->setProperty( editProperty().toUtf8(), d->comboBox->itemData( newIndex ) );
+    GluonCreator::PropertyWidgetItem::valueChanged( QVariant( newIndex ) );
 }
 
 // #include "enumpropertywidgetitem.moc"

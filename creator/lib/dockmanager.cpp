@@ -29,48 +29,48 @@ class DockManager::DockManagerPrivate
 {
     public:
         QList<QDockWidget*> docks;
-        KXmlGuiWindow *mainWindow;
+        KXmlGuiWindow* mainWindow;
 };
 
 template<> GLUON_CREATOR_VISIBILITY DockManager* GluonCore::Singleton<DockManager>::m_instance = 0;
 
-void DockManager::addDock(QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient)
+void DockManager::addDock( QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient )
 {
-    if(d->mainWindow)
+    if( d->mainWindow )
     {
-        d->mainWindow->addDockWidget(area, dock, orient);
-        d->docks.append(dock);
+        d->mainWindow->addDockWidget( area, dock, orient );
+        d->docks.append( dock );
     }
 }
 
-void DockManager::removeDock(QDockWidget* dock)
+void DockManager::removeDock( QDockWidget* dock )
 {
-    if(d->docks.indexOf(dock) != -1)
+    if( d->docks.indexOf( dock ) != -1 )
     {
-        d->mainWindow->removeDockWidget(dock);
-        d->docks.removeOne(dock);
+        d->mainWindow->removeDockWidget( dock );
+        d->docks.removeOne( dock );
     }
 }
 
-void DockManager::setDocksEnabled(bool enabled)
+void DockManager::setDocksEnabled( bool enabled )
 {
-    foreach(QDockWidget *dock, d->docks)
+    foreach( QDockWidget * dock, d->docks )
     {
-        dock->setEnabled(enabled);
+        dock->setEnabled( enabled );
     }
 }
 
-void DockManager::setDocksLocked(bool locked)
+void DockManager::setDocksLocked( bool locked )
 {
-    foreach(QDockWidget *dock, d->docks)
+    foreach( QDockWidget * dock, d->docks )
     {
-        if(locked)
+        if( locked )
         {
-            dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+            dock->setFeatures( QDockWidget::NoDockWidgetFeatures );
         }
         else
         {
-            dock->setFeatures(QDockWidget::AllDockWidgetFeatures);
+            dock->setFeatures( QDockWidget::AllDockWidgetFeatures );
         }
     }
 }
@@ -80,13 +80,13 @@ KXmlGuiWindow* DockManager::mainWindow()
     return d->mainWindow;
 }
 
-void DockManager::setMainWindow(KXmlGuiWindow* window)
+void DockManager::setMainWindow( KXmlGuiWindow* window )
 {
     d->mainWindow = window;
 }
 
 DockManager::DockManager()
-    : d(new DockManagerPrivate)
+    : d( new DockManagerPrivate )
 {
 
 }

@@ -32,27 +32,27 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT DockManager : public GluonCore::Singleton<DockManager>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            void addDock(QDockWidget *dock, Qt::DockWidgetArea area, Qt::Orientation orient);
-            void removeDock(QDockWidget *dock);
+            void addDock( QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient );
+            void removeDock( QDockWidget* dock );
 
-            KXmlGuiWindow *mainWindow();
-            void setMainWindow(KXmlGuiWindow *window);
-            
+            KXmlGuiWindow* mainWindow();
+            void setMainWindow( KXmlGuiWindow* window );
+
         public Q_SLOTS:
-            void setDocksEnabled(bool enabled);
-            void setDocksLocked(bool locked);
+            void setDocksEnabled( bool enabled );
+            void setDocksLocked( bool locked );
 
         private:
             friend class GluonCore::Singleton<DockManager>;
-            
+
             DockManager();
             virtual ~DockManager();
-            Q_DISABLE_COPY(DockManager)
+            Q_DISABLE_COPY( DockManager )
 
             class DockManagerPrivate;
-            DockManagerPrivate * const d;
+            DockManagerPrivate* const d;
     };
 }
 

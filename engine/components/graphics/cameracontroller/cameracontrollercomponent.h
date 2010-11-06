@@ -29,22 +29,22 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT CameraControllerComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::CameraControllerComponent)
-            Q_PROPERTY(bool active READ isActive WRITE setActive)
-            Q_PROPERTY(QSizeF visibleArea READ visibleArea WRITE setVisibleArea)
-            Q_PROPERTY(float nearPlane READ nearPlane WRITE setNearPlane)
-            Q_PROPERTY(float farPlane READ farPlane WRITE setFarPlane)
-            Q_INTERFACES(GluonEngine::Component)
+            GLUON_OBJECT( GluonEngine::CameraControllerComponent )
+            Q_PROPERTY( bool active READ isActive WRITE setActive )
+            Q_PROPERTY( QSizeF visibleArea READ visibleArea WRITE setVisibleArea )
+            Q_PROPERTY( float nearPlane READ nearPlane WRITE setNearPlane )
+            Q_PROPERTY( float farPlane READ farPlane WRITE setFarPlane )
+            Q_INTERFACES( GluonEngine::Component )
 
         public:
-            Q_INVOKABLE CameraControllerComponent(QObject *parent = 0);
-            CameraControllerComponent(const CameraControllerComponent &other);
+            Q_INVOKABLE CameraControllerComponent( QObject* parent = 0 );
+            CameraControllerComponent( const CameraControllerComponent& other );
             virtual ~CameraControllerComponent();
             virtual QString category() const;
 
             virtual void initialize();
             virtual void start();
-            virtual void draw(int timeLapse = 0);
+            virtual void draw( int timeLapse = 0 );
             virtual void cleanup();
 
             virtual bool isActive();
@@ -53,19 +53,19 @@ namespace GluonEngine
             virtual float farPlane();
 
         public slots:
-            virtual void setActive(bool active);
-            virtual void setVisibleArea(const QSizeF &area);
-            virtual void setNearPlane(float near);
-            virtual void setFarPlane(float far);
+            virtual void setActive( bool active );
+            virtual void setVisibleArea( const QSizeF& area );
+            virtual void setNearPlane( float near );
+            virtual void setFarPlane( float far );
 
         private:
             class CameraControllerComponentPrivate;
-            CameraControllerComponentPrivate *const d;
+            CameraControllerComponentPrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent)
-Q_DECLARE_METATYPE(GluonEngine::CameraControllerComponent *)
+Q_DECLARE_METATYPE( GluonEngine::CameraControllerComponent )
+Q_DECLARE_METATYPE( GluonEngine::CameraControllerComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

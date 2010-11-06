@@ -25,35 +25,40 @@
 #include <QPointF>
 #include <KDebug>
 
-AbstractAction::AbstractAction(GraphScene *scene, QObject *parent)
-        : KToggleAction(parent) {
+AbstractAction::AbstractAction( GraphScene* scene, QObject* parent )
+    : KToggleAction( parent )
+{
     _graphDocument = 0;
     _graph = 0;
     _graphScene = scene;
 
-    connect(this, SIGNAL(triggered()),
-            this, SLOT( sendExecuteBit() ));
+    connect( this, SIGNAL( triggered() ),
+             this, SLOT( sendExecuteBit() ) );
 }
 
 
-void AbstractAction::setActiveGraphDocument(  GraphDocument *graphDocument) {
+void AbstractAction::setActiveGraphDocument( GraphDocument* graphDocument )
+{
     _graphDocument = graphDocument;
 }
 
-void AbstractAction::setActiveGraph( Graph *graph) {
+void AbstractAction::setActiveGraph( Graph* graph )
+{
     _graph = graph;
 }
 
-void AbstractAction::sendExecuteBit() {
-    _graphScene -> setAction ( this );
+void AbstractAction::sendExecuteBit()
+{
+    _graphScene -> setAction( this );
 }
 
-const QString& AbstractAction::name() const {
+const QString& AbstractAction::name() const
+{
     return _name;
 }
-void AbstractAction::executePress(QPointF) {}
-void AbstractAction::executeMove(QPointF) {}
-void AbstractAction::executeRelease(QPointF) {}
-void AbstractAction::executeKeyPress(QKeyEvent*) {}
-void AbstractAction::executeKeyRelease(QKeyEvent*) {}
+void AbstractAction::executePress( QPointF ) {}
+void AbstractAction::executeMove( QPointF ) {}
+void AbstractAction::executeRelease( QPointF ) {}
+void AbstractAction::executeKeyPress( QKeyEvent* ) {}
+void AbstractAction::executeKeyRelease( QKeyEvent* ) {}
 

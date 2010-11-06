@@ -32,14 +32,14 @@
 #include <Plasma/ToolTipContent>
 
 
-GamesViewItem::GamesViewItem(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : QGraphicsWidget(parent, wFlags), m_preview(0), m_gameName(0), m_gameDescription(0),
-        m_playButton(0), m_layout(0)
+GamesViewItem::GamesViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : QGraphicsWidget( parent, wFlags ), m_preview( 0 ), m_gameName( 0 ), m_gameDescription( 0 ),
+      m_playButton( 0 ), m_layout( 0 )
 {
 
 }
 
-void GamesViewItem::setModelIndex(const QModelIndex &index)
+void GamesViewItem::setModelIndex( const QModelIndex& index )
 {
     m_index = index;
     layoutWidgets();
@@ -50,39 +50,39 @@ void GamesViewItem::layoutWidgets()
 {
     m_layout = new QGraphicsGridLayout();
 
-    m_preview = new Plasma::IconWidget(this);
-    m_preview->setIcon(KIcon("gluon_creator"));
-    m_preview->setAcceptHoverEvents(false);
-    m_preview->setContentsMargins(0, 0, 0, 0);
-    m_preview->setAcceptedMouseButtons(Qt::NoButton);
-    m_preview->setFocusPolicy(Qt::NoFocus);
-    m_preview->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+    m_preview = new Plasma::IconWidget( this );
+    m_preview->setIcon( KIcon( "gluon_creator" ) );
+    m_preview->setAcceptHoverEvents( false );
+    m_preview->setContentsMargins( 0, 0, 0, 0 );
+    m_preview->setAcceptedMouseButtons( Qt::NoButton );
+    m_preview->setFocusPolicy( Qt::NoFocus );
+    m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
-    m_gameName = new Plasma::Label(this);
-    m_gameName->setText(m_index.sibling(m_index.row(), GluonPlayer::GamesModel::NameColumn).data().toString());
+    m_gameName = new Plasma::Label( this );
+    m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
 
-    m_gameDescription = new Plasma::Label(this);
-    m_gameDescription->setText(m_index.sibling(m_index.row(), GluonPlayer::GamesModel::DescriptionColumn).data().toString());
+    m_gameDescription = new Plasma::Label( this );
+    m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
 
-    m_playButton = new Plasma::IconWidget(this);
-    m_playButton->setIcon(KIcon("media-playback-start"));
-    m_playButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-    connect(m_playButton, SIGNAL(activated()), SLOT(playGameActivated()));
+    m_playButton = new Plasma::IconWidget( this );
+    m_playButton->setIcon( KIcon( "media-playback-start" ) );
+    m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
+    connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
 
-    m_layout->addItem(m_preview, 0, 0, 2, 1);
-    m_layout->addItem(m_gameName, 0, 1);
-    m_layout->addItem(m_gameDescription, 1, 1);
-    m_layout->addItem(m_playButton, 0, 2, 2, 1);
-    setLayout(m_layout);
+    m_layout->addItem( m_preview, 0, 0, 2, 1 );
+    m_layout->addItem( m_gameName, 0, 1 );
+    m_layout->addItem( m_gameDescription, 1, 1 );
+    m_layout->addItem( m_playButton, 0, 2, 2, 1 );
+    setLayout( m_layout );
 }
 
 void GamesViewItem::setToolTips()
 {
     Plasma::ToolTipContent data;
-    data.setImage(m_preview->icon());
-    data.setMainText(m_gameName->text());
-    data.setSubText(i18n("Click here to Start the game"));
-    Plasma::ToolTipManager::self()->setContent(m_playButton, data);
+    data.setImage( m_preview->icon() );
+    data.setMainText( m_gameName->text() );
+    data.setSubText( i18n( "Click here to Start the game" ) );
+    Plasma::ToolTipManager::self()->setContent( m_playButton, data );
 }
 
 QModelIndex GamesViewItem::modelIndex() const
@@ -92,13 +92,13 @@ QModelIndex GamesViewItem::modelIndex() const
 
 void GamesViewItem::playGameActivated()
 {
-    emit gameToPlaySelected(m_index);
+    emit gameToPlaySelected( m_index );
 }
 
-void GamesViewItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void GamesViewItem::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
-    Q_UNUSED(event);
-    emit gameSelected(m_index);
+    Q_UNUSED( event );
+    emit gameSelected( m_index );
 }
 
 

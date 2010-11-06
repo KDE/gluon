@@ -26,7 +26,7 @@
 
 #include <cfloat>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, QSizeFPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, QSizeFPropertyWidgetItem )
 
 using namespace GluonCreator;
 
@@ -35,35 +35,35 @@ class QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItemPrivate
     public:
         QSizeFPropertyWidgetItemPrivate() {};
 
-        QDoubleSpinBox *height;
-        QDoubleSpinBox *width;
+        QDoubleSpinBox* height;
+        QDoubleSpinBox* width;
 
         QSizeF value;
 };
 
-QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
     d = new QSizeFPropertyWidgetItemPrivate;
 
-    QWidget *widget = new QWidget(this);
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->setSpacing(0);
-    widget->setLayout(layout);
+    QWidget* widget = new QWidget( this );
+    QHBoxLayout* layout = new QHBoxLayout();
+    layout->setSpacing( 0 );
+    widget->setLayout( layout );
 
-    d->height = new QDoubleSpinBox(this);
-    d->height->setPrefix(tr("Height: "));
-    d->height->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->height);
-    connect(d->height, SIGNAL(valueChanged(double)), SLOT(heightValueChanged(double)));
+    d->height = new QDoubleSpinBox( this );
+    d->height->setPrefix( tr( "Height: " ) );
+    d->height->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->height );
+    connect( d->height, SIGNAL( valueChanged( double ) ), SLOT( heightValueChanged( double ) ) );
 
-    d->width = new QDoubleSpinBox(this);
-    d->width->setPrefix(tr("Width: "));
-    d->width->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->width);
-    connect(d->width, SIGNAL(valueChanged(double)), SLOT(widthValueChanged(double)));
+    d->width = new QDoubleSpinBox( this );
+    d->width->setPrefix( tr( "Width: " ) );
+    d->width->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->width );
+    connect( d->width, SIGNAL( valueChanged( double ) ), SLOT( widthValueChanged( double ) ) );
 
-    setEditWidget(widget);
+    setEditWidget( widget );
 }
 
 QSizeFPropertyWidgetItem::~QSizeFPropertyWidgetItem()
@@ -75,7 +75,7 @@ QStringList
 QSizeFPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QSizeF");
+    supportedTypes.append( "QSizeF" );
     return supportedTypes;
 }
 
@@ -86,26 +86,26 @@ QSizeFPropertyWidgetItem::instantiate()
 }
 
 void
-QSizeFPropertyWidgetItem::setEditValue(const QVariant& value)
+QSizeFPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     d->value = value.toSizeF();
 
-    d->height->setValue(d->value.height());
-    d->width->setValue(d->value.width());
+    d->height->setValue( d->value.height() );
+    d->width->setValue( d->value.width() );
 }
 
 void
-QSizeFPropertyWidgetItem::heightValueChanged(double value)
+QSizeFPropertyWidgetItem::heightValueChanged( double value )
 {
-    d->value.setHeight(value);
-    PropertyWidgetItem::valueChanged(QVariant(d->value));
+    d->value.setHeight( value );
+    PropertyWidgetItem::valueChanged( QVariant( d->value ) );
 }
 
 void
-QSizeFPropertyWidgetItem::widthValueChanged(double value)
+QSizeFPropertyWidgetItem::widthValueChanged( double value )
 {
-    d->value.setWidth(value);
-    PropertyWidgetItem::valueChanged(QVariant(d->value));
+    d->value.setWidth( value );
+    PropertyWidgetItem::valueChanged( QVariant( d->value ) );
 }
 
 // #include "qsizefpropertywidgetitem.moc"

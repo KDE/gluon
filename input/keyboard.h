@@ -31,9 +31,9 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT Keyboard : public InputDevice
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit Keyboard(InputThread *inputThread, QObject *parent = 0);
+            explicit Keyboard( InputThread* inputThread, QObject* parent = 0 );
 
         private:
             QSharedDataPointer<KeyboardPrivate> d;

@@ -9,12 +9,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -33,27 +33,27 @@
 
 using namespace GluonGraphics;
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication app(argc, argv);
+    QApplication app( argc, argv );
 
 
     //Create the openGL View
-    GluonGraphics::GLWidget * view = new GluonGraphics::GLWidget();
+    GluonGraphics::GLWidget* view = new GluonGraphics::GLWidget();
 
     //Create a camera
-    GluonGraphics::Camera *cam = new GluonGraphics::Camera();
-    GluonGraphics::Engine::instance()->setActiveCamera(cam);
+    GluonGraphics::Camera* cam = new GluonGraphics::Camera();
+    GluonGraphics::Engine::instance()->setActiveCamera( cam );
 
     //Use a timer to update frame each 20 ms
-    QTimer * timer = new QTimer;
-    timer->start(20);
-    QObject::connect(timer, SIGNAL(timeout()), view, SLOT(updateGL()));
+    QTimer* timer = new QTimer;
+    timer->start( 20 );
+    QObject::connect( timer, SIGNAL( timeout() ), view, SLOT( updateGL() ) );
 
 
-//this class add a cube and move it
-    Testa * test = new Testa;
-    QObject::connect(timer, SIGNAL(timeout()), test, SLOT(test()));
+    //this class add a cube and move it
+    Testa* test = new Testa;
+    QObject::connect( timer, SIGNAL( timeout() ), test, SLOT( test() ) );
 
 
 

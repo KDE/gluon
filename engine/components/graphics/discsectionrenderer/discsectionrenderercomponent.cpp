@@ -28,7 +28,7 @@
 
 #include <cmath>
 
-REGISTER_OBJECTTYPE(GluonEngine, DiscSectionRendererComponent)
+REGISTER_OBJECTTYPE( GluonEngine, DiscSectionRendererComponent )
 
 using namespace GluonEngine;
 
@@ -44,13 +44,13 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
             radius = 5.0f;
             degrees  = 90.0f;
             arcCenter = M_PI / 2.0f;
-            color.setRgb(255, 255, 255);
+            color.setRgb( 255, 255, 255 );
         }
 
-        GluonGraphics::Item *item;
-        GluonGraphics::DiscSectionMesh *mesh;
+        GluonGraphics::Item* item;
+        GluonGraphics::DiscSectionMesh* mesh;
 
-        GluonEngine::Asset *texture;
+        GluonEngine::Asset* texture;
 
         uint nbPoints;
         float radius;
@@ -59,16 +59,16 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
         QColor color;
 };
 
-DiscSectionRendererComponent::DiscSectionRendererComponent(QObject *parent)
-    : Component(parent)
-    , d(new DiscSectionRendererComponentPrivate)
+DiscSectionRendererComponent::DiscSectionRendererComponent( QObject* parent )
+    : Component( parent )
+    , d( new DiscSectionRendererComponentPrivate )
 {
 
 }
 
-DiscSectionRendererComponent::DiscSectionRendererComponent(const DiscSectionRendererComponent &other)
-    : Component(other)
-    , d(other.d)
+DiscSectionRendererComponent::DiscSectionRendererComponent( const DiscSectionRendererComponent& other )
+    : Component( other )
+    , d( other.d )
 {
 }
 
@@ -80,24 +80,27 @@ DiscSectionRendererComponent::~DiscSectionRendererComponent()
 QString
 DiscSectionRendererComponent::category() const
 {
-    return QString("Graphics Rendering");
+    return QString( "Graphics Rendering" );
 }
 
 void DiscSectionRendererComponent::initialize()
 {
-    if (!d->item) {
-        d->mesh = new GluonGraphics::DiscSectionMesh(gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color, this);
-        d->item = new GluonGraphics::Item(d->mesh, this);
-        d->item->setColor(d->color);
+    if( !d->item )
+    {
+        d->mesh = new GluonGraphics::DiscSectionMesh( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color, this );
+        d->item = new GluonGraphics::Item( d->mesh, this );
+        d->item->setColor( d->color );
     }
 
-    if (d->texture) {
-        if (!d->texture->isLoaded())
+    if( d->texture )
+    {
+        if( !d->texture->isLoaded() )
             d->texture->load();
 
-        const QMimeData *data = d->texture->data();
-        if (data->hasImage()) {
-            d->mesh->setTexture(data->imageData().value<QImage>());
+        const QMimeData* data = d->texture->data();
+        if( data->hasImage() )
+        {
+            d->mesh->setTexture( data->imageData().value<QImage>() );
         }
     }
 }
@@ -106,18 +109,20 @@ void DiscSectionRendererComponent::start()
 {
 }
 
-void DiscSectionRendererComponent::draw(int timeLapse)
+void DiscSectionRendererComponent::draw( int timeLapse )
 {
-    Q_UNUSED(timeLapse)
+    Q_UNUSED( timeLapse )
 
-    if (d->item) {
-        d->item->setMatrix(gameObject()->transform());
+    if( d->item )
+    {
+        d->item->setMatrix( gameObject()->transform() );
     }
 }
 
 void DiscSectionRendererComponent::cleanup()
 {
-    if (d->item) {
+    if( d->item )
+    {
         delete d->item;
         d->item = 0;
         d->mesh = 0;
@@ -129,11 +134,11 @@ float DiscSectionRendererComponent::radius()
     return d->radius;
 }
 
-void DiscSectionRendererComponent::setRadius(float newRadius)
+void DiscSectionRendererComponent::setRadius( float newRadius )
 {
     d->radius = newRadius;
-    if (gameObject())
-        setDiscSection(gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color);
+    if( gameObject() )
+        setDiscSection( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color );
 }
 
 uint DiscSectionRendererComponent::nbPoints()
@@ -141,17 +146,17 @@ uint DiscSectionRendererComponent::nbPoints()
     return d->nbPoints;
 }
 
-void DiscSectionRendererComponent::setNbPoints(uint newNbPoints)
+void DiscSectionRendererComponent::setNbPoints( uint newNbPoints )
 {
     d->nbPoints = newNbPoints;
-    if (gameObject())
-        setDiscSection(gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color);
+    if( gameObject() )
+        setDiscSection( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color );
 }
 
-void DiscSectionRendererComponent::setDiscSection(QVector3D position, float radius, uint nbPoints, float degrees, float arcCenter,QColor color)
+void DiscSectionRendererComponent::setDiscSection( QVector3D position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color )
 {
-    if (d->mesh)
-        d->mesh->setDiscSection(position, radius, nbPoints, degrees, arcCenter, color);
+    if( d->mesh )
+        d->mesh->setDiscSection( position, radius, nbPoints, degrees, arcCenter, color );
 }
 
 float DiscSectionRendererComponent::degrees()
@@ -159,31 +164,37 @@ float DiscSectionRendererComponent::degrees()
     return d->degrees;
 }
 
-void DiscSectionRendererComponent::setDegrees(float newDegrees)
+void DiscSectionRendererComponent::setDegrees( float newDegrees )
 {
-    if (newDegrees > 359.9f) {
+    if( newDegrees > 359.9f )
+    {
         d->degrees = 359.9f;
-    } else if (newDegrees == 0) {
+    }
+    else if( newDegrees == 0 )
+    {
         d->degrees = 1;
-    } else {
+    }
+    else
+    {
         d->degrees = newDegrees;
     }
 
-    if (gameObject())
-        setDiscSection(gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color);
+    if( gameObject() )
+        setDiscSection( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color );
 }
 
-void DiscSectionRendererComponent::setColor(const QColor& color)
+void DiscSectionRendererComponent::setColor( const QColor& color )
 {
     d->color = color;
-    if (d->mesh) {
-        d->mesh->setColor(color);
+    if( d->mesh )
+    {
+        d->mesh->setColor( color );
     }
 }
 
-void DiscSectionRendererComponent::setColor(int r, int g, int b, int a)
+void DiscSectionRendererComponent::setColor( int r, int g, int b, int a )
 {
-    setColor(QColor(r, g, b, a));
+    setColor( QColor( r, g, b, a ) );
 }
 
 QColor DiscSectionRendererComponent::color()
@@ -196,38 +207,45 @@ Asset* DiscSectionRendererComponent::texture()
     return d->texture;
 }
 
-void DiscSectionRendererComponent::setTexture(Asset* asset)
+void DiscSectionRendererComponent::setTexture( Asset* asset )
 {
     d->texture = asset;
 
-    if (asset) {
-        if (d->mesh && asset->isLoaded()) {
-            d->mesh->setTexture(asset->data()->imageData().value<QImage>());
+    if( asset )
+    {
+        if( d->mesh && asset->isLoaded() )
+        {
+            d->mesh->setTexture( asset->data()->imageData().value<QImage>() );
         }
     }
 }
 
 float DiscSectionRendererComponent::arcCenter()
 {
-    return d->arcCenter * (180.0f/M_PI);
+    return d->arcCenter * ( 180.0f / M_PI );
 }
 
-void DiscSectionRendererComponent::setArcCenter(float newArcCenter)
+void DiscSectionRendererComponent::setArcCenter( float newArcCenter )
 {
-    if(newArcCenter > 359.9f) {
-       newArcCenter = 359.9f;
-    } else if(newArcCenter == 0) {
+    if( newArcCenter > 359.9f )
+    {
+        newArcCenter = 359.9f;
+    }
+    else if( newArcCenter == 0 )
+    {
         newArcCenter = 1;
-    } else {
+    }
+    else
+    {
         newArcCenter = newArcCenter;
     }
 
-    d->arcCenter = newArcCenter * (M_PI/180.0f);
+    d->arcCenter = newArcCenter * ( M_PI / 180.0f );
 
-    if (gameObject())
-        setDiscSection(gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color);
+    if( gameObject() )
+        setDiscSection( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color );
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_discsectionrenderer, GluonEngine::DiscSectionRendererComponent);
+Q_EXPORT_PLUGIN2( gluon_component_discsectionrenderer, GluonEngine::DiscSectionRendererComponent );
 
 #include "discsectionrenderercomponent.moc"

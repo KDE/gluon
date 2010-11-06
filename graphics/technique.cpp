@@ -19,7 +19,7 @@
 
 #include "technique.h"
 
-REGISTER_OBJECTTYPE(GluonGraphics, Technique)
+REGISTER_OBJECTTYPE( GluonGraphics, Technique )
 
 using namespace GluonGraphics;
 
@@ -28,9 +28,9 @@ class Technique::TechniquePrivate
     public:
 };
 
-Technique::Technique(QObject* parent)
-    : GluonObject(parent),
-      d(new TechniquePrivate)
+Technique::Technique( QObject* parent )
+    : GluonObject( parent ),
+      d( new TechniquePrivate )
 {
 
 }

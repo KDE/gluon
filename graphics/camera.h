@@ -44,7 +44,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Camera : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             /**
@@ -92,17 +92,17 @@ namespace GluonGraphics
              *
              * \param matrix The matrix to use.
              */
-            void setViewMatrix(const QMatrix4x4& matrix);
+            void setViewMatrix( const QMatrix4x4& matrix );
             /**
              * Set the frustum to use.
              *
              * \param frustum The frustum to use.
              */
-            void setFrustrum( GluonGraphics::Frustrum* frustrum);
+            void setFrustrum( GluonGraphics::Frustrum* frustrum );
 
         private:
             class CameraPrivate;
-            CameraPrivate * const d;
+            CameraPrivate* const d;
     };
 
 }

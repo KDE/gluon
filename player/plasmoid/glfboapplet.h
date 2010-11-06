@@ -41,9 +41,9 @@ namespace GluonPlayer
             * @arg appletId a unique id used to differentiate between multiple
             *      instances of the same Applet type
             */
-            GLFBOApplet(QGraphicsItem *parent,
-                        const QString &serviceId,
-                        int appletId);
+            GLFBOApplet( QGraphicsItem* parent,
+                         const QString& serviceId,
+                         int appletId );
 
             /**
             * This constructor is to be used with the plugin loading systems
@@ -55,29 +55,29 @@ namespace GluonPlayer
             * @arg args a list of strings containing two entries: the service id
             *      and the applet id
             */
-            GLFBOApplet(QObject *parent, const QVariantList &args);
+            GLFBOApplet( QObject* parent, const QVariantList& args );
 
             ~GLFBOApplet();
 
-            GLuint bindTexture(const QImage &image, GLenum target = GL_TEXTURE_2D);
-            void deleteTexture(GLuint texture_id);
+            GLuint bindTexture( const QImage& image, GLenum target = GL_TEXTURE_2D );
+            void deleteTexture( GLuint texture_id );
 
             /**
             * Reimplement this method to render using OpenGL. QPainter passed
             * to this method will always use OpenGL engine and rendering
             * using OpenGL api directly is supported.
             */
-            virtual void paintGLInterface(QPainter *painter,
-                                          const QStyleOptionGraphicsItem *option);
+            virtual void paintGLInterface( QPainter* painter,
+                                           const QStyleOptionGraphicsItem* option );
             void makeCurrent();
 
         private:
-            virtual void paintInterface(QPainter *painter,
-                                        const QStyleOptionGraphicsItem *option,
-                                        const QRect &contentsRect);
+            virtual void paintInterface( QPainter* painter,
+                                         const QStyleOptionGraphicsItem* option,
+                                         const QRect& contentsRect );
         private:
             class GLFBOAppletPrivate;
-            GLFBOAppletPrivate *const d;
+            GLFBOAppletPrivate* const d;
     };
 }
 

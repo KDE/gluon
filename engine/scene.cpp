@@ -24,13 +24,13 @@
 #include "filelocation.h"
 #include "gameproject.h"
 
-REGISTER_OBJECTTYPE(GluonEngine, Scene)
+REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
 using namespace GluonEngine;
 
-Scene::Scene(QObject *parent)
-    : Asset(parent)
-    , d(new ScenePrivate(this))
+Scene::Scene( QObject* parent )
+    : Asset( parent )
+    , d( new ScenePrivate( this ) )
 {
     savableDirty = false;
 }
@@ -41,25 +41,25 @@ Scene::~Scene()
 }
 
 void
-Scene::setFile(const QUrl &newFile)
+Scene::setFile( const QUrl& newFile )
 {
-    if (!savableDirty)
+    if( !savableDirty )
         d->unloadContents();
-    GluonEngine::Asset::setFile(newFile);
+    GluonEngine::Asset::setFile( newFile );
 }
 
-void Scene::setName(const QString &newName)
+void Scene::setName( const QString& newName )
 {
-    sceneContents()->setName(newName);
-    GluonCore::GluonObject::setName(newName);
+    sceneContents()->setName( newName );
+    GluonCore::GluonObject::setName( newName );
 }
 
 void Scene::resetScene()
 {
-    if (!d->sceneContentsLoaded)
+    if( !d->sceneContentsLoaded )
         return;
 
-    d->loadContents(FileLocation(qobject_cast<GameProject *>(gameProject()), file()).location());
+    d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
 }
 
 QString
@@ -71,8 +71,8 @@ Scene::contentsToGDL()
 GameObject *
 Scene::sceneContents()
 {
-    if (!d->sceneContentsLoaded && !savableDirty)
-        d->loadContents(FileLocation(qobject_cast<GameProject *>(gameProject()), file()).location());
+    if( !d->sceneContentsLoaded && !savableDirty )
+        d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
     return d->sceneContents;
 }
 

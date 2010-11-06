@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -29,37 +29,37 @@ namespace GluonEngine
 {
     class GLUON_ENGINE_EXPORT ScriptingComponent : public GluonEngine::Component
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::ScriptingComponent)
-        Q_PROPERTY(GluonEngine::ScriptingAsset* script READ script WRITE setScript)
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::ScriptingComponent )
+            Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
         public:
-            Q_INVOKABLE ScriptingComponent(QObject* parent = 0);
-            ScriptingComponent(const ScriptingComponent& other);
+            Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );
+            ScriptingComponent( const ScriptingComponent& other );
             virtual ~ScriptingComponent();
-            
+
             virtual QString category() const;
-            
+
             virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
-            virtual void draw(int timeLapse = 0);
+            virtual void update( int elapsedMilliseconds );
+            virtual void draw( int timeLapse = 0 );
             virtual void stop();
             virtual void cleanup();
-            
+
             ScriptingAsset* script() const;
         public Q_SLOTS:
-            void setScript(GluonEngine::ScriptingAsset* newAsset);
+            void setScript( GluonEngine::ScriptingAsset* newAsset );
             void scriptAssetUpdated();
-            
+
             QScriptValue scriptObject();
-            
+
         private:
             class ScriptingComponentPrivate;
             QSharedDataPointer<ScriptingComponentPrivate> d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::ScriptingComponent)
-Q_DECLARE_METATYPE(GluonEngine::ScriptingComponent*)
+Q_DECLARE_METATYPE( GluonEngine::ScriptingComponent )
+Q_DECLARE_METATYPE( GluonEngine::ScriptingComponent* )
 
 #endif // GLUONENGINE_SCRIPTINGCOMPONENT_H

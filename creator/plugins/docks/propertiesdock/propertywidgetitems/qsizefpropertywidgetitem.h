@@ -31,16 +31,16 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit QSizeFPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit QSizeFPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QSizeFPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
-            void heightValueChanged(double value);
-            void widthValueChanged(double value);
+            void setEditValue( const QVariant& value );
+            void heightValueChanged( double value );
+            void widthValueChanged( double value );
 
         private:
             class QSizeFPropertyWidgetItemPrivate;

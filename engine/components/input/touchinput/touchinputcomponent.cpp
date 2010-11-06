@@ -27,55 +27,63 @@
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
 
-REGISTER_OBJECTTYPE(GluonEngine, TouchInputComponent);
+REGISTER_OBJECTTYPE( GluonEngine, TouchInputComponent );
 
 using namespace GluonEngine;
 
-TouchInputComponent::TouchInputComponent(QObject *parent)
-    : Component(parent)
-    , m_actionHeld(false)
-    , m_actionStarted(false)
-    , m_actionStopped(false)
-    , m_touch(0)
+TouchInputComponent::TouchInputComponent( QObject* parent )
+    : Component( parent )
+    , m_actionHeld( false )
+    , m_actionStarted( false )
+    , m_actionStopped( false )
+    , m_touch( 0 )
 {
 }
 
 QString TouchInputComponent::category() const
 {
-    return QString("Input");
+    return QString( "Input" );
 }
 
 void TouchInputComponent::initialize()
 {
-    if (!m_touch)
+    if( !m_touch )
         m_touch = GluonInput::InputManager::instance()->touch();
 }
 
 void TouchInputComponent::start()
 {
-    if (m_touch) {
-        m_touch->setEnabled(true);
-    } else {
-        debug("WARNING! No touch found!");
+    if( m_touch )
+    {
+        m_touch->setEnabled( true );
+    }
+    else
+    {
+        debug( "WARNING! No touch found!" );
     }
 }
 
-void TouchInputComponent::update(int elapsedMilliseconds)
+void TouchInputComponent::update( int elapsedMilliseconds )
 {
     DEBUG_BLOCK
-    if (m_actionStarted)
+    if( m_actionStarted )
         m_actionStarted = false;
 
-    if (m_actionStopped)
+    if( m_actionStopped )
         m_actionStopped = false;
 
-    if (m_touch && m_touch->buttonPressed(m_touchCode)) {
-        if (!m_actionHeld) {
+    if( m_touch && m_touch->buttonPressed( m_touchCode ) )
+    {
+        if( !m_actionHeld )
+        {
             m_actionStarted = true;
             m_actionHeld = true;
         }
-    } else {
-        if (m_actionHeld) {
+    }
+    else
+    {
+        if( m_actionHeld )
+        {
             m_actionStopped = true;
             m_actionHeld = false;
         }
@@ -84,8 +92,9 @@ void TouchInputComponent::update(int elapsedMilliseconds)
 
 void TouchInputComponent::stop()
 {
-    if (m_touch) {
-        m_touch->setEnabled(false);
+    if( m_touch )
+    {
+        m_touch->setEnabled( false );
     }
 
     m_actionStopped = false;
@@ -114,11 +123,11 @@ TouchInputComponent::touchCode() const
     return m_touchCode;
 }
 
-void TouchInputComponent::setTouchCode(TouchInputComponent::TouchName newTouchCode)
+void TouchInputComponent::setTouchCode( TouchInputComponent::TouchName newTouchCode )
 {
     m_touchCode = newTouchCode;
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_touchinput, GluonEngine::TouchInputComponent);
+Q_EXPORT_PLUGIN2( gluon_component_touchinput, GluonEngine::TouchInputComponent );
 
 #include "touchinputcomponent.moc"

@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,31 +28,31 @@
 
 using namespace GluonAudio;
 
-CaptureDevice::CaptureDevice(const QString &deviceName, int frequency, int format, int buffersize)
+CaptureDevice::CaptureDevice( const QString& deviceName, int frequency, int format, int buffersize )
 {
-    m_device = alcCaptureOpenDevice(deviceName.toUtf8(), frequency, format, buffersize);
+    m_device = alcCaptureOpenDevice( deviceName.toUtf8(), frequency, format, buffersize );
 }
 
 CaptureDevice::~CaptureDevice()
 {
-    alcCaptureCloseDevice(m_device);
+    alcCaptureCloseDevice( m_device );
 }
 
 ALCint CaptureDevice::samples()
 {
     ALCint samples;
-    alcGetIntegerv(m_device, ALC_CAPTURE_SAMPLES, 1, &samples);
+    alcGetIntegerv( m_device, ALC_CAPTURE_SAMPLES, 1, &samples );
     return samples;
 }
 
-ALshort CaptureDevice::startCapture(ALCsizei samples)
+ALshort CaptureDevice::startCapture( ALCsizei samples )
 {
     ALshort capture;
-    alcCaptureSamples(m_device, &capture, samples);
+    alcCaptureSamples( m_device, &capture, samples );
     return capture;
 }
 
 void CaptureDevice::stopCapture()
 {
-    alcCaptureStop(m_device);
+    alcCaptureStop( m_device );
 }

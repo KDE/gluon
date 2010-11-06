@@ -41,34 +41,34 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT DetectMac : public Detect
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
-            DetectMac(QObject *parent);
+            DetectMac( QObject* parent );
             ~DetectMac();
 
             void detectDevices();
-            void setAllEnabled(bool enable);
+            void setAllEnabled( bool enable );
 
 
-            QList<InputDevice *> inputList();
-            QList<Keyboard *> keyboardList();
-            QList<Mouse *> mouseList();
-            QList<Joystick *> joystickList();
-            QList<Touch *> touchList();
-            QList<InputDevice *> unknownDeviceList();
+            QList<InputDevice*> inputList();
+            QList<Keyboard*> keyboardList();
+            QList<Mouse*> mouseList();
+            QList<Joystick*> joystickList();
+            QList<Touch*> touchList();
+            QList<InputDevice*> unknownDeviceList();
 
-            void addInput(InputDevice *i);
-            void addKeyboard(InputDevice *i);
-            void addMouse(InputDevice *i);
-            void addJoystick(InputDevice *i);
-            void addTouch(InputDevice *i);
-            void addUnknown(InputDevice *i);
+            void addInput( InputDevice* i );
+            void addKeyboard( InputDevice* i );
+            void addMouse( InputDevice* i );
+            void addJoystick( InputDevice* i );
+            void addTouch( InputDevice* i );
+            void addUnknown( InputDevice* i );
             void clear();
 
         private:
-            static void createDevices(const void *value, void *context);
-            CFMutableDictionaryRef createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage);
+            static void createDevices( const void* value, void* context );
+            CFMutableDictionaryRef createMatchingDictionary( UInt32 pUsagePage, UInt32 pUsage );
 
             QSharedDataPointer<DetectMacPrivate> d;
     };

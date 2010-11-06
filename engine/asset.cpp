@@ -26,7 +26,7 @@
 #include <QtCore/QMimeData>
 #include <QtGui/QAction>
 
-REGISTER_OBJECTTYPE(GluonEngine, Asset)
+REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
 using namespace GluonEngine;
 
@@ -41,12 +41,12 @@ class GluonEngine::AssetPrivate
 
         QUrl file;
         bool loaded;
-        QMimeData *mime;
+        QMimeData* mime;
 };
 
-Asset::Asset(QObject *parent)
-    : GluonObject(parent)
-    , d(new AssetPrivate)
+Asset::Asset( QObject* parent )
+    : GluonObject( parent )
+    , d( new AssetPrivate )
 {
     d->mime = new QMimeData;
 }
@@ -58,26 +58,29 @@ Asset::~Asset()
 }
 
 void
-Asset::setName(const QString &newName)
+Asset::setName( const QString& newName )
 {
-    QString oldName(name());
+    QString oldName( name() );
 
-    GluonCore::GluonObject::setName(newName);
+    GluonCore::GluonObject::setName( newName );
 
     // Rename the underlying file, if one exists...
-    if(!d->file.isEmpty()) {
+    if( !d->file.isEmpty() )
+    {
         // If we use QDir::current(), .exists will throw debug crap... this works around that particular annoyance
-        if (QDir(QDir::currentPath()).exists(d->file.toLocalFile())) {
-            QUrl newFile(QString("Assets/%1.%2").arg(fullyQualifiedName()).arg(QFileInfo(d->file.toLocalFile()).completeSuffix()));
-            if (QDir::current().rename(d->file.toLocalFile(), newFile.toLocalFile())) {
-                setFile(newFile);
+        if( QDir( QDir::currentPath() ).exists( d->file.toLocalFile() ) )
+        {
+            QUrl newFile( QString( "Assets/%1.%2" ).arg( fullyQualifiedName() ).arg( QFileInfo( d->file.toLocalFile() ).completeSuffix() ) );
+            if( QDir::current().rename( d->file.toLocalFile(), newFile.toLocalFile() ) )
+            {
+                setFile( newFile );
             }
         }
     }
 }
 
 void
-Asset::setFile(const QUrl &newFile)
+Asset::setFile( const QUrl& newFile )
 {
     d->file = newFile;
     emit dataChanged();
@@ -93,9 +96,9 @@ QString
 Asset::absolutePath() const
 {
     QString filePath = d->file.toLocalFile();
-    QString projectPath = gameProject()->property("filename").toUrl().toLocalFile();
+    QString projectPath = gameProject()->property( "filename" ).toUrl().toLocalFile();
 
-    projectPath = projectPath.left(projectPath.lastIndexOf('/'));
+    projectPath = projectPath.left( projectPath.lastIndexOf( '/' ) );
 
     return projectPath + '/' + filePath;
 }
@@ -112,19 +115,19 @@ Asset::data() const
     return d->mime;
 }
 
-const QList<AssetTemplate *>
+const QList<AssetTemplate*>
 Asset::templates()
 {
-    QList<AssetTemplate *> templates;
+    QList<AssetTemplate*> templates;
     return templates;
 }
 
-QList<QAction *>
+QList<QAction*>
 Asset::actions()
 {
     QList<QAction*> actions;
-    actions.append(new QAction("No actions defined.", this));
-    actions.at(0)->setEnabled(false);
+    actions.append( new QAction( "No actions defined.", this ) );
+    actions.at( 0 )->setEnabled( false );
     return actions;
 }
 
@@ -141,9 +144,9 @@ Asset::load()
 }
 
 QString
-Asset::childrenToGDL(int indentLevel) const
+Asset::childrenToGDL( int indentLevel ) const
 {
-    Q_UNUSED(indentLevel)
+    Q_UNUSED( indentLevel )
     // We do not recurse here - this allows the assets to handle their own
     // children
     return QString();
@@ -156,7 +159,7 @@ Asset::mimeData() const
 }
 
 void
-Asset::setLoaded(bool loaded)
+Asset::setLoaded( bool loaded )
 {
     d->loaded = loaded;
 }

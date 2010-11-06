@@ -30,40 +30,41 @@
   it will place a new node on the QGraphicsView that holds all the items.
 */
 
-class AddTypedNodeAction : public AbstractAction {
-    Q_OBJECT
-public:
-    /*!
-      Default constructor
-      \param type the Type for 'Add Typed Node' action. must be unique.
-      \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
-    */
+class AddTypedNodeAction : public AbstractAction
+{
+        Q_OBJECT
+    public:
+        /*!
+          Default constructor
+          \param type the Type for 'Add Typed Node' action. must be unique.
+          \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
+        */
 
-    explicit AddTypedNodeAction( GraphScene *scene, QObject *parent = 0);
+        explicit AddTypedNodeAction( GraphScene* scene, QObject* parent = 0 );
 
-    /*!
-      Default Destructor
-    */
-    ~AddTypedNodeAction();
-    
-    void setActiveGraph( Graph *graph);
-    
-public slots:
-    /*!
-      this will be executed if type is the same as this action's type.
-      \param pos the position on the screen that the new node will be placed.
+        /*!
+          Default Destructor
+        */
+        ~AddTypedNodeAction();
 
-    */
-    void executePress(QPointF pos);
-    
-    void widgetTypeChanged(QString type);
-    
-  signals:
-    void addNode(QString name, QPointF pos, QString type);
-    void iAmDisappoint();
-    
-  protected:
-    QString _type;
+        void setActiveGraph( Graph* graph );
+
+    public slots:
+        /*!
+          this will be executed if type is the same as this action's type.
+          \param pos the position on the screen that the new node will be placed.
+
+        */
+        void executePress( QPointF pos );
+
+        void widgetTypeChanged( QString type );
+
+    signals:
+        void addNode( QString name, QPointF pos, QString type );
+        void iAmDisappoint();
+
+    protected:
+        QString _type;
 };
 
 #endif

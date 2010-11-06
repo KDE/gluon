@@ -25,7 +25,7 @@ KeyboardPrivate::KeyboardPrivate()
 {
 }
 
-KeyboardPrivate::KeyboardPrivate(KeyboardPrivate &other)
-    :QSharedData(other)
+KeyboardPrivate::KeyboardPrivate( KeyboardPrivate& other )
+    : QSharedData( other )
 {
 }

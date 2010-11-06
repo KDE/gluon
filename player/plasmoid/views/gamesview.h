@@ -35,17 +35,17 @@ class GamesView : public AbstractItemView
         Q_OBJECT
 
     public:
-        GamesView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual void setModel(QAbstractItemModel *model);
+        GamesView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual void setModel( QAbstractItemModel* model );
 
     protected:
-        Plasma::ItemBackground *m_itemBackground;
+        Plasma::ItemBackground* m_itemBackground;
 
-        bool eventFilter(QObject *obj, QEvent *event);
+        bool eventFilter( QObject* obj, QEvent* event );
 
     signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
 };
 
 #endif // GAMESVIEW_H

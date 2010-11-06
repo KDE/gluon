@@ -41,33 +41,33 @@ class CommentsViewItem : public QGraphicsWidget
         Q_OBJECT
 
     public:
-        CommentsViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        CommentsViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~CommentsViewItem();
 
-        virtual void setModelIndex(const QModelIndex &index);
+        virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;
         int depth();
-        void setDepth(int newDepth);
+        void setDepth( int newDepth );
         int rowInLayout();
-        void setRowInLayout(int row);
+        void setRowInLayout( int row );
         bool replyEnabled();
-        void setReplyEnabled(bool enabled);
+        void setReplyEnabled( bool enabled );
 
     protected:
         QPersistentModelIndex m_index;
-        Plasma::IconWidget *m_author;
-        Plasma::Label *m_title;
-        Plasma::Label *m_body;
-        Plasma::Label *m_dateTime;
-        Plasma::Label *m_rating;    //TODO Use a stars widget
+        Plasma::IconWidget* m_author;
+        Plasma::Label* m_title;
+        Plasma::Label* m_body;
+        Plasma::Label* m_dateTime;
+        Plasma::Label* m_rating;    //TODO Use a stars widget
 
-        Plasma::IconWidget *m_replyButton;
-        QGraphicsGridLayout *m_layout;
+        Plasma::IconWidget* m_replyButton;
+        QGraphicsGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;
 
-        void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-        void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+        void hoverEnterEvent( QGraphicsSceneHoverEvent* event );
+        void hoverLeaveEvent( QGraphicsSceneHoverEvent* event );
 
         void layoutWidgets();
         void setToolTips();

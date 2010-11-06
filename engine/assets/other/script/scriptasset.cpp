@@ -22,7 +22,7 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QFile>
 
-REGISTER_OBJECTTYPE(GluonEngine, ScriptAsset)
+REGISTER_OBJECTTYPE( GluonEngine, ScriptAsset )
 
 using namespace GluonEngine;
 
@@ -32,9 +32,9 @@ class ScriptAsset::ScriptAssetPrivate
         QString script;
 };
 
-ScriptAsset::ScriptAsset(QObject *parent)
-    : Asset(parent)
-    , d(new ScriptAssetPrivate)
+ScriptAsset::ScriptAsset( QObject* parent )
+    : Asset( parent )
+    , d( new ScriptAssetPrivate )
 {
 }
 
@@ -55,20 +55,21 @@ const QStringList ScriptAsset::supportedMimeTypes() const
 
 void ScriptAsset::load()
 {
-    QFile script(file().path());
-    if (script.open(QIODevice::ReadOnly)) {
+    QFile script( file().path() );
+    if( script.open( QIODevice::ReadOnly ) )
+    {
         d->script = script.readAll();
-        mimeData()->setText(d->script);
+        mimeData()->setText( d->script );
     }
 }
 
-const QList<AssetTemplate *> ScriptAsset::templates()
+const QList<AssetTemplate*> ScriptAsset::templates()
 {
-    QList<AssetTemplate *> templates;
-    templates.append(new AssetTemplate("Script", "script_template.js", "qtscript", this));
+    QList<AssetTemplate*> templates;
+    templates.append( new AssetTemplate( "Script", "script_template.js", "qtscript", this ) );
     return templates;
 }
 
-Q_EXPORT_PLUGIN2(gluon_asset_script, GluonEngine::ScriptAsset)
+Q_EXPORT_PLUGIN2( gluon_asset_script, GluonEngine::ScriptAsset )
 
 #include "scriptasset.moc"

@@ -40,29 +40,29 @@ class GamesViewItem : public QGraphicsWidget
         Q_OBJECT
 
     public:
-        GamesViewItem(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        GamesViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-        virtual void setModelIndex(const QModelIndex &index);
+        virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;
 
     protected:
         QModelIndex m_index;
-        Plasma::IconWidget *m_preview;
-        Plasma::Label *m_gameName;
-        Plasma::Label *m_gameDescription;
-        Plasma::IconWidget *m_playButton;
-        QGraphicsGridLayout *m_layout;
+        Plasma::IconWidget* m_preview;
+        Plasma::Label* m_gameName;
+        Plasma::Label* m_gameDescription;
+        Plasma::IconWidget* m_playButton;
+        QGraphicsGridLayout* m_layout;
 
         void layoutWidgets();
         void setToolTips();
-        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+        virtual void mousePressEvent( QGraphicsSceneMouseEvent* event );
 
     protected slots:
         void playGameActivated();
 
     signals:
-        void gameToPlaySelected(const QModelIndex &index);
-        void gameSelected(const QModelIndex &index);
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
 };
 
 #endif // GAMESVIEWITEM_H

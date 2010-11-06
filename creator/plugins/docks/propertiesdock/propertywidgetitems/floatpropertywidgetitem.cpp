@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -24,17 +24,17 @@
 #include <QtGui/QDoubleSpinBox>
 #include "cfloat"
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, FloatPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, FloatPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-FloatPropertyWidgetItem::FloatPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+FloatPropertyWidgetItem::FloatPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
-    QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
-    spinBox->setMaximum(DBL_MAX);
-    setEditWidget(spinBox);
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(floatValueChanged(double)));
+    QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
+    spinBox->setMaximum( DBL_MAX );
+    setEditWidget( spinBox );
+    connect( editWidget(), SIGNAL( valueChanged( double ) ), SLOT( floatValueChanged( double ) ) );
 }
 
 FloatPropertyWidgetItem::~FloatPropertyWidgetItem()
@@ -56,21 +56,21 @@ FloatPropertyWidgetItem::instantiate()
     return new FloatPropertyWidgetItem();
 }
 
-void FloatPropertyWidgetItem::setEditProperty(const QString& value)
+void FloatPropertyWidgetItem::setEditProperty( const QString& value )
 {
-    GluonCreator::PropertyWidgetItem::setEditProperty(value);
+    GluonCreator::PropertyWidgetItem::setEditProperty( value );
 }
 
 void
-FloatPropertyWidgetItem::setEditValue(const QVariant& value)
+FloatPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("value", value);
+    editWidget()->setProperty( "value", value );
 }
 
 void
-FloatPropertyWidgetItem::floatValueChanged(double value)
+FloatPropertyWidgetItem::floatValueChanged( double value )
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
 
 #include "floatpropertywidgetitem.moc"

@@ -28,15 +28,16 @@
 
 using namespace GluonInput;
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication app(argc, argv);
+    QApplication app( argc, argv );
 
-    if (InputManager::instance()->keyboardList().count() > 0) {
-        qDebug() <<"creating test gameloop";
-        Keyboard *keyboard = InputManager::instance()->keyboard();
-        keyboard->setEnabled(true);
-        GameLoop *gameLoop = new GameLoop(keyboard);
+    if( InputManager::instance()->keyboardList().count() > 0 )
+    {
+        qDebug() << "creating test gameloop";
+        Keyboard* keyboard = InputManager::instance()->keyboard();
+        keyboard->setEnabled( true );
+        GameLoop* gameLoop = new GameLoop( keyboard );
         gameLoop->run();
     }
 

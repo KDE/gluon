@@ -40,8 +40,9 @@ static const qreal PI_4 = Pi / 4.0;
 /// The Value of PI_8
 static const qreal PI_8 = Pi / 8.0;
 
-qreal rabs(qreal x) {
-    if (x<0) return x*-1;
+qreal rabs( qreal x )
+{
+    if( x < 0 ) return x * -1;
     return x;
 }
 #endif

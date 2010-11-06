@@ -39,211 +39,230 @@ class Graph;
 * new properties can be added on the fly via edge.addProp(propertyname) , and accessed by edge.propertyName.
 */
 
-class ROCSLIB_EXPORT Edge : public QObject {
-    Q_OBJECT
+class ROCSLIB_EXPORT Edge : public QObject
+{
+        Q_OBJECT
 
-    /*! all properties are accessible from the scripting engine via .propertyName */
+        /*! all properties are accessible from the scripting engine via .propertyName */
 
-    /*! this property holds the color attribute. */
-    Q_PROPERTY(QString color READ color WRITE setColor)
+        /*! this property holds the color attribute. */
+        Q_PROPERTY( QString color READ color WRITE setColor )
 
-    /*! this property hold the value attribute */
-    Q_PROPERTY(QString value READ value WRITE setValue)
+        /*! this property hold the value attribute */
+        Q_PROPERTY( QString value READ value WRITE setValue )
 
-    /*! this property holds the name of the edge. */
-    Q_PROPERTY(QString name READ name WRITE setName)
+        /*! this property holds the name of the edge. */
+        Q_PROPERTY( QString name READ name WRITE setName )
 
-    /*! this property holds the width of the edge */
-    Q_PROPERTY(double width READ width WRITE setWidth)
+        /*! this property holds the width of the edge */
+        Q_PROPERTY( double width READ width WRITE setWidth )
 
-    /*! this property holds the style of the edge */
-    Q_PROPERTY(QString style READ style WRITE setStyle)
+        /*! this property holds the style of the edge */
+        Q_PROPERTY( QString style READ style WRITE setStyle )
 
-public:
-    /*! default constructor, an edge connects two nodes.
-    \p parent a Graph
-    \p from the first node
-    \p to the second node */
-    Edge(Graph *parent, Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo);
+    public:
+        /*! default constructor, an edge connects two nodes.
+        \p parent a Graph
+        \p from the first node
+        \p to the second node */
+        Edge( Graph* parent, Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo );
 
-    /*! default destructor */
-    ~Edge();
+        /*! default destructor */
+        ~Edge();
 
-    /*! relative index is the index that this edge has relative to the nodes that it's bound to.
-    eg. if the nodes have 2 or more edges connecteds between them, it will have a unique
-    identifier relative to that nodes
+        /*! relative index is the index that this edge has relative to the nodes that it's bound to.
+        eg. if the nodes have 2 or more edges connecteds between them, it will have a unique
+        identifier relative to that nodes
 
-    \return the relativeIndex identifier.
-    */
-    int relativeIndex() const {
-        return _relativeIndex;
-    }
+        \return the relativeIndex identifier.
+        */
+        int relativeIndex() const
+        {
+            return _relativeIndex;
+        }
 
-    /*! remove this node from the graph */
-    void remove();
+        /*! remove this node from the graph */
+        void remove();
 
-    Graph *graph(){return _graph; }
+        Graph* graph()
+        {
+            return _graph;
+        }
 #ifdef USING_QTSCRIPT
-    /*! if the qtscript is enabled for this rocs,
-      this method returns the self-referenced script value for this edge.
-      \return QScriptValue self reference for this node.
-      */
-    QScriptValue scriptValue() const;
+        /*! if the qtscript is enabled for this rocs,
+          this method returns the self-referenced script value for this edge.
+          \return QScriptValue self reference for this node.
+          */
+        QScriptValue scriptValue() const;
 
-    /*! if qtscript is enabled for this rocs,
-    this method will set the engine for this single object
-    \p engine the QScriptEngine that will work on the object */
-    void setEngine(	QScriptEngine *engine );
+        /*! if qtscript is enabled for this rocs,
+        this method will set the engine for this single object
+        \p engine the QScriptEngine that will work on the object */
+        void setEngine( QScriptEngine* engine );
 #endif
 
-public  slots:
-    /*! return the first node of this edge
-      \return Node* pointer for the first node of this edge.
-    */
-    Node* from() const {
-        return _from;
-    }
+    public  slots:
+        /*! return the first node of this edge
+          \return Node* pointer for the first node of this edge.
+        */
+        Node* from() const
+        {
+            return _from;
+        }
 
-    /*! return the second node of this edge
-      \return Node* pointer for the second node of this edge.
-    */
-    Node* to() const {
-        return _to;
-    }
-    
-    /*! return connector edges is from
-      \return QGraphicsSvgItem of connector
-    */
-    QGraphicsSvgItem* connectorFrom() const {
-      return _cFrom;
-    }
-    
-    /*! return connector edges is to
-      \return QGraphicsSvgItem of connector
-    */
-    QGraphicsSvgItem* connectorTo() const {
-      return _cTo;
-    }
+        /*! return the second node of this edge
+          \return Node* pointer for the second node of this edge.
+        */
+        Node* to() const
+        {
+            return _to;
+        }
 
-    /*! return the value of this edge
-    \return the value of the edge.
-    */
-    const QString& value() const {
-        return _value;
-    }
+        /*! return connector edges is from
+          \return QGraphicsSvgItem of connector
+        */
+        QGraphicsSvgItem* connectorFrom() const
+        {
+            return _cFrom;
+        }
 
-    /*! sets the value attribute of this edge
-    \p s the new value of this edge.
-    */
-    void setValue (const QString& s) {
-        _value = s;
-	emit changed();
-    }
+        /*! return connector edges is to
+          \return QGraphicsSvgItem of connector
+        */
+        QGraphicsSvgItem* connectorTo() const
+        {
+            return _cTo;
+        }
 
-    /*! returns the name attribute of the edge.
-      \return the name of the edge.
-    */
-    const QString& name() const {
-        return _name;
-    }
+        /*! return the value of this edge
+        \return the value of the edge.
+        */
+        const QString& value() const
+        {
+            return _value;
+        }
 
-    /*! sets the name attribute of the edge
-      \p s the new name of this edge
-    */
-    void setName (const QString& s) {
-        _name = s;
-	emit changed();
-    }
+        /*! sets the value attribute of this edge
+        \p s the new value of this edge.
+        */
+        void setValue( const QString& s )
+        {
+            _value = s;
+            emit changed();
+        }
 
-    /*! gets the color attribute of the edge
-      \return the string value of the edge.
-    */
-    const QString color() const {
-        return _color;
-    }
+        /*! returns the name attribute of the edge.
+          \return the name of the edge.
+        */
+        const QString& name() const
+        {
+            return _name;
+        }
 
-    /*! sets the color attribute of the edge
-      \p s the new color of the edge in the format "#000000" or by it's english name ("red" for example)
-    */
-    void setColor(const QString& s) {
-        _color = s;
-	emit changed();
-    }
+        /*! sets the name attribute of the edge
+          \p s the new name of this edge
+        */
+        void setName( const QString& s )
+        {
+            _name = s;
+            emit changed();
+        }
 
-    qreal width () const {
-        return _width;
-    }
-    void setWidth(double w) {
-        _width = w;
-        emit changed();
-    }
+        /*! gets the color attribute of the edge
+          \return the string value of the edge.
+        */
+        const QString color() const
+        {
+            return _color;
+        }
 
-    const QString& style() const {
-        return _style;
-    }
-    void setStyle(const QString& s) {
-        _style = s;
-	emit changed();
-    }
-    
-    /** Add a property to this edge
-    * @param property Name of property
-    * @param value Value of the property. value shoud be different of QVariant::Invalid.
-    */
-    void addDynamicProperty(QString Property, QVariant value);
-    
-    /** Remove property arg1 from this edge. If property arg1 don't exist in this edge, nothing is made.
-    * @param arg1 name os property to remove
-    */
-    void removeDynamicProperty(QString property);
-    
-    bool showName();
-    bool showValue();
-    void hideName(bool b);
-    void hideValue(bool b);
-    QString fromConnector();
-    QString toConnector();
-    QString toNode();
-    QString fromNode();
-    
-private:
-    /*! the first node connected with this edge */
-    Node *_from;
+        /*! sets the color attribute of the edge
+          \p s the new color of the edge in the format "#000000" or by it's english name ("red" for example)
+        */
+        void setColor( const QString& s )
+        {
+            _color = s;
+            emit changed();
+        }
 
-    /*! the second node connected with this edge */
-    Node *_to;
-    
-    /*! the first connector connected with this edge */
-    QGraphicsSvgItem *_cFrom;
+        qreal width() const
+        {
+            return _width;
+        }
+        void setWidth( double w )
+        {
+            _width = w;
+            emit changed();
+        }
 
-    /*! the second connector connected with this edge */
-    QGraphicsSvgItem *_cTo;
+        const QString& style() const
+        {
+            return _style;
+        }
+        void setStyle( const QString& s )
+        {
+            _style = s;
+            emit changed();
+        }
 
-    /*! the intex relative to the connected nodes if the graph is multi-edge-oriented. */
-    int _relativeIndex;
+        /** Add a property to this edge
+        * @param property Name of property
+        * @param value Value of the property. value shoud be different of QVariant::Invalid.
+        */
+        void addDynamicProperty( QString Property, QVariant value );
 
-    /*! the value of the node */
-    QString _value;
+        /** Remove property arg1 from this edge. If property arg1 don't exist in this edge, nothing is made.
+        * @param arg1 name os property to remove
+        */
+        void removeDynamicProperty( QString property );
 
-    /*! the value of the name */
-    QString _name;
+        bool showName();
+        bool showValue();
+        void hideName( bool b );
+        void hideValue( bool b );
+        QString fromConnector();
+        QString toConnector();
+        QString toNode();
+        QString fromNode();
 
-    /*! the value of the color */
-    QString _color;
+    private:
+        /*! the first node connected with this edge */
+        Node* _from;
 
-    bool _showName;
-    bool _showValue;
+        /*! the second node connected with this edge */
+        Node* _to;
 
-    QString _style;
-    double _width;
+        /*! the first connector connected with this edge */
+        QGraphicsSvgItem* _cFrom;
 
-     Graph *_graph;
+        /*! the second connector connected with this edge */
+        QGraphicsSvgItem* _cTo;
 
-signals:
-    /*! emmited when this edge is removed. */
-    void removed();
-    /*! emmited when a node connected to this edge changes, or when this edge changes. */
-    void changed();
+        /*! the intex relative to the connected nodes if the graph is multi-edge-oriented. */
+        int _relativeIndex;
+
+        /*! the value of the node */
+        QString _value;
+
+        /*! the value of the name */
+        QString _name;
+
+        /*! the value of the color */
+        QString _color;
+
+        bool _showName;
+        bool _showValue;
+
+        QString _style;
+        double _width;
+
+        Graph* _graph;
+
+    signals:
+        /*! emmited when this edge is removed. */
+        void removed();
+        /*! emmited when a node connected to this edge changes, or when this edge changes. */
+        void changed();
 };
 
 typedef QList<Edge*> EdgeList;

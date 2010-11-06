@@ -25,7 +25,7 @@ TouchPrivate::TouchPrivate()
 {
 }
 
-TouchPrivate::TouchPrivate(TouchPrivate &other)
-    : QSharedData(other)
+TouchPrivate::TouchPrivate( TouchPrivate& other )
+    : QSharedData( other )
 {
 }

@@ -56,7 +56,7 @@ namespace GluonEngine
              *
              * @see GluonEngine::Asset
              */
-            static bool saveToFile(GluonCore::GluonObject *object);
+            static bool saveToFile( GluonCore::GluonObject* object );
 
             /**
              * Serialise the contents of the asset to GDL. This function should

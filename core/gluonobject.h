@@ -29,7 +29,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 
-Q_DECLARE_METATYPE(QList<QUrl>)
+Q_DECLARE_METATYPE( QList<QUrl> )
 
 /**
  * Please insert this macro into the definition of your class when implementing a
@@ -80,11 +80,11 @@ namespace GluonCore
      * items in your code:
      *
      * Definition (yourclassname.h):
-\code
-#include <gluonobject.h>
+    \code
+    #include <gluonobject.h>
 
-namespace YourNamespace
-{
+    namespace YourNamespace
+    {
     class YourClassName : public GluonCore::GluonObject
     {
         Q_OBJECT
@@ -99,33 +99,33 @@ namespace YourNamespace
         private:
 
     }
-}
+    }
 
-Q_DECLARE_METATYPE(YourNamespace::YourClassName);
-Q_DECLARE_METATYPE(YourNamespace::YourClassName*);
-\endcode
+    Q_DECLARE_METATYPE(YourNamespace::YourClassName);
+    Q_DECLARE_METATYPE(YourNamespace::YourClassName*);
+    \endcode
      *
      * Implementation (yourclassname.cpp):
-\code
-#include "yourclassname.h"
+    \code
+    #include "yourclassname.h"
 
-REGISTER_OBJECT_TYPE(YourNamespace, YourClassName);
+    REGISTER_OBJECT_TYPE(YourNamespace, YourClassName);
 
-using YourNamespace;
+    using YourNamespace;
 
-YourClassName::YourClassName(QObject *parent)
+    YourClassName::YourClassName(QObject *parent)
     : GluonObject(parent)
-{
-}
+    {
+    }
 
-YourClassName::~YourClassName()
-{
-}
+    YourClassName::~YourClassName()
+    {
+    }
 
-// further implementation here...
+    // further implementation here...
 
-#include "yourclassname.moc"
-\endcode
+    #include "yourclassname.moc"
+    \endcode
      *
      * Please also ensure that all public functions are slots, as this will enable their
      * access from the QtScript based game code in GluonEngine based games.
@@ -144,14 +144,14 @@ YourClassName::~YourClassName()
              * unique (setting name would result in first attempting "name", then "name 1", then
              * "name 2" and so forth, until the name is unique).
              */
-            Q_PROPERTY(QString name READ name WRITE setName)
+            Q_PROPERTY( QString name READ name WRITE setName )
             // There is deliberately no gameProject property
-            GLUON_OBJECT(GluonCore::GluonObject);
+            GLUON_OBJECT( GluonCore::GluonObject );
 
         public:
-            Q_INVOKABLE GluonObject(QObject * parent = 0);
-            explicit GluonObject(const QString& name, QObject *parent = 0);
-            GluonObject(const GluonObject& rt);
+            Q_INVOKABLE GluonObject( QObject* parent = 0 );
+            explicit GluonObject( const QString& name, QObject* parent = 0 );
+            GluonObject( const GluonObject& rt );
             virtual ~GluonObject();
 
             /**
@@ -160,7 +160,7 @@ YourClassName::~YourClassName()
              *
              * @param   debugText   The message you wish to write out
              */
-            Q_INVOKABLE void debug(const QString& debugText) const;
+            Q_INVOKABLE void debug( const QString& debugText ) const;
 
             /**
              * Write a debug statement to the console and into the debug messages pane in Gluon Creator
@@ -169,14 +169,14 @@ YourClassName::~YourClassName()
              * \param   debugText   The message you wish to write out
              * \param   arg         The argument of debugText. Ssee QString::arg() for more information.
              */
-            Q_INVOKABLE void debug(const QString& debugText, const QString& arg) const;
+            Q_INVOKABLE void debug( const QString& debugText, const QString& arg ) const;
 
             /**
              * Signal which is emitted whenever a debug statement is produced using the debug() function
              *
              * @param   debugText   The debug message test
              */
-            Q_SIGNAL void showDebug(const QString& debugText) const;
+            Q_SIGNAL void showDebug( const QString& debugText ) const;
 
             /**
              * Copy this object and all of its children, resursively.
@@ -184,14 +184,14 @@ YourClassName::~YourClassName()
              *
              * @return A deep copy of the object and all its children
              */
-            Q_INVOKABLE GluonObject * clone() const;
+            Q_INVOKABLE GluonObject* clone() const;
             /**
              * Copy this object and all of its children, recursively, and insert the cloned object
              * as a child of the passed GluonObject
              *
              * @return A deep copy of the object and all its children
              */
-            Q_INVOKABLE GluonObject * clone(GluonObject* parentObject) const;
+            Q_INVOKABLE GluonObject* clone( GluonObject* parentObject ) const;
 
             /**
              * Get the object's sanitized name
@@ -204,7 +204,7 @@ YourClassName::~YourClassName()
              *
              * @param   newName     The requested new name for this object
              */
-            virtual void setName(const QString &newName);
+            virtual void setName( const QString& newName );
             /**
              * The fully qualified name of the object, from the root and upwards.
              * The object name separator is / which means that an object named
@@ -242,7 +242,7 @@ YourClassName::~YourClassName()
              * Note that it is returned as GluonObject so you will need to use a qobject_cast to cast it.
              * @see GameProject GameProject::findItemByName
              */
-            GluonObject * gameProject() const;
+            GluonObject* gameProject() const;
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
@@ -251,7 +251,7 @@ YourClassName::~YourClassName()
              *
              * @param newGameProject The GameProject instance this GluonObject can be found underneath
              */
-            void setGameProject(GluonObject * newGameProject);
+            void setGameProject( GluonObject* newGameProject );
 
             /**
              * Get the Gluon meta info for this object. This function will create an instance
@@ -272,12 +272,12 @@ YourClassName::~YourClassName()
              * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?
              * We need to separate this into a parser class, imo. Can wait until post-alpha though. -ahiemstra
              */
-            virtual QString toGDL(int indentLevel = 0) const;
-            virtual QString childrenToGDL(int indentLevel = 0) const;
-            virtual QString propertiesToGDL(int indentLevel = 0) const;
+            virtual QString toGDL( int indentLevel = 0 ) const;
+            virtual QString childrenToGDL( int indentLevel = 0 ) const;
+            virtual QString propertiesToGDL( int indentLevel = 0 ) const;
 
-            virtual void setPropertyFromString(const QString &propertyName, const QString &propertyValue);
-            virtual QString stringFromProperty(const QString& propertyName, const QString& indentChars) const;
+            virtual void setPropertyFromString( const QString& propertyName, const QString& propertyValue );
+            virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
 
             virtual void sanitize();
 
@@ -293,7 +293,7 @@ YourClassName::~YourClassName()
              * @param   qualifiedName   The path (with object names separated by the / symbol) to the object, relative to the object this function is called on
              * @return  The object if found, or null if not
              */
-            Q_INVOKABLE GluonObject* findItemByName(QString qualifiedName);
+            Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName );
             /**
              * Get the top-most GluonObject in the object hierarchy
              *
@@ -309,28 +309,28 @@ YourClassName::~YourClassName()
              *
              * @see name
              */
-            virtual void addChild(GluonObject *child);
+            virtual void addChild( GluonObject* child );
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *
              * @param   child   The child you wish to remove
              * @return  True if the child was removed successfully, false if the child did not exist in this object
              */
-            virtual bool removeChild(GluonObject *child);
+            virtual bool removeChild( GluonObject* child );
             /**
              * Convenience function for getting a child at a specific index in the list of children
              *
              * @param   index   The index of the child you wish to fetch
              * @return  The child at that index, or null if the index is invalid
              */
-            virtual GluonObject * child(int index) const;
+            virtual GluonObject* child( int index ) const;
             /**
              * Convenience function for fetching a child by a specified name
              *
              * @param   name    The name of the child you wish to fetch
              * @return  The child with the passed name, or null if no child exists by that name
              */
-            virtual GluonObject * child(const QString& name) const;
+            virtual GluonObject* child( const QString& name ) const;
 
         protected:
             /**
@@ -342,7 +342,7 @@ YourClassName::~YourClassName()
              * @param   object          The object to start the search at
              * @return  The object if found, or null if the object was not found
              */
-            static GluonObject * findItemByNameInObject(QStringList qualifiedName, GluonCore::GluonObject* object);
+            static GluonObject* findItemByNameInObject( QStringList qualifiedName, GluonCore::GluonObject* object );
             /**
              * This function is called by the clone function before handing the cloned object
              * back to the caller. If you have something special which needs to be done to each
@@ -351,13 +351,13 @@ YourClassName::~YourClassName()
             virtual void postCloneSanitize() {};
 
         private:
-            void sanitizeReference(const QString& propName, const QString& propValue);
+            void sanitizeReference( const QString& propName, const QString& propValue );
 
             QSharedDataPointer<GluonObjectPrivate> d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonCore::GluonObject)
-Q_DECLARE_METATYPE(GluonCore::GluonObject*)
+Q_DECLARE_METATYPE( GluonCore::GluonObject )
+Q_DECLARE_METATYPE( GluonCore::GluonObject* )
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

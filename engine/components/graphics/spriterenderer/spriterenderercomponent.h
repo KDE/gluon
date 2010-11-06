@@ -35,38 +35,38 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::SpriteRendererComponent)
-            Q_PROPERTY(QSizeF size READ size WRITE setSize)
-            Q_PROPERTY(GluonGraphics::MaterialInstance *material READ material WRITE setMaterial)
-            Q_INTERFACES(GluonEngine::Component)
+            GLUON_OBJECT( GluonEngine::SpriteRendererComponent )
+            Q_PROPERTY( QSizeF size READ size WRITE setSize )
+            Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
+            Q_INTERFACES( GluonEngine::Component )
 
         public:
-            Q_INVOKABLE SpriteRendererComponent(QObject *parent = 0);
-            SpriteRendererComponent(const SpriteRendererComponent &other);
+            Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );
+            SpriteRendererComponent( const SpriteRendererComponent& other );
             virtual ~SpriteRendererComponent();
             virtual QString category() const;
 
             virtual void initialize();
             virtual void start();
-            virtual void draw(int timeLapse = 0);
+            virtual void draw( int timeLapse = 0 );
             virtual void cleanup();
 
             virtual QSizeF size();
-            virtual GluonGraphics::MaterialInstance *material();
+            virtual GluonGraphics::MaterialInstance* material();
 
         public slots:
-            virtual void setSize(const QSizeF &size);
-            virtual void setMaterial(GluonGraphics::MaterialInstance *material);
-            virtual void setMaterial(const QString &path);
+            virtual void setSize( const QSizeF& size );
+            virtual void setMaterial( GluonGraphics::MaterialInstance* material );
+            virtual void setMaterial( const QString& path );
 
         private:
             class SpriteRendererComponentPrivate;
-            SpriteRendererComponentPrivate *const d;
+            SpriteRendererComponentPrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonEngine::SpriteRendererComponent)
-Q_DECLARE_METATYPE(GluonEngine::SpriteRendererComponent*)
+Q_DECLARE_METATYPE( GluonEngine::SpriteRendererComponent )
+Q_DECLARE_METATYPE( GluonEngine::SpriteRendererComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

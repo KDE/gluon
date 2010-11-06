@@ -38,19 +38,19 @@ class CommentsView : public AbstractItemView
         Q_OBJECT
 
     public:
-        CommentsView(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
-        virtual void setModel(QAbstractItemModel* model);
+        CommentsView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual void setModel( QAbstractItemModel* model );
 
     protected:
-        Plasma::ItemBackground *m_itemBackground;
+        Plasma::ItemBackground* m_itemBackground;
 
-        bool eventFilter(QObject *obj, QEvent *event);
-        CommentsViewItem* addComment(const QModelIndex& index, QGraphicsWidget *parent, int depth);
+        bool eventFilter( QObject* obj, QEvent* event );
+        CommentsViewItem* addComment( const QModelIndex& index, QGraphicsWidget* parent, int depth );
 
     private:
-        QGraphicsWidget *m_rootWidget;
-        QGraphicsLinearLayout *m_commentsLayout;
-        Plasma::Frame *m_commentsFrame;
+        QGraphicsWidget* m_rootWidget;
+        QGraphicsLinearLayout* m_commentsLayout;
+        Plasma::Frame* m_commentsFrame;
         bool m_isOnline;
 
     protected slots:
@@ -58,7 +58,7 @@ class CommentsView : public AbstractItemView
         void removeComments();
         void loadComments();
         void reloadComments();
-        void addNewUserComment(QModelIndex parentIndex, QString title, QString body);
+        void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
         void cancelNewComment();
         void hideComments();
         void showComments();

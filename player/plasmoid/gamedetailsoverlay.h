@@ -45,17 +45,17 @@ class GameDetailsOverlay : public Overlay
         Q_OBJECT
 
     public:
-        GameDetailsOverlay(QGraphicsItem *parent = 0, Qt::WindowFlags wFlags = 0);
+        GameDetailsOverlay( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~GameDetailsOverlay();
 
     private:
-        Plasma::IconWidget *m_backButton;
-        Plasma::TabBar *m_tabBar;
-        HighScoresView *m_highScoresView;
-        AchievementsView *m_achievementsView;
-        CommentsView *m_commentsView;
-        GluonPlayer::CommentsModel *m_commentsModel;
-        GluonPlayer::HighScoresModel *m_highScoresModel;
+        Plasma::IconWidget* m_backButton;
+        Plasma::TabBar* m_tabBar;
+        HighScoresView* m_highScoresView;
+        AchievementsView* m_achievementsView;
+        CommentsView* m_commentsView;
+        GluonPlayer::CommentsModel* m_commentsModel;
+        GluonPlayer::HighScoresModel* m_highScoresModel;
 
     signals:
         void back();

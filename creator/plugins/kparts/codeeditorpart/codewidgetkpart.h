@@ -28,13 +28,22 @@ namespace GluonCreator
 
     class CodeWidgetKpart : public KParts::ReadWritePart
     {
-      Q_OBJECT
+            Q_OBJECT
         public:
-	  CodeWidgetKpart(QWidget *parentWidget, QObject *parent, const QVariantList&);
-           MainWindow* MainWidget() {return main;};
-	   virtual ~CodeWidgetKpart();
-	   bool openFile(){return true;};
-	   bool saveFile(){return true;};
+            CodeWidgetKpart( QWidget* parentWidget, QObject* parent, const QVariantList& );
+            MainWindow* MainWidget()
+            {
+                return main;
+            };
+            virtual ~CodeWidgetKpart();
+            bool openFile()
+            {
+                return true;
+            };
+            bool saveFile()
+            {
+                return true;
+            };
 
         private:
             MainWindow* main;

@@ -31,20 +31,20 @@ class MainWindow;
 
 class EdgePropertiesWidget : public QWidget, public Ui::EdgePropertiesWidget
 {
-    Q_OBJECT
-public:
-    EdgePropertiesWidget(QWidget *parent);
-    void setEdge(Edge *e, QPointF pos);
+        Q_OBJECT
+    public:
+        EdgePropertiesWidget( QWidget* parent );
+        void setEdge( Edge* e, QPointF pos );
 
-public slots:
-    void on__color_activated(const QColor& c);
-    void on__style_activated(int index);
-    void reflectAttributes();
-    void on__addProperty_clicked();
-    void disconnectEdge();
-    
-private:
-    Edge *_edge;
+    public slots:
+        void on__color_activated( const QColor& c );
+        void on__style_activated( int index );
+        void reflectAttributes();
+        void on__addProperty_clicked();
+        void disconnectEdge();
+
+    private:
+        Edge* _edge;
 };
 
 #endif // EDGEPROPERTIESWIDGET_H

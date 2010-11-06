@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -37,26 +37,26 @@ class Sound::SoundPrivate
         {
             buffer = new Buffer;
             source = 0;
-            position = QVector3D(0, 0, 0);
+            position = QVector3D( 0, 0, 0 );
             volume = 1.0f;
             pitch = 1.0f;
             radius = 10000.0f;
 
-            alGenSources(1, &source);  // Generate the source to play the buffer with
+            alGenSources( 1, &source ); // Generate the source to play the buffer with
 
             ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
-            alSourcefv(source, AL_POSITION, sourcePosition);
-            alSourcef(source, AL_GAIN, volume);
-            alSourcef(source, AL_PITCH, pitch);
-            alSourcef(source, AL_REFERENCE_DISTANCE, radius);
+            alSourcefv( source, AL_POSITION, sourcePosition );
+            alSourcef( source, AL_GAIN, volume );
+            alSourcef( source, AL_PITCH, pitch );
+            alSourcef( source, AL_REFERENCE_DISTANCE, radius );
         }
         ~SoundPrivate()
         {
-            alDeleteSources(1, &source);
+            alDeleteSources( 1, &source );
             delete buffer;
         }
-        
-        Buffer *buffer;
+
+        Buffer* buffer;
         ALuint source;
         QVector3D position;
         ALfloat volume;
@@ -64,31 +64,31 @@ class Sound::SoundPrivate
         ALfloat radius;
 };
 
-Sound::Sound(QObject *parent)
-        : QObject(parent)
-        , d(new SoundPrivate)
+Sound::Sound( QObject* parent )
+    : QObject( parent )
+    , d( new SoundPrivate )
 {
 }
 
-Sound::Sound(const QString &soundFile, QObject *parent)
-        : QObject(parent)
-        , d(new SoundPrivate)
+Sound::Sound( const QString& soundFile, QObject* parent )
+    : QObject( parent )
+    , d( new SoundPrivate )
 {
-    load(soundFile);
+    load( soundFile );
 }
 
-Sound::Sound(Buffer *buffer, QObject *parent)
-        : QObject(parent)
-        , d(new SoundPrivate)
+Sound::Sound( Buffer* buffer, QObject* parent )
+    : QObject( parent )
+    , d( new SoundPrivate )
 {
-    load(buffer);
+    load( buffer );
 }
 
-Sound::Sound(ALuint buffer, QObject *parent)
-        : QObject(parent)
-        , d(new SoundPrivate)
+Sound::Sound( ALuint buffer, QObject* parent )
+    : QObject( parent )
+    , d( new SoundPrivate )
 {
-    load(buffer);
+    load( buffer );
 }
 
 Sound::~Sound()
@@ -96,35 +96,37 @@ Sound::~Sound()
     delete d;
 }
 
-void Sound::load(const QString &soundFile)
+void Sound::load( const QString& soundFile )
 {
-    d->buffer->setBuffer(soundFile);
+    d->buffer->setBuffer( soundFile );
     setupSource();
 }
 
-void Sound::load(Buffer * buffer)
+void Sound::load( Buffer* buffer )
 {
     delete d->buffer;
     d->buffer = buffer;
     setupSource();
 }
-void Sound::load(ALuint buffer)
+void Sound::load( ALuint buffer )
 {
     delete d->buffer;
-    d->buffer = new Buffer(buffer);
+    d->buffer = new Buffer( buffer );
     setupSource();
 }
 
 void Sound::setupSource()
 {
-    alSourcei(d->source, AL_BUFFER, d->buffer->buffer());  // Attach source to buffer
+    alSourcei( d->source, AL_BUFFER, d->buffer->buffer() ); // Attach source to buffer
 
-    if (alGetError() != AL_NO_ERROR) {
+    if( alGetError() != AL_NO_ERROR )
+    {
         qDebug() << "Could not process sound while generating source:" << alGetError();
         return;
     }
 
-    if (!d->source) {
+    if( !d->source )
+    {
         qDebug() << "Could not process sound: generated source empty.";
         return;
     }
@@ -133,14 +135,14 @@ void Sound::setupSource()
 ALfloat Sound::elapsedTime() const
 {
     ALfloat seconds = 0.f;
-    alGetSourcef(d->source, AL_SEC_OFFSET, &seconds);
+    alGetSourcef( d->source, AL_SEC_OFFSET, &seconds );
     return seconds;
 }
 
 ALint Sound::status() const
 {
     ALint status;
-    alGetSourcei(d->source, AL_SOURCE_STATE, &status);
+    alGetSourcei( d->source, AL_SOURCE_STATE, &status );
     return status;
 }
 
@@ -148,20 +150,20 @@ ALint Sound::status() const
 bool Sound::isLooping()
 {
     ALint loop;
-    alGetSourcei(d->source, AL_LOOPING, &loop);
+    alGetSourcei( d->source, AL_LOOPING, &loop );
     return loop == AL_TRUE;
 }
 
 bool Sound::isPlaying()
 {
     ALint state;
-    alGetSourcei(d->source, AL_SOURCE_STATE, &state);
+    alGetSourcei( d->source, AL_SOURCE_STATE, &state );
     return state == AL_PLAYING;
 }
 
-void Sound::setLoop(bool enabled)
+void Sound::setLoop( bool enabled )
 {
-    alSourcei(d->source, AL_LOOPING, enabled);
+    alSourcei( d->source, AL_LOOPING, enabled );
 }
 
 QVector3D Sound::position() const
@@ -199,82 +201,82 @@ ALfloat Sound::radius() const
     return d->radius;
 }
 
-void Sound::setPosition(ALfloat x, ALfloat y, ALfloat z)
+void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
 {
-    QVector3D tempPosition(x, y, z);
-    setPosition(tempPosition);
+    QVector3D tempPosition( x, y, z );
+    setPosition( tempPosition );
 }
 
-void Sound::setPosition(QVector3D position)
+void Sound::setPosition( QVector3D position )
 {
     d->position = position;
     ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
-    alSourcefv(d->source, AL_POSITION, sourcePosition);
+    alSourcefv( d->source, AL_POSITION, sourcePosition );
 }
 
-void Sound::setVolume(ALfloat volume)
+void Sound::setVolume( ALfloat volume )
 {
     d->volume = volume;
-    alSourcef(d->source, AL_GAIN, volume);
+    alSourcef( d->source, AL_GAIN, volume );
 }
 
-void Sound::setPitch(ALfloat pitch)
+void Sound::setPitch( ALfloat pitch )
 {
     d->pitch = pitch;
-    alSourcef(d->source, AL_PITCH, pitch);
+    alSourcef( d->source, AL_PITCH, pitch );
 }
 
-void Sound::setRadius(ALfloat radius)
+void Sound::setRadius( ALfloat radius )
 {
     d->radius = radius;
-    alSourcef(d->source, AL_REFERENCE_DISTANCE, radius);
+    alSourcef( d->source, AL_REFERENCE_DISTANCE, radius );
 }
 
 void Sound::play()
 {
-    alSourcePlay(d->source);
+    alSourcePlay( d->source );
 }
 
 void Sound::pause()
 {
-    alSourcePause(d->source);
+    alSourcePause( d->source );
 }
 
 void Sound::stop()
 {
-    alSourceStop(d->source);
+    alSourceStop( d->source );
 }
 
 void Sound::rewind()
 {
-    alSourceRewind(d->source);
+    alSourceRewind( d->source );
 }
 
-void Sound::setMinVolume(ALfloat min)
+void Sound::setMinVolume( ALfloat min )
 {
-    alSourcef(d->source, AL_MIN_GAIN, min);
+    alSourcef( d->source, AL_MIN_GAIN, min );
 }
 
-void Sound::setMaxVolume(ALfloat max)
+void Sound::setMaxVolume( ALfloat max )
 {
-    alSourcef(d->source, AL_MAX_GAIN, max);
+    alSourcef( d->source, AL_MAX_GAIN, max );
 }
 
-void Sound::setVelocity(ALfloat vx, ALfloat vy, ALfloat vz)
+void Sound::setVelocity( ALfloat vx, ALfloat vy, ALfloat vz )
 {
     ALfloat velocity[] = { vx, vy, vz };
-    alSourcefv(d->source, AL_VELOCITY, velocity);
+    alSourcefv( d->source, AL_VELOCITY, velocity );
 }
 
-void Sound::setDirection(ALfloat dx, ALfloat dy, ALfloat dz)
+void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
 {
     ALfloat direction[] = { dx, dy, dz };
-    alSourcefv(d->source, AL_POSITION, direction);
+    alSourcefv( d->source, AL_POSITION, direction );
 }
 
-void Sound::setTimePosition(ALfloat time)
+void Sound::setTimePosition( ALfloat time )
 {
-    alSourcef(d->source, AL_SEC_OFFSET, time);
+    alSourcef( d->source, AL_SEC_OFFSET, time );
 
 }
 ALfloat Sound::duration() const

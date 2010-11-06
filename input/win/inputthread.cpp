@@ -47,9 +47,9 @@ class InputThread::InputThreadPrivate
         QMap<int, AbsVal> absAxisInfos;
 };
 
-InputThread::InputThread(const QString &devicePath, QObject * parent)
-    : QThread(parent)
-    , d(new InputThreadPrivate)
+InputThread::InputThread( const QString& devicePath, QObject* parent )
+    : QThread( parent )
+    , d( new InputThreadPrivate )
 {
 }
 
@@ -116,7 +116,7 @@ QList<int> InputThread::relAxisCapabilities() const
     return d->relAxisCapabilities;
 }
 
-AbsVal InputThread::axisInfo(int axisCode) const
+AbsVal InputThread::axisInfo( int axisCode ) const
 {
     return d->absAxisInfos[axisCode];
 }

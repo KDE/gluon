@@ -23,14 +23,14 @@
 using namespace GluonEngine;
 
 ComponentPrivate::ComponentPrivate()
-    : enabled(true)
-    , gameObject(0)
+    : enabled( true )
+    , gameObject( 0 )
 {
 }
 
-ComponentPrivate::ComponentPrivate(const ComponentPrivate &other)
-    : enabled(other.enabled)
-    , gameObject(other.gameObject)
+ComponentPrivate::ComponentPrivate( const ComponentPrivate& other )
+    : enabled( other.enabled )
+    , gameObject( other.gameObject )
 {
 }
 

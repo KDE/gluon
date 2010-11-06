@@ -28,7 +28,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
 
-REGISTER_OBJECTTYPE(GluonEngine, TextureAsset)
+REGISTER_OBJECTTYPE( GluonEngine, TextureAsset )
 
 using namespace GluonEngine;
 
@@ -39,14 +39,14 @@ class TextureAsset::TextureAssetPrivate
         ~TextureAssetPrivate() {}
 
         QPixmap icon;
-        GluonGraphics::Texture *texture;
+        GluonGraphics::Texture* texture;
 };
 
-TextureAsset::TextureAsset(QObject *parent)
-    : Asset(parent)
-    , d(new TextureAssetPrivate)
+TextureAsset::TextureAsset( QObject* parent )
+    : Asset( parent )
+    , d( new TextureAssetPrivate )
 {
-    d->texture = GluonGraphics::Engine::instance()->createTexture(name());
+    d->texture = GluonGraphics::Engine::instance()->createTexture( name() );
 }
 
 TextureAsset::~TextureAsset()
@@ -56,10 +56,10 @@ TextureAsset::~TextureAsset()
 
 QIcon TextureAsset::icon() const
 {
-    if (d->icon.isNull())
+    if( d->icon.isNull() )
         return GluonEngine::Asset::icon();
 
-    return QIcon(d->icon);
+    return QIcon( d->icon );
 }
 
 const QStringList TextureAsset::supportedMimeTypes() const
@@ -67,8 +67,9 @@ const QStringList TextureAsset::supportedMimeTypes() const
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
 
     QStringList supportedTypes;
-    foreach (const QByteArray &type, supported) {
-        supportedTypes << QString("image/%1").arg(QString(type));
+    foreach( const QByteArray & type, supported )
+    {
+        supportedTypes << QString( "image/%1" ).arg( QString( type ) );
     }
 
     return supportedTypes;
@@ -76,25 +77,27 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
-    if (!file().isEmpty()) {
-        if (d->texture->load(file())) {
-            mimeData()->setText(name());
+    if( !file().isEmpty() )
+    {
+        if( d->texture->load( file() ) )
+        {
+            mimeData()->setText( name() );
             //d->icon = QPixmap::fromImage(d->texture->scaled(QSize(128, 128), Qt::KeepAspectRatio));
-            setLoaded(true);
+            setLoaded( true );
             return;
         }
     }
 
-    debug("Error loading texture: %1", name());
+    debug( "Error loading texture: %1", name() );
 }
 
 void TextureAsset::setName( const QString& newName )
 {
-    GluonGraphics::Engine::instance()->removeTexture(name());
-    GluonGraphics::Engine::instance()->addTexture(newName, d->texture);
-    GluonEngine::Asset::setName(newName);
+    GluonGraphics::Engine::instance()->removeTexture( name() );
+    GluonGraphics::Engine::instance()->addTexture( newName, d->texture );
+    GluonEngine::Asset::setName( newName );
 }
 
-Q_EXPORT_PLUGIN2(gluon_asset_texture, GluonEngine::TextureAsset)
+Q_EXPORT_PLUGIN2( gluon_asset_texture, GluonEngine::TextureAsset )
 
 #include "textureasset.moc"

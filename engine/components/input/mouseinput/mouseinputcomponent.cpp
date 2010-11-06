@@ -26,7 +26,7 @@
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
 
-REGISTER_OBJECTTYPE(GluonEngine, MouseInputComponent);
+REGISTER_OBJECTTYPE( GluonEngine, MouseInputComponent );
 
 using namespace GluonEngine;
 
@@ -39,7 +39,7 @@ class MouseInputComponent::MouseInputComponentPrivate
 
         MouseButton mouseButton;
 
-        GluonInput::Mouse *mouse;
+        GluonInput::Mouse* mouse;
 
         int lastX;
         int lastY;
@@ -50,9 +50,9 @@ class MouseInputComponent::MouseInputComponentPrivate
 
 const int MouseInputComponent::MouseInputComponentPrivate::mouseButtonOffset = 271;
 
-MouseInputComponent::MouseInputComponent(QObject *parent)
-        : Component(parent)
-        , d(new MouseInputComponentPrivate)
+MouseInputComponent::MouseInputComponent( QObject* parent )
+    : Component( parent )
+    , d( new MouseInputComponentPrivate )
 {
     d->actionHeld = false;
     d->actionStarted = false;
@@ -66,12 +66,13 @@ MouseInputComponent::MouseInputComponent(QObject *parent)
 QString
 MouseInputComponent::category() const
 {
-    return QString("Input");
+    return QString( "Input" );
 }
 
 void MouseInputComponent::initialize()
 {
-    if (!d->mouse) {
+    if( !d->mouse )
+    {
         d->mouse = GluonInput::InputManager::instance()->mouse();
     }
 }
@@ -79,30 +80,38 @@ void MouseInputComponent::initialize()
 void
 MouseInputComponent::start()
 {
-    if (d->mouse) {
-        d->mouse->setEnabled(true);
-    } else {
-        debug("WARNING! No mouse found!");
+    if( d->mouse )
+    {
+        d->mouse->setEnabled( true );
+    }
+    else
+    {
+        debug( "WARNING! No mouse found!" );
     }
 }
 
 void
-MouseInputComponent::update(int elapsedMilliseconds)
+MouseInputComponent::update( int elapsedMilliseconds )
 {
     DEBUG_BLOCK
-    if (d->actionStarted)
+    if( d->actionStarted )
         d->actionStarted = false;
 
-    if (d->actionStopped)
+    if( d->actionStopped )
         d->actionStopped = false;
 
-    if (d->mouse && d->mouseButton && d->mouse->buttonPressed(d->mouseButton + d->mouseButtonOffset)) {
-        if (!d->actionHeld) {
+    if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset ) )
+    {
+        if( !d->actionHeld )
+        {
             d->actionStarted = true;
             d->actionHeld = true;
         }
-    } else {
-        if (d->actionHeld) {
+    }
+    else
+    {
+        if( d->actionHeld )
+        {
             d->actionStopped = true;
             d->actionHeld = false;
         }
@@ -115,8 +124,9 @@ MouseInputComponent::update(int elapsedMilliseconds)
 
 void MouseInputComponent::stop()
 {
-    if (d->mouse) {
-        d->mouse->setEnabled(false);
+    if( d->mouse )
+    {
+        d->mouse->setEnabled( false );
     }
 
     d->actionStopped = false;
@@ -147,7 +157,7 @@ MouseInputComponent::MouseButton MouseInputComponent::mouseButton() const
     return d->mouseButton;
 }
 
-void MouseInputComponent::setMouseButton(MouseInputComponent::MouseButton button)
+void MouseInputComponent::setMouseButton( MouseInputComponent::MouseButton button )
 {
     d->mouseButton = button;
 }
@@ -183,6 +193,6 @@ int MouseInputComponent::zAxis()
 }
 
 
-Q_EXPORT_PLUGIN2(gluon_component_mouseinput, GluonEngine::MouseInputComponent);
+Q_EXPORT_PLUGIN2( gluon_component_mouseinput, GluonEngine::MouseInputComponent );
 
 #include "mouseinputcomponent.moc"

@@ -36,14 +36,15 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            HighScoresModel(QObject *parent = 0);
+            HighScoresModel( QObject* parent = 0 );
             virtual ~HighScoresModel();
-            virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-            virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
-            virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-            virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
-            enum Column {
+            enum Column
+            {
                 NameColumn,
                 HighScoreColumn,
                 LevelColumn,
@@ -53,7 +54,7 @@ namespace GluonPlayer
             void loadData();
             void saveData();
 
-            GluonCore::GluonObject *rootNode;
+            GluonCore::GluonObject* rootNode;
     };
 
 }

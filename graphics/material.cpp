@@ -25,14 +25,19 @@
 
 #include "glheaders.h"
 
-REGISTER_OBJECTTYPE(GluonGraphics, Material)
+REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
 using namespace GluonGraphics;
 
 class Material::MaterialPrivate
 {
     public:
-        MaterialPrivate() { vertShader = 0; fragShader = 0; glProgram = 0; }
+        MaterialPrivate()
+        {
+            vertShader = 0;
+            fragShader = 0;
+            glProgram = 0;
+        }
 
         QHash<QString, Technique*> techniques;
 
@@ -43,11 +48,11 @@ class Material::MaterialPrivate
         QHash<QString, MaterialInstance*> instances;
 };
 
-Material::Material(QObject* parent)
-    : GluonObject(parent),
-      d(new MaterialPrivate)
+Material::Material( QObject* parent )
+    : GluonObject( parent ),
+      d( new MaterialPrivate )
 {
-    createInstance("default");
+    createInstance( "default" );
 }
 
 Material::~Material()
@@ -63,10 +68,10 @@ bool Material::load( const QUrl& url )
 
 void Material::build( const QString& name )
 {
-    if(d->glProgram)
-         return;
+    if( d->glProgram )
+        return;
 
-    #ifndef GLUON_GRAPHICS_GLES
+#ifndef GLUON_GRAPHICS_GLES
     const char* vertShaderSource = "\
 uniform mat4 modelViewProj;\
 \
@@ -84,7 +89,7 @@ void main()\
     out_uv0 = uv0;\
 }\
 ";
-    #else
+#else
     const char* vertShaderSource = "\
 uniform highp mat4 modelViewProj;\
 \
@@ -102,9 +107,9 @@ void main()\
     out_uv0 = uv0;\
 }\
 ";
-    #endif
+#endif
 
-    #ifndef GLUON_GRAPHICS_GLES
+#ifndef GLUON_GRAPHICS_GLES
     const char* fragShaderSource = "\
 uniform sampler2D texture0;\
 uniform vec4 materialColor;\
@@ -122,7 +127,7 @@ void main()\
     gl_FragColor = color;\
 }\
 ";
-    #else
+#else
     const char* fragShaderSource = "\
 uniform sampler2D texture0;\
 uniform mediump vec4 materialColor;\
@@ -140,67 +145,67 @@ void main()\
     gl_FragColor = color;\
 }\
 ";
-    #endif
+#endif
 
-    d->vertShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(d->vertShader, 1, &vertShaderSource, NULL);
-    glCompileShader(d->vertShader);
+    d->vertShader = glCreateShader( GL_VERTEX_SHADER );
+    glShaderSource( d->vertShader, 1, &vertShaderSource, NULL );
+    glCompileShader( d->vertShader );
 
     int status;
-    glGetShaderiv(d->vertShader, GL_COMPILE_STATUS, &status);
-    if(status != GL_TRUE)
+    glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
+    if( status != GL_TRUE )
     {
         char log[500];
-        glGetShaderInfoLog(d->vertShader, 500, NULL, log);
-        debug("An error occured when compiling a vertex shader:\n%1", QString(log));
+        glGetShaderInfoLog( d->vertShader, 500, NULL, log );
+        debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
     }
 
-    d->fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(d->fragShader, 1, &fragShaderSource, NULL);
-    glCompileShader(d->fragShader);
+    d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
+    glShaderSource( d->fragShader, 1, &fragShaderSource, NULL );
+    glCompileShader( d->fragShader );
 
-    glGetShaderiv(d->fragShader, GL_COMPILE_STATUS, &status);
-    if(status != GL_TRUE)
+    glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
+    if( status != GL_TRUE )
     {
         char log[500];
-        glGetShaderInfoLog(d->fragShader, 500, NULL, log);
-        debug("An error occured when compiling a fragment shader:\n%1", QString(log));
+        glGetShaderInfoLog( d->fragShader, 500, NULL, log );
+        debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
     }
 
     d->glProgram = glCreateProgram();
-    glAttachShader(d->glProgram, d->vertShader);
-    glAttachShader(d->glProgram, d->fragShader);
-    glLinkProgram(d->glProgram);
+    glAttachShader( d->glProgram, d->vertShader );
+    glAttachShader( d->glProgram, d->fragShader );
+    glLinkProgram( d->glProgram );
 
-    glGetProgramiv(d->glProgram, GL_LINK_STATUS, &status);
-    if(status != GL_TRUE)
+    glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
+    if( status != GL_TRUE )
     {
         char log[500];
-        glGetProgramInfoLog(d->fragShader, 500, NULL, log);
-        debug("An error occured when linking a program:\n%1", QString(log));
+        glGetProgramInfoLog( d->fragShader, 500, NULL, log );
+        debug( "An error occured when linking a program:\n%1", QString( log ) );
     }
 }
 
 Technique*
-Material::technique(const QString& name) const
+Material::technique( const QString& name ) const
 {
     return 0;
 }
 
 void
-Material::addTechnique(Technique* technique)
+Material::addTechnique( Technique* technique )
 {
 
 }
 
 void
-Material::removeTechnique(const QString& name)
+Material::removeTechnique( const QString& name )
 {
 
 }
 
 void
-Material::setDefaultTechnique(const QString& name)
+Material::setDefaultTechnique( const QString& name )
 {
 
 }
@@ -208,25 +213,25 @@ Material::setDefaultTechnique(const QString& name)
 uint
 Material::glProgram()
 {
-    if(!d->glProgram)
+    if( !d->glProgram )
         build();
 
     return d->glProgram;
 }
 
 MaterialInstance*
-Material::createInstance(const QString& name)
+Material::createInstance( const QString& name )
 {
     MaterialInstance* instance;
-    if(!d->instances.contains(name))
+    if( !d->instances.contains( name ) )
     {
-        instance = new MaterialInstance(this);
-        instance->setMaterial(this);
-        d->instances.insert(name, instance);
+        instance = new MaterialInstance( this );
+        instance->setMaterial( this );
+        d->instances.insert( name, instance );
     }
     else
     {
-        instance = d->instances.value(name);
+        instance = d->instances.value( name );
     }
     return instance;
 }
@@ -234,8 +239,8 @@ Material::createInstance(const QString& name)
 MaterialInstance*
 Material::instance( const QString& name )
 {
-    if(d->instances.contains(name))
-        return d->instances.value(name);
+    if( d->instances.contains( name ) )
+        return d->instances.value( name );
 
     return 0;
 }
@@ -244,8 +249,8 @@ QHash< QString, QVariant >
 Material::uniformList()
 {
     QHash<QString, QVariant> uniforms;
-    uniforms.insert("materialColor", Qt::white);
-    uniforms.insert("texture0", "default");
+    uniforms.insert( "materialColor", Qt::white );
+    uniforms.insert( "texture0", "default" );
     return uniforms;
 }
 

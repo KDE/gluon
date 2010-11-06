@@ -34,17 +34,17 @@ using namespace GluonInput;
 class DetectWin::DetectWinPrivate
 {
     public:
-        QList<InputDevice *> inputList;
-        QList<Keyboard *> keyboardList;
-        QList<Mouse *> mouseList;
-        QList<Joystick *> joystickList;
-        QList<Touch *> touchList;
-        QList<InputDevice *> unknownList;
+        QList<InputDevice*> inputList;
+        QList<Keyboard*> keyboardList;
+        QList<Mouse*> mouseList;
+        QList<Joystick*> joystickList;
+        QList<Touch*> touchList;
+        QList<InputDevice*> unknownList;
 };
 
-DetectWin::DetectWin(QObject *parent)
-    : Detect(parent)
-    , d(new DetectWinPrivate)
+DetectWin::DetectWin( QObject* parent )
+    : Detect( parent )
+    , d( new DetectWinPrivate )
 {
 }
 
@@ -56,10 +56,11 @@ void DetectWin::detectDevices()
 {
 }
 
-void DetectWin::setAllEnabled(bool enable)
+void DetectWin::setAllEnabled( bool enable )
 {
-    foreach(InputDevice *input, inputList()) {
-        input->setEnabled(enable);
+    foreach( InputDevice * input, inputList() )
+    {
+        input->setEnabled( enable );
     }
 }
 
@@ -73,66 +74,66 @@ void DetectWin::clear()
     d->unknownList.clear();
 }
 
-void DetectWin::addInput(InputDevice *i)
+void DetectWin::addInput( InputDevice* i )
 {
-    d->inputList.append(i);
+    d->inputList.append( i );
 }
 
-void DetectWin::addKeyboard(InputDevice *i)
+void DetectWin::addKeyboard( InputDevice* i )
 {
-    Keyboard *keybd = qobject_cast<Keyboard *>(i);
-    d->keyboardList.append(keybd);
+    Keyboard* keybd = qobject_cast<Keyboard*>( i );
+    d->keyboardList.append( keybd );
 }
 
-void DetectWin::addMouse(InputDevice *i)
+void DetectWin::addMouse( InputDevice* i )
 {
-    Mouse *mouse = qobject_cast<Mouse *>(i);
-    d->mouseList.append(mouse);
+    Mouse* mouse = qobject_cast<Mouse*>( i );
+    d->mouseList.append( mouse );
 }
 
-void DetectWin::addJoystick(InputDevice *i)
+void DetectWin::addJoystick( InputDevice* i )
 {
-    Joystick *joy = qobject_cast<Joystick *>(i);
-    d->joystickList.append(joy);
+    Joystick* joy = qobject_cast<Joystick*>( i );
+    d->joystickList.append( joy );
 }
 
-void DetectWin::addTouch(InputDevice *i)
+void DetectWin::addTouch( InputDevice* i )
 {
-    Touch *touch = qobject_cast<Touch *>(i);
-    d->touchList.append(touch);
+    Touch* touch = qobject_cast<Touch*>( i );
+    d->touchList.append( touch );
 }
 
-void DetectWin::addUnknown(InputDevice *i)
+void DetectWin::addUnknown( InputDevice* i )
 {
-    d->unknownList.append(i);
+    d->unknownList.append( i );
 }
 
-QList<InputDevice *> DetectWin::inputList()
+QList<InputDevice*> DetectWin::inputList()
 {
     return d->inputList;
 }
 
-QList<Keyboard *> DetectWin::keyboardList()
+QList<Keyboard*> DetectWin::keyboardList()
 {
     return d->keyboardList;
 }
 
-QList<Mouse *> DetectWin::mouseList()
+QList<Mouse*> DetectWin::mouseList()
 {
     return d->mouseList;
 }
 
-QList<Joystick *> DetectWin::joystickList()
+QList<Joystick*> DetectWin::joystickList()
 {
     return d->joystickList;
 }
 
-QList<Touch *> DetectWin::touchList()
+QList<Touch*> DetectWin::touchList()
 {
     return d->touchList;
 }
 
-QList<InputDevice *> DetectWin::unknownDeviceList()
+QList<InputDevice*> DetectWin::unknownDeviceList()
 {
     return d->unknownList;
 }

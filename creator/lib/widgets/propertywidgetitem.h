@@ -36,7 +36,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit PropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit PropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~PropertyWidgetItem();
 
             QWidget* editWidget() const;
@@ -50,18 +50,18 @@ namespace GluonCreator
             const QString typeName() const;
 
         public slots:
-            virtual void setEditObject(QObject * editThis);
-            virtual void setEditProperty(const QString& propertyName);
-            virtual void setEditWidget(QWidget *widget);
-            virtual void setEditValue(const QVariant& value);
-            virtual void valueChanged(QVariant);
+            virtual void setEditObject( QObject* editThis );
+            virtual void setEditProperty( const QString& propertyName );
+            virtual void setEditWidget( QWidget* widget );
+            virtual void setEditValue( const QVariant& value );
+            virtual void valueChanged( QVariant );
 
         signals:
-            void propertyChanged(QObject* object, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+            void propertyChanged( QObject* object, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue );
 
         private:
             class PropertyWidgetItemPrivate;
-            PropertyWidgetItemPrivate *d;
+            PropertyWidgetItemPrivate* d;
     };
 }
 

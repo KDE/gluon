@@ -28,7 +28,7 @@
 #include <QVector3D>
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, VectorPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, VectorPropertyWidgetItem )
 
 using namespace GluonCreator;
 
@@ -44,34 +44,34 @@ class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
         QVector3D value;
 };
 
-VectorPropertyWidgetItem::VectorPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+VectorPropertyWidgetItem::VectorPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
     d = new VectorPropertyWidgetItemPrivate;
 
-    QWidget* base = new QWidget(this);
+    QWidget* base = new QWidget( this );
     QHBoxLayout* layout = new QHBoxLayout();
-    layout->setSpacing(0);
-    base->setLayout(layout);
+    layout->setSpacing( 0 );
+    base->setLayout( layout );
 
-    d->x = new QDoubleSpinBox(this);
-    d->x->setPrefix("X: ");
-    d->x->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->x);
-    connect(d->x, SIGNAL(valueChanged(double)), SLOT(xValueChanged(double)));
+    d->x = new QDoubleSpinBox( this );
+    d->x->setPrefix( "X: " );
+    d->x->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->x );
+    connect( d->x, SIGNAL( valueChanged( double ) ), SLOT( xValueChanged( double ) ) );
 
-    d->y = new QDoubleSpinBox(this);
-    d->y->setPrefix("Y: ");
-    d->y->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->y);
-    connect(d->y, SIGNAL(valueChanged(double)), SLOT(yValueChanged(double)));
+    d->y = new QDoubleSpinBox( this );
+    d->y->setPrefix( "Y: " );
+    d->y->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->y );
+    connect( d->y, SIGNAL( valueChanged( double ) ), SLOT( yValueChanged( double ) ) );
 
-    d->z = new QDoubleSpinBox(this);
-    d->z->setPrefix("Z: ");
-    d->z->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->z);
-    connect(d->z, SIGNAL(valueChanged(double)), SLOT(zValueChanged(double)));
+    d->z = new QDoubleSpinBox( this );
+    d->z->setPrefix( "Z: " );
+    d->z->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->z );
+    connect( d->z, SIGNAL( valueChanged( double ) ), SLOT( zValueChanged( double ) ) );
 
-    setEditWidget(base);
+    setEditWidget( base );
 }
 
 VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
@@ -83,7 +83,7 @@ QStringList
 VectorPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QVector3D");
+    supportedTypes.append( "QVector3D" );
     return supportedTypes;
 }
 
@@ -93,31 +93,31 @@ VectorPropertyWidgetItem::instantiate()
     return new VectorPropertyWidgetItem();
 }
 
-void VectorPropertyWidgetItem::setEditValue(const QVariant& value)
+void VectorPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    const QVector3D *vector = static_cast<const QVector3D*>(value.data());
+    const QVector3D* vector = static_cast<const QVector3D*>( value.data() );
 
-    d->x->setValue(vector->x());
-    d->y->setValue(vector->y());
-    d->z->setValue(vector->z());
+    d->x->setValue( vector->x() );
+    d->y->setValue( vector->y() );
+    d->z->setValue( vector->z() );
 }
 
-void VectorPropertyWidgetItem::xValueChanged(double value)
+void VectorPropertyWidgetItem::xValueChanged( double value )
 {
-    d->value = QVector3D(value, d->y->value(), d->z->value());
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
+    d->value = QVector3D( value, d->y->value(), d->z->value() );
+    PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( d->value ) );
 }
 
-void VectorPropertyWidgetItem::yValueChanged(double value)
+void VectorPropertyWidgetItem::yValueChanged( double value )
 {
-    d->value = QVector3D(d->x->value(), value, d->z->value());
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
+    d->value = QVector3D( d->x->value(), value, d->z->value() );
+    PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( d->value ) );
 }
 
-void VectorPropertyWidgetItem::zValueChanged(double value)
+void VectorPropertyWidgetItem::zValueChanged( double value )
 {
-    d->value = QVector3D(d->x->value(), d->y->value(), value);
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<QVector3D>(d->value));
+    d->value = QVector3D( d->x->value(), d->y->value(), value );
+    PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( d->value ) );
 }
 
 // #include "vectorpropertywidgetitem.moc"

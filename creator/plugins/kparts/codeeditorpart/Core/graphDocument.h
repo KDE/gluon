@@ -31,96 +31,99 @@ class Graph;
 */
 class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    enum Type {Simple = 0, Oriented};
-    /*! Default Constructor
-      \param name sets the name of the document.
-    */
-    GraphDocument(const QString name, int width = 800, int heigth = 600);
+    public:
+        enum Type {Simple = 0, Oriented};
+        /*! Default Constructor
+          \param name sets the name of the document.
+        */
+        GraphDocument( const QString name, int width = 800, int heigth = 600 );
 
-    /*! default copy constructor */
-    GraphDocument(const GraphDocument& gd);
+        /*! default copy constructor */
+        GraphDocument( const GraphDocument& gd );
 
-    /*! Default Destructor */
-    ~GraphDocument();
+        /*! Default Destructor */
+        ~GraphDocument();
 
-    /*! verifies if this document is changed */
-    bool isModified();
+        /*! verifies if this document is changed */
+        bool isModified();
 
-    /*! Sets the current file name of the Graph Collection
-      \param name changes the name of the document.
-    */
-    void setName(const QString& name);
+        /*! Sets the current file name of the Graph Collection
+          \param name changes the name of the document.
+        */
+        void setName( const QString& name );
 
-    /*! \return the Name of the Collection of Graphs */
-    QString name() const;
+        /*! \return the Name of the Collection of Graphs */
+        QString name() const;
 
-    /*! set the height of the working area
-        \param height the new height of the document.
-    */
-    void setHeight(qreal height);
+        /*! set the height of the working area
+            \param height the new height of the document.
+        */
+        void setHeight( qreal height );
 
-    /*! \return the heigth of the working area */
-    qreal height() const;
+        /*! \return the heigth of the working area */
+        qreal height() const;
 
-    /*! set the width of the working area
-      \param width the new width of the working area.
-    */
-    void setWidth(qreal width);
+        /*! set the width of the working area
+          \param width the new width of the working area.
+        */
+        void setWidth( qreal width );
 
-    /*! \return the width of the working area */
-    qreal width() const;
+        /*! \return the width of the working area */
+        qreal width() const;
 
-    /* */
-    void savedDocumentAt(const QString& fileName);
+        /* */
+        void savedDocumentAt( const QString& fileName );
 
-    const QString& documentPath() const ;
+        const QString& documentPath() const ;
 
-    bool saveAsInternalFormat(const QString& filename);
-    void loadFromInternalFormat(const QString& filename);
-public slots:
-    /*! Creates a new Graph
-      \param name the name of the graph
-      \param type the the of the graph.
-    */
-    Graph *addGraph(QString name = "untitled");
-    Graph *activeGraph(){ return _activeGraph; }
-    void setActiveGraph(Graph *g);
-    
-signals:
-    /*! emited when a new graph is created
-      \param g the created graph */
-    void graphCreated( Graph *g);
+        bool saveAsInternalFormat( const QString& filename );
+        void loadFromInternalFormat( const QString& filename );
+    public slots:
+        /*! Creates a new Graph
+          \param name the name of the graph
+          \param type the the of the graph.
+        */
+        Graph* addGraph( QString name = "untitled" );
+        Graph* activeGraph()
+        {
+            return _activeGraph;
+        }
+        void setActiveGraph( Graph* g );
 
-    /*! emitted when a graph is removed.
-      \param i the index of the removed graph */
-    void graphRemoved(int i);
+    signals:
+        /*! emited when a new graph is created
+          \param g the created graph */
+        void graphCreated( Graph* g );
 
-    /*! emitted when the document changes it's name.
-      \param name the new name of the document */
-    void nameChanged(QString name);
+        /*! emitted when a graph is removed.
+          \param i the index of the removed graph */
+        void graphRemoved( int i );
 
-    /*! emitted when the document changes it's height
-      \param height the new height of the document */
-    void heightChanged(qreal height);
+        /*! emitted when the document changes it's name.
+          \param name the new name of the document */
+        void nameChanged( QString name );
 
-    /*!  emitted when the document changes it's width
-      \param width the new width of the document */
-    void widthChanged(qreal width);
+        /*! emitted when the document changes it's height
+          \param height the new height of the document */
+        void heightChanged( qreal height );
 
-    void activeGraphChanged(Graph* g);
-private:
-    QString k_buf;
-    void  savePropertiesInternalFormat(QObject *o);
-    QString _lastSavedDocumentPath;
-    QString _name;
-    qreal _width;
-    qreal _height;
-    bool _modified;
-    bool _saved;
-    Graph *_activeGraph;
+        /*!  emitted when the document changes it's width
+          \param width the new width of the document */
+        void widthChanged( qreal width );
+
+        void activeGraphChanged( Graph* g );
+    private:
+        QString k_buf;
+        void  savePropertiesInternalFormat( QObject* o );
+        QString _lastSavedDocumentPath;
+        QString _name;
+        qreal _width;
+        qreal _height;
+        bool _modified;
+        bool _saved;
+        Graph* _activeGraph;
 };
 
 #endif

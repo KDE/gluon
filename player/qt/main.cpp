@@ -21,13 +21,13 @@
 
 #include <QtGui/QApplication>
 
-int main(int argc, char **argv)
+int main( int argc, char** argv )
 {
-    QApplication app(argc, argv);
-    app.setOrganizationName("KDE Gluon");
-    app.setApplicationName("Gluon Player");
+    QApplication app( argc, argv );
+    app.setOrganizationName( "KDE Gluon" );
+    app.setApplicationName( "Gluon Player" );
 
-    GluonPlayer::MainWindow window(argc, argv);
+    GluonPlayer::MainWindow window( argc, argv );
     window.show();
 
     return app.exec();

@@ -40,17 +40,17 @@ namespace GluonEngine
     class I : public QThread
     {
         public:
-            static void sleep(unsigned long secs)
+            static void sleep( unsigned long secs )
             {
-                QThread::sleep(secs);
+                QThread::sleep( secs );
             }
-            static void msleep(unsigned long msecs)
+            static void msleep( unsigned long msecs )
             {
-                QThread::msleep(msecs);
+                QThread::msleep( msecs );
             }
-            static void usleep(unsigned long usecs)
+            static void usleep( unsigned long usecs )
             {
-                QThread::usleep(usecs);
+                QThread::usleep( usecs );
             }
     };
 
@@ -60,17 +60,17 @@ namespace GluonEngine
             /**
              * The Scene which is currently being handled by the game loop
              */
-            Q_PROPERTY(Scene *currentScene READ currentScene WRITE setCurrentScene)
+            Q_PROPERTY( Scene* currentScene READ currentScene WRITE setCurrentScene )
             /**
              * The GameProject containing the game which is currently being played
              */
-            Q_PROPERTY(GluonEngine::GameProject *gameProject READ gameProject WRITE setGameProject)
+            Q_PROPERTY( GluonEngine::GameProject* gameProject READ gameProject WRITE setGameProject )
 
         public:
             int getCurrentTick();
-            Scene *currentScene() const;
+            Scene* currentScene() const;
 
-            GluonEngine::GameProject *gameProject() const;
+            GluonEngine::GameProject* gameProject() const;
 
             Q_INVOKABLE bool isRunning() const;
             Q_INVOKABLE bool isPaused() const;
@@ -80,9 +80,9 @@ namespace GluonEngine
              *
              * @param name The name of the object
              */
-            Q_INVOKABLE GluonEngine::GameObject *getFromScene(const QString &name);
+            Q_INVOKABLE GluonEngine::GameObject* getFromScene( const QString& name );
 
-            Q_INVOKABLE GluonEngine::GameObject *clone(GluonEngine::GameObject *obj);
+            Q_INVOKABLE GluonEngine::GameObject* clone( GluonEngine::GameObject* obj );
 
             //TODO Implement
             //Q_INVOKABLE GameObject *spawn(const QString& prefabName);
@@ -98,10 +98,10 @@ namespace GluonEngine
 
 
         public slots:
-            void setGameProject(GluonEngine::GameProject * newGameProject);
+            void setGameProject( GluonEngine::GameProject* newGameProject );
 
-            void setCurrentScene(Scene * newCurrentScene);
-            void setCurrentScene(const QString& sceneName);
+            void setCurrentScene( Scene* newCurrentScene );
+            void setCurrentScene( const QString& sceneName );
 
             /**
              * Resets the current scene to its initial conditions
@@ -117,17 +117,17 @@ namespace GluonEngine
              * @param   int updatesPerSecond    The number of updates per second
              * @param   int maxFrameSkip The maximum number of frames that you're allowed to skip before forcing a redraw
              */
-            void runGameFixedUpdate(int updatesPerSecond = 25, int maxFrameSkip = 5);
+            void runGameFixedUpdate( int updatesPerSecond = 25, int maxFrameSkip = 5 );
 
             /**
              * Run the game using a fixed time between each update
              * @param   int framesPerSecond The number of frames per second that the game will attempt to keep up with
              */
-            void runGameFixedTimestep(int framesPerSecond = 25);
+            void runGameFixedTimestep( int framesPerSecond = 25 );
 
             void stopGame();
 
-            void setPause(bool pause);
+            void setPause( bool pause );
 
             /**
              * Initialize all objects in the current scene.
@@ -140,11 +140,11 @@ namespace GluonEngine
             /**
              * Draw all items in the current scene.
              */
-            void drawAll(int time = 1);
+            void drawAll( int time = 1 );
             /**
              * Update all items in the current scene.
              */
-            void updateAll(int time = 10);
+            void updateAll( int time = 10 );
             /**
              * Stop all objects in the current scene.
              */
@@ -155,19 +155,19 @@ namespace GluonEngine
             void cleanupAll();
 
         signals:
-            void showDebug(const QString& debugText);
-            void currentSceneChanged(GluonEngine::Scene*);
-            void currentProjectChanged(GluonEngine::GameProject*);
+            void showDebug( const QString& debugText );
+            void currentSceneChanged( GluonEngine::Scene* );
+            void currentProjectChanged( GluonEngine::GameProject* );
 
-            void updated(int);
-            void painted(int);
+            void updated( int );
+            void painted( int );
 
         private:
             friend class GluonCore::Singleton<Game>;
 
-            Game(QObject * parent = 0);
+            Game( QObject* parent = 0 );
             ~Game();
-            Q_DISABLE_COPY(Game)
+            Q_DISABLE_COPY( Game )
 
             QSharedDataPointer<GamePrivate> d;
     };

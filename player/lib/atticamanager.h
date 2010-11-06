@@ -8,17 +8,17 @@ namespace GluonPlayer
 {
     /**
      *\brief Class which helps gluon libraries to access Attica
-     * 
+     *
      * This class helps gluon libraries to access Attica so that
      * collaboration actions can be performed.
-     * 
+     *
      * \note This should <b>not</b> be used in code outside GluonPlayer library.
      * Use the appropriate classes instead.
      */
 
     class AtticaManager : public GluonCore::Singleton<AtticaManager>
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             /**
@@ -36,7 +36,7 @@ namespace GluonPlayer
             friend class GluonCore::Singleton<AtticaManager>;
             AtticaManager();
             ~AtticaManager();
-            Q_DISABLE_COPY(AtticaManager)
+            Q_DISABLE_COPY( AtticaManager )
 
             Attica::ProviderManager m_manager;
             Attica::Provider m_provider;

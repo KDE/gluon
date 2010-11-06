@@ -7,12 +7,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -33,26 +33,26 @@ namespace GluonCreator
     {
         public:
             ComponentModelItem()
-                : parent(0)
+                : parent( 0 )
             {};
-            ComponentModelItem(const ComponentModelItem& other)
-                : name(other.name)
-                , className(other.className)
+            ComponentModelItem( const ComponentModelItem& other )
+                : name( other.name )
+                , className( other.className )
             {}
             ~ComponentModelItem()
             {
-                qDeleteAll(items);
+                qDeleteAll( items );
             }
             int row()
             {
-                if(parent)
-                    return parent->items.indexOf(this);
+                if( parent )
+                    return parent->items.indexOf( this );
                 return -1;
             }
-            
+
             QString name;
             QString className;
-            
+
             ComponentModelItem* parent;
             QList<ComponentModelItem*> items;
             QHash<QString, int> itemNames;
@@ -66,51 +66,51 @@ class ComponentModel::ComponentModelPrivate
 {
     public:
         ComponentModelPrivate()
-            : root(new ComponentModelItem())
+            : root( new ComponentModelItem() )
         {}
 
         ComponentModelItem* root;
 };
 
-ComponentModel::ComponentModel(QObject* parent)
-    : QAbstractItemModel(parent)
-    , d(new ComponentModelPrivate)
+ComponentModel::ComponentModel( QObject* parent )
+    : QAbstractItemModel( parent )
+    , d( new ComponentModelPrivate )
 {
     DEBUG_BLOCK
-    
+
     QHash<QString, const QMetaObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
     int i = 0;
-    foreach(const QMetaObject* obj, objectTypes)
+    foreach( const QMetaObject * obj, objectTypes )
     {
-        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(obj->newInstance());
-        if(comp)
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( obj->newInstance() );
+        if( comp )
         {
-            DEBUG_TEXT2("%1 is a Component", obj->className());
-            QString name(obj->className());
-        
-            ComponentModelItem *item = new ComponentModelItem();
-            item->name = ObjectManager::instance()->humanifyClassName(name);
+            DEBUG_TEXT2( "%1 is a Component", obj->className() );
+            QString name( obj->className() );
+
+            ComponentModelItem* item = new ComponentModelItem();
+            item->name = ObjectManager::instance()->humanifyClassName( name );
             item->className = name;
-            
+
             // Ensure the category exists before attempting to insert anything into it... ;)
             QString category = comp->category();
-            if(!d->root->itemNames.contains(category))
+            if( !d->root->itemNames.contains( category ) )
             {
                 ComponentModelItem* categoryItem = new ComponentModelItem();
                 categoryItem->name = category;
                 categoryItem->parent = d->root;
-                d->root->items.append(categoryItem);
-                d->root->itemNames.insert(category, i);
+                d->root->items.append( categoryItem );
+                d->root->itemNames.insert( category, i );
                 ++i;
             }
-            
+
             item->parent = d->root->items[ d->root->itemNames[category] ];
-            d->root->items[ d->root->itemNames[category] ]->itemNames.insert(item->name, d->root->items[ d->root->itemNames[category] ]->items.count());
-            d->root->items[ d->root->itemNames[category] ]->items.append(item);
+            d->root->items[ d->root->itemNames[category] ]->itemNames.insert( item->name, d->root->items[ d->root->itemNames[category] ]->items.count() );
+            d->root->items[ d->root->itemNames[category] ]->items.append( item );
         }
         else
         {
-            DEBUG_TEXT2("%1 is NOT a Component", obj->className());
+            DEBUG_TEXT2( "%1 is NOT a Component", obj->className() );
         }
     }
 }
@@ -121,29 +121,29 @@ ComponentModel::~ComponentModel()
 }
 
 QVariant
-ComponentModel::data(const QModelIndex& index, int role) const
+ComponentModel::data( const QModelIndex& index, int role ) const
 {
-    if (!index.isValid())
+    if( !index.isValid() )
         return QVariant();
-    
-    const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
-    
-    switch(role)
+
+    const ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+
+    switch( role )
     {
         case Qt::ToolTipRole:
-            if(item->parent)
+            if( item->parent )
                 return item->parent->name;
             else
                 return QVariant();
             break;
         case Qt::DisplayRole:
-            switch(index.column())
+            switch( index.column() )
             {
                 case 2:
                     return item->className;
                     break;
                 case 1:
-                    if(item->parent)
+                    if( item->parent )
                         return item->parent->name;
                     else
                         return QString();
@@ -162,74 +162,74 @@ ComponentModel::data(const QModelIndex& index, int role) const
 }
 
 QVariant
-ComponentModel::headerData(int section, Qt::Orientation orientation, int role) const
+ComponentModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
-    if (role != Qt::DisplayRole)
+    if( role != Qt::DisplayRole )
         return QVariant();
-    
-    if (orientation == Qt::Horizontal)
+
+    if( orientation == Qt::Horizontal )
     {
-        switch(section)
+        switch( section )
         {
             case 2:
-                return i18n("Class Name");
+                return i18n( "Class Name" );
                 break;
             case 1:
-                return i18n("Category");
+                return i18n( "Category" );
                 break;
             case 0:
             default:
-                return i18n("Component");
+                return i18n( "Component" );
                 break;
         }
     }
     else
-        return QString("Row %1").arg(section);
+        return QString( "Row %1" ).arg( section );
 }
 
 QModelIndex
-ComponentModel::index(int row, int column, const QModelIndex& parent) const
+ComponentModel::index( int row, int column, const QModelIndex& parent ) const
 {
-    if (!hasIndex(row, column, parent))
+    if( !hasIndex( row, column, parent ) )
         return QModelIndex();
-    
-    ComponentModelItem *parentItem;
-    
-    if (!parent.isValid())
+
+    ComponentModelItem* parentItem;
+
+    if( !parent.isValid() )
         parentItem = d->root;
     else
-        parentItem = static_cast<ComponentModelItem*>(parent.internalPointer());
-    
-    ComponentModelItem *childItem = parentItem->items[row];
-    if (childItem)
-        return createIndex(row, column, childItem);
+        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
+
+    ComponentModelItem* childItem = parentItem->items[row];
+    if( childItem )
+        return createIndex( row, column, childItem );
     else
         return QModelIndex();
 }
 
 QModelIndex
-ComponentModel::parent(const QModelIndex& child) const
+ComponentModel::parent( const QModelIndex& child ) const
 {
-    if (!child.isValid())
+    if( !child.isValid() )
         return QModelIndex();
-    
-    ComponentModelItem *childItem = static_cast<ComponentModelItem*>(child.internalPointer());
-    ComponentModelItem *parentItem = childItem->parent;
 
-    if (parentItem == d->root)
+    ComponentModelItem* childItem = static_cast<ComponentModelItem*>( child.internalPointer() );
+    ComponentModelItem* parentItem = childItem->parent;
+
+    if( parentItem == d->root )
         return QModelIndex();
-    
-    return createIndex(parentItem->row(), 0, parentItem);
+
+    return createIndex( parentItem->row(), 0, parentItem );
 }
 
 Qt::ItemFlags
-ComponentModel::flags(const QModelIndex &index) const
+ComponentModel::flags( const QModelIndex& index ) const
 {
-    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
-    if (index.isValid())
+    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags( index );
+    if( index.isValid() )
     {
-        ComponentModelItem *item = static_cast<ComponentModelItem*>(index.internalPointer());
-        if(item->className.isEmpty())
+        ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+        if( item->className.isEmpty() )
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
         return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
     }
@@ -246,20 +246,20 @@ ComponentModel::mimeTypes() const
 }
 
 QMimeData*
-ComponentModel::mimeData(const QModelIndexList& indexes) const
+ComponentModel::mimeData( const QModelIndexList& indexes ) const
 {
-    QMimeData *mimeData = new QMimeData();
+    QMimeData* mimeData = new QMimeData();
     QByteArray encodedData;
 
-    QDataStream stream(&encodedData, QIODevice::WriteOnly);
+    QDataStream stream( &encodedData, QIODevice::WriteOnly );
 
     // There should really only be one, but let's do the loop-de-loop anyway
-    foreach(const QModelIndex &index, indexes)
+    foreach( const QModelIndex & index, indexes )
     {
-        if (index.isValid())
+        if( index.isValid() )
         {
-            const ComponentModelItem* item = static_cast<ComponentModelItem*>(index.internalPointer());
-            if(item)
+            const ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+            if( item )
             {
                 QString text = item->className;
                 stream << text;
@@ -267,29 +267,29 @@ ComponentModel::mimeData(const QModelIndexList& indexes) const
         }
     }
 
-    mimeData->setData("application/gluon.text.componentclass", encodedData);
+    mimeData->setData( "application/gluon.text.componentclass", encodedData );
     return mimeData;
 }
 
 int
-ComponentModel::rowCount(const QModelIndex& parent) const
+ComponentModel::rowCount( const QModelIndex& parent ) const
 {
-    if (parent.column() > 0)
+    if( parent.column() > 0 )
         return 0;
-    
+
     ComponentModelItem* parentItem;
-    if (!parent.isValid())
+    if( !parent.isValid() )
         parentItem = d->root;
     else
-        parentItem = static_cast<ComponentModelItem*>(parent.internalPointer());
-    
+        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
+
     return parentItem->items.count();
 }
 
 int
-ComponentModel::columnCount(const QModelIndex& parent) const
+ComponentModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED( parent );
     return 1;
 }
 

@@ -30,46 +30,46 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT DiscRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::DiscRendererComponent)
-            Q_PROPERTY(float radius READ radius WRITE setRadius)
-            Q_PROPERTY(uint nbPoints READ nbPoints WRITE setNbPoints)
-            Q_PROPERTY(QColor color READ color WRITE setColor)
-            Q_PROPERTY(GluonEngine::Asset *texture READ texture WRITE setTexture)
-            Q_INTERFACES(GluonEngine::Component)
+            GLUON_OBJECT( GluonEngine::DiscRendererComponent )
+            Q_PROPERTY( float radius READ radius WRITE setRadius )
+            Q_PROPERTY( uint nbPoints READ nbPoints WRITE setNbPoints )
+            Q_PROPERTY( QColor color READ color WRITE setColor )
+            Q_PROPERTY( GluonEngine::Asset* texture READ texture WRITE setTexture )
+            Q_INTERFACES( GluonEngine::Component )
 
         public:
-            Q_INVOKABLE DiscRendererComponent(QObject *parent = 0);
-            DiscRendererComponent(const DiscRendererComponent &other);
+            Q_INVOKABLE DiscRendererComponent( QObject* parent = 0 );
+            DiscRendererComponent( const DiscRendererComponent& other );
             virtual ~DiscRendererComponent();
             virtual QString category() const;
 
             virtual void initialize();
             virtual void start();
-            virtual void draw(int timeLapse = 0);
+            virtual void draw( int timeLapse = 0 );
             virtual void cleanup();
 
             virtual float radius();
-            virtual void setRadius(float newRadius);
+            virtual void setRadius( float newRadius );
             virtual uint nbPoints();
-            virtual void setNbPoints(uint newNbPoints);
+            virtual void setNbPoints( uint newNbPoints );
 
             virtual QColor color();
-            virtual Asset *texture();
+            virtual Asset* texture();
 
         public slots:
-            virtual void setColor(const QColor &color);
-            virtual void setColor(int r, int g, int b, int a = 255);
-            virtual void setTexture(Asset *asset);
+            virtual void setColor( const QColor& color );
+            virtual void setColor( int r, int g, int b, int a = 255 );
+            virtual void setTexture( Asset* asset );
 
         private:
-            void setDisc(QVector3D position, float radius, uint nbPoints, QColor color);
+            void setDisc( QVector3D position, float radius, uint nbPoints, QColor color );
 
             class DiscRendererComponentPrivate;
-            DiscRendererComponentPrivate *const d;
+            DiscRendererComponentPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::DiscRendererComponent)
-Q_DECLARE_METATYPE(GluonEngine::DiscRendererComponent *)
+Q_DECLARE_METATYPE( GluonEngine::DiscRendererComponent )
+Q_DECLARE_METATYPE( GluonEngine::DiscRendererComponent* )
 
 #endif

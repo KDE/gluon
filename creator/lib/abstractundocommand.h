@@ -29,30 +29,31 @@ namespace GluonCore
     class GluonObject;
 }
 
-namespace GluonCreator {
+namespace GluonCreator
+{
 
     class GLUONCREATOR_EXPORT AbstractUndoCommand : public QUndoCommand
     {
         public:
-            AbstractUndoCommand(QUndoCommand* parent = 0);
+            AbstractUndoCommand( QUndoCommand* parent = 0 );
             virtual ~AbstractUndoCommand();
 
             virtual void undo() = 0;
             virtual void redo() = 0;
             virtual int id() const;
 
-            GluonCore::GluonObject * object() const;
+            GluonCore::GluonObject* object() const;
             QString commandName() const;
-	    QString commandDirection() const;
+            QString commandDirection() const;
 
         protected:
-            void setObject(GluonCore::GluonObject* obj);
-            void setCommandName(const QString& name);
-	    void setCommandDirection(const QString& direction);
+            void setObject( GluonCore::GluonObject* obj );
+            void setCommandName( const QString& name );
+            void setCommandDirection( const QString& direction );
 
         private:
             class AbstractUndoCommandPrivate;
-            AbstractUndoCommandPrivate * const d;
+            AbstractUndoCommandPrivate* const d;
     };
 }
 

@@ -31,16 +31,16 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT Joystick : public InputDevice
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit Joystick(InputThread *inputThread, QObject *parent = 0);
+            explicit Joystick( InputThread* inputThread, QObject* parent = 0 );
 
             int axisX() const;
             int axisY()const;
             int axisZ() const;
 
         private slots:
-            void joystickMoved(int axis, int distance);
+            void joystickMoved( int axis, int distance );
 
         private:
             QSharedDataPointer<JoystickPrivate> d;

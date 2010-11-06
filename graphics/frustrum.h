@@ -53,9 +53,9 @@ namespace GluonGraphics
              */
             virtual ~Frustrum();
 
-            Frustrum(const Frustrum& other);
+            Frustrum( const Frustrum& other );
 
-            Frustrum& operator=(const Frustrum& other);
+            Frustrum& operator=( const Frustrum& other );
 
             /**
              * Retrieve the projection matrix.
@@ -72,7 +72,7 @@ namespace GluonGraphics
              *
              * \return True if the point is inside, false if outside.
              */
-            bool containsPoint(const QVector3D& point);
+            bool containsPoint( const QVector3D& point );
 
             /**
              * Check whether a sphere falls within the frustrum.
@@ -84,7 +84,7 @@ namespace GluonGraphics
              * \return True if the sphere is inside or intersects the
              * frustrum. False if not.
              */
-            bool containsSphere(const QVector3D& point, float radius);
+            bool containsSphere( const QVector3D& point, float radius );
 
             /**
              * Retrieve the distance to the near plane of this frustrum.
@@ -119,7 +119,7 @@ namespace GluonGraphics
              * \param near The distance to the near plane.
              * \param far The distance to the far plane. Should be > near .
              */
-            void setOrthographic(float left, float right, float bottom, float top, float near, float far);
+            void setOrthographic( float left, float right, float bottom, float top, float near, float far );
 
             /**
              * Set this frustrum to use an orthographic projection, adjusted
@@ -133,7 +133,7 @@ namespace GluonGraphics
              * \param near The distance to the near plane.
              * \param far The distance to the far plane.
              */
-            void setOrthoAdjusted(const QSizeF& area, float aspect, float near, float far);
+            void setOrthoAdjusted( const QSizeF& area, float aspect, float near, float far );
 
             /**
              * Set this frustrum to use a perspective projection.
@@ -143,18 +143,18 @@ namespace GluonGraphics
              * \param near Distance to the near plane.
              * \param far Distance to the far plane.
              */
-            void setPerspective( float fov, float aspect, float near, float far);
+            void setPerspective( float fov, float aspect, float near, float far );
 
             /**
              * Update the frustrum to account for a new aspect ratio.
              *
              * \param aspect The new aspect ratio to use.
              */
-            void updateFrustrum(float aspect);
+            void updateFrustrum( float aspect );
 
         private:
             class FrustrumPrivate;
-            FrustrumPrivate * const d;
+            FrustrumPrivate* const d;
     };
 
 }

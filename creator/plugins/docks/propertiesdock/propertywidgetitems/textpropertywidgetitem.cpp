@@ -23,14 +23,14 @@
 
 #include <KDE/KLineEdit>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, TextPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, TextPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-TextPropertyWidgetItem::TextPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+TextPropertyWidgetItem::TextPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
-    setEditWidget(new KLineEdit(this));
-    connect(editWidget(), SIGNAL(textEdited(QString)), SLOT(textEdited(QString)));
+    setEditWidget( new KLineEdit( this ) );
+    connect( editWidget(), SIGNAL( textEdited( QString ) ), SLOT( textEdited( QString ) ) );
 }
 
 TextPropertyWidgetItem::~TextPropertyWidgetItem()
@@ -42,7 +42,7 @@ QStringList
 TextPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QString");
+    supportedTypes.append( "QString" );
     return supportedTypes;
 }
 
@@ -53,15 +53,15 @@ TextPropertyWidgetItem::instantiate()
 }
 
 void
-TextPropertyWidgetItem::setEditValue(const QVariant& value)
+TextPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("text", value);
+    editWidget()->setProperty( "text", value );
 }
 
 void
-TextPropertyWidgetItem::textEdited(QString value)
+TextPropertyWidgetItem::textEdited( QString value )
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
 
 // #include "textpropertywidgetitem.moc"

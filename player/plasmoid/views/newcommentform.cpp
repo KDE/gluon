@@ -29,33 +29,33 @@
 
 #include <QGraphicsLinearLayout>
 
-NewCommentForm::NewCommentForm(QGraphicsItem* parent, Qt::WindowFlags wFlags): QGraphicsWidget(parent, wFlags)
+NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags ): QGraphicsWidget( parent, wFlags )
 {
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical, this);
-    QGraphicsLinearLayout *layout2 = new QGraphicsLinearLayout(Qt::Horizontal, layout);
-    layout2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical, this );
+    QGraphicsLinearLayout* layout2 = new QGraphicsLinearLayout( Qt::Horizontal, layout );
+    layout2->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
 
-    m_titleEdit = new Plasma::LineEdit(this);
-    m_titleEdit->nativeWidget()->setClickMessage(i18n("Subject"));
+    m_titleEdit = new Plasma::LineEdit( this );
+    m_titleEdit->nativeWidget()->setClickMessage( i18n( "Subject" ) );
 
-    m_bodyEdit = new Plasma::TextEdit(this);
-    m_bodyEdit->nativeWidget()->setClickMessage(i18n("Message"));
+    m_bodyEdit = new Plasma::TextEdit( this );
+    m_bodyEdit->nativeWidget()->setClickMessage( i18n( "Message" ) );
 
-    m_okButton = new Plasma::PushButton(this);
-    m_okButton->setText(i18n("OK"));
-    connect(m_okButton, SIGNAL(clicked()), this, SLOT(validateAndSubmit()));
+    m_okButton = new Plasma::PushButton( this );
+    m_okButton->setText( i18n( "OK" ) );
+    connect( m_okButton, SIGNAL( clicked() ), this, SLOT( validateAndSubmit() ) );
 
-    m_cancelButton = new Plasma::PushButton(this);
-    m_cancelButton->setText(i18n("Cancel"));
-    connect(m_cancelButton, SIGNAL(clicked()), SIGNAL(canceled()));
+    m_cancelButton = new Plasma::PushButton( this );
+    m_cancelButton->setText( i18n( "Cancel" ) );
+    connect( m_cancelButton, SIGNAL( clicked() ), SIGNAL( canceled() ) );
 
-    layout->addItem(m_titleEdit);
-    layout->addItem(m_bodyEdit);
-    layout2->addItem(m_cancelButton);
-    layout2->addItem(m_okButton);
-    layout->addItem(layout2);
+    layout->addItem( m_titleEdit );
+    layout->addItem( m_bodyEdit );
+    layout2->addItem( m_cancelButton );
+    layout2->addItem( m_okButton );
+    layout->addItem( layout2 );
 
-    setLayout(layout);
+    setLayout( layout );
 }
 
 NewCommentForm::~NewCommentForm()
@@ -63,17 +63,18 @@ NewCommentForm::~NewCommentForm()
 
 }
 
-void NewCommentForm::setParentIndex(QModelIndex parentIndex)
+void NewCommentForm::setParentIndex( QModelIndex parentIndex )
 {
     m_parentIndex = parentIndex;
 }
 
 void NewCommentForm::validateAndSubmit()
 {
-    if (m_titleEdit->text().isEmpty() || m_bodyEdit->text().isEmpty()) {
-	return;
+    if( m_titleEdit->text().isEmpty() || m_bodyEdit->text().isEmpty() )
+    {
+        return;
     }
-    emit accepted(m_parentIndex, m_titleEdit->text(), m_bodyEdit->nativeWidget()->toPlainText());
+    emit accepted( m_parentIndex, m_titleEdit->text(), m_bodyEdit->nativeWidget()->toPlainText() );
 }
 
 #include "newcommentform.moc"

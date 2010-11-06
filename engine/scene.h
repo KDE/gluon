@@ -44,10 +44,10 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonEngine::Savable
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::Scene);
+            GLUON_OBJECT( GluonEngine::Scene );
 
         public:
-            Q_INVOKABLE Scene(QObject *parent = 0);
+            Q_INVOKABLE Scene( QObject* parent = 0 );
             ~Scene();
 
             /**
@@ -56,13 +56,13 @@ namespace GluonEngine
              *
              * @param   newFile     The new file for the scene
              */
-            virtual void setFile(const QUrl &newFile);
+            virtual void setFile( const QUrl& newFile );
             /**
              * Set the new name of the scene.
              *
              * @param   newName     The new name to be set for the scene
              */
-            virtual void setName(const QString &newName);
+            virtual void setName( const QString& newName );
 
             /**
              * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
@@ -81,14 +81,14 @@ namespace GluonEngine
              * Return a reference to the scene tree itself (meaning the GluonObject hierarchy
              * which makes up the scene)
              */
-            GameObject *sceneContents();
+            GameObject* sceneContents();
 
         private:
-            ScenePrivate *d;
+            ScenePrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::Scene)
-Q_DECLARE_METATYPE(GluonEngine::Scene *)
+Q_DECLARE_METATYPE( GluonEngine::Scene )
+Q_DECLARE_METATYPE( GluonEngine::Scene* )
 
 #endif // GLUON_ENGINE_SCENE_H

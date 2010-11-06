@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -43,24 +43,24 @@ class HistoryManager::HistoryManagerPrivate
         KUndoStack* stack;
 };
 
-void HistoryManager::addCommand(QUndoCommand* command)
+void HistoryManager::addCommand( QUndoCommand* command )
 {
-    d->stack->push(command);
-    emit historyChanged(command);
+    d->stack->push( command );
+    emit historyChanged( command );
 }
 
 void HistoryManager::redo()
 {
     d->stack->redo();
-    const QUndoCommand* command = d->stack->command(d->stack->index()-1);
-    emit historyChanged(command);
+    const QUndoCommand* command = d->stack->command( d->stack->index() - 1 );
+    emit historyChanged( command );
 }
 
 void HistoryManager::undo()
 {
     d->stack->undo();
-    const QUndoCommand* command = d->stack->command(d->stack->index());
-    emit historyChanged(command);
+    const QUndoCommand* command = d->stack->command( d->stack->index() );
+    emit historyChanged( command );
 }
 
 void HistoryManager::clear()
@@ -73,11 +73,11 @@ void HistoryManager::setClean()
     d->stack->setClean();
 }
 
-HistoryManager::HistoryManager() : d(new HistoryManagerPrivate)
+HistoryManager::HistoryManager() : d( new HistoryManagerPrivate )
 {
-    connect(d->stack, SIGNAL(canRedoChanged(bool)), SIGNAL(canRedoChanged(bool)));
-    connect(d->stack, SIGNAL(canUndoChanged(bool)), SIGNAL(canUndoChanged(bool)));
-    connect(d->stack, SIGNAL(cleanChanged(bool)), SIGNAL(cleanChanged(bool)));
+    connect( d->stack, SIGNAL( canRedoChanged( bool ) ), SIGNAL( canRedoChanged( bool ) ) );
+    connect( d->stack, SIGNAL( canUndoChanged( bool ) ), SIGNAL( canUndoChanged( bool ) ) );
+    connect( d->stack, SIGNAL( cleanChanged( bool ) ), SIGNAL( cleanChanged( bool ) ) );
 }
 
 HistoryManager::~HistoryManager()

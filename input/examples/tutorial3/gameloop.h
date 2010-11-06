@@ -28,9 +28,9 @@ using namespace GluonInput;
 
 class GameLoop : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
-        GameLoop(QList<InputDevice *> inputList);
+        GameLoop( QList<InputDevice*> inputList );
         void run();
 
     signals:
@@ -40,7 +40,7 @@ class GameLoop : public QObject
         void gameLoop();
 
     private:
-        QList<InputDevice *> m_inputList;
+        QList<InputDevice*> m_inputList;
 };
 
 #endif // GAMELOOP_H

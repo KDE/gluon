@@ -32,9 +32,9 @@
 
 using namespace GluonInput;
 
-DetectLinux::DetectLinux(QObject *parent)
-    : Detect(parent)
-    , d(new DetectLinuxPrivate)
+DetectLinux::DetectLinux( QObject* parent )
+    : Detect( parent )
+    , d( new DetectLinuxPrivate )
 {
 }
 
@@ -49,68 +49,73 @@ DetectLinux::~DetectLinux()
 
 void DetectLinux::detectDevices()
 {
-    DetectLinux *detect = this;
+    DetectLinux* detect = this;
     detect->clear();
-    QDir event("/dev/input/by-path/");
+    QDir event( "/dev/input/by-path/" );
     QStringList readableInputFiles;
     QStringList unreadableInputFiles;
     QString file;
     QFileInfoList inputFileInfoList;
 
-    inputFileInfoList = event.entryInfoList(QDir::Files);
-    foreach (QFileInfo inputFileInfo, inputFileInfoList) {
+    inputFileInfoList = event.entryInfoList( QDir::Files );
+    foreach( QFileInfo inputFileInfo, inputFileInfoList )
+    {
         file = inputFileInfo.filePath();
-        if (access(file.toUtf8(), R_OK) != -1)
-            readableInputFiles.append(file);
+        if( access( file.toUtf8(), R_OK ) != -1 )
+            readableInputFiles.append( file );
         else
-            unreadableInputFiles.append(file);
+            unreadableInputFiles.append( file );
     }
 
-    foreach (const QString &name, readableInputFiles) {
-        InputDevice *device = 0;
-        InputThread *thread = new InputThread(name);
-        if (!thread->error()) {
-            switch (thread->deviceType()) {
-            case GluonInput::KeyboardDevice:
-                device = new Keyboard(thread);
-                detect->addKeyboard(static_cast<Keyboard *>(device));
-                break;
+    foreach( const QString & name, readableInputFiles )
+    {
+        InputDevice* device = 0;
+        InputThread* thread = new InputThread( name );
+        if( !thread->error() )
+        {
+            switch( thread->deviceType() )
+            {
+                case GluonInput::KeyboardDevice:
+                    device = new Keyboard( thread );
+                    detect->addKeyboard( static_cast<Keyboard*>( device ) );
+                    break;
 
-            case GluonInput::MouseDevice:
-                device = new Mouse(thread);
-                detect->addMouse(static_cast<Mouse *>(device));
-                break;
+                case GluonInput::MouseDevice:
+                    device = new Mouse( thread );
+                    detect->addMouse( static_cast<Mouse*>( device ) );
+                    break;
 
-            case GluonInput::TouchpadDevice:
-                device = new Mouse(thread);
-                detect->addMouse(static_cast<Mouse *>(device));
-                break;
+                case GluonInput::TouchpadDevice:
+                    device = new Mouse( thread );
+                    detect->addMouse( static_cast<Mouse*>( device ) );
+                    break;
 
-            case GluonInput::JoystickDevice:
-                device = new Joystick(thread);
-                detect->addJoystick(static_cast<Joystick *>(device));
-                break;
+                case GluonInput::JoystickDevice:
+                    device = new Joystick( thread );
+                    detect->addJoystick( static_cast<Joystick*>( device ) );
+                    break;
 
-            case GluonInput::TouchDevice:
-                device = new Touch(thread);
-                detect->addTouch(static_cast<Touch *>(device));
-                break;
+                case GluonInput::TouchDevice:
+                    device = new Touch( thread );
+                    detect->addTouch( static_cast<Touch*>( device ) );
+                    break;
 
-            case GluonInput::UnknownDevice:
-                device = new InputDevice(thread);
-                detect->addUnknown(device);
-                break;
+                case GluonInput::UnknownDevice:
+                    device = new InputDevice( thread );
+                    detect->addUnknown( device );
+                    break;
             }
 
-            detect->addInput(device);
+            detect->addInput( device );
         }
     }
 }
 
-void DetectLinux::setAllEnabled(bool enable)
+void DetectLinux::setAllEnabled( bool enable )
 {
-    foreach(InputDevice *input, inputList()) {
-        input->setEnabled(enable);
+    foreach( InputDevice * input, inputList() )
+    {
+        input->setEnabled( enable );
     }
 }
 
@@ -124,62 +129,62 @@ void DetectLinux::clear()
     d->unknownList.clear();
 }
 
-void DetectLinux::addInput(InputDevice *i)
+void DetectLinux::addInput( InputDevice* i )
 {
-    d->inputList.append(i);
+    d->inputList.append( i );
 }
 
-void DetectLinux::addKeyboard(Keyboard *keyboard)
+void DetectLinux::addKeyboard( Keyboard* keyboard )
 {
-    d->keyboardList.append(keyboard);
+    d->keyboardList.append( keyboard );
 }
 
-void DetectLinux::addMouse(Mouse *mouse)
+void DetectLinux::addMouse( Mouse* mouse )
 {
-    d->mouseList.append(mouse);
+    d->mouseList.append( mouse );
 }
 
-void DetectLinux::addJoystick(Joystick *joystick)
+void DetectLinux::addJoystick( Joystick* joystick )
 {
-    d->joystickList.append(joystick);
+    d->joystickList.append( joystick );
 }
 
-void DetectLinux::addTouch(Touch *touch)
+void DetectLinux::addTouch( Touch* touch )
 {
-    d->touchList.append(touch);
+    d->touchList.append( touch );
 }
 
-void DetectLinux::addUnknown(InputDevice *i)
+void DetectLinux::addUnknown( InputDevice* i )
 {
-    d->unknownList.append(i);
+    d->unknownList.append( i );
 }
 
-QList<InputDevice *> DetectLinux::inputList()
+QList<InputDevice*> DetectLinux::inputList()
 {
     return d->inputList;
 }
 
-QList<Keyboard *> DetectLinux::keyboardList()
+QList<Keyboard*> DetectLinux::keyboardList()
 {
     return d->keyboardList;
 }
 
-QList<Mouse *> DetectLinux::mouseList()
+QList<Mouse*> DetectLinux::mouseList()
 {
     return d->mouseList;
 }
 
-QList<Joystick *> DetectLinux::joystickList()
+QList<Joystick*> DetectLinux::joystickList()
 {
     return d->joystickList;
 }
 
-QList<Touch *> DetectLinux::touchList()
+QList<Touch*> DetectLinux::touchList()
 {
     return d->touchList;
 }
 
-QList<InputDevice *> DetectLinux::unknownDeviceList()
+QList<InputDevice*> DetectLinux::unknownDeviceList()
 {
     return d->unknownList;
 }

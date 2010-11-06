@@ -30,146 +30,155 @@
 
 using namespace GluonInput;
 
-DetectMac::DetectMac(QObject *parent)
-    : Detect(parent)
-    , d(new DetectMacPrivate())
+DetectMac::DetectMac( QObject* parent )
+    : Detect( parent )
+    , d( new DetectMacPrivate() )
 {
 }
 
 DetectMac::~DetectMac()
 {
-    CFRelease(d->deviceManager);
+    CFRelease( d->deviceManager );
     //CFRelease(d->devices);
 }
 
 void DetectMac::detectDevices()
 {
-    if (d->deviceManager == 0) {
-        d->deviceManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+    if( d->deviceManager == 0 )
+    {
+        d->deviceManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone );
     }
 
     CFMutableDictionaryRef dict;
     CFMutableArrayRef matchingArray = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
     //keyboard
-    dict = createMatchingDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard);
-    if (dict) {
-        CFArrayAppendValue(matchingArray, dict);
-        CFRelease(dict);
+    dict = createMatchingDictionary( kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard );
+    if( dict )
+    {
+        CFArrayAppendValue( matchingArray, dict );
+        CFRelease( dict );
     }
 
     //mouse
-    dict = createMatchingDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_Mouse);
-    if(dict) {
-        CFArrayAppendValue(matchingArray, dict);
-        CFRelease(dict);
+    dict = createMatchingDictionary( kHIDPage_GenericDesktop, kHIDUsage_GD_Mouse );
+    if( dict )
+    {
+        CFArrayAppendValue( matchingArray, dict );
+        CFRelease( dict );
     }
 
     //joystick
-    dict = createMatchingDictionary(kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick);
-    if (dict) {
-        CFArrayAppendValue(matchingArray, dict);
-        CFRelease(dict);
+    dict = createMatchingDictionary( kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick );
+    if( dict )
+    {
+        CFArrayAppendValue( matchingArray, dict );
+        CFRelease( dict );
     }
 
     //digitizer / touch
-    dict = createMatchingDictionary(kHIDPage_Digitizer, kHIDUsage_Dig_Digitizer);
-    if (dict) {
-        CFArrayAppendValue(matchingArray, dict);
-        CFRelease(dict);
+    dict = createMatchingDictionary( kHIDPage_Digitizer, kHIDUsage_Dig_Digitizer );
+    if( dict )
+    {
+        CFArrayAppendValue( matchingArray, dict );
+        CFRelease( dict );
     }
 
     //touchpad
-    dict = createMatchingDictionary(kHIDPage_Digitizer, kHIDUsage_Dig_TouchPad);
-    if (dict) {
-        CFArrayAppendValue(matchingArray, dict);
-        CFRelease(dict);
+    dict = createMatchingDictionary( kHIDPage_Digitizer, kHIDUsage_Dig_TouchPad );
+    if( dict )
+    {
+        CFArrayAppendValue( matchingArray, dict );
+        CFRelease( dict );
     }
 
-    if (CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID()) {
-        IOHIDManagerSetDeviceMatchingMultiple(d->deviceManager, matchingArray);
+    if( CFGetTypeID( d->deviceManager ) == IOHIDManagerGetTypeID() )
+    {
+        IOHIDManagerSetDeviceMatchingMultiple( d->deviceManager, matchingArray );
 
-        if (IOHIDManagerOpen(d->deviceManager, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
-            d->devices = IOHIDManagerCopyDevices(d->deviceManager);
+        if( IOHIDManagerOpen( d->deviceManager, kIOHIDOptionsTypeNone ) == kIOReturnSuccess )
+        {
+            d->devices = IOHIDManagerCopyDevices( d->deviceManager );
 
-            if (CFSetGetCount(d->devices) > 0) {
-                CFSetApplyFunction(d->devices, createDevices, this);
+            if( CFSetGetCount( d->devices ) > 0 )
+            {
+                CFSetApplyFunction( d->devices, createDevices, this );
             }
         }
     }
 }
 
-QList<InputDevice *> DetectMac::inputList()
+QList<InputDevice*> DetectMac::inputList()
 {
     return d->m_inputList;
 }
 
-QList<Keyboard *> DetectMac::keyboardList()
+QList<Keyboard*> DetectMac::keyboardList()
 {
     return d->m_keyboardList;
 }
 
-QList<Mouse *> DetectMac::mouseList()
+QList<Mouse*> DetectMac::mouseList()
 {
     return d->m_mouseList;
 }
 
-QList<Joystick *> DetectMac::joystickList()
+QList<Joystick*> DetectMac::joystickList()
 {
     return d->m_joystickList;
 }
 
-QList<Touch *> DetectMac::touchList()
+QList<Touch*> DetectMac::touchList()
 {
     return d->m_touchList;
 }
 
-QList<InputDevice *> DetectMac::unknownDeviceList()
+QList<InputDevice*> DetectMac::unknownDeviceList()
 {
     return d->m_unknownList;
 }
 
 
-void DetectMac::addInput(InputDevice *i)
+void DetectMac::addInput( InputDevice* i )
 {
-    d->m_inputList.append(i);
+    d->m_inputList.append( i );
 }
 
-void DetectMac::addKeyboard(InputDevice *i)
+void DetectMac::addKeyboard( InputDevice* i )
 {
-    Keyboard *keybd = qobject_cast<Keyboard *>(i);
+    Keyboard* keybd = qobject_cast<Keyboard*>( i );
     //keybd->setEnabled();
-    d->m_keyboardList.append(keybd);
-    d->m_inputList.append(i);
+    d->m_keyboardList.append( keybd );
+    d->m_inputList.append( i );
 }
 
-void DetectMac::addMouse(InputDevice *i)
+void DetectMac::addMouse( InputDevice* i )
 {
-    Mouse *mouse = qobject_cast<Mouse *>(i);
+    Mouse* mouse = qobject_cast<Mouse*>( i );
     //mouse->setEnabled();
-    d->m_mouseList.append(mouse);
-    d->m_inputList.append(i);
+    d->m_mouseList.append( mouse );
+    d->m_inputList.append( i );
 }
 
-void DetectMac::addJoystick(InputDevice *i)
+void DetectMac::addJoystick( InputDevice* i )
 {
-    Joystick *joy = qobject_cast<Joystick *>(i);
+    Joystick* joy = qobject_cast<Joystick*>( i );
     //joy->setEnabled();
-    d->m_joystickList.append(joy);
-    d->m_inputList.append(i);
+    d->m_joystickList.append( joy );
+    d->m_inputList.append( i );
 }
 
-void DetectMac::addTouch(InputDevice *i)
+void DetectMac::addTouch( InputDevice* i )
 {
-    Touch *touch = qobject_cast<Touch *>(i);
+    Touch* touch = qobject_cast<Touch*>( i );
     // touch->setEnabled();
-    d->m_touchList.append(touch);
-    d->m_inputList.append(i);
+    d->m_touchList.append( touch );
+    d->m_inputList.append( i );
 }
 
-void DetectMac::addUnknown(InputDevice *i)
+void DetectMac::addUnknown( InputDevice* i )
 {
-    d->m_unknownList.append(i);
-    d->m_inputList.append(i);
+    d->m_unknownList.append( i );
+    d->m_inputList.append( i );
 }
 
 void DetectMac::clear()
@@ -182,125 +191,145 @@ void DetectMac::clear()
     d->m_unknownList.clear();
 }
 
-void DetectMac::setAllEnabled(bool enable)
+void DetectMac::setAllEnabled( bool enable )
 {
-    foreach (InputDevice *input, inputList()) {
-        input->setEnabled(enable);
+    foreach( InputDevice * input, inputList() )
+    {
+        input->setEnabled( enable );
     }
 }
 
-void DetectMac::createDevices(const void *value, void *context)
+void DetectMac::createDevices( const void* value, void* context )
 {
-    IOHIDDeviceRef device = (IOHIDDeviceRef)value;
-    DetectMac *detect = (DetectMac *) context;
+    IOHIDDeviceRef device = ( IOHIDDeviceRef )value;
+    DetectMac* detect = ( DetectMac* ) context;
 
-    if (CFGetTypeID(device) == IOHIDDeviceGetTypeID()) {
-        IOHIDDeviceOpen(device,kIOHIDOptionsTypeNone);
+    if( CFGetTypeID( device ) == IOHIDDeviceGetTypeID() )
+    {
+        IOHIDDeviceOpen( device, kIOHIDOptionsTypeNone );
 
         int usagePage = NULL;
         int usage = NULL;
 
-        CFTypeRef type = IOHIDDeviceGetProperty(device, CFSTR(kIOHIDDeviceUsagePageKey));
+        CFTypeRef type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDDeviceUsagePageKey ) );
 
-        if (type) {
+        if( type )
+        {
             // if this is a number
-            if (CFNumberGetTypeID() == CFGetTypeID(type)) {
+            if( CFNumberGetTypeID() == CFGetTypeID( type ) )
+            {
                 // get it's value
-                CFNumberGetValue((CFNumberRef)type, kCFNumberSInt32Type, &usagePage);
+                CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
             }
-            CFRelease(type);
+            CFRelease( type );
         }
 
-        type = IOHIDDeviceGetProperty(device, CFSTR(kIOHIDDeviceUsageKey));
+        type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDDeviceUsageKey ) );
 
-        if (type) {
+        if( type )
+        {
             // if this is a number
-            if (CFNumberGetTypeID() == CFGetTypeID(type)) {
+            if( CFNumberGetTypeID() == CFGetTypeID( type ) )
+            {
                 // get it's value
-                CFNumberGetValue((CFNumberRef)type, kCFNumberSInt32Type, &usage);
+                CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usage );
             }
-            CFRelease(type);
+            CFRelease( type );
         }
 
-        if(!usage || !usagePage) {
-            type = IOHIDDeviceGetProperty(device, CFSTR(kIOHIDPrimaryUsagePageKey));
+        if( !usage || !usagePage )
+        {
+            type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDPrimaryUsagePageKey ) );
 
-            if (type) {
+            if( type )
+            {
                 // if this is a number
-                if (CFNumberGetTypeID() == CFGetTypeID(type)) {
+                if( CFNumberGetTypeID() == CFGetTypeID( type ) )
+                {
                     // get it's value
-                    CFNumberGetValue((CFNumberRef)type, kCFNumberSInt32Type, &usagePage);
+                    CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
                 }
-                CFRelease(type);
+                CFRelease( type );
             }
 
-            type = IOHIDDeviceGetProperty(device, CFSTR(kIOHIDPrimaryUsageKey));
+            type = IOHIDDeviceGetProperty( device, CFSTR( kIOHIDPrimaryUsageKey ) );
 
-            if (type) {
+            if( type )
+            {
                 // if this is a number
-                if (CFNumberGetTypeID() == CFGetTypeID(type)) {
+                if( CFNumberGetTypeID() == CFGetTypeID( type ) )
+                {
                     // get it's value
-                    CFNumberGetValue((CFNumberRef)type, kCFNumberSInt32Type, &usage);
+                    CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usage );
                 }
-                CFRelease(type);
+                CFRelease( type );
             }
 
         }
 
-        if (!usage || !usagePage) {
+        if( !usage || !usagePage )
+        {
             usagePage = 0;
         }
 
-        InputDevice *inputDevice;
-        if (usagePage == kHIDPage_GenericDesktop) {
-            switch (usage) {
-            case GluonInput::KeyboardDevice:
-                inputDevice = new Keyboard(new InputThread(device));
-                detect->addKeyboard(inputDevice);
-                break;
-            case GluonInput::MouseDevice:
-                inputDevice = new Mouse(new InputThread(device));
-                detect->addMouse(inputDevice);
-                break;
-            case GluonInput::JoystickDevice:
-                inputDevice = new Joystick(new InputThread(device));
-                detect->addJoystick(inputDevice);
-                break;
-            default:
-                inputDevice = new InputDevice(new InputThread(device));
-                detect->addUnknown(inputDevice);
-                break;
+        InputDevice* inputDevice;
+        if( usagePage == kHIDPage_GenericDesktop )
+        {
+            switch( usage )
+            {
+                case GluonInput::KeyboardDevice:
+                    inputDevice = new Keyboard( new InputThread( device ) );
+                    detect->addKeyboard( inputDevice );
+                    break;
+                case GluonInput::MouseDevice:
+                    inputDevice = new Mouse( new InputThread( device ) );
+                    detect->addMouse( inputDevice );
+                    break;
+                case GluonInput::JoystickDevice:
+                    inputDevice = new Joystick( new InputThread( device ) );
+                    detect->addJoystick( inputDevice );
+                    break;
+                default:
+                    inputDevice = new InputDevice( new InputThread( device ) );
+                    detect->addUnknown( inputDevice );
+                    break;
             }
-        } else if (usagePage == kHIDPage_Digitizer) {
-            switch (usage) {
-                /*case GluonInput::TouchpadDevice:
-                  break;*/
-            case GluonInput::TouchDevice:
-                inputDevice = new Touch(new InputThread(device));
-                detect->addTouch(inputDevice);
-                break;
-            default:
-                inputDevice = new InputDevice(new InputThread(device));
-                detect->addUnknown(inputDevice);
-                break;
+        }
+        else if( usagePage == kHIDPage_Digitizer )
+        {
+            switch( usage )
+            {
+                    /*case GluonInput::TouchpadDevice:
+                      break;*/
+                case GluonInput::TouchDevice:
+                    inputDevice = new Touch( new InputThread( device ) );
+                    detect->addTouch( inputDevice );
+                    break;
+                default:
+                    inputDevice = new InputDevice( new InputThread( device ) );
+                    detect->addUnknown( inputDevice );
+                    break;
             }
         }
 
     }
 }
 
-CFMutableDictionaryRef DetectMac::createMatchingDictionary(UInt32 pUsagePage, UInt32 pUsage)
+CFMutableDictionaryRef DetectMac::createMatchingDictionary( UInt32 pUsagePage, UInt32 pUsage )
 {
-    CFMutableDictionaryRef matchDict = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    CFNumberRef usagePage = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pUsagePage );
-    CFNumberRef usage = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pUsage);
-    if (matchDict && usagePage && usage) {
-        CFDictionarySetValue(matchDict, CFSTR(kIOHIDDeviceUsagePageKey), usagePage);
-        CFDictionarySetValue(matchDict, CFSTR(kIOHIDDeviceUsageKey), usage);
-        CFRelease(usagePage);
-        CFRelease(usage);
+    CFMutableDictionaryRef matchDict = CFDictionaryCreateMutable( kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks );
+    CFNumberRef usagePage = CFNumberCreate( kCFAllocatorDefault, kCFNumberIntType, &pUsagePage );
+    CFNumberRef usage = CFNumberCreate( kCFAllocatorDefault, kCFNumberIntType, &pUsage );
+    if( matchDict && usagePage && usage )
+    {
+        CFDictionarySetValue( matchDict, CFSTR( kIOHIDDeviceUsagePageKey ), usagePage );
+        CFDictionarySetValue( matchDict, CFSTR( kIOHIDDeviceUsageKey ), usage );
+        CFRelease( usagePage );
+        CFRelease( usage );
         return matchDict;
-    } else {
+    }
+    else
+    {
         return 0;
     }
 }

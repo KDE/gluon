@@ -24,12 +24,12 @@
 #include <QtGui/QSpinBox>
 #include <QtCore/QDebug>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, IntPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, IntPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-IntPropertyWidgetItem::IntPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f)
-        : PropertyWidgetItem(parent, f)
+IntPropertyWidgetItem::IntPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
 }
 
@@ -42,8 +42,8 @@ QStringList
 IntPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("int");
-    supportedTypes.append("uint");
+    supportedTypes.append( "int" );
+    supportedTypes.append( "uint" );
     return supportedTypes;
 }
 
@@ -54,40 +54,40 @@ IntPropertyWidgetItem::instantiate()
 }
 
 void
-IntPropertyWidgetItem::setEditValue(const QVariant& value)
+IntPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("value", value);
+    editWidget()->setProperty( "value", value );
 }
 
 void
-IntPropertyWidgetItem::intValueChanged(int value)
+IntPropertyWidgetItem::intValueChanged( int value )
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
 
 void
-IntPropertyWidgetItem::uintValueChanged(int value)
+IntPropertyWidgetItem::uintValueChanged( int value )
 {
-    PropertyWidgetItem::valueChanged(QVariant::fromValue<uint>(value));
+    PropertyWidgetItem::valueChanged( QVariant::fromValue<uint>( value ) );
 }
 
-void IntPropertyWidgetItem::setEditProperty(const QString& propertyName)
+void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
 {
-    QSpinBox *spinBox = new QSpinBox(this);
-    setEditWidget(spinBox);
+    QSpinBox* spinBox = new QSpinBox( this );
+    setEditWidget( spinBox );
 
-    qDebug() << editObject()->property(propertyName.toUtf8()).typeName();
-    if(editObject()->property(propertyName.toUtf8()).typeName() == QString("uint"))
+    qDebug() << editObject()->property( propertyName.toUtf8() ).typeName();
+    if( editObject()->property( propertyName.toUtf8() ).typeName() == QString( "uint" ) )
     {
-        spinBox->setMinimum(3);
-        connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(uintValueChanged(int)));
+        spinBox->setMinimum( 3 );
+        connect( spinBox, SIGNAL( valueChanged( int ) ), this, SLOT( uintValueChanged( int ) ) );
     }
     else
     {
-        connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(intValueChanged(int)));
+        connect( spinBox, SIGNAL( valueChanged( int ) ), this, SLOT( intValueChanged( int ) ) );
     }
 
-    GluonCreator::PropertyWidgetItem::setEditProperty(propertyName);
+    GluonCreator::PropertyWidgetItem::setEditProperty( propertyName );
 }
 
 

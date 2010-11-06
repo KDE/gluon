@@ -22,9 +22,9 @@
 
 using namespace GluonInput;
 
-Touch::Touch(InputThread *inputThread, QObject *parent)
-    : InputDevice(inputThread, parent)
-    , d(new TouchPrivate)
+Touch::Touch( InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( new TouchPrivate )
 {
 }
 

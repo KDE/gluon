@@ -28,8 +28,8 @@
 #include <Plasma/FrameSvg>
 #include <Plasma/ScrollWidget>
 
-AbstractItemView::AbstractItemView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : Overlay(parent, wFlags), m_model(0)
+AbstractItemView::AbstractItemView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : Overlay( parent, wFlags ), m_model( 0 )
 {
 
 }
@@ -39,7 +39,7 @@ QAbstractItemModel* AbstractItemView::model() const
     return m_model;
 }
 
-void AbstractItemView::setModel(QAbstractItemModel* model)
+void AbstractItemView::setModel( QAbstractItemModel* model )
 {
     m_model = model;
 }

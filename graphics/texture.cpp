@@ -35,49 +35,52 @@ using namespace GluonGraphics;
 class Texture::TexturePrivate
 {
     public:
-        TexturePrivate() { glTexture = 0; }
+        TexturePrivate()
+        {
+            glTexture = 0;
+        }
         uint glTexture;
 };
 
-Texture::Texture(QObject* parent)
-    : QObject(parent),
-      d(new TexturePrivate)
+Texture::Texture( QObject* parent )
+    : QObject( parent ),
+      d( new TexturePrivate )
 {
 
 }
 
 Texture::~Texture()
 {
-    glDeleteTextures(1, &d->glTexture);
+    glDeleteTextures( 1, &d->glTexture );
     delete d;
 }
 
 bool Texture::load( const QUrl& url )
 {
-    #ifdef __GNUC__
-    #warning Todo: Add support for non-2D textures and non-RGBA colour formats. Also, find a way \
-                around the nasty const_cast .
-    #endif
+#ifdef __GNUC__
+#warning Todo: Add support for non-2D textures and non-RGBA colour formats. Also, find a way \
+around the nasty const_cast .
+#endif
 
-    if(d->glTexture)
+    if( d->glTexture )
         return true;
 
-    if(!QGLContext::currentContext() || !QGLContext::currentContext()->isValid())
+    if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
         return false;
 
     QImage image;
-    image.load(url.toLocalFile());
+    image.load( url.toLocalFile() );
 
-    QGLContext* context = const_cast<QGLContext*>(QGLContext::currentContext());
-    d->glTexture = context->bindTexture(image);
+    QGLContext* context = const_cast<QGLContext*>( QGLContext::currentContext() );
+    d->glTexture = context->bindTexture( image );
 
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    #ifndef GLUON_GRAPHICS_GLES
-    glTexParameterf(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
-    #endif
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+#ifndef GLUON_GRAPHICS_GLES
+    glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
+#endif
 
-    if(d->glTexture != 0)
+    if( d->glTexture != 0 )
         return true;
 
     return false;

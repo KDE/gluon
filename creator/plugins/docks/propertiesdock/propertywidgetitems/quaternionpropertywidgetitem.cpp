@@ -29,7 +29,7 @@
 #include <cmath>
 #include <core/gluonvarianttypes.h>
 
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, QuaternionPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, QuaternionPropertyWidgetItem )
 
 using namespace GluonCreator;
 
@@ -46,43 +46,43 @@ class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
         QQuaternion value;
 };
 
-QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem(QWidget* parent, Qt::WindowFlags f): PropertyWidgetItem(parent, f)
+QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
     d = new QuaternionPropertyWidgetItemPrivate;
 
-    QWidget* base = new QWidget(this);
-    QVBoxLayout* layout = new QVBoxLayout(base);
-    layout->setSpacing(0);
-    base->setLayout(layout);
+    QWidget* base = new QWidget( this );
+    QVBoxLayout* layout = new QVBoxLayout( base );
+    layout->setSpacing( 0 );
+    base->setLayout( layout );
 
     QHBoxLayout* vectorLayout = new QHBoxLayout();
-    layout->addLayout(vectorLayout);
+    layout->addLayout( vectorLayout );
 
-    d->x = new QDoubleSpinBox(this);
-    d->x->setPrefix("X: ");
-    d->x->setRange(0, 1);
-    vectorLayout->addWidget(d->x);
-    connect(d->x, SIGNAL(valueChanged(double)), this,  SLOT(valueChanged(double)));
+    d->x = new QDoubleSpinBox( this );
+    d->x->setPrefix( "X: " );
+    d->x->setRange( 0, 1 );
+    vectorLayout->addWidget( d->x );
+    connect( d->x, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
 
-    d->y = new QDoubleSpinBox(this);
-    d->y->setPrefix("Y: ");
-    d->y->setRange(0, 1);
-    vectorLayout->addWidget(d->y);
-    connect(d->y, SIGNAL(valueChanged(double)), this,  SLOT(valueChanged(double)));
+    d->y = new QDoubleSpinBox( this );
+    d->y->setPrefix( "Y: " );
+    d->y->setRange( 0, 1 );
+    vectorLayout->addWidget( d->y );
+    connect( d->y, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
 
-    d->z = new QDoubleSpinBox(this);
-    d->z->setPrefix("Z: ");
-    d->z->setRange(0, 1);
-    vectorLayout->addWidget(d->z);
-    connect(d->z, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+    d->z = new QDoubleSpinBox( this );
+    d->z->setPrefix( "Z: " );
+    d->z->setRange( 0, 1 );
+    vectorLayout->addWidget( d->z );
+    connect( d->z, SIGNAL( valueChanged( double ) ), this, SLOT( valueChanged( double ) ) );
 
-    d->angle = new QDoubleSpinBox(this);
-    d->angle->setPrefix("Angle: ");
-    d->angle->setRange(-FLT_MAX, FLT_MAX);
-    layout->addWidget(d->angle);
-    connect(d->angle, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+    d->angle = new QDoubleSpinBox( this );
+    d->angle->setPrefix( "Angle: " );
+    d->angle->setRange( -FLT_MAX, FLT_MAX );
+    layout->addWidget( d->angle );
+    connect( d->angle, SIGNAL( valueChanged( double ) ), this, SLOT( valueChanged( double ) ) );
 
-    setEditWidget(base);
+    setEditWidget( base );
 }
 
 QuaternionPropertyWidgetItem::~QuaternionPropertyWidgetItem()
@@ -94,7 +94,7 @@ QStringList
 QuaternionPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append("QQuaternion");
+    supportedTypes.append( "QQuaternion" );
     return supportedTypes;
 }
 
@@ -104,27 +104,27 @@ QuaternionPropertyWidgetItem::instantiate()
     return new QuaternionPropertyWidgetItem();
 }
 
-void QuaternionPropertyWidgetItem::setEditValue(const QVariant& value)
+void QuaternionPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     d->value = value.value<QQuaternion>();
 
-    d->x->setValue(d->value.x() * sqrt(1 - d->value.scalar() * d->value.scalar()));
-    d->y->setValue(d->value.y() * sqrt(1 - d->value.scalar() * d->value.scalar()));
-    d->z->setValue(d->value.z() * sqrt(1 - d->value.scalar() * d->value.scalar()));
+    d->x->setValue( d->value.x() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
+    d->y->setValue( d->value.y() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
+    d->z->setValue( d->value.z() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
 
-    d->angle->setValue((2 * acos(d->value.scalar())) * (180 / M_PI));
+    d->angle->setValue(( 2 * acos( d->value.scalar() ) ) *( 180 / M_PI ) );
 }
 
-void QuaternionPropertyWidgetItem::valueChanged(QVariant value)
+void QuaternionPropertyWidgetItem::valueChanged( QVariant value )
 {
-    valueChanged(value.toDouble());
+    valueChanged( value.toDouble() );
 }
 
-void QuaternionPropertyWidgetItem::valueChanged(double value)
+void QuaternionPropertyWidgetItem::valueChanged( double value )
 {
-    Q_UNUSED(value)
-    d->value = QQuaternion::fromAxisAndAngle(d->x->value(), d->y->value(), d->z->value(), d->angle->value());
-    PropertyWidgetItem::valueChanged(d->value);
+    Q_UNUSED( value )
+    d->value = QQuaternion::fromAxisAndAngle( d->x->value(), d->y->value(), d->z->value(), d->angle->value() );
+    PropertyWidgetItem::valueChanged( d->value );
 }
 
 // #include "quaternionpropertywidgetitem.moc"

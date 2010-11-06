@@ -14,11 +14,11 @@ namespace GluonPlayer
 {
     /**
      * \brief Maintains authentication information for a Gluon Player
-     * 
+     *
      * This singleton maintains authentication credentials to access the online
      * OCS server and provides a way to Gluon Player implementations to login, save credentials,
      * load credentials etc.
-     * 
+     *
      */
     class GLUON_PLAYER_EXPORT Authentication : public GluonCore::Singleton<Authentication>
     {
@@ -40,7 +40,7 @@ namespace GluonPlayer
              * @param   password        The password to be used
              * @return true if login was successfully initiated, false otherwise.
              */
-            bool login(const QString& username, const QString& password);
+            bool login( const QString& username, const QString& password );
             /**
              * use to check if we are logged in
              * @return true if logged in, false otherwise
@@ -66,17 +66,17 @@ namespace GluonPlayer
             friend class GluonCore::Singleton<Authentication>;
             Authentication();
             ~Authentication();
-            Q_DISABLE_COPY(Authentication)
+            Q_DISABLE_COPY( Authentication )
 
             bool m_initialized;
             bool m_loggedIn;
             QString m_username;
             QString m_password;
-            Attica::PostJob *m_checkLoginJob;
+            Attica::PostJob* m_checkLoginJob;
 
         protected slots:
             void finishInit();
-            void checkLoginResult(Attica::BaseJob*);
+            void checkLoginResult( Attica::BaseJob* );
 
         signals:
             /** signal which is emitted when initialization is complete

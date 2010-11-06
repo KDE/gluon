@@ -26,7 +26,8 @@
 
 #include "gluonbuttons.h"
 
-namespace GluonInput {
+namespace GluonInput
+{
     class Touch;
 }
 
@@ -35,10 +36,10 @@ namespace GluonEngine
     class TouchInputComponent : public Component
     {
             Q_OBJECT;
-            GLUON_OBJECT(GluonEngine::TouchInputComponent)
-            Q_PROPERTY(TouchName touchCode READ touchCode WRITE setTouchCode);
-            Q_INTERFACES(GluonEngine::Component)
-            Q_ENUMS(KeyName)
+            GLUON_OBJECT( GluonEngine::TouchInputComponent )
+            Q_PROPERTY( TouchName touchCode READ touchCode WRITE setTouchCode );
+            Q_INTERFACES( GluonEngine::Component )
+            Q_ENUMS( KeyName )
 
         public:
             enum TouchName
@@ -47,7 +48,7 @@ namespace GluonEngine
                 ONE,
             };
 
-            Q_INVOKABLE TouchInputComponent(QObject *parent = 0);
+            Q_INVOKABLE TouchInputComponent( QObject* parent = 0 );
             virtual QString category() const;
 
             // True on any frame between getActionStarted and
@@ -62,11 +63,11 @@ namespace GluonEngine
 
             virtual void initialize();
             virtual void start();
-            virtual void update(int elapsedMilliseconds);
+            virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
             TouchName touchCode() const;
-            void setTouchCode(TouchName newTouchCode);
+            void setTouchCode( TouchName newTouchCode );
 
         private:
             bool m_actionHeld;
@@ -75,11 +76,11 @@ namespace GluonEngine
 
             TouchName m_touchCode;
 
-            GluonInput::Touch *m_touch;
+            GluonInput::Touch* m_touch;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::TouchInputComponent)
-Q_DECLARE_METATYPE(GluonEngine::TouchInputComponent *)
+Q_DECLARE_METATYPE( GluonEngine::TouchInputComponent )
+Q_DECLARE_METATYPE( GluonEngine::TouchInputComponent* )
 
 #endif // TOUCHINPUTCOMPONENT_H

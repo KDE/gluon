@@ -32,17 +32,17 @@ namespace GluonEngine
     class ScenePrivate
     {
         public:
-            ScenePrivate(Scene *q);
+            ScenePrivate( Scene* q );
             ~ScenePrivate();
 
-            void loadContents(const QUrl &file);
+            void loadContents( const QUrl& file );
             void unloadContents();
-            void saveContents(const QUrl &file);
+            void saveContents( const QUrl& file );
 
-            GameObject *sceneContents;
+            GameObject* sceneContents;
             bool sceneContentsLoaded;
             bool sceneContentsStarted;
-            Scene *q;
+            Scene* q;
     };
 }
 

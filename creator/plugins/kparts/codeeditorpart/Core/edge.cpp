@@ -25,28 +25,30 @@
 #include "DynamicPropertiesList.h"
 #include <KDebug>
 
-Edge::Edge(Graph *parent, Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo) :
-        QObject(parent),
-        _from(from),
-        _to(to)
-        
+Edge::Edge( Graph* parent, Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo ) :
+    QObject( parent ),
+    _from( from ),
+    _to( to )
+
 {
-  _graph = parent;
-    _color =_graph->edgeDefaultColor();
+    _graph = parent;
+    _color = _graph->edgeDefaultColor();
 
-    if ( from == to ) {
-        connect(from, SIGNAL(changed()), this, SIGNAL(changed()));
-        from -> addSelfEdge(this);
+    if( from == to )
+    {
+        connect( from, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        from -> addSelfEdge( this );
     }
-    else {
-        connect(from, SIGNAL(changed()), this, SIGNAL(changed()));
-        from -> addOutEdge(this);
-        connect(to, SIGNAL(changed()), this, SIGNAL(changed()));
-        to -> addInEdge(this);
+    else
+    {
+        connect( from, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        from -> addOutEdge( this );
+        connect( to, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        to -> addInEdge( this );
     }
-    connect(parent, SIGNAL(complexityChanged(bool)), this, SIGNAL(changed()));
+    connect( parent, SIGNAL( complexityChanged( bool ) ), this, SIGNAL( changed() ) );
 
-    _relativeIndex = _to -> edges(_from).size();
+    _relativeIndex = _to -> edges( _from ).size();
     _showName = true;
     _showValue = true;
     _style = "solid";
@@ -55,31 +57,35 @@ Edge::Edge(Graph *parent, Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphi
     _cTo = cTo;
 }
 
-Edge::~Edge() {
-    if (_from == _to) {
-        _from->removeEdge(this, Node::Self);
+Edge::~Edge()
+{
+    if( _from == _to )
+    {
+        _from->removeEdge( this, Node::Self );
     }
-    else {
-        _from->removeEdge(this, Node::Out);
-        _to->removeEdge(this, Node::In);
+    else
+    {
+        _from->removeEdge( this, Node::Out );
+        _to->removeEdge( this, Node::In );
     }
     _from = 0;
     _to = 0;
     emit removed();
 }
 
-void Edge::remove() {
-    _graph->remove(this);
+void Edge::remove()
+{
+    _graph->remove( this );
 }
 
 QString Edge::fromConnector()
 {
-    return qobject_cast<NodeItem*>(_from->nodeItem())->connectors().key(_cFrom);
+    return qobject_cast<NodeItem*>( _from->nodeItem() )->connectors().key( _cFrom );
 }
 
 QString Edge::toConnector()
 {
-    return qobject_cast<NodeItem*>(_to->nodeItem())->connectors().key(_cTo);
+    return qobject_cast<NodeItem*>( _to->nodeItem() )->connectors().key( _cTo );
 }
 
 QString Edge::fromNode()
@@ -93,34 +99,41 @@ QString Edge::toNode()
 }
 
 
-bool Edge::showName() {
+bool Edge::showName()
+{
     return _showName;
 }
 
-bool Edge::showValue() {
+bool Edge::showValue()
+{
     return _showValue;
 }
 
-void Edge::hideName(bool b) {
+void Edge::hideName( bool b )
+{
     _showName = b;
     emit changed();
     kDebug() << "Hide Name: " << b;
 }
 
-void Edge::hideValue(bool b) {
+void Edge::hideValue( bool b )
+{
     _showValue = b;
     emit changed();
     kDebug() << "Hide Value: " << b;
 }
 
-void Edge::addDynamicProperty(QString property, QVariant value){
-    this->setProperty(property.toUtf8(), value);
-    if (value.isValid()){
-      DynamicPropertiesList::New()->addProperty(this, property);
+void Edge::addDynamicProperty( QString property, QVariant value )
+{
+    this->setProperty( property.toUtf8(), value );
+    if( value.isValid() )
+    {
+        DynamicPropertiesList::New()->addProperty( this, property );
     }
 }
 
-void Edge::removeDynamicProperty(QString property){
-  addDynamicProperty(property.toUtf8(), QVariant::Invalid);
-  DynamicPropertiesList::New()->removeProperty(this, property);
+void Edge::removeDynamicProperty( QString property )
+{
+    addDynamicProperty( property.toUtf8(), QVariant::Invalid );
+    DynamicPropertiesList::New()->removeProperty( this, property );
 }

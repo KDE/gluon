@@ -26,22 +26,22 @@
 using namespace GluonEngine;
 
 GamePrivate::GamePrivate()
-        : gameRunning(false)
-        , gamePaused(false)
-        , currentScene(NULL)
-        , resetScene(false)
-        , gameProject(NULL)
+    : gameRunning( false )
+    , gamePaused( false )
+    , currentScene( NULL )
+    , resetScene( false )
+    , gameProject( NULL )
 {
 }
 
-GamePrivate::GamePrivate(const GamePrivate &other)
-        : QSharedData(other)
-        , time(other.time)
-        , gameRunning(other.gameRunning)
-        , gamePaused(other.gamePaused)
-        , currentScene(other.currentScene)
-        , resetScene(other.resetScene)
-        , gameProject(other.gameProject)
+GamePrivate::GamePrivate( const GamePrivate& other )
+    : QSharedData( other )
+    , time( other.time )
+    , gameRunning( other.gameRunning )
+    , gamePaused( other.gamePaused )
+    , currentScene( other.currentScene )
+    , resetScene( other.resetScene )
+    , gameProject( other.gameProject )
 {
 }
 
@@ -50,34 +50,34 @@ GamePrivate::~GamePrivate()
 }
 
 QList<const GluonCore::GluonObject*>
-GamePrivate::listAllChildren(const GluonCore::GluonObject* root) const
+GamePrivate::listAllChildren( const GluonCore::GluonObject* root ) const
 {
     QList<const GluonCore::GluonObject*> list;
-    if(root)
+    if( root )
     {
-        list.append(root);
-        foreach(const QObject* child, root->children())
+        list.append( root );
+        foreach( const QObject * child, root->children() )
         {
-            list.append(listAllChildren(qobject_cast<const GluonCore::GluonObject*>(child)));
+            list.append( listAllChildren( qobject_cast<const GluonCore::GluonObject*>( child ) ) );
         }
     }
     return list;
 }
 
 Scene *
-GamePrivate::findSceneInChildren(QObject* object)
+GamePrivate::findSceneInChildren( QObject* object )
 {
     DEBUG_BLOCK
-    foreach(QObject * child, object->children())
+    foreach( QObject * child, object->children() )
     {
-        DEBUG_TEXT(QString("Checking child %1").arg(qobject_cast<GluonCore::GluonObject*>(child)->fullyQualifiedName()));
-        Scene *scene = qobject_cast<Scene*>(child);
-        if (scene)
+        DEBUG_TEXT( QString( "Checking child %1" ).arg( qobject_cast<GluonCore::GluonObject*>( child )->fullyQualifiedName() ) );
+        Scene* scene = qobject_cast<Scene*>( child );
+        if( scene )
             return scene;
         else
         {
-            Scene *foundChild = findSceneInChildren(child);
-            if (foundChild)
+            Scene* foundChild = findSceneInChildren( child );
+            if( foundChild )
                 return foundChild;
         }
     }

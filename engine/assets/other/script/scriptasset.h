@@ -28,24 +28,24 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT ScriptAsset : public GluonEngine::Asset
     {
             Q_OBJECT
-            Q_INTERFACES(GluonEngine::Asset)
-            GLUON_OBJECT(GluonEngine::ScriptAsset)
+            Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::ScriptAsset )
 
         public:
-            Q_INVOKABLE ScriptAsset(QObject *parent = 0);
+            Q_INVOKABLE ScriptAsset( QObject* parent = 0 );
             ~ScriptAsset();
 
             virtual const QStringList supportedMimeTypes() const;
             virtual void load();
-            virtual const QList<AssetTemplate *> templates();
+            virtual const QList<AssetTemplate*> templates();
 
         private:
             class ScriptAssetPrivate;
-            ScriptAssetPrivate *d;
+            ScriptAssetPrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::ScriptAsset)
-Q_DECLARE_METATYPE(GluonEngine::ScriptAsset *)
+Q_DECLARE_METATYPE( GluonEngine::ScriptAsset )
+Q_DECLARE_METATYPE( GluonEngine::ScriptAsset* )
 
 #endif // GLUONENGINE_SCRIPTASSET_H

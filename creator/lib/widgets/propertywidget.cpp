@@ -51,14 +51,14 @@ class PropertyWidget::PropertyWidgetPrivate
             object = 0;
             layout = 0;
         }
-        GluonCore::GluonObject *object;
-        QVBoxLayout *layout;
+        GluonCore::GluonObject* object;
+        QVBoxLayout* layout;
 
-        void appendMetaObject(QWidget* parent, QObject* object, QGridLayout* layout);
+        void appendMetaObject( QWidget* parent, QObject* object, QGridLayout* layout );
 };
 
 
-PropertyWidget::PropertyWidget(QWidget* parent): QScrollArea(parent), d(new PropertyWidgetPrivate)
+PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
 }
 
@@ -67,43 +67,43 @@ PropertyWidget::~PropertyWidget()
     delete d;
 }
 
-GluonCore::GluonObject *PropertyWidget::object() const
+GluonCore::GluonObject* PropertyWidget::object() const
 {
     return d->object;
 }
 
-void PropertyWidget::setObject(GluonCore::GluonObject * object)
+void PropertyWidget::setObject( GluonCore::GluonObject* object )
 {
-    if (object)
+    if( object )
     {
         d->object = object;
-        d->layout = new QVBoxLayout(this);
-        d->layout->setSpacing(0);
-        d->layout->setContentsMargins(0, 0, 0, 0);
-        d->layout->setAlignment(Qt::AlignTop);
+        d->layout = new QVBoxLayout( this );
+        d->layout->setSpacing( 0 );
+        d->layout->setContentsMargins( 0, 0, 0, 0 );
+        d->layout->setAlignment( Qt::AlignTop );
 
-        appendObject(object, true);
-        for (int i = 0; i < object->children().count(); i++)
+        appendObject( object, true );
+        for( int i = 0; i < object->children().count(); i++ )
         {
-            GluonCore::GluonObject* theChild = object->child(i);
-            if(theChild)
+            GluonCore::GluonObject* theChild = object->child( i );
+            if( theChild )
             {
-                if(qobject_cast<GluonEngine::Asset*>(theChild))
+                if( qobject_cast<GluonEngine::Asset*>( theChild ) )
                     continue;
-                if(qobject_cast<GluonEngine::Scene*>(theChild))
+                if( qobject_cast<GluonEngine::Scene*>( theChild ) )
                     continue;
-                if(theChild->metaObject()->className() == QString("GluonCore::GluonObject"))
+                if( theChild->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
                     continue;
-                appendObject(theChild);
+                appendObject( theChild );
             }
         }
         d->layout->addStretch();
 
-        QWidget * containerWidget = new QWidget(this);
-        containerWidget->setLayout(d->layout);
+        QWidget* containerWidget = new QWidget( this );
+        containerWidget->setLayout( d->layout );
 
-        setWidget(containerWidget);
-        setWidgetResizable(true);
+        setWidget( containerWidget );
+        setWidgetResizable( true );
     }
 }
 
@@ -112,14 +112,14 @@ void PropertyWidget::clear()
     delete widget();
 }
 
-void PropertyWidget::appendObject(GluonCore::GluonObject *obj, bool first)
+void PropertyWidget::appendObject( GluonCore::GluonObject* obj, bool first )
 {
-    if (!first && obj->metaObject()->className() == QString("GluonEngine::GameObject"))
+    if( !first && obj->metaObject()->className() == QString( "GluonEngine::GameObject" ) )
     {
         return;
     }
 
-    d->layout->addWidget(new PropertyWidgetContainer(obj, this));
+    d->layout->addWidget( new PropertyWidgetContainer( obj, this ) );
 }
 
 //#include "propertywidget.moc"

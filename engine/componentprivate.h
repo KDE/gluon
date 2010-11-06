@@ -32,12 +32,12 @@ namespace GluonEngine
     {
         public:
             ComponentPrivate();
-            ComponentPrivate(const ComponentPrivate &other);
+            ComponentPrivate( const ComponentPrivate& other );
             ~ComponentPrivate();
 
             QString description;
             bool enabled;
-            GameObject *gameObject;
+            GameObject* gameObject;
     };
 }
 

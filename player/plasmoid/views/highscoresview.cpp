@@ -25,35 +25,37 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
 
-HighScoresView::HighScoresView(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : AbstractItemView(parent, wFlags), m_model(0)
+HighScoresView::HighScoresView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : AbstractItemView( parent, wFlags ), m_model( 0 )
 {
-    m_itemBackground = new Plasma::ItemBackground(this);
+    m_itemBackground = new Plasma::ItemBackground( this );
 }
 
 HighScoresView::~HighScoresView()
 {
 }
 
-void HighScoresView::setModel(QAbstractItemModel* model)
+void HighScoresView::setModel( QAbstractItemModel* model )
 {
-    AbstractItemView::setModel(model);
+    AbstractItemView::setModel( model );
 
-    for (int i = 0; i < model->rowCount(); i++) {
-        HighScoresViewItem *item = new HighScoresViewItem(this);
-        item->setModelIndex(model->index(i, 0));
-        item->setAcceptHoverEvents(true);
-        item->installEventFilter(this);
-        m_contentLayout->addItem(item);
+    for( int i = 0; i < model->rowCount(); i++ )
+    {
+        HighScoresViewItem* item = new HighScoresViewItem( this );
+        item->setModelIndex( model->index( i, 0 ) );
+        item->setAcceptHoverEvents( true );
+        item->installEventFilter( this );
+        m_contentLayout->addItem( item );
     }
 }
 
-bool HighScoresView::eventFilter(QObject* obj, QEvent* event)
+bool HighScoresView::eventFilter( QObject* obj, QEvent* event )
 {
-    if (event->type() == QEvent::GraphicsSceneHoverEnter) {
-        QGraphicsItem *item = qobject_cast<QGraphicsItem*> (obj);
-        m_itemBackground->setTargetItem(item);
+    if( event->type() == QEvent::GraphicsSceneHoverEnter )
+    {
+        QGraphicsItem* item = qobject_cast<QGraphicsItem*> ( obj );
+        m_itemBackground->setTargetItem( item );
     }
 
-    return QObject::eventFilter(obj, event);
+    return QObject::eventFilter( obj, event );
 }

@@ -27,7 +27,7 @@ namespace GluonCreator
 {
     class ProjectSelectionDialog : public KPageDialog
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             enum ProjectPage
             {
@@ -36,15 +36,15 @@ namespace GluonCreator
                 OpenProjectPage
             };
 
-            explicit ProjectSelectionDialog(QWidget* parent = 0, Qt::WFlags = 0);
+            explicit ProjectSelectionDialog( QWidget* parent = 0, Qt::WFlags = 0 );
             ~ProjectSelectionDialog();
-            void addPage(KPageWidgetItem* item, ProjectPage page);
+            void addPage( KPageWidgetItem* item, ProjectPage page );
             QString fileName() const;
         public Q_SLOTS:
-            void setPage(ProjectPage page);
+            void setPage( ProjectPage page );
         private:
-            Q_PRIVATE_SLOT(d, void okClicked())
-            Q_PRIVATE_SLOT(d, void projectRequested(const QString& project))
+            Q_PRIVATE_SLOT( d, void okClicked() )
+            Q_PRIVATE_SLOT( d, void projectRequested( const QString& project ) )
         private:
             class ProjectSelectionDialogPrivate;
             ProjectSelectionDialogPrivate* const d;

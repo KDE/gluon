@@ -28,8 +28,8 @@
 #include "edge.h"
 
 // Default Constructor
-GraphDocument::GraphDocument(const QString name, int width,  int height)
-        : QObject(0), QList<Graph*>()
+GraphDocument::GraphDocument( const QString name, int width,  int height )
+    : QObject( 0 ), QList<Graph*>()
 {
     _name = name;
     _width = width;
@@ -38,128 +38,148 @@ GraphDocument::GraphDocument(const QString name, int width,  int height)
     _saved = false;
 }
 
-GraphDocument::GraphDocument(const GraphDocument& gd)
-        : QObject(0), QList<Graph*>()
+GraphDocument::GraphDocument( const GraphDocument& gd )
+    : QObject( 0 ), QList<Graph*>()
 {
     _name = gd.name();
     _width = gd.width();
     _height = gd.height();
 
-    foreach (Graph *g, gd) {
-        append(g);
+    foreach( Graph * g, gd )
+    {
+        append( g );
     }
 }
 
 // Default Destructor
-GraphDocument::~GraphDocument() {
+GraphDocument::~GraphDocument()
+{
     kDebug() << "Deleting Graph Document";
     kDebug() << this;
     kDebug() << size();
-    
-    for(int i = 0; i < size(); i ++){
-	Graph *g = at(i);
-	kDebug() << "Deleting graph" << g->name();
+
+    for( int i = 0; i < size(); i ++ )
+    {
+        Graph* g = at( i );
+        kDebug() << "Deleting graph" << g->name();
         delete g;
     }
 }
 
 
 // Sets the current file name of the Graph Collection
-void GraphDocument::setName(const QString& name) {
+void GraphDocument::setName( const QString& name )
+{
     _name = name;
-    emit nameChanged(name);
+    emit nameChanged( name );
 }
 
 // Gets the name of the Graph
-QString GraphDocument::name() const {
+QString GraphDocument::name() const
+{
     return _name;
 }
 
 // set the width of the drawable area
-void GraphDocument::setWidth(qreal width) {
+void GraphDocument::setWidth( qreal width )
+{
     _width = width;
 }
 
 //set the height of the drawable area
-void GraphDocument::setHeight(qreal height) {
+void GraphDocument::setHeight( qreal height )
+{
     _height = height;
 }
 
 // gets the wheight of the drawable area
-qreal GraphDocument::height() const {
+qreal GraphDocument::height() const
+{
     return _height;
 }
 
 // sets the width of the drawable area
-qreal GraphDocument::width() const {
+qreal GraphDocument::width() const
+{
     return _width;
 }
 
-bool GraphDocument::isModified(){
-  return _modified;
+bool GraphDocument::isModified()
+{
+    return _modified;
 }
 
-void GraphDocument::setActiveGraph(Graph *g){
-    if ( indexOf(g) != -1){
+void GraphDocument::setActiveGraph( Graph* g )
+{
+    if( indexOf( g ) != -1 )
+    {
         _activeGraph = g;
-        emit activeGraphChanged(g);
+        emit activeGraphChanged( g );
     }
 }
 
-Graph* GraphDocument::addGraph(QString name) {
-    Graph *g = new Graph(this);
-    g->setName(name);
-    append(g);
+Graph* GraphDocument::addGraph( QString name )
+{
+    Graph* g = new Graph( this );
+    g->setName( name );
+    append( g );
     _activeGraph = g;
-    emit graphCreated(g);
+    emit graphCreated( g );
     kDebug() << "Graph Added" << g->name();
     return g;
 }
 
 
-void GraphDocument::savedDocumentAt(const QString& fileName) {
+void GraphDocument::savedDocumentAt( const QString& fileName )
+{
     _lastSavedDocumentPath = fileName;
 }
 
-const QString& GraphDocument::documentPath() const {
+const QString& GraphDocument::documentPath() const
+{
     return _lastSavedDocumentPath;
 }
 
 
-bool GraphDocument::saveAsInternalFormat(const QString& filename) {
+bool GraphDocument::saveAsInternalFormat( const QString& filename )
+{
     k_buf.clear();
-    
-    KSaveFile saveFile( !filename.endsWith(".graph") ? QString("%1.graph").arg(filename) : filename);
 
-    if (!saveFile.open()) {
+    KSaveFile saveFile( !filename.endsWith( ".graph" ) ? QString( "%1.graph" ).arg( filename ) : filename );
+
+    if( !saveFile.open() )
+    {
         kDebug() << "Error: File Not Open";
         return false;
     }
 
-    QTextStream stream(&saveFile);
-    stream.setCodec("UTF-8");
-    
+    QTextStream stream( &saveFile );
+    stream.setCodec( "UTF-8" );
+
     int graphSize = count();
 
-    for (int i = 0; i < graphSize; i++) {
-        Graph *g = this->at(i);
-		
-        k_buf += QString("[Graph %1] \n").arg(i).toUtf8();
-	
-	    savePropertiesInternalFormat(g);
+    for( int i = 0; i < graphSize; i++ )
+    {
+        Graph* g = this->at( i );
 
-        foreach( ::Node *n, g->nodes()) {
-	        k_buf += QString("[Node %1]\n").arg(g->nodes().indexOf(n)).toUtf8();
-	        savePropertiesInternalFormat(n);
+        k_buf += QString( "[Graph %1] \n" ).arg( i ).toUtf8();
+
+        savePropertiesInternalFormat( g );
+
+        foreach( ::Node * n, g->nodes() )
+        {
+            k_buf += QString( "[Node %1]\n" ).arg( g->nodes().indexOf( n ) ).toUtf8();
+            savePropertiesInternalFormat( n );
         }
 
         int from, to;
-        foreach( Edge *e, g->edges()) {
-            from = g->nodes().indexOf(e->from());
-            to = g->nodes().indexOf(e->to());
-            
-	        k_buf += QString("[Edge %1->%2]\n").arg(from).arg(to).toUtf8();
-	        savePropertiesInternalFormat(e);
+        foreach( Edge * e, g->edges() )
+        {
+            from = g->nodes().indexOf( e->from() );
+            to = g->nodes().indexOf( e->to() );
+
+            k_buf += QString( "[Edge %1->%2]\n" ).arg( from ).arg( to ).toUtf8();
+            savePropertiesInternalFormat( e );
         }
 
         /*     buf += " \n \n ############ GROUPS ########### \n \n";
@@ -174,8 +194,9 @@ bool GraphDocument::saveAsInternalFormat(const QString& filename) {
     kDebug() << k_buf;
 
     stream << k_buf;
-    
-    if (!saveFile.finalize()) {
+
+    if( !saveFile.finalize() )
+    {
         kDebug() << "Error, file not saved.";
         return false;
     }
@@ -183,100 +204,115 @@ bool GraphDocument::saveAsInternalFormat(const QString& filename) {
     return true;
 }
 
-void GraphDocument::savePropertiesInternalFormat(QObject *o) {
-    const QMetaObject *metaObject = o->metaObject();
+void GraphDocument::savePropertiesInternalFormat( QObject* o )
+{
+    const QMetaObject* metaObject = o->metaObject();
     int propertyCount = metaObject->propertyCount();
-    
-    for ( int i = 0; i < propertyCount; ++i) {
-        QMetaProperty metaProperty = metaObject->property(i);
-        const char *name = metaProperty.name();
-        QVariant value = o->property(name);
-        
-        if ( QString("objectName").compare(metaProperty.name()) == 0) {
+
+    for( int i = 0; i < propertyCount; ++i )
+    {
+        QMetaProperty metaProperty = metaObject->property( i );
+        const char* name = metaProperty.name();
+        QVariant value = o->property( name );
+
+        if( QString( "objectName" ).compare( metaProperty.name() ) == 0 )
+        {
             continue;
         }
-        else if( QString("name").compare(metaProperty.name()) == 0 ) {
-          QString namevalue = QString("%1 : %2 \n" ).arg(name).arg(value.toString());
-          kDebug() << "Normal"    << namevalue;
-          kDebug() << "Ascii "    << namevalue.toAscii();
-          kDebug() << "Latin1"    << namevalue.toLatin1();
-          kDebug() << "UTF-8"     << namevalue.toUtf8();
-          kDebug() << "Local8bit" << namevalue.toLocal8Bit();
+        else if( QString( "name" ).compare( metaProperty.name() ) == 0 )
+        {
+            QString namevalue = QString( "%1 : %2 \n" ).arg( name ).arg( value.toString() );
+            kDebug() << "Normal"    << namevalue;
+            kDebug() << "Ascii "    << namevalue.toAscii();
+            kDebug() << "Latin1"    << namevalue.toLatin1();
+            kDebug() << "UTF-8"     << namevalue.toUtf8();
+            kDebug() << "Local8bit" << namevalue.toLocal8Bit();
         }
-       
-        k_buf +=  QString("%1 : %2 \n" ).arg(name, value.toString());
+
+        k_buf +=  QString( "%1 : %2 \n" ).arg( name, value.toString() );
     }
 
     QList<QByteArray> propertyNames = o->dynamicPropertyNames();
-    foreach(const QByteArray& name, propertyNames) {
-        QVariant value = o->property(name);
-        k_buf +=  QString("%1 : %2 \n" ).arg(name, value.toString()).toUtf8();
+    foreach( const QByteArray & name, propertyNames )
+    {
+        QVariant value = o->property( name );
+        k_buf +=  QString( "%1 : %2 \n" ).arg( name, value.toString() ).toUtf8();
     }
 
     k_buf += '\n';
 }
 
-void GraphDocument::loadFromInternalFormat(const QString& filename) {
-    QFile f(filename);
-    if ( !f.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+void GraphDocument::loadFromInternalFormat( const QString& filename )
+{
+    QFile f( filename );
+    if( !f.open( QIODevice::ReadOnly | QIODevice::Text ) )
+    {
         kDebug() << "File not open " << filename.toUtf8();
         return;
     }
 
     Graph* tmpGraph = 0;
-   //GraphGroup *tmpGroup = 0;
-    QObject *tmpObject = 0;
+    //GraphGroup *tmpGroup = 0;
+    QObject* tmpObject = 0;
 
-    
-    QTextStream in(&f);
-    in.setCodec("UTF-8");
-    
-    while (!in.atEnd()) {
+
+    QTextStream in( &f );
+    in.setCodec( "UTF-8" );
+
+    while( !in.atEnd() )
+    {
         QString str = in.readLine().simplified();
 
-        if (str.startsWith('#')) { //! Ignore it, commented line.
+        if( str.startsWith( '#' ) ) //! Ignore it, commented line.
+        {
             continue;
         }
 
-        else if (str.startsWith("[Graph")) {
-            QString gName = str.section(' ',1,1);
-            gName.remove(']');
-            tmpGraph = new Graph(this);
-            tmpGraph->setName(gName.toAscii());
+        else if( str.startsWith( "[Graph" ) )
+        {
+            QString gName = str.section( ' ', 1, 1 );
+            gName.remove( ']' );
+            tmpGraph = new Graph( this );
+            tmpGraph->setName( gName.toAscii() );
             tmpObject = tmpGraph;
-            append(tmpGraph);
+            append( tmpGraph );
             kDebug() << "Graph Created";
         }
 
-        else if (str.startsWith("[Node")) {
-            QString nName = str.section(' ',1,1);
-            nName.remove(']');
-            tmpObject = tmpGraph->addNode(nName);
+        else if( str.startsWith( "[Node" ) )
+        {
+            QString nName = str.section( ' ', 1, 1 );
+            nName.remove( ']' );
+            tmpObject = tmpGraph->addNode( nName );
             kDebug() << "Node Created";
         }
 
-        else if (str.startsWith("[Edge")) {
-            QString eName = str.section(' ',1,1);
-            eName.remove(']');
+        else if( str.startsWith( "[Edge" ) )
+        {
+            QString eName = str.section( ' ', 1, 1 );
+            eName.remove( ']' );
 
-            QString nameFrom = eName.section("->", 0,0);
-            QString nameTo = eName.section("->", 1,1);
+            QString nameFrom = eName.section( "->", 0, 0 );
+            QString nameTo = eName.section( "->", 1, 1 );
 
             //tmpObject = tmpGraph->addEdge(tmpGraph->nodes()[nameFrom.toInt()], tmpGraph->nodes()[nameTo.toInt()]);
             //kDebug() << "Edge Created";
         }
-        else if (str.startsWith("[Group")) {
+        else if( str.startsWith( "[Group" ) )
+        {
             /*QString gName = str.section(" ",1,1);
             gName.remove(']');
             tmpGroup = tmpGraph->addGroup(gName); */
         }
-        else if (str.contains(':')) {
-            QString propertyName = str.section(':',0,0).trimmed();
-            QString propertyValue = str.section(':',1,1).trimmed();
+        else if( str.contains( ':' ) )
+        {
+            QString propertyName = str.section( ':', 0, 0 ).trimmed();
+            QString propertyValue = str.section( ':', 1, 1 ).trimmed();
             tmpObject->setProperty( propertyName.toUtf8() , propertyValue );
         }
-        else {
-//            // tmpGroup->append( tmpGraph->node(str));
+        else
+        {
+            //            // tmpGroup->append( tmpGraph->node(str));
         }
     }
     kDebug() << "Graph Document Loaded.";
@@ -284,7 +320,7 @@ void GraphDocument::loadFromInternalFormat(const QString& filename) {
 
 
 // void GraphDocument::runnTool(Rocs::ToolsPluginInterface * plugin){
-// 	QString run = plugin->run(this);
-// 	
-// 	//executeScript(run);
+//  QString run = plugin->run(this);
+//
+//  //executeScript(run);
 // }

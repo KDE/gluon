@@ -30,15 +30,15 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit BoolPropertyWidgetItem(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit BoolPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~BoolPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public slots:
-            void setEditValue(const QVariant& value);
-            void toggled(bool checked);
+            void setEditValue( const QVariant& value );
+            void toggled( bool checked );
     };
 }
 

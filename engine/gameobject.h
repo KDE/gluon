@@ -32,7 +32,7 @@
 namespace GluonEngine
 {
 
-class Scene;
+    class Scene;
 
     class GameObjectPrivate;
     class Component;
@@ -59,7 +59,7 @@ class Scene;
     class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::GameObject);
+            GLUON_OBJECT( GluonEngine::GameObject );
             /**
              * A little piece of text explaining what this GameObject is supposed
              * to do. Consider this a place for putting in documentation on what
@@ -68,7 +68,7 @@ class Scene;
              * said: Use it. Documentation is good for your sanity when you return
              * to your work only a few days after first making it.
              */
-            Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY( QString description READ description WRITE setDescription )
             /**
              * This decides whether the GameObject and its children are included
              * in the update and draw calls. This allows you to construct objects
@@ -76,18 +76,18 @@ class Scene;
              * around which are temoprarily not used, as destroying and re-creating
              * objects is more expensive than disabling and enabling them.
              */
-            Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
+            Q_PROPERTY( bool enabled READ enabled WRITE setEnabled )
 
             /**
              * The object position relative to its parent. If this is a top level
              * object in a scene, this is relative to the world origin (0, 0, 0)
              */
-            Q_PROPERTY(QVector3D position READ position WRITE setPosition)
+            Q_PROPERTY( QVector3D position READ position WRITE setPosition )
             /**
              * The scale of the object, relative to its parent object. If this is a
              * top level object in a scene, this is relative to the scale 1, 1, 1
              */
-            Q_PROPERTY(QVector3D scale READ scale WRITE setScale)
+            Q_PROPERTY( QVector3D scale READ scale WRITE setScale )
             /**
              * The orientation of the object in the world (the rotation of the object
              * and the axis around which it is rotated, represented by a Quaternion),
@@ -95,7 +95,7 @@ class Scene;
              * is relative to a rotation of 0 around the Z axis (the axis pointing out
              * of the screen). This is also the default for all object.
              */
-            Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
+            Q_PROPERTY( QQuaternion orientation READ orientation WRITE setOrientation )
 
         public:
             enum TransformSpace
@@ -104,8 +104,8 @@ class Scene;
                 TS_WORLD,
             };
 
-            Q_INVOKABLE GameObject(QObject *parent = 0);
-            GameObject(const GameObject &other, QObject *parent = 0);
+            Q_INVOKABLE GameObject( QObject* parent = 0 );
+            GameObject( const GameObject& other, QObject* parent = 0 );
             ~GameObject();
 
             /**
@@ -131,7 +131,7 @@ class Scene;
              *
              * @param int elapsedMilliseconds The time elapsed since the last update
              */
-            Q_INVOKABLE void update(int elapsedMilliseconds);
+            Q_INVOKABLE void update( int elapsedMilliseconds );
             /**
              * Draw the GameObject onto the scene
              * By convention, this should not change GameObjects, but rather, only objects needed
@@ -139,7 +139,7 @@ class Scene;
              *
              * @param   int timeLapse   The number of milliseconds which has passed since the last update
              */
-            Q_INVOKABLE void draw(int timeLapse = 0);
+            Q_INVOKABLE void draw( int timeLapse = 0 );
             /**
              * The game loop or scene is stopping. Do anything necessary.
              */
@@ -160,30 +160,30 @@ class Scene;
              *
              * @param   functionName    The name of the function you wish to call
              */
-            void runCommand(const QString &functionName);
+            void runCommand( const QString& functionName );
             /**
              * Run a command on all the components in this GameObject and all the
              * children of the GameObject.
              *
              * @param   functionName    The name of the function you wish to call
              */
-            void runCommandInChildren(const QString &functionName);
+            void runCommandInChildren( const QString& functionName );
 
             // ----------------------------------------------------------------
             // Component management
 
-            Q_INVOKABLE Component * findComponent(const QString &name) const;
-            Q_INVOKABLE Component * findComponentByType(const QString &typeName) const;
-            Q_INVOKABLE Component * findComponentByType(int type) const;
-            Q_INVOKABLE QList<Component *> findComponentsByType(const QString &typeName) const;
-            Q_INVOKABLE QList<Component *> findComponentsByType( int type ) const;
-            Q_INVOKABLE Component * findComponentInChildren(const QString &name) const;
-            Q_INVOKABLE Component * findComponentInChildrenByType(const QString &typeName) const;
-            Q_INVOKABLE QList<Component *> findComponentsInChildren(const QString &name) const;
-            Q_INVOKABLE QList<Component *> findComponentsInChildrenByType(const QString &typeName) const;
-            Q_INVOKABLE QList<Component *> findComponentsInChildrenByType( int type ) const;
-            Q_INVOKABLE void addComponent(Component * addThis);
-            Q_INVOKABLE bool removeComponent(Component * removeThis);
+            Q_INVOKABLE Component* findComponent( const QString& name ) const;
+            Q_INVOKABLE Component* findComponentByType( const QString& typeName ) const;
+            Q_INVOKABLE Component* findComponentByType( int type ) const;
+            Q_INVOKABLE QList<Component*> findComponentsByType( const QString& typeName ) const;
+            Q_INVOKABLE QList<Component*> findComponentsByType( int type ) const;
+            Q_INVOKABLE Component* findComponentInChildren( const QString& name ) const;
+            Q_INVOKABLE Component* findComponentInChildrenByType( const QString& typeName ) const;
+            Q_INVOKABLE QList<Component*> findComponentsInChildren( const QString& name ) const;
+            Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( const QString& typeName ) const;
+            Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( int type ) const;
+            Q_INVOKABLE void addComponent( Component* addThis );
+            Q_INVOKABLE bool removeComponent( Component* removeThis );
             Q_INVOKABLE QList<Component*> components() const;
 
             // ----------------------------------------------------------------
@@ -199,27 +199,27 @@ class Scene;
              *
              * @return  The Scene this GameObject belongs to, or null if it is not contained within a scene
              */
-            Scene *scene() const;
-            GameObject *childGameObject(int index) const;
-            GameObject *childGameObject(const QString &name) const;
-            void addChild(GluonCore::GluonObject *child);
-            void addChild(GameObject *addThis);
-            void addChildAt(GameObject *child, int index);
-            bool removeChild(GluonObject *child);
-            bool removeChild(GameObject *removeThis);
+            Scene* scene() const;
+            GameObject* childGameObject( int index ) const;
+            GameObject* childGameObject( const QString& name ) const;
+            void addChild( GluonCore::GluonObject* child );
+            void addChild( GameObject* addThis );
+            void addChildAt( GameObject* child, int index );
+            bool removeChild( GluonObject* child );
+            bool removeChild( GameObject* removeThis );
             int childCount() const;
-            int childIndex(GameObject *child) const;
+            int childIndex( GameObject* child ) const;
 
-            Q_INVOKABLE GameObject *parentGameObject();
+            Q_INVOKABLE GameObject* parentGameObject();
 
             // ----------------------------------------------------------------
             // Property getter-setters
 
-            void setDescription(const QString &newDescription);
+            void setDescription( const QString& newDescription );
             QString description() const;
 
             Q_INVOKABLE bool enabled() const;
-            Q_INVOKABLE void setEnabled(bool newEnabled);
+            Q_INVOKABLE void setEnabled( bool newEnabled );
 
             Q_INVOKABLE QVector3D position() const;
             Q_INVOKABLE QVector3D worldPosition() const;
@@ -234,7 +234,7 @@ class Scene;
             Q_INVOKABLE QMatrix4x4 transform() const;
 
         public slots:
-            void setParentGameObject(GameObject *newParent);
+            void setParentGameObject( GameObject* newParent );
 
             //Transformation
             /**
@@ -245,7 +245,7 @@ class Scene;
              *
              * @param newPosition The new position of the object
              */
-            void setPosition(const QVector3D &newPosition);
+            void setPosition( const QVector3D& newPosition );
             /**
              * Set the position of the object
              *
@@ -255,7 +255,7 @@ class Scene;
              * @param y The Y-axis component of the new position of the object
              * @param z The Z-axis component of the new position of the object
              */
-            void setPosition(float x, float y, float z);
+            void setPosition( float x, float y, float z );
 
             /**
              * Set the position of the object. This will not change the z-
@@ -266,7 +266,7 @@ class Scene;
              * @param x The X-axis component of the new position of the object
              * @param y The Y-axis component of the new position of the object
              */
-            void setPosition(float x, float y);
+            void setPosition( float x, float y );
 
             /**
              * Translate the object relative to its current position.
@@ -279,7 +279,7 @@ class Scene;
              * the object will move in local space, if transform space is TS_WORLD,
              * the object will move in world space.
              */
-            void translate(const QVector3D &translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL);
+            void translate( const QVector3D& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL );
             /**
              * Translate the object relative to its current position.
              *
@@ -290,7 +290,7 @@ class Scene;
              * @param z The Z-axis component of the translation
              * @param ts The transform space to use.
              */
-            void translate(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            void translate( float x, float y, float z, TransformSpace ts = TS_LOCAL );
 
             /**
              * Translate the object relative to its current position. This will
@@ -302,17 +302,17 @@ class Scene;
              * @param y The Y-axis component of the translation
              * @param ts The transform space to use.
              */
-            void translate(float x, float y, TransformSpace ts = TS_LOCAL);
+            void translate( float x, float y, TransformSpace ts = TS_LOCAL );
 
             /**
              * Set the object's scale
              *
              * @param newScale The new scale of the object
              */
-            void setScale(const QVector3D& newScale);
-            void setScale(float x, float y, float z);
-            void scaleRelative(QVector3D scaling, TransformSpace ts = TS_LOCAL);
-            void scaleRelative(float x, float y, float z, TransformSpace ts = TS_LOCAL);
+            void setScale( const QVector3D& newScale );
+            void setScale( float x, float y, float z );
+            void scaleRelative( QVector3D scaling, TransformSpace ts = TS_LOCAL );
+            void scaleRelative( float x, float y, float z, TransformSpace ts = TS_LOCAL );
 
             /**
              * Set the object's orientation.
@@ -320,13 +320,13 @@ class Scene;
              *
              * @param newOrientation The new orientation of the object
              */
-            void setOrientation(const QQuaternion &newOrientation);
-            void orient(QQuaternion rotation, TransformSpace ts = TS_LOCAL);
-            void rotate(float angle, const QVector3D &axis, TransformSpace ts = TS_LOCAL);
+            void setOrientation( const QQuaternion& newOrientation );
+            void orient( QQuaternion rotation, TransformSpace ts = TS_LOCAL );
+            void rotate( float angle, const QVector3D& axis, TransformSpace ts = TS_LOCAL );
 
             void updateTransform();
             void invalidateTransform();
-            void removeLater(GluonEngine::GameObject *remove);
+            void removeLater( GluonEngine::GameObject* remove );
 
         protected:
             /**
@@ -335,11 +335,11 @@ class Scene;
              */
             virtual void postCloneSanitize();
         private:
-            GameObjectPrivate * const d;
+            GameObjectPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::GameObject)
-Q_DECLARE_METATYPE(GluonEngine::GameObject *)
+Q_DECLARE_METATYPE( GluonEngine::GameObject )
+Q_DECLARE_METATYPE( GluonEngine::GameObject* )
 
 #endif  // GLUON_ENGINE_GAMEOBJECT_H

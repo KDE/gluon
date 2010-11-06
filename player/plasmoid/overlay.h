@@ -35,19 +35,19 @@ class Overlay : public QGraphicsWidget
         Q_OBJECT
 
     public:
-        Overlay(QGraphicsItem *parent = 0, Qt::WindowFlags wFlags = 0);
+        Overlay( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     protected:
-        virtual void keyPressEvent(QKeyEvent *event);
-        virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                   QWidget *widget = 0);
-        void resizeEvent(QGraphicsSceneResizeEvent *event);
+        virtual void keyPressEvent( QKeyEvent* event );
+        virtual void wheelEvent( QGraphicsSceneWheelEvent* event );
+        void paint( QPainter* painter, const QStyleOptionGraphicsItem* option,
+                    QWidget* widget = 0 );
+        void resizeEvent( QGraphicsSceneResizeEvent* event );
 
-        QGraphicsLinearLayout *m_contentLayout;
-        QGraphicsWidget *m_contentWidget;
-        Plasma::FrameSvg *m_background;
-        Plasma::ScrollWidget *m_scrollWidget;
+        QGraphicsLinearLayout* m_contentLayout;
+        QGraphicsWidget* m_contentWidget;
+        Plasma::FrameSvg* m_background;
+        Plasma::ScrollWidget* m_scrollWidget;
 };
 
 #endif // OVERLAY_H

@@ -36,52 +36,59 @@ class QKeyEvent;
 class NodePropertiesWidget;
 class EdgePropertiesWidget;
 
-class GraphScene : public QGraphicsScene {
-    Q_OBJECT
-public:
-    GraphScene(QObject *parent);
-    void setAction(QAction *action);
-    void updateGraph(Graph *g);
-    void updateDocument();
-    void setActiveGraph(Graph *g);
-    void setActiveGraphDocument(GraphDocument *gd);
-    void clearGraph();
+class GraphScene : public QGraphicsScene
+{
+        Q_OBJECT
+    public:
+        GraphScene( QObject* parent );
+        void setAction( QAction* action );
+        void updateGraph( Graph* g );
+        void updateDocument();
+        void setActiveGraph( Graph* g );
+        void setActiveGraphDocument( GraphDocument* gd );
+        void clearGraph();
 
-    void setHideEdges(bool h);
-    bool hideEdges();
-    QAction* action();
-    void updateAfter(QGraphicsItem *item);
-    bool fade() const{ return _fade; }
-    void fade(bool b){ _fade = b; }
-    void hideGraph( Graph *g, bool visibility);
-    
-public slots:
-    QGraphicsItem* createNode( Node* n);
-    QGraphicsItem* createEdge( Edge *e);
-    void connectGraphSignals(Graph *g);
-    void createItems();
-  signals:
-    void forceUpdate();
-    
-protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseDoubleClickEvent (QGraphicsSceneMouseEvent * mouseEvent);
-    void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent);
-    void keyPressEvent(QKeyEvent *keyEvent);
+        void setHideEdges( bool h );
+        bool hideEdges();
+        QAction* action();
+        void updateAfter( QGraphicsItem* item );
+        bool fade() const
+        {
+            return _fade;
+        }
+        void fade( bool b )
+        {
+            _fade = b;
+        }
+        void hideGraph( Graph* g, bool visibility );
 
-private:
-    GraphDocument *_graphDocument;
-    Graph *_graph;
-    AbstractAction *_action;
-    QMultiHash<Graph*, QGraphicsItem* > _hashGraphs;
-    QList<QGraphicsItem*> _hidedEdges;
-    bool _hideEdges;
-    NodePropertiesWidget *_nodePropertiesWidget;
-    EdgePropertiesWidget *_edgePropertiesWidget;
-    bool _fade;
-    QObject* _parent;
+    public slots:
+        QGraphicsItem* createNode( Node* n );
+        QGraphicsItem* createEdge( Edge* e );
+        void connectGraphSignals( Graph* g );
+        void createItems();
+    signals:
+        void forceUpdate();
+
+    protected:
+        void mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent );
+        void mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent );
+        void mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent );
+        void mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent );
+        void wheelEvent( QGraphicsSceneWheelEvent* wheelEvent );
+        void keyPressEvent( QKeyEvent* keyEvent );
+
+    private:
+        GraphDocument* _graphDocument;
+        Graph* _graph;
+        AbstractAction* _action;
+        QMultiHash<Graph*, QGraphicsItem* > _hashGraphs;
+        QList<QGraphicsItem*> _hidedEdges;
+        bool _hideEdges;
+        NodePropertiesWidget* _nodePropertiesWidget;
+        EdgePropertiesWidget* _edgePropertiesWidget;
+        bool _fade;
+        QObject* _parent;
 };
 
 #endif

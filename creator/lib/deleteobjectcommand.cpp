@@ -28,52 +28,52 @@ using namespace GluonCreator;
 class DeleteObjectCommand::DeleteObjectCommandPrivate
 {
     public:
-        DeleteObjectCommandPrivate() : object(0), parent(0), applied(false) { }
-        
-        GluonEngine::GameObject *object;
-        GluonEngine::GameObject *parent;
+        DeleteObjectCommandPrivate() : object( 0 ), parent( 0 ), applied( false ) { }
+
+        GluonEngine::GameObject* object;
+        GluonEngine::GameObject* parent;
         bool applied;
 };
 
-DeleteObjectCommand::DeleteObjectCommand(GluonEngine::GameObject *object, GluonEngine::GameObject *parent)
-    : d(new DeleteObjectCommandPrivate)
+DeleteObjectCommand::DeleteObjectCommand( GluonEngine::GameObject* object, GluonEngine::GameObject* parent )
+    : d( new DeleteObjectCommandPrivate )
 {
     d->object = object;
     d->parent = parent;
 
-    setObject(object);
-    setCommandName("DeleteObjectCommand");
+    setObject( object );
+    setCommandName( "DeleteObjectCommand" );
 }
 
 DeleteObjectCommand::~DeleteObjectCommand()
 {
-    if(!d->applied)
+    if( !d->applied )
         delete d->object;
-    
+
     delete d;
 }
 
 void DeleteObjectCommand::undo()
 {
-    setCommandDirection("undo");
-    if(d->parent)
+    setCommandDirection( "undo" );
+    if( d->parent )
     {
-        if(d->parent->childIndex(d->object) == -1)
-            d->parent->addChild(d->object);
+        if( d->parent->childIndex( d->object ) == -1 )
+            d->parent->addChild( d->object );
     }
-    
+
     d->applied = true;
 }
 
 void DeleteObjectCommand::redo()
 {
-    setCommandDirection("redo");
-    if(d->parent)
+    setCommandDirection( "redo" );
+    if( d->parent )
     {
-        if(d->parent->childIndex(d->object) != -1)
-            d->parent->removeChild(d->object);
+        if( d->parent->childIndex( d->object ) != -1 )
+            d->parent->removeChild( d->object );
     }
-    
+
     d->applied = false;
 }
 

@@ -36,7 +36,7 @@ namespace GluonEngine
     {
         public:
             GameObjectPrivate();
-            GameObjectPrivate(const GameObjectPrivate &other);
+            GameObjectPrivate( const GameObjectPrivate& other );
             ~GameObjectPrivate();
 
             QString description;
@@ -53,11 +53,11 @@ namespace GluonEngine
             QMatrix4x4 transform;
             bool transformInvalidated;
 
-            GameObject *parentGameObject;
-            QList<GameObject *> children;
-            QList<Component *> components;
+            GameObject* parentGameObject;
+            QList<GameObject*> children;
+            QList<Component*> components;
             QMultiHash<int, Component*> componentTypes;
-            QList<GameObject *> objectsToDelete;
+            QList<GameObject*> objectsToDelete;
     };
 }
 

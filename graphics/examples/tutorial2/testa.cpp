@@ -9,12 +9,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -24,11 +24,11 @@
 #include <QWidget>
 #include <QDebug>
 #include <cmath>
-Testa::Testa(QWidget * parent)
-        : QWidget(parent)
+Testa::Testa( QWidget* parent )
+    : QWidget( parent )
 {
-    GluonGraphics::CubeMesh * mesh = new GluonGraphics::CubeMesh();
-    item = new GluonGraphics::Item(mesh);
+    GluonGraphics::CubeMesh* mesh = new GluonGraphics::CubeMesh();
+    item = new GluonGraphics::Item( mesh );
 
     a = 0;
 
@@ -37,7 +37,7 @@ Testa::Testa(QWidget * parent)
 void Testa::test()
 {
     a++;
-    item->setRotation(a, QVector3D(1, 1, 0));
+    item->setRotation( a, QVector3D( 1, 1, 0 ) );
     item->updateTransform();
 
 }

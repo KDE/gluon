@@ -30,39 +30,39 @@ namespace GluonCreator
     class PropertyWidgetItem;
     class PropertyWidgetContainer : public QWidget
     {
-        Q_OBJECT
-        Q_PROPERTY(bool expanded READ expanded WRITE setExpanded)
-        Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
-        Q_PROPERTY(QString title READ title WRITE setTitle)
-        
+            Q_OBJECT
+            Q_PROPERTY( bool expanded READ expanded WRITE setExpanded )
+            Q_PROPERTY( bool enabled READ enabled WRITE setEnabled )
+            Q_PROPERTY( QString title READ title WRITE setTitle )
+
         public:
-            PropertyWidgetContainer(GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0);
+            PropertyWidgetContainer( GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~PropertyWidgetContainer();
-            
-            void setObject(GluonCore::GluonObject* theObject);
-            
+
+            void setObject( GluonCore::GluonObject* theObject );
+
             bool expanded() const;
-            void setExpanded(const bool& newExpanded);
+            void setExpanded( const bool& newExpanded );
             Q_SLOT void toggleExpanded();
-            
+
             bool enabled() const;
-            Q_SLOT void setEnabled(const bool& newEnabled);
-            
+            Q_SLOT void setEnabled( const bool& newEnabled );
+
             QString title() const;
-            void setTitle(const QString& newTitle);
-            
+            void setTitle( const QString& newTitle );
+
             void addDefaultMenuItems();
-            void addMenuItem(QAction* menuItem);
-            void removeMenuItem(QAction* menuItem);
-            
+            void addMenuItem( QAction* menuItem );
+            void removeMenuItem( QAction* menuItem );
+
         Q_SIGNALS:
-            void propertyChanged(QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue);
-            
+            void propertyChanged( QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue );
+
         public Q_SLOTS:
             void upTriggered();
             void downTriggered();
             void delTriggered();
-            
+
         private:
             class PropertyWidgetContainerPrivate;
             PropertyWidgetContainerPrivate* d;

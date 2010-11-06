@@ -44,10 +44,10 @@ using namespace GluonCreator;
 class NewProjectDialogPage::NewProjectDialogPagePrivate
 {
     public:
-        NewProjectDialogPagePrivate(NewProjectDialogPage* qq)
-            : name(0),
-            location(0),
-            q(qq)
+        NewProjectDialogPagePrivate( NewProjectDialogPage* qq )
+            : name( 0 ),
+              location( 0 ),
+              q( qq )
         {
         }
     public:
@@ -58,26 +58,26 @@ class NewProjectDialogPage::NewProjectDialogPagePrivate
 };
 
 NewProjectDialogPage::NewProjectDialogPage()
-    : KPageWidgetItem(new QWidget, i18n("New Project")),
-    d(new NewProjectDialogPagePrivate(this))
+    : KPageWidgetItem( new QWidget, i18n( "New Project" ) ),
+      d( new NewProjectDialogPagePrivate( this ) )
 {
-    setIcon(KIcon("document-new"));
+    setIcon( KIcon( "document-new" ) );
 
-    QVBoxLayout* layout = new QVBoxLayout(widget());
-    QGroupBox* box = new QGroupBox(i18n("General Information"), widget());
+    QVBoxLayout* layout = new QVBoxLayout( widget() );
+    QGroupBox* box = new QGroupBox( i18n( "General Information" ), widget() );
 
-    widget()->setLayout(layout);
-    layout->addWidget(box);
+    widget()->setLayout( layout );
+    layout->addWidget( box );
 
-    QFormLayout* boxLayout = new QFormLayout(box);
-    box->setLayout(boxLayout);
+    QFormLayout* boxLayout = new QFormLayout( box );
+    box->setLayout( boxLayout );
 
-    d->name = new KLineEdit(box);
-    boxLayout->addRow(i18n("Project Name"), d->name);
+    d->name = new KLineEdit( box );
+    boxLayout->addRow( i18n( "Project Name" ), d->name );
 
-    d->location = new KUrlRequester(box);
-    d->location->setMode(KFile::Directory);
-    boxLayout->addRow(i18n("Project Location"), d->location);
+    d->location = new KUrlRequester( box );
+    d->location->setMode( KFile::Directory );
+    boxLayout->addRow( i18n( "Project Location" ), d->location );
 }
 
 NewProjectDialogPage::~NewProjectDialogPage()
@@ -87,50 +87,52 @@ NewProjectDialogPage::~NewProjectDialogPage()
 
 QString NewProjectDialogPage::createProject() const
 {
-    if (d->name->text().isEmpty() || d->location->url().isEmpty()) {
-        KMessageBox::error(0, i18n("You need to enter a name and location to continue"));
+    if( d->name->text().isEmpty() || d->location->url().isEmpty() )
+    {
+        KMessageBox::error( 0, i18n( "You need to enter a name and location to continue" ) );
         return QString();
     }
 
-    QScopedPointer<GluonEngine::GameProject> project(new GluonEngine::GameProject(GluonEngine::Game::instance()));
-    if (project.isNull()) {
+    QScopedPointer<GluonEngine::GameProject> project( new GluonEngine::GameProject( GluonEngine::Game::instance() ) );
+    if( project.isNull() )
+    {
         return QString();
     }
 
-    project->setName(d->name->text());
+    project->setName( d->name->text() );
 
-    GluonEngine::Scene* root = new GluonEngine::Scene(project.data());
-    root->setName(i18n("New Scene"));
+    GluonEngine::Scene* root = new GluonEngine::Scene( project.data() );
+    root->setName( i18n( "New Scene" ) );
     root->savableDirty = true;
 
-    project->addChild(root);
-    project->setEntryPoint(root);
+    project->addChild( root );
+    project->setEntryPoint( root );
 
-    GluonEngine::GameObject* camera = new GluonEngine::GameObject(root);
-    camera->setName(i18n("Camera"));
-    camera->setPosition(0.0f, 0.0f, 50.0f);
-    root->sceneContents()->addChild(camera);
+    GluonEngine::GameObject* camera = new GluonEngine::GameObject( root );
+    camera->setName( i18n( "Camera" ) );
+    camera->setPosition( 0.0f, 0.0f, 50.0f );
+    root->sceneContents()->addChild( camera );
 
     GluonCore::GluonObject* cameraController =
-        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::CameraControllerComponent");
-    cameraController->setName("CameraController");
-    camera->addComponent(qobject_cast<GluonEngine::Component*>(camera));
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::CameraControllerComponent" );
+    cameraController->setName( "CameraController" );
+    camera->addComponent( qobject_cast<GluonEngine::Component*>( camera ) );
 
-    GluonEngine::GameObject* sprite = new GluonEngine::GameObject(root);
-    sprite->setName(i18n("Sprite"));
-    root->sceneContents()->addChild(sprite);
+    GluonEngine::GameObject* sprite = new GluonEngine::GameObject( root );
+    sprite->setName( i18n( "Sprite" ) );
+    root->sceneContents()->addChild( sprite );
 
     GluonCore::GluonObject* spriteComponent =
-        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName("GluonEngine::SpriteRendererComponent");
-    spriteComponent->setName("SpriteRenderer");
-    sprite->addComponent(qobject_cast<GluonEngine::Component*>(spriteComponent));
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
+    spriteComponent->setName( "SpriteRenderer" );
+    sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
 
     KUrl location = d->location->url();
     QString projectFileName = project->fullyQualifiedFileName();
-    location.addPath(projectFileName.left(projectFileName.indexOf('.')) + ".gluon");
-    project->setFilename(location);
+    location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + ".gluon" );
+    project->setFilename( location );
 
-    QDir::setCurrent(d->location->url().toLocalFile());
+    QDir::setCurrent( d->location->url().toLocalFile() );
     project->saveToFile();
 
     return location.toLocalFile();
@@ -138,5 +140,5 @@ QString NewProjectDialogPage::createProject() const
 
 bool NewProjectDialogPage::isModified() const
 {
-    return (!d->name->text().isEmpty() || !d->location->url().isEmpty());
+    return ( !d->name->text().isEmpty() || !d->location->url().isEmpty() );
 }

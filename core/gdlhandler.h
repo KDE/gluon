@@ -41,8 +41,8 @@ namespace GluonCore
      * do that:
      *
      * \code
-bool fiddleWithObjects(QString filename)
-{
+    bool fiddleWithObjects(QString filename)
+    {
     QFile projectFile(QFileInfo(filename().toLocalFile()).fileName());
     if (!projectFile.open(QIODevice::ReadWrite))
         return false;
@@ -66,7 +66,7 @@ bool fiddleWithObjects(QString filename)
     projectFile.close();
 
     return true;
-}\endcode
+    }\endcode
      *
      * <b>The Gluon Definition Language</b>
      *
@@ -75,14 +75,14 @@ bool fiddleWithObjects(QString filename)
      * structure of the language can easiest be described as follows:
      *
      * \verbatim
-{ ClassName(ObjectName)
+    { ClassName(ObjectName)
     PropertyName DataTypeName(Value)
     PropertyName2 DataTypeName2(Value2)
     { ClassName(ObjectName)
         PropertyName DataTypeName(Value)
     }
-}
-\endverbatim
+    }
+    \endverbatim
      *
      * The above sample represents two nested objects of the type ClassName, both named
      * ObjectName. The fully qualified name for the objects respectively are ObjectName
@@ -96,14 +96,14 @@ bool fiddleWithObjects(QString filename)
      * object in the hierarchy. An example of this might be:
      *
      * \verbatim
-{ GluonObject(AnotherObject)
+    { GluonObject(AnotherObject)
     reference GluonObject(AnObject.AChildObject)
-}
-{ GluonObject(AnObject)
+    }
+    { GluonObject(AnObject)
     { GluonObject(AChildObject)
     }
-}
-\endverbatim
+    }
+    \endverbatim
      *
      * The property reference on the AnotherObject object is then a reference to the object
      * with the fully qualified name AnObject.AChildObject. Also shown here is the fact
@@ -147,24 +147,24 @@ bool fiddleWithObjects(QString filename)
              * @param   parent      The QObject you wish the objects to be parented to
              * @return  A list of generated GluonObject instances
              */
-            QList<GluonObject *> parseGDL(const QString parseThis, QObject *parent);
+            QList<GluonObject*> parseGDL( const QString parseThis, QObject* parent );
 
             /**
              * Serialize a list of GluonObject instances into a GDL representation
              * @param   serializeThis   The list of GluonObject instances you wish to serialize
              * @return  The serialized objects
              */
-            QString serializeGDL(QList<const GluonObject *> serializeThis);
+            QString serializeGDL( QList<const GluonObject*> serializeThis );
 
         private:
             friend class Singleton<GDLHandler>;
 
             GDLHandler();
             virtual ~GDLHandler();
-            Q_DISABLE_COPY(GDLHandler);
+            Q_DISABLE_COPY( GDLHandler );
 
-            GluonObject *instantiateObject(QString className);
-            GluonObject *createObject(QStringList objectStringList, QObject *parent);
+            GluonObject* instantiateObject( QString className );
+            GluonObject* createObject( QStringList objectStringList, QObject* parent );
             /**
              * Returns a list of QStringLists, where each QStringList is:
              * Index 0: The type of the object
@@ -172,7 +172,7 @@ bool fiddleWithObjects(QString filename)
              * Following indices: All the values in the order of definition, alternating between property names and values (in that order)
              * If any value begins with {, it is a new object
              */
-            QList<QStringList> tokenizeObject(QString objectString);
+            QList<QStringList> tokenizeObject( QString objectString );
     };
 }
 

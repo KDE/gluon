@@ -23,19 +23,19 @@
 
 #include <kpagewidgetmodel.h>
 
-namespace GluonCreator 
+namespace GluonCreator
 {
     class RecentProjectsDialogPage : public KPageWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             RecentProjectsDialogPage();
             ~RecentProjectsDialogPage();
             QString selectedItem() const;
         Q_SIGNALS:
-            void projectRequested(const QString& url);
+            void projectRequested( const QString& url );
         private:
-            Q_PRIVATE_SLOT(d, void projectDoubleClicked(const QModelIndex& index))
+            Q_PRIVATE_SLOT( d, void projectDoubleClicked( const QModelIndex& index ) )
         private:
             class RecentProjectsDialogPagePrivate;
             RecentProjectsDialogPagePrivate* const d;

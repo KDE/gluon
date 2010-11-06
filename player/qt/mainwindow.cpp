@@ -40,10 +40,10 @@ using namespace GluonPlayer;
 class MainWindow::MainWindowPrivate
 {
     public:
-        GluonEngine::GameProject *project;
-        GluonGraphics::RenderWidget *widget;
+        GluonEngine::GameProject* project;
+        GluonGraphics::RenderWidget* widget;
 
-        QAbstractItemModel *model;
+        QAbstractItemModel* model;
 
         QString title;
         QString fileName;
@@ -52,71 +52,75 @@ class MainWindow::MainWindowPrivate
         int frameCount;
 };
 
-GluonPlayer::MainWindow::MainWindow(int argc, char **argv, QWidget *parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags)
-    , d(new MainWindowPrivate)
+GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt::WindowFlags flags )
+    : QMainWindow( parent, flags )
+    , d( new MainWindowPrivate )
 {
     d->msecElapsed = 0;
     d->frameCount = 0;
 
-    if (argc > 1) {
+    if( argc > 1 )
+    {
         d->fileName = argv[1];
-        QTimer::singleShot(0, this, SLOT(openProject()));
-    } else {
-        QWidget *base = new QWidget(this);
-        QVBoxLayout *layout = new QVBoxLayout();
-        base->setLayout(layout);
-        setCentralWidget(base);
+        QTimer::singleShot( 0, this, SLOT( openProject() ) );
+    }
+    else
+    {
+        QWidget* base = new QWidget( this );
+        QVBoxLayout* layout = new QVBoxLayout();
+        base->setLayout( layout );
+        setCentralWidget( base );
 
-        QLabel *header = new QLabel(tr("Please select a Project"), base);
-        header->setAlignment(Qt::AlignCenter);
+        QLabel* header = new QLabel( tr( "Please select a Project" ), base );
+        header->setAlignment( Qt::AlignCenter );
         QFont font;
-        font.setBold(true);
-        header->setFont(font);
-        layout->addWidget(header);
+        font.setBold( true );
+        header->setFont( font );
+        layout->addWidget( header );
 
-        QListView *view = new QListView(base);
-        layout->addWidget(view);
-        d->model = new GamesModel(view);
-        view->setModel(d->model);
-        connect(view, SIGNAL(activated(QModelIndex)), SLOT(activated(QModelIndex)));
+        QListView* view = new QListView( base );
+        layout->addWidget( view );
+        d->model = new GamesModel( view );
+        view->setModel( d->model );
+        connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
-        QPushButton *button = new QPushButton(tr("Open other project..."), base);
-        layout->addWidget(button);
-        connect(button, SIGNAL(clicked(bool)), SLOT(openClicked(bool)));
+        QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
+        layout->addWidget( button );
+        connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
     }
-    resize(500, 500);
+    resize( 500, 500 );
 }
 
-void MainWindow::activated(QModelIndex index)
+void MainWindow::activated( QModelIndex index )
 {
-    if (index.isValid()) {
-        openProject(d->model->data(index).toString());
+    if( index.isValid() )
+    {
+        openProject( d->model->data( index ).toString() );
     }
 }
 
-void MainWindow::openClicked(bool toggled)
+void MainWindow::openClicked( bool toggled )
 {
-    Q_UNUSED(toggled)
+    Q_UNUSED( toggled )
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a Project"), QString(), QString("*.gluon|Gluon Project Files"));
-    if (!fileName.isEmpty())
-        openProject(fileName);
+    QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), QString( "*.gluon|Gluon Project Files" ) );
+    if( !fileName.isEmpty() )
+        openProject( fileName );
 }
 
-void MainWindow::openProject(const QString &fileName)
+void MainWindow::openProject( const QString& fileName )
 {
     QString file = fileName;
-    if (file.isEmpty())
+    if( file.isEmpty() )
         file = d->fileName;
 
-    d->widget = new GluonGraphics::RenderWidget(this);
-    setCentralWidget(d->widget);
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()));
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(countFrames(int)));
-    connect(GluonEngine::Game::instance(), SIGNAL(updated(int)), SLOT(updateTitle(int)));
+    d->widget = new GluonGraphics::RenderWidget( this );
+    setCentralWidget( d->widget );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
-    QTimer::singleShot(100, this, SLOT(startGame()));
+    QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;
 }
@@ -126,40 +130,41 @@ void MainWindow::startGame()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile(QUrl(d->fileName));
+    d->project->loadFromFile( QUrl( d->fileName ) );
 
-    setWindowFilePath(d->fileName);
+    setWindowFilePath( d->fileName );
     d->title = windowTitle();
 
-    GluonEngine::Game::instance()->setGameProject(d->project);
-    GluonEngine::Game::instance()->setCurrentScene(d->project->entryPoint());
+    GluonEngine::Game::instance()->setGameProject( d->project );
+    GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
     GluonEngine::Game::instance()->runGame();
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent( QCloseEvent* event )
 {
     GluonEngine::Game::instance()->stopGame();
-    QWidget::closeEvent(event);
+    QWidget::closeEvent( event );
 }
 
-void MainWindow::updateTitle(int msec)
+void MainWindow::updateTitle( int msec )
 {
     d->msecElapsed += msec;
 
     static int fps = 0;
-    if (d->msecElapsed > 1000) {
+    if( d->msecElapsed > 1000 )
+    {
         fps = d->frameCount;
         d->frameCount = 0;
         d->msecElapsed = 0;
     }
 
-    setWindowTitle(d->title + QString(" (%1 FPS)").arg(fps));
+    setWindowTitle( d->title + QString( " (%1 FPS)" ).arg( fps ) );
 }
 
-void MainWindow::countFrames(int time)
+void MainWindow::countFrames( int time )
 {
-    Q_UNUSED(time)
+    Q_UNUSED( time )
     d->frameCount++;
 }
 

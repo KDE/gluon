@@ -28,21 +28,21 @@ namespace GluonGraphics
 {
     class GLUON_GRAPHICS_EXPORT MaterialElement : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(MaterialElement)
-        
+            Q_OBJECT
+            GLUON_OBJECT( MaterialElement )
+
         public:
-            MaterialElement(QObject* parent = 0);
+            MaterialElement( QObject* parent = 0 );
             virtual ~MaterialElement();
 
         private:
             class MaterialElementPrivate;
-            MaterialElementPrivate * const d;
+            MaterialElementPrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonGraphics::MaterialElement)
-Q_DECLARE_METATYPE(GluonGraphics::MaterialElement*)
+Q_DECLARE_METATYPE( GluonGraphics::MaterialElement )
+Q_DECLARE_METATYPE( GluonGraphics::MaterialElement* )
 
 #endif // GLUONGRAPHICS_MATERIALELEMENT_H

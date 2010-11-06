@@ -37,9 +37,9 @@ class RenderWidget::RenderWidgetPrivate
     public:
 };
 
-RenderWidget::RenderWidget(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f) :
-        QGLWidget(parent, shareWidget, f),
-        d(new RenderWidgetPrivate)
+RenderWidget::RenderWidget( QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f ) :
+    QGLWidget( parent, shareWidget, f ),
+    d( new RenderWidgetPrivate )
 {
 
 }
@@ -50,10 +50,10 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::initializeGL()
 {
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_BLEND );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 
     Engine::instance()->initialize();
 }
@@ -61,15 +61,15 @@ void RenderWidget::initializeGL()
 void RenderWidget::paintGL()
 {
     //glDisable(GL_SCISSOR_TEST);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     //glEnable(GL_SCISSOR_TEST);
     Engine::instance()->render();
 }
 
 void RenderWidget::resizeGL( int w, int h )
 {
-    Engine::instance()->currentViewport()->setSize(0, w, 0, h);
-    Engine::instance()->setFramebufferSize(w, h);
+    Engine::instance()->currentViewport()->setSize( 0, w, 0, h );
+    Engine::instance()->setFramebufferSize( w, h );
 }
 
 #include "renderwidget.moc"

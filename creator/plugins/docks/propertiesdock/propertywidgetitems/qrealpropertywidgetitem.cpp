@@ -26,12 +26,12 @@
 #include <knuminput.h>
 
 #include <QtGui/QDoubleSpinBox>
-REGISTER_PROPERTYWIDGETITEM(GluonCreator, QRealPropertyWidgetItem)
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, QRealPropertyWidgetItem )
 
 using namespace GluonCreator;
 
-QRealPropertyWidgetItem::QRealPropertyWidgetItem(QWidget *parent, Qt::WindowFlags f)
-    : PropertyWidgetItem(parent, f)
+QRealPropertyWidgetItem::QRealPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+    : PropertyWidgetItem( parent, f )
 {
 }
 
@@ -43,9 +43,9 @@ QStringList
 QRealPropertyWidgetItem::supportedDataTypes() const
 {
     QList<QString> supportedTypes;
-    supportedTypes.append("qreal");
-    supportedTypes.append("float");
-    supportedTypes.append("double");
+    supportedTypes.append( "qreal" );
+    supportedTypes.append( "float" );
+    supportedTypes.append( "double" );
     return supportedTypes;
 }
 
@@ -56,44 +56,48 @@ QRealPropertyWidgetItem::instantiate()
 }
 
 void
-QRealPropertyWidgetItem::setEditProperty(const QString &value)
+QRealPropertyWidgetItem::setEditProperty( const QString& value )
 {
     // Clean up any possible leftovers
     delete editWidget();
 
-    GluonCore::GluonObject *theObject = qobject_cast<GluonCore::GluonObject *>(editObject());
+    GluonCore::GluonObject* theObject = qobject_cast<GluonCore::GluonObject*>( editObject() );
     bool noPropertyRange = true;;
-    if (theObject) {
-        if (theObject->hasMetaInfo()) {
-            if (theObject->metaInfo()->hasPropertyRange(value)) {
+    if( theObject )
+    {
+        if( theObject->hasMetaInfo() )
+        {
+            if( theObject->metaInfo()->hasPropertyRange( value ) )
+            {
                 noPropertyRange = false;
-                KDoubleNumInput *editor = new KDoubleNumInput(this);
-                editor->setRange(theObject->metaInfo()->propertyRangeMin(value), theObject->metaInfo()->propertyRangeMax(value));
-                setEditWidget(editor);
+                KDoubleNumInput* editor = new KDoubleNumInput( this );
+                editor->setRange( theObject->metaInfo()->propertyRangeMin( value ), theObject->metaInfo()->propertyRangeMax( value ) );
+                setEditWidget( editor );
             }
         }
     }
 
-    if (noPropertyRange) {
-        QDoubleSpinBox *spinBox = new QDoubleSpinBox(this);
-        setEditWidget(spinBox);
+    if( noPropertyRange )
+    {
+        QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
+        setEditWidget( spinBox );
 
     }
 
-    connect(editWidget(), SIGNAL(valueChanged(double)), SLOT(qrealValueChanged(double)));
-    GluonCreator::PropertyWidgetItem::setEditProperty(value);
+    connect( editWidget(), SIGNAL( valueChanged( double ) ), SLOT( qrealValueChanged( double ) ) );
+    GluonCreator::PropertyWidgetItem::setEditProperty( value );
 }
 
 void
-QRealPropertyWidgetItem::setEditValue(const QVariant &value)
+QRealPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty("value", value);
+    editWidget()->setProperty( "value", value );
 }
 
 void
-QRealPropertyWidgetItem::qrealValueChanged(double value)
+QRealPropertyWidgetItem::qrealValueChanged( double value )
 {
-    PropertyWidgetItem::valueChanged(QVariant(value));
+    PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
 
 // #include "qrealpropertywidgetitem.moc"

@@ -31,13 +31,13 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT InputBuffer : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             InputBuffer();
             ~InputBuffer();
 
-            bool buttonState(int button);
-            void setButtonState(int button, bool pressed);
+            bool buttonState( int button );
+            void setButtonState( int button, bool pressed );
 
         private:
             QSharedDataPointer<InputBufferPrivate> d;

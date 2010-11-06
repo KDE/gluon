@@ -48,7 +48,7 @@ namespace GluonGraphics
              * \param out An array of 16 floats into which the converted
              * matrix will be copied.
              */
-            static void qmatrixToGLMatrix(const QMatrix4x4& matrix, float* out);
+            static void qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out );
 
             /**
              * Calculate a Model-View-Projection matrix.
@@ -60,7 +60,7 @@ namespace GluonGraphics
              * \param view The view matrix. (Camera's transformation)
              * \param projection The projection matrix.
              */
-            static QMatrix4x4 calculateModelViewProj(const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection);
+            static QMatrix4x4 calculateModelViewProj( const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection );
 
             /**
              * Convert a QImage to an array of unsigned chars.
@@ -75,7 +75,7 @@ namespace GluonGraphics
              * \param out An array of unsigned chars to which the data needs to
              * be copied.
              */
-            static void qImageToGL(const QImage& image, uchar* out);
+            static void qImageToGL( const QImage& image, uchar* out );
 
             /**
              * X-axis unit vector, (1, 0, 0).

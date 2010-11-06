@@ -30,34 +30,35 @@
   it will place a new node on the QGraphicsView that holds all the items.
 */
 
-class AddNodeAction : public AbstractAction {
-    Q_OBJECT
-public:
-    /*!
-      Default constructor
-      \param type the Type for 'Add Node' action. must be unique.
-      \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
-    */
+class AddNodeAction : public AbstractAction
+{
+        Q_OBJECT
+    public:
+        /*!
+          Default constructor
+          \param type the Type for 'Add Node' action. must be unique.
+          \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
+        */
 
-    explicit AddNodeAction( GraphScene *scene, QObject *parent = 0);
+        explicit AddNodeAction( GraphScene* scene, QObject* parent = 0 );
 
-    /*!
-      Default Destructor
-    */
-    ~AddNodeAction();
-    
-    void setActiveGraph( Graph *graph);
-    
-public slots:
-    /*!
-      this will be executed if type is the same as this action's type.
-      \param pos the position on the screen that the new node will be placed.
+        /*!
+          Default Destructor
+        */
+        ~AddNodeAction();
 
-    */
-    void executePress(QPointF pos);
-    
-  signals:
-    void addNode(QString name, QPointF pos);
+        void setActiveGraph( Graph* graph );
+
+    public slots:
+        /*!
+          this will be executed if type is the same as this action's type.
+          \param pos the position on the screen that the new node will be placed.
+
+        */
+        void executePress( QPointF pos );
+
+    signals:
+        void addNode( QString name, QPointF pos );
 };
 
 #endif

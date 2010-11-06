@@ -37,16 +37,16 @@ namespace GluonEngine
     {
         public:
             GameProjectPrivate();
-            GameProjectPrivate(const GameProjectPrivate &other);
+            GameProjectPrivate( const GameProjectPrivate& other );
             ~GameProjectPrivate();
 
             QString description;
             QUrl homepage;
             QList<QUrl> mediaInfo;
             QUrl filename;
-            Scene *entryPoint;
+            Scene* entryPoint;
 
-            static bool saveChildren(const GluonCore::GluonObject *parent);
+            static bool saveChildren( const GluonCore::GluonObject* parent );
     };
 }
 

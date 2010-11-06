@@ -24,14 +24,14 @@ using namespace GluonCreator;
 class AbstractUndoCommand::AbstractUndoCommandPrivate
 {
     public:
-        GluonCore::GluonObject * object;
+        GluonCore::GluonObject* object;
         QString commandName;
-	QString commandDirection;
+        QString commandDirection;
 };
 
-AbstractUndoCommand::AbstractUndoCommand(QUndoCommand* parent)
-    : QUndoCommand(parent),
-      d(new AbstractUndoCommandPrivate)
+AbstractUndoCommand::AbstractUndoCommand( QUndoCommand* parent )
+    : QUndoCommand( parent ),
+      d( new AbstractUndoCommandPrivate )
 {
 }
 
@@ -63,19 +63,19 @@ AbstractUndoCommand::object() const
 }
 
 void
-AbstractUndoCommand::setCommandName(const QString& name)
+AbstractUndoCommand::setCommandName( const QString& name )
 {
     d->commandName = name;
 }
 
 void
-AbstractUndoCommand::setCommandDirection(const QString& direction)
+AbstractUndoCommand::setCommandDirection( const QString& direction )
 {
     d->commandDirection = direction;
 }
 
 void
-AbstractUndoCommand::setObject(GluonCore::GluonObject* obj)
+AbstractUndoCommand::setObject( GluonCore::GluonObject* obj )
 {
     d->object = obj;
 }

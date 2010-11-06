@@ -35,17 +35,17 @@ namespace Plasma
 
 class LoginForm : public Overlay
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
-        LoginForm(QGraphicsItem *parent = 0, Qt::WindowFlags wFlags = 0);
+        LoginForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     private:
-        Plasma::LineEdit *m_usernameEdit;
-        Plasma::LineEdit *m_passwordEdit;
-        Plasma::PushButton *m_loginButton;
-        Plasma::BusyWidget *m_busyWidget;
-        Plasma::Label *m_usernameLabel;
+        Plasma::LineEdit* m_usernameEdit;
+        Plasma::LineEdit* m_passwordEdit;
+        Plasma::PushButton* m_loginButton;
+        Plasma::BusyWidget* m_busyWidget;
+        Plasma::Label* m_usernameLabel;
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 

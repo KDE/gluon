@@ -37,59 +37,59 @@ class QGraphicsItem;
 
 class SelectAction : public AbstractAction
 {
-    Q_OBJECT
-public:
-    /*!
-      Default constructor
-      \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
-    */
+        Q_OBJECT
+    public:
+        /*!
+          Default constructor
+          \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
+        */
 
-    explicit SelectAction(GraphScene *scene, QObject *parent = 0);
+        explicit SelectAction( GraphScene* scene, QObject* parent = 0 );
 
-    /*!
-      Default Destructor
-    */
-    ~SelectAction();
-public slots:
-    /*!
-      will be executed when the mouse press a button.
-      \param pos the position onscreen of the click.
-    */
-    void executePress(QPointF pos);
-    /*! will be executed when the mouse moves.
-      \param pos the current position of the cursor.
-    */
-    void executeMove(QPointF pos);
+        /*!
+          Default Destructor
+        */
+        ~SelectAction();
+    public slots:
+        /*!
+          will be executed when the mouse press a button.
+          \param pos the position onscreen of the click.
+        */
+        void executePress( QPointF pos );
+        /*! will be executed when the mouse moves.
+          \param pos the current position of the cursor.
+        */
+        void executeMove( QPointF pos );
 
-    /*! will be executed when the mouse releases a click
-    \param pos the position of the cursor.
-    */
-    void executeRelease(QPointF pos);
+        /*! will be executed when the mouse releases a click
+        \param pos the position of the cursor.
+        */
+        void executeRelease( QPointF pos );
 
-signals:
-    /*! signal sended when the selection changes. */
-    void ItemSelectedChanged(QGraphicsItem *o);
+    signals:
+        /*! signal sended when the selection changes. */
+        void ItemSelectedChanged( QGraphicsItem* o );
 
-private:
-    /*! selects just one node or edge, on the mouseclick-position
-      \p pos the position of the mouse click
-    */
-    void singleSelect(QPointF pos);
+    private:
+        /*! selects just one node or edge, on the mouseclick-position
+          \p pos the position of the mouse click
+        */
+        void singleSelect( QPointF pos );
 
-    /*! selects more than one node or edge, on the retangle done by
-    the first click and the release positions.
-      \p pos the position of the release
-    */
-    void multiSelect(QPointF pos);
+        /*! selects more than one node or edge, on the retangle done by
+        the first click and the release positions.
+          \p pos the position of the release
+        */
+        void multiSelect( QPointF pos );
 
-    /*! position of the first click */
-    QPointF _p1;
+        /*! position of the first click */
+        QPointF _p1;
 
-    /*! position of the mouse release */
-    QPointF _p2;
+        /*! position of the mouse release */
+        QPointF _p2;
 
-    /*! onscreen temporary rectangle for the selected items */
-    QGraphicsRectItem *_selectionRect;
+        /*! onscreen temporary rectangle for the selected items */
+        QGraphicsRectItem* _selectionRect;
 
 };
 

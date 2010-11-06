@@ -30,9 +30,9 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT Touch : public InputDevice
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit Touch(InputThread *inputThread, QObject *parent = 0);
+            explicit Touch( InputThread* inputThread, QObject* parent = 0 );
 
         private:
             QSharedDataPointer<TouchPrivate> d;

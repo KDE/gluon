@@ -27,25 +27,25 @@
 #include <Plasma/Label>
 #include <KIcon>
 
-GamesOverlay::GamesOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-    : QGraphicsWidget(parent, wFlags)
-    , m_tabBar(new Plasma::TabBar(this))
-    , m_gamesView(new GamesView(this))
-    , m_loginForm(new LoginForm(this))
+GamesOverlay::GamesOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : QGraphicsWidget( parent, wFlags )
+    , m_tabBar( new Plasma::TabBar( this ) )
+    , m_gamesView( new GamesView( this ) )
+    , m_loginForm( new LoginForm( this ) )
 {
-    connect(m_gamesView, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)));
-    connect(m_gamesView, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)));
-    m_tabBar->addTab(KIcon("applications-games"), i18n("Installed"), m_gamesView);
+    connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
+    connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
+    m_tabBar->addTab( KIcon( "applications-games" ), i18n( "Installed" ), m_gamesView );
 
-    Plasma::Label *m_tempLabel = new Plasma::Label(this);
-    m_tempLabel->setText(i18n("Coming Soon!"));
-    m_tabBar->addTab(KIcon("get-hot-new-stuff"), i18n("Available"), m_tempLabel);
+    Plasma::Label* m_tempLabel = new Plasma::Label( this );
+    m_tempLabel->setText( i18n( "Coming Soon!" ) );
+    m_tabBar->addTab( KIcon( "get-hot-new-stuff" ), i18n( "Available" ), m_tempLabel );
 
-    m_tabBar->addTab(KIcon("network-connect"), i18n("Login"), m_loginForm);
+    m_tabBar->addTab( KIcon( "network-connect" ), i18n( "Login" ), m_loginForm );
 
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
-    layout->addItem(m_tabBar);
-    setLayout(layout);
+    QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical );
+    layout->addItem( m_tabBar );
+    setLayout( layout );
 }
 
 GamesView* GamesOverlay::gamesView()

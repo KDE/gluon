@@ -35,14 +35,14 @@ namespace GluonInput
     {
         public:
             DetectLinuxPrivate();
-            DetectLinuxPrivate(DetectLinuxPrivate &other);
+            DetectLinuxPrivate( DetectLinuxPrivate& other );
 
-            QList<InputDevice *> inputList;
-            QList<Keyboard *> keyboardList;
-            QList<Mouse *> mouseList;
-            QList<Joystick *> joystickList;
-            QList<Touch *> touchList;
-            QList<InputDevice *> unknownList;
+            QList<InputDevice*> inputList;
+            QList<Keyboard*> keyboardList;
+            QList<Mouse*> mouseList;
+            QList<Joystick*> joystickList;
+            QList<Touch*> touchList;
+            QList<InputDevice*> unknownList;
     };
 }
 #endif

@@ -26,7 +26,7 @@
 
 using namespace GluonCore;
 
-template<> GDLHandler *Singleton<GDLHandler>::m_instance = 0;
+template<> GDLHandler* Singleton<GDLHandler>::m_instance = 0;
 
 GDLHandler::GDLHandler()
 {
@@ -37,46 +37,54 @@ GDLHandler::~GDLHandler()
 }
 
 GluonObject *
-GDLHandler::instantiateObject(QString className)
+GDLHandler::instantiateObject( QString className )
 {
-    GluonObject *newObject = GluonObjectFactory::instance()->instantiateObjectByName(className);
-    if (!newObject)
+    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName( className );
+    if( !newObject )
         newObject = new GluonObject();
 
     return newObject;
 }
 
 GluonObject *
-GDLHandler::createObject(QStringList objectStringList, QObject *parent)
+GDLHandler::createObject( QStringList objectStringList, QObject* parent )
 {
     DEBUG_BLOCK
-    GluonObject *createdObject = 0;
+    GluonObject* createdObject = 0;
     int index = 0;
     QString currentPropertyName;
-    foreach(const QString &item, objectStringList) {
-        switch (index) {
+    foreach( const QString & item, objectStringList )
+    {
+        switch( index )
+        {
             case 0:
                 // Object type
-                createdObject = instantiateObject(item);
-                createdObject->setParent(parent);
+                createdObject = instantiateObject( item );
+                createdObject->setParent( parent );
                 //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
                 break;
             case 1:
                 // Object name
-                createdObject->setName(item);
+                createdObject->setName( item );
                 break;
             default:
                 // Everything else
-                if (currentPropertyName.isEmpty()) {
-                    if (item.startsWith('{')) {
+                if( currentPropertyName.isEmpty() )
+                {
+                    if( item.startsWith( '{' ) )
+                    {
                         // Items are parented automatically - see case 0 above
-                        QList<GluonObject *> childList = parseGDL(item, createdObject);
-                    } else {
+                        QList<GluonObject*> childList = parseGDL( item, createdObject );
+                    }
+                    else
+                    {
                         currentPropertyName = item;
                     }
-                } else {
+                }
+                else
+                {
                     // Set the property with the current string as the value, and finally clear the property name
-                    createdObject->setPropertyFromString(currentPropertyName, item);
+                    createdObject->setPropertyFromString( currentPropertyName, item );
                     currentPropertyName.clear();
                 }
                 break;
@@ -87,7 +95,7 @@ GDLHandler::createObject(QStringList objectStringList, QObject *parent)
 }
 
 QList<QStringList>
-GDLHandler::tokenizeObject(QString objectString)
+GDLHandler::tokenizeObject( QString objectString )
 {
     QList<QStringList> tokenizedObject;
 
@@ -107,137 +115,196 @@ GDLHandler::tokenizeObject(QString objectString)
     QStringList currentItem;
 
     QString::const_iterator i;
-    for (i = objectString.begin(); i != objectString.end(); ++i) {
-        if (!inItem) {
-            if (i->isSpace()) {
+    for( i = objectString.begin(); i != objectString.end(); ++i )
+    {
+        if( !inItem )
+        {
+            if( i->isSpace() )
+            {
                 // Just do nothing - whitespace should be ignored outside of items
-            } else if (i->toLower() == '{') {
+            }
+            else if( i->toLower() == '{' )
+            {
                 inItem = true;
             }
-        } else {
-            if (!inPropertyValue && !inPropertyName && !inChild && !inObjectDefinition) {
-                if (!currentString.isEmpty()) {
-                    currentItem.append(currentString.trimmed());
+        }
+        else
+        {
+            if( !inPropertyValue && !inPropertyName && !inChild && !inObjectDefinition )
+            {
+                if( !currentString.isEmpty() )
+                {
+                    currentItem.append( currentString.trimmed() );
                     currentString.clear();
                 }
 
                 // Ignore whitespace as instructed, rar!
-                if (!i->isSpace()) {
-                    if (i->toLower() == '}') {
+                if( !i->isSpace() )
+                {
+                    if( i->toLower() == '}' )
+                    {
                         // Once we hit an end, we should stop looking at this item
                         // In other words - add the item to the list of items and make a new stringlist to work on...
-                        QStringList theItem(currentItem);
-                        tokenizedObject.append(theItem);
+                        QStringList theItem( currentItem );
+                        tokenizedObject.append( theItem );
                         currentItem.clear();
-                    } else if (i->toLower() == '{') {
+                    }
+                    else if( i->toLower() == '{' )
+                    {
                         // If we hit a start while already inside an item, we should simply start adding stuff
                         // until we hit the correct ending again
                         inChild = true;
-                    } else {
+                    }
+                    else
+                    {
                         // Once you hit something, start reading the object definition
                         inObjectDefinition = true;
                     }
                 }
             }
 
-            if (inObjectDefinition) {
-                if (!inPropertyName && !inObjectName && !inObjectType) {
+            if( inObjectDefinition )
+            {
+                if( !inPropertyName && !inObjectName && !inObjectType )
+                {
                     // Ignore spaces between the start { and the object type
-                    if (!i->isSpace())
+                    if( !i->isSpace() )
                         inObjectType = true;
                 }
 
-                if (inObjectType) {
-                    if (i->toLower() == '(') {
-                        currentItem.append(currentString.trimmed());
+                if( inObjectType )
+                {
+                    if( i->toLower() == '(' )
+                    {
+                        currentItem.append( currentString.trimmed() );
                         currentString.clear();
                         inObjectType = false;
                         inObjectName = true;
-                    } else {
+                    }
+                    else
+                    {
                         currentString += i->unicode();
                     }
-                } else if (inObjectName) {
-                    if (i->toLower() == ')') {
-                        currentItem.append(currentString.trimmed());
+                }
+                else if( inObjectName )
+                {
+                    if( i->toLower() == ')' )
+                    {
+                        currentItem.append( currentString.trimmed() );
                         currentString.clear();
                         inObjectName = false;
                         inPropertyName = true;
-                    } else {
+                    }
+                    else
+                    {
                         currentString += i->unicode();
                     }
-                } else if (inPropertyName) {
-                    if (!i->isSpace())
+                }
+                else if( inPropertyName )
+                {
+                    if( !i->isSpace() )
                         inObjectDefinition = false;
                 }
-            } else if (inChild) {
-                if (childEnded) {
-                    if (!i->isSpace()) {
+            }
+            else if( inChild )
+            {
+                if( childEnded )
+                {
+                    if( !i->isSpace() )
+                    {
                         inChild = false;
                     }
-                } else {
-                    if (i->toLower() == '\\' && !beingEscaped) {
+                }
+                else
+                {
+                    if( i->toLower() == '\\' && !beingEscaped )
+                    {
                         beingEscaped = true;
-                    } else {
+                    }
+                    else
+                    {
                         currentString += i->unicode();
-                        if (!beingEscaped) {
-                            if (i->toLower() == '{') {
+                        if( !beingEscaped )
+                        {
+                            if( i->toLower() == '{' )
+                            {
                                 ++extraBracketCounter;
                             }
 
-                            if (i->toLower() == '}') {
+                            if( i->toLower() == '}' )
+                            {
                                 --extraBracketCounter;
-                                if (extraBracketCounter == -1) {
+                                if( extraBracketCounter == -1 )
+                                {
                                     // Ready to look for more values!
                                     extraBracketCounter = 0;
                                     childEnded = true;
                                     inPropertyName = true;
-                                    currentItem.append('{' + currentString.trimmed());
+                                    currentItem.append( '{' + currentString.trimmed() );
                                     currentString.clear();
                                 }
                             }
-                        } else {
+                        }
+                        else
+                        {
                             beingEscaped = false;
                         }
                     }
                 }
             }
 
-            if (!inObjectDefinition && !inChild) {
-                if (inPropertyName) {
+            if( !inObjectDefinition && !inChild )
+            {
+                if( inPropertyName )
+                {
                     // Read name until we hit a space, and after that, start reading the value...
-                    if (i->toLower() == '{') {
+                    if( i->toLower() == '{' )
+                    {
                         inChild = true;
                         childEnded = false;
-                    } else if (i->toLower() == '}') {
+                    }
+                    else if( i->toLower() == '}' )
+                    {
                         inPropertyName = false;
                         // Rewind the pointer to make it possible to catch the end brackets above
                         --i;
-                    } else if (!i->isSpace()) {
+                    }
+                    else if( !i->isSpace() )
+                    {
                         currentString += i->unicode();
-                    } else {
-                        currentItem.append(currentString.trimmed());
+                    }
+                    else
+                    {
+                        currentItem.append( currentString.trimmed() );
                         currentString.clear();
                         inPropertyName = false;
                         inPropertyValue = true;
                     }
-                } else if (inPropertyValue) {
-                    if (i->toLower() == '\\' && !beingEscaped) {
+                }
+                else if( inPropertyValue )
+                {
+                    if( i->toLower() == '\\' && !beingEscaped )
+                    {
                         beingEscaped = true;
-                    } else {
+                    }
+                    else
+                    {
                         // Read the value until the value ends!
                         currentString += i->unicode();
-                        if (!beingEscaped && i->toLower() == ')') {
-                            currentItem.append(currentString.trimmed());
+                        if( !beingEscaped && i->toLower() == ')' )
+                        {
+                            currentItem.append( currentString.trimmed() );
                             currentString.clear();
                             inPropertyValue = false;
                             inPropertyName = true;
                             // Make sure you don't start looking for property names again until you've got something that
                             // isn't a space (since the propertyname search doesn't know how to handle that)
-                            forever {
-                                if (i == objectString.end())
+                            forever
+                            {
+                                if( i == objectString.end() )
                                     break;
                                 ++i;
-                                if (i->isSpace())
+                                if( i->isSpace() )
                                     continue;
                                 --i;
                                 break;
@@ -253,16 +320,17 @@ GDLHandler::tokenizeObject(QString objectString)
     return tokenizedObject;
 }
 
-QList<GluonObject *>
-GDLHandler::parseGDL(const QString parseThis, QObject *parent)
+QList<GluonObject*>
+GDLHandler::parseGDL( const QString parseThis, QObject* parent )
 {
-    QList<GluonObject *> thisObjectList;
+    QList<GluonObject*> thisObjectList;
 
-    QList<QStringList> tokenizedObject = tokenizeObject(parseThis);
+    QList<QStringList> tokenizedObject = tokenizeObject( parseThis );
 
-    foreach (const QStringList &item, tokenizedObject) {
-        GluonObject *currentObject = createObject(item, parent);
-        thisObjectList.append(currentObject);
+    foreach( const QStringList & item, tokenizedObject )
+    {
+        GluonObject* currentObject = createObject( item, parent );
+        thisObjectList.append( currentObject );
         currentObject->sanitize();
     }
 
@@ -270,12 +338,12 @@ GDLHandler::parseGDL(const QString parseThis, QObject *parent)
 }
 
 QString
-GDLHandler::serializeGDL(QList<const GluonObject *> serializeThis)
+GDLHandler::serializeGDL( QList<const GluonObject*> serializeThis )
 {
     QString serializedData;
 
-    foreach (const GluonObject *theObject, serializeThis)
-        serializedData += theObject->toGDL();
+    foreach( const GluonObject * theObject, serializeThis )
+    serializedData += theObject->toGDL();
 
     return serializedData;
 }

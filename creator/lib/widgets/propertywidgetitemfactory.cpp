@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -30,61 +30,61 @@ using namespace GluonCreator;
 template<> GLUONCREATOR_EXPORT PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
 
 PropertyWidgetItem*
-PropertyWidgetItemFactory::create(const QObject *object, const QString& type, QWidget* parent)
+PropertyWidgetItemFactory::create( const QObject* object, const QString& type, QWidget* parent )
 {
     DEBUG_BLOCK
 
     // First check if there's any PIW which supports the type
     QList<QString> pwiKeys = piwTypes.keys();
-    foreach(const QString &thisType, pwiKeys)
+    foreach( const QString & thisType, pwiKeys )
     {
-        if (thisType == type)
+        if( thisType == type )
         {
             PropertyWidgetItem* item = piwTypes[thisType]->instantiate();
-            item->setParent(parent);
+            item->setParent( parent );
             return item;
         }
     }
 
     // Check whether we've got an item which uses an enum to grab its value
-    const QMetaObject * mo = object->metaObject();
-    if (mo)
+    const QMetaObject* mo = object->metaObject();
+    if( mo )
     {
-//         if (mo->enumeratorCount() > 0)
-//         {
-//             for (int i = 0; i < mo->enumeratorCount(); ++i)
-//             {
-//                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
-//             }
-//         }
-        if (mo->indexOfEnumerator(type.toUtf8()) > -1)
+        //         if (mo->enumeratorCount() > 0)
+        //         {
+        //             for (int i = 0; i < mo->enumeratorCount(); ++i)
+        //             {
+        //                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
+        //             }
+        //         }
+        if( mo->indexOfEnumerator( type.toUtf8() ) > -1 )
         {
-            return new EnumPropertyWidgetItem(type, parent);
+            return new EnumPropertyWidgetItem( type, parent );
         }
     }
 
     // Then see if it's a reference type inheriting GluonObject...
-    QString typeTruncated = type.left(type.length() - 1);
-    foreach(const QString &thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames())
+    QString typeTruncated = type.left( type.length() - 1 );
+    foreach( const QString & thisType, GluonCore::GluonObjectFactory::instance()->objectTypeNames() )
     {
-        if (thisType == typeTruncated)
+        if( thisType == typeTruncated )
         {
-            return new GluonObjectPropertyWidgetItem(typeTruncated, parent);
+            return new GluonObjectPropertyWidgetItem( typeTruncated, parent );
         }
     }
 
     // Finally, throw back a Null item if we've got nothing...
-    DEBUG_TEXT(QString("Attempting to instantiate unknown property widget item of type %1").arg(type));
+    DEBUG_TEXT( QString( "Attempting to instantiate unknown property widget item of type %1" ).arg( type ) );
 
-    return new NullPropertyWidgetItem(parent);
+    return new NullPropertyWidgetItem( parent );
 }
 
 void
-PropertyWidgetItemFactory::registerNewPIW(PropertyWidgetItem* newPIW)
+PropertyWidgetItemFactory::registerNewPIW( PropertyWidgetItem* newPIW )
 {
-    if (newPIW)
+    if( newPIW )
     {
-        foreach(const QString &type, newPIW->supportedDataTypes())
+        foreach( const QString & type, newPIW->supportedDataTypes() )
         {
             piwTypes[type] = newPIW;
         }

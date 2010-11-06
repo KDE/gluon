@@ -35,28 +35,28 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT CustomInput : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            CustomInput(QObject *parent = 0);
+            CustomInput( QObject* parent = 0 );
             ~CustomInput();
 
-            void setButton(const QString &name, InputDevice *input, int keyCode);
-            void setButton(const QString &name);
-            void remButton(const QString &name);
-            void setAbsAxis(const QString &name, InputDevice *input, int axis);
-            void setRelAxis(const QString &name, InputDevice *input, int axis);
-            void remAbsAxis(const QString &name);
-            void remRelAxis(const QString &name);
+            void setButton( const QString& name, InputDevice* input, int keyCode );
+            void setButton( const QString& name );
+            void remButton( const QString& name );
+            void setAbsAxis( const QString& name, InputDevice* input, int axis );
+            void setRelAxis( const QString& name, InputDevice* input, int axis );
+            void remAbsAxis( const QString& name );
+            void remRelAxis( const QString& name );
 
             QStringList buttonNameList();
             QStringList absAxisNameList();
             QStringList relAxisNameList();
 
         signals:
-            void buttonPressed(QString name);
-            void buttonReleased(QString name);
-            void absAxisChanged(QString name, int value);
-            void relAxisChanged(QString name, int value);
+            void buttonPressed( QString name );
+            void buttonReleased( QString name );
+            void absAxisChanged( QString name, int value );
+            void relAxisChanged( QString name, int value );
 
         private:
             QSharedDataPointer<CustomInputPrivate> d;

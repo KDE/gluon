@@ -35,18 +35,18 @@ namespace GluonEngine
      */
     class GLUON_ENGINE_EXPORT SphereCollisionComponent : public Component
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::SphereCollisionComponent)
-        Q_INTERFACES(GluonEngine::Component)
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
+            Q_INTERFACES( GluonEngine::Component )
 
-        Q_PROPERTY(int collisionGroup READ collisionGroup WRITE setCollisionGroup)
-        Q_PROPERTY(float radius READ radius WRITE setRadius)
+            Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
+            Q_PROPERTY( float radius READ radius WRITE setRadius )
 
         public:
             /**
              * Constructor.
              */
-            Q_INVOKABLE SphereCollisionComponent(QObject *parent = 0);
+            Q_INVOKABLE SphereCollisionComponent( QObject* parent = 0 );
             /**
              * Destructor.
              */
@@ -63,7 +63,7 @@ namespace GluonEngine
              *
              * @see Component::update();
              */
-            virtual void update(int elapsedMilliseconds);
+            virtual void update( int elapsedMilliseconds );
 
             /**
              * The collision group this object belongs to.
@@ -84,36 +84,36 @@ namespace GluonEngine
              * @return The object this object is colliding with or 0
              * if there is no collision.
              */
-            Q_INVOKABLE QObject *collidesWith() const;
+            Q_INVOKABLE QObject* collidesWith() const;
 
         public Q_SLOTS:
             /**
              * Set the group this object belongs to.
              */
-            void setCollisionGroup(int group);
+            void setCollisionGroup( int group );
             /**
              * Set the radius of this object.
              */
-            void setRadius(float radius);
+            void setRadius( float radius );
             void componentDestroyed( QObject* obj );
             void addComponent( SphereCollisionComponent* comp );
 
-        /*Q_SIGNALS:
-             *
-             * Emitted when a collision occurs.
-             *
-             * @param comp The object this object collided with.
-             */
-        //    void collides(SphereCollisionComponent* comp);
+            /*Q_SIGNALS:
+                 *
+                 * Emitted when a collision occurs.
+                 *
+                 * @param comp The object this object collided with.
+                 */
+            //    void collides(SphereCollisionComponent* comp);
 
         private:
             class SphereCollisionComponentPrivate;
-            SphereCollisionComponentPrivate *const d;
+            SphereCollisionComponentPrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonEngine::SphereCollisionComponent)
-Q_DECLARE_METATYPE(GluonEngine::SphereCollisionComponent *)
+Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent )
+Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent* )
 
 #endif // GLUONENGINE_SPHERECOLLISIONCOMPONENT_H

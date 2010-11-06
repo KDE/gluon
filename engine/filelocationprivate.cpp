@@ -24,13 +24,13 @@
 using namespace GluonEngine;
 
 FileLocationPrivate::FileLocationPrivate()
-    : gameProject(0)
+    : gameProject( 0 )
 {
 }
 
-FileLocationPrivate::FileLocationPrivate(const FileLocationPrivate &other)
-    : gameProject(other.gameProject)
-    , url(other.url)
+FileLocationPrivate::FileLocationPrivate( const FileLocationPrivate& other )
+    : gameProject( other.gameProject )
+    , url( other.url )
 {
 }
 

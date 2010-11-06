@@ -27,20 +27,20 @@ namespace GluonEngine
     class GameObject;
 }
 
-namespace GluonCreator 
+namespace GluonCreator
 {
     class DeleteObjectCommand : public AbstractUndoCommand
     {
         public:
-            DeleteObjectCommand(GluonEngine::GameObject* object, GluonEngine::GameObject* parent);
+            DeleteObjectCommand( GluonEngine::GameObject* object, GluonEngine::GameObject* parent );
             virtual ~DeleteObjectCommand();
-            
+
             virtual void undo();
             virtual void redo();
-            
+
         private:
             class DeleteObjectCommandPrivate;
-            DeleteObjectCommandPrivate * const d;
+            DeleteObjectCommandPrivate* const d;
     };
 }
 

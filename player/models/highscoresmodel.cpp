@@ -32,9 +32,9 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-HighScoresModel::HighScoresModel(QObject *parent)
-    : QAbstractTableModel(parent)
-    , rootNode(new GluonObject("HighScores"))
+HighScoresModel::HighScoresModel( QObject* parent )
+    : QAbstractTableModel( parent )
+    , rootNode( new GluonObject( "HighScores" ) )
 {
     loadData();
 }
@@ -44,49 +44,53 @@ HighScoresModel::~HighScoresModel()
     saveData();
 }
 
-QVariant HighScoresModel::data(const QModelIndex &index, int role) const
+QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
 {
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        switch (index.column()) {
-        case NameColumn:
-            return rootNode->child(index.row())->name();
-            break;
-        case HighScoreColumn:
-            return rootNode->child(index.row())->property("HighScore");
-            break;
-        case LevelColumn:
-            return rootNode->child(index.row())->property("Level");
-            break;
+    if( role == Qt::DisplayRole || role == Qt::EditRole )
+    {
+        switch( index.column() )
+        {
+            case NameColumn:
+                return rootNode->child( index.row() )->name();
+                break;
+            case HighScoreColumn:
+                return rootNode->child( index.row() )->property( "HighScore" );
+                break;
+            case LevelColumn:
+                return rootNode->child( index.row() )->property( "Level" );
+                break;
         }
     }
     return QVariant();
 }
 
-int HighScoresModel::columnCount(const QModelIndex &parent) const
+int HighScoresModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED( parent );
     return 3;
 }
 
-int HighScoresModel::rowCount(const QModelIndex &parent) const
+int HighScoresModel::rowCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED( parent );
     return rootNode->children().count();
 }
 
-QVariant HighScoresModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
-    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-        switch (section) {
-        case NameColumn:
-            return QString("Name");
-            break;
-        case HighScoreColumn:
-            return QString("High Score");
-            break;
-        case LevelColumn:
-            return QString("Level");
-            break;
+    if( role == Qt::DisplayRole && orientation == Qt::Horizontal )
+    {
+        switch( section )
+        {
+            case NameColumn:
+                return QString( "Name" );
+                break;
+            case HighScoreColumn:
+                return QString( "High Score" );
+                break;
+            case LevelColumn:
+                return QString( "Level" );
+                break;
         }
     }
 
@@ -96,58 +100,67 @@ QVariant HighScoresModel::headerData(int section, Qt::Orientation orientation, i
 void HighScoresModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath(".gluon/" + QString(serviceURI));
-    gluonDir.cd(".gluon/" + QString(serviceURI));
-    QString filename = gluonDir.absoluteFilePath("highscores.gdl");
+    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
+    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
-    QFile dataFile(filename);
-    while (1) {
-        if (!dataFile.open(QIODevice::ReadOnly)) {
-            if (!QFile::exists(filename)) {
+    QFile dataFile( filename );
+    while( 1 )
+    {
+        if( !dataFile.open( QIODevice::ReadOnly ) )
+        {
+            if( !QFile::exists( filename ) )
+            {
                 qDebug() << "Cannot find the file " << filename << ", creating new";
                 dataFile.close();
                 saveData();         //Create a blank file if it doesn't exist
                 continue;       //Try to open again
-            } else {
+            }
+            else
+            {
                 qDebug() << "Cannot open the file " << filename;
                 return;     //return from loadData()
             }
-        } else {
+        }
+        else
+        {
             break;      //File opened successfully
         }
     }
 
-    QTextStream highScoresReader(&dataFile);
+    QTextStream highScoresReader( &dataFile );
     QString fileContents = highScoresReader.readAll();
     dataFile.close();
 
-    if (fileContents.isEmpty()) {
+    if( fileContents.isEmpty() )
+    {
         qDebug() << "Something is wrong with the high scores file";
         return;
     }
 
-    QList<GluonObject *> highScores = GluonCore::GDLHandler::instance()->parseGDL(fileContents, 0);
-    rootNode = highScores.at(0);
+    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( fileContents, 0 );
+    rootNode = highScores.at( 0 );
 }
 
 void HighScoresModel::saveData()
 {
     qDebug() << "Saving high scores Data";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath(".gluon/" + QString(serviceURI));
-    gluonDir.cd(".gluon/" + QString(serviceURI));
-    QString filename = gluonDir.absoluteFilePath("highscores.gdl");
+    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
+    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
-    QFile dataFile(filename);
-    if (!dataFile.open(QIODevice::WriteOnly)) {
+    QFile dataFile( filename );
+    if( !dataFile.open( QIODevice::WriteOnly ) )
+    {
         qDebug() << "Cannot open the high scores file";
         return;
     }
 
-    QList<const GluonObject *> highScores;
-    highScores.append(rootNode);
-    QTextStream dataWriter(&dataFile);
-    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL(highScores);
+    QList<const GluonObject*> highScores;
+    highScores.append( rootNode );
+    QTextStream dataWriter( &dataFile );
+    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( highScores );
     dataFile.close();
     qDebug() << "Saved";
 }

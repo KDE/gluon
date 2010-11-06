@@ -24,18 +24,18 @@
 #include <kpagewidgetmodel.h>
 #include <KDE/KUrl>
 
-namespace GluonCreator 
+namespace GluonCreator
 {
     class OpenProjectDialogPage : public KPageWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit OpenProjectDialogPage();
             ~OpenProjectDialogPage();
         Q_SIGNALS:
-            void projectRequested(const QString& url);
+            void projectRequested( const QString& url );
         private:
-            Q_PRIVATE_SLOT(d, void projectSelected(const KUrl& url))
+            Q_PRIVATE_SLOT( d, void projectSelected( const KUrl& url ) )
         private:
             class OpenProjectDialogPagePrivate;
             OpenProjectDialogPagePrivate* const d;

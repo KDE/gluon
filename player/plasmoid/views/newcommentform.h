@@ -35,22 +35,22 @@ class NewCommentForm : public QGraphicsWidget
         Q_OBJECT
 
     public:
-        NewCommentForm(QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0);
+        NewCommentForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~NewCommentForm();
-        void setParentIndex(QModelIndex parentIndex);
+        void setParentIndex( QModelIndex parentIndex );
 
     private:
-        Plasma::LineEdit *m_titleEdit;
-        Plasma::TextEdit *m_bodyEdit;
-        Plasma::PushButton *m_okButton;
-        Plasma::PushButton *m_cancelButton;
+        Plasma::LineEdit* m_titleEdit;
+        Plasma::TextEdit* m_bodyEdit;
+        Plasma::PushButton* m_okButton;
+        Plasma::PushButton* m_cancelButton;
         QModelIndex m_parentIndex;
 
     private slots:
         void validateAndSubmit();
 
     signals:
-        void accepted(QModelIndex parentIndex, QString title, QString body);
+        void accepted( QModelIndex parentIndex, QString title, QString body );
         void canceled();
 };
 

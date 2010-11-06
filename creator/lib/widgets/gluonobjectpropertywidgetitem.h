@@ -35,23 +35,23 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit GluonObjectPropertyWidgetItem(const QString &typeName, QWidget *parent = 0, Qt::WindowFlags f = 0);
+            explicit GluonObjectPropertyWidgetItem( const QString& typeName, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~GluonObjectPropertyWidgetItem();
 
-            virtual PropertyWidgetItem *instantiate();
+            virtual PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
-            void setTypeName(const QString &typeName);
+            void setTypeName( const QString& typeName );
             QString typeName() const;
 
         public slots:
             void browseForItems();
-            void setEditValue(const QVariant &value);
-            void objectValueChanged(GluonCore::GluonObject *value);
+            void setEditValue( const QVariant& value );
+            void objectValueChanged( GluonCore::GluonObject* value );
             void openInEditor();
 
         private:
-            GluonObjectPWIPrivate *d;
+            GluonObjectPWIPrivate* d;
     };
 }
 

@@ -39,72 +39,73 @@ class QGraphicsView;
   it will move the selected node around the screen.
 */
 
-class MoveNodeAction : public AbstractAction {
-    Q_OBJECT
-public:
-    /*!
-      Default constructor
-      \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
-    */
+class MoveNodeAction : public AbstractAction
+{
+        Q_OBJECT
+    public:
+        /*!
+          Default constructor
+          \param parent the Parent QOBject that will hold this action. ( remove it in the future, maybe? )
+        */
 
-    explicit MoveNodeAction(GraphScene *scene, QObject *parent = 0);
+        explicit MoveNodeAction( GraphScene* scene, QObject* parent = 0 );
 
-    /*!
-      Default Destructor
-    */
-    ~MoveNodeAction();
-public slots:
-    /*!
-      will be executed when the mouse press a button.
-      \param pos the position onscreen of the click.
-    */
-    void executePress(QPointF pos);
-    /*! will be executed when the mouse moves.
-      \param pos the current position of the cursor.
-    */
-    void executeMove(QPointF pos);
+        /*!
+          Default Destructor
+        */
+        ~MoveNodeAction();
+    public slots:
+        /*!
+          will be executed when the mouse press a button.
+          \param pos the position onscreen of the click.
+        */
+        void executePress( QPointF pos );
+        /*! will be executed when the mouse moves.
+          \param pos the current position of the cursor.
+        */
+        void executeMove( QPointF pos );
 
-    /*! will be executed when the mouse releases a click
-    \param pos the position of the cursor.
-    */
-    void executeRelease(QPointF pos);
-    
-      signals:
-    void addEdge(Node *from, Node *to, QGraphicsSvgItem *cFrom, QGraphicsSvgItem *cTo);
+        /*! will be executed when the mouse releases a click
+        \param pos the position of the cursor.
+        */
+        void executeRelease( QPointF pos );
 
-protected:
-    /*! the node that will be moved on screen */
-    NodeItem *_movableNode;
+    signals:
+        void addEdge( Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo );
 
-    /*! the model of the NodeItem,
-    needs it to modify it's internal value when the move is finished */
-    Node *_node;
+    protected:
+        /*! the node that will be moved on screen */
+        NodeItem* _movableNode;
 
-    /*! the parent graph of the node. */
-    Graph *_g;
-    
-    GraphScene *_graphScene;
+        /*! the model of the NodeItem,
+        needs it to modify it's internal value when the move is finished */
+        Node* _node;
 
-    /*! the QGraphicsView. */
-    QGraphicsView *_view;
-    
-    /*! the point of the first click while adding a new edge */
-    QPointF _startPos;
-    
-    /*! a temporary line that will connect the two Nodes. */
-    QGraphicsLineItem *_tmpLine;
-    
-    /*! pointer to the node that suffered the mouse-release-click */
-    NodeItem *_nodeTo;
-    
-    /*! pointer to the SVG Item that suffered the mouse-release-click */
-    QGraphicsSvgItem *_svgAt;
-        
-    /*! pointer to the SVG Item that suffered the mouse-pressed-click */
-    QGraphicsSvgItem *_svgFrom;
-    
-    /*! List of Graphics items at mouse position */
-    QList<QGraphicsItem*> _itemsUnderCursor;
+        /*! the parent graph of the node. */
+        Graph* _g;
+
+        GraphScene* _graphScene;
+
+        /*! the QGraphicsView. */
+        QGraphicsView* _view;
+
+        /*! the point of the first click while adding a new edge */
+        QPointF _startPos;
+
+        /*! a temporary line that will connect the two Nodes. */
+        QGraphicsLineItem* _tmpLine;
+
+        /*! pointer to the node that suffered the mouse-release-click */
+        NodeItem* _nodeTo;
+
+        /*! pointer to the SVG Item that suffered the mouse-release-click */
+        QGraphicsSvgItem* _svgAt;
+
+        /*! pointer to the SVG Item that suffered the mouse-pressed-click */
+        QGraphicsSvgItem* _svgFrom;
+
+        /*! List of Graphics items at mouse position */
+        QList<QGraphicsItem*> _itemsUnderCursor;
 };
 
 #endif

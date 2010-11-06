@@ -24,14 +24,14 @@
 
 using namespace GluonInput;
 
-Mouse::Mouse(InputThread *inputThread, QObject *parent)
-    : InputDevice(inputThread, parent)
-    , d(new MousePrivate)
+Mouse::Mouse( InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( new MousePrivate )
 {
-    d->originalPosition = d->position = QPoint(0, 0);
+    d->originalPosition = d->position = QPoint( 0, 0 );
     d->sensibility = 1;
 
-    connect(inputThread, SIGNAL(relAxisMoved(int, int)), SLOT(mouseMoved(int, int)), Qt::DirectConnection);
+    connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
 }
 
 QPoint Mouse::position()
@@ -39,12 +39,12 @@ QPoint Mouse::position()
     return d->position;
 }
 
-void Mouse::setSensibility(double s)
+void Mouse::setSensibility( double s )
 {
     d->sensibility = s;
 }
 
-void Mouse::setOrigin(const QPoint p)
+void Mouse::setOrigin( const QPoint p )
 {
     d->originalPosition = p;
 }
@@ -64,22 +64,23 @@ double Mouse::sensibility() const
     return d->sensibility;
 }
 
-void Mouse::mouseMoved(int axis, int distance)
+void Mouse::mouseMoved( int axis, int distance )
 {
-    switch(axis) {
-    case GluonButtons::X_REL:
-        d->position.setX(d->position.x() + distance);
-        break;
+    switch( axis )
+    {
+        case GluonButtons::X_REL:
+            d->position.setX( d->position.x() + distance );
+            break;
 
-    case GluonButtons::Y_REL:
-        d->position.setY(d->position.y() - distance);
-        break;
-    case GluonButtons::HWHEEL:
-        d->hWheelPos = distance;
-        break;
-    case GluonButtons::WHEEL_REL:
-        d->wheelPos = distance;
-        break;
+        case GluonButtons::Y_REL:
+            d->position.setY( d->position.y() - distance );
+            break;
+        case GluonButtons::HWHEEL:
+            d->hWheelPos = distance;
+            break;
+        case GluonButtons::WHEEL_REL:
+            d->wheelPos = distance;
+            break;
     }
 }
 

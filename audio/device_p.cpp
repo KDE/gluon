@@ -6,12 +6,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,32 +28,34 @@
 
 using namespace GluonAudio;
 
-Device::Device(ALCdevice *device)
-        : m_device(device)
+Device::Device( ALCdevice* device )
+    : m_device( device )
 {
 }
 
 Device::~Device()
 {
-    alcCloseDevice(m_device);
+    alcCloseDevice( m_device );
 }
 
-bool Device::isExtensionPresent(const QString &extension)
+bool Device::isExtensionPresent( const QString& extension )
 {
-    return alcIsExtensionPresent(0, extension.toUtf8());
+    return alcIsExtensionPresent( 0, extension.toUtf8() );
 }
 
-QStringList Device::contextOption(int option)
+QStringList Device::contextOption( int option )
 {
-    const ALCchar *alcList = alcGetString(0, option);
+    const ALCchar* alcList = alcGetString( 0, option );
 
     // alcGetString returns a list of devices separated by a null char (the list itself ends with a double null char)
     // So we can't pass it directly to QStringList
     QStringList optionList;
-    if (alcList) {
-        while (strlen(alcList) > 0) {
-            optionList << QString(alcList);
-            alcList += strlen(alcList) + 1;
+    if( alcList )
+    {
+        while( strlen( alcList ) > 0 )
+        {
+            optionList << QString( alcList );
+            alcList += strlen( alcList ) + 1;
         }
     }
     return optionList;

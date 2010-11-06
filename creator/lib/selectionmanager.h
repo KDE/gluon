@@ -40,20 +40,20 @@ namespace GluonCreator
             SelectionList selection() const;
 
         public Q_SLOTS:
-            void setSelection(const SelectionList& selection);
+            void setSelection( const SelectionList& selection );
             void clearSelection();
 
         Q_SIGNALS:
-            void selectionChanged(SelectionManager::SelectionList);
+            void selectionChanged( SelectionManager::SelectionList );
 
         private:
             friend class GluonCore::Singleton<SelectionManager>;
             SelectionManager();
             ~SelectionManager();
-            Q_DISABLE_COPY(SelectionManager)
+            Q_DISABLE_COPY( SelectionManager )
 
             class SelectionManagerPrivate;
-            SelectionManagerPrivate * const d;
+            SelectionManagerPrivate* const d;
     };
 
 }

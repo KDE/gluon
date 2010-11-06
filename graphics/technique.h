@@ -40,11 +40,11 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Technique : public GluonCore::GluonObject
     {
-        Q_OBJECT
-        GLUON_OBJECT(Technique)
-        
+            Q_OBJECT
+            GLUON_OBJECT( Technique )
+
         public:
-            Technique(QObject* parent = 0);
+            Technique( QObject* parent = 0 );
             virtual ~Technique();
 
             QHash<QString, QString> build();
@@ -53,12 +53,12 @@ namespace GluonGraphics
 
         private:
             class TechniquePrivate;
-            TechniquePrivate * const d;
+            TechniquePrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE(GluonGraphics::Technique);
-Q_DECLARE_METATYPE(GluonGraphics::Technique*);
+Q_DECLARE_METATYPE( GluonGraphics::Technique );
+Q_DECLARE_METATYPE( GluonGraphics::Technique* );
 
 #endif // GLUONGRAPHICS_TECHNIQUE_H

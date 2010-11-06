@@ -47,13 +47,13 @@ namespace GluonEngine
      */
     class GLUON_ENGINE_EXPORT AssetTemplate : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            AssetTemplate(QString name, QString filename, QString pluginname, QObject *parent = 0)
-                : QObject(parent)
-                , name(name)
-                , filename(filename)
-                , pluginname(pluginname)
+            AssetTemplate( QString name, QString filename, QString pluginname, QObject* parent = 0 )
+                : QObject( parent )
+                , name( name )
+                , filename( filename )
+                , pluginname( pluginname )
             { }
             ~AssetTemplate() {};
 
@@ -82,17 +82,17 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT(GluonEngine::Asset);
+            GLUON_OBJECT( GluonEngine::Asset );
             /**
              * The file name of the represented file, relative to the GameProject's position
              * on the file system. Importantly, this cannot contain parent definitions (meaning
              * no .. in the path string), and as this essentially sandboxes GluonEngine based
              * games.
              */
-            Q_PROPERTY(QUrl file READ file WRITE setFile)
+            Q_PROPERTY( QUrl file READ file WRITE setFile )
 
         public:
-            Q_INVOKABLE Asset(QObject *parent = 0);
+            Q_INVOKABLE Asset( QObject* parent = 0 );
             ~Asset();
 
             /**
@@ -106,9 +106,9 @@ namespace GluonEngine
              *
              * @see file, GluonCore::GluonObject::name
              */
-            virtual void setName(const QString &newName);
+            virtual void setName( const QString& newName );
 
-            virtual void setFile(const QUrl &newFile);
+            virtual void setFile( const QUrl& newFile );
             virtual QUrl file() const;
 
             /**
@@ -148,14 +148,14 @@ namespace GluonEngine
              * function is needed, more can of course be constructed, but data() should
              * always return the primary data for the asset.
              */
-            virtual const QMimeData *data() const;
+            virtual const QMimeData* data() const;
 
             /**
              * The specialization of toGDL on the Asset class does not recurse.
              * This allows Assets to handle their own children in a flexible
              * manner, without polluting the GDL with that information.
              */
-            virtual QString childrenToGDL(int indentLevel = 0) const;
+            virtual QString childrenToGDL( int indentLevel = 0 ) const;
 
             /**
              * Convenience function to test whether the file has been loaded or not.
@@ -175,16 +175,16 @@ namespace GluonEngine
             void dataChanged();
 
         protected:
-            QMimeData *mimeData() const;
-            void setLoaded(bool loaded);
+            QMimeData* mimeData() const;
+            void setLoaded( bool loaded );
 
         private:
-            AssetPrivate *d;
+            AssetPrivate* d;
     };
 }
 
-Q_DECLARE_INTERFACE(GluonEngine::Asset, "com.gluon.Asset/1.0")
-Q_DECLARE_METATYPE(GluonEngine::Asset)
-Q_DECLARE_METATYPE(GluonEngine::Asset *)
+Q_DECLARE_INTERFACE( GluonEngine::Asset, "com.gluon.Asset/1.0" )
+Q_DECLARE_METATYPE( GluonEngine::Asset )
+Q_DECLARE_METATYPE( GluonEngine::Asset* )
 
 #endif  // GLUON_ASSET_H

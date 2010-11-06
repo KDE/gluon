@@ -49,7 +49,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
             Q_OBJECT;
-            GLUON_OBJECT(GluonCore::GameProject);
+            GLUON_OBJECT( GluonCore::GameProject );
 
             /**
              * A long description of the game. This can contain any string data, but
@@ -57,65 +57,65 @@ namespace GluonEngine
              *
              * \note This should be extended when we have more knowledge about where this will be used (GamingFreedom.org and clients)
              */
-            Q_PROPERTY(QString description READ description WRITE setDescription)
+            Q_PROPERTY( QString description READ description WRITE setDescription )
             /**
              * This will likely be the GamingFreedom.org page, but other pages might be
              * needed as well, for commercial or other ventures who have their own websites:
              * So, full URL to the homepage of the game.
              */
-            Q_PROPERTY(QUrl homepage READ homepage WRITE setHomepage)
+            Q_PROPERTY( QUrl homepage READ homepage WRITE setHomepage )
             /**
              * A list of URLs for images, videos and other various interesting media (for
              * screenshots, gameplay videos, promo trailers, documentation PDFs...)
              */
-            Q_PROPERTY(QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo)
+            Q_PROPERTY( QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo )
 
             /**
              * The filename of the GameProject, meaning the name of the project file on
              * disk, relative to the project directory.
              */
-            Q_PROPERTY(QUrl filename READ filename)
+            Q_PROPERTY( QUrl filename READ filename )
 
             /**
              * The Scene in which the game should begin. This is likely going to be an intro
              * scene or a menu but can also be directly into gameplay by pointing to a scene
              * which contains the game.
              */
-            Q_PROPERTY(GluonEngine::Scene *entryPoint READ entryPoint WRITE setEntryPoint)
+            Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint )
 
         public:
-            Q_INVOKABLE GameProject(QObject *parent = 0);
-            GameProject(const GameProject &other, QObject *parent = 0);
+            Q_INVOKABLE GameProject( QObject* parent = 0 );
+            GameProject( const GameProject& other, QObject* parent = 0 );
             ~GameProject();
 
             bool saveToFile() const;
             bool loadFromFile();
-            bool loadFromFile(QUrl filename);
+            bool loadFromFile( QUrl filename );
 
             /******************************************************************
              * Property Getter-setters
              *****************************************************************/
             QString description() const;
-            void setDescription(QString newDescription);
+            void setDescription( QString newDescription );
 
             QUrl homepage() const;
-            void setHomepage(QUrl newHomepage);
+            void setHomepage( QUrl newHomepage );
 
             QList<QUrl> mediaInfo() const;
-            void setMediaInfo(QList<QUrl> newMediaInfo);
+            void setMediaInfo( QList<QUrl> newMediaInfo );
 
             QUrl filename() const;
-            void setFilename(QUrl newFilename);
+            void setFilename( QUrl newFilename );
 
             Scene* entryPoint() const;
-            void setEntryPoint(Scene* newEntryPoint);
+            void setEntryPoint( Scene* newEntryPoint );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::GameProject)
-Q_DECLARE_METATYPE(GluonEngine::GameProject *)
+Q_DECLARE_METATYPE( GluonEngine::GameProject )
+Q_DECLARE_METATYPE( GluonEngine::GameProject* )
 
 #endif  // GLUON_ENGINE_GAMEPROJECT_H

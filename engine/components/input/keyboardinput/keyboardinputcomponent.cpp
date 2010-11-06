@@ -26,60 +26,67 @@
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
 
-REGISTER_OBJECTTYPE(GluonEngine, KeyboardInputComponent);
+REGISTER_OBJECTTYPE( GluonEngine, KeyboardInputComponent );
 
 using namespace GluonEngine;
 
-KeyboardInputComponent::KeyboardInputComponent(QObject *parent)
-    : Component(parent)
-    , m_actionHeld(false)
-    , m_actionStarted(false)
-    , m_actionStopped(false)
-    , m_keyCode(KeyboardInputComponent::UNKNOWN)
-    , m_keyboard(0)
+KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
+    : Component( parent )
+    , m_actionHeld( false )
+    , m_actionStarted( false )
+    , m_actionStopped( false )
+    , m_keyCode( KeyboardInputComponent::UNKNOWN )
+    , m_keyboard( 0 )
 {
 }
 
 QString
 KeyboardInputComponent::category() const
 {
-    return QString("Input");
+    return QString( "Input" );
 }
 
 void KeyboardInputComponent::initialize()
 {
-    if (!m_keyboard)
+    if( !m_keyboard )
         m_keyboard = GluonInput::InputManager::instance()->keyboard();
 }
 
 void
 KeyboardInputComponent::start()
 {
-    if (m_keyboard) {
-        m_keyboard->setEnabled(true);
-    } else
+    if( m_keyboard )
     {
-        debug("WARNING! No keyboard found!");
+        m_keyboard->setEnabled( true );
+    }
+    else
+    {
+        debug( "WARNING! No keyboard found!" );
     }
 }
 
 void
-KeyboardInputComponent::update(int elapsedMilliseconds)
+KeyboardInputComponent::update( int elapsedMilliseconds )
 {
     DEBUG_BLOCK
-    if (m_actionStarted)
+    if( m_actionStarted )
         m_actionStarted = false;
 
-    if (m_actionStopped)
+    if( m_actionStopped )
         m_actionStopped = false;
 
-    if (m_keyboard && m_keyboard->buttonPressed(m_keyCode)) {
-        if (!m_actionHeld) {
+    if( m_keyboard && m_keyboard->buttonPressed( m_keyCode ) )
+    {
+        if( !m_actionHeld )
+        {
             m_actionStarted = true;
             m_actionHeld = true;
         }
-    } else {
-        if (m_actionHeld) {
+    }
+    else
+    {
+        if( m_actionHeld )
+        {
             m_actionStopped = true;
             m_actionHeld = false;
         }
@@ -88,8 +95,9 @@ KeyboardInputComponent::update(int elapsedMilliseconds)
 
 void KeyboardInputComponent::stop()
 {
-    if (m_keyboard) {
-        m_keyboard->setEnabled(false);
+    if( m_keyboard )
+    {
+        m_keyboard->setEnabled( false );
     }
 
     m_actionStopped = false;
@@ -122,11 +130,11 @@ KeyboardInputComponent::keyCode() const
 }
 
 void
-KeyboardInputComponent::setKeyCode(KeyboardInputComponent::KeyName newKeyCode)
+KeyboardInputComponent::setKeyCode( KeyboardInputComponent::KeyName newKeyCode )
 {
     m_keyCode = newKeyCode;
 }
 
-Q_EXPORT_PLUGIN2(gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent);
+Q_EXPORT_PLUGIN2( gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent );
 
 #include "keyboardinputcomponent.moc"

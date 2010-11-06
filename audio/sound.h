@@ -8,12 +8,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -36,26 +36,26 @@ namespace GluonAudio
             Q_OBJECT
 
         public:
-            Sound(QObject *parent = 0);
+            Sound( QObject* parent = 0 );
             /**
             * This is the default constructor
             * @param soundFile the path of the file to play
             */
-            explicit Sound(const QString &soundFile, QObject *parent = 0);
+            explicit Sound( const QString& soundFile, QObject* parent = 0 );
             /**
             * This is the default constructor
             * @param KALBuffer the buffer
             */
-            explicit Sound(Buffer *buffer, QObject *parent = 0);
+            explicit Sound( Buffer* buffer, QObject* parent = 0 );
             /**
             * This is the default constructor
             * @param ALuint the buffer
             */
-            explicit Sound(ALuint buffer, QObject *parent = 0);
+            explicit Sound( ALuint buffer, QObject* parent = 0 );
 
-            void load(const QString &soundFile);
-            void load(Buffer *buffer);
-            void load(ALuint buffer);
+            void load( const QString& soundFile );
+            void load( Buffer* buffer );
+            void load( ALuint buffer );
 
             /**
             * Destructor
@@ -160,7 +160,7 @@ namespace GluonAudio
             * @p enabled play in a loop if set to true
             * @see play
             */
-            void setLoop(bool enabled = true);
+            void setLoop( bool enabled = true );
 
             /**
             * Set the position of the sound relative to the listener.
@@ -179,14 +179,14 @@ namespace GluonAudio
             * sign on the Z coordinate.
             * Listener position is always in the world coordinate system."
             */
-            void setPosition(QVector3D position);
+            void setPosition( QVector3D position );
 
             /**
             * @overload setPosition()
             * Set the position of the sound relative to the listener
             * using the coordinates (@p x, @p y, @p z).
             */
-            void setPosition(ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0);
+            void setPosition( ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0 );
 
             /**
             * Change the volume (volume amplification) applied
@@ -200,41 +200,41 @@ namespace GluonAudio
             * is effectively disabled."
             * @see volume
             */
-            void setVolume(ALfloat volume = 1.0f);
+            void setVolume( ALfloat volume = 1.0f );
 
             /**
             * Specify the pitch to be applied, either at source,
             * or on mixer results, at listener.
             * @param pitch a value between 0.5 and 2.0
             */
-            void setPitch(ALfloat pitch = 1.0f);
-            
+            void setPitch( ALfloat pitch = 1.0f );
+
             /**
              * Specify the distance from which the sound can no longer be heard
              * @param radius A length
              */
-            void setRadius(ALfloat radius = 10000.0f);
+            void setRadius( ALfloat radius = 10000.0f );
 
             /**
             * Specify the minimum index value of the volume,
             * @param min is 0 by default
             */
-            void setMinVolume(ALfloat min = 0.0f);
+            void setMinVolume( ALfloat min = 0.0f );
 
             /**
             * Specify the maximum index value of the volume,
             * @param max is 10.0f by default
             */
-            void setMaxVolume(ALfloat max = 10.0f);
-            void setVelocity(ALfloat vx, ALfloat vy, ALfloat vz);
-            void setDirection(ALfloat dx, ALfloat dy, ALfloat dz);
+            void setMaxVolume( ALfloat max = 10.0f );
+            void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
+            void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**
             * Specify the current time position.
             * @param time must be inferior than duration.
             * @see duration()
             */
-            void setTimePosition(ALfloat time);
+            void setTimePosition( ALfloat time );
 
             //void setRadius(float radius);
 
@@ -242,10 +242,10 @@ namespace GluonAudio
             void setupSource();
 
         private:
-            Q_DISABLE_COPY(Sound)
+            Q_DISABLE_COPY( Sound )
 
             class SoundPrivate;
-            SoundPrivate *const d;
+            SoundPrivate* const d;
     };
 }
 

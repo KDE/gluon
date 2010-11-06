@@ -30,34 +30,34 @@
 
 #include <QGraphicsLinearLayout>
 
-GameDetailsOverlay::GameDetailsOverlay(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-        : Overlay(parent, wFlags)
+GameDetailsOverlay::GameDetailsOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : Overlay( parent, wFlags )
 {
-    m_tabBar = new Plasma::TabBar(this);
+    m_tabBar = new Plasma::TabBar( this );
 
-    m_backButton = new Plasma::IconWidget(KIcon("go-previous-view"), i18n("Back"), this);
-    m_backButton->setOrientation(Qt::Horizontal);
-    m_backButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    connect(m_backButton, SIGNAL(activated()), SIGNAL(back()));
+    m_backButton = new Plasma::IconWidget( KIcon( "go-previous-view" ), i18n( "Back" ), this );
+    m_backButton->setOrientation( Qt::Horizontal );
+    m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    connect( m_backButton, SIGNAL( activated() ), SIGNAL( back() ) );
 
     m_highScoresModel = new GluonPlayer::HighScoresModel();
-    m_highScoresView = new HighScoresView(this);
-    m_highScoresView->setModel(m_highScoresModel);
+    m_highScoresView = new HighScoresView( this );
+    m_highScoresView->setModel( m_highScoresModel );
 
-    m_achievementsView = new AchievementsView(this);
+    m_achievementsView = new AchievementsView( this );
 
     m_commentsModel = new GluonPlayer::CommentsModel();
-    m_commentsView = new CommentsView(this);
-    m_commentsView->setModel(m_commentsModel);
+    m_commentsView = new CommentsView( this );
+    m_commentsView->setModel( m_commentsModel );
 
-    m_tabBar->addTab(KIcon("games-highscores"), i18n("High Scores"), m_highScoresView);
-    m_tabBar->addTab(KIcon("games-endturn"), i18n("Achievements"), m_achievementsView);
-    m_tabBar->addTab(KIcon("text-plain"), i18n("Comments"), m_commentsView);
+    m_tabBar->addTab( KIcon( "games-highscores" ), i18n( "High Scores" ), m_highScoresView );
+    m_tabBar->addTab( KIcon( "games-endturn" ), i18n( "Achievements" ), m_achievementsView );
+    m_tabBar->addTab( KIcon( "text-plain" ), i18n( "Comments" ), m_commentsView );
 
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Vertical);
-    layout->addItem(m_backButton);
-    layout->addItem(m_tabBar);
-    setLayout(layout);
+    QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical );
+    layout->addItem( m_backButton );
+    layout->addItem( m_tabBar );
+    setLayout( layout );
 }
 
 GameDetailsOverlay::~GameDetailsOverlay()

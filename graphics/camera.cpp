@@ -40,14 +40,14 @@ class Camera::CameraPrivate
 
 Camera::Camera( QObject* parent )
     : QObject( parent ),
-      d(new CameraPrivate)
+      d( new CameraPrivate )
 {
     d->frustrum = new Frustrum;
 }
 
 Camera::Camera( Frustrum* frustum, QObject* parent )
     : QObject( parent ),
-      d(new CameraPrivate)
+      d( new CameraPrivate )
 {
     d->frustrum = frustum;
 }
@@ -70,7 +70,7 @@ Camera::viewMatrix()
 }
 
 void
-Camera::setFrustrum( Frustrum * frustrum )
+Camera::setFrustrum( Frustrum* frustrum )
 {
     d->frustrum = frustrum;
 }
