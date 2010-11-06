@@ -1,23 +1,24 @@
 #!/bin/sh
 
-[ which astyle ] || exit 1
+[ $(which astyle) ] || exit 1
 
 function astyle_commit ()
 {
+    echo -n "astyle'ing commited files..."
     # only astyle what has changed 
     for i in $(git diff-index --name-only HEAD)
     do
+	echo $i
 	# only astyle what is a sourcefile
 	if echo $i | grep "\(.cpp\|.h\)" ; then 
 	    astyle --options=$(pwd)/astylerc $i 
 	fi
     done
+    echo "done"
 }
 
 if test -d $(pwd)/.git ; then  # daddy are we there yet?
-    echo -n "astyle'ing commited files..."
     astyle_commit 
-    echo "done"
 else  # soon love
     cd $(git rev-parse --git-dir | sed s/\.git//)
     astyle_commit 
