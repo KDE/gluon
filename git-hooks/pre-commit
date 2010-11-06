@@ -22,5 +22,5 @@ if test -d $(pwd)/.git ; then  # daddy are we there yet?
 else  # soon love
     cd $(git rev-parse --git-dir | sed s/\.git//)
     astyle_commit 
-    find -name '*.orig' -delete
 fi
+find -name '*.orig' -delete
