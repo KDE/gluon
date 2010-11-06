@@ -1,0 +1,24 @@
+#Indentation options
+indent=spaces=4
+convert-tabs
+
+indent-classes
+indent-switches
+indent-namespaces
+indent-labels
+indent-preprocessor
+indent-col1-comments
+
+#Bracket options
+brackets=break
+
+#Padding options
+unpad-paren
+pad-paren-in
+pad-oper
+align-pointer=type
+
+#Other options
+exclude=build/
+suffix=none
+recursive
