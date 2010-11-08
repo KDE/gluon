@@ -56,6 +56,7 @@ void DetectLinux::detectDevices()
     QStringList unreadableInputFiles;
     QString file;
     QFileInfoList inputFileInfoList;
+    QList<struct input_id> processedInputs;
 
     inputFileInfoList = event.entryInfoList( QDir::Files );
     foreach( QFileInfo inputFileInfo, inputFileInfoList )
@@ -106,6 +107,7 @@ void DetectLinux::detectDevices()
                     break;
             }
 
+            processedInputs.append(thread->device_info());
             detect->addInput( device );
         }
     }
