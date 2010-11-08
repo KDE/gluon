@@ -265,6 +265,11 @@ void InputThread::stop()
     quit();
 }
 
+struct input_id InputThread::device_info() const
+{
+    return d->m_device_info;
+}
+
 int InputThread::vendor() const
 {
     return d->m_device_info.vendor;

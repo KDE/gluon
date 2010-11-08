@@ -53,6 +53,7 @@ namespace GluonInput
             int joystickZAxis();
             void stop();
 
+            struct input_id device_info() const;
             int vendor() const;
             int product() const;
             int version() const;
