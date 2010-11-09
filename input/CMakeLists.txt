@@ -158,7 +158,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()
 
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
+target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
 
 set(GLUON_INPUT_LIBS
     GluonInput
