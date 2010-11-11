@@ -19,11 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QDebug>
-#include <iostream>
-
 #include <gluon/audio/sound.h>
 #include <gluon/audio/engine.h>
+
+#include <QDebug>
 
 int main( int argc, char* argv[] )
 {
@@ -38,15 +37,15 @@ int main( int argc, char* argv[] )
 
     qDebug() << "Playing left. Press enter to continue.";
     left->play();
-    std::cin.get();
+	QTextStream(stdin).readLine();
 
     qDebug() << "Playing right. Press enter to continue.";
     right->play();
-    std::cin.get();
+	QTextStream(stdin).readLine();
 
     qDebug() << "Playing center. Press enter to continue.";
     center->play();
-    std::cin.get();
+	QTextStream(stdin).readLine();
 
     delete left;
     delete right;
