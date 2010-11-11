@@ -35,7 +35,7 @@ namespace GluonPlayer
              */
             bool isInitialized();
             /**
-             * use to perform a login. Connect to the signal loggedIn() and loginFailed() to know result.
+             * use to perform a login. Connect to the signal loggedIn() and loginFailed() to know the result.
              * @param   username        The username to be used
              * @param   password        The password to be used
              * @return true if login was successfully initiated, false otherwise.
@@ -79,16 +79,16 @@ namespace GluonPlayer
             void checkLoginResult( Attica::BaseJob* );
 
         signals:
-            /** signal which is emitted when initialization is complete
+            /** signal which is emitted when the initialization is complete
              */
             void initialized();
-            /** signal which is emitted if initialization failed
+            /** signal which is emitted if the initialization failed
              */
             void initFailed();
-            /** signal which is emitted if login is complete
+            /** signal which is emitted if the login is complete
              */
             void loggedIn();
-            /** signal which is emitted when login failed
+            /** signal which is emitted when the login failed
              */
             void loginFailed();
     };

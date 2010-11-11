@@ -2,6 +2,7 @@
 #define ATTICAMANAGER_H
 
 #include <core/singleton.h>
+
 #include <attica/providermanager.h>
 
 namespace GluonPlayer
@@ -23,7 +24,7 @@ namespace GluonPlayer
         public:
             /**
              * Used to check if we have loaded a valid OCS provider
-             * @return true if provider is valid, false if otherwise
+             * @return true if provider is valid, false otherwise
              */
             bool isProviderValid();
             /**
