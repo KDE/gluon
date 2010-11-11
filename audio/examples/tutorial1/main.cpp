@@ -20,7 +20,6 @@
  */
 
 #include <QDebug>
-#include <iostream>
 
 #include <gluon/audio/sound.h>
 #include <gluon/audio/engine.h>
@@ -38,7 +37,7 @@ int main( int argc, char* argv[] )
     sound->play();
 
     qDebug() << "Press enter to continue.";
-    std::cin.get();
+	QTextStream(stdin).readLine();
 
     sound->stop();
 
