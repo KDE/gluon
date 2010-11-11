@@ -1,8 +1,11 @@
 #ifndef AUTHENTICATION_H
 #define AUTHENTICATION_H
 
-#include <core/singleton.h>
 #include "gluon_player_export.h"
+
+#include <core/singleton.h>
+
+#include <attica/postjob.h>
 
 namespace Attica
 {
@@ -62,21 +65,12 @@ namespace GluonPlayer
              */
             QString password();
 
-        private:
-            friend class GluonCore::Singleton<Authentication>;
-            Authentication();
-            ~Authentication();
-            Q_DISABLE_COPY( Authentication )
-
-            bool m_initialized;
-            bool m_loggedIn;
-            QString m_username;
-            QString m_password;
-            Attica::PostJob* m_checkLoginJob;
-
         protected slots:
             void finishInit();
             void checkLoginResult( Attica::BaseJob* );
+
+            void onRegisterClicked(const QString& username, const QString& password, const QString& mail, const QString& firstName, const QString& lastName);
+            void onRegisterAccountFinished(Attica::BaseJob* job);
 
         signals:
             /** signal which is emitted when the initialization is complete
@@ -85,12 +79,30 @@ namespace GluonPlayer
             /** signal which is emitted if the initialization failed
              */
             void initFailed();
+            /** signal which is emitted if the new account is registered
+             */
+            void registered();
             /** signal which is emitted if the login is complete
              */
             void loggedIn();
             /** signal which is emitted when the login failed
              */
             void loginFailed();
+
+        private:
+            friend class GluonCore::Singleton<Authentication>;
+            Authentication();
+            ~Authentication();
+            Q_DISABLE_COPY( Authentication )
+
+            void showRegisterError(const Attica::Metadata&);
+
+            bool m_initialized;
+            bool m_loggedIn;
+            QString m_username;
+            QString m_password;
+            Attica::PostJob* m_registerJob;
+            Attica::PostJob* m_checkLoginJob;
     };
 }
 
