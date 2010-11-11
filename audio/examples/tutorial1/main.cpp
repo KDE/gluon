@@ -19,11 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QDebug>
-
 #include <gluon/audio/sound.h>
 #include <gluon/audio/engine.h>
 
+#include <QDebug>
 
 int main( int argc, char* argv[] )
 {

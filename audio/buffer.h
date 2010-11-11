@@ -41,9 +41,8 @@ namespace GluonAudio
             void setBuffer( ALuint buffer, bool shared = false );
             bool isEmpty() const;
             /**
-            * This function will generate a "hello word" sound.
+            * @return the buffer
             */
-            //void setHelloWord();
             ALuint buffer() const;
             /**
             * @return the duration of buffer in msecond
