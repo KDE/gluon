@@ -13,6 +13,8 @@ include_directories(
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+find_package(UDev REQUIRED)
+
 if(APPLE)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
