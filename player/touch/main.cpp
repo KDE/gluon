@@ -24,7 +24,7 @@ int main( int argc, char** argv )
 {
     QApplication app( argc, argv );
     app.setOrganizationName( "KDE Gluon" );
-    app.setApplicationName( "Gluon Player" );
+    app.setApplicationName( "Gluon QML Player" );
 
     QDeclarativeView view;
     view.setSource(QUrl::fromLocalFile("main.qml"));

@@ -86,6 +86,7 @@ endif(LIBATTICA_FOUND)
 install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(qt)
+add_subdirectory(touch)
 
 add_subdirectory(icons)
 
