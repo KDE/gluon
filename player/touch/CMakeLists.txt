@@ -10,9 +10,18 @@ set(QMLPLAYER_SRCS
     main.cpp
 )
 
+SET(GLUON_QMLPLAYER_RCCS
+    gluon_qmlplayer.qrc
+)
+
+# generate rules for building source files from the resources
+QT4_ADD_RESOURCES(GLUON_QMLPLAYER_RCC_SRCS
+    gluon_qmlplayer.qrc
+)
+
 qt4_automoc(${QMLPLAYER_SRCS})
 
-add_executable(gluon_qmlplayer ${QMLPLAYER_SRCS})
+add_executable(gluon_qmlplayer ${QMLPLAYER_SRCS} ${GLUON_QMLPLAYER_RCC_SRCS})
 target_link_libraries(gluon_qmlplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
 set(GLUON_DECLARATIVE_LIBS

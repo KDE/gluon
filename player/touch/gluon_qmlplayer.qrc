@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Startup.qml</file>
+        <file>Home.qml</file>
+        <file>Details.qml</file>
+        <file>Comments.qml</file>
+
+        <file>Button.qml</file>
+        <file>LineEdit.qml</file>
+        <file>Login.qml</file>
+
+        <file>icons/dialog-ok.png</file>
+        <file>icons/help-hint.png</file>
+        <file>icons/lineedit.png</file>
+        <file>icons/list-add-user.png</file>
+        <file>icons/media-playback-start.png</file>
+        <file>icons/dialog-ok.png</file>
+        <file>icons/dialog-ok.png</file>
+        <file>icons/dialog-ok.png</file>
+        <file>icons/user-group-new.png</file>
+        <file>icons/im-user.png</file>
+        <file>icons/hi256-app-gluon.png</file>
+    </qresource>
+</RCC>
+

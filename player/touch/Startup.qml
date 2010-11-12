@@ -21,7 +21,8 @@ Rectangle {
            width: parent.width/2 * 4/5
            height: parent.height * 3/5
            fillMode: Image.PreserveAspectFit
-           anchors.horizontalCenter: parent.horizontalCenter / 2
+           anchors.horizontalCenter: parent.horizontalCenter
+           anchors.horizontalCenterOffset: -parent.width/4
            anchors.verticalCenter: parent.verticalCenter
            anchors.margins: 10
        }

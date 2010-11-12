@@ -27,7 +27,7 @@ int main( int argc, char** argv )
     app.setApplicationName( "Gluon QML Player" );
 
     QDeclarativeView view;
-    view.setSource(QUrl::fromLocalFile("main.qml"));
+    view.setSource(QUrl("qrc:/main.qml"));
     view.show();
 
     return app.exec();
