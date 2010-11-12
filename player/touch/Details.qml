@@ -58,13 +58,13 @@ Rectangle {
             text: "High Scores"
             subtext: "Your global high-score: 258th"
             onClicked: console.log("this doesn't do anything yet...")
-            anchors.top: read_author_desc.bottom
-            anchors.left: gluon_logo.right
+            anchors.top: read_author_desc_btn.bottom
+            anchors.left: game_main_img.right
             anchors.margins: 10
         }
 
         Button {
-            id: achievemets_btn
+            id: achievements_btn
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
@@ -90,7 +90,7 @@ Rectangle {
         }
 
         Button {
-            id: donate.btn
+            id: donate_btn
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
