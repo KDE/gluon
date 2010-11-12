@@ -53,7 +53,9 @@ Rectangle {
             height: parent.height * 1 / 5
             icon: "icons/im-user.png"
             text: "Log On"
-            onClicked: console.log("this doesn't do anything yet...")
+            onClicked: {
+                authentication.login(lgn.username, lgn.password)
+            }
             anchors.top: lgn.bottom
             anchors.left: new_user.right
             anchors.margins: 10

@@ -1,15 +1,18 @@
 import Qt 4.7
 
 Rectangle {
+
+       property alias username: usernameLineEdit.text;
+       property alias password: passwordLineEdit.text;
+
        x: 0
        y: 0
 
-       id: lgn
-
        signal clicked
 
-        border.color: "black"
-        color: "darkGrey"
+       id: lgn
+       border.color: "black"
+       color: "darkGrey"
 
    Text {
         id: usernameText

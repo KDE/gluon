@@ -43,7 +43,7 @@ namespace GluonPlayer
              * @param   password        The password to be used
              * @return true if login was successfully initiated, false otherwise.
              */
-            bool login( const QString& username, const QString& password );
+            Q_INVOKABLE bool login( const QString& username, const QString& password );
             /**
              * use to check if we are logged in
              * @return true if logged in, false otherwise
