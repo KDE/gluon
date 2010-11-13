@@ -44,7 +44,7 @@ Rectangle {
             width: parent.width / 4
             height: parent.height * 1 / 5
             icon: "icons/im-user.png"
-            text: "Read Author's Description"
+            text: qsTr("Read Author's Description")
             onClicked: console.log("this doesn't do anything yet...")
             anchors.top: play_game_btn.bottom
             anchors.left: game_main_img.right
@@ -56,7 +56,7 @@ Rectangle {
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/help-hint.png"
-            text: "High Scores"
+            text: qsTr("High Scores")
             subtext: "Your global high-score: 258th"
             onClicked: console.log("this doesn't do anything yet...")
             anchors.top: read_author_desc_btn.bottom
@@ -69,7 +69,7 @@ Rectangle {
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
-            text: "Achievements"
+            text: qsTr("Achievements")
             subtext: "You have 4 of 16"
             onClicked: console.log("this doesn't do anything yet...")
             anchors.top: read_author_desc_btn.bottom
@@ -82,7 +82,7 @@ Rectangle {
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
-            text: "Rate & Comment"
+            text: qsTr("Rate & Comment")
             subtext: "20984 ratings, 413 comments"
             onClicked: console.log("this doesn't do anything yet...")
             anchors.top: high_scores_btn.bottom
@@ -95,8 +95,8 @@ Rectangle {
             width: parent.width / 2
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
-            text: "Donate"
-            subtext: "€3 suggested"
+            text: qsTr("Donate")
+            subtext: qsTr("€3 suggested")
             onClicked: console.log("this doesn't do anything yet...")
             anchors.top: achievements_btn.bottom
             anchors.left: rate_comments_btn.right
@@ -105,7 +105,7 @@ Rectangle {
 
         Text {
             id: new_comments
-            text: "New Comments"
+            text: qsTr("New Comments")
             anchors.top: rate_comments_btn.bottom
         }
 }
