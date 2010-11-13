@@ -4,6 +4,13 @@ Item {
     id: mainview
     property string statepoint: "start"
 
+    width: 1600
+    height: 900
+
+    SystemPalette {
+        id: activePalette
+    }
+
     states: [
         State { name: "startup"; when: statepoint == "startup"
             PropertyChanges { }
@@ -27,9 +34,6 @@ Item {
 
         State { name: "other"; when: statepoint == "other" }
     ]
-
-    width: 1028
-    height: 768
 
     Startup {
         height: parent.height
