@@ -1,4 +1,4 @@
-import Qt 4.7
+import QtQuick 1.0
 
 Item {
     id: gluon_player
@@ -11,6 +11,10 @@ Item {
 
     Startup {
         visible: true
+    }
+
+    Registration {
+        visible: false
     }
 
     Home {
