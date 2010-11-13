@@ -1,32 +1,68 @@
 import QtQuick 1.0
 
 Item {
-    id: gluon_player
+    id: mainview
+    property string statepoint: "start"
 
-    x: 0
-    y: 0
+    states: [
+        State { name: "startup"; when: statepoint == "startup"
+            PropertyChanges { }
+        },
+
+        State { name: "registration"; when: statepoint == "registration"
+            PropertyChanges { }
+        },
+
+        State { name: "home"; when: statepoint == "home"
+            PropertyChanges { }
+        },
+
+        State { name: "details"; when: statepoint == "details"
+            PropertyChanges { }
+        },
+
+        State { name: "comments"; when: statepoint == "comments"
+            PropertyChanges { }
+        },
+
+        State { name: "other"; when: statepoint == "other" }
+    ]
 
     width: 1028
     height: 768
 
     Startup {
-        visible: true
+        height: parent.height
+        width: parent.width
+        visible: statepoint == "startup"
     }
 
     Registration {
-        visible: false
+        height: parent.height
+        width: parent.width
+        visible: statepoint == "registration"
     }
 
     Home {
-        visible: false
+        height: parent.height
+        width: parent.width
+        visible: statepoint == "home"
     }
 
     Details {
-        visible: false
+        height: parent.height
+        width: parent.width
+        visible: statepoint == "details"
     }
 
     Comments {
-        visible: false
+        height: parent.height
+        width: parent.width
+        visible: statepoint == "comments"
+    }
+
+    Component.onCompleted: {
+        statepoint = "startup"
     }
 }
 

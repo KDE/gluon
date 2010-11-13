@@ -2,31 +2,29 @@ import QtQuick 1.0
 
 Rectangle {
 
-       x: 0
-       y: 0
+    signal clicked
 
-       signal clicked
-
-       id: lgn
-       border.color: "black"
-       color: "darkGrey"
-
+    border.color: "black"
+    color: "darkGrey"
 
      Component {
          id: registrationDelegate
          Item {
-             width: 180; height: 40
-                Column {
+             width: parent.width; height: 40
+                Row {
+                    spacing: 0
                     Text {
                         id: identifierText
                         text: textdata
                         color: "white"
                         font.pixelSize: 24
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        width: registrationDelegate.width/4
                     }
 
                     LineEdit {
                         id: identifierLineEdit
-                        x: 15
                         width: identifierText.width * 3
                    }
                }
@@ -41,14 +39,14 @@ Rectangle {
          focus: true
      }
 
-   MouseArea {
-        id: regmr
-        anchors.fill: parent
-        onClicked: {
+   // MouseArea {
+        // id: regmr
+        // anchors.fill: parent
+        // onClicked: {
             // parent.focus = true
             // lgn.clicked()
-        }
-   }
+        // }
+   // }
 
    states: State {
         name: "pressed"; when: mr.pressed

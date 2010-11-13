@@ -4,9 +4,6 @@ Rectangle {
     id: gluon_player
     color: "black"
 
-    x: 0
-    y: 0
-
     width: 490
     height: 720
 
@@ -41,7 +38,9 @@ Rectangle {
             height: parent.height * 1 / 5
             icon: "icons/user-group-new.png"
             text: "New User"
-            onClicked: console.log("this doesn't do anything yet...")
+            onClicked: {
+                mainview.statepoint = "registration"
+            }
             anchors.top: lgn.bottom
             anchors.left: gluon_logo.right
             anchors.margins: 10
@@ -55,6 +54,7 @@ Rectangle {
             text: "Log On"
             onClicked: {
                 authentication.login(lgn.username, lgn.password)
+                state: LogOnState
             }
             anchors.top: lgn.bottom
             anchors.left: new_user.right
@@ -67,8 +67,10 @@ Rectangle {
             height: parent.height * 1 / 5
             icon: "icons/help-hint.png"
             text: "Forgotten Your Details?"
+            onClicked: {
+                state: forgottenDetailsState
+            }
             subtext: "Send new password to your email address"
-            onClicked: console.log("this doesn't do anything yet...")
             anchors.top: log_on.bottom
             anchors.left: gluon_logo.right
             anchors.margins: 10
@@ -80,8 +82,10 @@ Rectangle {
             height: parent.height * 1 / 5
             icon: "icons/media-playback-start.png"
             text: "Play Without Logging On"
+            onClicked: {
+                state: playState
+            }
             subtext: "3 games available"
-            onClicked: console.log("this doesn't do anything yet...")
             anchors.top: forgotten_details.bottom
             anchors.left: gluon_logo.right
             anchors.margins: 10
