@@ -61,18 +61,14 @@ bool Authentication::login( const QString& username, const QString& password )
     m_username = username;
     m_password = password;
 
-        qDebug() << "TEST" << username << password << endl;
     if( AtticaManager::instance()->isProviderValid() )
     {
         m_checkLoginJob = AtticaManager::instance()->provider().checkLogin( m_username, m_password );
         connect( m_checkLoginJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
-        qDebug() << "TESTTEST" << endl;
         m_checkLoginJob->start();
         return true;
     }
 
-
-        qDebug() << "TESTTESTTEST" << username << password << endl;
     return false;
 }
 
