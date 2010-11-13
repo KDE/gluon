@@ -8,8 +8,11 @@ using namespace GluonPlayer;
 
 template<> GLUON_PLAYER_EXPORT Authentication* GluonCore::Singleton<Authentication>::m_instance = 0;
 
-Authentication::Authentication() : m_initialized( false ), m_loggedIn( false )
+Authentication::Authentication()
+    : m_initialized( false )
+    , m_loggedIn( false )
 {
+    init();
 }
 
 Authentication::~Authentication()
@@ -58,14 +61,18 @@ bool Authentication::login( const QString& username, const QString& password )
     m_username = username;
     m_password = password;
 
+        qDebug() << "TEST" << username << password << endl;
     if( AtticaManager::instance()->isProviderValid() )
     {
         m_checkLoginJob = AtticaManager::instance()->provider().checkLogin( m_username, m_password );
         connect( m_checkLoginJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
+        qDebug() << "TESTTEST" << endl;
         m_checkLoginJob->start();
         return true;
     }
 
+
+        qDebug() << "TESTTESTTEST" << username << password << endl;
     return false;
 }
 
@@ -156,12 +163,14 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
+        qDebug() << "Login OK" << endl;
         AtticaManager::instance()->provider().saveCredentials( m_username, m_password );
         m_loggedIn = true;
         emit loggedIn();
     }
     else
     {
+        qDebug() << "Login error" << endl;
         m_loggedIn = false;
         emit loginFailed();
     }
