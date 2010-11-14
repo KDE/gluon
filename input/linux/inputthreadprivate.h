@@ -28,6 +28,8 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
+#include <libudev.h>
+
 namespace GluonInput
 {
     class InputThreadPrivate : public QSharedData
@@ -39,6 +41,7 @@ namespace GluonInput
             int m_fd;
             struct input_id m_device_info;
             struct input_event m_currentEvent;
+            udev_device *m_udevDevice;
             QString m_devicePath;
 
             QString m_deviceName;

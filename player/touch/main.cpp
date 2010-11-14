@@ -1,8 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,28 +17,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <gluon/audio/sound.h>
-#include <gluon/audio/engine.h>
+#include <player/lib/authentication.h>
 
-#include <QDebug>
+#include <QtGui/QApplication>
+#include <QtDeclarative/QDeclarativeView>
+#include <QtDeclarative/QDeclarativeContext>
+#include <QtGui/QGraphicsObject>
 
-int main( int argc, char* argv[] )
+int main( int argc, char** argv )
 {
-    GluonAudio::Engine::instance();
+    QApplication app( argc, argv );
+    app.setOrganizationName( "KDE Gluon" );
+    app.setApplicationName( "Gluon QML Player" );
 
-    GluonAudio::Sound* sound = new GluonAudio::Sound;
-    sound->load( "/usr/share/sounds/KDE-Sys-Log-In-Long.ogg" );
-    sound->setVolume( 0.9 );  //between 0 and 1
+    QDeclarativeView view;
+    GluonPlayer::Authentication *auth = GluonPlayer::Authentication::instance();
+    view.rootContext()->setContextProperty("authentication", auth);
+    view.setSource(QUrl("qrc:/main.qml"));
+    view.show();
 
-    qDebug() << "Playing sound.";
-    sound->play();
+    QObject *obj = view.rootObject();
+    QObject *login = obj->findChild<QObject *>("login");
+    QObject::connect(auth, SIGNAL(initialized()), login, SLOT(providerSet()));
 
-    qDebug() << "Press enter to continue.";
-	QTextStream(stdin).readLine();
-
-    sound->stop();
-
-    delete sound;
-    GluonAudio::Engine::close(); // This line is unnecessary if you use KApplication. In this case KALEngine will be destroy automatically.
+    return app.exec();
 }
-

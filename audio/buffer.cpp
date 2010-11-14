@@ -91,7 +91,7 @@ void Buffer::init()
 
 ALuint Buffer::buffer() const
 {
-    return  d->buffer;
+    return d->buffer;
 }
 
 void Buffer::setBuffer( const QString& fileName )

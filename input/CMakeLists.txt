@@ -13,6 +13,8 @@ include_directories(
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+find_package(UDev REQUIRED)
+
 if(APPLE)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -158,7 +160,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()
 
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
+target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
 
 set(GLUON_INPUT_LIBS
     GluonInput
