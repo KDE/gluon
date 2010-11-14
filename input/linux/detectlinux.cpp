@@ -30,7 +30,7 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
-#include <libudev.h>
+// #include <libudev.h>
 
 using namespace GluonInput;
 
@@ -61,13 +61,13 @@ void DetectLinux::detectDevices()
     QList<struct input_id> processedInputs;
     bool processed;
 
-    struct udev *udev;
-    struct udev_enumerate *enumerate;
-    struct udev_list_entry *devices;
-    struct udev_list_entry *dev_list_entry;
-    struct udev_device *dev;
-    struct udev_device *parent_dev;
-    struct input_id currentInputDeviceInfo;
+    // struct udev *udev;
+    // struct udev_enumerate *enumerate;
+    // struct udev_list_entry *devices;
+    // struct udev_list_entry *dev_list_entry;
+    // struct udev_device *dev;
+    // struct udev_device *parent_dev;
+    // struct input_id currentInputDeviceInfo;
 
     inputFileInfoList = event.entryInfoList( QDir::Files );
     foreach( QFileInfo inputFileInfo, inputFileInfoList )
@@ -123,105 +123,107 @@ void DetectLinux::detectDevices()
         }
     }
 
-    /* Create the udev object */
-    udev = udev_new();
-    if (!udev)
-        qWarning() << "Cannot create udev" << endl;
+// #ifdef 0
+    // [> Create the udev object <]
+    // udev = udev_new();
+    // if (!udev)
+        // qWarning() << "Cannot create udev" << endl;
 
-    /* Create a list of the devices in the 'hidraw' subsystem. */
-    enumerate = udev_enumerate_new(udev);
-    udev_enumerate_add_match_subsystem(enumerate, "input");
-    udev_enumerate_scan_devices(enumerate);
-    devices = udev_enumerate_get_list_entry(enumerate);
+    // [> Create a list of the devices in the 'hidraw' subsystem. <]
+    // enumerate = udev_enumerate_new(udev);
+    // udev_enumerate_add_match_subsystem(enumerate, "input");
+    // udev_enumerate_scan_devices(enumerate);
+    // devices = udev_enumerate_get_list_entry(enumerate);
     /* For each item enumerated, print out its information.
      * udev_list_entry_foreach is a macro which expands to
      * a loop. The loop will be executed for each member in
      * devices, setting dev_list_entry to a list entry
      * which contains the device's path in /sys.
      */
-    udev_list_entry_foreach(dev_list_entry, devices) {
-        const char *path;
+    // udev_list_entry_foreach(dev_list_entry, devices) {
+        // const char *path;
 
-        /* Get the filename of the /sys entry for the device
-           and create a udev_device object (dev) representing it */
-        path = udev_list_entry_get_name(dev_list_entry);
-        dev = udev_device_new_from_syspath(udev, path);
+        // [> Get the filename of the /sys entry for the device
+           // and create a udev_device object (dev) representing it */
+        // path = udev_list_entry_get_name(dev_list_entry);
+        // dev = udev_device_new_from_syspath(udev, path);
 
-        parent_dev = udev_device_get_parent_with_subsystem_devtype(dev, "input", 0);
-        if (parent_dev) {
-            udev_device_unref(parent_dev);
-            continue;
-        }
+        // parent_dev = udev_device_get_parent_with_subsystem_devtype(dev, "input", 0);
+        // if (parent_dev) {
+            // udev_device_unref(parent_dev);
+            // continue;
+        // }
 
-        if (udev_device_get_sysattr_value(dev, "id/bustype"))
-            currentInputDeviceInfo.bustype = atoi(udev_device_get_sysattr_value(dev, "id/bustype"));
-        if (udev_device_get_sysattr_value(dev, "id/vendor"))
-            currentInputDeviceInfo.vendor = atoi(udev_device_get_sysattr_value(dev,"id/vendor"));
-        if (udev_device_get_sysattr_value(dev, "id/product"))
-            currentInputDeviceInfo.product = atoi(udev_device_get_sysattr_value(dev, "id/product"));
-        if (udev_device_get_sysattr_value(dev, "id/version"))
-            currentInputDeviceInfo.version = atoi(udev_device_get_sysattr_value(dev, "id/version"));
+        // if (udev_device_get_sysattr_value(dev, "id/bustype"))
+            // currentInputDeviceInfo.bustype = atoi(udev_device_get_sysattr_value(dev, "id/bustype"));
+        // if (udev_device_get_sysattr_value(dev, "id/vendor"))
+            // currentInputDeviceInfo.vendor = atoi(udev_device_get_sysattr_value(dev,"id/vendor"));
+        // if (udev_device_get_sysattr_value(dev, "id/product"))
+            // currentInputDeviceInfo.product = atoi(udev_device_get_sysattr_value(dev, "id/product"));
+        // if (udev_device_get_sysattr_value(dev, "id/version"))
+            // currentInputDeviceInfo.version = atoi(udev_device_get_sysattr_value(dev, "id/version"));
 
         /* The input device has been already processed, has read access
          * credential
          */
-        processed = false;
-        foreach(struct input_id inputID, processedInputs) {
-            if (inputID.bustype == currentInputDeviceInfo.bustype
-                    && inputID.vendor == currentInputDeviceInfo.vendor
-                    && inputID.product == currentInputDeviceInfo.product
-                    && inputID.version == currentInputDeviceInfo.version) {
-                processed = true;
-                break;
-            }
-        }
+        // processed = false;
+        // foreach(struct input_id inputID, processedInputs) {
+            // if (inputID.bustype == currentInputDeviceInfo.bustype
+                    // && inputID.vendor == currentInputDeviceInfo.vendor
+                    // && inputID.product == currentInputDeviceInfo.product
+                    // && inputID.version == currentInputDeviceInfo.version) {
+                // processed = true;
+                // break;
+            // }
+        // }
 
-        if (processed)
-            continue;
+        // if (processed)
+            // continue;
 
-        InputDevice *device = 0;
-        InputThread *thread = new InputThread(dev);
-        if (!thread->error()) {
-            switch (thread->deviceType()) {
-            case GluonInput::KeyboardDevice:
-                device = new Keyboard(thread);
-                detect->addKeyboard(static_cast<Keyboard *>(device));
-                break;
+        // InputDevice *device = 0;
+        // InputThread *thread = new InputThread(dev);
+        // if (!thread->error()) {
+            // switch (thread->deviceType()) {
+            // case GluonInput::KeyboardDevice:
+                // device = new Keyboard(thread);
+                // detect->addKeyboard(static_cast<Keyboard *>(device));
+                // break;
 
-            case GluonInput::MouseDevice:
-                device = new Mouse(thread);
-                detect->addMouse(static_cast<Mouse *>(device));
-                break;
+            // case GluonInput::MouseDevice:
+                // device = new Mouse(thread);
+                // detect->addMouse(static_cast<Mouse *>(device));
+                // break;
 
-            case GluonInput::TouchpadDevice:
-                device = new Mouse(thread);
-                detect->addMouse(static_cast<Mouse *>(device));
-                break;
+            // case GluonInput::TouchpadDevice:
+                // device = new Mouse(thread);
+                // detect->addMouse(static_cast<Mouse *>(device));
+                // break;
 
-            case GluonInput::JoystickDevice:
-                device = new Joystick(thread);
-                detect->addJoystick(static_cast<Joystick *>(device));
-                break;
+            // case GluonInput::JoystickDevice:
+                // device = new Joystick(thread);
+                // detect->addJoystick(static_cast<Joystick *>(device));
+                // break;
 
-            case GluonInput::TouchDevice:
-                device = new Touch(thread);
-                detect->addTouch(static_cast<Touch *>(device));
-                break;
+            // case GluonInput::TouchDevice:
+                // device = new Touch(thread);
+                // detect->addTouch(static_cast<Touch *>(device));
+                // break;
 
-            case GluonInput::UnknownDevice:
-                device = new InputDevice(thread);
-                detect->addUnknown(device);
-                break;
-            }
+            // case GluonInput::UnknownDevice:
+                // device = new InputDevice(thread);
+                // detect->addUnknown(device);
+                // break;
+            // }
 
-            detect->addInput(device);
-        }
-    }
+            // detect->addInput(device);
+        // }
+    // }
 
-    /* Free the enumerator object */
-    udev_enumerate_unref(enumerate);
+    // [> Free the enumerator object <]
+    // udev_enumerate_unref(enumerate);
 
-    udev_unref(udev);
+    // udev_unref(udev);
+// #endif
 }
 
 void DetectLinux::setAllEnabled( bool enable )

@@ -28,7 +28,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
-#include <libudev.h>
+// #include <libudev.h>
 
 namespace GluonInput
 {
@@ -41,7 +41,7 @@ namespace GluonInput
             int m_fd;
             struct input_id m_device_info;
             struct input_event m_currentEvent;
-            udev_device *m_udevDevice;
+            // udev_device *m_udevDevice;
             QString m_devicePath;
 
             QString m_deviceName;
