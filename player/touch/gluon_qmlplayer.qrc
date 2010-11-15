@@ -6,12 +6,16 @@
         <file>Details.qml</file>
         <file>Comments.qml</file>
 
+        <file>Registration.qml</file>
+        <file>RegistrationModel.qml</file>
+
         <file>Button.qml</file>
         <file>LineEdit.qml</file>
         <file>Login.qml</file>
 
         <file>icons/dialog-ok.png</file>
         <file>icons/help-hint.png</file>
+        <file>icons/get-hot-new-stuff.png</file>
         <file>icons/lineedit.png</file>
         <file>icons/list-add-user.png</file>
         <file>icons/media-playback-start.png</file>

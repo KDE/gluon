@@ -5,6 +5,13 @@ Rectangle {
        property alias username: usernameLineEdit.text;
        property alias password: passwordLineEdit.text;
 
+       property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
+       property variant backtabTarget: KeyNavigation.left || KeyNavigation.up
+
+      property bool providerInitialized: false;
+      Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
+      Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
+
        x: 0
        y: 0
 
@@ -14,12 +21,22 @@ Rectangle {
        border.color: "black"
        color: "darkGrey"
 
+   function providerSet() {
+       providerInitialized = true;
+   }
+
+   ErrorLabel {
+       id: errorLabel;
+       // anchors.horizontalCenter: usernameEdit.horizontalCenter;
+   }
+
    Text {
         id: usernameText
-        text: "Username"
+        text: qsTr("Username")
         color: "white"
         font.pixelSize: 24
    }
+
 
    LineEdit {
         id: usernameLineEdit
@@ -30,7 +47,7 @@ Rectangle {
 
    Text {
         id: passwordText
-        text: "Password"
+        text: qsTr("Password")
         color: "white"
         width: usernameText.width
         font.pixelSize: usernameText.font.pixelSize
