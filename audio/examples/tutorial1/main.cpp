@@ -29,7 +29,7 @@ int main( int argc, char* argv[] )
     GluonAudio::Engine::instance();
 
     GluonAudio::Sound* sound = new GluonAudio::Sound;
-    sound->load( "/usr/share/sounds/KDE-Sys-Log-In-Long.ogg" );
+    sound->load( "KDE-Sys-Log-In-Long.ogg" );
     sound->setVolume( 0.9 );  //between 0 and 1
 
     qDebug() << "Playing sound.";

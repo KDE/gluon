@@ -5,8 +5,8 @@ find_package(GluonAudio REQUIRED)
 
 include_directories(${GLUON_AUDIO_INCLUDES})
 
-set(tutorial1_SRCS 
-    main.cpp 
+set(tutorial1_SRCS
+    main.cpp
 )
 
 add_executable(tutorial1 ${tutorial1_SRCS})
