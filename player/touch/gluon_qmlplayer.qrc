@@ -9,6 +9,9 @@
         <file>Registration.qml</file>
         <file>RegistrationModel.qml</file>
 
+        <file>ErrorLabel.qml</file>
+        <file>ProgressIndicator.qml</file>
+
         <file>Button.qml</file>
         <file>LineEdit.qml</file>
         <file>Login.qml</file>
