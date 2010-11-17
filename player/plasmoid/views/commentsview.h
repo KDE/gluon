@@ -37,7 +37,6 @@ namespace Plasma
 class CommentsView : public AbstractItemView
 {
         Q_OBJECT
-
     public:
         CommentsView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual void setModel( QAbstractItemModel* model );
@@ -56,12 +55,12 @@ class CommentsView : public AbstractItemView
         bool eventFilter( QObject* obj, QEvent* event );
         CommentsViewItem* addComment( const QModelIndex& index, QGraphicsWidget* parent, int depth );
 
-        Plasma::ItemBackground* m_itemBackground;a
+        Plasma::ItemBackground* m_itemBackground;
 
     private:
         QGraphicsWidget* m_rootWidget;
-        QGraphicsLinearLayout* m_commentsLayout;
         Plasma::Frame* m_commentsFrame;
+        QGraphicsLinearLayout* m_commentsLayout;
         bool m_isOnline;
 };
 

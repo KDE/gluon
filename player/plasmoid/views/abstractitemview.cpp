@@ -25,13 +25,10 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 
-#include <Plasma/FrameSvg>
-#include <Plasma/ScrollWidget>
-
 AbstractItemView::AbstractItemView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : Overlay( parent, wFlags ), m_model( 0 )
+    : Overlay( parent, wFlags )
+    , m_model( 0 )
 {
-
 }
 
 QAbstractItemModel* AbstractItemView::model() const

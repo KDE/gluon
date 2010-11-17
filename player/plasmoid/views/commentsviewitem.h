@@ -39,7 +39,6 @@ namespace Plasma
 class CommentsViewItem : public QGraphicsWidget
 {
         Q_OBJECT
-
     public:
         CommentsViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~CommentsViewItem();
@@ -52,9 +51,6 @@ class CommentsViewItem : public QGraphicsWidget
         void setRowInLayout( int row );
         bool replyEnabled();
         void setReplyEnabled( bool enabled );
-
-    private:
-        bool m_replyEnabled;
 
     signals:
         void replyClicked();
@@ -77,6 +73,9 @@ class CommentsViewItem : public QGraphicsWidget
         QGraphicsGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;
+
+    private:
+        bool m_replyEnabled;
 };
 
 #endif // COMMENTSVIEWITEM_H

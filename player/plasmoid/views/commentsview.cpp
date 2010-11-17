@@ -33,10 +33,12 @@
 #include <QDebug>
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : AbstractItemView( parent, wFlags ), m_rootWidget( 0 ), m_isOnline( false )
+    : AbstractItemView( parent, wFlags )
     , m_itemBackground(new Plasma::ItemBackground( this ))
+    , m_rootWidget( 0 )
     , m_commentsFrame(new Plasma::Frame( this ))
     , m_commentsLayout(new QGraphicsLinearLayout( Qt::Vertical, m_commentsFrame ))
+    , m_isOnline( false )
 {
     m_commentsFrame->setLayout( m_commentsLayout );
     m_contentLayout->addItem( m_commentsFrame );
@@ -63,7 +65,7 @@ CommentsViewItem* CommentsView::addComment( const QModelIndex& index, QGraphicsW
     item->setModelIndex( index );
     item->setAcceptHoverEvents( true );
     item->installEventFilter( this );
-    connect( item, SIGNAL( replyClicked() ), this, SLOT( showReply() ) );
+    connect( item, SIGNAL( replyClicked() ), SLOT( showReply() ) );
     item->setRowInLayout( m_commentsLayout->count() );
     m_commentsLayout->addItem( item );
 
