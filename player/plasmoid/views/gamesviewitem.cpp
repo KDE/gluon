@@ -20,23 +20,25 @@
 #include "gamesviewitem.h"
 #include "models/gamesmodel.h"
 
-#include <QModelIndex>
-#include <QGraphicsSceneMouseEvent>
-#include <QPainter>
-#include <QGraphicsGridLayout>
-
 #include <KIcon>
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
 #include <Plasma/ToolTipManager>
 #include <Plasma/ToolTipContent>
 
+#include <QModelIndex>
+#include <QGraphicsSceneMouseEvent>
+#include <QPainter>
+#include <QGraphicsGridLayout>
 
 GamesViewItem::GamesViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : QGraphicsWidget( parent, wFlags ), m_preview( 0 ), m_gameName( 0 ), m_gameDescription( 0 ),
-      m_playButton( 0 ), m_layout( 0 )
+    : QGraphicsWidget( parent, wFlags )
+    , m_preview( 0 )
+    , m_gameName( 0 )
+    , m_gameDescription( 0 )
+    , m_playButton( 0 )
+    , m_layout( 0 )
 {
-
 }
 
 void GamesViewItem::setModelIndex( const QModelIndex& index )

@@ -53,7 +53,19 @@ class CommentsViewItem : public QGraphicsWidget
         bool replyEnabled();
         void setReplyEnabled( bool enabled );
 
+    private:
+        bool m_replyEnabled;
+
+    signals:
+        void replyClicked();
+
     protected:
+        void hoverEnterEvent( QGraphicsSceneHoverEvent* event );
+        void hoverLeaveEvent( QGraphicsSceneHoverEvent* event );
+
+        void layoutWidgets();
+        void setToolTips();
+
         QPersistentModelIndex m_index;
         Plasma::IconWidget* m_author;
         Plasma::Label* m_title;
@@ -65,18 +77,6 @@ class CommentsViewItem : public QGraphicsWidget
         QGraphicsGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;
-
-        void hoverEnterEvent( QGraphicsSceneHoverEvent* event );
-        void hoverLeaveEvent( QGraphicsSceneHoverEvent* event );
-
-        void layoutWidgets();
-        void setToolTips();
-
-    private:
-        bool m_replyEnabled;
-
-    signals:
-        void replyClicked();
 };
 
 #endif // COMMENTSVIEWITEM_H

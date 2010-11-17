@@ -18,17 +18,32 @@
  */
 
 #include "commentsviewitem.h"
+
+#include <models/commentsmodel.h>
+
 #include <KIcon>
 #include <Plasma/IconWidget>
-#include <models/commentsmodel.h>
 #include <Plasma/Label>
+
 #include <QGraphicsGridLayout>
 
 CommentsViewItem::CommentsViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : QGraphicsWidget( parent, wFlags ), m_author( 0 ), m_title( 0 ), m_body( 0 ), m_dateTime( 0 ),
-      m_rating( 0 ), m_replyButton( 0 ), m_layout( 0 ), m_depth( 0 ), m_replyEnabled( false )
+    : QGraphicsWidget( parent, wFlags )
+    , m_author( 0 )
+    , m_title( 0 )
+    , m_body( 0 )
+    , m_dateTime( 0 )
+    , m_rating( 0 )
+    , m_replyButton( 0 )
+    , m_layout( 0 )
+    , m_depth( 0 )
+    , m_replyEnabled( false )
 {
     //setOwnedByLayout(false);
+}
+
+CommentsViewItem::~CommentsViewItem()
+{
 }
 
 void CommentsViewItem::setModelIndex( const QModelIndex& index )
@@ -117,7 +132,7 @@ void CommentsViewItem::layoutWidgets()
     m_replyButton = new Plasma::IconWidget( this );
     m_replyButton->setVisible( false );
     m_replyButton->setIcon( KIcon( "edit-undo" ) );
-    connect( m_replyButton, SIGNAL( activated() ), this, SIGNAL( replyClicked() ) );
+    connect( m_replyButton, SIGNAL( activated() ), SIGNAL( replyClicked() ) );
 
     m_layout->addItem( m_title, 0, 0 );
     m_layout->addItem( m_author, 0, 1 );
@@ -131,10 +146,5 @@ void CommentsViewItem::layoutWidgets()
 
 void CommentsViewItem::setToolTips()
 {
-
 }
 
-CommentsViewItem::~CommentsViewItem()
-{
-
-}

@@ -29,7 +29,6 @@ namespace Plasma
     class ItemBackground;
 }
 
-
 class GamesView : public AbstractItemView
 {
         Q_OBJECT

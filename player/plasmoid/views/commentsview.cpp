@@ -34,10 +34,10 @@
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags ), m_rootWidget( 0 ), m_isOnline( false )
+    , m_itemBackground(new Plasma::ItemBackground( this ))
+    , m_commentsFrame(new Plasma::Frame( this ))
+    , m_commentsLayout(new QGraphicsLinearLayout( Qt::Vertical, m_commentsFrame ))
 {
-    m_itemBackground = new Plasma::ItemBackground( this );
-    m_commentsFrame = new Plasma::Frame( this );
-    m_commentsLayout = new QGraphicsLinearLayout( Qt::Vertical, m_commentsFrame );
     m_commentsFrame->setLayout( m_commentsLayout );
     m_contentLayout->addItem( m_commentsFrame );
 }
@@ -48,7 +48,7 @@ void CommentsView::setModel( QAbstractItemModel* model )
     connect( model, SIGNAL( modelReset() ), SLOT( reloadComments() ) );
 
     m_rootWidget = new QGraphicsWidget( m_commentsFrame );
-    for( int i = 0; i < m_model->rowCount(); i++ )
+    for( int i = 0; i < m_model->rowCount(); ++i )
     {
         addComment( m_model->index( i, 0 ), m_rootWidget, 0 );
     }
@@ -69,7 +69,7 @@ CommentsViewItem* CommentsView::addComment( const QModelIndex& index, QGraphicsW
 
     if( m_model->hasChildren( index ) )  //There are one or more children
     {
-        for( int i = 0; i < m_model->rowCount( index ); i++ )
+        for( int i = 0; i < m_model->rowCount( index ); ++i )
         {
             addComment( index.child( i, 0 ), item, depth + 1 );
         }
@@ -117,7 +117,7 @@ void CommentsView::removeComments()
 
 void CommentsView::loadComments()
 {
-    for( int i = 0; i < m_model->rowCount(); i++ )  //Reload comments
+    for( int i = 0; i < m_model->rowCount(); ++i )  //Reload comments
     {
         addComment( m_model->index( i, 0 ), m_rootWidget, 0 );
     }

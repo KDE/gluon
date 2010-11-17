@@ -41,13 +41,13 @@ class HighScoresView : public AbstractItemView
         virtual void setModel( QAbstractItemModel* model );
         virtual ~HighScoresView();
 
-    private:
-        GluonPlayer::HighScoresModel* m_model;
-
     protected:
+        bool eventFilter( QObject* obj, QEvent* event );
+
         Plasma::ItemBackground* m_itemBackground;
 
-        bool eventFilter( QObject* obj, QEvent* event );
+    private:
+        GluonPlayer::HighScoresModel* m_model;
 };
 
 #endif // HIGHSCORESVIEW_H
