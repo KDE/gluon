@@ -1,7 +1,7 @@
 import QtQuick 1.0
 
 /**
- * A LineEdit in Mana style
+ * A LineEdit in Gluon style
  */
 FocusScope {
     property alias text: textInput.text

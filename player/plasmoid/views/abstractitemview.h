@@ -20,24 +20,18 @@
 #ifndef ABSTRACTITEMVIEW_H
 #define ABSTRACTITEMVIEW_H
 
-#include <QGraphicsWidget>
 #include "overlay.h"
+
+#include <QGraphicsWidget>
 
 class QAbstractItemModel;
 class QModelIndex;
 class QGraphicsLinearLayout;
 class QGraphicsGridLayout;
 
-namespace Plasma
-{
-    class FrameSvg;
-    class ScrollWidget;
-}
-
 class AbstractItemView : public Overlay
 {
         Q_OBJECT
-
     public:
         AbstractItemView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
 

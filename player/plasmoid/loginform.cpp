@@ -80,7 +80,7 @@ void LoginForm::initDone()
 
 void LoginForm::initFailed()
 {
-    qDebug() << "SOMETHING DIDN'T WORK :(";
+    qDebug() << "Initialization failed";
 }
 
 void LoginForm::doLogin()
@@ -92,8 +92,9 @@ void LoginForm::doLogin()
 
     m_loginButton->setEnabled( false );
     m_busyWidget->show();
-    m_usernameLabel->setText( i18n( "Logging in" ) );
     GluonPlayer::Authentication::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
+    // Note: the login result should be checked
+    m_usernameLabel->setText( i18n( "Logging in" ) );
 }
 
 void LoginForm::loginDone()

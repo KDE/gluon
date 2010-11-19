@@ -29,7 +29,8 @@
 
 #include <QGraphicsLinearLayout>
 
-NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags ): QGraphicsWidget( parent, wFlags )
+NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : QGraphicsWidget( parent, wFlags )
 {
     QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical, this );
     QGraphicsLinearLayout* layout2 = new QGraphicsLinearLayout( Qt::Horizontal, layout );
@@ -43,7 +44,7 @@ NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags ):
 
     m_okButton = new Plasma::PushButton( this );
     m_okButton->setText( i18n( "OK" ) );
-    connect( m_okButton, SIGNAL( clicked() ), this, SLOT( validateAndSubmit() ) );
+    connect( m_okButton, SIGNAL( clicked() ), SLOT( validateAndSubmit() ) );
 
     m_cancelButton = new Plasma::PushButton( this );
     m_cancelButton->setText( i18n( "Cancel" ) );
@@ -60,7 +61,6 @@ NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags ):
 
 NewCommentForm::~NewCommentForm()
 {
-
 }
 
 void NewCommentForm::setParentIndex( QModelIndex parentIndex )
@@ -70,8 +70,13 @@ void NewCommentForm::setParentIndex( QModelIndex parentIndex )
 
 void NewCommentForm::validateAndSubmit()
 {
-    if( m_titleEdit->text().isEmpty() || m_bodyEdit->text().isEmpty() )
+    if( m_titleEdit->text().isEmpty())
     {
+        qDebug() << "Empty title";
+    }
+    if(m_bodyEdit->text().isEmpty() )
+    {
+        qDebug() << "Empty body";
         return;
     }
     emit accepted( m_parentIndex, m_titleEdit->text(), m_bodyEdit->nativeWidget()->toPlainText() );

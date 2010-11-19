@@ -24,20 +24,19 @@
 #include <QGraphicsLinearLayout>
 
 HighScoresViewItem::HighScoresViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : QGraphicsWidget( parent, wFlags ), m_playerName( 0 ), m_score( 0 )
+    : QGraphicsWidget( parent, wFlags )
+    , m_playerName( 0 )
+    , m_score( 0 )
 {
-
 }
 
 HighScoresViewItem::~HighScoresViewItem()
 {
-
 }
 
 void HighScoresViewItem::setModelIndex( const QModelIndex& index )
 {
     m_index = index;
-
     layoutWidgets();
 }
 

@@ -28,7 +28,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QSharedData>
 
-#include <libudev.h>
+// #include <libudev.h>
 
 /**
  * \defgroup KCL KCL
@@ -45,7 +45,8 @@ namespace GluonInput
 
         public:
             explicit InputThread( const QString& devicePath, QObject* parent = 0 );
-            explicit InputThread(udev_device *dev, QObject *parent = 0);
+//            explicit InputThread(udev_device *dev, QObject *parent = 0);
+
             ~InputThread();
             void run();
 

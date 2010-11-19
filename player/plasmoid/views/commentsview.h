@@ -21,6 +21,7 @@
 #define COMMENTSVIEW_H
 
 #include "abstractitemview.h"
+
 #include <QMultiHash>
 #include <QPersistentModelIndex>
 
@@ -36,22 +37,9 @@ namespace Plasma
 class CommentsView : public AbstractItemView
 {
         Q_OBJECT
-
     public:
         CommentsView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual void setModel( QAbstractItemModel* model );
-
-    protected:
-        Plasma::ItemBackground* m_itemBackground;
-
-        bool eventFilter( QObject* obj, QEvent* event );
-        CommentsViewItem* addComment( const QModelIndex& index, QGraphicsWidget* parent, int depth );
-
-    private:
-        QGraphicsWidget* m_rootWidget;
-        QGraphicsLinearLayout* m_commentsLayout;
-        Plasma::Frame* m_commentsFrame;
-        bool m_isOnline;
 
     protected slots:
         void showReply();
@@ -62,6 +50,18 @@ class CommentsView : public AbstractItemView
         void cancelNewComment();
         void hideComments();
         void showComments();
+
+    protected:
+        bool eventFilter( QObject* obj, QEvent* event );
+        CommentsViewItem* addComment( const QModelIndex& index, QGraphicsWidget* parent, int depth );
+
+        Plasma::ItemBackground* m_itemBackground;
+
+    private:
+        QGraphicsWidget* m_rootWidget;
+        Plasma::Frame* m_commentsFrame;
+        QGraphicsLinearLayout* m_commentsLayout;
+        bool m_isOnline;
 };
 
 #endif // COMMENTSVIEW_H

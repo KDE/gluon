@@ -39,7 +39,6 @@ namespace Plasma
 class CommentsViewItem : public QGraphicsWidget
 {
         Q_OBJECT
-
     public:
         CommentsViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~CommentsViewItem();
@@ -53,7 +52,16 @@ class CommentsViewItem : public QGraphicsWidget
         bool replyEnabled();
         void setReplyEnabled( bool enabled );
 
+    signals:
+        void replyClicked();
+
     protected:
+        void hoverEnterEvent( QGraphicsSceneHoverEvent* event );
+        void hoverLeaveEvent( QGraphicsSceneHoverEvent* event );
+
+        void layoutWidgets();
+        void setToolTips();
+
         QPersistentModelIndex m_index;
         Plasma::IconWidget* m_author;
         Plasma::Label* m_title;
@@ -66,17 +74,8 @@ class CommentsViewItem : public QGraphicsWidget
         int m_depth;
         int m_rowInLayout;
 
-        void hoverEnterEvent( QGraphicsSceneHoverEvent* event );
-        void hoverLeaveEvent( QGraphicsSceneHoverEvent* event );
-
-        void layoutWidgets();
-        void setToolTips();
-
     private:
         bool m_replyEnabled;
-
-    signals:
-        void replyClicked();
 };
 
 #endif // COMMENTSVIEWITEM_H

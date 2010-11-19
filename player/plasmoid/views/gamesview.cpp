@@ -27,16 +27,17 @@
 #include <Plasma/ItemBackground>
 #include <Plasma/TabBar>
 
-GamesView::GamesView( QGraphicsItem* parent, Qt::WindowFlags wFlags ) : AbstractItemView( parent, wFlags )
+GamesView::GamesView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+    : AbstractItemView( parent, wFlags )
+    , m_itemBackground(new Plasma::ItemBackground( this ))
 {
-    m_itemBackground = new Plasma::ItemBackground( this );
 }
 
 void GamesView::setModel( QAbstractItemModel* model )
 {
     AbstractItemView::setModel( model );
 
-    for( int i = 0; i < m_model->rowCount(); i++ )
+    for( int i = 0; i < m_model->rowCount(); ++i )
     {
         GamesViewItem* item = new GamesViewItem( this );
         item->setModelIndex( m_model->index( i, 0 ) );

@@ -40,16 +40,16 @@ class HighScoresViewItem : public QGraphicsWidget
         virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;
 
+    protected:
+        void layoutWidgets();
+
+        QGraphicsLinearLayout* m_layout;
+
     private:
         QModelIndex m_index;
         Plasma::IconWidget* m_playerName;
         Plasma::Label* m_score;
         Plasma::Label* m_level;
-
-    protected:
-        QGraphicsLinearLayout* m_layout;
-
-        void layoutWidgets();
 };
 
 #endif // HIGHSCORESVIEWITEM_H
