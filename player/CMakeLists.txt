@@ -69,6 +69,7 @@ if(LIBATTICA_FOUND)
     if(BUILD_PLASMOID)
         include_directories(${KDE4_INCLUDES})
         add_subdirectory(plasmoid)
+        add_subdirectory(touch)
     endif(BUILD_PLASMOID)
 else(LIBATTICA_FOUND)
     target_link_libraries(
@@ -86,7 +87,6 @@ endif(LIBATTICA_FOUND)
 install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(qt)
-add_subdirectory(touch)
 
 add_subdirectory(icons)
 
