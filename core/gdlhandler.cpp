@@ -140,7 +140,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
 
                 // Ignore whitespace as instructed, rar!
-                if( !i->isSpace() )
+                if( !i->isSpace() && (*i) != '#' )
                 {
                     if( i->toLower() == '}' )
                     {
