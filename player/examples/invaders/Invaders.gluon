@@ -1,5 +1,6 @@
 { GluonEngine::GameProject(Invaders)
     description string(Invaders Game)
+    id string(128637)
     entryPoint GluonEngine::Scene(Invaders/Scenes/Menu)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Menu)

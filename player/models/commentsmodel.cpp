@@ -35,10 +35,11 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-CommentsModel::CommentsModel( QObject* parent )
+CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
     , rootNode( new GluonObject( "Comment" ) )
     , m_isOnline( false )
+    , m_gameId(gameId)
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
 
@@ -62,12 +63,9 @@ void CommentsModel::providersUpdated()
 {
     if( AtticaManager::instance()->isProviderValid() )
     {
-        //TODO: 128637 is the ID for Invaders, make it work for other games as well
-        //      when we have more games
-
         Attica::ListJob<Attica::Comment> *job =
             AtticaManager::instance()->provider().requestComments( Attica::Comment::ContentComment,
-                    "128637", "0", 0, 100 );
+                    m_gameId, "0", 0, 100 );
         connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedComments( Attica::BaseJob* ) ) );
         job->start();
     }

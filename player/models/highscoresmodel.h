@@ -36,7 +36,11 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            HighScoresModel( QObject* parent = 0 );
+            /**
+             * @param gameId The game ID which will be used to perform lookup in the online
+             * service
+             */
+            HighScoresModel( QString gameId, QObject* parent = 0 );
             virtual ~HighScoresModel();
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
@@ -55,8 +59,10 @@ namespace GluonPlayer
             void saveData();
 
             GluonCore::GluonObject* rootNode;
+            QString m_gameId;
     };
 
 }
 
 #endif // GLUONPLAYER_HIGHSCORESMODEL_H
+

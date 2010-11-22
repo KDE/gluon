@@ -32,9 +32,9 @@ using namespace GluonPlayer;
 
 static const char serviceURI[] = "gamingfreedom.org";
 
-HighScoresModel::HighScoresModel( QObject* parent )
+HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
-    , rootNode( new GluonObject( "HighScores" ) )
+    , m_gameId(gameId), rootNode( new GluonObject( "HighScores" ) )
 {
     loadData();
 }

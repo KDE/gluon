@@ -66,7 +66,11 @@ namespace GluonPlayer
                 RatingColumn
             };
 
-            CommentsModel( QObject* parent = 0 );
+            /**
+             * @param gameId The game ID which will be used to perform lookup in the online
+             * service
+             */
+            CommentsModel( QString gameId, QObject* parent = 0 );
             virtual ~CommentsModel();
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
@@ -106,6 +110,7 @@ namespace GluonPlayer
             GluonCore::GluonObject* rootNode;
             QStringList m_columnNames;
             bool m_isOnline;
+            QString m_gameId;
 
             void updateData();
             void loadData();
