@@ -140,6 +140,23 @@ void MainWindow::setupUi()
     setWindowIcon(QIcon(":/images/icon.bmp"));
     setWindowIconText("QPatternDB application logo");
 
+    QFont font;
+    font.setPointSize(8);
+
+    userNameLabel = new QLabel();
+    userNameLabel->setObjectName(QString::fromUtf8("userNameLabel"));
+    userNameLabel->setFont(font);
+
+    userNameLineEdit = new QLineEdit();
+    userNameLineEdit->setObjectName(QString::fromUtf8("userNameLineEdit"));
+
+    passwordLabel = new QLabel();
+    passwordLabel->setObjectName(QString::fromUtf8("passwordLabel"));
+    passwordLabel->setFont(font);
+
+    passwordLineEdit = new QLineEdit();
+    passwordLineEdit->setObjectName(QString::fromUtf8("passwordLineEdit"));
+
     retranslateUi();
 
     return;
@@ -232,7 +249,7 @@ void MainWindow::countFrames( int time )
 void MainWindow::createActions()
 {
     // File related actions
-    openGameAct = new QAction(QIcon(":/images/open.png"), tr("&Open..."), this);
+    openGameAct = new QAction(QIcon(":/images/open.png"), tr("&Open a game..."), this);
     openGameAct->setShortcuts(QKeySequence::Open);
     openGameAct->setStatusTip(tr("Open a game"));
     openGameAct->setEnabled(false);

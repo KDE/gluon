@@ -6,6 +6,8 @@ set(qtextplayer_SRCS
     main.cpp
     mainwindow.cpp
     actionsdialog.cpp
+    overlay.cpp
+    loginform.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})

@@ -25,8 +25,13 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QMenuBar>
 #include <QtGui/QMessageBox>
+#include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+
 #include <QtCore/QSharedPointer>
 #include <QtCore/QSettings>
+#include <QtCore/QString>
 
 class QModelIndex;
 
@@ -38,6 +43,14 @@ namespace GluonPlayer
         public:
             MainWindow( int argc, char** argv, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             virtual void closeEvent( QCloseEvent* event );
+
+            QString userName() const;
+            QString password() const;
+            bool rememberSettings() const;
+
+            void setUserName(const QString &userName);
+            void setPassword(const QString &password);
+            void setRememberSettings(bool on);
 
         public slots:
             void openProject( const QString& fileName = QString() );
@@ -76,6 +89,12 @@ namespace GluonPlayer
             void loadActions();
 
             QWidget *centralWidget;
+            QGridLayout *loginGridLayout();
+
+            QLabel *userNameLabel;
+            QLineEdit *userNameLineEdit;
+            QLabel *passwordLabel;
+            QLineEdit *passwordLineEdit;
 
             QMenuBar *menuBar;
             QToolBar *mainToolBar;
