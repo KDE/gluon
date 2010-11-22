@@ -53,7 +53,7 @@ namespace GluonPlayer
             void mConfigureShortcuts();
             void mAbout();
 
-            void mLoginLogout();
+            void mLoginLogout(bool checked);
             void mHome();
             void mDetails();
             void mRegistration();

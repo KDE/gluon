@@ -263,19 +263,19 @@ void MainWindow::createActions()
 
     homeAct = new QAction(tr("Home view"), this);
     homeAct->setStatusTip(tr("Go to the Home view"));
-    connect(homeAct, SIGNAL(triggered(bool)), SLOT(mHome(bool)));
+    connect(homeAct, SIGNAL(triggered()), SLOT(mHome()));
 
     detailsAct = new QAction(tr("Details view"), this);
     detailsAct->setStatusTip(tr("Go to the Detail view"));
-    connect(detailsAct, SIGNAL(triggered(bool)), SLOT(mDetails(bool)));
+    connect(detailsAct, SIGNAL(triggered()), SLOT(mDetails()));
 
     registrationAct = new QAction(tr("Registration view"), this);
     registrationAct->setStatusTip(tr("Go to the Registration view"));
-    connect(registrationAct, SIGNAL(triggered(bool)), SLOT(mRegistration(bool)));
+    connect(registrationAct, SIGNAL(triggered()), SLOT(mRegistration()));
 
     forgottenPasswordAct = new QAction(tr("Forgotten Password Action"), this);
     forgottenPasswordAct->setStatusTip(tr("Go to the Forgotten Password Page"));
-    connect(forgottenPasswordAct, SIGNAL(triggered(bool)), SLOT(mForgottenPassword(bool)));
+    connect(forgottenPasswordAct, SIGNAL(triggered()), SLOT(mForgottenPassword()));
 
 
     // Settings menu related actions
@@ -363,7 +363,7 @@ void MainWindow::mShowStatusBar(bool checked)
     statusBar->setVisible(checked);
 }
 
-void MainWindow::mLoginLogout()
+void MainWindow::mLoginLogout(bool checked)
 {
 }
 
