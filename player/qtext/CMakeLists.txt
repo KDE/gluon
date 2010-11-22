@@ -5,6 +5,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(qtextplayer_SRCS
     main.cpp
     mainwindow.cpp
+    actionsdialog.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})

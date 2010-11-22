@@ -18,6 +18,7 @@
  */
 
 #include "mainwindow.h"
+#include "actionsdialog.h"
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -55,6 +56,7 @@ class MainWindow::MainWindowPrivate
 GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
     , d( new MainWindowPrivate )
+    , settings( new QSettings )
 {
     d->msecElapsed = 0;
     d->frameCount = 0;
@@ -95,6 +97,8 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
     createMenus();
     createToolBars();
     createStatusBar();
+
+    loadActions();
 
     resize( 500, 500 );
 }
@@ -389,6 +393,8 @@ void MainWindow::mConfigureToolBar()
 
 void MainWindow::mConfigureShortcuts()
 {
+    ActionsDialog actionsDialog(m_actions, this);
+    actionsDialog.exec();
 }
 
 void MainWindow::mAbout()
@@ -396,5 +402,32 @@ void MainWindow::mAbout()
     QMessageBox::about(this, tr("<b>Gluon Extended Qt Player</b>"), \
             tr("This is an extended Qt Player application for Gluon games."));
 }
+
+void MainWindow::loadActions()
+{
+
+    qint32 cntr = 0;
+    QList<QAction *> actions;
+    actions = findChildren<QAction *>();
+    foreach (QAction *action, actions) {
+        if (!action->isSeparator() && !action->text().isEmpty()) {
+            m_actions.append(action);
+        } else {
+            ++cntr;
+        }
+    }
+
+    cntr = 0;
+
+    settings->beginGroup("Action");
+    foreach (QAction *action, m_actions) {
+        QString accelText = settings->value(action->text()).toString();
+        if (!accelText.isEmpty())
+            m_actions[cntr]->setShortcut(QKeySequence(accelText));
+        ++cntr;
+    }
+    settings->endGroup();
+}
+
 
 #include "mainwindow.moc"

@@ -25,6 +25,8 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QMenuBar>
 #include <QtGui/QMessageBox>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QSettings>
 
 class QModelIndex;
 
@@ -71,6 +73,8 @@ namespace GluonPlayer
             void createToolBars();
             void createStatusBar();
 
+            void loadActions();
+
             QWidget *centralWidget;
 
             QMenuBar *menuBar;
@@ -112,6 +116,8 @@ namespace GluonPlayer
             QMenu   *settingsMenu;
             QMenu   *helpMenu;
 
+            QSharedPointer<QSettings> settings;
+            QList<QAction *>   m_actions;
 
             class MainWindowPrivate;
             MainWindowPrivate* d;
