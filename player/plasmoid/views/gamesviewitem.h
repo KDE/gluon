@@ -22,12 +22,7 @@
 
 #include <QGraphicsWidget>
 #include <QModelIndex>
-
-class QGraphicsGridLayout;
-class QGraphicsSceneMouseEvent;
-class QPainter;
-class QStyleOptionGraphicsItem;
-class QWidget;
+#include <QGraphicsGridLayout>
 
 namespace Plasma
 {
@@ -44,24 +39,24 @@ class GamesViewItem : public QGraphicsWidget
         virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;
 
-    protected:
-        QModelIndex m_index;
-        Plasma::IconWidget* m_preview;
-        Plasma::Label* m_gameName;
-        Plasma::Label* m_gameDescription;
-        Plasma::IconWidget* m_playButton;
-        QGraphicsGridLayout* m_layout;
-
-        void layoutWidgets();
-        void setToolTips();
-        virtual void mousePressEvent( QGraphicsSceneMouseEvent* event );
-
     protected slots:
         void playGameActivated();
 
     signals:
         void gameToPlaySelected( const QModelIndex& index );
         void gameSelected( const QModelIndex& index );
+
+    protected:
+        void layoutWidgets();
+        void setToolTips();
+        virtual void mousePressEvent( QGraphicsSceneMouseEvent* event );
+
+        QModelIndex m_index;
+        Plasma::IconWidget* m_preview;
+        Plasma::Label* m_gameName;
+        Plasma::Label* m_gameDescription;
+        Plasma::IconWidget* m_playButton;
+        QGraphicsGridLayout* m_layout;
 };
 
 #endif // GAMESVIEWITEM_H

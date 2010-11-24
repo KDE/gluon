@@ -30,7 +30,6 @@
 #include <QTreeView>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsProxyWidget>
-#include <QDebug>
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

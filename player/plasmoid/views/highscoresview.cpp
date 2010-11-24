@@ -23,7 +23,6 @@
 
 #include <Plasma/ItemBackground>
 #include <QGraphicsLinearLayout>
-#include <QGraphicsProxyWidget>
 
 HighScoresView::HighScoresView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

@@ -33,18 +33,11 @@ namespace Plasma
 class NewCommentForm : public QGraphicsWidget
 {
         Q_OBJECT
-
     public:
         NewCommentForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~NewCommentForm();
-        void setParentIndex( QModelIndex parentIndex );
 
-    private:
-        Plasma::LineEdit* m_titleEdit;
-        Plasma::TextEdit* m_bodyEdit;
-        Plasma::PushButton* m_okButton;
-        Plasma::PushButton* m_cancelButton;
-        QModelIndex m_parentIndex;
+        void setParentIndex( QModelIndex parentIndex );
 
     private slots:
         void validateAndSubmit();
@@ -52,6 +45,13 @@ class NewCommentForm : public QGraphicsWidget
     signals:
         void accepted( QModelIndex parentIndex, QString title, QString body );
         void canceled();
+
+    private:
+        Plasma::LineEdit* m_titleEdit;
+        Plasma::TextEdit* m_bodyEdit;
+        Plasma::PushButton* m_okButton;
+        Plasma::PushButton* m_cancelButton;
+        QModelIndex m_parentIndex;
 };
 
 #endif // NEWCOMMENTFORM_H

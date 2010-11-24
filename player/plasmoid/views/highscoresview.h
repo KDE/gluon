@@ -22,8 +22,6 @@
 
 #include "abstractitemview.h"
 
-class QTableView;
-
 namespace GluonPlayer
 {
     class HighScoresModel;

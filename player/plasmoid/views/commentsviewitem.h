@@ -24,11 +24,6 @@
 #include <QPersistentModelIndex>
 
 class QGraphicsGridLayout;
-class QGraphicsSceneMouseEvent;
-class QPainter;
-class QStyleOptionGraphicsItem;
-class QWidget;
-class QGraphicsSceneHoverEvent;
 
 namespace Plasma
 {
