@@ -23,9 +23,7 @@
 #include <QModelIndex>
 #include <QGraphicsLinearLayout>
 
-#include <KDebug>
 #include <Plasma/ItemBackground>
-#include <Plasma/TabBar>
 
 GamesView::GamesView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )
