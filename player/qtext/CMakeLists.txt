@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 set(qtextplayer_SRCS
     main.cpp
@@ -8,6 +11,8 @@ set(qtextplayer_SRCS
     actionsdialog.cpp
     overlay.cpp
     loginform.cpp
+    views/abstractitemview.cpp
+    views/achievementsview.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})
