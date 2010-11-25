@@ -20,6 +20,8 @@
 #ifndef GLUONPLAYER_MAINWINDOW_H
 #define GLUONPLAYER_MAINWINDOW_H
 
+#include "loginform.h"
+
 #include <QtGui/QMainWindow>
 #include <QtGui/QAction>
 #include <QtGui/QToolBar>
@@ -28,6 +30,7 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QStackedWidget>
 
 #include <QtCore/QSharedPointer>
 #include <QtCore/QSettings>
@@ -88,13 +91,12 @@ namespace GluonPlayer
 
             void loadActions();
 
-            QWidget *centralWidget;
-            QGridLayout *loginGridLayout();
+            QStackedWidget *stackedWidget;
 
-            QLabel *userNameLabel;
-            QLineEdit *userNameLineEdit;
-            QLabel *passwordLabel;
-            QLineEdit *passwordLineEdit;
+            LoginForm *loginForm;
+
+            QWidget *centralWidget;
+            QGridLayout *mainGridLayout;
 
             QMenuBar *menuBar;
             QToolBar *mainToolBar;

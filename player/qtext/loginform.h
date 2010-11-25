@@ -25,7 +25,6 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
-#include <QtGui/QGraphicsWidget>
 #include <QtGui/QPushButton>
 #include <QtGui/QProgressBar>
 #include <QtGui/QLineEdit>
@@ -36,9 +35,19 @@ class LoginForm : public Overlay
 {
         Q_OBJECT
     public:
-        LoginForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+
+    protected slots:
+        void doLogin();
+        void loginDone();
+        void loginFailed();
+        void initDone();
+        void initFailed();
+        void loadCredentials();
 
     private:
+        void initialize();
+
         QLineEdit* m_usernameLineEdit;
         QLineEdit* m_passwordLineEdit;
         QPushButton* m_loginButton;
@@ -50,16 +59,6 @@ class LoginForm : public Overlay
 
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
-
-        void initialize();
-
-    protected slots:
-        void doLogin();
-        void loginDone();
-        void loginFailed();
-        void initDone();
-        void initFailed();
-        void loadCredentials();
 };
 
 #endif // LOGINFORM_H

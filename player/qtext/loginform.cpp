@@ -23,10 +23,9 @@
 
 #include <attica/provider.h>
 
-#include <QGraphicsLinearLayout>
 #include <QDebug>
 
-LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
     , m_usernameLineEdit( new QLineEdit( ) )
     , m_passwordLineEdit( new QLineEdit( ) )
@@ -44,7 +43,7 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
 
     m_busyWidget->hide();
 
-    QGraphicsLinearLayout* layout1 = new QGraphicsLinearLayout( m_contentLayout );
+    QGridLayout* layout1 = new QGridLayout( );
     // layout1->addItem( m_busyWidget );
     // layout1->addItem( m_usernameLabel );
 

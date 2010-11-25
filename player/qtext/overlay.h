@@ -20,26 +20,25 @@
 #ifndef OVERLAY_H
 #define OVERLAY_H
 
-#include <QGraphicsWidget>
+#include <QWidget>
+#include <QGridLayout>
+#include <QResizeEvent>
+#include <QWheelEvent>
 
-class QGraphicsLinearLayout;
-
-class Overlay : public QGraphicsWidget
+class Overlay : public QWidget
 {
         Q_OBJECT
 
     public:
-        Overlay( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     protected:
         virtual void keyPressEvent( QKeyEvent* event );
-        virtual void wheelEvent( QGraphicsSceneWheelEvent* event );
-        void paint( QPainter* painter, const QStyleOptionGraphicsItem* option,
-                    QWidget* widget = 0 );
-        void resizeEvent( QGraphicsSceneResizeEvent* event );
+        virtual void wheelEvent( QWheelEvent* event );
+        void resizeEvent( QResizeEvent* event );
 
-        QGraphicsLinearLayout* m_contentLayout;
-        QGraphicsWidget* m_contentWidget;
+        QGridLayout* m_contentLayout;
+        QWidget* m_contentWidget;
 };
 
 #endif // OVERLAY_H

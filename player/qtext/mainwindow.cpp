@@ -68,27 +68,27 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
     }
     else
     {
-        QWidget* base = new QWidget( this );
-        QVBoxLayout* layout = new QVBoxLayout();
-        base->setLayout( layout );
-        setCentralWidget( base );
+        // QWidget* base = new QWidget( this );
+        // QVBoxLayout* layout = new QVBoxLayout();
+        // base->setLayout( layout );
+        /* setCentralWidget( base ); */
 
-        QLabel* header = new QLabel( tr( "Please select a Project" ), base );
-        header->setAlignment( Qt::AlignCenter );
-        QFont font;
-        font.setBold( true );
-        header->setFont( font );
-        layout->addWidget( header );
+        // QLabel* header = new QLabel( tr( "Please select a Project" ), base );
+        // header->setAlignment( Qt::AlignCenter );
+        // QFont font;
+        // font.setBold( true );
+        // header->setFont( font );
+        // layout->addWidget( header );
 
-        QListView* view = new QListView( base );
-        layout->addWidget( view );
-        d->model = new GamesModel( view );
-        view->setModel( d->model );
-        connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
+        // QListView* view = new QListView( base );
+        // layout->addWidget( view );
+        // d->model = new GamesModel( view );
+        // view->setModel( d->model );
+        // connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
-        QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
-        layout->addWidget( button );
-        connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
+        // QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
+        // layout->addWidget( button );
+        // connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
     }
 
     setupUi();
@@ -120,44 +120,40 @@ void MainWindow::setupUi()
     if (objectName().isEmpty())
         setObjectName(QString::fromUtf8("MainWindow"));
 
-    centralWidget = new QWidget(this);
-    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+    // centralWidget = new QWidget(this);
+    // centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
 
-    setCentralWidget(centralWidget);
 
-    menuBar = new QMenuBar(this);
-    menuBar->setObjectName(QString::fromUtf8("menuBar"));
-    menuBar->setGeometry(QRect(0, 0, 1290, 20));
-    setMenuBar(menuBar);
-    mainToolBar = new QToolBar(this);
-    mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-    addToolBar(Qt::TopToolBarArea, mainToolBar);
-    statusBar = new QStatusBar(this);
-    statusBar->setObjectName(QString::fromUtf8("statusBar"));
-    setStatusBar(statusBar);
+    // menuBar = new QMenuBar(this);
+    // menuBar->setObjectName(QString::fromUtf8("menuBar"));
+    // menuBar->setGeometry(QRect(0, 0, 1290, 20));
+    // setMenuBar(menuBar);
+    // mainToolBar = new QToolBar(this);
+    // mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+    // addToolBar(Qt::TopToolBarArea, mainToolBar);
+    // statusBar = new QStatusBar(this);
+    // statusBar->setObjectName(QString::fromUtf8("statusBar"));
+    // setStatusBar(statusBar);
 
-    setWindowTitle("QPatternDB");
-    setWindowIcon(QIcon(":/images/icon.bmp"));
-    setWindowIconText("QPatternDB application logo");
+    // setWindowTitle("QPatternDB");
+    // setWindowIcon(QIcon(":/images/icon.bmp"));
+    // setWindowIconText("QPatternDB application logo");
 
-    QFont font;
-    font.setPointSize(8);
+    loginForm = new LoginForm;
 
-    userNameLabel = new QLabel();
-    userNameLabel->setObjectName(QString::fromUtf8("userNameLabel"));
-    userNameLabel->setFont(font);
+    // stackedWidget = new QStackedWidget;
 
-    userNameLineEdit = new QLineEdit();
-    userNameLineEdit->setObjectName(QString::fromUtf8("userNameLineEdit"));
+    // stackedWidget->addWidget(loginForm);
 
-    passwordLabel = new QLabel();
-    passwordLabel->setObjectName(QString::fromUtf8("passwordLabel"));
-    passwordLabel->setFont(font);
+    // mainGridLayout = new QGridLayout(centralWidget);
+    // mainGridLayout->setObjectName(QString::fromUtf8("mainGridLayout"));
 
-    passwordLineEdit = new QLineEdit();
-    passwordLineEdit->setObjectName(QString::fromUtf8("passwordLineEdit"));
+    // mainGridLayout->addWidget(stackedWidget, 0, 0);
+    // setLayout(mainGridLayout);
 
-    retranslateUi();
+    setCentralWidget(loginForm);
+    // setCentralWidget(centralWidget);
+    // retranslateUi();
 
     return;
 }

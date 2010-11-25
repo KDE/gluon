@@ -20,18 +20,13 @@
 #include "overlay.h"
 
 #include <QAbstractItemModel>
-#include <QPainter>
-#include <QGraphicsSceneEvent>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsGridLayout>
 
-
-Overlay::Overlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
-    : QGraphicsWidget( parent, wFlags )
-    , m_contentLayout( new QGraphicsLinearLayout( Qt::Vertical ) )
-    , m_contentWidget( new QGraphicsWidget( this ) )
+Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
+    : QWidget( parent, wFlags )
+    , m_contentLayout( new QGridLayout( ) )
+    , m_contentWidget( new QWidget( this ) )
 {
-    QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical );
+    QGridLayout* layout = new QGridLayout();
     setLayout( layout );
     setContentsMargins( 10, 15, 10, 15 );
 
@@ -40,21 +35,15 @@ Overlay::Overlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
 
 void Overlay::keyPressEvent( QKeyEvent* event )
 {
-    QGraphicsItem::keyPressEvent( event );
+    QWidget::keyPressEvent( event );
 }
 
-void Overlay::wheelEvent( QGraphicsSceneWheelEvent* event )
+void Overlay::wheelEvent( QWheelEvent* event )
 {
-    QGraphicsItem::wheelEvent( event );
+    QWidget::wheelEvent( event );
 }
 
-void Overlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
-{
-    Q_UNUSED( option );
-    Q_UNUSED( widget );
-}
-
-void Overlay::resizeEvent( QGraphicsSceneResizeEvent* event )
+void Overlay::resizeEvent( QResizeEvent* event )
 {
 }
 

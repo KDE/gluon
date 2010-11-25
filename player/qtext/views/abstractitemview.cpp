@@ -25,7 +25,7 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 
-AbstractItemView::AbstractItemView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+AbstractItemView::AbstractItemView( QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
     , m_model( 0 )
 {
