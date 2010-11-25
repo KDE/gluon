@@ -1,6 +1,16 @@
 [Desktop Entry]
 Name=Gluon Player (Qt Ext only)
+Name[uk]=Програвач Gluon (лише Qt Ext)
+Name[x-test]=xxGluon Player (Qt Ext only)xx
 GenericName=Game Launcher
+GenericName[de]=Spielestarter
+GenericName[es]=Lanzador de juegos
+GenericName[fr]=Démarrage du jeu
+GenericName[pt]=Lançador do Jogo
+GenericName[pt_BR]=Lançador do jogo
+GenericName[sv]=Startprogram för spel
+GenericName[uk]=Засіб запуску гри
+GenericName[x-test]=xxGame Launcherxx
 Exec=gluon_qtextplayer
 Icon=gluon-player
 Type=Application
