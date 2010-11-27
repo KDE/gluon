@@ -20,12 +20,12 @@
 #include "newcommentform.h"
 
 #include <attica/provider.h>
+
 #include <KTextEdit>
 #include <KLineEdit>
 #include <Plasma/PushButton>
 #include <Plasma/LineEdit>
 #include <Plasma/TextEdit>
-#include <KDebug>
 
 #include <QGraphicsLinearLayout>
 

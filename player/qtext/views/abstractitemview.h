@@ -17,48 +17,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#ifndef ABSTRACTITEMVIEW_H
+#define ABSTRACTITEMVIEW_H
 
 #include "overlay.h"
 
 #include <QGraphicsWidget>
 
-namespace GluonPlayer
-{
-    class CommentsModel;
-    class HighScoresModel;
-}
+class QAbstractItemModel;
+class QModelIndex;
+class QGraphicsLinearLayout;
+class QGraphicsGridLayout;
 
-namespace Plasma
-{
-    class TabBar;
-    class IconWidget;
-}
-
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+class AbstractItemView : public Overlay
 {
         Q_OBJECT
-
     public:
-        GameDetailsOverlay( QString gameId, QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameDetailsOverlay();
+        AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-    private:
-        Plasma::IconWidget* m_backButton;
-        Plasma::TabBar* m_tabBar;
-        HighScoresView* m_highScoresView;
-        AchievementsView* m_achievementsView;
-        CommentsView* m_commentsView;
-        GluonPlayer::CommentsModel* m_commentsModel;
-        GluonPlayer::HighScoresModel* m_highScoresModel;
+        virtual void setModel( QAbstractItemModel* model );
+        QAbstractItemModel* model() const;
 
-    signals:
-        void back();
+    protected:
+        QAbstractItemModel* m_model;
 };
 
-#endif // GAMEDETAILSOVERLAY_H
+#endif // ABSTRACTITEMVIEW_H

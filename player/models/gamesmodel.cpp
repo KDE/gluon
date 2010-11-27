@@ -28,45 +28,45 @@
 
 using namespace GluonPlayer;
 
-GamesModel::GamesModel( QObject* parent )
-    : QAbstractTableModel( parent )
+GamesModel::GamesModel (QObject* parent)
+        : QAbstractTableModel (parent)
 {
-    m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
+    m_dir.cd (GluonCore::Global::dataDirectory() + "/gluon/games");
 }
 
-QVariant GamesModel::data( const QModelIndex& index, int role ) const
+QVariant GamesModel::data (const QModelIndex& index, int role) const
 {
-    if( role == Qt::DisplayRole )
-    {
-        QString gameDirName = m_dir.entryList( QDir::Dirs | QDir::NoDotAndDotDot ).at( index.row() );
+    if (role == Qt::DisplayRole) {
+        QString gameDirName = m_dir.entryList (QDir::Dirs | QDir::NoDotAndDotDot).at (index.row());
         QDir gameDir = m_dir;
-        gameDir.cd( gameDirName );
-        QStringList gluonProjectFiles = gameDir.entryList( QStringList( "*.gluon" ) );
-        QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
+        gameDir.cd (gameDirName);
+        QStringList gluonProjectFiles = gameDir.entryList (QStringList ("*.gluon"));
+        QString projectFileName = gameDir.absoluteFilePath (gluonProjectFiles.at (0));
 
-        if( !gluonProjectFiles.isEmpty() )
-        {
-            if( index.column() == PathColumn )
-            {
+        if (!gluonProjectFiles.isEmpty()) {
+            if (index.column() == PathColumn) {
                 return projectFileName;
-            }
-            else
-            {
+            } else {
                 GluonEngine::GameProject project;
-                project.loadFromFile( projectFileName );
-                switch( index.column() )
-                {
-                    case NameColumn:
-                        return project.name();
-                        break;
-                    case DescriptionColumn:
-                        return project.description();
-                        break;
+                project.loadFromFile (projectFileName);
+
+                switch (index.column()) {
+
+                case NameColumn:
+                    return project.name();
+                    break;
+
+                case DescriptionColumn:
+                    return project.description();
+                    break;
+
+                case IdColumn:
+                    qDebug() << "IDDDDDDDDDDDD " << project.property ("id");
+                    return project.property ("id");
+                    break;
                 }
             }
-        }
-        else
-        {
+        } else {
             return QVariant();
         }
     }
@@ -74,23 +74,23 @@ QVariant GamesModel::data( const QModelIndex& index, int role ) const
     return QVariant();
 }
 
-int GamesModel::columnCount( const QModelIndex& parent ) const
+int GamesModel::columnCount (const QModelIndex& parent) const
 {
-    Q_UNUSED( parent );
-    return 3;
+    Q_UNUSED (parent);
+    return 4;
 }
 
-int GamesModel::rowCount( const QModelIndex& parent ) const
+int GamesModel::rowCount (const QModelIndex& parent) const
 {
-    Q_UNUSED( parent );
-    return m_dir.entryList( QDir::Dirs | QDir::NoDotAndDotDot ).count();
+    Q_UNUSED (parent);
+    return m_dir.entryList (QDir::Dirs | QDir::NoDotAndDotDot).count();
 }
 
-QVariant GamesModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant GamesModel::headerData (int section, Qt::Orientation orientation, int role) const
 {
-    if( section == 0 )
-    {
-        return QString( "Game" );
+    if (section == 0) {
+        return QString ("Game");
     }
-    return QAbstractItemModel::headerData( section, orientation, role );
+
+    return QAbstractItemModel::headerData (section, orientation, role);
 }

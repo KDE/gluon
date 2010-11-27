@@ -47,7 +47,8 @@ namespace GluonPlayer
             {
                 PathColumn,
                 NameColumn,
-                DescriptionColumn
+                DescriptionColumn,
+                IdColumn
             };
 
         private:

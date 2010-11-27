@@ -19,9 +19,9 @@
 
 #include "highscoresviewitem.h"
 #include "models/highscoresmodel.h"
+
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
-#include <QGraphicsLinearLayout>
 
 HighScoresViewItem::HighScoresViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

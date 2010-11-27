@@ -26,11 +26,6 @@
 #include <Plasma/ToolTipManager>
 #include <Plasma/ToolTipContent>
 
-#include <QModelIndex>
-#include <QGraphicsSceneMouseEvent>
-#include <QPainter>
-#include <QGraphicsGridLayout>
-
 GamesViewItem::GamesViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )
     , m_preview( 0 )
@@ -102,6 +97,5 @@ void GamesViewItem::mousePressEvent( QGraphicsSceneMouseEvent* event )
     Q_UNUSED( event );
     emit gameSelected( m_index );
 }
-
 
 #include "gamesviewitem.moc"

@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,35 +17,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef HIGHSCORESVIEW_H
-#define HIGHSCORESVIEW_H
+#include "mainwindow.h"
 
-#include "abstractitemview.h"
+#include <QtGui/QApplication>
 
-namespace GluonPlayer
+int main( int argc, char** argv )
 {
-    class HighScoresModel;
+    QApplication app( argc, argv );
+    app.setOrganizationName( "KDE Gluon" );
+    app.setApplicationName( "Gluon Qt Player" );
+
+    GluonPlayer::MainWindow window( argc, argv );
+    window.show();
+
+    return app.exec();
 }
-
-namespace Plasma
-{
-    class ItemBackground;
-}
-
-class HighScoresView : public AbstractItemView
-{
-    public:
-        HighScoresView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
-        virtual ~HighScoresView();
-
-    protected:
-        bool eventFilter( QObject* obj, QEvent* event );
-
-        Plasma::ItemBackground* m_itemBackground;
-
-    private:
-        GluonPlayer::HighScoresModel* m_model;
-};
-
-#endif // HIGHSCORESVIEW_H

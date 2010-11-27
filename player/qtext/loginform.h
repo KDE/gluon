@@ -17,48 +17,48 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#ifndef LOGINFORM_H
+#define LOGINFORM_H
 
 #include "overlay.h"
 
-#include <QGraphicsWidget>
+#include <attica/providermanager.h>
+#include <attica/provider.h>
 
-namespace GluonPlayer
-{
-    class CommentsModel;
-    class HighScoresModel;
-}
+#include <QtGui/QPushButton>
+#include <QtGui/QProgressBar>
+#include <QtGui/QLineEdit>
+#include <QtGui/QLabel>
+#include <QtGui/QCheckBox>
 
-namespace Plasma
-{
-    class TabBar;
-    class IconWidget;
-}
-
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+class LoginForm : public Overlay
 {
         Q_OBJECT
-
     public:
-        GameDetailsOverlay( QString gameId, QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameDetailsOverlay();
+        LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+
+    protected slots:
+        void doLogin();
+        void loginDone();
+        void loginFailed();
+        void initDone();
+        void initFailed();
+        void loadCredentials();
 
     private:
-        Plasma::IconWidget* m_backButton;
-        Plasma::TabBar* m_tabBar;
-        HighScoresView* m_highScoresView;
-        AchievementsView* m_achievementsView;
-        CommentsView* m_commentsView;
-        GluonPlayer::CommentsModel* m_commentsModel;
-        GluonPlayer::HighScoresModel* m_highScoresModel;
+        void initialize();
 
-    signals:
-        void back();
+        QLineEdit* m_usernameLineEdit;
+        QLineEdit* m_passwordLineEdit;
+        QPushButton* m_loginButton;
+        QProgressBar* m_busyWidget;
+        QLabel* m_usernameLabel;
+        QLabel* m_passwordLabel;
+        QLabel* m_resultLabel;
+        QCheckBox* m_rememberMeCheckBox;
+
+        Attica::ProviderManager m_manager;
+        Attica::Provider m_provider;
 };
 
-#endif // GAMEDETAILSOVERLAY_H
+#endif // LOGINFORM_H

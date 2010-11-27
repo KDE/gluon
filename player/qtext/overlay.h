@@ -17,48 +17,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
+#ifndef OVERLAY_H
+#define OVERLAY_H
 
-#include "overlay.h"
+#include <QWidget>
+#include <QGridLayout>
+#include <QResizeEvent>
+#include <QWheelEvent>
 
-#include <QGraphicsWidget>
-
-namespace GluonPlayer
-{
-    class CommentsModel;
-    class HighScoresModel;
-}
-
-namespace Plasma
-{
-    class TabBar;
-    class IconWidget;
-}
-
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+class Overlay : public QWidget
 {
         Q_OBJECT
 
     public:
-        GameDetailsOverlay( QString gameId, QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameDetailsOverlay();
+        Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-    private:
-        Plasma::IconWidget* m_backButton;
-        Plasma::TabBar* m_tabBar;
-        HighScoresView* m_highScoresView;
-        AchievementsView* m_achievementsView;
-        CommentsView* m_commentsView;
-        GluonPlayer::CommentsModel* m_commentsModel;
-        GluonPlayer::HighScoresModel* m_highScoresModel;
+    protected:
+        virtual void keyPressEvent( QKeyEvent* event );
+        virtual void wheelEvent( QWheelEvent* event );
+        void resizeEvent( QResizeEvent* event );
 
-    signals:
-        void back();
+        QGridLayout* m_contentLayout;
+        QWidget* m_contentWidget;
 };
 
-#endif // GAMEDETAILSOVERLAY_H
+#endif // OVERLAY_H

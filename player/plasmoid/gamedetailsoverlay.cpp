@@ -30,7 +30,7 @@
 
 #include <QGraphicsLinearLayout>
 
-GameDetailsOverlay::GameDetailsOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
+GameDetailsOverlay::GameDetailsOverlay( QString gameId, QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
 {
     m_tabBar = new Plasma::TabBar( this );
@@ -40,13 +40,13 @@ GameDetailsOverlay::GameDetailsOverlay( QGraphicsItem* parent, Qt::WindowFlags w
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     connect( m_backButton, SIGNAL( activated() ), SIGNAL( back() ) );
 
-    m_highScoresModel = new GluonPlayer::HighScoresModel();
+    m_highScoresModel = new GluonPlayer::HighScoresModel(gameId);
     m_highScoresView = new HighScoresView( this );
     m_highScoresView->setModel( m_highScoresModel );
 
     m_achievementsView = new AchievementsView( this );
 
-    m_commentsModel = new GluonPlayer::CommentsModel();
+    m_commentsModel = new GluonPlayer::CommentsModel(gameId);
     m_commentsView = new CommentsView( this );
     m_commentsView->setModel( m_commentsModel );
 

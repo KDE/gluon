@@ -17,48 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMEDETAILSOVERLAY_H
-#define GAMEDETAILSOVERLAY_H
-
 #include "overlay.h"
 
-#include <QGraphicsWidget>
+#include <QAbstractItemModel>
 
-namespace GluonPlayer
+Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
+    : QWidget( parent, wFlags )
+    , m_contentLayout( new QGridLayout( ) )
+    , m_contentWidget( new QWidget( this ) )
 {
-    class CommentsModel;
-    class HighScoresModel;
+    QGridLayout* layout = new QGridLayout();
+    setLayout( layout );
+    setContentsMargins( 10, 15, 10, 15 );
+
+    m_contentWidget->setLayout( m_contentLayout );
 }
 
-namespace Plasma
+void Overlay::keyPressEvent( QKeyEvent* event )
 {
-    class TabBar;
-    class IconWidget;
+    QWidget::keyPressEvent( event );
 }
 
-class HighScoresView;
-class AchievementsView;
-class CommentsView;
-
-class GameDetailsOverlay : public Overlay
+void Overlay::wheelEvent( QWheelEvent* event )
 {
-        Q_OBJECT
+    QWidget::wheelEvent( event );
+}
 
-    public:
-        GameDetailsOverlay( QString gameId, QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameDetailsOverlay();
+void Overlay::resizeEvent( QResizeEvent* event )
+{
+}
 
-    private:
-        Plasma::IconWidget* m_backButton;
-        Plasma::TabBar* m_tabBar;
-        HighScoresView* m_highScoresView;
-        AchievementsView* m_achievementsView;
-        CommentsView* m_commentsView;
-        GluonPlayer::CommentsModel* m_commentsModel;
-        GluonPlayer::HighScoresModel* m_highScoresModel;
-
-    signals:
-        void back();
-};
-
-#endif // GAMEDETAILSOVERLAY_H
+#include "overlay.moc"
