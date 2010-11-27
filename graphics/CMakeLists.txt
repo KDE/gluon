@@ -47,6 +47,7 @@ set(GLUON_GRAPHICS_INCLUDES
 )
 
 set(GluonGraphics_SRCS
+    backendcapabilities.cpp
     math.cpp
     frustrum.cpp
     material.cpp
@@ -64,6 +65,7 @@ set(GluonGraphics_SRCS
 )
 
 set(GluonGraphics_HEADERS
+    backendcapabilities.h
     gluon_graphics_export.h
     camera.h
     renderwidget.h
