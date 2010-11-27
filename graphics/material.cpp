@@ -30,6 +30,7 @@
 #include "backendcapabilities.h"
 #include <qtextcodec.h>
 #include <qvarlengtharray.h>
+#include <QtOpenGL/QGLShaderProgram>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
@@ -41,7 +42,8 @@ class Material::MaterialPrivate
         MaterialPrivate() :
             vertShader(0),
             fragShader(0),
-            glProgram(0)
+            glProgram(0),
+            program(0)
         {
         }
 
@@ -55,6 +57,8 @@ class Material::MaterialPrivate
         QString languageVersion;
 
         QHash<QString, MaterialInstance*> instances;
+		
+		QGLShaderProgram* program;
 };
 
 Material::Material( QObject* parent )
@@ -115,6 +119,9 @@ void Material::build( const QString& name )
 {
     if( d->glProgram )
         return;
+	
+	if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
+		return;
 
     QByteArray vertShaderSource;
     QByteArray fragShaderSource;
@@ -142,44 +149,52 @@ void Material::build( const QString& name )
 
 	const char* vertShaderData = vertShaderSource.data();
 	const char* fragShaderData = fragShaderSource.data();
+	
+	d->program = new QGLShaderProgram();
+	d->program->addShaderFromSourceCode(QGLShader::Vertex, vertShaderSource);
+	d->program->addShaderFromSourceCode(QGLShader::Fragment, fragShaderSource);
+	d->program->link();
+	
+	if( !d->program->isLinked() )
+		debug( "An error occured when compiling a vertex shader:\n%1", d->program->log() );
 
-    d->vertShader = glCreateShader( GL_VERTEX_SHADER );
-    glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
-    glCompileShader( d->vertShader );
-
-    int status;
-    glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
-    if( status != GL_TRUE )
-    {
-        char log[500];
-        glGetShaderInfoLog( d->vertShader, 500, NULL, log );
-        debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
-    }
-
-    d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
-    glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
-    glCompileShader( d->fragShader );
-
-    glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
-    if( status != GL_TRUE )
-    {
-        char log[500];
-        glGetShaderInfoLog( d->fragShader, 500, NULL, log );
-        debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
-    }
-
-    d->glProgram = glCreateProgram();
-    glAttachShader( d->glProgram, d->vertShader );
-    glAttachShader( d->glProgram, d->fragShader );
-    glLinkProgram( d->glProgram );
-
-    glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
-    if( status != GL_TRUE )
-    {
-        char log[500];
-        glGetProgramInfoLog( d->fragShader, 500, NULL, log );
-        debug( "An error occured when linking a program:\n%1", QString( log ) );
-    }
+//     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
+//     glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
+//     glCompileShader( d->vertShader );
+// 
+//     int status;
+//     glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
+//     if( status != GL_TRUE )
+//     {
+//         char log[500];
+//         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
+//         debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
+//     }
+// 
+//     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
+//     glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
+//     glCompileShader( d->fragShader );
+// 
+//     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
+//     if( status != GL_TRUE )
+//     {
+//         char log[500];
+//         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
+//         debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
+//     }
+// 
+//     d->glProgram = glCreateProgram();
+//     glAttachShader( d->glProgram, d->vertShader );
+//     glAttachShader( d->glProgram, d->fragShader );
+//     glLinkProgram( d->glProgram );
+// 
+//     glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
+//     if( status != GL_TRUE )
+//     {
+//         char log[500];
+//         glGetProgramInfoLog( d->fragShader, 500, NULL, log );
+//         debug( "An error occured when linking a program:\n%1", QString( log ) );
+//     }
 }
 
 Technique*
@@ -209,10 +224,10 @@ Material::setDefaultTechnique( const QString& name )
 uint
 Material::glProgram()
 {
-    if( !d->glProgram )
+    if( !d->program )
         build();
 
-    return d->glProgram;
+    return d->program->programId();
 }
 
 MaterialInstance*
