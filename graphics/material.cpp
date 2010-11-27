@@ -24,6 +24,12 @@
 #include <QDebug>
 
 #include "glheaders.h"
+#include <core/gdlhandler.h>
+#include <QFile>
+#include <QMetaProperty>
+#include "backendcapabilities.h"
+#include <qtextcodec.h>
+#include <qvarlengtharray.h>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
@@ -32,18 +38,21 @@ using namespace GluonGraphics;
 class Material::MaterialPrivate
 {
     public:
-        MaterialPrivate()
+        MaterialPrivate() :
+            vertShader(0),
+            fragShader(0),
+            glProgram(0)
         {
-            vertShader = 0;
-            fragShader = 0;
-            glProgram = 0;
         }
 
         QHash<QString, Technique*> techniques;
 
         uint vertShader;
+        QByteArray vertShaderSource;
         uint fragShader;
+        QByteArray fragShaderSource;
         uint glProgram;
+        QString languageVersion;
 
         QHash<QString, MaterialInstance*> instances;
 };
@@ -62,7 +71,43 @@ Material::~Material()
 
 bool Material::load( const QUrl& url )
 {
-    //Todo: Implement
+    if(!url.isValid())
+        return false;
+
+    QFile file(url.toLocalFile());
+    if(!file.open(QIODevice::ReadOnly))
+        return false;
+
+    QByteArray data = file.readAll();
+
+    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL(data, this);
+    if(objects.count() <= 0)
+        return false;
+
+    GluonCore::GluonObject* obj = objects.at(0);
+    QList<QByteArray> properties = obj->dynamicPropertyNames();
+    MaterialInstance* defaultInstance = d->instances.find("default").value();
+
+    foreach(QByteArray propertyName, properties)
+    {
+        if(propertyName == "vertexShader")
+        {
+            d->vertShaderSource = obj->property(propertyName).toByteArray();
+        }
+        else if(propertyName == "fragmentShader")
+        {
+            d->fragShaderSource = obj->property(propertyName).toByteArray();
+        }
+        else if(propertyName == "languageVersion")
+        {
+            d->languageVersion = obj->property(propertyName).toString();
+        }
+        else
+        {
+            defaultInstance->setProperty(propertyName, obj->property(propertyName));
+        }
+    }
+
     return true;
 }
 
@@ -71,84 +116,35 @@ void Material::build( const QString& name )
     if( d->glProgram )
         return;
 
-#ifndef GLUON_GRAPHICS_GLES
-    const char* vertShaderSource = "\
-uniform mat4 modelViewProj;\
-\
-attribute vec3 vertex;\
-attribute vec4 color;\
-attribute vec2 uv0;\
-\
-varying vec4 out_color;\
-varying vec2 out_uv0;\
-\
-void main()\
-{\
-    gl_Position = vec4(vertex, 1.0) * modelViewProj;\
-    out_color = color;\
-    out_uv0 = uv0;\
-}\
-";
-#else
-    const char* vertShaderSource = "\
-uniform highp mat4 modelViewProj;\
-\
-attribute highp vec3 vertex;\
-attribute mediump vec4 color;\
-attribute mediump vec2 uv0;\
-\
-varying mediump vec4 out_color;\
-varying highp vec2 out_uv0;\
-\
-void main()\
-{\
-    gl_Position = vec4(vertex, 1.0) * modelViewProj;\
-    out_color = color;\
-    out_uv0 = uv0;\
-}\
-";
-#endif
+    QByteArray vertShaderSource;
+    QByteArray fragShaderSource;
+    if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
+    {
+        if(d->languageVersion.isEmpty())
+        {
+            vertShaderSource.append("#version 110\n");
+            vertShaderSource.append("#define lowp\n");
+            vertShaderSource.append("#define mediunmp\n");
+            vertShaderSource.append("#define highp\n");
+        }
+    }
+    else if(BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES)
+    {
+        vertShaderSource.append("#ifndef GL_FRAGMENT_PRECISION_HIGH\n");
+        vertShaderSource.append("#define highp mediump\n");
+        vertShaderSource.append("#endif\n");
+    }
 
-#ifndef GLUON_GRAPHICS_GLES
-    const char* fragShaderSource = "\
-uniform sampler2D texture0;\
-uniform vec4 materialColor;\
-\
-varying vec4 out_color;\
-varying vec2 out_uv0;\
-\
-void main()\
-{\
-    vec4 texColor = texture2D(texture0, out_uv0);\
-    vec4 color = out_color * materialColor * texColor;\
-    color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
-    if(color.a <= 0.0)\
-        discard;\
-    gl_FragColor = color;\
-}\
-";
-#else
-    const char* fragShaderSource = "\
-uniform sampler2D texture0;\
-uniform mediump vec4 materialColor;\
-\
-varying mediump vec4 out_color;\
-varying mediump vec2 out_uv0;\
-\
-void main()\
-{\
-    mediump vec4 texColor = texture2D(texture0, out_uv0);\
-    mediump vec4 color = out_color * materialColor * texColor;\
-    color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);\
-    if(color.a <= 0.0)\
-        discard;\
-    gl_FragColor = color;\
-}\
-";
-#endif
+    fragShaderSource.append(vertShaderSource);
+
+    vertShaderSource.append(d->vertShaderSource);
+    fragShaderSource.append(d->fragShaderSource);
+
+	const char* vertShaderData = vertShaderSource.data();
+	const char* fragShaderData = fragShaderSource.data();
 
     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
-    glShaderSource( d->vertShader, 1, &vertShaderSource, NULL );
+    glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
     glCompileShader( d->vertShader );
 
     int status;
@@ -161,7 +157,7 @@ void main()\
     }
 
     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
-    glShaderSource( d->fragShader, 1, &fragShaderSource, NULL );
+    glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
     glCompileShader( d->fragShader );
 
     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
