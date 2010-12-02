@@ -120,24 +120,24 @@ void MainWindow::setupUi()
     if (objectName().isEmpty())
         setObjectName(QString::fromUtf8("MainWindow"));
 
-    // centralWidget = new QWidget(this);
-    // centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+    centralWidget = new QWidget(this);
+    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
 
 
-    // menuBar = new QMenuBar(this);
-    // menuBar->setObjectName(QString::fromUtf8("menuBar"));
-    // menuBar->setGeometry(QRect(0, 0, 1290, 20));
-    // setMenuBar(menuBar);
-    // mainToolBar = new QToolBar(this);
-    // mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-    // addToolBar(Qt::TopToolBarArea, mainToolBar);
-    // statusBar = new QStatusBar(this);
-    // statusBar->setObjectName(QString::fromUtf8("statusBar"));
-    // setStatusBar(statusBar);
+    menuBar = new QMenuBar(this);
+    menuBar->setObjectName(QString::fromUtf8("menuBar"));
+    menuBar->setGeometry(QRect(0, 0, 1290, 20));
+    setMenuBar(menuBar);
+    mainToolBar = new QToolBar(this);
+    mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+    addToolBar(Qt::TopToolBarArea, mainToolBar);
+    statusBar = new QStatusBar(this);
+    statusBar->setObjectName(QString::fromUtf8("statusBar"));
+    setStatusBar(statusBar);
 
-    // setWindowTitle("QPatternDB");
-    // setWindowIcon(QIcon(":/images/icon.bmp"));
-    // setWindowIconText("QPatternDB application logo");
+    setWindowTitle("QPatternDB");
+    setWindowIcon(QIcon(":/images/icon.bmp"));
+    setWindowIconText("QPatternDB application logo");
 
     loginForm = new LoginForm;
 
