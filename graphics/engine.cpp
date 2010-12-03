@@ -335,6 +335,9 @@ Engine::render()
 void
 Engine::setFramebufferSize( int width, int height )
 {
+    if( width <= 0 || height <= 0 )
+        return;
+
     d->objectMutex.lock();
 
     delete d->fbo;
