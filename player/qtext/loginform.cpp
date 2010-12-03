@@ -27,13 +27,13 @@
 
 LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
-    , m_usernameLineEdit( new QLineEdit( ) )
-    , m_passwordLineEdit( new QLineEdit( ) )
-    , m_loginButton( new QPushButton( ) )
-    , m_busyWidget( new QProgressBar( ) )
-    , m_usernameLabel( new QLabel( ) )
-    , m_passwordLabel( new QLabel( ) )
-    , m_rememberMeCheckBox( new QCheckBox( ) )
+    , m_usernameLineEdit( new QLineEdit( this ) )
+    , m_passwordLineEdit( new QLineEdit( this ) )
+    , m_loginButton( new QPushButton( this ) )
+    , m_busyWidget( new QProgressBar( this ) )
+    , m_usernameLabel( new QLabel( this ) )
+    , m_passwordLabel( new QLabel( this ) )
+    , m_rememberMeCheckBox( new QCheckBox( this ) )
 {
     m_usernameLabel->setText( tr( "Username" ) );
     m_passwordLabel->setText( tr( "Password" ) );
@@ -43,9 +43,14 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_busyWidget->hide();
 
-    QGridLayout* layout1 = new QGridLayout( );
-    // layout1->addItem( m_busyWidget );
-    // layout1->addItem( m_usernameLabel );
+    QGridLayout* layout1 = static_cast<QGridLayout*>(layout());
+    layout1->addWidget( m_usernameLabel, 0, 0 );
+    layout1->addWidget( m_passwordLabel, 0, 1);
+    layout1->addWidget( m_usernameLineEdit, 1, 0 );
+    layout1->addWidget( m_passwordLineEdit, 1, 1 );
+    layout1->addWidget( m_loginButton, 2, 0 );
+    layout1->addWidget( m_rememberMeCheckBox, 2, 1 );
+    // layout1->addWidget( m_busyWidget );
 
     // m_contentLayout->addItem( layout1 );
     // m_contentLayout->addItem( m_usernameLineEdit );
