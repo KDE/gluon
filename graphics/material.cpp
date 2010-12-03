@@ -57,7 +57,7 @@ class Material::MaterialPrivate
         QString languageVersion;
 
         QHash<QString, MaterialInstance*> instances;
-		
+
 		QGLShaderProgram* program;
 };
 
@@ -119,7 +119,7 @@ void Material::build( const QString& name )
 {
     if( d->glProgram )
         return;
-	
+
 	if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
 		return;
 
@@ -147,21 +147,24 @@ void Material::build( const QString& name )
     vertShaderSource.append(d->vertShaderSource);
     fragShaderSource.append(d->fragShaderSource);
 
-	const char* vertShaderData = vertShaderSource.data();
-	const char* fragShaderData = fragShaderSource.data();
-	
-	d->program = new QGLShaderProgram();
-	d->program->addShaderFromSourceCode(QGLShader::Vertex, vertShaderSource);
-	d->program->addShaderFromSourceCode(QGLShader::Fragment, fragShaderSource);
-	d->program->link();
-	
-	if( !d->program->isLinked() )
-		debug( "An error occured when compiling a vertex shader:\n%1", d->program->log() );
+    const char* vertShaderData = vertShaderSource.data();
+    const char* fragShaderData = fragShaderSource.data();
+
+    d->program = new QGLShaderProgram();
+    d->program->addShaderFromSourceCode(QGLShader::Vertex, vertShaderSource);
+    d->program->addShaderFromSourceCode(QGLShader::Fragment, fragShaderSource);
+    d->program->link();
+
+    if( !d->program->isLinked() )
+    {
+        debug( "An error occured during shader compilation!" );
+        debug( d->program->log() );
+    }
 
 //     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
 //     glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
 //     glCompileShader( d->vertShader );
-// 
+//
 //     int status;
 //     glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
 //     if( status != GL_TRUE )
@@ -170,11 +173,11 @@ void Material::build( const QString& name )
 //         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
 //         debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
 //     }
-// 
+//
 //     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
 //     glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
 //     glCompileShader( d->fragShader );
-// 
+//
 //     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
 //     if( status != GL_TRUE )
 //     {
@@ -182,12 +185,12 @@ void Material::build( const QString& name )
 //         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
 //         debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
 //     }
-// 
+//
 //     d->glProgram = glCreateProgram();
 //     glAttachShader( d->glProgram, d->vertShader );
 //     glAttachShader( d->glProgram, d->fragShader );
 //     glLinkProgram( d->glProgram );
-// 
+//
 //     glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
 //     if( status != GL_TRUE )
 //     {
