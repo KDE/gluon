@@ -604,7 +604,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
         case QVariant::Bool:
             value = QString( "bool(%1)" ).arg( theValue.toString() );
             break;
-            // case 135:
+        case 135:
         case QVariant::Double:
             if( theValue.toDouble() )
                 value = QString( "float(%1)" ).arg( theValue.toDouble() );
