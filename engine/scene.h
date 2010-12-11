@@ -45,6 +45,7 @@ namespace GluonEngine
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::Scene );
+            Q_INTERFACES( GluonEngine::Asset );
 
         public:
             Q_INVOKABLE Scene( QObject* parent = 0 );
@@ -81,7 +82,7 @@ namespace GluonEngine
              * Return a reference to the scene tree itself (meaning the GluonObject hierarchy
              * which makes up the scene)
              */
-            GameObject* sceneContents();
+            Q_INVOKABLE GluonEngine::GameObject* sceneContents();
 
         private:
             ScenePrivate* d;
