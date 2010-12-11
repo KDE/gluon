@@ -48,7 +48,6 @@ class ComponentsDock::ComponentsDockPrivate
 ComponentsDock::ComponentsDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     : QDockWidget( title, parent, flags )
 {
-    DEBUG_FUNC_NAME
     setObjectName( "ComponentsDock" );
 
     d = new ComponentsDockPrivate();

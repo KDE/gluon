@@ -85,7 +85,6 @@ ComponentModel::ComponentModel( QObject* parent )
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( obj->newInstance() );
         if( comp )
         {
-            DEBUG_TEXT2( "%1 is a Component", obj->className() );
             QString name( obj->className() );
 
             ComponentModelItem* item = new ComponentModelItem();
@@ -110,11 +109,12 @@ ComponentModel::ComponentModel( QObject* parent )
         }
         else
         {
-            DEBUG_TEXT2( "%1 is NOT a Component", obj->className() );
             QObject* anobj = obj->newInstance();
-            if(anobj) {
-                if(anobj->inherits("GluonEngine::Component")) {
-                    DEBUG_TEXT("And yet, it inherits Component. This most likely means that you forgot to add the Q_INTERFACES statement to your class definition.");
+            if(anobj)
+            {
+                if(anobj->inherits("GluonEngine::Component"))
+                {
+                    DEBUG_TEXT2("The Component %1 is lacking the Q_INTERFACES(GluonEngine::Component) macro", obj->className());
                 }
             }
         }
