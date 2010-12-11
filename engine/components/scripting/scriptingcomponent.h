@@ -20,17 +20,20 @@
 #ifndef GLUONENGINE_SCRIPTINGCOMPONENT_H
 #define GLUONENGINE_SCRIPTINGCOMPONENT_H
 
-#include "scriptingasset.h"
-
+#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
+
+#include "scriptingasset.h"
 
 class QScriptValue;
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT ScriptingComponent : public GluonEngine::Component
+    class GLUON_ENGINE_EXPORT ScriptingComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::ScriptingComponent )
+            Q_INTERFACES( GluonEngine::Component )
+            
             Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
         public:
             Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );

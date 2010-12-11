@@ -24,10 +24,12 @@
 
 namespace GluonEngine
 {
-    class ScriptingAsset : public GluonEngine::Asset
+    class GLUON_ENGINE_EXPORT ScriptingAsset : public Asset
     {
             Q_OBJECT
+            Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::ScriptingAsset )
+            
         public:
             Q_INVOKABLE ScriptingAsset( QObject* parent = 0 );
             virtual ~ScriptingAsset();
