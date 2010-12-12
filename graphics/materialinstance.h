@@ -65,8 +65,10 @@ namespace GluonGraphics
              * This will switch the current OpenGL state to use the
              * shader from the Material and set the appropriate
              * parameters on this shader.
+             *
+             * @return True if the bind was successful, false if not.
              */
-            virtual void bind();
+            virtual bool bind();
 
             /**
              * Release the MaterialInstance from rendering.

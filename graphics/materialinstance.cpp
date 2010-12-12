@@ -64,13 +64,17 @@ MaterialInstance::~MaterialInstance()
     delete d;
 }
 
-void
+bool
 MaterialInstance::bind()
 {
     if( !d->material )
-        return;
+        return false;
 
-    glUseProgram( d->material->glProgram() );
+    int program = d->material->glProgram();
+    if(!program)
+        return false;
+
+    glUseProgram( program );
     d->bound = true;
 
     QList<QByteArray> properties = dynamicPropertyNames();
@@ -78,6 +82,8 @@ MaterialInstance::bind()
     {
         setGLUniform( prop, property( prop ) );
     }
+
+    return true;
 }
 
 void

@@ -98,7 +98,9 @@ Item::render( MaterialInstance* material, uint mode )
 
     QMatrix4x4 modelViewProj = Math::calculateModelViewProj( d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix() );
 
-    material->bind();
+    if(!material->bind())
+	return;
+
     material->setModelViewProjectionMatrix( modelViewProj );
     d->mesh->render( material, mode );
     material->release();
