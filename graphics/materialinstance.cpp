@@ -71,7 +71,7 @@ MaterialInstance::bind()
         return false;
 
     int program = d->material->glProgram();
-    if(!program)
+    if( !program )
         return false;
 
     glUseProgram( program );
