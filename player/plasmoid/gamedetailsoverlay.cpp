@@ -40,13 +40,13 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QGraphicsItem* parent, Q
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     connect( m_backButton, SIGNAL( activated() ), SIGNAL( back() ) );
 
-    m_highScoresModel = new GluonPlayer::HighScoresModel(gameId);
+    m_highScoresModel = new GluonPlayer::HighScoresModel( gameId );
     m_highScoresView = new HighScoresView( this );
     m_highScoresView->setModel( m_highScoresModel );
 
     m_achievementsView = new AchievementsView( this );
 
-    m_commentsModel = new GluonPlayer::CommentsModel(gameId);
+    m_commentsModel = new GluonPlayer::CommentsModel( gameId );
     m_commentsView = new CommentsView( this );
     m_commentsView->setModel( m_commentsModel );
 

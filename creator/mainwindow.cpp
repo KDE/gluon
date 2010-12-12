@@ -89,7 +89,7 @@ MainWindow::MainWindow( const QString& fileName )
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
-    connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(createGUI(KParts::Part*)));
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( createGUI( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -100,12 +100,12 @@ MainWindow::MainWindow( const QString& fileName )
     setCorner( Qt::TopRightCorner, Qt::RightDockWidgetArea );
     setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
 
-    d->mainArea = new FileArea(this);
+    d->mainArea = new FileArea( this );
     setCentralWidget( d->mainArea );
 
     setupActions();
     setupGUI();
-    stateChanged("initial");
+    stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
@@ -143,7 +143,7 @@ void MainWindow::openProject( const QString& fileName )
     {
         statusBar()->showMessage( i18n( "Opening project..." ) );
 
-        FileManager::instance()->openFile( fileName, i18nc("View Game Tab", "View"), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -151,7 +151,7 @@ void MainWindow::openProject( const QString& fileName )
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        stateChanged("fileOpened");
+        stateChanged( "fileOpened" );
         DockManager::instance()->setDocksEnabled( true );
 
         if( centralWidget() )
@@ -273,14 +273,14 @@ void MainWindow::playGame( )
 {
     if( GluonEngine::Game::instance()->isRunning() )
     {
-        GluonEngine::Game::instance()->setPause(false);
-        stateChanged("paused", StateReverse);
+        GluonEngine::Game::instance()->setPause( false );
+        stateChanged( "paused", StateReverse );
     }
     else
     {
-        stateChanged("playing");
+        stateChanged( "playing" );
 
-        d->mainArea->setActiveTab(0);
+        d->mainArea->setActiveTab( 0 );
 
         QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
         saveProject();
@@ -293,7 +293,7 @@ void MainWindow::playGame( )
         GluonEngine::Game::instance()->runGame();
 
         //This happens after we exit the game loop
-        stateChanged("playing", StateReverse);
+        stateChanged( "playing", StateReverse );
 
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
@@ -303,7 +303,7 @@ void MainWindow::playGame( )
 void MainWindow::pauseGame()
 {
     GluonEngine::Game::instance()->setPause( true );
-    stateChanged("paused");
+    stateChanged( "paused" );
 }
 
 void MainWindow::stopGame()

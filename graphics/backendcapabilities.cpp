@@ -31,30 +31,30 @@ int BackendCapabilities::backendShaderVersion = -1;
 BackendCapabilities::BackendType
 BackendCapabilities::type()
 {
-    #ifdef GLUON_GRAPHICS_GLES
+#ifdef GLUON_GRAPHICS_GLES
     return BT_OPENGLES;
-    #else
+#else
     return BT_OPENGL;
-    #endif
+#endif
 }
 
 int
 BackendCapabilities::version()
 {
-    if(backendVersion != -1)
+    if( backendVersion != -1 )
         return backendVersion;
 
-    const GLubyte* version = glGetString(GL_VERSION);
+    const GLubyte* version = glGetString( GL_VERSION );
 
-    QString versionString = QString::fromAscii(reinterpret_cast<const char*>(version));
-    QStringList versionParts = versionString.split('.');
+    QString versionString = QString::fromAscii( reinterpret_cast<const char*>( version ) );
+    QStringList versionParts = versionString.split( '.' );
 
     int versionNumber = 0;
-    versionNumber += versionParts.at(0).toInt() * 100;
-    versionNumber += (versionParts.at(1).toInt() > 9) ? versionParts.at(1).toInt() : versionParts.at(1).toInt() * 10;
+    versionNumber += versionParts.at( 0 ).toInt() * 100;
+    versionNumber += ( versionParts.at( 1 ).toInt() > 9 ) ? versionParts.at( 1 ).toInt() : versionParts.at( 1 ).toInt() * 10;
 
-    if(versionParts.count() > 2)
-        versionNumber += qMin(versionParts.at(2).toInt(), 9);
+    if( versionParts.count() > 2 )
+        versionNumber += qMin( versionParts.at( 2 ).toInt(), 9 );
 
     backendVersion = versionNumber;
     return versionNumber;
@@ -63,22 +63,22 @@ BackendCapabilities::version()
 int
 BackendCapabilities::shaderVersion()
 {
-    if(backendShaderVersion != -1)
+    if( backendShaderVersion != -1 )
         return backendShaderVersion;
 
-    const GLubyte* version = glGetString(GL_SHADING_LANGUAGE_VERSION);
-    if(glGetError() == GL_INVALID_ENUM)
+    const GLubyte* version = glGetString( GL_SHADING_LANGUAGE_VERSION );
+    if( glGetError() == GL_INVALID_ENUM )
         return -1;
 
-    QString versionString = QString::fromAscii(reinterpret_cast<const char*>(version));
-    QStringList versionParts = versionString.split('.');
+    QString versionString = QString::fromAscii( reinterpret_cast<const char*>( version ) );
+    QStringList versionParts = versionString.split( '.' );
 
     int versionNumber = 0;
-    versionNumber += versionParts.at(0).toInt() * 100;
-    versionNumber += (versionParts.at(1).toInt() > 9) ? versionParts.at(1).toInt() : versionParts.at(1).toInt() * 10;
+    versionNumber += versionParts.at( 0 ).toInt() * 100;
+    versionNumber += ( versionParts.at( 1 ).toInt() > 9 ) ? versionParts.at( 1 ).toInt() : versionParts.at( 1 ).toInt() * 10;
 
-    if(versionParts.count() > 2)
-        versionNumber += qMin(versionParts.at(2).toInt(), 9);
+    if( versionParts.count() > 2 )
+        versionNumber += qMin( versionParts.at( 2 ).toInt(), 9 );
 
     return versionNumber;
 }

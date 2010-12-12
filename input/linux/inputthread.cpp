@@ -54,11 +54,11 @@ InputThread::InputThread( const QString& devicePath, QObject* parent )
 }
 
 // InputThread::InputThread(struct udev_device *dev, QObject *parent)
-    // : QThread(parent)
-    // , d(new InputThreadPrivate)
+// : QThread(parent)
+// , d(new InputThreadPrivate)
 // {
-    // d->m_udevDevice = dev;
-    // readSystemFS();
+// d->m_udevDevice = dev;
+// readSystemFS();
 // }
 
 InputThread::~InputThread()
@@ -110,123 +110,123 @@ bool InputThread::openDevice( const QString& devicePath )
 // int InputThread::readSystemFS()
 // {
 
-    /* From here, we can call get_sysattr_value() for each file
-       in the device's /sys entry. The strings passed into these
-       functions (idProduct, idVendor, serial, etc.) correspond
-       directly to the files in the directory which represents
-       the USB device. Note that USB strings are Unicode, UCS2
-       encoded, but the strings returned from
-       udev_device_get_sysattr_value() are UTF-8 encoded. */
-    // d->m_deviceName = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "name"));
+/* From here, we can call get_sysattr_value() for each file
+   in the device's /sys entry. The strings passed into these
+   functions (idProduct, idVendor, serial, etc.) correspond
+   directly to the files in the directory which represents
+   the USB device. Note that USB strings are Unicode, UCS2
+   encoded, but the strings returned from
+   udev_device_get_sysattr_value() are UTF-8 encoded. */
+// d->m_deviceName = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "name"));
 
-    // quint64 bit[EV_MAX][NBITS(KEY_MAX)];
-    // int abs[5];
-    // memset(bit, 0, sizeof(bit));
+// quint64 bit[EV_MAX][NBITS(KEY_MAX)];
+// int abs[5];
+// memset(bit, 0, sizeof(bit));
 
-    // bool ok;
-    // int k;
-    // bit[0][0] = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/ev")).toULong(&ok, 16);
+// bool ok;
+// int k;
+// bit[0][0] = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/ev")).toULong(&ok, 16);
 
-    // for (int i = 1; i < EV_MAX; ++i) {
-        // if (test_bit(i, bit[0])) {
-            // if (!i)
-                // continue;
-            // switch (i) {
-            // case EV_KEY:
-            // {
-                // k = 0;
-                // QStringList keySections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/key")).split(" ");
-                // for (QStringList::iterator istr = keySections.end(); istr != keySections.begin(); ++k)
-                    // bit[i][k] = (--istr)->toULongLong(&ok, 16);
+// for (int i = 1; i < EV_MAX; ++i) {
+// if (test_bit(i, bit[0])) {
+// if (!i)
+// continue;
+// switch (i) {
+// case EV_KEY:
+// {
+// k = 0;
+// QStringList keySections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/key")).split(" ");
+// for (QStringList::iterator istr = keySections.end(); istr != keySections.begin(); ++k)
+// bit[i][k] = (--istr)->toULongLong(&ok, 16);
 
-                // for (int j = 0; j < KEY_MAX; ++j) {
-                    // if (test_bit(j, bit[i]))
-                        // d->m_buttonCapabilities.append(j);
-                // }
-            // }
-            // break;
-            // case EV_REL:
-                // {
-                    // k = 0;
-                    // QStringList relSections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/rel")).split(" ");
-                    // for (QStringList::iterator istr = relSections.end(); istr != relSections.begin(); ++k)
-                        // bit[i][k] = (--istr)->toULongLong(&ok, 16);
+// for (int j = 0; j < KEY_MAX; ++j) {
+// if (test_bit(j, bit[i]))
+// d->m_buttonCapabilities.append(j);
+// }
+// }
+// break;
+// case EV_REL:
+// {
+// k = 0;
+// QStringList relSections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/rel")).split(" ");
+// for (QStringList::iterator istr = relSections.end(); istr != relSections.begin(); ++k)
+// bit[i][k] = (--istr)->toULongLong(&ok, 16);
 
-                    // for (int j = 0; j < KEY_MAX; ++j) {
-                        // if (test_bit(j, bit[i]))
-                            // d->m_relAxisCapabilities.append(j);
-                    // }
-                // }
-                // break;
-            // case EV_ABS:
-                // {
-                    // for (int j = 0; j < ABS_MAX; ++j) {
-                        // if (test_bit(j, bit[i])) {
-                            // k = 0;
-                            // QStringList absSections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/abs")).split(" ");
-                            // for (QStringList::iterator istr = absSections.end(); istr != absSections.begin(); ++k)
-                                // abs[k++] = (--istr)->toULongLong(&ok, 16);
+// for (int j = 0; j < KEY_MAX; ++j) {
+// if (test_bit(j, bit[i]))
+// d->m_relAxisCapabilities.append(j);
+// }
+// }
+// break;
+// case EV_ABS:
+// {
+// for (int j = 0; j < ABS_MAX; ++j) {
+// if (test_bit(j, bit[i])) {
+// k = 0;
+// QStringList absSections = QString::fromAscii(udev_device_get_sysattr_value(d->m_udevDevice, "capabilities/abs")).split(" ");
+// for (QStringList::iterator istr = absSections.end(); istr != absSections.begin(); ++k)
+// abs[k++] = (--istr)->toULongLong(&ok, 16);
 
-                            // AbsVal cabs(0, 0, 0, 0);
-                            // for (int k = 0; k < 5; ++k) {
-                                // if ((k < 3) || abs[k]) {
-                                    // switch (k) {
-                                    // case 0:
-                                        // cabs.value = abs[k];
-                                        // break;
-                                    // case 1:
-                                        // cabs.min = abs[k];
-                                        // break;
-                                    // case 2:
-                                        // cabs.max = abs[k];
-                                        // break;
-                                    // case 3:
-                                        // cabs.fuzz = abs[k];
-                                        // break;
-                                    // case 4:
-                                        // cabs.flat = abs[k];
-                                        // break;
-                                    // }
-                                // }
-                            // }
-                            // d->m_absAxisCapabilities.append(j);
-                            // d->m_absAxisInfos.append(cabs);
-                        // }
-                    // }
-                // }
-                // break;
-            // default:
-                // break;
-            // }
-        // }
-    // }
+// AbsVal cabs(0, 0, 0, 0);
+// for (int k = 0; k < 5; ++k) {
+// if ((k < 3) || abs[k]) {
+// switch (k) {
+// case 0:
+// cabs.value = abs[k];
+// break;
+// case 1:
+// cabs.min = abs[k];
+// break;
+// case 2:
+// cabs.max = abs[k];
+// break;
+// case 3:
+// cabs.fuzz = abs[k];
+// break;
+// case 4:
+// cabs.flat = abs[k];
+// break;
+// }
+// }
+// }
+// d->m_absAxisCapabilities.append(j);
+// d->m_absAxisInfos.append(cabs);
+// }
+// }
+// }
+// break;
+// default:
+// break;
+// }
+// }
+// }
 
-    // //===============Find Force feedback ?? ===============
+// //===============Find Force feedback ?? ===============
 
-    // d->m_deviceType = GluonInput::UnknownDevice;
+// d->m_deviceType = GluonInput::UnknownDevice;
 
-    // if (d->m_buttonCapabilities.contains(BTN_TOUCH)) {
-        // d->m_deviceType  = GluonInput::TouchDevice;
-    // }
+// if (d->m_buttonCapabilities.contains(BTN_TOUCH)) {
+// d->m_deviceType  = GluonInput::TouchDevice;
+// }
 
-    // if (d->m_buttonCapabilities.contains(BTN_STYLUS)
-            // || d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
-        // d->m_deviceType  = GluonInput::MouseDevice;
-    // }
+// if (d->m_buttonCapabilities.contains(BTN_STYLUS)
+// || d->m_buttonCapabilities.contains(ABS_PRESSURE)) {
+// d->m_deviceType  = GluonInput::MouseDevice;
+// }
 
-    // if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
-        // d->m_deviceType  = GluonInput::JoystickDevice;
-    // }
+// if (d->m_buttonCapabilities.contains(BTN_TRIGGER)) {
+// d->m_deviceType  = GluonInput::JoystickDevice;
+// }
 
-    // if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
-        // d->m_deviceType  = GluonInput::MouseDevice;
-    // }
+// if (d->m_buttonCapabilities.contains(BTN_MOUSE)) {
+// d->m_deviceType  = GluonInput::MouseDevice;
+// }
 
-    // if (d->m_buttonCapabilities.contains(KEY_ENTER))    {
-        // d->m_deviceType  = GluonInput::KeyboardDevice;
-    // }
+// if (d->m_buttonCapabilities.contains(KEY_ENTER))    {
+// d->m_deviceType  = GluonInput::KeyboardDevice;
+// }
 
-    // return 0;
+// return 0;
 // }
 
 void InputThread::readInformation()

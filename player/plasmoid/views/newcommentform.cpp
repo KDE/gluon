@@ -70,11 +70,11 @@ void NewCommentForm::setParentIndex( QModelIndex parentIndex )
 
 void NewCommentForm::validateAndSubmit()
 {
-    if( m_titleEdit->text().isEmpty())
+    if( m_titleEdit->text().isEmpty() )
     {
         qDebug() << "Empty title";
     }
-    if(m_bodyEdit->text().isEmpty() )
+    if( m_bodyEdit->text().isEmpty() )
     {
         qDebug() << "Empty body";
         return;

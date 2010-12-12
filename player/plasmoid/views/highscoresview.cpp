@@ -27,7 +27,7 @@
 HighScoresView::HighScoresView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )
     , m_model( 0 )
-    , m_itemBackground(new Plasma::ItemBackground( this ))
+    , m_itemBackground( new Plasma::ItemBackground( this ) )
 {
 }
 

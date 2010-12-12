@@ -34,10 +34,10 @@ class FileArea::Private
 {
     public:
         Private()
-            : currentPart(0),
-            tabBar(0),
-            toolBar(0),
-            layout(0)
+            : currentPart( 0 ),
+              tabBar( 0 ),
+              toolBar( 0 ),
+              layout( 0 )
         { }
         ~Private() { }
 
@@ -53,29 +53,29 @@ class FileArea::Private
 
 FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
     : QWidget( parent, f ),
-      d(new Private)
+      d( new Private )
 {
-    d->layout = new QVBoxLayout(this);
+    d->layout = new QVBoxLayout( this );
 
-    d->tabBar = new KTabBar(this);
-    d->tabBar->setTabsClosable(true);
-    d->tabBar->setDocumentMode(true);
-    d->tabBar->setMovable(true);
-    d->layout->addWidget(d->tabBar);
-    d->tabBar->setExpanding(false);
-    d->tabBar->setSelectionBehaviorOnRemove(QTabBar::SelectPreviousTab);
+    d->tabBar = new KTabBar( this );
+    d->tabBar->setTabsClosable( true );
+    d->tabBar->setDocumentMode( true );
+    d->tabBar->setMovable( true );
+    d->layout->addWidget( d->tabBar );
+    d->tabBar->setExpanding( false );
+    d->tabBar->setSelectionBehaviorOnRemove( QTabBar::SelectPreviousTab );
 
-    connect( d->tabBar, SIGNAL(tabCloseRequested(int)), this, SLOT(removeTab(int)) );
-    connect( d->tabBar, SIGNAL(currentChanged(int)), this, SLOT(setActiveTab(int)));
-    connect( d->tabBar, SIGNAL(tabMoved(int,int)), this, SLOT( tabMoved(int,int)));
+    connect( d->tabBar, SIGNAL( tabCloseRequested( int ) ), this, SLOT( removeTab( int ) ) );
+    connect( d->tabBar, SIGNAL( currentChanged( int ) ), this, SLOT( setActiveTab( int ) ) );
+    connect( d->tabBar, SIGNAL( tabMoved( int, int ) ), this, SLOT( tabMoved( int, int ) ) );
 
     d->toolBar = new KToolBar( "mainToolBar", this );
-    d->layout->addWidget(d->toolBar);
+    d->layout->addWidget( d->toolBar );
 
-    setLayout(d->layout);
+    setLayout( d->layout );
 
-    connect(FileManager::instance(), SIGNAL(newPart(QString)), this, SLOT(addTab(QString)));
-    connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartChanged(KParts::Part*)));
+    connect( FileManager::instance(), SIGNAL( newPart( QString ) ), this, SLOT( addTab( QString ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( activePartChanged( KParts::Part* ) ) );
 }
 
 FileArea::~FileArea()
@@ -85,62 +85,62 @@ FileArea::~FileArea()
 
 void FileArea::addTab( const QString& name )
 {
-    if(d->tabs.contains(name))
+    if( d->tabs.contains( name ) )
     {
-        d->tabBar->setCurrentIndex(d->tabs.value(name));
+        d->tabBar->setCurrentIndex( d->tabs.value( name ) );
         return;
     }
 
-    int tab = d->tabBar->addTab(name);
-    d->tabs.insert(name, tab);
-    d->tabBar->setCurrentIndex(tab);
+    int tab = d->tabBar->addTab( name );
+    d->tabs.insert( name, tab );
+    d->tabBar->setCurrentIndex( tab );
 }
 
 void FileArea::removeTab( const QString& name )
 {
-    removeTab(d->tabs.value(name));
+    removeTab( d->tabs.value( name ) );
 }
 
 void FileArea::removeTab( int index )
 {
-    FileManager::instance()->closeFile(d->tabs.key(index));
-    d->tabs.remove(d->tabs.key(index));
+    FileManager::instance()->closeFile( d->tabs.key( index ) );
+    d->tabs.remove( d->tabs.key( index ) );
 
-    for(QHash<QString, int>::iterator itr = d->tabs.begin(); itr != d->tabs.end(); ++itr)
+    for( QHash<QString, int>::iterator itr = d->tabs.begin(); itr != d->tabs.end(); ++itr )
     {
-        if(itr.value() > index)
+        if( itr.value() > index )
             itr.value()--;
     }
 
-    d->tabBar->removeTab(index);
+    d->tabBar->removeTab( index );
 }
 
 void FileArea::setActiveTab( int index )
 {
-    QString name = d->tabs.key(index);
+    QString name = d->tabs.key( index );
 
-    KParts::Part* part = FileManager::instance()->part(name);
-    if(!part)
+    KParts::Part* part = FileManager::instance()->part( name );
+    if( !part )
         return;
 
-    FileManager::instance()->setCurrentFile(name);
+    FileManager::instance()->setCurrentFile( name );
 }
 
 void FileArea::activePartChanged( KParts::Part* part )
 {
-    if(d->currentPart)
+    if( d->currentPart )
     {
-        d->layout->removeWidget(d->currentPart->widget());
+        d->layout->removeWidget( d->currentPart->widget() );
         d->currentPart->widget()->hide();
     }
 
-    if(!part)
+    if( !part )
     {
         d->currentPart = 0;
         return;
     }
 
-    d->layout->addWidget(part->widget());
+    d->layout->addWidget( part->widget() );
     part->widget()->show();
 
     d->currentPart = part;
@@ -148,6 +148,6 @@ void FileArea::activePartChanged( KParts::Part* part )
 
 void FileArea::tabMoved( int from, int to )
 {
-    QString name = d->tabs.key(from);
-    d->tabs.insert(name, to);
+    QString name = d->tabs.key( from );
+    d->tabs.insert( name, to );
 }

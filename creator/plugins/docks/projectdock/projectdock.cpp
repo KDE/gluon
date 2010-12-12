@@ -76,10 +76,11 @@ class ProjectDock::ProjectDockPrivate
                 else
                 {
                     QObject* obj = i.value()->newInstance();
-                    if(obj) {
-                        if(obj->inherits("GluonEngine::Asset"))
+                    if( obj )
+                    {
+                        if( obj->inherits( "GluonEngine::Asset" ) )
                         {
-                            DEBUG_TEXT2("The Asset class %1 is lacking the Q_INTERFACES(GluonEngine::Asset) macro", i.value()->className());
+                            DEBUG_TEXT2( "The Asset class %1 is lacking the Q_INTERFACES(GluonEngine::Asset) macro", i.value()->className() );
                         }
                     }
                 }

@@ -34,7 +34,7 @@ static const char serviceURI[] = "gamingfreedom.org";
 
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
-    , m_gameId(gameId), rootNode( new GluonObject( "HighScores" ) )
+    , m_gameId( gameId ), rootNode( new GluonObject( "HighScores" ) )
 {
     loadData();
 }

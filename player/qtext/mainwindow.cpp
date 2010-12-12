@@ -103,41 +103,42 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
     resize( 500, 500 );
 }
 
-void MainWindow::changeEvent(QEvent *event)
+void MainWindow::changeEvent( QEvent* event )
 {
-    QMainWindow::changeEvent(event);
-    switch (event->type()) {
-    case QEvent::LanguageChange:
-        retranslateUi();
-        break;
-    default:
-        break;
+    QMainWindow::changeEvent( event );
+    switch( event->type() )
+    {
+        case QEvent::LanguageChange:
+            retranslateUi();
+            break;
+        default:
+            break;
     }
 }
 
 void MainWindow::setupUi()
 {
-    if (objectName().isEmpty())
-        setObjectName(QString::fromUtf8("MainWindow"));
+    if( objectName().isEmpty() )
+        setObjectName( QString::fromUtf8( "MainWindow" ) );
 
-    centralWidget = new QWidget(this);
-    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+    centralWidget = new QWidget( this );
+    centralWidget->setObjectName( QString::fromUtf8( "centralWidget" ) );
 
 
-    menuBar = new QMenuBar(this);
-    menuBar->setObjectName(QString::fromUtf8("menuBar"));
-    menuBar->setGeometry(QRect(0, 0, 1290, 20));
-    setMenuBar(menuBar);
-    mainToolBar = new QToolBar(this);
-    mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-    addToolBar(Qt::TopToolBarArea, mainToolBar);
-    statusBar = new QStatusBar(this);
-    statusBar->setObjectName(QString::fromUtf8("statusBar"));
-    setStatusBar(statusBar);
+    menuBar = new QMenuBar( this );
+    menuBar->setObjectName( QString::fromUtf8( "menuBar" ) );
+    menuBar->setGeometry( QRect( 0, 0, 1290, 20 ) );
+    setMenuBar( menuBar );
+    mainToolBar = new QToolBar( this );
+    mainToolBar->setObjectName( QString::fromUtf8( "mainToolBar" ) );
+    addToolBar( Qt::TopToolBarArea, mainToolBar );
+    statusBar = new QStatusBar( this );
+    statusBar->setObjectName( QString::fromUtf8( "statusBar" ) );
+    setStatusBar( statusBar );
 
-    setWindowTitle("QPatternDB");
-    setWindowIcon(QIcon(":/images/icon.bmp"));
-    setWindowIconText("QPatternDB application logo");
+    setWindowTitle( "QPatternDB" );
+    setWindowIcon( QIcon( ":/images/icon.bmp" ) );
+    setWindowIconText( "QPatternDB application logo" );
 
     loginForm = new LoginForm;
 
@@ -151,7 +152,7 @@ void MainWindow::setupUi()
     // mainGridLayout->addWidget(stackedWidget, 0, 0);
     // setLayout(mainGridLayout);
 
-    setCentralWidget(loginForm);
+    setCentralWidget( loginForm );
     // setCentralWidget(centralWidget);
     // retranslateUi();
 
@@ -160,8 +161,8 @@ void MainWindow::setupUi()
 
 void MainWindow::retranslateUi()
 {
-    setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0,
-                QApplication::UnicodeUTF8));
+    setWindowTitle( QApplication::translate( "MainWindow", "MainWindow", 0,
+                    QApplication::UnicodeUTF8 ) );
     return;
 }
 
@@ -245,142 +246,142 @@ void MainWindow::countFrames( int time )
 void MainWindow::createActions()
 {
     // File related actions
-    openGameAct = new QAction(QIcon(":/images/open.png"), tr("&Open a game..."), this);
-    openGameAct->setShortcuts(QKeySequence::Open);
-    openGameAct->setStatusTip(tr("Open a game"));
-    openGameAct->setEnabled(false);
-    connect(openGameAct, SIGNAL(triggered()), SLOT(mOpenGame()));
+    openGameAct = new QAction( QIcon( ":/images/open.png" ), tr( "&Open a game..." ), this );
+    openGameAct->setShortcuts( QKeySequence::Open );
+    openGameAct->setStatusTip( tr( "Open a game" ) );
+    openGameAct->setEnabled( false );
+    connect( openGameAct, SIGNAL( triggered() ), SLOT( mOpenGame() ) );
 
-    quitAct = new QAction(QIcon(":/images/quit.png"), tr("&Quit"), this);
-    quitAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
-    quitAct->setStatusTip(tr("Exit the application"));
-    connect(quitAct, SIGNAL(triggered()), SLOT(close()));
+    quitAct = new QAction( QIcon( ":/images/quit.png" ), tr( "&Quit" ), this );
+    quitAct->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+    quitAct->setStatusTip( tr( "Exit the application" ) );
+    connect( quitAct, SIGNAL( triggered() ), SLOT( close() ) );
 
 
     // View menu related actions
-    showToolBarAct = new QAction(tr("Show &ToolBar"), this);
-    showToolBarAct->setStatusTip(tr("Toggle the view state of the ToolBar"));
-    showToolBarAct->setCheckable(true);
-    showToolBarAct->setChecked(true);
-    connect(showToolBarAct, SIGNAL(triggered(bool)), SLOT(mShowToolBar(bool)));
+    showToolBarAct = new QAction( tr( "Show &ToolBar" ), this );
+    showToolBarAct->setStatusTip( tr( "Toggle the view state of the ToolBar" ) );
+    showToolBarAct->setCheckable( true );
+    showToolBarAct->setChecked( true );
+    connect( showToolBarAct, SIGNAL( triggered( bool ) ), SLOT( mShowToolBar( bool ) ) );
 
-    showStatusBarAct = new QAction(tr("Show St&atusBar"), this);
-    showStatusBarAct->setStatusTip(tr("Toggle the view state of the StatusBar"));
-    showStatusBarAct->setCheckable(true);
-    showStatusBarAct->setChecked(true);
-    connect(showStatusBarAct, SIGNAL(triggered(bool)), SLOT(mShowStatusBar(bool)));
+    showStatusBarAct = new QAction( tr( "Show St&atusBar" ), this );
+    showStatusBarAct->setStatusTip( tr( "Toggle the view state of the StatusBar" ) );
+    showStatusBarAct->setCheckable( true );
+    showStatusBarAct->setChecked( true );
+    connect( showStatusBarAct, SIGNAL( triggered( bool ) ), SLOT( mShowStatusBar( bool ) ) );
 
 
     // Community menu related actions
-    loginLogoutAct = new QAction(tr("Login/Logout"), this);
-    loginLogoutAct->setStatusTip(tr("Login/Logout"));
-    loginLogoutAct->setCheckable(true);
-    loginLogoutAct->setChecked(true);
-    connect(loginLogoutAct, SIGNAL(triggered(bool)), SLOT(mLoginLogout(bool)));
+    loginLogoutAct = new QAction( tr( "Login/Logout" ), this );
+    loginLogoutAct->setStatusTip( tr( "Login/Logout" ) );
+    loginLogoutAct->setCheckable( true );
+    loginLogoutAct->setChecked( true );
+    connect( loginLogoutAct, SIGNAL( triggered( bool ) ), SLOT( mLoginLogout( bool ) ) );
 
-    homeAct = new QAction(tr("Home view"), this);
-    homeAct->setStatusTip(tr("Go to the Home view"));
-    connect(homeAct, SIGNAL(triggered()), SLOT(mHome()));
+    homeAct = new QAction( tr( "Home view" ), this );
+    homeAct->setStatusTip( tr( "Go to the Home view" ) );
+    connect( homeAct, SIGNAL( triggered() ), SLOT( mHome() ) );
 
-    detailsAct = new QAction(tr("Details view"), this);
-    detailsAct->setStatusTip(tr("Go to the Detail view"));
-    connect(detailsAct, SIGNAL(triggered()), SLOT(mDetails()));
+    detailsAct = new QAction( tr( "Details view" ), this );
+    detailsAct->setStatusTip( tr( "Go to the Detail view" ) );
+    connect( detailsAct, SIGNAL( triggered() ), SLOT( mDetails() ) );
 
-    registrationAct = new QAction(tr("Registration view"), this);
-    registrationAct->setStatusTip(tr("Go to the Registration view"));
-    connect(registrationAct, SIGNAL(triggered()), SLOT(mRegistration()));
+    registrationAct = new QAction( tr( "Registration view" ), this );
+    registrationAct->setStatusTip( tr( "Go to the Registration view" ) );
+    connect( registrationAct, SIGNAL( triggered() ), SLOT( mRegistration() ) );
 
-    forgottenPasswordAct = new QAction(tr("Forgotten Password Action"), this);
-    forgottenPasswordAct->setStatusTip(tr("Go to the Forgotten Password Page"));
-    connect(forgottenPasswordAct, SIGNAL(triggered()), SLOT(mForgottenPassword()));
+    forgottenPasswordAct = new QAction( tr( "Forgotten Password Action" ), this );
+    forgottenPasswordAct->setStatusTip( tr( "Go to the Forgotten Password Page" ) );
+    connect( forgottenPasswordAct, SIGNAL( triggered() ), SLOT( mForgottenPassword() ) );
 
 
     // Settings menu related actions
-    configureToolBarAct = new QAction(tr("Configure Tool&bar..."), this);
-    configureToolBarAct->setStatusTip(tr("Configure the toolbar of the application"));
-    connect(configureToolBarAct, SIGNAL(triggered()), SLOT(mConfigureToolBar()));
+    configureToolBarAct = new QAction( tr( "Configure Tool&bar..." ), this );
+    configureToolBarAct->setStatusTip( tr( "Configure the toolbar of the application" ) );
+    connect( configureToolBarAct, SIGNAL( triggered() ), SLOT( mConfigureToolBar() ) );
 
-    configureShortcutsAct = new QAction(tr("Configure S&hortcuts..."), this);
-    configureShortcutsAct->setStatusTip(tr("Configure the shortcuts of the actions"));
-    connect(configureShortcutsAct, SIGNAL(triggered()), SLOT(mConfigureShortcuts()));
+    configureShortcutsAct = new QAction( tr( "Configure S&hortcuts..." ), this );
+    configureShortcutsAct->setStatusTip( tr( "Configure the shortcuts of the actions" ) );
+    connect( configureShortcutsAct, SIGNAL( triggered() ), SLOT( mConfigureShortcuts() ) );
 
 
     // Help menu related actions
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the extended Qt Player About box"));
-    connect(aboutAct, SIGNAL(triggered()), SLOT(mAbout()));
+    aboutAct = new QAction( tr( "&About" ), this );
+    aboutAct->setStatusTip( tr( "Show the extended Qt Player About box" ) );
+    connect( aboutAct, SIGNAL( triggered() ), SLOT( mAbout() ) );
 
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    aboutQtAct = new QAction( tr( "About &Qt" ), this );
+    aboutQtAct->setStatusTip( tr( "Show the Qt library's About box" ) );
+    connect( aboutQtAct, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
 }
 
 void MainWindow::createMenus()
 {
     // File related menu
-    fileMenu = menuBar->addMenu(tr("&File"));
-    fileMenu->addAction(openGameAct);
+    fileMenu = menuBar->addMenu( tr( "&File" ) );
+    fileMenu->addAction( openGameAct );
     fileMenu->addSeparator();
-    fileMenu->addAction(quitAct);
+    fileMenu->addAction( quitAct );
 
     // View related menu
-    viewMenu = menuBar->addMenu(tr("&View"));
-    viewMenu->addAction(showToolBarAct);
-    viewMenu->addAction(showStatusBarAct);
+    viewMenu = menuBar->addMenu( tr( "&View" ) );
+    viewMenu->addAction( showToolBarAct );
+    viewMenu->addAction( showStatusBarAct );
 
     // Community related menu
-    communityMenu = menuBar->addMenu(tr("&Community"));
-    communityMenu->addAction(loginLogoutAct);
-    communityMenu->addAction(homeAct);
-    communityMenu->addAction(detailsAct);
-    communityMenu->addAction(registrationAct);
-    communityMenu->addAction(forgottenPasswordAct);
+    communityMenu = menuBar->addMenu( tr( "&Community" ) );
+    communityMenu->addAction( loginLogoutAct );
+    communityMenu->addAction( homeAct );
+    communityMenu->addAction( detailsAct );
+    communityMenu->addAction( registrationAct );
+    communityMenu->addAction( forgottenPasswordAct );
 
     // Settings related menu
-    settingsMenu = menuBar->addMenu(tr("&Settings"));
-    settingsMenu->addAction(configureShortcutsAct);
-    settingsMenu->addAction(configureToolBarAct);
+    settingsMenu = menuBar->addMenu( tr( "&Settings" ) );
+    settingsMenu->addAction( configureShortcutsAct );
+    settingsMenu->addAction( configureToolBarAct );
 
     // Help related menu
-    helpMenu = menuBar->addMenu(tr("&Help"));
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
+    helpMenu = menuBar->addMenu( tr( "&Help" ) );
+    helpMenu->addAction( aboutAct );
+    helpMenu->addAction( aboutQtAct );
 }
 
 void MainWindow::createToolBars()
 {
     // File related toolbar
-    mainToolBar->addAction(openGameAct);
+    mainToolBar->addAction( openGameAct );
 
     // Settings related toolbar
-    mainToolBar->addAction(loginLogoutAct);
-    mainToolBar->addAction(homeAct);
-    mainToolBar->addAction(detailsAct);
-    mainToolBar->addAction(registrationAct);
-    mainToolBar->addAction(forgottenPasswordAct);
+    mainToolBar->addAction( loginLogoutAct );
+    mainToolBar->addAction( homeAct );
+    mainToolBar->addAction( detailsAct );
+    mainToolBar->addAction( registrationAct );
+    mainToolBar->addAction( forgottenPasswordAct );
 
 }
 
 void MainWindow::createStatusBar()
 {
-    statusBar->showMessage(tr("Ready"));
+    statusBar->showMessage( tr( "Ready" ) );
 }
 
 void MainWindow::mOpenGame()
 {
 }
 
-void MainWindow::mShowToolBar(bool checked)
+void MainWindow::mShowToolBar( bool checked )
 {
-    mainToolBar->setVisible(checked);
+    mainToolBar->setVisible( checked );
 }
 
-void MainWindow::mShowStatusBar(bool checked)
+void MainWindow::mShowStatusBar( bool checked )
 {
-    statusBar->setVisible(checked);
+    statusBar->setVisible( checked );
 }
 
-void MainWindow::mLoginLogout(bool checked)
+void MainWindow::mLoginLogout( bool checked )
 {
 }
 
@@ -406,37 +407,42 @@ void MainWindow::mConfigureToolBar()
 
 void MainWindow::mConfigureShortcuts()
 {
-    ActionsDialog actionsDialog(m_actions, this);
+    ActionsDialog actionsDialog( m_actions, this );
     actionsDialog.exec();
 }
 
 void MainWindow::mAbout()
 {
-    QMessageBox::about(this, tr("<b>Gluon Extended Qt Player</b>"), \
-            tr("This is an extended Qt Player application for Gluon games."));
+    QMessageBox::about( this, tr( "<b>Gluon Extended Qt Player</b>" ), \
+                        tr( "This is an extended Qt Player application for Gluon games." ) );
 }
 
 void MainWindow::loadActions()
 {
 
     qint32 cntr = 0;
-    QList<QAction *> actions;
-    actions = findChildren<QAction *>();
-    foreach (QAction *action, actions) {
-        if (!action->isSeparator() && !action->text().isEmpty()) {
-            m_actions.append(action);
-        } else {
+    QList<QAction*> actions;
+    actions = findChildren<QAction*>();
+    foreach( QAction * action, actions )
+    {
+        if( !action->isSeparator() && !action->text().isEmpty() )
+        {
+            m_actions.append( action );
+        }
+        else
+        {
             ++cntr;
         }
     }
 
     cntr = 0;
 
-    settings->beginGroup("Action");
-    foreach (QAction *action, m_actions) {
-        QString accelText = settings->value(action->text()).toString();
-        if (!accelText.isEmpty())
-            m_actions[cntr]->setShortcut(QKeySequence(accelText));
+    settings->beginGroup( "Action" );
+    foreach( QAction * action, m_actions )
+    {
+        QString accelText = settings->value( action->text() ).toString();
+        if( !accelText.isEmpty() )
+            m_actions[cntr]->setShortcut( QKeySequence( accelText ) );
         ++cntr;
     }
     settings->endGroup();

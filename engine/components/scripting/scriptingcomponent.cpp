@@ -106,8 +106,8 @@ QScriptValue ScriptingComponent::scriptObject()
 void ScriptingComponent::initialize()
 {
     if( !d->scriptObject.isValid() )
-        debug("Warning: No scripting asset has been chosen");
-        
+        debug( "Warning: No scripting asset has been chosen" );
+
     if( d->initializeFunction.isFunction() )
     {
         d->initializeFunction.call( d->scriptObject );

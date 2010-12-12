@@ -1,7 +1,7 @@
 { GluonEngine::GameProject(Invaders)
     description string(Invaders Game)
-    id string(128637)
     entryPoint GluonEngine::Scene(Invaders/Scenes/Menu)
+    id string(128637)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Menu)
             file url(Scenes/invaders_menu.gdl)
@@ -26,6 +26,9 @@
             }
             { GluonEngine::ScriptAsset(player.js)
                 file url(Assets/invaders_player.js)
+            }
+            { GluonEngine::ScriptingAsset(Player)
+                file url(Assets/Invaders_Assets_Scripts_Scripted_Logic.js)
             }
         }
         { GluonCore::GluonObject(Sounds)

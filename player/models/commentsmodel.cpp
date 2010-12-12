@@ -39,7 +39,7 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
     , rootNode( new GluonObject( "Comment" ) )
     , m_isOnline( false )
-    , m_gameId(gameId)
+    , m_gameId( gameId )
 {
     m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
 

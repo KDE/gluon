@@ -40,10 +40,10 @@ class Material::MaterialPrivate
 {
     public:
         MaterialPrivate() :
-            vertShader(0),
-            fragShader(0),
-            glProgram(0),
-            program(0)
+            vertShader( 0 ),
+            fragShader( 0 ),
+            glProgram( 0 ),
+            program( 0 )
         {
         }
 
@@ -58,7 +58,7 @@ class Material::MaterialPrivate
 
         QHash<QString, MaterialInstance*> instances;
 
-		QGLShaderProgram* program;
+        QGLShaderProgram* program;
 };
 
 Material::Material( QObject* parent )
@@ -75,40 +75,40 @@ Material::~Material()
 
 bool Material::load( const QUrl& url )
 {
-    if(!url.isValid())
+    if( !url.isValid() )
         return false;
 
-    QFile file(url.toLocalFile());
-    if(!file.open(QIODevice::ReadOnly))
+    QFile file( url.toLocalFile() );
+    if( !file.open( QIODevice::ReadOnly ) )
         return false;
 
     QByteArray data = file.readAll();
 
-    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL(data, this);
-    if(objects.count() <= 0)
+    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL( data, this );
+    if( objects.count() <= 0 )
         return false;
 
-    GluonCore::GluonObject* obj = objects.at(0);
+    GluonCore::GluonObject* obj = objects.at( 0 );
     QList<QByteArray> properties = obj->dynamicPropertyNames();
-    MaterialInstance* defaultInstance = d->instances.find("default").value();
+    MaterialInstance* defaultInstance = d->instances.find( "default" ).value();
 
-    foreach(QByteArray propertyName, properties)
+    foreach( QByteArray propertyName, properties )
     {
-        if(propertyName == "vertexShader")
+        if( propertyName == "vertexShader" )
         {
-            d->vertShaderSource = obj->property(propertyName).toByteArray();
+            d->vertShaderSource = obj->property( propertyName ).toByteArray();
         }
-        else if(propertyName == "fragmentShader")
+        else if( propertyName == "fragmentShader" )
         {
-            d->fragShaderSource = obj->property(propertyName).toByteArray();
+            d->fragShaderSource = obj->property( propertyName ).toByteArray();
         }
-        else if(propertyName == "languageVersion")
+        else if( propertyName == "languageVersion" )
         {
-            d->languageVersion = obj->property(propertyName).toString();
+            d->languageVersion = obj->property( propertyName ).toString();
         }
         else
         {
-            defaultInstance->setProperty(propertyName, obj->property(propertyName));
+            defaultInstance->setProperty( propertyName, obj->property( propertyName ) );
         }
     }
 
@@ -120,39 +120,39 @@ void Material::build( const QString& name )
     if( d->glProgram )
         return;
 
-	if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
-		return;
+    if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
+        return;
 
     QByteArray vertShaderSource;
     QByteArray fragShaderSource;
     if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
     {
-        if(d->languageVersion.isEmpty())
+        if( d->languageVersion.isEmpty() )
         {
-            vertShaderSource.append("#version 110\n");
-            vertShaderSource.append("#define lowp\n");
-            vertShaderSource.append("#define mediunmp\n");
-            vertShaderSource.append("#define highp\n");
+            vertShaderSource.append( "#version 110\n" );
+            vertShaderSource.append( "#define lowp\n" );
+            vertShaderSource.append( "#define mediunmp\n" );
+            vertShaderSource.append( "#define highp\n" );
         }
     }
-    else if(BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES)
+    else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
     {
-        vertShaderSource.append("#ifndef GL_FRAGMENT_PRECISION_HIGH\n");
-        vertShaderSource.append("#define highp mediump\n");
-        vertShaderSource.append("#endif\n");
+        vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
+        vertShaderSource.append( "#define highp mediump\n" );
+        vertShaderSource.append( "#endif\n" );
     }
 
-    fragShaderSource.append(vertShaderSource);
+    fragShaderSource.append( vertShaderSource );
 
-    vertShaderSource.append(d->vertShaderSource);
-    fragShaderSource.append(d->fragShaderSource);
+    vertShaderSource.append( d->vertShaderSource );
+    fragShaderSource.append( d->fragShaderSource );
 
     const char* vertShaderData = vertShaderSource.data();
     const char* fragShaderData = fragShaderSource.data();
 
     d->program = new QGLShaderProgram();
-    d->program->addShaderFromSourceCode(QGLShader::Vertex, vertShaderSource);
-    d->program->addShaderFromSourceCode(QGLShader::Fragment, fragShaderSource);
+    d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource );
+    d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource );
     d->program->link();
 
     if( !d->program->isLinked() )
@@ -161,43 +161,43 @@ void Material::build( const QString& name )
         debug( d->program->log() );
     }
 
-//     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
-//     glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
-//     glCompileShader( d->vertShader );
-//
-//     int status;
-//     glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
-//     if( status != GL_TRUE )
-//     {
-//         char log[500];
-//         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
-//         debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
-//     }
-//
-//     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
-//     glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
-//     glCompileShader( d->fragShader );
-//
-//     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
-//     if( status != GL_TRUE )
-//     {
-//         char log[500];
-//         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
-//         debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
-//     }
-//
-//     d->glProgram = glCreateProgram();
-//     glAttachShader( d->glProgram, d->vertShader );
-//     glAttachShader( d->glProgram, d->fragShader );
-//     glLinkProgram( d->glProgram );
-//
-//     glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
-//     if( status != GL_TRUE )
-//     {
-//         char log[500];
-//         glGetProgramInfoLog( d->fragShader, 500, NULL, log );
-//         debug( "An error occured when linking a program:\n%1", QString( log ) );
-//     }
+    //     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
+    //     glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
+    //     glCompileShader( d->vertShader );
+    //
+    //     int status;
+    //     glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
+    //     if( status != GL_TRUE )
+    //     {
+    //         char log[500];
+    //         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
+    //         debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
+    //     }
+    //
+    //     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
+    //     glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
+    //     glCompileShader( d->fragShader );
+    //
+    //     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
+    //     if( status != GL_TRUE )
+    //     {
+    //         char log[500];
+    //         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
+    //         debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
+    //     }
+    //
+    //     d->glProgram = glCreateProgram();
+    //     glAttachShader( d->glProgram, d->vertShader );
+    //     glAttachShader( d->glProgram, d->fragShader );
+    //     glLinkProgram( d->glProgram );
+    //
+    //     glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
+    //     if( status != GL_TRUE )
+    //     {
+    //         char log[500];
+    //         glGetProgramInfoLog( d->fragShader, 500, NULL, log );
+    //         debug( "An error occured when linking a program:\n%1", QString( log ) );
+    //     }
 }
 
 Technique*

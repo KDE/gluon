@@ -33,43 +33,43 @@
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit MainWindow(QMainWindow *parent = 0,  Qt::WindowFlags flags = 0);
-    virtual ~MainWindow();
+    public:
+        explicit MainWindow( QMainWindow* parent = 0,  Qt::WindowFlags flags = 0 );
+        virtual ~MainWindow();
 
-    InputEventTextEdit *inputEventTextEdit();
-    virtual void closeEvent(QCloseEvent *event);
+        InputEventTextEdit* inputEventTextEdit();
+        virtual void closeEvent( QCloseEvent* event );
 
-private:
-    void setupUi();
-    void retranslateUi();
+    private:
+        void setupUi();
+        void retranslateUi();
 
-    void createActions();
-    void createMenus();
-    void createStatusBar();
+        void createActions();
+        void createMenus();
+        void createStatusBar();
 
-    void changeEvent(QEvent *event);
+        void changeEvent( QEvent* event );
 
-private slots:
-    void mAbout();
+    private slots:
+        void mAbout();
 
-private:
-    QWidget *centralWidget;
-    QGridLayout *mainLayout;
-    InputEventTextEdit *m_inputEventTextEdit;
+    private:
+        QWidget* centralWidget;
+        QGridLayout* mainLayout;
+        InputEventTextEdit* m_inputEventTextEdit;
 
-    QMenuBar *menuBar;
-    QStatusBar *statusBar;
+        QMenuBar* menuBar;
+        QStatusBar* statusBar;
 
-    QAction *quitAct;
+        QAction* quitAct;
 
-    QAction *aboutAct;
-    QAction *aboutQtAct;
+        QAction* aboutAct;
+        QAction* aboutQtAct;
 
-    QMenu   *fileMenu;
-    QMenu   *helpMenu;
+        QMenu*   fileMenu;
+        QMenu*   helpMenu;
 };
 
 #endif // MAINWINDOW_H

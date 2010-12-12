@@ -36,7 +36,7 @@ int main( int argc, char* argv[] )
     sound->play();
 
     qDebug() << "Press enter to continue.";
-	QTextStream(stdin).readLine();
+    QTextStream( stdin ).readLine();
 
     sound->stop();
 

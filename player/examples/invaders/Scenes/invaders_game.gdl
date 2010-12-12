@@ -74,10 +74,6 @@
                 color rgba(255;255;255;255)
             }
         }
-        { GluonEngine::QtScriptComponent(GluonObject 1)
-            enabled bool(true)
-            script GluonEngine::Asset(Invaders/Assets/Scripts/player.js)
-        }
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
             keyCode int(105)
@@ -88,7 +84,7 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Up)
             enabled bool(true)
-            keyCode int(21)
+            keyCode int(23)
         }
         { GluonEngine::KeyboardInputComponent(Key_Down)
             enabled bool(true)
@@ -124,6 +120,10 @@
         { GluonEngine::SphereCollisionComponent(EnemyCollider)
             enabled bool(true)
             radius float(3)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Player)
         }
     }
     { GluonEngine::GameObject(Enemy)

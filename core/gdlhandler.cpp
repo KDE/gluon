@@ -140,7 +140,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
 
                 // Ignore whitespace as instructed, rar!
-                if( !i->isSpace() && (*i) != '#' )
+                if( !i->isSpace() && ( *i ) != '#' )
                 {
                     if( i->toLower() == '}' )
                     {
@@ -284,7 +284,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
                 else if( inPropertyValue )
                 {
-                    if( *i == '<' && *(i + 1) == '<' && *(i + 2) == '<'  )
+                    if( *i == '<' && *( i + 1 ) == '<' && *( i + 2 ) == '<' )
                     {
                         multilineProperty = !multilineProperty;
                         i = i + 2;

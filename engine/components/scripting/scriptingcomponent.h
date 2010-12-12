@@ -33,7 +33,7 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::ScriptingComponent )
             Q_INTERFACES( GluonEngine::Component )
-            
+
             Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
         public:
             Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );

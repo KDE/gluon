@@ -37,15 +37,15 @@ int main( int argc, char* argv[] )
 
     qDebug() << "Playing left. Press enter to continue.";
     left->play();
-	QTextStream(stdin).readLine();
+    QTextStream( stdin ).readLine();
 
     qDebug() << "Playing right. Press enter to continue.";
     right->play();
-	QTextStream(stdin).readLine();
+    QTextStream( stdin ).readLine();
 
     qDebug() << "Playing center. Press enter to continue.";
     center->play();
-	QTextStream(stdin).readLine();
+    QTextStream( stdin ).readLine();
 
     delete left;
     delete right;

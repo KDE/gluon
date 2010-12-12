@@ -29,7 +29,7 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::ScriptingAsset )
-            
+
         public:
             Q_INVOKABLE ScriptingAsset( QObject* parent = 0 );
             virtual ~ScriptingAsset();

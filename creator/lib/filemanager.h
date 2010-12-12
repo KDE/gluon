@@ -44,17 +44,17 @@ namespace GluonCreator
         public:
             KParts::PartManager* partManager() const;
 
-            KParts::Part* part(const QString& partName) const;
+            KParts::Part* part( const QString& partName ) const;
 
         public Q_SLOTS:
-            void initialize( QWidget* widget);
+            void initialize( QWidget* widget );
             void openAsset( GluonEngine::Asset* asset );
             void openFile( const QString& fileName, const QString& name = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList() );
             void closeFile( const QString& file );
             void setCurrentFile( const QString& file );
 
         Q_SIGNALS:
-            void newPart(const QString&);
+            void newPart( const QString& );
 
 
         private:

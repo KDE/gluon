@@ -91,8 +91,8 @@ void SpriteRendererComponent::initialize()
 
     if( d->material )
     {
-        Asset* materialAsset = qobject_cast<Asset*>(d->material->parent());
-        if(materialAsset)
+        Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
+        if( materialAsset )
             materialAsset->load();
 
         Asset* texture = gameProject()->findChild<Asset*>( d->material->property( "texture0" ).toString() );

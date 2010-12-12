@@ -168,12 +168,13 @@ void PlasmaApplet::showGames()
 
 void PlasmaApplet::showGameDetails( const QModelIndex& index )
 {
-    QString id = index.sibling(index.row(), GamesModel::IdColumn).data().toString();
-    if (id.isEmpty()) {
+    QString id = index.sibling( index.row(), GamesModel::IdColumn ).data().toString();
+    if( id.isEmpty() )
+    {
         return;
     }
     //TODO: the game details should be according to the game selected
-    m_gameDetailsOverlay = new GameDetailsOverlay(id, this );
+    m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
     m_gamesOverlay->hide();
     m_layout->removeItem( m_gamesOverlay );
     m_gameDetailsOverlay->show();

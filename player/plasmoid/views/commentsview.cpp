@@ -33,10 +33,10 @@
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )
-    , m_itemBackground(new Plasma::ItemBackground( this ))
+    , m_itemBackground( new Plasma::ItemBackground( this ) )
     , m_rootWidget( 0 )
-    , m_commentsFrame(new Plasma::Frame( this ))
-    , m_commentsLayout(new QGraphicsLinearLayout( Qt::Vertical, m_commentsFrame ))
+    , m_commentsFrame( new Plasma::Frame( this ) )
+    , m_commentsLayout( new QGraphicsLinearLayout( Qt::Vertical, m_commentsFrame ) )
     , m_isOnline( false )
 {
     m_commentsFrame->setLayout( m_commentsLayout );

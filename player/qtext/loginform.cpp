@@ -43,9 +43,9 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_busyWidget->hide();
 
-    QGridLayout* layout1 = static_cast<QGridLayout*>(layout());
+    QGridLayout* layout1 = static_cast<QGridLayout*>( layout() );
     layout1->addWidget( m_usernameLabel, 0, 0 );
-    layout1->addWidget( m_passwordLabel, 0, 1);
+    layout1->addWidget( m_passwordLabel, 0, 1 );
     layout1->addWidget( m_usernameLineEdit, 1, 0 );
     layout1->addWidget( m_passwordLineEdit, 1, 1 );
     layout1->addWidget( m_loginButton, 2, 0 );
@@ -84,13 +84,13 @@ void LoginForm::initFailed()
 
 void LoginForm::doLogin()
 {
-    if( m_usernameLineEdit->text().isEmpty())
+    if( m_usernameLineEdit->text().isEmpty() )
     {
         qDebug() << "Empty username";
         return;
     }
 
-    if ( m_passwordLineEdit->text().isEmpty() )
+    if( m_passwordLineEdit->text().isEmpty() )
     {
         qDebug() << "Empty password";
         return;
@@ -106,7 +106,7 @@ void LoginForm::doLogin()
 void LoginForm::loginDone()
 {
     m_busyWidget->hide();
-    m_resultLabel->setText(tr( QString("Logged in as %1").arg(GluonPlayer::Authentication::instance()->username() ).toAscii() ) );
+    m_resultLabel->setText( tr( QString( "Logged in as %1" ).arg( GluonPlayer::Authentication::instance()->username() ).toAscii() ) );
     m_loginButton->setEnabled( true );
 }
 

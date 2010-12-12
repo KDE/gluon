@@ -110,11 +110,11 @@ ComponentModel::ComponentModel( QObject* parent )
         else
         {
             QObject* anobj = obj->newInstance();
-            if(anobj)
+            if( anobj )
             {
-                if(anobj->inherits("GluonEngine::Component"))
+                if( anobj->inherits( "GluonEngine::Component" ) )
                 {
-                    DEBUG_TEXT2("The Component %1 is lacking the Q_INTERFACES(GluonEngine::Component) macro", obj->className());
+                    DEBUG_TEXT2( "The Component %1 is lacking the Q_INTERFACES(GluonEngine::Component) macro", obj->className() );
                 }
             }
         }

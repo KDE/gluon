@@ -88,8 +88,8 @@ namespace GluonPlayer
             void finishInit();
             void checkLoginResult( Attica::BaseJob* );
 
-            void onRegisterClicked(const QString& username, const QString& password, const QString& mail, const QString& firstName, const QString& lastName);
-            void onRegisterAccountFinished(Attica::BaseJob* job);
+            void onRegisterClicked( const QString& username, const QString& password, const QString& mail, const QString& firstName, const QString& lastName );
+            void onRegisterAccountFinished( Attica::BaseJob* job );
 
         signals:
             /** signal which is emitted when the initialization is complete
@@ -114,7 +114,7 @@ namespace GluonPlayer
             ~Authentication();
             Q_DISABLE_COPY( Authentication )
 
-            void showRegisterError(const Attica::Metadata&);
+            void showRegisterError( const Attica::Metadata& );
 
             bool m_initialized;
             bool m_loggedIn;

@@ -31,14 +31,14 @@ int main( int argc, char** argv )
     app.setApplicationName( "Gluon QML Player" );
 
     QDeclarativeView view;
-    GluonPlayer::Authentication *auth = GluonPlayer::Authentication::instance();
-    view.rootContext()->setContextProperty("authentication", auth);
-    view.setSource(QUrl("qrc:/main.qml"));
+    GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
+    view.rootContext()->setContextProperty( "authentication", auth );
+    view.setSource( QUrl( "qrc:/main.qml" ) );
     view.show();
 
-    QObject *obj = view.rootObject();
-    QObject *login = obj->findChild<QObject *>("login");
-    QObject::connect(auth, SIGNAL(initialized()), login, SLOT(providerSet()));
+    QObject* obj = view.rootObject();
+    QObject* login = obj->findChild<QObject*>( "login" );
+    QObject::connect( auth, SIGNAL( initialized() ), login, SLOT( providerSet() ) );
 
     return app.exec();
 }

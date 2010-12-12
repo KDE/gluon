@@ -28,7 +28,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT FileArea : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit FileArea( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~FileArea();
@@ -36,8 +36,8 @@ namespace GluonCreator
         public Q_SLOTS:
             void addTab( const QString& name );
             void removeTab( const QString& name );
-            void removeTab(int index);
-            void setActiveTab(int index);
+            void removeTab( int index );
+            void setActiveTab( int index );
 
         private Q_SLOTS:
             void activePartChanged( KParts::Part* part );
@@ -45,7 +45,7 @@ namespace GluonCreator
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

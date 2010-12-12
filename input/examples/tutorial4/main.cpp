@@ -28,11 +28,11 @@
 
 using namespace GluonInput;
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication app(argc, argv);
-    app.setOrganizationName("KDE Gluon");
-    app.setApplicationName("Gluon Player");
+    QApplication app( argc, argv );
+    app.setOrganizationName( "KDE Gluon" );
+    app.setApplicationName( "Gluon Player" );
     MainWindow window;
 
 #if defined(Q_WS_S60)
@@ -41,14 +41,16 @@ int main(int argc, char *argv[])
     window.show();
 #endif
 
-    if (InputManager::instance()->inputList().count() > 0) {
+    if( InputManager::instance()->inputList().count() > 0 )
+    {
         qDebug() << "creating generic test game loop";
-        QList<InputDevice *> inputList = InputManager::instance()->inputList();
-        foreach(InputDevice *input, inputList) {
-            QObject::connect(window.inputEventTextEdit(), SIGNAL(buttonStateChanged(int, int)), input, SLOT(buttonStateChanged(int, int)));
-            input->setEnabled(true);
+        QList<InputDevice*> inputList = InputManager::instance()->inputList();
+        foreach( InputDevice * input, inputList )
+        {
+            QObject::connect( window.inputEventTextEdit(), SIGNAL( buttonStateChanged( int, int ) ), input, SLOT( buttonStateChanged( int, int ) ) );
+            input->setEnabled( true );
         }
-/*         GameLoop *gameLoop = new GameLoop(inputList, &window); */
+        /*         GameLoop *gameLoop = new GameLoop(inputList, &window); */
         /* gameLoop->run(); */
     }
 

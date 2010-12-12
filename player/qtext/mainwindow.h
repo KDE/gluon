@@ -51,9 +51,9 @@ namespace GluonPlayer
             QString password() const;
             bool rememberSettings() const;
 
-            void setUserName(const QString &userName);
-            void setPassword(const QString &password);
-            void setRememberSettings(bool on);
+            void setUserName( const QString& userName );
+            void setPassword( const QString& password );
+            void setRememberSettings( bool on );
 
         public slots:
             void openProject( const QString& fileName = QString() );
@@ -65,20 +65,20 @@ namespace GluonPlayer
 
         private slots:
             void mOpenGame();
-            void mShowToolBar(bool checked);
-            void mShowStatusBar(bool checked);
+            void mShowToolBar( bool checked );
+            void mShowStatusBar( bool checked );
             void mConfigureToolBar();
             void mConfigureShortcuts();
             void mAbout();
 
-            void mLoginLogout(bool checked);
+            void mLoginLogout( bool checked );
             void mHome();
             void mDetails();
             void mRegistration();
             void mForgottenPassword();
 
         protected:
-            void changeEvent(QEvent *e);
+            void changeEvent( QEvent* e );
 
         private:
             void setupUi();
@@ -91,54 +91,54 @@ namespace GluonPlayer
 
             void loadActions();
 
-            QStackedWidget *stackedWidget;
+            QStackedWidget* stackedWidget;
 
-            LoginForm *loginForm;
+            LoginForm* loginForm;
 
-            QWidget *centralWidget;
-            QGridLayout *mainGridLayout;
+            QWidget* centralWidget;
+            QGridLayout* mainGridLayout;
 
-            QMenuBar *menuBar;
-            QToolBar *mainToolBar;
-            QStatusBar *statusBar;
+            QMenuBar* menuBar;
+            QToolBar* mainToolBar;
+            QStatusBar* statusBar;
 
             // File menu related action declarations
-            QAction *openGameAct;
-            QAction *quitAct;
+            QAction* openGameAct;
+            QAction* quitAct;
 
             // View menu related action declarations
-            QAction *showToolBarAct;
-            QAction *showStatusBarAct;
+            QAction* showToolBarAct;
+            QAction* showStatusBarAct;
 
 
             // Community menu related action declarations
-            QAction *loginLogoutAct;
-            QAction *homeAct;
-            QAction *detailsAct;
-            QAction *registrationAct;
-            QAction *forgottenPasswordAct;
+            QAction* loginLogoutAct;
+            QAction* homeAct;
+            QAction* detailsAct;
+            QAction* registrationAct;
+            QAction* forgottenPasswordAct;
 
 
             // Settings menu related action declarations
-            QAction *configureShortcutsAct;
-            QAction *saveShortcutsAct;
-            QAction *configureToolBarAct;
+            QAction* configureShortcutsAct;
+            QAction* saveShortcutsAct;
+            QAction* configureToolBarAct;
 
 
             // Help menu related action declarations
-            QAction *aboutAct;
-            QAction *aboutQtAct;
+            QAction* aboutAct;
+            QAction* aboutQtAct;
 
 
             // Menubar entries
-            QMenu   *fileMenu;
-            QMenu   *viewMenu;
-            QMenu   *communityMenu;
-            QMenu   *settingsMenu;
-            QMenu   *helpMenu;
+            QMenu*   fileMenu;
+            QMenu*   viewMenu;
+            QMenu*   communityMenu;
+            QMenu*   settingsMenu;
+            QMenu*   helpMenu;
 
             QSharedPointer<QSettings> settings;
-            QList<QAction *>   m_actions;
+            QList<QAction*>   m_actions;
 
             class MainWindowPrivate;
             MainWindowPrivate* d;

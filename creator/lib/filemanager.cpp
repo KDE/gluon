@@ -59,8 +59,8 @@ KParts::PartManager* FileManager::partManager() const
 
 KParts::Part* FileManager::part( const QString& partName ) const
 {
-    if(d->parts.contains(partName))
-        return d->parts.value(partName);
+    if( d->parts.contains( partName ) )
+        return d->parts.value( partName );
 
     return 0;
 }
@@ -68,7 +68,7 @@ KParts::Part* FileManager::part( const QString& partName ) const
 void FileManager::initialize( QWidget* widget )
 {
     setParent( widget );
-    d->partManager = new KParts::PartManager(widget);
+    d->partManager = new KParts::PartManager( widget );
 }
 
 void FileManager::openAsset( GluonEngine::Asset* asset )
@@ -87,7 +87,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
     if( d->parts.contains( fullName ) )
     {
-        DEBUG_TEXT2("Using existing file: %1", fullName);
+        DEBUG_TEXT2( "Using existing file: %1", fullName );
         emit newPart( fullName );
         return;
     }
@@ -97,17 +97,17 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     KParts::ReadOnlyPart* part;
     KService::List parts;
 
-    if(!partName.isEmpty() )
+    if( !partName.isEmpty() )
     {
         KService::Ptr service = KService::serviceByDesktopName( partName );
-        if(!service.isNull())
-            parts.append(service);
+        if( !service.isNull() )
+            parts.append( service );
     }
 
-    if(parts.count() == 0)
+    if( parts.count() == 0 )
     {
         parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadWritePart" ) );
-        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadOnlyPart" )  );
+        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadOnlyPart" ) );
 
         if( mime->name().contains( "audio" ) && parts.count() == 0 )
             parts.append( KService::serviceByStorageId( "dragonplayer_part.desktop" ) );
@@ -116,7 +116,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( parts.count() > 0 )
     {
         part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
-        if(!part)
+        if( !part )
             part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams );
     }
 
@@ -141,18 +141,18 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
 void FileManager::closeFile( const QString& file )
 {
-    if(d->parts.contains(file))
+    if( d->parts.contains( file ) )
     {
-        KParts::Part* part = d->parts.value(file);
-        d->partManager->removePart(part);
+        KParts::Part* part = d->parts.value( file );
+        d->partManager->removePart( part );
         delete part;
-        d->parts.remove(file);
+        d->parts.remove( file );
     }
 }
 
 void FileManager::setCurrentFile( const QString& file )
 {
-    d->partManager->setActivePart(d->parts.value(file));
+    d->partManager->setActivePart( d->parts.value( file ) );
 }
 
 FileManager::FileManager()

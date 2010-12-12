@@ -39,7 +39,7 @@ namespace GluonEngine
                 engine->importExtension( "jsmoke.qtcore" );
                 engine->importExtension( "jsmoke.qtgui" );
                 engine->importExtension( "jsmoke.qtopengl" );
-                
+
                 qScriptRegisterMetaType( engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, gameObjectToScriptValue, gameObjectFromScriptValue );
 
@@ -198,7 +198,7 @@ ScriptingEngine::scriptEngine() const
     return instance()->d->engine;
 }
 
-QScriptValue gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const &in )
+QScriptValue gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const& in )
 {
     return engine->newQObject( in );
 }
@@ -208,7 +208,7 @@ void gluonObjectFromScriptValue( const QScriptValue& object, GluonCore::GluonObj
     out = qobject_cast<GluonCore::GluonObject*>( object.toQObject() );
 }
 
-QScriptValue gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const &in )
+QScriptValue gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const& in )
 {
     return engine->newQObject( in );
 }
