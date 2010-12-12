@@ -1,6 +1,6 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(libGluonCreator_SRCS 
+set(libGluonCreator_SRCS
     plugin.cpp
     dockplugin.cpp
     dockmanager.cpp
@@ -19,6 +19,7 @@ set(libGluonCreator_SRCS
     models/scenemodel.cpp
     models/modeltest.cpp
 
+    widgets/filearea.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
     widgets/propertywidgetitem.cpp
