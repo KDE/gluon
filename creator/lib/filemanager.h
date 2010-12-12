@@ -42,18 +42,20 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            KTabWidget* tabWidget();
-            KParts::PartManager* partManager();
+            KParts::PartManager* partManager() const;
+
+            KParts::Part* part(const QString& partName) const;
 
         public Q_SLOTS:
+            void initialize( QWidget* widget);
             void openAsset( GluonEngine::Asset* asset );
-            void openFile( const QString& file, const QString& name = QString() );
+            void openFile( const QString& fileName, const QString& name = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList() );
+            void closeFile( const QString& file );
+            void setCurrentFile( const QString& file );
 
-            void setTabWidget( KTabWidget* widget );
-            void tabChanged( int index );
+        Q_SIGNALS:
+            void newPart(const QString&);
 
-        private Q_SLOTS:
-            void closeTab( QWidget* widget );
 
         private:
             friend class GluonCore::Singleton<FileManager>;
@@ -61,8 +63,6 @@ namespace GluonCreator
             FileManager();
             ~FileManager();
             Q_DISABLE_COPY( FileManager )
-
-            KToolBar* addTab( QWidget* widget, const QString& name );
 
             class FileManagerPrivate;
             FileManagerPrivate* const d;

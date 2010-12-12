@@ -35,6 +35,9 @@
 #include <engine/asset.h>
 #include <KActionCollection>
 #include <qactiongroup.h>
+#include <QMouseEvent>
+#include <QApplication>
+#include <KServiceTypeTrader>
 
 using namespace GluonCreator;
 
@@ -43,23 +46,29 @@ template<> GLUON_CREATOR_VISIBILITY FileManager* GluonCore::Singleton<FileManage
 class FileManager::FileManagerPrivate
 {
     public:
-        KTabWidget* tabWidget;
-
-        KToolBar* mainToolBar;
         KParts::PartManager* partManager;
 
         QHash<QString, KParts::ReadOnlyPart*> parts;
-        QHash<QString, int> tabs;
 };
 
-KTabWidget* FileManager::tabWidget()
-{
-    return d->tabWidget;
-}
 
-KParts::PartManager* FileManager::partManager()
+KParts::PartManager* FileManager::partManager() const
 {
     return d->partManager;
+}
+
+KParts::Part* FileManager::part( const QString& partName ) const
+{
+    if(d->parts.contains(partName))
+        return d->parts.value(partName);
+
+    return 0;
+}
+
+void FileManager::initialize( QWidget* widget )
+{
+    setParent( widget );
+    d->partManager = new KParts::PartManager(widget);
 }
 
 void FileManager::openAsset( GluonEngine::Asset* asset )
@@ -70,41 +79,45 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     openFile( asset->absolutePath(), asset->name() );
 }
 
-void FileManager::openFile( const QString& fileName, const QString& name )
+void FileManager::openFile( const QString& fileName, const QString& name, const QString& partName, const QVariantList& partParams )
 {
     if( fileName.isEmpty() )
         return;
 
-    QString tabName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
-    if( d->parts.contains( tabName ) )
+    QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
+    if( d->parts.contains( fullName ) )
     {
-        d->tabWidget->setCurrentIndex( d->tabs.value( tabName ) );
+        DEBUG_TEXT2("Using existing file: %1", fullName);
+        emit newPart( fullName );
         return;
     }
 
     KMimeType::Ptr mime = KMimeType::findByPath( fileName );
 
-    //Find a read-write kpart
-    KParts::ReadOnlyPart* part = 0;
-    KService::List parts = KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadWritePart" );
+    KParts::ReadOnlyPart* part;
+    KService::List parts;
+
+    if(!partName.isEmpty() )
+    {
+        KService::Ptr service = KService::serviceByDesktopName( partName );
+        if(!service.isNull())
+            parts.append(service);
+    }
+
+    if(parts.count() == 0)
+    {
+        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadWritePart" ) );
+        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadOnlyPart" )  );
+
+        if( mime->name().contains( "audio" ) && parts.count() == 0 )
+            parts.append( KService::serviceByStorageId( "dragonplayer_part.desktop" ) );
+    }
+
     if( parts.count() > 0 )
     {
-        part = parts.first()->createInstance<KParts::ReadWritePart>( qobject_cast<QObject*>( d->tabWidget ) );
-    }
-    else
-    {
-        //Apparently, there was no read/write part that could be instantiated, so try to find a read-only part
-        parts = KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadOnlyPart" );
-        //Nasty, nasty, nasty
-        //Hack to force embed dragonplayer_part when trying to open an audio file, as that is not
-        //by default associated with audio files...
-        if( mime->name().contains( "audio" ) && parts.count() == 0 )
-            parts.prepend( KService::serviceByDesktopPath( "dragonplayer_part.desktop" ) );
-
-        if( parts.count() > 0 )
-        {
-            part = parts.first()->createInstance<KParts::ReadOnlyPart>( qobject_cast<QObject*>( d->tabWidget ) );
-        }
+        part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
+        if(!part)
+            part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams );
     }
 
     if( part )
@@ -112,105 +125,42 @@ void FileManager::openFile( const QString& fileName, const QString& name )
         //Add the part if it is found
         KUrl url( fileName );
         part->openUrl( url );
-        d->parts.insert( tabName, part );
-        d->partManager->addPart( part, false );
-
-        KToolBar* toolBar = addTab( part->widget(), tabName );
-
-        QDomNodeList actions;
-        QDomNodeList toolBars = part->domDocument().elementsByTagName( "ToolBar" );
-
-        //Slight workaround to handle KatePart
-        if( toolBars.count() == 0 && part->childClients().count() > 0 )
-            toolBars = part->childClients().at( 0 )->domDocument().elementsByTagName( "ToolBar" );
-
-        int i = -1;
-        while( ++i < toolBars.count() )
-        {
-            if( toolBars.at( i ).attributes().namedItem( "name" ).nodeValue() == "mainToolBar" )
-            {
-                actions = toolBars.at( i ).childNodes();
-            }
-        }
-
-        DEBUG_BLOCK
-        i = -1;
-        while( ++i < actions.count() )
-        {
-            if( actions.at( i ).nodeName() == "Action" )
-            {
-                toolBar->addAction( part->action( actions.at( i ).attributes().namedItem( "name" ).nodeValue().toUtf8() ) );
-            }
-        }
+        d->parts.insert( fullName, part );
+        d->partManager->addPart( part, true );
+        emit newPart( fullName );
 
         return;
     }
 
     //Nope, there really is no part that can be used.
     //So instead, just open it in an external application.
-    KRun* runner = new KRun( KUrl( fileName ), d->tabWidget );
+    KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
     Q_UNUSED( runner );
 
 }
 
-void FileManager::setTabWidget( KTabWidget* widget )
+void FileManager::closeFile( const QString& file )
 {
-    d->tabWidget = widget;
-    connect( d->tabWidget, SIGNAL( closeRequest( QWidget* ) ), SLOT( closeTab( QWidget* ) ) );
-    connect( d->tabWidget, SIGNAL( currentChanged( int ) ), SLOT( tabChanged( int ) ) );
-
-    d->partManager = new KParts::PartManager( d->tabWidget );
+    if(d->parts.contains(file))
+    {
+        KParts::Part* part = d->parts.value(file);
+        d->partManager->removePart(part);
+        delete part;
+        d->parts.remove(file);
+    }
 }
 
-void FileManager::closeTab( QWidget* widget )
+void FileManager::setCurrentFile( const QString& file )
 {
-    /*if(widget->objectName() == "gluon_viewer_part" || widget->objectName() == "gluon_editor_part")
-        return;*/
-
-    int tab = d->tabWidget->indexOf( widget );
-    QString partName = d->tabs.key( tab );
-
-    d->parts.remove( partName );
-    d->tabs.remove( partName );
-
-    widget->deleteLater();
-}
-
-void FileManager::tabChanged( int index )
-{
-    QString partName = d->tabs.key( index );
-    d->partManager->setActivePart( d->parts.value( partName ) );
+    d->partManager->setActivePart(d->parts.value(file));
 }
 
 FileManager::FileManager()
     : d( new FileManagerPrivate )
 {
-
 }
 
 FileManager::~FileManager()
 {
     delete d;
 }
-
-KToolBar* FileManager::addTab( QWidget* widget, const QString& name )
-{
-    Q_ASSERT( widget );
-
-    QWidget* base = new QWidget();
-    base->setObjectName( name );
-    QVBoxLayout* layout = new QVBoxLayout();
-    base->setLayout( layout );
-
-    KToolBar* toolBar = new KToolBar( base );
-    toolBar->setIconDimensions( 16 );
-    layout->addWidget( toolBar );
-    layout->addWidget( widget );
-
-    int id = d->tabWidget->addTab( base, name );
-    d->tabs.insert( name, id );
-    d->tabWidget->setCurrentIndex( id );
-
-    return toolBar;
-}
-
