@@ -48,6 +48,7 @@
 #include "lib/selectionmanager.h"
 #include "lib/dockmanager.h"
 #include "lib/filemanager.h"
+#include "lib/widgets/filearea.h"
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
@@ -61,7 +62,6 @@ class MainWindow::MainWindowPrivate
     public:
         MainWindowPrivate()
         {
-            viewPart = 0;
         }
 
         bool modified;
@@ -69,7 +69,7 @@ class MainWindow::MainWindowPrivate
         KRecentFilesAction* recentFiles;
         ProjectSelectionDialog* projectDialog;
 
-        KParts::ReadOnlyPart* viewPart;
+        FileArea* mainArea;
 };
 
 MainWindow::MainWindow( const QString& fileName )
@@ -84,9 +84,15 @@ MainWindow::MainWindow( const QString& fileName )
     ObjectManager::instance()->setParent( this );
     HistoryManager::instance()->setParent( this );
     SelectionManager::instance()->setParent( this );
+
     DockManager::instance()->setParent( this );
-    FileManager::instance()->setParent( this );
     DockManager::instance()->setMainWindow( this );
+
+    FileManager::instance()->initialize( this );
+    connect(FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(createGUI(KParts::Part*)));
+
+    PluginManager::instance()->setMainWindow( this );
+    PluginManager::instance()->loadPlugins();
 
     setDockNestingEnabled( true );
     setCorner( Qt::TopLeftCorner, Qt::LeftDockWidgetArea );
@@ -94,11 +100,12 @@ MainWindow::MainWindow( const QString& fileName )
     setCorner( Qt::TopRightCorner, Qt::RightDockWidgetArea );
     setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
 
-    PluginManager::instance()->setMainWindow( this );
-    PluginManager::instance()->loadPlugins();
+    d->mainArea = new FileArea(this);
+    setCentralWidget( d->mainArea );
 
     setupActions();
     setupGUI();
+    stateChanged("initial");
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
@@ -106,34 +113,6 @@ MainWindow::MainWindow( const QString& fileName )
 
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
-
-    KTabWidget* tab = new KTabWidget( this );
-    tab->setCloseButtonEnabled( true );
-    tab->setMovable( true );
-    tab->setEnabled( false );
-
-    KService::Ptr viewerService = KService::serviceByDesktopName( "gluon_viewer_part" );
-    if( viewerService )
-    {
-        d->viewPart = viewerService->createInstance<KParts::ReadOnlyPart>( 0, QVariantList() << QString( "autoplay=false" ) );
-        if( d->viewPart )
-        {
-            d->viewPart->widget()->setObjectName( "gluon_viewer_part" );
-            tab->addTab( d->viewPart->widget(), i18nc( "View Game Tab", "View" ) );
-        }
-    }
-
-    if( !d->viewPart )
-    {
-        KMessageBox::error( this, "Could not load the Viewer part. Is it installed correctly?" );
-    }
-
-    tab->addTab( new QWidget(), i18nc( "Edit Game Tab", "Edit" ) );
-    setCentralWidget( tab );
-
-    FileManager::instance()->setTabWidget( tab );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( createGUI( KParts::Part* ) ) );
-    FileManager::instance()->partManager()->addPart( d->viewPart );
 
     if( fileName.isEmpty() )
     {
@@ -160,26 +139,19 @@ void MainWindow::openProject( KUrl url )
 
 void MainWindow::openProject( const QString& fileName )
 {
-    if( !fileName.isEmpty() && QFile::exists( fileName ) && d->viewPart )
+    if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         statusBar()->showMessage( i18n( "Opening project..." ) );
 
-        d->viewPart->openUrl( KUrl( fileName ) );
+        FileManager::instance()->openFile( fileName, i18nc("View Game Tab", "View"), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
 
         d->fileName = fileName;
-
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        actionCollection()->action( KStandardAction::name( KStandardAction::Save ) )->setEnabled( true );
-        actionCollection()->action( KStandardAction::name( KStandardAction::SaveAs ) )->setEnabled( true );
-        actionCollection()->action( "newObject" )->setEnabled( true );
-        actionCollection()->action( "newScene" )->setEnabled( true );
-        actionCollection()->action( "playPauseGame" )->setEnabled( true );
-        actionCollection()->action( "addAsset" )->setEnabled( true );
-        actionCollection()->action( "chooseEntryPoint" )->setEnabled( true );
-
+        stateChanged("fileOpened");
         DockManager::instance()->setDocksEnabled( true );
 
         if( centralWidget() )
@@ -235,17 +207,15 @@ void MainWindow::setupActions()
 {
     KStandardAction::openNew( this, SLOT( showNewProjectDialog() ), actionCollection() );
     KStandardAction::open( this, SLOT( showOpenProjectDialog() ), actionCollection() );
-    KStandardAction::save( this, SLOT( saveProject() ), actionCollection() )->setEnabled( false );
-    KStandardAction::saveAs( this, SLOT( saveProjectAs() ), actionCollection() )->setEnabled( false );;
+    KStandardAction::save( this, SLOT( saveProject() ), actionCollection() );
+    KStandardAction::saveAs( this, SLOT( saveProjectAs() ), actionCollection() );
     KStandardAction::quit( this, SLOT( close() ), actionCollection() );
     KStandardAction::preferences( this, SLOT( showPreferences() ), actionCollection() );
 
     KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT( undo() ), actionCollection() );
-    undo->setEnabled( false );
     connect( HistoryManager::instance(), SIGNAL( canUndoChanged( bool ) ), undo, SLOT( setEnabled( bool ) ) );
 
     KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT( redo() ), actionCollection() );
-    redo->setEnabled( false );
     connect( HistoryManager::instance(), SIGNAL( canRedoChanged( bool ) ), redo, SLOT( setEnabled( bool ) ) );
 
     connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
@@ -255,33 +225,30 @@ void MainWindow::setupActions()
 
     KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Object" ), actionCollection() );
     actionCollection()->addAction( "newObject", newObject );
-    newObject->setEnabled( false );
     connect( newObject, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewGameObject() ) );
 
     KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actionCollection() );
     actionCollection()->addAction( "newScene", newScene );
-    newScene->setEnabled( false );
     connect( newScene, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewScene() ) );
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
-    actionCollection()->addAction( "playPauseGame", play );
-    play->setCheckable( true );
-    play->setEnabled( false );
-    connect( play, SIGNAL( triggered( bool ) ), SLOT( playPauseGame( bool ) ) );
+    actionCollection()->addAction( "playGame", play );
+    connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
+
+    KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
+    actionCollection()->addAction( "pauseGame", pause );
+    connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
 
     KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
     actionCollection()->addAction( "stopGame", stop );
-    stop->setEnabled( false );
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
     KAction* addAsset = new KAction( KIcon( "document-new" ), i18n( "Add Assets..." ), actionCollection() );
     actionCollection()->addAction( "addAsset", addAsset );
-    addAsset->setEnabled( false );
     connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
 
     KAction* chooseEntryPoint = new KAction( KIcon( "media-playback-start" ), i18n( "Set current scene as entry point" ), actionCollection() );
     actionCollection()->addAction( "chooseEntryPoint", chooseEntryPoint );
-    chooseEntryPoint->setEnabled( false );
     connect( chooseEntryPoint, SIGNAL( triggered( bool ) ), SLOT( chooseEntryPoint() ) );
 
     KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
@@ -302,52 +269,41 @@ void MainWindow::showPreferences()
     dialog->show();
 }
 
-void MainWindow::playPauseGame( bool checked )
+void MainWindow::playGame( )
 {
-    if( checked )
+    if( GluonEngine::Game::instance()->isRunning() )
     {
-        if( GluonEngine::Game::instance()->isRunning() )
-        {
-            actionCollection()->action( "playPauseGame" )->setIcon( KIcon( "media-playback-pause" ) );
-            actionCollection()->action( "playPauseGame" )->setText( i18n( "Pause Game" ) );
-            GluonEngine::Game::instance()->setPause( false );
-        }
-        else
-        {
-            actionCollection()->action( "playPauseGame" )->setIcon( KIcon( "media-playback-pause" ) );
-            actionCollection()->action( "playPauseGame" )->setText( i18n( "Pause Game" ) );
-            actionCollection()->action( "stopGame" )->setEnabled( true );
-
-            QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
-            saveProject();
-
-            //Set the focus to the entire window, so that we do not accidentally trigger actions
-            setFocus();
-
-            //Start the game loop
-            //Note that this starts an infinite loop in Game
-            GluonEngine::Game::instance()->runGame();
-
-            //This happens after we exit the game loop
-            actionCollection()->action( "playPauseGame" )->setEnabled( true );
-            actionCollection()->action( "playPauseGame" )->setIcon( KIcon( "media-playback-start" ) );
-            actionCollection()->action( "playPauseGame" )->setText( i18n( "Play Game" ) );
-            actionCollection()->action( "playPauseGame" )->setChecked( false );
-            actionCollection()->action( "stopGame" )->setEnabled( false );
-
-            openProject( d->fileName );
-
-            DEBUG_BLOCK;
-            DEBUG_TEXT( currentSceneName );
-            GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
-        }
+        GluonEngine::Game::instance()->setPause(false);
+        stateChanged("paused", StateReverse);
     }
     else
     {
-        actionCollection()->action( "playPauseGame" )->setIcon( KIcon( "media-playback-start" ) );
-        actionCollection()->action( "playPauseGame" )->setText( i18n( "Play Game" ) );
-        GluonEngine::Game::instance()->setPause( true );
+        stateChanged("playing");
+
+        d->mainArea->setActiveTab(0);
+
+        QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
+        saveProject();
+
+        //Set the focus to the entire window, so that we do not accidentally trigger actions
+        setFocus();
+
+        //Start the game loop
+        //Note that this starts an infinite loop in Game
+        GluonEngine::Game::instance()->runGame();
+
+        //This happens after we exit the game loop
+        stateChanged("playing", StateReverse);
+
+        openProject( d->fileName );
+        GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
     }
+}
+
+void MainWindow::pauseGame()
+{
+    GluonEngine::Game::instance()->setPause( true );
+    stateChanged("paused");
 }
 
 void MainWindow::stopGame()
@@ -429,4 +385,10 @@ void GluonCreator::MainWindow::showOpenProjectDialog()
 void GluonCreator::MainWindow::projectDialogClosed()
 {
     openProject( d->projectDialog->fileName() );
+}
+
+void MainWindow::initializeGame()
+{
+
+
 }

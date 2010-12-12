@@ -47,8 +47,10 @@ namespace GluonCreator
             void saveProjectAs();
             void showPreferences();
 
-            void playPauseGame( bool checked );
+            void playGame();
+            void pauseGame();
             void stopGame();
+
             void historyChanged();
             void cleanChanged( bool );
 
@@ -58,6 +60,8 @@ namespace GluonCreator
             void showNewProjectDialog();
             void showOpenProjectDialog();
             void projectDialogClosed();
+
+            void initializeGame();
 
         private:
             void setupActions();
