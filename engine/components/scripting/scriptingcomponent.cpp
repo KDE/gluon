@@ -65,7 +65,7 @@ void ScriptingComponent::setScript( GluonEngine::ScriptingAsset* newAsset )
 
     // Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot
     // Technically it could be done by object hierarchy, but consistency is a Good Thing(TM)
-    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater;
+    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
     QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
 
     QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject( this, ownership, wrapOptions );
@@ -105,6 +105,9 @@ QScriptValue ScriptingComponent::scriptObject()
 
 void ScriptingComponent::initialize()
 {
+    if( !d->scriptObject.isValid() )
+        debug("Warning: No scripting asset has been chosen");
+        
     if( d->initializeFunction.isFunction() )
     {
         d->initializeFunction.call( d->scriptObject );
