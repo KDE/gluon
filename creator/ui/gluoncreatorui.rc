@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="12" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="13" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
@@ -69,13 +69,57 @@
         <Separator />
         <Action name="newObject" />
         <Action name="newScene" />
-        <Separator />
-        <Action name="playPauseGame" />
+    </ToolBar>
+
+    <ToolBar name="gameActionsToolbar">
+        <text>Game Actions</text>
+        <Action name="playGame" />
+        <Action name="pauseGame" />
         <Action name="stopGame" />
     </ToolBar>
 
-   <ToolBar name="partToolBar">
-       <text>Optional Actions</text>
-       <Merge />
-   </ToolBar>
+   <State name="initial">
+       <disable>
+           <Action name="file_save" />
+           <Action name="file_save_as" />
+           <Action name="addAsset" />
+           <Action name="newObject" />
+           <Action name="newScene" />
+           <Action name="playGame" />
+           <Action name="pauseGame" />
+           <Action name="stopGame" />
+           <Action name="chooseEntryPoint" />
+       </disable>
+   </State>
+
+   <State name="fileOpened">
+       <enable>
+           <Action name="file_save" />
+           <Action name="file_save_as" />
+           <Action name="addAsset" />
+           <Action name="newObject" />
+           <Action name="newScene" />
+           <Action name="playGame" />
+           <Action name="chooseEntryPoint" />
+       </enable>
+   </State>
+
+    <State name="playing">
+        <enable>
+            <Action name="pauseGame" />
+            <Action name="stopGame" />
+        </enable>
+        <disable>
+            <Action name="playGame" />
+        </disable>
+    </State>
+
+    <State name="paused">
+        <enable>
+            <Action name="playGame" />
+        </enable>
+        <disable>
+            <Action name="pauseGame" />
+        </disable>
+    </State>
 </gui>
