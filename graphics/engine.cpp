@@ -154,6 +154,7 @@ void Engine::EnginePrivate::removeObject( const QString& type, const QString& na
 void Engine::initialize()
 {
     Material* material = createMaterial( "default" );
+	material->load(GluonCore::Global::dataDirectory() + "/gluon/defaults/default.gml");
     material->build();
     material->instance( "default" )->setProperty( "materialColor", Qt::white );
     material->instance( "default" )->setProperty( "texture0", QString( "default" ) );

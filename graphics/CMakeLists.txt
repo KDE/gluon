@@ -144,5 +144,6 @@ install(FILES
 install(
     FILES
     default.png
+    default.gml
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
