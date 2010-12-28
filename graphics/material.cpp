@@ -120,27 +120,27 @@ void Material::build( const QString& name )
     if( d->glProgram )
         return;
 
-    if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
+     if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
         return;
 
     QByteArray vertShaderSource;
     QByteArray fragShaderSource;
-    if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
-    {
-        if( d->languageVersion.isEmpty() )
-        {
-            vertShaderSource.append( "#version 110\n" );
-            vertShaderSource.append( "#define lowp\n" );
-            vertShaderSource.append( "#define mediunmp\n" );
-            vertShaderSource.append( "#define highp\n" );
-        }
-    }
-    else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
-    {
-        vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
-        vertShaderSource.append( "#define highp mediump\n" );
-        vertShaderSource.append( "#endif\n" );
-    }
+//     if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
+//     {
+//         if( d->languageVersion.isEmpty() )
+//         {
+//             vertShaderSource.append( "#version 110\n" );
+//             vertShaderSource.append( "#define lowp\n" );
+//             vertShaderSource.append( "#define mediunmp\n" );
+//             vertShaderSource.append( "#define highp\n" );
+//         }
+//     }
+//     else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
+//     {
+//         vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
+//         vertShaderSource.append( "#define highp mediump\n" );
+//         vertShaderSource.append( "#endif\n" );
+//     }
 
     fragShaderSource.append( vertShaderSource );
 
