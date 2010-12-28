@@ -87,7 +87,6 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
     if( d->parts.contains( fullName ) )
     {
-        DEBUG_TEXT2( "Using existing file: %1", fullName );
         emit newPart( fullName );
         return;
     }
