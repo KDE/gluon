@@ -35,8 +35,8 @@ namespace GluonEngine
             virtual ~ScriptingAsset();
 
             virtual const QStringList supportedMimeTypes() const;
-            virtual void setFile( const QUrl& newFile );
             virtual const QList<AssetTemplate*> templates();
+			virtual void load();
 
             virtual QString className() const;
         private:
