@@ -40,6 +40,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     m_loginButton->setIcon( QIcon( "network-connect" ) );
     m_loginButton->setText( tr( "Login" ) );
     m_loginButton->setEnabled( false );
+    m_passwordLineEdit->setEchoMode( QLineEdit::Password );
 
     m_busyWidget->hide();
 
