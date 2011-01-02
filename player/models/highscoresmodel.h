@@ -58,8 +58,8 @@ namespace GluonPlayer
             void loadData();
             void saveData();
 
-            GluonCore::GluonObject* rootNode;
             QString m_gameId;
+            GluonCore::GluonObject* rootNode;
     };
 
 }
