@@ -40,6 +40,7 @@ class Mesh::MeshPrivate
             vertexLoc = -1;
             colorLoc = -1;
             uvLoc = -1;
+            vertexCount = 0;
         }
 
         MaterialInstance* material;
@@ -51,6 +52,8 @@ class Mesh::MeshPrivate
         int vertexLoc;
         int colorLoc;
         int uvLoc;
+
+        int vertexCount;
 };
 
 Mesh::Mesh( QObject* parent )
@@ -108,7 +111,7 @@ Mesh::load( const QString& filename )
 void
 Mesh::render( MaterialInstance* material )
 {
-    renderBuffer( GL_TRIANGLES, 6, material );
+    renderBuffer( GL_TRIANGLES, d->vertexCount, material );
 }
 
 bool
@@ -129,6 +132,8 @@ Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors
     d->uvOffset = d->colorOffset + colors.size() * 4;
     glBufferSubData( GL_ARRAY_BUFFER, d->uvOffset, uvs.size() * 4, uvs.data() );
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+    d->vertexCount = vertices.size();
 }
 
 void
