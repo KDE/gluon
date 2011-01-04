@@ -47,6 +47,7 @@ set(GLUON_GRAPHICS_INCLUDES
 )
 
 set(GluonGraphics_SRCS
+    rendertarget.cpp
     backendcapabilities.cpp
     math.cpp
     frustrum.cpp
