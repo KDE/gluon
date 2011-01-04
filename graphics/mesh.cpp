@@ -109,9 +109,9 @@ Mesh::load( const QString& filename )
 }
 
 void
-Mesh::render( MaterialInstance* material )
+Mesh::render( MaterialInstance* material, uint mode )
 {
-    renderBuffer( GL_TRIANGLES, d->vertexCount, material );
+    renderBuffer( mode, d->vertexCount, material );
 }
 
 bool

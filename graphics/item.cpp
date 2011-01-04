@@ -33,6 +33,7 @@
 #include "math.h"
 #include "materialinstance.h"
 #include "material.h"
+#include "glheaders.h"
 
 using namespace GluonGraphics;
 
@@ -81,6 +82,12 @@ Item::materialInstance()
 void
 Item::render()
 {
+    render( d->materialInstance, GL_TRIANGLES );
+}
+
+void
+Item::render( MaterialInstance* material, uint mode )
+{
     Camera* activeCam = Engine::instance()->activeCamera();
     if( !activeCam )
         return;
@@ -91,10 +98,10 @@ Item::render()
 
     QMatrix4x4 modelViewProj = Math::calculateModelViewProj( d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix() );
 
-    d->materialInstance->bind();
-    d->materialInstance->setModelViewProjectionMatrix( modelViewProj );
-    d->mesh->render( d->materialInstance );
-    d->materialInstance->release();
+    material->bind();
+    material->setModelViewProjectionMatrix( modelViewProj );
+    d->mesh->render( material, mode );
+    material->release();
 }
 
 void

@@ -63,8 +63,9 @@ namespace GluonGraphics
              * \param material The material used to render the mesh. This
              * is only used to determine vertex attribute locations in the
              * program.
+             * \param mode The GL mode used to render the mesh, like GL_TRIANGLES.
              */
-            virtual void render( MaterialInstance* material );
+            virtual void render( MaterialInstance* material, uint mode );
 
         protected:
             /**
