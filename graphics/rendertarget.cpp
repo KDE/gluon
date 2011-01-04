@@ -21,6 +21,13 @@
 
 using namespace GluonGraphics;
 
+class RenderTarget::Private
+{
+    public:
+        Private() { }
+        ~Private() { }
+};
+
 RenderTarget::RenderTarget()
 {
 
@@ -31,3 +38,12 @@ RenderTarget::~RenderTarget()
 
 }
 
+bool RenderTarget::isRenderable()
+{
+
+}
+
+void RenderTarget::setRenderable( bool render )
+{
+
+}

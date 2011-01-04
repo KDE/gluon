@@ -57,6 +57,10 @@ namespace GluonGraphics
              * false to disable this.
              */
             void setRenderable(bool render);
+
+        private:
+            class Private;
+            Private * const d;
     };
 
 }
