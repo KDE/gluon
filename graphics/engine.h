@@ -79,6 +79,15 @@ namespace GluonGraphics
             Item* createItem( const QString& mesh );
 
             /**
+             * Add an item.
+             *
+             * This will add the item to the internal registry.
+             *
+             * \param item The item to add.
+             */
+            void addItem( Item* item );
+
+            /**
              * Destroy an item.
              *
              * This will remove the item from the internal registry and then

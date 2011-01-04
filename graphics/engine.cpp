@@ -179,6 +179,14 @@ Engine::createItem( const QString& mesh )
 }
 
 void
+Engine::addItem( Item* item )
+{
+    QMutexLocker locker( &d->itemMutex );
+
+    d->items << item;
+}
+
+void
 Engine::destroyItem( Item* item )
 {
     QMutexLocker locker( &d->itemMutex );
