@@ -59,6 +59,7 @@ class UiManagerComponent::UiManagerComponentPrivate
         UiManagerComponentPrivate()
             : view(new QGraphicsView())
             , scene(new QGraphicsScene())
+            , ui(0)
             , fbo(0)
             , mouse(0)
         {
@@ -123,9 +124,9 @@ d->texture = 0;
 //     d->scene->setBackgroundBrush(Qt::blue);
 
 //     d->texture = widget->bindTexture(d->pixmap);
-    widget->update();
-    widget->updateGL();
-    widget->makeCurrent();
+//     widget->update();
+//     widget->updateGL();
+//     widget->makeCurrent();
     if( d->ui && !d->ui->isLoaded() )
     {
         d->ui->load();
