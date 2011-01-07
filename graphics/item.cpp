@@ -42,6 +42,7 @@ class Item::ItemPrivate
     public:
         ItemPrivate()
         {
+            mesh = 0;
             materialInstance = 0;
         }
         Mesh* mesh;
@@ -88,6 +89,9 @@ Item::render()
 void
 Item::render( MaterialInstance* material, uint mode )
 {
+    if( !d->mesh )
+        return;
+
     Camera* activeCam = Engine::instance()->activeCamera();
     if( !activeCam )
         return;
