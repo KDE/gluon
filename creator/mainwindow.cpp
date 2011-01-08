@@ -297,6 +297,7 @@ void MainWindow::playGame( )
 
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        GluonEngine::Game::instance()->initializeAll();
     }
 }
 
