@@ -25,7 +25,7 @@ class RenderTarget::Private
 {
     public:
         Private()
-            : renderable(false)
+            : renderable( false )
         { }
         ~Private() { }
 
@@ -33,7 +33,7 @@ class RenderTarget::Private
 };
 
 RenderTarget::RenderTarget( int width, int height, GLenum target )
-    : QGLFramebufferObject( width, height, target ), d(new Private)
+    : QGLFramebufferObject( width, height, target ), d( new Private )
 {
 
 }
