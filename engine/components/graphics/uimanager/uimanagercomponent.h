@@ -24,6 +24,9 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
+class QScriptValue;
+class QScriptEngine;
+
 namespace GluonEngine
 {
     class Asset;
@@ -52,6 +55,8 @@ namespace GluonEngine
             UiAsset* ui() const;
             virtual QSizeF size() const;
 
+            void setScriptEngine( QScriptValue &value );
+
         public slots:
             void setUi(UiAsset* ui);
             virtual void setSize( const QSizeF& size );
@@ -62,6 +67,11 @@ namespace GluonEngine
     };
 
 }
+
+QScriptValue GLUON_ENGINE_EXPORT gameObjectToScript( QScriptEngine* engine, GluonEngine::GameObject* const& in );
+void GLUON_ENGINE_EXPORT gameObjectFromScript( const QScriptValue& object, GluonEngine::GameObject *&out );
+QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScript( QScriptEngine* engine, GluonCore::GluonObject* const& in );
+void GLUON_ENGINE_EXPORT gluonObjectFromScript( const QScriptValue& object, GluonCore::GluonObject*& out );
 
 Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent )
 Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent* )
