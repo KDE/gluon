@@ -83,8 +83,7 @@ class UiManagerComponent::UiManagerComponentPrivate
             : view(new QGraphicsView())
             , scene(new QGraphicsScene())
             , ui(0)
-            , fbo(0)
-            , mouse(0)
+            , updateFunction(0)
         {
         }
 
@@ -94,11 +93,9 @@ class UiManagerComponent::UiManagerComponentPrivate
         UiAsset *ui;
         QSizeF size;
         Item *item;
-        QGLFramebufferObject* fbo;
-        GLuint texture;
-        Component* mouse;
-
         EngineAccess* engineAccess;
+
+        QDeclarativeExpression *updateFunction;
 };
 
 UiManagerComponent::UiManagerComponent( QObject* parent )
@@ -116,7 +113,6 @@ UiManagerComponent::UiManagerComponent( const UiManagerComponent& other )
 
 UiManagerComponent::~UiManagerComponent()
 {
-    delete d->fbo;
     delete d;
 }
 
@@ -128,7 +124,6 @@ QString UiManagerComponent::category() const
 void UiManagerComponent::initialize()
 {
     QGLWidget* widget = GluonGraphics::Engine::instance()->renderWidget();
-d->texture = 0;
 //     d->fbo = GluonGraphics::Engine::instance()->fbo();
     d->pixmap = QPixmap( widget->size() );
     d->pixmap.fill( Qt::transparent );
@@ -229,16 +224,15 @@ void UiManagerComponent::start()
     {
         d->ui->execute();
 
+        d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
+                                                        d->ui->widget(), "update()" );
+
         QGraphicsWidget* widget = d->ui->widget();
         if( widget )
         {
             d->scene->addItem( widget );
 //             widget->setGeometry( 0, 0, 100, 100 );
         }
-    }
-    if( d->mouse )
-    {
-//         d->mouse->setEnabled( true );
     }
 }
 
@@ -259,16 +253,12 @@ void UiManagerComponent::update( int elapsedMilliseconds )
 {
     if( d->ui && d->ui->isLoaded() )
     {
-        QDeclarativeExpression *expr = new QDeclarativeExpression( d->ui->engine()->rootContext(),
-                                                                   d->ui->widget(), "update()" );
-        expr->evaluate();
+        d->updateFunction->evaluate();
 
-        if( expr->hasError() )
+        if( d->updateFunction->hasError() )
         {
-            debug( expr->error().toString() );
+            debug( d->updateFunction->error().toString() );
         }
-
-        delete expr;
     }
 }
 
@@ -284,6 +274,9 @@ void UiManagerComponent::cleanup()
     {
 //         d->scene->removeItem( widget );
     }
+
+    delete d->updateFunction;
+    d->updateFunction = 0;
 }
 
 void UiManagerComponent::setUi(UiAsset* ui)
