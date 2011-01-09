@@ -109,14 +109,21 @@ void UiAsset::load()
     if( !d->engine )
     {
         d->engine = new QDeclarativeEngine(this);
-        d->component = new QDeclarativeComponent(d->engine, this);
     }
+
+    Asset::load();
 }
 
 void UiAsset::execute()
 {
     if( !file().isEmpty() )
     {
+        if( d->component )
+        {
+            delete d->component;
+        }
+
+        d->component = new QDeclarativeComponent(d->engine, this);
         d->component->loadUrl( file().toLocalFile() );
 
         if( d->component->isError() )

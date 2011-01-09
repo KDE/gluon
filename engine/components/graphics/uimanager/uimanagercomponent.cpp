@@ -171,8 +171,6 @@ d->texture = 0;
         expr->evaluate();
         delete expr;
 
-        d->ui->execute();
-
         start();
     }
 }
@@ -222,6 +220,8 @@ void UiManagerComponent::start()
 {
     if( d->ui && d->ui->isLoaded() )
     {
+        d->ui->execute();
+
         QGraphicsWidget* widget = d->ui->widget();
         if( widget )
         {
