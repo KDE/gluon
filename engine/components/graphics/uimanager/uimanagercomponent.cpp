@@ -161,8 +161,6 @@ d->texture = 0;
 
         QDeclarativeEngine* engine = d->ui->engine();
 
-        engine->rootContext()->setContextProperty( "GameObject", gameObject() );
-
         d->engineAccess = new EngineAccess(this);
         engine->rootContext()->setContextProperty( "__engineAccess", d->engineAccess );
 
@@ -214,6 +212,12 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
 
     qScriptRegisterQObjectMetaType<GameObject*>( engine );
     qScriptRegisterQObjectMetaType<GluonObject*>( engine );
+
+    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+    QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+
+    QScriptValue gameObj = engine->newQObject( gameObject(), ownership, wrapOptions );
+    engine->globalObject().setProperty( "GameObject", gameObj );
 
     delete d->engineAccess;
     d->ui->engine()->rootContext()->setContextProperty( "__engineAccess", 0 );
