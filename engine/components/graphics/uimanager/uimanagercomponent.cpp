@@ -161,13 +161,14 @@ d->texture = 0;
 
         QDeclarativeEngine* engine = d->ui->engine();
 
-        engine->rootContext()->setContextProperty("GameObject", gameObject() );
+        engine->rootContext()->setContextProperty( "GameObject", gameObject() );
 
         d->engineAccess = new EngineAccess(this);
-        engine->rootContext()->setContextProperty("__engineAccess", d->engineAccess);
+        engine->rootContext()->setContextProperty( "__engineAccess", d->engineAccess );
 
         //Glorious hack:steal the engine
-        QDeclarativeExpression *expr = new QDeclarativeExpression(engine->rootContext(), d->ui->widget(), "__engineAccess.setEngine(this)");
+        QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), d->ui->widget(),
+                                                                   "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
 
@@ -182,38 +183,40 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
     QScriptValue originalGlobalObject = engine->globalObject();
     QScriptValue newGlobalObject = engine->newObject();
 
-    QString eval = QLatin1String("eval");
-    QString version = QLatin1String("version");
+    QString eval = QLatin1String( "eval" );
+    QString version = QLatin1String( "version" );
 
+    QScriptValueIterator iter( originalGlobalObject );
+    QVector<QString> names;
+    QVector<QScriptValue> values;
+    QVector<QScriptValue::PropertyFlags> flags;
+    while ( iter.hasNext() )
     {
-        QScriptValueIterator iter(originalGlobalObject);
-        QVector<QString> names;
-        QVector<QScriptValue> values;
-        QVector<QScriptValue::PropertyFlags> flags;
-        while (iter.hasNext()) {
-            iter.next();
+        iter.next();
 
-            QString name = iter.name();
+        QString name = iter.name();
 
-            if (name == version) {
-                continue;
-            }
-
-            if (name != eval) {
-                names.append(name);
-                values.append(iter.value());
-                flags.append(iter.flags() | QScriptValue::Undeletable);
-            }
-            newGlobalObject.setProperty(iter.scriptName(), iter.value());
+        if ( name == version )
+        {
+            continue;
         }
 
+        if ( name != eval )
+        {
+            names.append( name );
+            values.append( iter.value() );
+            flags.append( iter.flags() | QScriptValue::Undeletable );
+        }
+        newGlobalObject.setProperty( iter.scriptName(), iter.value() );
     }
-    engine->setGlobalObject(newGlobalObject);
+
+    engine->setGlobalObject( newGlobalObject );
 
     qScriptRegisterQObjectMetaType<GameObject*>( engine );
     qScriptRegisterQObjectMetaType<GluonObject*>( engine );
 
     delete d->engineAccess;
+    d->ui->engine()->rootContext()->setContextProperty( "__engineAccess", 0 );
 }
 
 void UiManagerComponent::start()
@@ -252,8 +255,8 @@ void UiManagerComponent::update( int elapsedMilliseconds )
 {
     if( d->ui && d->ui->isLoaded() )
     {
-        QDeclarativeExpression *expr = new QDeclarativeExpression(d->ui->engine()->rootContext(),
-                                                                  d->ui->widget(), "update()");
+        QDeclarativeExpression *expr = new QDeclarativeExpression( d->ui->engine()->rootContext(),
+                                                                   d->ui->widget(), "update()" );
         expr->evaluate();
 
         if( expr->hasError() )

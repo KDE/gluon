@@ -78,7 +78,7 @@ class UiAsset::UiAssetPrivate
 
 UiAsset::UiAsset( QObject* parent )
     : Asset( parent )
-    , d( new UiAssetPrivate(this) )
+    , d( new UiAssetPrivate( this ) )
 {
 
 }
@@ -108,7 +108,7 @@ void UiAsset::load()
 {
     if( !d->engine )
     {
-        d->engine = new QDeclarativeEngine(this);
+        d->engine = new QDeclarativeEngine( this );
     }
 
     Asset::load();
@@ -120,10 +120,11 @@ void UiAsset::execute()
     {
         if( d->component )
         {
+            delete d->widget;
             delete d->component;
         }
 
-        d->component = new QDeclarativeComponent(d->engine, this);
+        d->component = new QDeclarativeComponent( d->engine, this );
         d->component->loadUrl( file().toLocalFile() );
 
         if( d->component->isError() )
@@ -134,12 +135,13 @@ void UiAsset::execute()
 
         QObject *root = d->component->create();
 
-        if( !root ) {
+        if( !root )
+        {
             d->errorPrint();
             return;
         }
 
-        d->widget = qobject_cast<QGraphicsWidget*>(root);
+        d->widget = qobject_cast<QGraphicsWidget*>( root );
         if( d->widget )
         {
             debug( "Execution of QML done!" );
