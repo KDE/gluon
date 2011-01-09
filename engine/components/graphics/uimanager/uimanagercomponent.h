@@ -25,7 +25,6 @@
 #include <engine/component.h>
 
 class QScriptValue;
-class QScriptEngine;
 
 namespace GluonEngine
 {
@@ -67,11 +66,6 @@ namespace GluonEngine
     };
 
 }
-
-QScriptValue GLUON_ENGINE_EXPORT gameObjectToScript( QScriptEngine* engine, GluonEngine::GameObject* const& in );
-void GLUON_ENGINE_EXPORT gameObjectFromScript( const QScriptValue& object, GluonEngine::GameObject *&out );
-QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScript( QScriptEngine* engine, GluonCore::GluonObject* const& in );
-void GLUON_ENGINE_EXPORT gluonObjectFromScript( const QScriptValue& object, GluonCore::GluonObject*& out );
 
 Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent )
 Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent* )

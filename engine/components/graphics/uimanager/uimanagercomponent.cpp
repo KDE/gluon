@@ -58,6 +58,24 @@ REGISTER_OBJECTTYPE( GluonEngine, UiManagerComponent )
 using namespace GluonEngine;
 using namespace GluonGraphics;
 
+template <typename Tp>
+QScriptValue scriptValueFromQObject( QScriptEngine *engine, Tp const& qobject)
+{
+    return engine->newQObject( qobject );
+}
+
+template <typename Tp>
+void scriptValueToQObject(const QScriptValue &value, Tp &qobject)
+{
+    qobject = qobject_cast<Tp>( value.toQObject() );
+}
+
+template <typename Tp>
+int qScriptRegisterQObjectMetaType( QScriptEngine *engine )
+{
+    return qScriptRegisterMetaType<Tp>( engine, scriptValueFromQObject, scriptValueToQObject );
+}
+
 class UiManagerComponent::UiManagerComponentPrivate
 {
     public:
@@ -136,7 +154,7 @@ d->texture = 0;
 //     widget->makeCurrent();
     if( d->ui && !d->ui->isLoaded() )
     {
-                qmlRegisterType<GluonEngine::GameObject>();
+        qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
         qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
 
         d->ui->load();
@@ -153,23 +171,17 @@ d->texture = 0;
         expr->evaluate();
         delete expr;
 
+        d->ui->execute();
 
         start();
     }
-
-    Component *c = gameObject()->findComponentByType("GluonEngine::KeyboardInputComponent");
-    qDebug()<<c;
-
 }
 
 void UiManagerComponent::setScriptEngine( QScriptValue &value )
 {
     QScriptEngine* engine = value.engine();
 
-    qDebug()<<engine;
-
     QScriptValue originalGlobalObject = engine->globalObject();
-
     QScriptValue newGlobalObject = engine->newObject();
 
     QString eval = QLatin1String("eval");
@@ -198,12 +210,12 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
         }
 
     }
-    newGlobalObject.setProperty("go", engine->newQObject(gameObject()));
-
     engine->setGlobalObject(newGlobalObject);
 
-    qScriptRegisterMetaType( engine, gluonObjectToScript, gluonObjectFromScript );
-    qScriptRegisterMetaType( engine, gameObjectToScript, gameObjectFromScript );
+    qScriptRegisterQObjectMetaType<GameObject*>( engine );
+    qScriptRegisterQObjectMetaType<GluonObject*>( engine );
+
+    delete d->engineAccess;
 }
 
 void UiManagerComponent::start()
@@ -240,19 +252,26 @@ void UiManagerComponent::update( int elapsedMilliseconds )
 {
     if( d->ui && d->ui->isLoaded() )
     {
-//                 qDebug()<<gameObject()->property("Key_Space");
         QDeclarativeExpression *expr = new QDeclarativeExpression(d->ui->engine()->rootContext(),
                                                                   d->ui->widget(), "update()");
         expr->evaluate();
 
+        if( expr->hasError() )
+        {
+            debug( expr->error().toString() );
+        }
+
         delete expr;
     }
-//     if (d->mouse)
-//     qDebug()<<d->mouse->position();
 }
 
 void UiManagerComponent::cleanup()
 {
+    if( !d->ui )
+    {
+        return;
+    }
+
     QGraphicsWidget* widget = d->ui->widget();
     if( d->scene && widget && widget->scene() == d->scene )
     {
@@ -278,27 +297,6 @@ void UiManagerComponent::setSize( const QSizeF& size )
 QSizeF UiManagerComponent::size() const
 {
     return d->size;
-}
-
-
-QScriptValue gluonObjectToScript( QScriptEngine* engine, GluonCore::GluonObject* const& in )
-{
-    return engine->newQObject( in );
-}
-
-void gluonObjectFromScript( const QScriptValue& object, GluonCore::GluonObject* &out )
-{
-    out = qobject_cast<GluonCore::GluonObject*>( object.toQObject() );
-}
-
-QScriptValue gameObjectToScript( QScriptEngine* engine, GluonEngine::GameObject* const& in )
-{
-    return engine->newQObject( in );
-}
-
-void gameObjectFromScript( const QScriptValue& object, GluonEngine::GameObject* &out )
-{
-    out = qobject_cast<GluonEngine::GameObject*>( object.toQObject() );
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_uimanager, GluonEngine::UiManagerComponent );

@@ -43,6 +43,7 @@ namespace GluonEngine
             virtual QIcon icon() const;
 
             void load();
+            void execute();
 
             virtual const QStringList supportedMimeTypes() const;
 

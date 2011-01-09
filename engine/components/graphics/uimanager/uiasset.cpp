@@ -111,39 +111,38 @@ void UiAsset::load()
         d->engine = new QDeclarativeEngine(this);
         d->component = new QDeclarativeComponent(d->engine, this);
     }
+}
 
+void UiAsset::execute()
+{
     if( !file().isEmpty() )
     {
-        if( !d->widget )
+        d->component->loadUrl( file().toLocalFile() );
+
+        if( d->component->isError() )
         {
-            d->component->loadUrl( file().toLocalFile() );
-
-            if( d->component->isError() )
-            {
-                d->errorPrint();
-                return;
-            }
-
-            QObject *root = d->component->create();
-
-            if( !root ) {
-                d->errorPrint();
-                return;
-            }
-
-            d->widget = qobject_cast<QGraphicsWidget*>(root);
-
-            if( d->widget )
-            {
-                debug( "Execution of QML done!" );
-                mimeData()->setText( name() );
-                setLoaded( true );
-                return;
-            }
-
-            delete root;
+            d->errorPrint();
+            return;
         }
 
+        QObject *root = d->component->create();
+
+        if( !root ) {
+            d->errorPrint();
+            return;
+        }
+
+        d->widget = qobject_cast<QGraphicsWidget*>(root);
+        if( d->widget )
+        {
+            debug( "Execution of QML done!" );
+            mimeData()->setText( name() );
+            setLoaded( true );
+            return;
+        }
+
+        //failed
+        delete root;
     }
 
     debug( "Error loading ui: %1", name() );
