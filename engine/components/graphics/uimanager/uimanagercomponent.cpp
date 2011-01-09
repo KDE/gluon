@@ -79,14 +79,47 @@ int qScriptRegisterQObjectMetaType( QScriptEngine *engine )
 class UiManagerComponent::UiManagerComponentPrivate
 {
     public:
-        UiManagerComponentPrivate()
-            : view(new QGraphicsView())
+        UiManagerComponentPrivate( UiManagerComponent *component )
+            : q(component)
             , scene(new QGraphicsScene())
             , ui(0)
             , updateFunction(0)
         {
         }
 
+        void setupBindings( QScriptEngine* engine )
+        {
+            //FIXME: this code is duplicated with the scripting conponent.
+            //It should be moved to a common place.
+
+            engine->importExtension( "jsmoke.qtcore" );
+            engine->importExtension( "jsmoke.qtgui" );
+            engine->importExtension( "jsmoke.qtopengl" );
+
+            qScriptRegisterQObjectMetaType<GameObject*>( engine );
+            qScriptRegisterQObjectMetaType<GluonObject*>( engine );
+
+            QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+            QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+            QScriptValue object = engine->globalObject();
+
+            QScriptValue component = engine->newQObject( q, ownership, wrapOptions );
+            object.setProperty( "Component", component );
+
+            QScriptValue gameObj = engine->newQObject( q->gameObject(), ownership, wrapOptions );
+            object.setProperty( "GameObject", gameObj );
+
+            QScriptValue sceneObj = engine->newQObject( q->gameObject()->scene(), ownership, wrapOptions );
+            object.setProperty( "Scene", sceneObj );
+
+            QScriptValue gameProjectObj = engine->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
+            object.setProperty( "GameProject", gameProjectObj );
+
+            QScriptValue game = engine->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
+            object.setProperty( "Game", game );
+        }
+
+        UiManagerComponent* q;
         QPixmap pixmap;
         QGraphicsView* view;
         QGraphicsScene* scene;
@@ -100,7 +133,7 @@ class UiManagerComponent::UiManagerComponentPrivate
 
 UiManagerComponent::UiManagerComponent( QObject* parent )
     : Component( parent )
-    , d( new UiManagerComponentPrivate )
+    , d( new UiManagerComponentPrivate( this ) )
 {
 
 }
@@ -205,14 +238,7 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
 
     engine->setGlobalObject( newGlobalObject );
 
-    qScriptRegisterQObjectMetaType<GameObject*>( engine );
-    qScriptRegisterQObjectMetaType<GluonObject*>( engine );
-
-    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
-    QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
-
-    QScriptValue gameObj = engine->newQObject( gameObject(), ownership, wrapOptions );
-    engine->globalObject().setProperty( "GameObject", gameObj );
+    d->setupBindings( engine );
 
     delete d->engineAccess;
     d->ui->engine()->rootContext()->setContextProperty( "__engineAccess", 0 );
