@@ -64,7 +64,7 @@ GDLHandler::createObject( QStringList objectStringList, QObject* parent )
                     GluonObject *gluonObj = qobject_cast<GluonObject*>( parent );
                     if( gluonObj )
                     {
-                        p->addChild(createdObject);
+                        gluonObj->addChild(createdObject);
                     }
                     else
                     {
