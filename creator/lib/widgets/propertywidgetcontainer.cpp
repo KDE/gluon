@@ -16,6 +16,7 @@
 
 #include "propertywidgetcontainer.h"
 #include "propertywidgetitem.h"
+#include "propertywidgetitemnewcustomproperty.h"
 #include "core/gluonobject.h"
 
 #include <QtGui/QGridLayout>
@@ -45,6 +46,7 @@ namespace GluonCreator
                 , expander( 0 )
                 , enabler( 0 )
                 , menuButton( 0 )
+                , newCustomProp( 0 )
             {
                 this->parent = parent;
                 menu = new QMenu( parent );
@@ -121,6 +123,8 @@ namespace GluonCreator
             QToolButton* menuButton;
 
             QMenu* menu;
+
+            GluonCreator::PropertyWidgetItemNewCustomProperty* newCustomProp;
     };
 }
 
@@ -174,6 +178,11 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     d->containerLayout->addWidget( separator, d->containerLayout->rowCount(), 0, 1, 2 );
 
     // Set up us the menu...
+    QAction* customPropAction = new QAction( this );
+    customPropAction->setText( i18n( "Add Custom Property..." ) );
+    connect( customPropAction, SIGNAL( triggered( bool ) ), this, SLOT( addPropertyTriggered() ) );
+    d->menu->addAction( customPropAction );
+    d->menu->addSeparator();
     if( classname != QString( "GameObject" ) )
     {
         // Don't show moving up and down stuff for the GameObject
@@ -185,9 +194,7 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
         downAction->setText( i18n( "Move Down" ) );
         connect( downAction, SIGNAL( triggered( bool ) ), this, SLOT( downTriggered() ) );
         d->menu->addAction( downAction );
-        QAction* sepAction = new QAction( this );
-        sepAction->setSeparator( true );
-        d->menu->addAction( sepAction );
+        d->menu->addSeparator();
     }
     if( classname != QString( "GameProject" ) )
     {
@@ -227,6 +234,18 @@ PropertyWidgetContainer::delTriggered()
         list.append( theParent );
         SelectionManager::instance()->setSelection( list );
     }
+}
+
+void PropertyWidgetContainer::addPropertyTriggered()
+{
+    d->newCustomProp = new PropertyWidgetItemNewCustomProperty( this );
+    connect( d->newCustomProp, SIGNAL( propertyCreated( GluonCore::GluonObject* ) ), this, SLOT( propertyCreated( GluonCore::GluonObject* ) ) );
+    d->newCustomProp->createProperty( d->object );
+}
+
+void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCreatedOn)
+{
+
 }
 
 bool

@@ -62,6 +62,8 @@ namespace GluonCreator
             void upTriggered();
             void downTriggered();
             void delTriggered();
+            void addPropertyTriggered();
+            void propertyCreated(GluonCore::GluonObject* propertyCreatedOn);
 
         private:
             class PropertyWidgetContainerPrivate;
