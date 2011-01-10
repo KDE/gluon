@@ -81,7 +81,7 @@ class UiManagerComponent::UiManagerComponentPrivate
     public:
         UiManagerComponentPrivate( UiManagerComponent *component )
             : q(component)
-            , scene(new QGraphicsScene())
+            , scene(0)
             , ui(0)
             , updateFunction(0)
         {
@@ -171,7 +171,7 @@ void UiManagerComponent::initialize()
 //     d->view->viewport()->setPalette(p);
 //     d->view->setScene(d->scene);
 //     d->view->setSceneRect(QRectF(0,0,1000,1000));
-    d->scene->setSceneRect(QRectF(QPointF(0,0), widget->size()));
+
 //     d->view->resize(widget->size());
 //     d->view->show();
 //     d->scene->setBackgroundBrush(Qt::blue);
@@ -180,6 +180,13 @@ void UiManagerComponent::initialize()
 //     widget->update();
 //     widget->updateGL();
 //     widget->makeCurrent();
+
+    if( !d->scene )
+    {
+        d->scene = new QGraphicsScene( this );
+        d->scene->setSceneRect(QRectF(QPointF(0,0), widget->size()));
+    }
+
     if( d->ui && !d->ui->isLoaded() )
     {
         qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
@@ -197,8 +204,17 @@ void UiManagerComponent::initialize()
                                                                    "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
+    }
 
-        start();
+    d->ui->execute();
+
+    QGraphicsWidget* gWidget = d->ui->widget();
+    if( gWidget )
+    {
+        d->scene->addItem( gWidget );
+
+        d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
+                                                        d->ui->widget(), "update()" );
     }
 }
 
@@ -246,25 +262,17 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
 
 void UiManagerComponent::start()
 {
-    if( d->ui && d->ui->isLoaded() )
-    {
-        d->ui->execute();
 
-        d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
-                                                        d->ui->widget(), "update()" );
-
-        QGraphicsWidget* widget = d->ui->widget();
-        if( widget )
-        {
-            d->scene->addItem( widget );
-//             widget->setGeometry( 0, 0, 100, 100 );
-        }
-    }
 }
 
 void UiManagerComponent::draw( int timeLapse )
 {
     Q_UNUSED( timeLapse )
+
+    if( !d->scene || !d->ui || !d->ui->widget() )
+    {
+        return;
+    }
 
     RenderWidget* widget = GluonGraphics::Engine::instance()->renderWidget();
 
@@ -277,7 +285,7 @@ void UiManagerComponent::draw( int timeLapse )
 
 void UiManagerComponent::update( int elapsedMilliseconds )
 {
-    if( d->ui && d->ui->isLoaded() )
+    if( d->updateFunction )
     {
         d->updateFunction->evaluate();
 
@@ -298,8 +306,11 @@ void UiManagerComponent::cleanup()
     QGraphicsWidget* widget = d->ui->widget();
     if( d->scene && widget && widget->scene() == d->scene )
     {
-//         d->scene->removeItem( widget );
+        d->scene->removeItem( widget );
     }
+
+    delete d->scene;
+    d->scene = 0;
 
     delete d->updateFunction;
     d->updateFunction = 0;
