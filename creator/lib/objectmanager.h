@@ -48,6 +48,7 @@ namespace GluonCreator
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
             GluonEngine::Asset* createNewAsset( const QString& fileName );
+            GluonEngine::Asset* createNewAsset( const QString& className, const QString& fileName );
             void deleteGameObject( GluonEngine::GameObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
             QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
@@ -63,6 +64,7 @@ namespace GluonCreator
 
             ObjectManager();
             ~ObjectManager();
+            void setupAsset( GluonEngine::Asset* asset, const QString& fileName );
             Q_DISABLE_COPY( ObjectManager )
 
             int m_objectId;

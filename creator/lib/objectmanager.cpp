@@ -83,26 +83,46 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName )
     if( newasset )
     {
         GluonEngine::Asset* newChild = static_cast<GluonEngine::Asset*>( newasset );
-
-        QFileInfo theFileInfo( fileName );
-
-        GluonEngine::Game::instance()->gameProject()->addChild( newChild );
-        newChild->setName( theFileInfo.fileName() );
-
-        if( !QDir::current().exists( "Assets" ) )
-            QDir::current().mkdir( "Assets" );
-
-        DEBUG_TEXT( QString( "Copying file to %1" ).arg( newChild->fullyQualifiedFileName() ) );
-        QUrl newLocation( QString( "Assets/%1" ).arg( newChild->fullyQualifiedFileName() ) );
-        QFile( fileName ).copy( newLocation.toLocalFile() );
-        newChild->setFile( newLocation );
-        newChild->load();
-
-        HistoryManager::instance()->addCommand( new NewObjectCommand( newasset ) );
+        setupAsset( newChild, fileName );
         return newChild;
     }
 
     return 0;
+}
+
+GluonEngine::Asset* ObjectManager::createNewAsset( const QString& className, const QString& fileName )
+{
+    DEBUG_BLOCK
+    GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( className );
+    GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
+    if( newAsset )
+    {
+        setupAsset( newAsset, fileName );
+        return newAsset;
+    }
+
+    return 0;
+}
+
+void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName )
+{
+    GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
+    newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
+
+    QFileInfo info( fileName );
+    newAsset->setName( info.fileName() );
+
+    if( !QDir::current().exists( "Assets" ) )
+        QDir::current().mkdir( "Assets" );
+
+    QUrl newLocation( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
+
+    QFile( fileName ).copy( newLocation.toLocalFile() );
+
+    newAsset->setFile( newLocation );
+    newAsset->load();
+
+    HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }
 
 void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )

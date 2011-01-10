@@ -328,35 +328,24 @@ void GluonCreator::ProjectDock::newAssetTriggered()
         if( menuItem )
         {
             DEBUG_TEXT( "Menu item exists" );
-            GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( menuItem->property( "newAssetClassname" ).toString() );
-            GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
+
+            QString templateFilename = QString( "gluon/templates/%1/%2" ).arg( menuItem->property( "newAssetPluginname" ).toString() ).arg( menuItem->property( "newAssetFilename" ).toString() );
+            QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;
+            if( fileName.isEmpty() )
+            {
+                DEBUG_TEXT( "Failed at finding the template file!" );
+                return;
+            }
+
+            GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(menuItem->property( "newAssetClassname" ).toString(), fileName );
+
             if( newAsset )
             {
                 DEBUG_TEXT( "Asset was created" );
+                GluonEngine::Game::instance()->gameProject()->removeChild( newAsset );
                 d->model->addChild( newAsset, d->currentContextIndex );
 
                 newAsset->setName( menuItem->property( "newAssetName" ).toString() );
-
-                QString templateFilename = QString( "gluon/templates/%1/%2" ).arg( menuItem->property( "newAssetPluginname" ).toString() ).arg( menuItem->property( "newAssetFilename" ).toString() );
-                QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;
-                if( fileName.isEmpty() )
-                {
-                    DEBUG_TEXT( "Failed at finding the template file!" );
-                    return;
-                }
-
-                if( !QDir::current().exists( "Assets" ) )
-                    QDir::current().mkdir( "Assets" );
-
-                QFileInfo info( fileName );
-                QUrl newLocation( QString( "Assets/%1.%2" ).arg( newAsset->fullyQualifiedFileName() ).arg( info.completeSuffix() ) );
-                QFile( fileName ).copy( newLocation.toLocalFile() );
-
-                newAsset->setFile( newLocation );
-                newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
-                newAsset->load();
-
-                //HistoryManager::instance()->addCommand(new NewObjectCommand(newAsset));
             }
         }
     }
