@@ -239,13 +239,19 @@ PropertyWidgetContainer::delTriggered()
 void PropertyWidgetContainer::addPropertyTriggered()
 {
     d->newCustomProp = new PropertyWidgetItemNewCustomProperty( this );
-    connect( d->newCustomProp, SIGNAL( propertyCreated( GluonCore::GluonObject* ) ), this, SLOT( propertyCreated( GluonCore::GluonObject* ) ) );
+    connect( d->newCustomProp, SIGNAL( propertyCreated(GluonCore::GluonObject*,QString) ), this, SLOT( propertyCreated(GluonCore::GluonObject*,QString) ) );
     d->newCustomProp->createProperty( d->object );
 }
 
-void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCreatedOn)
+void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName)
 {
-
+    QVariant propVal = propertyCreatedOn->property(createdPropertyName.toUtf8());
+    PropertyWidgetItem* pwi = PropertyWidgetItemFactory::instance()->create( propertyCreatedOn, propVal.typeName(), parentWidget() );
+    pwi->setEditObject( propertyCreatedOn );
+    pwi->setEditProperty( createdPropertyName );
+    d->addPropertyItem( createdPropertyName, pwi );
+    d->newCustomProp->deleteLater();
+    emit propertyChanged( propertyCreatedOn, createdPropertyName, propVal, propVal );
 }
 
 bool

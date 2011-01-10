@@ -63,7 +63,7 @@ namespace GluonCreator
             void downTriggered();
             void delTriggered();
             void addPropertyTriggered();
-            void propertyCreated(GluonCore::GluonObject* propertyCreatedOn);
+            void propertyCreated(GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName);
 
         private:
             class PropertyWidgetContainerPrivate;
