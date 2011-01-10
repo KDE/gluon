@@ -66,9 +66,9 @@ GameProject::addChild( GluonObject* child )
 bool
 GameProject::removeChild( GluonObject* child )
 {
-    GluonCore::GluonObject::removeChild( child );
-
     disconnect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug(const QString& ) ) );
+
+    return GluonCore::GluonObject::removeChild( child );
 }
 
 bool
