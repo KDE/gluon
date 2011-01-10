@@ -27,6 +27,7 @@ set(libGluonCreator_SRCS
     widgets/nullpropertywidgetitem.cpp
     widgets/gluonobjectpropertywidgetitem.cpp
     widgets/enumpropertywidgetitem.cpp
+    widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})
