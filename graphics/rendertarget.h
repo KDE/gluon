@@ -36,7 +36,7 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT RenderTarget : public QGLFramebufferObject
     {
         public:
-            RenderTarget();
+            RenderTarget( int width, int height, GLenum target = 0x0DE1 );
             virtual ~RenderTarget();
 
             /**
@@ -56,11 +56,11 @@ namespace GluonGraphics
              * \param render True to set the render target to be renderable,
              * false to disable this.
              */
-            void setRenderable(bool render);
+            void setRenderable( bool render );
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 
 }

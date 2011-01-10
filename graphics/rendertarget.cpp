@@ -24,11 +24,16 @@ using namespace GluonGraphics;
 class RenderTarget::Private
 {
     public:
-        Private() { }
+        Private()
+            : renderable( false )
+        { }
         ~Private() { }
+
+        bool renderable;
 };
 
-RenderTarget::RenderTarget()
+RenderTarget::RenderTarget( int width, int height, GLenum target )
+    : QGLFramebufferObject( width, height, target ), d( new Private )
 {
 
 }
@@ -40,10 +45,10 @@ RenderTarget::~RenderTarget()
 
 bool RenderTarget::isRenderable()
 {
-
+    return d->renderable;
 }
 
 void RenderTarget::setRenderable( bool render )
 {
-
+    d->renderable = render;
 }
