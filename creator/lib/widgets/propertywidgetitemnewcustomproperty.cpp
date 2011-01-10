@@ -20,15 +20,23 @@
 
 #include "propertywidgetitemnewcustomproperty.h"
 
+#include "objectmanager.h"
+#include "core/gluonobject.h"
+
 #include <QtGui/QLineEdit>
 #include <QtGui/QComboBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QPushButton>
 
+#include <QtCore/QUrl>
+#include <QtCore/QSizeF>
+#include <QtGui/QColor>
+#include <QtGui/QVector2D>
+#include <QtGui/QVector3D>
+#include <QtGui/QVector4D>
+#include <QtGui/QQuaternion>
+
 #include <klocalizedstring.h>
-#include <core/gluonobject.h>
-#include <QVector2D>
-#include <QQuaternion>
 
 using namespace GluonCreator;
 
@@ -60,7 +68,10 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty(QWidget
         QObject* obj = i.value()->newInstance();
         GluonCore::GluonObject* gObj = qobject_cast< GluonCore::GluonObject* >(obj);
         if(gObj)
-            propertyType->addItem(i.key(), gObj->toVariant(0));
+        {
+            QString humanName = ObjectManager::instance()->humanifyClassName(i.key());
+            propertyType->addItem(humanName, gObj->toVariant(0));
+        }
     }
     
     QFormLayout* formLayout = new QFormLayout();
