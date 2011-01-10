@@ -20,7 +20,7 @@
 
 #include "propertywidgetitemnewcustomproperty.h"
 
-#include <QtGui/QTextEdit>
+#include <QtGui/QLineEdit>
 #include <QtGui/QComboBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QPushButton>
@@ -33,8 +33,7 @@ using namespace GluonCreator;
 PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
-    propertyName = new QTextEdit(this);
-    propertyName->setAcceptRichText(false);
+    propertyName = new QLineEdit(this);
 
     propertyType = new QComboBox(this);
     propertyType->addItem(ki18n("Boolean (bool)").toString(), QVariant::fromValue<bool>(false));
@@ -71,7 +70,7 @@ void PropertyWidgetItemNewCustomProperty::createProperty(GluonCore::GluonObject*
 
 void PropertyWidgetItemNewCustomProperty::createPropertyClicked()
 {
-    editingThis->setProperty( propertyName->toPlainText().toUtf8(), propertyType->itemData( propertyType->currentIndex() ) );
+    editingThis->setProperty( propertyName->text().toUtf8(), propertyType->itemData( propertyType->currentIndex() ) );
     hide();
-    emit propertyCreated( editingThis, propertyName->toPlainText() );
+    emit propertyCreated( editingThis, propertyName->text() );
 }
