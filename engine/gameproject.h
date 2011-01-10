@@ -88,6 +88,9 @@ namespace GluonEngine
             GameProject( const GameProject& other, QObject* parent = 0 );
             ~GameProject();
 
+            virtual void addChild( GluonObject* child );
+            virtual bool removeChild( GluonObject* child );
+
             bool saveToFile() const;
             bool loadFromFile();
             bool loadFromFile( QUrl filename );
