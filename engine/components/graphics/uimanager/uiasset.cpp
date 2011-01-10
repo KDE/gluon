@@ -35,8 +35,6 @@
 #include <QtGui/QGraphicsWidget>
 #include <QtXml/QXmlStreamReader>
 
-#include "vertex.h"
-
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 
 using namespace GluonEngine;
@@ -85,7 +83,6 @@ UiAsset::UiAsset( QObject* parent )
 
 UiAsset::~UiAsset()
 {
-    delete d->widget;
     delete d;
 }
 
