@@ -22,6 +22,7 @@
 #include "gameprojectprivate.h"
 
 #include "scene.h"
+#include "game.h"
 
 #include <core/gdlhandler.h>
 #include <core/debughelper.h>
@@ -52,6 +53,22 @@ GameProject::GameProject( const GameProject& other, QObject* parent )
 
 GameProject::~GameProject()
 {
+}
+
+void
+GameProject::addChild( GluonObject* child )
+{
+    GluonCore::GluonObject::addChild( child );
+
+    connect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
+}
+
+bool
+GameProject::removeChild( GluonObject* child )
+{
+    GluonCore::GluonObject::removeChild( child );
+
+    disconnect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug(const QString& ) ) );
 }
 
 bool
