@@ -98,6 +98,10 @@ class UiManagerComponent::UiManagerComponentPrivate
 
             qScriptRegisterQObjectMetaType<GameObject*>( engine );
             qScriptRegisterQObjectMetaType<GluonObject*>( engine );
+            qScriptRegisterQObjectMetaType<Component*>( engine );
+            qScriptRegisterQObjectMetaType<Asset*>( engine );
+            qScriptRegisterQObjectMetaType<Scene*>( engine );
+            qScriptRegisterQObjectMetaType<GameProject*>( engine );
 
             QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
             QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
