@@ -162,6 +162,8 @@ namespace GluonEngine
              */
             virtual bool isLoaded() const;
 
+            void reload();
+
         public slots:
             virtual void load();
 

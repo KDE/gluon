@@ -296,6 +296,8 @@ void ProjectDock::deleteActionTriggered()
     DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
     if( KMessageBox::questionYesNo( this, i18n( "Please confirm that you wish to delete the object %1. This will delete both this item and all its children!" ).arg( object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
+        ObjectManager::instance()->assetDeleted( static_cast<GluonEngine::Asset*>( object ) );
+
         d->view->selectionModel()->select( d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect );
         //d->view->collapse(d->currentContextIndex.parent());
         d->model->removeRows( d->currentContextIndex.row(), 1, d->currentContextIndex.parent() );

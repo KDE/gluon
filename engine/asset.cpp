@@ -143,6 +143,16 @@ Asset::load()
     d->loaded = true;
 }
 
+void
+Asset::reload()
+{
+    if( d->loaded )
+    {
+        d->loaded = false;
+        load();
+    }
+}
+
 QString
 Asset::childrenToGDL( int indentLevel ) const
 {

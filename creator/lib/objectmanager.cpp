@@ -34,6 +34,7 @@
 
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
+#include <KDE/KDirWatch>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
@@ -122,6 +123,10 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     newAsset->setFile( newLocation );
     newAsset->load();
 
+    QString path( newAsset->absolutePath() );
+    m_assets.insert( path, newAsset );
+    KDirWatch::self()->addFile( path );
+
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }
 
@@ -203,10 +208,44 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     return newScn;
 }
 
+void ObjectManager::startAssetsWatch()
+{
+    QObjectList assets = GluonEngine::Game::instance()->gameProject()->children();
+    foreach( QObject* child, assets )
+    {
+        GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( child );
+        if( asset )
+        {
+            QString path( asset->absolutePath() );
+            KDirWatch::self()->addFile( path );
+            m_assets.insert( path, asset );
+        }
+    }
+}
+
+void ObjectManager::assetDirty( const QString& file)
+{
+    GluonEngine::Asset* asset = m_assets.value(file);
+    asset->reload();
+}
+
+void ObjectManager::assetDeleted( const QString& file)
+{
+    m_assets.remove(file);
+    KDirWatch::self()->removeFile( file );
+}
+
+void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
+{
+    assetDeleted( asset->absolutePath() );
+}
+
 ObjectManager::ObjectManager()
 {
     m_objectId = 0;
     m_sceneId = 0;
+
+    connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
 }
 
 ObjectManager::~ObjectManager()
