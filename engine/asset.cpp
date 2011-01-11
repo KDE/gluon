@@ -149,6 +149,7 @@ Asset::reload()
     if( d->loaded )
     {
         d->loaded = false;
+        emit dataChanged();
         load();
     }
 }
