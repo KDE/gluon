@@ -231,6 +231,7 @@ void ObjectManager::assetDirty( const QString& file)
     if( asset )
     {
         asset->reload();
+        GluonEngine::Game::instance()->drawAll();
     }
 }
 
@@ -251,6 +252,7 @@ ObjectManager::ObjectManager()
     m_sceneId = 0;
 
     connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
+    connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
 }
 
 ObjectManager::~ObjectManager()
