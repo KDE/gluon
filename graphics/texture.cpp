@@ -62,16 +62,17 @@ bool Texture::load( const QUrl& url )
 around the nasty const_cast .
 #endif
 
-    if( d->glTexture )
-        return true;
-
     if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
         return false;
+
+    QGLContext* context = const_cast<QGLContext*>( QGLContext::currentContext() );
+
+    if( d->glTexture )
+        context->deleteTexture( d->glTexture );
 
     QImage image;
     image.load( url.toLocalFile() );
 
-    QGLContext* context = const_cast<QGLContext*>( QGLContext::currentContext() );
     d->glTexture = context->bindTexture( image );
 
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
