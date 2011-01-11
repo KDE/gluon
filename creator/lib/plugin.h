@@ -25,6 +25,11 @@
 
 #include "gluoncreator_macros.h"
 
+/**
+ * Increase this version number whenever you make a change in the API.
+ */
+#define GLUONCREATOR_PLUGIN_VERSION 1
+
 namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT Plugin : public QObject, public KXMLGUIClient

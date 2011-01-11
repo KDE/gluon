@@ -54,7 +54,9 @@ void PluginManager::loadPlugins()
 {
     DEBUG_FUNC_NAME
     KConfigGroup group = KGlobal::config()->group( "Plugins" );
-    KService::List offers = KServiceTypeTrader::self()->query( "GluonCreator/Plugin" );
+    KService::List offers = KServiceTypeTrader::self()->query(
+            QString::fromLatin1("GluonCreator/Plugin" ),
+            QString( "[X-KDE-GluonCreatorPluginVersion] == %1" ).arg( GLUONCREATOR_PLUGIN_VERSION ) );
 
     KService::List::const_iterator iter;
     for( iter = offers.begin(); iter < offers.end(); ++iter )

@@ -26,6 +26,7 @@ MimeType=application/javascript;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
 
 X-KDE-Library=gluon_creator_codewidgetkpart
+X-KDE-GluonCreatorPluginVersion=1
 X-KDE-PluginInfo-Author=Kevin Whitaker
 X-KDE-PluginInfo-Email=eyecreate@gmail.com
 X-KDE-PluginInfo-Name=gluon_creator_dockplugin_codewidgetdock

@@ -4,7 +4,7 @@ Encoding=UTF-8
 Name=Components Dock
 Name[de]=Komponenten-Ansicht
 Name[en_GB]=Components Dock
-Name[es]=Anclaje de componentes 
+Name[es]=Anclaje de componentes
 Name[fr]=Panneau de Composants
 Name[nds]=Komponenten-Andocker
 Name[pt]=Área de Componentes
@@ -29,6 +29,7 @@ Type=Service
 ServiceTypes=GluonCreator/Plugin
 
 X-KDE-Library=gluon_creator_dockplugin_componentsdock
+X-KDE-GluonCreatorPluginVersion=1
 X-KDE-PluginInfo-Author=Arjen Hiemstra
 X-KDE-PluginInfo-Email=djfreestyler@gmail.com
 X-KDE-PluginInfo-Name=gluon_creator_dockplugin_componentsdock

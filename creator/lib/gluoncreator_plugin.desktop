@@ -25,3 +25,8 @@ Comment[x-test]=xxThe type used for Gluon Creator pluginsxx
 
 Type=ServiceType
 X-KDE-ServiceType=GluonCreator/Plugin
+
+# mandatory, versioning - prevent DLL issues
+[PropertyDef::X-GluonCreator-Version]
+Type=int
+
