@@ -210,6 +210,7 @@ GluonEngine::Scene* ObjectManager::createNewScene()
 
 void ObjectManager::startAssetsWatch()
 {
+    DEBUG_FUNC_NAME
     QObjectList assets = GluonEngine::Game::instance()->gameProject()->children();
     foreach( QObject* child, assets )
     {
@@ -217,6 +218,7 @@ void ObjectManager::startAssetsWatch()
         if( asset )
         {
             QString path( asset->absolutePath() );
+            DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
             KDirWatch::self()->addFile( path );
             m_assets.insert( path, asset );
         }
@@ -226,7 +228,10 @@ void ObjectManager::startAssetsWatch()
 void ObjectManager::assetDirty( const QString& file)
 {
     GluonEngine::Asset* asset = m_assets.value(file);
-    asset->reload();
+    if( asset )
+    {
+        asset->reload();
+    }
 }
 
 void ObjectManager::assetDeleted( const QString& file)
