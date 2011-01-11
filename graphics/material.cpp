@@ -75,6 +75,13 @@ Material::~Material()
 
 bool Material::load( const QUrl& url )
 {
+    if( d->program )
+    {
+        delete d->program;
+        d->program = 0;
+    }
+    d->glProgram = 0;
+
     if( !url.isValid() )
         return false;
 
