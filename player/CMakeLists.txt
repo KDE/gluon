@@ -69,6 +69,7 @@ if(LIBATTICA_FOUND)
     if(WITH_KDE)
         include_directories(${KDE4_INCLUDES})
         add_subdirectory(kde)
+		add_subdirectory(kdeext)
     endif(WITH_KDE)
 
     if(BUILD_PLASMOID)
