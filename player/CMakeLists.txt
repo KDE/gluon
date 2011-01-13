@@ -66,6 +66,11 @@ if(LIBATTICA_FOUND)
         CACHE PATHS "Libraries required for Gluon Player"
     )
 
+    if(WITH_KDE)
+        include_directories(${KDE4_INCLUDES})
+        add_subdirectory(kde)
+    endif(WITH_KDE)
+
     if(BUILD_PLASMOID)
         include_directories(${KDE4_INCLUDES})
         add_subdirectory(plasmoid)
