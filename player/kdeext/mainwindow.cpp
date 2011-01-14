@@ -46,7 +46,7 @@
 #include <QLabel>
 #include <QTimer>
 
-using namespace GluonPlayer;
+using namespace GluonKDEExtPlayer;
 
 class MainWindow::MainWindowPrivate
 {
