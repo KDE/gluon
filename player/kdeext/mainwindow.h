@@ -22,7 +22,9 @@
 
 #include <core/gluon_global.h>
 
-#include <KMainWindow>
+#include <KXmlGuiWindow>
+#include <KApplication>
+#include <KTextEdit>
 
 #include <QModelIndex>
 
@@ -32,14 +34,25 @@ namespace GluonPlayer {
     /**
      * The main window of the KDE Player frontend
      */
-    class MainWindow: public KMainWindow
+    class MainWindow: public KXmlGuiWindow
     {
         Q_OBJECT
         public:
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();
 
+        public slots:
+            void playGame();
+            void pauseGame();
+            void stopGame();
+
+            void optionsConfigureKeys();
+            void optionsConfigureToolbars();
+
         private:
+            void setupActions();
+
+            KTextEdit* textArea;
             class MainWindowPrivate;
             MainWindowPrivate* d;
 

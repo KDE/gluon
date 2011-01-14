@@ -7,6 +7,7 @@ include_directories(
 
 set(kdeextplayer_SRCS
     main.cpp
+    mainwindow.cpp
 )
 
 if(APPLE)

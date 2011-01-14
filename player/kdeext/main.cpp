@@ -25,7 +25,7 @@
 
 int main( int argc, char** argv )
 {
-    KAboutData aboutData("KDEEXTPlayer", NULL,
+    KAboutData aboutData("gluon_kdeextplayer", NULL,
                           ki18n("KDE Extended Player"), GLUON_VERSION_STRING.toUtf8(),
                           ki18n((QString("KDE Frontend Player for Gluon games.\nVersion %2").arg(GLUON_VERSION_STRING)).toUtf8()),
                           KAboutData::License_LGPL_V2,
@@ -47,13 +47,13 @@ int main( int argc, char** argv )
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-/*     GluonPlayer::MainWindow *window; */
-    // if (args->count())
-        // window = new GluonPlayer::MainWindow(args->arg(0));
-    // else
-        // window = new GluonPlayer::MainWindow();
+    GluonPlayer::MainWindow *window;
+    if (args->count())
+        window = new GluonPlayer::MainWindow(args->arg(0));
+    else
+        window = new GluonPlayer::MainWindow();
 
-    /* window->show(); */
+    window->show();
     app.exec();
 }
 
