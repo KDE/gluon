@@ -32,6 +32,8 @@ class QMatrix4x4;
 namespace GluonGraphics
 {
     class MaterialInstance;
+    class VertexBuffer;
+
     /**
      * \brief A collection of vertices that combine to an object.
      *
@@ -55,7 +57,7 @@ namespace GluonGraphics
             /**
              * Has this mesh been loaded yet?
              */
-            virtual bool isLoaded();
+            virtual bool isLoaded() const;
 
             /**
              * Render this mesh to the screen.
@@ -69,23 +71,9 @@ namespace GluonGraphics
 
         protected:
             /**
-             * Create an OpenGL buffer to store data and store the data
-             * passed as arguments.
-             *
-             * \param vertices The vertex positions to store in the buffer.
-             * \param colors The vertex colors to store in the buffer.
-             * \param uvs The UV coordinate data to store in the buffer.
-             */
-            virtual void createBuffer( const QVector< float >& vertices, const QVector< float >& colors, const QVector< float >& uvs );
-
-            /**
-             * Render the local OpenGL buffer.
-             *
-             * \param mode The OpenGL mode to use, for example GL_TRIAGLES.
-             * \param count The number of vertices to render.
-             * \param material The material to get attribute locations from.
-             */
-            virtual void renderBuffer( uint mode, int count, GluonGraphics::MaterialInstance* material );
+             * Returns the buffer being used to draw this mesh.
+             **/
+            VertexBuffer* vertexBuffer() const;
 
         private:
             class MeshPrivate;
