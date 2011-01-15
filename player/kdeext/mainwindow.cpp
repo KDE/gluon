@@ -74,6 +74,7 @@ MainWindow::MainWindow(const QString& filename )
     textArea = new KTextEdit;
     setCentralWidget(textArea);
     setupActions();
+    setupGUI();
 }
 
 MainWindow::~MainWindow ( )

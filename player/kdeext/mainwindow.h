@@ -1,6 +1,6 @@
 /*****************************************************************************
- * mainwindow.h - QStarDict, a StarDict clone written with using Qt          *
- * Copyright (C) 2007 Alexander Rodin                                        *
+ * This file is part of the Gluon Development Platform                       *
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us                      *
  *                                                                           *
  * This program is free software; you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
