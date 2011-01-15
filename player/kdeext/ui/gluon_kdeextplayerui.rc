@@ -15,7 +15,7 @@
             <DefineGroup name="view_operations" append="view_operations" />
         </Menu>
 
-        <Menu name="Community"><text>&amp;Community</text/
+        <Menu name="community"><text>&amp;Community</text>
             <Action name="community_login" />
             <Action name="community_logout" />
             <Action name="community_details" />
