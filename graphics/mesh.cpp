@@ -30,7 +30,6 @@
 
 #include "math.h"
 
-
 using namespace GluonGraphics;
 
 class Mesh::MeshPrivate
@@ -66,17 +65,11 @@ Mesh::load( const QString& filename )
     vertices << -1.f << -1.f << 0.f;
     vertices << -1.f <<  1.f << 0.f;
     vertices <<  1.f <<  1.f << 0.f;
-
-    vertices << -1.f << -1.f << 0.f;
-    vertices <<  1.f <<  1.f << 0.f;
     vertices <<  1.f << -1.f << 0.f;
     d->buffer->addAttribute( vertices );
 
     VertexAttribute colors("color", 4 );
     colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;
@@ -86,11 +79,14 @@ Mesh::load( const QString& filename )
     uvs << 0.f << 0.f;
     uvs << 0.f << 1.f;
     uvs << 1.f << 1.f;
-
-    uvs << 0.f << 0.f;
-    uvs << 1.f << 1.f;
     uvs << 1.f << 0.f;
     d->buffer->addAttribute( uvs );
+
+    QVector<uint> indices;
+    indices << 0 << 1 << 2
+            << 0 << 2 << 3;
+
+    d->buffer->setIndices( indices );
 
     d->buffer->initialize();
 }

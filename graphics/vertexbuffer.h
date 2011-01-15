@@ -31,6 +31,13 @@ namespace GluonGraphics
             void addAttribute( const VertexAttribute& attribute );
 
             /**
+             * Sets the vertex indices to be used when rendering.
+             *
+             * \param indices The indices array.
+             **/
+            void setIndices( const QVector<uint>& indices );
+
+            /**
              * Create an OpenGL buffer and store the previously added attributes.
              *
              * \see isInitialized

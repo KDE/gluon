@@ -12,14 +12,14 @@ class VertexBuffer::VertexBufferPrivate
     public:
         VertexBufferPrivate()
             : buffer( 0 )
-            , vertexCount( 0 )
+            , indexBuffer( 0 )
         {
         }
 
         GLuint buffer;
+        GLuint indexBuffer;
         QList<VertexAttribute> attributes;
-
-        int vertexCount;
+        QVector<uint> indices;
 };
 
 VertexBuffer::VertexBuffer( QObject* parent )
@@ -37,6 +37,11 @@ VertexBuffer::~VertexBuffer()
 void VertexBuffer::addAttribute( const VertexAttribute& attribute )
 {
     d->attributes << attribute;
+}
+
+void VertexBuffer::setIndices( const QVector<uint>& indices )
+{
+    d->indices = indices;
 }
 
 bool VertexBuffer::isInitialized() const
@@ -72,7 +77,11 @@ void VertexBuffer::initialize()
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
-    d->vertexCount = d->attributes.at(0).itemCount();
+    glGenBuffers( 1, &d->indexBuffer );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), 0, GL_STATIC_DRAW );
+    glBufferSubData( GL_ELEMENT_ARRAY_BUFFER, 0, d->indices.size() * sizeof( float ), d->indices.data() );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
 void VertexBuffer::render( uint mode, GluonGraphics::MaterialInstance* material )
@@ -83,6 +92,7 @@ void VertexBuffer::render( uint mode, GluonGraphics::MaterialInstance* material 
     }
 
     glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
 
     for( int i = 0; i < d->attributes.size(); ++i )
     {
@@ -95,7 +105,7 @@ void VertexBuffer::render( uint mode, GluonGraphics::MaterialInstance* material 
         glEnableVertexAttribArray( attribute.location() );
     }
 
-    glDrawArrays( mode, 0, d->vertexCount );
+    glDrawElements( mode, d->indices.count(), GL_UNSIGNED_INT, 0);
 
     foreach( const VertexAttribute& attribute, d->attributes )
     {
@@ -103,6 +113,7 @@ void VertexBuffer::render( uint mode, GluonGraphics::MaterialInstance* material 
     }
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
 #include "vertexbuffer.moc"
