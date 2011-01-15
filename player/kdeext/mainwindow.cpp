@@ -108,7 +108,6 @@ void MainWindow::setupActions()
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
-    setupGUI(Default, "gluon_kdeextplayerui.rc");
 }
 
 void MainWindow::playGame( )
@@ -194,4 +193,23 @@ void MainWindow::optionsConfigureKeys()
     // dlg.exec();
 }
 
+void MainWindow::mLoginLogout( bool checked )
+{
+}
+
+void MainWindow::mHome()
+{
+}
+
+void MainWindow::mDetails()
+{
+}
+
+void MainWindow::mRegistration()
+{
+}
+
+void MainWindow::mForgottenPassword()
+{
+}
 

@@ -57,5 +57,6 @@ target_link_libraries(gluon_kdeextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_L
 
 if(NOT APPLE)
     install(TARGETS gluon_kdeextplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+    install(FILES ui/gluon_kdeextplayerui.rc DESTINATION ${DATA_INSTALL_DIR}/gluon_kdeextplayer)
     install(FILES gluon_kdeextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 endif()

@@ -30,7 +30,7 @@
 
 class KRecentFilesAction;
 
-namespace GluonPlayer {
+namespace GluonKDEExtPlayer {
     /**
      * The main window of the KDE Player frontend
      */
@@ -48,6 +48,13 @@ namespace GluonPlayer {
 
             void optionsConfigureKeys();
             void optionsConfigureToolbars();
+
+        private slots:
+            void mLoginLogout( bool checked );
+            void mHome();
+            void mDetails();
+            void mRegistration();
+            void mForgottenPassword();
 
         private:
             void setupActions();
