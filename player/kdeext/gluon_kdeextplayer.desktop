@@ -1,5 +1,9 @@
 [Desktop Entry]
 Name=Gluon Player (KDE Ext only)
+Name[pt]=Leitor do Gluon (apenas para KDE Ext)
+Name[sv]=Gluon spelare (bara KDE Ext)
+Name[uk]=Програвач Gluon (лише поза KDE)
+Name[x-test]=xxGluon Player (KDE Ext only)xx
 GenericName=Game Launcher
 GenericName[de]=Spielestarter
 GenericName[es]=Lanzador de juegos
