@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="gluonplayer" version="13" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+     http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
+
+    <MenuBar>
+        <Menu name="file"><text>&amp;File</text>
+            <Action name="file_game_open" />
+            <Separator />
+            <Action name="file_quit" />
+        </Menu>
+
+        <Menu name="view">
+            <DefineGroup name="view_operations" append="view_operations" />
+        </Menu>
+
+        <Menu name="community"><text>&amp;Community</text>
+            <Action name="community_login" />
+            <Action name="community_logout" />
+            <Action name="community_details" />
+            <Action name="community_registration" />
+            <Action name="community_forgotten_password" />
+        </Menu>
+
+        <Menu name="settings">
+        </Menu>
+
+        <Menu name="help">
+        </Menu>
+    </MenuBar>
+
+    <ToolBar name="mainToolBar" noMerge="1">
+    </ToolBar>
+
+    <ToolBar name="gameActionsToolbar">
+        <text>Game Actions</text>
+        <Action name="playGame" />
+        <Action name="pauseGame" />
+        <Action name="stopGame" />
+    </ToolBar>
+</gui>

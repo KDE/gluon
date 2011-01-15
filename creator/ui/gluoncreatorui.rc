@@ -5,7 +5,7 @@
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 
     <MenuBar>
-        <Menu name="project"><text>&amp;Project</text>
+        <Menu name="project" append="first_menu"><text>&amp;Project</text>
             <Action name="file_new" />
             <Action name="file_open" />
             <Action name="file_open_recent" />
