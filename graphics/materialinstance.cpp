@@ -61,7 +61,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
-    connect(Engine::instance(), SIGNAL(activeCameraChanged(Camera*)), this, SLOT(setActiveCamera(Camera*)));
+    connect( Engine::instance(), SIGNAL( activeCameraChanged( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
 MaterialInstance::~MaterialInstance()
@@ -82,8 +82,8 @@ MaterialInstance::bind()
     glUseProgram( program );
     d->bound = true;
 
-    setGLUniform(QString("viewMatrix"), d->activeCamera->viewMatrix());
-    setGLUniform(QString("projectionMatrix"), d->activeCamera->frustrum()->projectionMatrix());
+    setGLUniform( QString( "viewMatrix" ), d->activeCamera->viewMatrix() );
+    setGLUniform( QString( "projectionMatrix" ), d->activeCamera->frustrum()->projectionMatrix() );
 
     QList<QByteArray> properties = dynamicPropertyNames();
     foreach( QByteArray prop, properties )

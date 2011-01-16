@@ -100,8 +100,8 @@ Item::render( MaterialInstance* material, uint mode )
 #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
 #endif
 
-    material->setProperty("modelMatrix", d->transform);
-    if(!material->bind())
+    material->setProperty( "modelMatrix", d->transform );
+    if( !material->bind() )
         return;
 
     d->mesh->render( material, mode );
