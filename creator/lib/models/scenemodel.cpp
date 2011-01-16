@@ -75,9 +75,12 @@ void SceneModel::deleteGameObject(GluonEngine::GameObject* obj)
 {
     if( obj )
     {
-        beginResetModel();
+        int row = obj->parentGameObject()->childIndex(obj);
+        QModelIndex thisIndex = createIndex(row, 0, obj);
+        beginRemoveRows( parent(thisIndex), row, row );
+        obj->parentGameObject()->removeChild(obj);
         obj->deleteLater();
-        endResetModel();
+        endRemoveRows();
     }
 }
 
