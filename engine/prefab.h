@@ -22,8 +22,6 @@
 
 #include "core/gluonobject.h"
 
-#include <QtCore/QSharedData>
-
 namespace GluonEngine
 {
     class PrefabPrivate;
@@ -39,7 +37,7 @@ namespace GluonEngine
             ~Prefab();
 
         private:
-            QSharedDataPointer<PrefabPrivate> d;
+            PrefabPrivate d;
     };
 }
 
