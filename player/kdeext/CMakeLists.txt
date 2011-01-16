@@ -8,6 +8,8 @@ include_directories(
 set(kdeextplayer_SRCS
     main.cpp
     mainwindow.cpp
+    overlay.cpp
+    loginform.cpp
 )
 
 if(APPLE)
