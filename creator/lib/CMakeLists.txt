@@ -14,6 +14,7 @@ set(libGluonCreator_SRCS
     deleteobjectcommand.cpp
     propertychangedcommand.cpp
 
+    models/models.cpp
     models/componentmodel.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp

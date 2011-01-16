@@ -71,6 +71,16 @@ void SceneModel::setRootGameObject( GluonEngine::GameObject* obj )
     }
 }
 
+void SceneModel::deleteGameObject(GluonEngine::GameObject* obj)
+{
+    if( obj )
+    {
+        beginResetModel();
+        obj->deleteLater();
+        endResetModel();
+    }
+}
+
 QVariant SceneModel::data( const QModelIndex& index, int role ) const
 {
     if( !index.isValid() )

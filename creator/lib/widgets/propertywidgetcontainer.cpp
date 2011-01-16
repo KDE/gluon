@@ -32,6 +32,11 @@
 #include <KMessageBox>
 #include <ksqueezedtextlabel.h>
 #include <selectionmanager.h>
+#include <QTimer>
+#include <objectmanager.h>
+#include <engine/gameobject.h>
+#include <models/models.h>
+#include <models/scenemodel.h>
 
 namespace GluonCreator
 {
@@ -228,6 +233,14 @@ PropertyWidgetContainer::delTriggered()
         if( theParent )
             theParent->removeChild( d->object );
         d->object->deleteLater();
+
+        SelectionManager::instance()->clearSelection();
+        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
+        if(gobj && gobj->parentGameObject())
+        {
+            Models::instance()->sceneModel()->deleteGameObject(gobj);
+            ObjectManager::instance()->deleteGameObject(gobj);
+        }
 
         // Cause the property dock to update its view
         SelectionManager::SelectionList list;
