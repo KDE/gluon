@@ -4,17 +4,25 @@
 
 function astyle_commit ()
 {
+    break=0;
     echo "astyle'ing commited files..."
     # only astyle what has changed 
     for i in $(git diff-index --name-only HEAD)
     do
 	# only astyle what is a sourcefile
 	if grep -q "\(\.cpp\|\.h\)$" <<< $i; then
-	    astyle --options=$(pwd)/astylerc $i
+	    if [ -n "$(astyle --options=$(pwd)/astylerc | grep -q "formatted")" ]; then
+                break=1;
+            fi
             #re-add it to the index so that changes are combined into one commit
-	    git add --refresh $i 
+	    #endifgit add --refresh $i 
 	fi
     done
+    echo $break
+    if [ $break -eq 1 ]; then
+        echo "Some files were modified by astyle, please update your commit."
+        exit 1
+    fi
     echo "done"
 }
 
