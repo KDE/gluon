@@ -96,6 +96,26 @@ void MainWindow::setupActions()
     // d->recentFiles = KStandardAction::openRecent( this, SLOT( openProject( KUrl ) ), actionCollection() );
     // d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
+    KAction* login = new KAction( KIcon( "im-user" ), i18n( "Login" ), actionCollection() );
+    actionCollection()->addAction( "community_login", login );
+    connect( login, SIGNAL( triggered( bool ) ), SLOT( mLogin() ) );
+
+    KAction* logout = new KAction( KIcon( "media-playback-start" ), i18n( "Logout" ), actionCollection() );
+    actionCollection()->addAction( "community_logout", logout );
+    connect( logout, SIGNAL( triggered( bool ) ), SLOT( mLogout() ) );
+
+    KAction* details = new KAction( KIcon( "media-playback-start" ), i18n( "Details" ), actionCollection() );
+    actionCollection()->addAction( "community_details", details );
+    connect( details, SIGNAL( triggered( bool ) ), SLOT( mDetails() ) );
+
+    KAction* registration = new KAction( KIcon( "list-add-user" ), i18n( "Registration" ), actionCollection() );
+    actionCollection()->addAction( "community_registration", registration );
+    connect( registration, SIGNAL( triggered( bool ) ), SLOT( mRegistration() ) );
+
+    KAction* forgottenPassword = new KAction( KIcon( "help-hint" ), i18n( "Forgotten password" ), actionCollection() );
+    actionCollection()->addAction( "community_forgotten_password", forgottenPassword );
+    connect( forgottenPassword, SIGNAL( triggered( bool ) ), SLOT( mForgottenPassword() ) );
+
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
     actionCollection()->addAction( "playGame", play );
     connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
@@ -194,7 +214,11 @@ void MainWindow::optionsConfigureKeys()
     // dlg.exec();
 }
 
-void MainWindow::mLoginLogout( bool checked )
+void MainWindow::mLogin( )
+{
+}
+
+void MainWindow::mLogout( )
 {
 }
 

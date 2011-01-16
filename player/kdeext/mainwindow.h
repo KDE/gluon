@@ -50,7 +50,8 @@ namespace GluonKDEExtPlayer {
             void optionsConfigureToolbars();
 
         private slots:
-            void mLoginLogout( bool checked );
+            void mLogin( );
+            void mLogout( );
             void mHome();
             void mDetails();
             void mRegistration();
