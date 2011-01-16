@@ -63,6 +63,8 @@ set(GluonGraphics_SRCS
     item.cpp
     engine.cpp
     mesh.cpp
+    vertexattribute.cpp
+    vertexbuffer.cpp
 )
 
 set(GluonGraphics_HEADERS
