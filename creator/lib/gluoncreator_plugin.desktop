@@ -27,6 +27,6 @@ Type=ServiceType
 X-KDE-ServiceType=GluonCreator/Plugin
 
 # mandatory, versioning - prevent DLL issues
-[PropertyDef::X-GluonCreator-Version]
+[PropertyDef::X-KDE-GluonCreatorPluginVersion]
 Type=int
 
