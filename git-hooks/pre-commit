@@ -14,11 +14,8 @@ function astyle_commit ()
 	    if [ -n "$(astyle --options=$(pwd)/astylerc | grep -q "formatted")" ]; then
                 break=1;
             fi
-            #re-add it to the index so that changes are combined into one commit
-	    #endifgit add --refresh $i 
 	fi
     done
-    echo $break
     if [ $break -eq 1 ]; then
         echo "Some files were modified by astyle, please update your commit."
         exit 1
