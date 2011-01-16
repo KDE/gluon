@@ -232,20 +232,21 @@ PropertyWidgetContainer::delTriggered()
         GluonCore::GluonObject* theParent = qobject_cast<GluonCore::GluonObject*>( d->object->parent() );
         if( theParent )
             theParent->removeChild( d->object );
-        d->object->deleteLater();
 
         SelectionManager::instance()->clearSelection();
         GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
         if(gobj && gobj->parentGameObject())
         {
             Models::instance()->sceneModel()->deleteGameObject(gobj);
-            ObjectManager::instance()->deleteGameObject(gobj);
         }
-
-        // Cause the property dock to update its view
-        SelectionManager::SelectionList list;
-        list.append( theParent );
-        SelectionManager::instance()->setSelection( list );
+        else
+        {
+            d->object->deleteLater();
+            // Cause the property dock to update its view
+            SelectionManager::SelectionList list;
+            list.append( theParent );
+            SelectionManager::instance()->setSelection( list );
+        }
     }
 }
 
