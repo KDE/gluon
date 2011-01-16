@@ -57,7 +57,9 @@ PropertiesDock::~PropertiesDock()
 
 void PropertiesDock::selectionChanged( SelectionManager::SelectionList selection )
 {
-    if( !selection.empty() )
+    if( selection.empty() )
+        d->widget->clear();
+    else
         d->widget->setObject( selection.at( 0 ) );
 }
 
