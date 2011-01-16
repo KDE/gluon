@@ -28,6 +28,8 @@
 #include "engine.h"
 #include "texture.h"
 #include "glheaders.h"
+#include "camera.h"
+#include "frustrum.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
 
@@ -50,6 +52,8 @@ class MaterialInstance::MaterialInstancePrivate
 
         QHash<uint, Texture*> textures;
 
+        Camera* activeCamera;
+
         bool bound;
 };
 
@@ -57,6 +61,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
+    connect(Engine::instance(), SIGNAL(activeCameraChanged(Camera*)), this, SLOT(setActiveCamera(Camera*)));
 }
 
 MaterialInstance::~MaterialInstance()
@@ -76,6 +81,9 @@ MaterialInstance::bind()
 
     glUseProgram( program );
     d->bound = true;
+
+    setGLUniform(QString("viewMatrix"), d->activeCamera->viewMatrix());
+    setGLUniform(QString("projectionMatrix"), d->activeCamera->frustrum()->projectionMatrix());
 
     QList<QByteArray> properties = dynamicPropertyNames();
     foreach( QByteArray prop, properties )
@@ -134,16 +142,6 @@ int MaterialInstance::uniformLocation( const QString& name )
 }
 
 void
-MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
-{
-    int loc = uniformLocation( "modelViewProj" );
-
-    float glMatrix[16];
-    Math::qmatrixToGLMatrix( mvp, glMatrix );
-    glUniformMatrix4fv( loc, 1, false, glMatrix );
-}
-
-void
 MaterialInstance::setPropertiesFromMaterial()
 {
     QHash<QString, QVariant> uniforms = d->material->uniformList();
@@ -198,6 +196,14 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             }
             break;
         }
+        case QVariant::Matrix4x4:
+        {
+            QMatrix4x4 mat = value.value<QMatrix4x4>();
+            float glMatrix[16];
+            Math::qmatrixToGLMatrix( mat, glMatrix );
+            glUniformMatrix4fv( uniformLocation( name ), 1, false, glMatrix );
+            break;
+        }
         case QVariant::UserType:
         {
             GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
@@ -226,6 +232,11 @@ MaterialInstance::bindTexture( const QString& name, Texture* tex )
     glActiveTexture( GL_TEXTURE0 + id );
     glBindTexture( GL_TEXTURE_2D, tex->glTexture() );
     glUniform1i( uniformLocation( name ), id );
+}
+
+void MaterialInstance::setActiveCamera( Camera* cam )
+{
+    d->activeCamera = cam;
 }
 
 #include "materialinstance.moc"
