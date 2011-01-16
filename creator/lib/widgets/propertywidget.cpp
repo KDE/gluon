@@ -109,7 +109,7 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
 
 void PropertyWidget::clear()
 {
-    delete widget();
+    widget()->deleteLater();
 }
 
 void PropertyWidget::appendObject( GluonCore::GluonObject* obj, bool first )
