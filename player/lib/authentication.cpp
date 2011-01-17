@@ -91,6 +91,28 @@ bool Authentication::login( const QString& username, const QString& password )
     return false;
 }
 
+bool Authentication::logout( )
+{
+    m_username.clear();
+    m_password.clear();
+
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Logout OK" << endl;
+            m_loggedIn = false;
+            emit loggedOut();
+            return true;
+        } else {
+            qDebug() << "Logout error" << endl;
+            emit logoutFailed();
+            return false;
+        }
+    }
+
+    return false;
+}
+
 bool Authentication::isLoggedIn()
 {
     return m_loggedIn;
@@ -182,10 +204,15 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        qDebug() << "Login OK" << endl;
-        AtticaManager::instance()->provider().saveCredentials( m_username, m_password );
-        m_loggedIn = true;
-        emit loggedIn();
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Login OK" << endl;
+            m_loggedIn = true;
+            emit loggedIn();
+        } else {
+            qDebug() << "Login error (saveCredentials)";
+            m_loggedIn = false;
+            emit loginFailed();
+        }
     }
     else
     {
