@@ -10,6 +10,7 @@ set(kdeextplayer_SRCS
     mainwindow.cpp
     overlay.cpp
     loginform.cpp
+    views/abstractitemview.cpp
 )
 
 if(APPLE)
