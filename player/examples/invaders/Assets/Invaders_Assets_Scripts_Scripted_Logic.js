@@ -1,5 +1,6 @@
 this.controller = null;
 this.bullet = null;
+this.camera = null;
 this.speed = 30;
 this.redness = 0;
 this.fireDelay = 0;
@@ -10,10 +11,11 @@ this.deathAnimTime = 439; // The length of the quiet explosion sound
 this.deathAnimTimeRemaining = 0;
 this.invincibleTime = 254;
 
-this.initialize = function() 
+this.initialize = function()
 {
     this.controller = this.Game.getFromScene("Background").ControllerScript;
     this.bullet = this.Game.getFromScene("Bullet");
+    this.camera = this.Game.getFromScene("Camera").Camera;
     this.deathAnimTimeRemaining = this.deathAnimTime;
 }
 
@@ -32,7 +34,7 @@ this.move = function(time)
     }
 
     var pos = this.GameObject.position;
-    if(pos.x() < -30) 
+    if(pos.x() < -30)
     {
         this.GameObject.setPosition(-30, pos.y(), pos.z());
     }
@@ -40,7 +42,7 @@ this.move = function(time)
     {
         this.GameObject.setPosition(30, pos.y(), pos.z());
     }
-    
+
     if(pos.y() < -30)
     {
         this.GameObject.translate(0, 5 * (time/1000), 0);
@@ -51,13 +53,13 @@ this.move = function(time)
     }
 }
 
-this.update = function(time) 
+this.update = function(time)
 {
     if(this.alive)
     {
         if(this.controller.paused)
             return;
-        
+
         this.move(time);
 
         if(!this.justSpawned)
@@ -71,14 +73,13 @@ this.update = function(time)
                 this.fireDelay = 25;
             }
         }
-        
+
         if(this.invincibleTime > 0)
         {
-            this.GameObject.SpriteRenderer.material.materialColor = new QColor(255, this.redness, this.redness);
-            this.redness += 2;
+            this.camera.renderTargetMaterial.materialColor = new QColor(255, 255 - this.invincibleTime, 255 - this.invincibleTime);
             this.invincibleTime -= 2;
-        } 
-        
+        }
+
         if(this.GameObject.BulletCollider.isColliding() || this.GameObject.EnemyCollider.isColliding())
         {
             if(this.invincibleTime <= 0)
@@ -94,11 +95,7 @@ this.update = function(time)
     {
         var scaleVal = 1 + (this.deathAnimTimeRemaining / this.deathAnimTime);
         this.GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
-        
-        /*var color = this.GameObject.SpriteRenderer.material.materialColor;
-        color.setAlpha(255 * (scaleVal - 1));
-        this.GameObject.SpriteRenderer.material.materialColor = color;*/
-        
+
         this.deathAnimTimeRemaining = this.deathAnimTimeRemaining - time;
 
         if(this.deathAnimTimeRemaining < 0)

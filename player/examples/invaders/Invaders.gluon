@@ -117,6 +117,12 @@
                 texture0 string(win.png)
             }
         }
+        { GluonEngine::MaterialAsset(Render Target Material)
+            file url(Assets/Invaders_Assets_Material_1.gml)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+            }
+        }
     }
     { GluonCore::GluonObject(Prefabs)
     }
