@@ -21,22 +21,42 @@
 #define GLUONGRAPHICS_RENDERTARGET_H
 
 #include "gluon_graphics_export.h"
+
 #include <QtOpenGL/QGLFramebufferObject>
 
 namespace GluonGraphics
 {
+    class MaterialInstance;
+
     /**
      * A surface to render to.
      *
-     * The render target class describes a single surface to render to.
-     * It extends QGLFramebufferObject with facilities to make the rendering
-     * of the FBO's surface more easy, as well as provide a means to apply
-     * shaders for filtering.
+     * The render target class describes a single target for rendering.
+     * The target is most of the time a Frame Buffer Object, but this
+     * class can take any texture and render it to screen. By default,
+     * the target is "renderable", that is, its contents can be directly
+     * rendered to screen. Use setRenderable(false) to disable it in case
+     * the
+     *
+     * Note that this class always renders its target as a 1x1 full
+     * screen quad.
      */
-    class GLUON_GRAPHICS_EXPORT RenderTarget : public QGLFramebufferObject
+    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject
     {
+        Q_OBJECT
         public:
-            RenderTarget( int width, int height, GLenum target = 0x0DE1 );
+            /**
+             * Default constructor.
+             */
+            explicit RenderTarget( QObject* parent = 0 );
+            /**
+             * Construct a rendertarget with a given size. This will create
+             * a Framebuffer Object with the given size for this rendertarget.
+             *
+             * \param width The width of the rendertarget.
+             * \param height The height of the rendertarget.
+             */
+            RenderTarget(int width, int height, QObject* parent = 0);
             virtual ~RenderTarget();
 
             /**
@@ -45,7 +65,34 @@ namespace GluonGraphics
              * \return True if the render target can be rendered to screen
              * directly. False if otherwise.
              */
-            bool isRenderable();
+            bool isRenderable() const;
+
+            /**
+             * Retrieve the current framebuffer object.
+             *
+             * \return The current framebuffer object for this render target.
+             */
+            QGLFramebufferObject* framebufferObject() const;
+
+            /**
+             * Bind this render target, so that the next calls issues by the
+             * rest of the system will be rendered to this target. This only
+             * works if a Framebuffer Object has been set for this target.
+             */
+            void bind();
+
+            /**
+             * Release the render target, causing all following calls to be
+             * rendered directly to screen.
+             */
+            void release();
+
+            /**
+             * Retrieve the MaterialInstance used to render this RenderTarget.
+             *
+             * \return The MaterialInstance used for rendering this RenderTarget.
+             */
+            MaterialInstance* materialInstance();
 
         public Q_SLOTS:
             /**
@@ -57,6 +104,36 @@ namespace GluonGraphics
              * false to disable this.
              */
             void setRenderable( bool render );
+
+            /**
+             * Set the framebuffer object this RenderTarget should use.
+             *
+             * \param fbo The new framebuffer object to use.
+             */
+            void setFramebufferObject(QGLFramebufferObject* fbo);
+
+            /**
+             * Resize the RenderTarget and any attached framebuffers and
+             * textures.
+             *
+             * \param width The new width of the RenderTarget.
+             * \param height The new height of the RenderTarget.
+             */
+            void resize(int width, int height);
+
+            /**
+             * Set the material instance that will be used to render this render
+             * target.
+             *
+             * \param material The material instance to be used for rendering.
+             */
+            void setMaterialInstance(MaterialInstance* material);
+
+            /**
+             * Render this render target to screen. This will only do
+             * something if renderable == true.
+             */
+            void render();
 
         private:
             class Private;
