@@ -23,6 +23,11 @@
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
+namespace GluonGraphics
+{
+    class MaterialInstance;
+}
+
 class QSizeF;
 namespace GluonEngine
 {
@@ -34,6 +39,7 @@ namespace GluonEngine
             Q_PROPERTY( QSizeF visibleArea READ visibleArea WRITE setVisibleArea )
             Q_PROPERTY( float nearPlane READ nearPlane WRITE setNearPlane )
             Q_PROPERTY( float farPlane READ farPlane WRITE setFarPlane )
+            Q_PROPERTY( GluonGraphics::MaterialInstance* renderTargetMaterial READ renderTargetMaterial WRITE setRenderTargetMaterial)
             Q_INTERFACES( GluonEngine::Component )
 
         public:
@@ -51,12 +57,14 @@ namespace GluonEngine
             virtual QSizeF visibleArea();
             virtual float nearPlane();
             virtual float farPlane();
+            virtual GluonGraphics::MaterialInstance* renderTargetMaterial();
 
         public slots:
             virtual void setActive( bool active );
             virtual void setVisibleArea( const QSizeF& area );
             virtual void setNearPlane( float near );
             virtual void setFarPlane( float far );
+            virtual void setRenderTargetMaterial( GluonGraphics::MaterialInstance* material );
 
         private:
             class CameraControllerComponentPrivate;
