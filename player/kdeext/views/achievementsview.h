@@ -17,25 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ABSTRACTITEMVIEW_H
-#define ABSTRACTITEMVIEW_H
+#ifndef ACHIEVEMENTSVIEW_H
+#define ACHIEVEMENTSVIEW_H
 
-#include "overlay.h"
+#include "abstractitemview.h"
 
-#include <QWidget>
-#include <QAbstractItemModel>
-
-class AbstractItemView : public Overlay
+class AchievementsView : public AbstractItemView
 {
-        Q_OBJECT
     public:
-        AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-
-        virtual void setModel( QAbstractItemModel* model );
-        QAbstractItemModel* model() const;
-
-    protected:
-        QAbstractItemModel* m_model;
+        AchievementsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 };
 
-#endif // ABSTRACTITEMVIEW_H
+#endif // ACHIEVEMENTSVIEW_H

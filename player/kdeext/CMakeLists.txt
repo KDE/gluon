@@ -11,6 +11,7 @@ set(kdeextplayer_SRCS
     overlay.cpp
     loginform.cpp
     views/abstractitemview.cpp
+    views/achievementsview.cpp
 )
 
 if(APPLE)

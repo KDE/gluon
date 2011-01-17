@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2010 Laszlo Pappp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,25 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ABSTRACTITEMVIEW_H
-#define ABSTRACTITEMVIEW_H
+#include "achievementsview.h"
 
-#include "overlay.h"
-
-#include <QWidget>
-#include <QAbstractItemModel>
-
-class AbstractItemView : public Overlay
+AchievementsView::AchievementsView( QWidget* parent, Qt::WindowFlags wFlags )
 {
-        Q_OBJECT
-    public:
-        AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-
-        virtual void setModel( QAbstractItemModel* model );
-        QAbstractItemModel* model() const;
-
-    protected:
-        QAbstractItemModel* m_model;
-};
-
-#endif // ABSTRACTITEMVIEW_H
+    Q_UNUSED( parent );
+    Q_UNUSED( wFlags );
+}
