@@ -53,6 +53,9 @@ namespace GluonGraphics
 
             void update();
 
+        Q_SIGNALS:
+            void viewportSizeChanged(int left, int bottom, int width, int height);
+
         private:
             class ViewportPrivate;
             ViewportPrivate* const d;
