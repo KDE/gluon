@@ -20,7 +20,8 @@
 #ifndef VERTEXBUFFER_H
 #define VERTEXBUFFER_H
 
-#include <QObject>
+#include <QtCore/QObject>
+#include "glheaders.h"
 
 namespace GluonGraphics
 {
@@ -37,6 +38,17 @@ namespace GluonGraphics
     {
         Q_OBJECT
         public:
+            enum RenderMode
+            {
+                RM_POINTS,
+                RM_LINES,
+                RM_LINE_LOOP,
+                RM_LINE_STRIP,
+                RM_TRIANGLES,
+                RM_TRIANGLE_STRIP,
+                RM_TRIANGLE_FAN,
+            };
+
             VertexBuffer( QObject* parent = 0 );
             ~VertexBuffer();
 
@@ -68,7 +80,7 @@ namespace GluonGraphics
              * \param mode The OpenGL mode to use, for example GL_TRIAGLES.
              * \param material The material to get attribute locations from.
              */
-            void render( uint mode, GluonGraphics::MaterialInstance* material );
+            void render( RenderMode mode, GluonGraphics::MaterialInstance* material );
 
             /**
              * Returns true if initialize was called.
