@@ -26,7 +26,7 @@
 #include <graphics/item.h>
 #include <graphics/material.h>
 #include <graphics/mesh.h>
-#include <graphics/renderwidget.h>
+#include <graphics/rendertarget.h>
 #include <graphics/materialinstance.h>
 #include <engine/gameobject.h>
 #include <engine/asset.h>
@@ -83,6 +83,7 @@ class UiManagerComponent::UiManagerComponentPrivate
             : q(component)
             , scene(0)
             , ui(0)
+            , target(0)
             , updateFunction(0)
         {
         }
@@ -131,6 +132,7 @@ class UiManagerComponent::UiManagerComponentPrivate
         QSizeF size;
         Item *item;
         EngineAccess* engineAccess;
+        RenderTarget* target;
 
         QDeclarativeExpression *updateFunction;
 };
@@ -160,10 +162,9 @@ QString UiManagerComponent::category() const
 
 void UiManagerComponent::initialize()
 {
-    QGLWidget* widget = GluonGraphics::Engine::instance()->renderWidget();
 //     d->fbo = GluonGraphics::Engine::instance()->fbo();
-    d->pixmap = QPixmap( widget->size() );
-    d->pixmap.fill( Qt::transparent );
+//     d->pixmap = QPixmap( widget->size() );
+//     d->pixmap.fill( Qt::transparent );
 //     d->view->setParent(widget->parentWidget());
 //     d->view->setAttribute(Qt::WA_TranslucentBackground);
 //     d->view->setAttribute(Qt::WA_NoSystemBackground);
@@ -188,7 +189,11 @@ void UiManagerComponent::initialize()
     if( !d->scene )
     {
         d->scene = new QGraphicsScene( this );
-        d->scene->setSceneRect(QRectF(QPointF(0,0), widget->size()));
+        d->scene->setSceneRect(QRectF(QPointF(0,0), QSize(1024,768)));
+
+        d->target = new RenderTarget(1024,768,this);
+        d->target->setMaterialInstance(Engine::instance()->material("default")->createInstance("qmlTarget"));
+        Engine::instance()->addRenderTarget(d->target, 1);
     }
 
     if( d->ui && !d->ui->isLoaded() )
@@ -210,15 +215,18 @@ void UiManagerComponent::initialize()
         delete expr;
     }
 
-    d->ui->execute();
-
-    QGraphicsWidget* gWidget = d->ui->widget();
-    if( gWidget )
+    if( d->ui && d->ui->isLoaded() )
     {
-        d->scene->addItem( gWidget );
+        d->ui->execute();
 
-        d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
-                                                        d->ui->widget(), "update()" );
+        QGraphicsWidget* gWidget = d->ui->widget();
+        if( gWidget )
+        {
+            d->scene->addItem( gWidget );
+
+            d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
+                                                            d->ui->widget(), "update()" );
+        }
     }
 }
 
@@ -278,13 +286,8 @@ void UiManagerComponent::draw( int timeLapse )
         return;
     }
 
-    RenderWidget* widget = GluonGraphics::Engine::instance()->renderWidget();
-
-    d->pixmap.fill( Qt::transparent );
-    QPainter p( &d->pixmap );
-
+    QPainter p( d->target->framebufferObject() );
     d->scene->render( &p );
-    widget->setPixmap(d->pixmap);
 }
 
 void UiManagerComponent::update( int elapsedMilliseconds )
@@ -318,6 +321,9 @@ void UiManagerComponent::cleanup()
 
     delete d->updateFunction;
     d->updateFunction = 0;
+
+    delete d->target;
+    d->target = 0;
 }
 
 void UiManagerComponent::setUi(UiAsset* ui)
