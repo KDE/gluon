@@ -12,6 +12,7 @@ set(kdeextplayer_SRCS
     loginform.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
+    views/commentsviewitem.cpp
 )
 
 if(APPLE)
