@@ -17,41 +17,48 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_PREFAB_H
-#define GLUON_ENGINE_PREFAB_H
+#include "prefabinstance.h"
 
-#include "core/gluonobject.h"
-#include "asset.h"
+REGISTER_OBJECTTYPE( GluonEngine, PrefabInstance )
 
-namespace GluonEngine
+using namespace GluonEngine;
+
+class PrefabInstance::Private
+{
+public:
+    Private()
+        : prefabLink(0)
+    {
+    }
+    
+    Prefab* prefabLink;
+};
+
+PrefabInstance::PrefabInstance()
+    : d( new Private )
 {
 
-class GameObject;
-
-    class PrefabInstance;
-    class PrefabPrivate;
-    class Prefab : public Asset
-    {
-            Q_OBJECT
-            Q_INTERFACES( GluonEngine::Asset );
-            GLUON_OBJECT( GluonEngine::Prefab );
-
-        public:
-            Q_INVOKABLE Prefab( QObject* parent = 0 );
-            Prefab( const Prefab& other, QObject* parent = 0 );
-            ~Prefab();
-
-            PrefabInstance* createInstance() const;
-
-            void setGameObject(GameObject* newGameObject);
-            GameObject* gameObject() const;
-
-        private:
-            PrefabPrivate* d;
-    };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::Prefab )
-Q_DECLARE_METATYPE( GluonEngine::Prefab* )
+PrefabInstance::PrefabInstance(const PrefabInstance& other)
+    : d( other.d )
+{
 
-#endif  // GLUON_ENGINE_PREFAB_H
+}
+
+PrefabInstance::~PrefabInstance()
+{
+    delete(d);
+}
+
+Prefab* PrefabInstance::prefabLink() const
+{
+    return d->prefabLink;
+}
+
+void PrefabInstance::setPrefabLink(Prefab* newPrefab)
+{
+    d->prefabLink = newPrefab;
+}
+
+#include "prefabinstance.moc"

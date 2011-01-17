@@ -27,7 +27,6 @@ PrefabPrivate::PrefabPrivate()
 }
 
 PrefabPrivate::PrefabPrivate( const PrefabPrivate& other )
-    : QSharedData( other )
 {
 }
 

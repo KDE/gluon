@@ -23,6 +23,10 @@
 
 #include <kpagewidgetmodel.h>
 
+#include <KDE/KColorScheme>
+
+#include <QLabel>
+
 namespace GluonCreator
 {
     class NewProjectDialogPage : public KPageWidgetItem
@@ -31,9 +35,23 @@ namespace GluonCreator
         public:
             NewProjectDialogPage();
             ~NewProjectDialogPage();
+
             QString createProject() const;
             bool isModified() const;
+            void setForeground(QLabel* label, KColorScheme::ForegroundRole role);
+
+        signals:
+            void valid();
+            void invalid();
+
+        private slots:
+            void urlEdited();
+            void validateData();
+
         private:
+            inline QByteArray encodedAppName();
+            inline QString pathUp(const QString& aPath);
+
             class NewProjectDialogPagePrivate;
             NewProjectDialogPagePrivate* const d;
     };

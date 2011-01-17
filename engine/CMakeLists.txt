@@ -50,6 +50,7 @@ set(GluonEngine_SRCS
     gameprojectprivate.cpp
     prefab.cpp
     prefabprivate.cpp
+    prefabinstance.cpp
     savable.cpp
     scene.cpp
     sceneprivate.cpp
