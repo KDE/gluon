@@ -61,6 +61,7 @@ namespace GluonCreator
 
         public Q_SLOTS:
             void setRootGameObject( GluonEngine::GameObject* obj );
+            void deleteGameObject( GluonEngine::GameObject* obj );
 
         private:
             class SceneModelPrivate;
