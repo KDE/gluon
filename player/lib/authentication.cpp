@@ -91,6 +91,28 @@ bool Authentication::login( const QString& username, const QString& password )
     return false;
 }
 
+bool Authentication::logout( )
+{
+    m_username.clear();
+    m_password.clear();
+
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Logout OK" << endl;
+            m_loggedIn = false;
+            emit loggedOut();
+            return true;
+        } else {
+            qDebug() << "Logout error" << endl;
+            emit logoutFailed();
+            return false;
+        }
+    }
+
+    return false;
+}
+
 bool Authentication::isLoggedIn()
 {
     return m_loggedIn;
