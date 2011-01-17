@@ -21,14 +21,19 @@
 #define GLUON_ENGINE_PREFAB_H
 
 #include "core/gluonobject.h"
+#include "asset.h"
 
 namespace GluonEngine
 {
-    class PrefabPrivate;
 
-    class Prefab : public GluonCore::GluonObject
+class GameObject;
+
+    class PrefabInstance;
+    class PrefabPrivate;
+    class Prefab : public Asset
     {
             Q_OBJECT
+            Q_INTERFACES( GluonEngine::Asset );
             GLUON_OBJECT( GluonEngine::Prefab );
 
         public:
@@ -36,8 +41,13 @@ namespace GluonEngine
             Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
+            PrefabInstance* createInstance() const;
+
+            void setGameObject(GameObject* newGameObject);
+            GameObject* gameObject() const;
+
         private:
-            PrefabPrivate d;
+            PrefabPrivate* d;
     };
 }
 

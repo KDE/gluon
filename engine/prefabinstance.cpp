@@ -19,6 +19,8 @@
 
 #include "prefabinstance.h"
 
+REGISTER_OBJECTTYPE( GluonEngine, PrefabInstance )
+
 using namespace GluonEngine;
 
 class PrefabInstance::Private
@@ -33,18 +35,20 @@ public:
 };
 
 PrefabInstance::PrefabInstance()
+    : d( new Private )
 {
 
 }
 
 PrefabInstance::PrefabInstance(const PrefabInstance& other)
+    : d( other.d )
 {
 
 }
 
 PrefabInstance::~PrefabInstance()
 {
-
+    delete(d);
 }
 
 Prefab* PrefabInstance::prefabLink() const
@@ -56,3 +60,5 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
 {
     d->prefabLink = newPrefab;
 }
+
+#include "prefabinstance.moc"
