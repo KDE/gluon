@@ -84,7 +84,7 @@ NewProjectDialogPage::NewProjectDialogPage()
     boxLayout->addRow( i18n( "Project Location" ), d->location );
 
     d->locationValidLabel = new KSqueezedTextLabel( box );
-    boxLayout->addRow( i18n( "" ), d->locationValidLabel );
+    boxLayout->addRow( QString(), d->locationValidLabel );
 
     connect( d->location->lineEdit(), SIGNAL(textEdited(const QString&)), SLOT(urlEdited() ));
 
