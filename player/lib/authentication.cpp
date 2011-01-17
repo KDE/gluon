@@ -204,10 +204,15 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        qDebug() << "Login OK" << endl;
-        AtticaManager::instance()->provider().saveCredentials( m_username, m_password );
-        m_loggedIn = true;
-        emit loggedIn();
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Login OK" << endl;
+            m_loggedIn = true;
+            emit loggedIn();
+        } else {
+            qDebug() << "Login error (saveCredentials)";
+            m_loggedIn = false;
+            emit loginFailed();
+        }
     }
     else
     {
