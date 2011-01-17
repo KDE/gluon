@@ -92,7 +92,7 @@ Mesh::load( const QString& filename )
 }
 
 void
-Mesh::render( MaterialInstance* material, uint mode )
+Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     d->buffer->render( mode, material );
 }

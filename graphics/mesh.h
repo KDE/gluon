@@ -26,6 +26,7 @@
 #include "gluon_graphics_export.h"
 
 #include <QtCore/QObject>
+#include "vertexbuffer.h"
 
 class QMatrix4x4;
 
@@ -65,9 +66,9 @@ namespace GluonGraphics
              * \param material The material used to render the mesh. This
              * is only used to determine vertex attribute locations in the
              * program.
-             * \param mode The GL mode used to render the mesh, like GL_TRIANGLES.
+             * \param mode The mode used to render the mesh.
              */
-            virtual void render( MaterialInstance* material, uint mode );
+            virtual void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
 
         protected:
             /**

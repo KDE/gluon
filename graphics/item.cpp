@@ -83,11 +83,11 @@ Item::materialInstance()
 void
 Item::render()
 {
-    render( d->materialInstance, GL_TRIANGLES );
+    render( d->materialInstance, VertexBuffer::RM_TRIANGLES );
 }
 
 void
-Item::render( MaterialInstance* material, uint mode )
+Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     if( !d->mesh )
         return;
