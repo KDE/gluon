@@ -68,7 +68,7 @@ namespace GluonInput
             Touch* touch( int id = 0 );
             InputDevice* input( int id = 0 );
 
-            void registerEventFilter(QObject *filteredObj);
+            bool eventFilter(QObject* object, QEvent* event);
 
             void installEventFiltered(QObject *filteredObj);
             void removeEventFiltered(QObject *filteredObj);

@@ -195,6 +195,41 @@ InputDevice* InputManager::input( int id )
     return 0;
 }
 
+bool InputManager::eventFilter(QObject* object, QEvent* event)
+{
+    if (object != m_filteredObj)
+        return false;
+
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        return true;
+    }
+
+    if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        switch (mouseEvent->button()) {
+        case Qt::LeftButton:
+            return true;
+        case Qt::RightButton:
+            return true;
+        case Qt::MiddleButton:
+            return true;
+        case Qt::XButton1:
+            return true;
+        case Qt::XButton2:
+            return true;
+        default:
+            return false;
+        }
+    }
+    return false;
+}
+
 void InputManager::installEventFiltered(QObject *filteredObj)
 {
     filteredObj->installEventFilter(this);
