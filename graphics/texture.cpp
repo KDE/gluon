@@ -86,7 +86,7 @@ around the nasty const_cast .
     return false;
 }
 
-uint Texture::glTexture()
+uint Texture::glTexture() const
 {
     return d->glTexture;
 }
