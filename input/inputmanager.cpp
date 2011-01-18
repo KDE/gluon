@@ -33,6 +33,7 @@
 #include "detectwin.h"
 #endif
 
+#include <QKeyEvent>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>

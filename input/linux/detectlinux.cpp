@@ -79,11 +79,14 @@ void DetectLinux::detectDevices()
             unreadableInputFiles.append( file );
     }
 
+    InputManager *im = GluonInput::InputManager::instance();
     if( !unreadableInputFiles.isEmpty() )
     {
+        im->installEventFiltered(im->filteredObject());
     }
     else
     {
+        im->removeEventFiltered(im->filteredObject());
         // Low-level stance
         foreach( const QString & name, readableInputFiles )
         {
