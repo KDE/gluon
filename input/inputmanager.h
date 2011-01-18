@@ -70,9 +70,16 @@ namespace GluonInput
 
             void registerEventFilter(QObject *filteredObj);
 
+            void installEventFiltered(QObject *filteredObj);
+            void removeEventFiltered(QObject *filteredObj);
+            QObject* filteredObject();
+            void setFilteredObject(QObject *filteredObj);
+
         private:
             ~InputManager();
             void init();
+
+            QObject *m_filteredObj;
 
             QSharedDataPointer<InputManagerPrivate> d;
     };

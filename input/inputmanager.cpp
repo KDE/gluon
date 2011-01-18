@@ -195,9 +195,24 @@ InputDevice* InputManager::input( int id )
     return 0;
 }
 
-void InputManager::registerEventFilter(QObject *filteredObj)
+void InputManager::installEventFiltered(QObject *filteredObj)
 {
     filteredObj->installEventFilter(this);
+}
+
+void InputManager::removeEventFiltered(QObject *filteredObj)
+{
+    filteredObj->removeEventFilter(this);
+}
+
+QObject* InputManager::filteredObject()
+{
+    return m_filteredObj;
+}
+
+void InputManager::setFilteredObject(QObject *filteredObj)
+{
+    m_filteredObj = filteredObj;
 }
 
 #include "inputmanager.moc"
