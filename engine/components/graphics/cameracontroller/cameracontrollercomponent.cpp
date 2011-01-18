@@ -195,7 +195,9 @@ void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::Material
 {
     d->material = material;
 
-    GluonGraphics::Engine::instance()->mainRenderTarget()->setMaterialInstance(material);
+    GluonGraphics::RenderTarget *target = GluonGraphics::Engine::instance()->mainRenderTarget();
+    if( target )
+        target->setMaterialInstance(material);
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_cameracontroller, GluonEngine::CameraControllerComponent );
