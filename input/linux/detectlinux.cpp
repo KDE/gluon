@@ -82,12 +82,18 @@ void DetectLinux::detectDevices()
     InputManager *im = GluonInput::InputManager::instance();
     if( !unreadableInputFiles.isEmpty() )
     {
-        im->installEventFiltered(im->filteredObject());
+        if (im->filteredObject())
+            im->installEventFiltered(im->filteredObject());
+        else
+            qDebug() << "Null filtered object pointer";
     }
     else
     {
-        im->removeEventFiltered(im->filteredObject());
-        // Low-level stance
+        if (im->filteredObject())
+            im->removeEventFiltered(im->filteredObject());
+        else
+            qDebug() << "Null filtered object pointer";
+
         foreach( const QString & name, readableInputFiles )
         {
             InputDevice* device = 0;
