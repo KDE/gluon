@@ -70,7 +70,7 @@ namespace GluonInput
             void setEnabled( bool enable );
 
         private slots:
-            void buttonStateChanged( int code, int value );
+            void buttonStateChanged( int button, int value );
 
         private:
 

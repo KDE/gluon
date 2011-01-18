@@ -19,25 +19,42 @@
 
 #include "prefab.h"
 #include "prefabprivate.h"
+#include "prefabinstance.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, Prefab )
 
 using namespace GluonEngine;
 
 Prefab::Prefab( QObject* parent )
-    : GluonObject( parent )
+    : Asset( parent )
     , d( new PrefabPrivate )
 {
 }
 
 Prefab::Prefab( const Prefab& other, QObject* parent )
-    : GluonObject( parent )
+    : Asset( parent )
     , d( other.d )
 {
 }
 
 Prefab::~Prefab()
 {
+    delete(d);
+}
+
+PrefabInstance* Prefab::createInstance() const
+{
+
+}
+
+GameObject* Prefab::gameObject() const
+{
+
+}
+
+void Prefab::setGameObject(GameObject* newGameObject)
+{
+
 }
 
 #include "prefab.moc"

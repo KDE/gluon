@@ -79,13 +79,13 @@ void InputThread::run()
             switch( eventType )
             {
                 case GluonInput::Button:
-                    emit this->buttonStateChanged( ev.code, ev.value );
+                    emit buttonStateChanged( ev.code, ev.value );
                     break;
                 case GluonInput::RelativeAxis:
-                    emit this->relAxisMoved( ev.code, ev.value );
+                    emit relAxisMoved( ev.code, ev.value );
                     break;
                 case GluonInput::AbsoluteAxis:
-                    emit this->absAxisMoved( ev.code, ev.value );
+                    emit absAxisMoved( ev.code, ev.value );
                     break;
                 default:
                     break;

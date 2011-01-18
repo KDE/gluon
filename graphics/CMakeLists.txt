@@ -84,6 +84,10 @@ set(GluonGraphics_HEADERS
     materialinstance.h
     technique.h
     materialelement.h
+    vertexbuffer.h
+    vertexattribute.h
+    rendertarget.h
+    glheaders.h
 )
 
 qt4_automoc(${GluonGraphics_SRCS})

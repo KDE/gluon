@@ -14,6 +14,7 @@
             visibleArea size2d(80;80)
             nearPlane float(1)
             farPlane float(99.99)
+            renderTargetMaterial GluonGraphics::MaterialInstance(Invaders/Assets/Render Target Material/Main)
         }
         { GluonEngine::SoundListenerComponent(GluonObject 1)
             enabled bool(true)

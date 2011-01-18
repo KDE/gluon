@@ -17,41 +17,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_PREFAB_H
-#define GLUON_ENGINE_PREFAB_H
+#ifndef GLUONENGINE_PREFABINSTANCE_H
+#define GLUONENGINE_PREFABINSTANCE_H
 
-#include "core/gluonobject.h"
-#include "asset.h"
+#include "gameobject.h"
+#include "prefab.h"
 
 namespace GluonEngine
 {
-
-class GameObject;
-
-    class PrefabInstance;
-    class PrefabPrivate;
-    class Prefab : public Asset
+    class PrefabInstance : public GameObject
     {
-            Q_OBJECT
-            Q_INTERFACES( GluonEngine::Asset );
-            GLUON_OBJECT( GluonEngine::Prefab );
+        Q_OBJECT
+        GLUON_OBJECT( GluonEngine::PrefabInstance );;
+        Q_PROPERTY(GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink)
 
         public:
-            Q_INVOKABLE Prefab( QObject* parent = 0 );
-            Prefab( const Prefab& other, QObject* parent = 0 );
-            ~Prefab();
-
-            PrefabInstance* createInstance() const;
-
-            void setGameObject(GameObject* newGameObject);
-            GameObject* gameObject() const;
-
+            PrefabInstance();
+            PrefabInstance(const PrefabInstance& other);
+            virtual ~PrefabInstance();
+            
+            void setPrefabLink(Prefab* newPrefab);
+            Prefab* prefabLink() const;
+            
         private:
-            PrefabPrivate* d;
+            class Private;
+            Private* d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::Prefab )
-Q_DECLARE_METATYPE( GluonEngine::Prefab* )
+Q_DECLARE_METATYPE( GluonEngine::PrefabInstance );
+Q_DECLARE_METATYPE( GluonEngine::PrefabInstance* );
 
-#endif  // GLUON_ENGINE_PREFAB_H
+#endif // GLUONENGINE_PREFABINSTANCE_H

@@ -20,11 +20,9 @@
 #ifndef GLUON_ENGINE_PREFABPRIVATE_H
 #define GLUON_ENGINE_PREFABPRIVATE_H
 
-#include <QtCore/QSharedData>
-
 namespace GluonEngine
 {
-    class PrefabPrivate : public QSharedData
+    class PrefabPrivate
     {
         public:
             PrefabPrivate();

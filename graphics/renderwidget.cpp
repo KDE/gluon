@@ -69,7 +69,6 @@ void RenderWidget::paintGL()
 void RenderWidget::resizeGL( int w, int h )
 {
     Engine::instance()->currentViewport()->setSize( 0, w, 0, h );
-    Engine::instance()->setFramebufferSize( w, h );
 }
 
 #include "renderwidget.moc"

@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,37 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_MODELS_H
-#define GLUONCREATOR_MODELS_H
+#ifndef ACHIEVEMENTSVIEW_H
+#define ACHIEVEMENTSVIEW_H
 
-#include "gluoncreator_macros.h"
+#include "abstractitemview.h"
 
-#include "core/singleton.h"
-
-namespace GluonCreator
+class AchievementsView : public AbstractItemView
 {
-    class ComponentModel;
-    class ProjectModel;
-    class SceneModel;
-    class GLUONCREATOR_EXPORT Models : public GluonCore::Singleton<Models>
-    {
-        Q_OBJECT
+    public:
+        AchievementsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+};
 
-        public:
-            SceneModel* sceneModel();
-            ProjectModel* projectModel();
-            ComponentModel* componentModel();
-
-        private:
-            friend class GluonCore::Singleton<Models>;
-
-            Models();
-            ~Models();
-            Q_DISABLE_COPY( Models )
-            
-            class Private;
-            Private* d;
-    };
-}
-
-#endif // GLUONCREATOR_MODELS_H
+#endif // ACHIEVEMENTSVIEW_H

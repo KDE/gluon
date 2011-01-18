@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,37 +17,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_MODELS_H
-#define GLUONCREATOR_MODELS_H
+#include "abstractitemview.h"
 
-#include "gluoncreator_macros.h"
+#include <QAbstractItemModel>
 
-#include "core/singleton.h"
-
-namespace GluonCreator
+AbstractItemView::AbstractItemView( QWidget* parent, Qt::WindowFlags wFlags )
+    : Overlay( parent, wFlags )
+    , m_model( 0 )
 {
-    class ComponentModel;
-    class ProjectModel;
-    class SceneModel;
-    class GLUONCREATOR_EXPORT Models : public GluonCore::Singleton<Models>
-    {
-        Q_OBJECT
-
-        public:
-            SceneModel* sceneModel();
-            ProjectModel* projectModel();
-            ComponentModel* componentModel();
-
-        private:
-            friend class GluonCore::Singleton<Models>;
-
-            Models();
-            ~Models();
-            Q_DISABLE_COPY( Models )
-            
-            class Private;
-            Private* d;
-    };
 }
 
-#endif // GLUONCREATOR_MODELS_H
+QAbstractItemModel* AbstractItemView::model() const
+{
+    return m_model;
+}
+
+void AbstractItemView::setModel( QAbstractItemModel* model )
+{
+    m_model = model;
+}
+
+#include "abstractitemview.moc"

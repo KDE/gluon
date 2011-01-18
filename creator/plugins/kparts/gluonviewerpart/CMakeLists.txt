@@ -2,6 +2,8 @@ set(gluonviewerpart_SRCS
     gluonviewerpart.cpp
 )
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
 kde4_add_plugin(gluon_viewer_part ${gluonviewerpart_SRCS})
 target_link_libraries(gluon_viewer_part ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KPARTS_LIBS} )
 

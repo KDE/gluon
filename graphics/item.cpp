@@ -83,11 +83,11 @@ Item::materialInstance()
 void
 Item::render()
 {
-    render( d->materialInstance, GL_TRIANGLES );
+    render( d->materialInstance, VertexBuffer::RM_TRIANGLES );
 }
 
 void
-Item::render( MaterialInstance* material, uint mode )
+Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     if( !d->mesh )
         return;
@@ -100,12 +100,10 @@ Item::render( MaterialInstance* material, uint mode )
 #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
 #endif
 
-    QMatrix4x4 modelViewProj = Math::calculateModelViewProj( d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix() );
+    material->setProperty( "modelMatrix", d->transform );
+    if( !material->bind() )
+        return;
 
-    if(!material->bind())
-	return;
-
-    material->setModelViewProjectionMatrix( modelViewProj );
     d->mesh->render( material, mode );
     material->release();
 }

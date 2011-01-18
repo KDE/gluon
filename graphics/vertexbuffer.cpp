@@ -37,6 +37,7 @@ class VertexBuffer::VertexBufferPrivate
 
         GLuint buffer;
         GLuint indexBuffer;
+
         QList<VertexAttribute> attributes;
         QVector<uint> indices;
 };
@@ -98,12 +99,11 @@ void VertexBuffer::initialize()
 
     glGenBuffers( 1, &d->indexBuffer );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
-    glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), 0, GL_STATIC_DRAW );
-    glBufferSubData( GL_ELEMENT_ARRAY_BUFFER, 0, d->indices.size() * sizeof( float ), d->indices.data() );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), d->indices.data(), GL_STATIC_DRAW );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
-void VertexBuffer::render( uint mode, GluonGraphics::MaterialInstance* material )
+void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* material )
 {
     if( d->buffer == 0 )
     {

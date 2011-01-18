@@ -80,7 +80,7 @@ GluonObject::debug( const QString& debugText, const QString& arg ) const
     emit showDebug( QString( "%1: %2" ).arg( fullyQualifiedName() ).arg( debugText.arg( arg ) ) );
 }
 
-GluonObject *
+GluonObject*
 GluonObject::clone() const
 {
     const QMetaObject* metaObj = metaObject();
@@ -95,7 +95,7 @@ GluonObject::clone() const
     return clone( parentObject );
 }
 
-GluonObject *
+GluonObject*
 GluonObject::clone( GluonObject* parentObject ) const
 {
     const QMetaObject* metaObj = metaObject();
@@ -229,7 +229,7 @@ GluonObject::sanitize()
     }
 }
 
-GluonObject *
+GluonObject*
 GluonObject::gameProject() const
 {
     return d->gameProject;
@@ -335,7 +335,7 @@ GluonObject::fullyQualifiedFileName() const
     return qualifiedName;
 }
 
-GluonCore::GluonObject *
+GluonCore::GluonObject*
 GluonObject::findItemByName( QString qualifiedName )
 {
     /*DEBUG_BLOCK
@@ -346,7 +346,7 @@ GluonObject::findItemByName( QString qualifiedName )
     return findItemByNameInObject( names, this );
 }
 
-GluonObject *
+GluonObject*
 GluonObject::root()
 {
     if( qobject_cast<GluonObject*>( parent() ) )
@@ -573,7 +573,7 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
         value = propertyValue;
 
         //Set a sanitizable property
-        setProperty(( propertyName + "_sanitizable" ).toUtf8(), value );
+        setProperty( ( propertyName + "_sanitizable" ).toUtf8(), value );
         return;
     }
 
@@ -673,7 +673,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
     return returnString;
 }
 
-GluonObject *
+GluonObject*
 GluonObject::findItemByNameInObject( QStringList qualifiedName, GluonObject* object )
 {
     //DEBUG_FUNC_NAME
@@ -756,7 +756,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
     }
 }
 
-MetaInfo *
+MetaInfo*
 GluonObject::metaInfo()
 {
     if( !d->metaInfo )

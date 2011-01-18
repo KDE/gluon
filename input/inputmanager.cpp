@@ -33,6 +33,7 @@
 #include "detectwin.h"
 #endif
 
+#include <QKeyEvent>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
@@ -194,5 +195,73 @@ InputDevice* InputManager::input( int id )
     }
     return 0;
 }
+
+bool InputManager::eventFilter(QObject* object, QEvent* event)
+{
+    if (object != m_filteredObj)
+        return false;
+
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        emit buttonStateChanged( keyEvent->key(), 1 );
+        return true;
+    }
+
+    if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        emit buttonStateChanged( keyEvent->key(), 0 );
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        switch (mouseEvent->button()) {
+        case Qt::LeftButton:
+            return true;
+        case Qt::RightButton:
+            return true;
+        case Qt::MiddleButton:
+            return true;
+        case Qt::XButton1:
+            return true;
+        case Qt::XButton2:
+            return true;
+        default:
+            return false;
+        }
+    }
+    return false;
+}
+
+void InputManager::installEventFiltered(QObject *filteredObj)
+{
+    filteredObj->installEventFilter(this);
+}
+
+void InputManager::removeEventFiltered(QObject *filteredObj)
+{
+    filteredObj->removeEventFilter(this);
+}
+
+QObject* InputManager::filteredObject()
+{
+    return m_filteredObj;
+}
+
+void InputManager::setFilteredObject(QObject *filteredObj)
+{
+    m_filteredObj = filteredObj;
+}
+
+InputManager::KeyboardManagementType InputManager::kbManagementType() const
+{
+    return m_kbManagementType;
+}
+
+void InputManager::setKbManagementType( InputManager::KeyboardManagementType kbManagementType )
+{
+    m_kbManagementType = kbManagementType;
+}
+
 
 #include "inputmanager.moc"

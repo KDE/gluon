@@ -22,6 +22,8 @@
 
 #include "gluon_input_export.h"
 
+#include "inputmanager.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 

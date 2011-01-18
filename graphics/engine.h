@@ -28,6 +28,9 @@
 
 namespace GluonGraphics
 {
+
+class RenderTarget;
+
     class Camera;
     class Mesh;
     class Material;
@@ -289,7 +292,23 @@ namespace GluonGraphics
              */
             Camera* activeCamera();
 
+            /**
+             * Retrive the current Viewport.
+             *
+             * \return The current viewport.
+             */
             Viewport* currentViewport();
+
+            /**
+             * Retrieve the main RenderTarget.
+             *
+             * Everything is by default rendered to this render target.
+             * This allows us to do nice tricks with the rendered output,
+             * like color correction or motion blur.
+             *
+             * \return The main RenderTarget.
+             */
+            RenderTarget* mainRenderTarget();
 
         public Q_SLOTS:
             /**
@@ -300,23 +319,6 @@ namespace GluonGraphics
             void render();
 
             /**
-             * Set the internal framebuffer size.
-             *
-             * This will rebuild the framebuffer used by this
-             * class to a framebuffer with the specified size.
-             * This should be called whenever the display widget
-             * resizes, to keep the rendering correct.
-             *
-             * Note that when the current scene is being rendered
-             * the framebuffer will be locked and this method will
-             * wait until rendering has been completed.
-             *
-             * \param width The new width of the framebuffer.
-             * \param height The new height of the framebuffer.
-             */
-            void setFramebufferSize( int width, int height );
-
-            /**
              * Set the currently active camera.
              *
              * This camera will be used for rendering the scene.
@@ -325,6 +327,11 @@ namespace GluonGraphics
              */
             void setActiveCamera( Camera* camera );
 
+            /**
+             * Set the current viewport.
+             *
+             * \param viewport The viewport to set.
+             */
             void setViewport( Viewport* viewport );
 
         Q_SIGNALS:
@@ -332,6 +339,11 @@ namespace GluonGraphics
              * Emitted whenever the active camera changes.
              */
             void activeCameraChanged( Camera* );
+
+            /**
+             * Emitted whenever the current viewport changes.
+             */
+            void currentViewportChanged( Viewport* );
 
         private:
             friend class GluonCore::Singleton<Engine>;
@@ -342,6 +354,9 @@ namespace GluonGraphics
 
             class EnginePrivate;
             EnginePrivate* const d;
+
+        private Q_SLOTS:
+            void viewportSizeChanged( int left, int bottom, int width, int height);
     };
 } //namespace
 

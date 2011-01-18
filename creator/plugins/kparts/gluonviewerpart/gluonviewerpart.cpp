@@ -19,6 +19,7 @@
 */
 
 #include "gluonviewerpart.h"
+
 #include <graphics/renderwidget.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
