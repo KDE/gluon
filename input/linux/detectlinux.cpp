@@ -79,14 +79,20 @@ void DetectLinux::detectDevices()
             unreadableInputFiles.append( file );
     }
 
-    foreach( const QString & name, readableInputFiles )
+    if( !unreadableInputFiles.isEmpty() )
     {
-        InputDevice* device = 0;
-        InputThread* thread = new InputThread( name );
-        if( !thread->error() )
+    }
+    else
+    {
+        // Low-level stance
+        foreach( const QString & name, readableInputFiles )
         {
-            switch( thread->deviceType() )
+            InputDevice* device = 0;
+            InputThread* thread = new InputThread( name );
+            if( !thread->error() )
             {
+                switch( thread->deviceType() )
+                {
                 case GluonInput::KeyboardDevice:
                     device = new Keyboard( thread );
                     detect->addKeyboard( static_cast<Keyboard*>( device ) );
@@ -116,13 +122,13 @@ void DetectLinux::detectDevices()
                     device = new InputDevice( thread );
                     detect->addUnknown( device );
                     break;
-            }
+                }
 
-            processedInputs.append( thread->device_info() );
-            detect->addInput( device );
+                processedInputs.append( thread->device_info() );
+                detect->addInput( device );
+            }
         }
     }
-
     // #ifdef 0
     // [> Create the udev object <]
     // udev = udev_new();

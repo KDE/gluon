@@ -68,6 +68,8 @@ namespace GluonInput
             Touch* touch( int id = 0 );
             InputDevice* input( int id = 0 );
 
+            void registerEventFilter(QObject *filteredObj);
+
         private:
             ~InputManager();
             void init();
