@@ -59,7 +59,7 @@ void DetectLinux::detectDevices()
     QString file;
     QFileInfoList inputFileInfoList;
     QList<struct input_id> processedInputs;
-    bool processed;
+    // bool processed;
 
     // struct udev *udev;
     // struct udev_enumerate *enumerate;
