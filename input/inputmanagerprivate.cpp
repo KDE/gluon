@@ -21,6 +21,7 @@
 using namespace GluonInput;
 
 InputManagerPrivate::InputManagerPrivate()
+    : m_detect(0)
 {
 }
 
