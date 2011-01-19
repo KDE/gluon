@@ -42,8 +42,9 @@ using namespace GluonInput;
 
 template<> InputManager* GluonCore::Singleton<InputManager>::m_instance = 0;
 
-InputManager::InputManager()
+InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
+    , m_filteredObj(0)
 {
     init();
 }
@@ -73,7 +74,23 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        d->m_detect->detectDevices();
+        if( !d->m_detect->isReadable() ) {
+            if (filteredObject())
+                installEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer";
+
+            InputDevice* device = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+        }
+        else
+        {
+            if (filteredObject())
+                removeEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer";
+            d->m_detect->detectDevices();
+        }
     }
     else
     {
@@ -203,13 +220,13 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        emit buttonStateChanged( keyEvent->key(), 1 );
+        keyboard(0)->setButtonState(keyEvent->key(), 1);
         return true;
     }
 
     if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        emit buttonStateChanged( keyEvent->key(), 0 );
+        keyboard(0)->setButtonState(keyEvent->key(), 0);
         return true;
     }
 

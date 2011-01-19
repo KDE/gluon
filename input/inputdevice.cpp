@@ -170,6 +170,11 @@ QString InputDevice::axisName( int code ) const
     }
 }
 
+void InputDevice::setButtonState( int button, int value )
+{
+    d->inputBuffer->setButtonState( button, value );
+}
+
 void InputDevice::buttonStateChanged( int button, int value )
 {
     d->inputBuffer->setButtonState( button, value );

@@ -31,7 +31,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -51,8 +50,6 @@ namespace GluonInput
                 LINUX_KB_LOWLEVEL,
                 QT_HIGHLEVEL,
             };
-
-            InputManager();
 
             void detectDevices();
             void setAllEnabled( bool enable );
@@ -94,14 +91,16 @@ namespace GluonInput
             void buttonStateChanged( int button, int value );
 
         private:
+            friend class GluonCore::Singleton<InputManager>;
+            InputManager( QObject* parent = 0 );
             ~InputManager();
+            Q_DISABLE_COPY(InputManager);
             void init();
 
             QObject *m_filteredObj;
             KeyboardManagementType m_kbManagementType;
 
-
-            QSharedDataPointer<InputManagerPrivate> d;
+            InputManagerPrivate* d;
     };
 }
 

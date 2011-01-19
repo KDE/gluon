@@ -69,6 +69,8 @@ namespace GluonInput
             bool isEnabled() const;
             void setEnabled( bool enable );
 
+            void setButtonState( int button, int value );
+
         private slots:
             void buttonStateChanged( int button, int value );
 

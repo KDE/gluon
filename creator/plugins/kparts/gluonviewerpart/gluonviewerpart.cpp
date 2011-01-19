@@ -20,6 +20,8 @@
 
 #include "gluonviewerpart.h"
 
+#include "input/inputmanager.h"
+
 #include <graphics/renderwidget.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
@@ -89,6 +91,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* 
     actionCollection()->addAction( "togglePointsAction", points );
 
     setXMLFile( "gluonviewerpartui.rc" );
+    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()

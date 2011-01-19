@@ -49,6 +49,27 @@ DetectLinux::~DetectLinux()
     //    }
 }
 
+bool DetectLinux::isReadable()
+{
+    QDir event( "/dev/input/by-path/" );
+    QStringList readableInputFiles;
+    QStringList unreadableInputFiles;
+    QString file;
+    QFileInfoList inputFileInfoList;
+
+    inputFileInfoList = event.entryInfoList( QDir::Files );
+    foreach( QFileInfo inputFileInfo, inputFileInfoList )
+    {
+        file = inputFileInfo.filePath();
+        if( access( file.toUtf8(), R_OK ) != -1 )
+            readableInputFiles.append( file );
+        else
+            unreadableInputFiles.append( file );
+    }
+
+    return unreadableInputFiles.isEmpty();
+}
+
 void DetectLinux::detectDevices()
 {
     DetectLinux* detect = this;
@@ -79,65 +100,50 @@ void DetectLinux::detectDevices()
             unreadableInputFiles.append( file );
     }
 
-    InputManager *im = GluonInput::InputManager::instance();
-    if( !unreadableInputFiles.isEmpty() )
+    foreach( const QString & name, readableInputFiles )
     {
-        if (im->filteredObject())
-            im->installEventFiltered(im->filteredObject());
-        else
-            qDebug() << "Null filtered object pointer";
-    }
-    else
-    {
-        if (im->filteredObject())
-            im->removeEventFiltered(im->filteredObject());
-        else
-            qDebug() << "Null filtered object pointer";
-
-        foreach( const QString & name, readableInputFiles )
+        InputDevice* device = 0;
+        InputThread* thread = new InputThread( name );
+        if( !thread->error() )
         {
-            InputDevice* device = 0;
-            InputThread* thread = new InputThread( name );
-            if( !thread->error() )
+            switch( thread->deviceType() )
             {
-                switch( thread->deviceType() )
-                {
-                case GluonInput::KeyboardDevice:
-                    device = new Keyboard( thread );
-                    detect->addKeyboard( static_cast<Keyboard*>( device ) );
-                    break;
+            case GluonInput::KeyboardDevice:
+                device = new Keyboard( thread );
+                detect->addKeyboard( static_cast<Keyboard*>( device ) );
+                break;
 
-                case GluonInput::MouseDevice:
-                    device = new Mouse( thread );
-                    detect->addMouse( static_cast<Mouse*>( device ) );
-                    break;
+            case GluonInput::MouseDevice:
+                device = new Mouse( thread );
+                detect->addMouse( static_cast<Mouse*>( device ) );
+                break;
 
-                case GluonInput::TouchpadDevice:
-                    device = new Mouse( thread );
-                    detect->addMouse( static_cast<Mouse*>( device ) );
-                    break;
+            case GluonInput::TouchpadDevice:
+                device = new Mouse( thread );
+                detect->addMouse( static_cast<Mouse*>( device ) );
+                break;
 
-                case GluonInput::JoystickDevice:
-                    device = new Joystick( thread );
-                    detect->addJoystick( static_cast<Joystick*>( device ) );
-                    break;
+            case GluonInput::JoystickDevice:
+                device = new Joystick( thread );
+                detect->addJoystick( static_cast<Joystick*>( device ) );
+                break;
 
-                case GluonInput::TouchDevice:
-                    device = new Touch( thread );
-                    detect->addTouch( static_cast<Touch*>( device ) );
-                    break;
+            case GluonInput::TouchDevice:
+                device = new Touch( thread );
+                detect->addTouch( static_cast<Touch*>( device ) );
+                break;
 
-                case GluonInput::UnknownDevice:
-                    device = new InputDevice( thread );
-                    detect->addUnknown( device );
-                    break;
-                }
-
-                processedInputs.append( thread->device_info() );
-                detect->addInput( device );
+            case GluonInput::UnknownDevice:
+                device = new InputDevice( thread );
+                detect->addUnknown( device );
+                break;
             }
+
+            processedInputs.append( thread->device_info() );
+            detect->addInput( device );
         }
     }
+    // }
     // #ifdef 0
     // [> Create the udev object <]
     // udev = udev_new();
