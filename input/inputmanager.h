@@ -43,7 +43,17 @@ namespace GluonInput
             Q_OBJECT
 
         public:
+
+            enum KeyboardManagementType
+            {
+                WINDOWS_KB_LOWLEVEL,
+                MACOSX_KB_LOWLEVEL,
+                LINUX_KB_LOWLEVEL,
+                QT_HIGHLEVEL,
+            };
+
             InputManager();
+
             void detectDevices();
             void setAllEnabled( bool enable );
 
@@ -72,14 +82,24 @@ namespace GluonInput
 
             void installEventFiltered(QObject *filteredObj);
             void removeEventFiltered(QObject *filteredObj);
+
             QObject* filteredObject();
             void setFilteredObject(QObject *filteredObj);
+
+            // TODO: if it works we can polish, with switch usage instead of hash? Investigate more!
+            KeyboardManagementType kbManagementType() const;
+            void setKbManagementType( KeyboardManagementType kbManagementType );
+
+        signals:
+            void buttonStateChanged( int button, int value );
 
         private:
             ~InputManager();
             void init();
 
             QObject *m_filteredObj;
+            KeyboardManagementType m_kbManagementType;
+
 
             QSharedDataPointer<InputManagerPrivate> d;
     };

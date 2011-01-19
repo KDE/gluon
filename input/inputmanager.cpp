@@ -203,11 +203,13 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        emit buttonStateChanged( keyEvent->key(), 1 );
         return true;
     }
 
     if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        emit buttonStateChanged( keyEvent->key(), 0 );
         return true;
     }
 
@@ -250,5 +252,16 @@ void InputManager::setFilteredObject(QObject *filteredObj)
 {
     m_filteredObj = filteredObj;
 }
+
+InputManager::KeyboardManagementType InputManager::kbManagementType() const
+{
+    return m_kbManagementType;
+}
+
+void InputManager::setKbManagementType( InputManager::KeyboardManagementType kbManagementType )
+{
+    m_kbManagementType = kbManagementType;
+}
+
 
 #include "inputmanager.moc"
