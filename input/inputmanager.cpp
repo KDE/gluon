@@ -54,6 +54,7 @@ InputManager::~InputManager()
 
 void InputManager::init()
 {
+    qDebug() << "HELLOWORLD100!";
     QObject* parent = QCoreApplication::instance();
     if( !parent )
     {
@@ -73,7 +74,23 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        d->m_detect->detectDevices();
+        if( !d->m_detect->isReadable() ) {
+            if (filteredObject())
+                installEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer";
+
+            InputDevice* device = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+        }
+        else
+        {
+            // if (filteredObject())
+                // removeEventFiltered(filteredObject());
+            // else
+                // qDebug() << "Null filtered object pointer";
+            d->m_detect->detectDevices();
+        }
     }
     else
     {
