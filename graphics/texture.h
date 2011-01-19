@@ -67,7 +67,7 @@ namespace GluonGraphics
              *
              * \return The OpenGL texture ID for this texture.
              */
-            uint glTexture();
+            uint glTexture() const;
 
         private:
             class TexturePrivate;
