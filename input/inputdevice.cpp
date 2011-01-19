@@ -36,12 +36,16 @@ InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
     : QObject( parent )
     , d( new InputDevicePrivate )
 {
-    d->inputThread = inputThread;
-    d->inputThread->setParent( this );
     d->inputBuffer = new InputBuffer();
     d->inputBuffer->setParent( this );
 
-    connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
+    if( inputThread )
+    {
+        d->inputThread = inputThread;
+        d->inputThread->setParent( this );
+
+        connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
+    }
 }
 
 InputDevice::InputDevice()
