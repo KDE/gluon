@@ -310,6 +310,8 @@ class RenderTarget;
              */
             RenderTarget* mainRenderTarget();
 
+            void addRenderTarget( RenderTarget* target, int depth );
+
         public Q_SLOTS:
             /**
              * Render the current scene.

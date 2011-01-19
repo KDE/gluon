@@ -69,6 +69,8 @@ class Engine::EnginePrivate
         RenderTarget* mainTarget;
         MaterialInstance* mainTargetShader;
 
+        QList<QWeakPointer<RenderTarget> > renderTargets;
+
         Camera* camera;
         Viewport* viewport;
 
@@ -338,6 +340,15 @@ RenderTarget* Engine::mainRenderTarget()
 }
 
 void
+Engine::addRenderTarget( RenderTarget* target, int depth )
+{
+    if( !d->renderTargets.contains( target ) )
+    {
+        d->renderTargets.insert( depth, QWeakPointer<RenderTarget>( target ) );
+    }
+}
+
+void
 Engine::render()
 {
     if(!d->camera)
@@ -360,6 +371,18 @@ Engine::render()
 
     //Render a full screen quad with the FBO data.
     d->mainTarget->render();
+
+    foreach( const QWeakPointer<RenderTarget>& target, d->renderTargets )
+    {
+        if( target )
+        {
+            target.data()->render();
+        }
+        else
+        {
+            d->renderTargets.removeOne(target);
+        }
+    }
 
     d->objectMutex.unlock();
 }
