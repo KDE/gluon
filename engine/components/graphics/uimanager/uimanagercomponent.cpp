@@ -191,7 +191,8 @@ void UiManagerComponent::initialize()
         d->scene = new QGraphicsScene( this );
         d->scene->setSceneRect(QRectF(QPointF(0,0), QSize(1024,768)));
 
-        d->target = new RenderTarget(1024,768,this);
+        d->target = new RenderTarget(this);
+        d->target->setFramebufferObject(new QGLFramebufferObject(1024, 512, QGLFramebufferObject::CombinedDepthStencil));
         d->target->setMaterialInstance(Engine::instance()->material("default")->createInstance("qmlTarget"));
         Engine::instance()->addRenderTarget(d->target, 1);
     }
@@ -286,8 +287,13 @@ void UiManagerComponent::draw( int timeLapse )
         return;
     }
 
+    d->target->bind();
+
     QPainter p( d->target->framebufferObject() );
     d->scene->render( &p );
+    p.end();
+
+    d->target->release();
 }
 
 void UiManagerComponent::update( int elapsedMilliseconds )
