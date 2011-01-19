@@ -86,6 +86,10 @@ void DetectLinux::detectDevices()
             im->installEventFiltered(im->filteredObject());
         else
             qDebug() << "Null filtered object pointer";
+
+        InputDevice* device = new Keyboard( 0 );
+        detect->addKeyboard( static_cast<Keyboard*>( device ) );
+
     }
     else
     {
