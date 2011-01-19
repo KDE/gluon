@@ -44,6 +44,7 @@ template<> InputManager* GluonCore::Singleton<InputManager>::m_instance = 0;
 
 InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
+    , m_filteredObj(0)
 {
     init();
 }
@@ -54,7 +55,6 @@ InputManager::~InputManager()
 
 void InputManager::init()
 {
-    qDebug() << "HELLOWORLD100!";
     QObject* parent = QCoreApplication::instance();
     if( !parent )
     {
@@ -85,10 +85,10 @@ void InputManager::init()
         }
         else
         {
-            // if (filteredObject())
-                // removeEventFiltered(filteredObject());
-            // else
-                // qDebug() << "Null filtered object pointer";
+            if (filteredObject())
+                removeEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer";
             d->m_detect->detectDevices();
         }
     }

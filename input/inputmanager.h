@@ -100,7 +100,6 @@ namespace GluonInput
             QObject *m_filteredObj;
             KeyboardManagementType m_kbManagementType;
 
-
             InputManagerPrivate* d;
     };
 }
