@@ -203,13 +203,13 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        emit buttonStateChanged( keyEvent->key(), 1 );
+        keyboard(0)->setButtonState(keyEvent->key(), 1);
         return true;
     }
 
     if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        emit buttonStateChanged( keyEvent->key(), 0 );
+        keyboard(0)->setButtonState(keyEvent->key(), 0);
         return true;
     }
 
