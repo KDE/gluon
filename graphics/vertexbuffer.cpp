@@ -119,16 +119,20 @@ void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* mat
         if( attribute.location() == -1 )
             attribute.setLocation( material->attributeLocation( attribute.name() ) );
 
-        glVertexAttribPointer( attribute.location(), attribute.itemSize(),
-                               GL_FLOAT, 0, 0, ( void* )( attribute.offset() ) );
-        glEnableVertexAttribArray( attribute.location() );
+        if( attribute.location() != -1 )
+        {
+            glVertexAttribPointer( attribute.location(), attribute.itemSize(),
+                                GL_FLOAT, 0, 0, ( void* )( attribute.offset() ) );
+            glEnableVertexAttribArray( attribute.location() );
+        }
     }
 
     glDrawElements( mode, d->indices.count(), GL_UNSIGNED_INT, 0);
 
     foreach( const VertexAttribute& attribute, d->attributes )
     {
-        glDisableVertexAttribArray( attribute.location() );
+        if( attribute.location() != -1 )
+            glDisableVertexAttribArray( attribute.location() );
     }
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );

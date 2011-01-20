@@ -21,5 +21,7 @@
 using namespace GluonInput;
 
 InputDevicePrivate::InputDevicePrivate()
+    : inputThread(0)
+    , inputBuffer(0)
 {
 }

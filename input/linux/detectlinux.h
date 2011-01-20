@@ -43,6 +43,7 @@ namespace GluonInput
             DetectLinux( QObject* parent );
             ~DetectLinux();
 
+            bool isReadable();
             void detectDevices();
             void setAllEnabled( bool enable );
 

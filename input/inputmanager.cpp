@@ -42,8 +42,9 @@ using namespace GluonInput;
 
 template<> InputManager* GluonCore::Singleton<InputManager>::m_instance = 0;
 
-InputManager::InputManager()
+InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
+    , m_filteredObj(0)
 {
     init();
 }
@@ -73,7 +74,32 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        d->m_detect->detectDevices();
+        if( !d->m_detect->isReadable() )
+        {
+            setInputManagementType(QT_INPUT_HIGHLEVEL);
+            if (filteredObject())
+                installEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer - no install";
+
+            InputDevice* device = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+        }
+        else
+        {
+#ifdef Q_WS_X11
+            setInputManagementType(LINUX_INPUT_LOWLEVEL);
+#elif defined(Q_WS_MAC)
+            setInputManagementType(MAC_INPUT_LOWLEVEL);
+#elif defined(Q_WS_WIN)
+            setInputManagementType(WIN_INPUT_LOWLEVEL);
+#endif
+            if (filteredObject())
+                removeEventFiltered(filteredObject());
+            else
+                qDebug() << "Null filtered object pointer - no remove";
+            d->m_detect->detectDevices();
+        }
     }
     else
     {
@@ -250,17 +276,24 @@ QObject* InputManager::filteredObject()
 
 void InputManager::setFilteredObject(QObject *filteredObj)
 {
+    if( filteredObj && inputManagementType() == QT_INPUT_HIGHLEVEL )
+    {
+        if( m_filteredObj )
+            removeEventFiltered(m_filteredObj);
+        installEventFiltered(filteredObj);
+    }
+
     m_filteredObj = filteredObj;
 }
 
-InputManager::KeyboardManagementType InputManager::kbManagementType() const
+InputManager::InputManagementType InputManager::inputManagementType() const
 {
-    return m_kbManagementType;
+    return m_inputManagementType;
 }
 
-void InputManager::setKbManagementType( InputManager::KeyboardManagementType kbManagementType )
+void InputManager::setInputManagementType( InputManager::InputManagementType inputManagementType )
 {
-    m_kbManagementType = kbManagementType;
+    m_inputManagementType = inputManagementType;
 }
 
 

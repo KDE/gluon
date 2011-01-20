@@ -31,7 +31,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -44,15 +43,13 @@ namespace GluonInput
 
         public:
 
-            enum KeyboardManagementType
+            enum InputManagementType
             {
-                WINDOWS_KB_LOWLEVEL,
-                MACOSX_KB_LOWLEVEL,
-                LINUX_KB_LOWLEVEL,
-                QT_HIGHLEVEL,
+                WINDOWS_INPUT_LOWLEVEL,
+                MACOSX_INPUT_LOWLEVEL,
+                LINUX_INPUT_LOWLEVEL,
+                QT_INPUT_HIGHLEVEL,
             };
-
-            InputManager();
 
             void detectDevices();
             void setAllEnabled( bool enable );
@@ -87,21 +84,25 @@ namespace GluonInput
             void setFilteredObject(QObject *filteredObj);
 
             // TODO: if it works we can polish, with switch usage instead of hash? Investigate more!
-            KeyboardManagementType kbManagementType() const;
-            void setKbManagementType( KeyboardManagementType kbManagementType );
+            InputManagementType inputManagementType() const;
+            void setInputManagementType( InputManagementType inputManagementType );
 
         signals:
             void buttonStateChanged( int button, int value );
 
         private:
+            friend class GluonCore::Singleton<InputManager>;
+            InputManager( QObject* parent = 0 );
             ~InputManager();
+
+            Q_DISABLE_COPY(InputManager);
             void init();
 
+            InputManagerPrivate* d;
+
             QObject *m_filteredObj;
-            KeyboardManagementType m_kbManagementType;
+            InputManagementType m_inputManagementType;
 
-
-            QSharedDataPointer<InputManagerPrivate> d;
     };
 }
 

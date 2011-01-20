@@ -19,12 +19,10 @@
 #ifndef INPUTMANAGERPRIVATE_H
 #define INPUTMANAGERPRIVATE_H
 
-#include <QtCore/QSharedData>
-
 namespace GluonInput
 {
     class Detect;
-    class InputManagerPrivate : public QSharedData
+    class InputManagerPrivate
     {
         public:
             InputManagerPrivate();
