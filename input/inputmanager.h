@@ -45,10 +45,10 @@ namespace GluonInput
 
             enum KeyboardManagementType
             {
-                WINDOWS_KB_LOWLEVEL,
-                MACOSX_KB_LOWLEVEL,
-                LINUX_KB_LOWLEVEL,
-                QT_HIGHLEVEL,
+                WINDOWS_INPUT_LOWLEVEL,
+                MACOSX_INPUT_LOWLEVEL,
+                LINUX_INPUT_LOWLEVEL,
+                QT_INPUT_HIGHLEVEL,
             };
 
             void detectDevices();

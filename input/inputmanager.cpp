@@ -74,7 +74,9 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        if( !d->m_detect->isReadable() ) {
+        if( !d->m_detect->isReadable() )
+        {
+            setKbManagementType(QT_INPUT_HIGHLEVEL);
             if (filteredObject())
                 installEventFiltered(filteredObject());
             else
@@ -85,6 +87,13 @@ void InputManager::init()
         }
         else
         {
+#ifdef Q_WS_X11
+            setKbManagementType(LINUX_INPUT_LOWLEVEL);
+#elif defined(Q_WS_MAC)
+            setKbManagementType(MAC_INPUT_LOWLEVEL);
+#elif defined(Q_WS_WIN)
+            setKbManagementType(WIN_INPUT_LOWLEVEL);
+#endif
             if (filteredObject())
                 removeEventFiltered(filteredObject());
             else
