@@ -128,6 +128,9 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled( bool enable )
 {
+    if (!d->inputThread)
+        return;
+
     if( enable && !d->inputThread->isEnabled() )
     {
         d->inputThread->start();
