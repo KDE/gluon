@@ -76,7 +76,7 @@ void InputManager::init()
     {
         if( !d->m_detect->isReadable() )
         {
-            setKbManagementType(QT_INPUT_HIGHLEVEL);
+            setInputManagementType(QT_INPUT_HIGHLEVEL);
             if (filteredObject())
                 installEventFiltered(filteredObject());
             else
@@ -88,11 +88,11 @@ void InputManager::init()
         else
         {
 #ifdef Q_WS_X11
-            setKbManagementType(LINUX_INPUT_LOWLEVEL);
+            setInputManagementType(LINUX_INPUT_LOWLEVEL);
 #elif defined(Q_WS_MAC)
-            setKbManagementType(MAC_INPUT_LOWLEVEL);
+            setInputManagementType(MAC_INPUT_LOWLEVEL);
 #elif defined(Q_WS_WIN)
-            setKbManagementType(WIN_INPUT_LOWLEVEL);
+            setInputManagementType(WIN_INPUT_LOWLEVEL);
 #endif
             if (filteredObject())
                 removeEventFiltered(filteredObject());
@@ -279,14 +279,14 @@ void InputManager::setFilteredObject(QObject *filteredObj)
     m_filteredObj = filteredObj;
 }
 
-InputManager::KeyboardManagementType InputManager::kbManagementType() const
+InputManager::InputManagementType InputManager::inputManagementType() const
 {
-    return m_kbManagementType;
+    return m_inputManagementType;
 }
 
-void InputManager::setKbManagementType( InputManager::KeyboardManagementType kbManagementType )
+void InputManager::setInputManagementType( InputManager::InputManagementType inputManagementType )
 {
-    m_kbManagementType = kbManagementType;
+    m_inputManagementType = inputManagementType;
 }
 
 
