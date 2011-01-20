@@ -20,7 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "inputeventtextedit.h"
+#include <gluon/input/inputmanager.h>
 
 #include <QApplication>
 #include <QMainWindow>
@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow
         explicit MainWindow( QMainWindow* parent = 0,  Qt::WindowFlags flags = 0 );
         virtual ~MainWindow();
 
-        InputEventTextEdit* inputEventTextEdit();
+        QTextEdit* textEdit();
         virtual void closeEvent( QCloseEvent* event );
 
     private:
@@ -58,7 +58,7 @@ class MainWindow : public QMainWindow
     private:
         QWidget* centralWidget;
         QGridLayout* mainLayout;
-        InputEventTextEdit* m_inputEventTextEdit;
+        QTextEdit* m_textEdit;
 
         QMenuBar* menuBar;
         QStatusBar* statusBar;

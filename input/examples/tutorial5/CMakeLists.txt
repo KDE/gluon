@@ -11,7 +11,6 @@ include_directories(${CMAKE_BINARY_DIR})
 set(tutorial5_SRCS
     main.cpp
     mainwindow.cpp
-    inputeventtextedit.cpp
 )
 
 qt4_automoc(${tutorial5_SRCS})
