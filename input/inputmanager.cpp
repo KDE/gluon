@@ -79,8 +79,8 @@ void InputManager::init()
             setInputManagementType(QT_INPUT_HIGHLEVEL);
             if (filteredObject())
                 installEventFiltered(filteredObject());
-            else
-                qDebug() << "Null filtered object pointer - no install";
+            // else
+                // qDebug() << "Null filtered object pointer - no install";
 
             InputDevice* device = new Keyboard( 0 );
             d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
@@ -96,8 +96,8 @@ void InputManager::init()
 #endif
             if (filteredObject())
                 removeEventFiltered(filteredObject());
-            else
-                qDebug() << "Null filtered object pointer - no remove";
+            // else
+                // qDebug() << "Null filtered object pointer - no remove";
             d->m_detect->detectDevices();
         }
     }
