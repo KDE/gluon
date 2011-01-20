@@ -140,6 +140,7 @@ set(GluonInput_HEADERS_COMMON
 ###############common source and headers###################
 
 qt4_automoc(${GluonInput_SRCS_COMMON})
+qt4_automoc(${GluonInput_SRCS_QT})
 
 if(APPLE)
     qt4_automoc(${GluonInput_SRCS_MAC})
