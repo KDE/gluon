@@ -37,7 +37,7 @@ elseif(WIN32)
         CACHE PATHS "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
-else()
+elseif(UNIX)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
@@ -131,7 +131,7 @@ if(APPLE)
 elseif(WIN32)
     qt4_automoc(${GluonInput_SRCS_WIN})
     add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_COMMON})
-else()
+elseif(UNIX)
     qt4_automoc(${GluonInput_SRCS_LINUX})
     add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_COMMON})
 endif()
@@ -176,12 +176,14 @@ if(APPLE)
         CACHE PATHS "Libraries required for Gluon Input"
     )
 elseif(WIN32)
+elseif(UNIX)
 else()
 endif()
 
 if(APPLE)
     target_link_libraries(GluonInput ${IOKIT_LIBRARY}  ${COREFOUNDATION_LIBRARY})
 elseif(WIN32)
+elseif(UNIX)
 else()
 endif()
 
@@ -203,7 +205,7 @@ elseif(WIN32)
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
-else()
+elseif(UNIX)
     install(
         FILES
         ${GluonInput_HEADERS_LINUX}
@@ -211,4 +213,5 @@ else()
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
+else()
 endif()
