@@ -128,6 +128,9 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled( bool enable )
 {
+    if (!d->inputThread)
+        return;
+
     if( enable && !d->inputThread->isEnabled() )
     {
         d->inputThread->start();
@@ -176,6 +179,7 @@ QString InputDevice::axisName( int code ) const
 
 void InputDevice::setButtonState( int button, int value )
 {
+    // qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
     d->inputBuffer->setButtonState( button, value );
 }
 

@@ -21,6 +21,7 @@
 
 MainWindow::MainWindow( QMainWindow* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
+    , m_textEdit( 0 )
 {
     setupUi();
 
@@ -57,11 +58,11 @@ void MainWindow::setupUi()
     mainLayout = new QGridLayout( centralWidget );
     mainLayout->setObjectName( QString::fromUtf8( "mainLayout" ) );
 
-    m_inputEventTextEdit = new InputEventTextEdit();
-    m_inputEventTextEdit->setObjectName( QString::fromUtf8( "textEdit" ) );
-    m_inputEventTextEdit->setReadOnly( true );
+    m_textEdit = new QTextEdit();
+    m_textEdit->setObjectName( QString::fromUtf8( "textEdit" ) );
+    m_textEdit->setReadOnly( true );
 
-    mainLayout->addWidget( m_inputEventTextEdit, 0, 0 );
+    mainLayout->addWidget( m_textEdit, 0, 0 );
     mainLayout->setRowStretch( 0, 5 );
     setLayout( mainLayout );
 
@@ -82,6 +83,7 @@ void MainWindow::setupUi()
 
     retranslateUi();
 
+    GluonInput::InputManager::instance()->setFilteredObject(m_textEdit);
     return;
 }
 
@@ -136,9 +138,9 @@ void MainWindow::mAbout()
                             "of the\n Gluon input subsystem." ) );
 }
 
-InputEventTextEdit* MainWindow::inputEventTextEdit()
+QTextEdit* MainWindow::textEdit()
 {
-    return m_inputEventTextEdit;
+    return m_textEdit;
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )

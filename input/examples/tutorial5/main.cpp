@@ -19,8 +19,6 @@
 
 #include "mainwindow.h"
 
-#include <gluon/input/inputmanager.h>
-
 #include <QtCore/QDebug>
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
@@ -41,19 +39,5 @@ int main( int argc, char* argv[] )
     window.show();
 #endif
 
-    if( InputManager::instance()->inputList().count() > 0 )
-    {
-        qDebug() << "creating generic test game loop";
-        QList<InputDevice*> inputList = InputManager::instance()->inputList();
-        foreach( InputDevice * input, inputList )
-        {
-            QObject::connect( window.inputEventTextEdit(), SIGNAL( buttonStateChanged( int, int ) ), input, SLOT( buttonStateChanged( int, int ) ) );
-            input->setEnabled( true );
-        }
-        /*         GameLoop *gameLoop = new GameLoop(inputList, &window); */
-        /* gameLoop->run(); */
-    }
-
-    qDebug() << "starting generic game event loop";
     app.exec();
 }
