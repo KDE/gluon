@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "inputdeviceprivate.h"
+
+#include "mainwindow.h"
+
+#include <QtCore/QDebug>
+#include <QtCore/QObject>
+#include <QtCore/QPointer>
+#include <QtGui/QApplication>
 
 using namespace GluonInput;
 
-InputDevicePrivate::InputDevicePrivate()
-    : inputThread(0)
-    , inputBuffer(0)
+int main( int argc, char* argv[] )
 {
+    QApplication app( argc, argv );
+    app.setOrganizationName( "KDE Gluon" );
+    app.setApplicationName( "Gluon Player" );
+    MainWindow window;
+
+#if defined(Q_WS_S60)
+    window.showMaximized();
+#else
+    window.show();
+#endif
+
+    app.exec();
 }

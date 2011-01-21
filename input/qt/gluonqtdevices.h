@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,34 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "inputdeviceprivate.h"
+#ifndef GLUONQTDEVICES_H
+#define GLUONQTDEVICES_H
 
-using namespace GluonInput;
+#include <QtCore/QFlags>
+#include <QtCore/QEvent>
 
-InputDevicePrivate::InputDevicePrivate()
-    : inputThread(0)
-    , inputBuffer(0)
+namespace GluonInput
 {
-}
+    enum DeviceQtFlag
+    {
+        UnknownDevice = 0,
+        KeyboardDevice = 1,
+        MouseDevice = 1 << 1,
+        JoystickDevice = 1 << 2,
+        TouchDevice = 1 << 3,
+        TouchpadDevice = 1 << 4
+    };
+
+    Q_DECLARE_FLAGS( DevicesQt, DeviceQtFlag )
+
+    // enum InputQtTypeFlag
+    // {
+        // Button = QEvent::Type( QEvent::User + EV_KEY ),
+        // RelativeAxis = QEvent::Type( QEvent::User + EV_REL ),
+        // AbsoluteAxis = QEvent::Type( QEvent::User + EV_ABS )
+    // };
+};
+
+Q_DECLARE_OPERATORS_FOR_FLAGS( GluonInput::DevicesQt );
+
+#endif

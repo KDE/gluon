@@ -36,12 +36,16 @@ InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
     : QObject( parent )
     , d( new InputDevicePrivate )
 {
-    d->inputThread = inputThread;
-    d->inputThread->setParent( this );
     d->inputBuffer = new InputBuffer();
     d->inputBuffer->setParent( this );
 
-    connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
+    if( inputThread )
+    {
+        d->inputThread = inputThread;
+        d->inputThread->setParent( this );
+
+        connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
+    }
 }
 
 InputDevice::InputDevice()
@@ -124,6 +128,9 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled( bool enable )
 {
+    if (!d->inputThread)
+        return;
+
     if( enable && !d->inputThread->isEnabled() )
     {
         d->inputThread->start();
@@ -172,6 +179,7 @@ QString InputDevice::axisName( int code ) const
 
 void InputDevice::setButtonState( int button, int value )
 {
+    // qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
     d->inputBuffer->setButtonState( button, value );
 }
 

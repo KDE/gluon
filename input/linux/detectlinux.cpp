@@ -91,10 +91,9 @@ void DetectLinux::detectDevices()
     // struct input_id currentInputDeviceInfo;
 
     inputFileInfoList = event.entryInfoList( QDir::Files );
-    foreach( QFileInfo inputFileInfo, inputFileInfoList )
+    foreach( const QFileInfo& inputFileInfo, inputFileInfoList )
     {
-        file = inputFileInfo.filePath();
-        if( access( file.toUtf8(), R_OK ) != -1 )
+        if( inputFileInfo.isReadable() )
             readableInputFiles.append( file );
         else
             unreadableInputFiles.append( file );

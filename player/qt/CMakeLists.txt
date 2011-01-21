@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDES})
 
 set(qtplayer_SRCS
     main.cpp
     mainwindow.cpp
 )
+
 
 qt4_automoc(${qtplayer_SRCS})
 
@@ -52,7 +53,7 @@ if(APPLE)
 else()
 	add_executable(gluon_qtplayer ${qtplayer_SRCS})
 endif()
-target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS})
+target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
     install(TARGETS gluon_qtplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

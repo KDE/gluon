@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,32 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "inputdeviceprivate.h"
+#ifndef DETECTQTPRIVATE_H
+#define DETECTQTPRIVATE_H
 
-using namespace GluonInput;
+#include <QtCore/QList>
+#include <QtCore/QSharedData>
 
-InputDevicePrivate::InputDevicePrivate()
-    : inputThread(0)
-    , inputBuffer(0)
+namespace GluonInput
 {
+    class InputDevice;
+    class Keyboard;
+    class Mouse;
+    class Joystick;
+    class Touch;
+
+    class DetectQtPrivate : public QSharedData
+    {
+        public:
+            DetectQtPrivate();
+            DetectQtPrivate( DetectQtPrivate& other );
+
+            QList<InputDevice*> inputList;
+            QList<Keyboard*> keyboardList;
+            QList<Mouse*> mouseList;
+            QList<Joystick*> joystickList;
+            QList<Touch*> touchList;
+            QList<InputDevice*> unknownList;
+    };
 }
+#endif
