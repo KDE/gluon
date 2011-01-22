@@ -140,6 +140,9 @@ namespace GluonGraphics
              */
             void render();
 
+        Q_SIGNALS:
+            void framebufferChanged();
+
         private:
             class Private;
             Private* const d;

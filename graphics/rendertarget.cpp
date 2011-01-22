@@ -109,6 +109,8 @@ void RenderTarget::setRenderable( bool render )
 void RenderTarget::setFramebufferObject( QGLFramebufferObject* fbo )
 {
     d->frameBuffer = fbo;
+
+    emit framebufferChanged();
 }
 
 void RenderTarget::setMaterialInstance( MaterialInstance* material )
@@ -133,6 +135,8 @@ void RenderTarget::resize( int width, int height )
         delete d->frameBuffer;
         d->frameBuffer = new QGLFramebufferObject(width, height, attachment);
         d->material->setProperty("texture0", d->frameBuffer->texture());
+
+        emit framebufferChanged();
     }
 }
 
