@@ -125,8 +125,6 @@ class UiManagerComponent::UiManagerComponentPrivate
         }
 
         UiManagerComponent* q;
-        QPixmap pixmap;
-        QGraphicsView* view;
         RenderableScene* scene;
         UiAsset *ui;
         QSizeF size;
@@ -161,30 +159,6 @@ QString UiManagerComponent::category() const
 
 void UiManagerComponent::initialize()
 {
-//     d->fbo = GluonGraphics::Engine::instance()->fbo();
-//     d->pixmap = QPixmap( widget->size() );
-//     d->pixmap.fill( Qt::transparent );
-//     d->view->setParent(widget->parentWidget());
-//     d->view->setAttribute(Qt::WA_TranslucentBackground);
-//     d->view->setAttribute(Qt::WA_NoSystemBackground);
-//     d->view->viewport()->setAttribute(Qt::WA_TranslucentBackground);
-//     d->view->viewport()->setAttribute(Qt::WA_NoSystemBackground);
-//     d->view->setStyleSheet("border: none");
-//     QPalette p = d->view->viewport()->palette();
-//     p.setColor(QPalette::Base, Qt::transparent);
-//     d->view->viewport()->setPalette(p);
-//     d->view->setScene(d->scene);
-//     d->view->setSceneRect(QRectF(0,0,1000,1000));
-
-//     d->view->resize(widget->size());
-//     d->view->show();
-//     d->scene->setBackgroundBrush(Qt::blue);
-
-//     d->texture = widget->bindTexture(d->pixmap);
-//     widget->update();
-//     widget->updateGL();
-//     widget->makeCurrent();
-
     if( !d->scene )
     {
         d->scene = new RenderableScene( this );
@@ -212,7 +186,6 @@ void UiManagerComponent::initialize()
 
     if( d->ui && d->ui->isLoaded() )
     {
-
         d->ui->execute();
 
         QGraphicsWidget* gWidget = d->ui->widget();
