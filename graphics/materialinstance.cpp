@@ -105,6 +105,7 @@ void
 MaterialInstance::release()
 {
     glUseProgram( 0 );
+    glEnable( GL_BLEND );
     d->bound = false;
 }
 

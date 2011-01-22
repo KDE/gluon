@@ -120,6 +120,7 @@ bool GluonCreator::GluonViewerPart::openFile()
 
 void GluonViewerPart::startGame()
 {
+    d->widget->setFocus();
     GluonEngine::Game::instance()->runGame();
 }
 
