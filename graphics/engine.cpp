@@ -165,6 +165,14 @@ void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width
 {
     if( mainTarget )
         mainTarget->resize(width, height);
+
+    foreach( const QWeakPointer<RenderTarget>& target, renderTargets )
+    {
+        if( target )
+        {
+            target.data()->resize(width, height);
+        }
+    }
 }
 
 void Engine::initialize()
