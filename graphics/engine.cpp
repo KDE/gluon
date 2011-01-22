@@ -384,7 +384,8 @@ Engine::~Engine()
 
 void Engine::viewportSizeChanged( int left, int bottom, int width, int height )
 {
-    d->mainTarget->resize(width, height);
+    if( d->mainTarget )
+        d->mainTarget->resize(width, height);
 }
 
 
