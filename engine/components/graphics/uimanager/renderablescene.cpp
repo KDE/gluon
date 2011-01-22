@@ -23,6 +23,7 @@
 
 #include <graphics/engine.h>
 #include <graphics/material.h>
+#include <graphics/viewport.h>
 #include <graphics/rendertarget.h>
 
 using namespace GluonEngine;
@@ -34,11 +35,11 @@ class RenderableScene::RenderableScenePrivate
         RenderableScenePrivate( RenderableScene* scene )
             : q( scene )
             , target( new RenderTarget( scene ) )
-            , fbo( 0 )
             , dirty( true )
         {
-            fbo = new QGLFramebufferObject( 500, 500, QGLFramebufferObject::CombinedDepthStencil );
-            target->setFramebufferObject( fbo );
+            const int w = Engine::instance()->currentViewport()->width();
+            const int h = Engine::instance()->currentViewport()->height();
+            target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
             target->setMaterialInstance( Engine::instance()->material( "default" )->createInstance( "qmlTarget" ) );
         }
 
@@ -49,7 +50,6 @@ class RenderableScene::RenderableScenePrivate
 
         RenderableScene* q;
         RenderTarget* target;
-        QGLFramebufferObject* fbo;
         bool dirty;
 };
 
@@ -77,8 +77,8 @@ void RenderableScene::renderScene()
 
     d->target->bind();
 
-    QSize size = QSize( 500, 500 );
-    QPainter painter( d->fbo );
+    QSize size = QSize( sceneRect().size().toSize() );
+    QPainter painter( d->target->framebufferObject() );
     painter.setWindow( 0, 0, size.width(), size.height() );
     painter.setViewport( 0, 0, size.width(), size.height() );
     render( &painter );
