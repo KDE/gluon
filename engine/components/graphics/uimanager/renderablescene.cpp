@@ -57,8 +57,9 @@ RenderableScene::RenderableScene( QObject* parent )
                : QGraphicsScene( parent )
                , d( new RenderableScenePrivate( this ) )
 {
-    connect( this, SIGNAL(changed(QList<QRectF>)), this, SLOT( repaintNeeded() ));
-    connect( this, SIGNAL(sceneRectChanged(QRectF)), this, SLOT( repaintNeeded() ));
+    connect( this, SIGNAL( changed(QList<QRectF>) ), this, SLOT( repaintNeeded() ) );
+    connect( this, SIGNAL( sceneRectChanged(QRectF) ), this, SLOT( repaintNeeded() ) );
+    connect( d->target, SIGNAL( framebufferChanged() ), this, SLOT( repaintNeeded() ) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }
