@@ -52,6 +52,7 @@
 
 #include "uiasset.h"
 #include "engineaccess.h"
+#include "renderablescene.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, UiManagerComponent )
 
@@ -83,7 +84,6 @@ class UiManagerComponent::UiManagerComponentPrivate
             : q(component)
             , scene(0)
             , ui(0)
-            , target(0)
             , updateFunction(0)
         {
         }
@@ -127,12 +127,11 @@ class UiManagerComponent::UiManagerComponentPrivate
         UiManagerComponent* q;
         QPixmap pixmap;
         QGraphicsView* view;
-        QGraphicsScene* scene;
+        RenderableScene* scene;
         UiAsset *ui;
         QSizeF size;
         Item *item;
         EngineAccess* engineAccess;
-        RenderTarget* target;
 
         QDeclarativeExpression *updateFunction;
 };
@@ -188,13 +187,8 @@ void UiManagerComponent::initialize()
 
     if( !d->scene )
     {
-        d->scene = new QGraphicsScene( this );
+        d->scene = new RenderableScene( this );
         d->scene->setSceneRect(QRectF(QPointF(0,0), QSize(1024,768)));
-
-        d->target = new RenderTarget(this);
-        d->target->setFramebufferObject(new QGLFramebufferObject(1024, 512, QGLFramebufferObject::CombinedDepthStencil));
-        d->target->setMaterialInstance(Engine::instance()->material("default")->createInstance("qmlTarget"));
-        Engine::instance()->addRenderTarget(d->target, 1);
     }
 
     if( d->ui && !d->ui->isLoaded() )
@@ -218,6 +212,7 @@ void UiManagerComponent::initialize()
 
     if( d->ui && d->ui->isLoaded() )
     {
+
         d->ui->execute();
 
         QGraphicsWidget* gWidget = d->ui->widget();
@@ -287,13 +282,7 @@ void UiManagerComponent::draw( int timeLapse )
         return;
     }
 
-    d->target->bind();
-
-    QPainter p( d->target->framebufferObject() );
-    d->scene->render( &p );
-    p.end();
-
-    d->target->release();
+    d->scene->renderScene();
 }
 
 void UiManagerComponent::update( int elapsedMilliseconds )
@@ -327,9 +316,6 @@ void UiManagerComponent::cleanup()
 
     delete d->updateFunction;
     d->updateFunction = 0;
-
-    delete d->target;
-    d->target = 0;
 }
 
 void UiManagerComponent::setUi(UiAsset* ui)
