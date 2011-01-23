@@ -3,6 +3,7 @@
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
