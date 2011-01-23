@@ -486,38 +486,38 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_HP:
             return Qt::Key_unknown;
         case KEY_CAMERA:
-            return Qt::Key_unknown;
+            return Qt::Key_Camera;
         case KEY_SOUND:
             return Qt::Key_unknown;
         case KEY_QUESTION:
-            return Qt::Key_unknown;
+            return Qt::Key_Question;
         case KEY_EMAIL:
             return Qt::Key_unknown;
         case KEY_CHAT:
             return Qt::Key_unknown;
         case KEY_SEARCH:
-            return Qt::Key_unknown;
+            return Qt::Key_Search;
         case KEY_CONNECT:
             return Qt::Key_unknown;
         case KEY_FINANCE:     /* AL Checkbook/Finance */
-            return Qt::Key_unknown;
+            return Qt::Key_Finance;
         case KEY_SPORT:
             return Qt::Key_unknown;
         case KEY_SHOP:
-            return Qt::Key_unknown;
+            return Qt::Key_Shop;
         case KEY_ALTERASE:
             return Qt::Key_unknown;
         case KEY_CANCEL:      /* AC Cancel */
-            return Qt::Key_unknown;
+            return Qt::Key_Cancel;
         case KEY_BRIGHTNESSDOWN:
-            return Qt::Key_unknown;
+            return Qt::Key_KeyboardBrightnessDown;
         case KEY_BRIGHTNESSUP:
-            return Qt::Key_unknown;
+            return Qt::Key_KeyboardBrightnessUp;
         case KEY_MEDIA:
-            return Qt::Key_unknown;
+            return Qt::Key_LaunchMedia;
         case KEY_SWITCHVIDEOMODE:  /* Cycle between available video
-            return Qt::Key_unknown;
                                        outputs (Monitor/LCD/TV-out/etc) */
+            return Qt::Key_Mode_switch;
         case KEY_KBDILLUMTOGGLE:
             return Qt::Key_unknown;
         case KEY_KBDILLUMDOWN:
@@ -525,23 +525,23 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_KBDILLUMUP:
             return Qt::Key_unknown;
         case KEY_SEND:         /* AC Send */
-            return Qt::Key_unknown;
+            return Qt::Key_Send;
         case KEY_REPLY:        /* AC Reply */
-            return Qt::Key_unknown;
+            return Qt::Key_Reply;
         case KEY_FORWARDMAIL:  /* AC Forward Msg */
-            return Qt::Key_unknown;
+            return Qt::Key_MailForward;
         case KEY_SAVE:         /* AC Save */
-            return Qt::Key_unknown;
+            return Qt::Key_Save;
         case KEY_DOCUMENTS:
-            return Qt::Key_unknown;
+            return Qt::Key_Documents;
         case KEY_BATTERY:
-            return Qt::Key_unknown;
+            return Qt::Key_Battery;
         case KEY_BLUETOOTH:
-            return Qt::Key_unknown;
+            return Qt::Key_Bluetooth;
         case KEY_WLAN:
-            return Qt::Key_unknown;
+            return Qt::Key_WLAN;
         case KEY_UWB:
-            return Qt::Key_unknown;
+            return Qt::Key_UWB;
         case KEY_UNKNOWN:
             return Qt::Key_unknown;
         case KEY_VIDEO_NEXT:       /* drive next video source */
@@ -553,7 +553,7 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_BRIGHTNESS_ZERO:  /* brightness off, use ambient */
             return Qt::Key_unknown;
         case KEY_DISPLAY_OFF:      /* display device to off state */
-            return Qt::Key_unknown;
+            return Qt::Key_Display;
         case KEY_WIMAX:
             return Qt::Key_unknown;
         case KEY_RFKILL:           /* Key that controls all radios */
@@ -577,7 +577,7 @@ void InputThread::run()
             switch( eventType )
             {
                 case GluonInput::Button:
-                    emit buttonStateChanged( ev.code, ev.value );
+                    emit buttonStateChanged( mapKeyCode( ev.code ), ev.value );
                     break;
                 case GluonInput::RelativeAxis:
                     emit relAxisMoved( ev.code, ev.value );
