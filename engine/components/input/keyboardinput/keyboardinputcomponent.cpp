@@ -35,7 +35,7 @@ KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
     , m_actionHeld( false )
     , m_actionStarted( false )
     , m_actionStopped( false )
-    , m_keyCode( KeyboardInputComponent::UNKNOWN )
+    , m_keyCode( Qt::Key_unknown )
     , m_keyboard( 0 )
 {
 }
@@ -124,14 +124,14 @@ KeyboardInputComponent::isActionStopped()
     return m_actionStopped;
 }
 
-KeyboardInputComponent::KeyName
+Qt::Key
 KeyboardInputComponent::keyCode() const
 {
     return m_keyCode;
 }
 
 void
-KeyboardInputComponent::setKeyCode( KeyboardInputComponent::KeyName newKeyCode )
+KeyboardInputComponent::setKeyCode( Qt::Key newKeyCode )
 {
     m_keyCode = newKeyCode;
 }

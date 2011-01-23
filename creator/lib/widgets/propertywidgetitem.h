@@ -27,6 +27,13 @@
 
 namespace GluonCreator
 {
+    struct QtMetaObject : private QObject
+    {
+        public:
+            static const QMetaObject *get()
+            { return &static_cast<QtMetaObject*>(0)->staticQtMetaObject; }
+    };
+
     /**
     * The Property Widget Item is a class which will take an object and the name
     * of a property, and provide functionality for editing this property's value,

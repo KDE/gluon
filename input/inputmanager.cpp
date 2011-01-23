@@ -296,5 +296,4 @@ void InputManager::setInputManagementType( InputManager::InputManagementType inp
     m_inputManagementType = inputManagementType;
 }
 
-
 #include "inputmanager.moc"
