@@ -41,8 +41,7 @@ namespace GluonCreator
             void setForeground(QLabel* label, KColorScheme::ForegroundRole role);
 
         signals:
-            void valid();
-            void invalid();
+            void validationFinished(bool);
 
         private slots:
             void urlEdited();
