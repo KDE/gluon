@@ -55,8 +55,8 @@ class MainWindow::MainWindowPrivate
 
 GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
-    , d( new MainWindowPrivate )
     , settings( new QSettings )
+    , d( new MainWindowPrivate )
 {
     d->msecElapsed = 0;
     d->frameCount = 0;
