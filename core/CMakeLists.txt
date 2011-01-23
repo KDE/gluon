@@ -42,6 +42,7 @@ set(GLUON_CORE_INCLUDES
 set(GluonCore_SRCS
     debughelper.cpp
     gdlhandler.cpp
+    messagehandler.cpp
     metainfo.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
@@ -49,9 +50,10 @@ set(GluonCore_SRCS
 )
 
 set(GluonCore_HEADERS
-	debughelper.h
+    debughelper.h
     gdlhandler.h
     metainfo.h
+    messagehandler.h
     gluonobject.h
     gluonobjectfactory.h
     gluonobjectprivate.h
@@ -70,12 +72,13 @@ else()
 	add_library(GluonCore SHARED ${GluonCore_SRCS})
 endif()
 
-target_link_libraries(GluonCore ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+target_link_libraries(GluonCore ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY})
 
 set(GLUON_CORE_LIBS
     GluonCore
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
+    ${QT_QTSCRIPT_LIBRARY}
     CACHE PATHS "Libraries required for Gluon Core"
 )
 
