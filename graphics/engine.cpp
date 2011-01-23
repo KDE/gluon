@@ -373,7 +373,7 @@ Engine::setViewport( Viewport* viewport )
 Engine::Engine()
     : d( new EnginePrivate() )
 {
-    d->viewport = new Viewport();
+    setViewport( new Viewport() );
     connect( this, SIGNAL( activeCameraChanged( Camera* ) ), d->viewport, SLOT( update() ) );
 }
 
@@ -384,7 +384,8 @@ Engine::~Engine()
 
 void Engine::viewportSizeChanged( int left, int bottom, int width, int height )
 {
-    d->mainTarget->resize(width, height);
+    if( d->mainTarget )
+        d->mainTarget->resize(width, height);
 }
 
 
