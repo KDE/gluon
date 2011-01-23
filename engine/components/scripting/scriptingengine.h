@@ -28,6 +28,11 @@
 #include <QScriptValue>
 #include <QScriptEngine>
 
+namespace GluonGraphics
+{
+    class MaterialInstance;
+}
+
 namespace GluonEngine
 {
     class ScriptingAsset;
@@ -92,5 +97,8 @@ QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue( QScriptEngine* engine,
 void GLUON_ENGINE_EXPORT gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject *&out );
 QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const& in );
 void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue( const QScriptValue& object, GluonCore::GluonObject*& out );
+QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in );
+void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out );
+
 
 #endif // GLUONENGINE_SCRIPTINGENGINE_H

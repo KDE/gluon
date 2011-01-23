@@ -21,6 +21,7 @@
 
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
+#include "graphics/materialinstance.h"
 
 #include <QtScript>
 // #include <QScriptEngineDebugger>
@@ -42,6 +43,7 @@ namespace GluonEngine
 
                 qScriptRegisterMetaType( engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, gameObjectToScriptValue, gameObjectFromScriptValue );
+                qScriptRegisterMetaType( engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
 
                 DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
 
@@ -216,6 +218,16 @@ QScriptValue gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameOb
 void gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject* &out )
 {
     out = qobject_cast<GluonEngine::GameObject*>( object.toQObject() );
+}
+
+QScriptValue materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in )
+{
+    return engine->newQObject( in );
+}
+
+void materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out )
+{
+    out = qobject_cast<GluonGraphics::MaterialInstance*>( object.toQObject() );
 }
 
 #include "scriptingengine.moc"
