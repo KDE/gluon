@@ -162,7 +162,13 @@ bool InputDevice::buttonPressed( int code ) const
 
 QString InputDevice::buttonName( int code ) const
 {
-    return QKeySequence(code).toString();
+    switch (deviceType())
+    {
+        case KeyboardDevice:
+            return QKeySequence(code).toString();
+        default:
+            return "Unknown";
+    }
 }
 
 QString InputDevice::axisName( int code ) const
@@ -172,10 +178,8 @@ QString InputDevice::axisName( int code ) const
         case MouseDevice:
         case JoystickDevice:
             return GluonButtons::instance()->axisName( deviceType(), code );
-            break;
         default:
             return "Unknown";
-            break;
     }
 }
 

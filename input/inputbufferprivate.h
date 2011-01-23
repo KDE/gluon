@@ -17,14 +17,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef INPUTBUFFERPRIVATE_H
 #define INPUTBUFFERPRIVATE_H
 
 #include <QtCore/QSharedData>
 #include <QtCore/QHash>
 #include <QtCore/QQueue>
-
-//#include "keydefinitions.h"
 
 namespace GluonInput
 {

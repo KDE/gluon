@@ -21,7 +21,6 @@
 #define INPUTBUFFER_H
 
 #include "gluon_input_export.h"
-#include "gluonbuttons.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
