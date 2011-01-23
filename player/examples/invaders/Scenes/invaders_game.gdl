@@ -49,7 +49,7 @@
         }
         { GluonEngine::KeyboardInputComponent(Continue)
             enabled bool(true)
-            keyCode int(57)
+            keyCode int(32)
         }
     }
     { GluonEngine::GameObject(Player)
@@ -77,23 +77,23 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
-            keyCode int(105)
+            keyCode int(16777234)
         }
         { GluonEngine::KeyboardInputComponent(Key_Right)
             enabled bool(true)
-            keyCode int(106)
+            keyCode int(16777236)
         }
         { GluonEngine::KeyboardInputComponent(Key_Up)
             enabled bool(true)
-            keyCode int(23)
+            keyCode int(16777235)
         }
         { GluonEngine::KeyboardInputComponent(Key_Down)
             enabled bool(true)
-            keyCode int(31)
+            keyCode int(16777237)
         }
         { GluonEngine::KeyboardInputComponent(Key_Fire)
             enabled bool(true)
-            keyCode int(57)
+            keyCode int(32)
         }
         { GluonEngine::SoundEmitterComponent(FireSound)
             enabled bool(true)
