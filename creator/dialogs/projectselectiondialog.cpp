@@ -77,12 +77,14 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
     setFaceType( List );
     setButtons( Ok | Close );
 
-    addPage( new NewProjectDialogPage, NewProjectPage );
+    NewProjectDialogPage *npdp = new NewProjectDialogPage;
+    addPage( npdp, NewProjectPage );
     addPage( new RecentProjectsDialogPage, RecentProjectPage );
     addPage( new OpenProjectDialogPage, OpenProjectPage );
 
     restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
+    connect( npdp, SIGNAL( validationFinished( bool ) ), SLOT( enableButtonOk( bool ) ) );
     connect( this, SIGNAL( okClicked() ),
              SLOT( okClicked() ) );
 }
