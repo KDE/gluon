@@ -19,11 +19,11 @@
 #include "propertywidgetitemnewcustomproperty.h"
 #include "core/gluonobject.h"
 
-#include <selectionmanager.h>
-#include <objectmanager.h>
-#include <engine/gameobject.h>
-#include <models/models.h>
-#include <models/scenemodel.h>
+#include "selectionmanager.h"
+#include "objectmanager.h"
+#include "engine/gameobject.h"
+#include "models/models.h"
+#include "models/scenemodel.h"
 
 #include <KIcon>
 #include <KLocalizedString>
