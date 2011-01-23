@@ -23,6 +23,7 @@
 
 #include "core/debughelper.h"
 #include "core/gluonobjectfactory.h"
+
 #include <QMetaClassInfo>
 
 using namespace GluonCreator;
@@ -46,20 +47,23 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
         }
     }
 
-    // Check whether we've got an item which uses an enum to grab its value
     const QMetaObject* mo = object->metaObject();
-    if( mo )
+    // Check whether we've got an item which uses an enum to grab its value
+    //         if (mo->enumeratorCount() > 0)
+    //         {
+    //             for (int i = 0; i < mo->enumeratorCount(); ++i)
+    //             {
+    //                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
+    //             }
+    //
+    if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1 )
     {
-        //         if (mo->enumeratorCount() > 0)
-        //         {
-        //             for (int i = 0; i < mo->enumeratorCount(); ++i)
-        //             {
-        //                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
-        //             }
-        //         }
-        if( mo->indexOfEnumerator( type.toUtf8() ) > -1 )
+        return new EnumPropertyWidgetItem( type, parent );
+    } else {
+        mo = QtMetaObject::get();
+        if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1)
         {
-            return new EnumPropertyWidgetItem( type, parent );
+             return new EnumPropertyWidgetItem( type, parent );
         }
     }
 

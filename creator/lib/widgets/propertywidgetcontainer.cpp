@@ -19,6 +19,17 @@
 #include "propertywidgetitemnewcustomproperty.h"
 #include "core/gluonobject.h"
 
+#include <selectionmanager.h>
+#include <objectmanager.h>
+#include <engine/gameobject.h>
+#include <models/models.h>
+#include <models/scenemodel.h>
+
+#include <KIcon>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <ksqueezedtextlabel.h>
+
 #include <QtGui/QGridLayout>
 #include <QtGui/QBoxLayout>
 #include <QtGui/QToolButton>
@@ -27,16 +38,8 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
-#include <KIcon>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <ksqueezedtextlabel.h>
-#include <selectionmanager.h>
-#include <QTimer>
-#include <objectmanager.h>
-#include <engine/gameobject.h>
-#include <models/models.h>
-#include <models/scenemodel.h>
+#include <QtCore/QTimer>
+#include <QtCore/QDebug>
 
 namespace GluonCreator
 {
@@ -376,7 +379,20 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         if( propertyName == QString( "objectName" ) || propertyName == QString( "name" ) || propertyName == QString( "description" ) || propertyName == QString( "expanded" ) || propertyName == QString( "enabled" ) )
             continue;
 
-        PropertyWidgetItem* editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+        PropertyWidgetItem* editWidget;
+        if(!metaProperty.isEnumType())
+        {
+            editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+        }
+        else
+        {
+            QMetaEnum enumerator = metaProperty.enumerator();
+            if( enumerator.scope() != "Qt" )
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
+            else
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+        }
+
         editWidget->setEditObject( object );
         editWidget->setEditProperty( metaProperty.name() );
 
@@ -448,5 +464,3 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString( QString
     }
     return fixedString;
 }
-
-//#include "propertywidgetcontainer.moc"
