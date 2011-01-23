@@ -34,11 +34,6 @@ GluonButtons::~GluonButtons()
 {
 }
 
-QString GluonButtons::buttonName( DeviceFlag deviceType, int code )
-{
-    return metaObject()->enumerator( metaObject()->indexOfEnumerator( "Button" ) ).valueToKey( code );
-}
-
 QString GluonButtons::axisName( DeviceFlag deviceType, int code )
 {
     QString value = "";

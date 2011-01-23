@@ -23,6 +23,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaEnum>
+#include <QtGui/QKeySequence>
 
 #include "absval.h"
 #include "inputdeviceprivate.h"
@@ -161,7 +162,7 @@ bool InputDevice::buttonPressed( int code ) const
 
 QString InputDevice::buttonName( int code ) const
 {
-    return GluonButtons::instance()->buttonName( deviceType(), code );
+    return QKeySequence(code).toString();
 }
 
 QString InputDevice::axisName( int code ) const
