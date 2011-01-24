@@ -22,6 +22,7 @@
 #include "selectionmanager.h"
 #include "objectmanager.h"
 #include "engine/gameobject.h"
+#include "engine/component.h"
 #include "models/models.h"
 #include "models/scenemodel.h"
 
@@ -238,13 +239,14 @@ PropertyWidgetContainer::delTriggered()
 
         SelectionManager::instance()->clearSelection();
         GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(d->object);
         if(gobj && gobj->parentGameObject())
         {
             Models::instance()->sceneModel()->deleteGameObject(gobj);
         }
-        else
+        else if(comp)
         {
-            d->object->deleteLater();
+            Models::instance()->sceneModel()->deleteComponent(comp);
             // Cause the property dock to update its view
             SelectionManager::SelectionList list;
             list.append( theParent );

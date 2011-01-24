@@ -84,6 +84,15 @@ void SceneModel::deleteGameObject(GluonEngine::GameObject* obj)
     }
 }
 
+void SceneModel::deleteComponent(GluonEngine::Component* component)
+{
+    if( component )
+    {
+        component->gameObject()->removeComponent(component);
+        component->deleteLater();
+    }
+}
+
 QVariant SceneModel::data( const QModelIndex& index, int role ) const
 {
     if( !index.isValid() )
