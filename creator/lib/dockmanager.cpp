@@ -54,7 +54,7 @@ void DockManager::removeDock( QDockWidget* dock )
 
 void DockManager::setDocksEnabled( bool enabled )
 {
-    foreach( QDockWidget * dock, d->docks )
+    foreach( QDockWidget* dock, d->docks )
     {
         dock->setEnabled( enabled );
     }
@@ -95,5 +95,3 @@ DockManager::~DockManager()
 {
     delete d;
 }
-
-//#include "dockmanager.moc"

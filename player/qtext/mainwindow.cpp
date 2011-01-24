@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -55,8 +55,8 @@ class MainWindow::MainWindowPrivate
 
 GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
-    , d( new MainWindowPrivate )
     , settings( new QSettings )
+    , d( new MainWindowPrivate )
 {
     d->msecElapsed = 0;
     d->frameCount = 0;

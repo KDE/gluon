@@ -28,7 +28,7 @@
 
 namespace GluonInput
 {
-    class GLUON_INPUT_EXPORT GluonQtButtons : public GluonCore::Singleton<GluonQtButtons>
+    class GluonQtButtons : public GluonCore::Singleton<GluonQtButtons>
     {
             Q_OBJECT
             Q_ENUMS( Qt::Key )

@@ -1,7 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2009-2011 Guillaume Martres <smarter@ubuntu.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,20 +20,15 @@
 #ifndef GLUON_AUDIO_ENGINE_H
 #define GLUON_AUDIO_ENGINE_H
 
-#include "gluon_audio_export.h"
-
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
-
-#include <alc.h>
 #include <QVector3D>
+#include <QHash>
 #include <core/singleton.h>
-
+#include "gluon_audio_export.h"
+#include <al.h>
 
 namespace GluonAudio
 {
     class Sound;
-    class Buffer;
 
     class GLUON_AUDIO_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
@@ -46,16 +41,6 @@ namespace GluonAudio
             */
             bool setDevice( const QString& deviceName );
 
-            static ALCcontext* context()
-            {
-                return instance()->getAlContext();
-            }
-
-            static ALCdevice* device()
-            {
-                return instance()->getAlDevice();
-            }
-
             QVector3D listenerPosition();
             void setListenerPosition( const QVector3D& position );
 
@@ -65,22 +50,26 @@ namespace GluonAudio
             * @see setDevice
             */
             static QStringList deviceList();
+            
+            /**
+             * Length of a buffer in microseconds when streaming a file
+             * Any file whose duration is bigger than this times buffersPerStream()
+             * will be streamed when called as an argument of Sound::Sound(const QString&)
+             * Default: 250000 microseconds
+             * @see Sound::Sound
+             */
+            int bufferLength();
+            void setBufferLength(int microsecs);
+            
+            /**
+             * Number of buffers in memory at the same time when streaming a file
+             * Default: 3 buffers per stream
+             */
+            int buffersPerStream();
+            void setBuffersPerStream(int buffers);
 
-            static void close()
-            {
-                delete instance();
-            }
-
-            ALCdevice* getAlDevice()
-            {
-                return m_device;
-            }
-
-            ALCcontext* getAlContext()
-            {
-                return m_context;
-            }
-            void alcList( const char* arg1 );
+            //FIXME: this shouldn't be public
+            ALuint genBuffer(const QString& fileName);
 
         private:
             friend class GluonCore::Singleton<Engine>;
@@ -89,9 +78,9 @@ namespace GluonAudio
             ~Engine();
 
             Q_DISABLE_COPY( Engine )
-
-            ALCcontext* m_context;
-            ALCdevice* m_device;
+            
+            class EnginePrivate;
+            EnginePrivate* const d;
     };
 }
 

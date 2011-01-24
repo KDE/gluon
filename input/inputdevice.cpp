@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +23,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaEnum>
+#include <QtGui/QKeySequence>
 
 #include "absval.h"
 #include "inputdeviceprivate.h"
@@ -160,7 +162,13 @@ bool InputDevice::buttonPressed( int code ) const
 
 QString InputDevice::buttonName( int code ) const
 {
-    return GluonButtons::instance()->buttonName( deviceType(), code );
+    switch (deviceType())
+    {
+        case KeyboardDevice:
+            return QKeySequence(code).toString();
+        default:
+            return "Unknown";
+    }
 }
 
 QString InputDevice::axisName( int code ) const
@@ -170,10 +178,8 @@ QString InputDevice::axisName( int code ) const
         case MouseDevice:
         case JoystickDevice:
             return GluonButtons::instance()->axisName( deviceType(), code );
-            break;
         default:
             return "Unknown";
-            break;
     }
 }
 

@@ -32,7 +32,6 @@
 #include <KPluginSelector>
 #include <KRun>
 #include <KRecentFilesAction>
-#include <KDE/KTabWidget>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
 

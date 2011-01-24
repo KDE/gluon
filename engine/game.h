@@ -110,7 +110,7 @@ namespace GluonEngine
 
             void runGame()
             {
-                this->runGameFixedUpdate();
+                runGameFixedUpdate();
             }
             /**
              * Run the game at full framerate (with an optional maximum number of skipped frames), but with a fixed game update rate, defaulting to 25 updates per second
