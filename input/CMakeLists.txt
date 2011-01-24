@@ -52,16 +52,16 @@ endif()
 
 ###############win source and headers###################
 set(GluonInput_SRCS_WIN
-    windows/detectwin.cpp
-    windows/gluonbuttons.cpp
-    windows/inputthread.cpp
+    win/detectwin.cpp
+    win/gluonbuttons.cpp
+    win/inputthread.cpp
 )
 
 set(GluonInput_HEADERS_WIN
-    windows/detectwin.h
-    windows/inputthread.h
-    windows/gluonbuttons.h
-    windows/gluondevices.h
+    win/detectwin.h
+    win/inputthread.h
+    win/gluonbuttons.h
+    win/gluondevices.h
 )
 ###############win source and headers###################
 

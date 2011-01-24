@@ -30,7 +30,7 @@
 
 namespace GluonInput
 {
-    class GLUON_INPUT_EXPORT GluonButtons : public GluonCore::Singleton<GluonButtons>
+    class GluonButtons : public GluonCore::Singleton<GluonButtons>
     {
             Q_OBJECT
             Q_ENUMS( Absolute )
