@@ -23,7 +23,6 @@
 
 #include <engine/asset.h>
 #include <engine/gluon_engine_export.h>
-#include <audio/buffer.h>
 
 #include <QtCore/QStringList>
 
@@ -42,10 +41,6 @@ namespace GluonEngine
             virtual const QStringList supportedMimeTypes() const;
 
             virtual void load();
-
-        private:
-            class SoundAssetPrivate;
-            SoundAssetPrivate* const d;
     };
 }
 

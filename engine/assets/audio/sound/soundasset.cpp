@@ -29,26 +29,13 @@ REGISTER_OBJECTTYPE( GluonEngine, SoundAsset )
 
 using namespace GluonEngine;
 
-class SoundAsset::SoundAssetPrivate
-{
-    public:
-        SoundAssetPrivate()
-        {
-            buffer = 0;
-        }
-
-        GluonAudio::Buffer* buffer;
-};
-
 SoundAsset::SoundAsset( QObject* parent )
     : Asset( parent )
-    , d( new SoundAssetPrivate )
 {
 }
 
 SoundAsset::~SoundAsset()
 {
-    delete d;
 }
 
 const QStringList SoundAsset::supportedMimeTypes() const
@@ -62,18 +49,8 @@ const QStringList SoundAsset::supportedMimeTypes() const
 
 void SoundAsset::load()
 {
-    d->buffer = new GluonAudio::Buffer( file().toLocalFile() );
-
-    if( !d->buffer->isEmpty() )
-    {
-        mimeData()->setData( "application/gluon-audio-buffer", ( QString( "%1" ).arg( d->buffer->buffer() ) ).toAscii() );
-        setLoaded( true );
-    }
-    else
-    {
-        DEBUG_BLOCK
-        DEBUG_TEXT( "Error loading sound - Buffer is empty" );
-    }
+    mimeData()->setText(absolutePath());
+    setLoaded( true );
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_sound, GluonEngine::SoundAsset )
