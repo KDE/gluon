@@ -29,4 +29,8 @@ Keyboard::Keyboard( InputThread* inputThread, QObject* parent )
 {
 }
 
+Keyboard::~Keyboard()
+{
+}
+
 #include "keyboard.moc"
