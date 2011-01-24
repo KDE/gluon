@@ -61,9 +61,19 @@ int Mouse::wheelPosition() const
     return d->wheelPos; //relAxisValue(lastRelAxis());
 }
 
+void Mouse::setWheelPosition(int wp)
+{
+    d->wheelPos = wp;
+}
+
 int Mouse::hWheelPosition() const
 {
     return d->hWheelPos; //relAxisValue(lastRelAxis());
+}
+
+void Mouse::setHWheelPosition(int hwp)
+{
+    d->hWheelPos = hwp;
 }
 
 double Mouse::sensibility() const
