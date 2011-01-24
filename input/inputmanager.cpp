@@ -251,6 +251,14 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
         return true;
     }
 
+    if (event->type() == QEvent::Wheel)
+    {
+        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+        mouse(0)->setHWheelPosition( wheelEvent->x( ) );
+        mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+        return true;
+    }
+
     if (event->type() == QEvent::MouseButtonPress)
     {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);

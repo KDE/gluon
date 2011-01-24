@@ -49,8 +49,10 @@ namespace GluonInput
             void setOrigin( const QPoint p );
 
             int wheelPosition() const;
+            void setWheelPosition(int wp);
 
             int hWheelPosition() const;
+            void setHWheelPosition(int hwp);
 
 
         private slots:
