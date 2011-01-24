@@ -37,6 +37,7 @@ namespace GluonEngine
             GLUON_OBJECT( GluonEngine::MouseInputComponent )
             Q_INTERFACES( GluonEngine::Component )
             Q_PROPERTY( MouseButton mouseButton READ mouseButton WRITE setMouseButton )
+            Q_PROPERTY( bool mouseTrack READ mouseTrack WRITE setMouseTrack )
             Q_ENUMS( MouseButton )
 
         public:
@@ -73,6 +74,9 @@ namespace GluonEngine
 
             MouseButton mouseButton() const;
             void setMouseButton( MouseButton button );
+
+            bool mouseTrack() const;
+            void setMouseTrack( bool enable );
 
             Q_INVOKABLE virtual int xAxis();
             Q_INVOKABLE virtual int yAxis();

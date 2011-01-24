@@ -46,6 +46,8 @@ class MouseInputComponent::MouseInputComponentPrivate
         int lastY;
         int lastZ;
 
+        bool mouseTrack;
+
         static const int mouseButtonOffset;
 };
 
@@ -161,6 +163,16 @@ MouseInputComponent::MouseButton MouseInputComponent::mouseButton() const
 void MouseInputComponent::setMouseButton( MouseInputComponent::MouseButton button )
 {
     d->mouseButton = button;
+}
+
+bool MouseInputComponent::mouseTrack() const
+{
+    return d->mouseTrack;
+}
+
+void MouseInputComponent::setMouseTrack( bool enable )
+{
+    d->mouseTrack = enable;
 }
 
 int MouseInputComponent::relativeXAxis()
