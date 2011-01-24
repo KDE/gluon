@@ -32,7 +32,8 @@ Mouse::Mouse( InputThread* inputThread, QObject* parent )
     d->originalPosition = d->position = QPoint( 0, 0 );
     d->sensibility = 1;
 
-    connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
+    if( inputThread )
+        connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
 }
 
 QPoint Mouse::position()
@@ -52,12 +53,12 @@ void Mouse::setOrigin( const QPoint p )
 
 int Mouse::wheelPosition() const
 {
-    return d->wheelPos;//relAxisValue(lastRelAxis());
+    return d->wheelPos; //relAxisValue(lastRelAxis());
 }
 
 int Mouse::hWheelPosition() const
 {
-    return d->hWheelPos;//relAxisValue(lastRelAxis());
+    return d->hWheelPos; //relAxisValue(lastRelAxis());
 }
 
 double Mouse::sensibility() const
@@ -84,6 +85,5 @@ void Mouse::mouseMoved( int axis, int distance )
             break;
     }
 }
-
 
 #include "mouse.moc"
