@@ -83,8 +83,10 @@ void InputManager::init()
             // else
                 // qDebug() << "Null filtered object pointer - no install";
 
-            InputDevice* device = new Keyboard( 0 );
-            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+            InputDevice* keyboard = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
+            InputDevice* mouse = new Mouse( 0 );
+            d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
         }
         else
         {
