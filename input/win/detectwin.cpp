@@ -55,6 +55,7 @@ DetectWin::~DetectWin()
 
 bool DetectWin::isReadable()
 {
+    return false;
 }
 
 void DetectWin::detectDevices()
