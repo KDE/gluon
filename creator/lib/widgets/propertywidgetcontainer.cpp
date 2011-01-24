@@ -247,10 +247,11 @@ PropertyWidgetContainer::delTriggered()
         else if(comp)
         {
             Models::instance()->sceneModel()->deleteComponent(comp);
+            this->deleteLater();
             // Cause the property dock to update its view
-            SelectionManager::SelectionList list;
-            list.append( theParent );
-            SelectionManager::instance()->setSelection( list );
+//            SelectionManager::SelectionList list;
+//            list.append( theParent );
+//            SelectionManager::instance()->setSelection( list );
         }
     }
 }
@@ -389,10 +390,10 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         else
         {
             QMetaEnum enumerator = metaProperty.enumerator();
-            if( enumerator.scope() != "Qt" )
-                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
-            else
+            if( strcmp(enumerator.scope(), "Qt") )
                 editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+            else
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
         }
 
         editWidget->setEditObject( object );
