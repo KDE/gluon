@@ -33,6 +33,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit Touch( InputThread* inputThread, QObject* parent = 0 );
+            virtual ~Touch();
 
         private:
             QSharedDataPointer<TouchPrivate> d;

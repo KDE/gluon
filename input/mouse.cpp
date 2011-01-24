@@ -34,6 +34,10 @@ Mouse::Mouse( InputThread* inputThread, QObject* parent )
     connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
 }
 
+Mouse::~Mouse()
+{
+}
+
 QPoint Mouse::position()
 {
     return d->position;

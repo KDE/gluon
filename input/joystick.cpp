@@ -29,6 +29,10 @@ Joystick::Joystick( InputThread* inputThread, QObject* parent )
     connect( inputThread, SIGNAL( absAxisMoved( int, int ) ), SLOT( joystickMoved( int, int ) ), Qt::DirectConnection );
 }
 
+Joystick::~Joystick()
+{
+}
+
 int Joystick::axisX() const
 {
 #ifdef __GNUC__

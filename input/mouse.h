@@ -38,6 +38,7 @@ namespace GluonInput
 
         public:
             explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
+            virtual ~Mouse();
 
             QPoint position();
             void setSensibility( double s );
