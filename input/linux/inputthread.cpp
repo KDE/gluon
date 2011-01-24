@@ -556,8 +556,6 @@ int InputThread::mapKeyCode(int keyCode)
             return Qt::Key_Display;
         case KEY_WIMAX:
             return Qt::Key_unknown;
-        case KEY_RFKILL:           /* Key that controls all radios */
-            return Qt::Key_unknown;
 
         default:
             return Qt::Key_unknown;
