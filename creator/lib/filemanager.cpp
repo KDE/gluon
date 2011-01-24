@@ -25,7 +25,6 @@
 #include <KDE/KMimeTypeTrader>
 #include <KDE/KRun>
 #include <KDE/KService>
-#include <KDE/KTabWidget>
 #include <KDE/KToolBar>
 
 #include <KDE/KParts/ReadWritePart>

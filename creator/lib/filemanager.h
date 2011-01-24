@@ -24,7 +24,6 @@
 #include "gluoncreator_macros.h"
 
 class KToolBar;
-class KTabWidget;
 
 namespace KParts
 {
