@@ -237,21 +237,17 @@ PropertyWidgetContainer::delTriggered()
         if( theParent )
             theParent->removeChild( d->object );
 
-        SelectionManager::instance()->clearSelection();
         GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(d->object);
         if(gobj && gobj->parentGameObject())
         {
+            SelectionManager::instance()->clearSelection();
             Models::instance()->sceneModel()->deleteGameObject(gobj);
         }
         else if(comp)
         {
             Models::instance()->sceneModel()->deleteComponent(comp);
             this->deleteLater();
-            // Cause the property dock to update its view
-//            SelectionManager::SelectionList list;
-//            list.append( theParent );
-//            SelectionManager::instance()->setSelection( list );
         }
     }
 }
