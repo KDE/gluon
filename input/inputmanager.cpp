@@ -230,19 +230,29 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj)
         return false;
 
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 1);
         return true;
     }
 
-    if (event->type() == QEvent::KeyRelease) {
+    if (event->type() == QEvent::KeyRelease)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 0);
         return true;
     }
 
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        mouse(0)->setPosition( mouseEvent->pos( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         switch (mouseEvent->button()) {
         case Qt::LeftButton:
