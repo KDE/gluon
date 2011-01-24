@@ -29,6 +29,7 @@ if(APPLE)
     message("-- Found CoreFoundation:" ${COREFOUNDATION_LIBRARY})
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(WIN32)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -37,6 +38,7 @@ elseif(WIN32)
         CACHE PATHS "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(UNIX)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -45,14 +47,22 @@ elseif(UNIX)
         CACHE PATHS "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 endif()
 
-set(GLUON_INPUT_INCLUDES ${GLUON_INPUT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR}/qt)
-
 ###############win source and headers###################
-set(GluonInput_SRCS_WIN )
+set(GluonInput_SRCS_WIN
+    windows/detectwin.cpp
+    windows/gluonbuttons.cpp
+    windows/inputthread.cpp
+)
 
-set(GluonInput_HEADERS_WIN )
+set(GluonInput_HEADERS_WIN
+    windows/detectwin.h
+    windows/inputthread.h
+    windows/gluonbuttons.h
+    windows/gluondevices.h
+)
 ###############win source and headers###################
 
 ###############mac source and headers###################
@@ -234,10 +244,10 @@ elseif(UNIX)
 else()
 endif()
 
-    install(
-        FILES
-        ${GluonInput_HEADERS_QT}
-        ${GluonInput_HEADERS_COMMON}
-        DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
-        COMPONENT Devel
+install(
+    FILES
+    ${GluonInput_HEADERS_QT}
+    ${GluonInput_HEADERS_COMMON}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
+    COMPONENT Devel
     )
