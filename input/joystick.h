@@ -35,6 +35,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit Joystick( InputThread* inputThread, QObject* parent = 0 );
+            virtual ~Joystick();
 
             int axisX() const;
             int axisY()const;

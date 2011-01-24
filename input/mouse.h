@@ -39,6 +39,7 @@ namespace GluonInput
 
         public:
             explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
+            virtual ~Mouse();
 
             QPoint position();
             void setPosition(const QPoint& p);

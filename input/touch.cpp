@@ -29,4 +29,8 @@ Touch::Touch( InputThread* inputThread, QObject* parent )
 {
 }
 
+Touch::~Touch()
+{
+}
+
 #include "touch.moc"

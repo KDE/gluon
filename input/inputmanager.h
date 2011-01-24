@@ -46,8 +46,8 @@ namespace GluonInput
 
             enum InputManagementType
             {
-                WINDOWS_INPUT_LOWLEVEL,
-                MACOSX_INPUT_LOWLEVEL,
+                WIN_INPUT_LOWLEVEL,
+                MAC_INPUT_LOWLEVEL,
                 LINUX_INPUT_LOWLEVEL,
                 QT_INPUT_HIGHLEVEL,
             };
