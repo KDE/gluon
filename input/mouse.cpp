@@ -41,6 +41,11 @@ QPoint Mouse::position()
     return d->position;
 }
 
+void  Mouse::setPosition(const QPoint& p)
+{
+    d->position = p;
+}
+
 void Mouse::setSensibility( double s )
 {
     d->sensibility = s;

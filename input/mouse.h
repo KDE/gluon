@@ -41,11 +41,17 @@ namespace GluonInput
             explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
 
             QPoint position();
+            void setPosition(const QPoint& p);
+
+            double sensibility() const;
             void setSensibility( double s );
+
             void setOrigin( const QPoint p );
+
             int wheelPosition() const;
-            int hWheelPosition()const;
-            double sensibility()const;
+
+            int hWheelPosition() const;
+
 
         private slots:
             void mouseMoved( int axis, int distance );
