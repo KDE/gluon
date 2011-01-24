@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +32,8 @@ Mouse::Mouse( InputThread* inputThread, QObject* parent )
     d->originalPosition = d->position = QPoint( 0, 0 );
     d->sensibility = 1;
 
-    connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
+    if( inputThread )
+        connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
 }
 
 Mouse::~Mouse()
@@ -41,6 +43,11 @@ Mouse::~Mouse()
 QPoint Mouse::position()
 {
     return d->position;
+}
+
+void  Mouse::setPosition(const QPoint& p)
+{
+    d->position = p;
 }
 
 void Mouse::setSensibility( double s )
@@ -55,12 +62,22 @@ void Mouse::setOrigin( const QPoint p )
 
 int Mouse::wheelPosition() const
 {
-    return d->wheelPos;//relAxisValue(lastRelAxis());
+    return d->wheelPos; //relAxisValue(lastRelAxis());
+}
+
+void Mouse::setWheelPosition(int wp)
+{
+    d->wheelPos = wp;
 }
 
 int Mouse::hWheelPosition() const
 {
-    return d->hWheelPos;//relAxisValue(lastRelAxis());
+    return d->hWheelPos; //relAxisValue(lastRelAxis());
+}
+
+void Mouse::setHWheelPosition(int hwp)
+{
+    d->hWheelPos = hwp;
 }
 
 double Mouse::sensibility() const
@@ -87,6 +104,5 @@ void Mouse::mouseMoved( int axis, int distance )
             break;
     }
 }
-
 
 #include "mouse.moc"

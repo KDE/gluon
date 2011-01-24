@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +21,6 @@
 #define INPUTBUFFER_H
 
 #include "gluon_input_export.h"
-#include "gluonbuttons.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>

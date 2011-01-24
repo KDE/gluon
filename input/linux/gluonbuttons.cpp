@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,11 +32,6 @@ GluonButtons::GluonButtons()
 
 GluonButtons::~GluonButtons()
 {
-}
-
-QString GluonButtons::buttonName( DeviceFlag deviceType, int code )
-{
-    return metaObject()->enumerator( metaObject()->indexOfEnumerator( "Button" ) ).valueToKey( code );
 }
 
 QString GluonButtons::axisName( DeviceFlag deviceType, int code )

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -82,8 +83,10 @@ void InputManager::init()
             // else
                 // qDebug() << "Null filtered object pointer - no install";
 
-            InputDevice* device = new Keyboard( 0 );
-            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+            InputDevice* keyboard = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
+            InputDevice* mouse = new Mouse( 0 );
+            d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
         }
         else
         {
@@ -227,19 +230,37 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj)
         return false;
 
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 1);
         return true;
     }
 
-    if (event->type() == QEvent::KeyRelease) {
+    if (event->type() == QEvent::KeyRelease)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 0);
         return true;
     }
 
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        mouse(0)->setPosition( mouseEvent->pos( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::Wheel)
+    {
+        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+        mouse(0)->setHWheelPosition( wheelEvent->x( ) );
+        mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         switch (mouseEvent->button()) {
         case Qt::LeftButton:

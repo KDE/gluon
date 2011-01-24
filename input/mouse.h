@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,11 +42,19 @@ namespace GluonInput
             virtual ~Mouse();
 
             QPoint position();
+            void setPosition(const QPoint& p);
+
+            double sensibility() const;
             void setSensibility( double s );
+
             void setOrigin( const QPoint p );
+
             int wheelPosition() const;
-            int hWheelPosition()const;
-            double sensibility()const;
+            void setWheelPosition(int wp);
+
+            int hWheelPosition() const;
+            void setHWheelPosition(int hwp);
+
 
         private slots:
             void mouseMoved( int axis, int distance );
