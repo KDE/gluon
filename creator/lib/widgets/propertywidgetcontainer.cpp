@@ -225,7 +225,20 @@ PropertyWidgetContainer::upTriggered()
 void
 PropertyWidgetContainer::downTriggered()
 {
-
+    QWidget* w = qobject_cast<QWidget *>(parent());
+    if( w )
+    {
+        QVBoxLayout* vbl = qobject_cast<QVBoxLayout *>(w->layout());
+        if( vbl )
+        {
+            int index = vbl->indexOf(this);
+            if( index < vbl->count() - 2 )
+            {
+                vbl->removeWidget(this);
+                vbl->insertWidget(index + 1, this);
+            }
+        }
+    }
 }
 
 void
