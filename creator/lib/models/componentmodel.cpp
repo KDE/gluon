@@ -73,7 +73,7 @@ class ComponentModel::ComponentModelPrivate
 };
 
 ComponentModel::ComponentModel( QObject* parent )
-    : QAbstractItemModel( parent )
+    : QStandardItemModel( parent )
     , d( new ComponentModelPrivate )
 {
     DEBUG_BLOCK
@@ -292,11 +292,5 @@ ComponentModel::rowCount( const QModelIndex& parent ) const
     return parentItem->items.count();
 }
 
-int
-ComponentModel::columnCount( const QModelIndex& parent ) const
-{
-    Q_UNUSED( parent );
-    return 1;
-}
 
 //#include "componentmodel.moc"

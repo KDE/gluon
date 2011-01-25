@@ -21,11 +21,11 @@
 #define GLUON_CREATOR_COMPONENTMODEL_H
 
 #include "gluoncreator_macros.h"
-#include <QtCore/QAbstractListModel>
+#include <QtGui/QStandardItemModel>
 
 namespace GluonCreator
 {
-    class GLUONCREATOR_EXPORT ComponentModel : public QAbstractItemModel
+    class GLUONCREATOR_EXPORT ComponentModel : public QStandardItemModel
     {
             Q_OBJECT
         public:
@@ -42,8 +42,7 @@ namespace GluonCreator
             virtual QStringList mimeTypes() const;
             virtual QMimeData* mimeData( const QModelIndexList& indexes ) const;
 
-            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
-            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            int rowCount( const QModelIndex& parent ) const;
 
         private:
             class ComponentModelPrivate;
