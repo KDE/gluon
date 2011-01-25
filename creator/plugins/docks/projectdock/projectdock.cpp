@@ -19,6 +19,7 @@
  */
 
 #include "projectdock.h"
+#include "models/models.h"
 
 #include "lib/selectionmanager.h"
 #include "objectmanager.h"
@@ -171,7 +172,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 {
     setObjectName( "ProjectDock" );
 
-    d->model = new ProjectModel( this );
+    d->model = Models::instance()->projectModel();
     new ModelTest( d->model, this );
 
     d->view = new QTreeView( this );
