@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2010-2011 Guillaume Martres <smarter@ubuntu.com>
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or
@@ -71,7 +71,7 @@ namespace GluonEngine
             Q_INVOKABLE void setLoop( bool loop );
             Q_INVOKABLE void setSound( Asset* asset );
             Q_INVOKABLE void setAutoPlay( bool autoPlay );
-
+            
         private:
             class SoundEmitterComponentPrivate;
             SoundEmitterComponentPrivate* const d;
