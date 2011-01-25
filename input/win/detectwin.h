@@ -41,6 +41,7 @@ namespace GluonInput
             DetectWin( QObject* parent );
             ~DetectWin();
 
+            bool isReadable();
             void detectDevices();
             void setAllEnabled( bool enable );
 
@@ -52,10 +53,10 @@ namespace GluonInput
             QList<InputDevice*> unknownDeviceList();
 
             void addInput( InputDevice* i );
-            void addKeyboard( InputDevice* i );
-            void addMouse( InputDevice* i );
-            void addJoystick( InputDevice* i );
-            void addTouch( InputDevice* i );
+            void addKeyboard( Keyboard* i );
+            void addMouse( Mouse* i );
+            void addJoystick( Joystick* i );
+            void addTouch( Touch* i );
             void addUnknown( InputDevice* i );
 
             void clear();

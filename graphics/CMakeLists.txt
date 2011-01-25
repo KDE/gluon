@@ -46,6 +46,10 @@ set(GLUON_GRAPHICS_INCLUDES
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 set(GluonGraphics_SRCS
     rendertarget.cpp
     backendcapabilities.cpp

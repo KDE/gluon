@@ -19,15 +19,25 @@
 
 #ifndef GLUON_ENGINE_PREFABPRIVATE_H
 #define GLUON_ENGINE_PREFABPRIVATE_H
+#include <QList>
 
 namespace GluonEngine
 {
+
+class GameObject;
+
+
+class PrefabInstance;
+
     class PrefabPrivate
     {
         public:
             PrefabPrivate();
             PrefabPrivate( const PrefabPrivate& other );
             ~PrefabPrivate();
+            
+            QList<PrefabInstance*> instances;
+            GameObject* gameObject;
     };
 }
 

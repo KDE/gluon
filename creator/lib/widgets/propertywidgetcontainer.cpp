@@ -22,6 +22,7 @@
 #include "selectionmanager.h"
 #include "objectmanager.h"
 #include "engine/gameobject.h"
+#include "engine/component.h"
 #include "models/models.h"
 #include "models/scenemodel.h"
 
@@ -236,19 +237,17 @@ PropertyWidgetContainer::delTriggered()
         if( theParent )
             theParent->removeChild( d->object );
 
-        SelectionManager::instance()->clearSelection();
         GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(d->object);
         if(gobj && gobj->parentGameObject())
         {
+            SelectionManager::instance()->clearSelection();
             Models::instance()->sceneModel()->deleteGameObject(gobj);
         }
-        else
+        else if(comp)
         {
-            d->object->deleteLater();
-            // Cause the property dock to update its view
-            SelectionManager::SelectionList list;
-            list.append( theParent );
-            SelectionManager::instance()->setSelection( list );
+            Models::instance()->sceneModel()->deleteComponent(comp);
+            this->deleteLater();
         }
     }
 }
@@ -387,10 +386,10 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         else
         {
             QMetaEnum enumerator = metaProperty.enumerator();
-            if( enumerator.scope() != "Qt" )
-                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
-            else
+            if( strcmp(enumerator.scope(), "Qt") )
                 editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+            else
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
         }
 
         editWidget->setEditObject( object );
