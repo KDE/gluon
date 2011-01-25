@@ -193,41 +193,6 @@ ComponentModel::headerData( int section, Qt::Orientation orientation, int role )
         return QString( "Row %1" ).arg( section );
 }
 
-QModelIndex
-ComponentModel::index( int row, int column, const QModelIndex& parent ) const
-{
-    if( !hasIndex( row, column, parent ) )
-        return QModelIndex();
-
-    ComponentModelItem* parentItem;
-
-    if( !parent.isValid() )
-        parentItem = d->root;
-    else
-        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
-
-    ComponentModelItem* childItem = parentItem->items[row];
-    if( childItem )
-        return createIndex( row, column, childItem );
-    else
-        return QModelIndex();
-}
-
-QModelIndex
-ComponentModel::parent( const QModelIndex& child ) const
-{
-    if( !child.isValid() )
-        return QModelIndex();
-
-    ComponentModelItem* childItem = static_cast<ComponentModelItem*>( child.internalPointer() );
-    ComponentModelItem* parentItem = childItem->parent;
-
-    if( parentItem == d->root )
-        return QModelIndex();
-
-    return createIndex( parentItem->row(), 0, parentItem );
-}
-
 Qt::ItemFlags
 ComponentModel::flags( const QModelIndex& index ) const
 {
@@ -277,20 +242,3 @@ ComponentModel::mimeData( const QModelIndexList& indexes ) const
     return mimeData;
 }
 
-int
-ComponentModel::rowCount( const QModelIndex& parent ) const
-{
-    if( parent.column() > 0 )
-        return 0;
-
-    ComponentModelItem* parentItem;
-    if( !parent.isValid() )
-        parentItem = d->root;
-    else
-        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
-
-    return parentItem->items.count();
-}
-
-
-//#include "componentmodel.moc"
