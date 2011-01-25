@@ -23,22 +23,20 @@
 #include "core/debughelper.h"
 #include "creator/lib/objectmanager.h"
 
-#include <engine/component.h>
-
+#include <QtCore/QMimeData>
 #include <KLocalizedString>
+#include <engine/component.h>
 
 namespace GluonCreator
 {
-    class ComponentModelItem : public QStandardItem
+    struct ComponentModelItem
     {
         public:
             ComponentModelItem()
                 : parent( 0 )
             {};
-
             ComponentModelItem( const ComponentModelItem& other )
-                : QStandardItem( )
-                , name( other.name )
+                : name( other.name )
                 , className( other.className )
             {}
             ~ComponentModelItem()
@@ -60,7 +58,7 @@ namespace GluonCreator
             QHash<QString, int> itemNames;
     };
 }
-
+//Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
 
 using namespace GluonCreator;
 
@@ -68,15 +66,14 @@ class ComponentModel::ComponentModelPrivate
 {
     public:
         ComponentModelPrivate()
-         : root( new ComponentModelItem() )
+            : root( new ComponentModelItem() )
         {}
 
         ComponentModelItem* root;
-
 };
 
 ComponentModel::ComponentModel( QObject* parent )
-    : QStandardItemModel( parent )
+    : QAbstractItemModel( parent )
     , d( new ComponentModelPrivate )
 {
     DEBUG_BLOCK
@@ -128,3 +125,178 @@ ComponentModel::~ComponentModel()
 {
     delete d;
 }
+
+QVariant
+ComponentModel::data( const QModelIndex& index, int role ) const
+{
+    if( !index.isValid() )
+        return QVariant();
+
+    const ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+
+    switch( role )
+    {
+        case Qt::ToolTipRole:
+            if( item->parent )
+                return item->parent->name;
+            else
+                return QVariant();
+            break;
+        case Qt::DisplayRole:
+            switch( index.column() )
+            {
+                case 2:
+                    return item->className;
+                    break;
+                case 1:
+                    if( item->parent )
+                        return item->parent->name;
+                    else
+                        return QString();
+                    break;
+                case 0:
+                default:
+                    return item->name;
+                    break;
+            }
+            break;
+        default:
+            return QVariant();
+            break;
+    }
+    return QVariant();
+}
+
+QVariant
+ComponentModel::headerData( int section, Qt::Orientation orientation, int role ) const
+{
+    if( role != Qt::DisplayRole )
+        return QVariant();
+
+    if( orientation == Qt::Horizontal )
+    {
+        switch( section )
+        {
+            case 2:
+                return i18n( "Class Name" );
+                break;
+            case 1:
+                return i18n( "Category" );
+                break;
+            case 0:
+            default:
+                return i18n( "Component" );
+                break;
+        }
+    }
+    else
+        return QString( "Row %1" ).arg( section );
+}
+
+QModelIndex
+ComponentModel::index( int row, int column, const QModelIndex& parent ) const
+{
+    if( !hasIndex( row, column, parent ) )
+        return QModelIndex();
+
+    ComponentModelItem* parentItem;
+
+    if( !parent.isValid() )
+        parentItem = d->root;
+    else
+        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
+
+    ComponentModelItem* childItem = parentItem->items[row];
+    if( childItem )
+        return createIndex( row, column, childItem );
+    else
+        return QModelIndex();
+}
+
+QModelIndex
+ComponentModel::parent( const QModelIndex& child ) const
+{
+    if( !child.isValid() )
+        return QModelIndex();
+
+    ComponentModelItem* childItem = static_cast<ComponentModelItem*>( child.internalPointer() );
+    ComponentModelItem* parentItem = childItem->parent;
+
+    if( parentItem == d->root )
+        return QModelIndex();
+
+    return createIndex( parentItem->row(), 0, parentItem );
+}
+
+Qt::ItemFlags
+ComponentModel::flags( const QModelIndex& index ) const
+{
+    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags( index );
+    if( index.isValid() )
+    {
+        ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+        if( item->className.isEmpty() )
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
+        return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | defaultFlags;
+    }
+    else
+        return defaultFlags;
+}
+
+QStringList
+ComponentModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/gluon.text.componentclass";
+    return types;
+}
+
+QMimeData*
+ComponentModel::mimeData( const QModelIndexList& indexes ) const
+{
+    QMimeData* mimeData = new QMimeData();
+    QByteArray encodedData;
+
+    QDataStream stream( &encodedData, QIODevice::WriteOnly );
+
+    // There should really only be one, but let's do the loop-de-loop anyway
+    foreach( const QModelIndex & index, indexes )
+    {
+        if( index.isValid() )
+        {
+            const ComponentModelItem* item = static_cast<ComponentModelItem*>( index.internalPointer() );
+            if( item )
+            {
+                QString text = item->className;
+                stream << text;
+            }
+        }
+    }
+
+    mimeData->setData( "application/gluon.text.componentclass", encodedData );
+    return mimeData;
+}
+
+int
+ComponentModel::rowCount( const QModelIndex& parent ) const
+{
+    if( parent.column() > 0 )
+        return 0;
+
+    ComponentModelItem* parentItem;
+    if( !parent.isValid() )
+        parentItem = d->root;
+    else
+        parentItem = static_cast<ComponentModelItem*>( parent.internalPointer() );
+
+    return parentItem->items.count();
+}
+
+int
+ComponentModel::columnCount( const QModelIndex& parent ) const
+{
+    Q_UNUSED( parent );
+    return 1;
+}
+
+//#include "componentmodel.moc"
