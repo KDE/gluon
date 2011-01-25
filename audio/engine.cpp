@@ -21,6 +21,7 @@
 
 #include <QtCore/QStringList>
 #include <QtGui/QVector3D>
+#define ALURE_STATIC_LIBRARY
 #include "alure/include/AL/alure.h"
 
 using namespace GluonAudio;
@@ -30,7 +31,7 @@ template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
 class Engine::EnginePrivate {
 public:
     EnginePrivate() : bufferLength(250000), buffersPerStream(3) {}
-    ~EnginePrivate();
+    ~EnginePrivate() {}
     
     QHash<QString, ALuint> bufferHash;
     int bufferLength;

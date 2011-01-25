@@ -258,7 +258,7 @@ struct wavStream : public alureStream {
       : alureStream(_fstream), format(0), dataStart(0)
     {
         ALubyte buffer[25];
-        int length;
+        ALuint length;
 
         if(!fstream->read(reinterpret_cast<char*>(buffer), 12) ||
            memcmp(buffer, "RIFF", 4) != 0 || memcmp(buffer+8, "WAVE", 4) != 0)
@@ -301,13 +301,13 @@ struct wavStream : public alureStream {
                 length -= 16;
 
                 /* Look for any extra data and try to find the format */
-                int extrabytes = 0;
+                ALuint extrabytes = 0;
                 if(length >= 2)
                 {
                     extrabytes = read_le16(fstream);
                     length -= 2;
                 }
-                extrabytes = std::min(extrabytes, length);
+                extrabytes = std::min<ALuint>(extrabytes, length);
 
                 if(type == 0x0001)
                     format = GetSampleFormat(channels, sampleSize, false);

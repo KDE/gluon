@@ -72,6 +72,12 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
 endif()
 
+IF(WIN32)
+    SET(ALURE_LIBRARY ALURE32-static)
+ELSE(WIN32)
+    SET(ALURE_LIBRARY alure-static)
+ENDIF(WIN32)
+
 target_link_libraries(
     GluonAudio
     ${GLUON_CORE_LIBS}
@@ -79,7 +85,7 @@ target_link_libraries(
     ${SNDFILE_LIBRARY}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
-    alure-static
+    ${ALURE_LIBRARY}
 )
 
 set(GLUON_AUDIO_LIBS
