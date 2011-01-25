@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#include <windows.h>
+#include <GL/glee.h>
+#else
 #ifdef GLUON_GRAPHICS_GLES
 typedef char GLchar;
 #include <GLES2/gl2.h>
@@ -5,6 +9,7 @@ typedef char GLchar;
 #else
 #include <GL/gl.h>
 #include <GL/glext.h>
+#endif
 #endif
 
 #include <QtCore/QDebug>

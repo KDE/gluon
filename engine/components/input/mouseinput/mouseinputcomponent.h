@@ -22,7 +22,8 @@
 #ifndef MOUSEINPUTCOMPONENT_H
 #define MOUSEINPUTCOMPONENT_H
 
-#include "component.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/component.h>
 
 namespace GluonInput
 {
@@ -31,7 +32,7 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class MouseInputComponent : public Component
+    class GLUON_COMPONENT_MOUSEINPUT_EXPORT MouseInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::MouseInputComponent )

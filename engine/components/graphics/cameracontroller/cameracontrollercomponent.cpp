@@ -175,17 +175,17 @@ GluonGraphics::MaterialInstance* CameraControllerComponent::renderTargetMaterial
     return d->material;
 }
 
-void CameraControllerComponent::setNearPlane( float near )
+void CameraControllerComponent::setNearPlane( float nearValue )
 {
-    d->nearPlane = near;
+    d->nearPlane = nearValue;
 
     if( d->camera )
         d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
 }
 
-void CameraControllerComponent::setFarPlane( float far )
+void CameraControllerComponent::setFarPlane( float farValue )
 {
-    d->farPlane = far;
+    d->farPlane = farValue;
 
     if( d->camera )
         d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );

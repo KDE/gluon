@@ -34,7 +34,7 @@ class Node;
 
 typedef QList<Node*> NodeList;
 
-class  ROCSLIB_EXPORT Node : public QObject
+class Node : public QObject
 {
         Q_OBJECT
         Q_PROPERTY( qreal x READ x WRITE setX )

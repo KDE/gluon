@@ -22,6 +22,11 @@
 
 #include "engine.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <GL/glee.h>
+#endif
+
 #include <QtCore/QMutex>
 #include <QtOpenGL/QGLFramebufferObject>
 

@@ -26,6 +26,13 @@ else(NOT OPENGL_FOUND)
     message(STATUS "Found OpenGL: ${OPENGL_REAL_INCLUDE_DIR}")
 endif(NOT OPENGL_FOUND)
 
+if(WIN32)
+    find_package(GLEE)
+    if(GLEE_FOUND STREQUAL "NO")
+        message(FATAL_ERROR "Could NOT find GLee!")
+    endif(GLEE_FOUND STREQUAL "NO")
+endif(WIN32)
+
 if(OPENGL_REAL_LIBS STREQUAL "" OR OPENGL_REAL_LIBS STREQUAL "")
     message(FATAL_ERROR "Could NOT find OpenGL!")
 endif()
@@ -129,12 +136,22 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonGraphics GluonCore)
 endif()
 
-target_link_libraries(
-    GluonGraphics
-    ${GLUON_CORE_LIBS}
-    ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_REAL_LIBS}
-)
+if(WIN32)
+    target_link_libraries(
+        GluonGraphics
+        ${GLUON_CORE_LIBS}
+        ${QT_QTOPENGL_LIBRARY}
+        ${OPENGL_REAL_LIBS}
+        ${GLEE_LIBRARIES}
+    )
+else(WIN32)
+    target_link_libraries(
+        GluonGraphics
+        ${GLUON_CORE_LIBS}
+        ${QT_QTOPENGL_LIBRARY}
+        ${OPENGL_REAL_LIBS}
+    )
+endif(WIN32)
 
 set(GLUON_GRAPHICS_LIBS
     GluonGraphics
@@ -144,7 +161,7 @@ set(GLUON_GRAPHICS_LIBS
     CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
-install(TARGETS GluonGraphics DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonGraphics RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 install(FILES
     ${GluonGraphics_HEADERS}

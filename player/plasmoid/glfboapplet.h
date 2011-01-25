@@ -25,11 +25,16 @@
 
 #include <plasma/applet.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <GL/glee.h>
+#endif
+
 #include <QtOpenGL/QGLWidget>
 
 namespace GluonPlayer
 {
-    class GLUON_PLAYER_EXPORT GLFBOApplet : public Plasma::Applet
+    class GLFBOApplet : public Plasma::Applet
     {
             Q_OBJECT
 

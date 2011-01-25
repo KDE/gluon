@@ -31,7 +31,7 @@
 namespace GluonEngine
 {
     class ScriptingAsset;
-    class GLUON_ENGINE_EXPORT ScriptingEngine : public GluonCore::Singleton<ScriptingEngine>
+    class GLUON_COMPONENT_SCRIPTING_EXPORT ScriptingEngine : public GluonCore::Singleton<ScriptingEngine>
     {
             Q_OBJECT
 

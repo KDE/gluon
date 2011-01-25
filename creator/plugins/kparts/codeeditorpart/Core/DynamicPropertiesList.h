@@ -35,7 +35,7 @@ enum DynamicPropertyType
 };
 
 
-class ROCSLIB_EXPORT DynamicPropertiesList : public QObject
+class DynamicPropertiesList : public QObject
 {
         Q_OBJECT
         QMap< Graph*,  QMultiMap <QString, Node* > > _NodesProperties;
