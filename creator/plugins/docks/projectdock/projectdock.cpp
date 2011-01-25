@@ -192,6 +192,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->view = new QTreeView( this );
     d->view->setModel( d->model );
     d->view->setHeaderHidden( true );
+    d->view->setDragEnabled( true );
     d->view->setAcceptDrops( true );
     d->view->setContextMenuPolicy( Qt::CustomContextMenu );
     d->view->setEditTriggers( QAbstractItemView::NoEditTriggers );

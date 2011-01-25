@@ -247,10 +247,10 @@ ProjectModel::flags( const QModelIndex& index ) const
 {
     if( index.isValid() )
     {
-        QObject* obj = static_cast<QObject*>( index.internalPointer() );
-        //Gluon::Asset *obj = qobject_cast<Gluon::Asset*>();
+        //QObject* obj = static_cast<QObject*>( index.internalPointer() );
+        GluonEngine::Asset* obj = qobject_cast<GluonEngine::Asset*>(static_cast<QObject*>(index.internalPointer()));
         // One does not simply drop Assets into Mord...other Assets!
-        if( obj->inherits( "GluonEngine::Asset" ) )
+        if( obj )//->inherits( "GluonEngine::Asset" ) )
         {
             return QAbstractItemModel::flags( index ) | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
@@ -283,6 +283,26 @@ ProjectModel::mimeTypes() const
     return d->acceptedMimeTypes;
 }
 
+QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
+{
+    if( indexes.count() <= 0 )
+        return 0;
+
+    QStringList types = mimeTypes();
+    if( types.isEmpty() )
+        return 0;
+
+    QMimeData* data = new QMimeData();
+    QStringList names;
+    foreach( const QModelIndex & index, indexes )
+    {
+        names.append( static_cast<GluonEngine::Asset*>( index.internalPointer() )->fullyQualifiedName() );
+    }
+    data->setData( "application/gluoncreator.projectmodel.gluonobject", names.join( ";" ).toUtf8() );
+
+    return data;
+}
+
 bool
 ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent )
 {
@@ -302,6 +322,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int ro
     }
     else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
     {
+        DEBUG_TEXT2("Dropped item %1", data->text());
     }
     else
     {
