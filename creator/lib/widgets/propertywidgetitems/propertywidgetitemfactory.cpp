@@ -33,7 +33,7 @@
 
 using namespace GluonCreator;
 
-template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(PropertyWidgetItemFactory)
 
 PropertyWidgetItem* PropertyWidgetItemFactory::create( const QString& type, QWidget* parent )
 {

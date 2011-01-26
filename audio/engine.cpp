@@ -26,13 +26,13 @@
 
 using namespace GluonAudio;
 
-template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Engine)
 
 class Engine::EnginePrivate {
 public:
     EnginePrivate() : bufferLength(250000), buffersPerStream(3) {}
     ~EnginePrivate() {}
-    
+
     QHash<QString, ALuint> bufferHash;
     int bufferLength;
     int buffersPerStream;
