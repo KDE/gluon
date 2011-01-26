@@ -26,7 +26,7 @@
 
 using namespace GluonPlayer;
 
-template<> Authentication* GluonCore::Singleton<Authentication>::m_instance = 0;
+template<> GLUON_PLAYER_STATIC_EXPORT Authentication* GluonCore::Singleton<Authentication>::m_instance = 0;
 
 Authentication::Authentication()
     : m_initialized( false )
