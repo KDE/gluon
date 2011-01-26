@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +26,7 @@
 
 using namespace GluonPlayer;
 
-template<> GLUON_PLAYER_EXPORT Authentication* GluonCore::Singleton<Authentication>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Authentication)
 
 Authentication::Authentication()
     : m_initialized( false )
@@ -86,6 +87,28 @@ bool Authentication::login( const QString& username, const QString& password )
         connect( m_checkLoginJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
         m_checkLoginJob->start();
         return true;
+    }
+
+    return false;
+}
+
+bool Authentication::logout( )
+{
+    m_username.clear();
+    m_password.clear();
+
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Logout OK" << endl;
+            m_loggedIn = false;
+            emit loggedOut();
+            return true;
+        } else {
+            qDebug() << "Logout error" << endl;
+            emit logoutFailed();
+            return false;
+        }
     }
 
     return false;
@@ -182,10 +205,15 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        qDebug() << "Login OK" << endl;
-        AtticaManager::instance()->provider().saveCredentials( m_username, m_password );
-        m_loggedIn = true;
-        emit loggedIn();
+        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+            qDebug() << "Login OK" << endl;
+            m_loggedIn = true;
+            emit loggedIn();
+        } else {
+            qDebug() << "Login error (saveCredentials)";
+            m_loggedIn = false;
+            emit loginFailed();
+        }
     }
     else
     {

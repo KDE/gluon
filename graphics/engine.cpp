@@ -22,6 +22,11 @@
 
 #include "engine.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <GL/glee.h>
+#endif
+
 #include <QtCore/QMutex>
 #include <QtOpenGL/QGLFramebufferObject>
 
@@ -34,15 +39,16 @@
 #include "mesh.h"
 #include "texture.h"
 #include "viewport.h"
+#include "rendertarget.h"
 
 using namespace GluonGraphics;
 
-template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Engine)
 
 class Engine::EnginePrivate
 {
     public:
-        EnginePrivate() : fbo( 0 ), fboShader( 0 ), camera( 0 ) { }
+        EnginePrivate() : mainTarget( 0 ), mainTargetShader( 0 ), camera( 0 ) { }
 
         template <typename T>
         T* createObject( const QString& type, const QString& name );
@@ -58,8 +64,10 @@ class Engine::EnginePrivate
 
         void removeObject( const QString& type, const QString& name );
 
-        QGLFramebufferObject* fbo;
-        MaterialInstance* fboShader;
+        void viewportSizeChanged( int left, int bottom, int width, int height);
+
+        RenderTarget* mainTarget;
+        MaterialInstance* mainTargetShader;
 
         Camera* camera;
         Viewport* viewport;
@@ -151,6 +159,12 @@ void Engine::EnginePrivate::removeObject( const QString& type, const QString& na
         objects.remove( typeName );
 }
 
+void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width, int height )
+{
+    if( mainTarget )
+        mainTarget->resize(width, height);
+}
+
 void Engine::initialize()
 {
     Material* material = createMaterial( "default" );
@@ -164,6 +178,9 @@ void Engine::initialize()
 
     Mesh* mesh = createMesh( "default" );
     mesh->load( QString() );
+
+    d->mainTarget = new RenderTarget(1024, 768, this);
+    d->mainTarget->setMaterialInstance(material->createInstance("mainTarget"));
 }
 
 Item*
@@ -176,6 +193,14 @@ Engine::createItem( const QString& mesh )
     d->items << newItem;
 
     return newItem;
+}
+
+void
+Engine::addItem( Item* item )
+{
+    QMutexLocker locker( &d->itemMutex );
+
+    d->items << item;
 }
 
 void
@@ -307,13 +332,21 @@ Engine::currentViewport()
     return d->viewport;
 }
 
+RenderTarget* Engine::mainRenderTarget()
+{
+    return d->mainTarget;
+}
+
 void
 Engine::render()
 {
+    if(!d->camera)
+        return;
+
     d->objectMutex.lock();
 
     //Bind the framebuffer object so we render to it.
-    //d->fbo->bind();
+    d->mainTarget->bind();
 
     //Walk through all items, rendering them as we go
     const int size = d->items.size();
@@ -323,26 +356,10 @@ Engine::render()
     }
 
     //Unbind the FBO, making us stop rendering to it.
-    //d->fbo->release();
+    d->mainTarget->release();
 
     //Render a full screen quad with the FBO data.
-    //d->fboShader->bind();
-    //glDrawArrays(GL_TRIANGLES, );
-    //d->fboShader->release();
-
-    d->objectMutex.unlock();
-}
-
-void
-Engine::setFramebufferSize( int width, int height )
-{
-    if( width <= 0 || height <= 0 )
-        return;
-
-    d->objectMutex.lock();
-
-    delete d->fbo;
-    d->fbo = new QGLFramebufferObject( width, height, QGLFramebufferObject::Depth );
+    d->mainTarget->render();
 
     d->objectMutex.unlock();
 }
@@ -350,30 +367,31 @@ Engine::setFramebufferSize( int width, int height )
 void
 Engine::setActiveCamera( Camera* camera )
 {
+    emit activeCameraChanging( camera );
     d->objectMutex.lock();
     d->camera = camera;
     d->objectMutex.unlock();
-    emit activeCameraChanged( camera );
 }
 
 void
 Engine::setViewport( Viewport* viewport )
 {
+    emit currentViewportChanging( viewport );
     d->objectMutex.lock();
     d->viewport = viewport;
+    connect(d->viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), this, SLOT(viewportSizeChanged(int,int,int,int)));
     d->objectMutex.unlock();
 }
 
 Engine::Engine()
     : d( new EnginePrivate() )
 {
-    d->viewport = new Viewport();
-    connect( this, SIGNAL( activeCameraChanged( Camera* ) ), d->viewport, SLOT( update() ) );
+    setViewport( new Viewport() );
+    connect( this, SIGNAL( activeCameraChanging( Camera* ) ), d->viewport, SLOT( update() ) );
 }
 
 Engine::~Engine()
 {
-    delete d->fbo;
     delete d;
 }
 

@@ -39,7 +39,7 @@ class Graph;
 * new properties can be added on the fly via edge.addProp(propertyname) , and accessed by edge.propertyName.
 */
 
-class ROCSLIB_EXPORT Edge : public QObject
+class Edge : public QObject
 {
         Q_OBJECT
 

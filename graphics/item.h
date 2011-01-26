@@ -26,13 +26,13 @@
 #include "gluon_graphics_export.h"
 
 #include <QtCore/QObject>
+#include "vertexbuffer.h"
 
 class QMatrix4x4;
 namespace GluonGraphics
 {
 
     class MaterialInstance;
-
     class Mesh;
 
     /**
@@ -77,9 +77,17 @@ namespace GluonGraphics
 
         public Q_SLOTS:
             /**
-             * Render the item to screen.
+             * Render the item to screen using the material set.
              */
             virtual void render();
+
+            /**
+             * Render the item to screen.
+             *
+             * \param material The material to use to render the item
+             * \param mode The GL mode used to render the mesh, like GL_TRIANGLES
+             */
+            void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
 
             /**
              * Set the transformation used for this item.

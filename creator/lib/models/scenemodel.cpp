@@ -71,6 +71,28 @@ void SceneModel::setRootGameObject( GluonEngine::GameObject* obj )
     }
 }
 
+void SceneModel::deleteGameObject(GluonEngine::GameObject* obj)
+{
+    if( obj )
+    {
+        int row = obj->parentGameObject()->childIndex(obj);
+        QModelIndex thisIndex = createIndex(row, 0, obj);
+        beginRemoveRows( parent(thisIndex), row, row );
+        obj->parentGameObject()->removeChild(obj);
+        obj->deleteLater();
+        endRemoveRows();
+    }
+}
+
+void SceneModel::deleteComponent(GluonEngine::Component* component)
+{
+    if( component )
+    {
+        component->gameObject()->removeComponent(component);
+        component->deleteLater();
+    }
+}
+
 QVariant SceneModel::data( const QModelIndex& index, int role ) const
 {
     if( !index.isValid() )

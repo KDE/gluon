@@ -63,7 +63,7 @@ GluonObjectFactory::objectMimeTypes() const
     return m_mimeTypes.keys();
 }
 
-GluonObject *
+GluonObject*
 GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
 {
     DEBUG_BLOCK
@@ -142,7 +142,7 @@ GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
     return QVariant();
 }
 
-GluonObject *
+GluonObject*
 GluonObjectFactory::wrappedObject( const QVariant& wrappedObject )
 {
     QString type( wrappedObject.typeName() );

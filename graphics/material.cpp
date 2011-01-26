@@ -237,6 +237,9 @@ Material::glProgram()
     if( !d->program )
         build();
 
+    if( !d->program || !d->program->isLinked() )
+        return 0;
+
     return d->program->programId();
 }
 

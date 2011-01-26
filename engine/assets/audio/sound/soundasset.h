@@ -21,15 +21,14 @@
 #ifndef GLUON_ENGINE_SOUNDASSET_H
 #define GLUON_ENGINE_SOUNDASSET_H
 
-#include <engine/asset.h>
 #include <engine/gluon_engine_export.h>
-#include <audio/buffer.h>
+#include <engine/asset.h>
 
 #include <QtCore/QStringList>
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT SoundAsset : public Asset
+    class GLUON_ASSET_SOUND_EXPORT SoundAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
@@ -42,10 +41,6 @@ namespace GluonEngine
             virtual const QStringList supportedMimeTypes() const;
 
             virtual void load();
-
-        private:
-            class SoundAssetPrivate;
-            SoundAssetPrivate* const d;
     };
 }
 

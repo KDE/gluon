@@ -28,6 +28,7 @@ namespace GluonGraphics
 
     class Texture;
     class Material;
+    class Camera;
 
     /**
      * \brief Set of values that define the parameters of a Material.
@@ -37,6 +38,12 @@ namespace GluonGraphics
      * to be rendered correctly. It does this by looking at its own
      * dynamic properties during a call to bind() and setting all uniform
      * variables related to those properties.
+     *
+     * The MaterialInstance gets the currently active camera from the
+     * scene and uses that to set the view and projections matrices for the
+     * vertex shader. The model matrix is set from within the Item class. You
+     * will need to calculate the model-view-projection matrix from those
+     * values in the vertex shader.
      */
     class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
     {
@@ -65,8 +72,10 @@ namespace GluonGraphics
              * This will switch the current OpenGL state to use the
              * shader from the Material and set the appropriate
              * parameters on this shader.
+             *
+             * @return True if the bind was successful, false if not.
              */
-            virtual void bind();
+            virtual bool bind();
 
             /**
              * Release the MaterialInstance from rendering.
@@ -86,6 +95,25 @@ namespace GluonGraphics
              * \param material The material to use.
              */
             void setMaterial( Material* material );
+
+            /**
+             * Bind a texture to a uniform variable.
+             *
+             * \param name The name of the uniform.It is expected to be in the
+             * form "textureX" where X is the number of the texture unit to use.
+             * \param tex The texture to bind.
+             */
+            void bindTexture( const QString& name, GluonGraphics::Texture* tex );
+
+            /**
+             * Bind an OpenGL texture id to a uniform variable.
+             *
+             * \param name The name of the uniform to bind to. It is expected to
+             * be in the form "textureX" where X is the number of the texture
+             * unit to use.
+             * \param tex The id of the texture.
+             */
+            void bindTexture( const QString& name, int tex );
 
             /**
              * Retrieve the location of a uniform variable from the underlying
@@ -108,23 +136,16 @@ namespace GluonGraphics
             int attributeLocation( const QString& attrib );
 
             /**
-             * Sets the modelViewProj uniform variable.
-             * The modelViewProj uniform contains the model-view-projection
-             * matrix, which is the matrix determining where to render the
-             * current model. This specific uniform should always be available.
-             *
-             * \note It is assumed that the material is bound when this method
-             * is called.
-             *
-             * \param mvp The model-view-projection matrix to set the uniform to.
-             */
-            void setModelViewProjectionMatrix( QMatrix4x4 mvp );
-
-            /**
              * Set local properties according to the information supplied by
              * the material.
              */
             void setPropertiesFromMaterial();
+
+            /**
+             * Set whether to use custom View and Projection matrices instead of
+             * getting them from the currently active camera.
+             */
+            void setUseCustomViewProjMatrices( bool useCustom);
 
         protected:
             /**
@@ -141,18 +162,12 @@ namespace GluonGraphics
              */
             void setGLUniform( const QString& name, const QVariant& value );
 
-            /**
-             * Bind a texture to a uniform variable.
-             *
-             * \param name The name of the uniform. It is expected to be in the
-             * form "textureX" where X is the number of the texture unit to use.
-             * \param tex The texture to bind.
-             */
-            void bindTexture( const QString& name, GluonGraphics::Texture* tex );
-
         private:
             class MaterialInstancePrivate;
             MaterialInstancePrivate* const d;
+
+            Q_PRIVATE_SLOT( d, void setActiveCamera( Camera* camera ) );
+
     };
 
 }

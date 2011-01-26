@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,6 +34,7 @@
 #include "detectwin.h"
 #endif
 
+#include <QKeyEvent>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
@@ -41,8 +43,9 @@ using namespace GluonInput;
 
 template<> InputManager* GluonCore::Singleton<InputManager>::m_instance = 0;
 
-InputManager::InputManager()
+InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
+    , m_filteredObj(0)
 {
     init();
 }
@@ -72,7 +75,34 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        d->m_detect->detectDevices();
+        if( !d->m_detect->isReadable() )
+        {
+            setInputManagementType(QT_INPUT_HIGHLEVEL);
+            if (filteredObject())
+                installEventFiltered(filteredObject());
+            // else
+                // qDebug() << "Null filtered object pointer - no install";
+
+            InputDevice* keyboard = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
+            InputDevice* mouse = new Mouse( 0 );
+            d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
+        }
+        else
+        {
+#ifdef Q_WS_X11
+            setInputManagementType(LINUX_INPUT_LOWLEVEL);
+#elif defined(Q_WS_MAC)
+            setInputManagementType(MAC_INPUT_LOWLEVEL);
+#elif defined(Q_WS_WIN)
+            setInputManagementType(WIN_INPUT_LOWLEVEL);
+#endif
+            if (filteredObject())
+                removeEventFiltered(filteredObject());
+            // else
+                // qDebug() << "Null filtered object pointer - no remove";
+            d->m_detect->detectDevices();
+        }
     }
     else
     {
@@ -193,6 +223,98 @@ InputDevice* InputManager::input( int id )
         return d->m_detect->inputList().at( id );
     }
     return 0;
+}
+
+bool InputManager::eventFilter(QObject* object, QEvent* event)
+{
+    if (object != m_filteredObj)
+        return false;
+
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        keyboard(0)->setButtonState(keyEvent->key(), 1);
+        return true;
+    }
+
+    if (event->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        keyboard(0)->setButtonState(keyEvent->key(), 0);
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        mouse(0)->setPosition( mouseEvent->pos( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::Wheel)
+    {
+        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+        mouse(0)->setHWheelPosition( wheelEvent->x( ) );
+        mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        switch (mouseEvent->button()) {
+        case Qt::LeftButton:
+            return true;
+        case Qt::RightButton:
+            return true;
+        case Qt::MiddleButton:
+            return true;
+        case Qt::XButton1:
+            return true;
+        case Qt::XButton2:
+            return true;
+        default:
+            return false;
+        }
+    }
+    return false;
+}
+
+void InputManager::installEventFiltered(QObject *filteredObj)
+{
+    filteredObj->installEventFilter(this);
+}
+
+void InputManager::removeEventFiltered(QObject *filteredObj)
+{
+    filteredObj->removeEventFilter(this);
+}
+
+QObject* InputManager::filteredObject()
+{
+    return m_filteredObj;
+}
+
+void InputManager::setFilteredObject(QObject *filteredObj)
+{
+    if( filteredObj && inputManagementType() == QT_INPUT_HIGHLEVEL )
+    {
+        if( m_filteredObj )
+            removeEventFiltered(m_filteredObj);
+        installEventFiltered(filteredObj);
+    }
+
+    m_filteredObj = filteredObj;
+}
+
+InputManager::InputManagementType InputManager::inputManagementType() const
+{
+    return m_inputManagementType;
+}
+
+void InputManager::setInputManagementType( InputManager::InputManagementType inputManagementType )
+{
+    m_inputManagementType = inputManagementType;
 }
 
 #include "inputmanager.moc"

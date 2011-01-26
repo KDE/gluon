@@ -17,7 +17,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_asset_material GluonEngine GluonGraphics)
 endif()
 
-set_target_properties(gluon_asset_material PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_asset_material PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ASSET_MATERIAL_LIB)
 target_link_libraries(gluon_asset_material GluonEngine ${GLUON_GRAPHICS_LIBS})
 
 install(

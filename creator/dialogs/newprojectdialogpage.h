@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +24,10 @@
 
 #include <kpagewidgetmodel.h>
 
+#include <KDE/KColorScheme>
+
+#include <QLabel>
+
 namespace GluonCreator
 {
     class NewProjectDialogPage : public KPageWidgetItem
@@ -31,9 +36,22 @@ namespace GluonCreator
         public:
             NewProjectDialogPage();
             ~NewProjectDialogPage();
+
             QString createProject() const;
             bool isModified() const;
+            void setForeground(QLabel* label, KColorScheme::ForegroundRole role);
+
+        signals:
+            void validationFinished(bool);
+
+        private slots:
+            void urlEdited();
+            void validateData();
+
         private:
+            inline QByteArray encodedAppName();
+            inline QString pathUp(const QString& aPath);
+
             class NewProjectDialogPagePrivate;
             NewProjectDialogPagePrivate* const d;
     };

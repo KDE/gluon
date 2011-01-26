@@ -22,12 +22,13 @@
 
 #include "mesh.h"
 #include "materialinstance.h"
+#include "vertexbuffer.h"
+#include "vertexattribute.h"
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 
 #include "math.h"
-#include "glheaders.h"
 
 using namespace GluonGraphics;
 
@@ -36,28 +37,17 @@ class Mesh::MeshPrivate
     public:
         MeshPrivate()
         {
-            buffer = 0;
-            vertexLoc = -1;
-            colorLoc = -1;
-            uvLoc = -1;
         }
 
+        VertexBuffer* buffer;
         MaterialInstance* material;
-
-        GLuint buffer;
-        int colorOffset;
-        int uvOffset;
-
-        int vertexLoc;
-        int colorLoc;
-        int uvLoc;
 };
 
 Mesh::Mesh( QObject* parent )
     : QObject( parent ),
       d( new MeshPrivate )
 {
-
+    d->buffer = new VertexBuffer( this );
 }
 
 Mesh::~Mesh()
@@ -71,96 +61,52 @@ Mesh::load( const QString& filename )
     if( isLoaded() )
         return;
 
-#ifdef __GNUC__
-#warning Todo: Move vertex buffer related stuff to a VertexBuffer class.
-#endif
-
-    QVector<float> vertices;
+    VertexAttribute vertices( "vertex", 3);
     vertices << -1.f << -1.f << 0.f;
     vertices << -1.f <<  1.f << 0.f;
     vertices <<  1.f <<  1.f << 0.f;
-
-    vertices << -1.f << -1.f << 0.f;
-    vertices <<  1.f <<  1.f << 0.f;
     vertices <<  1.f << -1.f << 0.f;
+    d->buffer->addAttribute( vertices );
 
-    QVector<float> colors;
+    VertexAttribute colors("color", 4 );
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;
+    colors << 1.f << 1.f << 1.f << 1.f;
+    d->buffer->addAttribute( colors );
 
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-
-    QVector<float> uvs;
+    VertexAttribute uvs( "uv0", 2 );
     uvs << 0.f << 0.f;
     uvs << 0.f << 1.f;
     uvs << 1.f << 1.f;
-
-    uvs << 0.f << 0.f;
-    uvs << 1.f << 1.f;
     uvs << 1.f << 0.f;
+    d->buffer->addAttribute( uvs );
 
-    createBuffer( vertices, colors, uvs );
+    QVector<uint> indices;
+    indices << 0 << 1 << 2
+            << 0 << 2 << 3;
+
+    d->buffer->setIndices( indices );
+
+    d->buffer->initialize();
 }
 
 void
-Mesh::render( MaterialInstance* material )
+Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
-    renderBuffer( GL_TRIANGLES, 6, material );
+    d->buffer->render( mode, material );
 }
 
 bool
-Mesh::isLoaded()
+Mesh::isLoaded() const
 {
-    return d->buffer != 0;
+    return d->buffer->isInitialized();
 }
 
-void
-Mesh::createBuffer( const QVector<float>& vertices, const QVector<float>& colors, const QVector<float>& uvs )
+VertexBuffer*
+Mesh::vertexBuffer() const
 {
-    glGenBuffers( 1, &d->buffer );
-    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
-    glBufferData( GL_ARRAY_BUFFER, ( vertices.size() * 4 ) + ( colors.size() * 4 ) + ( uvs.size() * 4 ), 0, GL_STATIC_DRAW );
-    glBufferSubData( GL_ARRAY_BUFFER, 0, vertices.size() * 4, vertices.data() );
-    d->colorOffset = vertices.size() * 4;
-    glBufferSubData( GL_ARRAY_BUFFER, d->colorOffset, colors.size() * 4, colors.data() );
-    d->uvOffset = d->colorOffset + colors.size() * 4;
-    glBufferSubData( GL_ARRAY_BUFFER, d->uvOffset, uvs.size() * 4, uvs.data() );
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-}
-
-void
-Mesh::renderBuffer( uint mode, int count, MaterialInstance* material )
-{
-    if( d->buffer == 0 )
-        return;
-
-    if( d->vertexLoc == -1 )
-        d->vertexLoc = material->attributeLocation( "vertex" );
-
-    if( d->colorLoc == -1 )
-        d->colorLoc = material->attributeLocation( "color" );
-
-    if( d->uvLoc == -1 )
-        d->uvLoc = material->attributeLocation( "uv0" );
-
-    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
-    glVertexAttribPointer( d->vertexLoc, 3, GL_FLOAT, 0, 0, 0 );
-    glVertexAttribPointer( d->colorLoc, 4, GL_FLOAT, 0, 0, ( void* )( d->colorOffset ) );
-    glVertexAttribPointer( d->uvLoc, 2, GL_FLOAT, 0, 0, ( void* )( d->uvOffset ) );
-
-    glEnableVertexAttribArray( d->vertexLoc );
-    glEnableVertexAttribArray( d->colorLoc );
-    glEnableVertexAttribArray( d->uvLoc );
-
-    glDrawArrays( mode, 0, count );
-
-    glDisableVertexAttribArray( d->vertexLoc );
-    glDisableVertexAttribArray( d->colorLoc );
-    glDisableVertexAttribArray( d->uvLoc );
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    return d->buffer;
 }
 
 #include "mesh.moc"

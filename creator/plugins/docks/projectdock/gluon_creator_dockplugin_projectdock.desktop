@@ -29,6 +29,7 @@ Type=Service
 ServiceTypes=GluonCreator/Plugin
 
 X-KDE-Library=gluon_creator_dockplugin_projectdock
+X-KDE-GluonCreatorPluginVersion=1
 X-KDE-PluginInfo-Author=Arjen Hiemstra
 X-KDE-PluginInfo-Email=djfreestyler@gmail.com
 X-KDE-PluginInfo-Name=gluon_creator_dockplugin_projectdock

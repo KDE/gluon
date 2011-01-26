@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -50,11 +51,23 @@ namespace GluonCreator
                 const QMetaObject* mo = editObject->metaObject();
                 int enumIndex = mo->indexOfEnumerator( typeName.toUtf8() );
                 if( enumIndex > -1 )
+                {
                     metaEnum = mo->enumerator( enumIndex );
+                }
                 else
                 {
-                    DEBUG_TEXT( QString( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?" ).arg( typeName ) );
-                    metaEnum = QMetaEnum();
+                    const QMetaObject* qtmo = QtMetaObject::get();
+                    int qtEnumIndex = qtmo->indexOfEnumerator( typeName.toUtf8() );
+
+                    if( qtEnumIndex > -1 )
+                    {
+                        metaEnum = qtmo->enumerator( qtEnumIndex );
+                    }
+                    else
+                    {
+                        DEBUG_TEXT( QString( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?" ).arg( typeName ) );
+                        metaEnum = QMetaEnum();
+                    }
                 }
 
                 //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));

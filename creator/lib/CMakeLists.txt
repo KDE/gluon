@@ -14,6 +14,7 @@ set(libGluonCreator_SRCS
     deleteobjectcommand.cpp
     propertychangedcommand.cpp
 
+    models/models.cpp
     models/componentmodel.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
@@ -27,6 +28,7 @@ set(libGluonCreator_SRCS
     widgets/nullpropertywidgetitem.cpp
     widgets/gluonobjectpropertywidgetitem.cpp
     widgets/enumpropertywidgetitem.cpp
+    widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
 qt4_automoc(${libGluonCreator_SRCS})
@@ -54,7 +56,7 @@ set(GLUON_CREATOR_LIBS
     CACHE PATHS "Libraries required for Gluon Creator"
 )
 
-install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 install(FILES
     plugin.h

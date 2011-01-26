@@ -20,6 +20,7 @@
 #ifndef GLUONGRAPHICS_VIEWPORT_H
 #define GLUONGRAPHICS_VIEWPORT_H
 
+#include "gluon_graphics_export.h"
 #include <QtCore/QObject>
 
 namespace GluonGraphics
@@ -30,7 +31,7 @@ namespace GluonGraphics
      * The viewport describes the properties of the "window"
      * which is used to view the scene.
      */
-    class Viewport : public QObject
+    class GLUON_GRAPHICS_EXPORT Viewport : public QObject
     {
             Q_OBJECT
         public:
@@ -52,6 +53,9 @@ namespace GluonGraphics
             void setSize( float left, float width, float bottom, float height );
 
             void update();
+
+        Q_SIGNALS:
+            void viewportSizeChanged(int left, int bottom, int width, int height);
 
         private:
             class ViewportPrivate;

@@ -19,17 +19,25 @@
 
 #ifndef GLUON_ENGINE_PREFABPRIVATE_H
 #define GLUON_ENGINE_PREFABPRIVATE_H
-
-#include <QtCore/QSharedData>
+#include <QList>
 
 namespace GluonEngine
 {
-    class PrefabPrivate : public QSharedData
+
+class GameObject;
+
+
+class PrefabInstance;
+
+    class PrefabPrivate
     {
         public:
             PrefabPrivate();
             PrefabPrivate( const PrefabPrivate& other );
             ~PrefabPrivate();
+            
+            QList<PrefabInstance*> instances;
+            GameObject* gameObject;
     };
 }
 

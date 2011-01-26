@@ -33,6 +33,7 @@
 #include "math.h"
 #include "materialinstance.h"
 #include "material.h"
+#include "glheaders.h"
 
 using namespace GluonGraphics;
 
@@ -41,6 +42,7 @@ class Item::ItemPrivate
     public:
         ItemPrivate()
         {
+            mesh = 0;
             materialInstance = 0;
         }
         Mesh* mesh;
@@ -81,6 +83,15 @@ Item::materialInstance()
 void
 Item::render()
 {
+    render( d->materialInstance, VertexBuffer::RM_TRIANGLES );
+}
+
+void
+Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
+{
+    if( !d->mesh )
+        return;
+
     Camera* activeCam = Engine::instance()->activeCamera();
     if( !activeCam )
         return;
@@ -89,12 +100,12 @@ Item::render()
 #warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
 #endif
 
-    QMatrix4x4 modelViewProj = Math::calculateModelViewProj( d->transform, activeCam->viewMatrix(), activeCam->frustrum()->projectionMatrix() );
+    material->setProperty( "modelMatrix", d->transform );
+    if( !material->bind() )
+        return;
 
-    d->materialInstance->bind();
-    d->materialInstance->setModelViewProjectionMatrix( modelViewProj );
-    d->mesh->render( d->materialInstance );
-    d->materialInstance->release();
+    d->mesh->render( material, mode );
+    material->release();
 }
 
 void

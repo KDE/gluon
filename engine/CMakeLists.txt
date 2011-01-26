@@ -50,6 +50,7 @@ set(GluonEngine_SRCS
     gameprojectprivate.cpp
     prefab.cpp
     prefabprivate.cpp
+    prefabinstance.cpp
     savable.cpp
     scene.cpp
     sceneprivate.cpp
@@ -113,7 +114,7 @@ set(GLUON_ENGINE_LIBS
     CACHE PATHS "Libraries required for Gluon Engine"
 )
 
-install(TARGETS GluonEngine DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonEngine RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 install(
     FILES

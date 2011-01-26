@@ -21,16 +21,19 @@
 #define GLUON_ENGINE_PREFAB_H
 
 #include "core/gluonobject.h"
-
-#include <QtCore/QSharedData>
+#include "asset.h"
 
 namespace GluonEngine
 {
-    class PrefabPrivate;
 
-    class Prefab : public GluonCore::GluonObject
+class GameObject;
+
+    class PrefabInstance;
+    class PrefabPrivate;
+    class Prefab : public Asset
     {
             Q_OBJECT
+            Q_INTERFACES( GluonEngine::Asset );
             GLUON_OBJECT( GluonEngine::Prefab );
 
         public:
@@ -38,8 +41,15 @@ namespace GluonEngine
             Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
+            PrefabInstance* createInstance() const;
+            const QList<PrefabInstance*> instances() const;
+            bool removeInstance(const PrefabInstance* removeThis);
+
+            void setGameObject(GameObject* newGameObject);
+            GameObject* gameObject() const;
+
         private:
-            QSharedDataPointer<PrefabPrivate> d;
+            PrefabPrivate* d;
     };
 }
 

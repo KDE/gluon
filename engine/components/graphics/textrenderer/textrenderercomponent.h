@@ -29,7 +29,7 @@
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT TextRendererComponent : public Component
+    class GLUON_COMPONENT_TEXTRENDERER_EXPORT TextRendererComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::TextRendererComponent )

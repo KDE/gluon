@@ -8,12 +8,13 @@
         position vector3d(0;0;50)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::CameraControllerComponent(GluonObject)
+        { GluonEngine::CameraControllerComponent(Camera)
             enabled bool(true)
             active bool(true)
             visibleArea size2d(90;90)
             nearPlane float(1)
             farPlane float(99.99)
+            renderTargetMaterial GluonGraphics::MaterialInstance(Invaders/Assets/Render Target Material/Main)
         }
         { GluonEngine::SoundListenerComponent(GluonObject 1)
             enabled bool(true)
@@ -48,7 +49,7 @@
         }
         { GluonEngine::KeyboardInputComponent(Continue)
             enabled bool(true)
-            keyCode int(57)
+            keyCode int(32)
         }
     }
     { GluonEngine::GameObject(Player)
@@ -76,23 +77,23 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
-            keyCode int(105)
+            keyCode int(16777234)
         }
         { GluonEngine::KeyboardInputComponent(Key_Right)
             enabled bool(true)
-            keyCode int(106)
+            keyCode int(16777236)
         }
         { GluonEngine::KeyboardInputComponent(Key_Up)
             enabled bool(true)
-            keyCode int(23)
+            keyCode int(16777235)
         }
         { GluonEngine::KeyboardInputComponent(Key_Down)
             enabled bool(true)
-            keyCode int(31)
+            keyCode int(16777237)
         }
         { GluonEngine::KeyboardInputComponent(Key_Fire)
             enabled bool(true)
-            keyCode int(57)
+            keyCode int(32)
         }
         { GluonEngine::SoundEmitterComponent(FireSound)
             enabled bool(true)

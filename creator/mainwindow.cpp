@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 
 #include <QtCore/QVariantList>
+#include <QtCore/QFileInfo>
 
 #include <KFileDialog>
 #include <KStandardAction>
@@ -32,7 +33,6 @@
 #include <KPluginSelector>
 #include <KRun>
 #include <KRecentFilesAction>
-#include <KDE/KTabWidget>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
 
@@ -109,6 +109,7 @@ MainWindow::MainWindow( const QString& fileName )
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
+    d->projectDialog->raise( );
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogClosed() ) );
 
     DockManager::instance()->setDocksEnabled( false );
@@ -120,7 +121,11 @@ MainWindow::MainWindow( const QString& fileName )
     }
     else
     {
-        openProject( fileName );
+        QFileInfo fi = QFileInfo( fileName );
+        if( fi.isRelative() )
+            openProject( fi.canonicalFilePath() );
+        else
+            openProject( fileName );
     }
 }
 
@@ -298,6 +303,7 @@ void MainWindow::playGame( )
 
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        GluonEngine::Game::instance()->initializeAll();
     }
 }
 

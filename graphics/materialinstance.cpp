@@ -28,6 +28,8 @@
 #include "engine.h"
 #include "texture.h"
 #include "glheaders.h"
+#include "camera.h"
+#include "frustrum.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
 
@@ -39,6 +41,12 @@ class MaterialInstance::MaterialInstancePrivate
         MaterialInstancePrivate()
         {
             bound = false;
+            activeCamera = Engine::instance()->activeCamera();
+        }
+
+        void setActiveCamera( Camera* camera )
+        {
+            activeCamera = camera;
         }
 
         Material* material;
@@ -50,13 +58,17 @@ class MaterialInstance::MaterialInstancePrivate
 
         QHash<uint, Texture*> textures;
 
+        Camera* activeCamera;
+
         bool bound;
+        bool customViewProjMatrices;
 };
 
 MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
+    connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
 MaterialInstance::~MaterialInstance()
@@ -64,26 +76,42 @@ MaterialInstance::~MaterialInstance()
     delete d;
 }
 
-void
+bool
 MaterialInstance::bind()
 {
     if( !d->material )
-        return;
+    {
+        debug("Trying to bind a MaterialInstance without a material. This will most likely cause problems!");
+        return false;
+    }
 
-    glUseProgram( d->material->glProgram() );
+    int program = d->material->glProgram();
+    if( !program )
+        return false;
+
+    glUseProgram( program );
     d->bound = true;
+
+    if(!d->customViewProjMatrices)
+    {
+        setGLUniform( QString( "viewMatrix" ), d->activeCamera->viewMatrix() );
+        setGLUniform( QString( "projectionMatrix" ), d->activeCamera->frustrum()->projectionMatrix() );
+    }
 
     QList<QByteArray> properties = dynamicPropertyNames();
     foreach( QByteArray prop, properties )
     {
         setGLUniform( prop, property( prop ) );
     }
+
+    return true;
 }
 
 void
 MaterialInstance::release()
 {
     glUseProgram( 0 );
+    glEnable( GL_BLEND );
     d->bound = false;
 }
 
@@ -128,16 +156,6 @@ int MaterialInstance::uniformLocation( const QString& name )
 }
 
 void
-MaterialInstance::setModelViewProjectionMatrix( QMatrix4x4 mvp )
-{
-    int loc = uniformLocation( "modelViewProj" );
-
-    float glMatrix[16];
-    Math::qmatrixToGLMatrix( mvp, glMatrix );
-    glUniformMatrix4fv( loc, 1, false, glMatrix );
-}
-
-void
 MaterialInstance::setPropertiesFromMaterial()
 {
     QHash<QString, QVariant> uniforms = d->material->uniformList();
@@ -147,6 +165,11 @@ MaterialInstance::setPropertiesFromMaterial()
     }
 }
 
+void MaterialInstance::setUseCustomViewProjMatrices(bool useCustom)
+{
+    d->customViewProjMatrices = useCustom;
+}
+
 void
 MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 {
@@ -154,7 +177,14 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
     {
         case QVariant::UInt:
         case QVariant::Int:
-            glUniform1i( uniformLocation( name ), value.toInt() );
+            if(name.contains("texture"))
+            {
+                bindTexture(name, value.toInt());
+            }
+            else
+            {
+                glUniform1i( uniformLocation( name ), value.toInt() );
+            }
             break;
         case QVariant::Double:
             glUniform1f( uniformLocation( name ), value.toDouble() );
@@ -192,6 +222,14 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             }
             break;
         }
+        case QVariant::Matrix4x4:
+        {
+            QMatrix4x4 mat = value.value<QMatrix4x4>();
+            float glMatrix[16];
+            Math::qmatrixToGLMatrix( mat, glMatrix );
+            glUniformMatrix4fv( uniformLocation( name ), 1, false, glMatrix );
+            break;
+        }
         case QVariant::UserType:
         {
             GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
@@ -214,11 +252,16 @@ MaterialInstance::bindTexture( const QString& name, Texture* tex )
     if( !tex )
         return;
 
+    bindTexture(name, tex->glTexture());
+}
+
+void MaterialInstance::bindTexture( const QString& name, int tex )
+{
     QString uniName = name;
     int id = uniName.replace( "texture", "" ).toInt();
 
     glActiveTexture( GL_TEXTURE0 + id );
-    glBindTexture( GL_TEXTURE_2D, tex->glTexture() );
+    glBindTexture( GL_TEXTURE_2D, tex );
     glUniform1i( uniformLocation( name ), id );
 }
 

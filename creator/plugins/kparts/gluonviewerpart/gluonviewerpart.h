@@ -23,6 +23,13 @@
 
 #include <KDE/KParts/ReadOnlyPart>
 
+namespace GluonGraphics
+{
+    class Viewport;
+}
+
+using namespace GluonGraphics;
+
 namespace GluonCreator
 {
     class GluonViewerPart : public KParts::ReadOnlyPart
@@ -38,6 +45,9 @@ namespace GluonCreator
             void setSolid();
             void setWireframe();
             void setPoints();
+
+            void newViewport( Viewport* viewport );
+            void redraw();
 
         protected:
             virtual bool openFile();

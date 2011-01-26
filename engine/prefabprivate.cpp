@@ -20,17 +20,22 @@
 
 #include "prefabprivate.h"
 
+#include "engine/gameobject.h"
+
 using namespace GluonEngine;
 
 PrefabPrivate::PrefabPrivate()
+    : gameObject(0)
 {
 }
 
 PrefabPrivate::PrefabPrivate( const PrefabPrivate& other )
-    : QSharedData( other )
+    : instances( other.instances )
+    , gameObject( other.gameObject )
 {
 }
 
 PrefabPrivate::~PrefabPrivate()
 {
+    delete(gameObject);
 }

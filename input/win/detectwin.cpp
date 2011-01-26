@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -52,6 +53,11 @@ DetectWin::~DetectWin()
 {
 }
 
+bool DetectWin::isReadable()
+{
+    return false;
+}
+
 void DetectWin::detectDevices()
 {
 }
@@ -79,27 +85,23 @@ void DetectWin::addInput( InputDevice* i )
     d->inputList.append( i );
 }
 
-void DetectWin::addKeyboard( InputDevice* i )
+void DetectWin::addKeyboard( Keyboard* keybd )
 {
-    Keyboard* keybd = qobject_cast<Keyboard*>( i );
     d->keyboardList.append( keybd );
 }
 
-void DetectWin::addMouse( InputDevice* i )
+void DetectWin::addMouse( Mouse* mouse )
 {
-    Mouse* mouse = qobject_cast<Mouse*>( i );
     d->mouseList.append( mouse );
 }
 
-void DetectWin::addJoystick( InputDevice* i )
+void DetectWin::addJoystick( Joystick* joystick )
 {
-    Joystick* joy = qobject_cast<Joystick*>( i );
-    d->joystickList.append( joy );
+    d->joystickList.append( joystick );
 }
 
-void DetectWin::addTouch( InputDevice* i )
+void DetectWin::addTouch( Touch* touch )
 {
-    Touch* touch = qobject_cast<Touch*>( i );
     d->touchList.append( touch );
 }
 

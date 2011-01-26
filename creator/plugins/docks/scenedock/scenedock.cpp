@@ -34,6 +34,7 @@
 #include <QMenu>
 #include <historymanager.h>
 #include <objectmanager.h>
+#include <models/models.h>
 
 using namespace GluonCreator;
 
@@ -57,7 +58,7 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
 
     d = new SceneDockPrivate;
     d->view = new QTreeView( this );
-    d->model = new SceneModel( d->view );
+    d->model = Models::instance()->sceneModel();
     setWidget( d->view );
 
     if( GluonEngine::Game::instance()->currentScene() )

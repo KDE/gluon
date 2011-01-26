@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -64,6 +65,11 @@ namespace GluonPlayer
              */
             Q_INVOKABLE bool login( const QString& username, const QString& password );
             /**
+             * use to perform a logout. Connect to the signal loggedOut() and logoutFailed() to know the result.
+             * @return true if logout was successfully initiated, false otherwise.
+             */
+            Q_INVOKABLE bool logout( );
+            /**
              * use to check if we are logged in
              * @return true if logged in, false otherwise
              */
@@ -104,9 +110,15 @@ namespace GluonPlayer
             /** signal which is emitted if the login is complete
              */
             void loggedIn();
+            /** signal which is emitted if the logout is complete
+             */
+            void loggedOut();
             /** signal which is emitted when the login failed
              */
             void loginFailed();
+            /** signal which is emitted when the logout failed
+             */
+            void logoutFailed();
 
         private:
             friend class GluonCore::Singleton<Authentication>;
@@ -122,6 +134,7 @@ namespace GluonPlayer
             QString m_password;
             Attica::PostJob* m_registerJob;
             Attica::PostJob* m_checkLoginJob;
+            Attica::PostJob* m_checkLogoutJob;
     };
 }
 

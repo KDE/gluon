@@ -19,6 +19,6 @@ pad-oper
 align-pointer=type
 
 #Other options
-exclude=build/
+#exclude=build/
 suffix=none
-recursive
+#recursive

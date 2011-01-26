@@ -36,7 +36,7 @@ GDLHandler::~GDLHandler()
 {
 }
 
-GluonObject *
+GluonObject*
 GDLHandler::instantiateObject( QString className )
 {
     GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName( className );
@@ -46,7 +46,7 @@ GDLHandler::instantiateObject( QString className )
     return newObject;
 }
 
-GluonObject *
+GluonObject*
 GDLHandler::createObject( QStringList objectStringList, QObject* parent )
 {
     DEBUG_BLOCK
@@ -58,11 +58,21 @@ GDLHandler::createObject( QStringList objectStringList, QObject* parent )
         switch( index )
         {
             case 0:
+            {
                 // Object type
                 createdObject = instantiateObject( item );
-                createdObject->setParent( parent );
-                //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
-                break;
+                GluonObject* gluonObj = qobject_cast<GluonObject*>( parent );
+                if( gluonObj )
+                {
+                    gluonObj->addChild( createdObject );
+                }
+                else
+                {
+                    createdObject->setParent( parent );
+                }
+            }
+            //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
+            break;
             case 1:
                 // Object name
                 createdObject->setName( item );

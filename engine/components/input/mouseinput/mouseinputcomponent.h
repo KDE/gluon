@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,13 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #ifndef MOUSEINPUTCOMPONENT_H
 #define MOUSEINPUTCOMPONENT_H
 
-#include "component.h"
-
-#include "gluonbuttons.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/component.h>
 
 namespace GluonInput
 {
@@ -33,12 +32,13 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class MouseInputComponent : public Component
+    class GLUON_COMPONENT_MOUSEINPUT_EXPORT MouseInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::MouseInputComponent )
             Q_INTERFACES( GluonEngine::Component )
             Q_PROPERTY( MouseButton mouseButton READ mouseButton WRITE setMouseButton )
+            Q_PROPERTY( bool mouseTrack READ mouseTrack WRITE setMouseTrack )
             Q_ENUMS( MouseButton )
 
         public:
@@ -75,6 +75,9 @@ namespace GluonEngine
 
             MouseButton mouseButton() const;
             void setMouseButton( MouseButton button );
+
+            bool mouseTrack() const;
+            void setMouseTrack( bool enable );
 
             Q_INVOKABLE virtual int xAxis();
             Q_INVOKABLE virtual int yAxis();

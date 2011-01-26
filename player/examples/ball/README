@@ -1,0 +1,11 @@
+Ball game example for Gluon.
+Controls: Use space to jump.
+
+Created by Michał Koźmiński 
+E-mail:michal.kozminski@gmail.com
+
+Graphics used in this project:
+trap.png : CC0 License	http://opengameart.org/content/wooden-crate
+ball.png : CC0 License and CC-BY-SA 3.0	http://opengameart.org/content/apples
+star.png : CC0 License	http://opengameart.org/content/fabulous-stars
+And some graphics was from Invaders game example for gluon

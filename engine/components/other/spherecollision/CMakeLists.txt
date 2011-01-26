@@ -13,7 +13,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_spherecollision GluonEngine)
 endif()
 
-set_target_properties(gluon_component_spherecollision PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_component_spherecollision PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_SPHERECOLLISION_LIB)
 target_link_libraries(gluon_component_spherecollision GluonEngine)
 
 install(

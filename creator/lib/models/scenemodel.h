@@ -26,6 +26,7 @@
 namespace GluonEngine
 {
     class GameObject;
+class Component;
 }
 
 namespace GluonCreator
@@ -61,6 +62,8 @@ namespace GluonCreator
 
         public Q_SLOTS:
             void setRootGameObject( GluonEngine::GameObject* obj );
+            void deleteGameObject( GluonEngine::GameObject* obj );
+            void deleteComponent( GluonEngine::Component* component );
 
         private:
             class SceneModelPrivate;

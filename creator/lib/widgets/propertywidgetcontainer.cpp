@@ -16,7 +16,20 @@
 
 #include "propertywidgetcontainer.h"
 #include "propertywidgetitem.h"
+#include "propertywidgetitemnewcustomproperty.h"
 #include "core/gluonobject.h"
+
+#include "selectionmanager.h"
+#include "objectmanager.h"
+#include "engine/gameobject.h"
+#include "engine/component.h"
+#include "models/models.h"
+#include "models/scenemodel.h"
+
+#include <KIcon>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <ksqueezedtextlabel.h>
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QBoxLayout>
@@ -26,11 +39,8 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
-#include <KIcon>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <ksqueezedtextlabel.h>
-#include <selectionmanager.h>
+#include <QtCore/QTimer>
+#include <QtCore/QDebug>
 
 namespace GluonCreator
 {
@@ -45,6 +55,7 @@ namespace GluonCreator
                 , expander( 0 )
                 , enabler( 0 )
                 , menuButton( 0 )
+                , newCustomProp( 0 )
             {
                 this->parent = parent;
                 menu = new QMenu( parent );
@@ -121,6 +132,8 @@ namespace GluonCreator
             QToolButton* menuButton;
 
             QMenu* menu;
+
+            GluonCreator::PropertyWidgetItemNewCustomProperty* newCustomProp;
     };
 }
 
@@ -174,6 +187,11 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     d->containerLayout->addWidget( separator, d->containerLayout->rowCount(), 0, 1, 2 );
 
     // Set up us the menu...
+    QAction* customPropAction = new QAction( this );
+    customPropAction->setText( i18n( "Add Custom Property..." ) );
+    connect( customPropAction, SIGNAL( triggered( bool ) ), this, SLOT( addPropertyTriggered() ) );
+    d->menu->addAction( customPropAction );
+    d->menu->addSeparator();
     if( classname != QString( "GameObject" ) )
     {
         // Don't show moving up and down stuff for the GameObject
@@ -185,9 +203,7 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
         downAction->setText( i18n( "Move Down" ) );
         connect( downAction, SIGNAL( triggered( bool ) ), this, SLOT( downTriggered() ) );
         d->menu->addAction( downAction );
-        QAction* sepAction = new QAction( this );
-        sepAction->setSeparator( true );
-        d->menu->addAction( sepAction );
+        d->menu->addSeparator();
     }
     if( classname != QString( "GameProject" ) )
     {
@@ -203,13 +219,39 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
 void
 PropertyWidgetContainer::upTriggered()
 {
-
+    QWidget* w = qobject_cast<QWidget *>(parent());
+    if( w )
+    {
+        QVBoxLayout* vbl = qobject_cast<QVBoxLayout *>(w->layout());
+        if( vbl )
+        {
+            int index = vbl->indexOf(this);
+            if( index > 1 )
+            {
+                vbl->removeWidget(this);
+                vbl->insertWidget(index - 1, this);
+            }
+        }
+    }
 }
 
 void
 PropertyWidgetContainer::downTriggered()
 {
-
+    QWidget* w = qobject_cast<QWidget *>(parent());
+    if( w )
+    {
+        QVBoxLayout* vbl = qobject_cast<QVBoxLayout *>(w->layout());
+        if( vbl )
+        {
+            int index = vbl->indexOf(this);
+            if( index < vbl->count() - 2 )
+            {
+                vbl->removeWidget(this);
+                vbl->insertWidget(index + 1, this);
+            }
+        }
+    }
 }
 
 void
@@ -220,13 +262,38 @@ PropertyWidgetContainer::delTriggered()
         GluonCore::GluonObject* theParent = qobject_cast<GluonCore::GluonObject*>( d->object->parent() );
         if( theParent )
             theParent->removeChild( d->object );
-        d->object->deleteLater();
 
-        // Cause the property dock to update its view
-        SelectionManager::SelectionList list;
-        list.append( theParent );
-        SelectionManager::instance()->setSelection( list );
+        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(d->object);
+        if(gobj && gobj->parentGameObject())
+        {
+            SelectionManager::instance()->clearSelection();
+            Models::instance()->sceneModel()->deleteGameObject(gobj);
+        }
+        else if(comp)
+        {
+            Models::instance()->sceneModel()->deleteComponent(comp);
+            this->deleteLater();
+        }
     }
+}
+
+void PropertyWidgetContainer::addPropertyTriggered()
+{
+    d->newCustomProp = new PropertyWidgetItemNewCustomProperty( this );
+    connect( d->newCustomProp, SIGNAL( propertyCreated(GluonCore::GluonObject*,QString) ), this, SLOT( propertyCreated(GluonCore::GluonObject*,QString) ) );
+    d->newCustomProp->createProperty( d->object );
+}
+
+void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName)
+{
+    QVariant propVal = propertyCreatedOn->property(createdPropertyName.toUtf8());
+    PropertyWidgetItem* pwi = PropertyWidgetItemFactory::instance()->create( propertyCreatedOn, propVal.typeName(), parentWidget() );
+    pwi->setEditObject( propertyCreatedOn );
+    pwi->setEditProperty( createdPropertyName );
+    d->addPropertyItem( createdPropertyName, pwi );
+    d->newCustomProp->deleteLater();
+    emit propertyChanged( propertyCreatedOn, createdPropertyName, propVal, propVal );
 }
 
 bool
@@ -337,7 +404,20 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         if( propertyName == QString( "objectName" ) || propertyName == QString( "name" ) || propertyName == QString( "description" ) || propertyName == QString( "expanded" ) || propertyName == QString( "enabled" ) )
             continue;
 
-        PropertyWidgetItem* editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+        PropertyWidgetItem* editWidget;
+        if(!metaProperty.isEnumType())
+        {
+            editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+        }
+        else
+        {
+            QMetaEnum enumerator = metaProperty.enumerator();
+            if( strcmp(enumerator.scope(), "Qt") )
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+            else
+                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
+        }
+
         editWidget->setEditObject( object );
         editWidget->setEditProperty( metaProperty.name() );
 
@@ -409,5 +489,3 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString( QString
     }
     return fixedString;
 }
-
-//#include "propertywidgetcontainer.moc"

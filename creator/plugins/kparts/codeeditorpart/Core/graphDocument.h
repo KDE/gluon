@@ -29,7 +29,7 @@ class Graph;
 /*! \brief the graph document
   long explanation needed.
 */
-class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
+class GraphDocument : public QObject, public QList<Graph*>
 {
         Q_OBJECT
 

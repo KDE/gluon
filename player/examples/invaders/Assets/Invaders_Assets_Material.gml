@@ -3,7 +3,9 @@
 
     vertexShader string(<<<#version 120
 
-uniform mat4 modelViewProj;
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
 
 attribute vec3 vertex;
 attribute vec4 color;
@@ -14,7 +16,7 @@ varying vec2 out_uv0;
 
 void main()
 {
-    gl_Position = vec4(vertex, 1.0) * modelViewProj;
+    gl_Position = vec4(vertex, 1.0) * ((modelMatrix * viewMatrix) * projectionMatrix);
     out_color = color;
     out_uv0 = uv0;
 }
@@ -32,10 +34,7 @@ void main()
 {
     vec4 texColor = texture2D(texture0, out_uv0);
     vec4 color = out_color * materialColor * texColor;
-    color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);
-    if(color.a <= 0.0)
-        discard;
-    gl_FragColor = color;
+    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);
 }
 <<<)
 

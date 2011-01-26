@@ -5,11 +5,20 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
 endif()
 
+add_subdirectory(alure)
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
+
+
+# Needed to link against a static lib on 64bits Linux
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND UNIX )
+  #add_definitions("-fPIC")
+  SET_TARGET_PROPERTIES(alure-static PROPERTIES COMPILE_FLAGS -fPIC)
+ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND UNIX )
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -36,10 +45,7 @@ set(GLUON_AUDIO_INCLUDES
 
 set(GluonAudio_SRCS
     engine.cpp
-    soundreader.cpp
-    music.cpp
     capture.cpp
-    buffer.cpp
     sound.cpp
 
     capturedevice_p.cpp
@@ -47,11 +53,8 @@ set(GluonAudio_SRCS
 )
 
 set(GluonAudio_HEADERS
-buffer.h
     engine.h
-    soundreader.h
     sound.h
-    music.h
     capture.h
     gluon_audio_export.h
 )
@@ -69,6 +72,12 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
 endif()
 
+IF(WIN32)
+    SET(ALURE_LIBRARY ALURE32-static)
+ELSE(WIN32)
+    SET(ALURE_LIBRARY alure-static)
+ENDIF(WIN32)
+
 target_link_libraries(
     GluonAudio
     ${GLUON_CORE_LIBS}
@@ -76,6 +85,7 @@ target_link_libraries(
     ${SNDFILE_LIBRARY}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
+    ${ALURE_LIBRARY}
 )
 
 set(GLUON_AUDIO_LIBS
@@ -105,7 +115,7 @@ if(APPLE)
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-install(TARGETS GluonAudio DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonAudio RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 install(
     FILES
