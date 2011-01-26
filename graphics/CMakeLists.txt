@@ -53,10 +53,6 @@ set(GLUON_GRAPHICS_INCLUDES
     CACHE PATHS "Includes required for Gluon Graphics"
 )
 
-if(INSTALL_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
 set(GluonGraphics_SRCS
     rendertarget.cpp
     backendcapabilities.cpp
@@ -160,6 +156,10 @@ set(GLUON_GRAPHICS_LIBS
     ${OPENGL_REAL_LIBS}
     CACHE PATHS "Libraries required for Gluon Graphics"
 )
+
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 install(TARGETS GluonGraphics RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
