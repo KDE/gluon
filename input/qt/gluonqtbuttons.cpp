@@ -22,7 +22,7 @@
 
 using namespace GluonInput;
 
-template<> GluonQtButtons* GluonCore::Singleton<GluonQtButtons>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(GluonQtButtons)
 
 GluonQtButtons::GluonQtButtons()
 {

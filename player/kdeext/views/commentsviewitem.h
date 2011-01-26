@@ -32,7 +32,7 @@ class CommentsViewItem : public QWidget
 {
         Q_OBJECT
     public:
-        CommentsViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit CommentsViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~CommentsViewItem();
 
         virtual void setModelIndex( const QModelIndex& index );

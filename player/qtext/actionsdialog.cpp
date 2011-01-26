@@ -17,8 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "mainwindow.h"
 #include "actionsdialog.h"
+
+#include "mainwindow.h"
 
 ActionsDialog::ActionsDialog( QList<QAction*> actions,
                               QWidget* parent )

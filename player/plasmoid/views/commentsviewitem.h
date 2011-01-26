@@ -35,7 +35,7 @@ class CommentsViewItem : public QGraphicsWidget
 {
         Q_OBJECT
     public:
-        CommentsViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit CommentsViewItem( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~CommentsViewItem();
 
         virtual void setModelIndex( const QModelIndex& index );

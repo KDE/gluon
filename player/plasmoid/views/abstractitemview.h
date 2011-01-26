@@ -33,7 +33,7 @@ class AbstractItemView : public Overlay
 {
         Q_OBJECT
     public:
-        AbstractItemView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit AbstractItemView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
 
         virtual void setModel( QAbstractItemModel* model );
         QAbstractItemModel* model() const;

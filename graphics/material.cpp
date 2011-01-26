@@ -99,7 +99,7 @@ bool Material::load( const QUrl& url )
     QList<QByteArray> properties = obj->dynamicPropertyNames();
     MaterialInstance* defaultInstance = d->instances.find( "default" ).value();
 
-    foreach( QByteArray propertyName, properties )
+    foreach( const QByteArray& propertyName, properties )
     {
         if( propertyName == "vertexShader" )
         {
@@ -164,7 +164,7 @@ void Material::build( const QString& name )
 
     if( !d->program->isLinked() )
     {
-        debug( "An error occured during shader compilation!" );
+        debug( "An error occurred during shader compilation!" );
         debug( d->program->log() );
     }
 
@@ -190,7 +190,7 @@ void Material::build( const QString& name )
     //     {
     //         char log[500];
     //         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
-    //         debug( "An error occured when compiling a fragment shader:\n%1", QString( log ) );
+    //         debug( "An error occurred when compiling a fragment shader:\n%1", QString( log ) );
     //     }
     //
     //     d->glProgram = glCreateProgram();
@@ -203,7 +203,7 @@ void Material::build( const QString& name )
     //     {
     //         char log[500];
     //         glGetProgramInfoLog( d->fragShader, 500, NULL, log );
-    //         debug( "An error occured when linking a program:\n%1", QString( log ) );
+    //         debug( "An error occurred when linking a program:\n%1", QString( log ) );
     //     }
 }
 

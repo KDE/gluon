@@ -34,7 +34,7 @@ class NewCommentForm : public QGraphicsWidget
 {
         Q_OBJECT
     public:
-        NewCommentForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit NewCommentForm( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~NewCommentForm();
 
         void setParentIndex( QModelIndex parentIndex );

@@ -35,7 +35,7 @@ class Overlay : public QWidget
         Q_OBJECT
 
     public:
-        Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     // protected:
         // virtual void keyPressEvent( QKeyEvent* event );

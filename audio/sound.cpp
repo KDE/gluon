@@ -27,7 +27,6 @@
 #include <core/debughelper.h>
 #include "alure/include/AL/alure.h"
 #include <sndfile.h>
-#include <QTimer>
 
 using namespace GluonAudio;
 
@@ -53,7 +52,7 @@ class Sound::SoundPrivate
             }
             return false;
         }
-        
+
         void init()
         {
             isValid = true;
@@ -68,10 +67,19 @@ class Sound::SoundPrivate
             pitch = 1.0f;
             radius = 10000.0f;
 
+        }
+
+        bool setupSource()
+        {
+            if (path.isEmpty()) {
+                return false;
+            }
+
             alGenSources( 1, &source );
             if (source == 0) {
                 DEBUG_BLOCK
                 DEBUG_TEXT2("Empty source, OpenAL error: %1", alGetError())
+                return false;
             }
 
             ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
@@ -80,8 +88,9 @@ class Sound::SoundPrivate
             alSourcef( source, AL_PITCH, pitch );
             alSourcef( source, AL_REFERENCE_DISTANCE, radius );
         }
-        
-        void _k_deleteSource() {
+
+        void _k_deleteSource()
+        {
             if (source != 0) {
                 alureStopSource(source, false);
                 alDeleteSources(1, &source);
@@ -94,10 +103,9 @@ class Sound::SoundPrivate
             }
             stream = 0;
         }
-        
-        QTimer *killTimer;
+
         QString path;
-        
+
         bool isValid;
         bool isStreamed;
         bool isPaused;
@@ -109,8 +117,6 @@ class Sound::SoundPrivate
         ALfloat volume;
         ALfloat pitch;
         ALfloat radius;
-        
-        static const int maxInactivtyTime = 1000;
 };
 
 Sound::Sound()
@@ -166,14 +172,9 @@ bool Sound::loadFile(const QString& fileName, bool toStream)
     }
     if (!d->path.isEmpty()) {
         d->_k_deleteSource();
-        d->init();
-    } else {
-        d->killTimer = new QTimer(this);
-        d->killTimer->setSingleShot(true);
-        d->killTimer->setInterval(d->maxInactivtyTime);
-        connect(d->killTimer, SIGNAL(timeout()), SLOT(_k_deleteSource()));
     }
     d->path = fileName;
+    d->setupSource();
     d->isStreamed = toStream;
     if (d->isStreamed) {
         alureStreamSizeIsMicroSec(true);
@@ -221,6 +222,11 @@ void Sound::setLoop( bool enabled )
     if (!d->isStreamed) {
         alSourcei( d->source, AL_LOOPING, enabled );
     }
+}
+
+void Sound::clear()
+{
+    d->_k_deleteSource();
 }
 
 QVector3D Sound::position() const
@@ -298,14 +304,11 @@ void Sound::stopped()
     d->isStopped = true;
     if (d->isLooping) {
         play();
-    } else {
-        d->killTimer->start();
     }
 }
 
 void Sound::play()
 {
-    d->killTimer->stop();
     if (d->isPaused) {
          alureResumeSource(d->source);
     }
@@ -336,7 +339,6 @@ void Sound::stop()
     alureStopSource(d->source, false);
     d->isStopped = true;
     d->newError();
-    d->killTimer->start();
 }
 
 void Sound::rewind()

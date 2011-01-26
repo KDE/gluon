@@ -36,7 +36,7 @@
 
 using namespace GluonEngine;
 
-template<> Game* GluonCore::Singleton<Game>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Game)
 
 Game::Game( QObject* parent )
 {
