@@ -30,7 +30,7 @@ int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
     app.setOrganizationName( "KDE Gluon" );
-    app.setApplicationName( "Gluon Player" );
+    app.setApplicationName( "Gluon Input Example for setting an event filtered Object" );
     MainWindow window;
 
 #if defined(Q_WS_S60)
