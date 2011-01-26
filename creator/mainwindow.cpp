@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 
 #include <QtCore/QVariantList>
+#include <QtCore/QFileInfo>
 
 #include <KFileDialog>
 #include <KStandardAction>
@@ -120,7 +121,11 @@ MainWindow::MainWindow( const QString& fileName )
     }
     else
     {
-        openProject( fileName );
+        QFileInfo fi = QFileInfo( fileName );
+        if( fi.isRelative() )
+            openProject( fi.canonicalFilePath() );
+        else
+            openProject( fileName );
     }
 }
 

@@ -25,7 +25,6 @@
 
 #include "core/gluon_global.h"
 
-//#include <core/gluon_core_metatypes.h>
 #include <engine/gluon_engine_metatypes.h>
 
 int main( int argc, char** argv )

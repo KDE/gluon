@@ -150,7 +150,7 @@ void GluonViewerPart::newViewport( Viewport* viewport )
 {
     disconnect( 0, 0, this, SLOT( redraw() ) );
     connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ),
-             this, SLOT( redraw() ) );
+             SLOT( redraw() ) );
 }
 
 void GluonViewerPart::redraw()
@@ -160,5 +160,3 @@ void GluonViewerPart::redraw()
 
 K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
 K_EXPORT_PLUGIN( GluonViewerPartFactory( "GluonViewerPart", "GluonViewerPart" ) )
-
-// #include "gluonviewerpart.moc"
