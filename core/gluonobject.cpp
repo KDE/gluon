@@ -356,6 +356,12 @@ GluonObject::root()
 
 void GluonObject::addChild( GluonObject* child )
 {
+    GluonObject* parent = qobject_cast<GluonObject*>( child->parent() );
+    if( parent )
+    {
+        parent->removeChild( child );
+    }
+
     child->setParent( this );
     child->setName( child->name() );
 }
