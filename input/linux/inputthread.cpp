@@ -400,7 +400,7 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_NEXTSONG:
             return Qt::Key_MediaNext;
         case KEY_PLAYPAUSE:
-            return Qt::Key_MediaTogglePlayPause;
+            return Qt::Key_unknown;
         case KEY_PREVIOUSSONG:
             return Qt::Key_MediaPrevious;
         case KEY_STOPCD:
@@ -486,7 +486,7 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_HP:
             return Qt::Key_unknown;
         case KEY_CAMERA:
-            return Qt::Key_Camera;
+            return Qt::Key_unknown;
         case KEY_SOUND:
             return Qt::Key_unknown;
         case KEY_QUESTION:

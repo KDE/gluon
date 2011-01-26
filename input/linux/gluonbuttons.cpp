@@ -24,7 +24,7 @@
 
 using namespace GluonInput;
 
-template<> GluonButtons* GluonCore::Singleton<GluonButtons>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(GluonButtons)
 
 GluonButtons::GluonButtons()
 {

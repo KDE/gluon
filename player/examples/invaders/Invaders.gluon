@@ -77,7 +77,7 @@
         { GluonEngine::MaterialAsset(Material)
             file url(Assets/Invaders_Assets_Material.gml)
             { GluonGraphics::MaterialInstance(Menu Text)
-                materialColor rgba(255;255;255;255)
+                materialColor rgba(74;74;74;255)
                 texture0 string(play.png)
             }
             { GluonGraphics::MaterialInstance(Icon)
@@ -121,6 +121,7 @@
             file url(Assets/Invaders_Assets_Material_1.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
+                texture0 uint(40)
             }
         }
     }
