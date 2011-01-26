@@ -43,6 +43,11 @@ class MaterialInstance::MaterialInstancePrivate
             bound = false;
         }
 
+        void setActiveCamera( Camera* camera )
+        {
+            activeCamera = camera;
+        }
+
         Material* material;
 
         QHash<QString, int> uniformLocations;
@@ -257,11 +262,6 @@ void MaterialInstance::bindTexture( const QString& name, int tex )
     glActiveTexture( GL_TEXTURE0 + id );
     glBindTexture( GL_TEXTURE_2D, tex );
     glUniform1i( uniformLocation( name ), id );
-}
-
-void MaterialInstance::setActiveCamera( Camera* cam )
-{
-    d->activeCamera = cam;
 }
 
 #include "materialinstance.moc"
