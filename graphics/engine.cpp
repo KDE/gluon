@@ -368,11 +368,11 @@ Engine::setActiveCamera( Camera* camera )
 void
 Engine::setViewport( Viewport* viewport )
 {
+    emit currentViewportChanging( viewport );
     d->objectMutex.lock();
     d->viewport = viewport;
     connect(d->viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), this, SLOT(viewportSizeChanged(int,int,int,int)));
     d->objectMutex.unlock();
-    emit currentViewportChanged(viewport);
 }
 
 Engine::Engine()
