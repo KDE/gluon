@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,8 @@
  */
 
 #include "mainwindow.h"
+
+#include "input/inputmanager.h"
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -120,6 +123,7 @@ void MainWindow::openProject( const QString& fileName )
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
+    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
     QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;
@@ -138,6 +142,7 @@ void MainWindow::startGame()
     GluonEngine::Game::instance()->setGameProject( d->project );
     GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
+    d->widget->setFocus();
     GluonEngine::Game::instance()->runGame();
 }
 

@@ -29,6 +29,7 @@ if(APPLE)
     message("-- Found CoreFoundation:" ${COREFOUNDATION_LIBRARY})
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(WIN32)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -37,7 +38,8 @@ elseif(WIN32)
         CACHE PATHS "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
-else()
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
+elseif(UNIX)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
@@ -45,12 +47,22 @@ else()
         CACHE PATHS "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 endif()
 
 ###############win source and headers###################
-set(GluonInput_SRCS_WIN )
+set(GluonInput_SRCS_WIN
+    win/detectwin.cpp
+    win/gluonbuttons.cpp
+    win/inputthread.cpp
+)
 
-set(GluonInput_HEADERS_WIN )
+set(GluonInput_HEADERS_WIN
+    win/detectwin.h
+    win/inputthread.h
+    win/gluonbuttons.h
+    win/gluondevices.h
+)
 ###############win source and headers###################
 
 ###############mac source and headers###################
@@ -86,6 +98,20 @@ set(GluonInput_HEADERS_LINUX
 	linux/gluondevices.h
 )
 ###############linux source and headers###################
+
+###############qt source and headers###################
+set(GluonInput_SRCS_QT
+    qt/detectqt.cpp
+	qt/detectqtprivate.cpp
+	qt/gluonqtbuttons.cpp
+)
+
+set(GluonInput_HEADERS_QT
+    qt/detectqt.h
+    qt/gluonqtbuttons.h
+	qt/gluonqtdevices.h
+)
+###############qt source and headers###################
 
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
@@ -124,17 +150,19 @@ set(GluonInput_HEADERS_COMMON
 ###############common source and headers###################
 
 qt4_automoc(${GluonInput_SRCS_COMMON})
+qt4_automoc(${GluonInput_SRCS_QT})
 
 if(APPLE)
     qt4_automoc(${GluonInput_SRCS_MAC})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON} ${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC})
+    add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON} ${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC} ${GluonInput_SRCS_QT})
 elseif(WIN32)
     qt4_automoc(${GluonInput_SRCS_WIN})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_COMMON})
-else()
+    add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
+elseif(UNIX)
     qt4_automoc(${GluonInput_SRCS_LINUX})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_COMMON})
+    add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
 endif()
+
 
 set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_INPUT_LIB)
 
@@ -160,7 +188,11 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()
 
+if(NOT WIN32)
 target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
+else(NOT WIN32)
+target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
+endif(NOT WIN32)
 
 set(GLUON_INPUT_LIBS
     GluonInput
@@ -176,16 +208,18 @@ if(APPLE)
         CACHE PATHS "Libraries required for Gluon Input"
     )
 elseif(WIN32)
+elseif(UNIX)
 else()
 endif()
 
 if(APPLE)
     target_link_libraries(GluonInput ${IOKIT_LIBRARY}  ${COREFOUNDATION_LIBRARY})
 elseif(WIN32)
+elseif(UNIX)
 else()
 endif()
 
-install(TARGETS GluonInput DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonInput RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 if(APPLE)
     install(
@@ -203,7 +237,7 @@ elseif(WIN32)
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
-else()
+elseif(UNIX)
     install(
         FILES
         ${GluonInput_HEADERS_LINUX}
@@ -211,4 +245,13 @@ else()
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
+else()
 endif()
+
+install(
+    FILES
+    ${GluonInput_HEADERS_QT}
+    ${GluonInput_HEADERS_COMMON}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
+    COMPONENT Devel
+    )

@@ -56,7 +56,7 @@ set(GLUON_CREATOR_LIBS
     CACHE PATHS "Libraries required for Gluon Creator"
 )
 
-install(TARGETS libGluonCreator DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 install(FILES
     plugin.h

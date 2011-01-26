@@ -47,14 +47,6 @@ Models::Models()
 {
 }
 
-
-Models::Models(const GluonCreator::Models& )
-    : Singleton< GluonCreator::Models >()
-    , d(new Private)
-{
-
-}
-
 Models::~Models()
 {
     delete(d);

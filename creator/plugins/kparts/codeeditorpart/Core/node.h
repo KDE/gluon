@@ -34,7 +34,7 @@ class Node;
 
 typedef QList<Node*> NodeList;
 
-class  ROCSLIB_EXPORT Node : public QObject
+class Node : public QObject
 {
         Q_OBJECT
         Q_PROPERTY( qreal x READ x WRITE setX )
@@ -131,7 +131,7 @@ class  ROCSLIB_EXPORT Node : public QObject
         void setNodeItem( QGraphicsSvgItem* ni );
         /** Add a property to this node
         * @param property Name of property
-        * @param value Value of the property. arg2 shoud be different of QVariant::Invalid.
+        * @param value Value of the property. arg2 should be different of QVariant::Invalid.
         */
         void addDynamicProperty( QString property, QVariant value );
 

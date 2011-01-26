@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (C) 2010 Keith Rusler <xzekecomax@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -168,7 +169,7 @@ void NewProjectDialogPage::validateData()
     {
         d->locationValidLabel->setText( i18n("Invalid location") );
         setForeground(d->locationValidLabel, KColorScheme::NegativeText);
-        emit invalid();
+        emit validationFinished( false );
         return;
     }
 
@@ -178,7 +179,7 @@ void NewProjectDialogPage::validateData()
     {
         d->locationValidLabel->setText( i18n("Empty project name") );
         setForeground(d->locationValidLabel, KColorScheme::NegativeText);
-        emit invalid();
+        emit validationFinished( false );
         return;
     }
 
@@ -186,7 +187,7 @@ void NewProjectDialogPage::validateData()
     {
         d->locationValidLabel->setText( i18n("Invalid project name") );
         setForeground(d->locationValidLabel, KColorScheme::NegativeText);
-        emit invalid();
+        emit validationFinished( false );
         return;
     }
 
@@ -202,14 +203,14 @@ void NewProjectDialogPage::validateData()
             d->locationValidLabel->setText( i18n("Unable to create subdirectories, "
                                                   "missing permissions on: %1", tDir.absolutePath()) );
             setForeground(d->locationValidLabel, KColorScheme::NegativeText);
-            emit invalid();
+            emit validationFinished( false );
             return;
         }
     }
 
     d->locationValidLabel->setText( QString(" ") );
     setForeground(d->locationValidLabel, KColorScheme::NormalText);
-    emit valid();
+    emit validationFinished( true );
 
     // Check for non-empty target directory. Not an error, but need to display a warning.
     url.addPath( encodedAppName() );

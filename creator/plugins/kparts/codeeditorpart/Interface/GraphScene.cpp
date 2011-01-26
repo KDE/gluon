@@ -32,7 +32,6 @@
 #include <QtGui/QInputDialog>
 #include <QtGui/QLineEdit>
 #include <KDebug>
-#include "node.h"
 #include "graph.h"
 #include "NodePropertiesWidget.h"
 #include "MainWindow.h"

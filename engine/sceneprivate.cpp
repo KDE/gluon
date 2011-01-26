@@ -41,7 +41,7 @@ ScenePrivate::ScenePrivate( Scene* q )
     sceneContents->setName( q->name() );
 }
 
-ScenePrivate::ScenePrivate::~ScenePrivate()
+ScenePrivate::~ScenePrivate()
 {
 }
 

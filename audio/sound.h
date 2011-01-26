@@ -1,8 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2007 Laurent Gomila <laurent.gom@gmail.com>
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2009-2011 Guillaume Martres <smarter@ubuntu.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,34 +32,36 @@ namespace GluonAudio
 
     class GLUON_AUDIO_EXPORT Sound : public QObject
     {
-            Q_OBJECT
-
+    Q_OBJECT
         public:
-            Sound( QObject* parent = 0 );
+            explicit Sound();
             /**
             * This is the default constructor
             * @param soundFile the path of the file to play
             */
-            explicit Sound( const QString& soundFile, QObject* parent = 0 );
-            /**
-            * This is the default constructor
-            * @param KALBuffer the buffer
-            */
-            explicit Sound( Buffer* buffer, QObject* parent = 0 );
-            /**
-            * This is the default constructor
-            * @param ALuint the buffer
-            */
-            explicit Sound( ALuint buffer, QObject* parent = 0 );
+            explicit Sound(const QString& fileName);
 
-            void load( const QString& soundFile );
-            void load( Buffer* buffer );
-            void load( ALuint buffer );
+            /**
+            * @param soundFile the path of the file to play
+            */
+            explicit Sound(const QString& fileName, bool toStream);
 
             /**
             * Destructor
             */
             ~Sound();
+            
+            bool loadFile(const QString& fileName);
+            bool loadFile(const QString& fileName, bool toStream);
+            
+            bool isValid() const;
+
+            /**
+            * Stop the sound, mark the object as invalid and delete the
+            * underlying OpenAL source. Useful to avoid going over the
+            * limit of concurrent sources.
+            */
+            void clear();
 
             /**
             * @return the time since the sound started playing
@@ -72,8 +73,8 @@ namespace GluonAudio
             */
             ALint status() const ;
 
-            bool isPlaying();
-            bool isLooping();
+            bool isPlaying() const;
+            bool isLooping() const;
 
             /**
             * @todo this function isn't defined!
@@ -126,9 +127,7 @@ namespace GluonAudio
              */
             ALfloat radius() const;
 
-            ALfloat duration() const ;
-
-            ALuint source() const ;
+            //ALfloat duration() const ;
 
         public Q_SLOTS:
             /**
@@ -237,15 +236,16 @@ namespace GluonAudio
             void setTimePosition( ALfloat time );
 
             //void setRadius(float radius);
-
-        protected:
-            void setupSource();
+            
+            //FIXME: This shouldn't be public
+            void stopped();
 
         private:
             Q_DISABLE_COPY( Sound )
 
             class SoundPrivate;
             SoundPrivate* const d;
+            Q_PRIVATE_SLOT(d, void _k_deleteSource());
     };
 }
 

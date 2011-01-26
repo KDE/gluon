@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,8 @@
 
 #include "mainwindow.h"
 #include "actionsdialog.h"
+
+#include "input/inputmanager.h"
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -55,8 +57,8 @@ class MainWindow::MainWindowPrivate
 
 GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
-    , d( new MainWindowPrivate )
     , settings( new QSettings )
+    , d( new MainWindowPrivate )
 {
     d->msecElapsed = 0;
     d->frameCount = 0;
@@ -195,6 +197,7 @@ void MainWindow::openProject( const QString& fileName )
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
+    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
     QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;

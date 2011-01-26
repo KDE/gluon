@@ -29,26 +29,26 @@ AlignAction::AlignAction( const QString& tooltip, AlignAction::Orientation o, QW
 {
     m_orientation = o;
     connect( this, SIGNAL( triggered() ), this, SLOT( align() ) );
-    kDebug() << " Allign Action Created!";
+    kDebug() << " Align Action Created!";
     switch( o )
     {
         case Left :
-            setIcon( KIcon( "rocsallignleft" ) );
+            setIcon( KIcon( "rocsalignleft" ) );
             break;
         case  Right :
-            setIcon( KIcon( "rocsallignright" ) );
+            setIcon( KIcon( "rocsalignright" ) );
             break;
         case Top :
-            setIcon( KIcon( "rocsalligntop" ) );
+            setIcon( KIcon( "rocsaligntop" ) );
             break;
         case Bottom :
-            setIcon( KIcon( "rocsallignbottom" ) );
+            setIcon( KIcon( "rocsalignbottom" ) );
             break;
         case HCenter :
-            setIcon( KIcon( "rocsallignhmiddle" ) );
+            setIcon( KIcon( "rocsalignhmiddle" ) );
             break;
         case VCenter :
-            setIcon( KIcon( "rocsallignvmiddle" ) );
+            setIcon( KIcon( "rocsalignvmiddle" ) );
             break;
     }
 }

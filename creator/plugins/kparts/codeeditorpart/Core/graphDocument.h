@@ -29,7 +29,7 @@ class Graph;
 /*! \brief the graph document
   long explanation needed.
 */
-class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
+class GraphDocument : public QObject, public QList<Graph*>
 {
         Q_OBJECT
 
@@ -38,7 +38,7 @@ class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
         /*! Default Constructor
           \param name sets the name of the document.
         */
-        GraphDocument( const QString name, int width = 800, int heigth = 600 );
+        explicit GraphDocument( const QString name, int width = 800, int height = 600 );
 
         /*! default copy constructor */
         GraphDocument( const GraphDocument& gd );
@@ -62,7 +62,7 @@ class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
         */
         void setHeight( qreal height );
 
-        /*! \return the heigth of the working area */
+        /*! \return the height of the working area */
         qreal height() const;
 
         /*! set the width of the working area
@@ -93,7 +93,7 @@ class ROCSLIB_EXPORT GraphDocument : public QObject, public QList<Graph*>
         void setActiveGraph( Graph* g );
 
     signals:
-        /*! emited when a new graph is created
+        /*! emitted when a new graph is created
           \param g the created graph */
         void graphCreated( Graph* g );
 

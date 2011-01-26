@@ -42,6 +42,8 @@ class GameObject;
             ~Prefab();
 
             PrefabInstance* createInstance() const;
+            const QList<PrefabInstance*> instances() const;
+            bool removeInstance(const PrefabInstance* removeThis);
 
             void setGameObject(GameObject* newGameObject);
             GameObject* gameObject() const;

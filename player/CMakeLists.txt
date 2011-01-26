@@ -95,7 +95,7 @@ else(LIBATTICA_FOUND)
     )
 endif(LIBATTICA_FOUND)
 
-install(TARGETS GluonPlayer DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonPlayer RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 add_subdirectory(qt)
 

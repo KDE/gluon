@@ -44,12 +44,22 @@ Prefab::~Prefab()
 
 PrefabInstance* Prefab::createInstance() const
 {
+    return 0;
+}
 
+const QList< PrefabInstance* > Prefab::instances() const
+{
+    return QList< PrefabInstance* >();
+}
+
+bool Prefab::removeInstance(const GluonEngine::PrefabInstance* removeThis)
+{
+    return false;
 }
 
 GameObject* Prefab::gameObject() const
 {
-
+    return 0;
 }
 
 void Prefab::setGameObject(GameObject* newGameObject)

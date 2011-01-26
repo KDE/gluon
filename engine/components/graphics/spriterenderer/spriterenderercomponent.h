@@ -32,7 +32,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_ENGINE_EXPORT SpriteRendererComponent : public Component
+    class GLUON_COMPONENT_SPRITERENDERER_EXPORT SpriteRendererComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::SpriteRendererComponent )

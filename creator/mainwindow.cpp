@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 
 #include <QtCore/QVariantList>
+#include <QtCore/QFileInfo>
 
 #include <KFileDialog>
 #include <KStandardAction>
@@ -32,7 +33,6 @@
 #include <KPluginSelector>
 #include <KRun>
 #include <KRecentFilesAction>
-#include <KDE/KTabWidget>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
 
@@ -121,7 +121,11 @@ MainWindow::MainWindow( const QString& fileName )
     }
     else
     {
-        openProject( fileName );
+        QFileInfo fi = QFileInfo( fileName );
+        if( fi.isRelative() )
+            openProject( fi.canonicalFilePath() );
+        else
+            openProject( fileName );
     }
 }
 

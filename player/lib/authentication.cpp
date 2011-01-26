@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +26,7 @@
 
 using namespace GluonPlayer;
 
-template<> GLUON_PLAYER_EXPORT Authentication* GluonCore::Singleton<Authentication>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Authentication)
 
 Authentication::Authentication()
     : m_initialized( false )

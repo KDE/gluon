@@ -21,6 +21,7 @@
 #define GLUON_CORE_SINGLETON
 
 #include <QtCore/QObject>
+#include <QtCore/QtGlobal>
 
 namespace GluonCore
 {
@@ -41,5 +42,11 @@ namespace GluonCore
             static T* m_instance;
     };
 }
+
+#ifdef Q_OS_WIN32
+#define GLUON_DEFINE_SINGLETON(Type) template<> Type* GluonCore::Singleton<Type>::m_instance = 0;
+#else
+#define GLUON_DEFINE_SINGLETON(Type) template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::m_instance = 0;
+#endif
 
 #endif //GLUON_CORE_SINGLETON

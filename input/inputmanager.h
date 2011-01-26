@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,12 +44,12 @@ namespace GluonInput
 
         public:
 
-            enum KeyboardManagementType
+            enum InputManagementType
             {
-                WINDOWS_KB_LOWLEVEL,
-                MACOSX_KB_LOWLEVEL,
-                LINUX_KB_LOWLEVEL,
-                QT_HIGHLEVEL,
+                WIN_INPUT_LOWLEVEL,
+                MAC_INPUT_LOWLEVEL,
+                LINUX_INPUT_LOWLEVEL,
+                QT_INPUT_HIGHLEVEL,
             };
 
             void detectDevices();
@@ -84,8 +85,8 @@ namespace GluonInput
             void setFilteredObject(QObject *filteredObj);
 
             // TODO: if it works we can polish, with switch usage instead of hash? Investigate more!
-            KeyboardManagementType kbManagementType() const;
-            void setKbManagementType( KeyboardManagementType kbManagementType );
+            InputManagementType inputManagementType() const;
+            void setInputManagementType( InputManagementType inputManagementType );
 
         signals:
             void buttonStateChanged( int button, int value );
@@ -94,13 +95,15 @@ namespace GluonInput
             friend class GluonCore::Singleton<InputManager>;
             InputManager( QObject* parent = 0 );
             ~InputManager();
+
             Q_DISABLE_COPY(InputManager);
             void init();
 
-            QObject *m_filteredObj;
-            KeyboardManagementType m_kbManagementType;
-
             InputManagerPrivate* d;
+
+            QObject *m_filteredObj;
+            InputManagementType m_inputManagementType;
+
     };
 }
 

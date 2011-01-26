@@ -20,8 +20,8 @@
 #ifndef GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
 #define GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
 
-#include "gluon_engine_export.h"
-#include "component.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/component.h>
 
 namespace GluonEngine
 {
@@ -33,7 +33,7 @@ namespace GluonEngine
      * Collision components use simple integer-based grouping to
      * exclude/include other components to collide with.
      */
-    class GLUON_ENGINE_EXPORT SphereCollisionComponent : public Component
+    class GLUON_COMPONENT_SPHERECOLLISION_EXPORT SphereCollisionComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::SphereCollisionComponent )

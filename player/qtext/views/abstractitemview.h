@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ class AbstractItemView : public Overlay
 {
         Q_OBJECT
     public:
-        AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
         virtual void setModel( QAbstractItemModel* model );
         QAbstractItemModel* model() const;

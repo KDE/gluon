@@ -23,6 +23,8 @@
 #include "input/inputmanager.h"
 
 #include <graphics/renderwidget.h>
+#include <graphics/viewport.h>
+#include <graphics/engine.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
@@ -36,6 +38,7 @@
 #include <kaction.h>
 
 using namespace GluonCreator;
+using namespace GluonGraphics;
 
 class GluonViewerPart::GluonViewerPartPrivate
 {
@@ -59,7 +62,11 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* 
     d->widget = new GluonGraphics::RenderWidget();
     setWidget( d->widget );
 
+    connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
+             this, SLOT( newViewport( Viewport* ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+
+    newViewport( GluonGraphics::Engine::instance()->currentViewport() );
 
     foreach( const QVariant & arg, args )
     {
@@ -120,6 +127,7 @@ bool GluonCreator::GluonViewerPart::openFile()
 
 void GluonViewerPart::startGame()
 {
+    d->widget->setFocus();
     GluonEngine::Game::instance()->runGame();
 }
 
@@ -138,7 +146,16 @@ void GluonViewerPart::setPoints()
     glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
 }
 
+void GluonViewerPart::newViewport( Viewport* viewport )
+{
+    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT( redraw() ) );
+    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ), SLOT( redraw() ) );
+}
+
+void GluonViewerPart::redraw()
+{
+    GluonEngine::Game::instance()->drawAll();
+}
+
 K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
 K_EXPORT_PLUGIN( GluonViewerPartFactory( "GluonViewerPart", "GluonViewerPart" ) )
-
-// #include "gluonviewerpart.moc"

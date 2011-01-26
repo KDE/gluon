@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2010-2011 Guillaume Martres <smarter@ubuntu.com>
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,7 +20,6 @@
 
 #include "soundemittercomponent.h"
 
-#include <core/debughelper.h>
 #include <audio/engine.h>
 #include <audio/sound.h>
 #include <engine/assets/audio/sound/soundasset.h>
@@ -33,6 +32,7 @@
 REGISTER_OBJECTTYPE( GluonEngine, SoundEmitterComponent )
 
 using namespace GluonEngine;
+using namespace GluonAudio;
 
 class SoundEmitterComponent::SoundEmitterComponentPrivate
 {
@@ -40,7 +40,6 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
         SoundEmitterComponentPrivate()
             : asset( 0 )
             , sound( 0 )
-            , buffer( 0 )
             , radius( 10000.0f )
             , volume( 1.0f )
             , pitch( 1.0f )
@@ -50,7 +49,6 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
 
         Asset* asset;
         GluonAudio::Sound* sound;
-        GluonAudio::Buffer* buffer;
         float radius;
         float volume;
         float pitch;
@@ -63,6 +61,7 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     , d( new SoundEmitterComponentPrivate )
 {
     metaInfo()->setPropertyRange( "pitch", 0.5, 2.0 );
+    d->sound = new GluonAudio::Sound();
 }
 
 SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterComponent& other )
@@ -73,7 +72,9 @@ SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterCom
 
 SoundEmitterComponent::~SoundEmitterComponent()
 {
-    stop();
+    if ( d->sound->isValid() )
+        d->sound->stop();
+    d->sound->deleteLater();
     delete d;
 }
 
@@ -84,7 +85,8 @@ QString SoundEmitterComponent::category() const
 
 void SoundEmitterComponent::play()
 {
-    d->sound->play();
+    if (d->sound->isValid())
+        d->sound->play();
 }
 
 Asset* SoundEmitterComponent::sound()
@@ -96,67 +98,50 @@ void SoundEmitterComponent::setSound( Asset* asset )
 {
     d->asset = asset;
 
-    if( d->sound && asset->data()->hasFormat( "application/gluon-audio-buffer" ) )
-    {
-        d->sound->stop();
-        d->buffer->setBuffer( asset->data()->data( "application/gluon-audio-buffer" ).toUInt(), true );
-        d->sound->load( d->buffer );
+    if (!asset->data()->text().isEmpty()) {
+        d->sound->loadFile( asset->data()->text() ) ;
     }
 }
 
 void SoundEmitterComponent::initialize()
 {
-    if( !d->sound )
-        d->sound = new GluonAudio::Sound();
-
-    if( !d->buffer )
-        d->buffer = new GluonAudio::Buffer();
 }
 
 void SoundEmitterComponent::start()
 {
     if( d->asset )
     {
-        if( !d->asset->isLoaded() ) d->asset->load();
-
-        if( d->asset->data()->hasFormat( "application/gluon-audio-buffer" ) )
-        {
-            d->buffer->setBuffer( d->asset->data()->data( "application/gluon-audio-buffer" ).toUInt(), true );
-        }
+        if( !d->asset->isLoaded() )
+            d->asset->load();
+        d->sound->loadFile( d->asset->data()->text() );
     }
 
-    d->sound->load( d->buffer );
     d->sound->setPosition( gameObject()->position() );
     d->sound->setRadius( d->radius );
     d->sound->setVolume( d->volume );
     d->sound->setPitch( d->pitch );
     d->sound->setLoop( d->loop );
 
-    if( d->autoPlay )
+    if( d->autoPlay && d->sound->isValid())
         d->sound->play();
 }
 
 void SoundEmitterComponent::draw( int timeLapse )
 {
     Q_UNUSED( timeLapse );
-    if( d->sound )
+    if( d->sound->isValid() )
         d->sound->setPosition( gameObject()->position() );
 }
 
 void SoundEmitterComponent::stop()
 {
-    if( d->sound )
-    {
+    if( d->sound->isValid() )
         d->sound->stop();
-    }
 }
 
 void SoundEmitterComponent::cleanup()
 {
-    delete d->sound;
-
-    d->sound = 0;
-    d->buffer = 0;
+    d->sound->clear();
 }
 
 float SoundEmitterComponent::radius() const
@@ -166,9 +151,9 @@ float SoundEmitterComponent::radius() const
 
 void SoundEmitterComponent::setRadius( float radius )
 {
-    if( d->sound )
-        d->sound->setRadius( radius );
     d->radius = radius;
+    if( d->sound->isValid() )
+        d->sound->setRadius( radius );
 }
 
 float SoundEmitterComponent::volume() const
@@ -179,7 +164,7 @@ float SoundEmitterComponent::volume() const
 void SoundEmitterComponent::setVolume( float volume )
 {
     d->volume = volume;
-    if( d->sound )
+    if( d->sound->isValid() )
         d->sound->setVolume( volume );
 }
 
@@ -191,7 +176,7 @@ float SoundEmitterComponent::pitch() const
 void SoundEmitterComponent::setPitch( float pitch )
 {
     d->pitch = pitch;
-    if( d->sound )
+    if( d->sound->isValid() )
         d->sound->setPitch( pitch );
 }
 
@@ -202,7 +187,7 @@ bool SoundEmitterComponent::isLooping() const
 
 bool SoundEmitterComponent::isPlaying() const
 {
-    if( d->sound )
+    if( d->sound->isValid() )
     {
         return d->sound->isPlaying();
     }
@@ -213,18 +198,8 @@ void SoundEmitterComponent::setLoop( bool loop )
 {
     d->loop = loop;
 
-    if( d->sound )
-    {
+    if( d->sound->isValid() )
         d->sound->setLoop( loop );
-        if( loop )
-        {
-            d->sound->play();
-        }
-        else if( d->sound->isPlaying() )
-        {
-            d->sound->stop();
-        }
-    }
 }
 
 bool SoundEmitterComponent::autoPlay() const

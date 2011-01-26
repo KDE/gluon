@@ -20,7 +20,7 @@
 #ifndef GLUONCREATOR_ABSTRACTUNDOCOMMAND_H
 #define GLUONCREATOR_ABSTRACTUNDOCOMMAND_H
 
-#include <QUndoStack>
+#include <QtGui/QUndoStack>
 
 #include "gluoncreator_macros.h"
 

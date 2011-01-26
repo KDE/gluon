@@ -20,11 +20,12 @@
 #ifndef GLUONENGINE_SCRIPTINGASSET_H
 #define GLUONENGINE_SCRIPTINGASSET_H
 
-#include "engine/asset.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/asset.h>
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT ScriptingAsset : public Asset
+    class GLUON_COMPONENT_SCRIPTING_EXPORT ScriptingAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )

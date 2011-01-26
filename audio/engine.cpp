@@ -1,7 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2009-2011 Guillaume Martres <smarter@ubuntu.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,88 +18,87 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "engine.h"
-#include "device_p.h"
 
-#include <QtCore/QDebug>
+#include <QtCore/QStringList>
 #include <QtGui/QVector3D>
-#include <al.h>
-#include <alc.h>
-#ifndef Q_WS_MAC
-#include <alext.h>
-#endif
+#define ALURE_STATIC_LIBRARY
+#include "alure/include/AL/alure.h"
 
 using namespace GluonAudio;
 
-template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Engine)
+
+class Engine::EnginePrivate {
+public:
+    EnginePrivate() : bufferLength(250000), buffersPerStream(3) {}
+    ~EnginePrivate() {}
+
+    QHash<QString, ALuint> bufferHash;
+    int bufferLength;
+    int buffersPerStream;
+    int minimalStreamLength;
+};
 
 Engine::Engine()
+    : d( new EnginePrivate )
 {
-    m_context = 0;
-    m_device = 0;
-    setDevice( "" );
-
-    qDebug() << alGetError();
+    alureInitDevice(0, 0);
+    alureUpdateInterval(0.125);
 }
 
 Engine::~Engine()
 {
-    alcMakeContextCurrent( 0 );
-    alcDestroyContext( m_context );
-    alcCloseDevice( m_device );
+    QHashIterator<QString, ALuint> i(d->bufferHash);
+    while (i.hasNext()) {
+        i.next();
+        alDeleteBuffers(1, &(i.value()));
+    }
+    delete d;
+    alureShutdownDevice();
+}
+
+ALuint Engine::genBuffer(const QString& fileName)
+{
+    ALuint buffer = d->bufferHash.value(fileName);
+    if (buffer == 0) {
+        buffer = alureCreateBufferFromFile(fileName.toLocal8Bit().constData());
+        d->bufferHash.insert(fileName, buffer);
+    }
+
+    return buffer;
+}
+
+int Engine::bufferLength() {
+    return d->bufferLength;
+}
+
+void Engine::setBufferLength(int microsecs) {
+    d->bufferLength = microsecs;
+}
+
+int Engine::buffersPerStream() {
+    return d->buffersPerStream;
+}
+
+void Engine::setBuffersPerStream(int buffers) {
+    d->buffersPerStream = buffers;
 }
 
 QStringList Engine::deviceList()
 {
-    if( !Device::isExtensionPresent( "ALC_ENUMERATION_EXT" ) )
-    {
-        return QStringList();
+    int size = 0;
+    const ALCchar** _devices = alureGetDeviceNames(true, &size);
+    QStringList devices;
+    for (int i = 0; i < size; i++) {
+        devices << QString(_devices[i]);
     }
-
-    if( Device::isExtensionPresent( "ALC_ENUMERATE_ALL_EXT" ) )
-    {
-        return Device::contextOption( ALC_ALL_DEVICES_SPECIFIER );
-    }
-    else
-    {
-        return Device::contextOption( ALC_DEVICE_SPECIFIER );
-    }
+    return devices;
 }
 
 bool Engine::setDevice( const QString& deviceName )
 {
-    if( m_device )
-    {
-        alcMakeContextCurrent( 0 );
-        alcDestroyContext( m_context );
-    }
-
-    if( !deviceName.isEmpty() )
-    {
-        m_device = alcOpenDevice( deviceName.toUtf8() );
-    }
-    else
-    {
-        m_device = alcOpenDevice( 0 );
-    }
-
-    if( !m_device )
-    {
-        return false;
-    }
-
-    m_context = alcCreateContext( m_device, 0 );
-
-    if( !m_context )
-    {
-        return false;
-    }
-
-    if( !alcMakeContextCurrent( m_context ) )
-    {
-        return false;
-    }
-
-    return true;
+    alureShutdownDevice();
+    return alureInitDevice(deviceName.toUtf8(), 0);
 }
 
 QVector3D Engine::listenerPosition()
@@ -107,9 +106,7 @@ QVector3D Engine::listenerPosition()
     ALfloat listener[3];
     alGetListenerfv( AL_POSITION, listener );
 
-
     return QVector3D( listener[0], listener[1], listener[2] );
-
 }
 
 void Engine::setListenerPosition( const QVector3D& position )

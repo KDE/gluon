@@ -27,7 +27,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_ENGINE_EXPORT DiscRendererComponent : public Component
+    class GLUON_COMPONENT_DISCRENDERER_EXPORT DiscRendererComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::DiscRendererComponent )

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -40,7 +41,7 @@
 
 using namespace GluonInput;
 
-template<> InputManager* GluonCore::Singleton<InputManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(InputManager)
 
 InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
@@ -74,21 +75,32 @@ void InputManager::init()
 #endif
     if( d->m_detect )
     {
-        if( !d->m_detect->isReadable() ) {
+        if( !d->m_detect->isReadable() )
+        {
+            setInputManagementType(QT_INPUT_HIGHLEVEL);
             if (filteredObject())
                 installEventFiltered(filteredObject());
-            else
-                qDebug() << "Null filtered object pointer";
+            // else
+                // qDebug() << "Null filtered object pointer - no install";
 
-            InputDevice* device = new Keyboard( 0 );
-            d->m_detect->addKeyboard( static_cast<Keyboard*>( device ) );
+            InputDevice* keyboard = new Keyboard( 0 );
+            d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
+            InputDevice* mouse = new Mouse( 0 );
+            d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
         }
         else
         {
+#ifdef Q_WS_X11
+            setInputManagementType(LINUX_INPUT_LOWLEVEL);
+#elif defined(Q_WS_MAC)
+            setInputManagementType(MAC_INPUT_LOWLEVEL);
+#elif defined(Q_WS_WIN)
+            setInputManagementType(WIN_INPUT_LOWLEVEL);
+#endif
             if (filteredObject())
                 removeEventFiltered(filteredObject());
-            else
-                qDebug() << "Null filtered object pointer";
+            // else
+                // qDebug() << "Null filtered object pointer - no remove";
             d->m_detect->detectDevices();
         }
     }
@@ -218,19 +230,37 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj)
         return false;
 
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 1);
         return true;
     }
 
-    if (event->type() == QEvent::KeyRelease) {
+    if (event->type() == QEvent::KeyRelease)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 0);
         return true;
     }
 
-    if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        mouse(0)->setPosition( mouseEvent->pos( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::Wheel)
+    {
+        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+        mouse(0)->setHWheelPosition( wheelEvent->x( ) );
+        mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         switch (mouseEvent->button()) {
         case Qt::LeftButton:
@@ -267,18 +297,24 @@ QObject* InputManager::filteredObject()
 
 void InputManager::setFilteredObject(QObject *filteredObj)
 {
+    if( filteredObj && inputManagementType() == QT_INPUT_HIGHLEVEL )
+    {
+        if( m_filteredObj )
+            removeEventFiltered(m_filteredObj);
+        installEventFiltered(filteredObj);
+    }
+
     m_filteredObj = filteredObj;
 }
 
-InputManager::KeyboardManagementType InputManager::kbManagementType() const
+InputManager::InputManagementType InputManager::inputManagementType() const
 {
-    return m_kbManagementType;
+    return m_inputManagementType;
 }
 
-void InputManager::setKbManagementType( InputManager::KeyboardManagementType kbManagementType )
+void InputManager::setInputManagementType( InputManager::InputManagementType inputManagementType )
 {
-    m_kbManagementType = kbManagementType;
+    m_inputManagementType = inputManagementType;
 }
-
 
 #include "inputmanager.moc"

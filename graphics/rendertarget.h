@@ -22,6 +22,11 @@
 
 #include "gluon_graphics_export.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <GL/glee.h>
+#endif
+
 #include <QtOpenGL/QGLFramebufferObject>
 
 namespace GluonGraphics

@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,7 +36,7 @@ KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
     , m_actionHeld( false )
     , m_actionStarted( false )
     , m_actionStopped( false )
-    , m_keyCode( KeyboardInputComponent::UNKNOWN )
+    , m_keyCode( Qt::Key_unknown )
     , m_keyboard( 0 )
 {
 }
@@ -75,6 +76,7 @@ KeyboardInputComponent::update( int elapsedMilliseconds )
     if( m_actionStopped )
         m_actionStopped = false;
 
+    // qDebug() << "READ - KEYCODE:  " << m_keyCode << "PRESSED: " << m_keyboard->buttonPressed( m_keyCode );
     if( m_keyboard && m_keyboard->buttonPressed( m_keyCode ) )
     {
         if( !m_actionHeld )
@@ -123,14 +125,14 @@ KeyboardInputComponent::isActionStopped()
     return m_actionStopped;
 }
 
-KeyboardInputComponent::KeyName
+Qt::Key
 KeyboardInputComponent::keyCode() const
 {
     return m_keyCode;
 }
 
 void
-KeyboardInputComponent::setKeyCode( KeyboardInputComponent::KeyName newKeyCode )
+KeyboardInputComponent::setKeyCode( Qt::Key newKeyCode )
 {
     m_keyCode = newKeyCode;
 }

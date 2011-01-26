@@ -13,7 +13,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_asset_script GluonEngine)
 endif()
 
-set_target_properties(gluon_asset_script PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_asset_script PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ASSET_SCRIPT_LIB)
 target_link_libraries(gluon_asset_script GluonEngine)
 
 install(

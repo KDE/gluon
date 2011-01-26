@@ -52,7 +52,7 @@ namespace GluonCreator
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
             QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
 
-        signals:
+        Q_SIGNALS:
             void newObject( GluonCore::GluonObject* );
             void newScene( GluonEngine::Scene* );
             void newGameObject( GluonEngine::GameObject* );

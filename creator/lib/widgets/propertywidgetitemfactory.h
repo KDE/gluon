@@ -48,7 +48,7 @@ namespace GluonCreator
 }
 
 template<class T>
-class GLUONCREATOR_EXPORT PropertyWidgetItemRegistration
+class PropertyWidgetItemRegistration
 {
     public:
         PropertyWidgetItemRegistration( T* newPIW )
