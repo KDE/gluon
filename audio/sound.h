@@ -57,6 +57,13 @@ namespace GluonAudio
             bool isValid() const;
 
             /**
+            * Stop the sound, mark the object as invalid and delete the
+            * underlying OpenAL source. Useful to avoid going over the
+            * limit of concurrent sources.
+            */
+            void clear();
+
+            /**
             * @return the time since the sound started playing
             */
             ALfloat elapsedTime() const ;

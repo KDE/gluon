@@ -72,7 +72,8 @@ SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterCom
 
 SoundEmitterComponent::~SoundEmitterComponent()
 {
-    cleanup();
+    if ( d->sound->isValid() )
+        d->sound->stop();
     d->sound->deleteLater();
     delete d;
 }
@@ -140,7 +141,7 @@ void SoundEmitterComponent::stop()
 
 void SoundEmitterComponent::cleanup()
 {
-    stop();
+    d->sound->clear();
 }
 
 float SoundEmitterComponent::radius() const
