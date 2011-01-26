@@ -1,3 +1,7 @@
+
+#ifndef GL_HEADERS_H
+#define GL_HEADERS_H
+
 #ifdef _WIN32
 #include <windows.h>
 #include <GL/glee.h>
@@ -19,3 +23,5 @@ typedef char GLchar;
         int error = glGetError(); \
         if(error != 0) qDebug() << "GL Error" << error;\
     }
+
+#endif //GL_HEADERS_H
