@@ -43,7 +43,7 @@ namespace GluonPlayer
      * load credentials etc.
      *
      */
-    class GLUON_PLAYER_STATIC_EXPORT Authentication : public GluonCore::Singleton<Authentication>
+    class GLUON_PLAYER_EXPORT Authentication : public GluonCore::Singleton<Authentication>
     {
             Q_OBJECT
 
