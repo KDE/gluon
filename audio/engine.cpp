@@ -26,7 +26,7 @@
 
 using namespace GluonAudio;
 
-template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Engine)
 
 class Engine::EnginePrivate {
 public:
