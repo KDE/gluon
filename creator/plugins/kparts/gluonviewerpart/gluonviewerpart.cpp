@@ -62,7 +62,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* 
     d->widget = new GluonGraphics::RenderWidget();
     setWidget( d->widget );
 
-    connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanged( Viewport* ) ),
+    connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
              this, SLOT( newViewport( Viewport* ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
 
@@ -148,9 +148,8 @@ void GluonViewerPart::setPoints()
 
 void GluonViewerPart::newViewport( Viewport* viewport )
 {
-    disconnect( 0, 0, this, SLOT( redraw() ) );
-    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ),
-             SLOT( redraw() ) );
+    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT( redraw() ) );
+    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ), SLOT( redraw() ) );
 }
 
 void GluonViewerPart::redraw()

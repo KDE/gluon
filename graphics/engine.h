@@ -347,8 +347,13 @@ class RenderTarget;
 
             /**
              * Emitted whenever the current viewport changes.
+             *
+             * When this signal is emitted the viewport returned by currentViewport()
+             * is still the old one.
+             *
+             * \param viewport The new viewport.
              */
-            void currentViewportChanged( Viewport* );
+            void currentViewportChanging( Viewport* viewport );
 
         private:
             friend class GluonCore::Singleton<Engine>;
