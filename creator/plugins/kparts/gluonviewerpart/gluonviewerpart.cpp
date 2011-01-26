@@ -148,9 +148,8 @@ void GluonViewerPart::setPoints()
 
 void GluonViewerPart::newViewport( Viewport* viewport )
 {
-    disconnect( 0, 0, this, SLOT( redraw() ) );
-    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ),
-             SLOT( redraw() ) );
+    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT( redraw() ) );
+    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ), SLOT( redraw() ) );
 }
 
 void GluonViewerPart::redraw()
