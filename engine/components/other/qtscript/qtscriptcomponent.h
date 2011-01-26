@@ -36,7 +36,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_ENGINE_EXPORT QtScriptComponent : public Component
+    class GLUON_COMPONENT_QTSCRIPT_EXPORT QtScriptComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::QtScriptComponent )

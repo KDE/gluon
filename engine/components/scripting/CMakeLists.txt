@@ -23,7 +23,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_scripting GluonEngine)
 endif()
 
-set_target_properties(gluon_component_scripting PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_component_scripting PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_SCRIPTING_LIB)
 target_link_libraries(gluon_component_scripting GluonEngine ${QT_QTSCRIPT_LIBRARY})
 
 install(

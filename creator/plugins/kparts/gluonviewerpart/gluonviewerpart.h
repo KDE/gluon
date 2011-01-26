@@ -28,6 +28,8 @@ namespace GluonGraphics
     class Viewport;
 }
 
+using namespace GluonGraphics;
+
 namespace GluonCreator
 {
     class GluonViewerPart : public KParts::ReadOnlyPart
@@ -44,7 +46,7 @@ namespace GluonCreator
             void setWireframe();
             void setPoints();
 
-            void newViewport( GluonGraphics::Viewport* viewport );
+            void newViewport( Viewport* viewport );
             void redraw();
 
         protected:

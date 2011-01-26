@@ -17,7 +17,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_keyboardinput GluonEngine GluonInput)
 endif()
 
-set_target_properties(gluon_component_keyboardinput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_component_keyboardinput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_KEYBOARDINPUT_LIB)
 target_link_libraries(gluon_component_keyboardinput GluonEngine ${GLUON_INPUT_LIBS})
 
 install(

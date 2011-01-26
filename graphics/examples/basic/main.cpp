@@ -23,14 +23,14 @@
 #include <QApplication>
 #include <QtGui/QMatrix4x4>
 
-#include <gluon/graphics/renderwidget.h>
-#include <gluon/graphics/engine.h>
-#include <gluon/graphics/camera.h>
-#include <gluon/graphics/item.h>
-#include <gluon/graphics/frustrum.h>
-#include <gluon/graphics/material.h>
-#include <gluon/graphics/materialinstance.h>
-#include <gluon/graphics/mesh.h>
+#include "graphics/renderwidget.h"
+#include "graphics/engine.h"
+#include "graphics/camera.h"
+#include "graphics/item.h"
+#include "graphics/frustrum.h"
+#include "graphics/material.h"
+#include "graphics/materialinstance.h"
+#include "graphics/mesh.h"
 #include <QTimer>
 
 

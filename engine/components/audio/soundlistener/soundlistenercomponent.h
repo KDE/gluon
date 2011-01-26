@@ -28,7 +28,7 @@
 namespace GluonEngine
 {
 
-    class GLUON_ENGINE_EXPORT SoundListenerComponent : public Component
+    class GLUON_COMPONENT_SOUNDLISTENER_EXPORT SoundListenerComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::SoundListenerComponent )

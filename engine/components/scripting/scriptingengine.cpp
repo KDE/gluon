@@ -66,7 +66,7 @@ namespace GluonEngine
 
 using namespace GluonEngine;
 
-template<> GLUON_ENGINE_EXPORT ScriptingEngine* GluonCore::Singleton<ScriptingEngine>::m_instance = 0;
+template<> ScriptingEngine* GluonCore::Singleton<ScriptingEngine>::m_instance = 0;
 
 ScriptingEngine::ScriptingEngine( QObject* parent )
     : d( new Private() )

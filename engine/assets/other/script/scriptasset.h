@@ -25,7 +25,7 @@
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT ScriptAsset : public GluonEngine::Asset
+    class GLUON_ASSET_SCRIPT_EXPORT ScriptAsset : public GluonEngine::Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )

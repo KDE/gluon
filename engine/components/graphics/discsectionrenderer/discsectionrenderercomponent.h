@@ -27,7 +27,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_ENGINE_EXPORT DiscSectionRendererComponent : public Component
+    class GLUON_COMPONENT_DISCSECTIONRENDERER_EXPORT DiscSectionRendererComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::DiscSectionRendererComponent )

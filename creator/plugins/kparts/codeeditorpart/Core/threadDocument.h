@@ -30,7 +30,7 @@ class Edge;
 
 class GraphDocument;
 
-class ROCSLIB_EXPORT ThreadDocument : public QThread
+class ThreadDocument : public QThread
 {
         Q_OBJECT
 

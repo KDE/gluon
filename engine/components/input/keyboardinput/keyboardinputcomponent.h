@@ -22,7 +22,8 @@
 #ifndef KEYBOARDINPUTCOMPONENT_H
 #define KEYBOARDINPUTCOMPONENT_H
 
-#include "component.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/component.h>
 
 namespace GluonInput
 {
@@ -31,7 +32,7 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class KeyboardInputComponent : public Component
+    class GLUON_COMPONENT_KEYBOARDINPUT_EXPORT KeyboardInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::KeyboardInputComponent )

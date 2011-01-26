@@ -31,7 +31,7 @@ namespace GluonGraphics
 class QSizeF;
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT CameraControllerComponent : public Component
+    class GLUON_COMPONENT_CAMERACONTROLLER_EXPORT CameraControllerComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::CameraControllerComponent )
@@ -62,8 +62,8 @@ namespace GluonEngine
         public slots:
             virtual void setActive( bool active );
             virtual void setVisibleArea( const QSizeF& area );
-            virtual void setNearPlane( float near );
-            virtual void setFarPlane( float far );
+            virtual void setNearPlane( float nearValue );
+            virtual void setFarPlane( float farValue );
             virtual void setRenderTargetMaterial( GluonGraphics::MaterialInstance* material );
 
         private:

@@ -188,7 +188,11 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonInput GluonCore)
 endif()
 
+if(NOT WIN32)
 target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
+else(NOT WIN32)
+target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
+endif(NOT WIN32)
 
 set(GLUON_INPUT_LIBS
     GluonInput
@@ -215,7 +219,7 @@ elseif(UNIX)
 else()
 endif()
 
-install(TARGETS GluonInput DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonInput RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 if(APPLE)
     install(

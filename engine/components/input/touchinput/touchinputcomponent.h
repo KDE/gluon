@@ -20,7 +20,8 @@
 #ifndef TOUCHINPUTCOMPONENT_H
 #define TOUCHINPUTCOMPONENT_H
 
-#include "component.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/component.h>
 
 namespace GluonInput
 {
@@ -29,7 +30,7 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class TouchInputComponent : public Component
+    class GLUON_COMPONENT_TOUCHINPUT_EXPORT TouchInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::TouchInputComponent )
