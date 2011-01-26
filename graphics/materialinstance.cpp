@@ -62,7 +62,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
-    connect( Engine::instance(), SIGNAL( activeCameraChanged( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
+    connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
 MaterialInstance::~MaterialInstance()

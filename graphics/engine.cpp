@@ -359,10 +359,10 @@ Engine::render()
 void
 Engine::setActiveCamera( Camera* camera )
 {
+    emit activeCameraChanging( camera );
     d->objectMutex.lock();
     d->camera = camera;
     d->objectMutex.unlock();
-    emit activeCameraChanged( camera );
 }
 
 void

@@ -337,8 +337,13 @@ class RenderTarget;
         Q_SIGNALS:
             /**
              * Emitted whenever the active camera changes.
+             *
+             * When this signal is emitted the camera returned by activeCamera()
+             * is still the old one.
+             *
+             * \param camera The new camera.
              */
-            void activeCameraChanged( Camera* );
+            void activeCameraChanging( Camera* camera );
 
             /**
              * Emitted whenever the current viewport changes.
