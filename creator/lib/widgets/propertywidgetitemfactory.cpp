@@ -29,7 +29,11 @@
 
 using namespace GluonCreator;
 
-template<> PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
+template<>
+#ifndef WIN32
+GLUONCREATOR_EXPORT
+#endif
+PropertyWidgetItemFactory* GluonCore::Singleton<PropertyWidgetItemFactory>::m_instance = 0;
 
 PropertyWidgetItem*
 PropertyWidgetItemFactory::create( const QObject* object, const QString& type, QWidget* parent )
