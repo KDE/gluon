@@ -365,8 +365,7 @@ class RenderTarget;
             class EnginePrivate;
             EnginePrivate* const d;
 
-        private Q_SLOTS:
-            void viewportSizeChanged( int left, int bottom, int width, int height);
+            Q_PRIVATE_SLOT(d, void viewportSizeChanged( int left, int bottom, int width, int height) );
     };
 } //namespace
 

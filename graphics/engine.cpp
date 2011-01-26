@@ -64,6 +64,8 @@ class Engine::EnginePrivate
 
         void removeObject( const QString& type, const QString& name );
 
+        void viewportSizeChanged( int left, int bottom, int width, int height);
+
         RenderTarget* mainTarget;
         MaterialInstance* mainTargetShader;
 
@@ -155,6 +157,12 @@ void Engine::EnginePrivate::removeObject( const QString& type, const QString& na
 
     if( objects.contains( typeName ) )
         objects.remove( typeName );
+}
+
+void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width, int height )
+{
+    if( mainTarget )
+        mainTarget->resize(width, height);
 }
 
 void Engine::initialize()
@@ -386,12 +394,5 @@ Engine::~Engine()
 {
     delete d;
 }
-
-void Engine::viewportSizeChanged( int left, int bottom, int width, int height )
-{
-    if( d->mainTarget )
-        d->mainTarget->resize(width, height);
-}
-
 
 #include "engine.moc"
