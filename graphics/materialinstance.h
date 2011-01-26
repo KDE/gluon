@@ -166,8 +166,8 @@ namespace GluonGraphics
             class MaterialInstancePrivate;
             MaterialInstancePrivate* const d;
 
-        private Q_SLOTS:
-            void setActiveCamera( Camera* );
+            Q_PRIVATE_SLOT( d, void setActiveCamera( Camera* camera ) );
+
     };
 
 }

@@ -22,7 +22,7 @@
 
 using namespace GluonPlayer;
 
-template<> AtticaManager* GluonCore::Singleton<AtticaManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(AtticaManager)
 
 AtticaManager::AtticaManager()
 {

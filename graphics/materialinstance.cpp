@@ -41,6 +41,12 @@ class MaterialInstance::MaterialInstancePrivate
         MaterialInstancePrivate()
         {
             bound = false;
+            activeCamera = Engine::instance()->activeCamera();
+        }
+
+        void setActiveCamera( Camera* camera )
+        {
+            activeCamera = camera;
         }
 
         Material* material;
@@ -62,7 +68,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
-    connect( Engine::instance(), SIGNAL( activeCameraChanged( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
+    connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
 MaterialInstance::~MaterialInstance()
@@ -257,11 +263,6 @@ void MaterialInstance::bindTexture( const QString& name, int tex )
     glActiveTexture( GL_TEXTURE0 + id );
     glBindTexture( GL_TEXTURE_2D, tex );
     glUniform1i( uniformLocation( name ), id );
-}
-
-void MaterialInstance::setActiveCamera( Camera* cam )
-{
-    d->activeCamera = cam;
 }
 
 #include "materialinstance.moc"

@@ -32,7 +32,7 @@ class Engine::EnginePrivate {
 public:
     EnginePrivate() : bufferLength(250000), buffersPerStream(3) {}
     ~EnginePrivate() {}
-    
+
     QHash<QString, ALuint> bufferHash;
     int bufferLength;
     int buffersPerStream;

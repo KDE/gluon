@@ -337,13 +337,23 @@ class RenderTarget;
         Q_SIGNALS:
             /**
              * Emitted whenever the active camera changes.
+             *
+             * When this signal is emitted the camera returned by activeCamera()
+             * is still the old one.
+             *
+             * \param camera The new camera.
              */
-            void activeCameraChanged( Camera* );
+            void activeCameraChanging( Camera* camera );
 
             /**
              * Emitted whenever the current viewport changes.
+             *
+             * When this signal is emitted the viewport returned by currentViewport()
+             * is still the old one.
+             *
+             * \param viewport The new viewport.
              */
-            void currentViewportChanged( Viewport* );
+            void currentViewportChanging( Viewport* viewport );
 
         private:
             friend class GluonCore::Singleton<Engine>;
@@ -355,8 +365,7 @@ class RenderTarget;
             class EnginePrivate;
             EnginePrivate* const d;
 
-        private Q_SLOTS:
-            void viewportSizeChanged( int left, int bottom, int width, int height);
+            Q_PRIVATE_SLOT(d, void viewportSizeChanged( int left, int bottom, int width, int height) );
     };
 } //namespace
 

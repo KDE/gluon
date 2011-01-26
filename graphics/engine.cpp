@@ -43,7 +43,7 @@
 
 using namespace GluonGraphics;
 
-template<> Engine* GluonCore::Singleton<Engine>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(Engine)
 
 class Engine::EnginePrivate
 {
@@ -63,6 +63,8 @@ class Engine::EnginePrivate
         bool addObject( const QString& type, const QString& name, QObject* value );
 
         void removeObject( const QString& type, const QString& name );
+
+        void viewportSizeChanged( int left, int bottom, int width, int height);
 
         RenderTarget* mainTarget;
         MaterialInstance* mainTargetShader;
@@ -155,6 +157,12 @@ void Engine::EnginePrivate::removeObject( const QString& type, const QString& na
 
     if( objects.contains( typeName ) )
         objects.remove( typeName );
+}
+
+void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width, int height )
+{
+    if( mainTarget )
+        mainTarget->resize(width, height);
 }
 
 void Engine::initialize()
@@ -359,39 +367,32 @@ Engine::render()
 void
 Engine::setActiveCamera( Camera* camera )
 {
+    emit activeCameraChanging( camera );
     d->objectMutex.lock();
     d->camera = camera;
     d->objectMutex.unlock();
-    emit activeCameraChanged( camera );
 }
 
 void
 Engine::setViewport( Viewport* viewport )
 {
+    emit currentViewportChanging( viewport );
     d->objectMutex.lock();
     d->viewport = viewport;
     connect(d->viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), this, SLOT(viewportSizeChanged(int,int,int,int)));
     d->objectMutex.unlock();
-    emit currentViewportChanged(viewport);
 }
 
 Engine::Engine()
     : d( new EnginePrivate() )
 {
     setViewport( new Viewport() );
-    connect( this, SIGNAL( activeCameraChanged( Camera* ) ), d->viewport, SLOT( update() ) );
+    connect( this, SIGNAL( activeCameraChanging( Camera* ) ), d->viewport, SLOT( update() ) );
 }
 
 Engine::~Engine()
 {
     delete d;
 }
-
-void Engine::viewportSizeChanged( int left, int bottom, int width, int height )
-{
-    if( d->mainTarget )
-        d->mainTarget->resize(width, height);
-}
-
 
 #include "engine.moc"
