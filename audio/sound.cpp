@@ -226,8 +226,6 @@ void Sound::setLoop( bool enabled )
 
 void Sound::clear()
 {
-    DEBUG_BLOCK
-    DEBUG_TEXT("Clear")
     d->_k_deleteSource();
 }
 
