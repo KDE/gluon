@@ -41,6 +41,7 @@ class MaterialInstance::MaterialInstancePrivate
         MaterialInstancePrivate()
         {
             bound = false;
+            activeCamera = Engine::instance()->activeCamera();
         }
 
         void setActiveCamera( Camera* camera )
