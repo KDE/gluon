@@ -37,7 +37,7 @@
 # endif
 
 #ifndef GLUON_PLAYER_STATIC_EXPORT
-# if defined(WIN32)
+# if defined(Q_OS_WIN32)
 #  define GLUON_PLAYER_STATIC_EXPORT
 # else
 #  define GLUON_PLAYER_STATIC_EXPORT GLUON_PLAYER_EXPORT
