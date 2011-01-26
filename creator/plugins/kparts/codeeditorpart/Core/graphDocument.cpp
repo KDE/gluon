@@ -324,3 +324,4 @@ void GraphDocument::loadFromInternalFormat( const QString& filename )
 //
 //  //executeScript(run);
 // }
+

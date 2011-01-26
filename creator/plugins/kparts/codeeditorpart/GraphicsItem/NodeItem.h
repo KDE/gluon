@@ -70,3 +70,4 @@ class NodeItem : public QGraphicsSvgItem
 #include "node.h"
 
 #endif
+

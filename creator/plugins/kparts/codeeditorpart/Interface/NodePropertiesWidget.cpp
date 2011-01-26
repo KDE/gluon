@@ -158,3 +158,4 @@ void NodePropertiesWidget::disconnectNode( Node* n )
     disconnect( _width,        SIGNAL( valueChanged( double ) ),   n, SLOT( setWidth( double ) ) );
 
 }
+

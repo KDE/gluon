@@ -64,3 +64,4 @@ const QVector3D Math::VECTOR_UNIT_X = QVector3D( 1.f, 0.f, 0.f );
 const QVector3D Math::VECTOR_UNIT_Y = QVector3D( 0.f, 1.f, 0.f );
 const QVector3D Math::VECTOR_UNIT_Z = QVector3D( 0.f, 0.f, 1.f );
 const QVector3D Math::VECTOR_UNIT_SCALE = QVector3D( 1.f, 1.f, 1.f );
+
