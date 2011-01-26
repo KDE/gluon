@@ -134,7 +134,7 @@ GDLHandler::tokenizeObject( QString objectString )
             {
                 // Just do nothing - whitespace should be ignored outside of items
             }
-            else if( i->toLower() == '{' )
+            else if( ( *i ) == '{' )
             {
                 inItem = true;
             }
@@ -152,7 +152,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 // Ignore whitespace as instructed, rar!
                 if( !i->isSpace() && ( *i ) != '#' )
                 {
-                    if( i->toLower() == '}' )
+                    if( ( *i ) == '}' )
                     {
                         // Once we hit an end, we should stop looking at this item
                         // In other words - add the item to the list of items and make a new stringlist to work on...
@@ -160,7 +160,7 @@ GDLHandler::tokenizeObject( QString objectString )
                         tokenizedObject.append( theItem );
                         currentItem.clear();
                     }
-                    else if( i->toLower() == '{' )
+                    else if( ( *i ) == '{' )
                     {
                         // If we hit a start while already inside an item, we should simply start adding stuff
                         // until we hit the correct ending again
@@ -185,7 +185,7 @@ GDLHandler::tokenizeObject( QString objectString )
 
                 if( inObjectType )
                 {
-                    if( i->toLower() == '(' )
+                    if( ( *i ) == '(' )
                     {
                         currentItem.append( currentString.trimmed() );
                         currentString.clear();
@@ -199,7 +199,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
                 else if( inObjectName )
                 {
-                    if( i->toLower() == ')' )
+                    if( ( *i ) == ')' )
                     {
                         currentItem.append( currentString.trimmed() );
                         currentString.clear();
@@ -237,12 +237,12 @@ GDLHandler::tokenizeObject( QString objectString )
                         currentString += i->unicode();
                         if( !beingEscaped )
                         {
-                            if( i->toLower() == '{' )
+                            if( ( *i ) == '{' )
                             {
                                 ++extraBracketCounter;
                             }
 
-                            if( i->toLower() == '}' )
+                            if( ( *i ) == '}' )
                             {
                                 --extraBracketCounter;
                                 if( extraBracketCounter == -1 )
@@ -269,12 +269,12 @@ GDLHandler::tokenizeObject( QString objectString )
                 if( inPropertyName )
                 {
                     // Read name until we hit a space, and after that, start reading the value...
-                    if( i->toLower() == '{' )
+                    if( ( *i ) == '{' )
                     {
                         inChild = true;
                         childEnded = false;
                     }
-                    else if( i->toLower() == '}' )
+                    else if( ( *i ) == '}' )
                     {
                         inPropertyName = false;
                         // Rewind the pointer to make it possible to catch the end brackets above
@@ -299,7 +299,7 @@ GDLHandler::tokenizeObject( QString objectString )
                         multilineProperty = !multilineProperty;
                         i = i + 2;
                     }
-                    else if( i->toLower() == '\\' && !beingEscaped )
+                    else if( ( *i ) == '\\' && !beingEscaped )
                     {
                         beingEscaped = true;
                     }
@@ -307,7 +307,7 @@ GDLHandler::tokenizeObject( QString objectString )
                     {
                         // Read the value until the value ends!
                         currentString += i->unicode();
-                        if( !beingEscaped && !multilineProperty && i->toLower() == ')' )
+                        if( !beingEscaped && !multilineProperty && ( *i ) == ')' )
                         {
                             currentItem.append( currentString.trimmed() );
                             currentString.clear();
