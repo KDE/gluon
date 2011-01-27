@@ -342,8 +342,6 @@ namespace GluonCore
              */
             virtual void handleMessage( const QString& message );
             
-            void someting();
-
         protected:
             /**
              * Convenience function which will find objects inside a passed GluonObject which
