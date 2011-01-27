@@ -339,14 +339,13 @@ void GluonCreator::ProjectDock::newAssetTriggered()
                 return;
             }
 
-            GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(menuItem->property( "newAssetClassname" ).toString(), fileName );
+            GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(fileName, menuItem->property( "newAssetClassname" ).toString(),
+                                                                                     menuItem->property( "newAssetName" ).toString() );
 
             if( newAsset )
             {
                 DEBUG_TEXT( "Asset was created" );
                 d->model->addChild( newAsset, d->currentContextIndex );
-
-                newAsset->setName( menuItem->property( "newAssetName" ).toString() );
             }
         }
     }

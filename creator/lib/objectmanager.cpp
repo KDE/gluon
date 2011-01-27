@@ -74,44 +74,45 @@ ObjectManager::humanifyClassName( const QString& fixThis, bool justRemoveNamespa
     return fixedString;
 }
 
-GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName )
+GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, const QString& className, const QString& name )
 {
     DEBUG_BLOCK
-    KMimeType::Ptr type = KMimeType::findByFileContent( fileName );
-    DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) );
-
-    GluonCore::GluonObject* newasset = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type->name() );
-    if( newasset )
+    GluonCore::GluonObject* newChild = 0;
+    if( className.isEmpty() )
     {
-        GluonEngine::Asset* newChild = static_cast<GluonEngine::Asset*>( newasset );
-        setupAsset( newChild, fileName );
-        return newChild;
+        KMimeType::Ptr type = KMimeType::findByFileContent( fileName );
+        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) );
+        newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type->name() );
+    }
+    else
+    {
+        newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( className );
     }
 
-    return 0;
-}
-
-GluonEngine::Asset* ObjectManager::createNewAsset( const QString& className, const QString& fileName )
-{
-    DEBUG_BLOCK
-    GluonCore::GluonObject* newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( className );
     GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
     if( newAsset )
     {
-        setupAsset( newAsset, fileName );
+        setupAsset( newAsset, fileName, name );
         return newAsset;
     }
 
     return 0;
 }
 
-void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName )
+void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
 {
     GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    newAsset->setName( info.fileName() );
+    if( name.isNull() )
+    {
+        newAsset->setName( info.fileName() );
+    }
+    else
+    {
+        newAsset->setName( name );
+    }
 
     if( !QDir::current().exists( "Assets" ) )
         QDir::current().mkdir( "Assets" );
