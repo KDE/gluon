@@ -97,7 +97,7 @@ void MainWindow::eatChildren( GluonEngine::GameObject* trap )
     {
         _graph->addNode( trap->childGameObject( i - 1 )->name(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
         _graph->node( trap->childGameObject( i - 1 )->name() )->setProperty( "parentObject", trap->objectName() );
-        foreach( QString s, _objectTypes )
+        foreach( const QString& s, _objectTypes )
         {
             foreach( GluonEngine::Component * c, trap->childGameObject( i - 1 )->findComponentsByType( s ) )
             {
@@ -429,7 +429,7 @@ void MainWindow::addCustomTypes( KComboBox* bigList )
     foreach( QObject * n, noderootlist.first()->children() )
     {
         propertlist.clear();
-        foreach( QByteArray ba, n->dynamicPropertyNames() )
+        foreach( const QByteArray& ba, n->dynamicPropertyNames() )
         {
             propertlist.insert( QString( ba.data() ), n->property( ba.data() ) );
         }

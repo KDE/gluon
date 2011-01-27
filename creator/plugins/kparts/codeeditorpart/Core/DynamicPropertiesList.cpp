@@ -201,7 +201,7 @@ void DynamicPropertiesList::clear( Graph* graph )
     if( graph != 0 )
     {
         _EdgesProperties.values( graph ).clear();
-        foreach( QString name,  _GraphProperties.keys( graph ) )
+        foreach( const QString& name,  _GraphProperties.keys( graph ) )
         {
             _GraphProperties.remove( name, graph );
         }

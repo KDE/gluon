@@ -20,5 +20,5 @@ GenericName[x-test]=xxGame Launcherxx
 Exec=gluon_qmlplayer
 Icon=gluon-player
 Type=Application
-Categories=Qt;QML;KDE;Game;
+Categories=Qt;KDE;Game;
 Terminal=false

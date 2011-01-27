@@ -192,7 +192,7 @@ GluonObjectFactory::loadPlugins()
         pluginDirs.append( pluginDir );
 
     DEBUG_TEXT( QString( "Number of plugin locations: %1" ).arg( pluginDirs.count() ) );
-    foreach( QDir theDir, pluginDirs )
+    foreach( const QDir& theDir, pluginDirs )
     {
         DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( theDir.absolutePath() ) );
 

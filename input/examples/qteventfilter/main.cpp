@@ -33,11 +33,7 @@ int main( int argc, char* argv[] )
     app.setApplicationName( "Gluon Input Example for setting an event filtered Object" );
     MainWindow window;
 
-#if defined(Q_WS_S60)
-    window.showMaximized();
-#else
     window.show();
-#endif
 
     app.exec();
 }

@@ -128,6 +128,12 @@ GDLHandler::tokenizeObject( QString objectString )
     QString::const_iterator i;
     for( i = objectString.begin(); i != objectString.end(); ++i )
     {
+        if( ( *i ) == '#' )
+        {
+            ++i;
+            while( ( *i ) != '\n') ++i;
+        }
+
         if( !inItem )
         {
             if( i->isSpace() )
@@ -150,7 +156,7 @@ GDLHandler::tokenizeObject( QString objectString )
                 }
 
                 // Ignore whitespace as instructed, rar!
-                if( !i->isSpace() && ( *i ) != '#' )
+                if( !i->isSpace() )
                 {
                     if( ( *i ) == '}' )
                     {

@@ -43,7 +43,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT ObjectManager : public GluonCore::Singleton<ObjectManager>
     {
             Q_OBJECT
-        public slots:
+        public Q_SLOTS:
             GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
