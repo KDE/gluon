@@ -135,18 +135,23 @@ QString NewProjectDialogPage::createProject() const
 
     GluonCore::GluonObject* spriteComponent =
         GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
-    spriteComponent->setName( "SpriteRenderer" );
-    sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
+	spriteComponent->setName( "SpriteRenderer" );
+	sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
 
-    KUrl location = d->location->url();
-    QString projectFileName = project->fullyQualifiedFileName();
-    location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + ".gluon" );
-    project->setFilename( location );
+	KUrl location = d->location->url();
+	QString projectFileName = project->fullyQualifiedFileName();
+	location.addPath( projectFileName );
+	location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + ".gluon" );
+	project->setFilename( location );
 
-    QDir::setCurrent( d->location->url().toLocalFile() );
-    project->saveToFile();
+	KUrl currentLocation = d->location->url();
+	currentLocation.addPath(projectFileName);
+	QDir dir = QDir(d->location->text());
+	dir.mkpath(projectFileName);
+	QDir::setCurrent( currentLocation.toLocalFile() );
+	project->saveToFile();
 
-    return location.toLocalFile();
+	return location.toLocalFile();
 }
 
 void NewProjectDialogPage::urlEdited()
