@@ -208,7 +208,7 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     return newScn;
 }
 
-void ObjectManager::startAssetsWatch()
+void ObjectManager::watchCurrentAssets()
 {
     DEBUG_FUNC_NAME
     QObjectList assets = GluonEngine::Game::instance()->gameProject()->children();

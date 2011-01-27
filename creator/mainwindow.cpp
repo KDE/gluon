@@ -152,7 +152,7 @@ void MainWindow::openProject( const QString& fileName )
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
-        ObjectManager::instance()->startAssetsWatch();
+        ObjectManager::instance()->watchCurrentAssets();
 
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
