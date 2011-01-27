@@ -36,7 +36,7 @@ class GamesOverlay : public QGraphicsWidget
         Q_OBJECT
 
     public:
-        GamesOverlay( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit GamesOverlay( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         GamesView* gamesView();
 
     private:

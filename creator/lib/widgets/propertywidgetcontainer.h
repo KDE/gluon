@@ -36,7 +36,7 @@ namespace GluonCreator
             Q_PROPERTY( QString title READ title WRITE setTitle )
 
         public:
-            PropertyWidgetContainer( GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0 );
+            explicit PropertyWidgetContainer( GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~PropertyWidgetContainer();
 
             void setObject( GluonCore::GluonObject* theObject );

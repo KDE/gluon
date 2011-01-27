@@ -34,7 +34,7 @@ class GraphPropertiesWidget : public KButtonGroup, public Ui::GraphPropertiesWid
 {
         Q_OBJECT
     public:
-        GraphPropertiesWidget( Graph* g, QWidget* parent = 0 );
+        explicit GraphPropertiesWidget( Graph* g, QWidget* parent = 0 );
         QRadioButton* radio() const;
 
 

@@ -38,7 +38,7 @@ class GraphDocument : public QObject, public QList<Graph*>
         /*! Default Constructor
           \param name sets the name of the document.
         */
-        GraphDocument( const QString name, int width = 800, int heigth = 600 );
+        explicit GraphDocument( const QString name, int width = 800, int heigth = 600 );
 
         /*! default copy constructor */
         GraphDocument( const GraphDocument& gd );

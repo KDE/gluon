@@ -34,7 +34,7 @@ class LoginForm : public Overlay
         Q_OBJECT
 
     public:
-        LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     private:
         QLabel* m_usernameLabel;

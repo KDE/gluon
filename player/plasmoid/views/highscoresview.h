@@ -35,7 +35,7 @@ namespace Plasma
 class HighScoresView : public AbstractItemView
 {
     public:
-        HighScoresView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit HighScoresView( QGraphicsItem* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual void setModel( QAbstractItemModel* model );
         virtual ~HighScoresView();
 

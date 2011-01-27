@@ -25,7 +25,7 @@
 class AchievementsView : public AbstractItemView
 {
     public:
-        AchievementsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit AchievementsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 };
 
 #endif // ACHIEVEMENTSVIEW_H
