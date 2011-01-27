@@ -131,7 +131,7 @@ class Node : public QObject
         void setNodeItem( QGraphicsSvgItem* ni );
         /** Add a property to this node
         * @param property Name of property
-        * @param value Value of the property. arg2 shoud be different of QVariant::Invalid.
+        * @param value Value of the property. arg2 should be different of QVariant::Invalid.
         */
         void addDynamicProperty( QString property, QVariant value );
 
