@@ -38,7 +38,7 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
     {
         public:
-            GamesModel( QObject* parent = 0 );
+            explicit GamesModel( QObject* parent = 0 );
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;

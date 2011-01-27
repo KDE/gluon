@@ -129,7 +129,11 @@ GluonObject* CommentsModel::addComment( Attica::Comment comment, GluonObject* pa
     newComment->setProperty( "DateTime", comment.date().toString() );
     newComment->setProperty( "Rating", comment.score() );
 
+<<<<<<< HEAD
     foreach( const Attica::Comment& child, comment.children() )
+=======
+    foreach( const Attica::Comment &child, comment.children() )
+>>>>>>> 024caec5bf43cc82501c1525cf36bfdd059c4366
     {
         addComment( child, newComment );
     }
