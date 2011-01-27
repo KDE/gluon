@@ -136,11 +136,7 @@ GDLHandler::tokenizeObject( QString objectString )
 
         if( !inItem )
         {
-            if( i->isSpace() )
-            {
-                // Just do nothing - whitespace should be ignored outside of items
-            }
-            else if( ( *i ) == '{' )
+            if( ( *i ) == '{' )
             {
                 inItem = true;
             }
