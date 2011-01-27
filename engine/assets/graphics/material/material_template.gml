@@ -1,7 +1,9 @@
 { GluonCore::GluonObject(Material)
     #Vertex shader source
     vertexShader string(<<<
-        uniform highp mat4 modelViewProj;
+        uniform mat4 modelMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 projectionMatrix;
 
         attribute highp vec3 vertex;
         attribute mediump vec4 color;
@@ -12,7 +14,7 @@
 
         void main()
         {
-            gl_Position = vec4(vertex, 1.0) * modelViewProj;
+            gl_Position = vec4(vertex, 1.0) * ((modelMatrix * viewMatrix) * projectionMatrix);
             out_color = color;
             out_uv0 = uv0;
         }
