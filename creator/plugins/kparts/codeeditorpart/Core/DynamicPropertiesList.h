@@ -17,8 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef DINAMICPROPERTIESLIST_H
-#define DINAMICPROPERTIESLIST_H
+#ifndef DYNAMICPROPERTIESLIST_H
+#define DYNAMICPROPERTIESLIST_H
+
 #include <QObject>
 #include <QList>
 #include "graph.h"

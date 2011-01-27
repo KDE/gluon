@@ -17,18 +17,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_AUDIO_CAPTUREDEVICE_P_H
-#define GLUON_AUDIO_CAPTUREDEVICE_P_H
+#ifndef CAPTUREDEVICE_P_H
+#define CAPTUREDEVICE_P_H
 
 #include "device_p.h"
 
 #ifdef Q_WS_X11
 #include <AL/al.h>
-#endif
-#ifdef Q_WS_MAC
+#elif defined(Q_WS_MAC)
 #include <OpenAL/al.h>
-#endif
-#ifdef Q_WS_WIN
+#elif defined(Q_WS_WIN)
 #include <AL/al.h>
 #endif
 
