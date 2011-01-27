@@ -1,29 +1,25 @@
-/****************************************************************************
-**
-** Copyright (C) 2007 Trolltech ASA. All rights reserved.
-**
-** This file is part of the Qt Concurrent project on Trolltech Labs.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.  Please review the following information to ensure GNU
-** General Public Licensing requirements will be met:
-** http://www.trolltech.com/products/qt/opensource.html
-**
-** If you are unsure which license is appropriate for your use, please
-** review the following information:
-** http://www.trolltech.com/products/qt/licensing.html or contact the
-** sales department at sales@trolltech.com.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
-
-#include <QtGui/QtGui>
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 #include "modeltest.h"
+
+#include <QtGui/QtGui>
 
 Q_DECLARE_METATYPE( QModelIndex )
 
@@ -35,43 +31,43 @@ ModelTest::ModelTest( QAbstractItemModel* _model, QObject* parent ) : QObject( p
     Q_ASSERT( model );
 
     connect( model, SIGNAL( columnsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( columnsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( columnsInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( columnsRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( dataChanged( const QModelIndex&, const QModelIndex& ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( headerDataChanged( Qt::Orientation, int, int ) ),
-             this, SLOT( runAllTests() ) );
-    connect( model, SIGNAL( layoutAboutToBeChanged() ), this, SLOT( runAllTests() ) );
-    connect( model, SIGNAL( layoutChanged() ), this, SLOT( runAllTests() ) );
-    connect( model, SIGNAL( modelReset() ), this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
+    connect( model, SIGNAL( layoutAboutToBeChanged() ), SLOT( runAllTests() ) );
+    connect( model, SIGNAL( layoutChanged() ), SLOT( runAllTests() ) );
+    connect( model, SIGNAL( modelReset() ), SLOT( runAllTests() ) );
     connect( model, SIGNAL( rowsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( rowsInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
     connect( model, SIGNAL( rowsRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( runAllTests() ) );
+             SLOT( runAllTests() ) );
 
     // Special checks for inserting/removing
     connect( model, SIGNAL( layoutAboutToBeChanged() ),
-             this, SLOT( layoutAboutToBeChanged() ) );
+             SLOT( layoutAboutToBeChanged() ) );
     connect( model, SIGNAL( layoutChanged() ),
-             this, SLOT( layoutChanged() ) );
+             SLOT( layoutChanged() ) );
 
     connect( model, SIGNAL( rowsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( rowsAboutToBeInserted( const QModelIndex&, int, int ) ) );
+             SLOT( rowsAboutToBeInserted( const QModelIndex&, int, int ) ) );
     connect( model, SIGNAL( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ) );
+             SLOT( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ) );
     connect( model, SIGNAL( rowsInserted( const QModelIndex&, int, int ) ),
-             this, SLOT( rowsInserted( const QModelIndex&, int, int ) ) );
+             SLOT( rowsInserted( const QModelIndex&, int, int ) ) );
     connect( model, SIGNAL( rowsRemoved( const QModelIndex&, int, int ) ),
-             this, SLOT( rowsRemoved( const QModelIndex&, int, int ) ) );
+             SLOT( rowsRemoved( const QModelIndex&, int, int ) ) );
 
     runAllTests();
 }

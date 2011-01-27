@@ -104,7 +104,7 @@ void MainWindow::createActions()
 
     // Help related actions
     aboutAct = new QAction( tr( "&About" ), this );
-    aboutAct->setStatusTip( tr( "Show the Gluon Tutorial 4 Appplication About box" ) );
+    aboutAct->setStatusTip( tr( "Show the Gluon Tutorial 4 Application About box" ) );
     connect( aboutAct, SIGNAL( triggered() ), this, SLOT( mAbout() ) );
 
     aboutQtAct = new QAction( tr( "About &Qt" ), this );

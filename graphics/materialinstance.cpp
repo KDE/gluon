@@ -258,7 +258,7 @@ MaterialInstance::bindTexture( const QString& name, Texture* tex )
 void MaterialInstance::bindTexture( const QString& name, int tex )
 {
     QString uniName = name;
-    int id = uniName.replace( "texture", "" ).toInt();
+    int id = uniName.remove( "texture" ).toInt();
 
     glActiveTexture( GL_TEXTURE0 + id );
     glBindTexture( GL_TEXTURE_2D, tex );

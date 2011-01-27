@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_TEXTUREASSET_H
-#define GLUON_ENGINE_TEXTUREASSET_H
+#ifndef MATERIALASSET_H
+#define MATERIALASSET_H
 
 #include <gluon_engine_export.h>
 #include <asset.h>

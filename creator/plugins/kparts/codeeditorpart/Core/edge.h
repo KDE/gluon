@@ -207,7 +207,7 @@ class Edge : public QObject
 
         /** Add a property to this edge
         * @param property Name of property
-        * @param value Value of the property. value shoud be different of QVariant::Invalid.
+        * @param value Value of the property. Value should be different of QVariant::Invalid.
         */
         void addDynamicProperty( QString Property, QVariant value );
 

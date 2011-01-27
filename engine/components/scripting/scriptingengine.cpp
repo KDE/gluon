@@ -103,7 +103,7 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     if( result.state() == QScriptSyntaxCheckResult::Valid )
     {
         // Fix up the asset's name so as to be useable as a class name
-        QString className( asset->fullyQualifiedName().replace( ' ', QString() ).replace( '/', '_' ) );
+        QString className( asset->fullyQualifiedName().remove( ' ' ).replace( '/', '_' ) );
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code

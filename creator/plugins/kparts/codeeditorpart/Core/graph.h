@@ -210,7 +210,7 @@ class Graph : public QObject
 
         /** Add a property to this graph.
             * @param property Name of property
-            * @param value Value of the property. value shoud be different of QVariant::Invalid.
+            * @param value Value of the property. value should be different of QVariant::Invalid.
             */
         void addDynamicProperty( QString property, QVariant value = QVariant( 0 ) );
         /** remove a property from this graph.
@@ -218,9 +218,9 @@ class Graph : public QObject
         */
         void removeDynamicProperty( QString property );
 
-        /** Add a property to all nodes in this graph. If a new node is add later, the node will not containg this property.
+        /** Add a property to all nodes in this graph. If a new node is add later, the node will not contain this property.
         * @param property Name of property
-        * @param value Value of the property. value shoud be different of QVariant::Invalid.
+        * @param value Value of the property. value should be different of QVariant::Invalid.
         */
         void addNodesDynamicProperty( QString property, QVariant value = QVariant( 0 ) );
 
@@ -229,9 +229,9 @@ class Graph : public QObject
         */
         void addEdgesDynamicProperty( QString property, QVariant value = QVariant( 0 ) );
 
-        /** Add a property to all Edges in this graph. If a new edge is add later, the edge will not containg this property.
+        /** Add a property to all Edges in this graph. If a new edge is add later, the edge will not contain this property.
             * @param property Name of property
-            * @param value Value of the property. value shoud be different of QVariant::Invalid.
+            * @param value Value of the property. value should be different of QVariant::Invalid.
             */
         void removeNodesDynamicProperty( QString property );
 

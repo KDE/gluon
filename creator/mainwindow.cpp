@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,8 +20,22 @@
 
 #include "mainwindow.h"
 
-#include <QtCore/QVariantList>
-#include <QtCore/QFileInfo>
+#include "lib/plugin.h"
+#include "lib/pluginmanager.h"
+#include "lib/objectmanager.h"
+#include "lib/historymanager.h"
+#include "lib/selectionmanager.h"
+#include "lib/dockmanager.h"
+#include "lib/filemanager.h"
+#include "lib/widgets/filearea.h"
+
+#include "gluoncreatorsettings.h"
+#include "dialogs/configdialog.h"
+
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
 
 #include <KFileDialog>
 #include <KStandardAction>
@@ -35,25 +50,11 @@
 #include <KRecentFilesAction>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
-
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-
-#include "lib/plugin.h"
-#include "lib/pluginmanager.h"
-#include "lib/objectmanager.h"
-#include "lib/historymanager.h"
-#include "lib/selectionmanager.h"
-#include "lib/dockmanager.h"
-#include "lib/filemanager.h"
-#include "lib/widgets/filearea.h"
-
-#include "gluoncreatorsettings.h"
-#include "dialogs/configdialog.h"
-#include <QVBoxLayout>
 #include <KParts/PartManager>
+
+#include <QtCore/QVariantList>
+#include <QtCore/QFileInfo>
+#include <QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -89,7 +90,7 @@ MainWindow::MainWindow( const QString& fileName )
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( createGUI( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -205,7 +206,7 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*.gluon|Gluon Project Files" ) );
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*.gluon|Gluon Project Files" ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() ) saveProject();
 }
 
