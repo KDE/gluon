@@ -99,7 +99,7 @@ MaterialInstance::bind()
     }
 
     QList<QByteArray> properties = dynamicPropertyNames();
-    foreach( QByteArray prop, properties )
+    foreach( const QByteArray& prop, properties )
     {
         setGLUniform( prop, property( prop ) );
     }
