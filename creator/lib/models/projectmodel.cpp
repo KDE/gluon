@@ -358,10 +358,17 @@ void ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
     {
         GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
 
+        GluonCore::GluonObject* newObject = qobject_cast<GluonCore::GluonObject*>( newChild );
+        if( newChild->parent() == parentObject )
+        {
+            //Remove the children from the parent to let rowCount return
+            //an exact count.
+            parentObject->removeChild( newObject );
+        }
         int rcount = rowCount( parent );
         beginInsertRows( parent, rcount, rcount );
 
-        parentObject->addChild( qobject_cast<GluonCore::GluonObject*>( newChild ) );
+        parentObject->addChild( newObject );
 
         endInsertRows();
     }

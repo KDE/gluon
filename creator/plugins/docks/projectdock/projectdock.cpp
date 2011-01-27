@@ -344,7 +344,6 @@ void GluonCreator::ProjectDock::newAssetTriggered()
             if( newAsset )
             {
                 DEBUG_TEXT( "Asset was created" );
-                GluonEngine::Game::instance()->gameProject()->removeChild( newAsset );
                 d->model->addChild( newAsset, d->currentContextIndex );
 
                 newAsset->setName( menuItem->property( "newAssetName" ).toString() );
