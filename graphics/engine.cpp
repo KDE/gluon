@@ -22,7 +22,7 @@
 
 #include "engine.h"
 
-#ifdef _WIN32
+#ifdef Q_OS_WIN32
 #include <windows.h>
 #include <GL/glee.h>
 #endif
