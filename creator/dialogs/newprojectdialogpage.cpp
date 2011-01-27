@@ -131,6 +131,7 @@ QString NewProjectDialogPage::createProject() const
 
     GluonEngine::GameObject* sprite = new GluonEngine::GameObject( root );
     sprite->setName( i18n( "Sprite" ) );
+    sprite->setScale( 10.f, 10.f, 0.f );
     root->sceneContents()->addChild( sprite );
 
     GluonCore::GluonObject* spriteComponent =
