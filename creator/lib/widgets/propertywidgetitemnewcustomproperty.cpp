@@ -1,22 +1,21 @@
-/*
-    <one line to give the library's name and an idea of what it does.>
-    Copyright (C) <year>  <name of author>
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2009 Arjen Hiemstra <ahiemstra@heimr.nl>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 #include "propertywidgetitemnewcustomproperty.h"
 
@@ -73,23 +72,23 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty(QWidget
             propertyType->addItem(humanName, gObj->toVariant(0));
         }
     }
-    
+
     QFormLayout* formLayout = new QFormLayout();
     formLayout->addRow(i18n("Name:"), propertyName);
     formLayout->addRow(i18n("Type"), propertyType);
-    
+
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addLayout(formLayout);
     layout->addStretch();
-    
+
     QFrame* frame = new QFrame(this);
     frame->setFrameStyle(QFrame::Sunken | QFrame::HLine);
     layout->addWidget(frame);
-    
+
     QPushButton* okButton = new QPushButton(ki18n("Add Property").toString(), this);
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(createPropertyClicked()));
     layout->addWidget(okButton);
-    
+
     setLayout(layout);
 }
 
