@@ -1,6 +1,13 @@
 /**
 @mainpage GluonEngine
 
+GluonEngine provides all the necessary classes to build the structure of a game,
+like the game loop or the scene management.
+
+@authors
+Arjen Hiemstra \<ahiemstra@heimr.nl\><br>
+Dan Leinir Tuthra Jensen \<admin@leinir.dk\>
+
 @licenses
 @lgpl
 

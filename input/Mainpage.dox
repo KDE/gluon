@@ -1,6 +1,13 @@
 /**
 @mainpage GluonInput
 
+GluonInput provides a cross-platform way to manage and use the various
+input devices in a game.
+
+@authors
+Kim Jung Nissen \<jungnissen@gmail.com\><br>
+Laszlo Papp \<djszapi@archlinux.us\>
+
 @licenses
 @lgpl
 

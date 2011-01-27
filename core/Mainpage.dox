@@ -1,6 +1,13 @@
 /**
 @mainpage GluonCore
 
+GluonCore is a thin library which provides the ability to serialize and deserialize
+very easily an object hierarchy.
+
+@authors
+Arjen Hiemstra \<ahiemstra@heimr.nl\><br>
+Dan Leinir Tuthra Jensen \<admin@leinir.dk\>
+
 @licenses
 @lgpl
 

@@ -1,6 +1,14 @@
 /**
 @mainpage GluonGraphics
 
+GluonGraphics is a graphics library based on OpenGL. It provides easy
+to use classes to set up OpenGL in your application.
+
+@authors
+Arjen Hiemstra \<ahiemstra@heimr.nl\><br>
+Sacha Schutz \<istdasklar@free.fr\><br>
+Giulio Camuffo \<giuliocamuffo@gmail.com\><br>
+
 @licenses
 @lgpl
 

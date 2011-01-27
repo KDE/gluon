@@ -1,6 +1,13 @@
 /**
 @mainpage GluonAudio
 
+GluonAudio provides many convenience classes to easily use OpenAL in
+your game.
+
+@authors
+Sacha Schutz \<istdasklar@free.fr\><br>
+Guillaume Martres \<smarter@ubuntu.com\>
+
 @licenses
 @lgpl
 
