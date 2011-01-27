@@ -348,7 +348,7 @@ void MainWindow::loadStateGDL()
     QTextStream stateread( &stateFile );
     QString statetext = stateread.readAll();
     if( statetext.isEmpty() ) return;
-    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( statetext, this->parent() );
+    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( statetext, parent() );
     foreach( QObject * n, rootlist.first()->children() )
     {
         _graph->addNode( n->objectName(), QPoint( n->property( "Nodex" ).toInt(), n->property( "Nodey" ).toInt() ), n->property( "NodeType" ).toString() );
@@ -493,7 +493,7 @@ void MainWindow::setActiveGraph( Graph* g )
     _graphVisualEditor->setActiveGraph( g );
     _graph = g;
     g->setKCB( _widgetType );
-    connect( g, SIGNAL( changed() ), this, SLOT( saveStateGDL() ) );
+    connect( g, SIGNAL( changed() ), SLOT( saveStateGDL() ) );
 }
 
 Graph* MainWindow::graph() const

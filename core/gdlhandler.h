@@ -24,6 +24,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QUrl>
 
 namespace GluonCore
 {
@@ -147,7 +148,9 @@ namespace GluonCore
              * @param   parent      The QObject you wish the objects to be parented to
              * @return  A list of generated GluonObject instances
              */
-            QList<GluonObject*> parseGDL( const QString parseThis, QObject* parent );
+            QList<GluonObject*> parseGDL( const QString data, qint64 size, QObject* parent = 0 );
+            QList<GluonObject*> parseGDL( const QString& fileName, QObject* parent = 0 );
+            QList<GluonObject*> parseGDL( const QUrl& fileUrl, QObject* parent = 0 );
 
             /**
              * Serialize a list of GluonObject instances into a GDL representation
