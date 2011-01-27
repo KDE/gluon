@@ -71,6 +71,11 @@ GameObject::sanitize()
 void
 GameObject::initialize()
 {
+    if( d->initialized )
+        return;
+
+    d->initialized = true;
+
     const int componentCount = d->components.count();
     int i;
     for( i = 0; i < componentCount; ++i )
@@ -85,6 +90,9 @@ GameObject::initialize()
 void
 GameObject::start()
 {
+    if( !d->initialized )
+        return;
+
     const int componentCount = d->components.count();
     int i;
     for( i = 0; i < componentCount; ++i )
@@ -99,7 +107,7 @@ GameObject::start()
 void
 GameObject::update( int elapsedMilliseconds )
 {
-    if( !d->enabled )
+    if( !d->enabled || !d->initialized )
         return;
 
     // Remove all objects that were marked to destroy last update
@@ -132,7 +140,7 @@ GameObject::update( int elapsedMilliseconds )
 void
 GameObject::draw( int timeLapse )
 {
-    if( !d->enabled )
+    if( !d->enabled || !d->initialized )
         return;
 
     const int componentCount = d->components.count();
@@ -148,6 +156,9 @@ GameObject::draw( int timeLapse )
 
 void GameObject::stop()
 {
+    if( !d->initialized )
+        return;
+
     const int componentCount = d->components.count();
     int i;
     for( i = 0; i < componentCount; ++i )
@@ -162,6 +173,11 @@ void GameObject::stop()
 void
 GameObject::cleanup()
 {
+    if( !d->initialized )
+        return;
+
+    d->initialized = false;
+
     const int componentCount = d->components.count();
     int i;
     for( i = 0; i < componentCount; ++i )
@@ -176,6 +192,12 @@ GameObject::cleanup()
 void GameObject::destroy()
 {
     parentGameObject()->removeLater( this );
+}
+
+bool
+GameObject::isInitialized() const
+{
+    return d->initialized;
 }
 
 void GameObject::removeLater( GameObject* remove )

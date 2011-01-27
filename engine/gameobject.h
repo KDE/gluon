@@ -156,6 +156,11 @@ namespace GluonEngine
             Q_INVOKABLE void destroy();
 
             /**
+             * Returns true if initialize() was called on this object.
+             **/
+            bool isInitialized() const;
+
+            /**
              * Run a command on all the components in this GameObject.
              *
              * @param   functionName    The name of the function you wish to call

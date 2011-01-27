@@ -41,6 +41,7 @@ namespace GluonEngine
 
             QString description;
             bool enabled;
+            bool initialized;
 
             QVector3D position;
             QVector3D scale;
