@@ -15,5 +15,5 @@ Dan Leinir Tuthra Jensen \<admin@leinir.dk\>
 
 // DOXYGEN_SET_PROJECT_NAME = GluonEngine
 // DOXYGEN_SET_RECURSIVE = YES
-// DOXYGEN_EXCLUDE_PATTERNS = */components/* */assets/*
+// DOXYGEN_EXCLUDE_PATTERNS = *private.h */components/* */assets/*
 // vim:ts=4:sw=4:expandtab:filetype=doxygen
