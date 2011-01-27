@@ -1,0 +1,5 @@
+
+// DOXYGEN_SET_PROJECT_NAME = Gluon
+// DOXYGEN_SET_RECURSIVE = YES
+// DOXYGEN_SET_FILE_PATTERNS = */documentation/*
+// vim:ts=4:sw=4:expandtab:filetype=doxygen

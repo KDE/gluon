@@ -1,0 +1,12 @@
+/**
+@mainpage GluonEngine
+
+@licenses
+@lgpl
+
+*/
+
+// DOXYGEN_SET_PROJECT_NAME = GluonEngine
+// DOXYGEN_SET_RECURSIVE = YES
+// DOXYGEN_EXCLUDE_PATTERNS = */components/* */assets/*
+// vim:ts=4:sw=4:expandtab:filetype=doxygen

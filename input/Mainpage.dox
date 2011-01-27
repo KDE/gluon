@@ -1,0 +1,12 @@
+/**
+@mainpage GluonInput
+
+@licenses
+@lgpl
+
+*/
+
+// DOXYGEN_SET_PROJECT_NAME = GluonInput
+// DOXYGEN_SET_RECURSIVE = YES
+// DOXYGEN_EXCLUDE_PATTERNS = */examples/* */linux/* */mac/* /*qt*/
+// vim:ts=4:sw=4:expandtab:filetype=doxygen
