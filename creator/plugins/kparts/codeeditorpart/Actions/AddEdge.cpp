@@ -110,3 +110,4 @@ void AddEdgeAction::setActiveGraph( Graph* graph )
     _graph = graph;
     connect( this, SIGNAL( addEdge( Node*, Node* ) ), _graph, SLOT( addEdge( Node*, Node* ) ) );
 }
+

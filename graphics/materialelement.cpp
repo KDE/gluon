@@ -42,3 +42,4 @@ GluonGraphics::MaterialElement::~MaterialElement()
 }
 
 #include "materialelement.moc"
+
