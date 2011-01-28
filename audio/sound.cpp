@@ -87,6 +87,8 @@ class Sound::SoundPrivate
             alSourcef( source, AL_GAIN, volume );
             alSourcef( source, AL_PITCH, pitch );
             alSourcef( source, AL_REFERENCE_DISTANCE, radius );
+
+            return true;
         }
 
         void _k_deleteSource()
