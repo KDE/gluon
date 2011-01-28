@@ -252,13 +252,11 @@ ObjectManager::ObjectManager()
     m_objectId = 0;
     m_sceneId = 0;
 
-    connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
-    connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
+    connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
+    connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
 }
 
 ObjectManager::~ObjectManager()
 {
 
 }
-
-//#include "objectmanager.moc"
