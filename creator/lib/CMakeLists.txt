@@ -40,6 +40,7 @@ endif()
 
 target_link_libraries(libGluonCreator
                       ${GLUON_ENGINE_LIBS}
+                      ${GLUON_CREATOR_LIBS}
                       ${KDE4_KDECORE_LIBS}
                       ${KDE4_KDEUI_LIBS}
                       ${KDE4_KIO_LIBS}

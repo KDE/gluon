@@ -2,6 +2,7 @@
      Copyright (C) 2008 by:
      Tomaz Canabrava <tomaz.canabrava@gmail.com>
      Ugo Sangiori <ugorox@gmail.com>
+     Laszlo Papp <djszapi@archlinux.us>
 
      Rocs is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
@@ -17,6 +18,9 @@
      along with Step; if not, write to the Free Software
      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+#include "lib/abstractundocommand.h"
+#include "lib/objectmanager.h"
 
 #include "MainWindow.h"
 //Qt related includes
@@ -58,8 +62,8 @@
 #include <KPushButton>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
-#include <creator/lib/abstractundocommand.h>
-#include <creator/lib/objectmanager.h>
+
+
 #include <QtCore/QDir>
 
 

@@ -28,7 +28,7 @@
 #include "models/projectmodel.h"
 #include "models/modeltest.h"
 #include "engine/gameproject.h"
-#include "creator/lib/selectionmanager.h"
+#include "lib/selectionmanager.h"
 
 #include <QtGui/QTreeView>
 #include <QtGui/QMenu>
