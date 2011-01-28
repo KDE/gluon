@@ -2,6 +2,7 @@
      Copyright (C) 2008 by:
      Tomaz Canabrava <tomaz.canabrava@gmail.com>
      Ugo Sangiori <ugorox@gmail.com>
+     Laszlo Papp <djszapi@archlinux.us>
 
      Rocs is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
@@ -21,7 +22,9 @@
 #ifndef SUI_MAINWINDOW_H
 #define SUI_MAINWINDOW_H
 
-//#include <KXmlGuiWindow>
+#include "lib/historymanager.h"
+
+#include "lib/historymanager.h"
 #include <kmessagebox.h>
 #include <KToolBar>
 #include <KComboBox>
@@ -34,7 +37,6 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
-#include <creator/lib/historymanager.h>
 
 class KPushButton;
 class GraphVisualEditor;

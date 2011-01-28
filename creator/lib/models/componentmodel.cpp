@@ -19,13 +19,17 @@
  */
 
 #include "componentmodel.h"
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
-#include "creator/lib/objectmanager.h"
+
+#include "lib/objectmanager.h"
+
+#include <engine/component.h>
+
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+
+#include <KLocalizedString>
 
 #include <QtCore/QMimeData>
-#include <KLocalizedString>
-#include <engine/component.h>
 
 namespace GluonCreator
 {
