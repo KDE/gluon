@@ -20,9 +20,9 @@
 
 #include "highscoresmodel.h"
 
-#include <core/gluonobject.h>
-#include <core/gdlhandler.h>
-#include <core/gluon_global.h>
+#include "core/gluonobject.h"
+#include "core/gdlhandler.h"
+#include "core/gluon_global.h"
 
 #include <QDebug>
 #include <QDir>
@@ -139,7 +139,7 @@ void HighScoresModel::loadData()
         return;
     }
 
-    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( filename, 0 );
+    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( filename );
     rootNode = highScores.at( 0 );
 }
 

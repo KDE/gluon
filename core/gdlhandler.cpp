@@ -358,9 +358,9 @@ GDLHandler::parseGDL( const QString data, qint64 size, QObject* parent)
 }
 
 QList<GluonObject*>
-GDLHandler::parseGDL( const QString fileName, QObject* parent )
+GDLHandler::parseGDL( const QString& fileName, QObject* parent )
 {
-    qint64 size;
+    qint64 size = 0;
 
     QFile file( fileName );
     if( !file.open( QIODevice::ReadOnly ) )
@@ -370,6 +370,12 @@ GDLHandler::parseGDL( const QString fileName, QObject* parent )
     file.close();
 
     return parseGDL(data, size, parent);
+}
+
+QList<GluonObject*>
+GDLHandler::parseGDL( const QUrl& fileUrl, QObject* parent )
+{
+    return parseGDL(fileUrl.toLocalFile(), parent);
 }
 
 QString
