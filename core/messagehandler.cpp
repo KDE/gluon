@@ -35,7 +35,7 @@ class MessageHandler::Private
         QMultiHash<QString, GluonObject*> subscribedObjects;
         QMultiHash<QString, QScriptValue> subscribedFunctions;
         QHash<qint64, QScriptValue> functionObjects;
-        
+
 };
 
 void MessageHandler::subscribe(const QString& message, GluonObject* receiver)
@@ -52,23 +52,23 @@ void MessageHandler::subscribe(const QString& message, const QScriptValue& recei
 void MessageHandler::publish(const QString& message)
 {
     QMultiHash<QString, GluonObject*>::iterator oitr;
-    for(oitr = d->subscribedObjects.begin(); oitr != d->subscribedObjects.end(); ++oitr)
+    for(oitr = d->subscribedObjects.find(message); oitr != d->subscribedObjects.end() && oitr.key() == message; ++oitr)
     {
         oitr.value()->handleMessage(message);
     }
-    
+
     QMultiHash<QString, QScriptValue>::iterator fitr;
-    for(fitr = d->subscribedFunctions.begin(); fitr != d->subscribedFunctions.end(); ++fitr)
+    for(fitr = d->subscribedFunctions.find(message); fitr != d->subscribedFunctions.end() && fitr.key() == message; ++fitr)
     {
         fitr.value().call(d->functionObjects.value(fitr.value().objectId()), QScriptValueList() << message);
     }
-    
+
     emit publishMessage(message);
 }
 
 MessageHandler::MessageHandler() : d(new Private)
 {
-    
+
 }
 
 MessageHandler::~MessageHandler()
