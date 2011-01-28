@@ -348,7 +348,7 @@ void MainWindow::loadStateGDL()
     QTextStream stateread( &stateFile );
     QString statetext = stateread.readAll();
     if( statetext.isEmpty() ) return;
-    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( statetext, parent() );
+    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( statetext, statetext.size(), parent() );
     foreach( QObject * n, rootlist.first()->children() )
     {
         _graph->addNode( n->objectName(), QPoint( n->property( "Nodex" ).toInt(), n->property( "Nodey" ).toInt() ), n->property( "NodeType" ).toString() );
@@ -424,7 +424,7 @@ void MainWindow::addCustomTypes( KComboBox* bigList )
     QTextStream noderead( &nodefile );
     QString nodetext = noderead.readAll();
     if( nodetext.isEmpty() ) return;
-    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( nodetext, this->parent() );
+    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( nodetext, nodetext.size(), parent() );
     QMap<QString, QVariant> propertlist;
     foreach( QObject * n, noderootlist.first()->children() )
     {

@@ -85,7 +85,7 @@ GDLHandler::createObject( QStringList objectStringList, QObject* parent )
                     if( item.startsWith( '{' ) )
                     {
                         // Items are parented automatically - see case 0 above
-                        QList<GluonObject*> childList = parseGDL( item, createdObject );
+                        QList<GluonObject*> childList = parseGDL( item, item.length(), createdObject );
                     }
                     else
                     {

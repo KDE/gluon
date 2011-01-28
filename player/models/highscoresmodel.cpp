@@ -139,7 +139,7 @@ void HighScoresModel::loadData()
         return;
     }
 
-    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( filename );
+    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( fileContents, 0, 0 );
     rootNode = highScores.at( 0 );
 }
 

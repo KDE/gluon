@@ -85,7 +85,14 @@ bool Material::load( const QUrl& url )
     if( !url.isValid() )
         return false;
 
-    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL( url.toLocalFile(), this );
+    QFile file( url.toLocalFile() );
+    if( !file.open( QIODevice::ReadOnly ) )
+        return false;
+
+    QByteArray data = file.readAll();
+
+
+    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL( data, data.size(), this );
     if( objects.count() <= 0 )
         return false;
 
