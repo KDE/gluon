@@ -240,6 +240,16 @@ void ObjectManager::assetDeleted( const QString& file)
 {
     m_assets.remove(file);
     KDirWatch::self()->removeFile( file );
+    QFileInfo fi(file);
+    if( fi.isFile())
+    {
+        QFile::remove(file);
+    }
+    else if( fi.isDir())
+    {
+        QDir d;
+        d.rmpath(file);
+    }
 }
 
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
