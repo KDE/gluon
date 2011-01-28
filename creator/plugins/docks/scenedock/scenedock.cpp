@@ -44,9 +44,9 @@ class SceneDock::SceneDockPrivate
 {
     public:
         SceneDockPrivate()
+            : model( 0 )
+            , view( 0 )
         {
-            model = 0;
-            view = 0;
         }
         SceneModel* model;
         QTreeView* view;
