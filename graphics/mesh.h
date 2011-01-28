@@ -56,6 +56,13 @@ namespace GluonGraphics
             virtual void load( const QString& filename );
 
             /**
+             * Set the buffer used by this Mesh to render.
+             *
+             * \param buffer The buffer to render.
+             */
+            void setVertexBuffer( VertexBuffer* buffer );
+
+            /**
              * Has this mesh been loaded yet?
              */
             virtual bool isLoaded() const;
