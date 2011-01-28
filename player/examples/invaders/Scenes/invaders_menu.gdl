@@ -56,7 +56,7 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Space)
             enabled bool(true)
-            keyCode int(70)
+            keyCode int(32)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)

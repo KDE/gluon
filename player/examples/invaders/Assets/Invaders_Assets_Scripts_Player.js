@@ -96,7 +96,7 @@ this.playDeathAnim = function(time)
 {
     var value = this.deathAnimTimeRemaining / this.deathAnimTime;
     this.GameObject.setScale(new QVector3D(1 + value, 1 + value, 1));
-    this.camera.renderTargetMaterial.materialColor = new QColor(255, 255 - (255 * value), 255 - (255 * value));    
+    this.camera.renderTargetMaterial.materialColor = new QColor(255, 255 * value, 255 * value);    
     
     this.deathAnimTimeRemaining = this.deathAnimTimeRemaining - time;
     if(this.deathAnimTimeRemaining < 0)

@@ -121,7 +121,7 @@
             file url(Assets/Invaders_Assets_Material_1.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(44)
+                texture0 uint(17)
             }
         }
     }

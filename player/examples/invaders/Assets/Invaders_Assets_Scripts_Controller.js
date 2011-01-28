@@ -30,7 +30,7 @@ this.update = function(time)
 {
     if(this.gameEnded)
     {
-        if(this.GameObject.Key_Continue.isActionReleased())
+        if(this.GameObject.Key_Continue.isActionStopped())
         {
             this.Game.resetCurrentScene();
         }

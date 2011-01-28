@@ -44,11 +44,11 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Continue)
             enabled bool(true)
-            keyCode int(70)
+            keyCode int(32)
         }
         { GluonEngine::KeyboardInputComponent(Key_Pause)
             enabled bool(true)
-            keyCode int(119)
+            keyCode int(80)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
@@ -81,17 +81,17 @@
         }
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
-            keyCode int(14)
+            keyCode int(16777234)
             expanded bool(false)
         }
         { GluonEngine::KeyboardInputComponent(Key_Right)
             enabled bool(true)
-            keyCode int(16)
+            keyCode int(16777236)
             expanded bool(false)
         }
         { GluonEngine::KeyboardInputComponent(Key_Fire)
             enabled bool(true)
-            keyCode int(70)
+            keyCode int(32)
             expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(FireSound)
