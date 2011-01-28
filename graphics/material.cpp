@@ -148,8 +148,8 @@ void Material::build( const QString& name )
     vertShaderSource.append( d->vertShaderSource );
     fragShaderSource.append( d->fragShaderSource );
 
-    const char* vertShaderData = vertShaderSource.data();
-    const char* fragShaderData = fragShaderSource.data();
+    // const char* vertShaderData = vertShaderSource.data();
+    // const char* fragShaderData = fragShaderSource.data();
 
     d->program = new QGLShaderProgram();
     d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource );

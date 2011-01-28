@@ -154,13 +154,11 @@ void MainWindow::openProject( const QString& fileName )
 
         if( d->cleanup )
         {
-            qDebug() << "CLEANUP!";
             GluonEngine::Game::instance()->stopAll();
             GluonEngine::Game::instance()->cleanupAll();
         }
         else
         {
-            qDebug() << "NOCLEANUP!";
             GluonEngine::Game::instance()->initializeAll();
             GluonEngine::Game::instance()->drawAll();
             d->cleanup = true;
