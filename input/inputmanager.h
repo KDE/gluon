@@ -89,7 +89,8 @@ namespace GluonInput
             void setInputManagementType( InputManagementType inputManagementType );
 
         signals:
-            void buttonStateChanged( int button, int value );
+            void keyPressed( int button );
+            void keyReleased( int button );
 
         private:
             friend class GluonCore::Singleton<InputManager>;

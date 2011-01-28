@@ -234,6 +234,7 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 1);
+		emit keyPressed(keyEvent->key());
         return true;
     }
 
@@ -241,6 +242,7 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         keyboard(0)->setButtonState(keyEvent->key(), 0);
+		emit keyReleased(keyEvent->key());
         return true;
     }
 
