@@ -343,12 +343,7 @@ void MainWindow::saveStateGDL()
 
 void MainWindow::loadStateGDL()
 {
-    QFile stateFile( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
-    if( !stateFile.open( QIODevice::ReadOnly ) ) return;
-    QTextStream stateread( &stateFile );
-    QString statetext = stateread.readAll();
-    if( statetext.isEmpty() ) return;
-    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( statetext, statetext.size(), parent() );
+    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
     foreach( QObject * n, rootlist.first()->children() )
     {
         _graph->addNode( n->objectName(), QPoint( n->property( "Nodex" ).toInt(), n->property( "Nodey" ).toInt() ), n->property( "NodeType" ).toString() );
@@ -361,7 +356,6 @@ void MainWindow::loadStateGDL()
     {
         _graph->addEdge( _graph->node( e->property( "fromNode" ).toString() ), _graph->node( e->property( "toNode" ).toString() ), qobject_cast<NodeItem*>( _graph->node( e->property( "fromNode" ).toString() )->nodeItem() )->connectors().value( e->property( "fromConnector" ).toString() ), qobject_cast<NodeItem*>( _graph->node( e->property( "toNode" ).toString() )->nodeItem() )->connectors().value( e->property( "toConnector" ).toString() ) );
     }
-    stateFile.close();
 }
 
 void MainWindow::readTheScene()
@@ -419,12 +413,7 @@ void MainWindow::setupLists()
 
 void MainWindow::addCustomTypes( KComboBox* bigList )
 {
-    QFile nodefile( KGlobal::dirs()->locate( "data", "nodetypes.gdl" ) );
-    if( !nodefile.open( QIODevice::ReadOnly ) ) return;
-    QTextStream noderead( &nodefile );
-    QString nodetext = noderead.readAll();
-    if( nodetext.isEmpty() ) return;
-    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( nodetext, nodetext.size(), parent() );
+    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( KGlobal::dirs()->locate( "data", "nodetypes.gdl" ) );
     QMap<QString, QVariant> propertlist;
     foreach( QObject * n, noderootlist.first()->children() )
     {
@@ -435,7 +424,6 @@ void MainWindow::addCustomTypes( KComboBox* bigList )
         }
         bigList->addItem( qobject_cast<GluonCore::GluonObject*>( n )->name(), propertlist );
     }
-    nodefile.close();
 }
 
 void MainWindow::setupActions()
