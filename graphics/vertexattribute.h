@@ -24,6 +24,7 @@
 
 namespace GluonGraphics
 {
+    class VertexAttributePrivate;
 
     /**
      * \brief A vertex attribute to be used in a vertex buffer
@@ -77,24 +78,6 @@ namespace GluonGraphics
             void append( float data );
 
             /**
-             * Sets the attribute location given by the material.
-             *
-             * \param loc The location to set.
-             *
-             * \see location
-             **/
-            void setLocation( int loc );
-
-            /**
-             * Sets the offset of this attribute in the vertex buffer.
-             *
-             * \param offset The new offset.
-             *
-             * \see offset
-             **/
-            void setOffset( int offset );
-
-            /**
              * Returns the raw data stored.
              **/
             const float *data() const;
@@ -122,15 +105,11 @@ namespace GluonGraphics
 
             /**
              * Returns the attribute location in the material.
-             *
-             * \see setLocation
              **/
             int location() const;
 
             /**
              * Returns the offset of the attribute in the vertex buffer.
-             *
-             * \see setOffset
              **/
             int offset() const;
 
@@ -146,7 +125,8 @@ namespace GluonGraphics
             VertexAttribute& operator<<( float data );
 
         private:
-            class VertexAttributePrivate;
+            friend class VertexBuffer;
+
             VertexAttributePrivate* const d;
     };
 };

@@ -22,6 +22,7 @@
 
 #include "materialinstance.h"
 #include "vertexattribute.h"
+#include "vertexattribute_p.h"
 #include "glheaders.h"
 
 using namespace GluonGraphics;
@@ -90,7 +91,7 @@ void VertexBuffer::initialize()
     for( int i = 0; i < d->attributes.size(); ++i )
     {
         VertexAttribute& attribute = d->attributes[i];
-        attribute.setOffset( offset );
+        attribute.d->offset = offset;
         glBufferSubData( GL_ARRAY_BUFFER, offset, attribute.size(), attribute.data() );
         offset += attribute.size();
     }
@@ -117,7 +118,7 @@ void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* mat
     {
         VertexAttribute& attribute = d->attributes[i];
         if( attribute.location() == -1 )
-            attribute.setLocation( material->attributeLocation( attribute.name() ) );
+            attribute.d->location = material->attributeLocation( attribute.name() );
 
         if( attribute.location() != -1 )
         {

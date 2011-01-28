@@ -18,28 +18,24 @@
  */
 
 #include "vertexattribute.h"
+#include "vertexattribute_p.h"
 
 #include <QString>
 
 using namespace GluonGraphics;
 
-class VertexAttribute::VertexAttributePrivate
+VertexAttributePrivate::VertexAttributePrivate()
+    : location( -1 )
+    , offset( -1 )
+    , size( 0 )
 {
-    public:
-        VertexAttributePrivate()
-            : location( -1 )
-            , offset( -1 )
-            , size( 0 )
-        {
 
-        }
+}
 
-        QVector<float> data;
-        QString name;
-        int location;
-        int offset;
-        int size;
-};
+VertexAttributePrivate::~VertexAttributePrivate()
+{
+
+}
 
 VertexAttribute::VertexAttribute()
                : d( new VertexAttributePrivate() )
@@ -67,16 +63,6 @@ VertexAttribute::~VertexAttribute()
 void VertexAttribute::append( float data )
 {
     d->data << data;
-}
-
-void VertexAttribute::setLocation( int location )
-{
-    d->location = location;
-}
-
-void VertexAttribute::setOffset( int offset )
-{
-    d->offset = offset;
 }
 
 const float* VertexAttribute::data() const
