@@ -16,4 +16,5 @@ Guillaume Martres \<smarter@ubuntu.com\>
 // DOXYGEN_SET_PROJECT_NAME = GluonAudio
 // DOXYGEN_SET_RECURSIVE = YES
 // DOXYGEN_EXCLUDE_PATTERNS = *private.h */examples/* */alure/*
+// DOXYGEN_REFERENCES = gluon-git/core
 // vim:ts=4:sw=4:expandtab:filetype=doxygen
