@@ -137,7 +137,12 @@ MainWindow::~MainWindow()
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lockLayout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
+}
+
+void MainWindow::closeEvent( QCloseEvent* event )
+{
     GluonEngine::Game::instance()->stopGame();
+    QWidget::closeEvent( event );
 }
 
 void MainWindow::openProject( KUrl url )
@@ -147,7 +152,6 @@ void MainWindow::openProject( KUrl url )
 
 void MainWindow::openProject( const QString& fileName )
 {
-			qDebug() << "SUCKS: " << fileName;
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         statusBar()->showMessage( i18n( "Opening project..." ) );
@@ -156,8 +160,9 @@ void MainWindow::openProject( const QString& fileName )
 
         if( d->cleanup )
         {
-			qDebug() << "LOOOOOL";
-            GluonEngine::Game::instance()->updateAll();
+            GluonEngine::Game::instance()->cleanupAll();
+            GluonEngine::Game::instance()->initializeAll();
+            GluonEngine::Game::instance()->drawAll();
         }
         else
         {

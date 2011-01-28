@@ -39,6 +39,7 @@ namespace GluonCreator
             ~MainWindow();
 
             virtual bool queryClose();
+            virtual void closeEvent( QCloseEvent* event );
 
         public slots:
             void openProject( KUrl url );
