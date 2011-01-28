@@ -84,6 +84,8 @@ void MainWindow::setupUi()
     retranslateUi();
 
     GluonInput::InputManager::instance()->setFilteredObject(m_textEdit);
+	connect(GluonInput::InputManager::instance(), SIGNAL(keyPressed( int )), SLOT(mKeyPressed( )));
+	connect(GluonInput::InputManager::instance(), SIGNAL(keyReleased( int )), SLOT(mKeyReleased( )));
     return;
 }
 
@@ -100,12 +102,12 @@ void MainWindow::createActions()
     quitAct = new QAction( QIcon( ":/images/quit.png" ), tr( "&Quit" ), this );
     quitAct->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
     quitAct->setStatusTip( tr( "Exit the application" ) );
-    connect( quitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
+    connect( quitAct, SIGNAL( triggered() ), SLOT( close() ) );
 
     // Help related actions
     aboutAct = new QAction( tr( "&About" ), this );
     aboutAct->setStatusTip( tr( "Show the Gluon Tutorial 4 Application About box" ) );
-    connect( aboutAct, SIGNAL( triggered() ), this, SLOT( mAbout() ) );
+    connect( aboutAct, SIGNAL( triggered() ), SLOT( mAbout() ) );
 
     aboutQtAct = new QAction( tr( "About &Qt" ), this );
     aboutQtAct->setStatusTip( tr( "Show the Qt library's About box" ) );
@@ -146,6 +148,16 @@ QTextEdit* MainWindow::textEdit()
 void MainWindow::closeEvent( QCloseEvent* event )
 {
     QApplication::instance()->exit( 0 );
+}
+
+void MainWindow::mKeyPressed( int button )
+{
+	m_textEdit->append(QString("%1 button is pressed").arg(QKeySequence(button).toString()));
+}
+
+void MainWindow::mKeyReleased( int button )
+{
+	m_textEdit->append(QString("%1 button is released").arg(QKeySequence(button).toString()));
 }
 
 #include "mainwindow.moc"
