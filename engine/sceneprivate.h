@@ -39,10 +39,10 @@ namespace GluonEngine
             void unloadContents();
             void saveContents( const QUrl& file );
 
+            Scene* q;
             GameObject* sceneContents;
             bool sceneContentsLoaded;
             bool sceneContentsStarted;
-            Scene* q;
     };
 }
 

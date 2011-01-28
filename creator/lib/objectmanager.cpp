@@ -35,6 +35,7 @@
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
 #include <KDE/KDirWatch>
+
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
