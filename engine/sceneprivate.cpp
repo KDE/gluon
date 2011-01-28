@@ -22,8 +22,8 @@
 #include "scene.h"
 #include "gameobject.h"
 
-#include <core/debughelper.h>
-#include <core/gdlhandler.h>
+#include "core/debughelper.h"
+#include "core/gdlhandler.h"
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
@@ -63,23 +63,7 @@ ScenePrivate::loadContents( const QUrl& file )
         return;
     }
 
-    QFile* sceneFile = new QFile( file.toLocalFile() );
-    if( !sceneFile->exists() )
-    {
-        DEBUG_TEXT( QString( "File %1 does not exist, aborting scene load" ).arg( file.toLocalFile() ) );
-        return;
-    }
-
-    if( !sceneFile->open( QIODevice::ReadOnly ) )
-    {
-        DEBUG_TEXT( QString( "Failed to load scene contents as %1 could not be opened for reading" ).arg( file.toLocalFile() ) )
-        return;
-    }
-
-    QTextStream sceneReader( sceneFile );
-    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file.toLocalFile(), q );
-    sceneFile->close();
-    delete sceneFile;
+    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file, q );
 
     if( sceneContents )
         delete sceneContents;
