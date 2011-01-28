@@ -26,6 +26,7 @@
 #include "scene.h"
 #include <qscriptclass.h>
 #include <qscriptvalueiterator.h>
+#include <core/messagehandler.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, ScriptingComponent )
 
@@ -109,6 +110,9 @@ void ScriptingComponent::initialize()
 
 		QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
 		d->scriptObject.setProperty( "Game", game );
+                
+                QScriptValue messageHandler = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonCore::MessageHandler::instance(), ownership, wrapOptions);
+                d->scriptObject.setProperty("MessageHandler", messageHandler);
 
 		// Lastly, get the functions out so they're easy to call
 		d->initializeFunction = d->scriptObject.property( "initialize" );

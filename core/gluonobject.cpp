@@ -778,4 +778,10 @@ GluonObject::hasMetaInfo() const
     return false;
 }
 
+void 
+GluonObject::handleMessage(const QString& message)
+{
+    Q_UNUSED(message)
+}
+
 #include "gluonobject.moc"

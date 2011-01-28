@@ -73,7 +73,7 @@ namespace GluonCreator
                 //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
                 for( int i = 0; i < metaEnum.keyCount(); ++i )
                 {
-                    comboBox->addItem( QString( metaEnum.key( i ) ), QVariant( i ) );
+                    comboBox->addItem( QString( metaEnum.key( i ) ), metaEnum.value( i ) );
                 }
             }
     };
@@ -122,7 +122,7 @@ void
 EnumPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     int key = value.toInt();
-    d->comboBox->setCurrentIndex( d->comboBox->findData( QVariant( key ) ) );
+    d->comboBox->setCurrentIndex( d->comboBox->findData( value ) );
     GluonCreator::PropertyWidgetItem::setEditValue( value );
 }
 
@@ -130,7 +130,7 @@ void
 EnumPropertyWidgetItem::indexChanged( int newIndex )
 {
     d->editObject->setProperty( editProperty().toUtf8(), d->comboBox->itemData( newIndex ) );
-    GluonCreator::PropertyWidgetItem::valueChanged( QVariant( newIndex ) );
+    GluonCreator::PropertyWidgetItem::valueChanged( d->comboBox->itemData( newIndex ) );
 }
 
 // #include "enumpropertywidgetitem.moc"
