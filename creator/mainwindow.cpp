@@ -61,7 +61,7 @@ using namespace GluonCreator;
 class MainWindow::MainWindowPrivate
 {
     public:
-        MainWindowPrivate()
+        MainWindowPrivate() : cleanup(false)
         {
         }
 
@@ -69,6 +69,7 @@ class MainWindow::MainWindowPrivate
         QString fileName;
         KRecentFilesAction* recentFiles;
         ProjectSelectionDialog* projectDialog;
+        bool cleanup;
 
         FileArea* mainArea;
 };
@@ -151,8 +152,19 @@ void MainWindow::openProject( const QString& fileName )
 
         FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
 
-        GluonEngine::Game::instance()->initializeAll();
-        GluonEngine::Game::instance()->drawAll();
+        if( d->cleanup )
+        {
+            qDebug() << "CLEANUP!";
+            GluonEngine::Game::instance()->stopAll();
+            GluonEngine::Game::instance()->cleanupAll();
+        }
+        else
+        {
+            qDebug() << "NOCLEANUP!";
+            GluonEngine::Game::instance()->initializeAll();
+            GluonEngine::Game::instance()->drawAll();
+            d->cleanup = true;
+        }
         ObjectManager::instance()->watchCurrentAssets();
 
         d->fileName = fileName;
@@ -397,6 +409,4 @@ void GluonCreator::MainWindow::projectDialogClosed()
 
 void MainWindow::initializeGame()
 {
-
-
 }

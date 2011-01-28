@@ -86,8 +86,7 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
     restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
     connect( npdp, SIGNAL( validationFinished( bool ) ), SLOT( enableButtonOk( bool ) ) );
-    connect( this, SIGNAL( okClicked() ),
-             SLOT( okClicked() ) );
+    connect( this, SIGNAL( okClicked() ), SLOT( okClicked() ) );
 }
 
 ProjectSelectionDialog::~ProjectSelectionDialog()
