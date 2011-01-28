@@ -324,6 +324,12 @@ GDLHandler::tokenizeObject( QString objectString )
                                 if( i == objectString.end() )
                                     break;
                                 ++i;
+                                if( ( *i ) == '#' )
+                                {
+                                    ++i;
+                                    while( ( *i ) != '\n') ++i;
+                                    continue;
+                                }
                                 if( i->isSpace() )
                                     continue;
                                 --i;
