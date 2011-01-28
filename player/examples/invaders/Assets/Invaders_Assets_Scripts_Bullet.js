@@ -13,7 +13,4 @@ this.update = function(time)
     this.life -= time;
     if(this.life <= 0)
         this.GameObject.destroy();
-    
-    if(this.GameObject.Collider.isColliding())
-        this.GameObject.destroy();
 }

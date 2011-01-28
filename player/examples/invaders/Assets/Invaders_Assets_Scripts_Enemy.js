@@ -33,6 +33,9 @@ this.update = function(time)
     
     if(this.GameObject.BulletCollider.isColliding() || this.GameObject.PlayerCollider.isColliding())
     {
+	if(this.GameObject.BulletCollider.isColliding())
+	    this.GameObject.BulletCollider.collidesWith().destroy();
+	
         this.alive = false;
         this.GameObject.SpriteRenderer.setMaterial("Invaders/Assets/Material/Enemy_Fade");
         this.GameObject.Kapow.play();
