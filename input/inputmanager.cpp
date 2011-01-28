@@ -279,6 +279,19 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
             return false;
         }
     }
+
+	if (event->type() == QEvent::Gesture)
+	{
+		QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+        return true;
+	}
+
+	if (event->type() == QEvent::GestureOverride)
+	{
+		QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+        return true;
+	}
+
     return false;
 }
 
