@@ -33,7 +33,7 @@
     }
     { GluonEngine::GameObject(Icon)
         enabled bool(true)
-        position vector3d(0;0;0)
+        position vector3d(0;20;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
@@ -45,22 +45,22 @@
     }
     { GluonEngine::GameObject(Text)
         enabled bool(true)
-        position vector3d(-0.16;24.55;1)
+        position vector3d(-0.16;-20;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(40;5)
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Menu Text)
-            color rgba(152;152;152;255)
-        }
-        { GluonEngine::QtScriptComponent(GluonObject)
-            enabled bool(true)
-            script GluonEngine::Asset(Invaders/Assets/Scripts/menu.js)
+            color rgba(255;255;255;255)
         }
         { GluonEngine::KeyboardInputComponent(Key_Space)
             enabled bool(true)
             keyCode int(32)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Menu)
         }
     }
 }

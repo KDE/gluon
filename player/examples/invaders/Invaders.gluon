@@ -8,27 +8,27 @@
         }
         { GluonEngine::Scene(Game)
             file url(Scenes/invaders_game.gdl)
+            paused bool(false)
+            enemies float(28)
+            lives float(5)
         }
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptAsset(bullet.js)
-                file url(Assets/invaders_bullet.js)
-            }
-            { GluonEngine::ScriptAsset(controller.js)
-                file url(Assets/invaders_controller.js)
-            }
-            { GluonEngine::ScriptAsset(enemy.js)
-                file url(Assets/invaders_enemy.js)
-            }
-            { GluonEngine::ScriptAsset(menu.js)
-                file url(Assets/invaders_menu.js)
-            }
-            { GluonEngine::ScriptAsset(player.js)
-                file url(Assets/invaders_player.js)
+            { GluonEngine::ScriptingAsset(Menu)
+                file url(Assets/Invaders_Assets_Scripts_Menu.js)
             }
             { GluonEngine::ScriptingAsset(Player)
-                file url(Assets/Invaders_Assets_Scripts_Scripted_Logic.js)
+                file url(Assets/Invaders_Assets_Scripts_Player.js)
+            }
+            { GluonEngine::ScriptingAsset(Enemy)
+                file url(Assets/Invaders_Assets_Scripts_Enemy.js)
+            }
+            { GluonEngine::ScriptingAsset(Controller)
+                file url(Assets/Invaders_Assets_Scripts_Controller.js)
+            }
+            { GluonEngine::ScriptingAsset(Bullet)
+                file url(Assets/Invaders_Assets_Scripts_Bullet.js)
             }
         }
         { GluonCore::GluonObject(Sounds)
@@ -77,7 +77,7 @@
         { GluonEngine::MaterialAsset(Material)
             file url(Assets/Invaders_Assets_Material.gml)
             { GluonGraphics::MaterialInstance(Menu Text)
-                materialColor rgba(74;74;74;255)
+                materialColor rgba(255;255;255;255)
                 texture0 string(play.png)
             }
             { GluonGraphics::MaterialInstance(Icon)
@@ -121,7 +121,7 @@
             file url(Assets/Invaders_Assets_Material_1.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(40)
+                texture0 uint(17)
             }
         }
     }

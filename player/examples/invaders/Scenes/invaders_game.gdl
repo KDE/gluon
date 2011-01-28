@@ -42,14 +42,17 @@
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)
             color rgba(255;255;255;255)
         }
-        { GluonEngine::QtScriptComponent(ControllerScript)
-            enabled bool(true)
-            script GluonEngine::Asset(Invaders/Assets/Scripts/controller.js)
-            paused bool(false)
-        }
-        { GluonEngine::KeyboardInputComponent(Continue)
+        { GluonEngine::KeyboardInputComponent(Key_Continue)
             enabled bool(true)
             keyCode int(32)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Pause)
+            enabled bool(true)
+            keyCode int(80)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Controller)
         }
     }
     { GluonEngine::GameObject(Player)
@@ -62,6 +65,7 @@
             size size2d(8;8)
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)
             color rgba(255;255;255;255)
+            expanded bool(false)
         }
         { GluonEngine::GameObject(Reflection)
             enabled bool(true)
@@ -78,22 +82,17 @@
         { GluonEngine::KeyboardInputComponent(Key_Left)
             enabled bool(true)
             keyCode int(16777234)
+            expanded bool(false)
         }
         { GluonEngine::KeyboardInputComponent(Key_Right)
             enabled bool(true)
             keyCode int(16777236)
-        }
-        { GluonEngine::KeyboardInputComponent(Key_Up)
-            enabled bool(true)
-            keyCode int(16777235)
-        }
-        { GluonEngine::KeyboardInputComponent(Key_Down)
-            enabled bool(true)
-            keyCode int(16777237)
+            expanded bool(false)
         }
         { GluonEngine::KeyboardInputComponent(Key_Fire)
             enabled bool(true)
             keyCode int(32)
+            expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(FireSound)
             enabled bool(true)
@@ -103,11 +102,13 @@
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(2)
             radius float(3)
+            expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
             enabled bool(true)
@@ -117,14 +118,17 @@
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(EnemyCollider)
             enabled bool(true)
             radius float(3)
+            expanded bool(false)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Player)
+            expanded bool(false)
         }
     }
     { GluonEngine::GameObject(Enemy)
@@ -138,18 +142,16 @@
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)
             color rgba(255;255;255;255)
         }
-        { GluonEngine::QtScriptComponent(GluonObject 1)
-            enabled bool(true)
-            script GluonEngine::Asset(Invaders/Assets/Scripts/enemy.js)
-        }
         { GluonEngine::SphereCollisionComponent(PlayerCollider)
             enabled bool(true)
             radius float(2)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(1)
             radius float(2)
+            expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
             enabled bool(true)
@@ -159,6 +161,11 @@
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
+            expanded bool(false)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Enemy)
         }
     }
     { GluonEngine::GameObject(Bullet)
@@ -171,10 +178,6 @@
             size size2d(1;5)
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)
             color rgba(255;0;0;255)
-        }
-        { GluonEngine::QtScriptComponent(Script)
-            enabled bool(true)
-            script GluonEngine::Asset(Invaders/Assets/Scripts/bullet.js)
         }
         { GluonEngine::SphereCollisionComponent(Collider)
             enabled bool(true)
@@ -189,6 +192,10 @@
             pitch float(1)
             loop bool(false)
             autoPlay bool(true)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Bullet)
         }
     }
     { GluonEngine::GameObject(GameOver)
