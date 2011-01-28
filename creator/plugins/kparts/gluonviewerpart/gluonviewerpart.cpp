@@ -21,22 +21,24 @@
 
 #include "gluonviewerpart.h"
 
-#include "input/inputmanager.h"
-
 #include <graphics/renderwidget.h>
 #include <graphics/viewport.h>
 #include <graphics/engine.h>
+
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
-#include <QtGui/QWidget>
+#include <input/inputmanager.h>
+
 #include <kdemacros.h>
 #include <kparts/genericfactory.h>
 #include <KDE/KUrl>
+#include <KActionCollection>
+#include <KAction>
+
+#include <QtGui/QWidget>
 #include <QtCore/QThread>
 #include <QTimer>
-#include <KActionCollection>
-#include <kaction.h>
 
 using namespace GluonCreator;
 using namespace GluonGraphics;
