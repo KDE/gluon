@@ -151,6 +151,7 @@ namespace GluonCore
     };
 }
 
+/// \cond GluonObjectRegistration
 /**
  * \brief Convenience - do not use directly
  * A convenience class used for object registration, which should not be used directly
@@ -164,6 +165,8 @@ class GluonObjectRegistration
             GluonCore::GluonObjectFactory::instance()->registerObjectType<T>();
         }
 };
+
+/// \endcond
 
 /**
  * Use this macro to register a class with the GluonObjectFactory.
@@ -203,7 +206,7 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
     {\
         return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE *>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
     }\
-     
+
 //Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
 
 #endif  // GLUON_CORE_GLUONOBJECTFACTORY_H
