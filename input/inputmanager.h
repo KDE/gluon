@@ -28,7 +28,7 @@
 #include "joystick.h"
 #include "touch.h"
 
-#include <core/singleton.h>
+#include "core/singleton.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -40,10 +40,8 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
     {
-            Q_OBJECT
-
+        Q_OBJECT
         public:
-
             enum InputManagementType
             {
                 WIN_INPUT_LOWLEVEL,

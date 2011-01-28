@@ -83,9 +83,10 @@ void MainWindow::setupUi()
 
     retranslateUi();
 
-    GluonInput::InputManager::instance()->setFilteredObject(m_textEdit);
-	connect(GluonInput::InputManager::instance(), SIGNAL(keyPressed( int )), SLOT(mKeyPressed( )));
-	connect(GluonInput::InputManager::instance(), SIGNAL(keyReleased( int )), SLOT(mKeyReleased( )));
+	GluonInput::InputManager* im = GluonInput::InputManager::instance();
+    im->setFilteredObject(m_textEdit);
+	connect(im, SIGNAL(keyPressed( int )), SLOT(mKeyPressed( int )));
+	connect(im, SIGNAL(keyReleased( int )), SLOT(mKeyReleased( int )));
     return;
 }
 

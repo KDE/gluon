@@ -107,7 +107,6 @@ GameObject::start()
 void
 GameObject::update( int elapsedMilliseconds )
 {
-	qDebug() << "HELLOWORLD";
     if( !d->enabled || !d->initialized )
         return;
 
@@ -115,12 +114,10 @@ GameObject::update( int elapsedMilliseconds )
     const int deleteCount = d->objectsToDelete.count();
     int i = 0;
 
-	qDebug() << "deleteCount: " << deleteCount;
     for( i = 0; i < deleteCount; ++i )
     {
-		qDebug() << "OBJNAMES: " << d->objectsToDelete.at( i ).objectName();
-			GameObject* obj = d->objectsToDelete.at( i );
-			removeChild( obj );
+		GameObject* obj = d->objectsToDelete.at( i );
+		removeChild( obj );
         obj->stop();
         obj->cleanup();
         delete obj;
