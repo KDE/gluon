@@ -29,42 +29,93 @@ namespace GluonGraphics
     class MaterialInstance;
 
     /**
-     * \brief A wrapper class around a GL vertex buffer object (VBO).
+     * \brief A class to render geometries with OpenGL.
      *
-     * A VertexBuffer takes any number of VertexAttribute and uses them
-     * to create and draw a GL vertex buffer.
+     * VertexBuffer takes any number of VertexAttribute and uses them
+     * to create and draw a GL vertex buffer .
+     *
+     * <b>Creating a VertexBuffer</b>
+     *
+     * This code snippet creates a VertexBuffer object and fills in with
+     * the necessary data to render two triangles.
+     *\code
+     VertexBuffer* buffer = new VertexBuffer();
+
+     VertexAttribute vertices( "vertex", 3);
+     vertices << -1.f << -1.f << 0.f;
+     vertices << -1.f <<  1.f << 0.f;
+     vertices <<  1.f <<  1.f << 0.f;
+     vertices <<  1.f << -1.f << 0.f;
+     buffer->addAttribute( vertices );
+
+     VertexAttribute uvs( "uv0", 2 );
+     uvs << 0.f << 0.f;
+     uvs << 0.f << 1.f;
+     uvs << 1.f << 1.f;
+     uvs << 1.f << 0.f;
+     buffer->addAttribute( uvs );
+
+     QVector<uint> indices;
+     indices << 0 << 1 << 2
+             << 0 << 2 << 3;
+
+     buffer->setIndices( indices );
+     buffer->initialize();
+     * \endcode
+     * To render the buffer simply call render(), passing it the wanted render mode.
+     * \note This requires a render target to be bound, be it RenderWidget or RenderTarget.
+     * \code
+     buffer->render( VertexBuffer::RM_TRIANGLES );
+     * \endcode
      */
     class VertexBuffer : public QObject
     {
         Q_OBJECT
         public:
+            /**
+             * This enumeration lists the various render modes that can be used to render a buffer.
+             */
             enum RenderMode
             {
-                RM_POINTS,
-                RM_LINES,
-                RM_LINE_LOOP,
-                RM_LINE_STRIP,
-                RM_TRIANGLES,
-                RM_TRIANGLE_STRIP,
-                RM_TRIANGLE_FAN,
+                RM_POINTS,          /**< Draws points. Every vertex specified is a point. */
+                RM_LINES,           /**< Draws lines. Every two vertices specified compose a line. */
+                RM_LINE_LOOP,       /**< Draws connected lines. The last vertex specified is
+                                         connected to first vertex. */
+                RM_LINE_STRIP,      /**< Draws connected lines. Every vertex specified after
+                                         first two are connected.*/
+                RM_TRIANGLES,       /**< Draws triangles. Every three vertices specified compose
+                                         a triangle. */
+                RM_TRIANGLE_STRIP,  /**< Draws connected triangles. Every vertex specified after
+                                         first three vertices creates a triangle.*/
+                RM_TRIANGLE_FAN,    /**< Draws connected triangles like RM_TRIANGLE_STRIP, except
+                                         draws triangles in fan shape. */
             };
 
+            /**
+             * Constructs an empty vertex buffer object.
+             */
             VertexBuffer( QObject* parent = 0 );
+
+            /**
+             * Destroys the buffer.
+             */
             ~VertexBuffer();
 
             /**
              * Add a vertex attribute to the list of attributes that will
-             * be used by initialize().
+             * be used by initialize() to create the buffer.
              *
              * \param attribute The attribute to be added.
-             **/
+             */
             void addAttribute( const VertexAttribute& attribute );
 
             /**
              * Sets the vertex indices to be used when rendering.
+             * The indices are a list of references to the vertices which
+             * make up the geometry.
              *
              * \param indices The indices array.
-             **/
+             */
             void setIndices( const QVector<uint>& indices );
 
             /**

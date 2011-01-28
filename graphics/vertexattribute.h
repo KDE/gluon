@@ -30,6 +30,17 @@ namespace GluonGraphics
      *
      * A vertex attribute contains information about the vertices
      * composing a mesh.
+     * These information must be used by a VertexBuffer to render the
+     * geometry.
+     *
+     * \code
+     VertexAttribute attribute( "vertex", 3 );
+     attribute << 0.f << 0.f << 0.f;
+     attribute << 1.f << 0.f << 0.f;
+     attribute << 1.f << 1.f << 0.f;
+     * \endcode
+     *
+     * See the VertexBuffer documentation for further reading.
      */
     class VertexAttribute
     {
@@ -39,12 +50,21 @@ namespace GluonGraphics
             /**
              * Creates a vertex attribute.
              *
-             * \param name The name of the attribute.
+             * \param name The name of the attribute. It should have the name of the vertex
+             *             shader attribute which will get the values stored in this object.
              * \param size The number of fields for a single vertex. E.g. 3 for vertex
              * position (x, y, z), 4 for colors (r, g, b, a), etc.
              **/
             VertexAttribute( const QString& name, int size );
+
+            /**
+             * Constructs a copy of \a other.
+             */
             VertexAttribute( const VertexAttribute& other );
+
+            /**
+             * Destroys the vertex attribute.
+             */
             ~VertexAttribute();
 
             /**
