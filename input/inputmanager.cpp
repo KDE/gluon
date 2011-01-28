@@ -230,69 +230,68 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj)
         return false;
 
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        keyboard(0)->setButtonState(keyEvent->key(), 1);
-		emit keyPressed(keyEvent->key());
-        return true;
-    }
-
-    if (event->type() == QEvent::KeyRelease)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        keyboard(0)->setButtonState(keyEvent->key(), 0);
-		emit keyReleased(keyEvent->key());
-        return true;
-    }
-
-    if (event->type() == QEvent::MouseMove)
-    {
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-        mouse(0)->setPosition( mouseEvent->pos( ) );
-        return true;
-    }
-
-    if (event->type() == QEvent::Wheel)
-    {
-        QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
-        mouse(0)->setHWheelPosition( wheelEvent->x( ) );
-        mouse(0)->setHWheelPosition( wheelEvent->y( ) );
-        return true;
-    }
-
-    if (event->type() == QEvent::MouseButtonPress)
-    {
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-        switch (mouseEvent->button()) {
-        case Qt::LeftButton:
-            return true;
-        case Qt::RightButton:
-            return true;
-        case Qt::MiddleButton:
-            return true;
-        case Qt::XButton1:
-            return true;
-        case Qt::XButton2:
-            return true;
-        default:
-            return false;
-        }
-    }
-
-	if (event->type() == QEvent::Gesture)
+	switch (event->type())
 	{
-		QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
-        return true;
+	case QEvent::KeyPress:
+		{
+			QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+			keyboard(0)->setButtonState(keyEvent->key(), 1);
+			emit keyPressed(keyEvent->key());
+			return true;
+		}
+	case QEvent::KeyRelease:
+		{
+			QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+			keyboard(0)->setButtonState(keyEvent->key(), 0);
+			emit keyReleased(keyEvent->key());
+			return true;
+		}
+	case QEvent::MouseMove:
+		{
+			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+			mouse(0)->setPosition( mouseEvent->pos( ) );
+			return true;
+		}
+	case QEvent::Wheel:
+		{
+			QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
+			mouse(0)->setHWheelPosition( wheelEvent->x( ) );
+			mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+			return true;
+		}
+	case QEvent::MouseButtonPress:
+		{
+			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+			switch (mouseEvent->button()) {
+			case Qt::LeftButton:
+				return true;
+			case Qt::RightButton:
+				return true;
+			case Qt::MiddleButton:
+				return true;
+			case Qt::XButton1:
+				return true;
+			case Qt::XButton2:
+				return true;
+			default:
+				return false;
+			}
+		}
+	case QEvent::Gesture:
+		{
+			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+			return true;
+		}
+	case QEvent::GestureOverride:
+		{
+			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+			return true;
+		}
+	default:
+		return false;
 	}
 
-	if (event->type() == QEvent::GestureOverride)
-	{
-		QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
-        return true;
-	}
-
-    return false;
+	return false;
 }
 
 void InputManager::installEventFiltered(QObject *filteredObj)
