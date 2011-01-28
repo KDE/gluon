@@ -145,39 +145,7 @@ void CommentsModel::loadData()
     gluonDir.cd( ".gluon/" + QString( serviceURI ) );
     QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
-    QFile dataFile( filename );
-    while( 1 )
-    {
-        if( !dataFile.open( QIODevice::ReadOnly ) )
-        {
-            if( !QFile::exists( filename ) )
-            {
-                qDebug() << "Cannot find the file " << filename << ", creating new";
-                dataFile.close();
-                saveData();         //Create a blank file if it doesn't exist
-                continue;       //Try to open again
-            }
-            else
-            {
-                qDebug() << "Cannot open the file " << filename;
-                return;     //return from loadData()
-            }
-        }
-        else
-        {
-            break;      //File opened successfully
-        }
-    }
-
-    QTextStream commentReader( &dataFile );
-    QString fileContents = commentReader.readAll();
-    dataFile.close();
-
-    if( fileContents.isEmpty() )
-        qDebug() << "Something is wrong with the comments file";
-
-    QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL( fileContents, 0, 0 );
-    rootNode = comments.at( 0 );
+    rootNode = GluonCore::GDLHandler::instance()->parseGDL( filename ).at(0);
 }
 
 void CommentsModel::saveData()
