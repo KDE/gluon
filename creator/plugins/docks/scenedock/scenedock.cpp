@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +20,9 @@
 
 #include "scenedock.h"
 
-#include <QtGui/QTreeView>
+#include <historymanager.h>
+#include <objectmanager.h>
+#include <models/models.h>
 
 #include <core/debughelper.h>
 #include <engine/game.h>
@@ -31,10 +34,9 @@
 
 #include <KAction>
 #include <KLocalizedString>
-#include <QMenu>
-#include <historymanager.h>
-#include <objectmanager.h>
-#include <models/models.h>
+
+#include <QtGui/QMenu>
+#include <QtGui/QTreeView>
 
 using namespace GluonCreator;
 
@@ -132,8 +134,7 @@ void SceneDock::deleteSelection()
 {
     if( d->view->selectionModel()->hasSelection() )
     {
-        QItemSelection currentSelection = d->view->selectionModel()->selection();
-        foreach( const QItemSelectionRange & range, currentSelection )
+        foreach( const QItemSelectionRange & range, d->view->selectionModel()->selection() )
         {
             foreach( const QModelIndex & index, range.indexes() )
             {
