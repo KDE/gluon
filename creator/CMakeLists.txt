@@ -4,7 +4,9 @@ if(NOT GLUON_BUILD_ALL)
     project(GluonCreator)
     find_package(KDE4 REQUIRED)
     find_package(GluonCore REQUIRED)
+    find_package(GluonInput REQUIRED)
     find_package(GluonEngine REQUIRED)
+    find_package(GluonGraphics REQUIRED)
 endif()
 
 include_directories(
