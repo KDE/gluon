@@ -77,7 +77,7 @@ ScenePrivate::loadContents( const QUrl& file )
     }
 
     QTextStream sceneReader( sceneFile );
-    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( sceneReader.readAll(), q );
+    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file.toLocalFile(), q );
     sceneFile->close();
     delete sceneFile;
 

@@ -23,6 +23,7 @@
 #include "debughelper.h"
 
 #include <QtCore/QStringList>
+#include <QtCore/QFile>
 
 using namespace GluonCore;
 
@@ -340,11 +341,11 @@ GDLHandler::tokenizeObject( QString objectString )
 }
 
 QList<GluonObject*>
-GDLHandler::parseGDL( const QString parseThis, QObject* parent )
+GDLHandler::parseGDL( const QString data, qint64 size, QObject* parent)
 {
     QList<GluonObject*> thisObjectList;
 
-    QList<QStringList> tokenizedObject = tokenizeObject( parseThis );
+    QList<QStringList> tokenizedObject = tokenizeObject( data );
 
     foreach( const QStringList & item, tokenizedObject )
     {
@@ -354,6 +355,21 @@ GDLHandler::parseGDL( const QString parseThis, QObject* parent )
     }
 
     return thisObjectList;
+}
+
+QList<GluonObject*>
+GDLHandler::parseGDL( const QString fileName, QObject* parent )
+{
+    qint64 size;
+
+    QFile file( fileName );
+    if( !file.open( QIODevice::ReadOnly ) )
+        return QList<GluonObject*>();
+
+    QByteArray data = file.readAll();
+    file.close();
+
+    return parseGDL(data, size, parent);
 }
 
 QString

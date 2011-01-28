@@ -176,7 +176,7 @@ void CommentsModel::loadData()
     if( fileContents.isEmpty() )
         qDebug() << "Something is wrong with the comments file";
 
-    QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL( fileContents, 0 );
+    QList<GluonObject*> comments = GluonCore::GDLHandler::instance()->parseGDL( filename, 0 );
     rootNode = comments.at( 0 );
 }
 

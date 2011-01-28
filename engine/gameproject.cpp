@@ -114,7 +114,7 @@ GameProject::loadFromFile()
     if( fileContents.isEmpty() )
         return false;
 
-    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( fileContents, parent() );
+    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( filename().toLocalFile(), parent() );
     if( objectList.count() > 0 )
     {
         if( objectList[0]->metaObject() )
