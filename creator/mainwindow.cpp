@@ -55,6 +55,7 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QVBoxLayout>
+#include <QDebug>
 
 using namespace GluonCreator;
 
@@ -112,7 +113,7 @@ MainWindow::MainWindow( const QString& fileName )
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
     d->projectDialog->raise( );
-    connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogClosed() ) );
+    connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
 
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
@@ -146,6 +147,7 @@ void MainWindow::openProject( KUrl url )
 
 void MainWindow::openProject( const QString& fileName )
 {
+			qDebug() << "SUCKS: " << fileName;
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         statusBar()->showMessage( i18n( "Opening project..." ) );
@@ -154,8 +156,8 @@ void MainWindow::openProject( const QString& fileName )
 
         if( d->cleanup )
         {
-            GluonEngine::Game::instance()->stopAll();
-            GluonEngine::Game::instance()->cleanupAll();
+			qDebug() << "LOOOOOL";
+            GluonEngine::Game::instance()->updateAll();
         }
         else
         {
@@ -400,7 +402,7 @@ void GluonCreator::MainWindow::showOpenProjectDialog()
     d->projectDialog->show();
 }
 
-void GluonCreator::MainWindow::projectDialogClosed()
+void GluonCreator::MainWindow::projectDialogAccepted()
 {
     openProject( d->projectDialog->fileName() );
 }

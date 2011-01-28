@@ -60,7 +60,7 @@ namespace GluonCreator
 
             void showNewProjectDialog();
             void showOpenProjectDialog();
-            void projectDialogClosed();
+            void projectDialogAccepted();
 
             void initializeGame();
 
