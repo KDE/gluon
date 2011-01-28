@@ -124,7 +124,7 @@ ScriptingEngine::Private::buildScript()
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
     {
         // Build the bit of script to add
-        QString tmpScript = QString( "function %2(){\n%1}\n" ).arg( i.key()->data()->text() ).arg( i.value() );
+        QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( i.key()->data()->text()).arg( i.value() );
         scriptInstances.insert( i.key(), engine->evaluate( tmpScript, i.key()->file().toLocalFile(), 0 ) );
         /// \TODO Add all those lines to the reverse map...
     }
@@ -158,8 +158,7 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
     // Ensure the asset exists...
     if( d->scriptInstances.contains( asset ) )
     {
-        //QScriptValue val = d->scriptInstances[asset].construct();
-        QScriptValue val = d->engine->globalObject().property( d->classNames[asset] );
+        QScriptValue val = d->engine->globalObject().property( d->classNames.value(asset) );
 
         QScriptValue instance = val.construct();
         if( d->engine->hasUncaughtException() )
