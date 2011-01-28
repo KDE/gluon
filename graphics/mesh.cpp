@@ -92,6 +92,22 @@ Mesh::load( const QString& filename )
 }
 
 void
+Mesh::setVertexBuffer( VertexBuffer* buffer )
+{
+    if( d->buffer )
+    {
+        delete d->buffer;
+    }
+
+    d->buffer = buffer;
+
+    if( buffer && !buffer->isInitialized() )
+    {
+        buffer->initialize();
+    }
+}
+
+void
 Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     d->buffer->render( mode, material );
