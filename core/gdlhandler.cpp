@@ -132,6 +132,7 @@ GDLHandler::tokenizeObject( QString objectString )
         {
             ++i;
             while( ( *i ) != '\n') ++i;
+            continue;
         }
 
         if( !inItem )
