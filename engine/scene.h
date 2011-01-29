@@ -79,13 +79,6 @@ namespace GluonEngine
             virtual QString contentsToGDL();
 
             /**
-             * The Savable class decorates any GluonObject to allow for saving it
-             * to a GDL file (the filename it has).
-             *
-             */
-            bool saveToGDL(const QString& fileName) const;
-
-            /**
              * Return a reference to the scene tree itself (meaning the GluonObject hierarchy
              * which makes up the scene)
              */

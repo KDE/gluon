@@ -81,24 +81,3 @@ ScenePrivate::loadContents( const QUrl& file )
     sceneContents->setName( q->name() );
 }
 
-bool
-ScenePrivate::saveContents( const QString& fileName )
-{
-    QList<const GluonCore::GluonObject*> scene;
-    foreach( const QObject * item, sceneContents->children() )
-    {
-        scene.append( qobject_cast<const GluonCore::GluonObject*>( item ) );
-    }
-
-    QFile* sceneFile = new QFile( fileName );
-    if( !sceneFile->open( QIODevice::WriteOnly ) )
-        return false;
-
-    QTextStream sceneWriter( sceneFile );
-    sceneWriter << GluonCore::GDLHandler::instance()->serializeGDL( scene );
-    sceneWriter.flush();
-    sceneFile->close();
-    delete sceneFile;
-    q->savableDirty = false;
-    return true;
-}

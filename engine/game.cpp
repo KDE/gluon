@@ -250,7 +250,7 @@ void Game::cleanupAll()
 
 float Game::random()
 {
-    return rand() / float( RAND_MAX );
+    return qrand() / float( RAND_MAX );
 }
 
 /******************************************************************************
@@ -299,7 +299,7 @@ Game::setCurrentScene( Scene* newCurrentScene )
     objects = d->listAllChildren( newCurrentScene->sceneContents() );
     foreach( const GluonCore::GluonObject * child, objects )
     {
-        connect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
+        connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
     }
 
     emit currentSceneChanged( newCurrentScene );
@@ -386,7 +386,7 @@ GameObject* Game::clone( GameObject* obj )
         QList<const GluonCore::GluonObject*> objects = d->listAllChildren( objClone );
         foreach( const GluonCore::GluonObject * child, objects )
         {
-            connect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
+            connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
         }
         return objClone;
     }
