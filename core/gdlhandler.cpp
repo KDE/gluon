@@ -467,7 +467,7 @@ GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
 
     QString minimalClassName( gluonObject->metaObject()->className() );
     if( QString( gluonObject->metaObject()->className() ).startsWith( QString( "Gluon::" ) ) )
-        minimalClassName = minimalClassName.right( minimalClassName.length() - 7 );
+        minimalClassName = minimalClassName.mid(7);
     serializedObject += QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( gluonObject->name() );
 
     serializedObject += propertiesToGDL( gluonObject, indentLevel + 1 );
