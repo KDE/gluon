@@ -224,7 +224,8 @@ void MainWindow::saveProject( const QString& fileName )
 void MainWindow::saveProjectAs()
 {
     d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*.gluon|Gluon Project Files" ), 0, QString(), KFileDialog::ConfirmOverwrite );
-    if( !d->fileName.isEmpty() ) saveProject();
+    if( !d->fileName.isEmpty() )
+        saveProject();
 }
 
 void MainWindow::setupActions()

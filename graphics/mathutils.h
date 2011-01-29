@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_MATH_H
-#define GLUONGRAPHICS_MATH_H
+#ifndef GLUONGRAPHICS_MATHUTILS_H
+#define GLUONGRAPHICS_MATHUTILS_H
 
 #include "gluon_graphics_export.h"
 
@@ -31,7 +31,7 @@ namespace GluonGraphics
     /**
      * Utility class containing Math-related methods.
      */
-    class GLUON_GRAPHICS_EXPORT Math
+    class GLUON_GRAPHICS_EXPORT MathUtils
     {
         public:
             /**
@@ -97,4 +97,4 @@ namespace GluonGraphics
 
 }
 
-#endif // GLUONGRAPHICS_MATH_H
+#endif // GLUONGRAPHICS_MATHUTILS_H

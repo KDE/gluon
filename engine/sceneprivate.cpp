@@ -31,14 +31,13 @@
 
 using namespace GluonEngine;
 
-ScenePrivate::ScenePrivate( Scene* q )
+ScenePrivate::ScenePrivate( Scene* s )
+    : q( s )
+    , sceneContents( new GameObject( s ) )
 {
-    this->q = q;
-
     sceneContentsLoaded = false;
     sceneContentsStarted = false;
-    sceneContents = new GameObject( q );
-    sceneContents->setName( q->name() );
+    sceneContents->setName( s->name() );
 }
 
 ScenePrivate::~ScenePrivate()

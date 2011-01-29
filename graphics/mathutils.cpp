@@ -17,14 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "math.h"
+#include "mathutils.h"
 
 #include <QtGui/QImage>
 
 using namespace GluonGraphics;
 
 void
-Math::qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out )
+MathUtils::qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out )
 {
     qreal* data = matrix.transposed().data();
 
@@ -35,13 +35,13 @@ Math::qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out )
 }
 
 QMatrix4x4
-Math::calculateModelViewProj( const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection )
+MathUtils::calculateModelViewProj( const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection )
 {
     return projection * ( view * model );
 }
 
 void
-Math::qImageToGL( const QImage& image, uchar* out )
+MathUtils::qImageToGL( const QImage& image, uchar* out )
 {
     int w = image.width();
     int h = image.height();
@@ -60,8 +60,8 @@ Math::qImageToGL( const QImage& image, uchar* out )
     }
 }
 
-const QVector3D Math::VECTOR_UNIT_X = QVector3D( 1.f, 0.f, 0.f );
-const QVector3D Math::VECTOR_UNIT_Y = QVector3D( 0.f, 1.f, 0.f );
-const QVector3D Math::VECTOR_UNIT_Z = QVector3D( 0.f, 0.f, 1.f );
-const QVector3D Math::VECTOR_UNIT_SCALE = QVector3D( 1.f, 1.f, 1.f );
+const QVector3D MathUtils::VECTOR_UNIT_X = QVector3D( 1.f, 0.f, 0.f );
+const QVector3D MathUtils::VECTOR_UNIT_Y = QVector3D( 0.f, 1.f, 0.f );
+const QVector3D MathUtils::VECTOR_UNIT_Z = QVector3D( 0.f, 0.f, 1.f );
+const QVector3D MathUtils::VECTOR_UNIT_SCALE = QVector3D( 1.f, 1.f, 1.f );
 

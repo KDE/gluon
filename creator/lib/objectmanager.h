@@ -24,6 +24,8 @@
 
 #include <core/singleton.h>
 
+#include <QDebug>
+
 namespace GluonCore
 {
     class GluonObject;

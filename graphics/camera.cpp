@@ -22,7 +22,8 @@
  */
 
 #include "camera.h"
-#include <math.h>
+
+#include <QMatrix4x4>
 
 #include <core/debughelper.h>
 #include "frustrum.h"

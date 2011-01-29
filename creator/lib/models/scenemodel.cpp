@@ -356,6 +356,3 @@ int SceneModel::SceneModelPrivate::rowIndex( GluonEngine::GameObject* object ) c
     return 0;
 }
 
-
-//#include "scenemodel.moc"
-
