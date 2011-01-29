@@ -37,7 +37,7 @@ namespace GluonEngine
 
             void loadContents( const QUrl& file );
             void unloadContents();
-            void saveContents( const QString& file );
+            bool saveContents( const QString& file );
 
             Scene* q;
             GameObject* sceneContents;
