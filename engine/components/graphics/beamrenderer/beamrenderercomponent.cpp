@@ -127,6 +127,7 @@ void BeamRendererComponent::draw( int timeLapse )
     Q_UNUSED( timeLapse )
 
     QMatrix4x4 transform = gameObject()->transform();
+    transform.translate(0, 0, 0.01f);
     transform.scale( d->size.width() / 2, d->size.width() / 2 );
     d->baseItem->setTransform( transform );
 
@@ -136,7 +137,7 @@ void BeamRendererComponent::draw( int timeLapse )
     d->beamItem->setTransform( transform );
 
     transform = gameObject()->transform();
-    transform.translate(0.01f, d->size.height());
+    transform.translate(0, d->size.height(), 0.01f);
     transform.scale( d->size.width() / 2, d->size.width() / 2 );
     d->tipItem->setTransform( transform );
 }
