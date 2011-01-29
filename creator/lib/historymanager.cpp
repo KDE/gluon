@@ -73,7 +73,8 @@ void HistoryManager::setClean()
     d->stack->setClean();
 }
 
-HistoryManager::HistoryManager() : d( new HistoryManagerPrivate )
+HistoryManager::HistoryManager()
+    : d( new HistoryManagerPrivate )
 {
     connect( d->stack, SIGNAL( canRedoChanged( bool ) ), SIGNAL( canRedoChanged( bool ) ) );
     connect( d->stack, SIGNAL( canUndoChanged( bool ) ), SIGNAL( canUndoChanged( bool ) ) );
@@ -84,5 +85,3 @@ HistoryManager::~HistoryManager()
 {
     delete d;
 }
-
-//#include "historymanager.moc"

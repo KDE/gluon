@@ -26,7 +26,7 @@
 namespace GluonEngine
 {
     class GameObject;
-class Component;
+    class Component;
 }
 
 namespace GluonCreator

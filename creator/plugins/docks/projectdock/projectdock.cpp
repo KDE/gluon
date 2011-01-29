@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,6 +20,12 @@
 
 #include "projectdock.h"
 
+#include "lib/selectionmanager.h"
+#include "objectmanager.h"
+#include "filemanager.h"
+#include "historymanager.h"
+#include "newobjectcommand.h"
+
 #include "core/debughelper.h"
 #include "core/gluon_global.h"
 #include "engine/game.h"
@@ -28,26 +35,21 @@
 #include "models/projectmodel.h"
 #include "models/modeltest.h"
 #include "engine/gameproject.h"
-#include "lib/selectionmanager.h"
-
-#include <QtGui/QTreeView>
-#include <QtGui/QMenu>
 
 #include <KDebug>
 #include <KInputDialog>
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <QFile>
-#include <QFileInfo>
 #include <KRun>
-#include <historymanager.h>
-#include <newobjectcommand.h>
-#include <QDir>
 #include <KStandardDirs>
-#include <QVBoxLayout>
 #include <KToolBar>
-#include <objectmanager.h>
-#include <filemanager.h>
+
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QTreeView>
+#include <QtGui/QMenu>
 
 using namespace GluonCreator;
 
@@ -178,12 +180,12 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->view->setAcceptDrops( true );
     d->view->setContextMenuPolicy( Qt::CustomContextMenu );
     d->view->setEditTriggers( QAbstractItemView::NoEditTriggers );
-    connect( d->view, SIGNAL( customContextMenuRequested( const QPoint& ) ), this, SLOT( showContextMenuRequested( const QPoint& ) ) );
-    connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), this, SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
+    connect( d->view, SIGNAL( customContextMenuRequested( const QPoint& ) ), SLOT( showContextMenuRequested( const QPoint& ) ) );
+    connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
 
     d->model->setProject( GluonEngine::Game::instance()->gameProject() );
     connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ), SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
-    connect( d->view, SIGNAL( doubleClicked( QModelIndex ) ), this, SLOT( activated( QModelIndex ) ) );
+    connect( d->view, SIGNAL( doubleClicked( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -273,7 +275,7 @@ void ProjectDock::showContextMenuRequested( const QPoint& pos )
     QMenu menu( static_cast<GluonCore::GluonObject*>( index.internalPointer() )->name(), this );
     menu.addActions( d->menuForObject( index ) );
     menu.exec( d->view->mapToGlobal( pos ) );
-    connect( &menu, SIGNAL( aboutToHide() ), this, SLOT( contextMenuHiding() ) );
+    connect( &menu, SIGNAL( aboutToHide() ), SLOT( contextMenuHiding() ) );
 }
 
 void ProjectDock::contextMenuHiding()

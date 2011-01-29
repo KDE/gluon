@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,7 +38,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit ProjectDock( const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-            ~ProjectDock();
+            virtual ~ProjectDock();
 
         public slots:
             void activated( QModelIndex index );

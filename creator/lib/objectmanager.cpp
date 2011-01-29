@@ -240,6 +240,16 @@ void ObjectManager::assetDeleted( const QString& file)
 {
     m_assets.remove(file);
     KDirWatch::self()->removeFile( file );
+    QFileInfo fi(file);
+    if( fi.isFile())
+    {
+        QFile::remove(file);
+    }
+    else if( fi.isDir())
+    {
+        QDir d;
+        d.rmpath(file);
+    }
 }
 
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
@@ -252,13 +262,11 @@ ObjectManager::ObjectManager()
     m_objectId = 0;
     m_sceneId = 0;
 
-    connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
-    connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), this, SLOT( assetDirty( const QString& ) ) );
+    connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
+    connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
 }
 
 ObjectManager::~ObjectManager()
 {
 
 }
-
-//#include "objectmanager.moc"
