@@ -137,7 +137,12 @@ MainWindow::~MainWindow()
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lockLayout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
+}
+
+void MainWindow::closeEvent( QCloseEvent* event )
+{
     GluonEngine::Game::instance()->stopGame();
+    QWidget::closeEvent( event );
 }
 
 void MainWindow::openProject( KUrl url )
