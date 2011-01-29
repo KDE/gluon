@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -199,8 +200,10 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
         qDebug() << "No parent game object for the object specified for deleting";
     }
 
-    object->parentGameObject()->removeChild(object);
-    emit deleteGameObject();
+    if (!object->parentGameObject()->removeChild(object))
+        qDebug() << "Could not add the game object to the scene tree";
+
+    emit gameObjectDeleted();
     HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, object->parentGameObject() ) );
 }
 
