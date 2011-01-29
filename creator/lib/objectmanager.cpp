@@ -25,12 +25,13 @@
 #include "propertychangedcommand.h"
 #include "historymanager.h"
 
-#include <core/debughelper.h>
-#include <engine/gameproject.h>
-#include <engine/gameobject.h>
-#include <engine/scene.h>
-#include <engine/game.h>
-#include <engine/component.h>
+#include "core/debughelper.h"
+
+#include "engine/gameproject.h"
+#include "engine/gameobject.h"
+#include "engine/scene.h"
+#include "engine/game.h"
+#include "engine/component.h"
 
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
@@ -193,6 +194,12 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 
 void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
 {
+    if(!object && !object->parentGameObject())
+    {
+        qDebug() << "No parent game object for the object specified for deleting";
+    }
+
+    object->parentGameObject()->removeChild(object);
     emit deleteGameObject();
     HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, object->parentGameObject() ) );
 }
