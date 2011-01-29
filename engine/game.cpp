@@ -218,11 +218,13 @@ void Game::setPause( bool pause )
 void Game::initializeAll()
 {
     d->currentScene->sceneContents()->initialize();
+    emit initialized();
 }
 
 void Game::startAll()
 {
     d->currentScene->sceneContents()->start();
+    emit started();
 }
 
 void Game::drawAll( int time )
@@ -240,11 +242,13 @@ void Game::updateAll( int time )
 void Game::stopAll()
 {
     d->currentScene->sceneContents()->stop();
+    emit stopped();
 }
 
 void Game::cleanupAll()
 {
     d->currentScene->sceneContents()->cleanup();
+    emit cleaned();
 }
 
 float Game::random()
