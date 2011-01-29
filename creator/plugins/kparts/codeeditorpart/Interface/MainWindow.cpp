@@ -82,10 +82,10 @@ MainWindow::MainWindow() :  QWidget()
     _skipNextUpdate = false;
     _isGameObject = false;
     _isGameComponent = false;
-    connect( GluonEngine::Game::instance(), SIGNAL( currentSceneChanged( GluonEngine::Scene* ) ), this, SLOT( readTheScene() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( currentSceneChanged( GluonEngine::Scene* ) ), SLOT( readTheScene() ) );
     connect( GluonCreator::HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( updateNodesFromModel( const QUndoCommand* ) ) );
-    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newGameObject( GluonEngine::GameObject* ) ), this, SLOT( markAsGameObject() ) );
-    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newComponent( GluonEngine::Component* ) ), this, SLOT( markAsGameComponent() ) );
+    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newGameObject( GluonEngine::GameObject* ) ), SLOT( markAsGameObject() ) );
+    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newComponent( GluonEngine::Component* ) ), SLOT( markAsGameComponent() ) );
 }
 
 GraphDocument* MainWindow::activeDocument() const
