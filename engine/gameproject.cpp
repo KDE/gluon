@@ -24,15 +24,15 @@
 #include "scene.h"
 #include "game.h"
 
-#include <core/gdlhandler.h>
-#include <core/debughelper.h>
+#include "core/gdlhandler.h"
+#include "core/debughelper.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
-#include <QMetaClassInfo>
+#include <QtCore/QMetaClassInfo>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameProject )
 
