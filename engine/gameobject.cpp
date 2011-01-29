@@ -472,8 +472,9 @@ GameObject::addChildAt( GameObject* addThis, int index )
 bool
 GameObject::removeChild( GameObject* removeThis )
 {
-    removeThis->d->parentGameObject = 0;
-    return d->children.removeOne( removeThis );
+     removeThis->d->parentGameObject = 0;
+     d->children.removeOne( removeThis );
+     return GluonObject::removeChild( removeThis );
 }
 
 bool GameObject::removeChild( GluonObject* child )
