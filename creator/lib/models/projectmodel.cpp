@@ -349,7 +349,15 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int ro
             ++rows;
         }
 
-        DEBUG_TEXT2("Dropped item %1", newItems.join(" and "));
+        foreach(const QString& item, newItems)
+        {
+            GluonCore::GluonObject* itemObject = d->project->findItemByName(item);
+            if( itemObject )
+            {
+                GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+                newParentObject->addChild(itemObject);
+            }
+        }
         return true;
     }
 
