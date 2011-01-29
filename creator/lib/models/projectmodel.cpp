@@ -298,7 +298,7 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
     {
         names.append( static_cast<GluonEngine::Asset*>( index.internalPointer() )->fullyQualifiedName() );
     }
-    data->setData( "application/gluoncreator.projectmodel.gluonobject", names.join( ";" ).toUtf8() );
+    data->setText( names.join( ";" ).toUtf8() );//"application/gluoncreator.projectmodel.gluonobject",  );
 
     return data;
 }
@@ -320,7 +320,8 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int ro
             ObjectManager::instance()->createNewAsset( theUrl.toLocalFile() );
         }
     }
-    else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
+//    else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
+    else if( data->hasText() )
     {
         DEBUG_TEXT2("Dropped item %1", data->text());
     }
