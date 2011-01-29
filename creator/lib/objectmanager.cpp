@@ -108,19 +108,34 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    if( name.isNull() )
+    QString extension;
+    if( name.isEmpty() )
     {
         newAsset->setName( info.fileName() );
     }
     else
     {
         newAsset->setName( name );
+        QStringList splitName = fileName.split('.');
+        splitName.removeAt(0);
+        extension = QString( ".%1" ).arg( splitName.join(".") );
     }
 
     if( !QDir::current().exists( "Assets" ) )
         QDir::current().mkdir( "Assets" );
 
-    QUrl newLocation( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
+    QUrl newLocation( QString( "Assets/%1%2" ).arg( newAsset->fullyQualifiedFileName() ).arg( extension ) );
+
+    int i = 0;
+    QStringList theSplitName = newAsset->name().split('.');
+    QString firstName = theSplitName.takeAt(0);
+    while(QFile::exists(newLocation.toLocalFile()))
+    {
+        i++;
+        QString newName = firstName.append( QString( " (%1)." ).arg( i ) ).append( theSplitName.join(".") );
+        newAsset->setName( newName );
+        newLocation = QUrl( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
+    }
 
     QFile( fileName ).copy( newLocation.toLocalFile() );
 
