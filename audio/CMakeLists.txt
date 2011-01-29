@@ -98,7 +98,7 @@ set(GLUON_AUDIO_LIBS
     CACHE PATHS "Libraries required for Gluon audio"
 )
 
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_AUDIO_LIB)
+set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB -DALURE_STATIC_LIBRARY")
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework
