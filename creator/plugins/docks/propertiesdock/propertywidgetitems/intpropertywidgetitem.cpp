@@ -96,6 +96,11 @@ void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
         GluonCore::MetaInfo* metaInfo = object->metaInfo();
         spinBox->setRange( metaInfo->propertyRangeMin( propertyName ),
                            metaInfo->propertyRangeMax( propertyName ) );
+        if( metaInfo->hasPropertyRange( propertyName ) )
+        {
+            spinBox->setRange( metaInfo->propertyRangeMin( propertyName ),
+                    metaInfo->propertyRangeMax( propertyName ) );
+        }
     }
 
     GluonCreator::PropertyWidgetItem::setEditProperty( propertyName );
