@@ -332,10 +332,12 @@ Game::gameProject() const
 {
     return d->gameProject;
 }
+
 void
 Game::setGameProject( GluonEngine::GameProject* newGameProject )
 {
     DEBUG_FUNC_NAME
+
     if( d->gameProject )
     {
         if( d->currentScene )
@@ -347,6 +349,9 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
     }
 
     d->gameProject = newGameProject;
+
+    if( !d->gameProject )
+        return;
 
     if( !d->gameProject->entryPoint() )
     {
