@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "projectmodel.h"
+#include "historymanager.h"
+#include "objectmanager.h"
 
 #include "core/gluonobject.h"
 #include "core/debughelper.h"
@@ -24,19 +28,17 @@
 #include "engine/gameproject.h"
 #include "engine/asset.h"
 #include "engine/scene.h"
+#include "engine/filelocation.h"
 
 #include <KDebug>
 #include <KLocalizedString>
 #include <KMimeType>
 #include <KIcon>
+#include <KMimeType>
 
 #include <QtCore/QMimeData>
-#include <kmimetype.h>
 #include <QtCore/QFileInfo>
-#include <engine/filelocation.h>
-#include <QDir>
-#include <historymanager.h>
-#include <objectmanager.h>
+#include <QtCore/QDir>
 
 using namespace GluonCreator;
 

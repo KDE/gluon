@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,8 +21,9 @@
 #ifndef GLUON_CREATOR_PROJECTMODEL_H
 #define GLUON_CREATOR_PROJECTMODEL_H
 
-#include <QtCore/QAbstractItemModel>
 #include "gluoncreator_macros.h"
+
+#include <QtCore/QAbstractItemModel>
 
 namespace GluonEngine
 {
