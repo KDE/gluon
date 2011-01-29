@@ -70,6 +70,12 @@ Scene::contentsToGDL()
     return GluonCore::GDLHandler::instance()->toGDL(sceneContents());
 }
 
+bool
+Scene::saveToGDL(const QString& fileName) const
+{
+    return d->saveContents(fileName);
+}
+
 GameObject *
 Scene::sceneContents()
 {
