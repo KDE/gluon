@@ -293,12 +293,25 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
         return 0;
 
     QMimeData* data = new QMimeData();
-    QStringList names;
+    QByteArray encodedData;
+
+    QDataStream stream( &encodedData, QIODevice::WriteOnly );
+
+    // There should really only be one, but let's do the loop-de-loop anyway
     foreach( const QModelIndex & index, indexes )
     {
-        names.append( static_cast<GluonEngine::Asset*>( index.internalPointer() )->fullyQualifiedName() );
+        if( index.isValid() )
+        {
+            const GluonEngine::Asset* item = static_cast<GluonEngine::Asset*>( index.internalPointer() );
+            if( item )
+            {
+                QString text = item->fullyQualifiedName();
+                stream << text;
+            }
+        }
     }
-    data->setText( names.join( ";" ).toUtf8() );//"application/gluoncreator.projectmodel.gluonobject",  );
+
+    data->setData( "application/gluoncreator.projectmodel.gluonobject", encodedData );
 
     return data;
 }
@@ -319,20 +332,28 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int ro
         {
             ObjectManager::instance()->createNewAsset( theUrl.toLocalFile() );
         }
+        return true;
     }
-//    else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
-    else if( data->hasText() )
+    else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
     {
-        DEBUG_TEXT2("Dropped item %1", data->text());
-    }
-    else
-    {
+        QByteArray encodedData = data->data( "application/gluoncreator.projectmodel.gluonobject" );
+        QDataStream stream( &encodedData, QIODevice::ReadOnly );
+        QStringList newItems;
+        int rows = 0;
+
+        while( !stream.atEnd() )
+        {
+            QString text;
+            stream >> text;
+            newItems << text;
+            ++rows;
+        }
+
+        DEBUG_TEXT2("Dropped item %1", newItems.join(" and "));
+        return true;
     }
 
-    if( data->formats().length() < 1 )
-        return false;
-
-    return QAbstractItemModel::dropMimeData( data, action, row, column, parent );
+    return false;
 }
 
 
