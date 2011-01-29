@@ -41,6 +41,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -103,6 +104,9 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, cons
 
 void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
 {
+    if( newAsset == 0 )
+        return;
+
     GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
@@ -130,7 +134,7 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     QString firstName = theSplitName.takeAt(0);
     while(QFile::exists(newLocation.toLocalFile()))
     {
-        i++;
+        ++i;
         QString newName = firstName.append( QString( " (%1)." ).arg( i ) ).append( theSplitName.join(".") );
         newAsset->setName( newName );
         newLocation = QUrl( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );

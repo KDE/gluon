@@ -33,8 +33,7 @@ public:
         , sceneModel(0)
     {
     }
-    
-    
+
     ComponentModel* componentModel;
     ProjectModel* projectModel;
     SceneModel* sceneModel;
@@ -49,7 +48,7 @@ Models::Models()
 
 Models::~Models()
 {
-    delete(d);
+    delete d;
 }
 
 ComponentModel* GluonCreator::Models::componentModel()

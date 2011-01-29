@@ -454,7 +454,6 @@ GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) c
 QString
 GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
 {
-    //DEBUG_FUNC_NAME
     QString serializedObject;
     //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
     //DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
