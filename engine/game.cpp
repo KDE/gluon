@@ -31,8 +31,6 @@
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
 
-#include <ctime>
-
 using namespace GluonEngine;
 
 GLUON_DEFINE_SINGLETON(Game)
@@ -59,7 +57,7 @@ Game::Game( QObject* parent )
     Q_UNUSED( parent );
     d = new GamePrivate;
 
-    srand( std::time( NULL ) );
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
 }
 
 Game::~Game()
