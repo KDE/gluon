@@ -82,7 +82,7 @@ ScenePrivate::loadContents( const QUrl& file )
 }
 
 void
-ScenePrivate::saveContents( const QUrl& file )
+ScenePrivate::saveContents( const QString& fileName )
 {
     QList<const GluonCore::GluonObject*> scene;
     foreach( const QObject * item, sceneContents->children() )
@@ -90,7 +90,7 @@ ScenePrivate::saveContents( const QUrl& file )
         scene.append( qobject_cast<const GluonCore::GluonObject*>( item ) );
     }
 
-    QFile* sceneFile = new QFile( file.toLocalFile() );
+    QFile* sceneFile = new QFile( fileName );
     if( !sceneFile->open( QIODevice::WriteOnly ) )
         return;
 
