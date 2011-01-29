@@ -132,11 +132,6 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }
 
-void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
-{
-    HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, object->parentGameObject() ) );
-}
-
 void ObjectManager::changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue )
 {
     HistoryManager::instance()->addCommand( new PropertyChangedCommand( object, property, oldValue, newValue ) );
@@ -194,6 +189,12 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
     HistoryManager::instance()->addCommand( new NewObjectCommand( newObj ) );
 
     return newObj;
+}
+
+void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
+{
+    emit deleteGameObject();
+    HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, object->parentGameObject() ) );
 }
 
 GluonEngine::Scene* ObjectManager::createNewScene()
