@@ -96,10 +96,9 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, cons
     if( newAsset )
     {
         setupAsset( newAsset, fileName, name );
-        return newAsset;
     }
 
-    return 0;
+    return newAsset;
 }
 
 void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
