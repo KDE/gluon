@@ -24,6 +24,7 @@
 
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
+#include <QtCore/QMetaProperty>
 
 using namespace GluonCore;
 
@@ -390,9 +391,89 @@ GDLHandler::serializeGDL( QList<const GluonObject*> serializeThis )
     QString serializedData;
 
     foreach( const GluonObject * theObject, serializeThis )
-    serializedData += theObject->toGDL();
+        serializedData += toGDL(theObject);
 
     return serializedData;
+}
+
+QString
+GDLHandler::childrenToGDL( const GluonObject* gluonObject, int indentLevel ) const
+{
+    QString serializedChildren;
+
+    // Run through all the children to get them as well
+    foreach( QObject * child, gluonObject->children() )
+    {
+        GluonObject* theChild = qobject_cast<GluonObject*>( child );
+        if( theChild )
+            serializedChildren += toGDL( theChild, indentLevel );
+    }
+
+    return serializedChildren;
+}
+
+QString
+GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) const
+{
+    DEBUG_BLOCK
+    QString serializedObject;
+
+    QString indentChars( indentLevel * 4, ' ' );
+
+    // Get all the normally defined properties
+    const QMetaObject* metaobject = gluonObject->metaObject();
+    int count = metaobject->propertyCount();
+    if( count == 2 )
+    {
+        //DEBUG_TEXT(QString("No normal properties"));
+    }
+    for( int i = 0; i < count; ++i )
+    {
+        QMetaProperty metaproperty = metaobject->property( i );
+        const QString theName( metaproperty.name() );
+        if( theName == "objectName" || theName == "name" || !metaproperty.isWritable() )
+            continue;
+        serializedObject += gluonObject->stringFromProperty( theName, indentChars );
+    }
+
+    // Then get all the dynamic ones (in case any such exist)
+    QList<QByteArray> propertyNames = gluonObject->dynamicPropertyNames();
+    if( propertyNames.length() == 0 )
+    {
+        //DEBUG_TEXT(QString("No dynamic properties"));
+    }
+    foreach( const QByteArray & propName, propertyNames )
+    {
+        const QString theName( propName );
+        serializedObject += gluonObject->stringFromProperty( theName, indentChars );
+    }
+
+    return serializedObject;
+}
+
+QString
+GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
+{
+    //DEBUG_FUNC_NAME
+    QString serializedObject;
+    //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
+    //DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
+
+    QString indentChars( indentLevel * 4, ' ' );
+
+    // Only jump to net line in case we are inside another object
+    if( indentLevel > 0 )
+        serializedObject += '\n';
+
+    QString minimalClassName( gluonObject->metaObject()->className() );
+    if( QString( gluonObject->metaObject()->className() ).startsWith( QString( "Gluon::" ) ) )
+        minimalClassName = minimalClassName.right( minimalClassName.length() - 7 );
+    serializedObject += QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( gluonObject->name() );
+
+    serializedObject += propertiesToGDL( gluonObject, indentLevel + 1 );
+    serializedObject += childrenToGDL( gluonObject, indentLevel + 1 );
+
+    return QString( "%1\n%2}" ).arg( serializedObject ).arg( indentChars );
 }
 
 #include "gdlhandler.moc"

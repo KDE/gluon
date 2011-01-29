@@ -55,10 +55,10 @@ class SceneDock::SceneDockPrivate
 
 SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     : QDockWidget( title, parent, flags )
+    , d( new SceneDockPrivate )
 {
     setObjectName( "SceneDock" );
 
-    d = new SceneDockPrivate;
     d->view = new QTreeView( this );
     d->model = Models::instance()->sceneModel();
     setWidget( d->view );

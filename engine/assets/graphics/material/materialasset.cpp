@@ -19,10 +19,11 @@
 
 #include "materialasset.h"
 
-#include <core/debughelper.h>
-#include <graphics/material.h>
-#include <graphics/materialinstance.h>
-#include <graphics/engine.h>
+#include "core/debughelper.h"
+#include "core/gdlhandler.h"
+#include "graphics/material.h"
+#include "graphics/materialinstance.h"
+#include "graphics/engine.h"
 
 #include <QtCore/QUrl>
 #include <QtCore/QMimeData>
@@ -115,7 +116,7 @@ void MaterialAsset::setName( const QString& newName )
 
 QString MaterialAsset::childrenToGDL( int indentLevel ) const
 {
-    return GluonObject::childrenToGDL( indentLevel );
+    return GluonCore::GDLHandler::instance()->childrenToGDL( this, indentLevel );
 }
 
 void MaterialAsset::sanitize()
