@@ -24,7 +24,7 @@
 #include <QtGui/QVector2D>
 #include <QtGui/QColor>
 
-#include "math.h"
+#include "mathutils.h"
 #include "engine.h"
 #include "texture.h"
 #include "glheaders.h"
@@ -226,7 +226,7 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
         {
             QMatrix4x4 mat = value.value<QMatrix4x4>();
             float glMatrix[16];
-            Math::qmatrixToGLMatrix( mat, glMatrix );
+            MathUtils::qmatrixToGLMatrix( mat, glMatrix );
             glUniformMatrix4fv( uniformLocation( name ), 1, false, glMatrix );
             break;
         }

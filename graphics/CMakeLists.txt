@@ -56,7 +56,7 @@ set(GLUON_GRAPHICS_INCLUDES
 set(GluonGraphics_SRCS
     rendertarget.cpp
     backendcapabilities.cpp
-    math.cpp
+    mathutils.cpp
     frustrum.cpp
     material.cpp
     materialinstance.cpp
@@ -85,7 +85,7 @@ set(GluonGraphics_HEADERS
     item.h
     engine.h
     mesh.h
-    math.h
+    mathutils.h
     frustrum.h
     material.h
     materialinstance.h
