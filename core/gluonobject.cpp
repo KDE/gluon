@@ -23,8 +23,8 @@
 #include "metainfo.h"
 
 #include <QtCore/QVariant>
-#include <QtCore/QPointF>
 #include <QtGui/QColor>
+#include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
@@ -388,86 +388,6 @@ bool GluonObject::removeChild( GluonObject* child )
     return true;
 }
 
-QString
-GluonObject::toGDL( int indentLevel ) const
-{
-    //DEBUG_FUNC_NAME
-    QString serializedObject;
-    //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
-    //DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
-
-    QString indentChars( indentLevel * 4, ' ' );
-
-    // Only jump to net line in case we are inside another object
-    if( indentLevel > 0 )
-        serializedObject += '\n';
-
-    QString minimalClassName( metaObject()->className() );
-    if( QString( metaObject()->className() ).startsWith( QString( "Gluon::" ) ) )
-        minimalClassName = minimalClassName.right( minimalClassName.length() - 7 );
-    serializedObject += QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( name() );
-
-    serializedObject += propertiesToGDL( indentLevel + 1 );
-    serializedObject += childrenToGDL( indentLevel + 1 );
-
-    return QString( "%1\n%2}" ).arg( serializedObject ).arg( indentChars );
-}
-
-QString
-GluonObject::childrenToGDL( int indentLevel ) const
-{
-    QString serializedChildren;
-
-    // Run through all the children to get them as well
-    foreach( QObject * child, children() )
-    {
-        GluonObject* theChild = qobject_cast<GluonObject*>( child );
-        if( theChild )
-            serializedChildren += theChild->toGDL( indentLevel );
-    }
-
-    return serializedChildren;
-}
-
-QString
-GluonObject::propertiesToGDL( int indentLevel ) const
-{
-    DEBUG_BLOCK
-    QString serializedObject;
-
-    QString indentChars( indentLevel * 4, ' ' );
-
-    // Get all the normally defined properties
-    const QMetaObject* metaobject = metaObject();
-    int count = metaobject->propertyCount();
-    if( count == 2 )
-    {
-        //DEBUG_TEXT(QString("No normal properties"));
-    }
-    for( int i = 0; i < count; ++i )
-    {
-        QMetaProperty metaproperty = metaobject->property( i );
-        const QString theName( metaproperty.name() );
-        if( theName == "objectName" || theName == "name" || !metaproperty.isWritable() )
-            continue;
-        serializedObject += stringFromProperty( theName, indentChars );
-    }
-
-    // Then get all the dynamic ones (in case any such exist)
-    QList<QByteArray> propertyNames = dynamicPropertyNames();
-    if( propertyNames.length() == 0 )
-    {
-        //DEBUG_TEXT(QString("No dynamic properties"));
-    }
-    foreach( const QByteArray & propName, propertyNames )
-    {
-        const QString theName( propName );
-        serializedObject += stringFromProperty( theName, indentChars );
-    }
-
-    return serializedObject;
-}
-
 void
 GluonObject::setPropertyFromString( const QString& propertyName, const QString& propertyValue )
 {
@@ -516,7 +436,7 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
             x = splitValues.at( 0 ).toFloat();
             y = splitValues.at( 1 ).toFloat();
         }
-        value = QPointF( x, y );
+        value = QVector2D( x, y );
     }
     else if( theTypeName == "vector3d" )
     {
@@ -778,7 +698,7 @@ GluonObject::hasMetaInfo() const
     return false;
 }
 
-void 
+void
 GluonObject::handleMessage(const QString& message)
 {
     Q_UNUSED(message)

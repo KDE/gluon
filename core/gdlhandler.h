@@ -159,6 +159,10 @@ namespace GluonCore
              */
             QString serializeGDL( QList<const GluonObject*> serializeThis );
 
+            virtual QString toGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
+            virtual QString childrenToGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
+            virtual QString propertiesToGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
+
         private:
             friend class Singleton<GDLHandler>;
 

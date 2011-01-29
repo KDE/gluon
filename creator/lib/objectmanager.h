@@ -24,6 +24,8 @@
 
 #include <core/singleton.h>
 
+#include <QDebug>
+
 namespace GluonCore
 {
     class GluonObject;
@@ -60,6 +62,7 @@ namespace GluonCreator
             void newObject( GluonCore::GluonObject* );
             void newScene( GluonEngine::Scene* );
             void newGameObject( GluonEngine::GameObject* );
+            void deleteGameObject( );
             void newComponent( GluonEngine::Component* );
 
         private:

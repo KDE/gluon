@@ -268,14 +268,6 @@ namespace GluonCore
              */
             Q_INVOKABLE bool hasMetaInfo() const;
 
-            /**
-             * Do we need the parsing code in the GluonObject? Or can we separate this into a parser class?
-             * We need to separate this into a parser class, imo. Can wait until post-alpha though. -ahiemstra
-             */
-            virtual QString toGDL( int indentLevel = 0 ) const;
-            virtual QString childrenToGDL( int indentLevel = 0 ) const;
-            virtual QString propertiesToGDL( int indentLevel = 0 ) const;
-
             virtual void setPropertyFromString( const QString& propertyName, const QString& propertyValue );
             virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
 
@@ -331,17 +323,17 @@ namespace GluonCore
              * @return  The child with the passed name, or null if no child exists by that name
              */
             virtual GluonObject* child( const QString& name ) const;
-            
+
             /**
              * Handle a message from the MessageHandler. Note that this will only
              * be called after MessageHandler::subscribe() has been called.
-             * 
+             *
              * \see MessageHandler
-             * 
-             * \param message The message that was sent. 
+             *
+             * \param message The message that was sent.
              */
             virtual void handleMessage( const QString& message );
-            
+
         protected:
             /**
              * Convenience function which will find objects inside a passed GluonObject which

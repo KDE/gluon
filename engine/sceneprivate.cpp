@@ -31,14 +31,13 @@
 
 using namespace GluonEngine;
 
-ScenePrivate::ScenePrivate( Scene* q )
+ScenePrivate::ScenePrivate( Scene* s )
+    : q( s )
+    , sceneContents( new GameObject( s ) )
 {
-    this->q = q;
-
     sceneContentsLoaded = false;
     sceneContentsStarted = false;
-    sceneContents = new GameObject( q );
-    sceneContents->setName( q->name() );
+    sceneContents->setName( s->name() );
 }
 
 ScenePrivate::~ScenePrivate()
@@ -82,8 +81,8 @@ ScenePrivate::loadContents( const QUrl& file )
     sceneContents->setName( q->name() );
 }
 
-void
-ScenePrivate::saveContents( const QUrl& file )
+bool
+ScenePrivate::saveContents( const QString& fileName )
 {
     QList<const GluonCore::GluonObject*> scene;
     foreach( const QObject * item, sceneContents->children() )
@@ -91,9 +90,9 @@ ScenePrivate::saveContents( const QUrl& file )
         scene.append( qobject_cast<const GluonCore::GluonObject*>( item ) );
     }
 
-    QFile* sceneFile = new QFile( file.toLocalFile() );
+    QFile* sceneFile = new QFile( fileName );
     if( !sceneFile->open( QIODevice::WriteOnly ) )
-        return;
+        return false;
 
     QTextStream sceneWriter( sceneFile );
     sceneWriter << GluonCore::GDLHandler::instance()->serializeGDL( scene );
@@ -101,4 +100,5 @@ ScenePrivate::saveContents( const QUrl& file )
     sceneFile->close();
     delete sceneFile;
     q->savableDirty = false;
+    return true;
 }

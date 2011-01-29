@@ -21,6 +21,7 @@ QT4_ADD_RESOURCES(GLUON_QMLPLAYER_RCC_SRCS
 
 qt4_automoc(${QMLPLAYER_SRCS})
 
+kde4_add_app_icon(QMLPLAYER_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
 add_executable(gluon_qmlplayer ${QMLPLAYER_SRCS} ${GLUON_QMLPLAYER_RCC_SRCS})
 target_link_libraries(gluon_qmlplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 

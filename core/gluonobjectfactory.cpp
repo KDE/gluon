@@ -185,6 +185,10 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( GluonCore::Global::libDirectory() ) )
         pluginDirs.append( pluginDir );
 
+    // this is the plugin dir on windows
+    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/kde4") )
+        pluginDirs.append( pluginDir );
+
     if( pluginDir.cd( GluonCore::Global::libDirectory() + "/gluon" ) )
         pluginDirs.append( pluginDir );
 

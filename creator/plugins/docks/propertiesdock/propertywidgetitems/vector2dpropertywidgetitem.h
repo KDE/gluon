@@ -1,5 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
@@ -17,30 +18,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLHEADERS_H
-#define GLHEADERS_H
 
-#include <QtCore/QtGlobal>
-#ifdef Q_OS_WIN32
-#include <windows.h>
-#include <GL/glee.h>
-#else
-#ifdef GLUON_GRAPHICS_GLES
-typedef char GLchar;
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#else
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif
-#endif
+#ifndef GLUON_CREATOR_VECTOR2DPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_VECTOR2DPROPERTYWIDGETITEM_H
 
-#include <QtCore/QDebug>
+#include "widgets/propertywidgetitem.h"
 
-#define GL_CHECK(X) X;\
-    {\
-        int error = glGetError(); \
-        if(error != 0) qDebug() << "GL Error" << error;\
-    }
+namespace GluonCreator
+{
 
-#endif //GL_HEADERS_H
+    class Vector2DPropertyWidgetItem : public PropertyWidgetItem
+    {
+            Q_OBJECT
+        public:
+            explicit Vector2DPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+            ~Vector2DPropertyWidgetItem();
+
+            virtual QStringList supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
+
+        public slots:
+            void setEditValue( const QVariant& value );
+            void xValueChanged( double value );
+            void yValueChanged( double value );
+
+        private:
+            class Private;
+            Private* const d;
+    };
+
+}
+
+#endif // GLUON_CREATOR_VECTOR2DPROPERTYWIDGETITEM_H

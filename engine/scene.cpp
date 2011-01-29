@@ -24,6 +24,8 @@
 #include "filelocation.h"
 #include "gameproject.h"
 
+#include "core/gdlhandler.h"
+
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
 using namespace GluonEngine;
@@ -65,7 +67,13 @@ void Scene::resetScene()
 QString
 Scene::contentsToGDL()
 {
-    return sceneContents()->toGDL();
+    return GluonCore::GDLHandler::instance()->toGDL(sceneContents());
+}
+
+bool
+Scene::saveToGDL(const QString& fileName) const
+{
+    return d->saveContents(fileName);
 }
 
 GameObject *

@@ -36,6 +36,7 @@ set(gluoncreator_SRCS
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
+kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
 target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS})
 
