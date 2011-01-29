@@ -101,9 +101,13 @@ Mesh::setVertexBuffer( VertexBuffer* buffer )
 
     d->buffer = buffer;
 
-    if( buffer && !buffer->isInitialized() )
+    if( buffer )
     {
-        buffer->initialize();
+        buffer->setParent( this );
+        if( !buffer->isInitialized() )
+        {
+            buffer->initialize();
+        }
     }
 }
 
