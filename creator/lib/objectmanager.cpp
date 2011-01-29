@@ -122,6 +122,17 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
 
     QUrl newLocation( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
 
+    int i = 0;
+    QStringList theSplitName = newAsset->name().split('.');
+    QString firstName = theSplitName.takeAt(0);
+    while(QFile::exists(newLocation.toLocalFile()))
+    {
+        i++;
+        QString newName = firstName.append( QString( " (%1)." ).arg( i ) ).append( theSplitName.join(".") );
+        newAsset->setName( newName );
+        newLocation = QUrl( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
+    }
+
     QFile( fileName ).copy( newLocation.toLocalFile() );
 
     newAsset->setFile( newLocation );
