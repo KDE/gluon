@@ -52,18 +52,13 @@
 #include <QtGui/QVBoxLayout>
 
 #include <KDebug>
+#include <KIcon>
 #include <KInputDialog>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KRun>
 #include <KStandardDirs>
 #include <KToolBar>
-
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDir>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QTreeView>
-#include <QtGui/QMenu>
 
 
 using namespace GluonCreator;
