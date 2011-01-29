@@ -23,8 +23,8 @@
 #include "metainfo.h"
 
 #include <QtCore/QVariant>
-#include <QtCore/QPointF>
 #include <QtGui/QColor>
+#include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
@@ -516,7 +516,7 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
             x = splitValues.at( 0 ).toFloat();
             y = splitValues.at( 1 ).toFloat();
         }
-        value = QPointF( x, y );
+        value = QVector2D( x, y );
     }
     else if( theTypeName == "vector3d" )
     {
@@ -778,7 +778,7 @@ GluonObject::hasMetaInfo() const
     return false;
 }
 
-void 
+void
 GluonObject::handleMessage(const QString& message)
 {
     Q_UNUSED(message)
