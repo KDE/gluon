@@ -31,7 +31,6 @@
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
 
-#include <cstdlib>
 #include <ctime>
 
 using namespace GluonEngine;
