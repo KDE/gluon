@@ -24,6 +24,9 @@
 #include <QtGui/QSpinBox>
 #include <QtCore/QDebug>
 
+#include <core/gluonobject.h>
+#include <core/metainfo.h>
+
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, IntPropertyWidgetItem )
 
 using namespace GluonCreator;
@@ -85,6 +88,14 @@ void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
     else
     {
         connect( spinBox, SIGNAL( valueChanged( int ) ), this, SLOT( intValueChanged( int ) ) );
+    }
+
+    GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( editObject() );
+    if( object && object->hasMetaInfo() )
+    {
+        GluonCore::MetaInfo* metaInfo = object->metaInfo();
+        spinBox->setRange( metaInfo->propertyRangeMin( propertyName ),
+                           metaInfo->propertyRangeMax( propertyName ) );
     }
 
     GluonCreator::PropertyWidgetItem::setEditProperty( propertyName );
