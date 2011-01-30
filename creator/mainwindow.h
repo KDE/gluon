@@ -21,10 +21,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "dialogs/projectselectiondialog.h"
+
 #include <KDE/KParts/MainWindow>
 #include <KDE/KUrl>
-
-#include "dialogs/projectselectiondialog.h"
 
 class KRecentFilesAction;
 namespace GluonCreator

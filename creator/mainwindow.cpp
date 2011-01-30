@@ -52,10 +52,9 @@
 #include <KDE/KRichTextEdit>
 #include <KParts/PartManager>
 
+#include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
-#include <QVBoxLayout>
-#include <QDebug>
 
 using namespace GluonCreator;
 
@@ -76,8 +75,8 @@ class MainWindow::MainWindowPrivate
 };
 
 MainWindow::MainWindow( const QString& fileName )
-    : KParts::MainWindow(),
-      d( new MainWindowPrivate )
+    : KParts::MainWindow()
+    , d( new MainWindowPrivate )
 {
     d->modified = false;
 
@@ -154,22 +153,20 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        statusBar()->showMessage( i18n( "Opening project..." ) );
-
-        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
-
         if( d->cleanup )
         {
-            GluonEngine::Game::instance()->cleanupAll();
-            GluonEngine::Game::instance()->initializeAll();
-            GluonEngine::Game::instance()->drawAll();
+            FileManager::instance()->closeFile(i18nc("View Game Tab", "View"));
         }
         else
         {
-            GluonEngine::Game::instance()->initializeAll();
-            GluonEngine::Game::instance()->drawAll();
             d->cleanup = true;
         }
+
+        statusBar()->showMessage( i18n( "Opening project..." ) );
+        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+
+        GluonEngine::Game::instance()->initializeAll();
+        GluonEngine::Game::instance()->drawAll();
         ObjectManager::instance()->watchCurrentAssets();
 
         d->fileName = fileName;

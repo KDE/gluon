@@ -52,7 +52,6 @@ namespace GluonCreator
             class SceneDockPrivate;
             SceneDockPrivate* d;
     };
-
 }
 
 #endif // GLUON_CREATOR_SCENEDOCK_H

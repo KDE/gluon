@@ -126,7 +126,7 @@ void RenderTarget::setMaterialInstance( MaterialInstance* material )
 
 void RenderTarget::resize( int width, int height )
 {
-    if(d->frameBuffer)
+    if(d->frameBuffer && QGLContext::currentContext())
     {
         QGLFramebufferObject::Attachment attachment = d->frameBuffer->attachment();
 
