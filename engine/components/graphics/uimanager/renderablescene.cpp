@@ -41,6 +41,21 @@ class RenderableScene::RenderableScenePrivate
             const int h = Engine::instance()->currentViewport()->height();
             target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
             target->setMaterialInstance( Engine::instance()->material( "default" )->createInstance( "qmlTarget" ) );
+
+            viewportSizeChanged( 0, 0, w, h );
+        }
+
+        void newViewport( Viewport* viewport )
+        {
+            q->disconnect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
+                           q, SLOT( viewportSizeChanged( int, int, int, int ) ) );
+            q->connect( viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ),
+                        q, SLOT( viewportSizeChanged( int, int, int, int ) ) );
+        }
+
+        void viewportSizeChanged( int left, int bottom, int width, int height )
+        {
+            q->setSceneRect( QRectF( 0, 0, width, height ) );
         }
 
         void repaintNeeded()
@@ -60,6 +75,9 @@ RenderableScene::RenderableScene( QObject* parent )
     connect( this, SIGNAL( changed(QList<QRectF>) ), this, SLOT( repaintNeeded() ) );
     connect( this, SIGNAL( sceneRectChanged(QRectF) ), this, SLOT( repaintNeeded() ) );
     connect( d->target, SIGNAL( framebufferChanged() ), this, SLOT( repaintNeeded() ) );
+
+    connect( Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
+             this, SLOT( newViewport( Viewport* ) ) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }

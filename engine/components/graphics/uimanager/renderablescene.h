@@ -43,6 +43,8 @@ namespace GluonEngine
             RenderableScenePrivate* const d;
 
             Q_PRIVATE_SLOT( d, void repaintNeeded() );
+            Q_PRIVATE_SLOT( d, void newViewport( Viewport* viewport ) );
+            Q_PRIVATE_SLOT( d, void viewportSizeChanged( int left, int bottom, int width, int height ) );
     };
 
 }
