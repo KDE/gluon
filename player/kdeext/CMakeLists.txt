@@ -16,6 +16,7 @@ set(kdeextplayer_SRCS
     views/newcommentform.cpp
     views/commentsview.cpp
     views/commentsviewitem.cpp
+    views/highscoresview.cpp
     views/highscoresviewitem.cpp
 )
 
