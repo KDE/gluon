@@ -188,9 +188,16 @@ GameProject::loadFromFile()
 }
 
 bool
-GameProject::loadFromFile( QUrl filename )
+GameProject::loadFromFile( QUrl fileUrl )
 {
-    setFilename( filename );
+    setFilename( fileUrl );
+    return loadFromFile();
+}
+
+bool
+GameProject::loadFromFile( QString fileName )
+{
+    setFilename( fileName );
     return loadFromFile();
 }
 
@@ -239,9 +246,9 @@ GameProject::filename() const
 }
 
 void
-GameProject::setFilename( QUrl newFileUrl )
+GameProject::setFilename( QUrl fileUrl )
 {
-    d->filename = newFileUrl;
+    d->filename = fileUrl;
 }
 
 void

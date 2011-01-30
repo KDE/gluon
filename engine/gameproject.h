@@ -94,6 +94,7 @@ namespace GluonEngine
             bool saveToFile() const;
             bool loadFromFile();
             bool loadFromFile( QUrl fileUrl );
+            bool loadFromFile( QString fileName );
 
             /******************************************************************
              * Property Getter-setters
