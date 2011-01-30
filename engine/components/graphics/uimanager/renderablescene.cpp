@@ -78,6 +78,8 @@ RenderableScene::RenderableScene( QObject* parent )
 
     connect( Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
              this, SLOT( newViewport( Viewport* ) ) );
+    connect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
+             this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }
