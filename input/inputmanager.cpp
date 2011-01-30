@@ -34,9 +34,9 @@
 #include "detectwin.h"
 #endif
 
-#include <QKeyEvent>
-#include <QtCore/QCoreApplication>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QMessageBox>
+#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 
 using namespace GluonInput;
@@ -87,6 +87,8 @@ void InputManager::init()
             d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
             InputDevice* mouse = new Mouse( 0 );
             d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
+            InputDevice* touch = new Touch( 0 );
+            d->m_detect->addTouch( static_cast<Touch*>( touch ) );
         }
         else
         {
