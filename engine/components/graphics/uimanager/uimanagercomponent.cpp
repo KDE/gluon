@@ -161,7 +161,6 @@ void UiManagerComponent::initialize()
     if( !d->scene )
     {
         d->scene = new RenderableScene( this );
-        d->scene->setSceneRect(QRectF(QPointF(0,0), QSize(1024,768)));
     }
 
     if( d->ui && !d->ui->isLoaded() )
