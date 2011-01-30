@@ -10,6 +10,7 @@ set(kdeextplayer_SRCS
     main.cpp
     mainwindow.cpp
     overlay.cpp
+    gamesoverlay.cpp
     loginform.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
