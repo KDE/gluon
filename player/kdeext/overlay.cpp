@@ -19,29 +19,26 @@
 
 #include "overlay.h"
 
-// #include <Plasma/FrameSvg>
-// #include <Plasma/ScrollWidget>
-
-// #include <QAbstractItemModel>
-// #include <QPainter>
+#include <QAbstractItemModel>
+#include <QPainter>
 
 Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
-    // , m_contentLayout( new QGraphicsLinearLayout( Qt::Vertical ) )
-    // , m_contentWidget( new QWidget( this ) )
-    // , m_background( new Plasma::FrameSvg( this ) )
-    // , m_scrollWidget( new Plasma::ScrollWidget( this ) )
+    , m_contentLayout( new QGridLayout( ) )
+    , m_contentWidget( new QWidget( this ) )
+    , m_background( new QWidget( this ) )
+    , m_scrollWidget( new QScrollArea( this ) )
 {
     // m_background->setImagePath( "widgets/translucentbackground" );
     // m_background->setEnabledBorders( Plasma::FrameSvg::AllBorders );
 
     // m_scrollWidget->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    // QGraphicsLinearLayout* layout = new QGraphicsLinearLayout( Qt::Vertical );
-    // layout->addItem( m_scrollWidget );
-    // setLayout( layout );
-    // setContentsMargins( 10, 15, 10, 15 );
+    QGridLayout* layout = new QGridLayout( );
+    layout->addWidget( m_scrollWidget );
+    setLayout( layout );
+    setContentsMargins( 10, 15, 10, 15 );
 
-    // m_contentWidget->setLayout( m_contentLayout );
+    m_contentWidget->setLayout( m_contentLayout );
     // m_scrollWidget->setWidget( m_contentWidget );
 }
 

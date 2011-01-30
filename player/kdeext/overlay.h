@@ -20,15 +20,9 @@
 #ifndef OVERLAY_H
 #define OVERLAY_H
 
-#include <QWidget>
+#include <QtGui/QScrollArea>
+#include <QtGui/QGridLayout>
 
-// class QGraphicsLinearLayout;
-
-// namespace Plasma
-// {
-    // class FrameSvg;
-    // class ScrollWidget;
-// }
 
 class Overlay : public QWidget
 {
@@ -37,17 +31,17 @@ class Overlay : public QWidget
     public:
         explicit Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-    // protected:
+    protected:
         // virtual void keyPressEvent( QKeyEvent* event );
         // virtual void wheelEvent( QGraphicsSceneWheelEvent* event );
         // void paint( QPainter* painter, const QStyleOptionGraphicsItem* option,
                     // QWidget* widget = 0 );
         // void resizeEvent( QGraphicsSceneResizeEvent* event );
 
-        // QGraphicsLinearLayout* m_contentLayout;
-        // QGraphicsWidget* m_contentWidget;
-        // Plasma::FrameSvg* m_background;
-        // Plasma::ScrollWidget* m_scrollWidget;
+        QGridLayout* m_contentLayout;
+        QWidget* m_contentWidget;
+        QWidget* m_background;
+        QScrollArea* m_scrollWidget;
 };
 
 #endif // OVERLAY_H
