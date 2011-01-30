@@ -123,6 +123,19 @@ class UiManagerComponent::UiManagerComponentPrivate
             object.setProperty( "Game", game );
         }
 
+        void resizeQmlItem( const QRectF& rect )
+        {
+            if ( ui )
+            {
+                QDeclarativeItem* item = ui->qmlItem();
+                if( item )
+                {
+                    item->setWidth( rect.width() );
+                    item->setHeight( rect.height() );
+                }
+            }
+        }
+
         UiManagerComponent* q;
         RenderableScene* scene;
         UiAsset *ui;
@@ -161,6 +174,8 @@ void UiManagerComponent::initialize()
     if( !d->scene )
     {
         d->scene = new RenderableScene( this );
+        connect( d->scene, SIGNAL( sceneRectChanged( const QRectF& ) ),
+                 this, SLOT( resizeQmlItem( const QRectF& ) ) );
     }
 
     if( d->ui && !d->ui->isLoaded() )

@@ -63,6 +63,8 @@ namespace GluonEngine
         private:
             class UiManagerComponentPrivate;
             UiManagerComponentPrivate* const d;
+
+            Q_PRIVATE_SLOT( d, void resizeQmlItem( const QRectF& rect ) );
     };
 
 }
