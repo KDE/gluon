@@ -208,7 +208,7 @@ void MainWindow::startGame()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile( QUrl( d->fileName ) );
+    d->project->loadFromFile( d->fileName );
 
     setWindowFilePath( d->fileName );
     d->title = windowTitle();

@@ -23,10 +23,10 @@
 #include <KPushButton>
 #include <KIcon>
 
-#include <QLabel>
-#include <QGridLayout>
-#include <QPersistentModelIndex>
-#include <QHoverEvent>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
+#include <QtCore/QPersistentModelIndex>
+#include <QtGui/QHoverEvent>
 
 class CommentsViewItem : public QWidget
 {

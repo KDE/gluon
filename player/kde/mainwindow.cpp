@@ -36,8 +36,8 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QListView>
 #include <QtGui/QVBoxLayout>
-#include <QLabel>
-#include <QTimer>
+#include <QtGui/QLabel>
+#include <QtCore/QTimer>
 
 using namespace GluonPlayer;
 
@@ -143,7 +143,7 @@ void MainWindow::startGame()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile( QUrl( d->fileName ) );
+    d->project->loadFromFile( d->fileName );
 
     setWindowFilePath( d->fileName );
     d->title = windowTitle();

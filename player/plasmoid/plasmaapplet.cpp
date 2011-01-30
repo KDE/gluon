@@ -100,7 +100,7 @@ void PlasmaApplet::openProject()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project = new GluonEngine::GameProject();
-    m_project->loadFromFile( QUrl( m_gameFileName ) );
+    m_project->loadFromFile( m_gameFileName );
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
