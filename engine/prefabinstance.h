@@ -32,13 +32,13 @@ namespace GluonEngine
         Q_PROPERTY(GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink)
 
         public:
-            PrefabInstance();
+            PrefabInstance( QObject* parent = 0 );
             PrefabInstance(const PrefabInstance& other);
             virtual ~PrefabInstance();
-            
+
             void setPrefabLink(Prefab* newPrefab);
             Prefab* prefabLink() const;
-            
+
         private:
             class Private;
             Private* d;
