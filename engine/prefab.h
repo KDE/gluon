@@ -41,12 +41,12 @@ class GameObject;
             Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
-            Q_INVOKABLE PrefabInstance* createInstance(GameObject* attachTo) const;
-            Q_INVOKABLE PrefabInstance* createInstance() const;
+            Q_INVOKABLE PrefabInstance* createInstance(GluonEngine::GameObject* attachTo);
+            Q_INVOKABLE PrefabInstance* createInstance();
 
             const QList<PrefabInstance*> instances() const;
-            bool addInstance(const PrefabInstance* addThis);
-            bool removeInstance(const PrefabInstance* removeThis);
+            bool addInstance(GluonEngine::PrefabInstance* addThis);
+            bool removeInstance(GluonEngine::PrefabInstance* removeThis);
 
             void setGameObject(GameObject* newGameObject);
             GameObject* gameObject() const;

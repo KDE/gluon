@@ -42,7 +42,7 @@ Prefab::~Prefab()
     delete(d);
 }
 
-PrefabInstance* Prefab::createInstance(GameObject* attachTo) const
+PrefabInstance* Prefab::createInstance(GameObject* attachTo)
 {
     PrefabInstance* instance = createInstance();
     if(instance)
@@ -52,12 +52,13 @@ PrefabInstance* Prefab::createInstance(GameObject* attachTo) const
     return instance;
 }
 
-PrefabInstance* Prefab::createInstance() const
+PrefabInstance* Prefab::createInstance()
 {
     PrefabInstance* instance = 0;
     if(d->gameObject)
     {
         instance = new PrefabInstance();
+        instance->initialize();
         instance->setPrefabLink(this);
     }
     return instance;
@@ -68,7 +69,7 @@ const QList< PrefabInstance* > Prefab::instances() const
     return d->instances;
 }
 
-bool Prefab::addInstance(const GluonEngine::PrefabInstance* addThis)
+bool Prefab::addInstance(GluonEngine::PrefabInstance* addThis)
 {
     if(addThis && !d->instances.contains(addThis))
     {
@@ -78,7 +79,7 @@ bool Prefab::addInstance(const GluonEngine::PrefabInstance* addThis)
     return false;
 }
 
-bool Prefab::removeInstance(const GluonEngine::PrefabInstance* removeThis)
+bool Prefab::removeInstance(GluonEngine::PrefabInstance* removeThis)
 {
     return d->instances.removeOne(removeThis);
 }
