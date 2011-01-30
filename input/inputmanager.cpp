@@ -282,11 +282,23 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 	case QEvent::Gesture:
 		{
 			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+            if (QGesture *swipe = gestureEvent->gesture(Qt::SwipeGesture))
+                swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+            else if (QGesture *pan = gestureEvent->gesture(Qt::PanGesture))
+                panTriggered(static_cast<QPanGesture *>(pan));
+            if (QGesture *pinch = gestureEvent->gesture(Qt::PinchGesture))
+                pinchTriggered(static_cast<QPinchGesture *>(pinch));
 			return true;
 		}
 	case QEvent::GestureOverride:
 		{
 			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
+            if (QGesture *swipe = gestureEvent->gesture(Qt::SwipeGesture))
+                swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+            else if (QGesture *pan = gestureEvent->gesture(Qt::PanGesture))
+                panTriggered(static_cast<QPanGesture *>(pan));
+            if (QGesture *pinch = gestureEvent->gesture(Qt::PinchGesture))
+                pinchTriggered(static_cast<QPinchGesture *>(pinch));
 			return true;
 		}
 	default:
@@ -296,9 +308,29 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 	return false;
 }
 
+void InputManager::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+            || gesture->verticalDirection() == QSwipeGesture::Up)
+            ;
+    }
+}
+
+void InputManager::panTriggered(QPanGesture *gesture)
+{
+}
+
+void InputManager::pinchTriggered(QPinchGesture *gesture)
+{
+}
+
 void InputManager::installEventFiltered(QObject *filteredObj)
 {
     filteredObj->installEventFilter(this);
+    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PanGesture);
+    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PinchGesture);
+    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::SwipeGesture);
 }
 
 void InputManager::removeEventFiltered(QObject *filteredObj)

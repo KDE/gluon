@@ -30,8 +30,11 @@
 
 #include "core/singleton.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QList>
+
+#include <QtGui/QSwipeGesture>
+#include <QtGui/QPanGesture>
+#include <QtGui/QPinchGesture>
 
 namespace GluonInput
 {
@@ -85,6 +88,10 @@ namespace GluonInput
             // TODO: if it works we can polish, with switch usage instead of hash? Investigate more!
             InputManagementType inputManagementType() const;
             void setInputManagementType( InputManagementType inputManagementType );
+
+            void swipeTriggered(QSwipeGesture *gesture);
+            void panTriggered(QPanGesture *gesture);
+            void pinchTriggered(QPinchGesture *gesture);
 
         signals:
             void keyPressed( int button );

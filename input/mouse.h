@@ -63,5 +63,5 @@ namespace GluonInput
             QSharedDataPointer<MousePrivate> d;
     };
 }
-//@}
-#endif // KCLMOUSE_H
+
+#endif // MOUSE_H
