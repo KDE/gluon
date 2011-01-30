@@ -33,7 +33,6 @@
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
 #include <QtGui/QGraphicsWidget>
-#include <QtXml/QXmlStreamReader>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 
