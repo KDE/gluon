@@ -37,9 +37,8 @@
 #include <QtGui/QColor>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsWidget>
 #include <QtGui/QPixmap>
-#include <QtOpenGL/QGLFramebufferObject>
+#include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeExpression>
 #include <QtDeclarative/QDeclarativeContext>
@@ -178,7 +177,7 @@ void UiManagerComponent::initialize()
         engine->rootContext()->setContextProperty( "__engineAccess", d->engineAccess );
 
         //Glorious hack:steal the engine
-        QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), d->ui->widget(),
+        QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), 0,
                                                                    "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
@@ -188,13 +187,13 @@ void UiManagerComponent::initialize()
     {
         d->ui->execute();
 
-        QGraphicsWidget* gWidget = d->ui->widget();
-        if( gWidget )
+        QDeclarativeItem* item = d->ui->qmlItem();
+        if( item )
         {
-            d->scene->addItem( gWidget );
+            d->scene->addItem( item );
 
             d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
-                                                            d->ui->widget(), "update()" );
+                                                            item, "update()" );
         }
     }
 }
@@ -250,7 +249,7 @@ void UiManagerComponent::draw( int timeLapse )
 {
     Q_UNUSED( timeLapse )
 
-    if( !d->scene || !d->ui || !d->ui->widget() )
+    if( !d->scene || !d->ui || !d->ui->qmlItem() )
     {
         return;
     }
@@ -278,10 +277,10 @@ void UiManagerComponent::cleanup()
         return;
     }
 
-    QGraphicsWidget* widget = d->ui->widget();
-    if( d->scene && widget && widget->scene() == d->scene )
+    QDeclarativeItem* item = d->ui->qmlItem();
+    if( d->scene && item && item->scene() == d->scene )
     {
-        d->scene->removeItem( widget );
+        d->scene->removeItem( item );
     }
 
     delete d->scene;

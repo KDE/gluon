@@ -24,7 +24,7 @@
 #include <gluon_engine_export.h>
 #include <asset.h>
 
-class QGraphicsWidget;
+class QDeclarativeItem;
 class QDeclarativeEngine;
 
 namespace GluonEngine
@@ -50,7 +50,7 @@ namespace GluonEngine
             virtual void setName( const QString& newName );
 
             QDeclarativeEngine *engine() const;
-            QGraphicsWidget *widget() const;
+            QDeclarativeItem* qmlItem() const;
 
         private:
             class UiAssetPrivate;

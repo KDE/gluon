@@ -28,11 +28,11 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QFile>
 #include <QtCore/QDebug>
+#include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeComponent>
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
-#include <QtGui/QGraphicsWidget>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 
@@ -43,7 +43,7 @@ class UiAsset::UiAssetPrivate
     public:
         UiAssetPrivate( UiAsset* asset)
             : q(asset)
-            , widget(0)
+            , qmlItem(0)
             , engine(0)
             , component(0)
         {
@@ -68,7 +68,7 @@ class UiAsset::UiAssetPrivate
         }
 
         UiAsset* q;
-        QGraphicsWidget* widget;
+        QDeclarativeItem* qmlItem;
         QDeclarativeEngine* engine;
         QDeclarativeComponent* component;
 };
@@ -116,7 +116,7 @@ void UiAsset::execute()
     {
         if( d->component )
         {
-            delete d->widget;
+            delete d->qmlItem;
             delete d->component;
         }
 
@@ -137,8 +137,8 @@ void UiAsset::execute()
             return;
         }
 
-        d->widget = qobject_cast<QGraphicsWidget*>( root );
-        if( d->widget )
+        d->qmlItem = qobject_cast<QDeclarativeItem*>( root );
+        if( d->qmlItem )
         {
             debug( "Execution of QML done!" );
             mimeData()->setText( name() );
@@ -158,9 +158,9 @@ void UiAsset::setName( const QString& newName )
     GluonEngine::Asset::setName( newName );
 }
 
-QGraphicsWidget* UiAsset::widget() const
+QDeclarativeItem* UiAsset::qmlItem() const
 {
-    return d->widget;
+    return d->qmlItem;
 }
 
 QDeclarativeEngine* UiAsset::engine() const
