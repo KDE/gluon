@@ -20,6 +20,8 @@
 #ifndef HIGHSCORESVIEWITEM_H
 #define HIGHSCORESVIEWITEM_H
 
+#include <KDE/KTitleWidget>
+
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
 #include <QtCore/QModelIndex>
@@ -40,7 +42,7 @@ class HighScoresViewItem : public QWidget
 
     private:
         QModelIndex m_index;
-        QLabel* m_playerName;
+        KTitleWidget* m_playerName;
         QLabel* m_score;
         QLabel* m_level;
 };

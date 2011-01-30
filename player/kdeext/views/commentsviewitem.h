@@ -20,13 +20,14 @@
 #ifndef COMMENTSVIEWITEM_H
 #define COMMENTSVIEWITEM_H
 
-#include <KPushButton>
-#include <KIcon>
+#include <KDE/KPushButton>
+#include <KDE/KIcon>
+#include <KDE/KTitleWidget>
 
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
-#include <QtCore/QPersistentModelIndex>
 #include <QtGui/QHoverEvent>
+#include <QtCore/QPersistentModelIndex>
 
 class CommentsViewItem : public QWidget
 {
@@ -55,13 +56,13 @@ class CommentsViewItem : public QWidget
         void setToolTips();
 
         QPersistentModelIndex m_index;
-        QLabel* m_author;
+        KTitleWidget* m_author;
         QLabel* m_title;
         QLabel* m_body;
         QLabel* m_dateTime;
         QLabel* m_rating;    //TODO Use a stars widget
 
-        KPushButton *m_replyButton;
+        KTitleWidget *m_replyButton;
         QGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;

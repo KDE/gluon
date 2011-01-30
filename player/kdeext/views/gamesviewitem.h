@@ -22,6 +22,7 @@
 
 #include <KDE/KTitleWidget>
 #include <KDE/KLocalizedString>
+#include <KDE/KIcon>
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
@@ -50,7 +51,7 @@ class GamesViewItem : public QWidget
         virtual void mousePressEvent( QMouseEvent* event );
 
         QModelIndex m_index;
-        QLabel* m_preview;
+        KTitleWidget* m_preview;
         QLabel* m_gameName;
         QLabel* m_gameDescription;
         KTitleWidget* m_playButton;

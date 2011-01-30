@@ -41,8 +41,8 @@ void GamesViewItem::layoutWidgets()
 {
     m_layout = new QGridLayout();
 
-    m_preview = new QLabel( this );
-    // m_preview->setIcon( KIcon( "gluon_creator" ) );
+    m_preview = new KTitleWidget( this );
+    m_preview->setPixmap( KIcon( "gluon_creator" ) );
     // m_preview->setAcceptHoverEvents( false );
     // m_preview->setContentsMargins( 0, 0, 0, 0 );
     // m_preview->setAcceptedMouseButtons( Qt::NoButton );
@@ -56,7 +56,7 @@ void GamesViewItem::layoutWidgets()
     m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
 
     m_playButton = new KTitleWidget( this );
-    // m_playButton->setIcon( KIcon( "media-playback-start" ) );
+    m_playButton->setPixmap( KIcon( "media-playback-start" ) );
     // m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
 

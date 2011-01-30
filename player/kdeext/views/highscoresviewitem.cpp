@@ -44,7 +44,7 @@ QModelIndex HighScoresViewItem::modelIndex() const
 
 void HighScoresViewItem::layoutWidgets()
 {
-    m_playerName = new QLabel( this );
+    m_playerName = new KTitleWidget( this );
     m_playerName->setText( m_index.sibling( m_index.row(), GluonPlayer::HighScoresModel::NameColumn ).data().toString() );
 
     m_score = new QLabel( this );
