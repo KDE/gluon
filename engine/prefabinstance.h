@@ -28,7 +28,7 @@ namespace GluonEngine
     class PrefabInstance : public GameObject
     {
         Q_OBJECT
-        GLUON_OBJECT( GluonEngine::PrefabInstance );;
+        GLUON_OBJECT( GluonEngine::PrefabInstance );
         Q_PROPERTY(GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink)
 
         public:

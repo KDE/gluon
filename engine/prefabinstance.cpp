@@ -48,6 +48,9 @@ PrefabInstance::PrefabInstance(const PrefabInstance& other)
 
 PrefabInstance::~PrefabInstance()
 {
+    if(d->prefabLink)
+        d->prefabLink->removeInstance(this);
+
     delete(d);
 }
 
@@ -58,7 +61,10 @@ Prefab* PrefabInstance::prefabLink() const
 
 void PrefabInstance::setPrefabLink(Prefab* newPrefab)
 {
+    if(d->prefabLink)
+        d->prefabLink->removeInstance(this);
     d->prefabLink = newPrefab;
+    d->prefabLink->addInstance(this);
 }
 
 #include "prefabinstance.moc"

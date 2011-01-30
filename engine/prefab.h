@@ -41,8 +41,11 @@ class GameObject;
             Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
-            PrefabInstance* createInstance() const;
+            Q_INVOKABLE PrefabInstance* createInstance(GameObject* attachTo) const;
+            Q_INVOKABLE PrefabInstance* createInstance() const;
+
             const QList<PrefabInstance*> instances() const;
+            bool addInstance(const PrefabInstance* addThis);
             bool removeInstance(const PrefabInstance* removeThis);
 
             void setGameObject(GameObject* newGameObject);
