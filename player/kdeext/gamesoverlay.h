@@ -17,45 +17,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef COMMENTSVIEW_H
-#define COMMENTSVIEW_H
+#ifndef GAMESOVERLAY_H
+#define GAMESOVERLAY_H
 
-#include "abstractitemview.h"
+#include <KDE/KTabWidget>
+#include <KDE/KIcon>
+#include <KDE/KLocalizedString>
 
+#include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
-#include <QtCore/QMultiHash>
-#include <QtCore/QPersistentModelIndex>
+#include <QtCore/QModelIndex>
 
-class CommentsViewItem;
+class GamesView;
+class LoginForm;
 
-class CommentsView : public AbstractItemView
+class GamesOverlay : public QWidget
 {
         Q_OBJECT
+
     public:
-        CommentsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
-
-    protected slots:
-        void showReply();
-        void removeComments();
-        void loadComments();
-        void reloadComments();
-        void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
-        void cancelNewComment();
-        void hideComments();
-        void showComments();
-
-    protected:
-        bool eventFilter( QObject* obj, QEvent* event );
-        CommentsViewItem* addComment( const QModelIndex& index, QWidget* parent, int depth );
-
-        QWidget* m_itemBackground;
+        explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        GamesView* gamesView();
 
     private:
-        QWidget* m_rootWidget;
-        QWidget* m_commentsFrame;
-        QGridLayout* m_commentsLayout;
-        bool m_isOnline;
+        KTabWidget* m_tabWidget;
+        GamesView* m_gamesView;
+        LoginForm* m_loginForm;
+
+    signals:
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
 };
 
-#endif // COMMENTSVIEW_H
+#endif // GAMESOVERLAY_H

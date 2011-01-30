@@ -107,7 +107,7 @@ void CommentsViewItem::layoutWidgets()
 {
     m_layout = new QGridLayout();
 
-    m_author = new QLabel( this );
+    m_author = new KTitleWidget( this );
     m_author->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::AuthorColumn ).data().toString() );
 
     m_title = new QLabel( this );
@@ -123,9 +123,9 @@ void CommentsViewItem::layoutWidgets()
     m_rating = new QLabel( this );
     m_rating->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::RatingColumn ).data().toString() );
 
-    m_replyButton = new KPushButton( this );
+    m_replyButton = new KTitleWidget( this );
     m_replyButton->setVisible( false );
-    m_replyButton->setIcon( KIcon( "edit-undo" ) );
+    m_replyButton->setPixmap( KIcon( "edit-undo" ) );
     connect( m_replyButton, SIGNAL( activated() ), SIGNAL( replyClicked() ) );
 
     m_layout->addWidget( m_title, 0, 0 );

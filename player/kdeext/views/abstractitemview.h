@@ -22,8 +22,8 @@
 
 #include "overlay.h"
 
-#include <QWidget>
-#include <QAbstractItemModel>
+#include <QtGui/QWidget>
+#include <QtCore/QAbstractItemModel>
 
 class AbstractItemView : public Overlay
 {

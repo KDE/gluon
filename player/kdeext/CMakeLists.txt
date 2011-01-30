@@ -10,12 +10,18 @@ set(kdeextplayer_SRCS
     main.cpp
     mainwindow.cpp
     overlay.cpp
+    gamesoverlay.cpp
+    gamedetailsoverlay.cpp
     loginform.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp
     views/commentsview.cpp
     views/commentsviewitem.cpp
+    views/highscoresview.cpp
+    views/highscoresviewitem.cpp
+    views/gamesview.cpp
+    views/gamesviewitem.cpp
 )
 
 if(APPLE)

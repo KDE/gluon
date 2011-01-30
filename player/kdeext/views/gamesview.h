@@ -17,45 +17,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef COMMENTSVIEW_H
-#define COMMENTSVIEW_H
+#ifndef GAMESVIEW_H
+#define GAMESVIEW_H
 
 #include "abstractitemview.h"
 
+#include <KDE/KTitleWidget>
+
 #include <QtGui/QGridLayout>
-#include <QtCore/QMultiHash>
-#include <QtCore/QPersistentModelIndex>
+#include <QtCore/QModelIndex>
 
-class CommentsViewItem;
+class QAbstractItemModel;
 
-class CommentsView : public AbstractItemView
+class GamesView : public AbstractItemView
 {
         Q_OBJECT
     public:
-        CommentsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual void setModel( QAbstractItemModel* model );
 
-    protected slots:
-        void showReply();
-        void removeComments();
-        void loadComments();
-        void reloadComments();
-        void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
-        void cancelNewComment();
-        void hideComments();
-        void showComments();
-
     protected:
+        KTitleWidget* m_itemBackground;
+
         bool eventFilter( QObject* obj, QEvent* event );
-        CommentsViewItem* addComment( const QModelIndex& index, QWidget* parent, int depth );
 
-        QWidget* m_itemBackground;
-
-    private:
-        QWidget* m_rootWidget;
-        QWidget* m_commentsFrame;
-        QGridLayout* m_commentsLayout;
-        bool m_isOnline;
+    signals:
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
 };
 
-#endif // COMMENTSVIEW_H
+#endif // GAMESVIEW_H

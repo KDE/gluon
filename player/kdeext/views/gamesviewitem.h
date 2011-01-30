@@ -17,45 +17,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef COMMENTSVIEW_H
-#define COMMENTSVIEW_H
+#ifndef GAMESVIEWITEM_H
+#define GAMESVIEWITEM_H
 
-#include "abstractitemview.h"
+#include <KDE/KTitleWidget>
+#include <KDE/KLocalizedString>
+#include <KDE/KIcon>
 
 #include <QtGui/QGridLayout>
-#include <QtCore/QMultiHash>
-#include <QtCore/QPersistentModelIndex>
+#include <QtGui/QLabel>
+#include <QtCore/QModelIndex>
+#include <QtCore/QEvent>
 
-class CommentsViewItem;
-
-class CommentsView : public AbstractItemView
+class GamesViewItem : public QWidget
 {
         Q_OBJECT
     public:
-        CommentsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
+        GamesViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+
+        virtual void setModelIndex( const QModelIndex& index );
+        QModelIndex modelIndex() const;
 
     protected slots:
-        void showReply();
-        void removeComments();
-        void loadComments();
-        void reloadComments();
-        void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
-        void cancelNewComment();
-        void hideComments();
-        void showComments();
+        void playGameActivated();
+
+    signals:
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
 
     protected:
-        bool eventFilter( QObject* obj, QEvent* event );
-        CommentsViewItem* addComment( const QModelIndex& index, QWidget* parent, int depth );
+        void layoutWidgets();
+        void setToolTips();
+        virtual void mousePressEvent( QMouseEvent* event );
 
-        QWidget* m_itemBackground;
-
-    private:
-        QWidget* m_rootWidget;
-        QWidget* m_commentsFrame;
-        QGridLayout* m_commentsLayout;
-        bool m_isOnline;
+        QModelIndex m_index;
+        KTitleWidget* m_preview;
+        QLabel* m_gameName;
+        QLabel* m_gameDescription;
+        KTitleWidget* m_playButton;
+        QGridLayout* m_layout;
 };
 
-#endif // COMMENTSVIEW_H
+#endif // GAMESVIEWITEM_H

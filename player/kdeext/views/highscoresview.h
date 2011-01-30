@@ -17,45 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef COMMENTSVIEW_H
-#define COMMENTSVIEW_H
+#ifndef HIGHSCORESVIEW_H
+#define HIGHSCORESVIEW_H
 
 #include "abstractitemview.h"
 
 #include <QtGui/QGridLayout>
-#include <QtCore/QMultiHash>
-#include <QtCore/QPersistentModelIndex>
+#include <QtCore/QEvent>
 
-class CommentsViewItem;
-
-class CommentsView : public AbstractItemView
+namespace GluonPlayer
 {
-        Q_OBJECT
-    public:
-        CommentsView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
+    class HighScoresModel;
+}
 
-    protected slots:
-        void showReply();
-        void removeComments();
-        void loadComments();
-        void reloadComments();
-        void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
-        void cancelNewComment();
-        void hideComments();
-        void showComments();
+class HighScoresView : public AbstractItemView
+{
+    public:
+        HighScoresView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual void setModel( QAbstractItemModel* model );
+        virtual ~HighScoresView();
 
     protected:
         bool eventFilter( QObject* obj, QEvent* event );
-        CommentsViewItem* addComment( const QModelIndex& index, QWidget* parent, int depth );
-
-        QWidget* m_itemBackground;
 
     private:
-        QWidget* m_rootWidget;
-        QWidget* m_commentsFrame;
-        QGridLayout* m_commentsLayout;
-        bool m_isOnline;
+        GluonPlayer::HighScoresModel* m_model;
 };
 
-#endif // COMMENTSVIEW_H
+#endif // HIGHSCORESVIEW_H

@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,58 +17,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef COMMENTSVIEWITEM_H
-#define COMMENTSVIEWITEM_H
+#ifndef HIGHSCORESVIEWITEM_H
+#define HIGHSCORESVIEWITEM_H
 
-#include <KDE/KPushButton>
-#include <KDE/KIcon>
 #include <KDE/KTitleWidget>
 
-#include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
-#include <QtGui/QHoverEvent>
-#include <QtCore/QPersistentModelIndex>
+#include <QtGui/QLabel>
+#include <QtCore/QModelIndex>
 
-class CommentsViewItem : public QWidget
+class HighScoresViewItem : public QWidget
 {
-        Q_OBJECT
     public:
-        explicit CommentsViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~CommentsViewItem();
+        HighScoresViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual ~HighScoresViewItem();
 
         virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;
-        int depth();
-        void setDepth( int newDepth );
-        int rowInLayout();
-        void setRowInLayout( int row );
-        bool replyEnabled();
-        void setReplyEnabled( bool enabled );
-
-    signals:
-        void replyClicked();
 
     protected:
-        void hoverEnterEvent( QHoverEvent* event );
-        void hoverLeaveEvent( QHoverEvent* event );
-
         void layoutWidgets();
-        void setToolTips();
 
-        QPersistentModelIndex m_index;
-        KTitleWidget* m_author;
-        QLabel* m_title;
-        QLabel* m_body;
-        QLabel* m_dateTime;
-        QLabel* m_rating;    //TODO Use a stars widget
-
-        KTitleWidget *m_replyButton;
         QGridLayout* m_layout;
-        int m_depth;
-        int m_rowInLayout;
 
     private:
-        bool m_replyEnabled;
+        QModelIndex m_index;
+        KTitleWidget* m_playerName;
+        QLabel* m_score;
+        QLabel* m_level;
 };
 
-#endif // COMMENTSVIEWITEM_H
+#endif // HIGHSCORESVIEWITEM_H
+
