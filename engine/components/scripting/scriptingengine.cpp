@@ -33,10 +33,10 @@ namespace GluonEngine
     {
         public:
             Private()
+                : engine(new QScriptEngine())
             {
                 DEBUG_FUNC_NAME
                 DEBUG_TEXT2( "Available extensions: %1", engine->availableExtensions().join( ", " ) );
-                engine = new QScriptEngine();
                 engine->importExtension( "jsmoke.qtcore" );
                 engine->importExtension( "jsmoke.qtgui" );
                 engine->importExtension( "jsmoke.qtopengl" );
