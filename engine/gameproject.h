@@ -93,7 +93,7 @@ namespace GluonEngine
 
             bool saveToFile() const;
             bool loadFromFile();
-            bool loadFromFile( QUrl filename );
+            bool loadFromFile( QUrl fileUrl );
 
             /******************************************************************
              * Property Getter-setters
@@ -109,6 +109,7 @@ namespace GluonEngine
 
             QUrl filename() const;
             void setFilename( QUrl newFilename );
+            void setFilename( QString fileName );
 
             Scene* entryPoint() const;
             void setEntryPoint( Scene* newEntryPoint );

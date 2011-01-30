@@ -239,9 +239,15 @@ GameProject::filename() const
 }
 
 void
-GameProject::setFilename( QUrl newFilename )
+GameProject::setFilename( QUrl newFileUrl )
 {
-    d->filename = newFilename;
+    d->filename = newFileUrl;
+}
+
+void
+GameProject::setFilename( QString fileName )
+{
+    d->filename = QUrl::fromLocalFile(fileName);
 }
 
 Scene *
