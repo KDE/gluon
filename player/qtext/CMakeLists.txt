@@ -13,6 +13,7 @@ set(qtextplayer_SRCS
     overlay.cpp
     loginform.cpp
     gamesoverlay.cpp
+    gamedetailsoverlay.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp
