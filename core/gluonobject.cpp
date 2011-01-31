@@ -670,7 +670,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
             if( !theObject )
             {
                 debug( QString( "Warning: Invalid reference for property %1 on object %2" ).arg( propertyName, name() ) );
-                return;
+                continue;
             }
 
             QMetaProperty property = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
