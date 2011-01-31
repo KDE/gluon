@@ -23,6 +23,8 @@
 #include "scriptingcomponent.h"
 #include "graphics/materialinstance.h"
 
+#include "core/gluonobjectfactory.h"
+
 #include <QtScript>
 // #include <QScriptEngineDebugger>
 
@@ -44,6 +46,12 @@ namespace GluonEngine
                 qScriptRegisterMetaType( engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, gameObjectToScriptValue, gameObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
+
+                QScriptValue gameObjectClass = engine->scriptValueFromQMetaObject<GameObject>();
+                engine->globalObject().setProperty("GameObject", gameObjectClass);
+
+                QScriptValue objectFactory = engine->newQObject( GluonCore::GluonObjectFactory::instance());
+                engine->globalObject().setProperty("Factory", objectFactory );
 
                 DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
 
@@ -105,11 +113,17 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     if( result.state() == QScriptSyntaxCheckResult::Valid )
     {
         // Fix up the asset's name so as to be useable as a class name
-        QString className( asset->fullyQualifiedName().remove( ' ' ).replace( '/', '_' ) );
+        QString className( asset->fullyQualifiedName().remove( ' ' ).replace( '/', '_' ).replace('-', '_') );
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
         d->buildScript();
+    }
+    else
+    {
+        DEBUG_TEXT(QString("Asset %1 didn't pass the syntax checker (%2)\n")
+                   .arg(asset->fullyQualifiedName())
+                   .arg(result.errorMessage()));
     }
 
     return result;
@@ -163,7 +177,8 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
         QScriptValue instance = val.construct();
         if( d->engine->hasUncaughtException() )
         {
-            DEBUG_TEXT2( "Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join( " --> " ) );
+			QScriptValue exception = d->engine->uncaughtException();
+            DEBUG_TEXT( QString("Exception on class instantiation: %2\n at %1").arg(d->engine->uncaughtExceptionBacktrace().join( " --> " )).arg(exception.toString()));
         }
 
         return instance;
