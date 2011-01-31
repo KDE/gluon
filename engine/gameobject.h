@@ -28,6 +28,7 @@
 #include <core/gluonobjectfactory.h>
 
 #include <QtCore/QSharedData>
+#include <QtScript/QScriptEngine>
 
 namespace GluonEngine
 {
@@ -187,8 +188,8 @@ namespace GluonEngine
             Q_INVOKABLE QList<Component*> findComponentsInChildren( const QString& name ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( const QString& typeName ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( int type ) const;
-            Q_INVOKABLE void addComponent( Component* addThis );
-            Q_INVOKABLE bool removeComponent( Component* removeThis );
+            Q_INVOKABLE void addComponent( GluonEngine::Component* addThis );
+            Q_INVOKABLE bool removeComponent( GluonEngine::Component* removeThis );
             Q_INVOKABLE QList<Component*> components() const;
 
             // ----------------------------------------------------------------
@@ -346,5 +347,6 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::GameObject )
 Q_DECLARE_METATYPE( GluonEngine::GameObject* )
+Q_SCRIPT_DECLARE_QMETAOBJECT( GluonEngine::GameObject, QObject* );
 
 #endif  // GLUON_ENGINE_GAMEOBJECT_H
