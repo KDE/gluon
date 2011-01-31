@@ -268,7 +268,7 @@ Material::uniformList()
 {
     QHash<QString, QVariant> uniforms;
     uniforms.insert( "materialColor", Qt::white );
-    uniforms.insert( "texture0", "default" );
+    uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString("GluonEngine::TextureAsset*"), 0 ) );
     return uniforms;
 }
 
