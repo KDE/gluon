@@ -15,6 +15,7 @@ set(qtextplayer_SRCS
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp
+    views/commentsview.cpp
     views/commentsviewitem.cpp
 )
 
