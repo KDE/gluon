@@ -377,6 +377,8 @@ Engine::render()
     //Unbind the FBO, making us stop rendering to it.
     d->mainTarget->release();
 
+    glDisable(GL_DEPTH_TEST);
+
     //Render a full screen quad with the FBO data.
     d->mainTarget->render();
 
@@ -391,6 +393,7 @@ Engine::render()
             d->renderTargets.removeOne(target);
         }
     }
+    glEnable(GL_DEPTH_TEST);
 
     d->objectMutex.unlock();
 }
