@@ -19,6 +19,7 @@ set(qtextplayer_SRCS
     views/commentsviewitem.cpp
     views/highscoresview.cpp
     views/highscoresviewitem.cpp
+    views/gamesviewitem.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})
