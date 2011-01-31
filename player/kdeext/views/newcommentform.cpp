@@ -21,8 +21,6 @@
 
 #include <attica/provider.h>
 
-#include <QGridLayout>
-
 NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
 {
@@ -30,7 +28,7 @@ NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     QGridLayout* layout2 = new QGridLayout( this );
     // layout2->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
 
-    m_titleEdit = new QLineEdit( i18n( "Subject" ) );
+    m_titleEdit = new KLineEdit( i18n( "Subject" ) );
     // m_titleEdit->nativeWidget()->setClickMessage( i18n( "Subject" ) );
 
     m_bodyEdit = new KTextEdit( i18n( "Message" ) );

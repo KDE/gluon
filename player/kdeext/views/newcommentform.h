@@ -23,8 +23,9 @@
 #include <KDE/KPushButton>
 #include <KDE/KTextEdit>
 #include <KDE/KLocalizedString>
+#include <KDE/KLineEdit>
 
-#include <QtGui/QLineEdit>
+#include <QtGui/QGridLayout>
 #include <QtCore/QModelIndex>
 #include <QtCore/QDebug>
 
@@ -45,7 +46,7 @@ class NewCommentForm : public QWidget
         void canceled();
 
     private:
-        QLineEdit* m_titleEdit;
+        KLineEdit* m_titleEdit;
         KTextEdit* m_bodyEdit;
         KPushButton* m_okButton;
         KPushButton* m_cancelButton;

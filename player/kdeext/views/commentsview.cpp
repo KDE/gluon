@@ -23,7 +23,6 @@
 
 #include <models/commentsmodel.h>
 
-#include <QtGui/QLineEdit>
 #include <QtGui/QFrame>
 #include <QtGui/QScrollArea>
 #include <QtGui/QTreeView>
