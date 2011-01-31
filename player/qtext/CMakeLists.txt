@@ -17,6 +17,7 @@ set(qtextplayer_SRCS
     views/newcommentform.cpp
     views/commentsview.cpp
     views/commentsviewitem.cpp
+    views/highscoresviewitem.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})
