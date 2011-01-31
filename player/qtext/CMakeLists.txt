@@ -14,6 +14,7 @@ set(qtextplayer_SRCS
     loginform.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
+    views/commentsviewitem.cpp
 )
 
 qt4_automoc(${qtextplayer_SRCS})
