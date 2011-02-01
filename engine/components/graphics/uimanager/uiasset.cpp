@@ -119,6 +119,8 @@ void UiAsset::execute()
             delete d->qmlItem;
             delete d->component;
         }
+        d->engine->clearComponentCache();
+        d->qmlItem = 0;
 
         d->component = new QDeclarativeComponent( d->engine, this );
         d->component->loadUrl( file().toLocalFile() );

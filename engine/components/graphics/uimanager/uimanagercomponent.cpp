@@ -136,6 +136,12 @@ class UiManagerComponent::UiManagerComponentPrivate
             }
         }
 
+        void reload()
+        {
+            q->cleanup();
+            q->initialize();
+        }
+
         UiManagerComponent* q;
         RenderableScene* scene;
         UiAsset *ui;
@@ -306,6 +312,8 @@ void UiManagerComponent::cleanup()
 void UiManagerComponent::setUi(UiAsset* ui)
 {
     d->ui = ui;
+
+    connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );
 }
 
 UiAsset* UiManagerComponent::ui() const
