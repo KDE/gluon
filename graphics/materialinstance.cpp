@@ -32,6 +32,7 @@
 #include "frustrum.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
+Q_DECLARE_METATYPE(GluonGraphics::Texture*);
 
 using namespace GluonGraphics;
 
@@ -230,19 +231,30 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             glUniformMatrix4fv( uniformLocation( name ), 1, false, glMatrix );
             break;
         }
-        case QVariant::UserType:
+        default:
         {
             GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
             if( obj && name.contains( "texture" ) )
             {
-                GluonGraphics::Texture* texture = GluonGraphics::Engine::instance()->texture( obj->name() );
-
-                bindTexture( name, texture );
+                QVariant val = obj->property("texture");
+                if( val.isValid() )
+                {
+                    if( GluonGraphics::Texture* texture = val.value<GluonGraphics::Texture*>() )
+                    {
+                        bindTexture( name, texture );
+                    }
+                    else
+                    {
+                        debug( QString("The object contained in the texture property on object %1 was not valid").arg( obj->fullyQualifiedName() ) );
+                    }
+                }
+                else
+                {
+                    debug( QString("Texture was not a valid property on %1").arg( obj->fullyQualifiedName() ) );
+                }
             }
             break;
         }
-        default:
-            break;
     }
 }
 
