@@ -25,9 +25,9 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
-class KLineEdit;
-class KPushButton;
-class QLabel;
+#include <KDE/KLineEdit>
+#include <KDE/KPushButton>
+#include <QtGui/QLabel>
 
 class LoginForm : public Overlay
 {
@@ -47,11 +47,12 @@ class LoginForm : public Overlay
     private:
         void initialize();
 
-        QLabel* m_usernameLabel;
         KLineEdit* m_usernameEdit;
-        QLabel* m_passwordLabel;
         KLineEdit* m_passwordEdit;
         KPushButton* m_loginButton;
+
+        QLabel* m_usernameLabel;
+        QLabel* m_passwordLabel;
         QLabel* m_usernameFeedbackLabel;
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
