@@ -37,6 +37,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     , m_usernameLabel( new QLabel( this ) )
     , m_passwordLabel( new QLabel( this ) )
     , m_usernameFeedbackLabel( new QLabel( this ) )
+    , m_rememberMeCheckBox( new QCheckBox( this ) )
 {
     m_usernameLabel->setText( i18n( "Username" ) );
     m_passwordLabel->setText( i18n( "Password" ) );
@@ -56,7 +57,8 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addWidget( m_passwordLabel, 1, 0 );
     m_contentLayout->addWidget( m_passwordEdit, 1, 1 );
     m_contentLayout->addWidget( m_loginButton, 2, 0 );
-    m_contentLayout->addWidget( m_usernameFeedbackLabel, 2, 1 );
+    m_contentLayout->addWidget( m_rememberMeCheckBox, 2, 1 );
+    m_contentLayout->addWidget( m_usernameFeedbackLabel, 3, 0, 1, 2 );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );

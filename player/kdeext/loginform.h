@@ -28,6 +28,7 @@
 #include <KDE/KLineEdit>
 #include <KDE/KPushButton>
 #include <QtGui/QLabel>
+#include <QtGui/QCheckBox>
 
 class LoginForm : public Overlay
 {
@@ -54,6 +55,8 @@ class LoginForm : public Overlay
         QLabel* m_usernameLabel;
         QLabel* m_passwordLabel;
         QLabel* m_usernameFeedbackLabel;
+        QCheckBox* m_rememberMeCheckBox;
+
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 };
