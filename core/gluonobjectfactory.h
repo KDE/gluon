@@ -81,7 +81,7 @@ namespace GluonCore
              * @param   objectTypeName  The name of the class you want an instance of
              * @return  An object of the appropriate type, or null if no such class was found in the factory
              */
-            GluonObject* instantiateObjectByName( const QString& objectTypeName );
+            Q_INVOKABLE GluonCore::GluonObject* instantiateObjectByName( const QString& objectTypeName );
             /**
              * Create a new object which is capable of handling the passed mime type
              *
