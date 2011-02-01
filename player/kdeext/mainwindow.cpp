@@ -70,9 +70,9 @@ class MainWindow::MainWindowPrivate
 MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
+    , loginForm( new LoginForm )
 {
-    textArea = new KTextEdit;
-    setCentralWidget(textArea);
+    setCentralWidget( loginForm );
     setupActions();
     setupGUI();
 }
@@ -80,7 +80,6 @@ MainWindow::MainWindow(const QString& filename )
 MainWindow::~MainWindow ( )
 {
 }
-
 
 void MainWindow::setupActions()
 {
