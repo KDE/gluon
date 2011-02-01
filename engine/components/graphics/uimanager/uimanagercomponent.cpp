@@ -142,8 +142,10 @@ class UiManagerComponent::UiManagerComponentPrivate
         QSizeF size;
         Item *item;
         EngineAccess* engineAccess;
+        QScriptEngine* scriptEngine;
 
-        QDeclarativeExpression *updateFunction;
+        QScriptValue scriptItem;
+        QScriptValue updateFunction;
 };
 
 UiManagerComponent::UiManagerComponent( QObject* parent )
@@ -206,18 +208,18 @@ void UiManagerComponent::initialize()
         {
             d->scene->addItem( item );
 
-            d->updateFunction = new QDeclarativeExpression( d->ui->engine()->rootContext(),
-                                                            item, "update()" );
+            d->scriptItem = d->scriptEngine->newQObject( item );
+            d->updateFunction = d->scriptItem.property( "update" );
         }
     }
 }
 
 void UiManagerComponent::setScriptEngine( QScriptValue &value )
 {
-    QScriptEngine* engine = value.engine();
+    d->scriptEngine = value.engine();
 
-    QScriptValue originalGlobalObject = engine->globalObject();
-    QScriptValue newGlobalObject = engine->newObject();
+    QScriptValue originalGlobalObject = d->scriptEngine->globalObject();
+    QScriptValue newGlobalObject = d->scriptEngine->newObject();
 
     QString eval = QLatin1String( "eval" );
     QString version = QLatin1String( "version" );
@@ -246,9 +248,9 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
         newGlobalObject.setProperty( iter.scriptName(), iter.value() );
     }
 
-    engine->setGlobalObject( newGlobalObject );
+    d->scriptEngine->setGlobalObject( newGlobalObject );
 
-    d->setupBindings( engine );
+    d->setupBindings( d->scriptEngine );
 
     delete d->engineAccess;
     d->ui->engine()->rootContext()->setContextProperty( "__engineAccess", 0 );
@@ -273,14 +275,14 @@ void UiManagerComponent::draw( int timeLapse )
 
 void UiManagerComponent::update( int elapsedMilliseconds )
 {
-    if( d->updateFunction )
+    if( d->updateFunction.isFunction() )
     {
-        d->updateFunction->evaluate();
-
-        if( d->updateFunction->hasError() )
-        {
-            debug( d->updateFunction->error().toString() );
-        }
+        d->updateFunction.call( d->scriptItem, QScriptValueList() << elapsedMilliseconds );
+        if( d->scriptEngine->uncaughtException().isValid() )
+            // This needs to be mapped...
+            debug( QString( "%1: %2" )
+                   .arg( d->scriptEngine->uncaughtException().toString() )
+                   .arg( d->scriptEngine->uncaughtExceptionBacktrace().join( " " ) ) );
     }
 }
 
@@ -299,9 +301,6 @@ void UiManagerComponent::cleanup()
 
     delete d->scene;
     d->scene = 0;
-
-    delete d->updateFunction;
-    d->updateFunction = 0;
 }
 
 void UiManagerComponent::setUi(UiAsset* ui)
