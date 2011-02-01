@@ -51,12 +51,6 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     layout1->addWidget( m_passwordLineEdit, 1, 1 );
     layout1->addWidget( m_loginButton, 2, 0 );
     layout1->addWidget( m_rememberMeCheckBox, 2, 1 );
-    // layout1->addWidget( m_busyWidget );
-
-    // m_contentLayout->addItem( layout1 );
-    // m_contentLayout->addItem( m_usernameLineEdit );
-    // m_contentLayout->addItem( m_passwordLineEdit );
-    // m_contentLayout->addItem( m_loginButton );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );

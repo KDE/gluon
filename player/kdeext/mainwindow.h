@@ -27,6 +27,7 @@
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KApplication>
 #include <KDE/KTextEdit>
+#include <KDE/KTabWidget>
 
 #include <QtCore/QModelIndex>
 
@@ -65,7 +66,9 @@ namespace GluonKDEExtPlayer {
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
-            LoginForm* loginForm;
+            KTabWidget* m_tabWidget;
+            LoginForm* m_loginForm;
+
     };
 }
 

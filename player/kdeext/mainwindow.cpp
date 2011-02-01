@@ -26,25 +26,25 @@
 #include <graphics/renderwidget.h>
 #include <player/models/gamesmodel.h>
 
-#include <KPushButton>
-#include <KFileDialog>
-#include <KUrl>
-#include <KLocalizedString>
-#include <KMenuBar>
+#include <KDE/KPushButton>
+#include <KDE/KFileDialog>
+#include <KDE/KUrl>
+#include <KDE/KLocalizedString>
+#include <KDE/KMenuBar>
 #include <KDE/KToolBar>
-#include <KStatusBar>
-#include <KAction>
-#include <KActionCollection>
-#include <KStandardAction>
-#include <KConfig>
-#include <KShortcutsDialog>
-#include <KEditToolBar>
+#include <KDE/KStatusBar>
+#include <KDE/KAction>
+#include <KDE/KActionCollection>
+#include <KDE/KStandardAction>
+#include <KDE/KConfig>
+#include <KDE/KShortcutsDialog>
+#include <KDE/KEditToolBar>
 
 #include <QtGui/QStatusBar>
 #include <QtGui/QListView>
 #include <QtGui/QVBoxLayout>
-#include <QLabel>
-#include <QTimer>
+#include <QtGui/QLabel>
+#include <QtCore/QTimer>
 
 using namespace GluonKDEExtPlayer;
 
@@ -70,9 +70,10 @@ class MainWindow::MainWindowPrivate
 MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
-    , loginForm( new LoginForm )
+    , m_tabWidget( new KTabWidget )
+    , m_loginForm( new LoginForm )
 {
-    setCentralWidget( loginForm );
+    setCentralWidget( m_loginForm );
     setupActions();
     setupGUI();
 }
@@ -132,34 +133,34 @@ void MainWindow::setupActions()
 
 void MainWindow::playGame( )
 {
-    // if( GluonEngine::Game::instance()->isRunning() )
-    // {
-        // GluonEngine::Game::instance()->setPause( false );
-        // stateChanged( "paused", StateReverse );
-    // }
-    // else
-    // {
-        // stateChanged( "playing" );
+    if( GluonEngine::Game::instance()->isRunning() )
+    {
+        GluonEngine::Game::instance()->setPause( false );
+        stateChanged( "paused", StateReverse );
+    }
+    else
+    {
+        stateChanged( "playing" );
 
         // d->mainArea->setActiveTab( 0 );
 
-        // QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
+        QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
         // saveProject();
 
-        // //Set the focus to the entire window, so that we do not accidentally trigger actions
-        // setFocus();
+        //Set the focus to the entire window, so that we do not accidentally trigger actions
+        setFocus();
 
-        // //Start the game loop
-        // //Note that this starts an infinite loop in Game
-        // GluonEngine::Game::instance()->runGame();
+        //Start the game loop
+        //Note that this starts an infinite loop in Game
+        GluonEngine::Game::instance()->runGame();
 
-        // //This happens after we exit the game loop
-        // stateChanged( "playing", StateReverse );
+        //This happens after we exit the game loop
+        stateChanged( "playing", StateReverse );
 
         // openProject( d->fileName );
-        // GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
-        // GluonEngine::Game::instance()->initializeAll();
-    // }
+        GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        GluonEngine::Game::instance()->initializeAll();
+    }
 }
 
 void MainWindow::pauseGame()
