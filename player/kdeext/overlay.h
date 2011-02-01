@@ -23,7 +23,6 @@
 #include <QtGui/QScrollArea>
 #include <QtGui/QGridLayout>
 
-
 class Overlay : public QWidget
 {
         Q_OBJECT
@@ -32,11 +31,11 @@ class Overlay : public QWidget
         explicit Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
     protected:
-        // virtual void keyPressEvent( QKeyEvent* event );
-        // virtual void wheelEvent( QGraphicsSceneWheelEvent* event );
+        virtual void keyPressEvent( QKeyEvent* event );
+        virtual void wheelEvent( QWheelEvent* event );
         // void paint( QPainter* painter, const QStyleOptionGraphicsItem* option,
                     // QWidget* widget = 0 );
-        // void resizeEvent( QGraphicsSceneResizeEvent* event );
+        void resizeEvent( QResizeEvent* event );
 
         QGridLayout* m_contentLayout;
         QWidget* m_contentWidget;
