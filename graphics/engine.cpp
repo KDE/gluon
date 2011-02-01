@@ -88,14 +88,14 @@ Engine::EnginePrivate::createObject( const QString& type, const QString& name )
 
     objectMutex.lock();
 
-    if( !objects.contains( typeName ) )
+    if( objects.contains( typeName ) )
     {
-        newObject = new T;
-        objects.insert( typeName, newObject );
+        newObject = qobject_cast<T*>( objects.value( typeName ) );
     }
     else
     {
-        newObject = qobject_cast<T*>( objects.value( typeName ) );
+        newObject = new T;
+        objects.insert( typeName, newObject );
     }
 
     objectMutex.unlock();

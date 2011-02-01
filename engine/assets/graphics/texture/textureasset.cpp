@@ -35,7 +35,9 @@ using namespace GluonEngine;
 class TextureAsset::TextureAssetPrivate
 {
     public:
-        TextureAssetPrivate() {}
+        TextureAssetPrivate()
+            : texture(0)
+        {}
         ~TextureAssetPrivate() {}
 
         QPixmap icon;
@@ -46,7 +48,6 @@ TextureAsset::TextureAsset( QObject* parent )
     : Asset( parent )
     , d( new TextureAssetPrivate )
 {
-    d->texture = GluonGraphics::Engine::instance()->createTexture( name() );
 }
 
 TextureAsset::~TextureAsset()
@@ -79,6 +80,15 @@ void TextureAsset::load()
 {
     if( !file().isEmpty() )
     {
+        if( !d->texture )
+            d->texture = GluonGraphics::Engine::instance()->createTexture( name() );
+
+        if( !d->texture )
+        {
+            debug( QString( "Error creating texture %1" ).arg( name() ) );
+            return;
+        }
+
         if( d->texture->load( file() ) )
         {
             mimeData()->setText( name() );
@@ -94,7 +104,8 @@ void TextureAsset::load()
 void TextureAsset::setName( const QString& newName )
 {
     GluonGraphics::Engine::instance()->removeTexture( name() );
-    GluonGraphics::Engine::instance()->addTexture( newName, d->texture );
+    if(d->texture)
+        GluonGraphics::Engine::instance()->addTexture( newName, d->texture );
     GluonEngine::Asset::setName( newName );
 }
 

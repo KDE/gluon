@@ -95,7 +95,12 @@ void SpriteRendererComponent::initialize()
         if( materialAsset )
             materialAsset->load();
 
-        Asset* texture = gameProject()->findChild<Asset*>( d->material->property( "texture0" ).toString() );
+        Asset* texture = 0;
+        if( d->material->property( "texture0" ).type() == QVariant::String )
+            texture = gameProject()->findChild<Asset*>( d->material->property( "texture0" ).toString() );
+        else
+            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
+
         if( texture )
             texture->load();
         d->item->setMaterialInstance( d->material );
