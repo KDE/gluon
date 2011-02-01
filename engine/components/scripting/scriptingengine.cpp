@@ -51,7 +51,7 @@ namespace GluonEngine
                 engine->globalObject().setProperty("GameObject", gameObjectClass);
 
                 QScriptValue objectFactory = engine->newQObject( GluonCore::GluonObjectFactory::instance());
-                engine->globalObject().setProperty("Factory", objectFactory );
+                engine->globalObject().setProperty("ObjectFactory", objectFactory );
 
                 DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
 
