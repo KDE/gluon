@@ -45,7 +45,6 @@ GLUON_DEFINE_SINGLETON(InputManager)
 
 InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
-    , m_filteredObj(0)
 {
     init();
 }
@@ -229,7 +228,7 @@ InputDevice* InputManager::input( int id )
 
 bool InputManager::eventFilter(QObject* object, QEvent* event)
 {
-    if (object != m_filteredObj)
+    if (object != m_filteredObj.data())
         return false;
 
 	switch (event->type())
@@ -340,15 +339,15 @@ void InputManager::removeEventFiltered(QObject *filteredObj)
 
 QObject* InputManager::filteredObject()
 {
-    return m_filteredObj;
+    return m_filteredObj.data();
 }
 
 void InputManager::setFilteredObject(QObject *filteredObj)
 {
     if( filteredObj && inputManagementType() == QT_INPUT_HIGHLEVEL )
     {
-        if( m_filteredObj )
-            removeEventFiltered(m_filteredObj);
+        if( !m_filteredObj.isNull() )
+            removeEventFiltered( m_filteredObj.data() );
         installEventFiltered(filteredObj);
     }
 

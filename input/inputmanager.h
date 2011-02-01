@@ -107,7 +107,7 @@ namespace GluonInput
 
             InputManagerPrivate* d;
 
-            QObject *m_filteredObj;
+            QWeakPointer<QObject> m_filteredObj;
             InputManagementType m_inputManagementType;
 
     };
