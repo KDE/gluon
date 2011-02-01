@@ -637,7 +637,10 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, GluonObject* obj
     }
     else
     {
-        DEBUG_TEXT( "Did not find child! Bailing out" );
+        DEBUG_TEXT( QString("Did not find child - bailing out! Was looking for object named %1 in object named %2")
+            .arg( lookingFor )
+            .arg( object->fullyQualifiedName() )
+        );
     }
 
     return foundChild;
@@ -656,26 +659,24 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
         if( propValue.startsWith( typeName + '(' ) )
         {
             QString propertyName = propName;
-            if( propertyName.contains( "_sanitizable" ) )
-            {
-                setProperty( propertyName.toUtf8(), QVariant() );
-                propertyName = propertyName.left( propertyName.lastIndexOf( "_sanitizable" ) );
-            }
-
             QString theReferencedName = propValue.mid( typeName.length() + 1, propValue.length() - ( typeName.length() + 2 ) );
-            QVariant theReferencedObject;
 
             GluonObject* theObject = root()->findItemByName( theReferencedName );
 
             if( !theObject )
             {
                 debug( QString( "Warning: Invalid reference for property %1 on object %2" ).arg( propertyName, name() ) );
+                debug( QString( "The search was conducted on %1 and the object searched for was %2").arg( root()->fullyQualifiedName() ).arg( theReferencedName ) );
                 continue;
             }
+            
+            if( propertyName.contains( "_sanitizable" ) )
+            {
+                setProperty( propertyName.toUtf8(), QVariant() );
+                propertyName = propertyName.left( propertyName.lastIndexOf( "_sanitizable" ) );
+            }
 
-            QMetaProperty property = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
-            theReferencedObject = GluonObjectFactory::instance()->wrapObject( QString( property.typeName() ), theObject );
-
+            QVariant theReferencedObject = GluonObjectFactory::instance()->wrapObject( typeName, theObject );
             setProperty( propertyName.toUtf8(), theReferencedObject );
             break;
         }
