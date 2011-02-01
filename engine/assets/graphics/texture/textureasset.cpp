@@ -109,6 +109,12 @@ void TextureAsset::setName( const QString& newName )
     GluonEngine::Asset::setName( newName );
 }
 
+GluonGraphics::Texture* TextureAsset::texture() const
+{
+    return GluonGraphics::Engine::instance()->texture( name() );
+}
+
+
 Q_EXPORT_PLUGIN2( gluon_asset_texture, GluonEngine::TextureAsset )
 
 #include "textureasset.moc"

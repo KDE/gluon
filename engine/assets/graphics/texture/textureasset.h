@@ -20,9 +20,12 @@
 #ifndef GLUON_ENGINE_TEXTUREASSET_H
 #define GLUON_ENGINE_TEXTUREASSET_H
 
-#include <gluon_engine_export.h>
-#include <asset.h>
+#include "gluon_engine_export.h"
+#include "asset.h"
 
+#include "graphics/texture.h"
+
+Q_DECLARE_METATYPE(GluonGraphics::Texture*);
 namespace GluonEngine
 {
     class GLUON_ASSET_TEXTURE_EXPORT TextureAsset : public Asset
@@ -30,6 +33,7 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::TextureAsset )
+            Q_PROPERTY(GluonGraphics::Texture* texture READ texture);
 
         public:
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );
@@ -44,6 +48,7 @@ namespace GluonEngine
 
             virtual void setName( const QString& newName );
 
+            virtual GluonGraphics::Texture* texture() const;
         private:
             class TextureAssetPrivate;
             TextureAssetPrivate* d;
