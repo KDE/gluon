@@ -52,5 +52,3 @@ bool GamesView::eventFilter( QObject* obj, QEvent* event )
 
     return QObject::eventFilter( obj, event );
 }
-
-#include "gamesview.moc"
