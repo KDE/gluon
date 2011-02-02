@@ -35,7 +35,7 @@ namespace GluonEngine
     {
         public:
             Private()
-                : engine(GluonCore::ScriptEngine::instance()->scriptEngine())
+                : engine(0)
             {
             }
 
@@ -73,6 +73,14 @@ QScriptSyntaxCheckResult
 ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 {
     DEBUG_BLOCK
+    
+    if(!d->engine)
+    {
+        d->engine = GluonCore::ScriptEngine::instance()->scriptEngine();
+        qScriptRegisterMetaType( d->engine, gameObjectToScriptValue, gameObjectFromScriptValue );
+        qScriptRegisterMetaType( d->engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
+    }
+    
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
     // Dumb...
@@ -192,6 +200,26 @@ QScriptEngine *
 ScriptingEngine::scriptEngine() const
 {
     return instance()->d->engine;
+}
+
+QScriptValue gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const& in )
+{
+    return engine->newQObject( in );
+}
+
+void gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject* &out )
+{
+    out = qobject_cast<GluonEngine::GameObject*>( object.toQObject() );
+}
+
+QScriptValue materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in )
+{
+    return engine->newQObject( in );
+}
+
+void materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out )
+{
+    out = qobject_cast<GluonGraphics::MaterialInstance*>( object.toQObject() );
 }
 
 #include "scriptingengine.moc"
