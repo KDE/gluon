@@ -29,6 +29,7 @@
 #include <KDE/KTextEdit>
 #include <KDE/KTabWidget>
 
+#include <QtGui/QResizeEvent>
 #include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
@@ -46,6 +47,7 @@ namespace GluonKDEExtPlayer {
 
         protected:
             virtual void closeEvent( QCloseEvent* event );
+            virtual void resizeEvent( QResizeEvent* event );
 
         public slots:
             void playGame();
@@ -71,7 +73,8 @@ namespace GluonKDEExtPlayer {
 
             KTabWidget* m_tabWidget;
             LoginForm* m_loginForm;
-
+            int m_viewportWidth;
+            int m_viewportHeight;
     };
 }
 
