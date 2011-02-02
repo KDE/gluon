@@ -93,9 +93,4 @@ namespace GluonEngine
     };
 }
 
-QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const& in );
-void GLUON_ENGINE_EXPORT gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject *&out );
-QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in );
-void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out );
-
 #endif // GLUONENGINE_SCRIPTINGENGINE_H

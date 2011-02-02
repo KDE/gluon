@@ -37,14 +37,6 @@ namespace GluonEngine
             Private()
                 : engine(GluonCore::ScriptEngine::instance()->scriptEngine())
             {
-                DEBUG_FUNC_NAME
-                qScriptRegisterMetaType( engine, gameObjectToScriptValue, gameObjectFromScriptValue );
-                qScriptRegisterMetaType( engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
-
-                QScriptValue extensionObject = engine->globalObject();
-
-                QScriptValue gameObjectClass = engine->scriptValueFromQMetaObject<GameObject>();
-                extensionObject.setProperty("GameObject", gameObjectClass);
             }
 
             QScriptEngine* engine;
@@ -200,36 +192,6 @@ QScriptEngine *
 ScriptingEngine::scriptEngine() const
 {
     return instance()->d->engine;
-}
-
-QScriptValue gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const& in )
-{
-    return engine->newQObject( in );
-}
-
-void gluonObjectFromScriptValue( const QScriptValue& object, GluonCore::GluonObject* &out )
-{
-    out = qobject_cast<GluonCore::GluonObject*>( object.toQObject() );
-}
-
-QScriptValue gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const& in )
-{
-    return engine->newQObject( in );
-}
-
-void gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject* &out )
-{
-    out = qobject_cast<GluonEngine::GameObject*>( object.toQObject() );
-}
-
-QScriptValue materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in )
-{
-    return engine->newQObject( in );
-}
-
-void materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out )
-{
-    out = qobject_cast<GluonGraphics::MaterialInstance*>( object.toQObject() );
 }
 
 #include "scriptingengine.moc"
