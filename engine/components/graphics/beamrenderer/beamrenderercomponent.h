@@ -35,7 +35,7 @@ namespace GluonEngine
     class GLUON_COMPONENT_BEAMRENDERER_EXPORT BeamRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::SpriteRendererComponent )
+            GLUON_OBJECT( GluonEngine::BeamRendererComponent )
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonGraphics::MaterialInstance* baseMaterial READ baseMaterial WRITE setBaseMaterial )
             Q_PROPERTY( GluonGraphics::MaterialInstance* beamMaterial READ beamMaterial WRITE setBeamMaterial )
