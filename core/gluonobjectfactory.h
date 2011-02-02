@@ -214,11 +214,11 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
     {\
         return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE *>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
     }\
-    QScriptValue objectToScriptValue( QScriptEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
+    QScriptValue NAMESPACE::NEWOBJECTTYPE::objectToScriptValue( QScriptEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
     {\
         return engine->newQObject( in );\
     }\
-    void objectFromScriptValue( const QScriptValue& object, NAMESPACE :: NEWOBJECTTYPE* &out )\
+    void NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue( const QScriptValue& object, NAMESPACE :: NEWOBJECTTYPE* &out )\
     {\
         out = qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>( object.toQObject() );\
     }\
