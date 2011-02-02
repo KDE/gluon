@@ -23,7 +23,6 @@
 
 #include "gluon_core_export.h"
 #include "singleton.h"
-#include "gluonobject.h"
 
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
@@ -34,6 +33,13 @@ namespace GluonCore
     {
         Q_OBJECT
         public:
+            template<class T>
+            void registerObjectType()
+            {
+                QScriptEngine* engine = instance()->scriptEngine();
+                QScriptValue objectClass = engine->scriptValueFromQMetaObject<T>();
+                engine->globalObject().setProperty(T::staticMetaObject.className(), objectClass);
+            }
             QScriptEngine* scriptEngine() const;
             
         private:
@@ -48,8 +54,5 @@ namespace GluonCore
             Private* d;
     };
 }
-
-QScriptValue GLUON_CORE_EXPORT gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const& in );
-void GLUON_CORE_EXPORT gluonObjectFromScriptValue( const QScriptValue& object, GluonCore::GluonObject*& out );
 
 #endif // GLUONCORE_SCRIPTENGINE_H

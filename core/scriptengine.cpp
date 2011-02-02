@@ -24,37 +24,55 @@
 
 #include <QScriptEngine>
 
+void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
+namespace GluonCore
+{
+    class ScriptEngine::Private
+    {
+        public:
+            Private()
+                : engine(new QScriptEngine())
+            {
+                DEBUG_FUNC_NAME
+                DEBUG_TEXT2( "Available extensions: %1", engine->availableExtensions().join( ", " ) );
+                engine->importExtension( "jsmoke.qtcore" );
+                engine->importExtension( "jsmoke.qtgui" );
+                engine->importExtension( "jsmoke.qtopengl" );
+                DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
+
+                QScriptValue extensionObject = engine->globalObject();
+                qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
+
+                QScriptValue objectFactory = engine->newQObject( GluonObjectFactory::instance());
+                extensionObject.setProperty("ObjectFactory", objectFactory );
+            }
+            ~Private()
+            {
+                delete(engine);;
+            }
+            
+            QScriptEngine* engine;
+    };
+}
+
 using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON(ScriptEngine)
 
-void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
-class ScriptEngine::Private
+ScriptEngine::ScriptEngine(QObject* parent)
+    : d(new Private())
 {
-    public:
-        Private()
-            : engine(new QScriptEngine())
-        {
-            DEBUG_FUNC_NAME
-            DEBUG_TEXT2( "Available extensions: %1", engine->availableExtensions().join( ", " ) );
-            engine->importExtension( "jsmoke.qtcore" );
-            engine->importExtension( "jsmoke.qtgui" );
-            engine->importExtension( "jsmoke.qtopengl" );
-            DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
+    Q_UNUSED(parent)
+}
 
-            qScriptRegisterMetaType( engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
+ScriptEngine::~ScriptEngine()
+{
+    delete(d);
+}
 
-            QScriptValue extensionObject = engine->globalObject();
-            qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
+QScriptEngine* ScriptEngine::scriptEngine() const
+{
+    return d->engine;
+}
 
-            QScriptValue objectFactory = engine->newQObject( GluonObjectFactory::instance());
-            extensionObject.setProperty("ObjectFactory", objectFactory );
-        }
-        ~Private()
-        {
-            delete(engine);;
-        }
-        
-        QScriptEngine* engine;
-};
-
+#include "scriptengine.moc"
