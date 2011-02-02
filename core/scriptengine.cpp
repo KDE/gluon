@@ -31,26 +31,11 @@ namespace GluonCore
     {
         public:
             Private()
-                : engine(new QScriptEngine())
-            {
-                DEBUG_FUNC_NAME
-                DEBUG_TEXT2( "Available extensions: %1", engine->availableExtensions().join( ", " ) );
-                engine->importExtension( "jsmoke.qtcore" );
-                engine->importExtension( "jsmoke.qtgui" );
-                engine->importExtension( "jsmoke.qtopengl" );
-                DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
-
-                QScriptValue extensionObject = engine->globalObject();
-                qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
-
-                QScriptValue objectFactory = engine->newQObject( GluonObjectFactory::instance());
-                extensionObject.setProperty("ObjectFactory", objectFactory );
-            }
+                : engine(0)
+            {}
             ~Private()
-            {
-                delete(engine);;
-            }
-            
+            {}
+
             QScriptEngine* engine;
     };
 }
@@ -70,8 +55,24 @@ ScriptEngine::~ScriptEngine()
     delete(d);
 }
 
-QScriptEngine* ScriptEngine::scriptEngine() const
+QScriptEngine* ScriptEngine::scriptEngine()
 {
+    DEBUG_BLOCK
+    if(QCoreApplication::instance() && !d->engine)
+    {
+        d->engine = new QScriptEngine(this);
+        DEBUG_TEXT2( "Available extensions: %1", d->engine->availableExtensions().join( ", " ) );
+        d->engine->importExtension( "jsmoke.qtcore" );
+        d->engine->importExtension( "jsmoke.qtgui" );
+        d->engine->importExtension( "jsmoke.qtopengl" );
+        DEBUG_TEXT2( "Imported extensions: %1", d->engine->importedExtensions().join( ", " ) );
+
+        QScriptValue extensionObject = d->engine->globalObject();
+        qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
+
+        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance());
+        extensionObject.setProperty("ObjectFactory", objectFactory );
+    }
     return d->engine;
 }
 

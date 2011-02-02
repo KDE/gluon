@@ -26,6 +26,7 @@
 
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
+#include <QCoreApplication>
 
 namespace GluonCore
 {
@@ -37,10 +38,13 @@ namespace GluonCore
             void registerObjectType()
             {
                 QScriptEngine* engine = instance()->scriptEngine();
-                QScriptValue objectClass = engine->scriptValueFromQMetaObject<T>();
-                engine->globalObject().setProperty(T::staticMetaObject.className(), objectClass);
+                if(engine)
+                {
+                    QScriptValue objectClass = engine->scriptValueFromQMetaObject<T>();
+                    engine->globalObject().setProperty(T::staticMetaObject.className(), objectClass);
+                }
             }
-            QScriptEngine* scriptEngine() const;
+            QScriptEngine* scriptEngine();
             
         private:
             friend class Singleton<ScriptEngine>;
