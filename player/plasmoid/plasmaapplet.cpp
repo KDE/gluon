@@ -31,7 +31,6 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/item.h>
-#include <graphics/camera.h>
 #include <graphics/engine.h>
 #include <models/gamesmodel.h>
 
@@ -48,7 +47,6 @@ PlasmaApplet::PlasmaApplet( QObject* parent, const QVariantList& args )
     , m_viewportWidth( 0 )
     , m_viewportHeight( 0 )
     , m_project( 0 )
-    , m_camera( 0 )
     , m_gamesOverlay( 0 )
     , m_gameDetailsOverlay( 0 )
 {
@@ -123,9 +121,6 @@ void PlasmaApplet::startGame()
 void PlasmaApplet::initGL()
 {
     Engine::instance()->initialize();
-    m_camera = Engine::instance()->activeCamera();
-    connect( Engine::instance(), SIGNAL( activeCameraChanged( GluonGraphics::Camera* ) ),
-             SLOT( setCamera( GluonGraphics::Camera* ) ) );
 
     glClearColor( 0.0, 0.0, 0.0, 1.0 );
     glShadeModel( GL_SMOOTH );
@@ -180,11 +175,6 @@ void PlasmaApplet::showGameDetails( const QModelIndex& index )
     m_gameDetailsOverlay->show();
     m_layout->addItem( m_gameDetailsOverlay );
     connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
-}
-
-void PlasmaApplet::setCamera( Camera* camera )
-{
-    m_camera = camera;
 }
 
 void PlasmaApplet::render()

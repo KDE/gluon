@@ -36,11 +36,6 @@ namespace GluonEngine
     class GameProject;
 }
 
-namespace GluonGraphics
-{
-    class Camera;
-}
-
 class GamesOverlay;
 class GameDetailsOverlay;
 
@@ -63,7 +58,6 @@ namespace GluonPlayer
             int m_viewportHeight;
             QString m_gameFileName;
             GluonEngine::GameProject* m_project;
-            GluonGraphics::Camera* m_camera;
             GamesModel* m_gamesModel;
             GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
@@ -82,7 +76,6 @@ namespace GluonPlayer
             void startGame();
             void showGames();
             void showGameDetails( const QModelIndex& index );
-            void setCamera( GluonGraphics::Camera* camera );
     };
 }
 
