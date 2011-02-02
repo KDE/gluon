@@ -20,7 +20,7 @@
 #ifndef GLUONGRAPHICS_MATERIALINSTANCE_H
 #define GLUONGRAPHICS_MATERIALINSTANCE_H
 
-#include <core/gluonobject.h>
+#include "core/gluonobject.h"
 #include "gluon_graphics_export.h"
 
 namespace GluonGraphics
