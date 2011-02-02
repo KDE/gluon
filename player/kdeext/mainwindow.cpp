@@ -72,6 +72,7 @@ MainWindow::MainWindow(const QString& filename )
     , d( new MainWindowPrivate )
     , m_tabWidget( new KTabWidget )
     , m_loginForm( new LoginForm )
+    , m_gamesModel( new GluonPlayer::GamesModel( this ) )
 {
     setCentralWidget( m_loginForm );
     setupActions();
@@ -249,5 +250,17 @@ void MainWindow::resizeEvent( QResizeEvent* event )
     m_viewportWidth = event->size().width();
     m_viewportHeight = event->size().height();
     glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
+}
+
+void MainWindow::initGL()
+{
+    GluonGraphics::Engine::instance()->initialize();
+
+    glClearColor( 0.0, 0.0, 0.0, 1.0 );
+    glShadeModel( GL_SMOOTH );
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_BLEND );
+    glEnable( GL_SCISSOR_TEST );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 }
 

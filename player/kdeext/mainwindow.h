@@ -22,7 +22,12 @@
 
 #include "loginform.h"
 
+#include "gamesoverlay.h"
+#include "gamedetailsoverlay.h"
+
+#include <models/gamesmodel.h>
 #include <core/gluon_global.h>
+#include <graphics/engine.h>
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KApplication>
@@ -67,12 +72,17 @@ namespace GluonKDEExtPlayer {
 
         private:
             void setupActions();
+            void initGL();
 
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
+            QString m_gameFileName;
             KTabWidget* m_tabWidget;
             LoginForm* m_loginForm;
+            GluonPlayer::GamesModel* m_gamesModel;
+            GamesOverlay* m_gamesOverlay;
+            GameDetailsOverlay* m_gameDetailsOverlay;
             int m_viewportWidth;
             int m_viewportHeight;
     };
