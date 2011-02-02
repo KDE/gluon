@@ -48,7 +48,7 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT( MaterialInstance )
+            GLUON_OBJECT( GluonGraphics::MaterialInstance )
 
         public:
             /**

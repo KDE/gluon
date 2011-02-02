@@ -41,7 +41,7 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT Technique : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT( Technique )
+            GLUON_OBJECT( GluonGraphics::Technique )
 
         public:
             Technique( QObject* parent = 0 );

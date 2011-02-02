@@ -29,7 +29,7 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT MaterialElement : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT( MaterialElement )
+            GLUON_OBJECT( GluonGraphics::MaterialElement )
 
         public:
             MaterialElement( QObject* parent = 0 );
