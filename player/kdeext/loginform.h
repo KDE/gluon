@@ -27,6 +27,7 @@
 
 #include <KDE/KLineEdit>
 #include <KDE/KPushButton>
+
 #include <QtGui/QLabel>
 #include <QtGui/QCheckBox>
 
@@ -40,6 +41,7 @@ class LoginForm : public Overlay
     protected slots:
         void doLogin();
         void loginDone();
+        void logoutDone();
         void loginFailed();
         void initDone();
         void initFailed();

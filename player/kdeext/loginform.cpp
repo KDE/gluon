@@ -43,7 +43,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     m_passwordLabel->setText( i18n( "Password" ) );
     m_loginButton->setIcon( KIcon( "network-connect" ) );
     m_loginButton->setText( i18n( "Login" ) );
-    m_loginButton->setEnabled( false );
+    m_loginButton->setEnabled( true );
 
     m_passwordEdit->setEchoMode( QLineEdit::Password );
     m_passwordEdit->setPasswordMode( true );
@@ -52,18 +52,19 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_contentLayout = static_cast<QGridLayout*>( layout() );
 
-    m_contentLayout->addWidget( m_usernameLabel, 0, 0 );
-    m_contentLayout->addWidget( m_usernameEdit, 0, 1 );
-    m_contentLayout->addWidget( m_passwordLabel, 1, 0 );
-    m_contentLayout->addWidget( m_passwordEdit, 1, 1 );
-    m_contentLayout->addWidget( m_loginButton, 2, 0 );
-    m_contentLayout->addWidget( m_rememberMeCheckBox, 2, 1 );
-    m_contentLayout->addWidget( m_usernameFeedbackLabel, 3, 0, 1, 2 );
+    m_contentLayout->addWidget( m_usernameLabel, 0, 0, 1, 2 );
+    m_contentLayout->addWidget( m_usernameEdit, 1, 0, 1, 2 );
+    m_contentLayout->addWidget( m_passwordLabel, 2, 0, 1, 2 );
+    m_contentLayout->addWidget( m_passwordEdit, 3, 0, 1, 2 );
+    m_contentLayout->addWidget( m_loginButton, 4, 0 );
+    m_contentLayout->addWidget( m_rememberMeCheckBox, 4, 1 );
+    m_contentLayout->addWidget( m_usernameFeedbackLabel, 5, 0, 1, 2 );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initFailed() ), SLOT( initFailed() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( loggedIn() ), SLOT( loginDone() ) );
+    connect( GluonPlayer::Authentication::instance(), SIGNAL( loggedOut() ), SLOT( logoutDone() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
 
     initialize();
@@ -103,6 +104,14 @@ void LoginForm::loginDone()
     m_usernameFeedbackLabel->setText(
         i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username() ) );
     m_loginButton->setEnabled( true );
+    m_loginButton->setText( "Logout" );
+}
+
+void LoginForm::logoutDone()
+{
+    m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
+    m_loginButton->setEnabled( true );
+    m_loginButton->setText( "Login" );
 }
 
 void LoginForm::loginFailed()
