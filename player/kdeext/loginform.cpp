@@ -110,9 +110,9 @@ void LoginForm::doLogout()
     if( m_loggedIn == false)
         return;
     m_loginButton->setEnabled( false );
+    m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
     GluonPlayer::Authentication::instance()->logout( );
     // Note: the login result should be checked
-    m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
 }
 
 void LoginForm::loginDone()
@@ -120,7 +120,7 @@ void LoginForm::loginDone()
     m_usernameFeedbackLabel->setText(
         i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username() ) );
     m_loginButton->setEnabled( true );
-    m_loginButton->setText( "Logout" );
+    m_loginButton->setText( i18n( "Logout" ) );
     m_loggedIn = true;
 }
 
@@ -128,7 +128,7 @@ void LoginForm::logoutDone()
 {
     m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
     m_loginButton->setEnabled( true );
-    m_loginButton->setText( "Login" );
+    m_loginButton->setText( i18n( "Login" ) );
     m_loggedIn = false;
 }
 
@@ -143,5 +143,3 @@ void LoginForm::loadCredentials()
     m_usernameEdit->setText( GluonPlayer::Authentication::instance()->username() );
     m_passwordEdit->setText( GluonPlayer::Authentication::instance()->password() );
 }
-
-#include "loginform.moc"
