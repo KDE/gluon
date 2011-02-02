@@ -73,5 +73,3 @@ void NewCommentForm::validateAndSubmit()
     }
     emit accepted( m_parentIndex, m_titleEdit->text(), m_bodyEdit->toPlainText() );
 }
-
-#include "newcommentform.moc"

@@ -36,7 +36,17 @@ class LoginForm : public Overlay
     public:
         explicit LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
+    protected slots:
+        void doLogin();
+        void loginDone();
+        void loginFailed();
+        void initDone();
+        void initFailed();
+        void loadCredentials();
+
     private:
+        void initialize();
+
         QLabel* m_usernameLabel;
         KLineEdit* m_usernameEdit;
         QLabel* m_passwordLabel;
@@ -45,16 +55,6 @@ class LoginForm : public Overlay
         QLabel* m_usernameFeedbackLabel;
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
-
-        void initialize();
-
-    protected slots:
-        void doLogin();
-        void loginDone();
-        void loginFailed();
-        void initDone();
-        void initFailed();
-        void loadCredentials();
 };
 
 #endif // LOGINFORM_H

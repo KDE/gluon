@@ -46,5 +46,3 @@ GamesView* GamesOverlay::gamesView()
 {
     return m_gamesView;
 }
-
-#include "gamesoverlay.moc"

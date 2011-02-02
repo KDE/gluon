@@ -21,42 +21,44 @@
 
 #include <player/lib/authentication.h>
 
-#include <KLineEdit>
-#include <KPushButton>
-#include <KLocale>
-#include <KLocalizedString>
-#include <KDebug>
+#include <KDE/KLineEdit>
+#include <KDE/KPushButton>
+#include <KDE/KLocale>
+#include <KDE/KLocalizedString>
+#include <KDE/KDebug>
 
 #include <attica/provider.h>
 
-#include <QLabel>
-#include <QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
 
 LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
-    , m_usernameLabel( new QLabel( i18n( "Username" ) ) )
+    , m_usernameLabel( new QLabel( this ) )
     , m_usernameEdit( new KLineEdit( this ) )
-    , m_passwordLabel( new QLabel( i18n( "Password" ) ) )
+    , m_passwordLabel( new QLabel( this ) )
     , m_passwordEdit( new KLineEdit( this ) )
     , m_loginButton( new KPushButton( this ) )
     , m_usernameFeedbackLabel( new QLabel( this ) )
 {
-    m_passwordEdit->setPasswordMode( true );
+    m_usernameLabel->setText( i18n( "Username" ) );
+    m_passwordLabel->setText( i18n( "Password" ) );
+    // m_passwordEdit->setPasswordMode( true );
     m_loginButton->setIcon( KIcon( "network-connect" ) );
     m_loginButton->setText( i18n( "Login" ) );
     m_loginButton->setEnabled( false );
 
-    m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
+    // m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
 
-    QGridLayout* layout1 = new QGridLayout( );
-    // layout1->addItem( m_usernameFeedbackLabel );
+    QGridLayout* layout1 = static_cast<QGridLayout*>( layout() );
+    // layout1->addWidget( m_usernameFeedbackLabel );
 
-    // m_contentLayout->addItem( layout1 );
-    // m_contentLayout->addItem( m_usernameLabel );
-    // m_contentLayout->addItem( m_usernameEdit );
-    // m_contentLayout->addItem( m_passwordLabel )
-    // m_contentLayout->addItem( m_passwordEdit );
-    // m_contentLayout->addItem( m_loginButton );
+    m_contentLayout->addLayout( layout1, 0, 0 );
+    m_contentLayout->addWidget( m_usernameLabel, 0, 1 );
+    m_contentLayout->addWidget( m_usernameEdit, 1, 0 );
+    m_contentLayout->addWidget( m_passwordLabel, 1, 1 );
+    m_contentLayout->addWidget( m_passwordEdit, 2, 0 );
+    m_contentLayout->addWidget( m_loginButton, 2, 1 );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );
@@ -80,7 +82,7 @@ void LoginForm::initDone()
 
 void LoginForm::initFailed()
 {
-    kDebug() << "Initialization failed";
+    qDebug() << "Initialization failed";
 }
 
 void LoginForm::doLogin()

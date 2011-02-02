@@ -19,8 +19,8 @@
 
 #include "overlay.h"
 
-#include <QAbstractItemModel>
-#include <QPainter>
+#include <QtGui/QPainter>
+#include <QtCore/QAbstractItemModel>
 
 Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
@@ -34,23 +34,22 @@ Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
 
     // m_scrollWidget->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     QGridLayout* layout = new QGridLayout( );
-    layout->addWidget( m_scrollWidget );
+    // layout->addWidget( m_scrollWidget );
     setLayout( layout );
     setContentsMargins( 10, 15, 10, 15 );
 
     m_contentWidget->setLayout( m_contentLayout );
-    // m_scrollWidget->setWidget( m_contentWidget );
 }
 
-// void Overlay::keyPressEvent( QKeyEvent* event )
-// {
-    // QGraphicsItem::keyPressEvent( event );
-// }
+void Overlay::keyPressEvent( QKeyEvent* event )
+{
+    QWidget::keyPressEvent( event );
+}
 
-// void Overlay::wheelEvent( QGraphicsSceneWheelEvent* event )
-// {
-    // QGraphicsItem::wheelEvent( event );
-// }
+void Overlay::wheelEvent( QWheelEvent* event )
+{
+    QWidget::wheelEvent( event );
+}
 
 // void Overlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 // {
@@ -59,9 +58,7 @@ Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
     // m_background->paintFrame( painter );
 // }
 
-// void Overlay::resizeEvent( QGraphicsSceneResizeEvent* event )
-// {
+void Overlay::resizeEvent( QResizeEvent* event )
+{
     // m_background->resizeFrame( event->newSize() );
-// }
-
-#include "overlay.moc"
+}

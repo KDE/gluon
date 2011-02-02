@@ -20,13 +20,15 @@
 #ifndef GLUONKDEPLAYER_MAINWINDOW_H
 #define GLUONKDEPLAYER_MAINWINDOW_H
 
+#include "loginform.h"
+
 #include <core/gluon_global.h>
 
-#include <KXmlGuiWindow>
-#include <KApplication>
-#include <KTextEdit>
+#include <KDE/KXmlGuiWindow>
+#include <KDE/KApplication>
+#include <KDE/KTextEdit>
 
-#include <QModelIndex>
+#include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
 
@@ -60,10 +62,10 @@ namespace GluonKDEExtPlayer {
         private:
             void setupActions();
 
-            KTextEdit* textArea;
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
+            LoginForm* loginForm;
     };
 }
 

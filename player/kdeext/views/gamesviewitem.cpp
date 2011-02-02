@@ -91,5 +91,3 @@ void GamesViewItem::mousePressEvent( QMouseEvent* event )
     Q_UNUSED( event );
     emit gameSelected( m_index );
 }
-
-#include "gamesviewitem.moc"
