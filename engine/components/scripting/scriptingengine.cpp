@@ -24,39 +24,27 @@
 #include "graphics/materialinstance.h"
 
 #include "core/gluonobjectfactory.h"
+#include "core/scriptengine.h"
 
 #include <QtScript>
 // #include <QScriptEngineDebugger>
 
-void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
 namespace GluonEngine
 {
     class ScriptingEngine::Private
     {
         public:
             Private()
-                : engine(new QScriptEngine())
+                : engine(GluonCore::ScriptEngine::instance()->scriptEngine())
             {
                 DEBUG_FUNC_NAME
-                DEBUG_TEXT2( "Available extensions: %1", engine->availableExtensions().join( ", " ) );
-                engine->importExtension( "jsmoke.qtcore" );
-                engine->importExtension( "jsmoke.qtgui" );
-                engine->importExtension( "jsmoke.qtopengl" );
-
-                qScriptRegisterMetaType( engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, gameObjectToScriptValue, gameObjectFromScriptValue );
                 qScriptRegisterMetaType( engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
 
-                QScriptValue gameObjectClass = engine->scriptValueFromQMetaObject<GameObject>();
-                engine->globalObject().setProperty("GameObject", gameObjectClass);
-
-                QScriptValue objectFactory = engine->newQObject( GluonCore::GluonObjectFactory::instance());
-                engine->globalObject().setProperty("ObjectFactory", objectFactory );
-
-                DEBUG_TEXT2( "Imported extensions: %1", engine->importedExtensions().join( ", " ) );
-
                 QScriptValue extensionObject = engine->globalObject();
-                qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
+
+                QScriptValue gameObjectClass = engine->scriptValueFromQMetaObject<GameObject>();
+                extensionObject.setProperty("GameObject", gameObjectClass);
             }
 
             QScriptEngine* engine;

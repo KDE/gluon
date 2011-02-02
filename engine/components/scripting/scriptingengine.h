@@ -23,7 +23,7 @@
 #include "gluon_engine_export.h"
 #include "gameobject.h"
 
-#include <core/singleton.h>
+#include "core/singleton.h"
 
 #include <QScriptValue>
 #include <QScriptEngine>
@@ -95,10 +95,7 @@ namespace GluonEngine
 
 QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue( QScriptEngine* engine, GluonEngine::GameObject* const& in );
 void GLUON_ENGINE_EXPORT gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject *&out );
-QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue( QScriptEngine* engine, GluonCore::GluonObject* const& in );
-void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue( const QScriptValue& object, GluonCore::GluonObject*& out );
 QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue( QScriptEngine* engine, GluonGraphics::MaterialInstance* const& in );
 void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue( const QScriptValue& object, GluonGraphics::MaterialInstance* &out );
-
 
 #endif // GLUONENGINE_SCRIPTINGENGINE_H

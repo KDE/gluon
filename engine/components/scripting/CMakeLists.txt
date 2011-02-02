@@ -7,13 +7,6 @@ set(scriptingcomponent_SRCS
  scriptingasset.cpp
  scriptingcomponent.cpp
  scriptingcomponentprivate.cpp
-    
-    bindings/com_trolltech_qt_gui_init.cpp
-    bindings/qtscript_QVector2D.cpp
-    bindings/qtscript_QVector3D.cpp
-    bindings/qtscript_QVector4D.cpp
-    bindings/qtscript_QColor.cpp
-    bindings/qtscript_QQuaternion.cpp
 )
 
 qt4_automoc(${scriptingcomponent_SRCS})

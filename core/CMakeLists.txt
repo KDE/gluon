@@ -47,6 +47,14 @@ set(GluonCore_SRCS
     gluonobject.cpp
     gluonobjectfactory.cpp
     gluonobjectprivate.cpp
+    scriptengine.cpp
+
+    bindings/com_trolltech_qt_gui_init.cpp
+    bindings/qtscript_QVector2D.cpp
+    bindings/qtscript_QVector3D.cpp
+    bindings/qtscript_QVector4D.cpp
+    bindings/qtscript_QColor.cpp
+    bindings/qtscript_QQuaternion.cpp
 )
 
 set(GluonCore_HEADERS
@@ -58,6 +66,7 @@ set(GluonCore_HEADERS
     gluonobjectfactory.h
     gluonobjectprivate.h
     singleton.h
+    scriptengine.h
     gluon_core_export.h
 	gluonvarianttypes.h
 	
