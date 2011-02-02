@@ -347,6 +347,5 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::GameObject )
 Q_DECLARE_METATYPE( GluonEngine::GameObject* )
-Q_SCRIPT_DECLARE_QMETAOBJECT( GluonEngine::GameObject, QObject* );
 
 #endif  // GLUON_ENGINE_GAMEOBJECT_H

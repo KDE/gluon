@@ -21,7 +21,6 @@
 
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
-#include "graphics/materialinstance.h"
 
 #include "core/gluonobjectfactory.h"
 #include "core/scriptengine.h"
@@ -75,11 +74,7 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     DEBUG_BLOCK
     
     if(!d->engine)
-    {
         d->engine = GluonCore::ScriptEngine::instance()->scriptEngine();
-        qScriptRegisterMetaType( d->engine, GluonEngine::GameObject::objectToScriptValue, GluonEngine::GameObject::objectFromScriptValue );
-        qScriptRegisterMetaType( d->engine, GluonGraphics::MaterialInstance::objectToScriptValue, GluonGraphics::MaterialInstance::objectFromScriptValue );
-    }
     
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
