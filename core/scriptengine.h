@@ -34,17 +34,6 @@ namespace GluonCore
     {
         Q_OBJECT
         public:
-            template<class T>
-            void registerObjectType()
-            {
-                QScriptEngine* engine = instance()->scriptEngine();
-                if(engine)
-                {
-                    QScriptValue objectClass = engine->scriptValueFromQMetaObject<T>();
-                    engine->globalObject().setProperty(T::staticMetaObject.className(), objectClass);
-                    qScriptRegisterMetaType( engine, T::objectToScriptValue, T::objectFromScriptValue );
-                }
-            }
             QScriptEngine* scriptEngine();
             
         private:
