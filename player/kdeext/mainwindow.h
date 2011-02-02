@@ -24,6 +24,7 @@
 
 #include "gamesoverlay.h"
 #include "gamedetailsoverlay.h"
+#include "views/gamesview.h"
 
 #include <models/gamesmodel.h>
 #include <core/gluon_global.h>
@@ -36,6 +37,7 @@
 #include <KDE/KTabWidget>
 
 #include <QtGui/QResizeEvent>
+#include <QtGui/QGridLayout>
 #include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
@@ -72,6 +74,8 @@ namespace GluonKDEExtPlayer {
             void mForgottenPassword();
             void openProject();
             void setProject( const QModelIndex& index );
+            void showGames();
+            void showGameDetails( const QModelIndex& index );
 
         private:
             void setupActions();
@@ -79,6 +83,7 @@ namespace GluonKDEExtPlayer {
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
+            QGridLayout* m_layout;
             QString m_gameFileName;
             KTabWidget* m_tabWidget;
             LoginForm* m_loginForm;
@@ -86,6 +91,7 @@ namespace GluonKDEExtPlayer {
             GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
             GluonEngine::GameProject* m_project;
+
             int m_viewportWidth;
             int m_viewportHeight;
     };

@@ -69,10 +69,11 @@ class MainWindow::MainWindowPrivate
 MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
+    , m_layout( new QGridLayout )
     , m_tabWidget( new KTabWidget )
     , m_loginForm( new LoginForm )
     , m_gamesModel( new GluonPlayer::GamesModel( this ) )
-    , m_project( new GluonEngine::GameProject() )
+    , m_project( new GluonEngine::GameProject )
 {
     setCentralWidget( m_loginForm );
     setupActions();
@@ -250,6 +251,46 @@ void MainWindow::resizeEvent( QResizeEvent* event )
     m_viewportWidth = event->size().width();
     m_viewportHeight = event->size().height();
     glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
+}
+
+void MainWindow::showGames()
+{
+    if( !m_gamesOverlay )
+    {
+        m_gamesOverlay = new GamesOverlay( this );
+        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+        m_gamesOverlay->setGeometry( geometry() );
+        connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
+        connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
+    }
+
+    if( m_gameDetailsOverlay )
+    {
+        m_gameDetailsOverlay->hide();
+        m_layout->removeWidget( m_gameDetailsOverlay );
+        m_gameDetailsOverlay->deleteLater();
+        m_gameDetailsOverlay = 0;
+    }
+
+    m_layout->addWidget( m_gamesOverlay );
+    m_gamesOverlay->show();
+}
+
+void MainWindow::showGameDetails( const QModelIndex& index )
+{
+    QString id = index.sibling( index.row(), GluonPlayer::GamesModel::IdColumn ).data().toString();
+    if( id.isEmpty() )
+    {
+        return;
+    }
+
+    //TODO: the game details should be according to the game selected
+    m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
+    m_gamesOverlay->hide();
+    m_layout->removeWidget( m_gamesOverlay );
+    m_gameDetailsOverlay->show();
+    m_layout->addWidget( m_gameDetailsOverlay );
+    connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }
 
 void MainWindow::setProject( const QModelIndex& index )
