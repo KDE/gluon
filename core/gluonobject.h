@@ -28,6 +28,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
+#include <QtScript/QScriptValue>
 
 Q_DECLARE_METATYPE( QList<QUrl> )
 
@@ -57,6 +58,8 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
     virtual GluonCore::GluonObject* instantiate();\
     virtual GluonCore::GluonObject* fromVariant(const QVariant &wrappedObject);\
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
+    QScriptValue objectToScriptValue( QScriptEngine* engine, CLASSNAME* const& in );\
+    void objectFromScriptValue( const QScriptValue& object, CLASSNAME*& out );\
     private:
 
 namespace GluonCore

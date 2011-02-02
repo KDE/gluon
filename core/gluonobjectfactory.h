@@ -19,6 +19,7 @@
 #ifndef GLUON_CORE_GLUONOBJECTFACTORY_H
 #define GLUON_CORE_GLUONOBJECTFACTORY_H
 
+#include "scriptengine.h"
 #include "singleton.h"
 #include "gluon_core_export.h"
 #include "debughelper.h"
@@ -169,6 +170,7 @@ class GluonObjectRegistration
         GluonObjectRegistration()
         {
             GluonCore::GluonObjectFactory::instance()->registerObjectType<T>();
+            GluonCore::ScriptEngine::instance()->registerObjectType<T>();
         }
 };
 
@@ -211,6 +213,14 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
     NAMESPACE::NEWOBJECTTYPE::toVariant(GluonCore::GluonObject *wrapThis)\
     {\
         return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE *>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
+    }\
+    QScriptValue objectToScriptValue( QScriptEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
+    {\
+        return engine->newQObject( in );\
+    }\
+    void objectFromScriptValue( const QScriptValue& object, NAMESPACE :: NEWOBJECTTYPE* &out )\
+    {\
+        out = qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>( object.toQObject() );\
     }\
 
 //Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
