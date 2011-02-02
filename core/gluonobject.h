@@ -60,6 +60,7 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
     static QScriptValue objectToScriptValue( QScriptEngine* engine, CLASSNAME* const& in );\
     static void objectFromScriptValue( const QScriptValue& object, CLASSNAME*& out );\
+    virtual void registerOnScriptEngine(QScriptEngine* engine) const;\
     private:
 
 namespace GluonCore
