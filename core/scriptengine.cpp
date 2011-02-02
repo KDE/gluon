@@ -90,4 +90,13 @@ QScriptEngine* ScriptEngine::scriptEngine()
     return d->engine;
 }
 
+void ScriptEngine::resetEngine()
+{
+    if(d->engine)
+    {
+        delete(d->engine);
+        d->engine = 0;
+    }
+}
+
 #include "scriptengine.moc"

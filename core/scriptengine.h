@@ -35,6 +35,7 @@ namespace GluonCore
         Q_OBJECT
         public:
             QScriptEngine* scriptEngine();
+            void resetEngine();
             
         private:
             friend class Singleton<ScriptEngine>;
