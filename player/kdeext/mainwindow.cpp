@@ -70,14 +70,14 @@ MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
     , m_layout( new QGridLayout )
-    , m_tabWidget( new KTabWidget )
-    , m_loginForm( new LoginForm )
     , m_gamesModel( new GluonPlayer::GamesModel( this ) )
+    , m_gamesOverlay( new GamesOverlay( this ) )
     , m_project( new GluonEngine::GameProject )
 {
-    setCentralWidget( m_loginForm );
+    setCentralWidget( m_gamesOverlay );
     setupActions();
     setupGUI();
+    showGames();
 }
 
 MainWindow::~MainWindow ( )
