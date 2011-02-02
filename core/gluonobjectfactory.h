@@ -19,7 +19,6 @@
 #ifndef GLUON_CORE_GLUONOBJECTFACTORY_H
 #define GLUON_CORE_GLUONOBJECTFACTORY_H
 
-#include "scriptengine.h"
 #include "singleton.h"
 #include "gluon_core_export.h"
 #include "debughelper.h"
@@ -28,6 +27,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaType>
 #include <QtCore/QStringList>
+#include <QtScript/QScriptEngine>
 
 namespace GluonCore
 {
@@ -170,7 +170,6 @@ class GluonObjectRegistration
         GluonObjectRegistration()
         {
             GluonCore::GluonObjectFactory::instance()->registerObjectType<T>();
-            GluonCore::ScriptEngine::instance()->registerObjectType<T>();
         }
 };
 
@@ -222,6 +221,12 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
     {\
         out = qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>( object.toQObject() );\
     }\
+    void NAMESPACE::NEWOBJECTTYPE::registerOnScriptEngine( QScriptEngine* engine ) const\
+    {\
+        QScriptValue objectClass = engine->scriptValueFromQMetaObject<NAMESPACE :: NEWOBJECTTYPE>();\
+        engine->globalObject().setProperty(NAMESPACE :: NEWOBJECTTYPE::staticMetaObject.className(), objectClass);\
+        qScriptRegisterMetaType( engine, NAMESPACE::NEWOBJECTTYPE::objectToScriptValue, NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue );\
+    }
 
 //Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *);
 
