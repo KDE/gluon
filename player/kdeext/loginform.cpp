@@ -100,15 +100,16 @@ void LoginForm::doLogin()
     }
 
     m_loginButton->setEnabled( false );
+    m_usernameFeedbackLabel->setText( i18n( "Logging in" ) );
     GluonPlayer::Authentication::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
     // Note: the login result should be checked
-    m_usernameFeedbackLabel->setText( i18n( "Logging in" ) );
 }
 
 void LoginForm::doLogout()
 {
     if( m_loggedIn == false)
         return;
+
     m_loginButton->setEnabled( false );
     m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
     GluonPlayer::Authentication::instance()->logout( );
@@ -122,6 +123,9 @@ void LoginForm::loginDone()
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Logout" ) );
     m_loggedIn = true;
+    m_usernameEdit->setReadOnly( true );
+    m_passwordEdit->setReadOnly( true );
+    m_rememberMeCheckBox->setVisible( false );
 }
 
 void LoginForm::logoutDone()
@@ -130,6 +134,9 @@ void LoginForm::logoutDone()
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Login" ) );
     m_loggedIn = false;
+    m_usernameEdit->setReadOnly( false );
+    m_passwordEdit->setReadOnly( false );
+    m_rememberMeCheckBox->setVisible( true );
 }
 
 void LoginForm::loginFailed()
