@@ -71,6 +71,7 @@ namespace GluonKDEExtPlayer {
             void mRegistration();
             void mForgottenPassword();
             void openProject();
+            void setProject( const QModelIndex& index );
 
         private:
             void setupActions();

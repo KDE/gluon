@@ -252,6 +252,14 @@ void MainWindow::resizeEvent( QResizeEvent* event )
     glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
 }
 
+void MainWindow::setProject( const QModelIndex& index )
+{
+    m_gameFileName = index.data().toString();
+    m_gamesOverlay->hide();
+    openProject();
+}
+
+
 void MainWindow::openProject()
 {
     if( m_gameFileName.isEmpty() )
