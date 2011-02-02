@@ -53,7 +53,6 @@ class MainWindow::MainWindowPrivate
     public:
         MainWindowPrivate() {}
 
-        GluonEngine::GameProject* project;
         GluonGraphics::RenderWidget* widget;
 
         KRecentFilesAction* recentFiles;
@@ -73,6 +72,7 @@ MainWindow::MainWindow(const QString& filename )
     , m_tabWidget( new KTabWidget )
     , m_loginForm( new LoginForm )
     , m_gamesModel( new GluonPlayer::GamesModel( this ) )
+    , m_project( new GluonEngine::GameProject() )
 {
     setCentralWidget( m_loginForm );
     setupActions();
@@ -252,15 +252,19 @@ void MainWindow::resizeEvent( QResizeEvent* event )
     glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
 }
 
-void MainWindow::initGL()
+void MainWindow::openProject()
 {
-    GluonGraphics::Engine::instance()->initialize();
+    if( m_gameFileName.isEmpty() )
+    {
+        return;
+    }
 
-    glClearColor( 0.0, 0.0, 0.0, 1.0 );
-    glShadeModel( GL_SMOOTH );
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_BLEND );
-    glEnable( GL_SCISSOR_TEST );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
+
+    m_project->loadFromFile( m_gameFileName );
+    GluonEngine::Game::instance()->setGameProject( m_project );
+    GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
+
+    QTimer::singleShot( 1000, this, SLOT( startGame() ) );
 }
 

@@ -28,6 +28,7 @@
 #include <models/gamesmodel.h>
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
+#include <engine/gameproject.h>
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KApplication>
@@ -69,10 +70,10 @@ namespace GluonKDEExtPlayer {
             void mDetails();
             void mRegistration();
             void mForgottenPassword();
+            void openProject();
 
         private:
             void setupActions();
-            void initGL();
 
             class MainWindowPrivate;
             MainWindowPrivate* d;
@@ -83,6 +84,7 @@ namespace GluonKDEExtPlayer {
             GluonPlayer::GamesModel* m_gamesModel;
             GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
+            GluonEngine::GameProject* m_project;
             int m_viewportWidth;
             int m_viewportHeight;
     };
