@@ -44,6 +44,9 @@ namespace GluonKDEExtPlayer {
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();
 
+        protected:
+            virtual void closeEvent( QCloseEvent* event );
+
         public slots:
             void playGame();
             void pauseGame();

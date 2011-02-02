@@ -238,3 +238,9 @@ void MainWindow::mForgottenPassword()
 {
 }
 
+void MainWindow::closeEvent( QCloseEvent* event )
+{
+    GluonEngine::Game::instance()->stopGame();
+    QWidget::closeEvent( event );
+}
+
