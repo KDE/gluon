@@ -40,6 +40,7 @@ class LoginForm : public Overlay
 
     protected slots:
         void doLogin();
+        void doLogout();
         void loginDone();
         void logoutDone();
         void loginFailed();
@@ -58,6 +59,8 @@ class LoginForm : public Overlay
         QLabel* m_passwordLabel;
         QLabel* m_usernameFeedbackLabel;
         QCheckBox* m_rememberMeCheckBox;
+
+        bool m_loggedIn;
 
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;

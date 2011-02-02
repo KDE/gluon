@@ -38,6 +38,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     , m_passwordLabel( new QLabel( this ) )
     , m_usernameFeedbackLabel( new QLabel( this ) )
     , m_rememberMeCheckBox( new QCheckBox( this ) )
+    , m_loggedIn(false)
 {
     m_usernameLabel->setText( i18n( "Username" ) );
     m_passwordLabel->setText( i18n( "Password" ) );
@@ -88,7 +89,12 @@ void LoginForm::initFailed()
 
 void LoginForm::doLogin()
 {
-    if( m_usernameEdit->text().isEmpty() || m_passwordEdit->text().isEmpty() )
+    if( m_loggedIn ) {
+        doLogout();
+        return;
+    }
+
+    if( m_usernameEdit->text().isEmpty() || m_passwordEdit->text().isEmpty())
     {
         return;
     }
@@ -99,12 +105,23 @@ void LoginForm::doLogin()
     m_usernameFeedbackLabel->setText( i18n( "Logging in" ) );
 }
 
+void LoginForm::doLogout()
+{
+    if( m_loggedIn == false)
+        return;
+    m_loginButton->setEnabled( false );
+    GluonPlayer::Authentication::instance()->logout( );
+    // Note: the login result should be checked
+    m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
+}
+
 void LoginForm::loginDone()
 {
     m_usernameFeedbackLabel->setText(
         i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username() ) );
     m_loginButton->setEnabled( true );
     m_loginButton->setText( "Logout" );
+    m_loggedIn = true;
 }
 
 void LoginForm::logoutDone()
@@ -112,6 +129,7 @@ void LoginForm::logoutDone()
     m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
     m_loginButton->setEnabled( true );
     m_loginButton->setText( "Login" );
+    m_loggedIn = false;
 }
 
 void LoginForm::loginFailed()
