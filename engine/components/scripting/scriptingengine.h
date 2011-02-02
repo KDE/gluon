@@ -21,17 +21,11 @@
 #define GLUONENGINE_SCRIPTINGENGINE_H
 
 #include "gluon_engine_export.h"
-#include "gameobject.h"
 
 #include "core/singleton.h"
 
 #include <QScriptValue>
 #include <QScriptEngine>
-
-namespace GluonGraphics
-{
-    class MaterialInstance;
-}
 
 namespace GluonEngine
 {
