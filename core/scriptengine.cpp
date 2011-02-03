@@ -74,6 +74,9 @@ QScriptEngine* ScriptEngine::scriptEngine()
         QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance());
         extensionObject.setProperty("ObjectFactory", objectFactory );
 
+        QScriptValue messageHandler = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonCore::MessageHandler::instance(), ownership, wrapOptions);
+        extensionObject.setProperty("MessageHandler", messageHandler);
+
         // Finally, register all the objects in the factory...
         QHash<QString, const QMetaObject*> types = GluonObjectFactory::instance()->objectTypes();
         QHash<QString, const QMetaObject*>::const_iterator i;
