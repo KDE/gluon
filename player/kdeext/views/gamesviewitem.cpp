@@ -67,15 +67,6 @@ void GamesViewItem::layoutWidgets()
     setLayout( m_layout );
 }
 
-void GamesViewItem::setToolTips()
-{
-    // Plasma::ToolTipContent data;
-    // data.setImage( m_preview->icon() );
-    // data.setMainText( m_gameName->text() );
-    // data.setSubText( i18n( "Click here to Start the game" ) );
-    // Plasma::ToolTipManager::self()->setContent( m_playButton, data );
-}
-
 QModelIndex GamesViewItem::modelIndex() const
 {
     return m_index;

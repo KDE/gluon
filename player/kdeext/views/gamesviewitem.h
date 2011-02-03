@@ -26,6 +26,7 @@
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
+#include <QtGui/QToolTip>
 #include <QtCore/QModelIndex>
 #include <QtCore/QEvent>
 
@@ -47,7 +48,6 @@ class GamesViewItem : public QWidget
 
     protected:
         void layoutWidgets();
-        void setToolTips();
         virtual void mousePressEvent( QMouseEvent* event );
 
         QModelIndex m_index;

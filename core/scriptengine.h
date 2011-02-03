@@ -26,7 +26,7 @@
 
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 namespace GluonCore
 {
@@ -36,7 +36,7 @@ namespace GluonCore
         public:
             QScriptEngine* scriptEngine();
             void resetEngine();
-            
+
         private:
             friend class Singleton<ScriptEngine>;
 

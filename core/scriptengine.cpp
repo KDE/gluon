@@ -21,9 +21,9 @@
 #include "scriptengine.h"
 
 #include "gluonobjectfactory.h"
-
-#include <QScriptEngine>
 #include "gluonobject.h"
+
+#include <QtScript/QScriptEngine>
 
 void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
 namespace GluonCore
@@ -73,7 +73,7 @@ QScriptEngine* ScriptEngine::scriptEngine()
 
         QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance());
         extensionObject.setProperty("ObjectFactory", objectFactory );
-        
+
         // Finally, register all the objects in the factory...
         QHash<QString, const QMetaObject*> types = GluonObjectFactory::instance()->objectTypes();
         QHash<QString, const QMetaObject*>::const_iterator i;
