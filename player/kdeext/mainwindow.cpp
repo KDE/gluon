@@ -55,10 +55,6 @@ class MainWindow::MainWindowPrivate
 
         GluonGraphics::RenderWidget* widget;
 
-        KRecentFilesAction* recentFiles;
-
-        QAbstractItemModel* model;
-
         QString title;
         QString fileName;
 
@@ -69,15 +65,19 @@ class MainWindow::MainWindowPrivate
 MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
-    , m_layout( new QGridLayout )
-    , m_gamesModel( new GluonPlayer::GamesModel( this ) )
     , m_gamesOverlay( new GamesOverlay( this ) )
+    , m_layout( new QGridLayout )
+    , m_view( new QListView( m_gamesOverlay ) )
+    , m_gamesModel( new GluonPlayer::GamesModel( m_view ) )
     , m_project( new GluonEngine::GameProject )
 {
     setCentralWidget( m_gamesOverlay );
     setupActions();
     setupGUI();
     showGames();
+
+    m_view->setModel( m_gamesModel );
+    connect( m_view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 }
 
 MainWindow::~MainWindow ( )
@@ -95,7 +95,7 @@ void MainWindow::setupActions()
     KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection()); // options_configure_keybinding
     KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection()); // options_configure_toolbars
 
-    // d->recentFiles = KStandardAction::openRecent( this, SLOT( openProject( KUrl ) ), actionCollection() );
+    m_recentFiles = KStandardAction::openRecent( this, SLOT( openProject( KUrl ) ), actionCollection() );
     // d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
     KAction* login = new KAction( KIcon( "im-user" ), i18n( "Login" ), actionCollection() );
@@ -315,5 +315,12 @@ void MainWindow::openProject()
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
     QTimer::singleShot( 1000, this, SLOT( startGame() ) );
+}
+
+void MainWindow::activated( QModelIndex index )
+{
+    if( index.isValid() )
+    {
+    }
 }
 

@@ -38,6 +38,8 @@
 
 #include <QtGui/QResizeEvent>
 #include <QtGui/QGridLayout>
+#include <QtGui/QListView>
+#include <QtCore/QModelIndex>
 #include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
@@ -76,6 +78,7 @@ namespace GluonKDEExtPlayer {
             void setProject( const QModelIndex& index );
             void showGames();
             void showGameDetails( const QModelIndex& index );
+            void activated( QModelIndex index );
 
         private:
             void setupActions();
@@ -83,12 +86,14 @@ namespace GluonKDEExtPlayer {
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
+            GamesOverlay* m_gamesOverlay;
             QGridLayout* m_layout;
             QString m_gameFileName;
+            QListView* m_view;
             GluonPlayer::GamesModel* m_gamesModel;
-            GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
             GluonEngine::GameProject* m_project;
+            KRecentFilesAction* m_recentFiles;
 
             int m_viewportWidth;
             int m_viewportHeight;
