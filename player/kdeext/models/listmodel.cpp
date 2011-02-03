@@ -58,3 +58,8 @@ QVariant ListModel::headerData( int section, Qt::Orientation orientation, int ro
 
     return QAbstractListModel::headerData( section, orientation, role );
 }
+
+void ListModel::appendPair( QPair< QString, KIcon* > pair)
+{
+    m_list.append(pair);
+}
