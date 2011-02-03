@@ -46,8 +46,8 @@ void GamesViewItem::layoutWidgets()
     // m_preview->setAcceptHoverEvents( false );
     // m_preview->setContentsMargins( 0, 0, 0, 0 );
     // m_preview->setAcceptedMouseButtons( Qt::NoButton );
-    // m_preview->setFocusPolicy( Qt::NoFocus );
-    // m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
+    m_preview->setFocusPolicy( Qt::NoFocus );
+    m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
     m_gameName = new QLabel( this );
     m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
