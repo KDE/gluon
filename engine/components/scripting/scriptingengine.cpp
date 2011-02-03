@@ -78,6 +78,8 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     {
         d->engine = GluonCore::ScriptEngine::instance()->scriptEngine();
 
+        QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+        QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
         QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
         d->engine->globalObject().setProperty( "Game", game );
     }

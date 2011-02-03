@@ -22,6 +22,7 @@
 
 #include "gluonobjectfactory.h"
 #include "gluonobject.h"
+#include "messagehandler.h"
 
 #include <QtScript/QScriptEngine>
 
@@ -71,10 +72,13 @@ QScriptEngine* ScriptEngine::scriptEngine()
         QScriptValue extensionObject = d->engine->globalObject();
         qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
 
-        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance());
+        QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+        QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+
+        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance(), ownership, wrapOptions);
         extensionObject.setProperty("ObjectFactory", objectFactory );
 
-        QScriptValue messageHandler = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonCore::MessageHandler::instance(), ownership, wrapOptions);
+        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance(), ownership, wrapOptions);
         extensionObject.setProperty("MessageHandler", messageHandler);
 
         // Finally, register all the objects in the factory...
