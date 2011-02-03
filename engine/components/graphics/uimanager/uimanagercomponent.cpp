@@ -213,6 +213,9 @@ void UiManagerComponent::initialize()
         if( item )
         {
             d->scene->addItem( item );
+            QRectF rect( d->scene->sceneRect() );
+            item->setWidth( rect.width() );
+            item->setHeight( rect.height() );
 
             d->scriptItem = d->scriptEngine->newQObject( item );
             d->updateFunction = d->scriptItem.property( "update" );
