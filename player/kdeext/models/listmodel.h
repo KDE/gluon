@@ -1,0 +1,53 @@
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+#ifndef GLUONPLAYER_LISTMODEL_H
+#define GLUONPLAYER_LISTMODEL_H
+
+#include "gluon_player_export.h"
+
+#include <KDE/KIcon>
+
+#include <QtCore/QList>
+#include <QtCore/QAbstractListModel>
+#include <QtCore/QString>
+#include <QtCore/QPair>
+#include <QtCore/QVariant>
+
+/**
+ *\brief Model which contains a list of the main entries
+ *
+ * This model can be used to obtain a list of all the main entires
+ * Use the different columns of the model to obtain required properties.
+ *
+ */
+class ListModel : public QAbstractListModel
+{
+    public:
+        explicit ListModel( QObject* parent = 0 );
+        virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+        virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+        virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+        virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+
+    private:
+        QList< QPair< QString, KIcon* > > m_list;
+};
+
+#endif // GLUONPLAYER_LISTMODEL_H

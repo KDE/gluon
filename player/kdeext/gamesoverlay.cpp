@@ -18,27 +18,31 @@
  */
 
 #include "gamesoverlay.h"
-#include "views/gamesview.h"
 #include "loginform.h"
+#include "views/gamesview.h"
 
 GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
-    , m_tabWidget( new KTabWidget( this ) )
+    , m_view( new QListView( this ) )
     , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
 {
     connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
     connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
-    m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
+
+    // QListView* view = new QListView( base );
+
+    // m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
 
     QLabel* m_tempLabel = new QLabel( this );
     m_tempLabel->setText( i18n( "Coming Soon!" ) );
-    m_tabWidget->addTab( m_tempLabel, KIcon( "get-hot-new-stuff" ), i18n( "Available" ) );
+    // m_tabWidget->addTab( m_tempLabel, KIcon( "get-hot-new-stuff" ), i18n( "Available" ) );
 
-    m_tabWidget->addTab( m_loginForm, KIcon( "network-connect" ), i18n( "Login" ) );
+    // m_tabWidget->addTab( m_loginForm, KIcon( "network-connect" ), i18n( "Login" ) );
 
     QGridLayout* layout = new QGridLayout( );
-    layout->addWidget( m_tabWidget );
+    layout->addWidget( m_view );
+    m_model = new ListModel( m_view );
     setLayout( layout );
 }
 

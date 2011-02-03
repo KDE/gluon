@@ -20,12 +20,14 @@
 #ifndef GAMESOVERLAY_H
 #define GAMESOVERLAY_H
 
-#include <KDE/KTabWidget>
+#include "models/listmodel.h"
+
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
+#include <QtGui/QListView>
 #include <QtCore/QModelIndex>
 
 class GamesView;
@@ -40,8 +42,9 @@ class GamesOverlay : public QWidget
         GamesView* gamesView();
 
     private:
-        KTabWidget* m_tabWidget;
+        QListView* m_view;
         GamesView* m_gamesView;
+        ListModel* m_model;
         LoginForm* m_loginForm;
 
     signals:
