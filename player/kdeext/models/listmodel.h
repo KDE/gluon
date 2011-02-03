@@ -47,6 +47,7 @@ class ListModel : public QAbstractListModel
         virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
         void appendPair(QPair< QString, KIcon* > pair);
+        void removePair(QPair< QString, KIcon* > pair);
 
     private:
         QList< QPair< QString, KIcon* > > m_list;

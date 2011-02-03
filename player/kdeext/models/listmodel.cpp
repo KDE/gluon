@@ -63,3 +63,8 @@ void ListModel::appendPair( QPair< QString, KIcon* > pair)
 {
     m_list.append(pair);
 }
+
+void ListModel::removePair( QPair< QString, KIcon* > pair)
+{
+    m_list.removeOne(pair);
+}
