@@ -51,8 +51,8 @@ void MessageHandler::subscribe(const QString& message, const QScriptValue& recei
 
 void MessageHandler::publish(const QString& message)
 {
-    QMultiHash<QString, GluonObject*>::iterator oitr;
-    for(oitr = d->subscribedObjects.find(message); oitr != d->subscribedObjects.end() && oitr.key() == message; ++oitr)
+    QMultiHash<QString, GluonObject*>::const_iterator oitr;
+    for(oitr = d->subscribedObjects.constFind(message); oitr != d->subscribedObjects.constEnd() && oitr.key() == message; ++oitr)
     {
         oitr.value()->handleMessage(message);
     }
