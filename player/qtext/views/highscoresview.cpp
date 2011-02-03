@@ -20,7 +20,7 @@
 #include "highscoresview.h"
 #include "highscoresviewitem.h"
 
-#include <models/highscoresmodel.h>
+#include <lib/models/highscoresmodel.h>
 
 HighScoresView::HighScoresView( QWidget* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

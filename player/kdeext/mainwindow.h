@@ -26,7 +26,7 @@
 #include "gamedetailsoverlay.h"
 #include "views/gamesview.h"
 
-#include <models/gamesmodel.h>
+#include <player/lib/models/gamesmodel.h>
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
 #include <engine/gameproject.h>

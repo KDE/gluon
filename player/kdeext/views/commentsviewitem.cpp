@@ -19,7 +19,7 @@
 
 #include "commentsviewitem.h"
 
-#include <models/commentsmodel.h>
+#include <lib/models/commentsmodel.h>
 
 CommentsViewItem::CommentsViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )

@@ -19,17 +19,18 @@
 
 #include "commentsview.h"
 #include "commentsviewitem.h"
-#include <models/commentsmodel.h>
 #include "newcommentform.h"
 
-#include <Plasma/ItemBackground>
-#include <Plasma/LineEdit>
-#include <Plasma/Frame>
-#include <Plasma/ScrollWidget>
+#include <lib/models/commentsmodel.h>
 
-#include <QTreeView>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsProxyWidget>
+#include <KDE/Plasma/ItemBackground>
+#include <KDE/Plasma/LineEdit>
+#include <KDE/Plasma/Frame>
+#include <KDE/Plasma/ScrollWidget>
+
+#include <QtGui/QTreeView>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtGui/QGraphicsProxyWidget>
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

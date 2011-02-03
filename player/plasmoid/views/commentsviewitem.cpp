@@ -19,13 +19,13 @@
 
 #include "commentsviewitem.h"
 
-#include <models/commentsmodel.h>
+#include <lib/models/commentsmodel.h>
 
-#include <KIcon>
-#include <Plasma/IconWidget>
-#include <Plasma/Label>
+#include <KDE/KIcon>
+#include <KDE/Plasma/IconWidget>
+#include <KDE/Plasma/Label>
 
-#include <QGraphicsGridLayout>
+#include <QtGui/QGraphicsGridLayout>
 
 CommentsViewItem::CommentsViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

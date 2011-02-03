@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,8 +22,9 @@
 #include "views/highscoresview.h"
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
-#include "models/commentsmodel.h"
-#include "models/highscoresmodel.h"
+
+#include "lib/models/commentsmodel.h"
+#include "lib/models/highscoresmodel.h"
 
 GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

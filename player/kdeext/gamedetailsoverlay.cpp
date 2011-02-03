@@ -21,8 +21,8 @@
 #include "views/highscoresview.h"
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
-#include "models/commentsmodel.h"
-#include "models/highscoresmodel.h"
+#include "lib/models/commentsmodel.h"
+#include "lib/models/highscoresmodel.h"
 
 GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

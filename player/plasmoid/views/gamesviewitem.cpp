@@ -18,13 +18,13 @@
  */
 
 #include "gamesviewitem.h"
-#include "models/gamesmodel.h"
+#include "lib/models/gamesmodel.h"
 
-#include <KIcon>
-#include <Plasma/IconWidget>
-#include <Plasma/Label>
-#include <Plasma/ToolTipManager>
-#include <Plasma/ToolTipContent>
+#include <KDE/KIcon>
+#include <KDE/Plasma/IconWidget>
+#include <KDE/Plasma/Label>
+#include <KDE/Plasma/ToolTipManager>
+#include <KDE/Plasma/ToolTipContent>
 
 GamesViewItem::GamesViewItem( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

@@ -27,7 +27,7 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/renderwidget.h>
-#include <player/models/gamesmodel.h>
+#include <lib/models/gamesmodel.h>
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QStatusBar>
@@ -35,8 +35,8 @@
 #include <QtGui/QListView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
-#include <QLabel>
-#include <QTimer>
+#include <QtGui/QLabel>
+#include <QtCore/QTimer>
 
 using namespace GluonPlayer;
 

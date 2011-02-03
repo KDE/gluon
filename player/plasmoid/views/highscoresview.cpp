@@ -19,10 +19,11 @@
 
 #include "highscoresview.h"
 #include "highscoresviewitem.h"
-#include <models/highscoresmodel.h>
 
-#include <Plasma/ItemBackground>
-#include <QGraphicsLinearLayout>
+#include <lib/models/highscoresmodel.h>
+
+#include <KDE/Plasma/ItemBackground>
+#include <QtGui/QGraphicsLinearLayout>
 
 HighScoresView::HighScoresView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

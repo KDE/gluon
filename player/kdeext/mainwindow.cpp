@@ -24,7 +24,6 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/renderwidget.h>
-#include <player/models/gamesmodel.h>
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>

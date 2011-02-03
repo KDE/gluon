@@ -18,7 +18,7 @@
  */
 
 #include "highscoresviewitem.h"
-#include "models/highscoresmodel.h"
+#include "lib/models/highscoresmodel.h"
 
 HighScoresViewItem::HighScoresViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )

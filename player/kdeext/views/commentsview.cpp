@@ -21,7 +21,7 @@
 #include "commentsviewitem.h"
 #include "newcommentform.h"
 
-#include <models/commentsmodel.h>
+#include <lib/models/commentsmodel.h>
 
 #include <QtGui/QFrame>
 #include <QtGui/QScrollArea>

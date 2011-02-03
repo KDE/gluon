@@ -21,14 +21,15 @@
 #include "views/highscoresview.h"
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
-#include "models/commentsmodel.h"
-#include "models/highscoresmodel.h"
 
-#include <Plasma/TabBar>
-#include <Plasma/IconWidget>
-#include <KIcon>
+#include "lib/models/commentsmodel.h"
+#include "lib/models/highscoresmodel.h"
 
-#include <QGraphicsLinearLayout>
+#include <KDE/Plasma/TabBar>
+#include <KDE/Plasma/IconWidget>
+#include <KDE/KIcon>
+
+#include <QtGui/QGraphicsLinearLayout>
 
 GameDetailsOverlay::GameDetailsOverlay( QString gameId, QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

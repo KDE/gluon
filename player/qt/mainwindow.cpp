@@ -20,7 +20,7 @@
 
 #include "mainwindow.h"
 
-#include "models/gamesmodel.h"
+#include "lib/models/gamesmodel.h"
 
 #include "input/inputmanager.h"
 
@@ -36,8 +36,8 @@
 #include <QtGui/QListView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
-#include <QLabel>
-#include <QTimer>
+#include <QtGui/QLabel>
+#include <QtCore/QTimer>
 
 using namespace GluonPlayer;
 

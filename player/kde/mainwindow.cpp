@@ -26,12 +26,12 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/renderwidget.h>
-#include <player/models/gamesmodel.h>
+#include <player/lib/models/gamesmodel.h>
 
-#include <KPushButton>
-#include <KFileDialog>
-#include <KUrl>
-#include <KLocalizedString>
+#include <KDE/KPushButton>
+#include <KDE/KFileDialog>
+#include <KDE/KUrl>
+#include <KDE/KLocalizedString>
 
 #include <QtGui/QStatusBar>
 #include <QtGui/QListView>

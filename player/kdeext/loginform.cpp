@@ -123,8 +123,8 @@ void LoginForm::loginDone()
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Logout" ) );
     m_loggedIn = true;
-    m_usernameEdit->setReadOnly( true );
-    m_passwordEdit->setReadOnly( true );
+    m_usernameEdit->setVisible( false );
+    m_passwordEdit->setVisible( false );
     m_rememberMeCheckBox->setVisible( false );
 }
 
@@ -134,8 +134,8 @@ void LoginForm::logoutDone()
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Login" ) );
     m_loggedIn = false;
-    m_usernameEdit->setReadOnly( false );
-    m_passwordEdit->setReadOnly( false );
+    m_usernameEdit->setVisible( true );
+    m_passwordEdit->setVisible( true );
     m_rememberMeCheckBox->setVisible( true );
 }
 

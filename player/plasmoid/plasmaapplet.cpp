@@ -32,12 +32,12 @@
 #include <engine/scene.h>
 #include <graphics/item.h>
 #include <graphics/engine.h>
-#include <models/gamesmodel.h>
+#include <lib/models/gamesmodel.h>
 
-#include <QFileDialog>
-#include <QTimer>
-#include <QGraphicsSceneResizeEvent>
-#include <QGraphicsLinearLayout>
+#include <QtGui/QFileDialog>
+#include <QtGui/QGraphicsSceneResizeEvent>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtCore/QTimer>
 
 using namespace GluonPlayer;
 using namespace GluonGraphics;

@@ -18,7 +18,7 @@
  */
 
 #include "highscoresviewitem.h"
-#include "models/highscoresmodel.h"
+#include "lib/models/highscoresmodel.h"
 
 #include <Plasma/IconWidget>
 #include <Plasma/Label>

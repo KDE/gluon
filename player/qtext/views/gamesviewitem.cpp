@@ -18,7 +18,7 @@
  */
 
 #include "gamesviewitem.h"
-#include "models/gamesmodel.h"
+#include "lib/models/gamesmodel.h"
 
 GamesViewItem::GamesViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
