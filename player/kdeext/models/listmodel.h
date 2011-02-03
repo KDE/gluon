@@ -48,6 +48,7 @@ class ListModel : public QAbstractListModel
 
         void appendPair(QPair< QString, KIcon* > pair);
         void removePair(QPair< QString, KIcon* > pair);
+        void clearPair( );
 
     private:
         QList< QPair< QString, KIcon* > > m_list;

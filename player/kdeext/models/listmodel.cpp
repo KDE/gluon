@@ -68,3 +68,8 @@ void ListModel::removePair( QPair< QString, KIcon* > pair)
 {
     m_list.removeOne(pair);
 }
+
+void ListModel::clearPair( )
+{
+    m_list.clear( );
+}
