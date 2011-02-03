@@ -320,12 +320,15 @@ bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &chi
 {
     DEBUG_FUNC_NAME;
     int count = children.count();
-    beginInsertRows( parent, row, row + count );
 
     GluonEngine::GameObject* pobj = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );
     if( !pobj )
         pobj = d->root;
 
+    if(children.at(0)->parent() == pobj)
+        return false;
+
+    beginInsertRows( parent, row, row + count );
     int index = row;
     foreach( GluonEngine::GameObject * obj, children )
     {
