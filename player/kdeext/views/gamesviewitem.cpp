@@ -34,7 +34,6 @@ void GamesViewItem::setModelIndex( const QModelIndex& index )
 {
     m_index = index;
     layoutWidgets();
-    setToolTips();
 }
 
 void GamesViewItem::layoutWidgets()
