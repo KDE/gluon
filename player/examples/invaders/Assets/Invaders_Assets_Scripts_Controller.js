@@ -3,8 +3,8 @@ this.gameEnded = false;
 this.initialize = function()
 {
     this.Scene.paused = false;
-    this.MessageHandler.subscribe("playerDied", this.playerDied, this);
-    this.MessageHandler.subscribe("enemyDied", this.enemyDied, this);
+    MessageHandler.subscribe("playerDied", this.playerDied, this);
+    MessageHandler.subscribe("enemyDied", this.enemyDied, this);
 }
 
 this.start = function()
@@ -12,12 +12,12 @@ this.start = function()
     this.Scene.enemies = 28;
     this.Scene.lives = 5;
 
-    var enemy = this.Game.getFromScene("Enemy");
+    var enemy = Game.getFromScene("Enemy");
     for(var y = 40; y >= 10; y -= 10)
     {
         for(var x = -30; x <= 30; x += 10)
         {
-            var newEnemy = this.Game.clone(enemy);
+            var newEnemy = Game.clone(enemy);
             newEnemy.position = new QVector3D(x, y, 1);
             newEnemy.enabled = true;
         }
@@ -32,7 +32,7 @@ this.update = function(time)
     {
         if(this.GameObject.Key_Continue.isActionStopped())
         {
-            this.Game.resetCurrentScene();
+            Game.resetCurrentScene();
         }
     }
     else
@@ -62,7 +62,7 @@ this.playerDied = function()
 this.enemyDied = function()
 {
     this.Scene.enemies--;
-    this.Game.score++;
+    Game.score++;
     
     if(this.Scene.enemies <= 0)
     {
@@ -73,7 +73,7 @@ this.enemyDied = function()
 
 this.createPlayer = function()
 {
-    var newPlayer = this.Game.clone(this.Game.getFromScene("Player"));
+    var newPlayer = Game.clone(Game.getFromScene("Player"));
     newPlayer.position = new QVector3D(0, -50, 2);
     newPlayer.enabled = true;
 }
