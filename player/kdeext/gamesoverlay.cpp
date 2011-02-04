@@ -39,9 +39,9 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     // m_tempLabel->setText( i18n( "Coming Soon!" ) );
 
     m_view->setModel(m_model);
+    m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
     m_model->appendPair(qMakePair(QString("Installed"), new KIcon( "applications-games" )));
     m_model->appendPair(qMakePair(QString("Available"), new KIcon( "get-hot-new-stuff" )));
-    m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
     m_model->appendPair(qMakePair(QString("Community"), new KIcon( "" )));
 
     // QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
@@ -53,9 +53,29 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     gridLayout->addLayout( rightGridLayout, 0, 1 );
     gridLayout->setColumnStretch( 1, 3 );
     setLayout( gridLayout );
+
+    connect( m_view->selectionModel(), SIGNAL( currentChanged ( const QModelIndex & current, const QModelIndex & previous ) ),
+           SLOT( selectionChanged( const QModelIndex & current, const QModelIndex & previous ) ) );
 }
 
 GamesView* GamesOverlay::gamesView()
 {
     return m_gamesView;
+}
+
+void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIndex & previous )
+{
+    switch (current.row())
+    {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        dfault:
+            break;
+    }
 }

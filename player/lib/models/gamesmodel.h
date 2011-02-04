@@ -39,6 +39,7 @@ namespace GluonPlayer
     {
         public:
             explicit GamesModel( QObject* parent = 0 );
+            virtual ~GamesModel() {}
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;

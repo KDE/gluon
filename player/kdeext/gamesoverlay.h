@@ -41,6 +41,9 @@ class GamesOverlay : public QWidget
         explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         GamesView* gamesView();
 
+    protected slots:
+        void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+
     private:
         QListView* m_view;
         ListModel* m_model;
