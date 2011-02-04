@@ -27,16 +27,14 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_model( new ListModel( m_view ) )
     // , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
+    , m_gridLayout( new QGridLayout( this ) )
+    , m_stackedWidget( new QStackedWidget( this ) )
+    , m_availableView( new QLabel( i18n( "Coming soon!" ), this ) )
 {
     // connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
     // connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
 
-    // QListView* view = new QListView( base );
-
     // m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
-
-    // QLabel* m_tempLabel = new QLabel( this );
-    // m_tempLabel->setText( i18n( "Coming Soon!" ) );
 
     m_view->setModel(m_model);
     m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
@@ -44,15 +42,16 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_model->appendPair(qMakePair(QString("Available"), new KIcon( "get-hot-new-stuff" )));
     m_model->appendPair(qMakePair(QString("Community"), new KIcon( "" )));
 
-    // QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
-    QGridLayout* gridLayout = new QGridLayout( this );
-    gridLayout->addWidget( m_view, 0, 0 );
-    gridLayout->setColumnStretch( 0, 1 );
+    m_gridLayout->addWidget( m_view, 0, 0 );
+    m_gridLayout->setColumnStretch( 0, 1 );
 
-    QGridLayout* rightGridLayout = new QGridLayout( this );
-    gridLayout->addLayout( rightGridLayout, 0, 1 );
-    gridLayout->setColumnStretch( 1, 3 );
-    setLayout( gridLayout );
+    m_stackedWidget->addWidget(m_loginForm);
+    m_stackedWidget->addWidget(m_gamesView);
+    m_stackedWidget->addWidget(m_availableView);
+    // m_stackedWidget->addWidget();
+    m_gridLayout->addWidget( m_stackedWidget, 0, 1 );
+    m_gridLayout->setColumnStretch( 1, 3 );
+    setLayout( m_gridLayout );
 
     connect( m_view->selectionModel(), SIGNAL( currentChanged ( const QModelIndex & current, const QModelIndex & previous ) ),
            SLOT( selectionChanged( const QModelIndex & current, const QModelIndex & previous ) ) );
@@ -65,6 +64,7 @@ GamesView* GamesOverlay::gamesView()
 
 void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIndex & previous )
 {
+    Q_UNUSED( previous )
     switch (current.row())
     {
         case 0:
@@ -75,7 +75,7 @@ void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIn
             break;
         case 3:
             break;
-        dfault:
+        default:
             break;
     }
 }

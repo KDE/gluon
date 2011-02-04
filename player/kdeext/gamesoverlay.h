@@ -28,6 +28,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
 #include <QtGui/QListView>
+#include <QtGui/QStackedWidget>
 #include <QtCore/QModelIndex>
 
 class GamesView;
@@ -44,15 +45,18 @@ class GamesOverlay : public QWidget
     protected slots:
         void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
 
+    signals:
+        void gameToPlaySelected( const QModelIndex& index );
+        void gameSelected( const QModelIndex& index );
+
     private:
         QListView* m_view;
         ListModel* m_model;
         GamesView* m_gamesView;
         LoginForm* m_loginForm;
-
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
+        QGridLayout* m_gridLayout;
+        QStackedWidget* m_stackedWidget;
+        QLabel* m_availableView;
 };
 
 #endif // GAMESOVERLAY_H
