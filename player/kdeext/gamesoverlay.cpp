@@ -24,6 +24,7 @@
 GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_view( new QListView( this ) )
+    , m_model( new ListModel( m_view ) )
     , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
 {
@@ -34,17 +35,16 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
 
     // m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
 
-    QLabel* m_tempLabel = new QLabel( this );
-    m_tempLabel->setText( i18n( "Coming Soon!" ) );
-    // m_tabWidget->addTab( m_tempLabel, KIcon( "get-hot-new-stuff" ), i18n( "Available" ) );
+    // QLabel* m_tempLabel = new QLabel( this );
+    // m_tempLabel->setText( i18n( "Coming Soon!" ) );
 
-    // m_tabWidget->addTab( m_loginForm, KIcon( "network-connect" ), i18n( "Login" ) );
-
-    QGridLayout* layout = new QGridLayout( );
-    layout->addWidget( m_view );
-    m_model = new ListModel( m_view );
+    QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
+    // gridLayout->addWidget( m_view );
     m_model->appendPair(qMakePair(QString("Installed"), new KIcon( "applications-games" )));
-    setLayout( layout );
+    m_model->appendPair(qMakePair(QString("Available"), new KIcon( "get-hot-new-stuff" )));
+    m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
+    m_model->appendPair(qMakePair(QString("Community"), new KIcon( "" )));
+    setLayout( gridLayout );
 }
 
 GamesView* GamesOverlay::gamesView()
