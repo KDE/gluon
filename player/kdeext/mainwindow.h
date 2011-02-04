@@ -89,8 +89,6 @@ namespace GluonKDEExtPlayer {
             GamesOverlay* m_gamesOverlay;
             QGridLayout* m_layout;
             QString m_gameFileName;
-            QListView* m_view;
-            GluonPlayer::GamesModel* m_gamesModel;
             GameDetailsOverlay* m_gameDetailsOverlay;
             GluonEngine::GameProject* m_project;
             KRecentFilesAction* m_recentFiles;
