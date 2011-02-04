@@ -36,4 +36,4 @@ install(
     ${LIB_INSTALL_DIR}/gluon
 )
 
-install(FILES template.qml DESTINATION ${DATA_INSTALL_DIR}/gluon/templates/ui)
+install(FILES template.qml DESTINATION ${SHARE_INSTALL_DIR}/gluon/templates/ui)
