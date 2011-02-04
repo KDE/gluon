@@ -100,6 +100,11 @@ const QStringList UiAsset::supportedMimeTypes() const
     return types;
 }
 
+const QList< AssetTemplate* > UiAsset::templates()
+{
+    return QList<AssetTemplate*>() << new AssetTemplate("Interface File", "template.qml", "ui", this);
+}
+
 void UiAsset::load()
 {
     if( !d->engine )

@@ -145,6 +145,8 @@ void MainWindow::startGame()
 
     d->widget->setFocus();
     GluonEngine::Game::instance()->runGame();
+
+    QApplication::instance()->exit();
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )

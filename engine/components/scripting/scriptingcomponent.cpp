@@ -108,12 +108,6 @@ void ScriptingComponent::initialize()
 		QScriptValue gameProjectObj = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
 		d->scriptObject.setProperty( "GameProject", gameProjectObj );
 
-		QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
-		d->scriptObject.setProperty( "Game", game );
-                
-                QScriptValue messageHandler = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonCore::MessageHandler::instance(), ownership, wrapOptions);
-                d->scriptObject.setProperty("MessageHandler", messageHandler);
-
 		// Lastly, get the functions out so they're easy to call
 		d->initializeFunction = d->scriptObject.property( "initialize" );
 		d->startFunction = d->scriptObject.property( "start" );

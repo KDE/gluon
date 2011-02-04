@@ -13,8 +13,8 @@ this.invincibleTime = 254;
 
 this.initialize = function()
 {
-    this.bullet = this.Game.getFromScene("Bullet");
-    this.camera = this.Game.getFromScene("Camera").Camera;
+    this.bullet = Game.getFromScene("Bullet");
+    this.camera = Game.getFromScene("Camera").Camera;
 }
 
 this.move = function(time)
@@ -69,7 +69,7 @@ this.update = function(time)
         this.fireDelay--;
         if(this.GameObject.Key_Fire.isActionStarted() && this.fireDelay <= 0)
         {
-            var newBullet = this.Game.clone(this.bullet);
+            var newBullet = Game.clone(this.bullet);
             newBullet.setPosition(this.GameObject.position);
             newBullet.setEnabled(true);
             this.fireDelay = 25;
@@ -102,6 +102,6 @@ this.playDeathAnim = function(time)
     if(this.deathAnimTimeRemaining < 0)
     {
         this.GameObject.destroy();
-        this.MessageHandler.publish("playerDied");
+        MessageHandler.publish("playerDied");
     }
 }

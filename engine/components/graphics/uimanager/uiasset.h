@@ -46,6 +46,7 @@ namespace GluonEngine
             void execute();
 
             virtual const QStringList supportedMimeTypes() const;
+            virtual const QList< AssetTemplate* > templates();
 
             virtual void setName( const QString& newName );
 

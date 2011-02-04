@@ -9,7 +9,7 @@ this.deathAnimTimeRemaining = this.deathAnimTime;
 
 this.start = function()
 {
-    this.bullet = this.Game.getFromScene("Bullet");    
+    this.bullet = Game.getFromScene("Bullet");    
 }
 
 this.update = function(time)
@@ -41,9 +41,9 @@ this.update = function(time)
         this.GameObject.Kapow.play();
     }
         
-    if(this.Game.random() < this.bulletChance)
+    if(Game.random() < this.bulletChance)
     {
-        var newBullet = this.Game.clone(this.bullet);
+        var newBullet = Game.clone(this.bullet);
         newBullet.position = this.GameObject.position;
         newBullet.enabled = true;
         newBullet.Collider.collisionGroup = 2;
@@ -64,6 +64,6 @@ this.playDeathAnim = function(time)
     if(this.deathAnimTimeRemaining < 0)
     {
         this.GameObject.destroy();
-        this.MessageHandler.publish("enemyDied");
+        MessageHandler.publish("enemyDied");
     }
 }
