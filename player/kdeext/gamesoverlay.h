@@ -29,6 +29,7 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QListView>
 #include <QtGui/QStackedWidget>
+#include <QtGui/QItemSelectionModel>
 #include <QtCore/QModelIndex>
 
 class GamesView;
