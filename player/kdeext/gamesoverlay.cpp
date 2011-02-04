@@ -25,11 +25,11 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_view( new QListView( this ) )
     , m_model( new ListModel( m_view ) )
-    , m_gamesView( new GamesView( this ) )
+    // , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
 {
-    connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
+    // connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
+    // connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
 
     // QListView* view = new QListView( base );
 
@@ -46,7 +46,12 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
 
     // QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
     QGridLayout* gridLayout = new QGridLayout( this );
-    gridLayout->addWidget( m_view );
+    gridLayout->addWidget( m_view, 0, 0 );
+    gridLayout->setColumnStretch( 0, 1 );
+
+    QGridLayout* rightGridLayout = new QGridLayout( this );
+    gridLayout->addLayout( rightGridLayout, 0, 1 );
+    gridLayout->setColumnStretch( 1, 3 );
     setLayout( gridLayout );
 }
 
