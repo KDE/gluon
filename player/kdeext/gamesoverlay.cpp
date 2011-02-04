@@ -25,7 +25,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_view( new QListView( this ) )
     , m_model( new ListModel( m_view ) )
-    // , m_gamesView( new GamesView( this ) )
+    , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
     , m_gridLayout( new QGridLayout( this ) )
     , m_stackedWidget( new QStackedWidget( this ) )
@@ -65,17 +65,5 @@ GamesView* GamesOverlay::gamesView()
 void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIndex & previous )
 {
     Q_UNUSED( previous )
-    switch (current.row())
-    {
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        default:
-            break;
-    }
+    m_stackedWidget->setCurrentIndex( current.row( ) );
 }
