@@ -47,7 +47,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_model->appendPair(qMakePair(i18n("Available"), new KIcon( "get-hot-new-stuff" )));
     m_stackedWidget->addWidget(m_availableView);
 
-    m_model->appendPair(qMakePair(i18n("Community"), new KIcon( "" )));
+    m_model->appendPair(qMakePair(i18n("Community"), new KIcon( "system-users" )));
     m_stackedWidget->addWidget(m_communityView);
 
     m_gridLayout->addWidget( m_view, 0, 0 );
