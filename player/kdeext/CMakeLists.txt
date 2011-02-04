@@ -13,6 +13,7 @@ set(kdeextplayer_SRCS
     gamesoverlay.cpp
     gamedetailsoverlay.cpp
     loginform.cpp
+    models/listmodel.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp
