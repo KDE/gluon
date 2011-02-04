@@ -43,6 +43,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     QGridLayout* layout = new QGridLayout( );
     layout->addWidget( m_view );
     m_model = new ListModel( m_view );
+    m_model->appendPair(qMakePair(QString("Installed"), new KIcon( "applications-games" )));
     setLayout( layout );
 }
 
