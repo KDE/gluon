@@ -80,13 +80,13 @@ QVariant GamesModel::data( const QModelIndex& index, int role ) const
 
 int GamesModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return 4;
 }
 
 int GamesModel::rowCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return m_dir.entryList( QDir::Dirs | QDir::NoDotAndDotDot ).count();
 }
 

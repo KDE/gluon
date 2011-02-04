@@ -67,13 +67,13 @@ QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
 
 int HighScoresModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return 3;
 }
 
 int HighScoresModel::rowCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return rootNode->children().count();
 }
 

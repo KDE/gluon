@@ -184,8 +184,8 @@ void PlasmaApplet::render()
 
 void PlasmaApplet::paintGLInterface( QPainter* painter, const QStyleOptionGraphicsItem* option )
 {
-    Q_UNUSED( painter );
-    Q_UNUSED( option );
+    Q_UNUSED( painter )
+    Q_UNUSED( option )
 
     glScissor( 0, 0, 400, 400 );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

@@ -133,7 +133,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     //Nope, there really is no part that can be used.
     //So instead, just open it in an external application.
     KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
-    Q_UNUSED( runner );
+    Q_UNUSED( runner )
 
 }
 

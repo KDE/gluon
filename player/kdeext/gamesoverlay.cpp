@@ -38,16 +38,16 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     // m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
 
     m_view->setModel(m_model);
-    m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
+    m_model->appendPair(qMakePair(i18n("Login"), new KIcon( "network-connect" )));
     m_stackedWidget->addWidget(m_loginForm);
 
-    m_model->appendPair(qMakePair(QString("Installed"), new KIcon( "applications-games" )));
+    m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
     m_stackedWidget->addWidget(m_gamesView);
 
-    m_model->appendPair(qMakePair(QString("Available"), new KIcon( "get-hot-new-stuff" )));
+    m_model->appendPair(qMakePair(i18n("Available"), new KIcon( "get-hot-new-stuff" )));
     m_stackedWidget->addWidget(m_availableView);
 
-    m_model->appendPair(qMakePair(QString("Community"), new KIcon( "" )));
+    m_model->appendPair(qMakePair(i18n("Community"), new KIcon( "" )));
     m_stackedWidget->addWidget(m_communityView);
 
     m_gridLayout->addWidget( m_view, 0, 0 );

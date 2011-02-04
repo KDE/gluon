@@ -55,7 +55,7 @@ void DockPlugin::load( KXmlGuiWindow* mainWindow )
 
 void DockPlugin::unload( KXmlGuiWindow* mainWindow )
 {
-    Q_UNUSED( mainWindow );
+    Q_UNUSED( mainWindow )
     DockManager::instance()->removeDock( m_dock );
     actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_dock->objectName() ) ) );
     parentClient()->removeChildClient( this );

@@ -39,13 +39,13 @@ QVariant ListModel::data( const QModelIndex& index, int role ) const
 
 int ListModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return 1;
 }
 
 int ListModel::rowCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return m_list.count();
 }
 

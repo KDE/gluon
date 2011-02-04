@@ -54,7 +54,7 @@ class I : public QThread
 
 Game::Game( QObject* parent )
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     d = new GamePrivate;
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));

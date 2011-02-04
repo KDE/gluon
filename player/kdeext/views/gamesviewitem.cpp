@@ -78,6 +78,6 @@ void GamesViewItem::playGameActivated()
 
 void GamesViewItem::mousePressEvent( QMouseEvent* event )
 {
-    Q_UNUSED( event );
+    Q_UNUSED( event )
     emit gameSelected( m_index );
 }
