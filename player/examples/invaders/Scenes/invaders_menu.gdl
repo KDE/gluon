@@ -38,29 +38,32 @@
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
-            size size2d(30;30)
+            size size2d(35;35)
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Icon)
             color rgba(255;255;255;255)
         }
     }
-    { GluonEngine::GameObject(Text)
+    { GluonEngine::GameObject(Interface)
         enabled bool(true)
-        position vector3d(-0.16;-20;1)
+        position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(SpriteRenderer)
+        { GluonEngine::UiManagerComponent(UiManagerComponent)
             enabled bool(true)
-            size size2d(40;5)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Menu Text)
-            color rgba(255;255;255;255)
+            size size2d(29;8)
+            ui GluonEngine::UiAsset(Invaders/Assets/Interface/Menu Interface)
         }
-        { GluonEngine::KeyboardInputComponent(Key_Space)
+        { GluonEngine::KeyboardInputComponent(Key_Up)
             enabled bool(true)
-            keyCode int(32)
+            keyCode int(16777235)
         }
-        { GluonEngine::ScriptingComponent(ScriptingComponent)
+        { GluonEngine::KeyboardInputComponent(Key_Down)
             enabled bool(true)
-            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Menu)
+            keyCode int(16777237)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Enter)
+            enabled bool(true)
+            keyCode int(16777220)
         }
     }
 }
