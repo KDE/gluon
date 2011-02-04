@@ -86,6 +86,7 @@ namespace GluonKDEExtPlayer {
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
+            GluonPlayer::GamesModel* m_gamesModel;
             GamesOverlay* m_gamesOverlay;
             QGridLayout* m_layout;
             QString m_gameFileName;

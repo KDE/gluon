@@ -64,6 +64,7 @@ class MainWindow::MainWindowPrivate
 MainWindow::MainWindow(const QString& filename )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
+    , m_gamesModel( new GluonPlayer::GamesModel( this ) )
     , m_gamesOverlay( new GamesOverlay( this ) )
     , m_layout( new QGridLayout )
     , m_project( new GluonEngine::GameProject )
@@ -252,7 +253,7 @@ void MainWindow::showGames()
     if( !m_gamesOverlay )
     {
         m_gamesOverlay = new GamesOverlay( this );
-        // m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
         m_gamesOverlay->setGeometry( geometry() );
         connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
         connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
