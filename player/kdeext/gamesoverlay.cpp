@@ -38,12 +38,15 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     // QLabel* m_tempLabel = new QLabel( this );
     // m_tempLabel->setText( i18n( "Coming Soon!" ) );
 
-    QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
-    // gridLayout->addWidget( m_view );
+    m_view->setModel(m_model);
     m_model->appendPair(qMakePair(QString("Installed"), new KIcon( "applications-games" )));
     m_model->appendPair(qMakePair(QString("Available"), new KIcon( "get-hot-new-stuff" )));
     m_model->appendPair(qMakePair(QString("Login"), new KIcon( "network-connect" )));
     m_model->appendPair(qMakePair(QString("Community"), new KIcon( "" )));
+
+    // QGridLayout* gridLayout = static_cast<QGridLayout*>( layout() );
+    QGridLayout* gridLayout = new QGridLayout( this );
+    gridLayout->addWidget( m_view );
     setLayout( gridLayout );
 }
 

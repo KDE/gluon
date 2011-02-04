@@ -78,3 +78,24 @@ void ListModel::clearPair( )
 {
     m_list.clear( );
 }
+
+// bool ListModel::insertRows( int row, int count, const QModelIndex& parent )
+// {
+    // if( count != 1 )  //Don't support more than one row at a time
+    // {
+        // qDebug() << "Can insert only one comment at a time";
+        // return false;
+    // }
+
+    // if( row != rowCount( parent ) )
+    // {
+        // qDebug() << "Can only add a comment to the end of existing comments";
+        // return false;
+    // }
+
+    // beginInsertRows( parent, row, row );
+    // m_list.append( parent.internalPointer() );
+    // endInsertRows();
+    // return true;
+// }
+

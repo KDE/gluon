@@ -43,8 +43,8 @@ class GamesOverlay : public QWidget
 
     private:
         QListView* m_view;
-        GamesView* m_gamesView;
         ListModel* m_model;
+        GamesView* m_gamesView;
         LoginForm* m_loginForm;
 
     signals:

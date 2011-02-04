@@ -28,6 +28,7 @@
 #include <QtCore/QString>
 #include <QtCore/QPair>
 #include <QtCore/QVariant>
+#include <QtCore/QDebug>
 #include <QtCore/QAbstractListModel>
 
 /**
@@ -45,6 +46,7 @@ class ListModel : public QAbstractListModel
         virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
         virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
         virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+        // virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
         void appendPair(QPair< QString, KIcon* > pair);
         void appendPair(QList< QPair< QString, KIcon* > > pairList);
