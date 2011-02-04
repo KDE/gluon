@@ -263,13 +263,13 @@ void MainWindow::showGames()
         connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
     }
 
-    if( m_gameDetailsOverlay )
-    {
-        m_gameDetailsOverlay->hide();
-        m_layout->removeWidget( m_gameDetailsOverlay );
-        m_gameDetailsOverlay->deleteLater();
-        m_gameDetailsOverlay = 0;
-    }
+    // if( m_gameDetailsOverlay )
+    // {
+        // m_gameDetailsOverlay->hide();
+        // m_layout->removeWidget( m_gameDetailsOverlay );
+        // m_gameDetailsOverlay->deleteLater();
+        // m_gameDetailsOverlay = 0;
+    // }
 
     m_layout->addWidget( m_gamesOverlay );
     m_gamesOverlay->show();
