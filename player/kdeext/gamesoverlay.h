@@ -57,6 +57,7 @@ class GamesOverlay : public QWidget
         QGridLayout* m_gridLayout;
         QStackedWidget* m_stackedWidget;
         QLabel* m_availableView;
+        QLabel* m_communityView;
 };
 
 #endif // GAMESOVERLAY_H
