@@ -25,10 +25,10 @@
 #include <KDE/KIcon>
 
 #include <QtCore/QList>
-#include <QtCore/QAbstractListModel>
 #include <QtCore/QString>
 #include <QtCore/QPair>
 #include <QtCore/QVariant>
+#include <QtCore/QAbstractListModel>
 
 /**
  *\brief Model which contains a list of the main entries
@@ -46,12 +46,13 @@ class ListModel : public QAbstractListModel
         virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
         virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
-        void appendPair(QPair< QString, KIcon* > pair);
-        void removePair(QPair< QString, KIcon* > pair);
+        void appendPair(QPair< QString, KIcon > pair);
+        void appendPair(QList< QPair< QString, KIcon > > pairList);
+        void removePair(QPair< QString, KIcon > pair);
         void clearPair( );
 
     private:
-        QList< QPair< QString, KIcon* > > m_list;
+        QList< QPair< QString, KIcon > > m_list;
 };
 
 #endif // GLUONPLAYER_LISTMODEL_H

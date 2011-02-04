@@ -29,7 +29,7 @@ QVariant ListModel::data( const QModelIndex& index, int role ) const
     switch ( role )
     {
     case Qt::DecorationRole:
-        return m_list.at(index.row()).second->pixmap(32, 32);
+        return m_list.at(index.row()).second.pixmap(32, 32);
     case Qt::DisplayRole:
         return m_list.at(index.row()).first;
     }
@@ -59,12 +59,17 @@ QVariant ListModel::headerData( int section, Qt::Orientation orientation, int ro
     return QAbstractListModel::headerData( section, orientation, role );
 }
 
-void ListModel::appendPair( QPair< QString, KIcon* > pair)
+void ListModel::appendPair( QPair< QString, KIcon > pair)
 {
     m_list.append(pair);
 }
 
-void ListModel::removePair( QPair< QString, KIcon* > pair)
+void ListModel::appendPair( QList< QPair< QString, KIcon > > pairList)
+{
+    m_list.append(pairList);
+}
+
+void ListModel::removePair( QPair< QString, KIcon > pair)
 {
     m_list.removeOne(pair);
 }
