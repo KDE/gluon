@@ -62,21 +62,25 @@ QVariant ListModel::headerData( int section, Qt::Orientation orientation, int ro
 void ListModel::appendPair( QPair< QString, KIcon* > pair)
 {
     m_list.append(pair);
+    reset();
 }
 
 void ListModel::appendPair( QList< QPair< QString, KIcon* > > pairList)
 {
     m_list.append(pairList);
+    reset();
 }
 
 void ListModel::removePair( QPair< QString, KIcon* > pair)
 {
     m_list.removeOne(pair);
+    reset();
 }
 
 void ListModel::clearPair( )
 {
     m_list.clear( );
+    reset();
 }
 
 // bool ListModel::insertRows( int row, int count, const QModelIndex& parent )
