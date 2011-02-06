@@ -249,14 +249,10 @@ void MainWindow::resizeEvent( QResizeEvent* event )
 
 void MainWindow::showGames()
 {
-    if( !m_gamesOverlay )
-    {
-        m_gamesOverlay = new GamesOverlay( this );
-        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
-        m_gamesOverlay->setGeometry( geometry() );
-        connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-        connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
-    }
+    m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+    m_gamesOverlay->setGeometry( geometry() );
+    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
+    connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
 
     if( m_gameDetailsOverlay )
     {
@@ -265,7 +261,6 @@ void MainWindow::showGames()
         m_gameDetailsOverlay->deleteLater();
         m_gameDetailsOverlay = 0;
     }
-
 }
 
 void MainWindow::showGameDetails( const QModelIndex& index )

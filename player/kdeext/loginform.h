@@ -27,6 +27,7 @@
 
 #include <KDE/KLineEdit>
 #include <KDE/KPushButton>
+#include <KDE/KProgressDialog>
 
 #include <QtGui/QLabel>
 #include <QtGui/QCheckBox>
@@ -59,6 +60,7 @@ class LoginForm : public Overlay
         QLabel* m_passwordLabel;
         QLabel* m_usernameFeedbackLabel;
         QCheckBox* m_rememberMeCheckBox;
+        KProgressDialog* m_progressDialog;
 
         bool m_loggedIn;
 

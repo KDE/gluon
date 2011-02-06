@@ -87,13 +87,13 @@ void ListModel::clearPair( )
 // {
     // if( count != 1 )  //Don't support more than one row at a time
     // {
-        // qDebug() << "Can insert only one comment at a time";
+        // kDebug() << "Can insert only one comment at a time";
         // return false;
     // }
 
     // if( row != rowCount( parent ) )
     // {
-        // qDebug() << "Can only add a comment to the end of existing comments";
+        // kDebug() << "Can only add a comment to the end of existing comments";
         // return false;
     // }
 
