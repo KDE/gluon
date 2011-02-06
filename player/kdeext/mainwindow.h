@@ -26,7 +26,6 @@
 #include "gamedetailsoverlay.h"
 #include "views/gamesview.h"
 
-#include <player/lib/models/gamesmodel.h>
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
 #include <engine/gameproject.h>
@@ -86,7 +85,6 @@ namespace GluonKDEPlayer {
             class MainWindowPrivate;
             MainWindowPrivate* d;
 
-            GluonPlayer::GamesModel* m_gamesModel;
             GamesOverlay* m_gamesOverlay;
             QGridLayout* m_layout;
             QString m_gameFileName;

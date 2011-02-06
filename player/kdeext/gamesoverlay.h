@@ -22,6 +22,7 @@
 
 #include "loginform.h"
 #include "models/listmodel.h"
+#include "models/gameitemsmodel.h"
 #include "delegates/itemsviewdelegate.h"
 
 #include <KDE/KIcon>
@@ -59,6 +60,7 @@ namespace GluonKDEPlayer
 
             QListView* m_gamesView;
             ItemsViewDelegate* m_gamesDelegate;
+            GameItemsModel* m_gameItemsModel;
 
             LoginForm* m_loginForm;
             QGridLayout* m_gridLayout;

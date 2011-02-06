@@ -52,6 +52,7 @@ namespace GluonKDEPlayer
 
         private:
             QList<GamesViewItem*> m_gamesViewItems;
+            QStringList id;
     };
 }
 

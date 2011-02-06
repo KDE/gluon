@@ -27,20 +27,20 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_model( new ListModel( m_view ) )
     , m_gamesView( new QListView( this ) )
     , m_gamesDelegate( new ItemsViewDelegate(m_gamesView, this) )
+    , m_gameItemsModel( new GameItemsModel( m_gamesView ) )
     , m_loginForm( new LoginForm( this ) )
     , m_gridLayout( new QGridLayout( this ) )
     , m_stackedWidget( new QStackedWidget( this ) )
     , m_availableView( new KSqueezedTextLabel( i18n( "Coming soon!" ), this ) )
     , m_communityView( new KSqueezedTextLabel( i18n( "Community. Under development!" ), this ) )
 {
-    connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
-
     m_view->setModel(m_model);
     m_model->appendPair(qMakePair(i18n("Login"), new KIcon( "network-connect" )));
     m_stackedWidget->addWidget(m_loginForm);
 
     m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
+    m_gamesView->setItemDelegate(m_gamesDelegate);
+    m_gamesView->setModel(m_gameItemsModel);
     m_stackedWidget->addWidget(m_gamesView);
 
     m_model->appendPair(qMakePair(i18n("Available"), new KIcon( "get-hot-new-stuff" )));

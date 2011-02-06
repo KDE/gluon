@@ -42,7 +42,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
                 GluonEngine::GameProject project;
                 project.loadFromFile( projectFileName );
                 m_gamesViewItems.append(new GamesViewItem(project.name(), project.description()));
-                project.property( "id" );
+                id.append(project.property( "id" ).toString());
         }
     }
 }
