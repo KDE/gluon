@@ -21,14 +21,13 @@
 #define GAMESOVERLAY_H
 
 #include "loginform.h"
-#include "views/gamesview.h"
-
 #include "models/listmodel.h"
+#include "delegates/itemsviewdelegate.h"
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
+#include <KDE/KSqueezedTextLabel>
 
-#include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
 #include <QtGui/QListView>
 #include <QtGui/QStackedWidget>
@@ -43,10 +42,12 @@ namespace GluonKDEPlayer
 
         public:
             explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-            GamesView* gamesView();
+            virtual ~GamesOverlay() {}
 
-            protected slots:
-                void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+            QListView* gamesView();
+
+        protected slots:
+            void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
 
         signals:
             void gameToPlaySelected( const QModelIndex& index );
@@ -55,12 +56,15 @@ namespace GluonKDEPlayer
         private:
             QListView* m_view;
             ListModel* m_model;
-            GamesView* m_gamesView;
+
+            QListView* m_gamesView;
+            ItemsViewDelegate* m_gamesDelegate;
+
             LoginForm* m_loginForm;
             QGridLayout* m_gridLayout;
             QStackedWidget* m_stackedWidget;
-            QLabel* m_availableView;
-            QLabel* m_communityView;
+            KSqueezedTextLabel* m_availableView;
+            KSqueezedTextLabel* m_communityView;
     };
 }
 #endif // GAMESOVERLAY_H

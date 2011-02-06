@@ -20,7 +20,7 @@
 #ifndef GAMESVIEWITEM_H
 #define GAMESVIEWITEM_H
 
-// #include <KDE/KPushButton>
+#include <KDE/KPushButton>
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
 #include <KDE/KSqueezedTextLabel>
@@ -44,17 +44,29 @@ namespace GluonKDEPlayer
             virtual void setModelIndex( const QModelIndex& index );
             QModelIndex modelIndex() const;
 
+        protected slots:
+            void playGameActivated();
+
         signals:
+            void gameToPlaySelected( const QModelIndex& index );
             void gameSelected( const QModelIndex& index );
 
         protected:
             void layoutWidgets(const QString& gameName, const QString& gameDescription);
             virtual void mousePressEvent( QMouseEvent* event );
 
+        public:
+            QString gameName() const;
+            void setGameName( QString newGameName );
+
+            QString gameDescription() const;
+            void setGameDescription( QString newGameDescription );
+
             QModelIndex m_index;
             KSqueezedTextLabel* m_preview;
             KSqueezedTextLabel* m_gameName;
             KSqueezedTextLabel* m_gameDescription;
+            KPushButton* m_playButton;
             QGridLayout* m_layout;
     };
 }

@@ -39,6 +39,7 @@ namespace GluonKDEPlayer
      */
     class GameItemsModel : public QAbstractListModel
     {
+        Q_OBJECT
         public:
             explicit GameItemsModel( QObject* parent = 0 );
             virtual ~GameItemsModel() {}
@@ -47,6 +48,7 @@ namespace GluonKDEPlayer
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         private:
             QList<GamesViewItem*> m_gamesViewItems;

@@ -62,6 +62,11 @@ int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
     return m_gamesViewItems.count();
 }
 
+int GameItemsModel::columnCount( const QModelIndex& /* parent */ ) const
+{
+    return 1;
+}
+
 QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( section == 0 )

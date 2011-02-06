@@ -25,12 +25,13 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_view( new QListView( this ) )
     , m_model( new ListModel( m_view ) )
-    , m_gamesView( new GamesView( this ) )
+    , m_gamesView( new QListView( this ) )
+    , m_gamesDelegate( new ItemsViewDelegate(m_gamesView, this) )
     , m_loginForm( new LoginForm( this ) )
     , m_gridLayout( new QGridLayout( this ) )
     , m_stackedWidget( new QStackedWidget( this ) )
-    , m_availableView( new QLabel( i18n( "Coming soon!" ), this ) )
-    , m_communityView( new QLabel( i18n( "Community. Under development!" ), this ) )
+    , m_availableView( new KSqueezedTextLabel( i18n( "Coming soon!" ), this ) )
+    , m_communityView( new KSqueezedTextLabel( i18n( "Community. Under development!" ), this ) )
 {
     connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
     connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
@@ -59,7 +60,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
            SLOT( selectionChanged( const QModelIndex &, const QModelIndex &) ) );
 }
 
-GamesView* GamesOverlay::gamesView()
+QListView* GamesOverlay::gamesView()
 {
     return m_gamesView;
 }
