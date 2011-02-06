@@ -58,6 +58,7 @@ namespace GluonKDEPlayer
         protected:
             QAbstractItemView *m_itemView;
             KIcon* m_preview;
+            QSize m_buttonSize;
     };
 }
 

@@ -57,11 +57,11 @@ void GamesViewItem::layoutWidgets(const QString& gameName, const QString& gameDe
     m_gameName->setText( gameName );
     m_gameDescription->setText( gameDescription );
 
-    m_layout->addWidget( m_preview, 0, 0, 2, 1 );
-    m_layout->addWidget( m_gameName, 0, 1 );
-    m_layout->addWidget( m_gameDescription, 1, 1 );
-    m_layout->addWidget( m_playButton, 0, 2, 2, 1 );
-    setLayout( m_layout );
+    // m_layout->addWidget( m_preview, 0, 0, 2, 1 );
+    // m_layout->addWidget( m_gameName, 0, 1 );
+    // m_layout->addWidget( m_gameDescription, 1, 1 );
+    // m_layout->addWidget( m_playButton, 0, 2, 2, 1 );
+    // setLayout( m_layout );
 }
 
 void GamesViewItem::setModelIndex( const QModelIndex& index )
