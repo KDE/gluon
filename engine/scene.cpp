@@ -25,6 +25,7 @@
 #include "gameproject.h"
 
 #include "core/gdlhandler.h"
+#include "game.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
@@ -61,7 +62,17 @@ void Scene::resetScene()
     if( !d->sceneContentsLoaded )
         return;
 
+    if(Game::instance()->isRunning())
+    {
+        sceneContents()->stop();
+        sceneContents()->cleanup();
+    }
     d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
+    if(Game::instance()->isRunning())
+    {
+        sceneContents()->initialize();
+        sceneContents()->start();
+    }
 }
 
 QString

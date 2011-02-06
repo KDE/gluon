@@ -63,6 +63,16 @@ namespace GluonCore
              */
             Q_INVOKABLE void subscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject);
             
+            /**
+             * Unsubscribe from a message.
+             * The object will be removed and will no longer receive this message.
+             * 
+             * \param message The
+             */
+            Q_INVOKABLE void unsubscribe(const QString& message, GluonObject* receiver);
+            
+            Q_INVOKABLE void unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject);
+            
         public Q_SLOTS:
             /**
              * Publish a message.

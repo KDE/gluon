@@ -66,11 +66,6 @@ namespace GluonEngine
             virtual void setName( const QString& newName );
 
             /**
-             * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
-             */
-            virtual void resetScene();
-
-            /**
              * Return a GDL representation of the scene's contents (that is, the GluonObject
              * hierarchy which makes up the scene tree)
              *
@@ -83,6 +78,12 @@ namespace GluonEngine
              * which makes up the scene)
              */
             Q_INVOKABLE GluonEngine::GameObject* sceneContents();
+            
+        public Q_SLOTS:
+            /**
+             * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
+             */
+            virtual void resetScene();
 
         private:
             ScenePrivate* d;
