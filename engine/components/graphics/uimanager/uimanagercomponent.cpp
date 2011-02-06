@@ -138,7 +138,15 @@ class UiManagerComponent::UiManagerComponentPrivate
 
         void reload()
         {
-            q->cleanup();
+            if( ui )
+            {
+                QDeclarativeItem* item = ui->qmlItem();
+                if( scene && item && item->scene() == scene )
+                {
+                    scene->removeItem( item );
+                }
+            }
+
             q->initialize();
         }
 
@@ -195,7 +203,7 @@ void UiManagerComponent::initialize()
 
             d->ui->load();
         }
-        
+
         QDeclarativeEngine* engine = d->ui->engine();
 
         d->engineAccess = new EngineAccess(this);
@@ -206,10 +214,7 @@ void UiManagerComponent::initialize()
                                                                 "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
-    }
 
-    if( d->ui && d->ui->isLoaded() )
-    {
         d->ui->execute();
 
         QDeclarativeItem* item = d->ui->qmlItem();
@@ -317,6 +322,11 @@ void UiManagerComponent::cleanup()
 
 void UiManagerComponent::setUi(UiAsset* ui)
 {
+    if( ui == d->ui )
+    {
+        return;
+    }
+
     d->ui = ui;
 
     connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );
