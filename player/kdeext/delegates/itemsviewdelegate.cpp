@@ -178,18 +178,7 @@ QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QMo
 void ItemsViewDelegate::slotPlayClicked()
 {
     QModelIndex index = focusedIndex();
-
-    if (index.isValid()) {
-        const QSortFilterProxyModel * model = qobject_cast<const QSortFilterProxyModel*>(index.model());
-        const GameItemsModel * realmodel = qobject_cast<const GameItemsModel*>(model->sourceModel());
-        // KNS::Entry * entry = realmodel->entryForIndex(model->mapToSource(index));
-        // if ( !entry )
-            // return;
-        // if (entry->status() == Entry::Installed) {
-            // emit performAction(DownloadDialog::kUninstall, entry);
-        // } else {
-            // emit performAction(DownloadDialog::kInstall, entry);
-        // }
-    }
+    if (index.isValid())
+        emit gameSelected( index );
 }
 
