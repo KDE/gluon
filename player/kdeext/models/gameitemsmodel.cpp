@@ -51,7 +51,7 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
     if( role == Qt::UserRole )
     {
-
+        return QVariant::fromValue( m_gamesViewItems.at( index.row() ) );
     }
 
     return QVariant();

@@ -18,7 +18,9 @@
  */
 
 #include "gamesview.h"
-#include "gamesviewitem.h"
+// #include "views/gamesviewitem.h"
+
+using namespace GluonKDEPlayer;
 
 GamesView::GamesView( QWidget* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )
@@ -30,16 +32,16 @@ void GamesView::setModel( QAbstractItemModel* model )
 {
     AbstractItemView::setModel( model );
 
-    for( int i = 0; i < m_model->rowCount(); ++i )
-    {
-        GamesViewItem* item = new GamesViewItem( this );
-        item->setModelIndex( m_model->index( i, 0 ) );
-        // item->setAcceptHoverEvents( true );
-        item->installEventFilter( this );
-        connect( item, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-        connect( item, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
-        m_contentLayout->addWidget( item );
-    }
+    // for( int i = 0; i < m_model->rowCount(); ++i )
+    // {
+        // GamesViewItem* item = new GamesViewItem( this );
+        // item->setModelIndex( m_model->index( i, 0 ) );
+        // // item->setAcceptHoverEvents( true );
+        // item->installEventFilter( this );
+        // connect( item, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
+        // connect( item, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
+        // m_contentLayout->addWidget( item );
+    // }
 }
 
 bool GamesView::eventFilter( QObject* obj, QEvent* event )

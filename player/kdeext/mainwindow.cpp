@@ -45,7 +45,7 @@
 #include <QtGui/QLabel>
 #include <QtCore/QTimer>
 
-using namespace GluonKDEExtPlayer;
+using namespace GluonKDEPlayer;
 
 class MainWindow::MainWindowPrivate
 {
@@ -249,7 +249,7 @@ void MainWindow::resizeEvent( QResizeEvent* event )
 
 void MainWindow::showGames()
 {
-    m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+    // m_gamesOverlay->gamesView()->setModel( m_gamesModel );
     m_gamesOverlay->setGeometry( geometry() );
     connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
     connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );

@@ -30,32 +30,36 @@
 #include <QtCore/QModelIndex>
 #include <QtCore/QEvent>
 
-class GamesViewItem : public QWidget
+namespace GluonKDEPlayer
 {
+    class GamesViewItem : public QWidget
+    {
         Q_OBJECT
-    public:
-        GamesViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        public:
+            GamesViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            GamesViewItem( const GamesViewItem& other, QWidget* parent = 0 );
+            GamesViewItem( QString gameName, QString gameDescription, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            virtual ~GamesViewItem() {}
 
-        virtual void setModelIndex( const QModelIndex& index );
-        QModelIndex modelIndex() const;
+            virtual void setModelIndex( const QModelIndex& index );
+            QModelIndex modelIndex() const;
 
-    protected slots:
-        void playGameActivated();
+        signals:
+            void gameSelected( const QModelIndex& index );
 
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
+        protected:
+            void layoutWidgets(const QString& gameName, const QString& gameDescription);
+            virtual void mousePressEvent( QMouseEvent* event );
 
-    protected:
-        void layoutWidgets();
-        virtual void mousePressEvent( QMouseEvent* event );
+            QModelIndex m_index;
+            KSqueezedTextLabel* m_preview;
+            KSqueezedTextLabel* m_gameName;
+            KSqueezedTextLabel* m_gameDescription;
+            QGridLayout* m_layout;
+    };
+}
 
-        QModelIndex m_index;
-        KSqueezedTextLabel* m_preview;
-        KSqueezedTextLabel* m_gameName;
-        KSqueezedTextLabel* m_gameDescription;
-        // KPushButton* m_playButton;
-        QGridLayout* m_layout;
-};
+Q_DECLARE_METATYPE( GluonKDEPlayer::GamesViewItem )
+Q_DECLARE_METATYPE( GluonKDEPlayer::GamesViewItem* )
 
 #endif // GAMESVIEWITEM_H

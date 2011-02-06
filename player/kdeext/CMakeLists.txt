@@ -15,6 +15,7 @@ set(kdeextplayer_SRCS
     loginform.cpp
     delegates/itemsviewbasedelegate.cpp
     models/listmodel.cpp
+    models/gameitemsmodel.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp

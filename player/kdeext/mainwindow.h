@@ -44,7 +44,7 @@
 
 class KRecentFilesAction;
 
-namespace GluonKDEExtPlayer {
+namespace GluonKDEPlayer {
     /**
      * The main window of the KDE Player frontend
      */

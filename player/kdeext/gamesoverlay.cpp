@@ -18,8 +18,8 @@
  */
 
 #include "gamesoverlay.h"
-#include "loginform.h"
-#include "views/gamesview.h"
+
+using namespace GluonKDEPlayer;
 
 GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )

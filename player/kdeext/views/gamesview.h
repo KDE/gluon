@@ -24,26 +24,30 @@
 
 #include <KDE/KTitleWidget>
 
+#include <QtCore/QEvent>
 #include <QtGui/QGridLayout>
 #include <QtCore/QModelIndex>
 
 class QAbstractItemModel;
 
-class GamesView : public AbstractItemView
+namespace GluonKDEPlayer
 {
+    class GamesView : public AbstractItemView
+    {
         Q_OBJECT
-    public:
-        GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
+        public:
+            GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            virtual void setModel( QAbstractItemModel* model );
 
-    protected:
-        KTitleWidget* m_itemBackground;
+        protected:
+            KTitleWidget* m_itemBackground;
 
-        bool eventFilter( QObject* obj, QEvent* event );
+            bool eventFilter( QObject* obj, QEvent* event );
 
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
-};
+        signals:
+            void gameToPlaySelected( const QModelIndex& index );
+            void gameSelected( const QModelIndex& index );
+    };
+}
 
 #endif // GAMESVIEW_H

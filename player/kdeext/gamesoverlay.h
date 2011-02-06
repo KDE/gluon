@@ -20,6 +20,9 @@
 #ifndef GAMESOVERLAY_H
 #define GAMESOVERLAY_H
 
+#include "loginform.h"
+#include "views/gamesview.h"
+
 #include "models/listmodel.h"
 
 #include <KDE/KIcon>
@@ -32,33 +35,32 @@
 #include <QtGui/QItemSelectionModel>
 #include <QtCore/QModelIndex>
 
-class GamesView;
-class LoginForm;
-
-class GamesOverlay : public QWidget
+namespace GluonKDEPlayer
 {
+    class GamesOverlay : public QWidget
+    {
         Q_OBJECT
 
-    public:
-        explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        GamesView* gamesView();
+        public:
+            explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            GamesView* gamesView();
 
-    protected slots:
-        void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+            protected slots:
+                void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
 
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
+        signals:
+            void gameToPlaySelected( const QModelIndex& index );
+            void gameSelected( const QModelIndex& index );
 
-    private:
-        QListView* m_view;
-        ListModel* m_model;
-        GamesView* m_gamesView;
-        LoginForm* m_loginForm;
-        QGridLayout* m_gridLayout;
-        QStackedWidget* m_stackedWidget;
-        QLabel* m_availableView;
-        QLabel* m_communityView;
-};
-
+        private:
+            QListView* m_view;
+            ListModel* m_model;
+            GamesView* m_gamesView;
+            LoginForm* m_loginForm;
+            QGridLayout* m_gridLayout;
+            QStackedWidget* m_stackedWidget;
+            QLabel* m_availableView;
+            QLabel* m_communityView;
+    };
+}
 #endif // GAMESOVERLAY_H

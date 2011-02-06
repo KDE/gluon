@@ -18,7 +18,8 @@
  */
 
 #include "gamesviewitem.h"
-#include "lib/models/gamesmodel.h"
+
+using namespace GluonKDEPlayer;
 
 GamesViewItem::GamesViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
@@ -30,21 +31,32 @@ GamesViewItem::GamesViewItem( QWidget* parent, Qt::WindowFlags wFlags )
 {
 }
 
-void GamesViewItem::setModelIndex( const QModelIndex& index )
+GamesViewItem::GamesViewItem( QString gameName, QString gameDescription, QWidget* parent, Qt::WindowFlags wFlags )
+    : QWidget( parent, wFlags )
+    , m_preview( new KSqueezedTextLabel )
+    , m_gameName( new KSqueezedTextLabel( this ) )
+    , m_gameDescription( new KSqueezedTextLabel( this ) )
+    // , m_playButton( new KPushButton( this ) )
+    , m_layout( new QGridLayout() )
 {
-    m_index = index;
-    layoutWidgets();
+    layoutWidgets(gameName, gameDescription);
 }
 
-void GamesViewItem::layoutWidgets()
+GamesViewItem::GamesViewItem( const GamesViewItem& other, QWidget* parent )
+    : QWidget( parent )
 {
-    m_preview->setPixmap(KIcon( "gluon-creator").pixmap(32, 32));
-    m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
-    m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
+}
+
+void GamesViewItem::layoutWidgets(const QString& gameName, const QString& gameDescription)
+{
 
     // m_playButton->setIcon( KIcon( "media-playback-start" ) );
     // m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     // connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
+
+    m_preview->setPixmap(KIcon( "gluon-creator").pixmap(32, 32));
+    m_gameName->setText( gameName );
+    m_gameDescription->setText( gameDescription );
 
     m_layout->addWidget( m_preview, 0, 0, 2, 1 );
     m_layout->addWidget( m_gameName, 0, 1 );
@@ -53,18 +65,17 @@ void GamesViewItem::layoutWidgets()
     setLayout( m_layout );
 }
 
+void GamesViewItem::setModelIndex( const QModelIndex& index )
+{
+    m_index = index;
+}
+
 QModelIndex GamesViewItem::modelIndex() const
 {
     return m_index;
 }
 
-void GamesViewItem::playGameActivated()
+void GamesViewItem::mousePressEvent( QMouseEvent* /* event */ )
 {
-    emit gameToPlaySelected( m_index );
-}
-
-void GamesViewItem::mousePressEvent( QMouseEvent* event )
-{
-    Q_UNUSED( event )
-    emit gameSelected( m_index );
+    // emit gameSelected( m_index );
 }
