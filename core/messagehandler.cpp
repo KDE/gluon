@@ -32,7 +32,7 @@ template<> MessageHandler* Singleton<MessageHandler>::m_instance = 0;
 class MessageHandler::Private
 {
     public:
-        QMultiHash<QString, GluonObject*> subscribedObjects;
+        QMultiHash<QString, QWeakPointer<GluonObject> > subscribedObjects;
         QMultiHash<QString, QScriptValue> subscribedFunctions;
         QHash<qint64, QScriptValue> functionObjects;
 
@@ -40,7 +40,7 @@ class MessageHandler::Private
 
 void MessageHandler::subscribe(const QString& message, GluonObject* receiver)
 {
-    d->subscribedObjects.insert(message, receiver);
+    d->subscribedObjects.insert(message, QWeakPointer<GluonObject>(receiver));
 }
 
 void MessageHandler::subscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject )
@@ -49,12 +49,34 @@ void MessageHandler::subscribe(const QString& message, const QScriptValue& recei
     d->functionObjects.insert(receiver.objectId(), thisObject);
 }
 
+void MessageHandler::unsubscribe(const QString& message, GluonObject* receiver)
+{
+    d->subscribedObjects.remove(message, QWeakPointer<GluonObject>(receiver));
+}
+
+void MessageHandler::unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject)
+{
+    Q_UNUSED(thisObject)
+    QMultiHash<QString, QScriptValue>::iterator itr;
+    for(itr = d->subscribedFunctions.find(message); itr != d->subscribedFunctions.end() && itr.key() == message; ++itr)
+    {
+        if(itr.value().equals(receiver))
+            break;
+    }
+    
+    if(itr != d->subscribedFunctions.end() && itr.key() == message)
+    {
+        d->subscribedFunctions.erase(itr);
+        d->functionObjects.remove(receiver.objectId());
+    }
+}
+
 void MessageHandler::publish(const QString& message)
 {
-    QMultiHash<QString, GluonObject*>::const_iterator oitr;
+    QMultiHash<QString, QWeakPointer<GluonObject> >::const_iterator oitr;
     for(oitr = d->subscribedObjects.constFind(message); oitr != d->subscribedObjects.constEnd() && oitr.key() == message; ++oitr)
     {
-        oitr.value()->handleMessage(message);
+        oitr.value().data()->handleMessage(message);
     }
 
     QMultiHash<QString, QScriptValue>::iterator fitr;

@@ -67,6 +67,7 @@ MainWindow::MainWindow(const QString& filename )
     , m_gamesModel( new GluonPlayer::GamesModel( this ) )
     , m_gamesOverlay( new GamesOverlay( this ) )
     , m_layout( new QGridLayout )
+    , m_gameDetailsOverlay( 0 )
     , m_project( new GluonEngine::GameProject )
 {
     setCentralWidget( m_gamesOverlay );
@@ -139,8 +140,6 @@ void MainWindow::playGame( )
     {
         stateChanged( "playing" );
 
-        // d->mainArea->setActiveTab( 0 );
-
         QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
         // saveProject();
 
@@ -192,7 +191,7 @@ void MainWindow::stopGame()
 void MainWindow::optionsConfigureKeys()
 {
     KShortcutsDialog dlg( KShortcutsEditor::AllActions,
-      KShortcutsEditor::LetterShortcutsAllowed, this );
+    KShortcutsEditor::LetterShortcutsAllowed, this );
 
     dlg.addCollection(actionCollection());
     // if (m_part)
@@ -250,25 +249,18 @@ void MainWindow::resizeEvent( QResizeEvent* event )
 
 void MainWindow::showGames()
 {
-    if( !m_gamesOverlay )
+    m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+    m_gamesOverlay->setGeometry( geometry() );
+    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
+    connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
+
+    if( m_gameDetailsOverlay )
     {
-        m_gamesOverlay = new GamesOverlay( this );
-        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
-        m_gamesOverlay->setGeometry( geometry() );
-        connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-        connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
+        m_gameDetailsOverlay->hide();
+        m_layout->removeWidget( m_gameDetailsOverlay );
+        m_gameDetailsOverlay->deleteLater();
+        m_gameDetailsOverlay = 0;
     }
-
-    // if( m_gameDetailsOverlay )
-    // {
-        // m_gameDetailsOverlay->hide();
-        // m_layout->removeWidget( m_gameDetailsOverlay );
-        // m_gameDetailsOverlay->deleteLater();
-        // m_gameDetailsOverlay = 0;
-    // }
-
-    m_layout->addWidget( m_gamesOverlay );
-    m_gamesOverlay->show();
 }
 
 void MainWindow::showGameDetails( const QModelIndex& index )

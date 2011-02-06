@@ -212,7 +212,7 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*.gluon|Gluon Project Files" ), 0, QString(), KFileDialog::ConfirmOverwrite );
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() )
         saveProject();
 }
@@ -300,7 +300,8 @@ void MainWindow::playGame( )
         saveProject();
 
         //Set the focus to the entire window, so that we do not accidentally trigger actions
-        setFocus();
+        FileManager::instance()->setCurrentFile(i18nc("View Game Tab", "View"));
+        FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         //Start the game loop
         //Note that this starts an infinite loop in Game
@@ -309,6 +310,7 @@ void MainWindow::playGame( )
         //This happens after we exit the game loop
         stateChanged( "playing", StateReverse );
 
+        setFocus();
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();

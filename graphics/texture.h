@@ -28,6 +28,7 @@
 #include "gluon_graphics_export.h"
 #include <QtCore/QObject>
 
+class QImage;
 class QUrl;
 namespace GluonGraphics
 {
@@ -68,6 +69,13 @@ namespace GluonGraphics
              * \return The OpenGL texture ID for this texture.
              */
             uint glTexture() const;
+            
+            /**
+             * Retrieve the image used for this texture.
+             * 
+             * \return The image used.
+             */
+            QImage image() const;
 
         private:
             class TexturePrivate;

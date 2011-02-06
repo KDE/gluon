@@ -2,8 +2,11 @@ import QtQuick 1.0
 //import org.kde.gluon 1.0
 
 Item {
+    id: root;
     width: 500;
     height: 500;
+    
+    property bool ignoreFirst: true;
 
     Text {
         id: title;
@@ -167,7 +170,14 @@ Item {
             }
             else
             {
-                buttons.currentItem.trigger();
+                if(root.ignore)
+                {
+                    root.ignore = false;
+                }
+                else
+                {
+                    buttons.currentItem.trigger();
+                }
             }
         }
     }

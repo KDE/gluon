@@ -31,7 +31,7 @@
 
 namespace GluonEngine
 {
-    const QString projectSuffix;
+    const QString projectSuffix = ".gluon";
     class GameProjectPrivate;
 
     /**

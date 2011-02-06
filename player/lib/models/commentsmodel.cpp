@@ -20,17 +20,20 @@
 
 #include "commentsmodel.h"
 
-#include <player/lib/atticamanager.h>
-#include <core/gluonobject.h>
-#include <core/gdlhandler.h>
-#include <core/gluon_global.h>
+#include "player/lib/atticamanager.h"
+
+#include "core/gluonobject.h"
+#include "core/gdlhandler.h"
+#include "core/gluon_global.h"
+
+#include "engine/gameproject.h"
 
 #include <attica/comment.h>
 #include <attica/listjob.h>
 
-#include <QDebug>
-#include <QFile>
-#include <QDir>
+#include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -141,8 +144,8 @@ GluonObject* CommentsModel::addComment( Attica::Comment comment, GluonObject* pa
 void CommentsModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
-    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
 
     rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at(0);
 }
@@ -151,8 +154,8 @@ void CommentsModel::saveData()
 {
     qDebug() << "Saving Data";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
-    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
     QFile dataFile( filename );

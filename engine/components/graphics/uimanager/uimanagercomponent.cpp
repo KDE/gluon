@@ -194,16 +194,16 @@ void UiManagerComponent::initialize()
                  this, SLOT( resizeQmlItem( const QRectF& ) ) );
     }
 
-    if( d->ui && !d->ui->isLoaded() )
+    if( d->ui )
     {
-        qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
-        qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
+        if(!d->ui->isLoaded())
+        {
+            qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
+            qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
 
-        d->ui->load();
-    }
+            d->ui->load();
+        }
 
-    if( d->ui && d->ui->isLoaded() )
-    {
         QDeclarativeEngine* engine = d->ui->engine();
 
         d->engineAccess = new EngineAccess(this);
@@ -211,7 +211,7 @@ void UiManagerComponent::initialize()
 
         //Glorious hack:steal the engine
         QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), 0,
-                                                                   "__engineAccess.setEngine( this )" );
+                                                                "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
 
