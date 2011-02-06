@@ -20,12 +20,12 @@
 #ifndef GAMESVIEWITEM_H
 #define GAMESVIEWITEM_H
 
-#include <KDE/KTitleWidget>
+// #include <KDE/KPushButton>
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
+#include <KDE/KSqueezedTextLabel>
 
 #include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
 #include <QtGui/QToolTip>
 #include <QtCore/QModelIndex>
 #include <QtCore/QEvent>
@@ -51,10 +51,10 @@ class GamesViewItem : public QWidget
         virtual void mousePressEvent( QMouseEvent* event );
 
         QModelIndex m_index;
-        KTitleWidget* m_preview;
-        QLabel* m_gameName;
-        QLabel* m_gameDescription;
-        KTitleWidget* m_playButton;
+        KSqueezedTextLabel* m_preview;
+        KSqueezedTextLabel* m_gameName;
+        KSqueezedTextLabel* m_gameDescription;
+        // KPushButton* m_playButton;
         QGridLayout* m_layout;
 };
 

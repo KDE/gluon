@@ -22,11 +22,11 @@
 
 GamesViewItem::GamesViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
-    , m_preview( 0 )
-    , m_gameName( 0 )
-    , m_gameDescription( 0 )
-    , m_playButton( 0 )
-    , m_layout( 0 )
+    , m_preview( new KSqueezedTextLabel )
+    , m_gameName( new KSqueezedTextLabel( this ) )
+    , m_gameDescription( new KSqueezedTextLabel( this ) )
+    // , m_playButton( new KPushButton( this ) )
+    , m_layout( new QGridLayout() )
 {
 }
 
@@ -38,31 +38,18 @@ void GamesViewItem::setModelIndex( const QModelIndex& index )
 
 void GamesViewItem::layoutWidgets()
 {
-    m_layout = new QGridLayout();
-
-    m_preview = new KTitleWidget( this );
-    m_preview->setPixmap( KIcon( "gluon_creator" ) );
-    // m_preview->setAcceptHoverEvents( false );
-    // m_preview->setContentsMargins( 0, 0, 0, 0 );
-    // m_preview->setAcceptedMouseButtons( Qt::NoButton );
-    m_preview->setFocusPolicy( Qt::NoFocus );
-    m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-
-    m_gameName = new QLabel( this );
+    m_preview->setPixmap(KIcon( "gluon-creator").pixmap(32, 32));
     m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
-
-    m_gameDescription = new QLabel( this );
     m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
 
-    m_playButton = new KTitleWidget( this );
-    m_playButton->setPixmap( KIcon( "media-playback-start" ) );
+    // m_playButton->setIcon( KIcon( "media-playback-start" ) );
     // m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-    connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
+    // connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
 
     m_layout->addWidget( m_preview, 0, 0, 2, 1 );
     m_layout->addWidget( m_gameName, 0, 1 );
     m_layout->addWidget( m_gameDescription, 1, 1 );
-    m_layout->addWidget( m_playButton, 0, 2, 2, 1 );
+    // m_layout->addWidget( m_playButton, 0, 2, 2, 1 );
     setLayout( m_layout );
 }
 
