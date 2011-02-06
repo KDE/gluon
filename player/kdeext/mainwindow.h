@@ -78,6 +78,8 @@ namespace GluonKDEPlayer {
             void showGames();
             void showGameDetails( const QModelIndex& index );
             void activated( QModelIndex index );
+            void countFrames( int );
+            void updateTitle( int msec );
 
         private:
             void setupActions();

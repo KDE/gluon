@@ -19,6 +19,8 @@
 
 #include "mainwindow.h"
 
+#include "input/inputmanager.h"
+
 #include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -130,6 +132,18 @@ void MainWindow::setupActions()
 
 void MainWindow::startGame( )
 {
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
+
+    m_project->loadFromFile( m_gameFileName );
+
+    setWindowFilePath( m_gameFileName );
+    d->title = windowTitle();
+
+    GluonEngine::Game::instance()->setGameProject( m_project );
+    GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
+
+    setFocus();
+
     // if( GluonEngine::Game::instance()->isRunning() )
     // {
         // GluonEngine::Game::instance()->setPause( false );
@@ -148,7 +162,7 @@ void MainWindow::startGame( )
         //Start the game loop
         //Note that this starts an infinite loop in Game
         GluonEngine::Game::instance()->runGame();
-
+        QApplication::instance()->exit();
         //This happens after we exit the game loop
         // stateChanged( "playing", StateReverse );
 
@@ -293,14 +307,14 @@ void MainWindow::openProject()
         return;
     }
 
-    // GluonCore::GluonObjectFactory::instance()->loadPlugins();
     d->widget = new GluonGraphics::RenderWidget( this );
     setCentralWidget( d->widget );
 
-    m_project->loadFromFile( m_gameFileName );
-    GluonEngine::Game::instance()->setGameProject( m_project );
-    GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
+    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
     QTimer::singleShot( 1000, this, SLOT( startGame() ) );
 }
 
@@ -309,5 +323,25 @@ void MainWindow::activated( QModelIndex index )
     if( index.isValid() )
     {
     }
+}
+
+void MainWindow::updateTitle( int msec )
+{
+    d->msecElapsed += msec;
+
+    static int fps = 0;
+    if( d->msecElapsed > 1000 )
+    {
+        fps = d->frameCount;
+        d->frameCount = 0;
+        d->msecElapsed = 0;
+    }
+
+    setWindowTitle( d->title + QString( " (%1 FPS)" ).arg( fps ) );
+}
+
+void MainWindow::countFrames( int /* time */ )
+{
+    d->frameCount++;
 }
 
