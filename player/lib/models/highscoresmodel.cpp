@@ -24,9 +24,11 @@
 #include "core/gdlhandler.h"
 #include "core/gluon_global.h"
 
-#include <QDebug>
-#include <QDir>
-#include <QTextStream>
+#include "engine/gameproject.h"
+
+#include <QtCore/QDebug>
+#include <QtCore/QDir>
+#include <QtCore/QTextStream>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -101,8 +103,8 @@ QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, 
 void HighScoresModel::loadData()
 {
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
-    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
 
     QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) );
     rootNode = highScores.at( 0 );
@@ -112,8 +114,8 @@ void HighScoresModel::saveData()
 {
     qDebug() << "Saving high scores Data";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( ".gluon/" + QString( serviceURI ) );
-    gluonDir.cd( ".gluon/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
     QFile dataFile( filename );

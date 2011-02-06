@@ -38,7 +38,7 @@ QVariant GamesModel::data( const QModelIndex& index, int role ) const
         QString gameDirName = m_dir.entryList( QDir::Dirs | QDir::NoDotAndDotDot ).at( index.row() );
         QDir gameDir = m_dir;
         gameDir.cd( gameDirName );
-        QStringList gluonProjectFiles = gameDir.entryList( QStringList( "*.gluon" ) );
+        QStringList gluonProjectFiles = gameDir.entryList( QStringList( QString( "*%1" ).arg( GluonEngine::projectSuffix ) ) );
         QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
 
         if( !gluonProjectFiles.isEmpty() )
