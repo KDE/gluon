@@ -36,10 +36,10 @@ class Texture::TexturePrivate
 {
     public:
         TexturePrivate()
-        {
-            glTexture = 0;
-        }
+            : glTexture(0)
+        { }
         uint glTexture;
+        QImage image;
 };
 
 Texture::Texture( QObject* parent )
@@ -70,10 +70,9 @@ around the nasty const_cast .
     if( d->glTexture )
         context->deleteTexture( d->glTexture );
 
-    QImage image;
-    image.load( url.toLocalFile() );
+    d->image.load( url.toLocalFile() );
 
-    d->glTexture = context->bindTexture( image );
+    d->glTexture = context->bindTexture( d->image );
 
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -90,6 +89,11 @@ around the nasty const_cast .
 uint Texture::glTexture() const
 {
     return d->glTexture;
+}
+
+QImage Texture::image() const
+{
+    return d->image;
 }
 
 #include "texture.moc"
