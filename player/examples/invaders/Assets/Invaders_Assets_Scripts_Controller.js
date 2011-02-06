@@ -2,16 +2,18 @@ this.gameEnded = false;
 
 this.initialize = function()
 {
+    Game.score = Game.score || 0;
     this.Scene.paused = false;
+    this.Scene.enemies = 28;
+    this.Scene.lives = 5;
+    this.Scene.sceneScore = 0;
+    
     MessageHandler.subscribe("playerDied", this.playerDied, this);
     MessageHandler.subscribe("enemyDied", this.enemyDied, this);
 }
 
 this.start = function()
 {
-    this.Scene.enemies = 28;
-    this.Scene.lives = 5;
-
     var enemy = Game.getFromScene("Enemy");
     for(var y = 40; y >= 10; y -= 10)
     {
@@ -26,22 +28,12 @@ this.start = function()
     this.createPlayer();
 }
 
-this.update = function(time)
+this.cleanup = function()
 {
-    if(this.gameEnded)
-    {
-        if(this.GameObject.Key_Continue.isActionStopped())
-        {
-            Game.resetCurrentScene();
-        }
-    }
-    else
-    {
-        if(this.GameObject.Key_Pause.isActionStarted())
-        {
-            this.Scene.paused = !this.Scene.paused;
-        }
-    }
+    if(this.Scene.resetting)
+        Game.score -= this.Scene.sceneScore;
+    MessageHandler.unsubscribe("playerDied", this.playerDied, this);
+    MessageHandler.unsubscribe("enemyDied", this.enemyDied, this);
 }
 
 this.playerDied = function()
@@ -51,7 +43,7 @@ this.playerDied = function()
     if(this.Scene.lives <= 0)
     {
         this.Scene.paused = true;
-        this.gameEnded = true;
+        this.Scene.gameEnded = true;
     }
     else
     {
@@ -62,12 +54,13 @@ this.playerDied = function()
 this.enemyDied = function()
 {
     this.Scene.enemies--;
+    this.Scene.sceneScore++;
     Game.score++;
     
     if(this.Scene.enemies <= 0)
     {
         this.Scene.paused = true;
-        this.gameEnded = true;
+        this.Scene.gameEnded = true;
     }
 }
 
