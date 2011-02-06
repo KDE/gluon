@@ -39,7 +39,10 @@ class RenderableScene::RenderableScenePrivate
         {
             const int w = Engine::instance()->currentViewport()->width();
             const int h = Engine::instance()->currentViewport()->height();
-            target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
+            if( QGLContext::currentContext() )
+            {
+                target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
+            }
             target->setMaterialInstance( Engine::instance()->material( "default" )->createInstance( "qmlTarget" ) );
 
             viewportSizeChanged( 0, 0, w, h );
@@ -91,9 +94,16 @@ RenderableScene::~RenderableScene()
 
 void RenderableScene::renderScene()
 {
-    if( !d->dirty )
+    if( !d->dirty || !QGLContext::currentContext() )
     {
         return;
+    }
+
+    if( !d->target->framebufferObject() )
+    {
+        const int w = Engine::instance()->currentViewport()->width();
+        const int h = Engine::instance()->currentViewport()->height();
+        d->target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
     }
 
     d->target->bind();
