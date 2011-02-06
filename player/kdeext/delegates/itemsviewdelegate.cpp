@@ -75,7 +75,7 @@ QList<QWidget*> ItemsViewDelegate::createItemWidgets() const
     list << playButton;
     setBlockedEventTypes(playButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
                           << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick);
-    connect(playButton, SIGNAL(clicked()), SLOT(slotDetailsClicked()));
+    connect(playButton, SIGNAL(clicked()), SLOT(slotPlayClicked()));
 
     return list;
 }
@@ -173,5 +173,23 @@ QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QMo
     size.setWidth(option.fontMetrics.height() * 4);
     size.setHeight(qMax(option.fontMetrics.height() * 7, PreviewHeight)); // up to 6 lines of text, and two margins
     return size;
+}
+
+void ItemsViewDelegate::slotPlayClicked()
+{
+    QModelIndex index = focusedIndex();
+
+    if (index.isValid()) {
+        const QSortFilterProxyModel * model = qobject_cast<const QSortFilterProxyModel*>(index.model());
+        const GameItemsModel * realmodel = qobject_cast<const GameItemsModel*>(model->sourceModel());
+        // KNS::Entry * entry = realmodel->entryForIndex(model->mapToSource(index));
+        // if ( !entry )
+            // return;
+        // if (entry->status() == Entry::Installed) {
+            // emit performAction(DownloadDialog::kUninstall, entry);
+        // } else {
+            // emit performAction(DownloadDialog::kInstall, entry);
+        // }
+    }
 }
 

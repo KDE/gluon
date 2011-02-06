@@ -54,6 +54,7 @@ namespace GluonKDEPlayer
 
         protected slots:
                 bool eventFilter(QObject *watched, QEvent *event);
+                void slotPlayClicked();
 
         protected:
             QAbstractItemView *m_itemView;
