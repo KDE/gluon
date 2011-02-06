@@ -64,11 +64,11 @@ void NewCommentForm::validateAndSubmit()
 {
     if( m_titleEdit->text().isEmpty() )
     {
-        qDebug() << "Empty title";
+        kDebug() << "Empty title";
     }
     if( m_bodyEdit->toPlainText().isEmpty() )
     {
-        qDebug() << "Empty body";
+        kDebug() << "Empty body";
         return;
     }
     emit accepted( m_parentIndex, m_titleEdit->text(), m_bodyEdit->toPlainText() );

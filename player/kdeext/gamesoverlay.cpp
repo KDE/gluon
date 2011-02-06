@@ -32,10 +32,8 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_availableView( new QLabel( i18n( "Coming soon!" ), this ) )
     , m_communityView( new QLabel( i18n( "Community. Under development!" ), this ) )
 {
-    // connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    // connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
-
-    // m_tabWidget->addTab( m_gamesView, KIcon( "applications-games" ), i18n( "Installed" ) );
+    connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
+    connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
 
     m_view->setModel(m_model);
     m_model->appendPair(qMakePair(i18n("Login"), new KIcon( "network-connect" )));
@@ -57,8 +55,8 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_gridLayout->setColumnStretch( 1, 3 );
     setLayout( m_gridLayout );
 
-    connect( m_view->selectionModel(), SIGNAL( currentChanged ( const QModelIndex & current, const QModelIndex & previous ) ),
-           SLOT( selectionChanged( const QModelIndex & current, const QModelIndex & previous ) ) );
+    connect( m_view->selectionModel(), SIGNAL( currentChanged ( const QModelIndex &, const QModelIndex &) ),
+           SLOT( selectionChanged( const QModelIndex &, const QModelIndex &) ) );
 }
 
 GamesView* GamesOverlay::gamesView()

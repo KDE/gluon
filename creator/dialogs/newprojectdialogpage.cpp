@@ -142,7 +142,7 @@ QString NewProjectDialogPage::createProject() const
 	KUrl location = d->location->url();
 	QString projectFileName = project->fullyQualifiedFileName();
 	location.addPath( projectFileName );
-	location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + ".gluon" );
+	location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + GluonEngine::projectSuffix );
 	project->setFilename( location );
 
 	KUrl currentLocation = d->location->url();

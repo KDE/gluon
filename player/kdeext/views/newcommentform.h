@@ -24,10 +24,10 @@
 #include <KDE/KTextEdit>
 #include <KDE/KLocalizedString>
 #include <KDE/KLineEdit>
+#include <KDE/KDebug>
 
 #include <QtGui/QGridLayout>
 #include <QtCore/QModelIndex>
-#include <QtCore/QDebug>
 
 class NewCommentForm : public QWidget
 {

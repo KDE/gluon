@@ -23,12 +23,12 @@
 #include "gluon_player_export.h"
 
 #include <KDE/KIcon>
+#include <KDE/KDebug>
 
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtCore/QPair>
 #include <QtCore/QVariant>
-#include <QtCore/QDebug>
 #include <QtCore/QAbstractListModel>
 
 /**

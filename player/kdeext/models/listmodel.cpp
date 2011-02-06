@@ -62,34 +62,38 @@ QVariant ListModel::headerData( int section, Qt::Orientation orientation, int ro
 void ListModel::appendPair( QPair< QString, KIcon* > pair)
 {
     m_list.append(pair);
+    reset();
 }
 
 void ListModel::appendPair( QList< QPair< QString, KIcon* > > pairList)
 {
     m_list.append(pairList);
+    reset();
 }
 
 void ListModel::removePair( QPair< QString, KIcon* > pair)
 {
     m_list.removeOne(pair);
+    reset();
 }
 
 void ListModel::clearPair( )
 {
     m_list.clear( );
+    reset();
 }
 
 // bool ListModel::insertRows( int row, int count, const QModelIndex& parent )
 // {
     // if( count != 1 )  //Don't support more than one row at a time
     // {
-        // qDebug() << "Can insert only one comment at a time";
+        // kDebug() << "Can insert only one comment at a time";
         // return false;
     // }
 
     // if( row != rowCount( parent ) )
     // {
-        // qDebug() << "Can only add a comment to the end of existing comments";
+        // kDebug() << "Can only add a comment to the end of existing comments";
         // return false;
     // }
 

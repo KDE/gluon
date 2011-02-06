@@ -115,7 +115,7 @@ void MainWindow::openClicked( bool toggled )
 {
     Q_UNUSED( toggled )
 
-    QString fileName = KFileDialog::getOpenFileName( KUrl() , i18n( "Select a Project" ), this, QString( "*.gluon|Gluon Project Files" ) );
+    QString fileName = KFileDialog::getOpenFileName( KUrl() , i18n( "Select a Project" ), this, QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
 }

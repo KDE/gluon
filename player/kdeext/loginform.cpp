@@ -84,7 +84,7 @@ void LoginForm::initDone()
 
 void LoginForm::initFailed()
 {
-    qDebug() << "Initialization failed";
+   kDebug() << "Initialization failed";
 }
 
 void LoginForm::doLogin()
