@@ -69,10 +69,6 @@ QVariant GamesModel::data( const QModelIndex& index, int role ) const
                 }
             }
         }
-        else
-        {
-            return QVariant();
-        }
     }
 
     return QVariant();
