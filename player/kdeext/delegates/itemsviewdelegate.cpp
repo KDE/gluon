@@ -177,8 +177,9 @@ QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QMo
 
 void ItemsViewDelegate::slotPlayClicked()
 {
-    QModelIndex index = focusedIndex();
-    if (index.isValid())
-        emit gameSelected( index );
+    m_index = focusedIndex();
+    if (m_index.isValid()) {
+        emit gameToPlaySelected( m_index );
+    }
 }
 

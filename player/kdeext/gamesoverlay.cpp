@@ -40,7 +40,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
     m_gamesView->setItemDelegate(m_gamesDelegate);
-    connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
+    connect( m_gamesDelegate, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
     m_gamesView->setModel(m_gameItemsModel);
     m_stackedWidget->addWidget(m_gamesView);
 

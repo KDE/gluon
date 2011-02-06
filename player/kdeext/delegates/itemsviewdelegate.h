@@ -53,13 +53,14 @@ namespace GluonKDEPlayer
             virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
         signals:
-            void gameSelected( const QModelIndex& index );
+            void gameToPlaySelected( const QModelIndex& index );
 
         protected slots:
             bool eventFilter(QObject *watched, QEvent *event);
             void slotPlayClicked();
 
         protected:
+            QModelIndex m_index;
             QAbstractItemView *m_itemView;
             KIcon* m_preview;
             QSize m_buttonSize;

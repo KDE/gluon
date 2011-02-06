@@ -130,32 +130,32 @@ void MainWindow::setupActions()
 
 void MainWindow::startGame( )
 {
-    if( GluonEngine::Game::instance()->isRunning() )
-    {
-        GluonEngine::Game::instance()->setPause( false );
-        stateChanged( "paused", StateReverse );
-    }
-    else
-    {
-        stateChanged( "playing" );
+    // if( GluonEngine::Game::instance()->isRunning() )
+    // {
+        // GluonEngine::Game::instance()->setPause( false );
+        // stateChanged( "paused", StateReverse );
+    // }
+    // else
+    // {
+        // stateChanged( "playing" );
 
-        QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
+        // QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
         // saveProject();
 
         //Set the focus to the entire window, so that we do not accidentally trigger actions
-        setFocus();
+        // setFocus();
 
         //Start the game loop
         //Note that this starts an infinite loop in Game
         GluonEngine::Game::instance()->runGame();
 
         //This happens after we exit the game loop
-        stateChanged( "playing", StateReverse );
+        // stateChanged( "playing", StateReverse );
 
         // openProject( d->fileName );
-        GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
-        GluonEngine::Game::instance()->initializeAll();
-    }
+        // GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        // GluonEngine::Game::instance()->initializeAll();
+    // }
 }
 
 void MainWindow::pauseGame()
@@ -293,7 +293,9 @@ void MainWindow::openProject()
         return;
     }
 
-    GluonCore::GluonObjectFactory::instance()->loadPlugins();
+    // GluonCore::GluonObjectFactory::instance()->loadPlugins();
+    d->widget = new GluonGraphics::RenderWidget( this );
+    setCentralWidget( d->widget );
 
     m_project->loadFromFile( m_gameFileName );
     GluonEngine::Game::instance()->setGameProject( m_project );
