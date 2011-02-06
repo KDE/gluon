@@ -128,7 +128,7 @@ void MainWindow::setupActions()
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
 }
 
-void MainWindow::playGame( )
+void MainWindow::startGame( )
 {
     if( GluonEngine::Game::instance()->isRunning() )
     {

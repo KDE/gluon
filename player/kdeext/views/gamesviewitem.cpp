@@ -39,7 +39,7 @@ GamesViewItem::GamesViewItem( QString gameName, QString gameDescription, QWidget
     , m_playButton( new KPushButton( this ) )
     , m_layout( new QGridLayout() )
 {
-    layoutWidgets(gameName, gameDescription);
+    setMembers(gameName, gameDescription);
 }
 
 GamesViewItem::GamesViewItem( const GamesViewItem& other, QWidget* parent )
@@ -47,7 +47,7 @@ GamesViewItem::GamesViewItem( const GamesViewItem& other, QWidget* parent )
 {
 }
 
-void GamesViewItem::layoutWidgets(const QString& gameName, const QString& gameDescription)
+void GamesViewItem::setMembers(const QString& gameName, const QString& gameDescription)
 {
     m_playButton->setIcon( KIcon( "media-playback-start" ) );
     m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
@@ -56,12 +56,6 @@ void GamesViewItem::layoutWidgets(const QString& gameName, const QString& gameDe
     m_preview->setPixmap(KIcon( "gluon-creator").pixmap(32, 32));
     m_gameName->setText( gameName );
     m_gameDescription->setText( gameDescription );
-
-    // m_layout->addWidget( m_preview, 0, 0, 2, 1 );
-    // m_layout->addWidget( m_gameName, 0, 1 );
-    // m_layout->addWidget( m_gameDescription, 1, 1 );
-    // m_layout->addWidget( m_playButton, 0, 2, 2, 1 );
-    // setLayout( m_layout );
 }
 
 void GamesViewItem::setModelIndex( const QModelIndex& index )

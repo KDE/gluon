@@ -42,6 +42,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
                 GluonEngine::GameProject project;
                 project.loadFromFile( projectFileName );
                 m_gamesViewItems.append(new GamesViewItem(project.name(), project.description()));
+                m_projectFileNames.append( projectFileName );
                 id.append(project.property( "id" ).toString());
         }
     }
@@ -49,9 +50,13 @@ GameItemsModel::GameItemsModel( QObject* parent )
 
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
-    if( role == Qt::UserRole )
-    {
+    switch (role) {
+    case Qt::UserRole:
         return QVariant::fromValue( m_gamesViewItems.at( index.row() ) );
+    case Qt::DisplayRole:
+        return m_projectFileNames.at( index.row() );
+    default:
+        break;
     }
 
     return QVariant();

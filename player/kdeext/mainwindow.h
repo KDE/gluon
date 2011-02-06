@@ -59,7 +59,7 @@ namespace GluonKDEPlayer {
             virtual void resizeEvent( QResizeEvent* event );
 
         public slots:
-            void playGame();
+            void startGame();
             void pauseGame();
             void stopGame();
 

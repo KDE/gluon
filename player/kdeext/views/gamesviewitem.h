@@ -52,7 +52,7 @@ namespace GluonKDEPlayer
             void gameSelected( const QModelIndex& index );
 
         protected:
-            void layoutWidgets(const QString& gameName, const QString& gameDescription);
+            void setMembers(const QString& gameName, const QString& gameDescription);
             virtual void mousePressEvent( QMouseEvent* event );
 
         public:
@@ -62,6 +62,7 @@ namespace GluonKDEPlayer
             QString gameDescription() const;
             void setGameDescription( QString newGameDescription );
 
+        private:
             QModelIndex m_index;
             KSqueezedTextLabel* m_preview;
             KSqueezedTextLabel* m_gameName;
