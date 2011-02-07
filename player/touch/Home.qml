@@ -23,18 +23,32 @@ Rectangle {
     anchors.fill: parent
     Button {
         id: new_user
-        width: parent.width / 4
-        height: parent.height * 1 / 5
+        /* width: parent.width / 4 */
+        /* height: parent.height * 1 / 5 */
         icon: "icons/get-hot-new-stuff.png"
         text: qsTr("Get More Games")
         subtext: "5 new games, 16 updated"
         onClicked: console.log("this doesn't do anything yet...")
     }
 
+    Component {
+        id: gameItemsDelegate
+        Item {
+            Image {
+                source: "icons/hi32-app-gluon.png"
+            }
+            Text { text: gameName }
+            Text { text: gameDescription }
+            Image {
+                source: "icons/media-playback-start.png"
+            }
+        }
+    }
+
     ListView {
         width: 200; height: 250
         anchors.fill: parent
         model: gameItemsModel
-        delegate: Text { text: "Animal: " + type + ", " + size }
+        delegate: gameItemsDelegate
     }
 }

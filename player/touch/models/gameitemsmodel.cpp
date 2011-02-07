@@ -24,6 +24,7 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
+#include <QtCore/QDebug>
 
 using namespace GluonQMLPlayer;
 
@@ -80,9 +81,9 @@ GameItemsModel::GameItemsModel( QObject* parent )
     }
 
     QHash<int, QByteArray> roles;
-    roles[GameNameRole] = "gamename";
-    roles[GameDescriptionRole] = "gamedescription";
-    roles[ProjectFileNameRole] = "projectfilename";
+    roles[GameNameRole] = "gameName";
+    roles[GameDescriptionRole] = "gameDescription";
+    roles[ProjectFileNameRole] = "projectFileName";
     roles[IDRole] = "id";
     setRoleNames(roles);
 }
