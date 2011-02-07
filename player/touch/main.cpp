@@ -17,6 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "models/gameitemsmodel.h"
+
 #include <player/lib/authentication.h>
 
 #include <QtGui/QApplication>
@@ -30,9 +32,15 @@ int main( int argc, char** argv )
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon QML Player" );
 
-    QDeclarativeView view;
+    GluonQMLPlayer::GameItemsModel *gameItemsModel = new GluonQMLPlayer::GameItemsModel();
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
-    view.rootContext()->setContextProperty( "authentication", auth );
+
+    QDeclarativeView view;
+
+    QDeclarativeContext *ctxt = view.rootContext();
+    ctxt->setContextProperty( "authentication", auth );
+    ctxt->setContextProperty( "gamesModel", gameItemsModel );
+
     view.setSource( QUrl( "qrc:/main.qml" ) );
     view.show();
 

@@ -8,6 +8,7 @@ include_directories(
 
 set(QMLPLAYER_SRCS
     main.cpp
+    models/gameitemsmodel.cpp
 )
 
 SET(GLUON_QMLPLAYER_RCCS
