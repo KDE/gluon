@@ -23,7 +23,7 @@
 #include "gluon_player_export.h"
 
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QStringList>
+#include <QtCore/QList>
 #include <QtCore/QDir>
 
 namespace GluonQMLPlayer
@@ -35,6 +35,26 @@ namespace GluonQMLPlayer
      * Use the different columns of the model to obtain required properties.
      *
      */
+
+    class GameViewItem
+    {
+        public:
+            explicit GameViewItem(const QString &gameName, const QString &description,
+                    const QString &projectFileName, const QString &id);
+            virtual ~GameViewItem() {}
+
+            QString gameName() const;
+            QString gameDescription() const;
+            QString projectFileName() const;
+            QString id() const;
+
+        private:
+            QString m_gameName;
+            QString m_gameDescription;
+            QString m_projectFileName;
+            QString m_id;
+    };
+
     class GameItemsModel : public QAbstractListModel
     {
         Q_OBJECT
@@ -57,10 +77,7 @@ namespace GluonQMLPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         private:
-            QStringList m_gameNames;
-            QStringList m_gameDescriptions;
-            QStringList m_projectFileNames;
-            QStringList m_ids;
+            QList<GameViewItem> m_gameViewItems;
     };
 }
 

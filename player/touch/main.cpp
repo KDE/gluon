@@ -39,7 +39,7 @@ int main( int argc, char** argv )
 
     QDeclarativeContext *ctxt = view.rootContext();
     ctxt->setContextProperty( "authentication", auth );
-    ctxt->setContextProperty( "gamesModel", gameItemsModel );
+    ctxt->setContextProperty( "gameItemsModel", gameItemsModel );
 
     view.setSource( QUrl( "qrc:/main.qml" ) );
     view.show();

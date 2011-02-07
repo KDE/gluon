@@ -30,4 +30,11 @@ Rectangle {
         subtext: "5 new games, 16 updated"
         onClicked: console.log("this doesn't do anything yet...")
     }
+
+    ListView {
+        width: 200; height: 250
+        anchors.fill: parent
+        model: gameItemsModel
+        delegate: Text { text: "Animal: " + type + ", " + size }
+    }
 }
