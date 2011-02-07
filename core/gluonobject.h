@@ -272,6 +272,8 @@ namespace GluonCore
              */
             Q_INVOKABLE bool hasMetaInfo() const;
 
+            virtual bool shouldSerializeChildren() const;
+
             virtual void setPropertyFromString( const QString& propertyName, const QString& propertyValue );
             virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
 
