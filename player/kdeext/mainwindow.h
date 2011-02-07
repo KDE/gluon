@@ -24,7 +24,6 @@
 
 #include "gamesoverlay.h"
 #include "gamedetailsoverlay.h"
-#include "views/gamesview.h"
 
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
