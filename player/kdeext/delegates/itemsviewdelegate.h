@@ -60,7 +60,6 @@ namespace GluonKDEPlayer
             void slotPlayClicked();
 
         protected:
-            QModelIndex m_index;
             QAbstractItemView *m_itemView;
             KIcon* m_preview;
             QSize m_buttonSize;
