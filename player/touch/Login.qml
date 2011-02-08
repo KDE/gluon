@@ -21,24 +21,24 @@ import QtQuick 1.0
 
 Rectangle {
 
-       property alias username: usernameLineEdit.text;
-       property alias password: passwordLineEdit.text;
+    property alias username: usernameLineEdit.text;
+    property alias password: passwordLineEdit.text;
 
-       property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
-       property variant backtabTarget: KeyNavigation.left || KeyNavigation.up
+    property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
+    property variant backtabTarget: KeyNavigation.left || KeyNavigation.up
 
-      property bool providerInitialized: false;
-      Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
-      Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
+    property bool providerInitialized: false;
+    Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
+    Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
 
-       x: 0
-       y: 0
+    x: 0
+    y: 0
 
-       signal clicked
+    signal clicked
 
-       id: lgn
-       border.color: "black"
-       color: "darkGrey"
+    id: lgn
+    border.color: "black"
+    color: "darkGrey"
 
    function providerSet() {
        providerInitialized = true;
@@ -51,23 +51,23 @@ Rectangle {
 
    Text {
         id: usernameText
-        text: qsTr("Username")
-        color: "white"
-        font.pixelSize: 24
+        text: qsTr("Username");
+        color: "white";
+        font.pixelSize: 24;
    }
 
-
    LineEdit {
-        id: usernameLineEdit
-        x: 15
-        width: usernameText.width * 3
-        anchors.top: usernameText.bottom
+        id: usernameLineEdit;
+        x: 15;
+        width: usernameText.width * 3;
+        anchors.top: usernameText.bottom;
+        focus: true;
    }
 
    Text {
         id: passwordText
         text: qsTr("Password")
-        color: "white"
+        color: usernameText.color
         width: usernameText.width
         font.pixelSize: usernameText.font.pixelSize
         anchors.top: usernameLineEdit.bottom
@@ -75,8 +75,8 @@ Rectangle {
 
    LineEdit {
         id: passwordLineEdit
-        x: 15
-        width: usernameText.width * 3
+        x: usernameLineEdit.x
+        width: usernameLineEdit.width
         anchors.top: passwordText.bottom
         echoMode: TextInput.Password
    }

@@ -25,22 +25,39 @@ Rectangle {
         id: new_user
         /* width: parent.width / 4 */
         /* height: parent.height * 1 / 5 */
-        icon: "icons/get-hot-new-stuff.png"
-        text: qsTr("Get More Games")
-        subtext: "5 new games, 16 updated"
-        onClicked: console.log("this doesn't do anything yet...")
+        icon: "icons/get-hot-new-stuff.png";
+        text: qsTr("Get More Games");
+        subtext: "5 new games, 16 updated";
+        onClicked: console.log("this doesn't do anything yet...");
     }
 
     Component {
         id: gameItemsDelegate
         Item {
             Image {
-                source: "icons/hi32-app-gluon.png"
+                id: gameIcon;
+                source: "icons/hi32-app-gluon.png";
             }
-            Text { text: gameName }
-            Text { text: gameDescription }
+
+            Text {
+                id: gameViewName;
+                text: gameName;
+                anchors.left: gameIcon.right;
+            }
+
+            Text {
+                id: gameViewDescription;
+                text: gameDescription;
+                anchors {
+                    top: gameViewName.botton;
+                    left: gameIcon.right;
+                }
+            }
+
             Image {
-                source: "icons/media-playback-start.png"
+                id: playButtonIcon;
+                source: "icons/media-playback-start.png";
+                anchors.left: gameViewName.right;
             }
         }
     }
