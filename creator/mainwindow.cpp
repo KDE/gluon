@@ -55,6 +55,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
+#include <KMenuBar>
 
 using namespace GluonCreator;
 
@@ -152,10 +153,10 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile(i18nc("View Game Tab", "View"));
+        FileManager::instance()->closeFile("view");
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -407,3 +408,4 @@ void GluonCreator::MainWindow::projectDialogAccepted()
 void MainWindow::initializeGame()
 {
 }
+
