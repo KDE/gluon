@@ -51,6 +51,7 @@
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
 #include <KParts/PartManager>
+#include <KMenuBar>
 
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
@@ -92,6 +93,7 @@ MainWindow::MainWindow( const QString& fileName )
 
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)));
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -407,5 +409,26 @@ void GluonCreator::MainWindow::projectDialogAccepted()
 
 void MainWindow::initializeGame()
 {
+}
+
+void MainWindow::partChanged(KParts::Part* part )
+{
+    if(part == FileManager::instance()->part("view"))
+    {
+        QTimer::singleShot(100, GluonEngine::Game::instance(), SLOT(drawAll()));
+    }
+    
+    QList<QAction*> actions = menuBar()->actions();
+    foreach(QAction* action, actions)
+    {
+        if(action->menu() && action->menu()->actions().count() == 0)
+        {
+            action->setVisible(false);
+        }
+        else
+        {
+            action->setVisible(true);
+        }
+    }
 }
 
