@@ -23,11 +23,49 @@ Rectangle {
     anchors.fill: parent
     Button {
         id: new_user
-        width: parent.width / 4
-        height: parent.height * 1 / 5
-        icon: "icons/get-hot-new-stuff.png"
-        text: qsTr("Get More Games")
-        subtext: "5 new games, 16 updated"
-        onClicked: console.log("this doesn't do anything yet...")
+        /* width: parent.width / 4 */
+        /* height: parent.height * 1 / 5 */
+        icon: "icons/get-hot-new-stuff.png";
+        text: qsTr("Get More Games");
+        subtext: "5 new games, 16 updated";
+        onClicked: console.log("this doesn't do anything yet...");
+    }
+
+    Component {
+        id: gameItemsDelegate
+        Item {
+            Image {
+                id: gameIcon;
+                source: "icons/hi32-app-gluon.png";
+            }
+
+            Text {
+                id: gameViewName;
+                text: gameName;
+                anchors.left: gameIcon.right;
+            }
+
+            Text {
+                id: gameViewDescription;
+                text: gameDescription;
+                anchors {
+                    top: gameViewName.botton;
+                    left: gameIcon.right;
+                }
+            }
+
+            Image {
+                id: playButtonIcon;
+                source: "icons/media-playback-start.png";
+                anchors.left: gameViewName.right;
+            }
+        }
+    }
+
+    ListView {
+        width: 200; height: 250
+        anchors.fill: parent
+        model: gameItemsModel
+        delegate: gameItemsDelegate
     }
 }
