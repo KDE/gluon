@@ -17,9 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "gamewindowmanager.h"
 #include "models/gameitemsmodel.h"
 
 #include <player/lib/authentication.h>
+#include <graphics/renderwidget.h>
 
 #include <QtGui/QApplication>
 #include <QtDeclarative/QDeclarativeView>
@@ -35,16 +37,20 @@ int main( int argc, char** argv )
     GluonQMLPlayer::GameItemsModel *gameItemsModel = new GluonQMLPlayer::GameItemsModel();
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
-    QDeclarativeView view;
+    QDeclarativeView* view = new QDeclarativeView();
+    GluonGraphics::RenderWidget* renderWidget = new GluonGraphics::RenderWidget( 0 );
+    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget, view);
 
-    QDeclarativeContext *ctxt = view.rootContext();
+    QDeclarativeContext *ctxt = view->rootContext();
     ctxt->setContextProperty( "authentication", auth );
     ctxt->setContextProperty( "gameItemsModel", gameItemsModel );
+    ctxt->setContextProperty( "gameWindowManager", gameWindowManager );
 
-    view.setSource( QUrl( "qrc:/main.qml" ) );
-    view.show();
+    view->setSource( QUrl( "qrc:/main.qml" ) );
+    view->setViewport(renderWidget);
+    view->show();
 
-    QObject* obj = view.rootObject();
+    QObject* obj = view->rootObject();
     QObject* login = obj->findChild<QObject*>( "login" );
     QObject::connect( auth, SIGNAL( initialized() ), login, SLOT( providerSet() ) );
 
