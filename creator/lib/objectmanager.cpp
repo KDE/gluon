@@ -242,17 +242,13 @@ GluonEngine::Scene* ObjectManager::createNewScene()
 void ObjectManager::watchCurrentAssets()
 {
     DEBUG_FUNC_NAME
-    QObjectList assets = GluonEngine::Game::instance()->gameProject()->children();
-    foreach( QObject* child, assets )
+    QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findItemsByType<GluonEngine::Asset>();
+    foreach( GluonEngine::Asset* asset, assets )
     {
-        GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( child );
-        if( asset )
-        {
-            QString path( asset->absolutePath() );
-            DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
-            KDirWatch::self()->addFile( path );
-            m_assets.insert( path, asset );
-        }
+        QString path( asset->absolutePath() );
+        DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
+        KDirWatch::self()->addFile( path );
+        m_assets.insert( path, asset );
     }
 }
 
