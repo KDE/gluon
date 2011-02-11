@@ -105,7 +105,10 @@ void CameraControllerComponent::initialize()
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
         if( materialAsset )
             materialAsset->load();
-        GluonGraphics::Engine::instance()->mainRenderTarget()->setMaterialInstance(d->material);
+        if( GluonGraphics::Engine::instance()->mainRenderTarget())
+            GluonGraphics::Engine::instance()->mainRenderTarget()->setMaterialInstance(d->material);
+        else
+            debug( QString( "Warning: there is no main RenderTarget set!" ) );
     }
 
     d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );

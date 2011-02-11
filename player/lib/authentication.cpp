@@ -22,7 +22,7 @@
 #include "atticamanager.h"
 #include <core/singleton.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 

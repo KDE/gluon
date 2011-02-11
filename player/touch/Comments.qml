@@ -20,24 +20,24 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: gluon_player
-    color: "black"
+    id: gluon_player;
+    color: "black";
 
-    x: 0
-    y: 0
+    x: 0;
+    y: 0;
 
-    width: 490
-    height: 720
+    width: 490;
+    height: 720;
 
     SystemPalette {
-        id: activePalette
+        id: activePalette;
     }
 
 
-        Button {
-            id: comment
-            icon: "icons/user-group-new.png"
-            text: "gamerdude"
-            onClicked: console.log("this doesn't do anything yet...")
-        }
+    Button {
+        id: comment;
+        icon: "icons/user-group-new.png";
+        text: "gamerdude";
+        onClicked: console.log("this doesn't do anything yet...");
+    }
 }

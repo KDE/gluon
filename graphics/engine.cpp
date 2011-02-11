@@ -48,7 +48,7 @@ GLUON_DEFINE_SINGLETON(Engine)
 class Engine::EnginePrivate
 {
     public:
-        EnginePrivate() : mainTarget( 0 ), mainTargetShader( 0 ), camera( 0 ) { }
+        EnginePrivate() : mainTarget( 0 ), mainTargetShader( 0 ), camera( 0 ), viewport( 0 ) { }
 
         template <typename T>
         T* createObject( const QString& type, const QString& name );
