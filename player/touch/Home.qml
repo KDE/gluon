@@ -64,7 +64,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        console.log("Play the game!");
+                        console.log("Play the game from the list! Index: " + index);
                         gameWindowManager.setProject(index);
                     }
                 }

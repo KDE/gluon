@@ -23,11 +23,12 @@
 #include <player/lib/authentication.h>
 #include <graphics/renderwidget.h>
 
-#include <QtGui/QApplication>
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtGui/QGraphicsObject>
+#include <QtGui/QApplication>
 #include <QtCore/QSharedPointer>
+#include <QtCore/QDebug>
 
 int main( int argc, char** argv )
 {
@@ -35,17 +36,17 @@ int main( int argc, char** argv )
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon QML Player" );
 
-    GluonQMLPlayer::GameItemsModel *gameItemsModel = new GluonQMLPlayer::GameItemsModel();
+    QSharedPointer<GluonQMLPlayer::GameItemsModel> gameItemsModel = QSharedPointer<GluonQMLPlayer::GameItemsModel>(new GluonQMLPlayer::GameItemsModel());
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
-    QDeclarativeView* view = new QDeclarativeView();
+    QSharedPointer<QDeclarativeView> view = QSharedPointer<QDeclarativeView>(new QDeclarativeView());
     QSharedPointer<GluonGraphics::RenderWidget> renderWidget = QSharedPointer<GluonGraphics::RenderWidget>(new GluonGraphics::RenderWidget( 0 ));
-    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view, gameItemsModel);
+    QSharedPointer<GluonQMLPlayer::GameWindowManager> gameWindowManager= QSharedPointer<GluonQMLPlayer::GameWindowManager>(new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view.data(), gameItemsModel.data()));
 
     QDeclarativeContext *ctxt = view->rootContext();
     ctxt->setContextProperty( "authentication", auth );
-    ctxt->setContextProperty( "gameItemsModel", gameItemsModel );
-    ctxt->setContextProperty( "gameWindowManager", gameWindowManager );
+    ctxt->setContextProperty( "gameItemsModel", gameItemsModel.data() );
+    ctxt->setContextProperty( "gameWindowManager", gameWindowManager.data() );
 
     view->setSource( QUrl( "qrc:/main.qml" ) );
     view->setViewport(renderWidget.data());
