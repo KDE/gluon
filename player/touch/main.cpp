@@ -27,6 +27,7 @@
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtGui/QGraphicsObject>
+#include <QtCore/QSharedPointer>
 
 int main( int argc, char** argv )
 {
@@ -38,8 +39,8 @@ int main( int argc, char** argv )
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
     QDeclarativeView* view = new QDeclarativeView();
-    GluonGraphics::RenderWidget* renderWidget = new GluonGraphics::RenderWidget( 0 );
-    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget, view);
+    QSharedPointer<GluonGraphics::RenderWidget> renderWidget = QSharedPointer<GluonGraphics::RenderWidget>(new GluonGraphics::RenderWidget( 0 ));
+    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view);
 
     QDeclarativeContext *ctxt = view->rootContext();
     ctxt->setContextProperty( "authentication", auth );
@@ -47,7 +48,7 @@ int main( int argc, char** argv )
     ctxt->setContextProperty( "gameWindowManager", gameWindowManager );
 
     view->setSource( QUrl( "qrc:/main.qml" ) );
-    view->setViewport(renderWidget);
+    view->setViewport(renderWidget.data());
     view->show();
 
     QObject* obj = view->rootObject();
