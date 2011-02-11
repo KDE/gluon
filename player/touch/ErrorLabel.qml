@@ -26,8 +26,8 @@ import QtQuick 1.0
 Text {
     id: errorLabel
 
-    color: "red"
-    font.bold: true
+    color: "red";
+    font.bold: true;
 
     function showError(message) {
         errorLabel.text = message;
@@ -42,13 +42,18 @@ Text {
         id: scaleAnimation
         NumberAnimation {
             target: errorLabel;
-            property: "scale"; from: 2; to: 1;
-            easing.type: Easing.OutQuad
+            property: "scale";
+            from: 2;
+            to: 1;
+            easing.type: Easing.OutQuad;
         }
+
         NumberAnimation {
             target: errorLabel;
-            property: "opacity"; from: 0; to: 1;
-            easing.type: Easing.OutQuad
+            property: "opacity";
+            from: 0;
+            to: 1;
+            easing.type: Easing.OutQuad;
         }
     }
 }

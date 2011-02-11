@@ -59,6 +59,15 @@ Rectangle {
                 id: playButtonIcon;
                 source: "icons/media-playback-start.png";
                 anchors.left: gameViewName.right;
+                MouseArea {
+                    id: playButtonMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        console.log("Play the game!");
+                        gameWindowManager.setProject(index);
+                    }
+                }
             }
         }
     }

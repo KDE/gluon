@@ -28,6 +28,7 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QGraphicsView>
+#include <QtOpenGL/QGLWidget>
 
 namespace GluonQMLPlayer {
     /**
@@ -41,6 +42,8 @@ namespace GluonQMLPlayer {
             explicit GameWindowManager( const QString& fileName = "" );
             virtual ~GameWindowManager();
 
+            bool isViewportGLWidget();
+
         protected:
             // virtual void closeEvent( QCloseEvent* event );
 
@@ -51,7 +54,7 @@ namespace GluonQMLPlayer {
 
         private slots:
             void openProject();
-            void setProject( const QModelIndex& index );
+            Q_INVOKABLE void setProject( const QModelIndex& index );
             void activated( QModelIndex index );
             void countFrames( int );
             void updateTitle( int msec );

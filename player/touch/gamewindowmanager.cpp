@@ -62,6 +62,11 @@ GameWindowManager::~GameWindowManager ( )
 {
 }
 
+bool GameWindowManager::isViewportGLWidget( )
+{
+    return qobject_cast<QGLWidget*>(m_view);
+}
+
 void GameWindowManager::startGame( )
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
