@@ -39,7 +39,7 @@ using namespace GluonGraphics;
 class MaterialInstance::MaterialInstancePrivate
 {
     public:
-        MaterialInstancePrivate()
+        MaterialInstancePrivate() : activeCamera( 0 )
         {
             bound = false;
             activeCamera = Engine::instance()->activeCamera();

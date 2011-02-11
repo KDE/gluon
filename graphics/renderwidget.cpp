@@ -34,7 +34,7 @@ using namespace GluonGraphics;
 
 class RenderWidget::RenderWidgetPrivate
 {
-    public:
+
 };
 
 RenderWidget::RenderWidget( QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f ) :
