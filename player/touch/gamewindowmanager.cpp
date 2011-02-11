@@ -106,8 +106,8 @@ void GameWindowManager::stopGame()
 
 void GameWindowManager::setProject( int index )
 {
-    m_gameFileName = m_gameItemsModel->index(index).data().toString();
-    openProject();
+    // m_gameFileName = m_gameItemsModel->index(index).data().toString();
+    // openProject();
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )

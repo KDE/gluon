@@ -39,20 +39,20 @@ int main( int argc, char** argv )
     QSharedPointer<GluonQMLPlayer::GameItemsModel> gameItemsModel = QSharedPointer<GluonQMLPlayer::GameItemsModel>(new GluonQMLPlayer::GameItemsModel());
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
-    QSharedPointer<QDeclarativeView> view = QSharedPointer<QDeclarativeView>(new QDeclarativeView());
-    QSharedPointer<GluonGraphics::RenderWidget> renderWidget = QSharedPointer<GluonGraphics::RenderWidget>(new GluonGraphics::RenderWidget( 0 ));
-    QSharedPointer<GluonQMLPlayer::GameWindowManager> gameWindowManager= QSharedPointer<GluonQMLPlayer::GameWindowManager>(new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view.data(), gameItemsModel.data()));
+    QDeclarativeView view;
+    GluonGraphics::RenderWidget renderWidget;
+    GluonQMLPlayer::GameWindowManager gameWindowManager(&renderWidget, &view, gameItemsModel.data());
 
-    QDeclarativeContext *ctxt = view->rootContext();
+    QDeclarativeContext *ctxt = view.rootContext();
     ctxt->setContextProperty( "authentication", auth );
     ctxt->setContextProperty( "gameItemsModel", gameItemsModel.data() );
-    ctxt->setContextProperty( "gameWindowManager", gameWindowManager.data() );
+    ctxt->setContextProperty( "gameWindowManager", &gameWindowManager );
 
-    view->setSource( QUrl( "qrc:/main.qml" ) );
-    view->setViewport(renderWidget.data());
-    view->show();
+    view.setSource( QUrl( "qrc:/main.qml" ) );
+    view.setViewport(&renderWidget);
+    view.show();
 
-    QObject* obj = view->rootObject();
+    QObject* obj = view.rootObject();
     QObject* login = obj->findChild<QObject*>( "login" );
     QObject::connect( auth, SIGNAL( initialized() ), login, SLOT( providerSet() ) );
 

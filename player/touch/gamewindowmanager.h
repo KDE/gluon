@@ -46,6 +46,7 @@ namespace GluonQMLPlayer {
             virtual ~GameWindowManager();
 
             bool isViewportGLWidget();
+            Q_INVOKABLE void setProject( int index );
 
         protected:
             // virtual void closeEvent( QCloseEvent* event );
@@ -57,7 +58,6 @@ namespace GluonQMLPlayer {
 
         private slots:
             void openProject();
-            Q_INVOKABLE void setProject( int index );
             void setProject( const QModelIndex& index );
             void activated( QModelIndex index );
             void countFrames( int );
