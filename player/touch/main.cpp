@@ -27,8 +27,6 @@
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtGui/QGraphicsObject>
 #include <QtGui/QApplication>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QDebug>
 
 int main( int argc, char** argv )
 {
@@ -41,6 +39,7 @@ int main( int argc, char** argv )
 
     QDeclarativeView view;
     GluonGraphics::RenderWidget renderWidget;
+    renderWidget.initializeGL();
     GluonQMLPlayer::GameWindowManager gameWindowManager(&renderWidget, &view, gameItemsModel.data());
 
     QDeclarativeContext *ctxt = view.rootContext();

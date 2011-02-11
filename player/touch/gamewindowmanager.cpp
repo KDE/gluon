@@ -1,20 +1,20 @@
 /*****************************************************************************
- * This file is part of the Gluon Development Platform                       *
- * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>                     *
- *                                                                           *
- * This program is free software; you can redistribute it and/or modify      *
- * it under the terms of the GNU General Public License as published by      *
- * the Free Software Foundation; either version 2 of the License, or         *
- * (at your option) any later version.                                       *
- *                                                                           *
- * This program is distributed in the hope that it will be useful,           *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
- * GNU General Public License for more details.                              *
- *                                                                           *
- * You should have received a copy of the GNU General Public License along   *
- * with this program; if not, write to the Free Software Foundation, Inc.,   *
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.               *
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *****************************************************************************/
 
 #include "gamewindowmanager.h"
@@ -24,7 +24,8 @@
 #include <core/debughelper.h>
 #include <engine/scene.h>
 
-#include <QtCore/QTimer>
+# include <QtCore/QTimer>
+# include <QtCore/QDebug>
 
 using namespace GluonQMLPlayer;
 
@@ -75,13 +76,8 @@ void GameWindowManager::startGame( )
 
     m_project->loadFromFile( m_gameFileName );
 
-    // setWindowFilePath( m_gameFileName );
-    // d->title = windowTitle();
-
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
-
-    // setFocus();
 
     GluonEngine::Game::instance()->runGame();
     // QApplication::instance()->exit();
@@ -106,13 +102,13 @@ void GameWindowManager::stopGame()
 
 void GameWindowManager::setProject( int index )
 {
-    // m_gameFileName = m_gameItemsModel->index(index).data().toString();
-    // openProject();
+    m_gameFileName = m_gameItemsModel->index(index).data(GameItemsModel::ProjectFileNameRole).toString();
+    openProject();
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data().toString();
+    m_gameFileName = index.data(GameItemsModel::ProjectFileNameRole).toString();
     openProject();
 }
 

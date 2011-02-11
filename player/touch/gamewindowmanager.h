@@ -28,9 +28,9 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 
-#include <QtCore/QModelIndex>
-#include <QtGui/QGraphicsView>
 #include <QtOpenGL/QGLWidget>
+#include <QtGui/QGraphicsView>
+#include <QtCore/QModelIndex>
 
 namespace GluonQMLPlayer {
     /**
