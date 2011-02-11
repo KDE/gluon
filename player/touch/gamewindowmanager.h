@@ -20,6 +20,8 @@
 #ifndef GLUONKDEPLAYER_MAINWINDOW_H
 #define GLUONKDEPLAYER_MAINWINDOW_H
 
+#include "models/gameitemsmodel.h"
+
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
 #include <graphics/renderwidget.h>
@@ -38,7 +40,8 @@ namespace GluonQMLPlayer {
     {
         Q_OBJECT
         public:
-            explicit GameWindowManager( GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view, const QString& fileName = "" );
+            explicit GameWindowManager( GluonGraphics::RenderWidget* renderWidget,
+                    QGraphicsView* view, GameItemsModel* gameItemsModel, const QString& fileName = "" );
             explicit GameWindowManager( const QString& fileName = "" );
             virtual ~GameWindowManager();
 
@@ -54,7 +57,8 @@ namespace GluonQMLPlayer {
 
         private slots:
             void openProject();
-            Q_INVOKABLE void setProject( const QModelIndex& index );
+            Q_INVOKABLE void setProject( int index );
+            void setProject( const QModelIndex& index );
             void activated( QModelIndex index );
             void countFrames( int );
             void updateTitle( int msec );
@@ -68,6 +72,7 @@ namespace GluonQMLPlayer {
             GluonEngine::GameProject* m_project;
 
             QGraphicsView* m_view;
+            GameItemsModel* m_gameItemsModel;
 
             int m_viewportWidth;
             int m_viewportHeight;

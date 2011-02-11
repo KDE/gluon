@@ -49,11 +49,13 @@ GameWindowManager::GameWindowManager(const QString& /* filename */)
 {
 }
 
-GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view, const QString& /* filename */ )
+GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view,
+                                    GameItemsModel* gameItemsModel, const QString& /* filename */ )
     : QObject()
     , d( new GameWindowManagerPrivate )
     , m_project( new GluonEngine::GameProject )
     , m_view(view)
+    , m_gameItemsModel(gameItemsModel)
 {
     d->widget = renderWidget;
 }
@@ -101,6 +103,12 @@ void GameWindowManager::stopGame()
     // GluonEngine::Game::instance()->stopGame();
     // QWidget::closeEvent( event );
 // }
+
+void GameWindowManager::setProject( int index )
+{
+    m_gameFileName = m_gameItemsModel->index(index).data().toString();
+    openProject();
+}
 
 void GameWindowManager::setProject( const QModelIndex& index )
 {

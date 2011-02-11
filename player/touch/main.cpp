@@ -40,7 +40,7 @@ int main( int argc, char** argv )
 
     QDeclarativeView* view = new QDeclarativeView();
     QSharedPointer<GluonGraphics::RenderWidget> renderWidget = QSharedPointer<GluonGraphics::RenderWidget>(new GluonGraphics::RenderWidget( 0 ));
-    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view);
+    GluonQMLPlayer::GameWindowManager* gameWindowManager= new GluonQMLPlayer::GameWindowManager(renderWidget.data(), view, gameItemsModel);
 
     QDeclarativeContext *ctxt = view->rootContext();
     ctxt->setContextProperty( "authentication", auth );
