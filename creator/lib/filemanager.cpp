@@ -75,18 +75,19 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if( !asset )
         return;
 
-    openFile( asset->absolutePath(), asset->name() );
+    openFile( asset->absolutePath(), asset->name(), asset->name() );
 }
 
-void FileManager::openFile( const QString& fileName, const QString& name, const QString& partName, const QVariantList& partParams )
+void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams )
 {
     if( fileName.isEmpty() )
         return;
 
     QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
+    QString fullTitle = title.isEmpty() ? fullName : title;
     if( d->parts.contains( fullName ) )
     {
-        emit newPart( fullName );
+        emit newPart( fullName, fullTitle );
         return;
     }
 
@@ -125,7 +126,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         part->openUrl( url );
         d->parts.insert( fullName, part );
         d->partManager->addPart( part, true );
-        emit newPart( fullName );
+        emit newPart( fullName, fullTitle );
 
         return;
     }

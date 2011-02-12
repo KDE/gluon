@@ -51,10 +51,12 @@
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
 #include <KParts/PartManager>
+#include <KMenuBar>
 
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
+#include <KMenuBar>
 
 using namespace GluonCreator;
 
@@ -91,6 +93,7 @@ MainWindow::MainWindow( const QString& fileName )
 
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)));
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -152,10 +155,10 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile(i18nc("View Game Tab", "View"));
+        FileManager::instance()->closeFile("view");
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -407,3 +410,25 @@ void GluonCreator::MainWindow::projectDialogAccepted()
 void MainWindow::initializeGame()
 {
 }
+
+void MainWindow::partChanged(KParts::Part* part )
+{
+    if(part == FileManager::instance()->part("view"))
+    {
+        QTimer::singleShot(100, GluonEngine::Game::instance(), SLOT(drawAll()));
+    }
+    
+    QList<QAction*> actions = menuBar()->actions();
+    foreach(QAction* action, actions)
+    {
+        if(action->menu() && action->menu()->actions().count() == 0)
+        {
+            action->setVisible(false);
+        }
+        else
+        {
+            action->setVisible(true);
+        }
+    }
+}
+

@@ -74,7 +74,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
 
     setLayout( d->layout );
 
-    connect( FileManager::instance(), SIGNAL( newPart( QString ) ), this, SLOT( addTab( QString ) ) );
+    connect( FileManager::instance(), SIGNAL( newPart( QString, QString ) ), this, SLOT( addTab( QString, QString ) ) );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( activePartChanged( KParts::Part* ) ) );
 }
 
@@ -83,15 +83,16 @@ FileArea::~FileArea()
 
 }
 
-void FileArea::addTab( const QString& name )
+void FileArea::addTab( const QString& name, const QString& title )
 {
     if( d->tabs.contains( name ) )
     {
         d->tabBar->setCurrentIndex( d->tabs.value( name ) );
+        d->tabBar->setTabText( d->tabBar->currentIndex(), title );
         return;
     }
 
-    int tab = d->tabBar->addTab( name );
+    int tab = d->tabBar->addTab( title );
     d->tabs.insert( name, tab );
     d->tabBar->setCurrentIndex( tab );
 }
