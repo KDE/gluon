@@ -20,12 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// WILL BE REPLACE BY QGLTexture!!!!!!!!
-
 #ifndef GLUON_GRAPHICS_TEXTURE_H
 #define GLUON_GRAPHICS_TEXTURE_H
 
 #include "gluon_graphics_export.h"
+
 #include <QtCore/QObject>
 
 class QImage;
@@ -69,10 +68,10 @@ namespace GluonGraphics
              * \return The OpenGL texture ID for this texture.
              */
             uint glTexture() const;
-            
+
             /**
              * Retrieve the image used for this texture.
-             * 
+             *
              * \return The image used.
              */
             QImage image() const;
