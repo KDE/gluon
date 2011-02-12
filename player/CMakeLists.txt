@@ -34,7 +34,6 @@ if(LIBATTICA_FOUND)
     set(libGluonPlayer_SRCS
         lib/models/highscoresmodel.cpp
         lib/models/commentsmodel.cpp
-        lib/models/gamesmodel.cpp
         lib/models/gameitemsmodel.cpp
         lib/authentication.cpp
         lib/atticamanager.cpp
@@ -43,7 +42,6 @@ else(LIBATTICA_FOUND)
     include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
                         ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
     set(libGluonPlayer_SRCS
-        lib/models/gamesmodel.cpp
         lib/models/gameitemsmodel.cpp
     )
 endif(LIBATTICA_FOUND)

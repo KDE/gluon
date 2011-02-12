@@ -32,7 +32,7 @@
 #include <engine/scene.h>
 #include <graphics/item.h>
 #include <graphics/engine.h>
-#include <lib/models/gamesmodel.h>
+#include <lib/models/gameitemsmodel.h>
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QGraphicsSceneResizeEvent>
@@ -72,7 +72,7 @@ PlasmaApplet::~PlasmaApplet()
 
 void PlasmaApplet::init()
 {
-    m_gamesModel = new GamesModel( this );
+    m_gameItemsModel = new GameItemsModel( this );
     m_layout = new QGraphicsLinearLayout( Qt::Vertical );
     setLayout( m_layout );
     showGames();
@@ -143,7 +143,7 @@ void PlasmaApplet::showGames()
     if( !m_gamesOverlay )
     {
         m_gamesOverlay = new GamesOverlay( this );
-        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
+        m_gamesOverlay->gamesView()->setModel( m_gameItemsModel );
         m_gamesOverlay->setGeometry( geometry() );
         connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
         connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
@@ -163,7 +163,7 @@ void PlasmaApplet::showGames()
 
 void PlasmaApplet::showGameDetails( const QModelIndex& index )
 {
-    QString id = index.sibling( index.row(), GamesModel::IdColumn ).data().toString();
+    QString id = index.data( GluonPlayer::GameItemsModel::IDRole ).toString();
     if( id.isEmpty() )
     {
         return;

@@ -27,7 +27,7 @@
 
 #include "glfboapplet.h"
 
-#include <QModelIndex>
+#include <QtCore/QModelIndex>
 
 class QGraphicsLinearLayout;
 
@@ -41,7 +41,7 @@ class GameDetailsOverlay;
 
 namespace GluonPlayer
 {
-    class GamesModel;
+    class GameItemsModel;
 
     class PlasmaApplet : public GLFBOApplet
     {
@@ -58,7 +58,7 @@ namespace GluonPlayer
             int m_viewportHeight;
             QString m_gameFileName;
             GluonEngine::GameProject* m_project;
-            GamesModel* m_gamesModel;
+            GameItemsModel* m_gameItemsModel;
             GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
             QGraphicsLinearLayout* m_layout;
