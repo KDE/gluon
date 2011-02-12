@@ -20,7 +20,7 @@
 
 #include "mainwindow.h"
 
-#include "lib/models/gamesmodel.h"
+#include "lib/models/gameitemsmodel.h"
 
 #include "input/inputmanager.h"
 
@@ -84,7 +84,7 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
 
         QListView* view = new QListView( base );
         layout->addWidget( view );
-        d->model = new GamesModel( view );
+        d->model = new GameItemsModel( view );
         view->setModel( d->model );
         connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
@@ -99,7 +99,7 @@ void MainWindow::activated( QModelIndex index )
 {
     if( index.isValid() )
     {
-        openProject( d->model->data( index ).toString() );
+        openProject( d->model->data( index, GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString() );
     }
 }
 

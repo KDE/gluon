@@ -21,13 +21,13 @@
 #include "actionsdialog.h"
 
 #include "input/inputmanager.h"
+#include "lib/models/gameitemsmodel.h"
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <graphics/renderwidget.h>
-#include <lib/models/gamesmodel.h>
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "graphics/renderwidget.h"
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QStatusBar>
@@ -84,7 +84,7 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
 
         // QListView* view = new QListView( base );
         // layout->addWidget( view );
-        // d->model = new GamesModel( view );
+        // d->model = new GameItemsModel( view );
         // view->setModel( d->model );
         // connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
