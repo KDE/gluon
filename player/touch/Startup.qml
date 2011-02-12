@@ -24,6 +24,12 @@ Rectangle {
     color: "black"
     anchors.fill: parent
 
+   function login() {
+       console.log("Provider have been already initialized!");
+       authentication.login(lgn.username, lgn.password);
+       mainview.statepoint = "home";
+   }
+
    Image {
        id: gluon_logo;
        source: "icons/hi256-app-gluon.png";
@@ -109,4 +115,7 @@ Rectangle {
         anchors.left: gluon_logo.right;
         anchors.margins: 10;
     }
+
+    Keys.onReturnPressed: login();
+    Keys.onEnterPressed: login();
 }
