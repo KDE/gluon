@@ -51,7 +51,7 @@ GameWindowManager::GameWindowManager(const QString& /* filename */)
 }
 
 GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view,
-                                    GameItemsModel* gameItemsModel, const QString& /* filename */ )
+                                    GluonPlayer::GameItemsModel* gameItemsModel, const QString& /* filename */ )
     : QObject()
     , d( new GameWindowManagerPrivate )
     , m_project( new GluonEngine::GameProject )
@@ -102,13 +102,13 @@ void GameWindowManager::stopGame()
 
 void GameWindowManager::setProject( int index )
 {
-    m_gameFileName = m_gameItemsModel->index(index).data(GameItemsModel::ProjectFileNameRole).toString();
+    m_gameFileName = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     openProject();
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data(GameItemsModel::ProjectFileNameRole).toString();
+    m_gameFileName = index.data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     openProject();
 }
 
