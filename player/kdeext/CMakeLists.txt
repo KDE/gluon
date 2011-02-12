@@ -22,6 +22,7 @@ set(kdeextplayer_SRCS
     views/commentsviewitem.cpp
     views/highscoresview.cpp
     views/highscoresviewitem.cpp
+    views/gametextlabel.cpp
 )
 
 if(APPLE)

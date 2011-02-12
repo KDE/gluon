@@ -85,11 +85,11 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
     }
 
     //TODO: the game details should be according to the game selected
-    if (m_gameDetailsOverlay)
+    /* if (m_gameDetailsOverlay)
         delete m_gameDetailsOverlay;
 
     m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
     m_stackedWidget->addWidget( m_gameDetailsOverlay );
-    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1);
+    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1); */
     // connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }

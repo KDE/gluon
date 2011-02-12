@@ -19,6 +19,8 @@
 
 #include "itemsviewdelegate.h"
 
+#include "views/gametextlabel.h"
+
 #include "lib/models/gameitemsmodel.h"
 
 #include <KDE/KDebug>
@@ -59,16 +61,18 @@ QList<QWidget*> ItemsViewDelegate::createItemWidgets() const
 {
     QList<QWidget*> list;
 
-    KSqueezedTextLabel* gameName = new KSqueezedTextLabel();
+    GameTextLabel* gameName = new GameTextLabel();
     gameName->setOpenExternalLinks(true);
     // not so nice - work around constness to install the event filter
     ItemsViewDelegate* delegate = const_cast<ItemsViewDelegate*>(this);
     gameName->installEventFilter(delegate);
     list << gameName;
+    connect(gameName, SIGNAL(mouseReleased()), SLOT(selectGameClicked()));
 
-    KSqueezedTextLabel* gameDescription = new KSqueezedTextLabel();
+    GameTextLabel* gameDescription = new GameTextLabel();
     gameDescription->setOpenExternalLinks(true);
     list << gameDescription;
+    connect(gameDescription, SIGNAL(mouseReleased()), SLOT(selectGameClicked()));
 
     KPushButton* playButton = new KPushButton();
     playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
@@ -104,7 +108,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         playButton->move( right - playButton->width() - margin, option.fontMetrics.height() + playButton->height() * 0.5);
     }
 
-    KSqueezedTextLabel* gameName = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateGameName));
+    GameTextLabel* gameName = qobject_cast<GameTextLabel*>(widgets.at(DelegateGameName));
     // gameName->setWordWrap(true);
     if (gameName) {
         gameName->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
@@ -112,7 +116,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         gameName->setText(index.data(GluonPlayer::GameItemsModel::GameNameRole).toString());
     }
 
-    KSqueezedTextLabel* gameDescription = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateGameDescription));
+    GameTextLabel* gameDescription = qobject_cast<GameTextLabel*>(widgets.at(DelegateGameDescription));
     // gameName->setWordWrap(true);
     if (gameDescription) {
         gameDescription->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height());
@@ -180,3 +184,10 @@ void ItemsViewDelegate::slotPlayClicked()
     }
 }
 
+void ItemsViewDelegate::selectGameClicked()
+{
+    QModelIndex index = focusedIndex();
+    if (index.isValid()) {
+        emit gameSelected( index );
+    }
+}

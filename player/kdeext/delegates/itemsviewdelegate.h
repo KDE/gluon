@@ -49,19 +49,22 @@ namespace GluonKDEPlayer
 
             // update the widgets
             virtual void updateItemWidgets(const QList<QWidget*> widgets,
-                    const QStyleOptionViewItem &option,
-                    const QPersistentModelIndex &index) const;
+                                            const QStyleOptionViewItem &option,
+                                            const QPersistentModelIndex &index) const;
 
             virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
         signals:
             void gameToPlaySelected( const QModelIndex& index );
+            void gameSelected( const QModelIndex& index );
 
         protected slots:
             bool eventFilter(QObject *watched, QEvent *event);
             void slotPlayClicked();
+            void selectGameClicked();
 
         protected:
+
             QAbstractItemView *m_itemView;
             KIcon* m_preview;
             QSize m_buttonSize;
