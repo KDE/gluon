@@ -426,5 +426,3 @@ void ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
         endInsertRows();
     }
 }
-
-//#include "projectmodel.moc"

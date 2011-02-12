@@ -22,7 +22,7 @@
 #ifndef GLUONCREATOR_OPENPROJECTDIALOGPAGE_H
 #define GLUONCREATOR_OPENPROJECTDIALOGPAGE_H
 
-#include <kpagewidgetmodel.h>
+#include <KDE/KPageWidgetModel>
 #include <KDE/KUrl>
 
 namespace GluonCreator

@@ -21,17 +21,16 @@
 
 #include "openprojectdialogpage.h"
 
+#include "core/debughelper.h"
 #include "engine/gameproject.h"
-
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
 
 #include <KDE/KFile>
 #include <KDE/KFileWidget>
 #include <KDE/KIcon>
 #include <KDE/KLocale>
 
-#include <core/debughelper.h>
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 

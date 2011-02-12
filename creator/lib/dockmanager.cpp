@@ -20,8 +20,9 @@
 
 #include "dockmanager.h"
 
-#include <QtGui/QDockWidget>
 #include <KDE/KXmlGuiWindow>
+
+#include <QtGui/QDockWidget>
 
 using namespace GluonCreator;
 

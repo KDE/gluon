@@ -17,13 +17,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "enumpropertywidgetitem.h"
 #include "core/debughelper.h"
 
+#include <KDE/KComboBox>
+
 #include <QtGui/QLayout>
 #include <QtCore/QMetaEnum>
-
-#include <KDE/KComboBox>
 
 namespace GluonCreator
 {
@@ -132,5 +133,3 @@ EnumPropertyWidgetItem::indexChanged( int newIndex )
     d->editObject->setProperty( editProperty().toUtf8(), d->comboBox->itemData( newIndex ) );
     GluonCreator::PropertyWidgetItem::valueChanged( d->comboBox->itemData( newIndex ) );
 }
-
-// #include "enumpropertywidgetitem.moc"

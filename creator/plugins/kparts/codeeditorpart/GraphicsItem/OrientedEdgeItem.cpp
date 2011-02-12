@@ -264,5 +264,3 @@ void OrientedEdgeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem*
     }
     painter->drawPath( createCurves() );
 }
-
-#include "OrientedEdgeItem.moc"

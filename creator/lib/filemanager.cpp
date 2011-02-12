@@ -19,24 +19,24 @@
 
 #include "filemanager.h"
 
-#include <QtGui/QVBoxLayout>
+#include "core/debughelper.h"
+#include "engine/asset.h"
+
+#include <KDE/KParts/ReadWritePart>
+#include <KDE/KParts/PartManager>
 
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
 #include <KDE/KRun>
 #include <KDE/KService>
 #include <KDE/KToolBar>
+#include <KDE/KActionCollection>
+#include <KDE/KServiceTypeTrader>
 
-#include <KDE/KParts/ReadWritePart>
-#include <KDE/KParts/PartManager>
-
-#include <core/debughelper.h>
-#include <engine/asset.h>
-#include <KActionCollection>
-#include <qactiongroup.h>
-#include <QMouseEvent>
-#include <QApplication>
-#include <KServiceTypeTrader>
+#include <QtGui/QActionGroup>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QApplication>
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 

@@ -37,26 +37,25 @@
 #include "engine/gameproject.h"
 #include "engine/scene.h"
 
-#include <KFileDialog>
-#include <KStandardAction>
-#include <KActionCollection>
-#include <KAction>
-#include <KStatusBar>
-#include <KMessageBox>
-#include <KConfigDialog>
-#include <KLocalizedString>
-#include <KPluginSelector>
-#include <KRun>
-#include <KRecentFilesAction>
+#include <KDE/KFileDialog>
+#include <KDE/KStandardAction>
+#include <KDE/KActionCollection>
+#include <KDE/KAction>
+#include <KDE/KStatusBar>
+#include <KDE/KMessageBox>
+#include <KDE/KConfigDialog>
+#include <KDE/KLocalizedString>
+#include <KDE/KPluginSelector>
+#include <KDE/KRun>
+#include <KDE/KRecentFilesAction>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
-#include <KParts/PartManager>
-#include <KMenuBar>
+#include <KDE/KParts/PartManager>
+#include <KDE/KMenuBar>
 
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
-#include <KMenuBar>
 
 using namespace GluonCreator;
 
@@ -417,7 +416,7 @@ void MainWindow::partChanged(KParts::Part* part )
     {
         QTimer::singleShot(100, GluonEngine::Game::instance(), SLOT(drawAll()));
     }
-    
+
     QList<QAction*> actions = menuBar()->actions();
     foreach(QAction* action, actions)
     {

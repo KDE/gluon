@@ -103,6 +103,3 @@ void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
 
     GluonCreator::PropertyWidgetItem::setEditProperty( propertyName );
 }
-
-
-// #include "intpropertywidgetitem.moc"

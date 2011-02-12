@@ -18,8 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "configdialog.h"
-#include <KPluginSelector>
-#include <lib/pluginmanager.h>
+#include "lib/pluginmanager.h"
+
+#include <KDE/KPluginSelector>
 
 using namespace GluonCreator;
 

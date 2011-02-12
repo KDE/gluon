@@ -302,5 +302,3 @@ ComponentModel::columnCount( const QModelIndex& parent ) const
     Q_UNUSED( parent )
     return 1;
 }
-
-//#include "componentmodel.moc"

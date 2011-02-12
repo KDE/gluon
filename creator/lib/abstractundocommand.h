@@ -20,9 +20,9 @@
 #ifndef GLUONCREATOR_ABSTRACTUNDOCOMMAND_H
 #define GLUONCREATOR_ABSTRACTUNDOCOMMAND_H
 
-#include <QtGui/QUndoStack>
-
 #include "gluoncreator_macros.h"
+
+#include <QtGui/QUndoStack>
 
 namespace GluonCore
 {

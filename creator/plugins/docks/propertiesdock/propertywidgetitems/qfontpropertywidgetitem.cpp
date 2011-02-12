@@ -64,6 +64,3 @@ void QFontPropertyWidgetItem::fontChanged( const QFont& value )
 {
     PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
-
-
-// #include "qfontpropertywidgetitem.moc"

@@ -58,5 +58,3 @@ NullPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     editWidget()->setProperty( "text", QString( "Unknown: %1(%2)" ).arg( value.typeName() ).arg( value.toString() ) );
 }
-
-// #include "nullpropertywidgetitem.moc"

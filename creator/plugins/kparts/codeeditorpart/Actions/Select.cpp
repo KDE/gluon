@@ -167,4 +167,3 @@ void SelectAction::singleSelect( QPointF pos )
     qDebug() << "Item Selected!";
     delete tmpItem;
 }
-#include "Select.moc"

@@ -73,5 +73,3 @@ FloatPropertyWidgetItem::floatValueChanged( double value )
 {
     PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
-
-#include "floatpropertywidgetitem.moc"

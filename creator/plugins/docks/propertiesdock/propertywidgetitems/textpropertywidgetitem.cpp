@@ -63,5 +63,3 @@ TextPropertyWidgetItem::textEdited( QString value )
 {
     PropertyWidgetItem::valueChanged( QVariant( value ) );
 }
-
-// #include "textpropertywidgetitem.moc"

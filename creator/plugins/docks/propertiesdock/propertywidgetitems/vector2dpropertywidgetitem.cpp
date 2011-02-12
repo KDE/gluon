@@ -103,6 +103,3 @@ void Vector2DPropertyWidgetItem::yValueChanged( double value )
     d->value = QVector2D( d->x->value(), value );
     PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector2D>( d->value ) );
 }
-
-
-// #include "vectorpropertywidgetitem.moc"

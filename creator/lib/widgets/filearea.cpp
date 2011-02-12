@@ -19,14 +19,15 @@
 
 #include "filearea.h"
 
-#include <QtGui/QVBoxLayout>
+#include "core/debughelper.h"
+#include "filemanager.h"
+
+#include <KDE/KParts/PartManager>
+#include <KDE/KParts/ReadOnlyPart>
 #include <KDE/KTabBar>
 #include <KDE/KToolBar>
-#include <KParts/PartManager>
-#include <KParts/ReadOnlyPart>
 
-#include <core/debughelper.h>
-#include "filemanager.h"
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 
