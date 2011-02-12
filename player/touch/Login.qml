@@ -62,6 +62,8 @@ Rectangle {
         width: usernameText.width * 3;
         anchors.top: usernameText.bottom;
         focus: true;
+        KeyNavigation.down: passwordLineEdit;
+
    }
 
    Text {
@@ -79,6 +81,7 @@ Rectangle {
         width: usernameLineEdit.width
         anchors.top: passwordText.bottom
         echoMode: TextInput.Password
+        KeyNavigation.up: usernameLineEdit;
    }
 
    // MouseArea {
