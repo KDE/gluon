@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,10 +22,8 @@
 
 #include "gluon_player_export.h"
 
-#include "views/gamesviewitem.h"
-
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QStringList>
+#include <QtCore/QList>
 #include <QtCore/QDir>
 
 namespace GluonKDEPlayer
@@ -37,10 +35,38 @@ namespace GluonKDEPlayer
      * Use the different columns of the model to obtain required properties.
      *
      */
+
+    class GameViewItem
+    {
+        public:
+            explicit GameViewItem(const QString &gameName, const QString &description,
+                    const QString &projectFileName, const QString &id);
+            virtual ~GameViewItem() {}
+
+            QString gameName() const;
+            QString gameDescription() const;
+            QString projectFileName() const;
+            QString id() const;
+
+        private:
+            QString m_gameName;
+            QString m_gameDescription;
+            QString m_projectFileName;
+            QString m_id;
+    };
+
     class GameItemsModel : public QAbstractListModel
     {
         Q_OBJECT
         public:
+
+            enum AnimalRoles {
+                GameNameRole = Qt::UserRole + 1,
+                GameDescriptionRole,
+                ProjectFileNameRole,
+                IDRole
+            };
+
             explicit GameItemsModel( QObject* parent = 0 );
             virtual ~GameItemsModel() {}
 
@@ -51,9 +77,7 @@ namespace GluonKDEPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         private:
-            QList<GamesViewItem*> m_gamesViewItems;
-            QStringList m_projectFileNames;
-            QStringList id;
+            QList<GameViewItem> m_gameViewItems;
     };
 }
 

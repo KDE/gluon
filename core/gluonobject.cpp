@@ -22,13 +22,13 @@
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
 
-#include <QtCore/QVariant>
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
+#include <QtCore/QVariant>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
-#include <QSizeF>
+#include <QtCore/QSizeF>
 
 REGISTER_OBJECTTYPE( GluonCore, GluonObject )
 

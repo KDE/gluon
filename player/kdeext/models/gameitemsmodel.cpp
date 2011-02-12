@@ -22,7 +22,40 @@
 #include <core/gluon_global.h>
 #include <engine/gameproject.h>
 
+#include <QtCore/QHash>
+#include <QtCore/QByteArray>
+#include <QtCore/QDebug>
+
 using namespace GluonKDEPlayer;
+
+GameViewItem::GameViewItem(const QString &gameName, const QString &gameDescription,
+                            const QString &projectFileName, const QString &id)
+    : m_gameName(gameName)
+    , m_gameDescription(gameDescription)
+    , m_projectFileName(projectFileName)
+    , m_id(id)
+{
+}
+
+QString GameViewItem::gameName() const
+{
+    return m_gameName;
+}
+
+QString GameViewItem::gameDescription() const
+{
+    return m_gameDescription;
+}
+
+QString GameViewItem::projectFileName() const
+{
+    return m_projectFileName;
+}
+
+QString GameViewItem::id() const
+{
+    return m_id;
+}
 
 GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
@@ -41,20 +74,36 @@ GameItemsModel::GameItemsModel( QObject* parent )
         {
                 GluonEngine::GameProject project;
                 project.loadFromFile( projectFileName );
-                m_gamesViewItems.append(new GamesViewItem(project.name(), project.description()));
-                m_projectFileNames.append( projectFileName );
-                id.append(project.property( "id" ).toString());
+                GameViewItem gameViewItem(project.name(), project.description(),
+                                            projectFileName, project.property("id").toString());
+                m_gameViewItems.append(gameViewItem);
         }
     }
+
+    QHash<int, QByteArray> roles;
+    roles[GameNameRole] = "gameName";
+    roles[GameDescriptionRole] = "gameDescription";
+    roles[ProjectFileNameRole] = "projectFileName";
+    roles[IDRole] = "id";
+    setRoleNames(roles);
 }
 
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
+    if (index.row() < 0 || index.row() > m_gameViewItems.count())
+        return QVariant();
+
     switch (role) {
     case Qt::UserRole:
-        return QVariant::fromValue( m_gamesViewItems.at( index.row() ) );
-    case Qt::DisplayRole:
-        return m_projectFileNames.at( index.row() );
+        break;
+    case GameNameRole:
+        return m_gameViewItems.at( index.row() ).gameName();
+    case GameDescriptionRole:
+        return m_gameViewItems.at( index.row() ).gameDescription();
+    case ProjectFileNameRole:
+        return m_gameViewItems.at( index.row() ).projectFileName();
+    case IDRole:
+        return m_gameViewItems.at( index.row() ).id();
     default:
         break;
     }
@@ -64,7 +113,7 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 
 int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
-    return m_gamesViewItems.count();
+    return m_gameViewItems.count();
 }
 
 int GameItemsModel::columnCount( const QModelIndex& /* parent */ ) const
@@ -81,3 +130,5 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
     return QAbstractItemModel::headerData( section, orientation, role );
 }
+
+#include "gameitemsmodel.moc"

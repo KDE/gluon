@@ -23,7 +23,7 @@
 #include "overlay.h"
 
 #include <KDE/KTabWidget>
-#include <KDE/KTitleWidget>
+#include <KDE/KPushButton>
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
@@ -45,7 +45,7 @@ class GameDetailsOverlay : public Overlay
         virtual ~GameDetailsOverlay();
 
     private:
-        KTitleWidget* m_backButton;
+        KPushButton* m_backButton;
         KTabWidget* m_tabWidget;
         HighScoresView* m_highScoresView;
         AchievementsView* m_achievementsView;

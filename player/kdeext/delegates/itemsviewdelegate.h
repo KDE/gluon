@@ -23,6 +23,8 @@
 #include <KDE/KIcon>
 #include <KDE/KWidgetItemDelegate>
 #include <KDE/KSqueezedTextLabel>
+#include <KDE/KPushButton>
+#include <KDE/KLocalizedString>
 
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QImage>

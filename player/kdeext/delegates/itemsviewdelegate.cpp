@@ -90,8 +90,6 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         return;
     }
 
-    GamesViewItem* gamesViewItem = index.data(Qt::UserRole).value<GluonKDEPlayer::GamesViewItem*>();
-
     // setup the install button
     int margin = option.fontMetrics.height() / 2;
     int right = option.rect.width();
@@ -111,7 +109,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (gameName) {
         gameName->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
         gameName->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameName->setText(gamesViewItem->gameName());
+        gameName->setText(index.data(GameItemsModel::GameNameRole).toString());
     }
 
     KSqueezedTextLabel* gameDescription = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateGameDescription));
@@ -119,7 +117,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (gameDescription) {
         gameDescription->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height());
         gameDescription->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameDescription->setText(gamesViewItem->gameDescription());
+        gameDescription->setText(index.data(GameItemsModel::GameDescriptionRole).toString());
     }
 
 }
@@ -146,7 +144,6 @@ void ItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & op
     int height = option.rect.height();
     QPoint point(option.rect.left() + margin, option.rect.top() + ((height - PreviewHeight) / 2));
 
-    GamesViewItem* gamesViewItem = index.data(Qt::UserRole).value<GluonKDEPlayer::GamesViewItem*>();
     QImage image = KIcon("gluon-cretor").pixmap(32, 32).toImage();
     if (!image.isNull()) {
         point.setX((PreviewWidth - image.width())/2 + 5);

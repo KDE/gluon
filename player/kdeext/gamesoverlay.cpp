@@ -17,6 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <QtCore/QDebug>
+
 #include "gamesoverlay.h"
 
 using namespace GluonKDEPlayer;
@@ -41,6 +43,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
     m_gamesView->setItemDelegate(m_gamesDelegate);
     connect( m_gamesDelegate, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
+    connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( showGameDetails( QModelIndex ) ) );
     m_gamesView->setModel(m_gameItemsModel);
     m_stackedWidget->addWidget(m_gamesView);
 
@@ -70,4 +73,23 @@ void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIn
 {
     Q_UNUSED( previous )
     m_stackedWidget->setCurrentIndex( current.row( ) );
+}
+
+void GamesOverlay::showGameDetails( const QModelIndex& index )
+{
+    QString id = index.data(GameItemsModel::IDRole).toString();
+    if( id.isEmpty() )
+    {
+        qDebug() << "Invalid game ID while querying the game details!";
+        return;
+    }
+
+    //TODO: the game details should be according to the game selected
+    if (m_gameDetailsOverlay)
+        delete m_gameDetailsOverlay;
+
+    m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
+    m_stackedWidget->addWidget( m_gameDetailsOverlay );
+    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1);
+    // connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }

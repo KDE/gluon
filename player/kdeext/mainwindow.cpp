@@ -275,30 +275,12 @@ void MainWindow::showGames()
     }
 }
 
-void MainWindow::showGameDetails( const QModelIndex& index )
-{
-    // QString id = index.sibling( index.row(), GluonPlayer::GamesModel::IdColumn ).data().toString();
-    // if( id.isEmpty() )
-    // {
-        // return;
-    // }
-
-    //TODO: the game details should be according to the game selected
-    // m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
-    // m_gamesOverlay->hide();
-    // m_layout->removeWidget( m_gamesOverlay );
-    // m_gameDetailsOverlay->show();
-    // m_layout->addWidget( m_gameDetailsOverlay );
-    // connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
-}
-
 void MainWindow::setProject( const QModelIndex& index )
 {
     m_gameFileName = index.data().toString();
     m_gamesOverlay->hide();
     openProject();
 }
-
 
 void MainWindow::openProject()
 {

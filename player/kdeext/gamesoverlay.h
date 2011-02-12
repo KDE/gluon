@@ -21,6 +21,7 @@
 #define GAMESOVERLAY_H
 
 #include "loginform.h"
+#include "gamedetailsoverlay.h"
 #include "models/listmodel.h"
 #include "models/gameitemsmodel.h"
 #include "delegates/itemsviewdelegate.h"
@@ -49,6 +50,7 @@ namespace GluonKDEPlayer
 
         protected slots:
             void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+            void showGameDetails( const QModelIndex& index );
 
         signals:
             void gameToPlaySelected( const QModelIndex& index );
@@ -61,6 +63,8 @@ namespace GluonKDEPlayer
             QListView* m_gamesView;
             ItemsViewDelegate* m_gamesDelegate;
             GameItemsModel* m_gameItemsModel;
+
+            GameDetailsOverlay* m_gameDetailsOverlay;
 
             LoginForm* m_loginForm;
             QGridLayout* m_gridLayout;

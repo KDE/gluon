@@ -29,12 +29,11 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
 {
     m_tabWidget = new KTabWidget( this );
 
-    m_backButton = new KTitleWidget( this );
-    m_backButton->setPixmap( KIcon( "go-previous-view" ) );
+    m_backButton = new KPushButton( this );
+    m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
 
-    // m_backButton->setOrientation( Qt::Horizontal );
-    // m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     connect( m_backButton, SIGNAL( activated() ), SIGNAL( back() ) );
 
     m_highScoresModel = new GluonPlayer::HighScoresModel( gameId );

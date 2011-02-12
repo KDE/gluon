@@ -26,8 +26,8 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
-#include <QAbstractItemModel>
-#include <QStringList>
+#include <QtCore/QAbstractItemModel>
+#include <QtCore/QStringList>
 
 
 namespace Attica
