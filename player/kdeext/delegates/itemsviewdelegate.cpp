@@ -19,7 +19,7 @@
 
 #include "itemsviewdelegate.h"
 
-#include "models/gameitemsmodel.h"
+#include "lib/models/gameitemsmodel.h"
 
 #include <KDE/KDebug>
 
@@ -84,7 +84,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         const QStyleOptionViewItem &option,
         const QPersistentModelIndex &index) const
 {
-    const GameItemsModel* model = qobject_cast<const GameItemsModel*>(index.model());
+    const GluonPlayer::GameItemsModel* model = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
     if (!model) {
         kDebug() << "Warning - Invalid Model!";
         return;
@@ -109,7 +109,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (gameName) {
         gameName->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
         gameName->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameName->setText(index.data(GameItemsModel::GameNameRole).toString());
+        gameName->setText(index.data(GluonPlayer::GameItemsModel::GameNameRole).toString());
     }
 
     KSqueezedTextLabel* gameDescription = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateGameDescription));
@@ -117,7 +117,7 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (gameDescription) {
         gameDescription->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height());
         gameDescription->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameDescription->setText(index.data(GameItemsModel::GameDescriptionRole).toString());
+        gameDescription->setText(index.data(GluonPlayer::GameItemsModel::GameDescriptionRole).toString());
     }
 
 }
@@ -138,7 +138,7 @@ void ItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & op
         painter->setPen(QPen(option.palette.text().color()));
     }
 
-    const GameItemsModel* realmodel = qobject_cast<const GameItemsModel*>(index.model());
+    const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
 
     // if (realmodel->hasPreviewImages()) {
     int height = option.rect.height();

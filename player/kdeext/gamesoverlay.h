@@ -23,8 +23,9 @@
 #include "loginform.h"
 #include "gamedetailsoverlay.h"
 #include "models/listmodel.h"
-#include "models/gameitemsmodel.h"
 #include "delegates/itemsviewdelegate.h"
+
+#include "lib/models/gameitemsmodel.h"
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
@@ -62,7 +63,7 @@ namespace GluonKDEPlayer
 
             QListView* m_gamesView;
             ItemsViewDelegate* m_gamesDelegate;
-            GameItemsModel* m_gameItemsModel;
+            GluonPlayer::GameItemsModel* m_gameItemsModel;
 
             GameDetailsOverlay* m_gameDetailsOverlay;
 

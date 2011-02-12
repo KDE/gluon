@@ -29,7 +29,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_model( new ListModel( m_view ) )
     , m_gamesView( new QListView( this ) )
     , m_gamesDelegate( new ItemsViewDelegate(m_gamesView, this) )
-    , m_gameItemsModel( new GameItemsModel( m_gamesView ) )
+    , m_gameItemsModel( new GluonPlayer::GameItemsModel( m_gamesView ) )
     , m_loginForm( new LoginForm( this ) )
     , m_gridLayout( new QGridLayout( this ) )
     , m_stackedWidget( new QStackedWidget( this ) )
@@ -77,7 +77,7 @@ void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIn
 
 void GamesOverlay::showGameDetails( const QModelIndex& index )
 {
-    QString id = index.data(GameItemsModel::IDRole).toString();
+    QString id = index.data(GluonPlayer::GameItemsModel::IDRole).toString();
     if( id.isEmpty() )
     {
         qDebug() << "Invalid game ID while querying the game details!";
