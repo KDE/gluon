@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONKDEPLAYER_GAMEITEMSMODEL_H
-#define GLUONKDEPLAYER_GAMEITEMSMODEL_H
+#ifndef GLUONPLAYER_GAMEITEMSMODEL_H
+#define GLUONPLAYER_GAMEITEMSMODEL_H
 
 #include "gluon_player_export.h"
 
@@ -82,4 +82,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONKDEPLAYER_GAMEITEMSMODEL_H
+#endif // GLUONPLAYER_GAMEITEMSMODEL_H

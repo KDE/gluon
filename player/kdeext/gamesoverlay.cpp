@@ -35,6 +35,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_stackedWidget( new QStackedWidget( this ) )
     , m_availableView( new KSqueezedTextLabel( i18n( "Coming soon!" ), this ) )
     , m_communityView( new KSqueezedTextLabel( i18n( "Community. Under development!" ), this ) )
+    , m_gameDetailsOverlay( 0 )
 {
     m_view->setModel(m_model);
     m_model->appendPair(qMakePair(i18n("Login"), new KIcon( "network-connect" )));
@@ -43,7 +44,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
     m_gamesView->setItemDelegate(m_gamesDelegate);
     connect( m_gamesDelegate, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( showGameDetails( QModelIndex ) ) );
+    connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
     m_gamesView->setModel(m_gameItemsModel);
     m_stackedWidget->addWidget(m_gamesView);
 
@@ -64,6 +65,12 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
            SLOT( selectionChanged( const QModelIndex &, const QModelIndex &) ) );
 }
 
+GamesOverlay::~GamesOverlay()
+{
+    delete m_model;
+    delete m_gameItemsModel;
+}
+
 QListView* GamesOverlay::gamesView()
 {
     return m_gamesView;
@@ -73,6 +80,20 @@ void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIn
 {
     Q_UNUSED( previous )
     m_stackedWidget->setCurrentIndex( current.row( ) );
+}
+
+void GamesOverlay::backToGames()
+{
+    /* m_gamesOverlay->setGeometry( geometry() );
+    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
+
+    if( m_gameDetailsOverlay )
+    {
+        m_gameDetailsOverlay->hide();
+        m_layout->removeWidget( m_gameDetailsOverlay );
+        m_gameDetailsOverlay->deleteLater();
+        m_gameDetailsOverlay = 0;
+    } */
 }
 
 void GamesOverlay::showGameDetails( const QModelIndex& index )
@@ -85,11 +106,14 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
     }
 
     //TODO: the game details should be according to the game selected
-    /* if (m_gameDetailsOverlay)
+    if (m_gameDetailsOverlay) {
+        m_stackedWidget->removeWidget( m_gameDetailsOverlay );
         delete m_gameDetailsOverlay;
+        m_gameDetailsOverlay = 0;
+    }
 
     m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
     m_stackedWidget->addWidget( m_gameDetailsOverlay );
-    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1); */
-    // connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
+    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1);
+    connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( backToGames() ) );
 }

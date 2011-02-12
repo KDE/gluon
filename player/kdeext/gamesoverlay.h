@@ -45,13 +45,16 @@ namespace GluonKDEPlayer
 
         public:
             explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-            virtual ~GamesOverlay() {}
+            virtual ~GamesOverlay();
 
             QListView* gamesView();
 
         protected slots:
             void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
             void showGameDetails( const QModelIndex& index );
+
+        private slots:
+            void backToGames();
 
         signals:
             void gameToPlaySelected( const QModelIndex& index );
@@ -65,13 +68,13 @@ namespace GluonKDEPlayer
             ItemsViewDelegate* m_gamesDelegate;
             GluonPlayer::GameItemsModel* m_gameItemsModel;
 
-            GameDetailsOverlay* m_gameDetailsOverlay;
-
             LoginForm* m_loginForm;
             QGridLayout* m_gridLayout;
             QStackedWidget* m_stackedWidget;
             KSqueezedTextLabel* m_availableView;
             KSqueezedTextLabel* m_communityView;
+
+            GameDetailsOverlay* m_gameDetailsOverlay;
     };
 }
 #endif // GAMESOVERLAY_H
