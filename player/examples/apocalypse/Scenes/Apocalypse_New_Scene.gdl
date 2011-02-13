@@ -8,12 +8,13 @@
         position vector3d(0;0;50)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::CameraControllerComponent(GluonObject)
+        { GluonEngine::CameraControllerComponent(CameraControllerComponent)
             enabled bool(true)
             active bool(true)
             visibleArea size2d(100;100)
             nearPlane float(1)
-            farPlane float(99.99)
+            farPlane float(100)
+            renderTargetMaterial GluonGraphics::MaterialInstance(Apocalypse/RenderTarget/Main)
         }
     }
     { GluonEngine::GameObject(Sprite)
@@ -21,26 +22,51 @@
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(SpriteRenderer)
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
-            size size2d(1;1)
-            color rgba(255;255;255;255)
-        }
-        { GluonEngine::QtScriptComponent(QtScriptComponent)
-            enabled bool(true)
-            script GluonEngine::Asset(Apocalypse/crosshair_script)
+            script GluonEngine::ScriptingAsset(Apocalypse/crosshair_script)
+            mouseSpeed float(10)
+            frameSize vector2d(64;64)
+            frames float(8)
+            frameStart float(4)
+            frameRate float(72)
+            textureSize vector2d(2432;512)
         }
         { GluonEngine::MouseInputComponent(Mouse_Left)
             enabled bool(true)
             mouseButton int(1)
+            mouseTrack bool(true)
         }
         { GluonEngine::MouseInputComponent(Mouse_Right)
             enabled bool(true)
             mouseButton int(2)
+            mouseTrack bool(false)
         }
         { GluonEngine::MouseInputComponent(Mouse_Middle)
             enabled bool(true)
             mouseButton int(3)
+            mouseTrack bool(true)
+        }
+        { GluonEngine::SpriteRendererComponent(SpriteRendererComponent)
+            enabled bool(true)
+            size size2d(50;50)
+            material GluonGraphics::MaterialInstance(Apocalypse/AnimatedSprite/New Instance)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Left)
+            enabled bool(true)
+            keyCode int(16777234)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Right)
+            enabled bool(true)
+            keyCode int(16777236)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(16777235)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(16777237)
         }
     }
 }
