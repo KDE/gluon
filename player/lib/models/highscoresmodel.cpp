@@ -37,7 +37,8 @@ static const char serviceURI[] = "gamingfreedom.org";
 
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
-    , m_gameId( gameId ), rootNode( new GluonObject( "HighScores" ) )
+    , m_gameId( gameId )
+    , m_rootNode( new GluonObject( "HighScores" ) )
 {
     loadData();
 }
@@ -54,13 +55,13 @@ QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
         switch( index.column() )
         {
             case NameColumn:
-                return rootNode->child( index.row() )->name();
+                return m_rootNode->child( index.row() )->name();
                 break;
             case HighScoreColumn:
-                return rootNode->child( index.row() )->property( "HighScore" );
+                return m_rootNode->child( index.row() )->property( "HighScore" );
                 break;
             case LevelColumn:
-                return rootNode->child( index.row() )->property( "Level" );
+                return m_rootNode->child( index.row() )->property( "Level" );
                 break;
         }
     }
@@ -76,7 +77,7 @@ int HighScoresModel::columnCount( const QModelIndex& parent ) const
 int HighScoresModel::rowCount( const QModelIndex& parent ) const
 {
     Q_UNUSED( parent )
-    return rootNode->children().count();
+    return m_rootNode->children().count();
 }
 
 QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -107,12 +108,12 @@ void HighScoresModel::loadData()
     gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
 
     QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) );
-    rootNode = highScores.at( 0 );
+    m_rootNode = highScores.at( 0 );
 }
 
 void HighScoresModel::saveData()
 {
-    qDebug() << "Saving high scores Data";
+    qDebug() << "Saving high scores data!";
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
@@ -121,16 +122,16 @@ void HighScoresModel::saveData()
     QFile dataFile( filename );
     if( !dataFile.open( QIODevice::WriteOnly ) )
     {
-        qDebug() << "Cannot open the high scores file";
+        qDebug() << "Cannot open the high scores file!";
         return;
     }
 
     QList<const GluonObject*> highScores;
-    highScores.append( rootNode );
+    highScores.append( m_rootNode );
     QTextStream dataWriter( &dataFile );
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( highScores );
     dataFile.close();
-    qDebug() << "Saved";
+    qDebug() << "Saved!";
 }
 
 #include "highscoresmodel.moc"

@@ -19,13 +19,15 @@
 
 #include "mainwindow.h"
 
+#include "lib/models/gameitemsmodel.h"
+
 #include "input/inputmanager.h"
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <graphics/renderwidget.h>
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "graphics/renderwidget.h"
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>
@@ -46,6 +48,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
 #include <QtCore/QTimer>
+#include <QtCore/QDebug>
 
 using namespace GluonKDEPlayer;
 
@@ -117,7 +120,7 @@ void MainWindow::setupActions()
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
     actionCollection()->addAction( "playGame", play );
-    connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
+    connect( play, SIGNAL( triggered( bool ) ), SLOT( openProject() ) );
 
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "pauseGame", pause );
@@ -264,7 +267,6 @@ void MainWindow::showGames()
 {
     m_gamesOverlay->setGeometry( geometry() );
     connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-    connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
 
     if( m_gameDetailsOverlay )
     {
@@ -277,7 +279,7 @@ void MainWindow::showGames()
 
 void MainWindow::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data().toString();
+    m_gameFileName = index.data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     m_gamesOverlay->hide();
     openProject();
 }

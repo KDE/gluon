@@ -19,7 +19,7 @@
 
 #include "commentsviewitem.h"
 
-#include <lib/models/commentsmodel.h>
+#include "lib/models/commentsmodel.h"
 
 CommentsViewItem::CommentsViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
@@ -107,26 +107,26 @@ void CommentsViewItem::layoutWidgets()
 {
     m_layout = new QGridLayout();
 
-    m_author = new KTitleWidget( this );
+    m_author = new GameTextLabel( this );
     m_author->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::AuthorColumn ).data().toString() );
 
-    m_title = new QLabel( this );
+    m_title = new GameTextLabel( this );
     m_title->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::TitleColumn ).data().toString() );
     m_title->setAlignment( Qt::AlignRight );
 
-    m_body = new QLabel( this );
+    m_body = new GameTextLabel( this );
     m_body->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::BodyColumn ).data().toString() );
 
-    m_dateTime = new QLabel( this );
+    m_dateTime = new GameTextLabel( this );
     m_dateTime->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::DateTimeColumn ).data().toString() );
 
-    m_rating = new QLabel( this );
+    m_rating = new GameTextLabel( this );
     m_rating->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::RatingColumn ).data().toString() );
 
-    m_replyButton = new KTitleWidget( this );
+    m_replyButton = new KPushButton( this );
     m_replyButton->setVisible( false );
-    m_replyButton->setPixmap( KIcon( "edit-undo" ) );
-    connect( m_replyButton, SIGNAL( activated() ), SIGNAL( replyClicked() ) );
+    m_replyButton->setIcon( KIcon( "edit-undo" ) );
+    connect( m_replyButton, SIGNAL( clicked() ), SIGNAL( replyClicked() ) );
 
     m_layout->addWidget( m_title, 0, 0 );
     m_layout->addWidget( m_author, 0, 1 );

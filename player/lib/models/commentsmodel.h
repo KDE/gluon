@@ -47,7 +47,7 @@ namespace GluonPlayer
      *\brief Model which contains a list of comments
      *
      * This model can be used to obtain comments on a particular game.
-     * The model looks for local data, and if available loads it at startup.
+     * The model looks for local data and if available loads it at startup.
      * After this, the model tries to fetch comments from the online server,
      * and if successful, uses those comments.
      * Upon exit, the model saves the fetched comments (if any) to a local file.
@@ -68,7 +68,7 @@ namespace GluonPlayer
             };
 
             /**
-             * @param gameId The game ID which will be used to perform lookup in the online
+             * @param gameId The game ID which will be used to perform the lookup in the online
              * service
              */
             explicit CommentsModel( QString gameId, QObject* parent = 0 );
@@ -107,18 +107,6 @@ namespace GluonPlayer
              */
             void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
-        private:
-            GluonCore::GluonObject* rootNode;
-            QStringList m_columnNames;
-            bool m_isOnline;
-            QString m_gameId;
-
-            void updateData();
-            void loadData();
-            void saveData();
-
-            GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
-
         private slots:
             void providersUpdated();
             void processFetchedComments( Attica::BaseJob* );
@@ -128,6 +116,18 @@ namespace GluonPlayer
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
+
+        private:
+            GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
+
+            GluonCore::GluonObject* m_rootNode;
+            QStringList m_columnNames;
+            bool m_isOnline;
+            QString m_gameId;
+
+            void updateData();
+            void loadData();
+            void saveData();
     };
 }
 

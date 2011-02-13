@@ -42,7 +42,7 @@ static const char serviceURI[] = "gamingfreedom.org";
 
 CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
-    , rootNode( new GluonObject( "Comment" ) )
+    , m_rootNode( new GluonObject( "Comment" ) )
     , m_isOnline( false )
     , m_gameId( gameId )
 {
@@ -82,7 +82,7 @@ void CommentsModel::providersUpdated()
 
 void CommentsModel::processFetchedComments( Attica::BaseJob* job )
 {
-    qDebug() << "Comments Successfully Fetched from the server";
+    qDebug() << "Comments Successfully Fetched from the server!";
 
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
     if( commentsJob->metadata().error() == Attica::Metadata::NoError )
@@ -90,15 +90,15 @@ void CommentsModel::processFetchedComments( Attica::BaseJob* job )
         //No error, try to remove exising comments (if any)
         //and add new comments
 
-        if( rootNode )
+        if( m_rootNode )
         {
-            qDeleteAll( rootNode->children() );
+            qDeleteAll( m_rootNode->children() );
         }
 
         for( int i = 0; i < commentsJob->itemList().count(); ++i )
         {
             Attica::Comment p( commentsJob->itemList().at( i ) );
-            addComment( p, rootNode );
+            addComment( p, m_rootNode );
         }
 
         m_isOnline = true;
@@ -147,12 +147,12 @@ void CommentsModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
 
-    rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at(0);
+    m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at(0);
 }
 
 void CommentsModel::saveData()
 {
-    qDebug() << "Saving Data";
+    qDebug() << "Saving data!";
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
@@ -160,10 +160,10 @@ void CommentsModel::saveData()
 
     QFile dataFile( filename );
     if( !dataFile.open( QIODevice::WriteOnly ) )
-        qDebug() << "Cannot open the comments file";
+        qDebug() << "Cannot open the comments file!";
 
     QList<const GluonObject*> comments;
-    comments.append( rootNode );
+    comments.append( m_rootNode );
     QTextStream dataWriter( &dataFile );
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( comments );
     dataFile.close();
@@ -173,7 +173,7 @@ void CommentsModel::saveData()
 CommentsModel::~CommentsModel()
 {
     saveData();     //Save data before exiting
-    delete rootNode;
+    delete m_rootNode;
 }
 
 QVariant CommentsModel::data( const QModelIndex& index, int role ) const
@@ -201,7 +201,7 @@ int CommentsModel::rowCount( const QModelIndex& parent ) const
         return 0;
 
     if( !parent.isValid() )
-        parentItem = rootNode;
+        parentItem = m_rootNode;
     else
         parentItem = static_cast<GluonObject*>( parent.internalPointer() );
 
@@ -216,7 +216,7 @@ QModelIndex CommentsModel::parent( const QModelIndex& child ) const
     GluonObject* childItem = static_cast<GluonObject*>( child.internalPointer() );
     GluonObject* parentItem = qobject_cast<GluonObject*> ( childItem->parent() );
 
-    if( parentItem == rootNode )
+    if( parentItem == m_rootNode )
         return QModelIndex();
 
     GluonObject* grandParentItem = qobject_cast<GluonObject*>( parentItem->parent() );
@@ -234,7 +234,7 @@ QModelIndex CommentsModel::index( int row, int column, const QModelIndex& parent
     GluonObject* parentItem;
 
     if( !parent.isValid() )
-        parentItem = rootNode;
+        parentItem = m_rootNode;
     else
         parentItem = static_cast<GluonObject*>( parent.internalPointer() );
 
@@ -278,7 +278,7 @@ bool CommentsModel::setData( const QModelIndex& index, const QVariant& value, in
 
 bool CommentsModel::insertRows( int row, int count, const QModelIndex& parent )
 {
-    if( count != 1 )  //Don't support more than one row at a time
+    if( count != 1 )  // Do not support more than one row at a time
     {
         qDebug() << "Can insert only one comment at a time";
         return false;
