@@ -165,7 +165,14 @@ namespace GluonEngine
             void reload();
 
         public slots:
+            /**
+             * Load the data of this Asset into memory.
+             */
             virtual void load();
+            /**
+             * Unload the data of this Asset from memory.
+             */
+            virtual void unload();
 
         Q_SIGNALS:
             /**

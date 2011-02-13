@@ -141,17 +141,19 @@ void
 Asset::load()
 {
     d->loaded = true;
+    emit dataChanged();
+}
+
+void Asset::unload()
+{
+    d->loaded = false;
 }
 
 void
 Asset::reload()
 {
-    if( d->loaded )
-    {
-        d->loaded = false;
-        emit dataChanged();
-        load();
-    }
+    unload();
+    load();
 }
 
 bool
