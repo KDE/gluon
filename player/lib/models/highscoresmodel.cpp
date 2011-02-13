@@ -48,6 +48,16 @@ HighScoresModel::~HighScoresModel()
     saveData();
 }
 
+int HighScoresModel::rowCount( const QModelIndex& /* parent */ ) const
+{
+    return m_rootNode->children().count();
+}
+
+int HighScoresModel::columnCount( const QModelIndex& /* parent */ ) const
+{
+    return 3;
+}
+
 QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
 {
     if( role == Qt::DisplayRole || role == Qt::EditRole )
@@ -66,18 +76,6 @@ QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
         }
     }
     return QVariant();
-}
-
-int HighScoresModel::columnCount( const QModelIndex& parent ) const
-{
-    Q_UNUSED( parent )
-    return 3;
-}
-
-int HighScoresModel::rowCount( const QModelIndex& parent ) const
-{
-    Q_UNUSED( parent )
-    return m_rootNode->children().count();
 }
 
 QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -100,6 +98,15 @@ QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, 
 
     return QVariant();
 }
+
+Qt::ItemFlags HighScoresModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+}
+
 
 void HighScoresModel::loadData()
 {
