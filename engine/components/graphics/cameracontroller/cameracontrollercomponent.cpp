@@ -30,6 +30,7 @@
 
 #include <QtGui/QMatrix4x4>
 #include <QtCore/QSizeF>
+#include <material.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, CameraControllerComponent )
 
@@ -199,7 +200,16 @@ void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::Material
 
     GluonGraphics::RenderTarget *target = GluonGraphics::Engine::instance()->mainRenderTarget();
     if( target )
-        target->setMaterialInstance(material);
+    {
+        if(material)
+        {
+            target->setMaterialInstance(material);
+        }
+        else
+        {
+            target->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->instance("default"));
+        }
+    }
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_cameracontroller, GluonEngine::CameraControllerComponent );
