@@ -46,6 +46,38 @@ namespace GluonEngine
      * anchored by the QObject parent/child system.
      *
      * \note To find out which is the current scene in a game, use Game::currentScene
+     * 
+     * The structore of a game project as found on the disk is as follows:
+     * - (gamename).gluon/ - This is a directory. Think of it as a bundle (NeXTStep style)
+     *   - Assets/ - contains all the assets in a game
+     *   - Cache/ - contains a number of directories, one for each asset which requires a data cache
+     *   - Scenes/ - contains a file for each scene, each named (scenename).gluonscene
+     *   - game.gluonproject
+     *   - game.gluonmeta
+     *   - screenshot.png
+     *   - game.png - a 128x128 icon
+     *   - game.ico - a Windows format icon file
+     *   - .directory
+     *   - desktop.ini
+     *   - .ds_store - 
+     * 
+     * Naming conventions for the contents of the Assets and Scenes directories:
+     * 
+     * - Filter all non-alphanumeric characters. (in short, everything not allowed in a javascript
+     *   object name)
+     * - All names are lower-cased
+     * 
+     * The contents of the Cache directory should follow the following guidelines:
+     * 
+     * - This directory contains a number of further directories, named for each asset which
+     *   requires a cache
+     * - The contents of each subdirectory are controlled by the asset (that is, the format is
+     *   undefined), but for those creating assets it would be wise to follow the guidelines for
+     *   Asset and Scene file names, to avoid problems with various operating systems.
+     * - The contents will be re-generated when required, so the contents can be deleted if you
+     *   should so wish, but this will increase loading times on the first access. However, if the
+     *   generated files are very large, the cache for that item may be too big to distribute. Then
+     *   it is good to know that the item can be safely deleted before publishing.
      */
     class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
