@@ -20,8 +20,6 @@
 #ifndef GAMEDETAILSOVERLAY_H
 #define GAMEDETAILSOVERLAY_H
 
-#include "overlay.h"
-
 #include <KDE/KTabWidget>
 #include <KDE/KPushButton>
 #include <KDE/KIcon>
@@ -37,7 +35,7 @@ class HighScoresView;
 class AchievementsView;
 class CommentsView;
 
-class GameDetailsOverlay : public Overlay
+class GameDetailsOverlay : public QWidget
 {
     Q_OBJECT
     public:

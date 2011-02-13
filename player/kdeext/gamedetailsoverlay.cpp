@@ -25,7 +25,7 @@
 #include "lib/models/highscoresmodel.h"
 
 GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::WindowFlags wFlags )
-    : Overlay( parent, wFlags )
+    : QWidget( parent, wFlags )
     , m_backButton( new KPushButton( this ) )
     , m_tabWidget( new KTabWidget( this ) )
     , m_highScoresView( new HighScoresView( this ) )
@@ -47,9 +47,11 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_tabWidget->addTab( m_achievementsView, KIcon( "games-endturn" ), i18n( "Achievements" ) );
     m_tabWidget->addTab( m_commentsView, KIcon( "text-plain" ), i18n( "Comments" ) );
 
-    m_contentLayout = static_cast<QGridLayout*>( layout() );
+    QGridLayout* m_contentLayout = new QGridLayout( );
     m_contentLayout->addWidget( m_backButton, 0, 0, 1, 2 );
     m_contentLayout->addWidget( m_tabWidget, 1, 0, 1, 2 );
+    setContentsMargins( 10, 15, 10, 15 );
+    setLayout(m_contentLayout);
 }
 
 GameDetailsOverlay::~GameDetailsOverlay()
