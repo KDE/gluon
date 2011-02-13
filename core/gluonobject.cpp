@@ -557,6 +557,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
         {
             QVector4D vector = theValue.value<QVector4D>();
             value = QString( "vector4d(%1;%2;%3;%4)" ).arg( vector.x() ).arg( vector.y() ).arg( vector.z() ).arg( vector.w() );
+            break;
         }
         case QVariant::Quaternion:
             theQuat = theValue.value<QQuaternion>();
