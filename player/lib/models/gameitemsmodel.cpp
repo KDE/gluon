@@ -99,6 +99,7 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.at( index.row() ).gameName();
     case GameDescriptionRole:
         return m_gameViewItems.at( index.row() ).gameDescription();
+    case Qt::DisplayRole:
     case ProjectFileNameRole:
         return m_gameViewItems.at( index.row() ).projectFileName();
     case IDRole:
