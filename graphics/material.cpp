@@ -152,13 +152,21 @@ void Material::build( const QString& name )
     // const char* fragShaderData = fragShaderSource.data();
 
     d->program = new QGLShaderProgram();
-    d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource );
-    d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource );
-    d->program->link();
+    if(!d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource ))
+    {
+        debug("An error occurred during Vertex Shader compilation!");
+        debug(d->program->log());
+    }
+    if(!d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource ))
+    {
+        debug("An error occurred during Fragment Shader compilation!");
+        debug(d->program->log());
+    }
 
+    d->program->link();
     if( !d->program->isLinked() )
     {
-        debug( "An error occurred during shader compilation!" );
+        debug( "An error occurred during shader linking!" );
         debug( d->program->log() );
     }
 
