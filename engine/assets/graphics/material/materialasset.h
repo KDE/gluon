@@ -36,20 +36,15 @@ namespace GluonEngine
             ~MaterialAsset();
 
             virtual QIcon icon() const;
-
             void load();
 
             virtual const QStringList supportedMimeTypes() const;
-
             virtual const QList<AssetTemplate*> templates();
-
             virtual QList<QAction*> actions();
 
             virtual void setName( const QString& newName );
-
-            virtual QString childrenToGDL( int indentLevel = 0 ) const;
-
             virtual void sanitize();
+            virtual bool shouldSerializeChildren() const;
 
         public Q_SLOTS:
             void createInstance();

@@ -114,9 +114,9 @@ void MaterialAsset::setName( const QString& newName )
     GluonEngine::Asset::setName( newName );
 }
 
-QString MaterialAsset::childrenToGDL( int indentLevel ) const
+bool MaterialAsset::shouldSerializeChildren() const
 {
-    return GluonCore::GDLHandler::instance()->childrenToGDL( this, indentLevel );
+    return true;
 }
 
 void MaterialAsset::sanitize()
