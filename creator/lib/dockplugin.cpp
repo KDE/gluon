@@ -21,10 +21,11 @@
 #include "dockmanager.h"
 #include "core/debughelper.h"
 
-#include <QtGui/QDockWidget>
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KActionCollection>
 #include <KDE/KStandardDirs>
+
+#include <QtGui/QDockWidget>
 
 using namespace GluonCreator;
 
@@ -55,10 +56,8 @@ void DockPlugin::load( KXmlGuiWindow* mainWindow )
 
 void DockPlugin::unload( KXmlGuiWindow* mainWindow )
 {
-    Q_UNUSED( mainWindow );
+    Q_UNUSED( mainWindow )
     DockManager::instance()->removeDock( m_dock );
     actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_dock->objectName() ) ) );
     parentClient()->removeChildClient( this );
 }
-
-//#include "dockplugin.moc"

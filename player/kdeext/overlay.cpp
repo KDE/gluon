@@ -26,8 +26,6 @@ Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_contentLayout( new QGridLayout( ) )
     , m_contentWidget( new QWidget( this ) )
-    , m_background( new QWidget( this ) )
-    , m_scrollWidget( new QScrollArea( this ) )
 {
     // m_background->setImagePath( "widgets/translucentbackground" );
     // m_background->setEnabledBorders( Plasma::FrameSvg::AllBorders );
@@ -41,24 +39,3 @@ Overlay::Overlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_contentWidget->setLayout( m_contentLayout );
 }
 
-void Overlay::keyPressEvent( QKeyEvent* event )
-{
-    QWidget::keyPressEvent( event );
-}
-
-void Overlay::wheelEvent( QWheelEvent* event )
-{
-    QWidget::wheelEvent( event );
-}
-
-// void Overlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
-// {
-    // Q_UNUSED( option );
-    // Q_UNUSED( widget );
-    // m_background->paintFrame( painter );
-// }
-
-void Overlay::resizeEvent( QResizeEvent* event )
-{
-    // m_background->resizeFrame( event->newSize() );
-}

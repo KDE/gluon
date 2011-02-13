@@ -20,10 +20,11 @@
 #ifndef GLUON_CREATOR_PLUGIN_H
 #define GLUON_CREATOR_PLUGIN_H
 
-#include <QtCore/QObject>
+#include "gluoncreator_macros.h"
+
 #include <KDE/KXmlGuiWindow>
 
-#include "gluoncreator_macros.h"
+#include <QtCore/QObject>
 
 /**
  * Increase this version number whenever you make a change in the API.

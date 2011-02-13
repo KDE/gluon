@@ -23,6 +23,7 @@
 #include "gluon_player_export.h"
 
 #include <KDE/KIcon>
+#include <KDE/KDebug>
 
 #include <QtCore/QList>
 #include <QtCore/QString>
@@ -45,14 +46,15 @@ class ListModel : public QAbstractListModel
         virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
         virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
         virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+        // virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
-        void appendPair(QPair< QString, KIcon > pair);
-        void appendPair(QList< QPair< QString, KIcon > > pairList);
-        void removePair(QPair< QString, KIcon > pair);
+        void appendPair(QPair< QString, KIcon* > pair);
+        void appendPair(QList< QPair< QString, KIcon* > > pairList);
+        void removePair(QPair< QString, KIcon* > pair);
         void clearPair( );
 
     private:
-        QList< QPair< QString, KIcon > > m_list;
+        QList< QPair< QString, KIcon* > > m_list;
 };
 
 #endif // GLUONPLAYER_LISTMODEL_H

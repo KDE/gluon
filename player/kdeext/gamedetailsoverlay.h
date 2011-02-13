@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,8 @@
 #ifndef GAMEDETAILSOVERLAY_H
 #define GAMEDETAILSOVERLAY_H
 
-#include "overlay.h"
-
 #include <KDE/KTabWidget>
-#include <KDE/KTitleWidget>
+#include <KDE/KPushButton>
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
@@ -37,7 +35,7 @@ class HighScoresView;
 class AchievementsView;
 class CommentsView;
 
-class GameDetailsOverlay : public Overlay
+class GameDetailsOverlay : public QWidget
 {
     Q_OBJECT
     public:
@@ -45,11 +43,13 @@ class GameDetailsOverlay : public Overlay
         virtual ~GameDetailsOverlay();
 
     private:
-        KTitleWidget* m_backButton;
+        KPushButton* m_backButton;
+
         KTabWidget* m_tabWidget;
         HighScoresView* m_highScoresView;
         AchievementsView* m_achievementsView;
         CommentsView* m_commentsView;
+
         GluonPlayer::CommentsModel* m_commentsModel;
         GluonPlayer::HighScoresModel* m_highScoresModel;
 

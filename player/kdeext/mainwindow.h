@@ -24,9 +24,7 @@
 
 #include "gamesoverlay.h"
 #include "gamedetailsoverlay.h"
-#include "views/gamesview.h"
 
-#include <player/lib/models/gamesmodel.h>
 #include <core/gluon_global.h>
 #include <graphics/engine.h>
 #include <engine/gameproject.h>
@@ -44,7 +42,7 @@
 
 class KRecentFilesAction;
 
-namespace GluonKDEExtPlayer {
+namespace GluonKDEPlayer {
     /**
      * The main window of the KDE Player frontend
      */
@@ -60,7 +58,7 @@ namespace GluonKDEExtPlayer {
             virtual void resizeEvent( QResizeEvent* event );
 
         public slots:
-            void playGame();
+            void startGame();
             void pauseGame();
             void stopGame();
 
@@ -77,8 +75,9 @@ namespace GluonKDEExtPlayer {
             void openProject();
             void setProject( const QModelIndex& index );
             void showGames();
-            void showGameDetails( const QModelIndex& index );
             void activated( QModelIndex index );
+            void countFrames( int );
+            void updateTitle( int msec );
 
         private:
             void setupActions();
@@ -89,8 +88,6 @@ namespace GluonKDEExtPlayer {
             GamesOverlay* m_gamesOverlay;
             QGridLayout* m_layout;
             QString m_gameFileName;
-            QListView* m_view;
-            GluonPlayer::GamesModel* m_gamesModel;
             GameDetailsOverlay* m_gameDetailsOverlay;
             GluonEngine::GameProject* m_project;
             KRecentFilesAction* m_recentFiles;

@@ -29,7 +29,7 @@ QVariant ListModel::data( const QModelIndex& index, int role ) const
     switch ( role )
     {
     case Qt::DecorationRole:
-        return m_list.at(index.row()).second.pixmap(32, 32);
+        return m_list.at(index.row()).second->pixmap(32, 32);
     case Qt::DisplayRole:
         return m_list.at(index.row()).first;
     }
@@ -39,13 +39,13 @@ QVariant ListModel::data( const QModelIndex& index, int role ) const
 
 int ListModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return 1;
 }
 
 int ListModel::rowCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return m_list.count();
 }
 
@@ -59,22 +59,47 @@ QVariant ListModel::headerData( int section, Qt::Orientation orientation, int ro
     return QAbstractListModel::headerData( section, orientation, role );
 }
 
-void ListModel::appendPair( QPair< QString, KIcon > pair)
+void ListModel::appendPair( QPair< QString, KIcon* > pair)
 {
     m_list.append(pair);
+    reset();
 }
 
-void ListModel::appendPair( QList< QPair< QString, KIcon > > pairList)
+void ListModel::appendPair( QList< QPair< QString, KIcon* > > pairList)
 {
     m_list.append(pairList);
+    reset();
 }
 
-void ListModel::removePair( QPair< QString, KIcon > pair)
+void ListModel::removePair( QPair< QString, KIcon* > pair)
 {
     m_list.removeOne(pair);
+    reset();
 }
 
 void ListModel::clearPair( )
 {
     m_list.clear( );
+    reset();
 }
+
+// bool ListModel::insertRows( int row, int count, const QModelIndex& parent )
+// {
+    // if( count != 1 )  //Don't support more than one row at a time
+    // {
+        // kDebug() << "Can insert only one comment at a time";
+        // return false;
+    // }
+
+    // if( row != rowCount( parent ) )
+    // {
+        // kDebug() << "Can only add a comment to the end of existing comments";
+        // return false;
+    // }
+
+    // beginInsertRows( parent, row, row );
+    // m_list.append( parent.internalPointer() );
+    // endInsertRows();
+    // return true;
+// }
+

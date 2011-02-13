@@ -215,5 +215,3 @@ GluonObjectPropertyWidgetItem::objectValueChanged( GluonCore::GluonObject* value
     QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject( oldValue, value );
     PropertyWidgetItem::valueChanged( newValue );
 }
-
-// #include "gluonobjectpropertywidgetitem.moc"

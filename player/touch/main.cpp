@@ -17,12 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <player/lib/authentication.h>
+#include "gamewindowmanager.h"
 
-#include <QtGui/QApplication>
+#include "lib/models/gameitemsmodel.h"
+#include "lib/authentication.h"
+
+#include "graphics/renderwidget.h"
+
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtGui/QGraphicsObject>
+#include <QtGui/QApplication>
 
 int main( int argc, char** argv )
 {
@@ -30,10 +35,21 @@ int main( int argc, char** argv )
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon QML Player" );
 
-    QDeclarativeView view;
+    GluonPlayer::GameItemsModel gameItemsModel;
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
-    view.rootContext()->setContextProperty( "authentication", auth );
+
+    QDeclarativeView view;
+    GluonGraphics::RenderWidget renderWidget;
+    renderWidget.initializeGL();
+    GluonQMLPlayer::GameWindowManager gameWindowManager(&renderWidget, &view, &gameItemsModel);
+
+    QDeclarativeContext *ctxt = view.rootContext();
+    ctxt->setContextProperty( "authentication", auth );
+    ctxt->setContextProperty( "gameItemsModel", &gameItemsModel );
+    ctxt->setContextProperty( "gameWindowManager", &gameWindowManager );
+
     view.setSource( QUrl( "qrc:/main.qml" ) );
+    view.setViewport(&renderWidget);
     view.show();
 
     QObject* obj = view.rootObject();

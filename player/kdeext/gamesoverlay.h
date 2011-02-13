@@ -20,36 +20,61 @@
 #ifndef GAMESOVERLAY_H
 #define GAMESOVERLAY_H
 
+#include "loginform.h"
+#include "gamedetailsoverlay.h"
 #include "models/listmodel.h"
+#include "delegates/itemsviewdelegate.h"
+
+#include "lib/models/gameitemsmodel.h"
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
+#include <KDE/KSqueezedTextLabel>
 
-#include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
 #include <QtGui/QListView>
+#include <QtGui/QStackedWidget>
+#include <QtGui/QItemSelectionModel>
 #include <QtCore/QModelIndex>
 
-class GamesView;
-class LoginForm;
-
-class GamesOverlay : public QWidget
+namespace GluonKDEPlayer
 {
+    class GamesOverlay : public QWidget
+    {
         Q_OBJECT
 
-    public:
-        explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        GamesView* gamesView();
+        public:
+            explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            virtual ~GamesOverlay();
 
-    private:
-        QListView* m_view;
-        GamesView* m_gamesView;
-        ListModel* m_model;
-        LoginForm* m_loginForm;
+            QListView* gamesView();
 
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
-};
+        protected slots:
+            void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+            void showGameDetails( const QModelIndex& index );
 
+        private slots:
+            void backToGames();
+
+        signals:
+            void gameToPlaySelected( const QModelIndex& index );
+            void gameSelected( const QModelIndex& index );
+
+        private:
+            QListView* m_view;
+            ListModel* m_model;
+
+            QListView* m_gamesView;
+            ItemsViewDelegate* m_gamesDelegate;
+            GluonPlayer::GameItemsModel* m_gameItemsModel;
+
+            LoginForm* m_loginForm;
+            QGridLayout* m_gridLayout;
+            QStackedWidget* m_stackedWidget;
+            KSqueezedTextLabel* m_availableView;
+            KSqueezedTextLabel* m_communityView;
+
+            GameDetailsOverlay* m_gameDetailsOverlay;
+    };
+}
 #endif // GAMESOVERLAY_H

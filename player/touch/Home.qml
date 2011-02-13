@@ -23,11 +23,60 @@ Rectangle {
     anchors.fill: parent
     Button {
         id: new_user
-        width: parent.width / 4
-        height: parent.height * 1 / 5
-        icon: "icons/get-hot-new-stuff.png"
-        text: qsTr("Get More Games")
-        subtext: "5 new games, 16 updated"
-        onClicked: console.log("this doesn't do anything yet...")
+        /* width: parent.width / 4 */
+        height: parent.height * 1 / 10;
+        icon: "icons/get-hot-new-stuff.png";
+        text: qsTr("Get More Games");
+        subtext: "5 new games, 16 updated";
+        onClicked: console.log("this doesn't do anything yet...");
+    }
+
+    Component {
+        id: gameItemsDelegate
+        Item {
+            height: gameIcon.height;
+            Image {
+                id: gameIcon;
+                source: "icons/hi32-app-gluon.png";
+            }
+
+            Text {
+                id: gameViewName;
+                text: gameName;
+                anchors.left: gameIcon.right;
+            }
+
+            Text {
+                id: gameViewDescription;
+                text: gameDescription;
+                anchors {
+                    top: gameViewName.botton;
+                    left: gameIcon.right;
+                }
+            }
+
+            Image {
+                id: playButtonIcon;
+                source: "icons/media-playback-start.png";
+                anchors.left: gameViewName.right;
+                MouseArea {
+                    id: playButtonMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        console.log("Play the game from the list! Index: " + index);
+                        gameWindowManager.setProject(index);
+                    }
+                }
+            }
+        }
+    }
+
+    ListView {
+        width: 200;
+        height: 250;
+        anchors.fill: parent;
+        model: gameItemsModel;
+        delegate: gameItemsDelegate;
     }
 }

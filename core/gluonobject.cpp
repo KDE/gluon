@@ -22,13 +22,13 @@
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
 
-#include <QtCore/QVariant>
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
+#include <QtCore/QVariant>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
-#include <QSizeF>
+#include <QtCore/QSizeF>
 
 REGISTER_OBJECTTYPE( GluonCore, GluonObject )
 
@@ -669,7 +669,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
                 debug( QString( "The search was conducted on %1 and the object searched for was %2").arg( root()->fullyQualifiedName() ).arg( theReferencedName ) );
                 continue;
             }
-            
+
             if( propertyName.contains( "_sanitizable" ) )
             {
                 setProperty( propertyName.toUtf8(), QVariant() );
@@ -697,6 +697,12 @@ GluonObject::hasMetaInfo() const
     if( d->metaInfo )
         return true;
     return false;
+}
+
+bool
+GluonObject::shouldSerializeChildren() const
+{
+    return true;
 }
 
 void

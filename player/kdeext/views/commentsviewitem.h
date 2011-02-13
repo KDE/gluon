@@ -20,9 +20,10 @@
 #ifndef COMMENTSVIEWITEM_H
 #define COMMENTSVIEWITEM_H
 
+#include "views/gametextlabel.h"
+
 #include <KDE/KPushButton>
 #include <KDE/KIcon>
-#include <KDE/KTitleWidget>
 
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
@@ -56,13 +57,13 @@ class CommentsViewItem : public QWidget
         void setToolTips();
 
         QPersistentModelIndex m_index;
-        KTitleWidget* m_author;
-        QLabel* m_title;
-        QLabel* m_body;
-        QLabel* m_dateTime;
-        QLabel* m_rating;    //TODO Use a stars widget
+        GameTextLabel* m_author;
+        GameTextLabel* m_title;
+        GameTextLabel* m_body;
+        GameTextLabel* m_dateTime;
+        GameTextLabel* m_rating;    //TODO Use a stars widget
 
-        KTitleWidget *m_replyButton;
+        KPushButton *m_replyButton;
         QGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;

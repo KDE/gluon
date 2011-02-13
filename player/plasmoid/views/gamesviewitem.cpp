@@ -18,7 +18,7 @@
  */
 
 #include "gamesviewitem.h"
-#include "lib/models/gamesmodel.h"
+#include "lib/models/gameitemsmodel.h"
 
 #include <KDE/KIcon>
 #include <KDE/Plasma/IconWidget>
@@ -56,10 +56,10 @@ void GamesViewItem::layoutWidgets()
     m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
     m_gameName = new Plasma::Label( this );
-    m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
+    m_gameName->setText( m_index.data( GluonPlayer::GameItemsModel::GameNameRole ).toString() );
 
     m_gameDescription = new Plasma::Label( this );
-    m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
+    m_gameDescription->setText( m_index.data( GluonPlayer::GameItemsModel::GameDescriptionRole ).toString() );
 
     m_playButton = new Plasma::IconWidget( this );
     m_playButton->setIcon( KIcon( "media-playback-start" ) );
@@ -94,7 +94,7 @@ void GamesViewItem::playGameActivated()
 
 void GamesViewItem::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
-    Q_UNUSED( event );
+    Q_UNUSED( event )
     emit gameSelected( m_index );
 }
 

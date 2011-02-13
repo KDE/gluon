@@ -22,7 +22,7 @@
 
 #include "overlay.h"
 
-#include <QGraphicsWidget>
+#include <QtGui/QGraphicsWidget>
 
 namespace GluonPlayer
 {

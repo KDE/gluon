@@ -19,11 +19,15 @@
 
 #include "mainwindow.h"
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <graphics/renderwidget.h>
+#include "lib/models/gameitemsmodel.h"
+
+#include "input/inputmanager.h"
+
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "graphics/renderwidget.h"
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>
@@ -44,8 +48,9 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
 #include <QtCore/QTimer>
+#include <QtCore/QDebug>
 
-using namespace GluonKDEExtPlayer;
+using namespace GluonKDEPlayer;
 
 class MainWindow::MainWindowPrivate
 {
@@ -66,17 +71,13 @@ MainWindow::MainWindow(const QString& filename )
     , d( new MainWindowPrivate )
     , m_gamesOverlay( new GamesOverlay( this ) )
     , m_layout( new QGridLayout )
-    , m_view( new QListView( m_gamesOverlay ) )
-    , m_gamesModel( new GluonPlayer::GamesModel( m_view ) )
+    , m_gameDetailsOverlay( 0 )
     , m_project( new GluonEngine::GameProject )
 {
     setCentralWidget( m_gamesOverlay );
     setupActions();
     setupGUI();
     showGames();
-
-    m_view->setModel( m_gamesModel );
-    connect( m_view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 }
 
 MainWindow::~MainWindow ( )
@@ -119,7 +120,7 @@ void MainWindow::setupActions()
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
     actionCollection()->addAction( "playGame", play );
-    connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
+    connect( play, SIGNAL( triggered( bool ) ), SLOT( openProject() ) );
 
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "pauseGame", pause );
@@ -132,36 +133,46 @@ void MainWindow::setupActions()
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
 }
 
-void MainWindow::playGame( )
+void MainWindow::startGame( )
 {
-    if( GluonEngine::Game::instance()->isRunning() )
-    {
-        GluonEngine::Game::instance()->setPause( false );
-        stateChanged( "paused", StateReverse );
-    }
-    else
-    {
-        stateChanged( "playing" );
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-        // d->mainArea->setActiveTab( 0 );
+    m_project->loadFromFile( m_gameFileName );
 
-        QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
+    setWindowFilePath( m_gameFileName );
+    d->title = windowTitle();
+
+    GluonEngine::Game::instance()->setGameProject( m_project );
+    GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
+
+    setFocus();
+
+    // if( GluonEngine::Game::instance()->isRunning() )
+    // {
+        // GluonEngine::Game::instance()->setPause( false );
+        // stateChanged( "paused", StateReverse );
+    // }
+    // else
+    // {
+        // stateChanged( "playing" );
+
+        // QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
         // saveProject();
 
         //Set the focus to the entire window, so that we do not accidentally trigger actions
-        setFocus();
+        // setFocus();
 
         //Start the game loop
         //Note that this starts an infinite loop in Game
         GluonEngine::Game::instance()->runGame();
-
+        QApplication::instance()->exit();
         //This happens after we exit the game loop
-        stateChanged( "playing", StateReverse );
+        // stateChanged( "playing", StateReverse );
 
         // openProject( d->fileName );
-        GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
-        GluonEngine::Game::instance()->initializeAll();
-    }
+        // GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        // GluonEngine::Game::instance()->initializeAll();
+    // }
 }
 
 void MainWindow::pauseGame()
@@ -196,7 +207,7 @@ void MainWindow::stopGame()
 void MainWindow::optionsConfigureKeys()
 {
     KShortcutsDialog dlg( KShortcutsEditor::AllActions,
-      KShortcutsEditor::LetterShortcutsAllowed, this );
+    KShortcutsEditor::LetterShortcutsAllowed, this );
 
     dlg.addCollection(actionCollection());
     // if (m_part)
@@ -254,14 +265,8 @@ void MainWindow::resizeEvent( QResizeEvent* event )
 
 void MainWindow::showGames()
 {
-    if( !m_gamesOverlay )
-    {
-        m_gamesOverlay = new GamesOverlay( this );
-        m_gamesOverlay->gamesView()->setModel( m_gamesModel );
-        m_gamesOverlay->setGeometry( geometry() );
-        connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-        connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
-    }
+    m_gamesOverlay->setGeometry( geometry() );
+    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
 
     if( m_gameDetailsOverlay )
     {
@@ -270,35 +275,14 @@ void MainWindow::showGames()
         m_gameDetailsOverlay->deleteLater();
         m_gameDetailsOverlay = 0;
     }
-
-    m_layout->addWidget( m_gamesOverlay );
-    m_gamesOverlay->show();
-}
-
-void MainWindow::showGameDetails( const QModelIndex& index )
-{
-    QString id = index.sibling( index.row(), GluonPlayer::GamesModel::IdColumn ).data().toString();
-    if( id.isEmpty() )
-    {
-        return;
-    }
-
-    //TODO: the game details should be according to the game selected
-    m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
-    m_gamesOverlay->hide();
-    m_layout->removeWidget( m_gamesOverlay );
-    m_gameDetailsOverlay->show();
-    m_layout->addWidget( m_gameDetailsOverlay );
-    connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }
 
 void MainWindow::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data().toString();
+    m_gameFileName = index.data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     m_gamesOverlay->hide();
     openProject();
 }
-
 
 void MainWindow::openProject()
 {
@@ -307,12 +291,14 @@ void MainWindow::openProject()
         return;
     }
 
-    GluonCore::GluonObjectFactory::instance()->loadPlugins();
+    d->widget = new GluonGraphics::RenderWidget( this );
+    setCentralWidget( d->widget );
 
-    m_project->loadFromFile( m_gameFileName );
-    GluonEngine::Game::instance()->setGameProject( m_project );
-    GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
+    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
     QTimer::singleShot( 1000, this, SLOT( startGame() ) );
 }
 
@@ -321,5 +307,25 @@ void MainWindow::activated( QModelIndex index )
     if( index.isValid() )
     {
     }
+}
+
+void MainWindow::updateTitle( int msec )
+{
+    d->msecElapsed += msec;
+
+    static int fps = 0;
+    if( d->msecElapsed > 1000 )
+    {
+        fps = d->frameCount;
+        d->frameCount = 0;
+        d->msecElapsed = 0;
+    }
+
+    setWindowTitle( d->title + QString( " (%1 FPS)" ).arg( fps ) );
+}
+
+void MainWindow::countFrames( int /* time */ )
+{
+    d->frameCount++;
 }
 

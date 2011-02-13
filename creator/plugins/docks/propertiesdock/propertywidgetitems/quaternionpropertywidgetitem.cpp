@@ -126,5 +126,3 @@ void QuaternionPropertyWidgetItem::valueChanged( double value )
     d->value = QQuaternion::fromAxisAndAngle( d->x->value(), d->y->value(), d->z->value(), d->angle->value() );
     PropertyWidgetItem::valueChanged( d->value );
 }
-
-// #include "quaternionpropertywidgetitem.moc"

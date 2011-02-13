@@ -30,17 +30,8 @@ class Overlay : public QWidget
     public:
         explicit Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-    protected:
-        virtual void keyPressEvent( QKeyEvent* event );
-        virtual void wheelEvent( QWheelEvent* event );
-        // void paint( QPainter* painter, const QStyleOptionGraphicsItem* option,
-                    // QWidget* widget = 0 );
-        void resizeEvent( QResizeEvent* event );
-
         QGridLayout* m_contentLayout;
         QWidget* m_contentWidget;
-        QWidget* m_background;
-        QScrollArea* m_scrollWidget;
 };
 
 #endif // OVERLAY_H

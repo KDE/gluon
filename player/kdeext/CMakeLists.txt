@@ -13,6 +13,7 @@ set(kdeextplayer_SRCS
     gamesoverlay.cpp
     gamedetailsoverlay.cpp
     loginform.cpp
+    delegates/itemsviewdelegate.cpp
     models/listmodel.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
@@ -21,8 +22,7 @@ set(kdeextplayer_SRCS
     views/commentsviewitem.cpp
     views/highscoresview.cpp
     views/highscoresviewitem.cpp
-    views/gamesview.cpp
-    views/gamesviewitem.cpp
+    views/gametextlabel.cpp
 )
 
 if(APPLE)

@@ -47,11 +47,11 @@ int main( int argc, char** argv )
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    GluonKDEExtPlayer::MainWindow *window;
+    GluonKDEPlayer::MainWindow *window;
     if (args->count())
-        window = new GluonKDEExtPlayer::MainWindow(args->arg(0));
+        window = new GluonKDEPlayer::MainWindow(args->arg(0));
     else
-        window = new GluonKDEExtPlayer::MainWindow();
+        window = new GluonKDEPlayer::MainWindow();
 
     window->show();
     app.exec();

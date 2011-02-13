@@ -23,7 +23,7 @@
 
 #include "gluon_player_export.h"
 
-#include <QAbstractTableModel>
+#include <QtCore/QAbstractTableModel>
 
 namespace GluonCore
 {
@@ -38,7 +38,7 @@ namespace GluonPlayer
 
         public:
             /**
-             * @param gameId The game ID which will be used to perform lookup in the online
+             * @param gameId The game ID which will be used to perform the lookup of the online
              * service
              */
             explicit HighScoresModel( QString gameId, QObject* parent = 0 );
@@ -60,7 +60,7 @@ namespace GluonPlayer
             void saveData();
 
             QString m_gameId;
-            GluonCore::GluonObject* rootNode;
+            GluonCore::GluonObject* m_rootNode;
     };
 
 }

@@ -155,7 +155,7 @@ namespace GluonEngine
              * This allows Assets to handle their own children in a flexible
              * manner, without polluting the GDL with that information.
              */
-            virtual QString childrenToGDL( int indentLevel = 0 ) const;
+            virtual bool shouldSerializeChildren ( ) const;
 
             /**
              * Convenience function to test whether the file has been loaded or not.

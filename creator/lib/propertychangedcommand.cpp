@@ -19,9 +19,9 @@
 
 #include "propertychangedcommand.h"
 
-#include <QtCore/QVariant>
+#include "core/gluonobject.h"
 
-#include <core/gluonobject.h>
+#include <QtCore/QVariant>
 
 using namespace GluonCreator;
 

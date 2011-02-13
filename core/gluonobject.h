@@ -272,6 +272,8 @@ namespace GluonCore
              */
             Q_INVOKABLE bool hasMetaInfo() const;
 
+            virtual bool shouldSerializeChildren() const;
+
             virtual void setPropertyFromString( const QString& propertyName, const QString& propertyValue );
             virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
 
@@ -327,6 +329,34 @@ namespace GluonCore
              * @return  The child with the passed name, or null if no child exists by that name
              */
             virtual GluonObject* child( const QString& name ) const;
+            /**
+             * Fetches all the children of a given type from a GluonObject,
+             * searching in the entire hierarchy.
+             */
+            template<class T> QList<T*> findItemsByType() const
+            {
+                QList<T*> items;
+
+                foreach( QObject* child, children() )
+                {
+                    T* item = qobject_cast<T*>( child );
+                    if( item )
+                    {
+                        items << item;
+                        items << item->findItemsByType<T>();
+                    }
+                    else
+                    {
+                        GluonObject* obj = qobject_cast<GluonObject*>( child );
+                        if( obj )
+                        {
+                            items << obj->findItemsByType<T>();
+                        }
+                    }
+                }
+
+                return items;
+            };
 
             /**
              * Handle a message from the MessageHandler. Note that this will only

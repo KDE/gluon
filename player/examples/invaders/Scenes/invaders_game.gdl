@@ -42,18 +42,6 @@
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)
             color rgba(255;255;255;255)
         }
-        { GluonEngine::KeyboardInputComponent(Key_Continue)
-            enabled bool(true)
-            keyCode int(32)
-        }
-        { GluonEngine::KeyboardInputComponent(Key_Pause)
-            enabled bool(true)
-            keyCode int(80)
-        }
-        { GluonEngine::ScriptingComponent(ScriptingComponent)
-            enabled bool(true)
-            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Controller)
-        }
     }
     { GluonEngine::GameObject(Player)
         enabled bool(false)
@@ -220,6 +208,41 @@
             size size2d(40;9)
             material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)
             color rgba(255;255;255;255)
+        }
+    }
+    { GluonEngine::GameObject(Controller)
+        enabled bool(true)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Controller)
+        }
+        { GluonEngine::UiManagerComponent(UiManagerComponent)
+            enabled bool(true)
+            size size2d(-1;-1)
+            ui GluonEngine::UiAsset(Invaders/Assets/Interface/Game Interface)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Pause)
+            enabled bool(true)
+            keyCode int(80)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Escape)
+            enabled bool(true)
+            keyCode int(16777216)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(16777235)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(16777237)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Return)
+            enabled bool(true)
+            keyCode int(16777220)
         }
     }
 }

@@ -21,15 +21,16 @@
 
 #include "openprojectdialogpage.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
+#include "core/debughelper.h"
+#include "engine/gameproject.h"
 
 #include <KDE/KFile>
 #include <KDE/KFileWidget>
 #include <KDE/KIcon>
 #include <KDE/KLocale>
 
-#include <core/debughelper.h>
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -64,7 +65,7 @@ OpenProjectDialogPage::OpenProjectDialogPage()
              SLOT( projectSelected( KUrl ) ) );
 
     d->fileWidget->setOperationMode( KFileWidget::Opening );
-    d->fileWidget->setFilter( "*.gluon|Gluon Project Files" );
+    d->fileWidget->setFilter( QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ) );
     d->fileWidget->setMode( KFile::File | KFile::ExistingOnly );
     d->fileWidget->setLocationLabel( i18n( "Project" ) );
 

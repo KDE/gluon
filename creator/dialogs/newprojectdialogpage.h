@@ -22,11 +22,10 @@
 #ifndef GLUONCREATOR_NEWPROJECTDIALOGPAGE_H
 #define GLUONCREATOR_NEWPROJECTDIALOGPAGE_H
 
-#include <kpagewidgetmodel.h>
-
+#include <KDE/KPageWidgetModel>
 #include <KDE/KColorScheme>
 
-#include <QLabel>
+#include <QtGui/QLabel>
 
 namespace GluonCreator
 {

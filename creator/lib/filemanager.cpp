@@ -19,24 +19,24 @@
 
 #include "filemanager.h"
 
-#include <QtGui/QVBoxLayout>
+#include "core/debughelper.h"
+#include "engine/asset.h"
+
+#include <KDE/KParts/ReadWritePart>
+#include <KDE/KParts/PartManager>
 
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
 #include <KDE/KRun>
 #include <KDE/KService>
 #include <KDE/KToolBar>
+#include <KDE/KActionCollection>
+#include <KDE/KServiceTypeTrader>
 
-#include <KDE/KParts/ReadWritePart>
-#include <KDE/KParts/PartManager>
-
-#include <core/debughelper.h>
-#include <engine/asset.h>
-#include <KActionCollection>
-#include <qactiongroup.h>
-#include <QMouseEvent>
-#include <QApplication>
-#include <KServiceTypeTrader>
+#include <QtGui/QActionGroup>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QApplication>
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -75,18 +75,19 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if( !asset )
         return;
 
-    openFile( asset->absolutePath(), asset->name() );
+    openFile( asset->absolutePath(), asset->name(), asset->name() );
 }
 
-void FileManager::openFile( const QString& fileName, const QString& name, const QString& partName, const QVariantList& partParams )
+void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams )
 {
     if( fileName.isEmpty() )
         return;
 
     QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
+    QString fullTitle = title.isEmpty() ? fullName : title;
     if( d->parts.contains( fullName ) )
     {
-        emit newPart( fullName );
+        emit newPart( fullName, fullTitle );
         return;
     }
 
@@ -125,7 +126,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         part->openUrl( url );
         d->parts.insert( fullName, part );
         d->partManager->addPart( part, true );
-        emit newPart( fullName );
+        emit newPart( fullName, fullTitle );
 
         return;
     }
@@ -133,7 +134,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     //Nope, there really is no part that can be used.
     //So instead, just open it in an external application.
     KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
-    Q_UNUSED( runner );
+    Q_UNUSED( runner )
 
 }
 

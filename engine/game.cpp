@@ -30,6 +30,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
+#include <QTimer>
 
 using namespace GluonEngine;
 
@@ -54,7 +55,7 @@ class I : public QThread
 
 Game::Game( QObject* parent )
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     d = new GamePrivate;
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
@@ -100,22 +101,7 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
         // Don't block everything...
         QCoreApplication::processEvents();
 
-        if( d->resetScene )
-        {
-            stopAll();
-            cleanupAll();
-
-            d->currentScene->resetScene();
-
-            initializeAll();
-            startAll();
-
-            d->resetScene = false;
-            emit currentSceneChanged( d->currentScene );
-        }
-
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
-
         loops = 0;
         while( getCurrentTick() > nextTick && loops < maxFrameSkip )
         {
@@ -316,14 +302,7 @@ void Game::resetCurrentScene()
 {
     if( d->currentScene )
     {
-        if( d->gameRunning )
-        {
-            d->resetScene = true;
-        }
-        else
-        {
-            d->currentScene->resetScene();
-        }
+        QTimer::singleShot(0, d->currentScene, SLOT(resetScene()));
     }
 }
 

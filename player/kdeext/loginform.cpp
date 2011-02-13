@@ -30,7 +30,7 @@
 #include <QtGui/QGridLayout>
 
 LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
-    : Overlay( parent, wFlags )
+    : QWidget( parent, wFlags )
     , m_usernameEdit( new KLineEdit( this ) )
     , m_passwordEdit( new KLineEdit( this ) )
     , m_loginButton( new KPushButton( this ) )
@@ -51,7 +51,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
 
-    m_contentLayout = static_cast<QGridLayout*>( layout() );
+    QGridLayout* m_contentLayout = new QGridLayout();
 
     m_contentLayout->addWidget( m_usernameLabel, 0, 0, 1, 2 );
     m_contentLayout->addWidget( m_usernameEdit, 1, 0, 1, 2 );
@@ -60,6 +60,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addWidget( m_loginButton, 4, 0 );
     m_contentLayout->addWidget( m_rememberMeCheckBox, 4, 1 );
     m_contentLayout->addWidget( m_usernameFeedbackLabel, 5, 0, 1, 2 );
+    setLayout(m_contentLayout);
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );
@@ -69,6 +70,10 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     connect( GluonPlayer::Authentication::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
 
     initialize();
+}
+
+LoginForm::~LoginForm()
+{
 }
 
 void LoginForm::initialize()
@@ -84,7 +89,7 @@ void LoginForm::initDone()
 
 void LoginForm::initFailed()
 {
-    qDebug() << "Initialization failed";
+   kDebug() << "Initialization failed";
 }
 
 void LoginForm::doLogin()

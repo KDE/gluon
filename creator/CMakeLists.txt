@@ -35,6 +35,7 @@ set(gluoncreator_SRCS
     dialogs/openprojectdialogpage.cpp
 )
 
+qt4_automoc(${gluoncreator_SRCS})
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})

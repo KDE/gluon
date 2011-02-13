@@ -21,12 +21,13 @@
 
 #include "input/inputmanager.h"
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <graphics/renderwidget.h>
-#include <player/lib/models/gamesmodel.h>
+#include "lib/models/gameitemsmodel.h"
+
+#include "core/debughelper.h"
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "graphics/renderwidget.h"
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>
@@ -88,7 +89,7 @@ MainWindow::MainWindow(const QString& filename )
 
         QListView* view = new QListView( base );
         layout->addWidget( view );
-        d->model = new GamesModel( view );
+        d->model = new GameItemsModel( view );
         view->setModel( d->model );
         connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
@@ -107,7 +108,7 @@ void MainWindow::activated( QModelIndex index )
 {
     if( index.isValid() )
     {
-        openProject( d->model->data( index ).toString() );
+        openProject( d->model->data( index, GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString() );
     }
 }
 
@@ -115,7 +116,7 @@ void MainWindow::openClicked( bool toggled )
 {
     Q_UNUSED( toggled )
 
-    QString fileName = KFileDialog::getOpenFileName( KUrl() , i18n( "Select a Project" ), this, QString( "*.gluon|Gluon Project Files" ) );
+    QString fileName = KFileDialog::getOpenFileName( KUrl() , i18n( "Select a Project" ), this, QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
 }

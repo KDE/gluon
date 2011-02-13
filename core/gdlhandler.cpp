@@ -470,7 +470,8 @@ GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
     serializedObject.append(QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( gluonObject->name() ));
 
     serializedObject.append(propertiesToGDL( gluonObject, indentLevel + 1 ));
-    serializedObject.append(childrenToGDL( gluonObject, indentLevel + 1 ));
+    if ( gluonObject->shouldSerializeChildren( ) )
+        serializedObject.append(childrenToGDL( gluonObject, indentLevel + 1 ));
 
     return QString( "%1\n%2}" ).arg( serializedObject ).arg( indentChars );
 }

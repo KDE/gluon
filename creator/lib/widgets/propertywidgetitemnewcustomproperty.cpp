@@ -22,20 +22,20 @@
 #include "objectmanager.h"
 #include "core/gluonobject.h"
 
+#include <KDE/KLocalizedString>
+
 #include <QtGui/QLineEdit>
 #include <QtGui/QComboBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QPushButton>
-
-#include <QtCore/QUrl>
-#include <QtCore/QSizeF>
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
 #include <QtGui/QVector4D>
 #include <QtGui/QQuaternion>
 
-#include <klocalizedstring.h>
+#include <QtCore/QUrl>
+#include <QtCore/QSizeF>
 
 using namespace GluonCreator;
 

@@ -23,9 +23,9 @@
 
 #include <core/gluon_global.h>
 
-#include <KMainWindow>
+#include <KDE/KMainWindow>
 
-#include <QModelIndex>
+#include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
 

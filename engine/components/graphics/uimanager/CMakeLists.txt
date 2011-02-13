@@ -12,6 +12,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
                     ${GLUON_INPUT_INCLUDES})
 
 set(uimanagercomponent_SRCS
+    textureimageprovider.cpp
     uimanagercomponent.cpp
     engineaccess.cpp
     renderablescene.cpp
@@ -36,4 +37,4 @@ install(
     ${LIB_INSTALL_DIR}/gluon
 )
 
-install(FILES template.qml DESTINATION ${DATA_INSTALL_DIR}/gluon/templates/ui)
+install(FILES template.qml DESTINATION ${SHARE_INSTALL_DIR}/gluon/templates/ui)

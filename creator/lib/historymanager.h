@@ -20,8 +20,9 @@
 #ifndef GLUONCREATOR_HISTORYMANAGER_H
 #define GLUONCREATOR_HISTORYMANAGER_H
 
-#include <core/singleton.h>
 #include "gluoncreator_macros.h"
+
+#include "core/singleton.h"
 
 class KActionCollection;
 class QUndoCommand;

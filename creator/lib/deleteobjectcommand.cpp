@@ -19,9 +19,9 @@
 
 #include "deleteobjectcommand.h"
 
-#include <engine/gameobject.h>
+#include "engine/gameobject.h"
 
-#include <core/debughelper.h>
+#include "core/debughelper.h"
 
 using namespace GluonCreator;
 

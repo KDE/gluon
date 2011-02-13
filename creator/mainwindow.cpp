@@ -37,20 +37,21 @@
 #include "engine/gameproject.h"
 #include "engine/scene.h"
 
-#include <KFileDialog>
-#include <KStandardAction>
-#include <KActionCollection>
-#include <KAction>
-#include <KStatusBar>
-#include <KMessageBox>
-#include <KConfigDialog>
-#include <KLocalizedString>
-#include <KPluginSelector>
-#include <KRun>
-#include <KRecentFilesAction>
+#include <KDE/KFileDialog>
+#include <KDE/KStandardAction>
+#include <KDE/KActionCollection>
+#include <KDE/KAction>
+#include <KDE/KStatusBar>
+#include <KDE/KMessageBox>
+#include <KDE/KConfigDialog>
+#include <KDE/KLocalizedString>
+#include <KDE/KPluginSelector>
+#include <KDE/KRun>
+#include <KDE/KRecentFilesAction>
 #include <KDE/KToolBar>
 #include <KDE/KRichTextEdit>
-#include <KParts/PartManager>
+#include <KDE/KParts/PartManager>
+#include <KDE/KMenuBar>
 
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
@@ -91,6 +92,7 @@ MainWindow::MainWindow( const QString& fileName )
 
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)));
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -152,10 +154,10 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile(i18nc("View Game Tab", "View"));
+        FileManager::instance()->closeFile("view");
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "view" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -212,7 +214,7 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*.gluon|Gluon Project Files" ), 0, QString(), KFileDialog::ConfirmOverwrite );
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() )
         saveProject();
 }
@@ -300,7 +302,8 @@ void MainWindow::playGame( )
         saveProject();
 
         //Set the focus to the entire window, so that we do not accidentally trigger actions
-        setFocus();
+        FileManager::instance()->setCurrentFile(i18nc("View Game Tab", "view"));
+        FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         //Start the game loop
         //Note that this starts an infinite loop in Game
@@ -309,6 +312,7 @@ void MainWindow::playGame( )
         //This happens after we exit the game loop
         stateChanged( "playing", StateReverse );
 
+        setFocus();
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();
@@ -405,3 +409,25 @@ void GluonCreator::MainWindow::projectDialogAccepted()
 void MainWindow::initializeGame()
 {
 }
+
+void MainWindow::partChanged(KParts::Part* part )
+{
+    if(part == FileManager::instance()->part("view"))
+    {
+        QTimer::singleShot(100, GluonEngine::Game::instance(), SLOT(drawAll()));
+    }
+
+    QList<QAction*> actions = menuBar()->actions();
+    foreach(QAction* action, actions)
+    {
+        if(action->menu() && action->menu()->actions().count() == 0)
+        {
+            action->setVisible(false);
+        }
+        else
+        {
+            action->setVisible(true);
+        }
+    }
+}
+

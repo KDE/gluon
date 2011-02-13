@@ -154,13 +154,12 @@ Asset::reload()
     }
 }
 
-QString
-Asset::childrenToGDL( int indentLevel ) const
+bool
+Asset::shouldSerializeChildren( ) const
 {
-    Q_UNUSED( indentLevel )
     // We do not recurse here - this allows the assets to handle their own
     // children
-    return QString();
+    return false;
 }
 
 QMimeData *

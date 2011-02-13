@@ -20,9 +20,9 @@
 #ifndef GAMESVIEWITEM_H
 #define GAMESVIEWITEM_H
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
-#include <QGraphicsGridLayout>
+#include <QtGui/QGraphicsWidget>
+#include <QtGui/QGraphicsGridLayout>
+#include <QtCore/QModelIndex>
 
 namespace Plasma
 {

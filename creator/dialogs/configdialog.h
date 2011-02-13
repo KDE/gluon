@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_CONFIGDIALOG_H
 #define GLUON_CREATOR_CONFIGDIALOG_H
 
-#include <KConfigDialog>
+#include <KDE/KConfigDialog>
 
 class KPluginSelector;
 

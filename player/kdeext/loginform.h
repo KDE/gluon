@@ -20,23 +20,23 @@
 #ifndef LOGINFORM_H
 #define LOGINFORM_H
 
-#include "overlay.h"
-
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
 #include <KDE/KLineEdit>
 #include <KDE/KPushButton>
+#include <KDE/KProgressDialog>
 
 #include <QtGui/QLabel>
 #include <QtGui/QCheckBox>
 
-class LoginForm : public Overlay
+class LoginForm : public QWidget
 {
         Q_OBJECT
 
     public:
         explicit LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        virtual ~LoginForm();
 
     protected slots:
         void doLogin();
@@ -59,6 +59,7 @@ class LoginForm : public Overlay
         QLabel* m_passwordLabel;
         QLabel* m_usernameFeedbackLabel;
         QCheckBox* m_rememberMeCheckBox;
+        KProgressDialog* m_progressDialog;
 
         bool m_loggedIn;
 

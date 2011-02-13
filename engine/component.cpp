@@ -66,13 +66,13 @@ Component::toVariant( GluonCore::GluonObject* wrapThis )
 void
 Component::update( int elapsedMilliseconds )
 {
-    Q_UNUSED( elapsedMilliseconds );
+    Q_UNUSED( elapsedMilliseconds )
 }
 
 void
 Component::draw( int timeLapse )
 {
-    Q_UNUSED( timeLapse );
+    Q_UNUSED( timeLapse )
 }
 
 void

@@ -33,6 +33,7 @@
 #include <QtDeclarative/QDeclarativeComponent>
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
+#include "textureimageprovider.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 
@@ -110,6 +111,7 @@ void UiAsset::load()
     if( !d->engine )
     {
         d->engine = new QDeclarativeEngine( this );
+        d->engine->addImageProvider("texture", new TextureImageProvider());
     }
 
     Asset::load();

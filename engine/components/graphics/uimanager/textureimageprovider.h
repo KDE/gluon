@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,33 +17,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMESVIEW_H
-#define GAMESVIEW_H
 
-#include "abstractitemview.h"
+#ifndef GLUONENGINE_TEXTUREIMAGEPROVIDER_H
+#define GLUONENGINE_TEXTUREIMAGEPROVIDER_H
 
-#include <KDE/KTitleWidget>
+#include <QDeclarativeImageProvider>
 
-#include <QtGui/QGridLayout>
-#include <QtCore/QModelIndex>
-
-class QAbstractItemModel;
-
-class GamesView : public AbstractItemView
+namespace GluonEngine 
 {
-        Q_OBJECT
-    public:
-        GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
 
-    protected:
-        KTitleWidget* m_itemBackground;
+    class TextureImageProvider : public QDeclarativeImageProvider
+    {
+        public:
+            TextureImageProvider();
+            virtual ~TextureImageProvider();
+            
+            virtual QImage requestImage(const QString& id, QSize* size, const QSize& requestedSize);
+    };
 
-        bool eventFilter( QObject* obj, QEvent* event );
+}
 
-    signals:
-        void gameToPlaySelected( const QModelIndex& index );
-        void gameSelected( const QModelIndex& index );
-};
-
-#endif // GAMESVIEW_H
+#endif // GLUONENGINE_TEXTUREIMAGEPROVIDER_H

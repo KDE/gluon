@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright (C) 2010 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,12 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMESMODEL_H
-#define GLUONPLAYER_GAMESMODEL_H
+#ifndef GLUONPLAYER_GAMEITEMSMODEL_H
+#define GLUONPLAYER_GAMEITEMSMODEL_H
 
 #include "gluon_player_export.h"
 
-#include <QtCore/QAbstractTableModel>
+#include <QtCore/QAbstractListModel>
+#include <QtCore/QString>
+#include <QtCore/QList>
 #include <QtCore/QDir>
 
 namespace GluonPlayer
@@ -35,27 +36,50 @@ namespace GluonPlayer
      * Use the different columns of the model to obtain required properties.
      *
      */
-    class GLUON_PLAYER_EXPORT GamesModel : public QAbstractTableModel
+
+    class GLUON_PLAYER_EXPORT GameViewItem
     {
         public:
-            explicit GamesModel( QObject* parent = 0 );
-            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
-            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
-            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
-            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            explicit GameViewItem(const QString &gameName, const QString &description,
+                    const QString &projectFileName, const QString &id);
+            virtual ~GameViewItem() {}
 
-            enum Column
-            {
-                PathColumn,
-                NameColumn,
-                DescriptionColumn,
-                IdColumn
-            };
+            QString gameName() const;
+            QString gameDescription() const;
+            QString projectFileName() const;
+            QString id() const;
 
         private:
-            QDir m_dir;
+            QString m_gameName;
+            QString m_gameDescription;
+            QString m_projectFileName;
+            QString m_id;
     };
 
+    class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
+    {
+        Q_OBJECT
+        public:
+
+            enum AnimalRoles {
+                GameNameRole = Qt::UserRole + 1,
+                GameDescriptionRole,
+                ProjectFileNameRole,
+                IDRole
+            };
+
+            explicit GameItemsModel( QObject* parent = 0 );
+            virtual ~GameItemsModel() {}
+
+            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+
+            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
+            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+
+        private:
+            QList<GameViewItem> m_gameViewItems;
+    };
 }
 
-#endif // GLUONPLAYER_GAMESMODEL_H
+#endif // GLUONPLAYER_GAMEITEMSMODEL_H

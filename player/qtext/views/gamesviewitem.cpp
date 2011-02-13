@@ -18,7 +18,7 @@
  */
 
 #include "gamesviewitem.h"
-#include "lib/models/gamesmodel.h"
+#include "lib/models/gameitemsmodel.h"
 
 GamesViewItem::GamesViewItem( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
@@ -50,10 +50,10 @@ void GamesViewItem::layoutWidgets()
     // m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
     m_gameName = new QLabel( this );
-    m_gameName->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::NameColumn ).data().toString() );
+    m_gameName->setText( m_index.data( GluonPlayer::GameItemsModel::GameNameRole ).toString() );
 
     m_gameDescription = new QLabel( this );
-    m_gameDescription->setText( m_index.sibling( m_index.row(), GluonPlayer::GamesModel::DescriptionColumn ).data().toString() );
+    m_gameDescription->setText( m_index.data( GluonPlayer::GameItemsModel::GameDescriptionRole ).toString() );
 
     m_playButton = new QLabel( this );
     // m_playButton->setPixmap( KIcon( "media-playback-start" ) );
@@ -88,7 +88,7 @@ void GamesViewItem::playGameActivated()
 
 void GamesViewItem::mousePressEvent( QMouseEvent* event )
 {
-    Q_UNUSED( event );
+    Q_UNUSED( event )
     emit gameSelected( m_index );
 }
 

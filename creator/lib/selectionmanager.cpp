@@ -59,5 +59,3 @@ void SelectionManager::clearSelection()
     d->selection.clear();
     emit selectionChanged( d->selection );
 }
-
-//#include "selectionmanager.moc"

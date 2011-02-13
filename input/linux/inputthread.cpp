@@ -126,7 +126,7 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_RIGHTBRACE:
             return Qt::Key_BraceRight;
         case KEY_ENTER:
-            return Qt::Key_Enter;
+            return Qt::Key_Return;
         case KEY_LEFTCTRL:
             return Qt::Key_Control;
         case KEY_A:
@@ -260,7 +260,7 @@ int InputThread::mapKeyCode(int keyCode)
         case KEY_KPJPCOMMA:
             return Qt::Key_unknown;
         case KEY_KPENTER:
-            return Qt::Key_unknown;
+            return Qt::Key_Enter;
         case KEY_RIGHTCTRL:
             return Qt::Key_Control;
         case KEY_KPSLASH:

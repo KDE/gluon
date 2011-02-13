@@ -161,5 +161,3 @@ void VectorPropertyWidgetItem::editValueChanged()
             break;
     }
 }
-
-// #include "vectorpropertywidgetitem.moc"

@@ -138,7 +138,15 @@ class UiManagerComponent::UiManagerComponentPrivate
 
         void reload()
         {
-            q->cleanup();
+            if( ui )
+            {
+                QDeclarativeItem* item = ui->qmlItem();
+                if( scene && item && item->scene() == scene )
+                {
+                    scene->removeItem( item );
+                }
+            }
+
             q->initialize();
         }
 
@@ -186,12 +194,15 @@ void UiManagerComponent::initialize()
                  this, SLOT( resizeQmlItem( const QRectF& ) ) );
     }
 
-    if( d->ui && !d->ui->isLoaded() )
+    if( d->ui )
     {
-        qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
-        qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
+        if(!d->ui->isLoaded())
+        {
+            qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
+            qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
 
-        d->ui->load();
+            d->ui->load();
+        }
 
         QDeclarativeEngine* engine = d->ui->engine();
 
@@ -200,13 +211,10 @@ void UiManagerComponent::initialize()
 
         //Glorious hack:steal the engine
         QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), 0,
-                                                                   "__engineAccess.setEngine( this )" );
+                                                                "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
-    }
 
-    if( d->ui && d->ui->isLoaded() )
-    {
         d->ui->execute();
 
         QDeclarativeItem* item = d->ui->qmlItem();
@@ -314,6 +322,11 @@ void UiManagerComponent::cleanup()
 
 void UiManagerComponent::setUi(UiAsset* ui)
 {
+    if( ui == d->ui )
+    {
+        return;
+    }
+
     d->ui = ui;
 
     connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );

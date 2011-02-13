@@ -63,5 +63,3 @@ BoolPropertyWidgetItem::toggled( bool checked )
 {
     PropertyWidgetItem::valueChanged( QVariant( checked ) );
 }
-
-//#include "boolpropertywidgetitem.moc"

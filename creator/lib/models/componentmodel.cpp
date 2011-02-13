@@ -299,8 +299,6 @@ ComponentModel::rowCount( const QModelIndex& parent ) const
 int
 ComponentModel::columnCount( const QModelIndex& parent ) const
 {
-    Q_UNUSED( parent );
+    Q_UNUSED( parent )
     return 1;
 }
-
-//#include "componentmodel.moc"

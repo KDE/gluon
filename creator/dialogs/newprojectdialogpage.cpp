@@ -21,12 +21,11 @@
 
 #include "newprojectdialogpage.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QGroupBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QFormLayout>
-#include <QtGui/QLabel>
-#include <QtCore/QScopedPointer>
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "engine/game.h"
+#include "engine/gameobject.h"
+#include "engine/component.h"
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
@@ -35,11 +34,12 @@
 #include <KDE/KMessageBox>
 #include <KDE/KSqueezedTextLabel>
 
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <engine/game.h>
-#include <engine/gameobject.h>
-#include <engine/component.h>
+#include <QtGui/QWidget>
+#include <QtGui/QGroupBox>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QFormLayout>
+#include <QtGui/QLabel>
+#include <QtCore/QScopedPointer>
 
 using namespace GluonCreator;
 
@@ -142,7 +142,7 @@ QString NewProjectDialogPage::createProject() const
 	KUrl location = d->location->url();
 	QString projectFileName = project->fullyQualifiedFileName();
 	location.addPath( projectFileName );
-	location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + ".gluon" );
+	location.addPath( projectFileName.left( projectFileName.indexOf( '.' ) ) + GluonEngine::projectSuffix );
 	project->setFilename( location );
 
 	KUrl currentLocation = d->location->url();

@@ -21,14 +21,14 @@
 
 #include "projectselectiondialog.h"
 
-#include <KDE/KLocalizedString>
-#include <KDE/KConfig>
-
 #include "newprojectdialogpage.h"
 #include "recentprojectsdialogpage.h"
 #include "openprojectdialogpage.h"
 
-#include <core/debughelper.h>
+#include "core/debughelper.h"
+
+#include <KDE/KLocalizedString>
+#include <KDE/KConfig>
 
 using namespace GluonCreator;
 
@@ -135,4 +135,4 @@ void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
     setCurrentPage( d->pages[page] );
 }
 
-#include "creator/dialogs/projectselectiondialog.moc"
+#include "projectselectiondialog.moc"

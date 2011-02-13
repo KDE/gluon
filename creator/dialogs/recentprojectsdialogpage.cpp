@@ -21,9 +21,7 @@
 
 #include "recentprojectsdialogpage.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QListWidget>
+#include "core/debughelper.h"
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
@@ -31,7 +29,9 @@
 #include <KDE/KConfig>
 #include <KDE/KConfigGroup>
 
-#include <core/debughelper.h>
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QListWidget>
 
 using namespace GluonCreator;
 
@@ -99,4 +99,4 @@ QString RecentProjectsDialogPage::selectedItem() const
     return QString();
 }
 
-#include "creator/dialogs/recentprojectsdialogpage.moc"
+#include "recentprojectsdialogpage.moc"

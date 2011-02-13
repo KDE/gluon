@@ -20,9 +20,9 @@
 #ifndef GLUON_CREATOR_SELECTIONMANAGER_H
 #define GLUON_CREATOR_SELECTIONMANAGER_H
 
-#include <core/singleton.h>
-
 #include "gluoncreator_macros.h"
+
+#include "core/singleton.h"
 
 namespace GluonCore
 {

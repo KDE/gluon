@@ -17,12 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #include "historymanager.h"
+
+#include <KDE/KUndoStack>
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
-#include <KUndoStack>
 
 using namespace GluonCreator;
 

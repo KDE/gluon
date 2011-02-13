@@ -22,11 +22,12 @@
 
 #include "gluoncreator_macros.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QHash>
+#include "core/singleton.h"
+
 #include <KDE/KPluginInfo>
 
-#include <core/singleton.h>
+#include <QtCore/QObject>
+#include <QtCore/QHash>
 
 class KXmlGuiWindow;
 
