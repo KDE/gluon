@@ -150,13 +150,19 @@ SpriteRendererComponent::material()
 
 void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if( !material )
-        return;
-
     d->material = material;
 
     if( d->item )
-        d->item->setMaterialInstance( material );
+    {
+        if(material)
+        {
+            d->item->setMaterialInstance( material );
+        }
+        else
+        {
+            d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->instance("default"));
+        }
+    }
 }
 
 void SpriteRendererComponent::setMaterial( const QString& path )
