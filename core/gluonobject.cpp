@@ -576,9 +576,14 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             value = QString( "size2d(%1;%2)" ).arg( theValue.toSizeF().width() ).arg( theValue.toSizeF().height() );
             break;
         case QVariant::PointF:
-        case QVariant::Vector2D:
             value = QString( "vector2d(%1;%2)" ).arg( theValue.toPointF().x() ).arg( theValue.toPointF().y() );
             break;
+        case QVariant::Vector2D:
+        {
+            QVector2D vector = theValue.value<QVector2D>();
+            value = QString( "vector2d(%1;%2)" ).arg( vector.x() ).arg( vector.y() );
+            break;
+        }
         case QVariant::Color:
             theColor = theValue.value<QColor>();
             value = QString( "rgba(%1;%2;%3;%4)" ).arg( theColor.red() ).arg( theColor.green() ).arg( theColor.blue() ).arg( theColor.alpha() );
