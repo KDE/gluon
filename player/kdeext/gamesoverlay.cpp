@@ -84,6 +84,10 @@ void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIn
 
 void GamesOverlay::backToGames()
 {
+    m_stackedWidget->removeWidget( m_gameDetailsOverlay );
+    delete m_gameDetailsOverlay;
+    m_gameDetailsOverlay = 0;
+    m_stackedWidget->setCurrentIndex(m_stackedWidget->indexOf(m_gamesView));
     /* m_gamesOverlay->setGeometry( geometry() );
     connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
 
@@ -105,7 +109,6 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
         return;
     }
 
-    //TODO: the game details should be according to the game selected
     if (m_gameDetailsOverlay) {
         m_stackedWidget->removeWidget( m_gameDetailsOverlay );
         delete m_gameDetailsOverlay;

@@ -56,6 +56,6 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
 
 GameDetailsOverlay::~GameDetailsOverlay()
 {
-    delete m_commentsModel;
-    delete m_highScoresModel;
+    /* delete m_commentsModel;
+    delete m_highScoresModel; */
 }
