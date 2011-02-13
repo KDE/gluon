@@ -81,9 +81,55 @@
         }
         { GluonEngine::MaterialAsset(Material)
             file url(Assets/Invaders_Assets_Material.gml)
+
+            { GluonGraphics::MaterialInstance(Menu Text)
+                materialColor rgba(255;255;255;255)
+                texture0 string(play.png)
+            }
+            { GluonGraphics::MaterialInstance(Icon)
+                materialColor rgba(255;255;255;255)
+                texture0 string(gluon.invaders.128.png)
+            }
+            { GluonGraphics::MaterialInstance(Player)
+                materialColor rgba(255;255;255;255)
+                texture0 string(spaceship.png)
+            }
+            { GluonGraphics::MaterialInstance(Player Reflection)
+                materialColor rgba(255;255;255;255)
+                texture0 string(spaceship-reflection.png)
+            }
+            { GluonGraphics::MaterialInstance(Enemy)
+                materialColor rgba(255;255;255;255)
+                texture0 string(alien.png)
+            }
+            { GluonGraphics::MaterialInstance(Enemy_Fade)
+                materialColor rgba(255;255;255;255)
+                texture0 string(alien.png)
+            }
+            { GluonGraphics::MaterialInstance(Bullet)
+                materialColor rgba(255;0;0;255)
+                texture0 string(alien.png)
+            }
+            { GluonGraphics::MaterialInstance(Background)
+                materialColor rgba(255;255;255;255)
+                texture0 string(background.png)
+            }
+            { GluonGraphics::MaterialInstance(Game Over)
+                materialColor rgba(255;255;255;255)
+                texture0 string(gameover.png)
+            }
+            { GluonGraphics::MaterialInstance(You Win)
+                materialColor rgba(255;255;255;255)
+                texture0 string(win.png)
+            }
         }
         { GluonEngine::MaterialAsset(Render Target Material)
             file url(Assets/Invaders_Assets_Material_1.gml)
+
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+                texture0 uint(17)
+            }
         }
     }
     { GluonCore::GluonObject(Prefabs)
