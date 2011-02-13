@@ -37,7 +37,6 @@ namespace GluonEngine
             Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
         public:
             Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );
-            ScriptingComponent( const ScriptingComponent& other );
             virtual ~ScriptingComponent();
 
             virtual QString category() const;
@@ -58,7 +57,7 @@ namespace GluonEngine
 
         private:
             class ScriptingComponentPrivate;
-            QSharedDataPointer<ScriptingComponentPrivate> d;
+            ScriptingComponentPrivate * const d;
     };
 }
 

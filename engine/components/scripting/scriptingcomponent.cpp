@@ -34,12 +34,7 @@ using namespace GluonEngine;
 
 ScriptingComponent::ScriptingComponent( QObject* parent )
     : Component( parent )
-    , d( new ScriptingComponentPrivate )
-{
-}
-
-ScriptingComponent::ScriptingComponent( const ScriptingComponent& other )
-    : d( other.d )
+    , d( new ScriptingComponentPrivate(this) )
 {
 }
 
@@ -60,14 +55,16 @@ ScriptingAsset* ScriptingComponent::script() const
 
 void ScriptingComponent::setScript( GluonEngine::ScriptingAsset* newAsset )
 {
-	//DEBUG_FUNC_NAME
+	if(d->scriptingAsset)
+        disconnect(d->scriptingAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
+
     d->scriptingAsset = newAsset;
+    connect(newAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
 }
 
 void ScriptingComponent::scriptAssetUpdated()
 {
-    disconnect( this, SLOT( scriptAssetUpdated() ) );
-    setScript( this->script() );
+    d->updateScriptObject();
 }
 
 QScriptValue ScriptingComponent::scriptObject()
@@ -79,44 +76,18 @@ void ScriptingComponent::initialize()
 {
 	if(!d->scriptingAsset)
 		return;
-	
+
 	if(!d->scriptingAsset->isLoaded())
 		d->scriptingAsset->load();
-	
+
 	if(!d->scriptingAsset->isLoaded())
 		return;
-	
+
 	if(!d->scriptObject.isValid())
 	{
-		//connect( newAsset, SIGNAL( dataChanged() ), this, SLOT( scriptAssetUpdated() ) );
-		d->scriptObject = ScriptingEngine::instance()->instantiateClass( d->scriptingAsset );
-
-		// Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot
-		// Technically it could be done by object hierarchy, but consistency is a Good Thing(TM)
-		QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
-		QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
-
-		QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject( this, ownership, wrapOptions );
-		d->scriptObject.setProperty( "Component", component );
-
-		QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject( gameObject(), ownership, wrapOptions );
-		d->scriptObject.setProperty( "GameObject", gameObj );
-
-		QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject( gameObject()->scene(), ownership, wrapOptions );
-		d->scriptObject.setProperty( "Scene", sceneObj );
-
-		QScriptValue gameProjectObj = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
-		d->scriptObject.setProperty( "GameProject", gameProjectObj );
-
-		// Lastly, get the functions out so they're easy to call
-		d->initializeFunction = d->scriptObject.property( "initialize" );
-		d->startFunction = d->scriptObject.property( "start" );
-		d->updateFunction = d->scriptObject.property( "update" );
-		d->drawFunction = d->scriptObject.property( "draw" );
-		d->stopFunction = d->scriptObject.property( "stop" );
-		d->cleanupFunction = d->scriptObject.property( "cleanup" );
+		d->updateScriptObject();
 	}
-	
+
     if( !d->scriptObject.isValid() )
         debug( "Warning: No scripting asset has been chosen" );
 

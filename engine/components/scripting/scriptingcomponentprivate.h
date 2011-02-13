@@ -20,18 +20,20 @@
 #ifndef GLUONENGINE_SCRIPTINGCOMPONENTPRIVATE_H
 #define GLUONENGINE_SCRIPTINGCOMPONENTPRIVATE_H
 
-#include <QtCore/QSharedData>
 #include "scriptingcomponent.h"
 #include <QScriptValue>
 
 namespace GluonEngine
 {
-    class ScriptingComponent::ScriptingComponentPrivate : public QSharedData
+    class ScriptingComponent::ScriptingComponentPrivate
     {
         public:
-            ScriptingComponentPrivate();
-            ScriptingComponentPrivate( const ScriptingComponentPrivate& other );
+            ScriptingComponentPrivate(ScriptingComponent* qq);
             ~ScriptingComponentPrivate();
+
+            void updateScriptObject();
+
+            ScriptingComponent* q;
 
             ScriptingAsset* scriptingAsset;
 

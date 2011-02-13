@@ -18,26 +18,48 @@
  */
 
 #include "scriptingcomponentprivate.h"
+#include "scriptingengine.h"
+
+#include "game.h"
+#include "gameobject.h"
 
 using namespace GluonEngine;
 
-ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate()
-    : scriptingAsset( 0 )
-{
-}
-
-ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate( const GluonEngine::ScriptingComponent::ScriptingComponentPrivate& other )
-    : QSharedData( other )
-    , scriptingAsset( other.scriptingAsset )
-    , initializeFunction( other.initializeFunction )
-    , startFunction( other.startFunction )
-    , updateFunction( other.updateFunction )
-    , drawFunction( other.drawFunction )
-    , stopFunction( other.stopFunction )
-    , cleanupFunction( other.cleanupFunction )
+ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate( ScriptingComponent* qq)
+    : q(qq), scriptingAsset( 0 )
 {
 }
 
 ScriptingComponent::ScriptingComponentPrivate::~ScriptingComponentPrivate()
 {
+}
+
+void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
+{
+    scriptObject = ScriptingEngine::instance()->instantiateClass( scriptingAsset );
+
+    // Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot
+    // Technically it could be done by object hierarchy, but consistency is a Good Thing(TM)
+    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+    QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+
+    QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject( q, ownership, wrapOptions );
+    scriptObject.setProperty( "Component", component );
+
+    QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject( q->gameObject(), ownership, wrapOptions );
+    scriptObject.setProperty( "GameObject", gameObj );
+
+    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject( q->gameObject()->scene(), ownership, wrapOptions );
+    scriptObject.setProperty( "Scene", sceneObj );
+
+    QScriptValue gameProjectObj = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
+    scriptObject.setProperty( "GameProject", gameProjectObj );
+
+    // Lastly, get the functions out so they're easy to call
+    initializeFunction = scriptObject.property( "initialize" );
+    startFunction = scriptObject.property( "start" );
+    updateFunction = scriptObject.property( "update" );
+    drawFunction = scriptObject.property( "draw" );
+    stopFunction = scriptObject.property( "stop" );
+    cleanupFunction = scriptObject.property( "cleanup" );
 }

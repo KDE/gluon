@@ -37,7 +37,8 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
             virtual const QList<AssetTemplate*> templates();
-			virtual void load();
+            virtual void load();
+            virtual void unload();
 
             virtual QString className() const;
         private:

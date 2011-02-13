@@ -78,29 +78,34 @@ ScriptingAsset::className() const
 
 void ScriptingAsset::load()
 {
-	if(!isLoaded())
-	{
-		QFile script( file().toLocalFile() );
-		if( script.open( QIODevice::ReadOnly ) )
-		{
-			d->script = script.readAll();
-			mimeData()->setText( d->script );
-		}
-		// Don't attempt to do anything if the script is empty
-		if( d->script.isEmpty() )
-			return;
+    if(!isLoaded())
+    {
+        QFile script( file().toLocalFile() );
+        if( script.open( QIODevice::ReadOnly ) )
+        {
+            d->script = script.readAll();
+            mimeData()->setText( d->script );
+        }
+        // Don't attempt to do anything if the script is empty
+        if( d->script.isEmpty() )
+            return;
 
-		QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset( this );
-		if( result.state() != QScriptSyntaxCheckResult::Valid )
-		{
-			debug( tr( "Script error %1 (%2,%3): %4" ).arg( fullyQualifiedName() ).arg( result.errorLineNumber() ).arg( result.errorColumnNumber() ).arg( result.errorMessage() ) );
-		}
-		else
-		{
-			setLoaded(true);
-		}
-	}
-    
+        QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset( this );
+        if( result.state() != QScriptSyntaxCheckResult::Valid )
+        {
+            debug( tr( "Script error %1 (%2,%3): %4" ).arg( fullyQualifiedName() ).arg( result.errorLineNumber() ).arg( result.errorColumnNumber() ).arg( result.errorMessage() ) );
+        }
+        else
+        {
+            Asset::load();
+        }
+    }
+}
+
+void ScriptingAsset::unload()
+{
+    ScriptingEngine::instance()->unregisterAsset(this);
+    Asset::unload();
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_scripting, GluonEngine::ScriptingAsset )
