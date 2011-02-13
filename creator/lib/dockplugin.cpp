@@ -19,7 +19,6 @@
 
 #include "dockplugin.h"
 #include "dockmanager.h"
-#include "core/debughelper.h"
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KActionCollection>

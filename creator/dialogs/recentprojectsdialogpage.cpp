@@ -21,8 +21,6 @@
 
 #include "recentprojectsdialogpage.h"
 
-#include "core/debughelper.h"
-
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
 #include <KDE/KGlobal>

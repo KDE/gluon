@@ -24,8 +24,6 @@
 #include "inputthread.h"
 #include "detectlinuxprivate.h"
 
-#include <core/debughelper.h>
-
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QMessageBox>

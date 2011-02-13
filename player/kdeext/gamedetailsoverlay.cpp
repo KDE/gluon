@@ -28,20 +28,19 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     : QWidget( parent, wFlags )
     , m_backButton( new KPushButton( this ) )
     , m_tabWidget( new KTabWidget( this ) )
-    , m_highScoresView( new HighScoresView( this ) )
+    , m_highScoresView( new QTableView( this ) )
     , m_achievementsView( new AchievementsView( this ) )
     , m_commentsView( new CommentsView( this ) )
-    // , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
+    , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
 {
-
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     connect( m_backButton, SIGNAL( clicked() ), SIGNAL( back() ) );
 
     m_highScoresView->setModel( m_highScoresModel );
-    // m_commentsView->setModel( m_commentsModel );
+    m_commentsView->setModel( m_commentsModel );
 
     m_tabWidget->addTab( m_highScoresView, KIcon( "games-highscores" ), i18n( "High Scores" ) );
     m_tabWidget->addTab( m_achievementsView, KIcon( "games-endturn" ), i18n( "Achievements" ) );

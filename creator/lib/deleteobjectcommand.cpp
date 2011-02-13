@@ -21,8 +21,6 @@
 
 #include "engine/gameobject.h"
 
-#include "core/debughelper.h"
-
 using namespace GluonCreator;
 
 class DeleteObjectCommand::DeleteObjectCommandPrivate

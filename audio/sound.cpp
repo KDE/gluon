@@ -22,9 +22,9 @@
 
 #include "engine.h"
 
-#include <sndfile.h>
+#include "core/debughelper.h"
 
-#include <core/debughelper.h>
+#include <sndfile.h>
 #include "alure/include/AL/alure.h"
 #include <sndfile.h>
 
@@ -40,7 +40,7 @@ class Sound::SoundPrivate
         ~SoundPrivate()
         {
         }
-        
+
         bool newError()
         {
             QLatin1String error = QLatin1String(alureGetErrorString());
@@ -314,11 +314,11 @@ void Sound::play()
     if (d->isPaused) {
          alureResumeSource(d->source);
     }
-    
+
     if (!d->isStopped) {
         stop();
     }
-    
+
     if (d->isStreamed) {
         int loopCount = (d->isLooping ? -1 : 0);
         alurePlaySourceStream(d->source, d->stream, Engine::instance()->buffersPerStream(), loopCount, callbackStopped, this);

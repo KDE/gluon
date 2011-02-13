@@ -19,8 +19,6 @@
 
 #include "selectionmanager.h"
 
-#include <core/debughelper.h>
-
 using namespace GluonCreator;
 
 class SelectionManager::SelectionManagerPrivate

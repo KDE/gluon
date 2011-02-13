@@ -20,20 +20,20 @@
 
 #include "uiasset.h"
 
-#include <core/debughelper.h>
-#include <graphics/texture.h>
-#include <graphics/engine.h>
+#include "textureimageprovider.h"
 
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
-#include <QtCore/QFile>
-#include <QtCore/QDebug>
+#include "graphics/texture.h"
+#include "graphics/engine.h"
+
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeComponent>
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
-#include "textureimageprovider.h"
+#include <QtCore/QUrl>
+#include <QtCore/QMimeData>
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 

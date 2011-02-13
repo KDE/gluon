@@ -23,12 +23,11 @@
 
 #include "camera.h"
 
-#include <QMatrix4x4>
-
-#include <core/debughelper.h>
 #include "frustrum.h"
 #include "engine.h"
 #include "viewport.h"
+
+#include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 

@@ -56,7 +56,6 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT CommentsModel : public QAbstractItemModel
     {
             Q_OBJECT
-
         public:
             enum Column
             {

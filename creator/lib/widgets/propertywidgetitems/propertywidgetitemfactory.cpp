@@ -18,7 +18,7 @@
  */
 #include "propertywidgetitemfactory.h"
 
-#include <core/debughelper.h>
+#include "core/debughelper.h"
 
 #include "nullpropertywidgetitem.h"
 #include "textpropertywidgetitem.h"

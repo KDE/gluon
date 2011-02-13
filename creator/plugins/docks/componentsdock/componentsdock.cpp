@@ -23,14 +23,11 @@
 #include "models/componentmodel.h"
 #include "models/modeltest.h"
 
+#include "core/gluonobjectfactory.h"
+#include "core/gluonobject.h"
+#include "engine/component.h"
+
 #include <QtGui/QTreeView>
-
-#include <KDebug>
-
-#include <core/gluonobjectfactory.h>
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
-#include <engine/component.h>
 
 using namespace GluonCreator;
 

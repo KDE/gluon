@@ -19,16 +19,15 @@
 
 #include "materialasset.h"
 
-#include "core/debughelper.h"
 #include "core/gdlhandler.h"
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
 #include "graphics/engine.h"
 
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
 #include <QtGui/QAction>
 #include <QtGui/QDialog>
+#include <QtCore/QUrl>
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, MaterialAsset )
 

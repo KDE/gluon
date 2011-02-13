@@ -25,7 +25,7 @@
 #include "core/debughelper.h"
 #include "core/gluonobjectfactory.h"
 
-#include <QMetaClassInfo>
+#include <QtCore/QMetaClassInfo>
 
 using namespace GluonCreator;
 

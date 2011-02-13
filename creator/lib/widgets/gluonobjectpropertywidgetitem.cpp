@@ -18,23 +18,22 @@
  */
 
 #include "gluonobjectpropertywidgetitem.h"
-#include "core/debughelper.h"
 #include "engine/game.h"
 #include "engine/scene.h"
 #include "engine/gameobject.h"
 #include "engine/gameproject.h"
 #include "engine/gluon_engine_metatypes.h"
 
-#include <filemanager.h>
+#include "filemanager.h"
 
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KInputDialog>
+#include <KDE/KMessageBox>
+#include <KDE/KLocalizedString>
+#include <KDE/KInputDialog>
 
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QToolButton>
-#include <QPushButton>
+#include <QtGui/QPushButton>
 
 namespace GluonCreator
 {

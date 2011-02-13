@@ -22,8 +22,8 @@
 
 #include "savable.h"
 
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include "core/gluonobject.h"
+#include "core/debughelper.h"
 
 #include <QtCore/QStringList>
 
