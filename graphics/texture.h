@@ -26,6 +26,7 @@
 #include "gluon_graphics_export.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QMetaType>
 
 class QImage;
 class QUrl;
@@ -51,6 +52,7 @@ namespace GluonGraphics
             Q_OBJECT
         public:
             explicit Texture( QObject* parent = 0 );
+            Texture(const Texture& other, QObject* parent = 0);
             virtual ~Texture();
 
             /**
@@ -81,5 +83,8 @@ namespace GluonGraphics
             TexturePrivate* const d;
     };
 }
+
+Q_DECLARE_METATYPE( GluonGraphics::Texture )
+Q_DECLARE_METATYPE( GluonGraphics::Texture* )
 
 #endif // GLUON_GRAPHICS_TEXTURE_H

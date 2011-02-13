@@ -25,7 +25,6 @@
 
 #include "graphics/texture.h"
 
-Q_DECLARE_METATYPE(GluonGraphics::Texture*);
 namespace GluonEngine
 {
     class GLUON_ASSET_TEXTURE_EXPORT TextureAsset : public Asset

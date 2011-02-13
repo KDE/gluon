@@ -49,6 +49,13 @@ Texture::Texture( QObject* parent )
 
 }
 
+Texture::Texture(const Texture& other, QObject* parent)
+    : QObject( parent )
+    , d( other.d )
+{
+
+}
+
 Texture::~Texture()
 {
     glDeleteTextures( 1, &d->glTexture );

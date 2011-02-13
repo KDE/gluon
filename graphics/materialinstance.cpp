@@ -32,7 +32,6 @@
 #include "frustrum.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
-Q_DECLARE_METATYPE(GluonGraphics::Texture*);
 
 using namespace GluonGraphics;
 
