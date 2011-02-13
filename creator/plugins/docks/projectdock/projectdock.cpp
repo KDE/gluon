@@ -44,22 +44,20 @@
 #include "lib/selectionmanager.h"
 #include "engine/scene.h"
 
+#include <KDE/KIcon>
+#include <KDE/KInputDialog>
+#include <KDE/KLocalizedString>
+#include <KDE/KMessageBox>
+#include <KDE/KRun>
+#include <KDE/KStandardDirs>
+#include <KDE/KToolBar>
+
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
-
-#include <KDebug>
-#include <KIcon>
-#include <KInputDialog>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <KRun>
-#include <KStandardDirs>
-#include <KToolBar>
-
 
 using namespace GluonCreator;
 

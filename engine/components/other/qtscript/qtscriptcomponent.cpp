@@ -20,16 +20,14 @@
 
 #include "qtscriptcomponent.h"
 
-#include <core/gluonobject.h>
-#include <graphics/materialinstance.h>
-#include <gameobject.h>
-#include <core/debughelper.h>
-#include <game.h>
-#include <engine/asset.h>
+#include "core/gluonobject.h"
+#include "graphics/materialinstance.h"
+#include "gameobject.h"
+#include "game.h"
+#include "engine/asset.h"
 
 #include <QtScript/QScriptEngine>
-#include <QtCore/QDebug>
-#include <QMimeData>
+#include <QtCore/QMimeData>
 
 
 REGISTER_OBJECTTYPE( GluonEngine, QtScriptComponent )

@@ -21,7 +21,7 @@
 #include "gameprivate.h"
 #include "scene.h"
 
-#include <core/debughelper.h>
+#include "core/debughelper.h"
 
 using namespace GluonEngine;
 

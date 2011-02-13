@@ -23,7 +23,6 @@
 
 #include "input/inputmanager.h"
 
-#include "core/debughelper.h"
 #include "engine/game.h"
 #include "engine/gameproject.h"
 #include "engine/scene.h"

@@ -24,11 +24,10 @@
 
 #include "input/inputmanager.h"
 
-#include <core/debughelper.h>
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
-#include <graphics/renderwidget.h>
+#include "engine/game.h"
+#include "engine/gameproject.h"
+#include "engine/scene.h"
+#include "graphics/renderwidget.h"
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QStatusBar>

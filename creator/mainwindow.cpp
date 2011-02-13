@@ -32,7 +32,6 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 
-#include "core/debughelper.h"
 #include "engine/game.h"
 #include "engine/gameproject.h"
 #include "engine/scene.h"

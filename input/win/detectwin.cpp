@@ -23,11 +23,9 @@
 
 #include "inputthread.h"
 
-#include <core/debughelper.h>
-
+#include <QtGui/QMessageBox>
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
-#include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
 using namespace GluonInput;

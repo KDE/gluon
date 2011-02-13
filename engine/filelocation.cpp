@@ -20,10 +20,9 @@
 #include "filelocation.h"
 #include "filelocationprivate.h"
 
-#include "core/debughelper.h"
 #include "gameproject.h"
 
-#include <qfileinfo.h>
+#include <QtCore/QFileInfo>
 
 using namespace GluonEngine;
 

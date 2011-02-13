@@ -21,11 +21,9 @@
 
 #include "input/inputmanager.h"
 
-#include <core/debughelper.h>
-#include <engine/scene.h>
+#include "engine/scene.h"
 
 # include <QtCore/QTimer>
-# include <QtCore/QDebug>
 
 using namespace GluonQMLPlayer;
 

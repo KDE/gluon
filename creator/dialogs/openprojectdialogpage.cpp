@@ -21,7 +21,6 @@
 
 #include "openprojectdialogpage.h"
 
-#include "core/debughelper.h"
 #include "engine/gameproject.h"
 
 #include <KDE/KFile>

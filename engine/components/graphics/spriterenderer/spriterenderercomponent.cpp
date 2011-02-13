@@ -19,21 +19,21 @@
 
 #include "spriterenderercomponent.h"
 
-#include <core/debughelper.h>
-#include <graphics/item.h>
-#include <graphics/engine.h>
-#include <graphics/material.h>
-#include <graphics/mesh.h>
-#include <graphics/materialinstance.h>
-#include <engine/gameobject.h>
-#include <engine/asset.h>
-
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
 #include <texture.h>
 #include <game.h>
+
+#include "graphics/item.h"
+#include "graphics/engine.h"
+#include "graphics/material.h"
+#include "graphics/mesh.h"
+#include "graphics/materialinstance.h"
+#include "engine/gameobject.h"
+#include "engine/asset.h"
+
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QColor>
+#include <QtCore/QMimeData>
+#include <QtCore/QVariant>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 

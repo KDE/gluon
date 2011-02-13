@@ -20,12 +20,11 @@
 #include "propertiesdock.h"
 
 
-#include <widgets/propertywidget.h>
-#include <engine/game.h>
-#include <engine/component.h>
-#include <objectmanager.h>
-#include <historymanager.h>
-#include <core/debughelper.h>
+#include "widgets/propertywidget.h"
+#include "engine/game.h"
+#include "engine/component.h"
+#include "objectmanager.h"
+#include "historymanager.h"
 
 using namespace GluonCreator;
 

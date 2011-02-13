@@ -20,24 +20,19 @@
 
 #include "uimanagercomponent.h"
 
-#include <core/debughelper.h>
-#include <graphics/item.h>
-#include <graphics/engine.h>
-#include <graphics/item.h>
-#include <graphics/material.h>
-#include <graphics/mesh.h>
-#include <graphics/rendertarget.h>
-#include <graphics/materialinstance.h>
-#include <engine/gameobject.h>
-#include <engine/asset.h>
+#include <texture.h>
+#include <game.h>
 
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QPixmap>
+#include "graphics/item.h"
+#include "graphics/engine.h"
+#include "graphics/item.h"
+#include "graphics/material.h"
+#include "graphics/mesh.h"
+#include "graphics/rendertarget.h"
+#include "graphics/materialinstance.h"
+#include "engine/gameobject.h"
+#include "engine/asset.h"
+
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeExpression>
@@ -46,8 +41,13 @@
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValueIterator>
-#include <texture.h>
-#include <game.h>
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QColor>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QPixmap>
+#include <QtCore/QMimeData>
+#include <QtCore/QVariant>
 
 #include "uiasset.h"
 #include "engineaccess.h"

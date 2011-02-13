@@ -27,7 +27,7 @@
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
-#include <QtCore/qtextstream.h>
+#include <QtCore/QTextStream>
 
 using namespace GluonEngine;
 

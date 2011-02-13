@@ -19,7 +19,6 @@
 
 #include "filemanager.h"
 
-#include "core/debughelper.h"
 #include "engine/asset.h"
 
 #include <KDE/KParts/ReadWritePart>

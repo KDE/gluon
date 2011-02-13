@@ -19,11 +19,10 @@
 #include "pluginmanager.h"
 #include "plugin.h"
 
-#include <KDebug>
-#include <KServiceTypeTrader>
-#include <KXmlGuiWindow>
+#include "core/debughelper.h"
 
-#include <core/debughelper.h>
+#include <KDE/KServiceTypeTrader>
+#include <KDE/KXmlGuiWindow>
 
 using namespace GluonCreator;
 

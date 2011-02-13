@@ -22,10 +22,6 @@
 
 #include "item.h"
 
-#include <QtGui/QMatrix4x4>
-
-#include <core/debughelper.h>
-
 #include "mesh.h"
 #include "camera.h"
 #include "frustrum.h"
@@ -34,6 +30,8 @@
 #include "materialinstance.h"
 #include "material.h"
 #include "glheaders.h"
+
+#include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 

@@ -19,14 +19,13 @@
 
 #include "textureasset.h"
 
-#include <core/debughelper.h>
-#include <graphics/texture.h>
-#include <graphics/engine.h>
+#include "graphics/texture.h"
+#include "graphics/engine.h"
 
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>
+#include <QtCore/QUrl>
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, TextureAsset )
 

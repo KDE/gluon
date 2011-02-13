@@ -23,8 +23,6 @@
 #include "absval.h"
 #include "inputthreadprivate.h"
 
-#include <core/debughelper.h>
-
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>

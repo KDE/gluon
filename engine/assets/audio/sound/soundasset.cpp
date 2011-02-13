@@ -20,8 +20,7 @@
 
 #include "soundasset.h"
 
-#include <core/debughelper.h>
-#include <audio/engine.h>
+#include "audio/engine.h"
 
 #include <QtCore/QMimeData>
 

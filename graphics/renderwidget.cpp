@@ -23,7 +23,6 @@
 
 #include "renderwidget.h"
 
-#include <core/debughelper.h>
 #include "engine.h"
 #include "camera.h"
 #include "frustrum.h"

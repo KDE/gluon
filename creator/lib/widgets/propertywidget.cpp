@@ -26,11 +26,13 @@ using namespace GluonCreator;
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include "engine/asset.h"
+#include "engine/scene.h"
 
-#include <QtCore/QVariant>
-#include <QtCore/QMetaClassInfo>
+#include "core/gluonobject.h"
+
+#include <KDE/KIcon>
+#include <KDE/KLocalizedString>
 
 #include <QtGui/QBoxLayout>
 #include <QtGui/QGridLayout>
@@ -38,10 +40,8 @@ using namespace GluonCreator;
 #include <QtGui/QLabel>
 #include <QtGui/QToolButton>
 
-#include <KDE/KIcon>
-#include <KDE/KLocalizedString>
-#include <engine/asset.h>
-#include <engine/scene.h>
+#include <QtCore/QVariant>
+#include <QtCore/QMetaClassInfo>
 
 class PropertyWidget::PropertyWidgetPrivate
 {

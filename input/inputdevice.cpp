@@ -17,20 +17,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "inputdevice.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaEnum>
-#include <QtGui/QKeySequence>
+#include "inputdevice.h"
 
 #include "absval.h"
 #include "inputdeviceprivate.h"
 #include "inputbuffer.h"
 #include "gluondevices.h"
 
-#include <core/debughelper.h>
+#include <QtGui/QKeySequence>
+#include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QMetaObject>
+#include <QtCore/QMetaEnum>
 
 using namespace GluonInput;
 

@@ -22,12 +22,12 @@
 
 #include "lib/objectmanager.h"
 
-#include <engine/component.h>
+#include "engine/component.h"
 
-#include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include "core/gluonobject.h"
+#include "core/debughelper.h"
 
-#include <KLocalizedString>
+#include <KDE/KLocalizedString>
 
 #include <QtCore/QMimeData>
 
