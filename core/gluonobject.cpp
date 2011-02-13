@@ -451,6 +451,20 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
         }
         value = QVector3D( x, y, z );
     }
+    else if( theTypeName == "vector4d" )
+    {
+        float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
+
+        QStringList splitValues = theValue.split( ';' );
+        if( splitValues.length() > 0 )
+        {
+            x = splitValues.at( 0 ).toFloat();
+            y = splitValues.at( 1 ).toFloat();
+            z = splitValues.at( 2 ).toFloat();
+            w = splitValues.at( 3 ).toFloat();
+        }
+        value = QVector4D( x, y, z, w );
+    }
     else if( theTypeName == "quaternion" )
     {
         float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
@@ -539,6 +553,11 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             theVector = theValue.value<QVector3D>();
             value = QString( "vector3d(%1;%2;%3)" ).arg( theVector.x() ).arg( theVector.y() ).arg( theVector.z() );
             break;
+        case QVariant::Vector4D:
+        {
+            QVector4D vector = theValue.value<QVector4D>();
+            value = QString( "vector4d(%1;%2;%3;%4)" ).arg( vector.x() ).arg( vector.y() ).arg( vector.z() ).arg( vector.w() );
+        }
         case QVariant::Quaternion:
             theQuat = theValue.value<QQuaternion>();
             value = QString( "quaternion(%1;%2;%3;%4)" ).arg( theQuat.x() ).arg( theQuat.y() ).arg( theQuat.z() ).arg( theQuat.scalar() );
