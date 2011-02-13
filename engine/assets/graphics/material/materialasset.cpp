@@ -85,8 +85,10 @@ void MaterialAsset::load()
     {
         if( d->material->load( file() ) )
         {
+            d->material->build();
             mimeData()->setText( name() );
-            setLoaded( true );
+
+            Asset::load();
             return;
         }
     }

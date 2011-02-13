@@ -36,7 +36,7 @@ namespace GluonEngine
             ~MaterialAsset();
 
             virtual QIcon icon() const;
-            void load();
+            virtual void load();
 
             virtual const QStringList supportedMimeTypes() const;
             virtual const QList<AssetTemplate*> templates();
