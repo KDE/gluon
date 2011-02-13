@@ -12,7 +12,6 @@ set(propertiesdock_SRCS
     propertywidgetitems/colorpropertywidgetitem.cpp
     propertywidgetitems/quaternionpropertywidgetitem.cpp
 	propertywidgetitems/qrealpropertywidgetitem.cpp
-	propertywidgetitems/vector2dpropertywidgetitem.cpp
 )
 
 kde4_add_plugin(gluon_creator_dockplugin_propertiesdock ${propertiesdock_SRCS})

@@ -39,9 +39,7 @@ namespace GluonCreator
 
         public slots:
             void setEditValue( const QVariant& value );
-            void xValueChanged( double value );
-            void yValueChanged( double value );
-            void zValueChanged( double value );
+            void editValueChanged();
 
         private:
             class VectorPropertyWidgetItemPrivate;
