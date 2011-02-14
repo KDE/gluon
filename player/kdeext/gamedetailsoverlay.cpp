@@ -30,7 +30,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_tabWidget( new KTabWidget( this ) )
     , m_highScoresView( new QTableView( this ) )
     , m_achievementsView( new AchievementsView( this ) )
-    , m_commentsView( new CommentsView( this ) )
+    , m_commentsView( new QListView( this ) )
     , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
 {

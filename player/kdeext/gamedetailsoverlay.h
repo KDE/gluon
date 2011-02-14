@@ -26,6 +26,7 @@
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QTableView>
+#include <QtGui/QListView>
 
 namespace GluonPlayer
 {
@@ -50,7 +51,7 @@ class GameDetailsOverlay : public QWidget
         KTabWidget* m_tabWidget;
         QTableView* m_highScoresView;
         AchievementsView* m_achievementsView;
-        CommentsView* m_commentsView;
+        QListView* m_commentsView;
 
         GluonPlayer::CommentsModel* m_commentsModel;
         GluonPlayer::HighScoresModel* m_highScoresModel;

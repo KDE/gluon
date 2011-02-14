@@ -14,6 +14,7 @@ set(kdeextplayer_SRCS
     gamedetailsoverlay.cpp
     loginform.cpp
     delegates/itemsviewdelegate.cpp
+    delegates/commentitemsviewdelegate.cpp
     models/listmodel.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
