@@ -114,20 +114,20 @@ void CommentsViewItem::layoutWidgets()
     m_layout = new QGraphicsGridLayout();
 
     m_author = new Plasma::IconWidget( this );
-    m_author->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::AuthorColumn ).data().toString() );
+    m_author->setText( m_index.data(GluonPlayer::CommentsModel::AuthorRole).toString() );
 
     m_title = new Plasma::Label( this );
-    m_title->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::TitleColumn ).data().toString() );
+    m_title->setText( m_index.data(GluonPlayer::CommentsModel::TitleRole).toString() );
     m_title->setAlignment( Qt::AlignRight );
 
     m_body = new Plasma::Label( this );
-    m_body->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::BodyColumn ).data().toString() );
+    m_body->setText( m_index.data(GluonPlayer::CommentsModel::BodyRole).toString() );
 
     m_dateTime = new Plasma::Label( this );
-    m_dateTime->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::DateTimeColumn ).data().toString() );
+    m_dateTime->setText( m_index.data(GluonPlayer::CommentsModel::DateTimeRole).toString() );
 
     m_rating = new Plasma::Label( this );
-    m_rating->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::RatingColumn ).data().toString() );
+    m_rating->setText( m_index.data(GluonPlayer::CommentsModel::RatingRole).toString() );
 
     m_replyButton = new Plasma::IconWidget( this );
     m_replyButton->setVisible( false );

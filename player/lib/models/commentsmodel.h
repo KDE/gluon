@@ -59,11 +59,6 @@ namespace GluonPlayer
         public:
             enum Column
             {
-                AuthorColumn,
-                TitleColumn,
-                BodyColumn,
-                DateTimeColumn,
-                RatingColumn,
                 AuthorRole = Qt::UserRole,
                 TitleRole,
                 BodyRole,

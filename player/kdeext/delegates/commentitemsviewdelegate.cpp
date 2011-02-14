@@ -135,7 +135,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     }
 
     KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentTitle));
-    // gameName->setWordWrap(true);
     if (title) {
         title->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
         title->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
@@ -143,7 +142,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     }
 
     KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));
-    // gameName->setWordWrap(true);
     if (body) {
         body->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + title->size().height());
         body->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
@@ -151,7 +149,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     }
 
     KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
-    // gameName->setWordWrap(true);
     if (dateTime) {
         dateTime->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + body->size().height());
         dateTime->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
@@ -159,7 +156,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     }
 
     KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
-    // gameName->setWordWrap(true);
     if (rating) {
         rating->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + dateTime->size().height());
         rating->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
