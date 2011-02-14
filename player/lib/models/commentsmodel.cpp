@@ -31,8 +31,6 @@
 #include <attica/comment.h>
 #include <attica/listjob.h>
 
-#include <KDE/KLocalizedString>
-
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
@@ -48,7 +46,7 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     , m_isOnline( false )
     , m_gameId( gameId )
 {
-    m_columnNames << "Author" << "Title" << "Body" << "DateTime" << "Rating";
+    m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
