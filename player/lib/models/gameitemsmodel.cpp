@@ -67,15 +67,15 @@ GameItemsModel::GameItemsModel( QObject* parent )
     {
         QDir gameDir = m_dir;
         gameDir.cd( gameDirName );
-        QStringList gluonProjectFiles = gameDir.entryList( QStringList( QString( "*%1" ).arg( GluonEngine::projectSuffix ) ) );
-        QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
+        QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
         if( !gluonProjectFiles.isEmpty() )
         {
-                GluonEngine::GameProject project;
-                project.loadFromFile( projectFileName );
-                GameViewItem gameViewItem(project.name(), project.description(),
-                                            projectFileName, project.property("id").toString());
-                m_gameViewItems.append(gameViewItem);
+            QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
+            GluonEngine::GameProject project;
+            project.loadFromFile( projectFileName );
+            GameViewItem gameViewItem(project.name(), project.description(),
+                                        projectFileName, project.property("id").toString());
+            m_gameViewItems.append(gameViewItem);
         }
     }
 
