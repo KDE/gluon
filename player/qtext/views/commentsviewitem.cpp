@@ -108,20 +108,20 @@ void CommentsViewItem::layoutWidgets()
     m_layout = new QGridLayout();
 
     m_author = new QLabel( this );
-    m_author->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::AuthorColumn ).data().toString() );
+    m_author->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::AuthorRole ).data().toString() );
 
     m_title = new QLabel( this );
-    m_title->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::TitleColumn ).data().toString() );
+    m_title->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::TitleRole ).data().toString() );
     m_title->setAlignment( Qt::AlignRight );
 
     m_body = new QLabel( this );
-    m_body->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::BodyColumn ).data().toString() );
+    m_body->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::BodyRole ).data().toString() );
 
     m_dateTime = new QLabel( this );
-    m_dateTime->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::DateTimeColumn ).data().toString() );
+    m_dateTime->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::DateTimeRole ).data().toString() );
 
     m_rating = new QLabel( this );
-    m_rating->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::RatingColumn ).data().toString() );
+    m_rating->setText( m_index.sibling( m_index.row(), GluonPlayer::CommentsModel::RatingRole ).data().toString() );
 
     m_replyButton = new QLabel( this );
     m_replyButton->setVisible( false );

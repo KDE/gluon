@@ -19,10 +19,6 @@ set(kdeextplayer_SRCS
     views/abstractitemview.cpp
     views/achievementsview.cpp
     views/newcommentform.cpp
-    views/commentsview.cpp
-    views/commentsviewitem.cpp
-    views/highscoresview.cpp
-    views/highscoresviewitem.cpp
     views/gametextlabel.cpp
 )
 

@@ -63,7 +63,12 @@ namespace GluonPlayer
                 TitleColumn,
                 BodyColumn,
                 DateTimeColumn,
-                RatingColumn
+                RatingColumn,
+                AuthorRole = Qt::UserRole,
+                TitleRole,
+                BodyRole,
+                DateTimeRole,
+                RatingRole
             };
 
             /**

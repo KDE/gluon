@@ -131,6 +131,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         author->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         author->resize( m_buttonSize );
         author->move( right - author->width() - margin, option.fontMetrics.height() + replyButton->height() * 0.5);
+        author->setText(index.data(GluonPlayer::CommentsModel::AuthorRole).toString());
     }
 
     KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentTitle));
@@ -138,7 +139,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (title) {
         title->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
         title->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        // title->setText(index.data(GluonPlayer::GameItemsModel::GameNameRole).toString());
+        title->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
     }
 
     KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));
@@ -146,7 +147,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (body) {
         body->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + title->size().height());
         body->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        // body->setText(index.data(GluonPlayer::GameItemsModel::GameDescriptionRole).toString());
+        body->setText(index.data(GluonPlayer::CommentsModel::BodyRole).toString());
     }
 
     KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
@@ -154,7 +155,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (dateTime) {
         dateTime->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + body->size().height());
         dateTime->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        // dateTime->setText(index.data(GluonPlayer::GameItemsModel::GameDescriptionRole).toString());
+        dateTime->setText(index.data(GluonPlayer::CommentsModel::DateTimeRole).toString());
     }
 
     KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
@@ -162,7 +163,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (rating) {
         rating->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + dateTime->size().height());
         rating->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        // rating->setText(index.data(GluonPlayer::GameItemsModel::GameDescriptionRole).toString());
+        rating->setText(index.data(GluonPlayer::CommentsModel::RatingRole).toString());
     }
 }
 

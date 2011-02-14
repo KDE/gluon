@@ -61,7 +61,7 @@ namespace GluonPlayer
         Q_OBJECT
         public:
 
-            enum AnimalRoles {
+            enum GameItemsModelRoles {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
                 ProjectFileNameRole,

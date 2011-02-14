@@ -24,6 +24,8 @@
 #include "lib/models/commentsmodel.h"
 #include "lib/models/highscoresmodel.h"
 
+using namespace GluonKDEPlayer;
+
 GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
     , m_backButton( new KPushButton( this ) )
@@ -31,6 +33,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_highScoresView( new QTableView( this ) )
     , m_achievementsView( new AchievementsView( this ) )
     , m_commentsView( new QListView( this ) )
+    , m_commentsDelegate( new CommentItemsViewDelegate(m_commentsView, this ) )
     , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
 {
@@ -40,6 +43,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     connect( m_backButton, SIGNAL( clicked() ), SIGNAL( back() ) );
 
     m_highScoresView->setModel( m_highScoresModel );
+    m_commentsView->setItemDelegate( m_commentsDelegate );
     m_commentsView->setModel( m_commentsModel );
 
     m_tabWidget->addTab( m_highScoresView, KIcon( "games-highscores" ), i18n( "High Scores" ) );

@@ -185,6 +185,13 @@ QVariant CommentsModel::data( const QModelIndex& index, int role ) const
 
         return node->property( m_columnNames.at(index.column()).toUtf8() );
     }
+    else if ( role >= Qt::UserRole )
+    {
+        GluonObject* node;
+        node = static_cast<GluonObject*>( index.internalPointer() );
+
+        return node->property( m_columnNames.at(role - Qt::UserRole).toUtf8() );
+    }
     return QVariant();
 }
 

@@ -20,6 +20,8 @@
 #ifndef GAMEDETAILSOVERLAY_H
 #define GAMEDETAILSOVERLAY_H
 
+#include "delegates/commentitemsviewdelegate.h"
+
 #include <KDE/KTabWidget>
 #include <KDE/KPushButton>
 #include <KDE/KIcon>
@@ -38,26 +40,30 @@ class HighScoresView;
 class AchievementsView;
 class CommentsView;
 
-class GameDetailsOverlay : public QWidget
+namespace GluonKDEPlayer
 {
-    Q_OBJECT
-    public:
-        explicit GameDetailsOverlay( QString gameId, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameDetailsOverlay();
+    class GameDetailsOverlay : public QWidget
+    {
+        Q_OBJECT
+        public:
+            explicit GameDetailsOverlay( QString gameId, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            virtual ~GameDetailsOverlay();
 
-    private:
-        KPushButton* m_backButton;
+        private:
+            KPushButton* m_backButton;
 
-        KTabWidget* m_tabWidget;
-        QTableView* m_highScoresView;
-        AchievementsView* m_achievementsView;
-        QListView* m_commentsView;
+            KTabWidget* m_tabWidget;
+            QTableView* m_highScoresView;
+            AchievementsView* m_achievementsView;
+            QListView* m_commentsView;
+            CommentItemsViewDelegate* m_commentsDelegate;
 
-        GluonPlayer::CommentsModel* m_commentsModel;
-        GluonPlayer::HighScoresModel* m_highScoresModel;
+            GluonPlayer::CommentsModel* m_commentsModel;
+            GluonPlayer::HighScoresModel* m_highScoresModel;
 
-    signals:
-        void back();
-};
+            signals:
+            void back();
+    };
+}
 
 #endif // GAMEDETAILSOVERLAY_H
