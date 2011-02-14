@@ -64,7 +64,7 @@ OpenProjectDialogPage::OpenProjectDialogPage()
              SLOT( projectSelected( KUrl ) ) );
 
     d->fileWidget->setOperationMode( KFileWidget::Opening );
-    d->fileWidget->setFilter( QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectSuffix ) );
+    d->fileWidget->setFilter( QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );
     d->fileWidget->setMode( KFile::File | KFile::ExistingOnly );
     d->fileWidget->setLocationLabel( i18n( "Project" ) );
 
