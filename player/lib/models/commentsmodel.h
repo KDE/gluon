@@ -83,13 +83,6 @@ namespace GluonPlayer
             virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
             /**
-             * returns the column name of a specific column as a string
-             * @param   col     the required column
-             * @return the column name as string
-             */
-            QString columnName( const Column col ) const;
-
-            /**
              * check if we are connected to the online service
              * @return true if connected, false otherwise
              */

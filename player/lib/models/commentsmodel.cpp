@@ -31,6 +31,8 @@
 #include <attica/comment.h>
 #include <attica/listjob.h>
 
+#include <KDE/KLocalizedString>
+
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
@@ -183,7 +185,7 @@ QVariant CommentsModel::data( const QModelIndex& index, int role ) const
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( columnName( Column( index.column() ) ).toUtf8() );
+        return node->property( m_columnNames.at(index.column()).toUtf8() );
     }
     return QVariant();
 }
@@ -248,7 +250,7 @@ QModelIndex CommentsModel::index( int row, int column, const QModelIndex& parent
 QVariant CommentsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
-        return columnName( Column( section ) );
+        return m_columnNames.at( section );
 
     return QVariant();
 }
@@ -268,7 +270,7 @@ bool CommentsModel::setData( const QModelIndex& index, const QVariant& value, in
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        node->setProperty( columnName( Column( index.column() ) ).toUtf8(), value );
+        node->setProperty( m_columnNames.at(index.column()).toUtf8(), value );
         emit dataChanged( index, index );
         return true;
     }
@@ -300,11 +302,6 @@ bool CommentsModel::insertRows( int row, int count, const QModelIndex& parent )
     return true;
 }
 
-QString CommentsModel::columnName( const Column col ) const
-{
-    return m_columnNames.at( col );
-}
-
 bool CommentsModel::isOnline()
 {
     return m_isOnline;
@@ -320,6 +317,5 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addCommentFinished( Attica::BaseJob* ) ) );
     job->start();
 }
-
 
 #include "commentsmodel.moc"
