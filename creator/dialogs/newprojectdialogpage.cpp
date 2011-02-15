@@ -140,15 +140,15 @@ QString NewProjectDialogPage::createProject() const
 	sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
 
 	KUrl location = d->location->url();
-	QString projectFileName = project->fullyQualifiedFileName();
-	location.addPath( projectFileName + GluonEngine::projectSuffix );
+	QString gameBundleDir = project->fullyQualifiedFileName() + GluonEngine::projectSuffix;
+	location.addPath( gameBundleDir );
 	location.addPath( GluonEngine::projectFilename );
 	project->setFilename( location );
 
 	KUrl currentLocation = d->location->url();
-	currentLocation.addPath(projectFileName);
+	currentLocation.addPath( gameBundleDir );
 	QDir dir = QDir(d->location->text());
-	dir.mkpath(projectFileName);
+	dir.mkpath( gameBundleDir );
 	QDir::setCurrent( currentLocation.toLocalFile() );
 	project->saveToFile();
 
