@@ -172,7 +172,7 @@ void MainWindow::openProject( const QString& fileName )
             centralWidget()->setEnabled( true );
 
         statusBar()->showMessage( i18n( "Project successfully opened" ) );
-        setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -1 ) ) );
+        setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
     }
