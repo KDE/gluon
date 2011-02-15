@@ -49,6 +49,8 @@ namespace GluonEngine
      *
      * \note To find out which is the current scene in a game, use Game::currentScene
      * 
+     * <strong>The Gluon Game Bundle</strong>
+     * 
      * The structore of a game project as found on the disk is as follows:
      * - (gamename).gluon/ - This is a directory. Think of it as a bundle (NeXTStep style)
      *   - Assets/ - contains all the assets in a game
