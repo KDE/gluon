@@ -21,12 +21,14 @@
 #define GAMEDETAILSOVERLAY_H
 
 #include "delegates/commentitemsviewdelegate.h"
+#include "views/newcommentform.h"
 
 #include <KDE/KTabWidget>
 #include <KDE/KPushButton>
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
+#include <QtGui/QGridLayout>
 #include <QtGui/QTableView>
 #include <QtGui/QListView>
 
@@ -49,6 +51,13 @@ namespace GluonKDEPlayer
             explicit GameDetailsOverlay( QString gameId, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
             virtual ~GameDetailsOverlay();
 
+        protected slots:
+            void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
+            void showReplyForm( const QModelIndex& index );
+
+        signals:
+            void back();
+
         private:
             KPushButton* m_backButton;
 
@@ -60,9 +69,8 @@ namespace GluonKDEPlayer
 
             GluonPlayer::CommentsModel* m_commentsModel;
             GluonPlayer::HighScoresModel* m_highScoresModel;
-
-            signals:
-            void back();
+            QGridLayout* m_contentLayout;
+            NewCommentForm* m_newCommentForm;
     };
 }
 

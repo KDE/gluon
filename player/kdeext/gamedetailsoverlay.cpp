@@ -18,9 +18,7 @@
  */
 
 #include "gamedetailsoverlay.h"
-#include "views/highscoresview.h"
 #include "views/achievementsview.h"
-#include "views/commentsview.h"
 #include "lib/models/commentsmodel.h"
 #include "lib/models/highscoresmodel.h"
 
@@ -36,6 +34,8 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_commentsDelegate( new CommentItemsViewDelegate(m_commentsView, this ) )
     , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
+    , m_contentLayout( new QGridLayout( this ) )
+    , m_newCommentForm( new NewCommentForm( this ) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -44,13 +44,13 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
 
     m_highScoresView->setModel( m_highScoresModel );
     m_commentsView->setItemDelegate( m_commentsDelegate );
+    connect(m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ));
     m_commentsView->setModel( m_commentsModel );
 
     m_tabWidget->addTab( m_highScoresView, KIcon( "games-highscores" ), i18n( "High Scores" ) );
     m_tabWidget->addTab( m_achievementsView, KIcon( "games-endturn" ), i18n( "Achievements" ) );
     m_tabWidget->addTab( m_commentsView, KIcon( "text-plain" ), i18n( "Comments" ) );
 
-    QGridLayout* m_contentLayout = new QGridLayout( );
     m_contentLayout->addWidget( m_backButton, 0, 0, 1, 2 );
     m_contentLayout->addWidget( m_tabWidget, 1, 0, 1, 2 );
     setContentsMargins( 10, 15, 10, 15 );
@@ -62,3 +62,25 @@ GameDetailsOverlay::~GameDetailsOverlay()
     /* delete m_commentsModel;
     delete m_highScoresModel; */
 }
+
+void GameDetailsOverlay::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
+{
+    m_commentsModel->uploadComment( parentIndex, title, body );
+    m_contentLayout->removeWidget( m_newCommentForm );
+    // connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
+}
+
+void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
+{
+    // hideComments();
+    // m_contentLayout->addItem( form );
+    // form->setParentIndex( parentItem->modelIndex() );
+
+    m_newCommentForm->setParentIndex( index );
+    connect( m_newCommentForm, SIGNAL( accepted( QModelIndex, QString, QString ) ),
+             SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
+    connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
+
+    m_contentLayout->addWidget( m_newCommentForm, 0, 0, 1, 2 );
+}
+
