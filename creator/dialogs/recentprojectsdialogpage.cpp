@@ -78,7 +78,8 @@ RecentProjectsDialogPage::RecentProjectsDialogPage()
 
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon( KIcon( "document-open-recent" ) );
-        item->setText( QString( "%1\n%2" ).arg( KUrl( path ).fileName() ).arg( path ) );
+        QString projectName = KUrl( path ).directory().split('/').last();
+        item->setText( QString( "%1\n%2" ).arg( projectName ).arg( path ) );
         item->setData( Qt::UserRole, path );
         d->widget->addItem( item );
     }
