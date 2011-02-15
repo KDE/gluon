@@ -114,8 +114,10 @@ void HighScoresModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
     gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
 
-    QList<GluonObject*> highScores = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) );
-    m_rootNode = highScores.at( 0 );
+    if( QFile::exists(gluonDir.absoluteFilePath( "highscores.gdl" )) )
+        m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
+    else
+        qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "highscores.gdl" );
 }
 
 void HighScoresModel::saveData()
