@@ -78,10 +78,16 @@ NewProjectDialogPage::NewProjectDialogPage()
     box->setLayout( boxLayout );
 
     d->name = new KLineEdit( box );
+    d->name->setPlaceholderText( i18n( "Enter the name for a new game project" ) );
     boxLayout->addRow( i18n( "Project Name" ), d->name );
 
     d->location = new KUrlRequester( box );
     d->location->setMode( KFile::Directory );
+    QFileInfo locInfo(QDir::currentPath());
+    if( locInfo.isWritable() )
+        d->location->setUrl( KUrl( QDir::current().absolutePath() ) );
+    else
+        d->location->setUrl( KUrl( QDir::homePath() ) );
     boxLayout->addRow( i18n( "Project Location" ), d->location );
 
     d->locationValidLabel = new KSqueezedTextLabel( box );
