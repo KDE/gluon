@@ -115,6 +115,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     // setup the install button
     int margin = option.fontMetrics.height() / 2;
     int right = option.rect.width();
+    int bottom = option.rect.height();
 
     const_cast<QSize&>(m_buttonSize) = QSize(32, 32);
 
@@ -123,43 +124,36 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         replyButton->setIcon( KIcon( "edit-undo" ) );
         replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         replyButton->resize( m_buttonSize );
-        replyButton->move( right - replyButton->width() - margin, option.fontMetrics.height() + replyButton->height() * 0.5);
+        replyButton->move( right - replyButton->width() - margin, bottom - m_buttonSize.height() * 1.5);
     }
 
     KSqueezedTextLabel* author = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentAuthor));
     if (author) {
         author->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-        author->resize( m_buttonSize );
-        author->move( right - author->width() - margin, option.fontMetrics.height() + replyButton->height() * 0.5);
+        author->resize( right / 5, m_buttonSize.height() );
+        author->move( margin, option.fontMetrics.height());
         author->setText(index.data(GluonPlayer::CommentsModel::AuthorRole).toString());
+    }
+
+    KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
+    if (dateTime) {
+        dateTime->resize(author->size().width(), author->size().height());
+        dateTime->move(author->x() + author->size().width(), author->y());
+        dateTime->setText(index.data(GluonPlayer::CommentsModel::DateTimeRole).toString());
     }
 
     KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentTitle));
     if (title) {
-        title->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
-        title->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
+        title->resize(dateTime->size().width(), dateTime->size().height());
+        title->move(dateTime->x() + dateTime->size().width(), dateTime->y());
         title->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
     }
 
     KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));
     if (body) {
-        body->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + title->size().height());
-        body->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
+        body->resize(right - 2 * margin, bottom - author->size().height() - 2 * margin);
+        body->move(margin, option.fontMetrics.height()  + author->size().height());
         body->setText(index.data(GluonPlayer::CommentsModel::BodyRole).toString());
-    }
-
-    KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
-    if (dateTime) {
-        dateTime->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + body->size().height());
-        dateTime->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        dateTime->setText(index.data(GluonPlayer::CommentsModel::DateTimeRole).toString());
-    }
-
-    KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
-    if (rating) {
-        rating->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + dateTime->size().height());
-        rating->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        rating->setText(index.data(GluonPlayer::CommentsModel::RatingRole).toString());
     }
 }
 
