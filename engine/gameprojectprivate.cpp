@@ -30,8 +30,10 @@
 using namespace GluonEngine;
 
 GameProjectPrivate::GameProjectPrivate()
+    : entryPoint(0)
+    , icon(0)
+    , screenshot(0)
 {
-    entryPoint = NULL;
 }
 
 GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
@@ -41,6 +43,8 @@ GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
     , mediaInfo( other.mediaInfo )
     , filename( other.filename )
     , entryPoint( other.entryPoint )
+    , icon( other.icon )
+    , screenshot( other.screenshot )
 {
 }
 

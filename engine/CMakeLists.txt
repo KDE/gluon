@@ -109,11 +109,12 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)
 endif()
 
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS})
+target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS})
 
 set(GLUON_ENGINE_LIBS
     GluonEngine
     ${GLUON_CORE_LIBS}
+    ${GLUON_GRAPHICS_LIBS}
     CACHE PATHS "Libraries required for Gluon Engine"
 )
 

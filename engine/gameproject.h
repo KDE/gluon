@@ -28,12 +28,17 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
+#include <graphics/texture.h>
 
 namespace GluonEngine
 {
-    const QString projectSuffix = ".gluon";
-    const QString projectFilename = "game.gluonproject";
-    const QString projectMetainfo = "game.gluonmeta";
+    const QString projectSuffix(".gluon");
+    const QString projectFilename("game.gluonproject");
+    const QString projectMetainfo("game.gluonmeta");
+    const QString projectIcon("game.png");
+    const QString projectWinIcon("game.ico");
+    const QString projectScreenshot("screenshot.png");
+
     class GameProjectPrivate;
 
     /**
@@ -120,6 +125,18 @@ namespace GluonEngine
              */
             Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint )
 
+            /**
+             * The icon used to represent the game both on disk, on the distribution site, and in
+             * the players which show icons for the games.
+             */
+            Q_PROPERTY( GluonGraphics::Texture* icon READ icon WRITE setIcon )
+
+            /**
+             * A screenshot to represent the game, shown in the various players, and on the
+             * distribution site
+             */
+            Q_PROPERTY( GluonGraphics::Texture* screenshot READ screenshot WRITE setScreenshot )
+
         public:
             Q_INVOKABLE GameProject( QObject* parent = 0 );
             GameProject( const GameProject& other, QObject* parent = 0 );
@@ -151,6 +168,12 @@ namespace GluonEngine
 
             Scene* entryPoint() const;
             void setEntryPoint( Scene* newEntryPoint );
+
+            GluonGraphics::Texture* icon() const;
+            void setIcon( GluonGraphics::Texture* newIcon );
+
+            GluonGraphics::Texture* screenshot() const;
+            void setScreenshot( GluonGraphics::Texture* newScreenshot );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

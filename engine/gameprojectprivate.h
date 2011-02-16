@@ -29,6 +29,11 @@ namespace GluonCore
     class GluonObject;
 }
 
+namespace GluonGraphics
+{
+    class Texture;
+}
+
 namespace GluonEngine
 {
     class Scene;
@@ -45,6 +50,8 @@ namespace GluonEngine
             QList<QUrl> mediaInfo;
             QUrl filename;
             Scene* entryPoint;
+            GluonGraphics::Texture* icon;
+            GluonGraphics::Texture* screenshot;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
     };

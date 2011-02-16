@@ -34,6 +34,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QMetaClassInfo>
+#include <QtGui/QImageWriter>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameProject )
 
@@ -89,6 +90,50 @@ GameProject::saveToFile() const
     QTextStream projectWriter( &projectFile );
     projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject );
     projectFile.close();
+
+    QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
+    // Recreate the various icon files if we have an icon file available
+    QImage icon(128, 128, QImage::Format_ARGB32);
+    if( d->icon )
+        icon = d->icon->image().scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QString iconFile(projectDir);
+    iconFile.append('/');
+    iconFile.append( GluonEngine::projectIcon );
+    icon.save( iconFile );
+    if( QImageWriter::supportedImageFormats().contains("ico") )
+    {
+        iconFile = projectDir;
+        iconFile.append('/');
+        iconFile.append( GluonEngine::projectWinIcon );
+        QImageWriter iconWriter(iconFile);
+        iconWriter.setFormat("ico");
+        iconWriter.write( icon );
+    }
+    
+    // Build the folder information files for Windows and for XDG compliant file browsers
+    QFile directoryFile( projectDir + "/.directory" );
+    if( directoryFile.open( QFile::WriteOnly | QFile::Truncate ) )
+    {
+        QTextStream out(&directoryFile);
+        out << QString("[Desktop Entry]\nIcon=game.png\nType=Directory\n");
+        directoryFile.close();
+    }
+    QFile folderFile( projectDir + "/desktop.ini" );
+    if( folderFile.open( QFile::WriteOnly | QFile::Truncate ) )
+    {
+        QTextStream out(&folderFile);
+        out << QString("[.ShellClassInfo]\r\nConfirmFileOp=0\r\nIconFile=game.ico\r\nIconIndex=0\r\nInfoTip=A Gluon Game\r\n");
+        folderFile.close();
+    }
+    
+    // Recreate the screenshot file if we have one such
+    if( d->screenshot )
+    {
+        QString screenshotFile = projectDir;
+        screenshotFile.append('/');
+        screenshotFile.append( GluonEngine::projectScreenshot );
+        d->screenshot->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
+    }
 
     return true;
 }
@@ -273,6 +318,26 @@ void
 GameProject::setEntryPoint( Scene* newEntryPoint )
 {
     d->entryPoint = newEntryPoint;
+}
+
+GluonGraphics::Texture* GameProject::icon() const
+{
+    return d->icon;
+}
+
+void GameProject::setIcon(GluonGraphics::Texture* newIcon)
+{
+    d->icon = newIcon;
+}
+
+GluonGraphics::Texture* GameProject::screenshot() const
+{
+    return d->screenshot;
+}
+
+void GameProject::setScreenshot(GluonGraphics::Texture* newScreenshot)
+{
+    d->screenshot = newScreenshot;
 }
 
 #include "gameproject.moc"
