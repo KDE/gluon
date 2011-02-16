@@ -71,8 +71,15 @@ Asset::setName( const QString& newName )
         if( QDir( QDir::currentPath() ).exists( d->file.toLocalFile() ) )
         {
             QUrl newFile( QString( "Assets/%1.%2" ).arg( fullyQualifiedName() ).arg( QFileInfo( d->file.toLocalFile() ).completeSuffix() ) );
+
+            QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
+            QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
+            QDir::current().mkpath( newPath );
+
             if( QDir::current().rename( d->file.toLocalFile(), newFile.toLocalFile() ) )
             {
+                if( QDir::current().exists( oldPath ) )
+                    QDir::current().rmpath( oldPath );
                 setFile( newFile );
             }
         }
@@ -82,6 +89,11 @@ Asset::setName( const QString& newName )
 void
 Asset::setFile( const QUrl& newFile )
 {
+    QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
+    if( QDir::current().exists( oldPath ) )
+        QDir::current().rmpath( oldPath );
+    QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
+    QDir::current().mkpath( newPath );
     d->file = newFile;
     emit dataChanged();
 }
