@@ -76,7 +76,7 @@ namespace GluonKDEPlayer
             QGridLayout* m_contentLayout;
             NewCommentForm* m_newCommentForm;
             QWidget* m_commentWidget;
-            // QSortFilterProxyModel* m_proxyModel;
+            QSortFilterProxyModel* m_proxyModel;
     };
 }
 
