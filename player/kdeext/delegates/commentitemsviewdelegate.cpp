@@ -133,7 +133,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         author->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         author->resize( right / 5, m_buttonSize.height() );
         author->move( margin, option.fontMetrics.height());
-        qDebug() << "AUTHOR: " << index.data(GluonPlayer::CommentsModel::AuthorRole).toString();
         author->setText(index.data(GluonPlayer::CommentsModel::AuthorRole).toString());
     }
 
@@ -141,7 +140,6 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (dateTime) {
         dateTime->resize(author->size().width(), author->size().height());
         dateTime->move(author->x() + author->size().width(), author->y());
-        qDebug() << "DATE TIME: " << index.data(GluonPlayer::CommentsModel::DateTimeRole).toString();
         dateTime->setText(index.data(GluonPlayer::CommentsModel::DateTimeRole).toString());
     }
 
@@ -149,15 +147,13 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (title) {
         title->resize(dateTime->size().width(), dateTime->size().height());
         title->move(dateTime->x() + dateTime->size().width(), dateTime->y());
-        qDebug() << "TITLE: " << index.data(GluonPlayer::CommentsModel::TitleRole).toString();
         title->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
     }
 
     KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
     if (rating) {
-        rating->resize(dateTime->size().width(), dateTime->size().height());
-        rating->move(dateTime->x() + dateTime->size().width(), dateTime->y());
-        qDebug() << "RATING: " << index.data(GluonPlayer::CommentsModel::RatingRole).toString();
+        rating->resize(title->size().width(), title->size().height());
+        rating->move(title->x() + title->size().width(), title->y());
         rating->setText(index.data(GluonPlayer::CommentsModel::RatingRole).toString());
     }
 
@@ -165,11 +161,8 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     if (body) {
         body->resize(right - 2 * margin, bottom - author->size().height() - 2 * margin);
         body->move(margin, option.fontMetrics.height()  + author->size().height());
-        qDebug() << "BODY: " << index.data(GluonPlayer::CommentsModel::BodyRole).toString();
-    qDebug() << endl << endl << endl;
         body->setText(index.data(GluonPlayer::CommentsModel::BodyRole).toString());
     }
-
 }
 
 // draws the preview
