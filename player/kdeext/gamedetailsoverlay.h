@@ -74,7 +74,6 @@ namespace GluonKDEPlayer
             QGridLayout* m_contentLayout;
             NewCommentForm* m_newCommentForm;
             QWidget* m_commentWidget;
-            QWidget* m_dummyWidget;
     };
 }
 

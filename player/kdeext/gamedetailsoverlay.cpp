@@ -37,7 +37,6 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_contentLayout( new QGridLayout( this ) )
     , m_newCommentForm( new NewCommentForm( this ) )
     , m_commentWidget( new QWidget ( this ) )
-    , m_dummyWidget( new QWidget ( ) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -50,8 +49,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_commentsView->setModel( m_commentsModel );
 
     QGridLayout* gl = new QGridLayout(m_commentWidget);
-    gl->addWidget(m_dummyWidget, 0, 0, 1, 2);
-    gl->addWidget( m_newCommentForm, 0, 0, 1, 2 );
+    gl->addWidget( m_newCommentForm );
     m_newCommentForm->setVisible(false);
     gl->addWidget(m_commentsView);
     m_commentWidget->setLayout(gl);
@@ -94,6 +92,5 @@ void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
     connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
 
     m_newCommentForm->setVisible(true);
-    m_dummyWidget->setVisible(false);
 }
 
