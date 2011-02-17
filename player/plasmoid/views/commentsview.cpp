@@ -52,7 +52,7 @@ void CommentsView::setModel( QAbstractItemModel* model )
     m_rootWidget = new QGraphicsWidget( m_commentsFrame );
     for( int i = 0; i < m_model->rowCount(); ++i )
     {
-        addComment( m_model->index( i, 0 ), m_rootWidget, 0 );
+        // addComment( m_model->index( i, 0 ), m_rootWidget, 0 );
     }
 }
 

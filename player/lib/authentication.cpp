@@ -20,7 +20,8 @@
 
 #include "authentication.h"
 #include "atticamanager.h"
-#include <core/singleton.h>
+
+#include "core/singleton.h"
 
 #include <QtCore/QDebug>
 
@@ -100,12 +101,10 @@ bool Authentication::logout( )
     if( AtticaManager::instance()->isProviderValid() )
     {
         if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
-            qDebug() << "Logout OK" << endl;
             m_loggedIn = false;
             emit loggedOut();
             return true;
         } else {
-            qDebug() << "Logout error" << endl;
             emit logoutFailed();
             return false;
         }
@@ -135,7 +134,7 @@ void Authentication::showRegisterError( const Attica::Metadata& metadata )
 {
     if( metadata.error() == Attica::Metadata::NetworkError )
     {
-        qWarning() << tr( "Failed to register new account." );
+        emit registrationFailed();
     }
     else
     {
@@ -206,18 +205,15 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
         if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
-            qDebug() << "Login OK" << endl;
             m_loggedIn = true;
             emit loggedIn();
         } else {
-            qDebug() << "Login error (saveCredentials)";
             m_loggedIn = false;
-            emit loginFailed();
+            emit loginSaveCredentialsFailed();
         }
     }
     else
     {
-        qDebug() << "Login error" << endl;
         m_loggedIn = false;
         emit loginFailed();
     }

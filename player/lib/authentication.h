@@ -116,9 +116,15 @@ namespace GluonPlayer
             /** signal which is emitted when the login failed
              */
             void loginFailed();
+            /** signal which is emitted when the login save credentials failed
+             */
+            void loginSaveCredentialsFailed();
             /** signal which is emitted when the logout failed
              */
             void logoutFailed();
+            /** signal which is emitted when the registration failed
+             */
+            void registrationFailed();
 
         private:
             friend class GluonCore::Singleton<Authentication>;
