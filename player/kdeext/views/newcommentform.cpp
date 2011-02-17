@@ -29,8 +29,6 @@ NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     , m_cancelButton( new KPushButton( this ) )
 {
     QGridLayout* layout = new QGridLayout( this );
-    QGridLayout* layout2 = new QGridLayout( this );
-    // layout2->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
 
     m_okButton->setText( i18n( "OK" ) );
     connect( m_okButton, SIGNAL( clicked() ), SLOT( validateAndSubmit() ) );
@@ -38,11 +36,10 @@ NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     m_cancelButton->setText( i18n( "Cancel" ) );
     connect( m_cancelButton, SIGNAL( clicked() ), SIGNAL( canceled() ) );
 
-    layout->addLayout( layout2, 0, 0 );
+    layout->addWidget( m_okButton );
+    layout->addWidget( m_cancelButton );
     layout->addWidget( m_titleEdit );
     layout->addWidget( m_bodyEdit );
-    layout2->addWidget( m_okButton );
-    layout2->addWidget( m_cancelButton );
 
     setLayout( layout );
 }

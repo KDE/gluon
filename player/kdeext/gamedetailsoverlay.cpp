@@ -19,7 +19,6 @@
 
 #include "gamedetailsoverlay.h"
 #include "views/achievementsview.h"
-#include "lib/models/commentsmodel.h"
 #include "lib/models/highscoresmodel.h"
 
 using namespace GluonKDEPlayer;
@@ -32,11 +31,12 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_achievementsView( new AchievementsView( this ) )
     , m_commentsView( new QListView( this ) )
     , m_commentsDelegate( new CommentItemsViewDelegate(m_commentsView, this ) )
-    , m_commentsModel( new GluonPlayer::CommentsModel( gameId ) )
+    , m_commentsModel( new GluonPlayer::CommentItemsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
     , m_contentLayout( new QGridLayout( this ) )
     , m_newCommentForm( new NewCommentForm( this ) )
     , m_commentWidget( new QWidget ( this ) )
+    // , m_proxyModel( new QSortFilterProxyModel(this) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -46,6 +46,8 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_highScoresView->setModel( m_highScoresModel );
     m_commentsView->setItemDelegate( m_commentsDelegate );
     connect(m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ));
+    // m_proxyModel->setSourceModel( m_commentsModel );
+    // m_proxyModel->setSortRole(GluonPlayer::CommentsModel::DateTimeRole);
     m_commentsView->setModel( m_commentsModel );
 
     QGridLayout* gl = new QGridLayout(m_commentWidget);
@@ -63,7 +65,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     setContentsMargins( 10, 15, 10, 15 );
     setLayout(m_contentLayout);
 
-    connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( commendFailed() ) );
+    connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( commentFailed() ) );
 }
 
 GameDetailsOverlay::~GameDetailsOverlay()

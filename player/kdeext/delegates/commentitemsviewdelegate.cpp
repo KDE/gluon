@@ -21,7 +21,7 @@
 
 #include "views/gametextlabel.h"
 
-#include "lib/models/commentsmodel.h"
+#include "lib/models/commentitemsmodel.h"
 
 #include <KDE/KDebug>
 
@@ -106,7 +106,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         const QStyleOptionViewItem &option,
         const QPersistentModelIndex &index) const
 {
-    const GluonPlayer::CommentsModel* model = qobject_cast<const GluonPlayer::CommentsModel*>(index.model());
+    const GluonPlayer::CommentItemsModel* model = qobject_cast<const GluonPlayer::CommentItemsModel*>(index.model());
     if (!model) {
         kDebug() << "Warning - Invalid Model!";
         return;
@@ -121,7 +121,7 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
 
     KPushButton* replyButton = qobject_cast<KPushButton*>(widgets.at(DelegateCommentReplyButton));
     if (replyButton) {
-        replyButton->setVisible(const_cast<GluonPlayer::CommentsModel*>(model)->isOnline());
+        replyButton->setVisible(const_cast<GluonPlayer::CommentItemsModel*>(model)->isOnline());
         replyButton->setIcon( KIcon( "edit-undo" ) );
         replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         replyButton->resize( m_buttonSize );
@@ -133,35 +133,35 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         author->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         author->resize( right / 5, m_buttonSize.height() );
         author->move( margin, option.fontMetrics.height());
-        author->setText(index.data(GluonPlayer::CommentsModel::AuthorRole).toString());
+        author->setText(index.data(GluonPlayer::CommentItemsModel::AuthorRole).toString());
     }
 
     KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
     if (dateTime) {
         dateTime->resize(author->size().width(), author->size().height());
         dateTime->move(author->x() + author->size().width(), author->y());
-        dateTime->setText(index.data(GluonPlayer::CommentsModel::DateTimeRole).toString());
+        dateTime->setText(index.data(GluonPlayer::CommentItemsModel::DateTimeRole).toString());
     }
 
     KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentTitle));
     if (title) {
         title->resize(dateTime->size().width(), dateTime->size().height());
         title->move(dateTime->x() + dateTime->size().width(), dateTime->y());
-        title->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
+        title->setText(index.data(GluonPlayer::CommentItemsModel::TitleRole).toString());
     }
 
     KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
     if (rating) {
         rating->resize(title->size().width(), title->size().height());
         rating->move(title->x() + title->size().width(), title->y());
-        rating->setText(index.data(GluonPlayer::CommentsModel::RatingRole).toString());
+        rating->setText(index.data(GluonPlayer::CommentItemsModel::RatingRole).toString());
     }
 
     KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));
     if (body) {
         body->resize(right - 2 * margin, bottom - author->size().height() - 2 * margin);
         body->move(margin, option.fontMetrics.height()  + author->size().height());
-        body->setText(index.data(GluonPlayer::CommentsModel::BodyRole).toString());
+        body->setText(index.data(GluonPlayer::CommentItemsModel::BodyRole).toString());
     }
 }
 

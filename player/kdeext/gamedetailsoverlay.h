@@ -21,6 +21,7 @@
 #define GAMEDETAILSOVERLAY_H
 
 #include "delegates/commentitemsviewdelegate.h"
+#include "lib/models/commentitemsmodel.h"
 #include "views/newcommentform.h"
 
 #include <KDE/KTabWidget>
@@ -32,10 +33,10 @@
 #include <QtGui/QStackedWidget>
 #include <QtGui/QTableView>
 #include <QtGui/QListView>
+#include <QtGui/QSortFilterProxyModel>
 
 namespace GluonPlayer
 {
-    class CommentsModel;
     class HighScoresModel;
 }
 
@@ -70,11 +71,12 @@ namespace GluonKDEPlayer
             QListView* m_commentsView;
             CommentItemsViewDelegate* m_commentsDelegate;
 
-            GluonPlayer::CommentsModel* m_commentsModel;
+            GluonPlayer::CommentItemsModel* m_commentsModel;
             GluonPlayer::HighScoresModel* m_highScoresModel;
             QGridLayout* m_contentLayout;
             NewCommentForm* m_newCommentForm;
             QWidget* m_commentWidget;
+            // QSortFilterProxyModel* m_proxyModel;
     };
 }
 

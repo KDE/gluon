@@ -34,6 +34,7 @@ if(LIBATTICA_FOUND)
     set(libGluonPlayer_SRCS
         lib/models/highscoresmodel.cpp
         lib/models/commentsmodel.cpp
+        lib/models/commentitemsmodel.cpp
         lib/models/gameitemsmodel.cpp
         lib/authentication.cpp
         lib/atticamanager.cpp
