@@ -275,6 +275,8 @@ GluonObject::setName( const QString& newName )
     QString theName( newName );
     // Fix up the name to not include any '/' (this would screw up the fullyQualifiedName)
     theName.replace( '/', ' ' );
+    // Ensure we have no newlines and no consequtive whitespace
+    theName = theName.simplified();
 
     // Make sure we don't set a name on an object which is already used!
     if( parent() )
@@ -291,9 +293,14 @@ GluonObject::setName( const QString& newName )
                 GluonObject* theChild = qobject_cast<GluonObject*>( child );
                 if( theChild )
                 {
-                    if( theChild->name() == theName )
+                    if( theChild->name().toLower() == theName.toLower() )
                     {
                         theName = QString( newName + " %1" ).arg( addedNumber );
+                        // Fix up the name to not include any '/' (this would screw up the
+                        // fullyQualifiedName)
+                        theName.replace( '/', ' ' );
+                        // Ensure we have no newlines and no consequtive whitespace
+                        theName = theName.simplified();
                         nameIsOK = false;
                         break;
                     }
@@ -303,36 +310,47 @@ GluonObject::setName( const QString& newName )
         while( !nameIsOK );
     }
     d->name = theName;
-    setObjectName( d->name );
+
+    // Sanitize the object name to be an acceptable javascript object name.
+    // While this is also done by the scripting engine, we use the object name for other things
+    // as well, such as filenames etc
+    QString theObjectName;
+    QString::const_iterator i;
+    for( i = theName.constBegin(); i != theName.constEnd(); ++i )
+    {
+        if(i->isLetterOrNumber() || *i == '_' )
+            theObjectName.append(*i);
+    }
+    setObjectName( theObjectName );
 }
 
 QString
 GluonObject::fullyQualifiedName() const
 {
-    QString theName( name() );
-    if( qobject_cast<GluonObject*>( parent() ) )
-        theName = QString( "%1/%2" ).arg( qobject_cast<GluonObject*>( parent() )->fullyQualifiedName() ).arg( theName );
-    return theName;
+    GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
+    if( theParent )
+        return QString( "%1/%2" ).arg( theParent->fullyQualifiedName() ).arg( name() );
+    return name();
 }
 
 QString
 GluonObject::fullyQualifiedFileName() const
 {
+    QString theName( objectName() );
+
+    // If the fully qualified name has a suffix, use that...
+    // Unfortunately this means the characters will be there multiple times, but we will have
+    // properly suffixed file names
     QString qualifiedName = fullyQualifiedName();
-    QString ext;
-    if( qualifiedName.contains( '.' ) )
-    {
-        ext = qualifiedName.section( '.', -1 ).toLower();
-        qualifiedName = qualifiedName.left( qualifiedName.lastIndexOf( '.' ) ).toLower();
-    }
+    if( name().contains( '.' ) )
+        theName.append( '.' ).append( name().section( '.', 1 ).toLower() );
 
-    //Filter out invalid characters for filenames
-    QRegExp rx( "[\\/\\\\\\:\\.,\\* ]" );
-    qualifiedName.replace( rx, "_" );
-    if( !ext.isEmpty() )
-        qualifiedName.append( '.' + ext );
+    GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
+    if( theParent )
+        return QString( "%1/%2" ).arg( theParent->fullyQualifiedFileName() ).arg( theName );
 
-    return qualifiedName;
+    debug(theName);
+    return theName;
 }
 
 GluonCore::GluonObject*

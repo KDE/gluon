@@ -141,12 +141,26 @@ namespace GluonCore
              * The local name of the object. Setting the name will sanitize it according to
              * the following rules:
              *
-             *   - Names cannot contain the / symbol
+             *   - Names cannot contain the / symbol, and will be simplified (all whitespace
+             *     turned into a single space, and no starting and trailing spaces)
              *   - Two objects on the same parent cannot have the same name
              *
              * To ensure the second rule, numbers are added until such time that the name becomes
              * unique (setting name would result in first attempting "name", then "name 1", then
              * "name 2" and so forth, until the name is unique).
+             * 
+             * <strong>Accessing objects in scripts</strong>
+             * 
+             * When accessing the object in scripts, the object name is sanitized further by
+             * allowing only alphanumerical symbols and underscores, with all other parts of the
+             * name removed. This means that, for example, an object in a hierarchy which looks like
+             * this:
+             * 
+             * Some Object/A Child Object/Some Object - with a little comment
+             * 
+             * would be addressed like so:
+             *
+             * SomeObject.AChildObject.SomeObjectwithalittlecomment
              */
             Q_PROPERTY( QString name READ name WRITE setName )
             // There is deliberately no gameProject property

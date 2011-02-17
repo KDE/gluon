@@ -35,11 +35,34 @@ namespace GluonEngine
     {
         public:
             Private()
-                : engine(0)
+                : theEngine(0)
             {
             }
 
-            QScriptEngine* engine;
+            void resetEngine()
+            {
+                theEngine = 0;
+                GluonCore::ScriptEngine::instance()->resetEngine();
+            }
+            QScriptEngine* engine()
+            {
+                if(!theEngine)
+                {
+                    theEngine = GluonCore::ScriptEngine::instance()->scriptEngine();
+
+                    QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
+                    QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
+                    QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
+                    theEngine->globalObject().setProperty( "Game", game );
+                }
+                if(!theEngine)
+                {
+                    DEBUG_BLOCK
+                    DEBUG_TEXT("Somehow we do not have a scripting engine. This will cause crashes!");
+                }
+                return theEngine;
+            }
+            QScriptEngine* theEngine;
             //             QScriptEngineDebugger* debugger;
 
             // A QString with the name of the class represented by a ScriptAsset
@@ -74,15 +97,7 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 {
     DEBUG_BLOCK
     
-    if(!d->engine)
-    {
-        d->engine = GluonCore::ScriptEngine::instance()->scriptEngine();
-
-        QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
-        QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
-        QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
-        d->engine->globalObject().setProperty( "Game", game );
-    }
+    
     
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
@@ -90,17 +105,17 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     if( !asset )
     {
         DEBUG_TEXT( "Asset is empty" );
-        return d->engine->checkSyntax( QString( ')' ) );
+        return d->engine()->checkSyntax( QString( ')' ) );
     }
     // This is even dumberer...
     if( d->classNames.contains( asset ) )
     {
         DEBUG_TEXT( "Asset is already registered" );
-        return d->engine->checkSyntax( QString( '}' ) );
+        return d->engine()->checkSyntax( QString( '}' ) );
     }
 
     // Check the script for syntax
-    QScriptSyntaxCheckResult result = d->engine->checkSyntax( asset->data()->text() );
+    QScriptSyntaxCheckResult result = d->engine()->checkSyntax( asset->data()->text() );
     if( result.state() == QScriptSyntaxCheckResult::Valid )
     {
         // Fix up the asset's name so as to be useable as a class name
@@ -124,13 +139,16 @@ void
 ScriptingEngine::Private::buildScript()
 {
     script.clear();
+    resetEngine();
 
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
     {
         // Build the bit of script to add
         QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( i.key()->data()->text()).arg( i.value() );
-        scriptInstances.insert( i.key(), engine->evaluate( tmpScript, i.key()->file().toLocalFile(), 0 ) );
+        QUrl tmpUrl = i.key()->file();
+        QScriptValue evaluated = engine()->evaluate( tmpScript, tmpUrl.toLocalFile(), 0 );
+        scriptInstances.insert( i.key(), evaluated );
         /// \TODO Add all those lines to the reverse map...
     }
 }
@@ -163,13 +181,13 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
     // Ensure the asset exists...
     if( d->scriptInstances.contains( asset ) )
     {
-        QScriptValue val = d->engine->globalObject().property( d->classNames.value(asset) );
+        QScriptValue val = d->engine()->globalObject().property( d->classNames.value(asset) );
 
         QScriptValue instance = val.construct();
-        if( d->engine->hasUncaughtException() )
+        if( d->engine()->hasUncaughtException() )
         {
-			QScriptValue exception = d->engine->uncaughtException();
-            DEBUG_TEXT( QString("Exception on class instantiation: %2\n at %1").arg(d->engine->uncaughtExceptionBacktrace().join( " --> " )).arg(exception.toString()));
+			QScriptValue exception = d->engine()->uncaughtException();
+            DEBUG_TEXT( QString("Exception on class instantiation: %2\n at %1").arg(d->engine()->uncaughtExceptionBacktrace().join( " --> " )).arg(exception.toString()));
         }
 
         return instance;
@@ -182,12 +200,12 @@ QScriptValue
 ScriptingEngine::instantiateClass( const QString& className ) const
 {
     DEBUG_BLOCK
-    QScriptValue val = d->engine->globalObject().property( className );
+    QScriptValue val = d->engine()->globalObject().property( className );
 
     QScriptValue instance = val.construct();
-    if( d->engine->hasUncaughtException() )
+    if( d->engine()->hasUncaughtException() )
     {
-        DEBUG_TEXT2( "Exception on class instantiation: %1", d->engine->uncaughtExceptionBacktrace().join( " --> " ) );
+        DEBUG_TEXT2( "Exception on class instantiation: %1", d->engine()->uncaughtExceptionBacktrace().join( " --> " ) );
     }
 
     return instance;
@@ -202,7 +220,7 @@ ScriptingEngine::className( const ScriptingAsset* asset ) const
 QScriptEngine *
 ScriptingEngine::scriptEngine() const
 {
-    return instance()->d->engine;
+    return instance()->d->engine();
 }
 
 #include "scriptingengine.moc"

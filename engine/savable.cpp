@@ -61,6 +61,9 @@ Savable::saveToFile( GluonCore::GluonObject* object )
     if( !QDir::current().exists( "Scenes" ) )
         QDir::current().mkdir( "Scenes" );
 
+    // Make all the directories requires up to this file
+    QDir::current().mkpath( object->property( "file" ).value<QUrl>().toLocalFile().section( '/', 0, -2 ) );
+
     // Perform the save
     QFile* savableFile = new QFile( object->property( "file" ).value<QUrl>().toLocalFile() );
     if( !savableFile->open( QIODevice::WriteOnly ) )

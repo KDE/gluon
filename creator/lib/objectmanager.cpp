@@ -124,10 +124,11 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
         extension = QString( ".%1" ).arg( splitName.join(".") );
     }
 
-    if( !QDir::current().exists( "Assets" ) )
-        QDir::current().mkdir( "Assets" );
-
     QUrl newLocation( QString( "Assets/%1%2" ).arg( newAsset->fullyQualifiedFileName() ).arg( extension ) );
+
+    QString newPath( newLocation.toLocalFile().section( '/', 0, -2 ) );
+    if( !QDir::current().exists( newPath ) )
+        QDir::current().mkpath( newPath );
 
     int i = 0;
     QStringList theSplitName = newAsset->name().split('.');
