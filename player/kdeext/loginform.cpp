@@ -139,7 +139,9 @@ void LoginForm::logoutDone()
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Login" ) );
     m_loggedIn = false;
+    m_usernameEdit->setText("");
     m_usernameEdit->setVisible( true );
+    m_passwordEdit->setText("");
     m_passwordEdit->setVisible( true );
     m_rememberMeCheckBox->setVisible( true );
 }

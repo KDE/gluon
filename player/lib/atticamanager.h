@@ -21,7 +21,7 @@
 #ifndef ATTICAMANAGER_H
 #define ATTICAMANAGER_H
 
-#include <core/singleton.h>
+#include "core/singleton.h"
 
 #include <attica/providermanager.h>
 
