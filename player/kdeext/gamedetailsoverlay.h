@@ -29,6 +29,7 @@
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QGridLayout>
+#include <QtGui/QStackedWidget>
 #include <QtGui/QTableView>
 #include <QtGui/QListView>
 
@@ -71,6 +72,8 @@ namespace GluonKDEPlayer
             GluonPlayer::HighScoresModel* m_highScoresModel;
             QGridLayout* m_contentLayout;
             NewCommentForm* m_newCommentForm;
+            QWidget* m_commentWidget;
+            QWidget* m_dummyWidget;
     };
 }
 

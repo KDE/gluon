@@ -36,6 +36,8 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
     , m_contentLayout( new QGridLayout( this ) )
     , m_newCommentForm( new NewCommentForm( this ) )
+    , m_commentWidget( new QWidget ( this ) )
+    , m_dummyWidget( new QWidget ( ) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -47,9 +49,16 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     connect(m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ));
     m_commentsView->setModel( m_commentsModel );
 
+    QGridLayout* gl = new QGridLayout(m_commentWidget);
+    gl->addWidget(m_dummyWidget, 0, 0, 1, 2);
+    gl->addWidget( m_newCommentForm, 0, 0, 1, 2 );
+    m_newCommentForm->setVisible(false);
+    gl->addWidget(m_commentsView);
+    m_commentWidget->setLayout(gl);
+
     m_tabWidget->addTab( m_highScoresView, KIcon( "games-highscores" ), i18n( "High Scores" ) );
     m_tabWidget->addTab( m_achievementsView, KIcon( "games-endturn" ), i18n( "Achievements" ) );
-    m_tabWidget->addTab( m_commentsView, KIcon( "text-plain" ), i18n( "Comments" ) );
+    m_tabWidget->addTab( m_commentWidget, KIcon( "text-plain" ), i18n( "Comments" ) );
 
     m_contentLayout->addWidget( m_backButton, 0, 0, 1, 2 );
     m_contentLayout->addWidget( m_tabWidget, 1, 0, 1, 2 );
@@ -66,7 +75,7 @@ GameDetailsOverlay::~GameDetailsOverlay()
 void GameDetailsOverlay::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
 {
     m_commentsModel->uploadComment( parentIndex, title, body );
-    m_contentLayout->removeWidget( m_newCommentForm );
+    m_newCommentForm->setVisible(true);
     // connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
 }
 
@@ -81,6 +90,7 @@ void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
              SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
     connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
 
-    m_contentLayout->addWidget( m_newCommentForm, 0, 0, 1, 2 );
+    m_newCommentForm->setVisible(true);
+    m_dummyWidget->setVisible(false);
 }
 
