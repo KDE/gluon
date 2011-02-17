@@ -152,8 +152,9 @@ namespace GluonCore
              * <strong>Accessing objects in scripts</strong>
              * 
              * When accessing the object in scripts, the object name is sanitized further by
-             * allowing only alphanumerical parts, with all other parts of the name removed.
-             * This means that, for example, an object in a hierarchy which looks like this:
+             * allowing only alphanumerical symbols and underscores, with all other parts of the
+             * name removed. This means that, for example, an object in a hierarchy which looks like
+             * this:
              * 
              * Some Object/A Child Object/Some Object - with a little comment
              * 

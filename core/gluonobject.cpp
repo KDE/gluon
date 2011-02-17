@@ -318,7 +318,7 @@ GluonObject::setName( const QString& newName )
     QString::const_iterator i;
     for( i = theName.constBegin(); i != theName.constEnd(); ++i )
     {
-        if(i->isLetterOrNumber())
+        if(i->isLetterOrNumber() || *i == '_' )
             theObjectName.append(*i);
     }
     setObjectName( theObjectName );
