@@ -70,18 +70,27 @@ GameDetailsOverlay::~GameDetailsOverlay()
 {
 }
 
-void GameDetailsOverlay::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
+void GameDetailsOverlay::addNewComment( QModelIndex parentIndex, QString title, QString body )
 {
     m_commentsModel->uploadComment( parentIndex, title, body );
-    m_newCommentForm->setVisible(true);
+    m_newCommentForm->setVisible(false);
+    m_newCommentForm->setTitleText( "" );
+    m_newCommentForm->setBodyText( "" );
     // connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
+}
+
+void GameDetailsOverlay::cancelNewComment( )
+{
+    m_newCommentForm->setVisible(false);
+    m_newCommentForm->setTitleText( "" );
+    m_newCommentForm->setBodyText( "" );
 }
 
 void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
 {
     m_newCommentForm->setParentIndex( index );
     connect( m_newCommentForm, SIGNAL( accepted( QModelIndex, QString, QString ) ),
-             SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
+             SLOT( addNewComment( QModelIndex, QString, QString ) ) );
     connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
 
     m_newCommentForm->setVisible(true);

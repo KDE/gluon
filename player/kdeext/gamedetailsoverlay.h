@@ -53,7 +53,8 @@ namespace GluonKDEPlayer
             virtual ~GameDetailsOverlay();
 
         protected slots:
-            void addNewUserComment( QModelIndex parentIndex, QString title, QString body );
+            void addNewComment( QModelIndex parentIndex, QString title, QString body );
+            void cancelNewComment( );
             void showReplyForm( const QModelIndex& index );
 
         signals:
