@@ -68,8 +68,6 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
 
 GameDetailsOverlay::~GameDetailsOverlay()
 {
-    /* delete m_commentsModel;
-    delete m_highScoresModel; */
 }
 
 void GameDetailsOverlay::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
@@ -81,10 +79,6 @@ void GameDetailsOverlay::addNewUserComment( QModelIndex parentIndex, QString tit
 
 void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
 {
-    // hideComments();
-    // m_contentLayout->addItem( form );
-    // form->setParentIndex( parentItem->modelIndex() );
-
     m_newCommentForm->setParentIndex( index );
     connect( m_newCommentForm, SIGNAL( accepted( QModelIndex, QString, QString ) ),
              SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
