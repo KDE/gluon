@@ -79,11 +79,6 @@ QList<QWidget*> CommentItemsViewDelegate::createItemWidgets() const
     title->setOpenExternalLinks(true);
     list << title;
 
-    KSqueezedTextLabel* body = new KSqueezedTextLabel();
-    body->setOpenExternalLinks(true);
-    body->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-    list << body;
-
     KSqueezedTextLabel* dateTime = new KSqueezedTextLabel();
     dateTime->setOpenExternalLinks(true);
     list << dateTime;
@@ -91,6 +86,11 @@ QList<QWidget*> CommentItemsViewDelegate::createItemWidgets() const
     KSqueezedTextLabel* rating = new KSqueezedTextLabel();
     rating->setOpenExternalLinks(true);
     list << rating;
+
+    KSqueezedTextLabel* body = new KSqueezedTextLabel();
+    body->setOpenExternalLinks(true);
+    body->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
+    list << body;
 
     KPushButton* replyButton = new KPushButton();
     replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
@@ -147,6 +147,13 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
         title->resize(dateTime->size().width(), dateTime->size().height());
         title->move(dateTime->x() + dateTime->size().width(), dateTime->y());
         title->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
+    }
+
+    KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
+    if (rating) {
+        rating->resize(dateTime->size().width(), dateTime->size().height());
+        rating->move(dateTime->x() + dateTime->size().width(), dateTime->y());
+        rating->setText(index.data(GluonPlayer::CommentsModel::TitleRole).toString());
     }
 
     KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));

@@ -62,6 +62,8 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_contentLayout->addWidget( m_tabWidget, 1, 0, 1, 2 );
     setContentsMargins( 10, 15, 10, 15 );
     setLayout(m_contentLayout);
+
+    connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( commendFailed() ) );
 }
 
 GameDetailsOverlay::~GameDetailsOverlay()
@@ -74,7 +76,6 @@ void GameDetailsOverlay::addNewComment( QModelIndex parentIndex, QString title, 
     m_newCommentForm->setVisible(false);
     m_newCommentForm->setTitleText( "" );
     m_newCommentForm->setBodyText( "" );
-    // connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
 }
 
 void GameDetailsOverlay::cancelNewComment( )
@@ -94,3 +95,7 @@ void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
     m_newCommentForm->setVisible(true);
 }
 
+void GameDetailsOverlay::commentFailed()
+{
+    qDebug() << "New post failed!";
+}

@@ -56,6 +56,7 @@ namespace GluonKDEPlayer
             void addNewComment( QModelIndex parentIndex, QString title, QString body );
             void cancelNewComment( );
             void showReplyForm( const QModelIndex& index );
+            void commentFailed( );
 
         signals:
             void back();
