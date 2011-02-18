@@ -56,6 +56,7 @@ namespace GluonEngine
             };
 
             Q_INVOKABLE MouseInputComponent( QObject* parent = 0 );
+            virtual ~MouseInputComponent();
             virtual QString category() const;
 
             // True on any frame between getActionStarted and

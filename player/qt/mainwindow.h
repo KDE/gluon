@@ -32,6 +32,7 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             MainWindow( int argc, char** argv, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            virtual ~MainWindow();
             virtual void closeEvent( QCloseEvent* event );
 
         public slots:

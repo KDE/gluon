@@ -41,6 +41,7 @@ class MaterialInstance::MaterialInstancePrivate
         MaterialInstancePrivate() : activeCamera( 0 )
         {
             bound = false;
+            customViewProjMatrices = false;
             activeCamera = Engine::instance()->activeCamera();
         }
 

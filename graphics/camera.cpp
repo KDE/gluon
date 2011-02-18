@@ -54,6 +54,7 @@ Camera::Camera( Frustrum* frustum, QObject* parent )
 
 Camera::~Camera()
 {
+    delete d->frustrum;
     delete d;
 }
 

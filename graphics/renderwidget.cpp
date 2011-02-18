@@ -45,6 +45,7 @@ RenderWidget::RenderWidget( QWidget* parent, const QGLWidget* shareWidget, Qt::W
 
 RenderWidget::~RenderWidget()
 {
+    delete d;
 }
 
 void RenderWidget::initializeGL()

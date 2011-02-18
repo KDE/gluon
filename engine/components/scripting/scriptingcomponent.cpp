@@ -40,6 +40,7 @@ ScriptingComponent::ScriptingComponent( QObject* parent )
 
 ScriptingComponent::~ScriptingComponent()
 {
+    delete d;
 }
 
 QString
