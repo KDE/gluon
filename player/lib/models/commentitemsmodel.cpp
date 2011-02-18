@@ -151,6 +151,11 @@ void CommentItemsModel::treeTraversal(GluonCore::GluonObject* obj)
     }
 }
 
+bool dateTimeLessThan(GluonCore::GluonObject* go1, GluonCore::GluonObject* go2)
+{
+    return go1->property( "DateTime" ).toString() < go2->property( "DateTime" ).toString();
+}
+
 void CommentItemsModel::loadData()
 {
     QDir gluonDir = QDir::home();
@@ -161,6 +166,8 @@ void CommentItemsModel::loadData()
         treeTraversal(GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 ));
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
+
+    qSort(m_nodes.begin(), m_nodes.end(), dateTimeLessThan);
 }
 
 void CommentItemsModel::saveData()

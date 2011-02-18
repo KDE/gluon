@@ -36,7 +36,6 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_contentLayout( new QGridLayout( this ) )
     , m_newCommentForm( new NewCommentForm( this ) )
     , m_commentWidget( new QWidget ( this ) )
-    , m_proxyModel( new QSortFilterProxyModel(this) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -46,9 +45,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_highScoresView->setModel( m_highScoresModel );
     m_commentsView->setItemDelegate( m_commentsDelegate );
     connect(m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ));
-    m_proxyModel->setSourceModel( m_commentsModel );
-    m_proxyModel->setSortRole(GluonPlayer::CommentItemsModel::DateTimeRole);
-    m_commentsView->setModel( m_proxyModel );
+    m_commentsView->setModel( m_commentsModel );
 
     QGridLayout* gl = new QGridLayout(m_commentWidget);
     gl->addWidget( m_newCommentForm );
