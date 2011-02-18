@@ -38,8 +38,6 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
-static const char serviceURI[] = "gamingfreedom.org";
-
 CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
     , m_rootNode( new GluonObject( "Comment" ) )
@@ -143,9 +141,10 @@ GluonObject* CommentsModel::addComment( Attica::Comment comment, GluonObject* pa
 
 void CommentsModel::loadData()
 {
+    // TODO: ~/.gluon/games/$gamebundle/* will be used later
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     if( QFile::exists(gluonDir.absoluteFilePath( "comments.gdl" )) )
         m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
@@ -157,8 +156,8 @@ void CommentsModel::saveData()
 {
     qDebug() << "Saving data!";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
     QFile dataFile( filename );

@@ -33,8 +33,6 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
-static const char serviceURI[] = "gamingfreedom.org";
-
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
     , m_gameId( gameId )
@@ -110,9 +108,10 @@ Qt::ItemFlags HighScoresModel::flags(const QModelIndex &index) const
 
 void HighScoresModel::loadData()
 {
+    // TODO: ~/.gluon/games/$gamebundle/* will be used later
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/");
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/");
 
     if( QFile::exists(gluonDir.absoluteFilePath( "highscores.gdl" )) )
         m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
@@ -124,8 +123,8 @@ void HighScoresModel::saveData()
 {
     qDebug() << "Saving high scores data!";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
     QFile dataFile( filename );

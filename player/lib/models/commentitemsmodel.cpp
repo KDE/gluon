@@ -38,8 +38,6 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
-static const char serviceURI[] = "gamingfreedom.org";
-
 CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     : QAbstractListModel( parent )
     , m_isOnline( false )
@@ -48,7 +46,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
 
     loadData();     // Load comments stored locally
-    // updateData();   // Fetch latest comments from the web service
+    updateData();   // Fetch latest comments from the web service
 }
 
 void CommentItemsModel::updateData()
@@ -158,9 +156,10 @@ bool dateTimeLessThan(GluonCore::GluonObject* go1, GluonCore::GluonObject* go2)
 
 void CommentItemsModel::loadData()
 {
+    // TODO: ~/.gluon/games/$gamebundle/* will be used later
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     if( QFile::exists(gluonDir.absoluteFilePath( "comments.gdl" )) )
         treeTraversal(GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 ));
@@ -172,22 +171,20 @@ void CommentItemsModel::loadData()
 
 void CommentItemsModel::saveData()
 {
-    /* qDebug() << "Saving data!";
+    qDebug() << "Saving data!";
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
-    gluonDir.cd( GluonEngine::projectSuffix + "/" + QString( serviceURI ) );
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
     QFile dataFile( filename );
     if( !dataFile.open( QIODevice::WriteOnly ) )
         qDebug() << "Cannot open the comments file!";
 
-    QList<const GluonObject*> comments;
-    comments.append( m_rootNode );
     QTextStream dataWriter( &dataFile );
-    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( comments );
+    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( QList<const GluonCore::GluonObject*>() << m_nodes.at(0) );
     dataFile.close();
-    qDebug() << "Saved"; */
+    qDebug() << "Saved";
 }
 
 CommentItemsModel::~CommentItemsModel()
