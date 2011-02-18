@@ -143,7 +143,7 @@ void MainWindow::startGame( )
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
-    setFocus();
+    d->widget->setFocus();
 
     // if( GluonEngine::Game::instance()->isRunning() )
     // {
