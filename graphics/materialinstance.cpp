@@ -38,10 +38,11 @@ using namespace GluonGraphics;
 class MaterialInstance::MaterialInstancePrivate
 {
     public:
-        MaterialInstancePrivate() : activeCamera( 0 )
+        MaterialInstancePrivate()
+            : activeCamera( 0 )
+            , bound( false )
+            , customViewProjMatrices( false )
         {
-            bound = false;
-            customViewProjMatrices = false;
             activeCamera = Engine::instance()->activeCamera();
         }
 

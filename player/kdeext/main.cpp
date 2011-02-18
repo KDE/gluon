@@ -19,15 +19,15 @@
 
 #include "mainwindow.h"
 
-#include <KApplication>
-#include <KAboutData>
-#include <KCmdLineArgs>
+#include <KDE/KApplication>
+#include <KDE/KAboutData>
+#include <KDE/KCmdLineArgs>
 
 int main( int argc, char** argv )
 {
     KAboutData aboutData("gluon_kdeextplayer", NULL,
                           ki18n("KDE Extended Player"), GLUON_VERSION_STRING.toUtf8(),
-                          ki18n((QString("KDE Frontend Player for Gluon games.\nVersion %2").arg(GLUON_VERSION_STRING)).toUtf8()),
+                          ki18n("KDE Frontend Player for Gluon games."),
                           KAboutData::License_LGPL_V2,
                           ki18n("Copyright 2010 Laszlo Papp"),
                           KLocalizedString(),
@@ -47,8 +47,8 @@ int main( int argc, char** argv )
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    GluonKDEPlayer::MainWindow window( args->count() ? args->arg(0) : "" );
-    window.show();
+    GluonKDEPlayer::MainWindow* window = new GluonKDEPlayer::MainWindow( args->count() ? args->arg(0) : "" );
+    window->show();
 
     app.exec();
 }
