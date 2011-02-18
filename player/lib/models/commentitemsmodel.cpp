@@ -42,6 +42,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     : QAbstractListModel( parent )
     , m_isOnline( false )
     , m_gameId( gameId )
+    , m_rootNode( new GluonObject( "Comment" ) )
 {
     m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
 
@@ -90,7 +91,7 @@ void CommentItemsModel::processFetchedComments( Attica::BaseJob* job )
         for( int i = 0; i < commentsJob->itemList().count(); ++i )
         {
             Attica::Comment p( commentsJob->itemList().at( i ) );
-            // addComment( p, m_rootNode );
+            addComment( p, m_rootNode );
         }
 
         m_isOnline = true;
@@ -162,10 +163,11 @@ void CommentItemsModel::loadData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     if( QFile::exists(gluonDir.absoluteFilePath( "comments.gdl" )) )
-        treeTraversal(GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 ));
+        m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
 
+    treeTraversal(m_rootNode);
     qSort(m_nodes.begin(), m_nodes.end(), dateTimeLessThan);
 }
 
@@ -182,7 +184,7 @@ void CommentItemsModel::saveData()
         qDebug() << "Cannot open the comments file!";
 
     QTextStream dataWriter( &dataFile );
-    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( QList<const GluonCore::GluonObject*>() << m_nodes.at(0) );
+    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( QList<const GluonCore::GluonObject*>() << m_rootNode );
     dataFile.close();
     qDebug() << "Saved";
 }

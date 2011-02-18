@@ -70,7 +70,6 @@ MainWindow::MainWindow(const QString& filename )
     , d( new MainWindowPrivate )
     , m_gamesOverlay( new GamesOverlay( this ) )
     , m_layout( new QGridLayout )
-    , m_gameDetailsOverlay( 0 )
     , m_project( new GluonEngine::GameProject )
 {
     setCentralWidget( m_gamesOverlay );
@@ -266,14 +265,6 @@ void MainWindow::showGames()
 {
     m_gamesOverlay->setGeometry( geometry() );
     connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-
-    if( m_gameDetailsOverlay )
-    {
-        m_gameDetailsOverlay->hide();
-        m_layout->removeWidget( m_gameDetailsOverlay );
-        m_gameDetailsOverlay->deleteLater();
-        m_gameDetailsOverlay = 0;
-    }
 }
 
 void MainWindow::setProject( const QModelIndex& index )

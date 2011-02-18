@@ -47,13 +47,9 @@ int main( int argc, char** argv )
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    GluonKDEPlayer::MainWindow *window;
-    if (args->count())
-        window = new GluonKDEPlayer::MainWindow(args->arg(0));
-    else
-        window = new GluonKDEPlayer::MainWindow();
+    GluonKDEPlayer::MainWindow window( args->count() ? args->arg(0) : "" );
+    window.show();
 
-    window->show();
     app.exec();
 }
 
