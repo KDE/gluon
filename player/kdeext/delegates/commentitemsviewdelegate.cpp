@@ -44,9 +44,8 @@ static const int PreviewHeight = 72;
 
 using namespace GluonKDEPlayer;
 
-CommentItemsViewDelegate::CommentItemsViewDelegate(QAbstractItemView *itemView, QObject * parent)
+CommentItemsViewDelegate::CommentItemsViewDelegate(QAbstractItemView *itemView, QObject* parent)
         : KWidgetItemDelegate(itemView, parent)
-        , m_itemView( itemView )
         , m_preview( new KIcon( "gluon_creator" ) )
 {
 }
@@ -201,11 +200,8 @@ void CommentItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->restore();
 }
 
-QSize CommentItemsViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const
+QSize CommentItemsViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& /* index */) const
 {
-    Q_UNUSED(option);
-    Q_UNUSED(index);
-
     QSize size;
 
     size.setWidth(option.fontMetrics.height() * 4);
