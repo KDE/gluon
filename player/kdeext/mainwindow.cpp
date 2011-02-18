@@ -54,7 +54,8 @@ using namespace GluonKDEPlayer;
 class MainWindow::MainWindowPrivate
 {
     public:
-        MainWindowPrivate() {}
+        MainWindowPrivate() : msecElapsed(0), frameCount(0) {}
+        ~MainWindowPrivate() {}
 
         GluonGraphics::RenderWidget* widget;
 
