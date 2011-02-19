@@ -44,6 +44,7 @@ Component::Component( const Component& other, QObject* parent )
 
 Component::~Component()
 {
+    delete d;
 }
 
 QString

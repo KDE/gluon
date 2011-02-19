@@ -65,6 +65,11 @@ MouseInputComponent::MouseInputComponent( QObject* parent )
     d->mouse = 0;
 }
 
+MouseInputComponent::~MouseInputComponent()
+{
+    delete d;
+}
+
 QString
 MouseInputComponent::category() const
 {
