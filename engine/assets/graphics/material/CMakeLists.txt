@@ -30,6 +30,7 @@ install(
 install(
     FILES
     material_template.gml
+    animatedsprite_template.gml
     DESTINATION
     ${SHARE_INSTALL_DIR}/gluon/templates/material
 )

@@ -1,5 +1,4 @@
-{ GluonCore::GluonObject(Material)
-    #Vertex shader source
+{ GluonCore::GluonObject(AnimatedSpriteMaterial)
     vertexShader string(<<<
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
@@ -20,29 +19,25 @@
         }
     <<<)
 
-    #Fragment shader source
     fragmentShader string(<<<
         uniform sampler2D texture0;
         uniform mediump vec4 materialColor;
+
+        uniform highp vec4 frame;
 
         varying mediump vec4 out_color;
         varying mediump vec2 out_uv0;
 
         void main()
         {
-            mediump vec4 texColor = texture2D(texture0, out_uv0);
+            highp vec2 uv = vec2(frame.x + (out_uv0.x * frame.z), frame.y + (out_uv0.y * frame.w));
+            mediump vec4 texColor = texture2D(texture0, uv);
             mediump vec4 color = out_color * materialColor * texColor;
-            color = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);
-            gl_FragColor = color;
+            gl_FragColor = vec4(color.rgb, texColor.a * materialColor.a);
         }
     <<<)
 
-    #Uniform property descriptions
-    #Note that the uniform "modelViewProj" from the vertex shader
-    #is implied.
-
-    #Uniform 1 from the Fragment shader
     texture0 int(0)
-    #Uniform 2 from the Fragment shader
     materialColor color(255;255;255;255)
+    frame vector4d(0;0;1;1)
 }

@@ -100,6 +100,7 @@ const QList<AssetTemplate*> MaterialAsset::templates()
 {
     QList<AssetTemplate*> templates;
     templates.append( new AssetTemplate( "Material", "material_template.gml", "material", this ) );
+    templates.append( new AssetTemplate( "Animated Sprite Material", "animatedsprite_template.gml", "material", this) );
     return templates;
 }
 
