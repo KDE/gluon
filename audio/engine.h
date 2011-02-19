@@ -41,6 +41,10 @@ namespace GluonAudio
             */
             bool setDevice( const QString& deviceName );
 
+            /**
+            * Position of the listener in 3D
+            * @see Sound::setPosition
+            */
             QVector3D listenerPosition();
             void setListenerPosition( const QVector3D& position );
 
@@ -50,17 +54,18 @@ namespace GluonAudio
             * @see setDevice
             */
             static QStringList deviceList();
-            
+
             /**
              * Length of a buffer in microseconds when streaming a file
              * Any file whose duration is bigger than this times buffersPerStream()
              * will be streamed when called as an argument of Sound::Sound(const QString&)
+             * When a file is streamed, only part of it is in memory at a given time.
              * Default: 250000 microseconds
              * @see Sound::Sound
              */
             int bufferLength();
             void setBufferLength(int microsecs);
-            
+
             /**
              * Number of buffers in memory at the same time when streaming a file
              * Default: 3 buffers per stream
@@ -78,7 +83,7 @@ namespace GluonAudio
             ~Engine();
 
             Q_DISABLE_COPY( Engine )
-            
+
             class EnginePrivate;
             EnginePrivate* const d;
     };
