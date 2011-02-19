@@ -43,6 +43,9 @@ Rectangle {
        Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
        Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
 
+       height: Math.max(pix.height, textelement.height + subtextelement.height);
+       width: parent.width;
+
    QtObject {
        id: priv;
        property bool spaceDown: false;
@@ -70,8 +73,10 @@ Rectangle {
         text: parent.subtext;
         color: "white";
         font.pixelSize: parent.height * 2/5;
-        anchors.left: pix.right;
-        anchors.top: textelement.bottom;
+        anchors {
+            left: pix.right;
+            top: textelement.bottom;
+        }
    }
 
    MouseArea {
@@ -97,8 +102,10 @@ Rectangle {
 
              PropertyChanges {
                 target: textelement;
-                anchors.horizontalCenterOffset: 1;
-                anchors.verticalCenterOffset: 1;
+                anchors {
+                    horizontalCenterOffset: 1;
+                    verticalCenterOffset: 1;
+                }
               }
            },
 
