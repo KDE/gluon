@@ -32,7 +32,7 @@ int main( int argc, char** argv )
 {
     KAboutData aboutData( "gluoncreator", NULL,
                           ki18n( "Gluon Creator" ), GLUON_VERSION_STRING.toUtf8(),
-                          ki18n(( QString( "A game creation tool.\nUsing %1 Version %2" ).arg( GLUON_PLATFORM_NAME ).arg( GLUON_VERSION_STRING ) ).toUtf8() ),
+                          ki18n( "A game creation environment" ),
                           KAboutData::License_LGPL_V2,
                           ki18n( "Copyright 2009-2010 by multiple contributors." ),
                           KLocalizedString(),
