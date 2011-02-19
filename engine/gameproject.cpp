@@ -95,7 +95,7 @@ GameProject::saveToFile() const
     // Recreate the various icon files if we have an icon file available
     QImage icon(128, 128, QImage::Format_ARGB32);
     if( d->icon )
-        icon = d->icon->image().scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        icon = d->icon->texture()->image().scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     QString iconFile(projectDir);
     iconFile.append('/');
     iconFile.append( GluonEngine::projectIcon );
@@ -132,7 +132,7 @@ GameProject::saveToFile() const
         QString screenshotFile = projectDir;
         screenshotFile.append('/');
         screenshotFile.append( GluonEngine::projectScreenshot );
-        d->screenshot->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
+        d->screenshot->texture()->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
     }
 
     return true;
@@ -320,22 +320,22 @@ GameProject::setEntryPoint( Scene* newEntryPoint )
     d->entryPoint = newEntryPoint;
 }
 
-GluonGraphics::Texture* GameProject::icon() const
+GluonEngine::TextureAsset* GameProject::icon() const
 {
     return d->icon;
 }
 
-void GameProject::setIcon(GluonGraphics::Texture* newIcon)
+void GameProject::setIcon(GluonEngine::TextureAsset* newIcon)
 {
     d->icon = newIcon;
 }
 
-GluonGraphics::Texture* GameProject::screenshot() const
+GluonEngine::TextureAsset* GameProject::screenshot() const
 {
     return d->screenshot;
 }
 
-void GameProject::setScreenshot(GluonGraphics::Texture* newScreenshot)
+void GameProject::setScreenshot(GluonEngine::TextureAsset* newScreenshot)
 {
     d->screenshot = newScreenshot;
 }

@@ -92,7 +92,7 @@ Rectangle {
         icon: "icons/help-hint.png";
         text: qsTr("Forgotten Your Details?");
         onClicked: {
-            mainview.statepoint = "startup";
+            mainview.statepoint = "mainwindow";
             Qt.openUrlExternally("http://opendesktop.org/usermanager/mailpass.php");
         }
         subtext: qsTr("Send new password to your email address");

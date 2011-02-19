@@ -31,7 +31,7 @@ Item {
     }
 
     states: [
-        State { name: "startup"; when: statepoint == "startup"
+        State { name: "mainwindow"; when: statepoint == "mainwindow"
             PropertyChanges { }
         },
 
@@ -54,10 +54,10 @@ Item {
         State { name: "other"; when: statepoint == "other" }
     ]
 
-    Startup {
+    MainWindow {
         height: parent.height
         width: parent.width
-        visible: statepoint == "startup"
+        visible: statepoint == "mainwindow"
     }
 
     Registration {
@@ -85,7 +85,7 @@ Item {
     }
 
     Component.onCompleted: {
-        statepoint = "startup"
+        statepoint = "mainwindow"
     }
 }
 

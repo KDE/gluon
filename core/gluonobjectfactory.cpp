@@ -71,22 +71,18 @@ GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
     if( !objectTypeName.contains( "::" ) )
         fullObjectTypeName = QString( "Gluon::" ) + fullObjectTypeName;
 
-    if( m_objectTypes.keys().indexOf( fullObjectTypeName ) > -1 )
+    const QMetaObject *meta;
+    if ((meta = m_objectTypes.value(objectTypeName, 0)))
     {
-        const QMetaObject* meta = m_objectTypes.value( objectTypeName );
-        if( meta )
+        GluonObject* obj = qobject_cast<GluonObject*>( meta->newInstance() );
+        if( obj )
         {
-            GluonObject* obj = qobject_cast<GluonObject*>( meta->newInstance() );
-            if( obj )
-            {
-                //                DEBUG_TEXT2("Instantiated object of type %1", obj->metaObject()->className());
-                return obj;
-            }
-            else
-            {
-                DEBUG_TEXT2( "If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName );
-                return 0;
-            }
+            return obj;
+        }
+        else
+        {
+            DEBUG_TEXT2( "If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName );
+            return 0;
         }
     }
 

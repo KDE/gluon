@@ -20,8 +20,8 @@
 #ifndef GLUON_ENGINE_TEXTUREASSET_H
 #define GLUON_ENGINE_TEXTUREASSET_H
 
-#include "gluon_engine_export.h"
-#include "asset.h"
+#include "engine/gluon_engine_export.h"
+#include "engine/asset.h"
 
 #include "graphics/texture.h"
 

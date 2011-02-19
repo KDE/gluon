@@ -173,6 +173,17 @@ namespace GluonCore
             virtual ~GluonObject();
 
             /**
+             * Take a name in the format accepted by the GluonObject name property, and transform
+             * it into the format accepted by the objectName property. This function is useful for
+             * when you wish to search the hierarchy for objects by name.
+             * 
+             * @param   name    The GluonObject name you wish transformed
+             * @return  The sanitized name
+             * @see name
+             */
+            Q_INVOKABLE static QString nameToObjectName( const QString& name);
+
+            /**
              * Write a debug statement to the console and into the debug messages pane in Gluon Creator
              * when running a game from inside the tool.
              *

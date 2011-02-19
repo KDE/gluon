@@ -40,9 +40,9 @@ using namespace GluonPlayer;
 
 CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     : QAbstractListModel( parent )
+    , m_rootNode( new GluonObject( "Comment" ) )
     , m_isOnline( false )
     , m_gameId( gameId )
-    , m_rootNode( new GluonObject( "Comment" ) )
 {
     m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
 
