@@ -63,7 +63,6 @@ Rectangle {
         anchors.top: usernameText.bottom;
         focus: true;
         KeyNavigation.down: passwordLineEdit;
-
    }
 
    Text {

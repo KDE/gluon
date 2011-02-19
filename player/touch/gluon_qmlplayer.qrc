@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Startup.qml</file>
+        <file>MainWindow.qml</file>
         <file>Home.qml</file>
         <file>Details.qml</file>
         <file>Comments.qml</file>
