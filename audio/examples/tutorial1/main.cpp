@@ -20,27 +20,20 @@
  */
 
 #include <gluon/audio/sound.h>
-#include <gluon/audio/engine.h>
 
 #include <QDebug>
 
 int main( int argc, char* argv[] )
 {
-    GluonAudio::Engine::instance();
-
-    GluonAudio::Sound* sound = new GluonAudio::Sound;
-    sound->load( "KDE-Sys-Log-In-Long.ogg" );
+    GluonAudio::Sound *sound = new GluonAudio::Sound;
+    sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
     sound->setVolume( 0.9 );  //between 0 and 1
 
-    qDebug() << "Playing sound.";
+    qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
     sound->play();
 
-    qDebug() << "Press enter to continue.";
-    QTextStream( stdin ).readLine();
+    while ( sound->isPlaying() );
 
-    sound->stop();
-
-    delete sound;
-    GluonAudio::Engine::close(); // This line is unnecessary if you use KApplication. In this case KALEngine will be destroy automatically.
+    return 0;
 }
 

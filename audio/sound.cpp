@@ -66,7 +66,7 @@ class Sound::SoundPrivate
             volume = 1.0f;
             pitch = 1.0f;
             radius = 10000.0f;
-
+            duration = 0;
         }
 
         bool setupSource()
@@ -119,6 +119,7 @@ class Sound::SoundPrivate
         ALfloat volume;
         ALfloat pitch;
         ALfloat radius;
+        double duration;
 };
 
 Sound::Sound()
@@ -132,14 +133,14 @@ Sound::Sound(const QString& fileName)
     : QObject( Engine::instance() )
     , d( new SoundPrivate )
 {
-    loadFile(fileName);
+    load(fileName);
 }
 
 Sound::Sound(const QString& fileName, bool toStream)
     : QObject( Engine::instance() )
     , d( new SoundPrivate )
 {
-    loadFile(fileName, toStream);
+    load(fileName, toStream);
 }
 
 Sound::~Sound()
@@ -153,20 +154,20 @@ bool Sound::isValid() const
     return d->isValid;
 }
 
-bool Sound::loadFile(const QString &fileName)
+bool Sound::load(const QString &fileName)
 {
     SF_INFO sfinfo;
     memset(&sfinfo, 0, sizeof(sfinfo));
     SNDFILE *sndfile = sf_open(fileName.toLocal8Bit().data(), SFM_READ, &sfinfo);
     sf_close(sndfile);
 
-    double duration = (double)sfinfo.frames / sfinfo.samplerate;
-    bool toStream = ( duration >= (double)(Engine::instance()->bufferLength()*Engine::instance()->buffersPerStream())/1e6 );
+    d->duration = (double)sfinfo.frames / sfinfo.samplerate;
+    bool toStream = ( d->duration >= (double)(Engine::instance()->bufferLength()*Engine::instance()->buffersPerStream())/1e6 );
 
-    return loadFile(fileName, toStream);
+    return load(fileName, toStream);
 }
 
-bool Sound::loadFile(const QString& fileName, bool toStream)
+bool Sound::load(const QString& fileName, bool toStream)
 {
     if (fileName.isEmpty()) {
         d->isValid = false;
@@ -381,9 +382,12 @@ void Sound::setTimePosition( ALfloat time )
 
 }
 
-// ALfloat Sound::duration() const
-// {
-//     return d->buffer->duration();
-// }
+double Sound::duration() const
+{
+    if (!d->isValid) {
+        return 0;
+    }
+    return d->duration;
+}
 
 #include "sound.moc"

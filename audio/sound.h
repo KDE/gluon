@@ -28,21 +28,25 @@
 
 namespace GluonAudio
 {
-    class Buffer;
-
     class GLUON_AUDIO_EXPORT Sound : public QObject
     {
     Q_OBJECT
         public:
+            /**
+            * Constructs an empty, invalid Sound object
+            * @see isValid, load
+            */
             explicit Sound();
             /**
-            * This is the default constructor
-            * @param soundFile the path of the file to play
+            * @param fileName the path of the file to play
             */
             explicit Sound(const QString& fileName);
 
             /**
+            * This function might become private
             * @param soundFile the path of the file to play
+            * @param toStream whether or not the file should be streamed
+            * @see Engine::bufferLength, Engine::buffersPerStream
             */
             explicit Sound(const QString& fileName, bool toStream);
 
@@ -50,10 +54,26 @@ namespace GluonAudio
             * Destructor
             */
             ~Sound();
-            
-            bool loadFile(const QString& fileName);
-            bool loadFile(const QString& fileName, bool toStream);
-            
+
+            /**
+            * Load a new sound file
+            */
+            bool load(const QString& fileName);
+
+            /**
+            * This function might become private
+            * Load a new sound file and specify whether or not it should
+            * be streamed.
+            * @see Engine::bufferLength, Engine::buffersPerStream
+            */
+            bool load(const QString& fileName, bool toStream);
+
+            /**
+            * An object is invalid when no file is loaded or the last file
+            * was incorrectly loaded. The only function that should be used
+            * on such an object is load.
+            * @see load
+            */
             bool isValid() const;
 
             /**
@@ -73,7 +93,15 @@ namespace GluonAudio
             */
             ALint status() const ;
 
+            /**
+            * @return true if the sound is currently being played, false otherwise
+            */
             bool isPlaying() const;
+
+            /**
+            * Returns true if the sound was set to loop, false otherwise.
+            * By default, files are set not to loop.
+            */
             bool isLooping() const;
 
             /**
@@ -85,7 +113,7 @@ namespace GluonAudio
             /**
             * @return the coordinates of the sound postion
             * relative to the listener
-            * @see setPosition, x ,y ,z
+            * @see setPosition, x, y, z
             */
             QVector3D position() const;
 
@@ -94,7 +122,7 @@ namespace GluonAudio
             * relative to the listener
             * @see setPosition, y, z
             */
-            ALfloat x() const ;
+            ALfloat x() const;
 
             /**
             * @return the y coordinate of the sound position
@@ -112,7 +140,7 @@ namespace GluonAudio
 
             /**
             * @return the volume currently applied
-            * @see setvolume
+            * @see setVolume
             */
             ALfloat volume() const ;
 
@@ -135,7 +163,8 @@ namespace GluonAudio
             * pause() was called
             * @see pause, stop, rewind
             */
-            void play();
+            void play()
+;
             /**
             * Pauses the sound currently played
             * @see play, stop, rewind
@@ -236,7 +265,12 @@ namespace GluonAudio
             void setTimePosition( ALfloat time );
 
             //void setRadius(float radius);
-            
+
+            /**
+            * @return the file sound duration in seconds
+            */
+            double duration() const;
+
             //FIXME: This shouldn't be public
             void stopped();
 
