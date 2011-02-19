@@ -99,7 +99,7 @@ void SoundEmitterComponent::setSound( Asset* asset )
     d->asset = asset;
 
     if (!asset->data()->text().isEmpty()) {
-        d->sound->loadFile( asset->data()->text() ) ;
+        d->sound->load( asset->data()->text() ) ;
     }
 }
 
@@ -113,7 +113,7 @@ void SoundEmitterComponent::start()
     {
         if( !d->asset->isLoaded() )
             d->asset->load();
-        d->sound->loadFile( d->asset->data()->text() );
+        d->sound->load( d->asset->data()->text() );
     }
 
     d->sound->setPosition( gameObject()->position() );
