@@ -29,6 +29,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
 #include <graphics/texture.h>
+#include "assets/graphics/texture/textureasset.h"
 
 namespace GluonEngine
 {
@@ -129,13 +130,13 @@ namespace GluonEngine
              * The icon used to represent the game both on disk, on the distribution site, and in
              * the players which show icons for the games.
              */
-            Q_PROPERTY( GluonGraphics::Texture* icon READ icon WRITE setIcon )
+            Q_PROPERTY( GluonEngine::TextureAsset* icon READ icon WRITE setIcon )
 
             /**
              * A screenshot to represent the game, shown in the various players, and on the
              * distribution site
              */
-            Q_PROPERTY( GluonGraphics::Texture* screenshot READ screenshot WRITE setScreenshot )
+            Q_PROPERTY( GluonEngine::TextureAsset* screenshot READ screenshot WRITE setScreenshot )
 
         public:
             Q_INVOKABLE GameProject( QObject* parent = 0 );
@@ -169,11 +170,11 @@ namespace GluonEngine
             Scene* entryPoint() const;
             void setEntryPoint( Scene* newEntryPoint );
 
-            GluonGraphics::Texture* icon() const;
-            void setIcon( GluonGraphics::Texture* newIcon );
+            GluonEngine::TextureAsset* icon() const;
+            void setIcon( GluonEngine::TextureAsset* newIcon );
 
-            GluonGraphics::Texture* screenshot() const;
-            void setScreenshot( GluonGraphics::Texture* newScreenshot );
+            GluonEngine::TextureAsset* screenshot() const;
+            void setScreenshot( GluonEngine::TextureAsset* newScreenshot );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

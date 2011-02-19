@@ -23,6 +23,7 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
+#include "assets/graphics/texture/textureasset.h"
 
 namespace GluonCore
 {
@@ -50,8 +51,8 @@ namespace GluonEngine
             QList<QUrl> mediaInfo;
             QUrl filename;
             Scene* entryPoint;
-            GluonGraphics::Texture* icon;
-            GluonGraphics::Texture* screenshot;
+            GluonEngine::TextureAsset* icon;
+            GluonEngine::TextureAsset* screenshot;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
     };
