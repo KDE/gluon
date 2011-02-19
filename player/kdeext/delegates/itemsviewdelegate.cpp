@@ -39,7 +39,6 @@ using namespace GluonKDEPlayer;
 
 ItemsViewDelegate::ItemsViewDelegate(QAbstractItemView *itemView, QObject * parent)
         : KWidgetItemDelegate(itemView, parent)
-        , m_itemView( itemView )
         , m_preview( new KIcon( "gluon_creator" ) )
 {
 }

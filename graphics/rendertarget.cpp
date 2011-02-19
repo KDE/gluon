@@ -62,7 +62,6 @@ RenderTarget::RenderTarget( QObject* parent )
 {
     d->createVertexData();
     d->projectionMatrix.ortho(-1, 1, -1, 1, -1, 1);
-    connect(Engine::instance(), SIGNAL(currentViewportChanged(Viewport*)), this, SLOT(currentViewportChanged(Viewport*)));
 }
 
 RenderTarget::RenderTarget( int width, int height, QObject* parent )

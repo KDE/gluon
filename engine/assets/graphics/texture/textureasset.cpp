@@ -52,6 +52,7 @@ TextureAsset::TextureAsset( QObject* parent )
 TextureAsset::~TextureAsset()
 {
     d->texture = 0;
+    delete d;
 }
 
 QIcon TextureAsset::icon() const

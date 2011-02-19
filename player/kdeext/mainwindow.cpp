@@ -54,7 +54,8 @@ using namespace GluonKDEPlayer;
 class MainWindow::MainWindowPrivate
 {
     public:
-        MainWindowPrivate() {}
+        MainWindowPrivate() : msecElapsed(0), frameCount(0) {}
+        ~MainWindowPrivate() {}
 
         GluonGraphics::RenderWidget* widget;
 
@@ -143,7 +144,7 @@ void MainWindow::startGame( )
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
-    setFocus();
+    d->widget->setFocus();
 
     // if( GluonEngine::Game::instance()->isRunning() )
     // {

@@ -51,6 +51,8 @@ InputManager::InputManager( QObject* parent )
 
 InputManager::~InputManager()
 {
+    delete d->m_detect;
+    delete d;
 }
 
 void InputManager::init()
@@ -82,11 +84,11 @@ void InputManager::init()
             // else
                 // qDebug() << "Null filtered object pointer - no install";
 
-            InputDevice* keyboard = new Keyboard( 0 );
+            InputDevice* keyboard = new Keyboard( 0, this );
             d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
-            InputDevice* mouse = new Mouse( 0 );
+            InputDevice* mouse = new Mouse( 0, this );
             d->m_detect->addMouse( static_cast<Mouse*>( mouse ) );
-            InputDevice* touch = new Touch( 0 );
+            InputDevice* touch = new Touch( 0, this );
             d->m_detect->addTouch( static_cast<Touch*>( touch ) );
         }
         else

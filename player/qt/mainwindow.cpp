@@ -94,6 +94,11 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
     resize( 500, 500 );
 }
 
+MainWindow::~MainWindow()
+{
+    delete d;
+}
+
 void MainWindow::activated( QModelIndex index )
 {
     if( index.isValid() )
