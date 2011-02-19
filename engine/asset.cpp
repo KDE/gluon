@@ -89,9 +89,12 @@ Asset::setName( const QString& newName )
 void
 Asset::setFile( const QUrl& newFile )
 {
-    QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
-    if( QDir::current().exists( oldPath ) )
-        QDir::current().rmpath( oldPath );
+    if(!d->file.isEmpty())
+    {
+        QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
+        if( QDir::current().exists( oldPath ) )
+            QDir::current().rmpath( oldPath );
+    }
     QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
     QDir::current().mkpath( newPath );
     d->file = newFile;
