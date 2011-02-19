@@ -64,6 +64,21 @@ GluonObject::~GluonObject()
 {
 }
 
+QString GluonObject::nameToObjectName(const QString& name)
+{
+    // Sanitize the object name to be an acceptable javascript object name.
+    // While this is also done by the scripting engine, we use the object name for other things
+    // as well, such as filenames etc
+    QString theObjectName;
+    QString::const_iterator i;
+    for( i = name.constBegin(); i != name.constEnd(); ++i )
+    {
+        if(i->isLetterOrNumber() || *i == '_' )
+            theObjectName.append(*i);
+    }
+    return theObjectName;
+}
+
 void
 GluonObject::debug( const QString& debugText ) const
 {
@@ -311,17 +326,7 @@ GluonObject::setName( const QString& newName )
     }
     d->name = theName;
 
-    // Sanitize the object name to be an acceptable javascript object name.
-    // While this is also done by the scripting engine, we use the object name for other things
-    // as well, such as filenames etc
-    QString theObjectName;
-    QString::const_iterator i;
-    for( i = theName.constBegin(); i != theName.constEnd(); ++i )
-    {
-        if(i->isLetterOrNumber() || *i == '_' )
-            theObjectName.append(*i);
-    }
-    setObjectName( theObjectName );
+    setObjectName( nameToObjectName( theName ) );
 }
 
 QString
