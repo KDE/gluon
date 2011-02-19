@@ -21,35 +21,32 @@ import QtQuick 1.0
 
 Rectangle {
     anchors.fill: parent
-    Button {
-        id: new_user
-        /* width: parent.width / 4 */
-        height: parent.height * 1 / 10;
-        icon: "icons/get-hot-new-stuff.png";
-        text: qsTr("Get More Games");
-        subtext: "5 new games, 16 updated";
-        onClicked: console.log("this doesn't do anything yet...");
-    }
 
     Component {
         id: gameItemsDelegate
         Item {
-            height: gameIcon.height;
+            height: Math.max(playButtonIcon.height, gameIcon.height) + 10;
+            width: ListView.view.width;
             Image {
                 id: gameIcon;
+                anchors.verticalCenter: parent.verticalCenter;
                 source: "icons/hi32-app-gluon.png";
             }
 
             Text {
                 id: gameViewName;
-                text: gameName;
-                anchors.left: gameIcon.right;
+                text: qsTr(gameName);
+                anchors {
+                    verticalCenter: parent.verticalCenter / 2;
+                    left: gameIcon.right;
+                }
             }
 
             Text {
                 id: gameViewDescription;
-                text: gameDescription;
+                text: qsTr(gameDescription);
                 anchors {
+                    verticalCenter: parent.verticalCenter * 1.5;
                     top: gameViewName.botton;
                     left: gameIcon.right;
                 }
@@ -58,13 +55,15 @@ Rectangle {
             Image {
                 id: playButtonIcon;
                 source: "icons/media-playback-start.png";
-                anchors.left: gameViewName.right;
+                anchors {
+                    left: gameViewName.right;
+                    verticalCenter: parent.verticalCenter;
+                }
                 MouseArea {
                     id: playButtonMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        console.log("Play the game from the list! Index: " + index);
                         gameWindowManager.setProject(index);
                     }
                 }
@@ -78,5 +77,15 @@ Rectangle {
         anchors.fill: parent;
         model: gameItemsModel;
         delegate: gameItemsDelegate;
+
+        header: Button {
+            id: new_user
+            /* width: parent.width / 4 */
+            height: parent.height * 1 / 10;
+            icon: "icons/get-hot-new-stuff.png";
+            text: qsTr("Get More Games");
+            subtext: "5 new games, 16 updated";
+            onClicked: console.log("this doesn't do anything yet...");
+        }
     }
 }
