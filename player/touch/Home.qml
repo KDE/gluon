@@ -30,6 +30,9 @@ Rectangle {
             icon: "icons/hi32-app-gluon.png";
             text: qsTr(gameName);
             subtext: qsTr(gameDescription);
+            onClicked: {
+                detailsPage.propagate(gameName, gameDescription, index);
+            }
         }
     }
 
