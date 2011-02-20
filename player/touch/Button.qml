@@ -65,7 +65,9 @@ Rectangle {
         text: parent.text;
         color: "white";
         font.pixelSize: parent.height * 2/5;
-        anchors.left: pix.right;
+        anchors {
+            left: pix.right;
+        }
    }
 
    Text {

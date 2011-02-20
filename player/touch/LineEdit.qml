@@ -22,10 +22,11 @@ import QtQuick 1.0
 /**
  * A LineEdit in Gluon style
  */
+
 FocusScope {
-    property alias text: textInput.text
-    property alias labelText: label.text
-    property alias echoMode: textInput.echoMode
+    property alias text: textInput.text;
+    property alias labelText: label.text;
+    property alias echoMode: textInput.echoMode;
     property variant tabTarget: KeyNavigation.down;
     property variant backtabTarget: KeyNavigation.up;
 
@@ -41,7 +42,7 @@ FocusScope {
     }
 
     BorderImage {
-        anchors.fill: parent
+        anchors.fill: parent;
 
         source: "icons/lineedit.png"
         border.bottom: 20;
@@ -76,20 +77,22 @@ FocusScope {
     }
 
     TextInput {
-        id: textInput
+        id: textInput;
 
-        y: 5
-        anchors.verticalCenter: parent.verticalCenter;
-        anchors.verticalCenterOffset: 2;
-        anchors.right: parent.right
-        anchors.rightMargin: 12
-        anchors.left: parent.left
-        anchors.leftMargin: 12
+        y: 5;
+        anchors {
+            verticalCenter: parent.verticalCenter;
+            verticalCenterOffset: 2;
+            right: parent.right;
+            rightMargin: 12;
+            left: parent.left;
+            leftMargin: 12;
+        }
 
-        focus: true
+        focus: true;
 
-        selectByMouse: true
-        passwordCharacter: "*"
+        selectByMouse: true;
+        passwordCharacter: "*";
 
         font.pixelSize: 24;
     }

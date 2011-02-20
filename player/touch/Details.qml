@@ -22,11 +22,6 @@ import QtQuick 1.0
 Rectangle {
     color: "black";
 
-    x: 0;
-    y: 0;
-    width: 1600;
-    height: 900;
-
     property int gameIndex;
 
     function propagate(gameName, gameDescription, index) {
@@ -42,15 +37,16 @@ Rectangle {
 
    Image {
        id: game_main_img;
-       // anchors.fill: parent
        source: "icons/hi256-app-gluon.png";
        width: parent.width/2 * 4/5;
        height: parent.height * 3/5;
        fillMode: Image.PreserveAspectFit;
-       anchors.horizontalCenter: parent.horizontalCenter;
-       anchors.horizontalCenterOffset: -parent.width/4;
-       anchors.verticalCenter: parent.verticalCenter;
-       anchors.margins: 10;
+       anchors {
+           horizontalCenter: parent.horizontalCenter;
+           horizontalCenterOffset: -parent.width/4;
+           verticalCenter: parent.verticalCenter;
+           margins: 10;
+       }
    }
 
     Button {
@@ -60,12 +56,14 @@ Rectangle {
         icon: "icons/media-playback-start.png";
         text: qsTr("Play the game");
         subtext: qsTr("1697 others currently playing");
+        anchors {
+            left: game_main_img.right;
+            margins: 10;
+        }
+
         onClicked: {
-            console.log(parent.currentProjectFileName);
             gameWindowManager.setProject(gameIndex);
         }
-        anchors.left: game_main_img.right;
-        anchors.margins: 10;
     }
 
     Button {
@@ -74,10 +72,14 @@ Rectangle {
         height: parent.height * 1 / 5;
         icon: "icons/im-user.png";
         text: qsTr("Read Author's Description");
+        subtext: qsTy("Description");
+        anchors {
+            top: play_game_btn.bottom;
+            left: game_main_img.right;
+            margins: 10;
+        }
+
         onClicked: console.log("this doesn't do anything yet...");
-        anchors.top: play_game_btn.bottom;
-        anchors.left: game_main_img.right;
-        anchors.margins: 10;
     }
 
     Button {
@@ -87,10 +89,13 @@ Rectangle {
         icon: "icons/help-hint.png";
         text: qsTr("High Scores");
         subtext: "Your global high-score: 258th";
+        anchors {
+            top: read_author_desc_btn.bottom;
+            left: game_main_img.right;
+            margins: 10;
+        }
+
         onClicked: console.log("this doesn't do anything yet...");
-        anchors.top: read_author_desc_btn.bottom;
-        anchors.left: game_main_img.right;
-        anchors.margins: 10;
     }
 
     Button {
@@ -100,10 +105,13 @@ Rectangle {
         icon: "icons/media-playback-start.png";
         text: qsTr("Achievements");
         subtext: "You have 4 of 16";
+        anchors {
+            top: read_author_desc_btn.bottom;
+            left: high_scores_btn.right;
+            margins: 10;
+        }
+
         onClicked: console.log("this doesn't do anything yet...");
-        anchors.top: read_author_desc_btn.bottom;
-        anchors.left: high_scores_btn.right;
-        anchors.margins: 10;
     }
 
     Button {
@@ -113,10 +121,13 @@ Rectangle {
         icon: "icons/media-playback-start.png";
         text: qsTr("Rate & Comment");
         subtext: "20984 ratings, 413 comments";
+        anchors {
+            top: high_scores_btn.bottom;
+            left: game_main_img.right;
+            margins: 10;
+        }
+
         onClicked: console.log("this doesn't do anything yet...");
-        anchors.top: high_scores_btn.bottom;
-        anchors.left: game_main_img.right;
-        anchors.margins: 10;
     }
 
     Button {
@@ -126,15 +137,20 @@ Rectangle {
         icon: "icons/media-playback-start.png";
         text: qsTr("Donate");
         subtext: qsTr("€3 suggested");
+        anchors {
+            top: achievements_btn.bottom;
+            left: rate_comments_btn.right;
+            margins: 10;
+        }
+
         onClicked: console.log("this doesn't do anything yet...");
-        anchors.top: achievements_btn.bottom;
-        anchors.left: rate_comments_btn.right;
-        anchors.margins: 10;
     }
 
     Text {
         id: new_comments;
         text: qsTr("New Comments");
-        anchors.top: rate_comments_btn.bottom;
+        anchors {
+            top: rate_comments_btn.bottom;
+        }
     }
 }
