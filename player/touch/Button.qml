@@ -71,8 +71,8 @@ Rectangle {
         anchors {
             left: pix.right;
             leftMargin: 5;
-            top: parent.top;
-            verticalCenter: parent.verticalCenter / 2;
+            verticalCenter: parent.verticalCenter;
+            verticalCenterOffset: -font.pixelSize/2;
         }
    }
 
@@ -85,8 +85,8 @@ Rectangle {
             left: pix.right;
             leftMargin: 5;
             top: textelement.bottom;
-            bottom: parent.bottom;
-            verticalCenter: parent.verticalCenter * 3 / 2;
+            verticalCenter: parent.verticalCenter;
+            verticalCenterOffset: font.pixelSize/2;
         }
    }
 

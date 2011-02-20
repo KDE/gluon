@@ -20,7 +20,9 @@
 import QtQuick 1.0
 
 Rectangle {
+
     color: "black";
+    anchors.fill: parent;
 
     property int gameIndex;
 
@@ -72,7 +74,7 @@ Rectangle {
         height: parent.height * 1 / 5;
         icon: "icons/im-user.png";
         text: qsTr("Read Author's Description");
-        subtext: qsTy("Description");
+        subtext: qsTr("No description");
         anchors {
             top: play_game_btn.bottom;
             left: game_main_img.right;

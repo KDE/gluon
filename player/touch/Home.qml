@@ -20,12 +20,14 @@
 import QtQuick 1.0
 
 Rectangle {
-    anchors.fill: parent
+
+    color: "black";
+    anchors.fill: parent;
 
     Component {
-        id: gameItemsDelegate
+        id: gameItemsDelegate;
         Button {
-            id: gameItem
+            id: gameItem;
             width: ListView.view.width;
             icon: "icons/hi32-app-gluon.png";
             text: qsTr(gameName);
@@ -43,13 +45,18 @@ Rectangle {
         anchors.fill: parent;
         model: gameItemsModel;
         delegate: gameItemsDelegate;
-        spacing: 5
+        spacing: 5;
 
         header: Button {
             id: moreGames
             icon: "icons/get-hot-new-stuff.png";
             text: qsTr("Get More Games");
             subtext: "5 new games, 16 updated";
+            anchors {
+                left: parent.left;
+                top: parent.top;
+                bottomMargin: 5;
+            }
         }
     }
 }
