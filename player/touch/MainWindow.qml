@@ -124,7 +124,7 @@ Rectangle {
         height: parent.height * 1 / 5 - 10;
         icon: "icons/media-playback-start.png";
         text: qsTr("Play Without Logging On");
-        subtext: qsTr("3 games available");
+        subtext: gameWindowManager.availableGamesCount() + " games available";
         anchors {
             top: forgotten_details.bottom;
             left: gluon_logo.right;
