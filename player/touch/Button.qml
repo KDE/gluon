@@ -25,15 +25,11 @@ import QtQuick 1.0
 
 Rectangle {
 
-       // clip: true
-
-       id: button
-
        property string text;
        property string subtext;
        property string icon;
-       property int textfontsize: 24;
-       property int subtextfontsize: 20;
+       property int textfontsize: 20;
+       property int subtextfontsize: 16;
        property alias enabled: buttonMouseArea.enabled;
        property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
        property variant backtabTarget: KeyNavigation.left || KeyNavigation.up;
@@ -45,7 +41,7 @@ Rectangle {
        Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
        Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
 
-       height: Math.max(pix.height, textelement.height + subtextelement.height);
+       height: Math.max(pix.height, textelement.height + subtextelement.height) + 10;
        width: parent.width;
 
    QtObject {
@@ -63,7 +59,7 @@ Rectangle {
         anchors {
             left: parent.left;
             verticalCenter: parent.verticalCenter;
-            leftMargin: 10;
+            margins: 10;
         }
    }
 
@@ -74,6 +70,9 @@ Rectangle {
         font.pixelSize: parent.textfontsize;
         anchors {
             left: pix.right;
+            leftMargin: 5;
+            top: parent.top;
+            verticalCenter: parent.verticalCenter / 2;
         }
    }
 
@@ -84,7 +83,10 @@ Rectangle {
         font.pixelSize: parent.subtextfontsize;
         anchors {
             left: pix.right;
+            leftMargin: 5;
             top: textelement.bottom;
+            bottom: parent.bottom;
+            verticalCenter: parent.verticalCenter * 3 / 2;
         }
    }
 
@@ -121,7 +123,7 @@ Rectangle {
       State {
         name: "hovered"
           when: enabled && ((buttonMouseArea.containsMouse && !buttonMouseArea.pressed)
-                  || button.activeFocus);
+                  || parent.activeFocus);
       PropertyChanges {
             target: buttonBorderImage;
             // source: "icons/buttonhovered.png";
