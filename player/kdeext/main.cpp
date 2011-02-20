@@ -36,6 +36,7 @@ int main( int argc, char** argv )
 
     aboutData.setProgramIconName("KDEEXTPlayer");
     aboutData.addAuthor(ki18n("Laszlo Papp"), ki18n("KDE Extended Player"), "");
+    aboutData.setProductName("gluon/gluonplayer");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
