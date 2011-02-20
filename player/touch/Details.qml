@@ -53,13 +53,15 @@ Rectangle {
 
     Button {
         id: play_game_btn;
-        width: parent.width / 4;
-        height: parent.height * 1 / 5;
+        width: parent.width / 2;
+        height: parent.height * 1 / 5 - 10;
         icon: "icons/media-playback-start.png";
         text: qsTr("Play the game");
         subtext: qsTr("1697 others currently playing");
         anchors {
             left: game_main_img.right;
+            right: parent.right;
+            top: parent.top;
             margins: 10;
         }
 
@@ -70,7 +72,7 @@ Rectangle {
 
     Button {
         id: read_author_desc_btn;
-        width: parent.width / 4;
+        width: parent.width / 2;
         height: parent.height * 1 / 5;
         icon: "icons/im-user.png";
         text: qsTr("Read Author's Description");
@@ -78,6 +80,7 @@ Rectangle {
         anchors {
             top: play_game_btn.bottom;
             left: game_main_img.right;
+            right: parent.right;
             margins: 10;
         }
 
@@ -86,7 +89,7 @@ Rectangle {
 
     Button {
         id: high_scores_btn;
-        width: parent.width / 2;
+        width: parent.width / 4;
         height: parent.height * 1 / 5;
         icon: "icons/help-hint.png";
         text: qsTr("High Scores");
@@ -102,7 +105,7 @@ Rectangle {
 
     Button {
         id: achievements_btn;
-        width: parent.width / 2;
+        width: parent.width / 4;
         height: parent.height * 1 / 5;
         icon: "icons/media-playback-start.png";
         text: qsTr("Achievements");
@@ -110,6 +113,7 @@ Rectangle {
         anchors {
             top: read_author_desc_btn.bottom;
             left: high_scores_btn.right;
+            right: parent.right;
             margins: 10;
         }
 
@@ -118,7 +122,7 @@ Rectangle {
 
     Button {
         id: rate_comments_btn;
-        width: parent.width / 2;
+        width: parent.width / 4;
         height: parent.height * 1 / 5;
         icon: "icons/media-playback-start.png";
         text: qsTr("Rate & Comment");
@@ -134,7 +138,7 @@ Rectangle {
 
     Button {
         id: donate_btn;
-        width: parent.width / 2;
+        width: parent.width / 4;
         height: parent.height * 1 / 5;
         icon: "icons/media-playback-start.png";
         text: qsTr("Donate");
@@ -142,6 +146,7 @@ Rectangle {
         anchors {
             top: achievements_btn.bottom;
             left: rate_comments_btn.right;
+            right: parent.right;
             margins: 10;
         }
 

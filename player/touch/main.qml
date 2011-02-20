@@ -20,14 +20,14 @@
 import QtQuick 1.0
 
 Item {
-    id: mainview
-    property string statepoint: "start"
+    id: mainview;
+    property string statepoint: "start";
 
-    width: 800
-    height: 600
+    width: 800;
+    height: 480;
 
     SystemPalette {
-        id: activePalette
+        id: activePalette;
     }
 
     states: [

@@ -29,7 +29,7 @@ Rectangle {
        property string subtext;
        property string icon;
        property int textfontsize: 20;
-       property int subtextfontsize: 16;
+       property int subtextfontsize: 14;
        property alias enabled: buttonMouseArea.enabled;
        property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
        property variant backtabTarget: KeyNavigation.left || KeyNavigation.up;
