@@ -22,7 +22,6 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QListWidget>
 #include <QtGui/QSpinBox>
 #include <QtGui/QToolButton>
 
@@ -87,7 +86,7 @@ void IntVectorPropertyWidgetItem::spinValueChanged(int newValue)
     QSpinBox* from = qobject_cast< QSpinBox* >( sender() );
     if(from)
     {
-        values[from] = newValue;
+        intValues[from] = newValue;
         valueHasChanged();
     }
 }
@@ -98,8 +97,8 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
     QGridLayout* layout = qobject_cast<QGridLayout*>( editWidget()->layout() );
     
     // Clear out any old data...
-    editorItems.clear();
-    values.clear();
+    intEditorItems.clear();
+    intValues.clear();
     layout->removeItem( layout->itemAt( layout->indexOf( listItems ) ) );
     listItems->deleteLater();
     
@@ -123,7 +122,7 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
     {
         for(int i = 0; i < items.count(); ++i)
         {
-            addItem(i);
+            addItem(items[i]);
         }
     }
 }
@@ -151,9 +150,9 @@ void IntVectorPropertyWidgetItem::addItem(int value)
     containerLayout->addWidget( editorSpin );
     
     listItems->layout()->addWidget(container);
-    editorItems.insert(removeButton, editorSpin);
-    values.insert(editorSpin, value);
-    countLabel->setText( i18n( "Item count: %1" ).arg( values.count() ) );
+    intEditorItems.insert(removeButton, editorSpin);
+    intValues.insert(editorSpin, value);
+    countLabel->setText( i18n( "Item count: %1" ).arg( intValues.count() ) );
     valueHasChanged();
 }
 
@@ -164,9 +163,10 @@ void IntVectorPropertyWidgetItem::removeClicked()
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
-        QSpinBox* editSpin = editorItems[from];
-        editorItems.remove(from);
-        values.remove(editSpin);
+        QSpinBox* editSpin = intEditorItems[from];
+        intEditorItems.remove(from);
+        intValues.remove(editSpin);
+        countLabel->setText( i18n( "Item count: %1" ).arg(0) );
         valueHasChanged();
     }
 }
@@ -174,7 +174,7 @@ void IntVectorPropertyWidgetItem::removeClicked()
 void IntVectorPropertyWidgetItem::valueHasChanged()
 {
     if(isList)
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( values.values() ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( intValues.values() ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( values.values() ) ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( intValues.values() ) ) );
 }

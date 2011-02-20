@@ -42,7 +42,7 @@ namespace GluonCreator
             virtual void setEditValue(const QVariant& value);
 
         private:
-            void addItem(int valueIndex);
+            void addItem(int value);
             Q_SLOT void addItem();
             Q_SLOT void removeClicked();
             Q_SLOT void spinValueChanged(int newValue);
@@ -52,8 +52,8 @@ namespace GluonCreator
             QToolButton* addButton;
             QLabel* countLabel;
             
-            QMap<QToolButton*, QSpinBox*> editorItems;
-            QMap<QSpinBox*, int> values;
+            QMap<QToolButton*, QSpinBox*> intEditorItems;
+            QMap<QSpinBox*, int> intValues;
             
             bool isList;
     };
