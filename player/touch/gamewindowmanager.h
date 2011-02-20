@@ -21,6 +21,7 @@
 #define GLUONKDEPLAYER_MAINWINDOW_H
 
 #include "lib/models/gameitemsmodel.h"
+#include "lib/models/commentitemsmodel.h"
 
 #include "core/gluon_global.h"
 #include "graphics/engine.h"
@@ -47,9 +48,8 @@ namespace GluonQMLPlayer {
 
             bool isViewportGLWidget();
             Q_INVOKABLE void setProject( int index );
-
-        protected:
-            // virtual void closeEvent( QCloseEvent* event );
+            Q_INVOKABLE int availableGamesCount( ) const;
+            Q_INVOKABLE void buildCommentsModel( int index );
 
         public slots:
             void startGame();
@@ -73,6 +73,8 @@ namespace GluonQMLPlayer {
 
             QGraphicsView* m_view;
             GluonPlayer::GameItemsModel* m_gameItemsModel;
+
+            GluonPlayer::CommentItemsModel* m_commentsModel;
 
             int m_viewportWidth;
             int m_viewportHeight;

@@ -92,16 +92,26 @@ void GameWindowManager::stopGame()
     GluonEngine::Game::instance()->stopGame();
 }
 
-// void GameWindowManager::closeEvent( QCloseEvent* event )
-// {
-    // GluonEngine::Game::instance()->stopGame();
-    // QWidget::closeEvent( event );
-// }
-
 void GameWindowManager::setProject( int index )
 {
     m_gameFileName = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     openProject();
+}
+
+int GameWindowManager::availableGamesCount( ) const
+{
+    return m_gameItemsModel->rowCount();
+}
+
+void GameWindowManager::buildCommentsModel( int index )
+{
+    QString gameID = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::IDRole).toString();
+    if( gameID.isEmpty() )
+    {
+        return;
+    }
+
+    m_commentsModel = new GluonPlayer::CommentItemsModel( gameID );
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )

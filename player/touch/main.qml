@@ -20,14 +20,14 @@
 import QtQuick 1.0
 
 Item {
-    id: mainview
-    property string statepoint: "start"
+    id: mainview;
+    property string statepoint: "start";
 
-    width: 1600
-    height: 900
+    width: 800;
+    height: 480;
 
     SystemPalette {
-        id: activePalette
+        id: activePalette;
     }
 
     states: [
@@ -55,37 +55,42 @@ Item {
     ]
 
     MainWindow {
-        height: parent.height
-        width: parent.width
-        visible: statepoint == "mainwindow"
+        id: mainWindowPage;
+        height: parent.height;
+        width: parent.width;
+        visible: statepoint == "mainwindow";
     }
 
     Registration {
-        height: parent.height
-        width: parent.width
-        visible: statepoint == "registration"
+        id: registrationPage;
+        height: parent.height;
+        width: parent.width;
+        visible: statepoint == "registration";
     }
 
     Home {
-        height: parent.height
-        width: parent.width
-        visible: statepoint == "home"
+        id: homePage;
+        height: parent.height;
+        width: parent.width;
+        visible: statepoint == "home";
     }
 
     Details {
-        height: parent.height
-        width: parent.width
-        visible: statepoint == "details"
+        id: detailsPage;
+        height: parent.height;
+        width: parent.width;
+        visible: statepoint == "details";
     }
 
     Comments {
-        height: parent.height
-        width: parent.width
-        visible: statepoint == "comments"
+        id: commentsPage;
+        height: parent.height;
+        width: parent.width;
+        visible: statepoint == "comments";
     }
 
     Component.onCompleted: {
-        statepoint = "mainwindow"
+        statepoint = "mainwindow";
     }
 }
 

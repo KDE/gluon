@@ -20,53 +20,21 @@
 import QtQuick 1.0
 
 Rectangle {
-    anchors.fill: parent
+
+    color: "black";
+    anchors.fill: parent;
 
     Component {
-        id: gameItemsDelegate
-        Item {
-            height: Math.max(playButtonIcon.height, gameIcon.height) + 10;
+        id: gameItemsDelegate;
+        Button {
+            id: gameItem;
             width: ListView.view.width;
-            Image {
-                id: gameIcon;
-                anchors.verticalCenter: parent.verticalCenter;
-                source: "icons/hi32-app-gluon.png";
-            }
+            icon: "icons/hi32-app-gluon.png";
+            text: qsTr(gameName);
+            subtext: qsTr(gameDescription);
 
-            Text {
-                id: gameViewName;
-                text: qsTr(gameName);
-                anchors {
-                    verticalCenter: parent.verticalCenter / 2;
-                    left: gameIcon.right;
-                }
-            }
-
-            Text {
-                id: gameViewDescription;
-                text: qsTr(gameDescription);
-                anchors {
-                    verticalCenter: parent.verticalCenter * 1.5;
-                    top: gameViewName.botton;
-                    left: gameIcon.right;
-                }
-            }
-
-            Image {
-                id: playButtonIcon;
-                source: "icons/media-playback-start.png";
-                anchors {
-                    left: gameViewName.right;
-                    verticalCenter: parent.verticalCenter;
-                }
-                MouseArea {
-                    id: playButtonMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        gameWindowManager.setProject(index);
-                    }
-                }
+            onClicked: {
+                detailsPage.propagate(gameName, gameDescription, index);
             }
         }
     }
@@ -77,15 +45,18 @@ Rectangle {
         anchors.fill: parent;
         model: gameItemsModel;
         delegate: gameItemsDelegate;
+        spacing: 5;
 
         header: Button {
-            id: new_user
-            /* width: parent.width / 4 */
-            height: parent.height * 1 / 10;
+            id: moreGames
             icon: "icons/get-hot-new-stuff.png";
             text: qsTr("Get More Games");
             subtext: "5 new games, 16 updated";
-            onClicked: console.log("this doesn't do anything yet...");
+            anchors {
+                left: parent.left;
+                top: parent.top;
+                bottomMargin: 5;
+            }
         }
     }
 }

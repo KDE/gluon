@@ -25,13 +25,11 @@ import QtQuick 1.0
 
 Rectangle {
 
-       // clip: true
-
-       id: button
-
        property string text;
        property string subtext;
        property string icon;
+       property int textfontsize: 20;
+       property int subtextfontsize: 14;
        property alias enabled: buttonMouseArea.enabled;
        property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
        property variant backtabTarget: KeyNavigation.left || KeyNavigation.up;
@@ -42,6 +40,9 @@ Rectangle {
 
        Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
        Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
+
+       height: Math.max(pix.height, textelement.height + subtextelement.height) + 10;
+       width: parent.width;
 
    QtObject {
        id: priv;
@@ -55,23 +56,40 @@ Rectangle {
    Image {
         id: pix;
         source: parent.icon;
+        anchors {
+            left: parent.left;
+            verticalCenter: parent.verticalCenter;
+            margins: 10;
+        }
    }
 
    Text {
         id: textelement;
         text: parent.text;
         color: "white";
-        font.pixelSize: parent.height * 2/5;
-        anchors.left: pix.right;
+        font.pixelSize: parent.textfontsize;
+        wrapMode: Text.WordWrap;
+        anchors {
+            left: pix.right;
+            leftMargin: 5;
+            verticalCenter: parent.verticalCenter;
+            verticalCenterOffset: -font.pixelSize/2;
+        }
    }
 
    Text {
         id: subtextelement;
         text: parent.subtext;
         color: "white";
-        font.pixelSize: parent.height * 2/5;
-        anchors.left: pix.right;
-        anchors.top: textelement.bottom;
+        font.pixelSize: parent.subtextfontsize;
+        wrapMode: Text.WordWrap;
+        anchors {
+            left: pix.right;
+            leftMargin: 5;
+            top: textelement.bottom;
+            verticalCenter: parent.verticalCenter;
+            verticalCenterOffset: font.pixelSize/2;
+        }
    }
 
    MouseArea {
@@ -97,15 +115,17 @@ Rectangle {
 
              PropertyChanges {
                 target: textelement;
-                anchors.horizontalCenterOffset: 1;
-                anchors.verticalCenterOffset: 1;
+                anchors {
+                    horizontalCenterOffset: 1;
+                    verticalCenterOffset: 1;
+                }
               }
            },
 
       State {
         name: "hovered"
           when: enabled && ((buttonMouseArea.containsMouse && !buttonMouseArea.pressed)
-                  || button.activeFocus);
+                  || parent.activeFocus);
       PropertyChanges {
             target: buttonBorderImage;
             // source: "icons/buttonhovered.png";

@@ -25,20 +25,17 @@ Rectangle {
     property alias password: passwordLineEdit.text;
 
     property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
-    property variant backtabTarget: KeyNavigation.left || KeyNavigation.up
+    property variant backtabTarget: KeyNavigation.left || KeyNavigation.up;
 
     property bool providerInitialized: false;
     Keys.onTabPressed: if (tabTarget) tabTarget.focus = true;
     Keys.onBacktabPressed: if (backtabTarget) backtabTarget.focus = true;
 
-    x: 0
-    y: 0
+    signal clicked;
 
-    signal clicked
-
-    id: lgn
-    border.color: "black"
-    color: "darkGrey"
+    id: lgn;
+    border.color: "black";
+    color: "darkGrey";
 
    function providerSet() {
        providerInitialized = true;
@@ -50,7 +47,7 @@ Rectangle {
    }
 
    Text {
-        id: usernameText
+        id: usernameText;
         text: qsTr("Username");
         color: "white";
         font.pixelSize: 24;
@@ -60,26 +57,32 @@ Rectangle {
         id: usernameLineEdit;
         x: 15;
         width: usernameText.width * 3;
-        anchors.top: usernameText.bottom;
+        anchors {
+            top: usernameText.bottom;
+        }
         focus: true;
         KeyNavigation.down: passwordLineEdit;
    }
 
    Text {
         id: passwordText
-        text: qsTr("Password")
-        color: usernameText.color
-        width: usernameText.width
-        font.pixelSize: usernameText.font.pixelSize
-        anchors.top: usernameLineEdit.bottom
+        text: qsTr("Password");
+        color: usernameText.color;
+        width: usernameText.width;
+        font.pixelSize: usernameText.font.pixelSize;
+        anchors {
+            top: usernameLineEdit.bottom;
+        }
    }
 
    LineEdit {
-        id: passwordLineEdit
-        x: usernameLineEdit.x
-        width: usernameLineEdit.width
-        anchors.top: passwordText.bottom
-        echoMode: TextInput.Password
+        id: passwordLineEdit;
+        x: usernameLineEdit.x;
+        width: usernameLineEdit.width;
+        anchors {
+            top: passwordText.bottom;
+        }
+        echoMode: TextInput.Password;
         KeyNavigation.up: usernameLineEdit;
    }
 
@@ -101,8 +104,8 @@ Rectangle {
     transitions: Transition {
         NumberAnimation {
             // properties: "x,left"
-            easing.type: Easing.InOutQuad
-            duration: 200
+            easing.type: Easing.InOutQuad;
+            duration: 200;
         }
     }
 }
