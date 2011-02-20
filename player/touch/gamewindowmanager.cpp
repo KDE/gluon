@@ -103,6 +103,17 @@ int GameWindowManager::availableGamesCount( ) const
     return m_gameItemsModel->rowCount();
 }
 
+void GameWindowManager::buildCommentsModel( int index )
+{
+    QString gameID = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::IDRole).toString();
+    if( gameID.isEmpty() )
+    {
+        return;
+    }
+
+    m_commentsModel = new GluonPlayer::CommentItemsModel( gameID );
+}
+
 void GameWindowManager::setProject( const QModelIndex& index )
 {
     m_gameFileName = index.data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();

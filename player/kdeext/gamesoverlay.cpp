@@ -88,16 +88,6 @@ void GamesOverlay::backToGames()
     delete m_gameDetailsOverlay;
     m_gameDetailsOverlay = 0;
     m_stackedWidget->setCurrentIndex(m_stackedWidget->indexOf(m_gamesView));
-    /* m_gamesOverlay->setGeometry( geometry() );
-    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-
-    if( m_gameDetailsOverlay )
-    {
-        m_gameDetailsOverlay->hide();
-        m_layout->removeWidget( m_gameDetailsOverlay );
-        m_gameDetailsOverlay->deleteLater();
-        m_gameDetailsOverlay = 0;
-    } */
 }
 
 void GamesOverlay::showGameDetails( const QModelIndex& index )

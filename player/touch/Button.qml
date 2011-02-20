@@ -68,6 +68,7 @@ Rectangle {
         text: parent.text;
         color: "white";
         font.pixelSize: parent.textfontsize;
+        wrapMode: Text.WordWrap;
         anchors {
             left: pix.right;
             leftMargin: 5;
@@ -81,6 +82,7 @@ Rectangle {
         text: parent.subtext;
         color: "white";
         font.pixelSize: parent.subtextfontsize;
+        wrapMode: Text.WordWrap;
         anchors {
             left: pix.right;
             leftMargin: 5;
