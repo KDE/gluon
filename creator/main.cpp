@@ -46,6 +46,7 @@ int main( int argc, char** argv )
     aboutData.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac compatibility" ), "" );
     aboutData.addAuthor( ki18n( "Rivo Laks" ), ki18n( "Gluon Graphics through KGLLIB" ), "" );
     aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator" ), "" );
+    aboutData.setProductName("gluon/gluoncreator");
 
 
     KCmdLineArgs::init( argc, argv, &aboutData );
