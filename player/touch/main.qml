@@ -23,8 +23,8 @@ Item {
     id: mainview
     property string statepoint: "start"
 
-    width: 1600
-    height: 900
+    width: 800
+    height: 600
 
     SystemPalette {
         id: activePalette
