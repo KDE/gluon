@@ -32,6 +32,8 @@ Rectangle {
        property string text;
        property string subtext;
        property string icon;
+       property int textfontsize: 24;
+       property int subtextfontsize: 20;
        property alias enabled: buttonMouseArea.enabled;
        property variant tabTarget: KeyNavigation.right || KeyNavigation.down;
        property variant backtabTarget: KeyNavigation.left || KeyNavigation.up;
@@ -58,13 +60,18 @@ Rectangle {
    Image {
         id: pix;
         source: parent.icon;
+        anchors {
+            left: parent.left;
+            verticalCenter: parent.verticalCenter;
+            leftMargin: 10;
+        }
    }
 
    Text {
         id: textelement;
         text: parent.text;
         color: "white";
-        font.pixelSize: parent.height * 2/5;
+        font.pixelSize: parent.textfontsize;
         anchors {
             left: pix.right;
         }
@@ -74,7 +81,7 @@ Rectangle {
         id: subtextelement;
         text: parent.subtext;
         color: "white";
-        font.pixelSize: parent.height * 2/5;
+        font.pixelSize: parent.subtextfontsize;
         anchors {
             left: pix.right;
             top: textelement.bottom;
