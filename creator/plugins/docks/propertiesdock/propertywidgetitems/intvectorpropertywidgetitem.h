@@ -22,7 +22,9 @@
 
 #include "widgets/propertywidgetitem.h"
 
-class QPushButton;
+class QSpinBox;
+class QToolButton;
+class QLabel;
 
 namespace GluonCreator
 {
@@ -40,9 +42,17 @@ namespace GluonCreator
             virtual void setEditValue(const QVariant& value);
 
         private:
+            void addItem(int valueIndex);
+            Q_SLOT void addItem();
+            Q_SLOT void removeClicked();
+            Q_SLOT void spinValueChanged(int newValue);
+            
             QWidget* listItems;
-            QPushButton* addButton;
-            QPushButton* removeButton;
+            QToolButton* addButton;
+            QLabel* countLabel;
+            
+            QMap<QToolButton*, QSpinBox*> editorItems;
+            QMap<QSpinBox*, int> values;
     };
 }
 
