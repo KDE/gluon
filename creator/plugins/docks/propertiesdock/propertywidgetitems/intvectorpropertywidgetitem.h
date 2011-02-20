@@ -46,6 +46,7 @@ namespace GluonCreator
             Q_SLOT void addItem();
             Q_SLOT void removeClicked();
             Q_SLOT void spinValueChanged(int newValue);
+            void valueHasChanged();
             
             QWidget* listItems;
             QToolButton* addButton;
@@ -53,6 +54,8 @@ namespace GluonCreator
             
             QMap<QToolButton*, QSpinBox*> editorItems;
             QMap<QSpinBox*, int> values;
+            
+            bool isList;
     };
 }
 
