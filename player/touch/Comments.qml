@@ -21,23 +21,40 @@ import QtQuick 1.0
 
 Rectangle {
     id: gluon_player;
+
     color: "black";
-
-    x: 0;
-    y: 0;
-
-    width: 490;
-    height: 720;
+    anchors.fill: parent;
 
     SystemPalette {
         id: activePalette;
     }
 
-
-    Button {
-        id: comment;
-        icon: "icons/user-group-new.png";
-        text: "gamerdude";
-        onClicked: console.log("this doesn't do anything yet...");
+    Component {
+        id: commentItemsDelegate;
+        Button {
+            id: commentItem;
+            width: ListView.view.width;
+            icon: "icons/hi32-app-gluon.png";
+            text: qsTr(author + " " + title + " " + dateTime + " " + rating);
+            subtext: qsTr(body);
+        }
     }
+
+    ListView {
+        width: 200;
+        height: 250;
+        anchors.fill: parent;
+        model: commentItemsModel;
+        delegate: commentItemsDelegate;
+        spacing: 5;
+
+        header: Button {
+            id: comment;
+            icon: "icons/user-group-new.png";
+            text: "gamerdude";
+            onClicked: console.log("this doesn't do anything yet...");
+        }
+    }
+
+
 }

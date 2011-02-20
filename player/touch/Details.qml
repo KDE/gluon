@@ -133,7 +133,10 @@ Rectangle {
             margins: 10;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            gameWindowManager.buildCommentsModel(gameIndex);
+            mainview.statepoint = "comments";
+        }
     }
 
     Button {
