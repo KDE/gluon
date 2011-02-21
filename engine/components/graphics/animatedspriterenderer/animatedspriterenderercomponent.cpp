@@ -19,70 +19,95 @@
 
 #include "animatedspriterenderercomponent.h"
 
-#include <texture.h>
-#include <game.h>
+#include <QtCore/QMimeData>
+#include <QtCore/QVariant>
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QColor>
 
 #include "graphics/item.h"
 #include "graphics/engine.h"
 #include "graphics/material.h"
 #include "graphics/mesh.h"
 #include "graphics/materialinstance.h"
+#include "graphics/texture.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
+#include "engine/game.h"
 
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
-
-REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
+REGISTER_OBJECTTYPE( GluonEngine, AnimatedSpriteRendererComponent )
 
 using namespace GluonEngine;
 
-class SpriteRendererComponent::SpriteRendererComponentPrivate
+class AnimatedSpriteRendererComponent::Private
 {
     public:
-        SpriteRendererComponentPrivate()
+        Private()
         {
             item = 0;
-            texture = 0;
             material = 0;
+
             size = QSizeF( 1.0f, 1.0f );
             color.setRgb( 255, 255, 255 );
+
+            currentAnimation = 0;
+            direction = 0;
+            frameRate = 24;
+            //textureCount = 1;
+            currentTime = 1000 / frameRate;
+
+            frameSize = QSizeF(64.f, 64.f);
+            textureSize = QSizeF(1024.f, 1024.f);
+
+            frameWidthUV = frameSize.width() / textureSize.width();
+            frameHeightUV = frameSize.height() / textureSize.height();
+
+            frameCounts << 1;
+            startFrames << 0;
         }
 
         GluonGraphics::Item* item;
-        GluonEngine::Asset* texture;
         GluonGraphics::MaterialInstance* material;
 
         QColor color;
         QSizeF size;
+
+        int currentAnimation;
+        int direction;
+        int frameRate;
+        //int textureCount;
+
+        int currentTime;
+        int currentFrame;
+        int currentMaxFrame;
+
+        QSizeF frameSize;
+        QSizeF textureSize;
+
+        float frameWidthUV;
+        float frameHeightUV;
+
+        QList<int> frameCounts;
+        QList<int> startFrames;
 };
 
-SpriteRendererComponent::SpriteRendererComponent( QObject* parent )
+AnimatedSpriteRendererComponent::AnimatedSpriteRendererComponent( QObject* parent )
     : Component( parent )
-    , d( new SpriteRendererComponentPrivate )
+    , d( new Private )
 {
 
 }
 
-SpriteRendererComponent::SpriteRendererComponent( const SpriteRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
-SpriteRendererComponent::~SpriteRendererComponent()
+AnimatedSpriteRendererComponent::~AnimatedSpriteRendererComponent()
 {
     delete d;
 }
 
-QString SpriteRendererComponent::category() const
+QString AnimatedSpriteRendererComponent::category() const
 {
     return QString( "Graphics Rendering" );
 }
 
-void SpriteRendererComponent::initialize()
+void AnimatedSpriteRendererComponent::initialize()
 {
     if( !d->item )
     {
@@ -97,21 +122,41 @@ void SpriteRendererComponent::initialize()
 
         Asset* texture = 0;
         if( d->material->property( "texture0" ).type() == QVariant::String )
-            texture = gameProject()->findChild<Asset*>( d->material->property( "texture0" ).toString() );
+        {
+            QString theName( d->material->property( "texture0" ).toString() );
+            QString theObjectName = GluonObject::nameToObjectName( theName );
+            texture = gameProject()->findChild<Asset*>( theObjectName );
+        }
         else
-            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
+            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );//
 
         if( texture )
+        {
             texture->load();
+            d->textureSize = GluonGraphics::Engine::instance()->texture(texture->data()->text())->image().size();
+            d->frameWidthUV = d->frameSize.width() / d->textureSize.width();
+            d->frameHeightUV = d->frameSize.height() / d->textureSize.height();
+        }
         d->item->setMaterialInstance( d->material );
     }
 }
 
-void SpriteRendererComponent::start()
+void AnimatedSpriteRendererComponent::start()
 {
 }
 
-void SpriteRendererComponent::draw( int timeLapse )
+void AnimatedSpriteRendererComponent::update ( int elapsedMilliseconds )
+{
+    d->currentTime -= elapsedMilliseconds;
+    if(d->currentTime <= 0)
+    {
+        d->currentFrame++;
+        if(d->currentFrame > d->currentMaxFrame)
+            d->currentFrame = d->startFrames.at(d->currentAnimation);
+    }
+}
+
+void AnimatedSpriteRendererComponent::draw( int timeLapse )
 {
     Q_UNUSED( timeLapse )
 
@@ -120,10 +165,17 @@ void SpriteRendererComponent::draw( int timeLapse )
         QMatrix4x4 transform = gameObject()->transform();
         transform.scale( d->size.width() / 2, d->size.height() / 2 );
         d->item->setTransform( transform );
+
+        QVector4D frame;
+        frame.setX(d->frameWidthUV * d->currentFrame);
+        frame.setY(d->frameHeightUV * d->direction);
+        frame.setZ(d->frameWidthUV);
+        frame.setW(d->frameHeightUV);
+        d->material->setProperty("frame", frame);
     }
 }
 
-void SpriteRendererComponent::cleanup()
+void AnimatedSpriteRendererComponent::cleanup()
 {
     if( d->item )
     {
@@ -132,23 +184,23 @@ void SpriteRendererComponent::cleanup()
     }
 }
 
-void SpriteRendererComponent::setSize( const QSizeF& size )
-{
-    d->size = size;
-}
-
-QSizeF SpriteRendererComponent::size()
+QSizeF AnimatedSpriteRendererComponent::size()
 {
     return d->size;
 }
 
+void AnimatedSpriteRendererComponent::setSize( const QSizeF& size )
+{
+    d->size = size;
+}
+
 GluonGraphics::MaterialInstance*
-SpriteRendererComponent::material()
+AnimatedSpriteRendererComponent::material()
 {
     return d->material;
 }
 
-void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
+void AnimatedSpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
     d->material = material;
 
@@ -165,11 +217,91 @@ void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* mate
     }
 }
 
-void SpriteRendererComponent::setMaterial( const QString& path )
+void AnimatedSpriteRendererComponent::setMaterial( const QString& path )
 {
     setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
 }
 
-Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent );
+int AnimatedSpriteRendererComponent::animation()
+{
+    return d->currentAnimation;
+}
 
-#include "spriterenderercomponent.moc"
+void AnimatedSpriteRendererComponent::setAnimation ( int anim )
+{
+    if(anim < 0 || anim > d->frameCounts.size())
+        return;
+
+    d->currentAnimation = anim;
+    d->currentFrame = d->startFrames.at(anim);
+    d->currentMaxFrame = d->startFrames.at(anim) + d->frameCounts.at(anim);
+}
+
+int AnimatedSpriteRendererComponent::direction()
+{
+    return d->direction;
+}
+
+void AnimatedSpriteRendererComponent::setDirection ( int direction )
+{
+    d->direction = direction;
+}
+
+QList< int > AnimatedSpriteRendererComponent::frameCounts()
+{
+    return d->frameCounts;
+}
+
+void AnimatedSpriteRendererComponent::setFrameCounts ( const QList< int >& counts )
+{
+    d->frameCounts = counts;
+    setAnimation(d->currentAnimation);
+}
+
+int AnimatedSpriteRendererComponent::frameRate()
+{
+    return d->frameRate;
+}
+
+void AnimatedSpriteRendererComponent::setFrameRate ( int frameRate )
+{
+    d->frameRate = frameRate;
+}
+
+QSizeF AnimatedSpriteRendererComponent::frameSize()
+{
+    return d->frameSize;
+}
+
+void AnimatedSpriteRendererComponent::setFrameSize ( const QSizeF& size )
+{
+    d->frameSize = size;
+    d->frameWidthUV = d->frameSize.width() / d->textureSize.width();
+    d->frameHeightUV = d->frameSize.height() / d->textureSize.height();
+}
+
+QList< int > AnimatedSpriteRendererComponent::startFrames()
+{
+    return d->startFrames;
+}
+
+void AnimatedSpriteRendererComponent::setStartFrames ( const QList< int >& starts )
+{
+    d->startFrames = starts;
+    setAnimation( d->currentAnimation );
+}
+
+#warning TODO: Add support for multiple-texture based animation.
+// int AnimatedSpriteRendererComponent::textureCount()
+// {
+//
+// }
+//
+// void AnimatedSpriteRendererComponent::setTextureCount ( int count )
+// {
+//
+// }
+
+Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::AnimatedSpriteRendererComponent );
+
+#include "animatedspriterenderercomponent.moc"

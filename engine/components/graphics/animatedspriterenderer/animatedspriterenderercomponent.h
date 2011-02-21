@@ -43,12 +43,11 @@ namespace GluonEngine
             Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
             Q_PROPERTY( int frameRate READ frameRate WRITE setFrameRate )
             Q_PROPERTY( int direction READ direction WRITE setDirection )
-            Q_PROPERTY( bool oneTexturePerDirection READ hasOneTexturePerDirection WRITE setOneTexturePerDirection )
-            Q_PROPERTY( QSizeF frameSize READ frameSize WRITE frameSize )
-            Q_PROPERTY( QVector<int> frameCounts READ frameCounts WRITE setFrameCounts )
-            Q_PROPERTY( QVector<int> startFrames READ startFrames WRITE setStartFrames )
-            Q_PROPERTY( int textureCount READ textureCount WRITE setTextureCount )
-            Q_PROPERTY( int currentAnimation READ currentAnimation WRITE setCurrentAnimation )
+            Q_PROPERTY( QSizeF frameSize READ frameSize WRITE setFrameSize )
+            Q_PROPERTY( QList<int> frameCounts READ frameCounts WRITE setFrameCounts )
+            Q_PROPERTY( QList<int> startFrames READ startFrames WRITE setStartFrames )
+            Q_PROPERTY( int animation READ animation WRITE setAnimation )
+            //Q_PROPERTY( int textureCount READ textureCount WRITE setTextureCount )
             //Q_PROPERTY( QVector<Asset*> textures READ textures WRITE setTextures )
 
         public:
@@ -58,6 +57,7 @@ namespace GluonEngine
 
             void initialize();
             void start();
+            void update ( int elapsedMilliseconds );
             void draw( int timeLapse = 0 );
             void cleanup();
 
@@ -66,10 +66,10 @@ namespace GluonEngine
             int frameRate();
             int direction();
             QSizeF frameSize();
-            QVector<int> frameCounts();
-            QVector<int> startFrames();
-            int textureCount();
-            int currentAnimation();
+            QList<int> frameCounts();
+            QList<int> startFrames();
+            int animation();
+            //int textureCount();
             //virtual QVector<Asset*> textures();
 
         public slots:
@@ -79,19 +79,19 @@ namespace GluonEngine
             void setFrameRate( int frameRate );
             void setDirection( int direction );
             void setFrameSize( const QSizeF& size );
-            void setFrameCounts( const QVector<int>& counts );
-            void setStartFrames( const QVector<int>& starts );
-            void setTextureCount( int count );
-            void setCurrentAnimation( int anim );
+            void setFrameCounts( const QList<int>& counts );
+            void setStartFrames( const QList<int>& starts );
+            void setAnimation( int anim );
+            //void setTextureCount( int count );
 
         private:
-            class SpriteRendererComponentPrivate;
-            SpriteRendererComponentPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SpriteRendererComponent )
-Q_DECLARE_METATYPE( GluonEngine::SpriteRendererComponent* )
+Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent )
+Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
