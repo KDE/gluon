@@ -34,6 +34,8 @@ REGISTER_OBJECTTYPE( GluonCore, GluonObject )
 
 using namespace GluonCore;
 
+Q_DECLARE_METATYPE(QList<int>)
+
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
 GluonObject::GluonObject( QObject* parent )
@@ -530,6 +532,22 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
         }
         value = QSizeF( w, h );
     }
+    else if( theTypeName.contains("list"))
+    {
+        QString listType = theTypeName.mid(theTypeName.indexOf('<'), theTypeName.indexOf('>'));
+        if(listType == "int")
+        {
+            QList<int> list;
+
+            QStringList splitValues = theValue.split(';');
+            foreach(const QString& val, splitValues)
+            {
+                list << val.toInt();
+            }
+
+            value = QVariant::fromValue<QList<int> >(list);
+        }
+    }
     else
     {
         // If all else fails, pass the value through verbatim
@@ -628,8 +646,24 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             }
             else
             {
-                DEBUG_TEXT( QString( "Property %1 is of an unrecognised type %2" ).arg( propertyName ).arg( theValue.typeName() ) );
-                value = theValue.toString();
+                if(theValue.canConvert<QList<int> >())
+                {
+                    QList<int> list = theValue.value<QList<int> >();
+                    if(list.size() == 0)
+                        break;
+
+                    value.append(QString("list<int>(%1").arg(list.at(0)));
+                    for(int i = 1; i < list.length(); ++i)
+                    {
+                        value.append(QString(";%1").arg(list.at(i)));
+                    }
+                    value.append(")");
+                }
+                else
+                {
+                    DEBUG_TEXT( QString( "Property %1 is of an unrecognised type %2" ).arg( propertyName ).arg( theValue.typeName() ) );
+                    value = theValue.toString();
+                }
             }
             break;
     }
