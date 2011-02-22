@@ -17,12 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "intvectorpropertywidgetitem.h"
+#include "stringlistpropertywidgetitem.h"
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
+#include <QtGui/QLineEdit>
 #include <QtGui/QToolButton>
 
 #include <KIcon>
@@ -30,12 +30,13 @@
 
 using namespace GluonCreator;
 
-REGISTER_PROPERTYWIDGETITEM( GluonCreator, IntVectorPropertyWidgetItem )
+REGISTER_PROPERTYWIDGETITEM( GluonCreator, StringListPropertyWidgetItem )
 
-Q_DECLARE_METATYPE( QVector<int> )
-Q_DECLARE_METATYPE( QList<int> )
+Q_DECLARE_METATYPE( QVector<QString> )
+Q_DECLARE_METATYPE( QList<QString> )
+Q_DECLARE_METATYPE( QStringList )
 
-IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
+StringListPropertyWidgetItem::StringListPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
     QWidget* centralWidget = new QWidget(this);
@@ -63,42 +64,43 @@ IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::W
     setEditWidget(centralWidget);
 }
 
-IntVectorPropertyWidgetItem::~IntVectorPropertyWidgetItem()
+StringListPropertyWidgetItem::~StringListPropertyWidgetItem()
 {
 }
 
 
-QStringList IntVectorPropertyWidgetItem::supportedDataTypes() const
+QStringList StringListPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append( "QVector<int>" );
-    supportedTypes.append( "QList<int>" );
+    supportedTypes.append( "QVector<QString>" );
+    supportedTypes.append( "QList<QString>" );
+    supportedTypes.append( "QStringList" );
     return supportedTypes;
 }
 
-GluonCreator::PropertyWidgetItem* IntVectorPropertyWidgetItem::instantiate()
+GluonCreator::PropertyWidgetItem* StringListPropertyWidgetItem::instantiate()
 {
-    return new IntVectorPropertyWidgetItem();
+    return new StringListPropertyWidgetItem();
 }
 
-void IntVectorPropertyWidgetItem::spinValueChanged(int newValue)
+void StringListPropertyWidgetItem::leValueChanged(QString newValue)
 {
-    QSpinBox* from = qobject_cast< QSpinBox* >( sender() );
+    QLineEdit* from = qobject_cast< QLineEdit* >( sender() );
     if(from)
     {
-        intValues[from] = newValue;
+        stringValues.insert( from, newValue );
         valueHasChanged();
     }
 }
 
 
-void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
+void StringListPropertyWidgetItem::setEditValue(const QVariant& value)
 {
     QGridLayout* layout = qobject_cast<QGridLayout*>( editWidget()->layout() );
     
     // Clear out any old data...
-    intEditorItems.clear();
-    intValues.clear();
+    textEditorItems.clear();
+    stringValues.clear();
     layout->removeItem( layout->itemAt( layout->indexOf( listItems ) ) );
     listItems->deleteLater();
     
@@ -112,12 +114,15 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
     layout->addWidget( listItems, 1, 0, 1, 2 );
     
     // Rebuild list from this
-    QList<int> items;
-    isList = value.canConvert< QList<int> >();
+    QList<QString> items;
+    isList = value.canConvert< QList<QString> >();
+    isStringList = value.canConvert<QStringList>();
     if( isList )
-        items = value.value< QList<int> >();
+        items = value.value< QList<QString> >();
+    else if( isStringList )
+        items = value.toStringList();
     else
-        items = value.value< QVector<int> >().toList();
+        items = value.value< QVector<QString> >().toList();
     if(items.count() > 0)
     {
         for(int i = 0; i < items.count(); ++i)
@@ -127,13 +132,13 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
     }
 }
 
-void IntVectorPropertyWidgetItem::addItem()
+void StringListPropertyWidgetItem::addItem()
 {
-    addItem(0);
+    addItem(QString());
     valueHasChanged();
 }
 
-void IntVectorPropertyWidgetItem::addItem(int value)
+void StringListPropertyWidgetItem::addItem(QString value)
 {
     QWidget* container = new QWidget(listItems);
     container->setContentsMargins( 0, 0, 0, 0 );
@@ -146,43 +151,45 @@ void IntVectorPropertyWidgetItem::addItem(int value)
     connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
     containerLayout->addWidget( removeButton );
     
-    QSpinBox* editorSpin = new QSpinBox(listItems);
-    editorSpin->setValue(value);
-    connect( editorSpin, SIGNAL(valueChanged(int)), SLOT(spinValueChanged(int)));
-    containerLayout->addWidget( editorSpin );
+    QLineEdit* editorLE = new QLineEdit(listItems);
+    editorLE->setText(value);
+    connect( editorLE, SIGNAL(valueChanged(int)), SLOT(leValueHasChanged(QString)));
+    containerLayout->addWidget( editorLE );
     
     listItems->layout()->addWidget(container);
-    intEditorItems.insert(removeButton, editorSpin);
-    intValues.insert(editorSpin, value);
-    itemOrder.append(editorSpin);
-    countLabel->setText( i18n( "Item count: %1" ).arg( intValues.count() ) );
+    textEditorItems.insert(removeButton, editorLE);
+    stringValues.insert(editorLE, value);
+    itemOrder.append(editorLE);
+    countLabel->setText( i18n( "Item count: %1" ).arg( stringValues.count() ) );
 }
 
-void IntVectorPropertyWidgetItem::removeClicked()
+void StringListPropertyWidgetItem::removeClicked()
 {
     QToolButton* from = qobject_cast<QToolButton*>(sender());
     if(from)
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
-        QSpinBox* editSpin = intEditorItems[from];
-        intEditorItems.remove(from);
-        intValues.remove(editSpin);
-        itemOrder.removeOne(editSpin);
+        QLineEdit* editorLE = textEditorItems[from];
+        textEditorItems.remove(from);
+        stringValues.remove(editorLE);
+        itemOrder.append(editorLE);
         countLabel->setText( i18n( "Item count: %1" ).arg(0) );
         valueHasChanged();
     }
 }
 
-void IntVectorPropertyWidgetItem::valueHasChanged()
+void StringListPropertyWidgetItem::valueHasChanged()
 {
-    QList<int> theValues;
-    foreach( QSpinBox* item, itemOrder)
+    QList<QString> theValues;
+    foreach( QLineEdit* item, itemOrder)
     {
-        theValues.append( intValues[item] );
+        theValues.append( stringValues[item] );
     }
     if(isList)
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( theValues ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<QString> >( theValues ) );
+    if(isStringList)
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QStringList >( theValues ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( theValues ) ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<QString> >( QVector<QString>::fromList( theValues ) ) );
 }

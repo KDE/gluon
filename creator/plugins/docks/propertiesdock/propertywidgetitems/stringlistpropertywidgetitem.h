@@ -17,23 +17,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
-#define GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
+#ifndef GLUONCREATOR_STRINGLISTRPROPERTYWIDGETITEM_H
+#define GLUONCREATOR_STRINGLISTRPROPERTYWIDGETITEM_H
 
 #include "widgets/propertywidgetitem.h"
 
-class QSpinBox;
+class QLineEdit;
 class QToolButton;
 class QLabel;
 
 namespace GluonCreator
 {
-    class IntVectorPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
+    class StringListPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
     {
         Q_OBJECT
         public:
-            explicit IntVectorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            virtual ~IntVectorPropertyWidgetItem();
+            explicit StringListPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+            virtual ~StringListPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
@@ -42,22 +42,23 @@ namespace GluonCreator
             virtual void setEditValue(const QVariant& value);
 
         private:
-            void addItem(int value);
+            void addItem(QString value);
             Q_SLOT void addItem();
             Q_SLOT void removeClicked();
-            Q_SLOT void spinValueChanged(int newValue);
+            Q_SLOT void leValueChanged(QString newValue);
             void valueHasChanged();
             
             QWidget* listItems;
             QToolButton* addButton;
             QLabel* countLabel;
             
-            QMap<QToolButton*, QSpinBox*> intEditorItems;
-            QMap<QSpinBox*, int> intValues;
-            QList<QSpinBox*> itemOrder;
+            QMap<QToolButton*, QLineEdit*> textEditorItems;
+            QMap<QLineEdit*, QString> stringValues;
+            QList<QLineEdit*> itemOrder;
             
+            bool isStringList;
             bool isList;
     };
 }
 
-#endif // GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
+#endif // GLUONCREATOR_STRINGLISTRPROPERTYWIDGETITEM_H
