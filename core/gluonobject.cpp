@@ -420,7 +420,7 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     QVariant value;
 
     // propertyValue format is type(value)
-    QRegExp rx( "((\\w*\\:*\\**)+)\\((.+)\\)" );
+    QRegExp rx( "(([a-zA-Z0-9:<>*]*)+)\\((.+)\\)" );
     rx.indexIn( propertyValue );
 
     QString theTypeName = rx.cap( 1 );
@@ -535,7 +535,8 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     else if( theTypeName.contains("list"))
     {
         QString listType = theTypeName.mid(theTypeName.indexOf('<'), theTypeName.indexOf('>'));
-        if(listType == "int")
+        qDebug() << listType;
+        if(listType == "<int>")
         {
             QList<int> list;
 
