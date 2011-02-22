@@ -113,11 +113,11 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
     
     // Rebuild list from this
     QList<int> items;
-    isList = value.canConvert< QVector<int> >();
+    isList = value.canConvert< QList<int> >();
     if( isList )
-        items = value.value< QVector<int> >().toList();
-    else
         items = value.value< QList<int> >();
+    else
+        items = value.value< QVector<int> >().toList();
     if(items.count() > 0)
     {
         for(int i = 0; i < items.count(); ++i)
@@ -130,6 +130,7 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
 void IntVectorPropertyWidgetItem::addItem()
 {
     addItem(0);
+    valueHasChanged();
 }
 
 void IntVectorPropertyWidgetItem::addItem(int value)
@@ -152,8 +153,8 @@ void IntVectorPropertyWidgetItem::addItem(int value)
     listItems->layout()->addWidget(container);
     intEditorItems.insert(removeButton, editorSpin);
     intValues.insert(editorSpin, value);
+    itemOrder.append(editorSpin);
     countLabel->setText( i18n( "Item count: %1" ).arg( intValues.count() ) );
-    valueHasChanged();
 }
 
 void IntVectorPropertyWidgetItem::removeClicked()
@@ -166,6 +167,7 @@ void IntVectorPropertyWidgetItem::removeClicked()
         QSpinBox* editSpin = intEditorItems[from];
         intEditorItems.remove(from);
         intValues.remove(editSpin);
+        itemOrder.removeOne(editSpin);
         countLabel->setText( i18n( "Item count: %1" ).arg(0) );
         valueHasChanged();
     }
@@ -173,8 +175,13 @@ void IntVectorPropertyWidgetItem::removeClicked()
 
 void IntVectorPropertyWidgetItem::valueHasChanged()
 {
+    QList<int> theValues;
+    foreach( QSpinBox* item, itemOrder)
+    {
+        theValues.append( intValues[item] );
+    }
     if(isList)
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( intValues.values() ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( theValues ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( intValues.values() ) ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( theValues ) ) );
 }

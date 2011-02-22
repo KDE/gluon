@@ -54,6 +54,7 @@ namespace GluonCreator
             
             QMap<QToolButton*, QLineEdit*> textEditorItems;
             QMap<QLineEdit*, QString> stringValues;
+            QList<QLineEdit*> itemOrder;
             
             bool isStringList;
             bool isList;

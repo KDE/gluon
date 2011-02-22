@@ -115,14 +115,14 @@ void StringListPropertyWidgetItem::setEditValue(const QVariant& value)
     
     // Rebuild list from this
     QList<QString> items;
-    isList = value.canConvert< QVector<QString> >();
+    isList = value.canConvert< QList<QString> >();
     isStringList = value.canConvert<QStringList>();
     if( isList )
-        items = value.value< QVector<QString> >().toList();
+        items = value.value< QList<QString> >();
     else if( isStringList )
         items = value.toStringList();
     else
-        items = value.value< QList<QString> >();
+        items = value.value< QVector<QString> >().toList();
     if(items.count() > 0)
     {
         for(int i = 0; i < items.count(); ++i)
@@ -135,6 +135,7 @@ void StringListPropertyWidgetItem::setEditValue(const QVariant& value)
 void StringListPropertyWidgetItem::addItem()
 {
     addItem(QString());
+    valueHasChanged();
 }
 
 void StringListPropertyWidgetItem::addItem(QString value)
@@ -157,8 +158,8 @@ void StringListPropertyWidgetItem::addItem(QString value)
     listItems->layout()->addWidget(container);
     textEditorItems.insert(removeButton, editorLE);
     stringValues.insert(editorLE, value);
+    itemOrder.append(editorLE);
     countLabel->setText( i18n( "Item count: %1" ).arg( stringValues.count() ) );
-    valueHasChanged();
 }
 
 void StringListPropertyWidgetItem::removeClicked()
@@ -168,9 +169,10 @@ void StringListPropertyWidgetItem::removeClicked()
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
-        QLineEdit* editSpin = textEditorItems[from];
+        QLineEdit* editorLE = textEditorItems[from];
         textEditorItems.remove(from);
-        stringValues.remove(editSpin);
+        stringValues.remove(editorLE);
+        itemOrder.append(editorLE);
         countLabel->setText( i18n( "Item count: %1" ).arg(0) );
         valueHasChanged();
     }
@@ -178,10 +180,15 @@ void StringListPropertyWidgetItem::removeClicked()
 
 void StringListPropertyWidgetItem::valueHasChanged()
 {
+    QList<QString> theValues;
+    foreach( QLineEdit* item, itemOrder)
+    {
+        theValues.append( stringValues[item] );
+    }
     if(isList)
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<QString> >( stringValues.values() ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<QString> >( theValues ) );
     if(isStringList)
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QStringList >( stringValues.values() ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QStringList >( theValues ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<QString> >( QVector<QString>::fromList( stringValues.values() ) ) );
+        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<QString> >( QVector<QString>::fromList( theValues ) ) );
 }

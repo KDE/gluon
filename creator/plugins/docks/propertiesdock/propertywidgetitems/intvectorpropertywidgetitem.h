@@ -54,6 +54,7 @@ namespace GluonCreator
             
             QMap<QToolButton*, QSpinBox*> intEditorItems;
             QMap<QSpinBox*, int> intValues;
+            QList<QSpinBox*> itemOrder;
             
             bool isList;
     };
