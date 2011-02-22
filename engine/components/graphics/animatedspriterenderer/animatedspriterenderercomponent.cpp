@@ -51,9 +51,10 @@ class AnimatedSpriteRendererComponent::Private
 
             currentAnimation = 0;
             direction = 0;
-            frameRate = 24;
+            frameRate = 25;
             //textureCount = 1;
             currentTime = 1000 / frameRate;
+            currentFrame = 0.0;
 
             frameSize = QSizeF(64.f, 64.f);
             textureSize = QSizeF(1024.f, 1024.f);
@@ -77,7 +78,7 @@ class AnimatedSpriteRendererComponent::Private
         //int textureCount;
 
         int currentTime;
-        int currentFrame;
+        float currentFrame;
         int currentMaxFrame;
 
         QSizeF frameSize;
@@ -147,13 +148,9 @@ void AnimatedSpriteRendererComponent::start()
 
 void AnimatedSpriteRendererComponent::update ( int elapsedMilliseconds )
 {
-    d->currentTime -= elapsedMilliseconds;
-    if(d->currentTime <= 0)
-    {
-        d->currentFrame++;
-        if(d->currentFrame > d->currentMaxFrame)
-            d->currentFrame = d->startFrames.at(d->currentAnimation);
-    }
+    d->currentFrame += d->frameRate / (1000.f / elapsedMilliseconds);
+    if(d->currentFrame > d->currentMaxFrame)
+        d->currentFrame = d->startFrames.at(d->currentAnimation);
 }
 
 void AnimatedSpriteRendererComponent::draw( int timeLapse )
@@ -167,7 +164,7 @@ void AnimatedSpriteRendererComponent::draw( int timeLapse )
         d->item->setTransform( transform );
 
         QVector4D frame;
-        frame.setX(d->frameWidthUV * d->currentFrame);
+        frame.setX(d->frameWidthUV * int(d->currentFrame));
         frame.setY(d->frameHeightUV * d->direction);
         frame.setZ(d->frameWidthUV);
         frame.setW(d->frameHeightUV);
@@ -229,7 +226,7 @@ int AnimatedSpriteRendererComponent::animation()
 
 void AnimatedSpriteRendererComponent::setAnimation ( int anim )
 {
-    if(anim < 0 || anim > d->frameCounts.size())
+    if(anim < 0 || anim > d->frameCounts.size() - 1)
         return;
 
     d->currentAnimation = anim;
