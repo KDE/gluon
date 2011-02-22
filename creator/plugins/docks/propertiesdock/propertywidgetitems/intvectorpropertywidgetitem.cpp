@@ -139,6 +139,7 @@ void IntVectorPropertyWidgetItem::addItem(int value)
     container->setContentsMargins( 0, 0, 0, 0 );
     QHBoxLayout* containerLayout = new QHBoxLayout(container);
     containerLayout->setMargin(0);
+    containerLayout->setSpacing(0);
     
     QToolButton* removeButton = new QToolButton(listItems);
     removeButton->setIcon( KIcon("list-remove") );
