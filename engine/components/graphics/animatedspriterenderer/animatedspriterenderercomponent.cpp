@@ -168,7 +168,8 @@ void AnimatedSpriteRendererComponent::draw( int timeLapse )
         frame.setY(d->frameHeightUV * d->direction);
         frame.setZ(d->frameWidthUV);
         frame.setW(d->frameHeightUV);
-        d->material->setProperty("frame", frame);
+        if(d->material)
+            d->material->setProperty("frame", frame);
     }
 }
 
