@@ -1,2 +1,2 @@
 add_subdirectory(gluonviewerpart)
-add_subdirectory(codeeditorpart)
+#add_subdirectory(codeeditorpart)
