@@ -11,7 +11,7 @@
         { GluonGraphics::MaterialInstance(New Instance)
             materialColor rgba(255;255;255;255)
             texture0 string(goblin_lumberjack_green.png)
-            frame vector4d(0;0;0.0263158;0.125)
+            frame vector4d(0.315789;0;0.0263158;0.125)
         }
     }
     { GluonEngine::TextureAsset(goblin_lumberjack_green.png)
@@ -21,7 +21,7 @@
         file url(Assets/Apocalypse_Material_1.gml)
         { GluonGraphics::MaterialInstance(Main)
             materialColor rgba(255;255;255;255)
-            texture0 uint(124)
+            texture0 uint(7)
         }
     }
     { GluonEngine::TextureAsset(zombie.jpg)
