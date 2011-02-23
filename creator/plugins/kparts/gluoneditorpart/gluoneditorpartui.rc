@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="gluoneditorpart" version="1" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+     http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
+
+    <MenuBar>
+        <Menu name="view" noMerge="1"><text>&amp;Edit</tex>
+            <Action name="toggleSolidAction" group="renderingActions" />
+            <Action name="toggleWireframeAction" group="renderingActions" />
+            <Action name="togglePointsAction" group="renderingActions" />
+
+            <Action name="selectAction" group="selectManipulatorActions" />
+            <Action name="translateAction" group="transformManipulatorActions" />
+            <Action name="scaleAction" group="transformManipulatorActions" />
+            <Action name="rotateAction" group="transformManipulatorActions" />
+        </Menu>
+    </MenuBar>
+
+    <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
+        <Action name="toggleSolidAction" group="renderingActions" />
+        <Action name="toggleWireframeAction" group="renderingActions" />
+        <Action name="togglePointsAction" group="renderingActions" />
+    </ToolBar>
+</gui>

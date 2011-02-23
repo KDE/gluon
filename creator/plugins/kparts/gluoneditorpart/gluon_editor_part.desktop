@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Gluon Project Editor Component
+Name[x-test]=xxGluon Project Editor Componentxx
+MimeType=text/x-gluon-project;
+x-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
+X-KDE-Library=gluon_editor_part
+Type=Service
