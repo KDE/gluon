@@ -10,10 +10,10 @@
             <Action name="toggleWireframeAction" group="renderingActions" />
             <Action name="togglePointsAction" group="renderingActions" />
 
-            <Action name="selectAction" group="transformManipulatorActions" />
-            <Action name="translateAction" group="transformManipulatorActions" />
-            <Action name="rotateAction" group="transformManipulatorActions" />
-            <Action name="scaleAction" group="transformManipulatorActions" />
+            <Action name="toggleSelectAction" group="transformManipulatorActions" />
+            <Action name="toggleTranslateAction" group="transformManipulatorActions" />
+            <Action name="toggleRotateAction" group="transformManipulatorActions" />
+            <Action name="toggleScaleAction" group="transformManipulatorActions" />
         </Menu>
     </MenuBar>
 
