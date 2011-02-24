@@ -1,7 +1,5 @@
-/*
-*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
@@ -19,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef GLUONVIEWERPART_H
-#define GLUONVIEWERPART_H
+#ifndef GLUONEDITORPART_H
+#define GLUONEDITORPART_H
 
 #include <KDE/KParts/ReadWritePart>
 
@@ -49,6 +47,10 @@ namespace GluonCreator
             void setWireframe();
             void setPoints();
 
+			void setSelect();
+			void setTranslate();
+			void setRotate();
+			void setScale();
             void newViewport( Viewport* viewport );
             void redraw();
 
@@ -61,4 +63,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONVIEWERPART_H
+#endif // GLUONEDITORPART_H

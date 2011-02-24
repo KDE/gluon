@@ -19,14 +19,14 @@
 
 #include "gluoneditorpart.h"
 
-#include <graphics/renderwidget.h>
-#include <graphics/viewport.h>
-#include <graphics/engine.h>
+#include "graphics/renderwidget.h"
+#include "graphics/viewport.h"
+#include "graphics/engine.h"
 
-#include <engine/gameproject.h>
-#include <engine/game.h>
+#include "engine/gameproject.h"
+#include "engine/game.h"
 
-#include <input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <kdemacros.h>
 #include <kparts/genericfactory.h>
@@ -80,21 +80,45 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     KAction* solid = new KAction( KIcon( "draw-polyline" ), i18n( "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
-    connect( solid, SIGNAL( triggered( bool ) ), this, SLOT( setSolid() ) );
+    connect( solid, SIGNAL( triggered( bool ) ), SLOT( setSolid() ) );
     group->addAction( solid );
     actionCollection()->addAction( "toggleSolidAction", solid );
 
     KAction* wire = new KAction( KIcon( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
     wire->setCheckable( true );
-    connect( wire, SIGNAL( triggered( bool ) ), this, SLOT( setWireframe() ) );
+    connect( wire, SIGNAL( triggered( bool ) ), SLOT( setWireframe() ) );
     group->addAction( wire );
     actionCollection()->addAction( "toggleWireframeAction", wire );
 
     KAction* points = new KAction( KIcon( "edit-node" ), i18n( "Points" ), actionCollection() );
     points->setCheckable( true );
-    connect( points, SIGNAL( triggered( bool ) ), this, SLOT( setPoints() ) );
+    connect( points, SIGNAL( triggered( bool ) ), SLOT( setPoints() ) );
     group->addAction( points );
     actionCollection()->addAction( "togglePointsAction", points );
+
+    KAction* select = new KAction( KIcon( "edit-select" ), i18n( "Select" ), actionCollection() );
+    select->setCheckable( true );
+    connect( select, SIGNAL( triggered( bool ) ), SLOT( setSelect() ) );
+    group->addAction( select );
+    actionCollection()->addAction( "toggleSelectAction", select );
+
+    KAction* translate = new KAction( KIcon( "transform-move" ), i18n( "Translate" ), actionCollection() );
+    translate->setCheckable( true );
+    connect( translate, SIGNAL( triggered( bool ) ), SLOT( setTranslate() ) );
+    group->addAction( translate );
+    actionCollection()->addAction( "togglePointsAction", points );
+
+    KAction* rotate = new KAction( KIcon( "transform-rotate" ), i18n( "Rotate" ), actionCollection() );
+    rotate->setCheckable( true );
+    connect( rotate, SIGNAL( triggered( bool ) ), SLOT( setRotate() ) );
+    group->addAction( rotate );
+    actionCollection()->addAction( "toggleRotateAction", rotate );
+
+    KAction* scale = new KAction( KIcon( "transform-scale" ), i18n( "Scale" ), actionCollection() );
+    scale->setCheckable( true );
+    connect( scale, SIGNAL( triggered( bool ) ), SLOT( setScale() ) );
+    group->addAction( scale );
+    actionCollection()->addAction( "toggleScaleAction", points );
 
     setXMLFile( "gluoneditorpartui.rc" );
 }
@@ -142,6 +166,22 @@ void GluonEditorPart::setWireframe()
 void GluonEditorPart::setPoints()
 {
     glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
+}
+
+void GluonEditorPart::setSelect()
+{
+}
+
+void GluonEditorPart::setTranslate()
+{
+}
+
+void GluonEditorPart::setRotate()
+{
+}
+
+void GluonEditorPart::setScale()
+{
 }
 
 void GluonEditorPart::newViewport( Viewport* viewport )
