@@ -21,24 +21,24 @@
 
 #include "gluonviewerpart.h"
 
-#include <graphics/renderwidget.h>
-#include <graphics/viewport.h>
-#include <graphics/engine.h>
+#include "graphics/renderwidget.h"
+#include "graphics/viewport.h"
+#include "graphics/engine.h"
 
-#include <engine/gameproject.h>
-#include <engine/game.h>
+#include "engine/gameproject.h"
+#include "engine/game.h"
 
-#include <input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <kdemacros.h>
 #include <kparts/genericfactory.h>
 #include <KDE/KUrl>
-#include <KActionCollection>
-#include <KAction>
+#include <KDE/KActionCollection>
+#include <KDE/KAction>
 
 #include <QtGui/QWidget>
 #include <QtCore/QThread>
-#include <QTimer>
+#include <QtCore/QTimer>
 
 using namespace GluonCreator;
 using namespace GluonGraphics;
@@ -52,12 +52,10 @@ class GluonViewerPart::GluonViewerPartPrivate
         bool autoplay;
 };
 
-GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* parent, const QVariantList& args )
+GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QObject* parent, const QVariantList& args )
     : ReadOnlyPart( parent ),
       d( new GluonViewerPartPrivate )
 {
-    Q_UNUSED( parentWidget )
-
     KComponentData data( "gluonviewerpart", "gluoncreator" );
     setComponentData( data );
 
@@ -66,7 +64,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* 
     setWidget( d->widget );
 
     connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
-             this, SLOT( newViewport( Viewport* ) ) );
+             SLOT( newViewport( Viewport* ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
 
     newViewport( GluonGraphics::Engine::instance()->currentViewport() );
@@ -84,19 +82,19 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* parentWidget, QObject* 
     KAction* solid = new KAction( KIcon( "draw-polyline" ), i18n( "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
-    connect( solid, SIGNAL( triggered( bool ) ), this, SLOT( setSolid() ) );
+    connect( solid, SIGNAL( triggered( bool ) ), SLOT( setSolid() ) );
     group->addAction( solid );
     actionCollection()->addAction( "toggleSolidAction", solid );
 
     KAction* wire = new KAction( KIcon( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
     wire->setCheckable( true );
-    connect( wire, SIGNAL( triggered( bool ) ), this, SLOT( setWireframe() ) );
+    connect( wire, SIGNAL( triggered( bool ) ), SLOT( setWireframe() ) );
     group->addAction( wire );
     actionCollection()->addAction( "toggleWireframeAction", wire );
 
     KAction* points = new KAction( KIcon( "edit-node" ), i18n( "Points" ), actionCollection() );
     points->setCheckable( true );
-    connect( points, SIGNAL( triggered( bool ) ), this, SLOT( setPoints() ) );
+    connect( points, SIGNAL( triggered( bool ) ), SLOT( setPoints() ) );
     group->addAction( points );
     actionCollection()->addAction( "togglePointsAction", points );
 
