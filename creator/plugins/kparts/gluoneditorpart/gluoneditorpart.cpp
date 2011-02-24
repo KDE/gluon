@@ -106,7 +106,7 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     translate->setCheckable( true );
     connect( translate, SIGNAL( triggered( bool ) ), SLOT( setTranslate() ) );
     group->addAction( translate );
-    actionCollection()->addAction( "togglePointsAction", points );
+    actionCollection()->addAction( "toggleTranslateAction", translate );
 
     KAction* rotate = new KAction( KIcon( "transform-rotate" ), i18n( "Rotate" ), actionCollection() );
     rotate->setCheckable( true );
@@ -118,7 +118,7 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     scale->setCheckable( true );
     connect( scale, SIGNAL( triggered( bool ) ), SLOT( setScale() ) );
     group->addAction( scale );
-    actionCollection()->addAction( "toggleScaleAction", points );
+    actionCollection()->addAction( "toggleScaleAction", scale );
 
     setXMLFile( "gluoneditorpartui.rc" );
 }
