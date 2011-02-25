@@ -30,12 +30,9 @@
 #include <KDE/KService>
 #include <KDE/KToolBar>
 #include <KDE/KActionCollection>
-#include <KDE/KServiceTypeTrader>
 
 #include <QtGui/QActionGroup>
-#include <QtGui/QMouseEvent>
 #include <QtGui/QApplication>
-#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -45,7 +42,6 @@ class FileManager::FileManagerPrivate
 {
     public:
         KParts::PartManager* partManager;
-
         QHash<QString, KParts::ReadOnlyPart*> parts;
 };
 
@@ -120,7 +116,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     if( part )
     {
-        //Add the part if it is found
+        // Add the part if it is found
         KUrl url( fileName );
         part->openUrl( url );
         d->parts.insert( fullName, part );
@@ -130,10 +126,10 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         return;
     }
 
-    //Nope, there really is no part that can be used.
-    //So instead, just open it in an external application.
-    KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
-    Q_UNUSED( runner )
+    // There really is no part that can be used.
+    // Instead, just open it in an external application.
+    KRun* runner;
+    runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
 
 }
 
