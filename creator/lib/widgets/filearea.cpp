@@ -66,17 +66,17 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
     d->tabBar->setExpanding( false );
     d->tabBar->setSelectionBehaviorOnRemove( QTabBar::SelectPreviousTab );
 
-    connect( d->tabBar, SIGNAL( tabCloseRequested( int ) ), this, SLOT( removeTab( int ) ) );
-    connect( d->tabBar, SIGNAL( currentChanged( int ) ), this, SLOT( setActiveTab( int ) ) );
-    connect( d->tabBar, SIGNAL( tabMoved( int, int ) ), this, SLOT( tabMoved( int, int ) ) );
+    connect( d->tabBar, SIGNAL( tabCloseRequested( int ) ), SLOT( removeTab( int ) ) );
+    connect( d->tabBar, SIGNAL( currentChanged( int ) ), SLOT( setActiveTab( int ) ) );
+    connect( d->tabBar, SIGNAL( tabMoved( int, int ) ), SLOT( tabMoved( int, int ) ) );
 
     d->toolBar = new KToolBar( "mainToolBar", this );
     d->layout->addWidget( d->toolBar );
 
     setLayout( d->layout );
 
-    connect( FileManager::instance(), SIGNAL( newPart( QString, QString ) ), this, SLOT( addTab( QString, QString ) ) );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), this, SLOT( activePartChanged( KParts::Part* ) ) );
+    connect( FileManager::instance(), SIGNAL( newPart( QString, QString ) ), SLOT( addTab( QString, QString ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( activePartChanged( KParts::Part* ) ) );
 }
 
 FileArea::~FileArea()
@@ -119,8 +119,11 @@ void FileArea::removeTab( int index )
 
 void FileArea::setActiveTab( int index )
 {
-    QString name = d->tabs.key( index );
+    setActiveTab( d->tabs.key( index ) );
+}
 
+void FileArea::setActiveTab( const QString& name )
+{
     KParts::Part* part = FileManager::instance()->part( name );
     if( !part )
         return;

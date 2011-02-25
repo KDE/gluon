@@ -37,6 +37,7 @@ namespace GluonCreator
             void addTab( const QString& name, const QString& title );
             void removeTab( const QString& name );
             void removeTab( int index );
+            void setActiveTab( const QString& name );
             void setActiveTab( int index );
 
         private Q_SLOTS:
