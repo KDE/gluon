@@ -43,7 +43,6 @@ namespace GluonCreator
             Q_OBJECT
         public:
             KParts::PartManager* partManager() const;
-
             KParts::Part* part( const QString& partName ) const;
 
         public Q_SLOTS:

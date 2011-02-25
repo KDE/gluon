@@ -33,6 +33,7 @@
 
 #include <QtGui/QActionGroup>
 #include <QtGui/QApplication>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -146,7 +147,8 @@ void FileManager::closeFile( const QString& file )
 
 void FileManager::setCurrentFile( const QString& file )
 {
-    d->partManager->setActivePart( d->parts.value( file ) );
+    if( d->parts.contains( file ) )
+        d->partManager->setActivePart( d->parts.value( file ) );
 }
 
 FileManager::FileManager()

@@ -128,6 +128,7 @@ void FileArea::setActiveTab( const QString& name )
     if( !part )
         return;
 
+    d->tabBar->setCurrentIndex( d->tabs.value( name ) );
     FileManager::instance()->setCurrentFile( name );
 }
 
