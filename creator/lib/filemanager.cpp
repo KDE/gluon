@@ -139,12 +139,12 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
 void FileManager::closeFile( const QString& file )
 {
-    if( d->parts.contains( file ) )
+    KParts::Part* part;
+    if( ( part = d->parts.value( file , 0 ) ) )
     {
-        KParts::Part* part = d->parts.value( file );
         d->partManager->removePart( part );
-        delete part;
         d->parts.remove( file );
+        delete part;
     }
 }
 
