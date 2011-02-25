@@ -5,7 +5,7 @@
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 
     <MenuBar>
-        <Menu name="view" noMerge="1"><text>&amp;Edit</tex>
+        <Menu name="view" noMerge="1"><text>&amp;Edit</text>
             <Action name="toggleSolidAction" group="renderingActions" />
             <Action name="toggleWireframeAction" group="renderingActions" />
             <Action name="togglePointsAction" group="renderingActions" />
