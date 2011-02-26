@@ -47,16 +47,17 @@ Rectangle {
         delegate: gameItemsDelegate;
         spacing: 5;
 
-        header: Button {
-            id: moreGames
-            icon: "icons/get-hot-new-stuff.png";
-            text: qsTr("Get More Games");
-            subtext: "5 new games, 16 updated";
-            anchors {
-                left: parent.left;
-                top: parent.top;
-                bottomMargin: 5;
+        header:
+            Rectangle {
+                color: homePage.color;
+                width: ListView.view.width;
+                height: moreGames.height + 5;
+                Button {
+                    id: moreGames;
+                    icon: "icons/get-hot-new-stuff.png";
+                    text: qsTr("Get More Games");
+                    subtext: "5 new games, 16 updated";
+                }
             }
-        }
     }
 }
