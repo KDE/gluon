@@ -120,6 +120,12 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     group->addAction( scale );
     actionCollection()->addAction( "toggleScaleAction", scale );
 
+    KAction* snap = new KAction( KIcon( "snap-orto" ), i18n( "Snap" ), actionCollection() );
+    snap->setCheckable( true );
+    connect( snap, SIGNAL( triggered( bool ) ), SLOT( setSnap() ) );
+    group->addAction( snap );
+    actionCollection()->addAction( "toggleSnapAction", snap );
+
     setXMLFile( "gluoneditorpartui.rc" );
 }
 
@@ -181,6 +187,10 @@ void GluonEditorPart::setRotate()
 }
 
 void GluonEditorPart::setScale()
+{
+}
+
+void GluonEditorPart::setSnap()
 {
 }
 

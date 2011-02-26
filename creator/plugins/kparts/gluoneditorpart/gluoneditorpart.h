@@ -51,6 +51,8 @@ namespace GluonCreator
 			void setTranslate();
 			void setRotate();
 			void setScale();
+            void setSnap();
+
             void newViewport( Viewport* viewport );
             void redraw();
 
