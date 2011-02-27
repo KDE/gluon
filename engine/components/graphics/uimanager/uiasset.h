@@ -29,7 +29,7 @@ class QDeclarativeEngine;
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT UiAsset : public Asset
+    class GLUON_COMPONENT_UIMANAGER_EXPORT UiAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )

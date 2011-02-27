@@ -27,7 +27,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluon_component_uimanager GluonEngine GluonGraphics GluonInput)
 endif()
 
-set_target_properties(gluon_component_uimanager PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING})
+set_target_properties(gluon_component_uimanager PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING}  DEFINE_SYMBOL MAKE_GLUON_COMPONENT_UIMANAGER_LIB)
 target_link_libraries(gluon_component_uimanager GluonEngine ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
 install(

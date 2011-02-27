@@ -31,7 +31,7 @@ namespace GluonEngine
     class Asset;
     class UiAsset;
 
-    class GLUON_ENGINE_EXPORT UiManagerComponent : public Component
+    class GLUON_COMPONENT_UIMANAGER_EXPORT UiManagerComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::UiManagerComponent )
