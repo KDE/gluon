@@ -27,7 +27,6 @@
 #include <cfloat>
 #include <QVector3D>
 #include <core/gluonvarianttypes.h>
-#include <audio/alure/include/main.h>
 #include <QVector2D>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, VectorPropertyWidgetItem )

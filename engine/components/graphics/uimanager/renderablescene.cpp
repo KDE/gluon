@@ -19,6 +19,9 @@
 
 #include "renderablescene.h"
 
+#ifdef Q_OS_WIN
+# include "GL/glee.h"
+#endif
 #include <QGLFramebufferObject>
 
 #include <graphics/engine.h>
