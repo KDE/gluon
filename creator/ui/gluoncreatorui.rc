@@ -41,6 +41,9 @@
 
         <Menu name="tools">
             <text>&amp;Tools</text>
+            <Menu name="versionControlSystem">
+                <text>&amp;Version Control System</text>
+            </Menu>
             <DefineGroup name="tools_operations" append="tools_operations" />
         </Menu>
 
