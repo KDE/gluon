@@ -71,6 +71,11 @@ if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR)
         set(BUILD_GLUON_CREATOR OFF)
         set(KDE_FAILED TRUE)
     endif(NOT KDE4_FOUND)
+
+    find_package(KDevPlatform 1.0.2)
+    if(NOT KDevPlatform_FOUND)
+        set(BUILD_GLUON_CREATOR OFF)
+    endif(NOT KDevPlatform_FOUND)
 endif(BUILD_PLASMOID OR BUILD_GLUON_CREATOR)
 
 ###### Gluon Creator ######
