@@ -42,6 +42,11 @@ DetectMac::~DetectMac()
     //CFRelease(d->devices);
 }
 
+bool DetectMac::isReadable()
+{
+    return false;
+}
+
 void DetectMac::detectDevices()
 {
     if( d->deviceManager == 0 )
@@ -143,36 +148,28 @@ void DetectMac::addInput( InputDevice* i )
     d->m_inputList.append( i );
 }
 
-void DetectMac::addKeyboard( InputDevice* i )
+void DetectMac::addKeyboard( Keyboard* keybd )
 {
-    Keyboard* keybd = qobject_cast<Keyboard*>( i );
-    //keybd->setEnabled();
     d->m_keyboardList.append( keybd );
-    d->m_inputList.append( i );
+    d->m_inputList.append( keybd );
 }
 
-void DetectMac::addMouse( InputDevice* i )
+void DetectMac::addMouse( Mouse* mouse )
 {
-    Mouse* mouse = qobject_cast<Mouse*>( i );
-    //mouse->setEnabled();
-    d->m_mouseList.append( mouse );
-    d->m_inputList.append( i );
+    d->mouseList.append( mouse );
+    d->m_inputList.append( mouse );
 }
 
-void DetectMac::addJoystick( InputDevice* i )
+void DetectMac::addJoystick( Joystick* joystick )
 {
-    Joystick* joy = qobject_cast<Joystick*>( i );
-    //joy->setEnabled();
-    d->m_joystickList.append( joy );
-    d->m_inputList.append( i );
+    d->joystickList.append( joystick );
+    d->m_inputList.append( joystick );
 }
 
-void DetectMac::addTouch( InputDevice* i )
+void DetectMac::addTouch( Touch* touch )
 {
-    Touch* touch = qobject_cast<Touch*>( i );
-    // touch->setEnabled();
-    d->m_touchList.append( touch );
-    d->m_inputList.append( i );
+    d->touchList.append( touch );
+    d->m_inputList.append( touch );
 }
 
 void DetectMac::addUnknown( InputDevice* i )
