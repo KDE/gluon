@@ -59,10 +59,10 @@ namespace GluonInput
             QList<InputDevice*> unknownDeviceList();
 
             void addInput( InputDevice* i );
-            void addKeyboard( InputDevice* i );
-            void addMouse( InputDevice* i );
-            void addJoystick( InputDevice* i );
-            void addTouch( InputDevice* i );
+            void addKeyboard( Keyboard* i );
+            void addMouse( Mouse* i );
+            void addJoystick( Joystick* i );
+            void addTouch( Touch* i );
             void addUnknown( InputDevice* i );
             void clear();
 
@@ -70,7 +70,8 @@ namespace GluonInput
             static void createDevices( const void* value, void* context );
             CFMutableDictionaryRef createMatchingDictionary( UInt32 pUsagePage, UInt32 pUsage );
 
-            QSharedDataPointer<DetectMacPrivate> d;
+            class DetectMacPrivate;
+            DetectMacPrivate* const d;
     };
 }
 #endif
