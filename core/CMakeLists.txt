@@ -69,7 +69,7 @@ set(GluonCore_HEADERS
     scriptengine.h
     gluon_core_export.h
 	gluonvarianttypes.h
-	
+
 	${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
 
@@ -98,17 +98,17 @@ if(APPLE)
 	list(APPEND GluonCore_HEADERS
 		${GluonCore_HEADERS}
 	)
-	
+
 	set_target_properties(GluonCore PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
 	set_target_properties(GluonCore PROPERTIES PUBLIC_HEADER "${GluonCore_HEADERS}")
-	
+
 	set(MACOSX_FRAMEWORK_IDENTIFIER core)
 	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-install(TARGETS GluonCore RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonCore RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR} FRAMEWORK DESTINATION ${LIB_INSTALL_DIR})
 
 install(
     FILES
