@@ -53,7 +53,7 @@ namespace GluonInput
             void run();
             void stop();
 
-            int vendora() const;
+            int vendor() const;
             int product() const;
             int version() const;
             int bustype() const;
