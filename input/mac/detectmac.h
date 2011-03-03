@@ -47,9 +47,9 @@ namespace GluonInput
             DetectMac( QObject* parent );
             ~DetectMac();
 
+            bool isReadable();
             void detectDevices();
             void setAllEnabled( bool enable );
-
 
             QList<InputDevice*> inputList();
             QList<Keyboard*> keyboardList();

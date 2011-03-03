@@ -42,6 +42,11 @@ DetectMac::~DetectMac()
     //CFRelease(d->devices);
 }
 
+bool DetectMac::isReadable()
+{
+    return false;
+}
+
 void DetectMac::detectDevices()
 {
     if( d->deviceManager == 0 )
