@@ -37,8 +37,6 @@
 
 namespace GluonInput
 {
-    class DetectMacPrivate;
-
     class GLUON_INPUT_EXPORT DetectMac : public Detect
     {
             Q_OBJECT
@@ -70,8 +68,8 @@ namespace GluonInput
             static void createDevices( const void* value, void* context );
             CFMutableDictionaryRef createMatchingDictionary( UInt32 pUsagePage, UInt32 pUsage );
 
-            class DetectMacPrivate;
-            DetectMacPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 #endif

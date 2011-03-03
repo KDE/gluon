@@ -22,7 +22,6 @@
 #include "gluon_input_export.h"
 #include "gluondevices.h"
 #include "inputthread.h"
-#include "detectmacprivate.h"
 
 #include <QtCore/QDebug>
 #include <IOKit/IOKitLib.h>
@@ -30,9 +29,43 @@
 
 using namespace GluonInput;
 
+class DetectMac::Private
+{
+    public:
+        Private()
+        {
+            deviceManager = 0;
+            devices = 0;
+        }
+
+        Private( Private& other )
+            : m_inputList( other.m_inputList )
+            , m_keyboardList( other.m_keyboardList )
+            , m_mouseList( other.m_mouseList )
+            , m_joystickList( other.m_joystickList )
+            , m_touchList( other.m_touchList )
+            , m_unknownList( other.m_unknownList )
+            , deviceManager( other.deviceManager )
+            , devices( other.devices )
+        {
+        }
+
+        ~Private() {}
+
+        QList<InputDevice*> m_inputList;
+        QList<Keyboard*> m_keyboardList;
+        QList<Mouse*> m_mouseList;
+        QList<Joystick*> m_joystickList;
+        QList<Touch*> m_touchList;
+        QList<InputDevice*> m_unknownList;
+        IOHIDManagerRef deviceManager;
+        CFSetRef devices;
+};
+
+
 DetectMac::DetectMac( QObject* parent )
     : Detect( parent )
-    , d( new DetectMacPrivate() )
+    , d( new Private() )
 {
 }
 
@@ -156,19 +189,19 @@ void DetectMac::addKeyboard( Keyboard* keybd )
 
 void DetectMac::addMouse( Mouse* mouse )
 {
-    d->mouseList.append( mouse );
+    d->m_mouseList.append( mouse );
     d->m_inputList.append( mouse );
 }
 
 void DetectMac::addJoystick( Joystick* joystick )
 {
-    d->joystickList.append( joystick );
+    d->m_joystickList.append( joystick );
     d->m_inputList.append( joystick );
 }
 
 void DetectMac::addTouch( Touch* touch )
 {
-    d->touchList.append( touch );
+    d->m_touchList.append( touch );
     d->m_inputList.append( touch );
 }
 
@@ -269,22 +302,22 @@ void DetectMac::createDevices( const void* value, void* context )
             usagePage = 0;
         }
 
-        InputDevice* inputDevice;
+        InputDevice* inputDevice = 0;
         if( usagePage == kHIDPage_GenericDesktop )
         {
             switch( usage )
             {
                 case GluonInput::KeyboardDevice:
                     inputDevice = new Keyboard( new InputThread( device ) );
-                    detect->addKeyboard( inputDevice );
+                    detect->addKeyboard( static_cast<Keyboard*>(inputDevice) );
                     break;
                 case GluonInput::MouseDevice:
                     inputDevice = new Mouse( new InputThread( device ) );
-                    detect->addMouse( inputDevice );
+                    detect->addMouse( static_cast<Mouse*>(inputDevice) );
                     break;
                 case GluonInput::JoystickDevice:
                     inputDevice = new Joystick( new InputThread( device ) );
-                    detect->addJoystick( inputDevice );
+                    detect->addJoystick( static_cast<Joystick*>(inputDevice) );
                     break;
                 default:
                     inputDevice = new InputDevice( new InputThread( device ) );
@@ -300,7 +333,7 @@ void DetectMac::createDevices( const void* value, void* context )
                       break;*/
                 case GluonInput::TouchDevice:
                     inputDevice = new Touch( new InputThread( device ) );
-                    detect->addTouch( inputDevice );
+                    detect->addTouch( static_cast<Touch*>(inputDevice) );
                     break;
                 default:
                     inputDevice = new InputDevice( new InputThread( device ) );

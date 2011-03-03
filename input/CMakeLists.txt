@@ -7,6 +7,7 @@ endif()
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    w
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUON_CORE_INCLUDES}
 )
@@ -70,7 +71,6 @@ set(GluonInput_SRCS_MAC
 	mac/inputthread.cpp
 	mac/inputthreadprivate.cpp
     mac/detectmac.cpp
-	mac/detectmacprivate.cpp
 	mac/gluonbuttons.cpp
 )
 
@@ -189,7 +189,8 @@ if(GLUON_BUILD_ALL)
 endif()
 
 if(NOT WIN32)
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
+# target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
+target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
 else(NOT WIN32)
 target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
 endif(NOT WIN32)
