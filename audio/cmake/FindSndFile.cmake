@@ -13,11 +13,6 @@
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
-if (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
-  # in cache already
-  set(SNDFILE_FOUND TRUE)
-else (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
-
   find_path(SNDFILE_INCLUDE_DIR
     NAMES
       sndfile.h
@@ -52,5 +47,3 @@ else (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
 
   # show the SNDFILE_INCLUDE_DIRS and SNDFILE_LIBRARIES variables only in the advanced view
   mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
-
-endif (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)

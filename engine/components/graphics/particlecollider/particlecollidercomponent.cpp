@@ -125,6 +125,10 @@ void ParticleColliderComponent::start()
 {
 }
 
+void ParticleColliderComponent::update( int elapsedMilliseconds )
+{
+}
+
 void ParticleColliderComponent::draw( int /* timeLapse */ )
 {
     if( d->item )
