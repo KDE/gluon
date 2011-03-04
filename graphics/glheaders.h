@@ -24,6 +24,9 @@
 #ifdef Q_OS_WIN32
 #include <windows.h>
 #include <GL/glee.h>
+#elif defined(Q_WS_MAC)
+#include <OpenGL/gl.h>
+#include <OpenGL/glext.h>
 #else
 #ifdef GLUON_GRAPHICS_GLES
 typedef char GLchar;
