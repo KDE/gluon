@@ -50,13 +50,20 @@ if(APPLE)
 	set_target_properties(gluon_qtplayer PROPERTIES OUTPUT_NAME GluonPlayer)
 
 else()
-    set(APP_ICON "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
+    set(APP_ICON
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/16x16/apps/gluon-player.png"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/24x24/apps/gluon-player.png"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/32x32/apps/gluon-player.png"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/48x48/apps/gluon-player.png"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/64x64/apps/gluon-player.png"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../icons/128x128/apps/gluon-player.png"
+    )
 	add_executable(gluon_qtplayer ${qtplayer_SRCS})
 endif()
 target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
     install(TARGETS gluon_qtplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
-    install( FILES ${APP_ICON} DESTINATION share/icons )
+    install(FILES ${APP_ICON} gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(FILES ${APP_ICON} DESTINATION share/icons)
 endif()
