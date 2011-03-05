@@ -26,7 +26,7 @@ set(GLUON_BUILD_ALL TRUE
 
 if(NOT MSVC)
 SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
-SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
+SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2 -Wno-psabi")
 SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
 
 # Build Release by default
