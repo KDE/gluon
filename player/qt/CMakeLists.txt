@@ -47,11 +47,10 @@ if(APPLE)
 		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/qtscript/$(CONFIGURATION)/libgluon_component_qtscript.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
 		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/spherecollision/$(CONFIGURATION)/libgluon_component_spherecollision.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
 	)
-
 	set_target_properties(gluon_qtplayer PROPERTIES OUTPUT_NAME GluonPlayer)
 
 else()
-	kde4_add_app_icon(qtplayer_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
+    set(APP_ICON "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
 	add_executable(gluon_qtplayer ${qtplayer_SRCS})
 endif()
 target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
@@ -59,4 +58,5 @@ target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS}
 if(NOT APPLE)
     install(TARGETS gluon_qtplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
     install(FILES gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install( FILES ${APP_ICON} DESTINATION share/icons )
 endif()
