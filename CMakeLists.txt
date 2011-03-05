@@ -129,6 +129,7 @@ endif(KDE_FAILED OR ATTICA_FAILED OR PLAYER_FAILED)
 if(KDE_FAILED)
     message(STATUS)
     message(STATUS "Gluon Creator and/or Plasmoid was/were disabled because KDE could not be found.")
+    message(STATUS "Gluon KDE simple and extended players were disabled because KDE could not be found.")
     message(STATUS)
 endif(KDE_FAILED)
 
