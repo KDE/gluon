@@ -83,7 +83,7 @@ around the nasty const_cast .
 
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-#ifndef GLUON_GRAPHICS_GLES
+#if !defined(GLUON_GRAPHICS_GLES) && !defined(QT_OPENGL_ES)
     glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
 #endif
 
