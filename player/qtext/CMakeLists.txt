@@ -68,7 +68,6 @@ if(APPLE)
 	set_target_properties(gluon_qtextplayer PROPERTIES OUTPUT_NAME GluonPlayer)
 
 else()
-	kde4_add_app_icon(qtextplayer_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
 	add_executable(gluon_qtextplayer ${qtextplayer_SRCS})
 endif()
 target_link_libraries(gluon_qtextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
@@ -76,4 +75,10 @@ target_link_libraries(gluon_qtextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LI
 if(NOT APPLE)
     install(TARGETS gluon_qtextplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
     install(FILES gluon_qtextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+
+    if(NOT PLAYER_ICONS_INSTALLED)
+        add_subdirectory(../icons icons)
+        set(PLAYER_ICONS_INSTALLED TRUE)
+    endif()
+
 endif()
