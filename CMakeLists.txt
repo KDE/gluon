@@ -37,6 +37,28 @@ endif(NOT MSVC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
+set(OPENGL_REAL_LIBS "")
+set(OPENGL_REAL_INCLUDE_DIR "")
+find_package(OpenGL)
+if(NOT OPENGL_FOUND)
+    #try looking for GLES
+    find_package(OpenGLES2)
+    if(OPENGLES_FOUND)
+        set(OPENGL_REAL_INCLUDE_DIR ${OPENGLES_INCLUDE_DIR})
+        set(OPENGL_REAL_LIBS ${OPENGLES_LIBRARIES})
+        add_definitions(-DGLUON_GRAPHICS_GLES)
+        message(STATUS "Found OpenGLES2 graphics: ${OPENGL_REAL_INCLUDE_DIR}")
+    endif(OPENGLES_FOUND)
+else(NOT OPENGL_FOUND)
+    set(OPENGL_REAL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR})
+    set(OPENGL_REAL_LIBS ${OPENGL_gl_LIBRARY})
+    message(STATUS "Found OpenGL: ${OPENGL_REAL_INCLUDE_DIR}")
+endif(NOT OPENGL_FOUND)
+
+if(OPENGL_REAL_LIBS STREQUAL "" OR OPENGL_INCLUDE_DIR STREQUAL "")
+    message(FATAL_ERROR "Could NOT find OpenGL!")
+endif()
+
 ##### Gluon Libraries #####
 
 ####### Gluon Core ########
