@@ -64,6 +64,6 @@ target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS}
 
 if(NOT APPLE)
     install(TARGETS gluon_qtplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES ${APP_ICON} gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(FILES gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
     install(FILES ${APP_ICON} DESTINATION share/icons)
 endif()
