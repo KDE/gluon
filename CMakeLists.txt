@@ -182,7 +182,7 @@ else()
         audio/cmake/FindOggVorbis.cmake
         audio/cmake/FindSndFile.cmake
         graphics/cmake/FindGluonGraphics.cmake
-        graphics/cmake/FindOpenGLES2.cmake
+        cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
         creator/lib/cmake/FindGluonCreator.cmake
