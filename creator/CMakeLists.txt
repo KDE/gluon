@@ -1,20 +1,35 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonCreator)
     find_package(KDE4 REQUIRED)
+    find_package(KDevPlatform REQUIRED)
     find_package(GluonCore REQUIRED)
     find_package(GluonInput REQUIRED)
     find_package(GluonEngine REQUIRED)
     find_package(GluonGraphics REQUIRED)
 endif()
 
+find_package(KDevPlatform 1.0.2)
+if(KDevPlatform_FOUND)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${KDE4_INCLUDES}
+    ${KDEVPLATFORM_INCLUDE_DIR}
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES}
+)
+else(KDevPlatform_FOUND)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${KDE4_INCLUDES}
     ${GLUON_CORE_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES})
+    ${GLUON_ENGINE_INCLUDES}
+)
+endif(KDevPlatform_FOUND)
+
 
 #include(KDE4Defaults)
 
