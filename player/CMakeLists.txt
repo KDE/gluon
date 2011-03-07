@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonPlayer)
-    option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
     option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
     find_package(GluonCore REQUIRED)
     find_package(GluonInput REQUIRED)
@@ -68,6 +67,12 @@ if(LIBATTICA_FOUND)
         CACHE PATHS "Libraries required for Gluon Player"
     )
 
+   if(QT_QTDECLARATIVE_FOUND)
+       add_subdirectory(touch)
+   else(QT_QTDECLARATIVE_FOUND)
+       message(WARNING "Qt installation lacks Qt Declarative - disabling touch based player")
+   endif(QT_QTDECLARATIVE_FOUND)
+
     if(WITH_KDE)
         find_package(KDE4)
         if(KDE4_FOUND)
@@ -79,12 +84,7 @@ if(LIBATTICA_FOUND)
 
     if(BUILD_PLASMOID)
         include_directories(${KDE4_INCLUDES})
-        add_subdirectory(plasmoid)
-        if(QT_QTDECLARATIVE_FOUND)
-            add_subdirectory(touch)
-        else(QT_QTDECLARATIVE_FOUND)
-            message(WARNING "Qt installation lacks Qt Declarative - disabling touch based player")
-        endif(QT_QTDECLARATIVE_FOUND)
+       add_subdirectory(plasmoid)
     endif(BUILD_PLASMOID)
 else(LIBATTICA_FOUND)
     target_link_libraries(
