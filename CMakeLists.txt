@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 project(Gluon)
 
 #Project options, to provide a selective build process
@@ -10,7 +10,7 @@ option(BUILD_GLUON_INPUT "Build Gluon Input Library" ON)
 option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" ON)
 option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
-option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
+option(BUILD_PLASMOID "Build Gluon Player Plasmoid" OFF)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
@@ -82,11 +82,7 @@ if(BUILD_GLUON_ENGINE)
 endif()
 
 ######## KDE Parts ########
-if(WITH_KDE)
-    set(BUILD_PLASMOID ON)
-    set(BUILD_GLUON_CREATOR ON)
-endif(WITH_KDE)
-if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR)
+if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
     find_package(KDE4)
     if(NOT KDE4_FOUND)
         set(BUILD_PLASMOID OFF)
@@ -98,7 +94,7 @@ if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR)
     if(NOT KDevPlatform_FOUND)
         set(BUILD_GLUON_CREATOR OFF)
     endif(NOT KDevPlatform_FOUND)
-endif(BUILD_PLASMOID OR BUILD_GLUON_CREATOR)
+endif(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
 
 ###### Gluon Creator ######
 if(BUILD_GLUON_CREATOR)
@@ -111,7 +107,6 @@ if(BUILD_GLUON_PLAYER)
     add_subdirectory(player)
 else(BUILD_GLUON_PLAYER)
     set(INSTALL_EXAMPLES OFF)
-    set(BUILD_PLASMOID OFF)
 endif(BUILD_GLUON_PLAYER)
 
 message(STATUS)
@@ -193,14 +188,19 @@ else()
 endif()
 
 #Packaging options
-set(CPACK_SET_DESTDIR ON)
-set(CPACK_GENERATOR "DEB;TGZ")
-set(CPACK_PACKAGE_NAME "Gluon")
-set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
-set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
-set(CPACK_PACKAGE_CONTACT "Arjen Hiemstra <ahiemstra@heimr.nl>")
+#common package generation settings
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute and play games")
-set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
+set(CPACK_PACKAGE_NAME "Gluon")
+set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
+set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
+set(CPACK_GENERATOR "RPM;TGZ")
+set(CPACK_PACKAGE_CONTACT "Laszlo Papp <djszapi@archlinux.us>, Arjen Hiemstra <ahiemstra@heimr.nl>")
+
+#debian package generation
+#set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
+#set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
+
+#rpm package generation
+
 include(InstallRequiredSystemLibraries)
 include(CPack)
