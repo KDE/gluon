@@ -813,10 +813,10 @@ void InputThread::readInformation()
                                             cabs.value = abs[k];
                                             break;
                                         case 1:
-                                            cabs.min = abs[k];
+                                            cabs.minimum = abs[k];
                                             break;
                                         case 2:
-                                            cabs.max = abs[k];
+                                            cabs.maximum = abs[k];
                                             break;
                                         case 3:
                                             cabs.fuzz = abs[k];
