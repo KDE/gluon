@@ -29,16 +29,16 @@ namespace GluonInput
         public:
             explicit AbsVal( int v = 0, int m = 0, int M = 0, int f = 0, int F = 0 )
                 : value( v )
-                , min( m )
-                , max( M )
+                , minimum( m )
+                , maximum( M )
                 , flat( f )
                 , fuzz( F )
             {
             }
 
             int value;
-            int min;
-            int max;
+            int minimum;
+            int maximum;
             int flat;
             int fuzz;
     };
