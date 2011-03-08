@@ -28,7 +28,7 @@ endif(LIBATTICA_FOUND)
 if(LIBATTICA_FOUND)
     include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
                         ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                        ${ATTICA_INCLUDE_DIRS})
+                        ${LIBATTICA_INCLUDE_DIR})
 
     set(libGluonPlayer_SRCS
         lib/models/highscoresmodel.cpp
