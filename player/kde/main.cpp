@@ -19,12 +19,20 @@
 
 #include "mainwindow.h"
 
-#include <KApplication>
-#include <KAboutData>
-#include <KCmdLineArgs>
+#include <KDE/KApplication>
+#include <KDE/KAboutData>
+#include <KDE/KCmdLineArgs>
+
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
 
 int main( int argc, char** argv )
 {
+    if (argc > 1 && !QFile::exists(argv[1])) {
+        qDebug() << "File does not exist:" << argv[1];
+        return 1;
+    }
+
     KAboutData aboutData("KDEPlayer", "plasma_applet_gluonplayer",
                           ki18n("KDE Player"), GLUON_VERSION_STRING.toUtf8(),
                           ki18n((QString("KDE Frontend Player for Gluon games.\nVersion %2").arg(GLUON_VERSION_STRING)).toUtf8()),
