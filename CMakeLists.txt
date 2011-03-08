@@ -193,14 +193,15 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute a
 set(CPACK_PACKAGE_NAME "Gluon")
 set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
 set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
-set(CPACK_GENERATOR "RPM;TGZ")
+set(CPACK_GENERATOR "RPM;DEB;TGZ")
 set(CPACK_PACKAGE_CONTACT "Laszlo Papp <djszapi@archlinux.us>, Arjen Hiemstra <ahiemstra@heimr.nl>")
 
 #debian package generation
-#set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
-#set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 #rpm package generation
+set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile, libvorbis")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
