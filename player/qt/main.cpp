@@ -22,8 +22,16 @@
 
 #include <QtGui/QApplication>
 
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
+
 int main( int argc, char** argv )
 {
+    if (argc > 1 && !QFile::exists(argv[1])) {
+        qDebug() << QString("File does not exist: ") + argv[1];
+        return 1;
+    }
+
     QApplication app( argc, argv );
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon Player" );
