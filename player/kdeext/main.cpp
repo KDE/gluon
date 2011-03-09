@@ -22,6 +22,9 @@
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
+#include <KDE/KMessageBox>
+
+#include <QtCore/QFile>
 
 int main( int argc, char** argv )
 {
@@ -45,6 +48,13 @@ int main( int argc, char** argv )
     KCmdLineArgs::addCmdLineOptions(options);
 
     KApplication app;
+
+    if (argc > 1 && !QFile::exists(argv[1])) {
+        if( KMessageBox::warningContinueCancel( 0, i18n( "File does not exist: %1! Do you want to continue?" ).arg(argv[1]), i18n( "Continue?" ),
+                KStandardGuiItem::cont(), KStandardGuiItem::quit() ) == KMessageBox::Cancel)
+            return 1;
+
+    }
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
