@@ -105,10 +105,7 @@ add_subdirectory(icons)
 set(PLAYER_ICONS_INSTALLED TRUE)
 add_subdirectory(qt)
 
+
 if(INSTALL_EXAMPLES)
-    install(DIRECTORY examples/apocalypse.gluon DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-    install(DIRECTORY examples/invaders.gluon DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
-    install(DIRECTORY examples/pong.gluon DESTINATION ${SHARE_INSTALL_DIR}/gluon/games)
+    add_subdirectory(examples)
 endif(INSTALL_EXAMPLES)
-
-
