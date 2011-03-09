@@ -51,6 +51,8 @@
 #include <KDE/KRun>
 #include <KDE/KStandardDirs>
 #include <KDE/KToolBar>
+#include <KDE/KFileItemListProperties>
+#include <KDE/KFileItemActions>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -102,15 +104,13 @@ class ProjectDock::ProjectDockPrivate
         KToolBar* toolBar;
 
         QModelIndex currentContextIndex;
-        QList<QAction*> menuForObject( QModelIndex index );
+        void menuForObject( QModelIndex index, QMenu* menu );
         QList<QAction*> currentContextMenu;
         QList<GluonEngine::AssetTemplate*> assetTemplates;
 };
 
-QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index )
+void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* menu )
 {
-    QList<QAction*> menuItems;
-
     GluonCore::GluonObject* object = static_cast<GluonCore::GluonObject*>( index.internalPointer() );
     if( object )
     {
@@ -124,23 +124,38 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex in
                 GluonEngine::Asset* asset = qobject_cast< GluonEngine::Asset* >( object );
                 if( asset )
                 {
+                    if(!asset->inherits("GluonEngine::Scene"))
+                    {
+                        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(asset->absolutePath()));
+                        KFileItemListProperties properties(KFileItemList() << item );
+                        KFileItemActions* openWithActions = new KFileItemActions(menu);
+                        openWithActions->setItemListProperties(properties);
+
+                        openWithActions->addOpenWithActionsTo(menu);
+                    }
+
+                    QAction* sep = new QAction(q);
+                    sep->setSeparator(true);
+                    menu->addAction(sep);
+                    
+                    
                     QList<QAction*> actions = asset->actions();
                     foreach( QAction * action, actions )
                     {
                         connect( action, SIGNAL( triggered( bool ) ), model, SIGNAL( layoutChanged() ) );
+                        menu->addAction(action);
                     }
-                    menuItems.append( actions );
                 }
             }
             else
             {
                 action = new QAction( KIcon( "folder" ), i18n( "New Folder..." ), this->q );
                 connect( action, SIGNAL( triggered() ), q, SLOT( newSubMenuTriggered() ) );
-                menuItems.append( action );
+                menu->addAction( action );
 
                 action = new QAction( KIcon( "document-new" ), i18n( "New Scene" ), this->q );
                 connect( action, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewScene() ) );
-                menuItems.append( action );
+                menu->addAction( action );
 
                 // Run through all the templates and add an action for each...
                 foreach( const GluonEngine::AssetTemplate * item, assetTemplates )
@@ -151,7 +166,7 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex in
                     action->setProperty( "newAssetPluginname", item->pluginname );
                     action->setProperty( "newAssetFilename", item->filename );
                     connect( action, SIGNAL( triggered() ), q, SLOT( newAssetTriggered() ) );
-                    menuItems.append( action );
+                    menu->addAction( action );
                 }
             }
 
@@ -159,17 +174,14 @@ QList< QAction* > ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex in
             {
                 action = new QAction( this->q );
                 action->setSeparator( true );
-                menuItems.append( action );
+                menu->addAction( action );
 
                 action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), this->q );
                 connect( action, SIGNAL( triggered() ), q, SLOT( deleteActionTriggered() ) );
-                menuItems.append( action );
+                menu->addAction( action );
             }
         }
     }
-    currentContextMenu = QList<QAction*>( menuItems );
-
-    return menuItems;
 }
 
 
@@ -282,7 +294,7 @@ void ProjectDock::showContextMenuRequested( const QPoint& pos )
         index = d->model->index( 0, 0 );
 
     QMenu menu( static_cast<GluonCore::GluonObject*>( index.internalPointer() )->name(), this );
-    menu.addActions( d->menuForObject( index ) );
+    d->menuForObject(index, &menu);
     menu.exec( d->view->mapToGlobal( pos ) );
     connect( &menu, SIGNAL( aboutToHide() ), SLOT( contextMenuHiding() ) );
 }
@@ -290,7 +302,6 @@ void ProjectDock::showContextMenuRequested( const QPoint& pos )
 void ProjectDock::contextMenuHiding()
 {
     d->currentContextIndex = QModelIndex();
-    qDeleteAll( d->currentContextMenu );
 }
 
 void ProjectDock::deleteActionTriggered()
