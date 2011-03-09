@@ -2,7 +2,17 @@
 Encoding=UTF-8
 
 Name=VCS tool
+Name[pt]=Ferramenta de SCV
+Name[pt_BR]=Ferramenta VCS
+Name[sv]=Versionskontrollverktyg
+Name[uk]=Інструмент системи керування версіями
+Name[x-test]=xxVCS toolxx
 Comment=Provides a Version Control System plugin.
+Comment[pt]=Oferece um 'plugin' para sistemas de controlo de versões.
+Comment[pt_BR]=Oferece um plug-in para VCS (Version Control System).
+Comment[sv]=Tillhandahåller ett insticksprogram för versionskontrollsystem.
+Comment[uk]=Додаток роботи з системами керування версіями.
+Comment[x-test]=xxProvides a Version Control System plugin.xx
 Icon=gluon
 
 Type=Service
