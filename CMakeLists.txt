@@ -201,7 +201,7 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), l
 set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 #rpm package generation
-set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile, libvorbis")
+#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile, libvorbis")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
