@@ -26,7 +26,6 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
-#include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
 
 // #include <libudev.h>

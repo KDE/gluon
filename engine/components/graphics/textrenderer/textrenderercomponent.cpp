@@ -24,7 +24,6 @@
 #include <gameobject.h>
 #include <graphics/meshes/polygonmesh.h>
 
-#include <QMessageBox>
 REGISTER_OBJECTTYPE( GluonEngine, TextRendererComponent )
 
 using namespace GluonEngine;

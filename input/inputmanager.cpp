@@ -35,7 +35,6 @@
 #endif
 
 #include <QtGui/QKeyEvent>
-#include <QtGui/QMessageBox>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 

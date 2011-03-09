@@ -23,7 +23,6 @@
 
 #include "inputthread.h"
 
-#include <QtGui/QMessageBox>
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
