@@ -23,7 +23,9 @@
 
 #include "engine/scene.h"
 
-# include <QtCore/QTimer>
+#include <QtCore/QTimer>
+#include <QtCore/QDebug>
+#include <QtGui/QApplication>
 
 using namespace GluonQMLPlayer;
 
@@ -73,12 +75,12 @@ void GameWindowManager::startGame( )
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project->loadFromFile( m_gameFileName );
-
+	
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
     GluonEngine::Game::instance()->runGame();
-    // QApplication::instance()->exit();
+    QApplication::instance()->exit();
 }
 
 void GameWindowManager::pauseGame()
