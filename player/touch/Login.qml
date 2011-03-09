@@ -51,6 +51,12 @@ Rectangle {
         text: qsTr("Username");
         color: "white";
         font.pixelSize: 24;
+		anchors {
+			left: parent.left;
+			leftMargin: 5;
+			top: parent.top;
+			topMargin: 5;
+		}
    }
 
    LineEdit {
@@ -72,6 +78,8 @@ Rectangle {
         font.pixelSize: usernameText.font.pixelSize;
         anchors {
             top: usernameLineEdit.bottom;
+			left: parent.left;
+			leftMargin: 5;
         }
    }
 
