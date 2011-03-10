@@ -69,23 +69,26 @@ Rectangle {
        anchors.verticalCenter: parent.verticalCenter
        anchors {
            left: pix.right;
+           right: parent.right;
            leftMargin: 5;
        }
 
        Text {
             id: textelement;
             text: button.text;
+            width: parent.width;
             color: "white";
             font.pixelSize: button.textfontsize;
-            wrapMode: Text.WordWrap;
+            elide: Text.ElideRight;
        }
 
        Text {
             id: subtextelement;
             text: button.subtext;
+            width: parent.width;
             color: "white";
             font.pixelSize: button.subtextfontsize;
-            wrapMode: Text.WordWrap;
+            elide: Text.ElideRight;
        }
    }
 
