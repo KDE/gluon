@@ -113,7 +113,7 @@ void GameWindowManager::buildCommentsModel( int index )
         return;
     }
 
-    m_commentsModel = new GluonPlayer::CommentItemsModel( gameID );
+    m_commentItemsModel = new GluonPlayer::CommentItemsModel( gameID );
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )
@@ -170,6 +170,16 @@ GluonPlayer::GameItemsModel* GameWindowManager::gameItemsModel() const
 void GameWindowManager::setGameItemsModel(GluonPlayer::GameItemsModel* gameItemsModel)
 {
     m_gameItemsModel = gameItemsModel;
+}
+
+GluonPlayer::CommentItemsModel* GameWindowManager::commentItemsModel() const
+{
+    return m_commentItemsModel;
+}
+
+void GameWindowManager::setCommentItemsModel(GluonPlayer::CommentItemsModel* commentItemsModel)
+{
+    m_commentItemsModel = commentItemsModel;
 }
 
 #include "gamewindowmanager.moc"

@@ -54,6 +54,9 @@ namespace GluonQMLPlayer {
             GluonPlayer::GameItemsModel* gameItemsModel() const;
             void setGameItemsModel(GluonPlayer::GameItemsModel* gameItemsModel);
 
+            GluonPlayer::CommentItemsModel* commentItemsModel() const;
+            void setCommentItemsModel(GluonPlayer::CommentItemsModel* commentItemsModel);
+
         public slots:
             void startGame();
             void pauseGame();
@@ -77,7 +80,7 @@ namespace GluonQMLPlayer {
             QGraphicsView* m_view;
             GluonPlayer::GameItemsModel* m_gameItemsModel;
 
-            GluonPlayer::CommentItemsModel* m_commentsModel;
+            GluonPlayer::CommentItemsModel* m_commentItemsModel;
 
             int m_viewportWidth;
             int m_viewportHeight;
