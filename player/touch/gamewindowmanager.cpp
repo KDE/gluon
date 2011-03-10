@@ -75,7 +75,7 @@ void GameWindowManager::startGame( )
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project->loadFromFile( m_gameFileName );
-	
+
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
@@ -160,6 +160,16 @@ void GameWindowManager::updateTitle( int msec )
 void GameWindowManager::countFrames( int /* time */ )
 {
     d->frameCount++;
+}
+
+GluonPlayer::GameItemsModel* GameWindowManager::gameItemsModel() const
+{
+    return m_gameItemsModel;
+}
+
+void GameWindowManager::setGameItemsModel(GluonPlayer::GameItemsModel* gameItemsModel)
+{
+    m_gameItemsModel = gameItemsModel;
 }
 
 #include "gamewindowmanager.moc"

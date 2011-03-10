@@ -148,16 +148,16 @@ namespace GluonCore
              * To ensure the second rule, numbers are added until such time that the name becomes
              * unique (setting name would result in first attempting "name", then "name 1", then
              * "name 2" and so forth, until the name is unique).
-             * 
+             *
              * <strong>Accessing objects in scripts</strong>
-             * 
+             *
              * When accessing the object in scripts, the object name is sanitized further by
              * allowing only alphanumerical symbols and underscores, with all other parts of the
              * name removed. This means that, for example, an object in a hierarchy which looks like
              * this:
-             * 
+             *
              * Some Object/A Child Object/Some Object - with a little comment
-             * 
+             *
              * would be addressed like so:
              *
              * SomeObject.AChildObject.SomeObjectwithalittlecomment
@@ -176,7 +176,7 @@ namespace GluonCore
              * Take a name in the format accepted by the GluonObject name property, and transform
              * it into the format accepted by the objectName property. This function is useful for
              * when you wish to search the hierarchy for objects by name.
-             * 
+             *
              * @param   name    The GluonObject name you wish transformed
              * @return  The sanitized name
              * @see name
