@@ -71,6 +71,7 @@ Rectangle {
            left: pix.right;
            right: parent.right;
            leftMargin: 5;
+           rightMargin: 5;
        }
 
        Text {
