@@ -24,6 +24,7 @@ import QtQuick 1.0
  */
 
 Rectangle {
+       id: button
 
        property string text;
        property string subtext;
@@ -63,33 +64,29 @@ Rectangle {
         }
    }
 
-   Text {
-        id: textelement;
-        text: parent.text;
-        color: "white";
-        font.pixelSize: parent.textfontsize;
-        wrapMode: Text.WordWrap;
-        anchors {
-            left: pix.right;
-            leftMargin: 5;
-            verticalCenter: parent.verticalCenter;
-            verticalCenterOffset: -font.pixelSize/2;
-        }
-   }
+   Column {
+       id: textContainer
+       anchors.verticalCenter: parent.verticalCenter
+       anchors {
+           left: pix.right;
+           leftMargin: 5;
+       }
 
-   Text {
-        id: subtextelement;
-        text: parent.subtext;
-        color: "white";
-        font.pixelSize: parent.subtextfontsize;
-        wrapMode: Text.WordWrap;
-        anchors {
-            left: pix.right;
-            leftMargin: 5;
-            top: textelement.bottom;
-            verticalCenter: parent.verticalCenter;
-            verticalCenterOffset: font.pixelSize/2;
-        }
+       Text {
+            id: textelement;
+            text: button.text;
+            color: "white";
+            font.pixelSize: button.textfontsize;
+            wrapMode: Text.WordWrap;
+       }
+
+       Text {
+            id: subtextelement;
+            text: button.subtext;
+            color: "white";
+            font.pixelSize: button.subtextfontsize;
+            wrapMode: Text.WordWrap;
+       }
    }
 
    MouseArea {
@@ -114,7 +111,7 @@ Rectangle {
             }
 
              PropertyChanges {
-                target: textelement;
+                target: textContainer;
                 anchors {
                     horizontalCenterOffset: 1;
                     verticalCenterOffset: 1;
@@ -155,3 +152,4 @@ Rectangle {
         // }
     // }
 }
+
