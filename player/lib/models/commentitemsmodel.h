@@ -70,7 +70,7 @@ namespace GluonPlayer
              * @param gameId The game ID which will be used to perform the lookup in the online
              * service
              */
-            explicit CommentItemsModel( QString gameId, QObject* parent = 0 );
+            explicit CommentItemsModel( QString gameId = QString(), QObject* parent = 0 );
             virtual ~CommentItemsModel();
 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
