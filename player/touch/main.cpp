@@ -20,6 +20,7 @@
 #include "gamewindowmanager.h"
 
 #include "lib/models/gameitemsmodel.h"
+#include "lib/models/commentitemsmodel.h"
 #include "lib/authentication.h"
 
 #include "graphics/renderwidget.h"
@@ -36,6 +37,7 @@ int main( int argc, char** argv )
     app.setApplicationName( "Gluon QML Player" );
 
     GluonPlayer::GameItemsModel gameItemsModel;
+    GluonPlayer::CommentItemsModel commentItemsModel;
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
     QDeclarativeView view;
@@ -46,6 +48,7 @@ int main( int argc, char** argv )
     QDeclarativeContext *ctxt = view.rootContext();
     ctxt->setContextProperty( "authentication", auth );
     ctxt->setContextProperty( "gameItemsModel", &gameItemsModel );
+    ctxt->setContextProperty( "commentItemsModel", &commentItemsModel );
     ctxt->setContextProperty( "gameWindowManager", &gameWindowManager );
 
     view.setSource( QUrl( "qrc:/main.qml" ) );
