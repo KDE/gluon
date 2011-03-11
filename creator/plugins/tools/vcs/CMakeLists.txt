@@ -1,4 +1,6 @@
 set(vcstool_SRCS
+    vcstool.cpp
+    vcstoolplugin.cpp
     widgets/vcscommitdialog.cpp
 )
 
