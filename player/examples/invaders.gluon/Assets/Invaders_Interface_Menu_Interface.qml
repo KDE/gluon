@@ -67,7 +67,10 @@ Item {
             anchors.centerIn: parent;
             color: "#ffffff";
 
-            text: "Blah";
+            text: "<h2>Controls</h2><ul>" +
+            "<li>Left Arrow: Move Left</li>" +
+            "<li>Right Arrow: Move Right</li>" +
+            "<li>Spacebar: Shoot</li>";
         }
 
         Text {
@@ -75,7 +78,11 @@ Item {
             anchors.bottom: help.bottom;
             anchors.bottomMargin: 20;
 
-            color: "#FFFFFF";
+            SequentialAnimation on color {
+                loops: Animation.Infinite;
+                ColorAnimation { to: "#ff0000"; duration: 1000; }
+                ColorAnimation { to: "#ffffff"; duration: 1000; }
+            }
             opacity: 1.0;
             font.bold: true;
             font.pointSize: 16;
