@@ -46,7 +46,6 @@ class GameWindowManager::GameWindowManagerPrivate
 GameWindowManager::GameWindowManager(const QString& /* filename */)
     : QObject()
     , d( new GameWindowManagerPrivate )
-    , m_project( new GluonEngine::GameProject )
 {
 }
 
@@ -54,7 +53,6 @@ GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, 
                                     GluonPlayer::GameItemsModel* gameItemsModel, const QString& /* filename */ )
     : QObject()
     , d( new GameWindowManagerPrivate )
-    , m_project( new GluonEngine::GameProject )
     , m_view(view)
     , m_gameItemsModel(gameItemsModel)
 {
@@ -74,6 +72,7 @@ void GameWindowManager::startGame( )
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
+    m_project = new GluonEngine::GameProject();
     m_project->loadFromFile( m_gameFileName );
 
     GluonEngine::Game::instance()->setGameProject( m_project );
