@@ -1,16 +1,15 @@
 { GluonCore::GluonObject(Material)
-    languageVersion string(1.20)
+    
+    vertexShader string(<<<
 
-    vertexShader string(<<<#version 120
+uniform highp mat4 modelMatrix;
+uniform highp mat4 viewMatrix;
+uniform highp mat4 projectionMatrix;
 
-uniform mat4 modelMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 projectionMatrix;
+attribute highp vec3 vertex;
+attribute highp vec2 uv0;
 
-attribute vec3 vertex;
-attribute vec2 uv0;
-
-varying vec2 out_uv0;
+varying highp vec2 out_uv0;
 
 void main()
 {
@@ -19,12 +18,12 @@ void main()
 }
     <<<)
 
-    fragmentShader string(<<<#version 120
+    fragmentShader string(<<<
 
 uniform sampler2D texture0;
-uniform vec4 materialColor;
+uniform mediump vec4 materialColor;
 
-varying vec2 out_uv0;
+varying highp vec2 out_uv0;
 
 void main()
 {
