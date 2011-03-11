@@ -2,11 +2,6 @@
 Encoding=UTF-8
 
 Name=Version Control System tool
-Name[pt]=Ferramenta de SCV
-Name[pt_BR]=Ferramenta VCS
-Name[sv]=Versionskontrollverktyg
-Name[uk]=Інструмент системи керування версіями
-Name[x-test]=xxVCS toolxx
 Comment=Provides a Version Control System plugin.
 Comment[pt]=Oferece um 'plugin' para sistemas de controlo de versões.
 Comment[pt_BR]=Oferece um plug-in para VCS (Version Control System).
