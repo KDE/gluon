@@ -18,17 +18,18 @@
  */
 
 #include "toolplugin.h"
-#include "toolmanager.h"
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KActionCollection>
 #include <KDE/KStandardDirs>
 
-#include <QtGui/QDockWidget>
+#include <QtGui/QWidget>
 
 using namespace GluonCreator;
 
-ToolPlugin::ToolPlugin( QObject* parent, const QList< QVariant >& params ) : Plugin( parent, params )
+ToolPlugin::ToolPlugin( QObject* parent, const QList< QVariant >& params )
+    : Plugin( parent, params )
+    , m_tool(0)
 {
 
 }
@@ -40,21 +41,21 @@ ToolPlugin::~ToolPlugin()
 
 void ToolPlugin::load( KXmlGuiWindow* mainWindow )
 {
-    // mainWindow->insertChildClient( this );
+    mainWindow->insertChildClient( this );
 
-    // m_tool = createDock( mainWindow );
+    m_tool = createTool( mainWindow );
 
-    // actionCollection()->addAction( QString( "show%1Action" ).arg( m_tool->objectName() ), m_tool->toggleViewAction() );
+    if (!m_tool->actions().isEmpty())
+        actionCollection()->addAction( QString( "show%1Action" ).arg( m_tool->objectName() ), m_tool->actions().first() );
 
-    // QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolkplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
-    // xml += QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( m_tool->objectName() );
+    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolkplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
+    xml += QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( m_tool->objectName() );
 
-    // setXML( xml );
+    setXML( xml );
 }
 
 void ToolPlugin::unload( KXmlGuiWindow* /* mainWindow */ )
 {
-    // ToolManager::instance()->removeTool( m_tool );
-    // actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_tool->objectName() ) ) );
-    // parentClient()->removeChildClient( this );
+    actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_tool->objectName() ) ) );
+    parentClient()->removeChildClient( this );
 }

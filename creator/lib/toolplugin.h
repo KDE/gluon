@@ -23,6 +23,7 @@
 #include "plugin.h"
 
 class KXmlGuiWindow;
+class QWidget;
 
 namespace GluonCreator
 {
@@ -38,7 +39,10 @@ namespace GluonCreator
             virtual void unload( KXmlGuiWindow* mainWindow );
 
         protected:
-            virtual QDockWidget* createTool( KXmlGuiWindow* parent ) = 0;
+            virtual QWidget* createTool( KXmlGuiWindow* parent ) = 0;
+
+        private:
+            QWidget* m_tool;
 
     };
 

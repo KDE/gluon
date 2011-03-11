@@ -5,7 +5,6 @@ set(libGluonCreator_SRCS
     dockplugin.cpp
     dockmanager.cpp
     toolplugin.cpp
-    toolmanager.cpp
     pluginmanager.cpp
     objectmanager.cpp
     historymanager.cpp
