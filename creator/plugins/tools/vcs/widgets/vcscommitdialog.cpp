@@ -365,10 +365,29 @@ void VcsCommitDialog::setupUi()
 
     gridLayout->addWidget(label3, 1, 0, 1, 1);
 
-    // retranslateUi(this);
-    // QObject::connect(lastmessages, SIGNAL(activated(QString)), message, SLOT(setPlainText(QString)));
+    retranslateUi();
+    QObject::connect(lastMessages, SIGNAL(activated(QString)), currMessage, SLOT(setPlainText(QString)));
 
     QMetaObject::connectSlotsByName(this);
 }
 
+void VcsCommitDialog::retranslateUi()
+{
+    setWindowTitle(tr2i18n("Select Files to commit", 0));
+    label->setText(tr2i18n("Commit Message:", 0));
+    currMessage->setHtml(tr2i18n("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+                "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;\">Insert commit message here</p></body></html>", 0));
+    label2->setText(tr2i18n("Commit Files:", 0));
+    QTreeWidgetItem *___qtreewidgetitem = files->headerItem();
+    ___qtreewidgetitem->setText(2, tr2i18n("Files to commit", 0));
+    ___qtreewidgetitem->setText(1, tr2i18n("Status", 0));
+    files->setWindowTitle(tr2i18n("Select Files to commit", 0));
+    label4->setText(tr2i18n("Recursive:", 0));
+    recursiveCheck->setText(QString());
+    recursiveCheck->setShortcut(QString());
+    label3->setText(tr2i18n("Previous Messages:", 0));
+}
 

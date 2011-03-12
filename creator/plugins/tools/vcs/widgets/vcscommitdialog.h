@@ -84,6 +84,7 @@ namespace GluonCreator
         private:
             void executeCommit();
             void setupUi();
+            void retranslateUi();
 
             // void getDVCSfileLists(KUrl::List &resetFiles, KUrl::List &addFiles, KUrl::List &rmFiles) const;
 
