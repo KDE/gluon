@@ -48,18 +48,22 @@ void VcsTool::setupActions()
 {
     KAction* vcsToolCommit = new KAction( i18n( "Commit" ), this );
     vcsToolCommit->setObjectName( "VcsToolCommit" );
+    insertAction(0, vcsToolCommit);
     connect( vcsToolCommit, SIGNAL( triggered( bool ) ), SLOT( commit() ) );
 
     KAction* vcsToolDiff = new KAction( i18n( "Diff" ), this );
     vcsToolDiff->setObjectName( "VcsToolDiff" );
+    insertAction(0, vcsToolDiff);
     connect( vcsToolDiff, SIGNAL( triggered( bool ) ), SLOT( diff() ) );
 
     KAction* vcsToolPush = new KAction( i18n( "Push" ), this );
     vcsToolPush->setObjectName( "VcsToolPush" );
+    insertAction(0, vcsToolPush);
     connect( vcsToolPush, SIGNAL( triggered( bool ) ), SLOT( push() ) );
 
     KAction* vcsToolPull = new KAction( i18n( "Pull" ), this );
     vcsToolPull->setObjectName( "VcsToolPull" );
+    insertAction(0, vcsToolPull);
     connect( vcsToolPull, SIGNAL( triggered( bool ) ), SLOT( pull() ) );
 }
 

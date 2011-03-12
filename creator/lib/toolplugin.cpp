@@ -25,6 +25,7 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QAction>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -47,12 +48,18 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
     m_tool = createTool( mainWindow );
 
     QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
-    xml.append( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\">" );
+    xml.append( "<MenuBar><Menu name=\"tools\"><Menu name=\"versionControlSystem\">" );
+    // xml.append(<text>&amp;Tools</text>);
+    // xml.append(<text>&amp;Version Control System</text>);
+    // xml.append(<DefineGroup name="tools_operations" append="tools_operations" />);
     foreach ( QAction* action, m_tool->actions() ) {
+        qDebug() << "ACTION NAME:" << action->objectName();
         actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
-        xml.append( "<Action name=\"%1Action\" />" ).arg( action->objectName() );
+        xml.append( QString( "<Action name=\"%1Action\" />" ).arg( action->objectName() ) );
     }
     xml.append( "</Menu></Menu></MenuBar></kpartgui>" );
+
+    qDebug() << "TOOLPLUGIN:" << xml;
     setXML( xml );
 }
 

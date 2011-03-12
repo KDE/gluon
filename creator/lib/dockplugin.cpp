@@ -25,10 +25,12 @@
 #include <KDE/KStandardDirs>
 
 #include <QtGui/QDockWidget>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
-DockPlugin::DockPlugin( QObject* parent, const QList< QVariant >& params ) : Plugin( parent, params )
+DockPlugin::DockPlugin( QObject* parent, const QList< QVariant >& params )
+    : Plugin( parent, params )
 {
 
 }
@@ -50,12 +52,12 @@ void DockPlugin::load( KXmlGuiWindow* mainWindow )
     QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">" ).arg( m_dock->objectName() );
     xml += QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"docks\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( m_dock->objectName() );
 
+    qDebug() << "DOCKPLUGIN:" << xml;
     setXML( xml );
 }
 
-void DockPlugin::unload( KXmlGuiWindow* mainWindow )
+void DockPlugin::unload( KXmlGuiWindow* /* mainWindow */ )
 {
-    Q_UNUSED( mainWindow )
     DockManager::instance()->removeDock( m_dock );
     actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_dock->objectName() ) ) );
     parentClient()->removeChildClient( this );

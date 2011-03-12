@@ -274,10 +274,6 @@ void MainWindow::setupActions()
     lockLayout->setCheckable( true );
     lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
     connect( lockLayout, SIGNAL( triggered( bool ) ), DockManager::instance(), SLOT( setDocksLocked( bool ) ) );
-
-    KAction* versionControlSystem = new KAction( KIcon( "vcs-normal" ), i18n( "Version Control System" ), actionCollection() );
-    actionCollection()->addAction( "versionControlSystem", versionControlSystem );
-    connect( versionControlSystem, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( versionControlSystemSubMenu() ) );
 }
 
 void MainWindow::showPreferences()
