@@ -105,6 +105,24 @@ VcsCommitDialog::VcsCommitDialog( KDevelop::IPlugin *plugin, QWidget *parent )
     connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
 }
 
+VcsCommitDialog::VcsCommitDialog( QWidget *parent )
+    : KDialog( parent )
+    , d( new Private( this ) )
+{
+    // d->m_oldMessages = KDevelop::retrieveOldCommitMessages();
+
+    // setupUi( mainWidget() );
+    setButtons( KDialog::Ok | KDialog::Cancel );
+
+    setWindowTitle( i18n("Commit Message") );
+
+    d->files->resizeColumnToContents(0);
+    d->files->resizeColumnToContents(1);
+    d->message->selectAll();
+    connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
+    connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
+}
+
 VcsCommitDialog::~VcsCommitDialog()
 {
     // KDevelop::addOldCommitMessage(d->message->toPlainText());

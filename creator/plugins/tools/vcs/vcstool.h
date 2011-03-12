@@ -30,6 +30,14 @@ namespace GluonCreator
         public:
             explicit VcsTool( const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~VcsTool();
+
+        public slots:
+            void commit();
+            void diff();
+            void push();
+            void pull();
+
+            void setupActions();
     };
 
 }

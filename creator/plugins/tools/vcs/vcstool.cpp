@@ -19,10 +19,16 @@
 
 #include "vcstool.h"
 
+#include "widgets/vcscommitdialog.h"
+// #include "widget/vcsdiffdialog.h"
+// #include "widget/vcspushdialog.h"
+// #include "widget/vcspulldialog.h"
+
 #include <core/gluon_global.h>
 #include <engine/game.h>
 
 #include <KDE/KLocalizedString>
+#include <KDE/KAction>
 
 using namespace GluonCreator;
 
@@ -31,8 +37,49 @@ VcsTool::VcsTool( const QString& title, QWidget* parent, Qt::WindowFlags flags )
 {
     setWindowTitle( title );
     setObjectName( "VcsTool" );
+    setupActions( );
 }
 
 VcsTool::~VcsTool()
 {
+}
+
+void VcsTool::setupActions()
+{
+    KAction* vcsToolCommit = new KAction( i18n( "Commit" ), this );
+    vcsToolCommit->setObjectName( "VcsToolCommit" );
+    connect( vcsToolCommit, SIGNAL( triggered( bool ) ), SLOT( commit() ) );
+
+    KAction* vcsToolDiff = new KAction( i18n( "Diff" ), this );
+    vcsToolDiff->setObjectName( "VcsToolDiff" );
+    connect( vcsToolDiff, SIGNAL( triggered( bool ) ), SLOT( diff() ) );
+
+    KAction* vcsToolPush = new KAction( i18n( "Push" ), this );
+    vcsToolPush->setObjectName( "VcsToolPush" );
+    connect( vcsToolPush, SIGNAL( triggered( bool ) ), SLOT( push() ) );
+
+    KAction* vcsToolPull = new KAction( i18n( "Pull" ), this );
+    vcsToolPull->setObjectName( "VcsToolPull" );
+    connect( vcsToolPull, SIGNAL( triggered( bool ) ), SLOT( pull() ) );
+}
+
+void VcsTool::commit()
+{
+    VcsCommitDialog* vcsCommitDialog = new VcsCommitDialog();
+    vcsCommitDialog->show();
+}
+
+void VcsTool::diff()
+{
+
+}
+
+void VcsTool::push()
+{
+
+}
+
+void VcsTool::pull()
+{
+
 }

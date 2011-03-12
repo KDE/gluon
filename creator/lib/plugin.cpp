@@ -21,9 +21,9 @@
 
 using namespace GluonCreator;
 
-Plugin::Plugin( QObject* parent, const QList< QVariant >& params ) : QObject( parent )
+Plugin::Plugin( QObject* parent, const QList< QVariant >& /* params */ )
+    : QObject( parent )
 {
-    Q_UNUSED( params )
 }
 
 

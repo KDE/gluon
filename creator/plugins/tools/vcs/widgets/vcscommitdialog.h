@@ -41,6 +41,7 @@ namespace GluonCreator
         Q_OBJECT
         public:
             VcsCommitDialog( KDevelop::IPlugin *plugin, QWidget *parent = 0 );
+            VcsCommitDialog( QWidget *parent = 0 );
             virtual ~VcsCommitDialog();
 
             ///Sets the commit candidates, and eventually shows the dialog

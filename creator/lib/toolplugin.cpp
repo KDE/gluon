@@ -47,15 +47,17 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
     m_tool = createTool( mainWindow );
 
     QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
+    xml.append( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\">" );
     foreach ( QAction* action, m_tool->actions() ) {
         actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
-        xml.append( QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\"><Action name=\"%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( action->objectName() ) );
+        xml.append( "<Action name=\"%1Action\" />" ).arg( action->objectName() );
     }
+    xml.append( "</Menu></Menu></MenuBar></kpartgui>" );
     setXML( xml );
 }
 
 void ToolPlugin::unload( KXmlGuiWindow* /* mainWindow */ )
 {
-    actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_tool->objectName() ) ) );
+    actionCollection()->removeAction( actionCollection()->action( QString( "%1Action" ).arg( m_tool->objectName() ) ) );
     parentClient()->removeChildClient( this );
 }
