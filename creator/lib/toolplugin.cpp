@@ -24,6 +24,7 @@
 #include <KDE/KStandardDirs>
 
 #include <QtGui/QWidget>
+#include <QtGui/QAction>
 
 using namespace GluonCreator;
 
@@ -45,12 +46,11 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
 
     m_tool = createTool( mainWindow );
 
-    if (!m_tool->actions().isEmpty())
-        actionCollection()->addAction( QString( "show%1Action" ).arg( m_tool->objectName() ), m_tool->actions().first() );
-
-    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolkplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
-    xml += QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( m_tool->objectName() );
-
+    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
+    foreach ( QAction* action, m_tool->actions() ) {
+        actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
+        xml.append( QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"tools\"><Action name=\"%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( action->objectName() ) );
+    }
     setXML( xml );
 }
 
