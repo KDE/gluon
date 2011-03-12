@@ -64,6 +64,7 @@ install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LI
 install(FILES
     plugin.h
     dockplugin.h
+    toolplugin.h
     dockmanager.h
     pluginmanager.h
     historymanager.h
