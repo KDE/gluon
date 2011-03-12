@@ -27,7 +27,14 @@
 #include <KDE/KColorScheme>
 
 class KJob;
+class KSqueezedTextLabel;
+class KTextEdit;
+class KComboBox;
+
 class QStringList;
+class QGridLayout;
+class QTreeWidget;
+class QCheckBox;
 
 namespace KDevelop {
     class IBasicVersionControl;
@@ -44,6 +51,7 @@ namespace GluonCreator
             VcsCommitDialog( QWidget *parent = 0 );
             virtual ~VcsCommitDialog();
 
+        public:
             ///Sets the commit candidates, and eventually shows the dialog
             ///Should be called as last action
             void setCommitCandidatesAndShow( const KUrl &list );
@@ -75,8 +83,20 @@ namespace GluonCreator
 
         private:
             void executeCommit();
+            void setupUi();
 
             // void getDVCSfileLists(KUrl::List &resetFiles, KUrl::List &addFiles, KUrl::List &rmFiles) const;
+
+            // UI elements
+            QGridLayout *gridLayout;
+            KSqueezedTextLabel* label;
+            KSqueezedTextLabel* label2;
+            KSqueezedTextLabel* label3;
+            KSqueezedTextLabel* label4;
+            KTextEdit* currMessage;
+            KComboBox* lastMessages;
+            QTreeWidget* files;
+            QCheckBox* recursiveCheck;
 
             class Private;
             Private* const d;
