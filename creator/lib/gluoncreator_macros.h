@@ -19,8 +19,6 @@
 #ifndef GLUON_CREATOR_MACROS
 #define GLUON_CREATOR_MACROS
 
-#include <QtCore/QGlobalStatic>
-
 #include <kdemacros.h>
 #include <KDE/KPluginFactory>
 #include <KDE/KPluginLoader>
