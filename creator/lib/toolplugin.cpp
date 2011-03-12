@@ -25,7 +25,6 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QAction>
-#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -53,13 +52,11 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
     // xml.append(<text>&amp;Version Control System</text>);
     // xml.append(<DefineGroup name="tools_operations" append="tools_operations" />);
     foreach ( QAction* action, m_tool->actions() ) {
-        qDebug() << "ACTION NAME:" << action->objectName();
-        actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
         xml.append( QString( "<Action name=\"%1Action\" />" ).arg( action->objectName() ) );
+        actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
     }
     xml.append( "</Menu></Menu></MenuBar></kpartgui>" );
 
-    qDebug() << "TOOLPLUGIN:" << xml;
     setXML( xml );
 }
 
