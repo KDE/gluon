@@ -21,6 +21,7 @@
 #include "projectmodel.h"
 #include "historymanager.h"
 #include "objectmanager.h"
+#include "modeltest.h"
 
 #include "core/gluonobject.h"
 #include "core/debughelper.h"
@@ -39,7 +40,6 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
-#include "modeltest.h"
 
 using namespace GluonCreator;
 
@@ -61,7 +61,7 @@ class ProjectModel::ProjectModelPrivate
 ProjectModel::ProjectModel( QObject* parent ): QAbstractItemModel( parent ), d( new ProjectModelPrivate )
 {
     connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SIGNAL( layoutChanged() ) );
-    new ModelTest(this, this);
+    //new ModelTest(this, this);
 }
 
 ProjectModel::~ProjectModel()
@@ -460,13 +460,33 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
     DEBUG_TEXT( "Object removal begins..." );
 
+    for( int i = row; i < row + count; ++i )
+    {
+        DEBUG_TEXT( QString( "Checking child at row %1" ).arg( i ) );
+        GluonCore::GluonObject* child = parentObject->child( row );
+        GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >(child);
+        if(sceneChild == GluonEngine::Game::instance()->currentScene())
+        {
+            sceneChild->debug("You cannot delete this scene, as it is currently loaded.");
+            return false;
+        }
+        if(sceneChild == GluonEngine::Game::instance()->gameProject()->entryPoint())
+        {
+            sceneChild->debug("You cannot delete this scene, as it is the current entrypoint.");
+            return false;
+        }
+        ///TODO Ensure that the object is not referenced in some property somewhere. This will be
+        /// a very expensive operation, but it is reasonably important to ensure we don't get
+        /// segfaults and the like
+    }
+
     beginRemoveRows( parent, row, row + count - 1 );
     for( int i = row; i < row + count; ++i )
     {
         DEBUG_TEXT( QString( "Removing child at row %1" ).arg( i ) );
         GluonCore::GluonObject* child = parentObject->child( row );
         if( parentObject->removeChild( child ) )
-            delete child;
+            child->deleteLater();;
     }
     endRemoveRows();
 
