@@ -20,15 +20,15 @@
 #include "vcstool.h"
 
 #include "widgets/vcscommitdialog.h"
-// #include "widget/vcsdiffdialog.h"
-// #include "widget/vcspushdialog.h"
-// #include "widget/vcspulldialog.h"
+#include "widgets/vcslogwidget.h"
+#include "widgets/vcsdiffwidget.h"
 
 #include <core/gluon_global.h>
 #include <engine/game.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KAction>
+#include <KDE/KUrl>
 #include <KDE/KDialog>
 
 using namespace GluonCreator;
@@ -88,19 +88,34 @@ void VcsTool::commit()
 
 void VcsTool::diff()
 {
+    KDialog *dialog = new KDialog( 0 );
+    dialog->setCaption( i18n("Diff Output") );
+    dialog->setButtons( KDialog::Ok | KDialog::Cancel );
 
+    VcsDiffWidget* vcsDiffWidget = new VcsDiffWidget(0, 0);
+    dialog->setMainWidget( vcsDiffWidget );
+    dialog->show();
+    connect(dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
+    connect(dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
 }
 
 void VcsTool::log()
 {
+    KDialog *dialog = new KDialog( 0 );
+    dialog->setCaption( i18n("Log Message") );
+    dialog->setButtons( KDialog::Ok | KDialog::Cancel );
+
+    VcsLogWidget* vcsLogWidget = new VcsLogWidget(KUrl(), 0, 0);
+    dialog->setMainWidget( vcsLogWidget );
+    dialog->show();
+    connect(dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
+    connect(dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
 }
 
 void VcsTool::push()
 {
-
 }
 
 void VcsTool::pull()
 {
-
 }
