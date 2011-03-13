@@ -57,6 +57,11 @@ void VcsTool::setupActions()
     insertAction(0, vcsToolDiff);
     connect( vcsToolDiff, SIGNAL( triggered( bool ) ), SLOT( diff() ) );
 
+    KAction* vcsToolLog = new KAction( KIcon( "view-history" ), i18n( "Log" ), this );
+    vcsToolLog->setObjectName( "VcsToolLog" );
+    insertAction(0, vcsToolLog);
+    connect( vcsToolLog, SIGNAL( triggered( bool ) ), SLOT( log() ) );
+
     KAction* vcsToolPush = new KAction( KIcon( "arrow-up-double" ), i18n( "Push" ), this );
     vcsToolPush->setObjectName( "VcsToolPush" );
     insertAction(0, vcsToolPush);
@@ -84,6 +89,10 @@ void VcsTool::commit()
 void VcsTool::diff()
 {
 
+}
+
+void VcsTool::log()
+{
 }
 
 void VcsTool::push()

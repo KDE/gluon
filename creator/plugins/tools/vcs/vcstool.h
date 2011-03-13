@@ -34,6 +34,7 @@ namespace GluonCreator
         public slots:
             void commit();
             void diff();
+            void log();
             void push();
             void pull();
 

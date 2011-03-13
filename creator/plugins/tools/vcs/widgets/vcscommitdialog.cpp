@@ -105,7 +105,6 @@ VcsCommitDialog::VcsCommitDialog( QWidget *parent )
     // d->m_oldMessages = KDevelop::retrieveOldCommitMessages();
 
     setupUi( );
-    // setButtons( KDialog::Ok | KDialog::Cancel );
 
     setWindowTitle( i18n("Commit Message") );
 
@@ -214,6 +213,7 @@ void VcsCommitDialog::setCommitCandidatesAndShow( const KUrl &url )
             }
         }
     }
+
     if( files->topLevelItemCount() == 0 )
     {
         // reject();
