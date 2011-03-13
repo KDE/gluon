@@ -107,7 +107,7 @@ Rectangle {
         id: achievements_btn;
         width: parent.width / 4;
         height: parent.height * 1 / 5;
-        icon: "icons/media-playback-start.png";
+        icon: "icons/dialog-ok.png";
         text: qsTr("Achievements");
         subtext: "You have 4 of 16";
         anchors {
@@ -145,7 +145,7 @@ Rectangle {
         height: parent.height * 1 / 5;
         icon: "icons/media-playback-start.png";
         text: qsTr("Donate");
-        subtext: qsTr("€3 suggested");
+        subtext: "€3 suggested";
         anchors {
             top: achievements_btn.bottom;
             left: rate_comments_btn.right;
