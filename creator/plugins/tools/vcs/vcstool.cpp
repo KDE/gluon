@@ -29,6 +29,7 @@
 
 #include <KDE/KLocalizedString>
 #include <KDE/KAction>
+#include <KDE/KDialog>
 
 using namespace GluonCreator;
 
@@ -69,8 +70,15 @@ void VcsTool::setupActions()
 
 void VcsTool::commit()
 {
-    VcsCommitDialog* vcsCommitDialog = new VcsCommitDialog();
-    vcsCommitDialog->show();
+    KDialog *dialog = new KDialog( 0 );
+    dialog->setCaption( i18n("Commit Message") );
+    dialog->setButtons( KDialog::Ok | KDialog::Cancel );
+
+    VcsCommitDialog* vcsCommitWidget = new VcsCommitDialog();
+    dialog->setMainWidget( vcsCommitWidget );
+    dialog->show();
+    connect(dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
+    connect(dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
 }
 
 void VcsTool::diff()

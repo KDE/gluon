@@ -80,40 +80,40 @@ public:
 };
 
 VcsCommitDialog::VcsCommitDialog( KDevelop::IPlugin *plugin, QWidget *parent )
-    : KDialog( parent )
+    : QWidget( parent )
     , d( new Private( this ) )
 {
     d->plugin = plugin;
     // d->m_oldMessages = KDevelop::retrieveOldCommitMessages();
 
+    // setButtons( KDialog::Ok | KDialog::Cancel );
     setupUi( );
-    setButtons( KDialog::Ok | KDialog::Cancel );
 
     setWindowTitle( i18n("Commit Message") );
 
     files->resizeColumnToContents(0);
     files->resizeColumnToContents(1);
     currMessage->selectAll();
-    connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
-    connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
+    // connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
+    // connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
 }
 
 VcsCommitDialog::VcsCommitDialog( QWidget *parent )
-    : KDialog( parent )
+    : QWidget( parent )
     , d( new Private( this ) )
 {
     // d->m_oldMessages = KDevelop::retrieveOldCommitMessages();
 
     setupUi( );
-    setButtons( KDialog::Ok | KDialog::Cancel );
+    // setButtons( KDialog::Ok | KDialog::Cancel );
 
     setWindowTitle( i18n("Commit Message") );
 
-    // d->files->resizeColumnToContents(0);
-    // d->files->resizeColumnToContents(1);
+    files->resizeColumnToContents(0);
+    files->resizeColumnToContents(1);
     currMessage->selectAll();
-    connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
-    connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
+    // connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
+    // connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
 }
 
 VcsCommitDialog::~VcsCommitDialog()
@@ -216,7 +216,7 @@ void VcsCommitDialog::setCommitCandidatesAndShow( const KUrl &url )
     }
     if( files->topLevelItemCount() == 0 )
     {
-        reject();
+        // reject();
     }
 
     {

@@ -22,9 +22,10 @@
 
 #include "lib/gluoncreator_macros.h"
 
-#include <KDE/KDialog>
 #include <KDE/KUrl>
 #include <KDE/KColorScheme>
+
+#include <QtGui/QWidget>
 
 class KJob;
 class KSqueezedTextLabel;
@@ -43,7 +44,7 @@ namespace KDevelop {
 
 namespace GluonCreator
 {
-    class GLUONCREATOR_EXPORT VcsCommitDialog : public KDialog
+    class GLUONCREATOR_EXPORT VcsCommitDialog : public QWidget
     {
         Q_OBJECT
         public:
