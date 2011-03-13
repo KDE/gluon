@@ -36,7 +36,7 @@ using namespace GluonEngine;
 class MaterialAsset::MaterialAssetPrivate
 {
     public:
-        MaterialAssetPrivate() {}
+        MaterialAssetPrivate() : material(0) {}
         ~MaterialAssetPrivate() {}
 
         QPixmap icon;
@@ -50,8 +50,6 @@ MaterialAsset::MaterialAsset( QObject* parent )
     : Asset( parent )
     , d( new MaterialAssetPrivate )
 {
-    d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
-
     QAction* newInstance = new QAction( "New instance", this );
     connect( newInstance, SIGNAL( triggered( bool ) ), SLOT( createInstance() ) );
     d->actions.append( newInstance );
@@ -59,6 +57,11 @@ MaterialAsset::MaterialAsset( QObject* parent )
 
 MaterialAsset::~MaterialAsset()
 {
+#ifdef __GNUC__
+#warning TODO: MaterialAsset needs to clean up after itself. This needs loading process fixes though.
+#endif
+    //if(d->material)
+    //    GluonGraphics::Engine::instance()->destroyMaterial(name());
     delete d;
 }
 
@@ -83,6 +86,9 @@ void MaterialAsset::load()
 {
     if( !file().isEmpty() )
     {
+        if(!d->material)
+            d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
+
         if( d->material->load( file() ) )
         {
             d->material->build();
@@ -111,8 +117,11 @@ QList<QAction*> MaterialAsset::actions()
 
 void MaterialAsset::setName( const QString& newName )
 {
-    GluonGraphics::Engine::instance()->removeMaterial( name() );
-    GluonGraphics::Engine::instance()->addMaterial( newName, d->material );
+    if(d->material)
+    {
+        GluonGraphics::Engine::instance()->removeMaterial( name() );
+        GluonGraphics::Engine::instance()->addMaterial( newName, d->material );
+    }
     GluonEngine::Asset::setName( newName );
 }
 
@@ -125,17 +134,23 @@ void MaterialAsset::sanitize()
 {
     GluonCore::GluonObject::sanitize();
 
+    if(!d->material)
+        d->material = GluonGraphics::Engine::instance()->createMaterial(name());
+
     QObjectList allChildren = children();
     foreach( QObject * child, allChildren )
     {
         GluonGraphics::MaterialInstance* instance = qobject_cast<GluonGraphics::MaterialInstance*>( child );
-        if( instance )
+        if( instance && d->material )
             instance->setMaterial( d->material );
     }
 }
 
 void MaterialAsset::createInstance()
 {
+    if(!isLoaded())
+        return;
+
     GluonGraphics::MaterialInstance* instance = new GluonGraphics::MaterialInstance( this );
     instance->setName( "New Instance" );
     instance->setPropertiesFromMaterial();
