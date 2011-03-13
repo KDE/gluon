@@ -134,7 +134,7 @@ MainWindow::MainWindow( const QString& fileName )
 MainWindow::~MainWindow()
 {
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
-    GluonCreator::Settings::setLockLayout( actionCollection()->action( "lockLayout" )->isChecked() );
+    GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
 }
 
@@ -223,46 +223,66 @@ void MainWindow::saveProjectAs()
 
 void MainWindow::setupActions()
 {
-    KStandardAction::openNew( this, SLOT( showNewProjectDialog() ), actionCollection() );
-    KStandardAction::open( this, SLOT( showOpenProjectDialog() ), actionCollection() );
-    KStandardAction::save( this, SLOT( saveProject() ), actionCollection() );
-    KStandardAction::saveAs( this, SLOT( saveProjectAs() ), actionCollection() );
+    KAction* newProject = new KAction( KIcon("document-new"), i18n("New Project..."), actionCollection());
+    actionCollection()->addAction("project_new", newProject);
+    connect(newProject, SIGNAL(triggered(bool)), SLOT(showNewProjectDialog()));
+    newProject->setShortcut(KShortcut("Ctrl+Shift+N"));
+
+    KAction* openProject = new KAction( KIcon("document-open"), i18n("Open Project..."), actionCollection());
+    actionCollection()->addAction("project_open", openProject);
+    connect(openProject, SIGNAL(triggered(bool)), SLOT(showOpenProjectDialog()));
+    openProject->setShortcut(KShortcut("Ctrl+Shift+O"));
+
+    KAction* saveProject = new KAction( KIcon("document-save"), i18n("Save Project"), actionCollection());
+    actionCollection()->addAction("project_save", saveProject);
+    connect(saveProject, SIGNAL(triggered(bool)), SLOT(saveProject()));
+    saveProject->setShortcut(KShortcut("Ctrl+Shift+S"));
+
+    KAction* saveProjectAs = new KAction( KIcon("document-save-as"), i18n("Save Project As..."), actionCollection());
+    actionCollection()->addAction("project_save_as", saveProjectAs);
+    connect(saveProjectAs, SIGNAL(triggered(bool)), SLOT(saveProjectAs()));
+
     KStandardAction::quit( this, SLOT( close() ), actionCollection() );
     KStandardAction::preferences( this, SLOT( showPreferences() ), actionCollection() );
 
     KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT( undo() ), actionCollection() );
+    undo->setText(i18n("Undo Project Action"));
+    undo->setShortcut(KShortcut("Ctrl+Alt+Z"));
     connect( HistoryManager::instance(), SIGNAL( canUndoChanged( bool ) ), undo, SLOT( setEnabled( bool ) ) );
 
     KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT( redo() ), actionCollection() );
+    redo->setText(i18n("Redo Project Action"));
+    undo->setShortcut(KShortcut("Ctrl+Alt+Shift+Z"));
     connect( HistoryManager::instance(), SIGNAL( canRedoChanged( bool ) ), redo, SLOT( setEnabled( bool ) ) );
 
     connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
 
-    d->recentFiles = KStandardAction::openRecent( this, SLOT( openProject( KUrl ) ), actionCollection() );
+    d->recentFiles = new KRecentFilesAction(KIcon("document-open-recent"), i18n("Recent Projects"), actionCollection());
+    actionCollection()->addAction("project_open_recent", d->recentFiles);
     d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
     KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Object" ), actionCollection() );
-    actionCollection()->addAction( "newObject", newObject );
+    actionCollection()->addAction( "object_new", newObject );
     connect( newObject, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewGameObject() ) );
 
     KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actionCollection() );
-    actionCollection()->addAction( "newScene", newScene );
+    actionCollection()->addAction( "scene_new", newScene );
     connect( newScene, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewScene() ) );
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
-    actionCollection()->addAction( "playGame", play );
+    actionCollection()->addAction( "game_play", play );
     connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
 
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
-    actionCollection()->addAction( "pauseGame", pause );
+    actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
 
     KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
-    actionCollection()->addAction( "stopGame", stop );
+    actionCollection()->addAction( "game_stop", stop );
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
-    KAction* addAsset = new KAction( KIcon( "document-new" ), i18n( "Add Assets..." ), actionCollection() );
-    actionCollection()->addAction( "addAsset", addAsset );
+    KAction* addAsset = new KAction( KIcon( "document-new" ), i18n( "Import Assets..." ), actionCollection() );
+    actionCollection()->addAction( "asset_import", addAsset );
     connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
 
     KAction* chooseEntryPoint = new KAction( KIcon( "media-playback-start" ), i18n( "Set current scene as entry point" ), actionCollection() );
@@ -270,7 +290,7 @@ void MainWindow::setupActions()
     connect( chooseEntryPoint, SIGNAL( triggered( bool ) ), SLOT( chooseEntryPoint() ) );
 
     KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
-    actionCollection()->addAction( "lockLayout", lockLayout );
+    actionCollection()->addAction( "lock_layout", lockLayout );
     lockLayout->setCheckable( true );
     lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
     connect( lockLayout, SIGNAL( triggered( bool ) ), DockManager::instance(), SLOT( setDocksLocked( bool ) ) );

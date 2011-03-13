@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="13" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="14" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 
     <MenuBar>
         <Menu name="project" append="first_menu"><text>&amp;Project</text>
-            <Action name="file_new" />
-            <Action name="file_open" />
-            <Action name="file_open_recent" />
+            <Action name="project_new" />
+            <Action name="scene_new" />
+            <Action name="asset_import" />
             <Separator />
-            <Action name="file_save" />
-            <Action name="file_save_as" />
+            <Action name="project_open" />
+            <Action name="project_open_recent" />
             <Separator />
-            <Action name="addAsset" />
+            <Action name="project_save" />
+            <Action name="project_save_as" />
             <Separator />
             <Action name="file_quit" />
+        </Menu>
+
+        <Menu name="game"><text>&amp;Game</text>
+            <Action name="game_play" />
+            <Action name="game_pause" />
+            <Action name="game_stop" />
         </Menu>
 
         <Menu name="file" noMerge="1"><text>&amp;File</text>
@@ -33,8 +40,7 @@
 
         <Menu name="scene">
             <text>&amp;Scene</text>
-            <Action name="newScene" />
-            <Action name="newObject" />
+            <Action name="object_new" />
             <Separator />
             <Action name="chooseEntryPoint" />
         </Menu>
@@ -51,7 +57,7 @@
             <Menu name="docks">
                 <text>&amp;Docks</text>
             </Menu>
-            <Action name="lockLayout" />
+            <Action name="lock_layout" />
             <DefineGroup name="configure_merge" append="configure_merge" />
         </Menu>
 
@@ -64,65 +70,61 @@
 
     <ToolBar name="projectToolBar">
         <text>Project Toolbar</text>
-        <Action name="file_open" />
-        <Action name="file_save" />
-        <Separator />
-        <Action name="edit_undo" />
-        <Action name="edit_redo" />
-        <Separator />
-        <Action name="newObject" />
-        <Action name="newScene" />
+        <Action name="project_open" />
+        <Action name="project_save" />
     </ToolBar>
 
     <ToolBar name="gameActionsToolbar">
         <text>Game Actions</text>
-        <Action name="playGame" />
-        <Action name="pauseGame" />
-        <Action name="stopGame" />
+        <Action name="game_play" />
+        <Action name="game_pause" />
+        <Action name="game_stop" />
     </ToolBar>
 
    <State name="initial">
        <disable>
-           <Action name="file_save" />
-           <Action name="file_save_as" />
-           <Action name="addAsset" />
-           <Action name="newObject" />
-           <Action name="newScene" />
-           <Action name="playGame" />
-           <Action name="pauseGame" />
-           <Action name="stopGame" />
+           <Action name="project_save" />
+           <Action name="project_save_as" />
+          <Action name="asset_import" />
+           <Action name="object_new" />
+           <Action name="scene_new" />
+           <Action name="game_play" />
+           <Action name="game_pause" />
+           <Action name="game_stop" />
            <Action name="chooseEntryPoint" />
        </disable>
    </State>
 
    <State name="fileOpened">
        <enable>
-           <Action name="file_save" />
-           <Action name="file_save_as" />
-           <Action name="addAsset" />
-           <Action name="newObject" />
-           <Action name="newScene" />
-           <Action name="playGame" />
+           <Action name="project_save" />
+           <Action name="project_save_as" />
+           <Action name="asset_import" />
+           <Action name="object_new" />
+           <Action name="scene_new" />
+           <Action name="game_play" />
            <Action name="chooseEntryPoint" />
        </enable>
    </State>
 
     <State name="playing">
         <enable>
-            <Action name="pauseGame" />
-            <Action name="stopGame" />
+            <Action name="game_pause" />
+            <Action name="game_stop" />
         </enable>
         <disable>
-            <Action name="playGame" />
+            <Action name="project_save" />
+            <Action name="project_save_as" />
+            <Action name="game_play" />
         </disable>
     </State>
 
     <State name="paused">
         <enable>
-            <Action name="playGame" />
+            <Action name="game_play" />
         </enable>
         <disable>
-            <Action name="pauseGame" />
+            <Action name="game_pause" />
         </disable>
     </State>
 </gui>
