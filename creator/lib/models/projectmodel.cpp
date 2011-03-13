@@ -39,6 +39,7 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
+#include "modeltest.h"
 
 using namespace GluonCreator;
 
@@ -60,6 +61,7 @@ class ProjectModel::ProjectModelPrivate
 ProjectModel::ProjectModel( QObject* parent ): QAbstractItemModel( parent ), d( new ProjectModelPrivate )
 {
     connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SIGNAL( layoutChanged() ) );
+    new ModelTest(this, this);
 }
 
 ProjectModel::~ProjectModel()
@@ -228,6 +230,45 @@ ProjectModel::index( int row, int column, const QModelIndex& parent ) const
     return QModelIndex();
 }
 
+QModelIndex
+ProjectModel::objectToIndex ( GluonCore::GluonObject* object ) const
+{
+    DEBUG_FUNC_NAME
+    if( object->root() != d->project )
+        return QModelIndex();
+
+    int childCount = -1;
+    const QObjectList allChildren = object->parent()->children();
+    foreach( const QObject * child, allChildren )
+    {
+        if( qobject_cast<const GluonCore::GluonObject*>( child ) )
+            ++childCount;
+        if( object == child )
+            return createIndex( childCount, 0, const_cast<QObject*>( child ) );
+    }
+
+    return QModelIndex();
+}
+
+int
+ProjectModel::objectRow ( GluonCore::GluonObject* object ) const
+{
+    if( !object->parent() )
+        return -1;
+
+    int childCount = -1;
+    const QObjectList allChildren = object->parent()->children();
+    foreach( const QObject * child, allChildren )
+    {
+        if( qobject_cast<const GluonCore::GluonObject*>( child ) )
+            ++childCount;
+        if( object == child )
+            break;
+    }
+
+    return childCount;
+}
+
 QVariant
 ProjectModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
@@ -351,15 +392,42 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int ro
             ++rows;
         }
 
+        GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
+        if(newItems.count() > 0)
+        {
+            GluonCore::GluonObject* itemObject = d->project->findItemByName(newItems.at(0));
+            // Dropped on existing parent
+            if(itemObject->parent() == newParentObject)
+                return false;
+            // Dropped on self, bailing out
+            else if(itemObject == newParentObject)
+                return false;
+        }
+
+        QList< GluonCore::GluonObject* > newChildren;
         foreach(const QString& item, newItems)
         {
             GluonCore::GluonObject* itemObject = d->project->findItemByName(item);
             if( itemObject )
             {
-                GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
-                newParentObject->addChild(itemObject);
+                // Update the view for the old parent (unfortunately we can't expect the items to
+                // all be from the same parent, so we have to do it here)
+                GluonCore::GluonObject* oldParentObject = qobject_cast< GluonCore::GluonObject* >( itemObject->parent() );
+                QModelIndex oldParent = objectToIndex( oldParentObject );
+                int oldRow = objectRow(itemObject);
+                beginRemoveRows( oldParent, oldRow, oldRow );
+                oldParentObject->removeChild(itemObject);
+                endRemoveRows();
+                newChildren.append(itemObject);
             }
         }
+
+        beginInsertRows( parent, rowCount(parent), rowCount(parent) + newItems.count() - 1 );
+        foreach( GluonCore::GluonObject* itemObject, newChildren )
+        {
+            newParentObject->addChild(itemObject);
+        }
+        endInsertRows();
         return true;
     }
 
