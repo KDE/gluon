@@ -65,7 +65,10 @@ ScenePrivate::loadContents( const QUrl& file )
     QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file, q );
 
     if( sceneContents )
+    {
         delete sceneContents;
+        sceneContents = 0;
+    }
     /*sceneContents = new GameObject(q);
     foreach(GluonObject * child, theContents)
         sceneContents->addChild(child);*/
