@@ -42,6 +42,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QDebug>
+#include "models/models.h"
+#include "models/scenemodel.h"
 
 using namespace GluonCreator;
 
@@ -195,14 +197,14 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
         if( obj )
         {
             DEBUG_TEXT( QString( "Item %1 selected in Scene tree - assign new object as child" ).arg( obj->fullyQualifiedName() ) );
-            obj->addChild( newObj );
+            Models::instance()->sceneModel()->newGameObject(obj, newObj);
         }
     }
 
     if( newObj->parentGameObject() == 0 )
     {
         DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) );
-        GluonEngine::Game::instance()->currentScene()->sceneContents()->addChild( newObj );
+        Models::instance()->sceneModel()->newGameObject(Models::instance()->sceneModel()->rootGameObject(), newObj);
     }
 
     emit newGameObject( newObj );
