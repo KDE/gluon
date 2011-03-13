@@ -19,7 +19,6 @@
 
 #include "vcsdiffwidget.h"
 
-#include <KDE/KTextEdit>
 #include <KDE/KDebug>
 #include <KDE/KLocale>
 #include <KDE/KSqueezedTextLabel>
@@ -88,5 +87,30 @@ void VcsDiffWidget::diffReady( KDevelop::VcsJob* job )
 
 void VcsDiffWidget::setupUi()
 {
+    if (objectName().isEmpty())
+        setObjectName(QString::fromUtf8("VcsDiffWidget"));
+
+    setProperty("modal", QVariant(false));
+    resize(640, 480);
+
+    m_vboxLayout = new QVBoxLayout(this);
+    m_vboxLayout->setObjectName(QString::fromUtf8("vboxLayout"));
+    m_revLabel = new KSqueezedTextLabel(this);
+    m_revLabel->setObjectName(QString::fromUtf8("revLabel"));
+
+    m_vboxLayout->addWidget(m_revLabel);
+
+    m_diffDisplay = new KTextEdit(this);
+    m_diffDisplay->setObjectName(QString::fromUtf8("diffDisplay"));
+
+    m_vboxLayout->addWidget(m_diffDisplay);
+
+    retranslateUi();
+
+    QMetaObject::connectSlotsByName(this);
 }
 
+void VcsDiffWidget::retranslateUi()
+{
+    m_revLabel->setText(tr2i18n("Difference between revisions", 0));
+}

@@ -22,8 +22,10 @@
 
 #include "lib/gluoncreator_macros.h"
 
+#include <KDE/KTextEdit>
 #include <KDE/KSqueezedTextLabel>
 
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
 namespace KDevelop
@@ -49,10 +51,13 @@ namespace GluonCreator
 
         private:
             void setupUi();
+            void retranslateUi();
 
             // UI elements
             KSqueezedTextLabel* m_revLabel;
             KDevelop::VcsJob* m_job;
+            QVBoxLayout* m_vboxLayout;
+            KTextEdit* m_diffDisplay;
     };
 }
 
