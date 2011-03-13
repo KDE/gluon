@@ -16,7 +16,7 @@ Item {
 
         color: "#ffffff";
 
-        text: "Electron Invaders";
+        text: "X-Ray Invaders";
 
         font.bold: true;
         font.pointSize: 20;
