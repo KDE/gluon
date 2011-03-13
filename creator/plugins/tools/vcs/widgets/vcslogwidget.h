@@ -61,6 +61,9 @@ namespace GluonCreator
             void currentRowChanged( const QModelIndex& start, const QModelIndex& end );
 
         private:
+            void setupUi();
+            void retranslateUi();
+
             KDevelop::VcsItemEventModel* m_detailModel;
             KDevelop::VcsEventModel *m_logModel;
             KDevelop::VcsJob* m_job;
@@ -71,10 +74,10 @@ namespace GluonCreator
             QGridLayout* m_gridLayout;
             KSqueezedTextLabel* m_label;
             QTableView* m_eventView;
-            KSqueezedTextLabel* label2;
+            KSqueezedTextLabel* m_label2;
             QTableView* m_itemEventView;
-            KSqueezedTextLabel* label3;
-            KTextBrowser* message;
+            KSqueezedTextLabel* m_label3;
+            KTextBrowser* m_message;
     };
 }
 

@@ -50,9 +50,10 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob *job, QWidget *par
 {
 
     //Don't autodelete this job, its metadata will be used later on
-    m_job->setAutoDelete( false );
+    if( m_job )
+        m_job->setAutoDelete( false );
 
-    // setupUi();
+    setupUi();
 
     m_logModel= new KDevelop::VcsEventModel(this);
     m_eventView->setModel( m_logModel );
@@ -82,7 +83,7 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob *job, QWidget *par
 
     connect( m_job, SIGNAL(resultsReady( KDevelop::VcsJob*) ),
              SLOT( jobReceivedResults( KDevelop::VcsJob* ) ) );
-    KDevelop::ICore::self()->runController()->registerJob( m_job );
+    // KDevelop::ICore::self()->runController()->registerJob( m_job );
 }
 
 VcsLogWidget::~VcsLogWidget()
@@ -200,3 +201,87 @@ void VcsLogWidget::diffRevisions()
     }
 }
 
+void VcsLogWidget::setupUi()
+{
+    if (objectName().isEmpty())
+        setObjectName(QString::fromUtf8("VcsLogWidget"));
+
+    resize(814, 392);
+
+    m_gridLayout = new QGridLayout(this);
+    m_gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+
+    m_label = new KSqueezedTextLabel(this);
+    m_label->setObjectName(QString::fromUtf8("label"));
+    m_label->setTextFormat(Qt::PlainText);
+    m_label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+
+    m_gridLayout->addWidget(m_label, 0, 0, 1, 1);
+
+    m_eventView = new QTableView(this);
+    m_eventView->setObjectName(QString::fromUtf8("eventView"));
+    m_eventView->setAlternatingRowColors(true);
+    m_eventView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_eventView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_eventView->setWordWrap(false);
+    m_eventView->setCornerButtonEnabled(false);
+
+    m_gridLayout->addWidget(m_eventView, 0, 1, 1, 3);
+
+    m_label2 = new KSqueezedTextLabel(this);
+    m_label2->setObjectName(QString::fromUtf8("label_2"));
+    m_label2->setTextFormat(Qt::PlainText);
+    m_label2->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+
+    m_gridLayout->addWidget(m_label2, 1, 0, 1, 1);
+
+    m_itemEventView = new QTableView(this);
+    m_itemEventView->setObjectName(QString::fromUtf8("itemEventView"));
+    QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(3);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(m_itemEventView->sizePolicy().hasHeightForWidth());
+    m_itemEventView->setSizePolicy(sizePolicy);
+    m_itemEventView->setAlternatingRowColors(true);
+    m_itemEventView->setSelectionMode(QAbstractItemView::NoSelection);
+    m_itemEventView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_itemEventView->setTextElideMode(Qt::ElideRight);
+
+    m_gridLayout->addWidget(m_itemEventView, 1, 1, 1, 1);
+
+    m_label3 = new KSqueezedTextLabel(this);
+    m_label3->setObjectName(QString::fromUtf8("label_3"));
+    m_label3->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+
+    m_gridLayout->addWidget(m_label3, 1, 2, 1, 1);
+
+    m_message = new KTextBrowser(this);
+    m_message->setObjectName(QString::fromUtf8("message"));
+    QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    sizePolicy1.setHorizontalStretch(2);
+    sizePolicy1.setVerticalStretch(0);
+    sizePolicy1.setHeightForWidth(m_message->sizePolicy().hasHeightForWidth());
+    m_message->setSizePolicy(sizePolicy1);
+    m_message->setAcceptRichText(false);
+
+    m_gridLayout->addWidget(m_message, 1, 3, 1, 1);
+
+#ifndef UI_QT_NO_SHORTCUT
+    m_label->setBuddy(m_eventView);
+    m_label3->setBuddy(m_message);
+#endif // QT_NO_SHORTCUT
+    QWidget::setTabOrder(m_eventView, m_message);
+
+    retranslateUi();
+
+    QMetaObject::connectSlotsByName(this);
+
+}
+
+void VcsLogWidget::retranslateUi()
+{
+    setWindowTitle(tr2i18n("Logview", 0));
+    m_label->setText(tr2i18n("Events:", 0));
+    m_label2->setText(tr2i18n("Event Details:", 0));
+    m_label3->setText(tr2i18n("Message:", 0));
+}
