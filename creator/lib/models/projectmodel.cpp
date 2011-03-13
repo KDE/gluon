@@ -493,7 +493,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     return true;
 }
 
-void ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
+QModelIndex ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
 {
     if( parent.isValid() )
     {
@@ -512,5 +512,9 @@ void ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
         parentObject->addChild( newObject );
 
         endInsertRows();
+
+        return index(rcount, 0, parent);
     }
+
+    return QModelIndex();
 }

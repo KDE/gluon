@@ -64,7 +64,7 @@ namespace GluonCreator
             virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
             virtual bool removeRows( int row, int count, const QModelIndex& parent );
 
-            void addChild( QObject* newChild, QModelIndex& parent );
+            QModelIndex addChild( QObject* newChild, QModelIndex& parent );
 
         public Q_SLOTS:
             void setProject( GluonEngine::GameProject* project );
