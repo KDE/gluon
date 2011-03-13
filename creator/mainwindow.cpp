@@ -261,8 +261,8 @@ void MainWindow::setupActions()
     actionCollection()->addAction("project_open_recent", d->recentFiles);
     d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
-    KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Object" ), actionCollection() );
-    actionCollection()->addAction( "object_new", newObject );
+    KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Game Object" ), actionCollection() );
+    actionCollection()->addAction( "gameobject_new", newObject );
     connect( newObject, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewGameObject() ) );
 
     KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actionCollection() );

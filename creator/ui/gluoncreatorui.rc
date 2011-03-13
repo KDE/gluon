@@ -6,9 +6,12 @@
 
     <MenuBar>
         <Menu name="project" append="first_menu"><text>&amp;Project</text>
-            <Action name="project_new" />
-            <Action name="scene_new" />
-            <Action name="asset_import" />
+            <Menu><text>&amp;New</text>
+                <Action name="project_new" />
+                <Separator />
+                <Action name="scene_new" />
+                <Action name="asset_import" />
+            </Menu>
             <Separator />
             <Action name="project_open" />
             <Action name="project_open_recent" />
@@ -41,8 +44,6 @@
         <Menu name="scene">
             <text>&amp;Scene</text>
             <Action name="object_new" />
-            <Separator />
-            <Action name="chooseEntryPoint" />
         </Menu>
 
         <Menu name="tools">
