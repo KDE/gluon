@@ -33,7 +33,7 @@
     }
     { GluonEngine::GameObject(Background)
         enabled bool(true)
-        position vector3d(0;0;0)
+        position vector3d(0;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)
@@ -45,7 +45,7 @@
     }
     { GluonEngine::GameObject(Player)
         enabled bool(false)
-        position vector3d(100;0;1)
+        position vector3d(100;0;2)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
@@ -121,7 +121,7 @@
     }
     { GluonEngine::GameObject(Enemy)
         enabled bool(false)
-        position vector3d(100;0;1)
+        position vector3d(100;0;2)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
@@ -158,7 +158,7 @@
     }
     { GluonEngine::GameObject(Bullet)
         enabled bool(false)
-        position vector3d(100;0;2)
+        position vector3d(100;0;3)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
         { GluonEngine::SpriteRendererComponent(GluonObject)

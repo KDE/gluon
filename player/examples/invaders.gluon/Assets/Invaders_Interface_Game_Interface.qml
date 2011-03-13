@@ -71,8 +71,7 @@ Item {
     Item {
         id: pauseScreen;
         
-        width: parent.width;
-        height: parent.height;
+        anchors.fill: parent;
         
         opacity: 0;
         Behavior on opacity {
@@ -104,6 +103,90 @@ Item {
         }
     }
     
+    Rectangle {
+        id: gameOverScreen;
+        
+        anchors.fill: parent;
+        
+        opacity: 0;
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
+        
+        color: "#000000";
+        
+        Column {
+            anchors.centerIn: parent;
+            Text {
+                id: gameOverText;
+                
+                anchors.horizontalCenter: parent.horizontalCenter;
+                
+                font.pointSize: 32;
+                font.bold: true;
+                font.capitalization: Font.SmallCaps;
+                
+                color: "#ffffff";
+                opacity: 0;
+                
+                text: "Game Over!";
+            }
+            
+            Text {
+                id: gameOverScoreText;
+                
+                anchors.horizontalCenter: parent.horizontalCenter;
+                
+                font.pointSize: 14;
+                font.bold: true;
+                font.capitalization: Font.SmallCaps;
+                
+                color: "#ffffff";
+                opacity: 0;
+                
+                text: "You scored ... points.";
+            }
+            
+            Text {
+                id: gameOverResumeText;
+               
+                anchors.horizontalCenter: parent.horizontalCenter;
+                
+                font.pointSize: 14;
+                font.bold: true;
+                font.capitalization: Font.SmallCaps;
+                
+                color: "#ffffff";
+                opacity: 0;
+                
+                text: "Press \"Enter\" to try again.";
+            }
+            
+            states: [
+                State {
+                    name: "visible";
+                    when: gameOverScreen.opacity == 1;
+                    PropertyChanges { target: gameOverText; opacity: 1; }
+                    PropertyChanges { target: gameOverScoreText; opacity: 1; }
+                    PropertyChanges { target: gameOverResumeText; opacity: 1; }
+                }
+            ]
+            
+            transitions: [
+                Transition {
+                    SequentialAnimation {
+                        ParallelAnimation {
+                            NumberAnimation { target: gameOverText; property: "scale"; from: 10; to: 1; duration: 1000 }
+                            NumberAnimation { target: gameOverText; property: "opacity"; duration: 250; }
+                        }
+                        NumberAnimation { target: gameOverScoreText; property: "opacity"; duration: 500; }
+                        NumberAnimation { target: gameOverResumeText; property: "opacity"; duration: 500; }
+                    }
+                }
+            ]
+        }
+    }
+    
     ListModel {
         id: buttonModel;
         
@@ -122,7 +205,7 @@ Item {
 //             buttonTriggered: "Game.setCurrentScene(\"Invaders/Scenes/Menu\");"
 //         }
         ListElement {
-            buttonText: "Quit Game"
+            buttonText: "Quit to System"
             buttonTriggered: "Game.stopGame();"
         }
     }
@@ -137,6 +220,7 @@ Item {
             text: buttonText;
             font.pointSize: 14;
             font.bold: true;
+            font.capitalization: Font.SmallCaps;
             
             color: "#ffffff";
             
@@ -154,6 +238,10 @@ Item {
                 eval(buttonTriggered);
             }
         }
+    }
+    
+    Component.onCompleted: {
+        MessageHandler.subscribe("GameEnded", function() { gameOverScoreText.text = "You scored " + Game.score + " points"; gameOverScreen.opacity = 1; }, this);
     }
     
     function update() {
@@ -184,9 +272,19 @@ Item {
             pauseScreenButtons.incrementCurrentIndex();
         }
         
-        if(GameObject.Key_Return.isActionStarted() && pauseScreen.opacity > 0)
+        if(GameObject.Key_Return.isActionStarted())
         {
-            pauseScreenButtons.currentItem.trigger();
+            if(pauseScreen.opacity > 0)
+            {
+                pauseScreenButtons.currentItem.trigger();
+            }
+            else if(gameOverScreen.opacity > 0)
+            {
+                gameOverScreen.opacity = 0;
+                Scene.resetting = true;
+                Game.resetCurrentScene();
+            }
         }
+        
     }
 }

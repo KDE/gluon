@@ -8,6 +8,9 @@
         }
         { GluonEngine::Scene(Game)
             file url(Scenes/invaders_game.gdl)
+            paused bool(false)
+            enemies float(28)
+            lives float(5)
         }
     }
     { GluonCore::GluonObject(Assets)
@@ -81,7 +84,6 @@
         }
         { GluonEngine::MaterialAsset(Material)
             file url(Assets/Invaders_Assets_Material.gml)
-
             { GluonGraphics::MaterialInstance(Menu Text)
                 materialColor rgba(255;255;255;255)
                 texture0 string(play.png)
@@ -125,10 +127,9 @@
         }
         { GluonEngine::MaterialAsset(Render Target Material)
             file url(Assets/Invaders_Assets_Material_1.gml)
-
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(17)
+                texture0 uint(14)
             }
         }
     }

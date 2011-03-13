@@ -30,7 +30,7 @@ this.start = function()
 
 this.cleanup = function()
 {
-    if(this.Scene.resetting)
+    if(this.Scene.resetting && this.Scene.lives <= 0)
         Game.score -= this.Scene.sceneScore;
     MessageHandler.unsubscribe("playerDied", this.playerDied, this);
     MessageHandler.unsubscribe("enemyDied", this.enemyDied, this);
@@ -44,6 +44,7 @@ this.playerDied = function()
     {
         this.Scene.paused = true;
         this.Scene.gameEnded = true;
+        MessageHandler.publish("GameEnded");
     }
     else
     {
@@ -61,6 +62,7 @@ this.enemyDied = function()
     {
         this.Scene.paused = true;
         this.Scene.gameEnded = true;
+        MessageHandler.publish("GameEnded");
     }
 }
 
