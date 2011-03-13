@@ -140,10 +140,7 @@ Asset::templates()
 QList<QAction*>
 Asset::actions()
 {
-    QList<QAction*> actions;
-    actions.append( new QAction( "No actions defined.", this ) );
-    actions.at( 0 )->setEnabled( false );
-    return actions;
+    return QList<QAction*>();
 }
 
 bool
