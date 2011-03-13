@@ -19,18 +19,18 @@
 
 #include "vcscommitdialog.h"
 
-#include <kdevplatform/interfaces/icore.h>
-#include <kdevplatform/interfaces/iprojectcontroller.h>
-// #include <kdevplatform/vcs/interfaces/iproject.h>
-#include <kdevplatform/interfaces/iplugin.h>
-// #include <kdevplatform/vcs/interfaces/iuicontroller.h>
-#include <kdevplatform/vcs/vcsjob.h>
-#include <kdevplatform/vcs/interfaces/ibasicversioncontrol.h>
-#include <kdevplatform/vcs/interfaces/idistributedversioncontrol.h>
-#include <kdevplatform/vcs/interfaces/icentralizedversioncontrol.h>
-#include <kdevplatform/vcs/vcsstatusinfo.h>
+#include <interfaces/icore.h>
+#include <interfaces/iprojectcontroller.h>
+// #include <vcs/interfaces/iproject.h>
+#include <interfaces/iplugin.h>
+// #include <vcs/interfaces/iuicontroller.h>
+#include <vcs/vcsjob.h>
+#include <vcs/interfaces/ibasicversioncontrol.h>
+#include <vcs/interfaces/idistributedversioncontrol.h>
+#include <vcs/interfaces/icentralizedversioncontrol.h>
+#include <vcs/vcsstatusinfo.h>
 // #include "vcs/vcsdiffpatchsources.h"
-#include <kdevplatform/vcs/vcspluginhelper.h>
+#include <vcs/vcspluginhelper.h>
 
 #include <kparts/mainwindow.h>
 #include <KDE/KTextEdit>
