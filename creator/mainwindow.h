@@ -57,7 +57,6 @@ namespace GluonCreator
             void cleanChanged( bool );
 
             void addAsset();
-            void chooseEntryPoint();
 
             void showNewProjectDialog();
             void showOpenProjectDialog();

@@ -78,12 +78,19 @@ namespace GluonEngine
              * which makes up the scene)
              */
             Q_INVOKABLE GluonEngine::GameObject* sceneContents();
-            
+
+            virtual QList< QAction* > actions();
+
         public Q_SLOTS:
             /**
              * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
              */
             virtual void resetScene();
+
+            /**
+             *  Set this scene to the entry point of the current project.
+             */
+            void setEntryPoint( );
 
         private:
             ScenePrivate* d;

@@ -26,6 +26,7 @@
 
 #include "core/gdlhandler.h"
 #include "game.h"
+#include <QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
@@ -87,6 +88,21 @@ Scene::sceneContents()
     if( !d->sceneContentsLoaded && !savableDirty )
         d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
     return d->sceneContents;
+}
+
+QList< QAction* > Scene::actions()
+{
+    QList<QAction*> actions;
+    QAction* setEntryPoint = new QAction("Set as entry point", this);
+    connect(setEntryPoint, SIGNAL(triggered(bool)), this, SLOT(setEntryPoint()));
+    actions.append(setEntryPoint);
+    return actions;
+}
+
+void Scene::setEntryPoint()
+{
+    GluonEngine::GameProject* project = Game::instance()->gameProject();
+    project->setEntryPoint(this);
 }
 
 #include "scene.moc"

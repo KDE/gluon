@@ -285,10 +285,6 @@ void MainWindow::setupActions()
     actionCollection()->addAction( "asset_import", addAsset );
     connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
 
-    KAction* chooseEntryPoint = new KAction( KIcon( "media-playback-start" ), i18n( "Set current scene as entry point" ), actionCollection() );
-    actionCollection()->addAction( "chooseEntryPoint", chooseEntryPoint );
-    connect( chooseEntryPoint, SIGNAL( triggered( bool ) ), SLOT( chooseEntryPoint() ) );
-
     KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
     actionCollection()->addAction( "lock_layout", lockLayout );
     lockLayout->setCheckable( true );
@@ -396,17 +392,6 @@ bool MainWindow::queryClose()
 void MainWindow::addAsset()
 {
     ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames());
-}
-
-void MainWindow::chooseEntryPoint()
-{
-    if( GluonEngine::Game::instance()->gameProject() )
-    {
-        if( GluonEngine::Game::instance()->currentScene() )
-        {
-            GluonEngine::Game::instance()->gameProject()->setEntryPoint( GluonEngine::Game::instance()->currentScene() );
-        }
-    }
 }
 
 void GluonCreator::MainWindow::showNewProjectDialog()
