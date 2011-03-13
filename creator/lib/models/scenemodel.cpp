@@ -19,6 +19,7 @@
 
 #include "scenemodel.h"
 #include "typeinfo"
+#include "modeltest.h"
 
 #include "historymanager.h"
 #include "objectmanager.h"
@@ -50,6 +51,7 @@ SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new 
 {
     setSupportedDragActions( Qt::MoveAction );
     connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SIGNAL( layoutChanged() ) );
+ //   new ModelTest(this, this);
 }
 
 SceneModel::~SceneModel()
@@ -69,6 +71,23 @@ void SceneModel::setRootGameObject( GluonEngine::GameObject* obj )
     {
         d->root = obj;
         reset();
+    }
+}
+
+void SceneModel::newGameObject(GluonEngine::GameObject* parent, GluonEngine::GameObject* newChild)
+{
+    if(parent)
+    {
+        QModelIndex thisIndex = QModelIndex();
+        if(parent->parentGameObject())
+        {
+            int row = parent->parentGameObject()->childIndex(parent);
+            thisIndex = createIndex(row, 0, parent);
+        }
+        int childCount = parent->childCount();
+        beginInsertRows( thisIndex, childCount, childCount );
+        parent->addChild( newChild );
+        endInsertRows();
     }
 }
 
@@ -187,7 +206,7 @@ Qt::ItemFlags SceneModel::flags( const QModelIndex& index ) const
     if( index.isValid() )
         return QAbstractItemModel::flags( index ) | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
-        return QAbstractItemModel::flags( index ) | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+        return QAbstractItemModel::flags( index ) | Qt::ItemIsDropEnabled;
 }
 
 QStringList
@@ -278,8 +297,19 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
                     objects.append( gobj );
             }
 
+            foreach(GluonEngine::GameObject* item, objects)
+            {
+                // Update the view for the old parent (unfortunately we can't expect the items to
+                // all be from the same parent, so we have to do it here)
+                GluonEngine::GameObject* oldParentObject = qobject_cast< GluonEngine::GameObject* >( item->parentGameObject() );
+                QModelIndex oldParent = createIndex( d->rowIndex(oldParentObject), 0, oldParentObject );
+                int oldRow = d->rowIndex(item);
+                beginRemoveRows( oldParent, oldRow, oldRow );
+                oldParentObject->removeChild(item);
+                endRemoveRows();
+            }
+
             insertRows( row, objects, parent );
-            emit layoutChanged();
         }
     }
 
@@ -329,23 +359,20 @@ bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &chi
     if(children.at(0)->parent() == pobj)
         return false;
 
-    beginInsertRows( parent, row, row + count );
+    int childCount = pobj->childCount();
+    beginInsertRows( parent, childCount, childCount + count - 1 );
     int index = row;
     foreach( GluonEngine::GameObject * obj, children )
     {
         pobj->addChildAt( obj, index++ );
     }
-
     endInsertRows();
     return true;
 }
 
 bool SceneModel::removeRows( int row, int count, const QModelIndex& parent )
 {
-    beginRemoveRows( parent, row, row + count - 1 );
-
-    endRemoveRows();
-    return true;
+    return QAbstractItemModel::removeRows(row, count, parent);
 }
 
 int SceneModel::SceneModelPrivate::rowIndex( GluonEngine::GameObject* object ) const

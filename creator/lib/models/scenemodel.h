@@ -62,6 +62,7 @@ namespace GluonCreator
 
         public Q_SLOTS:
             void setRootGameObject( GluonEngine::GameObject* obj );
+            void newGameObject( GluonEngine::GameObject* parent, GluonEngine::GameObject* newChild );
             void deleteGameObject( GluonEngine::GameObject* obj );
             void deleteComponent( GluonEngine::Component* component );
 
