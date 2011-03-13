@@ -2,6 +2,7 @@ set(vcstool_SRCS
     vcstool.cpp
     vcstoolplugin.cpp
     widgets/vcscommitdialog.cpp
+    widgets/vcsdiffwidget.cpp
 )
 
 kde4_add_plugin(gluon_creator_toolplugin_vcstool ${vcstool_SRCS})
