@@ -50,6 +50,7 @@ namespace GluonCreator
             void newSubMenuTriggered();
             void newAssetTriggered();
             void deleteActionTriggered();
+            void importAssetsTriggered();
 
         private:
             class ProjectDockPrivate;

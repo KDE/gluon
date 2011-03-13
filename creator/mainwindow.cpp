@@ -395,12 +395,7 @@ bool MainWindow::queryClose()
 
 void MainWindow::addAsset()
 {
-    QStringList assets = KFileDialog::getOpenFileNames();
-
-    foreach( const QString & asset, assets )
-    {
-        ObjectManager::instance()->createNewAsset( asset );
-    }
+    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames());
 }
 
 void MainWindow::chooseEntryPoint()

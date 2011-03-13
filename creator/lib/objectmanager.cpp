@@ -104,6 +104,14 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, cons
     return newAsset;
 }
 
+void ObjectManager::createAssets( const QStringList& fileNames )
+{
+    foreach( const QString & asset, fileNames )
+    {
+        ObjectManager::instance()->createNewAsset( asset );
+    }
+}
+
 void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
 {
     if( newAsset == 0 )

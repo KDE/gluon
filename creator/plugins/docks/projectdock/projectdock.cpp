@@ -53,6 +53,7 @@
 #include <KDE/KToolBar>
 #include <KDE/KFileItemListProperties>
 #include <KDE/KFileItemActions>
+#include <KDE/KFileDialog>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -60,8 +61,7 @@
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
-#include <KMenu>
-#include <QToolButton>
+#include <QtGui/QToolButton>
 
 using namespace GluonCreator;
 
@@ -221,7 +221,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     }
 
     d->newMenu->addSeparator();
-    d->newMenu->addAction( i18n("Import Assets...") );//, this, SLOT(importAssetsTriggered()) );
+    d->newMenu->addAction( i18n("Import Assets..."), this, SLOT(importAssetsTriggered()) );
 
     d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
 
@@ -369,4 +369,9 @@ void GluonCreator::ProjectDock::newAssetTriggered()
             d->model->addChild( newAsset, d->currentContextIndex );
         }
     }
+}
+
+void ProjectDock::importAssetsTriggered()
+{
+    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames());
 }
