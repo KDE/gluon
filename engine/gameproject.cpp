@@ -115,7 +115,7 @@ GameProject::saveToFile() const
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate ) )
     {
         QTextStream out(&directoryFile);
-        out << QString("[Desktop Entry]\nIcon=game.png\nType=Directory\n");
+        out << QString("[Desktop Entry]\r\nIcon=game.png\r\nType=Directory\r\n");
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
