@@ -20,19 +20,6 @@
 
 #include "uimanagercomponent.h"
 
-#include <texture.h>
-#include <game.h>
-
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/item.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/rendertarget.h"
-#include "graphics/materialinstance.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
-
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeExpression>
@@ -48,6 +35,19 @@
 #include <QtGui/QPixmap>
 #include <QtCore/QMimeData>
 #include <QtCore/QVariant>
+
+#include "core/messagehandler.h"
+#include "graphics/item.h"
+#include "graphics/engine.h"
+#include "graphics/item.h"
+#include "graphics/material.h"
+#include "graphics/mesh.h"
+#include "graphics/rendertarget.h"
+#include "graphics/materialinstance.h"
+#include "graphics/texture.h"
+#include "engine/gameobject.h"
+#include "engine/asset.h"
+#include "engine/game.h"
 
 #include "uiasset.h"
 #include "engineaccess.h"
@@ -121,6 +121,9 @@ class UiManagerComponent::UiManagerComponentPrivate
 
             QScriptValue game = engine->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
             object.setProperty( "Game", game );
+
+            QScriptValue messageHandler = engine->newQObject( GluonCore::MessageHandler::instance(), ownership, wrapOptions );
+            object.setProperty( "MessageHandler", messageHandler );
         }
 
         void resizeQmlItem( const QRectF& rect )
