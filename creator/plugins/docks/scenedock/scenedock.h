@@ -39,7 +39,6 @@ namespace GluonCreator
         public:
             explicit SceneDock( const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~SceneDock();
-            void setupActions();
 
         public slots:
             void selectionChanged( QItemSelection selected, QItemSelection deselected );

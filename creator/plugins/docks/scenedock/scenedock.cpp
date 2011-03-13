@@ -37,6 +37,8 @@
 
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
+#include <KToolBar>
+#include <QVBoxLayout>
 
 using namespace GluonCreator;
 
@@ -48,6 +50,7 @@ class SceneDock::SceneDockPrivate
             , view( 0 )
         {
         }
+
         SceneModel* model;
         QTreeView* view;
 };
@@ -61,7 +64,6 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
 
     d->view = new QTreeView( this );
     d->model = Models::instance()->sceneModel();
-    setWidget( d->view );
 
     if( GluonEngine::Game::instance()->currentScene() )
         d->model->setRootGameObject( GluonEngine::Game::instance()->currentScene()->sceneContents() );
@@ -79,28 +81,32 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     d->view->setContextMenuPolicy( Qt::ActionsContextMenu );
     connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
 
-    setupActions();
+    QWidget* widget = new QWidget( this );
+    QVBoxLayout* layout = new QVBoxLayout();
+    widget->setLayout( layout );
+
+    KToolBar* toolBar = new KToolBar(this);
+    toolBar->setIconDimensions(16);
+
+    QAction* newGameObject = toolBar->addAction(KIcon("document-new"), i18n("New Game Object"), this, SLOT( newGameObjectAction() ) );
+    d->view->addAction( newGameObject );
+
+    KAction* separator = new KAction( d->view );
+    separator->setSeparator( true );
+    d->view->addAction( separator );
+
+    QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT( deleteSelection() ) );
+    d->view->addAction( deleteAction );
+    deleteAction->setShortcut( QKeySequence::fromString("Delete") );
+
+    layout->addWidget(toolBar);
+    layout->addWidget(d->view);
+    setWidget(widget);
 }
 
 SceneDock::~SceneDock()
 {
     delete d;
-}
-
-void SceneDock::setupActions()
-{
-    KAction* deleteAction = new KAction( KIcon( "edit-delete" ), i18n( "Delete Object(s)" ), d->view );
-    d->view->addAction( deleteAction );
-    deleteAction->setShortcut( KShortcut( Qt::Key_Delete ), KAction::DefaultShortcut );
-    connect( deleteAction, SIGNAL( triggered( bool ) ), SLOT( deleteSelection() ) );
-
-    KAction* separator = new KAction( d->view );
-    d->view->addAction( separator );
-    separator->setSeparator( true );
-
-    KAction* newGameObject = new KAction( KIcon( "file-new" ), i18n( "New GameObject" ), d->view );
-    d->view->addAction( newGameObject );
-    connect( newGameObject, SIGNAL( triggered( bool ) ), SLOT( newGameObjectAction() ) );
 }
 
 void SceneDock::selectionChanged( QItemSelection selected, QItemSelection deselected )
