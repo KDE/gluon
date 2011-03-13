@@ -52,14 +52,18 @@ Mesh::Mesh( QObject* parent )
 
 Mesh::~Mesh()
 {
+    delete d->buffer;
     delete d;
 }
 
 void
 Mesh::load( const QString& filename )
 {
-    if( isLoaded() )
-        return;
+#ifdef __GNUC__
+#warning TODO: Investigate why this works.
+#endif
+//     if( isLoaded() )
+//         return;
 
     VertexAttribute vertices( "vertex", 3);
     vertices << -1.f << -1.f << 0.f;
@@ -120,7 +124,7 @@ Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 bool
 Mesh::isLoaded() const
 {
-    return d->buffer->isInitialized();
+    return d->buffer && d->buffer->isInitialized();
 }
 
 VertexBuffer*
