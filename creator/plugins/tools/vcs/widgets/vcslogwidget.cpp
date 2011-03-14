@@ -206,7 +206,7 @@ void VcsLogWidget::setupUi()
     if (objectName().isEmpty())
         setObjectName(QString::fromUtf8("VcsLogWidget"));
 
-    resize(814, 392);
+    resize(640, 480);
 
     m_gridLayout = new QGridLayout(this);
     m_gridLayout->setObjectName(QString::fromUtf8("gridLayout"));

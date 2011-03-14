@@ -109,13 +109,13 @@ GameProject::saveToFile() const
         iconWriter.setFormat("ico");
         iconWriter.write( icon );
     }
-    
+
     // Build the folder information files for Windows and for XDG compliant file browsers
     QFile directoryFile( projectDir + "/.directory" );
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate ) )
     {
-        QTextStream out(&directoryFile);
-        out << QString("[Desktop Entry]\r\nIcon=game.png\r\nType=Directory\r\n");
+        QTextStream out(&directoryFile, QIODevice::WriteOnly | QIODevice::Text);
+        out << QString("[Desktop Entry]\nIcon=game.png\nType=Directory\n");
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
@@ -125,7 +125,7 @@ GameProject::saveToFile() const
         out << QString("[.ShellClassInfo]\r\nConfirmFileOp=0\r\nIconFile=game.ico\r\nIconIndex=0\r\nInfoTip=A Gluon Game\r\n");
         folderFile.close();
     }
-    
+
     // Recreate the screenshot file if we have one such
     if( d->screenshot )
     {

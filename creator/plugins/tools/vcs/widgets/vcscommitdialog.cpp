@@ -95,7 +95,6 @@ VcsCommitDialog::VcsCommitDialog( KDevelop::IPlugin *plugin, QWidget *parent )
     d->plugin = plugin;
     // d->m_oldMessages = KDevelop::retrieveOldCommitMessages();
 
-    // setButtons( KDialog::Ok | KDialog::Cancel );
     setupUi( );
 
     setWindowTitle( i18n("Commit Message") );
