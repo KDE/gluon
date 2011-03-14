@@ -69,7 +69,11 @@ MainWindow::MainWindow(const QString& filename )
 
     if( !filename.isEmpty() )
     {
-        d->fileName = filename;
+        QFileInfo fi = QFileInfo( filename );
+        if( fi.isRelative() )
+            d->fileName = fi.canonicalFilePath();
+        else
+            d->fileName = filename;
         QTimer::singleShot( 0, this, SLOT( openProject() ) );
     }
     else
