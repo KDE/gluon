@@ -64,7 +64,11 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
 
     if( argc > 1 )
     {
-        d->fileName = argv[1];
+        QFileInfo fi = QFileInfo( argv[1] );
+        if( fi.isRelative() )
+            d->fileName = fi.canonicalFilePath();
+        else
+            d->fileName = argv[1];
         QTimer::singleShot( 0, this, SLOT( openProject() ) );
     }
     else
