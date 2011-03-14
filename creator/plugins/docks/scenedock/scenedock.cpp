@@ -97,7 +97,6 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
 
     QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT( deleteSelection() ) );
     d->view->addAction( deleteAction );
-    deleteAction->setShortcut( QKeySequence::fromString("Delete") );
 
     layout->addWidget(toolBar);
     layout->addWidget(d->view);
