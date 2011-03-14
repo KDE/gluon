@@ -112,17 +112,17 @@ GameProject::saveToFile() const
 
     // Build the folder information files for Windows and for XDG compliant file browsers
     QFile directoryFile( projectDir + "/.directory" );
-    if( directoryFile.open( QFile::WriteOnly | QFile::Truncate ) )
+    if( directoryFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
-        QTextStream out(&directoryFile, QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&directoryFile);
         out << QString("[Desktop Entry]\nIcon=game.png\nType=Directory\n");
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
-    if( folderFile.open( QFile::WriteOnly | QFile::Truncate ) )
+    if( folderFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out(&folderFile);
-        out << QString("[.ShellClassInfo]\r\nConfirmFileOp=0\r\nIconFile=game.ico\r\nIconIndex=0\r\nInfoTip=A Gluon Game\r\n");
+        out << QString("[.ShellClassInfo]\nConfirmFileOp=0\nIconFile=game.ico\nIconIndex=0\nInfoTip=A Gluon Game\n");
         folderFile.close();
     }
 
