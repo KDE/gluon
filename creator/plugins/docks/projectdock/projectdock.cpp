@@ -221,7 +221,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     }
 
     d->newMenu->addSeparator();
-    d->newMenu->addAction( i18n("Import Assets..."), this, SLOT(importAssetsTriggered()) );
+    d->newMenu->addAction( KIcon("document-import"), i18n("Import Assets..."), this, SLOT(importAssetsTriggered()) );
 
     d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
 
