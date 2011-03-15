@@ -281,7 +281,7 @@ void MainWindow::setupActions()
     actionCollection()->addAction( "game_stop", stop );
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
-    KAction* addAsset = new KAction( KIcon( "document-new" ), i18n( "Import Assets..." ), actionCollection() );
+    KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actionCollection() );
     actionCollection()->addAction( "asset_import", addAsset );
     connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
 

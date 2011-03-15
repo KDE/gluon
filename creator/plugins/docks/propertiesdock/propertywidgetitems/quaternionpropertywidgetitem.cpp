@@ -60,19 +60,25 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt:
 
     d->x = new QDoubleSpinBox( this );
     d->x->setPrefix( "X: " );
-    d->x->setRange( 0, 1 );
+    d->x->setRange( -1, 1 );
+    d->x->setDecimals(3);
+    d->x->setSingleStep(0.01);
     vectorLayout->addWidget( d->x );
     connect( d->x, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
 
     d->y = new QDoubleSpinBox( this );
     d->y->setPrefix( "Y: " );
-    d->y->setRange( 0, 1 );
+    d->y->setRange( -1, 1 );
+    d->y->setDecimals(3);
+    d->y->setSingleStep(0.01);
     vectorLayout->addWidget( d->y );
     connect( d->y, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
 
     d->z = new QDoubleSpinBox( this );
     d->z->setPrefix( "Z: " );
-    d->z->setRange( 0, 1 );
+    d->z->setRange( -1, 1 );
+    d->z->setDecimals(3);
+    d->z->setSingleStep(0.01);
     vectorLayout->addWidget( d->z );
     connect( d->z, SIGNAL( valueChanged( double ) ), this, SLOT( valueChanged( double ) ) );
 
