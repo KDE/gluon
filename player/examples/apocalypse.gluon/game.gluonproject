@@ -1,30 +1,59 @@
 { GluonEngine::GameProject(Apocalypse)
-    entryPoint GluonEngine::Scene(Apocalypse/Level 1)
-    { GluonEngine::Scene(Level 1)
-        file url(Scenes/Apocalypse_New_Scene.gdl)
-    }
-    { GluonEngine::ScriptingAsset(crosshair_script)
-        file url(Assets/Apocalypse_Script.js)
-    }
-    { GluonEngine::MaterialAsset(AnimatedSprite)
-        file url(Assets/Apocalypse_Material.gml)
-        { GluonGraphics::MaterialInstance(New Instance)
-            materialColor rgba(255;255;255;255)
-            texture0 string(goblin_lumberjack_green.png)
-            frame vector4d(0.315789;0;0.0263158;0.125)
+    entryPoint GluonEngine::Scene(Apocalypse/Scenes/Level 1)
+    { GluonCore::GluonObject(Scenes)
+        { GluonEngine::Scene(Level 1)
+            file url(Scenes/Apocalypse_New_Scene.gdl)
+        }
+        { GluonEngine::Scene(Menu)
+            file url(Scenes/Apocalypse/Scenes/Menu.gdl)
         }
     }
-    { GluonEngine::TextureAsset(goblin_lumberjack_green.png)
-        file url(Assets/apocalypse_goblin_lumberjack_green.png)
-    }
-    { GluonEngine::MaterialAsset(RenderTarget)
-        file url(Assets/Apocalypse_Material_1.gml)
-        { GluonGraphics::MaterialInstance(Main)
-            materialColor rgba(255;255;255;255)
-            texture0 uint(7)
+    { GluonCore::GluonObject(Assets)
+        { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptingAsset(crosshair_script)
+                file url(Assets/Apocalypse/Assets/Scripts/crosshair_script.js)
+            }
+            { GluonEngine::ScriptingAsset(Player Script)
+                file url(Assets/Apocalypse/Assets/Scripts/Player Script.js)
+            }
         }
-    }
-    { GluonEngine::TextureAsset(zombie.jpg)
-        file url(Assets/apocalypse_zombie.jpg)
+        { GluonCore::GluonObject(Textures)
+            { GluonEngine::TextureAsset(goblin_lumberjack_green.png)
+                file url(Assets/Apocalypse/Assets/Textures/goblin_lumberjack_green.png.png)
+            }
+            { GluonEngine::TextureAsset(Dirt.JPG)
+                file url(Assets/Apocalypse/Assets/Textures/Dirt.JPG.jpg)
+            }
+        }
+        { GluonEngine::MaterialAsset(Animated Sprite)
+            file url(Assets/Apocalypse/Assets/Animated Sprite.gml)
+            { GluonGraphics::MaterialInstance(Player)
+                materialColor rgba(255;255;255;255)
+                texture0 string(goblin_lumberjack_green.png)
+                frame vector4d(0;0.375;0.0263158;0.125)
+            }
+        }
+        { GluonEngine::MaterialAsset(RenderTarget)
+            file url(Assets/Apocalypse/Assets/RenderTarget.gml)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+                texture0 uint(8)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+        }
+        { GluonEngine::MaterialAsset(Material)
+            file url(Assets/Apocalypse/Assets/Material.gml)
+            { GluonGraphics::MaterialInstance(Background)
+                materialColor rgba(255;255;255;255)
+                texture0 string(Dirt.JPG)
+                textureParameters vector4d(0;0;2;4)
+            }
+        }
+        { GluonCore::GluonObject(Interface)
+            { GluonEngine::UiAsset(Main Menu)
+                file url(Assets/Apocalypse/Assets/Interface/Main Menu.qml)
+            }
+        }
     }
 }
