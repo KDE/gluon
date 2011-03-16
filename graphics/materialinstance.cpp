@@ -70,6 +70,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
+    qRegisterMetaType<GluonGraphics::Texture*>("GluonGraphics::Texture*");
     connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
