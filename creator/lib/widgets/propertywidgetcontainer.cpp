@@ -407,6 +407,12 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         if( propertyName == QString( "objectName" ) || propertyName == QString( "name" ) || propertyName == QString( "description" ) || propertyName == QString( "expanded" ) || propertyName == QString( "enabled" ) )
             continue;
 
+        if(!metaProperty.isDesignable())
+            continue;
+
+        if(!metaProperty.isWritable())
+            continue;
+
         PropertyWidgetItem* editWidget;
         if(!metaProperty.isEnumType())
         {
