@@ -72,6 +72,8 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
 
     d->toolBar = new KToolBar( "mainToolBar", this );
     d->layout->addWidget( d->toolBar );
+    d->layout->setSpacing( 0 );
+    d->layout->setContentsMargins( 0, 0, 0, 0 );
 
     setLayout( d->layout );
 

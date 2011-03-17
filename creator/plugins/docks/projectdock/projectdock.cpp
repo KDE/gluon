@@ -190,6 +190,8 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
+    layout->setContentsMargins( 0, 0, 0, 0 );
+    layout->setSpacing( 0 );
     widget->setLayout( layout );
 
     d->toolBar = new KToolBar( widget );
