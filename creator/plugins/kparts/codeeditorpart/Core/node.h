@@ -62,6 +62,9 @@ class Node : public QObject
         void removeEdge( Edge* e, EdgeList& list );
         void remove();
         enum EdgeLists {In, Out, Self};
+	/**
+	 * Marks Node as having changed. Used for updating Graph.
+	 */
         void startChange();
         void endChange();
         bool showName();
@@ -79,9 +82,26 @@ class Node : public QObject
     public  slots:
         NodeList adjacent_nodes() const;
         EdgeList adjacent_edges() const;
+	/**
+	 * List of Edges connected to Node.
+	 * @param    n    Node to look for connected edges.
+	 * @return    Edges connected to Node.
+	 */
         EdgeList edges( Node* n );
+	/**
+	 * List of Edges going into this Node.
+	 * @return    Edges going into this Node.
+	 */
         EdgeList in_edges() const;
+	/**
+	 * List of Edges going out of this Node.
+	 * @return    Edges going out of this Node.
+	 */
         EdgeList out_edges() const;
+	/**
+	 * List of Edges connected to and from this Node.
+	 * @return    Edges to and from this Node.
+	 */
         EdgeList self_edges() const;
 
         void setX( int x );
@@ -111,23 +131,59 @@ class Node : public QObject
         }
         const QVariant value() const;
         const QPixmap& image() const;
+	/**
+	 * Sets Node image to be displayed.
+	 * @param    p    Pixmap to be used as Node image.
+	 */
         void setImage( const QPixmap& p );
+	/**
+	 * Set max number of Edges allowed flowing into this Node.
+	 * @param    m    Number of Edges allowed.
+	 */
         void setMaxInEdges( const int& m );
         const int& maxInEdges() const;
+	/**
+	 * Set max number of Edges allowed flowing out of this Node.
+	 * @param    m    Number of Edges allowed.
+	 */
         void setMaxOutEdges( const int& m );
         const int& maxOutEdges() const;
+	/**
+	 * Set max number of Edges allowed wit both to and from points as this Node.
+	 * @param    m    Number of Edges allowed.
+	 */
         void setMaxSelfEdges( const int& m );
         const int& maxSelfEdges() const;
+	/**
+	 * Sets icon from current iconpack based on SVG name.
+	 * @param    s    String containing name of icon for node.
+	 */
         void setIcon( const QString& s );
         const QString& icon() const;
         const QString& iconPackage() const;
+	/**
+	 * Sets icon package from SVG file.
+	 * @param    s    String containing name of iconpack.
+	 */
         void setIconPackage( const QString& s );
-        void hideName( bool b );
+	void hideName( bool b );
         void hideImage( bool b );
         void hideValue( bool b );
+	/**
+	 * Sets type of the node.
+	 * @param    type    String containing type for node.(must be valid type)
+	 */
         void setType( QString type );
         QString type();
+	/**
+	 * Qt graphics scene item representation of Node on graph.
+	 * @return    SVGitem of this node.
+	 */
         QGraphicsSvgItem* nodeItem();
+	/**
+	 * Assigns SVGitem to Node.
+	 * @param    ni    SVGitem to be associated with Node.
+	 */
         void setNodeItem( QGraphicsSvgItem* ni );
         /** Add a property to this node
         * @param property Name of property
