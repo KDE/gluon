@@ -32,13 +32,13 @@
 #include <selectionmanager.h>
 #include <models/scenemodel.h>
 
-#include <KAction>
-#include <KLocalizedString>
+#include <KDE/KAction>
+#include <KDE/KLocalizedString>
+#include <KDE/KToolBar>
 
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
-#include <KToolBar>
-#include <QVBoxLayout>
+#include <QtGui/QVBoxLayout>
 
 using namespace GluonCreator;
 

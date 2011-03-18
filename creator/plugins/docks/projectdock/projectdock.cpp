@@ -30,19 +30,19 @@
 #include "models/modeltest.h"
 
 #include "lib/selectionmanager.h"
+#include "lib/selectionmanager.h"
 #include "objectmanager.h"
 #include "filemanager.h"
 #include "historymanager.h"
 #include "newobjectcommand.h"
 
-#include "core/debughelper.h"
-#include "core/gluon_global.h"
-#include "engine/asset.h"
-#include "engine/game.h"
-#include "engine/gameobject.h"
-#include "engine/gameproject.h"
-#include "lib/selectionmanager.h"
-#include "engine/scene.h"
+#include <core/debughelper.h>
+#include <core/gluon_global.h>
+#include <engine/asset.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
 
 #include <KDE/KIcon>
 #include <KDE/KInputDialog>
@@ -55,13 +55,13 @@
 #include <KDE/KFileItemActions>
 #include <KDE/KFileDialog>
 
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QToolButton>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 
 using namespace GluonCreator;
 
