@@ -96,7 +96,6 @@ void ScriptingComponent::initialize()
     {
         d->initializeFunction.call( d->scriptObject );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
@@ -110,10 +109,11 @@ void ScriptingComponent::start()
     {
         d->startFunction.call( d->scriptObject );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
+        {
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+        }
     }
     GluonEngine::Component::start();
 }
@@ -124,10 +124,12 @@ void ScriptingComponent::update( int elapsedMilliseconds )
     {
         d->updateFunction.call( d->scriptObject, QScriptValueList() << elapsedMilliseconds );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
+        {
+            d->updateFunction = QScriptValue();
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+        }
     }
     GluonEngine::Component::update( elapsedMilliseconds );
 }
@@ -138,10 +140,12 @@ void ScriptingComponent::draw( int timeLapse )
     {
         d->drawFunction.call( d->scriptObject, QScriptValueList() << timeLapse );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
+        {
+            d->drawFunction = QScriptValue();
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+        }
     }
     GluonEngine::Component::draw();
 }
@@ -152,7 +156,6 @@ void ScriptingComponent::stop()
     {
         d->stopFunction.call( d->scriptObject );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
@@ -166,7 +169,6 @@ void ScriptingComponent::cleanup()
     {
         d->cleanupFunction.call( d->scriptObject );
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            // This needs to be mapped...
             debug( QString( "%1: %2" )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
