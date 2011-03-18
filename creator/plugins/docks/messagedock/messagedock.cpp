@@ -30,7 +30,7 @@
 #include <QtGui/QListWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QApplication>
-#include <QtCore/QDebug>
+#include <QtGui/QClipboard>
 
 using namespace GluonCreator;
 
@@ -67,6 +67,9 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     QAction* selectAll = toolBar->addAction(KIcon("edit-select-all"), i18n("Select All"), this, SLOT( selectAll() ) );
     d->view->addAction( selectAll );
 
+    QAction* copy = toolBar->addAction(KIcon("edit-copy"), i18n("Copy"), this, SLOT( copy() ) );
+    d->view->addAction( copy );
+
     KAction* separator = new KAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
@@ -89,6 +92,16 @@ void MessageDock::showDebug( const QString& debugText )
 MessageDock::~MessageDock()
 {
     delete d;
+}
+
+void MessageDock::copy()
+{
+    int itemsCount = d->view->count();
+    QStringList messages;
+    for (int i = 0; i < itemsCount; ++i)
+        messages << d->view->item(i)->text();
+
+    QApplication::clipboard()->setText(messages.join("\n"));
 }
 
 void MessageDock::selectAll()

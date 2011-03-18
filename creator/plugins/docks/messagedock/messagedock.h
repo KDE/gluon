@@ -36,6 +36,7 @@ namespace GluonCreator
 
         private slots:
             void selectAll();
+            void copy();
             void clearSelection();
 
         private:
