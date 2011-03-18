@@ -33,6 +33,7 @@ namespace GluonCreator
 
         public slots:
             void showDebug( const QString& debugText );
+            void selectAll();
 
         private:
             class MessageDockPrivate;

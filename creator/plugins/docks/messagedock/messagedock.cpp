@@ -18,12 +18,19 @@
  */
 
 #include "messagedock.h"
-#include "core/gluon_global.h"
-#include "engine/game.h"
+
+#include <core/gluon_global.h>
+#include <engine/game.h>
+
+#include <KDE/KLocalizedString>
+#include <KDE/KToolBar>
+#include <KDE/KAction>
 
 // Yup, this should be a view... but for now...
 #include <QtGui/QListWidget>
-#include <KDE/KLocalizedString>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QApplication>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -42,12 +49,31 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
       d( new MessageDockPrivate )
 {
     setObjectName( "MessageDock" );
+
     d->view = new QListWidget( this );
     d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1" ).arg( GluonCore::Global::versionString() ), d->view ) );
 
-    connect( GluonEngine::Game::instance(), SIGNAL( showDebug( const QString& ) ), this, SLOT( showDebug( const QString& ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( showDebug( const QString& ) ), SLOT( showDebug( const QString& ) ) );
 
-    setWidget( d->view );
+    QWidget* widget = new QWidget( this );
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->setContentsMargins( 0, 0, 0, 0 );
+    layout->setSpacing( 0 );
+    widget->setLayout( layout );
+
+    KToolBar* toolBar = new KToolBar(this);
+    toolBar->setIconDimensions(16);
+
+    QAction* selectAll = toolBar->addAction(KIcon("edit-select-all"), i18n("Select All"), this, SLOT( selectAll() ) );
+    d->view->addAction( selectAll );
+
+    KAction* separator = new KAction( d->view );
+    separator->setSeparator( true );
+    d->view->addAction( separator );
+
+    layout->addWidget(toolBar);
+    layout->addWidget(d->view);
+    setWidget(widget);
 }
 
 void MessageDock::showDebug( const QString& debugText )
@@ -60,4 +86,11 @@ void MessageDock::showDebug( const QString& debugText )
 MessageDock::~MessageDock()
 {
     delete d;
+}
+
+void MessageDock::selectAll()
+{
+    int itemsCount = d->view->count();
+    for (int i = 0; i < itemsCount; ++i)
+        d->view->item(i)->setSelected(true);
 }
