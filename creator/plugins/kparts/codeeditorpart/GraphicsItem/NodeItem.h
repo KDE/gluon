@@ -54,12 +54,21 @@ class NodeItem : public QGraphicsSvgItem
             return _node;
         }
         static QMap<QString, QSvgRenderer*> _renders;
+	/**
+	 * Hash used to associate name value with graphical representation.
+	 */
         QHash<QString, QGraphicsSvgItem*> connectors();
+	/**
+	 * Type of Node to display.
+	 */
         int type() const
         {
             return Type;
         }
     public slots:
+        /**
+	 * Sets up Node of Graph. Main function to call, which calls other functions.
+	 */
         void setupNode();
     private slots:
         void updateRenderer();
@@ -69,6 +78,10 @@ class NodeItem : public QGraphicsSvgItem
         void updateColor();
         void updatePos();
         void updateSize();
+	/**
+	 * Updates visual representation of Nodes and Edges.
+	 * @todo    Clean up section into separate Node and Edge updater.
+	 */
         void updateConnectors();
         void updateImage();
     private:

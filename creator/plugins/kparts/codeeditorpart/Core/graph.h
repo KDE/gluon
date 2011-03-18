@@ -143,7 +143,7 @@ class Graph : public QObject
         */
         Edge* addEdge( Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSvgItem* cTo );
 
-        /*! creates a new edge
+        /* creates a new edge
         \p name_from the name of the node that will be used as 'from'
         \p name_to the name of the node that will be used as 'to'
         \return the newly created edge.
