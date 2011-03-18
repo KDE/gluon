@@ -25,6 +25,7 @@
 #include "core/debughelper.h"
 
 #include <QtCore/QEvent>
+#include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, MouseInputComponent );
 
@@ -45,6 +46,10 @@ class MouseInputComponent::MouseInputComponentPrivate
         int lastY;
         int lastZ;
 
+        int relX;
+        int relY;
+        int relZ;
+
         bool mouseTrack;
 
         static const int mouseButtonOffset;
@@ -63,6 +68,10 @@ MouseInputComponent::MouseInputComponent( QObject* parent )
     d->mouseButton = MouseInputComponent::MOUSE_BUTTON_UNKNOWN;
 
     d->mouse = 0;
+
+    d->lastX = 0;
+    d->lastY = 0;
+    d->lastZ = 0;
 }
 
 MouseInputComponent::~MouseInputComponent()
@@ -124,6 +133,10 @@ MouseInputComponent::update( int elapsedMilliseconds )
         }
     }
 
+    d->relX = d->mouse->position().x() - d->lastX;
+    d->relY = d->mouse->position().y() - d->lastY;
+    d->relZ = d->mouse->wheelPosition() - d->lastZ;
+
     d->lastX = d->mouse->position().x();
     d->lastY = d->mouse->position().y();
     d->lastZ = d->mouse->wheelPosition();
@@ -181,17 +194,17 @@ void MouseInputComponent::setMouseTrack( bool enable )
 
 int MouseInputComponent::relativeXAxis()
 {
-    return d->lastX - d->mouse->position().x();
+    return d->relX;
 }
 
 int MouseInputComponent::relativeYAxis()
 {
-    return d->lastY - d->mouse->position().y();
+    return d->relY;
 }
 
 int MouseInputComponent::relativeZAxis()
 {
-    return d->lastZ - d->mouse->wheelPosition();
+    return d->relZ;
 }
 
 int MouseInputComponent::xAxis()
@@ -209,6 +222,25 @@ int MouseInputComponent::zAxis()
     return d->mouse->wheelPosition();
 }
 
+float MouseInputComponent::normalizedXAxis()
+{
+    QWidget* filter = qobject_cast<QWidget*>(GluonInput::InputManager::instance()->filteredObject());
+    if(filter)
+    {
+        return (d->mouse->position().x() / float(filter->width())) * 2.f -1.f;
+    }
+    return 0.f;
+}
+
+float MouseInputComponent::normalizedYAxis()
+{
+    QWidget* filter = qobject_cast<QWidget*>(GluonInput::InputManager::instance()->filteredObject());
+    if(filter)
+    {
+        return (d->mouse->position().y() / float(filter->height())) * 2.f - 1.f;
+    }
+    return 0.f;
+}
 
 Q_EXPORT_PLUGIN2( gluon_component_mouseinput, GluonEngine::MouseInputComponent );
 
