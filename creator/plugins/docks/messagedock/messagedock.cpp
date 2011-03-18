@@ -71,6 +71,9 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     separator->setSeparator( true );
     d->view->addAction( separator );
 
+    QAction* clearSelection = toolBar->addAction(KIcon("edit-clear-list"), i18n("Clear Selection"), this, SLOT( clearSelection() ) );
+    d->view->addAction( clearSelection );
+
     layout->addWidget(toolBar);
     layout->addWidget(d->view);
     setWidget(widget);
@@ -93,4 +96,11 @@ void MessageDock::selectAll()
     int itemsCount = d->view->count();
     for (int i = 0; i < itemsCount; ++i)
         d->view->item(i)->setSelected(true);
+}
+
+void MessageDock::clearSelection()
+{
+    int itemsCount = d->view->count();
+    for (int i = 0; i < itemsCount; ++i)
+        d->view->item(i)->setSelected(false);
 }
