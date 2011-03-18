@@ -19,6 +19,9 @@
             <Action name="file_quit" />
         </Menu>
 
+        <Menu name="game" noMerge="1">
+        </Menu>
+
         <Menu name="file" noMerge="1"><text>&amp;File</text>
             <DefineGroup name="bookmark_merge" append="bookmarks" />
             <DefineGroup name="save_merge" append="save_merge" />
