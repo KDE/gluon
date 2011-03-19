@@ -198,6 +198,8 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
     newObj->setName( humanifyClassName( newObj->metaObject()->className(), false ) );
     DEBUG_TEXT( QString( "Creating object: %1" ).arg( newObj->name() ) );
 
+    newObj->initialize();
+
     SelectionManager::SelectionList selection = SelectionManager::instance()->selection();
     if( selection.size() > 0 )
     {
