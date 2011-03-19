@@ -250,6 +250,7 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 		}
 	case QEvent::MouseMove:
 		{
+                    //qDebug() << "MouseMove";
 			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 			mouse(0)->setPosition( mouseEvent->pos( ) );
 			return true;
@@ -331,6 +332,7 @@ void InputManager::installEventFiltered(QObject *filteredObj)
     qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PanGesture);
     qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PinchGesture);
     qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::SwipeGesture);
+    qobject_cast<QWidget*>(filteredObj)->setMouseTracking(true);
 }
 
 void InputManager::removeEventFiltered(QObject *filteredObj)
