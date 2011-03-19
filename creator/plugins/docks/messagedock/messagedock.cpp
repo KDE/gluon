@@ -96,10 +96,9 @@ MessageDock::~MessageDock()
 
 void MessageDock::copy()
 {
-    int itemsCount = d->view->count();
     QStringList messages;
-    for (int i = 0; i < itemsCount; ++i)
-        messages << d->view->item(i)->text();
+    foreach( QListWidgetItem* item, d->view->selectedItems())
+        messages << item->text();
 
     QApplication::clipboard()->setText(messages.join("\n"));
 }
