@@ -67,7 +67,7 @@ else()
     kde4_add_app_icon(qmlplayer_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
     add_executable(gluon_qmlplayer ${qmlplayer_SRCS} ${GLUON_QMLPLAYER_RCC_SRCS})
 endif()
-target_link_libraries(gluon_qmlplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS}  ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
+target_link_libraries(gluon_qmlplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
 set(GLUON_DECLARATIVE_LIBS
     GluonPlayer
@@ -80,7 +80,4 @@ if(NOT APPLE)
     install(TARGETS gluon_qmlplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
     install(FILES gluon_qmlplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 endif()
-
-
-
 

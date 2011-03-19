@@ -26,6 +26,7 @@
 #include <QtCore/QString>
 #include <QtCore/QList>
 #include <QtCore/QDir>
+#include <QtCore/QUrl>
 
 namespace GluonPlayer
 {
@@ -47,12 +48,14 @@ namespace GluonPlayer
             QString gameName() const;
             QString gameDescription() const;
             QString projectFileName() const;
+            QVariantList screenshotUrls() const;
             QString id() const;
 
         private:
             QString m_gameName;
             QString m_gameDescription;
             QString m_projectFileName;
+            QList<QUrl> m_screenshotUrls;
             QString m_id;
     };
 
@@ -65,6 +68,7 @@ namespace GluonPlayer
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
                 ProjectFileNameRole,
+                ScreenshotUrlsRole,
                 IDRole
             };
 

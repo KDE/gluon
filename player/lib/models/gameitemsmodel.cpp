@@ -51,6 +51,14 @@ QString GameViewItem::projectFileName() const
     return m_projectFileName;
 }
 
+QVariantList GameViewItem::screenshotUrls() const
+{
+    QVariantList screenshots;
+    foreach(const QUrl &url, m_screenshotUrls)
+        screenshots.append(qVariantFromValue(url));
+    return screenshots;
+}
+
 QString GameViewItem::id() const
 {
     return m_id;
@@ -82,6 +90,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[GameNameRole] = "gameName";
     roles[GameDescriptionRole] = "gameDescription";
     roles[ProjectFileNameRole] = "projectFileName";
+    roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[IDRole] = "id";
     setRoleNames(roles);
 }
@@ -101,6 +110,8 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
     case Qt::DisplayRole:
     case ProjectFileNameRole:
         return m_gameViewItems.at( index.row() ).projectFileName();
+    case ScreenshotUrlsRole:
+        return m_gameViewItems.at( index.row() ).screenshotUrls();
     case IDRole:
         return m_gameViewItems.at( index.row() ).id();
     default:
