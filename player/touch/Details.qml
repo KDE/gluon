@@ -91,7 +91,7 @@ Rectangle {
         id: high_scores_btn;
         width: parent.width / 4;
         height: parent.height * 1 / 5;
-        icon: "icons/help-hint.png";
+        icon: "icons/games-highscores.png";
         text: qsTr("High Scores");
         subtext: "Your global high-score: 258th";
         anchors {
@@ -107,7 +107,7 @@ Rectangle {
         id: achievements_btn;
         width: parent.width / 4;
         height: parent.height * 1 / 5;
-        icon: "icons/dialog-ok.png";
+        icon: "icons/games-achievements.png";
         text: qsTr("Achievements");
         subtext: "You have 4 of 16";
         anchors {
@@ -124,7 +124,7 @@ Rectangle {
         id: rate_comments_btn;
         width: parent.width / 4;
         height: parent.height * 1 / 5;
-        icon: "icons/media-playback-start.png";
+        icon: "icons/help-feedback.png";
         text: qsTr("Rate & Comment");
         subtext: "20984 ratings, 413 comments";
         anchors {

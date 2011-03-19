@@ -26,6 +26,9 @@
         <file>icons/im-user.png</file>
         <file>icons/hi32-app-gluon.png</file>
         <file>icons/hi256-app-gluon.png</file>
+        <file>icons/games-achievements.png</file>
+        <file>icons/games-highscores.png</file>
+        <file>icons/help-feedback.png</file>
     </qresource>
 </RCC>
 
