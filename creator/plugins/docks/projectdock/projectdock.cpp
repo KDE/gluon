@@ -134,7 +134,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                         KFileItemActions* openWithActions = new KFileItemActions(menu);
                         openWithActions->setItemListProperties(properties);
 
-                        openWithActions->addOpenWithActionsTo(menu);
+                        openWithActions->addOpenWithActionsTo(menu, QString());
                     }
 
                     menu->addSeparator();
