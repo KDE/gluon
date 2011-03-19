@@ -150,8 +150,8 @@ void InputThread::readInformation()
                     {
                         d->absAxisCapabilities.append( usage );
                         AbsVal val( 0, 0, 0, 0 );
-                        val.max = ( int )IOHIDElementGetLogicalMax( elementRef );
-                        val.min = ( int )IOHIDElementGetLogicalMin( elementRef );
+                        val.maximum = ( int )IOHIDElementGetLogicalMax( elementRef );
+                        val.minimum = ( int )IOHIDElementGetLogicalMin( elementRef );
                         IOHIDValueRef valRef = NULL;
                         IOHIDDeviceGetValue( d->device, elementRef, &valRef );
                         val.value = IOHIDValueGetIntegerValue( valRef );
