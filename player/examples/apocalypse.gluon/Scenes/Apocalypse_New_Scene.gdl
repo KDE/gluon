@@ -67,5 +67,40 @@
                 material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Background)
             }
         }
+        { GluonEngine::GameObject(Crosshair)
+            enabled bool(true)
+            position vector3d(25;0;-40)
+            scale vector3d(1;1;1)
+            orientation quaternion(0;0;0;1)
+            { GluonEngine::SpriteRendererComponent(SpriteRendererComponent)
+                enabled bool(true)
+                size size2d(10;10)
+                material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Crosshair)
+            }
+            { GluonEngine::MouseInputComponent(Button_Fire)
+                enabled bool(true)
+                mouseButton int(1)
+                mouseTrack bool(true)
+            }
+            { GluonEngine::ScriptingComponent(ScriptingComponent)
+                enabled bool(true)
+                script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Crosshair Script)
+                mouseSpeed float(0.05)
+            }
+        }
+        { GluonEngine::SoundListenerComponent(SoundListenerComponent)
+            enabled bool(true)
+            active bool(true)
+            effectsEnabled bool(true)
+        }
+        { GluonEngine::SoundEmitterComponent(SoundEmitterComponent)
+            enabled bool(true)
+            sound GluonEngine::Asset(Apocalypse/Assets/Sounds/Movement Proposition.ogg)
+            radius float(10000)
+            volume float(1)
+            pitch float(1)
+            loop bool(true)
+            autoPlay bool(true)
+        }
     }
 }

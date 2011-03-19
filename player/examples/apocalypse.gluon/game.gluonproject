@@ -10,8 +10,8 @@
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(crosshair_script)
-                file url(Assets/Apocalypse/Assets/Scripts/crosshair_script.js)
+            { GluonEngine::ScriptingAsset(Crosshair Script)
+                file url(Assets/Apocalypse/Assets/Scripts/Crosshair Script.js)
             }
             { GluonEngine::ScriptingAsset(Player Script)
                 file url(Assets/Apocalypse/Assets/Scripts/Player Script.js)
@@ -23,6 +23,9 @@
             }
             { GluonEngine::TextureAsset(Dirt.JPG)
                 file url(Assets/Apocalypse/Assets/Textures/Dirt.JPG.jpg)
+            }
+            { GluonEngine::TextureAsset(crosshair.png)
+                file url(Assets/Apocalypse/Assets/Textures/crosshair.png.png.png)
             }
         }
         { GluonEngine::MaterialAsset(Animated Sprite)
@@ -41,6 +44,12 @@
             }
         }
         { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(Exciting Trailer.ogg)
+                file url(Assets/Apocalypse/Assets/Sounds/Exciting Trailer.ogg.ogg)
+            }
+            { GluonEngine::SoundAsset(Movement Proposition.ogg)
+                file url(Assets/Apocalypse/Assets/Sounds/Movement Proposition.ogg.ogg)
+            }
         }
         { GluonEngine::MaterialAsset(Material)
             file url(Assets/Apocalypse/Assets/Material.gml)
@@ -48,6 +57,11 @@
                 materialColor rgba(255;255;255;255)
                 texture0 string(Dirt.JPG)
                 textureParameters vector4d(0;0;2;4)
+            }
+            { GluonGraphics::MaterialInstance(Crosshair)
+                materialColor rgba(255;0;0;255)
+                textureParameters vector4d(0;0;1;1)
+                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/crosshair.png)
             }
         }
         { GluonCore::GluonObject(Interface)

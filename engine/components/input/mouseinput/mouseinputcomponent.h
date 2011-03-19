@@ -88,6 +88,9 @@ namespace GluonEngine
             Q_INVOKABLE virtual int relativeYAxis();
             Q_INVOKABLE virtual int relativeZAxis();
 
+            Q_INVOKABLE virtual float normalizedXAxis();
+            Q_INVOKABLE virtual float normalizedYAxis();
+
         private:
             class MouseInputComponentPrivate;
             MouseInputComponentPrivate* const d;
