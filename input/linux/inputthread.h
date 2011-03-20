@@ -77,6 +77,7 @@ namespace GluonInput
             bool error();
             QString msgError();
 
+            int mapMouseButton(int mouseButton);
             int mapKeyCode(int keyCode);
 
             QObject* parent();

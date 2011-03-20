@@ -22,6 +22,7 @@
 #include "inputthread.h"
 #include "absval.h"
 #include "inputthreadprivate.h"
+#include "mouse.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
@@ -63,6 +64,31 @@ InputThread::InputThread( const QString& devicePath, QObject* parent )
 InputThread::~InputThread()
 {
     closeDevice();
+}
+
+int InputThread::mapMouseButton(int mouseButton)
+{
+    switch( mouseButton )
+    {
+        case BTN_LEFT:
+            return Mouse::MOUSE_BUTTON_LEFT;
+        case BTN_RIGHT:
+            return Mouse::MOUSE_BUTTON_RIGHT;
+        case BTN_MIDDLE:
+            return Mouse::MOUSE_BUTTON_MIDDLE;
+        case BTN_SIDE:
+            return Mouse::MOUSE_BUTTON_FOUR;
+        case BTN_EXTRA:
+            return Mouse::MOUSE_BUTTON_FIVE;
+        case BTN_FORWARD:
+            return Mouse::MOUSE_BUTTON_SIX;
+        case BTN_BACK:
+            return Mouse::MOUSE_BUTTON_SEVEN;
+        case BTN_TASK:
+            return Mouse::MOUSE_BUTTON_EIGHT;
+        default:
+            return Mouse::MOUSE_BUTTON_UNKNOWN;
+    }
 }
 
 int InputThread::mapKeyCode(int keyCode)
@@ -592,7 +618,7 @@ bool InputThread::openDevice( const QString& devicePath )
 {
     if(( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 )
     {
-        qDebug() << "Could not open the device: " << devicePath;
+        qDebug() << "Could not open the device:" << devicePath;
         d->m_error = true;
         d->m_msgError += "Could not open the device\n";
         return false;
@@ -963,7 +989,7 @@ QString InputThread::msgError()
 void InputThread::closeDevice()
 {
     if( close( d->m_fd ) )
-        qDebug() << "Could not close the device: " << d->m_devicePath << endl;
+        qDebug() << "Could not close the device:" << d->m_devicePath;
 }
 
 #include "inputthread.moc"
