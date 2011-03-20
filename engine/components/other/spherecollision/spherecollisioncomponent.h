@@ -20,7 +20,6 @@
 #ifndef GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
 #define GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonEngine

@@ -21,7 +21,6 @@
 #ifndef TEXTRENDERERCOMPONENT_H
 #define TEXTRENDERERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 #include <QtGui/QFont>

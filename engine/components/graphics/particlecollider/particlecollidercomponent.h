@@ -20,7 +20,6 @@
 #ifndef GLUON_ENGINE_PARTICLECOLLIDER_H
 #define GLUON_ENGINE_PARTICLECOLLIDER_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 class QSizeF;

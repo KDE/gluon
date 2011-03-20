@@ -20,7 +20,6 @@
 #ifndef DISCSECTIONRENDERERCOMPONENT_H
 #define DISCSECTIONRENDERERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonEngine

@@ -21,7 +21,6 @@
 #ifndef GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H
 #define GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonEngine
@@ -71,7 +70,7 @@ namespace GluonEngine
             Q_INVOKABLE void setLoop( bool loop );
             Q_INVOKABLE void setSound( Asset* asset );
             Q_INVOKABLE void setAutoPlay( bool autoPlay );
-            
+
         private:
             class SoundEmitterComponentPrivate;
             SoundEmitterComponentPrivate* const d;

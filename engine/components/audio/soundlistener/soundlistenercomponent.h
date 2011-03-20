@@ -21,9 +21,7 @@
 #ifndef GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H
 #define GLUON_ENGINE_SOUNDLISTENERCOMPONENT_H
 
-#include <core/gluonvarianttypes.h>
 #include <engine/component.h>
-#include <engine/gluon_engine_export.h>
 
 namespace GluonEngine
 {

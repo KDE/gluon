@@ -20,7 +20,6 @@
 #ifndef DISCRENDERERCOMPONENT_H
 #define DISCRENDERERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonEngine

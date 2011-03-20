@@ -21,7 +21,6 @@
 #ifndef GLUON_ENGINE_UIMANAGERCOMPONENT_H
 #define GLUON_ENGINE_UIMANAGERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 class QScriptValue;

@@ -20,7 +20,6 @@
 #ifndef GLUON_ENGINE_CAMERACONTROLLERCOMPONENT_H
 #define GLUON_ENGINE_CAMERACONTROLLERCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonGraphics
