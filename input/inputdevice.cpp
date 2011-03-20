@@ -31,10 +31,12 @@
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaEnum>
 
+REGISTER_OBJECTTYPE( GluonInput, InputDevice )
+
 using namespace GluonInput;
 
 InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
-    : QObject( parent )
+    : GluonCore::GluonObject( parent )
     , d( new InputDevicePrivate )
 {
     d->inputBuffer = new InputBuffer();
@@ -49,17 +51,25 @@ InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
     }
 }
 
-InputDevice::InputDevice()
+InputDevice::InputDevice( const InputDevice& other, QObject* parent )
+    : GluonObject( parent )
+    , d( other.d )
 {
 }
 
 InputDevice::~InputDevice()
 {
     setEnabled( false );
-    delete d->inputThread;
-    delete d->inputBuffer;
+    if( d ) {
+        if( d->inputThread )
+            qDebug() << "Close the device:" << deviceName();
 
-    qDebug() << "Closed device :" << deviceName();
+        delete d->inputThread;
+        d->inputThread = 0;
+
+        delete d->inputBuffer;
+        d->inputBuffer = 0;
+    }
 }
 
 int InputDevice::vendor() const
@@ -129,7 +139,7 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled( bool enable )
 {
-    if (!d->inputThread)
+    if (!d || !d->inputThread)
         return;
 
     if( enable && !d->inputThread->isEnabled() )
@@ -184,7 +194,7 @@ QString InputDevice::axisName( int code ) const
 
 void InputDevice::setButtonState( int button, int value )
 {
-    // qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
+    qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
     d->inputBuffer->setButtonState( button, value );
 }
 

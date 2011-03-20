@@ -23,6 +23,8 @@
 #include "inputthread.h"
 #include "gluondevices.h"
 
+#include <core/gluonobject.h>
+
 #include <QtCore/QMap>
 #include <QtCore/QPair>
 #include <QtCore/QPoint>
@@ -35,14 +37,14 @@ namespace GluonInput
 {
     class InputDevicePrivate;
 
-    class GLUON_INPUT_EXPORT InputDevice : public QObject
+    class GLUON_INPUT_EXPORT InputDevice : public GluonCore::GluonObject
     {
             Q_OBJECT
-            Q_ENUMS( GluonInput::KeyboardButton )
+            GLUON_OBJECT( GluonInput::InputDevice )
 
         public:
-            InputDevice();
-            explicit InputDevice( InputThread* inputThread, QObject* parent = 0 );
+            explicit InputDevice( InputThread* inputThread = 0, QObject* parent = 0 );
+            InputDevice( const InputDevice& other, QObject* parent = 0 );
             ~InputDevice();
 
             int vendor() const;
@@ -76,8 +78,11 @@ namespace GluonInput
             void buttonStateChanged( int button, int value );
 
         private:
-
             QSharedDataPointer<InputDevicePrivate> d;
     };
 }
-#endif // KCLINPUT_H
+
+Q_DECLARE_METATYPE( GluonInput::InputDevice );
+Q_DECLARE_METATYPE( GluonInput::InputDevice* );
+
+#endif
