@@ -26,6 +26,7 @@
 #include "core/gluonobjectfactory.h"
 
 #include <QtCore/QMetaClassInfo>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -48,7 +49,17 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
         }
     }
 
-    const QMetaObject* mo = object->metaObject();
+    QString str = type.section("::", 0, -2);
+    QString typeStr = type.section("::", -1);
+    const QMetaObject* mo;
+    if( str.compare("Qt") && !str.isEmpty())
+    {
+        mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value(str);
+    }
+    else
+    {
+        mo = object->metaObject();
+    }
     // Check whether we've got an item which uses an enum to grab its value
     //         if (mo->enumeratorCount() > 0)
     //         {
@@ -57,11 +68,12 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
     //                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
     //             }
     //
-    if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1 )
+    if( mo && mo->indexOfEnumerator( typeStr.toUtf8() ) > -1 )
     {
         return new EnumPropertyWidgetItem( type, parent );
     } else {
         mo = QtMetaObject::get();
+        qDebug() << "METAOBJECT_CLASSNAME:" << mo->className() << type;
         if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1)
         {
              return new EnumPropertyWidgetItem( type, parent );
