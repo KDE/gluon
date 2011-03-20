@@ -131,8 +131,12 @@ namespace GluonCore
     #include "yourclassname.moc"
     \endcode
      *
-     * Please also ensure that all public functions are slots, as this will enable their
-     * access from the QtScript based game code in GluonEngine based games.
+     * When implementing such classes, please also ensure the following:
+     *
+     * - Mark all public functions which should be available from game code as a slot, or with the
+     *   Q_INVOKABLE macro,
+     * - Use the fully qualified type name for all properties (such as GluonInput::Mouse::MouseButton
+     *   instead of just MouseButton or Mouse::MouseButton)
      */
     class GLUON_CORE_EXPORT GluonObject : public QObject
     {
