@@ -10,11 +10,17 @@
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(Crosshair Script)
-                file url(Assets/Apocalypse/Assets/Scripts/Crosshair Script.js)
+            { GluonEngine::ScriptingAsset(Crosshair)
+                file url(Assets/Apocalypse/Assets/Scripts/Crosshair.js)
             }
-            { GluonEngine::ScriptingAsset(Player Script)
-                file url(Assets/Apocalypse/Assets/Scripts/Player Script.js)
+            { GluonEngine::ScriptingAsset(Player)
+                file url(Assets/Apocalypse/Assets/Scripts/Player.js)
+            }
+            { GluonEngine::ScriptingAsset(Bullet)
+                file url(Assets/Apocalypse/Assets/Scripts/Bullet.js)
+            }
+            { GluonEngine::ScriptingAsset(Zombie)
+                file url(Assets/Apocalypse/Assets/Scripts/Zombie.js)
             }
         }
         { GluonCore::GluonObject(Textures)
@@ -35,12 +41,17 @@
                 texture0 string(goblin_lumberjack_green.png)
                 frame vector4d(0;0.375;0.0263158;0.125)
             }
+            { GluonGraphics::MaterialInstance(Zombie)
+                materialColor rgba(255;255;255;255)
+                frame vector4d(0.105263;0;0.0263158;0.125)
+                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/goblin_lumberjack_green.png)
+            }
         }
         { GluonEngine::MaterialAsset(RenderTarget)
             file url(Assets/Apocalypse/Assets/RenderTarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(8)
+                texture0 uint(10)
             }
         }
         { GluonCore::GluonObject(Sounds)

@@ -1,12 +1,16 @@
 this.initialize = function()
 {
+    this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
+    this.Component.speed = this.Component.speed || 20;
+    this.bullet = Game.getFromScene("Bullet");
+    
+    MessageHandler.subscribe("fireBullet", this.fireBullet, this);
 }
 
 this.start = function()
 {
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.Background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
-    this.Component.speed = this.Component.speed || 0.025;
     
     this.scaleX = this.Background.textureParameters.z();
     this.scaleY = this.Background.textureParameters.w();
@@ -15,25 +19,32 @@ this.start = function()
 }
 
 this.update = function(time)
-{    
+{   
+    var dt = time / 1000;
+    
     var translateX = 0;
     var translateY = 0;
     
     if(this.GameObject.Key_Left.isActionHeld())
-        translateX = -this.Component.speed;
+        translateX = -this.Component.speed * dt;
     
     if(this.GameObject.Key_Right.isActionHeld())
-        translateX = this.Component.speed;
+        translateX = this.Component.speed * dt;
     
     if(this.GameObject.Key_Up.isActionHeld())
-        translateY = this.Component.speed;
+        translateY = this.Component.speed * dt;
     
     if(this.GameObject.Key_Down.isActionHeld())
-        translateY = -this.Component.speed;
+        translateY = -this.Component.speed * dt;
     
-    this.moveX += translateX;
-    this.moveY += translateY;
+    //this.GameObject.debug(translateX);
+    //this.GameObject.debug(translateY);
+    
+    this.moveX += translateX / this.Component.backgroundDivisor;
+    this.moveY += translateY / this.Component.backgroundDivisor;
     this.Background.textureParameters = new QVector4D(this.moveX, this.moveY, this.scaleX, this.scaleY);
+   
+    this.GameObject.parentGameObject().translate(translateX / this.scaleX, translateY / this.scaleY, 0);
     
     if(translateX == -this.Component.speed && translateY == this.Component.speed)
         this.AnimatedSprite.direction = 0;
@@ -61,16 +72,8 @@ this.update = function(time)
     
     if(translateX == 0 && translateY == 0)
     {
-        if(this.GameObject.Key_Swing.isActionHeld())
-        {
-            if(this.AnimatedSprite.animation != 3)
-                this.AnimatedSprite.animation = 3;
-        }
-        else
-        {
-            if(this.AnimatedSprite.animation != 0)
-                this.AnimatedSprite.animation = 0;
-        }
+	if(this.AnimatedSprite.animation != 0)
+	    this.AnimatedSprite.animation = 0;
     }
     else
     {
@@ -89,4 +92,12 @@ this.stop = function()
 
 this.cleanup = function()
 {
+}
+
+this.fireBullet = function() 
+{
+    var newBullet = Game.clone(this.bullet);
+    bullet.position.setX(this.GameObject.position.x());
+    bullet.position.setY(this.GameObject.position.y());
+    bullet.enabled = true;
 }

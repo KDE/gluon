@@ -11,7 +11,10 @@ this.update = function(time)
     var x = this.GameObject.Button_Fire.normalizedXAxis() * this.radius;
     var y = -this.GameObject.Button_Fire.normalizedYAxis() * this.radius;
 
-    //this.GameObject.debug(x);
-    //this.GameObject.debug(y);
     this.GameObject.setPosition(x, y, this.zDepth);
+    
+    if(this.GameObject.Button_Fire.isActionHeld()) 
+    {
+	MessageHandler.publish("fireBullet");
+    }
 }
