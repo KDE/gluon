@@ -25,6 +25,7 @@
 #include <core/debughelper.h>
 
 #include <QtCore/QEvent>
+#include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, MouseInputComponent );
 
@@ -120,7 +121,7 @@ MouseInputComponent::update( int elapsedMilliseconds )
     if( d->actionStopped )
         d->actionStopped = false;
 
-    // qDebug() << "READ - KEYCODE:  " << m_keyCode << "PRESSED: " << m_keyboard->buttonPressed( m_keyCode );
+    // qDebug() << "READ - KEYCODE - OFFSET:  " << d->mouseButton << d->mouseButtonOffset << "PRESSED: " << d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset );
     if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset ) )
     {
         if( !d->actionHeld )

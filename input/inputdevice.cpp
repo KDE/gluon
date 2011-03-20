@@ -184,6 +184,7 @@ QString InputDevice::axisName( int code ) const
 
 void InputDevice::setButtonState( int button, int value )
 {
+    // qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
     d->inputBuffer->setButtonState( button, value );
 }
 

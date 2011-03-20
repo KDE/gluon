@@ -104,6 +104,7 @@ namespace GluonInput
 
             Q_DISABLE_COPY(InputManager);
             void init();
+            int mapMouseButton(Qt::MouseButton mouseButton);
 
             InputManagerPrivate* d;
 

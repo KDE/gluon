@@ -227,6 +227,27 @@ InputDevice* InputManager::input( int id )
     return 0;
 }
 
+int InputManager::mapMouseButton(Qt::MouseButton mouseButton)
+{
+    switch( mouseButton )
+    {
+        case Qt::NoButton:
+            return Mouse::MOUSE_BUTTON_UNKNOWN;
+        case Qt::LeftButton:
+            return Mouse::MOUSE_BUTTON_LEFT;
+        case Qt::RightButton:
+            return Mouse::MOUSE_BUTTON_RIGHT;
+        case Qt::MiddleButton:
+            return Mouse::MOUSE_BUTTON_MIDDLE;
+        case Qt::XButton1:
+            return Mouse::MOUSE_BUTTON_FOUR;
+        case Qt::XButton2:
+            return Mouse::MOUSE_BUTTON_FIVE;
+        default:
+            return Mouse::MOUSE_BUTTON_UNKNOWN;
+    }
+}
+
 bool InputManager::eventFilter(QObject* object, QEvent* event)
 {
     if (object != m_filteredObj.data())
@@ -250,7 +271,6 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 		}
 	case QEvent::MouseMove:
 		{
-                    //qDebug() << "MouseMove";
 			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 			mouse(0)->setPosition( mouseEvent->pos( ) );
 			return true;
@@ -265,20 +285,9 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 	case QEvent::MouseButtonPress:
 		{
 			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-			switch (mouseEvent->button()) {
-			case Qt::LeftButton:
-				return true;
-			case Qt::RightButton:
-				return true;
-			case Qt::MiddleButton:
-				return true;
-			case Qt::XButton1:
-				return true;
-			case Qt::XButton2:
-				return true;
-			default:
-				return false;
-			}
+			mouse(0)->setButtonState(mapMouseButton( mouseEvent->button() ), 1);
+            emit keyPressed( mapMouseButton( mouseEvent->button() ) );
+            return true;
 		}
 	case QEvent::Gesture:
 		{
