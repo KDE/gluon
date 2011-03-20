@@ -84,6 +84,10 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
         return;
     }
 
+    //Clean any traces of existing objects.
+    stopAll();
+    cleanupAll();;
+
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
     DEBUG_TEXT( QString( "Running the game using fixed update at %1 updates per second (meaning %2 milliseconds between each update, and drawing as often as possible, with a maximum of %3 frames skipped before forcing a draw)" ).arg( updatesPerSecond ).arg( millisecondsPerUpdate ).arg( maxFrameSkip ) );
 
