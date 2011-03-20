@@ -41,19 +41,19 @@
             }
             { GluonEngine::KeyboardInputComponent(Key_Left)
                 enabled bool(true)
-                keyCode int(16777234)
+                keyCode int(65)
             }
             { GluonEngine::KeyboardInputComponent(Key_Right)
                 enabled bool(true)
-                keyCode int(16777236)
+                keyCode int(68)
             }
             { GluonEngine::KeyboardInputComponent(Key_Up)
                 enabled bool(true)
-                keyCode int(16777235)
+                keyCode int(87)
             }
             { GluonEngine::KeyboardInputComponent(Key_Down)
                 enabled bool(true)
-                keyCode int(16777237)
+                keyCode int(83)
             }
         }
         { GluonEngine::GameObject(Background)
@@ -120,7 +120,7 @@
         }
     }
     { GluonEngine::GameObject(Zombie)
-        enabled bool(true)
+        enabled bool(false)
         position vector3d(10;0;4)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
@@ -134,12 +134,24 @@
             frameCounts list<int>(4;8;8;6;4;2;6)
             startFrames list<int>(0;4;12;20;26;30;32)
             animation int(1)
-            expanded bool(true)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Zombie)
             speed float(15)
+        }
+    }
+    { GluonEngine::GameObject(Controller)
+        enabled bool(true)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Controller)
+            minSpawnRate float(1000)
+            maxSpawnRate float(80)
+            spawnRateChange float(2000)
         }
     }
 }

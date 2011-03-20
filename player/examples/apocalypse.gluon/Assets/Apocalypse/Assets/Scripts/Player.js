@@ -2,7 +2,6 @@ this.initialize = function()
 {
     this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
     this.Component.speed = this.Component.speed || 20;
-    this.bullet = Game.getFromScene("Bullet");
     
     MessageHandler.subscribe("fireBullet", this.fireBullet, this);
 }
@@ -11,6 +10,7 @@ this.start = function()
 {
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.Background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
+    this.bullet = this.Scene.sceneContents().Bullet;
     
     this.scaleX = this.Background.textureParameters.z();
     this.scaleY = this.Background.textureParameters.w();
@@ -96,8 +96,9 @@ this.cleanup = function()
 
 this.fireBullet = function() 
 {
+    //this.GameObject.debug("Fire");
     var newBullet = Game.clone(this.bullet);
-    bullet.position.setX(this.GameObject.position.x());
-    bullet.position.setY(this.GameObject.position.y());
-    bullet.enabled = true;
+    newBullet.position.setX(this.GameObject.position.x());
+    newBullet.position.setY(this.GameObject.position.y());
+    newBullet.enabled = true;
 }

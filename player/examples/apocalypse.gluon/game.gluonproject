@@ -22,6 +22,9 @@
             { GluonEngine::ScriptingAsset(Zombie)
                 file url(Assets/Apocalypse/Assets/Scripts/Zombie.js)
             }
+            { GluonEngine::ScriptingAsset(Controller)
+                file url(Assets/Apocalypse/Assets/Scripts/Controller.js)
+            }
         }
         { GluonCore::GluonObject(Textures)
             { GluonEngine::TextureAsset(goblin_lumberjack_green.png)
@@ -51,7 +54,7 @@
             file url(Assets/Apocalypse/Assets/RenderTarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(10)
+                texture0 uint(11)
             }
         }
         { GluonCore::GluonObject(Sounds)
@@ -67,7 +70,7 @@
             { GluonGraphics::MaterialInstance(Background)
                 materialColor rgba(255;255;255;255)
                 texture0 string(Dirt.JPG)
-                textureParameters vector4d(0;0;2;4)
+                textureParameters vector4d(0;0;2;2)
             }
             { GluonGraphics::MaterialInstance(Crosshair)
                 materialColor rgba(255;0;0;255)

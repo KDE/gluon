@@ -13,7 +13,7 @@ this.update = function(time)
 
     this.GameObject.setPosition(x, y, this.zDepth);
     
-    if(this.GameObject.Button_Fire.isActionHeld()) 
+    if(this.GameObject.Button_Fire.isActionStarted())
     {
 	MessageHandler.publish("fireBullet");
     }
