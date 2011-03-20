@@ -26,7 +26,6 @@
 #include "core/gluonobjectfactory.h"
 
 #include <QtCore/QMetaClassInfo>
-#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -73,7 +72,6 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
         return new EnumPropertyWidgetItem( type, parent );
     } else {
         mo = QtMetaObject::get();
-        qDebug() << "METAOBJECT_CLASSNAME:" << mo->className() << type;
         if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1)
         {
              return new EnumPropertyWidgetItem( type, parent );

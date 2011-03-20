@@ -19,7 +19,9 @@
  */
 
 #include "enumpropertywidgetitem.h"
-#include "core/debughelper.h"
+
+#include <core/debughelper.h>
+#include <core/gluonobjectfactory.h>
 
 #include <KDE/KComboBox>
 
@@ -32,10 +34,11 @@ namespace GluonCreator
     {
         public:
             EnumPWIPrivate()
+                : comboBox ( 0 )
+                , editObject ( 0 )
             {
-                comboBox = 0;
-                editObject = 0;
             };
+
             ~EnumPWIPrivate() {};
 
             KComboBox* comboBox;
@@ -49,8 +52,19 @@ namespace GluonCreator
                 if( !editObject )
                     return;
 
-                const QMetaObject* mo = editObject->metaObject();
-                int enumIndex = mo->indexOfEnumerator( typeName.toUtf8() );
+                QString str = typeName.section("::", 0, -2);
+                QString typeStr = typeName.section("::", -1);
+                const QMetaObject* mo;
+                if( str.compare("Qt") && !str.isEmpty())
+                {
+                    mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value(str);
+                }
+                else
+                {
+                    mo = editObject->metaObject();
+                }
+
+                int enumIndex = mo->indexOfEnumerator( typeStr.toUtf8() );
                 if( enumIndex > -1 )
                 {
                     metaEnum = mo->enumerator( enumIndex );
