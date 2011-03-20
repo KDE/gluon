@@ -20,7 +20,6 @@
 #ifndef TOUCHINPUTCOMPONENT_H
 #define TOUCHINPUTCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonInput

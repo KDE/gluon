@@ -22,7 +22,6 @@
 #ifndef KEYBOARDINPUTCOMPONENT_H
 #define KEYBOARDINPUTCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonInput

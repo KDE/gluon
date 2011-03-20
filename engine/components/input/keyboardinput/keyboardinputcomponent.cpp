@@ -20,12 +20,11 @@
  */
 
 #include "keyboardinputcomponent.h"
-#include "input/inputmanager.h"
 
+#include <input/inputmanager.h>
 #include <core/debughelper.h>
 
 #include <QtCore/QEvent>
-#include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, KeyboardInputComponent );
 

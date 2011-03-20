@@ -22,7 +22,6 @@
 #ifndef MOUSEINPUTCOMPONENT_H
 #define MOUSEINPUTCOMPONENT_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 namespace GluonInput

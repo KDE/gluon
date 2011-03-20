@@ -22,7 +22,8 @@
 #define GLUON_ENGINE_COMPONENT_H
 
 #include "gluon_engine_export.h"
-#include "core/gluonobject.h"
+
+#include <core/gluonobject.h>
 
 #include <QtCore/QSharedData>
 #include <QtPlugin>
