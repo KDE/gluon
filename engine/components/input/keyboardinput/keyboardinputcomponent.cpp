@@ -75,7 +75,6 @@ KeyboardInputComponent::update( int elapsedMilliseconds )
     if( m_actionStopped )
         m_actionStopped = false;
 
-    // qDebug() << "READ - KEYCODE:  " << m_keyCode << "PRESSED: " << m_keyboard->buttonPressed( m_keyCode );
     if( m_keyboard && m_keyboard->buttonPressed( m_keyCode ) )
     {
         if( !m_actionHeld )

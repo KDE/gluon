@@ -33,6 +33,22 @@ using namespace GluonEngine;
 class MouseInputComponent::MouseInputComponentPrivate
 {
     public:
+        MouseInputComponentPrivate()
+            : actionHeld( false )
+            , actionStarted( false )
+            , actionStopped( false )
+            , mouseButton( GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN )
+            , mouse( 0 )
+            , lastX( 0 )
+            , lastY( 0 )
+            , lastZ( 0 )
+        {
+        }
+
+        ~MouseInputComponentPrivate()
+        {
+        }
+
         bool actionHeld;
         bool actionStarted;
         bool actionStopped;
@@ -60,17 +76,6 @@ MouseInputComponent::MouseInputComponent( QObject* parent )
     : Component( parent )
     , d( new MouseInputComponentPrivate )
 {
-    d->actionHeld = false;
-    d->actionStarted = false;
-    d->actionStopped = false;
-
-    d->mouseButton = GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN;
-
-    d->mouse = 0;
-
-    d->lastX = 0;
-    d->lastY = 0;
-    d->lastZ = 0;
 }
 
 MouseInputComponent::~MouseInputComponent()
@@ -115,6 +120,7 @@ MouseInputComponent::update( int elapsedMilliseconds )
     if( d->actionStopped )
         d->actionStopped = false;
 
+    // qDebug() << "READ - KEYCODE:  " << m_keyCode << "PRESSED: " << m_keyboard->buttonPressed( m_keyCode );
     if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset ) )
     {
         if( !d->actionHeld )
