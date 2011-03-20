@@ -143,7 +143,7 @@ Rectangle {
         id: donate_btn;
         width: parent.width / 4;
         height: parent.height * 1 / 5;
-        icon: "icons/media-playback-start.png";
+        icon: "icons/help-donate.png";
         text: qsTr("Donate");
         subtext: "€3 suggested";
         anchors {
