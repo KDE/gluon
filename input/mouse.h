@@ -36,6 +36,7 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT Mouse : public InputDevice
     {
             Q_OBJECT
+            GLUON_OBJECT( GluonInput::Mouse )
             Q_ENUMS( MouseButton )
 
         public:
@@ -52,7 +53,8 @@ namespace GluonInput
                 MOUSE_BUTTON_EIGHT,
             };
 
-            explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
+            explicit Mouse( InputThread* inputThread = 0, QObject* parent = 0 );
+            Mouse( const Mouse& other, InputThread* inputThread = 0, QObject* parent = 0 );
             virtual ~Mouse();
 
             QPoint position();
@@ -77,5 +79,8 @@ namespace GluonInput
             QSharedDataPointer<MousePrivate> d;
     };
 }
+
+Q_DECLARE_METATYPE( GluonInput::Mouse );
+Q_DECLARE_METATYPE( GluonInput::Mouse* );
 
 #endif // MOUSE_H

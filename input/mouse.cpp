@@ -21,6 +21,8 @@
 #include "mouse.h"
 #include "mouseprivate.h"
 
+REGISTER_OBJECTTYPE( GluonInput, Mouse )
+
 using namespace GluonInput;
 
 Mouse::Mouse( InputThread* inputThread, QObject* parent )
@@ -32,6 +34,12 @@ Mouse::Mouse( InputThread* inputThread, QObject* parent )
 
     if( inputThread )
         connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
+}
+
+Mouse::Mouse( const Mouse& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
+{
 }
 
 Mouse::~Mouse()
