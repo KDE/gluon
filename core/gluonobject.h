@@ -113,7 +113,7 @@ namespace GluonCore
     \code
     #include "yourclassname.h"
 
-    REGISTER_OBJECT_TYPE(YourNamespace, YourClassName);
+    REGISTER_OBJECTTYPE(YourNamespace, YourClassName);
 
     using YourNamespace;
 
