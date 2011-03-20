@@ -22,6 +22,8 @@
 #ifndef MOUSEINPUTCOMPONENT_H
 #define MOUSEINPUTCOMPONENT_H
 
+#include <input/mouse.h>
+
 #include <engine/component.h>
 
 namespace GluonInput
@@ -36,23 +38,10 @@ namespace GluonEngine
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::MouseInputComponent )
             Q_INTERFACES( GluonEngine::Component )
-            Q_PROPERTY( MouseButton mouseButton READ mouseButton WRITE setMouseButton )
+            Q_PROPERTY( GluonInput::Mouse::MouseButton mouseButton READ mouseButton WRITE setMouseButton )
             Q_PROPERTY( bool mouseTrack READ mouseTrack WRITE setMouseTrack )
-            Q_ENUMS( MouseButton )
 
         public:
-            enum MouseButton
-            {
-                MOUSE_BUTTON_UNKNOWN,
-                MOUSE_BUTTON_LEFT,
-                MOUSE_BUTTON_RIGHT,
-                MOUSE_BUTTON_MIDDLE,
-                MOUSE_BUTTON_FOUR,
-                MOUSE_BUTTON_FIVE,
-                MOUSE_BUTTON_SIX,
-                MOUSE_BUTTON_SEVEN,
-                MOUSE_BUTTON_EIGHT,
-            };
 
             Q_INVOKABLE MouseInputComponent( QObject* parent = 0 );
             virtual ~MouseInputComponent();
@@ -73,8 +62,8 @@ namespace GluonEngine
             virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
-            MouseButton mouseButton() const;
-            void setMouseButton( MouseButton button );
+            GluonInput::Mouse::MouseButton mouseButton() const;
+            void setMouseButton( GluonInput::Mouse::MouseButton button );
 
             bool mouseTrack() const;
             void setMouseTrack( bool enable );

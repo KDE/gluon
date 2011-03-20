@@ -36,8 +36,22 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT Mouse : public InputDevice
     {
             Q_OBJECT
+            Q_ENUMS( MouseButton )
 
         public:
+            enum MouseButton
+            {
+                MOUSE_BUTTON_UNKNOWN,
+                MOUSE_BUTTON_LEFT,
+                MOUSE_BUTTON_RIGHT,
+                MOUSE_BUTTON_MIDDLE,
+                MOUSE_BUTTON_FOUR,
+                MOUSE_BUTTON_FIVE,
+                MOUSE_BUTTON_SIX,
+                MOUSE_BUTTON_SEVEN,
+                MOUSE_BUTTON_EIGHT,
+            };
+
             explicit Mouse( InputThread* inputThread, QObject* parent = 0 );
             virtual ~Mouse();
 

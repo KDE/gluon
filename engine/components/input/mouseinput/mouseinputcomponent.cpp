@@ -37,7 +37,7 @@ class MouseInputComponent::MouseInputComponentPrivate
         bool actionStarted;
         bool actionStopped;
 
-        MouseButton mouseButton;
+        GluonInput::Mouse::MouseButton mouseButton;
 
         GluonInput::Mouse* mouse;
 
@@ -64,7 +64,7 @@ MouseInputComponent::MouseInputComponent( QObject* parent )
     d->actionStarted = false;
     d->actionStopped = false;
 
-    d->mouseButton = MouseInputComponent::MOUSE_BUTTON_UNKNOWN;
+    d->mouseButton = GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN;
 
     d->mouse = 0;
 
@@ -171,12 +171,12 @@ MouseInputComponent::isActionStopped()
     return d->actionStopped;
 }
 
-MouseInputComponent::MouseButton MouseInputComponent::mouseButton() const
+GluonInput::Mouse::MouseButton MouseInputComponent::mouseButton() const
 {
     return d->mouseButton;
 }
 
-void MouseInputComponent::setMouseButton( MouseInputComponent::MouseButton button )
+void MouseInputComponent::setMouseButton( GluonInput::Mouse::MouseButton button )
 {
     d->mouseButton = button;
 }
