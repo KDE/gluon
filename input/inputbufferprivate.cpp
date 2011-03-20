@@ -25,3 +25,7 @@ using namespace GluonInput;
 InputBufferPrivate::InputBufferPrivate()
 {
 }
+
+InputBufferPrivate::~InputBufferPrivate()
+{
+}

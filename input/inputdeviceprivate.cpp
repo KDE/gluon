@@ -27,3 +27,7 @@ InputDevicePrivate::InputDevicePrivate()
     , inputBuffer(0)
 {
 }
+
+InputDevicePrivate::~InputDevicePrivate()
+{
+}

@@ -31,6 +31,7 @@ namespace GluonInput
     {
         public:
             InputBufferPrivate();
+            ~InputBufferPrivate();
 
             QHash<int, QQueue<bool> > buttonState;
     };

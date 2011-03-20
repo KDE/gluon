@@ -21,8 +21,6 @@
 #include "mouse.h"
 #include "mouseprivate.h"
 
-#include <QtCore/QDebug>
-
 using namespace GluonInput;
 
 Mouse::Mouse( InputThread* inputThread, QObject* parent )
