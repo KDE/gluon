@@ -26,10 +26,35 @@
 #include <core/gluon_global.h>
 #include <engine/game.h>
 
+#include <kdevplatform/shell/core.h>
+#include <kdevplatform/shell/shellextension.h>
+#include <kdevplatform/interfaces/iplugincontroller.h>
+#include <kdevplatform/vcs/interfaces/ibasicversioncontrol.h>
+
 #include <KDE/KLocalizedString>
 #include <KDE/KAction>
 #include <KDE/KUrl>
 #include <KDE/KDialog>
+
+class ConsoleIDEExtension : public KDevelop::ShellExtension
+{
+    public:
+        static void init() { s_instance = new ConsoleIDEExtension(); }
+
+        virtual QString xmlFile() { return QString(); }
+        virtual QString binaryPath() { return QString(); };
+        virtual QString defaultProfile() { return QString(); }
+        virtual KDevelop::AreaParams defaultArea(){
+            KDevelop::AreaParams params = {"code", i18n("Code")};
+            return params;
+        }
+        virtual QString projectFileExtension() { return QString(); }
+        virtual QString projectFileDescription() { return QString(); }
+        virtual QStringList defaultPlugins() { return QStringList(); }
+
+    protected:
+        ConsoleIDEExtension() {}
+};
 
 using namespace GluonCreator;
 
@@ -39,6 +64,8 @@ VcsTool::VcsTool( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     setWindowTitle( title );
     setObjectName( "VcsTool" );
     setupActions( );
+    KConfigGroup kcg;
+    loadVersionControlPlugin(kcg);
 }
 
 VcsTool::~VcsTool()
@@ -119,3 +146,33 @@ void VcsTool::push()
 void VcsTool::pull()
 {
 }
+
+void VcsTool::loadVersionControlPlugin(KConfigGroup& projectGroup)
+{
+    // helper method for open()
+    ConsoleIDEExtension::init();
+    KDevelop::Core::initialize(0, KDevelop::Core::NoUi);
+    KDevelop::IPluginController* pluginManager = KDevelop::Core::self()->pluginController();
+    if( projectGroup.hasKey( "VersionControlSupport" ) )
+    {
+        // QString vcsPluginName = projectGroup.readEntry("VersionControlSupport", "");
+        // if( !vcsPluginName.isEmpty() )
+        // {
+            // vcsPlugin = pluginManager->pluginForExtension( "org.kdevelop.IBasicVersionControl", vcsPluginName );
+        // }
+    } else
+    {
+        foreach( KDevelop::IPlugin* p, pluginManager->allPluginsForExtension( "org.kdevelop.IBasicVersionControl" ) )
+        {
+            KDevelop::IBasicVersionControl* iface = p->extension<KDevelop::IBasicVersionControl>();
+            // if( iface && iface->isVersionControlled( topItem->url() ) )
+            // {
+                m_vcsPlugin = p;
+                projectGroup.writeEntry("VersionControlSupport", pluginManager->pluginInfo( p ).pluginName() );
+                projectGroup.sync();
+             // }
+        }
+    }
+
+}
+

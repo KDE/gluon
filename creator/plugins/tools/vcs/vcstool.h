@@ -20,7 +20,13 @@
 #ifndef GLUON_CREATOR_VCSTOOL_H
 #define GLUON_CREATOR_VCSTOOL_H
 
+#include <KDE/KConfigGroup>
+
 #include <QtGui/QWidget>
+
+namespace KDevelop {
+    class IPlugin;
+}
 
 namespace GluonCreator
 {
@@ -38,7 +44,11 @@ namespace GluonCreator
             void push();
             void pull();
 
+        private:
             void setupActions();
+            void loadVersionControlPlugin(KConfigGroup& projectGroup);
+
+            QWeakPointer<KDevelop::IPlugin> m_vcsPlugin;
     };
 
 }
