@@ -41,12 +41,13 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT GameViewItem
     {
         public:
-            explicit GameViewItem(const QString &gameName, const QString &description,
-                    const QString &projectFileName, const QString &id);
+            explicit GameViewItem(const QString& gameName, const QString& description,
+                    const QString& projectDirName, const QString& projectFileName, const QString &id);
             virtual ~GameViewItem() {}
 
             QString gameName() const;
             QString gameDescription() const;
+            QString projectDirName() const;
             QString projectFileName() const;
             QVariantList screenshotUrls() const;
             QString id() const;
@@ -54,6 +55,7 @@ namespace GluonPlayer
         private:
             QString m_gameName;
             QString m_gameDescription;
+            QString m_projectDirName;
             QString m_projectFileName;
             QList<QUrl> m_screenshotUrls;
             QString m_id;
@@ -67,6 +69,7 @@ namespace GluonPlayer
             enum GameItemsModelRoles {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
+                ProjectDirNameRole,
                 ProjectFileNameRole,
                 ScreenshotUrlsRole,
                 IDRole

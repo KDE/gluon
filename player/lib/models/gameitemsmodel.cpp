@@ -27,10 +27,11 @@
 
 using namespace GluonPlayer;
 
-GameViewItem::GameViewItem(const QString &gameName, const QString &gameDescription,
-                            const QString &projectFileName, const QString &id)
+GameViewItem::GameViewItem(const QString& gameName, const QString& gameDescription,
+                            const QString& projectDirName, const QString& projectFileName, const QString& id)
     : m_gameName(gameName)
     , m_gameDescription(gameDescription)
+    , m_projectDirName(projectDirName)
     , m_projectFileName(projectFileName)
     , m_id(id)
 {
@@ -44,6 +45,11 @@ QString GameViewItem::gameName() const
 QString GameViewItem::gameDescription() const
 {
     return m_gameDescription;
+}
+
+QString GameViewItem::projectDirName() const
+{
+    return m_projectDirName;
 }
 
 QString GameViewItem::projectFileName() const
@@ -81,7 +87,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
             GameViewItem gameViewItem(project.name(), project.description(),
-                                        projectFileName, project.property("id").toString());
+                                        gameDir.path(), projectFileName, project.property("id").toString());
             m_gameViewItems.append(gameViewItem);
         }
     }
@@ -90,6 +96,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[GameNameRole] = "gameName";
     roles[GameDescriptionRole] = "gameDescription";
     roles[ProjectFileNameRole] = "projectFileName";
+    roles[ProjectDirNameRole] = "projectDirName";
     roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[IDRole] = "id";
     setRoleNames(roles);
@@ -107,6 +114,8 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.at( index.row() ).gameName();
     case GameDescriptionRole:
         return m_gameViewItems.at( index.row() ).gameDescription();
+    case ProjectDirNameRole:
+        return m_gameViewItems.at( index.row() ).projectDirName();
     case Qt::DisplayRole:
     case ProjectFileNameRole:
         return m_gameViewItems.at( index.row() ).projectFileName();
