@@ -122,7 +122,7 @@ MouseInputComponent::update( int elapsedMilliseconds )
         d->actionStopped = false;
 
     // qDebug() << "READ - KEYCODE - OFFSET:  " << d->mouseButton << d->mouseButtonOffset << "PRESSED: " << d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset );
-    if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset ) )
+    if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton ) )
     {
         if( !d->actionHeld )
         {
