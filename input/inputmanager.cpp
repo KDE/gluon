@@ -289,6 +289,13 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
             emit keyPressed( mapMouseButton( mouseEvent->button() ) );
             return true;
 		}
+        case QEvent::MouseButtonRelease:
+        {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+            mouse(0)->setButtonState(mapMouseButton( mouseEvent->button() ), 0);
+            emit keyReleased( mapMouseButton( mouseEvent->button() ) );
+            return true;
+        }
 	case QEvent::Gesture:
 		{
 			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
