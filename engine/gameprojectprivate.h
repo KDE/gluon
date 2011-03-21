@@ -50,6 +50,7 @@ namespace GluonEngine
             QUrl homepage;
             QList<QUrl> mediaInfo;
             QUrl filename;
+            QUrl dirname;
             Scene* entryPoint;
             GluonEngine::TextureAsset* icon;
             GluonEngine::TextureAsset* screenshot;

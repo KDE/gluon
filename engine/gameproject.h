@@ -54,9 +54,9 @@ namespace GluonEngine
      * anchored by the QObject parent/child system.
      *
      * \note To find out which is the current scene in a game, use Game::currentScene
-     * 
+     *
      * <strong>The Gluon Game Bundle</strong>
-     * 
+     *
      * The structore of a game project as found on the disk is as follows:
      * - (gamename).gluon/ - This is a directory. Think of it as a bundle (NeXTStep style)
      *   - Assets/ - contains all the assets in a game
@@ -69,16 +69,16 @@ namespace GluonEngine
      *   - game.ico - a Windows format icon file
      *   - .directory
      *   - desktop.ini
-     *   - .ds_store - 
-     * 
+     *   - .ds_store -
+     *
      * Naming conventions for the contents of the Assets and Scenes directories:
-     * 
+     *
      * - Filter all non-alphanumeric characters. (in short, everything not allowed in a javascript
      *   object name)
      * - All names are lower-cased
-     * 
+     *
      * The contents of the Cache directory should follow the following guidelines:
-     * 
+     *
      * - This directory contains a number of further directories, named for each asset which
      *   requires a cache
      * - The contents of each subdirectory are controlled by the asset (that is, the format is
@@ -112,12 +112,6 @@ namespace GluonEngine
              * screenshots, gameplay videos, promo trailers, documentation PDFs...)
              */
             Q_PROPERTY( QList<QUrl> mediaInfo READ mediaInfo WRITE setMediaInfo )
-
-            /**
-             * The filename of the GameProject, meaning the name of the project file on
-             * disk, relative to the project directory.
-             */
-            Q_PROPERTY( QUrl filename READ filename )
 
             /**
              * The Scene in which the game should begin. This is likely going to be an intro
@@ -166,6 +160,10 @@ namespace GluonEngine
             QUrl filename() const;
             void setFilename( QUrl newFilename );
             void setFilename( QString fileName );
+
+            QUrl dirname() const;
+            void setDirname( QUrl newDirname );
+            void setDirname( QString dirName );
 
             Scene* entryPoint() const;
             void setEntryPoint( Scene* newEntryPoint );

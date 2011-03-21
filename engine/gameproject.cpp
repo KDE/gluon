@@ -314,6 +314,24 @@ GameProject::entryPoint() const
     return d->entryPoint;
 }
 
+QUrl
+GameProject::dirname() const
+{
+    return d->dirname;
+}
+
+void
+GameProject::setDirname( QUrl dirUrl )
+{
+    d->dirname = dirUrl;
+}
+
+void
+GameProject::setDirname( QString dirName )
+{
+    d->dirname = QUrl::fromLocalFile(dirName);
+}
+
 void
 GameProject::setEntryPoint( Scene* newEntryPoint )
 {
