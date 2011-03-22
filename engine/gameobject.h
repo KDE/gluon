@@ -60,7 +60,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT GameObject : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::GameObject );
+            GLUON_OBJECT( GluonEngine::GameObject )
             /**
              * A little piece of text explaining what this GameObject is supposed
              * to do. Consider this a place for putting in documentation on what

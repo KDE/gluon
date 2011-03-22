@@ -33,8 +33,8 @@ class GameObject;
     class Prefab : public Asset
     {
             Q_OBJECT
-            Q_INTERFACES( GluonEngine::Asset );
-            GLUON_OBJECT( GluonEngine::Prefab );
+            Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::Prefab )
 
         public:
             Q_INVOKABLE Prefab( QObject* parent = 0 );

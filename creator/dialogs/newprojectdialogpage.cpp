@@ -47,12 +47,13 @@ class NewProjectDialogPage::NewProjectDialogPagePrivate
 {
     public:
         NewProjectDialogPagePrivate( NewProjectDialogPage* qq )
-            : name( 0 ),
-              location( 0 ),
-              locationValidLabel( 0 ),
-              q( qq )
+            : name( 0 )
+            , location( 0 )
+            , locationValidLabel( 0 )
+            , q( qq )
         {
         }
+
     public:
         KLineEdit* name;
         KUrlRequester* location;
@@ -148,6 +149,7 @@ QString NewProjectDialogPage::createProject() const
 	KUrl location = d->location->url();
 	QString gameBundleDir = project->fullyQualifiedFileName() + GluonEngine::projectSuffix;
 	location.addPath( gameBundleDir );
+	project->setDirname( location );
 	location.addPath( GluonEngine::projectFilename );
 	project->setFilename( location );
 

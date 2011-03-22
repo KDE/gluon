@@ -82,7 +82,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::Asset );
+            GLUON_OBJECT( GluonEngine::Asset )
             /**
              * The file name of the represented file, relative to the GameProject's position
              * on the file system. Importantly, this cannot contain parent definitions (meaning

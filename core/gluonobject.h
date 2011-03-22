@@ -40,7 +40,7 @@ class GLUON_CORE_EXPORT GluonObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
-    GLUON_OBJECT(GluonCore::GluonObject);
+    GLUON_OBJECT(GluonCore::GluonObject)
 
     public:
         Q_INVOKABLE GluonObject(QObject * parent = 0);
@@ -92,7 +92,7 @@ namespace GluonCore
     class YourClassName : public GluonCore::GluonObject
     {
         Q_OBJECT
-        GLUON_OBJECT(YourNamespace::YourClassName);
+        GLUON_OBJECT(YourNamespace::YourClassName)
 
         public:
             Q_INVOKABLE YourClassName(QObject *parent = 0);
@@ -168,7 +168,7 @@ namespace GluonCore
              */
             Q_PROPERTY( QString name READ name WRITE setName )
             // There is deliberately no gameProject property
-            GLUON_OBJECT( GluonCore::GluonObject );
+            GLUON_OBJECT( GluonCore::GluonObject )
 
         public:
             Q_INVOKABLE GluonObject( QObject* parent = 0 );

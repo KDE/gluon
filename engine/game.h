@@ -141,6 +141,7 @@ namespace GluonEngine
             void showDebug( const QString& debugText );
             void currentSceneChanged( GluonEngine::Scene* );
             void currentProjectChanged( GluonEngine::GameProject* );
+            void projectLoaded( GluonEngine::GameProject* );
 
             void initialized();
             void started();

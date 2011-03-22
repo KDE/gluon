@@ -25,6 +25,7 @@
 
 #include <core/gluon_global.h>
 #include <engine/game.h>
+#include <engine/gameproject.h>
 
 #include <kdevplatform/shell/core.h>
 #include <kdevplatform/shell/shellextension.h>
@@ -35,6 +36,8 @@
 #include <KDE/KAction>
 #include <KDE/KUrl>
 #include <KDE/KDialog>
+
+#include <QtCore/QDebug>
 
 class ConsoleIDEExtension : public KDevelop::ShellExtension
 {
@@ -149,7 +152,6 @@ void VcsTool::pull()
 
 void VcsTool::loadVersionControlPlugin(KConfigGroup& projectGroup)
 {
-    // helper method for open()
     ConsoleIDEExtension::init();
     KDevelop::Core::initialize(0, KDevelop::Core::NoUi);
     KDevelop::IPluginController* pluginManager = KDevelop::Core::self()->pluginController();

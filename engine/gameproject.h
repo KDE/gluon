@@ -91,8 +91,8 @@ namespace GluonEngine
      */
     class GLUON_ENGINE_EXPORT GameProject : public GluonCore::GluonObject
     {
-            Q_OBJECT;
-            GLUON_OBJECT( GluonEngine::GameProject );
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::GameProject )
 
             /**
              * A long description of the game. This can contain any string data, but

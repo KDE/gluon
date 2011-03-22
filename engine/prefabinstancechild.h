@@ -28,7 +28,7 @@ namespace GluonEngine
     class PrefabInstanceChild : public GluonEngine::GameObject
     {
         Q_OBJECT
-        GLUON_OBJECT( GluonEngine::PrefabInstanceChild );
+        GLUON_OBJECT( GluonEngine::PrefabInstanceChild )
 
         public:
             PrefabInstanceChild( QObject* parent = 0 );
