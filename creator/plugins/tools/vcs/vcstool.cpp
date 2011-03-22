@@ -67,8 +67,7 @@ VcsTool::VcsTool( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     setWindowTitle( title );
     setObjectName( "VcsTool" );
     setupActions( );
-    KConfigGroup kcg;
-    loadVersionControlPlugin(kcg);
+    connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ), SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
 }
 
 VcsTool::~VcsTool()
@@ -150,31 +149,37 @@ void VcsTool::pull()
 {
 }
 
+void VcsTool::currentProjectChanged( GluonEngine::GameProject* project )
+{
+    KConfigGroup kcg;
+    loadVersionControlPlugin(kcg);
+}
+
 void VcsTool::loadVersionControlPlugin(KConfigGroup& projectGroup)
 {
     ConsoleIDEExtension::init();
     KDevelop::Core::initialize(0, KDevelop::Core::NoUi);
     KDevelop::IPluginController* pluginManager = KDevelop::Core::self()->pluginController();
-    if( projectGroup.hasKey( "VersionControlSupport" ) )
-    {
+    // if( projectGroup.hasKey( "VersionControlSupport" ) )
+    // {
         // QString vcsPluginName = projectGroup.readEntry("VersionControlSupport", "");
         // if( !vcsPluginName.isEmpty() )
         // {
             // vcsPlugin = pluginManager->pluginForExtension( "org.kdevelop.IBasicVersionControl", vcsPluginName );
         // }
-    } else
-    {
+    // } else
+    // {
         foreach( KDevelop::IPlugin* p, pluginManager->allPluginsForExtension( "org.kdevelop.IBasicVersionControl" ) )
         {
             KDevelop::IBasicVersionControl* iface = p->extension<KDevelop::IBasicVersionControl>();
-            // if( iface && iface->isVersionControlled( topItem->url() ) )
-            // {
+            if( iface && iface->isVersionControlled( GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile() ) )
+            {
                 m_vcsPlugin = p;
                 projectGroup.writeEntry("VersionControlSupport", pluginManager->pluginInfo( p ).pluginName() );
                 projectGroup.sync();
-             // }
+             }
         }
-    }
+    // }
 
 }
 

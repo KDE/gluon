@@ -28,6 +28,10 @@ namespace KDevelop {
     class IPlugin;
 }
 
+namespace GluonEngine {
+    class GameProject;
+}
+
 namespace GluonCreator
 {
     class VcsTool : public QWidget
@@ -43,6 +47,9 @@ namespace GluonCreator
             void log();
             void push();
             void pull();
+
+        private slots:
+            void currentProjectChanged( GluonEngine::GameProject* project );
 
         private:
             void setupActions();
