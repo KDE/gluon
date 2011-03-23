@@ -349,8 +349,8 @@ GluonObject::fullyQualifiedFileName() const
     // Unfortunately this means the characters will be there multiple times, but we will have
     // properly suffixed file names
     QString qualifiedName = fullyQualifiedName();
-    if( !name().contains( '.' ) )
-        theName.append( '.' ).append( name().section( '.', -1 ).toLower() );
+    // if( !name().contains( '.' ) )
+        // theName.append( '.' ).append( name().section( '.', -1 ).toLower() );
 
     GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
     if( theParent )

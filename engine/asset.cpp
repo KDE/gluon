@@ -19,12 +19,13 @@
  */
 
 #include "asset.h"
+#include "game.h"
 
+#include <QtGui/QAction>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
-#include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
@@ -110,12 +111,7 @@ Asset::file() const
 QString
 Asset::absolutePath() const
 {
-    QString filePath = d->file.toLocalFile();
-    QString projectPath = gameProject()->property( "filename" ).toUrl().toLocalFile();
-
-    projectPath = projectPath.left( projectPath.lastIndexOf( '/' ) );
-
-    return projectPath + '/' + filePath;
+    return GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile() + '/' + d->file.toLocalFile();
 }
 
 QIcon
