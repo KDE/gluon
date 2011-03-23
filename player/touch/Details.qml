@@ -38,11 +38,20 @@ Rectangle {
         id: activePalette;
     }
 
+    Component {
+        id: gameScreenshotsDelegate;
+        Image {
+            height: GridView.view.height;
+            width: GridView.view.width;
+            source: modelData
+        }
+    }
+
    GridView {
         id: previewImages
         width: parent.width / 3;
         height: parent.height * 1 / 5 - 10;
-        delegate: Image { source: modelData }
+        delegate: gameScreenshotsDelegate;
    }
 
     Button {
@@ -147,8 +156,12 @@ Rectangle {
     Text {
         id: new_comments;
         text: qsTr("New Comments");
+        color: "white";
+        font.pixelSize: 20;
         anchors {
             top: rate_comments_btn.bottom;
+            left: previewImages.right;
+            margins: 5;
         }
     }
 }
