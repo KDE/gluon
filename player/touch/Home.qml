@@ -34,7 +34,7 @@ Rectangle {
             subtext: qsTr(gameDescription);
 
             onClicked: {
-                detailsPage.propagate(gameName, gameDescription, index);
+                detailsPage.propagate(gameName, gameDescription, screenshotUrls, index);
             }
         }
     }

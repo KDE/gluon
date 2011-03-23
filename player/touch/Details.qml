@@ -26,9 +26,10 @@ Rectangle {
 
     property int gameIndex;
 
-    function propagate(gameName, gameDescription, index) {
+    function propagate(gameName, gameDescription, screenshotUrls, index) {
         play_game_btn.text = qsTr("Play " + gameName);
         read_author_desc_btn.subtext = qsTr(gameDescription);
+        previewImages.model = screenshotUrls;
         gameIndex = index;
         mainview.statepoint = "details";
     }
@@ -37,32 +38,24 @@ Rectangle {
         id: activePalette;
     }
 
-   Image {
-       id: game_main_img;
-       source: "icons/hi256-app-gluon.png";
-       width: parent.width/2 * 4/5;
-       height: parent.height * 3/5;
-       fillMode: Image.PreserveAspectFit;
-       anchors {
-           horizontalCenter: parent.horizontalCenter;
-           horizontalCenterOffset: -parent.width/4;
-           verticalCenter: parent.verticalCenter;
-           margins: 10;
-       }
+   GridView {
+        id: previewImages
+        width: parent.width / 3;
+        height: parent.height * 1 / 5 - 10;
+        delegate: Image { source: modelData }
    }
 
     Button {
         id: play_game_btn;
-        width: parent.width / 2;
         height: parent.height * 1 / 5 - 10;
         icon: "icons/media-playback-start.png";
         text: qsTr("Play the game");
         subtext: qsTr("1697 others currently playing");
         anchors {
-            left: game_main_img.right;
+            left: previewImages.right;
             right: parent.right;
             top: parent.top;
-            margins: 10;
+            margins: 5;
         }
 
         onClicked: {
@@ -72,16 +65,15 @@ Rectangle {
 
     Button {
         id: read_author_desc_btn;
-        width: parent.width / 2;
-        height: parent.height * 1 / 5;
+        width: play_game_btn.width / 2;
         icon: "icons/im-user.png";
         text: qsTr("Read Author's Description");
         subtext: qsTr("No description");
         anchors {
             top: play_game_btn.bottom;
-            left: game_main_img.right;
+            left: previewImages.right;
             right: parent.right;
-            margins: 10;
+            margins: 5;
         }
 
         onClicked: console.log("this doesn't do anything yet...");
@@ -89,15 +81,14 @@ Rectangle {
 
     Button {
         id: high_scores_btn;
-        width: parent.width / 4;
-        height: parent.height * 1 / 5;
+        width: play_game_btn.width / 2;
         icon: "icons/games-highscores.png";
         text: qsTr("High Scores");
         subtext: "Your global high-score: 258th";
         anchors {
             top: read_author_desc_btn.bottom;
-            left: game_main_img.right;
-            margins: 10;
+            left: previewImages.right;
+            margins: 5;
         }
 
         onClicked: console.log("this doesn't do anything yet...");
@@ -105,8 +96,7 @@ Rectangle {
 
     Button {
         id: achievements_btn;
-        width: parent.width / 4;
-        height: parent.height * 1 / 5;
+        width: play_game_btn.width / 2;
         icon: "icons/games-achievements.png";
         text: qsTr("Achievements");
         subtext: "You have 4 of 16";
@@ -114,7 +104,7 @@ Rectangle {
             top: read_author_desc_btn.bottom;
             left: high_scores_btn.right;
             right: parent.right;
-            margins: 10;
+            margins: 5;
         }
 
         onClicked: console.log("this doesn't do anything yet...");
@@ -122,15 +112,14 @@ Rectangle {
 
     Button {
         id: rate_comments_btn;
-        width: parent.width / 4;
-        height: parent.height * 1 / 5;
+        width: play_game_btn.width / 2;
         icon: "icons/help-feedback.png";
         text: qsTr("Rate & Comment");
         subtext: "20984 ratings, 413 comments";
         anchors {
             top: high_scores_btn.bottom;
-            left: game_main_img.right;
-            margins: 10;
+            left: previewImages.right;
+            margins: 5;
         }
 
         onClicked: {
@@ -141,8 +130,7 @@ Rectangle {
 
     Button {
         id: donate_btn;
-        width: parent.width / 4;
-        height: parent.height * 1 / 5;
+        width: play_game_btn.width / 2;
         icon: "icons/help-donate.png";
         text: qsTr("Donate");
         subtext: "€3 suggested";
@@ -150,7 +138,7 @@ Rectangle {
             top: achievements_btn.bottom;
             left: rate_comments_btn.right;
             right: parent.right;
-            margins: 10;
+            margins: 5;
         }
 
         onClicked: console.log("this doesn't do anything yet...");
