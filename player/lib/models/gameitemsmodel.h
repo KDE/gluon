@@ -23,10 +23,8 @@
 #include "gluon_player_export.h"
 
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QString>
-#include <QtCore/QList>
+#include <QtCore/QStringList>
 #include <QtCore/QDir>
-#include <QtCore/QUrl>
 
 namespace GluonPlayer
 {
@@ -49,7 +47,7 @@ namespace GluonPlayer
             QString gameDescription() const;
             QString projectDirName() const;
             QString projectFileName() const;
-            QVariantList screenshotUrls() const;
+            QStringList screenshotUrls() const;
             QString id() const;
 
         private:
@@ -57,7 +55,7 @@ namespace GluonPlayer
             QString m_gameDescription;
             QString m_projectDirName;
             QString m_projectFileName;
-            QList<QUrl> m_screenshotUrls;
+            QStringList m_screenshotUrls;
             QString m_id;
     };
 

@@ -57,12 +57,9 @@ QString GameViewItem::projectFileName() const
     return m_projectFileName;
 }
 
-QVariantList GameViewItem::screenshotUrls() const
+QStringList GameViewItem::screenshotUrls() const
 {
-    QVariantList screenshots;
-    foreach(const QUrl &url, m_screenshotUrls)
-        screenshots.append(qVariantFromValue(url));
-    return screenshots;
+    return m_screenshotUrls;
 }
 
 QString GameViewItem::id() const
