@@ -178,6 +178,7 @@ void MainWindow::openProject( const QString& fileName )
         setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
+        GluonEngine::Game::instance()->gameProject()->setDirname( fileName.section( "/", 0, -2 ) );
     }
     else
     {
