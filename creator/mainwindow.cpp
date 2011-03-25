@@ -112,6 +112,7 @@ MainWindow::MainWindow( const QString& fileName )
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
     d->projectDialog->raise( );
+	d->projectDialog->resize(640, 480);
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
 
     DockManager::instance()->setDocksEnabled( false );
