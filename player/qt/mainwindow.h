@@ -46,6 +46,8 @@ namespace GluonPlayer
         private:
             class MainWindowPrivate;
             MainWindowPrivate* d;
+
+            void loadGamesList();
     };
 }
 

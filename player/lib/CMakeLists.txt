@@ -1,0 +1,62 @@
+set(LIBATTICA_MIN_VERSION 0.1.90)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+find_package(LibAttica)
+
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}
+	${GLUON_ENGINE_INCLUDES} 
+	${GLUON_GRAPHICS_INCLUDES}
+	${LIBATTICA_INCLUDE_DIR}
+	)
+
+set(libGluonPlayer_SRCS
+    atticamanager.cpp
+    authentication.cpp
+	models/gameitemsmodel.cpp
+	models/commentitemsmodel.cpp
+	models/highscoresmodel.cpp
+)
+
+qt4_automoc(${libGluonPlayer_SRCS})
+add_library(libGluonPlayer SHARED ${libGluonPlayer_SRCS})
+set_target_properties(libGluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB PREFIX "")
+if(GLUON_BUILD_ALL)
+    add_dependencies(libGluonPlayer GluonEngine)
+endif()
+
+target_link_libraries(libGluonPlayer
+					  ${LIBATTICA_LIBRARIES}
+					  ${GLUON_CORE_LIBS}
+                      ${GLUON_ENGINE_LIBS}
+                      )
+
+set(GLUON_PLAYER_LIBS
+    libGluonPlayer
+	${LIBATTICA_LIBRARIES}
+    ${GLUON_ENGINE_LIBS}
+	${GLUON_CORE_LIBS}
+    CACHE PATHS "Libraries required for Gluon Player"
+)
+
+install(TARGETS libGluonPlayer RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+
+install(FILES
+    atticamanager.h
+	authentication.h
+	models/gameitemsmodel.h
+	models/commentitemsmodel.h
+	models/highscoresmodel.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
+    COMPONENT Devel
+)
+
+install(FILES
+	models/highscoresmodel.h
+	models/gameitemsmodel.h
+	models/commentitemsmodel.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
+    COMPONENT Devel
+)
+

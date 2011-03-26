@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_subdirectory(lib)
+
 if(NOT GLUON_BUILD_ALL)
     project(GluonPlayer)
     option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
@@ -26,47 +33,6 @@ else(LIBATTICA_FOUND)
 endif(LIBATTICA_FOUND)
 
 if(LIBATTICA_FOUND)
-    include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
-                        ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                        ${LIBATTICA_INCLUDE_DIR})
-
-    set(libGluonPlayer_SRCS
-        lib/models/highscoresmodel.cpp
-        lib/models/commentsmodel.cpp
-        lib/models/commentitemsmodel.cpp
-        lib/models/gameitemsmodel.cpp
-        lib/authentication.cpp
-        lib/atticamanager.cpp
-    )
-else(LIBATTICA_FOUND)
-    include_directories(${GLUON_ENGINE_INCLUDES} ${GLUON_GRAPHICS_INCLUDES}
-                        ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-    set(libGluonPlayer_SRCS
-        lib/models/gameitemsmodel.cpp
-    )
-endif(LIBATTICA_FOUND)
-
-qt4_automoc(${libGluonPlayer_SRCS})
-
-add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
-
-set_target_properties(GluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING}
-    SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB)
-
-if(LIBATTICA_FOUND)
-    target_link_libraries(
-        GluonPlayer
-        ${LIBATTICA_LIBRARIES}
-        ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
-    )
-
-    set(GLUON_PLAYER_LIBS
-        GluonPlayer
-        ${LIBATTICA_LIBRARIES}
-        ${GLUON_CORE_LIBS}
-        CACHE PATHS "Libraries required for Gluon Player"
-    )
-
    if(QT_QTDECLARATIVE_FOUND)
        add_subdirectory(touch)
    else(QT_QTDECLARATIVE_FOUND)
@@ -92,14 +58,7 @@ else(LIBATTICA_FOUND)
         ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS}
     )
 
-    set(GLUON_PLAYER_LIBS
-        GluonPlayer
-        ${GLUON_CORE_LIBS}
-        CACHE PATHS "Libraries required for Gluon Player"
-    )
 endif(LIBATTICA_FOUND)
-
-install(TARGETS GluonPlayer RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
 
 add_subdirectory(icons)
 set(PLAYER_ICONS_INSTALLED TRUE)
