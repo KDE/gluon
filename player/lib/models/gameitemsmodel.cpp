@@ -21,18 +21,24 @@
 
 #include "core/gluon_global.h"
 #include "engine/gameproject.h"
+#include "player/lib/atticamanager.h"
+
+#include <attica/content.h>
 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
+#include <QDebug>
 
 using namespace GluonPlayer;
 
 GameViewItem::GameViewItem(const QString& gameName, const QString& gameDescription,
-                            const QString& projectDirName, const QString& projectFileName, const QString& id)
+                           const QString& projectDirName, const QString& projectFileName, const Status& status,
+                           const QString& id)
     : m_gameName(gameName)
     , m_gameDescription(gameDescription)
     , m_projectDirName(projectDirName)
     , m_projectFileName(projectFileName)
+    , m_status(status)
     , m_id(id)
 {
 }
@@ -67,6 +73,11 @@ QString GameViewItem::id() const
     return m_id;
 }
 
+GameViewItem::Status GameViewItem::status() const
+{
+    return m_status;
+}
+
 GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
 {
@@ -83,8 +94,8 @@ GameItemsModel::GameItemsModel( QObject* parent )
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
-            GameViewItem gameViewItem(project.name(), project.description(),
-                                        gameDir.path(), projectFileName, project.property("id").toString());
+            GameViewItem gameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
+                                      GameViewItem::Installed, project.property("id").toString());
             m_gameViewItems.append(gameViewItem);
         }
     }
@@ -96,7 +107,10 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ProjectDirNameRole] = "projectDirName";
     roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[IDRole] = "id";
+    roles[StatusRole] = "status";
     setRoleNames(roles);
+
+    fetchGamesList();
 }
 
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
@@ -120,6 +134,8 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.at( index.row() ).screenshotUrls();
     case IDRole:
         return m_gameViewItems.at( index.row() ).id();
+    case StatusRole:
+        return m_gameViewItems.at (index.row() ).status();
     default:
         break;
     }
@@ -145,6 +161,65 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
     }
 
     return QAbstractItemModel::headerData( section, orientation, role );
+}
+
+void GameItemsModel::fetchGamesList()
+{
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        providersUpdated();
+    }
+    else
+    {
+        connect( AtticaManager::instance(), SIGNAL( gotProvider() ), SLOT( providersUpdated() ) );
+    }
+}
+
+void GameItemsModel::providersUpdated()
+{
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        QStringList gluonGamesCategories;
+        gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
+        Attica::Category::List categories;
+
+        foreach (QString gluonCategory, gluonGamesCategories) {
+            Attica::Category category;
+            category.setId(gluonCategory);
+            categories.append(category);
+        }
+
+        Attica::ListJob<Attica::Content> *job =
+            AtticaManager::instance()->provider().searchContents(categories);
+        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
+        job->start();
+    }
+    else
+    {
+        qDebug() << "No providers found.";
+    }
+}
+
+void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
+{
+    qDebug() << "Game List Successfully Fetched from the server!";
+
+    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
+    if( contentJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        for( int i = 0; i < contentJob->itemList().count(); ++i )
+        {
+            Attica::Content c( contentJob->itemList().at(i));
+            GameViewItem gameViewItem(c.name(), c.description(), "", "",
+                                      GameViewItem::Downloadable, c.id());
+            m_gameViewItems.append(gameViewItem);
+            reset();
+        }
+}
+    else
+    {
+        qDebug() << "Could not fetch information";
+    }
 }
 
 #include "gameitemsmodel.moc"
