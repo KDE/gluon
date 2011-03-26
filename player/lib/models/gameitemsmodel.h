@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,21 +27,32 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDir>
 
+namespace Attica
+{
+    class BaseJob;
+}
+
 namespace GluonPlayer
 {
     /**
      *\brief Model which contains a list of the installed games
      *
      * This model can be used to obtain a list of all the installed games
-     * Use the different columns of the model to obtain required properties.
+     * Use the different roles of the model to obtain required properties.
      *
      */
 
     class GLUON_PLAYER_EXPORT GameViewItem
     {
         public:
-            explicit GameViewItem(const QString& gameName, const QString& description,
-                    const QString& projectDirName, const QString& projectFileName, const QString &id);
+            enum Status {
+                Downloadable,
+                Installed
+            };
+
+            explicit GameViewItem ( const QString& gameName, const QString& description,
+                                    const QString& projectDirName, const QString& projectFileName,
+                                    const Status &status, const QString &id);
             virtual ~GameViewItem() {}
 
             QString gameName() const;
@@ -49,6 +61,7 @@ namespace GluonPlayer
             QString projectFileName() const;
             QStringList screenshotUrls() const;
             QString id() const;
+            Status status() const;
 
         private:
             QString m_gameName;
@@ -57,6 +70,7 @@ namespace GluonPlayer
             QString m_projectFileName;
             QStringList m_screenshotUrls;
             QString m_id;
+            Status m_status;
     };
 
     class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
@@ -70,7 +84,8 @@ namespace GluonPlayer
                 ProjectDirNameRole,
                 ProjectFileNameRole,
                 ScreenshotUrlsRole,
-                IDRole
+                IDRole,
+                StatusRole
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
@@ -84,7 +99,15 @@ namespace GluonPlayer
 
         private:
             QList<GameViewItem> m_gameViewItems;
+
+            void fetchGamesList();
+
+        protected slots:
+            void providersUpdated();
+            void processFetchedGamesList( Attica::BaseJob* job);
     };
 }
 
 #endif // GLUONPLAYER_GAMEITEMSMODEL_H
+
+
