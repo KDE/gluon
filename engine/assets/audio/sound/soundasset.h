@@ -44,7 +44,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SoundAsset )
 Q_DECLARE_METATYPE( GluonEngine::SoundAsset* )
 
 #endif // SOUNDASSET_H

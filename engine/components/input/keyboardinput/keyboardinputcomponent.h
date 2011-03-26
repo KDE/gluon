@@ -72,7 +72,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::KeyboardInputComponent )
 Q_DECLARE_METATYPE( GluonEngine::KeyboardInputComponent* )
 
 #endif // KEYBOARDINPUTCOMPONENT_H

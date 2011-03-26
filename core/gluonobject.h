@@ -65,8 +65,6 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
 
 namespace GluonCore
 {
-    class GameProject;
-    class GluonObjectPrivate;
     class MetaInfo;
 
     /**
@@ -173,7 +171,6 @@ namespace GluonCore
         public:
             Q_INVOKABLE GluonObject( QObject* parent = 0 );
             explicit GluonObject( const QString& name, QObject* parent = 0 );
-            GluonObject( const GluonObject& rt );
             virtual ~GluonObject();
 
             /**
@@ -416,13 +413,14 @@ namespace GluonCore
             virtual void postCloneSanitize() {};
 
         private:
+            Q_DISABLE_COPY(GluonObject)
             void sanitizeReference( const QString& propName, const QString& propValue );
 
-            QSharedDataPointer<GluonObjectPrivate> d;
+            class Private;
+            Private * const d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonCore::GluonObject )
 Q_DECLARE_METATYPE( GluonCore::GluonObject* )
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

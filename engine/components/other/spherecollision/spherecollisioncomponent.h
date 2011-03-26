@@ -112,7 +112,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent )
 Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent* )
 
 #endif // GLUONENGINE_SPHERECOLLISIONCOMPONENT_H

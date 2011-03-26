@@ -61,7 +61,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ScriptingComponent )
 Q_DECLARE_METATYPE( GluonEngine::ScriptingComponent* )
 
 #endif // GLUONENGINE_SCRIPTINGCOMPONENT_H

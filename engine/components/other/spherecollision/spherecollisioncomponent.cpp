@@ -53,7 +53,7 @@ SphereCollisionComponent::SphereCollisionComponent( QObject* parent )
     : Component( parent )
     , d( new SphereCollisionComponentPrivate )
 {
-    d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent>();
+    d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent*>();
     d->typeName =  staticMetaObject.className();
 }
 

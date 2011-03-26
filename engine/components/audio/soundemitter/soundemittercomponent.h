@@ -78,7 +78,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SoundEmitterComponent )
 Q_DECLARE_METATYPE( GluonEngine::SoundEmitterComponent* )
 
 #endif // GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H

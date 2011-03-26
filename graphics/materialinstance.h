@@ -172,7 +172,6 @@ namespace GluonGraphics
 
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::MaterialInstance );
 Q_DECLARE_METATYPE( GluonGraphics::MaterialInstance* );
 
 #endif // GLUONGRAPHICS_MATERIALINSTANCE_H

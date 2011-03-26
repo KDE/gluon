@@ -134,7 +134,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ParticleRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::ParticleRendererComponent* )
 
 #endif // GLUON_ENGINE_PARTICLERENDERER_H

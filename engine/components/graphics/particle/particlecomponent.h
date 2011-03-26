@@ -300,7 +300,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ParticleComponent )
 Q_DECLARE_METATYPE( GluonEngine::ParticleComponent* )
 
 #endif // GLUON_ENGINE_PARTICLE_H

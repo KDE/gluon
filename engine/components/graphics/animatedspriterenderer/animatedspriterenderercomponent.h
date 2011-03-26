@@ -90,7 +90,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

@@ -56,7 +56,6 @@ class GameObject;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::Prefab )
 Q_DECLARE_METATYPE( GluonEngine::Prefab* )
 
 #endif  // GLUON_ENGINE_PREFAB_H

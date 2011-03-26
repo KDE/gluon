@@ -92,7 +92,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ParticleEmitterComponent )
 Q_DECLARE_METATYPE( GluonEngine::ParticleEmitterComponent* )
 
 #endif // GLUON_ENGINE_PARTICLEEMITTER_H

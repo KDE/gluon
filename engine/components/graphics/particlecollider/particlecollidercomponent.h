@@ -89,7 +89,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ParticleColliderComponent )
 Q_DECLARE_METATYPE( GluonEngine::ParticleColliderComponent* )
 
 #endif // GLUON_ENGINE_PARTICLECOLLIDER_H

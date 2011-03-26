@@ -80,7 +80,6 @@ namespace GluonInput
     };
 }
 
-Q_DECLARE_METATYPE( GluonInput::Mouse );
 Q_DECLARE_METATYPE( GluonInput::Mouse* );
 
 #endif // MOUSE_H

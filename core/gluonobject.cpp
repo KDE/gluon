@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "gluonobject.h"
-#include "gluonobjectprivate.h"
+
 #include "debughelper.h"
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
@@ -38,9 +38,20 @@ Q_DECLARE_METATYPE(QList<int>)
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
+class GluonObject::Private
+{
+    public:
+        Private() : gameProject(0),  metaInfo(0)
+        { }
+
+        QString name;
+        GluonObject* gameProject;
+        MetaInfo* metaInfo;
+};
+
 GluonObject::GluonObject( QObject* parent )
     : QObject( parent )
-    , d( new GluonObjectPrivate() )
+    , d( new Private )
 {
     // Get a nice name first time the object is created...
     QString theClassName( metaObject()->className() );
@@ -52,14 +63,9 @@ GluonObject::GluonObject( QObject* parent )
 
 GluonObject::GluonObject( const QString& name, QObject* parent )
     : QObject( parent )
-    , d( new GluonObjectPrivate() )
+    , d( new Private )
 {
     setName( name );
-}
-
-GluonObject::GluonObject( const GluonCore::GluonObject& rt )
-    : d( new GluonObjectPrivate( *rt.d ) )
-{
 }
 
 GluonObject::~GluonObject()
@@ -389,6 +395,8 @@ void GluonObject::addChild( GluonObject* child )
     }
 
     child->setParent( this );
+
+    //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );
     connect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
 }
