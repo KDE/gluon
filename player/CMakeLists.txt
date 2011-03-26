@@ -101,6 +101,14 @@ endif(LIBATTICA_FOUND)
 
 install(TARGETS GluonPlayer RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
 
+install(FILES
+    lib/models/commentitemsmodel.h
+    lib/models/gameitemsmodel.h
+    lib/models/highscoresmodel.h
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
+    COMPONENT Devel
+)
+
 add_subdirectory(icons)
 set(PLAYER_ICONS_INSTALLED TRUE)
 add_subdirectory(qt)
