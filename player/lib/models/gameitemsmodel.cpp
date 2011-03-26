@@ -27,7 +27,7 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 

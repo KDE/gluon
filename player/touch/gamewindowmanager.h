@@ -23,11 +23,11 @@
 #include "lib/models/gameitemsmodel.h"
 #include "lib/models/commentitemsmodel.h"
 
-#include "core/gluon_global.h"
-#include "graphics/engine.h"
-#include "graphics/renderwidget.h"
-#include "engine/game.h"
-#include "engine/gameproject.h"
+#include <core/gluon_global.h>
+#include <graphics/engine.h>
+#include <graphics/renderwidget.h>
+#include <engine/game.h>
+#include <engine/gameproject.h>
 
 #include <QtOpenGL/QGLWidget>
 #include <QtGui/QGraphicsView>
