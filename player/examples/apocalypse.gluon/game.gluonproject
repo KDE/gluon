@@ -1,5 +1,6 @@
 { GluonEngine::GameProject(Apocalypse)
     entryPoint GluonEngine::Scene(Apocalypse/Scenes/Level 1)
+    id string(140242)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Level 1)
             file url(Scenes/Apocalypse_New_Scene.gdl)
