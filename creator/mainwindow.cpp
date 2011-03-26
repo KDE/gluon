@@ -260,6 +260,10 @@ void MainWindow::setupActions()
     connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
 
     d->recentFiles = new KRecentFilesAction(KIcon("document-open-recent"), i18n("Recent Projects"), actionCollection());
+	connect( d->recentFiles, SIGNAL(urlSelected(const KUrl&)), SLOT(openProject( const KUrl& ) ));
+	d->recentFiles->setText( i18n( "Open Recent" ) );
+	d->recentFiles->setToolTip( i18n( "Open recent project" ) );
+	d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
     actionCollection()->addAction("project_open_recent", d->recentFiles);
     d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 

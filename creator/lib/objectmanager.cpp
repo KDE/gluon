@@ -293,7 +293,8 @@ void ObjectManager::assetDeleted( const QString& file)
 
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 {
-    assetDeleted( asset->absolutePath() );
+	if( asset )
+    	assetDeleted( asset->absolutePath() );
 }
 
 ObjectManager::ObjectManager()

@@ -31,11 +31,11 @@
 #include "engine/scene.h"
 #include "engine/filelocation.h"
 
-#include <KDebug>
-#include <KLocalizedString>
-#include <KMimeType>
-#include <KIcon>
-#include <KMimeType>
+#include <KDE/KDebug>
+#include <KDE/KLocalizedString>
+#include <KDE/KMimeType>
+#include <KDE/KIcon>
+#include <KDE/KMimeType>
 
 #include <QtCore/QMimeData>
 #include <QtCore/QFileInfo>
@@ -186,9 +186,12 @@ ProjectModel::parent( const QModelIndex& child ) const
         return QModelIndex();
 
     QObject* childItem = static_cast<QObject*>( child.internalPointer() );
+	if( !childItem ) 
+		return QModelIndex();
+
     QObject* parentItem = childItem->parent();
 
-    if( parentItem == d->root )
+    if( !parentItem ||  parentItem == d->root )
         return QModelIndex();
 
     QObject* grandParent = parentItem->parent();
@@ -485,8 +488,8 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     {
         DEBUG_TEXT( QString( "Removing child at row %1" ).arg( i ) );
         GluonCore::GluonObject* child = parentObject->child( row );
-        if( parentObject->removeChild( child ) )
-            child->deleteLater();;
+        if( child && parentObject->removeChild( child ) )
+            child->deleteLater();
     }
     endRemoveRows();
 
