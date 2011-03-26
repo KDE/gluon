@@ -38,8 +38,8 @@ GameViewItem::GameViewItem(const QString& gameName, const QString& gameDescripti
     , m_gameDescription(gameDescription)
     , m_projectDirName(projectDirName)
     , m_projectFileName(projectFileName)
-    , m_id(id)
     , m_status(status)
+    , m_id(id)
 {
 }
 
@@ -179,11 +179,11 @@ void GameItemsModel::providersUpdated()
 {
     if( AtticaManager::instance()->isProviderValid() )
     {
-        QStringList gluonCategories;
-        gluonCategories << "4400" << "4410" << "4420" << "4430" << "4440";
+        QStringList gluonGamesCategories;
+        gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
         Attica::Category::List categories;
 
-        foreach (QString gluonCategory, gluonCategories) {
+        foreach (QString gluonCategory, gluonGamesCategories) {
             Attica::Category category;
             category.setId(gluonCategory);
             categories.append(category);

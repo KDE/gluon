@@ -20,13 +20,13 @@
 
 #include "mainwindow.h"
 
-#include "input/inputmanager.h"
+#include <input/inputmanager.h>
 
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
-#include "graphics/renderwidget.h"
-#include "core/gluon_global.h"
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <graphics/renderwidget.h>
+#include <core/gluon_global.h>
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QStatusBar>

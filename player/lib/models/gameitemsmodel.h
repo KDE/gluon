@@ -47,7 +47,8 @@ namespace GluonPlayer
         public:
             enum Status {
                 Downloadable,
-                Installed
+                Installed,
+                Upgradable
             };
 
             explicit GameViewItem ( const QString& gameName, const QString& description,
@@ -60,8 +61,8 @@ namespace GluonPlayer
             QString projectDirName() const;
             QString projectFileName() const;
             QStringList screenshotUrls() const;
-            QString id() const;
             Status status() const;
+            QString id() const;
 
         private:
             QString m_gameName;
@@ -69,8 +70,8 @@ namespace GluonPlayer
             QString m_projectDirName;
             QString m_projectFileName;
             QStringList m_screenshotUrls;
-            QString m_id;
             Status m_status;
+            QString m_id;
     };
 
     class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
@@ -84,8 +85,8 @@ namespace GluonPlayer
                 ProjectDirNameRole,
                 ProjectFileNameRole,
                 ScreenshotUrlsRole,
-                IDRole,
-                StatusRole
+                StatusRole,
+                IDRole
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
@@ -109,5 +110,3 @@ namespace GluonPlayer
 }
 
 #endif // GLUONPLAYER_GAMEITEMSMODEL_H
-
-
