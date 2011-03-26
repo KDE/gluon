@@ -95,7 +95,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
             GameViewItem gameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
-                                      project.property("id").toString(), GameViewItem::Installed);
+                                      GameViewItem::Installed, project.property("id").toString());
             m_gameViewItems.append(gameViewItem);
         }
     }
@@ -211,7 +211,7 @@ void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
         {
             Attica::Content c( contentJob->itemList().at(i));
             GameViewItem gameViewItem(c.name(), c.description(), "", "",
-                                      c.id(), GameViewItem::Downloadable);
+                                      GameViewItem::Downloadable, c.id());
             m_gameViewItems.append(gameViewItem);
             reset();
         }
