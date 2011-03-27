@@ -272,11 +272,6 @@ Game::setCurrentScene( Scene* newCurrentScene )
         cleanupAll();
     }
 
-    QList<const GluonCore::GluonObject*> objects = d->listAllChildren( d->currentScene );
-    foreach( const GluonCore::GluonObject * child, objects )
-    {
-        disconnect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
-    }
 
     d->currentScene = newCurrentScene;
 
@@ -284,12 +279,6 @@ Game::setCurrentScene( Scene* newCurrentScene )
     {
         initializeAll();
         startAll();
-    }
-
-    objects = d->listAllChildren( newCurrentScene->sceneContents() );
-    foreach( const GluonCore::GluonObject * child, objects )
-    {
-        connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
     }
 
     emit currentSceneChanged( newCurrentScene );
@@ -328,13 +317,15 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
             stopAll();
             cleanupAll();
         }
-        delete d->gameProject;
+        disconnect( d->gameProject, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
     }
 
     d->gameProject = newGameProject;
 
     if( !d->gameProject )
         return;
+
+    connect( d->gameProject, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
 
     if( !d->gameProject->entryPoint() )
     {
