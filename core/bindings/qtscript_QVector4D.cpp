@@ -44,11 +44,11 @@ static const char* const qtscript_QVector4D_function_names[] =
     , "lengthSquared"
     , "normalize"
     , "normalized"
-    , "operator_add_assign"
-    , "operator_divide_assign"
+    , "addOther"
+    , "divideBy"
     , "equals"
-    , "operator_multiply_assign"
-    , "operator_subtract_assign"
+    , "multiplyBy"
+    , "subtractOther"
     , "readFrom"
     , "setW"
     , "setX"
@@ -66,6 +66,12 @@ static const char* const qtscript_QVector4D_function_names[] =
     , "y"
     , "z"
     , "toString"
+
+    , "add"
+    , "subtract"
+    , "multiply"
+    , "divide"
+    , "multiplyComponents"
 };
 
 static const char* const qtscript_QVector4D_function_signatures[] =
@@ -100,7 +106,13 @@ static const char* const qtscript_QVector4D_function_signatures[] =
     , ""
     , ""
     , ""
-    ""
+    , ""
+
+    , "QVector4D other"
+    , "QVector4D other"
+    , "qreal factor"
+    , "QVector4D other"
+    , "QVector4D other"
 };
 
 static const int qtscript_QVector4D_function_lengths[] =
@@ -136,6 +148,12 @@ static const int qtscript_QVector4D_function_lengths[] =
     , 0
     , 0
     , 0
+
+    , 1
+    , 1
+    , 1
+    , 1
+    , 1
 };
 
 static QScriptValue qtscript_QVector4D_throw_ambiguity_error_helper(
@@ -166,7 +184,7 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
     if( context->callee().isFunction() )
         _id = context->callee().data().toUInt32();
     else
-        _id = 0xBABE0000 + 26;
+        _id = 0xBABE0000 + 31;
 #endif
     Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
@@ -238,13 +256,13 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
             }
             break;
 
-            /*    case 7:
-                if (context->argumentCount() == 1) {
-                    QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>(context->argument(0));
-                    bool _q_result = _q_self->operator==(_q_arg0);
-                    return QScriptValue(context->engine(), _q_result);
-                }
-                break;*/
+        case 7:
+            if (context->argumentCount() == 1) {
+                QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>(context->argument(0));
+                bool _q_result = *_q_self == _q_arg0;
+                return QScriptValue(context->engine(), _q_result);
+            }
+            break;
 
         case 8:
             if( context->argumentCount() == 1 )
@@ -415,6 +433,51 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
             return QScriptValue( context->engine(), result );
         }
 
+        case 27: // add
+        {
+            if(( qMetaTypeId<QVector4D>() == context->argument( 0 ).toVariant().userType() ) )
+            {
+                QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>( context->argument( 0 ) );
+                QVector4D _q_result = *_q_self + _q_arg0;
+                return qScriptValueFromValue( context->engine(), _q_result );
+            }
+            break;
+        }
+        case 28: // subtract
+        {
+            if(( qMetaTypeId<QVector4D>() == context->argument( 0 ).toVariant().userType() ) )
+            {
+                QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>( context->argument( 0 ) );
+                QVector4D _q_result = *_q_self - _q_arg0;
+                return qScriptValueFromValue( context->engine(), _q_result );
+            }
+            break;
+        }
+        case 29: // multiply
+        {
+            qreal _q_arg0 = qscriptvalue_cast<qreal>( context->argument( 0 ) );
+            QVector4D _q_result = *_q_self * _q_arg0;
+            return qScriptValueFromValue( context->engine(), _q_result );
+            break;
+        }
+        case 30: // divide
+        {
+            qreal _q_arg0 = qscriptvalue_cast<qreal>( context->argument( 0 ) );
+            QVector4D _q_result = *_q_self / _q_arg0;
+            return qScriptValueFromValue( context->engine(), _q_result );
+            break;
+        }
+        case 31: // multiplyComponents
+        {
+            if(( qMetaTypeId<QVector4D>() == context->argument( 0 ).toVariant().userType() ) )
+            {
+                QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>( context->argument( 0 ) );
+                QVector4D _q_result = *_q_self * _q_arg0;
+                return qScriptValueFromValue( context->engine(), _q_result );
+            }
+            break;
+        }
+
         default:
             Q_ASSERT( false );
     }
@@ -523,7 +586,7 @@ QScriptValue qtscript_create_QVector4D_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<QVector4D*>(), QScriptValue() );
     QScriptValue proto = engine->newVariant( qVariantFromValue(( QVector4D* )0 ) );
-    for( int i = 0; i < 27; ++i )
+    for( int i = 0; i < 32; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_QVector4D_prototype_call, qtscript_QVector4D_function_lengths[i+2] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );

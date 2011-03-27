@@ -20,13 +20,13 @@
 
 #include "commentitemsmodel.h"
 
-#include "player/lib/atticamanager.h"
+#include "atticamanager.h"
 
-#include "core/gluonobject.h"
-#include "core/gdlhandler.h"
-#include "core/gluon_global.h"
+#include <core/gluonobject.h>
+#include <core/gdlhandler.h>
+#include <core/gluon_global.h>
 
-#include "engine/gameproject.h"
+#include <engine/gameproject.h>
 
 #include <attica/comment.h>
 #include <attica/listjob.h>

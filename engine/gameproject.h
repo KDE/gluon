@@ -29,7 +29,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
 #include <graphics/texture.h>
-#include "assets/graphics/texture/textureasset.h"
+
 
 namespace GluonEngine
 {
@@ -41,6 +41,7 @@ namespace GluonEngine
     const QString projectScreenshot("screenshot.png");
 
     class GameProjectPrivate;
+    class TextureAsset;
 
     /**
      * The GameProject class describes and contains a complete game project,

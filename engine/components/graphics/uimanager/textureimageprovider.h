@@ -21,7 +21,7 @@
 #ifndef GLUONENGINE_TEXTUREIMAGEPROVIDER_H
 #define GLUONENGINE_TEXTUREIMAGEPROVIDER_H
 
-#include <QDeclarativeImageProvider>
+#include <QtDeclarative/QDeclarativeImageProvider>
 
 namespace GluonEngine 
 {
