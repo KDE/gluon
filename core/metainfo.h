@@ -121,6 +121,25 @@ namespace GluonCore
              * @see applyRange() applyStep()
              */
             Q_INVOKABLE qreal applyRangeAndStep( const QString& property, qreal newValue ) const;
+
+            /**
+             * Return the default extension to be used for this object type, when it is
+             * saved to a file. This is primarily used by GluonEngine::Savable to determine
+             * the extension to use when saving files to disk.
+             *
+             * \return The default extension or an empty string if none has  been set.
+             */
+            QString defaultExtension() const;
+
+            /**
+             * Set the default extension for this object type.
+             *
+             * \see defaultExtension()
+             *
+             * \param extension The default extension to use.
+             */
+            void setDefaultExtension(const QString& extension);
+
         private:
             class MetaInfoPrivate;
             MetaInfoPrivate* d;
