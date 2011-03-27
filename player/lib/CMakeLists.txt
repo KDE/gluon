@@ -1,5 +1,4 @@
 set(LIBATTICA_MIN_VERSION 0.1.90)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(LibAttica)
 
