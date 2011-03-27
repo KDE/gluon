@@ -54,7 +54,6 @@ SphereCollisionComponent::SphereCollisionComponent( QObject* parent )
     , d( new SphereCollisionComponentPrivate )
 {
     d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent*>();
-    d->typeName =  staticMetaObject.className();
 }
 
 SphereCollisionComponent::~SphereCollisionComponent()
@@ -69,7 +68,7 @@ QString SphereCollisionComponent::category() const
 
 void SphereCollisionComponent::start()
 {
-    d->collisionComponents = gameObject()->parentGameObject()->findComponentsInChildrenByType( d->componentType ).toVector();
+    d->collisionComponents = gameObject()->scene()->sceneContents()->findComponentsInChildrenByType( d->componentType ).toVector();
 
     foreach( Component * component, d->collisionComponents )
     {
@@ -96,13 +95,7 @@ void SphereCollisionComponent::update( int elapsedMilliseconds )
     Component** data = d->collisionComponents.data();
     for( int i = 0; i < componentCount; ++i )
     {
-        Component* component = data[i];
-
-        //Intentional pointer-to-pointer comparison. Way faster compared to string comparison.
-        if( component->metaObject()->className() != d->typeName )
-            continue;
-
-        SphereCollisionComponent* sphere = static_cast< SphereCollisionComponent* >( component );
+        SphereCollisionComponent* sphere = qobject_cast< SphereCollisionComponent* >( data[i] );
         if( sphere && sphere != this )
         {
             //See if we are in the same group
