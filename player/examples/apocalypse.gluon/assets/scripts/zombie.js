@@ -7,12 +7,12 @@ this.initialize = function()
 
 this.start = function()
 {
-    this.player = this.Scene.sceneContents().Camera;
+    this.player = this.Scene.sceneContents().Camera.Player;
 }
 
 this.update = function(time)
 {
-    var playerPos = this.player.position;
+    var playerPos = this.player.worldPosition();
     var thisPos = this.GameObject.position;
     
     var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
