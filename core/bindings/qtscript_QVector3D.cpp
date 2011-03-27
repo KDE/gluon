@@ -111,7 +111,7 @@ static const char* const qtscript_QVector3D_function_signatures[] =
     , "QVector3D other"
     , "QVector3D other"
     , "qreal factor"
-    , "QVector3D other"
+    , "qreal factor"
     , "QVector3D other"
 };
 
