@@ -164,6 +164,13 @@ namespace GluonEngine
 
             void reload();
 
+            /**
+             * Filter the fully qualified name of an object.
+             *
+             * \return A URL that can be used for saving files.
+             */
+            static QUrl fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extension = QString());
+
         public slots:
             /**
              * Load the data of this Asset into memory.

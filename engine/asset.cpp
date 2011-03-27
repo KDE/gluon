@@ -26,6 +26,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
+#include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
@@ -71,7 +72,7 @@ Asset::setName( const QString& newName )
         // If we use QDir::current(), .exists will throw debug crap... this works around that particular annoyance
         if( QDir( QDir::currentPath() ).exists( d->file.toLocalFile() ) )
         {
-            QUrl newFile( QString( "Assets/%1.%2" ).arg( fullyQualifiedName() ).arg( QFileInfo( d->file.toLocalFile() ).completeSuffix() ) );
+            QUrl newFile = Asset::fullyQualifiedFileName( this, QFileInfo( d->file.toLocalFile() ).completeSuffix() );
 
             QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
             QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
@@ -184,4 +185,33 @@ Asset::setLoaded( bool loaded )
     d->loaded = loaded;
 }
 
+QUrl
+Asset::fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extension)
+{
+    DEBUG_FUNC_NAME
+    QStringList parts = obj->fullyQualifiedName().split('/');
+    if(parts.first() == obj->gameProject()->name())
+        parts.removeFirst();
+
+    QRegExp filter("[^a-z0-9_]+");
+
+    QString file = parts.last().toLower().replace(' ','_').replace(filter, "");
+    parts.removeLast();
+
+    QStringList path;
+    foreach(const QString& part, parts)
+    {
+        path.append(part.toLower().replace(' ', '_').replace(filter, ""));
+    }
+
+    QString dir = path.join("/");
+    if(dir.length() > 0)
+        dir.append('/');
+
+    QString ext = extension.isEmpty() ? obj->metaInfo()->defaultExtension() : extension;
+    return QUrl( QString("%1%2.%3").arg(dir, file, ext) );
+}
+
+
 #include "asset.moc"
+
