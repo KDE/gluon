@@ -319,7 +319,7 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
     Attica::PostJob* job =
         AtticaManager::instance()->provider().addNewComment( Attica::Comment::ContentComment,
-                "128637", "0", parentNode->name(), subject,
+                m_gameId, "0", parentNode->name(), subject,
                 message );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addCommentFinished( Attica::BaseJob* ) ) );
     job->start();
