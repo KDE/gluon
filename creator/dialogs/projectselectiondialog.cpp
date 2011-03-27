@@ -135,4 +135,9 @@ void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
     setCurrentPage( d->pages[page] );
 }
 
+QSize ProjectSelectionDialog::sizeHint() const
+{
+	return QSize(640, 480);
+}
+
 #include "projectselectiondialog.moc"
