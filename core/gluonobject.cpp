@@ -385,10 +385,12 @@ void GluonObject::addChild( GluonObject* child )
     if( parent )
     {
         parent->removeChild( child );
+        disconnect( child, SIGNAL( showDebug( const QString& ) ), parent, SIGNAL( showDebug( const QString& ) ) );
     }
 
     child->setParent( this );
     child->setName( child->name() );
+    connect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
 }
 
 GluonObject* GluonObject::child( int index ) const

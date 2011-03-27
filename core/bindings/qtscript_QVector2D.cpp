@@ -99,7 +99,7 @@ static const char* const qtscript_QVector2D_function_signatures[] =
     , "QVector2D other"
     , "QVector2D other"
     , "qreal factor"
-    , "QVector2D other"
+    , "qreal factor"
     , "QVector2D other"
 };
 
