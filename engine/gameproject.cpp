@@ -242,6 +242,7 @@ bool
 GameProject::loadFromFile( QUrl fileUrl )
 {
     setFilename( fileUrl );
+    setDirname( fileUrl.toLocalFile().section('/', 0, -2 ) );
     return loadFromFile();
 }
 
@@ -249,6 +250,7 @@ bool
 GameProject::loadFromFile( QString fileName )
 {
     setFilename( fileName );
+    setDirname( fileName.section('/', 0, -2 ) );
     return loadFromFile();
 }
 
