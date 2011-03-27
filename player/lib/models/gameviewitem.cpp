@@ -23,13 +23,19 @@ using namespace GluonPlayer;
 
 GameViewItem::GameViewItem(const QString& gameName, const QString& gameDescription,
                            const QString& projectDirName, const QString& projectFileName, const Status& status,
-                           const QString& id)
-    : m_gameName(gameName)
+                           const QString& id, QObject* parent)
+    : QObject( parent )
+	, m_gameName(gameName)
     , m_gameDescription(gameDescription)
     , m_projectDirName(projectDirName)
     , m_projectFileName(projectFileName)
     , m_status(status)
     , m_id(id)
+{
+}
+
+GameViewItem::GameViewItem( const GameViewItem& other, QObject* parent )
+    : QObject( parent )
 {
 }
 
@@ -58,14 +64,14 @@ QStringList GameViewItem::screenshotUrls() const
     return m_screenshotUrls;
 }
 
-QString GameViewItem::id() const
-{
-    return m_id;
-}
-
 GameViewItem::Status GameViewItem::status() const
 {
     return m_status;
+}
+
+QString GameViewItem::id() const
+{
+    return m_id;
 }
 
 #include "gameviewitem.moc"
