@@ -1,6 +1,6 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(libGluonCreator_SRCS
+set(GluonCreator_SRCS
     plugin.cpp
     dockplugin.cpp
     dockmanager.cpp
@@ -32,14 +32,14 @@ set(libGluonCreator_SRCS
     widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
-qt4_automoc(${libGluonCreator_SRCS})
-kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
-set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
+qt4_automoc(${GluonCreator_SRCS})
+kde4_add_library(GluonCreator SHARED ${GluonCreator_SRCS})
+set_target_properties(GluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
 if(GLUON_BUILD_ALL)
-    add_dependencies(libGluonCreator GluonEngine)
+    add_dependencies(GluonCreator GluonEngine)
 endif()
 
-target_link_libraries(libGluonCreator
+target_link_libraries(GluonCreator
                       ${GLUON_ENGINE_LIBS}
                       ${GLUON_CREATOR_LIBS}
                       ${KDE4_KDECORE_LIBS}
@@ -49,7 +49,7 @@ target_link_libraries(libGluonCreator
                       )
 
 set(GLUON_CREATOR_LIBS
-    libGluonCreator
+    GluonCreator
     ${GLUON_ENGINE_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KIO_LIBS}
@@ -58,7 +58,7 @@ set(GLUON_CREATOR_LIBS
     CACHE PATHS "Libraries required for Gluon Creator"
 )
 
-install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS GluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
 
 
 install(FILES
