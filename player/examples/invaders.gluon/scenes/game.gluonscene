@@ -23,7 +23,7 @@
         }
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
             enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/Harmful or Fatal.ogg)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/Game Muisc)
             radius float(99.99)
             volume float(1)
             pitch float(1)
@@ -39,7 +39,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(90;90)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Background)
             color rgba(255;255;255;255)
         }
     }
@@ -48,10 +48,11 @@
         position vector3d(100;0;2)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
+        expanded bool(false)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(8;8)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Player)
             color rgba(255;255;255;255)
             expanded bool(false)
         }
@@ -63,7 +64,7 @@
             { GluonEngine::SpriteRendererComponent(GluonObject)
                 enabled bool(true)
                 size size2d(8;8)
-                material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player Reflection)
+                material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Player Reflection)
                 color rgba(255;255;255;255)
             }
         }
@@ -82,16 +83,6 @@
             keyCode int(32)
             expanded bool(false)
         }
-        { GluonEngine::SoundEmitterComponent(FireSound)
-            enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)
-            radius float(99.99)
-            volume float(1)
-            pitch float(1)
-            loop bool(false)
-            autoPlay bool(false)
-            expanded bool(false)
-        }
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(2)
@@ -100,13 +91,13 @@
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
             enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/Explode)
             radius float(99.99)
             volume float(1)
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
-            expanded bool(false)
+            expanded bool(true)
         }
         { GluonEngine::SphereCollisionComponent(EnemyCollider)
             enabled bool(true)
@@ -116,7 +107,6 @@
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Player)
-            expanded bool(false)
         }
     }
     { GluonEngine::GameObject(Enemy)
@@ -127,29 +117,26 @@
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(5;5)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Enemy)
             color rgba(255;255;255;255)
         }
         { GluonEngine::SphereCollisionComponent(PlayerCollider)
             enabled bool(true)
             radius float(2)
-            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(1)
             radius float(2)
-            expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
             enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/Explode)
             radius float(99.99)
             volume float(1)
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
-            expanded bool(false)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
@@ -164,7 +151,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(1;5)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Bullet)
             color rgba(255;0;0;255)
         }
         { GluonEngine::SphereCollisionComponent(Collider)
@@ -172,42 +159,18 @@
             collisionGroup int(1)
             radius float(2)
         }
-        { GluonEngine::SoundEmitterComponent(Pew)
-            enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)
-            radius float(99.99)
-            volume float(1)
-            pitch float(1)
-            loop bool(false)
-            autoPlay bool(true)
-        }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Bullet)
         }
-    }
-    { GluonEngine::GameObject(GameOver)
-        enabled bool(true)
-        position vector3d(0;50;10)
-        scale vector3d(1;1;1)
-        orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
+        { GluonEngine::SoundEmitterComponent(SoundEmitterComponent)
             enabled bool(true)
-            size size2d(40;7)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Game Over)
-            color rgba(255;255;255;255)
-        }
-    }
-    { GluonEngine::GameObject(GameWon)
-        enabled bool(true)
-        position vector3d(0;50;10)
-        scale vector3d(1;1;1)
-        orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
-            enabled bool(true)
-            size size2d(40;9)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)
-            color rgba(255;255;255;255)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/Fire)
+            radius float(10000)
+            volume float(1)
+            pitch float(1)
+            loop bool(false)
+            autoPlay bool(true)
         }
     }
     { GluonEngine::GameObject(Controller)
