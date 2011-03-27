@@ -19,9 +19,10 @@
 
 #include "gameitemsmodel.h"
 
-#include "core/gluon_global.h"
-#include "engine/gameproject.h"
 #include "player/lib/atticamanager.h"
+
+#include <core/gluon_global.h>
+#include <engine/gameproject.h>
 
 #include <attica/content.h>
 
@@ -30,53 +31,6 @@
 #include <QtCore/QDebug>
 
 using namespace GluonPlayer;
-
-GameViewItem::GameViewItem(const QString& gameName, const QString& gameDescription,
-                           const QString& projectDirName, const QString& projectFileName, const Status& status,
-                           const QString& id)
-    : m_gameName(gameName)
-    , m_gameDescription(gameDescription)
-    , m_projectDirName(projectDirName)
-    , m_projectFileName(projectFileName)
-    , m_status(status)
-    , m_id(id)
-{
-}
-
-QString GameViewItem::gameName() const
-{
-    return m_gameName;
-}
-
-QString GameViewItem::gameDescription() const
-{
-    return m_gameDescription;
-}
-
-QString GameViewItem::projectDirName() const
-{
-    return m_projectDirName;
-}
-
-QString GameViewItem::projectFileName() const
-{
-    return m_projectFileName;
-}
-
-QStringList GameViewItem::screenshotUrls() const
-{
-    return m_screenshotUrls;
-}
-
-QString GameViewItem::id() const
-{
-    return m_id;
-}
-
-GameViewItem::Status GameViewItem::status() const
-{
-    return m_status;
-}
 
 GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )

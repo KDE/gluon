@@ -18,21 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEITEMSMODEL_H
-#define GLUONPLAYER_GAMEITEMSMODEL_H
+#ifndef GLUONPLAYER_GAMEVIEWITEM_H
+#define GLUONPLAYER_GAMEVIEWITEM_H
 
 #include "gluon_player_export.h"
 
-#include "gameviewitem.h"
-
-#include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
-#include <QtCore/QDir>
-
-namespace Attica
-{
-    class BaseJob;
-}
 
 namespace GluonPlayer
 {
@@ -44,38 +35,36 @@ namespace GluonPlayer
      *
      */
 
-    class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
+    class GLUON_PLAYER_EXPORT GameViewItem
     {
-        Q_OBJECT
         public:
-
-            enum GameItemsModelRoles {
-                GameNameRole = Qt::UserRole + 1,
-                GameDescriptionRole,
-                ProjectDirNameRole,
-                ProjectFileNameRole,
-                ScreenshotUrlsRole,
-                StatusRole,
-                IDRole
+            enum Status {
+                Downloadable,
+                Installed,
+                Upgradable
             };
 
-            explicit GameItemsModel( QObject* parent = 0 );
-            virtual ~GameItemsModel() {}
+            explicit GameViewItem ( const QString& gameName, const QString& description,
+                                    const QString& projectDirName, const QString& projectFileName,
+                                    const Status &status, const QString &id);
+            virtual ~GameViewItem() {}
 
-            virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
-            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-
-            virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
-            virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            QString gameName() const;
+            QString gameDescription() const;
+            QString projectDirName() const;
+            QString projectFileName() const;
+            QStringList screenshotUrls() const;
+            Status status() const;
+            QString id() const;
 
         private:
-            QList<GameViewItem> m_gameViewItems;
-
-            void fetchGamesList();
-
-        protected slots:
-            void providersUpdated();
-            void processFetchedGamesList( Attica::BaseJob* job);
+            QString m_gameName;
+            QString m_gameDescription;
+            QString m_projectDirName;
+            QString m_projectFileName;
+            QStringList m_screenshotUrls;
+            Status m_status;
+            QString m_id;
     };
 }
 

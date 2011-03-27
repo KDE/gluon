@@ -21,7 +21,7 @@
 #include "authentication.h"
 #include "atticamanager.h"
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
 #include <QtCore/QDebug>
 
