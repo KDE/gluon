@@ -346,26 +346,6 @@ GluonObject::fullyQualifiedName() const
     return name();
 }
 
-QString
-GluonObject::fullyQualifiedFileName() const
-{
-    QString theName( objectName() );
-
-    // If the fully qualified name has a suffix, use that...
-    // Unfortunately this means the characters will be there multiple times, but we will have
-    // properly suffixed file names
-    QString qualifiedName = fullyQualifiedName();
-    // if( !name().contains( '.' ) )
-        // theName.append( '.' ).append( name().section( '.', -1 ).toLower() );
-
-    GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
-    if( theParent )
-        return QString( "%1/%2" ).arg( theParent->fullyQualifiedFileName() ).arg( theName );
-
-    debug(theName);
-    return theName;
-}
-
 GluonCore::GluonObject*
 GluonObject::findItemByName( QString qualifiedName )
 {
@@ -780,7 +760,10 @@ MetaInfo*
 GluonObject::metaInfo()
 {
     if( !d->metaInfo )
+    {
         d->metaInfo = new MetaInfo( this );
+        populateMetaInfo(d->metaInfo);
+    }
     return d->metaInfo;
 }
 

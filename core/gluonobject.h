@@ -242,16 +242,6 @@ namespace GluonCore
              * AnotherObject/AnObject
              */
             QString fullyQualifiedName() const;
-            /**
-             * A version of the fully qualified name of the object suitable for use
-             * as a file name. Note that this is NOT the actual file name of any file
-             * on the disk, it is only a string which is suitable for use as a file name
-             *
-             * @return  A version of the fully qualified object name suitable for a file name
-             *
-             * @see fullyQualifiedName()
-             */
-            QString fullyQualifiedFileName() const;
 
             /**
              * Used by GluonObjectFactory when requesting an object which supports a specific
@@ -411,6 +401,14 @@ namespace GluonCore
              * child after adding, re-implement this function and perform those actions.
              */
             virtual void postCloneSanitize() {};
+
+            /**
+             * This function is called when the MetaInfo is created and allows setting the
+             * properties of the MetaInfo object.
+             *
+             * \param info The MetaInfo that was just created.
+             */
+            virtual void populateMetaInfo(MetaInfo* info) { Q_UNUSED(info); }
 
         private:
             Q_DISABLE_COPY(GluonObject)
