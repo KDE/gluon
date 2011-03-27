@@ -60,7 +60,6 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     : Component( parent )
     , d( new SoundEmitterComponentPrivate )
 {
-    metaInfo()->setPropertyRange( "pitch", 0.5, 2.0 );
     d->sound = new GluonAudio::Sound();
 }
 
@@ -96,9 +95,12 @@ Asset* SoundEmitterComponent::sound()
 
 void SoundEmitterComponent::setSound( Asset* asset )
 {
-    d->asset = asset;
+    if(!asset)
+        return;
 
-    if (!asset->data()->text().isEmpty()) {
+    d->asset = asset;
+    if (asset->data()->hasText()) {
+        debug(asset->data()->text());
         d->sound->load( asset->data()->text() ) ;
     }
 }
@@ -210,6 +212,11 @@ bool SoundEmitterComponent::autoPlay() const
 void SoundEmitterComponent::setAutoPlay( bool autoPlay )
 {
     d->autoPlay = autoPlay;
+}
+
+void SoundEmitterComponent::populateMetaInfo(GluonCore::MetaInfo* info)
+{
+    info->setPropertyRange( "pitch", 0.5, 2.0 );
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_soundemitter, GluonEngine::SoundEmitterComponent )
