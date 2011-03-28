@@ -21,12 +21,13 @@
 #include "asset.h"
 #include "game.h"
 
+#include <core/metainfo.h>
+
 #include <QtGui/QAction>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
-#include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
@@ -190,7 +191,7 @@ Asset::fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extens
 {
     DEBUG_FUNC_NAME
     QStringList parts = obj->fullyQualifiedName().split('/');
-    if(parts.first() == obj->gameProject()->name())
+    if(parts.count() > 1 && parts.first() == obj->gameProject()->name())
         parts.removeFirst();
 
     QRegExp filter("[^a-z0-9_]+");
