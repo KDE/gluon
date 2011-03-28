@@ -76,7 +76,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::DiscSectionRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::DiscSectionRendererComponent* )
 
 #endif

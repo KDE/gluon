@@ -85,7 +85,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent )
 Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent* )
 
 #endif // MOUSEINPUTCOMPONENT_H

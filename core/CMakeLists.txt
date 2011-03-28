@@ -46,7 +46,6 @@ set(GluonCore_SRCS
     metainfo.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
-    gluonobjectprivate.cpp
     scriptengine.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
@@ -64,13 +63,12 @@ set(GluonCore_HEADERS
     messagehandler.h
     gluonobject.h
     gluonobjectfactory.h
-    gluonobjectprivate.h
     singleton.h
     scriptengine.h
     gluon_core_export.h
-	gluonvarianttypes.h
+    gluonvarianttypes.h
 
-	${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
+    ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
 
 qt4_automoc(${GluonCore_SRCS})

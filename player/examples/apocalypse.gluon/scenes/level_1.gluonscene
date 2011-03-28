@@ -31,13 +31,13 @@
                 frameSize size2d(64;64)
                 frameCounts list<int>(4;8;8;6;4;2;6)
                 startFrames list<int>(0;4;12;20;26;30;32)
-                expanded bool(false)
             }
             { GluonEngine::ScriptingComponent(ScriptingComponent)
                 enabled bool(true)
                 script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Player)
                 speed float(40)
                 backgroundDivisor float(100)
+                expanded bool(false)
             }
             { GluonEngine::KeyboardInputComponent(Key_Left)
                 enabled bool(true)
@@ -86,6 +86,7 @@
                 enabled bool(true)
                 script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Crosshair)
                 mouseSpeed float(0.05)
+                fireInterval float(250)
             }
         }
         { GluonEngine::SoundListenerComponent(SoundListenerComponent)
@@ -95,7 +96,7 @@
         }
         { GluonEngine::SoundEmitterComponent(SoundEmitterComponent)
             enabled bool(true)
-            sound GluonEngine::Asset(Apocalypse/Assets/Sounds/Movement Proposition.ogg)
+            sound GluonEngine::Asset(Apocalypse/Assets/Sounds/Game Music)
             radius float(10000)
             volume float(1)
             pitch float(1)
@@ -112,11 +113,23 @@
         { GluonEngine::SpriteRendererComponent(SpriteRendererComponent)
             enabled bool(true)
             size size2d(10;10)
-            material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Crosshair)
+            material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Bullet)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Bullet)
+            direction vector3d(0;1;0)
+            speed float(50)
+            life float(2)
+        }
+        { GluonEngine::SoundEmitterComponent(SoundEmitterComponent)
+            enabled bool(true)
+            sound GluonEngine::Asset(Apocalypse/Assets/Sounds/Gunfire)
+            radius float(1000)
+            volume float(1)
+            pitch float(1)
+            loop bool(false)
+            autoPlay bool(true)
         }
     }
     { GluonEngine::GameObject(Zombie)
@@ -134,11 +147,16 @@
             frameCounts list<int>(4;8;8;6;4;2;6)
             startFrames list<int>(0;4;12;20;26;30;32)
             animation int(1)
+            expanded bool(false)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Zombie)
             speed float(15)
+        }
+        { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
+            enabled bool(true)
+            radius float(8)
         }
     }
     { GluonEngine::GameObject(Controller)
@@ -149,8 +167,8 @@
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Controller)
-            minSpawnRate float(1000)
-            maxSpawnRate float(80)
+            minSpawnRate float(5000)
+            maxSpawnRate float(5000)
             spawnRateChange float(2000)
         }
     }

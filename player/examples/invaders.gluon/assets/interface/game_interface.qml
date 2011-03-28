@@ -35,7 +35,7 @@ Item {
                 model: Scene.lives;
                 
                 Image {
-                    source: "image://texture/Invaders/Assets/Textures/spaceship.png"
+                    source: "image://texture/Invaders/Assets/Textures/Spaceship"
                     width: 16;
                     height: 16;
                 }

@@ -81,6 +81,8 @@ namespace GluonEngine
 
             virtual QList< QAction* > actions();
 
+
+
         public Q_SLOTS:
             /**
              * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
@@ -92,12 +94,14 @@ namespace GluonEngine
              */
             void setEntryPoint( );
 
+        protected:
+            virtual void populateMetaInfo(GluonCore::MetaInfo* info);
+
         private:
             ScenePrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::Scene )
 Q_DECLARE_METATYPE( GluonEngine::Scene* )
 
 #endif // GLUON_ENGINE_SCENE_H

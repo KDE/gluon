@@ -69,7 +69,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent )
 Q_DECLARE_METATYPE( GluonEngine::UiManagerComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

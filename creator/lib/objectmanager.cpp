@@ -44,6 +44,7 @@
 #include <QtCore/QDebug>
 #include "models/models.h"
 #include "models/scenemodel.h"
+#include <core/gluon_global.h>
 
 using namespace GluonCreator;
 
@@ -121,7 +122,10 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    QString extension;
+    QString newFile = QString("%1/%2").arg(GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile(), info.fileName());
+    QFile( fileName ).copy( newFile );
+    newAsset->setFile( newFile );
+
     if( name.isEmpty() )
     {
         newAsset->setName( info.fileName() );
@@ -129,36 +133,12 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     else
     {
         newAsset->setName( name );
-        QStringList splitName = fileName.split('.');
-        splitName.removeAt(0);
-        extension = QString( ".%1" ).arg( splitName.join(".") );
     }
-
-    QUrl newLocation( QString( "Assets/%1%2" ).arg( newAsset->fullyQualifiedFileName() ).arg( extension ) );
-
-    QString newPath( newLocation.toLocalFile().section( '/', 0, -2 ) );
-    if( !QDir::current().exists( newPath ) )
-        QDir::current().mkpath( newPath );
-
-    int i = 0;
-    QStringList theSplitName = newAsset->name().split('.');
-    QString firstName = theSplitName.takeAt(0);
-    while(QFile::exists(newLocation.toLocalFile()))
-    {
-        ++i;
-        QString newName = firstName.append( QString( " (%1)." ).arg( i ) ).append( theSplitName.join(".") );
-        newAsset->setName( newName );
-        newLocation = QUrl( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
-    }
-
-    QFile( fileName ).copy( newLocation.toLocalFile() );
-
-    newAsset->setFile( newLocation );
     newAsset->load();
 
-    QString path( newAsset->absolutePath() );
-    m_assets.insert( path, newAsset );
-    KDirWatch::self()->addFile( path );
+    QString filePath( newAsset->absolutePath() );
+    m_assets.insert( filePath, newAsset );
+    KDirWatch::self()->addFile( filePath );
 
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }

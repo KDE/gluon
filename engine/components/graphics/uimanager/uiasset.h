@@ -60,7 +60,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::UiAsset )
 Q_DECLARE_METATYPE( GluonEngine::UiAsset* )
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

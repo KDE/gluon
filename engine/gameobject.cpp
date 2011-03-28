@@ -350,7 +350,8 @@ GameObject::addComponent( Component* addThis )
 {
     if( addThis )
     {
-        int typeID = QMetaType::type( addThis->metaObject()->className() );
+
+        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value(addThis->metaObject()->className());
         if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
         {
             d->componentTypes.insert( typeID, addThis );
@@ -753,7 +754,7 @@ GameObject::postCloneSanitize()
         {
             Component* comp = qobject_cast<Component*>( child );
             d->components.append( comp );
-            int typeID = QMetaType::type( comp->metaObject()->className() );
+            int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value(comp->metaObject()->className() );
             d->componentTypes.insert( typeID, comp );
             comp->setParent( this );
             comp->setGameObject( this );

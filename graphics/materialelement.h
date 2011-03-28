@@ -42,7 +42,6 @@ namespace GluonGraphics
 
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::MaterialElement )
 Q_DECLARE_METATYPE( GluonGraphics::MaterialElement* )
 
 #endif // GLUONGRAPHICS_MATERIALELEMENT_H

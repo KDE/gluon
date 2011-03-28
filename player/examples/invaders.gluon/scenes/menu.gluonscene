@@ -18,12 +18,12 @@
         }
         { GluonEngine::SoundListenerComponent(GluonObject 1)
             enabled bool(true)
-            active bool(false)
+            active bool(true)
             effectsEnabled bool(true)
         }
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
             enabled bool(true)
-            sound GluonEngine::Asset(Invaders/Assets/Sounds/The Whip Theme Extended Version.ogg)
+            sound GluonEngine::Asset(Invaders/Assets/Sounds/Menu Music)
             radius float(99.99)
             volume float(1)
             pitch float(1)
@@ -39,7 +39,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(35;35)
-            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Icon)
+            material GluonGraphics::MaterialInstance(Invaders/Assets/Main Material/Icon)
             color rgba(255;255;255;255)
         }
     }

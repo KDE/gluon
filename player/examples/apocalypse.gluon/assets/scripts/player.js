@@ -1,5 +1,6 @@
 this.initialize = function()
 {
+    print("Player.Initialize");
     this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
     this.Component.speed = this.Component.speed || 20;
     
@@ -8,9 +9,11 @@ this.initialize = function()
 
 this.start = function()
 {
+    print("Player.Start");
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.Background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
     this.bullet = this.Scene.sceneContents().Bullet;
+    this.crosshair = this.Scene.sceneContents().Camera.Crosshair;
     
     this.scaleX = this.Background.textureParameters.z();
     this.scaleY = this.Background.textureParameters.w();
@@ -96,9 +99,16 @@ this.cleanup = function()
 
 this.fireBullet = function() 
 {
-    //this.GameObject.debug("Fire");
     var newBullet = Game.clone(this.bullet);
-    newBullet.position.setX(this.GameObject.position.x());
-    newBullet.position.setY(this.GameObject.position.y());
     newBullet.enabled = true;
+
+    var newPosition = this.GameObject.worldPosition();
+    newPosition.setZ(this.bullet.position.z());
+    newBullet.setPosition(newPosition);
+
+    var dir = new QVector3D();
+    dir.setX(this.crosshair.worldPosition().x() - newPosition.x());
+    dir.setY(this.crosshair.worldPosition().y() - newPosition.y());
+    dir.normalize();
+    newBullet.ScriptingComponent.direction = dir;
 }

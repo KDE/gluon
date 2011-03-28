@@ -65,8 +65,6 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
 
 namespace GluonCore
 {
-    class GameProject;
-    class GluonObjectPrivate;
     class MetaInfo;
 
     /**
@@ -173,7 +171,6 @@ namespace GluonCore
         public:
             Q_INVOKABLE GluonObject( QObject* parent = 0 );
             explicit GluonObject( const QString& name, QObject* parent = 0 );
-            GluonObject( const GluonObject& rt );
             virtual ~GluonObject();
 
             /**
@@ -245,16 +242,6 @@ namespace GluonCore
              * AnotherObject/AnObject
              */
             QString fullyQualifiedName() const;
-            /**
-             * A version of the fully qualified name of the object suitable for use
-             * as a file name. Note that this is NOT the actual file name of any file
-             * on the disk, it is only a string which is suitable for use as a file name
-             *
-             * @return  A version of the fully qualified object name suitable for a file name
-             *
-             * @see fullyQualifiedName()
-             */
-            QString fullyQualifiedFileName() const;
 
             /**
              * Used by GluonObjectFactory when requesting an object which supports a specific
@@ -415,14 +402,23 @@ namespace GluonCore
              */
             virtual void postCloneSanitize() {};
 
+            /**
+             * This function is called when the MetaInfo is created and allows setting the
+             * properties of the MetaInfo object.
+             *
+             * \param info The MetaInfo that was just created.
+             */
+            virtual void populateMetaInfo(MetaInfo* info) { Q_UNUSED(info); }
+
         private:
+            Q_DISABLE_COPY(GluonObject)
             void sanitizeReference( const QString& propName, const QString& propValue );
 
-            QSharedDataPointer<GluonObjectPrivate> d;
+            class Private;
+            Private * const d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonCore::GluonObject )
 Q_DECLARE_METATYPE( GluonCore::GluonObject* )
 
 #endif  // GLUON_CORE_GLUONOBJECT_H
