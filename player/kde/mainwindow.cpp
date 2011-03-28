@@ -21,12 +21,11 @@
 
 #include "input/inputmanager.h"
 
-#include "lib/models/gameitemsmodel.h"
-
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
-#include "graphics/renderwidget.h"
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <graphics/renderwidget.h>
+#include <core/gluon_global.h>
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>
@@ -34,7 +33,7 @@
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QStatusBar>
-#include <QtGui/QListView>
+#include <QtGui/QListWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
 #include <QtCore/QTimer>
@@ -51,7 +50,7 @@ class MainWindow::MainWindowPrivate
 
         KRecentFilesAction* recentFiles;
 
-        QAbstractItemModel* model;
+		QListWidget* listWidget;
 
         QString title;
         QString fileName;
@@ -90,15 +89,14 @@ MainWindow::MainWindow(const QString& filename )
         header->setFont( font );
         layout->addWidget( header );
 
-        QListView* view = new QListView( base );
-        layout->addWidget( view );
-        d->model = new GameItemsModel( view );
-        view->setModel( d->model );
-        connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
+		d->listWidget = new QListWidget( base );
+        layout->addWidget( d->listWidget );
+        connect( d->listWidget, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
         KPushButton* button = new KPushButton( i18n( "Open other project..." ), base );
         layout->addWidget( button );
         connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
+		loadGamesList();
     }
     resize( 500, 500 );
 }
@@ -111,14 +109,12 @@ void MainWindow::activated( QModelIndex index )
 {
     if( index.isValid() )
     {
-        openProject( d->model->data( index, GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString() );
+		openProject( d->listWidget->currentItem()->text() );
     }
 }
 
-void MainWindow::openClicked( bool toggled )
+void MainWindow::openClicked( bool /* toggled */ )
 {
-    Q_UNUSED( toggled )
-
     QString fileName = KFileDialog::getOpenFileName( KUrl() , i18n( "Select a Project" ), this, QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
@@ -185,3 +181,24 @@ void MainWindow::countFrames( int time )
     Q_UNUSED( time )
     d->frameCount++;
 }
+
+void MainWindow::loadGamesList()
+{
+    QDir m_dir;
+    m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
+    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString("*" + GluonEngine::projectSuffix), QDir::Dirs | QDir::NoDotAndDotDot );
+    foreach( const QString& gameDirName, gameDirNameList)
+    {
+        QDir gameDir = m_dir;
+        gameDir.cd( gameDirName );
+        QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
+        if( !gluonProjectFiles.isEmpty() )
+        {
+            QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
+            GluonEngine::GameProject project;
+            project.loadFromFile( projectFileName );
+            d->listWidget->addItem(projectFileName);
+        }
+    }
+}
+
