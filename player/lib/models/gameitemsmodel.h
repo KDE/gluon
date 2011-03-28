@@ -68,14 +68,16 @@ namespace GluonPlayer
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
-        private:
-            QList<GameViewItem> m_gameViewItems;
-
-            void fetchGamesList();
-
         protected slots:
             void providersUpdated();
             void processFetchedGamesList( Attica::BaseJob* job);
+
+        private:
+            void fetchGamesList();
+
+            QList<GameViewItem*> m_gameViewItems;
+
+
     };
 }
 

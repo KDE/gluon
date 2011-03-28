@@ -48,7 +48,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
-            GameViewItem gameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
+            GameViewItem* gameViewItem = new GameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
                                       GameViewItem::Installed, project.property("id").toString());
             m_gameViewItems.append(gameViewItem);
         }
@@ -76,20 +76,20 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
     case Qt::UserRole:
         break;
     case GameNameRole:
-        return m_gameViewItems.at( index.row() ).gameName();
+        return m_gameViewItems.at( index.row() )->gameName();
     case GameDescriptionRole:
-        return m_gameViewItems.at( index.row() ).gameDescription();
+        return m_gameViewItems.at( index.row() )->gameDescription();
     case ProjectDirNameRole:
-        return m_gameViewItems.at( index.row() ).projectDirName();
+        return m_gameViewItems.at( index.row() )->projectDirName();
     case Qt::DisplayRole:
     case ProjectFileNameRole:
-        return m_gameViewItems.at( index.row() ).projectFileName();
+        return m_gameViewItems.at( index.row() )->projectFileName();
     case ScreenshotUrlsRole:
-        return m_gameViewItems.at( index.row() ).screenshotUrls();
+        return m_gameViewItems.at( index.row() )->screenshotUrls();
     case IDRole:
-        return m_gameViewItems.at( index.row() ).id();
+        return m_gameViewItems.at( index.row() )->id();
     case StatusRole:
-        return m_gameViewItems.at (index.row() ).status();
+        return m_gameViewItems.at (index.row() )->status();
     default:
         break;
     }
@@ -164,7 +164,7 @@ void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
         for( int i = 0; i < contentJob->itemList().count(); ++i )
         {
             Attica::Content c( contentJob->itemList().at(i));
-            GameViewItem gameViewItem(c.name(), c.description(), "", "",
+            GameViewItem* gameViewItem = new GameViewItem(c.name(), c.description(), "", "",
                                       GameViewItem::Downloadable, c.id());
             m_gameViewItems.append(gameViewItem);
             reset();

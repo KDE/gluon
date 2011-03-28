@@ -39,13 +39,13 @@ namespace GluonPlayer
             GameDownloadManager();
             bool addDownload ( const QString &id );
 
-        private:
-            bool alreadyDownloading;
-            QString m_id;
-
         protected slots:
             void providersUpdated();
             void processFetchedGameDetails ( Attica::BaseJob* job );
+
+        private:
+            bool alreadyDownloading;
+            QString m_id;
     };
 
 }

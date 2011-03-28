@@ -28,14 +28,15 @@ using namespace GluonPlayer;
 
 GLUON_DEFINE_SINGLETON(GameDownloadManager)
 
-GameDownloadManager::GameDownloadManager() : alreadyDownloading(false)
+GameDownloadManager::GameDownloadManager() 
+	: alreadyDownloading(false)
 {
-
 }
 
 bool GameDownloadManager::addDownload ( const QString &id )
 {
-    if (alreadyDownloading) {
+    if (alreadyDownloading) 
+	{
         return false;
     }
 
