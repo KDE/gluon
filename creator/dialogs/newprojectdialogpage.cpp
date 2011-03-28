@@ -155,7 +155,7 @@ QString NewProjectDialogPage::createProject() const
     project->addChild(new GluonCore::GluonObject("Prefabs"));
 
     KUrl location = d->location->url();
-    QString gameBundleDir = project->name().toLower().replace(GluonCore::Global::filenameFilter(), "") + GluonEngine::projectSuffix;
+    QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName(project.data(), GluonEngine::projectSuffix).toLocalFile();
     location.addPath( gameBundleDir );
     project->setDirname( location );
     location.addPath( GluonEngine::projectFilename );
