@@ -99,10 +99,9 @@ void SpriteRendererComponent::initialize()
         if( d->material->property( "texture0" ).type() == QVariant::String )
         {
             QString theName( d->material->property( "texture0" ).toString() );
-            QString theObjectName = GluonObject::nameToObjectName( theName );
-            texture = gameProject()->findChild<Asset*>( theObjectName );
+            texture = gameProject()->findChild<Asset*>( theName );
             if(!texture)
-                debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theObjectName ) );
+                debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
         else
             texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
