@@ -102,7 +102,7 @@ void SphereCollisionComponent::update( int elapsedMilliseconds )
             if( sphere->collisionGroup() == d->collisionGroup )
             {
                 //Get the object's position
-                QVector3D otherPosition = component->gameObject()->position();
+                QVector3D otherPosition = sphere->gameObject()->position();
                 //Eliminate the Z axis
                 position.setZ( 0 );
 
@@ -117,7 +117,7 @@ void SphereCollisionComponent::update( int elapsedMilliseconds )
                 //have a collision.
                 if( dist < ( otherRadius + radius ) )
                 {
-                    d->collides = component->gameObject();
+                    d->collides = sphere->gameObject();
                 }
             }
         }
