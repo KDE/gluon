@@ -90,9 +90,9 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
         QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
         layout->addWidget( button );
         connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
+		loadGamesList();
     }
     resize( 500, 500 );
-    loadGamesList();
 }
 
 MainWindow::~MainWindow()
