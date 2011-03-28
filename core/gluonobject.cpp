@@ -365,7 +365,7 @@ GluonObject::root()
     return this;
 }
 
-void GluonObject::addChild( GluonObject* child )
+void GluonObject::addChild( GluonObject* child, GluonCore::GluonObject* objectParent )
 {
     GluonObject* parent = qobject_cast<GluonObject*>( child->parent() );
     if( parent )
@@ -374,7 +374,10 @@ void GluonObject::addChild( GluonObject* child )
         disconnect( child, SIGNAL( showDebug( const QString& ) ), parent, SIGNAL( showDebug( const QString& ) ) );
     }
 
-    child->setParent( this );
+    if( objectParent )
+        child->setParent( objectParent );
+    else
+        child->setParent( this );
 
     //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );

@@ -58,9 +58,9 @@ GameProject::~GameProject()
 }
 
 void
-GameProject::addChild( GluonObject* child )
+GameProject::addChild( GluonObject* child, GluonCore::GluonObject* parent )
 {
-    GluonCore::GluonObject::addChild( child );
+    GluonCore::GluonObject::addChild( child, parent );
 
     connect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
 }

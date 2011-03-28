@@ -138,7 +138,7 @@ namespace GluonEngine
             GameProject( const GameProject& other, QObject* parent = 0 );
             ~GameProject();
 
-            virtual void addChild( GluonObject* child );
+            virtual void addChild( GluonObject* child, GluonCore::GluonObject* parent = 0);
             virtual bool removeChild( GluonObject* child );
 
             bool saveToFile() const;

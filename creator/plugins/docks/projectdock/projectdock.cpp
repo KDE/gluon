@@ -364,7 +364,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
             return;
         }
 
-        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(fileName,
+        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(fileName, static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ),
                                                                                  menuItem->property( "newAssetClassname" ).toString(),
                                                                                  menuItem->property( "newAssetName" ).toString() );
 
@@ -377,5 +377,5 @@ void GluonCreator::ProjectDock::newAssetTriggered()
 
 void ProjectDock::importAssetsTriggered()
 {
-    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames());
+    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames(), static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ));
 }

@@ -320,10 +320,11 @@ namespace GluonCore
              * will ensure that the name is correct
              *
              * @param   child   The new child
+             * @param   parent  The new parent of the child
              *
              * @see name
              */
-            virtual void addChild( GluonObject* child );
+            virtual void addChild( GluonObject* child, GluonCore::GluonObject* parent = 0 );
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *

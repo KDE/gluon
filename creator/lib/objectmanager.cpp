@@ -81,7 +81,7 @@ ObjectManager::humanifyClassName( const QString& fixThis, bool justRemoveNamespa
     return fixedString;
 }
 
-GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, const QString& className, const QString& name )
+GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, GluonCore::GluonObject* parent, const QString& className, const QString& name )
 {
     DEBUG_BLOCK
     GluonCore::GluonObject* newChild = 0;
@@ -99,26 +99,26 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, cons
     GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
     if( newAsset )
     {
-        setupAsset( newAsset, fileName, name );
+        setupAsset( newAsset, parent, fileName, name );
     }
 
     return newAsset;
 }
 
-void ObjectManager::createAssets( const QStringList& fileNames )
+void ObjectManager::createAssets( const QStringList& fileNames, GluonCore::GluonObject* parent )
 {
     foreach( const QString & asset, fileNames )
     {
-        ObjectManager::instance()->createNewAsset( asset );
+        ObjectManager::instance()->createNewAsset( asset, parent );
     }
 }
 
-void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
+void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonObject* parent, const QString& fileName, const QString& name )
 {
     if( newAsset == 0 )
         return;
 
-    GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
+    GluonEngine::Game::instance()->gameProject()->addChild( newAsset, parent );
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
