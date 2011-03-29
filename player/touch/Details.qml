@@ -18,7 +18,7 @@
  */
 
 import QtQuick 1.0
-import GluonPlayerGameItemView 1.0
+// import GluonPlayerGameItemView 1.0
 
 Rectangle {
 
@@ -34,7 +34,7 @@ Rectangle {
         	play_game_btn.text = qsTr("Play " + gameName);
 		else if (status == GameItemView.Upgradable)
         	play_game_btn.text = qsTr("Upgrade " + gameName);
-			
+
         read_author_desc_btn.subtext = qsTr(gameDescription);
         previewImages.model = screenshotUrls;
         gameIndex = index;
