@@ -52,6 +52,7 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     d->view = new QListWidget( this );
     d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1" ).arg( GluonCore::Global::versionString() ), d->view ) );
+    d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 
     connect( GluonEngine::Game::instance(), SIGNAL( showDebug( const QString& ) ), SLOT( showDebug( const QString& ) ) );
 
