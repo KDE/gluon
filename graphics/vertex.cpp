@@ -45,13 +45,13 @@ Vertex::~Vertex()
 }
 
 QVariant
-Vertex::attribute( const QString& name ) const
+Vertex::attribute( const QString& /* name */ ) const
 {
     return QVariant();
 }
 
 void
-Vertex::setAttribute( const QString& name, const QVariant& value )
+Vertex::setAttribute( const QString& /* name */, const QVariant& /* value */ )
 {
 
 }

@@ -118,7 +118,15 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     if( newAsset == 0 )
         return;
 
-    GluonEngine::Game::instance()->gameProject()->addChild( newAsset, parent );
+    if( parent && !qobject_cast<GluonEngine::Asset*>(parent) )
+    {
+        parent->addChild( newAsset );
+    }
+    else
+    {
+        GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
+    }
+
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );

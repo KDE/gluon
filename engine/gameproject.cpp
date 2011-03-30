@@ -58,12 +58,9 @@ GameProject::~GameProject()
 }
 
 void
-GameProject::addChild( GluonObject* child, GluonCore::GluonObject* parent )
+GameProject::addChild( GluonObject* child )
 {
-    if( !qobject_cast<GluonEngine::Asset*>(parent) )
-        GluonCore::GluonObject::addChild( child, parent );
-    else
-        GluonCore::GluonObject::addChild( child, 0 );
+    GluonCore::GluonObject::addChild( child );
 
     connect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
 }

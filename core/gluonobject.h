@@ -324,7 +324,7 @@ namespace GluonCore
              *
              * @see name
              */
-            virtual void addChild( GluonObject* child, GluonCore::GluonObject* parent = 0 );
+            virtual void addChild( GluonObject* child );
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *
