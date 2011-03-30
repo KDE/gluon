@@ -59,8 +59,9 @@ Rectangle {
                     subtext: "5 new games, 16 updated";
 
                     onClicked: {
-                        if (!mainview.loggedIn)
+                        if (!mainview.loggedIn) {
                             mainview.statepoint = "mainwindow";
+                        }
                         // detailsPage.propagate(gameName, gameDescription, screenshotUrls, status, index);
                     }
                 }
