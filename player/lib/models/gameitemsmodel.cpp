@@ -50,7 +50,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
             project.loadFromFile( projectFileName );
             GameViewItem* gameViewItem = new GameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
                                       GameViewItem::Installed, project.property("id").toString());
-            m_gameViewItems.append(gameViewItem);
+            m_gameViewItems.insertMulti( GameViewItem::Installed, gameViewItem );
         }
     }
 
@@ -69,27 +69,27 @@ GameItemsModel::GameItemsModel( QObject* parent )
 
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
-    if (index.row() < 0 || index.row() > m_gameViewItems.count())
+    if (index.row() < 0 || index.row() > m_gameViewItems.values().count())
         return QVariant();
 
     switch (role) {
     case Qt::UserRole:
         break;
     case GameNameRole:
-        return m_gameViewItems.at( index.row() )->gameName();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->gameName();
     case GameDescriptionRole:
-        return m_gameViewItems.at( index.row() )->gameDescription();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->gameDescription();
     case ProjectDirNameRole:
-        return m_gameViewItems.at( index.row() )->projectDirName();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->projectDirName();
     case Qt::DisplayRole:
     case ProjectFileNameRole:
-        return m_gameViewItems.at( index.row() )->projectFileName();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->projectFileName();
     case ScreenshotUrlsRole:
-        return m_gameViewItems.at( index.row() )->screenshotUrls();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->screenshotUrls();
     case IDRole:
-        return m_gameViewItems.at( index.row() )->id();
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->id();
     case StatusRole:
-        return m_gameViewItems.at (index.row() )->status();
+        return m_gameViewItems.values(GameViewItem::Installed).at (index.row() )->status();
     default:
         break;
     }
@@ -99,7 +99,7 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 
 int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
-    return m_gameViewItems.count();
+    return m_gameViewItems.values(GameViewItem::Installed).count();
 }
 
 int GameItemsModel::columnCount( const QModelIndex& /* parent */ ) const
@@ -166,7 +166,7 @@ void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
             Attica::Content c( contentJob->itemList().at(i));
             GameViewItem* gameViewItem = new GameViewItem(c.name(), c.description(), "", "",
                                       GameViewItem::Downloadable, c.id());
-            m_gameViewItems.append(gameViewItem);
+            m_gameViewItems.insertMulti(GameViewItem::Downloadable, gameViewItem);
             reset();
         }
 }

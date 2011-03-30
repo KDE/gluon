@@ -27,6 +27,7 @@
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
+#include <QtCore/QMultiMap>
 #include <QtCore/QDir>
 
 namespace Attica
@@ -75,7 +76,7 @@ namespace GluonPlayer
         private:
             void fetchGamesList();
 
-            QList<GameViewItem*> m_gameViewItems;
+            QMultiMap<GameViewItem::Status, GameViewItem*> m_gameViewItems;
 
 
     };
