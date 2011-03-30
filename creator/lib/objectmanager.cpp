@@ -26,13 +26,17 @@
 #include "propertychangedcommand.h"
 #include "historymanager.h"
 
-#include "core/debughelper.h"
+#include "models/models.h"
+#include "models/scenemodel.h"
 
-#include "engine/gameproject.h"
-#include "engine/gameobject.h"
-#include "engine/scene.h"
-#include "engine/game.h"
-#include "engine/component.h"
+#include <core/gluon_global.h>
+#include <core/debughelper.h>
+
+#include <engine/gameproject.h>
+#include <engine/gameobject.h>
+#include <engine/scene.h>
+#include <engine/game.h>
+#include <engine/component.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
@@ -42,9 +46,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QDebug>
-#include "models/models.h"
-#include "models/scenemodel.h"
-#include <core/gluon_global.h>
 
 using namespace GluonCreator;
 

@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,10 +27,10 @@ using namespace GluonCreator;
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
-#include "engine/asset.h"
-#include "engine/scene.h"
+#include <engine/asset.h>
+#include <engine/scene.h>
 
-#include "core/gluonobject.h"
+#include <core/gluonobject.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>

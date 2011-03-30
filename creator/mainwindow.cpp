@@ -32,9 +32,9 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
 
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>

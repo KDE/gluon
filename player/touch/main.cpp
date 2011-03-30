@@ -24,7 +24,7 @@
 #include "lib/models/commentitemsmodel.h"
 #include "lib/authentication.h"
 
-#include "graphics/renderwidget.h"
+#include <graphics/renderwidget.h>
 
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>

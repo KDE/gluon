@@ -23,13 +23,15 @@
 
 #include "historymanager.h"
 #include "objectmanager.h"
-#include "core/debughelper.h"
-#include "engine/gameobject.h"
-#include "engine/component.h"
-#include "engine/gameproject.h"
-#include "engine/game.h"
+
+#include <core/debughelper.h>
+#include <engine/gameobject.h>
+#include <engine/component.h>
+#include <engine/gameproject.h>
+#include <engine/game.h>
 
 #include <KDE/KLocalizedString>
+
 #include <QtCore/QMimeData>
 
 using namespace GluonCreator;

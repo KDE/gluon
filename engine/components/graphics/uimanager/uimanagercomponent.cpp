@@ -20,6 +20,24 @@
 
 #include "uimanagercomponent.h"
 
+#include "uiasset.h"
+#include "engineaccess.h"
+#include "renderablescene.h"
+
+#include "engine/gameobject.h"
+#include "engine/asset.h"
+#include "engine/game.h"
+
+#include <core/messagehandler.h>
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/item.h>
+#include <graphics/material.h>
+#include <graphics/mesh.h>
+#include <graphics/rendertarget.h>
+#include <graphics/materialinstance.h>
+#include <graphics/texture.h>
+
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeExpression>
@@ -35,23 +53,6 @@
 #include <QtGui/QPixmap>
 #include <QtCore/QMimeData>
 #include <QtCore/QVariant>
-
-#include "core/messagehandler.h"
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/item.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/rendertarget.h"
-#include "graphics/materialinstance.h"
-#include "graphics/texture.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
-#include "engine/game.h"
-
-#include "uiasset.h"
-#include "engineaccess.h"
-#include "renderablescene.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, UiManagerComponent )
 

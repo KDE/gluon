@@ -20,13 +20,14 @@
 #include "mainwindow.h"
 #include "actionsdialog.h"
 
-#include "input/inputmanager.h"
 #include "lib/models/gameitemsmodel.h"
 
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
-#include "graphics/renderwidget.h"
+#include <input/inputmanager.h>
+
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <graphics/renderwidget.h>
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QStatusBar>

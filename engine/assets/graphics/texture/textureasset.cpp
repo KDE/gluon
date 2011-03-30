@@ -19,8 +19,7 @@
 
 #include "textureasset.h"
 
-#include "graphics/texture.h"
-#include "graphics/engine.h"
+#include <graphics/engine.h>
 
 #include <QtGui/QImage>
 #include <QtGui/QImageReader>

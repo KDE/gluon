@@ -21,12 +21,12 @@
 
 #include "newprojectdialogpage.h"
 
-#include "core/gluon_global.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
-#include "engine/game.h"
-#include "engine/gameobject.h"
-#include "engine/component.h"
+#include <core/gluon_global.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
+#include <engine/component.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>

@@ -18,12 +18,13 @@
  */
 #include "discrenderercomponent.h"
 
-#include "graphics/meshes/discmesh.h"
-#include "graphics/item.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
 
-#include <QMimeData>
+#include <graphics/meshes/discmesh.h>
+#include <graphics/item.h>
+
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, DiscRendererComponent )
 

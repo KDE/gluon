@@ -19,18 +19,19 @@
 
 #include "cameracontrollercomponent.h"
 
-#include "graphics/camera.h"
-#include "graphics/engine.h"
-#include "graphics/frustrum.h"
-#include "graphics/viewport.h"
-#include "graphics/rendertarget.h"
-#include "graphics/materialinstance.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
+#include <material.h>
+
+#include <graphics/camera.h>
+#include <graphics/engine.h>
+#include <graphics/frustrum.h>
+#include <graphics/viewport.h>
+#include <graphics/rendertarget.h>
+#include <graphics/materialinstance.h>
+#include <engine/gameobject.h>
+#include <engine/asset.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtCore/QSizeF>
-#include <material.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, CameraControllerComponent )
 

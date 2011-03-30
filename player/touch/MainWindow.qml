@@ -92,6 +92,7 @@ Rectangle {
                 console.log("Provider have been already initialized!");
                 authentication.login(lgn.username, lgn.password);
                 mainview.statepoint = "home";
+                mainview.loggedIn = true;
             } else {
                 console.log("Provider is not initialized yet!");
             }

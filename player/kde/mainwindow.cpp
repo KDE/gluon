@@ -19,7 +19,7 @@
 
 #include "mainwindow.h"
 
-#include "input/inputmanager.h"
+#include <input/inputmanager.h>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>

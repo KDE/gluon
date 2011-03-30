@@ -19,20 +19,20 @@
 
 #include "animatedspriterenderercomponent.h"
 
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/material.h>
+#include <graphics/mesh.h>
+#include <graphics/materialinstance.h>
+#include <graphics/texture.h>
+#include <engine/gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
+
 #include <QtCore/QMimeData>
 #include <QtCore/QVariant>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
-
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/materialinstance.h"
-#include "graphics/texture.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
-#include "engine/game.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, AnimatedSpriteRendererComponent )
 

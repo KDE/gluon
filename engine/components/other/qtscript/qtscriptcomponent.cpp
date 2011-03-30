@@ -20,11 +20,13 @@
 
 #include "qtscriptcomponent.h"
 
-#include "core/gluonobject.h"
-#include "graphics/materialinstance.h"
 #include "gameobject.h"
 #include "game.h"
+
 #include "engine/asset.h"
+
+#include <core/gluonobject.h>
+#include <graphics/materialinstance.h>
 
 #include <QtScript/QScriptEngine>
 #include <QtCore/QMimeData>

@@ -23,13 +23,13 @@
 #include "objectmanager.h"
 #include "modeltest.h"
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/asset.h"
-#include "engine/scene.h"
-#include "engine/filelocation.h"
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/asset.h>
+#include <engine/scene.h>
+#include <engine/filelocation.h>
 
 #include <KDE/KDebug>
 #include <KDE/KLocalizedString>
@@ -186,7 +186,7 @@ ProjectModel::parent( const QModelIndex& child ) const
         return QModelIndex();
 
     QObject* childItem = static_cast<QObject*>( child.internalPointer() );
-	if( !childItem ) 
+	if( !childItem )
 		return QModelIndex();
 
     QObject* parentItem = childItem->parent();

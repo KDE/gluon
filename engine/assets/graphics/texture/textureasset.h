@@ -23,7 +23,7 @@
 #include "engine/gluon_engine_export.h"
 #include "engine/asset.h"
 
-#include "graphics/texture.h"
+#include <graphics/texture.h>
 
 namespace GluonEngine
 {

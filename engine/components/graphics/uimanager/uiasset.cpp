@@ -22,8 +22,8 @@
 
 #include "textureimageprovider.h"
 
-#include "graphics/texture.h"
-#include "graphics/engine.h"
+#include <graphics/texture.h>
+#include <graphics/engine.h>
 
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>

@@ -18,13 +18,13 @@
  */
 
 #include "gluonobjectpropertywidgetitem.h"
-#include "engine/game.h"
-#include "engine/scene.h"
-#include "engine/gameobject.h"
-#include "engine/gameproject.h"
-#include "engine/gluon_engine_metatypes.h"
-
 #include "filemanager.h"
+
+#include <engine/game.h>
+#include <engine/scene.h>
+#include <engine/gameobject.h>
+#include <engine/gameproject.h>
+#include <engine/gluon_engine_metatypes.h>
 
 #include <KDE/KMessageBox>
 #include <KDE/KLocalizedString>

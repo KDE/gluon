@@ -19,12 +19,13 @@
 
 #include "discsectionrenderercomponent.h"
 
-#include "graphics/meshes/discsectionmesh.h"
-#include "graphics/item.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
 
-#include <QMimeData>
+#include <graphics/meshes/discsectionmesh.h>
+#include <graphics/item.h>
+
+#include <QtCore/QMimeData>
 
 #include <cmath>
 

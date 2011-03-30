@@ -22,10 +22,10 @@
 
 #include "lib/objectmanager.h"
 
-#include "engine/component.h"
+#include <engine/component.h>
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
 
