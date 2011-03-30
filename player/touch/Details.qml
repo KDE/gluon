@@ -18,7 +18,7 @@
  */
 
 import QtQuick 1.0
-// import GluonPlayerGameItemView 1.0
+import GluonPlayerGameViewItem 1.0
 
 Rectangle {
 
@@ -28,12 +28,12 @@ Rectangle {
     property int gameIndex;
 
     function propagate(gameName, gameDescription, screenshotUrls, status, index) {
-		// if (status == GameItemView.Downloadable)
-        	// play_game_btn.text = qsTr("Download " + gameName);
-		// else if (status == GameItemView.Installed)
+		if (status == GameViewItem.Downloadable)
+        	play_game_btn.text = qsTr("Download " + gameName);
+		else if (status == GameViewItem.Installed)
         	play_game_btn.text = qsTr("Play " + gameName);
-		// else if (status == GameItemView.Upgradable)
-        	// play_game_btn.text = qsTr("Upgrade " + gameName);
+		else if (status == GameViewItem.Upgradable)
+        	play_game_btn.text = qsTr("Upgrade " + gameName);
 
         read_author_desc_btn.subtext = qsTr(gameDescription);
         previewImages.model = screenshotUrls;
