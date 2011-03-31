@@ -71,7 +71,6 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ScreenshotUrlsRoleDownloadable] = "screenshotUrlsDownloadable";
     roles[IDRoleDownloadable] = "idDownloadable";
     roles[StatusRoleDownloadable] = "statusDownloadable";
-    roles[CountDownloadable] = "countDownloadable";
     setRoleNames(roles);
 
     fetchGamesList();
@@ -116,8 +115,6 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->id();
     case StatusRoleDownloadable:
         return m_gameViewItems.values(GameViewItem::Downloadable).at(index.row() )->status();
-    case CountDownloadable:
-        return m_gameViewItems.values(GameViewItem::Downloadable).count();
     default:
         break;
     }
@@ -125,6 +122,15 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
     return QVariant();
 }
 
+int GameItemsModel::downloadableCount() const
+{
+	return m_gameViewItems.values(GameViewItem::Downloadable).count();
+}
+
+int GameItemsModel::upgradableCount() const
+{
+	return m_gameViewItems.values(GameViewItem::Upgradable).count();
+}
 int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return m_gameViewItems.values(GameViewItem::Installed).count();

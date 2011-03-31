@@ -48,8 +48,10 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
     {
         Q_OBJECT
-        public:
+		Q_PROPERTY( int downloadableCount READ downloadableCount NOTIFY downloadableCountChanged )
+		Q_PROPERTY( int upgradableCount READ upgradableCount NOTIFY upgradableCountChanged )
 
+        public:
             enum GameItemsModelRoles {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
@@ -67,7 +69,6 @@ namespace GluonPlayer
                 ScreenshotUrlsRoleDownloadable,
                 StatusRoleDownloadable,
                 IDRoleDownloadable,
-                CountDownloadable,
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
@@ -78,6 +79,13 @@ namespace GluonPlayer
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+
+			int downloadableCount() const;
+			int upgradableCount() const;
+
+		signals:
+			void downloadableCountChanged();
+			void upgradableCountChanged();
 
         protected slots:
             void providersUpdated();

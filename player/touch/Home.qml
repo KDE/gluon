@@ -56,7 +56,7 @@ Rectangle {
                     id: moreGames;
                     icon: "icons/get-hot-new-stuff.png";
                     text: qsTr("Get More Games");
-                    subtext: "5 new games, 16 updated";
+                    subtext: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
 
                     onClicked: {
                         if (!mainview.loggedIn) {
