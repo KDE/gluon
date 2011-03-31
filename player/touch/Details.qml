@@ -96,7 +96,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -111,7 +113,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -127,7 +131,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -161,7 +167,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Text {
