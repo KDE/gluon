@@ -22,8 +22,8 @@
 #include "enumpropertywidgetitem.h"
 #include "gluonobjectpropertywidgetitem.h"
 
-#include "core/debughelper.h"
-#include "core/gluonobjectfactory.h"
+#include <core/debughelper.h>
+#include <core/gluonobjectfactory.h>
 
 #include <QtCore/QMetaClassInfo>
 

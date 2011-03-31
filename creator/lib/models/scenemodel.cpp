@@ -189,12 +189,8 @@ QModelIndex SceneModel::index( int row, int column, const QModelIndex& parent ) 
         return QModelIndex();
 }
 
-QVariant SceneModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant SceneModel::headerData( int /* section */, Qt::Orientation /* orientation */, int /* role */ ) const
 {
-    Q_UNUSED( section )
-    Q_UNUSED( orientation )
-    Q_UNUSED( role )
-
     return QVariant();
 }
 
@@ -240,9 +236,8 @@ QMimeData* SceneModel::mimeData( const QModelIndexList& indexes ) const
     return data;
 }
 
-bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent )
+bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int /* column */, const QModelIndex& parent )
 {
-    Q_UNUSED( column )
     DEBUG_FUNC_NAME
 
     if( action == Qt::IgnoreAction )

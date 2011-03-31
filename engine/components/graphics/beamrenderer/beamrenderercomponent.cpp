@@ -122,10 +122,8 @@ void BeamRendererComponent::start()
 {
 }
 
-void BeamRendererComponent::draw( int timeLapse )
+void BeamRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     QMatrix4x4 transform = gameObject()->transform();
     transform.translate(0, 0, 0.01f);
     transform.scale( d->size.width() / 2, d->size.width() / 2 );

@@ -67,9 +67,8 @@ void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
     cleanupFunction = scriptObject.property( "cleanup" );
 }
 
-QScriptValue ScriptingComponent::ScriptingComponentPrivate::debug(QScriptContext* context, QScriptEngine* engine)
+QScriptValue ScriptingComponent::ScriptingComponentPrivate::debug(QScriptContext* context, QScriptEngine* /* engine */)
 {
-    Q_UNUSED(engine)
     QScriptValue callee = context->callee();
     if( context->argumentCount() == 1 )
     {

@@ -21,14 +21,14 @@
 #ifndef GLUON_ENGINE_ASSET_H
 #define GLUON_ENGINE_ASSET_H
 
-#include "core/gluonobject.h"
-
 #include "gluon_engine_export.h"
 
+#include <core/gluonobject.h>
+
+#include <QtPlugin>
+#include <QtGui/QIcon>
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
-#include <QtPlugin>
-#include <QIcon>
 
 class QAction;
 class QMimeData;

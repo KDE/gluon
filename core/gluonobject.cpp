@@ -782,9 +782,8 @@ GluonObject::shouldSerializeChildren() const
 }
 
 void
-GluonObject::handleMessage(const QString& message)
+GluonObject::handleMessage(const QString& /* message */ )
 {
-    Q_UNUSED(message)
 }
 
 #include "gluonobject.moc"

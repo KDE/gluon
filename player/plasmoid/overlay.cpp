@@ -59,10 +59,8 @@ void Overlay::wheelEvent( QGraphicsSceneWheelEvent* event )
     QGraphicsItem::wheelEvent( event );
 }
 
-void Overlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Overlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* /* option */, QWidget* /* widget */ )
 {
-    Q_UNUSED( option )
-    Q_UNUSED( widget )
     m_background->paintFrame( painter );
 }
 

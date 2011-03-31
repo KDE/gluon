@@ -254,10 +254,8 @@ void OrientedEdgeItem::updateAttributes()
     update();
 }
 
-void OrientedEdgeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void OrientedEdgeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* /* option */, QWidget* /* widget */ )
 {
-    Q_UNUSED( option )
-    Q_UNUSED( widget )
     if( isSelected() )
     {
         painter->setPen( QPen( Qt::black, _edge->width(),  Qt::DotLine ) );

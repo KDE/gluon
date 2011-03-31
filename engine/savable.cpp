@@ -20,17 +20,18 @@
 
 #include "savable.h"
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
+#include "asset.h"
+
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+#include <core/gluon_global.h>
+#include <core/metainfo.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QDir>
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
-#include <core/gluon_global.h>
-#include <core/metainfo.h>
-#include "asset.h"
 
 using namespace GluonEngine;
 

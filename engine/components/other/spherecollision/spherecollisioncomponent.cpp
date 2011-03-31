@@ -77,10 +77,8 @@ void SphereCollisionComponent::start()
     }
 }
 
-void SphereCollisionComponent::update( int elapsedMilliseconds )
+void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
 {
-    Q_UNUSED( elapsedMilliseconds )
-
     d->collides = 0;
 
     //Our position

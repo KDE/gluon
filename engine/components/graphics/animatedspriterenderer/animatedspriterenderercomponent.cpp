@@ -153,10 +153,8 @@ void AnimatedSpriteRendererComponent::update ( int elapsedMilliseconds )
         d->currentFrame = d->startFrames.at(d->currentAnimation);
 }
 
-void AnimatedSpriteRendererComponent::draw( int timeLapse )
+void AnimatedSpriteRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         QMatrix4x4 transform = gameObject()->transform();

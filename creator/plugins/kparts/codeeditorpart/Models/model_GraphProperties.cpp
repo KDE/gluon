@@ -29,9 +29,8 @@ GraphPropertiesModel::GraphPropertiesModel( QObject* parent ) : QAbstractTableMo
     _metaObject = 0;
 }
 
-int GraphPropertiesModel::rowCount( const QModelIndex& parent ) const
+int GraphPropertiesModel::rowCount( const QModelIndex& /* parent */ ) const
 {
-    Q_UNUSED( parent )
     // if there's no dataSource, there's no data. return zero.
     // else return the size of properties of the object.
     if( _dataSource == 0 )
@@ -42,10 +41,9 @@ int GraphPropertiesModel::rowCount( const QModelIndex& parent ) const
     return _dataSource->dynamicPropertyNames().size();
 }
 
-int GraphPropertiesModel::columnCount( const QModelIndex& parent ) const
+int GraphPropertiesModel::columnCount( const QModelIndex& /* parent */ ) const
 {
     // should always be 2. //! WARNING: wtf? should always be 2 but return 3?
-    Q_UNUSED( parent )
     return 3; //Name - Value - Type
 }
 

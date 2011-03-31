@@ -23,11 +23,12 @@
 #include "sceneprivate.h"
 #include "filelocation.h"
 #include "gameproject.h"
-
-#include "core/gdlhandler.h"
 #include "game.h"
-#include <QAction>
+
 #include <core/metainfo.h>
+#include <core/gdlhandler.h>
+
+#include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 

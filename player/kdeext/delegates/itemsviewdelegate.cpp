@@ -163,13 +163,9 @@ void ItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & op
     painter->restore();
 }
 
-QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const
+QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
 {
-    Q_UNUSED(option);
-    Q_UNUSED(index);
-
     QSize size;
-
     size.setWidth(option.fontMetrics.height() * 4);
     size.setHeight(qMax(option.fontMetrics.height() * 7, PreviewHeight)); // up to 6 lines of text, and two margins
     return size;

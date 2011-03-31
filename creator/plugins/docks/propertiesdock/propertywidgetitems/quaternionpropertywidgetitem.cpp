@@ -126,9 +126,8 @@ void QuaternionPropertyWidgetItem::valueChanged( QVariant value )
     valueChanged( value.toDouble() );
 }
 
-void QuaternionPropertyWidgetItem::valueChanged( double value )
+void QuaternionPropertyWidgetItem::valueChanged( double /* value */ )
 {
-    Q_UNUSED( value )
     d->value = QQuaternion::fromAxisAndAngle( d->x->value(), d->y->value(), d->z->value(), d->angle->value() );
     PropertyWidgetItem::valueChanged( d->value );
 }

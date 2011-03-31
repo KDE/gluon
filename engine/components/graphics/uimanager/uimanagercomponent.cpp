@@ -282,10 +282,8 @@ void UiManagerComponent::start()
 
 }
 
-void UiManagerComponent::draw( int timeLapse )
+void UiManagerComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( !d->scene || !d->ui || !d->ui->qmlItem() )
     {
         return;

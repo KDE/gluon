@@ -165,11 +165,9 @@ void GLFBOApplet::deleteTexture( GLuint textureId )
     d->dummy->deleteTexture( textureId );
 }
 
-void GLFBOApplet::paintGLInterface( QPainter* painter,
-                                    const QStyleOptionGraphicsItem* option )
+void GLFBOApplet::paintGLInterface( QPainter* /* painter */,
+                                    const QStyleOptionGraphicsItem* /* option */ )
 {
-    Q_UNUSED( painter )
-    Q_UNUSED( option )
 }
 
 static inline QPainterPath headerPath( const QRectF& r, int roundness,
@@ -240,9 +238,8 @@ static inline QPainterPath headerPath( const QRectF& r, int roundness,
 
 void GLFBOApplet::paintInterface( QPainter* painter,
                                   const QStyleOptionGraphicsItem* option,
-                                  const QRect& contentsRect )
+                                  const QRect& /* contentsRect */ )
 {
-    Q_UNUSED( contentsRect )
     if( d->fbo )
     {
         d->dummy->makeCurrent();

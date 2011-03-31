@@ -270,10 +270,8 @@ void ProjectDock::activated( QModelIndex index )
     }
 }
 
-void ProjectDock::selectionChanged( const QItemSelection& selected, const QItemSelection& deselected )
+void ProjectDock::selectionChanged( const QItemSelection& selected, const QItemSelection& /* deselected */ )
 {
-    Q_UNUSED( deselected )
-
     SelectionManager::SelectionList selection;
     foreach( const QItemSelectionRange & range, selected )
     {

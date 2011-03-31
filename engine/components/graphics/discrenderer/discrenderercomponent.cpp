@@ -102,10 +102,8 @@ void DiscRendererComponent::start()
 {
 }
 
-void DiscRendererComponent::draw( int timeLapse )
+void DiscRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         d->item->setMatrix( gameObject()->transform() );

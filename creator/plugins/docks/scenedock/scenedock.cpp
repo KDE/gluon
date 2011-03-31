@@ -110,9 +110,8 @@ SceneDock::~SceneDock()
     delete d;
 }
 
-void SceneDock::selectionChanged( QItemSelection selected, QItemSelection deselected )
+void SceneDock::selectionChanged( QItemSelection selected, QItemSelection /* deselected */ )
 {
-    Q_UNUSED( deselected )
     DEBUG_FUNC_NAME
 
     SelectionManager::SelectionList selection;

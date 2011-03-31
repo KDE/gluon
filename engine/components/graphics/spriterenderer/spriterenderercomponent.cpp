@@ -117,10 +117,8 @@ void SpriteRendererComponent::start()
 {
 }
 
-void SpriteRendererComponent::draw( int timeLapse )
+void SpriteRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         QMatrix4x4 transform = gameObject()->transform();

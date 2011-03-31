@@ -19,8 +19,6 @@
 
 #include "achievementsview.h"
 
-AchievementsView::AchievementsView( QWidget* parent, Qt::WindowFlags wFlags )
+AchievementsView::AchievementsView( QWidget* /* parent */, Qt::WindowFlags /* wFlags */ )
 {
-    Q_UNUSED( parent )
-    Q_UNUSED( wFlags )
 }

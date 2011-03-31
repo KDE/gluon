@@ -409,7 +409,7 @@ namespace GluonCore
              *
              * \param info The MetaInfo that was just created.
              */
-            virtual void populateMetaInfo(MetaInfo* info) { Q_UNUSED(info); }
+            virtual void populateMetaInfo(MetaInfo* /* info */) { }
 
         private:
             Q_DISABLE_COPY(GluonObject)

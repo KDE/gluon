@@ -197,9 +197,8 @@ QVariant CommentsModel::data( const QModelIndex& index, int role ) const
     return QVariant();
 }
 
-int CommentsModel::columnCount( const QModelIndex& parent ) const
+int CommentsModel::columnCount( const QModelIndex& /* parent */ ) const
 {
-    Q_UNUSED( parent )
     return 5;
 }
 

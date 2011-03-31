@@ -176,9 +176,8 @@ void MainWindow::updateTitle( int msec )
     setWindowTitle( d->title + QString( " (%1 FPS)" ).arg( fps ) );
 }
 
-void MainWindow::countFrames( int time )
+void MainWindow::countFrames( int /* time */ )
 {
-    Q_UNUSED( time )
     d->frameCount++;
 }
 

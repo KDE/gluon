@@ -110,10 +110,8 @@ void DiscSectionRendererComponent::start()
 {
 }
 
-void DiscSectionRendererComponent::draw( int timeLapse )
+void DiscSectionRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         d->item->setMatrix( gameObject()->transform() );

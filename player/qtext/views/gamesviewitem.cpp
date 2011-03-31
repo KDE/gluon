@@ -86,9 +86,8 @@ void GamesViewItem::playGameActivated()
     emit gameToPlaySelected( m_index );
 }
 
-void GamesViewItem::mousePressEvent( QMouseEvent* event )
+void GamesViewItem::mousePressEvent( QMouseEvent* /* event */ )
 {
-    Q_UNUSED( event )
     emit gameSelected( m_index );
 }
 

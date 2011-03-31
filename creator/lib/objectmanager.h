@@ -23,7 +23,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
 namespace GluonCore
 {

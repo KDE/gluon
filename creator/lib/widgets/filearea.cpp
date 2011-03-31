@@ -19,8 +19,9 @@
 
 #include "filearea.h"
 
-#include "core/debughelper.h"
 #include "filemanager.h"
+
+#include <core/debughelper.h>
 
 #include <KDE/KParts/PartManager>
 #include <KDE/KParts/ReadOnlyPart>

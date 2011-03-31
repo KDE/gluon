@@ -23,8 +23,8 @@
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
 
-#include "core/gluonobjectfactory.h"
-#include "core/scriptengine.h"
+#include <core/gluonobjectfactory.h>
+#include <core/scriptengine.h>
 
 #include <QtScript>
 // #include <QScriptEngineDebugger>
@@ -82,10 +82,9 @@ using namespace GluonEngine;
 
 GLUON_DEFINE_SINGLETON(ScriptingEngine)
 
-ScriptingEngine::ScriptingEngine( QObject* parent )
+ScriptingEngine::ScriptingEngine( QObject* /* parent */ )
     : d( new Private() )
 {
-    Q_UNUSED( parent )
 }
 
 ScriptingEngine::~ScriptingEngine()
@@ -97,9 +96,9 @@ QScriptSyntaxCheckResult
 ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 {
     DEBUG_BLOCK
-    
-    
-    
+
+
+
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
     // Dumb...

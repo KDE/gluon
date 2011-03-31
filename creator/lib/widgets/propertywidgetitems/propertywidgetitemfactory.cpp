@@ -18,8 +18,6 @@
  */
 #include "propertywidgetitemfactory.h"
 
-#include "core/debughelper.h"
-
 #include "nullpropertywidgetitem.h"
 #include "textpropertywidgetitem.h"
 #include "vectorpropertywidgetitem.h"
@@ -30,6 +28,8 @@
 #include "colorpropertywidgetitem.h"
 #include "quaternionpropertywidgetitem.h"
 #include "qrealpropertywidgetitem.h"
+
+#include <core/debughelper.h>
 
 using namespace GluonCreator;
 

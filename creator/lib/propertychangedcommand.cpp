@@ -19,7 +19,7 @@
 
 #include "propertychangedcommand.h"
 
-#include "core/gluonobject.h"
+#include <core/gluonobject.h>
 
 #include <QtCore/QVariant>
 

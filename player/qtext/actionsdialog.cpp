@@ -48,10 +48,8 @@ void ActionsDialog::changeEvent( QEvent* e )
 }
 
 void ActionsDialog::recordAction( int curr_row, int curr_col,
-                                  int prev_row, int prev_col )
+                                  int /* prev_row */, int /* prev_col */ )
 {
-    Q_UNUSED( prev_row )
-    Q_UNUSED( prev_col )
     oldAccelText = TableWidgetActions->item( curr_row, curr_col )->text();
 }
 

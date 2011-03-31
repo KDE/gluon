@@ -119,10 +119,8 @@ void CameraControllerComponent::start()
 {
 }
 
-void CameraControllerComponent::draw( int timeLapse )
+void CameraControllerComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->camera )
         d->camera->setViewMatrix( gameObject()->transform().inverted() );
 }

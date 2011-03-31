@@ -21,9 +21,10 @@
 #include "gameobject.h"
 #include "gameobjectprivate.h"
 #include "component.h"
-#include "core/debughelper.h"
 #include "game.h"
 #include "scene.h"
+
+#include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameObject )
 

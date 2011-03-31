@@ -140,9 +140,8 @@ ProjectModel::data( const QModelIndex& index, int role ) const
 }
 
 int
-ProjectModel::columnCount( const QModelIndex& parent ) const
+ProjectModel::columnCount( const QModelIndex& /* parent */ ) const
 {
-    Q_UNUSED( parent )
     return 1;
 }
 
@@ -273,12 +272,8 @@ ProjectModel::objectRow ( GluonCore::GluonObject* object ) const
 }
 
 QVariant
-ProjectModel::headerData( int section, Qt::Orientation orientation, int role ) const
+ProjectModel::headerData( int /* section */, Qt::Orientation /* orientation */, int /* role */ ) const
 {
-    Q_UNUSED( section )
-    Q_UNUSED( orientation )
-    Q_UNUSED( role )
-
     return QVariant();
 }
 
@@ -363,10 +358,8 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
 }
 
 bool
-ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent )
+ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /* row */, int /* column */, const QModelIndex& parent )
 {
-    Q_UNUSED( row )
-    Q_UNUSED( column )
     DEBUG_FUNC_NAME
 
     if( action == Qt::IgnoreAction )

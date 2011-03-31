@@ -24,13 +24,13 @@
 #include "gameobject.h"
 #include "gameproject.h"
 
-#include "core/debughelper.h"
+#include <core/debughelper.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
-#include <QTimer>
+#include <QtCore/QTimer>
 
 using namespace GluonEngine;
 
@@ -53,12 +53,10 @@ class I : public QThread
         }
 };
 
-Game::Game( QObject* parent )
+Game::Game( QObject* /* parent */ )
+    : d( new GamePrivate )
 {
-    Q_UNUSED( parent )
-    d = new GamePrivate;
-
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 }
 
 Game::~Game()
