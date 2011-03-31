@@ -57,7 +57,17 @@ namespace GluonPlayer
                 ProjectFileNameRole,
                 ScreenshotUrlsRole,
                 StatusRole,
-                IDRole
+                IDRole,
+
+                // Downloadable Game item roles
+                GameNameRoleDownloadable,
+                GameDescriptionRoleDownloadable,
+                ProjectDirNameRoleDownloadable,
+                ProjectFileNameRoleDownloadable,
+                ScreenshotUrlsRoleDownloadable,
+                StatusRoleDownloadable,
+                IDRoleDownloadable,
+                CountDownloadable,
             };
 
             explicit GameItemsModel( QObject* parent = 0 );

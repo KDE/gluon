@@ -62,6 +62,16 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[IDRole] = "id";
     roles[StatusRole] = "status";
+
+    // Downloadable Game item roles
+    roles[GameNameRoleDownloadable] = "gameNameDownloadable";
+    roles[GameDescriptionRoleDownloadable] = "gameDescriptionDownloadable";
+    roles[ProjectFileNameRoleDownloadable] = "projectFileNameDownloadable";
+    roles[ProjectDirNameRoleDownloadable] = "projectDirNameDownloadable";
+    roles[ScreenshotUrlsRoleDownloadable] = "screenshotUrlsDownloadable";
+    roles[IDRoleDownloadable] = "idDownloadable";
+    roles[StatusRoleDownloadable] = "statusDownloadable";
+    roles[CountDownloadable] = "countDownloadable";
     setRoleNames(roles);
 
     fetchGamesList();
@@ -89,7 +99,25 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
     case IDRole:
         return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->id();
     case StatusRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at (index.row() )->status();
+        return m_gameViewItems.values(GameViewItem::Installed).at(index.row() )->status();
+
+    // Downloadable Game item roles
+    case GameNameRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->gameName();
+    case GameDescriptionRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->gameDescription();
+    case ProjectDirNameRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->projectDirName();
+    case ProjectFileNameRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->projectFileName();
+    case ScreenshotUrlsRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->screenshotUrls();
+    case IDRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->id();
+    case StatusRoleDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).at(index.row() )->status();
+    case CountDownloadable:
+        return m_gameViewItems.values(GameViewItem::Downloadable).count();
     default:
         break;
     }
