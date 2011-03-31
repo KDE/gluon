@@ -51,7 +51,7 @@ Rectangle {
             subtext: qsTr(gameDescriptionDownloadable);
 
             onClicked: {
-                detailsPage.propagate(gameNameDownloadable, gameDescriptionDownloadable, screenshotUrlsDownloadable, status, index);
+                detailsPage.propagate(gameNameDownloadable, gameDescriptionDownloadable, screenshotUrlsDownloadable, statusDownloadable, index);
             }
         }
     }
