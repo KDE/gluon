@@ -67,7 +67,6 @@ namespace GluonPlayer
                 ProjectDirNameRoleDownloadable,
                 ProjectFileNameRoleDownloadable,
                 ScreenshotUrlsRoleDownloadable,
-                StatusRoleDownloadable,
                 IDRoleDownloadable,
             };
 

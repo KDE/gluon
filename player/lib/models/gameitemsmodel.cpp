@@ -70,7 +70,6 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ProjectDirNameRoleDownloadable] = "projectDirNameDownloadable";
     roles[ScreenshotUrlsRoleDownloadable] = "screenshotUrlsDownloadable";
     roles[IDRoleDownloadable] = "idDownloadable";
-    roles[StatusRoleDownloadable] = "statusDownloadable";
     setRoleNames(roles);
 
     fetchGamesList();
@@ -95,10 +94,10 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->projectFileName();
     case ScreenshotUrlsRole:
         return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->screenshotUrls();
+    case StatusRole:
+        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->status();
     case IDRole:
         return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->id();
-    case StatusRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at(index.row() )->status();
 
     // Downloadable Game item roles
     case GameNameRoleDownloadable:
@@ -113,8 +112,6 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
         return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->screenshotUrls();
     case IDRoleDownloadable:
         return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->id();
-    case StatusRoleDownloadable:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at(index.row() )->status();
     default:
         break;
     }
@@ -203,7 +200,8 @@ void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
             m_gameViewItems.insertMulti(GameViewItem::Downloadable, gameViewItem);
             reset();
         }
-}
+        emit downloadableCountChanged();
+    }
     else
     {
         qDebug() << "Could not fetch information";

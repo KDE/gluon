@@ -62,7 +62,6 @@ Rectangle {
                         if (!mainview.loggedIn) {
                             mainview.statepoint = "mainwindow";
                         }
-                        // detailsPage.propagate(gameName, gameDescription, screenshotUrls, status, index);
                     }
                 }
             }
