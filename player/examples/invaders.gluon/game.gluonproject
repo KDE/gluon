@@ -42,7 +42,7 @@
                 description string(The Whip Theme - Extended Version)
             }
             { GluonEngine::SoundAsset(Game Muisc)
-                file url(assets/sounds/game_muisc.ogg)
+                file url(assets/sounds/game_music.ogg)
                 description string(Harmful or Fatal)
             }
             { GluonEngine::SoundAsset(Fire)
