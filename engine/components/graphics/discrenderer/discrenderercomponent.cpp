@@ -34,13 +34,13 @@ class DiscRendererComponent::DiscRendererComponentPrivate
 {
     public:
         DiscRendererComponentPrivate()
+            : item( 0 )
+            , mesh( 0 )
+            , texture( 0 )
+            , nbPoints( 3 )
+            , radius( 5.0f )
+            , color( QColor( 255, 255, 255 ) )
         {
-            item = 0;
-            mesh = 0;
-            texture = 0;
-            nbPoints = 3;
-            radius = 5.0f;
-            color.setRgb( 255, 255, 255 );
         }
 
         GluonGraphics::Item* item;

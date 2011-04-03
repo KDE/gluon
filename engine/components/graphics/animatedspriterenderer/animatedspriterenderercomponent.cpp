@@ -42,28 +42,28 @@ class AnimatedSpriteRendererComponent::Private
 {
     public:
         Private()
-        {
-            item = 0;
-            material = 0;
+            : item( 0 )
+            , material( 0 )
 
-            size = QSizeF( 1.0f, 1.0f );
-            color.setRgb( 255, 255, 255 );
+            , size( QSizeF( 1.0f, 1.0f ) )
+            , color( QColor( 255, 255, 255 ) )
 
-            currentAnimation = 0;
-            direction = 0;
-            frameRate = 25;
+            , currentAnimation( 0 )
+            , direction( 0 )
+            , frameRate( 25 )
             //textureCount = 1;
-            currentTime = 1000 / frameRate;
-            currentFrame = 0.0;
+            , currentTime( 1000 / frameRate )
+            , currentFrame( 0.0 )
 
-            frameSize = QSizeF(64.f, 64.f);
-            textureSize = QSizeF(1024.f, 1024.f);
+            , frameSize( QSizeF(64.f, 64.f) )
+            , textureSize( QSizeF(1024.f, 1024.f) )
 
-            frameWidthUV = frameSize.width() / textureSize.width();
-            frameHeightUV = frameSize.height() / textureSize.height();
+            , frameWidthUV( frameSize.width() / textureSize.width() )
+            , frameHeightUV( frameSize.height() / textureSize.height() )
 
-            frameCounts << 1;
-            startFrames << 0;
+            , frameCounts( QList<int>() << 1 )
+            , startFrames( QList<int>() << 0 )
+        {
         }
 
         GluonGraphics::Item* item;

@@ -32,9 +32,9 @@ class TextRendererComponent::TextRendererComponentPrivate
 {
     public:
         TextRendererComponentPrivate()
+            : text( "empty" )
+            , textItem( 0 )
         {
-            textItem = 0;
-            text = "empty";
         }
 
         QString text;

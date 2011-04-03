@@ -43,15 +43,14 @@ class BeamRendererComponent::Private
 {
     public:
         Private()
+            : baseItem( 0 )
+            , beamItem( 0 )
+            , tipItem( 0 )
+            , baseMaterial( 0 )
+            , beamMaterial( 0 )
+            , tipMaterial( 0 )
+            , size( QSizeF( 1.0f, 1.0f ) )
         {
-            baseItem = 0;
-            baseMaterial = 0;
-            beamItem = 0;
-            beamMaterial = 0;
-            tipItem = 0;
-            tipMaterial = 0;
-
-            size = QSizeF( 1.0f, 1.0f );
         }
 
         void loadMaterial(GluonGraphics::MaterialInstance* material);

@@ -41,13 +41,13 @@ class CameraControllerComponent::CameraControllerComponentPrivate
 {
     public:
         CameraControllerComponentPrivate()
+            : camera( 0 )
+            , active( true )
+            , visibleArea( QSizeF( 100.0f, 100.0f ) )
+            , nearPlane( 1.0f )
+            , farPlane( 100.0f )
+            , material( 0 )
         {
-            camera = 0;
-            active = true;
-            visibleArea = QSizeF( 100.0f, 100.0f );
-            nearPlane = 1.0f;
-            farPlane = 100.0f;
-            material = 0;
         }
 
         GluonGraphics::Camera* camera;

@@ -44,12 +44,13 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
 {
     public:
         SpriteRendererComponentPrivate()
+            : item( 0 )
+            , texture( 0 )
+            , material( 0 )
+
+            , color( QColor(255, 255, 255) )
+            , size( QSizeF( 1.0f, 1.0f ) )
         {
-            item = 0;
-            texture = 0;
-            material = 0;
-            size = QSizeF( 1.0f, 1.0f );
-            color.setRgb( 255, 255, 255 );
         }
 
         GluonGraphics::Item* item;
