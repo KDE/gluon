@@ -32,17 +32,19 @@ using namespace GluonCreator;
 class PropertiesDock::PropertiesDockPrivate
 {
     public:
-        PropertiesDockPrivate() { }
+        PropertiesDockPrivate(PropertyWidget* widget)
+            : widget(widget)
+        { }
 
         PropertyWidget* widget;
 };
 
 PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
-    : QDockWidget( title, parent, flags ), d( new PropertiesDockPrivate )
+    : QDockWidget( title, parent, flags )
+    , d( new PropertiesDockPrivate( new PropertyWidget( this ) ) )
 {
     setObjectName( "PropertiesDock" );
 
-    d->widget = new PropertyWidget( this );
     setWidget( d->widget );
 
     connect( SelectionManager::instance(), SIGNAL( selectionChanged( SelectionManager::SelectionList ) ), SLOT( selectionChanged( SelectionManager::SelectionList ) ) );
@@ -57,9 +59,8 @@ PropertiesDock::~PropertiesDock()
 
 void PropertiesDock::selectionChanged( SelectionManager::SelectionList selection )
 {
-    if( selection.empty() )
-        d->widget->clear();
-    else
+    d->widget->clear();
+    if( !selection.empty() )
         d->widget->setObject( selection.at( 0 ) );
 }
 

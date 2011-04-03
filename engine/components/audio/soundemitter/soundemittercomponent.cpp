@@ -100,7 +100,7 @@ void SoundEmitterComponent::setSound( Asset* asset )
 
     d->asset = asset;
     if (asset->data()->hasText()) {
-        debug(asset->data()->text());
+        //debug(asset->data()->text());
         d->sound->load( asset->data()->text() ) ;
     }
 }
