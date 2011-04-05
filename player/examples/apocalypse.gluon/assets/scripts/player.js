@@ -47,29 +47,7 @@ this.update = function(time)
    
     this.GameObject.parentGameObject().translate(translateX / this.scaleX, translateY / this.scaleY, 0);
     
-    if(translateX == -this.Component.speed && translateY == this.Component.speed)
-        this.AnimatedSprite.direction = 0;
-    
-    if(translateX == -this.Component.speed && translateY == 0)
-        this.AnimatedSprite.direction = 1;
-    
-    if(translateX == -this.Component.speed && translateY == -this.Component.speed)
-        this.AnimatedSprite.direction = 2;
-    
-    if(translateX == 0 && translateY == -this.Component.speed)
-        this.AnimatedSprite.direction = 3;
-    
-    if(translateX == this.Component.speed && translateY == -this.Component.speed)
-        this.AnimatedSprite.direction = 4;
-    
-    if(translateX == this.Component.speed && translateY == 0)
-        this.AnimatedSprite.direction = 5;
-    
-    if(translateX == this.Component.speed && translateY == this.Component.speed)
-        this.AnimatedSprite.direction = 6;
-    
-    if(translateX == 0 && translateY == this.Component.speed)
-        this.AnimatedSprite.direction = 7;
+    this.setDirection();
     
     if(translateX == 0 && translateY == 0)
     {
@@ -109,4 +87,38 @@ this.fireBullet = function()
     dir.setY(this.crosshair.worldPosition().y() - newPosition.y());
     dir.normalize();
     newBullet.ScriptingComponent.direction = dir;
+}
+
+this.setDirection = function()
+{
+    var dir = this.crosshair.worldPosition().subtract(this.GameObject.worldPosition());
+    dir.normalize();
+
+    var angle = QVector3D.dotProduct(dir, new QVector3D(0, 1, 0));
+    if(dir.x() < 0)
+    {
+        if(angle > 0.75)
+            this.AnimatedSprite.direction = 7;
+        else if(angle > 0.25)
+            this.AnimatedSprite.direction = 0;
+        else if(angle > -0.25)
+            this.AnimatedSprite.direction = 1;
+        else if(angle > -0.75)
+            this.AnimatedSprite.direction = 2;
+        else
+            this.AnimatedSprite.direction = 3;
+    }
+    else
+    {
+        if(angle > 0.75)
+            this.AnimatedSprite.direction = 7;
+        else if(angle > 0.25)
+            this.AnimatedSprite.direction = 6;
+        else if(angle > -0.25)
+            this.AnimatedSprite.direction = 5;
+        else if(angle > -0.75)
+            this.AnimatedSprite.direction = 4;
+        else
+            this.AnimatedSprite.direction = 3;
+    }
 }

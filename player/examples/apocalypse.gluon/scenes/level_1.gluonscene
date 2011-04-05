@@ -18,12 +18,13 @@
         }
         { GluonEngine::GameObject(Player)
             enabled bool(true)
-            position vector3d(0;0;-48)
+            position vector3d(0;0;-44)
             scale vector3d(1;1;1)
             orientation quaternion(0;0;0;1)
-            expanded bool(false)
             { GluonEngine::AnimatedSpriteRendererComponent(AnimatedSpriteRendererComponent)
                 enabled bool(true)
+                animate bool(true)
+                loop bool(true)
                 size size2d(20;20)
                 material GluonGraphics::MaterialInstance(Apocalypse/Assets/Animated Sprite/Player)
                 frameRate int(12)
@@ -131,6 +132,11 @@
             loop bool(false)
             autoPlay bool(true)
         }
+        { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
+            enabled bool(true)
+            collisionGroup int(2)
+            radius float(1)
+        }
     }
     { GluonEngine::GameObject(Zombie)
         enabled bool(false)
@@ -140,6 +146,8 @@
         expanded bool(false)
         { GluonEngine::AnimatedSpriteRendererComponent(AnimatedSpriteRendererComponent)
             enabled bool(true)
+            animate bool(true)
+            loop bool(true)
             size size2d(20;20)
             material GluonGraphics::MaterialInstance(Apocalypse/Assets/Animated Sprite/Zombie)
             frameRate int(12)
@@ -147,15 +155,17 @@
             frameCounts list<int>(4;8;8;6;4;2;6)
             startFrames list<int>(0;4;12;20;26;30;32)
             animation int(1)
-            expanded bool(false)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Zombie)
             speed float(15)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
             enabled bool(true)
+            collisionGroup int(1)
+            targetGroup int(2)
             radius float(8)
         }
     }
@@ -168,7 +178,7 @@
             enabled bool(true)
             script GluonEngine::ScriptingAsset(Apocalypse/Assets/Scripts/Controller)
             minSpawnRate float(5000)
-            maxSpawnRate float(5000)
+            maxSpawnRate float(1000)
             spawnRateChange float(2000)
         }
     }
