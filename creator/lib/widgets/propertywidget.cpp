@@ -61,6 +61,7 @@ class PropertyWidget::PropertyWidgetPrivate
 
 PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
+    setFrameShape(QFrame::NoFrame);
 }
 
 PropertyWidget::~PropertyWidget()
@@ -84,18 +85,21 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
         d->layout->setAlignment( Qt::AlignTop );
 
         appendObject( object, true );
-        for( int i = 0; i < object->children().count(); i++ )
+        if(!qobject_cast<GluonEngine::Asset*>(object))
         {
-            GluonCore::GluonObject* theChild = object->child( i );
-            if( theChild )
+            for( int i = 0; i < object->children().count(); i++ )
             {
-                if( qobject_cast<GluonEngine::Asset*>( theChild ) )
-                    continue;
-                if( qobject_cast<GluonEngine::Scene*>( theChild ) )
-                    continue;
-                if( theChild->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
-                    continue;
-                appendObject( theChild );
+                GluonCore::GluonObject* theChild = object->child( i );
+                if( theChild )
+                {
+                    if( qobject_cast<GluonEngine::Asset*>( theChild ) )
+                        continue;
+                    if( qobject_cast<GluonEngine::Scene*>( theChild ) )
+                        continue;
+                    if( theChild->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
+                        continue;
+                    appendObject( theChild );
+                }
             }
         }
         d->layout->addStretch();
