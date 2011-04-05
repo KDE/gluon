@@ -44,15 +44,15 @@ class AnimatedSpriteRendererComponent::Private
         Private()
             : item( 0 )
             , material( 0 )
-            , localInstance( 0 );
+            , localInstance( 0 )
             , size( QSizeF( 1.0f, 1.0f ) )
             , color( QColor( 255, 255, 255 ) )
             , animating( true )
             , looping( true )
             , playing( true )
-            , currentAnimation( 0 );
-            , direction( 0 );
-            , frameRate( 25 );
+            , currentAnimation( 0 )
+            , direction( 0 )
+            , frameRate( 25 )
             //textureCount = 1;
             , currentTime( 1000 / frameRate )
             , currentFrame( 0.0 )
