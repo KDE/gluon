@@ -160,11 +160,6 @@ GameProject::loadFromFile()
     if( fileContents.isEmpty() )
         return false;
 
-    // Flush the script engine's module list. Otherwise we'll end up with state bits...
-    // We do this here, since the GDL parser is likely to construct various objects which require
-    // the scripting engine to be present. So, we clear it now, to be sure.
-    GluonCore::ScriptEngine::instance()->resetEngine();
-
     QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( filename().toLocalFile(), parent() );
     if( objectList.count() > 0 )
     {
