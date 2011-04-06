@@ -1,6 +1,5 @@
 this.initialize = function()
 {
-    print("Player.Initialize");
     this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
     this.Component.speed = this.Component.speed || 20;
     
@@ -9,7 +8,6 @@ this.initialize = function()
 
 this.start = function()
 {
-    print("Player.Start");
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.Background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
     this.bullet = this.Scene.sceneContents().Bullet;
