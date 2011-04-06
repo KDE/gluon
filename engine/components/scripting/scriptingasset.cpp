@@ -47,7 +47,7 @@ ScriptingAsset::ScriptingAsset( QObject* parent )
 
 ScriptingAsset::~ScriptingAsset()
 {
-    ScriptingEngine::instance()->unregisterAsset( this );
+    unload();
     delete d;
 }
 

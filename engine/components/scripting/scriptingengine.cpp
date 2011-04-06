@@ -123,8 +123,8 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
-        //d->appendScript( asset, className );
-        d->buildScript();
+        d->appendScript( asset, className );
+        //d->buildScript();
     }
     else
     {
@@ -170,7 +170,10 @@ ScriptingEngine::unregisterAsset( const ScriptingAsset* asset ) const
 
     d->classNames.remove( asset );
     d->scriptInstances.remove( asset );
-    d->buildScript();
+    if(d->scriptInstances.count() < 1)
+        d->resetEngine();
+    else
+        d->buildScript();
 
     return true;
 }
