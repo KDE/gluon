@@ -22,10 +22,16 @@
 
 #include "plugin.h"
 
-class KXmlGuiWindow;
-class QWidget;
+#include <gluon/core/singleton.h>
 
-namespace GluonCreator
+#include "gluon_player_export.h"
+#include <attica/content.h>
+#include <attica/listjob.h>
+
+#include <QStringList>
+#include <QHash>
+
+namespace GluonPlayer
 {
 
     class GLUONCREATOR_EXPORT ToolPlugin : public Plugin
