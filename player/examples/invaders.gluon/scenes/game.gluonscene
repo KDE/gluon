@@ -86,8 +86,8 @@
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(2)
+            targetGroup int(2)
             radius float(3)
-            expanded bool(false)
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
             enabled bool(true)
@@ -97,7 +97,7 @@
             pitch float(1)
             loop bool(false)
             autoPlay bool(false)
-            expanded bool(true)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(EnemyCollider)
             enabled bool(true)
@@ -127,6 +127,7 @@
         { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(1)
+            targetGroup int(1)
             radius float(2)
         }
         { GluonEngine::SoundEmitterComponent(Kapow)
