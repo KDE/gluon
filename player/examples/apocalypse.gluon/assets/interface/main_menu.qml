@@ -65,9 +65,9 @@ Item {
             color: "#ff0000";
 
             text: "<h2>Controls</h2><ul>" +
-            "<li>Left Arrow: Move Left</li>" +
-            "<li>Right Arrow: Move Right</li>" +
-            "<li>Spacebar: Shoot</li>";
+            "<li>ASDF: Navigate around the world</li>" +
+            "<li>Mouse movement: Move the crosshair</li>" +
+            "<li>Mouse click: Shoot</li>";
         }
 
         Text {
@@ -98,7 +98,7 @@ Item {
 
         ListElement {
             buttonText: "New Game";
-            buttonTriggered: "Game.setCurrentScene(\"Invaders/Scenes/Game\");"
+            buttonTriggered: "Game.setCurrentScene(\"Apocalypse/Scenes/Level 1\");"
         }
 
         ListElement {
