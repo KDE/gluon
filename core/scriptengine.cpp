@@ -46,10 +46,9 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON(ScriptEngine)
 
-ScriptEngine::ScriptEngine(QObject* parent)
+ScriptEngine::ScriptEngine(QObject* /* parent */ )
     : d(new Private())
 {
-    Q_UNUSED(parent)
 }
 
 ScriptEngine::~ScriptEngine()
@@ -63,11 +62,9 @@ QScriptEngine* ScriptEngine::scriptEngine()
     if(QCoreApplication::instance() && !d->engine)
     {
         d->engine = new QScriptEngine(this);
-        DEBUG_TEXT2( "Available extensions: %1", d->engine->availableExtensions().join( ", " ) );
         d->engine->importExtension( "jsmoke.qtcore" );
         d->engine->importExtension( "jsmoke.qtgui" );
         d->engine->importExtension( "jsmoke.qtopengl" );
-        DEBUG_TEXT2( "Imported extensions: %1", d->engine->importedExtensions().join( ", " ) );
 
         QScriptValue extensionObject = d->engine->globalObject();
         qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );

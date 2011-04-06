@@ -51,6 +51,8 @@ namespace GluonPlayer {
             void countFrames( int );
 
         private:
+			void loadGamesList();
+
             class MainWindowPrivate;
             MainWindowPrivate* d;
 

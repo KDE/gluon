@@ -19,12 +19,13 @@
 
 #include "discsectionrenderercomponent.h"
 
-#include "graphics/meshes/discsectionmesh.h"
-#include "graphics/item.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
 
-#include <QMimeData>
+#include <graphics/meshes/discsectionmesh.h>
+#include <graphics/item.h>
+
+#include <QtCore/QMimeData>
 
 #include <cmath>
 
@@ -36,15 +37,15 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
 {
     public:
         DiscSectionRendererComponentPrivate()
+            : item( 0 )
+            , mesh( 0 )
+            , texture( 0 )
+            , nbPoints( 3 )
+            , radius( 5.0f )
+            , degrees( 90.0f )
+            , arcCenter( M_PI / 2.0f )
+            , color( QColor( 255, 255, 255 ) )
         {
-            item = 0;
-            mesh = 0;
-            texture = 0;
-            nbPoints = 3;
-            radius = 5.0f;
-            degrees  = 90.0f;
-            arcCenter = M_PI / 2.0f;
-            color.setRgb( 255, 255, 255 );
         }
 
         GluonGraphics::Item* item;
@@ -109,10 +110,8 @@ void DiscSectionRendererComponent::start()
 {
 }
 
-void DiscSectionRendererComponent::draw( int timeLapse )
+void DiscSectionRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         d->item->setMatrix( gameObject()->transform() );

@@ -90,9 +90,9 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
         QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
         layout->addWidget( button );
         connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
+		loadGamesList();
     }
     resize( 500, 500 );
-    loadGamesList();
 }
 
 MainWindow::~MainWindow()
@@ -108,10 +108,8 @@ void MainWindow::activated( QModelIndex index )
     }
 }
 
-void MainWindow::openClicked( bool toggled )
+void MainWindow::openClicked( bool /* toggled */ )
 {
-    Q_UNUSED( toggled )
-
     QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
@@ -175,9 +173,8 @@ void MainWindow::updateTitle( int msec )
     setWindowTitle( d->title + QString( " (%1 FPS)" ).arg( fps ) );
 }
 
-void MainWindow::countFrames( int time )
+void MainWindow::countFrames( int /* time */ )
 {
-    Q_UNUSED( time )
     d->frameCount++;
 }
 

@@ -19,13 +19,13 @@
 
 #include "gamewindowmanager.h"
 
-#include "input/inputmanager.h"
+#include <input/inputmanager.h>
 
-#include "engine/scene.h"
+#include <engine/scene.h>
 
+#include <QtGui/QApplication>
 #include <QtCore/QTimer>
 #include <QtCore/QDebug>
-#include <QtGui/QApplication>
 
 using namespace GluonQMLPlayer;
 

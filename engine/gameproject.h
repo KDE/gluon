@@ -24,12 +24,12 @@
 #include "gluon_engine_export.h"
 #include "scene.h"
 
+#include <graphics/texture.h>
+
 #include <core/gluonobject.h>
 
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
-#include <graphics/texture.h>
-
 
 namespace GluonEngine
 {
@@ -180,7 +180,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::GameProject )
 Q_DECLARE_METATYPE( GluonEngine::GameProject* )
 
 #endif  // GLUON_ENGINE_GAMEPROJECT_H

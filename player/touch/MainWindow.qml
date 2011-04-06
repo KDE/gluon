@@ -25,9 +25,14 @@ Rectangle {
     anchors.fill: parent;
 
    function login() {
-       console.log("Provider have been already initialized!");
-       authentication.login(lgn.username, lgn.password);
-       mainview.statepoint = "home";
+       if (lgn.providerInitialized) {
+           console.log("Provider have been already initialized!");
+           authentication.login(lgn.username, lgn.password);
+           mainview.loggedIn = true;
+           mainview.statepoint = "home";
+       } else {
+           console.log("Provider is not initialized yet!");
+       }
    }
 
    Image {
@@ -88,13 +93,7 @@ Rectangle {
         }
 
         onClicked: {
-            if (lgn.providerInitialized) {
-                console.log("Provider have been already initialized!");
-                authentication.login(lgn.username, lgn.password);
-                mainview.statepoint = "home";
-            } else {
-                console.log("Provider is not initialized yet!");
-            }
+            login();
         }
     }
 
@@ -134,6 +133,7 @@ Rectangle {
         }
 
         onClicked: {
+            mainview.loggedIn = false;
             mainview.statepoint = "home";
         }
     }

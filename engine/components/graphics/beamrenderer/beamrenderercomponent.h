@@ -72,7 +72,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::BeamRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::BeamRendererComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

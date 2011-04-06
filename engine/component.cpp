@@ -22,8 +22,9 @@
 #include "componentprivate.h"
 #include "gameobject.h"
 
-#include "core/debughelper.h"
 #include "asset.h"
+
+#include <core/debughelper.h>
 
 #include <QtCore/QString>
 #include <QtCore/QMetaProperty>
@@ -65,15 +66,13 @@ Component::toVariant( GluonCore::GluonObject* wrapThis )
 }
 
 void
-Component::update( int elapsedMilliseconds )
+Component::update( int /* elapsedMilliseconds */ )
 {
-    Q_UNUSED( elapsedMilliseconds )
 }
 
 void
-Component::draw( int timeLapse )
+Component::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
 }
 
 void

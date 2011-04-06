@@ -47,7 +47,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ScriptingAsset )
 Q_DECLARE_METATYPE( GluonEngine::ScriptingAsset* )
 
 #endif // GLUONENGINE_SCRIPTINGASSET_H

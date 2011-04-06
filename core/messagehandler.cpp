@@ -54,16 +54,15 @@ void MessageHandler::unsubscribe(const QString& message, GluonObject* receiver)
     d->subscribedObjects.remove(message, QWeakPointer<GluonObject>(receiver));
 }
 
-void MessageHandler::unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject)
+void MessageHandler::unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& /* thisObject */)
 {
-    Q_UNUSED(thisObject)
     QMultiHash<QString, QScriptValue>::iterator itr;
     for(itr = d->subscribedFunctions.find(message); itr != d->subscribedFunctions.end() && itr.key() == message; ++itr)
     {
         if(itr.value().equals(receiver))
             break;
     }
-    
+
     if(itr != d->subscribedFunctions.end() && itr.key() == message)
     {
         d->subscribedFunctions.erase(itr);

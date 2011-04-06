@@ -22,6 +22,7 @@ import QtQuick 1.0
 Item {
     id: mainview;
     property string statepoint: "start";
+    property bool loggedIn: false;
 
     width: 800;
     height: 480;

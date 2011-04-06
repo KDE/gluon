@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,19 +21,21 @@
 #include "propertywidgetcontainer.h"
 #include "propertywidgetitem.h"
 #include "propertywidgetitemnewcustomproperty.h"
-#include "core/gluonobject.h"
 
 #include "selectionmanager.h"
 #include "objectmanager.h"
-#include "engine/gameobject.h"
-#include "engine/component.h"
 #include "models/models.h"
 #include "models/scenemodel.h"
 
-#include <KIcon>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <ksqueezedtextlabel.h>
+#include <core/gluonobject.h>
+
+#include <engine/gameobject.h>
+#include <engine/component.h>
+
+#include <KDE/KIcon>
+#include <KDE/KLocalizedString>
+#include <KDE/KMessageBox>
+#include <KDE/KSqueezedTextLabel>
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QBoxLayout>
@@ -51,7 +54,9 @@ namespace GluonCreator
     {
         public:
             PropertyWidgetContainerPrivate( PropertyWidgetContainer* parent )
-                : expanded( true )
+                : parent(parent)
+                , object(0)
+                , expanded( true )
                 , enabled( true )
                 , containerWidget( 0 )
                 , containerLayout( 0 )
@@ -60,7 +65,6 @@ namespace GluonCreator
                 , menuButton( 0 )
                 , newCustomProp( 0 )
             {
-                this->parent = parent;
                 menu = new QMenu( parent );
 
                 // The widget used for the heading
@@ -162,7 +166,10 @@ PropertyWidgetContainer::~PropertyWidgetContainer()
 
 void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
 {
+    if(d->object)
+        disconnect(d->object, SIGNAL(destroyed(QObject*)), this, SLOT(objectDeleted(QObject*)));
     d->object = theObject;
+    connect(d->object, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)));
 
     QString classname( theObject->metaObject()->className() );
     classname = classname.right( classname.length() - classname.lastIndexOf( ':' ) - 1 );
@@ -297,6 +304,15 @@ void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCr
     d->addPropertyItem( createdPropertyName, pwi );
     d->newCustomProp->deleteLater();
     emit propertyChanged( propertyCreatedOn, createdPropertyName, propVal, propVal );
+}
+
+void PropertyWidgetContainer::objectDeleted(QObject* obj)
+{
+    if(obj == d->object)
+    {
+        this->setEnabled(false);
+        this->deleteLater();
+    }
 }
 
 bool

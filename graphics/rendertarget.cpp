@@ -34,7 +34,7 @@ class RenderTarget::Private
 {
     public:
         Private(RenderTarget* qq)
-            : q(qq), frameBuffer(0), texture(0), renderable( true ), vertexData(0),
+            : q(qq), frameBuffer(0), texture(0), renderable( true ), material(0), vertexData(0),
             modelMatrix(QMatrix4x4()), viewMatrix(QMatrix4x4())
         { }
         ~Private() { }

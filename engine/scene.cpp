@@ -23,10 +23,12 @@
 #include "sceneprivate.h"
 #include "filelocation.h"
 #include "gameproject.h"
-
-#include "core/gdlhandler.h"
 #include "game.h"
-#include <QAction>
+
+#include <core/metainfo.h>
+#include <core/gdlhandler.h>
+
+#include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
@@ -103,6 +105,11 @@ void Scene::setEntryPoint()
 {
     GluonEngine::GameProject* project = Game::instance()->gameProject();
     project->setEntryPoint(this);
+}
+
+void Scene::populateMetaInfo(GluonCore::MetaInfo* info)
+{
+    info->setDefaultExtension("gluonscene");
 }
 
 #include "scene.moc"

@@ -24,9 +24,11 @@
 #include "game.h"
 #include "gameobject.h"
 #include "scene.h"
-#include <qscriptclass.h>
-#include <qscriptvalueiterator.h>
+
 #include <core/messagehandler.h>
+
+#include <QtScript/QScriptClass>
+#include <QtScript/QScriptValueIterator>
 
 REGISTER_OBJECTTYPE( GluonEngine, ScriptingComponent )
 
@@ -60,7 +62,7 @@ void ScriptingComponent::setScript( GluonEngine::ScriptingAsset* newAsset )
         disconnect(d->scriptingAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
 
     d->scriptingAsset = newAsset;
-    connect(newAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
+    connect(newAsset, SIGNAL(dataChanged()), SLOT(scriptAssetUpdated()));
 }
 
 void ScriptingComponent::scriptAssetUpdated()

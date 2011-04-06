@@ -19,20 +19,20 @@
 
 #include "animatedspriterenderercomponent.h"
 
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/material.h>
+#include <graphics/mesh.h>
+#include <graphics/materialinstance.h>
+#include <graphics/texture.h>
+#include <engine/gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
+
 #include <QtCore/QMimeData>
 #include <QtCore/QVariant>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
-
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/materialinstance.h"
-#include "graphics/texture.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
-#include "engine/game.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, AnimatedSpriteRendererComponent )
 
@@ -42,35 +42,42 @@ class AnimatedSpriteRendererComponent::Private
 {
     public:
         Private()
-        {
-            item = 0;
-            material = 0;
-
-            size = QSizeF( 1.0f, 1.0f );
-            color.setRgb( 255, 255, 255 );
-
-            currentAnimation = 0;
-            direction = 0;
-            frameRate = 25;
+            : item( 0 )
+            , material( 0 )
+            , localInstance( 0 )
+            , size( QSizeF( 1.0f, 1.0f ) )
+            , color( QColor( 255, 255, 255 ) )
+            , animating( true )
+            , looping( true )
+            , playing( true )
+            , currentAnimation( 0 )
+            , direction( 0 )
+            , frameRate( 25 )
             //textureCount = 1;
-            currentTime = 1000 / frameRate;
-            currentFrame = 0.0;
+            , currentTime( 1000 / frameRate )
+            , currentFrame( 0.0 )
 
-            frameSize = QSizeF(64.f, 64.f);
-            textureSize = QSizeF(1024.f, 1024.f);
+            , frameSize( QSizeF(64.f, 64.f) )
+            , textureSize( QSizeF(1024.f, 1024.f) )
 
-            frameWidthUV = frameSize.width() / textureSize.width();
-            frameHeightUV = frameSize.height() / textureSize.height();
+            , frameWidthUV( 0.0625 )
+            , frameHeightUV( 0.0625 )
 
-            frameCounts << 1;
-            startFrames << 0;
+            , frameCounts( QList<int>() << 1 )
+            , startFrames( QList<int>() << 0 )
+        {
         }
 
         GluonGraphics::Item* item;
         GluonGraphics::MaterialInstance* material;
+        GluonGraphics::MaterialInstance* localInstance;
 
         QColor color;
         QSizeF size;
+
+        bool animating;
+        bool looping;
+        bool playing;
 
         int currentAnimation;
         int direction;
@@ -129,7 +136,9 @@ void AnimatedSpriteRendererComponent::initialize()
             texture = gameProject()->findChild<Asset*>( theObjectName );
         }
         else
-            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );//
+        {
+            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
+        }
 
         if( texture )
         {
@@ -138,38 +147,73 @@ void AnimatedSpriteRendererComponent::initialize()
             d->frameWidthUV = d->frameSize.width() / d->textureSize.width();
             d->frameHeightUV = d->frameSize.height() / d->textureSize.height();
         }
+
         d->item->setMaterialInstance( d->material );
     }
 }
 
 void AnimatedSpriteRendererComponent::start()
 {
+    if(d->material)
+    {
+        d->localInstance = new GluonGraphics::MaterialInstance();
+        d->localInstance->setMaterial(d->material->material());
+        QList<QByteArray> propertyNames = d->material->dynamicPropertyNames();
+        foreach(const QByteArray& name, propertyNames)
+        {
+            d->localInstance->setProperty(name, d->material->property(name));
+        }
+        d->item->setMaterialInstance(d->localInstance);
+    }
 }
 
 void AnimatedSpriteRendererComponent::update ( int elapsedMilliseconds )
 {
-    d->currentFrame += d->frameRate / (1000.f / elapsedMilliseconds);
-    if(d->currentFrame > d->currentMaxFrame)
-        d->currentFrame = d->startFrames.at(d->currentAnimation);
+    if(d->animating && d->playing)
+    {
+        d->currentFrame += d->frameRate / (1000.f / elapsedMilliseconds);
+        if(d->currentFrame > d->currentMaxFrame)
+        {
+            if(d->looping)
+            {
+                d->currentFrame = d->startFrames.at(d->currentAnimation);
+            }
+            else
+            {
+                d->playing = false;
+            }
+        }
+    }
 }
 
-void AnimatedSpriteRendererComponent::draw( int timeLapse )
+void AnimatedSpriteRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         QMatrix4x4 transform = gameObject()->transform();
         transform.scale( d->size.width() / 2, d->size.height() / 2 );
         d->item->setTransform( transform );
 
-        QVector4D frame;
-        frame.setX(d->frameWidthUV * int(d->currentFrame));
-        frame.setY(d->frameHeightUV * d->direction);
-        frame.setZ(d->frameWidthUV);
-        frame.setW(d->frameHeightUV);
-        if(d->material)
-            d->material->setProperty("frame", frame);
+        if(d->animating && d->playing)
+        {
+            QVector4D frame;
+            frame.setX(d->frameWidthUV * int(d->currentFrame));
+            frame.setY(d->frameHeightUV * d->direction);
+            frame.setZ(d->frameWidthUV);
+            frame.setW(d->frameHeightUV);
+            if(d->localInstance)
+                d->localInstance->setProperty("frame", frame);
+        }
+    }
+}
+
+void AnimatedSpriteRendererComponent::stop()
+{
+    if(d->localInstance)
+    {
+        d->localInstance->deleteLater();
+        d->localInstance = 0;
+        d->item->setMaterialInstance(d->material);
     }
 }
 
@@ -180,6 +224,33 @@ void AnimatedSpriteRendererComponent::cleanup()
         GluonGraphics::Engine::instance()->destroyItem( d->item );
         d->item = 0;
     }
+}
+
+bool AnimatedSpriteRendererComponent::isAnimating()
+{
+    return d->animating;
+}
+
+bool AnimatedSpriteRendererComponent::isLooping()
+{
+    return d->looping;
+}
+
+bool AnimatedSpriteRendererComponent::isPlaying()
+{
+    return d->playing;
+}
+
+void AnimatedSpriteRendererComponent::setAnimating(bool animate)
+{
+    d->animating = animate;
+}
+
+void AnimatedSpriteRendererComponent::setLooping(bool loop)
+{
+    d->looping = loop;
+    if(!d->playing)
+        d->playing = true;
 }
 
 QSizeF AnimatedSpriteRendererComponent::size()

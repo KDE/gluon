@@ -25,7 +25,7 @@
 #include "recentprojectsdialogpage.h"
 #include "openprojectdialogpage.h"
 
-#include "core/debughelper.h"
+#include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KConfig>
@@ -133,6 +133,11 @@ QString ProjectSelectionDialog::fileName() const
 void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
 {
     setCurrentPage( d->pages[page] );
+}
+
+QSize ProjectSelectionDialog::sizeHint() const
+{
+	return QSize(640, 480);
 }
 
 #include "projectselectiondialog.moc"

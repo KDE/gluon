@@ -68,7 +68,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::DiscRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::DiscRendererComponent* )
 
 #endif

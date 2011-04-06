@@ -23,7 +23,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
 namespace GluonCore
 {
@@ -48,8 +48,8 @@ namespace GluonCreator
             GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
-            GluonEngine::Asset* createNewAsset( const QString& fileName, const QString& className = QString(), const QString& name = QString() );
-            void createAssets(const QStringList& fileNames);
+            GluonEngine::Asset* createNewAsset( const QString& fileName, GluonCore::GluonObject* parent = 0, const QString& className = QString(), const QString& name = QString() );
+            void createAssets(const QStringList& fileNames, GluonCore::GluonObject* = 0);
 
             void deleteGameObject( GluonEngine::GameObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
@@ -71,7 +71,7 @@ namespace GluonCreator
 
             ObjectManager();
             ~ObjectManager();
-            void setupAsset( GluonEngine::Asset* asset, const QString& fileName, const QString& name );
+            void setupAsset( GluonEngine::Asset* asset, GluonCore::GluonObject* parent = 0, const QString& fileName = QString(), const QString& name = QString() );
             Q_DISABLE_COPY( ObjectManager )
 
             int m_objectId;

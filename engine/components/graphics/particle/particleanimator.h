@@ -92,7 +92,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::ParticleAnimatorComponent )
 Q_DECLARE_METATYPE( GluonEngine::ParticleAnimatorComponent* )
 
 #endif // GLUON_ENGINE_PARTICLEANIMATOR_H

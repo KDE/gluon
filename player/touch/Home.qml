@@ -21,6 +21,8 @@ import QtQuick 1.0
 
 Rectangle {
 
+    property bool moreGames: false;
+
     color: "black";
     anchors.fill: parent;
 
@@ -34,12 +36,29 @@ Rectangle {
             subtext: qsTr(gameDescription);
 
             onClicked: {
-                detailsPage.propagate(gameName, gameDescription, screenshotUrls, index);
+                detailsPage.propagate(gameName, gameDescription, screenshotUrls, status, index);
+            }
+        }
+    }
+
+    Component {
+        id: gameItemsDelegateMoreGames;
+        Button {
+            id: gameItemMoreGames;
+            width: ListView.view.width;
+            icon: "icons/hi32-app-gluon.png";
+            text: qsTr(gameNameDownloadable);
+            subtext: qsTr(gameDescriptionDownloadable);
+
+            onClicked: {
+                detailsPage.propagate(gameNameDownloadable, gameDescriptionDownloadable, screenshotUrlsDownloadable, statusDownloadable, index);
             }
         }
     }
 
     ListView {
+        id: gameItemsListView;
+
         width: 200;
         height: 250;
         anchors.fill: parent;
@@ -51,12 +70,28 @@ Rectangle {
             Rectangle {
                 color: homePage.color;
                 width: ListView.view.width;
-                height: moreGames.height + 5;
+                height: listViewHeaderButton.height + 5;
                 Button {
-                    id: moreGames;
+                    id: listViewHeaderButton;
                     icon: "icons/get-hot-new-stuff.png";
                     text: qsTr("Get More Games");
-                    subtext: "5 new games, 16 updated";
+                    subtext: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
+
+                    onClicked: {
+                        if (!mainview.loggedIn) {
+                            mainview.statepoint = "mainwindow";
+                        } else {
+                            if (!moreGames) {
+                                text = qsTr("Back to the downloaded games");
+                                gameItemsListView.delegate = gameItemsDelegateMoreGames;
+                                moreGames = true;
+                            } else {
+                                text = qsTr("Get More Games");
+                                gameItemsListView.delegate = gameItemsDelegate;
+                                moreGames = false;
+                            }
+                        }
+                    }
                 }
             }
     }

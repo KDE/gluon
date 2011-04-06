@@ -33,7 +33,7 @@ namespace GluonGraphics
      * \brief Describes a geometrical frustrum for projection calculations.
      *
      * A frustrum is essentially a pyramid with the top removed. It is
-     * used for projection calculations and a technqiue called frustrum
+     * used for projection calculations and a technique called frustrum
      * culling.
      *
      * \todo Expand this description and its use.
@@ -89,7 +89,7 @@ namespace GluonGraphics
             /**
              * Retrieve the distance to the near plane of this frustrum.
              *
-             * \return The distrance to the near plane of this frustrum.
+             * \return The distance to the near plane of this frustrum.
              */
             float nearPlane();
 

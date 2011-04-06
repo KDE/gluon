@@ -22,8 +22,8 @@
 #include "scene.h"
 #include "gameobject.h"
 
-#include "core/debughelper.h"
-#include "core/gdlhandler.h"
+#include <core/debughelper.h>
+#include <core/gdlhandler.h>
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>

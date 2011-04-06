@@ -2,6 +2,7 @@
 Name=Gluon Player (Qt Ext only)
 Name[de]=Gluon-Player (nur Qt-Ext)
 Name[es]=Gluon Player (sólo Qt Ext)
+Name[et]=Gluoni mängija (ainult Qt Ext)
 Name[fr]=Gluon Player (Qt Ext uniquement)
 Name[pt]=Leitor do Gluon (apenas para Qt Ext)
 Name[pt_BR]=Jogador do Gluon (somente para Qt Ext)
@@ -11,6 +12,7 @@ Name[x-test]=xxGluon Player (Qt Ext only)xx
 GenericName=Game Launcher
 GenericName[de]=Spielestarter
 GenericName[es]=Lanzador de juegos
+GenericName[et]=Mängukäivitaja
 GenericName[fr]=Démarrage du jeu
 GenericName[pt]=Lançador do Jogo
 GenericName[pt_BR]=Lançador do jogo

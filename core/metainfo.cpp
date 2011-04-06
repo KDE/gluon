@@ -31,6 +31,7 @@ class MetaInfo::MetaInfoPrivate
         QHash<QString, qreal> propertyRangeMin;
         QHash<QString, qreal> propertyRangeMax;
         QHash<QString, quint32> propertySteps;
+        QString defaultExtension;
 };
 
 MetaInfo::MetaInfo( GluonObject* parent )
@@ -140,5 +141,18 @@ MetaInfo::applyRangeAndStep( const QString& property, qreal newValue ) const
     const qreal step = ( d->propertyRangeMax.value( property ) - d->propertyRangeMin.value( property ) ) / d->propertySteps.value( property );
     return qRound64( qBound( d->propertyRangeMin[property], newValue, d->propertyRangeMax[property] ) / step ) * step;
 }
+
+QString
+MetaInfo::defaultExtension() const
+{
+    return d->defaultExtension;
+}
+
+void
+MetaInfo::setDefaultExtension(const QString& extension)
+{
+    d->defaultExtension = extension;
+}
+
 
 #include "metainfo.moc"

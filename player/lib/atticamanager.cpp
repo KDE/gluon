@@ -20,6 +20,11 @@
 
 #include "atticamanager.h"
 
+#include <attica/content.h>
+#include <attica/listjob.h>
+
+#include <QtCore/QDebug>
+
 using namespace GluonPlayer;
 
 GLUON_DEFINE_SINGLETON(AtticaManager)
@@ -55,8 +60,57 @@ void AtticaManager::providersUpdated()
         }
         else
         {
+
             emit gotProvider();
         }
+    }
+}
+
+bool AtticaManager::downloadGame ( const QString &id )
+{
+    if (isDownloading)
+    {
+        return false;
+    }
+
+    isDownloading = true;
+    m_currentId = id;
+    if( AtticaManager::instance()->isProviderValid() )
+    {
+        requestContent();
+    }
+    else
+    {
+        connect( this, SIGNAL( gotProvider() ), SLOT( requestContent() ) );
+    }
+
+    return true;
+}
+
+void AtticaManager::requestContent()
+{
+    if( isProviderValid() )
+    {
+        Attica::ItemJob<Attica::Content> *job = provider().requestContent(m_currentId);
+        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
+        job->start();
+    }
+    else
+    {
+        qDebug() << "No providers found.";
+    }
+}
+
+void AtticaManager::processFetchedGameDetails(Attica::BaseJob* job)
+{
+    Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content> *>( job );
+    if( contentJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        qDebug() << "It should be downloaded " << contentJob->result().downloadUrlDescription(1).link();
+    }
+    else
+    {
+        qDebug() << "Could not fetch information";
     }
 }
 

@@ -76,7 +76,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::TouchInputComponent )
 Q_DECLARE_METATYPE( GluonEngine::TouchInputComponent* )
 
 #endif // TOUCHINPUTCOMPONENT_H

@@ -22,13 +22,13 @@
 #include <texture.h>
 #include <game.h>
 
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/materialinstance.h"
-#include "engine/gameobject.h"
-#include "engine/asset.h"
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/material.h>
+#include <graphics/mesh.h>
+#include <graphics/materialinstance.h>
+#include <engine/gameobject.h>
+#include <engine/asset.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
@@ -43,15 +43,14 @@ class BeamRendererComponent::Private
 {
     public:
         Private()
+            : baseItem( 0 )
+            , beamItem( 0 )
+            , tipItem( 0 )
+            , baseMaterial( 0 )
+            , beamMaterial( 0 )
+            , tipMaterial( 0 )
+            , size( QSizeF( 1.0f, 1.0f ) )
         {
-            baseItem = 0;
-            baseMaterial = 0;
-            beamItem = 0;
-            beamMaterial = 0;
-            tipItem = 0;
-            tipMaterial = 0;
-
-            size = QSizeF( 1.0f, 1.0f );
         }
 
         void loadMaterial(GluonGraphics::MaterialInstance* material);
@@ -122,10 +121,8 @@ void BeamRendererComponent::start()
 {
 }
 
-void BeamRendererComponent::draw( int timeLapse )
+void BeamRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     QMatrix4x4 transform = gameObject()->transform();
     transform.translate(0, 0, 0.01f);
     transform.scale( d->size.width() / 2, d->size.width() / 2 );

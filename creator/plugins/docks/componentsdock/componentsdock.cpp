@@ -23,9 +23,9 @@
 #include "models/componentmodel.h"
 #include "models/modeltest.h"
 
-#include "core/gluonobjectfactory.h"
-#include "core/gluonobject.h"
-#include "engine/component.h"
+#include <core/gluonobjectfactory.h>
+#include <core/gluonobject.h>
+#include <engine/component.h>
 
 #include <QtGui/QTreeView>
 

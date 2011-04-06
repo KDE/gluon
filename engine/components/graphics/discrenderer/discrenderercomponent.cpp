@@ -18,12 +18,13 @@
  */
 #include "discrenderercomponent.h"
 
-#include "graphics/meshes/discmesh.h"
-#include "graphics/item.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
 
-#include <QMimeData>
+#include <graphics/meshes/discmesh.h>
+#include <graphics/item.h>
+
+#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, DiscRendererComponent )
 
@@ -33,13 +34,13 @@ class DiscRendererComponent::DiscRendererComponentPrivate
 {
     public:
         DiscRendererComponentPrivate()
+            : item( 0 )
+            , mesh( 0 )
+            , texture( 0 )
+            , nbPoints( 3 )
+            , radius( 5.0f )
+            , color( QColor( 255, 255, 255 ) )
         {
-            item = 0;
-            mesh = 0;
-            texture = 0;
-            nbPoints = 3;
-            radius = 5.0f;
-            color.setRgb( 255, 255, 255 );
         }
 
         GluonGraphics::Item* item;
@@ -101,10 +102,8 @@ void DiscRendererComponent::start()
 {
 }
 
-void DiscRendererComponent::draw( int timeLapse )
+void DiscRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         d->item->setMatrix( gameObject()->transform() );

@@ -22,10 +22,10 @@
 
 #include "engine.h"
 
-#include "core/debughelper.h"
-
-#include <sndfile.h>
 #include "alure/include/AL/alure.h"
+
+#include <core/debughelper.h>
+
 #include <sndfile.h>
 
 using namespace GluonAudio;

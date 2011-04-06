@@ -24,13 +24,13 @@
 #include "gameobject.h"
 #include "gameproject.h"
 
-#include "core/debughelper.h"
+#include <core/debughelper.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
 #include <QtCore/QDebug>
-#include <QTimer>
+#include <QtCore/QTimer>
 
 using namespace GluonEngine;
 
@@ -53,12 +53,10 @@ class I : public QThread
         }
 };
 
-Game::Game( QObject* parent )
+Game::Game( QObject* /* parent */ )
+    : d( new GamePrivate )
 {
-    Q_UNUSED( parent )
-    d = new GamePrivate;
-
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 }
 
 Game::~Game()
@@ -272,11 +270,6 @@ Game::setCurrentScene( Scene* newCurrentScene )
         cleanupAll();
     }
 
-    QList<const GluonCore::GluonObject*> objects = d->listAllChildren( d->currentScene );
-    foreach( const GluonCore::GluonObject * child, objects )
-    {
-        disconnect( child, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
-    }
 
     d->currentScene = newCurrentScene;
 
@@ -284,12 +277,6 @@ Game::setCurrentScene( Scene* newCurrentScene )
     {
         initializeAll();
         startAll();
-    }
-
-    objects = d->listAllChildren( newCurrentScene->sceneContents() );
-    foreach( const GluonCore::GluonObject * child, objects )
-    {
-        connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
     }
 
     emit currentSceneChanged( newCurrentScene );
@@ -328,13 +315,15 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
             stopAll();
             cleanupAll();
         }
-        delete d->gameProject;
+        disconnect( d->gameProject, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
     }
 
     d->gameProject = newGameProject;
 
     if( !d->gameProject )
         return;
+
+    connect( d->gameProject, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
 
     if( !d->gameProject->entryPoint() )
     {

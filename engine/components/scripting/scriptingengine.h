@@ -22,10 +22,10 @@
 
 #include "gluon_engine_export.h"
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
-#include <QScriptValue>
-#include <QScriptEngine>
+#include <QtScript/QScriptValue>
+#include <QtScript/QScriptEngine>
 
 namespace GluonEngine
 {

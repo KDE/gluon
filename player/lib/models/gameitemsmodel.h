@@ -23,8 +23,11 @@
 
 #include "gluon_player_export.h"
 
+#include "gameviewitem.h"
+
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
+#include <QtCore/QMultiMap>
 #include <QtCore/QDir>
 
 namespace Attica
@@ -42,43 +45,13 @@ namespace GluonPlayer
      *
      */
 
-    class GLUON_PLAYER_EXPORT GameViewItem
-    {
-        public:
-            enum Status {
-                Downloadable,
-                Installed,
-                Upgradable
-            };
-
-            explicit GameViewItem ( const QString& gameName, const QString& description,
-                                    const QString& projectDirName, const QString& projectFileName,
-                                    const Status &status, const QString &id);
-            virtual ~GameViewItem() {}
-
-            QString gameName() const;
-            QString gameDescription() const;
-            QString projectDirName() const;
-            QString projectFileName() const;
-            QStringList screenshotUrls() const;
-            Status status() const;
-            QString id() const;
-
-        private:
-            QString m_gameName;
-            QString m_gameDescription;
-            QString m_projectDirName;
-            QString m_projectFileName;
-            QStringList m_screenshotUrls;
-            Status m_status;
-            QString m_id;
-    };
-
     class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
     {
         Q_OBJECT
-        public:
+		Q_PROPERTY( int downloadableCount READ downloadableCount NOTIFY downloadableCountChanged )
+		Q_PROPERTY( int upgradableCount READ upgradableCount NOTIFY upgradableCountChanged )
 
+        public:
             enum GameItemsModelRoles {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
@@ -86,7 +59,16 @@ namespace GluonPlayer
                 ProjectFileNameRole,
                 ScreenshotUrlsRole,
                 StatusRole,
-                IDRole
+                IDRole,
+
+                // Downloadable Game item roles
+                GameNameDownloadableRole,
+                GameDescriptionDownloadableRole,
+                ProjectDirNameDownloadableRole,
+                ProjectFileNameDownloadableRole,
+                ScreenshotUrlsDownloadableRole,
+                StatusDownloadableRole,
+                IDDownloadableRole,
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
@@ -98,14 +80,23 @@ namespace GluonPlayer
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
-        private:
-            QList<GameViewItem> m_gameViewItems;
+			int downloadableCount() const;
+			int upgradableCount() const;
 
-            void fetchGamesList();
+		signals:
+			void downloadableCountChanged();
+			void upgradableCountChanged();
 
         protected slots:
             void providersUpdated();
             void processFetchedGamesList( Attica::BaseJob* job);
+
+        private:
+            void fetchGamesList();
+
+            QMultiMap<GameViewItem::Status, GameViewItem*> m_gameViewItems;
+
+
     };
 }
 

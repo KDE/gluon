@@ -19,14 +19,14 @@
 
 #include "gluoneditorpart.h"
 
-#include "graphics/renderwidget.h"
-#include "graphics/viewport.h"
-#include "graphics/engine.h"
+#include <graphics/renderwidget.h>
+#include <graphics/viewport.h>
+#include <graphics/engine.h>
 
-#include "engine/gameproject.h"
-#include "engine/game.h"
+#include <engine/gameproject.h>
+#include <engine/game.h>
 
-#include "input/inputmanager.h"
+#include <input/inputmanager.h>
 
 #include <kdemacros.h>
 #include <kparts/genericfactory.h>

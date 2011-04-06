@@ -23,8 +23,8 @@
 #include "scriptingasset.h"
 #include "scriptingcomponent.h"
 
-#include "core/gluonobjectfactory.h"
-#include "core/scriptengine.h"
+#include <core/gluonobjectfactory.h>
+#include <core/scriptengine.h>
 
 #include <QtScript>
 // #include <QScriptEngineDebugger>
@@ -74,6 +74,7 @@ namespace GluonEngine
             // We are going to have a problem with debugging...
             QString script;
             void buildScript();
+            void appendScript(const ScriptingAsset* asset, QString name);
     };
 }
 
@@ -81,10 +82,9 @@ using namespace GluonEngine;
 
 GLUON_DEFINE_SINGLETON(ScriptingEngine)
 
-ScriptingEngine::ScriptingEngine( QObject* parent )
+ScriptingEngine::ScriptingEngine( QObject* /* parent */ )
     : d( new Private() )
 {
-    Q_UNUSED( parent )
 }
 
 ScriptingEngine::~ScriptingEngine()
@@ -96,9 +96,9 @@ QScriptSyntaxCheckResult
 ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 {
     DEBUG_BLOCK
-    
-    
-    
+
+
+
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
     // Dumb...
@@ -123,13 +123,14 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
-        d->buildScript();
+        d->appendScript( asset, className );
+        //d->buildScript();
     }
     else
     {
-        DEBUG_TEXT(QString("Asset %1 didn't pass the syntax checker (%2)\n")
-                   .arg(asset->fullyQualifiedName())
-                   .arg(result.errorMessage()));
+        asset->debug(QString("This script didn't pass the syntax checker (%2)\n")
+            .arg(asset->fullyQualifiedName())
+            .arg(result.errorMessage()));
     }
 
     return result;
@@ -144,13 +145,19 @@ ScriptingEngine::Private::buildScript()
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
     {
-        // Build the bit of script to add
-        QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( i.key()->data()->text()).arg( i.value() );
-        QUrl tmpUrl = i.key()->file();
-        QScriptValue evaluated = engine()->evaluate( tmpScript, tmpUrl.toLocalFile(), 0 );
-        scriptInstances.insert( i.key(), evaluated );
-        /// \TODO Add all those lines to the reverse map...
+        appendScript(i.key(), i.value());
     }
+}
+
+void
+ScriptingEngine::Private::appendScript(const GluonEngine::ScriptingAsset* asset, QString name)
+{
+    // Build the bit of script to add
+    QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( asset->data()->text()).arg( name );
+    QUrl tmpUrl = asset->file();
+    QScriptValue evaluated = engine()->evaluate( tmpScript, tmpUrl.toLocalFile(), 0 );
+    scriptInstances.insert( asset, evaluated );
+    /// \TODO Add all those lines to the reverse map...
 }
 
 bool
@@ -163,7 +170,10 @@ ScriptingEngine::unregisterAsset( const ScriptingAsset* asset ) const
 
     d->classNames.remove( asset );
     d->scriptInstances.remove( asset );
-    d->buildScript();
+    if(d->scriptInstances.count() < 1)
+        d->resetEngine();
+    else
+        d->buildScript();
 
     return true;
 }
@@ -186,8 +196,10 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
         QScriptValue instance = val.construct();
         if( d->engine()->hasUncaughtException() )
         {
-			QScriptValue exception = d->engine()->uncaughtException();
-            DEBUG_TEXT( QString("Exception on class instantiation: %2\n at %1").arg(d->engine()->uncaughtExceptionBacktrace().join( " --> " )).arg(exception.toString()));
+            QScriptValue exception = d->engine()->uncaughtException();
+            asset->debug( QString("Exception on class instantiation: %2\n at %1")
+                .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+                .arg( exception.toString() ) );
         }
 
         return instance;
@@ -205,7 +217,11 @@ ScriptingEngine::instantiateClass( const QString& className ) const
     QScriptValue instance = val.construct();
     if( d->engine()->hasUncaughtException() )
     {
-        DEBUG_TEXT2( "Exception on class instantiation: %1", d->engine()->uncaughtExceptionBacktrace().join( " --> " ) );
+        const ScriptingAsset* asset = d->classNames.key(className);
+        QScriptValue exception = d->engine()->uncaughtException();
+        asset->debug( QString("Exception on class instantiation: %2\n at %1")
+            .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+            .arg( exception.toString() ) );
     }
 
     return instance;

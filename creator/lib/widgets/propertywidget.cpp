@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,10 +27,10 @@ using namespace GluonCreator;
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
-#include "engine/asset.h"
-#include "engine/scene.h"
+#include <engine/asset.h>
+#include <engine/scene.h>
 
-#include "core/gluonobject.h"
+#include <core/gluonobject.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
@@ -60,6 +61,7 @@ class PropertyWidget::PropertyWidgetPrivate
 
 PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
+    setFrameShape(QFrame::NoFrame);
 }
 
 PropertyWidget::~PropertyWidget()
@@ -83,18 +85,21 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
         d->layout->setAlignment( Qt::AlignTop );
 
         appendObject( object, true );
-        for( int i = 0; i < object->children().count(); i++ )
+        if(!qobject_cast<GluonEngine::Asset*>(object))
         {
-            GluonCore::GluonObject* theChild = object->child( i );
-            if( theChild )
+            for( int i = 0; i < object->children().count(); i++ )
             {
-                if( qobject_cast<GluonEngine::Asset*>( theChild ) )
-                    continue;
-                if( qobject_cast<GluonEngine::Scene*>( theChild ) )
-                    continue;
-                if( theChild->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
-                    continue;
-                appendObject( theChild );
+                GluonCore::GluonObject* theChild = object->child( i );
+                if( theChild )
+                {
+                    if( qobject_cast<GluonEngine::Asset*>( theChild ) )
+                        continue;
+                    if( qobject_cast<GluonEngine::Scene*>( theChild ) )
+                        continue;
+                    if( theChild->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
+                        continue;
+                    appendObject( theChild );
+                }
             }
         }
         d->layout->addStretch();

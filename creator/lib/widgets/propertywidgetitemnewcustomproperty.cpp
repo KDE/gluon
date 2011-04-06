@@ -20,7 +20,8 @@
 #include "propertywidgetitemnewcustomproperty.h"
 
 #include "objectmanager.h"
-#include "core/gluonobject.h"
+
+#include <core/gluonobject.h>
 
 #include <KDE/KLocalizedString>
 

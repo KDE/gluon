@@ -14,6 +14,7 @@ set(libGluonPlayer_SRCS
     gamedownloadmanager.cpp
     atticamanager.cpp
     authentication.cpp
+	models/gameviewitem.cpp
 	models/gameitemsmodel.cpp
 	models/commentitemsmodel.cpp
 	models/highscoresmodel.cpp
@@ -45,6 +46,7 @@ install(TARGETS libGluonPlayer RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB
 install(FILES
     atticamanager.h
 	authentication.h
+	models/gameviewitem.h
 	models/gameitemsmodel.h
 	models/commentitemsmodel.h
 	models/highscoresmodel.h

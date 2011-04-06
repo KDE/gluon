@@ -23,7 +23,7 @@
 #include "engine/gluon_engine_export.h"
 #include "engine/asset.h"
 
-#include "graphics/texture.h"
+#include <graphics/texture.h>
 
 namespace GluonEngine
 {
@@ -55,7 +55,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::TextureAsset )
 Q_DECLARE_METATYPE( GluonEngine::TextureAsset* )
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

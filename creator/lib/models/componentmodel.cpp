@@ -22,10 +22,10 @@
 
 #include "lib/objectmanager.h"
 
-#include "engine/component.h"
+#include <engine/component.h>
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
 
@@ -297,8 +297,7 @@ ComponentModel::rowCount( const QModelIndex& parent ) const
 }
 
 int
-ComponentModel::columnCount( const QModelIndex& parent ) const
+ComponentModel::columnCount( const QModelIndex& /* parent */ ) const
 {
-    Q_UNUSED( parent )
     return 1;
 }

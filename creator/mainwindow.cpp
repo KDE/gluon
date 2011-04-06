@@ -32,9 +32,9 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
 
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/scene.h"
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
 
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
@@ -112,7 +112,6 @@ MainWindow::MainWindow( const QString& fileName )
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
     d->projectDialog->raise( );
-	d->projectDialog->resize(640, 480);
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
 
     DockManager::instance()->setDocksEnabled( false );
@@ -179,7 +178,6 @@ void MainWindow::openProject( const QString& fileName )
         setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
-        GluonEngine::Game::instance()->gameProject()->setDirname( fileName.section( "/", 0, -2 ) );
     }
     else
     {

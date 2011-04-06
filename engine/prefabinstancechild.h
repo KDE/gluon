@@ -41,7 +41,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::PrefabInstanceChild );
 Q_DECLARE_METATYPE( GluonEngine::PrefabInstanceChild* );
 
 #endif // GLUONENGINE_PREFABINSTANCECHILD_H

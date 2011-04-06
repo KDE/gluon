@@ -20,8 +20,9 @@
 #ifndef GLUON_ENGINE_PREFAB_H
 #define GLUON_ENGINE_PREFAB_H
 
-#include "core/gluonobject.h"
 #include "asset.h"
+
+#include <core/gluonobject.h>
 
 namespace GluonEngine
 {
@@ -56,7 +57,6 @@ class GameObject;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::Prefab )
 Q_DECLARE_METATYPE( GluonEngine::Prefab* )
 
 #endif  // GLUON_ENGINE_PREFAB_H

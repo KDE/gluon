@@ -19,10 +19,10 @@
 
 #include "materialasset.h"
 
-#include "core/gdlhandler.h"
-#include "graphics/material.h"
-#include "graphics/materialinstance.h"
-#include "graphics/engine.h"
+#include <core/gdlhandler.h>
+#include <graphics/material.h>
+#include <graphics/materialinstance.h>
+#include <graphics/engine.h>
 
 #include <QtGui/QAction>
 #include <QtGui/QDialog>

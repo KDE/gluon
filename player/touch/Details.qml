@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.0
+import GluonPlayerGameViewItem 1.0
 
 Rectangle {
 
@@ -26,8 +27,18 @@ Rectangle {
 
     property int gameIndex;
 
-    function propagate(gameName, gameDescription, screenshotUrls, index) {
-        play_game_btn.text = qsTr("Play " + gameName);
+    function propagate(gameName, gameDescription, screenshotUrls, status, index) {
+		if (status == GameViewItem.Downloadable) {
+        	play_game_btn.text = qsTr("Download " + gameName);
+        	play_game_btn.icon = "icons/download.png";
+        } else if (status == GameViewItem.Installed) {
+        	play_game_btn.text = qsTr("Play " + gameName);
+        	play_game_btn.icon = "icons/media-playback-start.png";
+        } else if (status == GameViewItem.Upgradable) {
+        	play_game_btn.text = qsTr("Upgrade " + gameName);
+            play_game_btn.icon = "system-software-update.png";
+        }
+
         read_author_desc_btn.subtext = qsTr(gameDescription);
         previewImages.model = screenshotUrls;
         gameIndex = index;
@@ -85,7 +96,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -100,7 +113,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -116,7 +131,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Button {
@@ -150,7 +167,9 @@ Rectangle {
             margins: 5;
         }
 
-        onClicked: console.log("this doesn't do anything yet...");
+        onClicked: {
+            console.log("this doesn't do anything yet...");
+        }
     }
 
     Text {

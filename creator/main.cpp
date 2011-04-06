@@ -20,13 +20,13 @@
 
 #include "mainwindow.h"
 
+#include <core/gluon_global.h>
+
+#include <engine/gluon_engine_metatypes.h>
+
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
-
-#include "core/gluon_global.h"
-
-#include "engine/gluon_engine_metatypes.h"
 
 int main( int argc, char** argv )
 {

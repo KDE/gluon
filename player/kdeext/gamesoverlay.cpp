@@ -76,9 +76,8 @@ QListView* GamesOverlay::gamesView()
     return m_gamesView;
 }
 
-void GamesOverlay::selectionChanged( const QModelIndex & current, const QModelIndex & previous )
+void GamesOverlay::selectionChanged( const QModelIndex& current, const QModelIndex& /* previous */ )
 {
-    Q_UNUSED( previous )
     m_stackedWidget->setCurrentIndex( current.row( ) );
 }
 

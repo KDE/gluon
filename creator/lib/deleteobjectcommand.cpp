@@ -19,7 +19,7 @@
 
 #include "deleteobjectcommand.h"
 
-#include "engine/gameobject.h"
+#include <engine/gameobject.h>
 
 using namespace GluonCreator;
 

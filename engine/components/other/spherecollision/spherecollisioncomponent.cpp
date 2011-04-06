@@ -25,6 +25,8 @@
 
 #include <core/debughelper.h>
 
+#include <QtCore/QDebug>
+
 REGISTER_OBJECTTYPE( GluonEngine, SphereCollisionComponent )
 
 using namespace GluonEngine;
@@ -34,12 +36,14 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
     public:
         SphereCollisionComponentPrivate() :
             collisionGroup( 0 ),
+            targetGroup( 0 ),
             radius( 1.0f ),
             collides( 0 )
         {
         }
 
         int collisionGroup;
+        int targetGroup;
         float radius;
         GameObject* collides;
 
@@ -53,8 +57,7 @@ SphereCollisionComponent::SphereCollisionComponent( QObject* parent )
     : Component( parent )
     , d( new SphereCollisionComponentPrivate )
 {
-    d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent>();
-    d->typeName =  staticMetaObject.className();
+    d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent*>();
 }
 
 SphereCollisionComponent::~SphereCollisionComponent()
@@ -69,19 +72,26 @@ QString SphereCollisionComponent::category() const
 
 void SphereCollisionComponent::start()
 {
-    d->collisionComponents = gameObject()->parentGameObject()->findComponentsInChildrenByType( d->componentType ).toVector();
+    d->collisionComponents = gameObject()->scene()->sceneContents()->findComponentsInChildrenByType( d->componentType ).toVector();
 
+    int counter = 0;
     foreach( Component * component, d->collisionComponents )
     {
-        connect( component, SIGNAL( destroyed( QObject* ) ), SLOT( componentDestroyed( QObject* ) ) );
-        static_cast<SphereCollisionComponent*>( component )->addComponent( this );
+        if(component->enabled() && component->gameObject()->enabled())
+        {
+            connect( component, SIGNAL( destroyed( QObject* ) ), SLOT( componentDestroyed( QObject* ) ) );
+            static_cast<SphereCollisionComponent*>( component )->addComponent( this );
+        }
+        else
+        {
+            d->collisionComponents.replace(counter, 0);
+        }
+        counter++;
     }
 }
 
-void SphereCollisionComponent::update( int elapsedMilliseconds )
+void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
 {
-    Q_UNUSED( elapsedMilliseconds )
-
     d->collides = 0;
 
     //Our position
@@ -96,25 +106,19 @@ void SphereCollisionComponent::update( int elapsedMilliseconds )
     Component** data = d->collisionComponents.data();
     for( int i = 0; i < componentCount; ++i )
     {
-        Component* component = data[i];
-
-        //Intentional pointer-to-pointer comparison. Way faster compared to string comparison.
-        if( component->metaObject()->className() != d->typeName )
-            continue;
-
-        SphereCollisionComponent* sphere = static_cast< SphereCollisionComponent* >( component );
+        SphereCollisionComponent* sphere = qobject_cast< SphereCollisionComponent* >( data[i] );
         if( sphere && sphere != this )
         {
             //See if we are in the same group
-            if( sphere->collisionGroup() == d->collisionGroup )
+            if( sphere->collisionGroup() == d->targetGroup )
             {
                 //Get the object's position
-                QVector3D otherPosition = component->gameObject()->position();
+                QVector3D otherPosition = sphere->gameObject()->position();
                 //Eliminate the Z axis
                 position.setZ( 0 );
 
                 //Get the object's radius
-                float otherRadius = sphere->radius();
+                float otherRadius = sphere->radius() * sphere->radius();
 
                 //Calculate the distance between our position and theirs
                 //Note that this is the squared distance to avoid a costly squareroot op
@@ -124,7 +128,7 @@ void SphereCollisionComponent::update( int elapsedMilliseconds )
                 //have a collision.
                 if( dist < ( otherRadius + radius ) )
                 {
-                    d->collides = component->gameObject();
+                    d->collides = sphere->gameObject();
                 }
             }
         }
@@ -158,6 +162,16 @@ QObject* SphereCollisionComponent::collidesWith() const
 void SphereCollisionComponent::setCollisionGroup( int group )
 {
     d->collisionGroup = group;
+}
+
+int SphereCollisionComponent::targetGroup() const
+{
+    return d->targetGroup;
+}
+
+void SphereCollisionComponent::setTargetGroup(int group)
+{
+    d->targetGroup = group;
 }
 
 void SphereCollisionComponent::setRadius( float radius )

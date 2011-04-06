@@ -20,17 +20,17 @@
 #include "material.h"
 #include "materialinstance.h"
 #include "technique.h"
-
-#include <QDebug>
-
-#include "glheaders.h"
-#include <core/gdlhandler.h>
-#include <QFile>
-#include <QMetaProperty>
 #include "backendcapabilities.h"
-#include <qtextcodec.h>
-#include <qvarlengtharray.h>
+#include "glheaders.h"
+
+#include <core/gdlhandler.h>
+
 #include <QtOpenGL/QGLShaderProgram>
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
+#include <QtCore/QMetaProperty>
+#include <QtCore/QTextCodec>
+#include <QtCore/QVarLengthArray>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 

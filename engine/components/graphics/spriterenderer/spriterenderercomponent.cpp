@@ -22,13 +22,14 @@
 #include <texture.h>
 #include <game.h>
 
-#include "graphics/item.h"
-#include "graphics/engine.h"
-#include "graphics/material.h"
-#include "graphics/mesh.h"
-#include "graphics/materialinstance.h"
 #include "engine/gameobject.h"
 #include "engine/asset.h"
+
+#include <graphics/item.h>
+#include <graphics/engine.h>
+#include <graphics/material.h>
+#include <graphics/mesh.h>
+#include <graphics/materialinstance.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
@@ -43,12 +44,13 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
 {
     public:
         SpriteRendererComponentPrivate()
+            : item( 0 )
+            , texture( 0 )
+            , material( 0 )
+
+            , color( QColor(255, 255, 255) )
+            , size( QSizeF( 1.0f, 1.0f ) )
         {
-            item = 0;
-            texture = 0;
-            material = 0;
-            size = QSizeF( 1.0f, 1.0f );
-            color.setRgb( 255, 255, 255 );
         }
 
         GluonGraphics::Item* item;
@@ -99,10 +101,9 @@ void SpriteRendererComponent::initialize()
         if( d->material->property( "texture0" ).type() == QVariant::String )
         {
             QString theName( d->material->property( "texture0" ).toString() );
-            QString theObjectName = GluonObject::nameToObjectName( theName );
-            texture = gameProject()->findChild<Asset*>( theObjectName );
+            texture = gameProject()->findChild<Asset*>( theName );
             if(!texture)
-                debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theObjectName ) );
+                debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
         else
             texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
@@ -117,10 +118,8 @@ void SpriteRendererComponent::start()
 {
 }
 
-void SpriteRendererComponent::draw( int timeLapse )
+void SpriteRendererComponent::draw( int /* timeLapse */ )
 {
-    Q_UNUSED( timeLapse )
-
     if( d->item )
     {
         QMatrix4x4 transform = gameObject()->transform();

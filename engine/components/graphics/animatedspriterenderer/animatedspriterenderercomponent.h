@@ -38,6 +38,10 @@ namespace GluonEngine
             GLUON_OBJECT( GluonEngine::AnimatedSpriteRendererComponent )
             Q_INTERFACES( GluonEngine::Component )
 
+            Q_PROPERTY( bool animate READ isAnimating WRITE setAnimating)
+            Q_PROPERTY( bool loop READ isLooping WRITE setLooping)
+            Q_PROPERTY( bool playing READ isPlaying)
+
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
             Q_PROPERTY( int frameRate READ frameRate WRITE setFrameRate )
@@ -58,7 +62,12 @@ namespace GluonEngine
             void start();
             void update ( int elapsedMilliseconds );
             void draw( int timeLapse = 0 );
+            void stop();
             void cleanup();
+
+            bool isAnimating();
+            bool isLooping();
+            bool isPlaying();
 
             QSizeF size();
             GluonGraphics::MaterialInstance* material();
@@ -72,6 +81,8 @@ namespace GluonEngine
             //virtual QVector<Asset*> textures();
 
         public slots:
+            void setAnimating(bool animate);
+            void setLooping(bool loop);
             void setSize( const QSizeF& size );
             void setMaterial( GluonGraphics::MaterialInstance* material );
             void setMaterial( const QString& path );
@@ -90,7 +101,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent )
 Q_DECLARE_METATYPE( GluonEngine::AnimatedSpriteRendererComponent* )
 
 #endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H

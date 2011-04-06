@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "gluonobject.h"
-#include "gluonobjectprivate.h"
+
 #include "debughelper.h"
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
@@ -38,9 +38,20 @@ Q_DECLARE_METATYPE(QList<int>)
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
+class GluonObject::Private
+{
+    public:
+        Private() : gameProject(0),  metaInfo(0)
+        { }
+
+        QString name;
+        GluonObject* gameProject;
+        MetaInfo* metaInfo;
+};
+
 GluonObject::GluonObject( QObject* parent )
     : QObject( parent )
-    , d( new GluonObjectPrivate() )
+    , d( new Private )
 {
     // Get a nice name first time the object is created...
     QString theClassName( metaObject()->className() );
@@ -52,14 +63,9 @@ GluonObject::GluonObject( QObject* parent )
 
 GluonObject::GluonObject( const QString& name, QObject* parent )
     : QObject( parent )
-    , d( new GluonObjectPrivate() )
+    , d( new Private )
 {
     setName( name );
-}
-
-GluonObject::GluonObject( const GluonCore::GluonObject& rt )
-    : d( new GluonObjectPrivate( *rt.d ) )
-{
 }
 
 GluonObject::~GluonObject()
@@ -340,26 +346,6 @@ GluonObject::fullyQualifiedName() const
     return name();
 }
 
-QString
-GluonObject::fullyQualifiedFileName() const
-{
-    QString theName( objectName() );
-
-    // If the fully qualified name has a suffix, use that...
-    // Unfortunately this means the characters will be there multiple times, but we will have
-    // properly suffixed file names
-    QString qualifiedName = fullyQualifiedName();
-    // if( !name().contains( '.' ) )
-        // theName.append( '.' ).append( name().section( '.', -1 ).toLower() );
-
-    GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
-    if( theParent )
-        return QString( "%1/%2" ).arg( theParent->fullyQualifiedFileName() ).arg( theName );
-
-    debug(theName);
-    return theName;
-}
-
 GluonCore::GluonObject*
 GluonObject::findItemByName( QString qualifiedName )
 {
@@ -385,10 +371,14 @@ void GluonObject::addChild( GluonObject* child )
     if( parent )
     {
         parent->removeChild( child );
+        disconnect( child, SIGNAL( showDebug( const QString& ) ), parent, SIGNAL( showDebug( const QString& ) ) );
     }
 
     child->setParent( this );
+
+    //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );
+    connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
 }
 
 GluonObject* GluonObject::child( int index ) const
@@ -770,7 +760,10 @@ MetaInfo*
 GluonObject::metaInfo()
 {
     if( !d->metaInfo )
+    {
         d->metaInfo = new MetaInfo( this );
+        populateMetaInfo(d->metaInfo);
+    }
     return d->metaInfo;
 }
 
@@ -789,9 +782,8 @@ GluonObject::shouldSerializeChildren() const
 }
 
 void
-GluonObject::handleMessage(const QString& message)
+GluonObject::handleMessage(const QString& /* message */ )
 {
-    Q_UNUSED(message)
 }
 
 #include "gluonobject.moc"

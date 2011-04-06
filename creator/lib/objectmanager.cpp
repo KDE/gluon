@@ -26,13 +26,17 @@
 #include "propertychangedcommand.h"
 #include "historymanager.h"
 
-#include "core/debughelper.h"
+#include "models/models.h"
+#include "models/scenemodel.h"
 
-#include "engine/gameproject.h"
-#include "engine/gameobject.h"
-#include "engine/scene.h"
-#include "engine/game.h"
-#include "engine/component.h"
+#include <core/gluon_global.h>
+#include <core/debughelper.h>
+
+#include <engine/gameproject.h>
+#include <engine/gameobject.h>
+#include <engine/scene.h>
+#include <engine/game.h>
+#include <engine/component.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
@@ -42,8 +46,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QDebug>
-#include "models/models.h"
-#include "models/scenemodel.h"
 
 using namespace GluonCreator;
 
@@ -80,7 +82,7 @@ ObjectManager::humanifyClassName( const QString& fixThis, bool justRemoveNamespa
     return fixedString;
 }
 
-GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, const QString& className, const QString& name )
+GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, GluonCore::GluonObject* parent, const QString& className, const QString& name )
 {
     DEBUG_BLOCK
     GluonCore::GluonObject* newChild = 0;
@@ -98,30 +100,41 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, cons
     GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
     if( newAsset )
     {
-        setupAsset( newAsset, fileName, name );
+        setupAsset( newAsset, parent, fileName, name );
     }
 
     return newAsset;
 }
 
-void ObjectManager::createAssets( const QStringList& fileNames )
+void ObjectManager::createAssets( const QStringList& fileNames, GluonCore::GluonObject* parent )
 {
     foreach( const QString & asset, fileNames )
     {
-        ObjectManager::instance()->createNewAsset( asset );
+        ObjectManager::instance()->createNewAsset( asset, parent );
     }
 }
 
-void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fileName, const QString& name )
+void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonObject* parent, const QString& fileName, const QString& name )
 {
     if( newAsset == 0 )
         return;
 
-    GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
+    if( parent && !qobject_cast<GluonEngine::Asset*>(parent) )
+    {
+        parent->addChild( newAsset );
+    }
+    else
+    {
+        GluonEngine::Game::instance()->gameProject()->addChild( newAsset );
+    }
+
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    QString extension;
+    QString newFile = QString("%1/%2").arg(GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile(), info.fileName());
+    QFile( fileName ).copy( newFile );
+    newAsset->setFile( newFile );
+
     if( name.isEmpty() )
     {
         newAsset->setName( info.fileName() );
@@ -129,36 +142,12 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, const QString& fil
     else
     {
         newAsset->setName( name );
-        QStringList splitName = fileName.split('.');
-        splitName.removeAt(0);
-        extension = QString( ".%1" ).arg( splitName.join(".") );
     }
-
-    QUrl newLocation( QString( "Assets/%1%2" ).arg( newAsset->fullyQualifiedFileName() ).arg( extension ) );
-
-    QString newPath( newLocation.toLocalFile().section( '/', 0, -2 ) );
-    if( !QDir::current().exists( newPath ) )
-        QDir::current().mkpath( newPath );
-
-    int i = 0;
-    QStringList theSplitName = newAsset->name().split('.');
-    QString firstName = theSplitName.takeAt(0);
-    while(QFile::exists(newLocation.toLocalFile()))
-    {
-        ++i;
-        QString newName = firstName.append( QString( " (%1)." ).arg( i ) ).append( theSplitName.join(".") );
-        newAsset->setName( newName );
-        newLocation = QUrl( QString( "Assets/%1" ).arg( newAsset->fullyQualifiedFileName() ) );
-    }
-
-    QFile( fileName ).copy( newLocation.toLocalFile() );
-
-    newAsset->setFile( newLocation );
     newAsset->load();
 
-    QString path( newAsset->absolutePath() );
-    m_assets.insert( path, newAsset );
-    KDirWatch::self()->addFile( path );
+    QString filePath( newAsset->absolutePath() );
+    m_assets.insert( filePath, newAsset );
+    KDirWatch::self()->addFile( filePath );
 
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }

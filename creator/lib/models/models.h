@@ -22,7 +22,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
 namespace GluonCreator
 {
@@ -44,7 +44,7 @@ namespace GluonCreator
             Models();
             ~Models();
             Q_DISABLE_COPY( Models )
-            
+
             class Private;
             Private* d;
     };

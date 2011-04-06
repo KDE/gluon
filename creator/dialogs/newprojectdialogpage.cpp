@@ -21,11 +21,12 @@
 
 #include "newprojectdialogpage.h"
 
-#include "engine/gameproject.h"
-#include "engine/scene.h"
-#include "engine/game.h"
-#include "engine/gameobject.h"
-#include "engine/component.h"
+#include <core/gluon_global.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
+#include <engine/component.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
@@ -119,12 +120,16 @@ QString NewProjectDialogPage::createProject() const
 
     project->setName( d->name->text() );
 
+    GluonCore::GluonObject* scenesFolder = new GluonCore::GluonObject("Scenes");
+
     GluonEngine::Scene* root = new GluonEngine::Scene( project.data() );
+    root->setGameProject(project.data());
     root->setName( i18n( "New Scene" ) );
     root->savableDirty = true;
 
-    project->addChild( root );
+    scenesFolder->addChild(root);
     project->setEntryPoint( root );
+    project->addChild(scenesFolder);
 
     GluonEngine::GameObject* camera = new GluonEngine::GameObject( root );
     camera->setName( i18n( "Camera" ) );
@@ -142,25 +147,28 @@ QString NewProjectDialogPage::createProject() const
     root->sceneContents()->addChild( sprite );
 
     GluonCore::GluonObject* spriteComponent =
-        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
-	spriteComponent->setName( "SpriteRenderer" );
-	sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
+    GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
+    spriteComponent->setName( "SpriteRenderer" );
+    sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
 
-	KUrl location = d->location->url();
-	QString gameBundleDir = project->fullyQualifiedFileName() + GluonEngine::projectSuffix;
-	location.addPath( gameBundleDir );
-	project->setDirname( location );
-	location.addPath( GluonEngine::projectFilename );
-	project->setFilename( location );
+    project->addChild(new GluonCore::GluonObject("Assets"));
+    project->addChild(new GluonCore::GluonObject("Prefabs"));
 
-	KUrl currentLocation = d->location->url();
-	currentLocation.addPath( gameBundleDir );
-	QDir dir = QDir(d->location->text());
-	dir.mkpath( gameBundleDir );
-	QDir::setCurrent( currentLocation.toLocalFile() );
-	project->saveToFile();
+    KUrl location = d->location->url();
+    QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName(project.data(), QFileInfo( GluonEngine::projectSuffix ).completeSuffix()).toLocalFile();
+    location.addPath( gameBundleDir );
+    project->setDirname( location );
+    location.addPath( GluonEngine::projectFilename );
+    project->setFilename( location );
 
-	return location.toLocalFile();
+    KUrl currentLocation = d->location->url();
+    currentLocation.addPath( gameBundleDir );
+    QDir dir = QDir(d->location->text());
+    dir.mkpath( gameBundleDir );
+    QDir::setCurrent( currentLocation.toLocalFile() );
+    project->saveToFile();
+
+    return location.toLocalFile();
 }
 
 void NewProjectDialogPage::urlEdited()

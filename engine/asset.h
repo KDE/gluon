@@ -21,14 +21,14 @@
 #ifndef GLUON_ENGINE_ASSET_H
 #define GLUON_ENGINE_ASSET_H
 
-#include "core/gluonobject.h"
-
 #include "gluon_engine_export.h"
 
+#include <core/gluonobject.h>
+
+#include <QtPlugin>
+#include <QtGui/QIcon>
 #include <QtCore/QUrl>
 #include <QtCore/QSharedData>
-#include <QtPlugin>
-#include <QIcon>
 
 class QAction;
 class QMimeData;
@@ -164,6 +164,13 @@ namespace GluonEngine
 
             void reload();
 
+            /**
+             * Filter the fully qualified name of an object.
+             *
+             * \return A URL that can be used for saving files.
+             */
+            static QUrl fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extension = QString());
+
         public slots:
             /**
              * Load the data of this Asset into memory.
@@ -193,7 +200,6 @@ namespace GluonEngine
 }
 
 Q_DECLARE_INTERFACE( GluonEngine::Asset, "com.gluon.Asset/1.0" )
-Q_DECLARE_METATYPE( GluonEngine::Asset )
 Q_DECLARE_METATYPE( GluonEngine::Asset* )
 
 #endif  // GLUON_ASSET_H

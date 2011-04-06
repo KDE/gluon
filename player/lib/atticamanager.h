@@ -21,7 +21,7 @@
 #ifndef ATTICAMANAGER_H
 #define ATTICAMANAGER_H
 
-#include "core/singleton.h"
+#include <core/singleton.h>
 
 #include <attica/providermanager.h>
 
@@ -53,17 +53,12 @@ namespace GluonPlayer
              */
             Attica::Provider provider();
 
-        private:
-            friend class GluonCore::Singleton<AtticaManager>;
-            AtticaManager();
-            ~AtticaManager();
-            Q_DISABLE_COPY( AtticaManager )
+            bool downloadGame( const QString &id );
 
-            Attica::ProviderManager m_manager;
-            Attica::Provider m_provider;
-
-        private slots:
+        protected slots:
             void providersUpdated();
+            void requestContent();
+            void processFetchedGameDetails( Attica::BaseJob* job );
 
         signals:
             /**
@@ -74,6 +69,17 @@ namespace GluonPlayer
              * signal which is emitted when provider failed to loaded
              */
             void failedToFetchProvider();
+
+        private:
+            friend class GluonCore::Singleton<AtticaManager>;
+            AtticaManager();
+            ~AtticaManager();
+            Q_DISABLE_COPY( AtticaManager )
+
+            Attica::ProviderManager m_manager;
+            Attica::Provider m_provider;
+            bool isDownloading;
+            QString m_currentId;
     };
 }
 

@@ -23,13 +23,13 @@
 #include "objectmanager.h"
 #include "modeltest.h"
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
-#include "engine/game.h"
-#include "engine/gameproject.h"
-#include "engine/asset.h"
-#include "engine/scene.h"
-#include "engine/filelocation.h"
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/asset.h>
+#include <engine/scene.h>
+#include <engine/filelocation.h>
 
 #include <KDE/KDebug>
 #include <KDE/KLocalizedString>
@@ -140,9 +140,8 @@ ProjectModel::data( const QModelIndex& index, int role ) const
 }
 
 int
-ProjectModel::columnCount( const QModelIndex& parent ) const
+ProjectModel::columnCount( const QModelIndex& /* parent */ ) const
 {
-    Q_UNUSED( parent )
     return 1;
 }
 
@@ -186,7 +185,7 @@ ProjectModel::parent( const QModelIndex& child ) const
         return QModelIndex();
 
     QObject* childItem = static_cast<QObject*>( child.internalPointer() );
-	if( !childItem ) 
+	if( !childItem )
 		return QModelIndex();
 
     QObject* parentItem = childItem->parent();
@@ -273,12 +272,8 @@ ProjectModel::objectRow ( GluonCore::GluonObject* object ) const
 }
 
 QVariant
-ProjectModel::headerData( int section, Qt::Orientation orientation, int role ) const
+ProjectModel::headerData( int /* section */, Qt::Orientation /* orientation */, int /* role */ ) const
 {
-    Q_UNUSED( section )
-    Q_UNUSED( orientation )
-    Q_UNUSED( role )
-
     return QVariant();
 }
 
@@ -363,10 +358,8 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
 }
 
 bool
-ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent )
+ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /* row */, int /* column */, const QModelIndex& parent )
 {
-    Q_UNUSED( row )
-    Q_UNUSED( column )
     DEBUG_FUNC_NAME
 
     if( action == Qt::IgnoreAction )

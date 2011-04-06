@@ -22,8 +22,8 @@
 
 #include "textureimageprovider.h"
 
-#include "graphics/texture.h"
-#include "graphics/engine.h"
+#include <graphics/texture.h>
+#include <graphics/engine.h>
 
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
@@ -149,7 +149,6 @@ void UiAsset::execute()
         d->qmlItem = qobject_cast<QDeclarativeItem*>( root );
         if( d->qmlItem )
         {
-            debug( "Execution of QML done!" );
             mimeData()->setText( name() );
             setLoaded( true );
             return;

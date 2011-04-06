@@ -19,8 +19,8 @@
 
 #include "newobjectcommand.h"
 
-#include "engine/gameobject.h"
-#include "engine/component.h"
+#include <engine/gameobject.h>
+#include <engine/component.h>
 
 using namespace GluonCreator;
 

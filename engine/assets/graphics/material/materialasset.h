@@ -55,7 +55,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::MaterialAsset )
 Q_DECLARE_METATYPE( GluonEngine::MaterialAsset* )
 
 #endif // GLUON_ENGINE_TEXTUREASSET_H

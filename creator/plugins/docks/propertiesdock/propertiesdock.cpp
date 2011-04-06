@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,29 +20,31 @@
 
 #include "propertiesdock.h"
 
-
 #include "widgets/propertywidget.h"
-#include "engine/game.h"
-#include "engine/component.h"
 #include "objectmanager.h"
 #include "historymanager.h"
+
+#include <engine/game.h>
+#include <engine/component.h>
 
 using namespace GluonCreator;
 
 class PropertiesDock::PropertiesDockPrivate
 {
     public:
-        PropertiesDockPrivate() { }
+        PropertiesDockPrivate(PropertyWidget* widget)
+            : widget(widget)
+        { }
 
         PropertyWidget* widget;
 };
 
 PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
-    : QDockWidget( title, parent, flags ), d( new PropertiesDockPrivate )
+    : QDockWidget( title, parent, flags )
+    , d( new PropertiesDockPrivate( new PropertyWidget( this ) ) )
 {
     setObjectName( "PropertiesDock" );
 
-    d->widget = new PropertyWidget( this );
     setWidget( d->widget );
 
     connect( SelectionManager::instance(), SIGNAL( selectionChanged( SelectionManager::SelectionList ) ), SLOT( selectionChanged( SelectionManager::SelectionList ) ) );
@@ -56,9 +59,8 @@ PropertiesDock::~PropertiesDock()
 
 void PropertiesDock::selectionChanged( SelectionManager::SelectionList selection )
 {
-    if( selection.empty() )
-        d->widget->clear();
-    else
+    d->widget->clear();
+    if( !selection.empty() )
         d->widget->setObject( selection.at( 0 ) );
 }
 

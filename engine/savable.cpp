@@ -20,13 +20,18 @@
 
 #include "savable.h"
 
-#include "core/gluonobject.h"
-#include "core/debughelper.h"
+#include "asset.h"
+
+#include <core/gluonobject.h>
+#include <core/debughelper.h>
+#include <core/gluon_global.h>
+#include <core/metainfo.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QDir>
 #include <QtCore/QVariant>
+#include <QtCore/QDebug>
 
 using namespace GluonEngine;
 
@@ -53,19 +58,14 @@ Savable::saveToFile( GluonCore::GluonObject* object )
         return true;
     }
 
-    // Make sure the filename is populated and is sane
-    if( object->property( "file" ).value<QUrl>().isEmpty() )
-        object->setProperty( "file", QVariant::fromValue<QUrl>( QUrl( QString( "Scenes/%1.gdl" ).arg( object->fullyQualifiedFileName() ) ) ) );
-
-    // Create appropriate folders
-    if( !QDir::current().exists( "Scenes" ) )
-        QDir::current().mkdir( "Scenes" );
+    QUrl file = Asset::fullyQualifiedFileName(object);
+    object->setProperty("file", file);
 
     // Make all the directories requires up to this file
-    QDir::current().mkpath( object->property( "file" ).value<QUrl>().toLocalFile().section( '/', 0, -2 ) );
+    QDir::current().mkpath(file.toLocalFile().section('/', 0, -2) );
 
     // Perform the save
-    QFile* savableFile = new QFile( object->property( "file" ).value<QUrl>().toLocalFile() );
+    QFile* savableFile = new QFile( file.toLocalFile() );
     if( !savableFile->open( QIODevice::WriteOnly ) )
     {
         DEBUG_TEXT( QString( "Could not write to file %1" ).arg( object->property( "file" ).value<QUrl>().toString() ) )

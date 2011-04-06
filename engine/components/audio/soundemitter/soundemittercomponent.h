@@ -71,6 +71,9 @@ namespace GluonEngine
             Q_INVOKABLE void setSound( Asset* asset );
             Q_INVOKABLE void setAutoPlay( bool autoPlay );
 
+        protected:
+            void populateMetaInfo(GluonCore::MetaInfo* info);
+
         private:
             class SoundEmitterComponentPrivate;
             SoundEmitterComponentPrivate* const d;
@@ -78,7 +81,6 @@ namespace GluonEngine
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SoundEmitterComponent )
 Q_DECLARE_METATYPE( GluonEngine::SoundEmitterComponent* )
 
 #endif // GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H
