@@ -113,7 +113,7 @@ Asset::file() const
 QString
 Asset::absolutePath() const
 {
-    return d->file.toLocalFile();
+    return GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile() + '/' + d->file.toLocalFile();
 }
 
 QIcon
