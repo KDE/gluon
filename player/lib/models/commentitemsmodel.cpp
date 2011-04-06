@@ -27,8 +27,6 @@
 #include <core/gluon_global.h>
 
 #include <engine/gameproject.h>
-
-#include <attica/comment.h>
 #include <attica/listjob.h>
 
 #include <QtCore/QDebug>

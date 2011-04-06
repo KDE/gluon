@@ -25,6 +25,7 @@
 
 #include <attica/providermanager.h>
 #include <attica/provider.h>
+#include <attica/comment.h>
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>

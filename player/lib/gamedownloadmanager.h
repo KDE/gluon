@@ -21,9 +21,9 @@
 #ifndef GLUONPLAYER_GAMEDOWNLOADMANAGER_H
 #define GLUONPLAYER_GAMEDOWNLOADMANAGER_H
 
-#include "gluon_player_export.h"
 #include <gluon/core/singleton.h>
 
+#include "gluon_player_export.h"
 #include <attica/content.h>
 #include <attica/listjob.h>
 

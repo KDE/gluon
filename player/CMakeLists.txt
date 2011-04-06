@@ -49,8 +49,11 @@ if(LIBATTICA_FOUND)
     endif(WITH_KDE)
 
     if(BUILD_PLASMOID)
-        include_directories(${KDE4_INCLUDES})
-       add_subdirectory(plasmoid)
+        find_package(KDE4)
+        if (KDE4_FOUND)
+            include_directories(${KDE4_INCLUDES})
+            add_subdirectory(plasmoid)
+        endif(KDE4_FOUND)
     endif(BUILD_PLASMOID)
 else(LIBATTICA_FOUND)
     target_link_libraries(

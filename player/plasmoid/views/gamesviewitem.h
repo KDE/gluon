@@ -45,6 +45,7 @@ class GamesViewItem : public QGraphicsWidget
     signals:
         void gameToPlaySelected( const QModelIndex& index );
         void gameSelected( const QModelIndex& index );
+        void gameToInstallSelected (const QModelIndex& index );
 
     protected:
         void layoutWidgets();
@@ -56,6 +57,7 @@ class GamesViewItem : public QGraphicsWidget
         Plasma::Label* m_gameName;
         Plasma::Label* m_gameDescription;
         Plasma::IconWidget* m_playButton;
+        Plasma::IconWidget* m_installButton;
         QGraphicsGridLayout* m_layout;
 };
 
