@@ -136,7 +136,7 @@ void CommentsView::reloadComments()
 void CommentsView::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
 {
     GluonPlayer::CommentsModel* model = static_cast<GluonPlayer::CommentsModel*>( m_model );
-    model->uploadComment( parentIndex, title, body );
+    //model->uploadComment( parentIndex, title, body );
     connect( model, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
     sender()->deleteLater();
 }

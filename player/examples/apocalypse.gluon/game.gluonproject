@@ -1,5 +1,5 @@
 { GluonEngine::GameProject(Apocalypse)
-    entryPoint GluonEngine::Scene(Apocalypse/Scenes/Level 1)
+    entryPoint GluonEngine::Scene(Apocalypse/Scenes/Menu)
     id string(140242)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Level 1)
@@ -55,7 +55,7 @@
             file url(assets/rendertarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(10)
+                texture0 uint(14)
             }
         }
         { GluonCore::GluonObject(Sounds)

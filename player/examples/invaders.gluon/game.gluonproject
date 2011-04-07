@@ -104,7 +104,7 @@
             file url(assets/render_target_material.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(27)
+                texture0 uint(20)
             }
         }
     }

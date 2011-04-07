@@ -39,6 +39,7 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Component )
 
             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
+            Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
 
         public:
@@ -73,6 +74,8 @@ namespace GluonEngine
              */
             float radius() const;
 
+            int targetGroup() const;
+
             /**
              * Is this object colliding with something?
              */
@@ -96,6 +99,8 @@ namespace GluonEngine
             void setRadius( float radius );
             void componentDestroyed( QObject* obj );
             void addComponent( SphereCollisionComponent* comp );
+
+            void setTargetGroup(int group);
 
             /*Q_SIGNALS:
                  *

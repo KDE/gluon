@@ -18,7 +18,7 @@
         }
         { GluonEngine::SoundListenerComponent(GluonObject 1)
             enabled bool(true)
-            active bool(true)
+            active bool(false)
             effectsEnabled bool(true)
         }
         { GluonEngine::SoundEmitterComponent(GluonObject 2)
@@ -48,6 +48,7 @@
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
+        expanded bool(false)
         { GluonEngine::UiManagerComponent(UiManagerComponent)
             enabled bool(true)
             size size2d(29;8)

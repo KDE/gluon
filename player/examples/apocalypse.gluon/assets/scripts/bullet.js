@@ -8,6 +8,7 @@ this.initialize = function()
 
 this.start = function()
 {
+    this.collider = this.GameObject.SphereCollisionComponent;
     this.life = this.Component.life;
 }
 

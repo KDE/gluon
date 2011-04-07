@@ -10,8 +10,28 @@
         orientation quaternion(0;0;0;1)
         { GluonEngine::UiManagerComponent(UiManagerComponent)
             enabled bool(true)
-            size size2d(1;1)
+            size size2d(100;100)
             ui GluonEngine::UiAsset(Apocalypse/Assets/Interface/Main Menu)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(16777235)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(16777237)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Enter)
+            enabled bool(true)
+            keyCode int(16777220)
+        }
+        { GluonEngine::CameraControllerComponent(CameraControllerComponent)
+            enabled bool(true)
+            active bool(true)
+            visibleArea size2d(100;100)
+            nearPlane float(1)
+            farPlane float(100)
+            renderTargetMaterial GluonGraphics::MaterialInstance(Apocalypse/Assets/RenderTarget/Main)
         }
     }
     { GluonEngine::GameObject(Menu Music)
@@ -30,7 +50,7 @@
         }
         { GluonEngine::SoundListenerComponent(SoundListenerComponent)
             enabled bool(true)
-            active bool(true)
+            active bool(false)
             effectsEnabled bool(true)
         }
     }
