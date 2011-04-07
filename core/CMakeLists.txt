@@ -18,11 +18,11 @@ endif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
 
 set(LIB_SUFFIX		    ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
 
-set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
-set(GLUON_VERSION_MINOR     71      CACHE STRING "Gluon Minor Version")
-set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
-set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
-set(GLUON_VERSION_NAME      "Electron" CACHE STRING "Gluon Version Name")
+set(GLUON_VERSION_MAJOR     0)
+set(GLUON_VERSION_MINOR     71)
+set(GLUON_VERSION_PATCH     0)
+set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
+set(GLUON_VERSION_NAME      "Electron")
 
 set(INCLUDE_INSTALL_DIR     ${CMAKE_INSTALL_PREFIX}/include             CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
 set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
