@@ -11,7 +11,6 @@ include_directories(
 	)
 
 set(libGluonPlayer_SRCS
-    gamedownloadmanager.cpp
     atticamanager.cpp
     authentication.cpp
 	models/gameviewitem.cpp
