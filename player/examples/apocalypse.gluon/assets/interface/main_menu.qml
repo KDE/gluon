@@ -115,9 +115,9 @@ Item {
     Component {
         id: buttonDelegate;
 
+        anchors.horizontalCenter: buttons.horizontalCenter;
         Text {
             id: button;
-            anchors.horizontalCenter: buttons.horizontalCenter;
 
             color: "#339933";
             SequentialAnimation on color {
