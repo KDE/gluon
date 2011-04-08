@@ -131,6 +131,8 @@ Item {
             id: button;
             anchors.horizontalCenter: parent.horizontalCenter;
 
+            anchors.horizontalCenter: parent.horizontalCenter;
+
             color: "#339933";
             SequentialAnimation on color {
                 running: button.state == "Current";
