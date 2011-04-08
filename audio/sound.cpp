@@ -177,7 +177,8 @@ bool Sound::load(const QString& fileName, bool toStream)
         d->_k_deleteSource();
     }
     d->path = fileName;
-    d->setupSource();
+    if( !d->setupSource() )
+		return false;
     d->isStreamed = toStream;
     if (d->isStreamed) {
         alureStreamSizeIsMicroSec(true);
