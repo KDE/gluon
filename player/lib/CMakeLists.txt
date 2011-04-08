@@ -5,7 +5,7 @@ find_package(LibAttica)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
-	${GLUON_ENGINE_INCLUDES} 
+	${GLUON_ENGINE_INCLUDES}
 	${GLUON_GRAPHICS_INCLUDES}
 	${LIBATTICA_INCLUDE_DIR}
 	)
@@ -16,6 +16,7 @@ set(libGluonPlayer_SRCS
 	models/gameviewitem.cpp
 	models/gameitemsmodel.cpp
 	models/commentitemsmodel.cpp
+	models/commentsmodel.cpp
 	models/highscoresmodel.cpp
 )
 
@@ -48,6 +49,7 @@ install(FILES
 	models/gameviewitem.h
 	models/gameitemsmodel.h
 	models/commentitemsmodel.h
+	models/commentsmodel.h
 	models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
     COMPONENT Devel
