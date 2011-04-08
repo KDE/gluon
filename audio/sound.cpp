@@ -55,7 +55,7 @@ class Sound::SoundPrivate
 
         void init()
         {
-            isValid = true;
+            isValid = false;
             isStreamed = false;
             isPaused = false;
             isStopped = true;
@@ -178,7 +178,7 @@ bool Sound::load(const QString& fileName, bool toStream)
     }
     d->path = fileName;
     if( !d->setupSource() )
-		return false;
+        return false;
     d->isStreamed = toStream;
     if (d->isStreamed) {
         alureStreamSizeIsMicroSec(true);
