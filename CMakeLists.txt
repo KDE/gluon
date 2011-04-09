@@ -27,6 +27,8 @@ else()
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
 
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
@@ -35,6 +37,7 @@ if(NOT MSVC)
 SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
 SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
+
 
 # Build Release by default
 IF (NOT CMAKE_BUILD_TYPE)
