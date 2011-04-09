@@ -47,6 +47,7 @@ GameWindowManager::GameWindowManager(const QString& /* filename */)
     : QObject()
     , d( new GameWindowManagerPrivate )
 {
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), GluonEngine::Game::instance(), SLOT( stopGame()));
 }
 
 GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view,
@@ -57,6 +58,7 @@ GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, 
     , m_gameItemsModel(gameItemsModel)
 {
     d->widget = renderWidget;
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), GluonEngine::Game::instance(), SLOT( stopGame()));
 }
 
 GameWindowManager::~GameWindowManager ( )
@@ -78,8 +80,8 @@ void GameWindowManager::startGame( )
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
+    d->widget->setFocus();
     GluonEngine::Game::instance()->runGame();
-    QApplication::instance()->exit();
 }
 
 void GameWindowManager::pauseGame()
