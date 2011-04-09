@@ -43,7 +43,7 @@ int main( int argc, char** argv )
     GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
 
     QDeclarativeView view;
-    GluonGraphics::RenderWidget renderWidget;
+    GluonGraphics::RenderWidget renderWidget(&view);
     renderWidget.initializeGL();
     GluonQMLPlayer::GameWindowManager gameWindowManager(&renderWidget, &view, &gameItemsModel);
 
@@ -59,6 +59,7 @@ int main( int argc, char** argv )
 
     view.setSource( QUrl( "qrc:/main.qml" ) );
     view.setViewport(&renderWidget);
+    view.setFocus();
     view.show();
 
     QObject* obj = view.rootObject();
