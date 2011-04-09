@@ -8,13 +8,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(Qt4 4.6 REQUIRED)
 
-set(_Init_LIB_SUFFIX "")
 if ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
    set(_Init_LIB_SUFFIX 64)
-endif ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
-if ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
+elseif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
    set(_Init_LIB_SUFFIX 32)
-endif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
+endif ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
 
 set(LIB_SUFFIX		    ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
 
@@ -89,7 +87,7 @@ set(GLUON_CORE_LIBS
     CACHE PATHS "Libraries required for Gluon Core"
 )
 
-set_target_properties(GluonCore PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CORE_LIB)
+set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CORE_LIB)
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework
