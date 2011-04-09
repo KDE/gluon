@@ -72,7 +72,7 @@ Item {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.bottom: help.bottom;
+            anchors.bottom: parent.bottom;
             anchors.bottomMargin: 20;
 
             SequentialAnimation on color {
@@ -115,9 +115,9 @@ Item {
     Component {
         id: buttonDelegate;
 
-        anchors.horizontalCenter: buttons.horizontalCenter;
         Text {
             id: button;
+            anchors.horizontalCenter: parent.horizontalCenter;
 
             color: "#339933";
             SequentialAnimation on color {
