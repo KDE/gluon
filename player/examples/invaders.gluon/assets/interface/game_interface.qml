@@ -132,9 +132,11 @@ Item {
 
                 anchors.horizontalCenter: parent.horizontalCenter;
 
-                font.pointSize: 32;
-                font.bold: true;
-                font.capitalization: Font.SmallCaps;
+                font {
+                    pointSize: 32;
+                    bold: true;
+                    capitalization: Font.SmallCaps;
+                }
 
                 color: "#ffffff";
                 opacity: 0;
@@ -147,9 +149,11 @@ Item {
 
                 anchors.horizontalCenter: parent.horizontalCenter;
 
-                font.pointSize: 14;
-                font.bold: true;
-                font.capitalization: Font.SmallCaps;
+                font {
+                    pointSize: 14;
+                    bold: true;
+                    capitalization: Font.SmallCaps;
+                }
 
                 color: "#ffffff";
                 opacity: 0;
@@ -162,9 +166,11 @@ Item {
 
                 anchors.horizontalCenter: parent.horizontalCenter;
 
-                font.pointSize: 14;
-                font.bold: true;
-                font.capitalization: Font.SmallCaps;
+                font {
+                    pointSize: 14;
+                    bold: true;
+                    capitalization: Font.SmallCaps;
+                }
 
                 color: "#ffffff";
                 opacity: 0;
@@ -228,9 +234,11 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter;
 
             text: buttonText;
-            font.pointSize: 14;
-            font.bold: true;
-            font.capitalization: Font.SmallCaps;
+            font {
+                pointSize: 14;
+                bold: true;
+                capitalization: Font.SmallCaps;
+            }
 
             color: "#ffffff";
 

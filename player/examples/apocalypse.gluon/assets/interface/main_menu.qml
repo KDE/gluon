@@ -9,27 +9,33 @@ Item {
 
     Text {
         id: title;
-        anchors.top: parent.top;
-        anchors.topMargin: parent.height / 4;
-        anchors.horizontalCenter: parent.horizontalCenter;
+        anchors {
+            top: parent.top;
+            topMargin: parent.height / 4;
+            horizontalCenter: parent.horizontalCenter;
+        }
 
         color: "#339933";
 
         text: "Electron Apocalypse";
 
-        font.bold: true;
-        font.pointSize: 20;
-        font.capitalization: Font.SmallCaps;
+        font {
+            bold: true;
+            pointSize: 20;
+            capitalization: Font.SmallCaps;
+        }
     }
 
     ListView {
         id: buttons;
 
-        anchors.top: title.bottom;
-        anchors.topMargin: 40;
-        anchors.horizontalCenter: parent.horizontalCenter;
-        anchors.bottom: parent.bottom;
-        anchors.bottomMargin: 40;
+        anchors {
+            top: title.bottom;
+            topMargin: 40;
+            horizontalCenter: parent.horizontalCenter;
+            bottom: parent.bottom;
+            bottomMargin: 40;
+        }
 
         width: parent.width / 2;
 
@@ -46,10 +52,12 @@ Item {
         id: help;
         anchors.fill: parent;
 
-        anchors.topMargin: 20;
-        anchors.leftMargin: 20;
-        anchors.rightMargin: 20;
-        anchors.bottomMargin: 20;
+        anchors {
+            topMargin: 20;
+            leftMargin: 20;
+            rightMargin: 20;
+            bottomMargin: 20;
+        }
 
         color: "#339933";
 
@@ -71,9 +79,11 @@ Item {
         }
 
         Text {
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.bottom: parent.bottom;
-            anchors.bottomMargin: 20;
+            anchors {
+                horizontalCenter: parent.horizontalCenter;
+                bottom: parent.bottom;
+                bottomMargin: 20;
+            }
 
             SequentialAnimation on color {
                 loops: Animation.Infinite;
@@ -81,8 +91,10 @@ Item {
                 ColorAnimation { to: "#339933"; duration: 1000; }
             }
             opacity: 1.0;
-            font.bold: true;
-            font.pointSize: 16;
+            font {
+                bold: true;
+                pointSize: 16;
+            }
 
             text: "Close";
 

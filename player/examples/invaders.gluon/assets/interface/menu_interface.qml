@@ -5,32 +5,38 @@ Item {
     id: root;
     width: 500;
     height: 500;
-    
+
     property bool ignoreFirst: true;
 
     Text {
         id: title;
-        anchors.top: parent.top;
-        anchors.topMargin: parent.height / 2;
-        anchors.horizontalCenter: parent.horizontalCenter;
+        anchors {
+            top: parent.top;
+            topMargin: parent.height / 2;
+            horizontalCenter: parent.horizontalCenter;
+        }
 
         color: "#ffffff";
 
         text: "X-Ray Invaders";
 
-        font.bold: true;
-        font.pointSize: 20;
-        font.capitalization: Font.SmallCaps;
+        font {
+            bold: true;
+            pointSize: 20;
+            capitalization: Font.SmallCaps;
+        }
     }
 
     ListView {
         id: buttons;
 
-        anchors.top: title.bottom;
-        anchors.topMargin: 40;
-        anchors.horizontalCenter: parent.horizontalCenter;
-        anchors.bottom: parent.bottom;
-        anchors.bottomMargin: 40;
+        anchors {
+            top: title.bottom;
+            topMargin: 40;
+            horizontalCenter: parent.horizontalCenter;
+            bottom: parent.bottom;
+            bottomMargin: 40;
+        }
 
         width: parent.width / 2;
 
@@ -45,12 +51,13 @@ Item {
 
     Rectangle {
         id: help;
-        anchors.fill: parent;
-
-        anchors.topMargin: 20;
-        anchors.leftMargin: 20;
-        anchors.rightMargin: 20;
-        anchors.bottomMargin: 20;
+        anchors {
+            fill: parent;
+            topMargin: 20;
+            leftMargin: 20;
+            rightMargin: 20;
+            bottomMargin: 20;
+        }
 
         color: "#484C52";
         border.color: "#ffffff";
@@ -74,9 +81,11 @@ Item {
         }
 
         Text {
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.bottom: help.bottom;
-            anchors.bottomMargin: 20;
+            anchors {
+                horizontalCenter: parent.horizontalCenter;
+                bottom: help.bottom;
+                bottomMargin: 20;
+            }
 
             SequentialAnimation on color {
                 loops: Animation.Infinite;
@@ -84,8 +93,10 @@ Item {
                 ColorAnimation { to: "#ffffff"; duration: 1000; }
             }
             opacity: 1.0;
-            font.bold: true;
-            font.pointSize: 16;
+            font {
+                bold: true;
+                pointSize: 16;
+            }
 
             text: "Close";
 
@@ -134,8 +145,10 @@ Item {
                 anchors.centerIn: parent;
 
                 color: "#ffffff";
-                font.pointSize: 14;
-                font.capitalization: Font.SmallCaps;
+                font {
+                    pointSize: 14;
+                    capitalization: Font.SmallCaps;
+                }
 
                 text: buttonText;
             }
