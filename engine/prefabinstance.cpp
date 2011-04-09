@@ -32,7 +32,7 @@ public:
         : prefabLink(0)
     {
     }
-    
+
     Prefab* prefabLink;
 };
 
@@ -70,7 +70,7 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
     if(d->prefabLink)
     {
         d->prefabLink->addInstance(this);
-    
+
         // Then (if the new prefab is valid, and we are not loading the containing scene from disk)
         // remove the old children, and clone from the new prefab
         if(isInitialized())
@@ -87,7 +87,7 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
             {
                 setProperty(propName, QVariant());
             }
-            
+
             // Clone the property values from the gameObject in the prefab
             GameObject* gobj = d->prefabLink->gameObject();
             propertyNames = gobj->dynamicPropertyNames();
@@ -106,18 +106,18 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
                     continue;
                 setProperty( theName.toUtf8(), gobj->property( theName.toUtf8() ) );
             }
-            
+
             // Clone all the GameObject children
             const int childCount = gobj->childCount();
             if(childCount > 0)
             {
                 for(int i = 0; i < childCount; ++i)
                 {
-                    GameObject* childGobj = gobj->childGameObject(i);
+                    // GameObject* childGobj = gobj->childGameObject(i);
                     // Clone this GameObject as a PrefabInstanceChild...
                 }
             }
-            
+
             // Clone all the Components
             foreach(Component* cmp, gobj->components())
             {

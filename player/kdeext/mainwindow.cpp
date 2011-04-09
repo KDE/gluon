@@ -66,7 +66,7 @@ class MainWindow::MainWindowPrivate
         int frameCount;
 };
 
-MainWindow::MainWindow(const QString& filename )
+MainWindow::MainWindow(const QString& /* filename */ )
     : KXmlGuiWindow()
     , d( new MainWindowPrivate )
     , m_gamesOverlay( new GamesOverlay( this ) )

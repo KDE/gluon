@@ -216,7 +216,7 @@ QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const
     return QVariant();
 }
 
-int CommentItemsModel::rowCount( const QModelIndex& parent ) const
+int CommentItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return m_nodes.count();
 }

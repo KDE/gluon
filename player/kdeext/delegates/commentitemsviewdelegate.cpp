@@ -165,9 +165,9 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
 }
 
 // draws the preview
-void CommentItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+void CommentItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& /* index */) const
 {
-    int margin = option.fontMetrics.height() / 2;
+    // int margin = option.fontMetrics.height() / 2;
 
     QStyle *style = QApplication::style();
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, 0);
