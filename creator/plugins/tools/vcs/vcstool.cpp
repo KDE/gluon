@@ -149,7 +149,7 @@ void VcsTool::pull()
 {
 }
 
-void VcsTool::currentProjectChanged( GluonEngine::GameProject* project )
+void VcsTool::currentProjectChanged( GluonEngine::GameProject* /* project */ )
 {
     KConfigGroup kcg;
     loadVersionControlPlugin(kcg);

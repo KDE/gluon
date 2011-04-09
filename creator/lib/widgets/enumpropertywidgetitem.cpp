@@ -136,7 +136,7 @@ EnumPropertyWidgetItem::setEditObject( QObject* editThis )
 void
 EnumPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    int key = value.toInt();
+    // int key = value.toInt();
     d->comboBox->setCurrentIndex( d->comboBox->findData( value ) );
     GluonCreator::PropertyWidgetItem::setEditValue( value );
 }

@@ -141,7 +141,7 @@ void ItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & op
         painter->setPen(QPen(option.palette.text().color()));
     }
 
-    const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
+    // const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
 
     // if (realmodel->hasPreviewImages()) {
     int height = option.rect.height();
