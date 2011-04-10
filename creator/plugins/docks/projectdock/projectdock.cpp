@@ -320,8 +320,16 @@ void ProjectDock::deleteActionTriggered()
     if( !d->currentContextIndex.isValid() )
         return;
 
-
     GluonCore::GluonObject* object = static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() );
+
+    GluonCore::ReferenceCounter* counter = dynamic_cast<GluonCore::ReferenceCounter*>(object);
+    if(counter && counter->count() > 0)
+    {
+        QString objs = i18ncp("For shortening of the dialog text", "%1 other object", "%1 other objects", counter->count());
+        KMessageBox::error(this, i18n("The object %1 is currently referenced by %2. Please remove these references before deleting the object.", object->name(), objs), i18n("Object in use"));
+        return;
+    }
+
     DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
     if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!" ).arg( object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
