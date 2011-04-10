@@ -30,7 +30,6 @@
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QGridLayout>
-#include <QtGui/QStackedWidget>
 #include <QtGui/QTableView>
 #include <QtGui/QListView>
 #include <QtGui/QSortFilterProxyModel>
