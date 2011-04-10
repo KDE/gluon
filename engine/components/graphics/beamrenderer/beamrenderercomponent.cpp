@@ -54,6 +54,7 @@ class BeamRendererComponent::Private
         }
 
         void loadMaterial(GluonGraphics::MaterialInstance* material);
+        void acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release);
 
         GluonGraphics::Item* baseItem;
         GluonGraphics::Item* beamItem;
@@ -74,6 +75,9 @@ BeamRendererComponent::BeamRendererComponent( QObject* parent )
 
 BeamRendererComponent::~BeamRendererComponent()
 {
+    d->acquireReleaseMaterial(0, d->baseMaterial);
+    d->acquireReleaseMaterial(0, d->beamMaterial);
+    d->acquireReleaseMaterial(0, d->tipMaterial);
     delete d;
 }
 
@@ -178,9 +182,7 @@ BeamRendererComponent::baseMaterial()
 
 void BeamRendererComponent::setBaseMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if( !material )
-        return;
-
+    d->acquireReleaseMaterial(material, d->baseMaterial);
     d->baseMaterial = material;
 
     if( d->baseItem )
@@ -200,9 +202,7 @@ BeamRendererComponent::beamMaterial()
 
 void BeamRendererComponent::setBeamMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if( !material )
-        return;
-
+    d->acquireReleaseMaterial(material, d->beamMaterial);
     d->beamMaterial = material;
 
     if( d->beamItem )
@@ -222,9 +222,7 @@ BeamRendererComponent::tipMaterial()
 
 void BeamRendererComponent::setTipMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if( !material )
-        return;
-
+    d->acquireReleaseMaterial(material, d->tipMaterial);
     d->tipMaterial = material;
 
     if( d->tipItem )
@@ -247,6 +245,23 @@ void BeamRendererComponent::Private::loadMaterial( GluonGraphics::MaterialInstan
         texture->load();
 }
 
+void BeamRendererComponent::Private::acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release )
+{
+    if(release)
+    {
+        release->deref();
+        Asset* materialAsset = qobject_cast<Asset*>( release->parent() );
+        if(materialAsset)
+            materialAsset->deref();
+    }
+    if(acquire)
+    {
+        acquire->ref();
+        Asset* materialAsset = qobject_cast<Asset*>( acquire->parent() );
+        if(materialAsset)
+            materialAsset->ref();
+    }
+}
 
 Q_EXPORT_PLUGIN2( gluon_component_beamrenderer, GluonEngine::BeamRendererComponent )
 

@@ -181,6 +181,9 @@ UiManagerComponent::UiManagerComponent( const UiManagerComponent& other )
 
 UiManagerComponent::~UiManagerComponent()
 {
+    if(d->ui)
+        d->ui->deref();
+
     delete d;
 }
 
@@ -329,7 +332,13 @@ void UiManagerComponent::setUi(UiAsset* ui)
         return;
     }
 
+    if(d->ui)
+        d->ui->deref();
+
     d->ui = ui;
+
+    if(d->ui)
+        d->ui->ref();
 
     connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );
 }

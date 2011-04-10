@@ -73,6 +73,10 @@ SoundEmitterComponent::~SoundEmitterComponent()
 {
     if ( d->sound->isValid() )
         d->sound->stop();
+
+    if(d->asset)
+        d->asset->deref();
+
     d->sound->deleteLater();
     delete d;
 }
@@ -95,11 +99,19 @@ Asset* SoundEmitterComponent::sound()
 
 void SoundEmitterComponent::setSound( Asset* asset )
 {
+    if(d->asset)
+        d->asset->deref();
+
     if(!asset)
+    {
+        d->asset = 0;
         return;
+    }
 
     d->asset = asset;
-    if (asset->data()->hasText()) {
+    d->asset->ref();
+    if (asset->data()->hasText())
+    {
         //debug(asset->data()->text());
         d->sound->load( asset->data()->text() ) ;
     }
