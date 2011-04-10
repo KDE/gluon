@@ -41,6 +41,7 @@ set(GluonCore_SRCS
     gluonobject.cpp
     gluonobjectfactory.cpp
     scriptengine.cpp
+    referencecounter.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QVector2D.cpp
@@ -61,6 +62,7 @@ set(GluonCore_HEADERS
     scriptengine.h
     gluon_core_export.h
     gluonvarianttypes.h
+    referencecounter.h
 
     ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
