@@ -25,7 +25,14 @@
 #include <QtCore/QTime>
 #include <QtCore/QFile>
 
-#include <al.h>
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#elif defined(Q_WS_MAC)
+#include <OpenAL/al.h>
+#elif defined(Q_WS_WIN)
+#include <AL/al.h>
+#endif
+
 #include <alc.h>
 #include <sndfile.h>
 

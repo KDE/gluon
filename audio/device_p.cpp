@@ -21,9 +21,10 @@
 
 #ifdef Q_WS_X11
 #include <AL/al.h>
-#endif
-#ifdef Q_WS_MAC
+#elif defined(Q_WS_MAC)
 #include <OpenAL/al.h>
+#elif defined(Q_WS_WIN)
+#include <AL/al.h>
 #endif
 
 using namespace GluonAudio;

@@ -21,7 +21,7 @@
 
 #include <QtCore/QStringList>
 #include <QtGui/QVector3D>
-#include "alure/include/AL/alure.h"
+#include <AL/alure.h>
 
 using namespace GluonAudio;
 

@@ -5,20 +5,12 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
 endif()
 
-add_subdirectory(alure)
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
 
-
-# Needed to link against a static lib on 64bits Linux
-IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND UNIX )
-  #add_definitions("-fPIC")
-  SET_TARGET_PROPERTIES(alure-static PROPERTIES COMPILE_FLAGS -fPIC)
-ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND UNIX )
 
 link_directories(
     ${SNDFILE_LIBRARY_DIRS}
@@ -76,12 +68,6 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonAudio GluonCore)
 endif()
 
-IF(WIN32)
-    SET(ALURE_LIBRARY ALURE32-static)
-ELSE(WIN32)
-    SET(ALURE_LIBRARY alure-static)
-ENDIF(WIN32)
-
 target_link_libraries(
     GluonAudio
     ${GLUON_CORE_LIBS}
@@ -89,7 +75,6 @@ target_link_libraries(
     ${SNDFILE_LIBRARIES}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
-    ${ALURE_LIBRARY}
 )
 
 set(GLUON_AUDIO_LIBS
@@ -102,7 +87,7 @@ set(GLUON_AUDIO_LIBS
     CACHE PATHS "Libraries required for Gluon audio"
 )
 
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB -DALURE_STATIC_LIBRARY")
+set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB")
 
 if(APPLE)
 	#hack for being able to set headers as public in a osx framework

@@ -17,12 +17,20 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef GLUON_AUDIO_SOUND_H
 #define GLUON_AUDIO_SOUND_H
 
 #include <QtCore/QObject>
+
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#elif defined(Q_WS_MAC)
+#include <OpenAL/al.h>
+#elif defined(Q_WS_WIN)
+#include <AL/al.h>
+#endif
 #include <QtGui/QVector3D>
-#include <al.h>
 
 #include "gluon_audio_export.h"
 
