@@ -10,10 +10,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(OggVorbis REQUIRED)
-
+find_package(Alure 1.1 REQUIRED)
 
 link_directories(
     ${SNDFILE_LIBRARY_DIRS}
+    ${ALURE_LIBRARIES}
 )
 
 include_directories(
@@ -27,6 +28,7 @@ include_directories(
     ${SNDFILE_INCLUDE_DIR}
     ${OGG_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
+    ${ALURE_INCLUDE_DIRS}
 )
 
 set(GLUON_AUDIO_INCLUDES
@@ -36,6 +38,7 @@ set(GLUON_AUDIO_INCLUDES
     ${SNDFILE_INCLUDE_DIR}
     ${OGG_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
+    ${ALURE_INCLUDE_DIRS}
     CACHE PATHS "Includes required for Gluon Audio"
 )
 
