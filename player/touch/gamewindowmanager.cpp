@@ -19,11 +19,21 @@
 
 #include "gamewindowmanager.h"
 
+#include "lib/models/gameviewitem.h"
+#include "lib/models/gameitemsmodel.h"
+#include "lib/models/commentitemsmodel.h"
+#include "lib/authentication.h"
+
 #include <input/inputmanager.h>
-
 #include <engine/scene.h>
+#include <graphics/renderwidget.h>
 
+#include <QtDeclarative/QDeclarativeView>
+#include <QtDeclarative/QDeclarativeContext>
+#include <QtDeclarative>
+#include <QtGui/QGraphicsObject>
 #include <QtGui/QApplication>
+#include <QtGui/QStackedWidget>
 #include <QtCore/QTimer>
 #include <QtCore/QDebug>
 
@@ -32,42 +42,79 @@ using namespace GluonQMLPlayer;
 class GameWindowManager::GameWindowManagerPrivate
 {
     public:
-        GameWindowManagerPrivate() {}
+        GameWindowManagerPrivate()
+            : stackedWidget( new QStackedWidget( 0 ) )
+            , gameItemsModel( new GluonPlayer::GameItemsModel() )
+            , commentItemsModel( 0 )
+            , auth( 0 )
+            , declarativeView( new QDeclarativeView(stackedWidget) )
+            , renderWidget( new GluonGraphics::RenderWidget(stackedWidget) )
+            , ctxt( 0 )
+        {
+        }
 
-        GluonGraphics::RenderWidget* widget;
+        ~GameWindowManagerPrivate()
+        {
+            delete stackedWidget;
+            delete gameItemsModel;
+            delete commentItemsModel;
+        }
 
         QString title;
         QString fileName;
 
         int msecElapsed;
         int frameCount;
+
+        QStackedWidget *stackedWidget;
+        GluonPlayer::GameItemsModel *gameItemsModel;
+        GluonPlayer::CommentItemsModel *commentItemsModel;
+        GluonPlayer::Authentication* auth;
+
+        QDeclarativeView *declarativeView;
+        GluonGraphics::RenderWidget* renderWidget;
+        QDeclarativeContext *ctxt;
+        QObject* rootObj;
+        QObject* login;
 };
 
-GameWindowManager::GameWindowManager(const QString& /* filename */)
+GameWindowManager::GameWindowManager( const QString& /* filename */ )
     : QObject()
     , d( new GameWindowManagerPrivate )
 {
-    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), GluonEngine::Game::instance(), SLOT( stopGame()));
-}
+    d->auth = GluonPlayer::Authentication::instance();
+    d->renderWidget->initializeGL();
 
-GameWindowManager::GameWindowManager(GluonGraphics::RenderWidget* renderWidget, QGraphicsView* view,
-                                    GluonPlayer::GameItemsModel* gameItemsModel, const QString& /* filename */ )
-    : QObject()
-    , d( new GameWindowManagerPrivate )
-    , m_view(view)
-    , m_gameItemsModel(gameItemsModel)
-{
-    d->widget = renderWidget;
+    d->ctxt = d->declarativeView->rootContext();
+    d->ctxt->setContextProperty( "authentication", d->auth );
+    d->ctxt->setContextProperty( "gameItemsModel", d->gameItemsModel );
+    d->ctxt->setContextProperty( "commentItemsModel", d->commentItemsModel );
+    d->ctxt->setContextProperty( "gameWindowManager", this );
+
+    // Note QML enum handling is more or less bonkers at the moment
+    // It should be removed after the QML enum support is not that flaky
+    qmlRegisterUncreatableType<GluonPlayer::GameViewItem>("GluonPlayerGameViewItem", 1, 0, "GameViewItem", QString("Support the Status enumeration"));
+
+    d->declarativeView->setSource( QUrl( "qrc:/main.qml" ) );
+
+    d->rootObj = d->declarativeView->rootObject();
+    d->login = d->rootObj->findChild<QObject*>( "login" );
+    QObject::connect( d->auth, SIGNAL( initialized() ), d->login, SLOT( providerSet() ) );
+
+    d->stackedWidget->addWidget(d->declarativeView);
+    d->stackedWidget->addWidget(d->renderWidget);
+    d->stackedWidget->setCurrentIndex(0);
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), GluonEngine::Game::instance(), SLOT( stopGame()));
 }
 
 GameWindowManager::~GameWindowManager ( )
 {
+    delete d;
 }
 
 bool GameWindowManager::isViewportGLWidget( )
 {
-    return qobject_cast<QGLWidget*>(m_view);
+    return qobject_cast<QGLWidget*>(d->declarativeView);
 }
 
 void GameWindowManager::startGame( )
@@ -80,7 +127,8 @@ void GameWindowManager::startGame( )
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
-    d->widget->setFocus();
+    d->stackedWidget->setCurrentIndex(1);
+    d->renderWidget->setFocus();
     GluonEngine::Game::instance()->runGame();
 }
 
@@ -92,29 +140,30 @@ void GameWindowManager::pauseGame()
 
 void GameWindowManager::stopGame()
 {
+    // d->stackedWidget->setCurrentIndex(0);
     GluonEngine::Game::instance()->stopGame();
 }
 
 void GameWindowManager::setProject( int index )
 {
-    m_gameFileName = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
+    m_gameFileName = d->gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::ProjectFileNameRole).toString();
     openProject();
 }
 
 int GameWindowManager::availableGamesCount( ) const
 {
-    return m_gameItemsModel->rowCount();
+    return d->gameItemsModel->rowCount();
 }
 
 void GameWindowManager::buildCommentsModel( int index )
 {
-    QString gameID = m_gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::IDRole).toString();
+    QString gameID = d->gameItemsModel->index(index).data(GluonPlayer::GameItemsModel::IDRole).toString();
     if( gameID.isEmpty() )
     {
         return;
     }
 
-    m_commentItemsModel = new GluonPlayer::CommentItemsModel( gameID );
+    d->commentItemsModel = new GluonPlayer::CommentItemsModel( gameID );
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )
@@ -130,11 +179,11 @@ void GameWindowManager::openProject()
         return;
     }
 
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->renderWidget, SLOT( updateGL() ) );
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
-    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
+    GluonInput::InputManager::instance()->setFilteredObject(d->renderWidget);
     QTimer::singleShot( 1000, this, SLOT( startGame() ) );
 }
 
@@ -165,22 +214,27 @@ void GameWindowManager::countFrames( int /* time */ )
 
 GluonPlayer::GameItemsModel* GameWindowManager::gameItemsModel() const
 {
-    return m_gameItemsModel;
+    return d->gameItemsModel;
 }
 
 void GameWindowManager::setGameItemsModel(GluonPlayer::GameItemsModel* gameItemsModel)
 {
-    m_gameItemsModel = gameItemsModel;
+    d->gameItemsModel = gameItemsModel;
 }
 
 GluonPlayer::CommentItemsModel* GameWindowManager::commentItemsModel() const
 {
-    return m_commentItemsModel;
+    return d->commentItemsModel;
 }
 
 void GameWindowManager::setCommentItemsModel(GluonPlayer::CommentItemsModel* commentItemsModel)
 {
-    m_commentItemsModel = commentItemsModel;
+    d->commentItemsModel = commentItemsModel;
+}
+
+void GameWindowManager::show()
+{
+    d->stackedWidget->show();
 }
 
 #include "gamewindowmanager.moc"

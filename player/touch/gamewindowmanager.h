@@ -34,15 +34,10 @@
 #include <QtCore/QModelIndex>
 
 namespace GluonQMLPlayer {
-    /**
-     * The main window of the KDE Player frontend
-     */
     class GameWindowManager: public QObject
     {
         Q_OBJECT
         public:
-            explicit GameWindowManager( GluonGraphics::RenderWidget* renderWidget,
-                    QGraphicsView* view, GluonPlayer::GameItemsModel* gameItemsModel, const QString& fileName = "" );
             explicit GameWindowManager( const QString& fileName = "" );
             virtual ~GameWindowManager();
 
@@ -56,6 +51,8 @@ namespace GluonQMLPlayer {
 
             GluonPlayer::CommentItemsModel* commentItemsModel() const;
             void setCommentItemsModel(GluonPlayer::CommentItemsModel* commentItemsModel);
+
+            void show();
 
         public slots:
             void startGame();
@@ -76,11 +73,6 @@ namespace GluonQMLPlayer {
 
             QString m_gameFileName;
             GluonEngine::GameProject* m_project;
-
-            QGraphicsView* m_view;
-            GluonPlayer::GameItemsModel* m_gameItemsModel;
-
-            GluonPlayer::CommentItemsModel* m_commentItemsModel;
 
             int m_viewportWidth;
             int m_viewportHeight;

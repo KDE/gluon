@@ -19,17 +19,6 @@
 
 #include "gamewindowmanager.h"
 
-#include "lib/models/gameviewitem.h"
-#include "lib/models/gameitemsmodel.h"
-#include "lib/models/commentitemsmodel.h"
-#include "lib/authentication.h"
-
-#include <graphics/renderwidget.h>
-
-#include <QtDeclarative/QDeclarativeView>
-#include <QtDeclarative/QDeclarativeContext>
-#include <QtDeclarative>
-#include <QtGui/QGraphicsObject>
 #include <QtGui/QApplication>
 
 int main( int argc, char** argv )
@@ -38,33 +27,8 @@ int main( int argc, char** argv )
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon QML Player" );
 
-    GluonPlayer::GameItemsModel gameItemsModel;
-    GluonPlayer::CommentItemsModel commentItemsModel;
-    GluonPlayer::Authentication* auth = GluonPlayer::Authentication::instance();
-
-    QDeclarativeView view;
-    GluonGraphics::RenderWidget renderWidget(&view);
-    renderWidget.initializeGL();
-    GluonQMLPlayer::GameWindowManager gameWindowManager(&renderWidget, &view, &gameItemsModel);
-
-    QDeclarativeContext *ctxt = view.rootContext();
-    ctxt->setContextProperty( "authentication", auth );
-    ctxt->setContextProperty( "gameItemsModel", &gameItemsModel );
-    ctxt->setContextProperty( "commentItemsModel", &commentItemsModel );
-    ctxt->setContextProperty( "gameWindowManager", &gameWindowManager );
-
-	// Note QML enum handling is more or less bonkers at the moment
-	// It should be removed after the QML enum support is not that flaky
-	qmlRegisterUncreatableType<GluonPlayer::GameViewItem>("GluonPlayerGameViewItem", 1, 0, "GameViewItem", QString("Support the Status enumeration"));
-
-    view.setSource( QUrl( "qrc:/main.qml" ) );
-    view.setViewport(&renderWidget);
-    view.setFocus();
-    view.show();
-
-    QObject* obj = view.rootObject();
-    QObject* login = obj->findChild<QObject*>( "login" );
-    QObject::connect( auth, SIGNAL( initialized() ), login, SLOT( providerSet() ) );
+    GluonQMLPlayer::GameWindowManager gameWindowManager;
+    gameWindowManager.show();
 
     return app.exec();
 }
