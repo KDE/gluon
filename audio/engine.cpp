@@ -91,6 +91,7 @@ QStringList Engine::deviceList()
     for (int i = 0; i < size; i++) {
         devices << QString(_devices[i]);
     }
+    alureFreeDeviceNames(_devices);
     return devices;
 }
 
