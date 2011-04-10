@@ -23,6 +23,7 @@
 #include "gluon_graphics_export.h"
 
 #include <core/gluonobject.h>
+#include <core/referencecounter.h>
 
 namespace GluonGraphics
 {
@@ -46,7 +47,7 @@ namespace GluonGraphics
      * will need to calculate the model-view-projection matrix from those
      * values in the vertex shader.
      */
-    class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject
+    class GLUON_GRAPHICS_EXPORT MaterialInstance : public GluonCore::GluonObject, public GluonCore::ReferenceCounter
     {
             Q_OBJECT
             GLUON_OBJECT( GluonGraphics::MaterialInstance )

@@ -24,6 +24,7 @@
 #include "gluon_engine_export.h"
 
 #include <core/gluonobject.h>
+#include <core/referencecounter.h>
 
 #include <QtPlugin>
 #include <QtGui/QIcon>
@@ -79,7 +80,7 @@ namespace GluonEngine
      * The Asset class is a fat interface used to allow file access to GluonEngine based
      * games without allowing direct access to the file system.
      */
-    class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject
+    class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject, public GluonCore::ReferenceCounter
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::Asset )
