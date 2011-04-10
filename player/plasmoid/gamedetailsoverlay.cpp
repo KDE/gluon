@@ -22,7 +22,7 @@
 #include "views/achievementsview.h"
 #include "views/commentsview.h"
 
-#include "lib/models/commentitemsmodel.h"
+#include "lib/models/commentsmodel.h"
 #include "lib/models/highscoresmodel.h"
 
 #include <KDE/Plasma/TabBar>
@@ -47,7 +47,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QGraphicsItem* parent, Q
 
     m_achievementsView = new AchievementsView( this );
 
-    m_commentsModel = new GluonPlayer::CommentItemsModel( gameId );
+    m_commentsModel = new GluonPlayer::CommentsModel( gameId );
     m_commentsView = new CommentsView( this );
     m_commentsView->setModel( m_commentsModel );
 
