@@ -24,7 +24,14 @@
 #include <QHash>
 #include <core/singleton.h>
 #include "gluon_audio_export.h"
-#include <al.h>
+
+#ifdef Q_WS_X11
+#include <AL/al.h>
+#elif defined(Q_WS_MAC)
+#include <OpenAL/al.h>
+#elif defined(Q_WS_WIN)
+#include <AL/al.h>
+#endif
 
 namespace GluonAudio
 {
