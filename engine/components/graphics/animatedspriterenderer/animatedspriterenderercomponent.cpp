@@ -107,6 +107,13 @@ AnimatedSpriteRendererComponent::AnimatedSpriteRendererComponent( QObject* paren
 
 AnimatedSpriteRendererComponent::~AnimatedSpriteRendererComponent()
 {
+    if(d->material)
+    {
+        d->material->deref();
+        Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
+        if(materialAsset)
+            materialAsset->deref();
+    }
     delete d;
 }
 
@@ -271,7 +278,22 @@ AnimatedSpriteRendererComponent::material()
 
 void AnimatedSpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
+    if(d->material)
+    {
+        d->material->deref();
+        Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
+        if(materialAsset)
+            materialAsset->deref();
+    }
+
     d->material = material;
+    if(d->material)
+    {
+        d->material->ref();
+        Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
+        if(materialAsset)
+            materialAsset->ref();
+    }
 
     if( d->item )
     {

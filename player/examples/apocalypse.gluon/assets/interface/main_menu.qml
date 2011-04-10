@@ -129,7 +129,6 @@ Item {
 
         Text {
             id: button;
-            anchors.horizontalCenter: parent.horizontalCenter;
 
             anchors.horizontalCenter: parent.horizontalCenter;
 
