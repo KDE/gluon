@@ -26,7 +26,7 @@
 
 namespace GluonPlayer
 {
-    class CommentItemsModel;
+    class CommentsModel;
     class HighScoresModel;
 }
 
@@ -54,7 +54,7 @@ class GameDetailsOverlay : public Overlay
         HighScoresView* m_highScoresView;
         AchievementsView* m_achievementsView;
         CommentsView* m_commentsView;
-        GluonPlayer::CommentItemsModel* m_commentsModel;
+        GluonPlayer::CommentsModel* m_commentsModel;
         GluonPlayer::HighScoresModel* m_highScoresModel;
 
     signals:
