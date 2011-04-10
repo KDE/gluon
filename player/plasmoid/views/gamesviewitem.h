@@ -57,7 +57,7 @@ class GamesViewItem : public QGraphicsWidget
         Plasma::Label* m_gameName;
         Plasma::Label* m_gameDescription;
         Plasma::IconWidget* m_playButton;
-        Plasma::IconWidget* m_installButton;
+        //Plasma::IconWidget* m_installButton;
         QGraphicsGridLayout* m_layout;
 };
 

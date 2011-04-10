@@ -21,7 +21,7 @@
 #include "commentsviewitem.h"
 #include "newcommentform.h"
 
-#include <lib/models/commentsmodel.h>
+#include <lib/models/commentitemsmodel.h>
 
 #include <KDE/Plasma/ItemBackground>
 #include <KDE/Plasma/LineEdit>
@@ -59,7 +59,7 @@ void CommentsView::setModel( QAbstractItemModel* model )
 CommentsViewItem* CommentsView::addComment( const QModelIndex& index, QGraphicsWidget* parent, int depth )
 {
     CommentsViewItem* item = new CommentsViewItem( parent );
-    item->setReplyEnabled( qobject_cast<GluonPlayer::CommentsModel*>( m_model )->isOnline() );
+    item->setReplyEnabled( qobject_cast<GluonPlayer::CommentItemsModel*>( m_model )->isOnline() );
     item->setParent( parent );
     item->setDepth( depth );
     item->setModelIndex( index );
@@ -135,8 +135,8 @@ void CommentsView::reloadComments()
 
 void CommentsView::addNewUserComment( QModelIndex parentIndex, QString title, QString body )
 {
-    GluonPlayer::CommentsModel* model = static_cast<GluonPlayer::CommentsModel*>( m_model );
-    //model->uploadComment( parentIndex, title, body );
+    GluonPlayer::CommentItemsModel* model = static_cast<GluonPlayer::CommentItemsModel*>( m_model );
+    model->uploadComment( parentIndex, title, body );
     connect( model, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
     sender()->deleteLater();
 }
