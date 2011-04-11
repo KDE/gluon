@@ -1,34 +1,29 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
-    project(GluonTest)
+    project(GluonCoreTest)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(KDE4 REQUIRED)
-find_package(Qt4 4.6 REQUIRED)
-
-include_directories(${QT_INCLUDES})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/core)
-
-#include(KDE4Defaults)
+include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GLUON_CORE_INCLUDES}
+)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
-set(GluonTest_SRCS
+set(GluonCoreTest_SRCS
     main.cpp
-    comparison.cpp
-    GDLHandler.cpp
+    testgluoncore.cpp
 )
 
-set(GluonTest_HDRS
-    TestGluonCore.h
+set(GluonCoreTest_HDRS
+    testgluoncore.h
 )
 
-qt4_automoc(${GluonTest_HDRS})
+qt4_automoc(${GluonCoreTest_SRCS})
 
-kde4_add_executable(GluonTest ${GluonTest_SRCS})
-target_link_libraries(GluonTest GluonCore ${QT_QTTEST_LIBRARY})
+add_executable(GluonCoreTest ${GluonCoreTest_SRCS})
+target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_LIBS})

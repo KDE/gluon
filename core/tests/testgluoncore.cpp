@@ -1,13 +1,129 @@
-#include "TestGluonCore.h"
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ *
+ * Copyright (c) 2010 Clark Gaebel <cg.wowus.cg@gmail.com>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
-#include "../core/gdlhandler.h"
+#include "testgluoncore.h"
 
-#include <cassert>
-#include <cstddef>
+#include <QtCore/QMetaProperty>
 
-using namespace GluonCore;
+#define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
-// TODO: Instead of using hardcoded strings, load all and run all this GDL at runtime.
+static bool compare_metaproperties(const QMetaObject* a, const QObject* a_parent, const QMetaObject* b, const QObject* b_parent)
+{
+    SANITY_CHECK_POINTERS(a, b);
+
+    if(a->className() != b->className())
+        return false;
+
+    int a_propcount = a->propertyCount(),
+        b_propcount = b->propertyCount();
+
+    if(a_propcount != b_propcount)
+        return false;
+
+    for(int i = 0; i < a_propcount; ++i)
+    {
+        QMetaProperty am = a->property(i),
+                      bm = b->property(i);
+
+        if(am.type() != bm.type())
+            return false;
+
+        if(am.name() != bm.name())
+            return false;
+
+        if(am.read(a_parent).toString() != bm.read(b_parent).toString())
+            return false;
+    }
+
+    return true;
+}
+
+static bool compare_dynproperties(const GluonCore::GluonObject* a, const GluonCore::GluonObject* b)
+{
+    typedef QList<QByteArray> PropNameList;
+
+    SANITY_CHECK_POINTERS(a, b);
+
+    const PropNameList a_names = a->dynamicPropertyNames(),
+                       b_names = b->dynamicPropertyNames();
+
+    if(a_names.size() != b_names.size())
+        return false;
+
+    for(PropNameList::const_iterator p1 = a_names.begin(), p2 = b_names.begin(), e = a_names.end(); p1 != e; ++p1, ++p2)
+    {
+        if(QString(*p1) != QString(*p2))
+            return false;
+    }
+    return true;
+}
+
+static bool compare_objects(const GluonCore::GluonObject* a, const GluonCore::GluonObject* b)
+{
+    SANITY_CHECK_POINTERS(a, b);
+
+    if(compare_metaproperties(a->metaObject(), a, b->metaObject(), b) == false)
+        return false;
+
+    if(compare_dynproperties(a, b) == false)
+        return false;
+
+    return true;
+}
+
+TestGluonCore::TestGluonCore()
+{
+}
+
+TestGluonCore::~TestGluonCore()
+{
+}
+
+bool TestGluonCore::compareTrees(const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2)
+{
+    if(t1.size() != t2.size())
+        return false;
+
+    QList<GluonCore::GluonObject*>::const_iterator p1 = t1.begin(),
+        p2 = t2.begin(),
+        end = t1.end();
+
+    for(; p1 != end; ++p1, ++p2)
+    {
+        Q_ASSERT(p2 != t2.end());
+
+        if(compare_objects(*p1, *p2) == false)
+            return false;
+    }
+
+    return true;
+}
+
+
+bool TestGluonCore::ensureReversible(const QString& gdl)
+{
+    GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
+    QList<GluonCore::GluonObject*> parsed = gh->parseGDL(gdl, (QObject *)0);
+    return compareTrees(parsed, gh->parseGDL(gh->serializeGDL(constListFromNonConst(parsed)), (QObject *)0));
+}
 
 void TestGluonCore::doxygenSample()
 {
@@ -21,7 +137,7 @@ void TestGluonCore::doxygenSample()
         "}"
     ;
 
-    QVERIFY(ensure_reversible(test));
+    QVERIFY(ensureReversible(test));
 }
 
 void TestGluonCore::invadersSample()
@@ -245,6 +361,8 @@ void TestGluonCore::invadersSample()
         "    }\n"
         "}";
 
-    QVERIFY(ensure_reversible(test));
+    QVERIFY(ensureReversible(test));
 }
 
+
+#include "testgluoncore.moc"
