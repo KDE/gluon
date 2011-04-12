@@ -32,6 +32,7 @@
         <file>icons/games-highscores.png</file>
         <file>icons/help-feedback.png</file>
         <file>icons/help-donate.png</file>
+        <file>icons/go-previous.png</file>
     </qresource>
 </RCC>
 
