@@ -130,6 +130,7 @@ void GameWindowManager::startGame( )
     d->stackedWidget->setCurrentWidget(d->renderWidget);
     d->renderWidget->setFocus();
     GluonEngine::Game::instance()->runGame();
+    d->stackedWidget->setCurrentWidget(d->declarativeView);
 }
 
 void GameWindowManager::pauseGame()
