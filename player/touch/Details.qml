@@ -50,11 +50,12 @@ Rectangle {
     }
 
     Image {
-        id: back_icon;
+        id: backIcon;
         source: "icons/go-previous.png";
+        // z: 100;
         anchors {
             // bottom: previewImages.top;
-            margins: 5;
+            margins: 10;
         }
 
         MouseArea {
@@ -62,7 +63,7 @@ Rectangle {
             anchors.fill: parent;
             hoverEnabled: true;
             onClicked: {
-               mainview.statepoint = "home";
+               mainview.statepoint = "mainwindow";
            }
         }
     }
@@ -81,6 +82,9 @@ Rectangle {
         width: parent.width / 3;
         height: parent.height * 1 / 5 - 10;
         delegate: gameScreenshotsDelegate;
+        anchors {
+            top: backIcon.bottom;
+        }
    }
 
     Button {
@@ -104,7 +108,7 @@ Rectangle {
     Button {
         id: read_author_desc_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/im-user.png";
+        icon: "icons/dialog-information.png";
         text: qsTr("Read Author's Description");
         subtext: qsTr("No description");
         anchors {
