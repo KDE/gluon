@@ -49,6 +49,24 @@ Rectangle {
         id: activePalette;
     }
 
+    Image {
+        id: back_icon;
+        source: "icons/go-previous.png";
+        anchors {
+            // bottom: previewImages.top;
+            margins: 5;
+        }
+
+        MouseArea {
+            id: backIconMouseArea;
+            anchors.fill: parent;
+            hoverEnabled: true;
+            onClicked: {
+               mainview.statepoint = "home";
+           }
+        }
+    }
+
     Component {
         id: gameScreenshotsDelegate;
         Image {
