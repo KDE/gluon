@@ -127,7 +127,7 @@ void GameWindowManager::startGame( )
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
-    d->stackedWidget->setCurrentIndex(1);
+    d->stackedWidget->setCurrentWidget(d->renderWidget);
     d->renderWidget->setFocus();
     GluonEngine::Game::instance()->runGame();
 }
@@ -140,7 +140,6 @@ void GameWindowManager::pauseGame()
 
 void GameWindowManager::stopGame()
 {
-    // d->stackedWidget->setCurrentIndex(0);
     GluonEngine::Game::instance()->stopGame();
 }
 
