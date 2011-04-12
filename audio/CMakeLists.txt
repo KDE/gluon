@@ -78,6 +78,7 @@ target_link_libraries(
     ${SNDFILE_LIBRARIES}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
+    ${ALURE_LIBRARIES}
 )
 
 set(GLUON_AUDIO_LIBS
@@ -87,6 +88,7 @@ set(GLUON_AUDIO_LIBS
     ${SNDFILE_LIBRARIES}
     ${OGG_LIBRARY}
     ${VORBISFILE_LIBRARY}
+    ${ALURE_LIBRARIES}
     CACHE PATHS "Libraries required for Gluon audio"
 )
 
