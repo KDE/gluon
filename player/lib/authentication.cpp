@@ -150,7 +150,7 @@ void Authentication::showRegisterError( const Attica::Metadata& metadata )
         // for example metadata().statusString() or smth like that.
         // So here will be only showRegisterHint("dialog-close", statusString);
         // no switch.
-        QWidget* widgetToHighlight = 0;
+        // QWidget* widgetToHighlight = 0;
         QString hint;
         switch( metadata.statusCode() )
         {
