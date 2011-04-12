@@ -26,7 +26,6 @@
 #include <KDE/Plasma/ItemBackground>
 #include <KDE/Plasma/LineEdit>
 #include <KDE/Plasma/Frame>
-#include <KDE/Plasma/ScrollWidget>
 
 #include <QtGui/QTreeView>
 #include <QtGui/QGraphicsLinearLayout>
@@ -99,6 +98,7 @@ void CommentsView::showReply()
     NewCommentForm* form = new NewCommentForm( this );
     m_contentLayout->addItem( form );
     form->setParentIndex( parentItem->modelIndex() );
+    form->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
     connect( form, SIGNAL( accepted( QModelIndex, QString, QString ) ),
              SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
@@ -149,12 +149,14 @@ void CommentsView::cancelNewComment()
 
 void CommentsView::hideComments()
 {
+    m_itemBackground->hide();
     m_commentsFrame->hide();
     m_contentLayout->removeItem( m_commentsFrame );
 }
 
 void CommentsView::showComments()
 {
+    m_itemBackground->show();
     m_contentLayout->addItem( m_commentsFrame );
     m_commentsFrame->show();
 }
