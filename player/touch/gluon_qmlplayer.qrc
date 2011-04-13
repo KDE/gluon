@@ -33,6 +33,7 @@
         <file>icons/help-feedback.png</file>
         <file>icons/help-donate.png</file>
         <file>icons/go-previous.png</file>
+        <file>icons/dialog-information.png</file>
     </qresource>
 </RCC>
 
