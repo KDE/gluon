@@ -4,72 +4,73 @@
     id string(271210)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Game)
-            file url(Scenes/ball_game.gdl)
+            file url(scenes/game.gluonscene)
         }
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptAsset(controller.js)
-                file url(Assets/ball_controller.js)
+            { GluonEngine::ScriptingAsset(controller.js)
+                file url(assets/scripts/controller.js)
             }
-            { GluonEngine::ScriptAsset(player.js)
-                file url(Assets/ball_player.js)
+            { GluonEngine::ScriptingAsset(player.js)
+                file url(assets/scripts/player.js)
             }
-            { GluonEngine::ScriptAsset(trap.js)
-                file url(Assets/ball_trap.js)
+            { GluonEngine::ScriptingAsset(trap.js)
+                file url(assets/scripts/trap.js)
             }
         }
         { GluonCore::GluonObject(Textures)
-            { GluonEngine::TextureAsset(background.png)
-                file url(Assets/background.png)
+            { GluonEngine::TextureAsset(Background)
+                file url(assets/textures/background.png)
             }
-            { GluonEngine::TextureAsset(ball.png)
-                file url(Assets/ball.png)
+            { GluonEngine::TextureAsset(Ball)
+                file url(assets/textures/ball.png)
             }
-            { GluonEngine::TextureAsset(score.png)
-                file url(Assets/score.png)
+            { GluonEngine::TextureAsset(Score)
+                file url(assets/textures/score.png)
             }
-            { GluonEngine::TextureAsset(star.png)
-                file url(Assets/star.png)
+            { GluonEngine::TextureAsset(Star)
+                file url(assets/textures/star.png)
             }
-            { GluonEngine::TextureAsset(reset.png)
-                file url(Assets/reset.png)
+            { GluonEngine::TextureAsset(Reset)
+                file url(assets/textures/reset.png)
             }
-            { GluonEngine::TextureAsset(trap.png)
-                file url(Assets/trap.png)
+            { GluonEngine::TextureAsset(Trap)
+                file url(assets/textures/trap.png)
             }
         }
-        { GluonEngine::MaterialAsset(Material)
-            file url(Assets/Ball_Assets_Material.gml)
+        { GluonEngine::MaterialAsset(Main Material)
+            file url(assets/Ball_Assets_Material.gml)
             { GluonGraphics::MaterialInstance(Background)
                 materialColor rgba(255;255;255;255)
-                texture0 string(background.png)
+                texture0
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Background)
             }
             { GluonGraphics::MaterialInstance(Ball)
                 materialColor rgba(255;255;255;255)
-                texture0 string(ball.png)
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Ball)
             }
             { GluonGraphics::MaterialInstance(Score)
                 materialColor rgba(255;255;255;255)
-                texture0 string(score.png)
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Score)
             }
             { GluonGraphics::MaterialInstance(Star)
                 materialColor rgba(255;255;255;255)
-                texture0 string(star.png)
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Star)
             }
             { GluonGraphics::MaterialInstance(Reset)
                 materialColor rgba(255;255;255;255)
-                texture0 string(reset.png)
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Reset)
             }
             { GluonGraphics::MaterialInstance(Trap)
                 materialColor rgba(255;255;255;255)
-                texture0 string(trap.png)
+                GluonEngine::TextureAsset(Ball/Assets/Textures/Trap)
             }
         }
     }
     { GluonCore::GluonObject(Prefabs)
     }
     { GluonEngine::SoundAsset(merry_go.ogg)
-        file url(Assets/ball_merry_go.ogg)
+        file url(assets/ball_merry_go.ogg)
     }
 }
