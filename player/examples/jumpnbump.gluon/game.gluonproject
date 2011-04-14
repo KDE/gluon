@@ -19,11 +19,16 @@
                 file url(assets/scripts/trap.js)
             }
         }
+        { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(MerryGo.ogg)
+                file url(assets/sounds/merry_go.ogg)
+            }
+        }
         { GluonCore::GluonObject(Textures)
             { GluonEngine::TextureAsset(Background)
                 file url(assets/textures/background.png)
             }
-            { GluonEngine::TextureAsset(Rabbit)
+            { GluonEngine::TextureAsset(Player)
                 file url(assets/textures/cartoon-bunny-rabbit.png)
             }
             { GluonEngine::TextureAsset(Score)
@@ -45,23 +50,35 @@
                 materialColor rgba(255;255;255;255)
                 texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Background)
             }
-            { GluonGraphics::MaterialInstance(Rabbit)
+            { GluonGraphics::MaterialInstance(Player)
                 materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Rabbit)
+                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Player)
+            }
+            { GluonGraphics::MaterialInstance(Score)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Score)
             }
             { GluonGraphics::MaterialInstance(Star)
                 materialColor rgba(255;255;255;255)
                 texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Star)
             }
-            { GluonGraphics::MaterialInstance(Background 1)
+            { GluonGraphics::MaterialInstance(Reset)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Reset)
+            }
+            { GluonGraphics::MaterialInstance(Trap)
                 materialColor rgba(255;255;255;255)
                 texture GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Trap)
             }
         }
+        { GluonEngine::MaterialAsset(Render Target Material)
+            file url(assets/render_target_material.gml)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+                texture0 uint(2)
+            }
+        }
     }
     { GluonCore::GluonObject(Prefabs)
-    }
-    { GluonEngine::SoundAsset(MerryGo.ogg)
-        file url(assets/merry_go.ogg)
     }
 }

@@ -8,13 +8,18 @@
         position vector3d(0;0;50)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::CameraControllerComponent(GluonObject)
+        { GluonEngine::CameraControllerComponent(Camera)
             enabled bool(true)
             active bool(true)
             visibleArea size2d(90;90)
             nearPlane float(1)
             farPlane float(99.99)
-            renderTargetMaterial GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Background)
+            renderTargetMaterial GluonGraphics::MaterialInstance(JumpnBump/Assets/Render Target Material/Main)
+        }
+        { GluonEngine::SoundListenerComponent(GluonObject 1)
+            enabled bool(true)
+            active bool(false)
+            effectsEnabled bool(true)
         }
     }
     { GluonEngine::GameObject(Background)
@@ -22,17 +27,15 @@
         position vector3d(0;0;0)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        psition vector3d(0;0;0)
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
-            size size2d(633;480)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Background))
+            size size2d(90;90)
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Background)
             color rgba(255;255;255;255)
         }
         { GluonCore::GluonObject(ControllerScript)
             enabled bool(true)
-            script_sanitizable string(GluonEngine::Asset(Ball/Assets/Scripts/controller.js))
-            paused bool(false)
+            script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Controller)
         }
         { GluonEngine::KeyboardInputComponent(Key_Reset)
             enabled bool(true)
@@ -43,39 +46,34 @@
             active bool(true)
             effectsEnabled bool(true)
         }
-        { GluonEngine::SoundEmitterComponent(SoundEmitterComponent)
-            enabled bool(true)
-            radius float(99.99)
-            volume float(1)
-            pitch float(1)
-            loop bool(true)
-            autoPlay bool(true)
-            sound_sanitizable string(GluonEngine::Asset(Ball/merry_go.ogg))
-        }
     }
     { GluonEngine::GameObject(Player)
         enabled bool(false)
         position vector3d(100;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
+        expanded bool(true)
         { GluonEngine::SpriteRendererComponent(SpriteRenderer)
             enabled bool(true)
             size size2d(8;8)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Rabbit))
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Player)
             color rgba(255;255;255;255)
+            expanded bool(false)
         }
         { GluonEngine::KeyboardInputComponent(Key_Jump)
             enabled bool(true)
-            keyCode int(57)
-        }
-        { GluonCore::GluonObject(GluonObject)
-            enabled bool(true)
-            script_sanitizable string(GluonEngine::Asset(Ball/Assets/Scripts/player.js))
+            keyCode int(32)
+            expanded bool(false)
         }
         { GluonEngine::SphereCollisionComponent(TrapCollider)
             enabled bool(true)
             collisionGroup int(1)
             radius float(8)
+            expanded bool(false)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Player)
         }
     }
     { GluonEngine::GameObject(Trap)
@@ -86,12 +84,8 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(8;8)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Trap))
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Trap)
             color rgba(255;255;255;255)
-        }
-        { GluonCore::GluonObject(Script)
-            enabled bool(true)
-            script_sanitizable string(GluonEngine::Asset(Ball/Assets/Scripts/trap.js))
         }
         { GluonEngine::SphereCollisionComponent(Collider)
             enabled bool(true)
@@ -107,7 +101,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(8;8)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Star))
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Star)
             color rgba(255;255;255;255)
         }
     }
@@ -119,7 +113,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(30;9)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Score))
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Score)
             color rgba(255;255;255;255)
         }
     }
@@ -131,7 +125,7 @@
         { GluonEngine::SpriteRendererComponent(GluonObject)
             enabled bool(true)
             size size2d(30;9)
-            material_sanitizable string(GluonGraphics::MaterialInstance(Ball/Assets/Material/Reset))
+            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Reset)
             color rgba(255;255;255;255)
         }
     }

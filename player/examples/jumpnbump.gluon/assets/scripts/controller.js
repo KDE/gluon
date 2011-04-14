@@ -39,8 +39,6 @@ this.update = function(time)
       this.resetGame();
     }
   }
-
-
 }
 
 this.deployTrap = function()
@@ -51,7 +49,7 @@ this.deployTrap = function()
       var trap = Game.clone(gTrapReference);
       trap.setPosition(50, -40);
       trap.enabled = true;
-      gCurrentlyBreakInt =0;
+      gCurrentlyBreakInt = 0;
     }
   }
 }
