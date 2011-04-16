@@ -242,6 +242,11 @@ Item {
 
             color: "#ffffff";
 
+            MouseArea {
+                anchors.fill: parent;
+                onPressed: eval(buttonTriggered);
+            }
+
             states: State {
                 name: "Current"
                 when: ListView.isCurrentItem;
