@@ -24,14 +24,10 @@
 
 #include <gluon/core/singleton.h>
 
-#include "gluon_player_export.h"
-#include <attica/content.h>
-#include <attica/listjob.h>
-
 #include <QStringList>
 #include <QHash>
 
-namespace GluonPlayer
+namespace GluonCreator
 {
 
     class GLUONCREATOR_EXPORT ToolPlugin : public Plugin

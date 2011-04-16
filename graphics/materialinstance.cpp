@@ -189,6 +189,7 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
                 glUniform1i( uniformLocation( name ), value.toInt() );
             }
             break;
+        case 135:
         case QVariant::Double:
             glUniform1f( uniformLocation( name ), value.toDouble() );
             break;
