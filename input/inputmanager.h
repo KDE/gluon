@@ -33,7 +33,9 @@
 #include <QtGui/QSwipeGesture>
 #include <QtGui/QPanGesture>
 #include <QtGui/QPinchGesture>
+#include <QtGui/QMouseEvent>
 #include <QtCore/QList>
+#include <QtCore/QEvent>
 
 namespace GluonInput
 {
@@ -95,6 +97,9 @@ namespace GluonInput
         signals:
             void keyPressed( int button );
             void keyReleased( int button );
+            void mouseMoved( const QPoint& pos);
+            void mouseWheeled( int x, int y );
+            void eventFiltered( QEvent* event );
 
         private:
             friend class GluonCore::Singleton<InputManager>;
