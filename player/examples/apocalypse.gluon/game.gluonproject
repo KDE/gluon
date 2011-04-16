@@ -38,17 +38,17 @@
                 file url(assets/textures/crosshair.png)
             }
             { GluonEngine::TextureAsset(GoblinSnipped)
-                file url(assets/textures/goblin_lumberjack_green_snipped.png)
+                file url(assets/textures/goblinsnipped.png)
             }
             { GluonEngine::TextureAsset(Bullet)
-                file url(assets/textures/bullet_by_oceansdream.png)
+                file url(assets/textures/bullet.png)
             }
         }
         { GluonEngine::MaterialAsset(Animated Sprite)
             file url(assets/animated_sprite.gml)
             { GluonGraphics::MaterialInstance(Player)
                 materialColor rgba(255;255;255;255)
-                frame vector4d(0;0.375;0.0263158;0.125)
+                frame vector4d(0;0;1;1)
                 texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/goblin_lumberjack_green)
             }
             { GluonGraphics::MaterialInstance(Zombie)
@@ -61,7 +61,7 @@
             file url(assets/rendertarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(12)
+                texture0 uint(13)
             }
         }
         { GluonCore::GluonObject(Sounds)
@@ -90,7 +90,7 @@
             { GluonGraphics::MaterialInstance(Bullet)
                 materialColor rgba(255;255;255;255)
                 textureParameters vector4d(0;0;1;1)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Crosshair)
+                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Bullet)
             }
         }
         { GluonCore::GluonObject(Interface)
