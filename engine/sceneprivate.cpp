@@ -62,16 +62,16 @@ ScenePrivate::loadContents( const QUrl& file )
         return;
     }
 
-    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file, q );
-
+    // Old scene contents must be deleted before attempting to load new ones, otherwise we'll
+    // suddenly have two objects named the same, and that will fail badly
     if( sceneContents )
     {
         delete sceneContents;
         sceneContents = 0;
     }
-    /*sceneContents = new GameObject(q);
-    foreach(GluonObject * child, theContents)
-        sceneContents->addChild(child);*/
+
+    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file, q );
+
     if( theContents.count() > 0 )
         sceneContents = qobject_cast<GluonEngine::GameObject*>( theContents.at( 0 ) );
     if( !sceneContents )
