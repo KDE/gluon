@@ -21,6 +21,7 @@
 #define RENDERABLESCENE_H
 
 #include <QtGui/QGraphicsScene>
+#include <QtCore/QEvent>
 
 class QGLFramebufferObject;
 
@@ -37,6 +38,9 @@ namespace GluonEngine
 
         protected:
             void drawBackground(QPainter* painter, const QRectF& rect);
+
+        private slots:
+            void sendEventFiltered(QEvent* event);
 
         private:
             class RenderableScenePrivate;
