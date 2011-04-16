@@ -8,22 +8,6 @@
         }
     }
     { GluonCore::GluonObject(Assets)
-        { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(Controller)
-                file url(assets/scripts/controller.js)
-            }
-            { GluonEngine::ScriptingAsset(Player)
-                file url(assets/scripts/player.js)
-            }
-            { GluonEngine::ScriptingAsset(Trap)
-                file url(assets/scripts/trap.js)
-            }
-        }
-        { GluonCore::GluonObject(Sounds)
-            { GluonEngine::SoundAsset(MerryGo.ogg)
-                file url(assets/sounds/merry_go.ogg)
-            }
-        }
         { GluonCore::GluonObject(Textures)
             { GluonEngine::TextureAsset(Background)
                 file url(assets/textures/background.png)
@@ -42,6 +26,22 @@
             }
             { GluonEngine::TextureAsset(Trap)
                 file url(assets/textures/trap.png)
+            }
+        }
+        { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptingAsset(Controller)
+                file url(assets/scripts/controller.js)
+            }
+            { GluonEngine::ScriptingAsset(Player)
+                file url(assets/scripts/player.js)
+            }
+            { GluonEngine::ScriptingAsset(Trap)
+                file url(assets/scripts/trap.js)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(MerryGo.ogg)
+                file url(assets/sounds/merry_go.ogg)
             }
         }
         { GluonEngine::MaterialAsset(Main Material)
