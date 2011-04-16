@@ -34,7 +34,7 @@
             highp vec2 realUV = vec2(textureParameters.x + out_uv0.x * textureParameters.z, textureParameters.y + out_uv0.y * textureParameters.w);
             mediump vec4 texColor = texture2D(texture0, realUV);
             mediump vec4 color = out_color * materialColor * texColor;
-            gl_FragColor = texColor;
+            gl_FragColor = color;
             /*vec4(color.r, color.g, color.b, 1.0);*/
         }
     <<<)

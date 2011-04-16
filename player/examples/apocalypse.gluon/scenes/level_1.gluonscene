@@ -56,6 +56,11 @@
                 enabled bool(true)
                 keyCode int(83)
             }
+            { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
+                enabled bool(true)
+                collisionGroup int(3)
+                radius float(4)
+            }
         }
         { GluonEngine::GameObject(Background)
             enabled bool(true)
@@ -65,7 +70,7 @@
             { GluonEngine::SpriteRendererComponent(SpriteRendererComponent)
                 enabled bool(true)
                 size size2d(100;100)
-                material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Background)
+                material GluonGraphics::MaterialInstance(Apocalypse/Assets/Lighted Material/Background)
             }
         }
         { GluonEngine::GameObject(Crosshair)
@@ -162,10 +167,16 @@
             speed float(15)
             expanded bool(false)
         }
-        { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
+        { GluonEngine::SphereCollisionComponent(BulletCollider)
             enabled bool(true)
             collisionGroup int(1)
             targetGroup int(2)
+            radius float(8)
+        }
+        { GluonEngine::SphereCollisionComponent(PlayerCollider)
+            enabled bool(true)
+            collisionGroup int(3)
+            targetGroup int(3)
             radius float(8)
         }
     }

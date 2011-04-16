@@ -7,39 +7,55 @@ this.start = function()
 {
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.player = this.Scene.sceneContents().Camera.Player;
-    this.collider = this.GameObject.SphereCollisionComponent;
+    this.bulletCollider = this.GameObject.BulletCollider;
+    this.playerCollider = this.GameObject.PlayerCollider;
     this.dead = false;
+    this.attack = false;
 }
 
 this.update = function(time)
 {
     if(!this.dead)
     {
-        var playerPos = this.player.worldPosition();
-        var thisPos = this.GameObject.position;
-
-        var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
-        diff.normalize();
-
-        var dist = this.Component.speed * (time / 1000);
-        diff.setX(diff.x() * dist);
-        diff.setY(diff.y() * dist);
-
-        this.GameObject.translate(diff);
-        this.setDirection(diff);
-
-        if(this.collider.isColliding())
+        if(!this.attack)
         {
-            this.collider.collidesWith().destroy();
+            var playerPos = this.player.worldPosition();
+            var thisPos = this.GameObject.position;
+
+            var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
+            diff.normalize();
+
+            var dist = this.Component.speed * (time / 1000);
+            diff.setX(diff.x() * dist);
+            diff.setY(diff.y() * dist);
+
+            this.GameObject.translate(diff);
+            this.setDirection(diff);
+        }
+
+        if(this.bulletCollider.isColliding())
+        {
+            this.bulletCollider.collidesWith().destroy();
             this.kill();
         }
+
+//         if(this.playerCollider.isColliding())
+//         {
+//             this.attack = true;
+//             this.AnimatedSprite.animation = 3;
+//         }
+//         else
+//         {
+//             this.attack = false;
+//             this.AnimatedSprite.animation = 1;
+//         }
     }
 }
 
 this.kill = function()
 {
-    this.GameObject.AnimatedSpriteRendererComponent.loop = false;
     this.GameObject.AnimatedSpriteRendererComponent.animation = 6;
+    this.GameObject.AnimatedSpriteRendererComponent.loop = false;
     this.dead = true;
 }
 

@@ -55,7 +55,7 @@
             file url(assets/rendertarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(17)
+                texture0 uint(12)
             }
         }
         { GluonCore::GluonObject(Sounds)
@@ -90,6 +90,23 @@
         { GluonCore::GluonObject(Interface)
             { GluonEngine::UiAsset(Main Menu)
                 file url(assets/interface/main_menu.qml)
+            }
+        }
+        { GluonEngine::MaterialAsset(Lighted Material)
+            file url(assets/lighted_material.gml)
+            { GluonGraphics::MaterialInstance(Background)
+                materialColor rgba(255;255;255;255)
+                diffuseColor rgba(255;255;255;255)
+                ambientColor rgba(0;0;0;255)
+                specularColor rgba(255;255;255;255)
+                emissiveColor rgba(0;0;0;255)
+                lightPosition vector3d(0;0;5)
+                lightIntensity float(2500)
+                lightColor rgba(255;220;168;255)
+                lightAmbDiffSpec vector3d(0;0.8;0)
+                lightAttenuation vector3d(0;0;2.5)
+                textureParameters vector4d(0;0;2;2)
+                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Background)
             }
         }
     }
