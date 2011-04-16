@@ -43,9 +43,6 @@
             { GluonEngine::TextureAsset(Bullet)
                 file url(assets/textures/bullet.png)
             }
-            { GluonEngine::TextureAsset(bullet.png)
-                file url(assets/textures/bulletpng.png)
-            }
         }
         { GluonEngine::MaterialAsset(Animated Sprite)
             file url(assets/animated_sprite.gml)
@@ -64,7 +61,7 @@
             file url(assets/rendertarget.gml)
             { GluonGraphics::MaterialInstance(Main)
                 materialColor rgba(255;255;255;255)
-                texture0 uint(12)
+                texture0 uint(13)
             }
         }
         { GluonCore::GluonObject(Sounds)

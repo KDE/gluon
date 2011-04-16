@@ -118,7 +118,7 @@
         expanded bool(false)
         { GluonEngine::SpriteRendererComponent(SpriteRendererComponent)
             enabled bool(true)
-            size size2d(10;10)
+            size size2d(2;2)
             material GluonGraphics::MaterialInstance(Apocalypse/Assets/Material/Bullet)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
