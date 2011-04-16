@@ -31,6 +31,7 @@
 #include <QtCore/QMetaProperty>
 #include <QtCore/QTextCodec>
 #include <QtCore/QVarLengthArray>
+#include <QTime>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
@@ -154,19 +155,19 @@ void Material::build( const QString& name )
     d->program = new QGLShaderProgram();
     if(!d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource ))
     {
-        debug("An error occurred during Vertex Shader compilation!");
+        debug("(%1) An error occurred during Vertex Shader compilation!", QTime::currentTime().toString());
         debug(d->program->log());
     }
     if(!d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource ))
     {
-        debug("An error occurred during Fragment Shader compilation!");
+        debug("(%1) An error occurred during Fragment Shader compilation!", QTime::currentTime().toString());
         debug(d->program->log());
     }
 
     d->program->link();
     if( !d->program->isLinked() )
     {
-        debug( "An error occurred during shader linking!" );
+        debug( "(%1) An error occurred during shader linking!", QTime::currentTime().toString());
         debug( d->program->log() );
     }
 
