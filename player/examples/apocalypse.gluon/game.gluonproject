@@ -37,6 +37,12 @@
             { GluonEngine::TextureAsset(Crosshair)
                 file url(assets/textures/crosshair.png)
             }
+            { GluonEngine::TextureAsset(GoblinSnipped)
+                file url(assets/textures/goblin_lumberjack_green_snipped.png)
+            }
+            { GluonEngine::TextureAsset(Bullet)
+                file url(assets/textures/bullet_by_oceansdream.png)
+            }
         }
         { GluonEngine::MaterialAsset(Animated Sprite)
             file url(assets/animated_sprite.gml)

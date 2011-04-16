@@ -43,7 +43,7 @@ namespace GluonCore
     };
 }
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #define GLUON_DEFINE_SINGLETON(Type) template<> Type* GluonCore::Singleton<Type>::m_instance = 0;
 #else
 #define GLUON_DEFINE_SINGLETON(Type) template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::m_instance = 0;

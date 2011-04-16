@@ -21,7 +21,7 @@
 #define GLHEADERS_H
 
 #include <QtCore/QtGlobal>
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #include <windows.h>
 #include <GL/glee.h>
 #elif defined(Q_WS_MAC)

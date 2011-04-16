@@ -253,6 +253,9 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj.data())
         return false;
 
+    // qDebug() << "TESTPOINT_EVENTFILTERED_EMIT";
+    // Emit a signal with the QEvent argument so that others can handle it
+    emit eventFiltered(event);
 	switch (event->type())
 	{
 	case QEvent::KeyPress:
@@ -273,6 +276,7 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 		{
 			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 			mouse(0)->setPosition( mouseEvent->pos( ) );
+            emit mouseMoved( mouseEvent->pos( ) );
 			return true;
 		}
 	case QEvent::Wheel:
@@ -280,6 +284,7 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 			QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
 			mouse(0)->setHWheelPosition( wheelEvent->x( ) );
 			mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+            emit mouseWheeled( wheelEvent->x( ), wheelEvent->y( ) );
 			return true;
 		}
 	case QEvent::MouseButtonPress:

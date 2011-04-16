@@ -22,7 +22,7 @@
 
 #include "gluon_graphics_export.h"
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #include <windows.h>
 #include <GL/glee.h>
 #endif

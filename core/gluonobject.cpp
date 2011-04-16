@@ -710,9 +710,13 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, GluonObject* obj
     }
     else
     {
-        DEBUG_TEXT( QString("Did not find child - bailing out! Was looking for object named %1 in object named %2")
+        QString childNames;
+        foreach(QObject* child, object->children())
+        { childNames.append( child->objectName()).append(", "); }
+        DEBUG_TEXT( QString("Did not find child - bailing out! Was looking for object named %1 in object named %2. Available children are: %3")
             .arg( lookingFor )
             .arg( object->fullyQualifiedName() )
+            .arg( childNames )
         );
     }
 

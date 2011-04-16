@@ -20,10 +20,15 @@
 #include "renderablescene.h"
 
 #ifdef Q_OS_WIN
-# include "GL/glee.h"
+#include <GL/glee.h>
 #endif
-#include <QGLFramebufferObject>
 
+#include <QGLFramebufferObject>
+#include <QtGui/QGraphicsItem>
+#include <QtCore/QDebug>
+#include <QtCore/QCoreApplication>
+
+#include <input/inputmanager.h>
 #include <graphics/engine.h>
 #include <graphics/material.h>
 #include <graphics/viewport.h>
@@ -86,6 +91,7 @@ RenderableScene::RenderableScene( QObject* parent )
              this, SLOT( newViewport( Viewport* ) ) );
     connect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
              this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
+    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered(QEvent*) ), SLOT( sendEventFiltered(QEvent*) ) ); 
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }
@@ -136,6 +142,11 @@ void RenderableScene::drawBackground( QPainter* painter, const QRectF& rect )
     painter->setCompositionMode(QPainter::CompositionMode_Source);
     painter->fillRect(rect, Qt::transparent);
     painter->restore();
+}
+
+void RenderableScene::sendEventFiltered(QEvent* event)
+{
+    QCoreApplication::sendEvent(this, event);   
 }
 
 #include "renderablescene.moc"
