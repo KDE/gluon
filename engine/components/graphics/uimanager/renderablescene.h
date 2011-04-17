@@ -40,7 +40,7 @@ namespace GluonEngine
             void drawBackground(QPainter* painter, const QRectF& rect);
 
         private slots:
-            void sendEventFiltered(QEvent* event);
+            void deliverEvent(QEvent* event);
 
         private:
             class RenderableScenePrivate;

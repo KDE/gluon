@@ -23,10 +23,11 @@
 #include <GL/glee.h>
 #endif
 
+#include <QtGui/QGraphicsSceneEvent>
 #include <QGLFramebufferObject>
 #include <QtGui/QGraphicsItem>
 #include <QtCore/QDebug>
-#include <QtCore/QCoreApplication>
+#include <QtGui/QApplication>
 
 #include <input/inputmanager.h>
 #include <graphics/engine.h>
@@ -91,7 +92,7 @@ RenderableScene::RenderableScene( QObject* parent )
              this, SLOT( newViewport( Viewport* ) ) );
     connect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
              this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
-    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered(QEvent*) ), SLOT( sendEventFiltered(QEvent*) ) ); 
+    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered(QEvent*) ), SLOT( deliverEvent(QEvent*) ) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }
@@ -134,6 +135,136 @@ void RenderableScene::renderScene()
     d->dirty = false;
 }
 
+/*!
+    Delivers \a event to this scene. If \a event is a mouse event, then
+    \a texCoord indicates the texture co-ordinate on the side of the
+    3D object where the user clicked.
+
+    The \a event normally originates from a QWidget or QGraphicsItem that
+    contains the 3D object. The caller performs a ray intersection in
+    3D space on the position within \a event to determine the \a texCoord
+    and then passes \a event on to deliverEvent() for further processing.
+*/
+void RenderableScene::deliverEvent(QEvent *event)
+{
+
+    QRectF bounds;
+    int screenX, screenY;
+    QPoint pressedPos;
+
+    // Convert the event and deliver it to the scene.
+    switch (event->type()) {
+    case QEvent::GraphicsSceneMouseMove:
+    case QEvent::GraphicsSceneMousePress:
+    case QEvent::GraphicsSceneMouseRelease:
+    case QEvent::GraphicsSceneMouseDoubleClick: {
+        QGraphicsSceneMouseEvent *ev =
+            static_cast<QGraphicsSceneMouseEvent *>(event);
+        QGraphicsSceneMouseEvent e(ev->type());
+
+        bounds = sceneRect();
+        screenX = qRound((e.pos().x()) * bounds.width());
+        screenY = qRound((1.0f - e.pos().y()) * bounds.height());
+
+        if (screenX < 0)
+            screenX = 0;
+        else if (screenX >= bounds.width())
+            screenX = qRound(bounds.width() - 1);
+        if (screenY < 0)
+            screenY = 0;
+        else if (screenY >= bounds.height())
+            screenY = qRound(bounds.height() - 1);
+        pressedPos = QPoint(screenX, screenY);
+        e.setPos(QPointF(screenX, screenY));
+        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setScreenPos(QPoint(screenX, screenY));
+        e.setButtonDownScreenPos(ev->button(), pressedPos);
+        e.setButtonDownScenePos
+            (ev->button(), QPointF(pressedPos.x() + bounds.x(),
+                                   pressedPos.y() + bounds.y()));
+        e.setButtons(ev->buttons());
+        e.setButton(ev->button());
+        e.setModifiers(ev->modifiers());
+        e.setAccepted(false);
+        QApplication::sendEvent(this, &e);
+    }
+    break;
+
+#ifndef QT_NO_WHEELEVENT
+    case QEvent::GraphicsSceneWheel: {
+        QGraphicsSceneWheelEvent *ev =
+            static_cast<QGraphicsSceneWheelEvent *>(event);
+        QGraphicsSceneWheelEvent e(QEvent::GraphicsSceneWheel);
+        e.setPos(QPointF(screenX, screenY));
+        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setScreenPos(QPoint(screenX, screenY));
+        e.setButtons(ev->buttons());
+        e.setModifiers(ev->modifiers());
+        e.setDelta(ev->delta());
+        e.setOrientation(ev->orientation());
+        e.setAccepted(false);
+        QApplication::sendEvent(this, &e);
+    }
+    break;
+#endif
+
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonRelease:
+    case QEvent::MouseButtonDblClick:
+    case QEvent::MouseMove: {
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        QEvent::Type type;
+        if (ev->type() == QEvent::MouseButtonPress)
+            type = QEvent::GraphicsSceneMousePress;
+        else if (ev->type() == QEvent::MouseButtonRelease)
+            type = QEvent::GraphicsSceneMouseRelease;
+        else if (ev->type() == QEvent::MouseButtonDblClick)
+            type = QEvent::GraphicsSceneMouseDoubleClick;
+        else
+            type = QEvent::GraphicsSceneMouseMove;
+        QGraphicsSceneMouseEvent e(type);
+        e.setPos(QPointF(screenX, screenY));
+        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setScreenPos(QPoint(screenX, screenY));
+        e.setButtonDownScreenPos(ev->button(), pressedPos);
+        e.setButtonDownScenePos
+            (ev->button(), QPointF(pressedPos.x() + bounds.x(),
+                                   pressedPos.y() + bounds.y()));
+        e.setButtons(ev->buttons());
+        e.setButton(ev->button());
+        e.setModifiers(ev->modifiers());
+        e.setAccepted(false);
+        QApplication::sendEvent(this, &e);
+    }
+    break;
+
+#ifndef QT_NO_WHEELEVENT
+    case QEvent::Wheel: {
+        QWheelEvent *ev = static_cast<QWheelEvent *>(event);
+        QGraphicsSceneWheelEvent e(QEvent::GraphicsSceneWheel);
+        e.setPos(QPointF(screenX, screenY));
+        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setScreenPos(QPoint(screenX, screenY));
+        e.setButtons(ev->buttons());
+        e.setModifiers(ev->modifiers());
+        e.setDelta(ev->delta());
+        e.setOrientation(ev->orientation());
+        e.setAccepted(false);
+        QApplication::sendEvent(this, &e);
+    }
+    break;
+#endif
+
+    default: {
+        // Send the event directly without any conversion.
+        // Typically used for keyboard, focus, and enter/leave events.
+        QApplication::sendEvent(this, event);
+    }
+    break;
+
+    }
+}
+
 void RenderableScene::drawBackground( QPainter* painter, const QRectF& rect )
 {
     // Fill the fbo with the transparent color as there won't
@@ -142,11 +273,6 @@ void RenderableScene::drawBackground( QPainter* painter, const QRectF& rect )
     painter->setCompositionMode(QPainter::CompositionMode_Source);
     painter->fillRect(rect, Qt::transparent);
     painter->restore();
-}
-
-void RenderableScene::sendEventFiltered(QEvent* event)
-{
-    QCoreApplication::sendEvent(this, event);   
 }
 
 #include "renderablescene.moc"
