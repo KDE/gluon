@@ -7,7 +7,6 @@ endif()
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    w
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUON_CORE_INCLUDES}
 )
