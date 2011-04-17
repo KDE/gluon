@@ -68,7 +68,7 @@
             }
             { GluonGraphics::MaterialInstance(Trap)
                 materialColor rgba(255;255;255;255)
-                texture GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Trap)
+                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Trap)
             }
         }
         { GluonEngine::MaterialAsset(Render Target Material)
