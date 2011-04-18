@@ -78,6 +78,7 @@ class RenderableScene::RenderableScenePrivate
         RenderableScene* q;
         RenderTarget* target;
         bool dirty;
+        QPoint pressedPos;
 };
 
 RenderableScene::RenderableScene( QObject* parent )
@@ -147,25 +148,18 @@ void RenderableScene::renderScene()
 */
 void RenderableScene::deliverEvent(QEvent *event)
 {
-
-    QRectF bounds;
-    int screenX, screenY;
-    QPoint pressedPos;
+    QRectF bounds = sceneRect();
+    int screenX = 0, screenY = 0;
 
     // Convert the event and deliver it to the scene.
     switch (event->type()) {
-    case QEvent::GraphicsSceneMouseMove:
-    case QEvent::GraphicsSceneMousePress:
-    case QEvent::GraphicsSceneMouseRelease:
-    case QEvent::GraphicsSceneMouseDoubleClick: {
-        QGraphicsSceneMouseEvent *ev =
-            static_cast<QGraphicsSceneMouseEvent *>(event);
-        QGraphicsSceneMouseEvent e(ev->type());
-
-        bounds = sceneRect();
-        screenX = qRound((e.pos().x()) * bounds.width());
-        screenY = qRound((1.0f - e.pos().y()) * bounds.height());
-
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonRelease:
+    case QEvent::MouseButtonDblClick:
+    case QEvent::MouseMove: {
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        screenX = qRound(ev->globalPos().x());
+        screenY = qRound(ev->globalPos().y());
         if (screenX < 0)
             screenX = 0;
         else if (screenX >= bounds.width())
@@ -174,45 +168,8 @@ void RenderableScene::deliverEvent(QEvent *event)
             screenY = 0;
         else if (screenY >= bounds.height())
             screenY = qRound(bounds.height() - 1);
-        pressedPos = QPoint(screenX, screenY);
-        e.setPos(QPointF(screenX, screenY));
-        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
-        e.setScreenPos(QPoint(screenX, screenY));
-        e.setButtonDownScreenPos(ev->button(), pressedPos);
-        e.setButtonDownScenePos
-            (ev->button(), QPointF(pressedPos.x() + bounds.x(),
-                                   pressedPos.y() + bounds.y()));
-        e.setButtons(ev->buttons());
-        e.setButton(ev->button());
-        e.setModifiers(ev->modifiers());
-        e.setAccepted(false);
-        QApplication::sendEvent(this, &e);
-    }
-    break;
+        d->pressedPos = QPoint(screenX, screenY);
 
-#ifndef QT_NO_WHEELEVENT
-    case QEvent::GraphicsSceneWheel: {
-        QGraphicsSceneWheelEvent *ev =
-            static_cast<QGraphicsSceneWheelEvent *>(event);
-        QGraphicsSceneWheelEvent e(QEvent::GraphicsSceneWheel);
-        e.setPos(QPointF(screenX, screenY));
-        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
-        e.setScreenPos(QPoint(screenX, screenY));
-        e.setButtons(ev->buttons());
-        e.setModifiers(ev->modifiers());
-        e.setDelta(ev->delta());
-        e.setOrientation(ev->orientation());
-        e.setAccepted(false);
-        QApplication::sendEvent(this, &e);
-    }
-    break;
-#endif
-
-    case QEvent::MouseButtonPress:
-    case QEvent::MouseButtonRelease:
-    case QEvent::MouseButtonDblClick:
-    case QEvent::MouseMove: {
-        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
         QEvent::Type type;
         if (ev->type() == QEvent::MouseButtonPress)
             type = QEvent::GraphicsSceneMousePress;
@@ -223,13 +180,13 @@ void RenderableScene::deliverEvent(QEvent *event)
         else
             type = QEvent::GraphicsSceneMouseMove;
         QGraphicsSceneMouseEvent e(type);
-        e.setPos(QPointF(screenX, screenY));
-        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setPos(QPointF(ev->pos().x(), ev->pos().y()));
+        e.setScenePos(QPointF(ev->pos().x(), ev->pos().y()));
         e.setScreenPos(QPoint(screenX, screenY));
-        e.setButtonDownScreenPos(ev->button(), pressedPos);
+        e.setButtonDownScreenPos(ev->button(), d->pressedPos);
         e.setButtonDownScenePos
-            (ev->button(), QPointF(pressedPos.x() + bounds.x(),
-                                   pressedPos.y() + bounds.y()));
+            (ev->button(), QPointF(d->pressedPos.x() + bounds.x(),
+                                   d->pressedPos.y() + bounds.y()));
         e.setButtons(ev->buttons());
         e.setButton(ev->button());
         e.setModifiers(ev->modifiers());
@@ -242,8 +199,8 @@ void RenderableScene::deliverEvent(QEvent *event)
     case QEvent::Wheel: {
         QWheelEvent *ev = static_cast<QWheelEvent *>(event);
         QGraphicsSceneWheelEvent e(QEvent::GraphicsSceneWheel);
-        e.setPos(QPointF(screenX, screenY));
-        e.setScenePos(QPointF(screenX + bounds.x(), screenY + bounds.y()));
+        e.setPos(QPointF(ev->pos().x(), ev->pos().y()));
+        e.setScenePos(QPointF(ev->pos().x(), ev->pos().y()));
         e.setScreenPos(QPoint(screenX, screenY));
         e.setButtons(ev->buttons());
         e.setModifiers(ev->modifiers());
