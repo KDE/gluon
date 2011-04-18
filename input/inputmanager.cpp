@@ -253,7 +253,6 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
     if (object != m_filteredObj.data())
         return false;
 
-    // qDebug() << "TESTPOINT_EVENTFILTERED_EMIT";
     // Emit a signal with the QEvent argument so that others can handle it
     emit eventFiltered(event);
 	switch (event->type())
