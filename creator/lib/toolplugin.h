@@ -22,10 +22,10 @@
 
 #include "plugin.h"
 
-#include <gluon/core/singleton.h>
+#include <core/singleton.h>
 
-#include <QStringList>
-#include <QHash>
+#include <QtCore/QStringList>
+#include <QtCore/QHash>
 
 namespace GluonCreator
 {
