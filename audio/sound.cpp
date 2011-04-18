@@ -41,12 +41,13 @@ class Sound::SoundPrivate
         {
         }
 
-        bool newError()
+        bool newError(const QString& str)
         {
             QLatin1String error = QLatin1String(alureGetErrorString());
             if (error != QLatin1String("No error")) {
                 DEBUG_BLOCK
                 DEBUG_TEXT2("Alure error: %1", error)
+                DEBUG_TEXT2("%2", str)
                 isValid = false;
                 return true;
             }
@@ -185,14 +186,14 @@ bool Sound::load(const QString& fileName, bool toStream)
         d->stream = alureCreateStreamFromFile(d->path.toLocal8Bit().constData(), Engine::instance()->bufferLength(), 0, 0);
     } else {
         ALuint buffer = Engine::instance()->genBuffer(d->path);
-        if ( d->newError() ) {
+        if ( d->newError("Loading " + d->path + " failed") ) {
             d->isValid = false;
             return false;
         }
         alSourcei(d->source, AL_BUFFER, buffer);
     }
 
-    d->isValid = !d->newError();
+    d->isValid = !d->newError("Loading " + d->path + " failed");
     return d->isValid;
 }
 
@@ -328,21 +329,21 @@ void Sound::play()
         alurePlaySource(d->source, callbackStopped, this);
     }
     d->isStopped = false;
-    d->newError();
+    d->newError("Playing " + d->path + " failed");
 }
 
 void Sound::pause()
 {
     alurePauseSource(d->source);
     d->isPaused = true;
-    d->newError();
+    d->newError("Pausing " + d->path + " failed");
 }
 
 void Sound::stop()
 {
     alureStopSource(d->source, false);
     d->isStopped = true;
-    d->newError();
+    d->newError("Stopping " + d->path + " failed");
 }
 
 void Sound::rewind()
@@ -352,7 +353,7 @@ void Sound::rewind()
     } else {
         alSourceRewind(d->source);
     }
-    d->newError();
+    d->newError("Rewinding " + d->path + " failed");
 }
 
 void Sound::setMinVolume( ALfloat min )
