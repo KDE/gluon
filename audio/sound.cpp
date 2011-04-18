@@ -22,7 +22,7 @@
 
 #include "engine.h"
 
-#include <AL/alure.h>
+#include <alure.h>
 
 #include <core/debughelper.h>
 
