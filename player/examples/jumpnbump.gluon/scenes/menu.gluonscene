@@ -1,0 +1,49 @@
+{ GluonEngine::GameObject(Menu)
+    enabled bool(true)
+    position vector3d(0;0;0)
+    scale vector3d(1;1;1)
+    orientation quaternion(0;0;0;1)
+    { GluonEngine::GameObject(Camera)
+        enabled bool(true)
+        position vector3d(0;0;50)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::CameraControllerComponent(GluonObject)
+            enabled bool(true)
+            active bool(true)
+            visibleArea size2d(80;80)
+            nearPlane float(1)
+            farPlane float(99.99)
+            renderTargetMaterial GluonGraphics::MaterialInstance(JumpnBump/Assets/Render Target Material/Main)
+        }
+        { GluonEngine::SoundListenerComponent(GluonObject 1)
+            enabled bool(true)
+            active bool(false)
+            effectsEnabled bool(true)
+        }
+    }
+    { GluonEngine::GameObject(Interface)
+        enabled bool(true)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        expanded bool(false)
+        { GluonEngine::UiManagerComponent(UiManagerComponent)
+            enabled bool(true)
+            size size2d(29;8)
+            ui GluonEngine::UiAsset(JumpnBump/Assets/Interface/Menu Interface)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(16777235)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(16777237)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Enter)
+            enabled bool(true)
+            keyCode int(16777220)
+        }
+    }
+}
