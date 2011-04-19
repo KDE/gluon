@@ -1,13 +1,52 @@
 var gMaxFrameJumpInt = 25;
 var gCurrentlyFrameJumpInt=0
 var gJumpingBool = false;
+this.speed = 30;
 
 this.initialize = function()
 {
 }
 
+this.move = function(time)
+{
+    var addX = this.speed * (time/1000);
+
+    if(this.GameObject.Key_Left2.isActionHeld())
+    {
+        this.GameObject.translate(-addX, 0, 0);
+    }
+
+    if(this.GameObject.Key_Right2.isActionHeld())
+    {
+        this.GameObject.translate(addX, 0, 0);
+    }
+
+    var pos = this.GameObject.position;
+    if(pos.x() < -30)
+    {
+        this.GameObject.setPosition(-30, pos.y(), pos.z());
+    }
+    if(pos.x() > 30)
+    {
+        this.GameObject.setPosition(30, pos.y(), pos.z());
+    }
+
+    if(pos.y() < -30)
+    {
+        this.GameObject.translate(0, 5 * (time/1000), 0);
+    }
+    else
+    {
+        // this.justSpawned = false;
+    }
+}
+
 this.update = function(time)
 {
+    if(this.Scene.paused)
+        return;
+
+    this.move(time);
     this.jump();
 }
 
@@ -22,7 +61,7 @@ this.rotate = function()
 
 this.jump = function()
 {
-    if (this.GameObject.Key_Jump.isActionHeld()) {
+    if (this.GameObject.Key_Jump2.isActionHeld()) {
         gJumpingBool = true;
     }
 

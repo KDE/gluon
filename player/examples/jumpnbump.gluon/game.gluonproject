@@ -42,6 +42,9 @@
             { GluonEngine::ScriptingAsset(Player)
                 file url(assets/scripts/player.js)
             }
+            { GluonEngine::ScriptingAsset(Player2)
+                file url(assets/scripts/player2.js)
+            }
             { GluonEngine::ScriptingAsset(Trap)
                 file url(assets/scripts/trap.js)
             }

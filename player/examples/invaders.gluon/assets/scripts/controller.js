@@ -7,7 +7,7 @@ this.initialize = function()
     this.Scene.enemies = 28;
     this.Scene.lives = 5;
     this.Scene.sceneScore = 0;
-    
+
     MessageHandler.subscribe("playerDied", this.playerDied, this);
     MessageHandler.subscribe("enemyDied", this.enemyDied, this);
 }
@@ -39,7 +39,7 @@ this.cleanup = function()
 this.playerDied = function()
 {
     this.Scene.lives--;
-    
+
     if(this.Scene.lives <= 0)
     {
         this.Scene.paused = true;
@@ -57,7 +57,7 @@ this.enemyDied = function()
     this.Scene.enemies--;
     this.Scene.sceneScore++;
     Game.score++;
-    
+
     if(this.Scene.enemies <= 0)
     {
         this.Scene.paused = true;

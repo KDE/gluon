@@ -1,10 +1,11 @@
 var gMiniumBreakInt = 50;
 var gCurrentlyBreakInt = 0;
-var gPlayerReference = null;
+var gPlayerRef = null;
+var gPlayer2Ref = null;
 var gLastScoreUpdateInt = 0;
 var gEndedGameBool = false;
-var gTrapReference = null;
-var gStarReference = null;
+var gTrapRef = null;
+var gStarRef = null;
 
 this.initialize = function()
 {
@@ -16,11 +17,14 @@ this.start = function()
     Game.score = 0;
     Game.end = false;
 
-    gTrapReference = Game.getFromScene("Trap");
-    gStarReference = Game.getFromScene("Star");
-    gPlayerReference = Game.clone(Game.getFromScene("Player"));
-    gPlayerReference.setPosition(-25, -40);
-    gPlayerReference.enabled = true;
+    gTrapRef = Game.getFromScene("Trap");
+    gStarRef = Game.getFromScene("Star");
+    gPlayerRef = Game.clone(Game.getFromScene("Player"));
+    gPlayerRef.setPosition(-25, -40);
+    gPlayerRef.enabled = true;
+    gPlayer2Ref = Game.clone(Game.getFromScene("Player2"));
+    gPlayer2Ref.setPosition(25, -40);
+    gPlayer2Ref.enabled = true;
 }
 
 this.update = function(time)
@@ -46,7 +50,7 @@ this.deployTrap = function()
     ++gCurrentlyBreakInt;
     if (gCurrentlyBreakInt >= gMiniumBreakInt) {
         if (Math.random()*11 > 9){
-            var trap = Game.clone(gTrapReference);
+            var trap = Game.clone(gTrapRef);
             trap.setPosition(50, -40);
             trap.enabled = true;
             gCurrentlyBreakInt = 0;
@@ -56,7 +60,7 @@ this.deployTrap = function()
 
 this.updateScore = function(score) {
     gLastScoreUpdateInt = score * 6;
-    var star = Game.clone(gStarReference);
+    var star = Game.clone(gStarRef);
     star.setPosition(((score%6)*8)-20, Math.floor(score/6)*8);
     star.enabled = true;
 
