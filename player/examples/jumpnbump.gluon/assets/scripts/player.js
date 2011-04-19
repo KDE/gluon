@@ -8,7 +8,6 @@ this.initialize = function()
 
 this.update = function(time)
 {
-    this.rotate();
     this.jump();
 }
 
@@ -42,7 +41,7 @@ this.jump = function()
     }
 }
 
-this.partOfFrame = functiontime)
+this.partOfFrame = function(time)
 {
     return  time/1000*25;
 }

@@ -69,6 +69,10 @@
             radius float(8)
             expanded bool(false)
         }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Player)
+        }
     }
     { GluonEngine::GameObject(Trap)
         enabled bool(false)
@@ -85,6 +89,10 @@
             enabled bool(true)
             collisionGroup int(1)
             radius float(8)
+        }
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Trap)
         }
     }
     { GluonEngine::GameObject(Star)
@@ -121,6 +129,16 @@
             size size2d(30;9)
             material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Reset)
             color rgba(255;255;255;255)
+        }
+    }
+    { GluonEngine::GameObject(Controller)
+        enabled bool(true)
+        position vector3d(0;0;0)
+        scale vector3d(1;1;1)
+        orientation quaternion(0;0;0;1)
+        { GluonEngine::ScriptingComponent(ScriptingComponent)
+            enabled bool(true)
+            script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Controller)
         }
     }
 }

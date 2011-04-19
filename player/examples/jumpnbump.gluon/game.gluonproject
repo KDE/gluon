@@ -1,7 +1,6 @@
 { GluonEngine::GameProject(JumpnBump)
     description string(JumpnBump Game)
     entryPoint GluonEngine::Scene(JumpnBump/Scenes/Menu)
-    id string(271210)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Menu)
             file url(scenes/menu.gluonscene)
