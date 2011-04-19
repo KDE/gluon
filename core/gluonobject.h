@@ -197,7 +197,7 @@ namespace GluonCore
              * when running a game from inside the tool.
              *
              * \param   debugText   The message you wish to write out
-             * \param   arg         The argument of debugText. Ssee QString::arg() for more information.
+             * \param   arg         The argument of debugText. See QString::arg() for more information.
              */
             Q_INVOKABLE void debug( const QString& debugText, const QString& arg ) const;
 
@@ -209,7 +209,7 @@ namespace GluonCore
             Q_SIGNAL void showDebug( const QString& debugText ) const;
 
             /**
-             * Copy this object and all of its children, resursively.
+             * Copy this object and all of its children, recursively.
              * It will be a child of the same GluonObject that the current object is a child of.
              *
              * @return A deep copy of the object and all its children
@@ -237,7 +237,7 @@ namespace GluonCore
             virtual void setName( const QString& newName );
             /**
              * The fully qualified name of the object, from the root and upwards.
-             * The object name separator is / which means that an object named
+             * The object name separator is "/" which means that an object named
              * AnObject which is child of the top level object AnotherObject is:
              * AnotherObject/AnObject
              */
@@ -304,7 +304,7 @@ namespace GluonCore
              * the object is called on. To search the full tree, for example for use with
              * fullyQualifiedName, call this function on the object returned by root()
              *
-             * @param   qualifiedName   The path (with object names separated by the / symbol) to the object, relative to the object this function is called on
+             * @param   qualifiedName   The path (with object names separated by the "/" symbol) to the object, relative to the object this function is called on
              * @return  The object if found, or null if not
              */
             Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName );
