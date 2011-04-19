@@ -1,8 +1,11 @@
 { GluonEngine::GameProject(JumpnBump)
     description string(JumpnBump Game)
-    entryPoint GluonEngine::Scene(JumpnBump/Scenes/Game)
+    entryPoint GluonEngine::Scene(JumpnBump/Scenes/Menu)
     id string(271210)
     { GluonCore::GluonObject(Scenes)
+        { GluonEngine::Scene(Menu)
+            file url(scenes/menu.gluonscene)
+        }
         { GluonEngine::Scene(Game)
             file url(scenes/game.gluonscene)
         }
@@ -26,6 +29,11 @@
             }
             { GluonEngine::TextureAsset(Trap)
                 file url(assets/textures/trap.png)
+            }
+        }
+        { GluonCore::GluonObject(Interface)
+            { GluonEngine::UiAsset(Menu Interface)
+                file url(assets/interface/menu_interface.qml)
             }
         }
         { GluonCore::GluonObject(Scripts)

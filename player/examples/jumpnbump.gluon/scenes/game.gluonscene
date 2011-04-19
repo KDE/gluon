@@ -69,10 +69,6 @@
             radius float(8)
             expanded bool(false)
         }
-        { GluonEngine::ScriptingComponent(ScriptingComponent)
-            enabled bool(true)
-            script_sanitizable string(GluonEngine::ScriptingAsset(Invaders/Assets/Scripts/Player))
-        }
     }
     { GluonEngine::GameObject(Trap)
         enabled bool(false)
@@ -108,7 +104,7 @@
         position vector3d(100;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
+        { GluonEngine::SpriteRendererComponent(ScoreTextSpriteRenderer)
             enabled bool(true)
             size size2d(30;9)
             material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Score)
@@ -120,7 +116,7 @@
         position vector3d(100;0;1)
         scale vector3d(1;1;1)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(GluonObject)
+        { GluonEngine::SpriteRendererComponent(ResetTextSpriteRenderer)
             enabled bool(true)
             size size2d(30;9)
             material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Reset)
