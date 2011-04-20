@@ -1,5 +1,5 @@
 { GluonEngine::GameProject(JumpnBump)
-    description string(JumpnBump Game)
+    description string(This is a game for the whole family with cute fluffy little bunnies)
     entryPoint GluonEngine::Scene(JumpnBump/Scenes/Menu)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Menu)
