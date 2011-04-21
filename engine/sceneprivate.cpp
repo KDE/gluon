@@ -21,6 +21,7 @@
 #include "sceneprivate.h"
 #include "scene.h"
 #include "gameobject.h"
+#include "game.h"
 
 #include <core/debughelper.h>
 #include <core/gdlhandler.h>
@@ -66,7 +67,9 @@ ScenePrivate::loadContents( const QUrl& file )
     // suddenly have two objects named the same, and that will fail badly
     if( sceneContents )
     {
-        delete sceneContents;
+        q->removeChild(sceneContents);
+        sceneContents->setParent(0);
+        sceneContents->deleteLater();
         sceneContents = 0;
     }
 

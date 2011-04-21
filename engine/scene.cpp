@@ -71,6 +71,7 @@ void Scene::resetScene()
         sceneContents()->cleanup();
     }
     d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
+    emit Game::instance()->currentSceneChanged(this);
     if(Game::instance()->isRunning())
     {
         sceneContents()->initialize();

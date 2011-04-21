@@ -137,6 +137,9 @@ namespace GluonEngine
              */
             void cleanupAll();
 
+            // This allows the reset scene call to emit the Game::currentSceneChanged signal
+            // which ensures that Creator doesn't crash when resetting the scene
+            friend void Scene::resetScene();
         signals:
             void showDebug( const QString& debugText );
             void currentSceneChanged( GluonEngine::Scene* );
