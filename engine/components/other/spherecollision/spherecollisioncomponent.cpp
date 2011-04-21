@@ -45,6 +45,7 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
         int collisionGroup;
         int targetGroup;
         float radius;
+        float radiusSquared;
         GameObject* collides;
 
         int componentType;
@@ -99,7 +100,7 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
     //Eliminate the Z-axis
     position.setZ( 0 );
     //Our radius, squared
-    float radius = d->radius * d->radius;
+    float radius = d->radiusSquared;
 
     //Walk through the list
     const int componentCount = d->collisionComponents.count();
@@ -118,7 +119,7 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
                 position.setZ( 0 );
 
                 //Get the object's radius
-                float otherRadius = sphere->radius() * sphere->radius();
+                float otherRadius = sphere->radiusSquared();
 
                 //Calculate the distance between our position and theirs
                 //Note that this is the squared distance to avoid a costly squareroot op
@@ -149,6 +150,11 @@ float SphereCollisionComponent::radius() const
     return d->radius;
 }
 
+float SphereCollisionComponent::radiusSquared() const
+{
+    return d->radiusSquared;
+}
+
 bool SphereCollisionComponent::isColliding() const
 {
     return d->collides != 0;
@@ -177,6 +183,7 @@ void SphereCollisionComponent::setTargetGroup(int group)
 void SphereCollisionComponent::setRadius( float radius )
 {
     d->radius = radius;
+    d->radiusSquared = radius * radius;
 }
 
 void SphereCollisionComponent::componentDestroyed( QObject* obj )

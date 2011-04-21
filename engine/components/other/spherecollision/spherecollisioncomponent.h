@@ -74,6 +74,8 @@ namespace GluonEngine
              */
             float radius() const;
 
+            float radiusSquared() const;
+
             int targetGroup() const;
 
             /**
