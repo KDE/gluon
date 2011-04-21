@@ -70,7 +70,7 @@ Item {
             id: helpText;
 
             anchors.centerIn: parent;
-            color: "#ff0000";
+            color: "#990000";
 
             text: "<h2>Controls</h2><ul>" +
             "<li>ASDF: Navigate around the world</li>" +
@@ -87,7 +87,7 @@ Item {
 
             SequentialAnimation on color {
                 loops: Animation.Infinite;
-                ColorAnimation { to: "#ff0000"; duration: 1000; }
+                ColorAnimation { to: "#990000"; duration: 1000; }
                 ColorAnimation { to: "#339933"; duration: 1000; }
             }
             opacity: 1.0;
@@ -136,7 +136,7 @@ Item {
             SequentialAnimation on color {
                 running: button.state == "Current";
                 loops: Animation.Infinite;
-                ColorAnimation { to: "#ff0000"; duration: 1000; }
+                ColorAnimation { to: "#990000"; duration: 1000; }
                 ColorAnimation { to: "#339933"; duration: 1000; }
             }
             font.pointSize: 18;
@@ -154,7 +154,7 @@ Item {
                 State {
                     name: "Current";
                     when: ListView.isCurrentItem;
-                    PropertyChanges { target: button; color: "#ff0000" }
+                    PropertyChanges { target: button; color: "#990000" }
                 }
             ]
 

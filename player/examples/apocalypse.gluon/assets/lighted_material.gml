@@ -37,6 +37,8 @@ uniform vec4 lightColor;
 uniform vec3 lightAmbDiffSpec;
 uniform vec3 lightAttenuation;
 
+uniform float saturation;
+
 varying vec4 out_color;
 varying vec2 out_uv0;
 varying vec4 out_lighting;
@@ -60,6 +62,9 @@ void main()
     finalColor += intensity * (lightColor * lightAmbDiffSpec.y) * diffuse * max(0.0, dot(normal, lightPosition));
     /* Specular Component */
     //vec3 viewVector = normalize(-lightingPosition.xyz);
+
+    vec4 noSaturationColor = vec4(finalColor.r + finalColor.b + finalColor.g / 3.0);
+    finalColor = (finalColor * saturation) + (noSaturationColor * (1.0 - saturation));
 
     finalColor.a = diffuse.a;
 

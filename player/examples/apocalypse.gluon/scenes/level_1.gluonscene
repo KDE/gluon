@@ -39,6 +39,7 @@
                 speed float(40)
                 backgroundDivisor float(100)
                 expanded bool(false)
+                health float(100)
             }
             { GluonEngine::KeyboardInputComponent(Key_Left)
                 enabled bool(true)
@@ -59,7 +60,8 @@
             { GluonEngine::SphereCollisionComponent(SphereCollisionComponent)
                 enabled bool(true)
                 collisionGroup int(3)
-                radius float(4)
+                targetGroup int(3)
+                radius float(5)
             }
         }
         { GluonEngine::GameObject(Background)
@@ -177,7 +179,7 @@
             enabled bool(true)
             collisionGroup int(3)
             targetGroup int(3)
-            radius float(8)
+            radius float(5)
         }
     }
     { GluonEngine::GameObject(Controller)
@@ -191,6 +193,27 @@
             minSpawnRate float(5000)
             maxSpawnRate float(1000)
             spawnRateChange float(2000)
+        }
+        { GluonEngine::UiManagerComponent(UiManagerComponent)
+            enabled bool(true)
+            size size2d(-1;-1)
+            ui GluonEngine::UiAsset(Apocalypse/Assets/Interface/Game Interface)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Escape)
+            enabled bool(true)
+            keyCode int(16777216)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Up)
+            enabled bool(true)
+            keyCode int(16777235)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Down)
+            enabled bool(true)
+            keyCode int(16777237)
+        }
+        { GluonEngine::KeyboardInputComponent(Key_Return)
+            enabled bool(true)
+            keyCode int(16777220)
         }
     }
 }

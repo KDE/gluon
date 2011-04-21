@@ -15,23 +15,20 @@ this.start = function()
 
 this.update = function(time)
 {
-    if(!this.dead)
+    if(!this.dead && !this.Scene.paused)
     {
-        if(!this.attack)
-        {
-            var playerPos = this.player.worldPosition();
-            var thisPos = this.GameObject.position;
+        var playerPos = this.player.worldPosition();
+        var thisPos = this.GameObject.position;
 
-            var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
-            diff.normalize();
+        var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
+        diff.normalize();
 
-            var dist = this.Component.speed * (time / 1000);
-            diff.setX(diff.x() * dist);
-            diff.setY(diff.y() * dist);
+        var dist = this.Component.speed * (time / 1000);
+        diff.setX(diff.x() * dist);
+        diff.setY(diff.y() * dist);
 
-            this.GameObject.translate(diff);
-            this.setDirection(diff);
-        }
+        this.GameObject.translate(diff);
+        this.setDirection(diff);
 
         if(this.bulletCollider.isColliding())
         {
@@ -39,7 +36,11 @@ this.update = function(time)
             this.kill();
         }
 
-//         if(this.playerCollider.isColliding())
+        if(this.playerCollider.isColliding())
+        {
+            MessageHandler.publish("playerHurt");
+            this.GameObject.translate(diff.multiply(-10));
+        }
 //         {
 //             this.attack = true;
 //             this.AnimatedSprite.animation = 3;
@@ -57,6 +58,7 @@ this.kill = function()
     this.GameObject.AnimatedSpriteRendererComponent.animation = 6;
     this.GameObject.AnimatedSpriteRendererComponent.loop = false;
     this.dead = true;
+    this.Scene.score++;
 }
 
 this.setDirection = function(direction)

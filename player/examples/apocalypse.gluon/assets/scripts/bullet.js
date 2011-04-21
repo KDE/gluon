@@ -14,6 +14,9 @@ this.start = function()
 
 this.update = function(time)
 {
+    if(this.Scene.paused)
+        return;
+    
     var move = new QVector3D();
     move.setX(this.Component.direction.x() * (this.Component.speed * (time/1000)));
     move.setY(this.Component.direction.y() * (this.Component.speed * (time/1000)));
@@ -22,16 +25,4 @@ this.update = function(time)
     this.life -= (time/1000);
     if(this.life <= 0)
         this.GameObject.destroy();
-}
-
-this.draw = function(timeLapse)
-{
-}
-
-this.stop = function()
-{
-}
-
-this.cleanup = function()
-{
 }

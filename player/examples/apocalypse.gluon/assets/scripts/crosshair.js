@@ -14,6 +14,9 @@ this.start = function()
 
 this.update = function(time)
 {
+    if(this.Scene.paused)
+        return;
+    
     var x = this.GameObject.Button_Fire.normalizedXAxis() * this.radius;
     var y = -this.GameObject.Button_Fire.normalizedYAxis() * this.radius;
 

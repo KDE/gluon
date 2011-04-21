@@ -19,11 +19,13 @@
     fragmentShader string(<<<
         uniform sampler2D texture0;
         uniform mediump vec4 materialColor;
+        uniform float saturation;
         varying mediump vec2 out_uv0;
 
         void main()
         {
-            gl_FragColor = materialColor * texture2D(texture0, out_uv0);
+            vec4 finalColor = materialColor * texture2D(texture0, out_uv0);
+            gl_FragColor = (finalColor * saturation) + vec4(finalColor.r + finalColor.g + finalColor.b / 3.0) * (1.0 - saturation);
         }
     <<<)
 }

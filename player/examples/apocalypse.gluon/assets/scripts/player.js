@@ -2,25 +2,36 @@ this.initialize = function()
 {
     this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
     this.Component.speed = this.Component.speed || 20;
+    this.Component.health = this.Component.health || 100;
     
     MessageHandler.subscribe("fireBullet", this.fireBullet, this);
+    MessageHandler.subscribe("playerHurt", this.damagePlayer, this);
 }
 
 this.start = function()
 {
-    this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
-    this.Background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
+    this.animatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
+    this.background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
     this.bullet = this.Scene.sceneContents().Bullet;
     this.crosshair = this.Scene.sceneContents().Camera.Crosshair;
+    this.renderTarget = this.Scene.sceneContents().Camera.CameraControllerComponent.renderTargetMaterial;
     
-    this.scaleX = this.Background.textureParameters.z();
-    this.scaleY = this.Background.textureParameters.w();
+    this.scaleX = this.background.textureParameters.z();
+    this.scaleY = this.background.textureParameters.w();
     this.moveX = 0.0;
     this.moveY = 0.0;
+    this.lightIntensity = this.background.lightIntensity;
+
+    this.Scene.currentHealth = this.Component.health;
+    this.renderTarget.saturation = 1.0;
+    this.background.lightIntensity = 1500;
 }
 
 this.update = function(time)
-{   
+{
+    if(this.Scene.paused)
+        return;
+    
     var dt = time / 1000;
     
     var translateX = 0;
@@ -43,7 +54,7 @@ this.update = function(time)
     
     this.moveX += translateX / this.Component.backgroundDivisor;
     this.moveY += translateY / this.Component.backgroundDivisor;
-    this.Background.textureParameters = new QVector4D(this.moveX, this.moveY, this.scaleX, this.scaleY);
+    this.background.textureParameters = new QVector4D(this.moveX, this.moveY, this.scaleX, this.scaleY);
    
     this.GameObject.parentGameObject().translate(translateX / this.scaleX, translateY / this.scaleY, 0);
     
@@ -51,26 +62,20 @@ this.update = function(time)
     
     if(translateX == 0 && translateY == 0)
     {
-	if(this.AnimatedSprite.animation != 0)
-	    this.AnimatedSprite.animation = 0;
+	if(this.animatedSprite.animation != 0)
+	    this.animatedSprite.animation = 0;
     }
     else
     {
-        if(this.AnimatedSprite.animation != 1)
-            this.AnimatedSprite.animation = 1;
+        if(this.animatedSprite.animation != 1)
+            this.animatedSprite.animation = 1;
     }
-}
-
-this.draw = function(timeLapse)
-{
-}
-
-this.stop = function()
-{
 }
 
 this.cleanup = function()
 {
+    MessageHandler.unsubscribe("fireBullet", this.fireBullet, this);
+    MessageHandler.unsubscribe("playerHurt", this.damagePlayer, this);
 }
 
 this.fireBullet = function() 
@@ -98,27 +103,39 @@ this.setDirection = function()
     if(dir.x() < 0)
     {
         if(angle > 0.75)
-            this.AnimatedSprite.direction = 7;
+            this.animatedSprite.direction = 7;
         else if(angle > 0.25)
-            this.AnimatedSprite.direction = 0;
+            this.animatedSprite.direction = 0;
         else if(angle > -0.25)
-            this.AnimatedSprite.direction = 1;
+            this.animatedSprite.direction = 1;
         else if(angle > -0.75)
-            this.AnimatedSprite.direction = 2;
+            this.animatedSprite.direction = 2;
         else
-            this.AnimatedSprite.direction = 3;
+            this.animatedSprite.direction = 3;
     }
     else
     {
         if(angle > 0.75)
-            this.AnimatedSprite.direction = 7;
+            this.animatedSprite.direction = 7;
         else if(angle > 0.25)
-            this.AnimatedSprite.direction = 6;
+            this.animatedSprite.direction = 6;
         else if(angle > -0.25)
-            this.AnimatedSprite.direction = 5;
+            this.animatedSprite.direction = 5;
         else if(angle > -0.75)
-            this.AnimatedSprite.direction = 4;
+            this.animatedSprite.direction = 4;
         else
-            this.AnimatedSprite.direction = 3;
+            this.animatedSprite.direction = 3;
+    }
+}
+
+this.damagePlayer = function()
+{
+    this.Scene.currentHealth -= 1;
+    this.background.lightIntensity = (this.Scene.currentHealth / this.Component.health) * (this.lightIntensity); // / 2) + this.lightIntensity / 2;
+    this.renderTarget.saturation = this.Scene.currentHealth / this.Component.health;
+
+    if(this.Scene.currentHealth < 0)
+    {
+        MessageHandler.publish("playerDied");
     }
 }
