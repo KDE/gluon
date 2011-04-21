@@ -28,8 +28,7 @@ set(gluonplasmaapplet_SRCS
 
 kde4_add_plugin(plasma_applet_gluonplayer ${gluonplasmaapplet_SRCS})
 
-target_link_libraries(plasma_applet_gluonplayer ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS}
-                        ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS})
+target_link_libraries(plasma_applet_gluonplayer ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS} ${GLUON_INPUT_LIBS}                        ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS})
 
 install(TARGETS plasma_applet_gluonplayer
         DESTINATION ${PLUGIN_INSTALL_DIR})

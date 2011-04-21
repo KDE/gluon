@@ -38,17 +38,21 @@
 #include <QtGui/QGraphicsSceneResizeEvent>
 #include <QtGui/QGraphicsLinearLayout>
 #include <QtCore/QTimer>
+#include <graphics/renderwidget.h>
+#include <graphics/rendertarget.h>
+#include <gluon/input/inputmanager.h>
 
 using namespace GluonPlayer;
 using namespace GluonGraphics;
 
 PlasmaApplet::PlasmaApplet( QObject* parent, const QVariantList& args )
-    : GLFBOApplet( parent, args )
+    : Plasma::Applet( parent, args )
     , m_viewportWidth( 0 )
     , m_viewportHeight( 0 )
     , m_project( 0 )
     , m_gamesOverlay( 0 )
     , m_gameDetailsOverlay( 0 )
+    , m_renderer(0)
 {
     setHasConfigurationInterface( true );
     setAspectRatioMode( Plasma::IgnoreAspectRatio );
@@ -94,48 +98,51 @@ void PlasmaApplet::openProject()
 
     setBusy( true );
 
-    initGL();
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
+
+    m_renderer = new RenderWidget();
+    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderer, SLOT(updateGL()));
+
+    GluonInput::InputManager::instance()->setFilteredObject(m_renderer);
 
     m_project = new GluonEngine::GameProject();
     m_project->loadFromFile( m_gameFileName );
+
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
 
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( doPaint() ) );
-    QTimer::singleShot( 1000, this, SLOT( startGame() ) );
+    startGame();
 }
 
 void PlasmaApplet::doPaint()
 {
-    makeCurrent();
-    update();
+//     update();
+}
+
+void PlasmaApplet::paintInterface(QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect)
+{
+//     if(m_renderer)
+//     {
+//         m_renderer->paintGL();
+//         if(GluonGraphics::Engine::instance()->mainRenderTarget())
+//         {
+//             QImage framebuffer = GluonGraphics::Engine::instance()->mainRenderTarget()->framebufferObject()->toImage();
+//             painter->drawImage(0, 0, framebuffer);
+//         }
+//     }
+    Plasma::Applet::paintInterface(painter, option, contentsRect);
 }
 
 void PlasmaApplet::startGame()
 {
     setBusy( false );
+    m_renderer->show();
+    m_renderer->setFocus();
     GluonEngine::Game::instance()->runGame();
-}
 
-void PlasmaApplet::initGL()
-{
-    Engine::instance()->initialize();
-
-    glClearColor( 0.0, 0.0, 0.0, 1.0 );
-    glShadeModel( GL_SMOOTH );
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_BLEND );
-    glEnable( GL_SCISSOR_TEST );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-}
-
-void PlasmaApplet::resizeEvent( QGraphicsSceneResizeEvent* event )
-{
-    m_viewportWidth = event->newSize().width();
-    m_viewportHeight = event->newSize().height();
-
-    glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
+    delete m_renderer;
+    m_renderer = 0;
+    showGames();
 }
 
 void PlasmaApplet::showGames()
@@ -177,24 +184,11 @@ void PlasmaApplet::showGameDetails( const QModelIndex& index )
     connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }
 
-void PlasmaApplet::render()
+void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
-    Engine::instance()->render();
-}
-
-void PlasmaApplet::paintGLInterface( QPainter* /* painter */, const QStyleOptionGraphicsItem* /* option */ )
-{
-    glScissor( 0, 0, 400, 400 );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glLoadIdentity();
-    glClearColor( 0.0, 0.0, 0.0, 1.0 );
-    glClear( GL_COLOR_BUFFER_BIT );
-
-    Engine::instance()->render();
-
-    glPushAttrib( GL_ALL_ATTRIB_BITS );
-    render();
-    glPopAttrib();
+    if(m_renderer)
+        m_renderer->resize(event->newSize().width(), event->newSize().height());
+    Plasma::Applet::resizeEvent(event);
 }
 
 #include "plasmaapplet.moc"

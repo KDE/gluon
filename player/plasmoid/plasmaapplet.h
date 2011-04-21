@@ -31,6 +31,11 @@
 
 class QGraphicsLinearLayout;
 
+namespace GluonGraphics
+{
+    class RenderWidget;
+}
+
 namespace GluonEngine
 {
     class GameProject;
@@ -43,7 +48,7 @@ namespace GluonPlayer
 {
     class GameItemsModel;
 
-    class PlasmaApplet : public GLFBOApplet
+    class PlasmaApplet : public Plasma::Applet
     {
             Q_OBJECT
 
@@ -51,7 +56,8 @@ namespace GluonPlayer
             PlasmaApplet( QObject* parent, const QVariantList& args );
             virtual ~PlasmaApplet();
             void init();
-            virtual void paintGLInterface( QPainter* painter, const QStyleOptionGraphicsItem* option );
+
+            virtual void paintInterface(QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect);
 
         private:
             int m_viewportWidth;
@@ -62,9 +68,7 @@ namespace GluonPlayer
             GamesOverlay* m_gamesOverlay;
             GameDetailsOverlay* m_gameDetailsOverlay;
             QGraphicsLinearLayout* m_layout;
-
-            void initGL();
-            void render();
+            GluonGraphics::RenderWidget* m_renderer;
 
         protected:
             void resizeEvent( QGraphicsSceneResizeEvent* event );
