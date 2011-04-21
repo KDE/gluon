@@ -27,20 +27,21 @@
 #include "views/gamesview.h"
 #include "gamedetailsoverlay.h"
 
+#include <lib/models/gameitemsmodel.h>
+
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/item.h>
 #include <graphics/engine.h>
-#include <lib/models/gameitemsmodel.h>
+#include <graphics/renderwidget.h>
+#include <graphics/rendertarget.h>
+#include <input/inputmanager.h>
 
 #include <QtGui/QFileDialog>
 #include <QtGui/QGraphicsSceneResizeEvent>
 #include <QtGui/QGraphicsLinearLayout>
 #include <QtCore/QTimer>
-#include <graphics/renderwidget.h>
-#include <graphics/rendertarget.h>
-#include <gluon/input/inputmanager.h>
 
 using namespace GluonPlayer;
 using namespace GluonGraphics;
