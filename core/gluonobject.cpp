@@ -36,8 +36,6 @@ using namespace GluonCore;
 
 Q_DECLARE_METATYPE( QList<int> )
 
-static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
-
 class GluonObject::Private
 {
     public:
@@ -53,6 +51,7 @@ GluonObject::GluonObject( QObject* parent )
     : QObject( parent )
     , d( new Private )
 {
+    qRegisterMetaType< QList<QUrl> >();
     // Get a nice name first time the object is created...
     QString theClassName( metaObject()->className() );
     if( theClassName.contains( ':' ) )
