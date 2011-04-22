@@ -196,13 +196,13 @@ Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& exten
 
     QRegExp filter( "[^a-z0-9_]+" );
 
-    QString file = parts.last().toLower().replace( ' ', '_' ).replace( filter, "" );
+    QString file = parts.last().toLower().replace( ' ', '_' ).remove( filter );
     parts.removeLast();
 
     QStringList path;
     foreach( const QString & part, parts )
     {
-        path.append( part.toLower().replace( ' ', '_' ).replace( filter, "" ) );
+        path.append( part.toLower().replace( ' ', '_' ).remove( filter ) );
     }
 
     QString dir = path.join( "/" );

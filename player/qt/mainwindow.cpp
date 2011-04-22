@@ -181,7 +181,7 @@ void MainWindow::loadGamesList()
 {
     QDir m_dir;
     m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
-    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( "*" + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
+    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( '*' + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
     foreach( const QString & gameDirName, gameDirNameList )
     {
         QDir gameDir = m_dir;
