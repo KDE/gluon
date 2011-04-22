@@ -8,8 +8,11 @@ this.initialize = function()
 
 this.update = function(time)
 {
-    this.rotate();
-    this.jump();
+    if(!Game.end)
+    {
+        this.rotate();
+        this.jump();
+    }
 }
 
 this.draw = function()
@@ -45,7 +48,7 @@ this.jump = function()
     }
 }
 
-this.partOfFrame = functiontime)
+this.partOfFrame = function(time)
 {
     return  time/1000*25;
 }
