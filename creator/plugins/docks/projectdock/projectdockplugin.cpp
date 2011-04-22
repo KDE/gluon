@@ -18,9 +18,10 @@
  */
 
 #include "projectdockplugin.h"
-#include <KLocalizedString>
+
 #include "projectdock.h"
-#include <dockmanager.h>
+#include <creator/lib/dockmanager.h>
+#include <KDE/KLocalizedString>
 
 using namespace GluonCreator;
 

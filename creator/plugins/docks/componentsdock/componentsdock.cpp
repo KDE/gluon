@@ -20,8 +20,8 @@
  */
 
 #include "componentsdock.h"
-#include "models/componentmodel.h"
-#include "models/modeltest.h"
+#include <creator/lib/models/componentmodel.h>
+#include <creator/lib/models/modeltest.h>
 
 #include <core/gluonobjectfactory.h>
 #include <core/gluonobject.h>

@@ -24,7 +24,7 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QScrollArea>
 
-#include "gluoncreator_macros.h"
+#include <creator/lib/gluoncreator_macros.h>
 
 namespace GluonCore
 {

@@ -22,7 +22,7 @@
 #ifndef GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
+#include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {

@@ -19,10 +19,13 @@
 
 
 #include "textureimageprovider.h"
-#include <game.h>
-#include <engine.h>
-#include <texture.h>
-#include <QMimeData>
+
+#include <graphics/engine.h>
+#include <graphics/texture.h>
+
+#include <engine/game.h>
+
+#include <QtCore/QMimeData>
 
 using namespace GluonEngine;
 

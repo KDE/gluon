@@ -22,8 +22,7 @@
 #ifndef TEXTPROPERTYWIDGETITEM_H
 #define TEXTPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
-
+#include <creator/lib/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
     class TextPropertyWidgetItem : public PropertyWidgetItem

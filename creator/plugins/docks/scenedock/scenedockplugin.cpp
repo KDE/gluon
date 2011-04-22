@@ -22,7 +22,7 @@
 #include <KLocalizedString>
 
 #include "scenedock.h"
-#include <dockmanager.h>
+#include <lib/dockmanager.h>
 
 using namespace GluonCreator;
 

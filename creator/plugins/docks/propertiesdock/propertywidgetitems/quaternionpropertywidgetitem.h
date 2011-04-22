@@ -22,7 +22,7 @@
 #ifndef GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
+#include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {

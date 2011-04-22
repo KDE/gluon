@@ -10,28 +10,18 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonGraphics REQUIRED)
 endif()
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${KDE4_INCLUDES}
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES}
+)
+
 find_package(KDevPlatform 1.0.2)
 if(KDevPlatform_FOUND)
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${KDE4_INCLUDES}
-    ${KDEVPLATFORM_INCLUDE_DIR}
-    ${GLUON_CORE_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES}
-)
-else(KDevPlatform_FOUND)
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${KDE4_INCLUDES}
-    ${GLUON_CORE_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES}
-)
+    include_directories(${KDEVPLATFORM_INCLUDE_DIR})
 endif(KDevPlatform_FOUND)
-
-
-#include(KDE4Defaults)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
@@ -50,7 +40,6 @@ set(gluoncreator_SRCS
     dialogs/openprojectdialogpage.cpp
 )
 
-qt4_automoc(${gluoncreator_SRCS})
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})

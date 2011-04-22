@@ -13,13 +13,11 @@ include_directories(
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# find_package(UDev REQUIRED)
-
 if(APPLE)
     set(GLUON_INPUT_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/mac
-        CACHE PATHS "Includes required for Gluon Input"
+        CACHE INTERNAL "Includes required for Gluon Input"
     )
 
     find_library(IOKIT_LIBRARY NAMES IOKit)
@@ -35,7 +33,7 @@ elseif(WIN32)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/win
         ${GLUON_CORE_INCLUDES}
-        CACHE PATHS "Includes required for Gluon Input"
+        CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
@@ -44,7 +42,7 @@ elseif(UNIX)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
         ${GLUON_CORE_INCLUDES}
-        CACHE PATHS "Includes required for Gluon Input"
+        CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
@@ -67,70 +65,70 @@ set(GluonInput_HEADERS_WIN
 
 ###############mac source and headers###################
 set(GluonInput_SRCS_MAC
-	mac/inputthread.cpp
-	mac/inputthreadprivate.cpp
+    mac/inputthread.cpp
+    mac/inputthreadprivate.cpp
     mac/detectmac.cpp
-	mac/gluonbuttons.cpp
+    mac/gluonbuttons.cpp
 )
 
 set(GluonInput_HEADERS_MAC
     mac/detectmac.h
-	mac/inputthread.h
+    mac/inputthread.h
     mac/gluonbuttons.h
-	mac/gluondevices.h
+    mac/gluondevices.h
 )
 ###############mac source and headers###################
 
 ###############linux source and headers###################
 set(GluonInput_SRCS_LINUX
-	linux/inputthread.cpp
-	linux/inputthreadprivate.cpp
+    linux/inputthread.cpp
+    linux/inputthreadprivate.cpp
     linux/detectlinux.cpp
-	linux/detectlinuxprivate.cpp
-	linux/gluonbuttons.cpp
+    linux/detectlinuxprivate.cpp
+    linux/gluonbuttons.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
-	linux/inputthread.h
+    linux/inputthread.h
     linux/detectlinux.h
     linux/gluonbuttons.h
-	linux/gluondevices.h
+    linux/gluondevices.h
 )
 ###############linux source and headers###################
 
 ###############qt source and headers###################
 set(GluonInput_SRCS_QT
     qt/detectqt.cpp
-	qt/detectqtprivate.cpp
-	qt/gluonqtbuttons.cpp
+    qt/detectqtprivate.cpp
+    qt/gluonqtbuttons.cpp
 )
 
 set(GluonInput_HEADERS_QT
     qt/detectqt.h
     qt/gluonqtbuttons.h
-	qt/gluonqtdevices.h
+    qt/gluonqtdevices.h
 )
 ###############qt source and headers###################
 
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
     inputdevice.cpp
-	inputdeviceprivate.cpp
+    inputdeviceprivate.cpp
     mouse.cpp
-	mouseprivate.cpp
+    mouseprivate.cpp
     touch.cpp
-	touchprivate.cpp
+    touchprivate.cpp
     keyboard.cpp
-	keyboardprivate.cpp
+    keyboardprivate.cpp
     joystick.cpp
-	joystickprivate.cpp
+    joystickprivate.cpp
     custominput.cpp
-	custominputprivate.cpp
+    custominputprivate.cpp
     inputmanager.cpp
-	inputmanagerprivate.cpp
+    inputmanagerprivate.cpp
     detect.cpp
-	inputbuffer.cpp
-	inputbufferprivate.cpp
+    inputbuffer.cpp
+    inputbufferprivate.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
@@ -142,9 +140,9 @@ set(GluonInput_HEADERS_COMMON
     keyboard.h
     joystick.h
     custominput.h
-	detect.h
-	absval.h
-	inputbuffer.h
+    detect.h
+    absval.h
+    inputbuffer.h
 )
 ###############common source and headers###################
 
@@ -166,38 +164,30 @@ endif()
 set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_INPUT_LIB)
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND ${GluonInput_HEADERS_COMMON}
-		GluonInput_HEADERS_COMMON
-	)
-	list(APPEND ${GluonInput_HEADERS_MAC}
-		GluonInput_HEADERS_MAC
-	)
+    #hack for being able to set headers as public in a osx framework
+    list(APPEND ${GluonInput_HEADERS_COMMON}
+            GluonInput_HEADERS_COMMON
+    )
+    list(APPEND ${GluonInput_HEADERS_MAC}
+            GluonInput_HEADERS_MAC
+    )
 
-	set_target_properties(GluonInput PROPERTIES FRAMEWORK TRUE)
-	set_target_properties(GluonInput PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-	set_target_properties(GluonInput PROPERTIES PUBLIC_HEADER "${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC}")
+    set_target_properties(GluonInput PROPERTIES FRAMEWORK TRUE)
+    set_target_properties(GluonInput PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(GluonInput PROPERTIES PUBLIC_HEADER "${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC}")
 
-	set(MACOSX_FRAMEWORK_IDENTIFIER input)
-	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_IDENTIFIER input)
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-if(GLUON_BUILD_ALL)
-    add_dependencies(GluonInput GluonCore)
-endif()
 
-if(NOT WIN32)
-# target_link_libraries(GluonInput ${GLUON_CORE_LIBS} -ludev)
 target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
-else(NOT WIN32)
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
-endif(NOT WIN32)
 
 set(GLUON_INPUT_LIBS
     GluonInput
     ${GLUON_CORE_LIBS}
-    CACHE PATHS "Libraries required for Gluon Input"
+    CACHE INTERNAL "Libraries required for Gluon Input"
 )
 
 if(APPLE)
@@ -205,21 +195,21 @@ if(APPLE)
         ${GLUON_INPUT_LIBS}
         ${IOKIT_LIBRARY}
         ${COREFOUNDATION_LIBRARY}
-        CACHE PATHS "Libraries required for Gluon Input"
+        CACHE INTERNAL "Libraries required for Gluon Input"
     )
-elseif(WIN32)
-elseif(UNIX)
-else()
 endif()
 
 if(APPLE)
     target_link_libraries(GluonInput ${IOKIT_LIBRARY}  ${COREFOUNDATION_LIBRARY})
-elseif(WIN32)
-elseif(UNIX)
-else()
 endif()
 
-install(TARGETS GluonInput RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR} FRAMEWORK DESTINATION ${LIB_INSTALL_DIR})
+install(
+    TARGETS GluonInput
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+)
 
 if(APPLE)
     install(
@@ -245,7 +235,6 @@ elseif(UNIX)
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
-else()
 endif()
 
 install(
@@ -254,4 +243,4 @@ install(
     ${GluonInput_HEADERS_COMMON}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
     COMPONENT Devel
-    )
+)
