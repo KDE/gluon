@@ -112,7 +112,7 @@ void NodePropertiesWidget::reflectAttributes()
         if( reader.attributes().hasAttribute( "id" ) )
         {
             QString attribute = reader.attributes().value( "id" ).toString();
-            if( attribute.startsWith( "rocs_" ) )
+            if( attribute.startsWith( QLatin1String("rocs_") ) )
             {
                 attribute.remove( "rocs_" );
                 _images->addItem( attribute );

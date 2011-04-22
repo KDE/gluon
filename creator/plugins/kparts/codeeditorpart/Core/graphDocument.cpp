@@ -268,7 +268,7 @@ void GraphDocument::loadFromInternalFormat( const QString& filename )
             continue;
         }
 
-        else if( str.startsWith( "[Graph" ) )
+        else if( str.startsWith( QLatin1String( "[Graph" ) ) )
         {
             QString gName = str.section( ' ', 1, 1 );
             gName.remove( ']' );
@@ -279,7 +279,7 @@ void GraphDocument::loadFromInternalFormat( const QString& filename )
             kDebug() << "Graph Created";
         }
 
-        else if( str.startsWith( "[Node" ) )
+        else if( str.startsWith( QLatin1String( "[Node" ) ) )
         {
             QString nName = str.section( ' ', 1, 1 );
             nName.remove( ']' );
@@ -287,7 +287,7 @@ void GraphDocument::loadFromInternalFormat( const QString& filename )
             kDebug() << "Node Created";
         }
 
-        else if( str.startsWith( "[Edge" ) )
+        else if( str.startsWith( QLatin1String( "[Edge" ) ) )
         {
             QString eName = str.section( ' ', 1, 1 );
             eName.remove( ']' );
@@ -298,7 +298,7 @@ void GraphDocument::loadFromInternalFormat( const QString& filename )
             //tmpObject = tmpGraph->addEdge(tmpGraph->nodes()[nameFrom.toInt()], tmpGraph->nodes()[nameTo.toInt()]);
             //kDebug() << "Edge Created";
         }
-        else if( str.startsWith( "[Group" ) )
+        else if( str.startsWith( QLatin1String( "[Group" ) ) )
         {
             /*QString gName = str.section(" ",1,1);
             gName.remove(']');
