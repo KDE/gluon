@@ -181,7 +181,7 @@ void Material::build( const QString& name )
     //     {
     //         char log[500];
     //         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
-    //         debug( "An error occured when compiling a vertex shader:\n%1", QString( log ) );
+    //         debug( "An error occurred when compiling a vertex shader:\n%1", QString( log ) );
     //     }
     //
     //     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );

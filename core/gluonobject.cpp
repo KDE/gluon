@@ -297,7 +297,7 @@ GluonObject::setName( const QString& newName )
     QString theName( newName );
     // Fix up the name to not include any '/' (this would screw up the fullyQualifiedName)
     theName.replace( '/', ' ' );
-    // Ensure we have no newlines and no consequtive whitespace
+    // Ensure we have no newlines and no consecutive whitespace
     theName = theName.simplified();
 
     // Make sure we don't set a name on an object which is already used!
