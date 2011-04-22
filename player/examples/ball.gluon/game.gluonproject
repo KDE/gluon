@@ -9,13 +9,13 @@
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(controller.js)
+            { GluonEngine::ScriptingAsset(Controller)
                 file url(assets/scripts/controller.js)
             }
-            { GluonEngine::ScriptingAsset(player.js)
+            { GluonEngine::ScriptingAsset(Player)
                 file url(assets/scripts/player.js)
             }
-            { GluonEngine::ScriptingAsset(trap.js)
+            { GluonEngine::ScriptingAsset(Trap)
                 file url(assets/scripts/trap.js)
             }
         }
@@ -40,37 +40,45 @@
             }
         }
         { GluonEngine::MaterialAsset(Main Material)
-            file url(assets/Ball_Assets_Material.gml)
+            file url(assets/main_material.gml)
             { GluonGraphics::MaterialInstance(Background)
                 materialColor rgba(255;255;255;255)
-                texture0
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Background)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Background)
             }
-            { GluonGraphics::MaterialInstance(Ball)
+            { GluonGraphics::MaterialInstance(Player)
                 materialColor rgba(255;255;255;255)
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Ball)
-            }
-            { GluonGraphics::MaterialInstance(Score)
-                materialColor rgba(255;255;255;255)
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Score)
-            }
-            { GluonGraphics::MaterialInstance(Star)
-                materialColor rgba(255;255;255;255)
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Star)
-            }
-            { GluonGraphics::MaterialInstance(Reset)
-                materialColor rgba(255;255;255;255)
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Reset)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Ball)
             }
             { GluonGraphics::MaterialInstance(Trap)
                 materialColor rgba(255;255;255;255)
-                GluonEngine::TextureAsset(Ball/Assets/Textures/Trap)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Trap)
+            }
+            { GluonGraphics::MaterialInstance(Star)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Star)
+            }
+            { GluonGraphics::MaterialInstance(ScoreText)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Score)
+            }
+            { GluonGraphics::MaterialInstance(ResetText)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(Ball/Assets/Textures/Reset)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(Game Music)
+                file url(assets/sounds/game_music.ogg)
+            }
+        }
+        { GluonEngine::MaterialAsset(Render Target)
+            file url(assets/render_target.gml)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+                texture0 uint(12)
             }
         }
     }
     { GluonCore::GluonObject(Prefabs)
-    }
-    { GluonEngine::SoundAsset(merry_go.ogg)
-        file url(assets/ball_merry_go.ogg)
     }
 }
