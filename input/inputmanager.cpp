@@ -288,6 +288,9 @@ bool InputManager::eventFilter(QObject* object, QEvent* event)
 		}
 	case QEvent::MouseButtonPress:
 		{
+                    if(!m_filteredObj.isNull() && !qobject_cast<QWidget*>(filteredObject())->hasFocus())
+                        qobject_cast<QWidget*>(filteredObject())->setFocus();
+                    
 			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 			mouse(0)->setButtonState(mapMouseButton( mouseEvent->button() ), 1);
             emit keyPressed( mapMouseButton( mouseEvent->button() ) );
