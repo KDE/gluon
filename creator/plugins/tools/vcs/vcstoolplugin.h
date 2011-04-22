@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_VCSTOOLPLUGIN_H
 #define GLUON_CREATOR_VCSTOOLPLUGIN_H
 
-#include <toolplugin.h>
+#include <creator/lib/toolplugin.h>
 
 namespace GluonCreator
 {

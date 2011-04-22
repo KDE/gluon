@@ -21,9 +21,9 @@
 #include "vcstoolplugin.h"
 #include "vcstool.h"
 
-#include <gluoncreator_macros.h>
+#include <creator/lib/gluoncreator_macros.h>
 
-#include <KLocalizedString>
+#include <KDE/KLocalizedString>
 
 using namespace GluonCreator;
 
