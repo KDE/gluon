@@ -131,7 +131,7 @@ void ItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
 }
 
 // draws the preview
-void ItemsViewDelegate::paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const
+void ItemsViewDelegate::paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
 {
     int margin = option.fontMetrics.height() / 2;
 

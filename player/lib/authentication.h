@@ -90,14 +90,14 @@ namespace GluonPlayer
              */
             QString password();
 
-        protected slots:
+        protected Q_SLOTS:
             void finishInit();
             void checkLoginResult( Attica::BaseJob* );
 
             void onRegisterClicked( const QString& username, const QString& password, const QString& mail, const QString& firstName, const QString& lastName );
             void onRegisterAccountFinished( Attica::BaseJob* job );
 
-        signals:
+        Q_SIGNALS:
             /** signal which is emitted when the initialization is complete
              */
             void initialized();

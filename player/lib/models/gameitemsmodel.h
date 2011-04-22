@@ -84,11 +84,11 @@ namespace GluonPlayer
             int downloadableCount() const;
             int upgradableCount() const;
 
-        signals:
+        Q_SIGNALS:
             void downloadableCountChanged();
             void upgradableCountChanged();
 
-        protected slots:
+        protected Q_SLOTS:
             void providersUpdated();
             void processFetchedGamesList( Attica::BaseJob* job );
 

@@ -55,12 +55,12 @@ namespace GluonPlayer
 
             bool downloadGame( const QString& id );
 
-        protected slots:
+        protected Q_SLOTS:
             void providersUpdated();
             void requestContent();
             void processFetchedGameDetails( Attica::BaseJob* job );
 
-        signals:
+        Q_SIGNALS:
             /**
              * signal which is emitted when a provider has been loaded
              */

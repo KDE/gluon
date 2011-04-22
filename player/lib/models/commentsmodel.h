@@ -99,12 +99,12 @@ namespace GluonPlayer
              */
             void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
-        private slots:
+        private Q_SLOTS:
             void providersUpdated();
             void processFetchedComments( Attica::BaseJob* );
             void addCommentFinished( Attica::BaseJob* job );
 
-        signals:
+        Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
