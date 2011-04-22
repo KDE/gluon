@@ -20,11 +20,9 @@
 #ifndef GLUON_CREATOR_COMPONENTSDOCKPLUGIN_H
 #define GLUON_CREATOR_COMPONENTSDOCKPLUGIN_H
 
-#include <dockplugin.h>
-
+#include <creator/lib/dockplugin.h>
 namespace GluonCreator
 {
-
     class ComponentsDockPlugin : public DockPlugin
     {
             Q_OBJECT

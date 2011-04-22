@@ -20,9 +20,9 @@
 
 #include "propertiesdock.h"
 
-#include "widgets/propertywidget.h"
-#include "objectmanager.h"
-#include "historymanager.h"
+#include <creator/lib/widgets/propertywidget.h>
+#include <creator/lib/objectmanager.h>
+#include <creator/lib/historymanager.h>
 
 #include <engine/game.h>
 #include <engine/component.h>

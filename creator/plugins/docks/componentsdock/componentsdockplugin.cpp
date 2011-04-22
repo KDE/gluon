@@ -20,9 +20,9 @@
 #include "componentsdockplugin.h"
 #include "componentsdock.h"
 
-#include <gluoncreator_macros.h>
-#include <KLocalizedString>
-#include <dockmanager.h>
+#include <creator/lib/gluoncreator_macros.h>
+#include <creator/lib/dockmanager.h>
+#include <KDE/KLocalizedString>
 
 using namespace GluonCreator;
 

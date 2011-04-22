@@ -14,11 +14,11 @@ elseif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
    set(_Init_LIB_SUFFIX 32)
 endif ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
 
-set(LIB_SUFFIX		    ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
+set(LIB_SUFFIX		${_Init_LIB_SUFFIX}                      CACHE INTERNAL      "The suffix of the system-wide library path")
 
-set(INCLUDE_INSTALL_DIR     ${CMAKE_INSTALL_PREFIX}/include             CACHE PATH "The subdirectory relative to the install prefix where header files will be installed.")
-set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
-set(SHARE_INSTALL_DIR       ${CMAKE_INSTALL_PREFIX}/share               CACHE PATH "The subdiractory relative to the install prefix where data and other files will be installed.")
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include          CACHE INTERNAL "The subdirectory relative to the install prefix where header files will be installed.")
+set(LIB_INSTALL_DIR     ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE INTERNAL "The subdirectory relative to the install prefix where libraries will be installed.")
+set(SHARE_INSTALL_DIR   ${CMAKE_INSTALL_PREFIX}/share            CACHE INTERNAL "The subdiractory relative to the install prefix where data and other files will be installed.")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gluon_global.h.in ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h)
 
@@ -30,7 +30,7 @@ include_directories(
 
 set(GLUON_CORE_INCLUDES
     ${QT_INCLUDES}
-    CACHE PATHS "Includes required for Gluon Core"
+    CACHE INTERNAL "Includes required for Gluon Core"
 )
 
 set(GluonCore_SRCS
@@ -70,9 +70,9 @@ set(GluonCore_HEADERS
 qt4_automoc(${GluonCore_SRCS})
 
 if(APPLE)
-	add_library(GluonCore SHARED ${GluonCore_SRCS} ${GluonCore_HEADERS})
+    add_library(GluonCore SHARED ${GluonCore_SRCS} ${GluonCore_HEADERS})
 else()
-	add_library(GluonCore SHARED ${GluonCore_SRCS})
+    add_library(GluonCore SHARED ${GluonCore_SRCS})
 endif()
 
 target_link_libraries(GluonCore ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY})
@@ -82,27 +82,33 @@ set(GLUON_CORE_LIBS
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
     ${QT_QTSCRIPT_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Core"
+    CACHE INTERNAL "Libraries required for Gluon Core"
 )
 
 set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CORE_LIB)
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonCore_HEADERS
-		${GluonCore_HEADERS}
-	)
+    #hack for being able to set headers as public in a osx framework
+    list(APPEND GluonCore_HEADERS
+            ${GluonCore_HEADERS}
+    )
 
-	set_target_properties(GluonCore PROPERTIES FRAMEWORK TRUE)
-	set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-	set_target_properties(GluonCore PROPERTIES PUBLIC_HEADER "${GluonCore_HEADERS}")
+    set_target_properties(GluonCore PROPERTIES FRAMEWORK TRUE)
+    set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(GluonCore PROPERTIES PUBLIC_HEADER "${GluonCore_HEADERS}")
 
-	set(MACOSX_FRAMEWORK_IDENTIFIER core)
-	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_IDENTIFIER core)
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-install(TARGETS GluonCore RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR} FRAMEWORK DESTINATION ${LIB_INSTALL_DIR})
+install(
+    TARGETS GluonCore
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+)
 
 install(
     FILES

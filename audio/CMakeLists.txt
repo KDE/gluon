@@ -9,7 +9,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
-find_package(OggVorbis REQUIRED)
 find_package(Alure 1.1 REQUIRED)
 
 link_directories(
@@ -26,8 +25,6 @@ include_directories(
     ${OPENAL_INCLUDE_DIR}
     #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
     ${SNDFILE_INCLUDE_DIR}
-    ${OGG_INCLUDE_DIR}
-    ${VORBISFILE_INCLUDE_DIR}
     ${ALURE_INCLUDE_DIRS}
 )
 
@@ -36,10 +33,8 @@ set(GLUON_AUDIO_INCLUDES
 
     ${OPENAL_INCLUDE_DIR}
     ${SNDFILE_INCLUDE_DIR}
-    ${OGG_INCLUDE_DIR}
-    ${VORBISFILE_INCLUDE_DIR}
     ${ALURE_INCLUDE_DIRS}
-    CACHE PATHS "Includes required for Gluon Audio"
+    CACHE INTERNAL "Includes required for Gluon Audio"
 )
 
 set(GluonAudio_SRCS
@@ -62,9 +57,9 @@ set(GluonAudio_HEADERS
 qt4_automoc(${GluonAudio_SRCS})
 
 if(APPLE)
-	add_library(GluonAudio SHARED ${GluonAudio_SRCS} ${GluonAudio_HEADERS})
+    add_library(GluonAudio SHARED ${GluonAudio_SRCS} ${GluonAudio_HEADERS})
 else()
-	add_library(GluonAudio SHARED ${GluonAudio_SRCS})
+    add_library(GluonAudio SHARED ${GluonAudio_SRCS})
 endif()
 
 if(GLUON_BUILD_ALL)
@@ -76,8 +71,6 @@ target_link_libraries(
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
     ${SNDFILE_LIBRARIES}
-    ${OGG_LIBRARY}
-    ${VORBISFILE_LIBRARY}
     ${ALURE_LIBRARIES}
 )
 
@@ -86,30 +79,34 @@ set(GLUON_AUDIO_LIBS
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
     ${SNDFILE_LIBRARIES}
-    ${OGG_LIBRARY}
-    ${VORBISFILE_LIBRARY}
     ${ALURE_LIBRARIES}
-    CACHE PATHS "Libraries required for Gluon audio"
+    CACHE INTERNAL "Libraries required for Gluon audio"
 )
 
 set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB")
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonAudio_HEADERS
-		${GluonAudio_HEADERS}
-	)
+    #hack for being able to set headers as public in a osx framework
+    list(APPEND GluonAudio_HEADERS
+        ${GluonAudio_HEADERS}
+    )
 
-	set_target_properties(GluonAudio PROPERTIES FRAMEWORK TRUE)
-	set_target_properties(GluonAudio PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-	set_target_properties(GluonAudio PROPERTIES PUBLIC_HEADER "${GluonAudio_HEADERS}")
+    set_target_properties(GluonAudio PROPERTIES FRAMEWORK TRUE)
+    set_target_properties(GluonAudio PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(GluonAudio PROPERTIES PUBLIC_HEADER "${GluonAudio_HEADERS}")
 
-	set(MACOSX_FRAMEWORK_IDENTIFIER audio)
-	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_IDENTIFIER audio)
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-install(TARGETS GluonAudio RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR} FRAMEWORK DESTINATION ${LIB_INSTALL_DIR})
+install(
+    TARGETS GluonAudio
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+)
 
 install(
     FILES

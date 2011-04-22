@@ -22,8 +22,7 @@
 #ifndef GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
-
+#include <creator/lib/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
     class QFontPropertyWidgetItem : public GluonCreator::PropertyWidgetItem

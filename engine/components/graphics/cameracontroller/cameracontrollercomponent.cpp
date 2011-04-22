@@ -19,14 +19,14 @@
 
 #include "cameracontrollercomponent.h"
 
-#include <material.h>
-
 #include <graphics/camera.h>
 #include <graphics/engine.h>
 #include <graphics/frustrum.h>
 #include <graphics/viewport.h>
 #include <graphics/rendertarget.h>
 #include <graphics/materialinstance.h>
+#include <graphics/material.h>
+
 #include <engine/gameobject.h>
 #include <engine/asset.h>
 

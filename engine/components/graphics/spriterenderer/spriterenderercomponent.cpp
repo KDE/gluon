@@ -19,17 +19,16 @@
 
 #include "spriterenderercomponent.h"
 
-#include <texture.h>
-#include <game.h>
-
-#include "engine/gameobject.h"
-#include "engine/asset.h"
+#include <engine/gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
 
 #include <graphics/item.h>
 #include <graphics/engine.h>
 #include <graphics/material.h>
 #include <graphics/mesh.h>
 #include <graphics/materialinstance.h>
+#include <graphics/texture.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>

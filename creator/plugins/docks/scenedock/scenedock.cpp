@@ -20,17 +20,17 @@
 
 #include "scenedock.h"
 
-#include <historymanager.h>
-#include <objectmanager.h>
-#include <models/models.h>
+#include <lib/historymanager.h>
+#include <lib/objectmanager.h>
+#include <lib/models/models.h>
 
 #include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>
 
-#include <selectionmanager.h>
-#include <models/scenemodel.h>
+#include <lib/selectionmanager.h>
+#include <lib/models/scenemodel.h>
 
 #include <KDE/KAction>
 #include <KDE/KLocalizedString>

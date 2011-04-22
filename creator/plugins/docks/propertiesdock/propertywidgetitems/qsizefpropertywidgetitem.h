@@ -22,7 +22,7 @@
 #ifndef GLUON_CREATOR_QSIZEFPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QSIZEFPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
+#include <creator/lib/widgets/propertywidgetitem.h>
 
 class QDoubleSpinBox;
 namespace GluonCreator

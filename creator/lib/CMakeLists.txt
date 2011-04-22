@@ -40,13 +40,13 @@ if(GLUON_BUILD_ALL)
 endif()
 
 target_link_libraries(libGluonCreator
-                      ${GLUON_ENGINE_LIBS}
-                      ${GLUON_CREATOR_LIBS}
-                      ${KDE4_KDECORE_LIBS}
-                      ${KDE4_KDEUI_LIBS}
-                      ${KDE4_KIO_LIBS}
-                      ${KDE4_KPARTS_LIBS}
-                      )
+    ${GLUON_ENGINE_LIBS}
+    ${GLUON_CREATOR_LIBS}
+    ${KDE4_KDECORE_LIBS}
+    ${KDE4_KDEUI_LIBS}
+    ${KDE4_KIO_LIBS}
+    ${KDE4_KPARTS_LIBS}
+)
 
 set(GLUON_CREATOR_LIBS
     libGluonCreator
@@ -55,7 +55,7 @@ set(GLUON_CREATOR_LIBS
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KPARTS_LIBS}
-    CACHE PATHS "Libraries required for Gluon Creator"
+    CACHE INTERNAL "Libraries required for Gluon Creator"
 )
 
 install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})

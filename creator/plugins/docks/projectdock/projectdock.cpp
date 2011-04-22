@@ -20,21 +20,15 @@
 
 #include "projectdock.h"
 
-#include "filemanager.h"
-#include "historymanager.h"
-#include "newobjectcommand.h"
-#include "objectmanager.h"
-#include "selectionmanager.h"
-#include "models/projectmodel.h"
-#include "models/models.h"
-#include "models/modeltest.h"
-
-#include "lib/selectionmanager.h"
-#include "lib/selectionmanager.h"
-#include "objectmanager.h"
-#include "filemanager.h"
-#include "historymanager.h"
-#include "newobjectcommand.h"
+#include <creator/lib/filemanager.h>
+#include <creator/lib/historymanager.h>
+#include <creator/lib/newobjectcommand.h>
+#include <creator/lib/objectmanager.h>
+#include <creator/lib/selectionmanager.h>
+#include <creator/lib/models/projectmodel.h>
+#include <creator/lib/models/models.h>
+#include <creator/lib/models/modeltest.h>
+#include <creator/lib/selectionmanager.h>
 
 #include <core/debughelper.h>
 #include <core/gluon_global.h>

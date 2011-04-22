@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_COMPONENTMODEL_H
 #define GLUON_CREATOR_COMPONENTMODEL_H
 
-#include "gluoncreator_macros.h"
+#include <creator/lib/gluoncreator_macros.h>
 #include <QtCore/QAbstractListModel>
 
 namespace GluonCreator

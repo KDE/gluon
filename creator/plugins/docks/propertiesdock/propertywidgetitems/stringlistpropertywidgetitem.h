@@ -20,7 +20,7 @@
 #ifndef GLUONCREATOR_STRINGLISTRPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_STRINGLISTRPROPERTYWIDGETITEM_H
 
-#include "widgets/propertywidgetitem.h"
+#include <creator/lib/widgets/propertywidgetitem.h>
 
 class QLineEdit;
 class QToolButton;

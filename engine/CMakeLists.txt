@@ -37,6 +37,12 @@ include_directories(
     ${GLUON_CORE_INCLUDES}
 )
 
+set(GLUON_ENGINE_INCLUDES
+    ${GLUON_CORE_INCLUDES}
+    ${GLUON_GRAPHICS_INCLUDES}
+    CACHE INTERNAL "Include files required for Gluon Engine"
+)
+
 add_subdirectory(assets)
 add_subdirectory(components)
 
@@ -80,29 +86,28 @@ set(GluonEngine_HEADERS
 )
 
 qt4_automoc(${GluonEngine_SRCS})
-
 if(APPLE)
-	add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
+    add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
 else()
-	add_library(GluonEngine SHARED ${GluonEngine_SRCS})
+    add_library(GluonEngine SHARED ${GluonEngine_SRCS})
 endif()
 
 set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
 
 if(APPLE)
-	#hack for being able to set headers as public in a osx framework
-	list(APPEND GluonEngine_HEADERS
-	${GluonEngine_HEADERS}
-	)
+    #hack for being able to set headers as public in a osx framework
+    list(APPEND GluonEngine_HEADERS
+    ${GluonEngine_HEADERS}
+    )
 
-	set_target_properties(GluonEngine PROPERTIES FRAMEWORK TRUE)
-	set_target_properties(GluonEngine PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-	set_target_properties(GluonEngine PROPERTIES PUBLIC_HEADER "${GluonEngine_HEADERS}")
+    set_target_properties(GluonEngine PROPERTIES FRAMEWORK TRUE)
+    set_target_properties(GluonEngine PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(GluonEngine PROPERTIES PUBLIC_HEADER "${GluonEngine_HEADERS}")
 
-	set(MACOSX_FRAMEWORK_IDENTIFIER engine)
-	set(MACOSX_FRAMEWORK_IDENTIFIER GluonEngine)
-	set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_IDENTIFIER engine)
+    set(MACOSX_FRAMEWORK_IDENTIFIER GluonEngine)
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
 if(GLUON_BUILD_ALL)
@@ -115,10 +120,16 @@ set(GLUON_ENGINE_LIBS
     GluonEngine
     ${GLUON_CORE_LIBS}
     ${GLUON_GRAPHICS_LIBS}
-    CACHE PATHS "Libraries required for Gluon Engine"
+    CACHE INTERNAL "Libraries required for Gluon Engine"
 )
 
-install(TARGETS GluonEngine RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR} FRAMEWORK DESTINATION ${LIB_INSTALL_DIR})
+install(
+    TARGETS GluonEngine
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+)
 
 install(
     FILES

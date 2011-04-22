@@ -19,8 +19,9 @@
 
 #include "propertiesdockplugin.h"
 #include "propertiesdock.h"
-#include <KLocalizedString>
-#include <dockmanager.h>
+
+#include <KDE/KLocalizedString>
+#include <creator/lib/dockmanager.h>
 
 using namespace GluonCreator;
 
