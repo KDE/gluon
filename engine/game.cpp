@@ -54,7 +54,7 @@ class I : public QThread
 };
 
 Game::Game( QObject* /* parent */ )
-    : d( new GamePrivate )
+    : d( new GamePrivate(this) )
 {
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 }
@@ -102,6 +102,9 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
     {
         // Don't block everything...
         QCoreApplication::processEvents();
+
+        if(d->newScene != 0)
+            d->performSceneChange();
 
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
         loops = 0;
@@ -264,22 +267,11 @@ bool Game::isPaused() const
 void
 Game::setCurrentScene( Scene* newCurrentScene )
 {
-    if( d->currentScene )
+    d->newScene = newCurrentScene;
+    if( !d->gameRunning )
     {
-        stopAll();
-        cleanupAll();
+        d->performSceneChange();
     }
-
-
-    d->currentScene = newCurrentScene;
-
-    if( d->gameRunning )
-    {
-        initializeAll();
-        startAll();
-    }
-
-    emit currentSceneChanged( newCurrentScene );
 }
 
 void Game::setCurrentScene( const QString& sceneName )

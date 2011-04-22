@@ -142,6 +142,7 @@ namespace GluonEngine
             friend void Scene::resetScene();
         signals:
             void showDebug( const QString& debugText );
+
             void currentSceneChanged( GluonEngine::Scene* );
             void currentProjectChanged( GluonEngine::GameProject* );
             void projectLoaded( GluonEngine::GameProject* );
@@ -155,6 +156,7 @@ namespace GluonEngine
 
         private:
             friend class GluonCore::Singleton<Game>;
+            friend class GamePrivate;
 
             Game( QObject* parent = 0 );
             ~Game();

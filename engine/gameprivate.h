@@ -31,24 +31,29 @@ namespace GluonCore
 }
 namespace GluonEngine
 {
+    class Game;
     class Scene;
     class GameProject;
 
     class GamePrivate : public QSharedData
     {
         public:
-            GamePrivate();
+            GamePrivate(Game* qq);
             GamePrivate( const GamePrivate& other );
             ~GamePrivate();
 
             QList<const GluonCore::GluonObject*> listAllChildren( const GluonCore::GluonObject* root ) const;
 
             static Scene* findSceneInChildren( QObject* object );
+            void performSceneChange();
+
+            Game* q;
 
             QTime time;
             bool gameRunning;
             bool gamePaused;
             Scene* currentScene;
+            Scene* newScene;
             bool resetScene;
             GluonEngine::GameProject* gameProject;
     };

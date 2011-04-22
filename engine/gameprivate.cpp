@@ -19,17 +19,20 @@
  */
 
 #include "gameprivate.h"
+#include "game.h"
 #include "scene.h"
 
 #include <core/debughelper.h>
 
 using namespace GluonEngine;
 
-GamePrivate::GamePrivate()
-    : gameRunning( false )
+GamePrivate::GamePrivate( Game* qq)
+    : q(qq)
+    , gameRunning( false )
     , gamePaused( false )
     , currentScene( NULL )
     , resetScene( false )
+    , newScene(0)
     , gameProject( NULL )
 {
 }
@@ -41,12 +44,33 @@ GamePrivate::GamePrivate( const GamePrivate& other )
     , gamePaused( other.gamePaused )
     , currentScene( other.currentScene )
     , resetScene( other.resetScene )
+    , newScene(0)
     , gameProject( other.gameProject )
 {
 }
 
 GamePrivate::~GamePrivate()
 {
+}
+
+void GamePrivate::performSceneChange()
+{
+    if( currentScene )
+    {
+        q->stopAll();
+        q->cleanupAll();
+    }
+
+    currentScene = newScene;
+    newScene = 0;
+
+    if( gameRunning )
+    {
+        q->initializeAll();
+        q->startAll();
+    }
+
+    emit q->currentSceneChanged( currentScene );
 }
 
 QList<const GluonCore::GluonObject*>
