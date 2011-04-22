@@ -51,7 +51,7 @@ QPoint Mouse::position()
     return d->position;
 }
 
-void  Mouse::setPosition(const QPoint& p)
+void  Mouse::setPosition( const QPoint& p )
 {
     d->position = p;
 }
@@ -71,7 +71,7 @@ int Mouse::wheelPosition() const
     return d->wheelPos; //relAxisValue(lastRelAxis());
 }
 
-void Mouse::setWheelPosition(int wp)
+void Mouse::setWheelPosition( int wp )
 {
     d->wheelPos = wp;
 }
@@ -81,7 +81,7 @@ int Mouse::hWheelPosition() const
     return d->hWheelPos; //relAxisValue(lastRelAxis());
 }
 
-void Mouse::setHWheelPosition(int hwp)
+void Mouse::setHWheelPosition( int hwp )
 {
     d->hWheelPos = hwp;
 }

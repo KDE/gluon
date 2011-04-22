@@ -78,7 +78,7 @@ ScriptingAsset::className() const
 
 void ScriptingAsset::load()
 {
-    if(!isLoaded())
+    if( !isLoaded() )
     {
         QFile script( file().toLocalFile() );
         if( script.open( QIODevice::ReadOnly ) )
@@ -104,7 +104,7 @@ void ScriptingAsset::load()
 
 void ScriptingAsset::unload()
 {
-    ScriptingEngine::instance()->unregisterAsset(this);
+    ScriptingEngine::instance()->unregisterAsset( this );
     Asset::unload();
 }
 

@@ -138,7 +138,7 @@ namespace GluonCore
              *
              * \param extension The default extension to use.
              */
-            void setDefaultExtension(const QString& extension);
+            void setDefaultExtension( const QString& extension );
 
         private:
             class MetaInfoPrivate;

@@ -38,6 +38,6 @@ void ReferenceCounter::deref()
 
 int ReferenceCounter::count() const
 {
-    return int(m_ref);
+    return int( m_ref );
 }
 

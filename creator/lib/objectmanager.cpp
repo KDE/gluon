@@ -119,7 +119,7 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     if( newAsset == 0 )
         return;
 
-    if( parent && !qobject_cast<GluonEngine::Asset*>(parent) )
+    if( parent && !qobject_cast<GluonEngine::Asset*>( parent ) )
     {
         parent->addChild( newAsset );
     }
@@ -131,7 +131,7 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    QString newFile = QString("%1/%2").arg(GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile(), info.fileName());
+    QString newFile = QString( "%1/%2" ).arg( GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile(), info.fileName() );
     QFile( fileName ).copy( newFile );
     newAsset->setFile( newFile );
 
@@ -196,14 +196,14 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
         if( obj )
         {
             DEBUG_TEXT( QString( "Item %1 selected in Scene tree - assign new object as child" ).arg( obj->fullyQualifiedName() ) );
-            Models::instance()->sceneModel()->newGameObject(obj, newObj);
+            Models::instance()->sceneModel()->newGameObject( obj, newObj );
         }
     }
 
     if( newObj->parentGameObject() == 0 )
     {
         DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) );
-        Models::instance()->sceneModel()->newGameObject(Models::instance()->sceneModel()->rootGameObject(), newObj);
+        Models::instance()->sceneModel()->newGameObject( Models::instance()->sceneModel()->rootGameObject(), newObj );
     }
 
     emit newGameObject( newObj );
@@ -215,12 +215,12 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 
 void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
 {
-    if(!object && !object->parentGameObject())
+    if( !object && !object->parentGameObject() )
     {
         qDebug() << "No parent game object for the object specified for deleting";
     }
 
-    if (!object->parentGameObject()->removeChild(object))
+    if( !object->parentGameObject()->removeChild( object ) )
         qDebug() << "Could not add the game object to the scene tree";
 
     emit gameObjectDeleted();
@@ -245,7 +245,7 @@ void ObjectManager::watchCurrentAssets()
 {
     DEBUG_FUNC_NAME
     QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findItemsByType<GluonEngine::Asset>();
-    foreach( GluonEngine::Asset* asset, assets )
+    foreach( GluonEngine::Asset * asset, assets )
     {
         QString path( asset->absolutePath() );
         DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
@@ -254,9 +254,9 @@ void ObjectManager::watchCurrentAssets()
     }
 }
 
-void ObjectManager::assetDirty( const QString& file)
+void ObjectManager::assetDirty( const QString& file )
 {
-    GluonEngine::Asset* asset = m_assets.value(file);
+    GluonEngine::Asset* asset = m_assets.value( file );
     if( asset )
     {
         asset->reload();
@@ -264,26 +264,26 @@ void ObjectManager::assetDirty( const QString& file)
     }
 }
 
-void ObjectManager::assetDeleted( const QString& file)
+void ObjectManager::assetDeleted( const QString& file )
 {
-    m_assets.remove(file);
+    m_assets.remove( file );
     KDirWatch::self()->removeFile( file );
-    QFileInfo fi(file);
-    if( fi.isFile())
+    QFileInfo fi( file );
+    if( fi.isFile() )
     {
-        QFile::remove(file);
+        QFile::remove( file );
     }
-    else if( fi.isDir())
+    else if( fi.isDir() )
     {
         QDir d;
-        d.rmpath(file);
+        d.rmpath( file );
     }
 }
 
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 {
-	if( asset )
-    	assetDeleted( asset->absolutePath() );
+    if( asset )
+        assetDeleted( asset->absolutePath() );
 }
 
 ObjectManager::ObjectManager()

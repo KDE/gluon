@@ -28,37 +28,38 @@
 
 int main( int argc, char** argv )
 {
-    if (argc > 1 && !QFile::exists(argv[1])) {
+    if( argc > 1 && !QFile::exists( argv[1] ) )
+    {
         qDebug() << "File does not exist:" << argv[1];
         return 1;
     }
 
-    KAboutData aboutData("KDEPlayer", "plasma_applet_gluonplayer",
-                          ki18n("KDE Player"), GLUON_VERSION_STRING.toUtf8(),
-                          ki18n((QString("KDE Frontend Player for Gluon games.\nVersion %2").arg(GLUON_VERSION_STRING)).toUtf8()),
+    KAboutData aboutData( "KDEPlayer", "plasma_applet_gluonplayer",
+                          ki18n( "KDE Player" ), GLUON_VERSION_STRING.toUtf8(),
+                          ki18n( ( QString( "KDE Frontend Player for Gluon games.\nVersion %2" ).arg( GLUON_VERSION_STRING ) ).toUtf8() ),
                           KAboutData::License_LGPL_V2,
-                          ki18n("Copyright 2010 Laszlo Papp"),
+                          ki18n( "Copyright 2010 Laszlo Papp" ),
                           KLocalizedString(),
                           "???"
                         );
 
-    aboutData.setProgramIconName("KDEPlayer");
-    aboutData.addAuthor(ki18n("Laszlo Papp"), ki18n("KDE Player"), "");
-    aboutData.setProductName("gluon/gluonplayer");
+    aboutData.setProgramIconName( "KDEPlayer" );
+    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "KDE Player" ), "" );
+    aboutData.setProductName( "gluon/gluonplayer" );
 
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options;
 
-    options.add("+file", ki18n("File to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    options.add( "+file", ki18n( "File to open" ) );
+    KCmdLineArgs::addCmdLineOptions( options );
 
     KApplication app;
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
-    GluonPlayer::MainWindow *window;
-    if (args->count())
-        window = new GluonPlayer::MainWindow(args->arg(0));
+    GluonPlayer::MainWindow* window;
+    if( args->count() )
+        window = new GluonPlayer::MainWindow( args->arg( 0 ) );
     else
         window = new GluonPlayer::MainWindow();
 

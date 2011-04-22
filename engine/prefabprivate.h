@@ -24,10 +24,10 @@
 namespace GluonEngine
 {
 
-class GameObject;
+    class GameObject;
 
 
-class PrefabInstance;
+    class PrefabInstance;
 
     class PrefabPrivate
     {
@@ -35,7 +35,7 @@ class PrefabInstance;
             PrefabPrivate();
             PrefabPrivate( const PrefabPrivate& other );
             ~PrefabPrivate();
-            
+
             QList<PrefabInstance*> instances;
             GameObject* gameObject;
     };

@@ -37,9 +37,9 @@ static const int PreviewHeight = 72;
 
 using namespace GluonKDEPlayer;
 
-ItemsViewDelegate::ItemsViewDelegate(QAbstractItemView *itemView, QObject * parent)
-        : KWidgetItemDelegate(itemView, parent)
-        , m_preview( new KIcon( "gluon_creator" ) )
+ItemsViewDelegate::ItemsViewDelegate( QAbstractItemView* itemView, QObject* parent )
+    : KWidgetItemDelegate( itemView, parent )
+    , m_preview( new KIcon( "gluon_creator" ) )
 {
 }
 
@@ -47,13 +47,14 @@ ItemsViewDelegate::~ItemsViewDelegate()
 {
 }
 
-bool ItemsViewDelegate::eventFilter(QObject *watched, QEvent *event)
+bool ItemsViewDelegate::eventFilter( QObject* watched, QEvent* event )
 {
-   if (event->type() == QEvent::MouseButtonDblClick) {
-       return true;
-   }
+    if( event->type() == QEvent::MouseButtonDblClick )
+    {
+        return true;
+    }
 
-   return KWidgetItemDelegate::eventFilter(watched, event);
+    return KWidgetItemDelegate::eventFilter( watched, event );
 }
 
 QList<QWidget*> ItemsViewDelegate::createItemWidgets() const
@@ -61,34 +62,35 @@ QList<QWidget*> ItemsViewDelegate::createItemWidgets() const
     QList<QWidget*> list;
 
     GameTextLabel* gameName = new GameTextLabel();
-    gameName->setOpenExternalLinks(true);
+    gameName->setOpenExternalLinks( true );
     // not so nice - work around constness to install the event filter
-    ItemsViewDelegate* delegate = const_cast<ItemsViewDelegate*>(this);
-    gameName->installEventFilter(delegate);
+    ItemsViewDelegate* delegate = const_cast<ItemsViewDelegate*>( this );
+    gameName->installEventFilter( delegate );
     list << gameName;
-    connect(gameName, SIGNAL(mouseReleased()), SLOT(selectGameClicked()));
+    connect( gameName, SIGNAL( mouseReleased() ), SLOT( selectGameClicked() ) );
 
     GameTextLabel* gameDescription = new GameTextLabel();
-    gameDescription->setOpenExternalLinks(true);
+    gameDescription->setOpenExternalLinks( true );
     list << gameDescription;
-    connect(gameDescription, SIGNAL(mouseReleased()), SLOT(selectGameClicked()));
+    connect( gameDescription, SIGNAL( mouseReleased() ), SLOT( selectGameClicked() ) );
 
     KPushButton* playButton = new KPushButton();
     playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     list << playButton;
-    setBlockedEventTypes(playButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
-                          << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick);
-    connect(playButton, SIGNAL(clicked()), SLOT(slotPlayClicked()));
+    setBlockedEventTypes( playButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
+                          << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick );
+    connect( playButton, SIGNAL( clicked() ), SLOT( slotPlayClicked() ) );
 
     return list;
 }
 
-void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
-        const QStyleOptionViewItem &option,
-        const QPersistentModelIndex &index) const
+void ItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
+        const QStyleOptionViewItem& option,
+        const QPersistentModelIndex& index ) const
 {
-    const GluonPlayer::GameItemsModel* model = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
-    if (!model) {
+    const GluonPlayer::GameItemsModel* model = qobject_cast<const GluonPlayer::GameItemsModel*>( index.model() );
+    if( !model )
+    {
         kDebug() << "Warning - Invalid Model!";
         return;
     }
@@ -97,84 +99,94 @@ void ItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     int margin = option.fontMetrics.height() / 2;
     int right = option.rect.width();
 
-    const_cast<QSize&>(m_buttonSize) = QSize(32, 32);
+    const_cast<QSize&>( m_buttonSize ) = QSize( 32, 32 );
 
-    KPushButton* playButton = qobject_cast<KPushButton*>(widgets.at(DelegatePlayButton));
-    if (playButton) {
+    KPushButton* playButton = qobject_cast<KPushButton*>( widgets.at( DelegatePlayButton ) );
+    if( playButton )
+    {
         playButton->setIcon( KIcon( "media-playback-start" ) );
         playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         playButton->resize( m_buttonSize );
-        playButton->move( right - playButton->width() - margin, option.fontMetrics.height() + playButton->height() * 0.5);
+        playButton->move( right - playButton->width() - margin, option.fontMetrics.height() + playButton->height() * 0.5 );
     }
 
-    GameTextLabel* gameName = qobject_cast<GameTextLabel*>(widgets.at(DelegateGameName));
+    GameTextLabel* gameName = qobject_cast<GameTextLabel*>( widgets.at( DelegateGameName ) );
     // gameName->setWordWrap(true);
-    if (gameName) {
-        gameName->move(margin + m_buttonSize.width() * 3, option.fontMetrics.height());
-        gameName->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameName->setText(index.data(GluonPlayer::GameItemsModel::GameNameRole).toString());
+    if( gameName )
+    {
+        gameName->move( margin + m_buttonSize.width() * 3, option.fontMetrics.height() );
+        gameName->resize( QSize( option.rect.width() - ( margin * 4 ) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2 ) );
+        gameName->setText( index.data( GluonPlayer::GameItemsModel::GameNameRole ).toString() );
     }
 
-    GameTextLabel* gameDescription = qobject_cast<GameTextLabel*>(widgets.at(DelegateGameDescription));
+    GameTextLabel* gameDescription = qobject_cast<GameTextLabel*>( widgets.at( DelegateGameDescription ) );
     // gameName->setWordWrap(true);
-    if (gameDescription) {
-        gameDescription->move(margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height());
-        gameDescription->resize(QSize(option.rect.width() - (margin * 4) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2));
-        gameDescription->setText(index.data(GluonPlayer::GameItemsModel::GameDescriptionRole).toString());
+    if( gameDescription )
+    {
+        gameDescription->move( margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height() );
+        gameDescription->resize( QSize( option.rect.width() - ( margin * 4 ) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2 ) );
+        gameDescription->setText( index.data( GluonPlayer::GameItemsModel::GameDescriptionRole ).toString() );
     }
 
 }
 
 // draws the preview
-void ItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+void ItemsViewDelegate::paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const
 {
     int margin = option.fontMetrics.height() / 2;
 
-    QStyle *style = QApplication::style();
-    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, 0);
+    QStyle* style = QApplication::style();
+    style->drawPrimitive( QStyle::PE_PanelItemViewItem, &option, painter, 0 );
 
     painter->save();
 
-    if (option.state & QStyle::State_Selected) {
-        painter->setPen(QPen(option.palette.highlightedText().color()));
-    } else {
-        painter->setPen(QPen(option.palette.text().color()));
+    if( option.state & QStyle::State_Selected )
+    {
+        painter->setPen( QPen( option.palette.highlightedText().color() ) );
+    }
+    else
+    {
+        painter->setPen( QPen( option.palette.text().color() ) );
     }
 
     // const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
 
     // if (realmodel->hasPreviewImages()) {
     int height = option.rect.height();
-    QPoint point(option.rect.left() + margin, option.rect.top() + ((height - PreviewHeight) / 2));
+    QPoint point( option.rect.left() + margin, option.rect.top() + ( ( height - PreviewHeight ) / 2 ) );
 
-    QImage image = KIcon("gluon-cretor").pixmap(32, 32).toImage();
-    if (!image.isNull()) {
-        point.setX((PreviewWidth - image.width())/2 + 5);
-        point.setY(option.rect.top() + ((height - image.height()) / 2));
-        painter->drawImage(point, image);
+    QImage image = KIcon( "gluon-cretor" ).pixmap( 32, 32 ).toImage();
+    if( !image.isNull() )
+    {
+        point.setX( ( PreviewWidth - image.width() ) / 2 + 5 );
+        point.setY( option.rect.top() + ( ( height - image.height() ) / 2 ) );
+        painter->drawImage( point, image );
 
-        QPoint framePoint(point.x() - 5, point.y() - 5);
-        painter->drawPixmap(framePoint, KIcon("gluon-creator").pixmap(32, 32).scaled(image.width() + 10, image.height() + 10));
-    } else {
-        QRect rect(point, QSize(PreviewWidth, PreviewHeight));
-        painter->drawText(rect, Qt::AlignCenter | Qt::TextWordWrap, i18n("Loading Preview"));
+        QPoint framePoint( point.x() - 5, point.y() - 5 );
+        painter->drawPixmap( framePoint, KIcon( "gluon-creator" ).pixmap( 32, 32 ).scaled( image.width() + 10, image.height() + 10 ) );
+    }
+    else
+    {
+        QRect rect( point, QSize( PreviewWidth, PreviewHeight ) );
+        painter->drawText( rect, Qt::AlignCenter | Qt::TextWordWrap, i18n( "Loading Preview" ) );
     }
     // }
     painter->restore();
 }
 
-QSize ItemsViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
+QSize ItemsViewDelegate::sizeHint( const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
 {
     QSize size;
-    size.setWidth(option.fontMetrics.height() * 4);
-    size.setHeight(qMax(option.fontMetrics.height() * 7, PreviewHeight)); // up to 6 lines of text, and two margins
+    size.setWidth( option.fontMetrics.height() * 4 );
+    size.setHeight( qMax( option.fontMetrics.height() * 7, PreviewHeight ) ); // up to 6 lines of text, and two margins
     return size;
 }
 
 void ItemsViewDelegate::slotPlayClicked()
 {
     QModelIndex index = focusedIndex();
-    if (index.isValid()) {
+    if( index.isValid() )
+    {
         emit gameToPlaySelected( index );
     }
 }
@@ -182,7 +194,8 @@ void ItemsViewDelegate::slotPlayClicked()
 void ItemsViewDelegate::selectGameClicked()
 {
     QModelIndex index = focusedIndex();
-    if (index.isValid()) {
+    if( index.isValid() )
+    {
         emit gameSelected( index );
     }
 }

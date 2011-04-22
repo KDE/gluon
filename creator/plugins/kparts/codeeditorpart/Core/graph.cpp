@@ -221,15 +221,15 @@ Edge* Graph::addEdge( Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSv
     }
 
 
-    if(( from == to ) && ( !_directed ) )
+    if( ( from == to ) && ( !_directed ) )
     {
         return 0;
     }
-    else if(( from->edges( to ).size() >= 1 ) && ( !_directed ) )
+    else if( ( from->edges( to ).size() >= 1 ) && ( !_directed ) )
     {
         return 0;
     }
-    else if(( _nodes.indexOf( from ) == -1 ) || ( _nodes.indexOf( to ) == -1 ) )
+    else if( ( _nodes.indexOf( from ) == -1 ) || ( _nodes.indexOf( to ) == -1 ) )
     {
         return 0;
     }
@@ -243,7 +243,7 @@ Edge* Graph::addEdge( Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSv
         emit iAmDisappoint();
         return 0;
     }
-    else if(( from == to ) && ( from->selfEdgesCapacityReached() ) )
+    else if( ( from == to ) && ( from->selfEdgesCapacityReached() ) )
     {
         emit iAmDisappoint();
         return 0;
@@ -433,7 +433,7 @@ void Graph::setDirected( bool directed )
         foreach( Node * n2, n1->adjacent_nodes() )
         {
             // do not permit loop nodes while changing graph's state.
-            if(( n1->edges( n2 ).size() == 1 ) && ( n1 != n2 ) )
+            if( ( n1->edges( n2 ).size() == 1 ) && ( n1 != n2 ) )
             {
                 continue;
             }

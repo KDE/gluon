@@ -36,13 +36,13 @@ using namespace GluonEngine;
 
 ScriptingComponent::ScriptingComponent( QObject* parent )
     : Component( parent )
-    , d( new ScriptingComponentPrivate(this) )
+    , d( new ScriptingComponentPrivate( this ) )
 {
 }
 
 ScriptingComponent::~ScriptingComponent()
 {
-    if(d->scriptingAsset)
+    if( d->scriptingAsset )
         d->scriptingAsset->deref();
 
     delete d;
@@ -61,16 +61,16 @@ ScriptingAsset* ScriptingComponent::script() const
 
 void ScriptingComponent::setScript( GluonEngine::ScriptingAsset* newAsset )
 {
-	if(d->scriptingAsset)
+    if( d->scriptingAsset )
     {
-        disconnect(d->scriptingAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()));
+        disconnect( d->scriptingAsset, SIGNAL( dataChanged() ), this, SLOT( scriptAssetUpdated() ) );
         d->scriptingAsset->deref();
     }
 
     d->scriptingAsset = newAsset;
-    if(d->scriptingAsset)
+    if( d->scriptingAsset )
     {
-        connect(newAsset, SIGNAL(dataChanged()), SLOT(scriptAssetUpdated()));
+        connect( newAsset, SIGNAL( dataChanged() ), SLOT( scriptAssetUpdated() ) );
         d->scriptingAsset->ref();
     }
 }
@@ -87,19 +87,19 @@ QScriptValue ScriptingComponent::scriptObject()
 
 void ScriptingComponent::initialize()
 {
-	if(!d->scriptingAsset)
-		return;
+    if( !d->scriptingAsset )
+        return;
 
-	if(!d->scriptingAsset->isLoaded())
-		d->scriptingAsset->load();
+    if( !d->scriptingAsset->isLoaded() )
+        d->scriptingAsset->load();
 
-	if(!d->scriptingAsset->isLoaded())
-		return;
+    if( !d->scriptingAsset->isLoaded() )
+        return;
 
-	if(!d->scriptObject.isValid())
-	{
-		d->updateScriptObject();
-	}
+    if( !d->scriptObject.isValid() )
+    {
+        d->updateScriptObject();
+    }
 
     if( !d->scriptObject.isValid() )
         debug( "Warning: No scripting asset has been chosen" );

@@ -26,13 +26,13 @@
 
 using namespace GluonEngine;
 
-GamePrivate::GamePrivate( Game* qq)
-    : q(qq)
+GamePrivate::GamePrivate( Game* qq )
+    : q( qq )
     , gameRunning( false )
     , gamePaused( false )
     , currentScene( NULL )
     , resetScene( false )
-    , newScene(0)
+    , newScene( 0 )
     , gameProject( NULL )
 {
 }
@@ -44,7 +44,7 @@ GamePrivate::GamePrivate( const GamePrivate& other )
     , gamePaused( other.gamePaused )
     , currentScene( other.currentScene )
     , resetScene( other.resetScene )
-    , newScene(0)
+    , newScene( 0 )
     , gameProject( other.gameProject )
 {
 }
@@ -88,7 +88,7 @@ GamePrivate::listAllChildren( const GluonCore::GluonObject* root ) const
     return list;
 }
 
-Scene *
+Scene*
 GamePrivate::findSceneInChildren( QObject* object )
 {
     DEBUG_BLOCK

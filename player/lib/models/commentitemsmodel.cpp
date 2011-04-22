@@ -42,7 +42,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     , m_isOnline( false )
     , m_gameId( gameId )
 {
-    m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
+    m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
@@ -53,7 +53,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     roles[BodyRole] = "body";
     roles[DateTimeRole] = "dateTime";
     roles[RatingRole] = "rating";
-    setRoleNames(roles);
+    setRoleNames( roles );
 }
 
 void CommentItemsModel::updateData()
@@ -131,7 +131,7 @@ GluonObject* CommentItemsModel::addComment( Attica::Comment comment, GluonObject
     newComment->setProperty( "DateTime", comment.date().toString() );
     newComment->setProperty( "Rating", comment.score() );
 
-    foreach( const Attica::Comment& child, comment.children() )
+    foreach( const Attica::Comment & child, comment.children() )
     {
         addComment( child, newComment );
     }
@@ -139,7 +139,7 @@ GluonObject* CommentItemsModel::addComment( Attica::Comment comment, GluonObject
     return newComment;
 }
 
-void CommentItemsModel::treeTraversal(GluonCore::GluonObject* obj)
+void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
 {
     if( !obj )
         return;
@@ -148,15 +148,15 @@ void CommentItemsModel::treeTraversal(GluonCore::GluonObject* obj)
     {
         GluonObject* gobj = qobject_cast<GluonObject*>( child );
         if( gobj )
-       {
+        {
             gobj->dumpObjectTree();
-            m_nodes.append(gobj);
-            treeTraversal(gobj);
-       }
+            m_nodes.append( gobj );
+            treeTraversal( gobj );
+        }
     }
 }
 
-bool dateTimeLessThan(GluonCore::GluonObject* go1, GluonCore::GluonObject* go2)
+bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 )
 {
     return go1->property( "DateTime" ).toString() < go2->property( "DateTime" ).toString();
 }
@@ -168,13 +168,13 @@ void CommentItemsModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
-    if( QFile::exists(gluonDir.absoluteFilePath( "comments.gdl" )) )
+    if( QFile::exists( gluonDir.absoluteFilePath( "comments.gdl" ) ) )
         m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
 
-    treeTraversal(m_rootNode);
-    qSort(m_nodes.begin(), m_nodes.end(), dateTimeLessThan);
+    treeTraversal( m_rootNode );
+    qSort( m_nodes.begin(), m_nodes.end(), dateTimeLessThan );
 }
 
 void CommentItemsModel::saveData()
@@ -207,11 +207,11 @@ QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( m_columnNames.at(index.column()).toUtf8() );
+        return node->property( m_columnNames.at( index.column() ).toUtf8() );
     }
-    else if ( role >= Qt::UserRole )
+    else if( role >= Qt::UserRole )
     {
-        return m_nodes.at(index.row())->property( m_columnNames.at(role - Qt::UserRole).toUtf8() );
+        return m_nodes.at( index.row() )->property( m_columnNames.at( role - Qt::UserRole ).toUtf8() );
     }
     return QVariant();
 }
@@ -244,7 +244,7 @@ bool CommentItemsModel::setData( const QModelIndex& index, const QVariant& value
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        node->setProperty( m_columnNames.at(index.column()).toUtf8(), value );
+        node->setProperty( m_columnNames.at( index.column() ).toUtf8(), value );
         emit dataChanged( index, index );
         return true;
     }

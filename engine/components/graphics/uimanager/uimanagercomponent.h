@@ -53,10 +53,10 @@ namespace GluonEngine
             UiAsset* ui() const;
             virtual QSizeF size() const;
 
-            void setScriptEngine( QScriptValue &value );
+            void setScriptEngine( QScriptValue& value );
 
         public slots:
-            void setUi(UiAsset* ui);
+            void setUi( UiAsset* ui );
             virtual void setSize( const QSizeF& size );
 
         private:

@@ -44,7 +44,7 @@ namespace GluonInput
 
     class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             enum InputManagementType
             {
@@ -78,26 +78,26 @@ namespace GluonInput
             Touch* touch( int id = 0 );
             InputDevice* input( int id = 0 );
 
-            bool eventFilter(QObject* object, QEvent* event);
+            bool eventFilter( QObject* object, QEvent* event );
 
-            void installEventFiltered(QObject *filteredObj);
-            void removeEventFiltered(QObject *filteredObj);
+            void installEventFiltered( QObject* filteredObj );
+            void removeEventFiltered( QObject* filteredObj );
 
             QObject* filteredObject();
-            void setFilteredObject(QObject *filteredObj);
+            void setFilteredObject( QObject* filteredObj );
 
             // TODO: if it works we can polish, with switch usage instead of hash? Investigate more!
             InputManagementType inputManagementType() const;
             void setInputManagementType( InputManagementType inputManagementType );
 
-            void swipeTriggered(QSwipeGesture *gesture);
-            void panTriggered(QPanGesture *gesture);
-            void pinchTriggered(QPinchGesture *gesture);
+            void swipeTriggered( QSwipeGesture* gesture );
+            void panTriggered( QPanGesture* gesture );
+            void pinchTriggered( QPinchGesture* gesture );
 
         signals:
             void keyPressed( int button );
             void keyReleased( int button );
-            void mouseMoved( const QPoint& pos);
+            void mouseMoved( const QPoint& pos );
             void mouseWheeled( int x, int y );
             void eventFiltered( QEvent* event );
 
@@ -106,9 +106,9 @@ namespace GluonInput
             InputManager( QObject* parent = 0 );
             ~InputManager();
 
-            Q_DISABLE_COPY(InputManager);
+            Q_DISABLE_COPY( InputManager );
             void init();
-            int mapMouseButton(Qt::MouseButton mouseButton);
+            int mapMouseButton( Qt::MouseButton mouseButton );
 
             InputManagerPrivate* d;
 

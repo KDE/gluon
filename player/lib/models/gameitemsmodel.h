@@ -47,12 +47,13 @@ namespace GluonPlayer
 
     class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
     {
-        Q_OBJECT
-		Q_PROPERTY( int downloadableCount READ downloadableCount NOTIFY downloadableCountChanged )
-		Q_PROPERTY( int upgradableCount READ upgradableCount NOTIFY upgradableCountChanged )
+            Q_OBJECT
+            Q_PROPERTY( int downloadableCount READ downloadableCount NOTIFY downloadableCountChanged )
+            Q_PROPERTY( int upgradableCount READ upgradableCount NOTIFY upgradableCountChanged )
 
         public:
-            enum GameItemsModelRoles {
+            enum GameItemsModelRoles
+            {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
                 ProjectDirNameRole,
@@ -80,16 +81,16 @@ namespace GluonPlayer
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
-			int downloadableCount() const;
-			int upgradableCount() const;
+            int downloadableCount() const;
+            int upgradableCount() const;
 
-		signals:
-			void downloadableCountChanged();
-			void upgradableCountChanged();
+        signals:
+            void downloadableCountChanged();
+            void upgradableCountChanged();
 
         protected slots:
             void providersUpdated();
-            void processFetchedGamesList( Attica::BaseJob* job);
+            void processFetchedGamesList( Attica::BaseJob* job );
 
         private:
             void fetchGamesList();

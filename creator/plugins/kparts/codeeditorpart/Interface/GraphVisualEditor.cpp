@@ -95,7 +95,7 @@ void GraphVisualEditor::releaseGraphDocument()
 
 }
 
-void GraphVisualEditor::drawGraphOnScene( Graph */*g*/ ) {}
+void GraphVisualEditor::drawGraphOnScene( Graph* /*g*/ ) {}
 
 void GraphVisualEditor::setActiveGraph( Graph* g )
 {

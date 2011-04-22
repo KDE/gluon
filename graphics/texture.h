@@ -52,7 +52,7 @@ namespace GluonGraphics
             Q_OBJECT
         public:
             explicit Texture( QObject* parent = 0 );
-            Texture(const Texture& other, QObject* parent = 0);
+            Texture( const Texture& other, QObject* parent = 0 );
             virtual ~Texture();
 
             /**

@@ -33,9 +33,9 @@ using namespace GluonGraphics;
 class RenderTarget::Private
 {
     public:
-        Private(RenderTarget* qq)
-            : q(qq), frameBuffer(0), texture(0), renderable( true ), material(0), vertexData(0),
-            modelMatrix(QMatrix4x4()), viewMatrix(QMatrix4x4())
+        Private( RenderTarget* qq )
+            : q( qq ), frameBuffer( 0 ), texture( 0 ), renderable( true ), material( 0 ), vertexData( 0 ),
+              modelMatrix( QMatrix4x4() ), viewMatrix( QMatrix4x4() )
         { }
         ~Private() { }
 
@@ -58,25 +58,25 @@ class RenderTarget::Private
 };
 
 RenderTarget::RenderTarget( QObject* parent )
-    : QObject( parent ), d( new Private(this) )
+    : QObject( parent ), d( new Private( this ) )
 {
     d->createVertexData();
-    d->projectionMatrix.ortho(-1, 1, -1, 1, -1, 1);
+    d->projectionMatrix.ortho( -1, 1, -1, 1, -1, 1 );
 }
 
 RenderTarget::RenderTarget( int width, int height, QObject* parent )
-    : QObject( parent ), d( new Private(this) )
+    : QObject( parent ), d( new Private( this ) )
 {
-    d->frameBuffer = new QGLFramebufferObject(width, height, QGLFramebufferObject::Depth);
+    d->frameBuffer = new QGLFramebufferObject( width, height, QGLFramebufferObject::Depth );
     d->createVertexData();
-    d->projectionMatrix.ortho(-1, 1, -1, 1, -1, 1);
+    d->projectionMatrix.ortho( -1, 1, -1, 1, -1, 1 );
 }
 
 RenderTarget::~RenderTarget()
 {
-    if(d->vertexData)
+    if( d->vertexData )
         delete d->vertexData;
-    if(d->frameBuffer)
+    if( d->frameBuffer )
         delete d->frameBuffer;
     delete d;
 }
@@ -90,13 +90,13 @@ void RenderTarget::setRenderable( bool render )
 {
     if( render )
     {
-        if(!d->renderable)
+        if( !d->renderable )
             d->createVertexData();
         d->renderable = true;
     }
     else
     {
-        if(d->renderable)
+        if( d->renderable )
         {
             delete d->vertexData;
             d->vertexData = 0;
@@ -114,26 +114,26 @@ void RenderTarget::setFramebufferObject( QGLFramebufferObject* fbo )
 
 void RenderTarget::setMaterialInstance( MaterialInstance* material )
 {
-    Q_ASSERT(material);
+    Q_ASSERT( material );
     d->material = material;
-    d->material->setUseCustomViewProjMatrices(true);
-    d->material->setProperty("modelMatrix", d->modelMatrix);
-    d->material->setProperty("viewMatrix", d->viewMatrix);
-    d->material->setProperty("projectionMatrix", d->projectionMatrix);
+    d->material->setUseCustomViewProjMatrices( true );
+    d->material->setProperty( "modelMatrix", d->modelMatrix );
+    d->material->setProperty( "viewMatrix", d->viewMatrix );
+    d->material->setProperty( "projectionMatrix", d->projectionMatrix );
 
-    if(d->frameBuffer)
-        d->material->setProperty("texture0", d->frameBuffer->texture());
+    if( d->frameBuffer )
+        d->material->setProperty( "texture0", d->frameBuffer->texture() );
 }
 
 void RenderTarget::resize( int width, int height )
 {
-    if(d->frameBuffer && QGLContext::currentContext())
+    if( d->frameBuffer && QGLContext::currentContext() )
     {
         QGLFramebufferObject::Attachment attachment = d->frameBuffer->attachment();
 
         delete d->frameBuffer;
-        d->frameBuffer = new QGLFramebufferObject(width, height, attachment);
-        d->material->setProperty("texture0", d->frameBuffer->texture());
+        d->frameBuffer = new QGLFramebufferObject( width, height, attachment );
+        d->material->setProperty( "texture0", d->frameBuffer->texture() );
 
         emit framebufferChanged();
     }
@@ -141,17 +141,17 @@ void RenderTarget::resize( int width, int height )
 
 void RenderTarget::bind()
 {
-    if(d->frameBuffer)
+    if( d->frameBuffer )
     {
-        if(!d->frameBuffer->bind())
+        if( !d->frameBuffer->bind() )
             qDebug() << "Failed to bind FBO";
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     }
 }
 
 void RenderTarget::release()
 {
-    if(d->frameBuffer)
+    if( d->frameBuffer )
         d->frameBuffer->release();
 
 }
@@ -168,39 +168,39 @@ QGLFramebufferObject* RenderTarget::framebufferObject() const
 
 void RenderTarget::render()
 {
-    if(!d->renderable)
+    if( !d->renderable )
         return;
 
     d->material->bind();
-    d->vertexData->render(VertexBuffer::RM_TRIANGLES, d->material);
+    d->vertexData->render( VertexBuffer::RM_TRIANGLES, d->material );
     d->material->release();
 }
 
 void RenderTarget::Private::createVertexData()
 {
-    if(vertexData)
+    if( vertexData )
         delete vertexData;
 
-    vertexData = new VertexBuffer(q);
+    vertexData = new VertexBuffer( q );
 
-    VertexAttribute vert("vertex", 3);
+    VertexAttribute vert( "vertex", 3 );
     vert << -1.0f << -1.0f << 0.0f;
     vert << -1.0f <<  1.0f << 0.0f;
     vert <<  1.0f <<  1.0f << 0.0f;
     vert <<  1.0f << -1.0f << 0.0f;
-    vertexData->addAttribute(vert);
+    vertexData->addAttribute( vert );
 
-    VertexAttribute uv0("uv0", 2);
+    VertexAttribute uv0( "uv0", 2 );
     uv0 << 0.0f << 0.0f;
     uv0 << 0.0f << 1.0f;
     uv0 << 1.0f << 1.0f;
     uv0 << 1.0f << 0.0f;
-    vertexData->addAttribute(uv0);
+    vertexData->addAttribute( uv0 );
 
     QVector<uint> indices;
     indices << 0 << 1 << 2;
     indices << 0 << 2 << 3;
-    vertexData->setIndices(indices);
+    vertexData->setIndices( indices );
 
     vertexData->initialize();
 }

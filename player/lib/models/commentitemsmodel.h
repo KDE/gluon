@@ -113,9 +113,9 @@ namespace GluonPlayer
             void loadData();
             void saveData();
             GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
-            void treeTraversal(GluonCore::GluonObject* obj);
+            void treeTraversal( GluonCore::GluonObject* obj );
 
-	        GluonCore::GluonObject* m_rootNode;
+            GluonCore::GluonObject* m_rootNode;
             QStringList m_columnNames;
             bool m_isOnline;
             QString m_gameId;

@@ -34,14 +34,14 @@ REGISTER_OBJECTTYPE( GluonCore, GluonObject )
 
 using namespace GluonCore;
 
-Q_DECLARE_METATYPE(QList<int>)
+Q_DECLARE_METATYPE( QList<int> )
 
 static int qlist_qurl_typeID = qRegisterMetaType< QList<QUrl> >();
 
 class GluonObject::Private
 {
     public:
-        Private() : gameProject(0),  metaInfo(0)
+        Private() : gameProject( 0 ),  metaInfo( 0 )
         { }
 
         QString name;
@@ -72,7 +72,7 @@ GluonObject::~GluonObject()
 {
 }
 
-QString GluonObject::nameToObjectName(const QString& name)
+QString GluonObject::nameToObjectName( const QString& name )
 {
     // Sanitize the object name to be an acceptable javascript object name.
     // While this is also done by the scripting engine, we use the object name for other things
@@ -81,8 +81,8 @@ QString GluonObject::nameToObjectName(const QString& name)
     QString::const_iterator i;
     for( i = name.constBegin(); i != name.constEnd(); ++i )
     {
-        if(i->isLetterOrNumber() || *i == '_' )
-            theObjectName.append(*i);
+        if( i->isLetterOrNumber() || *i == '_' )
+            theObjectName.append( *i );
     }
     return theObjectName;
 }
@@ -522,21 +522,21 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
         }
         value = QSizeF( w, h );
     }
-    else if( theTypeName.contains("list"))
+    else if( theTypeName.contains( "list" ) )
     {
-        QString listType = theTypeName.mid(theTypeName.indexOf('<'), theTypeName.indexOf('>'));
+        QString listType = theTypeName.mid( theTypeName.indexOf( '<' ), theTypeName.indexOf( '>' ) );
         qDebug() << listType;
-        if(listType == "<int>")
+        if( listType == "<int>" )
         {
             QList<int> list;
 
-            QStringList splitValues = theValue.split(';');
-            foreach(const QString& val, splitValues)
+            QStringList splitValues = theValue.split( ';' );
+            foreach( const QString & val, splitValues )
             {
                 list << val.toInt();
             }
 
-            value = QVariant::fromValue<QList<int> >(list);
+            value = QVariant::fromValue<QList<int> >( list );
         }
     }
     else
@@ -637,18 +637,18 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             }
             else
             {
-                if(theValue.canConvert<QList<int> >())
+                if( theValue.canConvert<QList<int> >() )
                 {
                     QList<int> list = theValue.value<QList<int> >();
-                    if(list.size() == 0)
+                    if( list.size() == 0 )
                         break;
 
-                    value.append(QString("list<int>(%1").arg(list.at(0)));
-                    for(int i = 1; i < list.length(); ++i)
+                    value.append( QString( "list<int>(%1" ).arg( list.at( 0 ) ) );
+                    for( int i = 1; i < list.length(); ++i )
                     {
-                        value.append(QString(";%1").arg(list.at(i)));
+                        value.append( QString( ";%1" ).arg( list.at( i ) ) );
                     }
-                    value.append(")");
+                    value.append( ")" );
                 }
                 else
                 {
@@ -711,13 +711,15 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, GluonObject* obj
     else
     {
         QString childNames;
-        foreach(QObject* child, object->children())
-        { childNames.append( child->objectName()).append(", "); }
-        DEBUG_TEXT( QString("Did not find child - bailing out! Was looking for object named %1 in object named %2. Available children are: %3")
-            .arg( lookingFor )
-            .arg( object->fullyQualifiedName() )
-            .arg( childNames )
-        );
+        foreach( QObject * child, object->children() )
+        {
+            childNames.append( child->objectName() ).append( ", " );
+        }
+        DEBUG_TEXT( QString( "Did not find child - bailing out! Was looking for object named %1 in object named %2. Available children are: %3" )
+                    .arg( lookingFor )
+                    .arg( object->fullyQualifiedName() )
+                    .arg( childNames )
+                  );
     }
 
     return foundChild;
@@ -743,7 +745,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
             if( !theObject )
             {
                 debug( QString( "Warning: Invalid reference for property %1 on object %2" ).arg( propertyName, name() ) );
-                debug( QString( "The search was conducted on %1 and the object searched for was %2").arg( root()->fullyQualifiedName() ).arg( theReferencedName ) );
+                debug( QString( "The search was conducted on %1 and the object searched for was %2" ).arg( root()->fullyQualifiedName() ).arg( theReferencedName ) );
                 continue;
             }
 
@@ -766,7 +768,7 @@ GluonObject::metaInfo()
     if( !d->metaInfo )
     {
         d->metaInfo = new MetaInfo( this );
-        populateMetaInfo(d->metaInfo);
+        populateMetaInfo( d->metaInfo );
     }
     return d->metaInfo;
 }
@@ -786,7 +788,7 @@ GluonObject::shouldSerializeChildren() const
 }
 
 void
-GluonObject::handleMessage(const QString& /* message */ )
+GluonObject::handleMessage( const QString& /* message */ )
 {
 }
 

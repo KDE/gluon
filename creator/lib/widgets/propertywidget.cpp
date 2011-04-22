@@ -61,7 +61,7 @@ class PropertyWidget::PropertyWidgetPrivate
 
 PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
-    setFrameShape(QFrame::NoFrame);
+    setFrameShape( QFrame::NoFrame );
 }
 
 PropertyWidget::~PropertyWidget()
@@ -85,7 +85,7 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
         d->layout->setAlignment( Qt::AlignTop );
 
         appendObject( object, true );
-        if(!qobject_cast<GluonEngine::Asset*>(object))
+        if( !qobject_cast<GluonEngine::Asset*>( object ) )
         {
             for( int i = 0; i < object->children().count(); i++ )
             {

@@ -41,7 +41,7 @@ namespace GluonCreator
             ~ProjectSelectionDialog();
             void addPage( KPageWidgetItem* item, ProjectPage page );
             QString fileName() const;
-			virtual QSize sizeHint() const;
+            virtual QSize sizeHint() const;
         public Q_SLOTS:
             void setPage( ProjectPage page );
         private:

@@ -39,29 +39,29 @@ Q_DECLARE_METATYPE( QStringList )
 StringListPropertyWidgetItem::StringListPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
-    QWidget* centralWidget = new QWidget(this);
+    QWidget* centralWidget = new QWidget( this );
     centralWidget->setContentsMargins( 0, 0, 0, 0 );
-    
-    QGridLayout* layout = new QGridLayout(centralWidget);
-    layout->setSpacing(0);
-    
-    addButton = new QToolButton(centralWidget);
-    addButton->setIcon( KIcon("list-add") );
-    connect(addButton, SIGNAL(clicked(bool)), SLOT(addItem()));
+
+    QGridLayout* layout = new QGridLayout( centralWidget );
+    layout->setSpacing( 0 );
+
+    addButton = new QToolButton( centralWidget );
+    addButton->setIcon( KIcon( "list-add" ) );
+    connect( addButton, SIGNAL( clicked( bool ) ), SLOT( addItem() ) );
     layout->addWidget( addButton, 0, 0 );
-    
-    countLabel = new QLabel(centralWidget);
-    countLabel->setText( i18n( "Item count: %1" ).arg(0) );
+
+    countLabel = new QLabel( centralWidget );
+    countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
     layout->addWidget( countLabel, 0, 1 );
-    
-    listItems = new QWidget(centralWidget);
-    listItems->setLayout(new QVBoxLayout());
-    listItems->layout()->setMargin(0);
-    listItems->layout()->setSpacing(0);
+
+    listItems = new QWidget( centralWidget );
+    listItems->setLayout( new QVBoxLayout() );
+    listItems->layout()->setMargin( 0 );
+    listItems->layout()->setSpacing( 0 );
     listItems->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( listItems, 1, 0, 1, 2 );
-    
-    setEditWidget(centralWidget);
+
+    setEditWidget( centralWidget );
 }
 
 StringListPropertyWidgetItem::~StringListPropertyWidgetItem()
@@ -83,10 +83,10 @@ GluonCreator::PropertyWidgetItem* StringListPropertyWidgetItem::instantiate()
     return new StringListPropertyWidgetItem();
 }
 
-void StringListPropertyWidgetItem::leValueChanged(QString newValue)
+void StringListPropertyWidgetItem::leValueChanged( QString newValue )
 {
     QLineEdit* from = qobject_cast< QLineEdit* >( sender() );
-    if(from)
+    if( from )
     {
         stringValues.insert( from, newValue );
         valueHasChanged();
@@ -94,25 +94,25 @@ void StringListPropertyWidgetItem::leValueChanged(QString newValue)
 }
 
 
-void StringListPropertyWidgetItem::setEditValue(const QVariant& value)
+void StringListPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     QGridLayout* layout = qobject_cast<QGridLayout*>( editWidget()->layout() );
-    
+
     // Clear out any old data...
     textEditorItems.clear();
     stringValues.clear();
     layout->removeItem( layout->itemAt( layout->indexOf( listItems ) ) );
     listItems->deleteLater();
-    
+
     // Set new value
-    listItems = new QWidget(editWidget());
+    listItems = new QWidget( editWidget() );
     listItems->setContentsMargins( 0, 0, 0, 0 );
-    listItems->setLayout(new QVBoxLayout());
-    listItems->layout()->setMargin(0);
-    listItems->layout()->setSpacing(0);
-    
+    listItems->setLayout( new QVBoxLayout() );
+    listItems->layout()->setMargin( 0 );
+    listItems->layout()->setSpacing( 0 );
+
     layout->addWidget( listItems, 1, 0, 1, 2 );
-    
+
     // Rebuild list from this
     QList<QString> items;
     isList = value.canConvert< QList<QString> >();
@@ -123,58 +123,58 @@ void StringListPropertyWidgetItem::setEditValue(const QVariant& value)
         items = value.toStringList();
     else
         items = value.value< QVector<QString> >().toList();
-    if(items.count() > 0)
+    if( items.count() > 0 )
     {
-        for(int i = 0; i < items.count(); ++i)
+        for( int i = 0; i < items.count(); ++i )
         {
-            addItem(items[i]);
+            addItem( items[i] );
         }
     }
 }
 
 void StringListPropertyWidgetItem::addItem()
 {
-    addItem(QString());
+    addItem( QString() );
     valueHasChanged();
 }
 
-void StringListPropertyWidgetItem::addItem(QString value)
+void StringListPropertyWidgetItem::addItem( QString value )
 {
-    QWidget* container = new QWidget(listItems);
+    QWidget* container = new QWidget( listItems );
     container->setContentsMargins( 0, 0, 0, 0 );
-    QHBoxLayout* containerLayout = new QHBoxLayout(container);
-    containerLayout->setMargin(0);
-    containerLayout->setSpacing(0);
-    
-    QToolButton* removeButton = new QToolButton(listItems);
-    removeButton->setIcon( KIcon("list-remove") );
-    connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
+    QHBoxLayout* containerLayout = new QHBoxLayout( container );
+    containerLayout->setMargin( 0 );
+    containerLayout->setSpacing( 0 );
+
+    QToolButton* removeButton = new QToolButton( listItems );
+    removeButton->setIcon( KIcon( "list-remove" ) );
+    connect( removeButton, SIGNAL( clicked( bool ) ), SLOT( removeClicked() ) );
     containerLayout->addWidget( removeButton );
-    
-    QLineEdit* editorLE = new QLineEdit(listItems);
-    editorLE->setText(value);
-    connect( editorLE, SIGNAL(valueChanged(int)), SLOT(leValueHasChanged(QString)));
+
+    QLineEdit* editorLE = new QLineEdit( listItems );
+    editorLE->setText( value );
+    connect( editorLE, SIGNAL( valueChanged( int ) ), SLOT( leValueHasChanged( QString ) ) );
     containerLayout->addWidget( editorLE );
-    
-    listItems->layout()->addWidget(container);
-    textEditorItems.insert(removeButton, editorLE);
-    stringValues.insert(editorLE, value);
-    itemOrder.append(editorLE);
+
+    listItems->layout()->addWidget( container );
+    textEditorItems.insert( removeButton, editorLE );
+    stringValues.insert( editorLE, value );
+    itemOrder.append( editorLE );
     countLabel->setText( i18n( "Item count: %1" ).arg( stringValues.count() ) );
 }
 
 void StringListPropertyWidgetItem::removeClicked()
 {
-    QToolButton* from = qobject_cast<QToolButton*>(sender());
-    if(from)
+    QToolButton* from = qobject_cast<QToolButton*>( sender() );
+    if( from )
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
         QLineEdit* editorLE = textEditorItems[from];
-        textEditorItems.remove(from);
-        stringValues.remove(editorLE);
-        itemOrder.append(editorLE);
-        countLabel->setText( i18n( "Item count: %1" ).arg(0) );
+        textEditorItems.remove( from );
+        stringValues.remove( editorLE );
+        itemOrder.append( editorLE );
+        countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
         valueHasChanged();
     }
 }
@@ -182,13 +182,13 @@ void StringListPropertyWidgetItem::removeClicked()
 void StringListPropertyWidgetItem::valueHasChanged()
 {
     QList<QString> theValues;
-    foreach( QLineEdit* item, itemOrder)
+    foreach( QLineEdit * item, itemOrder )
     {
         theValues.append( stringValues[item] );
     }
-    if(isList)
+    if( isList )
         PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<QString> >( theValues ) );
-    if(isStringList)
+    if( isStringList )
         PropertyWidgetItem::valueChanged( QVariant::fromValue< QStringList >( theValues ) );
     else
         PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<QString> >( QVector<QString>::fromList( theValues ) ) );

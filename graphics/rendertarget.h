@@ -48,7 +48,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             /**
              * Default constructor.
@@ -61,7 +61,7 @@ namespace GluonGraphics
              * \param width The width of the rendertarget.
              * \param height The height of the rendertarget.
              */
-            RenderTarget(int width, int height, QObject* parent = 0);
+            RenderTarget( int width, int height, QObject* parent = 0 );
             virtual ~RenderTarget();
 
             /**
@@ -115,7 +115,7 @@ namespace GluonGraphics
              *
              * \param fbo The new framebuffer object to use.
              */
-            void setFramebufferObject(QGLFramebufferObject* fbo);
+            void setFramebufferObject( QGLFramebufferObject* fbo );
 
             /**
              * Resize the RenderTarget and any attached framebuffers and
@@ -124,7 +124,7 @@ namespace GluonGraphics
              * \param width The new width of the RenderTarget.
              * \param height The new height of the RenderTarget.
              */
-            void resize(int width, int height);
+            void resize( int width, int height );
 
             /**
              * Set the material instance that will be used to render this render
@@ -132,7 +132,7 @@ namespace GluonGraphics
              *
              * \param material The material instance to be used for rendering.
              */
-            void setMaterialInstance(MaterialInstance* material);
+            void setMaterialInstance( MaterialInstance* material );
 
             /**
              * Render this render target to screen. This will only do

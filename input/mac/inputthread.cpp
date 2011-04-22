@@ -62,7 +62,7 @@ void InputThread::readInformation()
     CFTypeRef type  = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDVendorIDKey ) );
     if( type )
     {
-        CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &d->vendor );
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->vendor );
         CFRelease( type );
     }
     else
@@ -73,7 +73,7 @@ void InputThread::readInformation()
     type  = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDProductIDKey ) );
     if( type )
     {
-        CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &d->product );
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->product );
         CFRelease( type );
     }
     else
@@ -86,7 +86,7 @@ void InputThread::readInformation()
     {
         if( CFGetTypeID( type ) == CFNumberGetTypeID() )
         {
-            CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &d->bustype );
+            CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->bustype );
             CFRelease( type );
         }
         else if( CFGetTypeID( type ) == CFStringGetTypeID() )
@@ -103,7 +103,7 @@ void InputThread::readInformation()
     type = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDVersionNumberKey ) );
     if( type )
     {
-        CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &d->version );
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &d->version );
         CFRelease( type );
     }
     else
@@ -182,13 +182,13 @@ void InputThread::readInformation()
 
     if( type )
     {
-        CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &deviceUsage );
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &deviceUsage );
         CFRelease( type );
     }
     else
     {
         type = IOHIDDeviceGetProperty( d->device, CFSTR( kIOHIDDeviceUsageKey ) );
-        CFNumberGetValue(( CFNumberRef ) type, kCFNumberSInt32Type, &deviceUsage );
+        CFNumberGetValue( ( CFNumberRef ) type, kCFNumberSInt32Type, &deviceUsage );
         CFRelease( type );
     }
 

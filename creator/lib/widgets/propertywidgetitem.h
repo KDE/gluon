@@ -30,8 +30,10 @@ namespace GluonCreator
     struct QtMetaObject : private QObject
     {
         public:
-            static const QMetaObject *get()
-            { return &static_cast<QtMetaObject*>(0)->staticQtMetaObject; }
+            static const QMetaObject* get()
+            {
+                return &static_cast<QtMetaObject*>( 0 )->staticQtMetaObject;
+            }
     };
 
     /**

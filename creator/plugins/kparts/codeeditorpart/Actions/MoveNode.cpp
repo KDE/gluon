@@ -111,16 +111,16 @@ void MoveNodeAction::executeMove( QPointF pos )
         {
             return;
         }
-        if(( pos.x() < 0 ) || ( pos.x() > _graphDocument->width() ) )
+        if( ( pos.x() < 0 ) || ( pos.x() > _graphDocument->width() ) )
         {
-            if(( pos.y() > 0 ) && ( pos.y() < _graphDocument->height() ) )
+            if( ( pos.y() > 0 ) && ( pos.y() < _graphDocument->height() ) )
             {
                 _node -> setY( pos.y() );
             }
         }
-        else if(( pos.y() < 0 ) || ( pos.y() > _graphDocument->height() ) )
+        else if( ( pos.y() < 0 ) || ( pos.y() > _graphDocument->height() ) )
         {
-            if(( pos.x() > 0 ) && ( pos.x() < _graphDocument->width() ) )
+            if( ( pos.x() > 0 ) && ( pos.x() < _graphDocument->width() ) )
             {
                 _node -> setX( pos.x() );
             }
@@ -160,7 +160,7 @@ void MoveNodeAction::executeRelease( QPointF pos )
         {
             return;
         }
-        if( !(( pos.x() < 0 ) || ( pos.y() < 0 ) || ( pos.x() > _graphDocument->width() ) || ( pos.y() > _graphDocument->height() ) ) )
+        if( !( ( pos.x() < 0 ) || ( pos.y() < 0 ) || ( pos.x() > _graphDocument->width() ) || ( pos.y() > _graphDocument->height() ) ) )
         {
             _node -> setY( pos.y() );
             _node -> setX( pos.x() );

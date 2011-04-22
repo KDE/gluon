@@ -33,7 +33,7 @@ namespace GluonCore
     {
         public:
             Private()
-                : engine(0)
+                : engine( 0 )
             {}
             ~Private()
             {}
@@ -44,24 +44,24 @@ namespace GluonCore
 
 using namespace GluonCore;
 
-GLUON_DEFINE_SINGLETON(ScriptEngine)
+GLUON_DEFINE_SINGLETON( ScriptEngine )
 
-ScriptEngine::ScriptEngine(QObject* /* parent */ )
-    : d(new Private())
+ScriptEngine::ScriptEngine( QObject* /* parent */ )
+    : d( new Private() )
 {
 }
 
 ScriptEngine::~ScriptEngine()
 {
-    delete(d);
+    delete( d );
 }
 
 QScriptEngine* ScriptEngine::scriptEngine()
 {
     DEBUG_BLOCK
-    if(QCoreApplication::instance() && !d->engine)
+    if( QCoreApplication::instance() && !d->engine )
     {
-        d->engine = new QScriptEngine(this);
+        d->engine = new QScriptEngine( this );
         d->engine->importExtension( "jsmoke.qtcore" );
         d->engine->importExtension( "jsmoke.qtgui" );
         d->engine->importExtension( "jsmoke.qtopengl" );
@@ -72,23 +72,23 @@ QScriptEngine* ScriptEngine::scriptEngine()
         QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
         QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
 
-        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance(), ownership, wrapOptions);
-        extensionObject.setProperty("ObjectFactory", objectFactory );
+        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance(), ownership, wrapOptions );
+        extensionObject.setProperty( "ObjectFactory", objectFactory );
 
-        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance(), ownership, wrapOptions);
-        extensionObject.setProperty("MessageHandler", messageHandler);
+        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance(), ownership, wrapOptions );
+        extensionObject.setProperty( "MessageHandler", messageHandler );
 
         // Finally, register all the objects in the factory...
         QHash<QString, const QMetaObject*> types = GluonObjectFactory::instance()->objectTypes();
         QHash<QString, const QMetaObject*>::const_iterator i;
-        for( i = types.constBegin(); i != types.constEnd(); ++i)
+        for( i = types.constBegin(); i != types.constEnd(); ++i )
         {
             QObject* obj = i.value()->newInstance();
-            if(qobject_cast<GluonCore::GluonObject*>(obj))
+            if( qobject_cast<GluonCore::GluonObject*>( obj ) )
             {
-                qobject_cast<GluonCore::GluonObject*>(obj)->registerOnScriptEngine(d->engine);;
+                qobject_cast<GluonCore::GluonObject*>( obj )->registerOnScriptEngine( d->engine );;
             }
-            delete(obj);
+            delete( obj );
         }
     }
     return d->engine;
@@ -96,9 +96,9 @@ QScriptEngine* ScriptEngine::scriptEngine()
 
 void ScriptEngine::resetEngine()
 {
-    if(d->engine)
+    if( d->engine )
     {
-        delete(d->engine);
+        delete( d->engine );
         d->engine = 0;
     }
 }

@@ -23,4 +23,4 @@
 
 #include "testgluoncore.h"
 
-QTEST_MAIN(TestGluonCore)
+QTEST_MAIN( TestGluonCore )

@@ -70,7 +70,7 @@ namespace GluonGraphics
      */
     class VertexBuffer : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             /**
              * This enumeration lists the various render modes that can be used to render a buffer.

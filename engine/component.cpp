@@ -122,7 +122,7 @@ Component::enabled() const
     return d->enabled;
 }
 
-GameObject *
+GameObject*
 Component::gameObject()
 {
     return d->gameObject;

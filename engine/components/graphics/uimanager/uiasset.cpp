@@ -42,11 +42,11 @@ using namespace GluonEngine;
 class UiAsset::UiAssetPrivate
 {
     public:
-        UiAssetPrivate( UiAsset* asset)
-            : q(asset)
-            , qmlItem(0)
-            , engine(0)
-            , component(0)
+        UiAssetPrivate( UiAsset* asset )
+            : q( asset )
+            , qmlItem( 0 )
+            , engine( 0 )
+            , component( 0 )
         {
 
         }
@@ -58,7 +58,7 @@ class UiAsset::UiAssetPrivate
             if( component->isError() )
             {
                 QList<QDeclarativeError> errors = component->errors();
-                foreach( const QDeclarativeError& error, errors )
+                foreach( const QDeclarativeError & error, errors )
                 {
                     errorStr += ( error.line() > 0 ? QString( QString::number( error.line() ) +
                                   QLatin1String( ": " ) ) : QLatin1String( "" ) )
@@ -103,7 +103,7 @@ const QStringList UiAsset::supportedMimeTypes() const
 
 const QList< AssetTemplate* > UiAsset::templates()
 {
-    return QList<AssetTemplate*>() << new AssetTemplate("Interface File", "template.qml", "ui", this);
+    return QList<AssetTemplate*>() << new AssetTemplate( "Interface File", "template.qml", "ui", this );
 }
 
 void UiAsset::load()
@@ -111,7 +111,7 @@ void UiAsset::load()
     if( !d->engine )
     {
         d->engine = new QDeclarativeEngine( this );
-        d->engine->addImageProvider("texture", new TextureImageProvider());
+        d->engine->addImageProvider( "texture", new TextureImageProvider() );
     }
 
     Asset::load();
@@ -138,7 +138,7 @@ void UiAsset::execute()
             return;
         }
 
-        QObject *root = d->component->create();
+        QObject* root = d->component->create();
 
         if( !root )
         {

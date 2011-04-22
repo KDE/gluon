@@ -156,7 +156,7 @@ Viewport::update()
     {
         //glScissor(d->left, d->bottom, d->width, d->height);
     }
-    emit viewportSizeChanged(d->left, d->bottom, d->width, d->height);
+    emit viewportSizeChanged( d->left, d->bottom, d->width, d->height );
 }
 
 #include "viewport.moc"

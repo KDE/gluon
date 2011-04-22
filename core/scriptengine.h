@@ -32,7 +32,7 @@ namespace GluonCore
 {
     class GLUON_CORE_EXPORT ScriptEngine : public Singleton<ScriptEngine>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             QScriptEngine* scriptEngine();
             void resetEngine();

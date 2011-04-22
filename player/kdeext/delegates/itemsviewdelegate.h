@@ -36,30 +36,30 @@ namespace GluonKDEPlayer
 {
     class ItemsViewDelegate: public KWidgetItemDelegate
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit ItemsViewDelegate(QAbstractItemView* itemView, QObject* parent = 0);
+            explicit ItemsViewDelegate( QAbstractItemView* itemView, QObject* parent = 0 );
             virtual ~ItemsViewDelegate();
 
             // paint the item at index with all its attributes shown
-            virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+            virtual void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
             // get the list of widgets
             virtual QList<QWidget*> createItemWidgets() const;
 
             // update the widgets
-            virtual void updateItemWidgets(const QList<QWidget*> widgets,
-                                            const QStyleOptionViewItem &option,
-                                            const QPersistentModelIndex &index) const;
+            virtual void updateItemWidgets( const QList<QWidget*> widgets,
+                                            const QStyleOptionViewItem& option,
+                                            const QPersistentModelIndex& index ) const;
 
-            virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+            virtual QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
         signals:
             void gameToPlaySelected( const QModelIndex& index );
             void gameSelected( const QModelIndex& index );
 
         protected slots:
-            bool eventFilter(QObject *watched, QEvent *event);
+            bool eventFilter( QObject* watched, QEvent* event );
             void slotPlayClicked();
             void selectGameClicked();
 

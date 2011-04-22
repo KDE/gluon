@@ -79,11 +79,11 @@ CameraControllerComponent::CameraControllerComponent( const CameraControllerComp
 
 CameraControllerComponent::~CameraControllerComponent()
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
     delete d;
@@ -104,7 +104,7 @@ void CameraControllerComponent::initialize()
         GluonGraphics::Engine::instance()->setActiveCamera( d->camera );
     }
 
-    if(!d->material)
+    if( !d->material )
     {
         d->material = GluonGraphics::Engine::instance()->mainRenderTarget()->materialInstance();
     }
@@ -113,8 +113,8 @@ void CameraControllerComponent::initialize()
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
         if( materialAsset )
             materialAsset->load();
-        if( GluonGraphics::Engine::instance()->mainRenderTarget())
-            GluonGraphics::Engine::instance()->mainRenderTarget()->setMaterialInstance(d->material);
+        if( GluonGraphics::Engine::instance()->mainRenderTarget() )
+            GluonGraphics::Engine::instance()->mainRenderTarget()->setMaterialInstance( d->material );
         else
             debug( QString( "Warning: there is no main RenderTarget set!" ) );
     }
@@ -202,32 +202,32 @@ void CameraControllerComponent::setFarPlane( float farValue )
 
 void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
     d->material = material;
-    if(d->material)
+    if( d->material )
     {
         d->material->ref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->ref();
     }
 
-    GluonGraphics::RenderTarget *target = GluonGraphics::Engine::instance()->mainRenderTarget();
+    GluonGraphics::RenderTarget* target = GluonGraphics::Engine::instance()->mainRenderTarget();
     if( target )
     {
-        if(material)
+        if( material )
         {
-            target->setMaterialInstance(material);
+            target->setMaterialInstance( material );
         }
         else
         {
-            target->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->createInstance(fullyQualifiedName()));
+            target->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->createInstance( fullyQualifiedName() ) );
         }
     }
 }

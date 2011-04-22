@@ -87,10 +87,10 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     layout->setSpacing( 0 );
     widget->setLayout( layout );
 
-    KToolBar* toolBar = new KToolBar(this);
-    toolBar->setIconDimensions(16);
+    KToolBar* toolBar = new KToolBar( this );
+    toolBar->setIconDimensions( 16 );
 
-    QAction* newGameObject = toolBar->addAction(KIcon("document-new"), i18n("New Game Object"), this, SLOT( newGameObjectAction() ) );
+    QAction* newGameObject = toolBar->addAction( KIcon( "document-new" ), i18n( "New Game Object" ), this, SLOT( newGameObjectAction() ) );
     d->view->addAction( newGameObject );
 
     KAction* separator = new KAction( d->view );
@@ -100,9 +100,9 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT( deleteSelection() ) );
     d->view->addAction( deleteAction );
 
-    layout->addWidget(toolBar);
-    layout->addWidget(d->view);
-    setWidget(widget);
+    layout->addWidget( toolBar );
+    layout->addWidget( d->view );
+    setWidget( widget );
 }
 
 SceneDock::~SceneDock()

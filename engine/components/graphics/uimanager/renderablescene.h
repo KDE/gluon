@@ -29,7 +29,7 @@ namespace GluonEngine
 {
     class RenderableScene : public QGraphicsScene
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             RenderableScene( QObject* parent = 0 );
             ~RenderableScene();
@@ -37,10 +37,10 @@ namespace GluonEngine
             void renderScene();
 
         protected:
-            void drawBackground(QPainter* painter, const QRectF& rect);
+            void drawBackground( QPainter* painter, const QRectF& rect );
 
         private slots:
-            void deliverEvent(QEvent* event);
+            void deliverEvent( QEvent* event );
 
         private:
             class RenderableScenePrivate;

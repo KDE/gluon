@@ -156,7 +156,7 @@ namespace GluonEngine
              * This allows Assets to handle their own children in a flexible
              * manner, without polluting the GDL with that information.
              */
-            virtual bool shouldSerializeChildren ( ) const;
+            virtual bool shouldSerializeChildren( ) const;
 
             /**
              * Convenience function to test whether the file has been loaded or not.
@@ -170,7 +170,7 @@ namespace GluonEngine
              *
              * \return A URL that can be used for saving files.
              */
-            static QUrl fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extension = QString());
+            static QUrl fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension = QString() );
 
         public slots:
             /**

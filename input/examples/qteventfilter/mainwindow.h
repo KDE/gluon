@@ -54,8 +54,8 @@ class MainWindow : public QMainWindow
 
     private slots:
         void mAbout();
-        void mKeyPressed(int button);
-        void mKeyReleased(int button);
+        void mKeyPressed( int button );
+        void mKeyReleased( int button );
 
     private:
         QWidget* centralWidget;

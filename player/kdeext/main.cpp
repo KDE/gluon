@@ -28,37 +28,38 @@
 
 int main( int argc, char** argv )
 {
-    KAboutData aboutData("gluon_kdeextplayer", "plasma_applet_gluonplayer",
-                          ki18n("KDE Extended Player"), GLUON_VERSION_STRING.toUtf8(),
-                          ki18n("KDE Frontend Player for Gluon games."),
+    KAboutData aboutData( "gluon_kdeextplayer", "plasma_applet_gluonplayer",
+                          ki18n( "KDE Extended Player" ), GLUON_VERSION_STRING.toUtf8(),
+                          ki18n( "KDE Frontend Player for Gluon games." ),
                           KAboutData::License_LGPL_V2,
-                          ki18n("Copyright 2010 Laszlo Papp"),
+                          ki18n( "Copyright 2010 Laszlo Papp" ),
                           KLocalizedString(),
                           "???"
                         );
 
-    aboutData.setProgramIconName("KDEEXTPlayer");
-    aboutData.addAuthor(ki18n("Laszlo Papp"), ki18n("KDE Extended Player"), "");
-    aboutData.setProductName("gluon/gluonplayer");
+    aboutData.setProgramIconName( "KDEEXTPlayer" );
+    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "KDE Extended Player" ), "" );
+    aboutData.setProductName( "gluon/gluonplayer" );
 
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options;
 
-    options.add("+file", ki18n("File to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    options.add( "+file", ki18n( "File to open" ) );
+    KCmdLineArgs::addCmdLineOptions( options );
 
     KApplication app;
 
-    if (argc > 1 && !QFile::exists(argv[1])) {
-        if( KMessageBox::warningContinueCancel( 0, i18n( "File does not exist: %1! Do you want to continue?" ).arg(argv[1]), i18n( "Continue?" ),
-                KStandardGuiItem::cont(), KStandardGuiItem::quit() ) == KMessageBox::Cancel)
+    if( argc > 1 && !QFile::exists( argv[1] ) )
+    {
+        if( KMessageBox::warningContinueCancel( 0, i18n( "File does not exist: %1! Do you want to continue?" ).arg( argv[1] ), i18n( "Continue?" ),
+                                                KStandardGuiItem::cont(), KStandardGuiItem::quit() ) == KMessageBox::Cancel )
             return 1;
 
     }
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
-    GluonKDEPlayer::MainWindow* window = new GluonKDEPlayer::MainWindow( args->count() ? args->arg(0) : "" );
+    GluonKDEPlayer::MainWindow* window = new GluonKDEPlayer::MainWindow( args->count() ? args->arg( 0 ) : "" );
     window->show();
 
     app.exec();

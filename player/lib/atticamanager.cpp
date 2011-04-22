@@ -27,7 +27,7 @@
 
 using namespace GluonPlayer;
 
-GLUON_DEFINE_SINGLETON(AtticaManager)
+GLUON_DEFINE_SINGLETON( AtticaManager )
 
 AtticaManager::AtticaManager()
 {
@@ -66,9 +66,9 @@ void AtticaManager::providersUpdated()
     }
 }
 
-bool AtticaManager::downloadGame ( const QString &id )
+bool AtticaManager::downloadGame( const QString& id )
 {
-    if (isDownloading)
+    if( isDownloading )
     {
         return false;
     }
@@ -91,7 +91,7 @@ void AtticaManager::requestContent()
 {
     if( isProviderValid() )
     {
-        Attica::ItemJob<Attica::Content> *job = provider().requestContent(m_currentId);
+        Attica::ItemJob<Attica::Content> *job = provider().requestContent( m_currentId );
         connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
         job->start();
     }
@@ -101,12 +101,12 @@ void AtticaManager::requestContent()
     }
 }
 
-void AtticaManager::processFetchedGameDetails(Attica::BaseJob* job)
+void AtticaManager::processFetchedGameDetails( Attica::BaseJob* job )
 {
     Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content> *>( job );
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
-        qDebug() << "It should be downloaded " << contentJob->result().downloadUrlDescription(1).link();
+        qDebug() << "It should be downloaded " << contentJob->result().downloadUrlDescription( 1 ).link();
     }
     else
     {

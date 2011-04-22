@@ -27,7 +27,7 @@
 
 using namespace GluonPlayer;
 
-GLUON_DEFINE_SINGLETON(Authentication)
+GLUON_DEFINE_SINGLETON( Authentication )
 
 Authentication::Authentication()
     : m_initialized( false )
@@ -100,11 +100,14 @@ bool Authentication::logout( )
 
     if( AtticaManager::instance()->isProviderValid() )
     {
-        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+        if( AtticaManager::instance()->provider().saveCredentials( m_username, m_password ) )
+        {
             m_loggedIn = false;
             emit loggedOut();
             return true;
-        } else {
+        }
+        else
+        {
             emit logoutFailed();
             return false;
         }
@@ -204,10 +207,13 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        if (AtticaManager::instance()->provider().saveCredentials( m_username, m_password )) {
+        if( AtticaManager::instance()->provider().saveCredentials( m_username, m_password ) )
+        {
             m_loggedIn = true;
             emit loggedIn();
-        } else {
+        }
+        else
+        {
             m_loggedIn = false;
             emit loginSaveCredentialsFailed();
         }

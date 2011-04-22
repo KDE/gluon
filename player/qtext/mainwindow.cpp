@@ -178,7 +178,7 @@ void MainWindow::activated( QModelIndex index )
 
 void MainWindow::openClicked( bool /* toggled */ )
 {
-    QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), QString( "*%1|Gluon Project Files" ).arg(GluonEngine::projectFilename) );
+    QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
 }
@@ -195,7 +195,7 @@ void MainWindow::openProject( const QString& fileName )
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
-    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
+    GluonInput::InputManager::instance()->setFilteredObject( d->widget );
     QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;

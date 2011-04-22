@@ -23,7 +23,7 @@
 
 using namespace GluonInput;
 
-GLUON_DEFINE_SINGLETON(GluonButtons)
+GLUON_DEFINE_SINGLETON( GluonButtons )
 
 GluonButtons::GluonButtons()
 {

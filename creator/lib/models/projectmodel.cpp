@@ -185,8 +185,8 @@ ProjectModel::parent( const QModelIndex& child ) const
         return QModelIndex();
 
     QObject* childItem = static_cast<QObject*>( child.internalPointer() );
-	if( !childItem )
-		return QModelIndex();
+    if( !childItem )
+        return QModelIndex();
 
     QObject* parentItem = childItem->parent();
 
@@ -233,7 +233,7 @@ ProjectModel::index( int row, int column, const QModelIndex& parent ) const
 }
 
 QModelIndex
-ProjectModel::objectToIndex ( GluonCore::GluonObject* object ) const
+ProjectModel::objectToIndex( GluonCore::GluonObject* object ) const
 {
     DEBUG_FUNC_NAME
     if( object->root() != d->project )
@@ -253,7 +253,7 @@ ProjectModel::objectToIndex ( GluonCore::GluonObject* object ) const
 }
 
 int
-ProjectModel::objectRow ( GluonCore::GluonObject* object ) const
+ProjectModel::objectRow( GluonCore::GluonObject* object ) const
 {
     if( !object->parent() )
         return -1;
@@ -289,7 +289,7 @@ ProjectModel::flags( const QModelIndex& index ) const
     if( index.isValid() )
     {
         //QObject* obj = static_cast<QObject*>( index.internalPointer() );
-        GluonEngine::Asset* obj = qobject_cast<GluonEngine::Asset*>(static_cast<QObject*>(index.internalPointer()));
+        GluonEngine::Asset* obj = qobject_cast<GluonEngine::Asset*>( static_cast<QObject*>( index.internalPointer() ) );
         // One does not simply drop Assets into Mord...other Assets!
         if( obj )//->inherits( "GluonEngine::Asset" ) )
         {
@@ -388,40 +388,40 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
             ++rows;
         }
 
-        GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>(parent.internalPointer());
-        if(newItems.count() > 0)
+        GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
+        if( newItems.count() > 0 )
         {
-            GluonCore::GluonObject* itemObject = d->project->findItemByName(newItems.at(0));
+            GluonCore::GluonObject* itemObject = d->project->findItemByName( newItems.at( 0 ) );
             // Dropped on existing parent
-            if(itemObject->parent() == newParentObject)
+            if( itemObject->parent() == newParentObject )
                 return false;
             // Dropped on self, bailing out
-            else if(itemObject == newParentObject)
+            else if( itemObject == newParentObject )
                 return false;
         }
 
         QList< GluonCore::GluonObject* > newChildren;
-        foreach(const QString& item, newItems)
+        foreach( const QString & item, newItems )
         {
-            GluonCore::GluonObject* itemObject = d->project->findItemByName(item);
+            GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
             if( itemObject )
             {
                 // Update the view for the old parent (unfortunately we can't expect the items to
                 // all be from the same parent, so we have to do it here)
                 GluonCore::GluonObject* oldParentObject = qobject_cast< GluonCore::GluonObject* >( itemObject->parent() );
                 QModelIndex oldParent = objectToIndex( oldParentObject );
-                int oldRow = objectRow(itemObject);
+                int oldRow = objectRow( itemObject );
                 beginRemoveRows( oldParent, oldRow, oldRow );
-                oldParentObject->removeChild(itemObject);
+                oldParentObject->removeChild( itemObject );
                 endRemoveRows();
-                newChildren.append(itemObject);
+                newChildren.append( itemObject );
             }
         }
 
-        beginInsertRows( parent, rowCount(parent), rowCount(parent) + newItems.count() - 1 );
-        foreach( GluonCore::GluonObject* itemObject, newChildren )
+        beginInsertRows( parent, rowCount( parent ), rowCount( parent ) + newItems.count() - 1 );
+        foreach( GluonCore::GluonObject * itemObject, newChildren )
         {
-            newParentObject->addChild(itemObject);
+            newParentObject->addChild( itemObject );
         }
         endInsertRows();
         return true;
@@ -460,15 +460,15 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     {
         DEBUG_TEXT( QString( "Checking child at row %1" ).arg( i ) );
         GluonCore::GluonObject* child = parentObject->child( row );
-        GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >(child);
-        if(sceneChild == GluonEngine::Game::instance()->currentScene())
+        GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >( child );
+        if( sceneChild == GluonEngine::Game::instance()->currentScene() )
         {
-            sceneChild->debug("You cannot delete this scene, as it is currently loaded.");
+            sceneChild->debug( "You cannot delete this scene, as it is currently loaded." );
             return false;
         }
-        if(sceneChild == GluonEngine::Game::instance()->gameProject()->entryPoint())
+        if( sceneChild == GluonEngine::Game::instance()->gameProject()->entryPoint() )
         {
-            sceneChild->debug("You cannot delete this scene, as it is the current entrypoint.");
+            sceneChild->debug( "You cannot delete this scene, as it is the current entrypoint." );
             return false;
         }
         ///TODO Ensure that the object is not referenced in some property somewhere. This will be
@@ -509,7 +509,7 @@ QModelIndex ProjectModel::addChild( QObject* newChild, QModelIndex& parent )
 
         endInsertRows();
 
-        return index(rcount, 0, parent);
+        return index( rcount, 0, parent );
     }
 
     return QModelIndex();

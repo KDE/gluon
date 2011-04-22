@@ -49,7 +49,7 @@ QRealPropertyWidgetItem::supportedDataTypes() const
     return supportedTypes;
 }
 
-PropertyWidgetItem *
+PropertyWidgetItem*
 QRealPropertyWidgetItem::instantiate()
 {
     return new QRealPropertyWidgetItem();
@@ -82,7 +82,7 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
         QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
         spinBox->setMinimum( -FLT_MAX );
         spinBox->setMaximum( FLT_MAX );
-        spinBox->setSingleStep(0.01f);
+        spinBox->setSingleStep( 0.01f );
         setEditWidget( spinBox );
 
     }

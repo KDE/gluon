@@ -28,10 +28,10 @@ namespace GluonEngine
     class ScriptingComponent::ScriptingComponentPrivate
     {
         public:
-            ScriptingComponentPrivate(ScriptingComponent* qq);
+            ScriptingComponentPrivate( ScriptingComponent* qq );
             ~ScriptingComponentPrivate();
 
-            static QScriptValue debug(QScriptContext* context, QScriptEngine* engine);
+            static QScriptValue debug( QScriptContext* context, QScriptEngine* engine );
 
             void updateScriptObject();
 

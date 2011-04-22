@@ -25,80 +25,88 @@
 
 using namespace GluonAudio;
 
-GLUON_DEFINE_SINGLETON(Engine)
+GLUON_DEFINE_SINGLETON( Engine )
 
-class Engine::EnginePrivate {
-public:
-    EnginePrivate() : bufferLength(250000), buffersPerStream(3) {}
-    ~EnginePrivate() {}
+class Engine::EnginePrivate
+{
+    public:
+        EnginePrivate() : bufferLength( 250000 ), buffersPerStream( 3 ) {}
+        ~EnginePrivate() {}
 
-    QHash<QString, ALuint> bufferHash;
-    int bufferLength;
-    int buffersPerStream;
-    int minimalStreamLength;
+        QHash<QString, ALuint> bufferHash;
+        int bufferLength;
+        int buffersPerStream;
+        int minimalStreamLength;
 };
 
 Engine::Engine()
     : d( new EnginePrivate )
 {
-    alureInitDevice(0, 0);
-    alureUpdateInterval(0.125);
+    alureInitDevice( 0, 0 );
+    alureUpdateInterval( 0.125 );
 }
 
 Engine::~Engine()
 {
-    QHashIterator<QString, ALuint> i(d->bufferHash);
-    while (i.hasNext()) {
+    QHashIterator<QString, ALuint> i( d->bufferHash );
+    while( i.hasNext() )
+    {
         i.next();
-        alDeleteBuffers(1, &(i.value()));
+        alDeleteBuffers( 1, &( i.value() ) );
     }
     delete d;
     alureShutdownDevice();
 }
 
-ALuint Engine::genBuffer(const QString& fileName)
+ALuint Engine::genBuffer( const QString& fileName )
 {
-    ALuint buffer = d->bufferHash.value(fileName);
-    if (buffer == 0) {
-        buffer = alureCreateBufferFromFile(fileName.toLocal8Bit().constData());
-        d->bufferHash.insert(fileName, buffer);
+    ALuint buffer = d->bufferHash.value( fileName );
+    if( buffer == 0 )
+    {
+        buffer = alureCreateBufferFromFile( fileName.toLocal8Bit().constData() );
+        d->bufferHash.insert( fileName, buffer );
     }
 
     return buffer;
 }
 
-int Engine::bufferLength() {
+int Engine::bufferLength()
+{
     return d->bufferLength;
 }
 
-void Engine::setBufferLength(int microsecs) {
+void Engine::setBufferLength( int microsecs )
+{
     d->bufferLength = microsecs;
 }
 
-int Engine::buffersPerStream() {
+int Engine::buffersPerStream()
+{
     return d->buffersPerStream;
 }
 
-void Engine::setBuffersPerStream(int buffers) {
+void Engine::setBuffersPerStream( int buffers )
+{
     d->buffersPerStream = buffers;
 }
 
 QStringList Engine::deviceList()
 {
     int size = 0;
-    const ALCchar** _devices = alureGetDeviceNames(true, &size);
+    const ALCchar** _devices = alureGetDeviceNames( true, &size );
     QStringList devices;
-    for (int i = 0; i < size; i++) {
-        devices << QString(_devices[i]);
+    for( int i = 0; i < size; i++ )
+    {
+        devices << QString( _devices[i] );
     }
-    alureFreeDeviceNames(_devices);
+    alureFreeDeviceNames( _devices );
     return devices;
 }
 
 bool Engine::setDevice( const QString& deviceName )
 {
     alureShutdownDevice();
-    return alureInitDevice(deviceName.toUtf8(), 0);
+    return alureInitDevice( deviceName.toUtf8(), 0 );
 }
 
 QVector3D Engine::listenerPosition()

@@ -23,7 +23,8 @@
 
 class QLineEdit;
 class QComboBox;
-namespace GluonCore {
+namespace GluonCore
+{
     class GluonObject;
 }
 
@@ -31,19 +32,19 @@ namespace GluonCreator
 {
     class PropertyWidgetItemNewCustomProperty : public QDialog
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit PropertyWidgetItemNewCustomProperty(QWidget* parent = 0, Qt::WindowFlags f = 0);
-        
+            explicit PropertyWidgetItemNewCustomProperty( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+
         Q_SIGNALS:
-            void propertyCreated(GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName);
-        
+            void propertyCreated( GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName );
+
         public Q_SLOTS:
-            void createProperty(GluonCore::GluonObject* editThis);
-        
+            void createProperty( GluonCore::GluonObject* editThis );
+
         private Q_SLOTS:
             void createPropertyClicked();
-        
+
         private:
             GluonCore::GluonObject* editingThis;
             QLineEdit* propertyName;

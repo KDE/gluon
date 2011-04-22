@@ -104,7 +104,7 @@ GluonObjectPropertyWidgetItem::~GluonObjectPropertyWidgetItem()
     delete d;
 }
 
-PropertyWidgetItem *
+PropertyWidgetItem*
 GluonObjectPropertyWidgetItem::instantiate()
 {
     return new GluonObjectPropertyWidgetItem( QString() );

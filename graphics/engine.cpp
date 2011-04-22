@@ -43,7 +43,7 @@
 
 using namespace GluonGraphics;
 
-GLUON_DEFINE_SINGLETON(Engine)
+GLUON_DEFINE_SINGLETON( Engine )
 
 class Engine::EnginePrivate
 {
@@ -64,7 +64,7 @@ class Engine::EnginePrivate
 
         void removeObject( const QString& type, const QString& name );
 
-        void viewportSizeChanged( int left, int bottom, int width, int height);
+        void viewportSizeChanged( int left, int bottom, int width, int height );
 
         RenderTarget* mainTarget;
         MaterialInstance* mainTargetShader;
@@ -164,13 +164,13 @@ void Engine::EnginePrivate::removeObject( const QString& type, const QString& na
 void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width, int height )
 {
     if( mainTarget )
-        mainTarget->resize(width, height);
+        mainTarget->resize( width, height );
 
     foreach( const QWeakPointer<RenderTarget>& target, renderTargets )
     {
         if( target )
         {
-            target.data()->resize(width, height);
+            target.data()->resize( width, height );
         }
     }
 }
@@ -178,7 +178,7 @@ void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width
 void Engine::initialize()
 {
     Material* material = createMaterial( "default" );
-	material->load(GluonCore::Global::dataDirectory() + "/gluon/defaults/default.gml");
+    material->load( GluonCore::Global::dataDirectory() + "/gluon/defaults/default.gml" );
     material->build();
     material->instance( "default" )->setProperty( "materialColor", Qt::white );
     material->instance( "default" )->setProperty( "texture0", QString( "default" ) );
@@ -189,8 +189,8 @@ void Engine::initialize()
     Mesh* mesh = createMesh( "default" );
     mesh->load( QString() );
 
-    d->mainTarget = new RenderTarget(1024, 768, this);
-    d->mainTarget->setMaterialInstance(material->createInstance("mainTarget"));
+    d->mainTarget = new RenderTarget( 1024, 768, this );
+    d->mainTarget->setMaterialInstance( material->createInstance( "mainTarget" ) );
 }
 
 Item*
@@ -359,7 +359,7 @@ Engine::addRenderTarget( RenderTarget* target, int depth )
 void
 Engine::render()
 {
-    if(!d->camera)
+    if( !d->camera )
         return;
 
     d->objectMutex.lock();
@@ -377,7 +377,7 @@ Engine::render()
     //Unbind the FBO, making us stop rendering to it.
     d->mainTarget->release();
 
-    glDisable(GL_DEPTH_TEST);
+    glDisable( GL_DEPTH_TEST );
 
     //Render a full screen quad with the FBO data.
     d->mainTarget->render();
@@ -390,10 +390,10 @@ Engine::render()
         }
         else
         {
-            d->renderTargets.removeOne(target);
+            d->renderTargets.removeOne( target );
         }
     }
-    glEnable(GL_DEPTH_TEST);
+    glEnable( GL_DEPTH_TEST );
 
     d->objectMutex.unlock();
 }
@@ -413,7 +413,7 @@ Engine::setViewport( Viewport* viewport )
     emit currentViewportChanging( viewport );
     d->objectMutex.lock();
     d->viewport = viewport;
-    connect(d->viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), this, SLOT(viewportSizeChanged(int,int,int,int)));
+    connect( d->viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ), this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
     d->objectMutex.unlock();
 }
 

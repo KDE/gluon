@@ -38,10 +38,10 @@ namespace GluonCreator
 
             QString createProject() const;
             bool isModified() const;
-            void setForeground(QLabel* label, KColorScheme::ForegroundRole role);
+            void setForeground( QLabel* label, KColorScheme::ForegroundRole role );
 
         signals:
-            void validationFinished(bool);
+            void validationFinished( bool );
 
         private slots:
             void urlEdited();
@@ -49,7 +49,7 @@ namespace GluonCreator
 
         private:
             inline QByteArray encodedAppName();
-            inline QString pathUp(const QString& aPath);
+            inline QString pathUp( const QString& aPath );
 
             class NewProjectDialogPagePrivate;
             NewProjectDialogPagePrivate* const d;

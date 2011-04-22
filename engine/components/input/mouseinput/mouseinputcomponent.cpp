@@ -230,20 +230,20 @@ int MouseInputComponent::zAxis()
 
 float MouseInputComponent::normalizedXAxis()
 {
-    QWidget* filter = qobject_cast<QWidget*>(GluonInput::InputManager::instance()->filteredObject());
-    if(filter)
+    QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
+    if( filter )
     {
-        return (d->mouse->position().x() / float(filter->width())) * 2.f -1.f;
+        return ( d->mouse->position().x() / float( filter->width() ) ) * 2.f - 1.f;
     }
     return 0.f;
 }
 
 float MouseInputComponent::normalizedYAxis()
 {
-    QWidget* filter = qobject_cast<QWidget*>(GluonInput::InputManager::instance()->filteredObject());
-    if(filter)
+    QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
+    if( filter )
     {
-        return (d->mouse->position().y() / float(filter->height())) * 2.f - 1.f;
+        return ( d->mouse->position().y() / float( filter->height() ) ) * 2.f - 1.f;
     }
     return 0.f;
 }

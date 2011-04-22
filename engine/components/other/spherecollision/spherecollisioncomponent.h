@@ -102,7 +102,7 @@ namespace GluonEngine
             void componentDestroyed( QObject* obj );
             void addComponent( SphereCollisionComponent* comp );
 
-            void setTargetGroup(int group);
+            void setTargetGroup( int group );
 
             /*Q_SIGNALS:
                  *

@@ -38,7 +38,7 @@ namespace GluonEngine
     class GamePrivate : public QSharedData
     {
         public:
-            GamePrivate(Game* qq);
+            GamePrivate( Game* qq );
             GamePrivate( const GamePrivate& other );
             ~GamePrivate();
 

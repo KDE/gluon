@@ -30,7 +30,7 @@ namespace GluonCreator
 {
     class StringListPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit StringListPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~StringListPropertyWidgetItem();
@@ -39,23 +39,23 @@ namespace GluonCreator
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:
-            virtual void setEditValue(const QVariant& value);
+            virtual void setEditValue( const QVariant& value );
 
         private:
-            void addItem(QString value);
+            void addItem( QString value );
             Q_SLOT void addItem();
             Q_SLOT void removeClicked();
-            Q_SLOT void leValueChanged(QString newValue);
+            Q_SLOT void leValueChanged( QString newValue );
             void valueHasChanged();
-            
+
             QWidget* listItems;
             QToolButton* addButton;
             QLabel* countLabel;
-            
+
             QMap<QToolButton*, QLineEdit*> textEditorItems;
             QMap<QLineEdit*, QString> stringValues;
             QList<QLineEdit*> itemOrder;
-            
+
             bool isStringList;
             bool isList;
     };

@@ -38,7 +38,7 @@ namespace GluonEngine
             Q_PROPERTY( QSizeF visibleArea READ visibleArea WRITE setVisibleArea )
             Q_PROPERTY( float nearPlane READ nearPlane WRITE setNearPlane )
             Q_PROPERTY( float farPlane READ farPlane WRITE setFarPlane )
-            Q_PROPERTY( GluonGraphics::MaterialInstance* renderTargetMaterial READ renderTargetMaterial WRITE setRenderTargetMaterial)
+            Q_PROPERTY( GluonGraphics::MaterialInstance* renderTargetMaterial READ renderTargetMaterial WRITE setRenderTargetMaterial )
             Q_INTERFACES( GluonEngine::Component )
 
         public:

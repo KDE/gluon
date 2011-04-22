@@ -98,7 +98,7 @@ void CommentsView::showReply()
     NewCommentForm* form = new NewCommentForm( this );
     m_contentLayout->addItem( form );
     form->setParentIndex( parentItem->modelIndex() );
-    form->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    form->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
 
     connect( form, SIGNAL( accepted( QModelIndex, QString, QString ) ),
              SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );

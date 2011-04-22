@@ -49,14 +49,14 @@ namespace GluonCreator
             GluonEngine::Scene* createNewScene();
             GluonEngine::GameObject* createNewGameObject();
             GluonEngine::Asset* createNewAsset( const QString& fileName, GluonCore::GluonObject* parent = 0, const QString& className = QString(), const QString& name = QString() );
-            void createAssets(const QStringList& fileNames, GluonCore::GluonObject* = 0);
+            void createAssets( const QStringList& fileNames, GluonCore::GluonObject* = 0 );
 
             void deleteGameObject( GluonEngine::GameObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
             QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
             void watchCurrentAssets();
-            void assetDirty( const QString &file );
-            void assetDeleted( const QString &file );
+            void assetDirty( const QString& file );
+            void assetDeleted( const QString& file );
             void assetDeleted( GluonEngine::Asset* asset );
 
         Q_SIGNALS:

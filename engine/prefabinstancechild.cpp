@@ -28,12 +28,12 @@ class PrefabInstanceChild::Private
 {
 };
 
-PrefabInstanceChild::PrefabInstanceChild(QObject* parent)
+PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
 {
 
 }
 
-PrefabInstanceChild::PrefabInstanceChild(const PrefabInstanceChild& other)
+PrefabInstanceChild::PrefabInstanceChild( const PrefabInstanceChild& other )
 {
 
 }

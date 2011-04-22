@@ -60,7 +60,7 @@ class CommentsViewItem : public QWidget
         QLabel* m_dateTime;
         QLabel* m_rating;    //TODO Use a stars widget
 
-        QLabel *m_replyButton;
+        QLabel* m_replyButton;
         QGridLayout* m_layout;
         int m_depth;
         int m_rowInLayout;

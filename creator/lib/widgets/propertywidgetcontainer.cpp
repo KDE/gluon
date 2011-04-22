@@ -54,8 +54,8 @@ namespace GluonCreator
     {
         public:
             PropertyWidgetContainerPrivate( PropertyWidgetContainer* parent )
-                : parent(parent)
-                , object(0)
+                : parent( parent )
+                , object( 0 )
                 , expanded( true )
                 , enabled( true )
                 , containerWidget( 0 )
@@ -166,10 +166,10 @@ PropertyWidgetContainer::~PropertyWidgetContainer()
 
 void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
 {
-    if(d->object)
-        disconnect(d->object, SIGNAL(destroyed(QObject*)), this, SLOT(objectDeleted(QObject*)));
+    if( d->object )
+        disconnect( d->object, SIGNAL( destroyed( QObject* ) ), this, SLOT( objectDeleted( QObject* ) ) );
     d->object = theObject;
-    connect(d->object, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)));
+    connect( d->object, SIGNAL( destroyed( QObject* ) ), SLOT( objectDeleted( QObject* ) ) );
 
     QString classname( theObject->metaObject()->className() );
     classname = classname.right( classname.length() - classname.lastIndexOf( ':' ) - 1 );
@@ -229,17 +229,17 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
 void
 PropertyWidgetContainer::upTriggered()
 {
-    QWidget* w = qobject_cast<QWidget *>(parent());
+    QWidget* w = qobject_cast<QWidget*>( parent() );
     if( w )
     {
-        QVBoxLayout* vbl = qobject_cast<QVBoxLayout *>(w->layout());
+        QVBoxLayout* vbl = qobject_cast<QVBoxLayout*>( w->layout() );
         if( vbl )
         {
-            int index = vbl->indexOf(this);
+            int index = vbl->indexOf( this );
             if( index > 1 )
             {
-                vbl->removeWidget(this);
-                vbl->insertWidget(index - 1, this);
+                vbl->removeWidget( this );
+                vbl->insertWidget( index - 1, this );
             }
         }
     }
@@ -248,17 +248,17 @@ PropertyWidgetContainer::upTriggered()
 void
 PropertyWidgetContainer::downTriggered()
 {
-    QWidget* w = qobject_cast<QWidget *>(parent());
+    QWidget* w = qobject_cast<QWidget*>( parent() );
     if( w )
     {
-        QVBoxLayout* vbl = qobject_cast<QVBoxLayout *>(w->layout());
+        QVBoxLayout* vbl = qobject_cast<QVBoxLayout*>( w->layout() );
         if( vbl )
         {
-            int index = vbl->indexOf(this);
+            int index = vbl->indexOf( this );
             if( index < vbl->count() - 2 )
             {
-                vbl->removeWidget(this);
-                vbl->insertWidget(index + 1, this);
+                vbl->removeWidget( this );
+                vbl->insertWidget( index + 1, this );
             }
         }
     }
@@ -273,16 +273,16 @@ PropertyWidgetContainer::delTriggered()
         if( theParent )
             theParent->removeChild( d->object );
 
-        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(d->object);
-        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>(d->object);
-        if(gobj && gobj->parentGameObject())
+        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( d->object );
+        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( d->object );
+        if( gobj && gobj->parentGameObject() )
         {
             SelectionManager::instance()->clearSelection();
-            Models::instance()->sceneModel()->deleteGameObject(gobj);
+            Models::instance()->sceneModel()->deleteGameObject( gobj );
         }
-        else if(comp)
+        else if( comp )
         {
-            Models::instance()->sceneModel()->deleteComponent(comp);
+            Models::instance()->sceneModel()->deleteComponent( comp );
             this->deleteLater();
         }
     }
@@ -291,13 +291,13 @@ PropertyWidgetContainer::delTriggered()
 void PropertyWidgetContainer::addPropertyTriggered()
 {
     d->newCustomProp = new PropertyWidgetItemNewCustomProperty( this );
-    connect( d->newCustomProp, SIGNAL( propertyCreated(GluonCore::GluonObject*,QString) ), this, SLOT( propertyCreated(GluonCore::GluonObject*,QString) ) );
+    connect( d->newCustomProp, SIGNAL( propertyCreated( GluonCore::GluonObject*, QString ) ), this, SLOT( propertyCreated( GluonCore::GluonObject*, QString ) ) );
     d->newCustomProp->createProperty( d->object );
 }
 
-void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName)
+void PropertyWidgetContainer::propertyCreated( GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName )
 {
-    QVariant propVal = propertyCreatedOn->property(createdPropertyName.toUtf8());
+    QVariant propVal = propertyCreatedOn->property( createdPropertyName.toUtf8() );
     PropertyWidgetItem* pwi = PropertyWidgetItemFactory::instance()->create( propertyCreatedOn, propVal.typeName(), parentWidget() );
     pwi->setEditObject( propertyCreatedOn );
     pwi->setEditProperty( createdPropertyName );
@@ -306,11 +306,11 @@ void PropertyWidgetContainer::propertyCreated(GluonCore::GluonObject* propertyCr
     emit propertyChanged( propertyCreatedOn, createdPropertyName, propVal, propVal );
 }
 
-void PropertyWidgetContainer::objectDeleted(QObject* obj)
+void PropertyWidgetContainer::objectDeleted( QObject* obj )
 {
-    if(obj == d->object)
+    if( obj == d->object )
     {
-        this->setEnabled(false);
+        this->setEnabled( false );
         this->deleteLater();
     }
 }
@@ -423,21 +423,21 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         if( propertyName == QString( "objectName" ) || propertyName == QString( "name" ) || propertyName == QString( "description" ) || propertyName == QString( "expanded" ) || propertyName == QString( "enabled" ) )
             continue;
 
-        if(!metaProperty.isDesignable())
+        if( !metaProperty.isDesignable() )
             continue;
 
-        if(!metaProperty.isWritable())
+        if( !metaProperty.isWritable() )
             continue;
 
         PropertyWidgetItem* editWidget;
-        if(!metaProperty.isEnumType())
+        if( !metaProperty.isEnumType() )
         {
             editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
         }
         else
         {
             QMetaEnum enumerator = metaProperty.enumerator();
-            if( strcmp(enumerator.scope(), "Qt") )
+            if( strcmp( enumerator.scope(), "Qt" ) )
                 editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
             else
                 editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );

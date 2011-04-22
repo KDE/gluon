@@ -23,7 +23,7 @@
 
 #include <QtDeclarative/QDeclarativeImageProvider>
 
-namespace GluonEngine 
+namespace GluonEngine
 {
 
     class TextureImageProvider : public QDeclarativeImageProvider
@@ -31,8 +31,8 @@ namespace GluonEngine
         public:
             TextureImageProvider();
             virtual ~TextureImageProvider();
-            
-            virtual QImage requestImage(const QString& id, QSize* size, const QSize& requestedSize);
+
+            virtual QImage requestImage( const QString& id, QSize* size, const QSize& requestedSize );
     };
 
 }

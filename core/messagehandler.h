@@ -25,13 +25,13 @@
 #include "gluon_core_export.h"
 
 class QScriptValue;
-namespace GluonCore 
+namespace GluonCore
 {
     class GluonObject;
-    
+
     /**
      * Handle sending of messages between objects.
-     * 
+     *
      * The message handler class provides facilities for
      * sending simple messages between objects. Objects can
      * subscribe to messages and other objects can publish
@@ -39,63 +39,63 @@ namespace GluonCore
      */
     class GLUON_CORE_EXPORT MessageHandler : public Singleton<MessageHandler>
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             /**
              * Subscribe to a message.
              * This will call the handleMessage() methos on receiver
              * every time the message is being published.
-             * 
+             *
              * \param message The message to subscribe to.
              * \param receiver The object to receive the message.
              */
-            Q_INVOKABLE void subscribe(const QString& message, GluonObject* receiver);
+            Q_INVOKABLE void subscribe( const QString& message, GluonObject* receiver );
             /**
              * Subscribe to a message.
              * This overload is meant to be called from script. call()
-             * will be called on receiver with thisObject as the this object 
+             * will be called on receiver with thisObject as the this object
              * of that function.
-             * 
+             *
              * \param message The message to subscribe to.
              * \param receiover A QtScript function that will be called whenever
              * message is published.
              * \param thisObject The "this" object to use when calling receiver.
              */
-            Q_INVOKABLE void subscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject);
-            
+            Q_INVOKABLE void subscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject );
+
             /**
              * Unsubscribe from a message.
              * The object will be removed and will no longer receive this message.
-             * 
+             *
              * \param message The
              */
-            Q_INVOKABLE void unsubscribe(const QString& message, GluonObject* receiver);
-            
-            Q_INVOKABLE void unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject);
-            
+            Q_INVOKABLE void unsubscribe( const QString& message, GluonObject* receiver );
+
+            Q_INVOKABLE void unsubscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject );
+
         public Q_SLOTS:
             /**
              * Publish a message.
-             * 
+             *
              * \param message The message that needs to be published.
              */
-            void publish(const QString& message);
-        
+            void publish( const QString& message );
+
         Q_SIGNALS:
             /**
              * A message has just been published.
              */
-            void publishMessage(const QString& message);
-            
+            void publishMessage( const QString& message );
+
         private:
             friend class Singleton<MessageHandler>;
             MessageHandler();
             ~MessageHandler();
-            
-            Q_DISABLE_COPY(MessageHandler)
-            
+
+            Q_DISABLE_COPY( MessageHandler )
+
             class Private;
-            Private * const d;
+            Private* const d;
     };
 
 }

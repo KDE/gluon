@@ -30,9 +30,9 @@
 using namespace GluonEngine;
 
 GameProjectPrivate::GameProjectPrivate()
-    : entryPoint(0)
-    , icon(0)
-    , screenshot(0)
+    : entryPoint( 0 )
+    , icon( 0 )
+    , screenshot( 0 )
 {
 }
 

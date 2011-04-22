@@ -32,8 +32,8 @@ using namespace GluonCreator;
 class PropertiesDock::PropertiesDockPrivate
 {
     public:
-        PropertiesDockPrivate(PropertyWidget* widget)
-            : widget(widget)
+        PropertiesDockPrivate( PropertyWidget* widget )
+            : widget( widget )
         { }
 
         PropertyWidget* widget;

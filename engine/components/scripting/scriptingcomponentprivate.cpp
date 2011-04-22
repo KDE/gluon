@@ -25,8 +25,8 @@
 
 using namespace GluonEngine;
 
-ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate( ScriptingComponent* qq)
-    : q(qq), scriptingAsset( 0 )
+ScriptingComponent::ScriptingComponentPrivate::ScriptingComponentPrivate( ScriptingComponent* qq )
+    : q( qq ), scriptingAsset( 0 )
 {
 }
 
@@ -67,20 +67,20 @@ void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
     cleanupFunction = scriptObject.property( "cleanup" );
 }
 
-QScriptValue ScriptingComponent::ScriptingComponentPrivate::debug(QScriptContext* context, QScriptEngine* /* engine */)
+QScriptValue ScriptingComponent::ScriptingComponentPrivate::debug( QScriptContext* context, QScriptEngine* /* engine */ )
 {
     QScriptValue callee = context->callee();
     if( context->argumentCount() == 1 )
     {
-        Component* comp = qobject_cast< GluonEngine::Component* >( context->thisObject().property("Component").toQObject() );
-        if(comp)
-            comp->debug( context->argument(0).toString() );
+        Component* comp = qobject_cast< GluonEngine::Component* >( context->thisObject().property( "Component" ).toQObject() );
+        if( comp )
+            comp->debug( context->argument( 0 ).toString() );
     }
     else if( context->argumentCount() == 2 )
     {
-        Component* comp = qobject_cast< GluonEngine::Component* >( context->thisObject().property("Component").toQObject() );
-        if(comp)
-            comp->debug( context->argument(0).toString(),context->argument(1).toString() );
+        Component* comp = qobject_cast< GluonEngine::Component* >( context->thisObject().property( "Component" ).toQObject() );
+        if( comp )
+            comp->debug( context->argument( 0 ).toString(), context->argument( 1 ).toString() );
     }
     return QScriptValue();
 }

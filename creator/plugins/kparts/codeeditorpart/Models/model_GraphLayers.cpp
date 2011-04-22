@@ -42,7 +42,7 @@ QVariant GraphLayersModel::data( const QModelIndex& index, int role ) const
     {
         return 0;
     }
-    if(( !index.isValid() ) || ( index.row() > _document -> size() ) || ( role != Qt::DisplayRole ) )
+    if( ( !index.isValid() ) || ( index.row() > _document -> size() ) || ( role != Qt::DisplayRole ) )
     {
         return QVariant();
     }

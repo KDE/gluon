@@ -67,8 +67,8 @@ ScenePrivate::loadContents( const QUrl& file )
     // suddenly have two objects named the same, and that will fail badly
     if( sceneContents )
     {
-        q->removeChild(sceneContents);
-        sceneContents->setParent(0);
+        q->removeChild( sceneContents );
+        sceneContents->setParent( 0 );
         sceneContents->deleteLater();
         sceneContents = 0;
     }

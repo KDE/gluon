@@ -60,7 +60,8 @@ InputDevice::InputDevice( const InputDevice& other, QObject* parent )
 InputDevice::~InputDevice()
 {
     setEnabled( false );
-    if( d ) {
+    if( d )
+    {
         if( d->inputThread )
             qDebug() << "Close the device:" << deviceName();
 
@@ -139,7 +140,7 @@ bool InputDevice::isEnabled() const
 
 void InputDevice::setEnabled( bool enable )
 {
-    if (!d || !d->inputThread)
+    if( !d || !d->inputThread )
         return;
 
     if( enable && !d->inputThread->isEnabled() )
@@ -171,10 +172,10 @@ bool InputDevice::buttonPressed( int code ) const
 
 QString InputDevice::buttonName( int code ) const
 {
-    switch (deviceType())
+    switch( deviceType() )
     {
         case KeyboardDevice:
-            return QKeySequence(code).toString();
+            return QKeySequence( code ).toString();
         default:
             return "Unknown";
     }

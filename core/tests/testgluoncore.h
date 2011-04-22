@@ -30,28 +30,28 @@
 
 class TestGluonCore : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         explicit TestGluonCore();
         virtual ~TestGluonCore();
 
     private:
-        static bool compareTrees(const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2);
+        static bool compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 );
 
         template <typename T>
-        static QList<const T*> constListFromNonConst(const QList<T*>& x)
+        static QList<const T*> constListFromNonConst( const QList<T*>& x )
         {
             QList<const T*> r;
 
-            foreach(T* e, x)
-                r.push_back(e);
+            foreach( T * e, x )
+            r.push_back( e );
 
             return r;
         }
 
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
-        static bool ensureReversible(const QString& gdl);
+        static bool ensureReversible( const QString& gdl );
 
     private slots:
         void doxygenSample();

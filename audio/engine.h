@@ -71,17 +71,17 @@ namespace GluonAudio
              * @see Sound::Sound
              */
             int bufferLength();
-            void setBufferLength(int microsecs);
+            void setBufferLength( int microsecs );
 
             /**
              * Number of buffers in memory at the same time when streaming a file
              * Default: 3 buffers per stream
              */
             int buffersPerStream();
-            void setBuffersPerStream(int buffers);
+            void setBuffersPerStream( int buffers );
 
             //FIXME: this shouldn't be public
-            ALuint genBuffer(const QString& fileName);
+            ALuint genBuffer( const QString& fileName );
 
         private:
             friend class GluonCore::Singleton<Engine>;

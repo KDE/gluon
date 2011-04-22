@@ -71,8 +71,8 @@ GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
     if( !objectTypeName.contains( "::" ) )
         fullObjectTypeName = QString( "Gluon::" ) + fullObjectTypeName;
 
-    const QMetaObject *meta;
-    if ((meta = m_objectTypes.value(objectTypeName, 0)))
+    const QMetaObject* meta;
+    if( ( meta = m_objectTypes.value( objectTypeName, 0 ) ) )
     {
         GluonObject* obj = qobject_cast<GluonObject*>( meta->newInstance() );
         if( obj )
@@ -182,7 +182,7 @@ GluonObjectFactory::loadPlugins()
         pluginDirs.append( pluginDir );
 
     // this is the plugin dir on windows
-    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/kde4") )
+    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/kde4" ) )
         pluginDirs.append( pluginDir );
 
     if( pluginDir.cd( GluonCore::Global::libDirectory() + "/gluon" ) )

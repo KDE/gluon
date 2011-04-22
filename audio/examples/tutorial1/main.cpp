@@ -25,14 +25,14 @@
 
 int main( int argc, char* argv[] )
 {
-    GluonAudio::Sound *sound = new GluonAudio::Sound;
+    GluonAudio::Sound* sound = new GluonAudio::Sound;
     sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
     sound->setVolume( 0.9 );  //between 0 and 1
 
     qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
     sound->play();
 
-    while ( sound->isPlaying() );
+    while( sound->isPlaying() );
 
     return 0;
 }

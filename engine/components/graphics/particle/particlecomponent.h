@@ -196,7 +196,8 @@ namespace GluonEngine
 
 
         public:
-            enum StretchParticles {
+            enum StretchParticles
+            {
                 // The particles are rendered as if facing the camera.
                 Billboard,
                 // The particles are facing the direction they are moving.
@@ -217,7 +218,7 @@ namespace GluonEngine
 
             void initialize();
             void start();
-            void update ( int elapsedMilliseconds );
+            void update( int elapsedMilliseconds );
             void draw( int timeLapse = 0 );
             void cleanup();
 
@@ -275,15 +276,15 @@ namespace GluonEngine
 
 
             // Animator setter
-            void setDoesAnimateColor(bool doesAnimateColor) const;
-            void colorAnimation(QList<QColor> colorAnimation) const;
-            void worldRotationAxis(int worldRotationAxis) const;
-            void localRotationAxis(int localRotationAxis) const;
-            void sizeGrow(int sizeGrow) const;
-            void rndForce(int rndForce) const;
-            void force(int force) const;
-            void damping(int damping) const;
-            void autoDesctruct(bool autoDestruct) const;
+            void setDoesAnimateColor( bool doesAnimateColor ) const;
+            void colorAnimation( QList<QColor> colorAnimation ) const;
+            void worldRotationAxis( int worldRotationAxis ) const;
+            void localRotationAxis( int localRotationAxis ) const;
+            void sizeGrow( int sizeGrow ) const;
+            void rndForce( int rndForce ) const;
+            void force( int force ) const;
+            void damping( int damping ) const;
+            void autoDesctruct( bool autoDestruct ) const;
 
 
             // Elipsoid emitter setter

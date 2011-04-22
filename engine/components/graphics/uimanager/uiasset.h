@@ -50,7 +50,7 @@ namespace GluonEngine
 
             virtual void setName( const QString& newName );
 
-            QDeclarativeEngine *engine() const;
+            QDeclarativeEngine* engine() const;
             QDeclarativeItem* qmlItem() const;
 
         private:

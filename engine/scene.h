@@ -95,7 +95,7 @@ namespace GluonEngine
             void setEntryPoint( );
 
         protected:
-            virtual void populateMetaInfo(GluonCore::MetaInfo* info);
+            virtual void populateMetaInfo( GluonCore::MetaInfo* info );
 
         private:
             ScenePrivate* d;

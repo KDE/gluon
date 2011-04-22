@@ -48,7 +48,7 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
             , texture( 0 )
             , material( 0 )
 
-            , color( QColor(255, 255, 255) )
+            , color( QColor( 255, 255, 255 ) )
             , size( QSizeF( 1.0f, 1.0f ) )
         {
         }
@@ -76,11 +76,11 @@ SpriteRendererComponent::SpriteRendererComponent( const SpriteRendererComponent&
 
 SpriteRendererComponent::~SpriteRendererComponent()
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
     delete d;
@@ -109,7 +109,7 @@ void SpriteRendererComponent::initialize()
         {
             QString theName( d->material->property( "texture0" ).toString() );
             texture = gameProject()->findChild<Asset*>( theName );
-            if(!texture)
+            if( !texture )
                 debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
         else
@@ -162,31 +162,31 @@ SpriteRendererComponent::material()
 
 void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
     d->material = material;
-    if(d->material)
+    if( d->material )
     {
         d->material->ref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->ref();
     }
 
     if( d->item )
     {
-        if(material)
+        if( material )
         {
             d->item->setMaterialInstance( material );
         }
         else
         {
-            d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->instance("default"));
+            d->item->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->instance( "default" ) );
         }
     }
 }

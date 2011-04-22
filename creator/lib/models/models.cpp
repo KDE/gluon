@@ -26,23 +26,23 @@ using namespace GluonCreator;
 
 class Models::Private
 {
-public:
-    Private()
-        : componentModel(0)
-        , projectModel(0)
-        , sceneModel(0)
-    {
-    }
+    public:
+        Private()
+            : componentModel( 0 )
+            , projectModel( 0 )
+            , sceneModel( 0 )
+        {
+        }
 
-    ComponentModel* componentModel;
-    ProjectModel* projectModel;
-    SceneModel* sceneModel;
+        ComponentModel* componentModel;
+        ProjectModel* projectModel;
+        SceneModel* sceneModel;
 };
 
 template<> GLUON_CREATOR_VISIBILITY Models* GluonCore::Singleton<Models>::m_instance = 0;
 
 Models::Models()
-    : d(new Private)
+    : d( new Private )
 {
 }
 
@@ -53,21 +53,21 @@ Models::~Models()
 
 ComponentModel* GluonCreator::Models::componentModel()
 {
-    if(!d->componentModel)
-        d->componentModel = new ComponentModel(this);
+    if( !d->componentModel )
+        d->componentModel = new ComponentModel( this );
     return d->componentModel;
 }
 
 ProjectModel* GluonCreator::Models::projectModel()
 {
-    if(!d->projectModel)
-        d->projectModel = new ProjectModel(this);
+    if( !d->projectModel )
+        d->projectModel = new ProjectModel( this );
     return d->projectModel;
 }
 
 SceneModel* GluonCreator::Models::sceneModel()
 {
-    if(!d->sceneModel)
-        d->sceneModel = new SceneModel(this);
+    if( !d->sceneModel )
+        d->sceneModel = new SceneModel( this );
     return d->sceneModel;
 }

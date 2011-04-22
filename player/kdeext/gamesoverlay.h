@@ -41,7 +41,7 @@ namespace GluonKDEPlayer
 {
     class GamesOverlay : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             explicit GamesOverlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
@@ -50,7 +50,7 @@ namespace GluonKDEPlayer
             QListView* gamesView();
 
         protected slots:
-            void selectionChanged( const QModelIndex & current, const QModelIndex & previous );
+            void selectionChanged( const QModelIndex& current, const QModelIndex& previous );
             void showGameDetails( const QModelIndex& index );
 
         private slots:

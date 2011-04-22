@@ -45,7 +45,7 @@ class GamesViewItem : public QGraphicsWidget
     signals:
         void gameToPlaySelected( const QModelIndex& index );
         void gameSelected( const QModelIndex& index );
-        void gameToInstallSelected (const QModelIndex& index );
+        void gameToInstallSelected( const QModelIndex& index );
 
     protected:
         void layoutWidgets();

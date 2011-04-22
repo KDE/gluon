@@ -38,7 +38,7 @@ class CommentsView;
 
 class GameDetailsOverlay : public Overlay
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         explicit GameDetailsOverlay( QString gameId, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~GameDetailsOverlay();

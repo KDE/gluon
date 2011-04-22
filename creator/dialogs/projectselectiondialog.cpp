@@ -78,7 +78,7 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
     setFaceType( List );
     setButtons( Ok | Close );
 
-    NewProjectDialogPage *npdp = new NewProjectDialogPage;
+    NewProjectDialogPage* npdp = new NewProjectDialogPage;
     addPage( npdp, NewProjectPage );
     addPage( new RecentProjectsDialogPage, RecentProjectPage );
     addPage( new OpenProjectDialogPage, OpenProjectPage );
@@ -137,7 +137,7 @@ void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
 
 QSize ProjectSelectionDialog::sizeHint() const
 {
-	return QSize(640, 480);
+    return QSize( 640, 480 );
 }
 
 #include "projectselectiondialog.moc"

@@ -29,7 +29,7 @@
 
 using namespace GluonCreator;
 
-GLUON_DEFINE_SINGLETON(PropertyWidgetItemFactory)
+GLUON_DEFINE_SINGLETON( PropertyWidgetItemFactory )
 
 PropertyWidgetItem*
 PropertyWidgetItemFactory::create( const QObject* object, const QString& type, QWidget* parent )
@@ -48,12 +48,12 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
         }
     }
 
-    QString str = type.section("::", 0, -2);
-    QString typeStr = type.section("::", -1);
+    QString str = type.section( "::", 0, -2 );
+    QString typeStr = type.section( "::", -1 );
     const QMetaObject* mo;
-    if( str.compare("Qt") && !str.isEmpty())
+    if( str.compare( "Qt" ) && !str.isEmpty() )
     {
-        mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value(str);
+        mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value( str );
     }
     else
     {
@@ -70,11 +70,13 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
     if( mo && mo->indexOfEnumerator( typeStr.toUtf8() ) > -1 )
     {
         return new EnumPropertyWidgetItem( type, parent );
-    } else {
+    }
+    else
+    {
         mo = QtMetaObject::get();
-        if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1)
+        if( mo && mo->indexOfEnumerator( type.toUtf8() ) > -1 )
         {
-             return new EnumPropertyWidgetItem( type, parent );
+            return new EnumPropertyWidgetItem( type, parent );
         }
     }
 

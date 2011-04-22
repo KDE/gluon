@@ -110,7 +110,7 @@ void ParticleColliderComponent::initialize()
             QString theName( d->material->property( "texture0" ).toString() );
             QString theObjectName = GluonObject::nameToObjectName( theName );
             texture = gameProject()->findChild<Asset*>( theObjectName );
-            if(!texture)
+            if( !texture )
                 debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theObjectName ) );
         }
         else

@@ -58,11 +58,11 @@ Savable::saveToFile( GluonCore::GluonObject* object )
         return true;
     }
 
-    QUrl file = Asset::fullyQualifiedFileName(object);
-    object->setProperty("file", file);
+    QUrl file = Asset::fullyQualifiedFileName( object );
+    object->setProperty( "file", file );
 
     // Make all the directories requires up to this file
-    QDir::current().mkpath(file.toLocalFile().section('/', 0, -2) );
+    QDir::current().mkpath( file.toLocalFile().section( '/', 0, -2 ) );
 
     // Perform the save
     QFile* savableFile = new QFile( file.toLocalFile() );

@@ -28,7 +28,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_view( new QListView( this ) )
     , m_model( new ListModel( m_view ) )
     , m_gamesView( new QListView( this ) )
-    , m_gamesDelegate( new ItemsViewDelegate(m_gamesView, this) )
+    , m_gamesDelegate( new ItemsViewDelegate( m_gamesView, this ) )
     , m_gameItemsModel( new GluonPlayer::GameItemsModel( m_gamesView ) )
     , m_loginForm( new LoginForm( this ) )
     , m_gridLayout( new QGridLayout( this ) )
@@ -37,22 +37,22 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     , m_communityView( new KSqueezedTextLabel( i18n( "Community. Under development!" ), this ) )
     , m_gameDetailsOverlay( 0 )
 {
-    m_view->setModel(m_model);
-    m_model->appendPair(qMakePair(i18n("Login"), new KIcon( "network-connect" )));
-    m_stackedWidget->addWidget(m_loginForm);
+    m_view->setModel( m_model );
+    m_model->appendPair( qMakePair( i18n( "Login" ), new KIcon( "network-connect" ) ) );
+    m_stackedWidget->addWidget( m_loginForm );
 
-    m_model->appendPair(qMakePair(i18n("Installed"), new KIcon( "applications-games" )));
-    m_gamesView->setItemDelegate(m_gamesDelegate);
+    m_model->appendPair( qMakePair( i18n( "Installed" ), new KIcon( "applications-games" ) ) );
+    m_gamesView->setItemDelegate( m_gamesDelegate );
     connect( m_gamesDelegate, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
     connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
-    m_gamesView->setModel(m_gameItemsModel);
-    m_stackedWidget->addWidget(m_gamesView);
+    m_gamesView->setModel( m_gameItemsModel );
+    m_stackedWidget->addWidget( m_gamesView );
 
-    m_model->appendPair(qMakePair(i18n("Available"), new KIcon( "get-hot-new-stuff" )));
-    m_stackedWidget->addWidget(m_availableView);
+    m_model->appendPair( qMakePair( i18n( "Available" ), new KIcon( "get-hot-new-stuff" ) ) );
+    m_stackedWidget->addWidget( m_availableView );
 
-    m_model->appendPair(qMakePair(i18n("Community"), new KIcon( "system-users" )));
-    m_stackedWidget->addWidget(m_communityView);
+    m_model->appendPair( qMakePair( i18n( "Community" ), new KIcon( "system-users" ) ) );
+    m_stackedWidget->addWidget( m_communityView );
 
     m_gridLayout->addWidget( m_view, 0, 0 );
     m_gridLayout->setColumnStretch( 0, 1 );
@@ -61,8 +61,8 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_gridLayout->setColumnStretch( 1, 3 );
     setLayout( m_gridLayout );
 
-    connect( m_view->selectionModel(), SIGNAL( currentChanged ( const QModelIndex &, const QModelIndex &) ),
-           SLOT( selectionChanged( const QModelIndex &, const QModelIndex &) ) );
+    connect( m_view->selectionModel(), SIGNAL( currentChanged( const QModelIndex&, const QModelIndex& ) ),
+             SLOT( selectionChanged( const QModelIndex&, const QModelIndex& ) ) );
 }
 
 GamesOverlay::~GamesOverlay()
@@ -86,19 +86,20 @@ void GamesOverlay::backToGames()
     m_stackedWidget->removeWidget( m_gameDetailsOverlay );
     delete m_gameDetailsOverlay;
     m_gameDetailsOverlay = 0;
-    m_stackedWidget->setCurrentIndex(m_stackedWidget->indexOf(m_gamesView));
+    m_stackedWidget->setCurrentIndex( m_stackedWidget->indexOf( m_gamesView ) );
 }
 
 void GamesOverlay::showGameDetails( const QModelIndex& index )
 {
-    QString id = index.data(GluonPlayer::GameItemsModel::IDRole).toString();
+    QString id = index.data( GluonPlayer::GameItemsModel::IDRole ).toString();
     if( id.isEmpty() )
     {
         qDebug() << "Invalid game ID while querying the game details!";
         return;
     }
 
-    if (m_gameDetailsOverlay) {
+    if( m_gameDetailsOverlay )
+    {
         m_stackedWidget->removeWidget( m_gameDetailsOverlay );
         delete m_gameDetailsOverlay;
         m_gameDetailsOverlay = 0;
@@ -106,6 +107,6 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
 
     m_gameDetailsOverlay = new GameDetailsOverlay( id, this );
     m_stackedWidget->addWidget( m_gameDetailsOverlay );
-    m_stackedWidget->setCurrentIndex(m_stackedWidget->count() - 1);
+    m_stackedWidget->setCurrentIndex( m_stackedWidget->count() - 1 );
     connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( backToGames() ) );
 }

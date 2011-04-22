@@ -78,14 +78,14 @@ void SphereCollisionComponent::start()
     int counter = 0;
     foreach( Component * component, d->collisionComponents )
     {
-        if(component->enabled() && component->gameObject()->enabled())
+        if( component->enabled() && component->gameObject()->enabled() )
         {
             connect( component, SIGNAL( destroyed( QObject* ) ), SLOT( componentDestroyed( QObject* ) ) );
             static_cast<SphereCollisionComponent*>( component )->addComponent( this );
         }
         else
         {
-            d->collisionComponents.replace(counter, 0);
+            d->collisionComponents.replace( counter, 0 );
         }
         counter++;
     }
@@ -175,7 +175,7 @@ int SphereCollisionComponent::targetGroup() const
     return d->targetGroup;
 }
 
-void SphereCollisionComponent::setTargetGroup(int group)
+void SphereCollisionComponent::setTargetGroup( int group )
 {
     d->targetGroup = group;
 }

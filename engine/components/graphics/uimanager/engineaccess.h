@@ -31,13 +31,13 @@ namespace GluonEngine
 
     class EngineAccess : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             EngineAccess( UiManagerComponent* parent );
             ~EngineAccess();
 
-            Q_INVOKABLE void setEngine(QScriptValue val);
+            Q_INVOKABLE void setEngine( QScriptValue val );
 
         private:
             UiManagerComponent* m_component;

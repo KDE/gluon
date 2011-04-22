@@ -38,7 +38,10 @@ namespace GluonCreator
             GluonEditorPart( QWidget* parentWidget, QObject* parent, const QVariantList& args );
             virtual ~GluonEditorPart();
 
-            bool saveFile() {return true;};
+            bool saveFile()
+            {
+                return true;
+            };
 
         public slots:
             void startGame();
@@ -47,10 +50,10 @@ namespace GluonCreator
             void setWireframe();
             void setPoints();
 
-			void setSelect();
-			void setTranslate();
-			void setRotate();
-			void setScale();
+            void setSelect();
+            void setTranslate();
+            void setRotate();
+            void setScale();
             void setSnap();
 
             void newViewport( Viewport* viewport );

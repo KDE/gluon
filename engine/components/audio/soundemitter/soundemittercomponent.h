@@ -72,7 +72,7 @@ namespace GluonEngine
             Q_INVOKABLE void setAutoPlay( bool autoPlay );
 
         protected:
-            void populateMetaInfo(GluonCore::MetaInfo* info);
+            void populateMetaInfo( GluonCore::MetaInfo* info );
 
         private:
             class SoundEmitterComponentPrivate;

@@ -41,13 +41,14 @@ class Sound::SoundPrivate
         {
         }
 
-        bool newError(const QString& str)
+        bool newError( const QString& str )
         {
-            QLatin1String error = QLatin1String(alureGetErrorString());
-            if (error != QLatin1String("No error")) {
+            QLatin1String error = QLatin1String( alureGetErrorString() );
+            if( error != QLatin1String( "No error" ) )
+            {
                 DEBUG_BLOCK
-                DEBUG_TEXT2("Alure error: %1", error)
-                DEBUG_TEXT2("%2", str)
+                DEBUG_TEXT2( "Alure error: %1", error )
+                DEBUG_TEXT2( "%2", str )
                 isValid = false;
                 return true;
             }
@@ -72,14 +73,16 @@ class Sound::SoundPrivate
 
         bool setupSource()
         {
-            if (path.isEmpty()) {
+            if( path.isEmpty() )
+            {
                 return false;
             }
 
             alGenSources( 1, &source );
-            if (source == 0) {
+            if( source == 0 )
+            {
                 DEBUG_BLOCK
-                DEBUG_TEXT2("Empty source, OpenAL error: %1", alGetError())
+                DEBUG_TEXT2( "Empty source, OpenAL error: %1", alGetError() )
                 return false;
             }
 
@@ -94,15 +97,17 @@ class Sound::SoundPrivate
 
         void _k_deleteSource()
         {
-            if (source != 0) {
-                alureStopSource(source, false);
-                alDeleteSources(1, &source);
+            if( source != 0 )
+            {
+                alureStopSource( source, false );
+                alDeleteSources( 1, &source );
                 source = 0;
             }
             isValid = false;
             isStopped = true;
-            if (isStreamed) {
-                alureDestroyStream(stream, 0, 0);
+            if( isStreamed )
+            {
+                alureDestroyStream( stream, 0, 0 );
             }
             stream = 0;
         }
@@ -130,18 +135,18 @@ Sound::Sound()
     d->isValid = false;
 }
 
-Sound::Sound(const QString& fileName)
+Sound::Sound( const QString& fileName )
     : QObject( Engine::instance() )
     , d( new SoundPrivate )
 {
-    load(fileName);
+    load( fileName );
 }
 
-Sound::Sound(const QString& fileName, bool toStream)
+Sound::Sound( const QString& fileName, bool toStream )
     : QObject( Engine::instance() )
     , d( new SoundPrivate )
 {
-    load(fileName, toStream);
+    load( fileName, toStream );
 }
 
 Sound::~Sound()
@@ -155,45 +160,51 @@ bool Sound::isValid() const
     return d->isValid;
 }
 
-bool Sound::load(const QString &fileName)
+bool Sound::load( const QString& fileName )
 {
     SF_INFO sfinfo;
-    memset(&sfinfo, 0, sizeof(sfinfo));
-    SNDFILE *sndfile = sf_open(fileName.toLocal8Bit().data(), SFM_READ, &sfinfo);
-    sf_close(sndfile);
+    memset( &sfinfo, 0, sizeof( sfinfo ) );
+    SNDFILE* sndfile = sf_open( fileName.toLocal8Bit().data(), SFM_READ, &sfinfo );
+    sf_close( sndfile );
 
-    d->duration = (double)sfinfo.frames / sfinfo.samplerate;
-    bool toStream = ( d->duration >= (double)(Engine::instance()->bufferLength()*Engine::instance()->buffersPerStream())/1e6 );
+    d->duration = ( double )sfinfo.frames / sfinfo.samplerate;
+    bool toStream = ( d->duration >= ( double )( Engine::instance()->bufferLength() * Engine::instance()->buffersPerStream() ) / 1e6 );
 
-    return load(fileName, toStream);
+    return load( fileName, toStream );
 }
 
-bool Sound::load(const QString& fileName, bool toStream)
+bool Sound::load( const QString& fileName, bool toStream )
 {
-    if (fileName.isEmpty()) {
+    if( fileName.isEmpty() )
+    {
         d->isValid = false;
         return false;
     }
-    if (!d->path.isEmpty()) {
+    if( !d->path.isEmpty() )
+    {
         d->_k_deleteSource();
     }
     d->path = fileName;
     if( !d->setupSource() )
         return false;
     d->isStreamed = toStream;
-    if (d->isStreamed) {
-        alureStreamSizeIsMicroSec(true);
-        d->stream = alureCreateStreamFromFile(d->path.toLocal8Bit().constData(), Engine::instance()->bufferLength(), 0, 0);
-    } else {
-        ALuint buffer = Engine::instance()->genBuffer(d->path);
-        if ( d->newError("Loading " + d->path + " failed") ) {
+    if( d->isStreamed )
+    {
+        alureStreamSizeIsMicroSec( true );
+        d->stream = alureCreateStreamFromFile( d->path.toLocal8Bit().constData(), Engine::instance()->bufferLength(), 0, 0 );
+    }
+    else
+    {
+        ALuint buffer = Engine::instance()->genBuffer( d->path );
+        if( d->newError( "Loading " + d->path + " failed" ) )
+        {
             d->isValid = false;
             return false;
         }
-        alSourcei(d->source, AL_BUFFER, buffer);
+        alSourcei( d->source, AL_BUFFER, buffer );
     }
 
-    d->isValid = !d->newError("Loading " + d->path + " failed");
+    d->isValid = !d->newError( "Loading " + d->path + " failed" );
     return d->isValid;
 }
 
@@ -224,7 +235,8 @@ bool Sound::isPlaying() const
 void Sound::setLoop( bool enabled )
 {
     d->isLooping = enabled;
-    if (!d->isStreamed) {
+    if( !d->isStreamed )
+    {
         alSourcei( d->source, AL_LOOPING, enabled );
     }
 }
@@ -271,7 +283,7 @@ ALfloat Sound::radius() const
 
 void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
 {
-    setPosition( QVector3D(x, y, z) );
+    setPosition( QVector3D( x, y, z ) );
 }
 
 void Sound::setPosition( QVector3D position )
@@ -299,61 +311,70 @@ void Sound::setRadius( ALfloat radius )
     alSourcef( d->source, AL_REFERENCE_DISTANCE, radius );
 }
 
-void callbackStopped(void *object, ALuint source)
+void callbackStopped( void* object, ALuint source )
 {
-    static_cast<GluonAudio::Sound*>(object)->stopped();
+    static_cast<GluonAudio::Sound*>( object )->stopped();
 }
 
 void Sound::stopped()
 {
     d->isStopped = true;
-    if (d->isLooping) {
+    if( d->isLooping )
+    {
         play();
     }
 }
 
 void Sound::play()
 {
-    if (d->isPaused) {
-         alureResumeSource(d->source);
+    if( d->isPaused )
+    {
+        alureResumeSource( d->source );
     }
 
-    if (!d->isStopped) {
+    if( !d->isStopped )
+    {
         stop();
     }
 
-    if (d->isStreamed) {
-        int loopCount = (d->isLooping ? -1 : 0);
-        alurePlaySourceStream(d->source, d->stream, Engine::instance()->buffersPerStream(), loopCount, callbackStopped, this);
-    } else {
-        alurePlaySource(d->source, callbackStopped, this);
+    if( d->isStreamed )
+    {
+        int loopCount = ( d->isLooping ? -1 : 0 );
+        alurePlaySourceStream( d->source, d->stream, Engine::instance()->buffersPerStream(), loopCount, callbackStopped, this );
+    }
+    else
+    {
+        alurePlaySource( d->source, callbackStopped, this );
     }
     d->isStopped = false;
-    d->newError("Playing " + d->path + " failed");
+    d->newError( "Playing " + d->path + " failed" );
 }
 
 void Sound::pause()
 {
-    alurePauseSource(d->source);
+    alurePauseSource( d->source );
     d->isPaused = true;
-    d->newError("Pausing " + d->path + " failed");
+    d->newError( "Pausing " + d->path + " failed" );
 }
 
 void Sound::stop()
 {
-    alureStopSource(d->source, false);
+    alureStopSource( d->source, false );
     d->isStopped = true;
-    d->newError("Stopping " + d->path + " failed");
+    d->newError( "Stopping " + d->path + " failed" );
 }
 
 void Sound::rewind()
 {
-    if (d->isStreamed) {
-        alureRewindStream(d->stream);
-    } else {
-        alSourceRewind(d->source);
+    if( d->isStreamed )
+    {
+        alureRewindStream( d->stream );
     }
-    d->newError("Rewinding " + d->path + " failed");
+    else
+    {
+        alSourceRewind( d->source );
+    }
+    d->newError( "Rewinding " + d->path + " failed" );
 }
 
 void Sound::setMinVolume( ALfloat min )
@@ -386,7 +407,8 @@ void Sound::setTimePosition( ALfloat time )
 
 double Sound::duration() const
 {
-    if (!d->isValid) {
+    if( !d->isValid )
+    {
         return 0;
     }
     return d->duration;

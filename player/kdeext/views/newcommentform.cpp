@@ -23,8 +23,8 @@
 
 NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     : QWidget( parent, wFlags )
-    , m_titleEdit( new KLineEdit(this) )
-    , m_bodyEdit( new KTextEdit(this) )
+    , m_titleEdit( new KLineEdit( this ) )
+    , m_bodyEdit( new KTextEdit( this ) )
     , m_okButton( new KPushButton( this ) )
     , m_cancelButton( new KPushButton( this ) )
 {
@@ -72,9 +72,9 @@ QString NewCommentForm::titleText() const
     return m_titleEdit->text();
 }
 
-void NewCommentForm::setTitleText(const QString& titleText)
+void NewCommentForm::setTitleText( const QString& titleText )
 {
-    m_titleEdit->setText(titleText);
+    m_titleEdit->setText( titleText );
 }
 
 QString NewCommentForm::bodyText() const
@@ -82,7 +82,7 @@ QString NewCommentForm::bodyText() const
     return m_bodyEdit->toPlainText();
 }
 
-void NewCommentForm::setBodyText(const QString& bodyText)
+void NewCommentForm::setBodyText( const QString& bodyText )
 {
-    m_bodyEdit->setPlainText(bodyText);
+    m_bodyEdit->setPlainText( bodyText );
 }

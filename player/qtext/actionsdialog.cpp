@@ -153,7 +153,7 @@ void ActionsDialog::setFallbacksEnabled( bool enabled )
 
 void ActionsDialog::buttonBoxClicked( QAbstractButton* optionsDialogPushButton )
 {
-    if(( optionsDialogPushButton == buttonBox->button( QDialogButtonBox::Apply ) )
+    if( ( optionsDialogPushButton == buttonBox->button( QDialogButtonBox::Apply ) )
             | ( optionsDialogPushButton == buttonBox->button( QDialogButtonBox::Ok ) ) )
         mSaveShortcuts();
 

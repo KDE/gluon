@@ -53,7 +53,7 @@ PlasmaApplet::PlasmaApplet( QObject* parent, const QVariantList& args )
     , m_project( 0 )
     , m_gamesOverlay( 0 )
     , m_gameDetailsOverlay( 0 )
-    , m_renderer(0)
+    , m_renderer( 0 )
 {
     setHasConfigurationInterface( true );
     setAspectRatioMode( Plasma::IgnoreAspectRatio );
@@ -102,9 +102,9 @@ void PlasmaApplet::openProject()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_renderer = new RenderWidget();
-    connect(GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderer, SLOT(updateGL()));
+    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), m_renderer, SLOT( updateGL() ) );
 
-    GluonInput::InputManager::instance()->setFilteredObject(m_renderer);
+    GluonInput::InputManager::instance()->setFilteredObject( m_renderer );
 
     m_project = new GluonEngine::GameProject();
     m_project->loadFromFile( m_gameFileName );
@@ -117,21 +117,21 @@ void PlasmaApplet::openProject()
 
 void PlasmaApplet::doPaint()
 {
-//     update();
+    //     update();
 }
 
-void PlasmaApplet::paintInterface(QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect)
+void PlasmaApplet::paintInterface( QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect )
 {
-//     if(m_renderer)
-//     {
-//         m_renderer->paintGL();
-//         if(GluonGraphics::Engine::instance()->mainRenderTarget())
-//         {
-//             QImage framebuffer = GluonGraphics::Engine::instance()->mainRenderTarget()->framebufferObject()->toImage();
-//             painter->drawImage(0, 0, framebuffer);
-//         }
-//     }
-    Plasma::Applet::paintInterface(painter, option, contentsRect);
+    //     if(m_renderer)
+    //     {
+    //         m_renderer->paintGL();
+    //         if(GluonGraphics::Engine::instance()->mainRenderTarget())
+    //         {
+    //             QImage framebuffer = GluonGraphics::Engine::instance()->mainRenderTarget()->framebufferObject()->toImage();
+    //             painter->drawImage(0, 0, framebuffer);
+    //         }
+    //     }
+    Plasma::Applet::paintInterface( painter, option, contentsRect );
 }
 
 void PlasmaApplet::startGame()
@@ -185,11 +185,11 @@ void PlasmaApplet::showGameDetails( const QModelIndex& index )
     connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
 }
 
-void PlasmaApplet::resizeEvent(QGraphicsSceneResizeEvent* event)
+void PlasmaApplet::resizeEvent( QGraphicsSceneResizeEvent* event )
 {
-    if(m_renderer)
-        m_renderer->resize(event->newSize().width(), event->newSize().height());
-    Plasma::Applet::resizeEvent(event);
+    if( m_renderer )
+        m_renderer->resize( event->newSize().width(), event->newSize().height() );
+    Plasma::Applet::resizeEvent( event );
 }
 
 #include "plasmaapplet.moc"

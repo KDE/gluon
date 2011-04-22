@@ -97,7 +97,7 @@ void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
         if( metaInfo->hasPropertyRange( propertyName ) )
         {
             spinBox->setRange( metaInfo->propertyRangeMin( propertyName ),
-                    metaInfo->propertyRangeMax( propertyName ) );
+                               metaInfo->propertyRangeMax( propertyName ) );
         }
     }
 

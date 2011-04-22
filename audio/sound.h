@@ -38,7 +38,7 @@ namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Sound : public QObject
     {
-    Q_OBJECT
+            Q_OBJECT
         public:
             /**
             * Constructs an empty, invalid Sound object
@@ -48,7 +48,7 @@ namespace GluonAudio
             /**
             * @param fileName the path of the file to play
             */
-            explicit Sound(const QString& fileName);
+            explicit Sound( const QString& fileName );
 
             /**
             * This function might become private
@@ -56,7 +56,7 @@ namespace GluonAudio
             * @param toStream whether or not the file should be streamed
             * @see Engine::bufferLength, Engine::buffersPerStream
             */
-            explicit Sound(const QString& fileName, bool toStream);
+            explicit Sound( const QString& fileName, bool toStream );
 
             /**
             * Destructor
@@ -66,7 +66,7 @@ namespace GluonAudio
             /**
             * Load a new sound file
             */
-            bool load(const QString& fileName);
+            bool load( const QString& fileName );
 
             /**
             * This function might become private
@@ -74,7 +74,7 @@ namespace GluonAudio
             * be streamed.
             * @see Engine::bufferLength, Engine::buffersPerStream
             */
-            bool load(const QString& fileName, bool toStream);
+            bool load( const QString& fileName, bool toStream );
 
             /**
             * An object is invalid when no file is loaded or the last file
@@ -172,7 +172,7 @@ namespace GluonAudio
             * @see pause, stop, rewind
             */
             void play()
-;
+            ;
             /**
             * Pauses the sound currently played
             * @see play, stop, rewind
@@ -287,7 +287,7 @@ namespace GluonAudio
 
             class SoundPrivate;
             SoundPrivate* const d;
-            Q_PRIVATE_SLOT(d, void _k_deleteSource());
+            Q_PRIVATE_SLOT( d, void _k_deleteSource() );
     };
 }
 

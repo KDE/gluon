@@ -182,7 +182,7 @@ namespace GluonCore
              * @return  The sanitized name
              * @see name
              */
-            Q_INVOKABLE static QString nameToObjectName( const QString& name);
+            Q_INVOKABLE static QString nameToObjectName( const QString& name );
 
             /**
              * Write a debug statement to the console and into the debug messages pane in Gluon Creator
@@ -354,7 +354,7 @@ namespace GluonCore
             {
                 QList<T*> items;
 
-                foreach( QObject* child, children() )
+                foreach( QObject * child, children() )
                 {
                     T* item = qobject_cast<T*>( child );
                     if( item )
@@ -409,14 +409,14 @@ namespace GluonCore
              *
              * \param info The MetaInfo that was just created.
              */
-            virtual void populateMetaInfo(MetaInfo* /* info */) { }
+            virtual void populateMetaInfo( MetaInfo* /* info */ ) { }
 
         private:
-            Q_DISABLE_COPY(GluonObject)
+            Q_DISABLE_COPY( GluonObject )
             void sanitizeReference( const QString& propName, const QString& propValue );
 
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

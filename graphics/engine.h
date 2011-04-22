@@ -29,7 +29,7 @@
 namespace GluonGraphics
 {
 
-class RenderTarget;
+    class RenderTarget;
 
     class Camera;
     class Mesh;
@@ -367,7 +367,7 @@ class RenderTarget;
             class EnginePrivate;
             EnginePrivate* const d;
 
-            Q_PRIVATE_SLOT(d, void viewportSizeChanged( int left, int bottom, int width, int height) );
+            Q_PRIVATE_SLOT( d, void viewportSizeChanged( int left, int bottom, int width, int height ) );
     };
 } //namespace
 

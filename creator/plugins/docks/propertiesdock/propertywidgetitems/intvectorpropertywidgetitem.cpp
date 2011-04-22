@@ -38,29 +38,29 @@ Q_DECLARE_METATYPE( QList<int> )
 IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
-    QWidget* centralWidget = new QWidget(this);
+    QWidget* centralWidget = new QWidget( this );
     centralWidget->setContentsMargins( 0, 0, 0, 0 );
-    
-    QGridLayout* layout = new QGridLayout(centralWidget);
-    layout->setSpacing(0);
-    
-    addButton = new QToolButton(centralWidget);
-    addButton->setIcon( KIcon("list-add") );
-    connect(addButton, SIGNAL(clicked(bool)), SLOT(addItem()));
+
+    QGridLayout* layout = new QGridLayout( centralWidget );
+    layout->setSpacing( 0 );
+
+    addButton = new QToolButton( centralWidget );
+    addButton->setIcon( KIcon( "list-add" ) );
+    connect( addButton, SIGNAL( clicked( bool ) ), SLOT( addItem() ) );
     layout->addWidget( addButton, 0, 0 );
-    
-    countLabel = new QLabel(centralWidget);
-    countLabel->setText( i18n( "Item count: %1" ).arg(0) );
+
+    countLabel = new QLabel( centralWidget );
+    countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
     layout->addWidget( countLabel, 0, 1 );
-    
-    listItems = new QWidget(centralWidget);
-    listItems->setLayout(new QVBoxLayout());
-    listItems->layout()->setMargin(0);
-    listItems->layout()->setSpacing(0);
+
+    listItems = new QWidget( centralWidget );
+    listItems->setLayout( new QVBoxLayout() );
+    listItems->layout()->setMargin( 0 );
+    listItems->layout()->setSpacing( 0 );
     listItems->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( listItems, 1, 0, 1, 2 );
-    
-    setEditWidget(centralWidget);
+
+    setEditWidget( centralWidget );
 }
 
 IntVectorPropertyWidgetItem::~IntVectorPropertyWidgetItem()
@@ -81,10 +81,10 @@ GluonCreator::PropertyWidgetItem* IntVectorPropertyWidgetItem::instantiate()
     return new IntVectorPropertyWidgetItem();
 }
 
-void IntVectorPropertyWidgetItem::spinValueChanged(int newValue)
+void IntVectorPropertyWidgetItem::spinValueChanged( int newValue )
 {
     QSpinBox* from = qobject_cast< QSpinBox* >( sender() );
-    if(from)
+    if( from )
     {
         intValues[from] = newValue;
         valueHasChanged();
@@ -92,25 +92,25 @@ void IntVectorPropertyWidgetItem::spinValueChanged(int newValue)
 }
 
 
-void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
+void IntVectorPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     QGridLayout* layout = qobject_cast<QGridLayout*>( editWidget()->layout() );
-    
+
     // Clear out any old data...
     intEditorItems.clear();
     intValues.clear();
     layout->removeItem( layout->itemAt( layout->indexOf( listItems ) ) );
     listItems->deleteLater();
-    
+
     // Set new value
-    listItems = new QWidget(editWidget());
+    listItems = new QWidget( editWidget() );
     listItems->setContentsMargins( 0, 0, 0, 0 );
-    listItems->setLayout(new QVBoxLayout());
-    listItems->layout()->setMargin(0);
-    listItems->layout()->setSpacing(0);
-    
+    listItems->setLayout( new QVBoxLayout() );
+    listItems->layout()->setMargin( 0 );
+    listItems->layout()->setSpacing( 0 );
+
     layout->addWidget( listItems, 1, 0, 1, 2 );
-    
+
     // Rebuild list from this
     QList<int> items;
     isList = value.canConvert< QList<int> >();
@@ -118,58 +118,58 @@ void IntVectorPropertyWidgetItem::setEditValue(const QVariant& value)
         items = value.value< QList<int> >();
     else
         items = value.value< QVector<int> >().toList();
-    if(items.count() > 0)
+    if( items.count() > 0 )
     {
-        for(int i = 0; i < items.count(); ++i)
+        for( int i = 0; i < items.count(); ++i )
         {
-            addItem(items[i]);
+            addItem( items[i] );
         }
     }
 }
 
 void IntVectorPropertyWidgetItem::addItem()
 {
-    addItem(0);
+    addItem( 0 );
     valueHasChanged();
 }
 
-void IntVectorPropertyWidgetItem::addItem(int value)
+void IntVectorPropertyWidgetItem::addItem( int value )
 {
-    QWidget* container = new QWidget(listItems);
+    QWidget* container = new QWidget( listItems );
     container->setContentsMargins( 0, 0, 0, 0 );
-    QHBoxLayout* containerLayout = new QHBoxLayout(container);
-    containerLayout->setMargin(0);
-    containerLayout->setSpacing(0);
-    
-    QToolButton* removeButton = new QToolButton(listItems);
-    removeButton->setIcon( KIcon("list-remove") );
-    connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
+    QHBoxLayout* containerLayout = new QHBoxLayout( container );
+    containerLayout->setMargin( 0 );
+    containerLayout->setSpacing( 0 );
+
+    QToolButton* removeButton = new QToolButton( listItems );
+    removeButton->setIcon( KIcon( "list-remove" ) );
+    connect( removeButton, SIGNAL( clicked( bool ) ), SLOT( removeClicked() ) );
     containerLayout->addWidget( removeButton );
-    
-    QSpinBox* editorSpin = new QSpinBox(listItems);
-    editorSpin->setValue(value);
-    connect( editorSpin, SIGNAL(valueChanged(int)), SLOT(spinValueChanged(int)));
+
+    QSpinBox* editorSpin = new QSpinBox( listItems );
+    editorSpin->setValue( value );
+    connect( editorSpin, SIGNAL( valueChanged( int ) ), SLOT( spinValueChanged( int ) ) );
     containerLayout->addWidget( editorSpin );
-    
-    listItems->layout()->addWidget(container);
-    intEditorItems.insert(removeButton, editorSpin);
-    intValues.insert(editorSpin, value);
-    itemOrder.append(editorSpin);
+
+    listItems->layout()->addWidget( container );
+    intEditorItems.insert( removeButton, editorSpin );
+    intValues.insert( editorSpin, value );
+    itemOrder.append( editorSpin );
     countLabel->setText( i18n( "Item count: %1" ).arg( intValues.count() ) );
 }
 
 void IntVectorPropertyWidgetItem::removeClicked()
 {
-    QToolButton* from = qobject_cast<QToolButton*>(sender());
-    if(from)
+    QToolButton* from = qobject_cast<QToolButton*>( sender() );
+    if( from )
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
         QSpinBox* editSpin = intEditorItems[from];
-        intEditorItems.remove(from);
-        intValues.remove(editSpin);
-        itemOrder.removeOne(editSpin);
-        countLabel->setText( i18n( "Item count: %1" ).arg(0) );
+        intEditorItems.remove( from );
+        intValues.remove( editSpin );
+        itemOrder.removeOne( editSpin );
+        countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
         valueHasChanged();
     }
 }
@@ -177,11 +177,11 @@ void IntVectorPropertyWidgetItem::removeClicked()
 void IntVectorPropertyWidgetItem::valueHasChanged()
 {
     QList<int> theValues;
-    foreach( QSpinBox* item, itemOrder)
+    foreach( QSpinBox * item, itemOrder )
     {
         theValues.append( intValues[item] );
     }
-    if(isList)
+    if( isList )
         PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( theValues ) );
     else
         PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( theValues ) ) );

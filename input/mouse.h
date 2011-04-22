@@ -58,7 +58,7 @@ namespace GluonInput
             virtual ~Mouse();
 
             QPoint position();
-            void setPosition(const QPoint& p);
+            void setPosition( const QPoint& p );
 
             double sensibility() const;
             void setSensibility( double s );
@@ -66,10 +66,10 @@ namespace GluonInput
             void setOrigin( const QPoint p );
 
             int wheelPosition() const;
-            void setWheelPosition(int wp);
+            void setWheelPosition( int wp );
 
             int hWheelPosition() const;
-            void setHWheelPosition(int hwp);
+            void setHWheelPosition( int hwp );
 
 
         private slots:

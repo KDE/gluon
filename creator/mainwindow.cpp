@@ -91,7 +91,7 @@ MainWindow::MainWindow( const QString& fileName )
 
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
-    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)));
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -153,8 +153,8 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile("view");
-        FileManager::instance()->closeFile("edit");
+        FileManager::instance()->closeFile( "view" );
+        FileManager::instance()->closeFile( "edit" );
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
         FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
@@ -216,53 +216,53 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename), 0, QString(), KFileDialog::ConfirmOverwrite );
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() )
         saveProject();
 }
 
 void MainWindow::setupActions()
 {
-    KAction* newProject = new KAction( KIcon("document-new"), i18n("New Project..."), actionCollection());
-    actionCollection()->addAction("project_new", newProject);
-    connect(newProject, SIGNAL(triggered(bool)), SLOT(showNewProjectDialog()));
-    newProject->setShortcut(KShortcut("Ctrl+Shift+N"));
+    KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actionCollection() );
+    actionCollection()->addAction( "project_new", newProject );
+    connect( newProject, SIGNAL( triggered( bool ) ), SLOT( showNewProjectDialog() ) );
+    newProject->setShortcut( KShortcut( "Ctrl+Shift+N" ) );
 
-    KAction* openProject = new KAction( KIcon("document-open"), i18n("Open Project..."), actionCollection());
-    actionCollection()->addAction("project_open", openProject);
-    connect(openProject, SIGNAL(triggered(bool)), SLOT(showOpenProjectDialog()));
-    openProject->setShortcut(KShortcut("Ctrl+Shift+O"));
+    KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actionCollection() );
+    actionCollection()->addAction( "project_open", openProject );
+    connect( openProject, SIGNAL( triggered( bool ) ), SLOT( showOpenProjectDialog() ) );
+    openProject->setShortcut( KShortcut( "Ctrl+Shift+O" ) );
 
-    KAction* saveProject = new KAction( KIcon("document-save"), i18n("Save Project"), actionCollection());
-    actionCollection()->addAction("project_save", saveProject);
-    connect(saveProject, SIGNAL(triggered(bool)), SLOT(saveProject()));
-    saveProject->setShortcut(KShortcut("Ctrl+Shift+S"));
+    KAction* saveProject = new KAction( KIcon( "document-save" ), i18n( "Save Project" ), actionCollection() );
+    actionCollection()->addAction( "project_save", saveProject );
+    connect( saveProject, SIGNAL( triggered( bool ) ), SLOT( saveProject() ) );
+    saveProject->setShortcut( KShortcut( "Ctrl+Shift+S" ) );
 
-    KAction* saveProjectAs = new KAction( KIcon("document-save-as"), i18n("Save Project As..."), actionCollection());
-    actionCollection()->addAction("project_save_as", saveProjectAs);
-    connect(saveProjectAs, SIGNAL(triggered(bool)), SLOT(saveProjectAs()));
+    KAction* saveProjectAs = new KAction( KIcon( "document-save-as" ), i18n( "Save Project As..." ), actionCollection() );
+    actionCollection()->addAction( "project_save_as", saveProjectAs );
+    connect( saveProjectAs, SIGNAL( triggered( bool ) ), SLOT( saveProjectAs() ) );
 
     KStandardAction::quit( this, SLOT( close() ), actionCollection() );
     KStandardAction::preferences( this, SLOT( showPreferences() ), actionCollection() );
 
     KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT( undo() ), actionCollection() );
-    undo->setText(i18n("Undo Project Action"));
-    undo->setShortcut(KShortcut("Ctrl+Alt+Z"));
+    undo->setText( i18n( "Undo Project Action" ) );
+    undo->setShortcut( KShortcut( "Ctrl+Alt+Z" ) );
     connect( HistoryManager::instance(), SIGNAL( canUndoChanged( bool ) ), undo, SLOT( setEnabled( bool ) ) );
 
     KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT( redo() ), actionCollection() );
-    redo->setText(i18n("Redo Project Action"));
-    undo->setShortcut(KShortcut("Ctrl+Alt+Shift+Z"));
+    redo->setText( i18n( "Redo Project Action" ) );
+    undo->setShortcut( KShortcut( "Ctrl+Alt+Shift+Z" ) );
     connect( HistoryManager::instance(), SIGNAL( canRedoChanged( bool ) ), redo, SLOT( setEnabled( bool ) ) );
 
     connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
 
-    d->recentFiles = new KRecentFilesAction(KIcon("document-open-recent"), i18n("Recent Projects"), actionCollection());
-	connect( d->recentFiles, SIGNAL(urlSelected(const KUrl&)), SLOT(openProject( const KUrl& ) ));
-	d->recentFiles->setText( i18n( "Open Recent" ) );
-	d->recentFiles->setToolTip( i18n( "Open recent project" ) );
-	d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
-    actionCollection()->addAction("project_open_recent", d->recentFiles);
+    d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
+    connect( d->recentFiles, SIGNAL( urlSelected( const KUrl& ) ), SLOT( openProject( const KUrl& ) ) );
+    d->recentFiles->setText( i18n( "Open Recent" ) );
+    d->recentFiles->setToolTip( i18n( "Open recent project" ) );
+    d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
+    actionCollection()->addAction( "project_open_recent", d->recentFiles );
     d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
     KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Game Object" ), actionCollection() );
@@ -311,7 +311,7 @@ void MainWindow::playGame( )
 {
     if( GluonEngine::Game::instance()->isRunning() )
     {
-        FileManager::instance()->setCurrentFile("view");
+        FileManager::instance()->setCurrentFile( "view" );
         FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         GluonEngine::Game::instance()->setPause( false );
@@ -327,7 +327,7 @@ void MainWindow::playGame( )
         saveProject();
 
         //Set the focus to the entire window, so that we do not accidentally trigger actions
-        FileManager::instance()->setCurrentFile("view");
+        FileManager::instance()->setCurrentFile( "view" );
         FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         //Start the game loop
@@ -395,7 +395,7 @@ bool MainWindow::queryClose()
 
 void MainWindow::addAsset()
 {
-    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames());
+    ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames() );
 }
 
 void GluonCreator::MainWindow::showNewProjectDialog()
@@ -419,23 +419,23 @@ void MainWindow::initializeGame()
 {
 }
 
-void MainWindow::partChanged(KParts::Part* part )
+void MainWindow::partChanged( KParts::Part* part )
 {
-    if(part == FileManager::instance()->part("view"))
+    if( part == FileManager::instance()->part( "view" ) )
     {
-        QTimer::singleShot(100, GluonEngine::Game::instance(), SLOT(drawAll()));
+        QTimer::singleShot( 100, GluonEngine::Game::instance(), SLOT( drawAll() ) );
     }
 
     QList<QAction*> actions = menuBar()->actions();
-    foreach(QAction* action, actions)
+    foreach( QAction * action, actions )
     {
-        if(action->menu() && action->menu()->actions().count() == 0)
+        if( action->menu() && action->menu()->actions().count() == 0 )
         {
-            action->setVisible(false);
+            action->setVisible( false );
         }
         else
         {
-            action->setVisible(true);
+            action->setVisible( true );
         }
     }
 }

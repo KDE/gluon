@@ -58,7 +58,7 @@ class NewProjectDialogPage::NewProjectDialogPagePrivate
     public:
         KLineEdit* name;
         KUrlRequester* location;
-        KSqueezedTextLabel *locationValidLabel;
+        KSqueezedTextLabel* locationValidLabel;
 
     private:
         NewProjectDialogPage* q;
@@ -85,7 +85,7 @@ NewProjectDialogPage::NewProjectDialogPage()
 
     d->location = new KUrlRequester( box );
     d->location->setMode( KFile::Directory );
-    QFileInfo locInfo(QDir::currentPath());
+    QFileInfo locInfo( QDir::currentPath() );
     if( locInfo.isWritable() )
         d->location->setUrl( KUrl( QDir::current().absolutePath() ) );
     else
@@ -95,7 +95,7 @@ NewProjectDialogPage::NewProjectDialogPage()
     d->locationValidLabel = new KSqueezedTextLabel( box );
     boxLayout->addRow( QString(), d->locationValidLabel );
 
-    connect( d->location->lineEdit(), SIGNAL(textEdited(const QString&)), SLOT(urlEdited() ));
+    connect( d->location->lineEdit(), SIGNAL( textEdited( const QString& ) ), SLOT( urlEdited() ) );
 
 }
 
@@ -120,16 +120,16 @@ QString NewProjectDialogPage::createProject() const
 
     project->setName( d->name->text() );
 
-    GluonCore::GluonObject* scenesFolder = new GluonCore::GluonObject("Scenes");
+    GluonCore::GluonObject* scenesFolder = new GluonCore::GluonObject( "Scenes" );
 
     GluonEngine::Scene* root = new GluonEngine::Scene( project.data() );
-    root->setGameProject(project.data());
+    root->setGameProject( project.data() );
     root->setName( i18n( "New Scene" ) );
     root->savableDirty = true;
 
-    scenesFolder->addChild(root);
+    scenesFolder->addChild( root );
     project->setEntryPoint( root );
-    project->addChild(scenesFolder);
+    project->addChild( scenesFolder );
 
     GluonEngine::GameObject* camera = new GluonEngine::GameObject( root );
     camera->setName( i18n( "Camera" ) );
@@ -147,15 +147,15 @@ QString NewProjectDialogPage::createProject() const
     root->sceneContents()->addChild( sprite );
 
     GluonCore::GluonObject* spriteComponent =
-    GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
     spriteComponent->setName( "SpriteRenderer" );
     sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
 
-    project->addChild(new GluonCore::GluonObject("Assets"));
-    project->addChild(new GluonCore::GluonObject("Prefabs"));
+    project->addChild( new GluonCore::GluonObject( "Assets" ) );
+    project->addChild( new GluonCore::GluonObject( "Prefabs" ) );
 
     KUrl location = d->location->url();
-    QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName(project.data(), QFileInfo( GluonEngine::projectSuffix ).completeSuffix()).toLocalFile();
+    QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName( project.data(), QFileInfo( GluonEngine::projectSuffix ).completeSuffix() ).toLocalFile();
     location.addPath( gameBundleDir );
     project->setDirname( location );
     location.addPath( GluonEngine::projectFilename );
@@ -163,7 +163,7 @@ QString NewProjectDialogPage::createProject() const
 
     KUrl currentLocation = d->location->url();
     currentLocation.addPath( gameBundleDir );
-    QDir dir = QDir(d->location->text());
+    QDir dir = QDir( d->location->text() );
     dir.mkpath( gameBundleDir );
     QDir::setCurrent( currentLocation.toLocalFile() );
     project->saveToFile();
@@ -176,11 +176,11 @@ void NewProjectDialogPage::urlEdited()
     validateData();
 }
 
-void NewProjectDialogPage::setForeground(QLabel* label, KColorScheme::ForegroundRole role)
+void NewProjectDialogPage::setForeground( QLabel* label, KColorScheme::ForegroundRole role )
 {
     QPalette p = label->palette();
-    KColorScheme::adjustForeground(p, role, label->foregroundRole(), KColorScheme::Window);
-    label->setPalette(p);
+    KColorScheme::adjustForeground( p, role, label->foregroundRole(), KColorScheme::Window );
+    label->setPalette( p );
 }
 
 
@@ -189,8 +189,8 @@ void NewProjectDialogPage::validateData()
     KUrl url = d->location->url();
     if( !url.isLocalFile() || url.isEmpty() )
     {
-        d->locationValidLabel->setText( i18n("Invalid location") );
-        setForeground(d->locationValidLabel, KColorScheme::NegativeText);
+        d->locationValidLabel->setText( i18n( "Invalid location" ) );
+        setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );
         return;
     }
@@ -199,39 +199,39 @@ void NewProjectDialogPage::validateData()
 
     if( appName.isEmpty() )
     {
-        d->locationValidLabel->setText( i18n("Empty project name") );
-        setForeground(d->locationValidLabel, KColorScheme::NegativeText);
+        d->locationValidLabel->setText( i18n( "Empty project name" ) );
+        setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );
         return;
     }
 
-    if( appName == "." || appName == "..")
+    if( appName == "." || appName == ".." )
     {
-        d->locationValidLabel->setText( i18n("Invalid project name") );
-        setForeground(d->locationValidLabel, KColorScheme::NegativeText);
+        d->locationValidLabel->setText( i18n( "Invalid project name" ) );
+        setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );
         return;
     }
 
-    QDir tDir(url.toLocalFile( KUrl::RemoveTrailingSlash ));
-    while (!tDir.exists() && !tDir.isRoot())
-        tDir.setPath( pathUp( tDir.absolutePath() ));
+    QDir tDir( url.toLocalFile( KUrl::RemoveTrailingSlash ) );
+    while( !tDir.exists() && !tDir.isRoot() )
+        tDir.setPath( pathUp( tDir.absolutePath() ) );
 
-    if (tDir.exists())
+    if( tDir.exists() )
     {
-        QFileInfo tFileInfo(tDir.absolutePath());
-        if (!tFileInfo.isWritable() || !tFileInfo.isExecutable())
+        QFileInfo tFileInfo( tDir.absolutePath() );
+        if( !tFileInfo.isWritable() || !tFileInfo.isExecutable() )
         {
-            d->locationValidLabel->setText( i18n("Unable to create subdirectories, "
-                                                  "missing permissions on: %1", tDir.absolutePath()) );
-            setForeground(d->locationValidLabel, KColorScheme::NegativeText);
+            d->locationValidLabel->setText( i18n( "Unable to create subdirectories, "
+                                                  "missing permissions on: %1", tDir.absolutePath() ) );
+            setForeground( d->locationValidLabel, KColorScheme::NegativeText );
             emit validationFinished( false );
             return;
         }
     }
 
-    d->locationValidLabel->setText( QString(" ") );
-    setForeground(d->locationValidLabel, KColorScheme::NormalText);
+    d->locationValidLabel->setText( QString( " " ) );
+    setForeground( d->locationValidLabel, KColorScheme::NormalText );
     emit validationFinished( true );
 
     // Check for non-empty target directory. Not an error, but need to display a warning.
@@ -239,10 +239,10 @@ void NewProjectDialogPage::validateData()
     QFileInfo fi( url.toLocalFile( KUrl::RemoveTrailingSlash ) );
     if( fi.exists() && fi.isDir() )
     {
-        if( !QDir( fi.absoluteFilePath()).entryList( QDir::NoDotAndDotDot | QDir::AllEntries ).isEmpty() )
+        if( !QDir( fi.absoluteFilePath() ).entryList( QDir::NoDotAndDotDot | QDir::AllEntries ).isEmpty() )
         {
-            d->locationValidLabel->setText( i18n("Path already exists and contains files") );
-            setForeground(d->locationValidLabel, KColorScheme::NegativeText);
+            d->locationValidLabel->setText( i18n( "Path already exists and contains files" ) );
+            setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         }
     }
 }
@@ -256,24 +256,24 @@ QByteArray NewProjectDialogPage::encodedAppName()
 {
     // : < > * ? / \ | " are invalid on windows
     QByteArray tEncodedName = d->name->text().toUtf8();
-    for (int i = 0; i < tEncodedName.size(); ++i)
+    for( int i = 0; i < tEncodedName.size(); ++i )
     {
-        QChar tChar(tEncodedName.at( i ));
-        if (tChar.isDigit() || tChar.isSpace() || tChar.isLetter() || tChar == '%')
+        QChar tChar( tEncodedName.at( i ) );
+        if( tChar.isDigit() || tChar.isSpace() || tChar.isLetter() || tChar == '%' )
             continue;
 
         QByteArray tReplace = QUrl::toPercentEncoding( tChar );
-        tEncodedName.replace( tEncodedName.at( i ) ,tReplace );
+        tEncodedName.replace( tEncodedName.at( i ) , tReplace );
         i =  i + tReplace.size() - 1;
     }
     return tEncodedName;
 }
 
-QString NewProjectDialogPage::pathUp(const QString& aPath)
+QString NewProjectDialogPage::pathUp( const QString& aPath )
 {
     QString tPath = aPath;
     int tIndex = tPath.lastIndexOf( QDir::separator() );
-    tPath = tPath.remove(tIndex, tPath.length() - tIndex);
+    tPath = tPath.remove( tIndex, tPath.length() - tIndex );
     return tPath;
 }
 

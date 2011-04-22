@@ -249,7 +249,7 @@ void DetectMac::createDevices( const void* value, void* context )
             if( CFNumberGetTypeID() == CFGetTypeID( type ) )
             {
                 // get it's value
-                CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
+                CFNumberGetValue( ( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
             }
             CFRelease( type );
         }
@@ -262,7 +262,7 @@ void DetectMac::createDevices( const void* value, void* context )
             if( CFNumberGetTypeID() == CFGetTypeID( type ) )
             {
                 // get it's value
-                CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usage );
+                CFNumberGetValue( ( CFNumberRef )type, kCFNumberSInt32Type, &usage );
             }
             CFRelease( type );
         }
@@ -277,7 +277,7 @@ void DetectMac::createDevices( const void* value, void* context )
                 if( CFNumberGetTypeID() == CFGetTypeID( type ) )
                 {
                     // get it's value
-                    CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
+                    CFNumberGetValue( ( CFNumberRef )type, kCFNumberSInt32Type, &usagePage );
                 }
                 CFRelease( type );
             }
@@ -290,7 +290,7 @@ void DetectMac::createDevices( const void* value, void* context )
                 if( CFNumberGetTypeID() == CFGetTypeID( type ) )
                 {
                     // get it's value
-                    CFNumberGetValue(( CFNumberRef )type, kCFNumberSInt32Type, &usage );
+                    CFNumberGetValue( ( CFNumberRef )type, kCFNumberSInt32Type, &usage );
                 }
                 CFRelease( type );
             }
@@ -309,15 +309,15 @@ void DetectMac::createDevices( const void* value, void* context )
             {
                 case GluonInput::KeyboardDevice:
                     inputDevice = new Keyboard( new InputThread( device ) );
-                    detect->addKeyboard( static_cast<Keyboard*>(inputDevice) );
+                    detect->addKeyboard( static_cast<Keyboard*>( inputDevice ) );
                     break;
                 case GluonInput::MouseDevice:
                     inputDevice = new Mouse( new InputThread( device ) );
-                    detect->addMouse( static_cast<Mouse*>(inputDevice) );
+                    detect->addMouse( static_cast<Mouse*>( inputDevice ) );
                     break;
                 case GluonInput::JoystickDevice:
                     inputDevice = new Joystick( new InputThread( device ) );
-                    detect->addJoystick( static_cast<Joystick*>(inputDevice) );
+                    detect->addJoystick( static_cast<Joystick*>( inputDevice ) );
                     break;
                 default:
                     inputDevice = new InputDevice( new InputThread( device ) );
@@ -333,7 +333,7 @@ void DetectMac::createDevices( const void* value, void* context )
                       break;*/
                 case GluonInput::TouchDevice:
                     inputDevice = new Touch( new InputThread( device ) );
-                    detect->addTouch( static_cast<Touch*>(inputDevice) );
+                    detect->addTouch( static_cast<Touch*>( inputDevice ) );
                     break;
                 default:
                     inputDevice = new InputDevice( new InputThread( device ) );

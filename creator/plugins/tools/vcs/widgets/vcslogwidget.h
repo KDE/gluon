@@ -47,17 +47,17 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT VcsLogWidget : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            VcsLogWidget( const KUrl&, KDevelop::VcsJob*, QWidget *parent = 0 );
+            VcsLogWidget( const KUrl&, KDevelop::VcsJob*, QWidget* parent = 0 );
             virtual ~VcsLogWidget();
 
         private slots:
             void diffToPrevious();
             void diffRevisions();
             void jobReceivedResults( KDevelop::VcsJob* job );
-            void eventViewCustomContextMenuRequested( const QPoint &point );
-            void eventViewClicked( const QModelIndex &index );
+            void eventViewCustomContextMenuRequested( const QPoint& point );
+            void eventViewClicked( const QModelIndex& index );
             void currentRowChanged( const QModelIndex& start, const QModelIndex& end );
 
         private:
@@ -65,7 +65,7 @@ namespace GluonCreator
             void retranslateUi();
 
             KDevelop::VcsItemEventModel* m_detailModel;
-            KDevelop::VcsEventModel *m_logModel;
+            KDevelop::VcsEventModel* m_logModel;
             KDevelop::VcsJob* m_job;
             KUrl m_url;
             QModelIndex m_contextIndex;

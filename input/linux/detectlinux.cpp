@@ -89,7 +89,7 @@ void DetectLinux::detectDevices()
     // struct input_id currentInputDeviceInfo;
 
     inputFileInfoList = event.entryInfoList( QDir::Files );
-    foreach( const QFileInfo& inputFileInfo, inputFileInfoList )
+    foreach( const QFileInfo & inputFileInfo, inputFileInfoList )
     {
         file = inputFileInfo.filePath();
         if( inputFileInfo.isReadable() )
@@ -106,35 +106,35 @@ void DetectLinux::detectDevices()
         {
             switch( thread->deviceType() )
             {
-            case GluonInput::KeyboardDevice:
-                device = new Keyboard( thread );
-                detect->addKeyboard( static_cast<Keyboard*>( device ) );
-                break;
+                case GluonInput::KeyboardDevice:
+                    device = new Keyboard( thread );
+                    detect->addKeyboard( static_cast<Keyboard*>( device ) );
+                    break;
 
-            case GluonInput::MouseDevice:
-                device = new Mouse( thread );
-                detect->addMouse( static_cast<Mouse*>( device ) );
-                break;
+                case GluonInput::MouseDevice:
+                    device = new Mouse( thread );
+                    detect->addMouse( static_cast<Mouse*>( device ) );
+                    break;
 
-            case GluonInput::TouchpadDevice:
-                device = new Mouse( thread );
-                detect->addMouse( static_cast<Mouse*>( device ) );
-                break;
+                case GluonInput::TouchpadDevice:
+                    device = new Mouse( thread );
+                    detect->addMouse( static_cast<Mouse*>( device ) );
+                    break;
 
-            case GluonInput::JoystickDevice:
-                device = new Joystick( thread );
-                detect->addJoystick( static_cast<Joystick*>( device ) );
-                break;
+                case GluonInput::JoystickDevice:
+                    device = new Joystick( thread );
+                    detect->addJoystick( static_cast<Joystick*>( device ) );
+                    break;
 
-            case GluonInput::TouchDevice:
-                device = new Touch( thread );
-                detect->addTouch( static_cast<Touch*>( device ) );
-                break;
+                case GluonInput::TouchDevice:
+                    device = new Touch( thread );
+                    detect->addTouch( static_cast<Touch*>( device ) );
+                    break;
 
-            case GluonInput::UnknownDevice:
-                device = new InputDevice( thread );
-                detect->addUnknown( device );
-                break;
+                case GluonInput::UnknownDevice:
+                    device = new InputDevice( thread );
+                    detect->addUnknown( device );
+                    break;
             }
 
             processedInputs.append( thread->device_info() );

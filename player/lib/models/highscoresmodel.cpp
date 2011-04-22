@@ -97,12 +97,12 @@ QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-Qt::ItemFlags HighScoresModel::flags(const QModelIndex &index) const
+Qt::ItemFlags HighScoresModel::flags( const QModelIndex& index ) const
 {
-    if (!index.isValid())
+    if( !index.isValid() )
         return Qt::ItemIsEnabled;
 
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    return QAbstractTableModel::flags( index ) | Qt::ItemIsEditable;
 }
 
 
@@ -110,10 +110,10 @@ void HighScoresModel::loadData()
 {
     // TODO: ~/.gluon/games/$gamebundle/* will be used later
     QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/");
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/");
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
-    if( QFile::exists(gluonDir.absoluteFilePath( "highscores.gdl" )) )
+    if( QFile::exists( gluonDir.absoluteFilePath( "highscores.gdl" ) ) )
         m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "highscores.gdl" );

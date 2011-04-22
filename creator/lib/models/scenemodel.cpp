@@ -53,7 +53,7 @@ SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new 
 {
     setSupportedDragActions( Qt::MoveAction );
     connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SIGNAL( layoutChanged() ) );
- //   new ModelTest(this, this);
+    //   new ModelTest(this, this);
 }
 
 SceneModel::~SceneModel()
@@ -76,15 +76,15 @@ void SceneModel::setRootGameObject( GluonEngine::GameObject* obj )
     }
 }
 
-void SceneModel::newGameObject(GluonEngine::GameObject* parent, GluonEngine::GameObject* newChild)
+void SceneModel::newGameObject( GluonEngine::GameObject* parent, GluonEngine::GameObject* newChild )
 {
-    if(parent)
+    if( parent )
     {
         QModelIndex thisIndex = QModelIndex();
-        if(parent->parentGameObject())
+        if( parent->parentGameObject() )
         {
-            int row = parent->parentGameObject()->childIndex(parent);
-            thisIndex = createIndex(row, 0, parent);
+            int row = parent->parentGameObject()->childIndex( parent );
+            thisIndex = createIndex( row, 0, parent );
         }
         int childCount = parent->childCount();
         beginInsertRows( thisIndex, childCount, childCount );
@@ -93,24 +93,24 @@ void SceneModel::newGameObject(GluonEngine::GameObject* parent, GluonEngine::Gam
     }
 }
 
-void SceneModel::deleteGameObject(GluonEngine::GameObject* obj)
+void SceneModel::deleteGameObject( GluonEngine::GameObject* obj )
 {
     if( obj )
     {
-        int row = obj->parentGameObject()->childIndex(obj);
-        QModelIndex thisIndex = createIndex(row, 0, obj);
-        beginRemoveRows( parent(thisIndex), row, row );
-        obj->parentGameObject()->removeChild(obj);
+        int row = obj->parentGameObject()->childIndex( obj );
+        QModelIndex thisIndex = createIndex( row, 0, obj );
+        beginRemoveRows( parent( thisIndex ), row, row );
+        obj->parentGameObject()->removeChild( obj );
         obj->deleteLater();
         endRemoveRows();
     }
 }
 
-void SceneModel::deleteComponent(GluonEngine::Component* component)
+void SceneModel::deleteComponent( GluonEngine::Component* component )
 {
     if( component )
     {
-        component->gameObject()->removeComponent(component);
+        component->gameObject()->removeComponent( component );
         component->deleteLater();
     }
 }
@@ -245,7 +245,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
 
     if( parent.isValid() )
     {
-        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>(( QObject* )parent.internalPointer() );
+        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( ( QObject* )parent.internalPointer() );
 
         if( !gobj )
         {
@@ -294,15 +294,15 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
                     objects.append( gobj );
             }
 
-            foreach(GluonEngine::GameObject* item, objects)
+            foreach( GluonEngine::GameObject * item, objects )
             {
                 // Update the view for the old parent (unfortunately we can't expect the items to
                 // all be from the same parent, so we have to do it here)
                 GluonEngine::GameObject* oldParentObject = qobject_cast< GluonEngine::GameObject* >( item->parentGameObject() );
-                QModelIndex oldParent = createIndex( d->rowIndex(oldParentObject), 0, oldParentObject );
-                int oldRow = d->rowIndex(item);
+                QModelIndex oldParent = createIndex( d->rowIndex( oldParentObject ), 0, oldParentObject );
+                int oldRow = d->rowIndex( item );
                 beginRemoveRows( oldParent, oldRow, oldRow );
-                oldParentObject->removeChild(item);
+                oldParentObject->removeChild( item );
                 endRemoveRows();
             }
 
@@ -353,7 +353,7 @@ bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &chi
     if( !pobj )
         pobj = d->root;
 
-    if(children.at(0)->parent() == pobj)
+    if( children.at( 0 )->parent() == pobj )
         return false;
 
     int childCount = pobj->childCount();
@@ -369,7 +369,7 @@ bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &chi
 
 bool SceneModel::removeRows( int row, int count, const QModelIndex& parent )
 {
-    return QAbstractItemModel::removeRows(row, count, parent);
+    return QAbstractItemModel::removeRows( row, count, parent );
 }
 
 int SceneModel::SceneModelPrivate::rowIndex( GluonEngine::GameObject* object ) const

@@ -62,17 +62,17 @@ Mesh::load( const QString& filename )
 #ifdef __GNUC__
 #warning TODO: Investigate why this works.
 #endif
-//     if( isLoaded() )
-//         return;
+    //     if( isLoaded() )
+    //         return;
 
-    VertexAttribute vertices( "vertex", 3);
+    VertexAttribute vertices( "vertex", 3 );
     vertices << -1.f << -1.f << 0.f;
     vertices << -1.f <<  1.f << 0.f;
     vertices <<  1.f <<  1.f << 0.f;
     vertices <<  1.f << -1.f << 0.f;
     d->buffer->addAttribute( vertices );
 
-    VertexAttribute colors("color", 4 );
+    VertexAttribute colors( "color", 4 );
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;
     colors << 1.f << 1.f << 1.f << 1.f;

@@ -48,9 +48,9 @@ class ListModel : public QAbstractListModel
         virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
         // virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
-        void appendPair(QPair< QString, KIcon* > pair);
-        void appendPair(QList< QPair< QString, KIcon* > > pairList);
-        void removePair(QPair< QString, KIcon* > pair);
+        void appendPair( QPair< QString, KIcon* > pair );
+        void appendPair( QList< QPair< QString, KIcon* > > pairList );
+        void removePair( QPair< QString, KIcon* > pair );
         void clearPair( );
 
     private:

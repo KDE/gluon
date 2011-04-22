@@ -34,8 +34,8 @@ namespace GluonCreator
     {
         public:
             EnumPWIPrivate()
-                : comboBox ( 0 )
-                , editObject ( 0 )
+                : comboBox( 0 )
+                , editObject( 0 )
             {
             };
 
@@ -52,12 +52,12 @@ namespace GluonCreator
                 if( !editObject )
                     return;
 
-                QString str = typeName.section("::", 0, -2);
-                QString typeStr = typeName.section("::", -1);
+                QString str = typeName.section( "::", 0, -2 );
+                QString typeStr = typeName.section( "::", -1 );
                 const QMetaObject* mo;
-                if( str.compare("Qt") && !str.isEmpty())
+                if( str.compare( "Qt" ) && !str.isEmpty() )
                 {
-                    mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value(str);
+                    mo = GluonCore::GluonObjectFactory::instance()->objectTypes().value( str );
                 }
                 else
                 {

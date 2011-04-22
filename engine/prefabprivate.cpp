@@ -25,7 +25,7 @@
 using namespace GluonEngine;
 
 PrefabPrivate::PrefabPrivate()
-    : gameObject(0)
+    : gameObject( 0 )
 {
 }
 
@@ -37,5 +37,5 @@ PrefabPrivate::PrefabPrivate( const PrefabPrivate& other )
 
 PrefabPrivate::~PrefabPrivate()
 {
-    delete(gameObject);
+    delete( gameObject );
 }

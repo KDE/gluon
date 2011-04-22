@@ -31,7 +31,7 @@
 int main( int argc, char** argv )
 {
     KAboutData aboutData( "gluoncreator", NULL,
-                          ki18n( "Gluon Creator" ), QString( "%1 (%2)").arg(GLUON_VERSION_STRING).arg(GLUON_VERSION_NAME).toUtf8(),
+                          ki18n( "Gluon Creator" ), QString( "%1 (%2)" ).arg( GLUON_VERSION_STRING ).arg( GLUON_VERSION_NAME ).toUtf8(),
                           ki18n( "A game creation environment" ),
                           KAboutData::License_LGPL_V2,
                           ki18n( "Copyright 2009-2010 by multiple contributors." ),
@@ -46,7 +46,7 @@ int main( int argc, char** argv )
     aboutData.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac compatibility" ), "" );
     aboutData.addAuthor( ki18n( "Rivo Laks" ), ki18n( "Gluon Graphics through KGLLIB" ), "" );
     aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "" );
-    aboutData.setProductName("gluon/gluoncreator");
+    aboutData.setProductName( "gluon/gluoncreator" );
 
 
     KCmdLineArgs::init( argc, argv, &aboutData );

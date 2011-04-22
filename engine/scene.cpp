@@ -65,14 +65,14 @@ void Scene::resetScene()
     if( !d->sceneContentsLoaded )
         return;
 
-    if(Game::instance()->isRunning())
+    if( Game::instance()->isRunning() )
     {
         sceneContents()->stop();
         sceneContents()->cleanup();
     }
     d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
-    emit Game::instance()->currentSceneChanged(this);
-    if(Game::instance()->isRunning())
+    emit Game::instance()->currentSceneChanged( this );
+    if( Game::instance()->isRunning() )
     {
         sceneContents()->initialize();
         sceneContents()->start();
@@ -82,10 +82,10 @@ void Scene::resetScene()
 QString
 Scene::contentsToGDL()
 {
-    return GluonCore::GDLHandler::instance()->toGDL(sceneContents());
+    return GluonCore::GDLHandler::instance()->toGDL( sceneContents() );
 }
 
-GameObject *
+GameObject*
 Scene::sceneContents()
 {
     if( !d->sceneContentsLoaded && !savableDirty )
@@ -96,21 +96,21 @@ Scene::sceneContents()
 QList< QAction* > Scene::actions()
 {
     QList<QAction*> actions;
-    QAction* setEntryPoint = new QAction("Set as entry point", this);
-    connect(setEntryPoint, SIGNAL(triggered(bool)), this, SLOT(setEntryPoint()));
-    actions.append(setEntryPoint);
+    QAction* setEntryPoint = new QAction( "Set as entry point", this );
+    connect( setEntryPoint, SIGNAL( triggered( bool ) ), this, SLOT( setEntryPoint() ) );
+    actions.append( setEntryPoint );
     return actions;
 }
 
 void Scene::setEntryPoint()
 {
     GluonEngine::GameProject* project = Game::instance()->gameProject();
-    project->setEntryPoint(this);
+    project->setEntryPoint( this );
 }
 
-void Scene::populateMetaInfo(GluonCore::MetaInfo* info)
+void Scene::populateMetaInfo( GluonCore::MetaInfo* info )
 {
-    info->setDefaultExtension("gluonscene");
+    info->setDefaultExtension( "gluonscene" );
 }
 
 #include "scene.moc"

@@ -66,7 +66,7 @@ InputThread::~InputThread()
     closeDevice();
 }
 
-int InputThread::mapMouseButton(int mouseButton)
+int InputThread::mapMouseButton( int mouseButton )
 {
     switch( mouseButton )
     {
@@ -91,7 +91,7 @@ int InputThread::mapMouseButton(int mouseButton)
     }
 }
 
-int InputThread::mapKeyCode(int keyCode)
+int InputThread::mapKeyCode( int keyCode )
 {
     switch( keyCode )
     {
@@ -337,7 +337,7 @@ int InputThread::mapKeyCode(int keyCode)
             return Qt::Key_unknown;
         case KEY_HANGEUL:
             return Qt::Key_unknown;
-        // case KEY_HANGUEL:       - KEY_HANGEUL
+            // case KEY_HANGUEL:       - KEY_HANGEUL
             // return Qt::Key_unknown;
         case KEY_HANJA:
             return Qt::Key_Hangul_Hanja;
@@ -399,7 +399,7 @@ int InputThread::mapKeyCode(int keyCode)
             return Qt::Key_DOS;
         case KEY_COFFEE:      /* AL Terminal Lock/Screensaver */
             return Qt::Key_unknown;
-        // case KEY_SCREENLOCK:  - KEY_COFFEE
+            // case KEY_SCREENLOCK:  - KEY_COFFEE
             // return Qt::Key_unknown;
         case KEY_DIRECTION:
             return Qt::Key_unknown;
@@ -616,7 +616,7 @@ void InputThread::run()
 
 bool InputThread::openDevice( const QString& devicePath )
 {
-    if(( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 )
+    if( ( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 )
     {
         qDebug() << "Could not open the device:" << devicePath;
         d->m_error = true;
@@ -831,7 +831,7 @@ void InputThread::readInformation()
                             AbsVal cabs( 0, 0, 0, 0 );
                             for( int k = 0; k < 5; ++k )
                             {
-                                if(( k < 3 ) || abs[k] )
+                                if( ( k < 3 ) || abs[k] )
                                 {
                                     switch( k )
                                     {

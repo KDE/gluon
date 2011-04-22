@@ -41,10 +41,10 @@ class GraphScene : public QGraphicsScene
         Q_OBJECT
     public:
         GraphScene( QObject* parent );
-	/**
-	 * Sets current Action to be used on Graph.
-	 * @param    action    Action to be used now on clicking.
-	 */
+        /**
+         * Sets current Action to be used on Graph.
+         * @param    action    Action to be used now on clicking.
+         */
         void setAction( QAction* action );
         void updateGraph( Graph* g );
         void updateDocument();
@@ -68,23 +68,23 @@ class GraphScene : public QGraphicsScene
 
     public slots:
         /**
-	 * Create new Node on Graph.
-	 * @param    n    Node to add to Graph.
-	 * @return    GraphicsItem representing Node.
-	 */
+        * Create new Node on Graph.
+         * @param    n    Node to add to Graph.
+         * @return    GraphicsItem representing Node.
+         */
         QGraphicsItem* createNode( Node* n );
-	/**
-	 * Create new Edge on Graph.
-	 * @param    e    Edge to add to Graph.
-	 * @return    GraphicsItem representing Node..
-	 */
+        /**
+         * Create new Edge on Graph.
+         * @param    e    Edge to add to Graph.
+         * @return    GraphicsItem representing Node..
+         */
         QGraphicsItem* createEdge( Edge* e );
         void connectGraphSignals( Graph* g );
         void createItems();
     signals:
         /**
-	 * Forces update of graph items.
-	 */
+        * Forces update of graph items.
+         */
         void forceUpdate();
 
     protected:

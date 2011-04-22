@@ -27,7 +27,7 @@
 using namespace GluonEngine;
 
 TextureImageProvider::TextureImageProvider()
-    : QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
+    : QDeclarativeImageProvider( QDeclarativeImageProvider::Image )
 {
 
 }
@@ -37,25 +37,25 @@ TextureImageProvider::~TextureImageProvider()
 
 }
 
-QImage TextureImageProvider::requestImage(const QString& id, QSize* size, const QSize& requestedSize)
+QImage TextureImageProvider::requestImage( const QString& id, QSize* size, const QSize& requestedSize )
 {
-    GluonCore::GluonObject* obj = Game::instance()->gameProject()->findItemByName(id);
-    if(!obj)
-        return GluonGraphics::Engine::instance()->texture("default")->image();
-    
-    GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>(obj);
-    if(!asset || !asset->data()->hasText())
-        return GluonGraphics::Engine::instance()->texture("default")->image();
-    
-    GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->texture(asset->data()->text());
+    GluonCore::GluonObject* obj = Game::instance()->gameProject()->findItemByName( id );
+    if( !obj )
+        return GluonGraphics::Engine::instance()->texture( "default" )->image();
+
+    GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( obj );
+    if( !asset || !asset->data()->hasText() )
+        return GluonGraphics::Engine::instance()->texture( "default" )->image();
+
+    GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->texture( asset->data()->text() );
     *size = tex->image().size();
-    if(requestedSize.isValid())
+    if( requestedSize.isValid() )
     {
-        return tex->image().scaled(requestedSize);
+        return tex->image().scaled( requestedSize );
     }
     else
     {
         return tex->image();
     }
-    
+
 }

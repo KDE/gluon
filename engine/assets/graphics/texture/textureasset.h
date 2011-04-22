@@ -32,7 +32,7 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::TextureAsset )
-            Q_PROPERTY(GluonGraphics::Texture* texture READ texture);
+            Q_PROPERTY( GluonGraphics::Texture* texture READ texture );
 
         public:
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );

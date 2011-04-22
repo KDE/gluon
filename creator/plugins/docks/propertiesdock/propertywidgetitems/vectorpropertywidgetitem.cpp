@@ -59,25 +59,25 @@ VectorPropertyWidgetItem::VectorPropertyWidgetItem( QWidget* parent, Qt::WindowF
     d->x->setPrefix( "X: " );
     d->x->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->x );
-    connect( d->x, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged()) );
+    connect( d->x, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
 
     d->y = new QDoubleSpinBox( this );
     d->y->setPrefix( "Y: " );
     d->y->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->y );
-    connect( d->y, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged()) );
+    connect( d->y, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
 
     d->z = new QDoubleSpinBox( this );
     d->z->setPrefix( "Z: " );
     d->z->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->z );
-    connect( d->z, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged()) );
+    connect( d->z, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
 
-    d->w = new QDoubleSpinBox(this);
-    d->w->setPrefix("W: ");
-    d->w->setRange( -FLT_MAX, FLT_MAX);
+    d->w = new QDoubleSpinBox( this );
+    d->w->setPrefix( "W: " );
+    d->w->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->w );
-    connect( d->w, SIGNAL(valueChanged(double)), SLOT(editValueChanged()));
+    connect( d->w, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
 
     setEditWidget( base );
 }
@@ -106,15 +106,15 @@ VectorPropertyWidgetItem::instantiate()
 void VectorPropertyWidgetItem::setEditValue( const QVariant& value )
 {
 
-    switch(value.type())
+    switch( value.type() )
     {
         case QVariant::Vector2D:
         {
             const QVector2D* vector = static_cast<const QVector2D*>( value.data() );
             d->x->setValue( vector->x() );
             d->y->setValue( vector->y() );
-            d->z->setVisible(false);
-            d->w->setVisible(false);
+            d->z->setVisible( false );
+            d->w->setVisible( false );
             d->type = QVariant::Vector2D;
             break;
         }
@@ -124,7 +124,7 @@ void VectorPropertyWidgetItem::setEditValue( const QVariant& value )
             d->x->setValue( vector->x() );
             d->y->setValue( vector->y() );
             d->z->setValue( vector->z() );
-            d->w->setVisible(false);
+            d->w->setVisible( false );
             d->type = QVariant::Vector3D;
             break;
         }
@@ -145,16 +145,16 @@ void VectorPropertyWidgetItem::setEditValue( const QVariant& value )
 
 void VectorPropertyWidgetItem::editValueChanged()
 {
-    switch(d->type)
+    switch( d->type )
     {
         case QVariant::Vector2D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector2D>( QVector2D(d->x->value(), d->y->value()) ) );
+            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector2D>( QVector2D( d->x->value(), d->y->value() ) ) );
             break;
         case QVariant::Vector3D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( QVector3D(d->x->value(), d->y->value(), d->z->value()) ) );
+            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( QVector3D( d->x->value(), d->y->value(), d->z->value() ) ) );
             break;
         case QVariant::Vector4D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector4D>( QVector4D(d->x->value(), d->y->value(), d->z->value(), d->w->value()) ) );
+            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector4D>( QVector4D( d->x->value(), d->y->value(), d->z->value(), d->w->value() ) ) );
             break;
         default:
             break;

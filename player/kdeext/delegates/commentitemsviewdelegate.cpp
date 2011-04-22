@@ -30,7 +30,8 @@
 #include <QtGui/QApplication>
 #include <QtGui/QToolButton>
 
-enum {
+enum
+{
     DelegateCommentAuthor,
     DelegateCommentTitle,
     DelegateCommentBody,
@@ -44,9 +45,9 @@ static const int PreviewHeight = 72;
 
 using namespace GluonKDEPlayer;
 
-CommentItemsViewDelegate::CommentItemsViewDelegate(QAbstractItemView *itemView, QObject* parent)
-        : KWidgetItemDelegate(itemView, parent)
-        , m_preview( new KIcon( "gluon_creator" ) )
+CommentItemsViewDelegate::CommentItemsViewDelegate( QAbstractItemView* itemView, QObject* parent )
+    : KWidgetItemDelegate( itemView, parent )
+    , m_preview( new KIcon( "gluon_creator" ) )
 {
 }
 
@@ -54,13 +55,14 @@ CommentItemsViewDelegate::~CommentItemsViewDelegate()
 {
 }
 
-bool CommentItemsViewDelegate::eventFilter(QObject *watched, QEvent *event)
+bool CommentItemsViewDelegate::eventFilter( QObject* watched, QEvent* event )
 {
-   if (event->type() == QEvent::MouseButtonDblClick) {
-       return true;
-   }
+    if( event->type() == QEvent::MouseButtonDblClick )
+    {
+        return true;
+    }
 
-   return KWidgetItemDelegate::eventFilter(watched, event);
+    return KWidgetItemDelegate::eventFilter( watched, event );
 }
 
 QList<QWidget*> CommentItemsViewDelegate::createItemWidgets() const
@@ -68,45 +70,46 @@ QList<QWidget*> CommentItemsViewDelegate::createItemWidgets() const
     QList<QWidget*> list;
 
     KSqueezedTextLabel* author = new KSqueezedTextLabel();
-    author->setOpenExternalLinks(true);
+    author->setOpenExternalLinks( true );
     // not so nice - work around constness to install the event filter
-    CommentItemsViewDelegate* delegate = const_cast<CommentItemsViewDelegate*>(this);
-    author->installEventFilter(delegate);
+    CommentItemsViewDelegate* delegate = const_cast<CommentItemsViewDelegate*>( this );
+    author->installEventFilter( delegate );
     list << author;
 
     KSqueezedTextLabel* title = new KSqueezedTextLabel();
-    title->setOpenExternalLinks(true);
+    title->setOpenExternalLinks( true );
     list << title;
 
     KSqueezedTextLabel* dateTime = new KSqueezedTextLabel();
-    dateTime->setOpenExternalLinks(true);
+    dateTime->setOpenExternalLinks( true );
     list << dateTime;
 
     KSqueezedTextLabel* rating = new KSqueezedTextLabel();
-    rating->setOpenExternalLinks(true);
+    rating->setOpenExternalLinks( true );
     list << rating;
 
     KSqueezedTextLabel* body = new KSqueezedTextLabel();
-    body->setOpenExternalLinks(true);
+    body->setOpenExternalLinks( true );
     body->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     list << body;
 
     KPushButton* replyButton = new KPushButton();
     replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     list << replyButton;
-    setBlockedEventTypes(replyButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
-                          << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick);
-    connect(replyButton, SIGNAL(clicked()), SLOT(slotReplyClicked()));
+    setBlockedEventTypes( replyButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
+                          << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick );
+    connect( replyButton, SIGNAL( clicked() ), SLOT( slotReplyClicked() ) );
 
     return list;
 }
 
-void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
-        const QStyleOptionViewItem &option,
-        const QPersistentModelIndex &index) const
+void CommentItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
+        const QStyleOptionViewItem& option,
+        const QPersistentModelIndex& index ) const
 {
-    const GluonPlayer::CommentItemsModel* model = qobject_cast<const GluonPlayer::CommentItemsModel*>(index.model());
-    if (!model) {
+    const GluonPlayer::CommentItemsModel* model = qobject_cast<const GluonPlayer::CommentItemsModel*>( index.model() );
+    if( !model )
+    {
         kDebug() << "Warning - Invalid Model!";
         return;
     }
@@ -116,68 +119,77 @@ void CommentItemsViewDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     int right = option.rect.width();
     int bottom = option.rect.height();
 
-    const_cast<QSize&>(m_buttonSize) = QSize(32, 32);
+    const_cast<QSize&>( m_buttonSize ) = QSize( 32, 32 );
 
-    KPushButton* replyButton = qobject_cast<KPushButton*>(widgets.at(DelegateCommentReplyButton));
-    if (replyButton) {
-        replyButton->setVisible(const_cast<GluonPlayer::CommentItemsModel*>(model)->isOnline());
+    KPushButton* replyButton = qobject_cast<KPushButton*>( widgets.at( DelegateCommentReplyButton ) );
+    if( replyButton )
+    {
+        replyButton->setVisible( const_cast<GluonPlayer::CommentItemsModel*>( model )->isOnline() );
         replyButton->setIcon( KIcon( "edit-undo" ) );
         replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         replyButton->resize( m_buttonSize );
-        replyButton->move( right - replyButton->width() - margin, bottom - m_buttonSize.height() * 1.5);
+        replyButton->move( right - replyButton->width() - margin, bottom - m_buttonSize.height() * 1.5 );
     }
 
-    KSqueezedTextLabel* author = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentAuthor));
-    if (author) {
+    KSqueezedTextLabel* author = qobject_cast<KSqueezedTextLabel*>( widgets.at( DelegateCommentAuthor ) );
+    if( author )
+    {
         author->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         author->resize( right / 5, m_buttonSize.height() );
-        author->move( margin, option.fontMetrics.height());
-        author->setText(index.data(GluonPlayer::CommentItemsModel::AuthorRole).toString());
+        author->move( margin, option.fontMetrics.height() );
+        author->setText( index.data( GluonPlayer::CommentItemsModel::AuthorRole ).toString() );
     }
 
-    KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentDateTime));
-    if (dateTime) {
-        dateTime->resize(author->size().width(), author->size().height());
-        dateTime->move(author->x() + author->size().width(), author->y());
-        dateTime->setText(index.data(GluonPlayer::CommentItemsModel::DateTimeRole).toString());
+    KSqueezedTextLabel* dateTime = qobject_cast<KSqueezedTextLabel*>( widgets.at( DelegateCommentDateTime ) );
+    if( dateTime )
+    {
+        dateTime->resize( author->size().width(), author->size().height() );
+        dateTime->move( author->x() + author->size().width(), author->y() );
+        dateTime->setText( index.data( GluonPlayer::CommentItemsModel::DateTimeRole ).toString() );
     }
 
-    KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentTitle));
-    if (title) {
-        title->resize(dateTime->size().width(), dateTime->size().height());
-        title->move(dateTime->x() + dateTime->size().width(), dateTime->y());
-        title->setText(index.data(GluonPlayer::CommentItemsModel::TitleRole).toString());
+    KSqueezedTextLabel* title = qobject_cast<KSqueezedTextLabel*>( widgets.at( DelegateCommentTitle ) );
+    if( title )
+    {
+        title->resize( dateTime->size().width(), dateTime->size().height() );
+        title->move( dateTime->x() + dateTime->size().width(), dateTime->y() );
+        title->setText( index.data( GluonPlayer::CommentItemsModel::TitleRole ).toString() );
     }
 
-    KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentRating));
-    if (rating) {
-        rating->resize(title->size().width(), title->size().height());
-        rating->move(title->x() + title->size().width(), title->y());
-        rating->setText(index.data(GluonPlayer::CommentItemsModel::RatingRole).toString());
+    KSqueezedTextLabel* rating = qobject_cast<KSqueezedTextLabel*>( widgets.at( DelegateCommentRating ) );
+    if( rating )
+    {
+        rating->resize( title->size().width(), title->size().height() );
+        rating->move( title->x() + title->size().width(), title->y() );
+        rating->setText( index.data( GluonPlayer::CommentItemsModel::RatingRole ).toString() );
     }
 
-    KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>(widgets.at(DelegateCommentBody));
-    if (body) {
-        body->resize(right - 2 * margin, bottom - author->size().height() - 2 * margin);
-        body->move(margin, option.fontMetrics.height()  + author->size().height());
-        body->setText(index.data(GluonPlayer::CommentItemsModel::BodyRole).toString());
+    KSqueezedTextLabel* body = qobject_cast<KSqueezedTextLabel*>( widgets.at( DelegateCommentBody ) );
+    if( body )
+    {
+        body->resize( right - 2 * margin, bottom - author->size().height() - 2 * margin );
+        body->move( margin, option.fontMetrics.height()  + author->size().height() );
+        body->setText( index.data( GluonPlayer::CommentItemsModel::BodyRole ).toString() );
     }
 }
 
 // draws the preview
-void CommentItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& /* index */) const
+void CommentItemsViewDelegate::paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
 {
     // int margin = option.fontMetrics.height() / 2;
 
-    QStyle *style = QApplication::style();
-    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, 0);
+    QStyle* style = QApplication::style();
+    style->drawPrimitive( QStyle::PE_PanelItemViewItem, &option, painter, 0 );
 
     painter->save();
 
-    if (option.state & QStyle::State_Selected) {
-        painter->setPen(QPen(option.palette.highlightedText().color()));
-    } else {
-        painter->setPen(QPen(option.palette.text().color()));
+    if( option.state & QStyle::State_Selected )
+    {
+        painter->setPen( QPen( option.palette.highlightedText().color() ) );
+    }
+    else
+    {
+        painter->setPen( QPen( option.palette.text().color() ) );
     }
 
     /* const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
@@ -200,19 +212,20 @@ void CommentItemsViewDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->restore();
 }
 
-QSize CommentItemsViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& /* index */) const
+QSize CommentItemsViewDelegate::sizeHint( const QStyleOptionViewItem& option, const QModelIndex& /* index */ ) const
 {
     QSize size;
 
-    size.setWidth(option.fontMetrics.height() * 4);
-    size.setHeight(qMax(option.fontMetrics.height() * 7, PreviewHeight)); // up to 6 lines of text, and two margins
+    size.setWidth( option.fontMetrics.height() * 4 );
+    size.setHeight( qMax( option.fontMetrics.height() * 7, PreviewHeight ) ); // up to 6 lines of text, and two margins
     return size;
 }
 
 void CommentItemsViewDelegate::slotReplyClicked()
 {
     QModelIndex index = focusedIndex();
-    if (index.isValid()) {
+    if( index.isValid() )
+    {
         emit commentReplyClicked( index );
     }
 }

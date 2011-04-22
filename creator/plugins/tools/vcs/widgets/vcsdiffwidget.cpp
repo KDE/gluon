@@ -50,9 +50,9 @@ VcsDiffWidget::~VcsDiffWidget()
 void VcsDiffWidget::setRevisions( const KDevelop::VcsRevision& first,
                                   const KDevelop::VcsRevision& second )
 {
-    m_revLabel->setText( i18n("Difference between revision %1 and %2:",
-                       first.prettyValue(),
-                       second.prettyValue() ) );
+    m_revLabel->setText( i18n( "Difference between revision %1 and %2:",
+                               first.prettyValue(),
+                               second.prettyValue() ) );
 }
 
 void VcsDiffWidget::diffReady( KDevelop::VcsJob* job )
@@ -67,16 +67,16 @@ void VcsDiffWidget::diffReady( KDevelop::VcsJob* job )
 
     // if(showVcsDiff(patch))
     // {
-        // q->deleteLater();
-        // return;
+    // q->deleteLater();
+    // return;
     // }else{
-        // delete patch;
+    // delete patch;
     // }
 
     // kDebug() << "diff:" << diff.leftTexts().count();
     // foreach( const KDevelop::VcsLocation &l, diff.leftTexts().keys() )
     // {
-        // kDebug() << "diff:" << l.localUrl() << l.repositoryServer();
+    // kDebug() << "diff:" << l.localUrl() << l.repositoryServer();
     // }
     // kDebug() << "diff:" << diff.diff();
     // kDebug() << "diff:" << diff.type();
@@ -87,30 +87,30 @@ void VcsDiffWidget::diffReady( KDevelop::VcsJob* job )
 
 void VcsDiffWidget::setupUi()
 {
-    if (objectName().isEmpty())
-        setObjectName(QString::fromUtf8("VcsDiffWidget"));
+    if( objectName().isEmpty() )
+        setObjectName( QString::fromUtf8( "VcsDiffWidget" ) );
 
-    setProperty("modal", QVariant(false));
-    resize(640, 480);
+    setProperty( "modal", QVariant( false ) );
+    resize( 640, 480 );
 
-    m_vboxLayout = new QVBoxLayout(this);
-    m_vboxLayout->setObjectName(QString::fromUtf8("vboxLayout"));
-    m_revLabel = new KSqueezedTextLabel(this);
-    m_revLabel->setObjectName(QString::fromUtf8("revLabel"));
+    m_vboxLayout = new QVBoxLayout( this );
+    m_vboxLayout->setObjectName( QString::fromUtf8( "vboxLayout" ) );
+    m_revLabel = new KSqueezedTextLabel( this );
+    m_revLabel->setObjectName( QString::fromUtf8( "revLabel" ) );
 
-    m_vboxLayout->addWidget(m_revLabel);
+    m_vboxLayout->addWidget( m_revLabel );
 
-    m_diffDisplay = new KTextEdit(this);
-    m_diffDisplay->setObjectName(QString::fromUtf8("diffDisplay"));
+    m_diffDisplay = new KTextEdit( this );
+    m_diffDisplay->setObjectName( QString::fromUtf8( "diffDisplay" ) );
 
-    m_vboxLayout->addWidget(m_diffDisplay);
+    m_vboxLayout->addWidget( m_diffDisplay );
 
     retranslateUi();
 
-    QMetaObject::connectSlotsByName(this);
+    QMetaObject::connectSlotsByName( this );
 }
 
 void VcsDiffWidget::retranslateUi()
 {
-    m_revLabel->setText(tr2i18n("Difference between revisions", 0));
+    m_revLabel->setText( tr2i18n( "Difference between revisions", 0 ) );
 }

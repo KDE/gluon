@@ -99,8 +99,8 @@ void NodeItem::updateConnectors()
                     tText->setFont( _font );
                     if( _node->name() == "if" )
                     {
-                        tSvg->setPos(( bound.height() / 2 ) - 7.95, 0 );
-                        tText->setPos(( bound.height() / 2 ) - 7.95, -40 );
+                        tSvg->setPos( ( bound.height() / 2 ) - 7.95, 0 );
+                        tText->setPos( ( bound.height() / 2 ) - 7.95, -40 );
                     }
                     else
                     {

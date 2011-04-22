@@ -24,11 +24,13 @@
 
 #include <QtGui/QWidget>
 
-namespace KDevelop {
+namespace KDevelop
+{
     class IPlugin;
 }
 
-namespace GluonEngine {
+namespace GluonEngine
+{
     class GameProject;
 }
 
@@ -53,7 +55,7 @@ namespace GluonCreator
 
         private:
             void setupActions();
-            void loadVersionControlPlugin(KConfigGroup& projectGroup);
+            void loadVersionControlPlugin( KConfigGroup& projectGroup );
 
             QWeakPointer<KDevelop::IPlugin> m_vcsPlugin;
     };

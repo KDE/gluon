@@ -37,7 +37,8 @@ class QGridLayout;
 class QTreeWidget;
 class QCheckBox;
 
-namespace KDevelop {
+namespace KDevelop
+{
     class IBasicVersionControl;
     class IPlugin;
 }
@@ -46,16 +47,16 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT VcsCommitDialog : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            VcsCommitDialog( KDevelop::IPlugin *plugin, QWidget *parent = 0 );
-            VcsCommitDialog( QWidget *parent = 0 );
+            VcsCommitDialog( KDevelop::IPlugin* plugin, QWidget* parent = 0 );
+            VcsCommitDialog( QWidget* parent = 0 );
             virtual ~VcsCommitDialog();
 
         public:
             ///Sets the commit candidates, and eventually shows the dialog
             ///Should be called as last action
-            void setCommitCandidatesAndShow( const KUrl &list );
+            void setCommitCandidatesAndShow( const KUrl& list );
             void setMessage( const QString& );
             void setRecursive( bool );
             void setOldMessages( const QStringList& );
@@ -68,11 +69,11 @@ namespace GluonCreator
             KUrl::List determineUrlsForCheckin();
 
             void insertRow( const QString& state, const KUrl& url,
-                            const KStatefulBrush &foregroundColor = KStatefulBrush(KColorScheme::View, KColorScheme::NormalText),
+                            const KStatefulBrush& foregroundColor = KStatefulBrush( KColorScheme::View, KColorScheme::NormalText ),
                             Qt::CheckState checkstate = Qt::Checked );
 
         private Q_SLOTS:
-            void commitDiffJobFinished(KJob* job);
+            void commitDiffJobFinished( KJob* job );
             void doAccept();
             void doCancel();
 
@@ -90,7 +91,7 @@ namespace GluonCreator
             // void getDVCSfileLists(KUrl::List &resetFiles, KUrl::List &addFiles, KUrl::List &rmFiles) const;
 
             // UI elements
-            QGridLayout *gridLayout;
+            QGridLayout* gridLayout;
             KSqueezedTextLabel* label;
             KSqueezedTextLabel* label2;
             KSqueezedTextLabel* label3;

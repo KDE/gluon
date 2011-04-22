@@ -65,7 +65,7 @@ namespace GluonEngine
 
             void initialize();
             void start();
-            void update ( int elapsedMilliseconds );
+            void update( int elapsedMilliseconds );
             void draw( int timeLapse = 0 );
             void cleanup();
 

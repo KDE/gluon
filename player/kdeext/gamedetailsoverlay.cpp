@@ -30,12 +30,12 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_highScoresView( new QTableView( this ) )
     , m_achievementsView( new AchievementsView( this ) )
     , m_commentsView( new QListView( this ) )
-    , m_commentsDelegate( new CommentItemsViewDelegate(m_commentsView, this ) )
+    , m_commentsDelegate( new CommentItemsViewDelegate( m_commentsView, this ) )
     , m_commentsModel( new GluonPlayer::CommentItemsModel( gameId ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( gameId ) )
     , m_contentLayout( new QGridLayout( this ) )
     , m_newCommentForm( new NewCommentForm( this ) )
-    , m_commentWidget( new QWidget ( this ) )
+    , m_commentWidget( new QWidget( this ) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18n( "Back" ) );
@@ -44,14 +44,14 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
 
     m_highScoresView->setModel( m_highScoresModel );
     m_commentsView->setItemDelegate( m_commentsDelegate );
-    connect(m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ));
+    connect( m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ) );
     m_commentsView->setModel( m_commentsModel );
 
-    QGridLayout* gl = new QGridLayout(m_commentWidget);
+    QGridLayout* gl = new QGridLayout( m_commentWidget );
     gl->addWidget( m_newCommentForm );
-    m_newCommentForm->setVisible(false);
-    gl->addWidget(m_commentsView);
-    m_commentWidget->setLayout(gl);
+    m_newCommentForm->setVisible( false );
+    gl->addWidget( m_commentsView );
+    m_commentWidget->setLayout( gl );
 
     m_tabWidget->addTab( m_highScoresView, KIcon( "games-highscores" ), i18n( "High Scores" ) );
     m_tabWidget->addTab( m_achievementsView, KIcon( "games-endturn" ), i18n( "Achievements" ) );
@@ -60,7 +60,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     m_contentLayout->addWidget( m_backButton, 0, 0, 1, 2 );
     m_contentLayout->addWidget( m_tabWidget, 1, 0, 1, 2 );
     setContentsMargins( 10, 15, 10, 15 );
-    setLayout(m_contentLayout);
+    setLayout( m_contentLayout );
 
     connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( commentFailed() ) );
 }
@@ -74,14 +74,14 @@ GameDetailsOverlay::~GameDetailsOverlay()
 void GameDetailsOverlay::addNewComment( QModelIndex parentIndex, QString title, QString body )
 {
     m_commentsModel->uploadComment( parentIndex, title, body );
-    m_newCommentForm->setVisible(false);
+    m_newCommentForm->setVisible( false );
     m_newCommentForm->setTitleText( "" );
     m_newCommentForm->setBodyText( "" );
 }
 
 void GameDetailsOverlay::cancelNewComment( )
 {
-    m_newCommentForm->setVisible(false);
+    m_newCommentForm->setVisible( false );
     m_newCommentForm->setTitleText( "" );
     m_newCommentForm->setBodyText( "" );
 }
@@ -93,7 +93,7 @@ void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
              SLOT( addNewComment( QModelIndex, QString, QString ) ) );
     connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
 
-    m_newCommentForm->setVisible(true);
+    m_newCommentForm->setVisible( true );
 }
 
 void GameDetailsOverlay::commentFailed()

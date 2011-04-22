@@ -53,8 +53,8 @@ class BeamRendererComponent::Private
         {
         }
 
-        void loadMaterial(GluonGraphics::MaterialInstance* material);
-        void acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release);
+        void loadMaterial( GluonGraphics::MaterialInstance* material );
+        void acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release );
 
         GluonGraphics::Item* baseItem;
         GluonGraphics::Item* beamItem;
@@ -75,9 +75,9 @@ BeamRendererComponent::BeamRendererComponent( QObject* parent )
 
 BeamRendererComponent::~BeamRendererComponent()
 {
-    d->acquireReleaseMaterial(0, d->baseMaterial);
-    d->acquireReleaseMaterial(0, d->beamMaterial);
-    d->acquireReleaseMaterial(0, d->tipMaterial);
+    d->acquireReleaseMaterial( 0, d->baseMaterial );
+    d->acquireReleaseMaterial( 0, d->beamMaterial );
+    d->acquireReleaseMaterial( 0, d->tipMaterial );
     delete d;
 }
 
@@ -128,17 +128,17 @@ void BeamRendererComponent::start()
 void BeamRendererComponent::draw( int /* timeLapse */ )
 {
     QMatrix4x4 transform = gameObject()->transform();
-    transform.translate(0, 0, 0.01f);
+    transform.translate( 0, 0, 0.01f );
     transform.scale( d->size.width() / 2, d->size.width() / 2 );
     d->baseItem->setTransform( transform );
 
     transform = gameObject()->transform();
-    transform.translate(0, d->size.height() / 2);
-    transform.scale( d->size.width() / 2, d->size.height() / 2);
+    transform.translate( 0, d->size.height() / 2 );
+    transform.scale( d->size.width() / 2, d->size.height() / 2 );
     d->beamItem->setTransform( transform );
 
     transform = gameObject()->transform();
-    transform.translate(0, d->size.height(), 0.01f);
+    transform.translate( 0, d->size.height(), 0.01f );
     transform.scale( d->size.width() / 2, d->size.width() / 2 );
     d->tipItem->setTransform( transform );
 }
@@ -151,13 +151,13 @@ void BeamRendererComponent::cleanup()
         d->baseItem = 0;
     }
 
-    if(d->beamItem)
+    if( d->beamItem )
     {
         GluonGraphics::Engine::instance()->destroyItem( d->beamItem );
         d->beamItem = 0;
     }
 
-    if(d->tipItem)
+    if( d->tipItem )
     {
         GluonGraphics::Engine::instance()->destroyItem( d->tipItem );
         d->tipItem = 0;
@@ -182,7 +182,7 @@ BeamRendererComponent::baseMaterial()
 
 void BeamRendererComponent::setBaseMaterial( GluonGraphics::MaterialInstance* material )
 {
-    d->acquireReleaseMaterial(material, d->baseMaterial);
+    d->acquireReleaseMaterial( material, d->baseMaterial );
     d->baseMaterial = material;
 
     if( d->baseItem )
@@ -202,7 +202,7 @@ BeamRendererComponent::beamMaterial()
 
 void BeamRendererComponent::setBeamMaterial( GluonGraphics::MaterialInstance* material )
 {
-    d->acquireReleaseMaterial(material, d->beamMaterial);
+    d->acquireReleaseMaterial( material, d->beamMaterial );
     d->beamMaterial = material;
 
     if( d->beamItem )
@@ -222,7 +222,7 @@ BeamRendererComponent::tipMaterial()
 
 void BeamRendererComponent::setTipMaterial( GluonGraphics::MaterialInstance* material )
 {
-    d->acquireReleaseMaterial(material, d->tipMaterial);
+    d->acquireReleaseMaterial( material, d->tipMaterial );
     d->tipMaterial = material;
 
     if( d->tipItem )
@@ -247,18 +247,18 @@ void BeamRendererComponent::Private::loadMaterial( GluonGraphics::MaterialInstan
 
 void BeamRendererComponent::Private::acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release )
 {
-    if(release)
+    if( release )
     {
         release->deref();
         Asset* materialAsset = qobject_cast<Asset*>( release->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
-    if(acquire)
+    if( acquire )
     {
         acquire->ref();
         Asset* materialAsset = qobject_cast<Asset*>( acquire->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->ref();
     }
 }

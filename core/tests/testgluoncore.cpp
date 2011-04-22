@@ -25,65 +25,65 @@
 
 #define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
-static bool compare_metaproperties(const QMetaObject* a, const QObject* a_parent, const QMetaObject* b, const QObject* b_parent)
+static bool compare_metaproperties( const QMetaObject* a, const QObject* a_parent, const QMetaObject* b, const QObject* b_parent )
 {
-    SANITY_CHECK_POINTERS(a, b);
+    SANITY_CHECK_POINTERS( a, b );
 
-    if(a->className() != b->className())
+    if( a->className() != b->className() )
         return false;
 
     int a_propcount = a->propertyCount(),
         b_propcount = b->propertyCount();
 
-    if(a_propcount != b_propcount)
+    if( a_propcount != b_propcount )
         return false;
 
-    for(int i = 0; i < a_propcount; ++i)
+    for( int i = 0; i < a_propcount; ++i )
     {
-        QMetaProperty am = a->property(i),
-                      bm = b->property(i);
+        QMetaProperty am = a->property( i ),
+                      bm = b->property( i );
 
-        if(am.type() != bm.type())
+        if( am.type() != bm.type() )
             return false;
 
-        if(am.name() != bm.name())
+        if( am.name() != bm.name() )
             return false;
 
-        if(am.read(a_parent).toString() != bm.read(b_parent).toString())
+        if( am.read( a_parent ).toString() != bm.read( b_parent ).toString() )
             return false;
     }
 
     return true;
 }
 
-static bool compare_dynproperties(const GluonCore::GluonObject* a, const GluonCore::GluonObject* b)
+static bool compare_dynproperties( const GluonCore::GluonObject* a, const GluonCore::GluonObject* b )
 {
     typedef QList<QByteArray> PropNameList;
 
-    SANITY_CHECK_POINTERS(a, b);
+    SANITY_CHECK_POINTERS( a, b );
 
     const PropNameList a_names = a->dynamicPropertyNames(),
                        b_names = b->dynamicPropertyNames();
 
-    if(a_names.size() != b_names.size())
+    if( a_names.size() != b_names.size() )
         return false;
 
-    for(PropNameList::const_iterator p1 = a_names.begin(), p2 = b_names.begin(), e = a_names.end(); p1 != e; ++p1, ++p2)
+    for( PropNameList::const_iterator p1 = a_names.begin(), p2 = b_names.begin(), e = a_names.end(); p1 != e; ++p1, ++p2 )
     {
-        if(QString(*p1) != QString(*p2))
+        if( QString( *p1 ) != QString( *p2 ) )
             return false;
     }
     return true;
 }
 
-static bool compare_objects(const GluonCore::GluonObject* a, const GluonCore::GluonObject* b)
+static bool compare_objects( const GluonCore::GluonObject* a, const GluonCore::GluonObject* b )
 {
-    SANITY_CHECK_POINTERS(a, b);
+    SANITY_CHECK_POINTERS( a, b );
 
-    if(compare_metaproperties(a->metaObject(), a, b->metaObject(), b) == false)
+    if( compare_metaproperties( a->metaObject(), a, b->metaObject(), b ) == false )
         return false;
 
-    if(compare_dynproperties(a, b) == false)
+    if( compare_dynproperties( a, b ) == false )
         return false;
 
     return true;
@@ -97,20 +97,20 @@ TestGluonCore::~TestGluonCore()
 {
 }
 
-bool TestGluonCore::compareTrees(const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2)
+bool TestGluonCore::compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 )
 {
-    if(t1.size() != t2.size())
+    if( t1.size() != t2.size() )
         return false;
 
     QList<GluonCore::GluonObject*>::const_iterator p1 = t1.begin(),
-        p2 = t2.begin(),
-        end = t1.end();
+                                                   p2 = t2.begin(),
+                                                   end = t1.end();
 
-    for(; p1 != end; ++p1, ++p2)
+    for( ; p1 != end; ++p1, ++p2 )
     {
-        Q_ASSERT(p2 != t2.end());
+        Q_ASSERT( p2 != t2.end() );
 
-        if(compare_objects(*p1, *p2) == false)
+        if( compare_objects( *p1, *p2 ) == false )
             return false;
     }
 
@@ -118,11 +118,11 @@ bool TestGluonCore::compareTrees(const QList<GluonCore::GluonObject*>& t1, const
 }
 
 
-bool TestGluonCore::ensureReversible(const QString& gdl)
+bool TestGluonCore::ensureReversible( const QString& gdl )
 {
     GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
-    QList<GluonCore::GluonObject*> parsed = gh->parseGDL(gdl, (QObject *)0);
-    return compareTrees(parsed, gh->parseGDL(gh->serializeGDL(constListFromNonConst(parsed)), (QObject *)0));
+    QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, ( QObject* )0 );
+    return compareTrees( parsed, gh->parseGDL( gh->serializeGDL( constListFromNonConst( parsed ) ), ( QObject* )0 ) );
 }
 
 void TestGluonCore::doxygenSample()
@@ -135,9 +135,9 @@ void TestGluonCore::doxygenSample()
         "{ GluonCore::GluonObject(AChildObject)\n"
         "}\n"
         "}"
-    ;
+        ;
 
-    QVERIFY(ensureReversible(test));
+    QVERIFY( ensureReversible( test ) );
 }
 
 void TestGluonCore::invadersSample()
@@ -361,7 +361,7 @@ void TestGluonCore::invadersSample()
         "    }\n"
         "}";
 
-    QVERIFY(ensureReversible(test));
+    QVERIFY( ensureReversible( test ) );
 }
 
 

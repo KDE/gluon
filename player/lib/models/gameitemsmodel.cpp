@@ -37,8 +37,8 @@ GameItemsModel::GameItemsModel( QObject* parent )
 {
     QDir m_dir;
     m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
-    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString("*" + GluonEngine::projectSuffix), QDir::Dirs | QDir::NoDotAndDotDot );
-    foreach( const QString& gameDirName, gameDirNameList)
+    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( "*" + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
+    foreach( const QString & gameDirName, gameDirNameList )
     {
         QDir gameDir = m_dir;
         gameDir.cd( gameDirName );
@@ -48,8 +48,8 @@ GameItemsModel::GameItemsModel( QObject* parent )
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
-            GameViewItem* gameViewItem = new GameViewItem(project.name(), project.description(), gameDir.path(), projectFileName,
-                                      GameViewItem::Installed, project.property("id").toString());
+            GameViewItem* gameViewItem = new GameViewItem( project.name(), project.description(), gameDir.path(), projectFileName,
+                    GameViewItem::Installed, project.property( "id" ).toString() );
             m_gameViewItems.insertMulti( GameViewItem::Installed, gameViewItem );
         }
     }
@@ -71,52 +71,53 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ScreenshotUrlsDownloadableRole] = "screenshotUrlsDownloadable";
     roles[StatusDownloadableRole] = "statusDownloadable";
     roles[IDDownloadableRole] = "idDownloadable";
-    setRoleNames(roles);
+    setRoleNames( roles );
 
     fetchGamesList();
 }
 
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
-    if (index.row() < 0 || index.row() > m_gameViewItems.values().count())
+    if( index.row() < 0 || index.row() > m_gameViewItems.values().count() )
         return QVariant();
 
-    switch (role) {
-    case Qt::UserRole:
-        break;
-    case GameNameRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->gameName();
-    case GameDescriptionRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->gameDescription();
-    case ProjectDirNameRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->projectDirName();
-    case Qt::DisplayRole:
-    case ProjectFileNameRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->projectFileName();
-    case ScreenshotUrlsRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->screenshotUrls();
-    case StatusRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->status();
-    case IDRole:
-        return m_gameViewItems.values(GameViewItem::Installed).at( index.row() )->id();
+    switch( role )
+    {
+        case Qt::UserRole:
+            break;
+        case GameNameRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->gameName();
+        case GameDescriptionRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->gameDescription();
+        case ProjectDirNameRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectDirName();
+        case Qt::DisplayRole:
+        case ProjectFileNameRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectFileName();
+        case ScreenshotUrlsRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->screenshotUrls();
+        case StatusRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->status();
+        case IDRole:
+            return m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->id();
 
-    // Downloadable Game item roles
-    case GameNameDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->gameName();
-    case GameDescriptionDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->gameDescription();
-    case ProjectDirNameDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->projectDirName();
-    case ProjectFileNameDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->projectFileName();
-    case ScreenshotUrlsDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->screenshotUrls();
-    case StatusDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->status();
-    case IDDownloadableRole:
-        return m_gameViewItems.values(GameViewItem::Downloadable).at( index.row() )->id();
-    default:
-        break;
+            // Downloadable Game item roles
+        case GameNameDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->gameName();
+        case GameDescriptionDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->gameDescription();
+        case ProjectDirNameDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectDirName();
+        case ProjectFileNameDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectFileName();
+        case ScreenshotUrlsDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->screenshotUrls();
+        case StatusDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->status();
+        case IDDownloadableRole:
+            return m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->id();
+        default:
+            break;
     }
 
     return QVariant();
@@ -124,16 +125,16 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 
 int GameItemsModel::downloadableCount() const
 {
-	return m_gameViewItems.values(GameViewItem::Downloadable).count();
+    return m_gameViewItems.values( GameViewItem::Downloadable ).count();
 }
 
 int GameItemsModel::upgradableCount() const
 {
-	return m_gameViewItems.values(GameViewItem::Upgradable).count();
+    return m_gameViewItems.values( GameViewItem::Upgradable ).count();
 }
 int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
-    return m_gameViewItems.values(GameViewItem::Installed).count();
+    return m_gameViewItems.values( GameViewItem::Installed ).count();
 }
 
 int GameItemsModel::columnCount( const QModelIndex& /* parent */ ) const
@@ -171,14 +172,15 @@ void GameItemsModel::providersUpdated()
         gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
         Attica::Category::List categories;
 
-        foreach (QString gluonCategory, gluonGamesCategories) {
+        foreach( QString gluonCategory, gluonGamesCategories )
+        {
             Attica::Category category;
-            category.setId(gluonCategory);
-            categories.append(category);
+            category.setId( gluonCategory );
+            categories.append( category );
         }
 
         Attica::ListJob<Attica::Content> *job =
-            AtticaManager::instance()->provider().searchContents(categories);
+            AtticaManager::instance()->provider().searchContents( categories );
         connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
         job->start();
     }
@@ -188,7 +190,7 @@ void GameItemsModel::providersUpdated()
     }
 }
 
-void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
+void GameItemsModel::processFetchedGamesList( Attica::BaseJob* job )
 {
     qDebug() << "Game List Successfully Fetched from the server!";
 
@@ -197,10 +199,10 @@ void GameItemsModel::processFetchedGamesList(Attica::BaseJob* job)
     {
         for( int i = 0; i < contentJob->itemList().count(); ++i )
         {
-            Attica::Content c( contentJob->itemList().at(i));
-            GameViewItem* gameViewItem = new GameViewItem(c.name(), c.description(), "", "",
-                                      GameViewItem::Downloadable, c.id());
-            m_gameViewItems.insertMulti(GameViewItem::Downloadable, gameViewItem);
+            Attica::Content c( contentJob->itemList().at( i ) );
+            GameViewItem* gameViewItem = new GameViewItem( c.name(), c.description(), "", "",
+                    GameViewItem::Downloadable, c.id() );
+            m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
             reset();
         }
         emit downloadableCountChanged();

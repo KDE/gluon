@@ -30,7 +30,7 @@ using namespace GluonCreator;
 
 ToolPlugin::ToolPlugin( QObject* parent, const QList< QVariant >& params )
     : Plugin( parent, params )
-    , m_tool(0)
+    , m_tool( 0 )
 {
 
 }
@@ -51,7 +51,8 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
     // xml.append(<text>&amp;Tools</text>);
     // xml.append(<text>&amp;Version Control System</text>);
     // xml.append(<DefineGroup name="tools_operations" append="tools_operations" />);
-    foreach ( QAction* action, m_tool->actions() ) {
+    foreach( QAction * action, m_tool->actions() )
+    {
         xml.append( QString( "<Action name=\"%1Action\" />" ).arg( action->objectName() ) );
         actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
     }

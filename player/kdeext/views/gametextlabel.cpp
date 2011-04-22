@@ -32,8 +32,8 @@ GameTextLabel::~GameTextLabel()
 
 }
 
-void GameTextLabel::mouseReleaseEvent(QMouseEvent* event )
+void GameTextLabel::mouseReleaseEvent( QMouseEvent* event )
 {
     emit mouseReleased( );
-    QLabel::mouseReleaseEvent(event);
+    QLabel::mouseReleaseEvent( event );
 }

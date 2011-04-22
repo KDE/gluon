@@ -42,7 +42,7 @@ class GLFBOApplet::GLFBOAppletPrivate
         }
         void init()
         {
-            dummy = new QGLWidget(( QWidget* ) 0 );
+            dummy = new QGLWidget( ( QWidget* ) 0 );
             dummy->makeCurrent();
 
             if( QGLFramebufferObject::hasOpenGLFramebufferObjects() )
@@ -261,7 +261,7 @@ void GLFBOApplet::paintInterface( QPainter* painter,
     else
     {
         Q_ASSERT( d->pbuf );
-        if(( !d->dummy->isValid() || !d->pbuf->isValid() ) )
+        if( ( !d->dummy->isValid() || !d->pbuf->isValid() ) )
         {
             if( !hasFailedToLaunch() )
             {

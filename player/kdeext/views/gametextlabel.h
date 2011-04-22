@@ -31,7 +31,7 @@ class GameTextLabel : public QLabel
         virtual ~GameTextLabel();
 
     protected:
-        void mouseReleaseEvent(QMouseEvent *event);
+        void mouseReleaseEvent( QMouseEvent* event );
 
     signals:
         void mouseReleased( );

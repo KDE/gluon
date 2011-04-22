@@ -117,8 +117,8 @@ GameObject::update( int elapsedMilliseconds )
 
     for( i = 0; i < deleteCount; ++i )
     {
-		GameObject* obj = d->objectsToDelete.at( i );
-		removeChild( obj );
+        GameObject* obj = d->objectsToDelete.at( i );
+        removeChild( obj );
         obj->stop();
         obj->cleanup();
         delete obj;
@@ -224,7 +224,7 @@ GameObject::runCommandInChildren( const QString& functionName )
 // ----------------------------------------------------------------------------
 // Component management
 
-Component *
+Component*
 GameObject::findComponent( const QString& name ) const
 {
     Component* found = 0;
@@ -240,7 +240,7 @@ GameObject::findComponent( const QString& name ) const
     return found;
 }
 
-Component *
+Component*
 GameObject::findComponentByType( const QString& typeName ) const
 {
     int typeID = QMetaType::type( typeName.toAscii().data() );
@@ -272,7 +272,7 @@ GameObject::findComponentsByType( int type ) const
     return QList< Component* >();
 }
 
-Component *
+Component*
 GameObject::findComponentInChildren( const QString& name ) const
 {
     Component* found = 0;
@@ -288,7 +288,7 @@ GameObject::findComponentInChildren( const QString& name ) const
     return found;
 }
 
-Component *
+Component*
 GameObject::findComponentInChildrenByType( const QString& typeName ) const
 {
     Component* found = 0;
@@ -352,7 +352,7 @@ GameObject::addComponent( Component* addThis )
     if( addThis )
     {
 
-        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value(addThis->metaObject()->className());
+        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( addThis->metaObject()->className() );
         if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
         {
             d->componentTypes.insert( typeID, addThis );
@@ -402,13 +402,13 @@ Scene* GameObject::scene() const
     return foundScene;
 }
 
-GameObject *
+GameObject*
 GameObject::childGameObject( int index ) const
 {
     return d->children.at( index );
 }
 
-GameObject *
+GameObject*
 GameObject::childGameObject( const QString& name ) const
 {
     GameObject* found = 0;
@@ -474,9 +474,9 @@ GameObject::addChildAt( GameObject* addThis, int index )
 bool
 GameObject::removeChild( GameObject* removeThis )
 {
-     removeThis->d->parentGameObject = 0;
-     d->children.removeOne( removeThis );
-     return GluonObject::removeChild( removeThis );
+    removeThis->d->parentGameObject = 0;
+    d->children.removeOne( removeThis );
+    return GluonObject::removeChild( removeThis );
 }
 
 bool GameObject::removeChild( GluonObject* child )
@@ -514,7 +514,7 @@ GameObject::setParentGameObject( GameObject* newParent )
     d->parentGameObject = newParent;
 }
 
-GameObject *
+GameObject*
 GameObject::parentGameObject()
 {
     return d->parentGameObject;
@@ -648,7 +648,7 @@ void GameObject::scaleRelative( QVector3D scaling, GameObject::TransformSpace ts
     }
     else
     {
-        setScale(( worldScale() + scaling ) - scale() );
+        setScale( ( worldScale() + scaling ) - scale() );
     }
 }
 
@@ -755,7 +755,7 @@ GameObject::postCloneSanitize()
         {
             Component* comp = qobject_cast<Component*>( child );
             d->components.append( comp );
-            int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value(comp->metaObject()->className() );
+            int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( comp->metaObject()->className() );
             d->componentTypes.insert( typeID, comp );
             comp->setParent( this );
             comp->setGameObject( this );

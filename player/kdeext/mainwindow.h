@@ -42,13 +42,14 @@
 
 class KRecentFilesAction;
 
-namespace GluonKDEPlayer {
+namespace GluonKDEPlayer
+{
     /**
      * The main window of the KDE Player frontend
      */
     class MainWindow: public KXmlGuiWindow
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();

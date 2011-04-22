@@ -38,56 +38,56 @@ class MessageHandler::Private
 
 };
 
-void MessageHandler::subscribe(const QString& message, GluonObject* receiver)
+void MessageHandler::subscribe( const QString& message, GluonObject* receiver )
 {
-    d->subscribedObjects.insert(message, QWeakPointer<GluonObject>(receiver));
+    d->subscribedObjects.insert( message, QWeakPointer<GluonObject>( receiver ) );
 }
 
-void MessageHandler::subscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject )
+void MessageHandler::subscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject )
 {
-    d->subscribedFunctions.insert(message, receiver);
-    d->functionObjects.insert(receiver.objectId(), thisObject);
+    d->subscribedFunctions.insert( message, receiver );
+    d->functionObjects.insert( receiver.objectId(), thisObject );
 }
 
-void MessageHandler::unsubscribe(const QString& message, GluonObject* receiver)
+void MessageHandler::unsubscribe( const QString& message, GluonObject* receiver )
 {
-    d->subscribedObjects.remove(message, QWeakPointer<GluonObject>(receiver));
+    d->subscribedObjects.remove( message, QWeakPointer<GluonObject>( receiver ) );
 }
 
-void MessageHandler::unsubscribe(const QString& message, const QScriptValue& receiver, const QScriptValue& /* thisObject */)
+void MessageHandler::unsubscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& /* thisObject */ )
 {
     QMultiHash<QString, QScriptValue>::iterator itr;
-    for(itr = d->subscribedFunctions.find(message); itr != d->subscribedFunctions.end() && itr.key() == message; ++itr)
+    for( itr = d->subscribedFunctions.find( message ); itr != d->subscribedFunctions.end() && itr.key() == message; ++itr )
     {
-        if(itr.value().equals(receiver))
+        if( itr.value().equals( receiver ) )
             break;
     }
 
-    if(itr != d->subscribedFunctions.end() && itr.key() == message)
+    if( itr != d->subscribedFunctions.end() && itr.key() == message )
     {
-        d->subscribedFunctions.erase(itr);
-        d->functionObjects.remove(receiver.objectId());
+        d->subscribedFunctions.erase( itr );
+        d->functionObjects.remove( receiver.objectId() );
     }
 }
 
-void MessageHandler::publish(const QString& message)
+void MessageHandler::publish( const QString& message )
 {
     QMultiHash<QString, QWeakPointer<GluonObject> >::const_iterator oitr;
-    for(oitr = d->subscribedObjects.constFind(message); oitr != d->subscribedObjects.constEnd() && oitr.key() == message; ++oitr)
+    for( oitr = d->subscribedObjects.constFind( message ); oitr != d->subscribedObjects.constEnd() && oitr.key() == message; ++oitr )
     {
-        oitr.value().data()->handleMessage(message);
+        oitr.value().data()->handleMessage( message );
     }
 
     QMultiHash<QString, QScriptValue>::iterator fitr;
-    for(fitr = d->subscribedFunctions.find(message); fitr != d->subscribedFunctions.end() && fitr.key() == message; ++fitr)
+    for( fitr = d->subscribedFunctions.find( message ); fitr != d->subscribedFunctions.end() && fitr.key() == message; ++fitr )
     {
-        fitr.value().call(d->functionObjects.value(fitr.value().objectId()), QScriptValueList() << message);
+        fitr.value().call( d->functionObjects.value( fitr.value().objectId() ), QScriptValueList() << message );
     }
 
-    emit publishMessage(message);
+    emit publishMessage( message );
 }
 
-MessageHandler::MessageHandler() : d(new Private)
+MessageHandler::MessageHandler() : d( new Private )
 {
 
 }

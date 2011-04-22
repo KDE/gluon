@@ -34,7 +34,7 @@
 
 using namespace GluonEngine;
 
-GLUON_DEFINE_SINGLETON(Game)
+GLUON_DEFINE_SINGLETON( Game )
 
 class I : public QThread
 {
@@ -54,9 +54,9 @@ class I : public QThread
 };
 
 Game::Game( QObject* /* parent */ )
-    : d( new GamePrivate(this) )
+    : d( new GamePrivate( this ) )
 {
-    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
+    qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 }
 
 Game::~Game()
@@ -103,7 +103,7 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
         // Don't block everything...
         QCoreApplication::processEvents();
 
-        if(d->newScene != 0)
+        if( d->newScene != 0 )
             d->performSceneChange();
 
         // Only update every updatesPerSecond times per second, but draw the scene as often as we can force it to
@@ -248,7 +248,7 @@ float Game::random()
  * Property Getter-setters
  *****************************************************************************/
 
-Scene *
+Scene*
 Game::currentScene() const
 {
     return d->currentScene;
@@ -285,11 +285,11 @@ void Game::resetCurrentScene()
 {
     if( d->currentScene )
     {
-        QTimer::singleShot(0, d->currentScene, SLOT(resetScene()));
+        QTimer::singleShot( 0, d->currentScene, SLOT( resetScene() ) );
     }
 }
 
-GluonEngine::GameProject *
+GluonEngine::GameProject*
 Game::gameProject() const
 {
     return d->gameProject;

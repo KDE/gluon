@@ -82,18 +82,18 @@ class RenderableScene::RenderableScenePrivate
 };
 
 RenderableScene::RenderableScene( QObject* parent )
-               : QGraphicsScene( parent )
-               , d( new RenderableScenePrivate( this ) )
+    : QGraphicsScene( parent )
+    , d( new RenderableScenePrivate( this ) )
 {
-    connect( this, SIGNAL( changed(QList<QRectF>) ), this, SLOT( repaintNeeded() ) );
-    connect( this, SIGNAL( sceneRectChanged(QRectF) ), this, SLOT( repaintNeeded() ) );
+    connect( this, SIGNAL( changed( QList<QRectF> ) ), this, SLOT( repaintNeeded() ) );
+    connect( this, SIGNAL( sceneRectChanged( QRectF ) ), this, SLOT( repaintNeeded() ) );
     connect( d->target, SIGNAL( framebufferChanged() ), this, SLOT( repaintNeeded() ) );
 
     connect( Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
              this, SLOT( newViewport( Viewport* ) ) );
     connect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
              this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
-    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered(QEvent*) ), SLOT( deliverEvent(QEvent*) ) );
+    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered( QEvent* ) ), SLOT( deliverEvent( QEvent* ) ) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }
@@ -128,9 +128,9 @@ void RenderableScene::renderScene()
 
     d->target->release();
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glDepthFunc(GL_LEQUAL);
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_BLEND );
+    glDepthFunc( GL_LEQUAL );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
     d->dirty = false;
@@ -146,78 +146,82 @@ void RenderableScene::renderScene()
     3D space on the position within \a event to determine the \a texCoord
     and then passes \a event on to deliverEvent() for further processing.
 */
-void RenderableScene::deliverEvent(QEvent *event)
+void RenderableScene::deliverEvent( QEvent* event )
 {
     QRectF bounds = sceneRect();
     int screenX = 0, screenY = 0;
 
     // Convert the event and deliver it to the scene.
-    switch (event->type()) {
-    case QEvent::MouseButtonPress:
-    case QEvent::MouseButtonRelease:
-    case QEvent::MouseButtonDblClick:
-    case QEvent::MouseMove: {
-        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-        screenX = qRound(ev->globalPos().x());
-        screenY = qRound(ev->globalPos().y());
-        if (screenX < 0)
-            screenX = 0;
-        else if (screenX >= bounds.width())
-            screenX = qRound(bounds.width() - 1);
-        if (screenY < 0)
-            screenY = 0;
-        else if (screenY >= bounds.height())
-            screenY = qRound(bounds.height() - 1);
-        d->pressedPos = QPoint(screenX, screenY);
+    switch( event->type() )
+    {
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        case QEvent::MouseButtonDblClick:
+        case QEvent::MouseMove:
+        {
+            QMouseEvent* ev = static_cast<QMouseEvent*>( event );
+            screenX = qRound( ev->globalPos().x() );
+            screenY = qRound( ev->globalPos().y() );
+            if( screenX < 0 )
+                screenX = 0;
+            else if( screenX >= bounds.width() )
+                screenX = qRound( bounds.width() - 1 );
+            if( screenY < 0 )
+                screenY = 0;
+            else if( screenY >= bounds.height() )
+                screenY = qRound( bounds.height() - 1 );
+            d->pressedPos = QPoint( screenX, screenY );
 
-        QEvent::Type type;
-        if (ev->type() == QEvent::MouseButtonPress)
-            type = QEvent::GraphicsSceneMousePress;
-        else if (ev->type() == QEvent::MouseButtonRelease)
-            type = QEvent::GraphicsSceneMouseRelease;
-        else if (ev->type() == QEvent::MouseButtonDblClick)
-            type = QEvent::GraphicsSceneMouseDoubleClick;
-        else
-            type = QEvent::GraphicsSceneMouseMove;
-        QGraphicsSceneMouseEvent e(type);
-        e.setPos(QPointF(ev->pos().x(), ev->pos().y()));
-        e.setScenePos(QPointF(ev->pos().x(), ev->pos().y()));
-        e.setScreenPos(QPoint(screenX, screenY));
-        e.setButtonDownScreenPos(ev->button(), d->pressedPos);
-        e.setButtonDownScenePos
-            (ev->button(), QPointF(d->pressedPos.x() + bounds.x(),
-                                   d->pressedPos.y() + bounds.y()));
-        e.setButtons(ev->buttons());
-        e.setButton(ev->button());
-        e.setModifiers(ev->modifiers());
-        e.setAccepted(false);
-        QApplication::sendEvent(this, &e);
-    }
-    break;
+            QEvent::Type type;
+            if( ev->type() == QEvent::MouseButtonPress )
+                type = QEvent::GraphicsSceneMousePress;
+            else if( ev->type() == QEvent::MouseButtonRelease )
+                type = QEvent::GraphicsSceneMouseRelease;
+            else if( ev->type() == QEvent::MouseButtonDblClick )
+                type = QEvent::GraphicsSceneMouseDoubleClick;
+            else
+                type = QEvent::GraphicsSceneMouseMove;
+            QGraphicsSceneMouseEvent e( type );
+            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScreenPos( QPoint( screenX, screenY ) );
+            e.setButtonDownScreenPos( ev->button(), d->pressedPos );
+            e.setButtonDownScenePos
+            ( ev->button(), QPointF( d->pressedPos.x() + bounds.x(),
+                                     d->pressedPos.y() + bounds.y() ) );
+            e.setButtons( ev->buttons() );
+            e.setButton( ev->button() );
+            e.setModifiers( ev->modifiers() );
+            e.setAccepted( false );
+            QApplication::sendEvent( this, &e );
+        }
+        break;
 
 #ifndef QT_NO_WHEELEVENT
-    case QEvent::Wheel: {
-        QWheelEvent *ev = static_cast<QWheelEvent *>(event);
-        QGraphicsSceneWheelEvent e(QEvent::GraphicsSceneWheel);
-        e.setPos(QPointF(ev->pos().x(), ev->pos().y()));
-        e.setScenePos(QPointF(ev->pos().x(), ev->pos().y()));
-        e.setScreenPos(QPoint(screenX, screenY));
-        e.setButtons(ev->buttons());
-        e.setModifiers(ev->modifiers());
-        e.setDelta(ev->delta());
-        e.setOrientation(ev->orientation());
-        e.setAccepted(false);
-        QApplication::sendEvent(this, &e);
-    }
-    break;
+        case QEvent::Wheel:
+        {
+            QWheelEvent* ev = static_cast<QWheelEvent*>( event );
+            QGraphicsSceneWheelEvent e( QEvent::GraphicsSceneWheel );
+            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScreenPos( QPoint( screenX, screenY ) );
+            e.setButtons( ev->buttons() );
+            e.setModifiers( ev->modifiers() );
+            e.setDelta( ev->delta() );
+            e.setOrientation( ev->orientation() );
+            e.setAccepted( false );
+            QApplication::sendEvent( this, &e );
+        }
+        break;
 #endif
 
-    default: {
-        // Send the event directly without any conversion.
-        // Typically used for keyboard, focus, and enter/leave events.
-        QApplication::sendEvent(this, event);
-    }
-    break;
+        default:
+        {
+            // Send the event directly without any conversion.
+            // Typically used for keyboard, focus, and enter/leave events.
+            QApplication::sendEvent( this, event );
+        }
+        break;
 
     }
 }
@@ -227,8 +231,8 @@ void RenderableScene::drawBackground( QPainter* painter, const QRectF& rect )
     // Fill the fbo with the transparent color as there won't
     // be a window or graphics item drawing a previous background.
     painter->save();
-    painter->setCompositionMode(QPainter::CompositionMode_Source);
-    painter->fillRect(rect, Qt::transparent);
+    painter->setCompositionMode( QPainter::CompositionMode_Source );
+    painter->fillRect( rect, Qt::transparent );
     painter->restore();
 }
 

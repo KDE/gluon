@@ -173,14 +173,14 @@ static QScriptValue qtscript_QQuaternion_prototype_call( QScriptContext* context
     else
         _id = 0xBABE0000 + 26;
 #endif
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     QQuaternion* _q_self = qscriptvalue_cast<QQuaternion*>( context->thisObject() );
     if( !_q_self )
     {
         return context->throwError( QScriptContext::TypeError,
                                     QString::fromLatin1( "QQuaternion.%0(): this object is not a QQuaternion" )
-                                    .arg( qtscript_QQuaternion_function_names[_id+4] ) );
+                                    .arg( qtscript_QQuaternion_function_names[_id + 4] ) );
     }
 
     switch( _id )
@@ -270,13 +270,13 @@ static QScriptValue qtscript_QQuaternion_prototype_call( QScriptContext* context
         case 10:
             if( context->argumentCount() == 1 )
             {
-                if(( qMetaTypeId<QQuaternion>() == context->argument( 0 ).toVariant().userType() ) )
+                if( ( qMetaTypeId<QQuaternion>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QQuaternion _q_arg0 = qscriptvalue_cast<QQuaternion>( context->argument( 0 ) );
                     QQuaternion _q_result = _q_self->operator*=( _q_arg0 );
                     return qScriptValueFromValue( context->engine(), _q_result );
                 }
-                else if(( qMetaTypeId<qreal>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<qreal>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     qreal _q_arg0 = qscriptvalue_cast<qreal>( context->argument( 0 ) );
                     QQuaternion _q_result = _q_self->operator*=( _q_arg0 );
@@ -434,14 +434,14 @@ static QScriptValue qtscript_QQuaternion_prototype_call( QScriptContext* context
             Q_ASSERT( false );
     }
     return qtscript_QQuaternion_throw_ambiguity_error_helper( context,
-            qtscript_QQuaternion_function_names[_id+4],
-            qtscript_QQuaternion_function_signatures[_id+4] );
+            qtscript_QQuaternion_function_names[_id + 4],
+            qtscript_QQuaternion_function_signatures[_id + 4] );
 }
 
 static QScriptValue qtscript_QQuaternion_static_call( QScriptContext* context, QScriptEngine* )
 {
     uint _id = context->callee().data().toUInt32();
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     switch( _id )
     {
@@ -535,12 +535,12 @@ static QScriptValue qtscript_QQuaternion_static_call( QScriptContext* context, Q
 QScriptValue qtscript_create_QQuaternion_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<QQuaternion*>(), QScriptValue() );
-    QScriptValue proto = engine->newVariant( qVariantFromValue(( QQuaternion* )0 ) );
+    QScriptValue proto = engine->newVariant( qVariantFromValue( ( QQuaternion* )0 ) );
     for( int i = 0; i < 27; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_QQuaternion_prototype_call, qtscript_QQuaternion_function_lengths[i+4] );
+        QScriptValue fun = engine->newFunction( qtscript_QQuaternion_prototype_call, qtscript_QQuaternion_function_lengths[i + 4] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_QQuaternion_function_names[i+4] ),
+        proto.setProperty( QString::fromLatin1( qtscript_QQuaternion_function_names[i + 4] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -552,9 +552,9 @@ QScriptValue qtscript_create_QQuaternion_class( QScriptEngine* engine )
     for( int i = 0; i < 3; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_QQuaternion_static_call,
-                                                qtscript_QQuaternion_function_lengths[i+1] );
+                                                qtscript_QQuaternion_function_lengths[i + 1] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_QQuaternion_function_names[i+1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_QQuaternion_function_names[i + 1] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 

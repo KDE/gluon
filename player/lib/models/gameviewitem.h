@@ -37,19 +37,20 @@ namespace GluonPlayer
 
     class GLUON_PLAYER_EXPORT GameViewItem : public QObject
     {
-		Q_OBJECT
-		Q_ENUMS( Status )
+            Q_OBJECT
+            Q_ENUMS( Status )
         public:
-            enum Status {
+            enum Status
+            {
                 Downloadable,
                 Installed,
                 Upgradable
             };
 
-            explicit GameViewItem ( const QString& gameName, const QString& description,
-                                    const QString& projectDirName, const QString& projectFileName,
-                                    const Status &status, const QString &id, QObject* parent = 0 );
-			GameViewItem( const GameViewItem& other, QObject* parent = 0 );
+            explicit GameViewItem( const QString& gameName, const QString& description,
+                                   const QString& projectDirName, const QString& projectFileName,
+                                   const Status& status, const QString& id, QObject* parent = 0 );
+            GameViewItem( const GameViewItem& other, QObject* parent = 0 );
             virtual ~GameViewItem() {}
 
             QString gameName() const;

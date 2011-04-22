@@ -38,9 +38,9 @@ namespace GluonInput
 
     // enum InputQtTypeFlag
     // {
-        // Button = QEvent::Type( QEvent::User + EV_KEY ),
-        // RelativeAxis = QEvent::Type( QEvent::User + EV_REL ),
-        // AbsoluteAxis = QEvent::Type( QEvent::User + EV_ABS )
+    // Button = QEvent::Type( QEvent::User + EV_KEY ),
+    // RelativeAxis = QEvent::Type( QEvent::User + EV_REL ),
+    // AbsoluteAxis = QEvent::Type( QEvent::User + EV_ABS )
     // };
 };
 

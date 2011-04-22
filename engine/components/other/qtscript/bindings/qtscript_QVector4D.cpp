@@ -168,14 +168,14 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
     else
         _id = 0xBABE0000 + 26;
 #endif
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     QVector4D* _q_self = qscriptvalue_cast<QVector4D*>( context->thisObject() );
     if( !_q_self )
     {
         return context->throwError( QScriptContext::TypeError,
                                     QString::fromLatin1( "QVector4D.%0(): this object is not a QVector4D" )
-                                    .arg( qtscript_QVector4D_function_names[_id+2] ) );
+                                    .arg( qtscript_QVector4D_function_names[_id + 2] ) );
     }
 
     switch( _id )
@@ -249,13 +249,13 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
         case 8:
             if( context->argumentCount() == 1 )
             {
-                if(( qMetaTypeId<QVector4D>() == context->argument( 0 ).toVariant().userType() ) )
+                if( ( qMetaTypeId<QVector4D>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QVector4D _q_arg0 = qscriptvalue_cast<QVector4D>( context->argument( 0 ) );
                     QVector4D _q_result = _q_self->operator*=( _q_arg0 );
                     return qScriptValueFromValue( context->engine(), _q_result );
                 }
-                else if(( qMetaTypeId<qreal>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<qreal>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     qreal _q_arg0 = qscriptvalue_cast<qreal>( context->argument( 0 ) );
                     QVector4D _q_result = _q_self->operator*=( _q_arg0 );
@@ -419,14 +419,14 @@ static QScriptValue qtscript_QVector4D_prototype_call( QScriptContext* context, 
             Q_ASSERT( false );
     }
     return qtscript_QVector4D_throw_ambiguity_error_helper( context,
-            qtscript_QVector4D_function_names[_id+2],
-            qtscript_QVector4D_function_signatures[_id+2] );
+            qtscript_QVector4D_function_names[_id + 2],
+            qtscript_QVector4D_function_signatures[_id + 2] );
 }
 
 static QScriptValue qtscript_QVector4D_static_call( QScriptContext* context, QScriptEngine* )
 {
     uint _id = context->callee().data().toUInt32();
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     switch( _id )
     {
@@ -443,28 +443,28 @@ static QScriptValue qtscript_QVector4D_static_call( QScriptContext* context, QSc
             }
             else if( context->argumentCount() == 1 )
             {
-                if(( qMetaTypeId<QPoint>() == context->argument( 0 ).toVariant().userType() ) )
+                if( ( qMetaTypeId<QPoint>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QPoint _q_arg0 = qscriptvalue_cast<QPoint>( context->argument( 0 ) );
                     QVector4D _q_cpp_result( _q_arg0 );
                     QScriptValue _q_result = context->engine()->newVariant( context->thisObject(), qVariantFromValue( _q_cpp_result ) );
                     return _q_result;
                 }
-                else if(( qMetaTypeId<QPointF>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<QPointF>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QPointF _q_arg0 = qscriptvalue_cast<QPointF>( context->argument( 0 ) );
                     QVector4D _q_cpp_result( _q_arg0 );
                     QScriptValue _q_result = context->engine()->newVariant( context->thisObject(), qVariantFromValue( _q_cpp_result ) );
                     return _q_result;
                 }
-                else if(( qMetaTypeId<QVector2D>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<QVector2D>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QVector2D _q_arg0 = qscriptvalue_cast<QVector2D>( context->argument( 0 ) );
                     QVector4D _q_cpp_result( _q_arg0 );
                     QScriptValue _q_result = context->engine()->newVariant( context->thisObject(), qVariantFromValue( _q_cpp_result ) );
                     return _q_result;
                 }
-                else if(( qMetaTypeId<QVector3D>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<QVector3D>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QVector3D _q_arg0 = qscriptvalue_cast<QVector3D>( context->argument( 0 ) );
                     QVector4D _q_cpp_result( _q_arg0 );
@@ -522,12 +522,12 @@ static QScriptValue qtscript_QVector4D_static_call( QScriptContext* context, QSc
 QScriptValue qtscript_create_QVector4D_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<QVector4D*>(), QScriptValue() );
-    QScriptValue proto = engine->newVariant( qVariantFromValue(( QVector4D* )0 ) );
+    QScriptValue proto = engine->newVariant( qVariantFromValue( ( QVector4D* )0 ) );
     for( int i = 0; i < 27; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_QVector4D_prototype_call, qtscript_QVector4D_function_lengths[i+2] );
+        QScriptValue fun = engine->newFunction( qtscript_QVector4D_prototype_call, qtscript_QVector4D_function_lengths[i + 2] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_QVector4D_function_names[i+2] ),
+        proto.setProperty( QString::fromLatin1( qtscript_QVector4D_function_names[i + 2] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -539,9 +539,9 @@ QScriptValue qtscript_create_QVector4D_class( QScriptEngine* engine )
     for( int i = 0; i < 1; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_QVector4D_static_call,
-                                                qtscript_QVector4D_function_lengths[i+1] );
+                                                qtscript_QVector4D_function_lengths[i + 1] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_QVector4D_function_names[i+1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_QVector4D_function_names[i + 1] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 

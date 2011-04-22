@@ -34,7 +34,7 @@ class TextureAsset::TextureAssetPrivate
 {
     public:
         TextureAssetPrivate()
-            : texture(0)
+            : texture( 0 )
         {}
         ~TextureAssetPrivate() {}
 
@@ -103,7 +103,7 @@ void TextureAsset::load()
 void TextureAsset::setName( const QString& newName )
 {
     GluonGraphics::Engine::instance()->removeTexture( name() );
-    if(d->texture)
+    if( d->texture )
         GluonGraphics::Engine::instance()->addTexture( newName, d->texture );
     GluonEngine::Asset::setName( newName );
 }

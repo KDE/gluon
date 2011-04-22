@@ -27,7 +27,7 @@
 namespace GluonEngine
 {
 
-class GameObject;
+    class GameObject;
 
     class PrefabInstance;
     class PrefabPrivate;
@@ -42,14 +42,14 @@ class GameObject;
             Prefab( const Prefab& other, QObject* parent = 0 );
             ~Prefab();
 
-            Q_INVOKABLE PrefabInstance* createInstance(GluonEngine::GameObject* attachTo);
+            Q_INVOKABLE PrefabInstance* createInstance( GluonEngine::GameObject* attachTo );
             Q_INVOKABLE PrefabInstance* createInstance();
 
             const QList<PrefabInstance*> instances() const;
-            bool addInstance(GluonEngine::PrefabInstance* addThis);
-            bool removeInstance(GluonEngine::PrefabInstance* removeThis);
+            bool addInstance( GluonEngine::PrefabInstance* addThis );
+            bool removeInstance( GluonEngine::PrefabInstance* removeThis );
 
-            void setGameObject(GameObject* newGameObject);
+            void setGameObject( GameObject* newGameObject );
             GameObject* gameObject() const;
 
         private:

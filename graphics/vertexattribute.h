@@ -80,7 +80,7 @@ namespace GluonGraphics
             /**
              * Returns the raw data stored.
              **/
-            const float *data() const;
+            const float* data() const;
 
             /**
              * Returns the name of the attribute.

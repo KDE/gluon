@@ -31,7 +31,7 @@ namespace GluonCreator
     class SceneModel;
     class GLUONCREATOR_EXPORT Models : public GluonCore::Singleton<Models>
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             SceneModel* sceneModel();

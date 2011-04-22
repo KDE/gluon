@@ -53,7 +53,7 @@ namespace GluonPlayer
              */
             Attica::Provider provider();
 
-            bool downloadGame( const QString &id );
+            bool downloadGame( const QString& id );
 
         protected slots:
             void providersUpdated();

@@ -39,15 +39,15 @@ Prefab::Prefab( const Prefab& other, QObject* parent )
 
 Prefab::~Prefab()
 {
-    delete(d);
+    delete( d );
 }
 
-PrefabInstance* Prefab::createInstance(GameObject* attachTo)
+PrefabInstance* Prefab::createInstance( GameObject* attachTo )
 {
     PrefabInstance* instance = createInstance();
-    if(instance)
+    if( instance )
     {
-        attachTo->addChild(instance);
+        attachTo->addChild( instance );
     }
     return instance;
 }
@@ -55,11 +55,11 @@ PrefabInstance* Prefab::createInstance(GameObject* attachTo)
 PrefabInstance* Prefab::createInstance()
 {
     PrefabInstance* instance = 0;
-    if(d->gameObject)
+    if( d->gameObject )
     {
         instance = new PrefabInstance();
         instance->initialize();
-        instance->setPrefabLink(this);
+        instance->setPrefabLink( this );
     }
     return instance;
 }
@@ -69,19 +69,19 @@ const QList< PrefabInstance* > Prefab::instances() const
     return d->instances;
 }
 
-bool Prefab::addInstance(GluonEngine::PrefabInstance* addThis)
+bool Prefab::addInstance( GluonEngine::PrefabInstance* addThis )
 {
-    if(addThis && !d->instances.contains(addThis))
+    if( addThis && !d->instances.contains( addThis ) )
     {
-        d->instances.append(addThis);
+        d->instances.append( addThis );
         return true;
     }
     return false;
 }
 
-bool Prefab::removeInstance(GluonEngine::PrefabInstance* removeThis)
+bool Prefab::removeInstance( GluonEngine::PrefabInstance* removeThis )
 {
-    return d->instances.removeOne(removeThis);
+    return d->instances.removeOne( removeThis );
 }
 
 GameObject* Prefab::gameObject() const
@@ -89,7 +89,7 @@ GameObject* Prefab::gameObject() const
     return 0;
 }
 
-void Prefab::setGameObject(GameObject* newGameObject)
+void Prefab::setGameObject( GameObject* newGameObject )
 {
 
 }

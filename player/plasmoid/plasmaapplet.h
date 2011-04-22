@@ -57,7 +57,7 @@ namespace GluonPlayer
             virtual ~PlasmaApplet();
             void init();
 
-            virtual void paintInterface(QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect);
+            virtual void paintInterface( QPainter* painter, const QStyleOptionGraphicsItem* option, const QRect& contentsRect );
 
         private:
             int m_viewportWidth;

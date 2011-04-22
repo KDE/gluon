@@ -95,9 +95,9 @@ QPainterPath OrientedEdgeItem::createLoop( QPointF pos ) const
     QPainterPath p;
     Graph* g = qobject_cast<Graph*>( _edge->parent() );
     qreal size = 30 + ( 20 * _index );
-    qreal angle = atan2(( pos.x() - g->relativeCenter().x() ), ( pos.y() - g->relativeCenter().y() ) );
-    qreal posx = ( pos.x() - ((( size / 2 ) * sin( angle ) ) * -1 ) - ( size / 2 ) );
-    qreal posy = ( pos.y() + ((( size / 2 ) * cos( angle ) ) ) - ( size / 2 ) );
+    qreal angle = atan2( ( pos.x() - g->relativeCenter().x() ), ( pos.y() - g->relativeCenter().y() ) );
+    qreal posx = ( pos.x() - ( ( ( size / 2 ) * sin( angle ) ) * -1 ) - ( size / 2 ) );
+    qreal posy = ( pos.y() + ( ( ( size / 2 ) * cos( angle ) ) ) - ( size / 2 ) );
     p.addEllipse( posx, posy, size, size );
     return p;
 }
@@ -141,7 +141,7 @@ QPainterPath OrientedEdgeItem::createCurves() const
         finalY *= ( -1 );
     }
 
-    qreal size = sqrt( pow(( x * 0.1 ), 2 ) + pow(( y * 0.1 ), 2 ) ) * index;
+    qreal size = sqrt( pow( ( x * 0.1 ), 2 ) + pow( ( y * 0.1 ), 2 ) ) * index;
 
     finalX *= size;
     finalY *= size;
@@ -165,11 +165,11 @@ QPainterPath OrientedEdgeItem::createCurves() const
     return p;
 }
 
-void OrientedEdgeItem::mousePressEvent( QGraphicsSceneMouseEvent */*event*/ )
+void OrientedEdgeItem::mousePressEvent( QGraphicsSceneMouseEvent* /*event*/ )
 {
 }
 
-void OrientedEdgeItem::mouseReleaseEvent( QGraphicsSceneMouseEvent */*event*/ )
+void OrientedEdgeItem::mouseReleaseEvent( QGraphicsSceneMouseEvent* /*event*/ )
 {
 }
 

@@ -94,7 +94,7 @@ bool Material::load( const QUrl& url )
     QList<QByteArray> properties = obj->dynamicPropertyNames();
     MaterialInstance* defaultInstance = d->instances.find( "default" ).value();
 
-    foreach( const QByteArray& propertyName, properties )
+    foreach( const QByteArray & propertyName, properties )
     {
         if( propertyName == "vertexShader" )
         {
@@ -122,27 +122,27 @@ void Material::build( const QString& name )
     if( d->glProgram )
         return;
 
-     if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
+    if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
         return;
 
     QByteArray vertShaderSource;
     QByteArray fragShaderSource;
-//     if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
-//     {
-//         if( d->languageVersion.isEmpty() )
-//         {
-//             vertShaderSource.append( "#version 110\n" );
-//             vertShaderSource.append( "#define lowp\n" );
-//             vertShaderSource.append( "#define mediunmp\n" );
-//             vertShaderSource.append( "#define highp\n" );
-//         }
-//     }
-//     else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
-//     {
-//         vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
-//         vertShaderSource.append( "#define highp mediump\n" );
-//         vertShaderSource.append( "#endif\n" );
-//     }
+    //     if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
+    //     {
+    //         if( d->languageVersion.isEmpty() )
+    //         {
+    //             vertShaderSource.append( "#version 110\n" );
+    //             vertShaderSource.append( "#define lowp\n" );
+    //             vertShaderSource.append( "#define mediunmp\n" );
+    //             vertShaderSource.append( "#define highp\n" );
+    //         }
+    //     }
+    //     else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
+    //     {
+    //         vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
+    //         vertShaderSource.append( "#define highp mediump\n" );
+    //         vertShaderSource.append( "#endif\n" );
+    //     }
 
     fragShaderSource.append( vertShaderSource );
 
@@ -153,21 +153,21 @@ void Material::build( const QString& name )
     // const char* fragShaderData = fragShaderSource.data();
 
     d->program = new QGLShaderProgram();
-    if(!d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource ))
+    if( !d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource ) )
     {
-        debug("(%1) An error occurred during Vertex Shader compilation!", QTime::currentTime().toString());
-        debug(d->program->log());
+        debug( "(%1) An error occurred during Vertex Shader compilation!", QTime::currentTime().toString() );
+        debug( d->program->log() );
     }
-    if(!d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource ))
+    if( !d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource ) )
     {
-        debug("(%1) An error occurred during Fragment Shader compilation!", QTime::currentTime().toString());
-        debug(d->program->log());
+        debug( "(%1) An error occurred during Fragment Shader compilation!", QTime::currentTime().toString() );
+        debug( d->program->log() );
     }
 
     d->program->link();
     if( !d->program->isLinked() )
     {
-        debug( "(%1) An error occurred during shader linking!", QTime::currentTime().toString());
+        debug( "(%1) An error occurred during shader linking!", QTime::currentTime().toString() );
         debug( d->program->log() );
     }
 
@@ -277,7 +277,7 @@ Material::uniformList()
 {
     QHash<QString, QVariant> uniforms;
     uniforms.insert( "materialColor", Qt::white );
-    uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString("GluonEngine::TextureAsset*"), 0 ) );
+    uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString( "GluonEngine::TextureAsset*" ), 0 ) );
     return uniforms;
 }
 

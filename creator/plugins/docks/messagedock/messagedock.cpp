@@ -62,28 +62,28 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     layout->setSpacing( 0 );
     widget->setLayout( layout );
 
-    KToolBar* toolBar = new KToolBar(this);
-    toolBar->setIconDimensions(16);
+    KToolBar* toolBar = new KToolBar( this );
+    toolBar->setIconDimensions( 16 );
 
-    QAction* selectAll = toolBar->addAction(KIcon("edit-select-all"), i18n("Select All"), this, SLOT( selectAll() ) );
+    QAction* selectAll = toolBar->addAction( KIcon( "edit-select-all" ), i18n( "Select All" ), this, SLOT( selectAll() ) );
     d->view->addAction( selectAll );
 
-    QAction* copy = toolBar->addAction(KIcon("edit-copy"), i18n("Copy"), this, SLOT( copy() ) );
+    QAction* copy = toolBar->addAction( KIcon( "edit-copy" ), i18n( "Copy" ), this, SLOT( copy() ) );
     d->view->addAction( copy );
 
     KAction* separator = new KAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
 
-    QAction* clearSelection = toolBar->addAction(KIcon("edit-clear-list"), i18n("Clear Selection"), this, SLOT( clearSelection() ) );
+    QAction* clearSelection = toolBar->addAction( KIcon( "edit-clear-list" ), i18n( "Clear Selection" ), this, SLOT( clearSelection() ) );
     d->view->addAction( clearSelection );
 
-    QAction* clearAll = toolBar->addAction(KIcon("edit-clear"), i18n("Clear All"), d->view, SLOT( clear() ) );
+    QAction* clearAll = toolBar->addAction( KIcon( "edit-clear" ), i18n( "Clear All" ), d->view, SLOT( clear() ) );
     d->view->addAction( clearAll );
 
-    layout->addWidget(toolBar);
-    layout->addWidget(d->view);
-    setWidget(widget);
+    layout->addWidget( toolBar );
+    layout->addWidget( d->view );
+    setWidget( widget );
 }
 
 void MessageDock::showDebug( const QString& debugText )
@@ -101,22 +101,22 @@ MessageDock::~MessageDock()
 void MessageDock::copy()
 {
     QStringList messages;
-    foreach( QListWidgetItem* item, d->view->selectedItems())
-        messages << item->text();
+    foreach( QListWidgetItem * item, d->view->selectedItems() )
+    messages << item->text();
 
-    QApplication::clipboard()->setText(messages.join("\n"));
+    QApplication::clipboard()->setText( messages.join( "\n" ) );
 }
 
 void MessageDock::selectAll()
 {
     int itemsCount = d->view->count();
-    for (int i = 0; i < itemsCount; ++i)
-        d->view->item(i)->setSelected(true);
+    for( int i = 0; i < itemsCount; ++i )
+        d->view->item( i )->setSelected( true );
 }
 
 void MessageDock::clearSelection()
 {
     int itemsCount = d->view->count();
-    for (int i = 0; i < itemsCount; ++i)
-        d->view->item(i)->setSelected(false);
+    for( int i = 0; i < itemsCount; ++i )
+        d->view->item( i )->setSelected( false );
 }

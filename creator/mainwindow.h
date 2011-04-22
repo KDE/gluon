@@ -64,7 +64,7 @@ namespace GluonCreator
 
             void initializeGame();
 
-            void partChanged(KParts::Part* part);
+            void partChanged( KParts::Part* part );
 
         private:
             void setupActions();

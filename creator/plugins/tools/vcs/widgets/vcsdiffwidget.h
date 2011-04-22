@@ -38,7 +38,7 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT VcsDiffWidget : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit VcsDiffWidget( KDevelop::VcsJob*, QWidget* parent = 0 );
             virtual ~VcsDiffWidget();

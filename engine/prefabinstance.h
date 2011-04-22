@@ -27,16 +27,16 @@ namespace GluonEngine
 {
     class PrefabInstance : public GameObject
     {
-        Q_OBJECT
-        GLUON_OBJECT( GluonEngine::PrefabInstance )
-        Q_PROPERTY(GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink)
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::PrefabInstance )
+            Q_PROPERTY( GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink )
 
         public:
             PrefabInstance( QObject* parent = 0 );
-            PrefabInstance(const PrefabInstance& other);
+            PrefabInstance( const PrefabInstance& other );
             virtual ~PrefabInstance();
 
-            void setPrefabLink(Prefab* newPrefab);
+            void setPrefabLink( Prefab* newPrefab );
             Prefab* prefabLink() const;
 
         private:

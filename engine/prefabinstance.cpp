@@ -27,22 +27,22 @@ using namespace GluonEngine;
 
 class PrefabInstance::Private
 {
-public:
-    Private()
-        : prefabLink(0)
-    {
-    }
+    public:
+        Private()
+            : prefabLink( 0 )
+        {
+        }
 
-    Prefab* prefabLink;
+        Prefab* prefabLink;
 };
 
-PrefabInstance::PrefabInstance(QObject* parent)
+PrefabInstance::PrefabInstance( QObject* parent )
     : d( new Private )
 {
 
 }
 
-PrefabInstance::PrefabInstance(const PrefabInstance& other)
+PrefabInstance::PrefabInstance( const PrefabInstance& other )
     : d( other.d )
 {
 
@@ -50,10 +50,10 @@ PrefabInstance::PrefabInstance(const PrefabInstance& other)
 
 PrefabInstance::~PrefabInstance()
 {
-    if(d->prefabLink)
-        d->prefabLink->removeInstance(this);
+    if( d->prefabLink )
+        d->prefabLink->removeInstance( this );
 
-    delete(d);
+    delete( d );
 }
 
 Prefab* PrefabInstance::prefabLink() const
@@ -61,31 +61,31 @@ Prefab* PrefabInstance::prefabLink() const
     return d->prefabLink;
 }
 
-void PrefabInstance::setPrefabLink(Prefab* newPrefab)
+void PrefabInstance::setPrefabLink( Prefab* newPrefab )
 {
     // First, set up the new prefab linkage
-    if(d->prefabLink)
-        d->prefabLink->removeInstance(this);
+    if( d->prefabLink )
+        d->prefabLink->removeInstance( this );
     d->prefabLink = newPrefab;
-    if(d->prefabLink)
+    if( d->prefabLink )
     {
-        d->prefabLink->addInstance(this);
+        d->prefabLink->addInstance( this );
 
         // Then (if the new prefab is valid, and we are not loading the containing scene from disk)
         // remove the old children, and clone from the new prefab
-        if(isInitialized())
+        if( isInitialized() )
         {
             // Clear all children out
             QObjectList childObjects = children();
-            foreach(QObject* child, childObjects)
+            foreach( QObject * child, childObjects )
             {
-                delete(child);
+                delete( child );
             }
             // Clear out all the existing dynamic properties (to ensure we're actually clean)
             QList<QByteArray> propertyNames = dynamicPropertyNames();
             foreach( const QByteArray & propName, propertyNames )
             {
-                setProperty(propName, QVariant());
+                setProperty( propName, QVariant() );
             }
 
             // Clone the property values from the gameObject in the prefab
@@ -93,7 +93,7 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
             propertyNames = gobj->dynamicPropertyNames();
             foreach( const QByteArray & propName, propertyNames )
             {
-                setProperty(propName, gobj->property(propName));
+                setProperty( propName, gobj->property( propName ) );
             }
 
             const QMetaObject* metaobject = gobj->metaObject();
@@ -109,9 +109,9 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
 
             // Clone all the GameObject children
             const int childCount = gobj->childCount();
-            if(childCount > 0)
+            if( childCount > 0 )
             {
-                for(int i = 0; i < childCount; ++i)
+                for( int i = 0; i < childCount; ++i )
                 {
                     // GameObject* childGobj = gobj->childGameObject(i);
                     // Clone this GameObject as a PrefabInstanceChild...
@@ -119,9 +119,9 @@ void PrefabInstance::setPrefabLink(Prefab* newPrefab)
             }
 
             // Clone all the Components
-            foreach(Component* cmp, gobj->components())
+            foreach( Component * cmp, gobj->components() )
             {
-                cmp->clone(this);
+                cmp->clone( this );
             }
         }
     }

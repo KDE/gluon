@@ -149,7 +149,7 @@ MetaInfo::defaultExtension() const
 }
 
 void
-MetaInfo::setDefaultExtension(const QString& extension)
+MetaInfo::setDefaultExtension( const QString& extension )
 {
     d->defaultExtension = extension;
 }

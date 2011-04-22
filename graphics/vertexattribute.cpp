@@ -38,19 +38,19 @@ VertexAttributePrivate::~VertexAttributePrivate()
 }
 
 VertexAttribute::VertexAttribute()
-               : d( new VertexAttributePrivate() )
+    : d( new VertexAttributePrivate() )
 {
 }
 
-VertexAttribute::VertexAttribute( const QString& name, int size)
-               : d( new VertexAttributePrivate() )
+VertexAttribute::VertexAttribute( const QString& name, int size )
+    : d( new VertexAttributePrivate() )
 {
     d->name = name;
     d->size = size;
 }
 
 VertexAttribute::VertexAttribute( const VertexAttribute& other )
-               : d( new VertexAttributePrivate() )
+    : d( new VertexAttributePrivate() )
 {
     *this = other;
 }

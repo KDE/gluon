@@ -83,10 +83,10 @@ void MainWindow::setupUi()
 
     retranslateUi();
 
-	GluonInput::InputManager* im = GluonInput::InputManager::instance();
-    im->setFilteredObject(m_textEdit);
-	connect(im, SIGNAL(keyPressed( int )), SLOT(mKeyPressed( int )));
-	connect(im, SIGNAL(keyReleased( int )), SLOT(mKeyReleased( int )));
+    GluonInput::InputManager* im = GluonInput::InputManager::instance();
+    im->setFilteredObject( m_textEdit );
+    connect( im, SIGNAL( keyPressed( int ) ), SLOT( mKeyPressed( int ) ) );
+    connect( im, SIGNAL( keyReleased( int ) ), SLOT( mKeyReleased( int ) ) );
     return;
 }
 
@@ -153,12 +153,12 @@ void MainWindow::closeEvent( QCloseEvent* event )
 
 void MainWindow::mKeyPressed( int button )
 {
-	m_textEdit->append(QString("%1 button is pressed").arg(QKeySequence(button).toString()));
+    m_textEdit->append( QString( "%1 button is pressed" ).arg( QKeySequence( button ).toString() ) );
 }
 
 void MainWindow::mKeyReleased( int button )
 {
-	m_textEdit->append(QString("%1 button is released").arg(QKeySequence(button).toString()));
+    m_textEdit->append( QString( "%1 button is released" ).arg( QKeySequence( button ).toString() ) );
 }
 
 #include "mainwindow.moc"

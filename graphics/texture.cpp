@@ -36,7 +36,7 @@ class Texture::TexturePrivate
 {
     public:
         TexturePrivate()
-            : glTexture(0)
+            : glTexture( 0 )
         { }
         uint glTexture;
         QImage image;
@@ -49,7 +49,7 @@ Texture::Texture( QObject* parent )
 
 }
 
-Texture::Texture(const Texture& other, QObject* parent)
+Texture::Texture( const Texture& other, QObject* parent )
     : QObject( parent )
     , d( other.d )
 {

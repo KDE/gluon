@@ -147,7 +147,7 @@ namespace GluonGraphics
              * Set whether to use custom View and Projection matrices instead of
              * getting them from the currently active camera.
              */
-            void setUseCustomViewProjMatrices( bool useCustom);
+            void setUseCustomViewProjMatrices( bool useCustom );
 
         protected:
             /**

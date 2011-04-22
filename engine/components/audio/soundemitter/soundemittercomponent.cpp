@@ -71,10 +71,10 @@ SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterCom
 
 SoundEmitterComponent::~SoundEmitterComponent()
 {
-    if ( d->sound->isValid() )
+    if( d->sound->isValid() )
         d->sound->stop();
 
-    if(d->asset)
+    if( d->asset )
         d->asset->deref();
 
     d->sound->deleteLater();
@@ -88,7 +88,7 @@ QString SoundEmitterComponent::category() const
 
 void SoundEmitterComponent::play()
 {
-    if (d->sound->isValid())
+    if( d->sound->isValid() )
         d->sound->play();
 }
 
@@ -99,10 +99,10 @@ Asset* SoundEmitterComponent::sound()
 
 void SoundEmitterComponent::setSound( Asset* asset )
 {
-    if(d->asset)
+    if( d->asset )
         d->asset->deref();
 
-    if(!asset)
+    if( !asset )
     {
         d->asset = 0;
         return;
@@ -110,7 +110,7 @@ void SoundEmitterComponent::setSound( Asset* asset )
 
     d->asset = asset;
     d->asset->ref();
-    if (asset->data()->hasText())
+    if( asset->data()->hasText() )
     {
         //debug(asset->data()->text());
         d->sound->load( asset->data()->text() ) ;
@@ -136,7 +136,7 @@ void SoundEmitterComponent::start()
     d->sound->setPitch( d->pitch );
     d->sound->setLoop( d->loop );
 
-    if( d->autoPlay && d->sound->isValid())
+    if( d->autoPlay && d->sound->isValid() )
         d->sound->play();
 }
 
@@ -225,7 +225,7 @@ void SoundEmitterComponent::setAutoPlay( bool autoPlay )
     d->autoPlay = autoPlay;
 }
 
-void SoundEmitterComponent::populateMetaInfo(GluonCore::MetaInfo* info)
+void SoundEmitterComponent::populateMetaInfo( GluonCore::MetaInfo* info )
 {
     info->setPropertyRange( "pitch", 0.5, 2.0 );
 }

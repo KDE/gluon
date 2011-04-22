@@ -28,12 +28,12 @@ namespace GluonCreator
 
     class CodeWidgetKpart : public KParts::ReadWritePart
     {
-        Q_OBJECT
-        /**
-	 * \brief KPart interface for Code Editor
-	 * Creates main interface MainWindow for KPart.
-	 * \todo Give explainations of choices/design.
-	 */
+            Q_OBJECT
+            /**
+            * \brief KPart interface for Code Editor
+             * Creates main interface MainWindow for KPart.
+             * \todo Give explainations of choices/design.
+             */
         public:
             CodeWidgetKpart( QWidget* parentWidget, QObject* parent, const QVariantList& );
             MainWindow* MainWidget()

@@ -39,10 +39,10 @@ class NewCommentForm : public QWidget
         void setParentIndex( QModelIndex parentIndex );
 
         QString titleText() const;
-        void setTitleText(const QString& titleText);
+        void setTitleText( const QString& titleText );
 
         QString bodyText() const;
-        void setBodyText(const QString& bodyText);
+        void setBodyText( const QString& bodyText );
 
     private slots:
         void validateAndSubmit();

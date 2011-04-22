@@ -60,19 +60,19 @@ using namespace GluonEngine;
 using namespace GluonGraphics;
 
 template <typename Tp>
-QScriptValue scriptValueFromQObject( QScriptEngine *engine, Tp const& qobject)
+QScriptValue scriptValueFromQObject( QScriptEngine* engine, Tp const& qobject )
 {
     return engine->newQObject( qobject );
 }
 
 template <typename Tp>
-void scriptValueToQObject(const QScriptValue &value, Tp &qobject)
+void scriptValueToQObject( const QScriptValue& value, Tp& qobject )
 {
     qobject = qobject_cast<Tp>( value.toQObject() );
 }
 
 template <typename Tp>
-int qScriptRegisterQObjectMetaType( QScriptEngine *engine )
+int qScriptRegisterQObjectMetaType( QScriptEngine* engine )
 {
     return qScriptRegisterMetaType<Tp>( engine, scriptValueFromQObject, scriptValueToQObject );
 }
@@ -80,11 +80,11 @@ int qScriptRegisterQObjectMetaType( QScriptEngine *engine )
 class UiManagerComponent::UiManagerComponentPrivate
 {
     public:
-        UiManagerComponentPrivate( UiManagerComponent *component )
-            : q(component)
-            , scene(0)
-            , ui(0)
-            , updateFunction(0)
+        UiManagerComponentPrivate( UiManagerComponent* component )
+            : q( component )
+            , scene( 0 )
+            , ui( 0 )
+            , updateFunction( 0 )
         {
         }
 
@@ -129,7 +129,7 @@ class UiManagerComponent::UiManagerComponentPrivate
 
         void resizeQmlItem( const QRectF& rect )
         {
-            if ( ui )
+            if( ui )
             {
                 QDeclarativeItem* item = ui->qmlItem();
                 if( item )
@@ -156,9 +156,9 @@ class UiManagerComponent::UiManagerComponentPrivate
 
         UiManagerComponent* q;
         RenderableScene* scene;
-        UiAsset *ui;
+        UiAsset* ui;
         QSizeF size;
-        Item *item;
+        Item* item;
         EngineAccess* engineAccess;
         QScriptEngine* scriptEngine;
 
@@ -181,7 +181,7 @@ UiManagerComponent::UiManagerComponent( const UiManagerComponent& other )
 
 UiManagerComponent::~UiManagerComponent()
 {
-    if(d->ui)
+    if( d->ui )
         d->ui->deref();
 
     delete d;
@@ -203,22 +203,22 @@ void UiManagerComponent::initialize()
 
     if( d->ui )
     {
-        if(!d->ui->isLoaded())
+        if( !d->ui->isLoaded() )
         {
-            qmlRegisterType<GluonEngine::GameObject>("org.kde.gluon", 1, 0, "GameObject" );
-            qmlRegisterInterface<GluonEngine::GameObject>("gameObject");
+            qmlRegisterType<GluonEngine::GameObject>( "org.kde.gluon", 1, 0, "GameObject" );
+            qmlRegisterInterface<GluonEngine::GameObject>( "gameObject" );
 
             d->ui->load();
         }
 
         QDeclarativeEngine* engine = d->ui->engine();
 
-        d->engineAccess = new EngineAccess(this);
+        d->engineAccess = new EngineAccess( this );
         engine->rootContext()->setContextProperty( "__engineAccess", d->engineAccess );
 
         //Glorious hack:steal the engine
-        QDeclarativeExpression *expr = new QDeclarativeExpression( engine->rootContext(), 0,
-                                                                "__engineAccess.setEngine( this )" );
+        QDeclarativeExpression* expr = new QDeclarativeExpression( engine->rootContext(), 0,
+                "__engineAccess.setEngine( this )" );
         expr->evaluate();
         delete expr;
 
@@ -238,7 +238,7 @@ void UiManagerComponent::initialize()
     }
 }
 
-void UiManagerComponent::setScriptEngine( QScriptValue &value )
+void UiManagerComponent::setScriptEngine( QScriptValue& value )
 {
     d->scriptEngine = value.engine();
 
@@ -252,18 +252,18 @@ void UiManagerComponent::setScriptEngine( QScriptValue &value )
     QVector<QString> names;
     QVector<QScriptValue> values;
     QVector<QScriptValue::PropertyFlags> flags;
-    while ( iter.hasNext() )
+    while( iter.hasNext() )
     {
         iter.next();
 
         QString name = iter.name();
 
-        if ( name == version )
+        if( name == version )
         {
             continue;
         }
 
-        if ( name != eval )
+        if( name != eval )
         {
             names.append( name );
             values.append( iter.value() );
@@ -325,19 +325,19 @@ void UiManagerComponent::cleanup()
     d->scene = 0;
 }
 
-void UiManagerComponent::setUi(UiAsset* ui)
+void UiManagerComponent::setUi( UiAsset* ui )
 {
     if( ui == d->ui )
     {
         return;
     }
 
-    if(d->ui)
+    if( d->ui )
         d->ui->deref();
 
     d->ui = ui;
 
-    if(d->ui)
+    if( d->ui )
         d->ui->ref();
 
     connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );

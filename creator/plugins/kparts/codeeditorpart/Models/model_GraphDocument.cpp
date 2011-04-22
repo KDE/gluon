@@ -25,7 +25,7 @@
 #include <QModelIndex>
 
 GraphDocumentModel::GraphDocumentModel( QList< GraphDocument*>* documents, QObject* parent )
-    : QAbstractListModel( parent ), _documents(( *documents ) )
+    : QAbstractListModel( parent ), _documents( ( *documents ) )
 {
 
 }
@@ -37,7 +37,7 @@ int GraphDocumentModel::rowCount( const QModelIndex& ) const
 
 QVariant GraphDocumentModel::data( const QModelIndex& index, int role ) const
 {
-    if(( !index.isValid() ) || ( index.row() > _documents.size() ) || ( role != Qt::DisplayRole ) )
+    if( ( !index.isValid() ) || ( index.row() > _documents.size() ) || ( role != Qt::DisplayRole ) )
     {
         return QVariant();
     }

@@ -92,7 +92,7 @@ void AlignAction::allignY( QList<NodeItem*>& l )
     kDebug() << "final sould be:" << final;
     if( m_orientation == VCenter || m_orientation == HCenter )
     {
-        qreal otherSide = l[l.size()-1]->node()->y();
+        qreal otherSide = l[l.size() - 1]->node()->y();
         final = ( final + otherSide ) / 2;
     }
     foreach( NodeItem * i, l )
@@ -108,7 +108,7 @@ void AlignAction::allignX( QList<NodeItem*>& l )
     kDebug() << "final should be:" << final;
     if( m_orientation == VCenter || m_orientation == HCenter )
     {
-        qreal otherSide = l[l.size()-1]->node()->x();
+        qreal otherSide = l[l.size() - 1]->node()->x();
         final = ( final + otherSide ) / 2;
     }
     foreach( NodeItem * i, l )

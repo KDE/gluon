@@ -51,7 +51,7 @@ class MainWindow::MainWindowPrivate
 
         KRecentFilesAction* recentFiles;
 
-		QListWidget* listWidget;
+        QListWidget* listWidget;
 
         QString title;
         QString fileName;
@@ -60,7 +60,7 @@ class MainWindow::MainWindowPrivate
         int frameCount;
 };
 
-MainWindow::MainWindow(const QString& filename )
+MainWindow::MainWindow( const QString& filename )
     : KMainWindow()
     , d( new MainWindowPrivate )
 {
@@ -90,19 +90,19 @@ MainWindow::MainWindow(const QString& filename )
         header->setFont( font );
         layout->addWidget( header );
 
-		d->listWidget = new QListWidget( base );
+        d->listWidget = new QListWidget( base );
         layout->addWidget( d->listWidget );
         connect( d->listWidget, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
 
         KPushButton* button = new KPushButton( i18n( "Open other project..." ), base );
         layout->addWidget( button );
         connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
-		loadGamesList();
+        loadGamesList();
     }
     resize( 500, 500 );
 }
 
-MainWindow::~MainWindow ( )
+MainWindow::~MainWindow( )
 {
 }
 
@@ -110,7 +110,7 @@ void MainWindow::activated( QModelIndex index )
 {
     if( index.isValid() )
     {
-		openProject( d->listWidget->currentItem()->text() );
+        openProject( d->listWidget->currentItem()->text() );
     }
 }
 
@@ -133,7 +133,7 @@ void MainWindow::openProject( const QString& fileName )
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
-    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
+    GluonInput::InputManager::instance()->setFilteredObject( d->widget );
     QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;
@@ -187,8 +187,8 @@ void MainWindow::loadGamesList()
 {
     QDir m_dir;
     m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
-    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString("*" + GluonEngine::projectSuffix), QDir::Dirs | QDir::NoDotAndDotDot );
-    foreach( const QString& gameDirName, gameDirNameList)
+    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( "*" + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
+    foreach( const QString & gameDirName, gameDirNameList )
     {
         QDir gameDir = m_dir;
         gameDir.cd( gameDirName );
@@ -198,7 +198,7 @@ void MainWindow::loadGamesList()
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
-            d->listWidget->addItem(projectFileName);
+            d->listWidget->addItem( projectFileName );
         }
     }
 }

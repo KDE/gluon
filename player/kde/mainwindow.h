@@ -29,13 +29,14 @@
 
 class KRecentFilesAction;
 
-namespace GluonPlayer {
+namespace GluonPlayer
+{
     /**
      * The main window of the KDE Player frontend
      */
     class MainWindow: public KMainWindow
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();
@@ -51,7 +52,7 @@ namespace GluonPlayer {
             void countFrames( int );
 
         private:
-			void loadGamesList();
+            void loadGamesList();
 
             class MainWindowPrivate;
             MainWindowPrivate* d;

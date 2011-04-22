@@ -30,7 +30,7 @@ namespace GluonCreator
 {
     class IntVectorPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit IntVectorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~IntVectorPropertyWidgetItem();
@@ -39,23 +39,23 @@ namespace GluonCreator
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:
-            virtual void setEditValue(const QVariant& value);
+            virtual void setEditValue( const QVariant& value );
 
         private:
-            void addItem(int value);
+            void addItem( int value );
             Q_SLOT void addItem();
             Q_SLOT void removeClicked();
-            Q_SLOT void spinValueChanged(int newValue);
+            Q_SLOT void spinValueChanged( int newValue );
             void valueHasChanged();
-            
+
             QWidget* listItems;
             QToolButton* addButton;
             QLabel* countLabel;
-            
+
             QMap<QToolButton*, QSpinBox*> intEditorItems;
             QMap<QSpinBox*, int> intValues;
             QList<QSpinBox*> itemOrder;
-            
+
             bool isList;
     };
 }

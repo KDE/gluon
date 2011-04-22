@@ -68,7 +68,7 @@ GameProject::addChild( GluonObject* child )
 bool
 GameProject::removeChild( GluonObject* child )
 {
-    disconnect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug(const QString& ) ) );
+    disconnect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
 
     return GluonCore::GluonObject::removeChild( child );
 }
@@ -93,20 +93,20 @@ GameProject::saveToFile() const
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
     // Recreate the various icon files if we have an icon file available
-    QImage icon(128, 128, QImage::Format_ARGB32);
+    QImage icon( 128, 128, QImage::Format_ARGB32 );
     if( d->icon )
-        icon = d->icon->texture()->image().scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    QString iconFile(projectDir);
-    iconFile.append('/');
+        icon = d->icon->texture()->image().scaled( 128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    QString iconFile( projectDir );
+    iconFile.append( '/' );
     iconFile.append( GluonEngine::projectIcon );
     icon.save( iconFile );
-    if( QImageWriter::supportedImageFormats().contains("ico") )
+    if( QImageWriter::supportedImageFormats().contains( "ico" ) )
     {
         iconFile = projectDir;
-        iconFile.append('/');
+        iconFile.append( '/' );
         iconFile.append( GluonEngine::projectWinIcon );
-        QImageWriter iconWriter(iconFile);
-        iconWriter.setFormat("ico");
+        QImageWriter iconWriter( iconFile );
+        iconWriter.setFormat( "ico" );
         iconWriter.write( icon );
     }
 
@@ -114,15 +114,15 @@ GameProject::saveToFile() const
     QFile directoryFile( projectDir + "/.directory" );
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
-        QTextStream out(&directoryFile);
-        out << QString("[Desktop Entry]\nIcon=game.png\nType=Directory\n");
+        QTextStream out( &directoryFile );
+        out << QString( "[Desktop Entry]\nIcon=game.png\nType=Directory\n" );
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
     if( folderFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
-        QTextStream out(&folderFile);
-        out << QString("[.ShellClassInfo]\nConfirmFileOp=0\nIconFile=game.ico\nIconIndex=0\nInfoTip=A Gluon Game\n");
+        QTextStream out( &folderFile );
+        out << QString( "[.ShellClassInfo]\nConfirmFileOp=0\nIconFile=game.ico\nIconIndex=0\nInfoTip=A Gluon Game\n" );
         folderFile.close();
     }
 
@@ -130,7 +130,7 @@ GameProject::saveToFile() const
     if( d->screenshot )
     {
         QString screenshotFile = projectDir;
-        screenshotFile.append('/');
+        screenshotFile.append( '/' );
         screenshotFile.append( GluonEngine::projectScreenshot );
         d->screenshot->texture()->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
     }
@@ -237,7 +237,7 @@ bool
 GameProject::loadFromFile( QUrl fileUrl )
 {
     setFilename( fileUrl );
-    setDirname( fileUrl.toLocalFile().section('/', 0, -2 ) );
+    setDirname( fileUrl.toLocalFile().section( '/', 0, -2 ) );
     return loadFromFile();
 }
 
@@ -245,7 +245,7 @@ bool
 GameProject::loadFromFile( QString fileName )
 {
     setFilename( fileName );
-    setDirname( fileName.section('/', 0, -2 ) );
+    setDirname( fileName.section( '/', 0, -2 ) );
     return loadFromFile();
 }
 
@@ -302,10 +302,10 @@ GameProject::setFilename( QUrl fileUrl )
 void
 GameProject::setFilename( QString fileName )
 {
-    d->filename = QUrl::fromLocalFile(fileName);
+    d->filename = QUrl::fromLocalFile( fileName );
 }
 
-Scene *
+Scene*
 GameProject::entryPoint() const
 {
     return d->entryPoint;
@@ -326,7 +326,7 @@ GameProject::setDirname( QUrl dirUrl )
 void
 GameProject::setDirname( QString dirName )
 {
-    d->dirname = QUrl::fromLocalFile(dirName);
+    d->dirname = QUrl::fromLocalFile( dirName );
 }
 
 void
@@ -340,7 +340,7 @@ GluonEngine::TextureAsset* GameProject::icon() const
     return d->icon;
 }
 
-void GameProject::setIcon(GluonEngine::TextureAsset* newIcon)
+void GameProject::setIcon( GluonEngine::TextureAsset* newIcon )
 {
     d->icon = newIcon;
 }
@@ -350,7 +350,7 @@ GluonEngine::TextureAsset* GameProject::screenshot() const
     return d->screenshot;
 }
 
-void GameProject::setScreenshot(GluonEngine::TextureAsset* newScreenshot)
+void GameProject::setScreenshot( GluonEngine::TextureAsset* newScreenshot )
 {
     d->screenshot = newScreenshot;
 }

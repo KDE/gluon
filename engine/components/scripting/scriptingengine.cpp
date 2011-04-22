@@ -35,7 +35,7 @@ namespace GluonEngine
     {
         public:
             Private()
-                : theEngine(0)
+                : theEngine( 0 )
             {
             }
 
@@ -46,7 +46,7 @@ namespace GluonEngine
             }
             QScriptEngine* engine()
             {
-                if(!theEngine)
+                if( !theEngine )
                 {
                     theEngine = GluonCore::ScriptEngine::instance()->scriptEngine();
 
@@ -55,10 +55,10 @@ namespace GluonEngine
                     QScriptValue game = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance(), ownership, wrapOptions );
                     theEngine->globalObject().setProperty( "Game", game );
                 }
-                if(!theEngine)
+                if( !theEngine )
                 {
                     DEBUG_BLOCK
-                    DEBUG_TEXT("Somehow we do not have a scripting engine. This will cause crashes!");
+                    DEBUG_TEXT( "Somehow we do not have a scripting engine. This will cause crashes!" );
                 }
                 return theEngine;
             }
@@ -74,13 +74,13 @@ namespace GluonEngine
             // We are going to have a problem with debugging...
             QString script;
             void buildScript();
-            void appendScript(const ScriptingAsset* asset, QString name);
+            void appendScript( const ScriptingAsset* asset, QString name );
     };
 }
 
 using namespace GluonEngine;
 
-GLUON_DEFINE_SINGLETON(ScriptingEngine)
+GLUON_DEFINE_SINGLETON( ScriptingEngine )
 
 ScriptingEngine::ScriptingEngine( QObject* /* parent */ )
     : d( new Private() )
@@ -119,7 +119,7 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     if( result.state() == QScriptSyntaxCheckResult::Valid )
     {
         // Fix up the asset's name so as to be useable as a class name
-        QString className( asset->fullyQualifiedName().remove( ' ' ).replace( '/', '_' ).replace('-', '_') );
+        QString className( asset->fullyQualifiedName().remove( ' ' ).replace( '/', '_' ).replace( '-', '_' ) );
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
@@ -128,9 +128,9 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     }
     else
     {
-        asset->debug(QString("This script didn't pass the syntax checker (%2)\n")
-            .arg(asset->fullyQualifiedName())
-            .arg(result.errorMessage()));
+        asset->debug( QString( "This script didn't pass the syntax checker (%2)\n" )
+                      .arg( asset->fullyQualifiedName() )
+                      .arg( result.errorMessage() ) );
     }
 
     return result;
@@ -145,15 +145,15 @@ ScriptingEngine::Private::buildScript()
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
     {
-        appendScript(i.key(), i.value());
+        appendScript( i.key(), i.value() );
     }
 }
 
 void
-ScriptingEngine::Private::appendScript(const GluonEngine::ScriptingAsset* asset, QString name)
+ScriptingEngine::Private::appendScript( const GluonEngine::ScriptingAsset* asset, QString name )
 {
     // Build the bit of script to add
-    QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( asset->data()->text()).arg( name );
+    QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( asset->data()->text() ).arg( name );
     QUrl tmpUrl = asset->file();
     QScriptValue evaluated = engine()->evaluate( tmpScript, tmpUrl.toLocalFile(), 0 );
     scriptInstances.insert( asset, evaluated );
@@ -170,7 +170,7 @@ ScriptingEngine::unregisterAsset( const ScriptingAsset* asset ) const
 
     d->classNames.remove( asset );
     d->scriptInstances.remove( asset );
-    if(d->scriptInstances.count() < 1)
+    if( d->scriptInstances.count() < 1 )
         d->resetEngine();
     else
         d->buildScript();
@@ -191,15 +191,15 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
     // Ensure the asset exists...
     if( d->scriptInstances.contains( asset ) )
     {
-        QScriptValue val = d->engine()->globalObject().property( d->classNames.value(asset) );
+        QScriptValue val = d->engine()->globalObject().property( d->classNames.value( asset ) );
 
         QScriptValue instance = val.construct();
         if( d->engine()->hasUncaughtException() )
         {
             QScriptValue exception = d->engine()->uncaughtException();
-            asset->debug( QString("Exception on class instantiation: %2\n at %1")
-                .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
-                .arg( exception.toString() ) );
+            asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
+                          .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+                          .arg( exception.toString() ) );
         }
 
         return instance;
@@ -217,11 +217,11 @@ ScriptingEngine::instantiateClass( const QString& className ) const
     QScriptValue instance = val.construct();
     if( d->engine()->hasUncaughtException() )
     {
-        const ScriptingAsset* asset = d->classNames.key(className);
+        const ScriptingAsset* asset = d->classNames.key( className );
         QScriptValue exception = d->engine()->uncaughtException();
-        asset->debug( QString("Exception on class instantiation: %2\n at %1")
-            .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
-            .arg( exception.toString() ) );
+        asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
+                      .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+                      .arg( exception.toString() ) );
     }
 
     return instance;
@@ -233,7 +233,7 @@ ScriptingEngine::className( const ScriptingAsset* asset ) const
     return d->classNames.value( asset );
 }
 
-QScriptEngine *
+QScriptEngine*
 ScriptingEngine::scriptEngine() const
 {
     return instance()->d->engine();

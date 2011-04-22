@@ -36,29 +36,29 @@ namespace GluonKDEPlayer
 {
     class CommentItemsViewDelegate: public KWidgetItemDelegate
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit CommentItemsViewDelegate(QAbstractItemView* itemView, QObject* parent = 0);
+            explicit CommentItemsViewDelegate( QAbstractItemView* itemView, QObject* parent = 0 );
             virtual ~CommentItemsViewDelegate();
 
             // paint the item at index with all its attributes shown
-            virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+            virtual void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
             // get the list of widgets
             virtual QList<QWidget*> createItemWidgets() const;
 
             // update the widgets
-            virtual void updateItemWidgets(const QList<QWidget*> widgets,
-                                            const QStyleOptionViewItem &option,
-                                            const QPersistentModelIndex &index) const;
+            virtual void updateItemWidgets( const QList<QWidget*> widgets,
+                                            const QStyleOptionViewItem& option,
+                                            const QPersistentModelIndex& index ) const;
 
-            virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+            virtual QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
         signals:
             void commentReplyClicked( const QModelIndex& index );
 
         protected slots:
-            bool eventFilter(QObject *watched, QEvent *event);
+            bool eventFilter( QObject* watched, QEvent* event );
             void slotReplyClicked();
 
         protected:

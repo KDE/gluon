@@ -36,7 +36,7 @@ using namespace GluonEngine;
 class MaterialAsset::MaterialAssetPrivate
 {
     public:
-        MaterialAssetPrivate() : material(0) {}
+        MaterialAssetPrivate() : material( 0 ) {}
         ~MaterialAssetPrivate() {}
 
         QPixmap icon;
@@ -86,7 +86,7 @@ void MaterialAsset::load()
 {
     if( !file().isEmpty() )
     {
-        if(!d->material)
+        if( !d->material )
             d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
 
         if( d->material->load( file() ) )
@@ -106,7 +106,7 @@ const QList<AssetTemplate*> MaterialAsset::templates()
 {
     QList<AssetTemplate*> templates;
     templates.append( new AssetTemplate( "Material", "material_template.gml", "material", this ) );
-    templates.append( new AssetTemplate( "Animated Sprite Material", "animatedsprite_template.gml", "material", this) );
+    templates.append( new AssetTemplate( "Animated Sprite Material", "animatedsprite_template.gml", "material", this ) );
     return templates;
 }
 
@@ -117,7 +117,7 @@ QList<QAction*> MaterialAsset::actions()
 
 void MaterialAsset::setName( const QString& newName )
 {
-    if(d->material)
+    if( d->material )
     {
         GluonGraphics::Engine::instance()->removeMaterial( name() );
         GluonGraphics::Engine::instance()->addMaterial( newName, d->material );
@@ -134,8 +134,8 @@ void MaterialAsset::sanitize()
 {
     GluonCore::GluonObject::sanitize();
 
-    if(!d->material)
-        d->material = GluonGraphics::Engine::instance()->createMaterial(name());
+    if( !d->material )
+        d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
 
     QObjectList allChildren = children();
     foreach( QObject * child, allChildren )
@@ -148,7 +148,7 @@ void MaterialAsset::sanitize()
 
 void MaterialAsset::createInstance()
 {
-    if(!isLoaded())
+    if( !isLoaded() )
         return;
 
     GluonGraphics::MaterialInstance* instance = new GluonGraphics::MaterialInstance( this );

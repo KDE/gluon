@@ -27,7 +27,8 @@
 
 int main( int argc, char** argv )
 {
-    if (argc > 1 && !QFile::exists(argv[1])) {
+    if( argc > 1 && !QFile::exists( argv[1] ) )
+    {
         qDebug() << "File does not exist:" << argv[1];
         return 1;
     }

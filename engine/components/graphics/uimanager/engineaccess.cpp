@@ -35,7 +35,7 @@ EngineAccess::~EngineAccess()
 
 void EngineAccess::setEngine( QScriptValue val )
 {
-    m_component->setScriptEngine(val);
+    m_component->setScriptEngine( val );
 }
 
 #include "engineaccess.moc"

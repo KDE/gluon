@@ -127,14 +127,14 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                 GluonEngine::Asset* asset = qobject_cast< GluonEngine::Asset* >( object );
                 if( asset )
                 {
-                    if(!asset->inherits("GluonEngine::Scene"))
+                    if( !asset->inherits( "GluonEngine::Scene" ) )
                     {
-                        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(asset->absolutePath()));
-                        KFileItemListProperties properties(KFileItemList() << item );
-                        KFileItemActions* openWithActions = new KFileItemActions(menu);
-                        openWithActions->setItemListProperties(properties);
+                        KFileItem item( KFileItem::Unknown, KFileItem::Unknown, KUrl( asset->absolutePath() ) );
+                        KFileItemListProperties properties( KFileItemList() << item );
+                        KFileItemActions* openWithActions = new KFileItemActions( menu );
+                        openWithActions->setItemListProperties( properties );
 
-                        openWithActions->addOpenWithActionsTo(menu, QString());
+                        openWithActions->addOpenWithActionsTo( menu, QString() );
                     }
 
                     menu->addSeparator();
@@ -143,13 +143,13 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                     foreach( QAction * action, actions )
                     {
                         connect( action, SIGNAL( triggered( bool ) ), model, SIGNAL( layoutChanged() ) );
-                        menu->addAction(action);
+                        menu->addAction( action );
                     }
                 }
             }
             else
             {
-                menu->addActions(newMenu->actions());
+                menu->addActions( newMenu->actions() );
             }
 
             if( !object->inherits( "GluonEngine::GameProject" ) )
@@ -197,16 +197,16 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->toolBar = new KToolBar( widget );
     d->toolBar->setIconDimensions( 16 );
 
-    d->newMenu = new QMenu(i18n("New"), d->toolBar);
+    d->newMenu = new QMenu( i18n( "New" ), d->toolBar );
 
-    QToolButton* menuButton = new QToolButton(d->toolBar);
-    menuButton->setIcon(KIcon("document-new"));
-    menuButton->setText(i18n("Add..."));
-    menuButton->setPopupMode(QToolButton::InstantPopup);
-    menuButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    menuButton->setMenu(d->newMenu);
+    QToolButton* menuButton = new QToolButton( d->toolBar );
+    menuButton->setIcon( KIcon( "document-new" ) );
+    menuButton->setText( i18n( "Add..." ) );
+    menuButton->setPopupMode( QToolButton::InstantPopup );
+    menuButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+    menuButton->setMenu( d->newMenu );
 
-    d->toolBar->insertWidget(0, menuButton);
+    d->toolBar->insertWidget( 0, menuButton );
 
     d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( newSubMenuTriggered() ) );
     d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), ObjectManager::instance(), SLOT( createNewScene() ) );
@@ -215,7 +215,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     // Run through all the templates and add an action for each...
     foreach( const GluonEngine::AssetTemplate * item, d->assetTemplates )
     {
-        QAction* action = d->newMenu->addAction( i18n( "New %1" ).arg( item->name ), this, SLOT( newAssetTriggered() ));
+        QAction* action = d->newMenu->addAction( i18n( "New %1" ).arg( item->name ), this, SLOT( newAssetTriggered() ) );
         action->setProperty( "newAssetClassname", QString( item->parent()->metaObject()->className() ) );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
@@ -223,7 +223,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     }
 
     d->newMenu->addSeparator();
-    d->newMenu->addAction( KIcon("document-import"), i18n("Import Assets..."), this, SLOT(importAssetsTriggered()) );
+    d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT( importAssetsTriggered() ) );
 
     d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
 
@@ -301,7 +301,7 @@ void ProjectDock::showContextMenuRequested( const QPoint& pos )
         index = d->model->index( 0, 0 );
 
     QMenu menu( static_cast<GluonCore::GluonObject*>( index.internalPointer() )->name(), this );
-    d->menuForObject(index, &menu);
+    d->menuForObject( index, &menu );
     menu.exec( d->view->mapToGlobal( pos ) );
     connect( &menu, SIGNAL( aboutToHide() ), SLOT( contextMenuHiding() ) );
 }
@@ -322,20 +322,20 @@ void ProjectDock::deleteActionTriggered()
 
     GluonCore::GluonObject* object = static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() );
 
-    GluonCore::ReferenceCounter* counter = dynamic_cast<GluonCore::ReferenceCounter*>(object);
-    if(counter && counter->count() > 0)
+    GluonCore::ReferenceCounter* counter = dynamic_cast<GluonCore::ReferenceCounter*>( object );
+    if( counter && counter->count() > 0 )
     {
-        QString objs = i18ncp("For shortening of the dialog text", "%1 other object", "%1 other objects", counter->count());
-        KMessageBox::error(this, i18n("The object %1 is currently referenced by %2. Please remove these references before deleting the object.", object->name(), objs), i18n("Object in use"));
+        QString objs = i18ncp( "For shortening of the dialog text", "%1 other object", "%1 other objects", counter->count() );
+        KMessageBox::error( this, i18n( "The object %1 is currently referenced by %2. Please remove these references before deleting the object.", object->name(), objs ), i18n( "Object in use" ) );
         return;
     }
 
     DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
     if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!" ).arg( object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
-		GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( object );
-		if( asset )
-        	ObjectManager::instance()->assetDeleted( asset );
+        GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( object );
+        if( asset )
+            ObjectManager::instance()->assetDeleted( asset );
 
         d->view->selectionModel()->select( d->currentContextIndex.parent(), QItemSelectionModel::ClearAndSelect );
         d->model->removeRows( d->currentContextIndex.row(), 1, d->currentContextIndex.parent() );
@@ -347,16 +347,16 @@ void ProjectDock::deleteActionTriggered()
 void ProjectDock::newSubMenuTriggered()
 {
     if( !d->currentContextIndex.isValid() )
-        d->currentContextIndex = d->model->index(0, 0);
+        d->currentContextIndex = d->model->index( 0, 0 );
 
-    QModelIndex newFolder = d->model->addChild( new GluonCore::GluonObject( i18n("New Folder") ), d->currentContextIndex );
-    d->view->edit(newFolder);
+    QModelIndex newFolder = d->model->addChild( new GluonCore::GluonObject( i18n( "New Folder" ) ), d->currentContextIndex );
+    d->view->edit( newFolder );
 }
 
 void GluonCreator::ProjectDock::newAssetTriggered()
 {
     if( !d->currentContextIndex.isValid() )
-        d->currentContextIndex = d->model->index(0, 0);
+        d->currentContextIndex = d->model->index( 0, 0 );
 
     QAction* menuItem = qobject_cast< QAction* >( QObject::sender() );
     if( menuItem )
@@ -370,9 +370,9 @@ void GluonCreator::ProjectDock::newAssetTriggered()
             return;
         }
 
-        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset(fileName, static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ),
-                                                                                 menuItem->property( "newAssetClassname" ).toString(),
-                                                                                 menuItem->property( "newAssetName" ).toString() );
+        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset( fileName, static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ),
+                                       menuItem->property( "newAssetClassname" ).toString(),
+                                       menuItem->property( "newAssetName" ).toString() );
 
         if( newAsset )
         {
@@ -383,5 +383,5 @@ void GluonCreator::ProjectDock::newAssetTriggered()
 
 void ProjectDock::importAssetsTriggered()
 {
-    ObjectManager::instance()->createAssets(KFileDialog::getOpenFileNames(), static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ));
+    ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames(), static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ) );
 }

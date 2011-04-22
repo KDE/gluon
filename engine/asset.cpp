@@ -92,7 +92,7 @@ Asset::setName( const QString& newName )
 void
 Asset::setFile( const QUrl& newFile )
 {
-    if(!d->file.isEmpty())
+    if( !d->file.isEmpty() )
     {
         QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
         if( QDir::current().exists( oldPath ) )
@@ -122,7 +122,7 @@ Asset::icon() const
     return QIcon();
 }
 
-const QMimeData *
+const QMimeData*
 Asset::data() const
 {
     return d->mime;
@@ -174,7 +174,7 @@ Asset::shouldSerializeChildren( ) const
     return false;
 }
 
-QMimeData *
+QMimeData*
 Asset::mimeData() const
 {
     return d->mime;
@@ -187,30 +187,30 @@ Asset::setLoaded( bool loaded )
 }
 
 QUrl
-Asset::fullyQualifiedFileName(GluonCore::GluonObject* obj, const QString& extension)
+Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension )
 {
     DEBUG_FUNC_NAME
-    QStringList parts = obj->fullyQualifiedName().split('/');
-    if(parts.count() > 1 && parts.first() == obj->gameProject()->name())
+    QStringList parts = obj->fullyQualifiedName().split( '/' );
+    if( parts.count() > 1 && parts.first() == obj->gameProject()->name() )
         parts.removeFirst();
 
-    QRegExp filter("[^a-z0-9_]+");
+    QRegExp filter( "[^a-z0-9_]+" );
 
-    QString file = parts.last().toLower().replace(' ','_').replace(filter, "");
+    QString file = parts.last().toLower().replace( ' ', '_' ).replace( filter, "" );
     parts.removeLast();
 
     QStringList path;
-    foreach(const QString& part, parts)
+    foreach( const QString & part, parts )
     {
-        path.append(part.toLower().replace(' ', '_').replace(filter, ""));
+        path.append( part.toLower().replace( ' ', '_' ).replace( filter, "" ) );
     }
 
-    QString dir = path.join("/");
-    if(dir.length() > 0)
-        dir.append('/');
+    QString dir = path.join( "/" );
+    if( dir.length() > 0 )
+        dir.append( '/' );
 
     QString ext = extension.isEmpty() ? obj->metaInfo()->defaultExtension() : extension;
-    return QUrl( QString("%1%2.%3").arg(dir, file, ext) );
+    return QUrl( QString( "%1%2.%3" ).arg( dir, file, ext ) );
 }
 
 

@@ -57,8 +57,8 @@ class AnimatedSpriteRendererComponent::Private
             , currentTime( 1000 / frameRate )
             , currentFrame( 0.0 )
 
-            , frameSize( QSizeF(64.f, 64.f) )
-            , textureSize( QSizeF(1024.f, 1024.f) )
+            , frameSize( QSizeF( 64.f, 64.f ) )
+            , textureSize( QSizeF( 1024.f, 1024.f ) )
 
             , frameWidthUV( 0.0625 )
             , frameHeightUV( 0.0625 )
@@ -107,11 +107,11 @@ AnimatedSpriteRendererComponent::AnimatedSpriteRendererComponent( QObject* paren
 
 AnimatedSpriteRendererComponent::~AnimatedSpriteRendererComponent()
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
     delete d;
@@ -150,7 +150,7 @@ void AnimatedSpriteRendererComponent::initialize()
         if( texture )
         {
             texture->load();
-            d->textureSize = GluonGraphics::Engine::instance()->texture(texture->data()->text())->image().size();
+            d->textureSize = GluonGraphics::Engine::instance()->texture( texture->data()->text() )->image().size();
             d->frameWidthUV = d->frameSize.width() / d->textureSize.width();
             d->frameHeightUV = d->frameSize.height() / d->textureSize.height();
         }
@@ -161,29 +161,29 @@ void AnimatedSpriteRendererComponent::initialize()
 
 void AnimatedSpriteRendererComponent::start()
 {
-    if(d->material)
+    if( d->material )
     {
         d->localInstance = new GluonGraphics::MaterialInstance();
-        d->localInstance->setMaterial(d->material->material());
+        d->localInstance->setMaterial( d->material->material() );
         QList<QByteArray> propertyNames = d->material->dynamicPropertyNames();
-        foreach(const QByteArray& name, propertyNames)
+        foreach( const QByteArray & name, propertyNames )
         {
-            d->localInstance->setProperty(name, d->material->property(name));
+            d->localInstance->setProperty( name, d->material->property( name ) );
         }
-        d->item->setMaterialInstance(d->localInstance);
+        d->item->setMaterialInstance( d->localInstance );
     }
 }
 
-void AnimatedSpriteRendererComponent::update ( int elapsedMilliseconds )
+void AnimatedSpriteRendererComponent::update( int elapsedMilliseconds )
 {
-    if(d->animating && d->playing)
+    if( d->animating && d->playing )
     {
-        d->currentFrame += d->frameRate / (1000.f / elapsedMilliseconds);
-        if(d->currentFrame > d->currentMaxFrame)
+        d->currentFrame += d->frameRate / ( 1000.f / elapsedMilliseconds );
+        if( d->currentFrame > d->currentMaxFrame )
         {
-            if(d->looping)
+            if( d->looping )
             {
-                d->currentFrame = d->startFrames.at(d->currentAnimation);
+                d->currentFrame = d->startFrames.at( d->currentAnimation );
             }
             else
             {
@@ -201,26 +201,26 @@ void AnimatedSpriteRendererComponent::draw( int /* timeLapse */ )
         transform.scale( d->size.width() / 2, d->size.height() / 2 );
         d->item->setTransform( transform );
 
-        if(d->animating && d->playing)
+        if( d->animating && d->playing )
         {
             QVector4D frame;
-            frame.setX(d->frameWidthUV * int(d->currentFrame));
-            frame.setY(d->frameHeightUV * d->direction);
-            frame.setZ(d->frameWidthUV);
-            frame.setW(d->frameHeightUV);
-            if(d->localInstance)
-                d->localInstance->setProperty("frame", frame);
+            frame.setX( d->frameWidthUV * int( d->currentFrame ) );
+            frame.setY( d->frameHeightUV * d->direction );
+            frame.setZ( d->frameWidthUV );
+            frame.setW( d->frameHeightUV );
+            if( d->localInstance )
+                d->localInstance->setProperty( "frame", frame );
         }
     }
 }
 
 void AnimatedSpriteRendererComponent::stop()
 {
-    if(d->localInstance)
+    if( d->localInstance )
     {
         d->localInstance->deleteLater();
         d->localInstance = 0;
-        d->item->setMaterialInstance(d->material);
+        d->item->setMaterialInstance( d->material );
     }
 }
 
@@ -248,15 +248,15 @@ bool AnimatedSpriteRendererComponent::isPlaying()
     return d->playing;
 }
 
-void AnimatedSpriteRendererComponent::setAnimating(bool animate)
+void AnimatedSpriteRendererComponent::setAnimating( bool animate )
 {
     d->animating = animate;
 }
 
-void AnimatedSpriteRendererComponent::setLooping(bool loop)
+void AnimatedSpriteRendererComponent::setLooping( bool loop )
 {
     d->looping = loop;
-    if(!d->playing)
+    if( !d->playing )
         d->playing = true;
 }
 
@@ -278,32 +278,32 @@ AnimatedSpriteRendererComponent::material()
 
 void AnimatedSpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* material )
 {
-    if(d->material)
+    if( d->material )
     {
         d->material->deref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->deref();
     }
 
     d->material = material;
-    if(d->material)
+    if( d->material )
     {
         d->material->ref();
         Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
-        if(materialAsset)
+        if( materialAsset )
             materialAsset->ref();
     }
 
     if( d->item )
     {
-        if(material)
+        if( material )
         {
             d->item->setMaterialInstance( material );
         }
         else
         {
-            d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->instance("default"));
+            d->item->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->instance( "default" ) );
         }
     }
 }
@@ -318,14 +318,14 @@ int AnimatedSpriteRendererComponent::animation()
     return d->currentAnimation;
 }
 
-void AnimatedSpriteRendererComponent::setAnimation ( int anim )
+void AnimatedSpriteRendererComponent::setAnimation( int anim )
 {
-    if(anim < 0 || anim > d->frameCounts.size() - 1)
+    if( anim < 0 || anim > d->frameCounts.size() - 1 )
         return;
 
     d->currentAnimation = anim;
-    d->currentFrame = d->startFrames.at(anim);
-    d->currentMaxFrame = d->startFrames.at(anim) + d->frameCounts.at(anim);
+    d->currentFrame = d->startFrames.at( anim );
+    d->currentMaxFrame = d->startFrames.at( anim ) + d->frameCounts.at( anim );
 }
 
 int AnimatedSpriteRendererComponent::direction()
@@ -333,7 +333,7 @@ int AnimatedSpriteRendererComponent::direction()
     return d->direction;
 }
 
-void AnimatedSpriteRendererComponent::setDirection ( int direction )
+void AnimatedSpriteRendererComponent::setDirection( int direction )
 {
     d->direction = direction;
 }
@@ -343,10 +343,10 @@ QList< int > AnimatedSpriteRendererComponent::frameCounts()
     return d->frameCounts;
 }
 
-void AnimatedSpriteRendererComponent::setFrameCounts ( const QList< int >& counts )
+void AnimatedSpriteRendererComponent::setFrameCounts( const QList< int >& counts )
 {
     d->frameCounts = counts;
-    setAnimation(d->currentAnimation);
+    setAnimation( d->currentAnimation );
 }
 
 int AnimatedSpriteRendererComponent::frameRate()
@@ -354,7 +354,7 @@ int AnimatedSpriteRendererComponent::frameRate()
     return d->frameRate;
 }
 
-void AnimatedSpriteRendererComponent::setFrameRate ( int frameRate )
+void AnimatedSpriteRendererComponent::setFrameRate( int frameRate )
 {
     d->frameRate = frameRate;
 }
@@ -364,7 +364,7 @@ QSizeF AnimatedSpriteRendererComponent::frameSize()
     return d->frameSize;
 }
 
-void AnimatedSpriteRendererComponent::setFrameSize ( const QSizeF& size )
+void AnimatedSpriteRendererComponent::setFrameSize( const QSizeF& size )
 {
     d->frameSize = size;
     d->frameWidthUV = d->frameSize.width() / d->textureSize.width();
@@ -376,7 +376,7 @@ QList< int > AnimatedSpriteRendererComponent::startFrames()
     return d->startFrames;
 }
 
-void AnimatedSpriteRendererComponent::setStartFrames ( const QList< int >& starts )
+void AnimatedSpriteRendererComponent::setStartFrames( const QList< int >& starts )
 {
     d->startFrames = starts;
     setAnimation( d->currentAnimation );

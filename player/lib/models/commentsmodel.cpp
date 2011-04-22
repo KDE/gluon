@@ -44,7 +44,7 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     , m_isOnline( false )
     , m_gameId( gameId )
 {
-    m_columnNames << tr("Author") << tr("Title") << tr("Body") << tr("DateTime") << tr("Rating");
+    m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
@@ -130,7 +130,7 @@ GluonObject* CommentsModel::addComment( Attica::Comment comment, GluonObject* pa
     newComment->setProperty( "DateTime", comment.date().toString() );
     newComment->setProperty( "Rating", comment.score() );
 
-    foreach( const Attica::Comment& child, comment.children() )
+    foreach( const Attica::Comment & child, comment.children() )
     {
         addComment( child, newComment );
     }
@@ -146,7 +146,7 @@ void CommentsModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
-    if( QFile::exists(gluonDir.absoluteFilePath( "comments.gdl" )) )
+    if( QFile::exists( gluonDir.absoluteFilePath( "comments.gdl" ) ) )
         m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
@@ -185,14 +185,14 @@ QVariant CommentsModel::data( const QModelIndex& index, int role ) const
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( m_columnNames.at(index.column()).toUtf8() );
+        return node->property( m_columnNames.at( index.column() ).toUtf8() );
     }
-    else if ( role >= Qt::UserRole )
+    else if( role >= Qt::UserRole )
     {
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( m_columnNames.at(role - Qt::UserRole).toUtf8() );
+        return node->property( m_columnNames.at( role - Qt::UserRole ).toUtf8() );
     }
     return QVariant();
 }
@@ -276,7 +276,7 @@ bool CommentsModel::setData( const QModelIndex& index, const QVariant& value, in
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        node->setProperty( m_columnNames.at(index.column()).toUtf8(), value );
+        node->setProperty( m_columnNames.at( index.column() ).toUtf8(), value );
         emit dataChanged( index, index );
         return true;
     }

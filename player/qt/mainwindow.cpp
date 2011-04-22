@@ -44,7 +44,7 @@ class MainWindow::MainWindowPrivate
     public:
         GluonEngine::GameProject* project;
         GluonGraphics::RenderWidget* widget;
-        QListWidget *listWidget;
+        QListWidget* listWidget;
 
         QString title;
         QString fileName;
@@ -90,7 +90,7 @@ GluonPlayer::MainWindow::MainWindow( int argc, char** argv, QWidget* parent, Qt:
         QPushButton* button = new QPushButton( tr( "Open other project..." ), base );
         layout->addWidget( button );
         connect( button, SIGNAL( clicked( bool ) ), SLOT( openClicked( bool ) ) );
-		loadGamesList();
+        loadGamesList();
     }
     resize( 500, 500 );
 }
@@ -127,7 +127,7 @@ void MainWindow::openProject( const QString& fileName )
     connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
     connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
 
-    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
+    GluonInput::InputManager::instance()->setFilteredObject( d->widget );
     QTimer::singleShot( 100, this, SLOT( startGame() ) );
 
     d->fileName = file;
@@ -181,8 +181,8 @@ void MainWindow::loadGamesList()
 {
     QDir m_dir;
     m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
-    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString("*" + GluonEngine::projectSuffix), QDir::Dirs | QDir::NoDotAndDotDot );
-    foreach( const QString& gameDirName, gameDirNameList)
+    QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( "*" + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
+    foreach( const QString & gameDirName, gameDirNameList )
     {
         QDir gameDir = m_dir;
         gameDir.cd( gameDirName );
@@ -192,7 +192,7 @@ void MainWindow::loadGamesList()
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
             GluonEngine::GameProject project;
             project.loadFromFile( projectFileName );
-            d->listWidget->addItem(projectFileName);
+            d->listWidget->addItem( projectFileName );
         }
     }
 }

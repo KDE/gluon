@@ -121,7 +121,7 @@ void ParticleRendererComponent::initialize()
             QString theName( d->material->property( "texture0" ).toString() );
             QString theObjectName = GluonObject::nameToObjectName( theName );
             texture = gameProject()->findChild<Asset*>( theObjectName );
-            if(!texture)
+            if( !texture )
                 debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theObjectName ) );
         }
         else
@@ -178,13 +178,13 @@ void ParticleRendererComponent::setMaterial( GluonGraphics::MaterialInstance* ma
 
     if( d->item )
     {
-        if(material)
+        if( material )
         {
             d->item->setMaterialInstance( material );
         }
         else
         {
-            d->item->setMaterialInstance(GluonGraphics::Engine::instance()->material("default")->instance("default"));
+            d->item->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->instance( "default" ) );
         }
     }
 }

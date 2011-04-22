@@ -133,7 +133,7 @@ GDLHandler::tokenizeObject( QString objectString )
         if( ( *i ) == '#' )
         {
             ++i;
-            while( ( *i ) != '\n') ++i;
+            while( ( *i ) != '\n' ) ++i;
             continue;
         }
 
@@ -328,7 +328,7 @@ GDLHandler::tokenizeObject( QString objectString )
                                 if( ( *i ) == '#' )
                                 {
                                     ++i;
-                                    while( ( *i ) != '\n') ++i;
+                                    while( ( *i ) != '\n' ) ++i;
                                     continue;
                                 }
                                 if( i->isSpace() )
@@ -348,7 +348,7 @@ GDLHandler::tokenizeObject( QString objectString )
 }
 
 QList<GluonObject*>
-GDLHandler::parseGDL( const QString data, qint64 size, QObject* parent)
+GDLHandler::parseGDL( const QString data, qint64 size, QObject* parent )
 {
     QList<GluonObject*> thisObjectList;
 
@@ -376,13 +376,13 @@ GDLHandler::parseGDL( const QString& fileName, QObject* parent )
     QByteArray data = file.readAll();
     file.close();
 
-    return parseGDL(data, size, parent);
+    return parseGDL( data, size, parent );
 }
 
 QList<GluonObject*>
 GDLHandler::parseGDL( const QUrl& fileUrl, QObject* parent )
 {
-    return parseGDL(fileUrl.toLocalFile(), parent);
+    return parseGDL( fileUrl.toLocalFile(), parent );
 }
 
 QString
@@ -391,7 +391,7 @@ GDLHandler::serializeGDL( QList<const GluonObject*> serializeThis )
     QString serializedData;
 
     foreach( const GluonObject * theObject, serializeThis )
-        serializedData.append(toGDL(theObject));
+    serializedData.append( toGDL( theObject ) );
 
     return serializedData;
 }
@@ -406,7 +406,7 @@ GDLHandler::childrenToGDL( const GluonObject* gluonObject, int indentLevel ) con
     {
         GluonObject* theChild = qobject_cast<GluonObject*>( child );
         if( theChild )
-            serializedChildren.append(toGDL( theChild, indentLevel ));
+            serializedChildren.append( toGDL( theChild, indentLevel ) );
     }
 
     return serializedChildren;
@@ -433,7 +433,7 @@ GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) c
         const QString theName( metaproperty.name() );
         if( theName == "objectName" || theName == "name" || !metaproperty.isWritable() )
             continue;
-        serializedObject.append(gluonObject->stringFromProperty( theName, indentChars ));
+        serializedObject.append( gluonObject->stringFromProperty( theName, indentChars ) );
     }
 
     // Then get all the dynamic ones (in case any such exist)
@@ -445,7 +445,7 @@ GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) c
     foreach( const QByteArray & propName, propertyNames )
     {
         const QString theName( propName );
-        serializedObject.append(gluonObject->stringFromProperty( theName, indentChars ));
+        serializedObject.append( gluonObject->stringFromProperty( theName, indentChars ) );
     }
 
     return serializedObject;
@@ -462,16 +462,16 @@ GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
 
     // Only jump to net line in case we are inside another object
     if( indentLevel > 0 )
-        serializedObject.append('\n');
+        serializedObject.append( '\n' );
 
     QString minimalClassName( gluonObject->metaObject()->className() );
     if( QString( gluonObject->metaObject()->className() ).startsWith( QString( "Gluon::" ) ) )
-        minimalClassName = minimalClassName.mid(7);
-    serializedObject.append(QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( gluonObject->name() ));
+        minimalClassName = minimalClassName.mid( 7 );
+    serializedObject.append( QString( "%1{ %2(%3)" ).arg( indentChars ).arg( minimalClassName ).arg( gluonObject->name() ) );
 
-    serializedObject.append(propertiesToGDL( gluonObject, indentLevel + 1 ));
-    if ( gluonObject->shouldSerializeChildren( ) )
-        serializedObject.append(childrenToGDL( gluonObject, indentLevel + 1 ));
+    serializedObject.append( propertiesToGDL( gluonObject, indentLevel + 1 ) );
+    if( gluonObject->shouldSerializeChildren( ) )
+        serializedObject.append( childrenToGDL( gluonObject, indentLevel + 1 ) );
 
     return QString( "%1\n%2}" ).arg( serializedObject ).arg( indentChars );
 }

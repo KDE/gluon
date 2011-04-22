@@ -33,10 +33,11 @@
 #include <QtGui/QGraphicsView>
 #include <QtCore/QModelIndex>
 
-namespace GluonQMLPlayer {
+namespace GluonQMLPlayer
+{
     class GameWindowManager: public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit GameWindowManager( const QString& fileName = "" );
             virtual ~GameWindowManager();
@@ -47,10 +48,10 @@ namespace GluonQMLPlayer {
             Q_INVOKABLE void buildCommentsModel( int index );
 
             GluonPlayer::GameItemsModel* gameItemsModel() const;
-            void setGameItemsModel(GluonPlayer::GameItemsModel* gameItemsModel);
+            void setGameItemsModel( GluonPlayer::GameItemsModel* gameItemsModel );
 
             GluonPlayer::CommentItemsModel* commentItemsModel() const;
-            void setCommentItemsModel(GluonPlayer::CommentItemsModel* commentItemsModel);
+            void setCommentItemsModel( GluonPlayer::CommentItemsModel* commentItemsModel );
 
             void show();
 

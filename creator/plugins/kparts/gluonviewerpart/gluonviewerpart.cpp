@@ -99,7 +99,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     actionCollection()->addAction( "togglePointsAction", points );
 
     setXMLFile( "gluonviewerpartui.rc" );
-    GluonInput::InputManager::instance()->setFilteredObject(d->widget);
+    GluonInput::InputManager::instance()->setFilteredObject( d->widget );
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
@@ -150,7 +150,7 @@ void GluonViewerPart::setPoints()
 void GluonViewerPart::newViewport( Viewport* viewport )
 {
     disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT( redraw() ) );
-    connect( viewport, SIGNAL( viewportSizeChanged(int, int, int, int) ), SLOT( redraw() ) );
+    connect( viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ), SLOT( redraw() ) );
 }
 
 void GluonViewerPart::redraw()

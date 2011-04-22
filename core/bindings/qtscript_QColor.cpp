@@ -342,8 +342,8 @@ static const char* const qtscript_QColor_Spec_keys[] =
 
 static QString qtscript_QColor_Spec_toStringHelper( QColor::Spec value )
 {
-    if(( value >= QColor::Invalid ) && ( value <= QColor::Hsl ) )
-        return qtscript_QColor_Spec_keys[static_cast<int>( value )-static_cast<int>( QColor::Invalid )];
+    if( ( value >= QColor::Invalid ) && ( value <= QColor::Hsl ) )
+        return qtscript_QColor_Spec_keys[static_cast<int>( value ) - static_cast<int>( QColor::Invalid )];
     return QString();
 }
 
@@ -361,7 +361,7 @@ static void qtscript_QColor_Spec_fromScriptValue( const QScriptValue& value, QCo
 static QScriptValue qtscript_construct_QColor_Spec( QScriptContext* context, QScriptEngine* engine )
 {
     int arg = context->argument( 0 ).toInt32();
-    if(( arg >= QColor::Invalid ) && ( arg <= QColor::Hsl ) )
+    if( ( arg >= QColor::Invalid ) && ( arg <= QColor::Hsl ) )
         return qScriptValueFromValue( engine,  static_cast<QColor::Spec>( arg ) );
     return context->throwError( QString::fromLatin1( "Spec(): invalid enum value (%0)" ).arg( arg ) );
 }
@@ -410,14 +410,14 @@ static QScriptValue qtscript_QColor_prototype_call( QScriptContext* context, QSc
     else
         _id = 0xBABE0000 + 67;
 #endif
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     QColor* _q_self = qscriptvalue_cast<QColor*>( context->thisObject() );
     if( !_q_self )
     {
         return context->throwError( QScriptContext::TypeError,
                                     QString::fromLatin1( "QColor.%0(): this object is not a QColor" )
-                                    .arg( qtscript_QColor_function_names[_id+11] ) );
+                                    .arg( qtscript_QColor_function_names[_id + 11] ) );
     }
 
     switch( _id )
@@ -1126,14 +1126,14 @@ static QScriptValue qtscript_QColor_prototype_call( QScriptContext* context, QSc
             Q_ASSERT( false );
     }
     return qtscript_QColor_throw_ambiguity_error_helper( context,
-            qtscript_QColor_function_names[_id+11],
-            qtscript_QColor_function_signatures[_id+11] );
+            qtscript_QColor_function_names[_id + 11],
+            qtscript_QColor_function_signatures[_id + 11] );
 }
 
 static QScriptValue qtscript_QColor_static_call( QScriptContext* context, QScriptEngine* )
 {
     uint _id = context->callee().data().toUInt32();
-    Q_ASSERT(( _id & 0xFFFF0000 ) == 0xBABE0000 );
+    Q_ASSERT( ( _id & 0xFFFF0000 ) == 0xBABE0000 );
     _id &= 0x0000FFFF;
     switch( _id )
     {
@@ -1150,14 +1150,14 @@ static QScriptValue qtscript_QColor_static_call( QScriptContext* context, QScrip
             }
             else if( context->argumentCount() == 1 )
             {
-                if(( qMetaTypeId<Qt::GlobalColor>() == context->argument( 0 ).toVariant().userType() ) )
+                if( ( qMetaTypeId<Qt::GlobalColor>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     Qt::GlobalColor _q_arg0 = qscriptvalue_cast<Qt::GlobalColor>( context->argument( 0 ) );
                     QColor _q_cpp_result( _q_arg0 );
                     QScriptValue _q_result = context->engine()->newVariant( context->thisObject(), qVariantFromValue( _q_cpp_result ) );
                     return _q_result;
                 }
-                else if(( qMetaTypeId<QColor>() == context->argument( 0 ).toVariant().userType() ) )
+                else if( ( qMetaTypeId<QColor>() == context->argument( 0 ).toVariant().userType() ) )
                 {
                     QColor _q_arg0 = qscriptvalue_cast<QColor>( context->argument( 0 ) );
                     QColor _q_cpp_result( _q_arg0 );
@@ -1398,12 +1398,12 @@ static QScriptValue qtscript_QColor_static_call( QScriptContext* context, QScrip
 QScriptValue qtscript_create_QColor_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<QColor*>(), QScriptValue() );
-    QScriptValue proto = engine->newVariant( qVariantFromValue(( QColor* )0 ) );
+    QScriptValue proto = engine->newVariant( qVariantFromValue( ( QColor* )0 ) );
     for( int i = 0; i < 68; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_QColor_prototype_call, qtscript_QColor_function_lengths[i+11] );
+        QScriptValue fun = engine->newFunction( qtscript_QColor_prototype_call, qtscript_QColor_function_lengths[i + 11] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_QColor_function_names[i+11] ),
+        proto.setProperty( QString::fromLatin1( qtscript_QColor_function_names[i + 11] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -1415,9 +1415,9 @@ QScriptValue qtscript_create_QColor_class( QScriptEngine* engine )
     for( int i = 0; i < 10; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_QColor_static_call,
-                                                qtscript_QColor_function_lengths[i+1] );
+                                                qtscript_QColor_function_lengths[i + 1] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_QColor_function_names[i+1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_QColor_function_names[i + 1] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 

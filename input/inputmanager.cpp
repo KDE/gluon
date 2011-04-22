@@ -40,7 +40,7 @@
 
 using namespace GluonInput;
 
-GLUON_DEFINE_SINGLETON(InputManager)
+GLUON_DEFINE_SINGLETON( InputManager )
 
 InputManager::InputManager( QObject* parent )
     : d( new InputManagerPrivate )
@@ -77,11 +77,11 @@ void InputManager::init()
     {
         if( !d->m_detect->isReadable() )
         {
-            setInputManagementType(QT_INPUT_HIGHLEVEL);
-            if (filteredObject())
-                installEventFiltered(filteredObject());
+            setInputManagementType( QT_INPUT_HIGHLEVEL );
+            if( filteredObject() )
+                installEventFiltered( filteredObject() );
             // else
-                // qDebug() << "Null filtered object pointer - no install";
+            // qDebug() << "Null filtered object pointer - no install";
 
             InputDevice* keyboard = new Keyboard( 0, this );
             d->m_detect->addKeyboard( static_cast<Keyboard*>( keyboard ) );
@@ -93,16 +93,16 @@ void InputManager::init()
         else
         {
 #ifdef Q_WS_X11
-            setInputManagementType(LINUX_INPUT_LOWLEVEL);
+            setInputManagementType( LINUX_INPUT_LOWLEVEL );
 #elif defined(Q_WS_MAC)
-            setInputManagementType(MAC_INPUT_LOWLEVEL);
+            setInputManagementType( MAC_INPUT_LOWLEVEL );
 #elif defined(Q_WS_WIN)
-            setInputManagementType(WIN_INPUT_LOWLEVEL);
+            setInputManagementType( WIN_INPUT_LOWLEVEL );
 #endif
-            if (filteredObject())
-                removeEventFiltered(filteredObject());
+            if( filteredObject() )
+                removeEventFiltered( filteredObject() );
             // else
-                // qDebug() << "Null filtered object pointer - no remove";
+            // qDebug() << "Null filtered object pointer - no remove";
             d->m_detect->detectDevices();
         }
     }
@@ -227,7 +227,7 @@ InputDevice* InputManager::input( int id )
     return 0;
 }
 
-int InputManager::mapMouseButton(Qt::MouseButton mouseButton)
+int InputManager::mapMouseButton( Qt::MouseButton mouseButton )
 {
     switch( mouseButton )
     {
@@ -248,119 +248,120 @@ int InputManager::mapMouseButton(Qt::MouseButton mouseButton)
     }
 }
 
-bool InputManager::eventFilter(QObject* object, QEvent* event)
+bool InputManager::eventFilter( QObject* object, QEvent* event )
 {
-    if (object != m_filteredObj.data())
+    if( object != m_filteredObj.data() )
         return false;
 
     // Emit a signal with the QEvent argument so that others can handle it
-    emit eventFiltered(event);
-	switch (event->type())
-	{
-	case QEvent::KeyPress:
-		{
-			QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-			keyboard(0)->setButtonState(keyEvent->key(), 1);
-			emit keyPressed(keyEvent->key());
-			return true;
-		}
-	case QEvent::KeyRelease:
-		{
-			QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-			keyboard(0)->setButtonState(keyEvent->key(), 0);
-			emit keyReleased(keyEvent->key());
-			return true;
-		}
-	case QEvent::MouseMove:
-		{
-			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-			mouse(0)->setPosition( mouseEvent->pos( ) );
+    emit eventFiltered( event );
+    switch( event->type() )
+    {
+        case QEvent::KeyPress:
+        {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>( event );
+            keyboard( 0 )->setButtonState( keyEvent->key(), 1 );
+            emit keyPressed( keyEvent->key() );
+            return true;
+        }
+        case QEvent::KeyRelease:
+        {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>( event );
+            keyboard( 0 )->setButtonState( keyEvent->key(), 0 );
+            emit keyReleased( keyEvent->key() );
+            return true;
+        }
+        case QEvent::MouseMove:
+        {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>( event );
+            mouse( 0 )->setPosition( mouseEvent->pos( ) );
             emit mouseMoved( mouseEvent->pos( ) );
-			return true;
-		}
-	case QEvent::Wheel:
-		{
-			QWheelEvent *wheelEvent = static_cast<QWheelEvent *>(event);
-			mouse(0)->setHWheelPosition( wheelEvent->x( ) );
-			mouse(0)->setHWheelPosition( wheelEvent->y( ) );
+            return true;
+        }
+        case QEvent::Wheel:
+        {
+            QWheelEvent* wheelEvent = static_cast<QWheelEvent*>( event );
+            mouse( 0 )->setHWheelPosition( wheelEvent->x( ) );
+            mouse( 0 )->setHWheelPosition( wheelEvent->y( ) );
             emit mouseWheeled( wheelEvent->x( ), wheelEvent->y( ) );
-			return true;
-		}
-	case QEvent::MouseButtonPress:
-		{
-                    if(!m_filteredObj.isNull() && !qobject_cast<QWidget*>(filteredObject())->hasFocus())
-                        qobject_cast<QWidget*>(filteredObject())->setFocus();
-                    
-			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-			mouse(0)->setButtonState(mapMouseButton( mouseEvent->button() ), 1);
+            return true;
+        }
+        case QEvent::MouseButtonPress:
+        {
+            if( !m_filteredObj.isNull() && !qobject_cast<QWidget*>( filteredObject() )->hasFocus() )
+                qobject_cast<QWidget*>( filteredObject() )->setFocus();
+
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>( event );
+            mouse( 0 )->setButtonState( mapMouseButton( mouseEvent->button() ), 1 );
             emit keyPressed( mapMouseButton( mouseEvent->button() ) );
             return true;
-		}
+        }
         case QEvent::MouseButtonRelease:
         {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-            mouse(0)->setButtonState(mapMouseButton( mouseEvent->button() ), 0);
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>( event );
+            mouse( 0 )->setButtonState( mapMouseButton( mouseEvent->button() ), 0 );
             emit keyReleased( mapMouseButton( mouseEvent->button() ) );
             return true;
         }
-	case QEvent::Gesture:
-		{
-			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
-            if (QGesture *swipe = gestureEvent->gesture(Qt::SwipeGesture))
-                swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-            else if (QGesture *pan = gestureEvent->gesture(Qt::PanGesture))
-                panTriggered(static_cast<QPanGesture *>(pan));
-            if (QGesture *pinch = gestureEvent->gesture(Qt::PinchGesture))
-                pinchTriggered(static_cast<QPinchGesture *>(pinch));
-			return true;
-		}
-	case QEvent::GestureOverride:
-		{
-			QGestureEvent *gestureEvent = static_cast<QGestureEvent *>(event);
-            if (QGesture *swipe = gestureEvent->gesture(Qt::SwipeGesture))
-                swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-            else if (QGesture *pan = gestureEvent->gesture(Qt::PanGesture))
-                panTriggered(static_cast<QPanGesture *>(pan));
-            if (QGesture *pinch = gestureEvent->gesture(Qt::PinchGesture))
-                pinchTriggered(static_cast<QPinchGesture *>(pinch));
-			return true;
-		}
-	default:
-		return false;
-	}
+        case QEvent::Gesture:
+        {
+            QGestureEvent* gestureEvent = static_cast<QGestureEvent*>( event );
+            if( QGesture* swipe = gestureEvent->gesture( Qt::SwipeGesture ) )
+                swipeTriggered( static_cast<QSwipeGesture*>( swipe ) );
+            else if( QGesture* pan = gestureEvent->gesture( Qt::PanGesture ) )
+                panTriggered( static_cast<QPanGesture*>( pan ) );
+            if( QGesture* pinch = gestureEvent->gesture( Qt::PinchGesture ) )
+                pinchTriggered( static_cast<QPinchGesture*>( pinch ) );
+            return true;
+        }
+        case QEvent::GestureOverride:
+        {
+            QGestureEvent* gestureEvent = static_cast<QGestureEvent*>( event );
+            if( QGesture* swipe = gestureEvent->gesture( Qt::SwipeGesture ) )
+                swipeTriggered( static_cast<QSwipeGesture*>( swipe ) );
+            else if( QGesture* pan = gestureEvent->gesture( Qt::PanGesture ) )
+                panTriggered( static_cast<QPanGesture*>( pan ) );
+            if( QGesture* pinch = gestureEvent->gesture( Qt::PinchGesture ) )
+                pinchTriggered( static_cast<QPinchGesture*>( pinch ) );
+            return true;
+        }
+        default:
+            return false;
+    }
 
-	return false;
+    return false;
 }
 
-void InputManager::swipeTriggered(QSwipeGesture *gesture)
+void InputManager::swipeTriggered( QSwipeGesture* gesture )
 {
-    if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-            || gesture->verticalDirection() == QSwipeGesture::Up)
+    if( gesture->state() == Qt::GestureFinished )
+    {
+        if( gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up )
             ;
     }
 }
 
-void InputManager::panTriggered(QPanGesture *gesture)
+void InputManager::panTriggered( QPanGesture* gesture )
 {
 }
 
-void InputManager::pinchTriggered(QPinchGesture *gesture)
+void InputManager::pinchTriggered( QPinchGesture* gesture )
 {
 }
 
-void InputManager::installEventFiltered(QObject *filteredObj)
+void InputManager::installEventFiltered( QObject* filteredObj )
 {
-    filteredObj->installEventFilter(this);
-    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PanGesture);
-    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::PinchGesture);
-    qobject_cast<QWidget*>(filteredObj)->grabGesture(Qt::SwipeGesture);
-    qobject_cast<QWidget*>(filteredObj)->setMouseTracking(true);
+    filteredObj->installEventFilter( this );
+    qobject_cast<QWidget*>( filteredObj )->grabGesture( Qt::PanGesture );
+    qobject_cast<QWidget*>( filteredObj )->grabGesture( Qt::PinchGesture );
+    qobject_cast<QWidget*>( filteredObj )->grabGesture( Qt::SwipeGesture );
+    qobject_cast<QWidget*>( filteredObj )->setMouseTracking( true );
 }
 
-void InputManager::removeEventFiltered(QObject *filteredObj)
+void InputManager::removeEventFiltered( QObject* filteredObj )
 {
-    filteredObj->removeEventFilter(this);
+    filteredObj->removeEventFilter( this );
 }
 
 QObject* InputManager::filteredObject()
@@ -368,13 +369,13 @@ QObject* InputManager::filteredObject()
     return m_filteredObj.data();
 }
 
-void InputManager::setFilteredObject(QObject *filteredObj)
+void InputManager::setFilteredObject( QObject* filteredObj )
 {
     if( filteredObj && inputManagementType() == QT_INPUT_HIGHLEVEL )
     {
         if( !m_filteredObj.isNull() )
             removeEventFiltered( m_filteredObj.data() );
-        installEventFiltered(filteredObj);
+        installEventFiltered( filteredObj );
     }
 
     m_filteredObj = filteredObj;

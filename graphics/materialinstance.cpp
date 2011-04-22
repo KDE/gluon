@@ -70,7 +70,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
     : GluonObject( parent ),
       d( new MaterialInstancePrivate )
 {
-    qRegisterMetaType<GluonGraphics::Texture*>("GluonGraphics::Texture*");
+    qRegisterMetaType<GluonGraphics::Texture*>( "GluonGraphics::Texture*" );
     connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
 }
 
@@ -84,7 +84,7 @@ MaterialInstance::bind()
 {
     if( !d->material )
     {
-        debug("Trying to bind a MaterialInstance without a material. This will most likely cause problems!");
+        debug( "Trying to bind a MaterialInstance without a material. This will most likely cause problems!" );
         return false;
     }
 
@@ -95,14 +95,14 @@ MaterialInstance::bind()
     glUseProgram( program );
     d->bound = true;
 
-    if(!d->customViewProjMatrices)
+    if( !d->customViewProjMatrices )
     {
         setGLUniform( QString( "viewMatrix" ), d->activeCamera->viewMatrix() );
         setGLUniform( QString( "projectionMatrix" ), d->activeCamera->frustrum()->projectionMatrix() );
     }
 
     QList<QByteArray> properties = dynamicPropertyNames();
-    foreach( const QByteArray& prop, properties )
+    foreach( const QByteArray & prop, properties )
     {
         setGLUniform( prop, property( prop ) );
     }
@@ -168,7 +168,7 @@ MaterialInstance::setPropertiesFromMaterial()
     }
 }
 
-void MaterialInstance::setUseCustomViewProjMatrices(bool useCustom)
+void MaterialInstance::setUseCustomViewProjMatrices( bool useCustom )
 {
     d->customViewProjMatrices = useCustom;
 }
@@ -180,9 +180,9 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
     {
         case QVariant::UInt:
         case QVariant::Int:
-            if(name.contains("texture"))
+            if( name.contains( "texture" ) )
             {
-                bindTexture(name, value.toInt());
+                bindTexture( name, value.toInt() );
             }
             else
             {
@@ -239,7 +239,7 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
             if( obj && name.contains( "texture" ) )
             {
-                QVariant val = obj->property("texture");
+                QVariant val = obj->property( "texture" );
                 if( val.isValid() )
                 {
                     if( GluonGraphics::Texture* texture = val.value<GluonGraphics::Texture*>() )
@@ -248,12 +248,12 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
                     }
                     else
                     {
-                        debug( QString("The object contained in the texture property on object %1 was not valid").arg( obj->fullyQualifiedName() ) );
+                        debug( QString( "The object contained in the texture property on object %1 was not valid" ).arg( obj->fullyQualifiedName() ) );
                     }
                 }
                 else
                 {
-                    debug( QString("Texture was not a valid property on %1").arg( obj->fullyQualifiedName() ) );
+                    debug( QString( "Texture was not a valid property on %1" ).arg( obj->fullyQualifiedName() ) );
                 }
             }
             break;
@@ -267,7 +267,7 @@ MaterialInstance::bindTexture( const QString& name, Texture* tex )
     if( !tex )
         return;
 
-    bindTexture(name, tex->glTexture());
+    bindTexture( name, tex->glTexture() );
 }
 
 void MaterialInstance::bindTexture( const QString& name, int tex )

@@ -57,7 +57,7 @@ namespace GluonEngine
 
         private:
             class ScriptingComponentPrivate;
-            ScriptingComponentPrivate * const d;
+            ScriptingComponentPrivate* const d;
     };
 }
 

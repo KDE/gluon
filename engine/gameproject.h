@@ -33,12 +33,12 @@
 
 namespace GluonEngine
 {
-    const QString projectSuffix(".gluon");
-    const QString projectFilename("game.gluonproject");
-    const QString projectMetainfo("game.gluonmeta");
-    const QString projectIcon("game.png");
-    const QString projectWinIcon("game.ico");
-    const QString projectScreenshot("screenshot.png");
+    const QString projectSuffix( ".gluon" );
+    const QString projectFilename( "game.gluonproject" );
+    const QString projectMetainfo( "game.gluonmeta" );
+    const QString projectIcon( "game.png" );
+    const QString projectWinIcon( "game.ico" );
+    const QString projectScreenshot( "screenshot.png" );
 
     class GameProjectPrivate;
     class TextureAsset;

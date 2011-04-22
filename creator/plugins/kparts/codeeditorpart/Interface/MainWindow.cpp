@@ -99,13 +99,13 @@ void MainWindow::eatChildren( GluonEngine::GameObject* trap )
     int i = trap->childCount();
     while( i > 0 )
     {
-        _graph->addNode( trap->childGameObject( i - 1 )->name(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
+        _graph->addNode( trap->childGameObject( i - 1 )->name(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
         _graph->node( trap->childGameObject( i - 1 )->name() )->setProperty( "parentObject", trap->objectName() );
-        foreach( const QString& s, _objectTypes )
+        foreach( const QString & s, _objectTypes )
         {
             foreach( GluonEngine::Component * c, trap->childGameObject( i - 1 )->findComponentsByType( s ) )
             {
-                _graph->addNode( c->name(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
+                _graph->addNode( c->name(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
                 _graph->node( c->name() )->setValue( s );
                 _graph->node( c->name() )->setValueHeader( "Type" );
                 _graph->node( c->name() )->setProperty( "parentObject", c->parent()->objectName() );
@@ -164,12 +164,12 @@ void MainWindow::updateNodesFromModel( const QUndoCommand* cmd )
             {
                 if( _isGameObject )
                 {
-                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
+                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setProperty( "parentObject", dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->parent()->objectName() );
                 }
                 if( _isGameComponent )
                 {
-                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
+                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setValue( QString( dynamic_cast<GluonEngine::Component*>( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object() )->metaObject()->className() ) );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setValueHeader( "Type" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setProperty( "parentObject", dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->parent()->objectName() );
@@ -191,12 +191,12 @@ void MainWindow::updateNodesFromModel( const QUndoCommand* cmd )
             {
                 if( dynamic_cast<GluonEngine::GameObject*>( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object() ) != NULL )
                 {
-                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
+                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "base" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setProperty( "parentObject", dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->parent()->objectName() );
                 }
                 if( dynamic_cast<GluonEngine::Component*>( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object() ) != NULL )
                 {
-                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF((( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, (( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
+                    _graph->addNode( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName(), QPointF( ( ( double( qrand() ) / RAND_MAX )*_graph->document()->width() ) + 10, ( ( double( qrand() ) / RAND_MAX )*_graph->document()->height() ) + 10 ), "others" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setValue( QString( dynamic_cast<GluonEngine::Component*>( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object() )->metaObject()->className() ) );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setValueHeader( "Type" );
                     _graph->node( dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->objectName() )->setProperty( "parentObject", dynamic_cast<const GluonCreator::AbstractUndoCommand*>( cmd )->object()->parent()->objectName() );
@@ -346,7 +346,7 @@ void MainWindow::saveStateGDL()
 
 void MainWindow::loadStateGDL()
 {
-    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( QFileInfo(GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
+    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
     foreach( QObject * n, rootlist.first()->children() )
     {
         _graph->addNode( n->objectName(), QPoint( n->property( "Nodex" ).toInt(), n->property( "Nodey" ).toInt() ), n->property( "NodeType" ).toString() );
@@ -421,7 +421,7 @@ void MainWindow::addCustomTypes( KComboBox* bigList )
     foreach( QObject * n, noderootlist.first()->children() )
     {
         propertlist.clear();
-        foreach( const QByteArray& ba, n->dynamicPropertyNames() )
+        foreach( const QByteArray & ba, n->dynamicPropertyNames() )
         {
             propertlist.insert( QString( ba.data() ), n->property( ba.data() ) );
         }

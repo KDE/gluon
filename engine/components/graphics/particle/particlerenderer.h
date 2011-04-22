@@ -74,7 +74,8 @@ namespace GluonEngine
             Q_PROPERTY( int uvAnimationCycles READ uvAnimationCycles WRITE setUVAnimationCycles )
 
         public:
-            enum StretchParticles {
+            enum StretchParticles
+            {
                 // The particles are rendered as if facing the camera.
                 Billboard,
                 // The particles are facing the direction they are moving.
@@ -95,7 +96,7 @@ namespace GluonEngine
 
             void initialize();
             void start();
-            void update ( int elapsedMilliseconds );
+            void update( int elapsedMilliseconds );
             void draw( int timeLapse = 0 );
             void cleanup();
 
