@@ -24,9 +24,9 @@
 #include <core/gluonobject.h>
 
 #include <KDE/KLocalizedString>
+#include <KDE/KComboBox>
+#include <KDE/KLineEdit>
 
-#include <QtGui/QLineEdit>
-#include <QtGui/QComboBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QPushButton>
 #include <QtGui/QColor>
@@ -43,9 +43,9 @@ using namespace GluonCreator;
 PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidget* parent, Qt::WindowFlags f )
     : QDialog( parent, f )
 {
-    propertyName = new QLineEdit( this );
+    propertyName = new KLineEdit( this );
 
-    propertyType = new QComboBox( this );
+    propertyType = new KComboBox( this );
     propertyType->addItem( i18n( "Boolean (bool)" ), QVariant::fromValue<bool>( false ) );
     propertyType->addItem( i18n( "Integer (int)" ), QVariant::fromValue<int>( 0 ) );
     propertyType->addItem( i18n( "Color (rgba)" ), QVariant::fromValue<QColor>( QColor() ) );

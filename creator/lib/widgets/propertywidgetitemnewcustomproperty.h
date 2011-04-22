@@ -21,8 +21,9 @@
 
 #include <QtGui/QDialog>
 
-class QLineEdit;
-class QComboBox;
+class KLineEdit;
+class KComboBox;
+
 namespace GluonCore
 {
     class GluonObject;
@@ -47,8 +48,8 @@ namespace GluonCreator
 
         private:
             GluonCore::GluonObject* editingThis;
-            QLineEdit* propertyName;
-            QComboBox* propertyType;
+            KLineEdit* propertyName;
+            KComboBox* propertyType;
     };
 }
 

@@ -25,17 +25,19 @@
 #include "graphDocument.h"
 #include "NodeItem.h"
 #include "OrientedEdgeItem.h"
-#include <QGraphicsItem>
-#include <QGraphicsSceneMouseEvent>
-#include <QGraphicsSceneWheelEvent>
-#include <QKeyEvent>
-#include <QtGui/QInputDialog>
-#include <QtGui/QLineEdit>
-#include <KDebug>
 #include "graph.h"
 #include "NodePropertiesWidget.h"
 #include "MainWindow.h"
 #include "edgepropertieswidget.h"
+
+#include <KDE/KInputDialog>
+#include <KDE/KLineEdit>
+#include <KDE/KDebug>
+
+#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QGraphicsSceneWheelEvent>
+#include <QtGui/QKeyEvent>
 
 GraphScene::GraphScene( QObject* parent ) : QGraphicsScene( parent )
 {
@@ -231,7 +233,7 @@ void GraphScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         {
             //eew yuck, popup windows!
             bool ok;
-            QString response = QInputDialog::getText( qobject_cast<QWidget*>( _parent ), "Change If Test", "New If Test:", QLineEdit::Normal, nItem->node()->value().toString(), &ok );
+            QString response = KInputDialog::getText( qobject_cast<QWidget*>( _parent ), "Change If Test", "New If Test:", QLineEdit::Normal, nItem->node()->value().toString(), &ok );
             if( ok && !response.isEmpty() )
             {
                 nItem->node()->setValue( response );

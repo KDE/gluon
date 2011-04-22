@@ -23,14 +23,16 @@
 #include "NodeItem.h"
 #include "graphDocument.h"
 #include "DynamicPropertiesList.h"
-#include <QListIterator>
-#include <QHashIterator>
-#include <QMapIterator>
-#include <QByteArray>
-#include <QStringList>
-#include <QInputDialog>
-#include <KDebug>
-#include <QColor>
+
+#include <KDE/KInputDialog>
+#include <KDE/KDebug>
+
+#include <QtCore/QListIterator>
+#include <QtCore/QHashIterator>
+#include <QtCore/QMapIterator>
+#include <QtCore/QByteArray>
+#include <QtCore/QStringList>
+#include <QtGui/QColor>
 
 Graph::Graph( GraphDocument* parent ) : QObject( parent )
 {
@@ -354,7 +356,7 @@ bool Graph::assignEdgeAction( Node* from, Edge* edge )
                 middleman << temp;
             }
         }
-        selectedProperty = QInputDialog::getItem( 0, "Select Action to Associate to:", "Select Action:", middleman, 0, false, &okPressed );
+        selectedProperty = KInputDialog::getItem( 0, "Select Action to Associate to:", "Select Action:", middleman, 0, false, &okPressed );
     }
     if( !okPressed )
     {

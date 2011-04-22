@@ -22,7 +22,8 @@
 
 #include <creator/lib/widgets/propertywidgetitem.h>
 
-class QLineEdit;
+class KLineEdit;
+
 class QToolButton;
 class QLabel;
 
@@ -52,9 +53,9 @@ namespace GluonCreator
             QToolButton* addButton;
             QLabel* countLabel;
 
-            QMap<QToolButton*, QLineEdit*> textEditorItems;
-            QMap<QLineEdit*, QString> stringValues;
-            QList<QLineEdit*> itemOrder;
+            QMap<QToolButton*, KLineEdit*> textEditorItems;
+            QMap<KLineEdit*, QString> stringValues;
+            QList<KLineEdit*> itemOrder;
 
             bool isStringList;
             bool isList;

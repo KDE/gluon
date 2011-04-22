@@ -19,14 +19,14 @@
 
 #include "stringlistpropertywidgetitem.h"
 
+#include <KDE/KIcon>
+#include <KDE/KLocalizedString>
+#include <KDE/KLineEdit>
+
 #include <QtGui/QGridLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
 #include <QtGui/QToolButton>
-
-#include <KIcon>
-#include <KLocalizedString>
 
 using namespace GluonCreator;
 
@@ -85,7 +85,7 @@ GluonCreator::PropertyWidgetItem* StringListPropertyWidgetItem::instantiate()
 
 void StringListPropertyWidgetItem::leValueChanged( QString newValue )
 {
-    QLineEdit* from = qobject_cast< QLineEdit* >( sender() );
+    KLineEdit* from = qobject_cast< KLineEdit* >( sender() );
     if( from )
     {
         stringValues.insert( from, newValue );
@@ -151,7 +151,7 @@ void StringListPropertyWidgetItem::addItem( QString value )
     connect( removeButton, SIGNAL( clicked( bool ) ), SLOT( removeClicked() ) );
     containerLayout->addWidget( removeButton );
 
-    QLineEdit* editorLE = new QLineEdit( listItems );
+    KLineEdit* editorLE = new KLineEdit( listItems );
     editorLE->setText( value );
     connect( editorLE, SIGNAL( valueChanged( int ) ), SLOT( leValueHasChanged( QString ) ) );
     containerLayout->addWidget( editorLE );
@@ -170,7 +170,7 @@ void StringListPropertyWidgetItem::removeClicked()
     {
         listItems->layout()->removeWidget( from->parentWidget() );
         from->parentWidget()->deleteLater();
-        QLineEdit* editorLE = textEditorItems[from];
+        KLineEdit* editorLE = textEditorItems[from];
         textEditorItems.remove( from );
         stringValues.remove( editorLE );
         itemOrder.append( editorLE );
@@ -182,7 +182,7 @@ void StringListPropertyWidgetItem::removeClicked()
 void StringListPropertyWidgetItem::valueHasChanged()
 {
     QList<QString> theValues;
-    foreach( QLineEdit * item, itemOrder )
+    foreach( KLineEdit * item, itemOrder )
     {
         theValues.append( stringValues[item] );
     }
