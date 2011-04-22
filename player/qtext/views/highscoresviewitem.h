@@ -27,7 +27,7 @@
 class HighScoresViewItem : public QWidget
 {
     public:
-        HighScoresViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit HighScoresViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~HighScoresViewItem();
 
         virtual void setModelIndex( const QModelIndex& index );

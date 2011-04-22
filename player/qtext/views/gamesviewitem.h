@@ -30,7 +30,7 @@ class GamesViewItem : public QWidget
 {
         Q_OBJECT
     public:
-        GamesViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit GamesViewItem( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
         virtual void setModelIndex( const QModelIndex& index );
         QModelIndex modelIndex() const;

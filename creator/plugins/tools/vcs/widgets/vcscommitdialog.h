@@ -49,8 +49,8 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            VcsCommitDialog( KDevelop::IPlugin* plugin, QWidget* parent = 0 );
-            VcsCommitDialog( QWidget* parent = 0 );
+            explicit VcsCommitDialog( KDevelop::IPlugin* plugin, QWidget* parent = 0 );
+            explicit VcsCommitDialog( QWidget* parent = 0 );
             virtual ~VcsCommitDialog();
 
         public:

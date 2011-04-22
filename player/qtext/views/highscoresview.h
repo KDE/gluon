@@ -33,9 +33,10 @@ namespace GluonPlayer
 class HighScoresView : public AbstractItemView
 {
     public:
-        HighScoresView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual void setModel( QAbstractItemModel* model );
+        explicit HighScoresView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual ~HighScoresView();
+
+        virtual void setModel( QAbstractItemModel* model );
 
     protected:
         bool eventFilter( QObject* obj, QEvent* event );

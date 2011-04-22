@@ -32,7 +32,7 @@ class GamesView : public AbstractItemView
 {
         Q_OBJECT
     public:
-        GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        explicit GamesView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
         virtual void setModel( QAbstractItemModel* model );
 
     protected:
