@@ -26,8 +26,7 @@
 #include <QtGui/QGraphicsSceneEvent>
 #include <QGLFramebufferObject>
 #include <QtGui/QGraphicsItem>
-#include <QtCore/QDebug>
-#include <QtGui/QApplication>
+#include <QtCore/QCoreApplication>
 
 #include <input/inputmanager.h>
 #include <graphics/engine.h>
@@ -193,7 +192,7 @@ void RenderableScene::deliverEvent( QEvent* event )
             e.setButton( ev->button() );
             e.setModifiers( ev->modifiers() );
             e.setAccepted( false );
-            QApplication::sendEvent( this, &e );
+            QCoreApplication::sendEvent( this, &e );
         }
         break;
 
@@ -210,7 +209,7 @@ void RenderableScene::deliverEvent( QEvent* event )
             e.setDelta( ev->delta() );
             e.setOrientation( ev->orientation() );
             e.setAccepted( false );
-            QApplication::sendEvent( this, &e );
+            QCoreApplication::sendEvent( this, &e );
         }
         break;
 #endif
@@ -219,7 +218,7 @@ void RenderableScene::deliverEvent( QEvent* event )
         {
             // Send the event directly without any conversion.
             // Typically used for keyboard, focus, and enter/leave events.
-            QApplication::sendEvent( this, event );
+            QCoreApplication::sendEvent( this, event );
         }
         break;
 
