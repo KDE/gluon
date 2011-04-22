@@ -51,7 +51,7 @@ namespace GluonPlayer
                                    const QString& projectDirName, const QString& projectFileName,
                                    const Status& status, const QString& id, QObject* parent = 0 );
             GameViewItem( const GameViewItem& other, QObject* parent = 0 );
-            virtual ~GameViewItem() {}
+            virtual ~GameViewItem();
 
             QString gameName() const;
             QString gameDescription() const;

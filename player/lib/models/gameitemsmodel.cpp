@@ -76,6 +76,10 @@ GameItemsModel::GameItemsModel( QObject* parent )
     fetchGamesList();
 }
 
+GameItemsModel::~GameItemsModel()
+{
+}
+
 QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
 {
     if( index.row() < 0 || index.row() > m_gameViewItems.values().count() )

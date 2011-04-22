@@ -39,6 +39,10 @@ GameViewItem::GameViewItem( const GameViewItem& /* other */, QObject* parent )
 {
 }
 
+GameViewItem::~GameViewItem()
+{
+}
+
 QString GameViewItem::gameName() const
 {
     return m_gameName;

@@ -73,7 +73,7 @@ namespace GluonPlayer
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
-            virtual ~GameItemsModel() {}
+            virtual ~GameItemsModel();
 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
