@@ -27,11 +27,6 @@
 #include <GL/glee.h>
 #endif
 
-#include <QtCore/QMutex>
-#include <QtOpenGL/QGLFramebufferObject>
-
-#include <core/gluon_global.h>
-
 #include "camera.h"
 #include "item.h"
 #include "material.h"
@@ -40,6 +35,12 @@
 #include "texture.h"
 #include "viewport.h"
 #include "rendertarget.h"
+
+#include <core/gluon_global.h>
+
+#include <QtCore/QMutex>
+#include <QtCore/QMutableListIterator>
+#include <QtOpenGL/QGLFramebufferObject>
 
 using namespace GluonGraphics;
 
@@ -383,16 +384,17 @@ Engine::render()
     //Render a full screen quad with the FBO data.
     d->mainTarget->render();
 
-    for( QList<QWeakPointer<RenderTarget> >::iterator target = d->renderTargets.begin();
-            target != d->renderTargets.end(); ++target )
+    QMutableListIterator<QWeakPointer<RenderTarget> > i(d->renderTargets);
+    while (i.hasNext())
     {
-        if( *target )
+        QWeakPointer<RenderTarget> target = i.next();
+        if( target )
         {
-            (*target).data()->render();
+            target.data()->render();
         }
         else
         {
-            d->renderTargets.removeOne( *target );
+            i.remove();
         }
     }
     glEnable( GL_DEPTH_TEST );
