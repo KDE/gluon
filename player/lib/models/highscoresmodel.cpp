@@ -33,11 +33,24 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
+class HighScoresModel::Private
+{
+    public:
+    Private()
+    {
+    }
+
+    QString m_gameId;
+    GluonCore::GluonObject* m_rootNode;
+};
+
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
-    , m_gameId( gameId )
-    , m_rootNode( new GluonObject( "HighScores" ) )
+    , d(new Private() )
 {
+    d->m_gameId = gameId;
+    d->m_rootNode = new GluonObject( "HighScores" );
+
     loadData();
 }
 
@@ -48,7 +61,7 @@ HighScoresModel::~HighScoresModel()
 
 int HighScoresModel::rowCount( const QModelIndex& /* parent */ ) const
 {
-    return m_rootNode->children().count();
+    return d->m_rootNode->children().count();
 }
 
 int HighScoresModel::columnCount( const QModelIndex& /* parent */ ) const
@@ -63,13 +76,13 @@ QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
         switch( index.column() )
         {
             case NameColumn:
-                return m_rootNode->child( index.row() )->name();
+                return d->m_rootNode->child( index.row() )->name();
                 break;
             case HighScoreColumn:
-                return m_rootNode->child( index.row() )->property( "HighScore" );
+                return d->m_rootNode->child( index.row() )->property( "HighScore" );
                 break;
             case LevelColumn:
-                return m_rootNode->child( index.row() )->property( "Level" );
+                return d->m_rootNode->child( index.row() )->property( "Level" );
                 break;
         }
     }
@@ -114,7 +127,7 @@ void HighScoresModel::loadData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     if( QFile::exists( gluonDir.absoluteFilePath( "highscores.gdl" ) ) )
-        m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
+        d->m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "highscores.gdl" );
 }
@@ -135,7 +148,7 @@ void HighScoresModel::saveData()
     }
 
     QList<const GluonObject*> highScores;
-    highScores.append( m_rootNode );
+    highScores.append( d->m_rootNode );
     QTextStream dataWriter( &dataFile );
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( highScores );
     dataFile.close();

@@ -51,6 +51,20 @@ using namespace GluonCreator;
 
 template<> GLUON_CREATOR_VISIBILITY ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
 
+class ObjectManager::Private
+{
+    public:
+    Private()
+        : m_objectId( 0 )
+        , m_sceneId( 0 )
+    {
+    }
+
+    int m_objectId;
+    int m_sceneId;
+    QHash<QString, GluonEngine::Asset*> m_assets;
+};
+
 QString
 ObjectManager::humanifyClassName( const QString& fixThis, bool justRemoveNamespace ) const
 {
@@ -146,7 +160,7 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     newAsset->load();
 
     QString filePath( newAsset->absolutePath() );
-    m_assets.insert( filePath, newAsset );
+    d->m_assets.insert( filePath, newAsset );
     KDirWatch::self()->addFile( filePath );
 
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
@@ -250,13 +264,13 @@ void ObjectManager::watchCurrentAssets()
         QString path( asset->absolutePath() );
         DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
         KDirWatch::self()->addFile( path );
-        m_assets.insert( path, asset );
+        d->m_assets.insert( path, asset );
     }
 }
 
 void ObjectManager::assetDirty( const QString& file )
 {
-    GluonEngine::Asset* asset = m_assets.value( file );
+    GluonEngine::Asset* asset = d->m_assets.value( file );
     if( asset )
     {
         asset->reload();
@@ -266,7 +280,7 @@ void ObjectManager::assetDirty( const QString& file )
 
 void ObjectManager::assetDeleted( const QString& file )
 {
-    m_assets.remove( file );
+    d->m_assets.remove( file );
     KDirWatch::self()->removeFile( file );
     QFileInfo fi( file );
     if( fi.isFile() )
@@ -287,10 +301,8 @@ void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 }
 
 ObjectManager::ObjectManager()
+    : d( new Private() )
 {
-    m_objectId = 0;
-    m_sceneId = 0;
-
     connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
     connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
 }

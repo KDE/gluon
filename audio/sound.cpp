@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2009-2011 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,10 +23,9 @@
 
 #include "engine.h"
 
-#include <alure.h>
-
 #include <core/debughelper.h>
 
+#include <alure.h>
 #include <sndfile.h>
 
 using namespace GluonAudio;

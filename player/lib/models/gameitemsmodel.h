@@ -95,9 +95,8 @@ namespace GluonPlayer
         private:
             void fetchGamesList();
 
-            QMultiMap<GameViewItem::Status, GameViewItem*> m_gameViewItems;
-
-
+            class Private;
+            Private* const d;
     };
 }
 

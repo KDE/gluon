@@ -38,13 +38,27 @@
 using namespace GluonCore;
 using namespace GluonPlayer;
 
+class CommentsModel::Private
+{
+    public:
+    Private()
+    {
+    }
+
+    GluonCore::GluonObject* m_rootNode;
+    QStringList m_columnNames;
+    bool m_isOnline;
+    QString m_gameId;
+};
+
 CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
-    , m_rootNode( new GluonObject( "Comment" ) )
-    , m_isOnline( false )
-    , m_gameId( gameId )
+    , d(new Private() )
 {
-    m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
+    d->m_rootNode = new GluonObject( "Comment" );
+    d->m_isOnline = false;
+    d->m_gameId = gameId;
+    d->m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
@@ -68,7 +82,7 @@ void CommentsModel::providersUpdated()
     {
         Attica::ListJob<Attica::Comment> *job =
             AtticaManager::instance()->provider().requestComments( Attica::Comment::ContentComment,
-                    m_gameId, "0", 0, 100 );
+                    d->m_gameId, "0", 0, 100 );
         connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedComments( Attica::BaseJob* ) ) );
         job->start();
     }
@@ -88,18 +102,18 @@ void CommentsModel::processFetchedComments( Attica::BaseJob* job )
         //No error, try to remove exising comments (if any)
         //and add new comments
 
-        if( m_rootNode )
+        if( d->m_rootNode )
         {
-            qDeleteAll( m_rootNode->children() );
+            qDeleteAll( d->m_rootNode->children() );
         }
 
         for( int i = 0; i < commentsJob->itemList().count(); ++i )
         {
             Attica::Comment p( commentsJob->itemList().at( i ) );
-            addComment( p, m_rootNode );
+            addComment( p, d->m_rootNode );
         }
 
-        m_isOnline = true;
+        d->m_isOnline = true;
         reset();    //Reset the model to notify views to reload comments
     }
     else
@@ -147,7 +161,7 @@ void CommentsModel::loadData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     if( QFile::exists( gluonDir.absoluteFilePath( "comments.gdl" ) ) )
-        m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
+        d->m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
     else
         qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
 }
@@ -165,7 +179,7 @@ void CommentsModel::saveData()
         qDebug() << "Cannot open the comments file!";
 
     QList<const GluonObject*> comments;
-    comments.append( m_rootNode );
+    comments.append( d->m_rootNode );
     QTextStream dataWriter( &dataFile );
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( comments );
     dataFile.close();
@@ -175,7 +189,7 @@ void CommentsModel::saveData()
 CommentsModel::~CommentsModel()
 {
     saveData();     //Save data before exiting
-    delete m_rootNode;
+    delete d->m_rootNode;
 }
 
 QVariant CommentsModel::data( const QModelIndex& index, int role ) const
@@ -185,14 +199,14 @@ QVariant CommentsModel::data( const QModelIndex& index, int role ) const
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( m_columnNames.at( index.column() ).toUtf8() );
+        return node->property( d->m_columnNames.at( index.column() ).toUtf8() );
     }
     else if( role >= Qt::UserRole )
     {
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( m_columnNames.at( role - Qt::UserRole ).toUtf8() );
+        return node->property( d->m_columnNames.at( role - Qt::UserRole ).toUtf8() );
     }
     return QVariant();
 }
@@ -209,7 +223,7 @@ int CommentsModel::rowCount( const QModelIndex& parent ) const
         return 0;
 
     if( !parent.isValid() )
-        parentItem = m_rootNode;
+        parentItem = d->m_rootNode;
     else
         parentItem = static_cast<GluonObject*>( parent.internalPointer() );
 
@@ -224,7 +238,7 @@ QModelIndex CommentsModel::parent( const QModelIndex& child ) const
     GluonObject* childItem = static_cast<GluonObject*>( child.internalPointer() );
     GluonObject* parentItem = qobject_cast<GluonObject*> ( childItem->parent() );
 
-    if( parentItem == m_rootNode )
+    if( parentItem == d->m_rootNode )
         return QModelIndex();
 
     GluonObject* grandParentItem = qobject_cast<GluonObject*>( parentItem->parent() );
@@ -242,7 +256,7 @@ QModelIndex CommentsModel::index( int row, int column, const QModelIndex& parent
     GluonObject* parentItem;
 
     if( !parent.isValid() )
-        parentItem = m_rootNode;
+        parentItem = d->m_rootNode;
     else
         parentItem = static_cast<GluonObject*>( parent.internalPointer() );
 
@@ -256,7 +270,7 @@ QModelIndex CommentsModel::index( int row, int column, const QModelIndex& parent
 QVariant CommentsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
-        return m_columnNames.at( section );
+        return d->m_columnNames.at( section );
 
     return QVariant();
 }
@@ -276,7 +290,7 @@ bool CommentsModel::setData( const QModelIndex& index, const QVariant& value, in
         GluonObject* node;
         node = static_cast<GluonObject*>( index.internalPointer() );
 
-        node->setProperty( m_columnNames.at( index.column() ).toUtf8(), value );
+        node->setProperty( d->m_columnNames.at( index.column() ).toUtf8(), value );
         emit dataChanged( index, index );
         return true;
     }
@@ -310,7 +324,7 @@ bool CommentsModel::insertRows( int row, int count, const QModelIndex& parent )
 
 bool CommentsModel::isOnline()
 {
-    return m_isOnline;
+    return d->m_isOnline;
 }
 
 void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
@@ -318,7 +332,7 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
     Attica::PostJob* job =
         AtticaManager::instance()->provider().addNewComment( Attica::Comment::ContentComment,
-                m_gameId, "0", parentNode->name(), subject,
+                d->m_gameId, "0", parentNode->name(), subject,
                 message );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addCommentFinished( Attica::BaseJob* ) ) );
     job->start();

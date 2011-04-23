@@ -111,15 +111,12 @@ namespace GluonPlayer
 
         private:
             GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
-
-            GluonCore::GluonObject* m_rootNode;
-            QStringList m_columnNames;
-            bool m_isOnline;
-            QString m_gameId;
-
             void updateData();
             void loadData();
             void saveData();
+
+            class Private;
+            Private* const d;
     };
 }
 

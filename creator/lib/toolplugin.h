@@ -41,11 +41,15 @@ namespace GluonCreator
             virtual void unload( KXmlGuiWindow* mainWindow );
 
         protected:
-            virtual QWidget* createTool( KXmlGuiWindow* parent ) = 0;
+            friend class GluonCore::Singleton<ToolPlugin>;
 
         private:
-            QWidget* m_tool;
+            virtual QWidget* createTool( KXmlGuiWindow* parent ) = 0;
 
+            Q_DISABLE_COPY( ToolPlugin )
+
+            class Private;
+            Private* const d;
     };
 
 }

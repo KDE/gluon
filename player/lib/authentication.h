@@ -134,13 +134,8 @@ namespace GluonPlayer
 
             void showRegisterError( const Attica::Metadata& );
 
-            bool m_initialized;
-            bool m_loggedIn;
-            QString m_username;
-            QString m_password;
-            Attica::PostJob* m_registerJob;
-            Attica::PostJob* m_checkLoginJob;
-            Attica::PostJob* m_checkLogoutJob;
+            class Private;
+            Private* const d;
     };
 }
 

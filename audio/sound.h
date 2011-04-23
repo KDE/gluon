@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2009-2011 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,18 +22,12 @@
 #ifndef GLUON_AUDIO_SOUND_H
 #define GLUON_AUDIO_SOUND_H
 
+#include "gluon_audio_export.h"
+
+#include <QtGui/QVector3D>
 #include <QtCore/QObject>
 
-#ifdef Q_WS_X11
-#include <AL/al.h>
-#elif defined(Q_WS_MAC)
-#include <OpenAL/al.h>
-#elif defined(Q_WS_WIN)
-#include <AL/al.h>
-#endif
-#include <QtGui/QVector3D>
-
-#include "gluon_audio_export.h"
+#include <al.h>
 
 namespace GluonAudio
 {

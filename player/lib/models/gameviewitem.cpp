@@ -21,21 +21,39 @@
 
 using namespace GluonPlayer;
 
+class GameViewItem::Private
+{
+    public:
+    Private()
+    {
+    }
+
+    QString m_gameName;
+    QString m_gameDescription;
+    QString m_projectDirName;
+    QString m_projectFileName;
+    QStringList m_screenshotUrls;
+    Status m_status;
+    QString m_id;
+};
+
 GameViewItem::GameViewItem( const QString& gameName, const QString& gameDescription,
                             const QString& projectDirName, const QString& projectFileName, const Status& status,
                             const QString& id, QObject* parent )
     : QObject( parent )
-    , m_gameName( gameName )
-    , m_gameDescription( gameDescription )
-    , m_projectDirName( projectDirName )
-    , m_projectFileName( projectFileName )
-    , m_status( status )
-    , m_id( id )
+    , d( new Private() )
 {
+    d->m_gameName = gameName;
+    d->m_gameDescription = gameDescription;
+    d->m_projectDirName = projectDirName;
+    d->m_projectFileName = projectFileName;
+    d->m_status = status;
+    d->m_id = id;
 }
 
 GameViewItem::GameViewItem( const GameViewItem& /* other */, QObject* parent )
     : QObject( parent )
+    , d( new Private() )
 {
 }
 
@@ -45,37 +63,37 @@ GameViewItem::~GameViewItem()
 
 QString GameViewItem::gameName() const
 {
-    return m_gameName;
+    return d->m_gameName;
 }
 
 QString GameViewItem::gameDescription() const
 {
-    return m_gameDescription;
+    return d->m_gameDescription;
 }
 
 QString GameViewItem::projectDirName() const
 {
-    return m_projectDirName;
+    return d->m_projectDirName;
 }
 
 QString GameViewItem::projectFileName() const
 {
-    return m_projectFileName;
+    return d->m_projectFileName;
 }
 
 QStringList GameViewItem::screenshotUrls() const
 {
-    return m_screenshotUrls;
+    return d->m_screenshotUrls;
 }
 
 GameViewItem::Status GameViewItem::status() const
 {
-    return m_status;
+    return d->m_status;
 }
 
 QString GameViewItem::id() const
 {
-    return m_id;
+    return d->m_id;
 }
 
 #include "gameviewitem.moc"

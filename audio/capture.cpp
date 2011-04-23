@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2009 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2009 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,6 +18,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "capture.h"
 #include "capturedevice_p.h"
 
@@ -25,13 +27,7 @@
 #include <QtCore/QTime>
 #include <QtCore/QFile>
 
-#ifdef Q_WS_X11
-#include <AL/al.h>
-#elif defined(Q_WS_MAC)
-#include <OpenAL/al.h>
-#elif defined(Q_WS_WIN)
-#include <AL/al.h>
-#endif
+#include <al.h>
 
 #include <alc.h>
 #include <sndfile.h>

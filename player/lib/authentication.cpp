@@ -29,9 +29,26 @@ using namespace GluonPlayer;
 
 GLUON_DEFINE_SINGLETON( Authentication )
 
+class Authentication::Private
+{
+    public:
+    Private()
+        : m_initialized( false )
+        , m_loggedIn( false )
+    {
+    }
+
+    bool m_initialized;
+    bool m_loggedIn;
+    QString m_username;
+    QString m_password;
+    Attica::PostJob* m_registerJob;
+    Attica::PostJob* m_checkLoginJob;
+    Attica::PostJob* m_checkLogoutJob;
+};
+
 Authentication::Authentication()
-    : m_initialized( false )
-    , m_loggedIn( false )
+    : d( new Private() )
 {
     init();
 }
@@ -51,17 +68,17 @@ void Authentication::init()
 
 bool Authentication::isInitialized()
 {
-    return m_initialized;
+    return d->m_initialized;
 }
 
 QString Authentication::username()
 {
-    return m_username;
+    return d->m_username;
 }
 
 QString Authentication::password()
 {
-    return m_password;
+    return d->m_password;
 }
 
 void Authentication::onRegisterClicked( const QString& username, const QString& password, const QString& mail,
@@ -71,22 +88,22 @@ void Authentication::onRegisterClicked( const QString& username, const QString& 
 
     if( AtticaManager::instance()->isProviderValid() )
     {
-        m_registerJob = AtticaManager::instance()->provider().registerAccount( username, password, mail, firstName, lastName );
-        connect( m_registerJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( onRegisterAccountFinished( Attica::BaseJob* ) ) );
-        m_registerJob->start();
+        d->m_registerJob = AtticaManager::instance()->provider().registerAccount( username, password, mail, firstName, lastName );
+        connect( d->m_registerJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( onRegisterAccountFinished( Attica::BaseJob* ) ) );
+        d->m_registerJob->start();
     }
 }
 
 bool Authentication::login( const QString& username, const QString& password )
 {
-    m_username = username;
-    m_password = password;
+    d->m_username = username;
+    d->m_password = password;
 
     if( AtticaManager::instance()->isProviderValid() )
     {
-        m_checkLoginJob = AtticaManager::instance()->provider().checkLogin( m_username, m_password );
-        connect( m_checkLoginJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
-        m_checkLoginJob->start();
+        d->m_checkLoginJob = AtticaManager::instance()->provider().checkLogin( d->m_username, d->m_password );
+        connect( d->m_checkLoginJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
+        d->m_checkLoginJob->start();
         return true;
     }
 
@@ -95,14 +112,14 @@ bool Authentication::login( const QString& username, const QString& password )
 
 bool Authentication::logout( )
 {
-    m_username.clear();
-    m_password.clear();
+    d->m_username.clear();
+    d->m_password.clear();
 
     if( AtticaManager::instance()->isProviderValid() )
     {
-        if( AtticaManager::instance()->provider().saveCredentials( m_username, m_password ) )
+        if( AtticaManager::instance()->provider().saveCredentials( d->m_username, d->m_password ) )
         {
-            m_loggedIn = false;
+            d->m_loggedIn = false;
             emit loggedOut();
             return true;
         }
@@ -118,7 +135,7 @@ bool Authentication::logout( )
 
 bool Authentication::isLoggedIn()
 {
-    return m_loggedIn;
+    return d->m_loggedIn;
 }
 
 bool Authentication::hasCredentials()
@@ -128,8 +145,8 @@ bool Authentication::hasCredentials()
 
 void Authentication::finishInit()
 {
-    AtticaManager::instance()->provider().loadCredentials( m_username, m_password );
-    m_initialized = true;
+    AtticaManager::instance()->provider().loadCredentials( d->m_username, d->m_password );
+    d->m_initialized = true;
     emit initialized();
 }
 
@@ -190,7 +207,7 @@ void Authentication::onRegisterAccountFinished( Attica::BaseJob* job )
 
     if( postJob->metadata().error() == Attica::Metadata::NoError )
     {
-        AtticaManager::instance()->provider().saveCredentials( m_username, m_password );
+        AtticaManager::instance()->provider().saveCredentials( d->m_username, d->m_password );
         emit registered();
     }
     else
@@ -207,20 +224,20 @@ void Authentication::checkLoginResult( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        if( AtticaManager::instance()->provider().saveCredentials( m_username, m_password ) )
+        if( AtticaManager::instance()->provider().saveCredentials( d->m_username, d->m_password ) )
         {
-            m_loggedIn = true;
+            d->m_loggedIn = true;
             emit loggedIn();
         }
         else
         {
-            m_loggedIn = false;
+            d->m_loggedIn = false;
             emit loginSaveCredentialsFailed();
         }
     }
     else
     {
-        m_loggedIn = false;
+        d->m_loggedIn = false;
         emit loginFailed();
     }
 }

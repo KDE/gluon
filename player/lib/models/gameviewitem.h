@@ -62,13 +62,8 @@ namespace GluonPlayer
             QString id() const;
 
         private:
-            QString m_gameName;
-            QString m_gameDescription;
-            QString m_projectDirName;
-            QString m_projectFileName;
-            QStringList m_screenshotUrls;
-            Status m_status;
-            QString m_id;
+            class Private;
+            Private* const d;
     };
 }
 

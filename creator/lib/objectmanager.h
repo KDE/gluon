@@ -74,9 +74,8 @@ namespace GluonCreator
             void setupAsset( GluonEngine::Asset* asset, GluonCore::GluonObject* parent = 0, const QString& fileName = QString(), const QString& name = QString() );
             Q_DISABLE_COPY( ObjectManager )
 
-            int m_objectId;
-            int m_sceneId;
-            QHash<QString, GluonEngine::Asset*> m_assets;
+            class Private;
+            Private* const d;
     };
 
 }

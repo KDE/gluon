@@ -28,9 +28,20 @@
 
 using namespace GluonCreator;
 
+class ToolPlugin::Private
+{
+    public:
+    Private()
+        : m_tool( 0 )
+    {
+    }
+
+    QWidget* m_tool;
+};
+
 ToolPlugin::ToolPlugin( QObject* parent, const QList< QVariant >& params )
     : Plugin( parent, params )
-    , m_tool( 0 )
+    , d( new Private() )
 {
 
 }
@@ -44,14 +55,14 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
 {
     mainWindow->insertChildClient( this );
 
-    m_tool = createTool( mainWindow );
+    d->m_tool = createTool( mainWindow );
 
-    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolplugin_%1\" version=\"1\">" ).arg( m_tool->objectName() );
+    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_toolplugin_%1\" version=\"1\">" ).arg( d->m_tool->objectName() );
     xml.append( "<MenuBar><Menu name=\"tools\"><Menu name=\"versionControlSystem\">" );
     // xml.append(<text>&amp;Tools</text>);
     // xml.append(<text>&amp;Version Control System</text>);
     // xml.append(<DefineGroup name="tools_operations" append="tools_operations" />);
-    foreach( QAction * action, m_tool->actions() )
+    foreach( QAction * action, d->m_tool->actions() )
     {
         xml.append( QString( "<Action name=\"%1Action\" />" ).arg( action->objectName() ) );
         actionCollection()->addAction( QString( "%1Action" ).arg( action->objectName() ), action );
@@ -63,6 +74,6 @@ void ToolPlugin::load( KXmlGuiWindow* mainWindow )
 
 void ToolPlugin::unload( KXmlGuiWindow* /* mainWindow */ )
 {
-    actionCollection()->removeAction( actionCollection()->action( QString( "%1Action" ).arg( m_tool->objectName() ) ) );
+    actionCollection()->removeAction( actionCollection()->action( QString( "%1Action" ).arg( d->m_tool->objectName() ) ) );
     parentClient()->removeChildClient( this );
 }

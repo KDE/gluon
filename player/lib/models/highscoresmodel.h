@@ -61,8 +61,8 @@ namespace GluonPlayer
             void loadData();
             void saveData();
 
-            QString m_gameId;
-            GluonCore::GluonObject* m_rootNode;
+            class Private;
+            Private* const d;
     };
 
 }
