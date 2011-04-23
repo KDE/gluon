@@ -166,11 +166,12 @@ void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width
     if( mainTarget )
         mainTarget->resize( width, height );
 
-    foreach( const QWeakPointer<RenderTarget>& target, renderTargets )
+    for( QList<QWeakPointer<RenderTarget> >::iterator target = renderTargets.begin();
+            target != renderTargets.end(); ++target )
     {
-        if( target )
+        if( *target )
         {
-            target.data()->resize( width, height );
+            (*target).data()->resize( width, height );
         }
     }
 }
@@ -382,15 +383,16 @@ Engine::render()
     //Render a full screen quad with the FBO data.
     d->mainTarget->render();
 
-    foreach( const QWeakPointer<RenderTarget>& target, d->renderTargets )
+    for( QList<QWeakPointer<RenderTarget> >::iterator target = d->renderTargets.begin();
+            target != d->renderTargets.end(); ++target )
     {
-        if( target )
+        if( *target )
         {
-            target.data()->render();
+            (*target).data()->render();
         }
         else
         {
-            d->renderTargets.removeOne( target );
+            d->renderTargets.removeOne( *target );
         }
     }
     glEnable( GL_DEPTH_TEST );
