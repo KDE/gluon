@@ -1,7 +1,6 @@
 { GluonEngine::GameProject(Ball)
     description string(Ball Game)
     entryPoint GluonEngine::Scene(Ball/Scenes/Game)
-    id string(271210)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Game)
             file url(scenes/game.gluonscene)
