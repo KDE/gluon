@@ -20,26 +20,27 @@
 #ifndef NODEITEM_H
 #define NODEITEM_H
 
-#include <QGraphicsSvgItem>
-#include <QStateMachine>
-#include <QState>
-#include <QPropertyAnimation>
-#include <QSvgRenderer>
-#include <QGraphicsTextItem>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsColorizeEffect>
-#include <QMap>
-#include <QList>
-#include <QHash>
-#include <QListIterator>
-#include <QByteArray>
-#include <QString>
-#include <QFont>
-#include <QPixmap>
-#include <QGraphicsItem>
-#include <QEvent>
 #include "node.h"
 
+#include <QtGui/QGraphicsSvgItem>
+#include <QtGui/QPropertyAnimation>
+#include <QtGui/QSvgRenderer>
+#include <QtGui/QGraphicsTextItem>
+#include <QtGui/QGraphicsPixmapItem>
+#include <QtGui/QGraphicsColorizeEffect>
+#include <QtGui/QFont>
+#include <QtGui/QPixmap>
+#include <QtGui/QGraphicsItem>
+
+#include <QtCore/QStateMachine>
+#include <QtCore/QState>
+#include <QtCore/QString>
+#include <QtCore/QEvent>
+#include <QtCore/QMap>
+#include <QtCore/QList>
+#include <QtCore/QHash>
+#include <QtCore/QListIterator>
+#include <QtCore/QByteArray>
 
 class NodeItem : public QGraphicsSvgItem
 {
@@ -98,8 +99,6 @@ class NodeItem : public QGraphicsSvgItem
         int rdown;
         int previousCount;
 };
-
-#include "node.h"
 
 #endif
 

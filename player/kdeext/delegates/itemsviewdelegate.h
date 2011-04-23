@@ -17,8 +17,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *****************************************************************************/
 
-#ifndef GLUON_ITEMSVIEWBASEDELEGATE_H
-#define GLUON_ITEMSVIEWBASEDELEGATE_H
+#ifndef GLUON_ITEMSVIEWDELEGATE_H
+#define GLUON_ITEMSVIEWDELEGATE_H
 
 #include <KDE/KIcon>
 #include <KDE/KWidgetItemDelegate>

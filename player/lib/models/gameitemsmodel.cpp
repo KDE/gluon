@@ -176,7 +176,7 @@ void GameItemsModel::providersUpdated()
         gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
         Attica::Category::List categories;
 
-        foreach( QString gluonCategory, gluonGamesCategories )
+        foreach( const QString& gluonCategory, gluonGamesCategories )
         {
             Attica::Category category;
             category.setId( gluonCategory );

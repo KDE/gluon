@@ -166,6 +166,7 @@ void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width
     if( mainTarget )
         mainTarget->resize( width, height );
 
+    for( PropNameList::const_iterator p1 = a_names.begin(), p2 = b_names.begin(), e = a_names.end(); p1 != e; ++p1, ++p2 )
     foreach( const QWeakPointer<RenderTarget>& target, renderTargets )
     {
         if( target )

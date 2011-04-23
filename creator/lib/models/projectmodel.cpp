@@ -35,7 +35,6 @@
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
 #include <KDE/KIcon>
-#include <KDE/KMimeType>
 
 #include <QtCore/QMimeData>
 #include <QtCore/QFileInfo>

@@ -19,18 +19,10 @@
      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#include "MainWindow.h"
+
 #include "lib/abstractundocommand.h"
 #include "lib/objectmanager.h"
-
-#include "MainWindow.h"
-//Qt related includes
-
-// KDE Related Includes
-#include <KActionCollection>
-#include <KIcon>
-#include <KDebug>
-//#include <KApplication>
-#include <klocalizedstring.h>
 
 // UI RELATED INCLUDES
 
@@ -54,16 +46,20 @@
 #include "DeleteAction.h"
 #include "AlignAction.h"
 
-// backends
-#include <kstandarddirs.h>
-#include <QtGui/QActionGroup>
-#include <QtCore/QList>
-#include <QtCore/QFile>
-#include <KPushButton>
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 
+// KDE Related Includes
+#include <KDE/KActionCollection>
+#include <KDE/KIcon>
+#include <KDE/KDebug>
+#include <KDE/KLocalizedString>
+#include <KDE/KPushButton>
+#include <kstandarddirs.h>
 
+#include <QtGui/QActionGroup>
+#include <QtCore/QList>
+#include <QtCore/QFile>
 #include <QtCore/QDir>
 
 

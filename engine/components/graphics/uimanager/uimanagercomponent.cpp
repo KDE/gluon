@@ -29,7 +29,6 @@
 #include "engine/game.h"
 
 #include <core/messagehandler.h>
-#include <graphics/item.h>
 #include <graphics/engine.h>
 #include <graphics/item.h>
 #include <graphics/material.h>

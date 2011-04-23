@@ -24,19 +24,20 @@
 
 #include "lib/historymanager.h"
 
-#include "lib/historymanager.h"
-#include <kmessagebox.h>
-#include <KToolBar>
-#include <KComboBox>
-#include <QtGui/QAction>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QUndoCommand>
-#include <QtCore/QTextStream>
 #include <engine/gameobject.h>
 #include <engine/component.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+
+#include <KDE/KMessageBox>
+#include <KDE/KToolBar>
+#include <KDE/KComboBox>
+
+#include <QtGui/QAction>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QUndoCommand>
+#include <QtCore/QTextStream>
 
 class KPushButton;
 class GraphVisualEditor;

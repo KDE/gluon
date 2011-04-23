@@ -38,7 +38,6 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QListView>
 #include <QtCore/QModelIndex>
-#include <QtCore/QModelIndex>
 
 class KRecentFilesAction;
 

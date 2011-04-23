@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
-#define GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
+#ifndef GLUON_ENGINE_BEAMRENDERERCOMPONENT_H
+#define GLUON_ENGINE_BEAMRENDERERCOMPONENT_H
 
 #include <engine/component.h>
 
@@ -74,4 +75,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::BeamRendererComponent* )
 
-#endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
+#endif // GLUON_ENGINE_BEAMRENDERERCOMPONENT_H

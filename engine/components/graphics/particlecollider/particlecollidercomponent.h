@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_PARTICLECOLLIDER_H
-#define GLUON_ENGINE_PARTICLECOLLIDER_H
+#ifndef GLUON_ENGINE_PARTICLECOLLIDERCOMPONENT_H
+#define GLUON_ENGINE_PARTICLECOLLIDERCOMPONENT_H
 
 #include <engine/component.h>
 
@@ -91,4 +91,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::ParticleColliderComponent* )
 
-#endif // GLUON_ENGINE_PARTICLECOLLIDER_H
+#endif // GLUON_ENGINE_PARTICLECOLLIDERCOMPONENT_H
