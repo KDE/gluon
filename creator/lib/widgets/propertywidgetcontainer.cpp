@@ -267,7 +267,7 @@ PropertyWidgetContainer::downTriggered()
 void
 PropertyWidgetContainer::delTriggered()
 {
-    if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete the item %1?" ).arg( d->object->fullyQualifiedName() ), i18n( "Delete Item?" ) ) == KMessageBox::Yes )
+    if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete the item %1?", d->object->fullyQualifiedName() ), i18n( "Delete Item?" ) ) == KMessageBox::Yes )
     {
         GluonCore::GluonObject* theParent = qobject_cast<GluonCore::GluonObject*>( d->object->parent() );
         if( theParent )

@@ -50,7 +50,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
 
     QFormLayout* m_contentLayout = new QFormLayout();
 
-    m_contentLayout->addRow( i18n( "Username" ) , m_usernameEdit );
+    m_contentLayout->addRow( i18nc( "The name of the user", "Username" ) , m_usernameEdit );
     m_contentLayout->addRow( i18n( "Password" ) , m_passwordEdit );
     m_contentLayout->addRow( i18n( "Login" ) , m_loginButton );
     m_contentLayout->addRow( i18n( "Remember" ) , m_rememberMeCheckBox );

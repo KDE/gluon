@@ -51,7 +51,7 @@ StringListPropertyWidgetItem::StringListPropertyWidgetItem( QWidget* parent, Qt:
     layout->addWidget( addButton, 0, 0 );
 
     countLabel = new QLabel( centralWidget );
-    countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
+    countLabel->setText( i18n( "Item count: 0" ) );
     layout->addWidget( countLabel, 0, 1 );
 
     listItems = new QWidget( centralWidget );
@@ -160,7 +160,7 @@ void StringListPropertyWidgetItem::addItem( QString value )
     textEditorItems.insert( removeButton, editorLE );
     stringValues.insert( editorLE, value );
     itemOrder.append( editorLE );
-    countLabel->setText( i18n( "Item count: %1" ).arg( stringValues.count() ) );
+    countLabel->setText( i18n( "Item count: %1", stringValues.count() ) );
 }
 
 void StringListPropertyWidgetItem::removeClicked()
@@ -174,7 +174,7 @@ void StringListPropertyWidgetItem::removeClicked()
         textEditorItems.remove( from );
         stringValues.remove( editorLE );
         itemOrder.append( editorLE );
-        countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
+        countLabel->setText( i18n( "Item count: 0" ) );
         valueHasChanged();
     }
 }

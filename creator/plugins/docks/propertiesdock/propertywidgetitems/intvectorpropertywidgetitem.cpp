@@ -50,7 +50,7 @@ IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::W
     layout->addWidget( addButton, 0, 0 );
 
     countLabel = new QLabel( centralWidget );
-    countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
+    countLabel->setText( i18n( "Item count: 0" ) );
     layout->addWidget( countLabel, 0, 1 );
 
     listItems = new QWidget( centralWidget );
@@ -155,7 +155,7 @@ void IntVectorPropertyWidgetItem::addItem( int value )
     intEditorItems.insert( removeButton, editorSpin );
     intValues.insert( editorSpin, value );
     itemOrder.append( editorSpin );
-    countLabel->setText( i18n( "Item count: %1" ).arg( intValues.count() ) );
+    countLabel->setText( i18n( "Item count: %1", intValues.count() ) );
 }
 
 void IntVectorPropertyWidgetItem::removeClicked()
@@ -169,7 +169,7 @@ void IntVectorPropertyWidgetItem::removeClicked()
         intEditorItems.remove( from );
         intValues.remove( editSpin );
         itemOrder.removeOne( editSpin );
-        countLabel->setText( i18n( "Item count: %1" ).arg( 0 ) );
+        countLabel->setText( i18n( "Item count: 0" ) );
         valueHasChanged();
     }
 }

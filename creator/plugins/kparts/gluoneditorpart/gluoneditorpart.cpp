@@ -77,7 +77,7 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     QActionGroup* group = new QActionGroup( actionCollection() );
     group->setExclusive( true );
 
-    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18n( "Solid" ), actionCollection() );
+    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18nc( "Draw type", "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
     connect( solid, SIGNAL( triggered( bool ) ), SLOT( setSolid() ) );
@@ -96,7 +96,7 @@ GluonCreator::GluonEditorPart::GluonEditorPart( QWidget* /* parentWidget */, QOb
     group->addAction( points );
     actionCollection()->addAction( "togglePointsAction", points );
 
-    KAction* select = new KAction( KIcon( "edit-select" ), i18n( "Select" ), actionCollection() );
+    KAction* select = new KAction( KIcon( "edit-select" ), i18nc( "General select", "Select" ), actionCollection() );
     select->setCheckable( true );
     connect( select, SIGNAL( triggered( bool ) ), SLOT( setSelect() ) );
     group->addAction( select );

@@ -75,7 +75,7 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidge
     }
 
     QFormLayout* formLayout = new QFormLayout();
-    formLayout->addRow( i18n( "Name:" ), propertyName );
+    formLayout->addRow( i18nc( "The property name", "Name:" ), propertyName );
     formLayout->addRow( i18n( "Type" ), propertyType );
 
     QVBoxLayout* layout = new QVBoxLayout();

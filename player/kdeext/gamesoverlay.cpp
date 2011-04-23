@@ -48,7 +48,7 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_gamesView->setModel( m_gameItemsModel );
     m_stackedWidget->addWidget( m_gamesView );
 
-    m_model->appendPair( qMakePair( i18n( "Available" ), new KIcon( "get-hot-new-stuff" ) ) );
+    m_model->appendPair( qMakePair( i18nc( "The list of the games that can be downloaded", "Available" ), new KIcon( "get-hot-new-stuff" ) ) );
     m_stackedWidget->addWidget( m_availableView );
 
     m_model->appendPair( qMakePair( i18n( "Community" ), new KIcon( "system-users" ) ) );

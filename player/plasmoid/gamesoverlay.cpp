@@ -39,7 +39,7 @@ GamesOverlay::GamesOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
 
     Plasma::Label* m_tempLabel = new Plasma::Label( this );
     m_tempLabel->setText( i18n( "Coming Soon!" ) );
-    m_tabBar->addTab( KIcon( "get-hot-new-stuff" ), i18n( "Available" ), m_tempLabel );
+    m_tabBar->addTab( KIcon( "get-hot-new-stuff" ), i18nc( "The games that can be downloaded", "Available" ), m_tempLabel );
 
     m_tabBar->addTab( KIcon( "network-connect" ), i18n( "Login" ), m_loginForm );
 

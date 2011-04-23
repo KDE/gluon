@@ -190,7 +190,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->toolBar = new KToolBar( widget );
     d->toolBar->setIconDimensions( 16 );
 
-    d->newMenu = new QMenu( i18n( "New" ), d->toolBar );
+    d->newMenu = new QMenu( i18nc( "A new menu", "New" ), d->toolBar );
 
     QToolButton* menuButton = new QToolButton( d->toolBar );
     menuButton->setIcon( KIcon( "document-new" ) );
@@ -208,8 +208,8 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     // Run through all the templates and add an action for each...
     foreach( const GluonEngine::AssetTemplate * item, d->assetTemplates )
     {
-        QAction* action = d->newMenu->addAction( i18n( "New %1" ).arg( item->name ), this, SLOT( newAssetTriggered() ) );
-        action->setProperty( "newAssetClassname", QString( item->parent()->metaObject()->className() ) );
+        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( newAssetTriggered() ) );
+        action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
         action->setProperty( "newAssetFilename", item->filename );
@@ -324,7 +324,7 @@ void ProjectDock::deleteActionTriggered()
     }
 
     DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
-    if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!" ).arg( object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
+    if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!", object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
         GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( object );
         if( asset )

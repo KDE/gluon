@@ -39,7 +39,7 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     , m_busyWidget( new Plasma::BusyWidget( this ) )
     , m_usernameLabel( new Plasma::Label( this ) )
 {
-    m_usernameEdit->nativeWidget()->setClickMessage( i18n( "Username" ) );
+    m_usernameEdit->nativeWidget()->setClickMessage( i18nc( "The name of the user", "Username" ) );
     m_passwordEdit->nativeWidget()->setClickMessage( i18n( "Password" ) );
     m_passwordEdit->nativeWidget()->setPasswordMode( true );
     m_loginButton->setIcon( KIcon( "network-connect" ) );

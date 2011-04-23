@@ -51,7 +51,7 @@ int main( int argc, char** argv )
 
     if( argc > 1 && !QFile::exists( argv[1] ) )
     {
-        if( KMessageBox::warningContinueCancel( 0, i18n( "File does not exist: %1! Do you want to continue?" ).arg( argv[1] ), i18n( "Continue?" ),
+        if( KMessageBox::warningContinueCancel( 0, i18n( "File does not exist: %1! Do you want to continue?", argv[1] ), i18n( "Continue?" ),
                                                 KStandardGuiItem::cont(), KStandardGuiItem::quit() ) == KMessageBox::Cancel )
             return 1;
 

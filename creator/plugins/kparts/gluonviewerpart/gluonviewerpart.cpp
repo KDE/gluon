@@ -79,7 +79,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     QActionGroup* group = new QActionGroup( actionCollection() );
     group->setExclusive( true );
 
-    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18n( "Solid" ), actionCollection() );
+    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18nc( "Draw type", "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
     connect( solid, SIGNAL( triggered( bool ) ), SLOT( setSolid() ) );

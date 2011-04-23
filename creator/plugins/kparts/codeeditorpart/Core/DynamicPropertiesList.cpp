@@ -183,14 +183,14 @@ QString DynamicPropertiesList::typeInText( QObject* obj, QString name )
     switch( type( obj, name ) )
     {
         case Unique:
-            return i18n( "Unique" );
+            return i18nc( "The type of the text", "Unique" );
         case Multiple:
-            return i18n( "Multiple" );
+            return i18nc( "The type of the text", "Multiple" );
         case Global:
-            return i18n( "Global" );
+            return i18nc( "The type of the text", "Global" );
         case None:
         default:
-            return i18n( "None" );
+            return i18nc( "The type of the text", "None" );
     }
 }
 

@@ -216,7 +216,7 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() )
         saveProject();
 }
@@ -259,7 +259,7 @@ void MainWindow::setupActions()
 
     d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
     connect( d->recentFiles, SIGNAL( urlSelected( const KUrl& ) ), SLOT( openProject( const KUrl& ) ) );
-    d->recentFiles->setText( i18n( "Open Recent" ) );
+    d->recentFiles->setText( i18n( "Open Recent Project" ) );
     d->recentFiles->setToolTip( i18n( "Open recent project" ) );
     d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
     actionCollection()->addAction( "project_open_recent", d->recentFiles );

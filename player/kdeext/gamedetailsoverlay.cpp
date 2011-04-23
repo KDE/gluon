@@ -38,7 +38,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QWidget* parent, Qt::Win
     , m_commentWidget( new QWidget( this ) )
 {
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
-    m_backButton->setText( i18n( "Back" ) );
+    m_backButton->setText( i18nc( "Back to the previous view", "Back" ) );
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     connect( m_backButton, SIGNAL( clicked() ), SIGNAL( back() ) );
 

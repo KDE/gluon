@@ -200,12 +200,12 @@ void NodeItem::updateName()
 {
     if( !_name )
     {
-        _name = new QGraphicsSimpleTextItem( i18n( "Name: %1" ).arg( _node->name() ), this );
+        _name = new QGraphicsSimpleTextItem( i18nc( "The name of the node item", "Name: %1", _node->name() ), this );
         _name->setFont( _font );
     }
     else if( _name->text() != _node->name() )
     {
-        _name->setText( i18n( "Name: %1" ).arg( _node->name() ) );
+        _name->setText( i18nc( "The name of the node item", "Name: %1", _node->name() ) );
     }
     _name->setVisible( _node->showName() );
     _name->setPos( 0, 75 );
@@ -215,7 +215,7 @@ void NodeItem::updateValue()
 {
     if( !_value )
     {
-        _value = new QGraphicsSimpleTextItem( i18n( "Value: %1" ).arg( _node->value().toString() ), this );
+        _value = new QGraphicsSimpleTextItem( i18n( "Value: %1", _node->value().toString() ), this );
         _value->setFont( _font );
     }
     else if( _value->text() != _node->value().toString() )

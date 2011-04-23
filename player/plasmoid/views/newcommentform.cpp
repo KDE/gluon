@@ -37,7 +37,7 @@ NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     layout2->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
 
     m_titleEdit = new Plasma::LineEdit( this );
-    m_titleEdit->nativeWidget()->setClickMessage( i18n( "Subject" ) );
+    m_titleEdit->nativeWidget()->setClickMessage( i18nc( "The subject of the new comment", "Subject" ) );
 
     m_bodyEdit = new Plasma::TextEdit( this );
     m_bodyEdit->nativeWidget()->setClickMessage( i18n( "Message" ) );
