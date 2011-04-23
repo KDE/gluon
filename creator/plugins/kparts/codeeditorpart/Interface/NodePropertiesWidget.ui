@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Name:</string>
+      <string>Node Name:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -61,7 +61,7 @@
       <string>X-coordinate </string>
      </property>
      <property name="text">
-      <string extracomment="X-coordinate ">x</string>
+      <string extracomment="X-coordinate ">x coordinate</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -122,7 +122,7 @@
       <string>Y-coordinate </string>
      </property>
      <property name="text">
-      <string extracomment="Y-coordinate ">y</string>
+      <string extracomment="Y-coordinate ">y coordinate</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -148,7 +148,7 @@
       <string>Node color</string>
      </property>
      <property name="text">
-      <string>Color:</string>
+      <string>Node Color:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -267,7 +267,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
-        <string>Global</string>
+        <string>Global Node</string>
        </property>
       </widget>
      </item>
@@ -280,7 +280,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Name</string>
+        <string>Node Name</string>
        </property>
       </widget>
      </item>

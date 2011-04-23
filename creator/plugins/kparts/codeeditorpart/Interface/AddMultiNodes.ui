@@ -59,17 +59,17 @@
     <widget class="KComboBox" name="_cmbOptions">
      <item>
       <property name="text">
-       <string>None</string>
+       <string>No Connection</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Circular</string>
+       <string>Circular Connection</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Complete</string>
+       <string>Complete Connection</string>
       </property>
      </item>
     </widget>
