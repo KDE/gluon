@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef FRUSTUM_H
-#define FRUSTUM_H
+#ifndef FRUSTRUM_H
+#define FRUSTRUM_H
 
 #include "gluon_graphics_export.h"
 
@@ -159,4 +159,4 @@ namespace GluonGraphics
 
 }
 
-#endif // GLUONGRAPHICS_FRUSTUM_H
+#endif // GLUONGRAPHICS_FRUSTRUM_H

@@ -22,16 +22,7 @@
 
 #include <QtCore/QStringList>
 
-#ifdef Q_WS_X11
-#include <AL/alc.h>
-#endif
-#ifdef Q_WS_MAC
-#include <OpenAL/alc.h>
-#endif
-#ifdef Q_WS_WIN
-#include <AL/alc.h>
-#endif
-
+#include <alc.h>
 
 namespace GluonAudio
 {

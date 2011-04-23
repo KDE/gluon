@@ -24,7 +24,6 @@
 #include <creator/lib/historymanager.h>
 #include <creator/lib/newobjectcommand.h>
 #include <creator/lib/objectmanager.h>
-#include <creator/lib/selectionmanager.h>
 #include <creator/lib/models/projectmodel.h>
 #include <creator/lib/models/models.h>
 #include <creator/lib/models/modeltest.h>
