@@ -26,9 +26,6 @@
             { GluonEngine::TextureAsset(Reset)
                 file url(assets/textures/reset.png)
             }
-            { GluonEngine::TextureAsset(Trap)
-                file url(assets/textures/trap.png)
-            }
         }
         { GluonCore::GluonObject(Interface)
             { GluonEngine::UiAsset(Menu Interface)
@@ -44,9 +41,6 @@
             }
             { GluonEngine::ScriptingAsset(Player2)
                 file url(assets/scripts/player2.js)
-            }
-            { GluonEngine::ScriptingAsset(Trap)
-                file url(assets/scripts/trap.js)
             }
         }
         { GluonCore::GluonObject(Sounds)
@@ -75,10 +69,6 @@
             { GluonGraphics::MaterialInstance(Reset)
                 materialColor rgba(255;255;255;255)
                 texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Reset)
-            }
-            { GluonGraphics::MaterialInstance(Trap)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Trap)
             }
         }
         { GluonEngine::MaterialAsset(Render Target Material)

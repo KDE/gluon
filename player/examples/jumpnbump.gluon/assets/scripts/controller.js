@@ -4,7 +4,6 @@ var gPlayerRef = null;
 var gPlayer2Ref = null;
 var gLastScoreUpdateInt = 0;
 var gEndedGameBool = false;
-var gTrapRef = null;
 var gStarRef = null;
 
 this.initialize = function()
@@ -17,7 +16,6 @@ this.start = function()
     Game.score = 0;
     Game.end = false;
 
-    gTrapRef = Game.getFromScene("Trap");
     gStarRef = Game.getFromScene("Star");
     gPlayerRef = Game.clone(Game.getFromScene("Player"));
     gPlayerRef.setPosition(-25, -40);
@@ -30,7 +28,6 @@ this.start = function()
 this.update = function(time)
 {
     if (Game.end == false) {
-        this.deployTrap();
         if (Game.score%6 == 0 && Game.score != gLastScoreUpdateInt) {
             this.updateScore(Game.score/6);
         }
@@ -41,19 +38,6 @@ this.update = function(time)
 
         if (this.GameObject.Key_Reset.isActionHeld()) {
             this.resetGame();
-        }
-    }
-}
-
-this.deployTrap = function()
-{
-    ++gCurrentlyBreakInt;
-    if (gCurrentlyBreakInt >= gMiniumBreakInt) {
-        if (Math.random()*11 > 9){
-            var trap = Game.clone(gTrapRef);
-            trap.setPosition(50, -40);
-            trap.enabled = true;
-            gCurrentlyBreakInt = 0;
         }
     }
 }

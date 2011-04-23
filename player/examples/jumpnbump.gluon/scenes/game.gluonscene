@@ -73,12 +73,6 @@
             keyCode int(16777235)
             expanded bool(true)
         }
-        { GluonEngine::SphereCollisionComponent(TrapCollider)
-            enabled bool(true)
-            collisionGroup int(1)
-            radius float(8)
-            expanded bool(false)
-        }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Player)
@@ -109,35 +103,9 @@
             enabled bool(true)
             keyCode int(56)
         }
-        { GluonEngine::SphereCollisionComponent(TrapCollider)
-            enabled bool(true)
-            collisionGroup int(1)
-            radius float(8)
-        }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)
             script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Player2)
-        }
-    }
-    { GluonEngine::GameObject(Trap)
-        enabled bool(false)
-        position vector3d(100;0;1)
-        scale vector3d(1;1;1)
-        orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(TrapSpriteRenderer)
-            enabled bool(true)
-            size size2d(8;8)
-            material GluonGraphics::MaterialInstance(JumpnBump/Assets/Main Material/Trap)
-            color rgba(255;255;255;255)
-        }
-        { GluonEngine::SphereCollisionComponent(Collider)
-            enabled bool(true)
-            collisionGroup int(1)
-            radius float(8)
-        }
-        { GluonEngine::ScriptingComponent(ScriptingComponent)
-            enabled bool(true)
-            script GluonEngine::ScriptingAsset(JumpnBump/Assets/Scripts/Trap)
         }
     }
     { GluonEngine::GameObject(Star)
