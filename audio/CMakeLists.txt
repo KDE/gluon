@@ -41,6 +41,7 @@ set(GluonAudio_SRCS
     engine.cpp
     capture.cpp
     sound.cpp
+    player.cpp
 
     capturedevice_p.cpp
     device_p.cpp
@@ -49,6 +50,7 @@ set(GluonAudio_SRCS
 set(GluonAudio_HEADERS
     engine.h
     sound.h
+    player.h
     capture.h
     gluon_audio_export.h
 )
