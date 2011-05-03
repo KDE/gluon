@@ -274,6 +274,11 @@ namespace GluonAudio
             */
             double duration() const;
 
+        Q_SIGNALS:
+            void played();
+            void paused();
+            void stopped();
+
         private:
             Q_DISABLE_COPY( Sound )
             static void callbackStopped( void* object, ALuint source );

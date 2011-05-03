@@ -323,6 +323,10 @@ void Sound::cbStop()
     {
         play();
     }
+    else
+    {
+        emit stopped();
+    }
 }
 
 void Sound::play()
@@ -348,6 +352,7 @@ void Sound::play()
     }
     d->isStopped = false;
     d->newError( "Playing " + d->path + " failed" );
+    emit played();
 }
 
 void Sound::pause()
@@ -355,6 +360,7 @@ void Sound::pause()
     alurePauseSource( d->source );
     d->isPaused = true;
     d->newError( "Pausing " + d->path + " failed" );
+    emit paused();
 }
 
 void Sound::stop()
