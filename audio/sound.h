@@ -274,11 +274,10 @@ namespace GluonAudio
             */
             double duration() const;
 
-            //FIXME: This shouldn't be public
-            void stopped();
-
         private:
             Q_DISABLE_COPY( Sound )
+            static void callbackStopped( void* object, ALuint source );
+            void stopped();
 
             class SoundPrivate;
             SoundPrivate* const d;

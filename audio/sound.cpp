@@ -48,7 +48,7 @@ class Sound::SoundPrivate
             {
                 DEBUG_BLOCK
                 DEBUG_TEXT2( "Alure error: %1", error )
-                DEBUG_TEXT2( "%2", str )
+                DEBUG_TEXT2( "%1", str )
                 isValid = false;
                 return true;
             }
@@ -311,7 +311,7 @@ void Sound::setRadius( ALfloat radius )
     alSourcef( d->source, AL_REFERENCE_DISTANCE, radius );
 }
 
-void callbackStopped( void* object, ALuint source )
+void Sound::callbackStopped( void* object, ALuint source )
 {
     static_cast<GluonAudio::Sound*>( object )->stopped();
 }
@@ -340,7 +340,7 @@ void Sound::play()
     if( d->isStreamed )
     {
         int loopCount = ( d->isLooping ? -1 : 0 );
-        alurePlaySourceStream( d->source, d->stream, Engine::instance()->buffersPerStream(), loopCount, callbackStopped, this );
+        alurePlaySourceStream( d->source, d->stream, Engine::instance()->buffersPerStream(), loopCount, Sound::callbackStopped, this );
     }
     else
     {
