@@ -313,10 +313,10 @@ void Sound::setRadius( ALfloat radius )
 
 void Sound::callbackStopped( void* object, ALuint source )
 {
-    static_cast<GluonAudio::Sound*>( object )->stopped();
+    static_cast<GluonAudio::Sound*>( object )->cbStop();
 }
 
-void Sound::stopped()
+void Sound::cbStop()
 {
     d->isStopped = true;
     if( d->isLooping )

@@ -277,7 +277,7 @@ namespace GluonAudio
         private:
             Q_DISABLE_COPY( Sound )
             static void callbackStopped( void* object, ALuint source );
-            void stopped();
+            void cbStop();
 
             class SoundPrivate;
             SoundPrivate* const d;
