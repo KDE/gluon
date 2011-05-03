@@ -89,12 +89,12 @@ namespace GluonAudio
             /**
             * @return the time since the sound started playing
             */
-            ALfloat elapsedTime() const ;
+            ALfloat elapsedTime() const;
 
             /**
             * @return the sound status
             */
-            ALint status() const ;
+            ALint status() const;
 
             /**
             * @return true if the sound is currently being played, false otherwise
@@ -132,33 +132,33 @@ namespace GluonAudio
             * relative to the listener
             * @see setPosition, x, z
             */
-            ALfloat y() const ;
+            ALfloat y() const;
 
             /**
             * @return the z coordinate of the sound position
             * relative to the listener
             * @see setPosition, x, y
             */
-            ALfloat z() const ;
+            ALfloat z() const;
 
             /**
             * @return the volume currently applied
             * @see setVolume
             */
-            ALfloat volume() const ;
+            ALfloat volume() const;
 
             /**
             * @return the pitch currently applied
             * @see setPitch
             */
-            ALfloat pitch() const ;
+            ALfloat pitch() const;
 
             /**
              *
              */
             ALfloat radius() const;
 
-            //ALfloat duration() const ;
+            //ALfloat duration() const;
 
         public Q_SLOTS:
             /**
@@ -166,8 +166,8 @@ namespace GluonAudio
             * pause() was called
             * @see pause, stop, rewind
             */
-            void play()
-            ;
+            void play();
+
             /**
             * Pauses the sound currently played
             * @see play, stop, rewind
