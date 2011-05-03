@@ -22,18 +22,18 @@ include_directories(
 
     ${GLUON_CORE_INCLUDES}
 
+    ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
     #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
     ${SNDFILE_INCLUDE_DIR}
-    ${ALURE_INCLUDE_DIRS}
 )
 
 set(GLUON_AUDIO_INCLUDES
     ${GLUON_CORE_INCLUDES}
 
+    ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
     ${SNDFILE_INCLUDE_DIR}
-    ${ALURE_INCLUDE_DIRS}
     CACHE INTERNAL "Includes required for Gluon Audio"
 )
 
