@@ -61,6 +61,9 @@ namespace GluonAudio
             void seek();
             void stop();
 
+        Q_SIGNALS:
+            void finished();
+
         private:
             class PlayerPrivate;
             PlayerPrivate* const d;

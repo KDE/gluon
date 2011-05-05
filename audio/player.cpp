@@ -51,8 +51,8 @@ Player::Player(QObject* parent)
     : QObject(parent)
     , d( new PlayerPrivate )
 {
-    connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ));
-    connect(d->sound, SIGNAL( stopped() ), SLOT( stop() ));
+    connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ) );
+    connect(d->sound, SIGNAL( stopped() ), SLOT( playNext() ) );
 }
 
 void Player::removeAt(int index)
@@ -147,9 +147,14 @@ void Player::playNext()
     if( d->files.count()-1 == d->currentIndex )
     {
         if( d->playerLoop )
+        {
             d->currentIndex = 0;
+        }
         else
+        {
+            emit finished();
             return;
+        }
     }
     else
     {

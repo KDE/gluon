@@ -19,22 +19,24 @@
 
 #include <gluon/audio/player.h>
 
+#include <QtCore/QCoreApplication>
 // #include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {
+    QCoreApplication app( argc, argv );
+
     GluonAudio::Player* player = new GluonAudio::Player;
     player->append( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
     player->append( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
     player->setVolume( 0.9 );  //between 0 and 1
 
     // qDebug() << "Playing sound "<< player->currentDuration() << "seconds.";
+    QObject::connect( player, SIGNAL( finished() ), &app, SLOT( quit() ) );
     player->play();
 
-    while( player->isPlaying() );
+    app.exec();
 
     delete player;
-
-    return 0;
 }
 
