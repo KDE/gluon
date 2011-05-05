@@ -34,6 +34,8 @@ int main( int argc, char* argv[] )
 
     while( sound->isPlaying() );
 
+    delete sound;
+
     return 0;
 }
 
