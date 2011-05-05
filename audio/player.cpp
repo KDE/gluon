@@ -51,8 +51,8 @@ Player::Player(QObject* parent)
     : QObject(parent)
     , d( new PlayerPrivate )
 {
-    connect(d->sound, SIGNAL( soundPaused() ), SLOT( playNext() ));
-    connect(d->sound, SIGNAL( soundStopped() ), SLOT( stop() ));
+    connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ));
+    connect(d->sound, SIGNAL( stopped() ), SLOT( stop() ));
 }
 
 void Player::removeAt(int index)

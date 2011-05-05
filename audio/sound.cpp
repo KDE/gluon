@@ -180,13 +180,16 @@ bool Sound::load( const QString& fileName, bool toStream )
         d->isValid = false;
         return false;
     }
+
     if( !d->path.isEmpty() )
     {
         d->_k_deleteSource();
     }
     d->path = fileName;
+
     if( !d->setupSource() )
         return false;
+
     d->isStreamed = toStream;
     if( d->isStreamed )
     {

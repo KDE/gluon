@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 project(tutorial3)
 
-find_package(GluonCore REQUIRED)
 find_package(GluonAudio REQUIRED)
 
-include_directories(${GLUON_CORE_INCLUDES} ${GLUON_AUDIO_INCLUDES})
+include_directories(${GLUON_AUDIO_INCLUDES})
 
 set(tutorial3_SRCS
     main.cpp
