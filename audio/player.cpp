@@ -82,6 +82,7 @@ void Player::removeLast()
 void Player::play()
 {
     d->sound->load( d->files.at( d->currentIndex ) );
+    d->sound->setVolume(d->soundVolume);
     d->sound->play();
 }
 
@@ -124,8 +125,6 @@ void Player::setPitch(ALfloat pitch)
 void Player::setVolume(ALfloat volume)
 {
     d->soundVolume = volume;
-    d->sound->setVolume(volume);
-
 }
 
 ALfloat Player::volume() const
