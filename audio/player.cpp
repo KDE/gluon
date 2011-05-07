@@ -88,7 +88,9 @@ void Player::play()
 
 void Player::playAt(int index)
 {
+    d->currentIndex = index;
     d->sound->load(d->files.at(index));
+    d->sound->setVolume(d->soundVolume);
     d->sound->play();
 }
 
