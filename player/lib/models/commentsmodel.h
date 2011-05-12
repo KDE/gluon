@@ -23,16 +23,8 @@
 
 #include "gluon_player_export.h"
 
-// #include <attica/providermanager.h>
-// #include <attica/provider.h>
-
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QStringList>
-
-// namespace Attica
-// {
-//     class BaseJob;
-// }
 
 namespace GluonCore
 {
