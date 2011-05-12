@@ -46,8 +46,6 @@ class LoginForm : public Overlay
         Plasma::PushButton* m_loginButton;
         Plasma::BusyWidget* m_busyWidget;
         Plasma::Label* m_usernameLabel;
-        Attica::ProviderManager m_manager;
-        Attica::Provider m_provider;
 
         void initialize();
 

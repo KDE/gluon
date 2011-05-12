@@ -20,6 +20,8 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    ocscommentsprovider.cpp
+    ocsprovider.cpp
     atticamanager.cpp
     authentication.cpp
     models/gameviewitem.cpp

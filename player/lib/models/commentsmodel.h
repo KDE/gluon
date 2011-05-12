@@ -23,17 +23,16 @@
 
 #include "gluon_player_export.h"
 
-#include <attica/providermanager.h>
-#include <attica/provider.h>
+// #include <attica/providermanager.h>
+// #include <attica/provider.h>
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QStringList>
 
-
-namespace Attica
-{
-    class BaseJob;
-}
+// namespace Attica
+// {
+//     class BaseJob;
+// }
 
 namespace GluonCore
 {
@@ -42,6 +41,7 @@ namespace GluonCore
 
 namespace GluonPlayer
 {
+    class OcsComment;
 
     /**
      *\brief Model which contains a list of comments
@@ -100,17 +100,17 @@ namespace GluonPlayer
             void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
         private Q_SLOTS:
-            void providersUpdated();
-            void processFetchedComments( Attica::BaseJob* );
-            void addCommentFinished( Attica::BaseJob* job );
+            void processFetchedComments( QList<OcsComment*> list );
+            void uploadCommentFinished();
 
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
+            void fetchCommentsFailed();
 
         private:
-            GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
+            GluonCore::GluonObject* addComment( OcsComment *comment, GluonCore::GluonObject* parent );
             void updateData();
             void loadData();
             void saveData();

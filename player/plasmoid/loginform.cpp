@@ -19,9 +19,8 @@
 
 #include "loginform.h"
 
-#include <player/lib/authentication.h>
+#include <player/lib/ocsprovider.h>
 
-#include <attica/provider.h>
 #include <Plasma/LineEdit>
 #include <Plasma/PushButton>
 #include <Plasma/Label>
@@ -59,17 +58,17 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addItem( m_loginButton );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( initFailed() ), SLOT( initFailed() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( loggedIn() ), SLOT( loginDone() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
+    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(providerInitialized()), SLOT(initDone()));
+    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(failedToInitialize()), SLOT(initFailed()));
+    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
+    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()));
 
     initialize();
 }
 
 void LoginForm::initialize()
 {
-    GluonPlayer::Authentication::instance()->init();
+    GluonPlayer::OcsProvider::instance()->init();
 }
 
 void LoginForm::initDone()
@@ -92,7 +91,7 @@ void LoginForm::doLogin()
 
     m_loginButton->setEnabled( false );
     m_busyWidget->show();
-    GluonPlayer::Authentication::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
+    GluonPlayer::OcsProvider::instance()->login(m_usernameEdit->text(), m_passwordEdit->text());
     // Note: the login result should be checked
     m_usernameLabel->setText( i18n( "Logging in" ) );
 }
@@ -101,7 +100,7 @@ void LoginForm::loginDone()
 {
     m_busyWidget->hide();
     m_usernameLabel->setText(
-        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username() ) );
+        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::OcsProvider::instance()->username() ) );
     m_loginButton->setEnabled( true );
 }
 
@@ -114,8 +113,8 @@ void LoginForm::loginFailed()
 
 void LoginForm::loadCredentials()
 {
-    m_usernameEdit->setText( GluonPlayer::Authentication::instance()->username() );
-    m_passwordEdit->setText( GluonPlayer::Authentication::instance()->password() );
+    m_usernameEdit->setText( GluonPlayer::OcsProvider::instance()->username() );
+    m_passwordEdit->setText( GluonPlayer::OcsProvider::instance()->password() );
 }
 
 #include "loginform.moc"

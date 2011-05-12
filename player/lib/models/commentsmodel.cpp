@@ -20,16 +20,13 @@
 
 #include "commentsmodel.h"
 
-#include "lib/atticamanager.h"
+#include <player/lib/ocsprovider.h>
+#include <player/lib/ocscommentsprovider.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
-
 #include <engine/gameproject.h>
-
-#include <attica/comment.h>
-#include <attica/listjob.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
@@ -64,94 +61,34 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     updateData();   // Fetch latest comments from the web service
 }
 
-void CommentsModel::updateData()
-{
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        providersUpdated();
-    }
-    else
-    {
-        connect( AtticaManager::instance(), SIGNAL( gotProvider() ), SLOT( providersUpdated() ) );
-    }
-}
-
-void CommentsModel::providersUpdated()
-{
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        Attica::ListJob<Attica::Comment> *job =
-            AtticaManager::instance()->provider().requestComments( Attica::Comment::ContentComment,
-                    d->m_gameId, "0", 0, 100 );
-        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedComments( Attica::BaseJob* ) ) );
-        job->start();
-    }
-    else
-    {
-        qDebug() << "No providers found.";
-    }
-}
-
-void CommentsModel::processFetchedComments( Attica::BaseJob* job )
+void CommentsModel::processFetchedComments( QList< OcsComment* > list )
 {
     qDebug() << "Comments Successfully Fetched from the server!";
-
-    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
-    {
-        //No error, try to remove exising comments (if any)
-        //and add new comments
-
-        if( d->m_rootNode )
-        {
-            qDeleteAll( d->m_rootNode->children() );
-        }
-
-        for( int i = 0; i < commentsJob->itemList().count(); ++i )
-        {
-            Attica::Comment p( commentsJob->itemList().at( i ) );
-            addComment( p, d->m_rootNode );
-        }
-
-        d->m_isOnline = true;
-        reset();    //Reset the model to notify views to reload comments
+    if (d->m_rootNode) {
+        qDeleteAll(d->m_rootNode->children());
     }
-    else
-    {
-        qDebug() << "Could not fetch information";
+    foreach (OcsComment *comment, list) {
+        addComment(comment, d->m_rootNode);
     }
+    d->m_isOnline = true;
+    reset();
 }
 
-void CommentsModel::addCommentFinished( Attica::BaseJob* job )
+GluonObject* CommentsModel::addComment( OcsComment* comment, GluonObject* parent )
 {
-    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
-    {
-        updateData();
-    }
-    else
-    {
-        emit addCommentFailed();
-    }
-}
+    GluonObject* newComment = new GluonObject( comment->id(), parent );
+    newComment->setProperty( "Author", comment->user() );
+    newComment->setProperty( "Title", comment->subject() );
+    newComment->setProperty( "Body", comment->text() );
+    newComment->setProperty( "DateTime", comment->dateTime().toString() );
+    newComment->setProperty( "Rating", comment->score() );
 
-GluonObject* CommentsModel::addComment( Attica::Comment comment, GluonObject* parent )
-{
-    GluonObject* newComment = new GluonObject( comment.id(), parent );
-    newComment->setProperty( "Author", comment.user() );
-    newComment->setProperty( "Title", comment.subject() );
-    newComment->setProperty( "Body", comment.text() );
-    newComment->setProperty( "DateTime", comment.date().toString() );
-    newComment->setProperty( "Rating", comment.score() );
-
-    foreach( const Attica::Comment & child, comment.children() )
-    {
-        addComment( child, newComment );
+    foreach( QObject *child, comment->children() ) {
+        addComment( static_cast<OcsComment*>(child), newComment );
     }
 
     return newComment;
 }
-
 
 void CommentsModel::loadData()
 {
@@ -183,7 +120,6 @@ void CommentsModel::saveData()
     QTextStream dataWriter( &dataFile );
     dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( comments );
     dataFile.close();
-    qDebug() << "Saved";
 }
 
 CommentsModel::~CommentsModel()
@@ -330,12 +266,32 @@ bool CommentsModel::isOnline()
 void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-    Attica::PostJob* job =
-        AtticaManager::instance()->provider().addNewComment( Attica::Comment::ContentComment,
-                d->m_gameId, "0", parentNode->name(), subject,
-                message );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addCommentFinished( Attica::BaseJob* ) ) );
-    job->start();
+    OcsProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
+
+    OcsCommentsProvider *commentsProvider = OcsProvider::instance()->uploadComment(d->m_gameId,
+                                                                                   parentNode->name(),
+                                                                                   subject, message);
+    connect(commentsProvider, SIGNAL(commentUploaded()), SLOT(uploadCommentFinished()));
+    connect(commentsProvider, SIGNAL(failedToUploadComment()), SIGNAL(addCommentFailed()));
+}
+
+void CommentsModel::updateData()
+{
+    qDebug() << "Updating..";
+    OcsCommentsProvider *commentsProvider = OcsProvider::instance()->fetchComments(d->m_gameId, 0, 0);
+
+    if (commentsProvider) {
+        connect(commentsProvider, SIGNAL(commentsFetched(QList<OcsComment*>)), 
+            SLOT(processFetchedComments(QList<OcsComment*>)));
+        connect(commentsProvider, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
+    } else {
+        emit fetchCommentsFailed();
+    }
+}
+
+void CommentsModel::uploadCommentFinished()
+{
+    updateData();
 }
 
 #include "commentsmodel.moc"
