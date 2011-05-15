@@ -38,6 +38,8 @@ namespace GluonEngine
 
             QList<PrefabInstance*> instances;
             GameObject* gameObject;
+            int preCacheSize;
+            int additionalCacheSize;
     };
 }
 

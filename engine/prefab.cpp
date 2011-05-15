@@ -20,6 +20,7 @@
 #include "prefab.h"
 #include "prefabprivate.h"
 #include "prefabinstance.h"
+#include <core/gdlhandler.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, Prefab )
 
@@ -40,6 +41,11 @@ Prefab::Prefab( const Prefab& other, QObject* parent )
 Prefab::~Prefab()
 {
     delete( d );
+}
+
+QString Prefab::contentsToGDL()
+{
+    return GluonCore::GDLHandler::instance()->toGDL( gameObject() );
 }
 
 PrefabInstance* Prefab::createInstance( GameObject* attachTo )
@@ -92,6 +98,31 @@ GameObject* Prefab::gameObject() const
 void Prefab::setGameObject( GameObject* newGameObject )
 {
 
+}
+
+int Prefab::additionalCacheSize() const
+{
+    return d->additionalCacheSize;
+}
+
+void Prefab::setAdditionalCacheSize(int newAdditionalCacheSize)
+{
+    d->additionalCacheSize = newAdditionalCacheSize;
+}
+
+int Prefab::preCacheSize() const
+{
+    return d->preCacheSize;
+}
+
+void Prefab::setPreCacheSize(int newPreCacheSize)
+{
+    d->preCacheSize = newPreCacheSize;
+}
+
+void Prefab::updateFromInstance(PrefabInstance* updateFrom)
+{
+  // TODO implement :P
 }
 
 #include "prefab.moc"

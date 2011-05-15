@@ -25,6 +25,15 @@
 
 namespace GluonEngine
 {
+
+class PrefabInstance;
+
+    /**
+     * Speaking generally, this class should never be instanatiated manually. It will for all
+     * intents and purposes work like a GameObject, and as such you should be usin that in stead.
+     * The class is used by the Prefab system to contain children of a Prefab instance. To find out
+     * how that system works, please see the documentation on GluonEngine::Prefab
+     */
     class PrefabInstanceChild : public GluonEngine::GameObject
     {
             Q_OBJECT
@@ -35,6 +44,25 @@ namespace GluonEngine
             PrefabInstanceChild( const PrefabInstanceChild& other );
             virtual ~PrefabInstanceChild();
 
+            /**
+             * Get the root of the instance hierarchy - that is, the actual PrefabInstance rather
+             * than a child inside the tree of GameObjects represented by the Prefab. Use this to
+             * perform actions which should work on the entire instance, such as
+             * PrefabInstance::storeChanges() and PrefabInstance::revertChanges()
+             * @see storeChanges(), revertChanges()
+             */
+            Q_INVOKABLE GluonEngine::PrefabInstance* parentInstance();
+
+        protected:
+            friend class PrefabInstance;
+            /**
+             * Clear this prefab instance child and reclone it from the passed GameObject.
+             * This will recursively clone the GameObject, by creating PrefabInstanceChild instances
+             * for each child GameObject (and copying all properties and cloning all Components
+             * attached to the GameObject)
+             * @param gameObject The GameObject you wish to clone
+             */
+            void cloneFromGameObject(const GameObject* gameObject);
         private:
             class Private;
             Private* d;

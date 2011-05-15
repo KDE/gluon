@@ -20,6 +20,7 @@
 #include "prefabinstance.h"
 #include "component.h"
 #include <QMetaProperty>
+#include "prefabinstancechild.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, PrefabInstance )
 
@@ -113,8 +114,10 @@ void PrefabInstance::setPrefabLink( Prefab* newPrefab )
             {
                 for( int i = 0; i < childCount; ++i )
                 {
-                    // GameObject* childGobj = gobj->childGameObject(i);
+                    GameObject* childGobj = gobj->childGameObject(i);
                     // Clone this GameObject as a PrefabInstanceChild...
+                    PrefabInstanceChild* newChild = new PrefabInstanceChild(this);
+                    newChild->cloneFromGameObject(childGobj);
                 }
             }
 
@@ -125,6 +128,16 @@ void PrefabInstance::setPrefabLink( Prefab* newPrefab )
             }
         }
     }
+}
+
+void PrefabInstance::revertChanges()
+{
+
+}
+
+void PrefabInstance::storeChanges() const
+{
+
 }
 
 #include "prefabinstance.moc"

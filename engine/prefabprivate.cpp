@@ -26,12 +26,16 @@ using namespace GluonEngine;
 
 PrefabPrivate::PrefabPrivate()
     : gameObject( 0 )
+    , preCacheSize( 0 )
+    , additionalCacheSize( 0 )
 {
 }
 
 PrefabPrivate::PrefabPrivate( const PrefabPrivate& other )
     : instances( other.instances )
     , gameObject( other.gameObject )
+    , preCacheSize( 0 )
+    , additionalCacheSize( 0 )
 {
 }
 
