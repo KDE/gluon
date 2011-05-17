@@ -37,6 +37,7 @@ if(LIBATTICA_FOUND)
         endif(KDE4_FOUND)
     endif(WITH_KDE)
 
+    find_package(Qt4)
     if(QT_QTDECLARATIVE_FOUND)
         add_subdirectory(touch)
     else(QT_QTDECLARATIVE_FOUND)
