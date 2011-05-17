@@ -30,6 +30,7 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QGraphicsLinearLayout>
 #include <QtGui/QGraphicsProxyWidget>
+#include <QDebug>
 
 CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )
@@ -127,6 +128,7 @@ void CommentsView::loadComments()
 
 void CommentsView::reloadComments()
 {
+    qDebug() << "Reloading";
     hideComments();
     removeComments();
     loadComments();
