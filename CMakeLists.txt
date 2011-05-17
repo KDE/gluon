@@ -93,6 +93,7 @@ if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
 endif()
 
+set(KDE_FAILED FALSE)
 ######## KDE Parts ########
 if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
     find_package(KDE4)
@@ -100,6 +101,7 @@ if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
         set(BUILD_PLASMOID OFF)
         set(BUILD_GLUON_CREATOR OFF)
         set(KDE_FAILED TRUE)
+        set(WITH_KDE FALSE)
     endif(NOT KDE4_FOUND)
 
     find_package(KDevPlatform 1.0.2)
