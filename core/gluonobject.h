@@ -236,6 +236,10 @@ namespace GluonCore
              */
             virtual void setName( const QString& newName );
             /**
+             * Emitted when the name of the object changes
+             */
+            Q_SIGNAL void nameChanged( const QString& oldName, const QString& newName );
+            /**
              * The fully qualified name of the object, from the root and upwards.
              * The object name separator is "/" which means that an object named
              * AnObject which is child of the top level object AnotherObject is:
@@ -336,7 +340,7 @@ namespace GluonCore
              * 
              * @see name
              */
-            void addChildAt( GluonObject* child, int position );
+            virtual void addChildAt( GluonObject* child, int position );
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *

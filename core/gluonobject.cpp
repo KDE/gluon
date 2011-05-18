@@ -287,6 +287,9 @@ GluonObject::supportedMimeTypes() const
 void
 GluonObject::setName( const QString& newName )
 {
+    // Store the old name, so we can emit a signal with it at the end
+    QString oldName = d->name;
+
     // Don't allow setting the name to nothing
     if( newName.isEmpty() )
         return;
@@ -332,6 +335,7 @@ GluonObject::setName( const QString& newName )
         while( !nameIsOK );
     }
     d->name = theName;
+    emit nameChanged(oldName, theName);
 
     setObjectName( theName );
 }
