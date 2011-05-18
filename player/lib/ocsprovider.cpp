@@ -21,6 +21,7 @@
 #include "ocsprovider.h"
 
 #include "ocscommentsprovider.h"
+#include "ocsgamedetailsprovider.h"
 
 #include <attica/content.h>
 #include <attica/listjob.h>
@@ -45,9 +46,15 @@ public:
     QString password;
 };
 
+
 OcsProvider::OcsProvider() : d (new Private())
 {
     init();
+}
+
+OcsProvider::~OcsProvider()
+{
+    delete d;
 }
 
 bool OcsProvider::isReady() const
@@ -92,21 +99,29 @@ void OcsProvider::loadCredentials()
 
 OcsCommentsProvider* OcsProvider::fetchComments (const QString& id, int page, int pageSize)
 {
+    OcsCommentsProvider *commentsProvider = new OcsCommentsProvider(&d->provider, id, page, pageSize);
+
     if (d->ready) {
-        return new OcsCommentsProvider (&d->provider, id, page, pageSize);
+        commentsProvider->fetchComments();
     } else {
-        return 0;
+        connect(this, SIGNAL(providerInitialized()), commentsProvider, SLOT(fetchComments()));
     }
+
+    return commentsProvider;
 }
 
 OcsCommentsProvider* OcsProvider::uploadComment (const QString& id, const QString& parentId,
         const QString& subject, const QString& message)
 {
+    OcsCommentsProvider *commentsProvider = new OcsCommentsProvider(&d->provider, id, parentId, subject, message);
+
     if (d->ready && d->loggedIn) {
-        return new OcsCommentsProvider (&d->provider, id, parentId, subject, message);
+        commentsProvider->uploadComments();
     } else {
-        return 0;
+        connect(this, SIGNAL(providerInitialized()), commentsProvider, SLOT(uploadComments()));
     }
+
+    return commentsProvider;
 }
 
 bool OcsProvider::hasCredentials()
@@ -174,5 +189,19 @@ QString OcsProvider::password()
 {
     return d->password;
 }
+
+OcsGameDetailsProvider* OcsProvider::fetchGames()
+{
+    OcsGameDetailsProvider *gameDetailsProvider = new OcsGameDetailsProvider(&d->provider);
+
+    if (d->ready) {
+        gameDetailsProvider->fetchGameList();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), gameDetailsProvider, SLOT(fetchGameList()));
+    }
+
+    return gameDetailsProvider;
+}
+
 
 #include "ocsprovider.moc"

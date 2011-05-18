@@ -32,6 +32,8 @@ class BaseJob;
 
 namespace GluonPlayer
 {
+
+class OcsGameDetailsProvider;
 class OcsCommentsProvider;
 
 /**
@@ -123,9 +125,17 @@ public:
      */
     QString password();
 
+    /**
+     * Use to fetch a list of games available on the OCS server
+     * @return a object which the caller must
+     * monitor to find out the result of the operation
+     */
+    OcsGameDetailsProvider *fetchGames();
+
 private:
     friend class GluonCore::Singleton<OcsProvider>;
     OcsProvider();
+    virtual ~OcsProvider();
     Q_DISABLE_COPY (OcsProvider);
 
     class Private;

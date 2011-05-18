@@ -20,6 +20,7 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    ocsgamedetailsprovider.cpp
     ocscommentsprovider.cpp
     ocsprovider.cpp
     atticamanager.cpp

@@ -19,12 +19,11 @@
 
 #include "gameitemsmodel.h"
 
-#include "player/lib/atticamanager.h"
+#include <player/lib/ocsprovider.h>
+#include <player/lib/ocsgamedetailsprovider.h>
 
 #include <core/gluon_global.h>
 #include <engine/gameproject.h>
-
-#include <attica/content.h>
 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
@@ -169,63 +168,20 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
 void GameItemsModel::fetchGamesList()
 {
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        providersUpdated();
-    }
-    else
-    {
-        connect( AtticaManager::instance(), SIGNAL( gotProvider() ), SLOT( providersUpdated() ) );
-    }
+    OcsGameDetailsProvider *gameDetailsProvider = OcsProvider::instance()->fetchGames();
+    connect(gameDetailsProvider, SIGNAL(gameDetailsFetched (QList<OcsGameDetails*>)),
+            SLOT(processFetchedGamesList(QList<OcsGameDetails*>)));
 }
 
-void GameItemsModel::providersUpdated()
+void GameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > comments)
 {
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        QStringList gluonGamesCategories;
-        gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
-        Attica::Category::List categories;
-
-        foreach( const QString& gluonCategory, gluonGamesCategories )
-        {
-            Attica::Category category;
-            category.setId( gluonCategory );
-            categories.append( category );
-        }
-
-        Attica::ListJob<Attica::Content> *job =
-            AtticaManager::instance()->provider().searchContents( categories );
-        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
-        job->start();
+    foreach(OcsGameDetails *c, comments) {
+        GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",
+                    GameViewItem::Downloadable, c->id() );
+        d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
     }
-    else
-    {
-        qDebug() << "No providers found.";
-    }
-}
-
-void GameItemsModel::processFetchedGamesList( Attica::BaseJob* job )
-{
-    qDebug() << "Game List Successfully Fetched from the server!";
-
-    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
-    if( contentJob->metadata().error() == Attica::Metadata::NoError )
-    {
-        for( int i = 0; i < contentJob->itemList().count(); ++i )
-        {
-            Attica::Content c( contentJob->itemList().at( i ) );
-            GameViewItem* gameViewItem = new GameViewItem( c.name(), c.description(), "", "",
-                    GameViewItem::Downloadable, c.id() );
-            d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
-            reset();
-        }
-        emit downloadableCountChanged();
-    }
-    else
-    {
-        qDebug() << "Could not fetch information";
-    }
+    reset();
+    emit downloadableCountChanged();
 }
 
 #include "gameitemsmodel.moc"
