@@ -92,7 +92,7 @@ void LoginForm::doLogin()
     m_loginButton->setEnabled( false );
     m_busyWidget->show();
     GluonPlayer::OcsProvider::instance()->login(m_usernameEdit->text(), m_passwordEdit->text());
-    // Note: the login result should be checked
+    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
     m_usernameLabel->setText( i18n( "Logging in" ) );
 }
 

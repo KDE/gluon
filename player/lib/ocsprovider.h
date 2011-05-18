@@ -145,6 +145,8 @@ private slots:
     void providersUpdated();
     void checkLoginResult (Attica::BaseJob* baseJob);
     void loadCredentials();
+    void doLogin();
+    void doLogout();
 
 public slots:
     /** Call to initialize the OCS Provider

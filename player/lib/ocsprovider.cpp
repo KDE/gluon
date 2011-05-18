@@ -35,7 +35,7 @@ GLUON_DEFINE_SINGLETON (OcsProvider)
 class OcsProvider::Private
 {
 public:
-    Private() : ready (false) {
+    Private() : ready (false), loggedIn(false) {
     }
 
     bool ready;
@@ -136,17 +136,26 @@ bool OcsProvider::isLoggedIn()
 
 bool OcsProvider::login (const QString& username, const QString& password)
 {
-    if (!d->ready || d->loggedIn) {
+    if (d->loggedIn) {
         return false;
     }
 
     d->username = username;
     d->password = password;
 
+    if (d->ready) {
+        doLogin();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), SLOT(doLogin()));
+    }
+    return true;
+}
+
+void OcsProvider::doLogin()
+{
     Attica::PostJob* job = d->provider.checkLogin (d->username, d->password);
     connect (job, SIGNAL (finished (Attica::BaseJob*)), SLOT (checkLoginResult (Attica::BaseJob*)));
     job->start();
-    return true;
 }
 
 void OcsProvider::checkLoginResult (Attica::BaseJob* baseJob)
@@ -169,15 +178,25 @@ void OcsProvider::checkLoginResult (Attica::BaseJob* baseJob)
 
 bool OcsProvider::logout()
 {
-    if (!d->ready) {
+    if (!d->loggedIn) {
         return false;
     }
 
+    if (d->ready) {
+        doLogout();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), SLOT(doLogout()));
+    }
+
+    return true;
+}
+
+void OcsProvider::doLogout()
+{
     d->username.clear();
     d->password.clear();
     d->loggedIn = false;
     d->provider.saveCredentials(d->username, d->password);
-    return true;
 }
 
 QString OcsProvider::username()
