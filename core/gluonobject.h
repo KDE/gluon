@@ -320,11 +320,23 @@ namespace GluonCore
              * will ensure that the name is correct
              *
              * @param   child   The new child
-             * @param   parent  The new parent of the child
              *
              * @see name
              */
             virtual void addChild( GluonObject* child );
+            /**
+             * Add the passed GluonObject as a new child to this object, at the position requested.
+             * If position is larger than the number of children, the new child will be appended
+             * to the object. The function will ensure the name is correct.
+             * 
+             * \note The internal logic uses removeChild(GluonObject*) and addChild(GluonObject*)
+             * 
+             * @param   child     The new child
+             * @param   position  The position at which the new child will be added
+             * 
+             * @see name
+             */
+            void addChildAt( GluonObject* child, int position );
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *

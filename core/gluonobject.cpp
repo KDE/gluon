@@ -364,6 +364,30 @@ GluonObject::root()
     return this;
 }
 
+void GluonObject::addChildAt(GluonObject* child, int position)
+{
+    QList<QObject*> latterChildren;
+    
+    // First move the children from position and forwards out of the current object
+    QList<QObject*> currentChildren = children();
+    if(position < currentChildren.count())
+    {
+        for(int i = position; i < currentChildren.count(); ++i)
+        {
+            latterChildren.append(currentChildren.at(i));
+            removeChild( qobject_cast<GluonObject*>(currentChildren.at(i)));
+        }
+    }
+
+    // Then add the new object
+    addChild(child);
+
+    // Finally add the existing objects
+    QList<QObject*>::iterator i;
+    for(i = latterChildren.end(); i != latterChildren.begin(); --i)
+        addChild( qobject_cast<GluonObject*>(*i) );
+}
+
 void GluonObject::addChild( GluonObject* child )
 {
     GluonObject* parent = qobject_cast<GluonObject*>( child->parent() );
