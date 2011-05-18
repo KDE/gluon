@@ -112,4 +112,47 @@ void PrefabInstanceChild::resetProperties()
     }
 }
 
+void PrefabInstanceChild::setName(const QString& newName)
+{
+    Q_UNUSED(newName);
+}
+
+void PrefabInstanceChild::addChild(GluonCore::GluonObject* child)
+{
+    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonEngine::GameObject::addChild(child);
+}
+
+void PrefabInstanceChild::addChildAt(GluonCore::GluonObject* child, int position)
+{
+    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonCore::GluonObject::addChildAt(child, position);
+}
+
+bool PrefabInstanceChild::removeChild(GluonCore::GluonObject* child)
+{
+    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    return GluonEngine::GameObject::removeChild(child);
+}
+
+void PrefabInstanceChild::addComponent(Component* addThis)
+{
+    connect(addThis, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonEngine::GameObject::addComponent(addThis);
+}
+
+bool PrefabInstanceChild::removeComponent(Component* removeThis)
+{
+    connect(removeThis, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    return GluonEngine::GameObject::removeComponent(removeThis);
+}
+
+void PrefabInstanceChild::childNameChanged(const QString& oldName, const QString& newName)
+{
+    // This ensures that children (in particular this means Components) don't get renamed in instances
+    GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
+    if(from && oldName != newName)
+        from->setName(oldName);
+}
+
 #include "prefabinstancechild.moc"

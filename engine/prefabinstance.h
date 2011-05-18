@@ -75,6 +75,26 @@ namespace GluonEngine
              */
             void rebuildInstance();
 
+            /**
+             * Prefab instances cannot have their name reset for any reason, as that should only
+             * happen from the Prefab original. As such, this function does nothing other than
+             * return.
+             * @param  newName  The name you intend to use, but which will be ignored
+             */
+            Q_SLOT void setName(const QString& newName);
+
+            /*
+             * Reimplemented from GameObject
+             */
+            virtual void addChild( GluonObject* child );
+            virtual void addChildAt( GluonObject* child, int position );
+            virtual bool removeChild( GluonObject* child );
+            Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
+            Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
+
+        protected Q_SLOTS:
+            void childNameChanged( const QString& oldName, const QString& newName);
+
         private:
             class Private;
             Private* d;
