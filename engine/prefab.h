@@ -103,6 +103,7 @@ namespace GluonEngine
             int additionalCacheSize() const;
             void setAdditionalCacheSize(int newAdditionalCacheSize);
 
+            static void cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn);
         protected:
             friend class PrefabInstance;
             /**
@@ -129,7 +130,7 @@ namespace GluonEngine
              * discarding changes to the children that are deleted, and new objects and components
              * are added to the children where appropriate.
              */
-            void updateFromInstance( GluonEngine::PrefabInstance* updateFrom );
+            void updateFromInstance( const GluonEngine::PrefabInstance* updateFrom );
         private:
             PrefabPrivate* d;
     };

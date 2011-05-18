@@ -21,6 +21,7 @@
 #include "prefabprivate.h"
 #include "prefabinstance.h"
 #include <core/gdlhandler.h>
+#include <QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, Prefab )
 
@@ -92,12 +93,27 @@ bool Prefab::removeInstance( GluonEngine::PrefabInstance* removeThis )
 
 GameObject* Prefab::gameObject() const
 {
-    return 0;
+    return d->gameObject;
 }
 
 void Prefab::setGameObject( GameObject* newGameObject )
 {
+    // Grab the parent of the GameObject...
+    GameObject* oldParent = newGameObject->parentGameObject();
+    int position = oldParent->children().indexOf(newGameObject);
 
+    // Remove GameObject from parent, reparent to this
+    oldParent->removeChild(newGameObject);
+    addChild(newGameObject);
+
+    // Replace the GameObject in-line with a prefab instance
+    oldParent->addChildAt(createInstance(), position);
+
+    // Re-create all the instances
+    foreach(PrefabInstance* instance, d->instances )
+    {
+        instance->rebuildInstance();
+    }
 }
 
 int Prefab::additionalCacheSize() const
@@ -120,9 +136,41 @@ void Prefab::setPreCacheSize(int newPreCacheSize)
     d->preCacheSize = newPreCacheSize;
 }
 
-void Prefab::updateFromInstance(PrefabInstance* updateFrom)
+void Prefab::updateFromInstance(const GluonEngine::PrefabInstance* updateFrom)
 {
-  // TODO implement :P
+    // TODO implement :P
+
+    // Go through all children
+    // Ignore "updateFrom" instance
+    // Check recursively through all children, check for new objects in updateFrom
+}
+
+void Prefab::cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn)
+{
+    // Clear out all the existing dynamic properties (to ensure we're actually clean)
+    QList<QByteArray> propertyNames = setPropertiesOn->dynamicPropertyNames();
+    foreach( const QByteArray & propName, propertyNames )
+    {
+        setPropertiesOn->setProperty( propName, QVariant() );
+    }
+
+    // Clone the property values from the passed GameObject
+    propertyNames = cloneFrom->dynamicPropertyNames();
+    foreach( const QByteArray & propName, propertyNames )
+    {
+        setPropertiesOn->setProperty( propName, cloneFrom->property( propName ) );
+    }
+
+    const QMetaObject* metaobject = cloneFrom->metaObject();
+    int count = metaobject->propertyCount();
+    for( int i = 0; i < count; ++i )
+    {
+        QMetaProperty metaproperty = metaobject->property( i );
+        const QString theName( metaproperty.name() );
+        if( theName == "objectName" || !metaproperty.isWritable() )
+            continue;
+        setPropertiesOn->setProperty( theName.toUtf8(), cloneFrom->property( theName.toUtf8() ) );
+    }
 }
 
 #include "prefab.moc"

@@ -65,9 +65,15 @@ namespace GluonEngine
             Q_INVOKABLE void storeChanges() const;
 
             /**
-             * Revert all changes in this instance back to those stored in the linked Prefab.
+             * Revert all changes in this instance back to those stored in the linked Prefab,
+             * without destroying the stored objects.
              */
             Q_INVOKABLE void revertChanges();
+
+            /**
+             * Clean out the current instance and recreate all the children
+             */
+            void rebuildInstance();
 
         private:
             class Private;

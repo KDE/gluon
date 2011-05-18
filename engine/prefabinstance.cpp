@@ -76,68 +76,48 @@ void PrefabInstance::setPrefabLink( Prefab* newPrefab )
         // remove the old children, and clone from the new prefab
         if( isInitialized() )
         {
-            // Clear all children out
-            QObjectList childObjects = children();
-            foreach( QObject * child, childObjects )
-            {
-                delete( child );
-            }
-            // Clear out all the existing dynamic properties (to ensure we're actually clean)
-            QList<QByteArray> propertyNames = dynamicPropertyNames();
-            foreach( const QByteArray & propName, propertyNames )
-            {
-                setProperty( propName, QVariant() );
-            }
-
-            // Clone the property values from the gameObject in the prefab
-            GameObject* gobj = d->prefabLink->gameObject();
-            propertyNames = gobj->dynamicPropertyNames();
-            foreach( const QByteArray & propName, propertyNames )
-            {
-                setProperty( propName, gobj->property( propName ) );
-            }
-
-            const QMetaObject* metaobject = gobj->metaObject();
-            int count = metaobject->propertyCount();
-            for( int i = 0; i < count; ++i )
-            {
-                QMetaProperty metaproperty = metaobject->property( i );
-                const QString theName( metaproperty.name() );
-                if( theName == "objectName" || !metaproperty.isWritable() )
-                    continue;
-                setProperty( theName.toUtf8(), gobj->property( theName.toUtf8() ) );
-            }
-
-            // Clone all the GameObject children
-            const int childCount = gobj->childCount();
-            if( childCount > 0 )
-            {
-                for( int i = 0; i < childCount; ++i )
-                {
-                    GameObject* childGobj = gobj->childGameObject(i);
-                    // Clone this GameObject as a PrefabInstanceChild...
-                    PrefabInstanceChild* newChild = new PrefabInstanceChild(this);
-                    newChild->cloneFromGameObject(childGobj);
-                }
-            }
-
-            // Clone all the Components
-            foreach( Component * cmp, gobj->components() )
-            {
-                cmp->clone( this );
-            }
+            rebuildInstance();
         }
     }
 }
 
 void PrefabInstance::revertChanges()
 {
-
+    rebuildInstance();
 }
 
 void PrefabInstance::storeChanges() const
 {
-
+    // Tell the Prefab to read information from this PrefabInstance
+    prefabLink()->updateFromInstance(this);
 }
+
+void PrefabInstance::rebuildInstance()
+{
+    // Clear all children out
+    qDeleteAll(children());
+
+    Prefab::cloneObjectProperties(d->prefabLink->gameObject(), this);
+
+    // Clone all the GameObject children
+    const int childCount = d->prefabLink->gameObject()->childCount();
+    if( childCount > 0 )
+    {
+        for( int i = 0; i < childCount; ++i )
+        {
+            GameObject* childGobj = d->prefabLink->gameObject()->childGameObject(i);
+            // Clone this GameObject as a PrefabInstanceChild...
+            PrefabInstanceChild* newChild = new PrefabInstanceChild(this);
+            newChild->cloneFromGameObject(childGobj);
+        }
+    }
+    
+    // Clone all the Components
+    foreach( Component* cmp, d->prefabLink->gameObject()->components() )
+    {
+        Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
+    }
+}
+
 
 #include "prefabinstance.moc"

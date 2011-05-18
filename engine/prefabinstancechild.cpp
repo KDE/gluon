@@ -30,14 +30,23 @@ using namespace GluonEngine;
 
 class PrefabInstanceChild::Private
 {
+public:
+    Private(PrefabInstanceChild* qo) : q(qo), linkedGameObject(0) {};
+    Private(const Private& other) : q(other.q), linkedGameObject(other.linkedGameObject) {};
+    ~Private() {};
+
+    PrefabInstanceChild* q;
+    GameObject* linkedGameObject;
 };
 
 PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
+    : GameObject(parent)
+    , d( new Private(this) )
 {
-
 }
 
 PrefabInstanceChild::PrefabInstanceChild( const PrefabInstanceChild& other )
+    : d(other.d)
 {
 
 }
@@ -47,33 +56,11 @@ PrefabInstanceChild::~PrefabInstanceChild()
 
 }
 
-void PrefabInstanceChild::cloneFromGameObject(const GluonEngine::GameObject* gameObject)
+void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)
 {
+    d->linkedGameObject = gameObject;
+    Prefab::cloneObjectProperties(gameObject, this);
 
-    // Clear out all the existing dynamic properties (to ensure we're actually clean)
-    QList<QByteArray> propertyNames = dynamicPropertyNames();
-    foreach( const QByteArray & propName, propertyNames )
-    {
-        setProperty( propName, QVariant() );
-    }
-    // Clone the property values from the passed GameObject
-    propertyNames = gameObject->dynamicPropertyNames();
-    foreach( const QByteArray & propName, propertyNames )
-    {
-        setProperty( propName, gameObject->property( propName ) );
-    }
-
-    const QMetaObject* metaobject = gameObject->metaObject();
-    int count = metaobject->propertyCount();
-    for( int i = 0; i < count; ++i )
-    {
-        QMetaProperty metaproperty = metaobject->property( i );
-        const QString theName( metaproperty.name() );
-        if( theName == "objectName" || !metaproperty.isWritable() )
-            continue;
-        setProperty( theName.toUtf8(), gameObject->property( theName.toUtf8() ) );
-    }
-    
     // Clone all the GameObject children
     const int childCount = gameObject->childCount();
     if( childCount > 0 )
@@ -90,7 +77,7 @@ void PrefabInstanceChild::cloneFromGameObject(const GluonEngine::GameObject* gam
     // Clone all the Components
     foreach( Component* cmp, gameObject->components() )
     {
-        cmp->clone( this );
+        Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
     }
 }
 
@@ -102,6 +89,27 @@ PrefabInstance* PrefabInstanceChild::parentInstance()
         theParent = theParent->parentGameObject();
 
     return qobject_cast< GluonEngine::PrefabInstance* >(theParent);
+}
+
+void PrefabInstanceChild::resetProperties()
+{
+    Prefab::cloneObjectProperties(d->linkedGameObject, this);
+
+    QList<QObject*> childObjects = d->linkedGameObject->children();
+    if( childObjects.count() > 0 )
+    {
+        for( int i = 0; i < childObjects.count(); ++i )
+        {
+            if( qobject_cast<PrefabInstanceChild*>(child(i)) )
+            {
+                qobject_cast<PrefabInstanceChild*>( child(i) )->resetProperties();
+            }
+            else if( qobject_cast<Component*>(child(i)) )
+            {
+                Prefab::cloneObjectProperties( d->linkedGameObject->child(i), child(i) );
+            }
+        }
+    }
 }
 
 #include "prefabinstancechild.moc"
