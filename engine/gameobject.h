@@ -188,8 +188,8 @@ namespace GluonEngine
             Q_INVOKABLE QList<Component*> findComponentsInChildren( const QString& name ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( const QString& typeName ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( int type ) const;
-            Q_INVOKABLE void addComponent( GluonEngine::Component* addThis );
-            Q_INVOKABLE bool removeComponent( GluonEngine::Component* removeThis );
+            Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
+            Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
             Q_INVOKABLE QList<Component*> components() const;
 
             // ----------------------------------------------------------------
@@ -208,11 +208,11 @@ namespace GluonEngine
             Scene* scene() const;
             GameObject* childGameObject( int index ) const;
             GameObject* childGameObject( const QString& name ) const;
-            void addChild( GluonCore::GluonObject* child );
-            void addChild( GameObject* addThis );
-            void addChildAt( GameObject* child, int index );
-            bool removeChild( GluonObject* child );
-            bool removeChild( GameObject* removeThis );
+            virtual void addChild( GluonCore::GluonObject* child );
+            virtual void addChild( GameObject* addThis );
+            virtual void addChildAt( GluonCore::GluonObject* addThis, int index );
+            virtual bool removeChild( GluonObject* child );
+            virtual bool removeChild( GameObject* removeThis );
             int childCount() const;
             int childIndex( GameObject* child ) const;
 
