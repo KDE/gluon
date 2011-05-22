@@ -22,11 +22,16 @@
 
 #include "ocscommentsprovider.h"
 #include "ocsgamedetailsprovider.h"
+#include "ocsgamedownloadprovider.h"
+
+#include <core/gluon_global.h>
 
 #include <attica/content.h>
 #include <attica/listjob.h>
 #include <attica/provider.h>
 #include <attica/providermanager.h>
+
+#include <QDir>
 
 using namespace GluonPlayer;
 
@@ -222,5 +227,25 @@ OcsGameDetailsProvider* OcsProvider::fetchGames()
     return gameDetailsProvider;
 }
 
+OcsGameDownloadProvider* OcsProvider::downloadGame (const QString& id)
+{
+    QString path("gluon/games");
+    QDir destinationDir(GluonCore::Global::dataDirectory());
+    if (!destinationDir.exists(path)) {
+        destinationDir.mkpath(path);
+    }
+    destinationDir.cd(path);
+
+    OcsGameDownloadProvider *gameDownloadProvider = new OcsGameDownloadProvider(&d->provider, id,
+                                                                                destinationDir.path());
+
+    if (d->ready) {
+        gameDownloadProvider->startDownload();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), gameDownloadProvider, SLOT(startDownload()));
+    }
+
+    return gameDownloadProvider;
+}
 
 #include "ocsprovider.moc"

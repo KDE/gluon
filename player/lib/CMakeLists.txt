@@ -20,6 +20,7 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    ocsgamedownloadprovider.cpp
     ocsgamedetailsprovider.cpp
     ocscommentsprovider.cpp
     ocsprovider.cpp
@@ -40,6 +41,7 @@ target_link_libraries(libGluonPlayer
     ${LIBATTICA_LIBRARIES}
     ${GLUON_CORE_LIBS}
     ${GLUON_ENGINE_LIBS}
+    ${QT_QTNETWORK_LIBRARY}
 )
 
 set(GLUON_PLAYER_LIBS
@@ -47,6 +49,7 @@ set(GLUON_PLAYER_LIBS
     ${LIBATTICA_LIBRARIES}
     ${GLUON_ENGINE_LIBS}
     ${GLUON_CORE_LIBS}
+    ${QT_QTNETWORK_LIBRARY}
     CACHE INTERNAL "Libraries required for Gluon Player"
 )
 

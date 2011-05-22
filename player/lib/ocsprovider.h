@@ -35,6 +35,7 @@ namespace GluonPlayer
 
 class OcsGameDetailsProvider;
 class OcsCommentsProvider;
+class OcsGameDownloadProvider;
 
 /**
  * \brief Provides Open Collaboration Services
@@ -127,10 +128,18 @@ public:
 
     /**
      * Use to fetch a list of games available on the OCS server
-     * @return a object which the caller must
+     * @return a OcsGameDetailsProvider object which the caller must
      * monitor to find out the result of the operation
      */
     OcsGameDetailsProvider *fetchGames();
+
+    /**
+     * Use to download the game with ID id
+     *
+     * @return a OcsGameDownloadProvider object which the caller must
+     * monitor to find out the result of the operation
+     */
+    OcsGameDownloadProvider *downloadGame(const QString &id);
 
 private:
     friend class GluonCore::Singleton<OcsProvider>;
