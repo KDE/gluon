@@ -37,6 +37,7 @@ public:
     Attica::Provider *provider;
     QString id;
     QString destinationDir;
+    QString fileName;
 };
 
 OcsGameDownloadProvider::OcsGameDownloadProvider (Attica::Provider *provider, const QString& id,
@@ -65,6 +66,12 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
     Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
     Attica::DownloadItem item = job->result();
 
+    QFileInfo info(item.url().path());
+    d->fileName = info.fileName();
+    if (d->fileName.isEmpty()) {
+        emit failed();
+        return;
+    }
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     manager->get(QNetworkRequest(item.url()));
@@ -73,7 +80,7 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
 void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
 {
     QDir destDir(d->destinationDir);
-    QFile file(destDir.filePath(d->id));
+    QFile file(destDir.filePath(d->fileName));
     file.open(QIODevice::WriteOnly);
     file.write(reply->readAll());
     file.close();

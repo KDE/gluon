@@ -45,6 +45,7 @@ private:
 signals:
     void started();
     void finished();
+    void failed();
 private slots:
     void startDownload();
     void processDownloadLink (Attica::BaseJob* baseJob);
