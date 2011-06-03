@@ -112,7 +112,7 @@ endif(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
 
 ###### Gluon Creator ######
 if(BUILD_GLUON_CREATOR)
-    add_subdirectory(creator)
+    add_subdirectory(creator2)
 endif(BUILD_GLUON_CREATOR)
 
 ###### Gluon Player ######
@@ -178,7 +178,7 @@ if(INSTALL_CMAKE_FILES)
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
-        creator/lib/cmake/FindGluonCreator.cmake
+        creator2/lib/cmake/FindGluonCreator.cmake
         DESTINATION
         ${CMAKE_ROOT}/Modules
         OPTIONAL
@@ -195,7 +195,7 @@ else()
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
         engine/cmake/FindGluonEngine.cmake
-        creator/lib/cmake/FindGluonCreator.cmake
+        creator2/lib/cmake/FindGluonCreator.cmake
         DESTINATION
         ${SHARE_INSTALL_DIR}/gluon/cmake
         OPTIONAL

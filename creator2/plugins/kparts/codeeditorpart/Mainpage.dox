@@ -1,0 +1,16 @@
+/**
+@mainpage CodeEditorPart
+
+CodeEditorPart is a KPart for Gluon Creator to handle visual editing code for Gluon games.
+
+@authors
+Kevin Whitaker \<eyecreate@gmail.com\>
+
+@licenses
+@lgpl
+
+*/
+
+// DOXYGEN_SET_PROJECT_NAME = CodeEditorPart
+// DOXYGEN_SET_RECURSIVE = YES
+// vim:ts=4:sw=4:expandtab:filetype=doxygen

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Gluon Project Editor Component
+Name[es]=Componente de edición del proyecto Gluon
+Name[et]=Gluoni projektiredaktori komponent
+Name[pt]=Componente de Edição de Projectos do Gluon
+Name[pt_BR]=Componente de edição de projetos do Gluon
+Name[sv]=Gluon-projekteditorkomponent
+Name[uk]=Компонент редактора проектів Gluon
+Name[x-test]=xxGluon Project Editor Componentxx
+MimeType=text/x-gluon-project;
+x-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
+X-KDE-Library=gluon_editor_part
+Type=Service

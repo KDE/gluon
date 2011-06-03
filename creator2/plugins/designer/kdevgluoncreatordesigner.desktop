@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Service
+Exec=blubb
+Icon=edit-copy
+Comment=Designer
+Name=Designer
+GenericName=Designer
+ServiceTypes=KDevelop/Plugin
+X-KDE-Library=kdevgluoncreatordesigner
+X-KDE-PluginInfo-Name=kdevgluoncreatordesigner
+X-KDE-PluginInfo-Author=Robert Gruber, Milian Wolff
+X-KDE-PluginInfo-Version=0.75
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-Category=Utilities
+X-KDevelop-Version=12
+X-KDevelop-Category=Global
+X-KDevelop-Mode=GUI

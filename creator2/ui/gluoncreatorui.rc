@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="gluoncreator" version="15" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+     http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
+
+    <MenuBar>
+        <Menu name="project" append="first_menu"><text>&amp;Project</text>
+            <Action name="project_new" />
+            <Separator />
+            <Action name="project_open" />
+            <Action name="project_open_recent" />
+            <Separator />
+            <Action name="project_save" />
+            <Action name="project_save_as" />
+            <Separator />
+            <Action name="asset_import" />
+            <Separator />
+            <Action name="file_quit" />
+        </Menu>
+
+        <Menu name="game" noMerge="1">
+        </Menu>
+
+        <Menu name="file" noMerge="1"><text>&amp;File</text>
+            <DefineGroup name="bookmark_merge" append="bookmarks" />
+            <DefineGroup name="save_merge" append="save_merge" />
+            <DefineGroup name="print_merge" append="print_merge" />
+        </Menu>
+
+        <Menu name="edit">
+        </Menu>
+
+        <Menu name="view">
+            <DefineGroup name="view_operations" append="view_operations" />
+            <Merge />
+            <Separator />
+            <Action name="game_play" />
+            <Action name="game_pause" />
+            <Action name="game_stop" />
+        </Menu>
+
+        <Menu name="scene">
+            <text>&amp;Scene</text>
+            <Action name="scene_new" />
+            <Separator />
+            <Action name="gameobject_new" />
+        </Menu>
+
+        <Menu name="tools">
+            <text>&amp;Tools</text>
+            <Menu name="versionControlSystem">
+                <text>&amp;Version Control System</text>
+            </Menu>
+            <DefineGroup name="tools_operations" append="tools_operations" />
+        </Menu>
+
+        <Menu name="settings">
+            <Menu name="docks">
+                <text>&amp;Docks</text>
+            </Menu>
+            <Action name="lock_layout" />
+            <DefineGroup name="configure_merge" append="configure_merge" />
+        </Menu>
+
+        <Menu name="help">
+        </Menu>
+    </MenuBar>
+
+    <ToolBar name="mainToolBar" noMerge="1">
+    </ToolBar>
+
+    <ToolBar name="projectToolBar">
+        <text>Project Toolbar</text>
+        <Action name="project_open" />
+        <Action name="project_save" />
+    </ToolBar>
+
+    <ToolBar name="gameActionsToolbar">
+        <text>Game Actions</text>
+        <Action name="game_play" />
+        <Action name="game_pause" />
+        <Action name="game_stop" />
+    </ToolBar>
+
+   <State name="initial">
+       <disable>
+           <Action name="project_save" />
+           <Action name="project_save_as" />
+           <Action name="asset_import" />
+           <Action name="object_new" />
+           <Action name="scene_new" />
+           <Action name="game_play" />
+           <Action name="game_pause" />
+           <Action name="game_stop" />
+           <Action name="chooseEntryPoint" />
+       </disable>
+   </State>
+
+   <State name="fileOpened">
+       <enable>
+           <Action name="project_save" />
+           <Action name="project_save_as" />
+           <Action name="asset_import" />
+           <Action name="object_new" />
+           <Action name="scene_new" />
+           <Action name="game_play" />
+           <Action name="chooseEntryPoint" />
+       </enable>
+   </State>
+
+    <State name="playing">
+        <enable>
+            <Action name="game_pause" />
+            <Action name="game_stop" />
+        </enable>
+        <disable>
+            <Action name="project_save" />
+            <Action name="project_save_as" />
+            <Action name="game_play" />
+        </disable>
+    </State>
+
+    <State name="paused">
+        <enable>
+            <Action name="game_play" />
+        </enable>
+        <disable>
+            <Action name="game_pause" />
+        </disable>
+    </State>
+</gui>

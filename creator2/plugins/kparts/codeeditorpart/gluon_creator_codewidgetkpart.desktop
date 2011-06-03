@@ -1,0 +1,38 @@
+[Desktop Entry]
+Encoding=UTF-8
+
+Name=Code Editor
+Name[de]=Quelltexteditor
+Name[es]=Editor de código
+Name[et]=Koodiredaktor
+Name[pt]=Editor de Código
+Name[pt_BR]=Editor de código
+Name[sv]=Kodeditor
+Name[uk]=Редактор коду
+Name[x-test]=xxCode Editorxx
+Comment=Provides a code editor for Gluon Creator
+Comment[de]=Ein guter Editor zum Bearbeiten des Quelltextes.
+Comment[es]=Proporciona un editor de código para Gluon Creator
+Comment[et]=Gluoni mängulooja koodiredaktor
+Comment[pt]=Oferece um editor de código para o Gluon
+Comment[pt_BR]=Fornece um editor de código para o criador do Gluon
+Comment[sv]=Tillhandahåller en kodeditor för Gluon Creator
+Comment[uk]=Забезпечує роботу редактора коду у Gluon Creator
+Comment[x-test]=xxProvides a code editor for Gluon Creatorxx
+Icon=gluon
+
+Type=Service
+MimeType=application/javascript;
+X-KDE-ServiceTypes=KParts/ReadOnlyPart,KParts/ReadWritePart
+
+X-KDE-Library=gluon_creator_codewidgetkpart
+X-KDE-GluonCreatorPluginVersion=1
+X-KDE-PluginInfo-Author=Kevin Whitaker
+X-KDE-PluginInfo-Email=eyecreate@gmail.com
+X-KDE-PluginInfo-Name=gluon_creator_dockplugin_codewidgetdock
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=dock
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true
