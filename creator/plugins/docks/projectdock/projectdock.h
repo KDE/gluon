@@ -59,4 +59,4 @@ namespace GluonCreator
 
 }
 
-#endif // GLUON_CREATOR_SCENEDOCKPLUGIN_H
+#endif // GLUON_CREATOR_PROJECTDOCKPLUGIN_H
