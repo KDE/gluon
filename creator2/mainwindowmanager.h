@@ -25,13 +25,14 @@
 
 #include <KDE/KParts/MainWindow>
 #include <KDE/KUrl>
+#include <KDE/KXMLGUIClient>
 
 class KRecentFilesAction;
 namespace GluonCreator
 {
     class Plugin;
 
-    class MainWindowManager : public QObject
+    class MainWindowManager : public QObject, public KXMLGUIClient
     {
             Q_OBJECT
         public:
@@ -50,8 +51,8 @@ namespace GluonCreator
             // void showPreferences();
 
             // void playGame();
-            // void pauseGame();
-            // void stopGame();
+            void pauseGame();
+            void stopGame();
 
             // void historyChanged();
             // void cleanChanged( bool );
@@ -59,19 +60,19 @@ namespace GluonCreator
             // void addAsset();
 
             void showNewProjectDialog();
-            // void showOpenProjectDialog();
+            void showOpenProjectDialog();
             void projectDialogAccepted();
 
-            // void initializeGame();
+            void initializeGame();
 
             // void partChanged( KParts::Part* part );
 
         private:
-            // void setupActions();
+            void setupActions();
 
             class MainWindowManagerPrivate;
             MainWindowManagerPrivate* const d;
     };
 }
 
-#endif // MAINWINDOWMANAGER_H
+#endif

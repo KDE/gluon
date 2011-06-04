@@ -30,8 +30,6 @@
 
 #include "kdevideextension.h"
 
-#include "dialogs/projectselectiondialog.h"
-
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
 #include "lib/objectmanager.h"
@@ -80,6 +78,7 @@
 #include <QtGui/QPixmap>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
+#include <QtCore/QDebug>
 
 using KDevelop::Core;
 
@@ -238,7 +237,7 @@ int main( int argc, char *argv[] )
     }
     args->clear();
 
-    GluonCreator::MainWindowManager* windowManager;
+    GluonCreator::MainWindowManager* windowManager = new GluonCreator::MainWindowManager();
 
     return app.exec();
 }

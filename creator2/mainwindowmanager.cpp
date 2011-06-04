@@ -73,12 +73,13 @@ class MainWindowManager::MainWindowManagerPrivate
         KRecentFilesAction* recentFiles;
         ProjectSelectionDialog* projectDialog;
 
-        FileArea* mainArea;
+        // FileArea* mainArea;
         KParts::MainWindow *mainWindow;
 };
 
 MainWindowManager::MainWindowManager( QObject *parent )
     : QObject(parent)
+    , KXMLGUIClient()
     , d( new MainWindowManagerPrivate )
 {
     d->mainWindow = KDevelop::ICore::self()->uiController()->activeMainWindow();
@@ -95,9 +96,9 @@ MainWindowManager::MainWindowManager( QObject *parent )
     ViewManager::instance()->setParent( d->mainWindow );
     ViewManager::instance()->setMainWindow( d->mainWindow );
 
-    FileManager::instance()->initialize( d->mainWindow );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
+    // FileManager::instance()->initialize( d->mainWindow );
+    // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
+    // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( d->mainWindow );
     PluginManager::instance()->loadPlugins();
@@ -108,12 +109,12 @@ MainWindowManager::MainWindowManager( QObject *parent )
     // setCorner( Qt::TopRightCorner, Qt::RightDockWidgetArea );
     // setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
 
-    // d->mainArea = new FileArea( this );
-    // setCentralWidget( d->mainArea );
+    // d->mainArea = new FileArea( d->mainWindow );
+    // d->mainWindow->setCentralWidget( d->mainArea );
 
-    // setupActions();
-    // setupGUI();
-    // stateChanged( "initial" );
+    setupActions();
+    // d->mainWindow->setupGUI();
+    stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( KDevelop::ICore::self()->uiController()->activeMainWindow() );
     d->projectDialog->setModal( true );
@@ -159,13 +160,13 @@ void MainWindowManager::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile( "view" );
-        FileManager::instance()->closeFile( "edit" );
+        // FileManager::instance()->closeFile( "view" );
+        // FileManager::instance()->closeFile( "edit" );
 
-        d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        // d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
+        // FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
         // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
-        d->mainArea->setActiveTab( "view" );
+        // d->mainArea->setActiveTab( "view" );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -174,20 +175,20 @@ void MainWindowManager::openProject( const QString& fileName )
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        // stateChanged( "fileOpened" );
+        stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );
 
-        if( d->mainWindow->centralWidget() )
-            d->mainWindow->centralWidget()->setEnabled( true );
+        // if( d->mainWindow->centralWidget() )
+            // d->mainWindow->centralWidget()->setEnabled( true );
 
-        d->mainWindow->statusBar()->showMessage( i18n( "Project successfully opened" ) );
-        d->mainWindow->setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
+        // d->mainWindow->statusBar()->showMessage( i18n( "Project successfully opened" ) );
+        // d->mainWindow->setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
     }
     else
     {
-        d->mainWindow->statusBar()->showMessage( i18n( "Unable to open project file..." ) );
+        // d->mainWindow->statusBar()->showMessage( i18n( "Unable to open project file..." ) );
     }
 }
 
@@ -227,80 +228,82 @@ void MainWindowManager::openProject( const QString& fileName )
         // saveProject();
 // }
 
-// void MainWindowManager::setupActions()
-// {
-    // KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actionCollection() );
-    // actionCollection()->addAction( "project_new", newProject );
-    // connect( newProject, SIGNAL( triggered( bool ) ), SLOT( showNewProjectDialog() ) );
-    // newProject->setShortcut( KShortcut( "Ctrl+Shift+N" ) );
+void MainWindowManager::setupActions()
+{
+    KActionCollection* actCollection = actionCollection();
 
-    // KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actionCollection() );
-    // actionCollection()->addAction( "project_open", openProject );
-    // connect( openProject, SIGNAL( triggered( bool ) ), SLOT( showOpenProjectDialog() ) );
-    // openProject->setShortcut( KShortcut( "Ctrl+Shift+O" ) );
+    KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actCollection );
+    actCollection->addAction( "project_new", newProject );
+    connect( newProject, SIGNAL( triggered( bool ) ), SLOT( showNewProjectDialog() ) );
+    newProject->setShortcut( KShortcut( "Ctrl+Shift+N" ) );
 
-    // KAction* saveProject = new KAction( KIcon( "document-save" ), i18n( "Save Project" ), actionCollection() );
-    // actionCollection()->addAction( "project_save", saveProject );
-    // connect( saveProject, SIGNAL( triggered( bool ) ), SLOT( saveProject() ) );
-    // saveProject->setShortcut( KShortcut( "Ctrl+Shift+S" ) );
+    KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actCollection );
+    actCollection->addAction( "project_open", openProject );
+    connect( openProject, SIGNAL( triggered( bool ) ), SLOT( showOpenProjectDialog() ) );
+    openProject->setShortcut( KShortcut( "Ctrl+Shift+O" ) );
 
-    // KAction* saveProjectAs = new KAction( KIcon( "document-save-as" ), i18n( "Save Project As..." ), actionCollection() );
-    // actionCollection()->addAction( "project_save_as", saveProjectAs );
-    // connect( saveProjectAs, SIGNAL( triggered( bool ) ), SLOT( saveProjectAs() ) );
+    KAction* saveProject = new KAction( KIcon( "document-save" ), i18n( "Save Project" ), actCollection );
+    actCollection->addAction( "project_save", saveProject );
+    connect( saveProject, SIGNAL( triggered( bool ) ), SLOT( saveProject() ) );
+    saveProject->setShortcut( KShortcut( "Ctrl+Shift+S" ) );
 
-    // KStandardAction::quit( this, SLOT( close() ), actionCollection() );
-    // KStandardAction::preferences( this, SLOT( showPreferences() ), actionCollection() );
+    KAction* saveProjectAs = new KAction( KIcon( "document-save-as" ), i18n( "Save Project As..." ), actCollection );
+    actCollection->addAction( "project_save_as", saveProjectAs );
+    connect( saveProjectAs, SIGNAL( triggered( bool ) ), SLOT( saveProjectAs() ) );
 
-    // KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT( undo() ), actionCollection() );
-    // undo->setText( i18n( "Undo Project Action" ) );
-    // undo->setShortcut( KShortcut( "Ctrl+Alt+Z" ) );
-    // connect( HistoryManager::instance(), SIGNAL( canUndoChanged( bool ) ), undo, SLOT( setEnabled( bool ) ) );
+    KStandardAction::quit( this, SLOT( close() ), actCollection );
+    KStandardAction::preferences( this, SLOT( showPreferences() ), actCollection );
 
-    // KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT( redo() ), actionCollection() );
-    // redo->setText( i18n( "Redo Project Action" ) );
-    // undo->setShortcut( KShortcut( "Ctrl+Alt+Shift+Z" ) );
-    // connect( HistoryManager::instance(), SIGNAL( canRedoChanged( bool ) ), redo, SLOT( setEnabled( bool ) ) );
+    KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT( undo() ), actCollection );
+    undo->setText( i18n( "Undo Project Action" ) );
+    undo->setShortcut( KShortcut( "Ctrl+Alt+Z" ) );
+    connect( HistoryManager::instance(), SIGNAL( canUndoChanged( bool ) ), undo, SLOT( setEnabled( bool ) ) );
 
-    // connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
+    KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT( redo() ), actCollection );
+    redo->setText( i18n( "Redo Project Action" ) );
+    undo->setShortcut( KShortcut( "Ctrl+Alt+Shift+Z" ) );
+    connect( HistoryManager::instance(), SIGNAL( canRedoChanged( bool ) ), redo, SLOT( setEnabled( bool ) ) );
 
-    // d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
-    // connect( d->recentFiles, SIGNAL( urlSelected( const KUrl& ) ), SLOT( openProject( const KUrl& ) ) );
-    // d->recentFiles->setText( i18n( "Open Recent Project" ) );
-    // d->recentFiles->setToolTip( i18n( "Open recent project" ) );
-    // d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
-    // actionCollection()->addAction( "project_open_recent", d->recentFiles );
-    // d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
+    connect( HistoryManager::instance(), SIGNAL( cleanChanged( bool ) ), SLOT( cleanChanged( bool ) ) );
 
-    // KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Game Object" ), actionCollection() );
-    // actionCollection()->addAction( "gameobject_new", newObject );
-    // connect( newObject, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewGameObject() ) );
+    d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actCollection );
+    connect( d->recentFiles, SIGNAL( urlSelected( const KUrl& ) ), SLOT( openProject( const KUrl& ) ) );
+    d->recentFiles->setText( i18n( "Open Recent Project" ) );
+    d->recentFiles->setToolTip( i18n( "Open recent project" ) );
+    d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
+    actCollection->addAction( "project_open_recent", d->recentFiles );
+    d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
-    // KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actionCollection() );
-    // actionCollection()->addAction( "scene_new", newScene );
-    // connect( newScene, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewScene() ) );
+    KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Game Object" ), actCollection );
+    actCollection->addAction( "gameobject_new", newObject );
+    connect( newObject, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewGameObject() ) );
 
-    // KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
-    // actionCollection()->addAction( "game_play", play );
-    // connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
+    KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actCollection );
+    actCollection->addAction( "scene_new", newScene );
+    connect( newScene, SIGNAL( triggered( bool ) ), ObjectManager::instance(), SLOT( createNewScene() ) );
 
-    // KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
-    // actionCollection()->addAction( "game_pause", pause );
-    // connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
+    KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actCollection );
+    actCollection->addAction( "game_play", play );
+    connect( play, SIGNAL( triggered( bool ) ), SLOT( playGame() ) );
 
-    // KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
-    // actionCollection()->addAction( "game_stop", stop );
-    // connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
+    KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actCollection );
+    actCollection->addAction( "game_pause", pause );
+    connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
 
-    // KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actionCollection() );
-    // actionCollection()->addAction( "asset_import", addAsset );
+    KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actCollection );
+    actCollection->addAction( "game_stop", stop );
+    connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
+
+    // KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actCollection );
+    // actCollection->addAction( "asset_import", addAsset );
     // connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
 
-    // KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
-    // actionCollection()->addAction( "lock_layout", lockLayout );
+    // KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actCollection );
+    // actCollection->addAction( "lock_layout", lockLayout );
     // lockLayout->setCheckable( true );
     // lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
     // connect( lockLayout, SIGNAL( triggered( bool ) ), DockManager::instance(), SLOT( setDocksLocked( bool ) ) );
-// }
+}
 
 // void MainWindowManager::showPreferences()
 // {
@@ -350,16 +353,16 @@ void MainWindowManager::openProject( const QString& fileName )
     // }
 // }
 
-// void MainWindowManager::pauseGame()
-// {
-    // GluonEngine::Game::instance()->setPause( true );
+void MainWindowManager::pauseGame()
+{
+    GluonEngine::Game::instance()->setPause( true );
     // stateChanged( "paused" );
-// }
+}
 
-// void MainWindowManager::stopGame()
-// {
-    // GluonEngine::Game::instance()->stopGame();
-// }
+void MainWindowManager::stopGame()
+{
+    GluonEngine::Game::instance()->stopGame();
+}
 
 // void MainWindowManager::historyChanged()
 // {
@@ -410,20 +413,20 @@ void MainWindowManager::showNewProjectDialog()
     d->projectDialog->show();
 }
 
-// void MainWindowManager::showOpenProjectDialog()
-// {
-    // d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
-    // d->projectDialog->show();
-// }
+void MainWindowManager::showOpenProjectDialog()
+{
+    d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
+    d->projectDialog->show();
+}
 
 void MainWindowManager::projectDialogAccepted()
 {
     openProject( d->projectDialog->fileName() );
 }
 
-// void MainWindowManager::initializeGame()
-// {
-// }
+void MainWindowManager::initializeGame()
+{
+}
 
 // void MainWindowManager::partChanged( KParts::Part* part )
 // {
