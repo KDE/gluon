@@ -1,5 +1,5 @@
 set(propertiesview_SRCS
-    propertiesdock.cpp
+    propertiesview.cpp
     propertiesviewplugin.cpp
 
     propertywidgetitems/qurlpropertywidgetitem.cpp

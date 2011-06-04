@@ -17,31 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_MESSAGEVIEW_H
-#define GLUON_CREATOR_MESSAGEVIEW_H
+#ifndef GLUON_CREATOR_PROPERTIESVIEW_H
+#define GLUON_CREATOR_PROPERTIESVIEW_H
 
+#include <creator/lib/selectionmanager.h>
 #include <QtGui/QWidget>
+
+namespace GluonEngine
+{
+    class Component;
+}
 
 namespace GluonCreator
 {
-    class MessageView : public QWidget
+    class PropertiesView : public QWidget
     {
             Q_OBJECT
         public:
-            explicit MessageView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-            ~MessageView();
+            explicit PropertiesView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            ~PropertiesView();
 
         public slots:
-            void showDebug( const QString& debugText );
-
-        private slots:
-            void selectAll();
-            void copy();
-            void clearSelection();
+            void selectionChanged( SelectionManager::SelectionList selection );
+            void newComponent( GluonEngine::Component* comp );
+            void propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue );
 
         private:
-            class MessageViewPrivate;
-            MessageViewPrivate* const d;
+            class PropertiesViewPrivate;
+            PropertiesViewPrivate* const d;
     };
 
 }

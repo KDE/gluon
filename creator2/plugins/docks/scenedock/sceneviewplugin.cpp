@@ -10,7 +10,7 @@
 
 #include "sceneviewplugin.h"
 
-#include "scenedock.h"
+#include "sceneview.h"
 
 #include <klocale.h>
 #include <kpluginfactory.h>
@@ -48,7 +48,7 @@ public:
     virtual QWidget* create(QWidget *parent = 0)
     {
         Q_UNUSED(parent)
-        return new GluonCreator::SceneDock("Scene View");
+        return new GluonCreator::SceneView();
     }
 
     virtual Qt::DockWidgetArea defaultPosition()

@@ -44,7 +44,7 @@ class MessageView::MessageViewPrivate
         QListWidget* view;
 };
 
-MessageView::MessageView( const QString& title, QWidget* parent, Qt::WindowFlags flags )
+MessageView::MessageView( QWidget* parent, Qt::WindowFlags flags )
     : QWidget( parent, flags ),
       d( new MessageViewPrivate )
 {

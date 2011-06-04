@@ -48,7 +48,7 @@ public:
     virtual QWidget* create(QWidget *parent = 0)
     {
         Q_UNUSED(parent)
-        return new GluonCreator::MessageView("Message View");
+        return new GluonCreator::MessageView();
     }
 
     virtual Qt::DockWidgetArea defaultPosition()

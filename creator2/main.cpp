@@ -26,25 +26,28 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
 
+#include "kdevideextension.h"
+
+#include "dialogs/projectselectiondialog.h"
+
+#include "lib/plugin.h"
+#include "lib/pluginmanager.h"
+#include "lib/objectmanager.h"
+#include "lib/historymanager.h"
+#include "lib/selectionmanager.h"
+#include "lib/dockmanager.h"
+#include "lib/filemanager.h"
+#include "lib/widgets/filearea.h"
+
+#include "gluoncreatorsettings.h"
+#include "dialogs/configdialog.h"
+
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+#include <core/gluon_global.h>
+
 #include <config.h>
-
-#include <kaboutdata.h>
-#include <kapplication.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
-#include <kxmlguiwindow.h>
-#include <kstandarddirs.h>
-#include <ksplashscreen.h>
-#include <ktexteditor/cursor.h>
-
-#include <QFileInfo>
-#include <QPixmap>
-#include <QTimer>
-#include <QDir>
-#include <QThread>
-#include <QDBusConnection>
-#include <QDBusInterface>
-#include <QDBusReply>
 
 #include <shell/core.h>
 #include <shell/mainwindow.h>
@@ -55,40 +58,61 @@
 #include <shell/runcontroller.h>
 #include <shell/launchconfiguration.h>
 #include <shell/session.h>
+
 #include <interfaces/ilauncher.h>
 #include <interfaces/iproject.h>
 
-#include "kdevideextension.h"
+#include <KDE/KAboutData>
+#include <KDE/KApplication>
+#include <KDE/KCmdLineArgs>
+#include <KDE/KLocalizedString>
+#include <KDE/KXmlGuiWindow>
+#include <KDE/KStandardDirs>
+#include <KDE/KSplashScreen>
+#include <KDE/KMessageBox>
+#include <ktexteditor/cursor.h>
 
-#include <KMessageBox>
-
-#include <iostream>
-#include <QtCore/QTextStream>
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusInterface>
+#include <QtDBus/QDBusReply>
+#include <QtGui/QPixmap>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 
 using KDevelop::Core;
 
 int main( int argc, char *argv[] )
 {
-    static const char description[] = I18N_NOOP( "The KDevelop Integrated Development Environment" );
-    KAboutData aboutData( "kdevelop", 0, ki18n( "KDevelop" ), QByteArray(VERSION), ki18n(description), KAboutData::License_GPL,
-                          ki18n( "Copyright 1999-2010, The KDevelop developers" ), KLocalizedString(), "http://www.kdevelop.org/" );
+    KAboutData aboutData( "gluoncreator", NULL,
+            ki18n( "Gluon Creator" ), QString( "%1 (%2)" ).arg( GLUON_VERSION_STRING ).arg( GLUON_VERSION_NAME ).toUtf8(),
+            ki18n( "A game creation environment" ),
+            KAboutData::License_LGPL_V2,
+            ki18n( "Copyright 2009-2010 by multiple contributors." ),
+            KLocalizedString(),
+            "http://gluon.gamingfreedom.org"
+            );
+
+    aboutData.setProgramIconName( "gluon_creator" );
+    aboutData.addAuthor( ki18n( "Arjen Hiemstra" ), ki18n( "Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator" ), "" );
+    aboutData.addAuthor( ki18n( "Dan Leinir Tuthra Jensen" ), ki18n( "Gluon Core, Gluon Engine, Gluon Creator" ), "" );
+    aboutData.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics,Gluon Audio,Gluon Input" ), "" );
+    aboutData.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "" );
+    aboutData.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac compatibility" ), "" );
+    aboutData.addAuthor( ki18n( "Rivo Laks" ), ki18n( "Gluon Graphics through KGLLIB" ), "" );
+    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "" );
+    aboutData.setProductName( "gluon/gluoncreator" );
+
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options;
-    options.add("p")
-           .add("project <project>", ki18n( "Open KDevelop and load the given project." ));
-
-    options.add("pid");
-
-    options.add("+files", ki18n( "Files to load" ));
-
+    options.add( "+file", ki18n( "GDL file to open" ) );
     KCmdLineArgs::addCmdLineOptions( options );
+
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
     // The session-controller needs to arguments to eventually pass them to newly opened sessions
     KDevelop::SessionController::setArguments(argc, argv);
-
 
     // if empty, restart kdevelop with last active session, see SessionController::defaultSessionId
     QString session = "default";
@@ -211,6 +235,12 @@ int main( int argc, char *argv[] )
 	    kWarning() << i18n("Could not open %1") << args->arg(i);
     }
     args->clear();
+
+    GluonCreator::ProjectSelectionDialog *projectDialog = new GluonCreator::ProjectSelectionDialog( );
+    projectDialog->setModal( true );
+    projectDialog->raise( );
+    projectDialog->setPage( GluonCreator::ProjectSelectionDialog::NewProjectPage );
+    projectDialog->show();
 
     return app.exec();
 }

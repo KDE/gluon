@@ -10,7 +10,7 @@
 
 #include "projectviewplugin.h"
 
-#include "projectdock.h"
+#include "projectview.h"
 
 #include <klocale.h>
 #include <kpluginfactory.h>
@@ -48,7 +48,7 @@ public:
     virtual QWidget* create(QWidget *parent = 0)
     {
         Q_UNUSED(parent)
-        return new GluonCreator::ProjectDock("Project View");
+        return new GluonCreator::ProjectView();
     }
 
     virtual Qt::DockWidgetArea defaultPosition()

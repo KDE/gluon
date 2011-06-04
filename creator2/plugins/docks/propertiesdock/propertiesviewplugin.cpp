@@ -10,7 +10,7 @@
 
 #include "propertiesviewplugin.h"
 
-#include "propertiesdock.h"
+#include "propertiesview.h"
 
 #include <klocale.h>
 #include <kpluginfactory.h>
@@ -48,7 +48,7 @@ public:
     virtual QWidget* create(QWidget *parent = 0)
     {
         Q_UNUSED(parent)
-        return new GluonCreator::PropertiesDock("Properties View");
+        return new GluonCreator::PropertiesView();
     }
 
     virtual Qt::DockWidgetArea defaultPosition()

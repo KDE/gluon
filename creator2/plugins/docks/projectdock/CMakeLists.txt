@@ -1,5 +1,5 @@
 set(projectview_SRCS
-    projectdock.cpp
+    projectview.cpp
     projectviewplugin.cpp
 )
 

@@ -159,4 +159,4 @@ void GluonViewerPart::redraw()
 }
 
 K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
-K_EXPORT_PLUGIN( GluonViewerPartFactory( "GluonViewerPart", "GluonViewerPart" ) )
+K_EXPORT_PLUGIN( GluonViewerPartFactory( "gluon_viewer_part", "gluon_viewer_part" ) )

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,33 +18,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_MESSAGEVIEW_H
-#define GLUON_CREATOR_MESSAGEVIEW_H
+#ifndef GLUON_CREATOR_SCENEVIEW_H
+#define GLUON_CREATOR_SCENEVIEW_H
 
+#include <QtCore/QModelIndex>
+#include <QtGui/QItemSelection>
 #include <QtGui/QWidget>
+
+namespace GluonEngine
+{
+    class Scene;
+    class GameObject;
+}
 
 namespace GluonCreator
 {
-    class MessageView : public QWidget
+    class SceneView : public QWidget
     {
             Q_OBJECT
         public:
-            explicit MessageView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-            ~MessageView();
+            explicit SceneView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            ~SceneView();
 
         public slots:
-            void showDebug( const QString& debugText );
+            void selectionChanged( QItemSelection selected, QItemSelection deselected );
+            void sceneChanged( GluonEngine::Scene* );
 
-        private slots:
-            void selectAll();
-            void copy();
-            void clearSelection();
+            void deleteSelection();
+            void newGameObjectAction();
 
         private:
-            class MessageViewPrivate;
-            MessageViewPrivate* const d;
+            class SceneViewPrivate;
+            SceneViewPrivate* d;
     };
-
 }
 
-#endif
+#endif // GLUON_CREATOR_SCENEVIEW_H

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,33 +18,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_MESSAGEVIEW_H
-#define GLUON_CREATOR_MESSAGEVIEW_H
+#ifndef GLUON_CREATOR_PROJECTVIEW_H
+#define GLUON_CREATOR_PROJECTVIEW_H
 
+#include <QtCore/QModelIndex>
 #include <QtGui/QWidget>
+#include <QtGui/QItemSelection>
+
+namespace GluonEngine
+{
+    class GameProject;
+}
 
 namespace GluonCreator
 {
-    class MessageView : public QWidget
+
+    class ProjectView : public QWidget
     {
             Q_OBJECT
         public:
-            explicit MessageView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
-            ~MessageView();
+            explicit ProjectView( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            virtual ~ProjectView();
 
         public slots:
-            void showDebug( const QString& debugText );
+            void activated( QModelIndex index );
+            void selectionChanged( const QItemSelection& selected, const QItemSelection& deselected );
+            void showContextMenuRequested( const QPoint& pos );
+            void currentProjectChanged( GluonEngine::GameProject* project );
 
-        private slots:
-            void selectAll();
-            void copy();
-            void clearSelection();
+            void contextMenuHiding();
+            void newSubMenuTriggered();
+            void newAssetTriggered();
+            void deleteActionTriggered();
+            void importAssetsTriggered();
 
         private:
-            class MessageViewPrivate;
-            MessageViewPrivate* const d;
+            class ProjectViewPrivate;
+            ProjectViewPrivate* const d;
     };
 
 }
 
-#endif
+#endif // GLUON_CREATOR_PROJECTDOCKPLUGIN_H

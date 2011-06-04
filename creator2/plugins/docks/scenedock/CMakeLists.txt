@@ -1,5 +1,5 @@
 set(sceneview_SRCS
-    scenedock.cpp
+    sceneview.cpp
     sceneviewplugin.cpp
 )
 
