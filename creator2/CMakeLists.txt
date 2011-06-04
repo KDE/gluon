@@ -42,6 +42,7 @@ add_subdirectory(icons)
 
 set(gluoncreator_SRCS
     main.cpp
+    mainwindowmanager.cpp
     kdevideextension.cpp
     dialogs/configdialog.cpp
     dialogs/projectselectiondialog.cpp

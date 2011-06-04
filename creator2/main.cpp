@@ -26,6 +26,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
 
+#include "mainwindowmanager.h"
+
 #include "kdevideextension.h"
 
 #include "dialogs/projectselectiondialog.h"
@@ -35,7 +37,7 @@
 #include "lib/objectmanager.h"
 #include "lib/historymanager.h"
 #include "lib/selectionmanager.h"
-#include "lib/dockmanager.h"
+#include "lib/viewmanager.h"
 #include "lib/filemanager.h"
 #include "lib/widgets/filearea.h"
 
@@ -236,11 +238,7 @@ int main( int argc, char *argv[] )
     }
     args->clear();
 
-    GluonCreator::ProjectSelectionDialog *projectDialog = new GluonCreator::ProjectSelectionDialog( );
-    projectDialog->setModal( true );
-    projectDialog->raise( );
-    projectDialog->setPage( GluonCreator::ProjectSelectionDialog::NewProjectPage );
-    projectDialog->show();
+    GluonCreator::MainWindowManager* windowManager;
 
     return app.exec();
 }

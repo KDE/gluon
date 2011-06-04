@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,36 +15,45 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_DOCKPLUGIN_H
-#define GLUON_CREATOR_DOCKPLUGIN_H
+#ifndef GLUONCREATOR_VIEWMANAGER_H
+#define GLUONCREATOR_VIEWMANAGER_H
 
-#include "plugin.h"
+#include "gluoncreator_macros.h"
 
-class QDockWidget;
+#include <core/singleton.h>
+
+class QWidget;
 class KXmlGuiWindow;
 
 namespace GluonCreator
 {
-
-    class GLUONCREATOR_EXPORT DockPlugin : public Plugin
+    class GLUONCREATOR_EXPORT ViewManager : public GluonCore::Singleton<ViewManager>
     {
             Q_OBJECT
         public:
-            DockPlugin( QObject* parent, const QList<QVariant>& params );
-            virtual ~DockPlugin();
+            void addView( QWidget* view, Qt::Orientation orient );
+            void removeView( QWidget* voew );
 
-            virtual void load( KXmlGuiWindow* mainWindow );
-            virtual void unload( KXmlGuiWindow* mainWindow );
+            KXmlGuiWindow* mainWindow();
+            void setMainWindow( KXmlGuiWindow* window );
 
-        protected:
-            virtual QDockWidget* createDock( KXmlGuiWindow* parent ) = 0;
+        public Q_SLOTS:
+            void setViewsEnabled( bool enabled );
 
-            QDockWidget* m_dock;
+        private:
+            friend class GluonCore::Singleton<ViewManager>;
+
+            ViewManager();
+            virtual ~ViewManager();
+            Q_DISABLE_COPY( ViewManager )
+
+            class ViewManagerPrivate;
+            ViewManagerPrivate* const d;
     };
-
 }
 
-#endif // GLUON_CREATOR_DOCKPLUGIN_H
+#endif

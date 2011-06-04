@@ -2,8 +2,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(libGluonCreator_SRCS
     plugin.cpp
-    dockplugin.cpp
-    dockmanager.cpp
+    viewmanager.cpp
     toolplugin.cpp
     pluginmanager.cpp
     objectmanager.cpp
@@ -63,9 +62,8 @@ install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LI
 
 install(FILES
     plugin.h
-    dockplugin.h
     toolplugin.h
-    dockmanager.h
+    viewmanager.h
     pluginmanager.h
     historymanager.h
     objectmanager.h
