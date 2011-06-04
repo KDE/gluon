@@ -104,17 +104,9 @@ MainWindowManager::MainWindowManager( QObject *parent )
     PluginManager::instance()->setMainWindow( d->mainWindow );
     PluginManager::instance()->loadPlugins();
 
-    // setdocknestingenabled( true );
-    // setCorner( Qt::TopLeftCorner, Qt::LeftDockWidgetArea );
-    // setCorner( Qt::BottomLeftCorner, Qt::LeftDockWidgetArea );
-    // setCorner( Qt::TopRightCorner, Qt::RightDockWidgetArea );
-    // setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
-
-    // d->mainArea = new FileArea( d->mainWindow );
-    // d->mainWindow->setCentralWidget( d->mainArea );
-
     setupActions();
-    // stateChanged( "initial" );
+    setXMLFile("gluoncreatorui.rc");
+    stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( KDevelop::ICore::self()->uiController()->activeMainWindow() );
     d->projectDialog->setModal( true );
@@ -122,7 +114,6 @@ MainWindowManager::MainWindowManager( QObject *parent )
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
 
     ViewManager::instance()->setViewsEnabled( false );
-    // ViewManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
 
     // if( fileName.isEmpty() )
     // {
@@ -170,32 +161,25 @@ void MainWindowManager::openProject( const QString& fileName )
         GluonEngine::Game::instance()->setGameProject( d->project );
         GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
-        // FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
-        // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
-        // d->mainArea->setActiveTab( "view" );
-        KDevelop::ICore::self()->documentController()->openDocument(fileName);
-
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
         ObjectManager::instance()->watchCurrentAssets();
 
+        KDevelop::ICore::self()->documentController()->openDocument(fileName);
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        // stateChanged( "fileOpened" );
+        stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );
 
-        // if( d->mainWindow->centralWidget() )
-            // d->mainWindow->centralWidget()->setEnabled( true );
-
-        // d->mainWindow->statusBar()->showMessage( i18n( "Project successfully opened" ) );
-        // d->mainWindow->setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
+        d->mainWindow->statusBar()->showMessage( i18n( "Project successfully opened" ) );
+        d->mainWindow->setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
     }
     else
     {
-        // d->mainWindow->statusBar()->showMessage( i18n( "Unable to open project file..." ) );
+        d->mainWindow->statusBar()->showMessage( i18n( "Unable to open project file..." ) );
     }
 }
 
@@ -208,7 +192,7 @@ void MainWindowManager::saveProject( const QString& fileName )
 {
     if( !fileName.isEmpty() )
     {
-        // statusBar()->showMessage( i18n( "Saving project..." ) );
+        d->mainWindow->statusBar()->showMessage( i18n( "Saving project..." ) );
         GluonEngine::Game::instance()->gameProject()->setFilename( QUrl( fileName ) );
         QDir::setCurrent( KUrl( fileName ).directory() );
         if( !GluonEngine::Game::instance()->gameProject()->saveToFile() )
@@ -216,8 +200,9 @@ void MainWindowManager::saveProject( const QString& fileName )
             KMessageBox::error( d->mainWindow, i18n( "Could not save file." ) );
             return;
         }
-        // statusBar()->showMessage( i18n( "Project successfully saved." ) );
-        // setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -1 ) ) );
+
+        d->mainWindow->statusBar()->showMessage( i18n( "Project successfully saved." ) );
+        d->mainWindow->setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -1 ) ) );
         HistoryManager::instance()->setClean();
 
         d->recentFiles->addUrl( KUrl( fileName ) );
@@ -304,12 +289,6 @@ void MainWindowManager::setupActions()
     // KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actCollection );
     // actCollection->addAction( "asset_import", addAsset );
     // connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
-
-    // KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actCollection );
-    // actCollection->addAction( "lock_layout", lockLayout );
-    // lockLayout->setCheckable( true );
-    // lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
-    // connect( lockLayout, SIGNAL( triggered( bool ) ), DockManager::instance(), SLOT( setDocksLocked( bool ) ) );
 }
 
 // void MainWindowManager::showPreferences()
@@ -363,7 +342,7 @@ void MainWindowManager::setupActions()
 void MainWindowManager::pauseGame()
 {
     GluonEngine::Game::instance()->setPause( true );
-    // stateChanged( "paused" );
+    stateChanged( "paused" );
 }
 
 void MainWindowManager::stopGame()
