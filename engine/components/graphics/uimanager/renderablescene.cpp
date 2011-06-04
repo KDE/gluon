@@ -51,7 +51,7 @@ class RenderableScene::RenderableScenePrivate
             {
                 target->setFramebufferObject( new QGLFramebufferObject( w, h, QGLFramebufferObject::CombinedDepthStencil ) );
             }
-            target->setMaterialInstance( Engine::instance()->material( "default" )->createInstance( "qmlTarget" ) );
+            target->setMaterialInstance( Engine::instance()->createMaterial( "default" )->createInstance( "qmlTarget" ) );
 
             viewportSizeChanged( 0, 0, w, h );
         }
