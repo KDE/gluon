@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="gluoncreator" version="15" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+<gui name="gluoncreator" version="16" xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
      http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
@@ -57,7 +57,7 @@
 
         <Menu name="settings">
             <Menu name="docks">
-                <text>&amp;Docks</text>
+                <text>&amp;Docksfdsadfsadfsadf</text>
             </Menu>
             <Action name="lock_layout" />
             <DefineGroup name="configure_merge" append="configure_merge" />

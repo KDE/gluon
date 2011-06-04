@@ -55,6 +55,7 @@
 #include <KDE/KRichTextEdit>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMenuBar>
+#include <KDE/KXMLGUIFactory>
 
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
@@ -74,15 +75,15 @@ class MainWindowManager::MainWindowManagerPrivate
         KRecentFilesAction* recentFiles;
         ProjectSelectionDialog* projectDialog;
 
-        // FileArea* mainArea;
         KParts::MainWindow *mainWindow;
-        GluonEngine::GameProject* project;
+        // GluonEngine::GameProject* project;
 };
 
 MainWindowManager::MainWindowManager( QObject *parent )
-    : QObject(parent)
+    : QObject(parent), KXMLGUIClient()
     , d( new MainWindowManagerPrivate )
 {
+    setComponentData(KComponentData("gluoncreatormainwindowmanager"));
     d->mainWindow = KDevelop::ICore::self()->uiController()->activeMainWindow();
 
     d->modified = false;
@@ -98,17 +99,17 @@ MainWindowManager::MainWindowManager( QObject *parent )
     ViewManager::instance()->setMainWindow( d->mainWindow );
 
     FileManager::instance()->initialize( d->mainWindow );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( d->mainWindow );
     PluginManager::instance()->loadPlugins();
 
-    setupActions();
     setXMLFile("gluoncreatorui.rc");
-    stateChanged( "initial" );
+    setupActions();
+    d->mainWindow->guiFactory()->addClient(this);
 
-    d->projectDialog = new ProjectSelectionDialog( KDevelop::ICore::self()->uiController()->activeMainWindow() );
+    //stateChanged( "initial" );
+
+    d->projectDialog = new ProjectSelectionDialog( d->mainWindow );
     d->projectDialog->setModal( true );
     d->projectDialog->raise( );
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
@@ -132,8 +133,8 @@ MainWindowManager::MainWindowManager( QObject *parent )
 MainWindowManager::~MainWindowManager()
 {
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
-    // GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
-    GluonCreator::Settings::self()->writeConfig();
+        // GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
+        GluonCreator::Settings::self()->writeConfig();
 }
 
 // void MainWindowManager::closeEvent( QCloseEvent* event )
@@ -154,20 +155,22 @@ void MainWindowManager::openProject( const QString& fileName )
         FileManager::instance()->closeFile( "view" );
         // FileManager::instance()->closeFile( "edit" );
 
-        // d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
-        d->project = new GluonEngine::GameProject();
-        d->project->loadFromFile( fileName );
+        d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
 
-        GluonEngine::Game::instance()->setGameProject( d->project );
-        GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+        // d->project = new GluonEngine::GameProject();
+        // d->project->loadFromFile( fileName );
+
+        // GluonEngine::Game::instance()->setGameProject( d->project );
+        // GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+
+        KDevelop::ICore::self()->documentController()->openDocument(fileName);
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
         ObjectManager::instance()->watchCurrentAssets();
 
-        KDevelop::ICore::self()->documentController()->openDocument(fileName);
         d->fileName = fileName;
-        d->recentFiles->addUrl( KUrl( fileName ) );
+        // d->recentFiles->addUrl( KUrl( fileName ) );
 
         stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );

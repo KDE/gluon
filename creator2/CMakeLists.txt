@@ -71,6 +71,7 @@ target_link_libraries(gluoncreator
 )
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
+install(FILES ui/kdevplatformui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
 install(FILES ui/gluoncreatorui.rc DESTINATION ${DATA_INSTALL_DIR}/gluoncreator)
 install(FILES config/gluoncreatorsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install(FILES gluon-creator.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
