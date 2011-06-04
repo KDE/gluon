@@ -44,7 +44,7 @@ PrefabPrivate::~PrefabPrivate()
     delete( gameObject );
 }
 
-void PrefabPrivate::updateChildrenFromOther(QObject* updateThis, QObject* updateFrom)
+void PrefabPrivate::updateChildrenFromOther(QObject* updateThis, const QObject* updateFrom)
 {
     // Go through all children recursively on "updateFrom" and...
     foreach(QObject* child, updateFrom->children())

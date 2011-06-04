@@ -38,7 +38,7 @@ namespace GluonEngine
             int preCacheSize;
             int additionalCacheSize;
 
-            void updateChildrenFromOther(QObject* updateThis, QObject* updateFrom);
+            void updateChildrenFromOther(QObject* updateThis, const QObject* updateFrom);
     };
 }
 
