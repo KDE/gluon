@@ -35,12 +35,12 @@ void KDevIDEExtension::init()
 
 QString KDevIDEExtension::xmlFile()
 {
-    return "gluoncreator2ui.rc";
+    return "kdevplatformui.rc";
 }
 
 QString KDevIDEExtension::binaryPath()
 {
-    return QApplication::applicationDirPath() + "/gluoncreator2";
+    return QApplication::applicationDirPath() + "/gluoncreator";
 }
 
 KDevelop::AreaParams KDevIDEExtension::defaultArea()

@@ -1,0 +1,176 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui version="131" name="kdevelop" >
+<MenuBar>
+
+  <Menu name="session" append="first_menu">
+    <text context="@title:menu">Session</text>
+  </Menu>
+
+  <Menu name="project" append="first_menu">
+    <text context="@title:menu">&amp;Project</text>
+    <DefineGroup name="project_new"/>
+    <Separator/>
+    <Action name="project_open"/>
+    <Action name="project_fetch"/>
+    <Action name="project_open_recent"/>
+    <Action name="project_open_for_file"/>
+    <Separator/>
+
+    <Merge />
+    <Separator />
+    <Action name="project_open_config" />
+
+    <Separator/>
+    <Action name="project_close"/>
+    <Action name="project_close_all"/>
+  </Menu>
+
+  <Menu name="run" append="first_menu">
+    <text name="@title:menu">&amp;Run</text>
+
+    <Action name="run_default_target" />
+    <Action name="configure_launches" />
+    <Action name="run_execute" /> <!-- ### remove me -->
+    <Action name="run_debug" /> <!-- ### remove me -->
+    <Action name="run_profile" /> <!-- ### remove me -->
+
+    <DefineGroup name="run_operations" />
+
+    <Separator />
+
+    <Action name="run_stop" />
+
+    <Separator />
+    <DefineGroup name="debug" /> <!-- ### remove me -->
+
+    <Separator />
+    <Merge />
+  </Menu>
+
+  <Menu name="navigation" append="first_menu">
+    <text context="@title:menu">&amp;Navigation</text>
+    <DefineGroup name="navigation_file"/>
+    <Separator />
+    <Action name="next_error" />
+    <Action name="previous_error" />
+    <Separator />
+    <DefineGroup name="navigation_code"/>
+    <Separator />
+    <Merge />
+  </Menu>
+
+  <Separator append="first_menu" style="visible"/>
+
+  <Menu name="file">
+    <text context="@title:menu">&amp;File</text>
+    <DefineGroup append="new_merge" name="new_merge"/>
+    <DefineGroup append="open_merge" name="open_merge"/>
+    <DefineGroup append="save_merge" name="save_merge"/>
+    <DefineGroup append="revert_merge" name="revert_merge"/>
+    <DefineGroup append="print_merge" name="print_merge"/>
+    <Action name="file_closeother" append="close_merge"/>
+    <DefineGroup append="close_merge" name="close_merge"/>
+  </Menu>
+
+  <Menu name="edit">
+    <text context="@title:menu">&amp;Edit</text>
+    <DefineGroup append="edit_undo_merge" name="edit_undo_merge"/>
+    <DefineGroup append="edit_paste_merge" name="edit_paste_merge"/>
+    <DefineGroup append="edit_select_merge" name="edit_select_merge"/>
+    <DefineGroup append="edit_find_merge" name="edit_find_merge"/>
+    <DefineGroup name="edit_formatting"/>
+    <Separator/>
+    <Merge/>
+  </Menu>
+
+  <Merge />
+
+  <Menu name="editor">
+    <text context="@title:menu">Editor</text>
+    <Merge/>
+  </Menu>
+
+  <Menu name="code">
+    <text context="@title:menu">Code</text>
+    <Merge/>
+  </Menu>
+
+  <Separator style="visible" />
+
+  <Menu name="window">
+    <text context="@title:menu">&amp;Window</text>
+    <Action name="new_window"/>
+    <Separator/>
+    <Action name="add_toolview"/>
+    <Action name="select_next_dock"/>
+    <Action name="select_previous_dock"/>
+    <Action name="docks_submenu"/>
+    <Action name="user_interface"/>
+    <DefineGroup name="history_operations"/>
+    <Action name="history_back"/>
+    <Action name="history_forward"/>
+    <Separator/>
+    <Action name="file_switchto"/>
+    <Separator/>
+    <DefineGroup name="error_operations"/>
+    <Separator/>
+    <Merge/>
+    <Separator/>
+    <DefineGroup name="view_operations"/>
+
+    <Action name="view_next_window"/>
+    <Action name="view_previous_window"/>
+    <Separator/>
+    <Action name="split_horizontal"/>
+    <Action name="split_vertical"/>
+    <Separator/>
+    <Action name="fullscreen"/>
+    <Separator/>
+    <DefineGroup name="window_operations"/>
+    <Separator/>
+    <Action name="focus_editor"/>
+    <Separator/>
+    <Action name="show_left_dock"/>
+    <Action name="show_right_dock"/>
+    <Action name="show_top_dock"/>
+    <Action name="show_bottom_dock"/>
+    <Action name="hide_all_docks"/>
+    <Separator/>
+    <Merge/>
+  </Menu>
+
+  <Menu name="settings">
+    <text context="@title:menu">Settings</text>
+    <DefineGroup append="show_toolbar_merge" name="show_toolbar_merge"/>
+    <DefineGroup append="show_merge" name="show_merge" />
+    <Action name="show_editorconfig" append="configure_merge" />
+    <DefineGroup append="configure_merge" name="configure_merge" />
+  </Menu>
+
+  <Menu name="help">
+    <Action name="loaded_plugins" append="about_merge" />
+    <Action name="about_platform" append="about_merge" />
+  </Menu>
+
+</MenuBar>
+
+<ToolBar name="mainToolBar" position="Top" noMerge="1">
+  <text>Main Toolbar</text>
+  <DefineGroup append="build_operations" name="build_operations"/>
+  <DefineGroup append="run_operations" name="run_operations"/>
+  <Action name="run_execute" group="run_operations"/>
+  <Action name="run_debug" group="run_operations"/>
+  <Action name="run_stop" group="run_operations" />
+  <Separator/>
+  <Action name="file_new" />
+  <DefineGroup append="file_operations" name="file_operations"/>
+  <DefineGroup append="edit_operations" name="edit_operations"/>
+</ToolBar>
+
+<Menu name="rb_popup">
+  <Separator/>
+  <Action name="file_close"/>
+  <Action name="file_closeother"/>
+</Menu>
+
+</kpartgui>
