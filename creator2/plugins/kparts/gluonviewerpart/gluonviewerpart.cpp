@@ -112,11 +112,11 @@ bool GluonCreator::GluonViewerPart::openFile()
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile( url() );
+    // d->project = new GluonEngine::GameProject();
+    // d->project->loadFromFile( url() );
 
-    GluonEngine::Game::instance()->setGameProject( d->project );
-    GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+    // GluonEngine::Game::instance()->setGameProject( d->project );
+    // GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
     if( d->autoplay )
     {

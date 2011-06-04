@@ -79,6 +79,8 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
 
 void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams )
 {
+    Q_ASSERT(false);
+
     if( fileName.isEmpty() )
         return;
 

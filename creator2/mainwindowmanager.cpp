@@ -75,6 +75,7 @@ class MainWindowManager::MainWindowManagerPrivate
 
         // FileArea* mainArea;
         KParts::MainWindow *mainWindow;
+        GluonEngine::GameProject* project;
 };
 
 MainWindowManager::MainWindowManager( QObject *parent )
@@ -113,7 +114,7 @@ MainWindowManager::MainWindowManager( QObject *parent )
     // d->mainWindow->setCentralWidget( d->mainArea );
 
     setupActions();
-    // d->mainWindow->setupGUI();
+    d->mainWindow->setupGUI();
     stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( KDevelop::ICore::self()->uiController()->activeMainWindow() );
@@ -160,11 +161,17 @@ void MainWindowManager::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile( "view" );
+        // FileManager::instance()->closeFile( "view" );
         // FileManager::instance()->closeFile( "edit" );
 
         // d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        d->project = new GluonEngine::GameProject();
+        d->project->loadFromFile( fileName );
+
+        GluonEngine::Game::instance()->setGameProject( d->project );
+        GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+
+        // FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
         // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
         // d->mainArea->setActiveTab( "view" );
         // KDevelop::ICore::self()->documentController()->openDocument(url);
