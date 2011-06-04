@@ -96,7 +96,7 @@ MainWindowManager::MainWindowManager( QObject *parent )
     ViewManager::instance()->setParent( d->mainWindow );
     ViewManager::instance()->setMainWindow( d->mainWindow );
 
-    // FileManager::instance()->initialize( d->mainWindow );
+    FileManager::instance()->initialize( d->mainWindow );
     // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
     // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
 
@@ -160,13 +160,14 @@ void MainWindowManager::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        // FileManager::instance()->closeFile( "view" );
+        FileManager::instance()->closeFile( "view" );
         // FileManager::instance()->closeFile( "edit" );
 
         // d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
-        // FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
         // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
         // d->mainArea->setActiveTab( "view" );
+        // KDevelop::ICore::self()->documentController()->openDocument(url);
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -192,41 +193,41 @@ void MainWindowManager::openProject( const QString& fileName )
     }
 }
 
-// void MainWindowManager::saveProject()
-// {
-    // saveProject( d->fileName );
-// }
+void MainWindowManager::saveProject()
+{
+    saveProject( d->fileName );
+}
 
-// void MainWindowManager::saveProject( const QString& fileName )
-// {
-    // if( !fileName.isEmpty() )
-    // {
+void MainWindowManager::saveProject( const QString& fileName )
+{
+    if( !fileName.isEmpty() )
+    {
         // statusBar()->showMessage( i18n( "Saving project..." ) );
-        // GluonEngine::Game::instance()->gameProject()->setFilename( QUrl( fileName ) );
-        // QDir::setCurrent( KUrl( fileName ).directory() );
-        // if( !GluonEngine::Game::instance()->gameProject()->saveToFile() )
-        // {
-            // KMessageBox::error( this, i18n( "Could not save file." ) );
-            // return;
-        // }
+        GluonEngine::Game::instance()->gameProject()->setFilename( QUrl( fileName ) );
+        QDir::setCurrent( KUrl( fileName ).directory() );
+        if( !GluonEngine::Game::instance()->gameProject()->saveToFile() )
+        {
+            KMessageBox::error( d->mainWindow, i18n( "Could not save file." ) );
+            return;
+        }
         // statusBar()->showMessage( i18n( "Project successfully saved." ) );
         // setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -1 ) ) );
-        // HistoryManager::instance()->setClean();
+        HistoryManager::instance()->setClean();
 
-        // d->recentFiles->addUrl( KUrl( fileName ) );
-    // }
-    // else
-    // {
-        // saveProjectAs();
-    // }
-// }
+        d->recentFiles->addUrl( KUrl( fileName ) );
+    }
+    else
+    {
+        saveProjectAs();
+    }
+}
 
-// void MainWindowManager::saveProjectAs()
-// {
-    // d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
-    // if( !d->fileName.isEmpty() )
-        // saveProject();
-// }
+void MainWindowManager::saveProjectAs()
+{
+    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
+    if( !d->fileName.isEmpty() )
+        saveProject();
+}
 
 void MainWindowManager::setupActions()
 {

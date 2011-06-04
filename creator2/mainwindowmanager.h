@@ -45,9 +45,9 @@ namespace GluonCreator
         public slots:
             void openProject( KUrl url );
             void openProject( const QString& fileName );
-            // void saveProject();
-            // void saveProject( const QString& fileName );
-            // void saveProjectAs();
+            void saveProject();
+            void saveProject( const QString& fileName );
+            void saveProjectAs();
             // void showPreferences();
 
             // void playGame();
