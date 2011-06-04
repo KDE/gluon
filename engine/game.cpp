@@ -205,6 +205,11 @@ void Game::setPause( bool pause )
 
 void Game::initializeAll()
 {
+    if(!d->gameProject)
+    {
+        DEBUG_BLOCK
+        DEBUG_TEXT("You are attempting to initialize all objects in the game, but there is no game project loaded.");
+    }
     d->currentScene->sceneContents()->initialize();
     emit initialized();
 }
