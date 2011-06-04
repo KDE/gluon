@@ -43,3 +43,17 @@ PrefabPrivate::~PrefabPrivate()
 {
     delete( gameObject );
 }
+
+void PrefabPrivate::updateChildrenFromOther(QObject* updateThis, QObject* updateFrom)
+{
+    // Go through all children recursively on "updateFrom" and...
+    foreach(QObject* child, updateFrom->children())
+    {
+        
+        // ...remove all removed objects on stored GameObject (ensure it has not just been moved)
+        //    - remove object in same position on all linked instances
+        // ...add all new objects to stored Gamebject (ensure it is not just a moved object)
+        //    - add object in same position on all linked instances
+        //    - reclone properties
+    }
+}

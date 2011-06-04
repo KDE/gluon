@@ -21,14 +21,11 @@
 #define GLUON_ENGINE_PREFABPRIVATE_H
 #include <QList>
 
+class QObject;
 namespace GluonEngine
 {
-
     class GameObject;
-
-
     class PrefabInstance;
-
     class PrefabPrivate
     {
         public:
@@ -40,6 +37,8 @@ namespace GluonEngine
             GameObject* gameObject;
             int preCacheSize;
             int additionalCacheSize;
+
+            void updateChildrenFromOther(QObject* updateThis, QObject* updateFrom);
     };
 }
 

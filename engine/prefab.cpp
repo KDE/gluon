@@ -139,13 +139,7 @@ void Prefab::setPreCacheSize(int newPreCacheSize)
 void Prefab::updateFromInstance(const GluonEngine::PrefabInstance* updateFrom)
 {
     // TODO implement :P
-
-    // Go through all children recursively on "updateFrom" and...
-    // ...remove all removed objects (ensure it has not just been moved)
-    //    - remove object in same position on all linked instances
-    // ...add all new objects (ensure it is not just a moved object)
-    //    - add object in same position on all linked instances
-    //    - reclone properties
+    d->updateChildrenFromOther(d->gameObject, updateFrom);
 }
 
 void Prefab::cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn)
