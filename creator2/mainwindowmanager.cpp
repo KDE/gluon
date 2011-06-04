@@ -38,6 +38,7 @@
 
 #include <interfaces/icore.h>
 #include <interfaces/iuicontroller.h>
+#include <interfaces/idocumentcontroller.h>
 
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
@@ -80,7 +81,6 @@ class MainWindowManager::MainWindowManagerPrivate
 
 MainWindowManager::MainWindowManager( QObject *parent )
     : QObject(parent)
-    , KXMLGUIClient()
     , d( new MainWindowManagerPrivate )
 {
     d->mainWindow = KDevelop::ICore::self()->uiController()->activeMainWindow();
@@ -98,8 +98,8 @@ MainWindowManager::MainWindowManager( QObject *parent )
     ViewManager::instance()->setMainWindow( d->mainWindow );
 
     FileManager::instance()->initialize( d->mainWindow );
-    // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
-    // connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
+    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
 
     PluginManager::instance()->setMainWindow( d->mainWindow );
     PluginManager::instance()->loadPlugins();
@@ -114,8 +114,7 @@ MainWindowManager::MainWindowManager( QObject *parent )
     // d->mainWindow->setCentralWidget( d->mainArea );
 
     setupActions();
-    d->mainWindow->setupGUI();
-    stateChanged( "initial" );
+    // stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( KDevelop::ICore::self()->uiController()->activeMainWindow() );
     d->projectDialog->setModal( true );
@@ -161,7 +160,7 @@ void MainWindowManager::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        // FileManager::instance()->closeFile( "view" );
+        FileManager::instance()->closeFile( "view" );
         // FileManager::instance()->closeFile( "edit" );
 
         // d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
@@ -174,7 +173,7 @@ void MainWindowManager::openProject( const QString& fileName )
         // FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
         // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
         // d->mainArea->setActiveTab( "view" );
-        // KDevelop::ICore::self()->documentController()->openDocument(url);
+        KDevelop::ICore::self()->documentController()->openDocument(fileName);
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -183,7 +182,7 @@ void MainWindowManager::openProject( const QString& fileName )
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        stateChanged( "fileOpened" );
+        // stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );
 
         // if( d->mainWindow->centralWidget() )
