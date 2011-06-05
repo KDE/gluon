@@ -12,9 +12,4 @@
         </Menu>
     </MenuBar>
 
-    <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
-        <Action name="toggleSolidAction" group="renderingActions" />
-        <Action name="toggleWireframeAction" group="renderingActions" />
-        <Action name="togglePointsAction" group="renderingActions" />
-    </ToolBar>
 </gui>
