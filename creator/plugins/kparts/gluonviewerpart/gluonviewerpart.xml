@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-    <mime-type type="application/x-gluon-project">
-    <comment>Gluon Scene File</comment>
-    <glob pattern="*.gluonscene"/>
-  </mime-type>
-</mime-info>

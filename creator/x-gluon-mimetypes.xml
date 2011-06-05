@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
     <mime-type type="application/x-gluon-project">
-        <sub-class-of type="text/generic"/>
-        <glob pattern="*.gluon" />
+        <glob pattern="game.gluonproject" />
         <comment>Gluon Project File</comment>
     </mime-type>
     <mime-type type="application/x-gluon-scene">
