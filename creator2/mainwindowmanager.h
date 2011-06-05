@@ -48,16 +48,16 @@ namespace GluonCreator
             void saveProject();
             void saveProject( const QString& fileName );
             void saveProjectAs();
-            // void showPreferences();
+            void showPreferences();
 
             void playGame();
             void pauseGame();
             void stopGame();
 
-            // void historyChanged();
-            // void cleanChanged( bool );
+            void historyChanged();
+            void cleanChanged( bool );
 
-            // void addAsset();
+             void addAsset();
 
             void showNewProjectDialog();
             void showOpenProjectDialog();

@@ -76,7 +76,6 @@ class MainWindowManager::MainWindowManagerPrivate
         ProjectSelectionDialog* projectDialog;
 
         KParts::MainWindow *mainWindow;
-        // GluonEngine::GameProject* project;
 };
 
 MainWindowManager::MainWindowManager( QObject *parent )
@@ -151,7 +150,7 @@ void MainWindowManager::openProject( const QString& fileName )
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         FileManager::instance()->closeFile( "view" );
-        // FileManager::instance()->closeFile( "edit" );
+        FileManager::instance()->closeFile( "edit" );
 
         d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
 
@@ -282,22 +281,22 @@ void MainWindowManager::setupActions()
     actCollection->addAction( "game_stop", stop );
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
-    // KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actCollection );
-    // actCollection->addAction( "asset_import", addAsset );
-    // connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
+    KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actCollection );
+    actCollection->addAction( "asset_import", addAsset );
+    connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
     setXMLFile("gluoncreatorui.rc");
 }
 
-// void MainWindowManager::showPreferences()
-// {
-    // if( KConfigDialog::showDialog( "settings" ) )
-    // {
-        // return;
-    // }
-    // ConfigDialog* dialog = new ConfigDialog( this, "settings", GluonCreator::Settings::self() );
-    // dialog->setAttribute( Qt::WA_DeleteOnClose );
-    // dialog->show();
-// }
+void MainWindowManager::showPreferences()
+{
+    if( KConfigDialog::showDialog( "settings" ) )
+    {
+        return;
+    }
+    ConfigDialog* dialog = new ConfigDialog( d->mainWindow, "settings", GluonCreator::Settings::self() );
+    dialog->setAttribute( Qt::WA_DeleteOnClose );
+    dialog->show();
+}
 
 void MainWindowManager::playGame( )
 {
@@ -347,23 +346,23 @@ void MainWindowManager::stopGame()
     GluonEngine::Game::instance()->stopGame();
 }
 
-// void MainWindowManager::historyChanged()
-// {
-    // GluonEngine::Game::instance()->drawAll();
-    // GluonEngine::Game::instance()->currentScene()->savableDirty = true;
-    // d->modified = true;
+void MainWindowManager::historyChanged()
+{
+    GluonEngine::Game::instance()->drawAll();
+    GluonEngine::Game::instance()->currentScene()->savableDirty = true;
+    d->modified = true;
 
-    // setCaption( i18n( "%1 [modified]", d->fileName.isEmpty() ? i18n( "New Project" ) : d->fileName.section( '/', -1 ) ) );
-// }
+    d->mainWindow->setCaption( i18n( "%1 [modified]", d->fileName.isEmpty() ? i18n( "New Project" ) : d->fileName.section( '/', -1 ) ) );
+}
 
-// void MainWindowManager::cleanChanged( bool clean )
-// {
-    // if( clean )
-    // {
-        // d->modified = false;
-        // setCaption( i18n( "%1", d->fileName.isEmpty() ? i18n( "New Project" ) : d->fileName.section( '/', -1 ) ) );
-    // }
-// }
+void MainWindowManager::cleanChanged( bool clean )
+{
+    if( clean )
+    {
+        d->modified = false;
+        d->mainWindow->setCaption( i18n( "%1", d->fileName.isEmpty() ? i18n( "New Project" ) : d->fileName.section( '/', -1 ) ) );
+    }
+}
 
 // bool MainWindowManager::queryClose()
 // {
@@ -385,10 +384,10 @@ void MainWindowManager::stopGame()
     // return true;
 // }
 
-// void MainWindowManager::addAsset()
-// {
-    // ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames() );
-// }
+void MainWindowManager::addAsset()
+{
+    ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames() );
+}
 
 void MainWindowManager::showNewProjectDialog()
 {
