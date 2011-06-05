@@ -304,7 +304,7 @@ void MainWindowManager::playGame( )
     if( GluonEngine::Game::instance()->isRunning() )
     {
         FileManager::instance()->setCurrentFile( "view" );
-        FileManager::instance()->partManager()->activeWidget()->setFocus();
+        // FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         GluonEngine::Game::instance()->setPause( false );
         stateChanged( "paused", StateReverse );
@@ -320,7 +320,7 @@ void MainWindowManager::playGame( )
 
         // Set the focus to the entire window, so that we do not accidentally trigger actions
         FileManager::instance()->setCurrentFile( "view" );
-        FileManager::instance()->partManager()->activeWidget()->setFocus();
+        // FileManager::instance()->partManager()->activeWidget()->setFocus();
 
         // Start the game loop
         // Note that this starts an infinite loop in Game
