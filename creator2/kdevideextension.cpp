@@ -61,6 +61,6 @@ QString KDevIDEExtension::projectFileDescription()
 
 QStringList KDevIDEExtension::defaultPlugins()
 {
-    return QStringList();
+    return QStringList() << QString("gluon_creator_viewplugin_projectview") << QString("gluon_creator_viewplugin_sceneview") << QString("gluon_creator_viewplugin_componentstview") << QString("gluon_creator_viewplugin_propertiestview") << QString("gluon_creator_viewplugin_messagetview");
 }
 
