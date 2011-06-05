@@ -463,6 +463,10 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     {
         value = theValue.toUInt();
     }
+    else if( theTypeName == "longlong" )
+    {
+        value = theValue.toLongLong();
+    }
     else if( theTypeName == "file" || theTypeName == "url" )
     {
         //DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
@@ -629,6 +633,10 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
         case QVariant::UInt:
             if( theValue.toUInt() )
                 value = QString( "uint(%1)" ).arg( theValue.toUInt() );
+            break;
+        case QVariant::LongLong:
+            if( theValue.toLongLong() )
+                value = QString( "longlong(%1)" ).arg( theValue.toLongLong() );
             break;
         case QVariant::Size:
         case QVariant::SizeF:

@@ -48,7 +48,9 @@ namespace GluonEngine
             virtual ~Savable() {};
             /**
              * Saves the passed asset to the filename indicated
-             * by the GluonObject's file property.
+             * by the GluonObject's file property. If the asset
+             * doesn't inherit from Savable, the function will
+             * just return false.
              *
              * @param object     The instance you wish to save
              *
