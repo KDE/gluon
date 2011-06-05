@@ -20,6 +20,8 @@
 
 #include "projectview.h"
 
+#include "vcslogwidget.h"
+
 #include <creator/lib/filemanager.h>
 #include <creator/lib/historymanager.h>
 #include <creator/lib/newobjectcommand.h>
@@ -36,6 +38,10 @@
 #include <engine/gameobject.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+
+#include <kdevplatform/shell/core.h>
+#include <kdevplatform/interfaces/iplugincontroller.h>
+#include <vcs/interfaces/ibasicversioncontrol.h>
 
 #include <KDE/KIcon>
 #include <KDE/KInputDialog>
@@ -55,6 +61,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
@@ -217,6 +224,7 @@ ProjectView::ProjectView( QWidget* parent, Qt::WindowFlags flags )
     d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT( importAssetsTriggered() ) );
 
     d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
+    d->toolBar->addAction( KIcon( "view-history" ), i18nc( "Show the commit history", "History" ), this, SLOT( vcsLog() ) );
 
     layout->addWidget( d->toolBar );
     layout->addWidget( d->view );
@@ -227,6 +235,32 @@ ProjectView::ProjectView( QWidget* parent, Qt::WindowFlags flags )
 ProjectView::~ProjectView()
 {
     delete d;
+}
+
+void ProjectView::vcsLog()
+{
+    QString projectRootPath = GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile();
+    KDevelop::IBasicVersionControl* iface = 0;
+
+    foreach( KDevelop::IPlugin* p, KDevelop::Core::self()->pluginController()->allPluginsForExtension( "org.kdevelop.IBasicVersionControl" ) )
+    {
+        iface = p->extension<KDevelop::IBasicVersionControl>();
+        if( iface && iface->isVersionControlled( projectRootPath ) )
+             break;
+    }
+
+    Q_ASSERT(iface);
+    KDevelop::VcsJob *job = iface->log( projectRootPath );
+
+    KDialog* dialog = new KDialog( 0 );
+    dialog->setCaption( i18n( "Log Message" ) );
+    dialog->setButtons( KDialog::Ok | KDialog::Cancel );
+
+    VcsLogWidget* vcsLogWidget = new VcsLogWidget( projectRootPath, job, 0 );
+    dialog->setMainWidget( vcsLogWidget );
+    dialog->show();
+    connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
+    connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
 }
 
 void ProjectView::activated( QModelIndex index )

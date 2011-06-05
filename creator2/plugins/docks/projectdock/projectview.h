@@ -52,6 +52,8 @@ namespace GluonCreator
             void deleteActionTriggered();
             void importAssetsTriggered();
 
+            void vcsLog();
+
         private:
             class ProjectViewPrivate;
             ProjectViewPrivate* const d;
