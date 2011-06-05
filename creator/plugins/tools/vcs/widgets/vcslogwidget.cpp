@@ -56,14 +56,14 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob* job, QWidget* par
     setupUi();
 
     m_logModel = new KDevelop::VcsEventModel( this );
-    m_eventView->setModel( m_logModel );
-    m_eventView->sortByColumn( 0, Qt::DescendingOrder );
-    m_eventView->setContextMenuPolicy( Qt::CustomContextMenu );
-    QHeaderView* header = m_eventView->horizontalHeader();
-    header->setResizeMode( 0, QHeaderView::ResizeToContents );
-    header->setResizeMode( 1, QHeaderView::ResizeToContents );
-    header->setResizeMode( 2, QHeaderView::ResizeToContents );
-    header->setResizeMode( 3, QHeaderView::Stretch );
+    // m_eventView->setModel( m_logModel );
+    // m_eventView->sortByColumn( 0, Qt::DescendingOrder );
+    // m_eventView->setContextMenuPolicy( Qt::CustomContextMenu );
+    // QHeaderView* header = m_eventView->horizontalHeader();
+    // header->setResizeMode( 0, QHeaderView::ResizeToContents );
+    // header->setResizeMode( 1, QHeaderView::ResizeToContents );
+    // header->setResizeMode( 2, QHeaderView::ResizeToContents );
+    // header->setResizeMode( 3, QHeaderView::Stretch );
 
     m_detailModel = new KDevelop::VcsItemEventModel( this );
     m_itemEventView->setModel( m_detailModel );
@@ -72,7 +72,7 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob* job, QWidget* par
     header->setResizeMode( 1, QHeaderView::Stretch );
     header->setResizeMode( 2, QHeaderView::ResizeToContents );
     header->setResizeMode( 3, QHeaderView::Stretch );
-    header->setResizeMode( 4, QHeaderView::ResizeToContents );
+    header->setResizeMode( 5, QHeaderView::ResizeToContents );
 
     connect( m_eventView, SIGNAL( clicked( const QModelIndex& ) ),
              SLOT( eventViewClicked( const QModelIndex& ) ) );

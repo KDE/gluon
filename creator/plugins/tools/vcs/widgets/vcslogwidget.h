@@ -73,10 +73,7 @@ namespace GluonCreator
             // UI elements
             QGridLayout* m_gridLayout;
             KSqueezedTextLabel* m_label;
-            QTableView* m_eventView;
             KSqueezedTextLabel* m_label2;
-            QTableView* m_itemEventView;
-            KSqueezedTextLabel* m_label3;
             KTextBrowser* m_message;
     };
 }
