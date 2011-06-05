@@ -50,7 +50,7 @@ namespace GluonCreator
             void saveProjectAs();
             // void showPreferences();
 
-            // void playGame();
+            void playGame();
             void pauseGame();
             void stopGame();
 

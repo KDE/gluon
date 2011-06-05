@@ -83,7 +83,6 @@ MainWindowManager::MainWindowManager( QObject *parent )
     : QObject(parent), KXMLGUIClient()
     , d( new MainWindowManagerPrivate )
 {
-    setComponentData(KComponentData("gluoncreatormainwindowmanager"));
     d->mainWindow = KDevelop::ICore::self()->uiController()->activeMainWindow();
 
     d->modified = false;
@@ -103,11 +102,10 @@ MainWindowManager::MainWindowManager( QObject *parent )
     PluginManager::instance()->setMainWindow( d->mainWindow );
     PluginManager::instance()->loadPlugins();
 
-    setXMLFile("gluoncreatorui.rc");
     setupActions();
     d->mainWindow->guiFactory()->addClient(this);
 
-    //stateChanged( "initial" );
+    stateChanged( "initial" );
 
     d->projectDialog = new ProjectSelectionDialog( d->mainWindow );
     d->projectDialog->setModal( true );
@@ -156,12 +154,6 @@ void MainWindowManager::openProject( const QString& fileName )
         // FileManager::instance()->closeFile( "edit" );
 
         d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
-
-        // d->project = new GluonEngine::GameProject();
-        // d->project->loadFromFile( fileName );
-
-        // GluonEngine::Game::instance()->setGameProject( d->project );
-        // GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
 
         KDevelop::ICore::self()->documentController()->openDocument(fileName);
 
@@ -225,6 +217,7 @@ void MainWindowManager::saveProjectAs()
 
 void MainWindowManager::setupActions()
 {
+    setComponentData(KComponentData("gluoncreator", "gluoncreator"));
     KActionCollection* actCollection = actionCollection();
 
     KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actCollection );
@@ -292,6 +285,7 @@ void MainWindowManager::setupActions()
     // KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actCollection );
     // actCollection->addAction( "asset_import", addAsset );
     // connect( addAsset, SIGNAL( triggered( bool ) ), SLOT( addAsset() ) );
+    setXMLFile("gluoncreatorui.rc");
 }
 
 // void MainWindowManager::showPreferences()
@@ -305,42 +299,42 @@ void MainWindowManager::setupActions()
     // dialog->show();
 // }
 
-// void MainWindowManager::playGame( )
-// {
-    // if( GluonEngine::Game::instance()->isRunning() )
-    // {
-        // FileManager::instance()->setCurrentFile( "view" );
-        // FileManager::instance()->partManager()->activeWidget()->setFocus();
+void MainWindowManager::playGame( )
+{
+    if( GluonEngine::Game::instance()->isRunning() )
+    {
+        FileManager::instance()->setCurrentFile( "view" );
+        FileManager::instance()->partManager()->activeWidget()->setFocus();
 
-        // GluonEngine::Game::instance()->setPause( false );
-        // stateChanged( "paused", StateReverse );
-    // }
-    // else
-    // {
-        // stateChanged( "playing" );
+        GluonEngine::Game::instance()->setPause( false );
+        stateChanged( "paused", StateReverse );
+    }
+    else
+    {
+        stateChanged( "playing" );
 
         // d->mainArea->setActiveTab( "view" );
 
-        // QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
-        // saveProject();
+        QString currentSceneName = GluonEngine::Game::instance()->currentScene()->fullyQualifiedName();
+        saveProject();
 
-        // //Set the focus to the entire window, so that we do not accidentally trigger actions
-        // FileManager::instance()->setCurrentFile( "view" );
-        // FileManager::instance()->partManager()->activeWidget()->setFocus();
+        // Set the focus to the entire window, so that we do not accidentally trigger actions
+        FileManager::instance()->setCurrentFile( "view" );
+        FileManager::instance()->partManager()->activeWidget()->setFocus();
 
-        // //Start the game loop
-        // //Note that this starts an infinite loop in Game
-        // GluonEngine::Game::instance()->runGame();
+        // Start the game loop
+        // Note that this starts an infinite loop in Game
+        GluonEngine::Game::instance()->runGame();
 
-        // //This happens after we exit the game loop
-        // stateChanged( "playing", StateReverse );
+        // This happens after we exit the game loop
+        stateChanged( "playing", StateReverse );
 
-        // setFocus();
-        // openProject( d->fileName );
-        // GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
-        // GluonEngine::Game::instance()->initializeAll();
-    // }
-// }
+        // d->mainWindow->setFocus();
+        openProject( d->fileName );
+        GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
+        GluonEngine::Game::instance()->initializeAll();
+    }
+}
 
 void MainWindowManager::pauseGame()
 {
