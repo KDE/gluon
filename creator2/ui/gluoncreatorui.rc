@@ -56,10 +56,6 @@
         </Menu>
 
         <Menu name="settings">
-            <Menu name="docks">
-                <text>&amp;Docks</text>
-            </Menu>
-            <Action name="lock_layout" />
             <DefineGroup name="configure_merge" append="configure_merge" />
         </Menu>
 
@@ -124,6 +120,7 @@
     <State name="paused">
         <enable>
             <Action name="game_play" />
+            <Action name="game_stop" />
         </enable>
         <disable>
             <Action name="game_pause" />

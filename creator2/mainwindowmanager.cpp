@@ -155,6 +155,7 @@ void MainWindowManager::openProject( const QString& fileName )
         d->mainWindow->statusBar()->showMessage( i18n( "Opening project..." ) );
 
         KDevelop::ICore::self()->documentController()->openDocument(fileName);
+        stateChanged( "fileOpened" );
 
         GluonEngine::Game::instance()->initializeAll();
         GluonEngine::Game::instance()->drawAll();
@@ -163,7 +164,6 @@ void MainWindowManager::openProject( const QString& fileName )
         d->fileName = fileName;
         d->recentFiles->addUrl( KUrl( fileName ) );
 
-        stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );
 
         d->mainWindow->statusBar()->showMessage( i18n( "Project successfully opened" ) );
