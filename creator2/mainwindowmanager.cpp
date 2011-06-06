@@ -161,7 +161,7 @@ void MainWindowManager::openProject( const QString& fileName )
         ObjectManager::instance()->watchCurrentAssets();
 
         d->fileName = fileName;
-        // d->recentFiles->addUrl( KUrl( fileName ) );
+        d->recentFiles->addUrl( KUrl( fileName ) );
 
         stateChanged( "fileOpened" );
         ViewManager::instance()->setViewsEnabled( true );
