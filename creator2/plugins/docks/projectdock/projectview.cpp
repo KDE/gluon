@@ -42,6 +42,7 @@
 #include <kdevplatform/shell/core.h>
 #include <kdevplatform/interfaces/iplugincontroller.h>
 #include <vcs/interfaces/ibasicversioncontrol.h>
+#include <interfaces/idocumentcontroller.h>
 
 #include <KDE/KIcon>
 #include <KDE/KInputDialog>
@@ -291,7 +292,7 @@ void ProjectView::activated( QModelIndex index )
     }
     else if( asset )
     {
-        FileManager::instance()->openAsset( asset );
+        KDevelop::ICore::self()->documentController()->openDocument(asset->absolutePath());
     }
 }
 
