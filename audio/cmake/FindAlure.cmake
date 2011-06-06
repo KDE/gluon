@@ -5,7 +5,7 @@
 #  ALURE_INCLUDE_DIRS - the Alure include directory
 #  ALURE_LIBRARIES - Link these to use Alure
 #
-#  Copyright © 2011 Laszlo Papp <djszapi@archlinux.us>
+#  Copyright © 2011 Laszlo Papp <lpapp@kde.org>
 #
 #  Redistribution and use is allowed according to the terms of the New
 #  BSD license.

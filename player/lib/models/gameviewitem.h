@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or

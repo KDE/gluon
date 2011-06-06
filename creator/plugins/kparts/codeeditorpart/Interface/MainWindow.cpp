@@ -2,7 +2,7 @@
      Copyright (C) 2008 by:
      Tomaz Canabrava <tomaz.canabrava@gmail.com>
      Ugo Sangiori <ugorox@gmail.com>
-     Laszlo Papp <djszapi@archlinux.us>
+     Laszlo Papp <lpapp@kde.org>
 
      Rocs is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by

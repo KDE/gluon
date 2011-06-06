@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

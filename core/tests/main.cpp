@@ -2,7 +2,7 @@
  * This file is part of the Gluon Development Platform
  *
  * Copyright (c) 2010 Clark Gaebel <cg.wowus.cg@gmail.com>
- * Copyright (c) 2011 Laszlo Papp <djszapi@archlinux.us>
+ * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
