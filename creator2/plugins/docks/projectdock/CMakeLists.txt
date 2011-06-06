@@ -1,6 +1,7 @@
 set(projectview_SRCS
     projectview.cpp
     vcslogwidget.cpp
+    vcsbranchwidget.cpp
     projectviewplugin.cpp
 )
 
