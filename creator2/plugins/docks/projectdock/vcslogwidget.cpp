@@ -54,7 +54,6 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob* job, QWidget* par
 
     setupUi();
 
-    qDebug() << "M_JOB" << m_job;
     connect( m_job, SIGNAL( resultsReady( KDevelop::VcsJob* ) ), SLOT( jobReceivedResults( KDevelop::VcsJob* ) ) );
     connect( m_historySlider, SIGNAL( valueChanged(int) ), SLOT( updateCommit(int) ) );
     connect( m_fineHistorySlider, SIGNAL( valueChanged(int) ), SLOT( updateCommit(int) ) );
@@ -114,8 +113,8 @@ void VcsLogWidget::jobReceivedResults( KDevelop::VcsJob* job )
     if( job == m_job )
     {
         QList<QVariant> l = job->fetchResults().toList();
-        m_historySlider->setRange( 0, l.count() );
-        m_fineHistorySlider->setRange( 0, l.count() );
+        m_historySlider->setRange( 0, l.count() - 1 );
+        m_fineHistorySlider->setRange( 0, l.count() - 1 );
         m_newevents.clear();
         foreach( const QVariant & v, l )
         {
@@ -124,6 +123,9 @@ void VcsLogWidget::jobReceivedResults( KDevelop::VcsJob* job )
                 m_newevents << qVariantValue<KDevelop::VcsEvent>( v );
             }
         }
+        m_message->setPlainText( m_newevents.last().message() );
+        m_historySlider->setValue( m_newevents.count());
+        m_fineHistorySlider->setValue( m_newevents.count());
     }
 }
 
@@ -198,6 +200,6 @@ void VcsLogWidget::retranslateUi()
 
 void VcsLogWidget::updateCommit(int)
 {
-    m_message->setPlainText( m_newevents.at(m_historySlider->value() - 1).message());
+    m_message->setPlainText( m_newevents.at(m_historySlider->value()).message());
 }
 
