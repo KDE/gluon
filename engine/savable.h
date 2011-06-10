@@ -23,7 +23,7 @@
 
 #include "gluon_engine_export.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 namespace GluonCore
 {
