@@ -23,6 +23,7 @@
 #include "ocscommentsprovider.h"
 #include "ocsgamedetailsprovider.h"
 #include "ocsgamedownloadprovider.h"
+#include "ocsgameuploadprovider.h"
 
 #include <core/gluon_global.h>
 
@@ -246,6 +247,19 @@ OcsGameDownloadProvider* OcsProvider::downloadGame (const QString& id)
     }
 
     return gameDownloadProvider;
+}
+
+OcsGameUploadProvider* OcsProvider::uploadGame (const QString& id, const QString& path)
+{
+    OcsGameUploadProvider *gameUploadProvider = new OcsGameUploadProvider(&d->provider, id, path);
+
+    if (d->ready) {
+        gameUploadProvider->startUpload();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), gameUploadProvider, SLOT(startUpload()));
+    }
+
+    return gameUploadProvider;
 }
 
 #include "ocsprovider.moc"

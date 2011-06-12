@@ -36,6 +36,7 @@ namespace GluonPlayer
 class OcsGameDetailsProvider;
 class OcsCommentsProvider;
 class OcsGameDownloadProvider;
+class OcsGameUploadProvider;
 
 /**
  * \brief Provides Open Collaboration Services
@@ -136,10 +137,23 @@ public:
     /**
      * Use to download the game with ID id
      *
+     * @param id ID of the game
+     * 
      * @return a OcsGameDownloadProvider object which the caller must
      * monitor to find out the result of the operation
      */
     OcsGameDownloadProvider *downloadGame(const QString &id);
+
+    /**
+     * Use to upload a game with ID
+     *
+     * @param id ID of the game
+     * @param path Path of the file to upload
+     * 
+     * @return a OcsGameUploadProvider object which the caller must
+     * monitor to find out the result of the operation
+     */
+    OcsGameUploadProvider *uploadGame(const QString &id, const QString &path);
 
 private:
     friend class GluonCore::Singleton<OcsProvider>;
