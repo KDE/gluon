@@ -37,6 +37,7 @@ class OcsGameDetailsProvider;
 class OcsCommentsProvider;
 class OcsGameDownloadProvider;
 class OcsGameUploadProvider;
+class OcsRatingProvider;
 
 /**
  * \brief Provides Open Collaboration Services
@@ -154,6 +155,14 @@ public:
      * monitor to find out the result of the operation
      */
     OcsGameUploadProvider *uploadGame(const QString &id, const QString &path);
+
+    /**
+     * Rate a game having ID with a rating from 0 to 100
+     *
+     * @param id ID of the game
+     * @param rating Rating value between 0 to 100
+     */
+    OcsRatingProvider *setRating(const QString &id, uint rating);
 
 private:
     friend class GluonCore::Singleton<OcsProvider>;

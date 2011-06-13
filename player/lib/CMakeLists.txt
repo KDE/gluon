@@ -20,6 +20,7 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    ocsratingprovider.cpp
     ocsgameuploadprovider.cpp
     ocsgamedownloadprovider.cpp
     ocsgamedetailsprovider.cpp

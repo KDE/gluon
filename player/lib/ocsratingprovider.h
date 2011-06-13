@@ -17,12 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
-#define GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#ifndef GLUONPLAYER_OCSRATINGPROVIDER_H
+#define GLUONPLAYER_OCSRATINGPROVIDER_H
 
 #include <QObject>
-
-class QNetworkReply;
 
 namespace Attica
 {
@@ -32,27 +30,28 @@ class BaseJob;
 
 namespace GluonPlayer
 {
-class OcsGameDownloadProvider : public QObject
+
+class OcsRatingProvider : public QObject
 {
+
     Q_OBJECT
 public:
-    OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
+    OcsRatingProvider (Attica::Provider* provider, const QString& id, uint rating,
                              QObject* parent = 0);
-    virtual ~OcsGameDownloadProvider();
+    virtual ~OcsRatingProvider();
 private:
     class Private;
     Private* const d;
 signals:
-    void startedDownload();
     void finished();
     void failed();
 private slots:
-    void startDownload();
-    void processDownloadLink (Attica::BaseJob* baseJob);
-    void downloadComplete(QNetworkReply *reply);
+    void startRatingUpload();
+    void ratingUploadComplete (Attica::BaseJob* baseJob);
 
     friend class OcsProvider;
 };
+
 }
 
-#endif // GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#endif // GLUONPLAYER_OCSRATINGPROVIDER_H

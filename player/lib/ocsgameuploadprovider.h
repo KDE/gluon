@@ -43,7 +43,6 @@ private:
     class Private;
     Private* const d;
 signals:
-    void started();
     void finished();
     void failed();
 private slots:

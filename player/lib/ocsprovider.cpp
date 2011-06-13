@@ -33,6 +33,7 @@
 #include <attica/providermanager.h>
 
 #include <QDir>
+#include "ocsratingprovider.h"
 
 using namespace GluonPlayer;
 
@@ -260,6 +261,19 @@ OcsGameUploadProvider* OcsProvider::uploadGame (const QString& id, const QString
     }
 
     return gameUploadProvider;
+}
+
+OcsRatingProvider* OcsProvider::setRating (const QString& id, uint rating)
+{
+    OcsRatingProvider *ratingProvider = new OcsRatingProvider(&d->provider, id, rating);
+
+    if (d->ready) {
+        ratingProvider->startRatingUpload();
+    } else {
+        connect(this, SIGNAL(providerInitialized()), ratingProvider, SLOT(startRatingUpload()));
+    }
+
+    return ratingProvider;
 }
 
 #include "ocsprovider.moc"

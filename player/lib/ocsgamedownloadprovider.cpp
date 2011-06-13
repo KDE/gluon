@@ -75,6 +75,7 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     manager->get(QNetworkRequest(item.url()));
+    emit startedDownload();
 }
 
 void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
@@ -85,6 +86,7 @@ void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
     file.write(reply->readAll());
     file.close();
     reply->deleteLater();
+    emit finished();
 }
 
 #include "ocsgamedownloadprovider.moc"
