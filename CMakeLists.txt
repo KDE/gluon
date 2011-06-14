@@ -27,7 +27,7 @@ else()
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
 
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/gluon")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(GLUON_BUILD_ALL TRUE
