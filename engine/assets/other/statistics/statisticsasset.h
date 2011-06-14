@@ -41,14 +41,14 @@ namespace GluonEngine
             Q_INVOKABLE StatisticsAsset( QObject* parent = 0 );
             virtual ~StatisticsAsset();
 
-            /** Reimplementation of Savable::contentsToGDL() */
+            /** Reimplemented from Savable::contentsToGDL() */
             virtual QString contentsToGDL();
 
-            /** Reimplementation of Asset::templates() */
+            /** Reimplemented from Asset::templates() */
             virtual const QList<AssetTemplate*> templates();
 
-            /** Reimplementation of Asset::actions() */
-            virtual QList<QAction*> actions() const;
+            /** Reimplemented from Asset::actions() */
+            virtual QList<QAction*> actions();
 
             /** Creates the statistics from the file at startup */
             virtual void setFile( const QUrl& newFile );
@@ -61,7 +61,7 @@ namespace GluonEngine
             void createStatistic();
 
         protected:
-            /** Reimplementation of GluonCore::GluonObject::populateMetaInfo() */
+            /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */
             virtual void populateMetaInfo( GluonCore::MetaInfo*  info );
 
         private:

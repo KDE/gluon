@@ -84,7 +84,7 @@ const QList< AssetTemplate* > StatisticsAsset::templates()
     return templates;
 }
 
-QList< QAction* > StatisticsAsset::actions() const
+QList< QAction* > StatisticsAsset::actions()
 {
     return d->actions;
 }

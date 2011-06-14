@@ -355,4 +355,14 @@ void GameProject::setScreenshot( GluonEngine::TextureAsset* newScreenshot )
     d->screenshot = newScreenshot;
 }
 
+QString GameProject::userName() const
+{
+    return d->userName;
+}
+
+void GameProject::setUserName(const QString& newUserName)
+{
+    d->userName = newUserName;
+}
+
 #include "gameproject.moc"

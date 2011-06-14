@@ -55,6 +55,7 @@ namespace GluonEngine
             Scene* entryPoint;
             GluonEngine::TextureAsset* icon;
             GluonEngine::TextureAsset* screenshot;
+            QString userName;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
     };
