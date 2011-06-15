@@ -21,6 +21,10 @@
 #define GLUON_ENGINE_PREFABPRIVATE_H
 #include <QList>
 
+namespace GluonCore {
+class GluonObject;
+}
+
 class QObject;
 namespace GluonEngine
 {
@@ -38,7 +42,9 @@ namespace GluonEngine
             int preCacheSize;
             int additionalCacheSize;
 
-            void updateChildrenFromOther(QObject* updateThis, const QObject* updateFrom);
+            void updateChildrenFromOther(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
+            void moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
+            void removeAndAddChildren(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
     };
 }
 
