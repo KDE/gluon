@@ -11,11 +11,6 @@ find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(Alure 1.1 REQUIRED)
 
-link_directories(
-    ${SNDFILE_LIBRARY_DIRS}
-    ${ALURE_LIBRARIES}
-)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
