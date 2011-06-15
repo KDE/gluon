@@ -349,8 +349,20 @@ GluonObject::fullyQualifiedName() const
     return name();
 }
 
+QString GluonObject::qualifiedName(GluonObject* localRoot) const
+{
+    GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
+    if( theParent )
+    {
+        if( theParent == localRoot )
+            return "";
+        return QString( "%1/%2" ).arg( theParent->fullyQualifiedName() ).arg( name() );
+    }
+    return name();
+}
+
 GluonCore::GluonObject*
-GluonObject::findItemByName( QString qualifiedName )
+GluonObject::findItemByName( QString qualifiedName ) const
 {
     /*DEBUG_BLOCK
     DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));*/
@@ -708,7 +720,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
 }
 
 GluonObject*
-GluonObject::findItemByNameInObject( QStringList qualifiedName, GluonObject* object )
+GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore::GluonObject* object )
 {
     //DEBUG_FUNC_NAME
     DEBUG_BLOCK

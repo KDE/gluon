@@ -246,6 +246,11 @@ namespace GluonCore
              * AnotherObject/AnObject
              */
             QString fullyQualifiedName() const;
+            /**
+             * The qualified name of the object, from the local root and upwards.
+             * @see fullyQualifiedName
+             */
+            QString qualifiedName(GluonObject* localRoot) const;
 
             /**
              * Used by GluonObjectFactory when requesting an object which supports a specific
@@ -311,7 +316,7 @@ namespace GluonCore
              * @param   qualifiedName   The path (with object names separated by the "/" symbol) to the object, relative to the object this function is called on
              * @return  The object if found, or null if not
              */
-            Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName );
+            Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName ) const;
             /**
              * Get the top-most GluonObject in the object hierarchy
              *
@@ -411,7 +416,7 @@ namespace GluonCore
              * @param   object          The object to start the search at
              * @return  The object if found, or null if the object was not found
              */
-            static GluonObject* findItemByNameInObject( QStringList qualifiedName, GluonCore::GluonObject* object );
+            static GluonObject* findItemByNameInObject( QStringList qualifiedName, const GluonCore::GluonObject* object );
             /**
              * This function is called by the clone function before handing the cloned object
              * back to the caller. If you have something special which needs to be done to each
