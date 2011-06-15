@@ -22,12 +22,10 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include <QDebug>
-
 Archiver::Archiver (const QString& sourceDirectoryPath, const QString& destinationArchivePath)
     : m_sourceDirectoryPath (sourceDirectoryPath), m_destinationArchivePath (destinationArchivePath)
 {
-    qDebug() << "Archiver with " << sourceDirectoryPath << " and " << destinationArchivePath;
+
 }
 
 void Archiver::start()
@@ -64,7 +62,6 @@ void Archiver::addFileToList (QString relativePath)
     QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath(relativePath));
     m_files.append (relativePath);
     m_totalSize += info.size();
-    qDebug() << "AADDING " << relativePath << " SIZE " << info.size();
 }
 
 void Archiver::createData()
@@ -78,7 +75,6 @@ void Archiver::createData()
         QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath (file));
         stream << file;
         stream << info.size();
-        qDebug() << "WRITING " << file << " SIZE " << info.size();
     }
 
     //Append actual file contents
