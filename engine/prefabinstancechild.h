@@ -25,8 +25,8 @@
 
 namespace GluonEngine
 {
-
-class PrefabInstance;
+    class PrefabInstance;
+    class PrefabPrivate;
 
     /**
      * Speaking generally, this class should never be instanatiated manually. It will for all
@@ -75,6 +75,7 @@ class PrefabInstance;
 
         protected:
             friend class PrefabInstance;
+            friend class PrefabPrivate;
             /**
              * Clear this prefab instance child and reclone it from the passed GameObject.
              * This will recursively clone the GameObject, by creating PrefabInstanceChild instances
