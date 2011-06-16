@@ -1,0 +1,25 @@
+I. FORMAT
+
+The archive format we are using here is pretty simple, and contains the following-
+
+1. First field is an int telling the number of files in the project
+
+2. Next, *for each file*, there is a string telling the file's path, and next a qint64 telling its size.
+
+3. After these, the raw file contents are appended
+
+Example,
+
+2
+gameproject.gluon 45
+assets/image.png 523
+
+--binary data of gameproject.gluon--
+--binary data of image.png--
+
+II. Using Qt
+
+use a QDataStream to read/write the headers, and then usual read/write functions to read/write binary data.
+
+
+Last updated on 16 June 2011 by Shantanu Tushar <jhahoneyk@gmail.com>
