@@ -31,7 +31,7 @@ Archiver::Archiver (const QString& sourceDirectoryPath, const QString& destinati
 void Archiver::start()
 {
     addFilesInDir (m_sourceDirectoryPath);
-    createData();
+    writeArchiveToFile();
 }
 
 void Archiver::addFilesInDir (QString path)
@@ -64,9 +64,11 @@ void Archiver::addFileToList (QString relativePath)
     m_totalSize += info.size();
 }
 
-void Archiver::createData()
+void Archiver::writeArchiveToFile()
 {
-    QDataStream stream (&m_data, QIODevice::WriteOnly);
+    QFile arcFile(m_destinationArchivePath);
+    arcFile.open(QIODevice::WriteOnly);
+    QDataStream stream (&arcFile);
     stream.setVersion (QDataStream::Qt_4_7);
     stream << m_files.count();
 
@@ -81,12 +83,9 @@ void Archiver::createData()
     foreach (QString filename, m_files) {
         QFile file (QDir (m_sourceDirectoryPath).absoluteFilePath (filename));
         file.open (QIODevice::ReadOnly);
-        m_data.append (file.readAll());
+        arcFile.write (file.readAll());
         file.close();
     }
 
-    QFile file(m_destinationArchivePath);
-    file.open(QIODevice::WriteOnly);
-    file.write(qCompress(m_data));
-    file.close();
+    arcFile.close();
 }

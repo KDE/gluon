@@ -34,11 +34,10 @@ private:
     QString m_sourceDirectoryPath;
     QString m_destinationArchivePath;
     qint64 m_totalSize;
-    QByteArray m_data;
 
     void addFilesInDir (QString path);
     void addFileToList (QString relativePath);
-    void createData();
+    void writeArchiveToFile();
 };
 
 #endif // ARCHIVER_H

@@ -34,11 +34,7 @@ void Extractor::start()
     QFile sourceArchiveFile(m_sourceArchivePath);
     sourceArchiveFile.open(QIODevice::ReadOnly);
 
-    QByteArray data;
-    data.append(qUncompress(sourceArchiveFile.readAll()));
-    sourceArchiveFile.close();
-
-    QDataStream stream(&data, QIODevice::ReadOnly);
+    QDataStream stream(&sourceArchiveFile);
     stream.setVersion(QDataStream::Qt_4_7);
     int fileCount;
     stream >> fileCount;
@@ -58,14 +54,13 @@ void Extractor::start()
         totalSize += size;
     }
 
-    data.remove(0, data.length()-totalSize);    //Remove headers
+    sourceArchiveFile.seek(sourceArchiveFile.size()-totalSize);
 
     //Read and write actual file data, starting from the last file
-    for (int i=fileCount-1; i>=0; i--) {
+    for (int i=0; i<fileCount; i++) {
         QFile file(QDir(m_destinationDirectoryPath).absoluteFilePath(filesList[i]));
         file.open(QIODevice::WriteOnly);
-        file.write(data.right(sizes[i]));
+        file.write(sourceArchiveFile.read(sizes[i]));
         file.close();
-        data.chop(sizes[i]);
     }
 }
