@@ -27,6 +27,8 @@
 #include <QFile>
 #include <QDir>
 
+#include "archive/extractor.h"
+
 using namespace GluonPlayer;
 
 class OcsGameDownloadProvider::Private
@@ -74,7 +76,8 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
     }
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
-    manager->get(QNetworkRequest(item.url()));
+    QNetworkReply *reply = manager->get(QNetworkRequest(item.url()));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
     emit startedDownload();
 }
 
@@ -86,7 +89,17 @@ void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
     file.write(reply->readAll());
     file.close();
     reply->deleteLater();
+
+    Extractor extractor(destDir.filePath(d->fileName), d->destinationDir);
+    extractor.start();
     emit finished();
 }
 
+void OcsGameDownloadProvider::downloadProgress (qint64 bytesReceived, qint64 bytesTotal)
+{
+    qDebug() << (bytesReceived*100)/bytesTotal << "% done " << bytesReceived << " of " << bytesTotal;
+}
+
 #include "ocsgamedownloadprovider.moc"
+
+

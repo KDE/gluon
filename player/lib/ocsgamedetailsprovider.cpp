@@ -141,8 +141,6 @@ void OcsGameDetailsProvider::processFetchedGamesList (Attica::BaseJob* job)
             OcsGameDetails *details = new OcsGameDetails(content.name(), content.description(), "", "",
                                                          QStringList(), OcsGameDetails::Downloadable, content.id());
             list.append(details);
-            //Uncomment to test download, downloads to install dir/games/id
-            //OcsProvider::instance()->downloadGame(details->id());
         }
 
         emit gameDetailsFetched(list);
