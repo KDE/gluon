@@ -27,6 +27,8 @@
 #include <QFile>
 #include <QDir>
 
+#include <QDebug>
+
 #include "archive/extractor.h"
 
 using namespace GluonPlayer;
