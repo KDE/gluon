@@ -63,6 +63,7 @@ set(GluonEngine_SRCS
     sceneprivate.cpp
     filelocation.cpp
     filelocationprivate.cpp
+    statistic.cpp
 
     game.cpp
     gameprivate.cpp
@@ -79,6 +80,7 @@ set(GluonEngine_HEADERS
     savable.h
     scene.h
     filelocation.h
+    statistic.h
 
     gluon_engine_export.h
     gluon_engine_metatypes.h
