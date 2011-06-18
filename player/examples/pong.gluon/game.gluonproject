@@ -37,7 +37,7 @@
                 file url(assets/scripts/controller.js)
             }   
             { GluonEngine::ScriptingAsset(Player)
-                file url(assets/scripts/player.js)
+                file url(assets/scripts/player1.js)
             }   
             { GluonEngine::ScriptingAsset(Player2)
                 file url(assets/scripts/player2.js)
