@@ -56,10 +56,10 @@ VcsBranchWidget::VcsBranchWidget( KDevelop::IDistributedVersionControl* vcsInter
     connect(m_createUseButton, SIGNAL(clicked()), SLOT(createUseBranch()));
     connect(m_createButton, SIGNAL(clicked()), SLOT(createBranch()));
 
-    m_branches = m_vcsInterface->branches(m_repositoryPath);
+    // m_branches = m_vcsInterface->branches(m_repositoryPath);
     m_branchNameModel->setStringList(m_branches);
     m_branchView->setModel(m_branchNameModel);
-    m_curBranch = m_vcsInterface->curBranch(m_repositoryPath);
+    // m_curBranch = m_vcsInterface->curBranch(m_repositoryPath);
 }
 
 VcsBranchWidget::~VcsBranchWidget()
@@ -114,17 +114,17 @@ void VcsBranchWidget::createUseBranch()
 {
     createBranch();
     QString branch = m_branchView->currentIndex().data().toString();
-    if (branch == m_curBranch(m_repositoryPath))
-    {
-        KMessageBox::messageBox(this, KMessageBox::Sorry,
-                                i18n("Already on branch \"%1\"\n", branch));
-        return;
-    }
+    // if (branch == m_curBranch(m_repositoryPath))
+    // {
+        // KMessageBox::messageBox(this, KMessageBox::Sorry,
+                                // i18n("Already on branch \"%1\"\n", branch));
+        // return;
+    // }
 
-    KDevelop::VcsJob *branchJob = m_vcsInterface->switchBranch(m_repositoryPath, branch);
-    connect(branchJob, SIGNAL(finished(KJob*)), m_model, SIGNAL(resetCurrent()));
+    // KDevelop::VcsJob *branchJob = m_vcsInterface->switchBranch(m_repositoryPath, branch);
+    // connect(branchJob, SIGNAL(finished(KJob*)), m_model, SIGNAL(resetCurrent()));
 
-    KDevelop::ICore::self()->runController()->registerJob(branchJob);
+    // KDevelop::ICore::self()->runController()->registerJob(branchJob);
     close();
 }
 
@@ -133,7 +133,7 @@ void VcsBranchWidget::createBranch()
     QString baseBranch = m_branchView->currentIndex().data().toString();
     QString newBranch = m_newBranchName->text();
 
-    if (!m_model->findItems(newBranch).isEmpty())
+    if (m_branchNameModel->stringList().contains(newBranch))
     {   
         KMessageBox::messageBox(this, KMessageBox::Sorry, i18n("Branch \"%1\" already exists.\n"
                                         "Please, choose another name.", newBranch));
@@ -141,7 +141,7 @@ void VcsBranchWidget::createBranch()
     else
     {
         // KDevelop::VcsJob* branchJob = m_vcsInterface->branch(m_repositoryPath, baseBranch, newBranch)
-        m_vcsInterface->branch(m_repositoryPath, baseBranch, newBranch)->exec();
+        // m_vcsInterface->branch(m_repositoryPath, baseBranch, newBranch)->exec();
         
     }
 }
@@ -150,16 +150,16 @@ void VcsBranchWidget::delBranch()
 {
     QString baseBranch = m_branchView->selectionModel()->selection().indexes().first().data().toString();
 
-    if (baseBranch == m_curBranch(m_repositoryPath))
-    {   
-        KMessageBox::messageBox(this, KMessageBox::Sorry, i18n("Currently at the branch \"%1\".\n"
-                                            "To remove it, please change to another branch.", baseBranch));
-        return;
-    }   
+    // if (baseBranch == m_curBranch(m_repositoryPath))
+    // {   
+        // KMessageBox::messageBox(this, KMessageBox::Sorry, i18n("Currently at the branch \"%1\".\n"
+                                            // "To remove it, please change to another branch.", baseBranch));
+        // return;
+    // }   
 
     int ret = KMessageBox::messageBox(this, KMessageBox::WarningYesNo,
                                       i18n("Are you sure you want to irreversibly remove the branch '%1'?", baseBranch));
     if (ret == KMessageBox::Yes)
-        m_model->removeBranch(baseBranch);
+        m_branchNameModel->stringList().removeAll(baseBranch);
 }
 

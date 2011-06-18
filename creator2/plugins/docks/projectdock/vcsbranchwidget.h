@@ -53,16 +53,15 @@ namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT VcsBranchWidget : public QWidget
     {
-            Q_OBJECT
+        Q_OBJECT
         public:
             VcsBranchWidget( KDevelop::IDistributedVersionControl* vcsInterface, const QString& repositoryPath, QWidget* parent = 0 );
             virtual ~VcsBranchWidget();
 
         private slots:
-
-        private slots:
             void createUseBranch();
             void createBranch();
+            void delBranch();
 
         private:
             void setupUi();
