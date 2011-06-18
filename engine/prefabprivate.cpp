@@ -149,8 +149,9 @@ void PrefabPrivate::removeAndAddChildren(GluonCore::GluonObject* updateThis, con
                 }
                 else
                 {
-                    // Otherwise, just clone it verbatim
-                    // GluonCore::GluonObject* newInstanceChild = clone->clone(linkedInstance);
+                    // Otherwise, just clone it verbatim (since clone parents automatically, no need
+                    // to store this anywhere)
+                    clone->clone(linkedInstance);
                 }
             }
         }

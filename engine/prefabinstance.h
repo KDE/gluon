@@ -86,8 +86,10 @@ namespace GluonEngine
             /*
              * Reimplemented from GameObject
              */
+            virtual void addChild( GameObject* child );
             virtual void addChild( GluonObject* child );
             virtual void addChildAt( GluonObject* child, int position );
+            virtual bool removeChild( GameObject* child );
             virtual bool removeChild( GluonObject* child );
             Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
             Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );

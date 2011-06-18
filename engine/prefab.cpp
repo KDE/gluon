@@ -109,6 +109,7 @@ void Prefab::setGameObject( GameObject* newGameObject )
     addChild(newGameObject);
 
     // Replace the GameObject in-line with a prefab instance
+    d->gameObject = newGameObject;
     oldParent->addChildAt(createInstance(), position);
 
     // Re-create all the instances

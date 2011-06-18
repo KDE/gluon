@@ -125,6 +125,12 @@ void PrefabInstance::setName(const QString& newName)
     Q_UNUSED(newName);
 }
 
+void PrefabInstance::addChild(GameObject* child)
+{
+    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonEngine::GameObject::addChild(child);
+}
+
 void PrefabInstance::addChild(GluonCore::GluonObject* child)
 {
     connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
@@ -135,6 +141,12 @@ void PrefabInstance::addChildAt(GluonCore::GluonObject* child, int position)
 {
     connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
     GluonCore::GluonObject::addChildAt(child, position);
+}
+
+bool PrefabInstance::removeChild(GameObject* child)
+{
+    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    return GluonEngine::GameObject::removeChild(child);
 }
 
 bool PrefabInstance::removeChild(GluonCore::GluonObject* child)
