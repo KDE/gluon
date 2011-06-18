@@ -35,7 +35,7 @@ using namespace GluonCreator;
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
-#include <QtGui/QBoxLayout>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>

@@ -1,5 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2009 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
@@ -21,6 +22,7 @@
 #include "propertywidgetcontainer.h"
 #include "propertywidgetitem.h"
 #include "propertywidgetitemnewcustomproperty.h"
+#include "prefabcontrols.h"
 
 #include "selectionmanager.h"
 #include "objectmanager.h"
@@ -30,6 +32,8 @@
 #include <core/gluonobject.h>
 
 #include <engine/gameobject.h>
+#include <engine/prefabinstance.h>
+#include <engine/prefabinstancechild.h>
 #include <engine/component.h>
 
 #include <KDE/KIcon>
@@ -38,7 +42,8 @@
 #include <KDE/KSqueezedTextLabel>
 
 #include <QtGui/QGridLayout>
-#include <QtGui/QBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QToolButton>
 #include <QtGui/QCheckBox>
 #include <QtGui/QMenu>
@@ -180,6 +185,17 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     if( !theObject->property( "expanded" ).isNull() )
         setExpanded( theObject->property( "expanded" ).value<bool>() );
     connect( this, SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ), parentWidget(), SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ) );
+
+    // Create a set of Prefab controls if we're editing a Prefab instance (or one of its children)
+    if( qobject_cast<GluonEngine::PrefabInstance*>( theObject ) || qobject_cast<GluonEngine::PrefabInstanceChild*>( theObject ) )
+        layout()->addWidget(new PrefabControls(this));
+    if( qobject_cast<GluonEngine::Prefab*>( theObject ) )
+    {
+        // this needs to also cause all the signals to be connected up, as all property changes
+        // must be propagated to the linked instances (Prefab should do this, not the PW)
+        // also add a force update for each property... (propagate a single property by force,
+        // akin to reverting to defaults for all linked instances)
+    }
 
     // Manually add the name and description widgets, as we wish to handle those a little differently
     PropertyWidgetItem* nameWidget = PropertyWidgetItemFactory::instance()->create( theObject, "QString", parentWidget() );

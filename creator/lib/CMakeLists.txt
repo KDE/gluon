@@ -24,6 +24,7 @@ set(libGluonCreator_SRCS
     widgets/filearea.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
+    widgets/prefabcontrols.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
     widgets/nullpropertywidgetitem.cpp
