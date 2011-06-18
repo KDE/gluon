@@ -33,6 +33,7 @@
 #include <QtGui/QTableView>
 #include <QtGui/QWidget>
 #include <QtGui/QSlider>
+#include <QtGui/QStringListModel>
 #include <QtCore/QModelIndex>
 
 class QPoint;
@@ -75,8 +76,9 @@ namespace GluonCreator
             QListView* m_branchView;
             KDevelop::IDistributedVersionControl* m_vcsInterface;
             QString m_repositoryPath;
-            QString m_branches;
+            QStringList m_branches;
             QString m_curBranch;
+            QStringListModel* m_branchNameModel;
    };
 }
 
