@@ -31,7 +31,7 @@
             enabled bool(true)
             size size2d(90;90)
             material GluonGraphics::MaterialInstance(Pong/Assets/Main Material/Background)
-            color rgba(255;255;255;255)
+            color rgba(0;0;0;0)
         }   
         { GluonCore::GluonObject(ControllerScript)
             enabled bool(true)

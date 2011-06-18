@@ -37,7 +37,7 @@ Item {
 
         color: "#339933";
 
-        text: "Jump'n Bump";
+        text: "Pong";
 
         font {
             bold: true;
@@ -92,8 +92,7 @@ Item {
             anchors.centerIn: parent;
             color: "#ff0000";
 
-            text: "<h2>Controls</h2><ul>" +
-            "<li>Spacebar: Jump</li>";
+            text: "<h2>Controls</h2><ul>";
         }
 
         Text {
@@ -128,7 +127,7 @@ Item {
 
         ListElement {
             buttonText: "New Game";
-            buttonTriggered: "Game.setCurrentScene(\"JumpnBump/Scenes/Game\");"
+            buttonTriggered: "Game.setCurrentScene(\"Pong/Scenes/Game\");"
         }
 
         ListElement {
