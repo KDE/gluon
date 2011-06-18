@@ -80,6 +80,8 @@ namespace GluonCreator
 
             KTextBrowser* m_message;
             KPushButton* m_diffButton;
+            KPushButton* m_annotateButton;
+            KPushButton* m_applyButton;
 
             QSlider* m_historySlider;
             QSlider* m_fineHistorySlider;

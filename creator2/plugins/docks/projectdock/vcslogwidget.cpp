@@ -142,26 +142,26 @@ void VcsLogWidget::setupUi()
     m_historySlider = new QSlider( Qt::Horizontal, this );
     m_historySlider->setObjectName( QString::fromUtf8( "historySlider") );
 
-    m_gridLayout->addWidget( m_historySlider, 0, 0, 1, 1 );
+    m_gridLayout->addWidget( m_historySlider, 0, 0, 1, 3 );
 
     m_fineHistorySlider = new QSlider( Qt::Horizontal, this );
     m_fineHistorySlider->setObjectName( QString::fromUtf8( "fineHistorySlider") );
 
-    m_gridLayout->addWidget( m_fineHistorySlider, 1, 0, 1, 1 );
+    m_gridLayout->addWidget( m_fineHistorySlider, 1, 0, 1, 3 );
 
     m_label = new KSqueezedTextLabel( this );
     m_label->setObjectName( QString::fromUtf8( "label" ) );
     m_label->setTextFormat( Qt::PlainText );
     m_label->setAlignment( Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop );
 
-    m_gridLayout->addWidget( m_label, 2, 0, 1, 1 );
+    m_gridLayout->addWidget( m_label, 2, 0, 1, 3 );
 
     m_label2 = new KSqueezedTextLabel( this );
     m_label2->setObjectName( QString::fromUtf8( "label_2" ) );
     m_label2->setTextFormat( Qt::PlainText );
     m_label2->setAlignment( Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop );
 
-    m_gridLayout->addWidget( m_label2, 3, 0, 1, 1 );
+    m_gridLayout->addWidget( m_label2, 3, 0, 1, 3 );
 
     m_message = new KTextBrowser( this );
     m_message->setObjectName( QString::fromUtf8( "message" ) );
@@ -172,15 +172,25 @@ void VcsLogWidget::setupUi()
     m_message->setSizePolicy( sizePolicy1 );
     m_message->setAcceptRichText( false );
 
-    m_gridLayout->addWidget( m_message, 4, 0, 1, 1 );
+    m_gridLayout->addWidget( m_message, 4, 0, 1, 3 );
 
-    // m_diffButton = new KPushButton( "See Changes", this );
-    // m_diffButton->setObjectName( QString::fromUtf8( "diffButton" ) );
-    // m_diffButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
+    m_diffButton = new KPushButton( "See Changes", this );
+    m_diffButton->setObjectName( QString::fromUtf8( "diffButton" ) );
+    m_diffButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
-    // m_gridLayout->addWidget( m_label, 5, 0, 1, 1 );
+    m_gridLayout->addWidget( m_diffButton, 5, 0, 1, 1 );
 
+    m_annotateButton = new KPushButton( "Annotate", this );
+    m_annotateButton->setObjectName( QString::fromUtf8( "annotateButton" ) );
+    m_annotateButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
+    m_gridLayout->addWidget( m_annotateButton, 5, 1, 1, 1 );
+
+    m_applyButton = new KPushButton( "Apply", this );
+    m_applyButton->setObjectName( QString::fromUtf8( "applyButton" ) );
+    m_applyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
+
+    m_gridLayout->addWidget( m_applyButton, 5, 0, 1, 1 );
 #ifndef UI_QT_NO_SHORTCUT
     m_label2->setBuddy( m_message );
 #endif // QT_NO_SHORTCUT
