@@ -39,6 +39,9 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
+#include <engine/gameobject.h>
+#include <engine/prefab.h>
+#include <engine/prefabinstance.h>
 
 using namespace GluonCreator;
 
@@ -311,6 +314,7 @@ ProjectModel::mimeTypes() const
     if( d->acceptedMimeTypes.count() < 1 )
     {
         DEBUG_FUNC_NAME
+        d->acceptedMimeTypes.append( "application/gluon.object.gameobject" );
         d->acceptedMimeTypes.append( "application/gluoncreator.projectmodel.gluonobject" );
         d->acceptedMimeTypes.append( "text/uri-list" );
         d->acceptedMimeTypes.append( GluonCore::GluonObjectFactory::instance()->objectMimeTypes() );
@@ -372,19 +376,66 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
         }
         return true;
     }
+    else if( data->hasFormat( "application/gluon.object.gameobject" ) )
+    {
+        QString names = data->data( "application/gluon.object.gameobject" );
+        QStringList newItems = names.split(';');
+
+        GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
+
+        QList< GluonCore::GluonObject* > newChildren;
+        foreach( const QString & item, newItems )
+        {
+            GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
+            if( qobject_cast<GluonEngine::GameObject*>( itemObject ) )
+            {
+                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName());
+                GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( itemObject );
+                GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
+                if(parentGO)
+                {
+                    DEBUG_TEXT("// Get position of item on current parent");
+                    int currentRow = parentGO->childIndex(gameObject);
+                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject");
+                    GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
+                    prefab->setName( gameObject->name() );
+                    beginInsertRows( parent, rowCount( parent ), rowCount( parent ) );
+                    newParentObject->addChild( prefab );
+                    endInsertRows();
+                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!");
+                    prefab->setGameObject(gameObject);
+/*                    parentGO->removeChild(gameObject);
+                    DEBUG_TEXT("// ...and set as gameObject on the new Prefab");
+
+                    DEBUG_TEXT("// Get an instance of Prefab");
+                    GluonEngine::PrefabInstance* pfInstance = prefab->createInstance();
+                    DEBUG_TEXT("// Add PrefabInstance into old parent in the position we got above");
+                    parentGO->addChildAt(pfInstance, currentRow);*/
+                }
+
+/*                // Update the view for the old parent (unfortunately we can't expect the items to
+                // all be from the same parent, so we have to do it here)
+                GluonCore::GluonObject* oldParentObject = qobject_cast< GluonCore::GluonObject* >( itemObject->parent() );
+                QModelIndex oldParent = objectToIndex( oldParentObject );
+                int oldRow = objectRow( itemObject );
+                beginRemoveRows( oldParent, oldRow, oldRow );
+                oldParentObject->removeChild( itemObject );
+                endRemoveRows();
+                newChildren.append( itemObject );*/
+            }
+        }
+    }
     else if( data->hasFormat( "application/gluoncreator.projectmodel.gluonobject" ) )
     {
         QByteArray encodedData = data->data( "application/gluoncreator.projectmodel.gluonobject" );
         QDataStream stream( &encodedData, QIODevice::ReadOnly );
         QStringList newItems;
-        int rows = 0;
 
         while( !stream.atEnd() )
         {
             QString text;
             stream >> text;
             newItems << text;
-            ++rows;
         }
 
         GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
