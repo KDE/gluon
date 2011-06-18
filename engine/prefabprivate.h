@@ -22,11 +22,13 @@
 
 #include <QList>
 
-namespace GluonCore {
-class GluonObject;
+class QObject;
+
+namespace GluonCore
+{
+    class GluonObject;
 }
 
-class QObject;
 namespace GluonEngine
 {
     class GameObject;
