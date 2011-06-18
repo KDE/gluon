@@ -21,6 +21,7 @@
 #include "projectview.h"
 
 #include "vcslogwidget.h"
+#include "vcsbranchwidget.h"
 
 #include <creator/lib/filemanager.h>
 #include <creator/lib/historymanager.h>
@@ -41,8 +42,13 @@
 
 #include <kdevplatform/shell/core.h>
 #include <kdevplatform/interfaces/iplugincontroller.h>
-#include <vcs/interfaces/ibasicversioncontrol.h>
-#include <interfaces/idocumentcontroller.h>
+#include <kdevplatform/interfaces/iruncontroller.h>
+#include <kdevplatform/interfaces/icore.h>
+#include <kdevplatform/vcs/interfaces/ibasicversioncontrol.h>
+#include <kdevplatform/vcs/interfaces/idistributedversioncontrol.h>
+#include <kdevplatform/vcs/vcslocation.h>
+#include <kdevplatform/vcs/vcsjob.h>
+#include <kdevplatform/interfaces/idocumentcontroller.h>
 
 #include <KDE/KIcon>
 #include <KDE/KInputDialog>
@@ -70,6 +76,7 @@ class ProjectView::ProjectViewPrivate
 {
     public:
         ProjectViewPrivate( ProjectView* parent )
+            : m_vcsInterface( 0 )
         {
             DEBUG_BLOCK
             q = parent;
@@ -111,6 +118,8 @@ class ProjectView::ProjectViewPrivate
         void menuForObject( QModelIndex index, QMenu* menu );
         QList<QAction*> currentContextMenu;
         QList<GluonEngine::AssetTemplate*> assetTemplates;
+        KDevelop::IDistributedVersionControl* m_vcsInterface;
+        QString m_projectRootPath;
 };
 
 void ProjectView::ProjectViewPrivate::menuForObject( QModelIndex index, QMenu* menu )
@@ -225,12 +234,25 @@ ProjectView::ProjectView( QWidget* parent, Qt::WindowFlags flags )
     d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT( importAssetsTriggered() ) );
 
     d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
+    d->toolBar->addAction( KIcon( "arrow-down-double" ), i18nc( "Pull", "Pull" ), this, SLOT( vcsPull() ) );
+    d->toolBar->addAction( KIcon( "arrow-up-double" ), i18nc( "Push", "Push" ), this, SLOT( vcsPush() ) );
     d->toolBar->addAction( KIcon( "view-history" ), i18nc( "Show the commit history", "History" ), this, SLOT( vcsLog() ) );
+    d->toolBar->addAction( KIcon( "" ), i18nc( "Branch names", "Branches" ), this, SLOT( vcsBranches() ) );
 
     layout->addWidget( d->toolBar );
     layout->addWidget( d->view );
 
     setLayout( layout );
+
+    d->m_projectRootPath = GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile();
+
+    foreach( KDevelop::IPlugin* p, KDevelop::Core::self()->pluginController()->allPluginsForExtension( "org.kdevelop.IBasicVersionControl" ) )
+    {
+        d->m_vcsInterface = p->extension<KDevelop::IDistributedVersionControl>();
+        if( d->m_vcsInterface && d->m_vcsInterface->isVersionControlled( d->m_projectRootPath ) )
+            break;
+    }
+    // Q_ASSERT(d->m_vcsInterface);
 }
 
 ProjectView::~ProjectView()
@@ -240,25 +262,48 @@ ProjectView::~ProjectView()
 
 void ProjectView::vcsLog()
 {
-    QString projectRootPath = GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile();
-    KDevelop::IBasicVersionControl* iface = 0;
-
-    foreach( KDevelop::IPlugin* p, KDevelop::Core::self()->pluginController()->allPluginsForExtension( "org.kdevelop.IBasicVersionControl" ) )
-    {
-        iface = p->extension<KDevelop::IBasicVersionControl>();
-        if( iface && iface->isVersionControlled( projectRootPath ) )
-             break;
-    }
-
-    Q_ASSERT(iface);
-    KDevelop::VcsJob *job = iface->log( projectRootPath );
+    KDevelop::VcsJob *job = d->m_vcsInterface->log( d->m_projectRootPath );
 
     KDialog* dialog = new KDialog( 0 );
     dialog->setCaption( i18n( "Log Message" ) );
     dialog->setButtons( KDialog::Ok | KDialog::Cancel );
 
-    VcsLogWidget* vcsLogWidget = new VcsLogWidget( projectRootPath, job, 0 );
+    VcsLogWidget* vcsLogWidget = new VcsLogWidget( d->m_projectRootPath, job, 0 );
     dialog->setMainWidget( vcsLogWidget );
+    dialog->show();
+    connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
+    connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
+}
+
+void ProjectView::vcsPull()
+{
+    KDevelop::VcsJob* job = d->m_vcsInterface->pull(KDevelop::VcsLocation(), d->m_projectRootPath);
+    // connect(job, SIGNAL(result(KJob*)), d->m_vcsInterface, SIGNAL(jobFinished(KJob*)));
+    KDevelop::ICore::self()->runController()->registerJob(job);
+}
+
+void ProjectView::vcsPush()
+{
+    /* if (qobject_cast<KDevelop::IDistributedVersionControl>(m_vcsInterface)) { */
+        // KDevelop::VcsJob* job = m_vcsInterface->push(projectRootPath, KDevelop::VcsLocation());
+        // connect(job, SIGNAL(result(KJob*)), this, SIGNAL(jobFinished(KJob*)));
+        // KDevelop::ICore::self()->runController()->registerJob(job);
+    /* } else { */
+
+    KDevelop::VcsJob* job = d->m_vcsInterface->push(d->m_projectRootPath, KDevelop::VcsLocation());
+    // connect(job, SIGNAL(result(KJob*)), d->m_vcsInterface, SIGNAL(jobFinished(KJob*)));
+    KDevelop::ICore::self()->runController()->registerJob(job);
+    /* } */
+}
+
+void ProjectView::vcsBranches()
+{
+    KDialog* dialog = new KDialog( 0 );
+    dialog->setCaption( i18n( "Branch View" ) );
+    dialog->setButtons( KDialog::Ok | KDialog::Cancel );
+
+    VcsBranchWidget* vcsBranchWidget = new VcsBranchWidget( d->m_vcsInterface, d->m_projectRootPath, 0 );
+    dialog->setMainWidget( vcsBranchWidget );
     dialog->show();
     connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
     connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );

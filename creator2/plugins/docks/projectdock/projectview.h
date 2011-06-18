@@ -53,6 +53,9 @@ namespace GluonCreator
             void importAssetsTriggered();
 
             void vcsLog();
+            void vcsPull();
+            void vcsPush();
+            void vcsBranches();
 
         private:
             class ProjectViewPrivate;
