@@ -35,8 +35,9 @@ FileLocation::FileLocation( GluonEngine::GameProject* parent, const QUrl& relati
 }
 
 FileLocation::FileLocation( const FileLocation& other )
-    : d( other.d )
+    : d( new FileLocationPrivate() )
 {
+    *d = *other.d;
 }
 
 FileLocation::~FileLocation()

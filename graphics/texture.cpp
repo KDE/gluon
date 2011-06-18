@@ -23,12 +23,11 @@
 #include "texture.h"
 
 #include "glheaders.h"
-
-#include <QtCore/QUrl>
-#include <QtGui/QImage>
-#include <QtOpenGL/QGLContext>
-
 #include "math.h"
+
+#include <QtOpenGL/QGLContext>
+#include <QtGui/QImage>
+#include <QtCore/QUrl>
 
 using namespace GluonGraphics;
 
@@ -43,17 +42,17 @@ class Texture::TexturePrivate
 };
 
 Texture::Texture( QObject* parent )
-    : QObject( parent ),
-      d( new TexturePrivate )
+    : QObject( parent )
+    , d( new TexturePrivate )
 {
 
 }
 
 Texture::Texture( const Texture& other, QObject* parent )
     : QObject( parent )
-    , d( other.d )
+    , d( new TexturePrivate() )
 {
-
+    *d = *other.d;
 }
 
 Texture::~Texture()

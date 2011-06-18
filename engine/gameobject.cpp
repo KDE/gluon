@@ -39,8 +39,9 @@ GameObject::GameObject( QObject* parent )
 
 GameObject::GameObject( const GameObject& other, QObject* parent )
     : GluonObject( parent )
-    , d( other.d )
+    , d( new GameObjectPrivate() )
 {
+    *d = *other.d;
     updateTransform();
 }
 

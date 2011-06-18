@@ -31,7 +31,7 @@ using namespace GluonEngine;
 class PrefabInstanceChild::Private
 {
 public:
-    Private(PrefabInstanceChild* qo) : q(qo), linkedGameObject(0) {};
+    Private(PrefabInstanceChild* qo = 0) : q(qo), linkedGameObject(0) {};
     Private(const Private& other) : q(other.q), linkedGameObject(other.linkedGameObject) {};
     ~Private() {};
 
@@ -46,9 +46,9 @@ PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
 }
 
 PrefabInstanceChild::PrefabInstanceChild( const PrefabInstanceChild& other )
-    : d(other.d)
+    : d( new Private() )
 {
-
+    *d = *other.d;
 }
 
 PrefabInstanceChild::~PrefabInstanceChild()
