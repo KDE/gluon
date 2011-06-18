@@ -63,12 +63,6 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     d->sound = new GluonAudio::Sound();
 }
 
-SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 SoundEmitterComponent::~SoundEmitterComponent()
 {
     if( d->sound->isValid() )

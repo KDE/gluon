@@ -40,7 +40,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE DiscSectionRendererComponent( QObject* parent = 0 );
-            DiscSectionRendererComponent( const DiscSectionRendererComponent& other );
             virtual ~DiscSectionRendererComponent();
             virtual QString category() const;
 

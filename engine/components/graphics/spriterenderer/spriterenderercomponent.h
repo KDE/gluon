@@ -41,7 +41,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );
-            SpriteRendererComponent( const SpriteRendererComponent& other );
             virtual ~SpriteRendererComponent();
             virtual QString category() const;
 

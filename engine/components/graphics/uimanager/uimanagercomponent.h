@@ -40,7 +40,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE UiManagerComponent( QObject* parent = 0 );
-            UiManagerComponent( const UiManagerComponent& other );
             virtual ~UiManagerComponent();
             virtual QString category() const;
 

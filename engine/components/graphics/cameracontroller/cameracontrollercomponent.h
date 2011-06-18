@@ -43,7 +43,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE CameraControllerComponent( QObject* parent = 0 );
-            CameraControllerComponent( const CameraControllerComponent& other );
             virtual ~CameraControllerComponent();
             virtual QString category() const;
 

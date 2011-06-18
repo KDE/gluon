@@ -58,7 +58,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE ParticleColliderComponent( QObject* parent = 0 );
-            ParticleColliderComponent( const ParticleColliderComponent& other );
             ~ParticleColliderComponent();
 
             QString category() const;

@@ -86,12 +86,6 @@ ParticleRendererComponent::ParticleRendererComponent( QObject* parent )
 
 }
 
-ParticleRendererComponent::ParticleRendererComponent( const ParticleRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 ParticleRendererComponent::~ParticleRendererComponent()
 {
     delete d;

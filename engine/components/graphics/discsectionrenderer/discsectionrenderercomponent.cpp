@@ -67,12 +67,6 @@ DiscSectionRendererComponent::DiscSectionRendererComponent( QObject* parent )
 
 }
 
-DiscSectionRendererComponent::DiscSectionRendererComponent( const DiscSectionRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 DiscSectionRendererComponent::~DiscSectionRendererComponent()
 {
     delete d;
