@@ -45,7 +45,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE QtScriptComponent( QObject* parent = 0 );
-            QtScriptComponent( const QtScriptComponent& other );
             virtual ~QtScriptComponent();
             virtual QString category() const;
 

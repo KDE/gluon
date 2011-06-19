@@ -35,8 +35,9 @@ Prefab::Prefab( QObject* parent )
 
 Prefab::Prefab( const Prefab& other, QObject* parent )
     : Asset( parent )
-    , d( other.d )
+    , d( new PrefabPrivate() )
 {
+    *d = *other.d;
 }
 
 Prefab::~Prefab()

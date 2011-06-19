@@ -172,12 +172,6 @@ UiManagerComponent::UiManagerComponent( QObject* parent )
 
 }
 
-UiManagerComponent::UiManagerComponent( const UiManagerComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 UiManagerComponent::~UiManagerComponent()
 {
     if( d->ui )

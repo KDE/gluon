@@ -37,13 +37,6 @@ GameObject::GameObject( QObject* parent )
     updateTransform();
 }
 
-GameObject::GameObject( const GameObject& other, QObject* parent )
-    : GluonObject( parent )
-    , d( other.d )
-{
-    updateTransform();
-}
-
 GameObject::~GameObject()
 {
     delete d;

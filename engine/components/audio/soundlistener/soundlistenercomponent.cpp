@@ -35,11 +35,6 @@ SoundListenerComponent::SoundListenerComponent( QObject* parent )
     GluonAudio::Engine::instance();
 }
 
-SoundListenerComponent::SoundListenerComponent( const SoundListenerComponent& other )
-    : Component( other )
-{
-}
-
 QString SoundListenerComponent::category() const
 {
     return QString( "Audio" );

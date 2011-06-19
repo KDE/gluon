@@ -1,74 +1,57 @@
 { GluonEngine::GameProject(Pong)
     description string(Recreation of one of the first video games ever created)
-    entryPoint GluonEngine::Scene(JumpnBump/Scenes/Menu)
+    entryPoint GluonEngine::Scene(Pong/Scenes/Menu)
     { GluonCore::GluonObject(Scenes)
         { GluonEngine::Scene(Menu)
             file url(scenes/menu.gluonscene)
-        }   
+        }
         { GluonEngine::Scene(Game)
             file url(scenes/game.gluonscene)
-        }   
-    }   
+        }
+    }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Textures)
-            { GluonEngine::TextureAsset(Background)
-                file url(assets/textures/background.png)
-            }   
-            { GluonEngine::TextureAsset(Player)
-                file url(assets/textures/cartoon-bunny-rabbit.png)
-            }   
             { GluonEngine::TextureAsset(Score)
                 file url(assets/textures/score.png)
-            }   
-            { GluonEngine::TextureAsset(Star)
-                file url(assets/textures/star.png)
-            }   
-            { GluonEngine::TextureAsset(Reset)
-                file url(assets/textures/reset.png)
-            }   
-        }   
+            }
+        }
         { GluonCore::GluonObject(Interface)
             { GluonEngine::UiAsset(Menu Interface)
                 file url(assets/interface/menu_interface.qml)
-            }   
-        }   
+            }
+        }
         { GluonCore::GluonObject(Scripts)
             { GluonEngine::ScriptingAsset(Controller)
                 file url(assets/scripts/controller.js)
-            }   
-            { GluonEngine::ScriptingAsset(Player)
-                file url(assets/scripts/player.js)
-            }   
+            }
+            { GluonEngine::ScriptingAsset(Player1)
+                file url(assets/scripts/player1.js)
+            }
             { GluonEngine::ScriptingAsset(Player2)
                 file url(assets/scripts/player2.js)
-            }   
-        }   
+            }
+            { GluonEngine::ScriptingAsset(Ball)
+                file url(assets/scripts/ball.js)
+            }
+        }
         { GluonCore::GluonObject(Sounds)
             { GluonEngine::SoundAsset(MerryGo.ogg)
                 file url(assets/sounds/merry_go.ogg)
-            }   
-        }   
+            }
+        }
         { GluonEngine::MaterialAsset(Main Material)
             file url(assets/main_material.gml)
             { GluonGraphics::MaterialInstance(Background)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Background)
-            }   
-            { GluonGraphics::MaterialInstance(Player)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Player)
-            }   
-            { GluonGraphics::MaterialInstance(Score)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Score)
+                materialColor rgba(0;0;0;255)
             }
-            { GluonGraphics::MaterialInstance(Star)
+            { GluonGraphics::MaterialInstance(Player1)
                 materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Star)
             }
-            { GluonGraphics::MaterialInstance(Reset)
+            { GluonGraphics::MaterialInstance(Player2)
                 materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(JumpnBump/Assets/Textures/Reset)
+            }
+            { GluonGraphics::MaterialInstance(Ball)
+                materialColor rgba(255;255;255;255)
             }
         }
         { GluonEngine::MaterialAsset(Render Target Material)
@@ -82,4 +65,3 @@
     { GluonCore::GluonObject(Prefabs)
     }
 }
-

@@ -44,9 +44,9 @@ PrefabInstance::PrefabInstance( QObject* parent )
 }
 
 PrefabInstance::PrefabInstance( const PrefabInstance& other )
-    : d( other.d )
+    : d( new Private() )
 {
-
+    *d = *other.d;
 }
 
 PrefabInstance::~PrefabInstance()

@@ -25,8 +25,9 @@
 
 #include "gluon_graphics_export.h"
 
-#include <QtCore/QObject>
 #include "vertexbuffer.h"
+
+#include <QtCore/QObject>
 
 class QMatrix4x4;
 
@@ -88,6 +89,6 @@ namespace GluonGraphics
             MeshPrivate* const d;
 
     };
-}//namespace
+}
 
 #endif // GLUONGRAPHICS_MESH_H

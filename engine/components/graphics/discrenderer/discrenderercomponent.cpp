@@ -59,12 +59,6 @@ DiscRendererComponent::DiscRendererComponent( QObject* parent )
 {
 }
 
-DiscRendererComponent::DiscRendererComponent( const DiscRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 DiscRendererComponent::~DiscRendererComponent()
 {
     delete d;

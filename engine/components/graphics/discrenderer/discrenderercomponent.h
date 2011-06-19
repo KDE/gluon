@@ -38,7 +38,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE DiscRendererComponent( QObject* parent = 0 );
-            DiscRendererComponent( const DiscRendererComponent& other );
             virtual ~DiscRendererComponent();
             virtual QString category() const;
 

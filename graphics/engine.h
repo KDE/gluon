@@ -369,6 +369,6 @@ namespace GluonGraphics
 
             Q_PRIVATE_SLOT( d, void viewportSizeChanged( int left, int bottom, int width, int height ) );
     };
-} //namespace
+}
 
 #endif // GLUONGRAPHICS_ENGINE_H

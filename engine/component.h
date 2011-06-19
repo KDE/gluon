@@ -78,7 +78,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Component( QObject* parent = 0 );
-            Component( const Component& other, QObject* parent = 0 );
             ~Component();
 
             /**

@@ -64,12 +64,6 @@ QtScriptComponent::QtScriptComponent( QObject* parent )
     qScriptRegisterMetaType( &d->engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
 }
 
-QtScriptComponent::QtScriptComponent( const QtScriptComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 QtScriptComponent::~QtScriptComponent()
 {
     delete d;

@@ -60,9 +60,9 @@ Frustrum::Frustrum()
 }
 
 Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
-    : d( other.d )
+    : d( new FrustrumPrivate() )
 {
-
+    *d = *other.d;
 }
 
 Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum& other )

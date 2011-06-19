@@ -22,45 +22,45 @@
 #include <QFileInfo>
 #include <QDir>
 
-Archiver::Archiver(const QString& sourceDirectoryPath, const QString& destinationArchivePath)
-    : m_sourceDirectoryPath(sourceDirectoryPath), m_destinationArchivePath(destinationArchivePath)
+Archiver::Archiver (const QString& sourceDirectoryPath, const QString& destinationArchivePath)
+    : m_sourceDirectoryPath (sourceDirectoryPath), m_destinationArchivePath (destinationArchivePath)
 {
 
 }
 
 void Archiver::start()
 {
-    addFilesInDir(m_sourceDirectoryPath);
+    addFilesInDir (m_sourceDirectoryPath);
     writeArchiveToFile();
 }
 
-void Archiver::addFilesInDir(QString path)
+void Archiver::addFilesInDir (QString path)
 {
-    QDir dir(path);
+    QDir dir (path);
 
-    if(dir.count() == 0)
+    if (dir.count() == 0)
         return;         //FIXME: This ain't great, empty dirs will be skipped
 
-    foreach(QString file, dir.entryList(QDir::Files | QDir::Hidden)) {
-        if(!QFileInfo(dir.absoluteFilePath(file)).isDir()) {
-            QString fullPath(dir.absoluteFilePath(file));
-            addFileToList(QDir(m_sourceDirectoryPath).relativeFilePath(fullPath));
+    foreach (QString file, dir.entryList (QDir::Files | QDir::Hidden)) {
+        if (!QFileInfo (dir.absoluteFilePath (file)).isDir()) {
+            QString fullPath (dir.absoluteFilePath (file));
+            addFileToList (QDir (m_sourceDirectoryPath).relativeFilePath (fullPath));
         }
     }
 
-    foreach(QString tdir, dir.entryList(QDir::Hidden | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
-        if(QFileInfo(dir.absoluteFilePath(tdir)).isDir()) {    //QDir::Hidden includes even hidden non-dirs, so have to check
-            dir.cd(tdir);
-            addFilesInDir(dir.absolutePath());
+    foreach (QString tdir, dir.entryList (QDir::Hidden | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
+        if (QFileInfo (dir.absoluteFilePath (tdir)).isDir()) { //QDir::Hidden includes even hidden non-dirs, so have to check
+            dir.cd (tdir);
+            addFilesInDir (dir.absolutePath());
             dir.cdUp();
         }
     }
 }
 
-void Archiver::addFileToList(QString relativePath)
+void Archiver::addFileToList (QString relativePath)
 {
-    QFileInfo info(QDir(m_sourceDirectoryPath).absoluteFilePath(relativePath));
-    m_files.append(relativePath);
+    QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath(relativePath));
+    m_files.append (relativePath);
     m_totalSize += info.size();
 }
 
@@ -68,22 +68,22 @@ void Archiver::writeArchiveToFile()
 {
     QFile arcFile(m_destinationArchivePath);
     arcFile.open(QIODevice::WriteOnly);
-    QDataStream stream(&arcFile);
-    stream.setVersion(QDataStream::Qt_4_7);
+    QDataStream stream (&arcFile);
+    stream.setVersion (QDataStream::Qt_4_7);
     stream << m_files.count();
 
     //Write headers into the stream
-    foreach(QString file, m_files) {
-        QFileInfo info(QDir(m_sourceDirectoryPath).absoluteFilePath(file));
+    foreach (QString file, m_files) {
+        QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath (file));
         stream << file;
         stream << info.size();
     }
 
     //Append actual file contents
-    foreach(QString filename, m_files) {
-        QFile file(QDir(m_sourceDirectoryPath).absoluteFilePath(filename));
-        file.open(QIODevice::ReadOnly);
-        arcFile.write(file.readAll());
+    foreach (QString filename, m_files) {
+        QFile file (QDir (m_sourceDirectoryPath).absoluteFilePath (filename));
+        file.open (QIODevice::ReadOnly);
+        arcFile.write (file.readAll());
         file.close();
     }
 

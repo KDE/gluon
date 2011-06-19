@@ -67,12 +67,6 @@ SpriteRendererComponent::SpriteRendererComponent( QObject* parent )
 
 }
 
-SpriteRendererComponent::SpriteRendererComponent( const SpriteRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 SpriteRendererComponent::~SpriteRendererComponent()
 {
     if( d->material )

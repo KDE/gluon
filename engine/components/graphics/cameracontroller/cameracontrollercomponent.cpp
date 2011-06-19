@@ -71,12 +71,6 @@ CameraControllerComponent::CameraControllerComponent( QObject* parent )
 
 }
 
-CameraControllerComponent::CameraControllerComponent( const CameraControllerComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 CameraControllerComponent::~CameraControllerComponent()
 {
     if( d->material )
