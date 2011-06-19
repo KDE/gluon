@@ -37,6 +37,8 @@
         { GluonCore::GluonObject(Sounds)
             { GluonEngine::SoundAsset(MerryGo.ogg)
                 file url(assets/sounds/merry_go.ogg)
+                enabled bool(true)
+                expanded bool(true)
             }
         }
         { GluonEngine::MaterialAsset(Main Material)

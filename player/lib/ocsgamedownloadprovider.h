@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +21,7 @@
 #ifndef GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
 #define GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class QNetworkReply;
 
@@ -32,27 +33,30 @@ class BaseJob;
 
 namespace GluonPlayer
 {
-class OcsGameDownloadProvider : public QObject
-{
-    Q_OBJECT
-public:
-    OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                             QObject* parent = 0);
-    virtual ~OcsGameDownloadProvider();
-private:
-    class Private;
-    Private* const d;
-signals:
-    void startedDownload();
-    void finished();
-    void failed();
-private slots:
-    void startDownload();
-    void processDownloadLink (Attica::BaseJob* baseJob);
-    void downloadComplete(QNetworkReply *reply);
+    class OcsGameDownloadProvider : public QObject
+    {
+        Q_OBJECT
+        public:
+            OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                    QObject* parent = 0);
+            virtual ~OcsGameDownloadProvider();
 
-    friend class OcsProvider;
-};
+        signals:
+            void startedDownload();
+            void finished();
+            void failed();
+
+        private slots:
+            void startDownload();
+            void processDownloadLink (Attica::BaseJob* baseJob);
+            void downloadComplete(QNetworkReply *reply);
+
+            friend class OcsProvider;
+
+        private:
+            class Private;
+            Private* const d;
+    };
 }
 
 #endif // GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H

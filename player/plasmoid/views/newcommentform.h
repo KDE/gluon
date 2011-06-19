@@ -20,8 +20,8 @@
 #ifndef NEWCOMMENTFORM_H
 #define NEWCOMMENTFORM_H
 
-#include <QModelIndex>
-#include <QGraphicsWidget>
+#include <QtGui/QGraphicsWidget>
+#include <QtCore/QModelIndex>
 
 namespace Plasma
 {

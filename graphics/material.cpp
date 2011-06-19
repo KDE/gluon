@@ -31,7 +31,7 @@
 #include <QtCore/QMetaProperty>
 #include <QtCore/QTextCodec>
 #include <QtCore/QVarLengthArray>
-#include <QTime>
+#include <QtCore/QTime>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 

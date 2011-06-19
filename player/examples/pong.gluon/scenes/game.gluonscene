@@ -57,7 +57,6 @@
             size size2d(1;1)
             material GluonGraphics::MaterialInstance(Pong/Assets/Main Material/Ball)
             color rgba(255;255;255;255)
-            texture GluonEngine::Asset(pong/invaders_alien.png)
         }
         { GluonEngine::ScriptingComponent(ScriptingComponent)
             enabled bool(true)

@@ -20,7 +20,7 @@
 #ifndef OVERLAY_H
 #define OVERLAY_H
 
-#include <QGraphicsWidget>
+#include <QtGui/QGraphicsWidget>
 
 class QGraphicsLinearLayout;
 

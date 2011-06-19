@@ -23,9 +23,9 @@
 #include <attica/downloaditem.h>
 #include <attica/provider.h>
 
-#include <QNetworkReply>
-#include <QFile>
-#include <QDir>
+#include <QtNetwork/QNetworkReply>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
 
 using namespace GluonPlayer;
 

@@ -20,9 +20,9 @@
 #ifndef HIGHSCORESVIEWITEM_H
 #define HIGHSCORESVIEWITEM_H
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
-#include <QGraphicsLinearLayout>
+#include <QtGui/QGraphicsWidget>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtCore/QModelIndex>
 
 namespace Plasma
 {

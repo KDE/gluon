@@ -20,10 +20,11 @@
 
 #include "messagehandler.h"
 
-#include <QtCore/QHash>
 #include "gluonobject.h"
-#include <QScriptValue>
-#include <QScriptEngine>
+
+#include <QtScript/QScriptValue>
+#include <QtScript/QScriptEngine>
+#include <QtCore/QHash>
 
 using namespace GluonCore;
 

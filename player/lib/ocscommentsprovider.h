@@ -20,8 +20,8 @@
 #ifndef GLUONPLAYER_OCSCOMMENTSPROVIDER_H
 #define GLUONPLAYER_OCSCOMMENTSPROVIDER_H
 
-#include <QObject>
-#include <QDateTime>
+#include <QtCore/QObject>
+#include <QtCore/QDateTime>
 
 namespace Attica
 {
