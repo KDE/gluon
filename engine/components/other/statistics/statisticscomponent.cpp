@@ -45,7 +45,7 @@ StatisticsComponent::~StatisticsComponent()
 
 QString StatisticsComponent::category() const
 {
-    return QString( "Statistics" );
+    return QString( tr("Statistics") );
 }
 
 Statistic* StatisticsComponent::statistic() const
@@ -55,6 +55,10 @@ Statistic* StatisticsComponent::statistic() const
 
 void StatisticsComponent::setStatistic( Statistic* statistic )
 {
+    if( d->statistic )
+        d->statistic->deref();
+    if( statistic )
+        statistic->ref();
     d->statistic = statistic;
 }
 

@@ -50,6 +50,7 @@ set(GluonEngine_SRCS
     asset.cpp
     component.cpp
     componentprivate.cpp
+    databasemanager.cpp
     gameobject.cpp
     gameobjectprivate.cpp
     gameproject.cpp
@@ -72,6 +73,7 @@ set(GluonEngine_SRCS
 set(GluonEngine_HEADERS
     asset.h
     component.h
+    databasemanager.h
     gameobject.h
     gameproject.h
     prefab.h
@@ -116,7 +118,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)
 endif()
 
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS})
+target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
 
 set(GLUON_ENGINE_LIBS
     GluonEngine
