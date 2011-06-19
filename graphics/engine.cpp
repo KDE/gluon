@@ -40,7 +40,6 @@
 
 #include <QtCore/QMutex>
 #include <QtCore/QMutableListIterator>
-#include <QtOpenGL/QGLFramebufferObject>
 
 using namespace GluonGraphics;
 
