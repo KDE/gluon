@@ -17,40 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.0
-import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
-import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
+#include "gluonplayerimportsplugin.h"
 
-Item {
-    width: 600
-    height: 400
+#include <QtDeclarative/qdeclarative.h>
+#include <lib/models/gameitemsmodel.h>
 
-    Component {
-        id: gameItemsDelegate
-
-        Item {
-            width: ListView.view.width
-            height: 50
-
-            PlasmaWidgets.IconWidget {
-                anchors.fill: parent
-                text: gameName
-                orientation: Qt.Horizontal
-
-                Component.onCompleted: {
-                    setIcon("gluon-player")
-                }
-            }
-        }
-    }
-
-    ListView {
-        anchors.fill: parent
-
-        model: GluonPlayer.GameItemsModel { }
-        delegate: gameItemsDelegate
-    }
+void GluonPlayerImportsPlugin::registerTypes(const char* uri)
+{
+    qmlRegisterType<GluonPlayer::GameItemsModel>(uri, 0, 1, "GameItemsModel");
 }
 
+#include "gluonplayerimportsplugin.moc"

@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Dictionary (QML)
+Name=Gluon Player (QML)
 Type=Service
-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
+ServiceTypes=Plasma/Applet
 Icon=kde
 X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
-X-Plasma-DefaultSize=300,200
+X-Plasma-DefaultSize=600,400
 X-KDE-PluginInfo-Author=Shantanu Tushar
 X-KDE-PluginInfo-Email=jhahoneyk@gmail.com
 X-KDE-PluginInfo-Name=org.kde.gluonplayer-qml
