@@ -49,11 +49,13 @@ signals:
     void startedDownload();
     void finished();
     void failed();
+    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+
 private slots:
     void startDownload();
     void processDownloadLink (Attica::BaseJob* baseJob);
     void downloadComplete(QNetworkReply *reply);
-    void downloadProgress (qint64 bytesReceived, qint64 bytesTotal);
+    void updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal);
 
     friend class OcsProvider;
 };

@@ -79,7 +79,7 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     QNetworkReply *reply = manager->get(QNetworkRequest(item.url()));
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(updateDownloadProgress(qint64,qint64)));
     emit startedDownload();
 }
 
@@ -97,8 +97,9 @@ void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
     emit finished();
 }
 
-void OcsGameDownloadProvider::downloadProgress (qint64 bytesReceived, qint64 bytesTotal)
+void OcsGameDownloadProvider::updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal)
 {
+    downloadProgress(bytesReceived, bytesTotal);
     qDebug() << (bytesReceived*100)/bytesTotal << "% done " << bytesReceived << " of " << bytesTotal;
 }
 

@@ -29,6 +29,10 @@ Item {
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
 
+    function dlProgress(bytesReceived, bytesTotal) {
+            console.log("DOWNLOAD " + bytesReceived + " OF " + bytesTotal);
+    }
+
     Component {
         id: gameItemsDelegate
 
@@ -54,17 +58,17 @@ Item {
 
                 Component.onCompleted: {
                     if (Status == GluonPlayer.GameItem.Installed) {
-                        setIcon("media-playback-start")
+                        setIcon("media-playback-start");
                     } else {
-                        setIcon("download")
+                        setIcon("download");
                     }
                 }
 
                 onClicked: {
                     if (Status == GluonPlayer.GameItem.Installed) {
-                        console.log("Playing not yet implemented")
+                        console.log("Playing not yet implemented");
                     } else {
-                        gluonPlayerAdapter.ocsProvider.downloadGame(Id)
+                        gluonPlayerAdapter.ocsProvider.downloadGame(Id);
                     }
                 }
             }
