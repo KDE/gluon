@@ -20,6 +20,8 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    models/downloadablegamesmodel.cpp
+    models/installedgamesmodel.cpp
     archive/archiver.cpp
     archive/extractor.cpp
     ocsratingprovider.cpp

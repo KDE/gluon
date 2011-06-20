@@ -77,22 +77,47 @@ Item {
         }
     }
 
-    ListView {
-        anchors.fill: parent
-        spacing: 5
+    PlasmaWidgets.TabBar {
+        width: rootItem.width
+        height: rootItem.height
 
-        model: GluonPlayer.AllGameItemsModel { }
-        delegate: gameItemsDelegate
-    }
+        QGraphicsWidget {
+            id: installedGamesListContainer
+            PlasmaWidgets.TabBar.tabText: "Installed"
 
-    Rectangle {
-        id: progressBar
-        color: "blue"
+            ListView {
+                anchors.fill: installedGamesListContainer
+                spacing: 5
 
-        height: 20
-        width: parent.width
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
+                model: GluonPlayer.InstalledGamesModel { }
+                delegate: gameItemsDelegate
+            }
+
+            Component.onCompleted: setText("Installed");
+        }
+
+        QGraphicsWidget {
+            id: downloadableGamesListContainer
+            PlasmaWidgets.TabBar.tabText: "More Games"
+
+            ListView {
+                anchors.fill: downloadableGamesListContainer
+                spacing: 5
+
+                model: GluonPlayer.DownloadableGamesModel { }
+                delegate: gameItemsDelegate
+            }
+
+            Rectangle {
+                id: progressBar
+                color: "blue"
+
+                height: 20
+                width: downloadableGamesListContainer.width
+                anchors.left: downloadableGamesListContainer.left
+                anchors.bottom: downloadableGamesListContainer.bottom
+            }
+        }
     }
 }
 
