@@ -28,7 +28,7 @@ Item {
     height: 300
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
-    
+
     Component {
         id: gameItemsDelegate
 
@@ -60,7 +60,13 @@ Item {
                     }
                 }
 
-                onClicked: gluonPlayerAdapter.ocsProvider.downloadGame(Id)
+                onClicked: {
+                    if (Status == GluonPlayer.GameItem.Installed) {
+                        console.log("Playing not yet implemented")
+                    } else {
+                        gluonPlayerAdapter.ocsProvider.downloadGame(Id)
+                    }
+                }
             }
         }
     }
