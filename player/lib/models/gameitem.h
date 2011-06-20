@@ -42,6 +42,7 @@ namespace GluonPlayer
             explicit GameItem( const QString& gameName, const QString& description,
                                    const Status& status, const QString& id, QObject* parent = 0 );
             GameItem( const GameItem& other, QObject* parent = 0 );
+            GameItem(); //FIXME: Added to make it possible to use with qmlRegisterType. Not sure if its the right way.
             virtual ~GameItem();
 
             QString gameName() const;

@@ -24,18 +24,20 @@ import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
 Item {
-    width: 600
-    height: 400
+    width: 300
+    height: 300
 
     Component {
         id: gameItemsDelegate
 
         Item {
+            anchors.margins: 10
             width: ListView.view.width
             height: 50
 
             PlasmaWidgets.IconWidget {
-                anchors.fill: parent
+                anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom;
+                anchors.right: actionButton.left
                 text: GameName
                 orientation: Qt.Horizontal
 
@@ -43,11 +45,25 @@ Item {
                     setIcon("gluon-player")
                 }
             }
+
+            PlasmaWidgets.IconWidget {
+                id: actionButton
+                anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.right: parent.right;
+
+                Component.onCompleted: {
+                    if (Status == GluonPlayer.GameItem.Installed) {
+                        setIcon("media-playback-start")
+                    } else {
+                        setIcon("download")
+                    }
+                }
+            }
         }
     }
 
     ListView {
         anchors.fill: parent
+        spacing: 5
 
         model: GluonPlayer.AllGameItemsModel { }
         delegate: gameItemsDelegate

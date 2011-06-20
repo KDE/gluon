@@ -23,9 +23,8 @@ using namespace GluonPlayer;
 
 class GameItem::Private
 {
-    public:
-    Private()
-    {
+public:
+    Private() {
     }
 
     QString m_gameName;
@@ -34,10 +33,10 @@ class GameItem::Private
     QString m_id;
 };
 
-GameItem::GameItem( const QString& gameName, const QString& gameDescription,
-                            const Status& status, const QString& id, QObject* parent )
-    : QObject( parent )
-    , d( new Private() )
+GameItem::GameItem(const QString& gameName, const QString& gameDescription,
+                   const Status& status, const QString& id, QObject* parent)
+    : QObject(parent)
+    , d(new Private())
 {
     d->m_gameName = gameName;
     d->m_gameDescription = gameDescription;
@@ -67,6 +66,11 @@ GameItem::Status GameItem::status() const
 QString GameItem::id() const
 {
     return d->m_id;
+}
+
+GameItem::GameItem() : d(new Private())
+{
+
 }
 
 #include "gameitem.moc"

@@ -21,10 +21,12 @@
 
 #include <QtDeclarative/qdeclarative.h>
 #include <lib/models/allgameitemsmodel.h>
+#include <lib/models/gameitem.h>
 
 void GluonPlayerImportsPlugin::registerTypes(const char* uri)
 {
     qmlRegisterType<GluonPlayer::AllGameItemsModel>(uri, 0, 1, "AllGameItemsModel");
+    qmlRegisterType<GluonPlayer::GameItem>(uri, 0, 1, "GameItem");
 }
 
 #include "gluonplayerimportsplugin.moc"
