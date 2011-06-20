@@ -69,7 +69,7 @@ namespace GluonGraphics
              * Load a material definition from a file.
              *
              * The url passed should point to a GDL file describing
-             * the material. See GluonCore::GluonObject for more
+             * the material. See GluonCore::GDLHandler for more
              * information about GDL.
              *
              * \param url The url of the file to load.

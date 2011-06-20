@@ -22,8 +22,8 @@
 
 #include "abstractitemview.h"
 
-#include <QMultiHash>
-#include <QPersistentModelIndex>
+#include <QtCore/QMultiHash>
+#include <QtCore/QPersistentModelIndex>
 
 class QGraphicsLinearLayout;
 class CommentsViewItem;

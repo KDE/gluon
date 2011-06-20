@@ -18,15 +18,15 @@
  */
 
 #include "gluonobjectfactory.h"
+
+#include "gluon_global.h"
 #include "gluonobject.h"
 #include "debughelper.h"
-#include "gluon_global.h"
 
+#include <QtGui/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
-#include <QtGui/QApplication>
-#include <QVariant>
-
+#include <QtCore/QVariant>
 #include <QtCore/QDebug>
 
 using namespace GluonCore;

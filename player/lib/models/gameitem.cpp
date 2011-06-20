@@ -17,28 +17,56 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef OVERLAY_H
-#define OVERLAY_H
+#include "gameitem.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QGridLayout>
-#include <QtGui/QResizeEvent>
-#include <QtGui/QWheelEvent>
+using namespace GluonPlayer;
 
-class Overlay : public QWidget
+class GameItem::Private
 {
-        Q_OBJECT
-
     public:
-        explicit Overlay( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+    Private()
+    {
+    }
 
-    protected:
-        virtual void keyPressEvent( QKeyEvent* event );
-        virtual void wheelEvent( QWheelEvent* event );
-        void resizeEvent( QResizeEvent* event );
-
-        QGridLayout* m_contentLayout;
-        QWidget* m_contentWidget;
+    QString m_gameName;
+    QString m_gameDescription;
+    Status m_status;
+    QString m_id;
 };
 
-#endif // OVERLAY_H
+GameItem::GameItem( const QString& gameName, const QString& gameDescription,
+                            const Status& status, const QString& id, QObject* parent )
+    : QObject( parent )
+    , d( new Private() )
+{
+    d->m_gameName = gameName;
+    d->m_gameDescription = gameDescription;
+    d->m_status = status;
+    d->m_id = id;
+}
+
+GameItem::~GameItem()
+{
+}
+
+QString GameItem::gameName() const
+{
+    return d->m_gameName;
+}
+
+QString GameItem::gameDescription() const
+{
+    return d->m_gameDescription;
+}
+
+GameItem::Status GameItem::status() const
+{
+    return d->m_status;
+}
+
+QString GameItem::id() const
+{
+    return d->m_id;
+}
+
+#include "gameitem.moc"

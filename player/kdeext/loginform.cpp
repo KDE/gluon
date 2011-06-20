@@ -26,7 +26,8 @@
 #include <KDE/KDebug>
 
 #include <attica/provider.h>
-#include <QFormLayout>
+
+#include <QtGui/QFormLayout>
 #include <QtGui/QGridLayout>
 
 LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )

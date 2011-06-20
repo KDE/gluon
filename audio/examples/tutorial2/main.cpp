@@ -3,6 +3,7 @@
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,7 +22,7 @@
 
 #include <gluon/audio/sound.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {

@@ -21,11 +21,11 @@
 #include "views/gamesview.h"
 #include "loginform.h"
 
-#include <QGraphicsLinearLayout>
-
 #include <Plasma/TabBar>
 #include <Plasma/Label>
-#include <KIcon>
+#include <KDE/KIcon>
+
+#include <QtGui/QGraphicsLinearLayout>
 
 GamesOverlay::GamesOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

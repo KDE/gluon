@@ -20,6 +20,8 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    archive/archiver.cpp
+    archive/extractor.cpp
     ocsratingprovider.cpp
     ocsgameuploadprovider.cpp
     ocsgamedownloadprovider.cpp
@@ -29,7 +31,9 @@ set(libGluonPlayer_SRCS
     atticamanager.cpp
     authentication.cpp
     models/gameviewitem.cpp
+    models/gameitem.cpp
     models/gameitemsmodel.cpp
+    models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
     models/highscoresmodel.cpp

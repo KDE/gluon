@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +21,7 @@
 #ifndef GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
 #define GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class QNetworkReply;
 

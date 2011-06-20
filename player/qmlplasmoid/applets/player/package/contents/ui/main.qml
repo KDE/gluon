@@ -36,7 +36,7 @@ Item {
 
             PlasmaWidgets.IconWidget {
                 anchors.fill: parent
-                text: gameName
+                text: GameName
                 orientation: Qt.Horizontal
 
                 Component.onCompleted: {
@@ -49,7 +49,7 @@ Item {
     ListView {
         anchors.fill: parent
 
-        model: GluonPlayer.GameItemsModel { }
+        model: GluonPlayer.AllGameItemsModel { }
         delegate: gameItemsDelegate
     }
 }

@@ -22,8 +22,8 @@
 #include <attica/postjob.h>
 #include <attica/provider.h>
 
-#include <QDebug>
-#include <QFileInfo>
+#include <QtCore/QDebug>
+#include <QtCore/QFileInfo>
 
 using namespace GluonPlayer;
 

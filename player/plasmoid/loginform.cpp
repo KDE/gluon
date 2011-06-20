@@ -25,10 +25,10 @@
 #include <Plasma/PushButton>
 #include <Plasma/Label>
 #include <Plasma/BusyWidget>
-#include <KLineEdit>
+#include <KDE/KLineEdit>
 
-#include <QGraphicsLinearLayout>
-#include <QDebug>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtCore/QDebug>
 
 LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

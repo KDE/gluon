@@ -20,7 +20,7 @@
 #ifndef OCSGAMEDETAILSPROVIDER_H
 #define OCSGAMEDETAILSPROVIDER_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Attica
 {
