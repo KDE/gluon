@@ -17,43 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
-#define GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
+#include "gluonplayeradapter.h"
 
-#include <QtCore/QObject>
-
-#include "gluon_player_export.h"
-
-namespace Attica
+GluonPlayer::OcsProvider* GluonPlayerAdapter::ocsProvider()
 {
-class Provider;
-class BaseJob;
+    return GluonPlayer::OcsProvider::instance();
 }
 
-namespace GluonPlayer
-{
-
-class GLUON_PLAYER_EXPORT OcsGameUploadProvider : public QObject
-{
-
-    Q_OBJECT
-public:
-    OcsGameUploadProvider (Attica::Provider* provider, const QString& id, const QString& fileName,
-                             QObject* parent = 0);
-    virtual ~OcsGameUploadProvider();
-private:
-    class Private;
-    Private* const d;
-signals:
-    void finished();
-    void failed();
-private slots:
-    void startUpload();
-    void uploadComplete (Attica::BaseJob* baseJob);
-
-    friend class OcsProvider;
-};
-
-}
-
-#endif // GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
+#include "gluonplayeradapter.moc"

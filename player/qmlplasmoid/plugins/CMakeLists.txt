@@ -4,6 +4,7 @@ add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
 set(gluonplayerimports_SRCS
     gluonplayerimportsplugin.cpp
+    gluonplayeradapter.cpp
 )
 
 INCLUDE_DIRECTORIES(

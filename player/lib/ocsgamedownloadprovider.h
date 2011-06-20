@@ -23,6 +23,8 @@
 
 #include <QtCore/QObject>
 
+#include "gluon_player_export.h"
+
 class QNetworkReply;
 
 namespace Attica
@@ -33,7 +35,7 @@ class BaseJob;
 
 namespace GluonPlayer
 {
-class OcsGameDownloadProvider : public QObject
+class GLUON_PLAYER_EXPORT OcsGameDownloadProvider : public QObject
 {
     Q_OBJECT
 public:

@@ -95,6 +95,8 @@ QVariant AllGameItemsModel::data(const QModelIndex& index, int role) const
         return d->m_gameItems.values().at(index.row())->gameDescription();
     case StatusRole:
         return d->m_gameItems.values().at(index.row())->status();
+    case IDRole:
+        return d->m_gameItems.values().at(index.row())->id();
     default:
         break;
     }

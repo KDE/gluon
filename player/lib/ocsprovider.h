@@ -108,32 +108,32 @@ public:
      * use to check if we are logged in
      * @return true if logged in, false otherwise
      */
-    bool isLoggedIn();
+    Q_INVOKABLE bool isLoggedIn();
 
     /**
      * use to check if saved credentials are available
      * @return true if credentials are available
      */
-    bool hasCredentials();
+    Q_INVOKABLE bool hasCredentials();
 
     /**
      * use to retrieve the username
      * @return a QString containing the username, empty string if not available
      */
-    QString username();
+    Q_INVOKABLE QString username();
 
     /**
      * use to retrieve the password
      * @return a QString containing the password, empty string if not available
      */
-    QString password();
+    Q_INVOKABLE QString password();
 
     /**
      * Use to fetch a list of games available on the OCS server
      * @return a OcsGameDetailsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameDetailsProvider *fetchGames();
+    Q_INVOKABLE OcsGameDetailsProvider *fetchGames();
 
     /**
      * Use to download the game with ID id
@@ -143,7 +143,7 @@ public:
      * @return a OcsGameDownloadProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameDownloadProvider *downloadGame(const QString &id);
+    Q_INVOKABLE OcsGameDownloadProvider *downloadGame(const QString &id);
 
     /**
      * Use to upload a game with ID
@@ -154,7 +154,7 @@ public:
      * @return a OcsGameUploadProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameUploadProvider *uploadGame(const QString &id, const QString &path);
+    Q_INVOKABLE OcsGameUploadProvider *uploadGame(const QString &id, const QString &path);
 
     /**
      * Rate a game having ID with a rating from 0 to 100
@@ -162,7 +162,7 @@ public:
      * @param id ID of the game
      * @param rating Rating value between 0 to 100
      */
-    OcsRatingProvider *setRating(const QString &id, uint rating);
+    Q_INVOKABLE OcsRatingProvider *setRating(const QString &id, uint rating);
 
 private:
     friend class GluonCore::Singleton<OcsProvider>;

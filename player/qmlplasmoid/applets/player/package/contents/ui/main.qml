@@ -27,6 +27,8 @@ Item {
     width: 300
     height: 300
 
+    GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
+    
     Component {
         id: gameItemsDelegate
 
@@ -57,6 +59,8 @@ Item {
                         setIcon("download")
                     }
                 }
+
+                onClicked: gluonPlayerAdapter.ocsProvider.downloadGame(Id)
             }
         }
     }

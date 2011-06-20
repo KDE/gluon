@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,55 +17,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "gameitem.h"
+#ifndef GLUONPLAYERADAPTER_H
+#define GLUONPLAYERADAPTER_H
 
-using namespace GluonPlayer;
+#include <QObject>
+#include <lib/ocsprovider.h>
 
-class GameItem::Private
+class GluonPlayerAdapter : public QObject
 {
-public:
-    Private() {
-    }
+    Q_OBJECT
+    Q_PROPERTY(GluonPlayer::OcsProvider* ocsProvider READ ocsProvider)
 
-    QString m_gameName;
-    QString m_gameDescription;
-    Status m_status;
-    QString m_id;
+public:
+    GluonPlayer::OcsProvider *ocsProvider();
 };
 
-GameItem::GameItem(const QString& gameName, const QString& gameDescription,
-                   const Status& status, const QString& id, QObject* parent)
-    : QObject(parent)
-    , d(new Private())
-{
-    d->m_gameName = gameName;
-    d->m_gameDescription = gameDescription;
-    d->m_status = status;
-    d->m_id = id;
-}
-
-GameItem::~GameItem()
-{
-}
-
-QString GameItem::gameName() const
-{
-    return d->m_gameName;
-}
-
-QString GameItem::gameDescription() const
-{
-    return d->m_gameDescription;
-}
-
-GameItem::Status GameItem::status() const
-{
-    return d->m_status;
-}
-
-QString GameItem::id() const
-{
-    return d->m_id;
-}
-
-#include "gameitem.moc"
+#endif // GLUONPLAYERADAPTER_H
