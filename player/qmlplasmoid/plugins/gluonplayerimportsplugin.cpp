@@ -28,15 +28,21 @@
 
 #include <QtDeclarative/qdeclarative.h>
 
+using namespace GluonPlayer;
+
 void GluonPlayerImportsPlugin::registerTypes(const char* uri)
 {
-    qmlRegisterType<GluonPlayer::AllGameItemsModel>(uri, 0, 1, "AllGameItemsModel");
-    qmlRegisterUncreatableType<GluonPlayer::GameItem>(uri, 0, 1, "GameItem", "GameItem is not meant to be instantiated \
+    qmlRegisterType<AllGameItemsModel>(uri, 0, 1, "AllGameItemsModel");
+
+    qmlRegisterUncreatableType<GameItem>(uri, 0, 1, "GameItem", "GameItem is not meant to be instantiated \
         directly, it is provided only only to access Status enums");
-    qmlRegisterUncreatableType<GluonPlayer::OcsProvider>(uri, 0, 1, "OcsProvider", "OcsProvider is not meant to be \
-        instantiated directly. Use the instance() static funcion to obtain an instance.");
+
+    qmlRegisterUncreatableType<OcsProvider>(uri, 0, 1, "OcsProvider", "OcsProvider is not meant to be \
+        instantiated directly. Use the GluonPlayerAdapter to obtain an instance.");
+
     qmlRegisterType<GluonPlayerAdapter>(uri, 0, 1, "GluonPlayerAdapter");
-    qmlRegisterUncreatableType<GluonPlayer::OcsGameDownloadProvider>(uri, 0, 1, "OcsGameDownloadProvider",
+
+    qmlRegisterUncreatableType<OcsGameDownloadProvider>(uri, 0, 1, "OcsGameDownloadProvider",
         "OcsGameDownloadProvider is not meant to be instantiated directly, only OcsProvider will create and return \
         an instance");
 }

@@ -143,7 +143,7 @@ public:
      * @return a OcsGameDownloadProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    Q_INVOKABLE OcsGameDownloadProvider *downloadGame(const QString &id);
+    Q_INVOKABLE GluonPlayer::OcsGameDownloadProvider *downloadGame(const QString &id);
 
     /**
      * Use to upload a game with ID

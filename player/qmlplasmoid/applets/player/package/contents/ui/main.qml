@@ -24,13 +24,14 @@ import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
 Item {
+    id: rootItem
     width: 300
     height: 300
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
 
     function dlProgress(bytesReceived, bytesTotal) {
-            console.log("DOWNLOAD " + bytesReceived + " OF " + bytesTotal);
+            progressBar.width = bytesReceived*rootItem.width/bytesTotal;
     }
 
     Component {
@@ -68,7 +69,8 @@ Item {
                     if (Status == GluonPlayer.GameItem.Installed) {
                         console.log("Playing not yet implemented");
                     } else {
-                        gluonPlayerAdapter.ocsProvider.downloadGame(Id);
+                        var gameDownloadProvider = gluonPlayerAdapter.ocsProvider.downloadGame(Id);
+                        gameDownloadProvider.downloadProgress.connect(dlProgress)
                     }
                 }
             }
@@ -81,6 +83,16 @@ Item {
 
         model: GluonPlayer.AllGameItemsModel { }
         delegate: gameItemsDelegate
+    }
+
+    Rectangle {
+        id: progressBar
+        color: "blue"
+
+        height: 20
+        width: parent.width
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
     }
 }
 
