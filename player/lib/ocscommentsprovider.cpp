@@ -20,11 +20,12 @@
 #include "ocscommentsprovider.h"
 
 #include "ocsprovider.h"
+
 #include <attica/listjob.h>
 #include <attica/comment.h>
 #include <attica/provider.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 

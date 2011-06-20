@@ -24,6 +24,7 @@
 #include "ocsgamedetailsprovider.h"
 #include "ocsgamedownloadprovider.h"
 #include "ocsgameuploadprovider.h"
+#include "ocsratingprovider.h"
 
 #include <core/gluon_global.h>
 
@@ -32,8 +33,7 @@
 #include <attica/provider.h>
 #include <attica/providermanager.h>
 
-#include <QDir>
-#include "ocsratingprovider.h"
+#include <QtCore/QDir>
 
 using namespace GluonPlayer;
 

@@ -20,10 +20,10 @@
 #ifndef OVERLAY_H
 #define OVERLAY_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QResizeEvent>
-#include <QWheelEvent>
+#include <QtGui/QWidget>
+#include <QtGui/QGridLayout>
+#include <QtGui/QResizeEvent>
+#include <QtGui/QWheelEvent>
 
 class Overlay : public QWidget
 {

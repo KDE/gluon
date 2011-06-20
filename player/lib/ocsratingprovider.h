@@ -20,7 +20,7 @@
 #ifndef GLUONPLAYER_OCSRATINGPROVIDER_H
 #define GLUONPLAYER_OCSRATINGPROVIDER_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Attica
 {

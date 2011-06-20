@@ -20,7 +20,7 @@
 #include "vertexattribute.h"
 #include "vertexattribute_p.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 using namespace GluonGraphics;
 

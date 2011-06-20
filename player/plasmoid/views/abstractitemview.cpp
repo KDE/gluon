@@ -19,11 +19,11 @@
 
 #include "abstractitemview.h"
 
-#include <QAbstractItemModel>
-#include <QPainter>
-#include <QGraphicsSceneEvent>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsGridLayout>
+#include <QtGui/QPainter>
+#include <QtGui/QGraphicsSceneEvent>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtGui/QGraphicsGridLayout>
+#include <QtCore/QAbstractItemModel>
 
 AbstractItemView::AbstractItemView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

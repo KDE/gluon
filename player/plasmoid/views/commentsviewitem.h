@@ -20,8 +20,8 @@
 #ifndef COMMENTSVIEWITEM_H
 #define COMMENTSVIEWITEM_H
 
-#include <QGraphicsWidget>
-#include <QPersistentModelIndex>
+#include <QtGui/QGraphicsWidget>
+#include <QtCore/QPersistentModelIndex>
 
 class QGraphicsGridLayout;
 

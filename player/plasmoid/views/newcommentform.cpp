@@ -21,13 +21,13 @@
 
 #include <attica/provider.h>
 
-#include <KTextEdit>
-#include <KLineEdit>
 #include <Plasma/PushButton>
 #include <Plasma/LineEdit>
 #include <Plasma/TextEdit>
+#include <KDE/KTextEdit>
+#include <KDE/KLineEdit>
 
-#include <QGraphicsLinearLayout>
+#include <QtGui/QGraphicsLinearLayout>
 
 NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

@@ -19,15 +19,15 @@
  */
 
 #include "ocsgamedetailsprovider.h"
+#include "ocsprovider.h"
 
 #include <attica/listjob.h>
 #include <attica/content.h>
 #include <attica/provider.h>
 #include <attica/downloaditem.h>
 
-#include <QStringList>
-#include <QDebug>
-#include "ocsprovider.h"
+#include <QtCore/QStringList>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 

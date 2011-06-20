@@ -21,7 +21,7 @@
 
 #include <gluon/audio/sound.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {

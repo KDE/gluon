@@ -20,7 +20,7 @@
 #ifndef GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
 #define GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Attica
 {
