@@ -21,7 +21,8 @@
 #define RENDERABLESCENE_H
 
 #include <QtGui/QGraphicsScene>
-#include <QtCore/QEvent>
+
+class QEvent;
 
 class QGLFramebufferObject;
 

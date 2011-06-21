@@ -35,6 +35,10 @@
 #endif
 
 #include <QtGui/QKeyEvent>
+#include <QtGui/QSwipeGesture>
+#include <QtGui/QPanGesture>
+#include <QtGui/QPinchGesture>
+#include <QtGui/QWidget>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 

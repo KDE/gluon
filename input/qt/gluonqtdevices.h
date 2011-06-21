@@ -20,7 +20,6 @@
 #define GLUONQTDEVICES_H
 
 #include <QtCore/QFlags>
-#include <QtCore/QEvent>
 
 namespace GluonInput
 {

@@ -21,8 +21,8 @@
 
 #include <creator/lib/gluoncreator_macros.h>
 #include <core/singleton.h>
-#include <QtCore/QHash>
 
+#include <QtCore/QHash>
 
 namespace GluonCreator
 {

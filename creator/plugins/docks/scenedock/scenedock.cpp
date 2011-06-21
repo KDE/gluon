@@ -39,6 +39,7 @@
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QItemSelection>
 
 using namespace GluonCreator;
 
@@ -110,7 +111,7 @@ SceneDock::~SceneDock()
     delete d;
 }
 
-void SceneDock::selectionChanged( QItemSelection selected, QItemSelection /* deselected */ )
+void SceneDock::selectionChanged( const QItemSelection& selected, const QItemSelection& /* deselected */ )
 {
     DEBUG_FUNC_NAME
 

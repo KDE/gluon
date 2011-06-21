@@ -22,7 +22,6 @@
 #ifndef GLUON_ENGINE_SCENEPRIVATE_H
 #define GLUON_ENGINE_SCENEPRIVATE_H
 
-#include <QList>
 class QUrl;
 
 namespace GluonEngine

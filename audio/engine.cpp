@@ -19,8 +19,10 @@
  */
 #include "engine.h"
 
-#include <QtCore/QStringList>
 #include <QtGui/QVector3D>
+#include <QtCore/QStringList>
+#include <QtCore/QHashIterator>
+
 #include <alure.h>
 
 using namespace GluonAudio;

@@ -26,15 +26,9 @@
 #include "absval.h"
 
 #include <QtCore/QThread>
-#include <QtCore/QMap>
-#include <QtCore/QSharedData>
+#include <QtCore/QSharedDataPointer>
 
 // #include <libudev.h>
-
-/**
- * \defgroup KCL KCL
- */
-//@{
 
 namespace GluonInput
 {
@@ -98,5 +92,5 @@ namespace GluonInput
             QSharedDataPointer<InputThreadPrivate> d;
     };
 }
-//@}
-#endif // KCLTHREAD_H
+
+#endif 

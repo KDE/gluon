@@ -19,8 +19,9 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
-#include <creator/lib/gluoncreator_macros.h>
 #include "propertywidgetitemfactory.h"
+
+#include <creator/lib/gluoncreator_macros.h>
 
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>

@@ -26,7 +26,6 @@
 #include <core/singleton.h>
 
 #include <QtGui/QVector3D>
-#include <QtCore/QHash>
 
 #include <al.h>
 

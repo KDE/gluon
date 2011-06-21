@@ -26,7 +26,6 @@
 
 #include <KDE/KPluginInfo>
 
-#include <QtCore/QObject>
 #include <QtCore/QHash>
 
 class KXmlGuiWindow;

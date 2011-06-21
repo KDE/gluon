@@ -22,8 +22,9 @@
 #define GLUON_CREATOR_SCENEDOCK_H
 
 #include <QtCore/QModelIndex>
-#include <QtGui/QItemSelection>
 #include <QtGui/QDockWidget>
+
+class QItemSelection;
 
 namespace GluonEngine
 {
@@ -41,7 +42,7 @@ namespace GluonCreator
             ~SceneDock();
 
         public slots:
-            void selectionChanged( QItemSelection selected, QItemSelection deselected );
+            void selectionChanged( const QItemSelection& selected, const QItemSelection& deselected );
             void sceneChanged( GluonEngine::Scene* );
 
             void deleteSelection();

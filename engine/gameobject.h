@@ -27,9 +27,6 @@
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>
 
-#include <QtCore/QSharedData>
-#include <QtScript/QScriptEngine>
-
 namespace GluonEngine
 {
 
