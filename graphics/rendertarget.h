@@ -27,7 +27,9 @@
 #include <GL/glee.h>
 #endif
 
-#include <QtOpenGL/QGLFramebufferObject>
+#include <QtCore/QObject>
+
+class QGLFramebufferObject;
 
 namespace GluonGraphics
 {

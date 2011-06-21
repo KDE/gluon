@@ -26,8 +26,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-
 namespace GluonInput
 {
     class GluonButtons : public GluonCore::Singleton<GluonButtons>

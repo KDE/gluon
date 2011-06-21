@@ -21,6 +21,7 @@
 #define GLUONGRAPHICS_MATERIAL_H
 
 #include "gluon_graphics_export.h"
+
 #include <core/gluonobject.h>
 
 namespace GluonGraphics

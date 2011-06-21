@@ -27,10 +27,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QSharedData>
-#include <QtCore/QThread>
-
 namespace GluonEngine
 {
     class GameObject;

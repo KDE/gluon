@@ -22,8 +22,6 @@
 #include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>

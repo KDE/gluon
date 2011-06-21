@@ -19,6 +19,7 @@
 
 #ifndef GLUON_ENGINE_PREFABPRIVATE_H
 #define GLUON_ENGINE_PREFABPRIVATE_H
+
 #include <QList>
 
 namespace GluonCore {

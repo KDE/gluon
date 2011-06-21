@@ -27,8 +27,6 @@
 
 #include "vertexbuffer.h"
 
-#include <QtCore/QObject>
-
 class QMatrix4x4;
 
 namespace GluonGraphics

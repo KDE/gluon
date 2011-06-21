@@ -24,6 +24,7 @@
 #include <input/inputmanager.h>
 #include <core/debughelper.h>
 
+#include <QtGui/QWidget>
 #include <QtCore/QEvent>
 #include <QtCore/QDebug>
 

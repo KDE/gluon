@@ -23,9 +23,7 @@
 #include "gluon_core_export.h"
 #include "debughelper.h"
 
-#include <QtCore/QSharedData>
 #include <QtCore/QHash>
-#include <QtCore/QMetaType>
 #include <QtCore/QStringList>
 #include <QtScript/QScriptEngine>
 

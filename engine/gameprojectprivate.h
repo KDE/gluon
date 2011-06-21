@@ -21,9 +21,10 @@
 #ifndef GLUON_GAMEPROJECTPRIVATE_H
 #define GLUON_GAMEPROJECTPRIVATE_H
 
+#include "assets/graphics/texture/textureasset.h"
+
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
-#include "assets/graphics/texture/textureasset.h"
 
 namespace GluonCore
 {

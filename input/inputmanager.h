@@ -30,12 +30,12 @@
 
 #include <core/singleton.h>
 
-#include <QtGui/QSwipeGesture>
-#include <QtGui/QPanGesture>
-#include <QtGui/QPinchGesture>
-#include <QtGui/QMouseEvent>
 #include <QtCore/QList>
-#include <QtCore/QEvent>
+
+class QSwipeGesture;
+class QPanGesture;
+class QPinchGesture; 
+class QEvent;
 
 namespace GluonInput
 {
