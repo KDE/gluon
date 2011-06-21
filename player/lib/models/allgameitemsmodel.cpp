@@ -31,6 +31,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
+#include <QtGui/QFileSystemModel>
 
 using namespace GluonPlayer;
 
@@ -40,31 +41,17 @@ public:
     Private() {
     }
 
-    QMap<QString, GameItem*> m_gameItems;
+    QMap<QString, GameItem*> gameItems;
+    QFileSystemModel fsModel;
 };
 
 AllGameItemsModel::AllGameItemsModel(QObject* parent)
     : QAbstractListModel(parent)
     , d(new Private())
 {
-    QDir m_dir;
-    m_dir.cd(GluonCore::Global::dataDirectory() + "/gluon/games");
-    QStringList gameDirNameList = m_dir.entryList(QStringList()
-                                  << QString('*' + GluonEngine::projectSuffix), QDir::Dirs | QDir::NoDotAndDotDot);
-    foreach(const QString & gameDirName, gameDirNameList) {
-        QDir gameDir = m_dir;
-        gameDir.cd(gameDirName);
-        QStringList gluonProjectFiles = gameDir.entryList(QStringList(GluonEngine::projectFilename));
-
-        if(!gluonProjectFiles.isEmpty()) {
-            QString projectFileName = gameDir.absoluteFilePath(gluonProjectFiles.at(0));
-            GluonEngine::GameProject project;
-            project.loadFromFile(projectFileName);
-            QString id = project.property("id").toString();
-            GameItem* gameItem = new GameItem(project.name(), project.description(), GameItem::Installed, id, this);
-            d->m_gameItems.insert(id, gameItem);
-        }
-    }
+    d->fsModel.setNameFilters(QStringList('*' + GluonEngine::projectSuffix));
+    connect(&d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)));
+    d->fsModel.setRootPath(GluonCore::Global::dataDirectory() + "/gluon/games");
 
     QHash<int, QByteArray> roles;
     roles[GameNameRole] = "GameName";
@@ -80,9 +67,57 @@ AllGameItemsModel::~AllGameItemsModel()
 {
 }
 
+void AllGameItemsModel::directoryLoaded(const QString& path)
+{
+    if (QDir(path) != QDir(GluonCore::Global::dataDirectory() + "/gluon/games"))
+        return;
+
+    beginResetModel();
+    QModelIndex parentIndex = d->fsModel.index(path);
+
+    //Find all .gluon dirs and add them
+    for (int i=0; i<d->fsModel.rowCount(parentIndex); ++i) {
+        QString gameDirName = d->fsModel.fileName(d->fsModel.index(i, 0, parentIndex));
+        QDir gameDir(path);
+        gameDir.cd(gameDirName);
+
+        QStringList gluonProjectFiles = gameDir.entryList(QStringList(GluonEngine::projectFilename));
+
+        if(!gluonProjectFiles.isEmpty()) {
+            QString projectFileName = gameDir.absoluteFilePath(gluonProjectFiles.at(0));
+            GluonEngine::GameProject project;
+            project.loadFromFile(projectFileName);
+            QString id = project.property("id").toString();
+
+            if (d->gameItems.contains(id)) {    //If game already exists in the model
+                if (d->gameItems.value(id)->status() == GameItem::Downloadable) {
+                    //This case occurs if a game was downloaded and extracted successfully
+                    d->gameItems.remove(id);    //Remove the Downloadable item
+                    addGameProjectToList(id, project);
+                }
+            } else {                            //Manually added game, add it to the model
+                addGameProjectToList(id, project);
+            }
+        }
+    }
+
+    endResetModel();
+}
+
+void AllGameItemsModel::addGameProjectToList(const QString& id, const GluonEngine::GameProject& project)
+{
+    GameItem* gameItem = new GameItem(project.name(), project.description(), GameItem::Installed, id, this);
+    addGameItemToList(id, gameItem);
+}
+
+void AllGameItemsModel::addGameItemToList(const QString& id, GluonPlayer::GameItem* gameItem)
+{
+    d->gameItems.insert(id, gameItem);
+}
+
 QVariant AllGameItemsModel::data(const QModelIndex& index, int role) const
 {
-    if(index.row() < 0 || index.row() > d->m_gameItems.count())
+    if(index.row() < 0 || index.row() > d->gameItems.count())
         return QVariant();
 
     switch(role) {
@@ -90,13 +125,13 @@ QVariant AllGameItemsModel::data(const QModelIndex& index, int role) const
         break;
     case Qt::DisplayRole:
     case GameNameRole:
-        return d->m_gameItems.values().at(index.row())->gameName();
+        return d->gameItems.values().at(index.row())->gameName();
     case GameDescriptionRole:
-        return d->m_gameItems.values().at(index.row())->gameDescription();
+        return d->gameItems.values().at(index.row())->gameDescription();
     case StatusRole:
-        return d->m_gameItems.values().at(index.row())->status();
+        return d->gameItems.values().at(index.row())->status();
     case IDRole:
-        return d->m_gameItems.values().at(index.row())->id();
+        return d->gameItems.values().at(index.row())->id();
     default:
         break;
     }
@@ -106,7 +141,7 @@ QVariant AllGameItemsModel::data(const QModelIndex& index, int role) const
 
 int AllGameItemsModel::rowCount(const QModelIndex& /* parent */) const
 {
-    return d->m_gameItems.count();
+    return d->gameItems.count();
 }
 
 int AllGameItemsModel::columnCount(const QModelIndex& /* parent */) const
@@ -130,16 +165,17 @@ void AllGameItemsModel::fetchGamesList()
             SLOT(processFetchedGamesList(QList<OcsGameDetails*>)));
 }
 
-void AllGameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > comments)
+void AllGameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > gamesList)
 {
-    foreach(OcsGameDetails * c, comments) {
+    beginResetModel();
+    foreach(OcsGameDetails * c, gamesList) {
         GameItem* gameItem = new GameItem(c->gameName(), c->gameDescription(), GameItem::Downloadable,
                                           c->id(), this);
-        if (!d->m_gameItems.contains(c->id())) {
-            d->m_gameItems.insert(c->id(), gameItem);
+        if (!d->gameItems.contains(c->id())) {
+            addGameItemToList(c->id(), gameItem);
         }
     }
-    reset();
+    endResetModel();
 }
 
 #include "allgameitemsmodel.moc"

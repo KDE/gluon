@@ -28,6 +28,11 @@
 #include <QtCore/QMultiMap>
 #include <QtCore/QDir>
 
+namespace GluonEngine
+{
+class GameProject;
+}
+
 namespace Attica
 {
     class BaseJob;
@@ -35,6 +40,8 @@ namespace Attica
 
 namespace GluonPlayer
 {
+
+    class GameItem;
     class OcsGameDetails;
 
     class GLUON_PLAYER_EXPORT AllGameItemsModel : public QAbstractListModel
@@ -60,10 +67,16 @@ namespace GluonPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         protected Q_SLOTS:
-            void processFetchedGamesList (QList<OcsGameDetails*> comments);
+            void processFetchedGamesList (QList<OcsGameDetails*> gamesList);
+
+        private Q_SLOTS:
+            void directoryLoaded (const QString& path);
 
         private:
             void fetchGamesList();
+            void scanDirectory (QModelIndex index);
+            inline void addGameProjectToList(const QString &id, const GluonEngine::GameProject &project);
+            inline void addGameItemToList(const QString& id, GluonPlayer::GameItem *gameItem);
 
             class Private;
             Private* const d;
