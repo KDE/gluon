@@ -60,7 +60,7 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     : Component( parent )
     , d( new SoundEmitterComponentPrivate )
 {
-    d->sound = new GluonAudio::Sound();
+    d->sound = new GluonAudio::Sound(this);
 }
 
 SoundEmitterComponent::~SoundEmitterComponent()

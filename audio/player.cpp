@@ -19,6 +19,7 @@
  */
 
 #include "player.h"
+#include "engine.h"
 
 #include <QtCore/QVector>
 
@@ -28,7 +29,7 @@ class Player::PlayerPrivate
 {
     public:
         PlayerPrivate()
-            : sound( new Sound() )
+            : sound( new Sound(Engine::instance() ) )
             , currentIndex( 0 )
             , playerLoop( false )
 

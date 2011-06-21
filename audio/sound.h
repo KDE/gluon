@@ -39,7 +39,7 @@ namespace GluonAudio
             * Constructs an empty, invalid Sound object
             * @see isValid, load
             */
-            explicit Sound();
+            explicit Sound(QObject *parent);
             /**
             * @param fileName the path of the file to play
             */
