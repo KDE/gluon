@@ -167,7 +167,7 @@ namespace GluonCore
             friend class Singleton<GDLHandler>;
 
             GDLHandler();
-            virtual ~GDLHandler();
+            ~GDLHandler();
             Q_DISABLE_COPY( GDLHandler );
 
             GluonObject* instantiateObject( QString className );
