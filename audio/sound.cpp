@@ -128,8 +128,8 @@ class Sound::SoundPrivate
         double duration;
 };
 
-Sound::Sound()
-    : QObject( Engine::instance() )
+Sound::Sound(QObject *parent)
+    : QObject( parent )
     , d( new SoundPrivate )
 {
     d->isValid = false;
