@@ -313,9 +313,6 @@ void UiManagerComponent::cleanup()
     {
         d->scene->removeItem( item );
     }
-
-    delete d->scene;
-    d->scene = 0;
 }
 
 void UiManagerComponent::setUi( UiAsset* ui )
