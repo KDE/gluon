@@ -27,8 +27,8 @@ find_package(GluonCore ${_gluonAudioReq})
 set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
 
 find_package(OpenAL ${_gluonAudioReq})
+find_package(Alure ${_gluonAudioReq})
 find_package(SndFile ${_gluonAudioReq})
-find_package(OggVorbis ${_gluonAudioReq})
 
 find_path(GLUON_AUDIO_INCLUDE_DIR
     NAMES
