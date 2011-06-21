@@ -41,13 +41,14 @@ public:
     QString projectDirName;
     QString projectFileName;
     QStringList screenshotUrls;
+    int rating;
     Status status;
     QString id;
 };
 
 OcsGameDetails::OcsGameDetails (const QString& gameName, const QString& gameDescription,
                                 const QString& projectDirName, const QString& projectFileName,
-                                const QStringList& screenshotUrls, Status status, const QString id,
+                                const QStringList& screenshotUrls, int rating, Status status, const QString id,
                                 QObject* parent) : QObject (parent), d (new Private())
 {
     d->gameName = gameName;
@@ -55,6 +56,7 @@ OcsGameDetails::OcsGameDetails (const QString& gameName, const QString& gameDesc
     d->projectDirName = projectDirName;
     d->projectFileName = projectFileName;
     d->screenshotUrls = screenshotUrls;
+    d->rating = rating;
     d->status = status;
     d->id = id;
 }
@@ -99,6 +101,11 @@ OcsGameDetails::Status OcsGameDetails::status() const
     return d->status;
 }
 
+int GluonPlayer::OcsGameDetails::rating() const
+{
+    return d->rating;
+}
+
 class OcsGameDetailsProvider::Private
 {
 public:
@@ -139,7 +146,8 @@ void OcsGameDetailsProvider::processFetchedGamesList (Attica::BaseJob* job)
     if( contentJob->metadata().error() == Attica::Metadata::NoError ) {
         foreach(Attica::Content content, contentJob->itemList()) {
             OcsGameDetails *details = new OcsGameDetails(content.name(), content.description(), "", "",
-                                                         QStringList(), OcsGameDetails::Downloadable, content.id());
+                                                         QStringList(), content.rating(), OcsGameDetails::Downloadable,
+                                                         content.id());
             list.append(details);
         }
 

@@ -44,7 +44,7 @@ public:
 
     explicit OcsGameDetails (const QString& gameName, const QString& gameDescription,
                              const QString& projectDirName, const QString& projectFileName,
-                             const QStringList& screenshotUrls, GluonPlayer::OcsGameDetails::Status status,
+                             const QStringList& screenshotUrls, int rating, GluonPlayer::OcsGameDetails::Status status,
                              const QString id, QObject* parent = 0);
     virtual ~OcsGameDetails();
     QString gameName() const;
@@ -52,6 +52,7 @@ public:
     QString projectDirName() const;
     QString projectFileName() const;
     QStringList screenshotUrls() const;
+    int rating() const;
     Status status() const;
     QString id() const;
 

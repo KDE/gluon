@@ -162,7 +162,7 @@ public:
      * @param id ID of the game
      * @param rating Rating value between 0 to 100
      */
-    Q_INVOKABLE OcsRatingProvider *setRating(const QString &id, uint rating);
+    Q_INVOKABLE GluonPlayer::OcsRatingProvider *setRating(const QString &id, uint rating);
 
 private:
     friend class GluonCore::Singleton<OcsProvider>;

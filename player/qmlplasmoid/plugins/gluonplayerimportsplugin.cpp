@@ -27,6 +27,7 @@
 #include <lib/models/gameitem.h>
 #include <lib/ocsprovider.h>
 #include <lib/ocsgamedownloadprovider.h>
+#include <lib/ocsratingprovider.h>
 
 #include <KLineEdit>
 
@@ -51,6 +52,10 @@ void GluonPlayerImportsPlugin::registerTypes(const char* uri)
 
     qmlRegisterUncreatableType<OcsGameDownloadProvider>(uri, 0, 1, "OcsGameDownloadProvider",
         "OcsGameDownloadProvider is not meant to be instantiated directly, only OcsProvider will create and return \
+        an instance");
+
+    qmlRegisterUncreatableType<OcsRatingProvider>(uri, 0, 1, "OcsRatingProvider",
+        "OcsRatingProvider is not meant to be instantiated directly, only OcsProvider will create and return \
         an instance");
 
 }

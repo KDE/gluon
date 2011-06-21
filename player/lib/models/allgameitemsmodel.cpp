@@ -56,6 +56,7 @@ AllGameItemsModel::AllGameItemsModel(QObject* parent)
     QHash<int, QByteArray> roles;
     roles[GameNameRole] = "GameName";
     roles[GameDescriptionRole] = "GameDescription";
+    roles[RatingRole] = "Rating";
     roles[StatusRole] = "Status";
     roles[IDRole] = "Id";
     setRoleNames(roles);
@@ -104,7 +105,8 @@ void AllGameItemsModel::directoryLoaded(const QString& path)
 
 void AllGameItemsModel::addGameProjectToList(const QString& id, const GluonEngine::GameProject& project)
 {
-    GameItem* gameItem = new GameItem(project.name(), project.description(), GameItem::Installed, id, this);
+    //FIXME: Rating = 0 might not be good
+    GameItem* gameItem = new GameItem(project.name(), project.description(), 0, GameItem::Installed, id, this);
     addGameItemToList(id, gameItem);
 }
 
@@ -126,6 +128,8 @@ QVariant AllGameItemsModel::data(const QModelIndex& index, int role) const
         return d->gameItems.values().at(index.row())->gameName();
     case GameDescriptionRole:
         return d->gameItems.values().at(index.row())->gameDescription();
+    case RatingRole:
+        return d->gameItems.values().at(index.row())->rating();
     case StatusRole:
         return d->gameItems.values().at(index.row())->status();
     case IDRole:
@@ -167,7 +171,7 @@ void AllGameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > gamesLi
 {
     beginResetModel();
     foreach(OcsGameDetails * c, gamesList) {
-        GameItem* gameItem = new GameItem(c->gameName(), c->gameDescription(), GameItem::Downloadable,
+        GameItem* gameItem = new GameItem(c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
                                           c->id(), this);
         if (!d->gameItems.contains(c->id())) {
             addGameItemToList(c->id(), gameItem);

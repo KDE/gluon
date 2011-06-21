@@ -29,17 +29,19 @@ public:
 
     QString m_gameName;
     QString m_gameDescription;
+    int rating;
     Status m_status;
     QString m_id;
 };
 
-GameItem::GameItem(const QString& gameName, const QString& gameDescription,
+GameItem::GameItem(const QString& gameName, const QString& gameDescription, int rating,
                    const Status& status, const QString& id, QObject* parent)
     : QObject(parent)
     , d(new Private())
 {
     d->m_gameName = gameName;
     d->m_gameDescription = gameDescription;
+    d->rating = rating;
     d->m_status = status;
     d->m_id = id;
 }
@@ -66,6 +68,11 @@ GameItem::Status GameItem::status() const
 QString GameItem::id() const
 {
     return d->m_id;
+}
+
+int GameItem::rating() const
+{
+    return d->rating;
 }
 
 #include "gameitem.moc"

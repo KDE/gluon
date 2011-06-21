@@ -22,6 +22,8 @@
 
 #include <QtCore/QObject>
 
+#include "gluon_player_export.h"
+
 namespace Attica
 {
 class Provider;
@@ -31,7 +33,7 @@ class BaseJob;
 namespace GluonPlayer
 {
 
-class OcsRatingProvider : public QObject
+class GLUON_PLAYER_EXPORT OcsRatingProvider : public QObject
 {
 
     Q_OBJECT

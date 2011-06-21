@@ -53,6 +53,7 @@ namespace GluonPlayer
             {
                 GameNameRole = Qt::UserRole + 1,
                 GameDescriptionRole,
+                RatingRole,
                 StatusRole,
                 IDRole
             };
