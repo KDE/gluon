@@ -44,6 +44,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT ObjectManager : public GluonCore::Singleton<ObjectManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( ObjectManager )
         public Q_SLOTS:
             GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();
@@ -67,12 +68,8 @@ namespace GluonCreator
             void newComponent( GluonEngine::Component* );
 
         private:
-            friend class GluonCore::Singleton<ObjectManager>;
-
-            ObjectManager();
             ~ObjectManager();
             void setupAsset( GluonEngine::Asset* asset, GluonCore::GluonObject* parent = 0, const QString& fileName = QString(), const QString& name = QString() );
-            Q_DISABLE_COPY( ObjectManager )
 
             class Private;
             Private* const d;

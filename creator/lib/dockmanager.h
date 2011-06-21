@@ -33,6 +33,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT DockManager : public GluonCore::Singleton<DockManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( DockManager )
         public:
             void addDock( QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient );
             void removeDock( QDockWidget* dock );
@@ -45,11 +46,7 @@ namespace GluonCreator
             void setDocksLocked( bool locked );
 
         private:
-            friend class GluonCore::Singleton<DockManager>;
-
-            DockManager();
             virtual ~DockManager();
-            Q_DISABLE_COPY( DockManager )
 
             class DockManagerPrivate;
             DockManagerPrivate* const d;

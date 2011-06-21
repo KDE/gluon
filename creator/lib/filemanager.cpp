@@ -37,7 +37,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUON_CREATOR_VISIBILITY FileManager* GluonCore::Singleton<FileManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( FileManager )
 
 class FileManager::FileManagerPrivate
 {
@@ -151,8 +151,8 @@ void FileManager::setCurrentFile( const QString& file )
         d->partManager->setActivePart( d->parts.value( file ) );
 }
 
-FileManager::FileManager()
-    : d( new FileManagerPrivate )
+FileManager::FileManager( QObject* parent )
+    : Singleton< GluonCreator::FileManager >( parent ), d( new FileManagerPrivate )
 {
 }
 

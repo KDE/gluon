@@ -41,8 +41,8 @@ class Engine::EnginePrivate
         int minimalStreamLength;
 };
 
-Engine::Engine()
-    : d( new EnginePrivate )
+Engine::Engine ( QObject* parent )
+    : Singleton< GluonAudio::Engine >( parent ), d( new EnginePrivate )
 {
     alureInitDevice( 0, 0 );
     alureUpdateInterval( 0.125 );
@@ -124,3 +124,4 @@ void Engine::setListenerPosition( const QVector3D& position )
     alListener3f( AL_POSITION, position.x(), position.y(), position.z() );
 }
 
+#include "engine.moc"

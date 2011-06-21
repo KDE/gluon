@@ -27,7 +27,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUON_CREATOR_VISIBILITY PluginManager* GluonCore::Singleton<PluginManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( PluginManager )
 
 class PluginManager::PluginManagerPrivate
 {
@@ -99,7 +99,8 @@ void PluginManager::loadPlugins()
     }
 }
 
-PluginManager::PluginManager() : d( new PluginManagerPrivate )
+PluginManager::PluginManager( QObject* parent )
+    : Singleton< GluonCreator::PluginManager >( parent ), d( new PluginManagerPrivate )
 {
 }
 

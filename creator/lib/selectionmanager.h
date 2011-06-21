@@ -35,6 +35,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT SelectionManager : public GluonCore::Singleton<SelectionManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( SelectionManager )
         public:
             typedef QList<GluonCore::GluonObject*> SelectionList;
             SelectionList selection() const;
@@ -47,10 +48,7 @@ namespace GluonCreator
             void selectionChanged( SelectionManager::SelectionList );
 
         private:
-            friend class GluonCore::Singleton<SelectionManager>;
-            SelectionManager();
             ~SelectionManager();
-            Q_DISABLE_COPY( SelectionManager )
 
             class SelectionManagerPrivate;
             SelectionManagerPrivate* const d;

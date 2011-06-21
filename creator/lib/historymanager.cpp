@@ -26,7 +26,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUON_CREATOR_VISIBILITY HistoryManager* GluonCore::Singleton<HistoryManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( HistoryManager )
 
 class HistoryManager::HistoryManagerPrivate
 {
@@ -73,8 +73,8 @@ void HistoryManager::setClean()
     d->stack->setClean();
 }
 
-HistoryManager::HistoryManager()
-    : d( new HistoryManagerPrivate )
+HistoryManager::HistoryManager( QObject* parent )
+    : Singleton< GluonCreator::HistoryManager >( parent ), d( new HistoryManagerPrivate )
 {
     connect( d->stack, SIGNAL( canRedoChanged( bool ) ), SIGNAL( canRedoChanged( bool ) ) );
     connect( d->stack, SIGNAL( canUndoChanged( bool ) ), SIGNAL( canUndoChanged( bool ) ) );

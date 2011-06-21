@@ -51,6 +51,7 @@ class OcsRatingProvider;
 class GLUON_PLAYER_EXPORT OcsProvider : public GluonCore::Singleton<OcsProvider>
 {
     Q_OBJECT
+    GLUON_SINGLETON( OcsProvider )
     Q_PROPERTY (bool isReady READ isReady)
     Q_PROPERTY (bool isLoggedIn READ isLoggedIn)
     Q_PROPERTY (bool hasCredentials READ hasCredentials)
@@ -166,10 +167,7 @@ public:
     OcsRatingProvider *setRating(const QString &id, uint rating);
 
 private:
-    friend class GluonCore::Singleton<OcsProvider>;
-    OcsProvider();
-    virtual ~OcsProvider();
-    Q_DISABLE_COPY (OcsProvider);
+    ~OcsProvider();
 
     class Private;
     Private* const d;

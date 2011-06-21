@@ -41,6 +41,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT FileManager : public GluonCore::Singleton<FileManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( FileManager )
         public:
             KParts::PartManager* partManager() const;
             KParts::Part* part( const QString& partName ) const;
@@ -70,11 +71,7 @@ namespace GluonCreator
 
 
         private:
-            friend class GluonCore::Singleton<FileManager>;
-
-            FileManager();
             ~FileManager();
-            Q_DISABLE_COPY( FileManager )
 
             class FileManagerPrivate;
             FileManagerPrivate* const d;

@@ -35,6 +35,8 @@ namespace GluonAudio
 
     class GLUON_AUDIO_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
+            Q_OBJECT
+            GLUON_SINGLETON( Engine )
         public:
             /**
             * Change the output device to the specified OpenAL device name
@@ -80,12 +82,7 @@ namespace GluonAudio
             ALuint genBuffer( const QString& fileName );
 
         private:
-            friend class GluonCore::Singleton<Engine>;
-
-            Engine();
             ~Engine();
-
-            Q_DISABLE_COPY( Engine )
 
             class EnginePrivate;
             EnginePrivate* const d;

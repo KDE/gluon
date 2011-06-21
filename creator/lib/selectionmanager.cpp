@@ -29,9 +29,10 @@ class SelectionManager::SelectionManagerPrivate
         SelectionList selection;
 };
 
-template<> GLUON_CREATOR_VISIBILITY SelectionManager* GluonCore::Singleton<SelectionManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( SelectionManager )
 
-SelectionManager::SelectionManager() :  d( new SelectionManagerPrivate )
+SelectionManager::SelectionManager( QObject* parent )
+    : Singleton< GluonCreator::SelectionManager >( parent ), d( new SelectionManagerPrivate )
 {
 
 }

@@ -37,6 +37,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT PluginManager : public GluonCore::Singleton<PluginManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( PluginManager )
         public:
             QList<KPluginInfo> pluginInfos() const;
             QHash<QString, Plugin*> loadedPlugins();
@@ -49,11 +50,7 @@ namespace GluonCreator
             void pluginLoaded( Plugin* plugin );
 
         private:
-            friend class GluonCore::Singleton<PluginManager>;
-
-            PluginManager();
             ~PluginManager();
-            Q_DISABLE_COPY( PluginManager )
 
             class PluginManagerPrivate;
             PluginManagerPrivate* const d;

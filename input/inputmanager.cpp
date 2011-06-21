@@ -47,7 +47,7 @@ using namespace GluonInput;
 GLUON_DEFINE_SINGLETON( InputManager )
 
 InputManager::InputManager( QObject* parent )
-    : d( new InputManagerPrivate )
+    : Singleton< GluonInput::InputManager >( parent ), d( new InputManagerPrivate )
 {
     init();
 }

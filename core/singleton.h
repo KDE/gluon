@@ -21,8 +21,21 @@
 #define GLUON_CORE_SINGLETON
 
 #include <QtCore/QObject>
-#include <QtCore/QtGlobal>
+#include <QtCore/QMutex>
+#include <QtCore/QCoreApplication>
 
+#if defined __GNUC__ && __GNUC__ >= 4 && __GNUC_MINOR__ >= 4
+#define __MEMBARRIER __sync_synchronize();
+#elif defined _MSC_VER && defined _WIN64
+#define __MEMBARRIER MemoryBarrier();
+#else
+#define __MEMBARRIER 
+#endif
+
+/**
+ * Thread safe, lazy initialised, self deleting singleton template.
+ *
+ */
 namespace GluonCore
 {
     template <typename T>
@@ -31,22 +44,48 @@ namespace GluonCore
         public:
             static T* instance()
             {
-                if( !m_instance )
-                {
-                    m_instance = new T;
+                if(!sm_guard) {
+                    sm_mutex->lock();
+                    if( !sm_instance )
+                    {
+                        sm_instance = new T(QCoreApplication::instance());
+                    }
+                    sm_mutex->unlock();
+                    __MEMBARRIER
+                    sm_guard = true;
                 }
-                return m_instance;
+                return sm_instance;
             }
 
         protected:
-            static T* m_instance;
+            explicit Singleton( QObject* parent = 0 ) : QObject( parent ) { }
+            virtual ~Singleton() { delete sm_mutex; }
+            
+            static T* sm_instance;
+            static bool sm_guard;
+            static QMutex* sm_mutex;
+
+        private:
+            Q_DISABLE_COPY( Singleton )
     };
 }
 
 #ifdef Q_OS_WIN
-#define GLUON_DEFINE_SINGLETON(Type) template<> Type* GluonCore::Singleton<Type>::m_instance = 0;
+#define GLUON_DEFINE_SINGLETON(Type)\
+    template<> Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> QMutex* GluonCore::Singleton<Type>::sm_mutex = new QMutex();\
+    template<> bool GluonCore::Singleton<Type>::sm_guard = false;
 #else
-#define GLUON_DEFINE_SINGLETON(Type) template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::m_instance = 0;
+#define GLUON_DEFINE_SINGLETON(Type)\
+    template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> Q_DECL_EXPORT QMutex* GluonCore::Singleton<Type>::sm_mutex = new QMutex();\
+    template<> Q_DECL_EXPORT bool GluonCore::Singleton<Type>::sm_guard = false;
 #endif
+
+#define GLUON_SINGLETON(Type) \
+    private:\
+        friend class Singleton<Type>;\
+        Type( QObject* parent );\
+        Q_DISABLE_COPY(Type)\
 
 #endif //GLUON_CORE_SINGLETON

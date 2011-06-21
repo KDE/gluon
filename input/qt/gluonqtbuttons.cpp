@@ -24,7 +24,8 @@ using namespace GluonInput;
 
 GLUON_DEFINE_SINGLETON( GluonQtButtons )
 
-GluonQtButtons::GluonQtButtons()
+GluonQtButtons::GluonQtButtons( QObject* parent )
+    : Singleton< GluonInput::GluonQtButtons >( parent )
 {
 }
 

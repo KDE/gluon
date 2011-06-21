@@ -40,6 +40,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT MessageHandler : public Singleton<MessageHandler>
     {
             Q_OBJECT
+            GLUON_SINGLETON( MessageHandler )
         public:
             /**
              * Subscribe to a message.
@@ -88,11 +89,7 @@ namespace GluonCore
             void publishMessage( const QString& message );
 
         private:
-            friend class Singleton<MessageHandler>;
-            MessageHandler();
             ~MessageHandler();
-
-            Q_DISABLE_COPY( MessageHandler )
 
             class Private;
             Private* const d;
