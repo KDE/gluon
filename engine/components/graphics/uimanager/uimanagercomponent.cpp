@@ -313,7 +313,7 @@ void UiManagerComponent::cleanup()
     {
         d->scene->removeItem( item );
     }
-    d->scene->deleteLater();
+    delete d->scene;
     d->scene = 0;
 }
 
