@@ -33,6 +33,7 @@ private:
     QStringList m_files;
     QString m_sourceDirectoryPath;
     QString m_destinationArchivePath;
+    QString m_sourceParentDirectoryPath;
     qint64 m_totalSize;
 
     void addFilesInDir (QString path);

@@ -59,8 +59,13 @@ void Extractor::start()
     //Read and write actual file data, starting from the last file
     for (int i=0; i<fileCount; i++) {
         QFile file(QDir(m_destinationDirectoryPath).absoluteFilePath(filesList[i]));
+        QDir dir(file.fileName());      //fileName is a/b/c/d/blah.txt
+        if (!dir.exists()) {
+            dir.mkpath("..");           //create a/b/c/d/ if it doesn't exist
+        }
         file.open(QIODevice::WriteOnly);
         file.write(sourceArchiveFile.read(sizes[i]));
         file.close();
     }
 }
+

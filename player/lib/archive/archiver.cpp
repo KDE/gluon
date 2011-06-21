@@ -25,11 +25,13 @@
 Archiver::Archiver (const QString& sourceDirectoryPath, const QString& destinationArchivePath)
     : m_sourceDirectoryPath (sourceDirectoryPath), m_destinationArchivePath (destinationArchivePath)
 {
-
 }
 
 void Archiver::start()
 {
+    QDir parentDir(m_sourceDirectoryPath);
+    parentDir.cdUp();
+    m_sourceParentDirectoryPath = parentDir.path();
     addFilesInDir (m_sourceDirectoryPath);
     writeArchiveToFile();
 }
@@ -44,7 +46,7 @@ void Archiver::addFilesInDir (QString path)
     foreach (QString file, dir.entryList (QDir::Files | QDir::Hidden)) {
         if (!QFileInfo (dir.absoluteFilePath (file)).isDir()) {
             QString fullPath (dir.absoluteFilePath (file));
-            addFileToList (QDir (m_sourceDirectoryPath).relativeFilePath (fullPath));
+            addFileToList (QDir (m_sourceParentDirectoryPath).relativeFilePath (fullPath));
         }
     }
 
@@ -59,7 +61,7 @@ void Archiver::addFilesInDir (QString path)
 
 void Archiver::addFileToList (QString relativePath)
 {
-    QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath(relativePath));
+    QFileInfo info (QDir (m_sourceParentDirectoryPath).absoluteFilePath(relativePath));
     m_files.append (relativePath);
     m_totalSize += info.size();
 }
@@ -74,14 +76,14 @@ void Archiver::writeArchiveToFile()
 
     //Write headers into the stream
     foreach (QString file, m_files) {
-        QFileInfo info (QDir (m_sourceDirectoryPath).absoluteFilePath (file));
+        QFileInfo info (QDir (m_sourceParentDirectoryPath).absoluteFilePath (file));
         stream << file;
         stream << info.size();
     }
 
     //Append actual file contents
     foreach (QString filename, m_files) {
-        QFile file (QDir (m_sourceDirectoryPath).absoluteFilePath (filename));
+        QFile file (QDir (m_sourceParentDirectoryPath).absoluteFilePath (filename));
         file.open (QIODevice::ReadOnly);
         arcFile.write (file.readAll());
         file.close();
