@@ -118,6 +118,15 @@ Item {
                 anchors.bottom: downloadableGamesListContainer.bottom
             }
         }
+
+        QGraphicsWidget {
+            id: loginFormContainer
+            PlasmaWidgets.TabBar.tabText: "Login"
+
+            LoginForm {
+                id: loginForm
+                anchors.fill: loginFormContainer
+            }
+        }
     }
 }
-

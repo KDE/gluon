@@ -28,6 +28,8 @@
 #include <lib/ocsprovider.h>
 #include <lib/ocsgamedownloadprovider.h>
 
+#include <KLineEdit>
+
 #include <QtDeclarative/qdeclarative.h>
 
 using namespace GluonPlayer;
@@ -37,6 +39,7 @@ void GluonPlayerImportsPlugin::registerTypes(const char* uri)
     qmlRegisterType<AllGameItemsModel>(uri, 0, 1, "AllGameItemsModel");
     qmlRegisterType<InstalledGamesModel>(uri, 0, 1, "InstalledGamesModel");
     qmlRegisterType<DownloadableGamesModel>(uri, 0, 1, "DownloadableGamesModel");
+    qmlRegisterType<KLineEdit>(uri, 0, 1, "KLineEdit");         //needed to set password mode for Plasma::LineEdit
 
     qmlRegisterUncreatableType<GameItem>(uri, 0, 1, "GameItem", "GameItem is not meant to be instantiated \
         directly, it is provided only only to access Status enums");
