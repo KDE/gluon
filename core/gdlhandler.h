@@ -22,9 +22,9 @@
 #include "singleton.h"
 #include "gluon_core_export.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
-
-class QUrl;
+#include <QtCore/QUrl>
 
 namespace GluonCore
 {

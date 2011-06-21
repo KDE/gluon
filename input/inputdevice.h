@@ -25,6 +25,14 @@
 
 #include <core/gluonobject.h>
 
+#include <QtCore/QMap>
+#include <QtCore/QPair>
+#include <QtCore/QPoint>
+#include <QtCore/QThread>
+#include <QtCore/QEvent>
+#include <QtCore/QSharedData>
+#include <QtCore/QObject>
+
 namespace GluonInput
 {
     class InputDevicePrivate;

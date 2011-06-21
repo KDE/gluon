@@ -29,6 +29,7 @@
 #include <QtPlugin>
 #include <QtGui/QIcon>
 #include <QtCore/QUrl>
+#include <QtCore/QSharedData>
 
 class QAction;
 class QMimeData;

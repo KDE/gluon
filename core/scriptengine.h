@@ -24,7 +24,9 @@
 #include "gluon_core_export.h"
 #include "singleton.h"
 
+#include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
+#include <QtCore/QCoreApplication>
 
 namespace GluonCore
 {

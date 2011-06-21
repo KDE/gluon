@@ -28,6 +28,8 @@
 #include <attica/comment.h>
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QStringList>
+
 
 namespace Attica
 {

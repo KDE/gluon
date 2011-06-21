@@ -29,7 +29,9 @@
 #include "touch.h"
 #include "detect.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {

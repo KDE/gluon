@@ -26,6 +26,9 @@
 #include "gameviewitem.h"
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QStringList>
+#include <QtCore/QMultiMap>
+#include <QtCore/QDir>
 
 namespace Attica
 {

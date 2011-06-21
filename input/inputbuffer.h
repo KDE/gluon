@@ -23,7 +23,7 @@
 #include "gluon_input_export.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QSharedDataPointer>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {

@@ -21,6 +21,7 @@
 #ifndef GLUON_ENGINE_GAMEOBJECTPRIVATE_H
 #define GLUON_ENGINE_GAMEOBJECTPRIVATE_H
 
+#include <QtCore/QSharedData>
 #include <QtCore/QList>
 #include <QtCore/QString>
 

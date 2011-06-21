@@ -22,13 +22,14 @@
 
 #include <gluon/input/inputmanager.h>
 
-#include <QtGui/QMainWindow>
-
-class QTextEdit;
-class QGridLayout;
-class QAction;
-class QStatusBar;
-class QMenuBar;
+#include <QApplication>
+#include <QMainWindow>
+#include <QTextEdit>
+#include <QGridLayout>
+#include <QAction>
+#include <QStatusBar>
+#include <QMenuBar>
+#include <QMessageBox>
 
 class MainWindow : public QMainWindow
 {

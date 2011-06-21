@@ -21,8 +21,7 @@
 #define GLUONENGINE_SCRIPTINGCOMPONENTPRIVATE_H
 
 #include "scriptingcomponent.h"
-
-#include <QtScript/QScriptValue>
+#include <QScriptValue>
 
 namespace GluonEngine
 {

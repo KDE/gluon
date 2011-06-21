@@ -21,7 +21,6 @@
 #define GLUONGRAPHICS_VIEWPORT_H
 
 #include "gluon_graphics_export.h"
-
 #include <QtCore/QObject>
 
 namespace GluonGraphics

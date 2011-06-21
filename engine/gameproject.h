@@ -28,6 +28,7 @@
 
 #include <core/gluonobject.h>
 
+#include <QtCore/QSharedData>
 #include <QtCore/QUrl>
 
 namespace GluonEngine

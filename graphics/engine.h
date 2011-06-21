@@ -24,7 +24,6 @@
 #define GLUONGRAPHICS_ENGINE_H
 
 #include "gluon_graphics_export.h"
-
 #include <core/singleton.h>
 
 namespace GluonGraphics

@@ -25,6 +25,7 @@
 
 #include <core/gluonobject.h>
 
+#include <QtCore/QSharedData>
 #include <QtPlugin>
 
 /**

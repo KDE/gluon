@@ -20,9 +20,9 @@
 #ifndef ENGINEACCESS_H
 #define ENGINEACCESS_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <QtScript/QScriptValue>
+#include <QScriptValue>
 
 namespace GluonEngine
 {

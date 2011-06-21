@@ -29,7 +29,9 @@
 #include "mouse.h"
 #include "touch.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedData>
 
 #include <IOKit/hid/IOHIDLib.h>
 

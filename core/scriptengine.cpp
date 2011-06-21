@@ -25,7 +25,6 @@
 #include "messagehandler.h"
 
 #include <QtScript/QScriptEngine>
-#include <QtCore/QCoreApplication>
 
 void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
 namespace GluonCore

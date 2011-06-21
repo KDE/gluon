@@ -19,7 +19,6 @@
 
 #include "rendertarget.h"
 
-#include <QtOpenGL/QGLFramebufferObject>
 #include <QtGui/QMatrix4x4>
 
 #include "texture.h"

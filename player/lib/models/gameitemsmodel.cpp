@@ -25,12 +25,9 @@
 #include <core/gluon_global.h>
 #include <engine/gameproject.h>
 
-#include <QtCore/QDir>
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
-#include <QtCore/QStringList>
-#include <QtCore/QMultiMap>
 
 using namespace GluonPlayer;
 

@@ -22,7 +22,7 @@
 
 #include "inputdevice.h"
 
-#include <QtCore/QSharedDataPointer>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {

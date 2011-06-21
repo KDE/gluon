@@ -25,7 +25,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMetaProperty>
-#include <QtCore/QUrl>
 
 using namespace GluonCore;
 

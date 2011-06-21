@@ -24,7 +24,9 @@
 #include "gluondevices.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QSharedDataPointer>
+#include <QtCore/QList>
+#include <QtCore/QPair>
+#include <QtCore/QSharedData>
 
 namespace GluonInput
 {

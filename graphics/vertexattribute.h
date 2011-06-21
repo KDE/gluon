@@ -20,7 +20,7 @@
 #ifndef VERTEXATTRIBUTE_H
 #define VERTEXATTRIBUTE_H
 
-#include <QtCore/QString>
+#include <QtCore/QVector>
 
 namespace GluonGraphics
 {

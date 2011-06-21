@@ -22,6 +22,7 @@
 
 #include "gluon_audio_export.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QStringList>
 
 namespace GluonAudio

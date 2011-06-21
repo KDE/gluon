@@ -24,6 +24,7 @@
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QVector3D>
+#include <QtGui/QQuaternion>
 
 namespace GluonGraphics
 {

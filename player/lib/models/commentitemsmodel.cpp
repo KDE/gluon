@@ -29,7 +29,6 @@
 #include <engine/gameproject.h>
 #include <attica/listjob.h>
 
-#include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>

@@ -24,6 +24,7 @@
 #include "gluon_player_export.h"
 
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QStringList>
 
 namespace GluonCore
 {

@@ -22,7 +22,6 @@
 #define GLUONPLAYER_OCSPROVIDER_H
 
 #include "gluon_player_export.h"
-
 #include <core/singleton.h>
 
 namespace Attica
