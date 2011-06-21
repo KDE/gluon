@@ -75,6 +75,11 @@ void AllGameItemsModel::directoryLoaded(const QString& path)
     beginResetModel();
     QModelIndex parentIndex = d->fsModel.index(path);
 
+    //Clear GameItems
+    foreach(GameItem *gameItem, d->gameItems.values()) {
+        delete d->gameItems.take(gameItem->id());
+    }
+
     //Find all .gluon dirs and add them
     for (int i=0; i<d->fsModel.rowCount(parentIndex); ++i) {
         QString gameDirName = d->fsModel.fileName(d->fsModel.index(i, 0, parentIndex));
@@ -89,19 +94,12 @@ void AllGameItemsModel::directoryLoaded(const QString& path)
             project.loadFromFile(projectFileName);
             QString id = project.property("id").toString();
 
-            if (d->gameItems.contains(id)) {    //If game already exists in the model
-                if (d->gameItems.value(id)->status() == GameItem::Downloadable) {
-                    //This case occurs if a game was downloaded and extracted successfully
-                    d->gameItems.remove(id);    //Remove the Downloadable item
-                    addGameProjectToList(id, project);
-                }
-            } else {                            //Manually added game, add it to the model
-                addGameProjectToList(id, project);
-            }
+            addGameProjectToList(id, project);
         }
     }
 
     endResetModel();
+    fetchGamesList();
 }
 
 void AllGameItemsModel::addGameProjectToList(const QString& id, const GluonEngine::GameProject& project)
