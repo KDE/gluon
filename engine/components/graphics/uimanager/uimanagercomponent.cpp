@@ -189,7 +189,7 @@ void UiManagerComponent::initialize()
 {
     if( !d->scene )
     {
-        d->scene = new RenderableScene( this );
+        d->scene = new RenderableScene( );
         connect( d->scene, SIGNAL( sceneRectChanged( const QRectF& ) ),
                  this, SLOT( resizeQmlItem( const QRectF& ) ) );
     }
@@ -313,6 +313,8 @@ void UiManagerComponent::cleanup()
     {
         d->scene->removeItem( item );
     }
+    d->scene->deleteLater();
+    d->scene = 0;
 }
 
 void UiManagerComponent::setUi( UiAsset* ui )
