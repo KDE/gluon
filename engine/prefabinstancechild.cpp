@@ -32,12 +32,21 @@ using namespace GluonEngine;
 class PrefabInstanceChild::Private
 {
 public:
-    Private(PrefabInstanceChild* qo = 0) : q(qo), linkedGameObject(0) {};
-    Private(const Private& other) : q(other.q), linkedGameObject(other.linkedGameObject) {};
+    Private(PrefabInstanceChild* qo = 0)
+        : q( qo )
+        , linkedGameObject( 0 )
+        , instantiationCompleted( false )
+    {};
+    Private(const Private& other)
+        : q( other.q )
+        , linkedGameObject( other.linkedGameObject )
+        , instantiationCompleted( other.instantiationCompleted )
+    {};
     ~Private() {};
 
     PrefabInstanceChild* q;
     GameObject* linkedGameObject;
+    bool instantiationCompleted;
 };
 
 PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
@@ -59,6 +68,7 @@ PrefabInstanceChild::~PrefabInstanceChild()
 
 void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)
 {
+    DEBUG_FUNC_NAME
     d->linkedGameObject = gameObject;
     Prefab::cloneObjectProperties(gameObject, this);
 
@@ -78,8 +88,11 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
     // Clone all the Components
     foreach( Component* cmp, gameObject->components() )
     {
-        Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
+        DEBUG_TEXT2("Cloning component %1", cmp->fullyQualifiedName());
+        cmp->clone(this);
+        //Prefab::cloneObjectProperties( cmp, cmpClone );
     }
+    d->instantiationCompleted = true;
 }
 
 PrefabInstance* PrefabInstanceChild::parentInstance()
@@ -111,11 +124,6 @@ void PrefabInstanceChild::resetProperties()
             }
         }
     }
-}
-
-void PrefabInstanceChild::setName(const QString& newName)
-{
-    Q_UNUSED(newName);
 }
 
 void PrefabInstanceChild::addChild(GameObject* child)
@@ -162,9 +170,13 @@ bool PrefabInstanceChild::removeComponent(Component* removeThis)
 
 void PrefabInstanceChild::childNameChanged(const QString& oldName, const QString& newName)
 {
+    if(d->instantiationCompleted == false)
+        return;
+    if(oldName == newName)
+        return;
     // This ensures that children (in particular this means Components) don't get renamed in instances
     GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
-    if(from && oldName != newName)
+    if(from)
         from->setName(oldName);
 }
 

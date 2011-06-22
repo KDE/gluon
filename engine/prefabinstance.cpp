@@ -32,10 +32,12 @@ class PrefabInstance::Private
     public:
         Private()
             : prefabLink( 0 )
+            , instantiationCompleted( false )
         {
         }
 
         Prefab* prefabLink;
+        bool instantiationCompleted;
 };
 
 PrefabInstance::PrefabInstance( QObject* parent )
@@ -95,6 +97,7 @@ void PrefabInstance::storeChanges() const
 
 void PrefabInstance::rebuildInstance()
 {
+    d->instantiationCompleted = false;
     // Clear all children out
     qDeleteAll(children());
 
@@ -118,11 +121,7 @@ void PrefabInstance::rebuildInstance()
     {
         Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
     }
-}
-
-void PrefabInstance::setName(const QString& newName)
-{
-    Q_UNUSED(newName);
+    d->instantiationCompleted = true;
 }
 
 void PrefabInstance::addChild(GameObject* child)
@@ -169,9 +168,13 @@ bool PrefabInstance::removeComponent(Component* removeThis)
 
 void PrefabInstance::childNameChanged(const QString& oldName, const QString& newName)
 {
+    if(d->instantiationCompleted == false)
+        return;
+    if(oldName == newName)
+        return;
     // This ensures that children (in particular this means Components) don't get renamed in instances
     GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
-    if(from && oldName != newName)
+    if(from)
         from->setName(oldName);
 }
 

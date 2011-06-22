@@ -67,8 +67,8 @@ PrefabInstance* Prefab::createInstance()
     if( d->gameObject )
     {
         instance = new PrefabInstance();
-        instance->initialize();
         instance->setPrefabLink( this );
+        instance->initialize();
     }
     return instance;
 }
