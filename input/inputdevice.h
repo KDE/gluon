@@ -66,7 +66,7 @@ namespace GluonInput
 
             void setButtonState( int button, int value );
 
-        private slots:
+        private Q_SLOTS:
             void buttonStateChanged( int button, int value );
 
         private:

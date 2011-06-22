@@ -57,7 +57,7 @@ namespace GluonEngine
             virtual float farPlane();
             virtual GluonGraphics::MaterialInstance* renderTargetMaterial();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setActive( bool active );
             virtual void setVisibleArea( const QSizeF& area );
             virtual void setNearPlane( float nearValue );

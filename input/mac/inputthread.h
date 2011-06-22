@@ -70,7 +70,7 @@ namespace GluonInput
 
             QObject* parent();
 
-        signals:
+        Q_SIGNALS:
             void relAxisMoved( int axis, int distance );
             void absAxisMoved( int axis, int distance );
             void buttonStateChanged( int button, int value );

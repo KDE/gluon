@@ -235,7 +235,7 @@ namespace GluonEngine
 
             Q_INVOKABLE QMatrix4x4 transform() const;
 
-        public slots:
+        public Q_SLOTS:
             void setParentGameObject( GameObject* newParent );
 
             //Transformation

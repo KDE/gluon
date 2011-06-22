@@ -54,7 +54,7 @@ namespace GluonEngine
 
             void setScriptEngine( QScriptValue& value );
 
-        public slots:
+        public Q_SLOTS:
             void setUi( UiAsset* ui );
             virtual void setSize( const QSizeF& size );
 

@@ -69,7 +69,7 @@ namespace GluonInput
             void setHWheelPosition( int hwp );
 
 
-        private slots:
+        private Q_SLOTS:
             void mouseMoved( int axis, int distance );
 
         private:

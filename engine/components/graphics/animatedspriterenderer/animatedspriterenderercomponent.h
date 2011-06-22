@@ -80,7 +80,7 @@ namespace GluonEngine
             //int textureCount();
             //virtual QVector<Asset*> textures();
 
-        public slots:
+        public Q_SLOTS:
             void setAnimating( bool animate );
             void setLooping( bool loop );
             void setSize( const QSizeF& size );

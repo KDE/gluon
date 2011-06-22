@@ -51,7 +51,7 @@ namespace GluonInput
             QStringList absAxisNameList();
             QStringList relAxisNameList();
 
-        signals:
+        Q_SIGNALS:
             void buttonPressed( QString name );
             void buttonReleased( QString name );
             void absAxisChanged( QString name, int value );

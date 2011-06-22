@@ -41,7 +41,7 @@ namespace GluonEngine
 
             qlonglong score() const;
 
-        public slots:
+        public Q_SLOTS:
             void setScore( qlonglong score );
 
             /** increase score by one */

@@ -77,7 +77,7 @@ namespace GluonEngine
             Q_INVOKABLE float random();
 
 
-        public slots:
+        public Q_SLOTS:
             void setGameProject( GluonEngine::GameProject* newGameProject );
 
             void setCurrentScene( Scene* newCurrentScene );
@@ -137,7 +137,8 @@ namespace GluonEngine
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
             friend void Scene::resetScene();
-        signals:
+
+        Q_SIGNALS:
             void showDebug( const QString& debugText );
 
             void currentSceneChanged( GluonEngine::Scene* );

@@ -59,14 +59,14 @@ namespace GluonCreator
 
             const QString typeName() const;
 
-        public slots:
+        public Q_SLOTS:
             virtual void setEditObject( QObject* editThis );
             virtual void setEditProperty( const QString& propertyName );
             virtual void setEditWidget( QWidget* widget );
             virtual void setEditValue( const QVariant& value );
             virtual void valueChanged( QVariant );
 
-        signals:
+        Q_SIGNALS:
             void propertyChanged( QObject* object, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue );
 
         private:

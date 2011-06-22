@@ -61,7 +61,7 @@ namespace GluonEngine
             Q_INVOKABLE bool isPlaying() const;
             Q_INVOKABLE bool autoPlay() const;
 
-        public slots:
+        public Q_SLOTS:
             Q_INVOKABLE void play();
             Q_INVOKABLE void setRadius( float radius );
             Q_INVOKABLE void setVolume( float volume );

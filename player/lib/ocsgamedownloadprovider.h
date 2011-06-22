@@ -41,12 +41,12 @@ namespace GluonPlayer
                     QObject* parent = 0);
             virtual ~OcsGameDownloadProvider();
 
-        signals:
+        Q_SIGNALS:
             void startedDownload();
             void finished();
             void failed();
 
-        private slots:
+        private Q_SLOTS:
             void startDownload();
             void processDownloadLink (Attica::BaseJob* baseJob);
             void downloadComplete(QNetworkReply *reply);

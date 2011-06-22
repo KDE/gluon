@@ -172,19 +172,19 @@ private:
     class Private;
     Private* const d;
 
-private slots:
+private Q_SLOTS:
     void providersUpdated();
     void checkLoginResult (Attica::BaseJob* baseJob);
     void loadCredentials();
     void doLogin();
     void doLogout();
 
-public slots:
+public Q_SLOTS:
     /** Call to initialize the OCS Provider
      */
     void init();
 
-signals:
+Q_SIGNALS:
     /** signal which is emitted if the OCS Provider failed to initialize
      */
     void failedToInitialize();

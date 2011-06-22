@@ -66,11 +66,11 @@ class OcsGameDetailsProvider : public QObject
 public:
     explicit OcsGameDetailsProvider (Attica::Provider* provider, QObject* parent = 0);
 
-signals:
+Q_SIGNALS:
     void gameDetailsFetched (QList<OcsGameDetails*> comments);
     void failedToFetchGameDetails();
 
-private slots:
+private Q_SLOTS:
     void fetchGameList();
     void processFetchedGamesList (Attica::BaseJob* job);
 
