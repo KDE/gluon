@@ -236,7 +236,7 @@ ScriptingEngine::className( const ScriptingAsset* asset ) const
 QScriptEngine*
 ScriptingEngine::scriptEngine() const
 {
-    return instance()->d->engine();
+    return d->engine();
 }
 
 #include "scriptingengine.moc"
