@@ -24,45 +24,16 @@ import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
 Item {
-    id: rootItem
-    width: 300
-    height: 300
-    clip: true
+    property alias spacing: installedGamesList.spacing
 
-    GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
-
-    function dlProgress(bytesReceived, bytesTotal) {
-            progressBar.width = bytesReceived*rootItem.width/bytesTotal;
+    GameItemsDelegate {
+        id: gameItemsDelegate
     }
 
-    GameDetails {
-        id: gameDetails
-        width: rootItem.width; height: rootItem.height
-        anchors.left: rootItem.right
+    ListView {
+        id: installedGamesList
+        anchors.fill: parent
+        model: GluonPlayer.InstalledGamesModel { }
+        delegate: gameItemsDelegate
     }
-
-    HomeScreen {
-        id: homeScreen
-
-        width: rootItem.width; height: rootItem.height
-    }
-
-    transitions: Transition {
-         // smoothly reanchor myRect and move into new position
-         AnchorAnimation { duration: 200 }
-     }
-
-    states : [
-        State {
-            name: "showGameDetails"
-            AnchorChanges {
-                target: gameDetails
-                anchors.left: rootItem.left
-            }
-            AnchorChanges {
-                target: homeScreen
-                anchors.right: rootItem.left
-            }
-        }
-    ]
 }

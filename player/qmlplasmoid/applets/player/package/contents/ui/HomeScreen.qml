@@ -24,45 +24,38 @@ import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
 import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
 Item {
-    id: rootItem
-    width: 300
-    height: 300
     clip: true
+    PlasmaWidgets.TabBar {
+        anchors.fill: parent
 
-    GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
+        QGraphicsWidget {
+            id: installedGamesListContainer
+            PlasmaWidgets.TabBar.tabText: "Installed"
 
-    function dlProgress(bytesReceived, bytesTotal) {
-            progressBar.width = bytesReceived*rootItem.width/bytesTotal;
-    }
-
-    GameDetails {
-        id: gameDetails
-        width: rootItem.width; height: rootItem.height
-        anchors.left: rootItem.right
-    }
-
-    HomeScreen {
-        id: homeScreen
-
-        width: rootItem.width; height: rootItem.height
-    }
-
-    transitions: Transition {
-         // smoothly reanchor myRect and move into new position
-         AnchorAnimation { duration: 200 }
-     }
-
-    states : [
-        State {
-            name: "showGameDetails"
-            AnchorChanges {
-                target: gameDetails
-                anchors.left: rootItem.left
-            }
-            AnchorChanges {
-                target: homeScreen
-                anchors.right: rootItem.left
+            InstalledGamesView {
+                anchors.fill: installedGamesListContainer
+                spacing: 5
             }
         }
-    ]
+
+        QGraphicsWidget {
+            id: downloadableGamesListContainer
+            PlasmaWidgets.TabBar.tabText: "More Games"
+
+            DownloadableGamesView {
+                anchors.fill: downloadableGamesListContainer
+                spacing: 5
+            }
+        }
+
+        QGraphicsWidget {
+            id: loginFormContainer
+            PlasmaWidgets.TabBar.tabText: "Login"
+
+            LoginForm {
+                id: loginForm
+                anchors.fill: loginFormContainer
+            }
+        }
+    }
 }
