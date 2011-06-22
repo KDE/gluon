@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,34 +18,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CORE_GLOBAL_H
-#define GLUON_CORE_GLOBAL_H
+#ifndef GLUONCORE_DIRECTORYPROVIDER_H
+#define GLUONCORE_DIRECTORYPROVIDER_H
 
-#define GLUON_INSTALL_PREFIX    QString("${CMAKE_INSTALL_PREFIX}")
-#define GLUON_SHARE_INSTALL_DIR QString("${SHARE_INSTALL_DIR}")
-#define GLUON_LIB_INSTALL_DIR   QString("${LIB_INSTALL_DIR}")
+#include "singleton.h"
 
-#define GLUON_VERSION_MAJOR     ${GLUON_VERSION_MAJOR}
-#define GLUON_VERSION_MINOR     ${GLUON_VERSION_MINOR}
-#define GLUON_VERSION_PATCH     ${GLUON_VERSION_PATCH}
-#define GLUON_VERSION_NAME      QString("${GLUON_VERSION_NAME}")
-#define GLUON_VERSION_STRING    QString("${GLUON_VERSION_STRING}")
+#include <core/gluon_global.h>
+#include "gluon_core_export.h"
 
-#define GLUON_PLATFORM_NAME     "Gluon Development Platform"
-
-#include <QtCore/QString>
+#include <QtCore/QHash>
 
 namespace GluonCore
 {
-    class Global
-    {
-        public:
-            static QString versionString()
-            {
-                return GLUON_VERSION_STRING;
-            }
+
+class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
+{
+    GLUON_SINGLETON(DirectoryProvider)
+public:
+    enum UserDir {
+        UserDataDir,
+        UserGamesDir
     };
+
+    static QString installPrefix();
+
+    static QString dataDirectory();
+
+    static QString libDirectory();
+
+    QString userDir(UserDir dir);
+
+private:
+    QString m_userDir;
+    QHash<UserDir, QString> m_userDirNames;
+};
+
 }
 
-#endif
-
+#endif // GLUONCORE_DIRECTORYPROVIDER_H

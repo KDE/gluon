@@ -19,7 +19,7 @@
 
 #include "gluonobjectfactory.h"
 
-#include "gluon_global.h"
+#include "directoryprovider.h"
 #include "gluonobject.h"
 #include "debughelper.h"
 
@@ -178,14 +178,14 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( "PlugIns" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::Global::libDirectory() ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() ) )
         pluginDirs.append( pluginDir );
 
     // this is the plugin dir on windows
-    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/kde4" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() + "/kde4" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/gluon" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() + "/gluon" ) )
         pluginDirs.append( pluginDir );
 
     if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
