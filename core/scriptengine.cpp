@@ -25,6 +25,7 @@
 #include "messagehandler.h"
 
 #include <QtScript/QScriptEngine>
+#include <QtCore/QCoreApplication>
 
 void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
 namespace GluonCore
@@ -46,8 +47,8 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON( ScriptEngine )
 
-ScriptEngine::ScriptEngine( QObject* /* parent */ )
-    : d( new Private() )
+ScriptEngine::ScriptEngine( QObject* parent )
+    : Singleton< ScriptEngine >( parent ), d( new Private() )
 {
 }
 

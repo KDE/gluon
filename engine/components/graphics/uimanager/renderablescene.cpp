@@ -32,6 +32,7 @@
 #include <QtOpenGL/QGLFramebufferObject>
 #include <QtGui/QGraphicsSceneEvent>
 #include <QtGui/QGraphicsItem>
+#include <QtGui/QMouseEvent>
 #include <QtCore/QCoreApplication>
 
 using namespace GluonEngine;

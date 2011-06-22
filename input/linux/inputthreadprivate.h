@@ -26,7 +26,6 @@
 
 #include <QtCore/QSharedData>
 #include <QtCore/QList>
-#include <QtCore/QMap>
 #include <QtCore/QString>
 
 // #include <libudev.h>

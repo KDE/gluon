@@ -24,8 +24,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-
 namespace GluonInput
 {
     class GluonQtButtons : public GluonCore::Singleton<GluonQtButtons>
@@ -34,6 +32,7 @@ namespace GluonInput
             Q_ENUMS( Qt::Key )
             Q_ENUMS( Absolute )
             Q_ENUMS( Relative )
+            GLUON_SINGLETON( GluonQtButtons )
 
         public:
             enum Relative
@@ -76,8 +75,6 @@ namespace GluonInput
                 VOLUME = 32,
                 MISC_ABS = 40
             };
-
-            GluonQtButtons();
 
             QString buttonName( DeviceQtFlag deviceType, int code );
             QString axisName( DeviceQtFlag deviceType, int code );

@@ -22,7 +22,7 @@
 #ifndef GLUONCREATOR_RECENTPROJECTSDIALOGPAGE_H
 #define GLUONCREATOR_RECENTPROJECTSDIALOGPAGE_H
 
-#include <KDE/KPageWidgetModel>
+#include <KDE/KPageWidgetItem>
 
 namespace GluonCreator
 {

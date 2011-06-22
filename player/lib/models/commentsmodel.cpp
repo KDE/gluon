@@ -31,6 +31,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
+#include <QtCore/QStringList>
 
 using namespace GluonCore;
 using namespace GluonPlayer;

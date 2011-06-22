@@ -28,7 +28,7 @@
 
 using namespace GluonCore;
 
-template<> MessageHandler* Singleton<MessageHandler>::m_instance = 0;
+GLUON_DEFINE_SINGLETON(MessageHandler)
 
 class MessageHandler::Private
 {
@@ -88,7 +88,8 @@ void MessageHandler::publish( const QString& message )
     emit publishMessage( message );
 }
 
-MessageHandler::MessageHandler() : d( new Private )
+MessageHandler::MessageHandler( QObject* parent )
+    : Singleton< GluonCore::MessageHandler >( parent ), d( new Private )
 {
 
 }

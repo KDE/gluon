@@ -20,8 +20,9 @@
 #ifndef VERTEXBUFFER_H
 #define VERTEXBUFFER_H
 
-#include <QtCore/QObject>
 #include "glheaders.h"
+
+#include <QtCore/QObject>
 
 namespace GluonGraphics
 {

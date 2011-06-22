@@ -27,10 +27,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QSharedData>
-#include <QtCore/QThread>
-
 namespace GluonEngine
 {
     class GameObject;
@@ -40,6 +36,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
             Q_OBJECT
+            GLUON_SINGLETON( Game )
             /**
              * The Scene which is currently being handled by the game loop
              */
@@ -155,12 +152,8 @@ namespace GluonEngine
             void cleaned();
 
         private:
-            friend class GluonCore::Singleton<Game>;
             friend class GamePrivate;
-
-            Game( QObject* parent = 0 );
             ~Game();
-            Q_DISABLE_COPY( Game )
 
             QSharedDataPointer<GamePrivate> d;
     };

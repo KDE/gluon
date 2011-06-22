@@ -20,9 +20,9 @@
 #ifndef GLUONGRAPHICS_MATERIALELEMENT_H
 #define GLUONGRAPHICS_MATERIALELEMENT_H
 
-#include <core/gluonobject.h>
-
 #include "gluon_graphics_export.h"
+
+#include <core/gluonobject.h>
 
 namespace GluonGraphics
 {

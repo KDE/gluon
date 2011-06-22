@@ -21,6 +21,7 @@
 #define GLUON_CREATOR_PROPERTIESDOCK_H
 
 #include <creator/lib/selectionmanager.h>
+
 #include <QtGui/QDockWidget>
 
 namespace GluonEngine

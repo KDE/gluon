@@ -24,9 +24,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QStringList>
-#include <QtCore/QHash>
-
 namespace GluonCreator
 {
 

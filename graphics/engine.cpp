@@ -420,8 +420,8 @@ Engine::setViewport( Viewport* viewport )
     d->objectMutex.unlock();
 }
 
-Engine::Engine()
-    : d( new EnginePrivate() )
+Engine::Engine( QObject* parent )
+    : Singleton< GluonGraphics::Engine >( parent ), d( new EnginePrivate() )
 {
     setViewport( new Viewport() );
     connect( this, SIGNAL( activeCameraChanging( Camera* ) ), d->viewport, SLOT( update() ) );

@@ -25,12 +25,14 @@
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
 #include <QtCore/QMetaProperty>
+#include <QtCore/QUrl>
 
 using namespace GluonCore;
 
-template<> GDLHandler* Singleton<GDLHandler>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( GDLHandler )
 
-GDLHandler::GDLHandler()
+GDLHandler::GDLHandler( QObject* parent )
+    : Singleton< GluonCore::GDLHandler >( parent )
 {
 }
 

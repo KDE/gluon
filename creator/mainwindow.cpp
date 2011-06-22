@@ -81,12 +81,6 @@ MainWindow::MainWindow( const QString& fileName )
 
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    PluginManager::instance()->setParent( this );
-    ObjectManager::instance()->setParent( this );
-    HistoryManager::instance()->setParent( this );
-    SelectionManager::instance()->setParent( this );
-
-    DockManager::instance()->setParent( this );
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
@@ -136,6 +130,8 @@ MainWindow::~MainWindow()
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
+
+    GluonEngine::Game::instance()->cleanupAll();
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )

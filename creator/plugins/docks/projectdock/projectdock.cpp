@@ -52,6 +52,7 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QToolButton>
+#include <QtGui/QItemSelection>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>

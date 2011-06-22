@@ -26,7 +26,6 @@
 #include "inputmanager.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QSharedData>
 
 namespace GluonInput
 {

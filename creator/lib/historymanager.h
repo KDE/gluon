@@ -33,6 +33,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT HistoryManager : public GluonCore::Singleton<HistoryManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( HistoryManager )
         public:
 
         public Q_SLOTS:
@@ -52,11 +53,7 @@ namespace GluonCreator
             void cleanChanged( bool );
 
         private:
-            friend class GluonCore::Singleton<HistoryManager>;
-
-            HistoryManager();
             ~HistoryManager();
-            Q_DISABLE_COPY( HistoryManager )
 
             class HistoryManagerPrivate;
             HistoryManagerPrivate* const d;

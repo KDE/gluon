@@ -25,7 +25,6 @@
 #include "gluon_audio_export.h"
 
 #include <QtGui/QVector3D>
-#include <QtCore/QObject>
 
 #include <al.h>
 

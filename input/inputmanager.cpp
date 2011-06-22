@@ -35,6 +35,10 @@
 #endif
 
 #include <QtGui/QKeyEvent>
+#include <QtGui/QSwipeGesture>
+#include <QtGui/QPanGesture>
+#include <QtGui/QPinchGesture>
+#include <QtGui/QWidget>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 
@@ -43,7 +47,7 @@ using namespace GluonInput;
 GLUON_DEFINE_SINGLETON( InputManager )
 
 InputManager::InputManager( QObject* parent )
-    : d( new InputManagerPrivate )
+    : Singleton< GluonInput::InputManager >( parent ), d( new InputManagerPrivate )
 {
     init();
 }

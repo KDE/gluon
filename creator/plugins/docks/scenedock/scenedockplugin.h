@@ -21,6 +21,7 @@
 #define GLUON_CREATOR_SCENEDOCKPLUGIN_H
 
 #include <creator/lib/dockplugin.h>
+
 namespace GluonCreator
 {
 

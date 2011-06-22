@@ -50,7 +50,6 @@ set(GluonAudio_HEADERS
     gluon_audio_export.h
 )
 
-
 qt4_automoc(${GluonAudio_SRCS})
 
 if(APPLE)
@@ -80,7 +79,7 @@ set(GLUON_AUDIO_LIBS
     CACHE INTERNAL "Libraries required for Gluon audio"
 )
 
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB")
+set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_AUDIO_LIB)
 
 if(APPLE)
     #hack for being able to set headers as public in a osx framework

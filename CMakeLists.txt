@@ -35,9 +35,9 @@ set(GLUON_BUILD_ALL TRUE
 )
 
 if(NOT MSVC)
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
-SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
-SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
 
 
 # Build Release by default
@@ -173,7 +173,7 @@ if(INSTALL_CMAKE_FILES)
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
         audio/cmake/FindOggVorbis.cmake
-        audio/cmake/FindSndFile.cmake
+        audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
@@ -189,8 +189,8 @@ else()
         core/cmake/FindGluon.cmake
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
-        audio/cmake/FindOggVorbis.cmake
         audio/cmake/FindSndFile.cmake
+        audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake

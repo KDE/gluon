@@ -22,8 +22,6 @@
 #define INPUTDEVICEPRIVATE_H
 
 #include <QtCore/QSharedData>
-#include <QtCore/QMap>
-#include <QtCore/QList>
 
 namespace GluonInput
 {
