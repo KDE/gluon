@@ -56,7 +56,7 @@ int main( int argc, char* argv[] )
 
     //Load a custom texture from file
     GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->createTexture( "textureName" );
-    tex->load( QUrl( GluonCore::DirectoryProvider::dataDirectory() + "/gluon/defaults/default.png" ) );
+    tex->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" ) );
     item->materialInstance()->setProperty( "texture0", "textureName" );
 
     QMatrix4x4 mat;

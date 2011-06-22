@@ -1,5 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -29,40 +30,44 @@ GLUON_DEFINE_SINGLETON(DirectoryProvider)
 
 DirectoryProvider::DirectoryProvider(QObject* parent)
 {
-    m_userDirNames[UserDataDir] = "data";
-    m_userDirNames[UserGamesDir] = "games";
+    //Define standard dirs Gluon recommends
+    m_userDirs["data"] = "data";
+    m_userDirs["games"] = "games";
+
+    m_userDataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+    m_userDataPath.remove(QCoreApplication::applicationName());
+    m_userDataPath.remove(QCoreApplication::organizationName());
+    m_userDataPath.append("/gluon/");
 }
 
-QString DirectoryProvider::installPrefix()
+QString DirectoryProvider::installPrefix() const
 {
     return GLUON_INSTALL_PREFIX;
 }
 
-QString DirectoryProvider::dataDirectory()
+QString DirectoryProvider::dataDirectory() const
 {
     return GLUON_SHARE_INSTALL_DIR;
 }
 
-QString DirectoryProvider::libDirectory()
+QString DirectoryProvider::libDirectory() const
 {
     return GLUON_LIB_INSTALL_DIR;
 }
 
-QString DirectoryProvider::userDir(DirectoryProvider::UserDir dir)
+QString DirectoryProvider::userDir(QString subDir)
 {
-    if(m_userDir.isEmpty()) {
-        m_userDir = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-        m_userDir.remove(QCoreApplication::applicationName());
-        m_userDir.remove(QCoreApplication::organizationName());
-        QDir dataLocation(m_userDir);
+    QDir dir;
+    QString finalPath;
 
-        //Create the user dirs
-        foreach(QString subDir, m_userDirNames.values()) {
-            dataLocation.mkpath("gluon/" + subDir);
-        }
-
-        m_userDir = dataLocation.absoluteFilePath("gluon/");
+    if (m_userDirs.contains(subDir)) {
+        finalPath = QDir::fromNativeSeparators(m_userDataPath + "/" + m_userDirs[subDir]);
+    } else {
+        finalPath = QDir::fromNativeSeparators(m_userDataPath + subDir);
     }
 
-    return QDir::fromNativeSeparators(m_userDir + "/" + m_userDirNames[dir]);
+    dir.mkdir(finalPath);
+    return finalPath;
 }
+
+#include "directoryprovider.moc"
