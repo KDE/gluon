@@ -680,7 +680,15 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             GluonObject* theObject = GluonObjectFactory::instance()->wrappedObject( theValue );
             if( theObject )
             {
-                value = QString( "%1(%2)" ).arg( theObject->metaObject()->className() ).arg( theObject->fullyQualifiedName() );
+                QMetaProperty prop = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
+                if( prop.isValid() )
+                {
+                    value = QString( "%1(%2)" ).arg( QString( prop.typeName() ).remove('*') ).arg( theObject->fullyQualifiedName() );
+                }
+                else
+                {
+                    value = QString( "%1(%2)" ).arg( theObject->metaObject()->className() ).arg( theObject->fullyQualifiedName() );
+                }
             }
             else
             {
