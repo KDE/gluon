@@ -35,6 +35,54 @@
 /**
  * Thread safe, lazy initialised, self deleting singleton template.
  *
+ * This Singleton template provides a base class for singletons that
+ * is lazily initialised, which means the singleton will only be
+ * instantiated during the first call to ::instance(), it is thread
+ * safe and deletes itself through the QObject hierarchy.
+ *
+ * <h2>Usage</h2>
+ *
+ * Due to the nature of this singleton, it requires slightly more
+ * work to use this template. Firstly, you will need to inherit
+ * Singleton to make use of this template. However, you need to
+ * specify the type for the template. After that, you need to
+ * include both the Q_OBJECT macro and the GLUON_SINGLETON(Type)
+ * macro in the top of your class declaration. The GLUON_SINGLETON
+ * declares the constructor and prevents the singleton from being
+ * copied.
+ *
+ * In your definition, you should use the macro
+ * GLUON_DEFINE_SINGLETON(Type). This will define the required static
+ * variables for your class. Lastly, you need to define the
+ * constructor, which is the same as the default QObject constructor.
+ * Be sure to pass the parameter to the singleton superclass,
+ * otherwise you will get a compile error.
+ *
+ * The following is an example of all of this:
+ *
+ * <blockquote>
+ * #include <core/singleton.h>
+ * class Example : public GluonCore::Singleton< Example > //Inherit template
+ * {
+ *      Q_OBJECT
+ *      GLUON_SINGLETON( Example ) //Declare constructor and disable copying
+ *      public:
+ *          void exampleMethod();
+ *
+ * };
+ *
+ * GLUON_DEFINE_SINGLETON( Example ) //Define the static variables
+ *
+ * Example::Example( QObject* parent ) //Constructor definition
+ *     : Singleton< Example >( parent )
+ * {
+ * }
+ *
+ * void Example::exampleMethod()
+ * {
+ * }
+ * </blockquote>
+ *
  */
 namespace GluonCore
 {
@@ -42,6 +90,11 @@ namespace GluonCore
     class Singleton : public QObject
     {
         public:
+            /**
+             * Retrieve the instance.
+             *
+             * \return The only existing instance of this class.
+             */
             static T* instance()
             {
                 if(!sm_guard) {
@@ -58,7 +111,18 @@ namespace GluonCore
             }
 
         protected:
+            /**
+             * Constructor.
+             *
+             * Makes it possible to use the QObject hierarchy for
+             * deletion of this object.
+             */
             explicit Singleton( QObject* parent = 0 ) : QObject( parent ) { }
+            /**
+             * Destructor.
+             *
+             * Cleans up the mutex so we do not accidentally leak it.
+             */
             virtual ~Singleton() { delete sm_mutex; }
             
             static T* sm_instance;
