@@ -31,7 +31,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit EnumPropertyWidgetItem( const QString& typeName, QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            ~EnumPropertyWidgetItem();
+            virtual ~EnumPropertyWidgetItem();
 
             virtual PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;

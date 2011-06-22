@@ -33,7 +33,7 @@ namespace GluonEngine
         public:
             FileLocation( GluonEngine::GameProject* parent, const QUrl& relativeUrl );
             FileLocation( const FileLocation& other );
-            ~FileLocation();
+            virtual ~FileLocation();
 
             QUrl location() const;
 

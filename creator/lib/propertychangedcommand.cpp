@@ -44,6 +44,10 @@ PropertyChangedCommand::PropertyChangedCommand( GluonCore::GluonObject* object, 
     setCommandName( "PropertyChangedCommand" );
 }
 
+PropertyChangedCommand::~PropertyChangedCommand()
+{
+}
+
 void PropertyChangedCommand::undo()
 {
     setCommandDirection( "undo" );

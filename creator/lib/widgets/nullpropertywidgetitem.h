@@ -30,7 +30,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit NullPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            ~NullPropertyWidgetItem();
+            virtual ~NullPropertyWidgetItem();
 
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();

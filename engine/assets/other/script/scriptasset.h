@@ -33,7 +33,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE ScriptAsset( QObject* parent = 0 );
-            ~ScriptAsset();
+            virtual ~ScriptAsset();
 
             virtual const QStringList supportedMimeTypes() const;
             virtual void load();

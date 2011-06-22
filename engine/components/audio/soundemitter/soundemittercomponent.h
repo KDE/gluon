@@ -43,7 +43,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE SoundEmitterComponent( QObject* parent = 0 );
-            ~SoundEmitterComponent();
+            virtual ~SoundEmitterComponent();
             virtual QString category() const;
 
             Asset* sound();

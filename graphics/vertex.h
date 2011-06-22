@@ -39,7 +39,7 @@ namespace GluonGraphics
         public:
 
             Vertex();
-            ~Vertex();
+            virtual ~Vertex();
 
             QVariant attribute( const QString& name ) const;
 

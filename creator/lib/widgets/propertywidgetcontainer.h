@@ -37,7 +37,7 @@ namespace GluonCreator
 
         public:
             explicit PropertyWidgetContainer( GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            ~PropertyWidgetContainer();
+            virtual ~PropertyWidgetContainer();
 
             void setObject( GluonCore::GluonObject* theObject );
 

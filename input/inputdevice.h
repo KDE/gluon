@@ -37,7 +37,7 @@ namespace GluonInput
         public:
             explicit InputDevice( InputThread* inputThread = 0, QObject* parent = 0 );
             InputDevice( const InputDevice& other, QObject* parent = 0 );
-            ~InputDevice();
+            virtual ~InputDevice();
 
             int vendor() const;
             int product() const;

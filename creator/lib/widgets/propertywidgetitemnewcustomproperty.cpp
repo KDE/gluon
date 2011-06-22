@@ -93,6 +93,10 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidge
     setLayout( layout );
 }
 
+PropertyWidgetItemNewCustomProperty::~PropertyWidgetItemNewCustomProperty()
+{
+}
+
 void PropertyWidgetItemNewCustomProperty::createProperty( GluonCore::GluonObject* editThis )
 {
     editingThis = editThis;

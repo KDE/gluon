@@ -48,7 +48,7 @@ namespace GluonCreator
             friend class GluonCore::Singleton<DockManager>;
 
             DockManager();
-            virtual ~DockManager();
+            ~DockManager();
             Q_DISABLE_COPY( DockManager )
 
             class DockManagerPrivate;

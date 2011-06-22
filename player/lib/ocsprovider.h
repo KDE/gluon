@@ -168,7 +168,7 @@ public:
 private:
     friend class GluonCore::Singleton<OcsProvider>;
     OcsProvider();
-    virtual ~OcsProvider();
+    ~OcsProvider();
     Q_DISABLE_COPY (OcsProvider);
 
     class Private;

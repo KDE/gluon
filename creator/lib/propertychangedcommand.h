@@ -30,6 +30,7 @@ namespace GluonCreator
     {
         public:
             PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue );
+            virtual ~PropertyChangedCommand();
 
             virtual void undo();
             virtual void redo();

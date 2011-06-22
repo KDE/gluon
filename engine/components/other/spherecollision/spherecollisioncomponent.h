@@ -50,7 +50,7 @@ namespace GluonEngine
             /**
              * Destructor.
              */
-            ~SphereCollisionComponent();
+            virtual ~SphereCollisionComponent();
             virtual QString category() const;
 
             virtual void start();

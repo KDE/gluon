@@ -34,7 +34,7 @@ namespace GluonInput
     {
         public:
             explicit InputThread( const QString& devicePath, QObject* parent = 0 );
-            ~InputThread();
+            virtual ~InputThread();
             void run();
 
             int joystickXAxis();

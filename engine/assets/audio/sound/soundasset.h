@@ -36,7 +36,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE SoundAsset( QObject* parent = 0 );
-            ~SoundAsset();
+            virtual ~SoundAsset();
 
             virtual const QStringList supportedMimeTypes() const;
 

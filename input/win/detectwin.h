@@ -37,7 +37,7 @@ namespace GluonInput
     {
         public:
             DetectWin( QObject* parent );
-            ~DetectWin();
+            virtual ~DetectWin();
 
             bool isReadable();
             void detectDevices();

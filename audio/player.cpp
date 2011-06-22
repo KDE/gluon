@@ -56,6 +56,10 @@ Player::Player(QObject* parent)
     connect(d->sound, SIGNAL( stopped() ), SLOT( playNext() ) );
 }
 
+Player::~Player()
+{
+}
+
 void Player::removeAt(int index)
 {
     if( d->files.count()-1 >= index )

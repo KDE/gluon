@@ -43,7 +43,7 @@ namespace GluonCreator
 
         public:
             PropertyWidget( QWidget* parent = 0 );
-            ~PropertyWidget();
+            virtual ~PropertyWidget();
 
             GluonCore::GluonObject* object() const;
             void clear();

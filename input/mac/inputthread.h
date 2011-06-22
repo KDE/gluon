@@ -39,7 +39,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit InputThread( IOHIDDeviceRef pDevice, QObject* parent = 0 );
-            ~InputThread();
+            virtual ~InputThread();
 
             static void deviceReport( void* inContext, IOReturn inResult, void* inSender, IOHIDValueRef inIOHIDValueRef );
 

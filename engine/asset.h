@@ -55,7 +55,7 @@ namespace GluonEngine
                 , filename( filename )
                 , pluginname( pluginname )
             { }
-            ~AssetTemplate() {};
+            virtual ~AssetTemplate() {};
 
 
             /**
@@ -93,7 +93,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Asset( QObject* parent = 0 );
-            ~Asset();
+            virtual ~Asset();
 
             /**
              * An extension on the GluonCore::GluonObject::setName function which changes the

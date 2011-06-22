@@ -36,6 +36,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit PropertyWidgetItemNewCustomProperty( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+            virtual ~PropertyWidgetItemNewCustomProperty();
 
         Q_SIGNALS:
             void propertyCreated( GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName );

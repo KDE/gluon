@@ -63,7 +63,7 @@ namespace GluonEngine
         public:
             Q_INVOKABLE Prefab( QObject* parent = 0 );
             Prefab( const Prefab& other, QObject* parent = 0 );
-            ~Prefab();
+            virtual ~Prefab();
 
             /**
              * Return a GDL representation of the scene's contents (that is, the GluonObject

@@ -33,7 +33,7 @@ namespace GluonCore
         public:
             MetaInfo( GluonObject* parent );
             MetaInfo( const MetaInfo& other );
-            ~MetaInfo();
+            virtual ~MetaInfo();
 
             /**
              * Set a range for the named property, from a minimum and maximum range, both inclusive
