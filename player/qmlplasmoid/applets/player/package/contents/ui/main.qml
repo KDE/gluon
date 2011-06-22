@@ -27,7 +27,7 @@ Item {
     id: rootItem
     width: 300
     height: 300
-    //clip: true
+    clip: true
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
 
@@ -48,7 +48,6 @@ Item {
     }
 
     transitions: Transition {
-         // smoothly reanchor myRect and move into new position
          AnchorAnimation { duration: 200 }
      }
 

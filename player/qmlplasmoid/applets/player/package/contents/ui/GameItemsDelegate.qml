@@ -27,6 +27,8 @@ Component {
     id: gameItemsDelegate
 
     Item {
+        id: gameItemsDelegateItem
+        property string gameName: GameName
         anchors.margins: 10
         width: ListView.view.width
         height: 50
@@ -40,6 +42,8 @@ Component {
             orientation: Qt.Horizontal
 
             onClicked: {
+                gameDetails.model = ListView.view.model
+                gameDetails.index = index
                 rootItem.state = "showGameDetails"
             }
         }

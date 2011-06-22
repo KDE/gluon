@@ -30,9 +30,16 @@ InstalledGamesModel::InstalledGamesModel(QObject* parent): QSortFilterProxyModel
     setDynamicSortFilter(true);
 }
 
+QVariant InstalledGamesModel::gameData(int gameIndex, QByteArray role)
+{
+    return data(index(gameIndex, 0), roleNames().key(role));
+}
+
 bool InstalledGamesModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
     Q_ASSERT (!source_parent.isValid());
 
     return (sourceModel()->data(sourceModel()->index(source_row, 0), AllGameItemsModel::StatusRole) == GameItem::Installed);
 }
+
+#include "installedgamesmodel.moc"

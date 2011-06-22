@@ -25,7 +25,8 @@ import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
 Item {
     id: gameDetailsRootItem
-    property string gameId
+    property QtObject model
+    property int index
     property int buttonHeight
 
     Flickable {
@@ -56,7 +57,7 @@ Item {
                 height: 20; width: height*5;
                 anchors.right: gameDetailsRootItem.right
 
-                rating: 60
+                rating: model.gameData(index, "Rating")
             }
 
             PlasmaWidgets.IconWidget {
@@ -64,7 +65,7 @@ Item {
                 height: gameDetailsRootItem.buttonHeight
                 width: parent.width
 
-                text: "Play"
+                text: "Play " + model.gameData(index, "GameName")
                 infoText: "Playing currently not supported"
 
                 orientation: Qt.Horizontal

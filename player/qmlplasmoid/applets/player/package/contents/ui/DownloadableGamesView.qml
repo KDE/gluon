@@ -33,6 +33,7 @@ Item {
 
     ListView {
         id: downloadableGamesList
+        anchors.fill: parent
         model: GluonPlayer.DownloadableGamesModel { }
         delegate: gameItemsDelegate
     }
