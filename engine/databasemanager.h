@@ -32,6 +32,8 @@ namespace GluonEngine
      */
     class DatabaseManager : public GluonCore::Singleton<DatabaseManager>
     {
+        Q_OBJECT
+        GLUON_SINGLETON( DatabaseManager )
         public:
             /**
              * Try to open the statistics database for the given user name and game name.
@@ -57,9 +59,7 @@ namespace GluonEngine
             void setStatisticArray( const QString& database, int id, const QList<qlonglong>& array );
 
         private:
-            DatabaseManager();
             ~DatabaseManager();
-            friend class GluonCore::Singleton<DatabaseManager>;
 
             class DatabaseManagerPrivate;
             DatabaseManagerPrivate* d;
