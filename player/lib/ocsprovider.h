@@ -167,10 +167,7 @@ public:
     OcsRatingProvider *setRating(const QString &id, uint rating);
 
 private:
-    friend class GluonCore::Singleton<OcsProvider>;
-    OcsProvider();
     ~OcsProvider();
-    Q_DISABLE_COPY (OcsProvider);
 
     class Private;
     Private* const d;

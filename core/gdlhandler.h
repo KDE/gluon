@@ -164,11 +164,7 @@ namespace GluonCore
             QString propertiesToGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
 
         private:
-            friend class Singleton<GDLHandler>;
-
-            GDLHandler();
             ~GDLHandler();
-            Q_DISABLE_COPY( GDLHandler );
 
             GluonObject* instantiateObject( QString className );
             GluonObject* createObject( QStringList objectStringList, QObject* parent );

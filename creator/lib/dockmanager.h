@@ -46,11 +46,7 @@ namespace GluonCreator
             void setDocksLocked( bool locked );
 
         private:
-            friend class GluonCore::Singleton<DockManager>;
-
-            DockManager();
             ~DockManager();
-            Q_DISABLE_COPY( DockManager )
 
             class DockManagerPrivate;
             DockManagerPrivate* const d;
