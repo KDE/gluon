@@ -27,7 +27,7 @@ Item {
     id: rootItem
     width: 300
     height: 300
-    clip: true
+    //clip: true
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
 
@@ -38,7 +38,7 @@ Item {
     GameDetails {
         id: gameDetails
         width: rootItem.width; height: rootItem.height
-        anchors.left: rootItem.right
+        anchors.left: rootItem.right;
     }
 
     HomeScreen {

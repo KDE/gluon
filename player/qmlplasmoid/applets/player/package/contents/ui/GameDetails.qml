@@ -52,13 +52,20 @@ Item {
                 }
             }
 
+            RatingWidget {
+                height: 20; width: height*5;
+                anchors.right: gameDetailsRootItem.right
+
+                rating: 60
+            }
+
             PlasmaWidgets.IconWidget {
                 id: playButton
                 height: gameDetailsRootItem.buttonHeight
                 width: parent.width
 
                 text: "Play"
-                infoText: "Playing current not supported"
+                infoText: "Playing currently not supported"
 
                 orientation: Qt.Horizontal
                 icon:QIcon("media-playback-start")
