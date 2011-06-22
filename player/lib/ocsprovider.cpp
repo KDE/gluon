@@ -26,7 +26,7 @@
 #include "ocsgameuploadprovider.h"
 #include "ocsratingprovider.h"
 
-#include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 
 #include <attica/content.h>
 #include <attica/listjob.h>
@@ -233,7 +233,7 @@ OcsGameDetailsProvider* OcsProvider::fetchGames()
 OcsGameDownloadProvider* OcsProvider::downloadGame (const QString& id)
 {
     QString path("gluon/games");
-    QDir destinationDir(GluonCore::Global::dataDirectory());
+    QDir destinationDir(GluonCore::DirectoryProvider::dataDirectory());
     if (!destinationDir.exists(path)) {
         destinationDir.mkpath(path);
     }

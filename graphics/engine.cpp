@@ -36,7 +36,7 @@
 #include "viewport.h"
 #include "rendertarget.h"
 
-#include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 
 #include <QtCore/QMutex>
 #include <QtCore/QMutableListIterator>
@@ -179,13 +179,13 @@ void Engine::EnginePrivate::viewportSizeChanged( int left, int bottom, int width
 void Engine::initialize()
 {
     Material* material = createMaterial( "default" );
-    material->load( GluonCore::Global::dataDirectory() + "/gluon/defaults/default.gml" );
+    material->load( GluonCore::DirectoryProvider::dataDirectory() + "/gluon/defaults/default.gml" );
     material->build();
     material->instance( "default" )->setProperty( "materialColor", Qt::white );
     material->instance( "default" )->setProperty( "texture0", QString( "default" ) );
 
     Texture* tex = createTexture( "default" );
-    tex->load( QUrl( GluonCore::Global::dataDirectory() + "/gluon/defaults/default.png" ) );
+    tex->load( QUrl( GluonCore::DirectoryProvider::dataDirectory() + "/gluon/defaults/default.png" ) );
 
     Mesh* mesh = createMesh( "default" );
     mesh->load( QString() );
