@@ -189,6 +189,19 @@ QModelIndex SceneModel::index( int row, int column, const QModelIndex& parent ) 
         return QModelIndex();
 }
 
+QModelIndex SceneModel::objectToIndex(GluonCore::GluonObject* object) const
+{
+    if(object->root() == d->root)
+    {
+        if(object->parent())
+        {
+            int row = object->parent()->children().indexOf(object);
+            return createIndex( row, 0, object );
+        }
+    }
+    return QModelIndex();
+}
+
 QVariant SceneModel::headerData( int /* section */, Qt::Orientation /* orientation */, int /* role */ ) const
 {
     return QVariant();
@@ -325,6 +338,11 @@ bool SceneModel::setData( const QModelIndex& index, const QVariant& value, int r
         return true;
     }
     return false;
+}
+
+void SceneModel::emitDataChanged(const QModelIndex& index)
+{
+    emit dataChanged( index, index );
 }
 
 bool SceneModel::insertRows( int row, int count, const QModelIndex& parent )
