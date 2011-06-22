@@ -42,6 +42,8 @@
 #include <engine/gameobject.h>
 #include <engine/prefab.h>
 #include <engine/prefabinstance.h>
+#include "models.h"
+#include "scenemodel.h"
 
 using namespace GluonCreator;
 
@@ -394,8 +396,6 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
                 GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
                 if(parentGO)
                 {
-                    DEBUG_TEXT("// Get position of item on current parent");
-                    int currentRow = parentGO->childIndex(gameObject);
                     DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject");
                     GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
                     prefab->setName( gameObject->name() );
@@ -404,24 +404,9 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
                     endInsertRows();
                     DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!");
                     prefab->setGameObject(gameObject);
-/*                    parentGO->removeChild(gameObject);
-                    DEBUG_TEXT("// ...and set as gameObject on the new Prefab");
-
-                    DEBUG_TEXT("// Get an instance of Prefab");
-                    GluonEngine::PrefabInstance* pfInstance = prefab->createInstance();
-                    DEBUG_TEXT("// Add PrefabInstance into old parent in the position we got above");
-                    parentGO->addChildAt(pfInstance, currentRow);*/
+                    // Unfortunately the model needs to be reset here, as we can't do anything else
+                    Models::instance()->sceneModel()->reset();
                 }
-
-/*                // Update the view for the old parent (unfortunately we can't expect the items to
-                // all be from the same parent, so we have to do it here)
-                GluonCore::GluonObject* oldParentObject = qobject_cast< GluonCore::GluonObject* >( itemObject->parent() );
-                QModelIndex oldParent = objectToIndex( oldParentObject );
-                int oldRow = objectRow( itemObject );
-                beginRemoveRows( oldParent, oldRow, oldRow );
-                oldParentObject->removeChild( itemObject );
-                endRemoveRows();
-                newChildren.append( itemObject );*/
             }
         }
     }
