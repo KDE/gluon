@@ -220,3 +220,4 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
+include(CTest)
