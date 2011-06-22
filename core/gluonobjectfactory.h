@@ -42,7 +42,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( GluonObjectFactory )
         public:
             template<class T>
             void registerObjectType()

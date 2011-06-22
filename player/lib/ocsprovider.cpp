@@ -54,7 +54,8 @@ public:
 };
 
 
-OcsProvider::OcsProvider() : d (new Private())
+OcsProvider::OcsProvider( QObject* parent )
+    : Singleton< GluonPlayer::OcsProvider >( parent ), d (new Private())
 {
     init();
 }

@@ -31,17 +31,16 @@ namespace GluonCreator
 
     class GLUONCREATOR_EXPORT PropertyWidgetItemFactory : public GluonCore::Singleton<PropertyWidgetItemFactory>
     {
+            Q_OBJECT
+            GLUON_SINGLETON( PropertyWidgetItemFactory )
         public:
             PropertyWidgetItem* create( const QObject* object, const QString& type, QWidget* parent );
             void registerNewPIW( PropertyWidgetItem* newPIW );
 
         private:
-            friend class GluonCore::Singleton<PropertyWidgetItemFactory>;
             QHash<QString, PropertyWidgetItem*> piwTypes;
 
-            PropertyWidgetItemFactory() { }
             ~PropertyWidgetItemFactory() { }
-            Q_DISABLE_COPY( PropertyWidgetItemFactory )
     };
 
 }

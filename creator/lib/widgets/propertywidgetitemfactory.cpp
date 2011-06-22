@@ -108,3 +108,8 @@ PropertyWidgetItemFactory::registerNewPIW( PropertyWidgetItem* newPIW )
     }
 }
 
+PropertyWidgetItemFactory::PropertyWidgetItemFactory ( QObject* parent )
+    : Singleton< GluonCreator::PropertyWidgetItemFactory >( parent )
+{
+    
+}

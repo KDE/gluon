@@ -33,6 +33,7 @@ namespace GluonInput
             Q_OBJECT
             Q_ENUMS( Absolute )
             Q_ENUMS( Relative )
+            GLUON_SINGLETON( GluonButtons )
 
         public:
             enum Relative
@@ -75,8 +76,6 @@ namespace GluonInput
                 VOLUME = 32,
                 MISC_ABS = 40
             };
-
-            GluonButtons();
 
             QString axisName( DeviceFlag deviceType, int code );
 

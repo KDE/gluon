@@ -45,6 +45,8 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( InputManager )
+            
         public:
             enum InputManagementType
             {
@@ -102,11 +104,8 @@ namespace GluonInput
             void eventFiltered( QEvent* event );
 
         private:
-            friend class GluonCore::Singleton<InputManager>;
-            InputManager( QObject* parent = 0 );
             ~InputManager();
 
-            Q_DISABLE_COPY( InputManager );
             void init();
             int mapMouseButton( Qt::MouseButton mouseButton );
 

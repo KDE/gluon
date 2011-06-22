@@ -135,7 +135,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GDLHandler : public Singleton<GDLHandler>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( GDLHandler )
         public:
             /**
              * Deserialise a GDL string representation into their GluonObject counterpart

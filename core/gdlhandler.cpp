@@ -29,9 +29,10 @@
 
 using namespace GluonCore;
 
-template<> GDLHandler* Singleton<GDLHandler>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( GDLHandler )
 
-GDLHandler::GDLHandler()
+GDLHandler::GDLHandler( QObject* parent )
+    : Singleton< GluonCore::GDLHandler >( parent )
 {
 }
 

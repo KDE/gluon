@@ -30,10 +30,10 @@ GamePrivate::GamePrivate( Game* qq )
     : q( qq )
     , gameRunning( false )
     , gamePaused( false )
-    , currentScene( NULL )
-    , resetScene( false )
+    , currentScene( 0 )
     , newScene( 0 )
-    , gameProject( NULL )
+    , resetScene( false )
+    , gameProject( 0 )
 {
 }
 
@@ -43,8 +43,8 @@ GamePrivate::GamePrivate( const GamePrivate& other )
     , gameRunning( other.gameRunning )
     , gamePaused( other.gamePaused )
     , currentScene( other.currentScene )
-    , resetScene( other.resetScene )
     , newScene( 0 )
+    , resetScene( other.resetScene )
     , gameProject( other.gameProject )
 {
 }

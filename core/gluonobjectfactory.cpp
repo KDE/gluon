@@ -31,7 +31,7 @@
 
 using namespace GluonCore;
 
-template<> GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( GluonObjectFactory )
 
 QStringList
 GluonObjectFactory::objectTypeNames() const
@@ -225,6 +225,12 @@ GluonObjectFactory::loadPlugins()
     }
 
     DEBUG_TEXT2( "Total number of objects in factory after loading: %1", m_objectTypes.count() );
+}
+
+GluonObjectFactory::GluonObjectFactory ( QObject* parent )
+    : Singleton< GluonCore::GluonObjectFactory >( parent )
+{
+
 }
 
 #include "gluonobjectfactory.moc"

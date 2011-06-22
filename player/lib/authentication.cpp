@@ -47,8 +47,8 @@ class Authentication::Private
     Attica::PostJob* m_checkLogoutJob;
 };
 
-Authentication::Authentication()
-    : d( new Private() )
+Authentication::Authentication( QObject* parent )
+    : Singleton< GluonPlayer::Authentication >( parent ), d( new Private() )
 {
     init();
 }

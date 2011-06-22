@@ -58,6 +58,7 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT Engine : public GluonCore::Singleton<Engine>
     {
             Q_OBJECT
+            GLUON_SINGLETON( Engine )
         public:
             /**
              * Initialize the defaults.
@@ -359,11 +360,7 @@ namespace GluonGraphics
             void currentViewportChanging( Viewport* viewport );
 
         private:
-            friend class GluonCore::Singleton<Engine>;
-
-            Engine();
             ~Engine();
-            Q_DISABLE_COPY( Engine );
 
             class EnginePrivate;
             EnginePrivate* const d;

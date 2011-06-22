@@ -49,7 +49,7 @@
 
 using namespace GluonCreator;
 
-template<> GLUON_CREATOR_VISIBILITY ObjectManager* GluonCore::Singleton<ObjectManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( ObjectManager )
 
 class ObjectManager::Private
 {
@@ -300,8 +300,8 @@ void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
         assetDeleted( asset->absolutePath() );
 }
 
-ObjectManager::ObjectManager()
-    : d( new Private() )
+ObjectManager::ObjectManager( QObject* parent )
+    : Singleton< GluonCreator::ObjectManager >( parent ), d( new Private() )
 {
     connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
     connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), SLOT( assetDirty( const QString& ) ) );

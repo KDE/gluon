@@ -47,8 +47,8 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON( ScriptEngine )
 
-ScriptEngine::ScriptEngine( QObject* /* parent */ )
-    : d( new Private() )
+ScriptEngine::ScriptEngine( QObject* parent )
+    : Singleton< ScriptEngine >( parent ), d( new Private() )
 {
 }
 

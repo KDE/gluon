@@ -34,6 +34,8 @@ namespace GluonInput
             Q_ENUMS( Absolute )
             Q_ENUMS( Relative )
 
+            GLUON_SINGLETON( GluonButtons )
+
         public:
             enum Relative
             {
@@ -79,8 +81,6 @@ namespace GluonInput
             QString axisName( DeviceFlag deviceType, int code );
 
         private:
-            friend class GluonCore::Singleton<GluonButtons>;
-            GluonButtons();
             ~GluonButtons();
 
     };

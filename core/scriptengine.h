@@ -31,20 +31,16 @@ namespace GluonCore
     class GLUON_CORE_EXPORT ScriptEngine : public Singleton<ScriptEngine>
     {
             Q_OBJECT
+            GLUON_SINGLETON( ScriptEngine )
         public:
             QScriptEngine* scriptEngine();
             void resetEngine();
 
         private:
-            friend class Singleton<ScriptEngine>;
-
-            ScriptEngine( QObject* parent = 0 );
             ~ScriptEngine();
 
-            Q_DISABLE_COPY( ScriptEngine );
-
             class Private;
-            Private* d;
+            Private * const d;
     };
 }
 
