@@ -233,7 +233,7 @@ OcsGameDetailsProvider* OcsProvider::fetchGames()
 OcsGameDownloadProvider* OcsProvider::downloadGame (const QString& id)
 {
     QString path("gluon/games");
-    QDir destinationDir(GluonCore::DirectoryProvider::dataDirectory());
+    QDir destinationDir(GluonCore::DirectoryProvider::instance()->dataDirectory());
     if (!destinationDir.exists(path)) {
         destinationDir.mkpath(path);
     }

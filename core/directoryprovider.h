@@ -33,24 +33,21 @@ namespace GluonCore
 
 class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
 {
+    Q_OBJECT
     GLUON_SINGLETON(DirectoryProvider)
+
 public:
-    enum UserDir {
-        UserDataDir,
-        UserGamesDir
-    };
+    QString installPrefix() const;
 
-    static QString installPrefix();
+    QString dataDirectory() const;
 
-    static QString dataDirectory();
+    QString libDirectory() const;
 
-    static QString libDirectory();
-
-    QString userDir(UserDir dir);
+    QString userDir(QString subDirs);
 
 private:
-    QString m_userDir;
-    QHash<UserDir, QString> m_userDirNames;
+    QString m_userDataPath;
+    QHash<QString, QString> m_userDirs;
 };
 
 }

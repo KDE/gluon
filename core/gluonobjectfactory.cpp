@@ -178,14 +178,14 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( "PlugIns" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() ) )
         pluginDirs.append( pluginDir );
 
     // this is the plugin dir on windows
-    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() + "/kde4" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/kde4" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::DirectoryProvider::libDirectory() + "/gluon" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/gluon" ) )
         pluginDirs.append( pluginDir );
 
     if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
