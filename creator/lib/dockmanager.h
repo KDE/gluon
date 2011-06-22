@@ -46,7 +46,7 @@ namespace GluonCreator
             void setDocksLocked( bool locked );
 
         private:
-            virtual ~DockManager();
+            ~DockManager();
 
             class DockManagerPrivate;
             DockManagerPrivate* const d;

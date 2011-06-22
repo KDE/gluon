@@ -66,7 +66,7 @@ namespace GluonGraphics
             /**
              * Destroys the vertex attribute.
              */
-            ~VertexAttribute();
+            virtual ~VertexAttribute();
 
             /**
              * Appends a number to the array.

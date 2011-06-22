@@ -42,7 +42,7 @@ namespace GluonInput
             explicit InputThread( const QString& devicePath, QObject* parent = 0 );
             //            explicit InputThread(udev_device *dev, QObject *parent = 0);
 
-            ~InputThread();
+            virtual ~InputThread();
             void run();
 
             const QString devicePath() const;

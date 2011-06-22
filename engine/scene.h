@@ -49,7 +49,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Scene( QObject* parent = 0 );
-            ~Scene();
+            virtual ~Scene();
 
             /**
              * Set the file for this scene, extending with support for checking for dirtiness

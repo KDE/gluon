@@ -41,7 +41,7 @@ namespace GluonInput
 
         public:
             DetectMac( QObject* parent );
-            ~DetectMac();
+            virtual ~DetectMac();
 
             bool isReadable();
             void detectDevices();

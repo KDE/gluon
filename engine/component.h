@@ -77,7 +77,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Component( QObject* parent = 0 );
-            ~Component();
+            virtual ~Component();
 
             /**
             * Return the category of the component. Meta-data used for filtering

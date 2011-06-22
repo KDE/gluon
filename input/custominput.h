@@ -37,7 +37,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             CustomInput( QObject* parent = 0 );
-            ~CustomInput();
+            virtual ~CustomInput();
 
             void setButton( const QString& name, InputDevice* input, int keyCode );
             void setButton( const QString& name );
@@ -62,4 +62,4 @@ namespace GluonInput
     };
 }
 
-#endif // KCLCUSTOMINPUT_H
+#endif 

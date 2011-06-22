@@ -37,6 +37,10 @@ TouchInputComponent::TouchInputComponent( QObject* parent )
 {
 }
 
+TouchInputComponent::~TouchInputComponent()
+{
+}
+
 QString TouchInputComponent::category() const
 {
     return QString( "Input" );

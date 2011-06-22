@@ -164,7 +164,7 @@ namespace GluonCore
             QString propertiesToGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
 
         private:
-            virtual ~GDLHandler();
+            ~GDLHandler();
 
             GluonObject* instantiateObject( QString className );
             GluonObject* createObject( QStringList objectStringList, QObject* parent );

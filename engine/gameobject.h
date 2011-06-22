@@ -103,7 +103,7 @@ namespace GluonEngine
             };
 
             Q_INVOKABLE GameObject( QObject* parent = 0 );
-            ~GameObject();
+            virtual ~GameObject();
 
             /**
              * Function used on instantiation to fix the parent/child relationship.

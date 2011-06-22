@@ -41,6 +41,7 @@ namespace GluonInput
 
         public:
             Detect( QObject* parent = 0 );
+            virtual ~Detect();
 
             virtual bool isReadable() = 0;
             virtual void detectDevices() = 0;

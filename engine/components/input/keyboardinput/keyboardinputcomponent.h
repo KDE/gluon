@@ -39,8 +39,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Component )
 
         public:
-
             Q_INVOKABLE KeyboardInputComponent( QObject* parent = 0 );
+            virtual ~KeyboardInputComponent();
+
             virtual QString category() const;
 
             // True on any frame between getActionStarted and

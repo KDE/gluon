@@ -39,7 +39,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE TextRendererComponent( QObject* parent = 0 );
-            ~TextRendererComponent();
+            virtual ~TextRendererComponent();
             virtual QString category() const;
 
             virtual QString text() const;

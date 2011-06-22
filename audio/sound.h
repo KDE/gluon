@@ -39,6 +39,7 @@ namespace GluonAudio
             * @see isValid, load
             */
             explicit Sound(QObject *parent);
+
             /**
             * @param fileName the path of the file to play
             */
@@ -55,7 +56,7 @@ namespace GluonAudio
             /**
             * Destructor
             */
-            ~Sound();
+            virtual ~Sound();
 
             /**
             * Load a new sound file

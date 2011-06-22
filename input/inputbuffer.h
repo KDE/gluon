@@ -34,7 +34,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             InputBuffer();
-            ~InputBuffer();
+            virtual ~InputBuffer();
 
             bool buttonState( int button );
             void setButtonState( int button, bool pressed );

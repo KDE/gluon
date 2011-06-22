@@ -40,6 +40,10 @@ KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
 {
 }
 
+KeyboardInputComponent::~KeyboardInputComponent()
+{
+}
+
 QString
 KeyboardInputComponent::category() const
 {
