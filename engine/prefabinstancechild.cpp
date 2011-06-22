@@ -68,7 +68,6 @@ PrefabInstanceChild::~PrefabInstanceChild()
 
 void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)
 {
-    DEBUG_FUNC_NAME
     d->linkedGameObject = gameObject;
     Prefab::cloneObjectProperties(gameObject, this);
 
@@ -88,7 +87,6 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
     // Clone all the Components
     foreach( Component* cmp, gameObject->components() )
     {
-        DEBUG_TEXT2("Cloning component %1", cmp->fullyQualifiedName());
         cmp->clone(this);
         //Prefab::cloneObjectProperties( cmp, cmpClone );
     }
