@@ -37,7 +37,7 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
 
     //Define standard dirs Gluon recommends
     m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data" );
-    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/huge/games" );
+    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/games" );
 
     //Create standard dirs Gluon recommends
     QDir dir;
