@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-gluon-achievements">
+        <glob pattern="*.gluonachievements" />
+        <comment>Gluon Achievements</comment>
+    </mime-type>
     <mime-type type="application/x-gluon-bundle">
         <glob pattern="*.gluon" />
         <comment>Gluon Game Bundle</comment>
