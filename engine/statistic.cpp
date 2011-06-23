@@ -32,7 +32,7 @@ class Statistic::StatisticPrivate
 };
 
 Statistic::Statistic(QObject* parent)
-    : GluonObject(parent)
+    : AbstractStatistic(parent)
     , d( new StatisticPrivate() )
 {
 }
@@ -72,5 +72,16 @@ void Statistic::sub(qlonglong delta)
     d->score -= delta;
 }
 
-#include "statistic.moc"
+void Statistic::reset()
+{
+    d->score = 0;
+}
 
+void Statistic::commitScore()
+{
+    if( d->score > value() )
+        setValue(d->score);
+    AbstractStatistic::commit();
+}
+
+#include "statistic.moc"

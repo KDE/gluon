@@ -47,6 +47,7 @@ add_subdirectory(assets)
 add_subdirectory(components)
 
 set(GluonEngine_SRCS
+    abstractstatistic.cpp
     asset.cpp
     component.cpp
     componentprivate.cpp
@@ -71,6 +72,7 @@ set(GluonEngine_SRCS
 )
 
 set(GluonEngine_HEADERS
+    abstractstatistic.h
     asset.h
     component.h
     databasemanager.h
