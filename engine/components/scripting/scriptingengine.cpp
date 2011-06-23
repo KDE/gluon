@@ -161,7 +161,7 @@ ScriptingEngine::Private::appendScript( const GluonEngine::ScriptingAsset* asset
 }
 
 bool
-ScriptingEngine::unregisterAsset( const ScriptingAsset* asset ) const
+ScriptingEngine::unregisterAsset( const ScriptingAsset* asset )
 {
     if( !asset )
         return false;
@@ -173,7 +173,7 @@ ScriptingEngine::unregisterAsset( const ScriptingAsset* asset ) const
     if( d->scriptInstances.count() < 1 )
         d->resetEngine();
     else
-        d->buildScript();
+        QTimer::singleShot(0, this, SLOT(buildScript()));
 
     return true;
 }
