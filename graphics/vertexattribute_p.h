@@ -34,7 +34,7 @@ namespace GluonGraphics
             QVector<float> data;
             QString name;
             int location;
-            int offset;
+            quintptr offset;
             int size;
     };
 };
