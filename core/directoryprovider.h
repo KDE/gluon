@@ -43,7 +43,7 @@ namespace GluonCore
 
             QString libDirectory() const;
 
-            QString userDir( const QString& name );
+            QString userDirectory( const QString& name );
 
         private:
             QString m_userDataPath;

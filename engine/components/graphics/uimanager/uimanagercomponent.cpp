@@ -45,13 +45,6 @@
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValueIterator>
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QPixmap>
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiManagerComponent )
 

@@ -26,6 +26,7 @@
 #include <core/debughelper.h>
 
 #include <QtCore/QStringList>
+#include <QtCore/QDir>
 
 using namespace GluonEngine;
 
@@ -33,6 +34,7 @@ GameProjectPrivate::GameProjectPrivate()
     : entryPoint( 0 )
     , icon( 0 )
     , screenshot( 0 )
+    , userName( "user" )
 {
 }
 
@@ -46,6 +48,7 @@ GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
     , entryPoint( other.entryPoint )
     , icon( other.icon )
     , screenshot( other.screenshot )
+    , userName( other.userName )
 {
 }
 

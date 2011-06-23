@@ -33,7 +33,7 @@ namespace GluonAudio
         Q_OBJECT
 
         public:
-            Player( QObject* parten = 0 );
+            explicit Player( QObject* parent = 0 );
             Player( QStringList files, QObject* parent = 0 );
             virtual ~Player();
 

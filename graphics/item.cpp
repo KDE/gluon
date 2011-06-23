@@ -94,10 +94,7 @@ Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
     if( !activeCam )
         return;
 
-#ifdef __GNUC__
-#warning ToDo: Implement view frustum culling. After all, that is what that damn class is for... ;)
-#endif
-
+    // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
     material->setProperty( "modelMatrix", d->transform );
     if( !material->bind() )
         return;

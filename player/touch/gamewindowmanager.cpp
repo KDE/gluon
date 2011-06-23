@@ -198,10 +198,9 @@ void GameWindowManager::updateTitle( int msec )
 {
     d->msecElapsed += msec;
 
-    static int fps = 0;
     if( d->msecElapsed > 1000 )
     {
-        fps = d->frameCount;
+        // static int fps = d->frameCount;
         d->frameCount = 0;
         d->msecElapsed = 0;
     }

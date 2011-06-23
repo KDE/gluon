@@ -24,8 +24,6 @@
 #include <graphics/meshes/discmesh.h>
 #include <graphics/item.h>
 
-#include <QtCore/QMimeData>
-
 REGISTER_OBJECTTYPE( GluonEngine, DiscRendererComponent )
 
 using namespace GluonEngine;

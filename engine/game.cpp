@@ -29,7 +29,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
-#include <QtCore/QDebug>
 #include <QtCore/QTimer>
 
 using namespace GluonEngine;

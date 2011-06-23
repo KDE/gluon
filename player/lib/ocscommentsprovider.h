@@ -44,6 +44,7 @@ namespace GluonPlayer
             QDateTime dateTime() const;
             int score() const;
 
+
         private:
             class Private;
             Private* const d;

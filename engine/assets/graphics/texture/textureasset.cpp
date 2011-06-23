@@ -21,10 +21,7 @@
 
 #include <graphics/engine.h>
 
-#include <QtGui/QImage>
 #include <QtGui/QImageReader>
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, TextureAsset )
 

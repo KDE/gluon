@@ -21,8 +21,6 @@
 #include "player.h"
 #include "engine.h"
 
-#include <QtCore/QVector>
-
 using namespace GluonAudio;
 
 class Player::PlayerPrivate

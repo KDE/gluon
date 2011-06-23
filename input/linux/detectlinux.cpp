@@ -25,8 +25,6 @@
 #include "detectlinuxprivate.h"
 
 #include <QtCore/QDir>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 
 // #include <libudev.h>
 

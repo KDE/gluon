@@ -19,17 +19,16 @@
 
 #include "animatedspriterenderercomponent.h"
 
+#include <engine/gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
 #include <graphics/item.h>
 #include <graphics/engine.h>
 #include <graphics/material.h>
 #include <graphics/mesh.h>
 #include <graphics/materialinstance.h>
 #include <graphics/texture.h>
-#include <engine/gameobject.h>
-#include <engine/asset.h>
-#include <engine/game.h>
 
-#include <QtCore/QMimeData>
 #include <QtCore/QVariant>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
@@ -382,9 +381,7 @@ void AnimatedSpriteRendererComponent::setStartFrames( const QList< int >& starts
     setAnimation( d->currentAnimation );
 }
 
-// #ifndef _MSC_VER
-// #warning TODO: Add support for multiple-texture based animation.
-// #endif
+// TODO: Add support for multiple-texture based animation.
 // int AnimatedSpriteRendererComponent::textureCount()
 // {
 //

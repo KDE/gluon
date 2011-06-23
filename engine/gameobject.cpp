@@ -20,6 +20,7 @@
 
 #include "gameobject.h"
 #include "gameobjectprivate.h"
+
 #include "component.h"
 #include "game.h"
 #include "scene.h"
@@ -202,9 +203,9 @@ void GameObject::removeLater( GameObject* remove )
 void
 GameObject::runCommand( const QString& functionName )
 {
-#ifdef __GNUC__
-#warning TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we really ought to support it all... postponing implementation for a little while until the rest is complete
-#endif
+    // TODO: Implement - QMetaObject::invokeMethod does lots of magic, and we
+    // really ought to support it all... postponing implementation for a little
+    // while until the rest is complete
 }
 
 void
@@ -585,9 +586,7 @@ GameObject::translate( const QVector3D& translation, GameObject::TransformSpace 
     }
     else
     {
-#ifdef __GNUC__
-#warning This probably needs fixing to account for world scale/orientation
-#endif
+    // TODO: This probably needs fixing to account for world scale/orientation
         QVector3D trans = d->worldOrientation.rotatedVector( translation );
         trans = trans * d->worldScale;
         setPosition( position() + trans );

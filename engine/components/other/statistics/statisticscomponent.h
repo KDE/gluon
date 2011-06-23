@@ -21,7 +21,7 @@
 #define GLUON_ENGINE_STATISTICSCOMPONENT
 
 #include <engine/component.h>
-#include <engine/statistic.h>
+#include <engine/abstractstatistic.h>
 
 namespace GluonEngine
 {
@@ -36,19 +36,26 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Component )
 
             /**
-             * The statistic the component is connected to.
+             * The statistic which this component is connected to. The statistic
+             * should be a sub class of AbstractStatistic.
              */
-            Q_PROPERTY( GluonEngine::Statistic* statistic READ statistic WRITE setStatistic )
+            Q_PROPERTY( GluonEngine::AbstractStatistic* statistic READ statistic WRITE setStatistic )
         public:
             Q_INVOKABLE StatisticsComponent( QObject* parent = 0 );
             virtual ~StatisticsComponent();
 
-            /** Reimplementation of Component::category() */
+            /** Reimplemented from Component::category() */
             virtual QString category() const;
-            Statistic* statistic() const;
+
+            /** Reimplemented from Component::initialize() */
+            virtual void initialize();
+
+            /** Reimplemented from Component::cleanup() */
+            virtual void cleanup();
+            AbstractStatistic* statistic() const;
 
         public Q_SLOTS:
-            void setStatistic( Statistic* statistic );
+            void setStatistic( AbstractStatistic* statistic );
 
         private:
             class StatisticsComponentPrivate;

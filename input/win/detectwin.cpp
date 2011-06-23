@@ -23,10 +23,6 @@
 
 #include "inputthread.h"
 
-#include <QtCore/QDir>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-
 using namespace GluonInput;
 
 class DetectWin::DetectWinPrivate

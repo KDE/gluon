@@ -22,8 +22,6 @@
 #include <input/inputmanager.h>
 #include <core/debughelper.h>
 
-#include <QtCore/QEvent>
-
 REGISTER_OBJECTTYPE( GluonEngine, TouchInputComponent );
 
 using namespace GluonEngine;

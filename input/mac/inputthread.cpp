@@ -21,8 +21,6 @@
 #include "inputthreadprivate.h"
 #include "inputbuffer.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
 using namespace GluonInput;

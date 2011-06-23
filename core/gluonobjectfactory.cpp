@@ -27,7 +27,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
 #include <QtCore/QVariant>
-#include <QtCore/QDebug>
 
 using namespace GluonCore;
 

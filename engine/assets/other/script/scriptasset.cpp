@@ -19,7 +19,6 @@
 
 #include "scriptasset.h"
 
-#include <QtCore/QMimeData>
 #include <QtCore/QFile>
 
 REGISTER_OBJECTTYPE( GluonEngine, ScriptAsset )

@@ -20,20 +20,24 @@
 #ifndef GLUON_ENGINE_STATISTIC_H
 #define GLUON_ENGINE_STATISTIC_H
 
-#include <core/gluonobject.h>
-#include <core/referencecounter.h>
+#include <engine/gluon_engine_export.h>
+
+#include <engine/abstractstatistic.h>
 
 namespace GluonEngine
 {
     /**
      * Saves a simple score. Create via StatisticsAsset::createStatistic().
      */
-    class Statistic : public GluonCore::GluonObject, public GluonCore::ReferenceCounter
+    class GLUON_ENGINE_EXPORT Statistic : public AbstractStatistic
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::Statistic )
 
-            /** The current score in the game */
+            /**
+             * The current score in the game. Call commitScore() to compare
+             * it with the high score and, if it is better, save it.
+             */
             Q_PROPERTY( qlonglong score READ score WRITE setScore )
         public:
             Q_INVOKABLE Statistic( QObject* parent = 0 );
@@ -44,17 +48,25 @@ namespace GluonEngine
         public Q_SLOTS:
             void setScore( qlonglong score );
 
-            /** increase score by one */
+            /** Increase score by one */
             void increase();
 
-            /** decrease score by one */
+            /** Decrease score by one */
             void decrease();
 
-            /** add delta to the current score */
+            /** Add delta to the current score */
             void add( qlonglong delta );
 
-            /** subtract delta from the current score */
+            /** Subtract delta from the current score */
             void sub( qlonglong delta );
+
+            /** Same as setScore(0) */
+            void reset();
+
+            /** If the current score is higher than the high score,
+             * replace it and write it to the database.
+             */
+            void commitScore();
 
         private:
             class StatisticPrivate;
@@ -65,4 +77,3 @@ namespace GluonEngine
 Q_DECLARE_METATYPE( GluonEngine::Statistic* )
 
 #endif //GLUON_ENGINE_STATISTIC_H
-

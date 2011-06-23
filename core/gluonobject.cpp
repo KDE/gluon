@@ -152,9 +152,7 @@ GluonObject::clone( GluonObject* parentObject ) const
         newObject->setProperty( propName, property( propName ) );
     }
 
-#ifdef __GNUC__
-#warning Clones with properties pointing to children should point to new children rather than the old children
-#endif
+    // TODO: Clones with properties pointing to children should point to new children rather than the old children
 
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();
@@ -680,7 +678,15 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
             GluonObject* theObject = GluonObjectFactory::instance()->wrappedObject( theValue );
             if( theObject )
             {
-                value = QString( "%1(%2)" ).arg( theObject->metaObject()->className() ).arg( theObject->fullyQualifiedName() );
+                QMetaProperty prop = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
+                if( prop.isValid() )
+                {
+                    value = QString( "%1(%2)" ).arg( QString( prop.typeName() ).remove('*') ).arg( theObject->fullyQualifiedName() );
+                }
+                else
+                {
+                    value = QString( "%1(%2)" ).arg( theObject->metaObject()->className() ).arg( theObject->fullyQualifiedName() );
+                }
             }
             else
             {

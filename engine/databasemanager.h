@@ -67,3 +67,4 @@ namespace GluonEngine
 }
 
 #endif //GLUON_ENGINE_DATABASEMANAGER_H
+

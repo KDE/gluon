@@ -19,6 +19,9 @@
 
 #include "statisticscomponent.h"
 
+#include <engine/statistic.h>
+#include <core/gluonobjectfactory.h>
+
 REGISTER_OBJECTTYPE( GluonEngine, StatisticsComponent )
 
 using namespace GluonEngine;
@@ -29,7 +32,7 @@ class StatisticsComponent::StatisticsComponentPrivate
         StatisticsComponentPrivate() : statistic(0) {}
         ~StatisticsComponentPrivate() {}
 
-        Statistic* statistic;
+        AbstractStatistic* statistic;
 };
 
 StatisticsComponent::StatisticsComponent( QObject* parent )
@@ -48,12 +51,24 @@ QString StatisticsComponent::category() const
     return QString( tr("Statistics") );
 }
 
-Statistic* StatisticsComponent::statistic() const
+void StatisticsComponent::initialize()
+{
+    if( d->statistic )
+        d->statistic->initialize();
+}
+
+void StatisticsComponent::cleanup()
+{
+    if( d->statistic )
+        d->statistic->cleanup();
+}
+
+AbstractStatistic* StatisticsComponent::statistic() const
 {
     return d->statistic;
 }
 
-void StatisticsComponent::setStatistic( Statistic* statistic )
+void StatisticsComponent::setStatistic( AbstractStatistic* statistic )
 {
     if( d->statistic )
         d->statistic->deref();

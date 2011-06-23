@@ -32,7 +32,6 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMatrix4x4>
 #include <QtCore/QTimer>
-#include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {

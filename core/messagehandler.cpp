@@ -23,7 +23,6 @@
 #include "gluonobject.h"
 
 #include <QtScript/QScriptValue>
-#include <QtScript/QScriptEngine>
 #include <QtCore/QHash>
 
 using namespace GluonCore;

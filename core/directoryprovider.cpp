@@ -62,7 +62,7 @@ QString DirectoryProvider::libDirectory() const
     return GLUON_LIB_INSTALL_DIR;
 }
 
-QString DirectoryProvider::userDir( const QString& name )
+QString DirectoryProvider::userDirectory( const QString& name )
 {
     if( !m_userDirs.contains( name ) )
     {

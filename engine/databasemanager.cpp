@@ -23,7 +23,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
-#include <QtGui/QApplication>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>

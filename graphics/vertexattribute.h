@@ -111,7 +111,7 @@ namespace GluonGraphics
             /**
              * Returns the offset of the attribute in the vertex buffer.
              **/
-            int offset() const;
+            quintptr offset() const;
 
             VertexAttribute& operator=( const VertexAttribute& other );
 

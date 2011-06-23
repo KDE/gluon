@@ -22,7 +22,6 @@
 
 #include "vertex.h"
 
-#include <QtCore/QDebug>
 #include <QtCore/QVariant>
 
 using namespace GluonGraphics;

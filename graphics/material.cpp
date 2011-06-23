@@ -26,11 +26,8 @@
 #include <core/gdlhandler.h>
 
 #include <QtOpenGL/QGLShaderProgram>
-#include <QtCore/QFile>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaProperty>
-#include <QtCore/QTextCodec>
-#include <QtCore/QVarLengthArray>
 #include <QtCore/QTime>
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )

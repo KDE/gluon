@@ -22,8 +22,6 @@
 
 #include <audio/engine.h>
 
-#include <QtCore/QMimeData>
-
 REGISTER_OBJECTTYPE( GluonEngine, SoundAsset )
 
 using namespace GluonEngine;

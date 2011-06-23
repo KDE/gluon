@@ -17,15 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #include "textureimageprovider.h"
-
-#include <graphics/engine.h>
-#include <graphics/texture.h>
 
 #include <engine/game.h>
 
-#include <QtCore/QMimeData>
+#include <graphics/engine.h>
+#include <graphics/texture.h>
 
 using namespace GluonEngine;
 
