@@ -40,7 +40,7 @@ namespace GluonPlayer
             };
 
             explicit GameItem( const QString& gameName, const QString& description, int rating,
-                                   const Status& status, const QString& id, QObject* parent = 0 );
+                               const Status& status, const QString& id, QObject* parent = 0 );
             GameItem( const GameItem& other, QObject* parent = 0 );
             virtual ~GameItem();
 

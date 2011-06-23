@@ -29,31 +29,31 @@ class QNetworkReply;
 
 namespace Attica
 {
-class Provider;
-class BaseJob;
+    class Provider;
+    class BaseJob;
 }
 
 namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT OcsGameDownloadProvider : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                    QObject* parent = 0);
+            OcsGameDownloadProvider( Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                                     QObject* parent = 0 );
             virtual ~OcsGameDownloadProvider();
 
         Q_SIGNALS:
             void startedDownload();
             void finished();
             void failed();
-            void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+            void downloadProgress( qint64 bytesReceived, qint64 bytesTotal );
 
         private Q_SLOTS:
             void startDownload();
-            void processDownloadLink (Attica::BaseJob* baseJob);
-            void downloadComplete(QNetworkReply *reply);
-            void updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal);
+            void processDownloadLink( Attica::BaseJob* baseJob );
+            void downloadComplete( QNetworkReply* reply );
+            void updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal );
 
             friend class OcsProvider;
 

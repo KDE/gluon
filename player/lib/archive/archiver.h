@@ -26,19 +26,19 @@
 class GLUON_PLAYER_EXPORT Archiver
 {
 
-public:
-    Archiver (const QString& sourceDirectoryPath, const QString& destinationArchivePath);
-    void start();
-private:
-    QStringList m_files;
-    QString m_sourceDirectoryPath;
-    QString m_destinationArchivePath;
-    QString m_sourceParentDirectoryPath;
-    qint64 m_totalSize;
+    public:
+        Archiver( const QString& sourceDirectoryPath, const QString& destinationArchivePath );
+        void start();
+    private:
+        QStringList m_files;
+        QString m_sourceDirectoryPath;
+        QString m_destinationArchivePath;
+        QString m_sourceParentDirectoryPath;
+        qint64 m_totalSize;
 
-    void addFilesInDir (QString path);
-    void addFileToList (QString relativePath);
-    void writeArchiveToFile();
+        void addFilesInDir( QString path );
+        void addFileToList( QString relativePath );
+        void writeArchiveToFile();
 };
 
 #endif // ARCHIVER_H

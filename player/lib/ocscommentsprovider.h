@@ -24,61 +24,61 @@
 
 namespace Attica
 {
-class Comment;
-class Provider;
-class BaseJob;
+    class Comment;
+    class Provider;
+    class BaseJob;
 }
 
 namespace GluonPlayer
 {
-class OcsComment : public QObject
-{
-public:
-    explicit OcsComment (const QString &id, const QString &subject, const QString &text,
-                         const QString &user, const QDateTime &dateTime, int score, QObject* parent = 0);
-    virtual ~OcsComment();
-    QString id() const;
-    QString subject() const;
-    QString text() const;
-    QString user() const;
-    QDateTime dateTime() const;
-    int score() const;
+    class OcsComment : public QObject
+    {
+        public:
+            explicit OcsComment( const QString& id, const QString& subject, const QString& text,
+                                 const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
+            virtual ~OcsComment();
+            QString id() const;
+            QString subject() const;
+            QString text() const;
+            QString user() const;
+            QDateTime dateTime() const;
+            int score() const;
 
-private:
-    class Private;
-    Private* const d;
-};
+        private:
+            class Private;
+            Private* const d;
+    };
 
-class OcsCommentsProvider : public QObject
-{
-    Q_OBJECT
-public:
-    explicit OcsCommentsProvider(Attica::Provider* provider, const QString& id, int page, int pageSize,
-                                 QObject* parent = 0);
-    explicit OcsCommentsProvider(Attica::Provider* provider, const QString& id, const QString& parentId,
-                                  const QString& subject, const QString& message, QObject* parent = 0);
-    virtual ~OcsCommentsProvider();
+    class OcsCommentsProvider : public QObject
+    {
+            Q_OBJECT
+        public:
+            explicit OcsCommentsProvider( Attica::Provider* provider, const QString& id, int page, int pageSize,
+                                          QObject* parent = 0 );
+            explicit OcsCommentsProvider( Attica::Provider* provider, const QString& id, const QString& parentId,
+                                          const QString& subject, const QString& message, QObject* parent = 0 );
+            virtual ~OcsCommentsProvider();
 
-signals:
-    void commentsFetched (QList<OcsComment*> comments);
-    void failedToFetchComments();
-    void commentUploaded();
-    void failedToUploadComment();
+        signals:
+            void commentsFetched( QList<OcsComment*> comments );
+            void failedToFetchComments();
+            void commentUploaded();
+            void failedToUploadComment();
 
-private slots:
-    void fetchComments();
-    void uploadComments();
-    void processFetchedComments (Attica::BaseJob* job);
-    void uploadCommentsFinished (Attica::BaseJob* job);
+        private slots:
+            void fetchComments();
+            void uploadComments();
+            void processFetchedComments( Attica::BaseJob* job );
+            void uploadCommentsFinished( Attica::BaseJob* job );
 
-private:
-    void addChildren(OcsComment *parentOcsComment, Attica::Comment *parentComment);
+        private:
+            void addChildren( OcsComment* parentOcsComment, Attica::Comment* parentComment );
 
-    class Private;
-    Private* const d;
+            class Private;
+            Private* const d;
 
-    friend class OcsProvider;
-};
+            friend class OcsProvider;
+    };
 }
 
 #endif // GLUONPLAYER_OCSCOMMENTSPROVIDER_H

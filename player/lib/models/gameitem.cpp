@@ -23,21 +23,22 @@ using namespace GluonPlayer;
 
 class GameItem::Private
 {
-public:
-    Private() {
-    }
+    public:
+        Private()
+        {
+        }
 
-    QString m_gameName;
-    QString m_gameDescription;
-    int rating;
-    Status m_status;
-    QString m_id;
+        QString m_gameName;
+        QString m_gameDescription;
+        int rating;
+        Status m_status;
+        QString m_id;
 };
 
-GameItem::GameItem(const QString& gameName, const QString& gameDescription, int rating,
-                   const Status& status, const QString& id, QObject* parent)
-    : QObject(parent)
-    , d(new Private())
+GameItem::GameItem( const QString& gameName, const QString& gameDescription, int rating,
+                    const Status& status, const QString& id, QObject* parent )
+    : QObject( parent )
+    , d( new Private() )
 {
     d->m_gameName = gameName;
     d->m_gameDescription = gameDescription;

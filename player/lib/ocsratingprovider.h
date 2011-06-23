@@ -26,33 +26,33 @@
 
 namespace Attica
 {
-class Provider;
-class BaseJob;
+    class Provider;
+    class BaseJob;
 }
 
 namespace GluonPlayer
 {
 
-class GLUON_PLAYER_EXPORT OcsRatingProvider : public QObject
-{
+    class GLUON_PLAYER_EXPORT OcsRatingProvider : public QObject
+    {
 
-    Q_OBJECT
-public:
-    OcsRatingProvider (Attica::Provider* provider, const QString& id, uint rating,
-                             QObject* parent = 0);
-    virtual ~OcsRatingProvider();
-private:
-    class Private;
-    Private* const d;
-Q_SIGNALS:
-    void finished();
-    void failed();
-private Q_SLOTS:
-    void startRatingUpload();
-    void ratingUploadComplete (Attica::BaseJob* baseJob);
+            Q_OBJECT
+        public:
+            OcsRatingProvider( Attica::Provider* provider, const QString& id, uint rating,
+                               QObject* parent = 0 );
+            virtual ~OcsRatingProvider();
+        private:
+            class Private;
+            Private* const d;
+        Q_SIGNALS:
+            void finished();
+            void failed();
+        private Q_SLOTS:
+            void startRatingUpload();
+            void ratingUploadComplete( Attica::BaseJob* baseJob );
 
-    friend class OcsProvider;
-};
+            friend class OcsProvider;
+    };
 
 }
 

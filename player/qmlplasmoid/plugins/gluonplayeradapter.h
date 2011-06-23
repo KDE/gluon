@@ -25,11 +25,11 @@
 
 class GluonPlayerAdapter : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(GluonPlayer::OcsProvider* ocsProvider READ ocsProvider)
+        Q_OBJECT
+        Q_PROPERTY( GluonPlayer::OcsProvider* ocsProvider READ ocsProvider )
 
-public:
-    GluonPlayer::OcsProvider *ocsProvider();
+    public:
+        GluonPlayer::OcsProvider* ocsProvider();
 };
 
 #endif // GLUONPLAYERADAPTER_H

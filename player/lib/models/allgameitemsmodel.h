@@ -30,7 +30,7 @@
 
 namespace GluonEngine
 {
-class GameProject;
+    class GameProject;
 }
 
 namespace Attica
@@ -68,16 +68,16 @@ namespace GluonPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         protected Q_SLOTS:
-            void processFetchedGamesList (QList<OcsGameDetails*> gamesList);
+            void processFetchedGamesList( QList<OcsGameDetails*> gamesList );
 
         private Q_SLOTS:
-            void directoryLoaded (const QString& path);
+            void directoryLoaded( const QString& path );
 
         private:
             void fetchGamesList();
-            void scanDirectory (QModelIndex index);
-            inline void addGameProjectToList(const QString &id, const GluonEngine::GameProject &project);
-            inline void addGameItemToList(const QString& id, GluonPlayer::GameItem *gameItem);
+            void scanDirectory( QModelIndex index );
+            inline void addGameProjectToList( const QString& id, const GluonEngine::GameProject& project );
+            inline void addGameItemToList( const QString& id, GluonPlayer::GameItem* gameItem );
 
             class Private;
             Private* const d;

@@ -31,20 +31,20 @@ using namespace GluonPlayer;
 
 class OcsComment::Private
 {
-public:
-    Private() { }
+    public:
+        Private() { }
 
-    QString id;
-    QString subject;
-    QString text;
-    QString user;
-    QDateTime dateTime;
-    int score;
+        QString id;
+        QString subject;
+        QString text;
+        QString user;
+        QDateTime dateTime;
+        int score;
 };
 
-OcsComment::OcsComment (const QString& id, const QString& subject, const QString& text, const QString& user,
-                        const QDateTime& dateTime, int score, QObject* parent)
-                        : QObject (parent), d(new Private())
+OcsComment::OcsComment( const QString& id, const QString& subject, const QString& text, const QString& user,
+                        const QDateTime& dateTime, int score, QObject* parent )
+    : QObject( parent ), d( new Private() )
 {
     d->id = id;
     d->subject = subject;
@@ -91,21 +91,21 @@ QString OcsComment::user() const
 
 class OcsCommentsProvider::Private
 {
-public:
-    Private() : provider(0) { }
+    public:
+        Private() : provider( 0 ) { }
 
-    Attica::Provider *provider;
-    QString id;
-    int page;
-    int pageSize;
-    QString parentId;
-    QString subject;
-    QString message;
+        Attica::Provider* provider;
+        QString id;
+        int page;
+        int pageSize;
+        QString parentId;
+        QString subject;
+        QString message;
 };
 
-OcsCommentsProvider::OcsCommentsProvider (Attica::Provider* provider, const QString& id,
-                                          int page, int pageSize, QObject* parent)
-                                                : QObject (parent), d(new Private())
+OcsCommentsProvider::OcsCommentsProvider( Attica::Provider* provider, const QString& id,
+        int page, int pageSize, QObject* parent )
+    : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
     d->id = id;
@@ -113,9 +113,9 @@ OcsCommentsProvider::OcsCommentsProvider (Attica::Provider* provider, const QStr
     d->pageSize = pageSize;
 }
 
-OcsCommentsProvider::OcsCommentsProvider (Attica::Provider* provider, const QString& id, const QString& parentId,
-                                          const QString& subject, const QString& message, QObject* parent)
-                                            : QObject (parent), d(new Private())
+OcsCommentsProvider::OcsCommentsProvider( Attica::Provider* provider, const QString& id, const QString& parentId,
+        const QString& subject, const QString& message, QObject* parent )
+    : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
     d->id = id;
@@ -129,48 +129,62 @@ OcsCommentsProvider::~OcsCommentsProvider()
     delete d;
 }
 
-void OcsCommentsProvider::processFetchedComments (Attica::BaseJob* job)
+void OcsCommentsProvider::processFetchedComments( Attica::BaseJob* job )
 {
     QList<OcsComment*> list;
 
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach (Attica::Comment comment , commentsJob->itemList()) {
-            OcsComment *newComment = new OcsComment(comment.id(), comment.subject(), comment.text(),
-                                                    comment.user(), comment.date(), comment.score(), this);
-            list.append(newComment);
-            if (comment.childCount()) {
-                addChildren(newComment, &comment);
+
+    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        foreach( Attica::Comment comment , commentsJob->itemList() )
+        {
+            OcsComment* newComment = new OcsComment( comment.id(), comment.subject(), comment.text(),
+                    comment.user(), comment.date(), comment.score(), this );
+            list.append( newComment );
+
+            if( comment.childCount() )
+            {
+                addChildren( newComment, &comment );
             }
         }
 
-        emit commentsFetched(list);
-    } else {
+        emit commentsFetched( list );
+    }
+    else
+    {
         emit failedToFetchComments();
     }
 }
 
-void OcsCommentsProvider::addChildren(OcsComment* parentOcsComment, Attica::Comment* parentComment)
+void OcsCommentsProvider::addChildren( OcsComment* parentOcsComment, Attica::Comment* parentComment )
 {
-    foreach (Attica::Comment comment, parentComment->children()) {
-        OcsComment *newComment = new OcsComment(comment.id(), comment.subject(),
-                                                comment.text(), comment.user(),
-                                                comment.date(), comment.score(),
-                                                parentOcsComment);
-        newComment->setParent(parentOcsComment);
-        if (comment.children().count()) {
-            addChildren(newComment, &comment);
+    foreach( Attica::Comment comment, parentComment->children() )
+    {
+        OcsComment* newComment = new OcsComment( comment.id(), comment.subject(),
+                comment.text(), comment.user(),
+                comment.date(), comment.score(),
+                parentOcsComment );
+        newComment->setParent( parentOcsComment );
+
+        if( comment.children().count() )
+        {
+            addChildren( newComment, &comment );
         }
     }
 }
 
-void OcsCommentsProvider::uploadCommentsFinished (Attica::BaseJob* job)
+void OcsCommentsProvider::uploadCommentsFinished( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
+
+    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
+    {
         qDebug() << "ERROR " << commentsJob->metadata().error();
         emit commentUploaded();
-    } else {
+    }
+    else
+    {
         emit failedToUploadComment();
     }
 }
@@ -178,9 +192,9 @@ void OcsCommentsProvider::uploadCommentsFinished (Attica::BaseJob* job)
 void OcsCommentsProvider::fetchComments()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
-    Attica::ListJob<Attica::Comment> *job = d->provider->requestComments(Attica::Comment::ContentComment,
-                                                                        d->id, "0", d->page, d->pageSize);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)));
+    Attica::ListJob<Attica::Comment> *job = d->provider->requestComments( Attica::Comment::ContentComment,
+                                            d->id, "0", d->page, d->pageSize );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedComments( Attica::BaseJob* ) ) );
     job->start();
 }
 
@@ -188,8 +202,8 @@ void OcsCommentsProvider::uploadComments()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::PostJob* job = d->provider->addNewComment( Attica::Comment::ContentComment, d->id, "0", d->parentId,
-                                                     d->subject, d->message );
-    connect (job, SIGNAL(finished(Attica::BaseJob*)), SLOT(uploadCommentsFinished(Attica::BaseJob*)));
+                           d->subject, d->message );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadCommentsFinished( Attica::BaseJob* ) ) );
     job->start();
 }
 

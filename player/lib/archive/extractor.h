@@ -26,13 +26,13 @@
 class GLUON_PLAYER_EXPORT Extractor
 {
 
-public:
-    Extractor(const QString& sourceArchivePath, const QString& destinationDirectoryPath);
-    void start();
+    public:
+        Extractor( const QString& sourceArchivePath, const QString& destinationDirectoryPath );
+        void start();
 
-private:
-    QString m_sourceArchivePath;
-    QString m_destinationDirectoryPath;
+    private:
+        QString m_sourceArchivePath;
+        QString m_destinationDirectoryPath;
 };
 
 #endif // EXTRACTOR_H

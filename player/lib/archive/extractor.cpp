@@ -23,19 +23,19 @@
 #include <QFile>
 #include <QStringList>
 
-Extractor::Extractor (const QString& sourceArchivePath, const QString& destinationDirectoryPath)
-    : m_sourceArchivePath(sourceArchivePath), m_destinationDirectoryPath(destinationDirectoryPath)
+Extractor::Extractor( const QString& sourceArchivePath, const QString& destinationDirectoryPath )
+    : m_sourceArchivePath( sourceArchivePath ), m_destinationDirectoryPath( destinationDirectoryPath )
 {
 
 }
 
 void Extractor::start()
 {
-    QFile sourceArchiveFile(m_sourceArchivePath);
-    sourceArchiveFile.open(QIODevice::ReadOnly);
+    QFile sourceArchiveFile( m_sourceArchivePath );
+    sourceArchiveFile.open( QIODevice::ReadOnly );
 
-    QDataStream stream(&sourceArchiveFile);
-    stream.setVersion(QDataStream::Qt_4_7);
+    QDataStream stream( &sourceArchiveFile );
+    stream.setVersion( QDataStream::Qt_4_7 );
     int fileCount;
     stream >> fileCount;
 
@@ -44,27 +44,32 @@ void Extractor::start()
     qint64 totalSize = 0;
 
     //Read header for details of filenames and sizes
-    for (int i=0; i<fileCount; i++) {
+    for( int i = 0; i < fileCount; i++ )
+    {
         QString file;
         qint64 size;
         stream >> file;
         stream >> size;
-        filesList.append(file);
-        sizes.append(size);
+        filesList.append( file );
+        sizes.append( size );
         totalSize += size;
     }
 
-    sourceArchiveFile.seek(sourceArchiveFile.size()-totalSize);
+    sourceArchiveFile.seek( sourceArchiveFile.size() - totalSize );
 
     //Read and write actual file data, starting from the last file
-    for (int i=0; i<fileCount; i++) {
-        QFile file(QDir(m_destinationDirectoryPath).absoluteFilePath(filesList[i]));
-        QDir dir(file.fileName());      //fileName is a/b/c/d/blah.txt
-        if (!dir.exists()) {
-            dir.mkpath("..");           //create a/b/c/d/ if it doesn't exist
+    for( int i = 0; i < fileCount; i++ )
+    {
+        QFile file( QDir( m_destinationDirectoryPath ).absoluteFilePath( filesList[i] ) );
+        QDir dir( file.fileName() );    //fileName is a/b/c/d/blah.txt
+
+        if( !dir.exists() )
+        {
+            dir.mkpath( ".." );         //create a/b/c/d/ if it doesn't exist
         }
-        file.open(QIODevice::WriteOnly);
-        file.write(sourceArchiveFile.read(sizes[i]));
+
+        file.open( QIODevice::WriteOnly );
+        file.write( sourceArchiveFile.read( sizes[i] ) );
         file.close();
     }
 }

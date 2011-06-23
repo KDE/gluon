@@ -33,23 +33,23 @@ using namespace GluonPlayer;
 
 class OcsGameDetails::Private
 {
-public:
-    Private()   { }
+    public:
+        Private()   { }
 
-    QString gameName;
-    QString gameDescription;
-    QString projectDirName;
-    QString projectFileName;
-    QStringList screenshotUrls;
-    int rating;
-    Status status;
-    QString id;
+        QString gameName;
+        QString gameDescription;
+        QString projectDirName;
+        QString projectFileName;
+        QStringList screenshotUrls;
+        int rating;
+        Status status;
+        QString id;
 };
 
-OcsGameDetails::OcsGameDetails (const QString& gameName, const QString& gameDescription,
+OcsGameDetails::OcsGameDetails( const QString& gameName, const QString& gameDescription,
                                 const QString& projectDirName, const QString& projectFileName,
                                 const QStringList& screenshotUrls, int rating, Status status, const QString id,
-                                QObject* parent) : QObject (parent), d (new Private())
+                                QObject* parent ) : QObject( parent ), d( new Private() )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
@@ -108,14 +108,14 @@ int GluonPlayer::OcsGameDetails::rating() const
 
 class OcsGameDetailsProvider::Private
 {
-public:
-    Private() : provider(0) { }
+    public:
+        Private() : provider( 0 ) { }
 
-    Attica::Provider *provider;
+        Attica::Provider* provider;
 };
 
-OcsGameDetailsProvider::OcsGameDetailsProvider (Attica::Provider* provider, QObject* parent)
-    : QObject (parent), d(new Private())
+OcsGameDetailsProvider::OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent )
+    : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
 }
@@ -126,33 +126,39 @@ void OcsGameDetailsProvider::fetchGameList()
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
     Attica::Category::List categories;
 
-    foreach (const QString & gluonCategory, gluonGamesCategories) {
+    foreach( const QString & gluonCategory, gluonGamesCategories )
+    {
         Attica::Category category;
-        category.setId (gluonCategory);
-        categories.append (category);
+        category.setId( gluonCategory );
+        categories.append( category );
     }
 
-    Attica::ListJob<Attica::Content> *job = d->provider->searchContents(categories);
-    connect (job, SIGNAL (finished (Attica::BaseJob*)), SLOT (processFetchedGamesList (Attica::BaseJob*)));
+    Attica::ListJob<Attica::Content> *job = d->provider->searchContents( categories );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameDetailsProvider::processFetchedGamesList (Attica::BaseJob* job)
+void OcsGameDetailsProvider::processFetchedGamesList( Attica::BaseJob* job )
 {
     qDebug() << "Game List Successfully Fetched from the server!";
     QList<OcsGameDetails*> list;
 
-    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>(job);
-    if( contentJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach(Attica::Content content, contentJob->itemList()) {
-            OcsGameDetails *details = new OcsGameDetails(content.name(), content.description(), "", "",
-                                                         QStringList(), content.rating(), OcsGameDetails::Downloadable,
-                                                         content.id());
-            list.append(details);
+    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
+
+    if( contentJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        foreach( Attica::Content content, contentJob->itemList() )
+        {
+            OcsGameDetails* details = new OcsGameDetails( content.name(), content.description(), "", "",
+                    QStringList(), content.rating(), OcsGameDetails::Downloadable,
+                    content.id() );
+            list.append( details );
         }
 
-        emit gameDetailsFetched(list);
-    } else {
+        emit gameDetailsFetched( list );
+    }
+    else
+    {
         emit failedToFetchGameDetails();
     }
 }

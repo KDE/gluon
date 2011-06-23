@@ -35,18 +35,18 @@ using namespace GluonPlayer;
 
 class OcsGameDownloadProvider::Private
 {
-public:
-    Private() : provider(0)   { }
+    public:
+        Private() : provider( 0 )   { }
 
-    Attica::Provider *provider;
-    QString id;
-    QString destinationDir;
-    QString fileName;
+        Attica::Provider* provider;
+        QString id;
+        QString destinationDir;
+        QString fileName;
 };
 
-OcsGameDownloadProvider::OcsGameDownloadProvider (Attica::Provider *provider, const QString& id,
-                                                  const QString& destinationDir, QObject* parent)
-                                                    : QObject (parent), d(new Private)
+OcsGameDownloadProvider::OcsGameDownloadProvider( Attica::Provider* provider, const QString& id,
+        const QString& destinationDir, QObject* parent )
+    : QObject( parent ), d( new Private )
 {
     d->provider = provider;
     d->id = id;
@@ -60,47 +60,50 @@ OcsGameDownloadProvider::~OcsGameDownloadProvider()
 
 void OcsGameDownloadProvider::startDownload()
 {
-    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink(d->id);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)));
+    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink( d->id );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processDownloadLink( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
+void OcsGameDownloadProvider::processDownloadLink( Attica::BaseJob* baseJob )
 {
-    Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
+    Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>( baseJob );
     Attica::DownloadItem item = job->result();
 
-    QFileInfo info(item.url().path());
+    QFileInfo info( item.url().path() );
     d->fileName = info.fileName();
-    if (d->fileName.isEmpty()) {
+
+    if( d->fileName.isEmpty() )
+    {
         emit failed();
         return;
     }
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
-    QNetworkReply *reply = manager->get(QNetworkRequest(item.url()));
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(updateDownloadProgress(qint64,qint64)));
+
+    QNetworkAccessManager* manager = new QNetworkAccessManager( this );
+    connect( manager, SIGNAL( finished( QNetworkReply* ) ), SLOT( downloadComplete( QNetworkReply* ) ) );
+    QNetworkReply* reply = manager->get( QNetworkRequest( item.url() ) );
+    connect( reply, SIGNAL( downloadProgress( qint64, qint64 ) ), SLOT( updateDownloadProgress( qint64, qint64 ) ) );
     emit startedDownload();
 }
 
-void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
+void OcsGameDownloadProvider::downloadComplete( QNetworkReply* reply )
 {
-    QDir destDir(d->destinationDir);
-    QFile file(destDir.filePath(d->fileName));
-    file.open(QIODevice::WriteOnly);
-    file.write(reply->readAll());
+    QDir destDir( d->destinationDir );
+    QFile file( destDir.filePath( d->fileName ) );
+    file.open( QIODevice::WriteOnly );
+    file.write( reply->readAll() );
     file.close();
     reply->deleteLater();
 
-    Extractor extractor(destDir.filePath(d->fileName), d->destinationDir);
+    Extractor extractor( destDir.filePath( d->fileName ), d->destinationDir );
     extractor.start();
     emit finished();
 }
 
-void OcsGameDownloadProvider::updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal)
+void OcsGameDownloadProvider::updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal )
 {
-    downloadProgress(bytesReceived, bytesTotal);
-    qDebug() << (bytesReceived*100)/bytesTotal << "% done " << bytesReceived << " of " << bytesTotal;
+    downloadProgress( bytesReceived, bytesTotal );
+    qDebug() << ( bytesReceived * 100 ) / bytesTotal << "% done " << bytesReceived << " of " << bytesTotal;
 }
 
 #include "ocsgamedownloadprovider.moc"

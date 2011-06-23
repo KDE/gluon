@@ -29,17 +29,17 @@ using namespace GluonPlayer;
 
 class OcsRatingProvider::Private
 {
-public:
-    Private() : provider(0)   { }
+    public:
+        Private() : provider( 0 )   { }
 
-    Attica::Provider *provider;
-    QString id;
-    uint rating;
+        Attica::Provider* provider;
+        QString id;
+        uint rating;
 };
 
 
-OcsRatingProvider::OcsRatingProvider (Attica::Provider* provider, const QString& id,
-                                              uint rating, QObject* parent) : QObject (parent), d(new Private)
+OcsRatingProvider::OcsRatingProvider( Attica::Provider* provider, const QString& id,
+                                      uint rating, QObject* parent ) : QObject( parent ), d( new Private )
 {
     d->provider = provider;
     d->id = id;
@@ -54,17 +54,21 @@ OcsRatingProvider::~OcsRatingProvider()
 
 void OcsRatingProvider::startRatingUpload()
 {
-    Attica::PostJob *job = d->provider->voteForContent(d->id, d->rating);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)));
+    Attica::PostJob* job = d->provider->voteForContent( d->id, d->rating );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( ratingUploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsRatingProvider::ratingUploadComplete (Attica::BaseJob* baseJob)
+void OcsRatingProvider::ratingUploadComplete( Attica::BaseJob* baseJob )
 {
-    Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
-    if (job->metadata().error() == Attica::Metadata::NoError) {
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
+
+    if( job->metadata().error() == Attica::Metadata::NoError )
+    {
         emit finished();
-    } else {
+    }
+    else
+    {
         emit failed();
     }
 }

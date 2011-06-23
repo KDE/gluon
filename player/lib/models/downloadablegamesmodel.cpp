@@ -24,22 +24,22 @@
 
 using namespace GluonPlayer;
 
-DownloadableGamesModel::DownloadableGamesModel(QObject* parent): QSortFilterProxyModel(parent)
+DownloadableGamesModel::DownloadableGamesModel( QObject* parent ): QSortFilterProxyModel( parent )
 {
-    setSourceModel(new AllGameItemsModel(this));
-    setDynamicSortFilter(true);
+    setSourceModel( new AllGameItemsModel( this ) );
+    setDynamicSortFilter( true );
 }
 
-QVariant GluonPlayer::DownloadableGamesModel::gameData(int gameIndex, QByteArray role)
+QVariant GluonPlayer::DownloadableGamesModel::gameData( int gameIndex, QByteArray role )
 {
-    return data(index(gameIndex, 0), roleNames().key(role));
+    return data( index( gameIndex, 0 ), roleNames().key( role ) );
 }
 
-bool DownloadableGamesModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+bool DownloadableGamesModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
-    Q_ASSERT (!source_parent.isValid());
+    Q_ASSERT( !source_parent.isValid() );
 
-    return (sourceModel()->data(sourceModel()->index(source_row, 0), AllGameItemsModel::StatusRole) == GameItem::Downloadable);
+    return ( sourceModel()->data( sourceModel()->index( source_row, 0 ), AllGameItemsModel::StatusRole ) == GameItem::Downloadable );
 }
 
 #include "downloadablegamesmodel.moc"

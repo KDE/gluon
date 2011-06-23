@@ -27,16 +27,16 @@
 namespace GluonPlayer
 {
 
-class GLUON_PLAYER_EXPORT DownloadableGamesModel : public QSortFilterProxyModel
-{
-    Q_OBJECT
-public:
-    DownloadableGamesModel(QObject* parent = 0);
-    Q_INVOKABLE QVariant gameData(int gameIndex, QByteArray role);
+    class GLUON_PLAYER_EXPORT DownloadableGamesModel : public QSortFilterProxyModel
+    {
+            Q_OBJECT
+        public:
+            DownloadableGamesModel( QObject* parent = 0 );
+            Q_INVOKABLE QVariant gameData( int gameIndex, QByteArray role );
 
-protected:
-    virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
-};
+        protected:
+            virtual bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const;
+    };
 
 }
 

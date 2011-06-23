@@ -24,22 +24,22 @@
 
 using namespace GluonPlayer;
 
-InstalledGamesModel::InstalledGamesModel(QObject* parent): QSortFilterProxyModel(parent)
+InstalledGamesModel::InstalledGamesModel( QObject* parent ): QSortFilterProxyModel( parent )
 {
-    setSourceModel(new AllGameItemsModel(this));
-    setDynamicSortFilter(true);
+    setSourceModel( new AllGameItemsModel( this ) );
+    setDynamicSortFilter( true );
 }
 
-QVariant InstalledGamesModel::gameData(int gameIndex, QByteArray role)
+QVariant InstalledGamesModel::gameData( int gameIndex, QByteArray role )
 {
-    return data(index(gameIndex, 0), roleNames().key(role));
+    return data( index( gameIndex, 0 ), roleNames().key( role ) );
 }
 
-bool InstalledGamesModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+bool InstalledGamesModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
-    Q_ASSERT (!source_parent.isValid());
+    Q_ASSERT( !source_parent.isValid() );
 
-    return (sourceModel()->data(sourceModel()->index(source_row, 0), AllGameItemsModel::StatusRole) == GameItem::Installed);
+    return ( sourceModel()->data( sourceModel()->index( source_row, 0 ), AllGameItemsModel::StatusRole ) == GameItem::Installed );
 }
 
 #include "installedgamesmodel.moc"

@@ -30,57 +30,58 @@ namespace Attica
 
 namespace GluonPlayer
 {
-class OcsGameDetails : public QObject
-{
-    Q_OBJECT
-    Q_ENUMS (Status)
+    class OcsGameDetails : public QObject
+    {
+            Q_OBJECT
+            Q_ENUMS( Status )
 
-public:
-    enum Status {
-        Downloadable,
-        Installed,
-        Upgradable
+        public:
+            enum Status
+            {
+                Downloadable,
+                Installed,
+                Upgradable
+            };
+
+            explicit OcsGameDetails( const QString& gameName, const QString& gameDescription,
+                                     const QString& projectDirName, const QString& projectFileName,
+                                     const QStringList& screenshotUrls, int rating, GluonPlayer::OcsGameDetails::Status status,
+                                     const QString id, QObject* parent = 0 );
+            virtual ~OcsGameDetails();
+            QString gameName() const;
+            QString gameDescription() const;
+            QString projectDirName() const;
+            QString projectFileName() const;
+            QStringList screenshotUrls() const;
+            int rating() const;
+            Status status() const;
+            QString id() const;
+
+        private:
+            class Private;
+            Private* const d;
     };
 
-    explicit OcsGameDetails (const QString& gameName, const QString& gameDescription,
-                             const QString& projectDirName, const QString& projectFileName,
-                             const QStringList& screenshotUrls, int rating, GluonPlayer::OcsGameDetails::Status status,
-                             const QString id, QObject* parent = 0);
-    virtual ~OcsGameDetails();
-    QString gameName() const;
-    QString gameDescription() const;
-    QString projectDirName() const;
-    QString projectFileName() const;
-    QStringList screenshotUrls() const;
-    int rating() const;
-    Status status() const;
-    QString id() const;
+    class OcsGameDetailsProvider : public QObject
+    {
+            Q_OBJECT
+        public:
+            explicit OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent = 0 );
 
-private:
-    class Private;
-    Private* const d;
-};
+        Q_SIGNALS:
+            void gameDetailsFetched( QList<OcsGameDetails*> comments );
+            void failedToFetchGameDetails();
 
-class OcsGameDetailsProvider : public QObject
-{
-    Q_OBJECT
-public:
-    explicit OcsGameDetailsProvider (Attica::Provider* provider, QObject* parent = 0);
+        private Q_SLOTS:
+            void fetchGameList();
+            void processFetchedGamesList( Attica::BaseJob* job );
 
-Q_SIGNALS:
-    void gameDetailsFetched (QList<OcsGameDetails*> comments);
-    void failedToFetchGameDetails();
+        private:
+            class Private;
+            Private* const d;
 
-private Q_SLOTS:
-    void fetchGameList();
-    void processFetchedGamesList (Attica::BaseJob* job);
-
-private:
-    class Private;
-    Private* const d;
-
-    friend class OcsProvider;
-};
+            friend class OcsProvider;
+    };
 
 }
 

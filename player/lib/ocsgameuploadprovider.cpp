@@ -29,17 +29,17 @@ using namespace GluonPlayer;
 
 class OcsGameUploadProvider::Private
 {
-public:
-    Private() : provider(0)   { }
+    public:
+        Private() : provider( 0 )   { }
 
-    Attica::Provider *provider;
-    QString id;
-    QString fileName;
+        Attica::Provider* provider;
+        QString id;
+        QString fileName;
 };
 
 
-OcsGameUploadProvider::OcsGameUploadProvider (Attica::Provider* provider, const QString& id,
-                                              const QString& fileName, QObject* parent) : QObject (parent), d(new Private)
+OcsGameUploadProvider::OcsGameUploadProvider( Attica::Provider* provider, const QString& id,
+        const QString& fileName, QObject* parent ) : QObject( parent ), d( new Private )
 {
     d->provider = provider;
     d->id = id;
@@ -53,29 +53,35 @@ OcsGameUploadProvider::~OcsGameUploadProvider()
 
 void OcsGameUploadProvider::startUpload()
 {
-    QFile file(d->fileName);
-    if (!file.open(QIODevice::ReadOnly)) {
+    QFile file( d->fileName );
+
+    if( !file.open( QIODevice::ReadOnly ) )
+    {
         qDebug() << "Failed to open file " << d->fileName;
         emit failed();
         return;
     }
 
     QByteArray contents;
-    contents.append(file.readAll());
+    contents.append( file.readAll() );
     file.close();
 
-    QFileInfo fileInfo(d->fileName);
-    Attica::PostJob *job = d->provider->setDownloadFile(d->id, fileInfo.fileName(), contents);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(uploadComplete(Attica::BaseJob*)));
+    QFileInfo fileInfo( d->fileName );
+    Attica::PostJob* job = d->provider->setDownloadFile( d->id, fileInfo.fileName(), contents );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameUploadProvider::uploadComplete (Attica::BaseJob* baseJob)
+void OcsGameUploadProvider::uploadComplete( Attica::BaseJob* baseJob )
 {
-    Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
-    if (job->metadata().error() == Attica::Metadata::NoError) {
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
+
+    if( job->metadata().error() == Attica::Metadata::NoError )
+    {
         emit finished();
-    } else {
+    }
+    else
+    {
         emit failed();
     }
 }
