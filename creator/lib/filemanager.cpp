@@ -129,9 +129,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     // There really is no part that can be used.
     // Instead, just open it in an external application.
-    KRun* runner;
-    runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
-
+    // KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
 }
 
 void FileManager::closeFile( const QString& file )

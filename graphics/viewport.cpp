@@ -129,26 +129,26 @@ Viewport::update()
 
         frustrum->updateFrustrum( d->aspectRatio );
 
-        float visibleWidth = d->width;
-        float actualWidth = 0;
-        float visibleHeight = d->height;
-        float actualHeight = 0;
-        float widthDiff = 0;
-        float heightDiff = 0;
-        float aspect = frustrum->viewPlane().width() / frustrum->viewPlane().height();
+        // float visibleWidth = d->width;
+        // float actualWidth = 0;
+        // float visibleHeight = d->height;
+        // float actualHeight = 0;
+        // float widthDiff = 0;
+        // float heightDiff = 0;
+        // float aspect = frustrum->viewPlane().width() / frustrum->viewPlane().height();
 
-        if( d->aspectRatio > 1 )
-        {
-            actualHeight = visibleHeight;
-            actualWidth = visibleHeight * aspect;
-            widthDiff = visibleWidth - actualWidth;
-        }
-        else
-        {
-            actualWidth = visibleWidth;
-            actualHeight = visibleWidth * ( 1 / aspect );
-            heightDiff = visibleHeight - actualHeight;
-        }
+        // if( d->aspectRatio > 1 )
+        // {
+            // actualHeight = visibleHeight;
+            // actualWidth = visibleHeight * aspect;
+            // widthDiff = visibleWidth - actualWidth;
+        // }
+        // else
+        // {
+            //actualWidth = visibleWidth;
+            // actualHeight = visibleWidth * ( 1 / aspect );
+            // heightDiff = visibleHeight - actualHeight;
+        // }
 
         //glScissor(widthDiff / 2, heightDiff / 2, actualWidth, actualHeight);
     }
