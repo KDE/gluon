@@ -68,13 +68,6 @@ namespace GluonEngine
             */
             virtual void setName( const QString& newName );
 
-        public Q_SLOTS:
-            /**
-            * Force initialize() to open a new database connection.
-            */
-            void invalidate();
-
-        protected:
             /**
              * This is the score which is saved in the database.
              */
@@ -86,6 +79,13 @@ namespace GluonEngine
              */
             void setValue( qlonglong value );
 
+        public Q_SLOTS:
+            /**
+            * Force initialize() to open a new database connection.
+            */
+            void invalidate();
+
+        protected:
             /** Returns the current array */
             QList<qlonglong> array() const;
 
