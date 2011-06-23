@@ -33,6 +33,7 @@ namespace GluonPlayer
 {
 class OcsComment : public QObject
 {
+    Q_OBJECT
 public:
     explicit OcsComment (const QString &id, const QString &subject, const QString &text,
                          const QString &user, const QDateTime &dateTime, int score, QObject* parent = 0);
