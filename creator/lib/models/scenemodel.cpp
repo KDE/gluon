@@ -226,6 +226,7 @@ SceneModel::mimeTypes() const
     QStringList types;
     types << "application/gluon.object.gameobject";
     types << "application/gluon.text.componentclass";
+    types << "application/gluon.engine.GluonEngine::Prefab";
     return types;
 }
 
@@ -268,6 +269,25 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
         foreach( const QString & something, data->formats() )
         {
             DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) );
+        }
+
+        if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )
+        {
+            QByteArray encodedData = data->data( "application/gluon.engine.GluonEngine::Prefab" );
+            QDataStream stream( &encodedData, QIODevice::ReadOnly );
+            QStringList newItems;
+
+            while( !stream.atEnd() )
+            {
+                QString text;
+                stream >> text;
+                newItems << text;
+            }
+            foreach( const QString & text, newItems )
+            {
+                DEBUG_TEXT( QString( "Creating instance for %1" ).arg( text ) );
+                //ObjectManager::instance()->createNewComponent( text, gobj );
+            }
         }
 
         if( data->hasFormat( "application/gluon.text.componentclass" ) )

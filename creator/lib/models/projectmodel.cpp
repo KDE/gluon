@@ -338,6 +338,10 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
     if( types.isEmpty() )
         return 0;
 
+    GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>(static_cast<QObject*>(indexes.at(0).internalPointer()));
+    if(asset)
+        return asset->dragData();
+
     QMimeData* data = new QMimeData();
     QByteArray encodedData;
 
