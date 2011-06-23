@@ -26,18 +26,25 @@
 
 using namespace GluonCore;
 
-GLUON_DEFINE_SINGLETON(DirectoryProvider)
+GLUON_DEFINE_SINGLETON( DirectoryProvider )
 
-DirectoryProvider::DirectoryProvider(QObject* parent)
+DirectoryProvider::DirectoryProvider( QObject* parent )
 {
-    //Define standard dirs Gluon recommends
-    m_userDirs["data"] = "data";
-    m_userDirs["games"] = "games";
+    m_userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+    m_userDataPath.remove( QCoreApplication::applicationName() );
+    m_userDataPath.remove( QCoreApplication::organizationName() );
+    m_userDataPath.append( "/gluon/" );
 
-    m_userDataPath = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-    m_userDataPath.remove(QCoreApplication::applicationName());
-    m_userDataPath.remove(QCoreApplication::organizationName());
-    m_userDataPath.append("/gluon/");
+    //Define standard dirs Gluon recommends
+    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data" );
+    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/huge/games" );
+
+    //Create standard dirs Gluon recommends
+    QDir dir;
+    foreach( QString dirPath, m_userDirs.values() )
+    {
+        dir.mkpath( dirPath );
+    }
 }
 
 QString DirectoryProvider::installPrefix() const
@@ -55,19 +62,17 @@ QString DirectoryProvider::libDirectory() const
     return GLUON_LIB_INSTALL_DIR;
 }
 
-QString DirectoryProvider::userDir(QString subDir)
+QString DirectoryProvider::userDir( const QString& name )
 {
-    QDir dir;
-    QString finalPath;
-
-    if (m_userDirs.contains(subDir)) {
-        finalPath = QDir::fromNativeSeparators(m_userDataPath + "/" + m_userDirs[subDir]);
-    } else {
-        finalPath = QDir::fromNativeSeparators(m_userDataPath + subDir);
+    if( !m_userDirs.contains( name ) )
+    {
+        QString path = QDir::fromNativeSeparators( m_userDataPath + name );
+        m_userDirs[name] = path;
+        QDir dir;
+        dir.mkpath( path );
     }
 
-    dir.mkdir(finalPath);
-    return finalPath;
+    return m_userDirs[name];
 }
 
 #include "directoryprovider.moc"

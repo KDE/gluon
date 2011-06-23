@@ -31,24 +31,24 @@
 namespace GluonCore
 {
 
-class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
-{
-    Q_OBJECT
-    GLUON_SINGLETON(DirectoryProvider)
+    class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
+    {
+            Q_OBJECT
+            GLUON_SINGLETON( DirectoryProvider )
 
-public:
-    QString installPrefix() const;
+        public:
+            QString installPrefix() const;
 
-    QString dataDirectory() const;
+            QString dataDirectory() const;
 
-    QString libDirectory() const;
+            QString libDirectory() const;
 
-    QString userDir(QString subDirs);
+            QString userDir( const QString& name );
 
-private:
-    QString m_userDataPath;
-    QHash<QString, QString> m_userDirs;
-};
+        private:
+            QString m_userDataPath;
+            QHash<QString, QString> m_userDirs;
+    };
 
 }
 
