@@ -138,6 +138,15 @@ namespace GluonPlayer
             Q_INVOKABLE OcsGameDetailsProvider* fetchGames();
 
             /**
+             * Use to fetch details about a particular game from the OCS server
+             *
+             * @param id ID of the game you want details about
+             * @return a OcsGameDetailsProvider object which the caller must
+             * monitor to find out the result of the operation
+             */
+            Q_INVOKABLE OcsGameDetailsProvider* fetchOneGame( const QString &id );
+
+            /**
              * Use to download the game with ID id
              *
              * @param id ID of the game

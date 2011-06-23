@@ -45,8 +45,8 @@ namespace GluonPlayer
             class Private;
             Private* const d;
         Q_SIGNALS:
-            void finished();
-            void failed();
+            void finished( const QString &id );
+            void failed( const QString &id );
         private Q_SLOTS:
             void startRatingUpload();
             void ratingUploadComplete( Attica::BaseJob* baseJob );

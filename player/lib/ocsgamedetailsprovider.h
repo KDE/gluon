@@ -67,14 +67,21 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             explicit OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent = 0 );
+            explicit OcsGameDetailsProvider( Attica::Provider* provider, const QString &id,  QObject* parent = 0 );
 
         Q_SIGNALS:
-            void gameDetailsFetched( QList<OcsGameDetails*> comments );
-            void failedToFetchGameDetails();
+            void gameListFetched( QList<OcsGameDetails*> gameList );
+            void failedToFetchGameList();
+
+            void gameDetailsFetched( OcsGameDetails* gameDetails );
+            void failedToFetchGameDetails( const QString &id );
 
         private Q_SLOTS:
             void fetchGameList();
-            void processFetchedGamesList( Attica::BaseJob* job );
+            void processFetchedGameList( Attica::BaseJob* job );
+
+            void fetchGameDetails();
+            void processFetchedGameDetails( Attica::BaseJob* job );
 
         private:
             class Private;

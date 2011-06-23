@@ -32,11 +32,17 @@ namespace GluonPlayer
             Q_OBJECT
             Q_ENUMS( Status )
         public:
+            /**
+             * Enumerations that describe the status of a game
+             */
             enum Status
             {
-                Downloadable,
-                Installed,
-                Upgradable
+                Downloadable                    = 1,    ///Game is available on the OCS server
+                Local                           = 2,    ///Game is present on the local filesystem
+                Installed                       = Downloadable | Local, ///Game was installed from the OCS server
+                //TODO: Implement the following roles:
+                //Upgradable                      = 4 | Installed,        ///Game's new version is available on the OCS server
+                //OwnedByUser                     = 8 | Downloadable      ///Game's owner on the OCS server is the current user
             };
 
             explicit GameItem( const QString& gameName, const QString& description, int rating,
@@ -45,9 +51,13 @@ namespace GluonPlayer
             virtual ~GameItem();
 
             QString gameName() const;
+            void setGameName( const QString &gameName );
             QString gameDescription() const;
+            void setGameDescription( const QString &gameDescription );
             int rating() const;
+            void setRating( int rating );
             Status status() const;
+            void setStatus( Status status );
             QString id() const;
 
         private:

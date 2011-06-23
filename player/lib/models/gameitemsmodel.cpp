@@ -172,7 +172,7 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 void GameItemsModel::fetchGamesList()
 {
     OcsGameDetailsProvider *gameDetailsProvider = OcsProvider::instance()->fetchGames();
-    connect(gameDetailsProvider, SIGNAL(gameDetailsFetched (QList<OcsGameDetails*>)),
+    connect(gameDetailsProvider, SIGNAL( gameListFetched (QList<OcsGameDetails*>)),
             SLOT(processFetchedGamesList(QList<OcsGameDetails*>)));
 }
 

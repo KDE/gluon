@@ -24,6 +24,7 @@
 
 #include <player/lib/ocsprovider.h>
 #include <player/lib/ocsgamedetailsprovider.h>
+#include <player/lib/ocsratingprovider.h>
 
 #include <core/directoryprovider.h>
 #include <engine/gameproject.h>
@@ -42,7 +43,8 @@ class AllGameItemsModel::Private
         {
         }
 
-        QMap<QString, GameItem*> gameItems;
+        QList<GameItem*> gameItems;
+        QHash<QString, int> listIndexForId;
         QFileSystemModel fsModel;
 };
 
@@ -69,54 +71,124 @@ AllGameItemsModel::~AllGameItemsModel()
 {
 }
 
+void AllGameItemsModel::addGameItemToList( GameItem* gameItem )
+{
+    QString id = gameItem->id();
+
+    if( d->listIndexForId.contains( id ) )
+    {
+        qFatal( "Fatal: List already contains the game" );
+    }
+
+    int gameCount = d->gameItems.count();
+    beginInsertRows( QModelIndex(), gameCount, gameCount );
+    d->listIndexForId.insert( id, gameCount );
+    d->gameItems.append( gameItem );
+    endInsertRows();
+}
+
+GameItem* AllGameItemsModel::gameItemForId( const QString& id )
+{
+    if( d->listIndexForId.contains( id ) )
+    {
+        return d->gameItems.at( d->listIndexForId.value( id ) );
+    }
+
+    return 0;
+}
+
 void AllGameItemsModel::directoryLoaded( const QString& path )
 {
+    //TODO: Use standard gluon game dir
     if( QDir( path ) != QDir( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" ) )
         return;
 
-    beginResetModel();
-    QModelIndex parentIndex = d->fsModel.index( path );
+    QModelIndex parentIndex = d->fsModel.index( path ); //QFSModel puts "/" as root, obtain parent to our games path
 
-    //Clear GameItems
-    foreach( GameItem * gameItem, d->gameItems.values() )
-    {
-        delete d->gameItems.take( gameItem->id() );
-    }
-
-    //Find all .gluon dirs and add them
+    //TODO: This handles new games, also handle deleted games
+    //Find all .gluon dirs
     for( int i = 0; i < d->fsModel.rowCount( parentIndex ); ++i )
     {
-        QString gameDirName = d->fsModel.fileName( d->fsModel.index( i, 0, parentIndex ) );
-        QDir gameDir( path );
-        gameDir.cd( gameDirName );
-
-        QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
-
-        if( !gluonProjectFiles.isEmpty() )
-        {
-            QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
-            GluonEngine::GameProject project;
-            project.loadFromFile( projectFileName );
-            QString id = project.property( "id" ).toString();
-
-            addGameProjectToList( id, project );
-        }
+        QString gameDirPath = d->fsModel.filePath( d->fsModel.index( i, 0, parentIndex ) );
+        addGameFromDirectory( gameDirPath );
     }
 
-    endResetModel();
-    fetchGamesList();
+    fetchGamesList();   //FIXME: Preferably do this only the first time
 }
 
-void AllGameItemsModel::addGameProjectToList( const QString& id, const GluonEngine::GameProject& project )
+void AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
 {
-    //FIXME: Rating = 0 might not be good
-    GameItem* gameItem = new GameItem( project.name(), project.description(), 0, GameItem::Installed, id, this );
-    addGameItemToList( id, gameItem );
+    QDir gameDir( directoryPath );
+    QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
+
+    if( !gluonProjectFiles.isEmpty() )
+    {
+        QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
+        GluonEngine::GameProject project;
+        project.loadFromFile( projectFileName );
+        QString id = project.property( "id" ).toString();
+
+        if( d->listIndexForId.contains( id ) )
+        {
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+                                               GluonPlayer::GameItem::Installed, id, this );
+            addOrUpdateGameFromFetchedGameItem( gameItem );
+        }
+        else
+        {
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+                                               GluonPlayer::GameItem::Installed, id, this );
+            addGameItemToList( gameItem );
+            fetchAndUpdateExistingGameItem( gameItem ); //New game on disk, fetch social info from OCS server
+        }
+    }
+    else
+    {
+        qWarning() << "No " << GluonEngine::projectFilename << " in " << directoryPath;
+    }
 }
 
-void AllGameItemsModel::addGameItemToList( const QString& id, GluonPlayer::GameItem* gameItem )
+void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
 {
-    d->gameItems.insert( id, gameItem );
+    /* TODO: Right now, if information such as game name exist both on file system
+        and on the server, its assumed that the server is "correct".
+        However, in case the user is the owner of the game, we should ask
+    */
+    GameItem* existingGameItem = gameItemForId( newGameItem->id() );
+
+    if( existingGameItem )
+    {
+        if( newGameItem->status() == GameItem::Downloadable )
+        {
+            existingGameItem->setRating( newGameItem->rating() );
+            existingGameItem->setGameName( newGameItem->gameName() );
+            existingGameItem->setGameDescription( newGameItem->gameDescription() );
+        }
+        else if( existingGameItem->status() != GameItem::Downloadable )
+        {
+            existingGameItem->setGameName( newGameItem->gameName() );
+            existingGameItem->setGameDescription( newGameItem->gameDescription() );
+        }
+
+        existingGameItem->setStatus( GameItem::Status( existingGameItem->status() | newGameItem->status() ) );
+
+        int row = d->gameItems.indexOf( existingGameItem );
+        dataChanged( index( row ), index( row ) );
+    }
+}
+
+void AllGameItemsModel::addOrUpdateGameFromFetchedGameItem( GameItem* gameItem )
+{
+    QString id = gameItem->id();
+
+    if( d->listIndexForId.contains( id ) )
+    {
+        updateExistingGameItem( gameItem );
+    }
+    else
+    {
+        addGameItemToList( gameItem );
+    }
 }
 
 QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
@@ -130,20 +202,34 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
             break;
         case Qt::DisplayRole:
         case GameNameRole:
-            return d->gameItems.values().at( index.row() )->gameName();
+            return d->gameItems.at( index.row() )->gameName();
         case GameDescriptionRole:
-            return d->gameItems.values().at( index.row() )->gameDescription();
+            return d->gameItems.at( index.row() )->gameDescription();
         case RatingRole:
-            return d->gameItems.values().at( index.row() )->rating();
+            return d->gameItems.at( index.row() )->rating();
         case StatusRole:
-            return d->gameItems.values().at( index.row() )->status();
+            return d->gameItems.at( index.row() )->status();
         case IDRole:
-            return d->gameItems.values().at( index.row() )->id();
+            return d->gameItems.at( index.row() )->id();
         default:
             break;
     }
 
     return QVariant();
+}
+
+bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value, int role )
+{
+    switch( role )
+    {
+        case RatingRole:
+            OcsRatingProvider* ratingProvider =
+                OcsProvider::instance()->setRating( d->gameItems.at( index.row() )->id(), value.toUInt() );
+            connect( ratingProvider, SIGNAL( finished( QString ) ), SLOT( ratingUploadFinished( QString ) ) );
+            return true;
+    }
+
+    return false;
 }
 
 int AllGameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
@@ -169,24 +255,42 @@ QVariant AllGameItemsModel::headerData( int section, Qt::Orientation orientation
 void AllGameItemsModel::fetchGamesList()
 {
     OcsGameDetailsProvider* gameDetailsProvider = OcsProvider::instance()->fetchGames();
-    connect( gameDetailsProvider, SIGNAL( gameDetailsFetched( QList<OcsGameDetails*> ) ),
+    connect( gameDetailsProvider, SIGNAL( gameListFetched( QList<OcsGameDetails*> ) ),
              SLOT( processFetchedGamesList( QList<OcsGameDetails*> ) ) );
 }
 
 void AllGameItemsModel::processFetchedGamesList( QList< OcsGameDetails* > gamesList )
 {
-    beginResetModel();
     foreach( OcsGameDetails * c, gamesList )
     {
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
                                            c->id(), this );
 
-        if( !d->gameItems.contains( c->id() ) )
-        {
-            addGameItemToList( c->id(), gameItem );
-        }
+        addOrUpdateGameFromFetchedGameItem( gameItem );
     }
-    endResetModel();
+}
+
+void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem )
+{
+    if( gameItem->id().isEmpty() )
+        return;
+
+    OcsGameDetailsProvider* gameDetailsProvider = OcsProvider::instance()->fetchOneGame( gameItem->id() );
+    connect( gameDetailsProvider, SIGNAL( gameDetailsFetched( OcsGameDetails* ) ),
+             SLOT( processFetchedGameDetails( OcsGameDetails* ) ) );
+}
+
+void AllGameItemsModel::processFetchedGameDetails( OcsGameDetails* gameDetails )
+{
+    GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
+                                       GameItem::Downloadable, gameDetails->id(), this );
+    addOrUpdateGameFromFetchedGameItem( gameItem );
+}
+
+
+void AllGameItemsModel::ratingUploadFinished( const QString& id )
+{
+    fetchAndUpdateExistingGameItem( gameItemForId( id ) );
 }
 
 #include "allgameitemsmodel.moc"

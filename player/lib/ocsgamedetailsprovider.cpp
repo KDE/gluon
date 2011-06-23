@@ -112,12 +112,20 @@ class OcsGameDetailsProvider::Private
         Private() : provider( 0 ) { }
 
         Attica::Provider* provider;
+        QString id;
 };
 
 OcsGameDetailsProvider::OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
+}
+
+OcsGameDetailsProvider::OcsGameDetailsProvider( Attica::Provider* provider, const QString& id, QObject* parent )
+    : QObject( parent ), d( new Private() )
+{
+    d->provider = provider;
+    d->id = id;
 }
 
 void OcsGameDetailsProvider::fetchGameList()
@@ -134,11 +142,11 @@ void OcsGameDetailsProvider::fetchGameList()
     }
 
     Attica::ListJob<Attica::Content> *job = d->provider->searchContents( categories );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameList( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameDetailsProvider::processFetchedGamesList( Attica::BaseJob* job )
+void OcsGameDetailsProvider::processFetchedGameList( Attica::BaseJob* job )
 {
     qDebug() << "Game List Successfully Fetched from the server!";
     QList<OcsGameDetails*> list;
@@ -155,12 +163,38 @@ void OcsGameDetailsProvider::processFetchedGamesList( Attica::BaseJob* job )
             list.append( details );
         }
 
-        emit gameDetailsFetched( list );
+        emit gameListFetched( list );
     }
     else
     {
-        emit failedToFetchGameDetails();
+        emit failedToFetchGameList();
     }
 }
+
+void OcsGameDetailsProvider::fetchGameDetails()
+{
+    Attica::ItemJob<Attica::Content> *job = d->provider->requestContent( d->id );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
+    job->start();
+}
+
+void OcsGameDetailsProvider::processFetchedGameDetails( Attica::BaseJob* job )
+{
+    Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content>*>( job );
+
+    if( contentJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        Attica::Content content = contentJob->result();
+        OcsGameDetails* details = new OcsGameDetails( content.name(), content.description(), "", "",
+                QStringList(), content.rating(), OcsGameDetails::Downloadable,
+                content.id() );
+        gameDetailsFetched( details );
+    }
+    else
+    {
+        emit failedToFetchGameDetails( d->id );
+    }
+}
+
 
 #include "ocsgamedetailsprovider.moc"

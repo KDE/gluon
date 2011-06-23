@@ -65,11 +65,11 @@ void OcsRatingProvider::ratingUploadComplete( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        emit finished();
+        emit finished(d->id);
     }
     else
     {
-        emit failed();
+        emit failed(d->id);
     }
 }
 

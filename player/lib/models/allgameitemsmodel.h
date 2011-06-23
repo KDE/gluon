@@ -63,21 +63,27 @@ namespace GluonPlayer
 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         protected Q_SLOTS:
             void processFetchedGamesList( QList<OcsGameDetails*> gamesList );
+            void processFetchedGameDetails( OcsGameDetails* gameDetails );
 
         private Q_SLOTS:
             void directoryLoaded( const QString& path );
+            void ratingUploadFinished( const QString &id );
 
         private:
             void fetchGamesList();
-            void scanDirectory( QModelIndex index );
-            inline void addGameProjectToList( const QString& id, const GluonEngine::GameProject& project );
-            inline void addGameItemToList( const QString& id, GluonPlayer::GameItem* gameItem );
+            void addGameItemToList( GameItem *gameItem );
+            GameItem *gameItemForId( const QString &id );
+            void addGameFromDirectory( const QString &directoryPath );
+            void addOrUpdateGameFromFetchedGameItem( GameItem *gameItem );
+            void updateExistingGameItem( const GameItem *newGameItem );
+            void fetchAndUpdateExistingGameItem( const GameItem *gameItem );
 
             class Private;
             Private* const d;

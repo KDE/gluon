@@ -28,11 +28,11 @@ class GameItem::Private
         {
         }
 
-        QString m_gameName;
-        QString m_gameDescription;
+        QString gameName;
+        QString gameDescription;
         int rating;
-        Status m_status;
-        QString m_id;
+        Status status;
+        QString id;
 };
 
 GameItem::GameItem( const QString& gameName, const QString& gameDescription, int rating,
@@ -40,11 +40,11 @@ GameItem::GameItem( const QString& gameName, const QString& gameDescription, int
     : QObject( parent )
     , d( new Private() )
 {
-    d->m_gameName = gameName;
-    d->m_gameDescription = gameDescription;
+    d->gameName = gameName;
+    d->gameDescription = gameDescription;
     d->rating = rating;
-    d->m_status = status;
-    d->m_id = id;
+    d->status = status;
+    d->id = id;
 }
 
 GameItem::~GameItem()
@@ -53,27 +53,47 @@ GameItem::~GameItem()
 
 QString GameItem::gameName() const
 {
-    return d->m_gameName;
+    return d->gameName;
+}
+
+void GameItem::setGameName( const QString& gameName )
+{
+    d->gameName = gameName;
 }
 
 QString GameItem::gameDescription() const
 {
-    return d->m_gameDescription;
+    return d->gameDescription;
+}
+
+void GameItem::setGameDescription( const QString& gameDescription )
+{
+    d->gameDescription = gameDescription;
 }
 
 GameItem::Status GameItem::status() const
 {
-    return d->m_status;
+    return d->status;
 }
 
-QString GameItem::id() const
+void GameItem::setStatus( GameItem::Status status )
 {
-    return d->m_id;
+    d->status = status;
 }
 
 int GameItem::rating() const
 {
     return d->rating;
+}
+
+void GameItem::setRating( int rating )
+{
+    d->rating = rating;
+}
+
+QString GameItem::id() const
+{
+    return d->id;
 }
 
 #include "gameitem.moc"

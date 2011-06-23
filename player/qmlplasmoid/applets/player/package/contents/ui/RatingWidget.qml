@@ -77,6 +77,11 @@ Item {
         var i = 0;
         var ratingPerStar = 100/ratingModel.count;
 
+        //Clear all stars
+        for (j=0; j<ratingModel.count; ++j) {
+            ratingModel.get(j).value = 0;
+        }
+
         while (tmp > 0) {
             if (tmp > ratingPerStar) {
                 ratingModel.get(i).value = ratingPerStar;

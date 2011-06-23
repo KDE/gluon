@@ -37,25 +37,26 @@
 
 using namespace GluonPlayer;
 
-GLUON_DEFINE_SINGLETON (OcsProvider)
+GLUON_DEFINE_SINGLETON( OcsProvider )
 
 class OcsProvider::Private
 {
-public:
-    Private() : ready (false), loggedIn(false) {
-    }
+    public:
+        Private() : ready( false ), loggedIn( false )
+        {
+        }
 
-    bool ready;
-    bool loggedIn;
-    Attica::ProviderManager manager;
-    Attica::Provider provider;
-    QString username;
-    QString password;
+        bool ready;
+        bool loggedIn;
+        Attica::ProviderManager manager;
+        Attica::Provider provider;
+        QString username;
+        QString password;
 };
 
 
 OcsProvider::OcsProvider( QObject* parent )
-    : Singleton< GluonPlayer::OcsProvider >( parent ), d (new Private())
+    : Singleton< GluonPlayer::OcsProvider >( parent ), d( new Private() )
 {
     init();
 }
@@ -72,20 +73,27 @@ bool OcsProvider::isReady() const
 
 void OcsProvider::init()
 {
-    if (d->ready) {
+    if( d->ready )
+    {
         return;
     }
-    connect (&d->manager, SIGNAL (defaultProvidersLoaded()), SLOT (providersUpdated()));
+
+    connect( &d->manager, SIGNAL( defaultProvidersLoaded() ), SLOT( providersUpdated() ) );
     d->manager.loadDefaultProviders();
 }
 
 void OcsProvider::providersUpdated()
 {
-    if (!d->manager.providers().isEmpty()) {
-        d->provider = d->manager.providerByUrl (QUrl ("https://api.opendesktop.org/v1/"));
-        if (!d->provider.isValid()) {
+    if( !d->manager.providers().isEmpty() )
+    {
+        d->provider = d->manager.providerByUrl( QUrl( "https://api.opendesktop.org/v1/" ) );
+
+        if( !d->provider.isValid() )
+        {
             emit failedToInitialize();
-        } else {
+        }
+        else
+        {
             d->ready = true;
             loadCredentials();
         }
@@ -94,39 +102,47 @@ void OcsProvider::providersUpdated()
 
 void OcsProvider::loadCredentials()
 {
-    if (!d->ready) {
+    if( !d->ready )
+    {
         return;
     }
 
-    if (d->provider.hasCredentials()) {
-        d->provider.loadCredentials(d->username, d->password);
+    if( d->provider.hasCredentials() )
+    {
+        d->provider.loadCredentials( d->username, d->password );
     }
 
     emit providerInitialized();
 }
 
-OcsCommentsProvider* OcsProvider::fetchComments (const QString& id, int page, int pageSize)
+OcsCommentsProvider* OcsProvider::fetchComments( const QString& id, int page, int pageSize )
 {
-    OcsCommentsProvider *commentsProvider = new OcsCommentsProvider(&d->provider, id, page, pageSize);
+    OcsCommentsProvider* commentsProvider = new OcsCommentsProvider( &d->provider, id, page, pageSize );
 
-    if (d->ready) {
+    if( d->ready )
+    {
         commentsProvider->fetchComments();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), commentsProvider, SLOT(fetchComments()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( fetchComments() ) );
     }
 
     return commentsProvider;
 }
 
-OcsCommentsProvider* OcsProvider::uploadComment (const QString& id, const QString& parentId,
-        const QString& subject, const QString& message)
+OcsCommentsProvider* OcsProvider::uploadComment( const QString& id, const QString& parentId,
+        const QString& subject, const QString& message )
 {
-    OcsCommentsProvider *commentsProvider = new OcsCommentsProvider(&d->provider, id, parentId, subject, message);
+    OcsCommentsProvider* commentsProvider = new OcsCommentsProvider( &d->provider, id, parentId, subject, message );
 
-    if (d->ready && d->loggedIn) {
+    if( d->ready && d->loggedIn )
+    {
         commentsProvider->uploadComments();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), commentsProvider, SLOT(uploadComments()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( uploadComments() ) );
     }
 
     return commentsProvider;
@@ -142,43 +158,54 @@ bool OcsProvider::isLoggedIn()
     return d->loggedIn;
 }
 
-bool OcsProvider::login (const QString& username, const QString& password)
+bool OcsProvider::login( const QString& username, const QString& password )
 {
-    if (d->loggedIn) {
+    if( d->loggedIn )
+    {
         return false;
     }
 
     d->username = username;
     d->password = password;
 
-    if (d->ready) {
+    if( d->ready )
+    {
         doLogin();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), SLOT(doLogin()));
     }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), SLOT( doLogin() ) );
+    }
+
     return true;
 }
 
 void OcsProvider::doLogin()
 {
-    Attica::PostJob* job = d->provider.checkLogin (d->username, d->password);
-    connect (job, SIGNAL (finished (Attica::BaseJob*)), SLOT (checkLoginResult (Attica::BaseJob*)));
+    Attica::PostJob* job = d->provider.checkLogin( d->username, d->password );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsProvider::checkLoginResult (Attica::BaseJob* baseJob)
+void OcsProvider::checkLoginResult( Attica::BaseJob* baseJob )
 {
-    Attica::PostJob* job = qobject_cast<Attica::PostJob*> (baseJob);
+    Attica::PostJob* job = qobject_cast<Attica::PostJob*> ( baseJob );
 
-    if (job->metadata().error() == Attica::Metadata::NoError) {
-        if (d->provider.saveCredentials (d->username, d->password)) {
+    if( job->metadata().error() == Attica::Metadata::NoError )
+    {
+        if( d->provider.saveCredentials( d->username, d->password ) )
+        {
             d->loggedIn = true;
             emit loggedIn();
-        } else {
+        }
+        else
+        {
             d->loggedIn = false;
             emit loginFailed();
         }
-    } else {
+    }
+    else
+    {
         d->loggedIn = false;
         emit loginFailed();
     }
@@ -186,14 +213,18 @@ void OcsProvider::checkLoginResult (Attica::BaseJob* baseJob)
 
 bool OcsProvider::logout()
 {
-    if (!d->loggedIn) {
+    if( !d->loggedIn )
+    {
         return false;
     }
 
-    if (d->ready) {
+    if( d->ready )
+    {
         doLogout();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), SLOT(doLogout()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), SLOT( doLogout() ) );
     }
 
     return true;
@@ -204,7 +235,7 @@ void OcsProvider::doLogout()
     d->username.clear();
     d->password.clear();
     d->loggedIn = false;
-    d->provider.saveCredentials(d->username, d->password);
+    d->provider.saveCredentials( d->username, d->password );
 }
 
 QString OcsProvider::username()
@@ -219,62 +250,94 @@ QString OcsProvider::password()
 
 OcsGameDetailsProvider* OcsProvider::fetchGames()
 {
-    OcsGameDetailsProvider *gameDetailsProvider = new OcsGameDetailsProvider(&d->provider);
+    OcsGameDetailsProvider* gameDetailsProvider = new OcsGameDetailsProvider( &d->provider );
 
-    if (d->ready) {
+    if( d->ready )
+    {
         gameDetailsProvider->fetchGameList();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), gameDetailsProvider, SLOT(fetchGameList()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), gameDetailsProvider, SLOT( fetchGameList() ) );
     }
 
     return gameDetailsProvider;
 }
 
-OcsGameDownloadProvider* OcsProvider::downloadGame (const QString& id)
+OcsGameDownloadProvider* OcsProvider::downloadGame( const QString& id )
 {
-    QString path("gluon/games");
-    QDir destinationDir(GluonCore::DirectoryProvider::instance()->dataDirectory());
-    if (!destinationDir.exists(path)) {
-        destinationDir.mkpath(path);
+    QString path( "gluon/games" );
+    QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
+
+    if( !destinationDir.exists( path ) )
+    {
+        destinationDir.mkpath( path );
     }
-    destinationDir.cd(path);
 
-    OcsGameDownloadProvider *gameDownloadProvider = new OcsGameDownloadProvider(&d->provider, id,
-                                                                                destinationDir.path());
+    destinationDir.cd( path );
 
-    if (d->ready) {
+    OcsGameDownloadProvider* gameDownloadProvider = new OcsGameDownloadProvider( &d->provider, id,
+            destinationDir.path() );
+
+    if( d->ready )
+    {
         gameDownloadProvider->startDownload();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), gameDownloadProvider, SLOT(startDownload()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), gameDownloadProvider, SLOT( startDownload() ) );
     }
 
     return gameDownloadProvider;
 }
 
-OcsGameUploadProvider* OcsProvider::uploadGame (const QString& id, const QString& path)
+OcsGameUploadProvider* OcsProvider::uploadGame( const QString& id, const QString& path )
 {
-    OcsGameUploadProvider *gameUploadProvider = new OcsGameUploadProvider(&d->provider, id, path);
+    OcsGameUploadProvider* gameUploadProvider = new OcsGameUploadProvider( &d->provider, id, path );
 
-    if (d->ready) {
+    if( d->ready )
+    {
         gameUploadProvider->startUpload();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), gameUploadProvider, SLOT(startUpload()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), gameUploadProvider, SLOT( startUpload() ) );
     }
 
     return gameUploadProvider;
 }
 
-OcsRatingProvider* OcsProvider::setRating (const QString& id, uint rating)
+OcsRatingProvider* OcsProvider::setRating( const QString& id, uint rating )
 {
-    OcsRatingProvider *ratingProvider = new OcsRatingProvider(&d->provider, id, rating);
+    OcsRatingProvider* ratingProvider = new OcsRatingProvider( &d->provider, id, rating );
 
-    if (d->ready) {
+    if( d->ready )
+    {
         ratingProvider->startRatingUpload();
-    } else {
-        connect(this, SIGNAL(providerInitialized()), ratingProvider, SLOT(startRatingUpload()));
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), ratingProvider, SLOT( startRatingUpload() ) );
     }
 
     return ratingProvider;
 }
 
+OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString &id )
+{
+    OcsGameDetailsProvider* gameDetailsProvider = new OcsGameDetailsProvider( &d->provider, id );
+
+    if( d->ready )
+    {
+        gameDetailsProvider->fetchGameDetails();
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), gameDetailsProvider, SLOT( fetchGameDetails() ) );
+    }
+
+    return gameDetailsProvider;
+}
+
 #include "ocsprovider.moc"
+
