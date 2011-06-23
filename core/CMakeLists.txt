@@ -34,6 +34,7 @@ set(GLUON_CORE_INCLUDES
 )
 
 set(GluonCore_SRCS
+    directoryprovider.cpp
     debughelper.cpp
     gdlhandler.cpp
     messagehandler.cpp

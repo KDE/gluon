@@ -171,7 +171,7 @@ namespace GluonEngine
              */
             static QUrl fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension = QString() );
 
-        public slots:
+        public Q_SLOTS:
             /**
              * Load the data of this Asset into memory.
              */

@@ -25,7 +25,7 @@
 #include <player/lib/ocsprovider.h>
 #include <player/lib/ocsgamedetailsprovider.h>
 
-#include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 #include <engine/gameproject.h>
 
 #include <QtCore/QHash>
@@ -51,7 +51,7 @@ AllGameItemsModel::AllGameItemsModel(QObject* parent)
 {
     d->fsModel.setNameFilters(QStringList('*' + GluonEngine::projectSuffix));
     connect(&d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)));
-    d->fsModel.setRootPath(GluonCore::Global::dataDirectory() + "/gluon/games");
+    d->fsModel.setRootPath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games");
 
     QHash<int, QByteArray> roles;
     roles[GameNameRole] = "GameName";
@@ -70,7 +70,7 @@ AllGameItemsModel::~AllGameItemsModel()
 
 void AllGameItemsModel::directoryLoaded(const QString& path)
 {
-    if (QDir(path) != QDir(GluonCore::Global::dataDirectory() + "/gluon/games"))
+    if (QDir(path) != QDir(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games"))
         return;
 
     beginResetModel();

@@ -44,10 +44,10 @@ public:
 private:
     class Private;
     Private* const d;
-signals:
+Q_SIGNALS:
     void finished();
     void failed();
-private slots:
+private Q_SLOTS:
     void startRatingUpload();
     void ratingUploadComplete (Attica::BaseJob* baseJob);
 

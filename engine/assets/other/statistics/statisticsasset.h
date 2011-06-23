@@ -53,7 +53,7 @@ namespace GluonEngine
             /** Creates the statistics from the file at startup */
             virtual void setFile( const QUrl& newFile );
 
-        public slots:
+        public Q_SLOTS:
             /**
              * Use this method to create Statistic objects. If you use the normal
              * constructor, it won't be saved.

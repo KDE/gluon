@@ -35,30 +35,32 @@ class BaseJob;
 
 namespace GluonPlayer
 {
-class GLUON_PLAYER_EXPORT OcsGameDownloadProvider : public QObject
-{
-    Q_OBJECT
-public:
-    OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                             QObject* parent = 0);
-    virtual ~OcsGameDownloadProvider();
-private:
-    class Private;
-    Private* const d;
-signals:
-    void startedDownload();
-    void finished();
-    void failed();
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    class GLUON_PLAYER_EXPORT OcsGameDownloadProvider : public QObject
+    {
+        Q_OBJECT
+        public:
+            OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                    QObject* parent = 0);
+            virtual ~OcsGameDownloadProvider();
 
-private slots:
-    void startDownload();
-    void processDownloadLink (Attica::BaseJob* baseJob);
-    void downloadComplete(QNetworkReply *reply);
-    void updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal);
+        Q_SIGNALS:
+            void startedDownload();
+            void finished();
+            void failed();
+            void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-    friend class OcsProvider;
-};
+        private Q_SLOTS:
+            void startDownload();
+            void processDownloadLink (Attica::BaseJob* baseJob);
+            void downloadComplete(QNetworkReply *reply);
+            void updateDownloadProgress (qint64 bytesReceived, qint64 bytesTotal);
+
+            friend class OcsProvider;
+
+        private:
+            class Private;
+            Private* const d;
+    };
 }
 
 #endif // GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H

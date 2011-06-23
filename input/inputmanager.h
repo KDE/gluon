@@ -96,7 +96,7 @@ namespace GluonInput
             void panTriggered( QPanGesture* gesture );
             void pinchTriggered( QPinchGesture* gesture );
 
-        signals:
+        Q_SIGNALS:
             void keyPressed( int button );
             void keyReleased( int button );
             void mouseMoved( const QPoint& pos );

@@ -57,7 +57,7 @@ namespace GluonEngine
             virtual GluonGraphics::MaterialInstance* beamMaterial();
             virtual GluonGraphics::MaterialInstance* tipMaterial();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setSize( const QSizeF& size );
             virtual void setBaseMaterial( GluonGraphics::MaterialInstance* material );
             virtual void setBaseMaterial( const QString& path );

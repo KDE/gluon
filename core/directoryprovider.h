@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,28 +18,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H
-#define GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H
+#ifndef GLUONCORE_DIRECTORYPROVIDER_H
+#define GLUONCORE_DIRECTORYPROVIDER_H
 
-#include "propertywidgetitem.h"
+#include "singleton.h"
 
-namespace GluonCreator
+#include <core/gluon_global.h>
+#include "gluon_core_export.h"
+
+#include <QtCore/QHash>
+
+namespace GluonCore
 {
 
-    class NullPropertyWidgetItem : public PropertyWidgetItem
+    class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
     {
             Q_OBJECT
+            GLUON_SINGLETON( DirectoryProvider )
+
         public:
-            explicit NullPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            virtual ~NullPropertyWidgetItem();
+            QString installPrefix() const;
 
-            virtual QStringList supportedDataTypes() const;
-            virtual PropertyWidgetItem* instantiate();
+            QString dataDirectory() const;
 
-        public Q_SLOTS:
-            void setEditValue( const QVariant& value );
+            QString libDirectory() const;
+
+            QString userDir( const QString& name );
+
+        private:
+            QString m_userDataPath;
+            QHash<QString, QString> m_userDirs;
     };
 
 }
 
-#endif // GLUON_CREATOR_NULLPROPERTYWIDGETITEM_H
+#endif // GLUONCORE_DIRECTORYPROVIDER_H

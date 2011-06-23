@@ -41,7 +41,7 @@ namespace GluonInput
             int axisY()const;
             int axisZ() const;
 
-        private slots:
+        private Q_SLOTS:
             void joystickMoved( int axis, int distance );
 
         private:

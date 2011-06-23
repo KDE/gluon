@@ -47,7 +47,7 @@ namespace GluonEngine
             virtual QString category() const;
             Statistic* statistic() const;
 
-        public slots:
+        public Q_SLOTS:
             void setStatistic( Statistic* statistic );
 
         private:

@@ -44,7 +44,7 @@ namespace GluonCreator
             void setTypeName( const QString& typeName );
             QString typeName() const;
 
-        public slots:
+        public Q_SLOTS:
             void browseForItems();
             void setEditValue( const QVariant& value );
             void objectValueChanged( GluonCore::GluonObject* value );

@@ -57,7 +57,7 @@ namespace GluonEngine
 
             virtual Asset* script();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setScript( GluonEngine::Asset* asset );
 
         private:

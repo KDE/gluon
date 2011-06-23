@@ -42,11 +42,11 @@ class DatabaseManager::DatabaseManagerPrivate
 
 };
 
-DatabaseManager::DatabaseManager()
-    : d( new DatabaseManagerPrivate() )
+DatabaseManager::DatabaseManager(QObject *parent)
+    : GluonCore::Singleton< DatabaseManager >( parent )
+    , d( new DatabaseManagerPrivate() )
 {
-    // TODO: do this in GluonCore::Singleton
-    setParent( qApp );
+
 }
 
 DatabaseManager::~DatabaseManager()
@@ -200,3 +200,5 @@ void DatabaseManager::setStatisticArray( const QString& database, int id, const 
     if( !query.isActive() )
         qDebug() << "Could not update array: " << query.lastError().text();
 }
+
+#include "databasemanager.moc"

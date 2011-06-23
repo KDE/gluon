@@ -51,7 +51,7 @@ namespace GluonEngine
             virtual void draw( int timeLapse );
             virtual void cleanup();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setText( const QString& text );
             virtual void setFont( const QFont& font );
             virtual void setColor( const QColor& color );
