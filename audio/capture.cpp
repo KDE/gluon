@@ -22,10 +22,8 @@
 #include "capture.h"
 #include "capturedevice_p.h"
 
-#include <QtCore/QtGlobal>
 #include <QtCore/QDebug>
 #include <QtCore/QTime>
-#include <QtCore/QFile>
 
 #include <al.h>
 

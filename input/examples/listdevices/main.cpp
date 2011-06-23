@@ -23,7 +23,7 @@
 
 #include <gluon/input/inputmanager.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {

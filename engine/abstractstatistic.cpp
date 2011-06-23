@@ -23,8 +23,6 @@
 #include <engine/databasemanager.h>
 #include <core/directoryprovider.h>
 
-#include <QtCore/QDebug>
-
 using namespace GluonEngine;
 
 REGISTER_OBJECTTYPE( GluonEngine, AbstractStatistic )

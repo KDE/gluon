@@ -25,8 +25,6 @@
 
 #include <core/debughelper.h>
 
-#include <QtCore/QDebug>
-
 REGISTER_OBJECTTYPE( GluonEngine, SphereCollisionComponent )
 
 using namespace GluonEngine;

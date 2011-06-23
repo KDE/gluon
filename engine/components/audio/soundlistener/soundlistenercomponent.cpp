@@ -20,8 +20,9 @@
 
 #include "soundlistenercomponent.h"
 
-#include <audio/engine.h>
 #include <gameobject.h>
+
+#include <audio/engine.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundListenerComponent )
 

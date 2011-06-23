@@ -27,9 +27,6 @@
 
 #include <QtGui/QKeySequence>
 #include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaEnum>
 
 REGISTER_OBJECTTYPE( GluonInput, InputDevice )
 

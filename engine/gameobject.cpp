@@ -20,6 +20,7 @@
 
 #include "gameobject.h"
 #include "gameobjectprivate.h"
+
 #include "component.h"
 #include "game.h"
 #include "scene.h"

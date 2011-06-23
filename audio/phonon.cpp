@@ -21,8 +21,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
-#include <QtCore/QtGlobal>
-#include <QtCore/QDebug>
 
 class KALPhononPrivate
 {

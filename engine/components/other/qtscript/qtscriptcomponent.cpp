@@ -22,15 +22,12 @@
 
 #include "gameobject.h"
 #include "game.h"
+#include "asset.h"
 
-#include "engine/asset.h"
-
-#include <core/gluonobject.h>
 #include <graphics/materialinstance.h>
+#include <core/gluonobject.h>
 
 #include <QtScript/QScriptEngine>
-#include <QtCore/QMimeData>
-
 
 REGISTER_OBJECTTYPE( GluonEngine, QtScriptComponent )
 

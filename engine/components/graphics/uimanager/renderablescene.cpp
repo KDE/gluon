@@ -30,8 +30,7 @@
 #include <graphics/rendertarget.h>
 
 #include <QtOpenGL/QGLFramebufferObject>
-#include <QtGui/QGraphicsSceneEvent>
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QMouseEvent>
 #include <QtCore/QCoreApplication>
 

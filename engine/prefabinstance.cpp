@@ -19,8 +19,9 @@
 
 #include "prefabinstance.h"
 #include "component.h"
-#include <QMetaProperty>
 #include "prefabinstancechild.h"
+
+#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, PrefabInstance )
 

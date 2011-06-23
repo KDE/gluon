@@ -21,7 +21,8 @@
 #include "prefabprivate.h"
 #include "prefabinstance.h"
 #include <core/gdlhandler.h>
-#include <QMetaProperty>
+
+#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, Prefab )
 

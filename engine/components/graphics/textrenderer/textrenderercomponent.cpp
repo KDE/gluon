@@ -20,8 +20,9 @@
 
 #include "textrenderercomponent.h"
 
+#include <engine/gameobject.h>
+
 #include <graphics/textitem.h>
-#include <gameobject.h>
 #include <graphics/meshes/polygonmesh.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, TextRendererComponent )

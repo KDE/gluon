@@ -25,8 +25,6 @@
 #include <graphics/meshes/discsectionmesh.h>
 #include <graphics/item.h>
 
-#include <QtCore/QMimeData>
-
 #include <cmath>
 
 REGISTER_OBJECTTYPE( GluonEngine, DiscSectionRendererComponent )

@@ -25,9 +25,6 @@
 #include <graphics/engine.h>
 
 #include <QtGui/QAction>
-#include <QtGui/QDialog>
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, MaterialAsset )
 

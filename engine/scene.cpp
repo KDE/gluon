@@ -19,6 +19,7 @@
  */
 
 #include "scene.h"
+
 #include "gameobject.h"
 #include "sceneprivate.h"
 #include "filelocation.h"

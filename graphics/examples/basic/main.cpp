@@ -4,6 +4,7 @@
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +21,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
-#include <QtGui/QMatrix4x4>
-
 #include "graphics/renderwidget.h"
 #include "graphics/engine.h"
 #include "graphics/camera.h"
@@ -31,8 +29,10 @@
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
 #include "graphics/mesh.h"
-#include <QTimer>
 
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QApplication>
+#include <QtCore/QTimer>
 
 int main( int argc, char* argv[] )
 {

@@ -22,10 +22,8 @@
 #include <gluon/input/keyboard.h>
 #include <gluon/input/inputmanager.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
 #include <QtGui/QApplication>
+#include <QtCore/QDebug>
 
 using namespace GluonInput;
 

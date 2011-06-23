@@ -25,7 +25,6 @@
 
 #include <QtGui/QAction>
 #include <QtCore/QStringList>
-#include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
 

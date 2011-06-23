@@ -21,13 +21,10 @@
  */
 
 #include "mesh.h"
+
 #include "materialinstance.h"
 #include "vertexbuffer.h"
 #include "vertexattribute.h"
-
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-
 #include "math.h"
 
 using namespace GluonGraphics;

@@ -18,18 +18,18 @@
  */
 
 #include "materialinstance.h"
+
 #include "material.h"
-
-#include <QtCore/QVariant>
-#include <QtGui/QVector2D>
-#include <QtGui/QColor>
-
 #include "mathutils.h"
 #include "engine.h"
 #include "texture.h"
 #include "glheaders.h"
 #include "camera.h"
 #include "frustrum.h"
+
+#include <QtCore/QVariant>
+#include <QtGui/QVector2D>
+#include <QtGui/QColor>
 
 REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
 

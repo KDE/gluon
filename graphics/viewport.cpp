@@ -19,13 +19,12 @@
 
 #include "viewport.h"
 
+#include "glheaders.h"
 #include "engine.h"
 #include "camera.h"
 #include "frustrum.h"
 
-#include "glheaders.h"
-
-#include <QRect>
+#include <QtCore/QRect>
 
 using namespace GluonGraphics;
 

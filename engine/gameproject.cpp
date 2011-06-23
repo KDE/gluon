@@ -29,12 +29,10 @@
 #include <core/debughelper.h>
 
 #include <QtGui/QImageWriter>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QStringList>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
-#include <QtCore/QMetaClassInfo>
+#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameProject )
 

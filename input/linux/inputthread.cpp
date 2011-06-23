@@ -24,11 +24,9 @@
 #include "inputthreadprivate.h"
 #include "mouse.h"
 
-#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
-#include <QtCore/QFile>
 #include <QtCore/QEvent>
-#include <QtCore/QStringList>
+// #include <QtCore/QStringList>
 
 #include <fcntl.h>
 #include <sys/stat.h>

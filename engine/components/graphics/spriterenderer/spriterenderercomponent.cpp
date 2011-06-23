@@ -32,8 +32,6 @@
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 
