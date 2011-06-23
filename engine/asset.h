@@ -150,6 +150,19 @@ namespace GluonEngine
              * always return the primary data for the asset.
              */
             virtual const QMimeData* data() const;
+            
+            /**
+             * This function should return a QMimeType containing a reference to the
+             * asset itself. The data should provide a mimedata instance with the
+             * mimetype format represented by the asset, and a bytestream containing
+             * the fully qualified name of the asset. The default implementation returns
+             * one which contains the mimetype application/gluon.engine.className, but
+             * you should reimplement it and provide one which gives the actual mimetype
+             * represented by the asset.
+             * @return As described above
+             * @see fullyQualifiedName
+             */
+            virtual QMimeData* dragData() const;
 
             /**
              * The specialization of toGDL on the Asset class does not recurse.

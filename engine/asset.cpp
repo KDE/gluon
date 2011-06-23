@@ -127,6 +127,18 @@ Asset::data() const
     return d->mime;
 }
 
+QMimeData* Asset::dragData() const
+{
+    DEBUG_BLOCK
+    QMimeData* data = new QMimeData();
+    QByteArray encodedData;
+    QDataStream stream( &encodedData, QIODevice::WriteOnly );
+    stream << fullyQualifiedName();
+    data->setData( QString("application/gluon.engine.").append(metaObject()->className()), encodedData );
+    DEBUG_TEXT(data->formats().join(","));
+    return data;
+}
+
 const QList<AssetTemplate*>
 Asset::templates()
 {
