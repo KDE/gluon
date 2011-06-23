@@ -19,13 +19,13 @@
 
 #include "databasemanager.h"
 
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
 
 using namespace GluonEngine;
 
@@ -188,7 +188,9 @@ void DatabaseManager::setStatisticScore( const QString& database, int id, qlongl
 void DatabaseManager::setStatisticArray( const QString& database, int id, const QList<qlonglong>& array )
 {
     QStringList list;
-    foreach( qlonglong num, array )
+    // This is a bit odd krazy complains about qlonglong since it is a POD type,
+    // but put it this way until we find the solution for it with Allen.
+    foreach( const qlonglong& num, array )
     {
         list.append( QString::number(num) );
     }

@@ -73,7 +73,7 @@ namespace GluonPlayer
             void uploadCommentsFinished( Attica::BaseJob* job );
 
         private:
-            void addChildren( OcsComment* parentOcsComment, Attica::Comment* parentComment );
+            void addChildren(OcsComment *parentOcsComment, const Attica::Comment& parentComment);
 
             class Private;
             Private* const d;

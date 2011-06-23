@@ -137,7 +137,7 @@ void OcsGameDetailsProvider::processFetchedGamesList (Attica::BaseJob* job)
 
     Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>(job);
     if( contentJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach(Attica::Content content, contentJob->itemList()) {
+        foreach(const Attica::Content& content, contentJob->itemList()) {
             OcsGameDetails *details = new OcsGameDetails(content.name(), content.description(), "", "",
                                                          QStringList(), OcsGameDetails::Downloadable, content.id());
             list.append(details);

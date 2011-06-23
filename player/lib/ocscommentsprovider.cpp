@@ -135,12 +135,12 @@ void OcsCommentsProvider::processFetchedComments (Attica::BaseJob* job)
 
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
     if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach (Attica::Comment comment , commentsJob->itemList()) {
+        foreach (const Attica::Comment& comment, commentsJob->itemList()) {
             OcsComment *newComment = new OcsComment(comment.id(), comment.subject(), comment.text(),
                                                     comment.user(), comment.date(), comment.score(), this);
             list.append(newComment);
             if (comment.childCount()) {
-                addChildren(newComment, &comment);
+                addChildren(newComment, comment);
             }
         }
 
@@ -150,16 +150,16 @@ void OcsCommentsProvider::processFetchedComments (Attica::BaseJob* job)
     }
 }
 
-void OcsCommentsProvider::addChildren(OcsComment* parentOcsComment, Attica::Comment* parentComment)
+void OcsCommentsProvider::addChildren(OcsComment* parentOcsComment, const Attica::Comment& parentComment)
 {
-    foreach (Attica::Comment comment, parentComment->children()) {
+    foreach (const Attica::Comment& comment, parentComment.children()) {
         OcsComment *newComment = new OcsComment(comment.id(), comment.subject(),
                                                 comment.text(), comment.user(),
                                                 comment.date(), comment.score(),
                                                 parentOcsComment);
         newComment->setParent(parentOcsComment);
         if (comment.children().count()) {
-            addChildren(newComment, &comment);
+            addChildren(newComment, comment);
         }
     }
 }
