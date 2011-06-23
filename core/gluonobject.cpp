@@ -152,9 +152,7 @@ GluonObject::clone( GluonObject* parentObject ) const
         newObject->setProperty( propName, property( propName ) );
     }
 
-#ifdef __GNUC__
-#warning Clones with properties pointing to children should point to new children rather than the old children
-#endif
+    // TODO: Clones with properties pointing to children should point to new children rather than the old children
 
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();

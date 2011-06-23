@@ -63,11 +63,8 @@ Texture::~Texture()
 
 bool Texture::load( const QUrl& url )
 {
-#ifdef __GNUC__
-#warning Todo: Add support for non-2D textures and non-RGBA colour formats. Also, find a way \
-around the nasty const_cast .
-#endif
-
+    // TODO: Add support for non-2D textures and non-RGBA colour formats. Also, find a way
+    // around the nasty const_cast .
     if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
         return false;
 

@@ -382,9 +382,7 @@ void AnimatedSpriteRendererComponent::setStartFrames( const QList< int >& starts
     setAnimation( d->currentAnimation );
 }
 
-// #ifndef _MSC_VER
-// #warning TODO: Add support for multiple-texture based animation.
-// #endif
+// TODO: Add support for multiple-texture based animation.
 // int AnimatedSpriteRendererComponent::textureCount()
 // {
 //

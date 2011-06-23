@@ -36,9 +36,7 @@ Joystick::~Joystick()
 
 int Joystick::axisX() const
 {
-#ifdef __GNUC__
-#warning fix the joystick thing, when I have a joystick to test with
-#endif
+    // TODO: It needs to be fixed with my joystick/gamepad
     return -1;
 }
 

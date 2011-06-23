@@ -57,9 +57,7 @@ MaterialAsset::MaterialAsset( QObject* parent )
 
 MaterialAsset::~MaterialAsset()
 {
-#ifdef __GNUC__
-#warning TODO: MaterialAsset needs to clean up after itself. This needs loading process fixes though.
-#endif
+    // TODO: MaterialAsset needs to clean up after itself. This needs loading process fixes though.
     //if(d->material)
     //    GluonGraphics::Engine::instance()->destroyMaterial(name());
     delete d;

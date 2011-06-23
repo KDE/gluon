@@ -59,9 +59,7 @@ Mesh::~Mesh()
 void
 Mesh::load( const QString& filename )
 {
-#ifdef __GNUC__
-#warning TODO: Investigate why this works.
-#endif
+    // TODO: Investigate why this works.
     //     if( isLoaded() )
     //         return;
 
