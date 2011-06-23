@@ -30,8 +30,16 @@ REGISTER_OBJECTTYPE( GluonEngine, AbstractStatistic )
 class AbstractStatistic::AbstractStatisticPrivate
 {
     public:
-        AbstractStatisticPrivate() : isDatabaseOpen(false), value(0), id(0) {}
-        ~AbstractStatisticPrivate() {}
+        AbstractStatisticPrivate() 
+            : isDatabaseOpen(false)
+            , id(0)
+            , value(0)
+        {
+        }
+
+        ~AbstractStatisticPrivate() 
+        {
+        }
 
         QString userName;
         bool isDatabaseOpen;
