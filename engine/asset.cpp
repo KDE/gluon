@@ -36,9 +36,9 @@ class GluonEngine::AssetPrivate
 {
     public:
         AssetPrivate()
+            : loaded( false )
+            , mime( new QMimeData )
         {
-            loaded = false;
-            mime = 0;
         }
 
         QUrl file;
@@ -50,7 +50,6 @@ Asset::Asset( QObject* parent )
     : GluonObject( parent )
     , d( new AssetPrivate )
 {
-    d->mime = new QMimeData;
 }
 
 Asset::~Asset()
