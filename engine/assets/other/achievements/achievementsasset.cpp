@@ -52,6 +52,13 @@ AchievementsAsset::~AchievementsAsset()
     delete d;
 }
 
+const QStringList AchievementsAsset::supportedMimeTypes() const
+{
+    QStringList mimeTypes;
+    mimeTypes << "application/x-gluon-achievements";
+    return mimeTypes;
+}
+
 QString AchievementsAsset::contentsToGDL()
 {
     /* Due to a bug in GDL, it can't handle more than one top level

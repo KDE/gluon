@@ -41,6 +41,9 @@ namespace GluonEngine
             Q_INVOKABLE AchievementsAsset( QObject* parent = 0 );
             virtual ~AchievementsAsset();
 
+            /** Reimplemented from GluonCore::GluonObject::supportedMimeTypes() */
+            virtual const QStringList supportedMimeTypes() const;
+
             /** Reimplemented from Savable::contentsToGDL() */
             virtual QString contentsToGDL();
 

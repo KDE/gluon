@@ -19,4 +19,8 @@
         <glob pattern="*.gluonstatistics" />
         <comment>Gluon Statistics</comment>
     </mime-type>
+    <mime-type type="application/x-gluon-achievements">
+        <glob pattern="*.gluonachievements" />
+        <comment>Gluon Achievements</comment>
+    </mime-type>
 </mime-info>
