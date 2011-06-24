@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_GAMEITEMSMODEL_H
 #define GLUONPLAYER_GAMEITEMSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include "gameviewitem.h"
 

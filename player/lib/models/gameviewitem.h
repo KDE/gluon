@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_GAMEVIEWITEM_H
 #define GLUONPLAYER_GAMEVIEWITEM_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QStringList>
 
