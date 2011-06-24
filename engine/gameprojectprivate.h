@@ -39,6 +39,7 @@ namespace GluonGraphics
 namespace GluonEngine
 {
     class Scene;
+    class Achievement;
 
     class GameProjectPrivate : public QSharedData
     {
@@ -58,6 +59,7 @@ namespace GluonEngine
             QString userName;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
+            static void searchAchievements( QList<Achievement*>* list, const GluonCore::GluonObject* parent );
     };
 }
 

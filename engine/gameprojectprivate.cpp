@@ -22,6 +22,7 @@
 
 #include "savable.h"
 
+#include <engine/achievement.h>
 #include <core/gluonobject.h>
 #include <core/debughelper.h>
 
@@ -78,4 +79,20 @@ GameProjectPrivate::saveChildren( const GluonCore::GluonObject* parent )
         saveChildren( qobject_cast<const GluonCore::GluonObject*>( child ) );
     }
     return true;
+}
+
+void GameProjectPrivate::searchAchievements(QList< Achievement* >* list, const GluonCore::GluonObject* parent)
+{
+    for( int i = 0; i < parent->children().count(); ++i )
+    {
+        GluonCore::GluonObject* object = parent->child( i );
+        if( object )
+        {
+            Achievement* achievement = qobject_cast<Achievement*>( object );
+            if( achievement )
+                list->append( achievement );
+            else
+                searchAchievements( list, object );
+        }
+    }
 }

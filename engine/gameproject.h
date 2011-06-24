@@ -41,6 +41,7 @@ namespace GluonEngine
 
     class GameProjectPrivate;
     class TextureAsset;
+    class Achievement;
 
     /**
      * The GameProject class describes and contains a complete game project,
@@ -183,6 +184,11 @@ namespace GluonEngine
              * The player application, for instance, should set the user name.
              */
             void setUserName( const QString& newUsername );
+
+            /**
+             * Get a list of all Achievement objects in this game project.
+             */
+            QList<Achievement*> achievements() const;
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

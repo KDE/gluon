@@ -24,6 +24,7 @@
 #include "scene.h"
 #include "game.h"
 
+#include <engine/achievement.h>
 #include <core/gdlhandler.h>
 #include <core/scriptengine.h>
 #include <core/debughelper.h>
@@ -361,6 +362,13 @@ QString GameProject::userName() const
 void GameProject::setUserName(const QString& newUserName)
 {
     d->userName = newUserName;
+}
+
+QList<Achievement*> GameProject::achievements() const
+{
+    QList<Achievement*> list;
+    GameProjectPrivate::searchAchievements( &list, this );
+    return list;
 }
 
 #include "gameproject.moc"
