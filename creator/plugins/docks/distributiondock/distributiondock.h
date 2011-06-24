@@ -38,6 +38,9 @@ namespace GluonCreator
 
         private Q_SLOTS:
             void currentProjectChanged( GluonEngine::GameProject* gameProject );
+            void doLogin();
+            void loginSuccessful();
+            void loginFailed();
 
         private:
             class DistributionDockPrivate;

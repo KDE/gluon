@@ -22,9 +22,11 @@
 
 #include <engine/game.h>
 
+#include <player/lib/ocsprovider.h>
+
 #include <KDE/KLocalizedString>
 
-#include <QtGui/QLabel>
+#include <QtGui/QPushButton>
 
 using namespace GluonCreator;
 
@@ -47,6 +49,9 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
 
     connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
              SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
+    connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loggedIn() ), SLOT( loginSuccessful() ) );
+    connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
+    connect( d->ui.loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
 
     setWidget( &d->widget );
 }
@@ -59,9 +64,23 @@ DistributionDock::~DistributionDock()
 void DistributionDock::currentProjectChanged( GluonEngine::GameProject* gameProject )
 {
     QString id = gameProject->property( "id" ).toString();
-
-    if( id.isEmpty() )
-    {
-        //Do magic here
-    }
 }
+
+void DistributionDock::doLogin()
+{
+    d->ui.loginButton->setEnabled( false );
+    d->ui.loginButton->setText( i18n( "Logging in" ) );
+    GluonPlayer::OcsProvider::instance()->login( d->ui.usernameEdit->text(), d->ui.passwordEdit->text() );
+}
+
+void DistributionDock::loginSuccessful()
+{
+    d->ui.loginButton->setText( i18n( "Logged In" ) );
+}
+
+void DistributionDock::loginFailed()
+{
+    d->ui.loginButton->setEnabled( true );
+}
+
+#include "distributiondock.moc"
