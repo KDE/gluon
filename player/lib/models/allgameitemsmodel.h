@@ -78,12 +78,16 @@ namespace GluonPlayer
 
         private:
             void fetchGamesList();
+
             void addGameItemToList( GameItem *gameItem );
             GameItem *gameItemForId( const QString &id );
-            void addGameFromDirectory( const QString &directoryPath );
+            QString addGameFromDirectory( const QString &directoryPath );
             void addOrUpdateGameFromFetchedGameItem( GameItem *gameItem );
+
             void updateExistingGameItem( const GameItem *newGameItem );
             void fetchAndUpdateExistingGameItem( const GameItem *gameItem );
+
+            void removeGameFromList( const QString &id );
 
             class Private;
             Private* const d;

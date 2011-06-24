@@ -105,19 +105,33 @@ void AllGameItemsModel::directoryLoaded( const QString& path )
 
     QModelIndex parentIndex = d->fsModel.index( path ); //QFSModel puts "/" as root, obtain parent to our games path
 
-    //TODO: This handles new games, also handle deleted games
+    QStringList deletedGames;
+    foreach( const GameItem * gameItem, d->gameItems )
+    {
+        if( (gameItem->status() & GameItem::Local) == GameItem::Local )   //If Game is Local or Installed
+        {
+            deletedGames.append( gameItem->id() );
+        }
+    }
+
     //Find all .gluon dirs
     for( int i = 0; i < d->fsModel.rowCount( parentIndex ); ++i )
     {
         QString gameDirPath = d->fsModel.filePath( d->fsModel.index( i, 0, parentIndex ) );
-        addGameFromDirectory( gameDirPath );
+        deletedGames.removeOne( addGameFromDirectory( gameDirPath ) );
     }
+
+    //Remove the local games that were not found in the games dir
+    foreach( const QString & id, deletedGames )
+        removeGameFromList( id );
+
 
     fetchGamesList();   //FIXME: Preferably do this only the first time
 }
 
-void AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
+QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
 {
+    QString id;
     QDir gameDir( directoryPath );
     QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
 
@@ -126,7 +140,7 @@ void AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
         QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
         GluonEngine::GameProject project;
         project.loadFromFile( projectFileName );
-        QString id = project.property( "id" ).toString();
+        id = project.property( "id" ).toString();
 
         if( d->listIndexForId.contains( id ) )
         {
@@ -146,6 +160,8 @@ void AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
     {
         qWarning() << "No " << GluonEngine::projectFilename << " in " << directoryPath;
     }
+
+    return id;
 }
 
 void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
@@ -188,6 +204,35 @@ void AllGameItemsModel::addOrUpdateGameFromFetchedGameItem( GameItem* gameItem )
     else
     {
         addGameItemToList( gameItem );
+    }
+}
+
+void AllGameItemsModel::removeGameFromList( const QString& id )
+{
+    GameItem* oldGameItem = gameItemForId( id );
+
+    if( oldGameItem )
+    {
+        int oldGameRow = d->gameItems.indexOf( oldGameItem );
+        beginRemoveRows(QModelIndex(), oldGameRow, oldGameRow);
+        d->gameItems.removeAt( oldGameRow );
+        d->listIndexForId.remove( id );
+        delete oldGameItem;
+
+        QHash<QString, int>::iterator iterator;
+        iterator = d->listIndexForId.begin();
+
+        /*After removing the GameItem from the list, all items below it will shift up.
+            Hence update the list indexes in d->listIndexForId accordingly */
+        do
+        {
+            if( iterator.value() >= oldGameRow )
+                --iterator.value();
+            ++iterator;
+        }
+        while( iterator != d->listIndexForId.end() );
+
+        endRemoveRows();
     }
 }
 
