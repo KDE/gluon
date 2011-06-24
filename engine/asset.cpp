@@ -36,9 +36,9 @@ class GluonEngine::AssetPrivate
 {
     public:
         AssetPrivate()
+            : loaded( false )
+            , mime( new QMimeData )
         {
-            loaded = false;
-            mime = 0;
         }
 
         QUrl file;
@@ -50,7 +50,6 @@ Asset::Asset( QObject* parent )
     : GluonObject( parent )
     , d( new AssetPrivate )
 {
-    d->mime = new QMimeData;
 }
 
 Asset::~Asset()
@@ -125,6 +124,18 @@ const QMimeData*
 Asset::data() const
 {
     return d->mime;
+}
+
+QMimeData* Asset::dragData() const
+{
+    DEBUG_BLOCK
+    QMimeData* data = new QMimeData();
+    QByteArray encodedData;
+    QDataStream stream( &encodedData, QIODevice::WriteOnly );
+    stream << fullyQualifiedName();
+    data->setData( QString("application/gluon.engine.").append(metaObject()->className()), encodedData );
+    DEBUG_TEXT(data->formats().join(","));
+    return data;
 }
 
 const QList<AssetTemplate*>

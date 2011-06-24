@@ -52,6 +52,15 @@ StatisticsAsset::~StatisticsAsset()
     delete d;
 }
 
+const QStringList StatisticsAsset::supportedMimeTypes() const
+{
+    QStringList mimeTypes;
+
+    mimeTypes << "application/x-gluon-statistics";
+
+    return mimeTypes;
+}
+
 QString StatisticsAsset::contentsToGDL()
 {
     /* Due to a bug in GDL, it can't handle more than one top level

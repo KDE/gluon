@@ -41,6 +41,8 @@ namespace GluonEngine
             Q_INVOKABLE StatisticsAsset( QObject* parent = 0 );
             virtual ~StatisticsAsset();
 
+            virtual const QStringList supportedMimeTypes() const;
+
             /** Reimplemented from Savable::contentsToGDL() */
             virtual QString contentsToGDL();
 

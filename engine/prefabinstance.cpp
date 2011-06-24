@@ -32,10 +32,12 @@ class PrefabInstance::Private
     public:
         Private()
             : prefabLink( 0 )
+            , instantiationCompleted( false )
         {
         }
 
         Prefab* prefabLink;
+        bool instantiationCompleted;
 };
 
 PrefabInstance::PrefabInstance( QObject* parent )
@@ -95,6 +97,7 @@ void PrefabInstance::storeChanges() const
 
 void PrefabInstance::rebuildInstance()
 {
+    d->instantiationCompleted = false;
     // Clear all children out
     qDeleteAll(children());
 
@@ -118,11 +121,13 @@ void PrefabInstance::rebuildInstance()
     {
         Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
     }
+    d->instantiationCompleted = true;
 }
 
-void PrefabInstance::setName(const QString& newName)
+void PrefabInstance::addChild(GameObject* child)
 {
-    Q_UNUSED(newName);
+    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonEngine::GameObject::addChild(child);
 }
 
 void PrefabInstance::addChild(GluonCore::GluonObject* child)
@@ -135,6 +140,12 @@ void PrefabInstance::addChildAt(GluonCore::GluonObject* child, int position)
 {
     connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
     GluonCore::GluonObject::addChildAt(child, position);
+}
+
+bool PrefabInstance::removeChild(GameObject* child)
+{
+    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    return GluonEngine::GameObject::removeChild(child);
 }
 
 bool PrefabInstance::removeChild(GluonCore::GluonObject* child)
@@ -157,9 +168,13 @@ bool PrefabInstance::removeComponent(Component* removeThis)
 
 void PrefabInstance::childNameChanged(const QString& oldName, const QString& newName)
 {
+    if(d->instantiationCompleted == false)
+        return;
+    if(oldName == newName)
+        return;
     // This ensures that children (in particular this means Components) don't get renamed in instances
     GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
-    if(from && oldName != newName)
+    if(from)
         from->setName(oldName);
 }
 

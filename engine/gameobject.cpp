@@ -462,8 +462,8 @@ GameObject::addChildAt( GluonCore::GluonObject* addThis, int index )
             gObj->d->parentGameObject->removeChild( gObj );
 
         gObj->d->parentGameObject = this;
-        GluonCore::GluonObject::addChildAt( addThis, index );
     }
+    GluonCore::GluonObject::addChildAt( addThis, index );
 }
 
 bool

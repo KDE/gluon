@@ -39,6 +39,7 @@ namespace GluonPlayer
     class OcsGameDownloadProvider;
     class OcsGameUploadProvider;
     class OcsRatingProvider;
+    class OcsNewGameProvider;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -174,6 +175,15 @@ namespace GluonPlayer
              * @param rating Rating value between 0 to 100
              */
             Q_INVOKABLE GluonPlayer::OcsRatingProvider* setRating( const QString& id, uint rating );
+
+            /**
+             * Add a new game to the OCS server.
+             *
+             * @param gameName Name of the new game
+             * @param gameCategory Category to which the new game belongs
+             */
+            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString &gameCategory,
+                                                                     const QString &gameName );
 
         private:
             ~OcsProvider();

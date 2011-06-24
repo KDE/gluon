@@ -23,15 +23,15 @@
 #include "asset.h"
 #include "savable.h"
 
-#include <core/gluonobject.h>
+#include "core/gluonobject.h"
+#include "savable.h"
 
 namespace GluonEngine
 {
-
     class GameObject;
-
     class PrefabInstance;
     class PrefabPrivate;
+
     /**
      * A Prefab is a GameObject hierarchy stored as an Asset, and any number of instances can be
      * created, which are linked clones of the stored GameObject. The effect of the link is such

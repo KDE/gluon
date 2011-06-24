@@ -189,6 +189,19 @@ QModelIndex SceneModel::index( int row, int column, const QModelIndex& parent ) 
         return QModelIndex();
 }
 
+QModelIndex SceneModel::objectToIndex(GluonCore::GluonObject* object) const
+{
+    if(object->root() == d->root)
+    {
+        if(object->parent())
+        {
+            int row = object->parent()->children().indexOf(object);
+            return createIndex( row, 0, object );
+        }
+    }
+    return QModelIndex();
+}
+
 QVariant SceneModel::headerData( int /* section */, Qt::Orientation /* orientation */, int /* role */ ) const
 {
     return QVariant();
@@ -213,6 +226,7 @@ SceneModel::mimeTypes() const
     QStringList types;
     types << "application/gluon.object.gameobject";
     types << "application/gluon.text.componentclass";
+    types << "application/gluon.engine.GluonEngine::Prefab";
     return types;
 }
 
@@ -255,6 +269,25 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
         foreach( const QString & something, data->formats() )
         {
             DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) );
+        }
+
+        if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )
+        {
+            QByteArray encodedData = data->data( "application/gluon.engine.GluonEngine::Prefab" );
+            QDataStream stream( &encodedData, QIODevice::ReadOnly );
+            QStringList newItems;
+
+            while( !stream.atEnd() )
+            {
+                QString text;
+                stream >> text;
+                newItems << text;
+            }
+            foreach( const QString & text, newItems )
+            {
+                DEBUG_TEXT( QString( "Creating instance for %1" ).arg( text ) );
+                //ObjectManager::instance()->createNewComponent( text, gobj );
+            }
         }
 
         if( data->hasFormat( "application/gluon.text.componentclass" ) )
@@ -325,6 +358,11 @@ bool SceneModel::setData( const QModelIndex& index, const QVariant& value, int r
         return true;
     }
     return false;
+}
+
+void SceneModel::emitDataChanged(const QModelIndex& index)
+{
+    emit dataChanged( index, index );
 }
 
 bool SceneModel::insertRows( int row, int count, const QModelIndex& parent )

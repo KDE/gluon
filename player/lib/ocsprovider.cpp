@@ -25,6 +25,7 @@
 #include "ocsgamedownloadprovider.h"
 #include "ocsgameuploadprovider.h"
 #include "ocsratingprovider.h"
+#include "ocsnewgameprovider.h"
 
 #include <core/directoryprovider.h>
 
@@ -323,7 +324,7 @@ OcsRatingProvider* OcsProvider::setRating( const QString& id, uint rating )
     return ratingProvider;
 }
 
-OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString &id )
+OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString& id )
 {
     OcsGameDetailsProvider* gameDetailsProvider = new OcsGameDetailsProvider( &d->provider, id );
 
@@ -337,6 +338,22 @@ OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString &id )
     }
 
     return gameDetailsProvider;
+}
+
+OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameCategory, const QString& gameName )
+{
+    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, gameCategory, gameName );
+
+    if( d->ready )
+    {
+        newGameProvider->addNewGame();
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), newGameProvider, SLOT( addNewGame() ) );
+    }
+
+    return newGameProvider;
 }
 
 #include "ocsprovider.moc"
