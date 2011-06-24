@@ -20,8 +20,6 @@
 #ifndef GLUONPLAYER_LISTMODEL_H
 #define GLUONPLAYER_LISTMODEL_H
 
-#include "gluon_player_export.h"
-
 #include <KDE/KIcon>
 #include <KDE/KDebug>
 
