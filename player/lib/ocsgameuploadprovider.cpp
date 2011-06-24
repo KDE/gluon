@@ -58,7 +58,7 @@ void OcsGameUploadProvider::startUpload()
     if( !file.open( QIODevice::ReadOnly ) )
     {
         qDebug() << "Failed to open file " << d->fileName;
-        emit failed();
+        emit failed( d->id );
         return;
     }
 
@@ -78,11 +78,11 @@ void OcsGameUploadProvider::uploadComplete( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        emit finished();
+        emit finished( d->id );
     }
     else
     {
-        emit failed();
+        emit failed( d->id );
     }
 }
 
