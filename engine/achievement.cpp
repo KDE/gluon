@@ -20,6 +20,7 @@
 #include "achievement.h"
 
 #include "abstractstatistic.h"
+#include "gameproject.h"
 #include "statistic.h"
 
 #include <QtCore/QVariant>
@@ -46,6 +47,10 @@ Achievement::Achievement( QObject* parent )
 
 Achievement::~Achievement()
 {
+    GameProject* project = qobject_cast<GameProject*>( gameProject() );
+    if( project )
+        project->removeAchievement( static_cast<Achievement*>( this ) );
+
     delete d;
 }
 
@@ -84,6 +89,14 @@ bool Achievement::achieved() const
         return true;
 
     return false;
+}
+
+void Achievement::sanitize()
+{
+    GluonCore::GluonObject::sanitize();
+    GameProject* project = qobject_cast<GameProject*>( gameProject() );
+    if( project )
+        project->addAchievement( static_cast<Achievement*>( this ) );
 }
 
 #include "achievement.moc"

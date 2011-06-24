@@ -21,6 +21,7 @@
 #include "gameprojectprivate.h"
 
 #include "savable.h"
+#include "achievement.h"
 
 #include <core/gluonobject.h>
 #include <core/debughelper.h>

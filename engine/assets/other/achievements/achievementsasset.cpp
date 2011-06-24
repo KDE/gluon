@@ -145,6 +145,7 @@ void AchievementsAsset::createAchievement()
 {
     Achievement* newAchievement = new Achievement(this);
     newAchievement->setName( tr("New Achievement") );
+    newAchievement->sanitize();
     savableDirty = true;
 }
 

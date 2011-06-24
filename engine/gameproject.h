@@ -41,6 +41,7 @@ namespace GluonEngine
 
     class GameProjectPrivate;
     class TextureAsset;
+    class Achievement;
 
     /**
      * The GameProject class describes and contains a complete game project,
@@ -173,6 +174,15 @@ namespace GluonEngine
 
             GluonEngine::TextureAsset* screenshot() const;
             void setScreenshot( GluonEngine::TextureAsset* newScreenshot );
+
+            /** Get a list of all achievements in this project */
+            QList<Achievement*> achievements() const;
+
+            /** Add an achievement to the achievement list */
+            void addAchievement( Achievement* achievement );
+
+            /** Remove an achievement from the achievement list */
+            void removeAchievement( Achievement* achievement );
 
             /**
              * The name of the user playing the game.

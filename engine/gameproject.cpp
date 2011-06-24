@@ -23,6 +23,7 @@
 
 #include "scene.h"
 #include "game.h"
+#include "achievement.h"
 
 #include <core/gdlhandler.h>
 #include <core/scriptengine.h>
@@ -351,6 +352,22 @@ GluonEngine::TextureAsset* GameProject::screenshot() const
 void GameProject::setScreenshot( GluonEngine::TextureAsset* newScreenshot )
 {
     d->screenshot = newScreenshot;
+}
+
+QList<Achievement*> GameProject::achievements() const
+{
+    return d->achievements;
+}
+
+void GameProject::addAchievement(Achievement* achievement)
+{
+    if( !d->achievements.contains(achievement) )
+        d->achievements.append(achievement);
+}
+
+void GameProject::removeAchievement(Achievement* achievement)
+{
+    d->achievements.removeOne(achievement);
 }
 
 QString GameProject::userName() const

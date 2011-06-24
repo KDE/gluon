@@ -61,6 +61,9 @@ namespace GluonEngine
             /** Has the statistic achieved the goal? */
             bool achieved() const;
 
+            /** Reimplemented from GluonCore::GluonObject::sanitize() */
+            virtual void sanitize();
+
         private:
             class AchievementPrivate;
             AchievementPrivate* d;
