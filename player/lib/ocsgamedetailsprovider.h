@@ -42,7 +42,7 @@ public:
         Upgradable
     };
 
-    explicit OcsGameDetails (const QString& gameName, const QString& gameDescription,
+    OcsGameDetails (const QString& gameName, const QString& gameDescription,
                              const QString& projectDirName, const QString& projectFileName,
                              const QStringList& screenshotUrls, GluonPlayer::OcsGameDetails::Status status,
                              const QString id, QObject* parent = 0);
