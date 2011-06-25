@@ -31,6 +31,7 @@ set(libGluonPlayer_SRCS
     ratingjob.cpp
     serviceprovider.cpp
 
+    models/achievementsmodel.cpp
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -75,6 +76,7 @@ install(FILES
 )
 
 install(FILES
+    models/achievementsmodel.h
     models/commentitemsmodel.h
     models/gameitemsmodel.h
     models/highscoresmodel.h

@@ -85,6 +85,8 @@ bool Achievement::achieved() const
     if( !d->statistic )
         return false;
 
+    d->statistic->initialize();
+
     if( d->statistic->value() >= d->minimumScore )
         return true;
 
