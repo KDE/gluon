@@ -28,6 +28,7 @@ set(libGluonPlayer_SRCS
     ocsprovider.cpp
     atticamanager.cpp
     authentication.cpp
+    models/achievementsmodel.cpp
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -75,6 +76,7 @@ install(FILES
 )
 
 install(FILES
+    models/achievementsmodel.h
     models/highscoresmodel.h
     models/gameitemsmodel.h
     models/commentitemsmodel.h
