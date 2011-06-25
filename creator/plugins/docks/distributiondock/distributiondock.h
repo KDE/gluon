@@ -37,10 +37,13 @@ namespace GluonCreator
             virtual ~DistributionDock();
 
         private Q_SLOTS:
-            void currentProjectChanged( GluonEngine::GameProject* gameProject );
+            void updateUiFromGameProject( GluonEngine::GameProject* gameProject );
             void doLogin();
             void loginSuccessful();
             void loginFailed();
+            void createOrUpdateGame();
+            void newGameUploadFinished( const QString &id );
+            void newGameUploadFailed();
 
         private:
             class DistributionDockPrivate;

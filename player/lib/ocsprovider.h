@@ -182,8 +182,7 @@ namespace GluonPlayer
              * @param gameName Name of the new game
              * @param gameCategory Category to which the new game belongs
              */
-            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString &gameCategory,
-                                                                     const QString &gameName );
+            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString &gameName );
 
         private:
             ~OcsProvider();

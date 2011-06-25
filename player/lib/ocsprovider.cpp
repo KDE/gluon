@@ -340,9 +340,10 @@ OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString& id )
     return gameDetailsProvider;
 }
 
-OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameCategory, const QString& gameName )
+OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName )
 {
-    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, gameCategory, gameName );
+    //TODO: Let the user select the category
+    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, "4440" , gameName );
 
     if( d->ready )
     {

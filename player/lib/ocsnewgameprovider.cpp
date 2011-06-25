@@ -39,6 +39,7 @@ OcsNewGameProvider::OcsNewGameProvider( Attica::Provider* provider, const QStrin
     : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
+    d->gameCategory = gameCategory;
     d->gameName = gameName;
 }
 

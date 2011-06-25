@@ -86,6 +86,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="detailsTab">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <attribute name="title">
        <string>Details</string>
       </attribute>
@@ -120,21 +123,28 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="idEdit">
              <property name="enabled">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_2"/>
+            <widget class="QLineEdit" name="gameNameEdit"/>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_3"/>
+            <widget class="QLineEdit" name="descriptionEdit"/>
            </item>
           </layout>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="createUpdateButton">
+         <property name="text">
+          <string>Please login first</string>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -160,9 +170,9 @@
   <tabstop>usernameEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
   <tabstop>loginButton</tabstop>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit_3</tabstop>
+  <tabstop>idEdit</tabstop>
+  <tabstop>gameNameEdit</tabstop>
+  <tabstop>descriptionEdit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

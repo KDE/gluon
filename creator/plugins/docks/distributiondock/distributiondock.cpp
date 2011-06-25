@@ -23,6 +23,7 @@
 #include <engine/game.h>
 
 #include <player/lib/ocsprovider.h>
+#include <player/lib/ocsnewgameprovider.h>
 
 #include <KDE/KLocalizedString>
 
@@ -48,10 +49,11 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
     d->ui.setupUi( &d->widget );
 
     connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
-             SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
+             SLOT( updateUiFromGameProject( GluonEngine::GameProject* ) ) );
     connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loggedIn() ), SLOT( loginSuccessful() ) );
     connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
     connect( d->ui.loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
+    connect( d->ui.createUpdateButton, SIGNAL( clicked( bool ) ), SLOT( createOrUpdateGame() ) );
 
     setWidget( &d->widget );
 }
@@ -61,9 +63,20 @@ DistributionDock::~DistributionDock()
     delete d;
 }
 
-void DistributionDock::currentProjectChanged( GluonEngine::GameProject* gameProject )
+void DistributionDock::updateUiFromGameProject( GluonEngine::GameProject* gameProject )
 {
     QString id = gameProject->property( "id" ).toString();
+
+    d->ui.idEdit->setText( id );
+
+    if( !id.isEmpty() )
+    {
+        d->ui.createUpdateButton->setText( i18n( "Update" ) );
+    }
+    else
+    {
+        d->ui.createUpdateButton->setText( i18n( "Create" ) );
+    }
 }
 
 void DistributionDock::doLogin()
@@ -76,11 +89,43 @@ void DistributionDock::doLogin()
 void DistributionDock::loginSuccessful()
 {
     d->ui.loginButton->setText( i18n( "Logged In" ) );
+    d->ui.detailsTab->setEnabled( true );
 }
 
 void DistributionDock::loginFailed()
 {
     d->ui.loginButton->setEnabled( true );
+}
+
+void DistributionDock::createOrUpdateGame()
+{
+    if( d->ui.idEdit->text().isEmpty() )
+    {
+        GluonPlayer::OcsNewGameProvider* newGameProvider = GluonPlayer::OcsProvider::instance()->addNewGame(
+                    d->ui.gameNameEdit->text() );
+        connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
+        connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
+        d->ui.createUpdateButton->setText( i18n( "Uploading" ) );
+        d->ui.createUpdateButton->setEnabled( false );
+    }
+    else
+    {
+
+    }
+}
+
+void DistributionDock::newGameUploadFinished( const QString& id )
+{
+    d->ui.idEdit->setText( id );
+    GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
+    d->ui.createUpdateButton->setEnabled( true );
+    updateUiFromGameProject( GluonEngine::Game::instance()->gameProject() );
+}
+
+void DistributionDock::newGameUploadFailed()
+{
+    d->ui.createUpdateButton->setText( i18n("Create") );
+    d->ui.createUpdateButton->setEnabled( true );
 }
 
 #include "distributiondock.moc"
