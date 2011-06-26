@@ -24,6 +24,7 @@
 
 #include <player/lib/ocsprovider.h>
 #include <player/lib/ocsnewgameprovider.h>
+#include <player/lib/ocscategoryprovider.h>
 
 #include <KDE/KLocalizedString>
 
@@ -39,6 +40,7 @@ class DistributionDock::DistributionDockPrivate
         QString currentGameId;
         QWidget widget;
         Ui::DistributionDock ui;
+        QStringList categoryIds;
 };
 
 DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
@@ -54,6 +56,9 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
     connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
     connect( d->ui.loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
     connect( d->ui.createUpdateButton, SIGNAL( clicked( bool ) ), SLOT( createOrUpdateGame() ) );
+
+    updateCategories();
+    loadCredentials();
 
     setWidget( &d->widget );
 }
@@ -102,7 +107,7 @@ void DistributionDock::createOrUpdateGame()
     if( d->ui.idEdit->text().isEmpty() )
     {
         GluonPlayer::OcsNewGameProvider* newGameProvider = GluonPlayer::OcsProvider::instance()->addNewGame(
-                    d->ui.gameNameEdit->text() );
+                    d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
         connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
         d->ui.createUpdateButton->setText( i18n( "Uploading" ) );
@@ -124,8 +129,50 @@ void DistributionDock::newGameUploadFinished( const QString& id )
 
 void DistributionDock::newGameUploadFailed()
 {
-    d->ui.createUpdateButton->setText( i18n("Create") );
+    d->ui.createUpdateButton->setText( i18n( "Create" ) );
     d->ui.createUpdateButton->setEnabled( true );
+}
+
+void DistributionDock::updateCategories()
+{
+    GluonPlayer::OcsCategoryProvider* provider = GluonPlayer::OcsProvider::instance()->fetchCategories();
+
+    connect( provider, SIGNAL( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ),
+             SLOT( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ) );
+}
+
+void DistributionDock::categoriesFetched( QList <GluonPlayer::OcsCategory*> categories )
+{
+    d->ui.categoryList->clear();
+    d->categoryIds.clear();
+
+    foreach( GluonPlayer::OcsCategory * category, categories )
+    {
+        QString categoryString = category->categoryName();
+
+        /*Maybe we should just store some IDs in a settings file?
+        Or if we care we're gonna prefix each categ with Gluon, thats fine*/
+        if( categoryString.startsWith( "Gluon", Qt::CaseInsensitive ) )
+        {
+            d->categoryIds.append( category->id() );
+            d->ui.categoryList->addItem( categoryString );
+        }
+    }
+}
+
+void DistributionDock::loadCredentials()
+{
+    GluonPlayer::OcsProvider* provider = GluonPlayer::OcsProvider::instance();
+
+    if( provider->hasCredentials() )
+    {
+        d->ui.usernameEdit->setText( provider->username() );
+        d->ui.passwordEdit->setText( provider->password() );
+    }
+    else
+    {
+        connect( provider, SIGNAL( providerInitialized() ), SLOT( loadCredentials() ) );
+    }
 }
 
 #include "distributiondock.moc"

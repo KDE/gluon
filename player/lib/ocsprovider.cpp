@@ -26,6 +26,7 @@
 #include "ocsgameuploadprovider.h"
 #include "ocsratingprovider.h"
 #include "ocsnewgameprovider.h"
+#include "ocscategoryprovider.h"
 
 #include <core/directoryprovider.h>
 
@@ -340,10 +341,9 @@ OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString& id )
     return gameDetailsProvider;
 }
 
-OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName )
+OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName, const QString& categoryId )
 {
-    //TODO: Let the user select the category
-    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, "4440" , gameName );
+    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, categoryId , gameName );
 
     if( d->ready )
     {
@@ -355,6 +355,22 @@ OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName )
     }
 
     return newGameProvider;
+}
+
+GluonPlayer::OcsCategoryProvider* OcsProvider::fetchCategories()
+{
+    OcsCategoryProvider* categoryProvider = new OcsCategoryProvider( &d->provider );
+
+    if( d->ready )
+    {
+        categoryProvider->fetchCategories();
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), categoryProvider, SLOT( fetchCategories() ) );
+    }
+
+    return categoryProvider;
 }
 
 #include "ocsprovider.moc"

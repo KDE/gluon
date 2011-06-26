@@ -105,6 +105,13 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Category</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Name</string>
@@ -128,6 +135,9 @@
               <bool>false</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="categoryList"/>
            </item>
            <item>
             <widget class="QLineEdit" name="gameNameEdit"/>
@@ -171,8 +181,10 @@
   <tabstop>passwordEdit</tabstop>
   <tabstop>loginButton</tabstop>
   <tabstop>idEdit</tabstop>
+  <tabstop>categoryList</tabstop>
   <tabstop>gameNameEdit</tabstop>
   <tabstop>descriptionEdit</tabstop>
+  <tabstop>createUpdateButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

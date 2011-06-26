@@ -22,6 +22,11 @@
 
 #include <QtGui/QDockWidget>
 
+namespace GluonPlayer
+{
+    class OcsCategory;
+}
+
 namespace GluonEngine
 {
     class GameProject;
@@ -44,6 +49,9 @@ namespace GluonCreator
             void createOrUpdateGame();
             void newGameUploadFinished( const QString &id );
             void newGameUploadFailed();
+            void updateCategories();
+            void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
+            void loadCredentials();
 
         private:
             class DistributionDockPrivate;
