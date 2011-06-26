@@ -24,6 +24,11 @@
 
 #include <core/singleton.h>
 
+namespace GluonEngine
+{
+    class Asset;
+}
+
 namespace GluonCore
 {
     class GluonObject;
@@ -39,6 +44,14 @@ namespace GluonCreator
         public:
             typedef QList<GluonCore::GluonObject*> SelectionList;
             SelectionList selection() const;
+
+            /**
+             * The contextually appropriate instance of a GluonEngine::Savable asset. This might be
+             * a scene, a prefab or likewise. This item will be set as dirty on any change made in
+             * the property widget.
+             * @return The current savable context
+             */
+            GluonEngine::Asset* savableContext() const;
 
         public Q_SLOTS:
             void setSelection( const SelectionList& selection );

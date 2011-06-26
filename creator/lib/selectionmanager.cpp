@@ -18,15 +18,20 @@
  */
 
 #include "selectionmanager.h"
+#include "engine/asset.h"
+#include "engine/savable.h"
 
 using namespace GluonCreator;
 
 class SelectionManager::SelectionManagerPrivate
 {
     public:
-        SelectionManagerPrivate() { }
+        SelectionManagerPrivate()
+            : savableContext( 0 )
+        { }
 
         SelectionList selection;
+        GluonEngine::Asset* savableContext;
 };
 
 GLUON_DEFINE_SINGLETON( SelectionManager )
@@ -47,14 +52,40 @@ SelectionManager::SelectionList SelectionManager::selection() const
     return d->selection;
 }
 
+GluonEngine::Asset* SelectionManager::savableContext() const
+{
+    return d->savableContext;
+}
+
 void SelectionManager::setSelection( const SelectionManager::SelectionList& selection )
 {
     d->selection = selection;
+
+    GluonEngine::Asset* newSavableContext;
+    foreach(GluonCore::GluonObject* item, selection)
+    {
+        QObject* theParent = item;
+        while( theParent )
+        {
+            GluonEngine::Savable* tmpSavable = dynamic_cast<GluonEngine::Savable*>( theParent );
+            if( tmpSavable )
+            {
+                newSavableContext = qobject_cast< GluonEngine::Asset* >( theParent );
+                break;
+            }
+            theParent = item->parent();
+        }
+        if( newSavableContext )
+            break;
+    }
+    d->savableContext = newSavableContext;
+
     emit selectionChanged( selection );
 }
 
 void SelectionManager::clearSelection()
 {
     d->selection.clear();
+    d->savableContext = 0;
     emit selectionChanged( d->selection );
 }
