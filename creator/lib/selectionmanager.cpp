@@ -61,7 +61,7 @@ void SelectionManager::setSelection( const SelectionManager::SelectionList& sele
 {
     d->selection = selection;
 
-    GluonEngine::Savable* newSavableContext;
+    GluonEngine::Savable* newSavableContext = 0;
     foreach(GluonCore::GluonObject* item, selection)
     {
         QObject* theParent = item;
@@ -73,7 +73,7 @@ void SelectionManager::setSelection( const SelectionManager::SelectionList& sele
                 newSavableContext = tmpSavable;
                 break;
             }
-            theParent = item->parent();
+            theParent = theParent->parent();
         }
         if( newSavableContext )
             break;
