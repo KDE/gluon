@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>340</height>
+    <width>462</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Distribution</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_11">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -103,11 +103,11 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>370</width>
-            <height>287</height>
+            <width>432</width>
+            <height>477</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QGroupBox" name="basicGroupBox">
              <property name="title">
@@ -164,16 +164,72 @@
              <property name="title">
               <string>Details</string>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>Description</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_10">
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Version</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>Homepage</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>License</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                  <item>
+                   <widget class="QLineEdit" name="versionEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="homepageEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="licenseList"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="descriptionEdit"/>
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="0" column="1" rowspan="2">
+                 <widget class="QPlainTextEdit" name="descriptionEdit"/>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPlainTextEdit" name="changelogEdit"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_8">
+                  <property name="text">
+                   <string>Changelog</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" rowspan="2">
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>Description</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -184,19 +240,6 @@
               <string>Please login first</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>56</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -216,7 +259,11 @@
   <tabstop>idEdit</tabstop>
   <tabstop>categoryList</tabstop>
   <tabstop>gameNameEdit</tabstop>
+  <tabstop>versionEdit</tabstop>
+  <tabstop>homepageEdit</tabstop>
+  <tabstop>licenseList</tabstop>
   <tabstop>descriptionEdit</tabstop>
+  <tabstop>changelogEdit</tabstop>
   <tabstop>createUpdateButton</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>

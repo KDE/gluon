@@ -115,7 +115,19 @@ void DistributionDock::createOrUpdateGame()
     }
     else
     {
-        //TODO
+        /*TODO
+        Category
+        Name
+        Version
+        Content files+
+        Homepage+
+        Screenshots1,2,3
+        Desc
+        Changelog
+        Accept donations
+        License
+        Ensure no copyright violation
+        */
     }
 }
 
