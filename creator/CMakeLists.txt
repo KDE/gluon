@@ -6,8 +6,9 @@ if(NOT GLUON_BUILD_ALL)
     find_package(KDevPlatform REQUIRED)
     find_package(GluonCore REQUIRED)
     find_package(GluonInput REQUIRED)
-    find_package(GluonEngine REQUIRED)
     find_package(GluonGraphics REQUIRED)
+    find_package(GluonEngine REQUIRED)
+    find_package(GluonPlayer REQUIRED)
 endif()
 
 include_directories(
@@ -16,6 +17,7 @@ include_directories(
     ${KDE4_INCLUDES}
     ${GLUON_CORE_INCLUDES}
     ${GLUON_ENGINE_INCLUDES}
+    ${GLUON_PLAYER_INCLUDES}
 )
 
 find_package(KDevPlatform 1.0.2)
