@@ -117,7 +117,7 @@ Asset::supportedMimeTypes() const
 	return list;
 }
 
-//we only need to use this macro here, because we are registering and hanlding the other components and assets through the GLUON_OBJECT
+//we only need to use this macro here, because we are registering and handling the other components and assets through the GLUON_OBJECT
 Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, BehaviorTree::Asset)
 
 #include "asset.moc"
