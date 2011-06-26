@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_ALLGAMEITEMSMODEL_H
 #define GLUONPLAYER_ALLGAMEITEMSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>

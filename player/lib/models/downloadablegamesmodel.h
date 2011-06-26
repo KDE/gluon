@@ -22,7 +22,7 @@
 
 #include <QSortFilterProxyModel>
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 namespace GluonPlayer
 {
