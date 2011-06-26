@@ -52,6 +52,8 @@ namespace GluonCreator
             void updateCategories();
             void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
             void loadCredentials();
+            void switchToCreateMode();
+            void switchToUpdateMode();
 
         private:
             class DistributionDockPrivate;

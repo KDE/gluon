@@ -74,13 +74,13 @@ void DistributionDock::updateUiFromGameProject( GluonEngine::GameProject* gamePr
 
     d->ui.idEdit->setText( id );
 
-    if( !id.isEmpty() )
+    if( id.isEmpty() )
     {
-        d->ui.createUpdateButton->setText( i18n( "Update" ) );
+        switchToCreateMode();
     }
     else
     {
-        d->ui.createUpdateButton->setText( i18n( "Create" ) );
+        switchToUpdateMode();
     }
 }
 
@@ -94,7 +94,7 @@ void DistributionDock::doLogin()
 void DistributionDock::loginSuccessful()
 {
     d->ui.loginButton->setText( i18n( "Logged In" ) );
-    d->ui.detailsTab->setEnabled( true );
+    d->ui.gameTab->setEnabled( true );
 }
 
 void DistributionDock::loginFailed()
@@ -115,7 +115,7 @@ void DistributionDock::createOrUpdateGame()
     }
     else
     {
-
+        //TODO
     }
 }
 
@@ -129,7 +129,7 @@ void DistributionDock::newGameUploadFinished( const QString& id )
 
 void DistributionDock::newGameUploadFailed()
 {
-    d->ui.createUpdateButton->setText( i18n( "Create" ) );
+    switchToCreateMode();
     d->ui.createUpdateButton->setEnabled( true );
 }
 
@@ -174,5 +174,18 @@ void DistributionDock::loadCredentials()
         connect( provider, SIGNAL( providerInitialized() ), SLOT( loadCredentials() ) );
     }
 }
+
+void DistributionDock::switchToCreateMode()
+{
+    d->ui.createUpdateButton->setText( i18n( "Create" ) );
+    d->ui.detailsGroupBox->setEnabled( false );
+}
+
+void DistributionDock::switchToUpdateMode()
+{
+    d->ui.createUpdateButton->setText( i18n( "Update" ) );
+    d->ui.detailsGroupBox->setEnabled( true );
+}
+
 
 #include "distributiondock.moc"
