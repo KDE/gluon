@@ -21,8 +21,6 @@
 #ifndef GLUONPLAYER_GLFBOAPPLET_H
 #define GLUONPLAYER_GLFBOAPPLET_H
 
-#include "player/gluon_player_export.h"
-
 #include <plasma/applet.h>
 
 #ifdef Q_OS_WIN

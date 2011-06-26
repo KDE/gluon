@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_COMMENTSMODEL_H
 #define GLUONPLAYER_COMMENTSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QAbstractItemModel>
 

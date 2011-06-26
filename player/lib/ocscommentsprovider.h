@@ -35,8 +35,8 @@ namespace GluonPlayer
     {
             Q_OBJECT
         public:
-            explicit OcsComment( const QString& id, const QString& subject, const QString& text,
-                                 const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
+            OcsComment( const QString& id, const QString& subject, const QString& text,
+                        const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
             virtual ~OcsComment();
             QString id() const;
             QString subject() const;
@@ -54,9 +54,9 @@ namespace GluonPlayer
     {
             Q_OBJECT
         public:
-            explicit OcsCommentsProvider( Attica::Provider* provider, const QString& id, int page, int pageSize,
+            OcsCommentsProvider( Attica::Provider* provider, const QString& id, int page, int pageSize,
                                           QObject* parent = 0 );
-            explicit OcsCommentsProvider( Attica::Provider* provider, const QString& id, const QString& parentId,
+            OcsCommentsProvider( Attica::Provider* provider, const QString& id, const QString& parentId,
                                           const QString& subject, const QString& message, QObject* parent = 0 );
             virtual ~OcsCommentsProvider();
 
