@@ -40,6 +40,7 @@ namespace BehaviorTree
             friend class BehaviorTree::Asset;
             
             Tree(QObject * parent = 0);
+            Tree(const Tree& other, QObject* parent = 0);
             ~Tree();
             
             void setBehaviorTree(btNode* newBehaviorTree);

@@ -37,6 +37,7 @@ namespace BehaviorTree
         
         public:
             Asset(QObject *parent = 0);
+            Asset(const Asset& other, QObject* parent = 0);
             ~Asset();
             
             virtual void setFile(const QUrl &newFile);

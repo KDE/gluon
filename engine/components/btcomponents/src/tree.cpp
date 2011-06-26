@@ -31,6 +31,14 @@ Tree::Tree(QObject * parent)
     d = new TreePrivate(this);
 }
 
+Tree::Tree(const Tree& other, QObject* parent)
+        : GluonEngine::Asset(parent)
+        , d(other.d)
+{
+
+}
+
+
 Tree::~Tree()
 {
 }

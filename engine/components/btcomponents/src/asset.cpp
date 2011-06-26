@@ -42,6 +42,13 @@ Asset::Asset(QObject * parent)
     qRegisterMetaType<btNode*>("btNode*");
 }
 
+Asset::Asset(const Asset& other, QObject* parent)
+        : GluonEngine::Asset(parent)
+        , d(other.d)
+{
+
+}
+
 Asset::~Asset()
 {
     delete(d);
