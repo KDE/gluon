@@ -26,7 +26,7 @@
 
 namespace GluonEngine
 {
-    class Asset;
+    class Savable;
 }
 
 namespace GluonCore
@@ -51,7 +51,7 @@ namespace GluonCreator
              * the property widget.
              * @return The current savable context
              */
-            GluonEngine::Asset* savableContext() const;
+            GluonEngine::Savable* savableContext() const;
 
         public Q_SLOTS:
             void setSelection( const SelectionList& selection );

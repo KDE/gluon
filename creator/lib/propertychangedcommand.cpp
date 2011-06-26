@@ -52,11 +52,13 @@ void PropertyChangedCommand::undo()
 {
     setCommandDirection( "undo" );
     object()->setProperty( d->property.toUtf8(), d->oldValue );
+    AbstractUndoCommand::undo();
 }
 
 void PropertyChangedCommand::redo()
 {
     setCommandDirection( "redo" );
     object()->setProperty( d->property.toUtf8(), d->newValue );
+    AbstractUndoCommand::redo();
 }
 
