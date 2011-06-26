@@ -16,7 +16,7 @@ namespace BehaviorTree
 	class BTCOMPONENT_EXPORT PerceptionAtom : public GluonEngine::Component
 	{
 		Q_OBJECT
-		GLUON_OBJECT(BehaviorTree::PerceptionAtam)
+                GLUON_OBJECT(BehaviorTree::PerceptionAtom)
 		Q_INTERFACES(GluonEngine::Component)
 		
 		Q_PROPERTY(BehaviorTree::PerceptionInfo* perceptionInfo READ perceptionInfo WRITE setPerceptionInfo)
