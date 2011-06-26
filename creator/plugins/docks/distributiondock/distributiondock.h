@@ -47,13 +47,16 @@ namespace GluonCreator
             void loginSuccessful();
             void loginFailed();
             void createOrUpdateGame();
-            void newGameUploadFinished( const QString &id );
+            void newGameUploadFinished( const QString& id );
             void newGameUploadFailed();
+            void editGameFinished( const QString& id );
+            void editGameFailed( const QString& id );
             void updateCategories();
             void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
             void loadCredentials();
             void switchToCreateMode();
             void switchToUpdateMode();
+            void initEditGameProvider();
 
         private:
             class DistributionDockPrivate;

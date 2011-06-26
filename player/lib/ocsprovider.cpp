@@ -27,6 +27,7 @@
 #include "ocsratingprovider.h"
 #include "ocsnewgameprovider.h"
 #include "ocscategoryprovider.h"
+#include "ocseditgameprovider.h"
 
 #include <core/directoryprovider.h>
 
@@ -371,6 +372,22 @@ GluonPlayer::OcsCategoryProvider* OcsProvider::fetchCategories()
     }
 
     return categoryProvider;
+}
+
+OcsEditGameProvider* OcsProvider::editGame( const QString& id )
+{
+    OcsEditGameProvider* editGameProvider = new OcsEditGameProvider( &d->provider, id );
+
+    if( d->ready )
+    {
+        editGameProvider->startFetchingExistingGame();
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), editGameProvider, SLOT( startFetchingExistingGame() ) );
+    }
+
+    return editGameProvider;
 }
 
 #include "ocsprovider.moc"

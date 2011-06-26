@@ -41,6 +41,7 @@ namespace GluonPlayer
     class OcsRatingProvider;
     class OcsNewGameProvider;
     class OcsCategoryProvider;
+    class OcsEditGameProvider;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -192,6 +193,16 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             Q_INVOKABLE GluonPlayer::OcsCategoryProvider* fetchCategories();
+
+            /**
+             * Edit an existing game on the server.
+             *
+             * @param id ID of the game
+             * @return a OcsEditGameProvider object which the caller can use to
+             * set new properties and then call its startEditionUpload() method
+             * to start the upload of the changes.
+             */
+            Q_INVOKABLE GluonPlayer::OcsEditGameProvider* editGame( const QString &id );
 
         private:
             ~OcsProvider();

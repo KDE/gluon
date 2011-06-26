@@ -25,6 +25,7 @@
 #include <player/lib/ocsprovider.h>
 #include <player/lib/ocsnewgameprovider.h>
 #include <player/lib/ocscategoryprovider.h>
+#include <player/lib/ocseditgameprovider.h>
 
 #include <KDE/KLocalizedString>
 
@@ -41,6 +42,7 @@ class DistributionDock::DistributionDockPrivate
         QWidget widget;
         Ui::DistributionDock ui;
         QStringList categoryIds;
+        GluonPlayer::OcsEditGameProvider* editGameProvider;
 };
 
 DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
@@ -48,6 +50,7 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
 {
     setObjectName( "Distribution Dock" );
 
+    d->editGameProvider = 0;
     d->ui.setupUi( &d->widget );
 
     connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
@@ -115,19 +118,19 @@ void DistributionDock::createOrUpdateGame()
     }
     else
     {
-        /*TODO
-        Category
-        Name
-        Version
-        Content files+
-        Homepage+
-        Screenshots1,2,3
-        Desc
-        Changelog
-        Accept donations
-        License
-        Ensure no copyright violation
-        */
+        if( !d->editGameProvider )
+            initEditGameProvider();
+
+        d->editGameProvider->setName( d->ui.gameNameEdit->text() );
+        d->editGameProvider->setCategory( d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
+        d->editGameProvider->setChangelog( d->ui.changelogEdit->toPlainText() );
+        d->editGameProvider->setDescription( d->ui.descriptionEdit->toPlainText() );
+        d->editGameProvider->setHomepage( d->ui.homepageEdit->text() );
+        d->editGameProvider->setVersion( d->ui.versionEdit->text() );
+        //TODO: d->editGameProvider->setLicense();
+        d->editGameProvider->startEditionUpload();
+        d->ui.createUpdateButton->setText( i18n( "Uploading" ) );
+        d->ui.createUpdateButton->setEnabled( false );
     }
 }
 
@@ -135,7 +138,6 @@ void DistributionDock::newGameUploadFinished( const QString& id )
 {
     d->ui.idEdit->setText( id );
     GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
-    d->ui.createUpdateButton->setEnabled( true );
     updateUiFromGameProject( GluonEngine::Game::instance()->gameProject() );
 }
 
@@ -143,6 +145,17 @@ void DistributionDock::newGameUploadFailed()
 {
     switchToCreateMode();
     d->ui.createUpdateButton->setEnabled( true );
+}
+
+void DistributionDock::editGameFinished( const QString& id )
+{
+    switchToUpdateMode();
+    d->ui.createUpdateButton->setText( "Success" );     //TODO: remove
+}
+
+void DistributionDock::editGameFailed( const QString& id )
+{
+    switchToUpdateMode();
 }
 
 void DistributionDock::updateCategories()
@@ -189,15 +202,27 @@ void DistributionDock::loadCredentials()
 
 void DistributionDock::switchToCreateMode()
 {
+    d->ui.createUpdateButton->setEnabled( true );
     d->ui.createUpdateButton->setText( i18n( "Create" ) );
     d->ui.detailsGroupBox->setEnabled( false );
 }
 
 void DistributionDock::switchToUpdateMode()
 {
+    d->ui.createUpdateButton->setEnabled( true );
     d->ui.createUpdateButton->setText( i18n( "Update" ) );
     d->ui.detailsGroupBox->setEnabled( true );
+
+    if( !d->editGameProvider )
+        initEditGameProvider();
 }
 
+void DistributionDock::initEditGameProvider()
+{
+    d->editGameProvider = GluonPlayer::OcsProvider::instance()->editGame(
+                              d->ui.idEdit->text() );
+    connect( d->editGameProvider, SIGNAL( finished( QString ) ), SLOT( editGameFinished( QString ) ) );
+    connect( d->editGameProvider, SIGNAL( failed( QString ) ), SLOT( editGameFailed( QString ) ) );
+}
 
 #include "distributiondock.moc"
