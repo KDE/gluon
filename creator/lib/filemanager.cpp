@@ -83,7 +83,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     KMimeType::Ptr mime = KMimeType::findByPath( fileName );
 
-    KParts::ReadOnlyPart* part;
+    KParts::ReadOnlyPart* part = 0;
     KService::List parts;
 
     if( !partName.isEmpty() )
