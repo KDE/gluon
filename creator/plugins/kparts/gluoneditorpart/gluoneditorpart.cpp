@@ -30,12 +30,10 @@
 
 #include <kdemacros.h>
 #include <kparts/genericfactory.h>
-#include <KDE/KUrl>
 #include <KDE/KActionCollection>
 #include <KDE/KAction>
 
 #include <QtGui/QWidget>
-#include <QtCore/QThread>
 #include <QtCore/QTimer>
 
 using namespace GluonCreator;

@@ -18,8 +18,10 @@
 */
 
 #include "abstractundocommand.h"
-#include <engine/savable.h>
+
 #include "selectionmanager.h"
+
+#include <engine/savable.h>
 
 using namespace GluonCreator;
 

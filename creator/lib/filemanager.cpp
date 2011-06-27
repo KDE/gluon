@@ -26,14 +26,8 @@
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
-#include <KDE/KRun>
 #include <KDE/KService>
-#include <KDE/KToolBar>
 #include <KDE/KActionCollection>
-
-#include <QtGui/QActionGroup>
-#include <QtGui/QApplication>
-#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 

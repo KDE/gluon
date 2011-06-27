@@ -32,16 +32,10 @@ using namespace GluonCreator;
 
 #include <core/gluonobject.h>
 
-#include <KDE/KIcon>
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QToolButton>
-
-#include <QtCore/QVariant>
 #include <QtCore/QMetaClassInfo>
 
 class PropertyWidget::PropertyWidgetPrivate

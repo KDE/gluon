@@ -18,6 +18,7 @@
  */
 
 #include "selectionmanager.h"
+
 #include "core/gluonobject.h"
 #include "engine/savable.h"
 

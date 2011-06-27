@@ -20,7 +20,6 @@
 
 #include <QtCore/QVariant>
 #include <QtGui/QVBoxLayout>
-#include <QtGui/QLayout>
 
 using namespace GluonCreator;
 
