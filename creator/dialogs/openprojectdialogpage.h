@@ -30,7 +30,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit OpenProjectDialogPage();
+            OpenProjectDialogPage();
             ~OpenProjectDialogPage();
         Q_SIGNALS:
             void projectRequested( const QString& url );

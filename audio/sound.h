@@ -51,7 +51,7 @@ namespace GluonAudio
             * @param toStream whether or not the file should be streamed
             * @see Engine::bufferLength, Engine::buffersPerStream
             */
-            explicit Sound( const QString& fileName, bool toStream );
+            explicit Sound( const QString& fileName, bool toStream = false);
 
             /**
             * Destructor
