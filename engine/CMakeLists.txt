@@ -62,6 +62,7 @@ set(GluonEngine_SRCS
     prefabprivate.cpp
     prefabinstance.cpp
     prefabinstancechild.cpp
+    projectmetadata.cpp
     savable.cpp
     scene.cpp
     sceneprivate.cpp
@@ -85,6 +86,7 @@ set(GluonEngine_HEADERS
     prefab.h
     prefabinstance.h
     prefabinstancechild.h
+    projectmetadata.h
     savable.h
     scene.h
     filelocation.h
