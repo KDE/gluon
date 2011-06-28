@@ -22,6 +22,9 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/achievement.h>
+#include <engine/achievementsmanager.h>
+#include <engine/projectmetadata.h>
+#include <core/directoryprovider.h>
 
 #include <QtCore/QDebug>
 
@@ -30,23 +33,28 @@ using namespace GluonPlayer;
 class AchievementsModel::AchievementsModelPrivate
 {
     public:
-        AchievementsModelPrivate() {}
-        ~AchievementsModelPrivate() {}
+        AchievementsModelPrivate() : achievementsManager( 0 ) {}
+        ~AchievementsModelPrivate() { delete achievementsManager; }
 
-        QList<GluonEngine::Achievement*> achievements;
         QStringList headerList;
+        GluonEngine::AchievementsManager* achievementsManager;
 };
 
-AchievementsModel::AchievementsModel(QObject* parent)
+AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent)
     : QAbstractTableModel(parent)
     , d( new AchievementsModelPrivate() )
 {
-    GluonEngine::GameProject* p = GluonEngine::Game::instance()->gameProject();
     d->headerList << "Achievement" << "Achieved?";
-    if( p )
-        d->achievements = p->achievements();
-    else
-        qDebug() << "AchievementsModel: no GameProject open!"; 
+    d->achievementsManager = new GluonEngine::AchievementsManager(this);
+    QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
+    achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
+    d->achievementsManager->load( achievementsDirectory );
+    qDebug() << "Achievements count: " << d->achievementsManager->achievementsCount();
+    if( d->achievementsManager->achievementsCount() == 0 )
+    {
+        achievementsDirectory = metaData->projectDir() + "/Cache";
+        d->achievementsManager->load( achievementsDirectory );
+    }
 }
 
 AchievementsModel::~AchievementsModel()
@@ -56,7 +64,7 @@ AchievementsModel::~AchievementsModel()
 
 int AchievementsModel::rowCount(const QModelIndex& /*parent*/) const
 {
-    return d->achievements.count();
+    return d->achievementsManager->achievementsCount();
 }
 
 int AchievementsModel::columnCount(const QModelIndex& /*parent*/) const
@@ -69,12 +77,11 @@ QVariant AchievementsModel::data(const QModelIndex& index, int role) const
     if( !index.isValid() || role != Qt::DisplayRole )
         return QVariant();
 
-    GluonEngine::Achievement* achievement = d->achievements[index.row()];
     if( index.column() == 0 )
-        return achievement->name();
+        return d->achievementsManager->achievementName(index.row());
 
     else
-        return achievement->achieved() ? "yes" : "no";
+        return d->achievementsManager->achievementAchieved(index.row()) ? "yes" : "no";
 }
 
 QVariant AchievementsModel::headerData(int section, Qt::Orientation orientation, int role) const

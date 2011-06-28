@@ -25,9 +25,12 @@
 #include "game.h"
 
 #include <engine/achievement.h>
+#include <engine/achievementsmanager.h>
+#include <engine/projectmetadata.h>
 #include <core/gdlhandler.h>
 #include <core/scriptengine.h>
 #include <core/debughelper.h>
+#include <core/directoryprovider.h>
 
 #include <QtGui/QImageWriter>
 #include <QtCore/QDir>
@@ -133,6 +136,17 @@ GameProject::saveToFile() const
         screenshotFile.append( GluonEngine::projectScreenshot );
         d->screenshot->texture()->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
     }
+
+    //save meta data
+    ProjectMetaData metaData( filename().toLocalFile(), name(), description(), property("id").toString() );
+    metaData.save();
+
+    // Create a template for the achievements in this project
+    AchievementsManager achievementsManager;
+    achievementsManager.readFromProject(achievements());
+    achievementsManager.makeTemplate();
+    QString saveDirectory = projectDir + "/Cache";
+    achievementsManager.save(saveDirectory);
 
     return true;
 }

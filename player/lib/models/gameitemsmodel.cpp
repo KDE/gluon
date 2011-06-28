@@ -59,10 +59,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
         if( !gluonProjectFiles.isEmpty() )
         {
             QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
-            GluonEngine::GameProject project;
-            project.loadFromFile( projectFileName );
-            GameViewItem* gameViewItem = new GameViewItem( project.name(), project.description(), gameDir.path(), projectFileName,
-                    GameViewItem::Installed, project.property( "id" ).toString() );
+            GameViewItem* gameViewItem = new GameViewItem( projectFileName, GameViewItem::Installed );
             d->m_gameViewItems.insertMulti( GameViewItem::Installed, gameViewItem );
         }
     }
@@ -149,6 +146,15 @@ int GameItemsModel::upgradableCount() const
 {
     return d->m_gameViewItems.values( GameViewItem::Upgradable ).count();
 }
+
+GameViewItem* GameItemsModel::installedGameInfo(int row)
+{
+    if( row < 0 || row >= d->m_gameViewItems.values().count() )
+        return 0;
+
+    return d->m_gameViewItems.values( GameViewItem::Installed ).at( row );
+}
+
 int GameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return d->m_gameViewItems.values( GameViewItem::Installed ).count();
@@ -179,7 +185,7 @@ void GameItemsModel::fetchGamesList()
 void GameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > comments)
 {
     foreach(OcsGameDetails *c, comments) {
-        GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",
+        GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "",
                     GameViewItem::Downloadable, c->id() );
         d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
     }
