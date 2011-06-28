@@ -41,7 +41,7 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
 
     //Create standard dirs Gluon recommends
     QDir dir;
-    foreach( QString dirPath, m_userDirs.values() )
+    foreach( const QString& dirPath, m_userDirs.values() )
     {
         dir.mkpath( dirPath );
     }
