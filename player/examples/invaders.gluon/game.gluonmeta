@@ -1,0 +1,6 @@
+{ GluonEngine::ProjectMetaData(GluonObject)
+    projectName string(Invaders)
+    description string(Invaders Game)
+    projectPath string(/usr/share/gluon/games/invaders.gluon/game.gluonproject)
+    id string(128637)
+}

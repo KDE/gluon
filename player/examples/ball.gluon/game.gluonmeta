@@ -1,0 +1,5 @@
+{ GluonEngine::ProjectMetaData(GluonObject)
+    projectName string(Ball)
+    description string(Ball Game)
+    projectPath string(/usr/share/gluon/games/ball.gluon/game.gluonproject)
+}
