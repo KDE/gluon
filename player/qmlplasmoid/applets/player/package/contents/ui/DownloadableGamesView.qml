@@ -27,6 +27,10 @@ Item {
     id: downloadableGamesViewRoot
     property alias spacing: downloadableGamesList.spacing
 
+    function dlProgress(bytesReceived, bytesTotal) {
+            progressBar.width = bytesReceived*rootItem.width/bytesTotal;
+    }
+
     GameItemsDelegate {
         id: gameItemsDelegate
     }

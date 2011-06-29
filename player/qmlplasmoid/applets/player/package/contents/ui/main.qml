@@ -31,10 +31,6 @@ Item {
 
     GluonPlayer.GluonPlayerAdapter { id: gluonPlayerAdapter }
 
-    function dlProgress(bytesReceived, bytesTotal) {
-            progressBar.width = bytesReceived*rootItem.width/bytesTotal;
-    }
-
     GameDetails {
         id: gameDetails
         width: rootItem.width; height: rootItem.height
