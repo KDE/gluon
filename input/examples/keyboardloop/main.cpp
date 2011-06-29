@@ -17,10 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "gameloop.h"
 
-#include <gluon/input/keyboard.h>
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <QtGui/QApplication>
 #include <QtCore/QDebug>

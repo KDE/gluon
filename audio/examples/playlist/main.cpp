@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <gluon/audio/player.h>
+#include "audio/player.h"
 
 #include <QtCore/QCoreApplication>
 // #include <QtCore/QDebug>
