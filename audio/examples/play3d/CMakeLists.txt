@@ -1,7 +1,6 @@
 project(gluonexamples_audio_play3d)
-cmake_minimum_required(VERSION 2.6)
 
-find_package(GluonAudio REQUIRED)
+cmake_minimum_required(VERSION 2.6)
 
 include_directories(${GLUON_AUDIO_INCLUDES})
 
@@ -10,6 +9,11 @@ set(gluonexamples_audio_play3d_SRCS
 )
 
 add_executable(gluonexamples_audio_play3d ${gluonexamples_audio_play3d_SRCS})
+
+if(GLUON_BUILD_ALL)
+    add_dependencies(gluonexamples_audio_play3d GluonAudio)
+endif()
+
 target_link_libraries(gluonexamples_audio_play3d ${GLUON_AUDIO_LIBS})
 
 set(GluonAudio_SOUNDS
@@ -25,3 +29,4 @@ install(
     COMPONENT Devel
 )
 
+install(TARGETS gluonexamples_audio_play3d DESTINATION ${EXAMPLES_INSTALL_DIR})
