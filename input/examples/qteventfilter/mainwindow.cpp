@@ -24,6 +24,8 @@
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
 #include <QtGui/QMenuBar>
+#include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
 
 MainWindow::MainWindow( QMainWindow* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
