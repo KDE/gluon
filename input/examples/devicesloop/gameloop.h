@@ -43,4 +43,4 @@ class GameLoop : public QObject
         QList<InputDevice*> m_inputList;
 };
 
-#endif // GAMELOOP_H
+#endif
