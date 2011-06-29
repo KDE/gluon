@@ -26,9 +26,9 @@
 
 int main( int argc, char* argv[] )
 {
-    GluonAudio::Sound* left = new GluonAudio::Sound( "/usr/share/sounds/alsa/Front_Left.wav" );
-    GluonAudio::Sound* right = new GluonAudio::Sound( "/usr/share/sounds/alsa/Front_Right.wav" );
-    GluonAudio::Sound* center = new GluonAudio::Sound( "/usr/share/sounds/alsa/Front_Center.wav" );
+    GluonAudio::Sound* left = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Left.wav" );
+    GluonAudio::Sound* right = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Right.wav" );
+    GluonAudio::Sound* center = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Center.wav" );
 
     left->setPosition( -1, 0, 0 );
     right->setPosition( 1, 0, 0 );
