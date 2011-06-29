@@ -20,7 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <QtGui/QMainWindow>
 

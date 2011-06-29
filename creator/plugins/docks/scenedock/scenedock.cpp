@@ -36,7 +36,6 @@
 #include <KDE/KLocalizedString>
 #include <KDE/KToolBar>
 
-#include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QItemSelection>

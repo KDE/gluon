@@ -31,7 +31,6 @@
 #include <KDE/KInputDialog>
 
 #include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
 #include <QtGui/QToolButton>
 #include <QtGui/QPushButton>
 

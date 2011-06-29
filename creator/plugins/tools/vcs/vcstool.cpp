@@ -37,8 +37,6 @@
 #include <KDE/KUrl>
 #include <KDE/KDialog>
 
-#include <QtCore/QDebug>
-
 class ConsoleIDEExtension : public KDevelop::ShellExtension
 {
     public:

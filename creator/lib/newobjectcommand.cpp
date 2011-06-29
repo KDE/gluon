@@ -66,6 +66,7 @@ NewObjectCommand::undo()
     GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
     if( comp )
         comp->gameObject()->removeComponent( comp );
+    AbstractUndoCommand::undo();
 }
 
 void
@@ -83,6 +84,6 @@ NewObjectCommand::redo()
     GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
     if( comp && gobjParent )
         gobjParent->addComponent( comp );
-
+    AbstractUndoCommand::redo();
 }
 

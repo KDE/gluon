@@ -50,8 +50,6 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
-#include <QtCore/QTimer>
-#include <QtCore/QDebug>
 
 namespace GluonCreator
 {

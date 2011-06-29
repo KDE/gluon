@@ -47,9 +47,9 @@ namespace GluonPlayer
                 Upgradable
             };
 
-            explicit GameViewItem( const QString& gameName, const QString& description,
-                                   const QString& projectDirName, const QString& projectFileName,
-                                   const Status& status, const QString& id, QObject* parent = 0 );
+            GameViewItem( const QString& gameName, const QString& description,
+                          const QString& projectDirName, const QString& projectFileName,
+                          const Status& status, const QString& id, QObject* parent = 0 );
             GameViewItem( const GameViewItem& other, QObject* parent = 0 );
             virtual ~GameViewItem();
 

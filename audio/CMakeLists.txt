@@ -96,6 +96,10 @@ if(APPLE)
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 install(
     TARGETS GluonAudio
     RUNTIME DESTINATION bin

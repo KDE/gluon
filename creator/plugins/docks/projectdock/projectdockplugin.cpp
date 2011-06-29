@@ -21,6 +21,7 @@
 
 #include "projectdock.h"
 #include <creator/lib/dockmanager.h>
+
 #include <KDE/KLocalizedString>
 
 using namespace GluonCreator;

@@ -204,7 +204,7 @@ Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& exten
     if( parts.count() > 1 && parts.first() == obj->gameProject()->name() )
         parts.removeFirst();
 
-    QString fileExtension = parts.last().section(".", -1, -1, QString::SectionIncludeLeadingSep);
+    QString fileExtension = parts.last().section('.', -1, -1, QString::SectionIncludeLeadingSep);
     if (fileExtension == QString(".%1").arg(extension))
         parts.last().remove(fileExtension);
 

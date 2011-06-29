@@ -27,7 +27,6 @@
 #include <KDE/KConfig>
 #include <KDE/KConfigGroup>
 
-#include <QtGui/QWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QListWidget>
 

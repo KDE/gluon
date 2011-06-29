@@ -19,7 +19,7 @@
 
 #include "gameloop.h"
 
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <QtGui/QApplication>
 #include <QtCore/QDebug>

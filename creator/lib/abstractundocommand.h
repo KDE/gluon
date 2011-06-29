@@ -38,8 +38,8 @@ namespace GluonCreator
             AbstractUndoCommand( QUndoCommand* parent = 0 );
             virtual ~AbstractUndoCommand();
 
-            virtual void undo() = 0;
-            virtual void redo() = 0;
+            virtual void undo();
+            virtual void redo();
             virtual int id() const;
 
             GluonCore::GluonObject* object() const;

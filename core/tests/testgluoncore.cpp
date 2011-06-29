@@ -89,7 +89,8 @@ static bool compare_objects( const GluonCore::GluonObject* a, const GluonCore::G
     return true;
 }
 
-TestGluonCore::TestGluonCore()
+TestGluonCore::TestGluonCore( QObject* parent )
+    : QObject(parent)
 {
 }
 

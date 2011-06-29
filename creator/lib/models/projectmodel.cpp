@@ -22,6 +22,8 @@
 #include "historymanager.h"
 #include "objectmanager.h"
 #include "modeltest.h"
+#include "models.h"
+#include "scenemodel.h"
 
 #include <core/gluonobject.h>
 #include <core/debughelper.h>
@@ -30,20 +32,15 @@
 #include <engine/asset.h>
 #include <engine/scene.h>
 #include <engine/filelocation.h>
+#include <engine/gameobject.h>
+#include <engine/prefab.h>
+#include <engine/prefabinstance.h>
 
-#include <KDE/KDebug>
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
 #include <KDE/KIcon>
 
 #include <QtCore/QMimeData>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDir>
-#include <engine/gameobject.h>
-#include <engine/prefab.h>
-#include <engine/prefabinstance.h>
-#include "models.h"
-#include "scenemodel.h"
 
 using namespace GluonCreator;
 
