@@ -1,15 +1,16 @@
-project(tutorial2)
+project(gluonexamples_audio_play3d)
+cmake_minimum_required(VERSION 2.6)
 
 find_package(GluonAudio REQUIRED)
 
 include_directories(${GLUON_AUDIO_INCLUDES})
 
-set(tutorial2_SRCS
+set(gluonexamples_audio_play3d_SRCS
     main.cpp
 )
 
-add_executable(tutorial2 ${tutorial2_SRCS})
-target_link_libraries(tutorial2 ${GLUON_AUDIO_LIBS})
+add_executable(gluonexamples_audio_play3d ${gluonexamples_audio_play3d_SRCS})
+target_link_libraries(gluonexamples_audio_play3d ${GLUON_AUDIO_LIBS})
 
 set(GluonAudio_SOUNDS
     Front_Center.wav
