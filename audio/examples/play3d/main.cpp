@@ -22,13 +22,16 @@
 
 #include "audio/sound.h"
 
+#include <core/directoryprovider.h>
+
 #include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {
-    GluonAudio::Sound* left = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Left.wav" );
-    GluonAudio::Sound* right = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Right.wav" );
-    GluonAudio::Sound* center = new GluonAudio::Sound( "/usr/share/gluon/audio/sounds/Front_Center.wav" );
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    GluonAudio::Sound* left = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Left.wav" );
+    GluonAudio::Sound* right = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Right.wav" );
+    GluonAudio::Sound* center = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Center.wav" );
 
     left->setPosition( -1, 0, 0 );
     right->setPosition( 1, 0, 0 );
