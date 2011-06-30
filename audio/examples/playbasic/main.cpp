@@ -1,6 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
+ * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,26 +19,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <gluon/audio/player.h>
+#include "audio/sound.h"
 
-#include <QtCore/QCoreApplication>
-// #include <QtCore/QDebug>
+#include <QtCore/QDebug>
 
 int main( int argc, char* argv[] )
 {
-    QCoreApplication app( argc, argv );
+    GluonAudio::Sound* sound = new GluonAudio::Sound;
+    sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+    sound->setVolume( 0.9 );  //between 0 and 1
 
-    GluonAudio::Player* player = new GluonAudio::Player;
-    player->append( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-    player->append( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
-    player->setVolume( 0.9 );  //between 0 and 1
+    qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
+    sound->play();
 
-    // qDebug() << "Playing sound "<< player->currentDuration() << "seconds.";
-    QObject::connect( player, SIGNAL( finished() ), &app, SLOT( quit() ) );
-    player->play();
+    while( sound->isPlaying() );
 
-    app.exec();
+    delete sound;
 
-    delete player;
+    return 0;
 }
 

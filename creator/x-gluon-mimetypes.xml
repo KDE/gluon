@@ -15,7 +15,6 @@
         <comment>Gluon Material</comment>
     </mime-type>
     <mime-type type="application/x-gluon-statistics">
-        <sub-class-of type="text/generic"/>
         <glob pattern="*.gluonstatistics" />
         <comment>Gluon Statistics</comment>
     </mime-type>

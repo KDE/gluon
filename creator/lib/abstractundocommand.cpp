@@ -19,6 +19,10 @@
 
 #include "abstractundocommand.h"
 
+#include "selectionmanager.h"
+
+#include <engine/savable.h>
+
 using namespace GluonCreator;
 
 class AbstractUndoCommand::AbstractUndoCommandPrivate
@@ -27,12 +31,18 @@ class AbstractUndoCommand::AbstractUndoCommandPrivate
         GluonCore::GluonObject* object;
         QString commandName;
         QString commandDirection;
+
+        GluonEngine::Savable* savableObject;
+        bool oldSavable;
 };
 
 AbstractUndoCommand::AbstractUndoCommand( QUndoCommand* parent )
     : QUndoCommand( parent ),
       d( new AbstractUndoCommandPrivate )
 {
+    d->savableObject = SelectionManager::instance()->savableContext();
+    if(d->savableObject)
+        d->oldSavable = d->savableObject->savableDirty;
 }
 
 AbstractUndoCommand::~AbstractUndoCommand()
@@ -42,6 +52,20 @@ AbstractUndoCommand::~AbstractUndoCommand()
 int AbstractUndoCommand::id() const
 {
     return -1;
+}
+
+void AbstractUndoCommand::redo()
+{
+    if(d->savableObject)
+        d->savableObject->savableDirty = true;
+    QUndoCommand::redo();
+}
+
+void AbstractUndoCommand::undo()
+{
+    if(d->savableObject)
+        d->savableObject->savableDirty = d->oldSavable;
+    QUndoCommand::undo();
 }
 
 QString

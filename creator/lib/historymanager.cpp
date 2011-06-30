@@ -21,9 +21,6 @@
 
 #include <KDE/KUndoStack>
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-
 using namespace GluonCreator;
 
 GLUON_DEFINE_SINGLETON( HistoryManager )

@@ -21,7 +21,6 @@
 #define GLUON_ENGINE_PREFAB_H
 
 #include "asset.h"
-#include "savable.h"
 
 #include "core/gluonobject.h"
 #include "savable.h"

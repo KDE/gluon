@@ -93,6 +93,14 @@ if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
 endif()
 
+###### Gluon Player ######
+# Checks must be done here because it does its own checks only when cmake was not called here ...
+if(BUILD_GLUON_PLAYER)
+    add_subdirectory(player)
+else(BUILD_GLUON_PLAYER)
+    set(INSTALL_EXAMPLES OFF)
+endif(BUILD_GLUON_PLAYER)
+
 set(KDE_FAILED FALSE)
 ######## KDE Parts ########
 if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
@@ -114,14 +122,6 @@ endif(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
 if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
-
-###### Gluon Player ######
-# Checks must be done here because it does its own checks only when cmake was not called here ...
-if(BUILD_GLUON_PLAYER)
-    add_subdirectory(player)
-else(BUILD_GLUON_PLAYER)
-    set(INSTALL_EXAMPLES OFF)
-endif(BUILD_GLUON_PLAYER)
 
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")

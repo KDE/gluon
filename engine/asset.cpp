@@ -76,7 +76,7 @@ Asset::setName( const QString& newName )
             QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
             QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
             QDir::current().mkpath( newPath );
-
+            
             if( QDir::current().rename( d->file.toLocalFile(), newFile.toLocalFile() ) )
             {
                 if( QDir::current().exists( oldPath ) )
@@ -203,6 +203,10 @@ Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& exten
     QStringList parts = obj->fullyQualifiedName().split( '/' );
     if( parts.count() > 1 && parts.first() == obj->gameProject()->name() )
         parts.removeFirst();
+
+    QString fileExtension = parts.last().section('.', -1, -1, QString::SectionIncludeLeadingSep);
+    if (fileExtension == QString(".%1").arg(extension))
+        parts.last().remove(fileExtension);
 
     QRegExp filter( "[^a-z0-9_]+" );
 

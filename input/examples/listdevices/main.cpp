@@ -21,7 +21,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <QtCore/QDebug>
 

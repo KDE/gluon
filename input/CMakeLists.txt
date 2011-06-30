@@ -237,6 +237,10 @@ elseif(UNIX)
     )
 endif()
 
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 install(
     FILES
     ${GluonInput_HEADERS_QT}

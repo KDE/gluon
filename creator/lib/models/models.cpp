@@ -18,6 +18,7 @@
  */
 
 #include "models.h"
+
 #include "componentmodel.h"
 #include "projectmodel.h"
 #include "scenemodel.h"

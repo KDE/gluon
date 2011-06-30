@@ -20,7 +20,7 @@
 #ifndef GLUON_PLAYER_ACHIEVEMENTSMODEL_H
 #define GLUON_PLAYER_ACHIEVEMENTSMODEL_H
 
-#include <player/gluon_player_export.h>
+#include <player/lib/gluon_player_export.h>
 
 #include <QtCore/QAbstractTableModel>
 

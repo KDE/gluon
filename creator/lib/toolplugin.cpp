@@ -21,7 +21,6 @@
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KActionCollection>
-#include <KDE/KStandardDirs>
 
 #include <QtGui/QWidget>
 #include <QtGui/QAction>

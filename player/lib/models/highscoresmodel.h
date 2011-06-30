@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_HIGHSCORESMODEL_H
 #define GLUONPLAYER_HIGHSCORESMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QAbstractTableModel>
 

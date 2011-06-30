@@ -21,7 +21,7 @@
 #ifndef AUTHENTICATION_H
 #define AUTHENTICATION_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <core/singleton.h>
 

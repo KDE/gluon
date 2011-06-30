@@ -45,7 +45,7 @@ namespace GluonCore
     {
         public:
             DbgHelper();
-            DbgHelper( const QString& t );
+            explicit DbgHelper( const QString& t );
             virtual ~DbgHelper();
 
             void addText( const QString& t );

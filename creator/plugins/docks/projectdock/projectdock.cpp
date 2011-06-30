@@ -38,11 +38,8 @@
 #include <engine/scene.h>
 
 #include <KDE/KIcon>
-#include <KDE/KInputDialog>
 #include <KDE/KLocalizedString>
 #include <KDE/KMessageBox>
-#include <KDE/KRun>
-#include <KDE/KStandardDirs>
 #include <KDE/KToolBar>
 #include <KDE/KFileItemListProperties>
 #include <KDE/KFileItemActions>
@@ -53,9 +50,6 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QToolButton>
 #include <QtGui/QItemSelection>
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
 
 using namespace GluonCreator;
 

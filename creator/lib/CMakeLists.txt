@@ -37,11 +37,12 @@ qt4_automoc(${libGluonCreator_SRCS})
 kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
 set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
 if(GLUON_BUILD_ALL)
-    add_dependencies(libGluonCreator GluonEngine)
+    add_dependencies(libGluonCreator GluonEngine GluonPlayer)
 endif()
 
 target_link_libraries(libGluonCreator
     ${GLUON_ENGINE_LIBS}
+    ${GLUON_PLAYER_LIBS}
     ${GLUON_CREATOR_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KDEUI_LIBS}
@@ -52,6 +53,7 @@ target_link_libraries(libGluonCreator
 set(GLUON_CREATOR_LIBS
     libGluonCreator
     ${GLUON_ENGINE_LIBS}
+    ${GLUON_PLAYER_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}

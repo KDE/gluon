@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_GAMEVIEWITEM_H
 #define GLUONPLAYER_GAMEVIEWITEM_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QStringList>
 
@@ -53,11 +53,9 @@ namespace GluonPlayer
             };
 
             explicit GameViewItem( const QString& fileName, const Status& status, QObject* parent = 0 );
-
             explicit GameViewItem( const QString& gameName, const QString& description,
                                    const QString& projectFileName, const Status& status,
                                    const QString& id, QObject* parent = 0 );
-
             GameViewItem( const GameViewItem& other, QObject* parent = 0 );
             virtual ~GameViewItem();
 

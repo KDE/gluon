@@ -18,10 +18,10 @@
  */
 
 #include "qobjecttreemodel.h"
-#include <typeinfo>
+
 #include <core/gluonobject.h>
 
-#include <QtCore/QDebug>
+#include <typeinfo>
 
 using namespace Gluon::Creator;
 

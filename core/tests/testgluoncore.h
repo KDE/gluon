@@ -33,7 +33,7 @@ class TestGluonCore : public QObject
         Q_OBJECT
 
     public:
-        explicit TestGluonCore();
+        TestGluonCore( QObject* parent = 0 );
         virtual ~TestGluonCore();
 
     private:

@@ -35,7 +35,6 @@
 #include <KDE/KMessageBox>
 #include <KDE/KSqueezedTextLabel>
 
-#include <QtGui/QWidget>
 #include <QtGui/QGroupBox>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QFormLayout>
