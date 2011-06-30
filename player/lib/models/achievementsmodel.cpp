@@ -39,6 +39,7 @@ class AchievementsModel::AchievementsModelPrivate
         ~AchievementsModelPrivate() { delete achievementsManager; }
 
         QStringList headerList;
+        QString projectDir;
         GluonEngine::AchievementsManager* achievementsManager;
 };
 
@@ -48,14 +49,23 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
 {
     d->headerList << tr("Achievement") << tr("Progress") << tr("Achieved");
     d->achievementsManager = new GluonEngine::AchievementsManager(this);
-    QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
-    achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
-    d->achievementsManager->load( achievementsDirectory );
-    qDebug() << "Achievements count:" << d->achievementsManager->achievementsCount();
-    if( d->achievementsManager->achievementsCount() == 0 )
+
+    if( metaData )
     {
-        achievementsDirectory = metaData->projectDir() + "/.cache";
+        d->projectDir = metaData->projectDir();
+        QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
+        achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
         d->achievementsManager->load( achievementsDirectory );
+        qDebug() << "Achievements count:" << d->achievementsManager->achievementsCount();
+        if( d->achievementsManager->achievementsCount() == 0 )
+        {
+            achievementsDirectory = metaData->projectDir() + "/.cache";
+            d->achievementsManager->load( achievementsDirectory );
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "metaData is NULL, so the model will be empty.";
     }
 
     QHash<int, QByteArray> roles;
@@ -92,7 +102,7 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
                 return d->achievementsManager->achievementName( index.row() );
 
             if( role == Qt::DecorationRole )
-                return d->achievementsManager->achievementIcon( index.row() );
+                return QIcon( d->projectDir + "/" + d->achievementsManager->achievementIcon( index.row() ) );
 
             break;
         case ProgressColumn:
