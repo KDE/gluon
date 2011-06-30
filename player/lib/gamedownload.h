@@ -51,8 +51,6 @@ namespace GluonPlayer
             void processDownloadLink (Attica::BaseJob* baseJob);
             void downloadComplete(QNetworkReply *reply);
 
-            friend class ServiceProvider;
-
         private:
             class Private;
             Private* const d;

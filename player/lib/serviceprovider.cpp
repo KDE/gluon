@@ -122,35 +122,37 @@ void ServiceProvider::loadCredentials()
 
 Comment* ServiceProvider::fetchComments( const QString& id, int page, int pageSize )
 {
-    Comment* commentsProvider = new Comment( &d->provider, id, page, pageSize );
+    Comment* comment = new Comment( &d->provider, id, page, pageSize );
+    connect( this, SIGNAL( startFetchComments() ), comment, SLOT( fetchComments() ) );
 
     if( d->ready )
     {
-        commentsProvider->fetchComments();
+        emit startFetchComments();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( fetchComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( fetchComments() ) );
     }
 
-    return commentsProvider;
+    return comment;
 }
 
 Comment* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
                                          const QString& subject, const QString& message )
 {
-    Comment* commentsProvider = new Comment( &d->provider, id, parentId, subject, message );
+    Comment* comment = new Comment( &d->provider, id, parentId, subject, message );
+    connect( this, SIGNAL( startUploadComments() ), comment, SLOT( uploadComments() ) );
 
     if( d->ready && d->loggedIn )
     {
-        commentsProvider->uploadComments();
+        emit startUploadComments();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( uploadComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( uploadComments() ) );
     }
 
-    return commentsProvider;
+    return comment;
 }
 
 bool ServiceProvider::hasCredentials() const
@@ -258,7 +260,7 @@ GameDetail* ServiceProvider::fetchGames()
 
     if( d->ready )
     {
-        gameDetail->fetchGameList();
+        emit startFetchGameList();
     }
     else
     {
@@ -279,10 +281,11 @@ GameDownload* ServiceProvider::downloadGame( const QString& id )
     destinationDir.cd( path );
 
     GameDownload* gameDownload = new GameDownload( &d->provider, id, destinationDir.path() );
+    connect( this, SIGNAL( startDownloading() ), gameDownload, SLOT( startDownload() ) );
 
     if( d->ready )
     {
-        gameDownload->startDownload();
+        emit startDownloading();
     }
     else
     {
@@ -295,10 +298,11 @@ GameDownload* ServiceProvider::downloadGame( const QString& id )
 GameUpload* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
     GameUpload* gameUpload = new GameUpload( &d->provider, id, path );
+    connect( this, SIGNAL( startUploading() ), gameUpload, SLOT( startUpload() ) );
 
     if( d->ready )
     {
-        gameUpload->startUpload();
+        emit startUploading();
     }
     else
     {
@@ -311,10 +315,11 @@ GameUpload* ServiceProvider::uploadGame( const QString& id, const QString& path 
 Rating* ServiceProvider::setRating( const QString& id, uint rate )
 {
     Rating* rating = new Rating( &d->provider, id, rate );
+    connect( this, SIGNAL( startRatingUploading() ), rating, SLOT( startRatingUpload() ) );
 
     if( d->ready )
     {
-        rating->startRatingUpload();
+        emit startRatingUploading();
     }
     else
     {

@@ -47,8 +47,6 @@ private Q_SLOTS:
     void startRatingUpload();
     void ratingUploadComplete (Attica::BaseJob* baseJob);
 
-    friend class ServiceProvider;
-
 private:
     class Private;
     Private* const d;

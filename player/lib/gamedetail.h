@@ -77,8 +77,6 @@ private Q_SLOTS:
 private:
     class Private;
     Private* const d;
-
-    friend class ServiceProvider;
 };
 
 }

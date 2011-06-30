@@ -78,8 +78,6 @@ namespace GluonPlayer
 
             class Private;
             Private* const d;
-
-            friend class ServiceProvider;
     };
 }
 

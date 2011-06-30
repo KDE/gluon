@@ -120,6 +120,8 @@ GameDetail::GameDetail(Attica::Provider* provider, QObject* parent)
     , d(new Private())
 {
     d->provider = provider;
+
+    connect( this, SIGNAL( startFetchGameList() ), SLOT( fetchGameList ) );
 }
 
 void GameDetail::fetchGameList()

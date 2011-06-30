@@ -201,6 +201,13 @@ Q_SIGNALS:
      */
     void loginFailed();
 
+    void startFetchGameList();
+    void startFetchComments();
+    void startUploadComments();
+    void startDownloading();
+    void startUploading();
+    void startRatingUploading();
+
 private:
     ~ServiceProvider();
 
