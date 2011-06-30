@@ -6,24 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>530</height>
+    <width>362</width>
+    <height>578</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Distribution</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_11">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="loginTab">
-      <attribute name="title">
-       <string>Login</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
+     <widget class="QWidget" name="loginPage">
+      <layout class="QVBoxLayout" name="verticalLayout_11">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
@@ -78,21 +75,15 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>161</height>
+           <height>470</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="gameTab">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <attribute name="title">
-       <string>Game</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+     <widget class="QWidget" name="gamePage">
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
         <widget class="QScrollArea" name="scrollArea">
          <property name="widgetResizable">
@@ -103,8 +94,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>432</width>
-            <height>477</height>
+            <width>340</width>
+            <height>556</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -251,22 +242,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>usernameEdit</tabstop>
-  <tabstop>passwordEdit</tabstop>
-  <tabstop>loginButton</tabstop>
-  <tabstop>scrollArea</tabstop>
-  <tabstop>idEdit</tabstop>
-  <tabstop>categoryList</tabstop>
-  <tabstop>gameNameEdit</tabstop>
-  <tabstop>versionEdit</tabstop>
-  <tabstop>homepageEdit</tabstop>
-  <tabstop>licenseList</tabstop>
-  <tabstop>descriptionEdit</tabstop>
-  <tabstop>changelogEdit</tabstop>
-  <tabstop>createUpdateButton</tabstop>
-  <tabstop>tabWidget</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

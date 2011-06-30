@@ -42,10 +42,8 @@ namespace GluonCreator
             virtual ~DistributionDock();
 
         private Q_SLOTS:
-            void updateUiFromGameProject( GluonEngine::GameProject* gameProject );
+            void updateUiFromGameProject();
             void doLogin();
-            void loginSuccessful();
-            void loginFailed();
             void createOrUpdateGame();
             void newGameUploadFinished( const QString& id );
             void newGameUploadFailed();
@@ -54,13 +52,18 @@ namespace GluonCreator
             void updateCategories();
             void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
             void loadCredentials();
+            void initEditGameProvider();
+
+        Q_SIGNALS:
             void switchToCreateMode();
             void switchToUpdateMode();
-            void initEditGameProvider();
+            void gameUploadFinished();
 
         private:
             class DistributionDockPrivate;
             DistributionDockPrivate* const d;
+
+            void initGuiStates();
     };
 
 }

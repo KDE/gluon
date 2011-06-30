@@ -30,6 +30,8 @@
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QPushButton>
+#include <QtCore/QStateMachine>
+#include <QtCore/QHistoryState>
 
 using namespace GluonCreator;
 
@@ -43,6 +45,18 @@ class DistributionDock::DistributionDockPrivate
         Ui::DistributionDock ui;
         QStringList categoryIds;
         GluonPlayer::OcsEditGameProvider* editGameProvider;
+        QStateMachine machine;
+
+        QState* loggedOutState;
+        QState* loggingInState;
+        QState* loggedInState;
+        QState* fetchingState;
+        QState* editingState;
+        QState* createState;
+        QState* updateState;
+        QState* uploadingState;
+        QHistoryState* stateBeforeUploading;
+        QState* uploadFinishedState;
 };
 
 DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
@@ -53,12 +67,10 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
     d->editGameProvider = 0;
     d->ui.setupUi( &d->widget );
 
+    initGuiStates();
+
     connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
-             SLOT( updateUiFromGameProject( GluonEngine::GameProject* ) ) );
-    connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loggedIn() ), SLOT( loginSuccessful() ) );
-    connect( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
-    connect( d->ui.loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect( d->ui.createUpdateButton, SIGNAL( clicked( bool ) ), SLOT( createOrUpdateGame() ) );
+             SLOT( updateUiFromGameProject( ) ) );
 
     updateCategories();
     loadCredentials();
@@ -71,38 +83,28 @@ DistributionDock::~DistributionDock()
     delete d;
 }
 
-void DistributionDock::updateUiFromGameProject( GluonEngine::GameProject* gameProject )
+void DistributionDock::updateUiFromGameProject()
 {
-    QString id = gameProject->property( "id" ).toString();
+    if( !GluonEngine::Game::instance()->gameProject() )
+        return;
+
+    QString id = GluonEngine::Game::instance()->gameProject()->property( "id" ).toString();
 
     d->ui.idEdit->setText( id );
 
     if( id.isEmpty() )
     {
-        switchToCreateMode();
+        emit switchToCreateMode();
     }
     else
     {
-        switchToUpdateMode();
+        emit switchToUpdateMode();
     }
 }
 
 void DistributionDock::doLogin()
 {
-    d->ui.loginButton->setEnabled( false );
-    d->ui.loginButton->setText( i18n( "Logging in" ) );
     GluonPlayer::OcsProvider::instance()->login( d->ui.usernameEdit->text(), d->ui.passwordEdit->text() );
-}
-
-void DistributionDock::loginSuccessful()
-{
-    d->ui.loginButton->setText( i18n( "Logged In" ) );
-    d->ui.gameTab->setEnabled( true );
-}
-
-void DistributionDock::loginFailed()
-{
-    d->ui.loginButton->setEnabled( true );
 }
 
 void DistributionDock::createOrUpdateGame()
@@ -113,8 +115,6 @@ void DistributionDock::createOrUpdateGame()
                     d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
         connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
-        d->ui.createUpdateButton->setText( i18n( "Uploading" ) );
-        d->ui.createUpdateButton->setEnabled( false );
     }
     else
     {
@@ -129,8 +129,6 @@ void DistributionDock::createOrUpdateGame()
         d->editGameProvider->setVersion( d->ui.versionEdit->text() );
         //TODO: d->editGameProvider->setLicense();
         d->editGameProvider->startEditionUpload();
-        d->ui.createUpdateButton->setText( i18n( "Uploading" ) );
-        d->ui.createUpdateButton->setEnabled( false );
     }
 }
 
@@ -138,24 +136,23 @@ void DistributionDock::newGameUploadFinished( const QString& id )
 {
     d->ui.idEdit->setText( id );
     GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
-    updateUiFromGameProject( GluonEngine::Game::instance()->gameProject() );
+    updateUiFromGameProject();
+    emit gameUploadFinished();
 }
 
 void DistributionDock::newGameUploadFailed()
 {
-    switchToCreateMode();
-    d->ui.createUpdateButton->setEnabled( true );
+    emit gameUploadFinished();  //TODO: Separate for failed
 }
 
 void DistributionDock::editGameFinished( const QString& id )
 {
-    switchToUpdateMode();
-    d->ui.createUpdateButton->setText( "Success" );     //TODO: remove
+    emit gameUploadFinished();
 }
 
 void DistributionDock::editGameFailed( const QString& id )
 {
-    switchToUpdateMode();
+    emit gameUploadFinished();  //TODO: Separate for failed
 }
 
 void DistributionDock::updateCategories()
@@ -200,29 +197,85 @@ void DistributionDock::loadCredentials()
     }
 }
 
-void DistributionDock::switchToCreateMode()
-{
-    d->ui.createUpdateButton->setEnabled( true );
-    d->ui.createUpdateButton->setText( i18n( "Create" ) );
-    d->ui.detailsGroupBox->setEnabled( false );
-}
-
-void DistributionDock::switchToUpdateMode()
-{
-    d->ui.createUpdateButton->setEnabled( true );
-    d->ui.createUpdateButton->setText( i18n( "Update" ) );
-    d->ui.detailsGroupBox->setEnabled( true );
-
-    if( !d->editGameProvider )
-        initEditGameProvider();
-}
-
 void DistributionDock::initEditGameProvider()
 {
+    if( d->editGameProvider )
+        return;
+
     d->editGameProvider = GluonPlayer::OcsProvider::instance()->editGame(
                               d->ui.idEdit->text() );
     connect( d->editGameProvider, SIGNAL( finished( QString ) ), SLOT( editGameFinished( QString ) ) );
     connect( d->editGameProvider, SIGNAL( failed( QString ) ), SLOT( editGameFailed( QString ) ) );
+}
+
+void DistributionDock::initGuiStates()
+{
+    d->loggedOutState = new QState();
+    d->loggingInState = new QState();
+    d->loggedInState = new QState();
+    d->fetchingState = new QState( d->loggedInState );
+    d->editingState = new QState( d->loggedInState );
+    d->loggedInState->setInitialState( d->fetchingState );
+    d->createState = new QState( d->editingState );
+    d->updateState = new QState( d->editingState );
+    d->editingState->setInitialState( d->createState );
+    d->uploadingState = new QState( d->loggedInState );
+    d->stateBeforeUploading = new QHistoryState( d->editingState );
+    d->uploadFinishedState = new QState( d->loggedInState );
+
+    d->uploadFinishedState->addTransition( d->stateBeforeUploading );
+
+    d->machine.addState( d->loggedOutState );
+    d->machine.addState( d->loggingInState );
+    d->machine.addState( d->loggedInState );
+    d->machine.addState( d->fetchingState );
+    d->machine.addState( d->editingState );
+    d->machine.addState( d->createState );
+    d->machine.addState( d->updateState );
+    d->machine.addState( d->uploadingState );
+    d->machine.addState( d->uploadFinishedState );
+
+    d->machine.setInitialState( d->loggedOutState );
+
+    d->loggedOutState->assignProperty( d->ui.loginButton, "text", i18n( "Login" ) );
+    d->loggedOutState->assignProperty( d->ui.loginPage, "enabled", true );
+    d->loggedOutState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.loginPage ) );
+
+    d->loggingInState->assignProperty( d->ui.loginButton, "text", i18n( "Logging In" ) );
+    d->loggingInState->assignProperty( d->ui.loginPage, "enabled", false );
+
+    d->loggedInState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.gamePage ) );
+
+    d->fetchingState->assignProperty( d->ui.basicGroupBox, "enabled", false );
+    d->fetchingState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
+
+    d->editingState->assignProperty( d->ui.gamePage, "enabled", true );
+
+    d->createState->assignProperty( d->ui.basicGroupBox, "enabled", true );
+    d->createState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
+    d->createState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Create" ) );
+
+    d->updateState->assignProperty( d->ui.basicGroupBox, "enabled", true );
+    d->updateState->assignProperty( d->ui.detailsGroupBox, "enabled", true );
+    d->updateState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Update" ) );
+
+    d->uploadingState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Uploading" ) );
+    d->uploadingState->assignProperty( d->ui.gamePage, "enabled", false );
+
+    d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL( clicked() ), d->loggingInState );
+    d->loggingInState->addTransition( GluonPlayer::OcsProvider::instance(), SIGNAL( loggedIn() ), d->loggedInState );
+    d->loggingInState->addTransition( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), d->loggedOutState );
+    d->fetchingState->addTransition( this, SIGNAL( switchToCreateMode() ), d->createState );
+    d->fetchingState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
+    d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL( clicked() ), d->uploadingState );
+    d->uploadingState->addTransition( this, SIGNAL( gameUploadFinished() ), d->uploadFinishedState );
+
+    connect( d->loggingInState, SIGNAL( entered() ), this, SLOT( doLogin() ) );
+    connect( d->fetchingState, SIGNAL( entered() ), this, SLOT( updateUiFromGameProject() ) );
+    connect( d->uploadingState, SIGNAL( entered() ), this, SLOT( createOrUpdateGame() ) );
+    connect( d->editingState, SIGNAL( entered() ), SLOT( initEditGameProvider() ) );
+
+    d->machine.start();
 }
 
 #include "distributiondock.moc"
