@@ -28,6 +28,7 @@
 namespace GluonEngine
 {
     class AbstractStatistic;
+    class TextureAsset;
 
     /**
      * The Achievement class is connected to one statistic. If the statistic reaches a
@@ -47,6 +48,11 @@ namespace GluonEngine
              * The score you need to get the achievement
              */
             Q_PROPERTY( qlonglong minimumScore READ minimumScore WRITE setMinimumScore )
+
+            /**
+             * An icon that represents the achievemnt.
+             */
+            Q_PROPERTY( GluonEngine::TextureAsset* icon READ icon WRITE setIcon );
         public:
             Q_INVOKABLE Achievement( QObject* parent = 0 );
             virtual ~Achievement();
@@ -56,6 +62,12 @@ namespace GluonEngine
 
             qlonglong minimumScore() const;
             void setMinimumScore( qlonglong score );
+
+            TextureAsset* icon();
+            void setIcon( TextureAsset* icon );
+
+            /** What current store does the user have? */
+            qlonglong currentScore();
 
             /** Has the statistic achieved the goal? */
             bool achieved() const;

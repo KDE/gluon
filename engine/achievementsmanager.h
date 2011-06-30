@@ -69,6 +69,15 @@ namespace GluonEngine
             /** Get the name of the achievement at index */
             QString achievementName( int index ) const;
 
+            /** Get the icon of the achievement */
+            QString achievementIcon( int index ) const;
+
+            /** The score you need to get the achievement */
+            qlonglong minimumScore( int index ) const;
+
+            /** The current score of the statistic */
+            qlonglong currentScore( int index ) const;
+
             /** Has the user the achievement at index? */
             bool achievementAchieved( int index ) const;
     };

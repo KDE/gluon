@@ -21,6 +21,7 @@
 
 #include <engine/abstractstatistic.h>
 #include <engine/statistic.h>
+#include <engine/assets/graphics/texture/textureasset.h>
 
 #include <QtCore/QVariant>
 
@@ -31,11 +32,12 @@ REGISTER_OBJECTTYPE( GluonEngine, Achievement )
 class Achievement::AchievementPrivate
 {
     public:
-        AchievementPrivate() : statistic(0), minimumScore(0) {}
+        AchievementPrivate() : statistic(0), minimumScore(0), icon(0) {}
         ~AchievementPrivate() {}
 
         AbstractStatistic* statistic;
         qlonglong minimumScore;
+        TextureAsset* icon;
 };
 
 Achievement::Achievement( QObject* parent )
@@ -75,6 +77,30 @@ qlonglong Achievement::minimumScore() const
 void Achievement::setMinimumScore(qlonglong score)
 {
     d->minimumScore = score;
+}
+
+TextureAsset* Achievement::icon()
+{
+    return d->icon;
+}
+
+void Achievement::setIcon( TextureAsset* icon )
+{
+    if( d->icon )
+        d->icon->deref();
+    if( icon )
+        icon->ref();
+    d->icon = icon;
+}
+
+qlonglong Achievement::currentScore()
+{
+    if( !d->statistic )
+        return 0;
+
+    d->statistic->initialize();
+
+    return d->statistic->value();
 }
 
 bool Achievement::achieved() const

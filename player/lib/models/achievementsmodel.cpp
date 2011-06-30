@@ -44,7 +44,7 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
     : QAbstractTableModel(parent)
     , d( new AchievementsModelPrivate() )
 {
-    d->headerList << "Achievement" << "Achieved?";
+    d->headerList << "Achievement" << "Progress" << "Achieved?";
     d->achievementsManager = new GluonEngine::AchievementsManager(this);
     QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
     achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
@@ -69,19 +69,28 @@ int AchievementsModel::rowCount(const QModelIndex& /*parent*/) const
 
 int AchievementsModel::columnCount(const QModelIndex& /*parent*/) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant AchievementsModel::data(const QModelIndex& index, int role) const
 {
-    if( !index.isValid() || role != Qt::DisplayRole )
+    if( !index.isValid() )
         return QVariant();
 
-    if( index.column() == 0 )
+    if( index.column() == 0 && role == Qt::DecorationRole )
+        return QIcon( d->achievementsManager->achievementIcon(index.row()) );
+
+    if( index.column() == 0 && role == Qt::DisplayRole )
         return d->achievementsManager->achievementName(index.row());
 
-    else
+    if( index.column() == 2 && role == Qt::DisplayRole )
+        return QString("%1/%2").arg( d->achievementsManager->currentScore(index.row()) )
+                               .arg( d->achievementsManager->minimumScore(index.row()) );
+
+    if( index.column() == 2 && role == Qt::DisplayRole )
         return d->achievementsManager->achievementAchieved(index.row()) ? "yes" : "no";
+
+    return QVariant();
 }
 
 QVariant AchievementsModel::headerData(int section, Qt::Orientation orientation, int role) const

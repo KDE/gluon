@@ -20,6 +20,7 @@
 #include "achievementsmanager.h"
 
 #include <engine/achievement.h>
+#include <engine/assets/graphics/texture/textureasset.h>
 #include <core/gluonobject.h>
 #include <core/directoryprovider.h>
 #include <core/gdlhandler.h>
@@ -78,6 +79,10 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         GluonCore::GluonObject* object = new GluonCore::GluonObject(this);
         object->setProperty( "path", achievement->fullyQualifiedName() );
         object->setProperty( "name", achievement->name() );
+        if( achievement->icon() )
+            object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
+        object->setProperty( "minimumScore", achievement->minimumScore() );
+        object->setProperty( "currentScore", achievement->currentScore() );
         object->setProperty( "achieved", achievement->achieved() );
     }
 }
@@ -88,7 +93,10 @@ void AchievementsManager::makeTemplate()
     {
         GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>(child);
         if( object )
+        {
+            object->setProperty( "currentScore", 0 );
             object->setProperty( "achieved", false );
+        }
     }
 }
 
@@ -132,6 +140,21 @@ QString AchievementsManager::achievementPath(int index) const
 QString AchievementsManager::achievementName(int index) const
 {
     return children()[index]->property("name").toString();
+}
+
+QString AchievementsManager::achievementIcon(int index) const
+{
+    return children()[index]->property( "icon" ).toString();
+}
+
+qlonglong AchievementsManager::minimumScore(int index) const
+{
+    return children()[index]->property( "minimumScore" ).toLongLong();
+}
+
+qlonglong AchievementsManager::currentScore(int index) const
+{
+    return children()[index]->property( "currentScore" ).toLongLong();
 }
 
 bool AchievementsManager::achievementAchieved(int index) const
