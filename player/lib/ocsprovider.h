@@ -110,25 +110,25 @@ public:
      * use to check if we are logged in
      * @return true if logged in, false otherwise
      */
-    bool isLoggedIn();
+    bool isLoggedIn() const;
 
     /**
      * use to check if saved credentials are available
      * @return true if credentials are available
      */
-    bool hasCredentials();
+    bool hasCredentials() const;
 
     /**
      * use to retrieve the username
      * @return a QString containing the username, empty string if not available
      */
-    QString username();
+    QString username() const;
 
     /**
      * use to retrieve the password
      * @return a QString containing the password, empty string if not available
      */
-    QString password();
+    QString password() const;
 
     /**
      * Use to fetch a list of games available on the OCS server
@@ -166,12 +166,6 @@ public:
      */
     OcsRatingProvider *setRating(const QString &id, uint rating);
 
-private:
-    ~OcsProvider();
-
-    class Private;
-    Private* const d;
-
 private Q_SLOTS:
     void providersUpdated();
     void checkLoginResult (Attica::BaseJob* baseJob);
@@ -200,6 +194,12 @@ Q_SIGNALS:
     /** signal which is emitted when the login failed
      */
     void loginFailed();
+
+private:
+    ~OcsProvider();
+
+    class Private;
+    Private* const d;
 };
 
 }

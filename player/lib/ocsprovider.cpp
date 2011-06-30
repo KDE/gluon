@@ -130,7 +130,7 @@ OcsCommentsProvider* OcsProvider::fetchComments( const QString& id, int page, in
 }
 
 OcsCommentsProvider* OcsProvider::uploadComment( const QString& id, const QString& parentId,
-        const QString& subject, const QString& message )
+                                                 const QString& subject, const QString& message )
 {
     OcsCommentsProvider* commentsProvider = new OcsCommentsProvider( &d->provider, id, parentId, subject, message );
 
@@ -146,12 +146,12 @@ OcsCommentsProvider* OcsProvider::uploadComment( const QString& id, const QStrin
     return commentsProvider;
 }
 
-bool OcsProvider::hasCredentials()
+bool OcsProvider::hasCredentials() const
 {
     return d->provider.hasCredentials();
 }
 
-bool OcsProvider::isLoggedIn()
+bool OcsProvider::isLoggedIn() const
 {
     return d->loggedIn;
 }
@@ -235,12 +235,12 @@ void OcsProvider::doLogout()
     d->provider.saveCredentials( d->username, d->password );
 }
 
-QString OcsProvider::username()
+QString OcsProvider::username() const
 {
     return d->username;
 }
 
-QString OcsProvider::password()
+QString OcsProvider::password() const
 {
     return d->password;
 }
