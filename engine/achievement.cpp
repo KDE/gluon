@@ -33,12 +33,13 @@ REGISTER_OBJECTTYPE( GluonEngine, Achievement )
 class Achievement::AchievementPrivate
 {
     public:
-        AchievementPrivate() : statistic(0), minimumScore(0), icon(0) {}
+        AchievementPrivate() : statistic(0), minimumScore(0), icon(0), dependency(0) {}
         ~AchievementPrivate() {}
 
         AbstractStatistic* statistic;
         qlonglong minimumScore;
         Asset* icon;
+        Achievement* dependency;
 };
 
 Achievement::Achievement( QObject* parent )
@@ -98,7 +99,23 @@ void Achievement::setIcon( Asset* icon )
     d->icon = icon;
 }
 
-qlonglong Achievement::currentScore()
+Achievement* Achievement::dependency() const
+{
+    return d->dependency;
+}
+
+void Achievement::setDependency( Achievement* dependency )
+{
+    if( d->dependency )
+        d->dependency->deref();
+
+    if( dependency )
+        dependency->ref();
+
+    d->dependency = dependency;
+}
+
+qlonglong Achievement::currentScore() const
 {
     if( !d->statistic )
         return 0;
@@ -106,6 +123,19 @@ qlonglong Achievement::currentScore()
     d->statistic->initialize();
 
     return d->statistic->value();
+}
+
+bool Achievement::hasDependency() const
+{
+    return d->dependency;
+}
+
+bool Achievement::dependencySatisfied() const
+{
+    if( !d->dependency )
+        return true;
+
+    return d->dependency->achieved();
 }
 
 bool Achievement::achieved() const

@@ -47,54 +47,98 @@ namespace GluonEngine
             AchievementsManager( QObject* parent = 0 );
             virtual ~AchievementsManager();
 
-            /** Save the achievements information into this directory */
+            /**
+             * Save the achievements information into this directory
+             * @param directory The directory where the data should be saved
+             * @see load
+             */
             void save( const QString& directory );
 
-            /** Load the achievements from this directory */
+            /**
+             * Load the achievements from this directory. If no data is found,
+             * achievementsCount returns 0.
+             * @param directory The directory where the data can be found
+             * @see save
+             */
             void load( const QString& directory );
 
-            /** Read the achievements information from the achievement list */
+            /**
+             * Read the achievements information from the achievement list.
+             * @param achievements A list of achievements
+             */
             void readFromProject( const QList<Achievement*>& achievements );
 
-            /** Delete all user specific information from the achievement */
+            /**
+             * Delete all user specific information from the achievement.
+             */
             void makeTemplate();
 
-            /** Number of achievements saved in this class */
+            /**
+             * Get the number of achievements this manager contains.
+             * @returns The number of achievements
+             */
             int achievementsCount() const;
 
             /**
              * Get the path of the achievement at index. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The path where you can find the achievement
+             * @see achievementsCount
              */
             QString achievementPath( int index ) const;
 
             /**
              * Get the name of the achievement at index. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The name of the achievement
+             * @see achievementsCount
              */
             QString achievementName( int index ) const;
 
             /**
              * Get the icon of the achievement. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return the relative path of the file used as icon
+             * @see achievementsCount
              */
             QString achievementIcon( int index ) const;
 
             /**
              * The score you need to get the achievement. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The minimum score
+             * @see achievementsCount
              */
             qlonglong minimumScore( int index ) const;
 
             /**
              * The current score of the statistic. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The current score
+             * @see achievementsCount
              */
             qlonglong currentScore( int index ) const;
 
             /**
-             * Has the user the achievement at index? Index must be a valid index
+             * Check whether the user has the dependency achievement achieved? Index must
+             * be a valid index position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @returns true if the dependency is satisfied, false otherwise
+             * @see achievementsCount
+             */
+            bool dependencySatisfied( int index ) const;
+
+            /**
+             * Check whether the user has the achievement at index? Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @returns true if the achieved is achieved, false otherwise
+             * @see achievementsCount
              */
             bool achievementAchieved( int index ) const;
     };
