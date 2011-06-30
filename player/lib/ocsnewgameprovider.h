@@ -51,7 +51,7 @@ namespace GluonPlayer
             class Private;
             Private* const d;
 
-            friend class OcsProvider;
+            friend class ServiceProvider;
     };
 
 }

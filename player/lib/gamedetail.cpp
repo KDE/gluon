@@ -18,8 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsgamedetailsprovider.h"
-#include "ocsprovider.h"
+#include "gamedetail.h"
+
+#include "serviceprovider.h"
 
 #include <attica/listjob.h>
 #include <attica/content.h>
@@ -31,10 +32,12 @@
 
 using namespace GluonPlayer;
 
-class OcsGameDetails::Private
+class GameDetailItem::Private
 {
     public:
-        Private()   { }
+        Private()
+        {
+        }
 
         QString gameName;
         QString gameDescription;
@@ -46,10 +49,13 @@ class OcsGameDetails::Private
         QString id;
 };
 
-OcsGameDetails::OcsGameDetails( const QString& gameName, const QString& gameDescription,
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription,
                                 const QString& projectDirName, const QString& projectFileName,
-                                const QStringList& screenshotUrls, int rating, Status status, const QString id,
-                                QObject* parent ) : QObject( parent ), d( new Private() )
+                                const QStringList& screenshotUrls, int rating,
+                                GluonPlayer::GameDetailItem::Status status,
+                                const QString id, QObject* parent )
+    : QObject( parent )
+    , d( new Private() )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
@@ -61,74 +67,78 @@ OcsGameDetails::OcsGameDetails( const QString& gameName, const QString& gameDesc
     d->id = id;
 }
 
-OcsGameDetails::~OcsGameDetails()
+GameDetailItem::~GameDetailItem()
 {
     delete d;
 }
 
-QString OcsGameDetails::gameDescription() const
+QString GameDetailItem::gameDescription() const
 {
     return d->gameDescription;
 }
 
-QString OcsGameDetails::gameName() const
+QString GameDetailItem::gameName() const
 {
     return d->gameName;
 }
 
-QString OcsGameDetails::id() const
+QString GameDetailItem::id() const
 {
     return d->id;
 }
 
-QString OcsGameDetails::projectDirName() const
+QString GameDetailItem::projectDirName() const
 {
     return d->projectDirName;
 }
 
-QString OcsGameDetails::projectFileName() const
+QString GameDetailItem::projectFileName() const
 {
     return d->projectFileName;
 }
 
-QStringList OcsGameDetails::screenshotUrls() const
+QStringList GameDetailItem::screenshotUrls() const
 {
     return d->screenshotUrls;
 }
 
-OcsGameDetails::Status OcsGameDetails::status() const
+GameDetailItem::Status GameDetailItem::status() const
 {
     return d->status;
 }
 
-int GluonPlayer::OcsGameDetails::rating() const
+int GameDetailItem::rating() const
 {
     return d->rating;
 }
 
-class OcsGameDetailsProvider::Private
+class GameDetail::Private
 {
     public:
-        Private() : provider( 0 ) { }
+        Private()
+            : provider( 0 )
+        {
+        }
 
         Attica::Provider* provider;
         QString id;
 };
 
-OcsGameDetailsProvider::OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent )
-    : QObject( parent ), d( new Private() )
+GameDetail::GameDetail( Attica::Provider* provider, QObject* parent )
+    : QObject( parent )
+    , d( new Private() )
 {
     d->provider = provider;
 }
 
-OcsGameDetailsProvider::OcsGameDetailsProvider( Attica::Provider* provider, const QString& id, QObject* parent )
+GameDetail::GameDetail( Attica::Provider* provider, const QString& id, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
     d->id = id;
 }
 
-void OcsGameDetailsProvider::fetchGameList()
+void GameDetail::fetchGameList()
 {
     QStringList gluonGamesCategories;
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
@@ -142,25 +152,27 @@ void OcsGameDetailsProvider::fetchGameList()
     }
 
     Attica::ListJob<Attica::Content> *job = d->provider->searchContents( categories );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameList( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGamesList( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameDetailsProvider::processFetchedGameList( Attica::BaseJob* job )
+void GameDetail::processFetchedGamesList( Attica::BaseJob* job )
 {
-    qDebug() << "Game List Successfully Fetched from the server!";
-    QList<OcsGameDetails*> list;
+    qDebug() << "Game list successfully fetched from the server!";
+    QList<GameDetailItem*> list;
 
     Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
 
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
-        foreach( Attica::Content content, contentJob->itemList() )
+        foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            OcsGameDetails* details = new OcsGameDetails( content.name(), content.description(), "", "",
-                    QStringList(), content.rating(), OcsGameDetails::Downloadable,
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
+                    QStringList(), content.rating(), GameDetailItem::Downloadable,
                     content.id() );
             list.append( details );
+            //Uncomment to test download, downloads to install dir/games/id
+            //ServiceProvider::instance()->downloadGame(details->id());
         }
 
         emit gameListFetched( list );
@@ -171,24 +183,24 @@ void OcsGameDetailsProvider::processFetchedGameList( Attica::BaseJob* job )
     }
 }
 
-void OcsGameDetailsProvider::fetchGameDetails()
+void GameDetail::fetchGameDetails()
 {
     Attica::ItemJob<Attica::Content> *job = d->provider->requestContent( d->id );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameDetailsProvider::processFetchedGameDetails( Attica::BaseJob* job )
+void GameDetail::processFetchedGameDetails( Attica::BaseJob* job )
 {
     Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content>*>( job );
 
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         Attica::Content content = contentJob->result();
-        OcsGameDetails* details = new OcsGameDetails( content.name(), content.description(), "", "",
-                QStringList(), content.rating(), OcsGameDetails::Downloadable,
-                content.id() );
-        gameDetailsFetched( details );
+        GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
+                                              QStringList(), content.rating(), GameDetailItem::Downloadable,
+                                              content.id() );
+        emit gameDetailsFetched( details );
     }
     else
     {
@@ -197,4 +209,4 @@ void OcsGameDetailsProvider::processFetchedGameDetails( Attica::BaseJob* job )
 }
 
 
-#include "ocsgamedetailsprovider.moc"
+#include "gamedetail.moc"

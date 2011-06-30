@@ -19,9 +19,9 @@
 
 #include "gluonplayeradapter.h"
 
-GluonPlayer::OcsProvider* GluonPlayerAdapter::ocsProvider()
+GluonPlayer::ServiceProvider* GluonPlayerAdapter::ocsProvider()
 {
-    return GluonPlayer::OcsProvider::instance();
+    return GluonPlayer::ServiceProvider::instance();
 }
 
 #include "gluonplayeradapter.moc"

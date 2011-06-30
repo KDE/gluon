@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSRATINGPROVIDER_H
-#define GLUONPLAYER_OCSRATINGPROVIDER_H
+#ifndef GLUONPLAYER_RATING_H
+#define GLUONPLAYER_RATING_H
 
 #include <QtCore/QObject>
 
@@ -32,28 +32,27 @@ namespace Attica
 
 namespace GluonPlayer
 {
-
-    class GLUON_PLAYER_EXPORT OcsRatingProvider : public QObject
+    class Rating : public QObject
     {
-
             Q_OBJECT
         public:
-            OcsRatingProvider( Attica::Provider* provider, const QString& id, uint rating,
-                               QObject* parent = 0 );
-            virtual ~OcsRatingProvider();
-        private:
-            class Private;
-            Private* const d;
+            Rating( Attica::Provider* provider, const QString& id, uint rating,
+                    QObject* parent = 0 );
+            virtual ~Rating();
+
         Q_SIGNALS:
-            void finished( const QString &id );
-            void failed( const QString &id );
+            void finished( const QString& id );
+            void failed( const QString& id );
+
         private Q_SLOTS:
             void startRatingUpload();
             void ratingUploadComplete( Attica::BaseJob* baseJob );
 
-            friend class OcsProvider;
+        private:
+            class Private;
+            Private* const d;
     };
 
 }
 
-#endif // GLUONPLAYER_OCSRATINGPROVIDER_H
+#endif // GLUONPLAYER_RATING_H

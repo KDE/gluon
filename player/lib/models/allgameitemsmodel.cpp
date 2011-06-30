@@ -22,9 +22,9 @@
 
 #include "gameitem.h"
 
-#include <player/lib/ocsprovider.h>
-#include <player/lib/ocsgamedetailsprovider.h>
-#include <player/lib/ocsratingprovider.h>
+#include <player/lib/serviceprovider.h>
+#include <player/lib/gamedetail.h>
+#include <player/lib/rating.h>
 
 #include <core/directoryprovider.h>
 #include <engine/gameproject.h>
@@ -268,8 +268,8 @@ bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value
     switch( role )
     {
         case RatingRole:
-            OcsRatingProvider* ratingProvider =
-                OcsProvider::instance()->setRating( d->gameItems.at( index.row() )->id(), value.toUInt() );
+            Rating* ratingProvider =
+                ServiceProvider::instance()->setRating( d->gameItems.at( index.row() )->id(), value.toUInt() );
             connect( ratingProvider, SIGNAL( finished( QString ) ), SLOT( ratingUploadFinished( QString ) ) );
             return true;
     }
@@ -299,14 +299,14 @@ QVariant AllGameItemsModel::headerData( int section, Qt::Orientation orientation
 
 void AllGameItemsModel::fetchGamesList()
 {
-    OcsGameDetailsProvider* gameDetailsProvider = OcsProvider::instance()->fetchGames();
-    connect( gameDetailsProvider, SIGNAL( gameListFetched( QList<OcsGameDetails*> ) ),
-             SLOT( processFetchedGamesList( QList<OcsGameDetails*> ) ) );
+    GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchGames();
+    connect( gameDetailsProvider, SIGNAL( gameListFetched( QList<GameDetailItem*> ) ),
+             SLOT( processFetchedGamesList( QList<GameDetailItem*> ) ) );
 }
 
-void AllGameItemsModel::processFetchedGamesList( QList< OcsGameDetails* > gamesList )
+void AllGameItemsModel::processFetchedGamesList( QList< GameDetailItem* > gamesList )
 {
-    foreach( OcsGameDetails * c, gamesList )
+    foreach( GameDetailItem * c, gamesList )
     {
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
                                            c->id(), this );
@@ -320,12 +320,12 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
     if( gameItem->id().isEmpty() )
         return;
 
-    OcsGameDetailsProvider* gameDetailsProvider = OcsProvider::instance()->fetchOneGame( gameItem->id() );
-    connect( gameDetailsProvider, SIGNAL( gameDetailsFetched( OcsGameDetails* ) ),
-             SLOT( processFetchedGameDetails( OcsGameDetails* ) ) );
+    GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
+    connect( gameDetailsProvider, SIGNAL( gameDetailsFetched( GameDetailItem* ) ),
+             SLOT( processFetchedGameDetails( GameDetailItem* ) ) );
 }
 
-void AllGameItemsModel::processFetchedGameDetails( OcsGameDetails* gameDetails )
+void AllGameItemsModel::processFetchedGameDetails( GameDetailItem* gameDetails )
 {
     GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
                                        GameItem::Downloadable, gameDetails->id(), this );

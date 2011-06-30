@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsgameuploadprovider.h"
+#include "rating.h"
 
 #include <attica/postjob.h>
 #include <attica/provider.h>
@@ -27,63 +27,58 @@
 
 using namespace GluonPlayer;
 
-class OcsGameUploadProvider::Private
+class Rating::Private
 {
-    public:
-        Private() : provider( 0 )   { }
+public:
+    Private()
+        : provider(0)
+        , rating(0)
+    {
+    }
+
+    ~Private()
+    {
+    }
 
         Attica::Provider* provider;
         QString id;
-        QString fileName;
+        uint rating;
 };
 
-
-OcsGameUploadProvider::OcsGameUploadProvider( Attica::Provider* provider, const QString& id,
-        const QString& fileName, QObject* parent ) : QObject( parent ), d( new Private )
+Rating::Rating(Attica::Provider* provider, const QString& id,
+               uint rating, QObject* parent)
+    : QObject (parent)
+    , d(new Private)
 {
     d->provider = provider;
     d->id = id;
-    d->fileName = fileName;
+    d->rating = rating;
 }
 
-OcsGameUploadProvider::~OcsGameUploadProvider()
+Rating::~Rating()
 {
     delete d;
 }
 
-void OcsGameUploadProvider::startUpload()
+void Rating::startRatingUpload()
 {
-    QFile file( d->fileName );
-
-    if( !file.open( QIODevice::ReadOnly ) )
-    {
-        qDebug() << "Failed to open file " << d->fileName;
-        emit failed( d->id );
-        return;
-    }
-
-    QByteArray contents;
-    contents.append( file.readAll() );
-    file.close();
-
-    QFileInfo fileInfo( d->fileName );
-    Attica::PostJob* job = d->provider->setDownloadFile( d->id, fileInfo.fileName(), contents );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadComplete( Attica::BaseJob* ) ) );
+    Attica::PostJob* job = d->provider->voteForContent( d->id, d->rating );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( ratingUploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsGameUploadProvider::uploadComplete( Attica::BaseJob* baseJob )
+void Rating::ratingUploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        emit finished( d->id );
+        emit finished(d->id);
     }
     else
     {
-        emit failed( d->id );
+        emit failed(d->id);
     }
 }
 
-#include "ocsgameuploadprovider.moc"
+#include "rating.moc"

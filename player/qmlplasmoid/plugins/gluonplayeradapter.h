@@ -21,15 +21,15 @@
 #define GLUONPLAYERADAPTER_H
 
 #include <QObject>
-#include <lib/ocsprovider.h>
+#include <lib/serviceprovider.h>
 
 class GluonPlayerAdapter : public QObject
 {
         Q_OBJECT
-        Q_PROPERTY( GluonPlayer::OcsProvider* ocsProvider READ ocsProvider )
+        Q_PROPERTY( GluonPlayer::ServiceProvider* ocsProvider READ ocsProvider )
 
     public:
-        GluonPlayer::OcsProvider* ocsProvider();
+        GluonPlayer::ServiceProvider* ocsProvider();
 };
 
 #endif // GLUONPLAYERADAPTER_H

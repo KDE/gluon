@@ -27,12 +27,12 @@ set(libGluonPlayer_SRCS
     ocseditgameprovider.cpp
     ocscategoryprovider.cpp
     ocsnewgameprovider.cpp
-    ocsratingprovider.cpp
-    ocsgameuploadprovider.cpp
-    ocsgamedownloadprovider.cpp
-    ocsgamedetailsprovider.cpp
-    ocscommentsprovider.cpp
-    ocsprovider.cpp
+    rating.cpp
+    gameupload.cpp
+    gamedownload.cpp
+    gamedetail.cpp
+    comment.cpp
+    serviceprovider.cpp
     atticamanager.cpp
     authentication.cpp
     models/gameviewitem.cpp

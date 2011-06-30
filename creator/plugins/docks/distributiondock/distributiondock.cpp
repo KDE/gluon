@@ -22,7 +22,7 @@
 
 #include <engine/game.h>
 
-#include <player/lib/ocsprovider.h>
+#include <player/lib/serviceprovider.h>
 #include <player/lib/ocsnewgameprovider.h>
 #include <player/lib/ocscategoryprovider.h>
 #include <player/lib/ocseditgameprovider.h>
@@ -104,14 +104,14 @@ void DistributionDock::updateUiFromGameProject()
 
 void DistributionDock::doLogin()
 {
-    GluonPlayer::OcsProvider::instance()->login( d->ui.usernameEdit->text(), d->ui.passwordEdit->text() );
+    GluonPlayer::ServiceProvider::instance()->login( d->ui.usernameEdit->text(), d->ui.passwordEdit->text() );
 }
 
 void DistributionDock::createOrUpdateGame()
 {
     if( d->ui.idEdit->text().isEmpty() )
     {
-        GluonPlayer::OcsNewGameProvider* newGameProvider = GluonPlayer::OcsProvider::instance()->addNewGame(
+        GluonPlayer::OcsNewGameProvider* newGameProvider = GluonPlayer::ServiceProvider::instance()->addNewGame(
                     d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
         connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
@@ -157,7 +157,7 @@ void DistributionDock::editGameFailed( const QString& id )
 
 void DistributionDock::updateCategories()
 {
-    GluonPlayer::OcsCategoryProvider* provider = GluonPlayer::OcsProvider::instance()->fetchCategories();
+    GluonPlayer::OcsCategoryProvider* provider = GluonPlayer::ServiceProvider::instance()->fetchCategories();
 
     connect( provider, SIGNAL( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ),
              SLOT( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ) );
@@ -184,7 +184,7 @@ void DistributionDock::categoriesFetched( QList <GluonPlayer::OcsCategory*> cate
 
 void DistributionDock::loadCredentials()
 {
-    GluonPlayer::OcsProvider* provider = GluonPlayer::OcsProvider::instance();
+    GluonPlayer::ServiceProvider* provider = GluonPlayer::ServiceProvider::instance();
 
     if( provider->hasCredentials() )
     {
@@ -202,7 +202,7 @@ void DistributionDock::initEditGameProvider()
     if( d->editGameProvider )
         return;
 
-    d->editGameProvider = GluonPlayer::OcsProvider::instance()->editGame(
+    d->editGameProvider = GluonPlayer::ServiceProvider::instance()->editGame(
                               d->ui.idEdit->text() );
     connect( d->editGameProvider, SIGNAL( finished( QString ) ), SLOT( editGameFinished( QString ) ) );
     connect( d->editGameProvider, SIGNAL( failed( QString ) ), SLOT( editGameFailed( QString ) ) );
@@ -263,8 +263,8 @@ void DistributionDock::initGuiStates()
     d->uploadingState->assignProperty( d->ui.gamePage, "enabled", false );
 
     d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL( clicked() ), d->loggingInState );
-    d->loggingInState->addTransition( GluonPlayer::OcsProvider::instance(), SIGNAL( loggedIn() ), d->loggedInState );
-    d->loggingInState->addTransition( GluonPlayer::OcsProvider::instance(), SIGNAL( loginFailed() ), d->loggedOutState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loggedIn() ), d->loggedInState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFailed() ), d->loggedOutState );
     d->fetchingState->addTransition( this, SIGNAL( switchToCreateMode() ), d->createState );
     d->fetchingState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
     d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL( clicked() ), d->uploadingState );

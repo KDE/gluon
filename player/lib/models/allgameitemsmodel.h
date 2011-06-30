@@ -42,7 +42,7 @@ namespace GluonPlayer
 {
 
     class GameItem;
-    class OcsGameDetails;
+    class GameDetailItem;
 
     class GLUON_PLAYER_EXPORT AllGameItemsModel : public QAbstractListModel
     {
@@ -69,25 +69,25 @@ namespace GluonPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         protected Q_SLOTS:
-            void processFetchedGamesList( QList<OcsGameDetails*> gamesList );
-            void processFetchedGameDetails( OcsGameDetails* gameDetails );
+            void processFetchedGamesList( QList<GameDetailItem* > gamesList );
+            void processFetchedGameDetails( GameDetailItem* gameDetails );
 
         private Q_SLOTS:
             void directoryLoaded( const QString& path );
-            void ratingUploadFinished( const QString &id );
+            void ratingUploadFinished( const QString& id );
 
         private:
             void fetchGamesList();
 
-            void addGameItemToList( GameItem *gameItem );
-            GameItem *gameItemForId( const QString &id );
-            QString addGameFromDirectory( const QString &directoryPath );
-            void addOrUpdateGameFromFetchedGameItem( GameItem *gameItem );
+            void addGameItemToList( GameItem* gameItem );
+            GameItem* gameItemForId( const QString& id );
+            QString addGameFromDirectory( const QString& directoryPath );
+            void addOrUpdateGameFromFetchedGameItem( GameItem* gameItem );
 
-            void updateExistingGameItem( const GameItem *newGameItem );
-            void fetchAndUpdateExistingGameItem( const GameItem *gameItem );
+            void updateExistingGameItem( const GameItem* newGameItem );
+            void fetchAndUpdateExistingGameItem( const GameItem* gameItem );
 
-            void removeGameFromList( const QString &id );
+            void removeGameFromList( const QString& id );
 
             class Private;
             Private* const d;

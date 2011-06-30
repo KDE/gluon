@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSCOMMENTSPROVIDER_H
-#define GLUONPLAYER_OCSCOMMENTSPROVIDER_H
+#ifndef GLUONPLAYER_COMMENT_H
+#define GLUONPLAYER_COMMENT_H
 
 #include <QtCore/QDateTime>
 
@@ -31,13 +31,14 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class OcsComment : public QObject
+    class CommentItem : public QObject
     {
             Q_OBJECT
         public:
-            OcsComment( const QString& id, const QString& subject, const QString& text,
+            CommentItem( const QString& id, const QString& subject, const QString& text,
                         const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
-            virtual ~OcsComment();
+            virtual ~CommentItem();
+
             QString id() const;
             QString subject() const;
             QString text() const;
@@ -50,35 +51,33 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class OcsCommentsProvider : public QObject
+    class Comment : public QObject
     {
             Q_OBJECT
         public:
-            OcsCommentsProvider( Attica::Provider* provider, const QString& id, int page, int pageSize,
+            Comment( Attica::Provider* provider, const QString& id, int page, int pageSize,
                                           QObject* parent = 0 );
-            OcsCommentsProvider( Attica::Provider* provider, const QString& id, const QString& parentId,
+            Comment( Attica::Provider* provider, const QString& id, const QString& parentId,
                                           const QString& subject, const QString& message, QObject* parent = 0 );
-            virtual ~OcsCommentsProvider();
+            virtual ~Comment();
 
-        signals:
-            void commentsFetched( QList<OcsComment*> comments );
+        Q_SIGNALS:
+            void commentsFetched( QList<CommentItem*> comments );
             void failedToFetchComments();
             void commentUploaded();
             void failedToUploadComment();
 
-        private slots:
+        private Q_SLOTS:
             void fetchComments();
             void uploadComments();
             void processFetchedComments( Attica::BaseJob* job );
             void uploadCommentsFinished( Attica::BaseJob* job );
 
         private:
-            void addChildren( OcsComment* parentOcsComment, Attica::Comment* parentComment );
+            void addChildren(CommentItem *parentOcsComment, const Attica::Comment& parentComment);
 
             class Private;
             Private* const d;
-
-            friend class OcsProvider;
     };
 }
 

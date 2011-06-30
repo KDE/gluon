@@ -19,11 +19,12 @@
 
 #include "gameitemsmodel.h"
 
-#include <player/lib/ocsprovider.h>
-#include <player/lib/ocsgamedetailsprovider.h>
+#include "lib/serviceprovider.h"
+#include "lib/gamedetail.h"
+
+#include <engine/gameproject.h>
 
 #include <core/directoryprovider.h>
-#include <engine/gameproject.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QHash>
@@ -171,14 +172,14 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
 void GameItemsModel::fetchGamesList()
 {
-    OcsGameDetailsProvider *gameDetailsProvider = OcsProvider::instance()->fetchGames();
-    connect(gameDetailsProvider, SIGNAL( gameListFetched (QList<OcsGameDetails*>)),
-            SLOT(processFetchedGamesList(QList<OcsGameDetails*>)));
+    GameDetail *gameDetail = ServiceProvider::instance()->fetchGames();
+    connect(gameDetail, SIGNAL(gameDetailsFetched (QList<GameDetailItem*>)),
+            SLOT(processFetchedGamesList(QList<GameDetailItem*>)));
 }
 
-void GameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > comments)
+void GameItemsModel::processFetchedGamesList(QList< GameDetailItem* > comments)
 {
-    foreach(OcsGameDetails *c, comments) {
+    foreach(GameDetailItem *c, comments) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",
                     GameViewItem::Downloadable, c->id() );
         d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );

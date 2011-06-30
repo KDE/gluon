@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef OCSGAMEDETAILSPROVIDER_H
-#define OCSGAMEDETAILSPROVIDER_H
+#ifndef OCSGAMEDETAIL_H
+#define OCSGAMEDETAIL_H
 
 #include <QtCore/QObject>
 
@@ -30,11 +30,10 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class OcsGameDetails : public QObject
+    class GameDetailItem : public QObject
     {
             Q_OBJECT
             Q_ENUMS( Status )
-
         public:
             enum Status
             {
@@ -43,11 +42,13 @@ namespace GluonPlayer
                 Upgradable
             };
 
-            OcsGameDetails( const QString& gameName, const QString& gameDescription,
-                                     const QString& projectDirName, const QString& projectFileName,
-                                     const QStringList& screenshotUrls, int rating, GluonPlayer::OcsGameDetails::Status status,
-                                     const QString id, QObject* parent = 0 );
-            virtual ~OcsGameDetails();
+            GameDetailItem( const QString& gameName, const QString& gameDescription,
+                            const QString& projectDirName, const QString& projectFileName,
+                            const QStringList& screenshotUrls, int rating,
+                            GluonPlayer::GameDetailItem::Status status,
+                            const QString id, QObject* parent = 0 );
+            virtual ~GameDetailItem();
+
             QString gameName() const;
             QString gameDescription() const;
             QString projectDirName() const;
@@ -62,23 +63,23 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class OcsGameDetailsProvider : public QObject
+    class GameDetail : public QObject
     {
             Q_OBJECT
         public:
-            explicit OcsGameDetailsProvider( Attica::Provider* provider, QObject* parent = 0 );
-            explicit OcsGameDetailsProvider( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
+            explicit GameDetail( Attica::Provider* provider, QObject* parent = 0 );
+            GameDetail( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
 
         Q_SIGNALS:
-            void gameListFetched( QList<OcsGameDetails*> gameList );
+            void gameListFetched( QList<GameDetailItem*> gameList );
             void failedToFetchGameList();
 
-            void gameDetailsFetched( OcsGameDetails* gameDetails );
+            void gameDetailsFetched( GameDetailItem* gameDetails );
             void failedToFetchGameDetails( const QString& id );
 
         private Q_SLOTS:
             void fetchGameList();
-            void processFetchedGameList( Attica::BaseJob* job );
+            void processFetchedGamesList( Attica::BaseJob* job );
 
             void fetchGameDetails();
             void processFetchedGameDetails( Attica::BaseJob* job );
@@ -86,11 +87,10 @@ namespace GluonPlayer
         private:
             class Private;
             Private* const d;
-
-            friend class OcsProvider;
     };
 
 }
 
-#endif // OCSGAMEDETAILSPROVIDER_H
+#endif // GAMEDETAIL_H
+
 

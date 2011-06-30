@@ -25,9 +25,9 @@
 #include <lib/models/installedgamesmodel.h>
 #include <lib/models/downloadablegamesmodel.h>
 #include <lib/models/gameitem.h>
-#include <lib/ocsprovider.h>
-#include <lib/ocsgamedownloadprovider.h>
-#include <lib/ocsratingprovider.h>
+#include <lib/serviceprovider.h>
+#include <lib/gamedownload.h>
+#include <lib/rating.h>
 
 #include <KLineEdit>
 
@@ -45,17 +45,17 @@ void GluonPlayerImportsPlugin::registerTypes( const char* uri )
     qmlRegisterUncreatableType<GameItem>( uri, 0, 1, "GameItem", "GameItem is not meant to be instantiated \
         directly, it is provided only only to access Status enums" );
 
-    qmlRegisterUncreatableType<OcsProvider>( uri, 0, 1, "OcsProvider", "OcsProvider is not meant to be \
+    qmlRegisterUncreatableType<ServiceProvider>( uri, 0, 1, "ServiceProvider", "ServiceProvider is not meant to be \
         instantiated directly. Use the GluonPlayerAdapter to obtain an instance." );
 
     qmlRegisterType<GluonPlayerAdapter>( uri, 0, 1, "GluonPlayerAdapter" );
 
-    qmlRegisterUncreatableType<OcsGameDownloadProvider>( uri, 0, 1, "OcsGameDownloadProvider",
-            "OcsGameDownloadProvider is not meant to be instantiated directly, only OcsProvider will create and return \
+    qmlRegisterUncreatableType<GameDownload>( uri, 0, 1, "GameDownload",
+            "GameDownload is not meant to be instantiated directly, only ServiceProvider will create and return \
         an instance" );
 
-    qmlRegisterUncreatableType<OcsRatingProvider>( uri, 0, 1, "OcsRatingProvider",
-            "OcsRatingProvider is not meant to be instantiated directly, only OcsProvider will create and return \
+    qmlRegisterUncreatableType<Rating>( uri, 0, 1, "Rating",
+            "Rating is not meant to be instantiated directly, only ServiceProvider will create and return \
         an instance" );
 
 }

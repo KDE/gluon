@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
-#define GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#ifndef GLUONPLAYER_GAMEDOWNLOAD_H
+#define GLUONPLAYER_GAMEDOWNLOAD_H
 
 #include <QtCore/QObject>
 
@@ -35,13 +35,13 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GLUON_PLAYER_EXPORT OcsGameDownloadProvider : public QObject
+    class GameDownload : public QObject
     {
             Q_OBJECT
         public:
-            OcsGameDownloadProvider( Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                                     QObject* parent = 0 );
-            virtual ~OcsGameDownloadProvider();
+            GameDownload(Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                        QObject* parent = 0);
+            virtual ~GameDownload();
 
         Q_SIGNALS:
             void startedDownload();
@@ -55,12 +55,10 @@ namespace GluonPlayer
             void downloadComplete( QNetworkReply* reply );
             void updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal );
 
-            friend class OcsProvider;
-
         private:
             class Private;
             Private* const d;
     };
 }
 
-#endif // GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#endif // GLUONPLAYER_GAMEDOWNLOAD_H

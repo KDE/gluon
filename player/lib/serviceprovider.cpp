@@ -18,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsprovider.h"
+#include "serviceprovider.h"
 
-#include "ocscommentsprovider.h"
-#include "ocsgamedetailsprovider.h"
-#include "ocsgamedownloadprovider.h"
-#include "ocsgameuploadprovider.h"
-#include "ocsratingprovider.h"
+#include "comment.h"
+#include "gamedetail.h"
+#include "gamedownload.h"
+#include "gameupload.h"
+#include "rating.h"
 #include "ocsnewgameprovider.h"
 #include "ocscategoryprovider.h"
 #include "ocseditgameprovider.h"
@@ -40,12 +40,18 @@
 
 using namespace GluonPlayer;
 
-GLUON_DEFINE_SINGLETON( OcsProvider )
+GLUON_DEFINE_SINGLETON( ServiceProvider )
 
-class OcsProvider::Private
+class ServiceProvider::Private
 {
     public:
-        Private() : ready( false ), loggedIn( false )
+        Private()
+            : ready( false )
+            , loggedIn( false )
+        {
+        }
+
+        ~Private()
         {
         }
 
@@ -58,23 +64,24 @@ class OcsProvider::Private
 };
 
 
-OcsProvider::OcsProvider( QObject* parent )
-    : Singleton< GluonPlayer::OcsProvider >( parent ), d( new Private() )
+ServiceProvider::ServiceProvider( QObject* parent )
+    : Singleton< GluonPlayer::ServiceProvider >( parent )
+    , d( new Private() )
 {
     init();
 }
 
-OcsProvider::~OcsProvider()
+ServiceProvider::~ServiceProvider()
 {
     delete d;
 }
 
-bool OcsProvider::isReady() const
+bool ServiceProvider::isReady() const
 {
     return d->ready;
 }
 
-void OcsProvider::init()
+void ServiceProvider::init()
 {
     if( d->ready )
     {
@@ -85,7 +92,7 @@ void OcsProvider::init()
     d->manager.loadDefaultProviders();
 }
 
-void OcsProvider::providersUpdated()
+void ServiceProvider::providersUpdated()
 {
     if( !d->manager.providers().isEmpty() )
     {
@@ -103,7 +110,7 @@ void OcsProvider::providersUpdated()
     }
 }
 
-void OcsProvider::loadCredentials()
+void ServiceProvider::loadCredentials()
 {
     if( !d->ready )
     {
@@ -118,50 +125,52 @@ void OcsProvider::loadCredentials()
     emit providerInitialized();
 }
 
-OcsCommentsProvider* OcsProvider::fetchComments( const QString& id, int page, int pageSize )
+Comment* ServiceProvider::fetchComments( const QString& id, int page, int pageSize )
 {
-    OcsCommentsProvider* commentsProvider = new OcsCommentsProvider( &d->provider, id, page, pageSize );
+    Comment* comment = new Comment( &d->provider, id, page, pageSize );
+    connect( this, SIGNAL( startFetchComments() ), comment, SLOT( fetchComments() ) );
 
     if( d->ready )
     {
-        commentsProvider->fetchComments();
+        emit startFetchComments();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( fetchComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( fetchComments() ) );
     }
 
-    return commentsProvider;
+    return comment;
 }
 
-OcsCommentsProvider* OcsProvider::uploadComment( const QString& id, const QString& parentId,
+Comment* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
         const QString& subject, const QString& message )
 {
-    OcsCommentsProvider* commentsProvider = new OcsCommentsProvider( &d->provider, id, parentId, subject, message );
+    Comment* comment = new Comment( &d->provider, id, parentId, subject, message );
+    connect( this, SIGNAL( startUploadComments() ), comment, SLOT( uploadComments() ) );
 
     if( d->ready && d->loggedIn )
     {
-        commentsProvider->uploadComments();
+        emit startUploadComments();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), commentsProvider, SLOT( uploadComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( uploadComments() ) );
     }
 
-    return commentsProvider;
+    return comment;
 }
 
-bool OcsProvider::hasCredentials()
+bool ServiceProvider::hasCredentials() const
 {
     return d->provider.hasCredentials();
 }
 
-bool OcsProvider::isLoggedIn()
+bool ServiceProvider::isLoggedIn() const
 {
     return d->loggedIn;
 }
 
-bool OcsProvider::login( const QString& username, const QString& password )
+bool ServiceProvider::login( const QString& username, const QString& password )
 {
     if( d->loggedIn )
     {
@@ -183,14 +192,14 @@ bool OcsProvider::login( const QString& username, const QString& password )
     return true;
 }
 
-void OcsProvider::doLogin()
+void ServiceProvider::doLogin()
 {
     Attica::PostJob* job = d->provider.checkLogin( d->username, d->password );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsProvider::checkLoginResult( Attica::BaseJob* baseJob )
+void ServiceProvider::checkLoginResult( Attica::BaseJob* baseJob )
 {
     Attica::PostJob* job = qobject_cast<Attica::PostJob*> ( baseJob );
 
@@ -214,7 +223,7 @@ void OcsProvider::checkLoginResult( Attica::BaseJob* baseJob )
     }
 }
 
-bool OcsProvider::logout()
+bool ServiceProvider::logout()
 {
     if( !d->loggedIn )
     {
@@ -233,7 +242,7 @@ bool OcsProvider::logout()
     return true;
 }
 
-void OcsProvider::doLogout()
+void ServiceProvider::doLogout()
 {
     d->username.clear();
     d->password.clear();
@@ -241,33 +250,33 @@ void OcsProvider::doLogout()
     d->provider.saveCredentials( d->username, d->password );
 }
 
-QString OcsProvider::username()
+QString ServiceProvider::username() const
 {
     return d->username;
 }
 
-QString OcsProvider::password()
+QString ServiceProvider::password() const
 {
     return d->password;
 }
 
-OcsGameDetailsProvider* OcsProvider::fetchGames()
+GameDetail* ServiceProvider::fetchGames()
 {
-    OcsGameDetailsProvider* gameDetailsProvider = new OcsGameDetailsProvider( &d->provider );
+    GameDetail* gameDetail = new GameDetail( &d->provider );
 
     if( d->ready )
     {
-        gameDetailsProvider->fetchGameList();
+        emit startFetchGameList();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDetailsProvider, SLOT( fetchGameList() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameDetail, SLOT( fetchGameList() ) );
     }
 
-    return gameDetailsProvider;
+    return gameDetail;
 }
 
-OcsGameDownloadProvider* OcsProvider::downloadGame( const QString& id )
+GameDownload* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
@@ -279,60 +288,63 @@ OcsGameDownloadProvider* OcsProvider::downloadGame( const QString& id )
 
     destinationDir.cd( path );
 
-    OcsGameDownloadProvider* gameDownloadProvider = new OcsGameDownloadProvider( &d->provider, id,
-            destinationDir.path() );
+    GameDownload* gameDownload = new GameDownload( &d->provider, id, destinationDir.path() );
+    connect( this, SIGNAL( startDownloading() ), gameDownload, SLOT( startDownload() ) );
 
     if( d->ready )
     {
-        gameDownloadProvider->startDownload();
+        emit startDownloading();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDownloadProvider, SLOT( startDownload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameDownload, SLOT( startDownload() ) );
     }
 
-    return gameDownloadProvider;
+    return gameDownload;
 }
 
-OcsGameUploadProvider* OcsProvider::uploadGame( const QString& id, const QString& path )
+GameUpload* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
-    OcsGameUploadProvider* gameUploadProvider = new OcsGameUploadProvider( &d->provider, id, path );
+    GameUpload* gameUpload = new GameUpload( &d->provider, id, path );
+    connect( this, SIGNAL( startUploading() ), gameUpload, SLOT( startUpload() ) );
 
     if( d->ready )
     {
-        gameUploadProvider->startUpload();
+        emit startUploading();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameUploadProvider, SLOT( startUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameUpload, SLOT( startUpload() ) );
     }
 
-    return gameUploadProvider;
+    return gameUpload;
 }
 
-OcsRatingProvider* OcsProvider::setRating( const QString& id, uint rating )
+Rating* ServiceProvider::setRating( const QString& id, uint rate )
 {
-    OcsRatingProvider* ratingProvider = new OcsRatingProvider( &d->provider, id, rating );
+    Rating* rating = new Rating( &d->provider, id, rate );
+    connect( this, SIGNAL( startRatingUploading() ), rating, SLOT( startRatingUpload() ) );
 
     if( d->ready )
     {
-        ratingProvider->startRatingUpload();
+        emit startRatingUploading();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), ratingProvider, SLOT( startRatingUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), rating, SLOT( startRatingUpload() ) );
     }
 
-    return ratingProvider;
+    return rating;
 }
 
-OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString& id )
+GameDetail* ServiceProvider::fetchOneGame( const QString& id )
 {
-    OcsGameDetailsProvider* gameDetailsProvider = new OcsGameDetailsProvider( &d->provider, id );
+    GameDetail* gameDetailsProvider = new GameDetail( &d->provider, id );
+    connect( this, SIGNAL( startFetchingGameDetails() ), gameDetailsProvider, SLOT( fetchGameDetails() ) );
 
     if( d->ready )
     {
-        gameDetailsProvider->fetchGameDetails();
+        emit startFetchingGameDetails();
     }
     else
     {
@@ -342,13 +354,14 @@ OcsGameDetailsProvider* OcsProvider::fetchOneGame( const QString& id )
     return gameDetailsProvider;
 }
 
-OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName, const QString& categoryId )
+OcsNewGameProvider* ServiceProvider::addNewGame( const QString& gameName, const QString& categoryId )
 {
     OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, categoryId , gameName );
+    connect( this, SIGNAL( startAddingNewGame() ), newGameProvider, SLOT( addNewGame() ) );
 
     if( d->ready )
     {
-        newGameProvider->addNewGame();
+        emit startAddingNewGame();
     }
     else
     {
@@ -358,13 +371,14 @@ OcsNewGameProvider* OcsProvider::addNewGame( const QString& gameName, const QStr
     return newGameProvider;
 }
 
-GluonPlayer::OcsCategoryProvider* OcsProvider::fetchCategories()
+GluonPlayer::OcsCategoryProvider* ServiceProvider::fetchCategories()
 {
     OcsCategoryProvider* categoryProvider = new OcsCategoryProvider( &d->provider );
+    connect( this, SIGNAL( startFetchingCategories() ), categoryProvider, SLOT( fetchCategories() ) );
 
     if( d->ready )
     {
-        categoryProvider->fetchCategories();
+        emit startFetchingCategories();
     }
     else
     {
@@ -374,9 +388,10 @@ GluonPlayer::OcsCategoryProvider* OcsProvider::fetchCategories()
     return categoryProvider;
 }
 
-OcsEditGameProvider* OcsProvider::editGame( const QString& id )
+OcsEditGameProvider* ServiceProvider::editGame( const QString& id )
 {
     OcsEditGameProvider* editGameProvider = new OcsEditGameProvider( &d->provider, id );
+    connect( this, SIGNAL( startEditGame() ), editGameProvider, SLOT( startFetchingExistingGame() ) );
 
     if( d->ready )
     {
@@ -390,5 +405,5 @@ OcsEditGameProvider* OcsProvider::editGame( const QString& id )
     return editGameProvider;
 }
 
-#include "ocsprovider.moc"
+#include "serviceprovider.moc"
 

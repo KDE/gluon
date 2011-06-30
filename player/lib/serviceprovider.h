@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSPROVIDER_H
-#define GLUONPLAYER_OCSPROVIDER_H
+#ifndef GLUONPLAYER_SERVICEPROVIDER_H
+#define GLUONPLAYER_SERVICEPROVIDER_H
 
 #include "gluon_player_export.h"
 
@@ -34,11 +34,11 @@ namespace Attica
 namespace GluonPlayer
 {
 
-    class OcsGameDetailsProvider;
-    class OcsCommentsProvider;
-    class OcsGameDownloadProvider;
-    class OcsGameUploadProvider;
-    class OcsRatingProvider;
+    class GameDetail;
+    class Comment;
+    class GameDownload;
+    class GameUpload;
+    class Rating;
     class OcsNewGameProvider;
     class OcsCategoryProvider;
     class OcsEditGameProvider;
@@ -46,15 +46,15 @@ namespace GluonPlayer
     /**
      * \brief Provides Open Collaboration Services
      *
-     * OcsProvider provides access to OCS functions on an OCS
+     * ServiceProvider provides access to OCS functions on an OCS
      * compliant remote server.
      * \note Its <b>important</b> to call init() before attempting
      * to use the class
      */
-    class GLUON_PLAYER_EXPORT OcsProvider : public GluonCore::Singleton<OcsProvider>
+    class GLUON_PLAYER_EXPORT ServiceProvider : public GluonCore::Singleton<ServiceProvider>
     {
             Q_OBJECT
-            GLUON_SINGLETON( OcsProvider )
+            GLUON_SINGLETON( ServiceProvider )
             Q_PROPERTY( bool isReady READ isReady )
             Q_PROPERTY( bool isLoggedIn READ isLoggedIn )
             Q_PROPERTY( bool hasCredentials READ hasCredentials )
@@ -63,7 +63,7 @@ namespace GluonPlayer
 
         public:
             /**
-             * use to check if the OCS Provider is ready to perform actions. To initialize,
+             * Check if the OCS Provider is ready to perform actions. To initialize,
              * call init()
              *
              * @return  true if ready, false if not
@@ -77,10 +77,10 @@ namespace GluonPlayer
              * @param   page    page number of the desired page
              * @param   pageSize        number of comments per page
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  Comment object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE OcsCommentsProvider* fetchComments( const QString& id, int page, int pageSize );
+            Q_INVOKABLE Comment* fetchComments( const QString& id, int page, int pageSize );
 
             /**
              * Uploads a comment to the OCS compliant service
@@ -90,11 +90,11 @@ namespace GluonPlayer
              * @param   subject Subject of the comment
              * @param   message The comment message (body)
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  Comment object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE OcsCommentsProvider* uploadComment( const QString& id, const QString& parentId,
-                    const QString& subject, const QString& message );
+            Q_INVOKABLE Comment* uploadComment( const QString& id, const QString& parentId,
+                                                const QString& subject, const QString& message );
             /**
              * use to perform a login. Connect to the signal loggedIn() and loginFailed() to know the result.
              * @param   username        The username to be used
@@ -113,51 +113,51 @@ namespace GluonPlayer
              * use to check if we are logged in
              * @return true if logged in, false otherwise
              */
-            Q_INVOKABLE bool isLoggedIn();
+            Q_INVOKABLE bool isLoggedIn() const;
 
             /**
              * use to check if saved credentials are available
              * @return true if credentials are available
              */
-            Q_INVOKABLE bool hasCredentials();
+            Q_INVOKABLE bool hasCredentials() const;
 
             /**
              * use to retrieve the username
              * @return a QString containing the username, empty string if not available
              */
-            Q_INVOKABLE QString username();
+            Q_INVOKABLE QString username() const;
 
             /**
              * use to retrieve the password
              * @return a QString containing the password, empty string if not available
              */
-            Q_INVOKABLE QString password();
+            Q_INVOKABLE QString password() const;
 
             /**
              * Use to fetch a list of games available on the OCS server
-             * @return a OcsGameDetailsProvider object which the caller must
+             * @return a GameDetail object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE OcsGameDetailsProvider* fetchGames();
+            Q_INVOKABLE GameDetail* fetchGames();
 
             /**
              * Use to fetch details about a particular game from the OCS server
              *
              * @param id ID of the game you want details about
-             * @return a OcsGameDetailsProvider object which the caller must
+             * @return a GameDetail object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE OcsGameDetailsProvider* fetchOneGame( const QString &id );
+            Q_INVOKABLE GameDetail* fetchOneGame( const QString& id );
 
             /**
              * Use to download the game with ID id
              *
              * @param id ID of the game
              *
-             * @return a OcsGameDownloadProvider object which the caller must
+             * @return a GameDownload object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE GluonPlayer::OcsGameDownloadProvider* downloadGame( const QString& id );
+            Q_INVOKABLE GluonPlayer::GameDownload* downloadGame( const QString& id );
 
             /**
              * Use to upload a game with ID
@@ -165,10 +165,10 @@ namespace GluonPlayer
              * @param id ID of the game
              * @param path Path of the file to upload
              *
-             * @return a OcsGameUploadProvider object which the caller must
+             * @return a GameUpload object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE OcsGameUploadProvider* uploadGame( const QString& id, const QString& path );
+            Q_INVOKABLE GameUpload* uploadGame( const QString& id, const QString& path );
 
             /**
              * Rate a game having ID with a rating from 0 to 100
@@ -176,7 +176,7 @@ namespace GluonPlayer
              * @param id ID of the game
              * @param rating Rating value between 0 to 100
              */
-            Q_INVOKABLE GluonPlayer::OcsRatingProvider* setRating( const QString& id, uint rating );
+            Q_INVOKABLE GluonPlayer::Rating* setRating( const QString& id, uint rating );
 
             /**
              * Add a new game to the OCS server.
@@ -184,7 +184,7 @@ namespace GluonPlayer
              * @param gameName Name of the new game
              * @param gameCategory Category to which the new game belongs
              */
-            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString &gameName, const QString &categoryId );
+            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString& gameName, const QString& categoryId );
 
             /**
              * Request list of categories from the OCS server
@@ -202,13 +202,7 @@ namespace GluonPlayer
              * set new properties and then call its startEditionUpload() method
              * to start the upload of the changes.
              */
-            Q_INVOKABLE GluonPlayer::OcsEditGameProvider* editGame( const QString &id );
-
-        private:
-            ~OcsProvider();
-
-            class Private;
-            Private* const d;
+            Q_INVOKABLE GluonPlayer::OcsEditGameProvider* editGame( const QString& id );
 
         private Q_SLOTS:
             void providersUpdated();
@@ -238,8 +232,25 @@ namespace GluonPlayer
             /** signal which is emitted when the login failed
              */
             void loginFailed();
+
+            void startFetchGameList();
+            void startFetchComments();
+            void startUploadComments();
+            void startDownloading();
+            void startUploading();
+            void startRatingUploading();
+            void startFetchingGameDetails();
+            void startAddingNewGame();
+            void startFetchingCategories();
+            void startEditGame();
+
+        private:
+            ~ServiceProvider();
+
+            class Private;
+            Private* const d;
     };
 
 }
 
-#endif  //GLUONPLAYER_OCSPROVIDER_H
+#endif  //GLUONPLAYER_SERVICEPROVIDER_H

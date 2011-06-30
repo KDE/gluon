@@ -28,7 +28,7 @@
 #include "gamedetailsoverlay.h"
 
 #include <lib/models/gameitemsmodel.h>
-#include <lib/ocsprovider.h>
+#include <lib/serviceprovider.h>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -78,7 +78,7 @@ PlasmaApplet::~PlasmaApplet()
 
 void PlasmaApplet::init()
 {
-    OcsProvider::instance()->init();
+    ServiceProvider::instance()->init();
     m_gameItemsModel = new GameItemsModel( this );
     m_layout = new QGraphicsLinearLayout( Qt::Vertical );
     setLayout( m_layout );

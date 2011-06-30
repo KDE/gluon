@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
-#define GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
+#ifndef GLUONPLAYER_GAMEUPLOAD_H
+#define GLUONPLAYER_GAMEUPLOAD_H
 
 #include <QtCore/QObject>
 
@@ -32,28 +32,26 @@ namespace Attica
 
 namespace GluonPlayer
 {
-
-    class GLUON_PLAYER_EXPORT OcsGameUploadProvider : public QObject
+    class GameUpload : public QObject
     {
-
             Q_OBJECT
         public:
-            OcsGameUploadProvider( Attica::Provider* provider, const QString& id, const QString& fileName,
-                                   QObject* parent = 0 );
-            virtual ~OcsGameUploadProvider();
-        private:
-            class Private;
-            Private* const d;
+            GameUpload( Attica::Provider* provider, const QString& id, const QString& fileName,
+                        QObject* parent = 0 );
+            virtual ~GameUpload();
+
         Q_SIGNALS:
             void finished( const QString& id );
             void failed( const QString& id );
+
         private Q_SLOTS:
             void startUpload();
             void uploadComplete( Attica::BaseJob* baseJob );
 
-            friend class OcsProvider;
+        private:
+            class Private;
+            Private* const d;
     };
-
 }
 
-#endif // GLUONPLAYER_OCSGAMEUPLOADPROVIDER_H
+#endif // GLUONPLAYER_GAMEUPLOAD_H
