@@ -30,7 +30,11 @@ using namespace GluonPlayer;
 class OcsRatingProvider::Private
 {
 public:
-    Private() : provider(0)   { }
+    Private()
+        : provider(0)
+        , rating(0)
+    {
+    }
 
     Attica::Provider *provider;
     QString id;
@@ -38,8 +42,10 @@ public:
 };
 
 
-OcsRatingProvider::OcsRatingProvider (Attica::Provider* provider, const QString& id,
-                                              uint rating, QObject* parent) : QObject (parent), d(new Private)
+OcsRatingProvider::OcsRatingProvider(Attica::Provider* provider, const QString& id,
+                                        uint rating, QObject* parent)
+    : QObject (parent)
+    , d(new Private)
 {
     d->provider = provider;
     d->id = id;
@@ -51,7 +57,6 @@ OcsRatingProvider::~OcsRatingProvider()
     delete d;
 }
 
-
 void OcsRatingProvider::startRatingUpload()
 {
     Attica::PostJob *job = d->provider->voteForContent(d->id, d->rating);
@@ -59,7 +64,7 @@ void OcsRatingProvider::startRatingUpload()
     job->start();
 }
 
-void OcsRatingProvider::ratingUploadComplete (Attica::BaseJob* baseJob)
+void OcsRatingProvider::ratingUploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {

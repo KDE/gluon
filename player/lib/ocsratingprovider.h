@@ -33,23 +33,25 @@ namespace GluonPlayer
 
 class OcsRatingProvider : public QObject
 {
-
     Q_OBJECT
 public:
-    OcsRatingProvider (Attica::Provider* provider, const QString& id, uint rating,
+    OcsRatingProvider(Attica::Provider* provider, const QString& id, uint rating,
                              QObject* parent = 0);
     virtual ~OcsRatingProvider();
-private:
-    class Private;
-    Private* const d;
+
 Q_SIGNALS:
     void finished();
     void failed();
+
 private Q_SLOTS:
     void startRatingUpload();
     void ratingUploadComplete (Attica::BaseJob* baseJob);
 
     friend class OcsProvider;
+
+private:
+    class Private;
+    Private* const d;
 };
 
 }

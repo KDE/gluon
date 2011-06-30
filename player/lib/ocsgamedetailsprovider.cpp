@@ -34,7 +34,9 @@ using namespace GluonPlayer;
 class OcsGameDetails::Private
 {
 public:
-    Private()   { }
+    Private()
+    {
+    }
 
     QString gameName;
     QString gameDescription;
@@ -45,10 +47,12 @@ public:
     QString id;
 };
 
-OcsGameDetails::OcsGameDetails (const QString& gameName, const QString& gameDescription,
+OcsGameDetails::OcsGameDetails(const QString& gameName, const QString& gameDescription,
                                 const QString& projectDirName, const QString& projectFileName,
                                 const QStringList& screenshotUrls, Status status, const QString id,
-                                QObject* parent) : QObject (parent), d (new Private())
+                                QObject* parent)
+    : QObject (parent)
+    , d (new Private())
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
@@ -102,13 +106,17 @@ OcsGameDetails::Status OcsGameDetails::status() const
 class OcsGameDetailsProvider::Private
 {
 public:
-    Private() : provider(0) { }
+    Private()
+        : provider(0)
+    {
+    }
 
     Attica::Provider *provider;
 };
 
-OcsGameDetailsProvider::OcsGameDetailsProvider (Attica::Provider* provider, QObject* parent)
-    : QObject (parent), d(new Private())
+OcsGameDetailsProvider::OcsGameDetailsProvider(Attica::Provider* provider, QObject* parent)
+    : QObject (parent)
+    , d(new Private())
 {
     d->provider = provider;
 }
@@ -130,9 +138,9 @@ void OcsGameDetailsProvider::fetchGameList()
     job->start();
 }
 
-void OcsGameDetailsProvider::processFetchedGamesList (Attica::BaseJob* job)
+void OcsGameDetailsProvider::processFetchedGamesList(Attica::BaseJob* job)
 {
-    qDebug() << "Game List Successfully Fetched from the server!";
+    qDebug() << "Game list successfully fetched from the server!";
     QList<OcsGameDetails*> list;
 
     Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>(job);

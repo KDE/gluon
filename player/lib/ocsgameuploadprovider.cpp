@@ -30,7 +30,10 @@ using namespace GluonPlayer;
 class OcsGameUploadProvider::Private
 {
 public:
-    Private() : provider(0)   { }
+    Private()
+        : provider(0)
+    {
+    }
 
     Attica::Provider *provider;
     QString id;
@@ -38,7 +41,7 @@ public:
 };
 
 
-OcsGameUploadProvider::OcsGameUploadProvider (Attica::Provider* provider, const QString& id,
+OcsGameUploadProvider::OcsGameUploadProvider(Attica::Provider* provider, const QString& id,
                                               const QString& fileName, QObject* parent) : QObject (parent), d(new Private)
 {
     d->provider = provider;
@@ -70,7 +73,7 @@ void OcsGameUploadProvider::startUpload()
     job->start();
 }
 
-void OcsGameUploadProvider::uploadComplete (Attica::BaseJob* baseJob)
+void OcsGameUploadProvider::uploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {

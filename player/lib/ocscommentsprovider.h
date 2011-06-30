@@ -38,6 +38,7 @@ namespace GluonPlayer
             OcsComment( const QString& id, const QString& subject, const QString& text,
                         const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
             virtual ~OcsComment();
+
             QString id() const;
             QString subject() const;
             QString text() const;
@@ -60,13 +61,13 @@ namespace GluonPlayer
                                           const QString& subject, const QString& message, QObject* parent = 0 );
             virtual ~OcsCommentsProvider();
 
-        signals:
+        Q_SIGNALS:
             void commentsFetched( QList<OcsComment*> comments );
             void failedToFetchComments();
             void commentUploaded();
             void failedToUploadComment();
 
-        private slots:
+        private Q_SLOTS:
             void fetchComments();
             void uploadComments();
             void processFetchedComments( Attica::BaseJob* job );

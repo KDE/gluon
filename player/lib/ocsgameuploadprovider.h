@@ -33,23 +33,25 @@ namespace GluonPlayer
 
 class OcsGameUploadProvider : public QObject
 {
-
     Q_OBJECT
 public:
-    OcsGameUploadProvider (Attica::Provider* provider, const QString& id, const QString& fileName,
+    OcsGameUploadProvider(Attica::Provider* provider, const QString& id, const QString& fileName,
                              QObject* parent = 0);
     virtual ~OcsGameUploadProvider();
-private:
-    class Private;
-    Private* const d;
+
 Q_SIGNALS:
     void finished();
     void failed();
+
 private Q_SLOTS:
     void startUpload();
-    void uploadComplete (Attica::BaseJob* baseJob);
+    void uploadComplete(Attica::BaseJob* baseJob);
 
     friend class OcsProvider;
+
+private:
+    class Private;
+    Private* const d;
 };
 
 }
