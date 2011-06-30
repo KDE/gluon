@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,10 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSRATINGPROVIDER_H
-#define GLUONPLAYER_OCSRATINGPROVIDER_H
+#ifndef GLUONPLAYER_GAMEDOWNLOAD_H
+#define GLUONPLAYER_GAMEDOWNLOAD_H
 
 #include <QtCore/QObject>
+
+class QNetworkReply;
 
 namespace Attica
 {
@@ -30,30 +33,30 @@ class BaseJob;
 
 namespace GluonPlayer
 {
+    class GameDownload : public QObject
+    {
+        Q_OBJECT
+        public:
+            GameDownload(Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                        QObject* parent = 0);
+            virtual ~GameDownload();
 
-class OcsRatingProvider : public QObject
-{
-    Q_OBJECT
-public:
-    OcsRatingProvider(Attica::Provider* provider, const QString& id, uint rating,
-                             QObject* parent = 0);
-    virtual ~OcsRatingProvider();
+        Q_SIGNALS:
+            void startedDownload();
+            void finished();
+            void failed();
 
-Q_SIGNALS:
-    void finished();
-    void failed();
+        private Q_SLOTS:
+            void startDownload();
+            void processDownloadLink (Attica::BaseJob* baseJob);
+            void downloadComplete(QNetworkReply *reply);
 
-private Q_SLOTS:
-    void startRatingUpload();
-    void ratingUploadComplete (Attica::BaseJob* baseJob);
+            friend class ServiceProvider;
 
-    friend class OcsProvider;
-
-private:
-    class Private;
-    Private* const d;
-};
-
+        private:
+            class Private;
+            Private* const d;
+    };
 }
 
-#endif // GLUONPLAYER_OCSRATINGPROVIDER_H
+#endif // GLUONPLAYER_GAMEDOWNLOAD_H

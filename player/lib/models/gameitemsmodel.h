@@ -34,7 +34,7 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class OcsGameDetails;
+    class GameDetailItem;
 
     /**
      *\brief Model which contains a list of the installed games
@@ -88,7 +88,7 @@ namespace GluonPlayer
             void upgradableCountChanged();
 
         protected Q_SLOTS:
-            void processFetchedGamesList (QList<OcsGameDetails*> comments);
+            void processFetchedGamesList (QList<GameDetailItem*> comments);
 
         private:
             void fetchGamesList();

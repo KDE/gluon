@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,12 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
-#define GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#ifndef GLUONPLAYER_RATING_H
+#define GLUONPLAYER_RATING_H
 
 #include <QtCore/QObject>
-
-class QNetworkReply;
 
 namespace Attica
 {
@@ -33,30 +30,30 @@ class BaseJob;
 
 namespace GluonPlayer
 {
-    class OcsGameDownloadProvider : public QObject
-    {
-        Q_OBJECT
-        public:
-            OcsGameDownloadProvider (Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                    QObject* parent = 0);
-            virtual ~OcsGameDownloadProvider();
 
-        Q_SIGNALS:
-            void startedDownload();
-            void finished();
-            void failed();
+class Rating : public QObject
+{
+    Q_OBJECT
+public:
+    Rating(Attica::Provider* provider, const QString& id, uint rating,
+                             QObject* parent = 0);
+    virtual ~Rating();
 
-        private Q_SLOTS:
-            void startDownload();
-            void processDownloadLink (Attica::BaseJob* baseJob);
-            void downloadComplete(QNetworkReply *reply);
+Q_SIGNALS:
+    void finished();
+    void failed();
 
-            friend class OcsProvider;
+private Q_SLOTS:
+    void startRatingUpload();
+    void ratingUploadComplete (Attica::BaseJob* baseJob);
 
-        private:
-            class Private;
-            Private* const d;
-    };
+    friend class ServiceProvider;
+
+private:
+    class Private;
+    Private* const d;
+};
+
 }
 
-#endif // GLUONPLAYER_OCSGAMEDOWNLOADPROVIDER_H
+#endif // GLUONPLAYER_RATING_H

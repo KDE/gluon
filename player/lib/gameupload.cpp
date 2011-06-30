@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsgameuploadprovider.h"
+#include "gameupload.h"
 
 #include <attica/postjob.h>
 #include <attica/provider.h>
@@ -27,7 +27,7 @@
 
 using namespace GluonPlayer;
 
-class OcsGameUploadProvider::Private
+class GameUpload::Private
 {
 public:
     Private()
@@ -41,20 +41,20 @@ public:
 };
 
 
-OcsGameUploadProvider::OcsGameUploadProvider(Attica::Provider* provider, const QString& id,
-                                              const QString& fileName, QObject* parent) : QObject (parent), d(new Private)
+GameUpload::GameUpload(Attica::Provider* provider, const QString& id,
+                       const QString& fileName, QObject* parent) : QObject (parent), d(new Private)
 {
     d->provider = provider;
     d->id = id;
     d->fileName = fileName;
 }
 
-OcsGameUploadProvider::~OcsGameUploadProvider()
+GameUpload::~GameUpload()
 {
     delete d;
 }
 
-void OcsGameUploadProvider::startUpload()
+void GameUpload::startUpload()
 {
     QFile file(d->fileName);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -73,7 +73,7 @@ void OcsGameUploadProvider::startUpload()
     job->start();
 }
 
-void OcsGameUploadProvider::uploadComplete(Attica::BaseJob* baseJob)
+void GameUpload::uploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {
@@ -83,4 +83,4 @@ void OcsGameUploadProvider::uploadComplete(Attica::BaseJob* baseJob)
     }
 }
 
-#include "ocsgameuploadprovider.moc"
+#include "gameupload.moc"

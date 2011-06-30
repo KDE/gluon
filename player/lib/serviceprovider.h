@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSPROVIDER_H
-#define GLUONPLAYER_OCSPROVIDER_H
+#ifndef GLUONPLAYER_SERVICEPROVIDER_H
+#define GLUONPLAYER_SERVICEPROVIDER_H
 
 #include "lib/gluon_player_export.h"
 
@@ -34,11 +34,11 @@ class BaseJob;
 namespace GluonPlayer
 {
 
-class OcsGameDetailsProvider;
-class OcsCommentsProvider;
-class OcsGameDownloadProvider;
-class OcsGameUploadProvider;
-class OcsRatingProvider;
+class GameDetail;
+class Comment;
+class GameDownload;
+class GameUpload;
+class Rating;
 
 /**
  * \brief Provides Open Collaboration Services
@@ -48,10 +48,10 @@ class OcsRatingProvider;
  * \note Its <b>important</b> to call init() before attempting
  * to use the class
  */
-class GLUON_PLAYER_EXPORT OcsProvider : public GluonCore::Singleton<OcsProvider>
+class GLUON_PLAYER_EXPORT ServiceProvider : public GluonCore::Singleton<ServiceProvider>
 {
     Q_OBJECT
-    GLUON_SINGLETON( OcsProvider )
+    GLUON_SINGLETON( ServiceProvider )
     Q_PROPERTY( bool isReady READ isReady )
     Q_PROPERTY( bool isLoggedIn READ isLoggedIn )
     Q_PROPERTY( bool hasCredentials READ hasCredentials )
@@ -77,7 +77,7 @@ public:
      * @return  OcsCommentsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    Q_INVOKABLE OcsCommentsProvider* fetchComments(const QString& id, int page, int pageSize);
+    Q_INVOKABLE Comment* fetchComments(const QString& id, int page, int pageSize);
 
     /**
      * Uploads a comment to the OCS compliant service
@@ -90,8 +90,8 @@ public:
      * @return  OcsCommentsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    Q_INVOKABLE OcsCommentsProvider* uploadComment(const QString& id, const QString& parentId,
-                                                    const QString& subject, const QString& message);
+    Q_INVOKABLE Comment* uploadComment(const QString& id, const QString& parentId,
+                                       const QString& subject, const QString& message);
     /**
      * Execute a login. Connect to the signal loggedIn() and loginFailed() to know the result.
      * @param   username        The username to be used
@@ -141,7 +141,7 @@ public:
      * @return a OcsGameDetailsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameDetailsProvider *fetchGames();
+    GameDetail *fetchGames();
 
     /**
      * Download the game with ID id
@@ -151,7 +151,7 @@ public:
      * @return a OcsGameDownloadProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameDownloadProvider *downloadGame(const QString &id);
+    GameDownload *downloadGame(const QString &id);
 
     /**
      * Upload a game with ID
@@ -162,7 +162,7 @@ public:
      * @return a OcsGameUploadProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    OcsGameUploadProvider *uploadGame(const QString &id, const QString &path);
+    GameUpload *uploadGame(const QString &id, const QString &path);
 
     /**
      * Rate a game having ID with a rating from 0 to 100
@@ -170,7 +170,7 @@ public:
      * @param id ID of the game
      * @param rating Rating value between 0 to 100
      */
-    OcsRatingProvider *setRating(const QString &id, uint rating);
+    Rating *setRating(const QString &id, uint rate);
 
 private Q_SLOTS:
     void providersUpdated();
@@ -202,7 +202,7 @@ Q_SIGNALS:
     void loginFailed();
 
 private:
-    ~OcsProvider();
+    ~ServiceProvider();
 
     class Private;
     Private* const d;
@@ -210,4 +210,4 @@ private:
 
 }
 
-#endif  //GLUONPLAYER_OCSPROVIDER_H
+#endif  //GLUONPLAYER_SERVICEPROVIDER_H

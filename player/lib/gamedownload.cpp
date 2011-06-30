@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsgamedownloadprovider.h"
+#include "gamedownload.h"
 
 #include <attica/itemjob.h>
 #include <attica/downloaditem.h>
@@ -29,10 +29,13 @@
 
 using namespace GluonPlayer;
 
-class OcsGameDownloadProvider::Private
+class GameDownload::Private
 {
 public:
-    Private() : provider(0)   { }
+    Private() 
+        : provider(0)
+    {
+    }
 
     Attica::Provider *provider;
     QString id;
@@ -40,28 +43,29 @@ public:
     QString fileName;
 };
 
-OcsGameDownloadProvider::OcsGameDownloadProvider (Attica::Provider *provider, const QString& id,
-                                                  const QString& destinationDir, QObject* parent)
-                                                    : QObject (parent), d(new Private)
+GameDownload::GameDownload(Attica::Provider *provider, const QString& id,
+                           const QString& destinationDir, QObject* parent)
+    : QObject (parent)
+    , d(new Private)
 {
     d->provider = provider;
     d->id = id;
     d->destinationDir = destinationDir;
 }
 
-OcsGameDownloadProvider::~OcsGameDownloadProvider()
+GameDownload::~GameDownload()
 {
     delete d;
 }
 
-void OcsGameDownloadProvider::startDownload()
+void GameDownload::startDownload()
 {
     Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink(d->id);
     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)));
     job->start();
 }
 
-void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
+void GameDownload::processDownloadLink(Attica::BaseJob* baseJob)
 {
     Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
     Attica::DownloadItem item = job->result();
@@ -72,13 +76,14 @@ void OcsGameDownloadProvider::processDownloadLink (Attica::BaseJob* baseJob)
         emit failed();
         return;
     }
+
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     manager->get(QNetworkRequest(item.url()));
     emit startedDownload();
 }
 
-void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
+void GameDownload::downloadComplete(QNetworkReply* reply)
 {
     QDir destDir(d->destinationDir);
     QFile file(destDir.filePath(d->fileName));
@@ -89,4 +94,4 @@ void OcsGameDownloadProvider::downloadComplete (QNetworkReply* reply)
     emit finished();
 }
 
-#include "ocsgamedownloadprovider.moc"
+#include "gamedownload.moc"

@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsratingprovider.h"
+#include "rating.h"
 
 #include <attica/postjob.h>
 #include <attica/provider.h>
@@ -27,12 +27,16 @@
 
 using namespace GluonPlayer;
 
-class OcsRatingProvider::Private
+class Rating::Private
 {
 public:
     Private()
         : provider(0)
         , rating(0)
+    {
+    }
+
+    ~Private()
     {
     }
 
@@ -42,8 +46,8 @@ public:
 };
 
 
-OcsRatingProvider::OcsRatingProvider(Attica::Provider* provider, const QString& id,
-                                        uint rating, QObject* parent)
+Rating::Rating(Attica::Provider* provider, const QString& id,
+               uint rating, QObject* parent)
     : QObject (parent)
     , d(new Private)
 {
@@ -52,19 +56,19 @@ OcsRatingProvider::OcsRatingProvider(Attica::Provider* provider, const QString& 
     d->rating = rating;
 }
 
-OcsRatingProvider::~OcsRatingProvider()
+Rating::~Rating()
 {
     delete d;
 }
 
-void OcsRatingProvider::startRatingUpload()
+void Rating::startRatingUpload()
 {
     Attica::PostJob *job = d->provider->voteForContent(d->id, d->rating);
     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)));
     job->start();
 }
 
-void OcsRatingProvider::ratingUploadComplete(Attica::BaseJob* baseJob)
+void Rating::ratingUploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {
@@ -74,4 +78,4 @@ void OcsRatingProvider::ratingUploadComplete(Attica::BaseJob* baseJob)
     }
 }
 
-#include "ocsratingprovider.moc"
+#include "rating.moc"

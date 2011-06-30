@@ -20,8 +20,8 @@
 
 #include "commentsmodel.h"
 
-#include <player/lib/ocsprovider.h>
-#include <player/lib/ocscommentsprovider.h>
+#include <player/lib/serviceprovider.h>
+#include <player/lib/comment.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
@@ -62,20 +62,20 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     updateData();   // Fetch latest comments from the web service
 }
 
-void CommentsModel::processFetchedComments( QList< OcsComment* > list )
+void CommentsModel::processFetchedComments( QList< CommentItem* > list )
 {
     qDebug() << "Comments Successfully Fetched from the server!";
     if (d->m_rootNode) {
         qDeleteAll(d->m_rootNode->children());
     }
-    foreach (OcsComment *comment, list) {
+    foreach(CommentItem *comment, list) {
         addComment(comment, d->m_rootNode);
     }
     d->m_isOnline = true;
     reset();
 }
 
-GluonObject* CommentsModel::addComment( OcsComment* comment, GluonObject* parent )
+GluonObject* CommentsModel::addComment( CommentItem* comment, GluonObject* parent )
 {
     GluonObject* newComment = new GluonObject( comment->id(), parent );
     newComment->setProperty( "Author", comment->user() );
@@ -85,7 +85,7 @@ GluonObject* CommentsModel::addComment( OcsComment* comment, GluonObject* parent
     newComment->setProperty( "Rating", comment->score() );
 
     foreach( QObject *child, comment->children() ) {
-        addComment( static_cast<OcsComment*>(child), newComment );
+        addComment( static_cast<CommentItem*>(child), newComment );
     }
 
     return newComment;
@@ -267,9 +267,9 @@ bool CommentsModel::isOnline()
 void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-    OcsProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
+    ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 
-    OcsCommentsProvider *commentsProvider = OcsProvider::instance()->uploadComment(d->m_gameId,
+    Comment *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentNode->name(),
                                                                                    subject, message);
     connect(commentsProvider, SIGNAL(commentUploaded()), SLOT(uploadCommentFinished()));
@@ -279,11 +279,11 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
 void CommentsModel::updateData()
 {
     qDebug() << "Updating..";
-    OcsCommentsProvider *commentsProvider = OcsProvider::instance()->fetchComments(d->m_gameId, 0, 0);
+    Comment *commentsProvider = ServiceProvider::instance()->fetchComments(d->m_gameId, 0, 0);
 
     if (commentsProvider) {
-        connect(commentsProvider, SIGNAL(commentsFetched(QList<OcsComment*>)), 
-            SLOT(processFetchedComments(QList<OcsComment*>)));
+        connect(commentsProvider, SIGNAL(commentsFetched(QList<CommentItem*>)), 
+            SLOT(processFetchedComments(QList<CommentItem*>)));
         connect(commentsProvider, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
     } else {
         emit fetchCommentsFailed();
