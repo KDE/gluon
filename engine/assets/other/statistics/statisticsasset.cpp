@@ -20,6 +20,7 @@
 #include "statisticsasset.h"
 
 #include <engine/statistic.h>
+#include <engine/tasksstatistic.h>
 #include <core/gdlhandler.h>
 
 #include <QtGui/QAction>
@@ -44,6 +45,11 @@ StatisticsAsset::StatisticsAsset(QObject* parent)
     QAction* newStatistic = new QAction( tr("New Statistic"), this );
     connect( newStatistic, SIGNAL(triggered()), this, SLOT(createStatistic()) );
     d->actions.append(newStatistic);
+
+    QAction* newTasksStatistic = new QAction( tr("New Tasks Statistic"), this );
+    connect( newTasksStatistic, SIGNAL(triggered()), this, SLOT(createTasksStatistic()) );
+    d->actions.append(newTasksStatistic);
+
     savableDirty = true;
 }
 
@@ -72,14 +78,14 @@ QString StatisticsAsset::contentsToGDL()
     object.setName( "temporaryObject" );
     foreach( QObject* child, children() )
     {
-        Statistic* obj = qobject_cast<Statistic*>(child);
+        AbstractStatistic* obj = qobject_cast<AbstractStatistic*>(child);
         if( obj )
             obj->setParent(&object);
     }
     QString result = GluonCore::GDLHandler::instance()->toGDL(&object);
     foreach( QObject* child, object.children() )
     {
-        Statistic* obj = qobject_cast<Statistic*>(child);
+        AbstractStatistic* obj = qobject_cast<AbstractStatistic*>(child);
         if( obj )
             obj->setParent(this);
     }
@@ -109,7 +115,7 @@ void StatisticsAsset::setFile(const QUrl& newFile)
     GluonEngine::Asset::setFile(newFile);
     foreach( QObject* child, children() )
     {
-        Statistic* statistic = qobject_cast<Statistic*>(child);
+        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
         if( statistic )
             return;
     }
@@ -120,7 +126,7 @@ void StatisticsAsset::setFile(const QUrl& newFile)
     GluonCore::GluonObject* tmpObj = list.at(0);
     foreach( QObject* child, tmpObj->children() )
     {
-        Statistic* statistic = qobject_cast<Statistic*>(child);
+        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
         if( statistic )
             statistic->setParent(this);
     }
@@ -131,6 +137,13 @@ void StatisticsAsset::createStatistic()
 {
     Statistic* newStatistic = new Statistic(this);
     newStatistic->setName(tr("New Statistic"));
+    savableDirty = true;
+}
+
+void StatisticsAsset::createTasksStatistic()
+{
+    TasksStatistic* newStatistic = new TasksStatistic(this);
+    newStatistic->setName(tr("New Tasks Statistic"));
     savableDirty = true;
 }
 

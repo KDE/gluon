@@ -62,6 +62,12 @@ namespace GluonEngine
              */
             void createStatistic();
 
+            /**
+             * Use this method to create TasksStatistic objects. If you use the normal
+             * constructor, it won't be saved.
+             */
+            void createTasksStatistic();
+
         protected:
             /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */
             virtual void populateMetaInfo( GluonCore::MetaInfo*  info );

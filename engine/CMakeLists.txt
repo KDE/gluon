@@ -69,6 +69,7 @@ set(GluonEngine_SRCS
     filelocation.cpp
     filelocationprivate.cpp
     statistic.cpp
+    tasksstatistic.cpp
 
     game.cpp
     gameprivate.cpp
@@ -91,6 +92,7 @@ set(GluonEngine_HEADERS
     scene.h
     filelocation.h
     statistic.h
+    tasksstatistic.h
 
     gluon_engine_export.h
     gluon_engine_metatypes.h
