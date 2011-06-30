@@ -83,6 +83,8 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
             object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
         object->setProperty( "minimumScore", achievement->minimumScore() );
         object->setProperty( "currentScore", achievement->currentScore() );
+        object->setProperty( "hasDependency", achievement->hasDependency() );
+        object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "achieved", achievement->achieved() );
     }
 }
@@ -95,6 +97,8 @@ void AchievementsManager::makeTemplate()
         if( object )
         {
             object->setProperty( "currentScore", 0 );
+            if( object->property( "hasDependency" ).toBool() )
+                object->setProperty( "dependencySatisfied", false );
             object->setProperty( "achieved", false );
         }
     }
@@ -155,6 +159,11 @@ qlonglong AchievementsManager::minimumScore(int index) const
 qlonglong AchievementsManager::currentScore(int index) const
 {
     return children()[index]->property( "currentScore" ).toLongLong();
+}
+
+bool AchievementsManager::dependencySatisfied(int index) const
+{
+    return children()[index]->property( "dependencySatisfied" ).toBool();
 }
 
 bool AchievementsManager::achievementAchieved(int index) const

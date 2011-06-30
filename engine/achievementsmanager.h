@@ -78,6 +78,9 @@ namespace GluonEngine
             /** The current score of the statistic */
             qlonglong currentScore( int index ) const;
 
+            /** Has the user the dependency achievement achieved? */
+            bool dependencySatisfied( int index ) const;
+
             /** Has the user the achievement at index? */
             bool achievementAchieved( int index ) const;
     };

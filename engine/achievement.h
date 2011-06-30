@@ -50,9 +50,14 @@ namespace GluonEngine
             Q_PROPERTY( qlonglong minimumScore READ minimumScore WRITE setMinimumScore )
 
             /**
-             * An icon that represents the achievemnt.
+             * An icon that represents the achievement.
              */
             Q_PROPERTY( GluonEngine::TextureAsset* icon READ icon WRITE setIcon );
+
+            /**
+             * The achievement is only shown if this achievement is achieved.
+             */
+            Q_PROPERTY( GluonEngine::Achievement* dependency READ dependency WRITE setDependency )
         public:
             Q_INVOKABLE Achievement( QObject* parent = 0 );
             virtual ~Achievement();
@@ -66,8 +71,18 @@ namespace GluonEngine
             TextureAsset* icon();
             void setIcon( TextureAsset* icon );
 
+            // TODO: make more dependencies possible
+            Achievement* dependency() const;
+            void setDependency( Achievement* dependency );
+
             /** What current store does the user have? */
-            qlonglong currentScore();
+            qlonglong currentScore() const;
+
+            /** Does the achievement has a dependency? */
+            bool hasDependency() const;
+
+            /** Is the dependency achievement achieved? */
+            bool dependencySatisfied() const;
 
             /** Has the statistic achieved the goal? */
             bool achieved() const;

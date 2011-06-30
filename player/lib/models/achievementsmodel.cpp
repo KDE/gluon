@@ -79,18 +79,28 @@ QVariant AchievementsModel::data(const QModelIndex& index, int role) const
     if( !index.isValid() )
         return QVariant();
 
-    if( index.column() == 0 && role == Qt::DecorationRole )
+
+    if( index.column() == 0 && role == Qt::DecorationRole && d->achievementsManager->dependencySatisfied(index.row()) )
         return QIcon( d->metaData->projectDir() + "/" + d->achievementsManager->achievementIcon(index.row()) );
 
     if( index.column() == 0 && role == Qt::DisplayRole )
-        return d->achievementsManager->achievementName(index.row());
+        if( d->achievementsManager->dependencySatisfied(index.row()) )
+            return d->achievementsManager->achievementName(index.row());
+        else
+            return "Unknown";
 
     if( index.column() == 1 && role == Qt::DisplayRole )
-        return QString("%1/%2").arg( d->achievementsManager->currentScore(index.row()) )
-                               .arg( d->achievementsManager->minimumScore(index.row()) );
+        if( d->achievementsManager->dependencySatisfied(index.row()) )
+            return QString("%1/%2").arg( d->achievementsManager->currentScore(index.row()) )
+                                   .arg( d->achievementsManager->minimumScore(index.row()) );
+        else
+            return "0/0";
 
     if( index.column() == 2 && role == Qt::DisplayRole )
-        return d->achievementsManager->achievementAchieved(index.row()) ? "yes" : "no";
+        if( d->achievementsManager->dependencySatisfied(index.row()) )
+            return d->achievementsManager->achievementAchieved(index.row()) ? "yes" : "no";
+        else
+            return "no";
 
     return QVariant();
 }
