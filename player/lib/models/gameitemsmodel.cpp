@@ -19,11 +19,12 @@
 
 #include "gameitemsmodel.h"
 
-#include <player/lib/serviceprovider.h>
-#include <player/lib/gamedetail.h>
+#include "lib/serviceprovider.h"
+#include "lib/gamedetail.h"
+
+#include <engine/gameproject.h>
 
 #include <core/directoryprovider.h>
-#include <engine/gameproject.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QHash>

@@ -20,11 +20,11 @@
 
 #include "highscoresmodel.h"
 
+#include <engine/gameproject.h>
+
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
-
-#include <engine/gameproject.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>

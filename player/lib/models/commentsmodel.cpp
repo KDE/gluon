@@ -20,13 +20,14 @@
 
 #include "commentsmodel.h"
 
-#include <player/lib/serviceprovider.h>
-#include <player/lib/comment.h>
+#include "lib/serviceprovider.h"
+#include "lib/comment.h"
+
+#include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
-#include <engine/gameproject.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
