@@ -36,8 +36,7 @@ namespace GluonPlayer
 
 class GameDetail;
 class Comment;
-class GameDownload;
-class GameUpload;
+class GameContentTransfer;
 class Rating;
 
 /**
@@ -148,10 +147,10 @@ public:
      *
      * @param id ID of the game
      * 
-     * @return a OcsGameDownloadProvider object which the caller must
+     * @return a GameContentTransfer object which the caller must
      * monitor to find out the result of the operation
      */
-    GameDownload *downloadGame(const QString &id);
+    GameContentTransfer *downloadGame(const QString &id);
 
     /**
      * Upload a game with ID
@@ -159,10 +158,10 @@ public:
      * @param id ID of the game
      * @param path Path of the file to upload
      * 
-     * @return a OcsGameUploadProvider object which the caller must
+     * @return a GameContentTransfer object which the caller must
      * monitor to find out the result of the operation
      */
-    GameUpload *uploadGame(const QString &id, const QString &path);
+    GameContentTransfer *uploadGame(const QString &id, const QString &path);
 
     /**
      * Rate a game having ID with a rating from 0 to 100

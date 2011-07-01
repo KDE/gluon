@@ -21,8 +21,7 @@ set(GLUON_PLAYER_INCLUDES
 
 set(libGluonPlayer_SRCS
     rating.cpp
-    gameupload.cpp
-    gamedownload.cpp
+    gamecontenttransfer.cpp
     gamedetail.cpp
     comment.cpp
     serviceprovider.cpp

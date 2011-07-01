@@ -22,8 +22,7 @@
 
 #include "comment.h"
 #include "gamedetail.h"
-#include "gamedownload.h"
-#include "gameupload.h"
+#include "gamecontenttransfer.h"
 #include "rating.h"
 
 #include <core/directoryprovider.h>
@@ -270,7 +269,7 @@ GameDetail* ServiceProvider::fetchGames()
     return gameDetail;
 }
 
-GameDownload* ServiceProvider::downloadGame( const QString& id )
+GameContentTransfer* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
@@ -280,8 +279,8 @@ GameDownload* ServiceProvider::downloadGame( const QString& id )
     }
     destinationDir.cd( path );
 
-    GameDownload* gameDownload = new GameDownload( &d->provider, id, destinationDir.path() );
-    connect( this, SIGNAL( startDownloading() ), gameDownload, SLOT( startDownload() ) );
+    GameContentTransfer* gameContentTransfer = new GameContentTransfer( &d->provider, id, destinationDir.path() );
+    connect( this, SIGNAL( startDownloading() ), gameContentTransfer, SLOT( startDownload() ) );
 
     if( d->ready )
     {
@@ -289,16 +288,16 @@ GameDownload* ServiceProvider::downloadGame( const QString& id )
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDownload, SLOT( startDownload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentTransfer, SLOT( startDownload() ) );
     }
 
-    return gameDownload;
+    return gameContentTransfer;
 }
 
-GameUpload* ServiceProvider::uploadGame( const QString& id, const QString& path )
+GameContentTransfer* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
-    GameUpload* gameUpload = new GameUpload( &d->provider, id, path );
-    connect( this, SIGNAL( startUploading() ), gameUpload, SLOT( startUpload() ) );
+    GameContentTransfer* gameContentTransfer = new GameContentTransfer( &d->provider, id, path );
+    connect( this, SIGNAL( startUploading() ), gameContentTransfer, SLOT( startUpload() ) );
 
     if( d->ready )
     {
@@ -306,10 +305,10 @@ GameUpload* ServiceProvider::uploadGame( const QString& id, const QString& path 
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameUpload, SLOT( startUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentTransfer, SLOT( startUpload() ) );
     }
 
-    return gameUpload;
+    return gameContentTransfer;
 }
 
 Rating* ServiceProvider::setRating( const QString& id, uint rate )

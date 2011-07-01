@@ -81,4 +81,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_OCSCOMMENTSPROVIDER_H
+#endif // GLUONPLAYER_COMMENT_H

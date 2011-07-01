@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEDOWNLOAD_H
-#define GLUONPLAYER_GAMEDOWNLOAD_H
+#ifndef GLUONPLAYER_GAMECONTENTTRANSFER_H
+#define GLUONPLAYER_GAMECONTENTTRANSFER_H
 
 #include <QtCore/QObject>
 
@@ -27,34 +27,40 @@ class QNetworkReply;
 
 namespace Attica
 {
-class Provider;
-class BaseJob;
+    class Provider;
+    class BaseJob;
 }
 
 namespace GluonPlayer
 {
-    class GameDownload : public QObject
+    class GameContentTransfer : public QObject
     {
         Q_OBJECT
-        public:
-            GameDownload(Attica::Provider* provider, const QString& id, const QString& destinationDir,
-                        QObject* parent = 0);
-            virtual ~GameDownload();
+    public:
+        GameContentTransfer(Attica::Provider* provider, const QString& id, const QString& fileName,
+                             const QString& destinationDir = QString(), QObject* parent = 0);
+        virtual ~GameContentTransfer();
 
-        Q_SIGNALS:
-            void startedDownload();
-            void finished();
-            void failed();
+    Q_SIGNALS:
+        void startedDownload();
+        void downloadFinished();
+        void downloadFailed();
 
-        private Q_SLOTS:
-            void startDownload();
-            void processDownloadLink (Attica::BaseJob* baseJob);
-            void downloadComplete(QNetworkReply *reply);
+        void uploadFinished();
+        void uploadFailed();
 
-        private:
-            class Private;
-            Private* const d;
+    private Q_SLOTS:
+        void startDownload();
+        void processDownloadLink(Attica::BaseJob* baseJob);
+        void downloadComplete(QNetworkReply *reply);
+
+        void startUpload();
+        void uploadComplete(Attica::BaseJob* baseJob);
+
+    private:
+        class Private;
+        Private* const d;
     };
 }
 
-#endif // GLUONPLAYER_GAMEDOWNLOAD_H
+#endif // GLUONPLAYER_GAMECONTENTTRANSFER_H

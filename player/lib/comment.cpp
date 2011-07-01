@@ -107,6 +107,10 @@ public:
     {
     }
 
+    ~Private()
+    {
+    }
+
     Attica::Provider *provider;
     QString id;
     int page;
@@ -183,7 +187,7 @@ void Comment::uploadCommentsFinished(Attica::BaseJob* job)
 {
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>( job );
     if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
-        qDebug() << "ERROR " << commentsJob->metadata().error();
+        qDebug() << "ERROR:" << commentsJob->metadata().error();
         emit commentUploaded();
     } else {
         emit failedToUploadComment();
