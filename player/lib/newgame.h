@@ -17,12 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSCATEGORYPROVIDER_H
-#define GLUONPLAYER_OCSCATEGORYPROVIDER_H
+#ifndef GLUONPLAYER_NEWGAME_H
+#define GLUONPLAYER_NEWGAME_H
 
 #include <QtCore/QObject>
-
-#include "gluon_player_export.h"
 
 namespace Attica
 {
@@ -33,35 +31,21 @@ namespace Attica
 namespace GluonPlayer
 {
 
-    class GLUON_PLAYER_EXPORT OcsCategory : public QObject
+    class NewGame : public QObject
     {
             Q_OBJECT
         public:
-            explicit OcsCategory( const QString& id, const QString& categoryName, QObject* parent = 0 );
-            virtual ~OcsCategory();
-
-            QString id() const;
-            QString categoryName() const;
-
-        private:
-            class Private;
-            Private* const d;
-    };
-
-    class OcsCategoryProvider : public QObject
-    {
-            Q_OBJECT
-        public:
-            explicit OcsCategoryProvider( Attica::Provider* provider, QObject* parent = 0 );
-            virtual ~OcsCategoryProvider();
-
-        private Q_SLOTS:
-            void fetchCategories();
-            void processFetchedCategories( Attica::BaseJob* job );
+            explicit NewGame( Attica::Provider* provider, const QString& gameCategory,
+                                         const QString& gameName, QObject* parent = 0 );
+            virtual ~NewGame();
 
         Q_SIGNALS:
-            void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
+            void finished( const QString& id );
             void failed();
+
+        private Q_SLOTS:
+            void addNewGame();
+            void addNewGameComplete( Attica::BaseJob* baseJob );
 
         private:
             class Private;
@@ -71,5 +55,5 @@ namespace GluonPlayer
     };
 
 }
+#endif // GLUONPLAYER_NEWGAME_H
 
-#endif // GLUONPLAYER_OCSCATEGORYPROVIDER_H

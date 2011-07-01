@@ -39,9 +39,9 @@ namespace GluonPlayer
     class GameDownload;
     class GameUpload;
     class Rating;
-    class OcsNewGameProvider;
-    class OcsCategoryProvider;
-    class OcsEditGameProvider;
+    class NewGame;
+    class Category;
+    class EditGame;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -184,25 +184,25 @@ namespace GluonPlayer
              * @param gameName Name of the new game
              * @param gameCategory Category to which the new game belongs
              */
-            Q_INVOKABLE GluonPlayer::OcsNewGameProvider* addNewGame( const QString& gameName, const QString& categoryId );
+            Q_INVOKABLE GluonPlayer::NewGame* addNewGame( const QString& gameName, const QString& categoryId );
 
             /**
              * Request list of categories from the OCS server
              *
-             * @return a OcsCategoryProvider object which the caller must
+             * @return a Category object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE GluonPlayer::OcsCategoryProvider* fetchCategories();
+            Q_INVOKABLE GluonPlayer::Category* fetchCategories();
 
             /**
              * Edit an existing game on the server.
              *
              * @param id ID of the game
-             * @return a OcsEditGameProvider object which the caller can use to
+             * @return a EditGame object which the caller can use to
              * set new properties and then call its startEditionUpload() method
              * to start the upload of the changes.
              */
-            Q_INVOKABLE GluonPlayer::OcsEditGameProvider* editGame( const QString& id );
+            Q_INVOKABLE GluonPlayer::EditGame* editGame( const QString& id );
 
         private Q_SLOTS:
             void providersUpdated();

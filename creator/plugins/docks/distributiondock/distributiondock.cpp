@@ -23,9 +23,9 @@
 #include <engine/game.h>
 
 #include <player/lib/serviceprovider.h>
-#include <player/lib/ocsnewgameprovider.h>
-#include <player/lib/ocscategoryprovider.h>
-#include <player/lib/ocseditgameprovider.h>
+#include <player/lib/newgame.h>
+#include <player/lib/category.h>
+#include <player/lib/editgame.h>
 
 #include <KDE/KLocalizedString>
 
@@ -44,7 +44,7 @@ class DistributionDock::DistributionDockPrivate
         QWidget widget;
         Ui::DistributionDock ui;
         QStringList categoryIds;
-        GluonPlayer::OcsEditGameProvider* editGameProvider;
+        GluonPlayer::EditGame* editGameProvider;
         QStateMachine machine;
 
         QState* loggedOutState;
@@ -111,7 +111,7 @@ void DistributionDock::createOrUpdateGame()
 {
     if( d->ui.idEdit->text().isEmpty() )
     {
-        GluonPlayer::OcsNewGameProvider* newGameProvider = GluonPlayer::ServiceProvider::instance()->addNewGame(
+        GluonPlayer::NewGame* newGameProvider = GluonPlayer::ServiceProvider::instance()->addNewGame(
                     d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
         connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
@@ -157,18 +157,18 @@ void DistributionDock::editGameFailed( const QString& id )
 
 void DistributionDock::updateCategories()
 {
-    GluonPlayer::OcsCategoryProvider* provider = GluonPlayer::ServiceProvider::instance()->fetchCategories();
+    GluonPlayer::Category* provider = GluonPlayer::ServiceProvider::instance()->fetchCategories();
 
-    connect( provider, SIGNAL( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ),
-             SLOT( categoriesFetched( QList<GluonPlayer::OcsCategory*> ) ) );
+    connect( provider, SIGNAL( categoriesFetched( QList<GluonPlayer::CategoryItem*> ) ),
+             SLOT( categoriesFetched( QList<GluonPlayer::CategoryItem*> ) ) );
 }
 
-void DistributionDock::categoriesFetched( QList <GluonPlayer::OcsCategory*> categories )
+void DistributionDock::categoriesFetched( QList <GluonPlayer::CategoryItem*> categories )
 {
     d->ui.categoryList->clear();
     d->categoryIds.clear();
 
-    foreach( GluonPlayer::OcsCategory * category, categories )
+    foreach( GluonPlayer::CategoryItem * category, categories )
     {
         QString categoryString = category->categoryName();
 

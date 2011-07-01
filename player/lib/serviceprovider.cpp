@@ -25,9 +25,9 @@
 #include "gamedownload.h"
 #include "gameupload.h"
 #include "rating.h"
-#include "ocsnewgameprovider.h"
-#include "ocscategoryprovider.h"
-#include "ocseditgameprovider.h"
+#include "newgame.h"
+#include "category.h"
+#include "editgame.h"
 
 #include <core/directoryprovider.h>
 
@@ -354,9 +354,9 @@ GameDetail* ServiceProvider::fetchOneGame( const QString& id )
     return gameDetailsProvider;
 }
 
-OcsNewGameProvider* ServiceProvider::addNewGame( const QString& gameName, const QString& categoryId )
+NewGame* ServiceProvider::addNewGame( const QString& gameName, const QString& categoryId )
 {
-    OcsNewGameProvider* newGameProvider = new OcsNewGameProvider( &d->provider, categoryId , gameName );
+    NewGame* newGameProvider = new NewGame( &d->provider, categoryId , gameName );
     connect( this, SIGNAL( startAddingNewGame() ), newGameProvider, SLOT( addNewGame() ) );
 
     if( d->ready )
@@ -371,9 +371,9 @@ OcsNewGameProvider* ServiceProvider::addNewGame( const QString& gameName, const 
     return newGameProvider;
 }
 
-GluonPlayer::OcsCategoryProvider* ServiceProvider::fetchCategories()
+GluonPlayer::Category* ServiceProvider::fetchCategories()
 {
-    OcsCategoryProvider* categoryProvider = new OcsCategoryProvider( &d->provider );
+    Category* categoryProvider = new Category( &d->provider );
     connect( this, SIGNAL( startFetchingCategories() ), categoryProvider, SLOT( fetchCategories() ) );
 
     if( d->ready )
@@ -388,9 +388,9 @@ GluonPlayer::OcsCategoryProvider* ServiceProvider::fetchCategories()
     return categoryProvider;
 }
 
-OcsEditGameProvider* ServiceProvider::editGame( const QString& id )
+EditGame* ServiceProvider::editGame( const QString& id )
 {
-    OcsEditGameProvider* editGameProvider = new OcsEditGameProvider( &d->provider, id );
+    EditGame* editGameProvider = new EditGame( &d->provider, id );
     connect( this, SIGNAL( startEditGame() ), editGameProvider, SLOT( startFetchingExistingGame() ) );
 
     if( d->ready )

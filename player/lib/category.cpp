@@ -17,13 +17,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocscategoryprovider.h"
+#include "category.h"
 
 #include <attica/provider.h>
 
 using namespace GluonPlayer;
 
-class OcsCategory::Private
+class CategoryItem::Private
 {
     public:
         Private() { }
@@ -32,29 +32,29 @@ class OcsCategory::Private
         QString categoryName;
 };
 
-OcsCategory::OcsCategory( const QString& id, const QString& categoryName, QObject* parent )
+CategoryItem::CategoryItem( const QString& id, const QString& categoryName, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
     d->id = id;
     d->categoryName = categoryName;
 }
 
-OcsCategory::~OcsCategory()
+CategoryItem::~CategoryItem()
 {
     delete d;
 }
 
-QString OcsCategory::categoryName() const
+QString CategoryItem::categoryName() const
 {
     return d->categoryName;
 }
 
-QString OcsCategory::id() const
+QString CategoryItem::id() const
 {
     return d->id;
 }
 
-class OcsCategoryProvider::Private
+class Category::Private
 {
     public:
         Private() { }
@@ -62,35 +62,35 @@ class OcsCategoryProvider::Private
         Attica::Provider* provider;
 };
 
-OcsCategoryProvider::OcsCategoryProvider( Attica::Provider* provider, QObject* parent )
+Category::Category( Attica::Provider* provider, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
 }
 
-OcsCategoryProvider::~OcsCategoryProvider()
+Category::~Category()
 {
     delete d;
 }
 
-void OcsCategoryProvider::fetchCategories()
+void Category::fetchCategories()
 {
     Attica::ListJob<Attica::Category> *job = d->provider->requestCategories();
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCategories( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsCategoryProvider::processFetchedCategories( Attica::BaseJob* job )
+void Category::processFetchedCategories( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Category> *categoriesJob = static_cast<Attica::ListJob<Attica::Category> *>( job );
 
-    QList<OcsCategory*> categoryList;
+    QList<CategoryItem*> categoryList;
 
     if( categoriesJob->metadata().error() == Attica::Metadata::NoError )
     {
         foreach( Attica::Category category, categoriesJob->itemList() )
         {
-            OcsCategory* newCategory = new OcsCategory( category.id(), category.name(), this );
+            CategoryItem* newCategory = new CategoryItem( category.id(), category.name(), this );
             categoryList.append( newCategory );
         }
 
@@ -102,4 +102,4 @@ void OcsCategoryProvider::processFetchedCategories( Attica::BaseJob* job )
     }
 }
 
-#include "ocscategoryprovider.moc"
+#include "category.moc"

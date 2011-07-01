@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_OCSEDITGAMEPROVIDER_H
-#define GLUONPLAYER_OCSEDITGAMEPROVIDER_H
+#ifndef GLUONPLAYER_EDITGAME_H
+#define GLUONPLAYER_EDITGAME_H
 
 #include <QtCore/QObject>
 
@@ -33,12 +33,12 @@ namespace Attica
 namespace GluonPlayer
 {
 
-    class GLUON_PLAYER_EXPORT OcsEditGameProvider : public QObject
+    class GLUON_PLAYER_EXPORT EditGame : public QObject
     {
             Q_OBJECT
         public:
-            explicit OcsEditGameProvider( Attica::Provider* provider, const QString& id, QObject* parent = 0 );
-            virtual ~OcsEditGameProvider();
+            explicit EditGame( Attica::Provider* provider, const QString& id, QObject* parent = 0 );
+            virtual ~EditGame();
 
             void setCategory( const QString& categoryId );
             void setName( const QString& name );
@@ -78,4 +78,4 @@ namespace GluonPlayer
 
 }
 
-#endif // GLUONPLAYER_OCSEDITGAMEPROVIDER_H
+#endif // GLUONPLAYER_EDITGAME_H

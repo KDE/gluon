@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocseditgameprovider.h"
+#include "editgame.h"
 
 #include <attica/provider.h>
 #include <attica/content.h>
@@ -26,7 +26,7 @@
 
 using namespace GluonPlayer;
 
-class OcsEditGameProvider::Private
+class EditGame::Private
 {
     public:
         Private() { }
@@ -44,26 +44,26 @@ class OcsEditGameProvider::Private
         QString homepage;
 };
 
-OcsEditGameProvider::OcsEditGameProvider( Attica::Provider* provider, const QString& id, QObject* parent )
+EditGame::EditGame( Attica::Provider* provider, const QString& id, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
     d->provider = provider;
     d->id = id;
 }
 
-OcsEditGameProvider::~OcsEditGameProvider()
+EditGame::~EditGame()
 {
     delete d;
 }
 
-void OcsEditGameProvider::startFetchingExistingGame()
+void EditGame::startFetchingExistingGame()
 {
     Attica::ItemJob<Attica::Content> *job = d->provider->requestContent( d->id );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void OcsEditGameProvider::processFetchedGameDetails( Attica::BaseJob* job )
+void EditGame::processFetchedGameDetails( Attica::BaseJob* job )
 {
     Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content>*>( job );
 
@@ -78,7 +78,7 @@ void OcsEditGameProvider::processFetchedGameDetails( Attica::BaseJob* job )
     }
 }
 
-void OcsEditGameProvider::startEditionUpload()
+void EditGame::startEditionUpload()
 {
     if( !d->existingContent.isValid() )
     {
@@ -95,7 +95,7 @@ void OcsEditGameProvider::startEditionUpload()
     job->start();
 }
 
-void OcsEditGameProvider::editingComplete( Attica::BaseJob* job )
+void EditGame::editingComplete( Attica::BaseJob* job )
 {
     Attica::ItemPostJob<Attica::Content> *contentJob = static_cast<Attica::ItemPostJob<Attica::Content>*>( job );
 
@@ -109,48 +109,48 @@ void OcsEditGameProvider::editingComplete( Attica::BaseJob* job )
     }
 }
 
-void OcsEditGameProvider::setCategory( const QString& categoryId )
+void EditGame::setCategory( const QString& categoryId )
 {
     //TODO: Check that category is Gluon
     d->category = categoryId;
 }
 
-void OcsEditGameProvider::setChangelog( const QString& changelog )
+void EditGame::setChangelog( const QString& changelog )
 {
     d->changelog = changelog;
     applyChangelog();
 }
 
-void OcsEditGameProvider::setDescription( const QString& description )
+void EditGame::setDescription( const QString& description )
 {
     d->description = description;
     applyDescription();
 }
 
-void OcsEditGameProvider::setLicense( const QString& licenseId )
+void EditGame::setLicense( const QString& licenseId )
 {
     d->license = licenseId;
     applyLicense();
 }
 
-void OcsEditGameProvider::setName( const QString& name )
+void EditGame::setName( const QString& name )
 {
     d->name = name;
     applyName();
 }
 
-void OcsEditGameProvider::setVersion( const QString& version )
+void EditGame::setVersion( const QString& version )
 {
     d->version = version;
     applyVersion();
 }
 
-void OcsEditGameProvider::setHomepage( const QString& homepage )
+void EditGame::setHomepage( const QString& homepage )
 {
     d->homepage = homepage;
 }
 
-void OcsEditGameProvider::applyChangelog()
+void EditGame::applyChangelog()
 {
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "changelog", d->changelog );
@@ -158,7 +158,7 @@ void OcsEditGameProvider::applyChangelog()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyChangelog() ) );
 }
 
-void OcsEditGameProvider::applyDescription()
+void EditGame::applyDescription()
 {
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "description", d->description );
@@ -166,7 +166,7 @@ void OcsEditGameProvider::applyDescription()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDescription() ) );
 }
 
-void OcsEditGameProvider::applyLicense()
+void EditGame::applyLicense()
 {
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "licensetype", d->license );
@@ -174,7 +174,7 @@ void OcsEditGameProvider::applyLicense()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyLicense() ) );
 }
 
-void OcsEditGameProvider::applyName()
+void EditGame::applyName()
 {
     if( d->existingContent.isValid() )
         d->existingContent.setName( d->name );
@@ -182,7 +182,7 @@ void OcsEditGameProvider::applyName()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyName() ) );
 }
 
-void OcsEditGameProvider::applyVersion()
+void EditGame::applyVersion()
 {
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "version", d->version );
@@ -190,7 +190,7 @@ void OcsEditGameProvider::applyVersion()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyVersion() ) );
 }
 
-void OcsEditGameProvider::applyHomepage()
+void EditGame::applyHomepage()
 {
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "homepage", d->homepage );
@@ -198,4 +198,4 @@ void OcsEditGameProvider::applyHomepage()
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyHomepage() ) );
 }
 
-#include "ocseditgameprovider.moc"
+#include "editgame.moc"

@@ -17,14 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "ocsnewgameprovider.h"
+#include "newgame.h"
 
 #include <attica/provider.h>
 #include <attica/content.h>
 
 using namespace GluonPlayer;
 
-class OcsNewGameProvider::Private
+class NewGame::Private
 {
     public:
         Private() { }
@@ -34,7 +34,7 @@ class OcsNewGameProvider::Private
         QString gameName;
 };
 
-OcsNewGameProvider::OcsNewGameProvider( Attica::Provider* provider, const QString& gameCategory,
+NewGame::NewGame( Attica::Provider* provider, const QString& gameCategory,
                                         const QString& gameName, QObject* parent )
     : QObject( parent ), d( new Private() )
 {
@@ -43,12 +43,12 @@ OcsNewGameProvider::OcsNewGameProvider( Attica::Provider* provider, const QStrin
     d->gameName = gameName;
 }
 
-OcsNewGameProvider::~OcsNewGameProvider()
+NewGame::~NewGame()
 {
     delete d;
 }
 
-void OcsNewGameProvider::addNewGame()
+void NewGame::addNewGame()
 {
     Attica::Category category;
     category.setId( d->gameCategory );
@@ -61,7 +61,7 @@ void OcsNewGameProvider::addNewGame()
     job->start();
 }
 
-void OcsNewGameProvider::addNewGameComplete( Attica::BaseJob* baseJob )
+void NewGame::addNewGameComplete( Attica::BaseJob* baseJob )
 {
     Attica::ItemPostJob<Attica::Content>* job = static_cast<Attica::ItemPostJob<Attica::Content>*>( baseJob );
 
@@ -75,4 +75,4 @@ void OcsNewGameProvider::addNewGameComplete( Attica::BaseJob* baseJob )
     }
 }
 
-#include "ocsnewgameprovider.moc"
+#include "newgame.moc"

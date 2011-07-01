@@ -24,9 +24,9 @@ set(libGluonPlayer_SRCS
     models/installedgamesmodel.cpp
     archive/archiver.cpp
     archive/extractor.cpp
-    ocseditgameprovider.cpp
-    ocscategoryprovider.cpp
-    ocsnewgameprovider.cpp
+    editgame.cpp
+    category.cpp
+    newgame.cpp
     rating.cpp
     gameupload.cpp
     gamedownload.cpp

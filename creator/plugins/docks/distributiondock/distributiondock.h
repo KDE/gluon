@@ -24,7 +24,7 @@
 
 namespace GluonPlayer
 {
-    class OcsCategory;
+    class CategoryItem;
 }
 
 namespace GluonEngine
@@ -50,7 +50,7 @@ namespace GluonCreator
             void editGameFinished( const QString& id );
             void editGameFailed( const QString& id );
             void updateCategories();
-            void categoriesFetched( QList<GluonPlayer::OcsCategory*> categories );
+            void categoriesFetched( QList<GluonPlayer::CategoryItem*> categories );
             void loadCredentials();
             void initEditGameProvider();
 
