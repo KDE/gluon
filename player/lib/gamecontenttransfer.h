@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,12 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEUPLOAD_H
-#define GLUONPLAYER_GAMEUPLOAD_H
+#ifndef GLUONPLAYER_GAMECONTENTTRANSFER_H
+#define GLUONPLAYER_GAMECONTENTTRANSFER_H
 
 #include <QtCore/QObject>
 
 #include "gluon_player_export.h"
+
+class QNetworkReply;
 
 namespace Attica
 {
@@ -32,19 +35,29 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameUpload : public QObject
+    class GameContentTransfer : public QObject
     {
             Q_OBJECT
         public:
-            GameUpload( Attica::Provider* provider, const QString& id, const QString& fileName,
-                        QObject* parent = 0 );
-            virtual ~GameUpload();
+            GameContentTransfer( Attica::Provider* provider, const QString& id, const QString& fileName,
+                                 const QString& destinationDir = QString(), QObject* parent = 0 );
+            virtual ~GameContentTransfer();
 
         Q_SIGNALS:
-            void finished( const QString& id );
-            void failed( const QString& id );
+            void startedDownload();
+            void downloadFinished();
+            void downloadFailed();
+            void downloadProgress( qint64 bytesReceived, qint64 bytesTotal );
+
+            void uploadFinished();
+            void uploadFailed();
 
         private Q_SLOTS:
+            void startDownload();
+            void processDownloadLink( Attica::BaseJob* baseJob );
+            void downloadComplete( QNetworkReply* reply );
+            void updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal );
+
             void startUpload();
             void uploadComplete( Attica::BaseJob* baseJob );
 
@@ -54,4 +67,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_GAMEUPLOAD_H
+#endif // GLUONPLAYER_GAMECONTENTTRANSFER_H

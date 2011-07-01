@@ -58,10 +58,12 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addItem( m_loginButton );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect(GluonPlayer::ServiceProvider::instance(), SIGNAL(providerInitialized()), SLOT(initDone()));
-    connect(GluonPlayer::ServiceProvider::instance(), SIGNAL(failedToInitialize()), SLOT(initFailed()));
-    connect(GluonPlayer::ServiceProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
-    connect(GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()));
+
+    GluonPlayer::ServiceProvider *serviceProvider = GluonPlayer::ServiceProvider::instance();
+    connect(serviceProvider, SIGNAL(providerInitialized()), SLOT(initDone()));
+    connect(serviceProvider, SIGNAL(failedToInitialize()), SLOT(initFailed()));
+    connect(serviceProvider, SIGNAL(loggedIn()), SLOT(loginDone()));
+    connect(serviceProvider, SIGNAL(loginFailed()), SLOT(loginFailed()));
 
     initialize();
 }

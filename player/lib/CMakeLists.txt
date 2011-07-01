@@ -28,8 +28,7 @@ set(libGluonPlayer_SRCS
     category.cpp
     newgame.cpp
     rating.cpp
-    gameupload.cpp
-    gamedownload.cpp
+    gamecontenttransfer.cpp
     gamedetail.cpp
     comment.cpp
     serviceprovider.cpp

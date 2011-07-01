@@ -26,7 +26,7 @@
 #include <lib/models/downloadablegamesmodel.h>
 #include <lib/models/gameitem.h>
 #include <lib/serviceprovider.h>
-#include <lib/gamedownload.h>
+#include <lib/gamecontenttransfer.h>
 #include <lib/rating.h>
 
 #include <KLineEdit>
@@ -50,8 +50,8 @@ void GluonPlayerImportsPlugin::registerTypes( const char* uri )
 
     qmlRegisterType<GluonPlayerAdapter>( uri, 0, 1, "GluonPlayerAdapter" );
 
-    qmlRegisterUncreatableType<GameDownload>( uri, 0, 1, "GameDownload",
-            "GameDownload is not meant to be instantiated directly, only ServiceProvider will create and return \
+    qmlRegisterUncreatableType<GameContentTransfer>( uri, 0, 1, "GameContentTransfer",
+            "GameContentTransfer is not meant to be instantiated directly, only ServiceProvider will create and return \
         an instance" );
 
     qmlRegisterUncreatableType<Rating>( uri, 0, 1, "Rating",
