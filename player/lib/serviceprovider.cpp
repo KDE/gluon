@@ -27,6 +27,7 @@
 #include "newgame.h"
 #include "category.h"
 #include "editgame.h"
+#include "license.h"
 
 #include <core/directoryprovider.h>
 
@@ -390,7 +391,7 @@ GluonPlayer::Category* ServiceProvider::fetchCategories()
 EditGame* ServiceProvider::editGame( const QString& id )
 {
     EditGame* editGameProvider = new EditGame( &d->provider, id );
-    connect( this, SIGNAL( startEditGame()), editGameProvider, SLOT( startFetchingExistingGame() ) );
+    connect( this, SIGNAL( startEditGame() ), editGameProvider, SLOT( startFetchingExistingGame() ) );
 
     if( d->ready )
     {
@@ -402,6 +403,23 @@ EditGame* ServiceProvider::editGame( const QString& id )
     }
 
     return editGameProvider;
+}
+
+License* ServiceProvider::fetchLicenses()
+{
+    License* license = new License( &d->provider );
+    connect( this, SIGNAL( startFetchingLicenses() ), license, SLOT( fetchLicenses() ) );
+
+    if( d->ready )
+    {
+        emit startFetchingLicenses();
+    }
+    else
+    {
+        connect( this, SIGNAL( providerInitialized() ), license, SLOT( fetchLicenses() ) );
+    }
+
+    return license;
 }
 
 #include "serviceprovider.moc"

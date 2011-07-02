@@ -22,8 +22,6 @@
 #include <attica/provider.h>
 #include <attica/content.h>
 
-#include <QDebug>
-
 using namespace GluonPlayer;
 
 class EditGame::Private
@@ -87,7 +85,6 @@ void EditGame::startEditionUpload()
     }
 
     Attica::Category category;
-    //We don't have any way to fetch existing category from attica :(
     category.setId( d->category.isEmpty() ? "4440" : d->category );
 
     Attica::ItemPostJob<Attica::Content> *job = d->provider->editContent( category, d->id, d->existingContent );

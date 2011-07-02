@@ -25,6 +25,8 @@
 namespace GluonPlayer
 {
     class CategoryItem;
+    class GameDetailItem;
+    class LicenseItem;
 }
 
 namespace GluonEngine
@@ -53,6 +55,9 @@ namespace GluonCreator
             void categoriesFetched( QList<GluonPlayer::CategoryItem*> categories );
             void loadCredentials();
             void initEditGameProvider();
+            void gameDetailsFetched( GluonPlayer::GameDetailItem* gameDetails );
+            void updateLicenses();
+            void licensesFetched( QList<GluonPlayer::LicenseItem*> licenses );
 
         Q_SIGNALS:
             void switchToCreateMode();
@@ -64,6 +69,7 @@ namespace GluonCreator
             DistributionDockPrivate* const d;
 
             void initGuiStates();
+            void fetchExistingGameDetails();
     };
 
 }

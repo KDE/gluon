@@ -24,6 +24,7 @@ set(libGluonPlayer_SRCS
     models/installedgamesmodel.cpp
     archive/archiver.cpp
     archive/extractor.cpp
+    license.cpp
     editgame.cpp
     category.cpp
     newgame.cpp

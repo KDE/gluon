@@ -41,6 +41,7 @@ namespace GluonPlayer
     class NewGame;
     class Category;
     class EditGame;
+    class License;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -203,6 +204,14 @@ namespace GluonPlayer
              */
             Q_INVOKABLE GluonPlayer::EditGame* editGame( const QString& id );
 
+            /**
+             * Request list of licenses from the OCS server
+             *
+             * @return a License object which the caller must
+             * monitor to find out the result of the operation
+             */
+            Q_INVOKABLE GluonPlayer::License* fetchLicenses();
+
         private Q_SLOTS:
             void providersUpdated();
             void checkLoginResult( Attica::BaseJob* baseJob );
@@ -242,6 +251,7 @@ namespace GluonPlayer
             void startAddingNewGame();
             void startFetchingCategories();
             void startEditGame();
+            void startFetchingLicenses();
 
         private:
             ~ServiceProvider();

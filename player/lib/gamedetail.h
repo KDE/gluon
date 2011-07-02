@@ -42,15 +42,20 @@ namespace GluonPlayer
                 Upgradable
             };
 
-            GameDetailItem( const QString& gameName, const QString& gameDescription,
-                            const QString& projectDirName, const QString& projectFileName,
-                            const QStringList& screenshotUrls, int rating,
-                            GluonPlayer::GameDetailItem::Status status,
+            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString &version,
+                            const QString &category, const QString& homePage, const QString &license,
+                            const QString &changelog, const QString& projectDirName, const QString& projectFileName,
+                            const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
                             const QString id, QObject* parent = 0 );
             virtual ~GameDetailItem();
 
             QString gameName() const;
             QString gameDescription() const;
+            QString version() const;
+            QString category() const;
+            QString homePage() const;
+            QString license() const;
+            QString changelog() const;
             QString projectDirName() const;
             QString projectFileName() const;
             QStringList screenshotUrls() const;
@@ -71,10 +76,10 @@ namespace GluonPlayer
             GameDetail( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
 
         Q_SIGNALS:
-            void gameListFetched( QList<GameDetailItem*> gameList );
+            void gameListFetched( QList<GluonPlayer::GameDetailItem*> gameList );
             void failedToFetchGameList();
 
-            void gameDetailsFetched( GameDetailItem* gameDetails );
+            void gameDetailsFetched( GluonPlayer::GameDetailItem* gameDetails );
             void failedToFetchGameDetails( const QString& id );
 
         private Q_SLOTS:

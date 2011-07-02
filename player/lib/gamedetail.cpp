@@ -41,6 +41,11 @@ class GameDetailItem::Private
 
         QString gameName;
         QString gameDescription;
+        QString version;
+        QString category;
+        QString homePage;
+        QString license;
+        QString changelog;
         QString projectDirName;
         QString projectFileName;
         QStringList screenshotUrls;
@@ -49,16 +54,21 @@ class GameDetailItem::Private
         QString id;
 };
 
-GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription,
-                                const QString& projectDirName, const QString& projectFileName,
-                                const QStringList& screenshotUrls, int rating,
-                                GluonPlayer::GameDetailItem::Status status,
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
+                                const QString& category, const QString& homePage, const QString& license,
+                                const QString& changelog, const QString& projectDirName, const QString& projectFileName,
+                                const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
                                 const QString id, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
+    d->version = version;
+    d->category = category;
+    d->homePage = homePage;
+    d->license = license;
+    d->changelog = changelog;
     d->projectDirName = projectDirName;
     d->projectFileName = projectFileName;
     d->screenshotUrls = screenshotUrls;
@@ -75,6 +85,31 @@ GameDetailItem::~GameDetailItem()
 QString GameDetailItem::gameDescription() const
 {
     return d->gameDescription;
+}
+
+QString GameDetailItem::version() const
+{
+    return d->version;
+}
+
+QString GameDetailItem::category() const
+{
+    return d->category;
+}
+
+QString GameDetailItem::homePage() const
+{
+    return d->homePage;
+}
+
+QString GameDetailItem::license() const
+{
+    return d->license;
+}
+
+QString GameDetailItem::changelog() const
+{
+    return d->changelog;
 }
 
 QString GameDetailItem::gameName() const
@@ -167,12 +202,11 @@ void GameDetail::processFetchedGamesList( Attica::BaseJob* job )
     {
         foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
-                    QStringList(), content.rating(), GameDetailItem::Downloadable,
-                    content.id() );
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(),
+                    content.attribute("typeid"), content.homePageEntry( 0 ).url().toString(),
+                    content.license(), content.changelog(), "", "", QStringList(),
+                    content.rating(), GameDetailItem::Downloadable, content.id() );
             list.append( details );
-            //Uncomment to test download, downloads to install dir/games/id
-            //ServiceProvider::instance()->downloadGame(details->id());
         }
 
         emit gameListFetched( list );
@@ -197,9 +231,10 @@ void GameDetail::processFetchedGameDetails( Attica::BaseJob* job )
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         Attica::Content content = contentJob->result();
-        GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
-                                              QStringList(), content.rating(), GameDetailItem::Downloadable,
-                                              content.id() );
+        GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(),
+                content.attribute("typeid"), content.homePageEntry( 0 ).url().toString(),
+                content.license(), content.changelog(), "", "", QStringList(),
+                content.rating(), GameDetailItem::Downloadable, content.id() );
         emit gameDetailsFetched( details );
     }
     else
@@ -210,3 +245,4 @@ void GameDetail::processFetchedGameDetails( Attica::BaseJob* job )
 
 
 #include "gamedetail.moc"
+

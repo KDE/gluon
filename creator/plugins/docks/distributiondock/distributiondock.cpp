@@ -26,6 +26,8 @@
 #include <player/lib/newgame.h>
 #include <player/lib/category.h>
 #include <player/lib/editgame.h>
+#include <player/lib/gamedetail.h>
+#include <player/lib/license.h>
 
 #include <KDE/KLocalizedString>
 
@@ -46,6 +48,7 @@ class DistributionDock::DistributionDockPrivate
         QStringList categoryIds;
         GluonPlayer::EditGame* editGameProvider;
         QStateMachine machine;
+        QStringList licenseIds;
 
         QState* loggedOutState;
         QState* loggingInState;
@@ -73,6 +76,7 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
              SLOT( updateUiFromGameProject( ) ) );
 
     updateCategories();
+    updateLicenses();
     loadCredentials();
 
     setWidget( &d->widget );
@@ -89,7 +93,6 @@ void DistributionDock::updateUiFromGameProject()
         return;
 
     QString id = GluonEngine::Game::instance()->gameProject()->property( "id" ).toString();
-
     d->ui.idEdit->setText( id );
 
     if( id.isEmpty() )
@@ -98,7 +101,9 @@ void DistributionDock::updateUiFromGameProject()
     }
     else
     {
-        emit switchToUpdateMode();
+        GluonPlayer::GameDetail* gameDetail = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
+        connect( gameDetail, SIGNAL( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ),
+                 SLOT( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ) );
     }
 }
 
@@ -112,7 +117,7 @@ void DistributionDock::createOrUpdateGame()
     if( d->ui.idEdit->text().isEmpty() )
     {
         GluonPlayer::NewGame* newGameProvider = GluonPlayer::ServiceProvider::instance()->addNewGame(
-                    d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
+                d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
         connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
     }
@@ -276,6 +281,39 @@ void DistributionDock::initGuiStates()
     connect( d->editingState, SIGNAL( entered() ), SLOT( initEditGameProvider() ) );
 
     d->machine.start();
+}
+
+void DistributionDock::gameDetailsFetched( GluonPlayer::GameDetailItem* gameDetails )
+{
+    d->ui.categoryList->setCurrentIndex( d->categoryIds.indexOf( gameDetails->category() ) );
+    d->ui.gameNameEdit->setText( gameDetails->gameName() );
+    d->ui.versionEdit->setText( gameDetails->version() );
+    d->ui.homepageEdit->setText( gameDetails->homePage() );
+    d->ui.licenseList->setCurrentIndex( d->licenseIds.indexOf( gameDetails->license() ) );
+    d->ui.descriptionEdit->setPlainText( gameDetails->gameDescription() );
+    d->ui.changelogEdit->setPlainText( gameDetails->changelog() );
+
+    emit switchToUpdateMode();
+}
+
+void DistributionDock::updateLicenses()
+{
+    GluonPlayer::License* license = GluonPlayer::ServiceProvider::instance()->fetchLicenses();
+
+    connect( license, SIGNAL( licensesFetched( QList<GluonPlayer::LicenseItem*> ) ),
+             SLOT( licensesFetched( QList<GluonPlayer::LicenseItem*> ) ) );
+}
+
+void DistributionDock::licensesFetched( QList< GluonPlayer::LicenseItem* > licenses )
+{
+    d->ui.licenseList->clear();
+    d->licenseIds.clear();
+
+    foreach( GluonPlayer::LicenseItem * license, licenses )
+    {
+        d->licenseIds.append( license->id() );
+        d->ui.licenseList->addItem( license->licenseName() );
+    }
 }
 
 #include "distributiondock.moc"
