@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 project(Gluon)
 
 set(GLUON_VERSION_MAJOR     0)
-set(GLUON_VERSION_MINOR     71)
+set(GLUON_VERSION_MINOR     72)
 set(GLUON_VERSION_PATCH     0)
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
-set(GLUON_VERSION_NAME      "Electron")
+set(GLUON_VERSION_NAME      "Alpha Particle")
 
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
