@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 project(Gluon)
 
 set(GLUON_VERSION_MAJOR     0)
-set(GLUON_VERSION_MINOR     71)
+set(GLUON_VERSION_MINOR     72)
 set(GLUON_VERSION_PATCH     0)
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
-set(GLUON_VERSION_NAME      "Electron")
+set(GLUON_VERSION_NAME      "Alpha Particle")
 
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
@@ -133,6 +133,9 @@ message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}"
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
 message(STATUS "Build Gluon Input Library (BUILD_GLUON_INPUT): ${BUILD_GLUON_INPUT}")
 message(STATUS "Build Gluon Graphics Library (BUILD_GLUON_GRAPHICS): ${BUILD_GLUON_GRAPHICS}")
+if(BUILD_GLUON_GRAPHICS)
+    message(STATUS "    Build Mesh loading support: ${GLUON_GRAPHICS_HAS_MESH}")
+endif(BUILD_GLUON_GRAPHICS)
 message(STATUS "Build Gluon Engine Library (BUILD_GLUON_ENGINE): ${BUILD_GLUON_ENGINE}")
 if(BUILD_GLUON_ENGINE)
     message(STATUS "    Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}")
