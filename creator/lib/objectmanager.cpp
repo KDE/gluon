@@ -301,7 +301,7 @@ void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 }
 
 ObjectManager::ObjectManager( QObject* parent )
-    : Singleton< GluonCreator::ObjectManager >( parent ), d( new Private() )
+    : GluonCore::Singleton< GluonCreator::ObjectManager >( parent ), d( new Private() )
 {
     connect( KDirWatch::self(), SIGNAL( dirty( const QString& ) ), SLOT( assetDirty( const QString& ) ) );
     connect( KDirWatch::self(), SIGNAL( created( const QString& ) ), SLOT( assetDirty( const QString& ) ) );

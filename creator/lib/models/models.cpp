@@ -43,7 +43,7 @@ class Models::Private
 GLUON_DEFINE_SINGLETON( Models )
 
 Models::Models( QObject* parent )
-    : Singleton< GluonCreator::Models >( parent ), d( new Private )
+    : GluonCore::Singleton< GluonCreator::Models >( parent ), d( new Private )
 {
 }
 

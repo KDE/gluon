@@ -32,7 +32,7 @@ using namespace GluonCore;
 GLUON_DEFINE_SINGLETON( GDLHandler )
 
 GDLHandler::GDLHandler( QObject* parent )
-    : Singleton< GluonCore::GDLHandler >( parent )
+    : GluonCore::Singleton< GluonCore::GDLHandler >( parent )
 {
 }
 

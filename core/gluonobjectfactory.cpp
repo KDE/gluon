@@ -227,7 +227,7 @@ GluonObjectFactory::loadPlugins()
 }
 
 GluonObjectFactory::GluonObjectFactory ( QObject* parent )
-    : Singleton< GluonCore::GluonObjectFactory >( parent )
+    : GluonCore::Singleton< GluonCore::GluonObjectFactory >( parent )
 {
 
 }

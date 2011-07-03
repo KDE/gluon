@@ -17,6 +17,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "engine.h"
 
 #include <QtGui/QVector3D>
@@ -42,7 +43,7 @@ class Engine::EnginePrivate
 };
 
 Engine::Engine ( QObject* parent )
-    : Singleton< GluonAudio::Engine >( parent ), d( new EnginePrivate )
+    : GluonCore::Singleton< GluonAudio::Engine >( parent ), d( new EnginePrivate )
 {
     alureInitDevice( 0, 0 );
     alureUpdateInterval( 0.125 );

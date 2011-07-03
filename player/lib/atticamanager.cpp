@@ -30,7 +30,7 @@ using namespace GluonPlayer;
 GLUON_DEFINE_SINGLETON( AtticaManager )
 
 AtticaManager::AtticaManager( QObject* parent )
-    : Singleton< GluonPlayer::AtticaManager >( parent )
+    : GluonCore::Singleton< GluonPlayer::AtticaManager >( parent )
 {
     connect( &m_manager, SIGNAL( defaultProvidersLoaded() ), SLOT( providersUpdated() ) );
     m_manager.loadDefaultProviders();

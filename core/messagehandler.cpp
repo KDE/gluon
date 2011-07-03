@@ -88,7 +88,7 @@ void MessageHandler::publish( const QString& message )
 }
 
 MessageHandler::MessageHandler( QObject* parent )
-    : Singleton< GluonCore::MessageHandler >( parent ), d( new Private )
+    : GluonCore::Singleton< GluonCore::MessageHandler >( parent ), d( new Private )
 {
 
 }

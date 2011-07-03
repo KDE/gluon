@@ -87,7 +87,7 @@ void DockManager::setMainWindow( KXmlGuiWindow* window )
 }
 
 DockManager::DockManager( QObject* parent )
-    : Singleton< GluonCreator::DockManager >( parent ), d( new DockManagerPrivate )
+    : GluonCore::Singleton< GluonCreator::DockManager >( parent ), d( new DockManagerPrivate )
 {
 
 }

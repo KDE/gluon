@@ -100,7 +100,7 @@ void PluginManager::loadPlugins()
 }
 
 PluginManager::PluginManager( QObject* parent )
-    : Singleton< GluonCreator::PluginManager >( parent ), d( new PluginManagerPrivate )
+    : GluonCore::Singleton< GluonCreator::PluginManager >( parent ), d( new PluginManagerPrivate )
 {
 }
 

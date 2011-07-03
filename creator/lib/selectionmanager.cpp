@@ -38,7 +38,7 @@ class SelectionManager::SelectionManagerPrivate
 GLUON_DEFINE_SINGLETON( SelectionManager )
 
 SelectionManager::SelectionManager( QObject* parent )
-    : Singleton< GluonCreator::SelectionManager >( parent ), d( new SelectionManagerPrivate )
+    : GluonCore::Singleton< GluonCreator::SelectionManager >( parent ), d( new SelectionManagerPrivate )
 {
 
 }

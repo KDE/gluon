@@ -53,7 +53,7 @@ class I : public QThread
 };
 
 Game::Game( QObject* parent )
-    : Singleton< GluonEngine::Game >( parent ), d( new GamePrivate( this ) )
+    : GluonCore::Singleton< GluonEngine::Game >( parent ), d( new GamePrivate( this ) )
 {
     qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 }

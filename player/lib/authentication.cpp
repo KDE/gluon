@@ -48,7 +48,7 @@ class Authentication::Private
 };
 
 Authentication::Authentication( QObject* parent )
-    : Singleton< GluonPlayer::Authentication >( parent ), d( new Private() )
+    : GluonCore::Singleton< GluonPlayer::Authentication >( parent ), d( new Private() )
 {
     init();
 }

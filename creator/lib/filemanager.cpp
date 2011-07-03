@@ -144,7 +144,7 @@ void FileManager::setCurrentFile( const QString& file )
 }
 
 FileManager::FileManager( QObject* parent )
-    : Singleton< GluonCreator::FileManager >( parent ), d( new FileManagerPrivate )
+    : GluonCore::Singleton< GluonCreator::FileManager >( parent ), d( new FileManagerPrivate )
 {
 }
 
