@@ -63,7 +63,7 @@ class DistributionDock::DistributionDockPrivate
 };
 
 DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
-    : d( new DistributionDockPrivate() )
+    : QDockWidget( title, parent, flags ), d( new DistributionDockPrivate() )
 {
     setObjectName( "Distribution Dock" );
 
