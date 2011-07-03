@@ -148,8 +148,8 @@ namespace GluonCore
 
 #define GLUON_SINGLETON(Type) \
     private:\
-        friend class Singleton<Type>;\
+        friend class GluonCore::Singleton<Type>;\
         Type( QObject* parent );\
-        Q_DISABLE_COPY(Type)\
+        Q_DISABLE_COPY(Type)
 
 #endif //GLUON_CORE_SINGLETON
