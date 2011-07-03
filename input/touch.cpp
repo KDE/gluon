@@ -29,6 +29,12 @@ Touch::Touch( InputThread* inputThread, QObject* parent )
 {
 }
 
+Touch::Touch( const Touch& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
+{
+}
+
 Touch::~Touch()
 {
 }
