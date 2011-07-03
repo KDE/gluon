@@ -106,6 +106,17 @@ void FileMesh::load( const QString& filename )
             }
             buffer->addAttribute(colors);
         }
+
+        if( mesh->HasNormals() )
+        {
+            VertexAttribute normals("normal", 3);
+            for( uint i = 0; i < mesh->mNumVertices; ++i )
+            {
+                aiVector3D normal = mesh->mNormals[i];
+                normals << normal.x << normal.y << normal.z;
+            }
+            buffer->addAttribute(normals);
+        }
     }
 
     buffer->initialize();
