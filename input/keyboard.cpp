@@ -29,6 +29,12 @@ Keyboard::Keyboard( InputThread* inputThread, QObject* parent )
 {
 }
 
+Keyboard::Keyboard( const Keyboard& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
+{
+}
+
 Keyboard::~Keyboard()
 {
 }

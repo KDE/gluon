@@ -35,10 +35,12 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit Keyboard( InputThread* inputThread, QObject* parent = 0 );
+            Keyboard( const Keyboard& other, InputThread* inputThread = 0, QObject* parent = 0 );
             virtual ~Keyboard();
 
         private:
             QSharedDataPointer<KeyboardPrivate> d;
     };
 }
-#endif // KCLKEYBOARD_H
+
+#endif // KEYBOARD_H
