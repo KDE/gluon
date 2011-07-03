@@ -56,7 +56,6 @@ set(GluonGraphics_SRCS
     item.cpp
     engine.cpp
     mesh.cpp
-    filemesh.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
 )
