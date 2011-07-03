@@ -42,7 +42,7 @@ ENDIF(ALURE_INCLUDE_DIR)
 
   find_library(ALURE_LIBRARY
     NAMES
-      alure alure 32
+      alure alure32
     PATHS
       /usr/lib
       /usr/local/lib
