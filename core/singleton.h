@@ -74,7 +74,7 @@
  * GLUON_DEFINE_SINGLETON( Example ) //Define the static variables
  *
  * Example::Example( QObject* parent ) //Constructor definition
- *     : Singleton< Example >( parent )
+ *     : GluonCore::Singleton< Example >( parent )
  * {
  * }
  *
