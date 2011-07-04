@@ -21,15 +21,15 @@ set(libGluonCreator_SRCS
     models/scenemodel.cpp
     models/modeltest.cpp
 
+    widgets/enumpropertywidgetitem.cpp
     widgets/filearea.cpp
+    widgets/gluonobjectpropertywidgetitem.cpp
+    widgets/nullpropertywidgetitem.cpp
+    widgets/prefabcontrols.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
-    widgets/prefabcontrols.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
-    widgets/nullpropertywidgetitem.cpp
-    widgets/gluonobjectpropertywidgetitem.cpp
-    widgets/enumpropertywidgetitem.cpp
     widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
@@ -52,8 +52,8 @@ target_link_libraries(libGluonCreator
 
 set(GLUON_CREATOR_LIBS
     libGluonCreator
-    ${GLUON_ENGINE_LIBS}
     ${GLUON_PLAYER_LIBS}
+    ${GLUON_ENGINE_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}
@@ -65,19 +65,19 @@ install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LI
 
 
 install(FILES
-    plugin.h
-    dockplugin.h
-    toolplugin.h
-    dockmanager.h
-    pluginmanager.h
-    historymanager.h
-    objectmanager.h
-    selectionmanager.h
-    gluoncreator_macros.h
     abstractundocommand.h
-    newobjectcommand.h
     deleteobjectcommand.h
+    dockmanager.h
+    dockplugin.h
+    gluoncreator_macros.h
+    historymanager.h
+    newobjectcommand.h
+    objectmanager.h
+    plugin.h
+    pluginmanager.h
     propertychangedcommand.h
+    selectionmanager.h
+    toolplugin.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
     COMPONENT Devel
 )

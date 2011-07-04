@@ -33,21 +33,21 @@ set(GLUON_AUDIO_INCLUDES
 )
 
 set(GluonAudio_SRCS
-    engine.cpp
     capture.cpp
-    sound.cpp
+    engine.cpp
     player.cpp
+    sound.cpp
 
     capturedevice_p.cpp
     device_p.cpp
 )
 
 set(GluonAudio_HEADERS
-    engine.h
-    sound.h
-    player.h
     capture.h
+    engine.h
     gluon_audio_export.h
+    player.h
+    sound.h
 )
 
 qt4_automoc(${GluonAudio_SRCS})

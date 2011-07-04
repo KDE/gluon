@@ -37,12 +37,12 @@ set(GluonCore_SRCS
     directoryprovider.cpp
     debughelper.cpp
     gdlhandler.cpp
-    messagehandler.cpp
-    metainfo.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
-    scriptengine.cpp
+    messagehandler.cpp
+    metainfo.cpp
     referencecounter.cpp
+    scriptengine.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QVector2D.cpp
@@ -55,15 +55,15 @@ set(GluonCore_SRCS
 set(GluonCore_HEADERS
     debughelper.h
     gdlhandler.h
-    metainfo.h
-    messagehandler.h
+    gluon_core_export.h
     gluonobject.h
     gluonobjectfactory.h
-    singleton.h
-    scriptengine.h
-    gluon_core_export.h
     gluonvarianttypes.h
+    messagehandler.h
+    metainfo.h
     referencecounter.h
+    scriptengine.h
+    singleton.h
 
     ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )

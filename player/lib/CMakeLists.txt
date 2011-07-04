@@ -5,28 +5,29 @@ find_package(LibAttica)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_ENGINE_INCLUDES}
     ${GLUON_GRAPHICS_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES}
     ${LIBATTICA_INCLUDE_DIR}
 )
 
 set(GLUON_PLAYER_INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_ENGINE_INCLUDES}
     ${GLUON_GRAPHICS_INCLUDES}
+    ${GLUON_ENGINE_INCLUDES}
     ${LIBATTICA_INCLUDE_DIR}
     CACHE INTERNAL "Include files required for Gluon Player"
 )
 
 set(libGluonPlayer_SRCS
-    rating.cpp
-    gamecontenttransfer.cpp
-    gamedetail.cpp
-    comment.cpp
-    serviceprovider.cpp
     atticamanager.cpp
     authentication.cpp
+    comment.cpp
+    gamecontenttransfer.cpp
+    gamedetail.cpp
+    rating.cpp
+    serviceprovider.cpp
+
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -48,8 +49,8 @@ target_link_libraries(libGluonPlayer
 set(GLUON_PLAYER_LIBS
     libGluonPlayer
     ${LIBATTICA_LIBRARIES}
-    ${GLUON_ENGINE_LIBS}
     ${GLUON_CORE_LIBS}
+    ${GLUON_ENGINE_LIBS}
     ${QT_QTNETWORK_LIBRARY}
     CACHE INTERNAL "Libraries required for Gluon Player"
 )
@@ -64,19 +65,20 @@ install(
 install(FILES
     atticamanager.h
     authentication.h
-    models/gameviewitem.h
-    models/gameitemsmodel.h
+
     models/commentitemsmodel.h
     models/commentsmodel.h
+    models/gameviewitem.h
+    models/gameitemsmodel.h
     models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
     COMPONENT Devel
 )
 
 install(FILES
-    models/highscoresmodel.h
-    models/gameitemsmodel.h
     models/commentitemsmodel.h
+    models/gameitemsmodel.h
+    models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
     COMPONENT Devel
 )

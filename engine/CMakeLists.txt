@@ -52,6 +52,8 @@ set(GluonEngine_SRCS
     component.cpp
     componentprivate.cpp
     databasemanager.cpp
+    filelocation.cpp
+    filelocationprivate.cpp
     gameobject.cpp
     gameobjectprivate.cpp
     gameproject.cpp
@@ -63,8 +65,6 @@ set(GluonEngine_SRCS
     savable.cpp
     scene.cpp
     sceneprivate.cpp
-    filelocation.cpp
-    filelocationprivate.cpp
     statistic.cpp
 
     game.cpp
@@ -76,6 +76,7 @@ set(GluonEngine_HEADERS
     asset.h
     component.h
     databasemanager.h
+    filelocation.h
     gameobject.h
     gameproject.h
     prefab.h
@@ -83,12 +84,11 @@ set(GluonEngine_HEADERS
     prefabinstancechild.h
     savable.h
     scene.h
-    filelocation.h
     statistic.h
 
+    game.h
     gluon_engine_export.h
     gluon_engine_metatypes.h
-    game.h
 )
 
 qt4_automoc(${GluonEngine_SRCS})

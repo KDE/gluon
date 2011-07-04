@@ -7,19 +7,20 @@ include_directories(
 )
 
 set(kdeextplayer_SRCS
-    main.cpp
-    mainwindow.cpp
-    overlay.cpp
     gamesoverlay.cpp
     gamedetailsoverlay.cpp
     loginform.cpp
-    delegates/itemsviewdelegate.cpp
+    main.cpp
+    mainwindow.cpp
+    overlay.cpp
+
     delegates/commentitemsviewdelegate.cpp
+    delegates/itemsviewdelegate.cpp
     models/listmodel.cpp
     views/abstractitemview.cpp
     views/achievementsview.cpp
-    views/newcommentform.cpp
     views/gametextlabel.cpp
+    views/newcommentform.cpp
 )
 
 if(APPLE)

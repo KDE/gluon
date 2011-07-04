@@ -41,47 +41,47 @@ if(ASSIMP_FOUND)
 endif(ASSIMP_FOUND)
 
 set(GluonGraphics_SRCS
-    rendertarget.cpp
     backendcapabilities.cpp
-    mathutils.cpp
-    frustrum.cpp
-    material.cpp
-    materialinstance.cpp
-    technique.cpp
-    materialelement.cpp
     camera.cpp
-    renderwidget.cpp
-    viewport.cpp
-    vertex.cpp
-    texture.cpp
-    item.cpp
     engine.cpp
+    frustrum.cpp
+    item.cpp
+    material.cpp
+    materialelement.cpp
+    materialinstance.cpp
+    mathutils.cpp
+    rendertarget.cpp
+    renderwidget.cpp
+    technique.cpp
+    texture.cpp
     mesh.cpp
+    vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
+    viewport.cpp
 )
 
 set(GluonGraphics_HEADERS
     backendcapabilities.h
-    gluon_graphics_export.h
     camera.h
-    renderwidget.h
-    viewport.h
-    vertex.h
-    texture.h
-    item.h
     engine.h
-    mesh.h
-    mathutils.h
     frustrum.h
+    glheaders.h
+    gluon_graphics_export.h
+    item.h
+    mesh.h
     material.h
-    materialinstance.h
-    technique.h
     materialelement.h
+    materialinstance.h
+    mathutils.h
+    rendertarget.h
+    renderwidget.h
+    technique.h
+    texture.h
+    vertex.h
     vertexbuffer.h
     vertexattribute.h
-    rendertarget.h
-    glheaders.h
+    viewport.h
 )
 
 if(ASSIMP_FOUND)
@@ -154,7 +154,7 @@ install(FILES
 
 install(
     FILES
-    default.png
     default.gml
+    default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )

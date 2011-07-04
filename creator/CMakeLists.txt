@@ -7,8 +7,8 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
     find_package(GluonInput REQUIRED)
     find_package(GluonGraphics REQUIRED)
-    find_package(GluonEngine REQUIRED)
     find_package(GluonPlayer REQUIRED)
+    find_package(GluonEngine REQUIRED)
 endif()
 
 include_directories(
@@ -36,10 +36,10 @@ set(gluoncreator_SRCS
     mainwindow.cpp
 
     dialogs/configdialog.cpp
-    dialogs/projectselectiondialog.cpp
     dialogs/newprojectdialogpage.cpp
-    dialogs/recentprojectsdialogpage.cpp
     dialogs/openprojectdialogpage.cpp
+    dialogs/projectselectiondialog.cpp
+    dialogs/recentprojectsdialogpage.cpp
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
