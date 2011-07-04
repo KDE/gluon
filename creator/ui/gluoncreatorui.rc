@@ -23,16 +23,16 @@
         </Menu>
 
         <Menu name="file" noMerge="1"><text>&amp;File</text>
-            <DefineGroup name="bookmark_merge" append="bookmarks" />
-            <DefineGroup name="save_merge" append="save_merge" />
-            <DefineGroup name="print_merge" append="print_merge" />
+            <DefineGroup name="bookmark_merge" />
+            <DefineGroup name="save_merge" />
+            <DefineGroup name="print_merge" />
         </Menu>
 
         <Menu name="edit">
         </Menu>
 
         <Menu name="view">
-            <DefineGroup name="view_operations" append="view_operations" />
+            <DefineGroup name="view_operations" />
             <Merge />
             <Separator />
             <Action name="game_play" />
@@ -52,7 +52,7 @@
             <Menu name="versionControlSystem">
                 <text>&amp;Version Control System</text>
             </Menu>
-            <DefineGroup name="tools_operations" append="tools_operations" />
+            <DefineGroup name="tools_operations" />
         </Menu>
 
         <Menu name="settings">
@@ -60,7 +60,7 @@
                 <text>&amp;Docks</text>
             </Menu>
             <Action name="lock_layout" />
-            <DefineGroup name="configure_merge" append="configure_merge" />
+            <DefineGroup name="configure_merge" />
         </Menu>
 
         <Menu name="help">
