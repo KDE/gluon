@@ -34,7 +34,7 @@ namespace GluonEngine
      * The class is used by the Prefab system to contain children of a Prefab instance. To find out
      * how that system works, please see the documentation on GluonEngine::Prefab
      */
-    class PrefabInstanceChild : public GluonEngine::GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstanceChild : public GluonEngine::GameObject
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PrefabInstanceChild )

@@ -43,7 +43,7 @@ namespace GluonEngine
      * will be propagated even though there are changes to the properties of those GameObjects in
      * the instance. As this is a destructive action, please take care when performing that action.
      */
-    class Prefab : public Asset, public GluonEngine::Savable
+    class GLUON_ENGINE_EXPORT Prefab : public Asset, public GluonEngine::Savable
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )

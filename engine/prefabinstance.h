@@ -36,7 +36,7 @@ namespace GluonEngine
      * performant instancing, as it is able to pre-create a number of instances, and keep those
      * instances handy for recreation on destruction.
      */
-    class PrefabInstance : public GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstance : public GameObject
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PrefabInstance )
