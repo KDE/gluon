@@ -188,8 +188,6 @@ void DatabaseManager::setStatisticScore( const QString& database, int id, qlongl
 void DatabaseManager::setStatisticArray( const QString& database, int id, const QList<qlonglong>& array )
 {
     QStringList list;
-    // This is a bit odd krazy complains about qlonglong since it is a POD type,
-    // but put it this way until we find the solution for it with Allen.
     foreach( qlonglong num, array )
     {
         list.append( QString::number(num) );
