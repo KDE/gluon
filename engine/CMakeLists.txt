@@ -58,6 +58,7 @@ set(GluonEngine_SRCS
     gameobjectprivate.cpp
     gameproject.cpp
     gameprojectprivate.cpp
+    multiscorestatistic.cpp
     prefab.cpp
     prefabprivate.cpp
     prefabinstance.cpp
@@ -84,6 +85,7 @@ set(GluonEngine_HEADERS
     databasemanager.h
     gameobject.h
     gameproject.h
+    multiscorestatistic.h
     prefab.h
     prefabinstance.h
     prefabinstancechild.h

@@ -43,30 +43,28 @@ namespace GluonEngine
             Q_INVOKABLE Statistic( QObject* parent = 0 );
             virtual ~Statistic();
 
-            qlonglong score() const;
-
-        public Q_SLOTS:
-            void setScore( qlonglong score );
+            Q_INVOKABLE qlonglong score() const;
+            Q_INVOKABLE void setScore( qlonglong score );
 
             /** Increase score by one */
-            void increase();
+            Q_INVOKABLE void increase();
 
             /** Decrease score by one */
-            void decrease();
+            Q_INVOKABLE void decrease();
 
             /** Add delta to the current score */
-            void add( qlonglong delta );
+            Q_INVOKABLE void add( qlonglong delta );
 
             /** Subtract delta from the current score */
-            void sub( qlonglong delta );
+            Q_INVOKABLE void sub( qlonglong delta );
 
             /** Same as setScore(0) */
-            void reset();
+            Q_INVOKABLE void reset();
 
             /** If the current score is higher than the high score,
              * replace it and write it to the database.
              */
-            void commitScore();
+            Q_INVOKABLE virtual void commitScore();
 
         private:
             class StatisticPrivate;
