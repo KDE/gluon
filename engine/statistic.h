@@ -43,30 +43,56 @@ namespace GluonEngine
             Q_INVOKABLE Statistic( QObject* parent = 0 );
             virtual ~Statistic();
 
-            qlonglong score() const;
+            /**
+             * Get the current score
+             *
+             * @return The current score
+             */
+            Q_INVOKABLE qlonglong score() const;
 
-        public Q_SLOTS:
-            void setScore( qlonglong score );
+            /**
+             * Change the score value
+             *
+             * @param score The new score
+             */
+            Q_INVOKABLE void setScore( qlonglong score );
 
-            /** Increase score by one */
-            void increase();
+            /**
+             * Increase score by one
+             */
+            Q_INVOKABLE void increase();
 
-            /** Decrease score by one */
-            void decrease();
+            /**
+             * Decrease score by one
+             */
+            Q_INVOKABLE void decrease();
 
-            /** Add delta to the current score */
-            void add( qlonglong delta );
+            /**
+             * Add delta to the current score
+             *
+             * @param delta The value that should be added to the current score
+             */
+            Q_INVOKABLE void add( qlonglong delta );
 
-            /** Subtract delta from the current score */
-            void sub( qlonglong delta );
+            /**
+             * Subtract delta from the current score
+             *
+             * @param delta The value that should be subtracted from the current score
+             */
+            Q_INVOKABLE void sub( qlonglong delta );
 
-            /** Same as setScore(0) */
-            void reset();
+            /**
+             * Set the score to 0. Same as setScore(0)
+             *
+             * @see setScore
+             */
+            Q_INVOKABLE void reset();
 
-            /** If the current score is higher than the high score,
+            /**
+             * If the current score is higher than the high score,
              * replace it and write it to the database.
              */
-            void commitScore();
+            Q_INVOKABLE virtual void commitScore();
 
         private:
             class StatisticPrivate;

@@ -73,9 +73,15 @@ namespace GluonEngine
              */
             void createTasksStatistic();
 
+            /**
+             * Use this method to create MultiScoreStatistic objects. If you use the
+             * normal constructor, it won't be saved.
+             */
+            void createMultiScoreStatistic();
+
         protected:
             /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */
-            virtual void populateMetaInfo( GluonCore::MetaInfo*  info );
+            virtual void populateMetaInfo( GluonCore::MetaInfo* info );
 
         private:
             class StatisticsAssetPrivate;
