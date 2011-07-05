@@ -1,5 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
  *
@@ -17,21 +18,22 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "custominputprivate.h"
+
+#include "detectlinux_p.h"
 
 using namespace GluonInput;
 
-CustomInputPrivate::CustomInputPrivate()
-{
-}
-CustomInputPrivate::CustomInputPrivate( CustomInputPrivate& other )
-    : QSharedData( other )
-    , m_buttons( other.m_buttons )
-    , m_absAxis( other.m_absAxis )
-    , m_relAxis( other.m_relAxis )
+DetectLinuxPrivate::DetectLinuxPrivate()
 {
 }
 
-CustomInputPrivate::~CustomInputPrivate()
+DetectLinuxPrivate::DetectLinuxPrivate( DetectLinuxPrivate& other )
+    : QSharedData( other )
+    , inputList( other.inputList )
+    , keyboardList( other.keyboardList )
+    , mouseList( other.mouseList )
+    , joystickList( other.joystickList )
+    , touchList( other.touchList )
+    , unknownList( other.unknownList )
 {
 }

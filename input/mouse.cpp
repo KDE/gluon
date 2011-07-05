@@ -19,7 +19,7 @@
  */
 
 #include "mouse.h"
-#include "mouseprivate.h"
+#include "mouse_p.h"
 
 REGISTER_OBJECTTYPE( GluonInput, Mouse )
 

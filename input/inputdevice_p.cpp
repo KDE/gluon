@@ -18,15 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "keyboardprivate.h"
+#include "inputdevice_p.h"
 
 using namespace GluonInput;
 
-KeyboardPrivate::KeyboardPrivate()
+InputDevicePrivate::InputDevicePrivate()
+    : inputThread( 0 )
+    , inputBuffer( 0 )
 {
 }
 
-KeyboardPrivate::KeyboardPrivate( KeyboardPrivate& other )
-    : QSharedData( other )
+InputDevicePrivate::~InputDevicePrivate()
 {
 }

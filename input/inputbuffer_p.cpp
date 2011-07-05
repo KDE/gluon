@@ -18,15 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "touchprivate.h"
+#include "inputbuffer_p.h"
 
 using namespace GluonInput;
 
-TouchPrivate::TouchPrivate()
+InputBufferPrivate::InputBufferPrivate()
 {
 }
 
-TouchPrivate::TouchPrivate( TouchPrivate& other )
-    : QSharedData( other )
+InputBufferPrivate::~InputBufferPrivate()
 {
 }

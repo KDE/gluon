@@ -19,7 +19,7 @@
  */
 
 #include "keyboard.h"
-#include "keyboardprivate.h"
+#include "keyboard_p.h"
 
 using namespace GluonInput;
 

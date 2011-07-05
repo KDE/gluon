@@ -19,7 +19,7 @@
  */
 
 #include "joystick.h"
-#include "joystickprivate.h"
+#include "joystick_p.h"
 
 using namespace GluonInput;
 

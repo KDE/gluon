@@ -1,6 +1,5 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
  *
@@ -18,21 +17,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "detectlinuxprivate.h"
+
+#include "inputmanager_p.h"
 
 using namespace GluonInput;
 
-DetectLinuxPrivate::DetectLinuxPrivate()
+InputManagerPrivate::InputManagerPrivate()
+    : m_detect( 0 )
 {
 }
 
-DetectLinuxPrivate::DetectLinuxPrivate( DetectLinuxPrivate& other )
-    : QSharedData( other )
-    , inputList( other.inputList )
-    , keyboardList( other.keyboardList )
-    , mouseList( other.mouseList )
-    , joystickList( other.joystickList )
-    , touchList( other.touchList )
-    , unknownList( other.unknownList )
+InputManagerPrivate::InputManagerPrivate( InputManagerPrivate& other )
+    : m_detect( other.m_detect )
 {
 }

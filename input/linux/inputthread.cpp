@@ -20,8 +20,9 @@
  */
 
 #include "inputthread.h"
+#include "inputthread_p.h"
+
 #include "absval.h"
-#include "inputthreadprivate.h"
 #include "mouse.h"
 
 #include <QtCore/QDebug>

@@ -19,9 +19,9 @@
  */
 
 #include "custominput.h"
+#include "custominput_p.h"
 
 #include "inputdevice.h"
-#include "custominputprivate.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>

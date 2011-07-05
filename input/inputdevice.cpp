@@ -19,9 +19,9 @@
  */
 
 #include "inputdevice.h"
+#include "inputdevice_p.h"
 
 #include "absval.h"
-#include "inputdeviceprivate.h"
 #include "inputbuffer.h"
 #include "gluondevices.h"
 

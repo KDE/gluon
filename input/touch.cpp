@@ -19,7 +19,7 @@
  */
 
 #include "touch.h"
-#include "touchprivate.h"
+#include "touch_p.h"
 
 using namespace GluonInput;
 

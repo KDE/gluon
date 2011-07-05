@@ -18,15 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "joystickprivate.h"
+#include "mouse_p.h"
 
 using namespace GluonInput;
 
-JoystickPrivate::JoystickPrivate()
+MousePrivate::MousePrivate()
 {
 }
 
-JoystickPrivate::JoystickPrivate( JoystickPrivate& other )
+MousePrivate::MousePrivate( MousePrivate& other )
     : QSharedData( other )
+    , position( other.position )
+    , originalPosition( other.originalPosition )
+    , sensibility( other.sensibility )
+    , hWheelPos( other.hWheelPos )
+    , wheelPos( other.wheelPos )
 {
 }

@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,16 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "inputdeviceprivate.h"
+#include "inputthread_p.h"
 
 using namespace GluonInput;
 
-InputDevicePrivate::InputDevicePrivate()
-    : inputThread( 0 )
-    , inputBuffer( 0 )
+InputThreadPrivate::InputThreadPrivate()
 {
 }
 
-InputDevicePrivate::~InputDevicePrivate()
+InputThreadPrivate::InputThreadPrivate( InputThreadPrivate& other )
+    : QSharedData( other )
+    , vendor( other.vendor )
+    , product( other.product )
+    , version( other.version )
+    , bustype( other.bustype )
+    , deviceName( other.deviceName )
+    , msgError( other.msgError )
+    , error( other.error )
+    , deviceType( other.deviceType )
+    , buttonCapabilities( other.buttonCapabilities )
+    , relAxisCapabilities( other.relAxisCapabilities )
+    , absAxisCapabilities( other.absAxisCapabilities )
+    , absAxisInfos( other.absAxisInfos )
+    , xAbsUsage( other.xAbsUsage )
+    , yAbsUsage( other.yAbsUsage )
+    , zAbsUsage( other.zAbsUsage )
+    , device( other.device )
 {
 }

@@ -20,7 +20,7 @@
 
 #include "inputbuffer.h"
 
-#include"inputbufferprivate.h"
+#include"inputbuffer_p.h"
 
 using namespace GluonInput;
 

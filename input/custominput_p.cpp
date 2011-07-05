@@ -18,20 +18,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "mouseprivate.h"
+#include "custominput_p.h"
 
 using namespace GluonInput;
 
-MousePrivate::MousePrivate()
+CustomInputPrivate::CustomInputPrivate()
 {
 }
 
-MousePrivate::MousePrivate( MousePrivate& other )
+CustomInputPrivate::CustomInputPrivate( CustomInputPrivate& other )
     : QSharedData( other )
-    , position( other.position )
-    , originalPosition( other.originalPosition )
-    , sensibility( other.sensibility )
-    , hWheelPos( other.hWheelPos )
-    , wheelPos( other.wheelPos )
+    , m_buttons( other.m_buttons )
+    , m_absAxis( other.m_absAxis )
+    , m_relAxis( other.m_relAxis )
+{
+}
+
+CustomInputPrivate::~CustomInputPrivate()
 {
 }

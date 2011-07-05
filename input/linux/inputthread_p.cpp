@@ -1,5 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
+ * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
  *
@@ -18,16 +19,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "inputmanagerprivate.h"
+#include "inputthread_p.h"
 
 using namespace GluonInput;
 
-InputManagerPrivate::InputManagerPrivate()
-    : m_detect( 0 )
+InputThreadPrivate::InputThreadPrivate()
+    : m_error( false )
 {
 }
 
-InputManagerPrivate::InputManagerPrivate( InputManagerPrivate& other )
-    : m_detect( other.m_detect )
+InputThreadPrivate::InputThreadPrivate( InputThreadPrivate& other )
+    : QSharedData( other )
+    , m_fd( other.m_fd )
+    , m_device_info( other.m_device_info )
+    , m_currentEvent( other.m_currentEvent )
+    , m_devicePath( other.m_devicePath )
+    , m_deviceName( other.m_deviceName )
+    , m_msgError( other.m_msgError )
+    , m_error( other.m_error )
+    , m_deviceType( other.m_deviceType )
+    , m_buttonCapabilities( other.m_buttonCapabilities )
+    , m_relAxisCapabilities( other.m_relAxisCapabilities )
+    , m_absAxisCapabilities( other.m_absAxisCapabilities )
+    , m_absAxisInfos( other.m_absAxisInfos )
 {
 }

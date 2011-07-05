@@ -68,7 +68,7 @@ set(GluonInput_SRCS_MAC
     mac/detectmac.cpp
     mac/gluonbuttons.cpp
     mac/inputthread.cpp
-    mac/inputthreadprivate.cpp
+    mac/inputthread_p.cpp
 )
 
 set(GluonInput_HEADERS_MAC
@@ -82,10 +82,10 @@ set(GluonInput_HEADERS_MAC
 ###############linux source and headers###################
 set(GluonInput_SRCS_LINUX
     linux/detectlinux.cpp
-    linux/detectlinuxprivate.cpp
+    linux/detectlinux_p.cpp
     linux/gluonbuttons.cpp
     linux/inputthread.cpp
-    linux/inputthreadprivate.cpp
+    linux/inputthread_p.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
@@ -99,7 +99,7 @@ set(GluonInput_HEADERS_LINUX
 ###############qt source and headers###################
 set(GluonInput_SRCS_QT
     qt/detectqt.cpp
-    qt/detectqtprivate.cpp
+    qt/detectqt_p.cpp
     qt/gluonqtbuttons.cpp
 )
 
@@ -113,22 +113,22 @@ set(GluonInput_HEADERS_QT
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
     custominput.cpp
-    custominputprivate.cpp
+    custominput_p.cpp
     detect.cpp
     inputbuffer.cpp
-    inputbufferprivate.cpp
+    inputbuffer_p.cpp
     inputmanager.cpp
-    inputmanagerprivate.cpp
+    inputmanager_p.cpp
     joystick.cpp
-    joystickprivate.cpp
+    joystick_p.cpp
     keyboard.cpp
-    keyboardprivate.cpp
+    keyboard_p.cpp
     inputdevice.cpp
-    inputdeviceprivate.cpp
+    inputdevice_p.cpp
     mouse.cpp
-    mouseprivate.cpp
+    mouse_p.cpp
     touch.cpp
-    touchprivate.cpp
+    touch_p.cpp
 )
 
 set(GluonInput_HEADERS_COMMON

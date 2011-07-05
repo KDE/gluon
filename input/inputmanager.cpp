@@ -17,9 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "inputmanager.h"
 
-#include "inputmanagerprivate.h"
+#include "inputmanager.h"
+#include "inputmanager_p.h"
+
 #include "gluondevices.h"
 
 #ifdef Q_WS_X11
@@ -47,7 +48,8 @@ using namespace GluonInput;
 GLUON_DEFINE_SINGLETON( InputManager )
 
 InputManager::InputManager( QObject* parent )
-    : GluonCore::Singleton< GluonInput::InputManager >( parent ), d( new InputManagerPrivate )
+    : GluonCore::Singleton< GluonInput::InputManager >( parent )
+    , d( new InputManagerPrivate )
 {
     init();
 }
