@@ -21,6 +21,7 @@
 
 #include <engine/abstractstatistic.h>
 #include <engine/statistic.h>
+#include <engine/tasksstatistic.h>
 #include <engine/assets/graphics/texture/textureasset.h>
 
 #include <QtCore/QVariant>
@@ -39,7 +40,48 @@ class Achievement::AchievementPrivate
         qlonglong minimumScore;
         TextureAsset* icon;
         Achievement* dependency;
+
+        QList<qlonglong> parseSelection( QString selection );
 };
+
+QList<qlonglong> Achievement::AchievementPrivate::parseSelection( QString selection )
+{
+    QList<qlonglong> result;
+    selection.remove(" ");
+    // Must be like "2,5-10,12"
+    QRegExp regExp("\\d+(-\\d+)?(,\\d+(-\\d+)?)*");
+    if( !regExp.exactMatch( selection ) )
+        return result;
+
+    QStringList stringList = selection.split(",");
+    foreach( const QString& string, stringList )
+    {
+        if( string.contains("-") )
+        {
+            QStringList startEnd = string.split("-");
+            bool ok1, ok2;
+            qlonglong start = startEnd[0].toLongLong(&ok1);
+            qlonglong end = startEnd[1].toLongLong(&ok2);
+            if( !ok1 || !ok2 )
+                return QList<qlonglong>();
+
+            for( qlonglong i = start; i <= end; ++i )
+                if( !result.contains(i) )
+                    result.append(i);
+        }
+        else
+        {
+            bool ok;
+            qlonglong number = string.toLongLong(&ok);
+            if( !ok )
+                return QList<qlonglong>();
+
+            if( !result.contains(number) )
+                result.append(number);
+        }
+    }
+    return result;
+}
 
 Achievement::Achievement( QObject* parent )
     : GluonObject( parent )
@@ -60,14 +102,28 @@ AbstractStatistic* Achievement::statistic() const
 void Achievement::setStatistic( AbstractStatistic* statistic )
 {
     if( d->statistic )
-    {
         d->statistic->deref();
-    }
     if( statistic )
-    {
         statistic->ref();
-    }
     d->statistic = statistic;
+
+    if( !statistic )
+        return;
+
+    TasksStatistic* tasksStatistic = qobject_cast<TasksStatistic*>(statistic);
+    if( tasksStatistic )
+    {
+        if( !property( "useSelection" ).isValid() )
+        {
+            setProperty( "useSelection", false );
+            setProperty( "selection", QString("") );
+        }
+    }
+    else
+    {
+        setProperty( "useSelection", QVariant() );
+        setProperty( "selection", QVariant() );
+    }
 }
 
 qlonglong Achievement::minimumScore() const
@@ -115,6 +171,24 @@ qlonglong Achievement::currentScore() const
 
     d->statistic->initialize();
 
+    TasksStatistic* tasksStatistic = qobject_cast<TasksStatistic*>(d->statistic);
+    if( tasksStatistic && property( "useSelection" ).toBool() )
+    {
+        QString selection = property( "selection" ).toString();
+        QList<qlonglong> selectionList = d->parseSelection(selection);
+        if( !selectionList.isEmpty() )
+        {
+            QList<qlonglong> accomplishedList = tasksStatistic->array();
+            int accomplished = 0;
+            foreach( qlonglong task, selectionList )
+                if( accomplishedList.contains(task) )
+                    ++accomplished;
+            int result = accomplished;
+            if( minimumScore() > selectionList.count() && d->statistic->value() > selectionList.count() )
+                result += qMin( minimumScore(), d->statistic->value() ) - selectionList.count();
+            return result;
+        }
+    }
     return d->statistic->value();
 }
 
@@ -138,7 +212,7 @@ bool Achievement::achieved() const
 
     d->statistic->initialize();
 
-    if( d->statistic->value() >= d->minimumScore )
+    if( currentScore() >= d->minimumScore )
         return true;
 
     return false;

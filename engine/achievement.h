@@ -33,6 +33,12 @@ namespace GluonEngine
     /**
      * The Achievement class is connected to one statistic. If the statistic reaches a
      * certain score, achieved() returns true.
+     * If you assign a TasksStatistic to the statistic property, you will get two new
+     * properties (useSelection and Selection) which you can use to define which task
+     * indexes should count towards the score. The selection is defined as a String
+     * containing numbers or ranges of numbers (like 5-10) separated with commas.
+     * If the minimum score is higher than the selection count, other task indexes are
+     * used for the difference.
      */
     class GLUON_ENGINE_EXPORT Achievement : public GluonCore::GluonObject, public GluonCore::ReferenceCounter
     {
