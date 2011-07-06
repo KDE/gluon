@@ -215,11 +215,11 @@ set(CPACK_GENERATOR "RPM;DEB;TGZ")
 set(CPACK_PACKAGE_CONTACT "Laszlo Papp <lpapp@kde.org>, Arjen Hiemstra <ahiemstra@heimr.nl>")
 
 #debian package generation
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libgles2")
 set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 #rpm package generation
-#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile, libvorbis")
+#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
