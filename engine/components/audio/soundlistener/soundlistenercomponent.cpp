@@ -33,7 +33,6 @@ SoundListenerComponent* SoundListenerComponent::m_activeInstance = 0;
 SoundListenerComponent::SoundListenerComponent( QObject* parent )
     : Component( parent )
 {
-    GluonAudio::Engine::instance();
 }
 
 SoundListenerComponent::~SoundListenerComponent()
