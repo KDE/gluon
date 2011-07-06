@@ -27,9 +27,6 @@
 
 #include <core/messagehandler.h>
 
-#include <QtScript/QScriptClass>
-#include <QtScript/QScriptValueIterator>
-
 REGISTER_OBJECTTYPE( GluonEngine, ScriptingComponent )
 
 using namespace GluonEngine;

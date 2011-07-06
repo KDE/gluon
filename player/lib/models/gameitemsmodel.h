@@ -21,14 +21,11 @@
 #ifndef GLUONPLAYER_GAMEITEMSMODEL_H
 #define GLUONPLAYER_GAMEITEMSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include "gameviewitem.h"
 
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QStringList>
-#include <QtCore/QMultiMap>
-#include <QtCore/QDir>
 
 namespace Attica
 {
@@ -37,7 +34,7 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class OcsGameDetails;
+    class GameDetailItem;
 
     /**
      *\brief Model which contains a list of the installed games
@@ -91,7 +88,7 @@ namespace GluonPlayer
             void upgradableCountChanged();
 
         protected Q_SLOTS:
-            void processFetchedGamesList (QList<OcsGameDetails*> comments);
+            void processFetchedGamesList (QList<GameDetailItem*> comments);
 
         private:
             void fetchGamesList();

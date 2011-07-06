@@ -29,9 +29,7 @@
 #include "mouse.h"
 #include "touch.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QSharedData>
 
 #include <IOKit/hid/IOHIDLib.h>
 
@@ -43,7 +41,7 @@ namespace GluonInput
 
         public:
             DetectMac( QObject* parent );
-            ~DetectMac();
+            virtual ~DetectMac();
 
             bool isReadable();
             void detectDevices();

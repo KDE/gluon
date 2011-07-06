@@ -23,7 +23,7 @@
 
 #include <attica/provider.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )

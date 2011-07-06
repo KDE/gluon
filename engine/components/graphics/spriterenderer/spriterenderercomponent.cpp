@@ -32,8 +32,6 @@
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 
@@ -65,12 +63,6 @@ SpriteRendererComponent::SpriteRendererComponent( QObject* parent )
     , d( new SpriteRendererComponentPrivate )
 {
 
-}
-
-SpriteRendererComponent::SpriteRendererComponent( const SpriteRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
 }
 
 SpriteRendererComponent::~SpriteRendererComponent()

@@ -46,7 +46,7 @@ namespace GluonEngine
              * @param   asset   The asset to unregister
              * @return  True if the asset was successfully unregistered. False is returned when the asset is not registered, or if the passed asset was not valid
              */
-            bool unregisterAsset( const GluonEngine::ScriptingAsset* asset ) const;
+            bool unregisterAsset( const GluonEngine::ScriptingAsset* asset );
             /**
              * Check whether an asset is registered with the engine.
              * @param   asset   The asset to check on
@@ -84,6 +84,8 @@ namespace GluonEngine
 
             class Private;
             Private* d;
+
+            Q_PRIVATE_SLOT( d, void buildScript() );
     };
 }
 

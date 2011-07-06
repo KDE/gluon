@@ -25,8 +25,6 @@
 #include <graphics/meshes/discsectionmesh.h>
 #include <graphics/item.h>
 
-#include <QtCore/QMimeData>
-
 #include <cmath>
 
 REGISTER_OBJECTTYPE( GluonEngine, DiscSectionRendererComponent )
@@ -65,12 +63,6 @@ DiscSectionRendererComponent::DiscSectionRendererComponent( QObject* parent )
     , d( new DiscSectionRendererComponentPrivate )
 {
 
-}
-
-DiscSectionRendererComponent::DiscSectionRendererComponent( const DiscSectionRendererComponent& other )
-    : Component( other )
-    , d( other.d )
-{
 }
 
 DiscSectionRendererComponent::~DiscSectionRendererComponent()

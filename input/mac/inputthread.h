@@ -24,9 +24,6 @@
 #include "absval.h"
 
 #include <QtCore/QThread>
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QSharedData>
 
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDKeys.h>
@@ -42,7 +39,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit InputThread( IOHIDDeviceRef pDevice, QObject* parent = 0 );
-            ~InputThread();
+            virtual ~InputThread();
 
             static void deviceReport( void* inContext, IOReturn inResult, void* inSender, IOHIDValueRef inIOHIDValueRef );
 
@@ -73,7 +70,7 @@ namespace GluonInput
 
             QObject* parent();
 
-        signals:
+        Q_SIGNALS:
             void relAxisMoved( int axis, int distance );
             void absAxisMoved( int axis, int distance );
             void buttonStateChanged( int button, int value );

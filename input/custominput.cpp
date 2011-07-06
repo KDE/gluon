@@ -17,10 +17,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "custominput.h"
+#include "custominput_p.h"
 
 #include "inputdevice.h"
-#include "custominputprivate.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>

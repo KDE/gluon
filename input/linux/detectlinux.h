@@ -28,9 +28,7 @@
 #include "touch.h"
 #include "detect.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -42,7 +40,7 @@ namespace GluonInput
 
         public:
             DetectLinux( QObject* parent );
-            ~DetectLinux();
+            virtual ~DetectLinux();
 
             bool isReadable();
             void detectDevices();

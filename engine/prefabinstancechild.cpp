@@ -21,8 +21,9 @@
 #include "prefabinstancechild.h"
 
 #include "prefabinstance.h"
-#include <QMetaProperty>
 #include "component.h"
+
+#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, PrefabInstanceChild )
 
@@ -31,12 +32,21 @@ using namespace GluonEngine;
 class PrefabInstanceChild::Private
 {
 public:
-    Private(PrefabInstanceChild* qo) : q(qo), linkedGameObject(0) {};
-    Private(const Private& other) : q(other.q), linkedGameObject(other.linkedGameObject) {};
+    Private(PrefabInstanceChild* qo = 0)
+        : q( qo )
+        , linkedGameObject( 0 )
+        , instantiationCompleted( false )
+    {};
+    Private(const Private& other)
+        : q( other.q )
+        , linkedGameObject( other.linkedGameObject )
+        , instantiationCompleted( other.instantiationCompleted )
+    {};
     ~Private() {};
 
     PrefabInstanceChild* q;
     GameObject* linkedGameObject;
+    bool instantiationCompleted;
 };
 
 PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
@@ -46,9 +56,9 @@ PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
 }
 
 PrefabInstanceChild::PrefabInstanceChild( const PrefabInstanceChild& other )
-    : d(other.d)
+    : d( new Private() )
 {
-
+    *d = *other.d;
 }
 
 PrefabInstanceChild::~PrefabInstanceChild()
@@ -77,8 +87,10 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
     // Clone all the Components
     foreach( Component* cmp, gameObject->components() )
     {
-        Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
+        cmp->clone(this);
+        //Prefab::cloneObjectProperties( cmp, cmpClone );
     }
+    d->instantiationCompleted = true;
 }
 
 PrefabInstance* PrefabInstanceChild::parentInstance()
@@ -112,9 +124,10 @@ void PrefabInstanceChild::resetProperties()
     }
 }
 
-void PrefabInstanceChild::setName(const QString& newName)
+void PrefabInstanceChild::addChild(GameObject* child)
 {
-    Q_UNUSED(newName);
+    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    GluonEngine::GameObject::addChild(child);
 }
 
 void PrefabInstanceChild::addChild(GluonCore::GluonObject* child)
@@ -127,6 +140,12 @@ void PrefabInstanceChild::addChildAt(GluonCore::GluonObject* child, int position
 {
     connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
     GluonCore::GluonObject::addChildAt(child, position);
+}
+
+bool PrefabInstanceChild::removeChild(GameObject* child)
+{
+    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    return GluonEngine::GameObject::removeChild(child);
 }
 
 bool PrefabInstanceChild::removeChild(GluonCore::GluonObject* child)
@@ -149,9 +168,13 @@ bool PrefabInstanceChild::removeComponent(Component* removeThis)
 
 void PrefabInstanceChild::childNameChanged(const QString& oldName, const QString& newName)
 {
+    if(d->instantiationCompleted == false)
+        return;
+    if(oldName == newName)
+        return;
     // This ensures that children (in particular this means Components) don't get renamed in instances
     GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
-    if(from && oldName != newName)
+    if(from)
         from->setName(oldName);
 }
 

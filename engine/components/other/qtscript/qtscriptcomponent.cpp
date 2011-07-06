@@ -22,15 +22,12 @@
 
 #include "gameobject.h"
 #include "game.h"
+#include "asset.h"
 
-#include "engine/asset.h"
-
-#include <core/gluonobject.h>
 #include <graphics/materialinstance.h>
+#include <core/gluonobject.h>
 
 #include <QtScript/QScriptEngine>
-#include <QtCore/QMimeData>
-
 
 REGISTER_OBJECTTYPE( GluonEngine, QtScriptComponent )
 
@@ -62,12 +59,6 @@ QtScriptComponent::QtScriptComponent( QObject* parent )
     qScriptRegisterMetaType( &d->engine, gluonObjectToScriptValue, gluonObjectFromScriptValue );
     qScriptRegisterMetaType( &d->engine, gameObjectToScriptValue, gameObjectFromScriptValue );
     qScriptRegisterMetaType( &d->engine, materialInstanceToScriptValue, materialInstanceFromScriptValue );
-}
-
-QtScriptComponent::QtScriptComponent( const QtScriptComponent& other )
-    : Component( other )
-    , d( other.d )
-{
 }
 
 QtScriptComponent::~QtScriptComponent()

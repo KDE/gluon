@@ -45,13 +45,6 @@
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValueIterator>
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QPixmap>
-#include <QtCore/QMimeData>
-#include <QtCore/QVariant>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiManagerComponent )
 
@@ -172,12 +165,6 @@ UiManagerComponent::UiManagerComponent( QObject* parent )
 
 }
 
-UiManagerComponent::UiManagerComponent( const UiManagerComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 UiManagerComponent::~UiManagerComponent()
 {
     if( d->ui )
@@ -195,7 +182,7 @@ void UiManagerComponent::initialize()
 {
     if( !d->scene )
     {
-        d->scene = new RenderableScene( this );
+        d->scene = new RenderableScene( );
         connect( d->scene, SIGNAL( sceneRectChanged( const QRectF& ) ),
                  this, SLOT( resizeQmlItem( const QRectF& ) ) );
     }
@@ -319,7 +306,6 @@ void UiManagerComponent::cleanup()
     {
         d->scene->removeItem( item );
     }
-
     delete d->scene;
     d->scene = 0;
 }

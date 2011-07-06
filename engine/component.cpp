@@ -37,12 +37,6 @@ Component::Component( QObject* parent )
 {
 }
 
-Component::Component( const Component& other, QObject* parent )
-    : GluonObject( parent )
-    , d( other.d )
-{
-}
-
 Component::~Component()
 {
     delete d;

@@ -23,10 +23,7 @@
 
 #include "inputdevice.h"
 
-#include <QtCore/QList>
 #include <QtCore/QPoint>
-#include <QtGui/QWidget>
-#include <QtCore/QSharedData>
 
 namespace GluonInput
 {
@@ -72,7 +69,7 @@ namespace GluonInput
             void setHWheelPosition( int hwp );
 
 
-        private slots:
+        private Q_SLOTS:
             void mouseMoved( int axis, int distance );
 
         private:

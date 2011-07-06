@@ -22,7 +22,6 @@
 
 #include "gluon_audio_export.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QStringList>
 
 namespace GluonAudio
@@ -33,7 +32,7 @@ namespace GluonAudio
 
         public:
             explicit Capture( QString deviceName = QString(), QObject* parent = 0 );
-            ~Capture();
+            virtual ~Capture();
 
             bool isAvailable() const;
 

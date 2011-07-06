@@ -20,14 +20,11 @@
 
 #include "soundemittercomponent.h"
 
-#include <audio/engine.h>
-#include <audio/sound.h>
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
+#include <audio/engine.h>
+#include <audio/sound.h>
 #include <core/metainfo.h>
-
-#include <QtCore/QDebug>
-#include <QMimeData>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundEmitterComponent )
 
@@ -60,13 +57,7 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     : Component( parent )
     , d( new SoundEmitterComponentPrivate )
 {
-    d->sound = new GluonAudio::Sound();
-}
-
-SoundEmitterComponent::SoundEmitterComponent( const GluonEngine::SoundEmitterComponent& other )
-    : Component( other )
-    , d( other.d )
-{
+    d->sound = new GluonAudio::Sound(this);
 }
 
 SoundEmitterComponent::~SoundEmitterComponent()

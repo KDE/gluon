@@ -28,7 +28,6 @@
 #include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
-#include <KDE/KConfig>
 
 using namespace GluonCreator;
 

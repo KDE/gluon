@@ -16,10 +16,12 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "nullpropertywidgetitem.h"
 
-#include <QLabel>
-#include <KLocalizedString>
+#include <KDE/KLocalizedString>
+
+#include <QtGui/QLabel>
 
 // This is commented out specifically to inform you that this should not be done.
 // As this class is not supposed to be used normally, it is a special case

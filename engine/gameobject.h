@@ -27,9 +27,6 @@
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>
 
-#include <QtCore/QSharedData>
-#include <QtScript/QScriptEngine>
-
 namespace GluonEngine
 {
 
@@ -106,8 +103,7 @@ namespace GluonEngine
             };
 
             Q_INVOKABLE GameObject( QObject* parent = 0 );
-            GameObject( const GameObject& other, QObject* parent = 0 );
-            ~GameObject();
+            virtual ~GameObject();
 
             /**
              * Function used on instantiation to fix the parent/child relationship.
@@ -239,7 +235,7 @@ namespace GluonEngine
 
             Q_INVOKABLE QMatrix4x4 transform() const;
 
-        public slots:
+        public Q_SLOTS:
             void setParentGameObject( GameObject* newParent );
 
             //Transformation

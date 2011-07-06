@@ -43,7 +43,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE CameraControllerComponent( QObject* parent = 0 );
-            CameraControllerComponent( const CameraControllerComponent& other );
             virtual ~CameraControllerComponent();
             virtual QString category() const;
 
@@ -58,7 +57,7 @@ namespace GluonEngine
             virtual float farPlane();
             virtual GluonGraphics::MaterialInstance* renderTargetMaterial();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setActive( bool active );
             virtual void setVisibleArea( const QSizeF& area );
             virtual void setNearPlane( float nearValue );

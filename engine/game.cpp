@@ -29,7 +29,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 #include <QtCore/QTime>
-#include <QtCore/QDebug>
 #include <QtCore/QTimer>
 
 using namespace GluonEngine;
@@ -53,8 +52,8 @@ class I : public QThread
         }
 };
 
-Game::Game( QObject* /* parent */ )
-    : d( new GamePrivate( this ) )
+Game::Game( QObject* parent )
+    : GluonCore::Singleton< GluonEngine::Game >( parent ), d( new GamePrivate( this ) )
 {
     qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 }

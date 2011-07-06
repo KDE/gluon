@@ -43,8 +43,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE SoundEmitterComponent( QObject* parent = 0 );
-            SoundEmitterComponent( const GluonEngine::SoundEmitterComponent& other );
-            ~SoundEmitterComponent();
+            virtual ~SoundEmitterComponent();
             virtual QString category() const;
 
             Asset* sound();
@@ -62,7 +61,7 @@ namespace GluonEngine
             Q_INVOKABLE bool isPlaying() const;
             Q_INVOKABLE bool autoPlay() const;
 
-        public slots:
+        public Q_SLOTS:
             Q_INVOKABLE void play();
             Q_INVOKABLE void setRadius( float radius );
             Q_INVOKABLE void setVolume( float volume );

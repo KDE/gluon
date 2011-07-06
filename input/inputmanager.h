@@ -30,12 +30,12 @@
 
 #include <core/singleton.h>
 
-#include <QtGui/QSwipeGesture>
-#include <QtGui/QPanGesture>
-#include <QtGui/QPinchGesture>
-#include <QtGui/QMouseEvent>
 #include <QtCore/QList>
-#include <QtCore/QEvent>
+
+class QSwipeGesture;
+class QPanGesture;
+class QPinchGesture; 
+class QEvent;
 
 namespace GluonInput
 {
@@ -45,6 +45,8 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
     {
             Q_OBJECT
+            GLUON_SINGLETON( InputManager )
+            
         public:
             enum InputManagementType
             {
@@ -94,7 +96,7 @@ namespace GluonInput
             void panTriggered( QPanGesture* gesture );
             void pinchTriggered( QPinchGesture* gesture );
 
-        signals:
+        Q_SIGNALS:
             void keyPressed( int button );
             void keyReleased( int button );
             void mouseMoved( const QPoint& pos );
@@ -102,11 +104,8 @@ namespace GluonInput
             void eventFiltered( QEvent* event );
 
         private:
-            friend class GluonCore::Singleton<InputManager>;
-            InputManager( QObject* parent = 0 );
             ~InputManager();
 
-            Q_DISABLE_COPY( InputManager );
             void init();
             int mapMouseButton( Qt::MouseButton mouseButton );
 

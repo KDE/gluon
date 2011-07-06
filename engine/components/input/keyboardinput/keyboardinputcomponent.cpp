@@ -24,8 +24,6 @@
 #include <input/inputmanager.h>
 #include <core/debughelper.h>
 
-#include <QtCore/QEvent>
-
 REGISTER_OBJECTTYPE( GluonEngine, KeyboardInputComponent );
 
 using namespace GluonEngine;
@@ -37,6 +35,10 @@ KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
     , m_actionStopped( false )
     , m_keyCode( Qt::Key_unknown )
     , m_keyboard( 0 )
+{
+}
+
+KeyboardInputComponent::~KeyboardInputComponent()
 {
 }
 

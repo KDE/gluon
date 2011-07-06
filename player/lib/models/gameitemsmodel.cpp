@@ -19,15 +19,19 @@
 
 #include "gameitemsmodel.h"
 
-#include <player/lib/ocsprovider.h>
-#include <player/lib/ocsgamedetailsprovider.h>
+#include "lib/serviceprovider.h"
+#include "lib/gamedetail.h"
 
-#include <core/gluon_global.h>
 #include <engine/gameproject.h>
 
+#include <core/directoryprovider.h>
+
+#include <QtCore/QDir>
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
+#include <QtCore/QStringList>
+#include <QtCore/QMultiMap>
 
 using namespace GluonPlayer;
 
@@ -46,7 +50,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
     , d( new Private() )
 {
     QDir m_dir;
-    m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
+    m_dir.cd( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
     QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( '*' + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
     foreach( const QString & gameDirName, gameDirNameList )
     {
@@ -168,14 +172,14 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
 void GameItemsModel::fetchGamesList()
 {
-    OcsGameDetailsProvider *gameDetailsProvider = OcsProvider::instance()->fetchGames();
-    connect(gameDetailsProvider, SIGNAL(gameDetailsFetched (QList<OcsGameDetails*>)),
-            SLOT(processFetchedGamesList(QList<OcsGameDetails*>)));
+    GameDetail *gameDetail = ServiceProvider::instance()->fetchGames();
+    connect(gameDetail, SIGNAL(gameDetailsFetched (QList<GameDetailItem*>)),
+            SLOT(processFetchedGamesList(QList<GameDetailItem*>)));
 }
 
-void GameItemsModel::processFetchedGamesList(QList< OcsGameDetails* > comments)
+void GameItemsModel::processFetchedGamesList(QList< GameDetailItem* > comments)
 {
-    foreach(OcsGameDetails *c, comments) {
+    foreach(GameDetailItem *c, comments) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",
                     GameViewItem::Downloadable, c->id() );
         d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );

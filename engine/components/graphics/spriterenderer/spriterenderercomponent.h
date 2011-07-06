@@ -41,7 +41,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );
-            SpriteRendererComponent( const SpriteRendererComponent& other );
             virtual ~SpriteRendererComponent();
             virtual QString category() const;
 
@@ -53,7 +52,7 @@ namespace GluonEngine
             virtual QSizeF size();
             virtual GluonGraphics::MaterialInstance* material();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setSize( const QSizeF& size );
             virtual void setMaterial( GluonGraphics::MaterialInstance* material );
             virtual void setMaterial( const QString& path );

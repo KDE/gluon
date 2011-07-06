@@ -22,7 +22,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include <QtGui/QUndoStack>
+#include <QtGui/QUndoCommand>
 
 namespace GluonCore
 {
@@ -38,8 +38,8 @@ namespace GluonCreator
             AbstractUndoCommand( QUndoCommand* parent = 0 );
             virtual ~AbstractUndoCommand();
 
-            virtual void undo() = 0;
-            virtual void redo() = 0;
+            virtual void undo();
+            virtual void redo();
             virtual int id() const;
 
             GluonCore::GluonObject* object() const;

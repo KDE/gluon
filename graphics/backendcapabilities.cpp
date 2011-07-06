@@ -80,5 +80,6 @@ BackendCapabilities::shaderVersion()
     if( versionParts.count() > 2 )
         versionNumber += qMin( versionParts.at( 2 ).toInt(), 9 );
 
+    backendShaderVersion = versionNumber;
     return versionNumber;
 }

@@ -28,7 +28,6 @@
 
 #include <core/gluonobject.h>
 
-#include <QtCore/QSharedData>
 #include <QtCore/QUrl>
 
 namespace GluonEngine
@@ -174,6 +173,16 @@ namespace GluonEngine
 
             GluonEngine::TextureAsset* screenshot() const;
             void setScreenshot( GluonEngine::TextureAsset* newScreenshot );
+
+            /**
+             * The name of the user playing the game.
+             */
+            QString userName() const;
+
+            /**
+             * The player application, for instance, should set the user name.
+             */
+            void setUserName( const QString& newUsername );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

@@ -20,8 +20,9 @@
 #ifndef VERTEXBUFFER_H
 #define VERTEXBUFFER_H
 
-#include <QtCore/QObject>
 #include "glheaders.h"
+
+#include <QtCore/QObject>
 
 namespace GluonGraphics
 {
@@ -99,7 +100,7 @@ namespace GluonGraphics
             /**
              * Destroys the buffer.
              */
-            ~VertexBuffer();
+            virtual ~VertexBuffer();
 
             /**
              * Add a vertex attribute to the list of attributes that will

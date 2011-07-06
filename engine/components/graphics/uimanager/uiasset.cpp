@@ -28,12 +28,6 @@
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeEngine>
 #include <QtDeclarative/QDeclarativeComponent>
-#include <QtGui/QImage>
-#include <QtGui/QImageReader>
-#include <QtCore/QUrl>
-#include <QtCore/QMimeData>
-#include <QtCore/QFile>
-#include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, UiAsset )
 

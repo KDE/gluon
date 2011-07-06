@@ -36,7 +36,7 @@ namespace GluonEngine
      * performant instancing, as it is able to pre-create a number of instances, and keep those
      * instances handy for recreation on destruction.
      */
-    class PrefabInstance : public GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstance : public GameObject
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PrefabInstance )
@@ -75,19 +75,13 @@ namespace GluonEngine
              */
             void rebuildInstance();
 
-            /**
-             * Prefab instances cannot have their name reset for any reason, as that should only
-             * happen from the Prefab original. As such, this function does nothing other than
-             * return.
-             * @param  newName  The name you intend to use, but which will be ignored
-             */
-            Q_SLOT void setName(const QString& newName);
-
             /*
              * Reimplemented from GameObject
              */
+            virtual void addChild( GameObject* child );
             virtual void addChild( GluonObject* child );
             virtual void addChildAt( GluonObject* child, int position );
+            virtual bool removeChild( GameObject* child );
             virtual bool removeChild( GluonObject* child );
             Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
             Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );

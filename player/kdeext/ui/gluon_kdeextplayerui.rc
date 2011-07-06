@@ -12,7 +12,7 @@
         </Menu>
 
         <Menu name="view">
-            <DefineGroup name="view_operations" append="view_operations" />
+            <DefineGroup name="view_operations" />
         </Menu>
 
         <Menu name="community"><text>&amp;Community</text>

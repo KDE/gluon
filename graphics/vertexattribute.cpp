@@ -20,13 +20,13 @@
 #include "vertexattribute.h"
 #include "vertexattribute_p.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 using namespace GluonGraphics;
 
 VertexAttributePrivate::VertexAttributePrivate()
     : location( -1 )
-    , offset( -1 )
+    , offset( 0 )
     , size( 0 )
 {
 
@@ -94,7 +94,7 @@ int VertexAttribute::location() const
     return d->location;
 }
 
-int VertexAttribute::offset() const
+quintptr VertexAttribute::offset() const
 {
     return d->offset;
 }

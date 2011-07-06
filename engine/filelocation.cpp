@@ -35,8 +35,9 @@ FileLocation::FileLocation( GluonEngine::GameProject* parent, const QUrl& relati
 }
 
 FileLocation::FileLocation( const FileLocation& other )
-    : d( other.d )
+    : d( new FileLocationPrivate() )
 {
+    *d = *other.d;
 }
 
 FileLocation::~FileLocation()
@@ -47,9 +48,7 @@ FileLocation::~FileLocation()
 QUrl
 FileLocation::location() const
 {
-#ifdef __GNUC__
-#warning This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
-#endif
+    // TODO: This may well make better sense using KIOSlaves... we should consider this very seriously for the possibility of allowing remote content
 
     // Bah, this am not workey... needs more thinkings
     return d->url;

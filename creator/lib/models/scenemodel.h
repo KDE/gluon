@@ -23,6 +23,10 @@
 
 #include <QtCore/QAbstractItemModel>
 
+namespace GluonCore {
+    class GluonObject;
+}
+
 namespace GluonEngine
 {
     class GameObject;
@@ -45,6 +49,7 @@ namespace GluonCreator
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QModelIndex parent( const QModelIndex& child ) const;
             virtual QModelIndex index( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
+            virtual QModelIndex objectToIndex( GluonCore::GluonObject* object ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
             virtual Qt::DropActions supportedDropActions() const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
@@ -54,6 +59,7 @@ namespace GluonCreator
             virtual bool dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent );
 
             virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
+            virtual void emitDataChanged( const QModelIndex& index );
 
             virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
             virtual bool insertRows( int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent = QModelIndex() );
@@ -65,6 +71,9 @@ namespace GluonCreator
             void newGameObject( GluonEngine::GameObject* parent, GluonEngine::GameObject* newChild );
             void deleteGameObject( GluonEngine::GameObject* obj );
             void deleteComponent( GluonEngine::Component* component );
+
+        protected:
+            friend class ProjectModel;
 
         private:
             class SceneModelPrivate;

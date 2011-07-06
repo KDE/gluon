@@ -19,9 +19,6 @@
 
 #include "mainwindow.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
 #include <QtGui/QApplication>
 
 using namespace GluonInput;

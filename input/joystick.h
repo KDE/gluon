@@ -23,8 +23,6 @@
 
 #include "inputdevice.h"
 
-#include <QtCore/QSharedData>
-
 namespace GluonInput
 {
     class InputThread;
@@ -35,18 +33,19 @@ namespace GluonInput
             Q_OBJECT
         public:
             explicit Joystick( InputThread* inputThread, QObject* parent = 0 );
+            Joystick( const Joystick& other, InputThread* inputThread = 0, QObject* parent = 0 );
             virtual ~Joystick();
 
             int axisX() const;
             int axisY()const;
             int axisZ() const;
 
-        private slots:
+        private Q_SLOTS:
             void joystickMoved( int axis, int distance );
 
         private:
             QSharedDataPointer<JoystickPrivate> d;
     };
 }
-//@}
-#endif // KCLJOYSTICK_H
+
+#endif // JOYSTICK_H

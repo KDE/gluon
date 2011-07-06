@@ -20,10 +20,10 @@
 #include "gamesview.h"
 #include "gamesviewitem.h"
 
-#include <QModelIndex>
-#include <QGraphicsLinearLayout>
-
 #include <Plasma/ItemBackground>
+
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtCore/QModelIndex>
 
 GamesView::GamesView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : AbstractItemView( parent, wFlags )

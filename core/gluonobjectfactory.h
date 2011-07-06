@@ -23,9 +23,7 @@
 #include "gluon_core_export.h"
 #include "debughelper.h"
 
-#include <QtCore/QSharedData>
 #include <QtCore/QHash>
-#include <QtCore/QMetaType>
 #include <QtCore/QStringList>
 #include <QtScript/QScriptEngine>
 
@@ -44,7 +42,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( GluonObjectFactory )
         public:
             template<class T>
             void registerObjectType()

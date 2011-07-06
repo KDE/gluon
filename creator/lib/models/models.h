@@ -31,21 +31,17 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT Models : public GluonCore::Singleton<Models>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( Models )
         public:
             SceneModel* sceneModel();
             ProjectModel* projectModel();
             ComponentModel* componentModel();
 
         private:
-            friend class GluonCore::Singleton<Models>;
-
-            Models();
             ~Models();
-            Q_DISABLE_COPY( Models )
 
             class Private;
-            Private* d;
+            Private* const d;
     };
 }
 

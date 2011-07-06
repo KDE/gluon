@@ -44,17 +44,13 @@
 #include <KDE/KMessageBox>
 #include <KDE/KConfigDialog>
 #include <KDE/KLocalizedString>
-#include <KDE/KPluginSelector>
-#include <KDE/KRun>
 #include <KDE/KRecentFilesAction>
-#include <KDE/KToolBar>
-#include <KDE/KRichTextEdit>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMenuBar>
 
-#include <QtGui/QVBoxLayout>
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
+#include <QtCore/QTimer>
 
 using namespace GluonCreator;
 
@@ -81,12 +77,6 @@ MainWindow::MainWindow( const QString& fileName )
 
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    PluginManager::instance()->setParent( this );
-    ObjectManager::instance()->setParent( this );
-    HistoryManager::instance()->setParent( this );
-    SelectionManager::instance()->setParent( this );
-
-    DockManager::instance()->setParent( this );
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
@@ -136,6 +126,8 @@ MainWindow::~MainWindow()
     d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
+
+    GluonEngine::Game::instance()->cleanupAll();
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )

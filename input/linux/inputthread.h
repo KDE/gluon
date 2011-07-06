@@ -26,15 +26,9 @@
 #include "absval.h"
 
 #include <QtCore/QThread>
-#include <QtCore/QMap>
-#include <QtCore/QSharedData>
+#include <QtCore/QSharedDataPointer>
 
 // #include <libudev.h>
-
-/**
- * \defgroup KCL KCL
- */
-//@{
 
 namespace GluonInput
 {
@@ -48,7 +42,7 @@ namespace GluonInput
             explicit InputThread( const QString& devicePath, QObject* parent = 0 );
             //            explicit InputThread(udev_device *dev, QObject *parent = 0);
 
-            ~InputThread();
+            virtual ~InputThread();
             void run();
 
             const QString devicePath() const;
@@ -82,13 +76,12 @@ namespace GluonInput
 
             QObject* parent();
 
-        signals:
+        Q_SIGNALS:
             void relAxisMoved( int axis, int distance );
             void absAxisMoved( int axis, int distance );
             void buttonStateChanged( int button, int value );
 
         private:
-
             bool openDevice( const QString& devicePath );
             void closeDevice();
 
@@ -98,5 +91,5 @@ namespace GluonInput
             QSharedDataPointer<InputThreadPrivate> d;
     };
 }
-//@}
-#endif // KCLTHREAD_H
+
+#endif 

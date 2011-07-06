@@ -23,7 +23,8 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QDockWidget>
-#include <QtGui/QItemSelection>
+
+class QItemSelection;
 
 namespace GluonEngine
 {

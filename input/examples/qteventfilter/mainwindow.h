@@ -20,16 +20,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
-#include <QApplication>
-#include <QMainWindow>
-#include <QTextEdit>
-#include <QGridLayout>
-#include <QAction>
-#include <QStatusBar>
-#include <QMenuBar>
-#include <QMessageBox>
+#include <QtGui/QMainWindow>
+
+class QTextEdit;
+class QGridLayout;
+class QAction;
+class QStatusBar;
+class QMenuBar;
 
 class MainWindow : public QMainWindow
 {

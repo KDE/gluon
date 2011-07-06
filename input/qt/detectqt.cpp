@@ -18,8 +18,7 @@
  */
 
 #include "detectqt.h"
-
-#include "detectqtprivate.h"
+#include "detectqt_p.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>

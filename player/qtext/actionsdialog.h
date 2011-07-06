@@ -20,22 +20,22 @@
 #ifndef ACTIONSDIALOG_H
 #define ACTIONSDIALOG_H
 
-#include <QTableWidget>
-#include <QTableWidgetItem>
-#include <QHeaderView>
-#include <QVariant>
-#include <QApplication>
-#include <QButtonGroup>
-#include <QList>
-#include <QAction>
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QGridLayout>
-#include <QStringList>
-#include <QPushButton>
-#include <QSettings>
-#include <QScopedPointer>
-#include <QDebug>
+#include <QtGui/QTableWidget>
+#include <QtGui/QTableWidgetItem>
+#include <QtGui/QHeaderView>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QAction>
+#include <QtGui/QDialog>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QGridLayout>
+#include <QtGui/QPushButton>
+#include <QtCore/QVariant>
+#include <QtCore/QList>
+#include <QtCore/QStringList>
+#include <QtCore/QSettings>
+#include <QtCore/QScopedPointer>
+#include <QtCore/QDebug>
 
 namespace Ui
 {

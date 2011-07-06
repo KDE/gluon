@@ -21,7 +21,6 @@
 #ifndef GLUON_ENGINE_COMPONENTPRIVATE_H
 #define GLUON_ENGINE_COMPONENTPRIVATE_H
 
-#include <QtCore/QSharedData>
 #include <QtCore/QString>
 
 namespace GluonEngine

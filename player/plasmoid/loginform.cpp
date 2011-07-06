@@ -19,16 +19,16 @@
 
 #include "loginform.h"
 
-#include <player/lib/ocsprovider.h>
+#include <player/lib/serviceprovider.h>
 
 #include <Plasma/LineEdit>
 #include <Plasma/PushButton>
 #include <Plasma/Label>
 #include <Plasma/BusyWidget>
-#include <KLineEdit>
+#include <KDE/KLineEdit>
 
-#include <QGraphicsLinearLayout>
-#include <QDebug>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtCore/QDebug>
 
 LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : Overlay( parent, wFlags )
@@ -58,17 +58,19 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addItem( m_loginButton );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(providerInitialized()), SLOT(initDone()));
-    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(failedToInitialize()), SLOT(initFailed()));
-    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
-    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()));
+
+    GluonPlayer::ServiceProvider *serviceProvider = GluonPlayer::ServiceProvider::instance();
+    connect(serviceProvider, SIGNAL(providerInitialized()), SLOT(initDone()));
+    connect(serviceProvider, SIGNAL(failedToInitialize()), SLOT(initFailed()));
+    connect(serviceProvider, SIGNAL(loggedIn()), SLOT(loginDone()));
+    connect(serviceProvider, SIGNAL(loginFailed()), SLOT(loginFailed()));
 
     initialize();
 }
 
 void LoginForm::initialize()
 {
-    GluonPlayer::OcsProvider::instance()->init();
+    GluonPlayer::ServiceProvider::instance()->init();
 }
 
 void LoginForm::initDone()
@@ -91,8 +93,8 @@ void LoginForm::doLogin()
 
     m_loginButton->setEnabled( false );
     m_busyWidget->show();
-    GluonPlayer::OcsProvider::instance()->login(m_usernameEdit->text(), m_passwordEdit->text());
-    connect(GluonPlayer::OcsProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
+    GluonPlayer::ServiceProvider::instance()->login(m_usernameEdit->text(), m_passwordEdit->text());
+    connect(GluonPlayer::ServiceProvider::instance(), SIGNAL(loggedIn()), SLOT(loginDone()));
     m_usernameLabel->setText( i18n( "Logging in" ) );
 }
 
@@ -100,7 +102,7 @@ void LoginForm::loginDone()
 {
     m_busyWidget->hide();
     m_usernameLabel->setText(
-        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::OcsProvider::instance()->username() ) );
+        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::ServiceProvider::instance()->username() ) );
     m_loginButton->setEnabled( true );
 }
 
@@ -113,8 +115,8 @@ void LoginForm::loginFailed()
 
 void LoginForm::loadCredentials()
 {
-    m_usernameEdit->setText( GluonPlayer::OcsProvider::instance()->username() );
-    m_passwordEdit->setText( GluonPlayer::OcsProvider::instance()->password() );
+    m_usernameEdit->setText( GluonPlayer::ServiceProvider::instance()->username() );
+    m_passwordEdit->setText( GluonPlayer::ServiceProvider::instance()->password() );
 }
 
 #include "loginform.moc"

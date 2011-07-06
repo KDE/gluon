@@ -22,8 +22,7 @@
 #ifndef GLUONCREATOR_OPENPROJECTDIALOGPAGE_H
 #define GLUONCREATOR_OPENPROJECTDIALOGPAGE_H
 
-#include <KDE/KPageWidgetModel>
-#include <KDE/KUrl>
+#include <KDE/KPageWidgetItem>
 
 namespace GluonCreator
 {
@@ -31,7 +30,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            explicit OpenProjectDialogPage();
+            OpenProjectDialogPage();
             ~OpenProjectDialogPage();
         Q_SIGNALS:
             void projectRequested( const QString& url );

@@ -24,9 +24,7 @@
 #include "gluondevices.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QPair>
-#include <QtCore/QSharedData>
+#include <QtCore/QSharedDataPointer>
 
 namespace GluonInput
 {
@@ -39,7 +37,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             CustomInput( QObject* parent = 0 );
-            ~CustomInput();
+            virtual ~CustomInput();
 
             void setButton( const QString& name, InputDevice* input, int keyCode );
             void setButton( const QString& name );
@@ -53,7 +51,7 @@ namespace GluonInput
             QStringList absAxisNameList();
             QStringList relAxisNameList();
 
-        signals:
+        Q_SIGNALS:
             void buttonPressed( QString name );
             void buttonReleased( QString name );
             void absAxisChanged( QString name, int value );
@@ -64,4 +62,4 @@ namespace GluonInput
     };
 }
 
-#endif // KCLCUSTOMINPUT_H
+#endif 

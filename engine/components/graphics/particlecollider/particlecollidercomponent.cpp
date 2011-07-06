@@ -75,12 +75,6 @@ ParticleColliderComponent::ParticleColliderComponent( QObject* parent )
 {
 }
 
-ParticleColliderComponent::ParticleColliderComponent( const ParticleColliderComponent& other )
-    : Component( other )
-    , d( other.d )
-{
-}
-
 ParticleColliderComponent::~ParticleColliderComponent()
 {
     delete d;

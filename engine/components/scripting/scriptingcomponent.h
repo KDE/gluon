@@ -20,10 +20,10 @@
 #ifndef GLUONENGINE_SCRIPTINGCOMPONENT_H
 #define GLUONENGINE_SCRIPTINGCOMPONENT_H
 
+#include "scriptingasset.h"
+
 #include <engine/gluon_engine_export.h>
 #include <engine/component.h>
-
-#include "scriptingasset.h"
 
 class QScriptValue;
 namespace GluonEngine

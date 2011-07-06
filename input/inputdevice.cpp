@@ -19,17 +19,14 @@
  */
 
 #include "inputdevice.h"
+#include "inputdevice_p.h"
 
 #include "absval.h"
-#include "inputdeviceprivate.h"
 #include "inputbuffer.h"
 #include "gluondevices.h"
 
 #include <QtGui/QKeySequence>
 #include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaEnum>
 
 REGISTER_OBJECTTYPE( GluonInput, InputDevice )
 

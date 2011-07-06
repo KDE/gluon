@@ -21,17 +21,16 @@
 #define GLUON_ENGINE_PREFAB_H
 
 #include "asset.h"
+#include "savable.h"
 
 #include <core/gluonobject.h>
-#include "savable.h"
 
 namespace GluonEngine
 {
-
     class GameObject;
-
     class PrefabInstance;
     class PrefabPrivate;
+
     /**
      * A Prefab is a GameObject hierarchy stored as an Asset, and any number of instances can be
      * created, which are linked clones of the stored GameObject. The effect of the link is such
@@ -44,7 +43,7 @@ namespace GluonEngine
      * will be propagated even though there are changes to the properties of those GameObjects in
      * the instance. As this is a destructive action, please take care when performing that action.
      */
-    class Prefab : public Asset, public GluonEngine::Savable
+    class GLUON_ENGINE_EXPORT Prefab : public Asset, public GluonEngine::Savable
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
@@ -63,7 +62,7 @@ namespace GluonEngine
         public:
             Q_INVOKABLE Prefab( QObject* parent = 0 );
             Prefab( const Prefab& other, QObject* parent = 0 );
-            ~Prefab();
+            virtual ~Prefab();
 
             /**
              * Return a GDL representation of the scene's contents (that is, the GluonObject

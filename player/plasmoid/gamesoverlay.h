@@ -20,8 +20,8 @@
 #ifndef GAMESOVERLAY_H
 #define GAMESOVERLAY_H
 
-#include <QGraphicsWidget>
-#include <QModelIndex>
+#include <QtGui/QGraphicsWidget>
+#include <QtCore/QModelIndex>
 
 namespace Plasma
 {

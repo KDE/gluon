@@ -47,9 +47,13 @@ add_subdirectory(assets)
 add_subdirectory(components)
 
 set(GluonEngine_SRCS
+    abstractstatistic.cpp
     asset.cpp
     component.cpp
     componentprivate.cpp
+    databasemanager.cpp
+    filelocation.cpp
+    filelocationprivate.cpp
     gameobject.cpp
     gameobjectprivate.cpp
     gameproject.cpp
@@ -61,16 +65,18 @@ set(GluonEngine_SRCS
     savable.cpp
     scene.cpp
     sceneprivate.cpp
-    filelocation.cpp
-    filelocationprivate.cpp
+    statistic.cpp
 
     game.cpp
     gameprivate.cpp
 )
 
 set(GluonEngine_HEADERS
+    abstractstatistic.h
     asset.h
     component.h
+    databasemanager.h
+    filelocation.h
     gameobject.h
     gameproject.h
     prefab.h
@@ -78,11 +84,11 @@ set(GluonEngine_HEADERS
     prefabinstancechild.h
     savable.h
     scene.h
-    filelocation.h
+    statistic.h
 
+    game.h
     gluon_engine_export.h
     gluon_engine_metatypes.h
-    game.h
 )
 
 qt4_automoc(${GluonEngine_SRCS})
@@ -114,7 +120,7 @@ if(GLUON_BUILD_ALL)
     add_dependencies(GluonEngine GluonCore)
 endif()
 
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS})
+target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
 
 set(GLUON_ENGINE_LIBS
     GluonEngine

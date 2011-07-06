@@ -22,9 +22,9 @@
 #include "singleton.h"
 #include "gluon_core_export.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtCore/QUrl>
+
+class QUrl;
 
 namespace GluonCore
 {
@@ -135,7 +135,7 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GDLHandler : public Singleton<GDLHandler>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( GDLHandler )
         public:
             /**
              * Deserialise a GDL string representation into their GluonObject counterpart
@@ -164,11 +164,7 @@ namespace GluonCore
             QString propertiesToGDL( const GluonObject* gluonObject, int indentLevel = 0 ) const;
 
         private:
-            friend class Singleton<GDLHandler>;
-
-            GDLHandler();
-            virtual ~GDLHandler();
-            Q_DISABLE_COPY( GDLHandler );
+            ~GDLHandler();
 
             GluonObject* instantiateObject( QString className );
             GluonObject* createObject( QStringList objectStringList, QObject* parent );

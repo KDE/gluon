@@ -61,6 +61,7 @@ void DeleteObjectCommand::undo()
     }
 
     d->applied = true;
+    AbstractUndoCommand::undo();
 }
 
 void DeleteObjectCommand::redo()
@@ -73,5 +74,6 @@ void DeleteObjectCommand::redo()
     }
 
     d->applied = false;
+    AbstractUndoCommand::redo();
 }
 

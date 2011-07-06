@@ -24,8 +24,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-
 namespace GluonInput
 {
     class GluonButtons : public GluonCore::Singleton<GluonButtons>
@@ -35,6 +33,7 @@ namespace GluonInput
             Q_ENUMS( JoystickButton )
             Q_ENUMS( MouseButton )
             Q_ENUMS( RelAbs )
+            GLUON_SINGLETON( GluonButtons )
 
         public:
             enum KeyboardButton
@@ -304,8 +303,6 @@ namespace GluonInput
                 BUTTON_EIGHT,
                 BUTTON_NINE
             };
-
-            GluonButtons();
 
             QString buttonName( DeviceFlag deviceType, int code );
             QString axisName( DeviceFlag deviceType, int code );

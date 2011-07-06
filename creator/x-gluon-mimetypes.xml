@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-gluon-bundle">
+        <glob pattern="*.gluon" />
+        <comment>Gluon Game Bundle</comment>
+    </mime-type>
     <mime-type type="application/x-gluon-project">
+        <sub-class-of type="text/generic"/>
         <glob pattern="game.gluonproject" />
         <comment>Gluon Project File</comment>
     </mime-type>
     <mime-type type="application/x-gluon-scene">
         <sub-class-of type="text/generic"/>
-        <glob pattern="*.gdl" />
-        <comment>Gluon Scene</comment>
+        <glob pattern="*.gluonscene" />
+        <comment>Gluon Scene File</comment>
     </mime-type>
     <mime-type type="application/x-gluon-material">
         <sub-class-of type="text/generic"/>
-        <glob pattern="*.gml" />
-        <comment>Gluon Material</comment>
+        <glob pattern="*.gluonmaterial" />
+        <comment>Gluon Material File</comment>
+    </mime-type>
+    <mime-type type="application/x-gluon-statistics">
+        <sub-class-of type="text/generic"/>
+        <glob pattern="*.gluonstatistics" />
+        <comment>Gluon Statistics File</comment>
+    </mime-type>
+    <mime-type type="model/vnd.collada+xml">
+        <glob pattern="*.dae" />
+        <comment>Collada Model</comment>
     </mime-type>
 </mime-info>

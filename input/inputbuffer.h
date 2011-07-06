@@ -23,7 +23,7 @@
 #include "gluon_input_export.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QSharedData>
+#include <QtCore/QSharedDataPointer>
 
 namespace GluonInput
 {
@@ -34,7 +34,7 @@ namespace GluonInput
             Q_OBJECT
         public:
             InputBuffer();
-            ~InputBuffer();
+            virtual ~InputBuffer();
 
             bool buttonState( int button );
             void setButtonState( int button, bool pressed );

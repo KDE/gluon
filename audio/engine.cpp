@@ -17,10 +17,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include "engine.h"
 
-#include <QtCore/QStringList>
 #include <QtGui/QVector3D>
+#include <QtCore/QStringList>
+#include <QtCore/QHashIterator>
+
 #include <alure.h>
 
 using namespace GluonAudio;
@@ -39,8 +42,8 @@ class Engine::EnginePrivate
         int minimalStreamLength;
 };
 
-Engine::Engine()
-    : d( new EnginePrivate )
+Engine::Engine ( QObject* parent )
+    : GluonCore::Singleton< GluonAudio::Engine >( parent ), d( new EnginePrivate )
 {
     alureInitDevice( 0, 0 );
     alureUpdateInterval( 0.125 );
@@ -122,3 +125,4 @@ void Engine::setListenerPosition( const QVector3D& position )
     alListener3f( AL_POSITION, position.x(), position.y(), position.z() );
 }
 
+#include "engine.moc"

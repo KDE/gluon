@@ -19,13 +19,13 @@
 
 #include "scenedockplugin.h"
 
-#include <KLocalizedString>
-
 #include "scenedock.h"
+
 #include <lib/dockmanager.h>
 
-using namespace GluonCreator;
+#include <KLocalizedString>
 
+using namespace GluonCreator;
 
 SceneDockPlugin::SceneDockPlugin( QObject* parent, const QList< QVariant >& params )
     : DockPlugin( parent, params )

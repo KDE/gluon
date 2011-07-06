@@ -19,8 +19,7 @@
  */
 
 #include "player.h"
-
-#include <QtCore/QVector>
+#include "engine.h"
 
 using namespace GluonAudio;
 
@@ -28,7 +27,7 @@ class Player::PlayerPrivate
 {
     public:
         PlayerPrivate()
-            : sound( new Sound() )
+            : sound( new Sound(Engine::instance() ) )
             , currentIndex( 0 )
             , playerLoop( false )
 
@@ -53,6 +52,10 @@ Player::Player(QObject* parent)
 {
     connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ) );
     connect(d->sound, SIGNAL( stopped() ), SLOT( playNext() ) );
+}
+
+Player::~Player()
+{
 }
 
 void Player::removeAt(int index)

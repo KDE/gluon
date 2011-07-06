@@ -11,11 +11,6 @@ find_package(OpenAL 1.8 REQUIRED)
 find_package(SndFile REQUIRED)
 find_package(Alure 1.1 REQUIRED)
 
-link_directories(
-    ${SNDFILE_LIBRARY_DIRS}
-    ${ALURE_LIBRARIES}
-)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -38,23 +33,22 @@ set(GLUON_AUDIO_INCLUDES
 )
 
 set(GluonAudio_SRCS
-    engine.cpp
     capture.cpp
-    sound.cpp
+    engine.cpp
     player.cpp
+    sound.cpp
 
     capturedevice_p.cpp
     device_p.cpp
 )
 
 set(GluonAudio_HEADERS
-    engine.h
-    sound.h
-    player.h
     capture.h
+    engine.h
     gluon_audio_export.h
+    player.h
+    sound.h
 )
-
 
 qt4_automoc(${GluonAudio_SRCS})
 
@@ -85,7 +79,7 @@ set(GLUON_AUDIO_LIBS
     CACHE INTERNAL "Libraries required for Gluon audio"
 )
 
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} COMPILE_FLAGS "-DMAKE_GLUON_AUDIO_LIB")
+set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_AUDIO_LIB)
 
 if(APPLE)
     #hack for being able to set headers as public in a osx framework
@@ -100,6 +94,10 @@ if(APPLE)
     set(MACOSX_FRAMEWORK_IDENTIFIER audio)
     set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endif()
+
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
 endif()
 
 install(

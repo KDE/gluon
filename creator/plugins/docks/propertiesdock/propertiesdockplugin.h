@@ -21,6 +21,7 @@
 #define GLUON_CREATOR_PROPERTIESDOCKPLUGIN_H
 
 #include <creator/lib/dockplugin.h>
+
 namespace GluonCreator
 {
 

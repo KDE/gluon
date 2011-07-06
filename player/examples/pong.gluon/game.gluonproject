@@ -1,16 +1,69 @@
-{ GluonEngine::GameProject(pong)
-    filename url(/home/schutz/programmation/gluon/player/examples/pong/pong.gluon)
-    description string(Pong Game)
-    { GluonEngine::Scene(scene1)
-        file url(Scenes/test scene1.gdl)
+{ GluonEngine::GameProject(Pong)
+    description string(Recreation of one of the first video games ever created)
+    entryPoint GluonEngine::Scene(Pong/Scenes/Menu)
+    { GluonCore::GluonObject(Scenes)
+        { GluonEngine::Scene(Menu)
+            file url(scenes/menu.gluonscene)
+        }
+        { GluonEngine::Scene(Game)
+            file url(scenes/game.gluonscene)
+        }
     }
-    { GluonEngine::ScriptAsset(script.js)
-        file url(Assets/test_script.js)
+    { GluonCore::GluonObject(Assets)
+        { GluonCore::GluonObject(Textures)
+            { GluonEngine::TextureAsset(Score)
+                file url(assets/textures/score.png)
+            }
+        }
+        { GluonCore::GluonObject(Interface)
+            { GluonEngine::UiAsset(Menu Interface)
+                file url(assets/interface/menu_interface.qml)
+            }
+        }
+        { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptingAsset(Controller)
+                file url(assets/scripts/controller.js)
+            }
+            { GluonEngine::ScriptingAsset(Player1)
+                file url(assets/scripts/player1.js)
+            }
+            { GluonEngine::ScriptingAsset(Player2)
+                file url(assets/scripts/player2.js)
+            }
+            { GluonEngine::ScriptingAsset(Ball)
+                file url(assets/scripts/ball.js)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+            { GluonEngine::SoundAsset(MerryGo.ogg)
+                file url(assets/sounds/merry_go.ogg)
+                enabled bool(true)
+                expanded bool(true)
+            }
+        }
+        { GluonEngine::MaterialAsset(Main Material)
+            file url(assets/main_material.gml)
+            { GluonGraphics::MaterialInstance(Background)
+                materialColor rgba(0;0;0;255)
+            }
+            { GluonGraphics::MaterialInstance(Player1)
+                materialColor rgba(255;255;255;255)
+            }
+            { GluonGraphics::MaterialInstance(Player2)
+                materialColor rgba(255;255;255;255)
+            }
+            { GluonGraphics::MaterialInstance(Ball)
+                materialColor rgba(255;255;255;255)
+            }
+        }
+        { GluonEngine::MaterialAsset(Render Target Material)
+            file url(assets/render_target_material.gml)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(255;255;255;255)
+                texture0 uint(2)
+            }
+        }
     }
-    { GluonEngine::ScriptAsset(player.js)
-        file url(Assets/pong_player.js)
-    }
-    { GluonEngine::TextureAsset(invaders_alien.png)
-        file url(Assets/pong_invaders_alien.png)
+    { GluonCore::GluonObject(Prefabs)
     }
 }

@@ -57,49 +57,49 @@ set(GluonInput_SRCS_WIN
 
 set(GluonInput_HEADERS_WIN
     win/detectwin.h
-    win/inputthread.h
     win/gluonbuttons.h
     win/gluondevices.h
+    win/inputthread.h
 )
 ###############win source and headers###################
 
 ###############mac source and headers###################
 set(GluonInput_SRCS_MAC
-    mac/inputthread.cpp
-    mac/inputthreadprivate.cpp
     mac/detectmac.cpp
     mac/gluonbuttons.cpp
+    mac/inputthread.cpp
+    mac/inputthread_p.cpp
 )
 
 set(GluonInput_HEADERS_MAC
     mac/detectmac.h
-    mac/inputthread.h
     mac/gluonbuttons.h
     mac/gluondevices.h
+    mac/inputthread.h
 )
 ###############mac source and headers###################
 
 ###############linux source and headers###################
 set(GluonInput_SRCS_LINUX
-    linux/inputthread.cpp
-    linux/inputthreadprivate.cpp
     linux/detectlinux.cpp
-    linux/detectlinuxprivate.cpp
+    linux/detectlinux_p.cpp
     linux/gluonbuttons.cpp
+    linux/inputthread.cpp
+    linux/inputthread_p.cpp
 )
 
 set(GluonInput_HEADERS_LINUX
-    linux/inputthread.h
     linux/detectlinux.h
     linux/gluonbuttons.h
     linux/gluondevices.h
+    linux/inputthread.h
 )
 ###############linux source and headers###################
 
 ###############qt source and headers###################
 set(GluonInput_SRCS_QT
     qt/detectqt.cpp
-    qt/detectqtprivate.cpp
+    qt/detectqt_p.cpp
     qt/gluonqtbuttons.cpp
 )
 
@@ -112,37 +112,37 @@ set(GluonInput_HEADERS_QT
 
 ###############common source and headers###################
 set(GluonInput_SRCS_COMMON
-    inputdevice.cpp
-    inputdeviceprivate.cpp
-    mouse.cpp
-    mouseprivate.cpp
-    touch.cpp
-    touchprivate.cpp
-    keyboard.cpp
-    keyboardprivate.cpp
-    joystick.cpp
-    joystickprivate.cpp
     custominput.cpp
-    custominputprivate.cpp
-    inputmanager.cpp
-    inputmanagerprivate.cpp
+    custominput_p.cpp
     detect.cpp
     inputbuffer.cpp
-    inputbufferprivate.cpp
+    inputbuffer_p.cpp
+    inputmanager.cpp
+    inputmanager_p.cpp
+    joystick.cpp
+    joystick_p.cpp
+    keyboard.cpp
+    keyboard_p.cpp
+    inputdevice.cpp
+    inputdevice_p.cpp
+    mouse.cpp
+    mouse_p.cpp
+    touch.cpp
+    touch_p.cpp
 )
 
 set(GluonInput_HEADERS_COMMON
-    gluon_input_export.h
-    inputmanager.h
-    inputdevice.h
-    mouse.h
-    touch.h
-    keyboard.h
-    joystick.h
+    absval.h
     custominput.h
     detect.h
-    absval.h
+    gluon_input_export.h
     inputbuffer.h
+    inputdevice.h
+    inputmanager.h
+    joystick.h
+    keyboard.h
+    mouse.h
+    touch.h
 )
 ###############common source and headers###################
 
@@ -200,7 +200,7 @@ if(APPLE)
 endif()
 
 if(APPLE)
-    target_link_libraries(GluonInput ${IOKIT_LIBRARY}  ${COREFOUNDATION_LIBRARY})
+    target_link_libraries(GluonInput ${IOKIT_LIBRARY} ${COREFOUNDATION_LIBRARY})
 endif()
 
 install(
@@ -214,33 +214,37 @@ install(
 if(APPLE)
     install(
         FILES
-        ${GluonInput_HEADERS_MAC}
         ${GluonInput_HEADERS_COMMON}
+        ${GluonInput_HEADERS_MAC}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
 elseif(WIN32)
     install(
         FILES
-        ${GluonInput_HEADERS_WIN}
         ${GluonInput_HEADERS_COMMON}
+        ${GluonInput_HEADERS_WIN}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
 elseif(UNIX)
     install(
         FILES
-        ${GluonInput_HEADERS_LINUX}
         ${GluonInput_HEADERS_COMMON}
+        ${GluonInput_HEADERS_LINUX}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
         COMPONENT Devel
     )
 endif()
 
+if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 install(
     FILES
-    ${GluonInput_HEADERS_QT}
     ${GluonInput_HEADERS_COMMON}
+    ${GluonInput_HEADERS_QT}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
     COMPONENT Devel
 )

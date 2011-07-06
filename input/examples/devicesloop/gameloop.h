@@ -20,7 +20,7 @@
 #ifndef GAMELOOP_H
 #define GAMELOOP_H
 
-#include <gluon/input/inputmanager.h>
+#include "input/inputmanager.h"
 
 #include <QtCore/QObject>
 
@@ -43,4 +43,4 @@ class GameLoop : public QObject
         QList<InputDevice*> m_inputList;
 };
 
-#endif // GAMELOOP_H
+#endif

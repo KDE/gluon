@@ -19,14 +19,15 @@
 
 #include "rendertarget.h"
 
-#include <QtGui/QMatrix4x4>
-
 #include "texture.h"
 #include "vertexbuffer.h"
 #include "vertexattribute.h"
 #include "materialinstance.h"
 #include "engine.h"
 #include "viewport.h"
+
+#include <QtOpenGL/QGLFramebufferObject>
+#include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 

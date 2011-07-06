@@ -25,7 +25,7 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <graphics/renderwidget.h>
-#include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 
 #include <KDE/KPushButton>
 #include <KDE/KFileDialog>
@@ -186,7 +186,7 @@ void MainWindow::countFrames( int /* time */ )
 void MainWindow::loadGamesList()
 {
     QDir m_dir;
-    m_dir.cd( GluonCore::Global::dataDirectory() + "/gluon/games" );
+    m_dir.cd( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
     QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( '*' + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
     foreach( const QString & gameDirName, gameDirNameList )
     {

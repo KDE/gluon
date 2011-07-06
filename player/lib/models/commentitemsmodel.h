@@ -21,15 +21,13 @@
 #ifndef GLUONPLAYER_COMMENTITEMSMODEL_H
 #define GLUONPLAYER_COMMENTITEMSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 #include <attica/comment.h>
 
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QStringList>
-
 
 namespace Attica
 {

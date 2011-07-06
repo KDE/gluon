@@ -87,7 +87,7 @@ void VertexBuffer::initialize()
 
     glBufferData( GL_ARRAY_BUFFER, size, 0, GL_STATIC_DRAW );
 
-    int offset = 0;
+    quintptr offset = 0;
     for( int i = 0; i < d->attributes.size(); ++i )
     {
         VertexAttribute& attribute = d->attributes[i];
@@ -123,7 +123,7 @@ void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* mat
         if( attribute.location() != -1 )
         {
             glVertexAttribPointer( attribute.location(), attribute.itemSize(),
-                                   GL_FLOAT, 0, 0, ( void* )( attribute.offset() ) );
+                                   GL_FLOAT, 0, 0, reinterpret_cast< void* >( attribute.offset() ) );
             glEnableVertexAttribArray( attribute.location() );
         }
     }

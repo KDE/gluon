@@ -39,7 +39,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE TextRendererComponent( QObject* parent = 0 );
-            ~TextRendererComponent();
+            virtual ~TextRendererComponent();
             virtual QString category() const;
 
             virtual QString text() const;
@@ -51,7 +51,7 @@ namespace GluonEngine
             virtual void draw( int timeLapse );
             virtual void cleanup();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setText( const QString& text );
             virtual void setFont( const QFont& font );
             virtual void setColor( const QColor& color );

@@ -8,8 +8,8 @@ include_directories(
 )
 
 set(qmlplayer_SRCS
-    main.cpp
     gamewindowmanager.cpp
+    main.cpp
 )
 
 SET(GLUON_QMLPLAYER_RCCS

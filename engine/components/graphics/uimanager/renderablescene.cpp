@@ -23,16 +23,16 @@
 #include <GL/glee.h>
 #endif
 
-#include <QtGui/QGraphicsSceneEvent>
-#include <QGLFramebufferObject>
-#include <QtGui/QGraphicsItem>
-#include <QtCore/QCoreApplication>
-
 #include <input/inputmanager.h>
 #include <graphics/engine.h>
 #include <graphics/material.h>
 #include <graphics/viewport.h>
 #include <graphics/rendertarget.h>
+
+#include <QtOpenGL/QGLFramebufferObject>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QMouseEvent>
+#include <QtCore/QCoreApplication>
 
 using namespace GluonEngine;
 using namespace GluonGraphics;

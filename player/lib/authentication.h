@@ -21,7 +21,7 @@
 #ifndef AUTHENTICATION_H
 #define AUTHENTICATION_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <core/singleton.h>
 
@@ -46,7 +46,7 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT Authentication : public GluonCore::Singleton<Authentication>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( Authentication )
         public:
             /**
              * function to initialize the Authentication module. Must be called before
@@ -127,10 +127,7 @@ namespace GluonPlayer
             void registrationFailed();
 
         private:
-            friend class GluonCore::Singleton<Authentication>;
-            Authentication();
             ~Authentication();
-            Q_DISABLE_COPY( Authentication )
 
             void showRegisterError( const Attica::Metadata& );
 

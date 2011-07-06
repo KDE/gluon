@@ -30,7 +30,7 @@
 #include <creator/lib/selectionmanager.h>
 
 #include <core/debughelper.h>
-#include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 #include <engine/asset.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
@@ -38,11 +38,8 @@
 #include <engine/scene.h>
 
 #include <KDE/KIcon>
-#include <KDE/KInputDialog>
 #include <KDE/KLocalizedString>
 #include <KDE/KMessageBox>
-#include <KDE/KRun>
-#include <KDE/KStandardDirs>
 #include <KDE/KToolBar>
 #include <KDE/KFileItemListProperties>
 #include <KDE/KFileItemActions>
@@ -52,9 +49,7 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QToolButton>
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
+#include <QtGui/QItemSelection>
 
 using namespace GluonCreator;
 
@@ -355,7 +350,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
     if( menuItem )
     {
         QString templateFilename = QString( "gluon/templates/%1/%2" ).arg( menuItem->property( "newAssetPluginname" ).toString() ).arg( menuItem->property( "newAssetFilename" ).toString() );
-        QString fileName = GluonCore::Global::dataDirectory() + '/' + templateFilename;
+        QString fileName = GluonCore::DirectoryProvider::instance()->dataDirectory() + '/' + templateFilename;
         if( fileName.isEmpty() )
         {
             DEBUG_BLOCK

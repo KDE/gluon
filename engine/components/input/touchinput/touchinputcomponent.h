@@ -45,6 +45,7 @@ namespace GluonEngine
             };
 
             Q_INVOKABLE TouchInputComponent( QObject* parent = 0 );
+            virtual ~TouchInputComponent();
             virtual QString category() const;
 
             // True on any frame between getActionStarted and

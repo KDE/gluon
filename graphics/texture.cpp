@@ -23,12 +23,11 @@
 #include "texture.h"
 
 #include "glheaders.h"
-
-#include <QtCore/QUrl>
-#include <QtGui/QImage>
-#include <QtOpenGL/QGLContext>
-
 #include "math.h"
+
+#include <QtOpenGL/QGLContext>
+#include <QtGui/QImage>
+#include <QtCore/QUrl>
 
 using namespace GluonGraphics;
 
@@ -43,17 +42,17 @@ class Texture::TexturePrivate
 };
 
 Texture::Texture( QObject* parent )
-    : QObject( parent ),
-      d( new TexturePrivate )
+    : QObject( parent )
+    , d( new TexturePrivate )
 {
 
 }
 
 Texture::Texture( const Texture& other, QObject* parent )
     : QObject( parent )
-    , d( other.d )
+    , d( new TexturePrivate() )
 {
-
+    *d = *other.d;
 }
 
 Texture::~Texture()
@@ -64,11 +63,8 @@ Texture::~Texture()
 
 bool Texture::load( const QUrl& url )
 {
-#ifdef __GNUC__
-#warning Todo: Add support for non-2D textures and non-RGBA colour formats. Also, find a way \
-around the nasty const_cast .
-#endif
-
+    // TODO: Add support for non-2D textures and non-RGBA colour formats. Also, find a way
+    // around the nasty const_cast .
     if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
         return false;
 

@@ -45,10 +45,11 @@ namespace GluonCore
     {
         public:
             DbgHelper();
-            DbgHelper( const QString& t );
-            ~DbgHelper();
+            explicit DbgHelper( const QString& t );
+            virtual ~DbgHelper();
 
             void addText( const QString& t );
+
         private:
             QString txt;
             static int indent;

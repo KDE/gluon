@@ -25,14 +25,6 @@
 
 #include <core/gluonobject.h>
 
-#include <QtCore/QMap>
-#include <QtCore/QPair>
-#include <QtCore/QPoint>
-#include <QtCore/QThread>
-#include <QtCore/QEvent>
-#include <QtCore/QSharedData>
-#include <QtCore/QObject>
-
 namespace GluonInput
 {
     class InputDevicePrivate;
@@ -45,7 +37,7 @@ namespace GluonInput
         public:
             explicit InputDevice( InputThread* inputThread = 0, QObject* parent = 0 );
             InputDevice( const InputDevice& other, QObject* parent = 0 );
-            ~InputDevice();
+            virtual ~InputDevice();
 
             int vendor() const;
             int product() const;
@@ -74,7 +66,7 @@ namespace GluonInput
 
             void setButtonState( int button, int value );
 
-        private slots:
+        private Q_SLOTS:
             void buttonStateChanged( int button, int value );
 
         private:

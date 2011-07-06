@@ -20,13 +20,11 @@
  */
 
 #include "detectlinux.h"
+#include "detectlinux_p.h"
 
 #include "inputthread.h"
-#include "detectlinuxprivate.h"
 
 #include <QtCore/QDir>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 
 // #include <libudev.h>
 

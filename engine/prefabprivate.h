@@ -19,9 +19,16 @@
 
 #ifndef GLUON_ENGINE_PREFABPRIVATE_H
 #define GLUON_ENGINE_PREFABPRIVATE_H
+
 #include <QList>
 
 class QObject;
+
+namespace GluonCore
+{
+    class GluonObject;
+}
+
 namespace GluonEngine
 {
     class GameObject;
@@ -38,7 +45,9 @@ namespace GluonEngine
             int preCacheSize;
             int additionalCacheSize;
 
-            void updateChildrenFromOther(QObject* updateThis, const QObject* updateFrom);
+            void updateChildrenFromOther(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
+            void moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
+            void removeAndAddChildren(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
     };
 }
 

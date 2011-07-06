@@ -19,6 +19,14 @@
 
 #include "mainwindow.h"
 
+#include <QtGui/QTextEdit>
+#include <QtGui/QGridLayout>
+#include <QtGui/QAction>
+#include <QtGui/QStatusBar>
+#include <QtGui/QMenuBar>
+#include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
+
 MainWindow::MainWindow( QMainWindow* parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
     , m_textEdit( 0 )

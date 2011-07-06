@@ -27,10 +27,6 @@
 
 #include <core/singleton.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QSharedData>
-#include <QtCore/QThread>
-
 namespace GluonEngine
 {
     class GameObject;
@@ -40,6 +36,7 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
             Q_OBJECT
+            GLUON_SINGLETON( Game )
             /**
              * The Scene which is currently being handled by the game loop
              */
@@ -80,7 +77,7 @@ namespace GluonEngine
             Q_INVOKABLE float random();
 
 
-        public slots:
+        public Q_SLOTS:
             void setGameProject( GluonEngine::GameProject* newGameProject );
 
             void setCurrentScene( Scene* newCurrentScene );
@@ -140,7 +137,8 @@ namespace GluonEngine
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
             friend void Scene::resetScene();
-        signals:
+
+        Q_SIGNALS:
             void showDebug( const QString& debugText );
 
             void currentSceneChanged( GluonEngine::Scene* );
@@ -155,12 +153,8 @@ namespace GluonEngine
             void cleaned();
 
         private:
-            friend class GluonCore::Singleton<Game>;
             friend class GamePrivate;
-
-            Game( QObject* parent = 0 );
             ~Game();
-            Q_DISABLE_COPY( Game )
 
             QSharedDataPointer<GamePrivate> d;
     };

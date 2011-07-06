@@ -14,6 +14,8 @@ if(WIN32)
     endif(NOT GLEE_FOUND)
 endif(WIN32)
 
+find_package(AssImp)
+
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
 include_directories(
@@ -29,49 +31,64 @@ set(GLUON_GRAPHICS_INCLUDES
     CACHE INTERNAL "Includes required for Gluon Graphics"
 )
 
+if(ASSIMP_FOUND)
+    include_directories(${ASSIMP_INCLUDE_DIR})
+    set(GLUON_GRAPHICS_INCLUDES
+        ${GLUON_GRAPHICS_INCLUDES}
+        ${ASSIMP_INCLUDE_DIR}
+    )
+    set(GLUON_GRAPHICS_HAS_MESH TRUE CACHE INTERNAL "")
+endif(ASSIMP_FOUND)
+
 set(GluonGraphics_SRCS
-    rendertarget.cpp
     backendcapabilities.cpp
-    mathutils.cpp
-    frustrum.cpp
-    material.cpp
-    materialinstance.cpp
-    technique.cpp
-    materialelement.cpp
     camera.cpp
-    renderwidget.cpp
-    viewport.cpp
-    vertex.cpp
-    texture.cpp
+    frustrum.cpp
     item.cpp
+    material.cpp
+    materialelement.cpp
+    materialinstance.cpp
+    #engine.cpp has to be after the materialinstance.cpp, otherwise crash here
     engine.cpp
+    mathutils.cpp
+    rendertarget.cpp
+    renderwidget.cpp
+    technique.cpp
+    texture.cpp
     mesh.cpp
+    vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
+    viewport.cpp
 )
 
 set(GluonGraphics_HEADERS
     backendcapabilities.h
-    gluon_graphics_export.h
     camera.h
-    renderwidget.h
-    viewport.h
-    vertex.h
-    texture.h
-    item.h
     engine.h
-    mesh.h
-    mathutils.h
     frustrum.h
+    glheaders.h
+    gluon_graphics_export.h
+    item.h
+    mesh.h
     material.h
-    materialinstance.h
-    technique.h
     materialelement.h
+    materialinstance.h
+    mathutils.h
+    rendertarget.h
+    renderwidget.h
+    technique.h
+    texture.h
+    vertex.h
     vertexbuffer.h
     vertexattribute.h
-    rendertarget.h
-    glheaders.h
+    viewport.h
 )
+
+if(ASSIMP_FOUND)
+    set( GluonGraphics_SRCS ${GluonGraphics_SRCS} filemesh.cpp )
+    set( GluonGraphics_HEADERS ${GluonGraphics_HEADERS} filemesh.h )
+endif(ASSIMP_FOUND)
 
 qt4_automoc(${GluonGraphics_SRCS})
 add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_HEADERS})
@@ -108,13 +125,14 @@ set(GLUON_GRAPHICS_LIBS
     CACHE INTERNAL "Libraries required for Gluon Graphics"
 )
 
+if(ASSIMP_FOUND)
+    target_link_libraries(GluonGraphics ${ASSIMP_LIBRARY})
+    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${ASSIMP_LIBRARY})
+endif(ASSIMP_FOUND)
+
 if(WIN32)
     target_link_libraries(GluonGraphics ${GLEE_LIBRARIES})
-    set(GLUON_GRAPHICS_LIBS
-        ${GLUON_GRAPHICS_LIBS}
-        ${GLEE_LIBRARIES}
-        CACHE INTERNAL "Libararies required for Gluon Graphics"
-    )
+    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${GLEE_LIBRARIES})
 endif(WIN32)
 
 if(INSTALL_EXAMPLES)
@@ -137,7 +155,7 @@ install(FILES
 
 install(
     FILES
-    default.png
     default.gml
+    default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )

@@ -104,8 +104,11 @@ void ScriptingAsset::load()
 
 void ScriptingAsset::unload()
 {
-    ScriptingEngine::instance()->unregisterAsset( this );
-    Asset::unload();
+    if( isLoaded() )
+    {
+        ScriptingEngine::instance()->unregisterAsset( this );
+        Asset::unload();
+    }
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_scripting, GluonEngine::ScriptingAsset )

@@ -22,13 +22,15 @@
 
 #include "atticamanager.h"
 
+#include <engine/gameproject.h>
+
 #include <core/gluonobject.h>
 #include <core/gdlhandler.h>
 #include <core/gluon_global.h>
 
-#include <engine/gameproject.h>
 #include <attica/listjob.h>
 
+#include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>

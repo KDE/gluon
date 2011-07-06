@@ -55,7 +55,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE AnimatedSpriteRendererComponent( QObject* parent = 0 );
-            ~AnimatedSpriteRendererComponent();
+            virtual ~AnimatedSpriteRendererComponent();
             QString category() const;
 
             void initialize();
@@ -80,7 +80,7 @@ namespace GluonEngine
             //int textureCount();
             //virtual QVector<Asset*> textures();
 
-        public slots:
+        public Q_SLOTS:
             void setAnimating( bool animate );
             void setLooping( bool loop );
             void setSize( const QSizeF& size );

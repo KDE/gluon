@@ -24,8 +24,8 @@
 #include <input/inputmanager.h>
 #include <core/debughelper.h>
 
-#include <QtCore/QEvent>
-#include <QtCore/QDebug>
+#include <QtGui/QWidget>
+// #include <QtCore/QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, MouseInputComponent );
 

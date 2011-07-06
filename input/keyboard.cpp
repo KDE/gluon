@@ -19,13 +19,19 @@
  */
 
 #include "keyboard.h"
-#include "keyboardprivate.h"
+#include "keyboard_p.h"
 
 using namespace GluonInput;
 
 Keyboard::Keyboard( InputThread* inputThread, QObject* parent )
     : InputDevice( inputThread, parent )
     , d( new KeyboardPrivate() )
+{
+}
+
+Keyboard::Keyboard( const Keyboard& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
 {
 }
 

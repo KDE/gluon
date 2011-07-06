@@ -26,18 +26,12 @@
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
-#include <KDE/KRun>
 #include <KDE/KService>
-#include <KDE/KToolBar>
 #include <KDE/KActionCollection>
-
-#include <QtGui/QActionGroup>
-#include <QtGui/QApplication>
-#include <QtCore/QDebug>
 
 using namespace GluonCreator;
 
-template<> GLUON_CREATOR_VISIBILITY FileManager* GluonCore::Singleton<FileManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( FileManager )
 
 class FileManager::FileManagerPrivate
 {
@@ -89,7 +83,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     KMimeType::Ptr mime = KMimeType::findByPath( fileName );
 
-    KParts::ReadOnlyPart* part;
+    KParts::ReadOnlyPart* part = 0;
     KService::List parts;
 
     if( !partName.isEmpty() )
@@ -129,9 +123,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     // There really is no part that can be used.
     // Instead, just open it in an external application.
-    KRun* runner;
-    runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
-
+    // KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
 }
 
 void FileManager::closeFile( const QString& file )
@@ -151,8 +143,8 @@ void FileManager::setCurrentFile( const QString& file )
         d->partManager->setActivePart( d->parts.value( file ) );
 }
 
-FileManager::FileManager()
-    : d( new FileManagerPrivate )
+FileManager::FileManager( QObject* parent )
+    : GluonCore::Singleton< GluonCreator::FileManager >( parent ), d( new FileManagerPrivate )
 {
 }
 

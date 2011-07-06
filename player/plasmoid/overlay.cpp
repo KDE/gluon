@@ -22,12 +22,11 @@
 #include <Plasma/FrameSvg>
 #include <Plasma/ScrollWidget>
 
-#include <QAbstractItemModel>
-#include <QPainter>
-#include <QGraphicsSceneEvent>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsGridLayout>
-
+#include <QtGui/QPainter>
+#include <QtGui/QGraphicsSceneEvent>
+#include <QtGui/QGraphicsLinearLayout>
+#include <QtGui/QGraphicsGridLayout>
+#include <QtCore/QAbstractItemModel>
 
 Overlay::Overlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     : QGraphicsWidget( parent, wFlags )

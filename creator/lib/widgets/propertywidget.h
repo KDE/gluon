@@ -21,7 +21,6 @@
 #define GLUON_CREATOR_PROPERTYWIDGET_H
 
 #include <QtGui/QWidget>
-#include <QtGui/QGridLayout>
 #include <QtGui/QScrollArea>
 
 #include <creator/lib/gluoncreator_macros.h>
@@ -44,7 +43,7 @@ namespace GluonCreator
 
         public:
             PropertyWidget( QWidget* parent = 0 );
-            ~PropertyWidget();
+            virtual ~PropertyWidget();
 
             GluonCore::GluonObject* object() const;
             void clear();

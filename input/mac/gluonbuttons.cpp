@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-\
+
 #include "gluonbuttons.h"
 
 #include <QtCore/QMetaEnum>
@@ -25,7 +25,8 @@ using namespace GluonInput;
 
 GLUON_DEFINE_SINGLETON( GluonButtons )
 
-GluonButtons::GluonButtons()
+GluonButtons::GluonButtons( QObject* parent )
+    : GluonCore::Singleton< GluonInput::GluonButtons >( parent )
 {
 }
 

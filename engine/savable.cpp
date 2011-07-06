@@ -30,7 +30,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QDir>
-#include <QtCore/QVariant>
 #include <QtCore/QDebug>
 
 using namespace GluonEngine;

@@ -28,7 +28,7 @@ namespace GluonCreator
     {
         public:
             NewObjectCommand( GluonCore::GluonObject* newObject );
-            ~NewObjectCommand();
+            virtual ~NewObjectCommand();
 
             virtual void undo();
             virtual void redo();

@@ -23,7 +23,6 @@
 #include "gluondevices.h"
 #include "inputthread.h"
 
-#include <QtCore/QDebug>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDUsageTables.h>
 

@@ -25,7 +25,6 @@
 
 #include "gluon_graphics_export.h"
 
-#include <QtCore/QObject>
 #include "vertexbuffer.h"
 
 class QMatrix4x4;

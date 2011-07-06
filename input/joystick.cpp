@@ -19,7 +19,7 @@
  */
 
 #include "joystick.h"
-#include "joystickprivate.h"
+#include "joystick_p.h"
 
 using namespace GluonInput;
 
@@ -30,15 +30,19 @@ Joystick::Joystick( InputThread* inputThread, QObject* parent )
     connect( inputThread, SIGNAL( absAxisMoved( int, int ) ), SLOT( joystickMoved( int, int ) ), Qt::DirectConnection );
 }
 
+Joystick::Joystick( const Joystick& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
+{
+}
+
 Joystick::~Joystick()
 {
 }
 
 int Joystick::axisX() const
 {
-#ifdef __GNUC__
-#warning fix the joystick thing, when I have a joystick to test with
-#endif
+    // TODO: It needs to be fixed with my joystick/gamepad
     return -1;
 }
 

@@ -40,7 +40,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE DiscSectionRendererComponent( QObject* parent = 0 );
-            DiscSectionRendererComponent( const DiscSectionRendererComponent& other );
             virtual ~DiscSectionRendererComponent();
             virtual QString category() const;
 
@@ -62,7 +61,7 @@ namespace GluonEngine
             virtual float arcCenter();
             virtual void setArcCenter( float newArcCenter );
 
-        public slots:
+        public Q_SLOTS:
             virtual void setColor( const QColor& color );
             virtual void setColor( int r, int g, int b, int a = 255 );
             virtual void setTexture( Asset* asset );

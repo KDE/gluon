@@ -36,6 +36,10 @@ namespace GluonInput
             {
             }
 
+            virtual ~AbsVal()
+            {
+            }
+
             int value;
             int minimum;
             int maximum;

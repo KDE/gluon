@@ -24,8 +24,6 @@
 #include <graphics/meshes/discmesh.h>
 #include <graphics/item.h>
 
-#include <QtCore/QMimeData>
-
 REGISTER_OBJECTTYPE( GluonEngine, DiscRendererComponent )
 
 using namespace GluonEngine;
@@ -56,12 +54,6 @@ class DiscRendererComponent::DiscRendererComponentPrivate
 DiscRendererComponent::DiscRendererComponent( QObject* parent )
     : Component( parent )
     , d( new DiscRendererComponentPrivate )
-{
-}
-
-DiscRendererComponent::DiscRendererComponent( const DiscRendererComponent& other )
-    : Component( other )
-    , d( other.d )
 {
 }
 

@@ -38,7 +38,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE DiscRendererComponent( QObject* parent = 0 );
-            DiscRendererComponent( const DiscRendererComponent& other );
             virtual ~DiscRendererComponent();
             virtual QString category() const;
 
@@ -55,7 +54,7 @@ namespace GluonEngine
             virtual QColor color();
             virtual Asset* texture();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setColor( const QColor& color );
             virtual void setColor( int r, int g, int b, int a = 255 );
             virtual void setTexture( Asset* asset );

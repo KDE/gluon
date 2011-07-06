@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 project(Gluon)
 
 set(GLUON_VERSION_MAJOR     0)
-set(GLUON_VERSION_MINOR     71)
+set(GLUON_VERSION_MINOR     72)
 set(GLUON_VERSION_PATCH     0)
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
-set(GLUON_VERSION_NAME      "Electron")
+set(GLUON_VERSION_NAME      "Alpha Particle")
 
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
@@ -28,7 +28,7 @@ else()
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
 
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/gluon")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(GLUON_BUILD_ALL TRUE
@@ -36,9 +36,9 @@ set(GLUON_BUILD_ALL TRUE
 )
 
 if(NOT MSVC)
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -O2 -g")
-SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O2")
-SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
 
 
 # Build Release by default
@@ -94,6 +94,14 @@ if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
 endif()
 
+###### Gluon Player ######
+# Checks must be done here because it does its own checks only when cmake was not called here ...
+if(BUILD_GLUON_PLAYER)
+    add_subdirectory(player)
+else(BUILD_GLUON_PLAYER)
+    set(INSTALL_EXAMPLES OFF)
+endif(BUILD_GLUON_PLAYER)
+
 set(KDE_FAILED FALSE)
 ######## KDE Parts ########
 if(BUILD_PLASMOID OR BUILD_GLUON_CREATOR OR WITH_KDE)
@@ -116,6 +124,7 @@ if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
 
+<<<<<<< HEAD
 ###### Gluon Player ######
 # Checks must be done here because it does its own checks only when cmake was not called here ...
 if(BUILD_GLUON_PLAYER)
@@ -131,6 +140,8 @@ if(BUILD_GLUON_SMARTS)
 endif()
 
 
+=======
+>>>>>>> master
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
@@ -141,6 +152,9 @@ message(STATUS "Enable KDE Development Platform support (WITH_KDE): ${WITH_KDE}"
 message(STATUS "Build Gluon Audio Library (BUILD_GLUON_AUDIO): ${BUILD_GLUON_AUDIO}")
 message(STATUS "Build Gluon Input Library (BUILD_GLUON_INPUT): ${BUILD_GLUON_INPUT}")
 message(STATUS "Build Gluon Graphics Library (BUILD_GLUON_GRAPHICS): ${BUILD_GLUON_GRAPHICS}")
+if(BUILD_GLUON_GRAPHICS)
+    message(STATUS "    Build Mesh loading support: ${GLUON_GRAPHICS_HAS_MESH}")
+endif(BUILD_GLUON_GRAPHICS)
 message(STATUS "Build Gluon Engine Library (BUILD_GLUON_ENGINE): ${BUILD_GLUON_ENGINE}")
 message(STATUS "Build Smarts Game AI Library (BUILD_GLUON_SMARTS): ${BUILD_GLUON_SMARTS}")
 if(BUILD_GLUON_ENGINE)
@@ -182,7 +196,7 @@ if(INSTALL_CMAKE_FILES)
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
         audio/cmake/FindOggVorbis.cmake
-        audio/cmake/FindSndFile.cmake
+        audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
@@ -198,8 +212,8 @@ else()
         core/cmake/FindGluon.cmake
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
-        audio/cmake/FindOggVorbis.cmake
         audio/cmake/FindSndFile.cmake
+        audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
         input/cmake/FindGluonInput.cmake
@@ -229,3 +243,4 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
+include(CTest)

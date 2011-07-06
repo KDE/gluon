@@ -25,7 +25,6 @@
 
 #include <core/gluonobject.h>
 
-#include <QtCore/QSharedData>
 #include <QtPlugin>
 
 /**
@@ -78,8 +77,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Component( QObject* parent = 0 );
-            Component( const Component& other, QObject* parent = 0 );
-            ~Component();
+            virtual ~Component();
 
             /**
             * Return the category of the component. Meta-data used for filtering

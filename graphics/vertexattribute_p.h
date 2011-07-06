@@ -20,8 +20,8 @@
 #ifndef VERTEXATTRIBUTEPRIVATE_H
 #define VERTEXATTRIBUTEPRIVATE_H
 
-#include <QVector>
-#include <QString>
+#include <QtCore/QVector>
+#include <QtCore/QString>
 
 namespace GluonGraphics
 {
@@ -34,7 +34,7 @@ namespace GluonGraphics
             QVector<float> data;
             QString name;
             int location;
-            int offset;
+            quintptr offset;
             int size;
     };
 };

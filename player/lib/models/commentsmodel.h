@@ -21,10 +21,9 @@
 #ifndef GLUONPLAYER_COMMENTSMODEL_H
 #define GLUONPLAYER_COMMENTSMODEL_H
 
-#include "gluon_player_export.h"
+#include "lib/gluon_player_export.h"
 
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QStringList>
 
 namespace GluonCore
 {
@@ -33,7 +32,7 @@ namespace GluonCore
 
 namespace GluonPlayer
 {
-    class OcsComment;
+    class CommentItem;
 
     /**
      *\brief Model which contains a list of comments
@@ -92,7 +91,7 @@ namespace GluonPlayer
             void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
         private Q_SLOTS:
-            void processFetchedComments( QList<OcsComment*> list );
+            void processFetchedComments( QList<CommentItem*> list );
             void uploadCommentFinished();
 
         Q_SIGNALS:
@@ -102,7 +101,7 @@ namespace GluonPlayer
             void fetchCommentsFailed();
 
         private:
-            GluonCore::GluonObject* addComment( OcsComment *comment, GluonCore::GluonObject* parent );
+            GluonCore::GluonObject* addComment( CommentItem *comment, GluonCore::GluonObject* parent );
             void updateData();
             void loadData();
             void saveData();

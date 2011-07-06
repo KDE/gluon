@@ -29,7 +29,7 @@
 #include <QtPlugin>
 #include <QtGui/QIcon>
 #include <QtCore/QUrl>
-#include <QtCore/QSharedData>
+#include <QtCore/QMimeData>
 
 class QAction;
 class QMimeData;
@@ -56,7 +56,7 @@ namespace GluonEngine
                 , filename( filename )
                 , pluginname( pluginname )
             { }
-            ~AssetTemplate() {};
+            virtual ~AssetTemplate() {};
 
 
             /**
@@ -94,7 +94,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE Asset( QObject* parent = 0 );
-            ~Asset();
+            virtual ~Asset();
 
             /**
              * An extension on the GluonCore::GluonObject::setName function which changes the
@@ -150,6 +150,19 @@ namespace GluonEngine
              * always return the primary data for the asset.
              */
             virtual const QMimeData* data() const;
+            
+            /**
+             * This function should return a QMimeType containing a reference to the
+             * asset itself. The data should provide a mimedata instance with the
+             * mimetype format represented by the asset, and a bytestream containing
+             * the fully qualified name of the asset. The default implementation returns
+             * one which contains the mimetype application/gluon.engine.className, but
+             * you should reimplement it and provide one which gives the actual mimetype
+             * represented by the asset.
+             * @return As described above
+             * @see fullyQualifiedName
+             */
+            virtual QMimeData* dragData() const;
 
             /**
              * The specialization of toGDL on the Asset class does not recurse.
@@ -172,7 +185,7 @@ namespace GluonEngine
              */
             static QUrl fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension = QString() );
 
-        public slots:
+        public Q_SLOTS:
             /**
              * Load the data of this Asset into memory.
              */

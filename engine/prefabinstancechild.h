@@ -25,8 +25,8 @@
 
 namespace GluonEngine
 {
-
-class PrefabInstance;
+    class PrefabInstance;
+    class PrefabPrivate;
 
     /**
      * Speaking generally, this class should never be instanatiated manually. It will for all
@@ -34,7 +34,7 @@ class PrefabInstance;
      * The class is used by the Prefab system to contain children of a Prefab instance. To find out
      * how that system works, please see the documentation on GluonEngine::Prefab
      */
-    class PrefabInstanceChild : public GluonEngine::GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstanceChild : public GluonEngine::GameObject
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PrefabInstanceChild )
@@ -53,19 +53,13 @@ class PrefabInstance;
              */
             Q_INVOKABLE GluonEngine::PrefabInstance* parentInstance();
 
-            /**
-             * Prefab instances cannot have their name reset for any reason, as that should only
-             * happen from the Prefab original. As such, this function does nothing other than
-             * return.
-             * @param  newName  The name you intend to use, but which will be ignored
-             */
-            Q_SLOT void setName(const QString& newName);
-
             /*
              * Reimplemented from GameObject
              */
+            virtual void addChild( GameObject* child );
             virtual void addChild( GluonObject* child );
             virtual void addChildAt( GluonObject* child, int position );
+            virtual bool removeChild( GameObject* child );
             virtual bool removeChild( GluonObject* child );
             Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
             Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
@@ -75,6 +69,7 @@ class PrefabInstance;
 
         protected:
             friend class PrefabInstance;
+            friend class PrefabPrivate;
             /**
              * Clear this prefab instance child and reclone it from the passed GameObject.
              * This will recursively clone the GameObject, by creating PrefabInstanceChild instances

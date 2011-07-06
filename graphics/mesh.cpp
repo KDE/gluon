@@ -21,13 +21,10 @@
  */
 
 #include "mesh.h"
+
 #include "materialinstance.h"
 #include "vertexbuffer.h"
 #include "vertexattribute.h"
-
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QColor>
-
 #include "math.h"
 
 using namespace GluonGraphics;
@@ -59,9 +56,7 @@ Mesh::~Mesh()
 void
 Mesh::load( const QString& filename )
 {
-#ifdef __GNUC__
-#warning TODO: Investigate why this works.
-#endif
+    // TODO: Investigate why this works.
     //     if( isLoaded() )
     //         return;
 

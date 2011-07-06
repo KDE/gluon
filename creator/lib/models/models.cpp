@@ -18,6 +18,7 @@
  */
 
 #include "models.h"
+
 #include "componentmodel.h"
 #include "projectmodel.h"
 #include "scenemodel.h"
@@ -39,10 +40,10 @@ class Models::Private
         SceneModel* sceneModel;
 };
 
-template<> GLUON_CREATOR_VISIBILITY Models* GluonCore::Singleton<Models>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( Models )
 
-Models::Models()
-    : d( new Private )
+Models::Models( QObject* parent )
+    : GluonCore::Singleton< GluonCreator::Models >( parent ), d( new Private )
 {
 }
 

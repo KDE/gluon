@@ -40,7 +40,7 @@ namespace GluonPlayer
     class AtticaManager : public GluonCore::Singleton<AtticaManager>
     {
             Q_OBJECT
-
+            GLUON_SINGLETON( AtticaManager )
         public:
             /**
              * Used to check if we have loaded a valid OCS provider
@@ -71,10 +71,7 @@ namespace GluonPlayer
             void failedToFetchProvider();
 
         private:
-            friend class GluonCore::Singleton<AtticaManager>;
-            AtticaManager();
             ~AtticaManager();
-            Q_DISABLE_COPY( AtticaManager )
 
             Attica::ProviderManager m_manager;
             Attica::Provider m_provider;

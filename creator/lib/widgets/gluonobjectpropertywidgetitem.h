@@ -36,7 +36,7 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit GluonObjectPropertyWidgetItem( const QString& typeName, QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            ~GluonObjectPropertyWidgetItem();
+            virtual ~GluonObjectPropertyWidgetItem();
 
             virtual PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
@@ -44,7 +44,7 @@ namespace GluonCreator
             void setTypeName( const QString& typeName );
             QString typeName() const;
 
-        public slots:
+        public Q_SLOTS:
             void browseForItems();
             void setEditValue( const QVariant& value );
             void objectValueChanged( GluonCore::GluonObject* value );

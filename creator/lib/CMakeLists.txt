@@ -21,14 +21,15 @@ set(libGluonCreator_SRCS
     models/scenemodel.cpp
     models/modeltest.cpp
 
+    widgets/enumpropertywidgetitem.cpp
     widgets/filearea.cpp
+    widgets/gluonobjectpropertywidgetitem.cpp
+    widgets/nullpropertywidgetitem.cpp
+    widgets/prefabcontrols.cpp
     widgets/propertywidget.cpp
     widgets/propertywidgetcontainer.cpp
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
-    widgets/nullpropertywidgetitem.cpp
-    widgets/gluonobjectpropertywidgetitem.cpp
-    widgets/enumpropertywidgetitem.cpp
     widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
@@ -36,11 +37,12 @@ qt4_automoc(${libGluonCreator_SRCS})
 kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
 set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
 if(GLUON_BUILD_ALL)
-    add_dependencies(libGluonCreator GluonEngine)
+    add_dependencies(libGluonCreator GluonEngine GluonPlayer)
 endif()
 
 target_link_libraries(libGluonCreator
     ${GLUON_ENGINE_LIBS}
+    ${GLUON_PLAYER_LIBS}
     ${GLUON_CREATOR_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KDEUI_LIBS}
@@ -50,6 +52,7 @@ target_link_libraries(libGluonCreator
 
 set(GLUON_CREATOR_LIBS
     libGluonCreator
+    ${GLUON_PLAYER_LIBS}
     ${GLUON_ENGINE_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${KDE4_KIO_LIBS}
@@ -62,19 +65,19 @@ install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LI
 
 
 install(FILES
-    plugin.h
-    dockplugin.h
-    toolplugin.h
-    dockmanager.h
-    pluginmanager.h
-    historymanager.h
-    objectmanager.h
-    selectionmanager.h
-    gluoncreator_macros.h
     abstractundocommand.h
-    newobjectcommand.h
     deleteobjectcommand.h
+    dockmanager.h
+    dockplugin.h
+    gluoncreator_macros.h
+    historymanager.h
+    newobjectcommand.h
+    objectmanager.h
+    plugin.h
+    pluginmanager.h
     propertychangedcommand.h
+    selectionmanager.h
+    toolplugin.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
     COMPONENT Devel
 )

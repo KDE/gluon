@@ -19,13 +19,19 @@
  */
 
 #include "touch.h"
-#include "touchprivate.h"
+#include "touch_p.h"
 
 using namespace GluonInput;
 
 Touch::Touch( InputThread* inputThread, QObject* parent )
     : InputDevice( inputThread, parent )
     , d( new TouchPrivate )
+{
+}
+
+Touch::Touch( const Touch& other, InputThread* inputThread, QObject* parent )
+    : InputDevice( inputThread, parent )
+    , d( other.d )
 {
 }
 

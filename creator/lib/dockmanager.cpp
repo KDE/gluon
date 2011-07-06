@@ -33,7 +33,7 @@ class DockManager::DockManagerPrivate
         KXmlGuiWindow* mainWindow;
 };
 
-template<> GLUON_CREATOR_VISIBILITY DockManager* GluonCore::Singleton<DockManager>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( DockManager )
 
 void DockManager::addDock( QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orientation orient )
 {
@@ -86,8 +86,8 @@ void DockManager::setMainWindow( KXmlGuiWindow* window )
     d->mainWindow = window;
 }
 
-DockManager::DockManager()
-    : d( new DockManagerPrivate )
+DockManager::DockManager( QObject* parent )
+    : GluonCore::Singleton< GluonCreator::DockManager >( parent ), d( new DockManagerPrivate )
 {
 
 }

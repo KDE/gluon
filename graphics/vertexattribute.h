@@ -20,7 +20,7 @@
 #ifndef VERTEXATTRIBUTE_H
 #define VERTEXATTRIBUTE_H
 
-#include <QVector>
+#include <QtCore/QString>
 
 namespace GluonGraphics
 {
@@ -66,7 +66,7 @@ namespace GluonGraphics
             /**
              * Destroys the vertex attribute.
              */
-            ~VertexAttribute();
+            virtual ~VertexAttribute();
 
             /**
              * Appends a number to the array.
@@ -111,7 +111,7 @@ namespace GluonGraphics
             /**
              * Returns the offset of the attribute in the vertex buffer.
              **/
-            int offset() const;
+            quintptr offset() const;
 
             VertexAttribute& operator=( const VertexAttribute& other );
 

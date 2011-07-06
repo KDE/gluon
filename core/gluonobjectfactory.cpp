@@ -18,20 +18,19 @@
  */
 
 #include "gluonobjectfactory.h"
+
+#include "directoryprovider.h"
 #include "gluonobject.h"
 #include "debughelper.h"
-#include "gluon_global.h"
 
+#include <QtGui/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
-#include <QtGui/QApplication>
-#include <QVariant>
-
-#include <QtCore/QDebug>
+#include <QtCore/QVariant>
 
 using namespace GluonCore;
 
-template<> GluonObjectFactory* Singleton<GluonObjectFactory>::m_instance = 0;
+GLUON_DEFINE_SINGLETON( GluonObjectFactory )
 
 QStringList
 GluonObjectFactory::objectTypeNames() const
@@ -178,14 +177,14 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( "PlugIns" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::Global::libDirectory() ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() ) )
         pluginDirs.append( pluginDir );
 
     // this is the plugin dir on windows
-    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/kde4" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/kde4" ) )
         pluginDirs.append( pluginDir );
 
-    if( pluginDir.cd( GluonCore::Global::libDirectory() + "/gluon" ) )
+    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/gluon" ) )
         pluginDirs.append( pluginDir );
 
     if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
@@ -225,6 +224,12 @@ GluonObjectFactory::loadPlugins()
     }
 
     DEBUG_TEXT2( "Total number of objects in factory after loading: %1", m_objectTypes.count() );
+}
+
+GluonObjectFactory::GluonObjectFactory ( QObject* parent )
+    : GluonCore::Singleton< GluonCore::GluonObjectFactory >( parent )
+{
+
 }
 
 #include "gluonobjectfactory.moc"

@@ -40,7 +40,6 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE UiManagerComponent( QObject* parent = 0 );
-            UiManagerComponent( const UiManagerComponent& other );
             virtual ~UiManagerComponent();
             virtual QString category() const;
 
@@ -55,7 +54,7 @@ namespace GluonEngine
 
             void setScriptEngine( QScriptValue& value );
 
-        public slots:
+        public Q_SLOTS:
             void setUi( UiAsset* ui );
             virtual void setSize( const QSizeF& size );
 

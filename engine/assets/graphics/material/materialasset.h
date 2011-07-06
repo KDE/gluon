@@ -33,7 +33,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
-            ~MaterialAsset();
+            virtual ~MaterialAsset();
 
             virtual QIcon icon() const;
             virtual void load();

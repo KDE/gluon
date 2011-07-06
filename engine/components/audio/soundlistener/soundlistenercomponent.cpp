@@ -20,8 +20,9 @@
 
 #include "soundlistenercomponent.h"
 
-#include <audio/engine.h>
 #include <gameobject.h>
+
+#include <audio/engine.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundListenerComponent )
 
@@ -32,11 +33,9 @@ SoundListenerComponent* SoundListenerComponent::m_activeInstance = 0;
 SoundListenerComponent::SoundListenerComponent( QObject* parent )
     : Component( parent )
 {
-    GluonAudio::Engine::instance();
 }
 
-SoundListenerComponent::SoundListenerComponent( const SoundListenerComponent& other )
-    : Component( other )
+SoundListenerComponent::~SoundListenerComponent()
 {
 }
 
