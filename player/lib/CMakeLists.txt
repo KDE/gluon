@@ -20,19 +20,20 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    addgamejob.cpp
     atticamanager.cpp
     authentication.cpp
+    categorylistjob.cpp
     comment.cpp
     gamecontenttransfer.cpp
     gamedetail.cpp
-    rating.cpp
-    serviceprovider.cpp
-
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
     models/highscoresmodel.cpp
+    rating.cpp
+    serviceprovider.cpp
 )
 
 qt4_automoc(${libGluonPlayer_SRCS})
