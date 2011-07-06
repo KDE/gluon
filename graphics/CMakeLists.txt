@@ -43,13 +43,12 @@ endif(ASSIMP_FOUND)
 set(GluonGraphics_SRCS
     backendcapabilities.cpp
     camera.cpp
+    engine.cpp
     frustrum.cpp
     item.cpp
     material.cpp
     materialelement.cpp
     materialinstance.cpp
-    #engine.cpp has to be after the materialinstance.cpp, otherwise crash here
-    engine.cpp
     mathutils.cpp
     rendertarget.cpp
     renderwidget.cpp
