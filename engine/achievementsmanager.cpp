@@ -85,6 +85,8 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         object->setProperty( "minimumScore", achievement->minimumScore() );
         object->setProperty( "currentScore", achievement->currentScore() );
         object->setProperty( "hasDependency", achievement->hasDependency() );
+        if( achievement->hasDependency() )
+            object->setProperty( "dependency", achievement->dependency()->name() );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "achieved", achievement->achieved() );
     }
@@ -165,6 +167,11 @@ qlonglong AchievementsManager::minimumScore(int index) const
 qlonglong AchievementsManager::currentScore(int index) const
 {
     return children()[index]->property( "currentScore" ).toLongLong();
+}
+
+QString AchievementsManager::dependency(int index) const
+{
+    return children()[index]->property( "dependency" ).toString();
 }
 
 bool AchievementsManager::dependencySatisfied(int index) const

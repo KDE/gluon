@@ -94,7 +94,7 @@ void AchievementDelegate::paint( QPainter* painter, const QStyleOptionViewItem& 
     else
     {
         name = "Locked";
-        description = "";
+        description = "Depends on: " + model->achievementsManager()->dependency(index.row());
         minimumScore = 100;
         currentScore = 0;
         progressString = "0/0";

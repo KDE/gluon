@@ -81,6 +81,9 @@ namespace GluonEngine
             /** The current score of the statistic */
             qlonglong currentScore( int index ) const;
 
+            /** Return the name of the dependency of the achievement */
+            QString dependency( int index ) const;
+
             /** Has the user the dependency achievement achieved? */
             bool dependencySatisfied( int index ) const;
 
