@@ -80,7 +80,6 @@ if(NOT APPLE)
     install(FILES gluon_qmlplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 
     if(NOT PLAYER_ICONS_INSTALLED)
-        add_subdirectory(../icons icons)
         set(PLAYER_ICONS_INSTALLED TRUE)
     endif()
 endif()
