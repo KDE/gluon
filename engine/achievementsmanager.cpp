@@ -76,11 +76,14 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
     //sort
     QList< Achievement* > achieved;
+    QList< Achievement* > hidden;
     QList< Achievement* > inProgress;
     QList< Achievement* > locked;
     foreach( Achievement* achievement, achievements )
         if( achievement->achieved() )
             achieved.append(achievement);
+        else if( achievement->isHidden() )
+            hidden.append(achievement);
         else if( achievement->dependencySatisfied() )
             inProgress.append(achievement);
         else
@@ -89,6 +92,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
     QList< Achievement* > allAchievements = achieved;
     allAchievements.append(inProgress);
     allAchievements.append(locked);
+    allAchievements.append(hidden);
 
     foreach( Achievement* achievement, allAchievements )
     {
@@ -104,6 +108,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         if( achievement->hasDependency() )
             object->setProperty( "dependency", achievement->dependency()->name() );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
+        object->setProperty( "hidden", achievement->isHidden() );
         object->setProperty( "achieved", achievement->achieved() );
     }
 }
@@ -193,6 +198,11 @@ QString AchievementsManager::dependency(int index) const
 bool AchievementsManager::dependencySatisfied(int index) const
 {
     return children()[index]->property( "dependencySatisfied" ).toBool();
+}
+
+bool AchievementsManager::hidden(int index) const
+{
+    return children()[index]->property( "hidden" ).toBool();
 }
 
 bool AchievementsManager::achievementAchieved(int index) const

@@ -87,6 +87,9 @@ namespace GluonEngine
             /** Has the user the dependency achievement achieved? */
             bool dependencySatisfied( int index ) const;
 
+            /** Is the achievement hidden? */
+            bool hidden( int index ) const;
+
             /** Has the user the achievement at index? */
             bool achievementAchieved( int index ) const;
     };

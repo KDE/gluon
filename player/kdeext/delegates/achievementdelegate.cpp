@@ -83,7 +83,15 @@ void AchievementDelegate::paint( QPainter* painter, const QStyleOptionViewItem& 
     int textRowHeight = (option.rect.height()-5) / 3;
     QString name, description, progressString;
     qlonglong minimumScore, currentScore;
-    if( model->achievementsManager()->dependencySatisfied(index.row()) )
+    if( model->achievementsManager()->hidden(index.row()) )
+    {
+        name = "Hidden";
+        description = "";
+        minimumScore = 100;
+        currentScore = 0;
+        progressString = "???";
+    }
+    else if( model->achievementsManager()->dependencySatisfied(index.row()) )
     {
         name = model->achievementsManager()->achievementName(index.row());
         description = model->achievementsManager()->description(index.row());

@@ -33,12 +33,13 @@ REGISTER_OBJECTTYPE( GluonEngine, Achievement )
 class Achievement::AchievementPrivate
 {
     public:
-        AchievementPrivate() : statistic(0), minimumScore(0), icon(0), dependency(0) {}
+        AchievementPrivate() : statistic(0), minimumScore(0), icon(0), hidden(false), dependency(0) {}
         ~AchievementPrivate() {}
 
         AbstractStatistic* statistic;
         qlonglong minimumScore;
         TextureAsset* icon;
+        bool hidden;
         Achievement* dependency;
 
         QList<qlonglong> parseSelection( QString selection );
@@ -148,6 +149,16 @@ void Achievement::setIcon( TextureAsset* icon )
     if( icon )
         icon->ref();
     d->icon = icon;
+}
+
+bool Achievement::isHidden()
+{
+    return d->hidden;
+}
+
+void Achievement::setHidden(bool hide)
+{
+    d->hidden = hide;
 }
 
 Achievement* Achievement::dependency() const
