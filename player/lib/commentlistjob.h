@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_COMMENT_H
-#define GLUONPLAYER_COMMENT_H
+#ifndef GLUONPLAYER_COMMENTLISTJOB_H
+#define GLUONPLAYER_COMMENTLISTJOB_H
 
 #include <QtCore/QDateTime>
 
@@ -51,27 +52,27 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class Comment : public QObject
+    class CommentListJob : public QObject
     {
             Q_OBJECT
         public:
-            Comment( Attica::Provider* provider, const QString& id, int page, int pageSize,
+            CommentListJob( Attica::Provider* provider, const QString& id, int page, int pageSize,
                                           QObject* parent = 0 );
-            Comment( Attica::Provider* provider, const QString& id, const QString& parentId,
+            CommentListJob( Attica::Provider* provider, const QString& id, const QString& parentId,
                                           const QString& subject, const QString& message, QObject* parent = 0 );
-            virtual ~Comment();
+            virtual ~CommentListJob();
 
         Q_SIGNALS:
-            void commentsFetched( QList<CommentItem*> comments );
-            void failedToFetchComments();
-            void commentUploaded();
-            void failedToUploadComment();
+            void commentListFetchFinished( QList<CommentItem*> comments );
+            void commentListFetchFailed();
+            void commentListUploadFinished();
+            void commentListUploadFailed();
 
         private Q_SLOTS:
-            void fetchComments();
-            void uploadComments();
-            void processFetchedComments( Attica::BaseJob* job );
-            void uploadCommentsFinished( Attica::BaseJob* job );
+            void fetchCommentList();
+            void uploadCommentList();
+            void processFetchedCommentList( Attica::BaseJob* job );
+            void uploadCommentListFinished( Attica::BaseJob* job );
 
         private:
             void addChildren(CommentItem *parentOcsComment, const Attica::Comment& parentComment);
@@ -81,4 +82,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_COMMENT_H
+#endif // GLUONPLAYER_COMMENTLISTJOB_H

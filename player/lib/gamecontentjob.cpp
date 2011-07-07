@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "gamecontenttransfer.h"
+#include "gamecontentjob.h"
 
 #include <attica/itemjob.h>
 #include <attica/downloaditem.h>
@@ -32,7 +32,7 @@
 
 using namespace GluonPlayer;
 
-class GameContentTransfer::Private
+class GameContentJob::Private
 {
 public:
     Private()
@@ -51,8 +51,8 @@ public:
 };
 
 
-GameContentTransfer::GameContentTransfer(Attica::Provider* provider, const QString& id,
-                         const QString& fileName, const QString& destinationDir, QObject* parent) 
+GameContentJob::GameContentJob(Attica::Provider* provider, const QString& id,
+                                const QString& fileName, const QString& destinationDir, QObject* parent) 
     : QObject (parent)
     , d(new Private)
 {
@@ -61,19 +61,19 @@ GameContentTransfer::GameContentTransfer(Attica::Provider* provider, const QStri
     d->fileName = fileName;
 }
 
-GameContentTransfer::~GameContentTransfer()
+GameContentJob::~GameContentJob()
 {
     delete d;
 }
 
-void GameContentTransfer::startDownload()
+void GameContentJob::startDownload()
 {
     Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink(d->id);
     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)));
     job->start();
 }
 
-void GameContentTransfer::processDownloadLink(Attica::BaseJob* baseJob)
+void GameContentJob::processDownloadLink(Attica::BaseJob* baseJob)
 {
     Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
     Attica::DownloadItem item = job->result();
@@ -88,10 +88,10 @@ void GameContentTransfer::processDownloadLink(Attica::BaseJob* baseJob)
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     manager->get(QNetworkRequest(item.url()));
-    emit startedDownload();
+    emit downloadStarted();
 }
 
-void GameContentTransfer::downloadComplete(QNetworkReply* reply)
+void GameContentJob::downloadComplete(QNetworkReply* reply)
 {
     QDir destDir(d->destinationDir);
     QFile file(destDir.filePath(d->fileName));
@@ -102,7 +102,7 @@ void GameContentTransfer::downloadComplete(QNetworkReply* reply)
     emit downloadFinished();
 }
 
-void GameContentTransfer::startUpload()
+void GameContentJob::startUpload()
 {
     QFile file(d->fileName);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -121,7 +121,7 @@ void GameContentTransfer::startUpload()
     job->start();
 }
 
-void GameContentTransfer::uploadComplete(Attica::BaseJob* baseJob)
+void GameContentJob::uploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {
@@ -131,4 +131,4 @@ void GameContentTransfer::uploadComplete(Attica::BaseJob* baseJob)
     }
 }
 
-#include "gamecontenttransfer.moc"
+#include "gamecontentjob.moc"

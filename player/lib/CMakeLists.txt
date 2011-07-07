@@ -24,15 +24,15 @@ set(libGluonPlayer_SRCS
     atticamanager.cpp
     authentication.cpp
     categorylistjob.cpp
-    comment.cpp
-    gamecontenttransfer.cpp
-    gamedetail.cpp
+    commentlistjob.cpp
+    gamecontentjob.cpp
+    gamedetaillistjob.cpp
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
     models/highscoresmodel.cpp
-    rating.cpp
+    ratingjob.cpp
     serviceprovider.cpp
 )
 

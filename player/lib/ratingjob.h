@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,21 +32,21 @@ class BaseJob;
 namespace GluonPlayer
 {
 
-class Rating : public QObject
+class RatingJob : public QObject
 {
     Q_OBJECT
 public:
-    Rating(Attica::Provider* provider, const QString& id, uint rating,
+    RatingJob(Attica::Provider* provider, const QString& id, uint rating,
                              QObject* parent = 0);
-    virtual ~Rating();
+    virtual ~RatingJob();
 
 Q_SIGNALS:
-    void finished();
-    void failed();
+    void ratingUploadFinished();
+    void ratingUploadFailed();
 
 private Q_SLOTS:
     void startRatingUpload();
-    void ratingUploadComplete (Attica::BaseJob* baseJob);
+    void ratingUploadComplete(Attica::BaseJob* baseJob);
 
 private:
     class Private;
@@ -54,4 +55,4 @@ private:
 
 }
 
-#endif // GLUONPLAYER_RATING_H
+#endif // GLUONPLAYER_RATINGJOB_H

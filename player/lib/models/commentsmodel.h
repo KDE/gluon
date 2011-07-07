@@ -98,7 +98,7 @@ namespace GluonPlayer
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
-            void fetchCommentsFailed();
+            void commentListFetchFailed();
 
         private:
             GluonCore::GluonObject* addComment( CommentItem *comment, GluonCore::GluonObject* parent );

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMECONTENTTRANSFER_H
-#define GLUONPLAYER_GAMECONTENTTRANSFER_H
+#ifndef GLUONPLAYER_GAMECONTENTJOB_H
+#define GLUONPLAYER_GAMECONTENTJOB_H
 
 #include <QtCore/QObject>
 
@@ -33,16 +33,16 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameContentTransfer : public QObject
+    class GameContentJob : public QObject
     {
         Q_OBJECT
     public:
-        GameContentTransfer(Attica::Provider* provider, const QString& id, const QString& fileName,
+        GameContentJob(Attica::Provider* provider, const QString& id, const QString& fileName,
                              const QString& destinationDir = QString(), QObject* parent = 0);
-        virtual ~GameContentTransfer();
+        virtual ~GameContentJob();
 
     Q_SIGNALS:
-        void startedDownload();
+        void downloadStarted();
         void downloadFinished();
         void downloadFailed();
 
@@ -63,4 +63,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_GAMECONTENTTRANSFER_H
+#endif // GLUONPLAYER_GAMECONTENTJOB_H

@@ -1,7 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
 
 #include "serviceprovider.h"
 
-#include "comment.h"
-#include "gamedetail.h"
-#include "gamecontenttransfer.h"
-#include "rating.h"
+#include "commentlistjob.h"
+#include "gamedetaillistjob.h"
+#include "gamecontentjob.h"
+#include "ratingjob.h"
 
 #include <core/directoryprovider.h>
 
@@ -94,7 +94,7 @@ void ServiceProvider::providersUpdated()
         d->provider = d->manager.providerByUrl( QUrl( "https://api.opendesktop.org/v1/" ) );
         if( !d->provider.isValid() )
         {
-            emit failedToInitialize();
+            emit initializationFailed();
         }
         else
         {
@@ -119,36 +119,36 @@ void ServiceProvider::loadCredentials()
     emit providerInitialized();
 }
 
-Comment* ServiceProvider::fetchComments( const QString& id, int page, int pageSize )
+CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
 {
-    Comment* comment = new Comment( &d->provider, id, page, pageSize );
-    connect( this, SIGNAL( startFetchComments() ), comment, SLOT( fetchComments() ) );
+    CommentListJob* commentListJob = new CommentListJob( &d->provider, id, page, pageSize );
+    connect( this, SIGNAL( startFetchCommentList() ), commentListJob, SLOT( fetchCommentList() ) );
 
     if( d->ready )
     {
-        emit startFetchComments();
+        emit startFetchCommentList();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( fetchComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), commentListJob, SLOT( fetchCommentList() ) );
     }
 
-    return comment;
+    return commentListJob;
 }
 
-Comment* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
-                                         const QString& subject, const QString& message )
+CommentListJob* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
+                                                const QString& subject, const QString& message )
 {
-    Comment* comment = new Comment( &d->provider, id, parentId, subject, message );
-    connect( this, SIGNAL( startUploadComments() ), comment, SLOT( uploadComments() ) );
+    CommentListJob* comment = new CommentListJob( &d->provider, id, parentId, subject, message );
+    connect( this, SIGNAL( startUploadCommentList() ), comment, SLOT( uploadCommentList() ) );
 
     if( d->ready && d->loggedIn )
     {
-        emit startUploadComments();
+        emit startUploadCommentList();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( uploadComments() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( uploadCommentList() ) );
     }
 
     return comment;
@@ -253,9 +253,9 @@ QString ServiceProvider::password() const
     return d->password;
 }
 
-GameDetail* ServiceProvider::fetchGames()
+GameDetailListJob* ServiceProvider::fetchGames()
 {
-    GameDetail* gameDetail = new GameDetail( &d->provider );
+    GameDetailListJob* gameDetailListJob = new GameDetailListJob( &d->provider );
 
     if( d->ready )
     {
@@ -263,13 +263,13 @@ GameDetail* ServiceProvider::fetchGames()
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDetail, SLOT( fetchGameList() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameDetailListJob, SLOT( fetchGameList() ) );
     }
 
-    return gameDetail;
+    return gameDetailListJob;
 }
 
-GameContentTransfer* ServiceProvider::downloadGame( const QString& id )
+GameContentJob* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
@@ -279,8 +279,8 @@ GameContentTransfer* ServiceProvider::downloadGame( const QString& id )
     }
     destinationDir.cd( path );
 
-    GameContentTransfer* gameContentTransfer = new GameContentTransfer( &d->provider, id, destinationDir.path() );
-    connect( this, SIGNAL( startDownloading() ), gameContentTransfer, SLOT( startDownload() ) );
+    GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, destinationDir.path() );
+    connect( this, SIGNAL( startDownloading() ), gameContentJob, SLOT( startDownload() ) );
 
     if( d->ready )
     {
@@ -288,16 +288,16 @@ GameContentTransfer* ServiceProvider::downloadGame( const QString& id )
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameContentTransfer, SLOT( startDownload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SLOT( startDownload() ) );
     }
 
-    return gameContentTransfer;
+    return gameContentJob;
 }
 
-GameContentTransfer* ServiceProvider::uploadGame( const QString& id, const QString& path )
+GameContentJob* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
-    GameContentTransfer* gameContentTransfer = new GameContentTransfer( &d->provider, id, path );
-    connect( this, SIGNAL( startUploading() ), gameContentTransfer, SLOT( startUpload() ) );
+    GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, path );
+    connect( this, SIGNAL( startUploading() ), gameContentJob, SLOT( startUpload() ) );
 
     if( d->ready )
     {
@@ -305,15 +305,15 @@ GameContentTransfer* ServiceProvider::uploadGame( const QString& id, const QStri
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameContentTransfer, SLOT( startUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SLOT( startUpload() ) );
     }
 
-    return gameContentTransfer;
+    return gameContentJob;
 }
 
-Rating* ServiceProvider::setRating( const QString& id, uint rate )
+RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 {
-    Rating* rating = new Rating( &d->provider, id, rate );
+    RatingJob* rating = new RatingJob( &d->provider, id, rate );
     connect( this, SIGNAL( startRatingUploading() ), rating, SLOT( startRatingUpload() ) );
 
     if( d->ready )

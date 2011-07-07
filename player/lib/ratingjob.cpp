@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "rating.h"
+#include "ratingjob.h"
 
 #include <attica/postjob.h>
 #include <attica/provider.h>
@@ -27,7 +28,7 @@
 
 using namespace GluonPlayer;
 
-class Rating::Private
+class RatingJob::Private
 {
 public:
     Private()
@@ -46,7 +47,7 @@ public:
 };
 
 
-Rating::Rating(Attica::Provider* provider, const QString& id,
+RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
                uint rating, QObject* parent)
     : QObject (parent)
     , d(new Private)
@@ -56,26 +57,26 @@ Rating::Rating(Attica::Provider* provider, const QString& id,
     d->rating = rating;
 }
 
-Rating::~Rating()
+RatingJob::~RatingJob()
 {
     delete d;
 }
 
-void Rating::startRatingUpload()
+void RatingJob::startRatingUpload()
 {
     Attica::PostJob *job = d->provider->voteForContent(d->id, d->rating);
     connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)));
     job->start();
 }
 
-void Rating::ratingUploadComplete(Attica::BaseJob* baseJob)
+void RatingJob::ratingUploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {
-        emit finished();
+        emit ratingUploadFinished();
     } else {
-        emit failed();
+        emit ratingUploadFailed();
     }
 }
 
-#include "rating.moc"
+#include "ratingjob.moc"

@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "gamedetail.h"
+#include "gamedetaillistjob.h"
 
 #include "serviceprovider.h"
 
@@ -104,7 +104,7 @@ GameDetailItem::Status GameDetailItem::status() const
     return d->status;
 }
 
-class GameDetail::Private
+class GameDetailListJob::Private
 {
 public:
     Private()
@@ -115,7 +115,7 @@ public:
     Attica::Provider *provider;
 };
 
-GameDetail::GameDetail(Attica::Provider* provider, QObject* parent)
+GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent)
     : QObject (parent)
     , d(new Private())
 {
@@ -124,24 +124,24 @@ GameDetail::GameDetail(Attica::Provider* provider, QObject* parent)
     connect( this, SIGNAL( startFetchGameList() ), SLOT( fetchGameList ) );
 }
 
-void GameDetail::fetchGameList()
+void GameDetailListJob::fetchGameList()
 {
     QStringList gluonGamesCategories;
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
     Attica::Category::List categories;
 
-    foreach (const QString & gluonCategory, gluonGamesCategories) {
+    foreach(const QString & gluonCategory, gluonGamesCategories) {
         Attica::Category category;
         category.setId (gluonCategory);
         categories.append (category);
     }
 
     Attica::ListJob<Attica::Content> *job = d->provider->searchContents(categories);
-    connect (job, SIGNAL (finished (Attica::BaseJob*)), SLOT (processFetchedGamesList (Attica::BaseJob*)));
+    connect(job, SIGNAL (finished (Attica::BaseJob*)), SLOT (processFetchedGamesList (Attica::BaseJob*)));
     job->start();
 }
 
-void GameDetail::processFetchedGamesList(Attica::BaseJob* job)
+void GameDetailListJob::processFetchedGameList(Attica::BaseJob* job)
 {
     qDebug() << "Game list successfully fetched from the server!";
     QList<GameDetailItem*> list;
@@ -156,10 +156,10 @@ void GameDetail::processFetchedGamesList(Attica::BaseJob* job)
             //OcsProvider::instance()->downloadGame(details->id());
         }
 
-        emit gameDetailsFetched(list);
+        emit gameDetailListFetchFinished(list);
     } else {
-        emit failedToFetchGameDetails();
+        emit gameDetailListFetchFailed();
     }
 }
 
-#include "gamedetail.moc"
+#include "gamedetaillistjob.moc"

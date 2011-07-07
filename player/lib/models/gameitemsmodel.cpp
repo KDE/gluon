@@ -20,7 +20,7 @@
 #include "gameitemsmodel.h"
 
 #include "lib/serviceprovider.h"
-#include "lib/gamedetail.h"
+#include "lib/gamedetaillistjob.h"
 
 #include <engine/gameproject.h>
 
@@ -172,9 +172,9 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
 void GameItemsModel::fetchGamesList()
 {
-    GameDetail *gameDetail = ServiceProvider::instance()->fetchGames();
-    connect(gameDetail, SIGNAL(gameDetailsFetched (QList<GameDetailItem*>)),
-            SLOT(processFetchedGamesList(QList<GameDetailItem*>)));
+    GameDetailListJob *gameDetailListJob = ServiceProvider::instance()->fetchGames();
+    connect(gameDetailListJob, SIGNAL(gameDetailListFetchFinished(QList<GameDetailItem*>)),
+            SLOT(processFetchedGameList(QList<GameDetailItem*>)));
 }
 
 void GameItemsModel::processFetchedGamesList(QList< GameDetailItem* > comments)

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef OCSGAMEDETAIL_H
-#define OCSGAMEDETAIL_H
+#ifndef GLUONPLAYER_GAMEDETAILLISTJOB_H
+#define GLUONPLAYER_GAMEDETAILLISTJOB_H
 
 #include <QtCore/QObject>
 
@@ -60,19 +61,19 @@ private:
     Private* const d;
 };
 
-class GameDetail : public QObject
+class GameDetailListJob : public QObject
 {
     Q_OBJECT
 public:
-    explicit GameDetail(Attica::Provider* provider, QObject* parent = 0);
+    explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
 
 Q_SIGNALS:
-    void gameDetailsFetched(QList<GameDetailItem*> comments);
-    void failedToFetchGameDetails();
+    void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
+    void gameDetailListFetchFailed();
 
 private Q_SLOTS:
     void fetchGameList();
-    void processFetchedGamesList(Attica::BaseJob* job);
+    void processFetchedGameList(Attica::BaseJob* job);
 
 private:
     class Private;
@@ -81,5 +82,5 @@ private:
 
 }
 
-#endif // GAMEDETAIL_H
+#endif // GAMEDETAILLISTJOB_H
 

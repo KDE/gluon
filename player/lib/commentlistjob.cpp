@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "comment.h"
+#include "commentlistjob.h"
 
 #include "serviceprovider.h"
 
@@ -97,7 +98,7 @@ QString CommentItem::user() const
     return d->user;
 }
 
-class Comment::Private
+class CommentListJob::Private
 {
 public:
     Private()
@@ -120,8 +121,8 @@ public:
     QString message;
 };
 
-Comment::Comment(Attica::Provider* provider, const QString& id,
-                 int page, int pageSize, QObject* parent)
+CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id,
+                                int page, int pageSize, QObject* parent)
     : QObject (parent)
     , d(new Private())
 {
@@ -131,8 +132,8 @@ Comment::Comment(Attica::Provider* provider, const QString& id,
     d->pageSize = pageSize;
 }
 
-Comment::Comment(Attica::Provider* provider, const QString& id, const QString& parentId,
-                 const QString& subject, const QString& message, QObject* parent)
+CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id, const QString& parentId,
+                                const QString& subject, const QString& message, QObject* parent)
     : QObject (parent)
     , d(new Private())
 {
@@ -143,12 +144,12 @@ Comment::Comment(Attica::Provider* provider, const QString& id, const QString& p
     d->message = message;
 }
 
-Comment::~Comment()
+CommentListJob::~CommentListJob()
 {
     delete d;
 }
 
-void Comment::processFetchedComments(Attica::BaseJob* job)
+void CommentListJob::processFetchedCommentList(Attica::BaseJob* job)
 {
     QList<CommentItem*> list;
 
@@ -163,13 +164,13 @@ void Comment::processFetchedComments(Attica::BaseJob* job)
             }
         }
 
-        emit commentsFetched(list);
+        emit commentListFetchFinished(list);
     } else {
-        emit failedToFetchComments();
+        emit commentListFetchFailed();
     }
 }
 
-void Comment::addChildren(CommentItem* parentCommentItem, const Attica::Comment& parentComment)
+void CommentListJob::addChildren(CommentItem* parentCommentItem, const Attica::Comment& parentComment)
 {
     foreach (const Attica::Comment& comment, parentComment.children()) {
         CommentItem *newComment = new CommentItem(comment.id(), comment.subject(),
@@ -183,18 +184,18 @@ void Comment::addChildren(CommentItem* parentCommentItem, const Attica::Comment&
     }
 }
 
-void Comment::uploadCommentsFinished(Attica::BaseJob* job)
+void CommentListJob::uploadCommentListFinished(Attica::BaseJob* job)
 {
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>( job );
     if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
         qDebug() << "ERROR:" << commentsJob->metadata().error();
-        emit commentUploaded();
+        emit commentListUploadFinished();
     } else {
-        emit failedToUploadComment();
+        emit commentListUploadFailed();
     }
 }
 
-void Comment::fetchComments()
+void CommentListJob::fetchCommentList()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::ListJob<Attica::Comment> *job = d->provider->requestComments(Attica::Comment::ContentComment,
@@ -203,7 +204,7 @@ void Comment::fetchComments()
     job->start();
 }
 
-void Comment::uploadComments()
+void CommentListJob::uploadCommentList()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::PostJob* job = d->provider->addNewComment( Attica::Comment::ContentComment, d->id, "0", d->parentId,
@@ -212,4 +213,4 @@ void Comment::uploadComments()
     job->start();
 }
 
-#include "comment.moc"
+#include "commentlistjob.moc"

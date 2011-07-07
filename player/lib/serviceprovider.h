@@ -34,10 +34,10 @@ class BaseJob;
 namespace GluonPlayer
 {
 
-class GameDetail;
-class Comment;
-class GameContentTransfer;
-class Rating;
+class GameDetailListJob;
+class CommentListJob;
+class GameContentJob;
+class RatingJob;
 
 /**
  * \brief Provides Open Collaboration Services
@@ -76,7 +76,7 @@ public:
      * @return  OcsCommentsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    Q_INVOKABLE Comment* fetchComments(const QString& id, int page, int pageSize);
+    Q_INVOKABLE CommentListJob* fetchCommentList(const QString& id, int page, int pageSize);
 
     /**
      * Uploads a comment to the OCS compliant service
@@ -89,7 +89,7 @@ public:
      * @return  OcsCommentsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    Q_INVOKABLE Comment* uploadComment(const QString& id, const QString& parentId,
+    Q_INVOKABLE CommentListJob* uploadComment(const QString& id, const QString& parentId,
                                        const QString& subject, const QString& message);
     /**
      * Execute a login. Connect to the signal loggedIn() and loginFailed() to know the result.
@@ -140,7 +140,7 @@ public:
      * @return a OcsGameDetailsProvider object which the caller must
      * monitor to find out the result of the operation
      */
-    GameDetail *fetchGames();
+    GameDetailListJob *fetchGames();
 
     /**
      * Download the game with ID id
@@ -150,7 +150,7 @@ public:
      * @return a GameContentTransfer object which the caller must
      * monitor to find out the result of the operation
      */
-    GameContentTransfer *downloadGame(const QString &id);
+    GameContentJob *downloadGame(const QString &id);
 
     /**
      * Upload a game with ID
@@ -161,7 +161,7 @@ public:
      * @return a GameContentTransfer object which the caller must
      * monitor to find out the result of the operation
      */
-    GameContentTransfer *uploadGame(const QString &id, const QString &path);
+    GameContentJob *uploadGame(const QString &id, const QString &path);
 
     /**
      * Rate a game having ID with a rating from 0 to 100
@@ -169,7 +169,7 @@ public:
      * @param id ID of the game
      * @param rating Rating value between 0 to 100
      */
-    Rating *setRating(const QString &id, uint rate);
+    RatingJob *setRating(const QString &id, uint rate);
 
 private Q_SLOTS:
     void providersUpdated();
@@ -186,7 +186,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     /** Signal which is emitted if the OCS Provider failed to initialize
      */
-    void failedToInitialize();
+    void initializationFailed();
 
     /** Signal which is emitted when the OCS Provider is initialized
      */
@@ -201,8 +201,8 @@ Q_SIGNALS:
     void loginFailed();
 
     void startFetchGameList();
-    void startFetchComments();
-    void startUploadComments();
+    void startFetchCommentList();
+    void startUploadCommentList();
     void startDownloading();
     void startUploading();
     void startRatingUploading();
