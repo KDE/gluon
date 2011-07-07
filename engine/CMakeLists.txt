@@ -53,6 +53,7 @@ set(GluonEngine_SRCS
     achievement.cpp
     achievementsmanager.cpp
     asset.cpp
+    booleanstatistic.cpp
     component.cpp
     componentprivate.cpp
     databasemanager.cpp
@@ -84,6 +85,7 @@ set(GluonEngine_HEADERS
     achievement.h
     achievementsmanager.h
     asset.h
+    booleanstatistic.h
     component.h
     databasemanager.h
     filelocation.h
