@@ -26,8 +26,6 @@
 
 namespace GluonEngine
 {
-    class Statistic;
-
     /**
      * StatisticsAsset handles a file which contains
      * several statistics. The file is written in GDL.
@@ -73,6 +71,12 @@ namespace GluonEngine
              * normal constructor, it won't be saved.
              */
             void createMultiScoreStatistic();
+
+            /**
+             * Use this method to create BooleanStatistic objects. If you use the normal
+             * constructor, it won't be saved.
+             */
+            void createBooleanStatistic();
 
         protected:
             /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */

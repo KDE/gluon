@@ -22,6 +22,7 @@
 #include <engine/statistic.h>
 #include <engine/tasksstatistic.h>
 #include <engine/multiscorestatistic.h>
+#include <engine/booleanstatistic.h>
 #include <core/gdlhandler.h>
 
 #include <QtGui/QAction>
@@ -54,6 +55,10 @@ StatisticsAsset::StatisticsAsset(QObject* parent)
     QAction* newMultiScoreStatistic = new QAction( tr("New Multi-Score Statistic" ), this );
     connect( newMultiScoreStatistic, SIGNAL(triggered()), this, SLOT(createMultiScoreStatistic()) );
     d->actions.append(newMultiScoreStatistic);
+
+    QAction* newBooleanStatistic = new QAction( tr("New Boolean Statistic"), this );
+    connect( newBooleanStatistic, SIGNAL(triggered()), this, SLOT(createBooleanStatistic()) );
+    d->actions.append(newBooleanStatistic);
 
     savableDirty = true;
 }
@@ -156,6 +161,13 @@ void StatisticsAsset::createMultiScoreStatistic()
 {
     MultiScoreStatistic* newStatistic = new MultiScoreStatistic(this);
     newStatistic->setName(tr("New Multi-Score Statistic"));
+    savableDirty = true;
+}
+
+void StatisticsAsset::createBooleanStatistic()
+{
+    BooleanStatistic* newStatistic = new BooleanStatistic(this);
+    newStatistic->setName( tr("New Boolean Statistic") );
     savableDirty = true;
 }
 
