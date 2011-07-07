@@ -151,7 +151,17 @@ namespace GluonEngine
             QString dependency( int index ) const;
 
             /**
-             * Check whether the user has the achievement at index? Index must be a valid index
+             * Check whether the achievement at index is hidden. If the achievement is hidden
+             * and not achieved, don't show it to the user. Index must be a valid index position,
+             * i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @returns True if the achievement is hidden, false otherwise.
+             * @see achievementsCount
+             */
+            bool isHidden( int index ) const;
+
+            /**
+             * Check whether the user has the achievement at index. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
              * @param index A valid index
              * @returns true if the achieved is achieved, false otherwise

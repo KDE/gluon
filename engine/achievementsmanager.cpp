@@ -88,6 +88,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
     // Sort
     QList< Achievement* > achieved;
+    QList< Achievement* > hidden;
     QList< Achievement* > inProgress;
     QList< Achievement* > locked;
     foreach( Achievement* achievement, achievements )
@@ -95,6 +96,10 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         if( achievement->achieved() )
         {
             achieved.append(achievement);
+        }
+        else if( achievement->isHidden() )
+        {
+            hidden.append(achievement);
         }
         else if( achievement->dependencySatisfied() )
         {
@@ -109,6 +114,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
     QList< Achievement* > allAchievements = achieved;
     allAchievements.append(inProgress);
     allAchievements.append(locked);
+    allAchievements.append(hidden);
 
     foreach( Achievement* achievement, allAchievements )
     {
@@ -124,6 +130,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         if( achievement->hasDependency() )
             object->setProperty( "dependency", achievement->dependency()->name() );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
+        object->setProperty( "hidden", achievement->isHidden() );
         object->setProperty( "achieved", achievement->achieved() );
     }
 }
@@ -196,6 +203,12 @@ bool AchievementsManager::dependencySatisfied( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
     return children().at(index)->property( "dependencySatisfied" ).toBool();
+}
+
+bool AchievementsManager::isHidden( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "hidden" ).toBool();
 }
 
 bool AchievementsManager::achievementAchieved( int index ) const

@@ -65,6 +65,11 @@ namespace GluonEngine
              */
             Q_PROPERTY( GluonEngine::Achievement* dependency READ dependency WRITE setDependency )
 
+            /**
+             * Users can see hidden achievements only if they already reached the achievement.
+             */
+            Q_PROPERTY( bool hidden READ isHidden WRITE setHidden )
+
         public:
             Q_INVOKABLE Achievement( QObject* parent = 0 );
             virtual ~Achievement();
@@ -110,6 +115,21 @@ namespace GluonEngine
              * @see icon
              */
             void setIcon( Asset* icon );
+
+            /**
+             * Check whether the achievement is hidden.
+             * @returns True if the achievement is hidden, false otherwise.
+             * @see setHidden
+             */
+            bool isHidden();
+
+            /**
+             * Set whether the achievement should be hidden.
+             * @param hide If true, set the achievement to be hidden. Otherwise set the achievement
+             *             to be not hidden.
+             * @see isHidden
+             */
+            void setHidden( bool hidden );
 
             // TODO: make more dependencies possible
             /**
