@@ -74,7 +74,23 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         delete child;
     }
 
+    //sort
+    QList< Achievement* > achieved;
+    QList< Achievement* > inProgress;
+    QList< Achievement* > locked;
     foreach( Achievement* achievement, achievements )
+        if( achievement->achieved() )
+            achieved.append(achievement);
+        else if( achievement->dependencySatisfied() )
+            inProgress.append(achievement);
+        else
+            locked.append(achievement);
+
+    QList< Achievement* > allAchievements = achieved;
+    allAchievements.append(inProgress);
+    allAchievements.append(locked);
+
+    foreach( Achievement* achievement, allAchievements )
     {
         GluonCore::GluonObject* object = new GluonCore::GluonObject(this);
         object->setProperty( "path", achievement->fullyQualifiedName() );
