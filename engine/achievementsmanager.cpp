@@ -97,6 +97,8 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         object->setProperty( "minimumScore", achievement->minimumScore() );
         object->setProperty( "currentScore", achievement->currentScore() );
         object->setProperty( "hasDependency", achievement->hasDependency() );
+        if( achievement->hasDependency() )
+            object->setProperty( "dependency", achievement->dependency()->name() );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "achieved", achievement->achieved() );
     }
@@ -160,10 +162,16 @@ qlonglong AchievementsManager::currentScore( int index ) const
     return children().at(index)->property( "currentScore" ).toLongLong();
 }
 
+QString AchievementsManager::dependency( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "dependency" ).toString();
+}
+
 bool AchievementsManager::dependencySatisfied( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
-    return children()[index]->property( "dependencySatisfied" ).toBool();
+    return children().at(index)->property( "dependencySatisfied" ).toBool();
 }
 
 bool AchievementsManager::achievementAchieved( int index ) const

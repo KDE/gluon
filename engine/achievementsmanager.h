@@ -142,6 +142,15 @@ namespace GluonEngine
             bool dependencySatisfied( int index ) const;
 
             /**
+             * Get the name of the achievement the achievement at index depends upon.
+             * Index must be a valid index position, i. e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @returns The name of the achievement the achievement at index depends upon
+             * @see achievementsCount
+             */
+            QString dependency( int index ) const;
+
+            /**
              * Check whether the user has the achievement at index? Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
              * @param index A valid index
