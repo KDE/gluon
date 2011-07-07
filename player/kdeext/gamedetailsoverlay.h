@@ -51,6 +51,8 @@ class CommentsView;
 
 namespace GluonKDEPlayer
 {
+    class AchievementDelegate;
+
     class GameDetailsOverlay : public QWidget
     {
             Q_OBJECT
@@ -73,9 +75,10 @@ namespace GluonKDEPlayer
             KTabWidget* m_tabWidget;
             QTableView* m_highScoresView;
             //AchievementsView* m_achievementsView;
-            QTableView* m_achievementsView;
+            QListView* m_achievementsView;
             QListView* m_commentsView;
             CommentItemsViewDelegate* m_commentsDelegate;
+            AchievementDelegate* m_achievementDelegate;
 
             GluonPlayer::CommentItemsModel* m_commentsModel;
             GluonPlayer::HighScoresModel* m_highScoresModel;

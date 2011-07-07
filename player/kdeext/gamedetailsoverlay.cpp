@@ -22,6 +22,7 @@
 #include "lib/models/highscoresmodel.h"
 #include "lib/models/achievementsmodel.h"
 #include "lib/models/gameviewitem.h"
+#include "delegates/achievementdelegate.h"
 
 #include <engine/projectmetadata.h>
 
@@ -32,9 +33,10 @@ GameDetailsOverlay::GameDetailsOverlay( GluonEngine::ProjectMetaData* metaData, 
     , m_backButton( new KPushButton( this ) )
     , m_tabWidget( new KTabWidget( this ) )
     , m_highScoresView( new QTableView( this ) )
-    , m_achievementsView( new QTableView( this ) )
+    , m_achievementsView( new QListView( this ) )
     , m_commentsView( new QListView( this ) )
     , m_commentsDelegate( new CommentItemsViewDelegate( m_commentsView, this ) )
+    , m_achievementDelegate( new AchievementDelegate( this ) )
     , m_commentsModel( new GluonPlayer::CommentItemsModel( metaData->id() ) )
     , m_highScoresModel( new GluonPlayer::HighScoresModel( metaData->id() ) )
     , m_achievementsModel( new GluonPlayer::AchievementsModel( metaData, userName ) )
@@ -49,6 +51,7 @@ GameDetailsOverlay::GameDetailsOverlay( GluonEngine::ProjectMetaData* metaData, 
 
     m_highScoresView->setModel( m_highScoresModel );
     m_achievementsView->setModel( m_achievementsModel );
+    m_achievementsView->setItemDelegate( m_achievementDelegate );
     m_commentsView->setItemDelegate( m_commentsDelegate );
     connect( m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ) );
     m_commentsView->setModel( m_commentsModel );

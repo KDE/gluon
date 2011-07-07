@@ -69,6 +69,9 @@ namespace GluonEngine
             /** Get the name of the achievement at index */
             QString achievementName( int index ) const;
 
+            /** Get the description of the achievement at index */
+            QString description( int index ) const;
+
             /** Get the icon of the achievement */
             QString achievementIcon( int index ) const;
 
