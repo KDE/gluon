@@ -264,7 +264,7 @@ GameDetailListJob* ServiceProvider::fetchGames()
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
+        connect( this, SIGNAL( initializeFinished() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
     }
 
     return gameDetailListJob;

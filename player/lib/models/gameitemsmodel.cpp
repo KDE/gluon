@@ -177,7 +177,7 @@ void GameItemsModel::fetchGamesList()
             SLOT(processFetchedGameList(QList<GameDetailItem*>)));
 }
 
-void GameItemsModel::processFetchedGamesList(QList< GameDetailItem* > comments)
+void GameItemsModel::processFetchedGameList(QList< GameDetailItem* > comments)
 {
     foreach(GameDetailItem *c, comments) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",

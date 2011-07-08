@@ -121,7 +121,7 @@ GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent
 {
     d->provider = provider;
 
-    connect( this, SIGNAL( gameDetailListFetchStarting() ), SLOT( fetchGameList ) );
+    connect( this, SIGNAL( gameDetailListFetchStarting() ), SLOT( fetchGameList() ) );
 }
 
 GameDetailListJob::~GameDetailListJob()

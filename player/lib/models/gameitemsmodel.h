@@ -88,7 +88,7 @@ namespace GluonPlayer
             void upgradableCountChanged();
 
         protected Q_SLOTS:
-            void processFetchedGamesList (QList<GameDetailItem*> comments);
+            void processFetchedGameList (QList<GameDetailItem*> comments);
 
         private:
             void fetchGamesList();
