@@ -71,6 +71,7 @@ public:
     virtual void start();
 
 Q_SIGNALS:
+    void gameDetailListFetchStarting();
     void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
     void gameDetailListFetchFailed();
 

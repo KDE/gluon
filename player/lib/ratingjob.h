@@ -43,6 +43,7 @@ public:
     virtual void start();
 
 Q_SIGNALS:
+    void ratingUploadStarting();
     void ratingUploadFinished();
     void ratingUploadFailed();
 

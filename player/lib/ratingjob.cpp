@@ -55,6 +55,8 @@ RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
     d->provider = provider;
     d->id = id;
     d->rating = rating;
+
+    connect(this, SIGNAL( ratingUploadStarting() ), SLOT( startRatingUpload() ) );
 }
 
 RatingJob::~RatingJob()

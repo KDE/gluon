@@ -59,6 +59,9 @@ GameContentJob::GameContentJob(Attica::Provider* provider, const QString& id,
     d->provider = provider;
     d->id = id;
     d->fileName = fileName;
+
+    connect(this, SIGNAL( downloadStarting() ), SLOT( startDownload() ) );
+    connect(this, SIGNAL( uploadStarting() ), SLOT( startUpload() ) );
 }
 
 GameContentJob::~GameContentJob()
@@ -92,7 +95,7 @@ void GameContentJob::processDownloadLink(Attica::BaseJob* baseJob)
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
     manager->get(QNetworkRequest(item.url()));
-    emit downloadStarted();
+    emit downloadStarting();
 }
 
 void GameContentJob::downloadComplete(QNetworkReply* reply)

@@ -44,10 +44,11 @@ namespace GluonPlayer
         virtual void start();
 
     Q_SIGNALS:
-        void downloadStarted();
+        void downloadStarting();
         void downloadFinished();
         void downloadFailed();
 
+        void uploadStarting();
         void uploadFinished();
         void uploadFailed();
 

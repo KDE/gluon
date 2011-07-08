@@ -122,15 +122,15 @@ void ServiceProvider::loadCredentials()
 CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
 {
     CommentListJob* commentListJob = new CommentListJob( &d->provider, id, page, pageSize );
-    connect( this, SIGNAL( startFetchCommentList() ), commentListJob, SLOT( fetchCommentList() ) );
+    connect( this, SIGNAL( commentListFetchStarting() ), commentListJob, SIGNAL( commentListFetchStarting() ) );
 
     if( d->ready )
     {
-        emit fetchCommentListStarting();
+        emit commentListFetchStarting();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), commentListJob, SLOT( fetchCommentList() ) );
+        connect( this, SIGNAL( providerInitialized() ), commentListJob, SIGNAL( commentListFetchStarting() ) );
     }
 
     return commentListJob;
@@ -140,7 +140,7 @@ CommentListJob* ServiceProvider::uploadComment( const QString& id, const QString
                                                 const QString& subject, const QString& message )
 {
     CommentListJob* comment = new CommentListJob( &d->provider, id, parentId, subject, message );
-    connect( this, SIGNAL( startUploadCommentList() ), comment, SLOT( uploadCommentList() ) );
+    connect( this, SIGNAL( commentListUploadStarting() ), comment, SIGNAL( commentListUploadStarting() ) );
 
     if( d->ready && d->loggedIn )
     {
@@ -148,7 +148,7 @@ CommentListJob* ServiceProvider::uploadComment( const QString& id, const QString
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), comment, SLOT( uploadCommentList() ) );
+        connect( this, SIGNAL( providerInitialized() ), comment, SIGNAL( commentListUploadStarting() ) );
     }
 
     return comment;
@@ -256,14 +256,15 @@ QString ServiceProvider::password() const
 GameDetailListJob* ServiceProvider::fetchGames()
 {
     GameDetailListJob* gameDetailListJob = new GameDetailListJob( &d->provider );
+    connect( this, SIGNAL( gameDetailListFetchStarting() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
 
     if( d->ready )
     {
-        emit fetchGameListStarting();
+        emit gameDetailListFetchStarting();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameDetailListJob, SLOT( fetchGameList() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
     }
 
     return gameDetailListJob;
@@ -280,15 +281,15 @@ GameContentJob* ServiceProvider::downloadGame( const QString& id )
     destinationDir.cd( path );
 
     GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, destinationDir.path() );
-    connect( this, SIGNAL( startDownloading() ), gameContentJob, SLOT( startDownload() ) );
+    connect( this, SIGNAL( gameContentDownloadStarting() ), gameContentJob, SIGNAL( downloadStarting() ) );
 
     if( d->ready )
     {
-        emit downloadStarting();
+        emit gameContentDownloadStarting();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SLOT( startDownload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SIGNAL( downloadStarting() ) );
     }
 
     return gameContentJob;
@@ -297,15 +298,15 @@ GameContentJob* ServiceProvider::downloadGame( const QString& id )
 GameContentJob* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
     GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, path );
-    connect( this, SIGNAL( startUploading() ), gameContentJob, SLOT( startUpload() ) );
+    connect( this, SIGNAL( gameContentUploadStarting() ), gameContentJob, SIGNAL( uploadStarting() ) );
 
     if( d->ready )
     {
-        emit uploadStarting();
+        emit gameContentUploadStarting();
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SLOT( startUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SIGNAL( uploadStarting() ) );
     }
 
     return gameContentJob;
@@ -314,7 +315,7 @@ GameContentJob* ServiceProvider::uploadGame( const QString& id, const QString& p
 RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 {
     RatingJob* rating = new RatingJob( &d->provider, id, rate );
-    connect( this, SIGNAL( startRatingUploading() ), rating, SLOT( startRatingUpload() ) );
+    connect( this, SIGNAL( ratingUploadStarting() ), rating, SIGNAL( ratingUploadStarting() ) );
 
     if( d->ready )
     {
@@ -322,7 +323,7 @@ RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), rating, SLOT( startRatingUpload() ) );
+        connect( this, SIGNAL( providerInitialized() ), rating, SIGNAL( ratingUploadStarting() ) );
     }
 
     return rating;

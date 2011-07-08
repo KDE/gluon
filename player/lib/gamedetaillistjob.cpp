@@ -121,7 +121,7 @@ GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent
 {
     d->provider = provider;
 
-    connect( this, SIGNAL( startFetchGameList() ), SLOT( fetchGameList ) );
+    connect( this, SIGNAL( gameDetailListFetchStarting() ), SLOT( fetchGameList ) );
 }
 
 GameDetailListJob::~GameDetailListJob()
@@ -145,7 +145,7 @@ void GameDetailListJob::fetchGameList()
     }
 
     Attica::ListJob<Attica::Content> *job = d->provider->searchContents(categories);
-    connect(job, SIGNAL (finished (Attica::BaseJob*)), SLOT (processFetchedGamesList (Attica::BaseJob*)));
+    connect(job, SIGNAL(finished (Attica::BaseJob*)), SLOT(processFetchedGameList(Attica::BaseJob*)));
     job->start();
 }
 

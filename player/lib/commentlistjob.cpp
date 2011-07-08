@@ -131,6 +131,9 @@ CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id,
     d->id = id;
     d->page = page;
     d->pageSize = pageSize;
+
+    connect(this, SIGNAL( commentListFetchStarting() ), SLOT( fetchCommentList() ) );
+    connect(this, SIGNAL( commentListUploadStarting() ), SLOT( uploadCommentList() ) );
 }
 
 CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id, const QString& parentId,
@@ -143,6 +146,9 @@ CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id, co
     d->parentId = parentId;
     d->subject = subject;
     d->message = message;
+
+    connect(this, SIGNAL( commentListFetchStarting() ), SLOT( fetchCommentList() ) );
+    connect(this, SIGNAL( commentListUploadStarting() ), SLOT( uploadCommentList() ) );
 }
 
 CommentListJob::~CommentListJob()

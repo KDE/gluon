@@ -200,11 +200,11 @@ Q_SIGNALS:
      */
     void loginFailed();
 
-    void fetchGameListStarting();
-    void fetchCommentListStarting();
+    void gameDetailListFetchStarting();
+    void commentListFetchStarting();
     void commentListUploadStarting();
-    void downloadStarting();
-    void uploadStarting();
+    void gameContentDownloadStarting();
+    void gameContentUploadStarting();
     void ratingUploadStarting();
 
 private:

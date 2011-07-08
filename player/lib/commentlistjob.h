@@ -67,8 +67,11 @@ namespace GluonPlayer
             virtual void start();
 
         Q_SIGNALS:
+            void commentListFetchStarting();
             void commentListFetchFinished( QList<CommentItem*> comments );
             void commentListFetchFailed();
+
+            void commentListUploadStarting();
             void commentListUploadFinished();
             void commentListUploadFailed();
 
