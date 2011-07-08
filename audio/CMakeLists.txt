@@ -33,17 +33,17 @@ set(GLUON_AUDIO_INCLUDES
 )
 
 set(GluonAudio_SRCS
-    capture.cpp
+    #capture.cpp
     engine.cpp
     player.cpp
     sound.cpp
 
-    capturedevice_p.cpp
+    #capturedevice_p.cpp
     device_p.cpp
 )
 
 set(GluonAudio_HEADERS
-    capture.h
+    #capture.h
     engine.h
     gluon_audio_export.h
     player.h
