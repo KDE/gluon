@@ -200,7 +200,7 @@ GluonObjectFactory::loadPlugins()
         //of the plugins in the plugin dir.
         (*theDir).setNameFilters( QStringList() << QString( "*.so.%1.%2.%3" ).arg( GLUON_VERSION_MAJOR ).arg( GLUON_VERSION_MINOR ).arg( GLUON_VERSION_PATCH ) );
 #endif
-        (*theDir).setFilter( QDir::NoDotAndDotDot );
+        (*theDir).setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
 
         DEBUG_TEXT( QString( "Found %1 potential plugins. Attempting to load..." ).arg( (*theDir).count() ) );
         foreach( const QString & fileName, (*theDir).entryList( QDir::Files ) )
