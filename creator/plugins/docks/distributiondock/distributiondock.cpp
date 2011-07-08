@@ -34,6 +34,7 @@
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
+#include <QDebug>
 
 using namespace GluonCreator;
 
@@ -72,9 +73,6 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
 
     initGuiStates();
 
-    connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
-             SLOT( updateUiFromGameProject( ) ) );
-
     updateCategories();
     updateLicenses();
     loadCredentials();
@@ -101,6 +99,7 @@ void DistributionDock::updateUiFromGameProject()
     }
     else
     {
+        qDebug() << "FETCH " << id;
         GluonPlayer::GameDetail* gameDetail = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
         connect( gameDetail, SIGNAL( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ),
                  SLOT( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ) );
@@ -132,7 +131,7 @@ void DistributionDock::createOrUpdateGame()
         d->editGameProvider->setDescription( d->ui.descriptionEdit->toPlainText() );
         d->editGameProvider->setHomepage( d->ui.homepageEdit->text() );
         d->editGameProvider->setVersion( d->ui.versionEdit->text() );
-        //TODO: d->editGameProvider->setLicense();
+        d->editGameProvider->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
         d->editGameProvider->startEditionUpload();
     }
 }
@@ -273,6 +272,8 @@ void DistributionDock::initGuiStates()
     d->fetchingState->addTransition( this, SIGNAL( switchToCreateMode() ), d->createState );
     d->fetchingState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
     d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL( clicked() ), d->uploadingState );
+    d->editingState->addTransition( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
+                                    d->fetchingState );
     d->uploadingState->addTransition( this, SIGNAL( gameUploadFinished() ), d->uploadFinishedState );
 
     connect( d->loggingInState, SIGNAL( entered() ), this, SLOT( doLogin() ) );
