@@ -20,6 +20,7 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    abstractjob.cpp
     addgamejob.cpp
     atticamanager.cpp
     authentication.cpp

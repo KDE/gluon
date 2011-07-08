@@ -33,6 +33,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QStringList>
+#include <QtCore/QDateTime>
 
 using namespace GluonCore;
 using namespace GluonPlayer;

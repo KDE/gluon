@@ -66,7 +66,7 @@ class CategoryListJob::Private
 };
 
 CategoryListJob::CategoryListJob( Attica::Provider* provider, QObject* parent )
-    : QObject( parent )
+    : AbstractJob( parent )
     , d( new Private() )
 {
     d->provider = provider;
@@ -75,6 +75,10 @@ CategoryListJob::CategoryListJob( Attica::Provider* provider, QObject* parent )
 CategoryListJob::~CategoryListJob()
 {
     delete d;
+}
+
+void CategoryListJob::start()
+{
 }
 
 void CategoryListJob::fetchCategoryList()

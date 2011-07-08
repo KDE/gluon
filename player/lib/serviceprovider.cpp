@@ -94,7 +94,7 @@ void ServiceProvider::providersUpdated()
         d->provider = d->manager.providerByUrl( QUrl( "https://api.opendesktop.org/v1/" ) );
         if( !d->provider.isValid() )
         {
-            emit initializationFailed();
+            emit initializeFailed();
         }
         else
         {
@@ -116,7 +116,7 @@ void ServiceProvider::loadCredentials()
         d->provider.loadCredentials( d->username, d->password );
     }
 
-    emit providerInitialized();
+    emit initializeFinished();
 }
 
 CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
@@ -126,7 +126,7 @@ CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, 
 
     if( d->ready )
     {
-        emit startFetchCommentList();
+        emit fetchCommentListStarting();
     }
     else
     {
@@ -144,7 +144,7 @@ CommentListJob* ServiceProvider::uploadComment( const QString& id, const QString
 
     if( d->ready && d->loggedIn )
     {
-        emit startUploadCommentList();
+        emit commentListUploadStarting();
     }
     else
     {
@@ -201,7 +201,7 @@ void ServiceProvider::checkLoginResult( Attica::BaseJob* baseJob )
         if( d->provider.saveCredentials( d->username, d->password ) )
         {
             d->loggedIn = true;
-            emit loggedIn();
+            emit loginFinished();
         }
         else
         {
@@ -259,7 +259,7 @@ GameDetailListJob* ServiceProvider::fetchGames()
 
     if( d->ready )
     {
-        emit startFetchGameList();
+        emit fetchGameListStarting();
     }
     else
     {
@@ -284,7 +284,7 @@ GameContentJob* ServiceProvider::downloadGame( const QString& id )
 
     if( d->ready )
     {
-        emit startDownloading();
+        emit downloadStarting();
     }
     else
     {
@@ -301,7 +301,7 @@ GameContentJob* ServiceProvider::uploadGame( const QString& id, const QString& p
 
     if( d->ready )
     {
-        emit startUploading();
+        emit uploadStarting();
     }
     else
     {
@@ -318,7 +318,7 @@ RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 
     if( d->ready )
     {
-        emit startRatingUploading();
+        emit ratingUploadStarting();
     }
     else
     {

@@ -1,6 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2000 Stephan Kulow <coolo@kde.org>
+                       David Faure <faure@kde.org>
+ * Copyright (C) 2006 Kevin Ottens <ervin@kde.org>
  * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
@@ -18,43 +20,43 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_RATING_H
-#define GLUONPLAYER_RATING_H
+#ifndef ABSTRACTJOB_P_H
+#define ABSTRACTJOB_P_H
 
 #include "abstractjob.h"
 
-namespace Attica
-{
-class Provider;
-class BaseJob;
-}
+#include <QtCore/QMap>
 
-namespace GluonPlayer
-{
+class QTimer;
+class QEventLoop;
 
-class RatingJob : public AbstractJob
+class AbstractJobPrivate
 {
-    Q_OBJECT
 public:
-    RatingJob(Attica::Provider* provider, const QString& id, uint rating,
-               QObject* parent = 0);
-    virtual ~RatingJob();
+    AbstractJobPrivate();
+    ~AbstractJobPrivate();
 
-    virtual void start();
+    int error;
+    QString errorText;
+    AbstractJob::Unit progressUnit;
+    QMap<AbstractJob::Unit, qulonglong> processedAmount;
+    QMap<AbstractJob::Unit, qulonglong> totalAmount;
+    unsigned long percentage;
+    bool suspended;
+    AbstractJob::Capabilities capabilities;
+    QTimer *speedTimer;
+    bool isAutoDelete;
+    QEventLoop *eventLoop;
 
-Q_SIGNALS:
-    void ratingUploadFinished();
-    void ratingUploadFailed();
 
-private Q_SLOTS:
-    void startRatingUpload();
-    void ratingUploadComplete(Attica::BaseJob* baseJob);
+    static bool _k_abstractjobUnitEnumRegistered;
 
-private:
-    class Private;
-    Private* const d;
+    bool isFinished;
+
+public Q_SLOTS:
+
+    void _k_speedTimeout();
+
 };
 
-}
-
-#endif // GLUONPLAYER_RATINGJOB_H
+#endif

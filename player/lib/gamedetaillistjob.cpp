@@ -116,12 +116,20 @@ public:
 };
 
 GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent)
-    : QObject (parent)
+    : AbstractJob(parent)
     , d(new Private())
 {
     d->provider = provider;
 
     connect( this, SIGNAL( startFetchGameList() ), SLOT( fetchGameList ) );
+}
+
+GameDetailListJob::~GameDetailListJob()
+{
+}
+
+void GameDetailListJob::start()
+{
 }
 
 void GameDetailListJob::fetchGameList()

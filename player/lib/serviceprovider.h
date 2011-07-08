@@ -184,28 +184,28 @@ public Q_SLOTS:
     void init();
 
 Q_SIGNALS:
-    /** Signal which is emitted if the OCS Provider failed to initialize
-     */
-    void initializationFailed();
-
     /** Signal which is emitted when the OCS Provider is initialized
      */
-    void providerInitialized();
+    void initializeFinished();
+
+    /** Signal which is emitted if the OCS Provider failed to initialize
+     */
+    void initializeFailed();
 
     /** Signal which is emitted if the login is complete
      */
-    void loggedIn();
+    void loginFinished();
 
     /** Signal which is emitted when the login failed
      */
     void loginFailed();
 
-    void startFetchGameList();
-    void startFetchCommentList();
-    void startUploadCommentList();
-    void startDownloading();
-    void startUploading();
-    void startRatingUploading();
+    void fetchGameListStarting();
+    void fetchCommentListStarting();
+    void commentListUploadStarting();
+    void downloadStarting();
+    void uploadStarting();
+    void ratingUploadStarting();
 
 private:
     ~ServiceProvider();

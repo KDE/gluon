@@ -48,8 +48,8 @@ public:
 
 
 RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
-               uint rating, QObject* parent)
-    : QObject (parent)
+                        uint rating, QObject* parent)
+    : AbstractJob(parent)
     , d(new Private)
 {
     d->provider = provider;
@@ -60,6 +60,10 @@ RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
 RatingJob::~RatingJob()
 {
     delete d;
+}
+
+void RatingJob::start()
+{
 }
 
 void RatingJob::startRatingUpload()

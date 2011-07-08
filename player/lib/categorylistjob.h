@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +23,7 @@
 
 #include "gluon_player_export.h"
 
-#include <QtCore/QObject>
+#include "abstractjob.h"
 
 namespace Attica
 {
@@ -48,12 +49,14 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class CategoryListJob : public QObject
+    class CategoryListJob : public AbstractJob
     {
             Q_OBJECT
         public:
             explicit CategoryListJob( Attica::Provider* provider, QObject* parent = 0 );
             virtual ~CategoryListJob();
+
+            virtual void start();
 
         Q_SIGNALS:
             void categoryListFetchFinished( QList<GluonPlayer::CategoryItem*> categories );

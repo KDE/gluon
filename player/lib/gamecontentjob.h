@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_GAMECONTENTJOB_H
 #define GLUONPLAYER_GAMECONTENTJOB_H
 
-#include <QtCore/QObject>
+#include "abstractjob.h"
 
 class QNetworkReply;
 
@@ -33,13 +33,15 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameContentJob : public QObject
+    class GameContentJob : public AbstractJob
     {
         Q_OBJECT
     public:
         GameContentJob(Attica::Provider* provider, const QString& id, const QString& fileName,
                              const QString& destinationDir = QString(), QObject* parent = 0);
         virtual ~GameContentJob();
+
+        virtual void start();
 
     Q_SIGNALS:
         void downloadStarted();

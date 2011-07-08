@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +21,7 @@
 #ifndef GLUONPLAYER_ADDGAMEJOB_H
 #define GLUONPLAYER_ADDGAMEJOB_H
 
-#include <QtCore/QObject>
+#include "abstractjob.h"
 
 namespace Attica
 {
@@ -31,13 +32,15 @@ namespace Attica
 namespace GluonPlayer
 {
 
-    class AddGameJob : public QObject
+    class AddGameJob : public AbstractJob
     {
             Q_OBJECT
         public:
             AddGameJob( Attica::Provider* provider, const QString& gameCategory,
                                          const QString& gameName, QObject* parent = 0 );
             virtual ~AddGameJob();
+
+            virtual void start();
 
         Q_SIGNALS:
             void addGameFinished( const QString& id );

@@ -53,7 +53,7 @@ public:
 
 GameContentJob::GameContentJob(Attica::Provider* provider, const QString& id,
                                 const QString& fileName, const QString& destinationDir, QObject* parent) 
-    : QObject (parent)
+    : AbstractJob(parent)
     , d(new Private)
 {
     d->provider = provider;
@@ -64,6 +64,10 @@ GameContentJob::GameContentJob(Attica::Provider* provider, const QString& id,
 GameContentJob::~GameContentJob()
 {
     delete d;
+}
+
+void GameContentJob::start()
+{
 }
 
 void GameContentJob::startDownload()

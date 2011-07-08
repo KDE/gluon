@@ -27,6 +27,7 @@
 #include <attica/provider.h>
 
 #include <QtCore/QDebug>
+#include <QtCore/QDateTime>
 
 using namespace GluonPlayer;
 
@@ -123,7 +124,7 @@ public:
 
 CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id,
                                 int page, int pageSize, QObject* parent)
-    : QObject (parent)
+    : AbstractJob(parent)
     , d(new Private())
 {
     d->provider = provider;
@@ -134,7 +135,7 @@ CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id,
 
 CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id, const QString& parentId,
                                 const QString& subject, const QString& message, QObject* parent)
-    : QObject (parent)
+    : AbstractJob(parent)
     , d(new Private())
 {
     d->provider = provider;
@@ -147,6 +148,10 @@ CommentListJob::CommentListJob(Attica::Provider* provider, const QString& id, co
 CommentListJob::~CommentListJob()
 {
     delete d;
+}
+
+void CommentListJob::start()
+{
 }
 
 void CommentListJob::processFetchedCommentList(Attica::BaseJob* job)

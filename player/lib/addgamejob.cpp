@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,7 +39,7 @@ class AddGameJob::Private
 
 AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
                         const QString& gameName, QObject* parent )
-    : QObject( parent )
+    : AbstractJob( parent )
     , d( new Private() )
 {
     d->provider = provider;
@@ -49,6 +50,10 @@ AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
 AddGameJob::~AddGameJob()
 {
     delete d;
+}
+
+void AddGameJob::start()
+{
 }
 
 void AddGameJob::addGame()

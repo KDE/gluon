@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_GAMEDETAILLISTJOB_H
 #define GLUONPLAYER_GAMEDETAILLISTJOB_H
 
-#include <QtCore/QObject>
+#include "abstractjob.h"
 
 namespace Attica
 {
@@ -61,11 +61,14 @@ private:
     Private* const d;
 };
 
-class GameDetailListJob : public QObject
+class GameDetailListJob : public AbstractJob
 {
     Q_OBJECT
 public:
     explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
+    virtual ~GameDetailListJob();
+
+    virtual void start();
 
 Q_SIGNALS:
     void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
@@ -82,5 +85,5 @@ private:
 
 }
 
-#endif // GAMEDETAILLISTJOB_H
+#endif // GLUONPLAYER_GAMEDETAILLISTJOB_H
 

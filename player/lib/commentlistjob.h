@@ -21,7 +21,7 @@
 #ifndef GLUONPLAYER_COMMENTLISTJOB_H
 #define GLUONPLAYER_COMMENTLISTJOB_H
 
-#include <QtCore/QDateTime>
+#include "abstractjob.h"
 
 namespace Attica
 {
@@ -29,6 +29,8 @@ namespace Attica
     class Provider;
     class BaseJob;
 }
+
+class QDateTime;
 
 namespace GluonPlayer
 {
@@ -52,7 +54,7 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class CommentListJob : public QObject
+    class CommentListJob : public AbstractJob
     {
             Q_OBJECT
         public:
@@ -61,6 +63,8 @@ namespace GluonPlayer
             CommentListJob( Attica::Provider* provider, const QString& id, const QString& parentId,
                                           const QString& subject, const QString& message, QObject* parent = 0 );
             virtual ~CommentListJob();
+
+            virtual void start();
 
         Q_SIGNALS:
             void commentListFetchFinished( QList<CommentItem*> comments );
