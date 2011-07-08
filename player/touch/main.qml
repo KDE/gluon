@@ -55,39 +55,55 @@ Item {
         State { name: "other"; when: statepoint == "other" }
     ]
 
-    MainWindow {
-        id: mainWindowPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "mainwindow";
+    Flickable {
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        MainWindow {
+            id: mainWindowPage;
+            visible: statepoint == "mainwindow";
+        }
     }
 
-    Registration {
-        id: registrationPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "registration";
+    Flickable {
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Registration {
+            id: registrationPage;
+            visible: statepoint == "registration";
+        }
     }
 
-    Home {
-        id: homePage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "home";
+    Flickable {
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Home {
+            id: homePage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "home";
+        }
     }
 
-    Details {
-        id: detailsPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "details";
+    Flickable {
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Details {
+            id: detailsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "details";
+        }
     }
 
-    Comments {
-        id: commentsPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "comments";
+    Flickable {
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Comments {
+            id: commentsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "comments";
+        }
     }
 
     Component.onCompleted: {
