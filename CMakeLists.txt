@@ -124,24 +124,12 @@ if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
 
-<<<<<<< HEAD
-###### Gluon Player ######
-# Checks must be done here because it does its own checks only when cmake was not called here ...
-if(BUILD_GLUON_PLAYER)
-    add_subdirectory(player)
-else(BUILD_GLUON_PLAYER)
-    set(INSTALL_EXAMPLES OFF)
-endif(BUILD_GLUON_PLAYER)
-
-
 ####### SMARTS Library #######
 if(BUILD_GLUON_SMARTS)
      add_subdirectory(smarts)
 endif()
 
 
-=======
->>>>>>> master
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
