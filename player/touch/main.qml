@@ -56,15 +56,47 @@ Item {
     ]
 
     Flickable {
+        id: flickMainWindow;
+        anchors.fill: parent;
         contentWidth: parent.width;
         contentHeight: parent.height;
-        MainWindow {
-            id: mainWindowPage;
-            visible: statepoint == "mainwindow";
-        }
+
+        /* PinchArea { */
+            /* width: Math.max(flick.contentWidth, flick.width) */
+            /* height: Math.max(flick.contentHeight, flick.height) */
+
+            /* property real initialWidth */
+            /* property real initialHeight */
+            /* onPinchStarted: { */
+                /* initialWidth = flick.contentWidth */
+                /* initialHeight = flick.contentHeight */
+            /* }    */
+
+            /* onPinchUpdated: { */
+                /* // adjust content pos due to drag */
+                /* flick.contentX += pinch.previousCenter.x - pinch.center.x */
+                /* flick.contentY += pinch.previousCenter.y - pinch.center.y */
+
+                /* // resize content */
+                /* flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center) */
+            /* }    */
+
+            /* onPinchFinished: { */
+                /* // Move its content within bounds. */
+                /* flick.returnToBounds() */
+            /* } */
+
+            MainWindow {
+                width: flickMainwindow.contentWidth
+                height: flickMainwindow.contentHeight
+                id: mainWindowPage;
+                visible: statepoint == "mainwindow";
+            }
+        /* } */
     }
 
     Flickable {
+        id: flickRegistration;
         contentWidth: parent.width;
         contentHeight: parent.height;
         Registration {
@@ -74,6 +106,7 @@ Item {
     }
 
     Flickable {
+        id: flickHomePage;
         contentWidth: parent.width;
         contentHeight: parent.height;
         Home {
@@ -85,6 +118,7 @@ Item {
     }
 
     Flickable {
+        id: flickDetailsPage;
         contentWidth: parent.width;
         contentHeight: parent.height;
         Details {
@@ -96,6 +130,7 @@ Item {
     }
 
     Flickable {
+        id: flickCommentsPage;
         contentWidth: parent.width;
         contentHeight: parent.height;
         Comments {
