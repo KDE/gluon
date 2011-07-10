@@ -34,9 +34,21 @@ class Sound::SoundPrivate
 {
     public:
         SoundPrivate()
+            : isValid(false)
+            , isStreamed(false)
+            , isPaused(false)
+            , isStopped(true)
+            , isLooping(false)
+            , stream(0)
+            , source(0)
+            , position(QVector3D( 0, 0, 0 ))
+            , volume(1.0f)
+            , pitch(1.0f)
+            , radius(10000.0f)
+            , duration(0)
         {
-            init();
         }
+
         ~SoundPrivate()
         {
         }
@@ -53,22 +65,6 @@ class Sound::SoundPrivate
                 return true;
             }
             return false;
-        }
-
-        void init()
-        {
-            isValid = false;
-            isStreamed = false;
-            isPaused = false;
-            isStopped = true;
-            isLooping = false;
-            stream = 0;
-            source = 0;
-            position = QVector3D( 0, 0, 0 );
-            volume = 1.0f;
-            pitch = 1.0f;
-            radius = 10000.0f;
-            duration = 0;
         }
 
         bool setupSource()
