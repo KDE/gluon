@@ -17,8 +17,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef INPUTDEVICE_H
-#define INPUTDEVICE_H
+
+#ifndef GLUON_INPUT_INPUTDEVICE_H
+#define GLUON_INPUT_INPUTDEVICE_H
 
 #include "inputthread.h"
 #include "gluondevices.h"
@@ -76,4 +77,4 @@ namespace GluonInput
 
 Q_DECLARE_METATYPE( GluonInput::InputDevice* );
 
-#endif
+#endif // GLUON_INPUT_INPUTDEVICE_H

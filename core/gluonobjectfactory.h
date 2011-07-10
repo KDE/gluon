@@ -25,9 +25,9 @@
 #include "singleton.h"
 #include "debughelper.h"
 
+#include <QtScript/QScriptEngine>
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
-#include <QtScript/QScriptEngine>
 
 namespace GluonCore
 {

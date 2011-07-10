@@ -17,10 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_PREFABCONTROLS_H
-#define GLUONCREATOR_PREFABCONTROLS_H
+#ifndef GLUON_CREATOR_PREFABCONTROLS_H
+#define GLUON_CREATOR_PREFABCONTROLS_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 namespace GluonCreator
 {
@@ -33,4 +33,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_PREFABCONTROLS_H
+#endif // GLUON_CREATOR_PREFABCONTROLS_H

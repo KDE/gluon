@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef GLUONCREATOR_NEWPROJECTDIALOGPAGE_H
-#define GLUONCREATOR_NEWPROJECTDIALOGPAGE_H
+#ifndef GLUON_CREATOR_NEWPROJECTDIALOGPAGE_H
+#define GLUON_CREATOR_NEWPROJECTDIALOGPAGE_H
 
 #include <KDE/KPageWidgetItem>
 #include <KDE/KColorScheme>
@@ -56,4 +56,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_NEWPROJECTDIALOGPAGE_H
+#endif // GLUON_CREATOR_NEWPROJECTDIALOGPAGE_H

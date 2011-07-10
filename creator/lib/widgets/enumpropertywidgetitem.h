@@ -18,8 +18,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H
-#define GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H
+
+#ifndef GLUON_CREATOR_ENUMPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_ENUMPROPERTYWIDGETITEM_H
 
 #include "propertywidgetitem.h"
 
@@ -46,4 +47,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_ENUMPROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_ENUMPROPERTYWIDGETITEM_H

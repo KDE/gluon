@@ -16,8 +16,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
-#define PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
+
+#ifndef GLUON_CREATOR_PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
+#define GLUON_CREATOR_PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
 
 #include <QtGui/QDialog>
 
@@ -54,4 +55,4 @@ namespace GluonCreator
     };
 }
 
-#endif // PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
+#endif // GLUON_CREATOR_PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H

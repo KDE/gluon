@@ -168,4 +168,4 @@ namespace GluonCore
         Type( QObject* parent );\
         Q_DISABLE_COPY(Type)
 
-#endif //GLUON_CORE_SINGLETON
+#endif // GLUON_CORE_SINGLETON

@@ -16,13 +16,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
-#define GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
+
+#ifndef GLUON_CREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
 
 #include "propertywidgetitem.h"
 
 class QPushButton;
 class QLabel;
+
 namespace GluonCore
 {
     class GluonObject;
@@ -55,4 +57,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_GLUONOBJECTPROPERTYWIDGETITEM_H

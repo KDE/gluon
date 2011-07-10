@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef GLUON_INPUT_KEYBOARD_H
+#define GLUON_INPUT_KEYBOARD_H
 
 #include "inputdevice.h"
 
@@ -43,4 +43,4 @@ namespace GluonInput
     };
 }
 
-#endif // KEYBOARD_H
+#endif // GLUON_INPUT_KEYBOARD_H

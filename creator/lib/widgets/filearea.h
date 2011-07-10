@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_FILEAREA_H
-#define GLUONCREATOR_FILEAREA_H
+#ifndef GLUON_CREATOR_FILEAREA_H
+#define GLUON_CREATOR_FILEAREA_H
 
 #include "lib/gluoncreator_macros.h"
 
@@ -50,4 +50,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_FILEAREA_H
+#endif // GLUON_CREATOR_FILEAREA_H

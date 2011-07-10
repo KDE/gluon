@@ -22,6 +22,7 @@
 #define GLUON_AUDIO_PLAYER_H
 
 #include "gluon_audio_export.h"
+
 #include "sound.h"
 
 #include <QtCore/QStringList>

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#ifndef GLUON_INPUT_JOYSTICK_H
+#define GLUON_INPUT_JOYSTICK_H
 
 #include "inputdevice.h"
 
@@ -48,4 +48,4 @@ namespace GluonInput
     };
 }
 
-#endif // JOYSTICK_H
+#endif // GLUON_INPUT_JOYSTICK_H

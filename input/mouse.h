@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MOUSE_H
-#define MOUSE_H
+#ifndef GLUON_INPUT_MOUSE_H
+#define GLUON_INPUT_MOUSE_H
 
 #include "inputdevice.h"
 
@@ -68,7 +68,6 @@ namespace GluonInput
             int hWheelPosition() const;
             void setHWheelPosition( int hwp );
 
-
         private Q_SLOTS:
             void mouseMoved( int axis, int distance );
 
@@ -79,4 +78,4 @@ namespace GluonInput
 
 Q_DECLARE_METATYPE( GluonInput::Mouse* );
 
-#endif // MOUSE_H
+#endif // GLUON_INPUT_MOUSE_H

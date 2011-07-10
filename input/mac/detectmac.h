@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef DETECTMAC_H
-#define DETECTMAC_H
+#ifndef GLUON_INPUT_DETECTMAC_H
+#define GLUON_INPUT_DETECTMAC_H
 
 #include "gluon_input_export.h"
 
@@ -70,4 +70,5 @@ namespace GluonInput
             Private* const d;
     };
 }
-#endif
+
+#endif // GLUON_INPUT_DETECTMAC_H

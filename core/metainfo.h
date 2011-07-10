@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCORE_METAINFO_H
-#define GLUONCORE_METAINFO_H
+#ifndef GLUON_CORE_METAINFO_H
+#define GLUON_CORE_METAINFO_H
 
 #include "gluon_core_export.h"
 
@@ -146,4 +146,4 @@ namespace GluonCore
     };
 }
 
-#endif // GLUONCORE_METAINFO_H
+#endif // GLUON_CORE_METAINFO_H

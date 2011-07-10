@@ -18,11 +18,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef INPUTTHREAD_H
-#define INPUTTHREAD_H
+
+#ifndef GLUON_INPUT_INPUTTHREAD_H
+#define GLUON_INPUT_INPUTTHREAD_H
+
+#include "gluon_input_export.h"
 
 #include "gluonbuttons.h"
-#include "gluon_input_export.h"
 #include "absval.h"
 
 #include <QtCore/QThread>
@@ -92,4 +94,4 @@ namespace GluonInput
     };
 }
 
-#endif 
+#endif // GLUON_INPUT_INPUTTHREAD_H
