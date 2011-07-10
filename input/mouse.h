@@ -33,8 +33,8 @@ namespace GluonInput
     class GLUON_INPUT_EXPORT Mouse : public InputDevice
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonInput::Mouse )
             Q_ENUMS( MouseButton )
+            GLUON_OBJECT( GluonInput::Mouse )
 
         public:
             enum MouseButton

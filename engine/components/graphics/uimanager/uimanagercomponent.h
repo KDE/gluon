@@ -33,10 +33,11 @@ namespace GluonEngine
     class GLUON_COMPONENT_UIMANAGER_EXPORT UiManagerComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::UiManagerComponent )
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonEngine::UiAsset* ui READ ui WRITE setUi )
+
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::UiManagerComponent )
 
         public:
             Q_INVOKABLE UiManagerComponent( QObject* parent = 0 );

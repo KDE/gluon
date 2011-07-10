@@ -39,7 +39,6 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT PrefabInstance : public GameObject
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::PrefabInstance )
             /**
              * The prefab link property describes which Prefab this instance is an instance of.
              * Setting the property will immediately delete all existing children and rebuild the
@@ -47,6 +46,8 @@ namespace GluonEngine
              * stored in the new Prefab it points to.
              */
             Q_PROPERTY( GluonEngine::Prefab* prefabLink READ prefabLink WRITE setPrefabLink )
+
+            GLUON_OBJECT( GluonEngine::PrefabInstance )
 
         public:
             PrefabInstance( QObject* parent = 0 );

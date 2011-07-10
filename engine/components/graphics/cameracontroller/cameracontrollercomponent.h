@@ -33,13 +33,14 @@ namespace GluonEngine
     class GLUON_COMPONENT_CAMERACONTROLLER_EXPORT CameraControllerComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::CameraControllerComponent )
             Q_PROPERTY( bool active READ isActive WRITE setActive )
             Q_PROPERTY( QSizeF visibleArea READ visibleArea WRITE setVisibleArea )
             Q_PROPERTY( float nearPlane READ nearPlane WRITE setNearPlane )
             Q_PROPERTY( float farPlane READ farPlane WRITE setFarPlane )
             Q_PROPERTY( GluonGraphics::MaterialInstance* renderTargetMaterial READ renderTargetMaterial WRITE setRenderTargetMaterial )
+
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::CameraControllerComponent )
 
         public:
             Q_INVOKABLE CameraControllerComponent( QObject* parent = 0 );
