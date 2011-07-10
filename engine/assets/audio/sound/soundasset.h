@@ -21,8 +21,7 @@
 #ifndef GLUON_ENGINE_SOUNDASSET_H
 #define GLUON_ENGINE_SOUNDASSET_H
 
-#include <engine/gluon_engine_export.h>
-#include <engine/asset.h>
+#include "asset.h"
 
 #include <QtCore/QStringList>
 
@@ -46,4 +45,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::SoundAsset* )
 
-#endif // SOUNDASSET_H
+#endif // GLUON_ENGINE_SOUNDASSET_H

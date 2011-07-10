@@ -20,7 +20,7 @@
 #ifndef GLUON_ENGINE_MESHASSET_H
 #define GLUON_ENGINE_MESHASSET_H
 
-#include "engine/asset.h"
+#include "asset.h"
 
 namespace GluonEngine
 {
