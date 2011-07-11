@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ADDGAMEJOB_H
-#define GLUONPLAYER_ADDGAMEJOB_H
+#ifndef GLUON_PLAYER_ADDGAMEJOB_H
+#define GLUON_PLAYER_ADDGAMEJOB_H
 
 #include "abstractjob.h"
 
@@ -31,7 +31,6 @@ namespace Attica
 
 namespace GluonPlayer
 {
-
     class AddGameJob : public AbstractJob
     {
             Q_OBJECT
@@ -54,6 +53,6 @@ namespace GluonPlayer
             class Private;
             Private* const d;
     };
-
 }
-#endif // GLUONPLAYER_ADDGAMEJOB_H
+
+#endif // GLUON_PLAYER_ADDGAMEJOB_H

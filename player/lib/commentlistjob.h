@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_COMMENTLISTJOB_H
-#define GLUONPLAYER_COMMENTLISTJOB_H
+#ifndef GLUON_PLAYER_COMMENTLISTJOB_H
+#define GLUON_PLAYER_COMMENTLISTJOB_H
 
 #include "abstractjob.h"
 
@@ -89,4 +89,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_COMMENTLISTJOB_H
+#endif // GLUON_PLAYER_COMMENTLISTJOB_H

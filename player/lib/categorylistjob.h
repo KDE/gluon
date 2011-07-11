@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_CATEGORYLISTJOB_H
-#define GLUONPLAYER_CATEGORYLISTJOB_H
+#ifndef GLUON_PLAYER_CATEGORYLISTJOB_H
+#define GLUON_PLAYER_CATEGORYLISTJOB_H
 
 #include "gluon_player_export.h"
 
@@ -33,7 +33,6 @@ namespace Attica
 
 namespace GluonPlayer
 {
-
     class GLUON_PLAYER_EXPORT CategoryItem : public QObject
     {
             Q_OBJECT
@@ -70,7 +69,6 @@ namespace GluonPlayer
             class Private;
             Private* const d;
     };
-
 }
 
-#endif // GLUONPLAYER_CATEGORYLISTJOB_H
+#endif // GLUON_PLAYER_CATEGORYLISTJOB_H

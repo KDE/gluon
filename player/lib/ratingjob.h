@@ -18,44 +18,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_RATINGJOB_H
-#define GLUONPLAYER_RATINGJOB_H
+#ifndef GLUON_PLAYER_RATINGJOB_H
+#define GLUON_PLAYER_RATINGJOB_H
 
 #include "abstractjob.h"
 
 namespace Attica
 {
-class Provider;
-class BaseJob;
+    class Provider;
+    class BaseJob;
 }
 
 namespace GluonPlayer
 {
+    class RatingJob : public AbstractJob
+    {
+        Q_OBJECT
+    public:
+        RatingJob(Attica::Provider* provider, const QString& id, uint rating,
+                   QObject* parent = 0);
+        virtual ~RatingJob();
 
-class RatingJob : public AbstractJob
-{
-    Q_OBJECT
-public:
-    RatingJob(Attica::Provider* provider, const QString& id, uint rating,
-               QObject* parent = 0);
-    virtual ~RatingJob();
+        virtual void start();
 
-    virtual void start();
+    Q_SIGNALS:
+        void ratingUploadStarting();
+        void ratingUploadFinished();
+        void ratingUploadFailed();
 
-Q_SIGNALS:
-    void ratingUploadStarting();
-    void ratingUploadFinished();
-    void ratingUploadFailed();
+    private Q_SLOTS:
+        void startRatingUpload();
+        void ratingUploadComplete(Attica::BaseJob* baseJob);
 
-private Q_SLOTS:
-    void startRatingUpload();
-    void ratingUploadComplete(Attica::BaseJob* baseJob);
-
-private:
-    class Private;
-    Private* const d;
-};
-
+    private:
+        class Private;
+        Private* const d;
+    };
 }
 
-#endif // GLUONPLAYER_RATINGJOB_H
+#endif // GLUON_PLAYER_RATINGJOB_H

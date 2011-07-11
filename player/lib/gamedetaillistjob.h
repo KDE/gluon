@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEDETAILLISTJOB_H
-#define GLUONPLAYER_GAMEDETAILLISTJOB_H
+#ifndef GLUON_PLAYER_GAMEDETAILLISTJOB_H
+#define GLUON_PLAYER_GAMEDETAILLISTJOB_H
 
 #include "abstractjob.h"
 
@@ -35,60 +35,59 @@ namespace GluonPlayer
 {
 class GameDetailItem : public QObject
 {
-    Q_OBJECT
-    Q_ENUMS (Status)
-public:
-    enum Status {
-        Downloadable,
-        Installed,
-        Upgradable
-    };
+        Q_OBJECT
+        Q_ENUMS (Status)
+    public:
+        enum Status {
+            Downloadable,
+            Installed,
+            Upgradable
+        };
 
-    GameDetailItem(const QString& gameName, const QString& gameDescription,
-                    const QString& projectDirName, const QString& projectFileName,
-                    const QStringList& screenshotUrls, GluonPlayer::GameDetailItem::Status status,
-                    const QString id, QObject* parent = 0);
-    virtual ~GameDetailItem();
+        GameDetailItem(const QString& gameName, const QString& gameDescription,
+                        const QString& projectDirName, const QString& projectFileName,
+                        const QStringList& screenshotUrls, GluonPlayer::GameDetailItem::Status status,
+                        const QString id, QObject* parent = 0);
+        virtual ~GameDetailItem();
 
-    QString gameName() const;
-    QString gameDescription() const;
-    QString projectDirName() const;
-    QString projectFileName() const;
-    QStringList screenshotUrls() const;
-    Status status() const;
-    QString id() const;
+        QString gameName() const;
+        QString gameDescription() const;
+        QString projectDirName() const;
+        QString projectFileName() const;
+        QStringList screenshotUrls() const;
+        Status status() const;
+        QString id() const;
 
-private:
-    class Private;
-    Private* const d;
+    private:
+        class Private;
+        Private* const d;
 };
 
 class GameDetailListJob : public AbstractJob
 {
-    Q_OBJECT
-public:
-    explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
-    virtual ~GameDetailListJob();
+        Q_OBJECT
+    public:
+        explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
+        virtual ~GameDetailListJob();
 
-    virtual void start();
+        virtual void start();
 
-    QList<GameDetailItem*> gameDetailList() const;
+        QList<GameDetailItem*> gameDetailList() const;
 
-Q_SIGNALS:
-    void gameDetailListFetchStarting();
-    void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
-    void gameDetailListFetchFailed();
+    Q_SIGNALS:
+        void gameDetailListFetchStarting();
+        void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
+        void gameDetailListFetchFailed();
 
-private Q_SLOTS:
-    void fetchGameList();
-    void processFetchedGameList(Attica::BaseJob* job);
+    private Q_SLOTS:
+        void fetchGameList();
+        void processFetchedGameList(Attica::BaseJob* job);
 
-private:
-    class Private;
-    Private* const d;
-};
-
+    private:
+        class Private;
+        Private* const d;
+    };
 }
 
-#endif // GLUONPLAYER_GAMEDETAILLISTJOB_H
+#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H
 

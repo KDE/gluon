@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_HIGHSCORESMODEL_H
-#define GLUONPLAYER_HIGHSCORESMODEL_H
+#ifndef GLUON_PLAYER_HIGHSCORESMODEL_H
+#define GLUON_PLAYER_HIGHSCORESMODEL_H
 
 #include "lib/gluon_player_export.h"
 
@@ -35,7 +35,6 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT HighScoresModel : public QAbstractTableModel
     {
             Q_OBJECT
-
         public:
             /**
              * @param gameId The game ID which will be used to perform the lookup of the online
@@ -67,5 +66,5 @@ namespace GluonPlayer
 
 }
 
-#endif // GLUONPLAYER_HIGHSCORESMODEL_H
+#endif // GLUON_PLAYER_HIGHSCORESMODEL_H
 
