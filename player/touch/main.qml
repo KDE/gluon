@@ -87,8 +87,8 @@ Item {
             /* } */
 
             MainWindow {
-                width: flickMainwindow.contentWidth
-                height: flickMainwindow.contentHeight
+                width: flickMainWindow.contentWidth
+                height: flickMainWindow.contentHeight
                 id: mainWindowPage;
                 visible: statepoint == "mainwindow";
             }

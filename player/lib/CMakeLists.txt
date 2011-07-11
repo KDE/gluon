@@ -28,13 +28,14 @@ set(libGluonPlayer_SRCS
     commentlistjob.cpp
     gamecontentjob.cpp
     gamedetaillistjob.cpp
+    ratingjob.cpp
+    serviceprovider.cpp
+
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
     models/highscoresmodel.cpp
-    ratingjob.cpp
-    serviceprovider.cpp
 )
 
 qt4_automoc(${libGluonPlayer_SRCS})
@@ -68,11 +69,6 @@ install(FILES
     atticamanager.h
     authentication.h
 
-    models/commentitemsmodel.h
-    models/commentsmodel.h
-    models/gameviewitem.h
-    models/gameitemsmodel.h
-    models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
     COMPONENT Devel
 )
