@@ -23,6 +23,8 @@
 
 #include "abstractjob.h"
 
+#include <QtCore/QList>
+
 namespace Attica
 {
     class Provider;
@@ -69,6 +71,8 @@ public:
     virtual ~GameDetailListJob();
 
     virtual void start();
+
+    QList<GameDetailItem*> gameDetailList() const;
 
 Q_SIGNALS:
     void gameDetailListFetchStarting();

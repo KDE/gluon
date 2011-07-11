@@ -113,6 +113,7 @@ public:
     }
 
     Attica::Provider *provider;
+    QList<GameDetailItem*> gameDetailList;
 };
 
 GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent)
@@ -132,16 +133,21 @@ void GameDetailListJob::start()
 {
 }
 
+QList<GameDetailItem*> GameDetailListJob::gameDetailList() const
+{
+    return d->gameDetailList;
+}
+
 void GameDetailListJob::fetchGameList()
 {
     QStringList gluonGamesCategories;
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
     Attica::Category::List categories;
 
-    foreach(const QString & gluonCategory, gluonGamesCategories) {
+    foreach(const QString& gluonCategory, gluonGamesCategories) {
         Attica::Category category;
-        category.setId (gluonCategory);
-        categories.append (category);
+        category.setId(gluonCategory);
+        categories.append(category);
     }
 
     Attica::ListJob<Attica::Content> *job = d->provider->searchContents(categories);
@@ -152,19 +158,20 @@ void GameDetailListJob::fetchGameList()
 void GameDetailListJob::processFetchedGameList(Attica::BaseJob* job)
 {
     qDebug() << "Game list successfully fetched from the server!";
-    QList<GameDetailItem*> list;
+
+    d->gameDetailList.clear();
 
     Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>(job);
     if( contentJob->metadata().error() == Attica::Metadata::NoError ) {
         foreach(const Attica::Content& content, contentJob->itemList()) {
             GameDetailItem *details = new GameDetailItem(content.name(), content.description(), "", "",
                                                          QStringList(), GameDetailItem::Downloadable, content.id());
-            list.append(details);
+            d->gameDetailList.append(details);
             //Uncomment to test download, downloads to install dir/games/id
             //OcsProvider::instance()->downloadGame(details->id());
         }
 
-        emit gameDetailListFetchFinished(list);
+        emit gameDetailListFetchFinished(d->gameDetailList);
     } else {
         emit gameDetailListFetchFailed();
     }
