@@ -34,7 +34,7 @@ class CategoryItem::Private
 
 CategoryItem::CategoryItem( const QString& id, const QString& name, QObject* parent )
     : QObject( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     d->id = id;
     d->name = name;

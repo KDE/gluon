@@ -36,7 +36,7 @@ class MetaInfo::MetaInfoPrivate
 
 MetaInfo::MetaInfo( GluonObject* parent )
     : QObject( parent )
-    , d( new MetaInfoPrivate() )
+    , d( new MetaInfoPrivate )
 {
 }
 

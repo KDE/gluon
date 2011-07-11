@@ -46,7 +46,7 @@ class HighScoresModel::Private
 
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
-    , d(new Private() )
+    , d(new Private)
 {
     d->m_gameId = gameId;
     d->m_rootNode = new GluonObject( "HighScores" );

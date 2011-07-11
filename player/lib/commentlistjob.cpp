@@ -54,7 +54,7 @@ public:
 CommentItem::CommentItem(const QString& id, const QString& subject, const QString& text, const QString& user,
                         const QDateTime& dateTime, int score, QObject* parent)
     : QObject (parent)
-    , d(new Private())
+    , d(new Private)
 {
     d->id = id;
     d->subject = subject;

@@ -41,7 +41,7 @@ class AddGameJob::Private
 AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
                         const QString& gameName, QObject* parent )
     : AbstractJob( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     d->provider = provider;
     d->gameCategory = gameCategory;

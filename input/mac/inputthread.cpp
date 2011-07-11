@@ -28,7 +28,7 @@ using namespace GluonInput;
 
 InputThread::InputThread( IOHIDDeviceRef pDevice, QObject* parent )
     : QThread( parent )
-    , d( new InputThreadPrivate() )
+    , d( new InputThreadPrivate )
 {
     d->device = pDevice;
     IOHIDDeviceOpen( d->device, kIOHIDOptionsTypeNone );

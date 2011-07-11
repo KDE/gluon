@@ -47,7 +47,7 @@ class GameItemsModel::Private
 
 GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     QDir m_dir;
     m_dir.cd( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );

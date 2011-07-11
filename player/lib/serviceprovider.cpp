@@ -62,7 +62,7 @@ class ServiceProvider::Private
 
 ServiceProvider::ServiceProvider( QObject* parent )
     : GluonCore::Singleton< GluonPlayer::ServiceProvider >( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     init();
 }

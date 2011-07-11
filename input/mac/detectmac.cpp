@@ -32,9 +32,9 @@ class DetectMac::Private
 {
     public:
         Private()
+            : deviceManager(0)
+            , devices(0)
         {
-            deviceManager = 0;
-            devices = 0;
         }
 
         Private( Private& other )
@@ -49,7 +49,9 @@ class DetectMac::Private
         {
         }
 
-        ~Private() {}
+        ~Private()
+        {
+        }
 
         QList<InputDevice*> m_inputList;
         QList<Keyboard*> m_keyboardList;
@@ -64,7 +66,7 @@ class DetectMac::Private
 
 DetectMac::DetectMac( QObject* parent )
     : Detect( parent )
-    , d( new Private() )
+    , d( new Private )
 {
 }
 

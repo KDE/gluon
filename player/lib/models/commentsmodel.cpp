@@ -53,7 +53,7 @@ class CommentsModel::Private
 
 CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
-    , d(new Private() )
+    , d(new Private)
 {
     d->m_rootNode = new GluonObject( "Comment" );
     d->m_isOnline = false;

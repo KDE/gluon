@@ -52,8 +52,8 @@ GameDetailItem::GameDetailItem(const QString& gameName, const QString& gameDescr
                                const QString& projectDirName, const QString& projectFileName,
                                const QStringList& screenshotUrls, Status status, const QString id,
                                QObject* parent)
-    : QObject (parent)
-    , d (new Private())
+    : QObject(parent)
+    , d( new Private )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
