@@ -615,7 +615,7 @@ void InputThread::run()
 
 bool InputThread::openDevice( const QString& devicePath )
 {
-    if( ( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 )
+    if( ( d->m_fd = open( devicePath.toUtf8(), O_RDONLY ) ) == -1 ) //krazy:exclude=syscalls
     {
         qDebug() << "Could not open the device:" << devicePath;
         d->m_error = true;
