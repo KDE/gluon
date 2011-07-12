@@ -31,8 +31,6 @@ set(libGluonPlayer_SRCS
     ratingjob.cpp
     serviceprovider.cpp
 
-    archive/archive.cpp
-
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -72,13 +70,6 @@ install(FILES
     authentication.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
-    COMPONENT Devel
-)
-
-install(FILES
-    archive.h
-
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/archive
     COMPONENT Devel
 )
 
