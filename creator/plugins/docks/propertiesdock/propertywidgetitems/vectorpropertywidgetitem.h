@@ -18,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #ifndef GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 
 #include <creator/lib/widgets/propertywidgetitem.h>
+
 namespace GluonCreator
 {
 
@@ -36,8 +36,10 @@ namespace GluonCreator
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
-        public slots:
+        public Q_SLOTS:
             void setEditValue( const QVariant& value );
+
+        private Q_SLOTS:
             void editValueChanged();
 
         private:

@@ -38,6 +38,8 @@ namespace GluonCreator
     public Q_SLOTS:
         virtual void setEditProperty( const QString& propertyName );
         virtual void setEditValue( const QVariant& value );
+
+    private Q_SLOTS:
         void doubleValueChanged( double value );
     };
 }

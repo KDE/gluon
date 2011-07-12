@@ -19,10 +19,11 @@
  */
 
 
-#ifndef TEXTPROPERTYWIDGETITEM_H
-#define TEXTPROPERTYWIDGETITEM_H
+#ifndef GLUON_CREATOR_TEXTPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_TEXTPROPERTYWIDGETITEM_H
 
 #include <creator/lib/widgets/propertywidgetitem.h>
+
 namespace GluonCreator
 {
     class TextPropertyWidgetItem : public PropertyWidgetItem
@@ -35,11 +36,13 @@ namespace GluonCreator
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
-        public slots:
+        public Q_SLOTS:
             void setEditValue( const QVariant& value );
+
+        private Q_SLOTS:
             void textEdited( QString value );
     };
 }
 
 
-#endif // TEXTPROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_TEXTPROPERTYWIDGETITEM_H

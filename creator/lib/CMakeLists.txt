@@ -15,11 +15,11 @@ set(libGluonCreator_SRCS
     deleteobjectcommand.cpp
     propertychangedcommand.cpp
 
-    models/models.cpp
     models/componentmodel.cpp
+    models/models.cpp
+    models/modeltest.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
-    models/modeltest.cpp
 
     widgets/enumpropertywidgetitem.cpp
     widgets/filearea.cpp

@@ -17,10 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_QURLPROPERTYWIDGETITEM_H
-#define GLUONCREATOR_QURLPROPERTYWIDGETITEM_H
+#ifndef GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
+#define GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
 
 #include <creator/lib/widgets/propertywidgetitem.h>
+
 namespace GluonCreator
 {
     class QUrlPropertyWidgetItem : public PropertyWidgetItem
@@ -33,10 +34,12 @@ namespace GluonCreator
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
-        public slots:
+        public Q_SLOTS:
             virtual void setEditValue( const QVariant& value );
+
+        private Q_SLOTS:
             void urlValueChanged();
     };
 }
 
-#endif // GLUONCREATOR_QURLPROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
