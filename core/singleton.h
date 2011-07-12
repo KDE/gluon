@@ -98,16 +98,16 @@ namespace GluonCore
              */
             static T* instance()
             {
-                if(!sm_instance) {
+                if(!sm_guard) {
                     QMutex* mutex = mutexInstance();
                     mutex->lock();
                     if( !sm_instance )
                     {
-                        T* tmp = new T(QCoreApplication::instance());
-                        __MEMBARRIER
-                        sm_instance = tmp;
+                        sm_instance = new T(QCoreApplication::instance());
                     }
                     mutex->unlock();
+                    __MEMBARRIER
+                    sm_guard = true;
                 }
                 return sm_instance;
             }
@@ -142,6 +142,7 @@ namespace GluonCore
             }
 
             static T* sm_instance;
+            static bool sm_guard;
             static QBasicAtomicPointer<QMutex> sm_mutex;
 
             Q_DISABLE_COPY( Singleton )
@@ -152,10 +153,12 @@ namespace GluonCore
 #ifdef Q_OS_WIN
 #define GLUON_DEFINE_SINGLETON(Type)\
     template<> Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
     template<> QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);
 #else
 #define GLUON_DEFINE_SINGLETON(Type)\
     template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> Q_DECL_EXPORT QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
     template<> Q_DECL_EXPORT QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);
 #endif
 
