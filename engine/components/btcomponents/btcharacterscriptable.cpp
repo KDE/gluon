@@ -1,6 +1,6 @@
 #include "btcharacterscriptable.h"
 
-#include "character.h"
+#include "character/character.h"
 #include <engine/gameobject.h>
 
 using namespace BehaviorTree;

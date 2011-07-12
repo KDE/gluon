@@ -25,14 +25,14 @@ set(behaviorTreeComponent_SRCs
     asset.cpp
     treeprivate.cpp
     tree.cpp
-    characterprivate.cpp
-    character.cpp
+    #characterprivate.cpp
+    #character.cpp
     btcharacterscriptable.cpp
     btnodescriptable.cpp
-    viewcone.cpp
-    viewconeprivate.cpp
-    perceptionatom.cpp
-    perceptionatomprivate.cpp
+    #viewcone.cpp
+    #viewconeprivate.cpp
+    #perceptionatom.cpp
+    #perceptionatomprivate.cpp
     perceptioninfo.cpp
     perceptioninfoprivate.cpp
     btperceptioninfoscriptable.cpp
@@ -98,4 +98,4 @@ install(
     DESTINATION ${LIB_INSTALL_DIR}/gluon
 )
 
-add_subdirectory(testapp)
+#add_subdirectory(testapp)

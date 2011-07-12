@@ -6,7 +6,7 @@
 #include <QtCore/QDebug>
 #include <engine/game.h>
 #include "btcharacterscriptable.h"
-#include "character.h"
+#include "character/character.h"
 #include <engine/scene.h>
 
 using namespace BehaviorTree;
