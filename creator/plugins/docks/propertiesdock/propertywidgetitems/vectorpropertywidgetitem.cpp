@@ -148,13 +148,13 @@ void VectorPropertyWidgetItem::editValueChanged()
     switch( d->type )
     {
         case QVariant::Vector2D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector2D>( QVector2D( d->x->value(), d->y->value() ) ) );
+            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector2D>( QVector2D( d->x->value(), d->y->value() ) ) );
             break;
         case QVariant::Vector3D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector3D>( QVector3D( d->x->value(), d->y->value(), d->z->value() ) ) );
+            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector3D>( QVector3D( d->x->value(), d->y->value(), d->z->value() ) ) );
             break;
         case QVariant::Vector4D:
-            PropertyWidgetItem::valueChanged( QVariant::fromValue<QVector4D>( QVector4D( d->x->value(), d->y->value(), d->z->value(), d->w->value() ) ) );
+            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector4D>( QVector4D( d->x->value(), d->y->value(), d->z->value(), d->w->value() ) ) );
             break;
         default:
             break;

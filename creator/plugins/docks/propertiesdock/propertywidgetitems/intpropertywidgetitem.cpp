@@ -71,7 +71,7 @@ IntPropertyWidgetItem::intValueChanged( int value )
 void
 IntPropertyWidgetItem::uintValueChanged( int value )
 {
-    PropertyWidgetItem::valueChanged( QVariant::fromValue<uint>( value ) );
+    PropertyWidgetItem::valueChanged( qVariantFromValue<uint>( value ) );
 }
 
 void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )

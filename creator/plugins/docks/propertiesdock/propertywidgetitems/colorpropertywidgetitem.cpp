@@ -76,5 +76,5 @@ ColorPropertyWidgetItem::setEditValue( const QVariant& value )
 void
 ColorPropertyWidgetItem::colorValuechanged( const QColor& value )
 {
-    PropertyWidgetItem::valueChanged( QVariant::fromValue<QColor>( value ) );
+    PropertyWidgetItem::valueChanged( qVariantFromValue<QColor>( value ) );
 }

@@ -187,9 +187,9 @@ void StringListPropertyWidgetItem::valueHasChanged()
         theValues.append( stringValues[item] );
     }
     if( isList )
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<QString> >( theValues ) );
+        PropertyWidgetItem::valueChanged( qVariantFromValue< QList<QString> >( theValues ) );
     if( isStringList )
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QStringList >( theValues ) );
+        PropertyWidgetItem::valueChanged( qVariantFromValue< QStringList >( theValues ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<QString> >( QVector<QString>::fromList( theValues ) ) );
+        PropertyWidgetItem::valueChanged( qVariantFromValue< QVector<QString> >( QVector<QString>::fromList( theValues ) ) );
 }

@@ -70,5 +70,5 @@ void LongLongPropertyWidgetItem::setEditProperty( const QString& propertyName )
 
 void LongLongPropertyWidgetItem::doubleValueChanged( double value )
 {
-    PropertyWidgetItem::valueChanged( QVariant::fromValue<qlonglong>( value ) );
+    PropertyWidgetItem::valueChanged( qVariantFromValue<qlonglong>(value) );
 }
