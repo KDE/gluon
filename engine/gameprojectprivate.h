@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_GAMEPROJECTPRIVATE_H
-#define GLUON_GAMEPROJECTPRIVATE_H
+#ifndef GLUON_ENGINE_GAMEPROJECTPRIVATE_H
+#define GLUON_ENGINE_GAMEPROJECTPRIVATE_H
 
 #include "assets/graphics/texture/textureasset.h"
 
@@ -61,4 +61,4 @@ namespace GluonEngine
     };
 }
 
-#endif // GLUON_GAMEPROJECTPRIVATE_H
+#endif // GLUON_ENGINE_GAMEPROJECTPRIVATE_H
